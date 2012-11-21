@@ -1,0 +1,91 @@
+{
+    "delimiter_characters": [
+        ".",
+        "!",
+        "?",
+        ",",
+        ":",
+        ";",
+        "-",
+        "/",
+        "&",
+        "(",
+        ")",
+        "{",
+        "}",
+        "[",
+        "]",
+        "\\",
+        "\"",
+        "'",
+        "\n"
+    ],
+    "boundary_characters": [
+        " ",
+        "\n"
+    ],
+    "categories": [
+        {
+            "name": "Anaphora",
+            "color": "#AAAAAA"
+        },
+        {
+            "name": "Protein",
+            "color": "#9999FF",
+            "uri": "http://www.ncbi.nlm.nih.gov/mesh/68011506",
+            "default": true
+        },
+        {
+            "name": "Gene_expression",
+            "color": "#88FF55"
+        },
+        {
+            "name": "Transcription",
+            "color": "#88FF88"
+        },
+        {
+            "name": "Regulation",
+            "color": "#009900"
+        },
+        {
+            "name": "Positive_regulation",
+            "color": "#00CC00"
+        },
+        {
+            "name": "Negative_regulation",
+            "color": "#00CC00"
+        }
+    ],
+    "relation types": [
+        {
+            "name": "coreferenceOf",
+            "color": "#999999"
+        },
+        {
+            "name": "themeOf",
+            "color": "#5555FF",
+            "default": true
+        },
+        {
+            "name": "equivalentTo",
+            "color": "#00EE55"
+        }
+    ],
+    "instance types": [
+        {
+            "name": "subClassOf",
+            "color": "#CC3333"
+        }
+    ],
+    "modification types": [
+        {
+            "name": "Speculation",
+            "color": "#333333"
+        },
+        {
+            "name": "Negation",
+            "color": "#666666"
+        }
+    ],
+    "css": "http://bionlp.dbcls.jp/textav/css/style.css"
+}
