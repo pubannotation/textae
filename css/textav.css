@@ -33,7 +33,6 @@ a {
 
 #msg_area {
     display: block;
-/*    display: none;*/
     width : 100% ;
     height: 20px;
     font-size: small;
@@ -68,7 +67,7 @@ a {
     width : 500px ;
 
     background-color: #ffffee;
-    line-height: 200%;
+    line-height: 220%;
 }
 
 #span_measure_area {
@@ -465,6 +464,14 @@ table.modanns tr td {
 
     font-size: small;
 }
+
+div.instance {
+    border-radius: 5px; /* CSS3 */
+    -moz-border-radius: 5px; /* Firefox */
+    -webkit-border-radius: 5px;  /* Safari,Chrome */
+    border: 2px solid;     /* 枠線の装飾 */
+}
+
 
 #annojson {
     display: none;
