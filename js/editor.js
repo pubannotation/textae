@@ -7005,9 +7005,9 @@ $(document).ready(function() {
                         // offsetを左右に振り分ける
                         if(uniqueNum > 0) {
                             if(uniqueNum % 2 == 0) {
-                                offset = -( margin + w) * (uniqueNum - 1);
+                                offset = -( margin + w) * Math.ceil(uniqueNum/2);
                             } else {
-                                offset = ( margin + w) * uniqueNum;
+                                offset = ( margin + w) * Math.ceil(uniqueNum/2);
                             }
                         } else {
                             offset = 0;
