@@ -25,16 +25,38 @@ a {
 
 #header_area {
     display: block;
-    width : 100% ;
-    padding: 10px;
-    background-color: #bbbbff;
-    height: 40px;
+    width: 45em;
+    height: 20px;
+    padding: 2px;
+    border-left: 5px solid #7777AA;
+
+    border-bottom: 2px solid #7777AA;    
+    /* fallback (Opera) */
+    border-bottom: #7777AA;
+    /* Mozilla: */
+    border-bottom: -moz-linear-gradient(left, #7777AA, #FFFFFF);
+    /* Chrome, Safari:*/
+    border-bottom: -webkit-gradient(linear,  left top, right top, from(#7777AA), to(#FFFFFF));
+    /* MSIE
+    filter: progid:DXImageTransform.Microsoft.Gradient(  StartColorStr='#7777AA', EndColorStr='#FFFFFF', GradientType=1);
+    */
+
+    background-color: #BBBBFF;
+    /* fallback (Opera) */
+    background: #BBBBFF;
+    /* Mozilla: */
+    background: -moz-linear-gradient(left, #BBBBFF, #FFFFFF);
+    /* Chrome, Safari:*/
+    background: -webkit-gradient(linear,  left top, right top, from(#BBBBFF), to(#FFFFFF));
+    /* MSIE */
+    filter: progid:DXImageTransform.Microsoft.Gradient(  StartColorStr='#BBBBFF', EndColorStr='#FFFFFF', GradientType=1);
 }
 
 #msg_area {
     display: block;
     width : 100% ;
     height: 20px;
+    font-style: italic;
 }
 
 /* original text area */
@@ -44,28 +66,18 @@ a {
 }
 
 
-
 /* marked text area */
 #doc_area  {
     position: absolute;
     overflow: hidden;
-
-    /*
-    float: left;
-    padding-bottom: 32767px;
-    margin-bottom: -32767px;
-    */
-
-    padding-left: 10px;
-    padding-right: 10px;
-    padding-top: 10px;
-    padding-bottom: 10px;
-
-    display: block;
-    /*float : left ;*/
     width : 500px ;
 
-    background-color: #cccccc;
+    padding: 10px;
+
+    display: block;
+    border: 1px solid black;
+
+    background-color: #ffffff;
     line-height: 220%;
 }
 
@@ -120,15 +132,7 @@ a {
 /* annottaion area */
 #anno_area {
     position: absolute;
-
-    /*
-    float: left;
-    padding-bottom: 32767px;
-    margin-bottom: -32767px;
-    */
     left: 530px;
-
-    /*margin-left: 10px;*/
 
     padding-left: 10px;
     padding-top: 10px;
@@ -208,7 +212,6 @@ a {
     width: 230px;
 }
 
-
 .tmp_hide {
     opacity: 0.5;
 }
@@ -218,7 +221,6 @@ a {
 #new_btn {
     margin-left: 2px;
 }
-
 
 
 .btn_area {
@@ -249,13 +251,6 @@ a {
     width: 50px;
 }
 
-/* annotation table */
-/*
-#anno_new_area table{
-      width: 200px;
-    font-size: small;
-}
-*/
 
 #anno_list_area table{
     width: 200px;
@@ -331,7 +326,6 @@ table.modanns tr td {
 }
 
 
-
 #undo_btn {
     cursor: pointer;
     opacity:0.3;
@@ -362,104 +356,76 @@ table.modanns tr td {
     background-color: #ff0000;
 }
 
+
+#control_area {
+    position: fixed;
+    left: 530px;
+    top: 30px;
+    border: 1px solid #888855;
+    background-color: #eeeebb;
+    padding: 2px;
+}
+
+table.palette {
+    margin: 0 auto;
+    border-spacing: 20px 2px;
+}
+
+
 /* category list */
 #category_area {
-
-    position: absolute;
-    left: 780px;
-    /*
-    float: left;
-    padding-bottom: 32767px;
-    margin-bottom: -32767px;
-    */
-
-    padding-left: 10px;
-    padding-top: 10px;
-    padding-bottom: 10px;
-
-    /*margin-left: 10px;*/
-    display: block;
-    /*float: left;*/
-    background-color: #cccccc;
-
+    position: static;
     width: 150px;
 
+    display: block;
+    border: 1px solid #aaaa55;
+    padding: 5px;
+    margin: 2px 0px;
+
+    background-color: #ffffdd;
     font-size: small;
 }
 
 /* category list */
 #relcategory_area {
-
-    position: absolute;
-    left: 1200px;
-    /*
-    float: left;
-    padding-bottom: 32767px;
-    margin-bottom: -32767px;
-    */
-
-    padding-left: 10px;
-    padding-top: 10px;
-    padding-bottom: 10px;
-
-    /*margin-left: 10px;*/
-    display: block;
-    /*float: left;*/
-    background-color: #cccccc;
-
+    position: static;
     width: 150px;
 
+    display: block;
+    border: 1px solid #aaaa55;
+    padding: 5px;
+    margin: 2px 0px;
+
+    background-color: #ffffdd;
     font-size: small;
 }
 
 /* category list */
 #instype_area {
-
-    position: absolute;
-    left: 1620px;
-    /*
-    float: left;
-    padding-bottom: 32767px;
-    margin-bottom: -32767px;
-    */
-
-    padding-left: 10px;
-    padding-top: 10px;
-    padding-bottom: 10px;
-
-    /*margin-left: 10px;*/
-    display: block;
-    /*float: left;*/
-    background-color: #cccccc;
-
+    position: static;
     width: 150px;
 
+    display: block;
+    border: 1px solid #aaaa55;
+    padding: 5px;
+    margin: 2px 0px;
+
+    background-color: #ffffdd;
     font-size: small;
 }
 
 
 /* category list */
 #modtype_area {
-
-    position: absolute;
-    left: 2040px;
-    /*
-    float: left;
-    padding-bottom: 32767px;
-    margin-bottom: -32767px;
-    */
-
-    padding-left: 10px;
-    padding-top: 10px;
-    padding-bottom: 10px;
-
-    /*margin-left: 10px;*/
-    display: block;
-    /*float: left;*/
-    background-color: #cccccc;
-
+    position: static;
     width: 150px;
 
+    display: block;
+    border: 1px solid #aaaa55;
+    padding: 5px;
+    margin: 2px 0px;
+
+    background-color: #ffffdd;
     font-size: small;
 }
 

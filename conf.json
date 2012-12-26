@@ -1,5 +1,6 @@
 {
     "delimiter_characters": [
+        " ",
         ".",
         "!",
         "?",
@@ -25,6 +26,10 @@
         "\n"
     ],
     "categories": [
+        {
+            "name": "Sentence",
+            "color": "#FFFFFF"
+        },
         {
             "name": "Anaphora",
             "color": "#AAAAAA"
@@ -87,5 +92,5 @@
             "color": "#666666"
         }
     ],
-    "css": "http://bionlp.dbcls.jp/textav/css/style.css"
+    "css": "http://localhost/~jdkim/textae/css/textae.css"
 }

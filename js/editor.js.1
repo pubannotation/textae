@@ -205,11 +205,7 @@ $(document).ready(function() {
      * msg_areaに文字列を表示
      */
     function showMsg(str) {
-        shortstr = str.substring(0, 90)
-        if (str.length > 90) {
-            shortstr += "..."
-        }
-        $('#msg_area').html(shortstr);
+        $('#msg_area').html(str);
     }
 
 
@@ -254,7 +250,7 @@ $(document).ready(function() {
                 targetUrl = param.split('=')[1];
             }
 
-            if(param.split('=')[0] == 'conf') {
+            if(param.split('=')[0] == 'config') {
                 configUrl = param.split('=')[1];
             }
         }
@@ -714,7 +710,7 @@ $(document).ready(function() {
 
 
                 // urlの表示
-                showMsg('<b>TextAE</b> editing ' + targetUrl);
+                showMsg('load from: ' + targetUrl);
 
                 saveCurrent("catanns_insanns_relanns_modanns");
 
@@ -748,7 +744,7 @@ $(document).ready(function() {
             var instype;
             var modtype;
 
-            showMsg('<b>TextAE</b> editing ' + targetUrl);
+            showMsg('load from: ' + targetUrl);
 
 
 
@@ -1035,7 +1031,7 @@ $(document).ready(function() {
                         saveCurrent("catanns_insanns_relanns_modanns");
 
                         // urlの表示
-                        showMsg('<b>TextAE</b> editing ' + targetUrl);
+                        showMsg('load from: ' + targetUrl);
 
                     }
                     sessionStorage.setItem('document', doc);
@@ -1060,7 +1056,7 @@ $(document).ready(function() {
                 var doc = sessionStorage.getItem('document');
                 targetUrl = sessionStorage.getItem('targetUrl');
 
-                showMsg('<b>TextAE</b> editing ' + targetUrl);
+                showMsg('load from: ' + targetUrl);
 
                 $("#src_area").html(doc);
                 $("#doc_area").html(doc);
@@ -8395,14 +8391,14 @@ $(document).ready(function() {
                 $('#loading').hide();
 
                 //var result = JSON.parse(res);
-                //if(res) {
+                if(res) {
                     $('#msg_area').html("Data saved!").fadeIn().fadeOut(5000, function() {
                         $(this).html('').removeAttr('style');
                         $(this).html(targetUrl);
                     });
-                //}else {
-                //    alert("Data save failed!");
-                //};
+                }else {
+                    alert("Data save failed!");
+                };
             },
             error: function(res, textStatus, errorThrown){
                 //console.log("エラー:", res, ":", textStatus);

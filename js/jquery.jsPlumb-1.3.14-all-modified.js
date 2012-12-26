@@ -76,17 +76,24 @@ jsPlumbUtil = {
 	},
 	convertStyle : function(s, ignoreAlpha) {
 		// TODO: jsPlumb should support a separate 'opacity' style member.
+
+        // modified by watanabe
+        // return original rgba value;
+        return s;
+
 		if ("transparent" === s) return s;
 		var o = s,
 		    pad = function(n) { return n.length == 1 ? "0" + n : n; },
 		    hex = function(k) { return pad(Number(k).toString(16)); },
 		    pattern = /(rgb[a]?\()(.*)(\))/;
 		if (s.match(pattern)) {
+
 			var parts = s.match(pattern)[2].split(",");
 			o = "#" + hex(parts[0]) + hex(parts[1]) + hex(parts[2]);
 			if (!ignoreAlpha && parts.length == 4) 
 				o = o + hex(parts[3]);
 		}
+
 		return o;
 	},
 	gradient : function(p1, p2) {
@@ -9100,7 +9107,9 @@ between this method and jsPlumb.reset).
 			cssClass:params["_jsPlumb"].connectorClass, 
 			originalArgs:arguments, 
 			pointerEventsSpec:"none", 
-			tooltip:params.tooltip,
+		    tooltip:params.tooltip,
+//todo
+            //tooltip:"aaa",
 			_jsPlumb:params["_jsPlumb"] 
 		} ]);
 		this._paint = function(d, style) {
