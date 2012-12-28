@@ -6022,6 +6022,7 @@ $(document).ready(function() {
      */
     function deleteInstanceAndRelationAndModificationFromSpan(id) {
         // idはannotationJsonのid
+        //console.log('id:', id);
 
         var i;
 
@@ -6029,13 +6030,13 @@ $(document).ready(function() {
         // 削除されるインスタンスのid
         var deleteInsIds = new Array();
 
-        // 削除されるrelation
+        // 削除されるrelationのid
         var deleteRelIds = new Array();
 
         // このspan要素に関するinsatnceを削除
         var len = insanns.length - 1;
         for(i = len; i >= 0; i--) {
-            var ins = insanns[j];
+            var ins = insanns[i];
             if(ins["object"] == id) {
                 deleteInsIds.push(ins["id"]);
                 insanns.splice(i, 1);
@@ -6049,6 +6050,17 @@ $(document).ready(function() {
             if(conn["subject"] == id || conn["object"] == id)  {
                 deleteRelIds.push(conn["id"]);
                 connArray.splice(i, 1);
+            }
+        }
+
+        // 削除されるinstanceに関するrelationを削除する
+        var len = connArray.length - 1;
+        for(i = len; i >= 0; i--) {
+            var conn = connArray[i];
+            for(var j in deleteInsIds) {
+                if(conn["subject"] == deleteInsIds[j] || conn["object"] == deleteInsIds[j] ) {
+                    connArray.splice(i, 1);
+                }
             }
         }
 
