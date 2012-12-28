@@ -263,7 +263,7 @@ jsPlumbUtil = {
 	    if (jsPlumbUtil.logEnabled && typeof console != "undefined") {
             try {
                 var msg = arguments[arguments.length - 1];
-			    console.log(msg);
+			  //  console.log(msg);
             }
             catch (e) {} 
         }
@@ -9041,7 +9041,11 @@ between this method and jsPlumb.reset).
 		var self = this,
 		pointerEventsSpec = params.pointerEventsSpec || "all";
 		jsPlumb.jsPlumbUIComponent.apply(this, params.originalArgs);
-		self.canvas = null, self.path = null, self.svg = null; 
+		self.canvas = null, self.path = null, self.svg = null;
+
+        //todo
+      //  console.log(params);
+
 	
 		var clazz = params.cssClass + " " + (params.originalArgs[0].cssClass || ""),		
 			svgParams = {
@@ -9107,10 +9111,8 @@ between this method and jsPlumb.reset).
 			cssClass:params["_jsPlumb"].connectorClass, 
 			originalArgs:arguments, 
 			pointerEventsSpec:"none", 
-		    tooltip:params.tooltip,
-//todo
-            //tooltip:"aaa",
-			_jsPlumb:params["_jsPlumb"] 
+			tooltip:params.tooltip,
+            _jsPlumb:params["_jsPlumb"]
 		} ]);
 		this._paint = function(d, style) {
 			var p = self.getPath(d), a = { "d":p }, outlineStyle = null;									
@@ -9176,6 +9178,9 @@ between this method and jsPlumb.reset).
 	 */
 	jsPlumb.Connectors.svg.Bezier = function(params) {	
 		jsPlumb.Connectors.Bezier.apply(this, arguments);
+
+        //console.log('arg:', arguments);
+
 		SvgConnector.apply(this, arguments);	
 		this.getPath = function(d) {
 			var _p = "M " + d[4] + " " + d[5];						

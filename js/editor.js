@@ -36,7 +36,7 @@ $(document).ready(function() {
     /*
      *
      */
-    //var isEditMode = false;
+    var baseSpanHeight = 0;
 
     /*
      * 表示モード、初期値はviewモード
@@ -119,8 +119,8 @@ $(document).ready(function() {
     /*
      * 接続用span要素
      */
-    var sourceElem;
-    var targetElem;
+    var sourceElem = null;
+    var targetElem = null;
 
 
     /*
@@ -205,11 +205,8 @@ $(document).ready(function() {
      * msg_areaに文字列を表示
      */
     function showMsg(str) {
-        shortstr = str.substring(0, 90)
-        if (str.length > 90) {
-            shortstr += "..."
-        }
-        $('#msg_area').html(shortstr);
+        $('#msg_area').html(str);
+
     }
 
 
@@ -254,7 +251,7 @@ $(document).ready(function() {
                 targetUrl = param.split('=')[1];
             }
 
-            if(param.split('=')[0] == 'conf') {
+            if(param.split('=')[0] == 'config') {
                 configUrl = param.split('=')[1];
             }
         }
@@ -262,7 +259,7 @@ $(document).ready(function() {
 
         if(configUrl != "") {
 
-            //console.log("config fileがあります");
+            //console.log("config が指定されています");
             $.ajax({
                 type: "GET",
                 url: configUrl,
@@ -281,7 +278,7 @@ $(document).ready(function() {
                 }
             });
         } else {
-            //console.log("config fileがありません");
+            //console.log("config が指定されていません");
 
             $.ajax({
                 type: "GET",
@@ -319,8 +316,15 @@ $(document).ready(function() {
 
         //var css = "http://localhost/test.css";
         // css
+        //console.log('css:', css);
+        //console.log('xx:', configJson['xx']);
+
         cssUrl = css;
-        $('#css_area').html('<link rel="stylesheet" href="' + css + '"/>');
+
+        if(cssUrl != undefined) {
+            $('#css_area').html('<link rel="stylesheet" href="' + css + '"/>');
+        }
+
         //document.write('<link rel="stylesheet" href="' + css + '">');
 
         for(var i in delimiter_characters) {
@@ -543,6 +547,8 @@ $(document).ready(function() {
         jsPlumb.bind("jsPlumbConnection", function(info) {
             //console.log('connection complete!');
         });
+
+
     }
 
 
@@ -566,6 +572,7 @@ $(document).ready(function() {
             jsonp : 'callback',
             success: function(data) {
                 /* success */
+
 
                 sessionStorage.clear();
                 undoNameArray = new Array();
@@ -651,10 +658,19 @@ $(document).ready(function() {
                     connArray = new Array();
                 }
 
-                sortRelationByDistance();
+                // distanceをつける
+                for(var i in connArray) {
+                    var conn = connArray[i];
+                    addDistanceToRelation(conn);
+                }
+                // distanceでソート
+                sortConnByDistance(connArray);
 
                 for(var j in connArray) {
+
                     var conn = connArray[j];
+
+
                     var sId = conn['subject'];
                     var tId = conn['object'];
 
@@ -714,7 +730,7 @@ $(document).ready(function() {
 
 
                 // urlの表示
-                showMsg('<b>TextAE</b> editing ' + targetUrl);
+                showMsg('load from: ' + targetUrl);
 
                 saveCurrent("catanns_insanns_relanns_modanns");
 
@@ -740,7 +756,7 @@ $(document).ready(function() {
 
         if(targetUrl != '') {
 
-            //console.log('reload 503');
+            //console.log('reload 749');
             initJsPumb();
 
             var category;
@@ -748,7 +764,7 @@ $(document).ready(function() {
             var instype;
             var modtype;
 
-            showMsg('<b>TextAE</b> editing ' + targetUrl);
+            showMsg('load from: ' + targetUrl);
 
 
 
@@ -805,7 +821,14 @@ $(document).ready(function() {
                         //connArray = loadCurrentRelanns();
                         connArray = loadCurrent("relanns");
 
-                        sortRelationByDistance();
+                        // distanceをつける
+                        for(var i in connArray) {
+                            var conn = connArray[i];
+                            addDistanceToRelation(conn);
+                        }
+
+
+                        sortConnByDistance(connArray);
 
                         makeRelationTable();
                         addRelationColor(relations);
@@ -885,6 +908,7 @@ $(document).ready(function() {
 
 
                     } else {
+                        //console.log('reload 899');
                         initJsPumb();
 
                         sessionStorage.clear();
@@ -971,7 +995,8 @@ $(document).ready(function() {
                         }
 
 
-                        sortRelationByDistance();
+                        //addDistanceToRelation();
+                        //sortConnByDistance(connArray);
 
 
                         for(var j in connArray) {
@@ -1035,7 +1060,7 @@ $(document).ready(function() {
                         saveCurrent("catanns_insanns_relanns_modanns");
 
                         // urlの表示
-                        showMsg('<b>TextAE</b> editing ' + targetUrl);
+                        showMsg('load from: ' + targetUrl);
 
                     }
                     sessionStorage.setItem('document', doc);
@@ -1045,6 +1070,7 @@ $(document).ready(function() {
 
 
         } else {
+            //console.log('reload 1061');
             // 通常のリロード
             //console.log('リロードされました');
             if(sessionStorage.getItem('document') != null) {
@@ -1060,7 +1086,7 @@ $(document).ready(function() {
                 var doc = sessionStorage.getItem('document');
                 targetUrl = sessionStorage.getItem('targetUrl');
 
-                showMsg('<b>TextAE</b> editing ' + targetUrl);
+                showMsg('load from: ' + targetUrl);
 
                 $("#src_area").html(doc);
                 $("#doc_area").html(doc);
@@ -1178,9 +1204,9 @@ $(document).ready(function() {
         }
     }
 
-    function sortRelationByDistance() {
-        for(var i in connArray) {
-            var conn = connArray[i];
+    function addDistanceToRelation(conn) {
+       // for(var i in connArray) {
+            //var conn = connArray[i];
             var sId = conn['subject'];
             var tId = conn['object'];
 
@@ -1313,19 +1339,25 @@ $(document).ready(function() {
             conn['distance'] = distance;
 
 
-        }
-
-        function sortConnByDistance(connArray) {
-            function compare(a, b) {
-                return(b['distance'] - a['distance']);
-            }
-            connArray.sort(compare);
-        }
-
-        sortConnByDistance(connArray);
-
+        //}
 
     }
+
+    function sortConnByDistance(connArray) {
+        function compare(a, b) {
+
+            //if(a["id"] == "R10" || a["id"] == "R11") {
+
+
+                //console.log('a:', a["distance"]);
+                //console.log('b:', b["distance"]);
+        //}
+            return(b['distance'] - a['distance']);
+        }
+        connArray.sort(compare);
+    }
+
+
 
 
     /*
@@ -2200,7 +2232,7 @@ $(document).ready(function() {
         var html = '<form><table><tr class="hide_all_checkbox">' +
             '<td></td>' +
             '<td>all</td>' +
-            '<td><input type="checkbox" name="instype_hide" class="modtype_hide" title="all" checked></td>' +
+            '<td><input type="checkbox" name="modtype_hide" class="modtype_hide" title="all" checked></td>' +
             '<td></td>' +
             '</tr>';
 
@@ -2332,7 +2364,7 @@ $(document).ready(function() {
      * relation listの作成
      */
     function makeRelationTable() {
-        //console.log('--make relation table---');
+        //console.log('--make relation table---', selectedConns);
 
         if(sortConnStatus == 'new') {
             sortNewConn(connArray);
@@ -2368,10 +2400,16 @@ $(document).ready(function() {
 
         $('#rel_list_area').html('<table id="relationtable">' + makeTable() + '</table>');
 
-        for(var i in selectedConns) {
-            $('#relation_t_' + selectedConns[i].getParameter('connId')).addClass('t_selected');
-            $('.relation.t_selected .removeBtn').show();
+        if(selectedConns != undefined) {
+            for(var i in selectedConns) {
+                $('#relation_t_' + selectedConns[i].getParameter('connId')).addClass('t_selected');
+                $('.relation.t_selected .removeBtn').show();
+            }
+
         }
+
+        // distanceでのソートに戻す
+        sortConnByDistance(connArray);
     }
 
 
@@ -2425,6 +2463,9 @@ $(document).ready(function() {
      * modification listの作成
      */
     function makeModificationTable() {
+
+        //console.log('sortModannsStatus:', sortModannsStatus);
+
         if(sortModannsStatus == 'new') {
             sortNewModanns(modanns);
         } else if(sortModannsStatus == 'type') {
@@ -2704,16 +2745,37 @@ $(document).ready(function() {
         var padding_left = parseInt($('#doc_area').css('padding-left'));
         var padding_top = parseInt($('#doc_area').css('padding-top'));
 
+        // 行高さ
+        var lineHeight = parseInt($('#doc_area').css('lineHeight'));
+
         // jsonにx, yを設定
         for(i in annoJson) {
             var id = annoJson[i]['id'];
+
+
+           // var left = $('#' + id).get(0).offsetLeft - padding_left;
+           // var top = $('#' + id).get(0).offsetTop - padding_top;
+
+            var left = $('#' + id).get(0).offsetLeft;
+            var top = $('#' + id).get(0).offsetTop;
+
+            // 1行spanのときに設定する
+            var height = $('#' + id).get(0).offsetHeight;
+            if(height < lineHeight) {
+                baseSpanHeight = height;
+            }
+
+            annoJson[i]['left'] = left;
+            annoJson[i]['top'] = top;
 
             var dummyElem = $('#dummy_' + id);
             //console.log('dummyElem:', dummyElem);
 
             if(dummyElem.get(0) != undefined) {
                 var x = (dummyElem.get(0).offsetLeft + dummyElem.get(0).offsetWidth) - padding_left;
-                var y = dummyElem.get(0).offsetTop - padding_top;
+                var y = dummyElem.get(0).offsetTop + padding_top;
+
+
 
                 annoJson[i]['x'] = x;
                 annoJson[i]['y'] = y;
@@ -3023,6 +3085,8 @@ $(document).ready(function() {
 
 
             if(relType != "all") {
+
+
                 // tmpHideConnArrayに移動
                 for(var i in conns) {
 
@@ -3046,6 +3110,9 @@ $(document).ready(function() {
 
                 }
             } else {
+
+                $('.rel_hide').removeAttr('checked');
+
                 // すべて隠す
                 for(var i in conns) {
                     var connId = conns[i]["id"];
@@ -3066,6 +3133,8 @@ $(document).ready(function() {
             }
 
         } else if($(this).attr('checked') == "checked") {
+
+
             //console.log('チェックされました------');
             // 再描画
             showHideAllConnections('show', relType);
@@ -3082,6 +3151,9 @@ $(document).ready(function() {
 
         if($(this).attr('checked') == undefined) {
             if(insType == "all") {
+
+                $('.instype_hide').removeAttr('checked');
+
                 $('.instance').hide();
             } else {
                 $('.' + insType ).hide();
@@ -3089,6 +3161,8 @@ $(document).ready(function() {
 
         } else {
             if(insType == "all") {
+                $('.instype_hide').attr('checked', 'checked');
+
                 $('.instance').show();
             } else {
                 $('.' + insType ).show();
@@ -3102,8 +3176,21 @@ $(document).ready(function() {
         var modType = $(this).attr('title');
 
         if($(this).attr('checked') == undefined) {
+
+            // allなら他のcbもはずす
+            if(modType == "all") {
+                $('.modtype_hide').removeAttr('checked');
+            }
+
+
+
             // instanceに対して
-            $('.mod_' + modType ).hide();
+            if(modType == "all") {
+                $('.instance_modification').hide();
+            } else {
+                $('.mod_' + modType ).hide();
+            }
+
 
 
 
@@ -3144,8 +3231,20 @@ $(document).ready(function() {
 
 
         } else {
+
+            // allなら他のcbもはずす
+            if(modType == "all") {
+                $('.modtype_hide').attr('checked','checked');
+            }
+
+
             // instanceに対して
-            $('.mod_' + modType ).show();
+            if(modType == "all") {
+                $('.instance_modification').show();
+            } else {
+                $('.mod_' + modType ).show();
+            }
+
 
             // relationに対して
             jsPlumb.select().each(function(conn){
@@ -3223,12 +3322,24 @@ $(document).ready(function() {
             //console.log('relation mode');
             //console.log('this:', $(this));
             //console.log('sourceElem:', sourceElem);
+            var id = $(this).attr('id').split('_')[1];
+
+            //console.log('click span:', id);
+
+            //console.log('sourceElem:', sourceElem);
 
             if(sourceElem == null) {
-                sourceElem = $(this);
+
+              //  sourceElem = $(this);
+                sourceElem = $('#' + id);
                 sourceElem.addClass('source_selected');
+
+                //console.log('sourceElem:', sourceElem);
             } else {
-                targetElem = $(this);
+                //targetElem = $(this);
+                targetElem = $('#' + id);
+
+                //console.log('targetElem:', targetElem);
 
                 // 色の指定
                 var color;
@@ -3244,7 +3355,7 @@ $(document).ready(function() {
 
                 // connection作成
                 //connId++;
-                   var connId = "R" + (getMaxConnId() + 1);
+                var connId = "R" + (getMaxConnId() + 1);
 
                 var subject = sourceElem.attr('id');
                 var object = targetElem.attr('id');
@@ -3258,6 +3369,7 @@ $(document).ready(function() {
                 deselectConnection();
 
 
+                /*
                 // 新規に作成された場合は、選択状態にする
                 var conn = makeConnection2(subject, object, defaultRelation, rgba, connId, "selected");
 
@@ -3268,15 +3380,17 @@ $(document).ready(function() {
                 var rgba = conn.paintStyleInUse["strokeStyle"];
                 var type = conn.getParameter("type");
                 var id = conn.getParameter("connId");
+                */
 
                 var obj = new Object();
-                obj.subject = source_id;
-                obj.object = target_id;
-                obj.type = type;
-                obj.id = id;
+                obj.subject = subject;
+                obj.object = object;
+                obj.type = defaultRelation;
+                obj.id = connId;
                 obj.created_at = (new Date()).getTime();
 
-
+                // distanceをつける
+                addDistanceToRelation(obj);
 
                 if(e.shiftKey) {
                     // targetを次のソースにする
@@ -3290,9 +3404,9 @@ $(document).ready(function() {
                         sourceElem = targetElem;
                         sourceElem.addClass('source_selected');
                     } else if(sourceElem.hasClass('ins_selected')) {
-                        $(this).removeClass('ins_selected');
+                        $('#id').removeClass('ins_selected');
 
-                        addInstanceBorderColor($(this),categories);
+                        addInstanceBorderColor($('#id'),categories);
                         sourceElem = null;
                         sourceElem = targetElem;
                         sourceElem.css('border-color', '#000000').addClass('ins_selected').attr('id');
@@ -3322,8 +3436,51 @@ $(document).ready(function() {
 
                 connArray.push(obj);
 
+                sortConnByDistance(connArray);
+
+                // 書きなおし
+                jsPlumb.reset();
+                for(var j in connArray) {
+                    var conn = connArray[j];
+                    var sId = conn['subject'];
+                    var tId = conn['object'];
+
+                    var color;
+                    for(var k in relations) {
+                        if(relations[k].split('|')[0] == conn['type']) {
+                            color = relations[k].split('|')[2];
+                        }
+                    }
+
+                    var rgba = colorTrans(color);
+                    var id = conn['id'];
+                    var type = conn['type'];
+
+                    //console.log('sElem:', sElem);
+
+
+                    //makeConnection($('#' + sId), $('#' + tId), type, rgba, connId);
+                    //makeConnection(sId, tId, type, rgba, connId, "unselected", "", "", "");
+                    if(id == connId) {
+                        var rgbas = rgba.split(',');
+                        rgba = rgbas[0] + ',' + rgbas[1] + ',' + rgbas[2] + ',1)';
+
+                        var c = makeConnection2(sId, tId, type, rgba, id, "selected", modanns);
+                        selectedConns.push(c);
+                    } else {
+                        makeConnection2(sId, tId, type, rgba, id, "unselected", modanns);
+                    }
+
+                    // jsPlumb.deleteEndpoint(endpoints[0]);
+                    //jsPlumb.deleteEndpoint(endpoints[1]);
+
+                }
+
+
+
                 // テーブル書き換え
                 makeRelationTable();
+
                 addRelationColor(relations);
                 //setCurrentConnStorage(connArray);
                 //saveCurrentRelanns();
@@ -4068,7 +4225,31 @@ $(document).ready(function() {
         if(!isCtrl || !isShift) {
 
             if(mode == "relation") {
+
+                //console.log('cancel Select in relation');
                 // relationモード
+                sourceElem = null;
+                targetElem = null;
+
+                $('#doc_area span').removeClass('source_selected');
+                $('table.annotation').removeClass('t_selected');
+                $('table.annotation .removeBtn').hide();
+
+                // instanceの枠の色を元に戻す
+                $('div.instance').map(function() {
+                    if($(this).hasClass('ins_selected')){
+                        $(this).removeClass('ins_selected');
+
+                        addInstanceBorderColor($(this),categories);
+
+                    }
+                });
+
+                // instanceテーブルの選択を外す
+                $('table.instance').removeClass('t_selected');
+                $('table.instance .removeBtn').hide();
+
+
 
                 $('table.relation').removeClass('t_selected');
                 $('table.relation .removeBtn').hide();
@@ -4077,10 +4258,11 @@ $(document).ready(function() {
                 if(selectedModificationIds.length > 0) {
                     selectedModificationIds.splice(0, selectedModificationIds.length);
                     unselectModification();
+                    addModtypeColor(modtypes);
                 }
 
 
-
+                /*
                 for(var i in selectedConns) {
 
 
@@ -4092,20 +4274,10 @@ $(document).ready(function() {
                     var connId = sConn.getParameter('connId');
                     var type = sConn.getParameter('type');
 
-                    /*
-                    var labelText = "";
-                    var modId = ""
-                    for(var i = 0; i < sConn.overlays.length; i++) {
-                        var overlay = sConn.overlays[i];
-                        console.log('label:', overlay["type"]);
+                    var rgbas = rgba.split(',');
+                    rgba = rgbas[0] + ',' + rgbas[1] + ',' + rgbas[2] + ', ' + connOpacity + ')';
+                    console.log('rgba:', rgba);
 
-                        if(overlay["type"] == "Label") {
-                            console.log(overlay.getLabel());
-                            labelText = overlay.getLabel();
-                            modId = overlay["id"];
-                        }
-                    }
-                    */
 
                     //var c = makeConnection(source, target, type, rgba, connId);
                     var subject = source.attr('id');
@@ -4123,9 +4295,11 @@ $(document).ready(function() {
 
 
                 }
+                */
 
                 // 空にする
                 selectedConns.splice(0, selectedConns.length);
+                reMakeConnection();
 
                 addModtypeColor(modtypes);
 
@@ -6363,7 +6537,7 @@ $(document).ready(function() {
 
                 saveCurrent("catanns_insanns_relanns_modanns");
 
-            } else if((!e.ctrlKey  && e.keyCode == 191) || (e.ctrlKey && e.keyCode == 83)) {
+            } else if((!e.ctrlKey  && e.keyCode == 191) || (!e.ctrlKey && e.keyCode == 83)) {
                 // ?キー
                 // sキー
                 // modificatinを作る
@@ -6453,22 +6627,24 @@ $(document).ready(function() {
                             if(conn.subject == selectedId || conn.object == selectedId) {
                                 deleteConns.push(conn);
                                 connArray.splice(j, 1);
-                                isDeleteRel = true;
+                               // isDeleteRel = true;
                             }
                         }
 
-                        len = hideConnArray.length - 1;
+                        len = tmpHidedConnArray.length - 1;
                         for(j = len; j >= 0; j--){
-                            var conn = hideConnArray[j];
+                            var conn = tmpHidedConnArray[j];
                             if(conn.subject == selectedId || conn.object == selectedId) {
                                 deleteConns.push(conn);
-                                hideConnArray.splice(j, 1);
-                                isDeleteRel = true;
+                                tmpHidedConnArray.splice(j, 1);
+                                //isDeleteRel = true;
                             }
                         }
-
-
                     }
+
+
+
+
 
                     // 空にする
                     selectedIds.splice(0, selectedIds.length);
@@ -6518,19 +6694,19 @@ $(document).ready(function() {
                                 deleteConns.push(conn);
 
                                 connArray.splice(k, 1);
-                                isDeleteRel = true;
+                                //isDeleteRel = true;
                             }
                         }
 
-                        len = hideConnArray.length - 1;
+                        len = tmpHidedConnArray.length - 1;
                         for(k = len; k >= 0; k--){
-                            var conn = hideConnArray[k];
+                            var conn = tmpHidedConnArray[k];
                             if(conn.subject == selectedId || conn.object == selectedId) {
                                 // 削除されるrelationのidを確保
-                                deleteRelIds.push(conn["id"]);
+                                deleteConns.push(conn["id"]);
 
-                                hideConnArray.splice(k, 1);
-                                isDeleteRel = true;
+                                tmpHidedConnArray.splice(k, 1);
+                                //isDeleteRel = true;
                             }
                         }
 
@@ -6540,7 +6716,7 @@ $(document).ready(function() {
                             if(mod["object"] == selectedId) {
                                 // instanceの削除に伴って、modificationも削除
                                 modanns.splice(k, 1);
-                                isDeleteMod = true;
+                                //isDeleteMod = true;
                             }
                         }
 
@@ -6562,7 +6738,6 @@ $(document).ready(function() {
                     }
 
 
-
                     selectedInstanceIds.splice(0, selectedInstanceIds.length);
                     sortNewInsanns(insanns);
 
@@ -6571,6 +6746,17 @@ $(document).ready(function() {
                     addInstypeColor(instypes);
 
 
+                }
+
+                // さらに、connArrayからtmpHideConnArrayで削除されたconnを削除する
+                len = connArray.length - 1;
+                for(i = len; i >= 0; i--){
+                    var conn = connArray[i];
+                    for(var j in deleteConns) {
+                        if(conn == deleteConns[j]) {
+                            connArray.splice(i, 1);
+                        }
+                    }
                 }
 
                 // relationを書き直し
@@ -6609,6 +6795,7 @@ $(document).ready(function() {
                 // インスタンスを作る
                 //console.log('Iキー');
                 createInstance();
+                reMakeConnection();
 
 
             } else if((!e.ctrlKey && e.keyCode == 191) || (!e.ctrlKey && e.keyCode == 83)) {
@@ -6753,6 +6940,8 @@ $(document).ready(function() {
         //var type = insanns[0]["type"];
         var type = "subClassOf";
 
+        selectedInstanceIds.splice(0, selectedInstanceIds.length);
+
         if(selectedIds.length > 0) {
 
 
@@ -6804,6 +6993,12 @@ $(document).ready(function() {
          $('#doc_area span').unbind('click',arguments.callee);
 
          if(mode == "relation") {
+
+             var id = $(this).attr('id').split('_')[1];
+
+             //console.log($(this));
+
+             //console.log('id:', id);
              // relation モード
              // relation mode
              //console.log('relation mode');
@@ -6813,10 +7008,10 @@ $(document).ready(function() {
 
              if(sourceElem == null) {
                  //console.log('here');
-                 sourceElem = $(this);
+                 sourceElem = $('#' + id);
                  sourceElem.css('border-color', '#000000').addClass('ins_selected').attr('id');
              } else {
-                 targetElem = $(this);
+                 targetElem = $('#' + id);
 
                  //console.log('there');
 
@@ -6844,6 +7039,7 @@ $(document).ready(function() {
                  // 選択されているものは選択をはずす
                  deselectConnection();
 
+                   /*
                  var conn = makeConnection2(subject, object, defaultRelation, rgba, connId, "selected", modanns);
 
                  selectedConns.push(conn);
@@ -6853,15 +7049,17 @@ $(document).ready(function() {
                  var rgba = conn.paintStyleInUse["strokeStyle"];
                  var type = conn.getParameter("type");
                  var id = conn.getParameter("connId");
+                    */
 
                  var obj = new Object();
-                 obj.subject = source_id;
-                 obj.object = target_id;
-                 obj.type = type;
-                 obj.id = id;
+                 obj.subject = subject;
+                 obj.object = object;
+                 obj.type = defaultRelation;
+                 obj.id = connId;
                  obj.created_at = (new Date()).getTime();
 
-
+                 // distanceをつける
+                 addDistanceToRelation(obj);
 
                  if(e.shiftKey) {
                      // targetを次のソースにする
@@ -6887,9 +7085,9 @@ $(document).ready(function() {
                          sourceElem = targetElem;
                          sourceElem.addClass('source_selected');
                      } else if(sourceElem.hasClass('ins_selected')) {
-                         $(this).removeClass('ins_selected');
+                         $('#' + id).removeClass('ins_selected');
 
-                         addInstanceBorderColor($(this),categories);
+                         addInstanceBorderColor($('#' + id),categories);
                          sourceElem = null;
                          sourceElem = targetElem;
                          sourceElem.css('border-color', '#000000').addClass('ins_selected').attr('id');
@@ -6917,19 +7115,60 @@ $(document).ready(function() {
                      sourceElem = null;
                      targetElem = null;
 
-
-
                  }
 
 
                  connArray.push(obj);
 
+                 sortConnByDistance(connArray);
+
+                 // 書きなおし
+                 jsPlumb.reset();
+                 for(var j in connArray) {
+                     var conn = connArray[j];
+                     var sId = conn['subject'];
+                     var tId = conn['object'];
+
+                     var color;
+                     for(var k in relations) {
+                         if(relations[k].split('|')[0] == conn['type']) {
+                             color = relations[k].split('|')[2];
+                         }
+                     }
+
+                     var rgba = colorTrans(color);
+                     var id = conn['id'];
+                     var type = conn['type'];
+
+                     //console.log('sElem:', sElem);
+
+
+                     //makeConnection($('#' + sId), $('#' + tId), type, rgba, connId);
+                     //makeConnection(sId, tId, type, rgba, connId, "unselected", "", "", "");
+                     if(id == connId) {
+                         var rgbas = rgba.split(',');
+                         rgba = rgbas[0] + ',' + rgbas[1] + ',' + rgbas[2] + ',1)';
+
+                         var c = makeConnection2(sId, tId, type, rgba, id, "selected", modanns);
+                         selectedConns.push(c);
+                     } else {
+                         makeConnection2(sId, tId, type, rgba, id, "unselected", modanns);
+                     }
+
+
+
+                 }
+
+
+
                  // テーブル書き換え
                  makeRelationTable();
                  addRelationColor(relations);
                  //setCurrentConnStorage(connArray);
-                 saveCurrent("insanns");
+                 saveCurrent("relanns");
              }
+
+             //console.log('sourceElem2:', sourceElem);
 
          } else {
              // editモード
@@ -7061,6 +7300,7 @@ $(document).ready(function() {
                 obj["object"] = ins;
                 //console.log('instance id:',ins);
                 obj["id"] = "M" + (getMaxModannsId() + 1);
+                obj['created_at'] = (new Date()).getTime();
                 modanns.push(obj);
 
 
@@ -7474,7 +7714,7 @@ $(document).ready(function() {
         // 一時敵に隠蔽されたconnection以外
         if(!$('#relation_t_' + selectedId).hasClass('tmp_hide')) {
 
-            if(isCtrl) {
+            if(e.ctrlKey) {
 
                 //console.log("ctrlキーが押されています");
 
@@ -7497,71 +7737,50 @@ $(document).ready(function() {
                     }
                 }
 
-                var source = $('#' + conn.source_id);
-                var target = $('#' + conn.target_id);
+                //var source = $('#' + conn.subject);
+                //var target = $('#' + conn.object);
+                var source = $('#' + conn.subject);
+                var target = $('#' + conn.object);
                 var rgba = conn.paintStyle;
                 var type = conn.type;
                 var endpoints = conn.endpoints;
 
-                /*
-                var labelText = "";
-                var modId = "";
-                for(var i = 0; i < conn.overlays.length; i++) {
-                    var overlay = conn.overlays[i];
-                    console.log('label:', overlay["type"]);
+                var rgbas = rgba.split(',');
+                rgba = rgbas[0] + ',' + rgbas[1] + ',' + rgbas[2] + ',1)';
 
-                    if(overlay["type"] == "Label") {
-                        console.log(overlay.getLabel());
-                        labelText = overlay.getLabel();
-                        modId = overlay["id"];
-                    }
-                }
-                */
 
                 //var c = makeConnection(source, target, type, rgba, selectedId, "selected");
                 //var c = makeConnection(conn.source_id, conn.target_id, type, rgba, selectedId, "selected", labelText, modId, "");
-                var c = makeConnection2(conn.source_id, conn.target_id, type, rgba, selectedId, "selected", modanns);
+                var c = makeConnection2(conn.subject, conn.object, type, rgba, selectedId, "selected", modanns);
 
                 selectedConns.push(c);
 
                 jsPlumb.deleteEndpoint(endpoints[0]);
                 jsPlumb.deleteEndpoint(endpoints[1]);
 
-            } else if(isShift && selectedConns.length == 1) {
+            } else if(e.shiftKey && selectedConns.length == 1) {
 
                 // ただし、一時非表示がある場合は、何もしない
                 if(tmpHidedConnArray == 0) {
                     e.preventDefault();
 
-                    //console.log("shiftキーが押されています");
+                    ///console.log("shiftキーが押されています");
+
 
                     // 一度選択をはずす
                     for(i in selectedConns) {
                         var sConn = selectedConns[i];
-                        var source = sConn.source;
-                        var target = sConn.target;
+                        var source = sConn.source.attr('id');
+                        var target = sConn.target.attr('id');
+
+                        //console.log('source:',source);
+
                         var rgba = sConn.paintStyleInUse["strokeStyle"];
                         var endpoints = sConn.endpoints;
                         var connId = sConn.getParameter('connId');
                         var type = sConn.getParameter('type');
 
-                        /*
-                        var labelText = "";
-                        var modId = "";
-                        for(var i = 0; i < sConn.overlays.length; i++) {
-                            var overlay = sConn.overlays[i];
-                            console.log('label:', overlay["type"]);
-
-                            if(overlay["type"] == "Label") {
-                                console.log(overlay.getLabel());
-                                labelText = overlay.getLabel();
-                                modId = overlay["id"];
-
-                            }
-                        }
-                        */
-
-                        //var c = makeConnection(source, target, type, rgba, connId, "unselected", labelText, modId, "");
+                            //var c = makeConnection(source, target, type, rgba, connId, "unselected", labelText, modId, "");
 
                         var c = makeConnection2(source, target, type, rgba, connId, "unselected", modanns);
 
@@ -7569,6 +7788,7 @@ $(document).ready(function() {
                         jsPlumb.deleteEndpoint(endpoints[1]);
 
                     }
+
 
                     var firstConn = selectedConns.pop();
                     selectedConns.splice(0, selectedConns.length);
@@ -7595,6 +7815,7 @@ $(document).ready(function() {
                         firstIndex = tmpIndex;
                     }
 
+
                     //connection dataを取得
                     var conns = getConnectionData();
 
@@ -7618,41 +7839,36 @@ $(document).ready(function() {
 
                     $('.relation.t_selected .removeBtn').show();
 
+
+
                     for(var k in selectedConnArray) {
                         var conn = selectedConnArray[k];
-                        var source = $('#' + conn.source_id);
-                        var target = $('#' + conn.target_id);
+                       // var source = $('#' + conn.source_id);
+                       // var target = $('#' + conn.target_id);
                         var rgba = conn.paintStyle;
                         var type = conn.type;
                         var endpoints = conn.endpoints;
                         var id = conn.id;
 
-                        /*
-                        var labelText = "";
-                        var modId = "";
-                        for(var i = 0; i < conn.overlays.length; i++) {
-                            var overlay = conn.overlays[i];
-                            console.log('label:', overlay["type"]);
+                        var rgbas = rgba.split(',');
+                        rgba = rgbas[0] + ',' + rgbas[1] + ',' + rgbas[2] + ',1)';
 
-                            if(overlay["type"] == "Label") {
-                                console.log(overlay.getLabel());
-                                labelText = overlay.getLabel();
-                                modId = overlay["id"];
-                            }
-                        }
-                        */
+
 
                             //var c = makeConnection(source, target, type, rgba, id, "selected");
                         //var c = makeConnection(conn.source_id, conn.target_id, type, rgba, id, "selected", labelText, modId, "");
-                        var c = makeConnection2(conn.source_id, conn.target_id, type, rgba, id, "selected", modanns);
+                        var c = makeConnection2(conn.subject, conn.object, type, rgba, id, "selected", modanns);
 
                         selectedConns.push(c);
 
                         jsPlumb.deleteEndpoint(endpoints[0]);
                         jsPlumb.deleteEndpoint(endpoints[1]);
                     }
+
+
                 }
             } else {
+
 
                 //console.log("何も押されていません");
                 //console.log('selectedConns.length:', selectedConns.length);
@@ -7683,6 +7899,9 @@ $(document).ready(function() {
 
                     var subject = source.attr('id');
                     var object = target.attr('id');
+
+                    var rgbas = rgba.split(',');
+                    rgba = rgbas[0] + ',' + rgbas[1] + ',' + rgbas[2] + ',' + connOpacity + ')';
 
 
                     //var c = makeConnection(source, target, type, rgba, connId);
@@ -7719,6 +7938,9 @@ $(document).ready(function() {
                     }
                 }
 
+
+
+
                 var source = $('#' + conn.subject);
                 var target = $('#' + conn.object);
                 var rgba = conn.paintStyle;
@@ -7739,9 +7961,12 @@ $(document).ready(function() {
                     }
                 }
                 */
+                var rgbas = rgba.split(',');
+                rgba = rgbas[0] + ',' + rgbas[1] + ',' + rgbas[2] + ',1)';
+
 
                // var c = makeConnection(conn.source_id, conn.target_id, type, rgba, selectedId, "selected", labelText, modId, "");
-                var c = makeConnection2(conn.source_id, conn.target_id, type, rgba, selectedId, "selected", modanns);
+                var c = makeConnection2(conn.subject, conn.object, type, rgba, selectedId, "selected", modanns);
 
                 selectedConns.push(c);
 
@@ -8395,14 +8620,14 @@ $(document).ready(function() {
                 $('#loading').hide();
 
                 //var result = JSON.parse(res);
-                //if(res) {
+                if(res) {
                     $('#msg_area').html("Data saved!").fadeIn().fadeOut(5000, function() {
                         $(this).html('').removeAttr('style');
                         $(this).html(targetUrl);
                     });
-                //}else {
-                //    alert("Data save failed!");
-                //};
+                }else {
+                    alert("Data save failed!");
+                };
             },
             error: function(res, textStatus, errorThrown){
                 //console.log("エラー:", res, ":", textStatus);
@@ -8692,6 +8917,8 @@ $(document).ready(function() {
 
                 //console.log('s_id:', s_id);
                 if(relType == "all") {
+
+                    $('.rel_hide').attr('checked','checked');
                     //makeConnection($('#' + s_id), $('#' + t_id), type, rgba, connId);
 
                     //makeConnection(s_id, t_id, type, rgba, connId, "unselected", labelText, modId, "");
@@ -8965,7 +9192,28 @@ $(document).ready(function() {
 
 
     function changeMode(mode) {
+
+        sourceElem = null;
+        targetElem = null;
+
         if(mode == 'view') {
+
+            $('#doc_area').removeAttr('style');
+            $('#ins_area').removeAttr('style');
+
+
+            var bg_color = $('#doc_area').css('backgroundColor');
+
+            if(bg_color.substr(0,4) == 'rgba') {
+                var rgba = bg_color.replace('rgba', '').replace('(', '').replace(')', '');
+                var rgbas = rgba.split(',');
+                var rgb = 'rgb(' + rgbas[0] + ',' + rgbas[1] + ',' + rgbas[2] + ')' ;
+                $('#doc_area').css('backgroundColor', rgb);
+            }
+
+
+
+            //console.log(rgb);
 
 
             $('#edit_btn').attr("src", 'images/edit_off_btn.png');
@@ -9021,6 +9269,17 @@ $(document).ready(function() {
             $('div.instance').die('click', selectInstance);
 
 
+            if(selectedModificationIds.length > 0) {
+                selectedModificationIds.splice(0, selectedModificationIds.length);
+                unselectModification();
+                addModtypeColor(modtypes);
+            }
+
+
+            duplicateDocArea();
+
+
+
             // relationの選択を解除
             unselectRelation();
 
@@ -9033,6 +9292,23 @@ $(document).ready(function() {
 
         } else if(mode == 'edit') {
 
+            $('#doc_area').css('z-index', 1);
+            $('#ins_area').css('z-index', 2);
+
+            var bg_color = $('#doc_area').css('backgroundColor');
+
+            if(bg_color.substr(0, 4) != 'rgba') {
+                var rgb = bg_color.replace('rgb', '').replace('(', '').replace(')', '');
+                var rgba = 'rgba(' + rgb + ',0.5)';
+                //console.log(bg_color);
+                //console.log(rgba);
+            }
+
+
+
+
+            $('#doc_area').css('backgroundColor', rgba);
+
             $('#edit_btn').attr("src", 'images/edit_on_btn.png');
             $('#relation_btn').attr("src", 'images/relation_off_btn.png');
 
@@ -9043,12 +9319,21 @@ $(document).ready(function() {
             $('table.annotation').removeClass('t_selected').removeClass('t_partialSelected');
             $('.removeBtn').hide();
 
+            $('#clone_area div').remove();
+
             setCancelSelect();
 
             //console.log(mode);
 
             // relationの選択を解除
             unselectRelation();
+
+            // modificationの選択を削除
+            if(selectedModificationIds.length > 0) {
+                selectedModificationIds.splice(0, selectedModificationIds.length);
+                unselectModification();
+                addModtypeColor(modtypes);
+            }
 
             /*
             // マウスアップで、spanの操作をバインド
@@ -9104,6 +9389,19 @@ $(document).ready(function() {
 
         } else if(mode == 'relation') {
 
+            $('#doc_area').removeAttr('style');
+            $('#ins_area').removeAttr('style');
+
+
+            var bg_color = $('#doc_area').css('backgroundColor');
+
+            if(bg_color.substr(0, 4) != 'rgba') {
+                var rgb = bg_color.replace('rgb', '').replace('(', '').replace(')', '');
+                var rgba = 'rgba(' + rgb + ',0.5)';
+                //console.log(bg_color);
+                //console.log(rgba);
+            }
+
             $('#edit_btn').attr("src", 'images/edit_off_btn.png');
             $('#relation_btn').attr("src", 'images/relation_on_btn.png');
 
@@ -9133,8 +9431,8 @@ $(document).ready(function() {
             $('table.instance tr td, table.instance tr td div').die('click', selectInstanceTable);
 
             // sourceElem とtargetElemの選択解除をアンバインド
-            $("*:not(#doc_area span, #ins_area div)").die("click", cancelSelectSourceAndTargetElement);
-            $("*:not(#doc_area span, #ins_area div)").live("click", cancelSelectSourceAndTargetElement);
+            //$("*:not(#doc_area span, #ins_area div)").die("click", cancelSelectSourceAndTargetElement);
+           // $("*:not(#doc_area span, #ins_area div)").live("click", cancelSelectSourceAndTargetElement);
 
             $('#doc_area span').die('click', clickSpan);
             $('#doc_area span').live('click', clickSpan);
@@ -9145,7 +9443,7 @@ $(document).ready(function() {
             // インスタンス上のmodificationを選択不可にする
             $('span.instance_modification').die('click', selectInsModification);
 
-            //duplicateDocArea();
+            duplicateDocArea();
 
         }
 
@@ -9156,16 +9454,178 @@ $(document).ready(function() {
 
 
     function duplicateDocArea(){
-        var clone = $('#doc_area').clone(true).attr('id', 'doc_area_clone');;
+        //var clone = $('#doc_area').clone(true).attr('id', 'doc_area_clone');
+
+        $('#clone_area .clone_div').remove();
+
+        var doc_area_top = $('#doc_area').get(0).offsetTop;
+        var doc_area_left = $('#doc_area').get(0).offsetLeft;
+        var offset = parseInt($('#doc_area').css('paddingLeft').replace('px', ''));
+        var doc_area_width = parseInt($('#doc_area').css('width').replace('px', ''));
+
+        //console.log('offset:', offset);
+        //console.log('doc_area_left :', doc_area_left );
+        var offset_right = parseInt($('#doc_area').css('paddingRight').replace('px', ''));
+
+        //console.log('offset_right:', offset_right);
+        //console.log('doc_area_width:', doc_area_width);
+
+        var doc_area_right =  doc_area_width - offset_right;
+
+        //console.log('doc_area_right:', doc_area_right);
+        // 行高さ
+        var lineHeight = parseInt($('#doc_area').css('lineHeight'));
+
+        //$('#contents').append(clone);
+        //console.log('lineHeight:', lineHeight);
+
+        var cloneArray = new Array();
+
+        for(var i in annotationJson) {
+            var anno = annotationJson[i];
+            //console.log('left:', anno['left']);
+
+            var width = $('#' + anno['id']).outerWidth();
+            var height = $('#' + anno['id']).outerHeight();
 
 
+            if(anno['id'] == "T63") {
+                //console.log(anno);
+                //console.log('height:', height);
+            }
+
+
+            if(height > lineHeight) {
+                // 行数
+                var lineNum = Math.ceil(height/lineHeight);
+                for(var j = 0; j < lineNum; j++) {
+
+                    var w = doc_area_right - anno['left'];
+
+                    var obj = new Object();
+
+                    if(j == 0) {
+                        //console.log('anno["top"]:', anno['top']);
+                        //console.log('1行め');
+
+                        obj["id"] = "clone_" + anno["id"] + "_" + j;
+                        obj["left"] = anno["left"];
+                        obj["top"] = anno["top"];
+                        obj["width"] = w;
+                        obj["height"] = baseSpanHeight;
+                        obj["title"] = anno["category"];
+                        cloneArray.push(obj);
+
+                    } else if(j == lineNum -1) {
+                        //console.log('最終行です');
+                        var top = anno['top'] + j * lineHeight;
+                        var left = offset;
+
+                        obj["id"] = "clone_" + anno["id"] + "_" + j;
+                        obj["left"] = offset;
+                        obj["top"] = top;
+                        obj["width"] = anno['x'];
+                        obj["height"] = baseSpanHeight;
+                        obj["title"] = anno["category"];
+                        cloneArray.push(obj);
+
+                    } else if(j > 0 && j < lineNum -1){
+                        //console.log('2行め以降です');
+                        var top = anno['top'] + j * lineHeight;
+                        var left = offset;
+
+                        obj["id"] = "clone_" + anno["id"] + "_" + j;
+                        obj["left"] = left;
+                        obj["top"] = top;
+                        obj["width"] = doc_area_right;
+                        obj["height"] = baseSpanHeight;
+                        obj["title"] = anno["category"];
+                        cloneArray.push(obj);
+
+                    }
+
+                }
+            } else {
+
+                obj = new Object();
+                obj["id"] = "clone_" + anno["id"];
+                obj["left"] = anno["left"];
+                obj["top"] = anno["top"];
+                obj["width"] = width;
+                obj["height"] = height;
+                obj["title"] = anno["category"];
+                cloneArray.push(obj);
+
+
+            }
+
+        }
+
+        // 大きいDIVが下にくるようにソート
+        sortCloneByWidth(cloneArray);
+
+        for(var i in cloneArray) {
+
+            var obj = cloneArray[i];
+
+            var div = '<div id="' + obj['id'] + '" class="clone_div" ' +
+                'style="position:absolute;left:' + obj['left'] + 'px;top:' + obj['top']  + 'px;' +
+                'width:' + obj["width"] +'px;height:' + obj["height"] +'px;background-color:red; opacity:0" class="clone_div" title="' + obj['title'] + '"></div>';
+
+            $('#clone_area').append(div);
+        }
+
+
+
+
+        // instanceのclone
+
+        var instances = $('#ins_area div');
+        instances.map(function() {
+            //console.log($(this));
+            var clone_id = 'clone_' + $(this).attr('id');
+            var clone_ins = $(this).clone(true).attr('id', clone_id).css('backgroundColor', 'blue').css('opacity', "0").empty();
+            $('#clone_area').append(clone_ins);
+
+        })
+
+
+        $('.clone_div').click(clickSpan);
+
+
+
+
+        /*
         $('span',clone).map(function() {
             //console.log($(this));
-            $(this).attr('id', $(this).attr('id') + '_d');
+
+               $(this).attr('id', $(this).attr('id') + '_d');
+
         });
 
 
         $('#contents').append(clone);
+
+
+
+        $('#doc_area_clone').click(function() {
+            console.log("click clone");
+
+        });
+        $('#doc_area_clone span').click(function() {
+            console.log($(this).attr('id'));
+        });
+        */
+    }
+
+    /*
+     * 複製を幅でソート
+     */
+    function sortCloneByWidth(ary) {
+        function compare(a, b) {
+            return(b['width'] - a['width']);
+        }
+        ary.sort(compare);
     }
 
     /*
@@ -9192,10 +9652,13 @@ $(document).ready(function() {
      */
     function reMakeConnectionOnDelete() {
         jsPlumb.reset();
-        for(var j in connArray) {
-            var conn = connArray[j];
+        for(var i in connArray) {
+            var conn = connArray[i];
             var sId = conn['subject'];
             var tId = conn['object'];
+            var connId = conn['id'];
+            var type = conn['type'];
+
 
             var color;
             for(var k in relations) {
@@ -9205,37 +9668,37 @@ $(document).ready(function() {
             }
 
             var rgba = colorTrans(color);
-            var connId = conn['id'];
-            var type = conn['type'];
-
-            /*
-            var labelText = "";
-            var modId = "";
-
-            for(var i = 0; i < conn.overlays.length; i++) {
-                var overlay = conn.overlays[i];
-                console.log('label:', overlay["type"]);
-
-                if(overlay["type"] == "Label") {
-                    console.log(overlay.getLabel());
-                    labelText = overlay.getLabel();
-                    modId = overlay["id"];
-                }
-            }
-            */
-
-            //console.log('sId:',sId);
-            //console.log('tId:',tId);
-            //console.log('sElem:', sElem);
-
-
-            //makeConnection($('#' + sId), $('#' + tId), type, rgba, connId);
-           // makeConnection(sId, tId, type, rgba, connId, "unselected", "", "", "");
 
             makeConnection2(sId, tId, type, rgba, connId, "unselected", modanns);
 
+        }
+
+
+        var conns = getConnectionData();
+
+        for(var i in conns) {
+            var conn = conns[i];
+            var source = $('#' + conn.subject);
+            var target = $('#' + conn.object);
+            var rgba = conn.paintStyle;
+            var type = conn.type;
+            var endpoints = conn.endpoints;
+            var id = conn.id;
+
+            for(var j in tmpHidedConnArray) {
+                var hideConn = tmpHidedConnArray[j];
+
+                if(id == hideConn['id']) {
+                    jsPlumb.deleteEndpoint(endpoints[0]);
+                    jsPlumb.deleteEndpoint(endpoints[1]);
+                }
+
+            }
+
 
         }
+
+
     }
 
 
@@ -9244,7 +9707,62 @@ $(document).ready(function() {
      * コネクションの再描画
      */
     function reMakeConnection() {
+
         var conns = getConnectionData();
+
+        for(var i in conns) {
+            var conn = conns[i];
+            var source = $('#' + conn.subject);
+            var target = $('#' + conn.object);
+            var rgba = conn.paintStyle;
+            var type = conn.type;
+            var endpoints = conn.endpoints;
+            var id = conn.id;
+
+            jsPlumb.deleteEndpoint(endpoints[0]);
+            jsPlumb.deleteEndpoint(endpoints[1]);
+
+
+
+            var rgbas = rgba.split(',');
+
+
+            var isDrawSelected = false;
+
+            for(var j in selectedConns) {
+
+
+                if(selectedConns[j].getParameter("connId") == id) {
+
+                    rgba = rgbas[0] + ',' + rgbas[1] + ',' + rgbas[2] + ',1)';
+                    makeConnection2(conn.subject, conn.object, type, rgba, id, "selected", modanns);
+                    isDrawSelected = true;
+                }
+
+            }
+
+            // 選択状態で書かれていなければ、書きます
+            if(!isDrawSelected) {
+                rgba = rgbas[0] + ',' + rgbas[1] + ',' + rgbas[2] + ',' + connOpacity +  ')';
+                makeConnection2(conn.subject, conn.object, type, rgba, id, "unselected", modanns);
+            }
+
+
+            //makeConnection(source, target, type, rgba, id);
+
+            //makeConnection(conn.subject, conn.object, type, rgba, id, "unselected", labelText, modId, "");
+
+            //selectedConns.push(c);
+
+        }
+
+        //console.log('---remakeConnection-----selectedConns.length:',selectedConns.length);
+    }
+
+
+    function reMakeConnectionByConnArray() {
+        var conns = getConnectionData();
+
 
         for(var j in conns) {
             var conn = conns[j];
@@ -9788,6 +10306,8 @@ $(document).ready(function() {
      * source, target, relation, rgba, connId, flag
      */
     function makeConnection2(sourceId, targetId, type, rgba, connId, flag, modanns) {
+        //console.log('connId:', connId);
+        //if(connId == "R15") {
 
         //console.log('make connection');
         //console.log('rgba:', rgba);
@@ -9837,6 +10357,8 @@ $(document).ready(function() {
 
          }
          */
+
+
 
 
 
@@ -9917,107 +10439,278 @@ $(document).ready(function() {
             // sourceが2行以上
 
             if(targetHeight > lineHeight) {
-                // source, targetともに2行以上
+                 // source, targetともに2行以上
                 //console.log('source, targetは2行以上です。');
+                if(targetY == sourceY) {
+                    if(hasInstance(sourceId)) {
+                        sourceAnchors = [[ 0.5, 1, 0, 1, sourceX/2, 0]];
+                    } else {
+                        sourceAnchors = [[ 0.5, 0, 0, -1, sourceX/2, 0]];
+                    }
 
-                //console.log('sourceRX:', sourceRX);
-                //console.log('targetY:', targetY);
+                    if(hasInstance(targetId)) {
+                        targetAnchors = [[ 0.5, 1, 0, 1, targetX/2, 0]];
+                    } else {
+                        targetAnchors = [[ 0.5, 0, 0, -1, targetX/2, 0]];
+                    }
 
-                if(sourceRY + 2 * lineHeight <= targetY) {
-                    //console.log('targetX:', targetX);
-                    //console.log('sourceRX:', sourceRX);
-                    //console.log('sourceが完全に上方にある');
-                    //
-                    // この場合は、sourceの下部とtargetの上部
-                    // x位置, y位置, xカーブ方向, yカーブ方向, xオフセット, yオフセット
-                    //sourceAnchors = [[ 0.5, 1, 0, 1, -(sourceWidth - sourceRX)/2, 0], [1, 0.5, 1, 0, -(sourceWidth - sourceRX), (sourceHeight - lineHeight)/2]];
-                    //targetAnchors = [[ 0.5, 0, 0, -1, targetX/2, 0], [0, 0.5, -1, 0, targetX, -(targetHeight - lineHeight)/2]];
 
-                    sourceAnchors = [[ 0.5, 1, 0, 1, -(sourceWidth - sourceRX)/2, 0], [1, 0.5, 1, 0, -(sourceWidth - sourceRX), (sourceHeight - lineHeight)/2]];
-                    targetAnchors = [[ 0.5, 0, 0, -1, targetX/2, 0], [0, 0.5, -1, 0, targetX, -(targetHeight - lineHeight)/2]];
+                } else   if(sourceY < targetY) {
+                    //console.log('sourceが上');
+                    // targetのアンカーは常に上
+                    targetAnchors = [[ 0.5, 0, 0, -1, targetX/2, 0]];
+                    if(sourceY + (3 * lineHeight) < targetY) {
 
-                } else if((sourceY + lineHeight * 2 < targetY) && (sourceRX < targetY)){
-                    // sourceがtargetより3行以上上方にあるが、重なっている
-                    sourceAnchors = [[ 0.5, 1, 0, 1, -(sourceWidth - sourceRX)/2, 0], [1, 0.5, 1, 0, -(sourceWidth - sourceRX)/2, 0]];
-                    targetAnchors = [[ 0.5, 0, 0, -1, targetX/2, 0], [1, 0.5, -1, targetX/2, 0]];
+                        //console.log('sourceがかなり上');
 
-                } else if((sourceY > targetY + 2 * lineHeight) && (sourceRY < targetRY)) {
-                    // sourceがtargetより上方にあるが、重なっている
-                    sourceAnchors = [[ 0.5, 0, 0, -1, sourceX/2, 0], [1, 0.5, 1, 0, sourceRX/2, 0]];
-                    targetAnchors = [[ 0.5, 1, 0, 1, -(targetWidth - targetRX)/2, 0], [1, 0.5, -1, -(targetWidth - targetRX)/2, 0]];
+                        sourceAnchors = [[ 0.5, 1, 0, 1, -(sourceWidth - sourceRX)/2, 0]];
+
+
+                    } else {
+                        //console.log('sourceがすこし上');
+                        if(hasInstance(sourceId)) {
+                            sourceAnchors = [[ 0.5, 1, 0, 1, sourceX/2, 0]];
+                        } else {
+                            sourceAnchors = [[ 0.5, 0, 0, -1, sourceX/2, 0]];
+                        }
+
+                    }
+
 
                 } else {
-                    // sourceが完全に下
-                    // この場合は、sourceの上部とtargetの下部
-                    // x位置, y位置, xカーブ方向, yカーブ方向, xオフセット, yオフセット
-                    sourceAnchors = [[ 0.5, 0, 0, -1, sourceX/2, 0], [1, 0.5, 1, 0, sourceRX/2, 0]];
-                    targetAnchors = [[ 0.5, 1, 0, 1, -(targetWidth - targetRX)/2, 0], [1, 0.5, -1, -(targetWidth - targetRX)/2, 0]];
+                    //console.log('targetが上');
+                    // sourceのアンカーは常に上
+                    sourceAnchors = [[ 0.5, 0, 0, -1, sourceX/2, 0]];
+                    if(targetY + (3 * lineHeight) < sourceY) {
+                        //console.log('targetがかなり上');
+                        targetAnchors = [[ 0.5, 1, 0, 1, -(targetWidth - targetRX)/2, 0]];
+                    } else {
+                        //console.log('targetが少し上');
+                        if(hasInstance(targetId)) {
+                            targetAnchors = [[ 0.5, 1, 0, 1, targetX/2, 0]];
+                        } else {
+                            targetAnchors = [[ 0.5, 0, 0, -1, targetX/2, 0]];
+                        }
+
+                    }
+
                 }
+
 
             } else {
                 // sourceだけ2行以上
                 //console.log(sourceElem, ':sourceは2行、targetは1行です。');
-                targetAnchors = "AutoDefault";
+               // targetAnchors = "AutoDefault";
                 targetAnchors = ["TopCenter", "BottomCenter"];
 
-                //console.log('sourceY:', sourceY);
-                //console.log('sourceRY:', sourceRY);
-                //console.log('targetY:', targetY);
-                //console.log('targetRY:', targetRY);
+                //
+                if(sourceY < targetY && targetY < sourceRY) {
+                    //console.log(connId, 'sourceがtargetの中にある');
+                    // targetがsourceの中にある
+                    if(hasInstance(sourceId)) {
+                        sourceAnchors = [[ 0.5, 1, 0, 1, sourceX/2, 0]];
+                    } else {
+                        sourceAnchors = [[ 0.5, 0, 0, -1, sourceX/2, 0]];
+                    }
+
+                    if(hasInstance(targetId)) {
+                        targetAnchors = ["BottomCenter"];
+                    } else {
+                        targetAnchors = ["TopCenter"];
+                    }
 
 
-                if(sourceY + 2 * lineHeight <= targetY) {
-                    // sourceがtargetの3行以上上方
-                    //console.log('sourceがtargetの上方');
-                    sourceAnchors = [[ 0.5, 1, 0, 1, -(sourceWidth - sourceRX)/2, 0], [1, 0.5, 1, 0, -(sourceWidth - sourceRX), (sourceHeight - lineHeight)/2]];
-
-                } else if(sourceY > targetY && sourceY < targetRY) {
-                    //console.log('sourceがtargetの中にある');
-                    // sourceがtargetの中にある
-                    sourceAnchors = [[ 0.5, 1, 0, 1, -(sourceWidth - sourceRX)/2, 0], [1, 0.5, 1, 0, -(sourceWidth - sourceRX), (sourceHeight - lineHeight)/2]];
                 } else {
-                    //console.log('sourceがtargetの下方');
-                    // sourceがtargetの下方
-                    sourceAnchors = [[ 0.5, 0, 0, -1, sourceX/2, 0], [1, 0.5, 1, 0, -(sourceWidth - sourceRX), (sourceHeight - lineHeight)/2]];
+                    if(sourceY <= targetY) {
+                        // sourceがtargetの上方
+
+                        // x位置, y位置, xカーブ方向, yカーブ方向, xオフセット, yオフセット
+                        //sourceAnchors = [[ 0.5, 1, 0, 1, -(sourceWidth - sourceRX)/2, 0]];
+
+                        if(sourceY + (2 * lineHeight) < targetY) {
+                            //console.log('2行以上上方');
+                            // x位置, y位置, xカーブ方向, yカーブ方向, xオフセット, yオフセット
+                            sourceAnchors = [[ 0.5, 1, 0, 1, -(sourceWidth - sourceRX)/2, 0]];
+                        } else {
+                            //console.log('2行以下上方');
+                            // x位置, y位置, xカーブ方向, yカーブ方向, xオフセット, yオフセット
+                            if(hasInstance(sourceId)) {
+                                sourceAnchors = [[ 0.5, 1, 0, 1, sourceX/2, 0]];
+                            } else {
+                                sourceAnchors = [[ 0.5, 0, 0, -1, sourceX/2, 0]];
+                            }
+
+                        }
+                        //console.log('-----1');
+
+                    } else {
+                        //targetが上方
+                        //console.log(connId, '-----targetが上');
+                        if(targetY + (2 * lineHeight) < sourceY) {
+                            //console.log('targetがかなり上');
+
+                            if(hasInstance(sourceId)) {
+                                sourceAnchors = [[ 0.5, 0, 1, 1, sourceX/2, 0]];
+                            } else {
+                                sourceAnchors = [[ 0.5, 0, 0, -1, sourceX/2, 0]];
+                            }
+
+                            targetAnchors = ["BottomCenter"];
+                        } else {
+                            //console.log('targetが少し上');
+                            // sourceがtargetの下方
+                            // x位置, y位置, xカーブ方向, yカーブ方向, xオフセット, yオフセット
+                            //sourceAnchors = [[ 0.5, 0, 0, -1, sourceX/2, 0], [1, 0.5, 1, 0, -(sourceWidth - sourceRX), (sourceHeight - lineHeight)/2]];
+
+
+                            if(hasInstance(sourceId)) {
+                                sourceAnchors = [[ 0.5, 1, 0, 1, sourceX/2, 0]];
+                            } else {
+                                sourceAnchors = [[ 0.5, 0, 0, -1, sourceX/2, 0]];
+                            }
+
+                            if(hasInstance(targetId)) {
+                                targetAnchors = ["BottomCenter"];
+                            } else {
+                                targetAnchors = ["TopCenter"];
+                            }
+
+                            //console.log('-----3');
+
+                        }
+
+
+                    }
                 }
+
+
             }
 
         } else {
             // sourceが1行
             if(targetHeight > lineHeight) {
-                // targetだけ2行以上
+
+                //console.log('targetだけ2行以上');
                 //console.log('targetは2行以上です。');
                 //sourceAnchors = "AutoDefault";
                 sourceAnchors = ["TopCenter", "BottomCenter"];
 
-                if(sourceY + 2 * lineHeight <= targetY) {
-                    // sourceがtargetの上方
-                    //console.log('sourceがtargetの上方');
-                    // x位置, y位置, xカーブ方向, yカーブ方向, xオフセット, yオフセット
-                    targetAnchors = [[ 0.5, 0, 0, -1, targetX/2, 0], [0, 0.5, -1, 0, targetX, -(targetHeight - lineHeight)/2]];
-
-                } else if(sourceY > targetY && sourceY < targetRY) {
+                if(sourceY > targetY && sourceY < targetRY) {
                     //console.log('sourceがtargetの中にある');
                     // sourceがtargetの中にある
-                    targetAnchors = [[ 0.5, 1, 0, 1, -(targetWidth - targetRX)/2, 0], [1, 0.5, 1, 0, -(targetWidth - targetRX), (targetHeight - lineHeight)/2]];
+
+                    if(hasInstance(sourceId)) {
+                        sourceAnchors = ["BottomCenter"];
+                    } else {
+                        sourceAnchors = ["TopCenter"];
+                    }
+
+                    if(hasInstance(targetId)) {
+                        targetAnchors = [[ 0.5, 1, 0, 1, targetX/2, 0]];
+                    } else {
+                        targetAnchors = [[ 0.5, 0, 0, -1, targetX/2, 0]];
+                    }
+
                 } else {
-                    //console.log('sourceがtargetの下方');
-                    // sourceがtargetの下方
-                    targetAnchors = [[ 0.5, 1, 0, 1, -(targetWidth - targetRX)/2, 0], [1, 0.5, 1, 0, -(targetWidth - targetRX), (targetHeight - lineHeight)/2]];
+                    if(sourceY <= targetY) {
+                        //console.log('sourceが上方');
+                        //console.log('sourceがtargetの上方');
+                        if(sourceY + (3 * lineHeight) < targetY) {
+                            //console.log('sourceがかなり上');
+                            // x位置, y位置, xカーブ方向, yカーブ方向, xオフセット, yオフセット
+                            sourceAnchors = ["BottomCenter"];
+
+                            if(hasInstance(targetId)) {
+                                targetAnchors = [[ 0.5, 1, 0, 1, targetX/2, 0]];
+                            } else {
+                                targetAnchors = [[ 0.5, 0, 0, -1, targetX/2, 0]];
+                            }
+
+                        } else {
+                            //console.log('sourceが少し上');
+                            // x位置, y位置, xカーブ方向, yカーブ方向, xオフセット, yオフセット
+
+                            if(hasInstance(sourceId)) {
+                                sourceAnchors = ["BottomCenter"];
+                            } else {
+                                sourceAnchors = ["TopCenter"];
+                            }
+
+                            if(hasInstance(targetId)) {
+                                targetAnchors = [[ 0.5, 0, 0, -1, targetX/2, 0]];
+                            } else {
+                                targetAnchors = [[ 0.5, 1, 0, 1, targetX/2, 0]];
+                            }
+
+                        }
+
+
+                    }  else {
+                        //console.log('sourceが下方');
+                        if(targetY + (3 * lineHeight) < sourceY) {
+
+                            if(hasInstance(sourceId)) {
+                                sourceAnchors = ["BottomCenter"];
+                            } else {
+                                sourceAnchors = ["TopCenter"];
+                            }
+
+                            targetAnchors = [[ 0.5, 1, 0, 1, -(targetWidth - targetRX)/2, 0]];
+                        } else {
+
+                            if(hasInstance(sourceId)) {
+                                sourceAnchors = ["BottomCenter"];
+                            } else {
+                                sourceAnchors = ["TopCenter"];
+                            }
+
+                            if(hasInstance(targetId)) {
+                                targetAnchors = [[ 0.5, 1, 0, 1, targetX/2, 0]];
+                            } else {
+                                targetAnchors = [[ 0.5, 0, 0, -1, targetX/2, 0]];
+                            }
+
+                        }
+                        // sourceがtargetの下方
+                        //targetAnchors = [[ 0.5, 1, 0, 1, -(targetWidth - targetRX)/2, 0], [1, 0.5, 1, 0, -(targetWidth - targetRX), (targetHeight - lineHeight)/2]];
+
+                    }
                 }
 
+
+
             } else {
-                // source, targetともに1行
-                //console.log('targetは1行です。');
+                //console.log('source, targetともに1行')
 
                 if(sourceY == targetY ) {
                     // 同じ行にある場合
                     if(targetX - sourceRX < 50 ) {
-                        sourceAnchors = ["TopCenter", "BottomCenter"];
-                        targetAnchors = ["TopCenter", "BottomCenter"];
+
+                        if(hasInstance(sourceId)) {
+                            sourceAnchors = ["BottomCenter"];
+                        } else {
+                            sourceAnchors = ["TopCenter", "BottomCenter"];
+                        }
+
+                        if(hasInstance(targetId)) {
+                            targetAnchors = ["BottomCenter"];
+                        } else {
+                            targetAnchors = ["TopCenter", "BottomCenter"];
+                        }
+
                     } else if(sourceX - targetRX < 50) {
-                        sourceAnchors = ["TopCenter", "BottomCenter"];
-                        targetAnchors = ["TopCenter", "BottomCenter"];
+                        if(hasInstance(sourceId)) {
+                            sourceAnchors = ["BottomCenter"];
+                        } else {
+                            sourceAnchors = ["TopCenter", "BottomCenter"];
+                        }
+
+                        if(hasInstance(targetId)) {
+                            targetAnchors = ["BottomCenter"];
+                        } else {
+                            targetAnchors = ["TopCenter", "BottomCenter"];
+                        }
+
                     }
 
                 } else {
@@ -10025,17 +10718,60 @@ $(document).ready(function() {
                     //console.log('同じ行にはない');
                     sourceAnchors = ["TopCenter", "BottomCenter"];
                     targetAnchors = ["TopCenter", "BottomCenter"];
-                    if(sourceY + 2 * lineHeight < targetY) {
-                        // 上下に近い場合
-                        //sourceAnchors = ["RightMiddle", "LeftMiddle"];
-                        //targetAnchors = ["RightMiddle", "LeftMiddle"];
 
-                    } else if(targetY + 2 * lineHeight < sourceY) {
-                        //sourceAnchors = ["RightMiddle", "LeftMiddle"];
-                        //targetAnchors = ["RightMiddle", "LeftMiddle"];
+                    if(sourceY < targetY) {
+                        if(sourceY + (2 * lineHeight) < targetY) {
+
+                            sourceAnchors = ["BottomCenter"];
+
+                            if(hasInstance(targetId)) {
+                                targetAnchors = ["BottomCenter"];
+                            } else {
+                                targetAnchors = ["TopCenter"];
+                            }
+
+                        } else {
+                            if(hasInstance(sourceId)) {
+                                sourceAnchors = ["BottomCenter"];
+                            } else {
+                                sourceAnchors = ["TopCenter"];
+                            }
+
+                            if(hasInstance(targetId)) {
+                                targetAnchors = ["BottomCenter"];
+                            } else {
+                                targetAnchors = ["TopCenter"];
+                            }
+
+                        }
+
+
                     } else {
-                        //sourceAnchors = "AutoDefault";
-                        //targetAnchors = "AutoDefault";
+                        if(targetY + (2 * lineHeight) < sourceY) {
+                            if(hasInstance(sourceId)) {
+                                sourceAnchors = ["BottomCenter"];
+                            } else {
+                                sourceAnchors = ["TopCenter"];
+                            }
+
+                            targetAnchors = ["BottomCenter"];
+                        } else {
+                            // 上下に近い場合
+                            if(hasInstance(sourceId)) {
+                                sourceAnchors = ["BottomCenter"];
+                            } else {
+                                sourceAnchors = ["TopCenter"];
+                            }
+
+                            if(hasInstance(targetId)) {
+                                targetAnchors = ["BottomCenter"];
+                            } else {
+                                targetAnchors = ["TopCenter"];
+                            }
+
+                        }
+
+
                     }
                 }
             }
@@ -10048,12 +10784,24 @@ $(document).ready(function() {
             curviness = 50;
             if(sourceHeight > lineHeight) {
                 // source,targetとも2行以上
-                sourceAnchors = [0.5, 0, -1, -1, sourceX/2, 0];
-                targetAnchors = [0.5, 0, 1, -1,  targetX/2, 0];
+                if(hasInstance(sourceId) || hasInstance(targetId)) {
+                    sourceAnchors = [0.5, 1, -1, 1, sourceX/2, 0];
+                    targetAnchors = [0.5, 1, 1, 1,  targetX/2, 0];
+                } else {
+                    sourceAnchors = [0.5, 0, -1, -1, sourceX/2, 0];
+                    targetAnchors = [0.5, 0, 1, -1,  targetX/2, 0];
+                }
+
             } else {
                 // x位置, y位置, xカーブ方向, yカーブ方向, xオフセット, yオフ
-                sourceAnchors = [0.5, 0, -1, -1];
-                targetAnchors = [0.5, 0, 1, -1];
+                if(hasInstance(sourceId) || hasInstance(targetId)) {
+                    sourceAnchors = [0.5, 1, -1, 1];
+                    targetAnchors = [0.5, 1, 1, 1];
+                } else {
+                    sourceAnchors = [0.5, 0, -1, -1];
+                    targetAnchors = [0.5, 0, 1, -1];
+                }
+
             }
 
         }
@@ -10096,69 +10844,224 @@ $(document).ready(function() {
 
         } else {
             // どちらかがインスタンス
-            if(targetId.substr(0,1) == "T") {
-                // targetがspan, sourceがインスタンス
+            //console.log('どちらかがインスタンス')
 
+            if((sourceId.substr(0,1) != "T") && (targetId.substr(0,1) != "T")) {
+                //console.log('両方がinstance');
+                curviness = 24;
 
-                if(targetY + (3 * lineHeight) < sourceY) {
-                    // targetが上方にある場合
-                    curviness = 16;
+                if(hasInstance(sourceId)) {
+                    sourceAnchors = ["BottomCenter"];
+                } else {
                     sourceAnchors = ["TopCenter"];
+                }
+
+                if(hasInstance(targetId)) {
                     targetAnchors = ["BottomCenter"];
                 } else {
-                    curviness = 24;
-                    sourceAnchors = ["TopCenter"];
                     targetAnchors = ["TopCenter"];
                 }
+
 
                 source_center = (sourceX + 10/2); // 10はinstanceの幅
-                target_center = targetX + (targetRX - targetX)/2;
-
-                curviness = Math.abs((source_center - target_center)) * rate + c_offset;
-
-            } else if(sourceId.substr(0,1) == "T") {
-                // targetがインスタンス、sourceがspan
-
-                //console.log(sourceId, ':sourceY:', sourceY);
-                //console.log(targetId, ':targetY:', targetY);
-                //console.log('-----');
-
-
-                if(sourceY + (3 * lineHeight) < targetY) {
-                    // sourceが上方にある場合
-                    curviness = 16;
-                    sourceAnchors = ["BottomCenter"];
-                    targetAnchors = ["TopCenter"];
-                } else {
-                    curviness = 24;
-                    sourceAnchors = ["TopCenter"];
-                    targetAnchors = ["TopCenter"];
-                }
-
-                source_center = sourceX + (sourceRX - sourceX)/2;
                 target_center = (targetX + 10/2); // 10はinstanceの幅
 
-                //console.log('source_center:', source_center);
-                //console.log('target_center:', target_center);
-
-
-
                 curviness = Math.abs((source_center - target_center)) * rate + c_offset;
+
+
+            } else {
+                if(sourceId.substr(0,1) != "T") {
+                    //console.log('targetがspan, sourceがインスタンス');
+
+                    sourceAnchors = ["TopCenter"];
+
+
+                    if(targetHeight < lineHeight) {
+                        // targetが1行
+                        if(targetY < sourceY) {
+                            // targetが上にある
+                            if(targetY + (3 * lineHeight) < sourceY) {
+                                // targetが上方にある場合
+                                curviness = 16;
+                                targetAnchors = ["BottomCenter"];
+                            } else {
+                                curviness = 24;
+
+                                if(hasInstance(targetId)) {
+                                    targetAnchors = ["BottomCenter"];
+                                } else {
+                                    targetAnchors = ["TopCenter"];
+                                }
+
+                            }
+
+                        } else {
+                            // targetが下にある
+                            if(sourceY + (3 * lineHeight) < targetY) {
+                                if(hasInstance(targetId)) {
+                                    targetAnchors = ["BottomCenter"];
+                                } else {
+                                    targetAnchors = ["TopCenter"];
+                                }
+
+                            } else {
+                                if(hasInstance(targetId)) {
+                                    targetAnchors = ["BottomCenter"];
+                                } else {
+                                    targetAnchors = ["TopCenter"];
+                                }
+
+                            }
+
+                        }
+                    } else {
+                        // targetが2行以上
+                        if(sourceY < targetY && targetY < sourceRY) {
+                            //console.log(connId, 'sourceがtargetの中にある');
+                            // sourceがtargetの中にある
+
+                            targetAnchors = [[ 0.5, 1, 0, 1, -(targetWidth - targetRX)/2, 0]];
+                        } else {
+                            if(sourceY <= targetY) {
+                                // sourceが上方
+
+                                if(sourceY + (2 * lineHeight) < targetY) {
+                                    //console.log('2行以上上方');
+                                    // x位置, y位置, xカーブ方向, yカーブ方向, xオフセット, yオフセット
+                                    if(hasInstance(targetId)) {
+                                        targetAnchors = [[ 0.5, 1, 0, 1, targetX/2, 0]];
+                                    } else {
+                                        targetAnchors = [[ 0.5, 0, 0, -1, targetX/2, 0]];
+                                    }
+
+                                } else {
+                                    //console.log('2行以下上方');
+                                    // x位置, y位置, xカーブ方向, yカーブ方向, xオフセット, yオフセット
+                                    if(hasInstance(targetId)) {
+                                        targetAnchors = [[ 0.5, 1, 0, 1, targetX/2, 0]];
+                                    } else {
+                                        targetAnchors = [[ 0.5, 0, 0, -1, targetX/2, 0]];
+                                    }
+
+                                }
+
+
+                            } else {
+                                //targetが上方
+                                //console.log(connId, '-----targetが上');
+                                if(targetY + (2 * lineHeight) < sourceY) {
+                                    //console.log('targetがかなり上');
+                                    targetAnchors = [[ 0.5, 1, 0, 1, -(targetWidth - targetRX)/2, 0]];
+                                } else {
+                                    //console.log('targetが少し上');
+                                    // sourceがtargetの下方
+                                    if(hasInstance(targetId)) {
+                                        targetAnchors = [[ 0.5, 1, 0, 1, targetX/2, 0]];
+                                    } else {
+                                        targetAnchors = [[ 0.5, 0, 0, -1, targetX/2, 0]];
+                                    }
+
+
+
+                                }
+
+                            }
+                        }
+
+
+                    }
+
+                    source_center = (sourceX + 10/2); // 10はinstanceの幅
+                    target_center = targetX + (targetRX - targetX)/2;
+
+                    curviness = Math.abs((source_center - target_center)) * rate + c_offset;
+
+                } else if(targetId.substr(0,1) != "T") {
+                    //console.log('targetがインスタンス、sourceがspan');
+
+                    targetAnchors = ["TopCenter"];
+
+                    // sourceが2行以上の場合
+                    if(sourceHeight > lineHeight) {
+
+
+                        if(sourceY + (3 * lineHeight) <= targetY) {
+                            // sourceがtargetの3行以上上方
+                            //console.log('---------sourceがtargetの上方');
+                            //console.log('sourceY:', sourceY);
+                            //console.log('targetY:', targetY);
+                            //console.log('targetRY:', targetRY);
+                            //console.log('lineHeight:', lineHeight);
+
+                            sourceAnchors = [[ 0.5, 1, 0, 1, -(sourceWidth - sourceRX)/2, 0]];
+
+                        } else if(sourceY > targetY && targetY < sourceRY) {
+                            //console.log('sourceがtargetの中にある');
+                            // sourceがtargetの中にある
+                            sourceAnchors = [[ 0.5, 1, 0, 1, -(sourceWidth - sourceRX)/2, 0]];
+                        } else {
+                            //console.log('-----sourceがtargetの下方');
+                            // sourceがtargetの下方
+                            // x位置, y位置, xカーブ方向, yカーブ方向, xオフセット, yオフセット
+                            //sourceAnchors = [[ 0.5, 0, 0, -1, sourceX/2, 0], [1, 0.5, 1, 0, -(sourceWidth - sourceRX), (sourceHeight - lineHeight)/2]];
+
+                            if(hasInstance(sourceId)) {
+                                sourceAnchors = [[ 0.5, 1, 0, 1, sourceX/2, 0]];
+                            } else {
+                                sourceAnchors = [[ 0.5, 0, 0, -1, sourceX/2, 0]];
+                            }
+
+
+                        }
+                    } else {
+                        if(sourceY + (3 * lineHeight) <= targetRY) {
+                            // sourceがtargetの3行以上上方
+                            //console.log('---------sourceがtargetの上方');
+                            //console.log('sourceY:', sourceY);
+                            //console.log('targetY:', targetY);
+                            //console.log('targetRY:', targetRY);
+                            //console.log('lineHeight:', lineHeight);
+
+
+                            sourceAnchors = ["BottomCenter"];
+
+                        } else if(sourceY > targetY && sourceY < targetRY) {
+                            //console.log('sourceがtargetの中にある');
+                            // sourceがtargetの中にある
+                            if(hasInstance(sourceId)) {
+                                sourceAnchors = ["BottomCenter"];
+                            } else {
+                                sourceAnchors = ["TopCenter"];
+                            }
+
+                        } else {
+                            //console.log('-----sourceがtargetの下方');
+                            // sourceがtargetの下方
+                            // x位置, y位置, xカーブ方向, yカーブ方向, xオフセット, yオフセット
+                            //sourceAnchors = [[ 0.5, 0, 0, -1, sourceX/2, 0], [1, 0.5, 1, 0, -(sourceWidth - sourceRX), (sourceHeight - lineHeight)/2]];
+
+                            if(hasInstance(sourceId)) {
+                                sourceAnchors = ["BottomCenter"];
+                            } else {
+                                sourceAnchors = ["TopCenter"];
+                            }
+
+                        }
+
+                    }
+
+
+                    source_center = sourceX + (sourceRX - sourceX)/2;
+                    target_center = (targetX + 10/2); // 10はinstanceの幅
+
+
+                    curviness = Math.abs((source_center - target_center)) * rate + c_offset;
+                }
+
+
 
 
                 //console.log('curviness:', curviness);
-
-            } else {
-                // 両方がinstance
-                curviness = 24;
-                sourceAnchors = ["TopCenter"];
-                targetAnchors = ["TopCenter"];
-
-                source_center = (sourceX + 10/2); // 10はinstanceの幅
-                target_center = (targetX + 10/2); // 10はinstanceの幅
-
-                curviness = Math.abs((source_center - target_center)) * rate + c_offset;
-
 
             }
         }
@@ -10317,55 +11220,6 @@ $(document).ready(function() {
             overlays:overlays,
             tooltip:type,
             cssClass:type,
-                /*
-
-                [
-                ["Arrow", { width:12, length:12, location:0.95, id:"arrow",  direction:1 }]
-
-
-                ["Label", { label:labelText, id:modId, cssClass:modStyle, location:0.5, events:{click:function(labelOverlay, originalEvent) {
-                    if(mode == "edit") {
-                        console.log("click on label overlay for :", labelOverlay);
-                        originalEvent.stopPropagation();
-
-
-                        if(isCtrl) {
-
-                        } else {
-                            // 一旦、modificationの選択を削除
-                            unselectModification();
-                        }
-
-                        //labelOverlay["cssClass"] = "mod_selected";
-                        //jsPlumb.repaintEverything();
-
-                        var conns = getConnectionData();
-                        for(var i = 0; i < conns.length; i++) {
-                            if(conns[i]["id"] == connId) {
-                                //console.log("これ", conns[i]);
-
-                                var endpoints = conns[i]["endpoints"];
-
-                                // 一旦削除して、再描画
-                                jsPlumb.deleteEndpoint(endpoints[0]);
-                                jsPlumb.deleteEndpoint(endpoints[1]);
-                                var c = makeConnection(sourceElem.attr('id'), targetElem.attr('id'), type, rgba, connId, "selected", labelText, modId, "mod_selected");
-
-
-                            }
-                        }
-
-                        // 該当するテーブルを選択状態にする
-                        console.log('modId', modId);
-                        $('#modification_t_' + modId).addClass('t_selected');
-                        selectedModificationIds.push(modId);
-
-                    }
-
-                }}}],
-
-            ],
-            */
 
             parameters:{connId:connId, type:type}
         });
@@ -10399,7 +11253,7 @@ $(document).ready(function() {
                 // 一旦削除して、新たに太い線をかく
                 e.stopPropagation();
 
-                if(isCtrl) {
+                if(e.ctrlKey) {
                     var source = conn.source;
                     var target = conn.target;
                     var rgba = conn.paintStyleInUse["strokeStyle"];
@@ -10407,6 +11261,7 @@ $(document).ready(function() {
                     var connId = conn.getParameter('connId');
                     var type = conn.getParameter('type');
 
+                    /*
                     var labelText = "";
                     var modId = "";
                     for(var i = 0; i < conn.overlays.length; i++) {
@@ -10419,9 +11274,12 @@ $(document).ready(function() {
                             modId = overlay["id"];
                         }
                     }
+                    */
 
 
-                    //console.log('選択されたコネクションID:', connId);
+                    selectedConns.push(conn);
+
+                    /*
 
                     var subject = source.attr('id');
                     var object = target.attr('id');
@@ -10429,10 +11287,11 @@ $(document).ready(function() {
                     //var c = makeConnection(subject, object, type, rgba, connId, "selected", modanns, "");
                     var c = makeConnection2(subject, object, type, rgba, connId, "selected", modanns);
 
-                    selectedConns.push(c);
+
 
                     jsPlumb.deleteEndpoint(endpoints[0]);
                     jsPlumb.deleteEndpoint(endpoints[1]);
+                    */
 
                     // テーブルを選択状態にする
                     $('#relation_t_' + connId).addClass('t_selected');
@@ -10441,7 +11300,7 @@ $(document).ready(function() {
                     //console.log('削除ボタン:', $('.relation.t_selected .removeBtn'));
 
 
-                 } else {
+                } else {
                     //console.log('選択されました');
                     // 一旦、選択されていたconnectionを再描画する
                     //console.log('選択されているconnection数:',selectedConns.length);
@@ -10484,32 +11343,21 @@ $(document).ready(function() {
                     var subject = source.attr('id');
                     var object = target.attr('id');
 
+
+                    selectedConns.push(conn);
+
                     /*
-                    var labelText = "";
-                    var modId = "";
-                    for(var i = 0; i < conn.overlays.length; i++) {
-                        var overlay = conn.overlays[i];
-                        console.log('label:', overlay["type"]);
-
-                        if(overlay["type"] == "Label") {
-                            console.log(overlay.getLabel());
-                            labelText = overlay.getLabel();
-                            modId = overlay["id"];
-                        }
-                    }
-                    */
-
-
                     //var c = makeConnection(subject, object, type, rgba, connId, "selected", modanns, "");
 
                     var c = makeConnection2(subject, object, type, rgba, connId, "selected", modanns);
 
                     //console.log(c);
 
-                    selectedConns.push(c);
+
 
                     jsPlumb.deleteEndpoint(endpoints[0]);
                     jsPlumb.deleteEndpoint(endpoints[1]);
+                    */
 
                     // テーブルを選択状態にする
                     $('.relation').removeClass('t_selected');
@@ -10521,10 +11369,12 @@ $(document).ready(function() {
                     $('.relation.t_selected .removeBtn').show();
 
                 }
-
+                reMakeConnection();
 
             }
+
             return false;
+
         });
 
 
@@ -10568,8 +11418,8 @@ $(document).ready(function() {
 
         return conn;
 
-        //}
 
+      // }
     }
 
 
@@ -10590,6 +11440,9 @@ $(document).ready(function() {
         var padding_left = parseInt($('#ins_area').css('padding-left'));
         var padding_top = parseInt($('#ins_area').css('padding-top'));
 
+        //console.log('ins_area_offset_top:', ins_area_offset_top);
+        //console.log('ins_area_offset_left :', ins_area_offset_left );
+        //console.log('padding_left:', padding_left);
         //console.log('padding_top:', padding_top);
 
         var uniqueInsList = new Array();
@@ -10617,7 +11470,7 @@ $(document).ready(function() {
 
 
             var left = elem.get(0).offsetLeft + ins_area_offset_left - padding_left;
-            var top = elem.get(0).offsetTop  + ins_area_offset_top - padding_top - h;
+            var top = elem.get(0).offsetTop   - padding_top - h;
             var height = elem.outerHeight();
             var width = elem.outerWidth();
 
@@ -10887,6 +11740,25 @@ $(document).ready(function() {
 
             makeConnection2(conn.subject, conn.object, type, rgba, id, "unselected", modanns);
         }
+    }
+
+    // instanceがあるか
+    function hasInstance(cate_id) {
+
+        var has = false;
+
+        for(var i in insanns) {
+            var ins = insanns[i];
+
+            if(ins["object"] == cate_id) {
+                has = true;
+                break;
+            }
+
+        }
+
+        return has;
+
     }
 
 
