@@ -4,16 +4,14 @@
     <meta charset="utf-8" />
 
     <link rel="stylesheet" href="css/jquery.ui.slider.css" />
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/textae.css">
 
     <script type="text/javascript" src="js/jquery-1.7.1.min.js"></script>
     <script type="text/javascript" src="js/jquery-ui-1.8.16.custom.min.js"></script>
     <script type="text/javascript" src="js/jquery.jeditable.mini.js"></script>
     <script type="text/javascript" src="js/jquery.browser.min.js"></script>
     <script type="text/javascript" src="js/jquery.jsPlumb-1.3.14-all-modified.js"></script>
-    <script type="text/javascript" src="js/editor.js"></script>
-
-
+    <script type="text/javascript" src="js/textae.js"></script>
 </head>
 
 <body>
@@ -21,83 +19,58 @@
 
 <!-- header area -->
 <div id="header_area">
-    <div id="msg_area"></div>
+    <div id="title_area"></div>
     <div id="notice_area"></div>
 </div>
 
-<!-- contents -->
-<div id="contents">
-    <p></p>
+<div id="control_area">
 
-    <!-- original text. this is hidden by css-->
-    <div id="src_area"></div>
+    <table class="palette">
+        <tr><td>
+            <input type="image" src="images/load_btn.png" id="load_btn" title="Load" />
+            <input type="image" src="images/save_btn.png" id="save_btn" title="Save" />
+        </td><td>
+            <input type="image" src="images/undo_btn.png" id="undo_btn" title="Undo (ctrl-z)" disabled="true"/>
+            <input type="image" src="images/redo_btn.png" id="redo_btn" title="Redo (ctrl-x)" disabled="true"/>
+        </td></tr>
+        <tr><td>
+            <input type="image" src="images/edit_off_btn.png" id="edit_btn" title="Span edit mode (Toggle)" />
+            <input type="image" src="images/relation_off_btn.png" id="relation_btn" title="Relation edit mode (Toggle)" />
+        </td><td>
+            <input type="image" src="images/multiple_btn.png" id="multiple_btn" title="Clone all" disabled="true"/>
+            <input type="image" src="images/always_multiple_on_btn.png" title="Auto clone (Toggle)" id="always_multiple_btn" disabled="true"/>
+        </td></tr>
+        <tr><td colspan="2">
+            <div id="slider_area">
+                <div id="slider"></div><span>opacity:</span><span id="slider_value">0.5</span>
+            </div>
+        </td></tr>
+        <!-- <input type="checkbox" id="show_tooltip_cb" checked>show tooltip -->
+    </table>
 
-    <!-- marked text -->
-    <div id="doc_area"></div>
-    <div id="ins_area"></div>
-    <div id="rel_base_area">
-        <div id="rel_area"></div>
-        <div id="clone_area"></div>
+    <!-- category area -->
+    <div class="type_show_area">
+        <h1>Span types</h1>
+        <div id="category_list"></div>
     </div>
 
-    <div id="control_area">
-
-        <table class="palette">
-            <tr><td>
-                <input type="image" src="images/load_btn.png" id="load_btn" title="Load" />
-                <input type="image" src="images/save_btn.png" id="save_btn" title="Save" />
-            </td><td>
-                <input type="image" src="images/undo_btn.png" id="undo_btn" title="Undo (ctrl-z)" disabled="true"/>
-                <input type="image" src="images/redo_btn.png" id="redo_btn" title="Redo (ctrl-x)" disabled="true"/>
-            </td></tr>
-            <tr><td>
-                <input type="image" src="images/edit_off_btn.png" id="edit_btn" title="Span edit mode (Toggle)" />
-                <input type="image" src="images/relation_off_btn.png" id="relation_btn" title="Relation edit mode (Toggle)" />
-            </td><td>
-                <input type="image" src="images/multiple_btn.png" id="multiple_btn" title="Clone all" disabled="true"/>
-                <input type="image" src="images/always_multiple_on_btn.png" title="Auto clone (Toggle)" id="always_multiple_btn" disabled="true"/>
-            </td></tr>
-            <tr><td colspan="2">
-                <div id="slider_area">
-                    <div id="slider"></div><span>opacity:</span><span id="slider_value">0.5</span>
-                </div>
-            </td></tr>
-            <!-- <input type="checkbox" id="show_tooltip_cb" checked>show tooltip -->
-        </table>
-
-
-        <!-- category area -->
-        <div id="category_area">
-            <p>Span types</p>
-            <div id="category_list"></div>
-        </div>
-
-
-        <!-- relation type area -->
-        <div id="relcategory_area">
-            <p>Relation Types</p>
-            <div id="relation_list"></div>
-        </div>
-
-
-        <!-- instype area -->
-        <div id="instype_area">
-            <p>Instance Types</p>
-            <div id="instype_list"></div>
-        </div>
-
-
-        <!-- modtype area -->
-        <div id="modtype_area">
-            <p>Modification Types</p>
-            <div id="modtype_list"></div>
-        </div>
-
+    <!-- relation type area -->
+    <div class="type_show_area">
+        <h1>Relation Types</h1>
+        <div id="relation_list"></div>
     </div>
 
+    <!-- instype area -->
+    <div class="type_show_area">
+        <h1>Instance Types</h1>
+        <div id="instype_list"></div>
+    </div>
 
-    <!-- json data. this is hidden by css -->
-    <div id="annojson"></div>
+    <!-- modtype area -->
+    <div class="type_show_area">
+        <h1>Modification Types</h1>
+        <div id="modtype_list"></div>
+    </div>
 
     <div id="save_dialog">
         Save to:
@@ -121,13 +94,27 @@
         </form>
     </div>
 
-
+    <div id="loading" style="display: none; width:200px; height:200px;"><img src="images/loadinfo.net.gif"/></div>
 
 </div>
 
-<div id="loading" style="display: none; width:200px; height:200px;"><img src="images/loadinfo.net.gif"/></div>
 
+<!-- contents -->
+<div id="document_frame">
+    <!-- marked text -->
+    <div id="doc_area"></div>
+    <div id="ins_area"></div>
+    <div id="rel_base_area">
+        <div id="rel_area"></div>
+        <div id="clone_area"></div>
+    </div>
+
+    <!-- original text. this is hidden by css-->
+    <div id="src_area"></div>
+
+    <!-- json data. this is hidden by css -->
+    <div id="annojson"></div>
+</div>
 
 </body>
 </html>
-

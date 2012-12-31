@@ -24,39 +24,32 @@ a {
 
 
 #header_area {
+    /*float: left;*/
     display: block;
-    width: 45em;
-    height: 20px;
-    padding: 2px;
-    border-left: 5px solid #7777AA;
+    width : 100% ;
+    padding: 10px;
+    background-color: #bbbbff;
+    height: 40px;
+}
 
-    border-bottom: 2px solid #7777AA;    
-    /* fallback (Opera) */
-    border-bottom: #7777AA;
-    /* Mozilla: */
-    border-bottom: -moz-linear-gradient(left, #7777AA, #FFFFFF);
-    /* Chrome, Safari:*/
-    border-bottom: -webkit-gradient(linear,  left top, right top, from(#7777AA), to(#FFFFFF));
-    /* MSIE
-    filter: progid:DXImageTransform.Microsoft.Gradient(  StartColorStr='#7777AA', EndColorStr='#FFFFFF', GradientType=1);
-    */
+#slider_area {
+    padding: 0px;
+    margin-left: 10px;
+    margin-top: 0px;
+    display:inline-block;
+    width:200px;
+    height: 30px;
+    font-size: 10pt;
+}
 
-    background-color: #BBBBFF;
-    /* fallback (Opera) */
-    background: #BBBBFF;
-    /* Mozilla: */
-    background: -moz-linear-gradient(left, #BBBBFF, #FFFFFF);
-    /* Chrome, Safari:*/
-    background: -webkit-gradient(linear,  left top, right top, from(#BBBBFF), to(#FFFFFF));
-    /* MSIE */
-    filter: progid:DXImageTransform.Microsoft.Gradient(  StartColorStr='#BBBBFF', EndColorStr='#FFFFFF', GradientType=1);
+#slider {
+    width: 200px;
 }
 
 #msg_area {
     display: block;
     width : 100% ;
     height: 20px;
-    font-style: italic;
 }
 
 /* original text area */
@@ -66,20 +59,26 @@ a {
 }
 
 
+
 /* marked text area */
 #doc_area  {
     position: absolute;
     overflow: hidden;
-    width : 500px ;
 
-    padding: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
 
     display: block;
-    border: 1px solid black;
+    /*float : left ;*/
+    width : 500px ;
 
-    background-color: #ffffff;
+    background-color: #cccccc;
     line-height: 220%;
 }
+
+
 
 #span_measure_area {
     width:100000px;
@@ -124,15 +123,51 @@ a {
     border-width: 2px 2px 2px 2px;
 }
 
+
 #ins_area {
+    position: absolute;
     font-size: small;
     font-weight: bold;
 }
 
+#rel_base_area {
+    position: absolute;
+}
+
+/*
+* selected insatnce modification
+*/
+#ins_area span.mod_selected {
+    font-weight: 800;
+    font-size: 18pt;
+    position: relative;
+    left: -0.2em;
+    top: -0.2em;
+}
+
+/*
+* selected relation modification
+*/
+.mod_selected {
+
+    font-weight: 800;
+    font-size: 18pt;
+    position: relative;
+    left: -0.2em;
+    top: -0.2em;
+
+}
+
+
+
 /* annottaion area */
 #anno_area {
     position: absolute;
+
+
     left: 530px;
+
+    /*margin-left: 10px;*/
 
     padding-left: 10px;
     padding-top: 10px;
@@ -212,6 +247,12 @@ a {
     width: 230px;
 }
 
+/* hide all checkbox background */
+tr.hide_all_checkbox {
+    background-color: #ffffff;
+}
+
+
 .tmp_hide {
     opacity: 0.5;
 }
@@ -221,6 +262,7 @@ a {
 #new_btn {
     margin-left: 2px;
 }
+
 
 
 .btn_area {
@@ -251,6 +293,13 @@ a {
     width: 50px;
 }
 
+/* annotation table */
+/*
+#anno_new_area table{
+      width: 200px;
+    font-size: small;
+}
+*/
 
 #anno_list_area table{
     width: 200px;
@@ -326,6 +375,7 @@ table.modanns tr td {
 }
 
 
+
 #undo_btn {
     cursor: pointer;
     opacity:0.3;
@@ -356,76 +406,104 @@ table.modanns tr td {
     background-color: #ff0000;
 }
 
-
-#control_area {
-    position: fixed;
-    left: 530px;
-    top: 30px;
-    border: 1px solid #888855;
-    background-color: #eeeebb;
-    padding: 2px;
-}
-
-table.palette {
-    margin: 0 auto;
-    border-spacing: 20px 2px;
-}
-
-
 /* category list */
 #category_area {
-    position: static;
+
+    position: absolute;
+    left: 780px;
+    /*
+    float: left;
+    padding-bottom: 32767px;
+    margin-bottom: -32767px;
+    */
+
+    padding-left: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+
+    /*margin-left: 10px;*/
+    display: block;
+    /*float: left;*/
+    background-color: #cccccc;
+
     width: 150px;
 
-    display: block;
-    border: 1px solid #aaaa55;
-    padding: 5px;
-    margin: 2px 0px;
-
-    background-color: #ffffdd;
     font-size: small;
 }
 
 /* category list */
 #relcategory_area {
-    position: static;
+
+    position: absolute;
+    left: 1200px;
+    /*
+    float: left;
+    padding-bottom: 32767px;
+    margin-bottom: -32767px;
+    */
+
+    padding-left: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+
+    /*margin-left: 10px;*/
+    display: block;
+    /*float: left;*/
+    background-color: #cccccc;
+
     width: 150px;
 
-    display: block;
-    border: 1px solid #aaaa55;
-    padding: 5px;
-    margin: 2px 0px;
-
-    background-color: #ffffdd;
     font-size: small;
 }
 
 /* category list */
 #instype_area {
-    position: static;
+
+    position: absolute;
+    left: 1620px;
+    /*
+    float: left;
+    padding-bottom: 32767px;
+    margin-bottom: -32767px;
+    */
+
+    padding-left: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+
+    /*margin-left: 10px;*/
+    display: block;
+    /*float: left;*/
+    background-color: #cccccc;
+
     width: 150px;
 
-    display: block;
-    border: 1px solid #aaaa55;
-    padding: 5px;
-    margin: 2px 0px;
-
-    background-color: #ffffdd;
     font-size: small;
 }
 
 
 /* category list */
 #modtype_area {
-    position: static;
+
+    position: absolute;
+    left: 2040px;
+    /*
+    float: left;
+    padding-bottom: 32767px;
+    margin-bottom: -32767px;
+    */
+
+    padding-left: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+
+    /*margin-left: 10px;*/
+    display: block;
+    /*float: left;*/
+    background-color: #cccccc;
+
     width: 150px;
 
-    display: block;
-    border: 1px solid #aaaa55;
-    padding: 5px;
-    margin: 2px 0px;
-
-    background-color: #ffffdd;
     font-size: small;
 }
 
@@ -453,6 +531,7 @@ div.instance {
     border: 1px #000033 solid;
     border-width: 1px 1px 1px 1px;
     background-color: #ffffff;
+    z-index: 10;
 }
 
 #save_area {
@@ -471,6 +550,7 @@ div.instance {
     border: 1px #000033 solid;
     border-width: 1px 1px 1px 1px;
     background-color: #ffffff;
+    z-index: 11
 }
 
 #load_area {
@@ -484,5 +564,11 @@ div.instance {
     border-color: #0000dd;
     border-width: thin;
 }
+
+#rel_area_clone div {
+    background-color: red;
+}
+
+
 
 #my_footer { width : 100% ; clear : both ; }

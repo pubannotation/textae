@@ -204,11 +204,9 @@ $(document).ready(function() {
     /*
      * msg_areaに文字列を表示
      */
-    function showMsg(str) {
-        $('#msg_area').html(str);
-
+    function showTitle(title) {
+        $('#title_area').html("<b>Editing: </b>" + title);
     }
-
 
     /*
      * slider初期化
@@ -229,8 +227,6 @@ $(document).ready(function() {
             slide: function( event, ui ) {
                 connOpacity = ((ui.value)*0.1).toFixed(1);
                 $( "#slider_value" ).html(connOpacity);
-
-
             }
         });
         $( "#slider_value" ).html( $("#slider").slider( "value" )*0.1);
@@ -730,7 +726,7 @@ $(document).ready(function() {
 
 
                 // urlの表示
-                showMsg('load from: ' + targetUrl);
+                showTitle(targetUrl);
 
                 saveCurrent("catanns_insanns_relanns_modanns");
 
@@ -764,7 +760,7 @@ $(document).ready(function() {
             var instype;
             var modtype;
 
-            showMsg('load from: ' + targetUrl);
+            showTitle(targetUrl);
 
 
 
@@ -1060,7 +1056,7 @@ $(document).ready(function() {
                         saveCurrent("catanns_insanns_relanns_modanns");
 
                         // urlの表示
-                        showMsg('load from: ' + targetUrl);
+                        showTitle(targetUrl);
 
                     }
                     sessionStorage.setItem('document', doc);
@@ -1086,7 +1082,7 @@ $(document).ready(function() {
                 var doc = sessionStorage.getItem('document');
                 targetUrl = sessionStorage.getItem('targetUrl');
 
-                showMsg('load from: ' + targetUrl);
+                showTitle(targetUrl);
 
                 $("#src_area").html(doc);
                 $("#doc_area").html(doc);
@@ -1247,8 +1243,6 @@ $(document).ready(function() {
                 targetX = targetElem.get(0).offsetLeft - doc_area_left;
                 targetY = targetElem.get(0).offsetTop - doc_area_top;
             }
-
-
 
             // dunnySpanから計算されたspanの右上の位置
             var sourceRX;
@@ -2571,7 +2565,6 @@ $(document).ready(function() {
 
         var dummyArray = new Array();
 
-
         // 折り返しspanの位置を正確にするためにダミーのspanを最後に挿入
         for(i in annoJson) {
             var id = annoJson[i]['id'];
@@ -2584,7 +2577,6 @@ $(document).ready(function() {
             dummyObj['id'] = 'dummy_' + id;
 
             dummyArray.push(dummyObj);
-
         }
 
         // ダミーを加える
@@ -9488,7 +9480,7 @@ $(document).ready(function() {
         // 行高さ
         var lineHeight = parseInt($('#doc_area').css('lineHeight'));
 
-        //$('#contents').append(clone);
+        //$('#document_area').append(clone);
         //console.log('lineHeight:', lineHeight);
 
         var cloneArray = new Array();
@@ -9604,9 +9596,6 @@ $(document).ready(function() {
 
         $('.clone_div').click(clickSpan);
 
-
-
-
         /*
         $('span',clone).map(function() {
             //console.log($(this));
@@ -9616,7 +9605,7 @@ $(document).ready(function() {
         });
 
 
-        $('#contents').append(clone);
+        $('#document_area').append(clone);
 
 
 
@@ -11459,7 +11448,6 @@ $(document).ready(function() {
 
         var uniqueInsList = new Array();
 
-
         for(var i in insanns) {
 
             var uniqueNum = 0;
@@ -11480,9 +11468,9 @@ $(document).ready(function() {
 
             var elem = $('#' + objectId);
 
-
             var left = elem.get(0).offsetLeft + ins_area_offset_left - padding_left;
-            var top = elem.get(0).offsetTop   - padding_top - h;
+            var top = elem.get(0).offsetTop - padding_top - h;
+            // var top = elem.get(0).offsetTop - h;
             var height = elem.outerHeight();
             var width = elem.outerWidth();
 
@@ -11497,9 +11485,6 @@ $(document).ready(function() {
             var cate;
             // 枠の色、インスタンスの元のcategory annotationの色
             var borderColor;
-
-
-
 
             // 元のspanの幅を求める
             for(var j in annotationJson) {
@@ -11549,7 +11534,6 @@ $(document).ready(function() {
                         posY = top;
                     }
 
-
                     cate = catann["category"];
 
                 }
@@ -11560,15 +11544,10 @@ $(document).ready(function() {
                     borderColor = categories[k].split('|')[2];
                     break;
                 }
-
-
             }
-
-
 
             // ここでspanの上部にdivを描く?
             var div = '<div id="' + ins["id"] +'" class="instance ' + ins["type"] + ' ' + cate + '" style="position:absolute;left:' + posX + 'px; top:' + posY + 'px; width:' + w +'px; height:' + h + 'px; border-color:' + borderColor +'" ></div>';
-
 
             //var div = '<div id="' + ins["id"] +'" class="instance ' + ins["type"] + ' ' + cate + '" style="position:absolute;left:' + posX + 'px; top:' + posY + 'px; width:' + w +'px; height:' + h + 'px;" ></div>';
             $('#ins_area').append(div);
