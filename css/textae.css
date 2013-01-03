@@ -10,7 +10,10 @@ a {
 }
 
 #header_area {
+    position: fixed;
+    top: 0px;
     display: block;
+    opacity: 0.9;
     width: 65em;
     height: 20px;
     padding: 2px;
@@ -32,24 +35,35 @@ a {
     display: block;
     width : 100%;
     height: 20px;
-    font-style: italic;
+    opacity: 0.8;
     text-overflow: ellipsis;
 }
 
 #document_frame {
-    width: 500px;
     margin: 5px;
+    margin-top: 24px;
+    margin-left: 180px;
     padding: 5px;
     display: block;
     border: 1px solid black;
 
 }
 
+#control_area {
+    position: fixed;
+    top: 24px;
+    float:left;
+    border: 1px solid #888855;
+    background-color: #eeeebb;
+    padding: 2px;
+}
+
+
 /* marked text area */
 #doc_area  {
     margin: 0px;
     padding: 0px;
-    line-height: 250%;
+    line-height: 500%;
     background-color: #ffffff;
 }
 
@@ -57,8 +71,39 @@ a {
     position: absolute;
     top: 0px;
     left: 0px;
+    margin: 0px;
+    padding: 0px;
     font-size: small;
     font-weight: bold;
+}
+
+#rel_base_area {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    margin: 0px;
+    padding: 0px;
+}
+
+/*relation_area */
+#rel_area {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    margin: 0px;
+    padding: 0px;
+
+    display: block;
+    /*float: left;*/
+    background-color: #cccccc;
+}
+
+#clone_area {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    margin: 0px;
+    padding: 0px;
 }
 
 #span_measure_area {
@@ -73,7 +118,7 @@ a {
     border-style: dashed;
     border-color: #999999;
     border-width: thin;
-    word-wrap:break-word;
+    white-space: pre;
 }
 
 /* dummy_spanには幅をもたせない */
@@ -104,7 +149,7 @@ a {
     border-width: 2px 2px 2px 2px;
 }
 
-/* annottaion area */
+/* annotaion area */
 #anno_area {
     position: absolute;
     left: 530px;
@@ -117,22 +162,8 @@ a {
     background-color: #cccccc;
 
     width: 230px;
- }
-
-/*relation_area */
-#relation_area {
-    position: absolute;
-    left: 950px;
-
-    padding-left: 10px;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    display: block;
-    /*float: left;*/
-    background-color: #cccccc;
-
-    width: 230px;
 }
+
 
 /*insanns_area */
 #insanns_area {
@@ -147,6 +178,31 @@ a {
     background-color: #cccccc;
     width: 230px;
 }
+
+/*
+* selected insatnce modification
+*/
+#ins_area span.mod_selected {
+    font-weight: 800;
+    font-size: 18pt;
+    position: relative;
+    left: -0.2em;
+    top: -0.2em;
+}
+
+/*
+* selected relation modification
+*/
+.mod_selected {
+
+    font-weight: 800;
+    font-size: 18pt;
+    position: relative;
+    left: -0.2em;
+    top: -0.2em;
+
+}
+
 
 /*insanns_area */
 #modanns_area {
@@ -315,15 +371,6 @@ table.modanns tr td {
     background-color: #ff0000;
 }
 
-
-#control_area {
-    position: fixed;
-    left: 520px;
-    top: 30px;
-    border: 1px solid #888855;
-    background-color: #eeeebb;
-    padding: 2px;
-}
 
 table.palette {
     margin: 0 auto;

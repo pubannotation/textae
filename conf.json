@@ -21,7 +21,7 @@
         "'",
         "\n"
     ],
-    "boundary_characters": [
+    "non_boundary_characters": [
         " ",
         "\n"
     ],
@@ -39,6 +39,16 @@
             "color": "#9999FF",
             "uri": "http://www.ncbi.nlm.nih.gov/mesh/68011506",
             "default": true
+        },
+        {
+            "name": "Entity",
+            "color": "#9999BB",
+            "uri": "http://www.ncbi.nlm.nih.gov/mesh/68011506",
+            "default": true
+        },
+        {
+            "name": "Binding",
+            "color": "#88FFBB"
         },
         {
             "name": "Gene_expression",
