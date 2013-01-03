@@ -210,7 +210,7 @@ $(document).ready(function() {
      * msg_areaに文字列を表示
      */
     function showTitle(title) {
-        $('#title_area').html("<span style='font-weight:bold; text-shadow: 2px 2px 2px #888888'>TextAE</span>" + " <span style='font-style:italic; color:gray'>(editing '" + title + "')</span>");
+        $('#title_area').html("<span style='font-weight:bold; text-shadow: 2px 2px 2px #888888'>TextAE</span>" + " <span style='font-style:italic; color:gray'>(source: " + title + ")</span>");
     }
 
     /*
@@ -1551,7 +1551,6 @@ $(document).ready(function() {
         }
 
 
-
         //sessionStorage.setItem('redo', JSON.stringify(redoArray));
 
         if(undoNameArray.length == 0) {
@@ -1737,7 +1736,6 @@ $(document).ready(function() {
     }
 
 
-
     /*
      * Instance Typeリストの作成
      */
@@ -1893,7 +1891,6 @@ $(document).ready(function() {
         }
 
         $('.t_selected .removeBtn').show();
-
 
     }
 
@@ -2101,7 +2098,6 @@ $(document).ready(function() {
 
                // console.log('overlays:', overlays);
 
-
                 // 詰め替え
                 var connObj = new Object();
                 connObj["subject"] = sourceId;
@@ -2272,7 +2268,6 @@ $(document).ready(function() {
     }
 
 
-
     /*
      * textとannotation listにcategoryに対応する色をつけます
      */
@@ -2302,7 +2297,6 @@ $(document).ready(function() {
             tables.css('background-color', relations[i].split('|')[2]);
         }
     }
-
 
 
     /*
@@ -2993,12 +2987,6 @@ $(document).ready(function() {
 
         if(mode == "relation") {
            // relationモード
-            /*
-           if(sourceElem != null && sourceElem.attr('id') == $(this).attr('id')) {
-               sourceElem.removeClass('source_selected');
-               sourceElem = null;
-           }
-           */
 
         } else if(mode == "edit") {
 
@@ -3055,7 +3043,6 @@ $(document).ready(function() {
                                 break;
                             }
                         }
-
 
                     } else {
                         //console.log('最初の要素が後ろにある場合');
@@ -3228,7 +3215,6 @@ $(document).ready(function() {
                         }
                     }
                 }
-
             }
 
             len = selectedModificationIds.length - 1;
@@ -3243,24 +3229,6 @@ $(document).ready(function() {
             addModtypeColor(modtypes);
 
              //saveCurrentModanns();
-
-            /*
-            var saveStr;
-
-            if(isDeleteRel) {
-                if(isDeleteMod) {
-                    saveStr = "relanns_modanns";
-                } else {
-                    saveStr = "modanns";
-                }
-            } else {
-                if(isDeleteMod) {
-                    saveStr = "modanns";
-                } else {
-                    saveStr = "";
-                }
-            }
-            */
 
             saveCurrent("relanns_modanns");
 
@@ -3319,8 +3287,6 @@ $(document).ready(function() {
                     }
 
                 }
-
-
 
                 for(var k in deleteInsIds) {
                     var insId = deleteInsIds[k];
@@ -3382,7 +3348,6 @@ $(document).ready(function() {
                 // 空にする
                 selectedIds.splice(0, selectedIds.length);
 
-
                 sortNumJson(annotationJson);
                 $("#annojson").text(JSON.stringify(annotationJson));
 
@@ -3397,11 +3362,7 @@ $(document).ready(function() {
                 addInstypeColor(instypes);
                 //setCurrentInsannsStorage(insanns);
 
-
                 // relation再描画
-
-
-
                 makeRelationTable();
                 addRelationColor(relations);
 
@@ -3413,25 +3374,7 @@ $(document).ready(function() {
                 makeModificationTable();
                 addModtypeColor(modtypes);
 
-
-
-                /*
-                // saveする文字列
-                var saveStr = "catanns";
-                if(isDeleteIns) {
-                    saveStr += "_insanns";
-                }
-                if(isDeleteRel) {
-                    saveStr += "_relanns";
-                }
-                if(isDeleteMod) {
-                    saveStr += "_modanns";
-                }
-                */
-
                 saveCurrent("catanns_insanns_relanns_modanns");
-
-
 
             } else if($(this).parent().parent().parent().parent().hasClass('instance')) {
                 //console.log('instance table');
@@ -3495,17 +3438,12 @@ $(document).ready(function() {
                 addCategoryColor(categories);
                 //setCurrentStorage(annotationJson);
 
-
                 makeInstance(insanns);
                 makeInstanceTable();
                 addInstypeColor(instypes);
                 //setCurrentInsannsStorage(insanns);
 
-
                 // relation再描画
-
-
-
                 makeRelationTable();
                 addRelationColor(relations);
 
@@ -3517,29 +3455,12 @@ $(document).ready(function() {
                 makeModificationTable();
                 addModtypeColor(modtypes);
 
-                /*
-                // saveする文字列
-                var saveStr = "catanns";
-                if(isDeleteIns) {
-                    saveStr += "_insanns";
-                }
-                if(isDeleteRel) {
-                    saveStr += "_relanns";
-                }
-                if(isDeleteMod) {
-                    saveStr += "_modanns";
-                }
-                */
-
                 saveCurrent("insanns_relanns_modanns");
-
-
 
             }
 
             deleteInsIds = null;
             deleteRelIds = null;
-
 
         }
     });
@@ -3580,8 +3501,6 @@ $(document).ready(function() {
                 $('table.instance').removeClass('t_selected');
                 $('table.instance .removeBtn').hide();
 
-
-
                 $('table.relation').removeClass('t_selected');
                 $('table.relation .removeBtn').hide();
 
@@ -3591,42 +3510,6 @@ $(document).ready(function() {
                     unselectModification();
                     addModtypeColor(modtypes);
                 }
-
-
-                /*
-                for(var i in selectedConns) {
-
-
-                    var sConn = selectedConns[i];
-                    var source = sConn.source;
-                    var target = sConn.target;
-                    var rgba = sConn.paintStyleInUse["strokeStyle"];
-                    var endpoints = sConn.endpoints;
-                    var connId = sConn.getParameter('connId');
-                    var type = sConn.getParameter('type');
-
-                    var rgbas = rgba.split(',');
-                    rgba = rgbas[0] + ',' + rgbas[1] + ',' + rgbas[2] + ', ' + connOpacity + ')';
-                    console.log('rgba:', rgba);
-
-
-                    //var c = makeConnection(source, target, type, rgba, connId);
-                    var subject = source.attr('id');
-                    var object = target.attr('id');
-
-                    //var c = makeConnection(subject, object, type, rgba, connId, "unselected", labelText, modId, "");
-
-                    selectedModificationIds.splice(0, selectedModificationIds.length);
-
-                    var c = makeConnection(subject, object, type, rgba, connId, "unselected", modanns);
-
-                    jsPlumb.deleteEndpoint(endpoints[0]);
-                    jsPlumb.deleteEndpoint(endpoints[1]);
-
-
-
-                }
-                */
 
                 // 空にする
                 selectedConns.splice(0, selectedConns.length);
@@ -3644,21 +3527,15 @@ $(document).ready(function() {
                 $('table.relation').removeClass('t_selected');
                 $('table.relation .removeBtn').hide();
 
-
                 //selectedModificationIds.splice(0, selectedModificationIds.length);
                 if(selectedModificationIds.length > 0) {
                     unselectModification();
                     addModtypeColor(modtypes);
                 }
 
-
-
-
                 // 空にする
                 selectedIds.splice(0, selectedIds.length);
                 selectedInstanceIds.splice(0, selectedInstanceIds.length);
-
-
 
                 $('#doc_area span').removeClass('selected').removeClass('partialSelected');
                 $('table.annotation').removeClass('t_selected').removeClass('t_partialSelected');
@@ -3677,9 +3554,6 @@ $(document).ready(function() {
                 // instanceテーブルの選択を外す
                 $('table.instance').removeClass('t_selected');
                 $('table.instance .removeBtn').hide();
-
-
-
 
             }
 
@@ -4019,7 +3893,6 @@ $(document).ready(function() {
 
                 if(mode == "relation") {
 
-
                     // 一旦削除して、新たに太い線をかく
                     e.stopPropagation();
 
@@ -4031,28 +3904,11 @@ $(document).ready(function() {
                         var connId = conn.getParameter('connId');
                         var type = conn.getParameter('type');
 
-                        /*
-                        var labelText = "";
-                        var modId = "";
-                        for(var i = 0; i < conn.overlays.length; i++) {
-                            var overlay = conn.overlays[i];
-                            console.log('label:', overlay["type"]);
-
-                            if(overlay["type"] == "Label") {
-                                console.log(overlay.getLabel());
-                                labelText = overlay.getLabel();
-                                modId = overlay["id"];
-                            }
-                        }
-                        */
-
                         //console.log('選択されたコネクションID:', connId);
 
                         var subject = source.attr('id');
                         var object = target.attr('id');
 
-                        //var c = makeConnection(source, target, type, rgba, connId, "selected");
-                        //var c = makeConnection(subject, object, type, rgba, connId, "selected", labelText, modId, "");
                         var c = makeConnection(subject, object, type, rgba, connId, "selected", modanns);
 
                         selectedConns.push(c);
@@ -4086,8 +3942,6 @@ $(document).ready(function() {
                             var subject = source.attr('id');
                             var object = target.attr('id');
 
-                            //var c = makeConnection(source, target, type, rgba, connId);
-                            //var c = makeConnection(subject, object, type, rgba, connId, "", "", "");
                             var c = makeConnection(subject, object, type, rgba, connId, "unselected", modanns);
 
                             jsPlumb.deleteEndpoint(endpoints[0]);
