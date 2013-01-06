@@ -16,19 +16,6 @@ $(document).ready(function() {
      */
     var cssUrl;
 
-    /*
-     * spanの作成階数
-     * chromeは1回目の場合
-     * なぜか、cancelSelectを実行するので
-     * 回数で判別する
-     * 回数はロードしたときのannotatopnJsonの長さ
-     */
-    var createCount;
-
-    /*
-     *
-     */
-    var baseSpanHeight = 0;
 
     /*
      * 表示モード、初期値はviewモード
@@ -39,12 +26,8 @@ $(document).ready(function() {
     /*
      * annotationデータ
      */
-    var annotationJson;
+    var spans;
 
-    /*
-     * loadされた時のanntation IDの最大値
-     */
-    var loadedMaxId;
 
     /*
      * 選択されたspan要素
@@ -67,7 +50,11 @@ $(document).ready(function() {
      */
     var selectedModificationIds = new Array();
 
-
+    /*
+     * 選択されたコネクションオブジェクトの配列
+     * connection objectが入ります
+     */
+    var selectedConns = new Array();
 
     /*
      * multipleで新規作成した時の
@@ -97,18 +84,6 @@ $(document).ready(function() {
     var isMultiple = true;
 
     /*
-     * テーブルのsortの状態
-     * num, new, cateの3種類
-     */
-    var sortStatus = 'new';
-
-
-    /*
-     * relationテーブルのsort状態
-     */
-    var sortConnStatus = "new";
-
-    /*
      * 接続用span要素
      */
     var sourceElem = null;
@@ -120,23 +95,12 @@ $(document).ready(function() {
      * コネクションデータの配列
      * 新規作成で追加,　削除で削除
      */
-    var connArray;
-
-    /*
-     * span編集モード時に隠すコネクションデータ保存用
-     */
-    var hideConnArray = new Array();
+    var relations;
 
     /*
      * 一時的に隠すコネクションデータ保存用
      */
-    var tmpHidedConnArray = new Array();
-
-    /*
-     * 選択されたコネクションオブジェクトの配列
-     * connection objectが入ります
-     */
-    var selectedConns = new Array();
+    var tmpHidedRelations = new Array();
 
     /*
      * 線の透明度
@@ -149,14 +113,10 @@ $(document).ready(function() {
      */
     var insanns;
 
-    var insWidth = 10; // 幅
-    var insHeight = 10;  // 高さ
-    var insBorder = 2;
+    var insWidth = 6; // 幅
+    var insHeight = 6;  // 高さ
+    var insBorder = 3;
     var insMargin = 2;
-
-
-    // insannsのソート方法、初期値は新しい順
-    var sortInsannsStatus = 'new';
 
 
     /*
@@ -165,23 +125,18 @@ $(document).ready(function() {
     var modanns;
 
     /*
-     * modannsのデータ
-     */
-    var sortModannsStatus = 'new';
-
-    /*
      * conf.txtより読み取る設定値
      */
-    var delimitCharacters = "";
-    var nonBoundaryCharacters = "";
-    var categories = new Array();
-    var relations = new Array();
-    var instypes = new Array();
-    var modtypes = new Array();
-    var defaultCategory = "";
-    var defaultRelation = "";
-    var defaultInstype = "";
-    var defaultModtype = "";
+    var delimiterCharacters;
+    var nonEdgeCharacters;
+    var spanTypes = new Object();
+    var relationTypes = new Object();
+    var instanceTypes = new Object();
+    var modTypes = new Object();
+    var spanTypeDefault = "";
+    var relationTypeDefault = "";
+    var instanceTypeDefault = "";
+    var modTypeDefault = "";
 
     /*
      * 正規表現にて特別な意味をもつ文字
@@ -195,11 +150,6 @@ $(document).ready(function() {
     var targetUrl = '';
 
     /*
-     * config urlから読み取った、json形式の設定値
-     */
-    var configJson;
-
-    /*
      * doc_area
      */
     var doc_area = document.getElementById('doc_area').getBoundingClientRect();
@@ -207,10 +157,10 @@ $(document).ready(function() {
     var doc_area_top  = doc_area.top;
 
     /*
-     * msg_areaに文字列を表示
+     * Notice
      */
-    function showTitle(title) {
-        $('#title_area').html("<span style='font-weight:bold; text-shadow: 2px 2px 2px #888888'>TextAE</span>" + " <span style='font-style:italic; color:gray'>(source: " + title + ")</span>");
+    function showSource() {
+        $('#notice').html("(source: " + targetUrl + ")");
     }
 
     /*
@@ -243,7 +193,6 @@ $(document).ready(function() {
      */
     function getUrlParameters() {
         var params = location.search.replace('?', '').split('&');
-        //console.log('params:', params);
         var configUrl = "";
 
         for(var i in params) {
@@ -257,6 +206,19 @@ $(document).ready(function() {
             }
         }
 
+        // read default configuration
+        $.ajax({
+            type: "GET",
+            url: "conf.json",
+            dataType: "json",
+            async: false,
+            success: function(data) {
+                setConfig(data);
+            },
+            error: function() {
+                alert("Could not read default configuration. Consult the administrator.");
+            }
+        });
 
         if(configUrl != "") {
 
@@ -264,189 +226,97 @@ $(document).ready(function() {
             $.ajax({
                 type: "GET",
                 url: configUrl,
-                dataType: "jsonp",
-                jsonpCallback : 'callback',
+                dataType: "json",
+                crossDomain: true,
                 success: function(data) {
-                    //console.log('data:', data);
-                    configJson = data;
-
-                    makeConfig(configJson);
-                    reloadAnnotation();
+                    setConfig(data);
+                    renderFrame();
+                    loadAnnotation();
                 },
                 error: function() {
-                    //console.log('error!');
-                    alert('cannot get config!');
+                    alert('could not read the configuration from the location you specified.');
                 }
             });
         } else {
-            //console.log("config が指定されていません");
-
-            $.ajax({
-                type: "GET",
-                url: "conf.json",
-                dataType: "json",
-                //success:function(confdata) {
-                success: function(data) {
-                    //console.log('conf.json:', data);
-                    configJson = data;
-
-                    makeConfig(configJson);
-                    reloadAnnotation();
-                },
-                error: function() {
-                    //console.log('error!');
-                }
-            });
+            renderFrame();
+            loadAnnotation();
         }
-        //console.log('targetUrl:', targetUrl);
     }
+
+
+    // boundaryであるかどうか
+    function searchBoundaryChar(char){
+        return $.inArray(char, nonEdgeCharacters);
+    }
+
+
+    // delimiterであるかどうか
+    function searchDelimitChar(char){
+        return $.inArray(char, delimiterCharacters);
+    }
+
+
+    function renderFrame() {
+        tableSpanTypes(spanTypes);
+        tableRelationTypes(relationTypes);
+        tableInstanceTypes(instanceTypes);
+        tableModTypes(modTypes);
+        initSlider();
+    }
+
 
     /*
      * config
      */
-    function makeConfig(configJson){
-        //console.log(configJson['delimiter_characters'].toString());
-
-        var delimiter_characters = configJson['delimiter_characters'];
-        var non_boundary_characters = configJson['non_boundary_characters'];
-        var category_types = configJson['categories'];
-        var instance_types = configJson['instance types'];
-        var relation_types = configJson['relation types'];
-        var modification_types = configJson['modification types'];
-        var css = configJson["css"];
-
-        //var css = "http://localhost/test.css";
-        // css
-        //console.log('css:', css);
-        //console.log('xx:', configJson['xx']);
-
-        cssUrl = css;
-
-        if(cssUrl != undefined) {
-            $('#css_area').html('<link rel="stylesheet" href="' + css + '"/>');
+    function setConfig(config){
+        if (config['delimiter characters'] != undefined) {
+            delimiterCharacters = config['delimiter characters'];
         }
 
-        //document.write('<link rel="stylesheet" href="' + css + '">');
-
-        for(var i in delimiter_characters) {
-            delimitCharacters += delimiter_characters[i];
+        if (config['non-edge characters'] != undefined) {
+            nonEdgeCharacters = config['non-edge characters'];
         }
 
-        for(var i in non_boundary_characters) {
-            nonBoundaryCharacters += non_boundary_characters[i];
+        if (config['span types'] != undefined) {
+            var span_types = config['span types'];
+            for (var i in span_types) {
+                spanTypes[span_types[i]["name"]] = span_types[i];
+                if (span_types[i]["default"] == true) {spanTypeDefault = span_types[i]["name"];}
+            }
+            if (!spanTypeDefault) {spanTypeDefault = span_types[0]["name"];}
         }
 
-        for(var i in category_types) {
-            var obj = category_types[i];
-            var str = '';
-            str += obj["name"] + "|";
-            if(obj["uri"] != undefined) {
-                str += obj["uri"] + "|";
-            } else {
-                str += "" + "|"
+        if (config['instance types'] != undefined) {
+            var instance_types = config['instance types'];
+            for (var i in instance_types) {
+                instanceTypes[instance_types[i]["name"]] = instance_types[i];
+                if (instance_types[i]["default"] == true) {instanceTypeDefault = instance_types[i]["name"];}
             }
-
-            if(obj["color"] != undefined) {
-                str += obj["color"] + "|";
-            } else {
-                str += "" + "|";
-            }
-
-            if(obj["default"]) {
-                str += 'default';
-            }
-
-            //console.log(str);
-            categories.push(str);
-
+            if (!instanceTypeDefault) {instanceTypeDefault = instance_types[0]["name"];}
         }
 
-        for(var i in instance_types) {
-            var obj = instance_types[i];
-            var str = '';
-            str += obj["name"] + "|";
-            if(obj["uri"] != undefined) {
-                str += obj["uri"] + "|";
-            } else {
-                str += "" + "|"
+        if (config['relation types'] != undefined) {
+            var relation_types = config['relation types'];
+            for (var i in relation_types) {
+                relationTypes[relation_types[i]["name"]] = relation_types[i];
+                if (relation_types[i]["default"] == true) {relationTypeDefault = relation_types[i]["name"];}
             }
-
-            if(obj["color"] != undefined) {
-                str += obj["color"] + "|";
-            } else {
-                str += "" + "|";
-            }
-
-            if(obj["default"]) {
-                str += 'default';
-            }
-
-            //console.log(str);
-            instypes.push(str);
-
+            if (!relationTypeDefault) {relationTypeDefault = relation_types[0]["name"];}
         }
 
-        for(var i in relation_types) {
-            var obj = relation_types[i];
-            var str = '';
-            str += obj["name"] + "|";
-            if(obj["uri"] != undefined) {
-                str += obj["uri"] + "|";
-            } else {
-                str += "" + "|"
+        if (config['modification types'] != undefined) {
+            var mod_types = config['modification types'];
+            for (var i in mod_types) {
+                modTypes[mod_types[i]["name"]] = mod_types[i];
+                if (mod_types[i]["default"] == true) {modTypeDefault = mod_types[i]["name"];}
             }
-
-            if(obj["color"] != undefined) {
-                str += obj["color"] + "|";
-            } else {
-                str += "" + "|";
-            }
-
-            if(obj["default"]) {
-                str += 'default';
-            }
-
-            //console.log(str);
-            relations.push(str);
-
+            if (!modTypeDefault) {modTypeDefault = mod_types[0]["name"];}
         }
 
-        for(var i in modification_types) {
-            var obj = modification_types[i];
-            var str = '';
-            str += obj["name"] + "|";
-            if(obj["uri"] != undefined) {
-                str += obj["uri"] + "|";
-            } else {
-                str += "" + "|"
-            }
-
-            if(obj["color"] != undefined) {
-                str += obj["color"] + "|";
-            } else {
-                str += "" + "|";
-            }
-
-            if(obj["default"]) {
-                str += 'default';
-            }
-
-            //console.log(str);
-            modtypes.push(str);
-
+        if (config["css"] = undefined) {
+            $('#css_area').html('<link rel="stylesheet" href="' + config["css"] + '"/>');
         }
-
-        makeCategory(categories);
-        makeRelation(relations);
-        makeInstype(instypes);
-        makeModtype(modtypes);
-
-        initSlider();
-
-        // delimitCharacters = configJson['delimiter_characters'].toString();
     }
-
-
 
     getUrlParameters();
 
@@ -482,7 +352,7 @@ $(document).ready(function() {
     /*
      * jsPlumbの初期化
      */
-    function initJsPumb() {
+    function initJsPlumb() {
         jsPlumb.reset();
 
         jsPlumb.setRenderMode(jsPlumb.SVG);
@@ -493,544 +363,150 @@ $(document).ready(function() {
         });
     }
 
-    /*
-     * アノテーションデータのロード
-     */
+
     function loadAnnotation() {
-        //console.log('load annotation');
-        initJsPumb();
-
-        targetUrl = $('#load_url').val();
-
-        $.ajax({
-            type: "GET",
-            url: targetUrl,
-            dataType: "jsonp",
-            jsonp : 'callback',
-            success: function(data) {
-                /* success */
-
-                sessionStorage.clear();
-                undoNameArray = new Array();
-                redoNameArray = new Array();
-                undoCatannsArray = new Array();
-                undoRelannsArray = new Array();
-                undoInsannsArray = new Array();
-                undoModannsArray = new Array();
-
-                redoCatannsArray = new Array();
-                redoRelannsArray = new Array();
-                redoInsannsArray = new Array();
-                redoModannsArray = new Array();
-
-                changeButtonState($('#undo_btn'), undoNameArray);
-                changeButtonState($('#redo_btn'), redoNameArray);
-
-                var doc = data.text;
-
-                $("#src_area").html(doc);
-                $("#doc_area").html(doc);
-
-                annotationJson = data.catanns;
-
-                var now = (new Date()).getTime();
-
-                // DLした時間を代入する
-                for(var i in annotationJson) {
-                    annotationJson[i]["created_at"] = now;
-                }
-
-                // load時のannotation idの最大値
-                loadedMaxId = getCateMaxId();
-                //console.log('IDの最大値:', loadedMaxId);
-
-                $("#annojson").text(JSON.stringify(annotationJson));
-                sortNumJson(annotationJson);
-                markAnnotation(annotationJson);
-                makeAnnoTable(annotationJson);
-                addCategoryColor(categories);
-
-                // storageに格納
-                sessionStorage.setItem('document', doc);
-                sessionStorage.setItem('targetUrl', targetUrl);
-
-                // insannsのロード
-                if(data.insanns != undefined) {
-                    insanns = data.insanns;
-                } else {
-                    insanns = new Array();
-                }
-
-                // DLした時間を代入する
-                for(var i in insanns) {
-                    insanns[i]["created_at"] = now;
-                }
-
-                makeInstanceTable();
-                makeInstance(insanns);
-                addInstypeColor(instypes);
-
-                hideConnArray = new Array();
-                tmpHidedConnArray = new Array();
-
-                //いまのところ
-                if(data.relanns != undefined) {
-                    connArray = data.relanns;
-                } else {
-                    connArray = new Array();
-                }
-
-                // distanceをつける
-                for(var i in connArray) {
-                    addDistanceToRelation(connArray[i]);
-                }
-                // distanceでソート
-                sortConnByDistance(connArray);
-
-                for(var j in connArray) {
-                    var conn = connArray[j];
-                    var sId = conn['subject'];
-                    var tId = conn['object'];
-
-                    var color;
-                    for(var k in relations) {
-                        if(relations[k].split('|')[0] == conn['type']) {
-                            color = relations[k].split('|')[2];
-                        }
-                    }
-
-                    var rgba = colorTrans(color);
-                    var connId = conn['id'];
-                    var type = conn['type'];
-
-                    // DLした時間を代入する
-                    conn["created_at"] = now;
-
-                    // modificationなしのrelation
-                    makeConnection(sId, tId, type, rgba, connId, "unselected");
-                }
-
-
-                makeRelationTable();
-                addRelationColor(relations);
-
-                // modannsのロード
-                if(data.modanns != undefined) {
-                    modanns = data.modanns;
-                } else {
-                    modanns = new Array();
-                }
-
-                // DLした時間を代入する
-                for(var i in modanns) {
-                    modanns[i]["created_at"] = now;
-                }
-
-                makeModificationTable();
-                makeModification(modanns);
-                addModtypeColor(modtypes);
-
-                saveCurrent("catanns_insanns_relanns_modanns");
-
-                changeMode("view");
-
-                // urlの表示
-                showTitle(targetUrl);
-            },
-            error: function(res, textStatus, errorThrown){
-                //console.log("エラー:", res);
-                $('#load_dialog').hide();
-                $('#msg_area').html("cannot read").fadeIn().fadeOut(10000, function() {
-                    $(this).html('').removeAttr('style');
-                });
+        if (!targetUrl) {
+            if(sessionStorage.getItem('document') != null) {
+                targetUrl = sessionStorage.getItem('targetUrl');
             }
-        });
-    }
+        }
 
-
-    /*
-     * reloadしたとき
-     */
-
-    function reloadAnnotation() {
-
-        if(targetUrl != '') {
-
-            //console.log('reload 749');
-            initJsPumb();
-
-            showTitle(targetUrl);
-
-            // documentとcatanns, relanns, insanns, modannsをロード
+        if (targetUrl) {
             $.ajax({
                 type: "GET",
                 url: targetUrl,
-                dataType: "jsonp",
-                jsonp : 'callback',
-                success: function(data) {
-                    /* success */
-                    var doc = data.text;
-
-                    if(sessionStorage.getItem('document') != null && sessionStorage.getItem('document') == doc) {
-                        // documentがstorageのものと同じなので,storageからデータを取り出す
-                        doc = sessionStorage.getItem('document');
-                        $("#src_area").html(doc);
-                        $("#doc_area").html(doc);
-
-                        // catannsはstorageから
-                        annotationJson = loadCurrent("catanns")
-
-                        //createCount = annotationJson.length;
-
-                        $("#annojson").text(JSON.stringify(annotationJson));
-
-                        sortNumJson(annotationJson);
-
-                        markAnnotation(annotationJson);
-                        makeAnnoTable(annotationJson);
-                        addCategoryColor(categories);
-
-                        //insanns = loadCurrentInsanns();
-                        insanns = loadCurrent("insanns");
-
-                        makeInstanceTable();
-                        makeInstance(insanns);
-                        addInstypeColor(instypes);
-
-                        //connArray = loadCurrentRelanns();
-                        connArray = loadCurrent("relanns");
-
-                        // distanceをつける
-                        for(var i in connArray) {
-                            var conn = connArray[i];
-                            addDistanceToRelation(conn);
-                        }
-
-                        sortConnByDistance(connArray);
-
-                        makeRelationTable();
-                        addRelationColor(relations);
-
-                        jsPlumb.reset();
-
-                        for(var j in connArray) {
-                            var conn = connArray[j];
-                            var sId = conn['subject'];
-                            var tId = conn['object'];
-
-                            var color;
-                            for(var k in relations) {
-                                if(relations[k].split('|')[0] == conn['type']) {
-                                    color = relations[k].split('|')[2];
-                                }
-                            }
-
-                            var rgba = colorTrans(color);
-                            var connId = conn['id'];
-                            var type = conn['type'];
-
-                            // modificationなしのrelation
-                            makeConnection(sId, tId, type, rgba, connId, "unselected");
-                        }
-
-                        //saveCurrentRelanns();
-                        //saveCurrent("relanns");
-
-
-                        var modannsStr = sessionStorage.getItem('currentModanns');
-
-                        if(modannsStr == null) {
-                            modanns = new Array();
-                        } else {
-                            modanns = JSON.parse(modannsStr);
-                        }
-
-                        makeModificationTable();
-                        makeModification(modanns);
-                        addModtypeColor(modtypes);
-
-                        //saveCurrentModanns();
-                        //saveCurrent("modanns");
-
-                        saveCurrent("catanns_insanns_relanns_modanns");
-
-                        mode = sessionStorage.getItem('mode');
-
-                        changeMode(mode);
-
-                        //initSlider();
-
-
-                        undoNameArray = new Array();
-                        redoNameArray = new Array();
-                        undoCatannsArray = new Array();
-                        undoRelannsArray = new Array();
-                        undoInsannsArray = new Array();
-                        undoModannsArray = new Array();
-
-                        redoCatannsArray = new Array();
-                        redoRelannsArray = new Array();
-                        redoInsannsArray = new Array();
-                        redoModannsArray = new Array();
-
-                        changeButtonState($('#undo_btn'), undoNameArray);
-                        changeButtonState($('#redo_btn'), redoNameArray);
-
-
+                dataType: "json",
+                crossDomain: true,
+                success: function(annotation) {
+                    if (annotation.text != undefined) {
+                        setAnnotation(annotation);
                     } else {
-                        initJsPumb();
-
-                        sessionStorage.clear();
-                        undoNameArray = new Array();
-                        redoNameArray = new Array();
-                        undoCatannsArray = new Array();
-                        undoRelannsArray = new Array();
-                        undoInsannsArray = new Array();
-                        undoModannsArray = new Array();
-
-                        redoCatannsArray = new Array();
-                        redoRelannsArray = new Array();
-                        redoInsannsArray = new Array();
-                        redoModannsArray = new Array();
-                        changeButtonState($('#undo_btn'), undoNameArray);
-                        changeButtonState($('#redo_btn'), redoNameArray);
-
-                        var doc = data.text;
-
-                        $("#src_area").html(doc);
-                        $("#doc_area").html(doc);
-
-                        annotationJson = data.catanns;
-
-                        var now = (new Date()).getTime();
-
-                        // DLした時間を代入する
-                        for(i in annotationJson) {
-                            annotationJson[i]["created_at"] = now;
-                        }
-
-                        // load時のannotation idの最大値
-                        loadedMaxId = getCateMaxId();
-                        //console.log('IDの最大値:', loadedMaxId);
-
-                        $("#annojson").text(JSON.stringify(annotationJson));
-
-                        sortNumJson(annotationJson);
-                        markAnnotation(annotationJson);
-                        makeAnnoTable(annotationJson);
-                        addCategoryColor(categories);
-
-                        // storageに格納
-                        sessionStorage.setItem('document', doc);
-                        sessionStorage.setItem('targetUrl', targetUrl);
-
-
-                        // insannsのロード
-                        if(data.insanns != undefined) {
-                            insanns = data.insanns;
-                        } else {
-                            insanns = new Array();
-                        }
-
-                        // DLした時間を代入する
-                        for(var i in insanns) {
-                            insanns[i]["created_at"] = now;
-                        }
-
-                        makeInstanceTable();
-                        makeInstance(insanns);
-                        addInstypeColor(instypes);
-
-                        hideConnArray = new Array();
-                        tmpHidedConnArray = new Array();
-
-                        //いまのところ
-                        if(data.relanns != undefined) {
-                            connArray = data.relanns;
-                        } else {
-                            connArray = new Array();
-                        }
-
-                        // distanceをつける
-                        for(var i in connArray) {
-                            addDistanceToRelation(connArray[i]);
-                        }
-                        // distanceでソート
-                        sortConnByDistance(connArray);
-
-                        for(var j in connArray) {
-                            var conn = connArray[j];
-                            var sId = conn['subject'];
-                            var tId = conn['object'];
-
-                            conn["created_at"] = now;
-
-                            var color;
-                            for(var k in relations) {
-                                if(relations[k].split('|')[0] == conn['type']) {
-                                    color = relations[k].split('|')[2];
-                                }
-                            }
-
-                            var rgba = colorTrans(color);
-                            var connId = conn['id'];
-                            var type = conn['type'];
-
-                            // DLした時間を代入する
-                            conn["created_at"] = now;
-
-                            // modificationなしのrelation
-                            makeConnection(sId, tId, type, rgba, connId,"unselected");
-                        }
-
-
-                        makeRelationTable();
-                        addRelationColor(relations);
-
-                        // modannsのロード
-                        if(data.modanns != undefined) {
-                            modanns = data.modanns;
-                        } else {
-                            modanns = new Array();
-                        }
-
-                        // DLした時間を代入する
-                        for(var i in modanns) {
-                            modanns[i]["created_at"] = now;
-                        }
-
-                        makeModificationTable();
-                        makeModification(modanns);
-                        addModtypeColor(modtypes);
-
-                        saveCurrent("catanns_insanns_relanns_modanns");
-
-                        changeMode("view");
-
-                        // urlの表示
-                        showTitle(targetUrl);
+                        alert("read failed.");
                     }
-                    sessionStorage.setItem('document', doc);
                 },
                 error: function(res, textStatus, errorThrown){
-                    $('#msg_area').html("could not read").fadeIn().fadeOut(10000, function() {
-                        $(this).html('').removeAttr('style');
-                });
-            }
-
+                    alert("connection failed.");
+                }
             });
-
-
-
-        } else {
-            //console.log('reload 1061');
-            // 通常のリロード
-            //console.log('リロードされました');
-            if(sessionStorage.getItem('document') != null) {
-
-                initJsPumb();
-
-                // documentがstorageのものと同じなので,storageからデータを取り出す
-                var doc = sessionStorage.getItem('document');
-                targetUrl = sessionStorage.getItem('targetUrl');
-
-                showTitle(targetUrl);
-
-                $("#src_area").html(doc);
-                $("#doc_area").html(doc);
-
-                // catannsはstorageから
-                //var annoJsonStr = sessionStorage.getItem('current');
-                //annotationJson = JSON.parse(annoJsonStr);
-                annotationJson = loadCurrent("catanns");
-
-                //createCount = annotationJson.length;
-
-                $("#annojson").text(JSON.stringify(annotationJson));
-                sortNumJson(annotationJson);
-                markAnnotation(annotationJson);
-                makeAnnoTable(annotationJson);
-                addCategoryColor(categories);
-
-                connArray = loadCurrent("relanns");
-
-                makeRelationTable();
-                addRelationColor(relations);
-
-                insanns = loadCurrent("insanns");
-
-                makeInstanceTable();
-                makeInstance(insanns);
-                addInstypeColor(instypes);
-
-                jsPlumb.reset();
-
-                for(var j in connArray) {
-                    var conn = connArray[j];
-                    var sId = conn['subject'];
-                    var tId = conn['object'];
-
-                    var color;
-                    for(var k in relations) {
-                        if(relations[k].split('|')[0] == conn['type']) {
-                            color = relations[k].split('|')[2];
-                        }
-                    }
-
-                    var rgba = colorTrans(color);
-                    var connId = conn['id'];
-                    var type = conn['type'];
-
-                    // modificationなしのrelation
-                    makeConnection(sId, tId, type, rgba, connId, "unselected");
-                }
-
-                mode = sessionStorage.getItem('mode');
-
-                changeMode(mode);
-
-                var modannsStr = sessionStorage.getItem('currentModanns');
-
-                if(modannsStr == null) {
-                    modanns = new Array();
-                } else {
-                    modanns = JSON.parse(modannsStr);
-                }
-
-                makeModificationTable();
-                makeModification(modanns);
-                addModtypeColor(modtypes);
-
-                //setCurrentModannsStorage(modanns);
-                //saveCurrentModanns();
-                //saveCurrent("modanns");
-                //   initSlider();
-
-                saveCurrent("catanns_insanns_relanns_modanns");
-
-                undoNameArray = new Array();
-                redoNameArray = new Array();
-                undoCatannsArray = new Array();
-                undoRelannsArray = new Array();
-                undoInsannsArray = new Array();
-                undoModannsArray = new Array();
-
-                redoCatannsArray = new Array();
-                redoRelannsArray = new Array();
-                redoInsannsArray = new Array();
-                redoModannsArray = new Array();
-                changeButtonState($('#undo_btn'), undoNameArray);
-                changeButtonState($('#redo_btn'), redoNameArray);
-
-            } else {
-                $('table.relation tr td, table.relation tr td div').die('click', selectRelationTable);
-            }
         }
     }
 
+
+    function initialize() {
+        undoNameArray = new Array();
+        redoNameArray = new Array();
+        undoCatannsArray = new Array();
+        undoRelannsArray = new Array();
+        undoInsannsArray = new Array();
+        undoModannsArray = new Array();
+
+        redoCatannsArray = new Array();
+        redoRelannsArray = new Array();
+        redoInsannsArray = new Array();
+        redoModannsArray = new Array();
+
+        changeButtonState($('#undo_btn'), undoNameArray);
+        changeButtonState($('#redo_btn'), redoNameArray);
+    }
+
+
+    /*
+     * prepare annotation
+     */
+    function setAnnotation(data) {
+        // load annotation
+        var doc = data.text;
+        $("#src_area").html(doc);
+
+        if(data.catanns != undefined) {
+            spans = data.catanns;
+        } else {
+            spans = new Array();
+        }
+
+        if(data.insanns != undefined) {
+            insanns = data.insanns;
+        } else {
+            insanns = new Array();
+        }
+
+        if(data.relanns != undefined) {
+            relations = data.relanns;
+        } else {
+            relations = new Array();
+        }
+
+        if(data.modanns != undefined) {
+            modanns = data.modanns;
+        } else {
+            modanns = new Array();
+        }
+
+        // time setting
+        var now = (new Date()).getTime();
+
+        for(var i = 0; i < spans.length; i++) {
+            spans[i]["created_at"] = now;
+        }
+
+        for(var i = 0; i < insanns.length; i++) {
+            insanns[i]["created_at"] = now;
+        }
+
+        for(var i = 0; i < relations.length; i++) {
+            relations[i]["created_at"] = now;
+        }
+
+        for(var i = 0; i < modanns.length; i++) {
+            modanns[i]["created_at"] = now;
+        }
+
+        // rendering
+
+        renderSpans(spans);
+        addCategoryColor(spanTypes);
+
+        renderInstances(insanns);
+        addInstypeColor(instanceTypes);
+
+        // distanceをつける
+        for(var i in relations) {
+            addDistanceToRelation(relations[i]);
+        }
+        // distanceでソート
+        sortConnByDistance(relations);
+
+        // render relations
+        initJsPlumb();
+        for(var j in relations) {
+            var rel = relations[j];
+            var color = relationTypes[rel['type']]['color'];
+            var rgba = colorTrans(color);
+            // modificationなしのrelation
+            makeConnection(rel['subject'], rel['object'], rel['type'], rgba, rel['id'], "unselected");
+        }
+
+        renderModifications(modanns);
+        addModtypeColor(modTypes);
+
+        // storageに格納
+        sessionStorage.clear();
+        sessionStorage.setItem('document', doc);
+        sessionStorage.setItem('targetUrl', targetUrl);
+        saveCurrent("catanns_insanns_relanns_modanns");
+
+        initialize();
+        tmpHidedRelations = new Array();
+
+        showSource();
+        changeMode("view");
+    }
+
+
+
     function addDistanceToRelation(conn) {
-       // for(var i in connArray) {
-            //var conn = connArray[i];
+       // for(var i in relations) {
+            //var conn = relations[i];
             var sId = conn['subject'];
             var tId = conn['object'];
 
@@ -1071,11 +547,22 @@ $(document).ready(function() {
         //}
     }
 
-    function sortConnByDistance(connArray) {
+    function sortConnByDistance(relations) {
         function compare(a, b) {
             return(b['distance'] - a['distance']);
         }
-        connArray.sort(compare);
+        relations.sort(compare);
+    }
+
+
+    /*
+     * spanの表示順番でjsonのソート
+     */
+    function sortSpans(spans) {
+        function compare(a, b) {
+            return((a['span']['begin'] - b['span']['begin']) || (b['span']['end'] - a['span']['end']));
+        }
+        spans.sort(compare);
     }
 
 
@@ -1083,9 +570,6 @@ $(document).ready(function() {
      * 現状の保存
      */
     function saveCurrent(name) {
-
-        //console.log('saveCurrent:', name);
-
         saveUndoNameStorage(name);
 
         var names = name.split('_');
@@ -1097,7 +581,7 @@ $(document).ready(function() {
             if(names[i] == "catanns") {
                 redoCatannsArray.splice(0, redoCatannsArray.length);
 
-                if(annotationJson != undefined) {
+                if(spans != undefined) {
                     //前の状態を取り出して、それをundoStorageに保存する
                     if(sessionStorage.getItem('currentCatanns') != null && sessionStorage.getItem('currentCatanns') != "undefined") {
                         //console.log('以前のcatannsを取り出します');
@@ -1105,7 +589,7 @@ $(document).ready(function() {
                         saveUndoStorage(prev, names[i]);
                     }
 
-                    sessionStorage.setItem('currentCatanns', JSON.stringify(annotationJson));
+                    sessionStorage.setItem('currentCatanns', JSON.stringify(spans));
                 }
             } else if(names[i] == "insanns") {
                 redoInsannsArray.splice(0, redoInsannsArray.length);
@@ -1123,14 +607,14 @@ $(document).ready(function() {
             } else if(names[i] == "relanns") {
                 redoRelannsArray.splice(0, redoCatannsArray.length);
 
-                if(connArray != undefined) {
+                if(relations != undefined) {
                     //前の状態を取り出して、それをundoStorageに保存する
                     if(sessionStorage.getItem('currentRelanns') != null && sessionStorage.getItem('currentRelanns') != "undefined") {
                         //console.log('以前のrelannsを取り出します');
                         var prev = loadCurrent(names[i]);
                         saveUndoStorage(prev, names[i]);
                     }
-                    sessionStorage.setItem('currentRelanns', JSON.stringify(connArray));
+                    sessionStorage.setItem('currentRelanns', JSON.stringify(relations));
                 }
 
             } else if(names[i] == "modanns") {
@@ -1219,9 +703,6 @@ $(document).ready(function() {
 
         }
 
-        //undoArray.push(ary);
-        //sessionStorage.setItem('undo',  JSON.stringify(undoArray));
-
         changeButtonState($('#undo_btn'), undoNameArray);
         changeButtonState($('#redo_btn'), redoNameArray);
     }
@@ -1238,10 +719,6 @@ $(document).ready(function() {
      * データのredo storageへの保存
      */
     function saveRedoStorage(ary, name) {
-
-
-        //redoNameArray.push(ary, name);
-        //sessionStorage.setItem('redoName', JSON.stringify(redoNameArray));
 
         // -でばらす
         var names = name.split('_');
@@ -1310,7 +787,6 @@ $(document).ready(function() {
 
         //console.log('以前の操作列：', undoNameArray);
 
-
         var undoName = undoNameArray.pop();
 
         // popしたものを戻す
@@ -1329,32 +805,30 @@ $(document).ready(function() {
             if(name == "catanns") {
                 //console.log(name,'を操作しました');
 
-
-                saveRedoStorage(annotationJson, name);
+                saveRedoStorage(spans, name);
 
                 undoCatannsArray = JSON.parse(sessionStorage.getItem('undoCatanns'));
 
                 //console.log('以前のcatanns列：', undoCatannsArray);
 
-                annotationJson  = undoCatannsArray.pop();
+                spans  = undoCatannsArray.pop();
 
-                //console.log('取り出したcatanns:', annotationJson);
+                //console.log('取り出したcatanns:', spans);
 
 
-                sessionStorage.setItem('currentCatanns', JSON.stringify(annotationJson));
+                sessionStorage.setItem('currentCatanns', JSON.stringify(spans));
                 // popしたものを戻す
                 sessionStorage.setItem('undoCatanns', JSON.stringify(undoCatannsArray));
 
             } else if(name == "relanns") {
                 //console.log(name,'を操作しました');
 
-                saveRedoStorage(connArray, name);
-
+                saveRedoStorage(relations, name);
 
                 undoRelannsArray = JSON.parse(sessionStorage.getItem('undoRelanns'));
-                connArray = undoRelannsArray.pop();
+                relations = undoRelannsArray.pop();
 
-                sessionStorage.setItem('currentRelanns', JSON.stringify(connArray));
+                sessionStorage.setItem('currentRelanns', JSON.stringify(relations));
                 // popしたものを戻す
                 sessionStorage.setItem('undoRelanns', JSON.stringify(undoRelannsArray));
 
@@ -1389,55 +863,33 @@ $(document).ready(function() {
             }
         }
 
-
-
         if(undoNameArray.length == 0) {
             $('#undo_btn').prop("disabled", true);
             $('#undo_btn').css('opacity', 0.3);
         }
 
-        sortNumJson(annotationJson);
-        markAnnotation(annotationJson);
-        makeAnnoTable(annotationJson);
-        addCategoryColor(categories);
+        renderSpans(spans);
+        addCategoryColor(spanTypes);
 
-        makeInstance(insanns);
-        makeInstanceTable();
-        addInstypeColor(instypes);
+        renderInstances(insanns);
+        addInstypeColor(instanceTypes);
 
         jsPlumb.reset();
-        for(var j in connArray) {
-            var conn = connArray[j];
-            var sId = conn['subject'];
-            var tId = conn['object'];
 
-            var color;
-            for(var k in relations) {
-                if(relations[k].split('|')[0] == conn['type']) {
-                    color = relations[k].split('|')[2];
-                }
-            }
-
+        for(var j in relations) {
+            var rel = relations[j];
+            var color = relationTypes[rel['type']]["color"];
             var rgba = colorTrans(color);
-            var connId = conn['id'];
-            var type = conn['type'];
-
             // modificationなしのrelation
-            makeConnection(sId, tId, type, rgba, connId, "unselected");
+            makeConnection(rel['subject'], rel['object'], rel['type'], rgba, rel['id'], "unselected");
         }
 
-
-        makeRelationTable();
-        addRelationColor(relations);
-
-        makeModification(modanns);
-        makeModificationTable();
-        addModtypeColor(modtypes);
+        renderModifications(modanns);
+        addModtypeColor(modTypes);
 
         //console.log('undo操作後');
         //console.log('undoNameArray:', undoNameArray);
         //console.log('redoNameArray:', redoNameArray);
-
     }
 
     /*
@@ -1460,94 +912,84 @@ $(document).ready(function() {
 
         for(var i in names) {
 
-        var name = names[i];
+            var name = names[i];
 
-        if(name == "catanns") {
-            //console.log(name,'を戻します------');
+            if(name == "catanns") {
+                //console.log(name,'を戻します------');
 
-            redoCatannsArray = JSON.parse(sessionStorage.getItem('redoCatanns'));
-            annotationJson  = redoCatannsArray.pop();
+                redoCatannsArray = JSON.parse(sessionStorage.getItem('redoCatanns'));
+                spans  = redoCatannsArray.pop();
 
-            //console.log('--もどしたannotationJson:', annotationJson);
+                //console.log('--もどしたspans:', spans);
 
-            if(annotationJson != undefined) {
-                //前の状態を取り出して、それをundoStorageに保存する
-                if(sessionStorage.getItem('currentCatanns') != null && sessionStorage.getItem('currentCatanns') != "undefined") {
-                    //console.log('以前のcatannsを取り出します');
-                    var prev = loadCurrent("catanns");
-                    saveUndoStorage(prev, name);
+                if(spans != undefined) {
+                    //前の状態を取り出して、それをundoStorageに保存する
+                    if(sessionStorage.getItem('currentCatanns') != null && sessionStorage.getItem('currentCatanns') != "undefined") {
+                        //console.log('以前のcatannsを取り出します');
+                        var prev = loadCurrent("catanns");
+                        saveUndoStorage(prev, name);
+                    }
+
+                    sessionStorage.setItem('currentCatanns', JSON.stringify(spans));
+
+                    // popしたものを戻す
+                    sessionStorage.setItem('redoCatanns', JSON.stringify(redoCatannsArray));
                 }
 
-                sessionStorage.setItem('currentCatanns', JSON.stringify(annotationJson));
+            } else if(name == "relanns") {
+                //console.log(name,'を操作しました');
+                redoRelannsArray = JSON.parse(sessionStorage.getItem('redoRelanns'));
+                relations = redoRelannsArray.pop();
 
-                // popしたものを戻す
-                sessionStorage.setItem('redoCatanns', JSON.stringify(redoCatannsArray));
-            }
+                if(relations != undefined) {
+                    //前の状態を取り出して、それをundoStorageに保存する
+                    if(sessionStorage.getItem('currentRelanns') != null && sessionStorage.getItem('currentRelanns') != "undefined") {
+                        //console.log('以前のrelannsを取り出します');
+                        var prev = loadCurrent("relanns");
+                        saveUndoStorage(prev, name);
+                    }
+                    sessionStorage.setItem('currentRelanns', JSON.stringify(relations));
 
-            //saveCurrentCatanns();
-
-
-        } else if(name == "relanns") {
-            //console.log(name,'を操作しました');
-            redoRelannsArray = JSON.parse(sessionStorage.getItem('redoRelanns'));
-            connArray = redoRelannsArray.pop();
-
-            if(connArray != undefined) {
-                //前の状態を取り出して、それをundoStorageに保存する
-                if(sessionStorage.getItem('currentRelanns') != null && sessionStorage.getItem('currentRelanns') != "undefined") {
-                    //console.log('以前のrelannsを取り出します');
-                    var prev = loadCurrent("relanns");
-                    saveUndoStorage(prev, name);
+                    // popしたものを戻す
+                    sessionStorage.setItem('redoRelanns', JSON.stringify(redoRelannsArray));
                 }
-                sessionStorage.setItem('currentRelanns', JSON.stringify(connArray));
 
-                // popしたものを戻す
-                sessionStorage.setItem('redoRelanns', JSON.stringify(redoRelannsArray));
-            }
+            } else if(name == "insanns") {
+                //console.log(name,'を操作しました');
+                redoInsannsArray = JSON.parse(sessionStorage.getItem('redoInsanns'));
+                insanns = redoInsannsArray.pop();
 
-            //saveCurrentRelanns();
+                if(insanns != undefined) {
+                    //前の状態を取り出して、それをundoStorageに保存する
+                    if(sessionStorage.getItem('currentInsanns') != null && sessionStorage.getItem('currentInsanns') != "undefined") {
+                        //console.log('以前のinsannsを取り出します');
+                        var prev = loadCurrent("insanns");
+                        saveUndoStorage(prev, name);
+                    }
+                    sessionStorage.setItem('currentInsanns', JSON.stringify(insanns));
 
-
-        } else if(name == "insanns") {
-            //console.log(name,'を操作しました');
-            redoInsannsArray = JSON.parse(sessionStorage.getItem('redoInsanns'));
-            insanns = redoInsannsArray.pop();
-
-            if(insanns != undefined) {
-                //前の状態を取り出して、それをundoStorageに保存する
-                if(sessionStorage.getItem('currentInsanns') != null && sessionStorage.getItem('currentInsanns') != "undefined") {
-                    //console.log('以前のinsannsを取り出します');
-                    var prev = loadCurrent("insanns");
-                    saveUndoStorage(prev, name);
+                    // popしたものを戻す
+                    sessionStorage.setItem('redoInsanns', JSON.stringify(redoInsannsArray));
                 }
-                sessionStorage.setItem('currentInsanns', JSON.stringify(insanns));
 
-                // popしたものを戻す
-                sessionStorage.setItem('redoInsanns', JSON.stringify(redoInsannsArray));
-            }
-            //saveCurrentInsanns();
+            } else if(name == "modanns") {
+                //console.log(redoName,'を操作しました');
+                redoModannsArray = JSON.parse(sessionStorage.getItem('redoModanns'));
+                modanns = redoModannsArray.pop();
 
+                if(modanns != undefined) {
+                    //前の状態を取り出して、それをundoStorageに保存する
+                    if(sessionStorage.getItem('currentModanns') != null && sessionStorage.getItem('currentModanns') != "undefined") {
+                        //console.log('以前のmodannsを取り出します');
+                        var prev = loadCurrent("modanns");
+                        saveUndoStorage(prev, name);
+                    }
+                    sessionStorage.setItem('currentModanns', JSON.stringify(modanns));
 
-
-        } else if(name == "modanns") {
-            //console.log(redoName,'を操作しました');
-            redoModannsArray = JSON.parse(sessionStorage.getItem('redoModanns'));
-            modanns = redoModannsArray.pop();
-
-            if(modanns != undefined) {
-                //前の状態を取り出して、それをundoStorageに保存する
-                if(sessionStorage.getItem('currentModanns') != null && sessionStorage.getItem('currentModanns') != "undefined") {
-                    //console.log('以前のmodannsを取り出します');
-                    var prev = loadCurrent("modanns");
-                    saveUndoStorage(prev, name);
+                    // popしたものを戻す
+                    sessionStorage.setItem('redoModanns', JSON.stringify(redoModannsArray));
                 }
-                sessionStorage.setItem('currentModanns', JSON.stringify(modanns));
-
-                // popしたものを戻す
-                sessionStorage.setItem('redoModanns', JSON.stringify(redoModannsArray));
             }
-            //saveCurrentModanns();
-        }
         }
 
 
@@ -1558,54 +1000,24 @@ $(document).ready(function() {
             $('#redo_btn').css('opacity', 0.3);
         }
 
-        sortNumJson(annotationJson);
-        markAnnotation(annotationJson);
-        makeAnnoTable(annotationJson);
-        addCategoryColor(categories);
+        renderSpans(spans);
+        addCategoryColor(spanTypes);
 
-
-
-        makeInstance(insanns);
-        makeInstanceTable();
-        addInstypeColor(instypes);
-
+        renderInstances(insanns);
+        addInstypeColor(instanceTypes);
 
         jsPlumb.reset();
-        for(var j in connArray) {
-            var conn = connArray[j];
-            var sId = conn['subject'];
-            var tId = conn['object'];
 
-            var color;
-            for(var k in relations) {
-                if(relations[k].split('|')[0] == conn['type']) {
-                    color = relations[k].split('|')[2];
-                }
-            }
-
+        for(var j in relations) {
+            var rel = relations[j];
+            var color = relationTypes[rel['type']]["color"];
             var rgba = colorTrans(color);
-            var connId = conn['id'];
-            var type = conn['type'];
-
             // modificationなしのrelation
-            makeConnection(sId, tId, type, rgba, connId, "unselected");
+            makeConnection(rel['subject'], rel['object'], rel['type'], rgba, rel['id'], "unselected");
         }
 
-        //console.log('------------here-----');
-
-        makeRelationTable();
-        addRelationColor(relations);
-
-        makeModification(modanns);
-        makeModificationTable();
-        addModtypeColor(modtypes);
-
-        //console.log('redo操作後');
-        //console.log('redoNameArray:', redoNameArray);
-        //console.log('undoNameArray:', undoNameArray);
-
-
-
+        renderModifications(modanns);
+        addModtypeColor(modTypes);
     }
 
 
@@ -1613,10 +1025,6 @@ $(document).ready(function() {
      * undo, redoのボタン状態を変更
      */
     function changeButtonState(elem, array) {
-
-        //console.log('elem:', elem);
-        //console.log('array.length:', array.length);
-
         if(array.length == 0) {
             elem.prop("disabled", true);
             elem.css('opacity', 0.3);
@@ -1626,451 +1034,155 @@ $(document).ready(function() {
         }
     }
 
-    /*
-     * アノテーション新規作成ボタンをクリック
-     */
-    $('#new_btn').click(function() {
-        // annoJsonに追加
-
-        var maxId = getCateMaxId();
-        maxId = maxId + 1;
-
-        var obj = new Object();
-        obj['begin'] = 0;
-        obj['end'] = 0;
-        obj['category'] = defaultCategory;
-        obj['id'] = "T" + maxId;
-        annotationJson.push(obj);
-
-        sortNumJson(annotationJson);
-
-        selectedIds.push(maxId);
-
-        $("#annojson").text(JSON.stringify(annotationJson));
-
-        markAnnotation(annotationJson);
-        makeAnnoTable(annotationJson);
-
-        addCategoryColor(categories);
-    });
 
     /*
      * Category リストの作成
      */
-    function makeCategory(categories) {
+    function tableSpanTypes(spanTypes) {
         var html = '<form><table>';
+        html += '<tr><th colspan="2">Span Types</th>';
 
-        for(var i = 0; i <categories.length; i++) {
+        for(var s in spanTypes) {
+            var uri = spanTypes[s]["uri"];
 
-            if(categories[i].split("|")[3] == "default") {
-                defaultCategory = categories[i].split("|")[0];
+            html += '<tr style="background-color:' + spanTypes[s]["color"]  + '">';
 
-                html += '<tr style="background-color:' + categories[i].split("|")[2]  + '">'
-                    + '<td><input type="radio" name="category" checked class="category_radio"></td>'
-                    + '<td title="' + categories[i].split("|")[1] + '" class="category_apply_btn">' + categories[i].split("|")[0]  + '</td>'
-                    + '<td><a href="' + categories[i].split("|")[1] + '" target="_blank"><img src="images/link.png"></a></td></tr>';
+            if (s == spanTypeDefault) {
+                html += '<td><input type="radio" name="category" class="category_radio" checked title="default type"></td>';
             } else {
-                html += '<tr style="background-color:' + categories[i].split("|")[2]  + '">'
-                    + '<td><input type="radio" name="category" class="category_radio"></td>'
-                    + '<td title="' + categories[i].split("|")[1] + '" class="category_apply_btn">' + categories[i].split("|")[0]  + '</td>'
-                    + '<td><a href="' + categories[i].split("|")[1] + '" target="_blank"><img src="images/link.png"></a></td></tr>';
+                html += '<td><input type="radio" name="category" class="category_radio"></td>';
             }
+
+            html += '<td class="category_apply_btn">' + s  + '</td>';
+
+            if (uri) {
+                html += '<td title="' + uri + '">' + '<a href="' + uri + '" target="_blank"><img src="images/link.png"></a></td>';
+            }
+
+            html += '</tr>';
         }
 
         html += '</table></form>';
-        $('#category_list').html(html);
-
+        $('#span_types').html(html);
     }
+
 
     /*
      * Relation Categoryリストの作成
      */
-    function makeRelation(relations) {
-        // connection type
-        var connTypeObj = new Object();
-
-        var html = '<form><table><tr class="hide_all_checkbox">' +
-            '<td></td>' +
-            '<td>all</td>' +
+    function tableRelationTypes (relationTypes) {
+        var html = '<form><table>';
+        html += '<tr class="hide_all_checkbox">' +
+            '<th colspan="2">Relation Types</th>' +
             '<td><input type="checkbox" name="rel_hide" class="rel_hide" title="all" checked></td>' +
-            '<td></td>' +
             '</tr>';
 
-        for(var i = 0; i < relations.length; i++) {
-            //console.log('relation:', relations[i].split("|")[3]);
+        for (var r in relationTypes) {
+            var uri = relationTypes[r]["uri"];
+            var color = relationTypes[r]["color"];
 
-            var relation_name = relations[i].split("|")[0];
-            var url = relations[i].split("|")[1];
-            var color = relations[i].split("|")[2];
-            //var defaultRelation = relations[i].split("|")[3];
+            html += '<tr style="background-color:' + color  + '">';
 
-            if(relations[i].split("|")[3] == "default") {
-                defaultRelation = relations[i].split("|")[0];
-
-                html += '<tr style="background-color:' + color  + '">'
-                    + '<td><input type="radio" name="relation" checked class="relation_radio"></td>'
-                    + '<td title="' + relations[i].split("|")[1] + '" class="relation_apply_btn">' + relation_name  + '</td>'
-                    + '<td><input type="checkbox" name="rel_hide" class="rel_hide" title="' + relation_name  + '" checked></td>'
-                    + '<td><a href="' + relations[i].split("|")[1] + '" target="_blank"><img src="images/link.png"></a></td></tr>';
+            if(r == relationTypeDefault) {
+                html += '<td><input type="radio" name="relation" class="relation_radio" checked title="default type"></td>';
             } else {
-                html += '<tr style="background-color:' + relations[i].split("|")[2]  + '">'
-                    + '<td><input type="radio" name="relation" class="relation_radio"></td>'
-                    + '<td title="' + url + '" class="relation_apply_btn">' + relation_name  + '</td>'
-                    + '<td><input type="checkbox" name="rel_hide" class="rel_hide" title="' + relation_name +  '" checked></td>'
-                    + '<td><a href="' + url + '" target="_blank"><img src="images/link.png"></a></td></tr>';
+                html += '<td><input type="radio" name="relation" class="relation_radio"></td>';
             }
 
-            var objStr = '{"' + relation_name + '":{paintStyle:{strokeStyle:"' + color + '", lineWidth:2 }}}';
+            html += '<td class="relation_apply_btn">' + r  + '</td>';
+            html += '<td><input type="checkbox" name="rel_hide" class="rel_hide" title="show/hide" checked></td>';
+
+            if (uri) {
+                html += '<td title="' + uri + '">' + '<a href="' + uri + '" target="_blank"><img src="images/link.png"></a></td>';
+            }
+
+            html += '</tr>';
 
             var obj = new Object();
-            obj[relation_name] = {paintStyle:{strokeStyle:color, lineWidth:2}};
-
+            obj[r] = {paintStyle:{strokeStyle:color, lineWidth:2}};
             jsPlumb.registerConnectionTypes(obj);
-
         }
 
         html += '</table></form>';
 
         $('#relation_list').html(html);
-
     }
 
 
     /*
      * Instance Typeリストの作成
      */
-    function makeInstype(instypes) {
-
-        //console.log('------ make instance types--');
-
+    function tableInstanceTypes(instanceTypes) {
         var html = '<form><table><tr class="hide_all_checkbox">' +
-            '<td></td>' +
-            '<td>all</td>' +
+            '<th colspan="2">Instance Types</th>' +
             '<td><input type="checkbox" name="instype_hide" class="instype_hide" title="all" checked></td>' +
             '<td></td>' +
             '</tr>';
 
-        for(var i = 0; i < instypes.length; i++) {
-            //console.log('relation:', relations[i].split("|")[3]);
+        for(var i in instanceTypes) {
+            var uri = instanceTypes[i]["uri"];
 
-            var instype = instypes[i].split("|")[0];
-            var url = instypes[i].split("|")[1];
-            var color = instypes[i].split("|")[2];
-            //var defaultRelation = relations[i].split("|")[3];
+            html += '<tr style="background-color:' + instanceTypes[i]["color"]  + '">';
 
-            if(instypes[i].split("|")[3] == "default") {
-                defaultInstype = instype[i].split("|")[0];
-
-                html += '<tr style="background-color:' + color  + '">'
-                    + '<td><input type="radio" name="instype" checked class="instype_radio"></td>'
-                    + '<td title="' + instype + '" class="instype_apply_btn">' + instype  + '</td>'
-                    + '<td><input type="checkbox" name="instype_hide" class="instype_hide" title="' + instype + '" checked></td>'
-                    + '<td><a href="' + url + '" target="_blank"><img src="images/link.png"></a></td></tr>';
+            if (i == instanceTypeDefault) {
+                html += '<td><input type="radio" name="instype" class="instype_radio" checked title="default type"></td>';
             } else {
-                html += '<tr style="background-color:' + color  + '">'
-                    + '<td><input type="radio" name="instype" class="instype_radio"></td>'
-                    + '<td title="' + url + '" class="instype_apply_btn">' + instype  + '</td>'
-                    + '<td><input type="checkbox" name="instype_hide" class="instype_hide" title="' + instype + '" checked></td>'
-                    + '<td><a href="' + url + '" target="_blank"><img src="images/link.png"></a></td></tr>';
+                html += '<td><input type="radio" name="instype" class="instype_radio"></td>';
             }
 
+            html += '<td class="instype_apply_btn">' + i  + '</td>';
+            html += '<td><input type="checkbox" name="instype_hide" class="instype_hide" title="show/hide" checked></td>';
+
+            if (uri) {
+                html += '<td title="' + uri + '">' + '<a href="' + uri + '" target="_blank"><img src="images/link.png"></a></td>';
+            }
+
+            html += '</tr>';
         }
 
         html += '</table></form>';
 
         $('#instype_list').html(html);
-
     }
 
 
     /*
      * Modification Typeリストの作成
      */
-    function makeModtype(modtypes) {
-
-        //console.log('------ make modification types--');
-
+    function tableModTypes(modTypes) {
         var html = '<form><table><tr class="hide_all_checkbox">' +
-            '<td></td>' +
-            '<td>all</td>' +
+            '<th colspan="2">Modification Types</th>' +
             '<td><input type="checkbox" name="modtype_hide" class="modtype_hide" title="all" checked></td>' +
             '<td></td>' +
             '</tr>';
 
-        for(var i = 0; i < modtypes.length; i++) {
-            //console.log('relation:', relations[i].split("|")[3]);
+        for(var m in modTypes) {
+            var uri = modTypes[m]["uri"];
 
-            var modtype = modtypes[i].split("|")[0];
-            var url = modtypes[i].split("|")[1];
-            var color = modtypes[i].split("|")[2];
-            //var defaultRelation = relations[i].split("|")[3];
+            html += '<tr style="background-color:' + modTypes[m]["color"] + '">'
 
-            if(modtypes[i].split("|")[3] == "default") {
-                defaultModtype = modtype[i].split("|")[0];
-
-                html += '<tr style="background-color:' + color  + '">'
-                    + '<td><input type="radio" name="modtype" checked class="modtype_radio"></td>'
-                    + '<td title="' + modtype + '" class="modtype_apply_btn">' + modtype  + '</td>'
-                    + '<td><input type="checkbox" name="modtype_hide" class="modtype_hide" title="' + modtype + '" checked></td>'
-                    + '<td><a href="' + url + '" target="_blank"><img src="images/link.png"></a></td></tr>';
+            if (m == modTypeDefault) {
+                html += '<td><input type="radio" name="modtype" class="modtype_radio" checked title="default type"></td>';
             } else {
-                html += '<tr style="background-color:' + color  + '">'
-                    + '<td><input type="radio" name="modtype" class="modtype_radio"></td>'
-                    + '<td title="' + url + '" class="modtype_apply_btn">' + modtype  + '</td>'
-                    + '<td><input type="checkbox" name="modtype_hide" class="modtype_hide" title="' + modtype + '" checked></td>'
-                    + '<td><a href="' + url + '" target="_blank"><img src="images/link.png"></a></td></tr>';
+                html += '<td><input type="radio" name="modtype" class="modtype_radio"></td>';
+
             }
 
+            html += '<td class="modtype_apply_btn">' + m  + '</td>';
+            html += '<td><input type="checkbox" name="modtype_hide" class="modtype_hide" title="show/hide" checked></td>';
+
+            if (uri) {
+                html += '<td title="' + uri + '">' + '<a href="' + uri + '" target="_blank"><img src="images/link.png"></a></td>';
+            }
+
+            html += '</tr>';
         }
 
         html += '</table></form>';
 
         $('#modtype_list').html(html);
-
     }
 
-
-    /*
-     * annotation listの作成
-     */
-    function makeAnnoTable(annoJson) {
-
-
-        if(sortStatus == 'new') {
-            sortNewJson(annoJson);
-        } else if(sortStatus == 'num') {
-            sortNumJson(annoJson);
-        } else if(sortStatus == 'cate') {
-            sortCateJson(annoJson);
-        }
-
-        // 新規追加された部分
-        var newHtml = '';
-        // 従来の部分
-        //var annoHtml = '';
-
-        var htmlStr = '';
-
-        //引数はannotation jsonとクラス名のレベル
-        function makeTable(annoJson){
-
-            $.each(annoJson, function(i, anno) {
-                htmlStr += '<tr><td>'
-                        + '<table class="annotation t_' + anno.category + '" id="t_' + anno.id + '"><tr>'
-                        + '<td><div>' + anno.id + '</div></td>'
-                        + '<td><div class="edit_able" id="startPos_' + anno.id + '">' + anno['span']['begin']  + '</div></td>'
-                        + '<td><div class="edit_able" id="endPos_' + anno.id + '">' + anno['span']['end'] + '</div></td>'
-                        + '<td><div class="category" id="annotation_' + anno.id + '">' + anno.category + '</div></td>'
-                        + '<td><img src="images/remove_btn.png" class="removeBtn"/></td>'
-                        + '</tr></table>'
-                        + '</td></tr>';
-
-            });
-
-            return htmlStr;
-        }
-
-        $('#anno_list_area').html('<table id="annotable">' + makeTable(annoJson) + '</table>');
-        //$('#anno_new_area').html('<table id="newtable">' + newHtml + '</table>');
-
-
-
-
-        for(var i = 0; i < annoJson.length; i++) {
-            if(selectedIds != null) {
-                for(var j = 0; j < selectedIds.length; j++) {
-                    if(annoJson[i]['id'] == selectedIds[j]) {
-                        $('#t_' + annoJson[i]['id']).addClass('t_selected');
-                    }
-                }
-            }
-        }
-
-        for(i in partialIds) {
-            $('#t_' + partialIds[i]).addClass('t_partial').addClass('t_selected').addClass('t_partialSelected');
-        }
-
-        $('.t_selected .removeBtn').show();
-
-    }
-
-    /*
-     * アノテーションテーブルをeditableにする
-     */
-    function addEditableToTable() {
-        //console.log('addEditableToTable');
-        var divs = $('table.annotation tr td div.edit_able');
-        divs.addClass('editable');
-
-        $('.editable').editable(function(value, settings) {
-            // 要素と値を渡して、jsonを編集
-            return editAnnotation($(this), value);
-        });
-
-    }
-
-    /*
-     * アノテーションテーブルを非editableにする
-     */
-    function removeEditableFromTable() {
-        var divs = $('table.annotation tr td div.edit_able');
-
-        $('div.editable').addClass('non_edit').removeClass('editable').unbind('click.editable');
-
-    }
-
-
-    /*
-     * relation listの作成
-     */
-    function makeRelationTable() {
-        //console.log('--make relation table---', selectedConns);
-
-        if(sortConnStatus == 'new') {
-            sortNewConn(connArray);
-        } else if(sortConnStatus == 'rel') {
-            sortRelConn(connArray);
-        }
-
-        var htmlStr = '';
-
-        function makeTable(){
-
-            $.each(connArray, function(i, conn) {
-
-                var subject = conn['subject'];
-                var object = conn['object'];
-                // var paintStyle = conn.paintStyleInUse;
-                var type = conn['type'];
-                var id = conn['id'];
-
-                htmlStr += '<tr><td>'
-                        + '<table class="relation t_' + type + '" id="relation_t_' + id + '"><tr>'
-                        + '<td><div>' + conn.id + '</div></td>'
-                        + '<td><div id="source_id_' + conn.source_id + '">' + subject + '</div></td>'
-                        + '<td><div id="target_id_' + conn.target_id + '">' + object + '</div></td>'
-                        + '<td><div class="relation" id="relation_' + i + '">' + type + '</div></td>'
-                        + '<td><img src="images/remove_btn.png" class="removeBtn"/></td>'
-                        + '</tr></table>'
-                        + '</td></tr>';
-
-            });
-            return htmlStr;
-        }
-
-        $('#rel_list_area').html('<table id="relationtable">' + makeTable() + '</table>');
-
-        if(selectedConns != undefined) {
-            for(var i in selectedConns) {
-                $('#relation_t_' + selectedConns[i].getParameter('connId')).addClass('t_selected');
-                $('.relation.t_selected .removeBtn').show();
-            }
-
-        }
-
-        // distanceでのソートに戻す
-        sortConnByDistance(connArray);
-    }
-
-
-    /*
-     * instance listの作成
-     */
-    function makeInstanceTable() {
-
-        //console.log('sortInsannsStatus:', sortInsannsStatus);
-
-        if(sortInsannsStatus == 'new') {
-            sortNewInsanns(insanns);
-        } else if(sortInsannsStatus == 'type') {
-            sortTypeInsanns(insanns);
-        }
-
-        var htmlStr = '';
-
-        function makeTable() {
-
-            $.each(insanns, function(i, ins) {
-
-                var object = ins['object'];
-                var type = ins['type'];
-                var id = ins['id'];
-
-                htmlStr += '<tr><td>'
-                    + '<table class="instance t_' + type + '" id="instance_t_' + id + '"><tr>'
-                    + '<td><div>' + id + '</div></td>'
-                    + '<td><div id="object_id_' + object + '">' + object + '</div></td>'
-                    + '<td><div class="instype" id="instype_' + i + '">' + type + '</div></td>'
-                    + '<td><img src="images/remove_btn.png" class="removeBtn"/></td>'
-                    + '</tr></table>'
-                    + '</td></tr>';
-
-            });
-            return htmlStr;
-        }
-
-        $('#insanns_list_area').html('<table id="insannstable">' + makeTable() + '</table>');
-
-
-        for(var i in selectedInstanceIds) {
-            $('#instance_t_' + selectedInstanceIds[i]).addClass('t_selected');
-            $('.instance.t_selected .removeBtn').show();
-        }
-
-    }
-
-    /*
-     * modification listの作成
-     */
-    function makeModificationTable() {
-
-        //console.log('sortModannsStatus:', sortModannsStatus);
-
-        if(sortModannsStatus == 'new') {
-            sortNewModanns(modanns);
-        } else if(sortModannsStatus == 'type') {
-            sortTypeModanns(modanns);
-        }
-
-        var htmlStr = '';
-
-        function makeTable(){
-
-            $.each(modanns, function(i, mod) {
-
-                var object = mod['object'];
-                var type = mod['type'];
-                var id = mod['id'];
-
-                htmlStr += '<tr><td>'
-                    + '<table class="modification t_' + type + '" id="modification_t_' + id + '"><tr>'
-                    + '<td><div>' + id + '</div></td>'
-                    + '<td><div id="mod_object_id_' + object + '">' + object + '</div></td>'
-                    + '<td><div class="modype" id="modype_' + i + '">' + type + '</div></td>'
-                    + '<td><img src="images/remove_btn.png" class="removeBtn"/></td>'
-                    + '</tr></table>'
-                    + '</td></tr>';
-
-            });
-            return htmlStr;
-        }
-
-        $('#modanns_list_area').html('<table id="modannstable">' + makeTable() + '</table>');
-
-        for(var k in selectedModificationIds) {
-            var selectedMod = selectedModificationIds[k];
-
-            $('span#' + selectedMod).addClass('mod_selected');
-
-            $(this).addClass('mod_selected');
-
-            // 該当するテーブルを選択状態にする
-            $('#modification_t_' + selectedMod).addClass('t_selected');
-            $('.modification.t_selected .removeBtn').show();
-
-        }
-
-    }
 
     /*
      * 現在表示されているコネクションデータを取得
@@ -2119,9 +1231,9 @@ $(document).ready(function() {
      * doc_area部分の描画
      * textにアノテーションマークをつける
      */
-    function markAnnotation(annoJson) {
+    function renderSpans(spans) {
         // かならず数字順
-        sortNumJson(annoJson);
+        sortSpans(spans);
 
         $("#doc_area").html($("#src_area").html());
 
@@ -2134,15 +1246,11 @@ $(document).ready(function() {
         // annJson: アノテーションJson
         // beforeNode: spanタグで分割するノード
         // splitPos: ノードの中で文字列を分割する位置
-        function makeSpan(annoJson, beforeNode, maxEndPos) {
-            var range = new Array();
-            var label = new Array();
-            var ids = new Array();
-
+        function makeSpan(spans, beforeNode, maxEndPos) {
             var lastStartPos = 0;
             var lastEndPos = 0;
 
-            $.each(annoJson, function(i, ann) {
+            $.each(spans, function(i, ann) {
 
                 // ここがプラスの場合
                 // 一番上の親の連続したマークになる
@@ -2156,23 +1264,25 @@ $(document).ready(function() {
                     var len = ann['span']['end'] - ann['span']['begin'];
                     // console.log('len:', ann['end'], '-', ann['begin'], '=',len)
 
-                    range[i] = document.createRange();
-                    range[i].setStart (afterNode, 0);
-                    range[i].setEnd (afterNode, len);
-                    label[i] = ann['category'];
+                    var range = document.createRange();
+                    range.setStart(afterNode, 0);
+                    range.setEnd(afterNode, len);
 
-                    ids[i] = ann['id'];
+                    var label = ann['category'];
+                    var id = ann['id'];
 
                     // spanタグで囲んだ部分を分割
                     var newNode = afterNode.splitText(len);
-                    //console.log('newNode:', newNode);
-                    //console.log('afterNode:', afterNode);
 
                     var span = document.createElement("span");
-                    span.setAttribute('class', label[i]);
-                    span.setAttribute('id', ids[i]);
-                    span.setAttribute('title', '[' + ids[i] + '] ' + label[i]);
-                    range[i].surroundContents(span);
+                    span.setAttribute('class', label);
+                    span.setAttribute('id', id);
+                    span.setAttribute('title', '[' + id + '] ' + label);
+                    if (spanTypes[label]["region"] != true) {
+                        span.setAttribute('style', 'white-space:pre');
+                    }
+
+                    range.surroundContents(span);
 
                     // 切り取った長さ
                     maxEndPos = ann['span']['end'];
@@ -2187,11 +1297,7 @@ $(document).ready(function() {
                     //console.log("****************直前のjsonノードの中に子供spanとして存在する*********");
                     // マイナスの場合は
                     // 直前のjsonノードの中に子供spanとして存在する
-                    //console.log('**lastEndPos:', lastEndPos);
-                    //console.log("**ann[0]:", ann[0]);
                     var baseNode = document.getElementById("doc_area");
-
-                    // console.log('node:', baseNode);
 
                     // nodeを分解して、足して得た文字列の長さ
                     var textLength = 0;
@@ -2219,6 +1325,7 @@ $(document).ready(function() {
                                     var range = document.createRange();
                                     range.setStart (childs[i], ann['span']['begin'] - textLength);
                                     range.setEnd (childs[i], ann['span']['end'] - textLength);
+
                                     var label = ann['category'];
                                     var id = ann['id'];
 
@@ -2243,7 +1350,7 @@ $(document).ready(function() {
             });
         }
 
-        makeSpan(annoJson, origNode, 0);
+        makeSpan(spans, origNode, 0);
 
 
         for(i in selectedIds) {
@@ -2260,7 +1367,7 @@ $(document).ready(function() {
         // 不完全要素があることを警告する
         if(partialIds.length > 0) {
             var notice = partialIds.length + ' incomplete annotation element! <img src="images/notice_ok_btn.png " alt="notice_ok" id="notice_ok_btn" >';
-            $('#notice_area').html(notice);
+            $('#notice').html(notice);
         }
 
         // 不完全要素を空にする
@@ -2269,64 +1376,30 @@ $(document).ready(function() {
 
 
     /*
-     * textとannotation listにcategoryに対応する色をつけます
+     * textにcategoryに対応する色をつけます
      */
-    function addCategoryColor(categories) {
-        for(var i = 0; i < categories.length; i++) {
-            // docの中のspanに対して
-            var spans = $('span.' + categories[i].split('|')[0]);
-            spans.css('background-color', categories[i].split('|')[2]);
-
-            // editable tableに対して
-            var tables = $('.t_' + categories[i].split('|')[0]);
-
-            tables.css('background-color', categories[i].split('|')[2]);
+    function addCategoryColor(spanTypes) {
+        for(var s in spanTypes) {
+            $('span.' + s).css('background-color', spanTypes[s]["color"]);
         }
     }
-
-    /*
-     * relation listにrelationに対応する色をつけます
-     */
-    function addRelationColor(relations) {
-        for(var i = 0; i < relations.length; i++) {
-
-
-            // tableに対して
-            var tables = $('.t_' + relations[i].split('|')[0]);
-
-            tables.css('background-color', relations[i].split('|')[2]);
-        }
-    }
-
 
     /*
      * instance listにinstypeに対応する色をつけます
      */
-    function addInstypeColor(instypes) {
-
-        for(var i = 0; i < instypes.length; i++) {
-
-            // ins_areaに対して
-            var divs = $('.' + instypes[i].split('|')[0]);
-            divs.css('background-color', instypes[i].split('|')[2]);
-
-            // tableに対して
-            var tables = $('.t_' + instypes[i].split('|')[0]);
-
-            tables.css('background-color', instypes[i].split('|')[2]);
+    function addInstypeColor(instanceTypes) {
+        for (var i in instanceTypes) {
+            $('.' + i).css('background-color', instanceTypes[i]["color"]);
         }
-
     }
 
     /*
      * instanceの枠にcategoryに対応する色をつけます
      */
-    function addInstanceBorderColor(elem, categories) {
-
-        for(var i = 0; i < categories.length; i++) {
-            if(elem.hasClass(categories[i].split('|')[0])){
-
-                elem.css('border-color', categories[i].split('|')[2]);
+    function addInstanceBorderColor(elem, spanTypes) {
+        for (var s in spanTypes) {
+            if (elem.hasClass(s)) {
+                elem.css('border-color', spanTypes[s]["color"]);
                 break;
             }
         }
@@ -2336,148 +1409,25 @@ $(document).ready(function() {
     /*
      * modification listにmodtypeに対応する色をつけます
      */
-    function addModtypeColor(modtypes) {
-
-        for(var i = 0; i < modtypes.length; i++) {
-
-
-            // modificationの対象がspanの場合、spanの中のテキストに対して
-            var spans = $('.mod_' + modtypes[i].split('|')[0]);
-            spans.css('color', modtypes[i].split('|')[2]);
-
-            // tableに対して
-            var tables = $('.t_' + modtypes[i].split('|')[0]);
-
-            tables.css('background-color', modtypes[i].split('|')[2]);
-        }
-
-    }
-
-    /*
-     * annotation listの値の編集
-     */
-    function editAnnotation(elem, value) {
-
-        //console.log('before edit selectedIds.length:', selectedIds.length);
-
-        $('#notice_area').empty();
-        elem.removeClass('error');
-
-        // spanの順番を取得
-        // id="startPos_2"などとなっている
-        var id = elem.attr('id').split('_')[1];
-
-        // 該当するjsonを求める
-        var editJson;
-        for(i in annotationJson) {
-            if(annotationJson[i]['id'] == id) {
-                editJson = annotationJson[i];
-                // 選択要素のIDを代入
-                selectedIds.push(id);
-            }
-        }
-
-        if(elem.attr('id').match(/startPos/)) {
-            // value は開始の値
-            if(validateRange(annotationJson, id, value, editJson['end'])) {
-                var startPosition = validateStartDelimiter(value);
-
-                editJson['begin'] = startPosition;
-
-                sortNumJson(annotationJson);
-                $("#annojson").text(JSON.stringify(annotationJson));
-
-                markAnnotation(annotationJson);
-                makeAnnoTable(annotationJson);
-
-                addCategoryColor(categories);
-                //setCurrentStorage(annotationJson);
-                //saveCurrentCatanns();
-                saveCurrent("catanns");
-
-                return startPosition;
-
-            } else {
-                //console.log('エラー');
-                $('#notice_area').text('range error!');
-
-                // 元の値へ戻す
-                value = editJson['begin'];
-                //elem.addClass('error');
-                //makeAnnoTable(annoJson);
-                return value;
-            }
-
-        } else if(elem.attr('id').match(/endPos/)) {
-            // value は終了の値
-            if(validateRange(annotationJson, id, editJson['begin'], value)) {
-                var endPosition = validateEndDelimiter(value);
-
-                editJson['end'] = endPosition;
-
-                sortNumJson(annotationJson);
-                $("#annojson").text(JSON.stringify(annotationJson));
-
-                markAnnotation(annotationJson);
-                makeAnnoTable(annotationJson);
-
-                addCategoryColor(categories);
-
-                //setCurrentStorage(annotationJson);
-                //saveCurrentCatanns();
-                saveCurrent("catanns");
-
-                return endPosition;
-
-            } else {
-                //console.log('エラー');
-                $('#notice_area').text('range error!');
-                // 元の値へ戻す
-                value = editJson['end'];
-
-                return value;
-            }
+    function addModtypeColor(modTypes) {
+        for(var m in modTypes) {
+            $('.mod_' + m).css('color', modTypes[m]['color']);
         }
     }
 
-
-    /*
-     * annotation listのedit時の値の検証
-     */
-    function validateRange(annoJson, id, s, e) {
-        if(s >= e) {
-            //console.log('開始位置が終了位置より大きい')
-            return false;
-        } else {
-            // その他のjsonについて調べる
-            for(var i = 0; i < annoJson.length; i++) {
-                if(annoJson[i]['id'] != id) {
-                    // 自分以外
-                    if(s < annoJson[i]['begin'] && ( annoJson[i]['begin'] < e && e < annoJson[i]['end'])) {
-                        //console.log('前がでています');
-                        return false;
-                    } else if((annoJson[i]['begin'] < s && s < annoJson[i]['end']) && annoJson[i]['end'] < e) {
-                        //console.log('後ろがでています');
-                        return false;
-                    }
-                }
-            }
-            return true;
-        }
-    }
 
     /*
      * Categoryのデフォルト値の変更
      */
     $('.category_radio').live('change', function() {
-        defaultCategory = $(this).parent().next().text();
+        spanTypeDefault = $(this).parent().next().text();
     });
 
     /*
      * Relation Categoryのデフォルト値の変更
      */
     $('.relation_radio').live('change', function() {
-        defaultRelation = $(this).parent().next().text();
+        relationTypeDefault = $(this).parent().next().text();
     });
 
 
@@ -2500,11 +1450,9 @@ $(document).ready(function() {
 
             var conns = getConnectionData();
 
-
             if(relType != "all") {
 
-
-                // tmpHideConnArrayに移動
+                // tmpHidedrelationsに移動
                 for(var i in conns) {
 
                     //console.log('rel_type:', conns[i].type);
@@ -2513,7 +1461,7 @@ $(document).ready(function() {
                         var connId = conns[i]["id"];
                         var endpoints = conns[i]["endpoints"];
 
-                        tmpHidedConnArray.push(conns[i]);
+                        tmpHidedRelations.push(conns[i]);
 
                         // テーブルの背景を薄くする
                         $('#relation_t_' + connId).addClass('tmp_hide');
@@ -2535,7 +1483,7 @@ $(document).ready(function() {
                     var connId = conns[i]["id"];
                     var endpoints = conns[i]["endpoints"];
 
-                    tmpHidedConnArray.push(conns[i]);
+                    tmpHidedRelations.push(conns[i]);
 
                     // テーブルの背景を薄くする
                     $('#relation_t_' + connId).addClass('tmp_hide');
@@ -2557,7 +1505,7 @@ $(document).ready(function() {
             showHideAllConnections('show', relType);
 
             // modificationも再描画
-            makeModification(modanns);
+            renderModifications(modanns);
 
         }
     });
@@ -2711,13 +1659,7 @@ $(document).ready(function() {
                 targetElem = $('#' + id);
 
                 // 色の指定
-                var color;
-
-                for(i in relations) {
-                    if(relations[i].split('|')[0] == defaultRelation) {
-                        color = relations[i].split('|')[2];
-                    }
-                }
+                var color = relationTypes[relationTypeDefault]["color"];
 
                 // rgbaに変換
                 var rgba = colorTrans(color);
@@ -2731,12 +1673,12 @@ $(document).ready(function() {
                 newconn.id = "R" + (getMaxConnId() + 1);
                 newconn.subject = sourceElem.attr('id');
                 newconn.object = targetElem.attr('id');
-                newconn.type = defaultRelation;
+                newconn.type = relationTypeDefault;
                 newconn.created_at = (new Date()).getTime();
                 addDistanceToRelation(newconn);
 
-                connArray.push(newconn);
-                sortConnByDistance(connArray);
+                relations.push(newconn);
+                sortConnByDistance(relations);
 
                 // focus control
                 if(e.shiftKey) {
@@ -2752,7 +1694,7 @@ $(document).ready(function() {
                     } else if(sourceElem.hasClass('ins_selected')) {
                         $('#id').removeClass('ins_selected');
 
-                        addInstanceBorderColor($('#id'),categories);
+                        addInstanceBorderColor($('#id'), spanTypes);
                         sourceElem = null;
                         sourceElem = targetElem;
                         sourceElem.css('border-color', '#000000').addClass('ins_selected').attr('id');
@@ -2768,7 +1710,7 @@ $(document).ready(function() {
                     $('div.instance').map(function() {
                         if($(this).hasClass('ins_selected')){
                             $(this).removeClass('ins_selected');
-                            addInstanceBorderColor($(this),categories);
+                            addInstanceBorderColor($(this), spanTypes);
                         }
                     });
 
@@ -2779,37 +1721,23 @@ $(document).ready(function() {
 
                 // 書きなおし
                 jsPlumb.reset();
-                for(var j in connArray) {
-                    var conn = connArray[j];
-                    var sId = conn['subject'];
-                    var tId = conn['object'];
 
-                    var color;
-                    for(var k in relations) {
-                        if(relations[k].split('|')[0] == conn['type']) {
-                            color = relations[k].split('|')[2];
-                        }
-                    }
-
+                for (var j in relations) {
+                    var rel = relations[j];
+                    var id = rel['id'];
+                    var color = relationTypes[rel['type']]["color"];
                     var rgba = colorTrans(color);
-                    var id = conn['id'];
-                    var type = conn['type'];
 
-                    if(id == newconn.id) {
+                    if (id == newconn.id) {
                         var rgbas = rgba.split(',');
                         rgba = rgbas[0] + ',' + rgbas[1] + ',' + rgbas[2] + ',1)';
-
-                        var c = makeConnection(sId, tId, type, rgba, id, "selected", modanns);
+                        var c = makeConnection(rel['subject'], rel['object'], rel['type'], rgba, id, "selected", modanns);
                         selectedConns.push(c);
                     } else {
-                        makeConnection(sId, tId, type, rgba, id, "unselected", modanns);
+                        makeConnection(rel['subject'], rel['object'], rel['type'], rgba, id, "unselected", modanns);
                     }
                 }
 
-                // テーブル書き換え
-                makeRelationTable();
-
-                addRelationColor(relations);
                 saveCurrent("relanns");
             }
 
@@ -2869,7 +1797,7 @@ $(document).ready(function() {
                 // 一旦空にする
                 selectedIds.splice(0, selectedIds.length);
 
-                sortNumJson(annotationJson);
+                sortSpans(spans);
 
                 // firtsIdとsecondIdのdoc_area内での順番をもとめる
                 var firstIndex;
@@ -2940,14 +1868,14 @@ $(document).ready(function() {
                 $('.t_partialSelected .removeBtn').show();
 
                 // 選択された用素のdoc_area内での順番
-                sortNumJson(annotationJson);
-                for(var i = 0; i <annotationJson.length; i++) {
-                    if(annotationJson[i]['id'] == selectedId) {
+                sortSpans(spans);
+                for(var i = 0; i <spans.length; i++) {
+                    if(spans[i]['id'] == selectedId) {
                         selectedIdOrder = i;
                     }
                 }
             }
-            //setCurrentStorage(annotationJson);
+            //setCurrentStorage(spans);
         }
         return false;
     }
@@ -2969,7 +1897,7 @@ $(document).ready(function() {
             jsPlumb.deleteEndpoint(endpoints[0]);
             jsPlumb.deleteEndpoint(endpoints[1]);
 
-            makeConnection(subject, object, defaultRelation, rgba, connId, "unselected", modanns);
+            makeConnection(subject, object, relationTypeDefault, rgba, connId, "unselected", modanns);
 
         }
 
@@ -3007,7 +1935,7 @@ $(document).ready(function() {
                     var secondJson = findJson(secondSelected.attr('id'));   // 右クリックで選択された要素
 
                     var i;
-                    var len = annotationJson.length - 1 ;
+                    var len = spans.length - 1 ;
 
                     if(firstJson['span']['end'] < secondJson['span']['end']) {
                         //console.log('最初の要素が前にある場合');
@@ -3017,29 +1945,29 @@ $(document).ready(function() {
 
                         for(i = len; i >= 0 ;i--){
                             // 2番目に選択された要素を削除
-                            if(annotationJson[i]['id'] == secondSelected.attr('id')) {
+                            if(spans[i]['id'] == secondSelected.attr('id')) {
 
                                 // このspan要素に関するinsatnceのobjectを1番目の要素に変更する
                                 for(var j in insanns) {
                                     var ins = insanns[j];
-                                    if(ins["object"] == annotationJson[i]['id']) {
+                                    if(ins["object"] == spans[i]['id']) {
                                         ins["object"] = firstJson["id"];
                                     }
                                 }
 
                                 // このspan要素に関するrelationのobjectまたはsubjectを1番目の要素に変更する
-                                for(var j in connArray) {
-                                    var conn = connArray[j];
-                                    if(conn["subject"] == annotationJson[i]['id']) {
+                                for(var j in relations) {
+                                    var conn = relations[j];
+                                    if(conn["subject"] == spans[i]['id']) {
                                         conn["subject"] = firstJson["id"];
                                     }
-                                    if(conn["object"] == annotationJson[i]['id']) {
+                                    if(conn["object"] == spans[i]['id']) {
                                         conn["object"] = firstJson["id"];
                                     }
                                 }
 
 
-                                annotationJson.splice(i, 1);
+                                spans.splice(i, 1);
                                 break;
                             }
                         }
@@ -3053,45 +1981,37 @@ $(document).ready(function() {
 
                         for(i = len; i >= 0 ;i--){
                             // 2番目の要素を削除
-                            if(annotationJson[i]['id'] == secondSelected.attr('id')) {
+                            if(spans[i]['id'] == secondSelected.attr('id')) {
 
 
                                 // このspan要素に関するinsatnceのobjectを1番目の要素に変更する
                                 for(var j in insanns) {
                                     var ins = insanns[j];
-                                    if(ins["object"] == annotationJson[i]['id']) {
+                                    if(ins["object"] == spans[i]['id']) {
                                         ins["object"] = firstJson["id"];
                                     }
                                 }
 
                                 // このspan要素に関するrelationのobjectまたはsubjectを1番目の要素に変更する
-                                for(var j in connArray) {
-                                    var conn = connArray[j];
-                                    if(conn["subject"] == annotationJson[i]['id']) {
+                                for(var j in relations) {
+                                    var conn = relations[j];
+                                    if(conn["subject"] == spans[i]['id']) {
                                         conn["subject"] = firstJson["id"];
                                     }
-                                    if(conn["object"] == annotationJson[i]['id']) {
+                                    if(conn["object"] == spans[i]['id']) {
                                         conn["object"] = firstJson["id"];
                                     }
                                 }
 
 
-                                annotationJson.splice(i, 1);
+                                spans.splice(i, 1);
                                 break;
                             }
                         }
                     }
 
-                    sortNumJson(annotationJson);
-                    $("#annojson").text(JSON.stringify(annotationJson));
-
-                    markAnnotation(annotationJson);
-                    makeAnnoTable(annotationJson);
-
-                    addCategoryColor(categories);
-
-                    //setCurrentStorage(annotationJson);
-                    //saveCurrentCatanns();
+                    renderSpans(spans);
+                    addCategoryColor(spanTypes);
 
                     selectedIds.push(selectedId);
 
@@ -3102,9 +2022,8 @@ $(document).ready(function() {
                     $('.annotation.t_selected .removeBtn').show();
 
 
-                    makeInstance(insanns);
-                    //makeInstanceTable();
-                    addInstypeColor(instypes);
+                    renderInstances(insanns);
+                    addInstypeColor(instanceTypes);
 
                     reMakeConnectionOnDelete();
 
@@ -3128,7 +2047,7 @@ $(document).ready(function() {
 
         var i;
         var k;
-        var len = connArray.length - 1;
+        var len = relations.length - 1;
 
         var selectedId;
 
@@ -3155,22 +2074,13 @@ $(document).ready(function() {
 
 
                 for(k =  len; k >= 0; k--) {
-                    if(connArray[k]["id"] == selectedId) {
+                    if(relations[k]["id"] == selectedId) {
                         //console.log('削除するconnection id:', id);
-                        connArray.splice(k, 1);
+                        relations.splice(k, 1);
                         //isDeleteMod = true;
                     }
                 }
             }
-
-            // table再描画
-            makeRelationTable();
-            addRelationColor(relations);
-            //setCurrentConnStorage(connArray);
-
-            //saveCurrentRelanns();
-
-
 
             // 選択されているmodificationは
             len = modanns.length - 1;
@@ -3224,11 +2134,8 @@ $(document).ready(function() {
                 }
             }
 
-            makeModification(modanns);
-            makeModificationTable();
-            addModtypeColor(modtypes);
-
-             //saveCurrentModanns();
+            renderModifications(modanns);
+            addModtypeColor(modTypes);
 
             saveCurrent("relanns_modanns");
 
@@ -3252,8 +2159,8 @@ $(document).ready(function() {
 
                 //console.log('削除されるspan:', selectedId);
 
-                for(var i in annotationJson) {
-                    if(annotationJson[i]['id'] == selectedId) {
+                for(var i in spans) {
+                    if(spans[i]['id'] == selectedId) {
                         // この場合、このインスタンスも削除される
 
                         for(var j in insanns) {
@@ -3264,25 +2171,17 @@ $(document).ready(function() {
                                 //isDeleteIns = true; // instanceも削除される
                             }
                         }
-                        annotationJson.splice(i, 1);
+                        spans.splice(i, 1);
                     }
 
-                    len = connArray.length - 1;
+                    len = relations.length - 1;
                     for(k = len; k >= 0; k--) {
-                        var conn = connArray[k];
+                        var conn = relations[k];
                         if(conn.subject == selectedId || conn.object == selectedId) {
                             //console.log('spanで削除するrelationがあります');
                             //isDeleteRel = true; // relationも削除される
                             deleteRelIds.push(conn["id"]);
-                            connArray.splice(k, 1);
-                        }
-                    }
-
-                    len = hideConnArray.length - 1;
-                    for(k = len; k >= 0; k--) {
-                        var conn = hideConnArray[m];
-                        if(conn.subject == selectedId || conn.object == selectedId) {
-                            hideConnArray.splice(m, 1);
+                            relations.splice(k, 1);
                         }
                     }
 
@@ -3300,22 +2199,14 @@ $(document).ready(function() {
                     }
 
 
-                    len = connArray.length - 1;
+                    len = relations.length - 1;
                     for(i = len;  i >= 0; i--) {
-                        var conn = connArray[i];
+                        var conn = relations[i];
                         if(conn.subject == insId || conn.object == insId) {
                             //console.log("instance id:", conn["id"]);
                             deleteRelIds.push(conn["id"]);
                             //isDeleteRel = true; // instanceに紐ずいたrelationも削除される
-                            connArray.splice(i, 1);
-                        }
-                    }
-
-                    len = hideConnArray.length - 1;
-                    for(i = len;  i >= 0; i--) {
-                        var conn = hideConnArray[i];
-                        if(conn.subject == insId || conn.object == insId) {
-                            hideConnArray.splice(i, 1);
+                            relations.splice(i, 1);
                         }
                     }
 
@@ -3348,31 +2239,20 @@ $(document).ready(function() {
                 // 空にする
                 selectedIds.splice(0, selectedIds.length);
 
-                sortNumJson(annotationJson);
-                $("#annojson").text(JSON.stringify(annotationJson));
+                renderSpans(spans);
+                addCategoryColor(spanTypes);
+                //setCurrentStorage(spans);
 
-                markAnnotation(annotationJson);
-                makeAnnoTable(annotationJson);
-                addCategoryColor(categories);
-                //setCurrentStorage(annotationJson);
-
-
-                makeInstance(insanns);
-                makeInstanceTable();
-                addInstypeColor(instypes);
+                renderInstances(insanns);
+                addInstypeColor(instanceTypes);
                 //setCurrentInsannsStorage(insanns);
-
-                // relation再描画
-                makeRelationTable();
-                addRelationColor(relations);
 
                 reMakeConnectionOnDelete();
 
-                //setCurrentConnStorage(connArray);
+                //setCurrentConnStorage(relations);
 
-                makeModification(modanns);
-                makeModificationTable();
-                addModtypeColor(modtypes);
+                renderModifications(modanns);
+                addModtypeColor(modTypes);
 
                 saveCurrent("catanns_insanns_relanns_modanns");
 
@@ -3389,13 +2269,13 @@ $(document).ready(function() {
                     if(ins['id'] == selectedId) {
 
                         var k;
-                        var len = connArray.length - 1;
+                        var len = relations.length - 1;
                         for(k = len; k >= 0; k--) {
-                            var conn = connArray[k];
+                            var conn = relations[k];
                             if(conn["subject"] == ins["id"] || conn["object"] == ins["id"] ) {
                                 //紐づいたrelationも削除される
                                 deleteRelIds.push(conn["id"]);
-                                connArray.splice(k, 1);
+                                relations.splice(k, 1);
                                 //isDeleteRel = true; // instanceも削除される
                             }
                         }
@@ -3430,30 +2310,20 @@ $(document).ready(function() {
                 // 空にする
                 selectedInstanceIds.splice(0, selectedInstanceIds.length);
 
-                sortNumJson(annotationJson);
-                $("#annojson").text(JSON.stringify(annotationJson));
+                renderSpans(spans);
+                addCategoryColor(spanTypes);
+                //setCurrentStorage(spans);
 
-                markAnnotation(annotationJson);
-                makeAnnoTable(annotationJson);
-                addCategoryColor(categories);
-                //setCurrentStorage(annotationJson);
-
-                makeInstance(insanns);
-                makeInstanceTable();
-                addInstypeColor(instypes);
+                renderInstances(insanns);
+                addInstypeColor(instanceTypes);
                 //setCurrentInsannsStorage(insanns);
-
-                // relation再描画
-                makeRelationTable();
-                addRelationColor(relations);
 
                 reMakeConnectionOnDelete();
 
-                //setCurrentConnStorage(connArray);
+                //setCurrentConnStorage(relations);
 
-                makeModification(modanns);
-                makeModificationTable();
-                addModtypeColor(modtypes);
+                renderModifications(modanns);
+                addModtypeColor(modTypes);
 
                 saveCurrent("insanns_relanns_modanns");
 
@@ -3472,7 +2342,7 @@ $(document).ready(function() {
         // ctrlまたはshiftが押されていないければ
         //console.log(event.target);
         //console.log('createCount:', createCount);
-        //console.log('cancel Select');
+        // console.log('cancel Select');
 
         if(!isCtrl || !isShift) {
 
@@ -3492,7 +2362,7 @@ $(document).ready(function() {
                     if($(this).hasClass('ins_selected')){
                         $(this).removeClass('ins_selected');
 
-                        addInstanceBorderColor($(this),categories);
+                        addInstanceBorderColor($(this), spanTypes);
 
                     }
                 });
@@ -3508,14 +2378,14 @@ $(document).ready(function() {
                 if(selectedModificationIds.length > 0) {
                     selectedModificationIds.splice(0, selectedModificationIds.length);
                     unselectModification();
-                    addModtypeColor(modtypes);
+                    addModtypeColor(modTypes);
                 }
 
                 // 空にする
                 selectedConns.splice(0, selectedConns.length);
                 reMakeConnection();
 
-                addModtypeColor(modtypes);
+                addModtypeColor(modTypes);
 
             } else if(mode == "edit") {
                 // span編集モード
@@ -3530,7 +2400,7 @@ $(document).ready(function() {
                 //selectedModificationIds.splice(0, selectedModificationIds.length);
                 if(selectedModificationIds.length > 0) {
                     unselectModification();
-                    addModtypeColor(modtypes);
+                    addModtypeColor(modTypes);
                 }
 
                 // 空にする
@@ -3546,7 +2416,7 @@ $(document).ready(function() {
                     if($(this).hasClass('ins_selected')){
                         $(this).removeClass('ins_selected');
 
-                        addInstanceBorderColor($(this),categories);
+                        addInstanceBorderColor($(this), spanTypes);
 
                     }
                 });
@@ -3580,9 +2450,7 @@ $(document).ready(function() {
             $('div.instance').map(function() {
                 if($(this).hasClass('ins_selected')){
                     $(this).removeClass('ins_selected');
-
-                    addInstanceBorderColor($(this),categories);
-
+                    addInstanceBorderColor($(this), spanTypes);
                 }
             });
 
@@ -3594,29 +2462,6 @@ $(document).ready(function() {
      * マウスドラッグ時の開始位置の調整
      */
     function validateStartDelimiter(startPosition) {
-
-        // boundaryであるかどうか
-        function searchBoundaryChar(char){
-            var re;
-            if($.inArray(char,  metaCharacters) > 0) {
-                re = new RegExp("\\" + char);
-            } else {
-                re = new RegExp(char);
-            }
-
-            return nonBoundaryCharacters.search(re);
-        }
-
-        // delimiterであるかどうか
-        function searchDelimitChar(char){
-            var re;
-            if($.inArray(char,  metaCharacters) > 0) {
-                re = new RegExp("\\" + char);
-            } else {
-                re = new RegExp(char);
-            }
-            return delimitCharacters.search(re);
-        }
         // original document
         var str = $('#src_area').text();
 
@@ -3658,29 +2503,6 @@ $(document).ready(function() {
      * ドラッグした位置以上に縮める
      */
     function validateStartDelimiter2(startPosition) {
-
-        // boundaryであるかどうか
-        function searchBoundaryChar(char){
-            var re;
-            if($.inArray(char,  metaCharacters) > 0) {
-                re = new RegExp("\\" + char);
-            } else {
-                re = new RegExp(char);
-            }
-
-            return nonBoundaryCharacters.search(re);
-        }
-
-        // delimiterであるかどうか
-        function searchDelimitChar(char){
-            var re;
-            if($.inArray(char,  metaCharacters) > 0) {
-                re = new RegExp("\\" + char);
-            } else {
-                re = new RegExp(char);
-            }
-            return delimitCharacters.search(re);
-        }
         // original document
         var str = $('#src_area').text();
 
@@ -3729,28 +2551,6 @@ $(document).ready(function() {
      * マウスドラッグ時の終了位置の調整
      */
     function validateEndDelimiter(endPosition) {
-
-        function searchBoundaryChar(char){
-            var re;
-            if($.inArray(char,  metaCharacters) > 0) {
-                re = new RegExp("\\" + char);
-            } else {
-                re = new RegExp(char);
-            }
-            return nonBoundaryCharacters.search(re);
-        }
-
-
-        function searchDelimitChar(char){
-            var re;
-            if($.inArray(char,  metaCharacters) > 0) {
-                re = new RegExp("\\" + char);
-            } else {
-                re = new RegExp(char);
-            }
-            return delimitCharacters.search(re);
-        }
-
         // original document
         var str = $('#src_area').text();
 
@@ -3791,28 +2591,6 @@ $(document).ready(function() {
      * ドラッグした位置以上に縮める
      */
     function validateEndDelimiter2(endPosition) {
-
-        function searchBoundaryChar(char){
-            var re;
-            if($.inArray(char,  metaCharacters) > 0) {
-                re = new RegExp("\\" + char);
-            } else {
-                re = new RegExp(char);
-            }
-            return nonBoundaryCharacters.search(re);
-        }
-
-
-        function searchDelimitChar(char){
-            var re;
-            if($.inArray(char,  metaCharacters) > 0) {
-                re = new RegExp("\\" + char);
-            } else {
-                re = new RegExp(char);
-            }
-            return delimitCharacters.search(re);
-        }
-
         // original document
         var str = $('#src_area').text();
 
@@ -4025,16 +2803,10 @@ $(document).ready(function() {
                 return false;
             }
 
-
-
-            if(annotationJson != undefined) {
+            if(spans != undefined) {
 
                 // 位置取得
                 var selection = window.getSelection();
-
-                //var doc = document.getElementById('doc_area');
-
-                //var annoJson = JSON.parse($("#annojson").text());
 
                 // 文字列が選択されていると、isCollapsed == false
                 if(!selection.isCollapsed) {
@@ -4047,7 +2819,6 @@ $(document).ready(function() {
                     //console.log('selection.compareBoundaryPoints', range.compareBoundaryPoints(Range.START_TO_END, anchorRange));//selectionRangeの始点と、rangeの終点を比較
                     //console.log('selection.compareBoundaryPoints', range.compareBoundaryPoints(Range.END_TO_START, anchorRange));//selectionRangeの終点と、rangeの始点を比較
                     // console.log('selection.compareBoundaryPoints', range.compareBoundaryPoints(Range.END_TO_END, anchorRange));//二つのRangeの終点同士の位置を比較
-
 
                     // 選択されたテキストが属するノード
                     // 選択されたテキストより前にHTMLタグがある場合は、それ以降になる。
@@ -4071,7 +2842,7 @@ $(document).ready(function() {
                         if(!isCtrlAlt) {
                             // 新規マーク作成
                             //console.log('新規マーク');
-                            createElement(annotationJson, selection);
+                            createElement(spans, selection);
                         } else {
 
                             //if(selected != null) {
@@ -4083,14 +2854,14 @@ $(document).ready(function() {
                                 if(selectedId == selection.anchorNode.parentElement.id || selectedId == selection.focusNode.parentElement.id) {
                                     // anchorNodeまたはfocusNodeが選択された要素上にあるので
                                     //console.log('切り離し');
-                                    separateElement(annotationJson, selection, selectedId);
+                                    separateElement(spans, selection, selectedId);
                                     //selected = null;
                                 } else {
                                     // selectionに選択要素のNodeが完全に入っているか
-                                    if(selection.containsNode($('span#' +selectedId).get(0).childNodes[0], true)) {
+                                    if(selection.containsNode($('span#' + selectedId).get(0).childNodes[0], true)) {
                                         // ドラッグした領域が選択された要素の範囲を越えているので削除
                                         //console.log('削除');
-                                        removeElement(annoJson, selection, selectedId);
+                                        removeElement(spans, selection, selectedId);
                                         //selected = null;
                                     }
                                 }
@@ -4174,7 +2945,7 @@ $(document).ready(function() {
                                 }
                                 //console.log('新規?:', IsNodeAcross(selection));
                                 if(IsNodeAcross(selection)) {
-                                    createElement(annotationJson,selection);
+                                    createElement(spans,selection);
                                 }
                             }
 
@@ -4216,7 +2987,7 @@ $(document).ready(function() {
                                 }
                                 //console.log('新規?:', IsNodeAcross(selection));
                                 if(IsNodeAcross(selection)) {
-                                    createElement(annotationJson, selection);
+                                    createElement(spans, selection);
                                 }
 
                             } else if(findJson(selection.anchorNode.parentNode.id) != undefined && findJson(selection.anchorNode.parentNode.id)['span']["begin"] == absoluteAnchorPosition) {
@@ -4254,7 +3025,7 @@ $(document).ready(function() {
                                 }
                                 //console.log('新規?:', IsNodeAcross(selection));
                                 if(IsNodeAcross(selection)) {
-                                    createElement(annotationJson,selection);
+                                    createElement(spans,selection);
                                 }
 
                             }
@@ -4266,11 +3037,11 @@ $(document).ready(function() {
 
                                     // 縮める、伸ばす
                                     //console.log('縮める');
-                                    shortenElement(annotationJson, selection, selectedId);
+                                    shortenElement(spans, selection, selectedId);
                                     //} else if(selected.attr('id') == selection.anchorNode.parentElement.id) {
                                 } else if(selectedId == getSelectedIdByAnchorNode($('span#' + selectedId), selection.anchorNode)) {
                                     //console.log('伸ばします');
-                                    extendElement(annotationJson, selection, selectedId);
+                                    extendElement(spans, selection, selectedId);
                                 }
                             }
 
@@ -4290,7 +3061,7 @@ $(document).ready(function() {
                             }
 
                             //console.log('分割');
-                            separateElement(annotationJson, selection, selectedId);
+                            separateElement(spans, selection, selectedId);
                         }
 
                     }
@@ -4361,7 +3132,7 @@ $(document).ready(function() {
 
             changeMode(mode);
             /*
-            if(annotationJson.length > 0) {
+            if(spans.length > 0) {
                 // 選択解除用にこれらの要素をクリックした時は、その親にイベントが伝搬しないようにする
 
                 $("#joint_area, #notice_ok_btn,  #doc_area span, table.annotation, table.annotation tr td, " +
@@ -4394,11 +3165,11 @@ $(document).ready(function() {
      * span idの最大値を求める
      * spn idの形は T+数字
      */
-    function getCateMaxId() {
+    function getSpanMaxId() {
         var numId = 0;
-        for(i in annotationJson){
-            if(parseInt(annotationJson[i]["id"].slice(1)) > numId){
-                numId = parseInt(annotationJson[i]["id"].slice(1));
+        for(i in spans){
+            if(parseInt(spans[i]["id"].slice(1)) > numId){
+                numId = parseInt(spans[i]["id"].slice(1));
             }
         }
         return numId;
@@ -4410,9 +3181,9 @@ $(document).ready(function() {
      */
     function getMaxConnId() {
         var numId = 0;
-        for(var i in connArray){
-            if(parseInt(connArray[i]["id"].slice(1)) > numId){
-                numId = parseInt(connArray[i]["id"].slice(1));
+        for(var i in relations){
+            if(parseInt(relations[i]["id"].slice(1)) > numId){
+                numId = parseInt(relations[i]["id"].slice(1));
             }
         }
         //console.log("max conn id:", numId);
@@ -4452,11 +3223,7 @@ $(document).ready(function() {
       * マーク新規作成
       */
     function createElement(annoJson, selection) {
-
-        // 最初にannotationJosnの長さを取得
-        createCount = annoJson.length;
-
-        sortNumJson(annoJson);
+        sortSpans(annoJson);
 
         var anchorRange = document.createRange();
         anchorRange.selectNode(selection.anchorNode);
@@ -4491,12 +3258,12 @@ $(document).ready(function() {
         var now = (new Date()).getTime();
 
         // idの最大値
-        var maxId = getCateMaxId();
+        var maxId = getSpanMaxId();
 
         // annoJsonに追加
         if(isMultiple) {
             // 選択された要素以外で、新たに作られた要素はaryになる
-            var ary = findSameString(startPosition, endPosition, defaultCategory, annoJson);
+            var ary = findSameString(startPosition, endPosition, spanTypeDefault, annoJson);
 
             for(var i = 0; i < ary.length; i++) {
 
@@ -4538,7 +3305,7 @@ $(document).ready(function() {
         obj['span'] = {"begin": startPosition, "end": endPosition};
         //obj['begin'] = startPosition;
         //obj['end'] = endPosition;
-        obj['category'] = defaultCategory;
+        obj['category'] = spanTypeDefault;
         obj['created_at'] = now;
         obj['new'] = true;
 
@@ -4551,7 +3318,7 @@ $(document).ready(function() {
         newElem.push(obj);
 
         // 一旦数字でソート
-        sortNumJson(annoJson);
+        sortSpans(annoJson);
 
         // 一旦空にする
         selectedIds.splice(0, selectedIds.length);
@@ -4577,32 +3344,10 @@ $(document).ready(function() {
             delete annoJson[i]['new']
         }
 
-        $("#annojson").text(JSON.stringify(annoJson));
+        renderSpans(annoJson);
+        addCategoryColor(spanTypes);
 
-
-
-        // 新しい順でテーブルをソート
-        //sortStatus = 'new';
-
-        markAnnotation(annoJson);
-        makeAnnoTable(annoJson);
-
-        addCategoryColor(categories);
-        //setCurrentStorage(annoJson);
-
-        //saveCurrentCatanns();
         saveCurrent("catanns");
-
-        //console.log('createCount:', createCount);
-
-        if(createCount == 0) {
-            // 一旦はずす
-            unsetCancelSelect();
-            setTimeout(setCancelSelect, 10);
-        }
-
-        createCount++;
-
     }
 
     function unsetCancelSelect() {
@@ -4675,7 +3420,7 @@ $(document).ready(function() {
      */
     function extendElement(annoJson, selection, selectedId) {
 
-        sortNumJson(annoJson);
+        sortSpans(annoJson);
         selectedIds.push(selectedId);
 
         var range = selection.getRangeAt(0);
@@ -4744,25 +3489,18 @@ $(document).ready(function() {
 
                 findJson(selectedId)['span']['begin'] = startPosition;
 
-                sortNumJson(annotationJson);
+                sortSpans(spans);
             }
         }
 
-        $("#annojson").text(JSON.stringify(annotationJson));
+        renderSpans(spans);
+        addCategoryColor(spanTypes);
 
-        markAnnotation(annotationJson);
-        makeAnnoTable(annotationJson);
-
-        addCategoryColor(categories);
-        //setCurrentStorage(annotationJson);
-
-        //saveCurrentCatanns();
         saveCurrent("catanns");
 
         // instancenの再描画
-        makeInstance(insanns);
-        makeInstanceTable();
-        addInstypeColor(instypes);
+        renderInstances(insanns);
+        addInstypeColor(instanceTypes);
 
         reMakeConnection();
     }
@@ -4772,7 +3510,7 @@ $(document).ready(function() {
      */
     function shortenElement(annoJson, selection, selectedId) {
 
-        sortNumJson(annoJson);
+        sortSpans(annoJson);
 
         selectedIds.push(selectedId);
 
@@ -4785,7 +3523,7 @@ $(document).ready(function() {
         // focusRange の開始点よりも、range の開始点が前なら -1、等しければ 0、後なら 1 を返します。
 
         var i;
-        var len = annotationJson.length - 1;
+        var len = spans.length - 1;
 
         if(range.compareBoundaryPoints(Range.START_TO_START, focusRange) > 0) {
             //console.log('後ろを縮める');
@@ -4807,45 +3545,29 @@ $(document).ready(function() {
 
                 findJson(selection.focusNode.parentNode.id)['span']['end'] = endPosition;
 
-                sortNumJson(annotationJson);
+                renderSpans(spans);
+                addCategoryColor(spanTypes);
 
-                $("#annojson").text(JSON.stringify(annotationJson));
-
-                markAnnotation(annotationJson);
-                makeAnnoTable(annotationJson);
-
-                addCategoryColor(categories);
-                //setCurrentStorage(annoJson);
-
-                //saveCurrentCatanns();
                 saveCurrent("catanns");
             } else {
                 // 結果的に削除
                 //console.log('結果的に削除');
 
                 for(i = len; i >= 0; i--) {
-                    if(annotationJson[i]['id'] == selectedId) {
+                    if(spans[i]['id'] == selectedId) {
 
                         // このspanに関連するinstance, relation, modificationを削除
-                        deleteInstanceAndRelationAndModificationFromSpan(annotationJson[i]['id']);
+                        deleteInstanceAndRelationAndModificationFromSpan(spans[i]['id']);
 
-                        annotationJson.splice(i, 1);
+                        spans.splice(i, 1);
                         selectedIds.pop();
                         break;
                     }
                 }
 
-                sortNumJson(annotationJson);
+                renderSpans(spans);
+                addCategoryColor(spanTypes);
 
-                $("#annojson").text(JSON.stringify(annotationJson));
-
-                markAnnotation(annotationJson);
-                makeAnnoTable(annotationJson);
-
-                addCategoryColor(categories);
-                //setCurrentStorage(annotationJson);
-
-                //saveCurrentCatanns();
                 saveCurrent("catanns_insanns_relanns_modanns");
             }
 
@@ -4870,15 +3592,9 @@ $(document).ready(function() {
 
                 findJson(selection.focusNode.parentNode.id)['span']['begin'] = startPosition;
 
-                sortNumJson(annotationJson);
-
-                $("#annojson").text(JSON.stringify(annotationJson));
-
-                markAnnotation(annotationJson);
-                makeAnnoTable(annotationJson);
-
-                addCategoryColor(categories);
-                //setCurrentStorage(annotationJson);
+                renderSpans(spans);
+                addCategoryColor(spanTypes);
+                //setCurrentStorage(spans);
 
                 //saveCurrentCatanns();
                 saveCurrent("catanns");
@@ -4888,41 +3604,33 @@ $(document).ready(function() {
                 //console.log('結果的に削除');
 
                 for(i = len; i >= 0; i--) {
-                    if(annotationJson[i]['id'] == selectedId) {
+                    if(spans[i]['id'] == selectedId) {
 
                         // このspanに関連するinstance, relation, modificationを削除
-                        deleteInstanceAndRelationAndModificationFromSpan(annotationJson[i]['id']);
+                        deleteInstanceAndRelationAndModificationFromSpan(spans[i]['id']);
 
-                        annotationJson.splice(i, 1);
+                        spans.splice(i, 1);
                         selectedIds.pop();
                         break;
                     }
                 }
 
-                sortNumJson(annotationJson);
-
-                $("#annojson").text(JSON.stringify(annotationJson));
-
-                markAnnotation(annotationJson);
-                makeAnnoTable(annotationJson);
-
-                addCategoryColor(categories);
-                //setCurrentStorage(annotationJson);
+                renderSpans(spans);
+                addCategoryColor(spanTypes);
+                //setCurrentStorage(spans);
 
                 saveCurrent("catanns_insanns_relanns_modanns");
             }
         }
 
         // instancenの再描画
-        makeInstance(insanns);
-        makeInstanceTable();
-        addInstypeColor(instypes);
+        renderInstances(insanns);
+        addInstypeColor(instanceTypes);
 
         reMakeConnectionOnDelete();
 
-        makeModification(modanns);
-        makeModificationTable();
-        addModtypeColor(modtypes);
+        renderModifications(modanns);
+        addModtypeColor(modTypes);
 
 
         reMakeConnection();
@@ -4932,9 +3640,7 @@ $(document).ready(function() {
      * マークを分割する
      */
     function separateElement(annoJson, selection, selectedId) {
-        //console.log('separateElement');
-
-        sortNumJson(annoJson);
+        sortSpans(annoJson);
 
         var anchorChilds = selection.anchorNode.parentNode.childNodes;
         // focusノードを起点にしたchild node
@@ -5004,7 +3710,7 @@ $(document).ready(function() {
                 //annoJson[selection.anchorNode.parentElement.id]['end'] = separatedEndPos;
                 selectedJson['span']['end'] = separatedEndPos;
 
-                var maxId = getCateMaxId();
+                var maxId = getSpanMaxId();
                 maxId = maxId + 1;
                 // 新しいjsonを追加
                 var obj = new Object();
@@ -5018,26 +3724,21 @@ $(document).ready(function() {
             }
         }
 
-        sortNumJson(annotationJson);
-
-        $("#annojson").text(JSON.stringify(annotationJson));
+        sortSpans(spans);
 
         selectedIds.splice(0, selectedIds.length);
         selectedIds.push(selectedId);
 
-        markAnnotation(annotationJson);
-        makeAnnoTable(annotationJson);
-
-        addCategoryColor(categories);
-        //setCurrentStorage(annotationJson);
+        renderSpans(spans);
+        addCategoryColor(spanTypes);
+        //setCurrentStorage(spans);
         //saveCurrentCatanns();
 
         saveCurrent("catanns");
 
         // instancenの再描画
-        makeInstance(insanns);
-        makeInstanceTable();
-        addInstypeColor(instypes);
+        renderInstances(insanns);
+        addInstypeColor(instanceTypes);
 
         reMakeConnection();
     }
@@ -5045,7 +3746,7 @@ $(document).ready(function() {
 
     // マークの削除
     function removeElement(annoJson, selection, selectedId) {
-        sortNumJson(annotationJson);
+        sortSpans(spans);
 
         var range = selection.getRangeAt(0);
 
@@ -5058,70 +3759,27 @@ $(document).ready(function() {
             //console.log('削除:', num);
 
             var i;
-            var len = annotationJson.length - 1;
+            var len = spans.length - 1;
             for(i = len; i >= 0; i--) {
-                if(annotationJson[i]['id'] == selectedId) {
+                if(spans[i]['id'] == selectedId) {
 
-                    deleteInstanceAndRelationAndModificationFromSpan(annotationJson[i]["id"]);
+                    deleteInstanceAndRelationAndModificationFromSpan(spans[i]["id"]);
 
-                    annotationJson.splice(i, 1);
+                    spans.splice(i, 1);
                     selectedIds.pop();
                     break;
                 }
             }
 
-            sortNumJson(annotationJson);
-
-            $("#annojson").text(JSON.stringify(annotationJson));
-
-            markAnnotation(annotationJson);
-            makeAnnoTable(annotationJson);
-
-            addCategoryColor(categories);
-            //setCurrentStorage(annotationJson);
-
-            /*
-
-            //createCount = annotationJson.length;
-
-            // 削除された場合は、それに接続するconnectionも削除
-            var isDeleteRealtion = false;
-            var len = connArray.length - 1;
-            for(i = len; i >= 0; i--) {
-                var conn = connArray[i];
-                if(conn.subject == selectedId || conn.object == selectedId) {
-                    console.log('接続を削除します source_id:', conn.source_id);
-                    isDeleteRealtion = true;
-                    connArray.splice(1, i);
-                }
-
-            }
-
-            for(var k in hideConnArray) {
-                var conn = hideConnArray[k];
-                if(conn.subject == selectedId || conn.object == selectedId) {
-                    hideConnArray.splice(k, 1);
-                }
-            }
-
-            //setCurrentConnStorage(connArray);
-            if(isDeleteRealtion) {
-                //saveCurrentRelanns();
-                saveCurrent("relanns");
-            }
-
-            */
-
-
+            renderSpans(spans);
+            addCategoryColor(spanTypes);
+            //setCurrentStorage(spans);
 
             // instancenの再描画
-            makeInstance(insanns);
-            makeInstanceTable();
-            addInstypeColor(instypes);
+            renderInstances(insanns);
+            addInstypeColor(instanceTypes);
 
             reMakeConnectionOnDelete();
-            makeRelationTable();
-            addRelationColor(relations);
 
             saveCurrent("catanns_insanns_relanns_modanns");
         }
@@ -5161,7 +3819,7 @@ $(document).ready(function() {
      * span idをもとに、それに関するinstance,relation,modificationを削除する
      */
     function deleteInstanceAndRelationAndModificationFromSpan(id) {
-        // idはannotationJsonのid
+        // idはspansのid
         //console.log('id:', id);
 
         var i;
@@ -5184,22 +3842,22 @@ $(document).ready(function() {
         }
 
         // このspan要素に関するrelationを削除する
-        var len = connArray.length - 1;
+        var len = relations.length - 1;
         for(i = len; i >= 0; i--) {
-            var conn = connArray[i];
+            var conn = relations[i];
             if(conn["subject"] == id || conn["object"] == id)  {
                 deleteRelIds.push(conn["id"]);
-                connArray.splice(i, 1);
+                relations.splice(i, 1);
             }
         }
 
         // 削除されるinstanceに関するrelationを削除する
-        var len = connArray.length - 1;
+        var len = relations.length - 1;
         for(i = len; i >= 0; i--) {
-            var conn = connArray[i];
+            var conn = relations[i];
             for(var j in deleteInsIds) {
                 if(conn["subject"] == deleteInsIds[j] || conn["object"] == deleteInsIds[j] ) {
-                    connArray.splice(i, 1);
+                    relations.splice(i, 1);
                 }
             }
         }
@@ -5231,184 +3889,12 @@ $(document).ready(function() {
         }
     }
 
-    /*
-     * spanの表示順番でjsonのソート
-     */
-    function sortNumJson(json) {
-        //console.log('sortNumJson');
-        function compare(a, b) {
-           // console.log((a['begin'] - b['begin']) || (b['end'] - a['end']));
-            return((a['span']['begin'] - b['span']['begin']) || (b['span']['end'] - a['span']['end']));
-        }
-        json.sort(compare);
-    }
-
-
-    /*
-     * 作成順でソート
-     */
-    function sortNewJson(json) {
-        function compare(a, b) {
-           // console.log(a['begin'],":", b['begin'], ":", (a['created_at'] - b['created_at']) );
-
-            return((b['created_at'] - a['created_at']) || (a['span']['begin'] - b['span']['begin']) || (b['span']['end'] - a['span']['end']));
-            /*
-            if( new Number(a['id'].substr(1)) < new Number(b['id'].substr(1)) ) return -1;
-            if( new Number(a['id'].substr(1)) > new Number(b['id'].substr(1)) ) return 1;
-            return 0;
-            */
-        }
-        json.sort(compare);
-    }
-
-    /*
-     * カテゴリ順でソート
-     */
-    function sortCateJson(json) {
-        /*
-        var ary = new Array();
-        for(var i in categories) {
-            ary.push(categories[i].split("|")[0]);
-        }
-        ary.sort();
-        */
-
-
-        function compare(a, b) {
-            //console.log('順番:', (a['category'] > b['category']) || (a['begin'] - b['begin']) || (b['end'] - a['end']));
-            // console.log('比較:', (a['category']-0), (b['category']-0));
-            if( a['category'] < b['category'] ) return -1;
-            if( a['category'] > b['category'] ) return 1;
-            return 0;
-
-        }
-        json.sort(compare);
-    }
-
-    /*
-     * 作成順でrelationソート
-     */
-    function sortNewConn(connArray) {
-        function compare(a, b) {
-            return(b['created_at'] - a['created_at']);
-        }
-        connArray.sort(compare);
-    }
-
-    /*
-     * Relation順でrelationソート
-     */
-    function sortRelConn(connArray) {
-        /*
-        var ary = new Array();
-        for(var i in relations) {
-            ary.push(relations[i].split("|")[0]);
-        }
-        ary.sort();
-        */
-        function compare(a, b) {
-            /*
-            for(var i in ary) {
-                if(ary[i] == a['relation']) {
-                    return -1;
-                } else {
-                    return 1;
-                }
-            }
-            */
-            if( a['type'] < b['type'] ) return -1;
-            if( a['type'] > b['type'] ) return 1;
-            return 0;
-        }
-
-
-        connArray.sort(compare);
-    }
-
-
-    /*
-     * 作成順でinsannsソート
-     */
-    function sortIdInsanns(insanns) {
-        function compare(a, b) {
-
-            return(new Number(a['id'].substr(1)) - new Number(b['id'].substr(1)));
-        }
-        insanns.sort(compare);
-    }
-
-    /*
-     * id順でinsannsソート
-     */
-    function sortNewInsanns(insanns) {
-        function compare(a, b) {
-            //console.log('created_at:', a["created_at"]);
-            return((b['created_at'] - a['created_at']) );
-        }
-        insanns.sort(compare);
-    }
-
-    /*
-     * type順でinsannsソート
-     */
-    function sortTypeInsanns(insanns) {
-        var ary = new Array();
-        for(var i in instypes) {
-            ary.push(instypes[i].split("|")[0]);
-        }
-        ary.sort();
-
-        function compare(a, b) {
-            for(var i in ary) {
-                if(ary[i] == a['type']) {
-                    return -1;
-                } else {
-                    return 1;
-                }
-            }
-        }
-        insanns.sort(compare);
-    }
-
-    /*
-     * 作成順でmodannsソート
-     */
-    function sortNewModanns(modanns) {
-        function compare(a, b) {
-            return(b['created_at'] - a['created_at']);
-        }
-        modanns.sort(compare);
-    }
-
-    /*
-     * type順でinsannsソート
-     */
-    function sortTypeModanns(modanns) {
-        var ary = new Array();
-        for(var i in modtypes) {
-            ary.push(modtypes[i].split("|")[0]);
-        }
-        ary.sort();
-
-        function compare(a, b) {
-            for(var i in ary) {
-                if(ary[i] == a['type']) {
-                    return -1;
-                } else {
-                    return 1;
-                }
-            }
-        }
-        modanns.sort(compare);
-    }
-
-
 
     /*
      * 同じ文字列を探す
      * ただし、両外側はdelimiterであること
      */
-    function findSameString(startPos, endPos, defaultCategory, annoJson) {
+    function findSameString(startPos, endPos, spanTypeDefault, annoJson) {
         var document = $('#src_area').text();
         var searchStr = document.substring(startPos, endPos);
         var strLen = endPos - startPos;
@@ -5429,7 +3915,7 @@ $(document).ready(function() {
                 obj['span'] = {"begin": sameStrPos, "end": sameStrPos + strLen};
                 //obj['begin'] = sameStrPos;
                 //obj['end'] = sameStrPos + strLen;
-                obj['category'] = defaultCategory;
+                obj['category'] = spanTypeDefault;
                 obj['new'] = true; // 新しくつくられた
 
                 var isExist = false;
@@ -5585,16 +4071,6 @@ $(document).ready(function() {
         //console.log('開始文字の外側:',outOfBeginChar );
         //console.log('終了文字の外側', outOfEndChar);
 
-        function searchDelimitChar(char){
-            var re;
-            if($.inArray(char,  metaCharacters) > 0) {
-                re = new RegExp("\\" + char);
-            } else {
-                re = new RegExp(char);
-            }
-            return delimitCharacters.search(re);
-        }
-
         var outOfBegin = searchDelimitChar(outOfBeginChar);
         var outOfEnd = searchDelimitChar(outOfEndChar);
 
@@ -5604,7 +4080,6 @@ $(document).ready(function() {
             return true;
         }
         return false;
-
     }
 
 
@@ -5612,9 +4087,9 @@ $(document).ready(function() {
      * idのjsonを求める
      */
     function findJson(id) {
-        for(i in annotationJson) {
-            if(annotationJson[i]['id'] == id) {
-                return annotationJson[i];
+        for(i in spans) {
+            if(spans[i]['id'] == id) {
+                return spans[i];
             }
         }
         return null;
@@ -5658,30 +4133,20 @@ $(document).ready(function() {
                     jsPlumb.deleteEndpoint(endpoints[0]);
                     jsPlumb.deleteEndpoint(endpoints[1]);
 
-                    var len = connArray.length - 1;
+                    var len = relations.length - 1;
                     for(k = len; k >= 0; k--) {
-                        if(connArray[k]["id"] == id) {
+                        if(relations[k]["id"] == id) {
                             //console.log('削除するconnection id:', id);
-                            connArray.splice(k, 1);
+                            relations.splice(k, 1);
                             //isDeleteRel = true;
                         }
                     }
 
                 }
 
-
-
                 // table再描画
-                makeRelationTable();
-                addRelationColor(relations);
                 selectedConns.splice(0, selectedConns.length);
-                //setCurrentConnStorage(connArray);
-
-                // 削除したrelationがあれば
-               // if(isDeleteRel) {
-               //     //saveCurrentRelanns();
-               //     saveCurrent("relanns_modanns");
-               // }
+                //setCurrentConnStorage(relations);
 
                 if(selectedModificationIds.length > 0) {
                     deleteModification();
@@ -5753,11 +4218,11 @@ $(document).ready(function() {
                     for(var i in selectedIds) {
                         var selectedId = selectedIds[i];
 
-                        var len = annotationJson.length - 1;
+                        var len = spans.length - 1;
                         var j;
 
                         for(j = len; j >= 0; j--){
-                            if(annotationJson[j]['id'] == selectedId) {
+                            if(spans[j]['id'] == selectedId) {
                                 // span要素が削除される場合、そのインスタンスも削除される
                                 for(var n in insanns) {
                                     if(insanns[n]["object"] == selectedId) {
@@ -5766,58 +4231,41 @@ $(document).ready(function() {
                                     }
 
                                 }
-                                annotationJson.splice(j, 1);
-
-
+                                spans.splice(j, 1);
                             }
                         }
 
-
-                        len = connArray.length - 1;
+                        len = relations.length - 1;
                         for(j = len; j >= 0; j--){
-                            var conn = connArray[j];
+                            var conn = relations[j];
                             if(conn.subject == selectedId || conn.object == selectedId) {
                                 deleteConns.push(conn);
-                                connArray.splice(j, 1);
+                                relations.splice(j, 1);
                                // isDeleteRel = true;
                             }
                         }
 
-                        len = tmpHidedConnArray.length - 1;
+                        len = tmpHidedRelations.length - 1;
                         for(j = len; j >= 0; j--){
-                            var conn = tmpHidedConnArray[j];
+                            var conn = tmpHidedRelations[j];
                             if(conn.subject == selectedId || conn.object == selectedId) {
                                 deleteConns.push(conn);
-                                tmpHidedConnArray.splice(j, 1);
+                                tmpHidedRelations.splice(j, 1);
                                 //isDeleteRel = true;
                             }
                         }
                     }
 
 
-
-
-
                     // 空にする
                     selectedIds.splice(0, selectedIds.length);
-                    sortNumJson(annotationJson);
 
-                    $("#annojson").text(JSON.stringify(annotationJson));
+                    renderSpans(spans);
+                    addCategoryColor(spanTypes);
+                    //setCurrentStorage(spans);
 
-                    //createCount = annotationJson.length;
-
-                    markAnnotation(annotationJson);
-                    makeAnnoTable(annotationJson);
-
-                    addCategoryColor(categories);
-                    //setCurrentStorage(annotationJson);
-
-
-                   // makeInstance(insanns);
-                   // makeInstanceTable();
-                   // addInstypeColor(instypes);
-
-
+                   // renderInstances(insanns);
+                   // addInstypeColor(instanceTypes);
                 }
 
                 //
@@ -5838,26 +4286,26 @@ $(document).ready(function() {
                             }
                         }
 
-                        len = connArray.length - 1;
+                        len = relations.length - 1;
                         for(k = len; k >= 0; k--){
-                            var conn = connArray[k];
+                            var conn = relations[k];
                             if(conn.subject == selectedId || conn.object == selectedId) {
                                 // 削除されるrelationのidを確保
                                 deleteConns.push(conn);
 
-                                connArray.splice(k, 1);
+                                relations.splice(k, 1);
                                 //isDeleteRel = true;
                             }
                         }
 
-                        len = tmpHidedConnArray.length - 1;
+                        len = tmpHidedRelations.length - 1;
                         for(k = len; k >= 0; k--){
-                            var conn = tmpHidedConnArray[k];
+                            var conn = tmpHidedRelations[k];
                             if(conn.subject == selectedId || conn.object == selectedId) {
                                 // 削除されるrelationのidを確保
                                 deleteConns.push(conn["id"]);
 
-                                tmpHidedConnArray.splice(k, 1);
+                                tmpHidedRelations.splice(k, 1);
                                 //isDeleteRel = true;
                             }
                         }
@@ -5891,56 +4339,28 @@ $(document).ready(function() {
 
 
                     selectedInstanceIds.splice(0, selectedInstanceIds.length);
-                    sortNewInsanns(insanns);
 
-                    makeInstance(insanns);
-                    makeInstanceTable();
-                    addInstypeColor(instypes);
-
-
+                    renderInstances(insanns);
+                    addInstypeColor(instanceTypes);
                 }
 
-                // さらに、connArrayからtmpHideConnArrayで削除されたconnを削除する
-                len = connArray.length - 1;
+                // さらに、relationsからtmpHiderelationsで削除されたconnを削除する
+                len = relations.length - 1;
                 for(i = len; i >= 0; i--){
-                    var conn = connArray[i];
+                    var conn = relations[i];
                     for(var j in deleteConns) {
                         if(conn == deleteConns[j]) {
-                            connArray.splice(i, 1);
+                            relations.splice(i, 1);
                         }
                     }
                 }
 
                 // relationを書き直し
                 reMakeConnectionOnDelete();
-                makeRelationTable();
-                addRelationColor(relations);
 
                 deleteModification();
 
-                /*
-                // saveする文字列
-
-                var saveStr = "";
-
-                if(isDeleteCat) {
-                    saveStr += "catanns";
-                }
-
-                if(isDeleteIns) {
-                    saveStr += "_insanns";
-                }
-                if(isDeleteRel) {
-                    saveStr += "_relanns";
-                }
-                if(isDeleteMod) {
-                    saveStr += "_modanns";
-                }
-                */
-
                 saveCurrent("catanns_insanns_relanns_modanns");
-
-
 
             } else if(e.keyCode == 73) {
                 // Iキー
@@ -5948,7 +4368,6 @@ $(document).ready(function() {
                 //console.log('Iキー');
                 createInstance();
                 reMakeConnection();
-
 
             } else if((!e.ctrlKey && e.keyCode == 191) || (!e.ctrlKey && e.keyCode == 83)) {
                 // ?キー
@@ -5969,42 +4388,37 @@ $(document).ready(function() {
             if(e.keyCode == 90 && !e.ctrlKey && selectedIds.length == 1) {
 
                 selectedIds.splice(0, selectedIds.length);
-                sortNumJson(annotationJson);
+                sortSpans(spans);
 
                 if(selectedIdOrder > 0) {
                     selectedIdOrder--;
                 } else {
-                    selectedIdOrder = annotationJson.length - 1;
+                    selectedIdOrder = spans.length - 1;
 
                 }
 
-                selectedId = annotationJson[selectedIdOrder]['id'];
+                selectedId = spans[selectedIdOrder]['id'];
                 selectedIds.push(selectedId);
 
-                markAnnotation(annotationJson);
-                makeAnnoTable(annotationJson);
-
-                addCategoryColor(categories);
+                renderSpans(spans);
+                addCategoryColor(spanTypes);
 
             } else if(e.keyCode == 88 && !e.ctrlKey && selectedIds.length == 1) {
 
                 selectedIds.splice(0, selectedIds.length);
-                sortNumJson(annotationJson);
+                sortSpans(spans);
 
-                if(selectedIdOrder < annotationJson.length -1) {
+                if(selectedIdOrder < spans.length -1) {
                     selectedIdOrder++;
                 } else {
                     selectedIdOrder = 0;
 
                 }
-                selectedId = annotationJson[selectedIdOrder]['id'];
-
+                selectedId = spans[selectedIdOrder]['id'];
                 selectedIds.push(selectedId);
 
-                markAnnotation(annotationJson);
-                makeAnnoTable(annotationJson);
-
-                addCategoryColor(categories);
+                renderSpans(spans);
+                addCategoryColor(spanTypes);
             }
 
             /*
@@ -6116,9 +4530,8 @@ $(document).ready(function() {
             }
 
         }
-        makeInstance(insanns);
-        makeInstanceTable();
-        addInstypeColor(instypes);
+        renderInstances(insanns);
+        addInstypeColor(instanceTypes);
         //setCurrentInsannsStorage(insanns);
 
         saveCurrent("insanns");
@@ -6135,209 +4548,174 @@ $(document).ready(function() {
     /*
      * instanceの選択
      */
-     function selectInstance(e) {
-         //console.log('selectInsatnce');
-         e.preventDefault();
-         //console.log('click span');
-         //console.log('shiftキーが押されている:', e.shiftKey);
+    function selectInstance(e) {
+        e.preventDefault();
+        //console.log('click span');
+        //console.log('shiftキーが押されている:', e.shiftKey);
 
-         // 下に重なってる要素のclickイベントを解除
-         $('#doc_area span').unbind('click',arguments.callee);
+        // 下に重なってる要素のclickイベントを解除
+        $('#doc_area span').unbind('click',arguments.callee);
 
-         if(mode == "relation") {
+        if(mode == "relation") {
+            var id = $(this).attr('id').split('_')[1];
 
-             var id = $(this).attr('id').split('_')[1];
+            if(sourceElem == null) {
+                //console.log('here');
+                sourceElem = $('#' + id);
+                sourceElem.css('border-color', '#000000').addClass('ins_selected').attr('id');
+            } else {
+                targetElem = $('#' + id);
 
-             if(sourceElem == null) {
-                 //console.log('here');
-                 sourceElem = $('#' + id);
-                 sourceElem.css('border-color', '#000000').addClass('ins_selected').attr('id');
-             } else {
-                 targetElem = $('#' + id);
+                //console.log('there');
 
-                 //console.log('there');
+                // 色の指定
+                var color = relationTypes[relationTypeDefault]["color"];
 
-                 // 色の指定
-                 var color;
+                // rgbaに変換
+                var rgba = colorTrans(color);
 
-                 for(var i in relations) {
-                     if(relations[i].split('|')[0] == defaultRelation) {
-                         color = relations[i].split('|')[2];
-                     }
-                 }
+                // connection作成
+                var connId = "R" + (getMaxConnId() + 1);
 
-                 // rgbaに変換
-                 var rgba = colorTrans(color);
+                var subject = sourceElem.attr('id');
+                var object = targetElem.attr('id');
 
-                 // connection作成
-                 var connId = "R" + (getMaxConnId() + 1);
+                // 選択されているものは選択をはずす
+                deselectConnection();
 
-                 var subject = sourceElem.attr('id');
-                 var object = targetElem.attr('id');
+                var obj = new Object();
+                obj.subject = subject;
+                obj.object = object;
+                obj.type = relationTypeDefault;
+                obj.id = connId;
+                obj.created_at = (new Date()).getTime();
 
-                 // 選択されているものは選択をはずす
-                 deselectConnection();
+                // distanceをつける
+                addDistanceToRelation(obj);
 
-                 var obj = new Object();
-                 obj.subject = subject;
-                 obj.object = object;
-                 obj.type = defaultRelation;
-                 obj.id = connId;
-                 obj.created_at = (new Date()).getTime();
+                if(e.shiftKey) {
+                    // targetを次のソースにする
+                    e.preventDefault();
+                    deselect();
 
-                 // distanceをつける
-                 addDistanceToRelation(obj);
+                    /*
+                    // instanceの枠の色を元に戻す
+                    $('div.instance').map(function() {
+                        if($(this).hasClass('ins_selected')){
+                            $(this).removeClass('ins_selected');
 
-                 if(e.shiftKey) {
-                     // targetを次のソースにする
-                     e.preventDefault();
-                     deselect();
-
-                      /*
-                     // instanceの枠の色を元に戻す
-                     $('div.instance').map(function() {
-                         if($(this).hasClass('ins_selected')){
-                             $(this).removeClass('ins_selected');
-
-                             addInstanceBorderColor($(this),categories);
-
+                            addInstanceBorderColor($(this), spanTypes);
                          }
                      });
-                     */
+                    */
 
-                     if(sourceElem.hasClass('source_selected')) {
-                         sourceElem.removeClass('source_selected');
-                         sourceElem = null;
+                    if(sourceElem.hasClass('source_selected')) {
+                        sourceElem.removeClass('source_selected');
+                        sourceElem = null;
 
-                         sourceElem = targetElem;
-                         sourceElem.addClass('source_selected');
-                     } else if(sourceElem.hasClass('ins_selected')) {
-                         $('#' + id).removeClass('ins_selected');
+                        sourceElem = targetElem;
+                        sourceElem.addClass('source_selected');
+                    } else if(sourceElem.hasClass('ins_selected')) {
+                        $('#' + id).removeClass('ins_selected');
 
-                         addInstanceBorderColor($('#' + id),categories);
-                         sourceElem = null;
-                         sourceElem = targetElem;
-                         sourceElem.css('border-color', '#000000').addClass('ins_selected').attr('id');
-                     }
+                        addInstanceBorderColor($('#' + id), spanTypes);
+                        sourceElem = null;
+                        sourceElem = targetElem;
+                        sourceElem.css('border-color', '#000000').addClass('ins_selected').attr('id');
+                    }
 
+                } else if(e.ctrlKey) {
+                    // sourceは元のまま
+                    targetElem = null;
+                } else {
+                    sourceElem.removeClass('source_selected');
 
+                    // instanceの枠の色を元に戻す
+                    $('div.instance').map(function() {
+                        if($(this).hasClass('ins_selected')){
+                            $(this).removeClass('ins_selected');
 
+                            addInstanceBorderColor($(this), spanTypes);
+                        }
+                    });
 
-                 } else if(e.ctrlKey) {
-                     // sourceは元のまま
-                     targetElem = null;
-                 } else {
-                     sourceElem.removeClass('source_selected');
+                    sourceElem = null;
+                    targetElem = null;
 
-                     // instanceの枠の色を元に戻す
-                     $('div.instance').map(function() {
-                         if($(this).hasClass('ins_selected')){
-                             $(this).removeClass('ins_selected');
+                }
 
-                             addInstanceBorderColor($(this),categories);
+                relations.push(obj);
 
-                         }
-                     });
+                sortConnByDistance(relations);
 
-                     sourceElem = null;
-                     targetElem = null;
+                // 書きなおし
+                jsPlumb.reset();
+                for(var j in relations) {
+                    var conn = relations[j];
+                    var sId = conn['subject'];
+                    var tId = conn['object'];
 
-                 }
+                    var color = relationTypes[conn['type']]["color"];
+                    var rgba = colorTrans(color);
+                    var id = conn['id'];
+                    var type = conn['type'];
 
+                    if(id == connId) {
+                        var rgbas = rgba.split(',');
+                        rgba = rgbas[0] + ',' + rgbas[1] + ',' + rgbas[2] + ',1)';
 
-                 connArray.push(obj);
+                        var c = makeConnection(sId, tId, type, rgba, id, "selected", modanns);
+                        selectedConns.push(c);
+                    } else {
+                        makeConnection(sId, tId, type, rgba, id, "unselected", modanns);
+                    }
 
-                 sortConnByDistance(connArray);
+                }
 
-                 // 書きなおし
-                 jsPlumb.reset();
-                 for(var j in connArray) {
-                     var conn = connArray[j];
-                     var sId = conn['subject'];
-                     var tId = conn['object'];
+                //setCurrentConnStorage(relations);
+                saveCurrent("relanns");
+            }
 
-                     var color;
-                     for(var k in relations) {
-                         if(relations[k].split('|')[0] == conn['type']) {
-                             color = relations[k].split('|')[2];
-                         }
-                     }
+            //console.log('sourceElem2:', sourceElem);
 
-                     var rgba = colorTrans(color);
-                     var id = conn['id'];
-                     var type = conn['type'];
+        } else {
+            // editモード
+            //console.log('select instance');
 
-                     //console.log('sElem:', sElem);
+            if(isCtrl) {
+                //console.log('ctrlキーが押されています');
+                var id = $(this).css('border-color', '#000000').addClass('ins_selected').attr('id');
 
+                // 該当するテーブルを選択状態にする
+                $('#instance_t_' + $(this).attr('id')).addClass('t_selected');
 
-                     //makeConnection($('#' + sId), $('#' + tId), type, rgba, connId);
-                     //makeConnection(sId, tId, type, rgba, connId, "unselected", "", "", "");
-                     if(id == connId) {
-                         var rgbas = rgba.split(',');
-                         rgba = rgbas[0] + ',' + rgbas[1] + ',' + rgbas[2] + ',1)';
+                // remove_btnを表示
+                $('.instance.t_selected .removeBtn').show();
 
-                         var c = makeConnection(sId, tId, type, rgba, id, "selected", modanns);
-                         selectedConns.push(c);
-                     } else {
-                         makeConnection(sId, tId, type, rgba, id, "unselected", modanns);
-                     }
+                selectedInstanceIds.push(id);
+            } else {
+                // 一旦選択を解除
+                var elem = $('.ins_selected').removeClass('ins_selected');
+                addInstanceBorderColor(elem, spanTypes);
+                // remove_btnを表示
+                $('#insannstable .removeBtn').hide();
+                $('#insannstable .t_selected').removeClass('t_selected');
 
+                selectedInstanceIds.splice(0, selectedInstanceIds.length);
 
+                var id = $(this).css('border-color', '#000000').addClass('ins_selected').attr('id');
 
-                 }
+                // 該当するテーブルを選択状態にする
+                $('#instance_t_' + $(this).attr('id')).addClass('t_selected');
 
-                 // テーブル書き換え
-                 makeRelationTable();
-                 addRelationColor(relations);
-                 //setCurrentConnStorage(connArray);
-                 saveCurrent("relanns");
-             }
+                // remove_btnを表示
+                $('.instance.t_selected .removeBtn').show();
 
-             //console.log('sourceElem2:', sourceElem);
-
-         } else {
-             // editモード
-             //console.log('select instance');
-
-             if(isCtrl) {
-                 //console.log('ctrlキーが押されています');
-                 var id = $(this).css('border-color', '#000000').addClass('ins_selected').attr('id');
-
-                 // 該当するテーブルを選択状態にする
-                 $('#instance_t_' + $(this).attr('id')).addClass('t_selected');
-
-
-                 // remove_btnを表示
-                 $('.instance.t_selected .removeBtn').show();
-
-
-                 selectedInstanceIds.push(id);
-
-
-             } else {
-                 // 一旦選択を解除
-                 var elem = $('.ins_selected').removeClass('ins_selected');
-                 addInstanceBorderColor(elem, categories);
-                 // remove_btnを表示
-                 $('#insannstable .removeBtn').hide();
-                 $('#insannstable .t_selected').removeClass('t_selected');
-
-
-                 selectedInstanceIds.splice(0, selectedInstanceIds.length);
-
-                 var id = $(this).css('border-color', '#000000').addClass('ins_selected').attr('id');
-
-                 // 該当するテーブルを選択状態にする
-                 $('#instance_t_' + $(this).attr('id')).addClass('t_selected');
-
-
-                 // remove_btnを表示
-                 $('.instance.t_selected .removeBtn').show();
-
-                 selectedInstanceIds.push(id);
-             }
-         }
+                selectedInstanceIds.push(id);
+            }
+        }
     }
+
 
     function createModification(type) {
         var i;
@@ -6397,7 +4775,7 @@ $(document).ready(function() {
                 if($(this).hasClass('ins_selected')){
                     $(this).removeClass('ins_selected');
 
-                    addInstanceBorderColor($(this),categories);
+                    addInstanceBorderColor($(this), spanTypes);
 
                 }
             });
@@ -6411,9 +4789,8 @@ $(document).ready(function() {
             selectedInstanceIds.splice(0, selectedInstanceIds.length);
         }
 
-        makeModification(modanns);
-        makeModificationTable();
-        addModtypeColor(modtypes);
+        renderModifications(modanns);
+        addModtypeColor(modTypes);
 
         //saveCurrentModanns();
         saveCurrent("modanns");
@@ -6515,43 +4892,39 @@ $(document).ready(function() {
             }
         }
 
-        makeModification(modanns);
-        makeModificationTable();
-        addModtypeColor(modtypes);
+        renderModifications(modanns);
+        addModtypeColor(modTypes);
 
         //saveCurrentModanns();
         selectedModificationIds.splice(0, selectedModificationIds.length);
     }
 
+
     /*
      * カテゴリー適用ボタン
      */
     $('.category_apply_btn').live('click', function() {
-
         // 選択されているannotationテーブルのcategoryに適用
-        for(var i in selectedIds) {
+        for (var i in selectedIds) {
 
-            for(var j in annotationJson){
-                //console.log('json.id:', parseInt(annotationJson[j]['id']));
+            for (var j in spans){
+                //console.log('json.id:', parseInt(spans[j]['id']));
 
-                var applyJson = annotationJson[j];
+                var applyJson = spans[j];
 
-                if(applyJson['id'] == selectedIds[i]) {
+                if (applyJson['id'] == selectedIds[i]) {
                     applyJson['category'] = $(this).text();
 
-                    $("#annojson").text(JSON.stringify(annotationJson));
-
-                    markAnnotation(annotationJson);
-                    makeAnnoTable(annotationJson);
-
-                    addCategoryColor(categories);
-
+                    renderSpans(spans);
+                    addCategoryColor(spanTypes);
                 }
             }
         }
-        //setCurrentStorage(annotationJson);
+        //setCurrentStorage(spans);
         //saveCurrentCatanns();
-        saveCurrent("catanns");
+        if (selectedIds.length > 0) {
+            saveCurrent("catanns");
+        }
     });
 
     /*
@@ -6576,8 +4949,6 @@ $(document).ready(function() {
                 var rgba = color.substr(0, color.length -1) + ',' + connOpacity + ')';
                 rgba = rgba.replace('rgb', 'rgba');
 
-
-
                 jsPlumb.deleteEndpoint(endpoints[0]);
                 jsPlumb.deleteEndpoint(endpoints[1]);
 
@@ -6600,11 +4971,11 @@ $(document).ready(function() {
                 obj.type = type;
                 obj.id = id;
 
-                // connArrayの中身を入れ替える
-                for(var j in connArray) {
-                    if(connArray[j]["id"] == id) {
-                        //console.log('connArrayを書き換え:', id);
-                        connArray[j] = obj;
+                // relationsの中身を入れ替える
+                for(var j in relations) {
+                    if(relations[j]["id"] == id) {
+                        //console.log('relationsを書き換え:', id);
+                        relations[j] = obj;
                         break;
                     }
                 }
@@ -6612,10 +4983,7 @@ $(document).ready(function() {
 
             selectedConns.splice(0, selectedConns.length);
 
-            // テーブル書き換え
-            makeRelationTable();
-            addRelationColor(relations);
-            //setCurrentConnStorage(connArray);
+            //setCurrentConnStorage(relations);
             //saveCurrentRelanns();
             saveCurrent("relanns");
         }
@@ -6626,12 +4994,7 @@ $(document).ready(function() {
      * modificatio0n適用ボタン
      */
     $('.modtype_apply_btn').live('click', function() {
-
-        //console.log('click modtype_apply_btn');
-
         for(var i in selectedModificationIds) {
-
-
             var modId = selectedModificationIds[i];
 
             for(var j in modanns) {
@@ -6640,17 +5003,13 @@ $(document).ready(function() {
                 if(modId == mod["id"]) {
                     mod['type'] = $(this).text();
                 }
-
             }
         }
 
-        makeModification(modanns);
-        makeModificationTable();
-        addModtypeColor(modtypes);
+        renderModifications(modanns);
+        addModtypeColor(modTypes);
 
-        //saveCurrentModanns();
         saveCurrent("modanns");
-
     });
 
 
@@ -6825,7 +5184,7 @@ $(document).ready(function() {
             } else if(e.shiftKey && selectedConns.length == 1) {
 
                 // ただし、一時非表示がある場合は、何もしない
-                if(tmpHidedConnArray == 0) {
+                if(tmpHidedRelations == 0) {
                     e.preventDefault();
 
                     ///console.log("shiftキーが押されています");
@@ -6881,7 +5240,7 @@ $(document).ready(function() {
                     var conns = getConnectionData();
 
                     // 選択されたconnectionのidを入れる
-                    var selectedConnArray = new Array();
+                    var selectedrelations = new Array();
 
                     $('table.relation').map(function(i){
                         if(i >= firstIndex && i <= lastIndex) {
@@ -6892,7 +5251,7 @@ $(document).ready(function() {
                             // ここでいれる
                             for(var i in conns) {
                                 if(conns[i].id == selectedId) {
-                                    selectedConnArray.push(conns[i]);
+                                    selectedrelations.push(conns[i]);
                                 }
                             }
                         }
@@ -6900,8 +5259,8 @@ $(document).ready(function() {
 
                     $('.relation.t_selected .removeBtn').show();
 
-                    for(var k in selectedConnArray) {
-                        var conn = selectedConnArray[k];
+                    for(var k in selectedrelations) {
+                        var conn = selectedrelations[k];
                        // var source = $('#' + conn.source_id);
                        // var target = $('#' + conn.target_id);
                         var rgba = conn.paintStyle;
@@ -7165,7 +5524,7 @@ $(document).ready(function() {
                     }
 
                 }
-                addModtypeColor(modtypes);
+                addModtypeColor(modTypes);
 
 
                 //$('div span#' + selectedId).addClass('mod_selected').attr('id');
@@ -7270,7 +5629,7 @@ $(document).ready(function() {
                         }
                     }
                 }
-                addModtypeColor(modtypes);
+                addModtypeColor(modTypes);
 
 
             } else {
@@ -7335,7 +5694,7 @@ $(document).ready(function() {
                     }
 
                 }
-                addModtypeColor(modtypes);
+                addModtypeColor(modTypes);
 
 
                 //$('div span#' + selectedId).addClass('mod_selected').attr('id');
@@ -7441,7 +5800,7 @@ $(document).ready(function() {
 
             // 一旦選択を解除
             var elem = $('.ins_selected').removeClass('ins_selected');
-            addInstanceBorderColor(elem, categories);
+            addInstanceBorderColor(elem, spanTypes);
             // remove_btnを表示
             $('#insannstable .removeBtn').hide();
             $('#insannstable .t_selected').removeClass('t_selected');
@@ -7545,14 +5904,17 @@ $(document).ready(function() {
         $('#load_dialog').show();
     });
 
+
     /*
      * load submitボタンクリックでサーバーからデータをロード
      */
     $('#load_submit').click(function() {
-        loadAnnotation();
+        targetUrl = $('#load_url').val();
         $('#load_dialog').hide();
+        loadAnnotation(targetUrl);
         return false;
     });
+
 
     /*
      * load キャンセル
@@ -7581,61 +5943,48 @@ $(document).ready(function() {
     };
 
 
-
     /*
      * save submitボタンクリックでサーバーにデータをPOST
      */
     $('#save_submit').click(function() {
         $('#save_dialog').hide();
         $('#loading').center().show();
-        //var post_catanns = JSON.parse($("#annojson").text());
         var doc = $('#src_area').text();
-        /*
-        for(i in post_catanns) {
-            delete post_catanns[i]["x"];
-            delete post_catanns[i]["y"];
-        }
-        */
-        var post_catanns = annotationJson
 
+        var post_catanns = spans
 
         var postData = {
             "text":doc,
             "catanns": post_catanns,
-            "relanns": connArray,
+            "relanns": relations,
             "insanns": insanns,
             "modanns": modanns
         }
 
+        var username = $('#username').val();
+        var password = $('#password').val();
+
         $.ajax({
             type: "post",
             url: $('#save_url').val(),
-            data: postData,
-            //dataType: "jsonp",
-            //jsonp : 'callback',
-            //crossDomain: true,
-            //processData: false,
-            //contentType: "application/json",
+            data: {annotations:JSON.stringify(postData)},
+            crossDomain: true,
+            xhrFields: {withCredentials: true},
             success: function(res){
                 //console.log( "Data Saved: " + res );
                 $('#loading').hide();
-
-                //var result = JSON.parse(res);
-                if(res) {
-                    $('#msg_area').html("Data saved!").fadeIn().fadeOut(5000, function() {
-                        $(this).html('').removeAttr('style');
-                        $(this).html(targetUrl);
-                    });
-                }else {
-                    alert("Data save failed!");
-                };
+                $('#notice').html("annotation saved").fadeIn().fadeOut(5000, function() {
+                    $(this).html('').removeAttr('style');
+                    showSource();
+                });
             },
             error: function(res, textStatus, errorThrown){
                 //console.log("エラー:", res, ":", textStatus);
+                $('#loading').hide();
                 $('#save_dialog').hide();
-                $('#msg_area').html("unknown error").fadeIn().fadeOut(5000, function() {
+                $('#notice').html("could not save").fadeIn().fadeOut(5000, function() {
                     $(this).html('').removeAttr('style');
-                    $(this).html(targetUrl);
+                    showSource();
                 });
             }
         });
@@ -7676,13 +6025,11 @@ $(document).ready(function() {
     $('#multiple_btn').click(function() {
         if(selectedIds.length == 1) {
             var id = selectedIds[0];
-           //var annoJson = JSON.parse($("#annojson").text());
-            //console.log('id:', id);
 
             var selectedAnno;
-            for(var k in annotationJson) {
-                if(annotationJson[k]['id'] == id) {
-                    selectedAnno = annotationJson[k];
+            for(var k in spans) {
+                if(spans[k]['id'] == id) {
+                    selectedAnno = spans[k];
                     break;
                 }
             }
@@ -7701,25 +6048,25 @@ $(document).ready(function() {
             var partialElem = new Array();
 
             var now = (new Date()).getTime();
-            var maxId = getCateMaxId();
+            var maxId = getSpanMaxId();
 
-            var ary = findSameString(startPos, endPos, category, annotationJson);
+            var ary = findSameString(startPos, endPos, category, spans);
 
             for(var i = 0; i < ary.length; i++) {
 
                var isAcross = false;
 
                // ここでjsonのbeginとendが他のjsonにまたがっていないかチェックする
-               for(j in annotationJson) {
-                   if(ary[i]['span']['begin'] > annotationJson[j]['span']['begin'] && ary[i]['span']['begin'] < annotationJson[j]['span']['end'] && ary[i]['span']['end'] > annotationJson[j]['span']['end'] ) {
+               for(j in spans) {
+                   if(ary[i]['span']['begin'] > spans[j]['span']['begin'] && ary[i]['span']['begin'] < spans[j]['span']['end'] && ary[i]['span']['end'] > spans[j]['span']['end'] ) {
                        // 開始位置がまたがっているので、不完全要素
                        isAcross = true;
-                       ary[i]['span']['begin'] = validateStartDelimiter(annotationJson[j]['span']['end']);
+                       ary[i]['span']['begin'] = validateStartDelimiter(spans[j]['span']['end']);
                        partialElem.push(ary[i]);
                        break;
-                   } else if(ary[i]['span']['begin'] < annotationJson[j]['span']['begin'] && ary[i]['span']['end'] > annotationJson[j]['span']['begin'] && ary[i]['span']['end'] < annotationJson[j]['span']['end']) {
+                   } else if(ary[i]['span']['begin'] < spans[j]['span']['begin'] && ary[i]['span']['end'] > spans[j]['span']['begin'] && ary[i]['span']['end'] < spans[j]['span']['end']) {
                        // 終了位置がまたがっているので、不完全要素
-                       ary[i]['end'] = validateEndDelimiter(annotationJson[j]['begin']);
+                       ary[i]['end'] = validateEndDelimiter(spans[j]['begin']);
                        partialElem.push(ary[i]);
                        isAcross = true;
                        break;
@@ -7732,24 +6079,24 @@ $(document).ready(function() {
                    ary[i]['id'] = "T" + maxId;
 
                    ary[i]['created_at'] = now;
-                   annotationJson.push(ary[i]);
+                   spans.push(ary[i]);
                    newElem.push(ary[i]);
                }
 
             }
 
-           sortNumJson(annotationJson);
+           sortSpans(spans);
 
-           for(var i in annotationJson) {
+           for(var i in spans) {
 
-               if(annotationJson[i]['new']) {
+               if(spans[i]['new']) {
                    // 選択状態にする
-                   selectedIds.push(annotationJson[i]['id']);
+                   selectedIds.push(spans[i]['id']);
                    //selectedElements.push(annoJson[i]);
                }
 
                for(var j in partialElem) {
-                   if(annotationJson[i]['new'] && annotationJson[i]['span'].begin == partialElem[j]['span'].begin && annotationJson[i]['span'].end == partialElem[j]['span'].end && annotationJson[i].category == partialElem[j].category) {
+                   if(spans[i]['new'] && spans[i]['span'].begin == partialElem[j]['span'].begin && spans[i]['span'].end == partialElem[j]['span'].end && spans[i].category == partialElem[j].category) {
                        //console.log("不完全要素は：", i);
                        // 選択状態にする
                        partialIds.push(i);
@@ -7757,18 +6104,13 @@ $(document).ready(function() {
                }
 
                // new プロパティを削除
-               delete annotationJson[i]['new']
+               delete spans[i]['new']
            }
 
-           $("#annojson").text(JSON.stringify(annotationJson));
+           renderSpans(spans);
+           addCategoryColor(spanTypes);
+           //setCurrentStorage(spans);
 
-           markAnnotation(annotationJson);
-           makeAnnoTable(annotationJson);
-
-           addCategoryColor(categories);
-           //setCurrentStorage(annotationJson);
-
-           //saveCurrentCatanns();
            saveCurrent("catanns");
         }
         return false;
@@ -7779,7 +6121,8 @@ $(document).ready(function() {
      * notice_ok_btnをクリック
      */
     $('#notice_ok_btn').live('click', function() {
-        $('#notice_area').empty();
+        $('#notice').empty();
+        showSource();
 
         if($('.partial').hasClass('partialSelected')) {
             $('.partial').addClass('selected');
@@ -7793,93 +6136,6 @@ $(document).ready(function() {
         $('.t_partial').removeClass('t_partialSelected').removeClass('t_partial');
     });
 
-    /*
-     * annotation作成順ソート
-     */
-    $('#sort_new_btn').live('click', function() {
-
-        if($(this).attr('src') == 'images/sort_new_off_btn.png') {
-            $(this).attr("src", 'images/sort_new_on_btn.png');
-            $('#sort_num_btn').attr('src', 'images/sort_num_off_btn.png');
-            $('#sort_cate_btn').attr('src', 'images/sort_cate_off_btn.png');
-            sortStatus = 'new';
-
-            makeAnnoTable(annotationJson);
-            addCategoryColor(categories);
-        }
-
-        return false;
-    });
-
-    /*
-     * annotation text順ソート
-     */
-    $('#sort_num_btn').live('click', function() {
-
-        if($(this).attr('src') == 'images/sort_num_off_btn.png') {
-            $(this).attr("src", 'images/sort_num_on_btn.png');
-            $('#sort_new_btn').attr('src', 'images/sort_new_off_btn.png');
-            $('#sort_cate_btn').attr('src', 'images/sort_cate_off_btn.png');
-            sortStatus = 'num';
-
-            makeAnnoTable(annotationJson);
-            addCategoryColor(categories);
-        }
-        return false;
-    });
-
-
-    /*
-     * annotation Category順ソート
-     */
-    $('#sort_cate_btn').live('click', function() {
-
-        if($(this).attr('src') == 'images/sort_cate_off_btn.png') {
-            $(this).attr("src", 'images/sort_cate_on_btn.png');
-            $('#sort_num_btn').attr('src', 'images/sort_num_off_btn.png');
-            $('#sort_new_btn').attr('src', 'images/sort_new_off_btn.png');
-            sortStatus = 'cate';
-
-            makeAnnoTable(annotationJson);
-            addCategoryColor(categories);
-        }
-        return false;
-
-    });
-
-    /*
-     * relation 作成順ソート
-     */
-    $('#sort_rel_new_btn').live('click', function() {
-
-        if($(this).attr('src') == 'images/sort_new_off_btn.png') {
-            $(this).attr("src", 'images/sort_new_on_btn.png');
-            $('#sort_rel_btn').attr('src', 'images/sort_rel_off_btn.png');
-            sortConnStatus = 'new';
-
-            makeRelationTable();
-            addRelationColor(relations);
-        }
-
-        return false;
-    });
-
-    /*
-     * relation RelCategory順ソート
-     */
-    $('#sort_rel_btn').live('click', function() {
-
-        if($(this).attr('src') == 'images/sort_rel_off_btn.png') {
-            $(this).attr("src", 'images/sort_rel_on_btn.png');
-            $('#sort_rel_new_btn').attr('src', 'images/sort_new_off_btn.png');
-            sortConnStatus = 'rel';
-
-            makeRelationTable();
-            addRelationColor(relations);
-        }
-        return false;
-    });
-
 
     /*
      * 一時的に非表示状態にしたコネクションの再表示
@@ -7888,9 +6144,9 @@ $(document).ready(function() {
 
         if(flag == "show") {
             // hidden connection draw
-            var start = tmpHidedConnArray.length - 1;
+            var start = tmpHidedRelations.length - 1;
             for(var i = start;  i >= 0;  i--) {
-                var connObj = tmpHidedConnArray[i];
+                var connObj = tmpHidedRelations[i];
                 var s_id = connObj['subject'];
                 var t_id = connObj['object'];
                 var rgba = connObj['paintStyle'];
@@ -7901,13 +6157,13 @@ $(document).ready(function() {
                 if(relType == "all") {
                     $('.rel_hide').attr('checked','checked');
                     makeConnection(s_id, t_id, type, rgba, connId, "unselected", modanns);
-                    tmpHidedConnArray.splice(i, 1);
+                    tmpHidedRelations.splice(i, 1);
                     $('.tmp_hide').removeClass('tmp_hide');
 
                 } else {
                     if(type == relType) {
                         makeConnection(s_id, t_id, type, rgba, connId, "unselected", modanns);
-                        tmpHidedConnArray.splice(i, 1);
+                        tmpHidedRelations.splice(i, 1);
                         $('.tmp_hide.t_' + type).removeClass('tmp_hide');
                     }
                 }
@@ -7954,7 +6210,6 @@ $(document).ready(function() {
         } else {
             // viewモード
             mode = 'view';
-
 
 
             // span編集モード
@@ -8076,26 +6331,10 @@ $(document).ready(function() {
 
             $('.editable').die('focus', focusEditTable);
 
-            $('table.instance tr td, table.instance tr td div').die('click', selectInstanceTable);
-
-
             // sourceElem とtargetElemの選択解除をアンバインド
             $("*:not(#doc_area span, #ins_area div)").die("click", cancelSelectSourceAndTargetElement);
 
-
-            $('table.relation tr td, table.relation tr td div').die('click', selectRelationTable);
-
-            $('table.annotation tr td, table.annotation tr td div').die('click', selectAnnotationTable);
-
-            $('table.modification tr td, table.modification tr td div').die('click', selectModificationTable);
-
-            removeEditableFromTable();
             $('.editable').die('focus', focusEditTable);
-
-            $('table.instance tr td, table.instance tr td div').die('click', selectInstanceTable);
-
-            // relation テーブル編集をアンバインド
-            $('table.relation tr td, table.relation tr td div').die('click', selectRelationTable);
 
             $('#doc_area span').die('click', clickSpan);
 
@@ -8105,7 +6344,7 @@ $(document).ready(function() {
             if(selectedModificationIds.length > 0) {
                 selectedModificationIds.splice(0, selectedModificationIds.length);
                 unselectModification();
-                addModtypeColor(modtypes);
+                addModtypeColor(modTypes);
             }
 
             duplicateDocArea();
@@ -8161,25 +6400,8 @@ $(document).ready(function() {
             if(selectedModificationIds.length > 0) {
                 selectedModificationIds.splice(0, selectedModificationIds.length);
                 unselectModification();
-                addModtypeColor(modtypes);
+                addModtypeColor(modTypes);
             }
-
-            //relation list部分をクリックで選択する
-            $('table.relation tr td, table.relation tr td div').die('click', selectRelationTable);
-
-
-            $('table.annotation tr td, table.annotation tr td div').live('click', selectAnnotationTable);
-            // annotation listのedit部分にfocusされた場合に選択状態にします。
-            addEditableToTable();
-            $('.editable').die('focus', focusEditTable);
-            $('.editable').live('focus', focusEditTable);
-
-            $('table.instance tr td, table.instance tr td div').die('click', selectInstanceTable);
-            $('table.instance tr td, table.instance tr td div').live('click', selectInstanceTable);
-
-            $('table.modification tr td, table.modification tr td div').die('click', selectModificationTable);
-            $('table.modification tr td, table.modification tr td div').live('click', selectModificationTable);
-
 
             $('#doc_area span').die('click', clickSpan);
             $('#doc_area span').live('click', clickSpan);
@@ -8203,6 +6425,7 @@ $(document).ready(function() {
 
             $('#doc_area').removeAttr('style');
             $('#ins_area').removeAttr('style');
+            $('#rel_base_area').removeAttr('style');
 
 
             var bg_color = $('#doc_area').css('backgroundColor');
@@ -8269,8 +6492,8 @@ $(document).ready(function() {
 
         var cloneArray = new Array();
 
-        for(var i in annotationJson) {
-            var anno = annotationJson[i];
+        for(var i in spans) {
+            var anno = spans[i];
             var span = $('#' + anno['id']);
 
             obj = new Object();
@@ -8299,8 +6522,8 @@ $(document).ready(function() {
 
         // instanceのclone
 
-        var instances = $('#ins_area div');
-        instances.map(function() {
+        var insdivs = $('#ins_area div');
+        insdivs.map(function() {
             //console.log($(this));
             var clone_id = 'clone_' + $(this).attr('id');
             var clone_ins = $(this).clone(true).attr('id', clone_id).css('backgroundColor', 'blue').css('opacity', "0").empty();
@@ -8346,20 +6569,14 @@ $(document).ready(function() {
     function reMakeConnectionOnDelete() {
         jsPlumb.reset();
 
-        for(var i in connArray) {
-            var conn = connArray[i];
+        for(var i in relations) {
+            var conn = relations[i];
             var sId = conn['subject'];
             var tId = conn['object'];
             var connId = conn['id'];
             var type = conn['type'];
 
-            var color;
-            for(var k in relations) {
-                if(relations[k].split('|')[0] == conn['type']) {
-                    color = relations[k].split('|')[2];
-                }
-            }
-
+            var color = relationTypes[conn['type']]["color"];
             var rgba = colorTrans(color);
 
             makeConnection(sId, tId, type, rgba, connId, "unselected", modanns);
@@ -8377,8 +6594,8 @@ $(document).ready(function() {
             var endpoints = conn.endpoints;
             var id = conn.id;
 
-            for(var j in tmpHidedConnArray) {
-                var hideConn = tmpHidedConnArray[j];
+            for(var j in tmpHidedRelations) {
+                var hideConn = tmpHidedRelations[j];
 
                 if(id == hideConn['id']) {
                     jsPlumb.deleteEndpoint(endpoints[0]);
@@ -8575,7 +6792,7 @@ $(document).ready(function() {
         //                             }
         //                         }
 
-        //                         addModtypeColor(modtypes);
+        //                         addModtypeColor(modTypes);
         //                         // 該当するテーブルを選択状態にする
 
         //                         $('#modification_t_' + modId).addClass('t_selected');
@@ -8656,7 +6873,7 @@ $(document).ready(function() {
                 $('table.modification .removeBtn').hide();
                 $('table.modification').removeClass('t_selected');
                 selectedModificationIds.splice(0, selectedModificationIds.length);
-                addModtypeColor(modtypes);
+                addModtypeColor(modTypes);
 
                 // 一旦削除して、新たに太い線をかく
                 e.stopPropagation();
@@ -8721,7 +6938,7 @@ $(document).ready(function() {
     }
 
 
-    function makeInstance(insanns) {
+    function renderInstances(insanns) {
         $('#ins_area').empty();
 
         var numInsPerObj = {};
@@ -8735,41 +6952,35 @@ $(document).ready(function() {
                 numInsPerObj[objectId] = 1;
             }
 
-            var elem = $('#' + objectId);
+            var object = $('#' + objectId);
             // console.log(objectId);
 
-            var left = elem.get(0).offsetLeft;
-            var top = elem.get(0).offsetTop - insHeight;
-            // var top = elem.get(0).offsetTop - h;
-            var height = elem.outerHeight();
-            var width = elem.outerWidth();
+            var objectTop = object.get(0).offsetTop;
+            var objectLeft = object.get(0).offsetLeft;
+            var objectWidth = object.outerWidth();
+            var objectCenter = objectLeft + objectWidth/2;
 
             // offsetを左右に振り分ける
             var offset;
             if(numInsPerObj[objectId] % 2 == 0) {
-                offset = -(insMargin + insWidth) * Math.floor(numInsPerObj[objectId]/2);
+                offset = -(insMargin + insWidth + insBorder) * Math.floor(numInsPerObj[objectId]/2);
             } else {
-                offset = (insMargin + insWidth) * Math.floor(numInsPerObj[objectId]/2);
+                offset = (insMargin + insWidth + insBorder) * Math.floor(numInsPerObj[objectId]/2);
             }
 
             // divを書く位置
-            var posX = left + width/2 + offset;
-            var posY = top;
+            var posX = objectCenter - insWidth/2 - insBorder + offset;
+            var posY = objectTop - insHeight - insBorder * 2;
 
             // 元のcategory annotationのcategory
-            var cate = elem.attr('class');
+            var cate = object.attr('class').split(' ')[0];
 
             // 枠の色、インスタンスの元のcategory annotationの色
-            var borderColor;
-            for(var k in categories) {
-                if(categories[k].split('|')[0] == cate) {
-                    borderColor = categories[k].split('|')[2];
-                    break;
-                }
-            }
+            var borderColor = spanTypes[cate]["color"];
 
             // ここでspanの上部にdivを描く?
             var div = '<div id="' + ins["id"] +'" class="instance ' + ins["type"] + ' ' + cate + '" title="[' + ins["id"] + '] ' + ins["type"] + '" style="position:absolute;left:' + posX + 'px; top:' + posY + 'px; width:' + insWidth +'px; height:' + insHeight + 'px; border:' + insBorder + 'px solid ' + borderColor + '" ></div>';
+            // var div = '<div id="' + ins["id"] +'" class="instance ' + ins["type"] + ' ' + cate + '" title="[' + ins["id"] + '] ' + ins["type"] + '" style="position:absolute;left:' + objectLeft + 'px; top:' + objectTop + 'px; width:' + objectWidth +'px; height:' + insHeight + 'px; border:' + insBorder + 'px solid ' + borderColor + '" ></div>';
 
             //var div = '<div id="' + ins["id"] +'" class="instance ' + ins["type"] + ' ' + cate + '" style="position:absolute;left:' + posX + 'px; top:' + posY + 'px; width:' + w +'px; height:' + h + 'px;" ></div>';
             $('#ins_area').append(div);
@@ -8778,21 +6989,17 @@ $(document).ready(function() {
             for(var m in selectedInstanceIds) {
                 $('#ins_area div#' + selectedInstanceIds[m]).css('border-color', '#000000').addClass('ins_selected');
             }
-
         }
-
     }
 
-    function makeModification(modanns) {
-        //console.log('makeModification');
 
+    function renderModifications(modanns) {
         $('div.instance span.modification').remove();
 
-        for(var i in modanns) {
+        for(var i = 0; i < modanns.length; i++) {
             var mod = modanns[i];
             var type = mod["type"];
             var object = mod["object"];
-
             var modId = mod["id"];
 
             //console.log('id:', id);
@@ -8818,12 +7025,8 @@ $(document).ready(function() {
                         jsPlumb.deleteEndpoint(endpoints[0]);
                         jsPlumb.deleteEndpoint(endpoints[1]);
                         var c = makeConnection(connSubject, connObject, connType, rgba, connId, "unselected", modanns);
-
                     }
-
                 }
-
-
             } else {
                 // instanceがmodificationされている
                 for(var j in insanns) {
@@ -8972,17 +7175,20 @@ $(document).ready(function() {
 
     }
 
-
     $(window).resize(function(){
       redraw();
     });
 
     function redraw() {
-        makeInstance(insanns);
-        addInstypeColor(instypes);
+        renderInstances(insanns);
+        addInstypeColor(instanceTypes);
         reMakeConnection();
         mode = sessionStorage.getItem('mode');
         changeMode(mode);
     }
+
+    $(window).bind('beforeunload', function(){
+        return "Before You leave, please be sure you've saved all the changes.\nOtherwise, you may lose your changes.";
+    });
 
 });

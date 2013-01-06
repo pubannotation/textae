@@ -1,5 +1,5 @@
 {
-    "delimiter_characters": [
+    "delimiter characters": [
         " ",
         ".",
         "!",
@@ -21,14 +21,15 @@
         "'",
         "\n"
     ],
-    "non_boundary_characters": [
+    "non-edge characters": [
         " ",
         "\n"
     ],
-    "categories": [
+    "span types": [
         {
             "name": "Sentence",
-            "color": "#FFFFFF"
+            "color": "#FFFFFF",
+            "region": true
         },
         {
             "name": "Anaphora",
@@ -43,8 +44,7 @@
         {
             "name": "Entity",
             "color": "#9999BB",
-            "uri": "http://www.ncbi.nlm.nih.gov/mesh/68011506",
-            "default": true
+            "uri": "http://www.ncbi.nlm.nih.gov/mesh/68011506"
         },
         {
             "name": "Binding",

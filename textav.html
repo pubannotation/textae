@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="css/jquery.ui.slider.css" />
     <link rel="stylesheet" href="css/textae.css">
 
-    <script type="text/javascript" src="js/jquery-1.7.1.min.js"></script>
+    <script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
     <script type="text/javascript" src="js/jquery-ui-1.8.16.custom.min.js"></script>
     <script type="text/javascript" src="js/jquery.jeditable.mini.js"></script>
     <script type="text/javascript" src="js/jquery.browser.min.js"></script>
@@ -19,49 +19,45 @@
 
 <!-- header area -->
 <div id="header_area">
-    <div id="title_area"></div>
-    <div id="notice_area"></div>
+    <span id = "title">TextAE</span><span id="notice"></span>
 </div>
 
 <div id="control_area">
 
     <table class="palette">
         <tr><td colspan="2">
-            <div id="slider_area">
-                <div id="slider" title="opacity of connectors"></div><span>opacity:</span><span id="slider_value">0.6</span>
+            <div id="slider_area" title="opacity of connectors" style="text-align:center">
+                <div id="slider"></div>
             </div>
         </td></tr>
-        <!-- <input type="checkbox" id="show_tooltip_cb" checked>show tooltip -->
     </table>
 
     <!-- category area -->
     <div class="type_show_area">
-        <h1>Span types</h1>
-        <div id="category_list"></div>
+        <div id="span_types"></div>
     </div>
 
     <!-- relation type area -->
     <div class="type_show_area">
-        <h1>Relation Types</h1>
         <div id="relation_list"></div>
     </div>
 
     <!-- instype area -->
     <div class="type_show_area">
-        <h1>Instance Types</h1>
         <div id="instype_list"></div>
     </div>
 
     <!-- modtype area -->
     <div class="type_show_area">
-        <h1>Modification Types</h1>
         <div id="modtype_list"></div>
     </div>
 
-    <div id="save_dialog">
-        Save to:
-        <form>
-            <input type="url" size="61" id="save_url">
+    <div id="save_dialog" class="dialog">
+        <h1>Save</h1>
+        <form autocomplete="on">
+            <table>
+                <tr><td>Location</td><td><input type="url" size="48" id="save_url"/></td></tr>
+            </table>
             <div id="save_area">
                 <input type="button" value="save" id="save_submit">
                 <input type="button" value="cancel" id="save_cancel">
@@ -69,10 +65,12 @@
         </form>
     </div>
 
-    <div id="load_dialog">
-        Load from :
-        <form>
-            <input type="url" size="61" id="load_url">
+    <div id="load_dialog" class="dialog">
+        <h1>Load</h1>
+        <form autocomplete="on">
+            <table>
+                <tr><td>Location</td><td><input type="url" size="48" id="load_url" placeholder="leave it blank for reloading current document." /></td></tr>
+            </table>
             <div id="load_area">
                 <input type="button" value="load" id="load_submit">
                 <input type="button" value="cancel" id="load_cancel">
@@ -97,9 +95,6 @@
 
     <!-- original text. this is hidden by css-->
     <div id="src_area"></div>
-
-    <!-- json data. this is hidden by css -->
-    <div id="annojson"></div>
 </div>
 
 </body>
