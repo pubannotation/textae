@@ -68,38 +68,47 @@
         },
         {
             "name": "Negative_regulation",
-            "color": "#00CC00"
+            "color": "#CC0000"
         }
     ],
     "relation types": [
-        {
-            "name": "coreferenceOf",
-            "color": "#999999"
-        },
         {
             "name": "themeOf",
             "color": "#5555FF",
             "default": true
         },
         {
+            "name": "causeOf",
+            "color": "#FF00FF",
+            "default": true
+        },
+        {
+            "name": "coreferenceOf",
+            "color": "#999999"
+        },
+        {
             "name": "equivalentTo",
             "color": "#00EE55"
+        },
+        {
+            "name": "partOf",
+            "color": "#FF0000"
         }
     ],
     "instance types": [
         {
-            "name": "subClassOf",
-            "color": "#CC3333"
+            "name": "instanceOf",
+            "color": "#BBBBBB"
         }
     ],
     "modification types": [
         {
             "name": "Speculation",
-            "color": "#333333"
+            "color": "#222222"
         },
         {
             "name": "Negation",
-            "color": "#666666"
+            "color": "#222222"
         }
     ],
     "css": "http://localhost/~jdkim/textae/css/textae.css"

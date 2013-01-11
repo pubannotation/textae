@@ -408,22 +408,14 @@ table.modanns tr td {
 
 /* category list */
 #category_area {
-
     position: absolute;
     left: 780px;
-    /*
-    float: left;
-    padding-bottom: 32767px;
-    margin-bottom: -32767px;
-    */
 
     padding-left: 10px;
     padding-top: 10px;
     padding-bottom: 10px;
 
-    /*margin-left: 10px;*/
     display: block;
-    /*float: left;*/
     background-color: #cccccc;
 
     width: 150px;
@@ -433,22 +425,14 @@ table.modanns tr td {
 
 /* category list */
 #relcategory_area {
-
     position: absolute;
     left: 1200px;
-    /*
-    float: left;
-    padding-bottom: 32767px;
-    margin-bottom: -32767px;
-    */
 
     padding-left: 10px;
     padding-top: 10px;
     padding-bottom: 10px;
 
-    /*margin-left: 10px;*/
     display: block;
-    /*float: left;*/
     background-color: #cccccc;
 
     width: 150px;
@@ -458,22 +442,14 @@ table.modanns tr td {
 
 /* category list */
 #instype_area {
-
     position: absolute;
     left: 1620px;
-    /*
-    float: left;
-    padding-bottom: 32767px;
-    margin-bottom: -32767px;
-    */
 
     padding-left: 10px;
     padding-top: 10px;
     padding-bottom: 10px;
 
-    /*margin-left: 10px;*/
     display: block;
-    /*float: left;*/
     background-color: #cccccc;
 
     width: 150px;
@@ -484,22 +460,14 @@ table.modanns tr td {
 
 /* category list */
 #modtype_area {
-
     position: absolute;
     left: 2040px;
-    /*
-    float: left;
-    padding-bottom: 32767px;
-    margin-bottom: -32767px;
-    */
 
     padding-left: 10px;
     padding-top: 10px;
     padding-bottom: 10px;
 
-    /*margin-left: 10px;*/
     display: block;
-    /*float: left;*/
     background-color: #cccccc;
 
     width: 150px;
@@ -513,7 +481,6 @@ div.instance {
     -webkit-border-radius: 5px;  /* Safari,Chrome */
     border: 2px solid;     /* 枠線の装飾 */
 }
-
 
 
 #annojson {
@@ -568,7 +535,5 @@ div.instance {
 #rel_area_clone div {
     background-color: red;
 }
-
-
 
 #my_footer { width : 100% ; clear : both ; }

@@ -68,7 +68,7 @@ a {
 #doc_area  {
     margin: 0px;
     padding: 0px;
-    line-height: 500%;
+    line-height: 600%;
     background-color: #ffffff;
 }
 
@@ -117,12 +117,24 @@ a {
     border-width: thin;
 }
 
+#doc_area span:hover {
+    border-style: solid;
+    border-color: #000066;
+    border-width: thin;
+}
+
+.clone_div:hover {
+    border-style: solid;
+    border-color: #000066;
+    border-width: thin;
+}
+
+
 #doc_area span.selected {
     display: inline;
     border-style: solid;
     border-color: #000066;
     border-width: thin;
-    /*background-color: #ffFF00;*/
 }
 
 
@@ -185,150 +197,16 @@ a {
 * selected relation modification
 */
 .mod_selected {
-
     font-weight: 800;
     font-size: 18pt;
     position: relative;
     left: -0.2em;
     top: -0.2em;
-
 }
 
-
-/*insanns_area */
-#modanns_area {
-    position: absolute;
-
-    /*
-    float: left;
-    padding-bottom: 32767px;
-    margin-bottom: -32767px;
-    */
-    left: 1790px;
-
-    /*margin-left: 10px;*/
-
-    padding-left: 10px;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    display: block;
-    /*float: left;*/
-    background-color: #cccccc;
-
-    width: 230px;
-}
 
 .tmp_hide {
     opacity: 0.5;
-}
-
-
-/* annotation new button */
-#new_btn {
-    margin-left: 2px;
-}
-
-
-.btn_area {
-    padding-top: 5px;
-}
-
-/* annotaion list area */
-#anno_list_area {
-    display: block;
-    overflow: auto;
-    /*height: 400px;*/
-}
-
-#rel_list_area {
-    display: block;
-    overflow: auto;
-    /*height: 400px;*/
-}
-
-
-.table_header {
-    border-collapse: collapse;
-    width: 200px;
-    background-color: #ffffff;
-}
-
-.table_header td {
-    width: 50px;
-}
-
-
-#anno_list_area table{
-    width: 200px;
-    font-size: small;
-}
-
-
-/* annotation list table */
-table.annotation tr td {
-    width: 50px;
-}
-
-
-table.annotation_text {
-    width: 150px;
-}
-
-
-.t_new {
-    border-style: dashed;
-    border-color: #ffffff;
-    border-width: thin;
-}
-
-
-
-.t_selected {
-    border: 1px #000066 solid;
-    border-width: 1px 1px 1px 1px;
-}
-
-.t_partial {
-    border: 1px #ff0000 dashed;
-    border-width: 2px 2px 2px 2px;
-}
-
-.t_partialSelected {
-    border: 1px #ff0000 double;
-    border-width: 2px 2px 2px 2px;
-}
-
-
-#rel_list_area table{
-    width: 200px;
-    font-size: small;
-}
-
-/* relationlist table */
-table.relation tr td {
-    width: 60px;
-}
-
-
-#insanns_list_area table{
-    width: 200px;
-    font-size: small;
-}
-
-/* relationlist table */
-table.insanns tr td {
-    width: 60px;
-}
-
-
-#modanns_list_area table{
-    width: 200px;
-    font-size: small;
-}
-
-/* relationlist table */
-table.modanns tr td {
-    width: 60px;
 }
 
 
@@ -450,4 +328,15 @@ div.instance {
 span.Sentence {
     display: block;
     border: 1px solid gray;
+}
+
+.label {
+    display:block;
+    white-space:nowrap;
+    font-size:small;
+    opacity:0.5;
+}
+
+.label:hover {
+    opacity:1;
 }
