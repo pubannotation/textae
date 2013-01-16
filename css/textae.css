@@ -323,6 +323,8 @@ div.instance {
 span.Sentence {
     display: block;
     border: 1px solid gray;
+    margin-top: 50px;
+    padding-top: 50px;
 }
 
 .label {
