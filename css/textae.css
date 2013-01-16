@@ -168,23 +168,18 @@ a {
 }
 
 
-/*insanns_area */
-#insanns_area {
-    position: absolute;
-    left: 1370px;
-
-    padding-left: 10px;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    display: block;
-    /*float: left;*/
-    background-color: #cccccc;
-    width: 230px;
-}
-
 /*
 * selected insatnce modification
 */
+#ins_area div.instance {
+    background-color: #cccccc;
+    text-align: center;
+}
+
+#ins_area div.instance.selected {
+    background-color: #555555;
+}
+
 #ins_area span.mod_selected {
     font-weight: 800;
     font-size: 18pt;

@@ -48,15 +48,23 @@
         },
         {
             "name": "Binding",
-            "color": "#88FFBB"
+            "color": "#88FF00"
+        },
+        {
+            "name": "Localization",
+            "color": "#88FF66"
         },
         {
             "name": "Gene_expression",
-            "color": "#88FF55"
+            "color": "#88FFAA"
         },
         {
             "name": "Transcription",
-            "color": "#88FF88"
+            "color": "#88FFCC"
+        },
+        {
+            "name": "Phosphorylation",
+            "color": "#88FFFF"
         },
         {
             "name": "Regulation",
@@ -79,8 +87,7 @@
         },
         {
             "name": "causeOf",
-            "color": "#FF00FF",
-            "default": true
+            "color": "#FF00FF"
         },
         {
             "name": "coreferenceOf",
