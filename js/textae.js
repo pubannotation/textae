@@ -1343,24 +1343,9 @@ $(document).ready(function() {
             clearRelationSelection();
 
         } else if (mode == "edit") {
-            if (modificationIdsSelected.length > 0) {
-                unselectModification();
-                addModtypeColor(modificationTypes);
-            }
-
-            // 空にする
-            spanIdsSelected.length = 0;
-            instanceIdsSelected.length = 0;
-
-            $('#doc_area span').removeClass('selected');
-
-            // instanceの枠の色を元に戻す
-            $('div.instance').map(function() {
-                if($(this).hasClass('selected')){
-                    $(this).removeClass('selected');
-                    addInstanceBorderColor($(this), spanTypes);
-                }
-            });
+            clearSpanSelection();
+            clearInstanceSelection();
+            clearModificationSelection();
         }
 
         e.stopPropagation();
@@ -3212,9 +3197,9 @@ $(document).ready(function() {
 
         } else if(mode == 'edit') {
 
-            $('#doc_area').css('z-index', 1);
-            $('#ins_area').css('z-index', 2);
-            $('#rel_base_area').css('z-index', -1);
+            $('#doc_area').css('z-index', 10);
+            $('#ins_area').css('z-index', 20);
+            $('#rel_base_area').css('z-index', -10);
 
 
             var bg_color = $('#doc_area').css('backgroundColor');
@@ -3614,7 +3599,7 @@ $(document).ready(function() {
         var instance = instances[iid];
         var object = spans[instances[iid]['object']];
         var borderColor = spanTypes[object.type]['color'];
-        var div = '<div id="' + iid +'" class="instance" title="[' + iid + '] ' + instance.type + '" style="width:' + insWidth +'px; height:' + insHeight + 'px; border:' + insBorder + 'px solid ' + borderColor + '; position:absolute" ></div>';
+        var div = '<div id="' + iid +'" class="instance" title="[' + iid + '] ' + instance.type + ' : ' + object.type + '" style="width:' + insWidth +'px; height:' + insHeight + 'px; border:' + insBorder + 'px solid ' + borderColor + '; position:absolute" ></div>';
         $('#ins_area').append(div);
     }
 
@@ -3678,12 +3663,6 @@ $(document).ready(function() {
 
     function clearModificationSelection() {
         $('modification.selected').removeClass('selected');
-        modificationIdsSelected.length = 0;
-    }
-
-
-    function unselectModification() {
-        $('span.mod_selected').removeClass('mod_selected');
         modificationIdsSelected.length = 0;
     }
 

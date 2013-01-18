@@ -67,6 +67,10 @@
             "color": "#88FFFF"
         },
         {
+            "name": "Protein_catabolism",
+            "color": "#99EEEE"
+        },
+        {
             "name": "Regulation",
             "color": "#009900"
         },
@@ -82,24 +86,33 @@
     "relation types": [
         {
             "name": "themeOf",
-            "color": "#5555FF",
+            "color": "#0000FF",
             "default": true
         },
         {
             "name": "causeOf",
-            "color": "#FF00FF"
-        },
-        {
-            "name": "coreferenceOf",
-            "color": "#999999"
-        },
-        {
-            "name": "equivalentTo",
-            "color": "#00EE55"
+            "color": "#FF0000"
         },
         {
             "name": "partOf",
-            "color": "#FF0000"
+            "color": "#00FF00"
+        },
+        {
+            "name": "locationOf",
+            "color": "#00FFFF"
+        },
+        {
+            "name": "oldLocationOf",
+            "color": "#00BBBB"
+        },
+
+        {
+            "name": "coreferenceOf",
+            "color": "#BBBBBB"
+        },
+        {
+            "name": "equivalentTo",
+            "color": "#EEEE55"
         }
     ],
     "instance types": [

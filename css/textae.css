@@ -180,6 +180,16 @@ a {
     background-color: #555555;
 }
 
+
+
+.modification {
+    font-size: large;
+}
+
+.modification.selected {
+    font-size: x-large;
+}
+
 #ins_area span.mod_selected {
     font-weight: 800;
     font-size: 18pt;
@@ -278,7 +288,7 @@ div.instance {
 }
 
 #save_dialog {
-    z-index: 10;
+    z-index: 100;
     position: absolute;
     top:60px;
     left:50px;
@@ -296,7 +306,7 @@ div.instance {
 }
 
 #load_dialog {
-    z-index: 10;
+    z-index: 100;
     position: absolute;
     top:60px;
     left:50px;
