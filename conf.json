@@ -29,6 +29,7 @@
         {
             "name": "Sentence",
             "color": "#FFFFFF",
+            "region": true
         },
         {
             "name": "Anaphora",
@@ -41,7 +42,7 @@
         },
         {
             "name": "Entity",
-            "color": "#9999BB",
+            "color": "#9999BB"
         },
         {
             "name": "Binding",
