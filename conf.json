@@ -67,8 +67,20 @@
             "color": "#88FFFF"
         },
         {
+            "name": "Ubiquitination",
+            "color": "#EEFFCC"
+        },
+        {
+            "name": "Acetylation",
+            "color": "#EEFFAA"
+        },
+        {
+            "name": "Deacetylation",
+            "color": "#EEFF88"
+        },
+        {
             "name": "Protein_catabolism",
-            "color": "#99EEEE"
+            "color": "#EEEE55"
         },
         {
             "name": "Regulation",
