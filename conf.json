@@ -29,7 +29,6 @@
         {
             "name": "Sentence",
             "color": "#FFFFFF",
-            "region": true
         },
         {
             "name": "Anaphora",
@@ -38,13 +37,11 @@
         {
             "name": "Protein",
             "color": "#9999FF",
-            "uri": "http://www.ncbi.nlm.nih.gov/mesh/68011506",
             "default": true
         },
         {
             "name": "Entity",
             "color": "#9999BB",
-            "uri": "http://www.ncbi.nlm.nih.gov/mesh/68011506"
         },
         {
             "name": "Binding",
