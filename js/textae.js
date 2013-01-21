@@ -169,7 +169,9 @@ $(document).ready(function() {
      * urlパラメータの取得
      */
     function getUrlParameters() {
-        var params = location.search.replace('?', '').split('&');
+        // var params = location.search.replace('?', '').split('&');
+        var params = location.search.slice(1).split('&');
+
         var targetUrl = "";
         var configUrl = "";
 
@@ -183,6 +185,7 @@ $(document).ready(function() {
                 configUrl = param.split('=')[1];
             }
         }
+
 
         // read default configuration
         $.ajax({
@@ -1571,11 +1574,15 @@ $(document).ready(function() {
             var endPosition = adjustSpanEnd(absoluteFocusPosition);
 
             clearSpanSelection();
-            makeEdits([{action:'new_span', id:sid, begin:startPosition, end:endPosition, type:spanTypeDefault}]);
+
+            var edits = [{action:'new_span', id:sid, begin:startPosition, end:endPosition, type:spanTypeDefault}];
 
             if(isMultiple) {
-                replicateSpans(sid);
+                var replicates = getSpanReplicates({id:sid, span:{begin:startPosition, end:endPosition}, type:spanTypeDefault});
+                edits = edits.concat(replicates);
             }
+
+            if (edits.length > 0) makeEdits(edits);
         }
 
         // boundary crossing: exception
@@ -2821,19 +2828,23 @@ $(document).ready(function() {
      */
     $('#multiple_btn').click(function() {
         if(spanIdsSelected.length == 1) {
-            replicateSpans(spanIdsSelected[0]);
+            makeEdits(getSpanReplicates(spans[spanIdsSelected[0]]));
         }
         else alert('You can replicate span annotation when there is only span selected.');
     });
 
 
-    function replicateSpans(spanId) {
-        var startPos = spans[spanId]["span"]["begin"];
-        var endPos   = spans[spanId]["span"]["end"];
-        var type     = spans[spanId]["type"];
+    function getSpanReplicates(span) {
+        var oid      = span['id'];
+        var startPos = span["span"]["begin"];
+        var endPos   = span["span"]["end"];
+        var type     = span["type"];
 
         var cspans = findSameString(startPos, endPos, type); // candidate spans
         var maxIdNum = getSpanMaxIdNum();
+        if (parseInt(oid.slice(1)) > maxIdNum) {
+            maxIdNum = parseInt(oid.slice(1));
+        }
 
         var nspans = new Array(); // new spans
         for (var i = 0; i < cspans.length; i++) {
@@ -2863,8 +2874,7 @@ $(document).ready(function() {
             edits.push({action: "new_span", id:nspans[i]['id'], begin:nspans[i]['span']['begin'], end:nspans[i]['span']['end'], type:nspans[i]['type']});
         }
 
-        if (edits.length > 0) makeEdits(edits);
-        return false;
+        return edits;
     }
 
 
