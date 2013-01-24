@@ -10,6 +10,9 @@ $(document).ready(function() {
         };
     }
 
+
+    var OSname;
+
     /*
      * 表示モード、初期値はviewモード
      */
@@ -325,8 +328,8 @@ $(document).ready(function() {
             var rgba0 = colorTrans(color, connOpacity);
             var rgba1 = colorTrans(color, 1);
 
-            connectorTypes[name] = {paintStyle:{strokeStyle:rgba0, lineWidth:1}, hoverPaintStyle:{strokeStyle:rgba1, lineWidth:2}};
-            connectorTypes[name + '_selected'] = {paintStyle:{strokeStyle:rgba1, lineWidth:2}, hoverPaintStyle:{ strokeStyle:rgba1, lineWidth:2}};
+            connectorTypes[name] = {paintStyle:{strokeStyle:rgba0, lineWidth:1}, hoverPaintStyle:{strokeStyle:rgba1, lineWidth:3}};
+            connectorTypes[name + '_selected'] = {paintStyle:{strokeStyle:rgba1, lineWidth:3}, hoverPaintStyle:{ strokeStyle:rgba1, lineWidth:3}};
         }
         // jsPlumb.registerConnectionTypes(connectorTypes);
     }
@@ -361,6 +364,8 @@ $(document).ready(function() {
 
 
     function initialize() {
+        detectOS();
+
         spanIdsSelected = new Array();
         instanceIdsSelected = new Array();
         relationIdsSelected = new Array();
@@ -612,7 +617,6 @@ $(document).ready(function() {
     }
 
 
-
     /*
      * List of categories 
      */
@@ -762,50 +766,6 @@ $(document).ready(function() {
     }
 
 
-    /*
-     * 現在表示されているコネクションデータを取得
-     * 非表示のものは取得しません
-     */
-    function getConnectionData() {
-
-        var conns = new Array();
-
-        // connectionListを取得
-        var connectionList = jsPlumb.getConnections();
-
-        if(connectionList != undefined){
-
-            //console.log('connectionList数:', connectionList.length);
-
-            for(var i in connectionList) {
-                var sourceId = connectionList[i].sourceId;
-                var targetId = connectionList[i].targetId;
-                var paintStyle = connectionList[i].paintStyleInUse;
-                var connId = connectionList[i].getParameter("connId");
-                var type = connectionList[i].getParameter("type");
-                var endpoints = connectionList[i].endpoints;
-                var overlays = connectionList[i].overlays;
-
-               // console.log('overlays:', overlays);
-
-                // 詰め替え
-                var connObj = new Object();
-                connObj["subject"] = sourceId;
-                connObj["object"] = targetId;
-                connObj["paintStyle"] = paintStyle['strokeStyle'];
-                connObj["id"] = connId;
-
-                connObj["type"] = type;
-                connObj["endpoints"] = endpoints;
-
-                connObj["overlays"] = overlays;
-                conns.push(connObj);
-            }
-        }
-        return conns;
-    }
-
-
     function renderSpans(sids) {
         for (var i = 0; i < sids.length; i++) {
             renderSpan(sids[i], sids.slice(0, i));
@@ -927,16 +887,6 @@ $(document).ready(function() {
 
 
     /*
-     * modification listにmodtypeに対応する色をつけます
-     */
-    function addModtypeColor(modificationTypes) {
-        for(var m in modificationTypes) {
-            $('.mod_' + m).css('color', modificationTypes[m]['color']);
-        }
-    }
-
-
-    /*
      * set the default category
      */
     $('.category_radio').live('change', function() {
@@ -950,161 +900,6 @@ $(document).ready(function() {
     $('.relation_radio').live('change', function() {
         relationTypeDefault = $(this).parent().next().text();
     });
-
-
-    /*
-     * relationの表示非表示
-     */
-    $('.rel_hide').live("change", function(e) {
-        var relType = $(this).attr('title');
-
-        if ($(this).attr('checked') == undefined) {
-
-            //console.log("チェックはずれました")
-
-            var conns = getConnectionData();
-
-            if (relType != "all") {
-
-                // relationsHiddenに移動
-                for (var i in conns) {
-
-                    if (conns[i]["type"] == relType) {
-
-                        var connId = conns[i]["id"];
-                        var endpoints = conns[i]["endpoints"];
-
-                        relationsHidden.push(conns[i]);
-
-                        // 削除
-                        jsPlumb.deleteEndpoint(endpoints[0]);
-                        jsPlumb.deleteEndpoint(endpoints[1]);
-                    }
-                }
-            } else {
-                $('.rel_hide').removeAttr('checked');
-
-                // すべて隠す
-                for(var i in conns) {
-                    var connId = conns[i]["id"];
-                    var endpoints = conns[i]["endpoints"];
-
-                    relationsHidden.push(conns[i]);
-
-                    // 削除
-                    jsPlumb.deleteEndpoint(endpoints[0]);
-                    jsPlumb.deleteEndpoint(endpoints[1]);
-                }
-            }
-
-        } else if($(this).attr('checked') == "checked") {
-            //console.log('チェックされました------');
-            showHideAllConnections('show', relType);
-            renderModifications(modanns);
-        }
-    });
-
-    $('.instype_hide').live("change", function() {
-        var insType = $(this).attr('title');
-
-
-        if($(this).attr('checked') == undefined) {
-            if(insType == "all") {
-
-                $('.instype_hide').removeAttr('checked');
-
-                $('.instance').hide();
-            } else {
-                $('.' + insType ).hide();
-            }
-
-        } else {
-            if(insType == "all") {
-                $('.instype_hide').attr('checked', 'checked');
-
-                $('.instance').show();
-            } else {
-                $('.' + insType ).show();
-            }
-
-        }
-    });
-
-
-    $('.modtype_hide').live("change", function() {
-        var modType = $(this).attr('title');
-
-        if($(this).attr('checked') == undefined) {
-
-            // allなら他のcbもはずす
-            if(modType == "all") {
-                $('.modtype_hide').removeAttr('checked');
-            }
-
-
-
-            // instanceに対して
-            if(modType == "all") {
-                $('.instance_modification').hide();
-            } else {
-                $('.mod_' + modType ).hide();
-            }
-
-
-            // relationに対して
-            jsPlumb.select().each(function(conn){
-                //var label = conn.getLabel();
-                //console.log('label:', label);
-
-                if(modType == "all") {
-                    for(var i in modanns) {
-                        var mod = modanns[i];
-                        conn.hideOverlay(mod['id']);
-                    }
-
-                } else {
-                    for(var i in modanns) {
-                        var mod = modanns[i];
-                        if(mod["type"] == modType) {
-                            conn.hideOverlay(mod['id']);
-                        }
-                    }
-                }
-            });
-
-        } else {
-
-            // allなら他のcbもはずす
-            if(modType == "all") {
-                $('.modtype_hide').attr('checked','checked');
-            }
-
-            // instanceに対して
-            if(modType == "all") {
-                $('.instance_modification').show();
-            } else {
-                $('.mod_' + modType ).show();
-            }
-
-            // relationに対して
-            jsPlumb.select().each(function(conn){
-                if(modType == "all") {
-                    for(var i in modanns) {
-                        var mod = modanns[i];
-                        conn.showOverlay(mod['id']);
-                    }
-
-                } else {
-                    for(var i in modanns) {
-                        var mod = modanns[i];
-                        if(mod["type"] == modType) {
-                            conn.showOverlay(mod['id']);
-                        }
-                    }
-                }
-            });
-        }
-    })
 
 
     /*
@@ -1535,6 +1330,26 @@ $(document).ready(function() {
         isJustDragged = true;
 
         return false;
+    }
+
+
+    function instanceMouseHover(e) {
+        var iid = $(this).attr('id').split('_')[1];
+        var rids = relationsPerSpanInstance[iid];
+
+        if (event.type == 'mouseover') {
+            $(this).addClass('mouseHover');
+            for (var i = 0; i < rids.length; i++) {
+                connectors[rids[i]].setHover(true);
+                connectorHoverBegin(connectors[rids[i]]);
+            }
+        } else {
+            $(this).removeClass('mouseHover');
+            for (var i = 0; i < rids.length; i++) {
+                connectors[rids[i]].setHover(false);
+                connectorHoverEnd(connectors[rids[i]]);
+            }
+        }
     }
 
 
@@ -2213,7 +2028,7 @@ $(document).ready(function() {
 
             // win ctrl
             // mac command
-            if (($.os.name != "mac" && e.keyCode == 17) || ($.os.name == "mac" && e.keyCode == 224)) {
+            if ((OSName != "MacOS" && e.keyCode == 17) || (OSName == "MacOS" && e.keyCode == 224)) {
                 isCtrl = true;
             }
 
@@ -2360,7 +2175,7 @@ $(document).ready(function() {
     $(document).keyup(function(e){
         // ctrlキー
         // win,mac共通
-        if(($.os.name != "mac" && e.keyCode == 17) || ($.os.name == "mac" && e.keyCode == 224)) {
+        if((OSName != "MacOS" && e.keyCode == 17) || (OSName == "MacOS" && e.keyCode == 224)) {
             isCtrl = false;
         }
         // win:altキー,mac:optionキー
@@ -3113,11 +2928,7 @@ $(document).ready(function() {
 
             $('div.instance').die('click', instanceClicked);
 
-            if (modificationIdsSelected.length > 0) {
-                modificationIdsSelected.splice(0, modificationIdsSelected.length);
-                unselectModification();
-                addModtypeColor(modificationTypes);
-            }
+            clearModificationSelection();
 
             duplicateDocArea();
 
@@ -3130,6 +2941,9 @@ $(document).ready(function() {
             // インスタンス上のmodificationを選択不可にする
             $('span.instance_modification').die('click', selectInsModification);
 
+            // インスタンス上のmodificationを選択可能にする
+            // $('.clone_instance').die('mouseover mouseout', instanceMouseHover);
+            $('.clone_instance').live('mouseover mouseout', instanceMouseHover);
 
         } else if (mode == 'edit') {
 
@@ -3164,11 +2978,7 @@ $(document).ready(function() {
             clearRelationSelection();
 
             // modificationの選択を削除
-            if(modificationIdsSelected.length > 0) {
-                modificationIdsSelected.splice(0, modificationIdsSelected.length);
-                unselectModification();
-                addModtypeColor(modificationTypes);
-            }
+            clearModificationSelection();
 
             $('#doc_area span').die('click', spanClicked);
             $('#doc_area span').live('click', spanClicked);
@@ -3224,17 +3034,18 @@ $(document).ready(function() {
             $('span.instance_modification').die('click', selectInsModification);
 
             duplicateDocArea();
-
         }
 
         sessionStorage.setItem('mode', mode);
     }
 
 
-    function duplicateDocArea(){
-        $('#clone_area .clone_div').remove();
+    function duplicateDocArea() {
+        $('#clone_area .clone_span').remove();
+        $('#clone_area .clone_instance').remove();
 
-        var cloneArray = new Array();
+        var clones = new Array();
+
         for (var sid in spans) {
             var span = $('#' + sid);
 
@@ -3245,35 +3056,36 @@ $(document).ready(function() {
             obj["width"] = span.outerWidth();
             obj["height"] = span.outerHeight();
             obj["title"] = '[' + sid + '] ' + spans[sid]["category"];
-            cloneArray.push(obj);
+            clones.push(obj);
         }
 
-        // 大きいDIVが下にくるようにソート
-        sortCloneByWidth(cloneArray);
-
-        for(var i in cloneArray) {
-
-            var obj = cloneArray[i];
-
-            var div = '<div id="' + obj['id'] + '" class="clone_div" ' +
-                'style="position:absolute;left:' + obj['left'] + 'px;top:' + obj['top']  + 'px;' +
-                'width:' + obj["width"] +'px;height:' + obj["height"] +'px;background-color:red; opacity:0" class="clone_div" title="' + obj['title'] + '"></div>';
-
+        // put smaller divs forward 
+        sortCloneByWidth(clones);
+        for (var i = 0; i < clones.length; i++) {
+            var obj = clones[i];
+            var div = '<div id="' + obj['id'] + '" '
+                    + 'class="clone_span" '
+                    + 'style="position:absolute; '
+                    + 'left:'   + (obj['left'] - 1)  + 'px; '
+                    + 'top:'    + (obj['top'] - 1)  + 'px; '
+                    + 'width:'  + obj["width"] + 'px; '
+                    + 'height:' + obj["height"] +'px" '
+                    + 'title="' + obj['title'] + '"></div>';
             $('#clone_area').append(div);
         }
 
         // instanceのclone
-
         var insdivs = $('#ins_area div');
         insdivs.map(function() {
             //console.log($(this));
             var clone_id = 'clone_' + $(this).attr('id');
-            var clone_ins = $(this).clone(true).attr('id', clone_id).css('backgroundColor', 'blue').css('opacity', "0").empty();
+            var clone_ins = $(this).clone(true).attr('id', clone_id).empty();
+            clone_ins.removeClass('instance');
+            clone_ins.addClass('clone_instance');
             $('#clone_area').append(clone_ins);
-
         })
 
-        $('.clone_div').click(spanClicked);
+        $('.clone_span').click(spanClicked);
     }
 
 
@@ -3618,6 +3430,14 @@ $(document).ready(function() {
             var type = relations[id]["type"];
             connectors[id].setPaintStyle(connectorTypes[type+"_selected"]["paintStyle"]);
         }
+    }
+
+    function detectOS() {
+        OSName="Unknown OS";
+        if (navigator.appVersion.indexOf("Win")!=-1) OSName="Windows";
+        if (navigator.appVersion.indexOf("Mac")!=-1) OSName="MacOS";
+        if (navigator.appVersion.indexOf("X11")!=-1) OSName="UNIX";
+        if (navigator.appVersion.indexOf("Linux")!=-1) OSName="Linux";
     }
 
 

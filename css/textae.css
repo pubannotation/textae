@@ -1,4 +1,4 @@
-html,body {
+html, body {
     font-family: verdana, arial, helvetica, sans-serif;
     margin: 0px;
     padding: 0px;
@@ -30,7 +30,6 @@ a {
     filter: progid:DXImageTransform.Microsoft.Gradient(  StartColorStr='#BBBBFF', EndColorStr='#FFFFFF', GradientType=1);
 }
 
-
 #title {
     font-weight:bold;
     text-shadow: 2px 2px 5px #555555;
@@ -41,8 +40,6 @@ a {
     font-style:italic;
     color:gray;
 }
-
-
 
 #document_frame {
     margin: 5px;
@@ -103,14 +100,6 @@ a {
     background-color: #cccccc;
 }
 
-#clone_area {
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    margin: 0px;
-    padding: 0px;
-}
-
 #doc_area span {
     border-style: dashed;
     border-color: #999999;
@@ -123,13 +112,6 @@ a {
     border-width: thin;
 }
 
-.clone_div:hover {
-    border-style: solid;
-    border-color: #000066;
-    border-width: thin;
-}
-
-
 #doc_area span.selected {
     display: inline;
     border-style: solid;
@@ -137,20 +119,6 @@ a {
     border-width: thin;
 }
 
-
-#doc_area span.partial {
-    display: inline;
-    border-style: dashed;
-    border-color: #ff0000;
-    border-width: 2px 2px 2px 2px;
-}
-
-#doc_area span.partialSelected {
-    display: inline;
-    border-style: solid;
-    border-color: #ff0000;
-    border-width: 2px 2px 2px 2px;
-}
 
 /* annotaion area */
 #anno_area {
@@ -171,16 +139,47 @@ a {
 /*
 * selected insatnce modification
 */
-#ins_area div.instance {
+#ins_area .instance {
     background-color: #cccccc;
     text-align: center;
 }
 
-#ins_area div.instance.selected {
+#ins_area .instance.selected {
     background-color: #555555;
 }
 
+div.instance {
+    border-radius: 5px; /* CSS3 */
+    -moz-border-radius: 5px; /* Firefox */
+    -webkit-border-radius: 5px;  /* Safari,Chrome */
+    border: 2px solid;     /* 枠線の装飾 */
+}
 
+#clone_area {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    margin: 0px;
+    padding: 0px;
+}
+
+.clone_span {
+    border: 2px solid #000000;
+    opacity:0;
+}
+
+.clone_span:hover {
+    opacity:1;
+}
+
+.clone_instance {
+    background-color: #000000;
+    opacity:0;
+}
+
+.clone_instance:hover {
+    opacity:1;
+}
 
 .modification {
     font-size: large;
@@ -262,14 +261,6 @@ table.palette {
     text-align: left;
     font-size: small;
     font-weight: bold;
-}
-
-
-div.instance {
-    border-radius: 5px; /* CSS3 */
-    -moz-border-radius: 5px; /* Firefox */
-    -webkit-border-radius: 5px;  /* Safari,Chrome */
-    border: 2px solid;     /* 枠線の装飾 */
 }
 
 #src_area {
