@@ -115,8 +115,8 @@ a {
 #doc_area span.selected {
     display: inline;
     border-style: solid;
-    border-color: #000066;
-    border-width: thin;
+    border-color: #000000;
+    border-width: 2px;
 }
 
 
@@ -183,29 +183,12 @@ div.instance {
 
 .modification {
     font-size: large;
+    font-color: #555555;
 }
 
 .modification.selected {
     font-size: x-large;
-}
-
-#ins_area span.mod_selected {
-    font-weight: 800;
-    font-size: 18pt;
-    position: relative;
-    left: -0.2em;
-    top: -0.2em;
-}
-
-/*
-* selected relation modification
-*/
-.mod_selected {
-    font-weight: 800;
-    font-size: 18pt;
-    position: relative;
-    left: -0.2em;
-    top: -0.2em;
+    font-color: #000000;
 }
 
 

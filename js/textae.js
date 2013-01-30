@@ -1006,6 +1006,7 @@ $(document).ready(function() {
             // ctrl, shiftが押されていない場合
             else {
                 clearSpanSelection();
+                clearInstanceSelection();
                 selectSpan(id);
             }
         }
@@ -2205,10 +2206,10 @@ $(document).ready(function() {
      * event handler (instance is clicked)
      */
     function instanceClicked(e) {
-        e.preventDefault();
+        cancelBubble(e);
 
         // 下に重なってる要素のclickイベントを解除
-        $('#doc_area span').unbind('click',arguments.callee);
+        // $('#doc_area span').unbind('click',arguments.callee);
 
         if (mode == "relation") {
             var id = $(this).attr('id').split('_')[1];
@@ -2271,11 +2272,19 @@ $(document).ready(function() {
             }
 
         } else {
-            if (!isCtrl) {
+            var id = $(this).attr('id');
+
+            if (isCtrl) {
+                if (!isInstanceSelected(id)) {
+                    selectInstance(id);
+                }
+            }
+
+            else {
                 clearSpanSelection();
                 clearInstanceSelection();
+                selectInstance(id);
             }
-            selectInstance($(this).attr('id'));
         }
     }
 
@@ -2348,27 +2357,21 @@ $(document).ready(function() {
     }
 
 
-    function selectInsModification(e) {
-
-        // clickイベントの伝搬停止
-        e.stopPropagation();
-
-        //console.log('select modification:', $(this));
-
-
+    function modificationClicked(e) {
+        cancelBubble(e);
         var id = $(this).attr('id');
 
-        if(e.ctrlKey) {
-            //console.log('ctrlがおされています');
-            $(this).addClass('mod_selected');
-            modificationIdsSelected.push(id);
-        } else {
-            // 一旦選択を解除
-            unselectModification();
+        if (isCtrl) {
+            if (!isModificationSelected(id)) {
+                selectModification(id);
+            }
+        }
 
-            $(this).addClass('mod_selected');
-
-            modificationIdsSelected.push(id);
+        else {
+            clearSpanSelection();
+            clearInstanceSelection();
+            clearModificationSelection();
+            selectModification(id);
         }
     }
 
@@ -2939,7 +2942,7 @@ $(document).ready(function() {
 
 
             // インスタンス上のmodificationを選択不可にする
-            $('span.instance_modification').die('click', selectInsModification);
+            $('span.modification').die('click', modificationClicked);
 
             // インスタンス上のmodificationを選択可能にする
             // $('.clone_instance').die('mouseover mouseout', instanceMouseHover);
@@ -2991,8 +2994,8 @@ $(document).ready(function() {
             $('#doc_area').live('mouseup',  doMouseup);
 
             // インスタンス上のmodificationを選択可能にする
-            $('span.instance_modification').die('click', selectInsModification);
-            $('span.instance_modification').live('click', selectInsModification);
+            $('span.modification').die('click', modificationClicked);
+            $('span.modification').live('click', modificationClicked);
 
         } else if(mode == 'relation') {
 
@@ -3031,7 +3034,7 @@ $(document).ready(function() {
             $('div.instance').live('click', instanceClicked);
 
             // インスタンス上のmodificationを選択不可にする
-            $('span.instance_modification').die('click', selectInsModification);
+            $('span.modification').die('click', modificationClicked);
 
             duplicateDocArea();
         }
@@ -3383,7 +3386,7 @@ $(document).ready(function() {
         } else if (type == "Speculation") {
             symbol = '?';
         }
-        $('#' + oid).append('<span class="modification ' + type + '" id="' + mid + '">' + symbol + '</span>');
+        $('#' + oid).append('<span class="modification" id="' + mid + '">' + symbol + '</span>');
     }
 
 
