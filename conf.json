@@ -61,6 +61,10 @@
             "color": "#88FFCC"
         },
         {
+            "name": "Protein_modification",
+            "color": "#EEFF00"
+        },
+        {
             "name": "Phosphorylation",
             "color": "#88FFFF"
         },
