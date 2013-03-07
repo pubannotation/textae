@@ -343,6 +343,7 @@ $(document).ready(function() {
                 url: targetUrl,
                 dataType: "json",
                 crossDomain: true,
+                xhrFields: {withCredentials: true},
                 success: function(annotation) {
                     if (annotation.text != undefined) {
                         initialize();
@@ -2438,35 +2439,21 @@ $(document).ready(function() {
      * loadアイコンクリックでロードウィンドウ表示
      */
     $('#load_btn').click(function() {
-        $('#load_dialog').show();
+        var location = prompt("Load document with annotation. Enter the location:", targetUrl);
+        if (location != null && location != "") {
+            getAnnotation(location);
+        }
     });
 
-
-    /*
-     * load submitボタンクリックでサーバーからデータをロード
-     */
-    $('#load_submit').click(function() {
-        $('#load_dialog').hide();
-        getAnnotation($('#load_url').val());
-        return false;
-    });
-
-
-    /*
-     * load キャンセル
-     */
-    $('#load_cancel').click(function() {
-        $('#load_dialog').hide();
-        return false;
-    });
 
     /*
      * saveアイコンクリックでセーブウィンドウ表示
      */
     $("#save_btn").click(function(){
-        $('#save_dialog').show();
-        $('#save_url').val(targetUrl);
-        return false;
+        var location = prompt("Save annotation to the document. Enter the location:", targetUrl);
+        if (location != null && location != "") {
+            saveAnnotation(location);
+        }
     });
 
 
@@ -2479,11 +2466,7 @@ $(document).ready(function() {
     };
 
 
-    /*
-     * save submitボタンクリックでサーバーにデータをPOST
-     */
-    $('#save_submit').click(function() {
-        $('#save_dialog').hide();
+    function saveAnnotation(location) {
         $('#loading').center().show();
 
         var catanns = [];
@@ -2511,12 +2494,11 @@ $(document).ready(function() {
 
         $.ajax({
             type: "post",
-            url: $('#save_url').val(),
+            url: location,
             data: {annotations:JSON.stringify(postData)},
             crossDomain: true,
             xhrFields: {withCredentials: true},
             success: function(res){
-                //console.log( "Data Saved: " + res );
                 $('#loading').hide();
                 $('#notice').html("annotation saved").fadeIn().fadeOut(5000, function() {
                     $(this).html('').removeAttr('style');
@@ -2526,27 +2508,14 @@ $(document).ready(function() {
                 });
             },
             error: function(res, textStatus, errorThrown){
-                //console.log("エラー:", res, ":", textStatus);
                 $('#loading').hide();
-                $('#save_dialog').hide();
                 $('#notice').html("could not save").fadeIn().fadeOut(5000, function() {
                     $(this).html('').removeAttr('style');
                     showSource();
                 });
             }
         });
-
-        return false;
-    });
-
-
-    /*
-     * saveキャンセル
-     */
-    $('#save_cancel').click(function() {
-        $('#save_dialog').hide();
-        return false;
-    });
+    }
 
 
     /*
@@ -2897,6 +2866,11 @@ $(document).ready(function() {
             $('#doc_area').removeAttr('style');
             $('#ins_area').removeAttr('style');
             $('#rel_base_area').removeAttr('style');
+            // $('#doc_area').css('z-index', 10);
+            // $('#ins_area').css('z-index', 40);
+            // $('#rel_base_area').css('z-index', 20);
+            // $('#rel_area').css('z-index', 20);
+            // $('#clone_area').css('z-index', 30);
 
             var bg_color = $('#doc_area').css('backgroundColor');
 
@@ -2954,7 +2928,6 @@ $(document).ready(function() {
             $('#ins_area').css('z-index', 20);
             $('#rel_base_area').css('z-index', -10);
 
-
             var bg_color = $('#doc_area').css('backgroundColor');
 
             if(bg_color.substr(0, 4) != 'rgba') {
@@ -2968,7 +2941,6 @@ $(document).ready(function() {
 
             $('#edit_btn').attr("src", 'images/edit_on_btn.png');
             $('#relation_btn').attr("src", 'images/relation_off_btn.png');
-
 
             // spanの選択を削除
             clearSpanSelection();
@@ -3069,8 +3041,8 @@ $(document).ready(function() {
             var div = '<div id="' + obj['id'] + '" '
                     + 'class="clone_span" '
                     + 'style="position:absolute; '
-                    + 'left:'   + (obj['left'] - 1)  + 'px; '
-                    + 'top:'    + (obj['top'] - 1)  + 'px; '
+                    + 'left:'   + (obj['left'] - 2)  + 'px; '
+                    + 'top:'    + (obj['top'] - 2)  + 'px; '
                     + 'width:'  + obj["width"] + 'px; '
                     + 'height:' + obj["height"] +'px" '
                     + 'title="' + obj['title'] + '"></div>';
