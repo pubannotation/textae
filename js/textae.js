@@ -1,100 +1,39 @@
 $(document).ready(function() {
-
-    /**
-     * デバッグ用
-     **/
-    if (!('console' in window)) {
-        window.console = {};
-        window.console.log = function(str){
-            return str;
-        };
-    }
-
-
     var OSname;
 
-    /*
-     * 表示モード、初期値はviewモード
-     */
-    var mode = 'view';
+    var mode = 'view';  // screen mode: view(default) | span | relation
+    var replicateAuto = false;
 
     var sourceDoc;
 
-
-    /*
-     * 選択されたspan要素
-     * 複数の場合があるので配列で表す
-     */
+    // selected slements
     var spanIdsSelected;
     var instanceIdsSelected;
     var modificationIdsSelected;
     var relationIdsSelected;
 
-    /*
-     * 選択された要素のdoc_area内での順番
-     */
-    var selectedIdOrder;
-
-    /*
-     * ctrlが押されているか
-     */
+    // state of control keys
     var isCtrl = false;
-
-    /*
-     * ctrl + altが押されているか
-     */
     var isCtrlAlt = false;
-
-    /*
-     * shiftキーが押されているか
-     */
     var isShift = false;
 
-    /*
-     * mutipleがonか
-     */
-    var isMultiple = true;
-
-    /*
-     * 接続用span要素
-     */
-    var sourceElem = null;
-    var targetElem = null;
-
-    /*
-     * テーブル描画、及びデータ送信用
-     * コネクションデータの配列
-     * 新規作成で追加,　削除で削除
-     */
-
-    /*
-     * 一時的に隠すコネクションデータ保存用
-     */
-    var relationsHidden;
-
-    /*
-     * 線の透明度
-     */
+    // opacity of connectors
     var connOpacity = 0.6;
 
-    // curvinessの掛け率
+    // curviness parameters
     var xrate = 0.6;
     var yrate = 0.05;
 
-    // curvinessのオフセット
+    // curviness offset
     var c_offset = 20;
 
-    /*
-     * instancesのデータ
-     */
-    var insWidth = 6; // 幅
-    var insHeight = 6;  // 高さ
+    // shape of instance
+    var insWidth = 6;
+    var insHeight = 6;
     var insBorder = 3;
     var insMargin = 2;
 
-    /*
-     * conf.txtより読み取る設定値
-     */
+    // configuration data
     var delimiterCharacters;
     var nonEdgeCharacters;
     var spanTypes;
@@ -106,9 +45,7 @@ $(document).ready(function() {
     var instanceTypeDefault;
     var modificationTypeDefault;
 
-    /*
-     * annotation data (Objects)
-     */
+    // annotation data (Objects)
     var spans;
     var instances;
     var relations;
@@ -120,12 +57,8 @@ $(document).ready(function() {
     var instancesPerSpan;
     var relationsPerSpanInstance;
 
-    /*
-     * urlのtargetパラメータ
-     * text, annotationをGET、POSTするURL
-     */
+    // target URL
     var targetUrl = '';
-
 
     var editHistory;
     var lastEditPtr;
@@ -135,60 +68,20 @@ $(document).ready(function() {
 
     getUrlParameters();
 
-
     /*
-     * Notice
-     */
-    function showSource() {
-        $('#notice').html("(source: " + targetUrl + ")");
-    }
-
-    /*
-     * slider初期化
-     */
-    function initSlider() {
-
-        $('#slider').slider({
-            range: "max",
-            min: 0,
-            max: 10,
-            step: 1,
-            value: connOpacity*10,
-            stop: function( event, ui ) {
-                connOpacity = ((ui.value)*0.1).toFixed(1);
-                $( "#slider_value" ).html(connOpacity);
-                changeConnectionOpacity(connOpacity);
-            },
-            slide: function( event, ui ) {
-                connOpacity = ((ui.value)*0.1).toFixed(1);
-                $( "#slider_value" ).html(connOpacity);
-            }
-        });
-        $( "#slider_value" ).html( $("#slider").slider( "value" )*0.1);
-    }
-
-
-    /*
-     * urlパラメータの取得
+     * get the url parameters: beginning of the program
      */
     function getUrlParameters() {
-        // var params = location.search.replace('?', '').split('&');
         var params = location.search.slice(1).split('&');
 
         var targetUrl = "";
         var configUrl = "";
 
-        for(var i in params) {
+        for (var i =0; i < params.length; i++) {
             var param = params[i];
-            if(param.split('=')[0] == 'target') {
-                targetUrl = param.split('=')[1];
-            }
-
-            if(param.split('=')[0] == 'config') {
-                configUrl = param.split('=')[1];
-            }
+            if (param.split('=')[0] == 'target') {targetUrl = param.split('=')[1]}
+            if (param.split('=')[0] == 'config') {configUrl = param.split('=')[1]}
         }
-
 
         // read default configuration
         $.ajax({
@@ -204,9 +97,7 @@ $(document).ready(function() {
             }
         });
 
-        if(configUrl != "") {
-
-            //console.log("config が指定されています");
+        if (configUrl != "") {
             $.ajax({
                 type: "GET",
                 url: configUrl,
@@ -228,13 +119,37 @@ $(document).ready(function() {
     }
 
 
-    // boundaryであるかどうか
+    function showSource() {
+        $('#notice').html("(source: " + targetUrl + ")");
+    }
+
+
+    function initSlider() {
+        $('#slider').slider({
+            range: "max",
+            min: 0,
+            max: 10,
+            step: 1,
+            value: connOpacity*10,
+            stop: function( event, ui ) {
+                connOpacity = ((ui.value)*0.1).toFixed(1);
+                $( "#slider_value" ).html(connOpacity);
+                changeConnectionOpacity(connOpacity);
+            },
+            slide: function( event, ui ) {
+                connOpacity = ((ui.value)*0.1).toFixed(1);
+                $( "#slider_value" ).html(connOpacity);
+            }
+        });
+        $( "#slider_value" ).html( $("#slider").slider( "value" )*0.1);
+    }
+
+
     function isNonEdgeCharacter(char){
         return ($.inArray(char, nonEdgeCharacters) >= 0);
     }
 
 
-    // delimiterであるかどうか
     function isDelimiter(char){
         return ($.inArray(char, delimiterCharacters) >= 0);
     }
@@ -307,9 +222,6 @@ $(document).ready(function() {
     }
 
 
-    /*
-     * jsPlumbの初期化
-     */
     function initJsPlumb() {
         jsPlumb.reset();
         jsPlumb.setRenderMode(jsPlumb.SVG);
@@ -373,8 +285,6 @@ $(document).ready(function() {
         modificationIdsSelected = new Array();
         connectorTypes = new Object();
 
-        relationsHidden = new Array();
-
         editHistory = new Array();
         lastEditPtr = -1;
         lastSavePtr = -1;
@@ -435,9 +345,6 @@ $(document).ready(function() {
 
         positions = new Object();
         connectors = new Object();
-
-        // storageに格納
-        sessionStorage.clear();
     }
 
 
@@ -451,7 +358,6 @@ $(document).ready(function() {
         for (var i = 0; i < spanIds.length; i++) {
             var sid = spanIds[i];
             var span = $('#' + sid);
-            // console.log(spanId);
 
             var spanTop = span.get(0).offsetTop;
             var spanLeft = span.get(0).offsetLeft;
@@ -521,7 +427,7 @@ $(document).ready(function() {
 
 
     /*
-     * spanの表示順番でjsonのソート
+     * sort the span IDs by the position
      */
     function sortSpanIds(sids) {
         function compare(a, b) {
@@ -534,13 +440,7 @@ $(document).ready(function() {
     /*
      * click undo button
      */
-    $('#undo_btn').click(function() {
-        // empty selections
-        spanIdsSelected.length = 0;
-        instanceIdsSelected.length = 0;
-        relationIdsSelected.length = 0;
-        modificationIdsSelected.length = 0;
-
+    $('#btn_undo').click(function() {
         doUndo();
         return false;
     });
@@ -549,13 +449,7 @@ $(document).ready(function() {
     /*
      * click redo button
      */
-    $('#redo_btn').click(function(e) {
-        // empty selections
-        spanIdsSelected.length = 0;
-        instanceIdsSelected.length = 0;
-        relationIdsSelected.length = 0;
-        modificationIdsSelected.length = 0;
-
+    $('#btn_redo').click(function(e) {
         doRedo();
         return false;
     });
@@ -565,6 +459,11 @@ $(document).ready(function() {
      * Undo
      */
     function doUndo() {
+        clearSpanSelection();
+        clearInstanceSelection();
+        clearRelationSelection();
+        clearModificationSelection();
+
         revertEdits(editHistory[lastEditPtr--]);
         changeButtonStateUndoRedo();
         changeButtonStateSave();
@@ -575,6 +474,11 @@ $(document).ready(function() {
      * Redo
      */
     function doRedo() {
+        clearSpanSelection();
+        clearInstanceSelection();
+        clearRelationSelection();
+        clearModificationSelection();
+
         makeEdits(editHistory[++lastEditPtr], 'redo');
         changeButtonStateUndoRedo();
         changeButtonStateSave();
@@ -583,38 +487,48 @@ $(document).ready(function() {
 
     function changeButtonStateUndoRedo() {
         if (lastEditPtr > -1) {
-            enableButton($('#undo_btn'));
+            enableButton($('#btn_undo'));
+            $('#btn_undo').html(lastEditPtr + 1);
         } else {
-            disableButton($('#undo_btn'));
+            disableButton($('#btn_undo'));
+            $('#btn_undo').html('');
         }
 
         if (lastEditPtr < editHistory.length - 1) {
-            enableButton($('#redo_btn'));
+            enableButton($('#btn_redo'));
+            $('#btn_redo').html(editHistory.length - lastEditPtr - 1);
         } else {
-            disableButton($('#redo_btn'));
+            disableButton($('#btn_redo'));
+            $('#btn_redo').html('');
         }
     }
 
 
     function changeButtonStateSave() {
         if (lastEditPtr == lastSavePtr) {
-            disableButton($('#save_btn'));
+            disableButton($('#btn_save'));
             $(window).unbind('beforeunload', leaveMessage);
         } else {
-            enableButton($('#save_btn'));
+            enableButton($('#btn_save'));
             $(window).bind('beforeunload', leaveMessage);
         }
     }
 
 
-    function enableButton(button) {
-        button.prop("disabled", false);
-        button.css('opacity', 1.0);
+    function disableButton(button) {
+        button.addClass('disabled');
     }
 
-    function disableButton(button) {
-        button.prop("disabled", true);
-        button.css('opacity', 0.3);
+    function enableButton(button) {
+        button.removeClass('disabled');
+    }
+
+    function pushButton(button) {
+        button.addClass('pushed');
+    }
+
+    function unpushButton(button) {
+        button.removeClass('pushed');
     }
 
 
@@ -622,7 +536,7 @@ $(document).ready(function() {
      * List of categories 
      */
     function tableSpanTypes(spanTypes) {
-        var html = '<form><table>';
+        var html = '<table>';
         html += '<tr><th colspan="2">Span Types</th>';
 
         for(var s in spanTypes) {
@@ -636,7 +550,7 @@ $(document).ready(function() {
                 html += '<td><input type="radio" name="category" class="category_radio"></td>';
             }
 
-            html += '<td class="category_apply_btn">' + s  + '</td>';
+            html += '<td><div class="span_type_label">' + s  + '</div></td>';
 
             if (uri) {
                 html += '<td title="' + uri + '">' + '<a href="' + uri + '" target="_blank"><img src="images/link.png"></a></td>';
@@ -645,7 +559,7 @@ $(document).ready(function() {
             html += '</tr>';
         }
 
-        html += '</table></form>';
+        html += '</table>';
         $('#span_types').html(html);
     }
 
@@ -654,7 +568,7 @@ $(document).ready(function() {
      * List of relation types
      */
     function tableRelationTypes (relationTypes) {
-        var html = '<form><table>';
+        var html = '<table>';
         html += '<tr class="hide_all_checkbox">' +
             '<th colspan="2">Relation Types</th>' +
             // '<td><input type="checkbox" name="rel_hide" class="rel_hide" title="all" checked></td>' +
@@ -672,7 +586,7 @@ $(document).ready(function() {
                 html += '<td><input type="radio" name="relation" class="relation_radio"></td>';
             }
 
-            html += '<td class="relation_apply_btn">' + r  + '</td>';
+            html += '<td><div class="relation_type_label">' + r  + '</div></td>';
             // html += '<td><input type="checkbox" name="rel_hide" class="rel_hide" title="show/hide" checked></td>';
 
             if (uri) {
@@ -686,7 +600,7 @@ $(document).ready(function() {
             jsPlumb.registerConnectionTypes(obj);
         }
 
-        html += '</table></form>';
+        html += '</table>';
 
         $('#relation_types').html(html);
     }
@@ -696,7 +610,7 @@ $(document).ready(function() {
      * List of instance types
      */
     function tableInstanceTypes(instanceTypes) {
-        var html = '<form><table><tr class="hide_all_checkbox">' +
+        var html = '<table><tr class="hide_all_checkbox">' +
             '<th colspan="2">Instance Types</th>' +
             '<td><input type="checkbox" name="instype_hide" class="instype_hide" title="all" checked></td>' +
             '<td></td>' +
@@ -723,7 +637,7 @@ $(document).ready(function() {
             html += '</tr>';
         }
 
-        html += '</table></form>';
+        html += '</table>';
 
         $('#instype_list').html(html);
     }
@@ -733,7 +647,7 @@ $(document).ready(function() {
      * List of modification types
      */
     function tableModificationTypes(modificationTypes) {
-        var html = '<form><table><tr class="hide_all_checkbox">' +
+        var html = '<table><tr class="hide_all_checkbox">' +
             '<th colspan="2">Modification Types</th>' +
             '<td><input type="checkbox" name="modtype_hide" class="modtype_hide" title="all" checked></td>' +
             '<td></td>' +
@@ -761,7 +675,7 @@ $(document).ready(function() {
             html += '</tr>';
         }
 
-        html += '</table></form>';
+        html += '</table>';
 
         $('#modtype_list').html(html);
     }
@@ -860,7 +774,7 @@ $(document).ready(function() {
         }
     }
 
-    function unselectSpan(sid) {
+    function deselectSpan(sid) {
         var i = spanIdsSelected.indexOf(sid);
         if (i > -1) {
             $('span#' + sid).removeClass('selected');
@@ -903,9 +817,6 @@ $(document).ready(function() {
     });
 
 
-    /*
-     * spanをクリック
-     */
     function spanClicked(e) {
         cancelBubble(e);
 
@@ -914,97 +825,68 @@ $(document).ready(function() {
             return false;
         }
 
-        // 下に重なってる要素のclickイベントを解除
-        // $('#doc_area span').unbind('click',arguments.callee);
-
-        var id = $(this).attr('id');;
-
         if (mode == "relation") {
-            // relation mode
             var id = $(this).attr('id').split('_')[1];  // in clone area, clone_id
 
-            if (spanIdsSelected.length == 0) {
+            clearRelationSelection();
+
+            if (spanIdsSelected.length == 0 && instanceIdsSelected.length == 0) {
                 selectSpan(id);
-            } else {
-                sourceId = spanIdsSelected[0];
-                targetId = id;
-
+            }
+            else {
+                // make connection
                 var rid = "R" + (getMaxConnId() + 1);
-                var subject = sourceId;
-                var object = targetId;
+                var oid = id;
 
-                makeEdits([{action:'new_relation', id:rid, type:relationTypeDefault, subject:subject, object:object}]);
+                var sid;
+                if (spanIdsSelected.length > 0) {sid = spanIdsSelected[0]}
+                else {sid = instanceIdsSelected[0]}
 
-                // focus control
-                if (e.shiftKey) {
+                makeEdits([{action:'new_relation', id:rid, type:relationTypeDefault, subject:sid, object:oid}]);
+
+                // star chanining
+                if (e.ctrlKey) {}
+
+                else { 
                     clearSpanSelection();
                     clearInstanceSelection();
-                    if (id.substr(0,1) == 'T') {
-                        selectSpan(id);
-                    } else {
-                        selectInstance(id);
-                    }
-                } else if (e.ctrlKey) {
-                } else {
-                    clearSpanSelection();
-                    clearInstanceSelection();
+
+                    // continuous chaining
+                    if (e.shiftKey) {selectSpan(oid)}
                 }
             }
-
-        } else if (mode == "edit") {
-            // span編集モード
+        } else if (mode == "span") {
+            var id = $(this).attr('id');
 
             if (isCtrl) {
-                if (!isSpanSelected(id)) {
+                if (isSpanSelected(id)) {
+                    deselectSpan(id);
+                } else {
                     selectSpan(id);
                 }
             }
 
-            // shiftが押されている
             else if (isShift && spanIdsSelected.length == 1) {
                 var firstId = spanIdsSelected.pop();
                 var secondId = $(this).attr('id');
 
-                // 一旦、元に戻す
-                $('#doc_area span').removeClass('selected').removeClass('partialSelected');
+                dismissBrowserSelection();
+                clearSpanSelection();
 
-                // selectedを削除して、class指定が空になった要素はclass="noCategoy"にする
-                //$('#doc_area span[class=""]').addClass('noCategory');
-                // 一旦空にする
-                spanIdsSelected.splice(0, spanIdsSelected.length);
+                var firstIndex = spanIds.indexOf(firstId);
+                var secondIndex = spanIds.indexOf(secondId);
 
-                sortSpans(spans);
-
-                // firtsIdとsecondIdのdoc_area内での順番をもとめる
-                var firstIndex;
-                var secondIndex
-                $('#doc_area span').map(function(i){
-                    if($(this).attr('id') == firstId) {
-                        firstIndex = i;
-                    }
-                    if($(this).attr('id') == secondId) {
-                        secondIndex = i;
-                    }
-                });
-
-                if(secondIndex < firstIndex) {
-                    var tmpIndex;
-                    tmpIndex = firstIndex;
+                if (secondIndex < firstIndex) {
+                    var tmpIndex = firstIndex;
                     firstIndex = secondIndex;
-                    secondIndex = firstIndex;
+                    secondIndex = tmpIndex;
                 }
 
-                $('#doc_area span').map(function(i){
-                    if(i >= firstIndex && i <= secondIndex) {
-                        $(this).addClass('selected');
-                        spanIdsSelected.push($(this).attr('id'));
-                    }
-                });
-
-                dismissBrowserSelection();
+                for (var i = firstIndex; i <= secondIndex; i++) {
+                    selectSpan(spanIds[i]);
+                }
             }
 
-            // ctrl, shiftが押されていない場合
             else {
                 clearSpanSelection();
                 clearInstanceSelection();
@@ -1016,15 +898,14 @@ $(document).ready(function() {
 
 
     /*
-     * 右クリックで合体
+     * merge spans by mouse right click
      */
     $('#doc_area span').live('contextmenu', function(e){
-        console.log('右クリック');
 
         if (mode == "relation") {
            // relationモード
 
-        } else if (mode == "edit") {
+        } else if (mode == "span") {
 
             if (spanIdsSelected.length == 1) {
                 var firstSpanId = spanIdsSelected.shift();
@@ -1044,7 +925,6 @@ $(document).ready(function() {
                     for (var i = 0; i < instancesPerSpan[secondSpanId].length; i++) {
                         edits.push({action:'change_instance_object', id:instancesPerSpan[secondSpanId][i], old_object:secondSpanId, new_object:firstSpanId});
                     }
-
 
                     // move relations
                     for (var i = 0; i < relationsPerSpanInstance[secondSpanId].length; i++) {
@@ -1067,7 +947,6 @@ $(document).ready(function() {
                         edits.push({action:'change_span_begin', id:firstSpanId, old_begin:firstSpan['span']['begin'], new_begin:secondSpan['span']['begin']});
                     }
 
-
                     // remove the second span
                     edits.push({action:'remove_span', id:secondSpanId, begin:spans[secondSpanId].span.begin, end:spans[secondSpanId].span.end, type:spans[secondSpanId].type});
 
@@ -1085,9 +964,6 @@ $(document).ready(function() {
     });
 
 
-    /*
-     * 選択を解除
-     */
     function cancelSelect(e) {
         if (isJustDragged) {
             isJustDragged = false;
@@ -1095,10 +971,11 @@ $(document).ready(function() {
         }
 
         if (mode == "relation") {
+            clearSpanSelection();
             clearInstanceSelection();
             clearRelationSelection();
 
-        } else if (mode == "edit") {
+        } else if (mode == "span") {
             clearSpanSelection();
             clearInstanceSelection();
             clearModificationSelection();
@@ -1110,7 +987,6 @@ $(document).ready(function() {
     /*
      * マウスドラッグ時の開始位置の調整
      */
-
     function adjustSpanStart(startPosition) {
         // 開始位置
         var pos = startPosition;
@@ -1128,6 +1004,7 @@ $(document).ready(function() {
         return pos;
     }
 
+
     /*
      * マウスドラッグ時の開始位置の調整2
      * ドラッグした位置以上に縮める
@@ -1142,35 +1019,24 @@ $(document).ready(function() {
         // 開始位置
         var pos = startPosition;
 
-        //console.log('startChar:', startChar);
-
         // はじめにstart位置の文字ががboundaryCharであれば、
         // boundaryCharがなくなる位置まで後ろにずらす
         if(!isNonEdgeCharacter(startChar)) {
-            //console.log('boundaryではありません');
             if(isDelimiter(startChar)) {
-               // console.log('delimiterです');
                 pos = pos + 1;
              } else {
-                //console.log('delimiterではありません');
                 while(!isDelimiter(startChar)) {
                     pos = pos + 1;
                     startChar = sourceDoc.charAt(pos);
-                    //console.log(pos, ":", startChar)
                 }
-               // console.log('pos:', pos);
-
             }
         }
 
         while(isNonEdgeCharacter(startChar)) {
-            //console.log('boundaryがあります');
             pos = pos + 1;
             startChar = sourceDoc.charAt(pos);
-            //console.log(pos, ":", startChar);
         }
         return pos;
-
     }
 
 
@@ -1188,30 +1054,25 @@ $(document).ready(function() {
         // はじめにend位置の文字ががboundaryCharであれば、
         // boundaryCharがなくなる位置まで前にずらす
         while(isNonEdgeCharacter(endChar)){
-            //console.log('boundaryがあります');
             pos = pos - 1;
             endChar = str.charAt(pos);
-            //console.log(pos, ":", endChar);
         }
-        //console.log('boundary修正endPosition', pos, ":", str.charAt(pos));
         // つぎに、delimitCharacterが現れるまでend位置を後ろにずらす
         endChar = str.charAt(pos);
 
         // 次に、その位置がdelimitであれば、そのまま
         // delimjitでなければ、delimitCharcterが現れるまでend位置を後ろにずらす
         if(isDelimiter(endChar)) {
-            //console.log('delimiterです');
             return pos + 1;
         } else {
-            //console.log('delimiterではありません');
             while(!isDelimiter(endChar)) {
                 pos = pos + 1;
                 endChar = str.charAt(pos);
-                //console.log(pos, ":", endChar)
             }
             return pos;
         }
     }
+
 
     /*
      * マウスドラッグ時の終了位置の調整
@@ -1228,34 +1089,25 @@ $(document).ready(function() {
         // はじめにend位置の文字ががboundaryCharであれば、
         // boundaryCharがなくなる位置まで前ににずらす
         if(!isNonEdgeCharacter(endChar)) {
-            //console.log('boundaryではありません');
 
             if(isDelimiter(endChar)) {
-                //console.log('delimiterです');
                 pos = pos - 1;
             } else {
-                //console.log('delimiterではありません');
 
                 while(!isDelimiter(endChar)) {
                     pos = pos - 1;
                     endChar = str.charAt(pos);
-                    //console.log(pos, ":", endChar)
                 }
-
-                //console.log('pos:', pos);
 
             }
         }
 
         while(isNonEdgeCharacter(endChar)) {
-            //console.log('boundaryがあります');
             pos = pos - 1;
             endChar = str.charAt(pos);
-            //console.log(pos, ":", endChar);
         }
 
         return pos + 1;
-
     }
 
 
@@ -1302,7 +1154,7 @@ $(document).ready(function() {
 
             var edits = [{action:'new_span', id:sid, begin:startPosition, end:endPosition, type:spanTypeDefault}];
 
-            if(isMultiple) {
+            if(replicateAuto) {
                 var replicates = getSpanReplicates({id:sid, span:{begin:startPosition, end:endPosition}, type:spanTypeDefault});
                 edits = edits.concat(replicates);
             }
@@ -1362,44 +1214,10 @@ $(document).ready(function() {
     }
 
 
-    $('#edit_btn').click(function() {
-        //console.log($(this).attr('src'));
-        if($(this).attr('src') == 'images/edit_on_btn.png') {
-            mode = "view";
-
-            $('#always_multiple_btn').prop('disabled', false);
-
-            $('#doc_area span').die('click', spanClicked);
-
-            $('div.instance').die('click', instanceClicked);
-
-            $('#doc_area').die('mouseup',  doMouseup);
-
-            unsetCancelSelect();
-
-            changeMode(mode);
-        } else {
-            mode = "edit";
-
-            // relationボタンをオフ
-            if($('#relation_btn').attr('src') == 'images/relation_on_btn.png') {
-                $('#relation_btn').attr('src', 'images/relation_off_btn.png');
-            }
-            $('#always_multiple_btn').prop('disabled', false);
-
-            setCancelSelect();
-
-            changeMode(mode);
-        }
-        return false;
-    })
-
-
     /*
      * span idの最大値を求める
      * spn idの形は T+数字
      */
-
     function getSpanMaxIdNum() {
         var numId = 0;
         for (sid in spans) {
@@ -1430,7 +1248,6 @@ $(document).ready(function() {
                 numId = parseInt(relations[i]["id"].slice(1));
             }
         }
-        //console.log("max conn id:", numId);
         return numId;
     }
 
@@ -1444,9 +1261,9 @@ $(document).ready(function() {
                 numId = parseInt(instances[i]["id"].slice(1));
             }
         }
-        //console.log("max insanns id:", numId);
         return numId;
     }
+
 
     /*
      * modannsのidの数字部分の最大値を求める
@@ -1458,7 +1275,6 @@ $(document).ready(function() {
                 numId = parseInt(modifications[i]["id"].slice(1));
             }
         }
-        //console.log("max insanns id:", numId);
         return numId;
     }
 
@@ -1474,51 +1290,37 @@ $(document).ready(function() {
 
 
     function unsetCancelSelect() {
-        //console.log('unsetCancelSelect ');
-        $("#joint_area, #notice_ok_btn,  #doc_area span, .editable, td.category_apply_btn, td.relation_apply_btn, " +
-            "img, form, #load_dialog, #load_btn, :button, :text, :input, " +
-            "div.instance, " +
+        $("#doc_area span, .editable, .span_type_label, .relation_type_label, " +
+            "img, #btn_load, :button, :text, :input, div.instance, " +
             "#ins_area div span.modification").die("click", function(event){
-                // eventの伝搬を止める
-                event.stopPropagation();
+                cancelBubble(event);
             });
 
-        // 選択解除
-        $("*:not(#joint_area, #notice_ok_btn, #doc_area span, .editable, td.category_apply_btn, td.relation_apply_btn, " +
-            "img, form, #load_dialog, #load_btn, :button, :text, :input, " +
-            "div.instance, " +
+        $("*:not(#doc_area span, .editable, .span_type_label, .relation_type_label, " +
+            "img, #btn_load, :button, :text, :input, div.instance, " +
             "#ins_area div span.modification)").die("click", cancelSelect);
     }
 
 
     function setCancelSelect() {
-        $("#joint_area, #notice_ok_btn,  #doc_area span, .editable, td.category_apply_btn, td.relation_apply_btn, " +
-            "img, form, #load_dialog, #load_btn, :button, :text, :input, " +
-            "div.instance, " +
+        $("#doc_area span, .editable, .span_type_label, .relation_type_label, " +
+            "img, #btn_load, :button, :text, :input, div.instance, " +
             "#ins_area div span.modification").die("click", function(event){
-                // eventの伝搬を止める
-                event.stopPropagation();
+                cancelBubble(event);
             });
 
-        $("#joint_area, #notice_ok_btn,  #doc_area span, .editable, td.category_apply_btn, td.relation_apply_btn, " +
-            "img, form, #load_dialog, #load_btn, :button, :text, :input, " +
-            "div.instance, " +
-            "#ins_area div span.modification, table.modification, table.modification tr td, table.modification tr td div").live("click", function(event){
-                // eventの伝搬を止める
-                event.stopPropagation();
+        $("#doc_area span, .editable, .span_type_label, .relation_type_label, " +
+            "img, #btn_load, :button, :text, :input, div.instance, " +
+            "#ins_area div span.modification").live("click", function(event){
+                cancelBubble(event);
             });
 
-        // 選択解除
-        $("*:not(#joint_area, #notice_ok_btn,  #doc_area span, .editable, td.category_apply_btn, td.relation_apply_btn, " +
-            "img, form, #load_dialog, #load_btn, :button, :text, :input, " +
-            "div.instance, " +
+        $("*:not(#doc_area span, .editable, .span_type_label, .relation_type_label, " +
+            "img, #btn_load, :button, :text, :input, div.instance, " +
             "#ins_area div span.modification)").die("click", cancelSelect);
 
-
-
-        $("*:not(#joint_area, #notice_ok_btn,  #doc_area span, .editable, td.category_apply_btn, td.relation_apply_btn, " +
-            "img, form, #load_dialog, #load_btn, :button, :text, :input, " +
-            "div.instance, " +
+        $("*:not(#doc_area span, .editable, .span_type_label, .relation_type_label, " +
+            "img, #btn_load, :button, :text, :input, div.instance, " +
             "#ins_area div span.modification)").live("click", cancelSelect);
     }
 
@@ -1529,11 +1331,8 @@ $(document).ready(function() {
         var anchorRange = document.createRange();
         anchorRange.selectNode(selection.anchorNode);
 
-        //console.log('selection.compareBoundaryPoints', range.compareBoundaryPoints(Range.START_TO_START, anchorRange));
         // focusRange の開始点よりも、range の開始点が前なら -1、等しければ 0、後なら 1 を返します。
         if (range.compareBoundaryPoints(Range.START_TO_START, anchorRange) > 0) {
-            //console.log('後ろに伸ばします');
-            //console.log(selection.focusNode.parentNode);
 
             // 選択された用素のの親の親と、selection.focusNodeの親が同じでないといけない
             //if(selected.get(0).childNodes[0].parentNode.parentNode == selection.focusNode.parentNode){
@@ -1566,9 +1365,7 @@ $(document).ready(function() {
         } else {
 
             if ($('span#' + sid).get(0).childNodes[0].parentNode.parentNode == selection.focusNode.parentNode){
-                //console.log('前に伸ばします');
                 // focusNodeの親ノードの位置を求めます
-                //console.log(selection.focusNode.parentNode.id);
                 var offset = 0;
 
                 // focusノードを起点にしたchild node
@@ -1594,24 +1391,19 @@ $(document).ready(function() {
         }
     }
 
-    /*
-     * マークを縮める
-     */
+
     function shortenElement(sid, selection) {
         var range = selection.getRangeAt(0);
 
         var focusRange = document.createRange();
         focusRange.selectNode(selection.focusNode);
 
-        //console.log('selection.compareBoundaryPoints', range.compareBoundaryPoints(Range.START_TO_START, focusRange));
         // focusRange の開始点よりも、range の開始点が前なら -1、等しければ 0、後なら 1 を返します。
 
         var i;
         var len = spans.length - 1;
 
         if(range.compareBoundaryPoints(Range.START_TO_START, focusRange) > 0) {
-            //console.log('後ろを縮める');
-            //console.log('縮める位置は', selection.focusOffset);
 
             // focusノードを起点にしたchild node
             var focusChilds = selection.focusNode.parentElement.childNodes;
@@ -1637,8 +1429,6 @@ $(document).ready(function() {
             }
 
         } else {
-            //console.log('前を縮める');
-            //console.log('縮める位置は', selection.focusOffset);
 
             // focusノードを起点にしたchild node
             var focusChilds = selection.focusNode.parentElement.childNodes;
@@ -1695,11 +1485,8 @@ $(document).ready(function() {
             if(absoluteAnchorPosition == selectedJson['span']['begin']) {
                 newStart = absoluteFocusPosition;
 
-                //console.log('newStart:', newStart);
                 // 修正
                 var startPosition = adjustSpanStart(newStart);
-
-                //console.log('startPosition:', startPosition);
 
                 // 新たな開始点が終了点より小さい場合のみ
                 if(startPosition < selectedJson['span']['end']) {
@@ -1720,8 +1507,6 @@ $(document).ready(function() {
             }
 
         } else {
-            //console.log('分割　真ん中');
-
             var newStart = absoluteFocusPosition;
             var newEnd = selectedJson['span']['end'];
             var newLabel = selectedJson['category'];
@@ -1730,7 +1515,7 @@ $(document).ready(function() {
             var newEndPosition = adjustSpanEnd(newEnd);
 
             // 分離した前方の終了位置
-           // var separatedEndPos = adjustSpanEnd(offset + startPos);
+            // var separatedEndPos = adjustSpanEnd(offset + startPos);
             var separatedEndPos = adjustSpanEnd(absoluteAnchorPosition);
 
             // 分離した前方の終了位置と分離した後方の終了位置が異なる場合のみ
@@ -1750,7 +1535,6 @@ $(document).ready(function() {
                 spans.push(obj);
             }
         }
-
     }
 
 
@@ -1766,20 +1550,13 @@ $(document).ready(function() {
         var selectedRange = document.createRange();
         selectedRange.selectNode(selected.get(0).childNodes[0]);
 
-        //console.log('始点範囲比較:', anchorRange.compareBoundaryPoints(Range.START_TO_START, selectedRange));
-        //console.log('終点範囲比較:', anchorRange.compareBoundaryPoints( Range.END_TO_END, selectedRange ))
-
         if(anchorRange.compareBoundaryPoints(Range.START_TO_START, selectedRange) > 0 && anchorRange.compareBoundaryPoints( Range.END_TO_END, selectedRange ) > 0) {
             // anchorNodeのspan選択用素の中にあれば、選択用素のIDを返す
-            //console.log('selected.id:',selected.attr('id'))
             return selected.attr('id');
         }
 
         // anchorNodeが選択用素の中に無い場合は、anchoreNodeのidを返す
-        //console.log('anchorNode:', anchorNode)
-        //console.log('anchoreNode.id:',anchorNode.parentElement.id);
         return anchorNode.parentElement.id;
-
     }
 
 
@@ -1829,13 +1606,10 @@ $(document).ready(function() {
     function getFocusPosBySpan(childNodes, selection) {
         var len = 0;
 
-        //console.log('childNodes:', childNodes);
-
         for(var i = 0; i < childNodes.length; i++) {
 
             // docareaChilds[i]がfocusNodeならば、繰り返しを抜ける
             if(childNodes[i] == selection.focusNode) {
-                //console.log('breakします')
                 break;
             }
 
@@ -1851,6 +1625,7 @@ $(document).ready(function() {
 
         return len;
     }
+
 
     /*
      * anchorNode上で、そのnodeまでの位置を求める
@@ -1862,7 +1637,6 @@ $(document).ready(function() {
 
             // docareaChilds[i]がanchorNodeならば、繰り返しを抜ける
             if(childNodes[i] == selection.anchorNode) {
-                //console.log('breakします')
                 break;
             }
 
@@ -1878,7 +1652,6 @@ $(document).ready(function() {
 
         return len;
     }
-
 
 
     /*
@@ -1945,22 +1718,19 @@ $(document).ready(function() {
 
 
     /*
-     * multipleで作った時に、選択文字列の両外側がdelimiterであるかどうか
+     * check the bondaries: used afte replication
      */
     function isOutsideDelimiter(document, startPos, endPos) {
-        var outOfBeginChar = document.charAt(startPos-1);
-        var outOfEndChar = document.charAt(endPos);
+        var precedingChar = document.charAt(startPos-1);
+        var followingChar = document.charAt(endPos);
 
-        if(!isDelimiter(outOfBeginChar) || !isDelimiter(outOfEndChar)) {
-            return true;
-        } else {
-            return false;
-        }
+        if (!isDelimiter(precedingChar) || !isDelimiter(followingChar)) {return true}
+        else {return false}
     }
 
 
     /*
-    * ブラウザデフォルトの選択解除
+     * dismiss the default selection by the browser
     */
     function dismissBrowserSelection() {
         if (window.getSelection){
@@ -1974,221 +1744,123 @@ $(document).ready(function() {
     }
 
 
-    /*
-     * キーダウン
-     */
     $(document).keydown(function(e) {
-        //console.log('keyCode:', e.keyCode);
-        //console.log('e.ctrlKey:', e.ctrlKey);
+        // win ctrl / mac command
+        if ((OSName != "MacOS" && e.keyCode == 17) || (OSName == "MacOS" && e.keyCode == 224)) {isCtrl = true}
 
-        if (mode == "relation") {
-            // relation mode
-            // win delete
-            // mac fn + delete
-            if (e.keyCode == 46) {
-                var relationRemoves = new Array();
-                while (relationIdsSelected.length > 0) {
-                    rid = relationIdsSelected.pop();
-                    relationRemoves.push({action:'remove_relation', id:rid, subject:relations[rid].subject, object:relations[rid].object, type:relations[rid].type});
-                    modificationIdsSelected = modificationIdsSelected.concat(); // ToDo
+        // shift
+        if (e.keyCode == 16) {isShift = true}
+
+        // win ctrl + alt / mac command + option
+        if (isCtrl && e.keyCode == 18) {isCtrlAlt = true}
+
+        switch (e.keyCode) {
+            case 46: // win delete / mac fn + delete
+                var edits;
+
+                if (mode == 'span') {
+                    var spanRemoves = new Array();
+                    while (spanIdsSelected.length > 0) {
+                        sid = spanIdsSelected.pop();
+                        spanRemoves.push({action:'remove_span', id:sid, begin:spans[sid].span.begin, end:spans[sid].span.end, type:spans[sid].type});
+                        instanceIdsSelected = instanceIdsSelected.concat(instancesPerSpan[sid]);
+                        relationIdsSelected = relationIdsSelected.concat(relationsPerSpanInstance[sid]);
+                    }
+
+                    var instanceRemoves = new Array();
+                    while (instanceIdsSelected.length > 0) {
+                        iid = instanceIdsSelected.pop();
+                        instanceRemoves.push({action:'remove_instance', id:iid, object:instances[iid].object, type:instances[iid].type});
+                        relationIdsSelected = relationIdsSelected.concat(relationsPerSpanInstance[iid]);
+                    }
+
+                    var relationRemoves = new Array();
+                    while (relationIdsSelected.length > 0) {
+                        rid = relationIdsSelected.pop();
+                        relationRemoves.push({action:'remove_relation', id:rid, subject:relations[rid].subject, object:relations[rid].object, type:relations[rid].type});
+                        modificationIdsSelected = modificationIdsSelected.concat(); // ToDo
+                    }
+
+                    var modificationRemoves = new Array();
+                    while (modificationIdsSelected.length > 0) {
+                        mid = modificationIdsSelected.pop();
+                        modificationRemoves.push({action:'remove_modification', id:mid, object:modifications[mid].object, type:modifications[mid].type});
+                    }
+
+                    edits = modificationRemoves.concat(relationRemoves, instanceRemoves, spanRemoves);
+                } else if (mode == 'relation') {
+                    var relationRemoves = new Array();
+                    while (relationIdsSelected.length > 0) {
+                        rid = relationIdsSelected.pop();
+                        relationRemoves.push({action:'remove_relation', id:rid, subject:relations[rid].subject, object:relations[rid].object, type:relations[rid].type});
+                        modificationIdsSelected = modificationIdsSelected.concat(); // ToDo
+                    }
+
+                    var modificationRemoves = new Array();
+                    while (modificationIdsSelected.length > 0) {
+                        mid = modificationIdsSelected.pop();
+                        modificationRemoves.push({action:'remove_modification', id:mid, object:modifications[mid].object, type:modifications[mid].type});
+                    }
+
+                    edits = modificationRemoves.concat(relationRemoves);
                 }
 
-                var modificationRemoves = new Array();
-                while (modificationIdsSelected.length > 0) {
-                    mid = modificationIdsSelected.pop();
-                    modificationRemoves.push({action:'remove_modification', id:mid, object:modifications[mid].object, type:modifications[mid].type});
-                }
-
-                var edits = modificationRemoves.concat(relationRemoves);
                 makeEdits(edits);
-            }
-
-            // 'i' : make an instance
-            // else if (e.keyCode == 73) {
-            //     createInstance();
-            // }
-
-            // '?'' or 's' : make an modification(speculation)
-            else if((!e.ctrlKey  && e.keyCode == 191) || (!e.ctrlKey && e.keyCode == 83)) {
-                createModification("Speculation");
-            }
-
-            // 'x'' or 'n' : make an modification(negation)
-            else if((!e.ctrlKey && e.keyCode == 78) || (!e.ctrlKey && e.keyCode == 88)) {
-                createModification("Negation");
-            }
-
-            else if(e.keyCode == 17) {
-                isCtrl = true;
-            }
-
-            else if(e.keyCode == 16) {
-                isShift = true;
-            }
-
-        } else if (mode == "edit") {
-
-            // win ctrl
-            // mac command
-            if ((OSName != "MacOS" && e.keyCode == 17) || (OSName == "MacOS" && e.keyCode == 224)) {
-                isCtrl = true;
-            }
-
-            // shift
-            if (e.keyCode == 16) {
-                isShift = true;
-            }
-
-            // win ctrl + alt
-            // mac command + option
-            if (isCtrl && e.keyCode == 18) {
-                isCtrlAlt = true;
-            }
-
-
-            // delete key
-            // win delete
-            // mac fn + delete
-            if (e.keyCode == 46) {
-
-                var spanRemoves = new Array();
-                while (spanIdsSelected.length > 0) {
-                    sid = spanIdsSelected.pop();
-                    spanRemoves.push({action:'remove_span', id:sid, begin:spans[sid].span.begin, end:spans[sid].span.end, type:spans[sid].type});
-                    instanceIdsSelected = instanceIdsSelected.concat(instancesPerSpan[sid]);
-                    relationIdsSelected = relationIdsSelected.concat(relationsPerSpanInstance[sid]);
-                }
-
-                var instanceRemoves = new Array();
-                while (instanceIdsSelected.length > 0) {
-                    iid = instanceIdsSelected.pop();
-                    instanceRemoves.push({action:'remove_instance', id:iid, object:instances[iid].object, type:instances[iid].type});
-                    relationIdsSelected = relationIdsSelected.concat(relationsPerSpanInstance[iid]);
-                }
-
-                var relationRemoves = new Array();
-                while (relationIdsSelected.length > 0) {
-                    rid = relationIdsSelected.pop();
-                    relationRemoves.push({action:'remove_relation', id:rid, subject:relations[rid].subject, object:relations[rid].object, type:relations[rid].type});
-                    modificationIdsSelected = modificationIdsSelected.concat(); // ToDo
-                }
-
-                var modificationRemoves = new Array();
-                while (modificationIdsSelected.length > 0) {
-                    mid = modificationIdsSelected.pop();
-                    modificationRemoves.push({action:'remove_modification', id:mid, object:modifications[mid].object, type:modifications[mid].type});
-                }
-
-                var edits = modificationRemoves.concat(relationRemoves, instanceRemoves, spanRemoves);
-                makeEdits(edits);
-            }
-
-
-            // Iキー
-            // インスタンスを作る
-            else if (e.keyCode == 73) {
+                break;
+            case 73: // 'i' key
                 createInstance();
-            }
-
-
-            // '?'' or 's' : make an modification(speculation)
-            else if ((!e.ctrlKey && e.keyCode == 191) || (!e.ctrlKey && e.keyCode == 83)) {
+                break;
+            case 191: // '?' key
                 createModification("Speculation");
-            }
-
-
-            // 'x'' or 'n' : make an modification(negation)
-            else if ((!e.ctrlKey && e.keyCode == 78) || (!e.ctrlKey && e.keyCode == 88)) {
-                createModification("Negation");
-            }
-
-
-            // z(90)で選択要素を前に
-            // x(88)で選択要素を次に
-            //console.log('isCtrl:', isCtrl);
-            //console.log('isCtrlAlt:', isCtrlAlt);
-
-            if (e.keyCode == 90 && !e.ctrlKey && spanIdsSelected.length == 1) {
-
-                spanIdsSelected.length = 0;
-                sortSpans(spans);
-
-                if(selectedIdOrder > 0) {
-                    selectedIdOrder--;
-                } else {
-                    selectedIdOrder = spans.length - 1;
-
+                break;
+            case 88: // 'x' key
+                if (!e.ctrlKey) {createModification("Negation")}
+                break;
+            case 90: // 'z' key
+                if (lastEditPtr > -1) {doUndo()}
+                break;
+            case 89: // 'y' key
+                if (lastEditPtr < editHistory.length - 1) {doRedo()}
+                break;
+            case 37: // left arrow key: move the span selection backward
+                if (spanIdsSelected.length == 1) {
+                    var spanIdx = spanIds.indexOf(spanIdsSelected.pop());
+                    clearSpanSelection()
+                    spanIdx--;
+                    if (spanIdx < 0) {spanIdx = spanIds.length - 1}
+                    selectSpan(spanIds[spanIdx]);
                 }
-
-                selectedId = spans[selectedIdOrder]['id'];
-                spanIdsSelected.push(selectedId);
-
-                renderSpans(spans);
-
-            } else if(e.keyCode == 88 && !e.ctrlKey && spanIdsSelected.length == 1) {
-
-                spanIdsSelected.splice(0, spanIdsSelected.length);
-                sortSpans(spans);
-
-                if(selectedIdOrder < spans.length -1) {
-                    selectedIdOrder++;
-                } else {
-                    selectedIdOrder = 0;
-
+                break;
+            case 39: //right arrow key: move the span selection forward
+                if (spanIdsSelected.length == 1) {
+                    var spanIdx = spanIds.indexOf(spanIdsSelected.pop());
+                    clearSpanSelection()
+                    spanIdx++;
+                    if (spanIdx > spanIds.length - 1) {spanIdx = 0}
+                    selectSpan(spanIds[spanIdx]);
                 }
-                selectedId = spans[selectedIdOrder]['id'];
-                spanIdsSelected.push(selectedId);
-
-                renderSpans(spans);
-            }
-
+                break;
+            case 86: // 'v' key: change to view mode
+                if (!e.ctrlKey) {changeMode('view')}
+                break
+            case 83: // 's' key: change to span edit mode
+                if (!e.ctrlKey) {changeMode('span')}
+                break;
+            case 82: // 'r' key: change to relation edit mode
+                if (!e.ctrlKey) {changeMode('relation')}
+                break;
         }
-
-        // undo short-cut: ctrl-z
-        if(e.ctrlKey && e.keyCode == 90 && lastEditPtr > -1) {
-            // empty selections
-            spanIdsSelected.length = 0;
-            instanceIdsSelected.length = 0;
-            relationIdsSelected.length = 0;
-            modificationIdsSelected.length = 0;
-
-            doUndo();
-        }
-
-
-
-        // redo short-cut: shift-ctrl-z
-        if (isShift && isCtrl && e.keyCode == 90 && (lastEditPtr < (editHistory.length -1))) {
-            // empty selections
-            spanIdsSelected.length = 0;
-            instanceIdsSelected.length = 0;
-            relationIdsSelected.length = 0;
-            modificationIdsSelected.length = 0;
-
-            doRedo();
-        }
-
     });
 
 
-    /*
-     * キーアップ
-     */
     $(document).keyup(function(e){
-        // ctrlキー
-        // win,mac共通
-        if((OSName != "MacOS" && e.keyCode == 17) || (OSName == "MacOS" && e.keyCode == 224)) {
-            isCtrl = false;
-        }
-        // win:altキー,mac:optionキー
-        if(e.keyCode == 18) {
-            isCtrlAlt = false;
-        }
+        // win ctrl / mac command
+        if ((OSName != "MacOS" && e.keyCode == 17) || (OSName == "MacOS" && e.keyCode == 224)) {isCtrl = false}
 
-        if(e.keyCode == 16) {
-            isShift = false;
-        }
+        // win alt / mac option
+        if (e.keyCode == 18) {isCtrlAlt = false}
 
+        if (e.keyCode == 16) {isShift = false}
     });
 
 
@@ -2209,82 +1881,48 @@ $(document).ready(function() {
     function instanceClicked(e) {
         cancelBubble(e);
 
-        // 下に重なってる要素のclickイベントを解除
-        // $('#doc_area span').unbind('click',arguments.callee);
-
-        if (mode == "relation") {
-            var id = $(this).attr('id').split('_')[1];
-
-            if(sourceElem == null) {
-                //console.log('here');
-                sourceElem = $('#' + id);
-                selectInstance(id);
-            } else {
-                targetElem = $('#' + id);
-
-                // 選択されているものは選択をはずす
-                clearRelationSelection();
-
-                // connection作成
-                var rid = "R" + (getMaxConnId() + 1);
-                var subject = sourceElem.attr('id');
-                var object = targetElem.attr('id');
-
-                makeEdits([{action:'new_relation', id:rid, type:relationTypeDefault, subject:subject, object:object}]);
-
-                if(e.shiftKey) {
-                    // targetを次のソースにする
-                    e.preventDefault();
-
-                    if(sourceElem.hasClass('source_selected')) {
-                        sourceElem.removeClass('source_selected');
-                        sourceElem = null;
-
-                        sourceElem = targetElem;
-                        sourceElem.addClass('source_selected');
-                    } else if(sourceElem.hasClass('selected')) {
-                        $('#' + id).removeClass('selected');
-
-                        addInstanceBorderColor($('#' + id), spanTypes);
-                        sourceElem = null;
-                        sourceElem = targetElem;
-                        sourceElem.css('border-color', '#000000').addClass('selected').attr('id');
-                    }
-
-                } else if(e.ctrlKey) {
-                    // sourceは元のまま
-                    targetElem = null;
-                } else {
-                    sourceElem.removeClass('source_selected');
-
-                    // instanceの枠の色を元に戻す
-                    $('div.instance').map(function() {
-                        if($(this).hasClass('selected')){
-                            $(this).removeClass('selected');
-                            addInstanceBorderColor($(this), spanTypes);
-                        }
-                    });
-
-                    sourceElem = null;
-                    targetElem = null;
-
-                }
-
-            }
-
-        } else {
+        if (mode == "span") {
             var id = $(this).attr('id');
-
             if (isCtrl) {
-                if (!isInstanceSelected(id)) {
-                    selectInstance(id);
-                }
+                if (isInstanceSelected(id)) {deselectInstance(id)}
+                else {selectInstance(id)}
             }
-
             else {
                 clearSpanSelection();
                 clearInstanceSelection();
                 selectInstance(id);
+            }
+        }
+
+        else if (mode == "relation") {
+            var id = $(this).attr('id').split('_')[1];
+
+            clearRelationSelection();
+
+            if (spanIdsSelected.length == 0 && instanceIdsSelected.length == 0) {
+                selectInstance(id);
+            }
+            else {
+                // make connection
+                var rid = "R" + (getMaxConnId() + 1);
+                var oid = id;
+
+                var sid;
+                if (spanIdsSelected.length > 0) {sid = spanIdsSelected[0]}
+                else {sid = instanceIdsSelected[0]}
+
+                makeEdits([{action:'new_relation', id:rid, type:relationTypeDefault, subject:sid, object:oid}]);
+
+                // star chanining
+                if (e.ctrlKey) {}
+
+                else { 
+                    clearSpanSelection();
+                    clearInstanceSelection();
+
+                    // continuous chaining
+                    if (e.shiftKey) {selectInstance(oid)}
+                }
             }
         }
     }
@@ -2301,7 +1939,7 @@ $(document).ready(function() {
         }
     }
 
-    function unselectInstance(iid) {
+    function deselectInstance(iid) {
         var i = instanceIdsSelected.indexOf(iid);
         if (i > -1) {
             $('#' + iid).removeClass('selected');
@@ -2319,7 +1957,6 @@ $(document).ready(function() {
         var i;
 
         if (mode == "relation") {
-            //console.log('選択されたrelationの数:', relationIdsSelected.length);
             return;
 
             for(i = 0; i <  relationIdsSelected.length; i++) {
@@ -2328,8 +1965,6 @@ $(document).ready(function() {
                 var obj = new Object();
                 obj["type"] = type;
                 obj["object"] = conn.getParameter("connId");
-                //console.log('connId:', conn.getParameter("connId"));
-                //console.log('max id:', getMaxModannsId() + 1);
                 obj["id"] = "M" + (getMaxModannsId() + 1);
                 obj['created_at'] = (new Date()).getTime();
 
@@ -2341,7 +1976,7 @@ $(document).ready(function() {
 
             relationIdsSelected.length = 0;
 
-        } else if (mode == "edit") {
+        } else if (mode == "span") {
             var edits = [];
 
             var maxIdNum = getMaxModannsId(); 
@@ -2380,7 +2015,7 @@ $(document).ready(function() {
     /*
      * カテゴリー適用ボタン
      */
-    $('.category_apply_btn').live('click', function() {
+    $('.span_type_label').live('click', function() {
         var edits = new Array();
 
         for (var i = 0; i < spanIdsSelected.length; i++) {
@@ -2400,7 +2035,7 @@ $(document).ready(function() {
     /*
      * 関係適用ボタン
      */
-    $('.relation_apply_btn').live('click', function() {
+    $('.relation_type_label').live('click', function() {
         var edits = new Array();
 
         for(var i = 0; i < relationIdsSelected.length; i++) {
@@ -2436,9 +2071,9 @@ $(document).ready(function() {
 
 
     /*
-     * loadアイコンクリックでロードウィンドウ表示
+     * load button pushed
      */
-    $('#load_btn').click(function() {
+    $('#btn_load').click(function() {
         var location = prompt("Load document with annotation. Enter the location:", targetUrl);
         if (location != null && location != "") {
             getAnnotation(location);
@@ -2447,9 +2082,9 @@ $(document).ready(function() {
 
 
     /*
-     * saveアイコンクリックでセーブウィンドウ表示
+     * save button pushed
      */
-    $("#save_btn").click(function(){
+    $("#btn_save").click(function(){
         var location = prompt("Save annotation to the document. Enter the location:", targetUrl);
         if (location != null && location != "") {
             saveAnnotation(location);
@@ -2519,29 +2154,25 @@ $(document).ready(function() {
 
 
     /*
-     * always_multiple_btnをクリック
+     * btn_replicate_auto clicked
      */
-    $('#always_multiple_btn').live("click", function() {
-        //console.log($(this).attr('src'));
-        if($(this).attr('src') == 'images/always_multiple_on_btn.png') {
-            $(this).attr("src", 'images/always_multiple_off_btn.png');
-            $('#multiple_btn').prop('disabled', false);
-            $('#multiple_btn').css('opacity', 1);
-            isMultiple = false;
-        } else {
-            $(this).attr("src", 'images/always_multiple_on_btn.png');
-            $('#multiple_btn').prop('disabled', true);
-            $('#multiple_btn').css('opacity', 0.3);
-            isMultiple = true;
+    $('#btn_replicate_auto').live("click", function() {
+        if (replicateAuto) {
+            unpushButton($(this));
+            replicateAuto = false;
+        }
+        else {
+            pushButton($(this));
+            replicateAuto = true;
         }
         return false;
     });
 
 
     /*
-     * multiple_btnをクリック
+     * btn_replicate clicked
      */
-    $('#multiple_btn').click(function() {
+    $('#btn_replicate').click(function() {
         if (spanIdsSelected.length == 1) {
             makeEdits(getSpanReplicates(spans[spanIdsSelected[0]]));
         }
@@ -2641,6 +2272,8 @@ $(document).ready(function() {
                 case 'change_span_type' :
                     spans[edit.id].type = edit.new_type;
                     $('#' + edit.id).css('backgroundColor', spanTypes[edit.new_type]['color']);
+                    // selection
+                    selectSpan(edit.id);
                     break;
 
                 // instance operations
@@ -2700,6 +2333,8 @@ $(document).ready(function() {
                     connectors[edit.id].setPaintStyle(connectorTypes[edit.new_type+"_selected"]["paintStyle"]);
                     connectors[edit.id].setHoverPaintStyle(connectorTypes[edit.new_type+"_selected"]["hoverPaintStyle"]);
                     connectors[edit.id].setLabel('[' + edit.id + '] ' + edit.new_type);
+                    // selection
+                    selectRelation(edit.id);
                     break;
 
                 // modification operations
@@ -2724,7 +2359,6 @@ $(document).ready(function() {
         indexPositions(spanIds);
         positionInstances(Object.keys(instances));
         renewConnections(Object.keys(relations));
-
 
         switch (mode) {
             case 'undo' :
@@ -2788,6 +2422,10 @@ $(document).ready(function() {
                     redit.old_object = edit.new_object;
                     redit.new_object = edit.old_object;
                     break;
+                case 'change_relation_type' :
+                    redit.old_type = edit.new_type;
+                    redit.new_type = edit.old_type;
+                    break;
                 case 'new_modification' :
                     redit.action = 'remove_modification';
                     break;
@@ -2807,194 +2445,76 @@ $(document).ready(function() {
         return c;
     }
 
-    /*
-     * notice_ok_btnをクリック
-     */
-    $('#notice_ok_btn').live('click', function() {
-        $('#notice').empty();
-        showSource();
 
-        if($('.partial').hasClass('partialSelected')) {
-            $('.partial').addClass('selected');
-        }
-
-        $('.partial').removeClass('partialSelected').removeClass('partial');
-    });
+    $('#btn_mode_view').click(function() {changeMode('view')});
+    $('#btn_mode_span').click(function() {changeMode('span')});
+    $('#btn_mode_relation').click(function() {changeMode('relation')});
 
 
-    /*
-     * relationモードボタンクリック
-     */
-    $('#relation_btn').click(function() {
+    function changeMode(tomode) {
+        unpushButton($('#btn_mode_view'));
+        unpushButton($('#btn_mode_span'));
+        unpushButton($('#btn_mode_relation'));
 
-        if (sourceElem != null) {
-            sourceElem = null;
-            $('.source_selected').removeClass('source_selected');
+        clearSpanSelection();
+        clearInstanceSelection();
+        clearModificationSelection();
+        clearRelationSelection();
 
-            // 空にする
-            relationIdsSelected.length = 0;
-            console.log("relation mode");
-        }
-
-        if ($(this).attr('src') == 'images/relation_off_btn.png') {
-            $('#always_multiple_btn').prop('disabled', true);
-
-            // relationモード
-            mode = "relation";
-            changeMode(mode);
-        } else {
-            //もし選択せれた接続があれば、線を細く書き直す
-            while (relationIdsSelected.length > 0) {
-                rid = relationIdsSelected.pop();
-                connectors[rid].setPaintStyle(connectorTypes[type]["paintStyle"]);
-            }
-
-            // viewモード
-            mode = 'view';
-            changeMode(mode);
-        }
-
-    });
-
-
-    function changeMode(mode) {
-        sourceElem = null;
-        targetElem = null;
+        mode = tomode;
 
         if (mode == 'view') {
+            pushButton($('#btn_mode_view'));
 
             $('#doc_area').removeAttr('style');
             $('#ins_area').removeAttr('style');
             $('#rel_base_area').removeAttr('style');
-            // $('#doc_area').css('z-index', 10);
-            // $('#ins_area').css('z-index', 40);
-            // $('#rel_base_area').css('z-index', 20);
-            // $('#rel_area').css('z-index', 20);
-            // $('#clone_area').css('z-index', 30);
+            $('#doc_area').removeClass('back');
 
-            var bg_color = $('#doc_area').css('backgroundColor');
-
-            if (bg_color.substr(0,4) == 'rgba') {
-                var rgba = bg_color.replace('rgba', '').replace('(', '').replace(')', '');
-                var rgbas = rgba.split(',');
-                var rgb = 'rgb(' + rgbas[0] + ',' + rgbas[1] + ',' + rgbas[2] + ')' ;
-                $('#doc_area').css('backgroundColor', rgb);
-            }
-
-
-            $('#edit_btn').attr("src", 'images/edit_off_btn.png');
-            $('#relation_btn').attr("src", 'images/relation_off_btn.png');
-
-            // span編集モードの選択を削除
-            spanIdsSelected.splice(0, spanIdsSelected.length);
-            $('#doc_area span').removeClass('selected').removeClass('partialSelected');
-
-            // マウスアップで、spanの操作をアンバインド
-            $(document).die('click', '*:not(#notice_ok_btn, #doc_area span, ' +
-                '.editable,  .category_apply_btn, .relation_apply_btn, img, form, ' +
-                '#load_dialog, #load_btn, :button, :text, :input');
             $('#doc_area').die('mouseup', doMouseup);
-
-            // 選択解除イベントをアンバインド
-            $("*:not(#joint_area, #notice_ok_btn,  #doc_area span, " +
-                ".editable, td.category_apply_btn, td.relation_apply_btn, img, form, " +
-                "#load_dialog, #load_btn, :button, :text, :input, " +
-                "#ins_area div span.modification)").die("click", cancelSelect);
+            $("*").die("click", cancelSelect);
 
             $('#doc_area span').die('click', spanClicked);
-
-            $('div.instance').die('click', instanceClicked);
-
-            clearModificationSelection();
+            $('.instance').die('click', instanceClicked);
+            $('.modification').die('click', modificationClicked);
 
             duplicateDocArea();
-
-            // relationの選択を解除
-            clearRelationSelection();
-
             unsetCancelSelect();
 
-
-            // インスタンス上のmodificationを選択不可にする
-            $('span.modification').die('click', modificationClicked);
-
-            // インスタンス上のmodificationを選択可能にする
-            // $('.clone_instance').die('mouseover mouseout', instanceMouseHover);
             $('.clone_instance').live('mouseover mouseout', instanceMouseHover);
 
-        } else if (mode == 'edit') {
+        } else if (mode == 'span') {
+            pushButton($('#btn_mode_span'));
 
             $('#doc_area').css('z-index', 10);
             $('#ins_area').css('z-index', 20);
             $('#rel_base_area').css('z-index', -10);
-
-            var bg_color = $('#doc_area').css('backgroundColor');
-
-            if(bg_color.substr(0, 4) != 'rgba') {
-                var rgb = bg_color.replace('rgb', '').replace('(', '').replace(')', '');
-                var rgba = 'rgba(' + rgb + ',0.5)';
-                //console.log(bg_color);
-                //console.log(rgba);
-            }
-
-            $('#doc_area').css('backgroundColor', rgba);
-
-            $('#edit_btn').attr("src", 'images/edit_on_btn.png');
-            $('#relation_btn').attr("src", 'images/relation_off_btn.png');
-
-            // spanの選択を削除
-            clearSpanSelection();
+            $('#doc_area').addClass('back');
 
             $('#clone_area div').remove();
 
             setCancelSelect();
 
-            // relationの選択を解除
-            clearRelationSelection();
-
-            // modificationの選択を削除
-            clearModificationSelection();
+            $('#doc_area').die('mouseup', doMouseup);
+            $('#doc_area').live('mouseup', doMouseup);
 
             $('#doc_area span').die('click', spanClicked);
             $('#doc_area span').live('click', spanClicked);
 
-            $('div.instance').die('click', instanceClicked);
-            $('div.instance').live('click', instanceClicked);
+            $('.instance').die('click', instanceClicked);
+            $('.instance').live('click', instanceClicked);
 
-            //テキスト部分でドラッグ後マウスアップ
-            $('#doc_area').die('mouseup',  doMouseup);
-            $('#doc_area').live('mouseup',  doMouseup);
+            $('.modification').die('click', modificationClicked);
+            $('.modification').live('click', modificationClicked);
 
-            // インスタンス上のmodificationを選択可能にする
-            $('span.modification').die('click', modificationClicked);
-            $('span.modification').live('click', modificationClicked);
-
-        } else if(mode == 'relation') {
+        } else if (mode == 'relation') {
+            pushButton($('#btn_mode_relation'));
 
             $('#doc_area').removeAttr('style');
             $('#ins_area').removeAttr('style');
             $('#rel_base_area').removeAttr('style');
 
-
-            var bg_color = $('#doc_area').css('backgroundColor');
-
-            if(bg_color.substr(0, 4) != 'rgba') {
-                var rgb = bg_color.replace('rgb', '').replace('(', '').replace(')', '');
-                var rgba = 'rgba(' + rgb + ',0.5)';
-                //console.log(bg_color);
-                //console.log(rgba);
-            }
-
-            $('#edit_btn').attr("src", 'images/edit_off_btn.png');
-            $('#relation_btn').attr("src", 'images/relation_on_btn.png');
-
-            // span編集モードの選択を削除
-            spanIdsSelected.splice(0, spanIdsSelected.length);
-            $('#doc_area span').removeClass('selected').removeClass('partialSelected');
-
-            // マウスアップで、spanの操作を解除
-            $(document).die('click', '*:not(#notice_ok_btn,  #doc_area span, ' +
-                '.editable, .category_apply_btn, .relation_apply_btn, img, form, #load_dialog, #load_btn, :button, :text, :input')
+            $(document).die('click', '*:not(.span_type_label, .relation_type_label, img, .button, :text, :input)')
             $('#doc_area').die('mouseup', doMouseup);
 
             setCancelSelect();
@@ -3002,16 +2522,13 @@ $(document).ready(function() {
             $('#doc_area span').die('click', spanClicked);
             $('#doc_area span').live('click', spanClicked);
 
-            $('div.instance').die('click', instanceClicked);
-            $('div.instance').live('click', instanceClicked);
+            $('.instance').die('click', instanceClicked);
+            $('.instance').live('click', instanceClicked);
 
-            // インスタンス上のmodificationを選択不可にする
-            $('span.modification').die('click', modificationClicked);
+            $('.modification').die('click', modificationClicked);
 
             duplicateDocArea();
         }
-
-        sessionStorage.setItem('mode', mode);
     }
 
 
@@ -3019,6 +2536,7 @@ $(document).ready(function() {
         $('#clone_area .clone_span').remove();
         $('#clone_area .clone_instance').remove();
 
+        // clone spans
         var clones = new Array();
 
         for (var sid in spans) {
@@ -3028,8 +2546,8 @@ $(document).ready(function() {
             obj["id"] = "clone_" + sid;
             obj["left"] = span.get(0).offsetLeft;
             obj["top"] = span.get(0).offsetTop;
-            obj["width"] = span.outerWidth();
-            obj["height"] = span.outerHeight();
+            obj["width"] = span.innerWidth();
+            obj["height"] = span.innerHeight();
             obj["title"] = '[' + sid + '] ' + spans[sid]["category"];
             clones.push(obj);
         }
@@ -3041,18 +2559,19 @@ $(document).ready(function() {
             var div = '<div id="' + obj['id'] + '" '
                     + 'class="clone_span" '
                     + 'style="position:absolute; '
-                    + 'left:'   + (obj['left'] - 2)  + 'px; '
-                    + 'top:'    + (obj['top'] - 2)  + 'px; '
+                    + 'left:'   + obj['left']  + 'px; '
+                    + 'top:'    + obj['top']  + 'px; '
                     + 'width:'  + obj["width"] + 'px; '
                     + 'height:' + obj["height"] +'px" '
                     + 'title="' + obj['title'] + '"></div>';
             $('#clone_area').append(div);
         }
 
-        // instanceのclone
+        $('.clone_span').click(spanClicked);
+
+        // clone instances
         var insdivs = $('#ins_area div');
         insdivs.map(function() {
-            //console.log($(this));
             var clone_id = 'clone_' + $(this).attr('id');
             var clone_ins = $(this).clone(true).attr('id', clone_id).empty();
             clone_ins.removeClass('instance');
@@ -3060,13 +2579,10 @@ $(document).ready(function() {
             $('#clone_area').append(clone_ins);
         })
 
-        $('.clone_span').click(spanClicked);
+        $('.clone_instance').click(instanceClicked);
     }
 
 
-    /*
-     * 複製を幅でソート
-     */
     function sortCloneByWidth(ary) {
         function compare(a, b) {
             return(b['width'] - a['width']);
@@ -3076,14 +2592,13 @@ $(document).ready(function() {
 
 
     /*
-     * 16進数からrgbaへの色変換
+     * conversion from HEX to RGBA color
      */
     function colorTrans(color, opacity) {
         var c = color.slice(1);
         var r = c.substr(0,2);
         var g = c.substr(2,2);
         var b = c.substr(4,2);
-         //console.log("color:", r,":", g, ":", b);
         r = parseInt(r, 16);
         g = parseInt(g, 16);
         b = parseInt(b, 16);
@@ -3207,7 +2722,7 @@ $(document).ready(function() {
             clearModificationSelection();
 
             if (isRelationSelected(rid)) {
-                unselectRelation(rid);
+                deselectRelation(rid);
             } else {
                 if (!e.ctrlKey) {clearRelationSelection()}
                 selectRelation(rid);
@@ -3238,7 +2753,7 @@ $(document).ready(function() {
     }
 
 
-    function unselectRelation(rid) {
+    function deselectRelation(rid) {
         var i = relationIdsSelected.indexOf(rid);
         if (i > -1) {
             connectors[rid].setPaintStyle(connectorTypes[relations[rid].type]["paintStyle"]);
@@ -3263,7 +2778,7 @@ $(document).ready(function() {
             var rid = rids[i];
 
             /*
-             * to recompute curviness
+             * recompute curviness
              */
             var sourceId = relations[rid]['subject'];
             var targetId = relations[rid]['object'];
@@ -3377,7 +2892,7 @@ $(document).ready(function() {
         }
     }
 
-    function unselectModification(mid) {
+    function deselectModification(mid) {
         var i = spanIdsSelected.indexOf(mid);
         if (i > -1) {
             $('#' + mid).removeClass('selected');
@@ -3425,7 +2940,6 @@ $(document).ready(function() {
         positionInstances(Object.keys(instances));
         renewConnections(Object.keys(relations));
 
-        mode = sessionStorage.getItem('mode');
         changeMode(mode);
     }
 

@@ -8,9 +8,6 @@
 
     <script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
     <script type="text/javascript" src="js/jquery-ui-1.8.16.custom.min.js"></script>
-    <!--script type="text/javascript" src="js/jquery.jeditable.mini.js"></script-->
-    <!--script type="text/javascript" src="js/jquery.browser.min.js"></script-->
-    <!--script type="text/javascript" src="js/jquery.jsPlumb-1.3.14-all-modified.js"></script-->
     <script type="text/javascript" src="js/jquery.jsPlumb-1.3.16-all.js"></script>
     <script type="text/javascript" src="js/textae.js"></script>
 </head>
@@ -20,25 +17,27 @@
 
 <!-- header area -->
 <div id="header_area">
-    <span id = "title">TextAE</span><span id="notice"></span>
+    <div id = "title"><a href="http://bionlp.dbcls.jp/textae/">TextAE</a></div>
+    <div id="notice"></div>
 </div>
 
 <div id="control_area">
 
     <table class="palette">
         <tr><td>
-            <input type="image" src="images/load_btn.png" id="load_btn" title="Load" />
-            <input type="image" src="images/save_btn.png" id="save_btn" title="Save" />
+            <div class="button" id="btn_load" title="Load"></div>
+            <div class="button" id="btn_save" title="Save"></div>
         </td><td>
-            <input type="image" src="images/undo_btn.png" id="undo_btn" title="Undo (ctrl-z)" disabled="true"/>
-            <input type="image" src="images/redo_btn.png" id="redo_btn" title="Redo (ctrl-x)" disabled="true"/>
+            <div class="button" id="btn_undo" title="Undo (z)"></div>
+            <div class="button" id="btn_redo" title="Redo (y)"></div>
         </td></tr>
         <tr><td>
-            <input type="image" src="images/edit_off_btn.png" id="edit_btn" title="Span edit mode (Toggle)" />
-            <input type="image" src="images/relation_off_btn.png" id="relation_btn" title="Relation edit mode (Toggle)" />
+            <div class="button pushed" id="btn_mode_view" title="View mode (v)"></div>
+            <div class="button" id="btn_mode_span" title="Span edit mode (s)"></div>
+            <div class="button" id="btn_mode_relation" title="Relation edit mode (r)"></div>
         </td><td>
-            <input type="image" src="images/multiple_btn.png" id="multiple_btn" title="Replicate span annotation" disabled="true"/>
-            <input type="image" src="images/always_multiple_on_btn.png" title="Auto replicate (Toggle)" id="always_multiple_btn" disabled="true"/>
+            <div class="button" id="btn_replicate" title="Replicate span annotation"></div>
+            <div class="button" id="btn_replicate_auto" title="Auto replicate (Toggle)"></div>
         </td></tr>
         <tr><td colspan="2">
             <div id="slider_area" title="opacity of connectors" style="text-align:center">
@@ -47,69 +46,26 @@
         </td></tr>
     </table>
 
-    <!-- category area -->
     <div class="type_show_area">
         <div id="span_types"></div>
     </div>
 
-    <!-- relation type area -->
     <div class="type_show_area">
         <div id="relation_types"></div>
-    </div>
-
-    <!-- instype area -->
-<!--     <div class="type_show_area">
-        <div id="instype_list"></div>
-    </div>
- -->
-    <!-- modtype area -->
-<!--     <div class="type_show_area">
-        <div id="modtype_list"></div>
-    </div>
- -->
-    <div id="save_dialog" class="dialog">
-        <h1>Save</h1>
-        <form autocomplete="on">
-            <table>
-                <tr><td>Location</td><td><input type="url" size="48" id="save_url"/></td></tr>
-            </table>
-            <div id="save_area">
-                <input type="button" value="save" id="save_submit">
-                <input type="button" value="cancel" id="save_cancel">
-            </div>
-        </form>
-    </div>
-
-    <div id="load_dialog" class="dialog">
-        <h1>Load</h1>
-        <form autocomplete="on">
-            <table>
-                <tr><td>Location</td><td><input type="url" size="48" id="load_url" placeholder="leave it blank for reloading current document." /></td></tr>
-            </table>
-            <div id="load_area">
-                <input type="button" value="load" id="load_submit">
-                <input type="button" value="cancel" id="load_cancel">
-            </div>
-        </form>
     </div>
 
     <div id="loading" style="display: none; width:200px; height:200px;"><img src="images/loadinfo.net.gif"/></div>
 
 </div>
 
-
 <!-- contents -->
 <div id="document_frame">
-    <!-- marked text -->
     <div id="doc_area"></div>
     <div id="ins_area"></div>
     <div id="rel_base_area">
         <div id="rel_area"></div>
         <div id="clone_area"></div>
     </div>
-
-    <!-- original text. this is hidden by css-->
-    <div id="src_area"></div>
 </div>
 
 </body>
