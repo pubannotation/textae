@@ -74,10 +74,6 @@ a {
     margin: 0px;
     padding: 120px 0px;
     line-height: 600%;
-    background-color: rgb(255,255,255);
-}
-
-#doc_area.back {
     background-color: rgba(255,255,255,0.5);
 }
 
@@ -91,15 +87,6 @@ a {
     font-weight: bold;
 }
 
-#rel_base_area {
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    margin: 0px;
-    padding: 0px;
-}
-
-/*relation_area */
 #rel_area {
     position: absolute;
     top: 0px;
@@ -115,20 +102,15 @@ a {
 #doc_area span {
     border-style: solid;
     border-color: #FFFFFF;
-    border-width: 1px;
+    border-width: 2px;
 }
 
 #doc_area span:hover {
-    border-style: solid;
     border-color: #000066;
-    border-width: 1px;
 }
 
 #doc_area span.selected {
-    display: inline;
-    border-style: solid;
     border-color: #000000;
-    border-width: 2px;
 }
 
 .instance {
@@ -156,7 +138,7 @@ a {
 }
 
 .clone_span {
-    border: 1px solid #000000;
+    border: 2px solid #000000;
     opacity:0;
 }
 

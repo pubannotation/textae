@@ -279,6 +279,9 @@ $(document).ready(function() {
     function initialize() {
         detectOS();
 
+        $('#doc_area').live('mouseup', doMouseup);
+        $('#doc_area').live("click", cancelSelect);
+
         spanIdsSelected = new Array();
         instanceIdsSelected = new Array();
         relationIdsSelected = new Array();
@@ -750,6 +753,8 @@ $(document).ready(function() {
         range.setStart(begnode, begoff);
         range.setEnd(endnode, endoff);
         range.surroundContents(element);
+
+        $('#' + sid).live('click', spanClicked);
     }
 
 
@@ -825,45 +830,12 @@ $(document).ready(function() {
             return false;
         }
 
-        if (mode == "relation") {
-            var id = $(this).attr('id').split('_')[1];  // in clone area, clone_id
-
-            clearRelationSelection();
-
-            if (spanIdsSelected.length == 0 && instanceIdsSelected.length == 0) {
-                selectSpan(id);
-            }
-            else {
-                // make connection
-                var rid = "R" + (getMaxConnId() + 1);
-                var oid = id;
-
-                var sid;
-                if (spanIdsSelected.length > 0) {sid = spanIdsSelected[0]}
-                else {sid = instanceIdsSelected[0]}
-
-                makeEdits([{action:'new_relation', id:rid, type:relationTypeDefault, subject:sid, object:oid}]);
-
-                // star chanining
-                if (e.ctrlKey) {}
-
-                else { 
-                    clearSpanSelection();
-                    clearInstanceSelection();
-
-                    // continuous chaining
-                    if (e.shiftKey) {selectSpan(oid)}
-                }
-            }
-        } else if (mode == "span") {
+        if (mode == "span") {
             var id = $(this).attr('id');
 
             if (isCtrl) {
-                if (isSpanSelected(id)) {
-                    deselectSpan(id);
-                } else {
-                    selectSpan(id);
-                }
+                if (isSpanSelected(id)) {deselectSpan(id)}
+                else {selectSpan(id)}
             }
 
             else if (isShift && spanIdsSelected.length == 1) {
@@ -893,6 +865,39 @@ $(document).ready(function() {
                 selectSpan(id);
             }
         }
+
+        else if (mode == "relation") {
+            var id = $(this).attr('id').split('_')[1];  // in clone area, clone_id
+
+            clearRelationSelection();
+
+            if (spanIdsSelected.length == 0 && instanceIdsSelected.length == 0) {
+                selectSpan(id);
+            }
+            else {
+                // make connection
+                var rid = "R" + (getMaxConnId() + 1);
+                var oid = id;
+
+                var sid;
+                if (spanIdsSelected.length > 0) {sid = spanIdsSelected[0]}
+                else {sid = instanceIdsSelected[0]}
+
+                makeEdits([{action:'new_relation', id:rid, type:relationTypeDefault, subject:sid, object:oid}]);
+
+                // star chanining
+                if (e.ctrlKey) {}
+
+                else { 
+                    clearSpanSelection();
+                    clearInstanceSelection();
+
+                    // continuous chaining
+                    if (e.shiftKey) {selectSpan(oid)}
+                }
+            }
+        }
+
         return false;
     }
 
@@ -962,26 +967,6 @@ $(document).ready(function() {
         cancelBubble(e);
         return false;
     });
-
-
-    function cancelSelect(e) {
-        if (isJustDragged) {
-            isJustDragged = false;
-            return false;
-        }
-
-        if (mode == "relation") {
-            clearSpanSelection();
-            clearInstanceSelection();
-            clearRelationSelection();
-
-        } else if (mode == "span") {
-            clearSpanSelection();
-            clearInstanceSelection();
-            clearModificationSelection();
-        }
-        cancelBubble();
-    }
 
 
     /*
@@ -1112,96 +1097,100 @@ $(document).ready(function() {
 
 
     function doMouseup(e) {
-        var selection = window.getSelection();
-        var range = selection.getRangeAt(0);
+        if (mode == 'span') {
+            var selection = window.getSelection();
+            var range = selection.getRangeAt(0);
 
-        // do nothing when the whole div is selected by triple click
-        if (range.startContainer == $('div#doc_area').get(0)) return false;
+            // do nothing when the whole div is selected by triple click
+            if (range.startContainer == $('div#doc_area').get(0)) return false;
 
-        // do nothing when Shift is pressed
-        if (isShift) return false;
+            // do nothing when Shift is pressed
+            if (isShift) return false;
 
-        // do nothing with no selection
-        if (selection.isCollapsed) return false;
+            // do nothing with no selection
+            if (selection.isCollapsed) return false;
 
-        // no boundary crossing: normal -> create a span
-        if (selection.anchorNode.parentElement.id === selection.focusNode.parentElement.id) {
-            while (spanIdsSelected.length > 0) {
-                $('#'+spanIdsSelected.pop()).removeClass('selected');
+            // no boundary crossing: normal -> create a span
+            if (selection.anchorNode.parentElement.id === selection.focusNode.parentElement.id) {
+                while (spanIdsSelected.length > 0) {
+                    $('#'+spanIdsSelected.pop()).removeClass('selected');
+                }
+
+                var anchorChilds = selection.anchorNode.parentNode.childNodes;
+                var focusChilds = selection.focusNode.parentNode.childNodes;
+
+                var absoluteAnchorPosition = getAbsoluteAnchorPosition(anchorChilds, selection);
+                var absoluteFocusPosition = getAbsoluteFocusPosition(focusChilds, selection);
+
+                dismissBrowserSelection();
+
+                // 後ろから選択された場合は、
+                // 位置を逆転させる
+                if (absoluteAnchorPosition > absoluteFocusPosition) {
+                    var tmpPos = absoluteAnchorPosition;
+                    absoluteAnchorPosition = absoluteFocusPosition;
+                    absoluteFocusPosition = tmpPos;
+                }
+
+                var sid = getSpanNewId();
+                var startPosition = adjustSpanStart(absoluteAnchorPosition);
+                var endPosition = adjustSpanEnd(absoluteFocusPosition);
+
+                clearSpanSelection();
+
+                var edits = [{action:'new_span', id:sid, begin:startPosition, end:endPosition, type:spanTypeDefault}];
+
+                if (replicateAuto) {
+                    var replicates = getSpanReplicates({id:sid, span:{begin:startPosition, end:endPosition}, type:spanTypeDefault});
+                    edits = edits.concat(replicates);
+                }
+
+                if (edits.length > 0) makeEdits(edits);
             }
 
-            var anchorChilds = selection.anchorNode.parentNode.childNodes;
-            var focusChilds = selection.focusNode.parentNode.childNodes;
+            // boundary crossing: exception
+            else {
+                if (spanIdsSelected.length == 1) {
+                    var selectedId = spanIdsSelected[0];
+                    if (selectedId == selection.focusNode.parentElement.id) {
+                        shortenElement(selectedId, selection);
+                    } else if (selectedId == getSelectedIdByAnchorNode($('span#' + selectedId), selection.anchorNode)) {
+                        expandElement(selectedId, selection);
+                    }
+                }
+                else {
+                    alert('cannot change the boundary when more than one spans are selected.');
+                }
 
-            var absoluteAnchorPosition = getAbsoluteAnchorPosition(anchorChilds, selection);
-            var absoluteFocusPosition = getAbsoluteFocusPosition(focusChilds, selection);
+            }
 
             dismissBrowserSelection();
 
-            // 後ろから選択された場合は、
-            // 位置を逆転させる
-            if (absoluteAnchorPosition > absoluteFocusPosition) {
-                var tmpPos = absoluteAnchorPosition;
-                absoluteAnchorPosition = absoluteFocusPosition;
-                absoluteFocusPosition = tmpPos;
-            }
-
-            var sid = getSpanNewId();
-            var startPosition = adjustSpanStart(absoluteAnchorPosition);
-            var endPosition = adjustSpanEnd(absoluteFocusPosition);
-
-            clearSpanSelection();
-
-            var edits = [{action:'new_span', id:sid, begin:startPosition, end:endPosition, type:spanTypeDefault}];
-
-            if(replicateAuto) {
-                var replicates = getSpanReplicates({id:sid, span:{begin:startPosition, end:endPosition}, type:spanTypeDefault});
-                edits = edits.concat(replicates);
-            }
-
-            if (edits.length > 0) makeEdits(edits);
+            cancelBubble(e);
+            isJustDragged = true;
         }
-
-        // boundary crossing: exception
-        else {
-            if (spanIdsSelected.length == 1) {
-                var selectedId = spanIdsSelected[0];
-                if (selectedId == selection.focusNode.parentElement.id) {
-                    shortenElement(selectedId, selection);
-                } else if (selectedId == getSelectedIdByAnchorNode($('span#' + selectedId), selection.anchorNode)) {
-                    expandElement(selectedId, selection);
-                }
-            }
-            else {
-                alert('cannot change the boundary when more than one spans are selected.');
-            }
-
-        }
-
-        dismissBrowserSelection();
-
-        cancelBubble(e);
-        isJustDragged = true;
 
         return false;
     }
 
 
     function instanceMouseHover(e) {
-        var iid = $(this).attr('id').split('_')[1];
-        var rids = relationsPerSpanInstance[iid];
+        if (mode == 'view') {
+            var iid = $(this).attr('id');
+            var rids = relationsPerSpanInstance[iid];
 
-        if (event.type == 'mouseover') {
-            $(this).addClass('mouseHover');
-            for (var i = 0; i < rids.length; i++) {
-                connectors[rids[i]].setHover(true);
-                connectorHoverBegin(connectors[rids[i]]);
-            }
-        } else {
-            $(this).removeClass('mouseHover');
-            for (var i = 0; i < rids.length; i++) {
-                connectors[rids[i]].setHover(false);
-                connectorHoverEnd(connectors[rids[i]]);
+            if (event.type == 'mouseover') {
+                $(this).addClass('mouseHover');
+                for (var i = 0; i < rids.length; i++) {
+                    connectors[rids[i]].setHover(true);
+                    connectorHoverBegin(connectors[rids[i]]);
+                }
+            } else {
+                $(this).removeClass('mouseHover');
+                for (var i = 0; i < rids.length; i++) {
+                    connectors[rids[i]].setHover(false);
+                    connectorHoverEnd(connectors[rids[i]]);
+                }
             }
         }
     }
@@ -1289,39 +1278,17 @@ $(document).ready(function() {
     }
 
 
-    function unsetCancelSelect() {
-        $("#doc_area span, .editable, .span_type_label, .relation_type_label, " +
-            "img, #btn_load, :button, :text, :input, div.instance, " +
-            "#ins_area div span.modification").die("click", function(event){
-                cancelBubble(event);
-            });
+    function cancelSelect(e) {
+        if (isJustDragged) {
+            isJustDragged = false;
+            return false;
+        }
 
-        $("*:not(#doc_area span, .editable, .span_type_label, .relation_type_label, " +
-            "img, #btn_load, :button, :text, :input, div.instance, " +
-            "#ins_area div span.modification)").die("click", cancelSelect);
-    }
-
-
-    function setCancelSelect() {
-        $("#doc_area span, .editable, .span_type_label, .relation_type_label, " +
-            "img, #btn_load, :button, :text, :input, div.instance, " +
-            "#ins_area div span.modification").die("click", function(event){
-                cancelBubble(event);
-            });
-
-        $("#doc_area span, .editable, .span_type_label, .relation_type_label, " +
-            "img, #btn_load, :button, :text, :input, div.instance, " +
-            "#ins_area div span.modification").live("click", function(event){
-                cancelBubble(event);
-            });
-
-        $("*:not(#doc_area span, .editable, .span_type_label, .relation_type_label, " +
-            "img, #btn_load, :button, :text, :input, div.instance, " +
-            "#ins_area div span.modification)").die("click", cancelSelect);
-
-        $("*:not(#doc_area span, .editable, .span_type_label, .relation_type_label, " +
-            "img, #btn_load, :button, :text, :input, div.instance, " +
-            "#ins_area div span.modification)").live("click", cancelSelect);
+        clearSpanSelection();
+        clearInstanceSelection();
+        clearRelationSelection();
+        clearModificationSelection();
+        cancelBubble();
     }
 
 
@@ -1456,14 +1423,10 @@ $(document).ready(function() {
     }
 
 
-    /*
-     * マークを分割する
-     */
     function separateElement(spans, selection, selectedId) {
         sortSpans(spans);
 
         var anchorChilds = selection.anchorNode.parentNode.childNodes;
-        // focusノードを起点にしたchild node
         var focusChilds = selection.focusNode.parentNode.childNodes;
 
         var absoluteAnchorPosition = getAbsoluteAnchorPosition(anchorChilds, selection);
@@ -1763,22 +1726,21 @@ $(document).ready(function() {
                     while (spanIdsSelected.length > 0) {
                         sid = spanIdsSelected.pop();
                         spanRemoves.push({action:'remove_span', id:sid, begin:spans[sid].span.begin, end:spans[sid].span.end, type:spans[sid].type});
-                        instanceIdsSelected = instanceIdsSelected.concat(instancesPerSpan[sid]);
-                        relationIdsSelected = relationIdsSelected.concat(relationsPerSpanInstance[sid]);
+                        instancesPerSpan[sid].forEach(selectInstance);
+                        relationsPerSpanInstance[sid].forEach(selectRelation);
                     }
 
                     var instanceRemoves = new Array();
                     while (instanceIdsSelected.length > 0) {
                         iid = instanceIdsSelected.pop();
                         instanceRemoves.push({action:'remove_instance', id:iid, object:instances[iid].object, type:instances[iid].type});
-                        relationIdsSelected = relationIdsSelected.concat(relationsPerSpanInstance[iid]);
+                        relationsPerSpanInstance[iid].forEach(selectRelation);
                     }
 
                     var relationRemoves = new Array();
                     while (relationIdsSelected.length > 0) {
                         rid = relationIdsSelected.pop();
                         relationRemoves.push({action:'remove_relation', id:rid, subject:relations[rid].subject, object:relations[rid].object, type:relations[rid].type});
-                        modificationIdsSelected = modificationIdsSelected.concat(); // ToDo
                     }
 
                     var modificationRemoves = new Array();
@@ -1793,7 +1755,6 @@ $(document).ready(function() {
                     while (relationIdsSelected.length > 0) {
                         rid = relationIdsSelected.pop();
                         relationRemoves.push({action:'remove_relation', id:rid, subject:relations[rid].subject, object:relations[rid].object, type:relations[rid].type});
-                        modificationIdsSelected = modificationIdsSelected.concat(); // ToDo
                     }
 
                     var modificationRemoves = new Array();
@@ -1808,13 +1769,19 @@ $(document).ready(function() {
                 makeEdits(edits);
                 break;
             case 73: // 'i' key
-                createInstance();
+                if (mode == 'span') {
+                    createInstance();
+                }
                 break;
             case 191: // '?' key
-                createModification("Speculation");
+                if (mode == 'span') {
+                    createModification("Speculation");
+                }
                 break;
             case 88: // 'x' key
-                if (!e.ctrlKey) {createModification("Negation")}
+                if (mode == 'span') {
+                    if (!e.ctrlKey) {createModification("Negation")}
+                }
                 break;
             case 90: // 'z' key
                 if (lastEditPtr > -1) {doUndo()}
@@ -1880,9 +1847,9 @@ $(document).ready(function() {
      */
     function instanceClicked(e) {
         cancelBubble(e);
+        var id = $(this).attr('id');
 
         if (mode == "span") {
-            var id = $(this).attr('id');
             if (isCtrl) {
                 if (isInstanceSelected(id)) {deselectInstance(id)}
                 else {selectInstance(id)}
@@ -1895,8 +1862,6 @@ $(document).ready(function() {
         }
 
         else if (mode == "relation") {
-            var id = $(this).attr('id').split('_')[1];
-
             clearRelationSelection();
 
             if (spanIdsSelected.length == 0 && instanceIdsSelected.length == 0) {
@@ -1989,32 +1954,29 @@ $(document).ready(function() {
 
             if (edits.length > 0) makeEdits(edits);
         }
-
     }
 
 
     function modificationClicked(e) {
-        cancelBubble(e);
-        var id = $(this).attr('id');
+        if (mode == 'span' || mode == 'relation') {
+            cancelBubble(e);
+            var id = $(this).attr('id');
 
-        if (isCtrl) {
-            if (!isModificationSelected(id)) {
+            if (isCtrl) {
+                if (isModificationSelected(id)) {deselectModification(id)}
+                else {selectModification(id)}
+            }
+
+            else {
+                clearSpanSelection();
+                clearInstanceSelection();
+                clearModificationSelection();
                 selectModification(id);
             }
-        }
-
-        else {
-            clearSpanSelection();
-            clearInstanceSelection();
-            clearModificationSelection();
-            selectModification(id);
         }
     }
 
 
-    /*
-     * カテゴリー適用ボタン
-     */
     $('.span_type_label').live('click', function() {
         var edits = new Array();
 
@@ -2032,9 +1994,6 @@ $(document).ready(function() {
     });
 
 
-    /*
-     * 関係適用ボタン
-     */
     $('.relation_type_label').live('click', function() {
         var edits = new Array();
 
@@ -2052,9 +2011,6 @@ $(document).ready(function() {
     });
 
 
-    /*
-     * modification適用ボタン
-     */
     $('.modtype_apply_btn').live('click', function() {
         for(var i in modificationIdsSelected) {
             var modId = modificationIdsSelected[i];
@@ -2138,9 +2094,9 @@ $(document).ready(function() {
                 $('#notice').html("annotation saved").fadeIn().fadeOut(5000, function() {
                     $(this).html('').removeAttr('style');
                     showSource();
-                    lastSavePtr = lastEditPtr;
-                    changeButtonStateSave();
                 });
+                lastSavePtr = lastEditPtr;
+                changeButtonStateSave();
             },
             error: function(res, textStatus, errorThrown){
                 $('#loading').hide();
@@ -2224,7 +2180,7 @@ $(document).ready(function() {
     }
 
 
-    function makeEdits(edits, mode) {
+    function makeEdits(edits, context) {
         for (var i = 0; i < edits.length; i++) {
             var edit = edits[i];
             switch (edit.action) {
@@ -2360,10 +2316,17 @@ $(document).ready(function() {
         positionInstances(Object.keys(instances));
         renewConnections(Object.keys(relations));
 
-        switch (mode) {
+        if (mode == 'view' || mode =='relation') {
+            makeClones();
+        }
+
+        switch (context) {
             case 'undo' :
-                break;
             case 'redo' :
+                clearSpanSelection();
+                clearInstanceSelection();
+                clearRelationSelection();
+                clearModificationSelection();
                 break;
             default :
                 editHistory.splice(++lastEditPtr);
@@ -2466,75 +2429,30 @@ $(document).ready(function() {
         if (mode == 'view') {
             pushButton($('#btn_mode_view'));
 
-            $('#doc_area').removeAttr('style');
-            $('#ins_area').removeAttr('style');
-            $('#rel_base_area').removeAttr('style');
-            $('#doc_area').removeClass('back');
+            $('#ins_area').css('z-index', 10);
+            $('#rel_area').removeAttr('style');
 
-            $('#doc_area').die('mouseup', doMouseup);
-            $("*").die("click", cancelSelect);
-
-            $('#doc_area span').die('click', spanClicked);
-            $('.instance').die('click', instanceClicked);
-            $('.modification').die('click', modificationClicked);
-
-            duplicateDocArea();
-            unsetCancelSelect();
-
-            $('.clone_instance').live('mouseover mouseout', instanceMouseHover);
-
+            makeClones();
         } else if (mode == 'span') {
             pushButton($('#btn_mode_span'));
 
-            $('#doc_area').css('z-index', 10);
-            $('#ins_area').css('z-index', 20);
-            $('#rel_base_area').css('z-index', -10);
-            $('#doc_area').addClass('back');
+            $('#ins_area').removeAttr('style');
+            $('#rel_area').css('z-index', -10);
 
-            $('#clone_area div').remove();
-
-            setCancelSelect();
-
-            $('#doc_area').die('mouseup', doMouseup);
-            $('#doc_area').live('mouseup', doMouseup);
-
-            $('#doc_area span').die('click', spanClicked);
-            $('#doc_area span').live('click', spanClicked);
-
-            $('.instance').die('click', instanceClicked);
-            $('.instance').live('click', instanceClicked);
-
-            $('.modification').die('click', modificationClicked);
-            $('.modification').live('click', modificationClicked);
-
+            destroyClones();
         } else if (mode == 'relation') {
             pushButton($('#btn_mode_relation'));
 
-            $('#doc_area').removeAttr('style');
-            $('#ins_area').removeAttr('style');
-            $('#rel_base_area').removeAttr('style');
+            $('#ins_area').css('z-index', 10);
+            $('#rel_area').removeAttr('style');
 
-            $(document).die('click', '*:not(.span_type_label, .relation_type_label, img, .button, :text, :input)')
-            $('#doc_area').die('mouseup', doMouseup);
-
-            setCancelSelect();
-
-            $('#doc_area span').die('click', spanClicked);
-            $('#doc_area span').live('click', spanClicked);
-
-            $('.instance').die('click', instanceClicked);
-            $('.instance').live('click', instanceClicked);
-
-            $('.modification').die('click', modificationClicked);
-
-            duplicateDocArea();
+            makeClones();
         }
     }
 
 
-    function duplicateDocArea() {
-        $('#clone_area .clone_span').remove();
-        $('#clone_area .clone_instance').remove();
+    function makeClones() {
+        $('#clone_area').empty();
 
         // clone spans
         var clones = new Array();
@@ -2568,18 +2486,11 @@ $(document).ready(function() {
         }
 
         $('.clone_span').click(spanClicked);
+    }
 
-        // clone instances
-        var insdivs = $('#ins_area div');
-        insdivs.map(function() {
-            var clone_id = 'clone_' + $(this).attr('id');
-            var clone_ins = $(this).clone(true).attr('id', clone_id).empty();
-            clone_ins.removeClass('instance');
-            clone_ins.addClass('clone_instance');
-            $('#clone_area').append(clone_ins);
-        })
 
-        $('.clone_instance').click(instanceClicked);
+    function destroyClones() {
+        $('#clone_area').empty();
     }
 
 
@@ -2840,6 +2751,8 @@ $(document).ready(function() {
         var borderColor = spanTypes[object.type]['color'];
         var div = '<div id="' + iid +'" class="instance" title="[' + iid + '] ' + instance.type + ' : ' + object.type + '" style="width:' + insWidth +'px; height:' + insHeight + 'px; border:' + insBorder + 'px solid ' + borderColor + '; position:absolute" ></div>';
         $('#ins_area').append(div);
+        $('#' + iid).live('click', instanceClicked);
+        $('#' + iid).live('mouseover mouseout', instanceMouseHover);
     }
 
 
@@ -2874,6 +2787,7 @@ $(document).ready(function() {
             symbol = '?';
         }
         $('#' + oid).append('<span class="modification" id="' + mid + '">' + symbol + '</span>');
+        $('#' + mid).live('click', modificationClicked);
     }
 
 
