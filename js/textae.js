@@ -1,5 +1,6 @@
 $(document).ready(function() {
     var OSname;
+    var browserNameVersion;
 
     var mode = 'view';  // screen mode: view(default) | span | relation
     var replicateAuto = false;
@@ -278,6 +279,7 @@ $(document).ready(function() {
 
     function initialize() {
         detectOS();
+        browserNameVersion = navigator.sayswho
 
         $('#doc_area').live('mouseup', doMouseup);
         $('#doc_area').live("click", cancelSelect);
@@ -1708,8 +1710,23 @@ $(document).ready(function() {
 
 
     $(document).keydown(function(e) {
-        // win ctrl / mac command
-        if ((OSName != "MacOS" && e.keyCode == 17) || (OSName == "MacOS" && e.keyCode == 224)) {isCtrl = true}
+        // mac command
+        if (OSName == "MacOS") {
+            switch (browserNameVersion[0]) {
+                case 'Firefox':
+                    if (e.keycode == 224) {isCtrl = true}
+                    break;
+                case 'Opera':
+                    if (e.keycode == 17) {isCtrl = true}
+                    break;
+                default:
+                    if (e.keycode == 91 || e.keycode == 93) {isCtrl = true}
+            }
+
+        }
+
+        // win ctrl
+        else if (e.keyCode == 17) {isCtrl = true}
 
         // shift
         if (e.keyCode == 16) {isShift = true}
@@ -1821,8 +1838,23 @@ $(document).ready(function() {
 
 
     $(document).keyup(function(e){
-        // win ctrl / mac command
-        if ((OSName != "MacOS" && e.keyCode == 17) || (OSName == "MacOS" && e.keyCode == 224)) {isCtrl = false}
+        // mac command
+        if (OSName == "MacOS") {
+            switch (browserNameVersion[0]) {
+                case 'Firefox':
+                    if (e.keycode == 224) {isCtrl = false}
+                    break;
+                case 'Opera':
+                    if (e.keycode == 17) {isCtrl = false}
+                    break;
+                default:
+                    if (e.keycode == 91 || e.keycode == 93) {isCtrl = false}
+            }
+
+        }
+
+        // win ctrl
+        else if (e.keyCode == 17) {isCtrl = false}
 
         // win alt / mac option
         if (e.keyCode == 18) {isCtrlAlt = false}
@@ -2843,6 +2875,15 @@ $(document).ready(function() {
         if (navigator.appVersion.indexOf("X11")!=-1) OSName="UNIX";
         if (navigator.appVersion.indexOf("Linux")!=-1) OSName="Linux";
     }
+
+
+    navigator.sayswho= (function(){
+        var N= navigator.appName, ua= navigator.userAgent, tem;
+        var M= ua.match(/(opera|chrome|safari|firefox|msie)\/?\s*(\.?\d+(\.\d+)*)/i);
+        if(M && (tem= ua.match(/version\/([\.\d]+)/i))!= null) M[2]= tem[1];
+        M= M? [M[1], M[2]]: [N, navigator.appVersion,'-?'];
+        return M;
+    })();
 
 
     $(window).resize(function(){
