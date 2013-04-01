@@ -1714,13 +1714,13 @@ $(document).ready(function() {
         if (OSName == "MacOS") {
             switch (browserNameVersion[0]) {
                 case 'Firefox':
-                    if (e.keycode == 224) {isCtrl = true}
+                    if (e.keyCode == 224) {isCtrl = true}
                     break;
                 case 'Opera':
-                    if (e.keycode == 17) {isCtrl = true}
+                    if (e.keyCode == 17) {isCtrl = true}
                     break;
                 default:
-                    if (e.keycode == 91 || e.keycode == 93) {isCtrl = true}
+                    if (e.keyCode == 91 || e.keyCode == 93) {isCtrl = true}
             }
 
         }
