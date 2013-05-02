@@ -37,10 +37,12 @@ $(document).ready(function() {
     // configuration data
     var delimiterCharacters;
     var nonEdgeCharacters;
+
     var spanTypes;
     var relationTypes;
     var instanceTypes;
     var modificationTypes;
+
     var spanTypeDefault;
     var relationTypeDefault;
     var instanceTypeDefault;
@@ -55,6 +57,7 @@ $(document).ready(function() {
     var connectors;
     var connectorTypes;
 
+    // index
     var instancesPerSpan;
     var relationsPerSpanInstance;
 
@@ -107,7 +110,7 @@ $(document).ready(function() {
                 success: function(data) {
                     setConfig(data);
                     renderFrame();
-                    getAnnotation(targetUrl);
+                    getAnnotationFrom(targetUrl);
                 },
                 error: function() {
                     alert('could not read the configuration from the location you specified.');
@@ -115,7 +118,7 @@ $(document).ready(function() {
             });
         } else {
             renderFrame();
-            getAnnotation(targetUrl);
+            getAnnotationFrom(targetUrl);
         }
     }
 
@@ -178,6 +181,7 @@ $(document).ready(function() {
         }
 
         spanTypes = new Object();
+        spanTypeDefault = null;
         if (config['span types'] != undefined) {
             var span_types = config['span types'];
             for (var i in span_types) {
@@ -188,6 +192,7 @@ $(document).ready(function() {
         }
 
         instanceTypes = new Object();
+        instanceTypeDefault = null;
         if (config['instance types'] != undefined) {
             var instance_types = config['instance types'];
             for (var i in instance_types) {
@@ -198,6 +203,7 @@ $(document).ready(function() {
         }
 
         relationTypes = new Object();
+        relationTypeDefault = null;
         if (config['relation types'] != undefined) {
             var relation_types = config['relation types'];
             for (var i in relation_types) {
@@ -207,7 +213,10 @@ $(document).ready(function() {
             if (!relationTypeDefault) {relationTypeDefault = relation_types[0]["name"];}
         }
 
+        connectorTypes = new Object();
+
         modificationTypes = new Object();
+        modificationTypeDefault = null;
         if (config['modification types'] != undefined) {
             var mod_types = config['modification types'];
             for (var i in mod_types) {
@@ -248,7 +257,7 @@ $(document).ready(function() {
     }
 
 
-    function getAnnotation(url) {
+    function getAnnotationFrom(url) {
         if (url) {targetUrl = url}
         if (targetUrl) {
             $.ajax({
@@ -264,7 +273,7 @@ $(document).ready(function() {
                         initJsPlumb();
                         renderAnnotation();
                         showSource();
-                        changeMode("view");
+                        pushButtonView();
                     } else {
                         alert("read failed.");
                     }
@@ -281,20 +290,21 @@ $(document).ready(function() {
         detectOS();
         browserNameVersion = navigator.sayswho
 
-        $('#doc_area').live('mouseup', doMouseup);
-        $('#doc_area').live("click", cancelSelect);
+        $('#doc_area').on('mouseup', doMouseup);
+        $('#doc_area').on('click', cancelSelect);
 
         spanIdsSelected = new Array();
         instanceIdsSelected = new Array();
         relationIdsSelected = new Array();
         modificationIdsSelected = new Array();
-        connectorTypes = new Object();
 
         editHistory = new Array();
         lastEditPtr = -1;
         lastSavePtr = -1;
 
-        changeButtonStateUndoRedo()
+        enableButtonLoad();
+
+        changeButtonStateUndoRedo();
         changeButtonStateSave();
     }
 
@@ -442,22 +452,27 @@ $(document).ready(function() {
     }
 
 
-    /*
-     * click undo button
-     */
-    $('#btn_undo').click(function() {
-        doUndo();
-        return false;
-    });
+    // 'Undo' button control
+    function enableButtonUndo() {
+        $("#btn_undo").off('click', doUndo).on('click', doUndo);
+        renderButtonEnable($("#btn_undo"))
+    }
 
+    function disableButtonUndo() {
+        $("#btn_undo").off('click', doUndo);
+        renderButtonDisable($("#btn_undo"))
+    }
 
-    /*
-     * click redo button
-     */
-    $('#btn_redo').click(function(e) {
-        doRedo();
-        return false;
-    });
+    // 'Redo' button control
+    function enableButtonRedo() {
+        $("#btn_redo").off('click', doRedo).on('click', doRedo);
+        renderButtonEnable($("#btn_redo"))
+    }
+
+    function disableButtonRedo() {
+        $("#btn_redo").off('click', doRedo);
+        renderButtonDisable($("#btn_redo"))
+    }
 
 
     /*
@@ -487,23 +502,25 @@ $(document).ready(function() {
         makeEdits(editHistory[++lastEditPtr], 'redo');
         changeButtonStateUndoRedo();
         changeButtonStateSave();
+
+        return false;
     }
 
 
     function changeButtonStateUndoRedo() {
         if (lastEditPtr > -1) {
-            enableButton($('#btn_undo'));
+            enableButtonUndo();
             $('#btn_undo').html(lastEditPtr + 1);
         } else {
-            disableButton($('#btn_undo'));
+            disableButtonUndo();
             $('#btn_undo').html('');
         }
 
         if (lastEditPtr < editHistory.length - 1) {
-            enableButton($('#btn_redo'));
+            enableButtonRedo();
             $('#btn_redo').html(editHistory.length - lastEditPtr - 1);
         } else {
-            disableButton($('#btn_redo'));
+            disableButtonRedo();
             $('#btn_redo').html('');
         }
     }
@@ -511,28 +528,30 @@ $(document).ready(function() {
 
     function changeButtonStateSave() {
         if (lastEditPtr == lastSavePtr) {
-            disableButton($('#btn_save'));
-            $(window).unbind('beforeunload', leaveMessage);
+            disableButtonSave();
         } else {
-            enableButton($('#btn_save'));
-            $(window).bind('beforeunload', leaveMessage);
+            enableButtonSave();
         }
     }
 
 
-    function disableButton(button) {
+    function renderButtonDisable(button) {
         button.addClass('disabled');
     }
 
-    function enableButton(button) {
+    function renderButtonEnable(button) {
         button.removeClass('disabled');
     }
 
-    function pushButton(button) {
+    function isButtonDisabled(button) {
+        return button.hasClass('disabled');
+    }
+
+    function renderButtonPush(button) {
         button.addClass('pushed');
     }
 
-    function unpushButton(button) {
+    function renderButtonUnpush(button) {
         button.removeClass('pushed');
     }
 
@@ -792,19 +811,6 @@ $(document).ready(function() {
     function clearSpanSelection() {
         $('span.selected').removeClass('selected');
         spanIdsSelected.length = 0;
-    }
-
-
-    /*
-     * instanceの枠にcategoryに対応する色をつけます
-     */
-    function addInstanceBorderColor(elem, spanTypes) {
-        for (var s in spanTypes) {
-            if (elem.hasClass(s)) {
-                elem.css('border-color', spanTypes[s]["color"]);
-                break;
-            }
-        }
     }
 
 
@@ -1736,6 +1742,7 @@ $(document).ready(function() {
 
         switch (e.keyCode) {
             case 46: // win delete / mac fn + delete
+            case  8: // backspace key
                 var edits;
 
                 if (mode == 'span') {
@@ -1825,13 +1832,13 @@ $(document).ready(function() {
                 }
                 break;
             case 86: // 'v' key: change to view mode
-                if (!e.ctrlKey) {changeMode('view')}
+                if (!e.ctrlKey) {pushButtonView()}
                 break
             case 83: // 's' key: change to span edit mode
-                if (!e.ctrlKey) {changeMode('span')}
+                if (!e.ctrlKey) {pushButtonSpan()}
                 break;
             case 82: // 'r' key: change to relation edit mode
-                if (!e.ctrlKey) {changeMode('relation')}
+                if (!e.ctrlKey) {pushButtonRelation()}
                 break;
         }
     });
@@ -2058,30 +2065,41 @@ $(document).ready(function() {
     });
 
 
-    /*
-     * load button pushed
-     */
-    $('#btn_load').click(function() {
+    // 'Load' button control
+    function enableButtonLoad() {
+        $("#btn_load").off('click', getAnnotation).on('click', getAnnotation);
+        renderButtonEnable($("#btn_load"))
+    }
+
+
+    function getAnnotation() {
         var location = prompt("Load document with annotation. Enter the location:", targetUrl);
         if (location != null && location != "") {
-            getAnnotation(location);
+            getAnnotationFrom(location);
         }
-    });
+    }
 
+    // 'Save' button control
+    function enableButtonSave() {
+        $("#btn_save").off('click', saveAnnotation).on('click', saveAnnotation);
+        $(window).off('beforeunload', leaveMessage).on('beforeunload', leaveMessage);
+        renderButtonEnable($("#btn_save"))
+    }
 
-    /*
-     * save button pushed
-     */
-    $("#btn_save").click(function(){
+    function disableButtonSave() {
+        $("#btn_save").off('click', saveAnnotation);
+        $(window).off('beforeunload', leaveMessage);
+        renderButtonDisable($("#btn_save"))
+    }
+
+    function saveAnnotation() {
         var location = prompt("Save annotation to the document. Enter the location:", targetUrl);
         if (location != null && location != "") {
-            saveAnnotation(location);
+            saveAnnotationTo(location);
         }
-    });
-
+    }
 
     jQuery.fn.center = function () {
-        //position:absolute;を与えて、ウィンドウのサイズを取得し、topとleftの値を調整
         this.css("position","absolute");
         this.css("top", ( $(window).height() - this.height() ) / 2+$(window).scrollTop() + "px");
         this.css("left", ( $(window).width() - this.width() ) / 2+$(window).scrollLeft() + "px");
@@ -2089,7 +2107,7 @@ $(document).ready(function() {
     };
 
 
-    function saveAnnotation(location) {
+    function saveAnnotationTo(location) {
         $('#loading').center().show();
 
         var catanns = [];
@@ -2140,32 +2158,52 @@ $(document).ready(function() {
         });
     }
 
+    // 'Replicate Auto' button control
+    function enableButtonReplicateAuto() {
+        $("#btn_replicate_auto").off('click', pushButtonReplicateAuto).on('click', pushButtonReplicateAuto);
+        renderButtonEnable($("#btn_replicate_auto"));
+    }
 
-    /*
-     * btn_replicate_auto clicked
-     */
-    $('#btn_replicate_auto').live("click", function() {
-        if (replicateAuto) {
-            unpushButton($(this));
-            replicateAuto = false;
-        }
-        else {
-            pushButton($(this));
+    function disableButtonReplicateAuto() {
+        $("#btn_replicate_auto").off('click', pushButtonReplicateAuto);
+        renderButtonDisable($("#btn_replicate_auto"));
+    }
+
+    function pushButtonReplicateAuto() {
+        if (!isButtonDisabled($('#btn_replicate_auto'))) {
+            renderButtonPush($('#btn_replicate_auto'));
             replicateAuto = true;
+            $('#btn_replicate_auto').off('click', pushButtonReplicateAuto);
+            $('#btn_replicate_auto').off('click', unpushButtonReplicateAuto).on('click', unpushButtonReplicateAuto);
         }
-        return false;
-    });
+    }
 
+    function unpushButtonReplicateAuto() {
+        if (!isButtonDisabled($('#btn_replicate_auto'))) {
+            renderButtonUnpush($('#btn_replicate_auto'));
+            replicateAuto = false;
+            $('#btn_replicate_auto').off('click', unpushButtonReplicateAuto);
+            $('#btn_replicate_auto').off('click', pushButtonReplicateAuto).on('click', pushButtonReplicateAuto);
+        }
+    }
 
-    /*
-     * btn_replicate clicked
-     */
-    $('#btn_replicate').click(function() {
+    // 'Replicate' button control
+    function enableButtonReplicate() {
+        $("#btn_replicate").off('click', replicate).on('click', replicate);
+        renderButtonEnable($("#btn_replicate"));
+    }
+
+    function disableButtonReplicate() {
+        $("#btn_replicate").off('click', replicate);
+        renderButtonDisable($("#btn_replicate"));
+    }
+
+    function replicate() {
         if (spanIdsSelected.length == 1) {
             makeEdits(getSpanReplicates(spans[spanIdsSelected[0]]));
         }
         else alert('You can replicate span annotation when there is only span selected.');
-    });
+    }
 
 
     function getSpanReplicates(span) {
@@ -2441,16 +2479,61 @@ $(document).ready(function() {
     }
 
 
-    $('#btn_mode_view').click(function() {changeMode('view')});
-    $('#btn_mode_span').click(function() {changeMode('span')});
-    $('#btn_mode_relation').click(function() {changeMode('relation')});
+    // mode button controls
+    function pushButtonView() {
+        unpushButtonSpan();
+        unpushButtonRelation();
+        renderButtonPush($('#btn_mode_view'));
+        $('#btn_mode_view').off('click', pushButtonView);
+        changeMode('view');
+    }
 
+    function unpushButtonView() {
+        renderButtonUnpush($('#btn_mode_view'));
+        $('#btn_mode_view').off('click', pushButtonView).on('click', pushButtonView);
+    }
+
+    function pushButtonSpan() {
+        unpushButtonView();
+        unpushButtonRelation();
+        renderButtonPush($('#btn_mode_span'));
+        $('#btn_mode_span').off('click', pushButtonSpan);
+        changeMode('span');
+    }
+
+    function unpushButtonSpan() {
+        if (!isButtonDisabled($('#btn_mode_span'))) {
+            renderButtonUnpush($('#btn_mode_span'));
+            $('#btn_mode_span').off('click', pushButtonSpan).on('click', pushButtonSpan);
+        }
+    }
+
+    function disableButtonSpan() {
+        $('#btn_mode_span').off('click', pushButtonSpan);
+        renderButtonDisable($('#btn_mode_span'));
+    }
+
+    function pushButtonRelation() {
+        unpushButtonView();
+        unpushButtonSpan();
+        renderButtonPush($('#btn_mode_relation'));
+        $('#btn_mode_relation').off('click', pushButtonRelation);
+        changeMode('relation');
+    }
+
+    function unpushButtonRelation() {
+        if (!isButtonDisabled($('#btn_mode_relation'))) {
+            renderButtonUnpush($('#btn_mode_relation'));
+            $('#btn_mode_relation').off('click', pushButtonRelation).on('click', pushButtonRelation);
+        }
+    }
+
+    function disableButtonRelation() {
+        $('#btn_mode_relation').off('click', pushButtonRelation);
+        renderButtonDisable($('#btn_mode_relation'));
+    }
 
     function changeMode(tomode) {
-        unpushButton($('#btn_mode_view'));
-        unpushButton($('#btn_mode_span'));
-        unpushButton($('#btn_mode_relation'));
-
         clearSpanSelection();
         clearInstanceSelection();
         clearModificationSelection();
@@ -2459,24 +2542,27 @@ $(document).ready(function() {
         mode = tomode;
 
         if (mode == 'view') {
-            pushButton($('#btn_mode_view'));
-
             $('#ins_area').css('z-index', 10);
             $('#rel_area').removeAttr('style');
+
+            disableButtonReplicate();
+            disableButtonReplicateAuto();
 
             makeClones();
         } else if (mode == 'span') {
-            pushButton($('#btn_mode_span'));
-
             $('#ins_area').removeAttr('style');
             $('#rel_area').css('z-index', -10);
 
+            enableButtonReplicate();
+            enableButtonReplicateAuto();
+
             destroyClones();
         } else if (mode == 'relation') {
-            pushButton($('#btn_mode_relation'));
-
             $('#ins_area').css('z-index', 10);
             $('#rel_area').removeAttr('style');
+
+            disableButtonReplicate();
+            disableButtonReplicateAuto();
 
             makeClones();
         }

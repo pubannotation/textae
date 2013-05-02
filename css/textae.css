@@ -54,7 +54,7 @@ a {
 #document_frame {
     margin: 5px;
     margin-top: 24px;
-    margin-left: 175px;
+    margin-left: 180px;
     padding: 5px;
     display: block;
     border: 1px solid black;
@@ -191,6 +191,7 @@ table.palette {
 }
 
 .button.disabled {
+    cursor: auto;
     opacity: 0.3;
 }
 
@@ -243,7 +244,7 @@ table.palette {
 
 .type_show_area {
     position: static;
-    width: 155px;
+    width: 160px;
 
     display: block;
     border: 1px solid #aaaa55;
@@ -269,6 +270,7 @@ table.palette {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    cursor: pointer;
 }
 
 .relation_type_label {
@@ -276,6 +278,15 @@ table.palette {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    cursor: pointer;
+}
+
+.category_radio {
+    cursor: pointer;
+}
+
+.relation_radio {
+    cursor: pointer;
 }
 
 span.Sentence {
