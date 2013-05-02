@@ -569,9 +569,9 @@ $(document).ready(function() {
             html += '<tr style="background-color:' + spanTypes[s]["color"]  + '">';
 
             if (s == spanTypeDefault) {
-                html += '<td><input type="radio" name="category" class="category_radio" checked title="default type"></td>';
+                html += '<td style="width:10px"><input type="radio" name="category" class="category_radio" checked title="default type"></td>';
             } else {
-                html += '<td><input type="radio" name="category" class="category_radio"></td>';
+                html += '<td style="width:10px"><input type="radio" name="category" class="category_radio"></td>';
             }
 
             html += '<td><div class="span_type_label">' + s  + '</div></td>';
@@ -605,9 +605,9 @@ $(document).ready(function() {
             html += '<tr style="background-color:' + color  + '">';
 
             if(r == relationTypeDefault) {
-                html += '<td><input type="radio" name="relation" class="relation_radio" checked title="default type"></td>';
+                html += '<td style="width:10px"><input type="radio" name="relation" class="relation_radio" checked title="default type"></td>';
             } else {
-                html += '<td><input type="radio" name="relation" class="relation_radio"></td>';
+                html += '<td style="width:10px"><input type="radio" name="relation" class="relation_radio"></td>';
             }
 
             html += '<td><div class="relation_type_label">' + r  + '</div></td>';
