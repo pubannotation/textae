@@ -775,7 +775,7 @@ $(document).ready(function() {
         range.setEnd(endnode, endoff);
         range.surroundContents(element);
 
-        $('#' + sid).live('click', spanClicked);
+        $('#' + sid).on('click', spanClicked);
     }
 
 
@@ -2603,7 +2603,7 @@ $(document).ready(function() {
             $('#clone_area').append(div);
         }
 
-        $('.clone_span').click(spanClicked);
+        $('.clone_span').on('click', spanClicked);
     }
 
 
