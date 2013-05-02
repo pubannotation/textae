@@ -290,8 +290,8 @@ $(document).ready(function() {
         detectOS();
         browserNameVersion = navigator.sayswho
 
-        $('#doc_area').on('mouseup', doMouseup);
-        $('#doc_area').on('click', cancelSelect);
+        $('#doc_area').off('mouseup', doMouseup).on('mouseup', doMouseup);
+        $('#doc_area').off('click', cancelSelect).on('click', cancelSelect);
 
         spanIdsSelected = new Array();
         instanceIdsSelected = new Array();
@@ -1205,9 +1205,9 @@ $(document).ready(function() {
 
 
     function cancelBubble(e) {
-        var evt = e ? e:window.event;
-        if (evt.stopPropagation)    evt.stopPropagation();
-        if (evt.cancelBubble!=null) evt.cancelBubble = true;
+        e = e || window.event;
+        if (e.stopPropagation)    e.stopPropagation();
+        if (e.cancelBubble!=null) e.cancelBubble = true;
     }
 
 
@@ -1296,7 +1296,7 @@ $(document).ready(function() {
         clearInstanceSelection();
         clearRelationSelection();
         clearModificationSelection();
-        cancelBubble();
+        cancelBubble(e);
     }
 
 
@@ -2757,7 +2757,7 @@ $(document).ready(function() {
                 selectRelation(rid);
             }
         }
-        cancelBubble();
+        cancelBubble(e);
         return false;
     }
 

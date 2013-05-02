@@ -27,7 +27,7 @@ a {
     /* Chrome, Safari:*/
     background: -webkit-gradient(linear,  left top, right top, from(#BBBBFF), to(#FFFFFF));
     /* MSIE */
-    filter: progid:DXImageTransform.Microsoft.Gradient(  StartColorStr='#BBBBFF', EndColorStr='#FFFFFF', GradientType=1);
+    filter: progid:DXImageTransform.Microsoft.Gradient(StartColorStr='#BBBBFF', EndColorStr='#FFFFFF', GradientType=1);
 }
 
 #header_area div {
