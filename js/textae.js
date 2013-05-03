@@ -261,7 +261,7 @@ $(document).ready(function() {
 
     function getAnnotationFrom(url) {
         if (url) {targetUrl = url}
-        if (targetUrl) {
+        if (targetUrl != null && targetUrl != "") {
             $.ajax({
                 type: "GET",
                 url: targetUrl,
@@ -282,6 +282,9 @@ $(document).ready(function() {
                     alert("connection failed.");
                 }
             });
+        }
+        else {
+            initialize();
         }
     }
 
