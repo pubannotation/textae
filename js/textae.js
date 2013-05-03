@@ -124,7 +124,7 @@ $(document).ready(function() {
 
 
     function showSource() {
-        $('#message').html("(source: " + targetUrl + ")");
+        if (targetUrl != "") $('#message').html("(source: " + targetUrl + ")");
     }
 
 
