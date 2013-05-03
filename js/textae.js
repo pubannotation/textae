@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    var OSname;
+    var OSName;
     var browserNameVersion;
 
     var mode = 'view';  // screen mode: view(default) | span | relation
