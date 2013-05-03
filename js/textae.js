@@ -311,8 +311,8 @@ $(document).ready(function() {
         changeButtonStateSave();
 
         showSource();
-        if (spanTypeDefault == null) disableButtonSpan();
-        if (relationTypeDefault == null) disableButtonRelation();
+        if (spanTypeDefault == null || targetUrl === "") disableButtonSpan();
+        if (relationTypeDefault == null || targetUrl === "") disableButtonRelation();
         pushButtonView();
     }
 
