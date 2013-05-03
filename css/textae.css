@@ -45,7 +45,7 @@ a {
     text-decoration: none;
 }
 
-#notice {
+#message {
     margin-left: 10px;
     font-style:italic;
     color:gray;
@@ -263,6 +263,19 @@ table.palette {
     text-align: left;
     font-size: small;
     font-weight: bold;
+}
+
+#notice {
+    position: static;
+    width: 160px;
+
+    display: none;
+    border: 1px solid #aaaa55;
+    padding: 5px;
+    margin: 2px 0px;
+    background-color: #ffdddd;
+    font-style: italic;
+    font-size: small;
 }
 
 .span_type_label {

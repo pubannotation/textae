@@ -90,7 +90,7 @@ $(document).ready(function() {
         // read default configuration
         $.ajax({
             type: "GET",
-            url: "conf.json",
+            url: "config/default.json",
             dataType: "json",
             async: false,
             success: function(data) {
@@ -124,7 +124,7 @@ $(document).ready(function() {
 
 
     function showSource() {
-        $('#notice').html("(source: " + targetUrl + ")");
+        $('#message').html("(source: " + targetUrl + ")");
     }
 
 
@@ -160,10 +160,12 @@ $(document).ready(function() {
 
 
     function renderFrame() {
-        tableSpanTypes(spanTypes);
-        tableRelationTypes(relationTypes);
-        tableInstanceTypes(instanceTypes);
-        tableModificationTypes(modificationTypes);
+        if (spanTypeDefault) tableSpanTypes(spanTypes);
+        if (relationTypeDefault) tableRelationTypes(relationTypes);
+        if (!spanTypeDefault && !relationTypeDefault) $('#notice').css('display', 'block');
+
+        // tableInstanceTypes(instanceTypes);
+        // tableModificationTypes(modificationTypes);
         initSlider();
     }
 
@@ -268,12 +270,10 @@ $(document).ready(function() {
                 xhrFields: {withCredentials: true},
                 success: function(annotation) {
                     if (annotation.text != undefined) {
-                        initialize();
                         loadAnnotation(annotation);
                         initJsPlumb();
                         renderAnnotation();
-                        showSource();
-                        pushButtonView();
+                        initialize();
                     } else {
                         alert("read failed.");
                     }
@@ -306,6 +306,11 @@ $(document).ready(function() {
 
         changeButtonStateUndoRedo();
         changeButtonStateSave();
+
+        showSource();
+        if (spanTypeDefault == null) disableButtonSpan();
+        if (relationTypeDefault == null) disableButtonRelation();
+        pushButtonView();
     }
 
 
@@ -317,30 +322,50 @@ $(document).ready(function() {
         sourceDoc = data.text;
 
         spans = new Object();
-        if(data.catanns != undefined) {
-            for (var i = 0; i < data.catanns.length ; i++) {spans[data.catanns[i]["id"]] = data.catanns[i];}
+        var spanTypesUnknown = new Array();
+        if (data.catanns != undefined) {
+            for (var i = 0; i < data.catanns.length ; i++) {
+                if (spanTypes[data.catanns[i]['category']]) spans[data.catanns[i]['id']] = data.catanns[i];
+                else spanTypesUnknown.push(data.catanns[i]['category']);
+            }
             for (var sid in spans) {spans[sid]['type'] = spans[sid]['category']} // use 'type' instead of 'category'
         }
         spanIds = Object.keys(spans); // maintained sorted.
         sortSpanIds(spanIds);
+        spanTypesUnknown = $.unique(spanTypesUnknown);
 
         instances = new Object();
-        if(data.insanns != undefined) {
-            for (var i = 0; i < data.insanns.length ; i++) {instances[data.insanns[i]["id"]] = data.insanns[i];}
+        var instanceTypesUnknown = new Array();
+        if (data.insanns != undefined) {
+            for (var i = 0; i < data.insanns.length ; i++) {
+                if (instanceTypes[data.insanns[i]['type']]) instances[data.insanns[i]["id"]] = data.insanns[i];
+                else instanceTypesUnknown.push(data.insanns[i]['type']);
+            }
         }
         instanceIds = Object.keys(instances);
+        instanceTypesUnknown = $.unique(instanceTypesUnknown);
 
         relations = new Object();
-        if(data.relanns != undefined) {
-            for (var i = 0; i < data.relanns.length ; i++) {relations[data.relanns[i]["id"]] = data.relanns[i];}
+        var relationTypesUnknown = new Array();
+        if (data.relanns != undefined) {
+            for (var i = 0; i < data.relanns.length ; i++) {
+                if (relationTypes[data.relanns[i]['type']]) relations[data.relanns[i]["id"]] = data.relanns[i];
+                else relationTypesUnknown.push(data.relanns[i]['type']);
+            }
         }
         relationIds = Object.keys(relations);
+        relationTypesUnknown = $.unique(relationTypesUnknown);
 
         modifications = new Object();
-        if(data.modanns != undefined) {
-            for (var i = 0; i < data.modanns.length ; i++) {modifications[data.modanns[i]["id"]] = data.modanns[i];}
+        var modificationTypesUnknown = new Array();
+        if (data.modanns != undefined) {
+            for (var i = 0; i < data.modanns.length ; i++) {
+                if (modificationTypes[data.modanns[i]['type']]) modifications[data.modanns[i]["id"]] = data.modanns[i];
+                else modificationTypesUnknown.push(data.modanns[i]['type']);
+            }
         }
         modificationIds = Object.keys(modifications);
+        modificationTypesUnknown = $.unique(modificationTypesUnknown);
 
         // index instances per array
         instancesPerSpan = new Object();
@@ -360,6 +385,14 @@ $(document).ready(function() {
 
         positions = new Object();
         connectors = new Object();
+
+        var typesUnknown = '';
+        if (spanTypesUnknown.length > 0)         typesUnknown += "\nspan types: " + spanTypesUnknown.join(', ');
+        if (relationTypesUnknown.length > 0)     typesUnknown += "\nrelation types: " + relationTypesUnknown.join(', ');
+        if (instanceTypesUnknown.length > 0)     typesUnknown += "\ninstance types: " + instanceTypesUnknown.join(', ');
+        if (modificationTypesUnknown.length > 0) typesUnknown += "\nmodification types: " + modificationTypesUnknown.join(', ');
+
+        if (typesUnknown.length > 0) alert("Unknown annotation types are ignored." + typesUnknown);
     }
 
 
@@ -1532,8 +1565,8 @@ $(document).ready(function() {
 
 
     /*
-     * 同じ文字列を探す
-     * ただし、両外側はdelimiterであること
+     * search same strings
+     * both ends should be delimiter characters
      */
     function findSameString(startPos, endPos, spanType) {
         var ospan = sourceDoc.substring(startPos, endPos);
@@ -1742,7 +1775,7 @@ $(document).ready(function() {
 
         switch (e.keyCode) {
             case 46: // win delete / mac fn + delete
-            case  8: // backspace key
+            case 68: // 'd' key
                 var edits;
 
                 if (mode == 'span') {
@@ -1832,13 +1865,13 @@ $(document).ready(function() {
                 }
                 break;
             case 86: // 'v' key: change to view mode
-                if (!e.ctrlKey) {pushButtonView()}
+                if (!e.ctrlKey && !isButtonDisabled($('#btn_mode_view'))) {pushButtonView()}
                 break
             case 83: // 's' key: change to span edit mode
-                if (!e.ctrlKey) {pushButtonSpan()}
+                if (!e.ctrlKey && !isButtonDisabled($('#btn_mode_span'))) {pushButtonSpan()}
                 break;
             case 82: // 'r' key: change to relation edit mode
-                if (!e.ctrlKey) {pushButtonRelation()}
+                if (!e.ctrlKey && !isButtonDisabled($('#btn_mode_relation'))) {pushButtonRelation()}
                 break;
         }
     });
@@ -2141,7 +2174,7 @@ $(document).ready(function() {
             xhrFields: {withCredentials: true},
             success: function(res){
                 $('#loading').hide();
-                $('#notice').html("annotation saved").fadeIn().fadeOut(5000, function() {
+                $('#message').html("annotation saved").fadeIn().fadeOut(5000, function() {
                     $(this).html('').removeAttr('style');
                     showSource();
                 });
@@ -2150,7 +2183,7 @@ $(document).ready(function() {
             },
             error: function(res, textStatus, errorThrown){
                 $('#loading').hide();
-                $('#notice').html("could not save").fadeIn().fadeOut(5000, function() {
+                $('#message').html("could not save").fadeIn().fadeOut(5000, function() {
                     $(this).html('').removeAttr('style');
                     showSource();
                 });
