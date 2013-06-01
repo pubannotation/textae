@@ -72,9 +72,7 @@ $(document).ready(function() {
 
     getUrlParameters();
 
-    /*
-     * get the url parameters: beginning of the program
-     */
+    // get the url parameters: beginning of the program
     function getUrlParameters() {
         var params = location.search.slice(1).split('&');
 
@@ -170,9 +168,6 @@ $(document).ready(function() {
     }
 
 
-    /*
-     * config
-     */
     function setConfig(config){
         if (config['delimiter characters'] != undefined) {
             delimiterCharacters = config['delimiter characters'];
@@ -317,11 +312,7 @@ $(document).ready(function() {
     }
 
 
-    /*
-     * prepare annotation
-     */
     function loadAnnotation(data) {
-        // load annotation
         sourceDoc = data.text;
 
         spans = new Object();
@@ -477,9 +468,7 @@ $(document).ready(function() {
     }
 
 
-    /*
-     * sort the span IDs by the position
-     */
+    // sort the span IDs by the position
     function sortSpanIds(sids) {
         function compare(a, b) {
             return((spans[a]['span']['begin'] - spans[b]['span']['begin']) || (spans[b]['span']['end'] - spans[a]['span']['end']));
@@ -511,9 +500,6 @@ $(document).ready(function() {
     }
 
 
-    /*
-     * Undo
-     */
     function doUndo() {
         clearSpanSelection();
         clearInstanceSelection();
@@ -526,9 +512,6 @@ $(document).ready(function() {
     }
 
 
-    /*
-     * Redo
-     */
     function doRedo() {
         clearSpanSelection();
         clearInstanceSelection();
@@ -592,29 +575,22 @@ $(document).ready(function() {
     }
 
 
-    /*
-     * List of categories 
-     */
     function tableSpanTypes(spanTypes) {
         var html = '<table>';
-        html += '<tr><th colspan="2">Span Types</th>';
+        html += '<tr><th colspan="2">Span Types</th></tr>';
 
-        for(var s in spanTypes) {
+        for (var s in spanTypes) {
             var uri = spanTypes[s]["uri"];
 
             html += '<tr style="background-color:' + spanTypes[s]["color"]  + '">';
 
-            if (s == spanTypeDefault) {
-                html += '<td style="width:10px"><input type="radio" name="category" class="category_radio" checked title="default type"></td>';
-            } else {
-                html += '<td style="width:10px"><input type="radio" name="category" class="category_radio"></td>';
-            }
+            html += '<td class="radio"><input type="radio" name="stype" class="span_type_radio"';
+            html += (s == spanTypeDefault)? 'title="default type" checked' : '';
+            html += '></td>';
 
             html += '<td><div class="span_type_label">' + s  + '</div></td>';
 
-            if (uri) {
-                html += '<td title="' + uri + '">' + '<a href="' + uri + '" target="_blank"><img src="images/link.png"></a></td>';
-            }
+            if (uri) html += '<td title="' + uri + '">' + '<a href="' + uri + '" target="_blank"><img src="images/link.png"></a></td>';
 
             html += '</tr>';
         }
@@ -624,34 +600,23 @@ $(document).ready(function() {
     }
 
 
-    /*
-     * List of relation types
-     */
-    function tableRelationTypes (relationTypes) {
+    function tableRelationTypes(relationTypes) {
         var html = '<table>';
-        html += '<tr class="hide_all_checkbox">' +
-            '<th colspan="2">Relation Types</th>' +
-            // '<td><input type="checkbox" name="rel_hide" class="rel_hide" title="all" checked></td>' +
-            '</tr>';
+        html += '<tr><th colspan="2">Relation Types</th></tr>';
 
         for (var r in relationTypes) {
-            var uri = relationTypes[r]["uri"];
+            var uri   = relationTypes[r]["uri"];
             var color = relationTypes[r]["color"];
 
             html += '<tr style="background-color:' + color  + '">';
 
-            if(r == relationTypeDefault) {
-                html += '<td style="width:10px"><input type="radio" name="relation" class="relation_radio" checked title="default type"></td>';
-            } else {
-                html += '<td style="width:10px"><input type="radio" name="relation" class="relation_radio"></td>';
-            }
+            html += '<td class="radio"><input type="radio" name="rtype" class="relation_type_radio"';
+            html += (r == relationTypeDefault)? 'title="default type" checked' : '';
+            html += '></td>';
 
             html += '<td><div class="relation_type_label">' + r  + '</div></td>';
-            // html += '<td><input type="checkbox" name="rel_hide" class="rel_hide" title="show/hide" checked></td>';
 
-            if (uri) {
-                html += '<td title="' + uri + '">' + '<a href="' + uri + '" target="_blank"><img src="images/link.png"></a></td>';
-            }
+            if (uri) html += '<td title="' + uri + '">' + '<a href="' + uri + '" target="_blank"><img src="images/link.png"></a></td>';
 
             html += '</tr>';
 
@@ -661,20 +626,14 @@ $(document).ready(function() {
         }
 
         html += '</table>';
-
         $('#relation_types').html(html);
     }
 
 
-    /*
-     * List of instance types
-     */
+    // List of instance types
     function tableInstanceTypes(instanceTypes) {
-        var html = '<table><tr class="hide_all_checkbox">' +
-            '<th colspan="2">Instance Types</th>' +
-            '<td><input type="checkbox" name="instype_hide" class="instype_hide" title="all" checked></td>' +
-            '<td></td>' +
-            '</tr>';
+        var html = '<table>';
+        html += '<tr><th colspan="2">Instance Types</th></tr>';
 
         for(var i in instanceTypes) {
             var uri = instanceTypes[i]["uri"];
@@ -703,15 +662,10 @@ $(document).ready(function() {
     }
 
 
-    /*
-     * List of modification types
-     */
+    // List of modification types
     function tableModificationTypes(modificationTypes) {
-        var html = '<table><tr class="hide_all_checkbox">' +
-            '<th colspan="2">Modification Types</th>' +
-            '<td><input type="checkbox" name="modtype_hide" class="modtype_hide" title="all" checked></td>' +
-            '<td></td>' +
-            '</tr>';
+        var html = '<table>';
+        html += '<tr><th colspan="2">Modification Types</th></tr>';
 
         for(var m in modificationTypes) {
             var uri = modificationTypes[m]["uri"];
@@ -850,18 +804,14 @@ $(document).ready(function() {
     }
 
 
-    /*
-     * set the default category
-     */
-    $('.category_radio').live('change', function() {
+    // set the default category
+    $('.span_type_radio').live('change', function() {
         spanTypeDefault = $(this).parent().next().text();
     });
 
 
-    /*
-     * set the default relation type
-     */
-    $('.relation_radio').live('change', function() {
+    // set the default relation type
+    $('.relation_type_radio').live('change', function() {
         relationTypeDefault = $(this).parent().next().text();
     });
 

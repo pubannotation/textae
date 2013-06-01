@@ -265,6 +265,10 @@ table.palette {
     font-weight: bold;
 }
 
+td.radio {
+    width: 10px;
+}
+
 #notice {
     position: static;
     width: 160px;
@@ -294,11 +298,11 @@ table.palette {
     cursor: pointer;
 }
 
-.category_radio {
+.span_type_radio {
     cursor: pointer;
 }
 
-.relation_radio {
+.relation_type_radio {
     cursor: pointer;
 }
 
