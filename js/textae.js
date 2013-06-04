@@ -188,6 +188,8 @@ $(document).ready(function() {
             if (!spanTypeDefault) {spanTypeDefault = span_types[0]["name"];}
         }
 
+        spanTypes["unknown"] = {"color": "#BBBBBB"};
+
         instanceTypes = new Object();
         instanceTypeDefault = null;
         if (config['instance types'] != undefined) {
@@ -317,12 +319,11 @@ $(document).ready(function() {
 
         spans = new Object();
         var spanTypesUnknown = new Array();
-        if (data.catanns != undefined) {
-            for (var i = 0; i < data.catanns.length ; i++) {
-                if (spanTypes[data.catanns[i]['category']]) spans[data.catanns[i]['id']] = data.catanns[i];
-                else spanTypesUnknown.push(data.catanns[i]['category']);
+        if (data.denotations != undefined) {
+            for (var i = 0; i < data.denotations.length ; i++) {
+                spans[data.denotations[i]['id']] = data.denotations[i];
+                if (!spanTypes[data.denotations[i]['obj']]) spanTypesUnknown.push(data.denotations[i]['obj']);
             }
-            for (var sid in spans) {spans[sid]['type'] = spans[sid]['category']} // use 'type' instead of 'category'
         }
         spanIds = Object.keys(spans); // maintained sorted.
         sortSpanIds(spanIds);
@@ -330,10 +331,10 @@ $(document).ready(function() {
 
         instances = new Object();
         var instanceTypesUnknown = new Array();
-        if (data.insanns != undefined) {
-            for (var i = 0; i < data.insanns.length ; i++) {
-                if (instanceTypes[data.insanns[i]['type']]) instances[data.insanns[i]["id"]] = data.insanns[i];
-                else instanceTypesUnknown.push(data.insanns[i]['type']);
+        if (data.instances != undefined) {
+            for (var i = 0; i < data.instances.length ; i++) {
+                if (instanceTypes[data.instances[i]['pred']]) instances[data.instances[i]["id"]] = data.instances[i];
+                if (!instanceTypes[data.instances[i]['pred']]) instanceTypesUnknown.push(data.instances[i]['pred']);
             }
         }
         instanceIds = Object.keys(instances);
@@ -341,10 +342,10 @@ $(document).ready(function() {
 
         relations = new Object();
         var relationTypesUnknown = new Array();
-        if (data.relanns != undefined) {
-            for (var i = 0; i < data.relanns.length ; i++) {
-                if (relationTypes[data.relanns[i]['type']]) relations[data.relanns[i]["id"]] = data.relanns[i];
-                else relationTypesUnknown.push(data.relanns[i]['type']);
+        if (data.relations != undefined) {
+            for (var i = 0; i < data.relations.length ; i++) {
+                if (relationTypes[data.relations[i]['pred']]) relations[data.relations[i]["id"]] = data.relations[i];
+                if (!relationTypes[data.relations[i]['pred']]) relationTypesUnknown.push(data.relations[i]['pred']);
             }
         }
         relationIds = Object.keys(relations);
@@ -352,10 +353,10 @@ $(document).ready(function() {
 
         modifications = new Object();
         var modificationTypesUnknown = new Array();
-        if (data.modanns != undefined) {
-            for (var i = 0; i < data.modanns.length ; i++) {
-                if (modificationTypes[data.modanns[i]['type']]) modifications[data.modanns[i]["id"]] = data.modanns[i];
-                else modificationTypesUnknown.push(data.modanns[i]['type']);
+        if (data.modifications != undefined) {
+            for (var i = 0; i < data.modifications.length ; i++) {
+                if (modificationTypes[data.modifications[i]['pred']]) modifications[data.modifications[i]["id"]] = data.modifications[i];
+                if (!modificationTypes[data.modifications[i]['pred']]) modificationTypesUnknown.push(data.modifications[i]['pred']);
             }
         }
         modificationIds = Object.keys(modifications);
@@ -365,7 +366,7 @@ $(document).ready(function() {
         instancesPerSpan = new Object();
         for (var sid in spans) {instancesPerSpan[sid] = new Array()}
         for (var iid in instances) {
-            instancesPerSpan[instances[iid]['object']].push(iid);
+            instancesPerSpan[instances[iid]['obj']].push(iid);
         }
 
         // index relations per array or instance
@@ -373,8 +374,8 @@ $(document).ready(function() {
         for (var sid in spans)     {relationsPerSpanInstance[sid] = new Array()}
         for (var iid in instances) {relationsPerSpanInstance[iid] = new Array()}
         for (var rid in relations) {
-            relationsPerSpanInstance[relations[rid]['subject']].push(rid);
-            relationsPerSpanInstance[relations[rid]['object']].push(rid);
+            relationsPerSpanInstance[relations[rid]['subj']].push(rid);
+            relationsPerSpanInstance[relations[rid]['obj']].push(rid);
         }
 
         positions = new Object();
@@ -386,7 +387,7 @@ $(document).ready(function() {
         if (instanceTypesUnknown.length > 0)     typesUnknown += "\ninstance types: " + instanceTypesUnknown.join(', ');
         if (modificationTypesUnknown.length > 0) typesUnknown += "\nmodification types: " + modificationTypesUnknown.join(', ');
 
-        if (typesUnknown.length > 0) alert("Unknown annotation types are ignored." + typesUnknown);
+        if (typesUnknown.length > 0) alert("Unknown annotation types to be grayed." + typesUnknown);
     }
 
 
@@ -453,8 +454,8 @@ $(document).ready(function() {
     function indexRelationSize(rids) {
         for (var i = 0; i < rids.length; i++) {
             rid = rids[i];
-            var sourceX = positions[relations[rid]['subject']]["center"];
-            var targetX = positions[relations[rid]['object']]["center"];
+            var sourceX = positions[relations[rid]['subj']]["center"];
+            var targetX = positions[relations[rid]['obj']]["center"];
             relations[rid]["size"] = Math.abs(sourceX - targetX);
         }
     }
@@ -703,14 +704,12 @@ $(document).ready(function() {
 
 
     function renderSpan(sid, spanIds) {
-        var element = document.createElement("span");
+        var element = document.createElement('span');
         element.setAttribute('id', sid);
-        element.setAttribute('class', spans[sid]["type"]);
-        element.setAttribute('title', '[' + sid + '] ' + spans[sid]["type"]);
-        if (spanTypes[spans[sid]["type"]]["region"] != true) {
-            element.style.whiteSpace = "pre";
-            element.style.backgroundColor = spanTypes[spans[sid]["type"]]["color"];
-        }
+        element.setAttribute('class', spans[sid]['obj']);
+        element.setAttribute('title', '[' + sid + '] ' + spans[sid]['obj']);
+        element.style.whiteSpace = 'pre';
+        element.style.backgroundColor = (spanTypes[spans[sid]['obj']] == undefined)? spanTypes['unknown']['color'] : spanTypes[spans[sid]['obj']]['color'];
 
         var beg = spans[sid].span.begin;
         var end = spans[sid].span.end;
@@ -803,8 +802,7 @@ $(document).ready(function() {
         spanIdsSelected.length = 0;
     }
 
-
-    // set the default category
+    // set the default type of denoting object
     $('.span_type_radio').live('change', function() {
         spanTypeDefault = $(this).parent().next().text();
     });
@@ -827,7 +825,7 @@ $(document).ready(function() {
         if (mode == "span") {
             var id = $(this).attr('id');
 
-            if (isCtrl) {
+            if (e.ctrlKey) {
                 if (isSpanSelected(id)) {deselectSpan(id)}
                 else {selectSpan(id)}
             }
@@ -877,7 +875,7 @@ $(document).ready(function() {
                 if (spanIdsSelected.length > 0) {sid = spanIdsSelected[0]}
                 else {sid = instanceIdsSelected[0]}
 
-                makeEdits([{action:'new_relation', id:rid, type:relationTypeDefault, subject:sid, object:oid}]);
+                makeEdits([{action:'new_relation', id:rid, pred:relationTypeDefault, subj:sid, obj:oid}]);
 
                 // star chanining
                 if (e.ctrlKey) {}
@@ -896,9 +894,7 @@ $(document).ready(function() {
     }
 
 
-    /*
-     * merge spans by mouse right click
-     */
+    // merge spans by mouse right click
     $('#doc_area span').live('contextmenu', function(e){
 
         if (mode == "relation") {
@@ -916,23 +912,22 @@ $(document).ready(function() {
                 if (firstParentId == secondParentId && firstSpanId != secondSpanId) {
                     var edits = new Array();
 
-                    // 選択されたspanのidを保存
-                    var firstSpan  = spans[firstSpanId];    // 最初に選択された要素
-                    var secondSpan = spans[secondSpanId];   // 右クリックで選択された要素
+                    var firstSpan  = spans[firstSpanId];    // the span selected by the mouse left click
+                    var secondSpan = spans[secondSpanId];   // the span selected by the mouse right click
 
                     // move instances
                     for (var i = 0; i < instancesPerSpan[secondSpanId].length; i++) {
-                        edits.push({action:'change_instance_object', id:instancesPerSpan[secondSpanId][i], old_object:secondSpanId, new_object:firstSpanId});
+                        edits.push({action:'change_instance_obj', id:instancesPerSpan[secondSpanId][i], old_obj:secondSpanId, new_obj:firstSpanId});
                     }
 
                     // move relations
                     for (var i = 0; i < relationsPerSpanInstance[secondSpanId].length; i++) {
                         var rid = relationsPerSpanInstance[secondSpanId][i];
-                        if (relations[rid].subject == secondSpanId) {
-                            edits.push({action:'change_relation_subject', id:rid, old_subject:secondSpanId, new_subject:firstSpanId});
+                        if (relations[rid].subj == secondSpanId) {
+                            edits.push({action:'change_relation_subj', id:rid, old_subj:secondSpanId, new_subj:firstSpanId});
                         }
-                        if (relations[rid].object == secondSpanId) {
-                            edits.push({action:'change_relation_object', id:rid, old_object:secondSpanId, new_object:firstSpanId});
+                        if (relations[rid].obj == secondSpanId) {
+                            edits.push({action:'change_relation_obj', id:rid, old_obj:secondSpanId, new_obj:firstSpanId});
                         }
                     }
 
@@ -947,7 +942,7 @@ $(document).ready(function() {
                     }
 
                     // remove the second span
-                    edits.push({action:'remove_span', id:secondSpanId, begin:spans[secondSpanId].span.begin, end:spans[secondSpanId].span.end, type:spans[secondSpanId].type});
+                    edits.push({action:'remove_span', id:secondSpanId, begin:spans[secondSpanId].span.begin, end:spans[secondSpanId].span.end, obj:spans[secondSpanId].obj});
 
                     makeEdits(edits);
                 } 
@@ -1118,8 +1113,7 @@ $(document).ready(function() {
 
                 dismissBrowserSelection();
 
-                // 後ろから選択された場合は、
-                // 位置を逆転させる
+                // switch the position when the selection is made from right to left
                 if (absoluteAnchorPosition > absoluteFocusPosition) {
                     var tmpPos = absoluteAnchorPosition;
                     absoluteAnchorPosition = absoluteFocusPosition;
@@ -1132,10 +1126,10 @@ $(document).ready(function() {
 
                 clearSpanSelection();
 
-                var edits = [{action:'new_span', id:sid, begin:startPosition, end:endPosition, type:spanTypeDefault}];
+                var edits = [{action:'new_span', id:sid, begin:startPosition, end:endPosition, obj:spanTypeDefault}];
 
                 if (replicateAuto) {
-                    var replicates = getSpanReplicates({id:sid, span:{begin:startPosition, end:endPosition}, type:spanTypeDefault});
+                    var replicates = getSpanReplicates({id:sid, span:{begin:startPosition, end:endPosition}, obj:spanTypeDefault});
                     edits = edits.concat(replicates);
                 }
 
@@ -1192,15 +1186,13 @@ $(document).ready(function() {
 
     function cancelBubble(e) {
         e = e || window.event;
-        if (e.stopPropagation)    e.stopPropagation();
-        if (e.cancelBubble!=null) e.cancelBubble = true;
+        e.cancelBubble = true;
+        e.bubbles=false;
+        if (e.stopPropagation) e.stopPropagation();
     }
 
 
-    /*
-     * span idの最大値を求める
-     * spn idの形は T+数字
-     */
+     // get the max value of the span Id
     function getSpanMaxIdNum() {
         var numId = 0;
         for (sid in spans) {
@@ -1220,10 +1212,7 @@ $(document).ready(function() {
     }
 
 
-    /*
-     * connection idの最大値を求める
-     * connection id の形は R + 数字
-     */
+    // get the max value of the connector Id
     function getMaxConnId() {
         var numId = 0;
         for(var i in relations){
@@ -1234,10 +1223,8 @@ $(document).ready(function() {
         return numId;
     }
 
-    /*
-     * insansのidの数字部分の最大値を求める
-     */
-    function getMaxInsannsId() {
+    // get the max value of the instance Id
+    function getMaxInstanceId() {
         var numId = 0;
         for(var i in instances){
             if(parseInt(instances[i]["id"].slice(1)) > numId){
@@ -1247,11 +1234,8 @@ $(document).ready(function() {
         return numId;
     }
 
-
-    /*
-     * modannsのidの数字部分の最大値を求める
-     */
-    function getMaxModannsId() {
+    // get the max value of the modification Id
+    function getMaxModificationId() {
         var numId = 0;
         for(var i in modifications){
             if(parseInt(modifications[i]["id"].slice(1)) > numId){
@@ -1266,7 +1250,7 @@ $(document).ready(function() {
         var span = new Object();
         span['id'] = id;
         span['span'] = {"begin": begin, "end":end};
-        span['type'] = type;
+        span['obj'] = type;
         spans[id] = span;
         return id;
     }
@@ -1385,8 +1369,8 @@ $(document).ready(function() {
                 var newEnd = endPosition;
                 makeEdits([{action:'change_span_end', id:sid, old_end:oldEnd, new_end:newEnd}]);
             } else {
-                // 結果的に削除
-                makeEdits([{action:'remove_span', id:sid, begin:spans[sid].span.begin, end:spans[sid].span.end, type:spans[sid].type}]);
+                // remove
+                makeEdits([{action:'remove_span', id:sid, begin:spans[sid].span.begin, end:spans[sid].span.end, obj:spans[sid].obj}]);
             }
 
         } else {
@@ -1410,8 +1394,8 @@ $(document).ready(function() {
                 var newBegin = startPosition;
                 makeEdits([{action:'change_span_begin', id:sid, old_begin:oldBegin, new_begin:newBegin}]);
             } else {
-                // 結果的に削除
-                makeEdits([{action:'remove_span', id:sid, begin:spans[sid].span.begin, end:spans[sid].span.end, type:spans[sid].type}]);
+                // remove
+                makeEdits([{action:'remove_span', id:sid, begin:spans[sid].span.begin, end:spans[sid].span.end, obj:spans[sid].obj}]);
             }
         }
     }
@@ -1534,7 +1518,7 @@ $(document).ready(function() {
             if (!isOutsideDelimiter(sourceDoc, sameStrPos, sameStrPos + strLen)) {
                 var obj = new Object();
                 obj['span'] = {"begin": sameStrPos, "end": sameStrPos + strLen};
-                obj['type'] = spanType;
+                obj['obj'] = spanType;
 
                 var isExist = false;
                 for(var sid in spans) {
@@ -1735,7 +1719,7 @@ $(document).ready(function() {
                     var spanRemoves = new Array();
                     while (spanIdsSelected.length > 0) {
                         sid = spanIdsSelected.pop();
-                        spanRemoves.push({action:'remove_span', id:sid, begin:spans[sid].span.begin, end:spans[sid].span.end, type:spans[sid].type});
+                        spanRemoves.push({action:'remove_span', id:sid, begin:spans[sid].span.begin, end:spans[sid].span.end, obj:spans[sid].obj});
                         instancesPerSpan[sid].forEach(selectInstance);
                         relationsPerSpanInstance[sid].forEach(selectRelation);
                     }
@@ -1743,20 +1727,20 @@ $(document).ready(function() {
                     var instanceRemoves = new Array();
                     while (instanceIdsSelected.length > 0) {
                         iid = instanceIdsSelected.pop();
-                        instanceRemoves.push({action:'remove_instance', id:iid, object:instances[iid].object, type:instances[iid].type});
+                        instanceRemoves.push({action:'remove_instance', id:iid, obj:instances[iid].obj, pred:instances[iid].pred});
                         relationsPerSpanInstance[iid].forEach(selectRelation);
                     }
 
                     var relationRemoves = new Array();
                     while (relationIdsSelected.length > 0) {
                         rid = relationIdsSelected.pop();
-                        relationRemoves.push({action:'remove_relation', id:rid, subject:relations[rid].subject, object:relations[rid].object, type:relations[rid].type});
+                        relationRemoves.push({action:'remove_relation', id:rid, subj:relations[rid].subj, obj:relations[rid].obj, pred:relations[rid].pred});
                     }
 
                     var modificationRemoves = new Array();
                     while (modificationIdsSelected.length > 0) {
                         mid = modificationIdsSelected.pop();
-                        modificationRemoves.push({action:'remove_modification', id:mid, object:modifications[mid].object, type:modifications[mid].type});
+                        modificationRemoves.push({action:'remove_modification', id:mid, obj:modifications[mid].obj, pred:modifications[mid].pred});
                     }
 
                     edits = modificationRemoves.concat(relationRemoves, instanceRemoves, spanRemoves);
@@ -1764,13 +1748,13 @@ $(document).ready(function() {
                     var relationRemoves = new Array();
                     while (relationIdsSelected.length > 0) {
                         rid = relationIdsSelected.pop();
-                        relationRemoves.push({action:'remove_relation', id:rid, subject:relations[rid].subject, object:relations[rid].object, type:relations[rid].type});
+                        relationRemoves.push({action:'remove_relation', id:rid, subj:relations[rid].subj, obj:relations[rid].obj, pred:relations[rid].pred});
                     }
 
                     var modificationRemoves = new Array();
                     while (modificationIdsSelected.length > 0) {
                         mid = modificationIdsSelected.pop();
-                        modificationRemoves.push({action:'remove_modification', id:mid, object:modifications[mid].object, type:modifications[mid].type});
+                        modificationRemoves.push({action:'remove_modification', id:mid, obj:modifications[mid].obj, pred:modifications[mid].pred});
                     }
 
                     edits = modificationRemoves.concat(relationRemoves);
@@ -1859,23 +1843,23 @@ $(document).ready(function() {
     function createInstance() {
         clearInstanceSelection();
 
-        var maxIdNum = getMaxInsannsId();
+        var maxIdNum = getMaxInstanceId();
         for (var i = 0; i < spanIdsSelected.length; i++) {
             var id = "E" + (++maxIdNum);
-            makeEdits([{action:'new_instance', id:id, object:spanIdsSelected[i], type:instanceTypeDefault}]);
+            makeEdits([{action:'new_instance', id:id, obj:spanIdsSelected[i], pred:instanceTypeDefault}]);
         }
     }
 
 
-    /*
-     * event handler (instance is clicked)
-     */
+
+    // event handler (instance is clicked)
     function instanceClicked(e) {
         cancelBubble(e);
         var id = $(this).attr('id');
 
         if (mode == "span") {
-            if (isCtrl) {
+            // if (isCtrl) {
+            if (e.ctrlKey) {
                 if (isInstanceSelected(id)) {deselectInstance(id)}
                 else {selectInstance(id)}
             }
@@ -1901,7 +1885,7 @@ $(document).ready(function() {
                 if (spanIdsSelected.length > 0) {sid = spanIdsSelected[0]}
                 else {sid = instanceIdsSelected[0]}
 
-                makeEdits([{action:'new_relation', id:rid, type:relationTypeDefault, subject:sid, object:oid}]);
+                makeEdits([{action:'new_relation', id:rid, pred:relationTypeDefault, subj:sid, obj:oid}]);
 
                 // star chanining
                 if (e.ctrlKey) {}
@@ -1943,7 +1927,7 @@ $(document).ready(function() {
     }
 
 
-    function createModification(type) {
+    function createModification(pred) {
         var i;
 
         if (mode == "relation") {
@@ -1953,14 +1937,14 @@ $(document).ready(function() {
                 var conn = relationIdsSelected[i];
 
                 var obj = new Object();
-                obj["type"] = type;
-                obj["object"] = conn.getParameter("connId");
-                obj["id"] = "M" + (getMaxModannsId() + 1);
+                obj['pred'] = pred;
+                obj['obj'] = conn.getParameter('connId');
+                obj['id'] = 'M' + (getMaxModificationId() + 1);
                 obj['created_at'] = (new Date()).getTime();
 
-                modanns.push(obj);
+                modifications.push(obj);
 
-                // 選択状態にする
+                // add to selection
                 modificationIdsSelected.push(obj["id"]);
             }
 
@@ -1969,12 +1953,12 @@ $(document).ready(function() {
         } else if (mode == "span") {
             var edits = [];
 
-            var maxIdNum = getMaxModannsId(); 
+            var maxIdNum = getMaxModificationId(); 
             for (i = 0; i < instanceIdsSelected.length; i++) {
                 var iid = instanceIdsSelected[i];
-                if ($('#' + iid + ' .modification.' + type).length) continue;
+                if ($('#' + iid + ' .modification.' + pred).length) continue;
                 var mid = "M" + (++maxIdNum);
-                edits.push({action:'new_modification', id:mid, object:iid, type:type});
+                edits.push({action:'new_modification', id:mid, obj:iid, pred:pred});
             }
 
             if (edits.length > 0) makeEdits(edits);
@@ -2007,11 +1991,11 @@ $(document).ready(function() {
 
         for (var i = 0; i < spanIdsSelected.length; i++) {
             var sid = spanIdsSelected[i];
-            var oldType = spans[sid].type;
-            var newType = $(this).text();
+            var oldObj = spans[sid].obj;
+            var newObj = $(this).text();
 
-            if (newType != oldType) {
-                edits.push({action:"change_span_type", id:sid, old_type:oldType, new_type:newType});
+            if (newObj != oldObj) {
+                edits.push({action:"change_span_obj", id:sid, old_obj:oldObj, new_obj:newObj});
             }
         }
 
@@ -2024,11 +2008,11 @@ $(document).ready(function() {
 
         for(var i = 0; i < relationIdsSelected.length; i++) {
             var rid = relationIdsSelected[i];
-            var oldType = relations[rid].type;
-            var newType = $(this).text();
+            var oldPred = relations[rid].pred;
+            var newPred = $(this).text();
 
-            if (newType != oldType) {
-                edits.push({action:"change_relation_type", id:rid, old_type:oldType, new_type:newType});
+            if (newPred != oldPred) {
+                edits.push({action:"change_relation_pred", id:rid, old_pred:oldPred, new_pred:newPred});
             }
         }
 
@@ -2040,11 +2024,11 @@ $(document).ready(function() {
         for(var i in modificationIdsSelected) {
             var modId = modificationIdsSelected[i];
 
-            for(var j in modanns) {
-                var mod = modanns[j];
+            for(var j in modifications) {
+                var mod = modifications[j];
 
                 if(modId == mod["id"]) {
-                    mod['type'] = $(this).text();
+                    mod['pred'] = $(this).text();
                 }
             }
         }
@@ -2096,27 +2080,24 @@ $(document).ready(function() {
     function saveAnnotationTo(location) {
         $('#loading').center().show();
 
-        var catanns = [];
-        for (var i in spans) {catanns.push(spans[i])}
-        for (var i = 0; i < catanns.length; i++) {
-            catanns[i]['category'] = catanns[i]['type'];
-        }
+        var denotationsArr = [];
+        for (var i in spans) {denotationsArr.push(spans[i])}
 
-        var insanns = [];
-        for (var i in instances) {insanns.push(instances[i])}
+        var instancesArr = [];
+        for (var i in instances) {instancesArr.push(instances[i])}
 
-        var relanns = [];
-        for (var i in relations) {relanns.push(relations[i])}
+        var relationsArr = [];
+        for (var i in relations) {relationsArr.push(relations[i])}
 
-        var modanns = [];
-        for (var i in modifications) {modanns.push(modifications[i])}
+        var mofidicationsArr = [];
+        for (var i in modifications) {mofidicationsArr.push(modifications[i])}
 
         var postData = {
             "text": sourceDoc,
-            "catanns": catanns,
-            "insanns": insanns,
-            "relanns": relanns,
-            "modanns": modanns
+            "denotations": denotations,
+            "instances": instancesArr,
+            "relations": relationsArr,
+            "modifications": modificationsArr
         }
 
         $.ajax({
@@ -2194,11 +2175,11 @@ $(document).ready(function() {
 
     function getSpanReplicates(span) {
         var oid      = span['id'];
-        var startPos = span["span"]["begin"];
-        var endPos   = span["span"]["end"];
-        var type     = span["type"];
+        var startPos = span['span']['begin'];
+        var endPos   = span['span']['end'];
+        var obj     = span['obj'];
 
-        var cspans = findSameString(startPos, endPos, type); // candidate spans
+        var cspans = findSameString(startPos, endPos, obj); // candidate spans
         var maxIdNum = getSpanMaxIdNum();
         if (parseInt(oid.slice(1)) > maxIdNum) {
             maxIdNum = parseInt(oid.slice(1));
@@ -2229,7 +2210,7 @@ $(document).ready(function() {
 
         var edits = new Array();
         for (var i = 0; i < nspans.length; i++) {
-            edits.push({action: "new_span", id:nspans[i]['id'], begin:nspans[i]['span']['begin'], end:nspans[i]['span']['end'], type:nspans[i]['type']});
+            edits.push({action: "new_span", id:nspans[i]['id'], begin:nspans[i]['span']['begin'], end:nspans[i]['span']['end'], obj:nspans[i]['obj']});
         }
 
         return edits;
@@ -2237,13 +2218,24 @@ $(document).ready(function() {
 
 
     function makeEdits(edits, context) {
+        switch (context) {
+            case 'undo' :
+            case 'redo' :
+                clearSpanSelection();
+                clearInstanceSelection();
+                clearRelationSelection();
+                clearModificationSelection();
+                break;
+            default :
+        }
+
         for (var i = 0; i < edits.length; i++) {
             var edit = edits[i];
             switch (edit.action) {
                 // span operations
                 case 'new_span' :
                     // model
-                    newSpan(edit.id, edit.begin, edit.end, edit.type);
+                    newSpan(edit.id, edit.begin, edit.end, edit.obj);
                     spanIds = Object.keys(spans);
                     sortSpanIds(spanIds);
                     instancesPerSpan[edit.id] = new Array();
@@ -2281,9 +2273,9 @@ $(document).ready(function() {
                     renderSpan(edit.id, spanIds);
                     $('span#' + edit.id).addClass('selected');
                     break;
-                case 'change_span_type' :
-                    spans[edit.id].type = edit.new_type;
-                    $('#' + edit.id).css('backgroundColor', spanTypes[edit.new_type]['color']);
+                case 'change_span_obj' :
+                    spans[edit.id].obj = edit.new_obj;
+                    $('#' + edit.id).css('backgroundColor', spanTypes[edit.new_obj]['color']);
                     // selection
                     selectSpan(edit.id);
                     break;
@@ -2291,38 +2283,38 @@ $(document).ready(function() {
                 // instance operations
                 case 'new_instance' :
                     // model
-                    instances[edit.id] = {id:edit.id, object:edit.object, type:edit.type};
-                    instancesPerSpan[edit.object].push(edit.id);
+                    instances[edit.id] = {id:edit.id, obj:edit.obj, pred:edit.pred};
+                    instancesPerSpan[edit.obj].push(edit.id);
                     relationsPerSpanInstance[edit.id] = new Array();
                     // rendering
                     renderInstance(edit.id);
-                    indexInstancePositions([edit.object]);
-                    positionInstances(instancesPerSpan[edit.object]);
+                    indexInstancePositions([edit.obj]);
+                    positionInstances(instancesPerSpan[edit.obj]);
                     break;
                 case 'remove_instance' :
                     //model
                     delete instances[edit.id];
-                    var arr = instancesPerSpan[edit.object];
+                    var arr = instancesPerSpan[edit.obj];
                     arr.splice( arr.indexOf( edit.id ), 1 );
                     delete relationsPerSpanInstance[edit.id];
                     //rendering
                     $('#' + edit.id).remove();
-                    indexInstancePositions([edit.object]);
-                    positionInstances(instancesPerSpan[edit.object]);
+                    indexInstancePositions([edit.obj]);
+                    positionInstances(instancesPerSpan[edit.obj]);
                     break;
-                case 'change_instance_object' :
+                case 'change_instance_obj' :
                     //model
-                    instances[edit.id].object = edit.new_object;
+                    instances[edit.id].obj = edit.new_obj;
                     //rendering
-                    $('#' + edit.id).css('borderColor', spanTypes[edit.new_object]['color']);
+                    $('#' + edit.id).css('borderColor', spanTypes[edit.new_obj]['color']);
                     break;
 
                 // relation operations
                 case 'new_relation' :
                     // model
-                    relations[edit.id] = {id:edit.id, subject:edit.subject, object:edit.object, type:edit.type};
-                    relationsPerSpanInstance[edit.subject].push(edit.id);
-                    relationsPerSpanInstance[edit.object].push(edit.id);
+                    relations[edit.id] = {id:edit.id, subj:edit.subj, obj:edit.obj, pred:edit.pred};
+                    relationsPerSpanInstance[edit.subj].push(edit.id);
+                    relationsPerSpanInstance[edit.obj].push(edit.id);
                     // rendering
                     connectors[edit.id] = renderRelation(edit.id);
                     // selection
@@ -2331,20 +2323,20 @@ $(document).ready(function() {
                 case 'remove_relation' :
                     // model
                     delete relations[edit.id];
-                    var arr = relationsPerSpanInstance[edit.subject];
+                    var arr = relationsPerSpanInstance[edit.subj];
                     arr.splice( arr.indexOf( edit.id ), 1 );
-                    arr = relationsPerSpanInstance[edit.object];
+                    arr = relationsPerSpanInstance[edit.obj];
                     arr.splice( arr.indexOf( edit.id ), 1 );
                     // rendering
                     destroyRelation(edit.id);
                     break;
-                case 'change_relation_type' :
+                case 'change_relation_pred' :
                     // model
-                    relations[edit.id].type = edit.new_type;
+                    relations[edit.id].pred = edit.new_pred;
                     // rendering
-                    connectors[edit.id].setPaintStyle(connectorTypes[edit.new_type+"_selected"]["paintStyle"]);
-                    connectors[edit.id].setHoverPaintStyle(connectorTypes[edit.new_type+"_selected"]["hoverPaintStyle"]);
-                    connectors[edit.id].setLabel('[' + edit.id + '] ' + edit.new_type);
+                    connectors[edit.id].setPaintStyle(connectorTypes[edit.new_pred+"_selected"]["paintStyle"]);
+                    connectors[edit.id].setHoverPaintStyle(connectorTypes[edit.new_pred+"_selected"]["hoverPaintStyle"]);
+                    connectors[edit.id].setLabel('[' + edit.id + '] ' + edit.new_pred);
                     // selection
                     selectRelation(edit.id);
                     break;
@@ -2352,7 +2344,7 @@ $(document).ready(function() {
                 // modification operations
                 case 'new_modification' :
                     // model
-                    modifications[edit.id] = {id:edit.id, object:edit.object, type:edit.type};
+                    modifications[edit.id] = {id:edit.id, obj:edit.obj, pred:edit.pred};
                     // rendering
                     renderModification(edit.id);
                     break;
@@ -2379,10 +2371,6 @@ $(document).ready(function() {
         switch (context) {
             case 'undo' :
             case 'redo' :
-                clearSpanSelection();
-                clearInstanceSelection();
-                clearRelationSelection();
-                clearModificationSelection();
                 break;
             default :
                 editHistory.splice(++lastEditPtr);
@@ -2413,9 +2401,9 @@ $(document).ready(function() {
                     redit.old_end = edit.new_end;
                     redit.new_end = edit.old_end;
                     break;
-                case 'change_span_type' :
-                    redit.old_type = edit.new_type;
-                    redit.new_type = edit.old_type;
+                case 'change_span_obj' :
+                    redit.old_obj = edit.new_obj;
+                    redit.new_obj = edit.old_obj;
                     break;
                 case 'new_instance' :
                     redit.action = 'remove_instance';
@@ -2423,9 +2411,9 @@ $(document).ready(function() {
                 case 'remove_instance' :
                     redit.action = 'new_instance';
                     break;
-                case 'change_instance_object' :
-                    redit.old_object = edit.new_object;
-                    redit.new_object = edit.old_object;
+                case 'change_instance_obj' :
+                    redit.old_obj = edit.new_obj;
+                    redit.new_obj = edit.old_obj;
                     break;
                 case 'new_relation' :
                     redit.action = 'remove_relation';
@@ -2433,17 +2421,17 @@ $(document).ready(function() {
                 case 'remove_relation' :
                     redit.action = 'new_relation';
                     break;
-                case 'change_relation_subject' :
-                    redit.old_subject = edit.new_subject;
-                    redit.new_subject = edit.old_subject;
+                case 'change_relation_subj' :
+                    redit.old_subj = edit.new_subj;
+                    redit.new_subj = edit.old_subj;
                     break;
-                case 'change_relation_object' :
-                    redit.old_object = edit.new_object;
-                    redit.new_object = edit.old_object;
+                case 'change_relation_obj' :
+                    redit.old_obj = edit.new_obj;
+                    redit.new_obj = edit.old_obj;
                     break;
-                case 'change_relation_type' :
-                    redit.old_type = edit.new_type;
-                    redit.new_type = edit.old_type;
+                case 'change_relation_pred' :
+                    redit.old_pred = edit.new_pred;
+                    redit.new_pred = edit.old_pred;
                     break;
                 case 'new_modification' :
                     redit.action = 'remove_modification';
@@ -2589,7 +2577,7 @@ $(document).ready(function() {
             $('#clone_area').append(div);
         }
 
-        $('.clone_span').on('click', spanClicked);
+        $('.clone_span').off('click', spanClicked).on('click', spanClicked);
     }
 
 
@@ -2634,8 +2622,8 @@ $(document).ready(function() {
 
 
     function renderRelation (rid) {
-        var sourceId = relations[rid]['subject'];
-        var targetId = relations[rid]['object'];
+        var sourceId = relations[rid]['subj'];
+        var targetId = relations[rid]['obj'];
 
         /*
          * Determination of curviness
@@ -2688,8 +2676,8 @@ $(document).ready(function() {
         /*
          * make connector
          */
-        var type = relations[rid]['type'];
-        var rgba = colorTrans(relationTypes[type]['color'], connOpacity);
+        var pred = relations[rid]['pred'];
+        var rgba = colorTrans(relationTypes[pred]['color'], connOpacity);
         var sourceElem = $('#' + sourceId);
         var targetElem = $('#' + targetId);
 
@@ -2703,8 +2691,8 @@ $(document).ready(function() {
         //     paintStyle:{ fillStyle:rgba, radius:2 }
         // });
 
-        var label = '[' + rid + '] ' + type;
-        var labelClass = "label " + type;
+        var label = '[' + rid + '] ' + pred;
+        var labelClass = "label " + pred;
         var labelId = "label_" + rid;
 
         var conn = jsPlumb.connect({
@@ -2712,9 +2700,9 @@ $(document).ready(function() {
             target:targetElem,
             anchors:[sourceAnchor, targetAnchor],
             connector:[ "Bezier", {curviness:curviness}],
-            paintStyle: connectorTypes[type]["paintStyle"],
-            hoverPaintStyle: connectorTypes[type]["hoverPaintStyle"],
-            tooltip:'[' + rid + '] ' + type,
+            paintStyle: connectorTypes[pred]["paintStyle"],
+            hoverPaintStyle: connectorTypes[pred]["hoverPaintStyle"],
+            tooltip:'[' + rid + '] ' + pred,
             parameters:{"id":rid, "label":label}
         });
 
@@ -2762,7 +2750,7 @@ $(document).ready(function() {
 
     function selectRelation(rid) {
         if (!isRelationSelected(rid)) {
-            connectors[rid].setPaintStyle(connectorTypes[relations[rid].type + "_selected"] ["paintStyle"]);
+            connectors[rid].setPaintStyle(connectorTypes[relations[rid].pred + "_selected"] ["paintStyle"]);
             relationIdsSelected.push(rid);
         }
     }
@@ -2771,7 +2759,7 @@ $(document).ready(function() {
     function deselectRelation(rid) {
         var i = relationIdsSelected.indexOf(rid);
         if (i > -1) {
-            connectors[rid].setPaintStyle(connectorTypes[relations[rid].type]["paintStyle"]);
+            connectors[rid].setPaintStyle(connectorTypes[relations[rid].pred]["paintStyle"]);
             relationIdsSelected.splice(i, 1);
         }
     }
@@ -2780,7 +2768,7 @@ $(document).ready(function() {
     function clearRelationSelection() {
         while (relationIdsSelected.length > 0) {
             var rid = relationIdsSelected.pop();
-            connectors[rid].setPaintStyle(connectorTypes[relations[rid].type]["paintStyle"]);
+            connectors[rid].setPaintStyle(connectorTypes[relations[rid].pred]["paintStyle"]);
         }
     }
 
@@ -2795,8 +2783,8 @@ $(document).ready(function() {
             /*
              * recompute curviness
              */
-            var sourceId = relations[rid]['subject'];
-            var targetId = relations[rid]['object'];
+            var sourceId = relations[rid]['subj'];
+            var targetId = relations[rid]['obj'];
 
             var sourceX = positions[sourceId]["center"];
             var targetX = positions[targetId]["center"];
@@ -2851,12 +2839,12 @@ $(document).ready(function() {
 
     function renderInstance(iid) {
         var instance = instances[iid];
-        var object = spans[instances[iid]['object']];
-        var borderColor = spanTypes[object.type]['color'];
-        var div = '<div id="' + iid +'" class="instance" title="[' + iid + '] ' + instance.type + ' : ' + object.type + '" style="width:' + insWidth +'px; height:' + insHeight + 'px; border:' + insBorder + 'px solid ' + borderColor + '; position:absolute" ></div>';
+        var object = spans[instances[iid]['obj']];
+        var borderColor = (spanTypes[object.obj] == undefined)? spanTypes['unknown']['color'] : spanTypes[object.obj]['color'];
+        var div = '<div id="' + iid +'" class="instance" title="[' + iid + '] ' + instance.pred + ' : ' + object.obj + '" style="width:' + insWidth +'px; height:' + insHeight + 'px; border:' + insBorder + 'px solid ' + borderColor + '; position:absolute" ></div>';
         $('#ins_area').append(div);
-        $('#' + iid).live('click', instanceClicked);
-        $('#' + iid).live('mouseover mouseout', instanceMouseHover);
+        $('#' + iid).off('click', instanceClicked).on('click', instanceClicked);
+        $('#' + iid).off('mouseover mouseout', instanceMouseHover).on('mouseover mouseout', instanceMouseHover);
     }
 
 
@@ -2882,16 +2870,16 @@ $(document).ready(function() {
 
 
     function renderModification(mid) {
-        var type = modifications[mid]["type"];
-        var oid = modifications[mid]["object"];
+        var pred = modifications[mid]["pred"];
+        var oid = modifications[mid]['obj'];
         var symbol;
-        if (type == "Negation") {
+        if (pred == "Negation") {
             symbol = 'X';
-        } else if (type == "Speculation") {
+        } else if (pred == "Speculation") {
             symbol = '?';
         }
         $('#' + oid).append('<span class="modification" id="' + mid + '">' + symbol + '</span>');
-        $('#' + mid).live('click', modificationClicked);
+        $('#' + mid).off('click', modificationClicked).on('click', modificationClicked);
     }
 
 
@@ -2929,13 +2917,13 @@ $(document).ready(function() {
         setConnectorTypes();
 
         for (var rid in relations) {
-            var rtype = relations[rid]["type"];
+            var rtype = relations[rid]["pred"];
             connectors[rid].setPaintStyle(connectorTypes[rtype]["paintStyle"]);
         }
 
         for (var i = 0; i < relationIdsSelected; i++) {
             var id = relationIdsSelected[i];
-            var type = relations[id]["type"];
+            var type = relations[id]["pred"];
             connectors[id].setPaintStyle(connectorTypes[type+"_selected"]["paintStyle"]);
         }
     }
