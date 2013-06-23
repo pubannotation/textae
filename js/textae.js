@@ -2163,14 +2163,7 @@ $(document).ready(function() {
 
 
     function saveAnnotationTo(location) {
-        $('#loading').center().show();
-
-        // if (data.denotations != undefined) {
-        //     for (var i = 0; i < data.denotations.length ; i++) {
-        //         var d = data.denotations[i];
-        //         var span = d['span']['begin'] + '-' + d['span']['end'];
-        //         entities[d['id']] = {span:span, type:d['obj']};
-
+        $('#textae_container').css('cursor', 'wait');
 
         var denotations = [];
         for (var e in entities) {
@@ -2202,20 +2195,20 @@ $(document).ready(function() {
             crossDomain: true,
             xhrFields: {withCredentials: true},
             success: function(res){
-                $('#loading').hide();
                 $('#message').html("annotation saved").fadeIn().fadeOut(5000, function() {
                     $(this).html('').removeAttr('style');
                     showSource();
                 });
                 lastSavePtr = lastEditPtr;
                 changeButtonStateSave();
+                $('#textae_container').css('cursor', 'auto');
             },
             error: function(res, textStatus, errorThrown){
-                $('#loading').hide();
                 $('#message').html("could not save").fadeIn().fadeOut(5000, function() {
                     $(this).html('').removeAttr('style');
                     showSource();
                 });
+                $('#textae_container').css('cursor', 'auto');
             }
         });
     }
