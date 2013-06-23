@@ -350,16 +350,6 @@ $(document).ready(function() {
             }
         }
 
-        // if (data.instances != undefined) {
-        //     for (var i = 0; i < data.instances.length ; i++) {
-        //         var o = data.instances[i]['obj'];
-        //         var span = entities[o]['span'];
-        //         entities[data.instances[i]['id']] = {span:span, type:entities[o]['type']};
-        //         if (entitiesPerSpan[span]) entitiesPerSpan[span].push(data.instances[i]['id']);
-        //         else entitiesPerSpan[span] = [data.instances[i]['id']];
-        //     }
-        // }
-
         spanIds = Object.keys(entitiesPerSpan); // maintained sorted by the position.
         for (var i = 0; i < spanIds.length; i++) {
             var pos = spanIds[i].split('-');
@@ -2175,24 +2165,34 @@ $(document).ready(function() {
     function saveAnnotationTo(location) {
         $('#loading').center().show();
 
-        var denotationsArr = [];
-        for (var i in spans) {denotationsArr.push(spans[i])}
+        // if (data.denotations != undefined) {
+        //     for (var i = 0; i < data.denotations.length ; i++) {
+        //         var d = data.denotations[i];
+        //         var span = d['span']['begin'] + '-' + d['span']['end'];
+        //         entities[d['id']] = {span:span, type:d['obj']};
 
-        var instancesArr = [];
-        for (var i in instances) {instancesArr.push(instances[i])}
 
-        var relationsArr = [];
-        for (var i in relations) {relationsArr.push(relations[i])}
+        var denotations = [];
+        for (var e in entities) {
+            var span = {'begin':entities[e]['span'].split('-')[0], 'end':entities[e]['span'].split('-')[1]};
+            denotations.push({'id':e, 'span':span, 'obj':entities[e]['type']});
+        }
 
-        var mofidicationsArr = [];
-        for (var i in modifications) {mofidicationsArr.push(modifications[i])}
+        // var instancesArr = [];
+        // for (var i in instances) {instancesArr.push(instances[i])}
+
+        // var relationsArr = [];
+        // for (var i in relations) {relationsArr.push(relations[i])}
+
+        // var mofidicationsArr = [];
+        // for (var i in modifications) {mofidicationsArr.push(modifications[i])}
 
         var postData = {
             "text": sourceDoc,
-            "denotations": denotations,
-            "instances": instancesArr,
-            "relations": relationsArr,
-            "modifications": modificationsArr
+            "denotations": denotations
+            // "instances": instancesArr,
+            // "relations": relationsArr,
+            // "modifications": modificationsArr
         }
 
         $.ajax({
