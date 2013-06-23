@@ -262,6 +262,7 @@ $(document).ready(function() {
     function getAnnotationFrom(url) {
         if (url) {targetUrl = url}
         if (targetUrl != null && targetUrl != "") {
+            $('#textae_container').css('cursor', 'wait');
             $.ajax({
                 type: "GET",
                 url: targetUrl,
@@ -277,9 +278,11 @@ $(document).ready(function() {
                     } else {
                         alert("read failed.");
                     }
+                    $('#textae_container').css('cursor', 'auto');
                 },
                 error: function(res, textStatus, errorThrown){
                     alert("connection failed.");
+                    $('#textae_container').css('cursor', 'auto');
                 }
             });
         }
