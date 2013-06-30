@@ -2558,7 +2558,7 @@ $(document).ready(function() {
             obj["top"] = span.get(0).offsetTop;
             obj["width"] = span.innerWidth();
             obj["height"] = span.innerHeight();
-            obj["title"] = '[' + sid + '] ' + spans[sid]["category"];
+            obj["title"] = '[' + sid + '] ' + spans[sid]["obj"];
             clones.push(obj);
         }
 
