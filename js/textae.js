@@ -38,15 +38,19 @@ $(document).ready(function() {
     var relationTypes;
     var modificationTypes;
 
+    var blockTypeDefault = 'block';
     var entityTypeDefault;
     var relationTypeDefault;
     var modificationTypeDefault;
 
     // annotation data (Objects)
+    var blocks;
     var spans;
     var entities;
     var relations;
     var modifications;
+
+    var blockThreshold = 80;
 
     var connectors;
     var connectorTypes;
@@ -338,26 +342,35 @@ $(document).ready(function() {
         positions = new Object();
         connectors = new Object();
 
+        if (data.spans != undefined) {
+            for (var i = 0; i < data.spans.length ; i++) {
+                var s = data.spans[i];
+
+                var sid = s['begin'] + '-' + s['end'];
+                spans[sid] = {begin:s['begin'], end:s['end']}
+                if (s['block']) spans[sid].block = true;
+            }
+        }
+
         if (data.denotations != undefined) {
             for (var i = 0; i < data.denotations.length ; i++) {
                 var d = data.denotations[i];
-                var span = d['span']['begin'] + '-' + d['span']['end'];
-                entities[d['id']] = {span:span, type:d['obj']};
+
+                var sid = d['span']['begin'] + '-' + d['span']['end'];
+                spans[sid] = {begin:d['span']['begin'], end:d['span']['end']};
+
+                entities[d['id']] = {span:sid, type:d['obj']};
 
                 if (!entityTypes[d['obj']]) entityTypes[d['obj']] = {};
                 if (entityTypes[d['obj']]['count']) entityTypes[d['obj']]['count']++;
                 else entityTypes[d['obj']]['count'] = 1;
 
-                if (entitiesPerSpan[span]) entitiesPerSpan[span].push(d['id']);
-                else entitiesPerSpan[span] = [d['id']];
+                if (entitiesPerSpan[sid]) entitiesPerSpan[sid].push(d['id']);
+                else entitiesPerSpan[sid] = [d['id']];
             }
         }
 
-        spanIds = Object.keys(entitiesPerSpan); // maintained sorted by the position.
-        for (var i = 0; i < spanIds.length; i++) {
-            var pos = spanIds[i].split('-');
-            spans[spanIds[i]] = {begin:+pos[0], end:+pos[1]};
-        }
+        spanIds = Object.keys(spans); // maintained sorted by the position.
         sortSpanIds(spanIds);
 
         if (data.relations != undefined) {
@@ -459,6 +472,7 @@ $(document).ready(function() {
 
         $('#annotation_box').empty();
         renderEntityTypePallet();
+        // renderBlockTypePallet();
 
         renderSpans(spanIds);
         indexPositions(spanIds);
@@ -667,6 +681,61 @@ $(document).ready(function() {
         return false;
     }
 
+    function renderBlockTypePallet() {
+        var types = Object.keys(entityTypes);
+        types.sort(function(a,b) {return (entityTypes[b].count - entityTypes[a].count)});
+        if (!entityTypeDefault) {entityTypeDefault = types[0]}
+
+        var pallet = '<div id="entity_type_pallet" class="pallet"><table>';
+        for (var i = 0; i < types.length; i++) {
+            var t = types[i];
+            var uri = entityTypes[t]["uri"];
+
+            pallet += '<tr class="entity_type"';
+            pallet += color(t)? ' style="background-color:' + color(t) + '"' : '';
+            pallet += '>';
+
+            pallet += '<th><input type="radio" name="etype" class="entity_type_radio" label="' + t + '"';
+            pallet += (t == entityTypeDefault)? ' title="default type" checked' : '';
+            pallet += '/></th>';
+
+            pallet += '<td class="entity_type_label" label="' + t + '">' + t + '</td>';
+
+            if (uri) pallet += '<th title="' + uri + '">' + '<a href="' + uri + '" target="_blank"><img src="images/link.png"/></a></th>';
+
+            pallet += '</tr>';
+        }
+        pallet += '</table></div>';
+
+        $('#annotation_box').append(pallet);
+
+        var p = $('#entity_type_pallet');
+        p.css('position', 'absolute');
+        p.css('display', 'none');
+        p.css('width', p.outerWidth() + 15);
+        $('#entity_type_pallet > table').css('width', '100%');
+        if (p.outerHeight() > palletHeightMax) p.css('height', palletHeightMax);
+
+        $('.entity_type_radio').off('mouseup', setEntityTypeDefault).on('mouseup', setEntityTypeDefault);
+        $('.entity_type_label').off('mouseup', setEntityType).on('mouseup', setEntityType);
+   }
+
+
+    function enableButtonPallet() {
+        $("#btn_pallet").off('click', showPallet).on('click', showPallet);
+        renderButtonEnable($("#btn_pallet"));
+    }
+
+
+    function showPallet(e) {
+        var p = $('#entity_type_pallet');
+        p.css('top', mouseY);
+        p.css('left', mouseX);
+        p.css('display', 'block');
+        return false;
+    }
+
+
     function color(type) {
         if (entityTypes && entityTypes[type] && entityTypes[type]['color']) return entityTypes[type]['color'];
         else null;
@@ -779,9 +848,17 @@ $(document).ready(function() {
     function renderSpan(sid, spanIds) {
         var element = document.createElement('span');
         element.setAttribute('id', sid);
-        element.setAttribute('class', 'span');
         element.setAttribute('title', '[' + sid + '] ');
-        element.style.whiteSpace = 'pre';
+        if (spans[sid].block) {
+            element.setAttribute('class', 'block');
+            element.setAttribute('type', spans[sid].type);
+            element.style.paddingTop = '25px';
+            element.style.paddingBottom = '25px';
+        }
+        else {
+            element.setAttribute('class', 'span');
+        }
+        // element.style.whiteSpace = 'pre';
 
         var beg = spans[sid].begin;
         var end = spans[sid].end;
@@ -822,17 +899,20 @@ $(document).ready(function() {
         endnode = begnode;
         endoff = begoff + len;
 
-        // when there is an intervening span, adjust the end node and offset
-        if ((c < spanIds.length - 1) && (end > spans[spanIds[c+1]].begin)) {
-            var f = c + 1; // index of the following span
-            var l = f; // index of the leftmost span
-            // find the leftmost span inside the target span
-            while ((f < spanIds.length - 2) && (end >= spans[spanIds[f+1]].end)) {
-                if (spans[spanIds[f + 1]].end >= spans[spanIds[l]].end ) l = f + 1;
-                f++;
+        // if there is an intervening span, adjust the end node and offset
+        if ((c < spanIds.length - 1) && (end > spans[spanIds[c + 1]].begin)) {
+            var i = c + 1; // index of the rightmost intervening span
+            // if there is a room for further intervening
+            while (i < spanIds.length - 1) {
+                // find the next span at the same level
+                var n = i + 1;
+                while ((n < spanIds.length) && (spans[spanIds[n]].begin < spans[spanIds[i]].end)) n++;
+                if (n == spanIds.length) break;
+                if (end > spans[spanIds[n]].begin) i = n;
+                else break;
             }
-            endnode = document.getElementById(spanIds[l]).nextSibling;
-            endoff = end - spans[spanIds[l]].end;
+            endnode = document.getElementById(spanIds[i]).nextSibling;
+            endoff = end - spans[spanIds[i]].end;
         }
 
         var range = document.createRange();
@@ -845,6 +925,7 @@ $(document).ready(function() {
 
 
     function spanClicked(e) {
+        $('#entity_type_pallet').css('display', 'none');
         var selection = window.getSelection();
         var range = selection.getRangeAt(0);
 
@@ -1219,14 +1300,20 @@ $(document).ready(function() {
                 var sid = startPosition + '-' + endPosition;
 
                 if (!spans[sid]) {
-                    var edits = [{action:'new_span', id:sid, begin:startPosition, end:endPosition, obj:entityTypeDefault}];
 
-                    if (replicateAuto) {
-                        var replicates = getSpanReplicates({begin:startPosition, end:endPosition});
-                        edits = edits.concat(replicates);
+                    if (endPosition - startPosition > blockThreshold) {
+                        makeEdits([{action:'new_span', id:sid, begin:startPosition, end:endPosition, block:true, type:blockTypeDefault}]);
                     }
 
-                    if (edits.length > 0) makeEdits(edits);
+                    else {
+                        var edits = [{action:'new_span', id:sid, begin:startPosition, end:endPosition}];
+
+                        if (replicateAuto) {
+                            var replicates = getSpanReplicates({begin:startPosition, end:endPosition});
+                            edits = edits.concat(replicates);
+                        }
+                        if (edits.length > 0) makeEdits(edits);
+                    }
                 }
             }
 
@@ -1320,8 +1407,8 @@ $(document).ready(function() {
     }
 
 
-    function newSpan(id, begin, end) {
-        spans[id] = {begin:begin, end:end};
+    function newSpan(id, begin, end, block, type) {
+        spans[id] = {begin:begin, end:end, block:block, type:type};
         return id;
     }
 
@@ -1802,16 +1889,16 @@ $(document).ready(function() {
                 // replicate span annotatino
                 replicate();
                 break;
-            case 191: // '?' key
-                if (mode == 'span') {
-                    createModification("Speculation");
-                }
-                break;
-            case 88: // 'x' key
-                if (mode == 'span') {
-                    if (!e.ctrlKey) {createModification("Negation")}
-                }
-                break;
+            // case 191: // '?' key
+            //     if (mode == 'span') {
+            //         createModification("Speculation");
+            //     }
+            //     break;
+            // case 88: // 'x' key
+            //     if (mode == 'span') {
+            //         if (!e.ctrlKey) {createModification("Negation")}
+            //     }
+            //     break;
             case 90: // 'z' key
                 if (lastEditPtr > -1) {doUndo()}
                 break;
@@ -2329,7 +2416,7 @@ $(document).ready(function() {
                 // span operations
                 case 'new_span' :
                     // model
-                    newSpan(edit.id, edit.begin, edit.end);
+                    newSpan(edit.id, edit.begin, edit.end, edit.block, edit.type);
                     spanIds = Object.keys(spans);
                     sortSpanIds(spanIds);
                     entitiesPerSpan[edit.id] = new Array();

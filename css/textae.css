@@ -158,12 +158,51 @@
     /*background-color: rgba(255,255,255,0.5);*/
 }
 
+.block {
+    display: block;
+    border-style: solid;
+    border-color: #656565;
+    border-width: 1px 1px 1px 20px;
+    background-color: rgba(255,255,255,0.7);
+    margin:2px;
+    padding:2px;
+}
+
+.block:hover {
+    background-color: rgba(245,245,245,0.7);
+}
+
+.block.selected {
+    background-color: rgba(235,235,235,0.7);
+}
+.block:before {
+    float:left;
+    position:absolute;
+    margin-left:-11px;
+    content: attr(type);
+    color: white;
+
+    -webkit-transform: rotate(-90deg);
+    -moz-transform: rotate(-90deg);
+    -ms-transform: rotate(-90deg);
+    -o-transform: rotate(-90deg);
+    transform: rotate(-90deg);
+
+    -webkit-transform-origin: left center;
+    -moz-transform-origin: left center;
+    -ms-transform-origin: left center;
+    -o-transform-origin: left center;
+    transform-origin: left center;
+}
+
+
 .span {
     display:inline;
     border-style: solid;
     border-color: #656565;
     border-width: 1px 0px 1px 0px;
     background-color: rgba(200,200,255,0.7);
+    white-space: pre;
 }
 
 .span:hover {
