@@ -50,7 +50,7 @@ $(document).ready(function() {
     var relations;
     var modifications;
 
-    var blockThreshold = 80;
+    var blockThreshold = 100;
 
     var connectors;
     var connectorTypes;
@@ -300,8 +300,10 @@ $(document).ready(function() {
         detectOS();
         browserNameVersion = navigator.sayswho
 
-        $('#text_box').off('mouseup', doMouseup).on('mouseup', doMouseup);
-        $('#body').off('mouseup', cancelSelect).on('mouseup', cancelSelect);
+        // $('#text_box').off('mouseup', doMouseup).on('mouseup', doMouseup);
+        // $('#body').off('mouseup', cancelSelect).on('mouseup', cancelSelect);
+        $('#body').off('mouseup', doMouseup).on('mouseup', doMouseup);
+        // $('#body').off('click', cancelSelect).on('click', cancelSelect);
 
         spanIdsSelected = new Array();
         entityIdsSelected = new Array();
@@ -342,21 +344,11 @@ $(document).ready(function() {
         positions = new Object();
         connectors = new Object();
 
-        if (data.spans != undefined) {
-            for (var i = 0; i < data.spans.length ; i++) {
-                var s = data.spans[i];
-
-                var sid = s['begin'] + '-' + s['end'];
-                spans[sid] = {begin:s['begin'], end:s['end']}
-                if (s['block']) spans[sid].block = true;
-            }
-        }
-
         if (data.denotations != undefined) {
             for (var i = 0; i < data.denotations.length ; i++) {
                 var d = data.denotations[i];
 
-                var sid = d['span']['begin'] + '-' + d['span']['end'];
+                var sid = getSid(d['span']['begin'], d['span']['end']);
                 spans[sid] = {begin:d['span']['begin'], end:d['span']['end']};
 
                 entities[d['id']] = {span:sid, type:d['obj']};
@@ -379,33 +371,11 @@ $(document).ready(function() {
             }
         }
         relationIds = Object.keys(relations);
+    }
 
-/*
-        modifications = new Object();
-        if (data.modifications != undefined) {
-            for (var i = 0; i < data.modifications.length ; i++) {
-                modifications[data.modifications[i]["id"]] = data.modifications[i];
-            }
-        }
-        modificationIds = Object.keys(modifications);
-        modificationTypesUnknown = $.unique(modificationTypesUnknown);
 
-        // index instances per array
-        instancesPerEntity = new Object();
-        for (var sid in entities) {instancesPerEntity[sid] = new Array()}
-        for (var iid in instances) {
-            instancesPerEntity[instances[iid]['obj']].push(iid);
-        }
-
-        // index relations per array or instance
-        relationsPerEntity = new Object();
-        for (var sid in entities)     {relationsPerEntityEntity[sid] = new Array()}
-        for (var iid in instances) {relationsPerEntityEntity[iid] = new Array()}
-        for (var rid in relations) {
-            relationsPerEntityEntity[relations[rid]['subj']].push(rid);
-            relationsPerEntityEntity[relations[rid]['obj']].push(rid);
-        }
-*/
+    function getSid(begin, end) {
+        return 'S' + begin + '-' + end;
     }
 
 
@@ -418,6 +388,7 @@ $(document).ready(function() {
     function indexSpanPositions(spanIds) {
         for (var i = 0; i < spanIds.length; i++) indexPosition(spanIds[i]);
     }
+
 
     function indexPosition(id) {
         var e = $('#' + id);
@@ -681,14 +652,10 @@ $(document).ready(function() {
         return false;
     }
 
-    function renderBlockTypePallet() {
-        var types = Object.keys(entityTypes);
-        types.sort(function(a,b) {return (entityTypes[b].count - entityTypes[a].count)});
-        if (!entityTypeDefault) {entityTypeDefault = types[0]}
-
+    function renderPalletWidget(id, items) {
         var pallet = '<div id="entity_type_pallet" class="pallet"><table>';
-        for (var i = 0; i < types.length; i++) {
-            var t = types[i];
+        for (var i = 0; i < items.length; i++) {
+            var t = items[i];
             var uri = entityTypes[t]["uri"];
 
             pallet += '<tr class="entity_type"';
@@ -768,71 +735,6 @@ $(document).ready(function() {
 
         html += '</table>';
         $('#relation_types').html(html);
-    }
-
-
-    // List of instance types
-    function tableEntityTypes(instanceTypes) {
-        var html = '<table>';
-        html += '<tr><th colentity="2">Entity Types</th></tr>';
-
-        for(var i in instanceTypes) {
-            var uri = instanceTypes[i]["uri"];
-
-            html += '<tr style="background-color:' + instanceTypes[i]["color"]  + '">';
-
-            if (i == instanceTypeDefault) {
-                html += '<td><input type="radio" name="instype" class="instype_radio" checked title="default type"></td>';
-            } else {
-                html += '<td><input type="radio" name="instype" class="instype_radio"></td>';
-            }
-
-            html += '<td class="instype_apply_btn">' + i  + '</td>';
-            html += '<td><input type="checkbox" name="instype_hide" class="instype_hide" title="show/hide" checked></td>';
-
-            if (uri) {
-                html += '<td title="' + uri + '">' + '<a href="' + uri + '" target="_blank"><img src="images/link.png"></a></td>';
-            }
-
-            html += '</tr>';
-        }
-
-        html += '</table>';
-
-        $('#instype_list').html(html);
-    }
-
-
-    // List of modification types
-    function tableModificationTypes(modificationTypes) {
-        var html = '<table>';
-        html += '<tr><th colentity="2">Modification Types</th></tr>';
-
-        for(var m in modificationTypes) {
-            var uri = modificationTypes[m]["uri"];
-
-            html += '<tr style="background-color:' + modificationTypes[m]["color"] + '">'
-
-            if (m == modificationTypeDefault) {
-                html += '<td><input type="radio" name="modtype" class="modtype_radio" checked title="default type"></td>';
-            } else {
-                html += '<td><input type="radio" name="modtype" class="modtype_radio"></td>';
-
-            }
-
-            html += '<td class="modtype_apply_btn">' + m  + '</td>';
-            html += '<td><input type="checkbox" name="modtype_hide" class="modtype_hide" title="show/hide" checked></td>';
-
-            if (uri) {
-                html += '<td title="' + uri + '">' + '<a href="' + uri + '" target="_blank"><img src="images/link.png"></a></td>';
-            }
-
-            html += '</tr>';
-        }
-
-        html += '</table>';
-
-        $('#modtype_list').html(html);
     }
 
 
@@ -930,7 +832,9 @@ $(document).ready(function() {
         var range = selection.getRangeAt(0);
 
         // if drag, bubble up
-        if (!selection.isCollapsed) return true;
+        if (!selection.isCollapsed) {
+            return true;
+        }
 
         if (mode == "span") {
             var id = $(this).attr('id');
@@ -1053,313 +957,136 @@ $(document).ready(function() {
         return sid;
     }
 
-
-    // // set the default type of denoting object
-    // $('.entity_type_radio').live('change', function() {
-    //     entityTypeDefault = $(this).parent().next().text();
-    // });
-
-
-    // // set the default relation type
-    // $('.relation_type_radio').live('change', function() {
-    //     relationTypeDefault = $(this).parent().next().text();
-    // });
-
-
-    // merge spans by mouse right click
-    // $('.entity').live('contextmenu', function(e){
-
-    //     if (mode == "relation") {
-    //        // relationモード
-
-    //     } else if (mode == "span") {
-
-    //         if (spanIdsSelected.length == 1) {
-    //             var firstSpanId = spanIdsSelected.shift();
-    //             var secondSpanId = $(this).attr('id');
-    //             var firstParentId = $('entity#' + firstSpanId).parent().attr('id');
-    //             var secondParentId = $(this).parent().attr('id');
-
-    //             // merge spans
-    //             if (firstParentId == secondParentId && firstSpanId != secondSpanId) {
-    //                 var edits = new Array();
-
-    //                 var firstSpan  = spans[firstSpanId];    // the entity selected by the mouse left click
-    //                 var secondSpan = spans[secondSpanId];   // the entity selected by the mouse right click
-
-    //                 // move instances
-    //                 for (var i = 0; i < instancesPerSpan[secondSpanId].length; i++) {
-    //                     edits.push({action:'change_instance_obj', id:instancesPerSpan[secondSpanId][i], old_obj:secondSpanId, new_obj:firstSpanId});
-    //                 }
-
-    //                 // move relations
-    //                 for (var i = 0; i < relationsPerSpanEntity[secondSpanId].length; i++) {
-    //                     var rid = relationsPerSpanEntity[secondSpanId][i];
-    //                     if (relations[rid].subj == secondSpanId) {
-    //                         edits.push({action:'change_relation_subj', id:rid, old_subj:secondSpanId, new_subj:firstSpanId});
-    //                     }
-    //                     if (relations[rid].obj == secondSpanId) {
-    //                         edits.push({action:'change_relation_obj', id:rid, old_obj:secondSpanId, new_obj:firstSpanId});
-    //                     }
-    //                 }
-
-    //                 // merge to the former entity
-    //                 if (firstSpan['end'] < secondSpan['end']) {
-    //                     edits.push({action:'change_entity_end', id:firstSpanId, old_end:firstSpan['end'], new_end:secondSpan['end']});
-    //                 }
-
-    //                 // merge to the latter entity
-    //                 else {
-    //                     edits.push({action:'change_entity_begin', id:firstSpanId, old_begin:firstSpan['begin'], new_begin:secondSpan['begin']});
-    //                 }
-
-    //                 // remove the second entity
-    //                 edits.push({action:'remove_entity', id:secondSpanId, begin:spans[secondSpanId].begin, end:spans[secondSpanId].end, obj:spans[secondSpanId].obj});
-
-    //                 makeEdits(edits);
-    //             } 
-    //         }
-
-    //         else {
-    //                 alert("Cannot merge spans when there are more than one spans selected.");
-    //             }
-    //     }
-
-    //     cancelBubble(e);
-    //     return false;
-    // });
-
-
     // adjust the beginning position of a span
-    function adjustSpanStart(startPosition) {
-        var pos = startPosition;
-
-        while (isNonEdgeCharacter(sourceDoc.charAt(pos))){
-            pos = pos + 1;
-            startChar = sourceDoc.charAt(pos);
-        }
-
+    function adjustSpanBegin(beginPosition) {
+        var pos = beginPosition;
+        while (isNonEdgeCharacter(sourceDoc.charAt(pos))) {pos++}
         while (!isDelimiter(sourceDoc.charAt(pos)) && pos > 0 && !isDelimiter(sourceDoc.charAt(pos - 1))) {pos--}
         return pos;
     }
 
-
-    /*
-     * マウスドラッグ時の開始位置の調整2
-     * ドラッグした位置以上に縮める
-     */
-    function adjustSpanStart2(startPosition) {
-        // 開始位置はドラッグした最後の文字
-        startPosition = startPosition -1;
-
-        // 開始文字
-        var startChar = sourceDoc.charAt(startPosition);
-
-        // 開始位置
-        var pos = startPosition;
-
-        // はじめにstart位置の文字ががboundaryCharであれば、
-        // boundaryCharがなくなる位置まで後ろにずらす
-        if(!isNonEdgeCharacter(startChar)) {
-            if(isDelimiter(startChar)) {
-                pos = pos + 1;
-             } else {
-                while(!isDelimiter(startChar)) {
-                    pos = pos + 1;
-                    startChar = sourceDoc.charAt(pos);
-                }
-            }
-        }
-
-        while(isNonEdgeCharacter(startChar)) {
-            pos = pos + 1;
-            startChar = sourceDoc.charAt(pos);
-        }
+    // adjust the end position of a span
+    function adjustSpanEnd(endPosition) {
+        var pos = endPosition;
+        while (isNonEdgeCharacter(sourceDoc.charAt(pos - 1))) {pos--}
+        while (!isDelimiter(sourceDoc.charAt(pos)) && pos < sourceDoc.length) {pos++}
         return pos;
     }
 
 
-    /*
-     * マウスドラッグ時の終了位置の調整
-     */
-    function adjustSpanEnd(endPosition) {
-        // original document
-        var str = sourceDoc;
-
-        var endChar = str.charAt(endPosition - 1);
-
-        var pos = endPosition - 1;
-
-        // はじめにend位置の文字ががboundaryCharであれば、
-        // boundaryCharがなくなる位置まで前にずらす
-        while(isNonEdgeCharacter(endChar)){
-            pos = pos - 1;
-            endChar = str.charAt(pos);
-        }
-        // つぎに、delimitCharacterが現れるまでend位置を後ろにずらす
-        endChar = str.charAt(pos);
-
-        // 次に、その位置がdelimitであれば、そのまま
-        // delimjitでなければ、delimitCharcterが現れるまでend位置を後ろにずらす
-        if(isDelimiter(endChar)) {
-            return pos + 1;
-        } else {
-            while(!isDelimiter(endChar)) {
-                pos = pos + 1;
-                endChar = str.charAt(pos);
-            }
-            return pos;
-        }
+    // adjust the beginning position of a span for shortening
+    function adjustSpanBegin2(beginPosition) {
+        var pos = beginPosition;
+        while ((pos < sourceDoc.length) && (isNonEdgeCharacter(sourceDoc.charAt(pos)) || !isDelimiter(sourceDoc.charAt(pos - 1)))) {pos++}
+        return pos;
     }
 
-
-    /*
-     * マウスドラッグ時の終了位置の調整
-     * ドラッグした位置以上に縮める
-     */
+    // adjust the end position of a span for shortening
     function adjustSpanEnd2(endPosition) {
-        // original document
-        var str = sourceDoc;
-
-        var endChar = str.charAt(endPosition);
-
         var pos = endPosition;
-
-        // はじめにend位置の文字ががboundaryCharであれば、
-        // boundaryCharがなくなる位置まで前ににずらす
-        if(!isNonEdgeCharacter(endChar)) {
-
-            if(isDelimiter(endChar)) {
-                pos = pos - 1;
-            } else {
-
-                while(!isDelimiter(endChar)) {
-                    pos = pos - 1;
-                    endChar = str.charAt(pos);
-                }
-
-            }
-        }
-
-        while(isNonEdgeCharacter(endChar)) {
-            pos = pos - 1;
-            endChar = str.charAt(pos);
-        }
-
-        return pos + 1;
+        while ((pos > 0) && (isNonEdgeCharacter(sourceDoc.charAt(pos - 1)) || !isDelimiter(sourceDoc.charAt(pos)))) {pos--}
+        return pos;
     }
 
 
     function doMouseup(e) {
-        if (mode == 'span') {
-            var selection = window.getSelection();
-            var range = selection.getRangeAt(0);
+        var selection = window.getSelection();
+        var range = selection.getRangeAt(0);
 
-            if (
-                // when the whole div is selected by e.g., triple click
-                (range.startContainer == $('#text_box').get(0)) ||
-                // when Shift is pressed
-                (isShift) ||
-                // when nothing is selected
-                (selection.isCollapsed)
-                )
-            {
+        if (
+            // when the whole div is selected by e.g., triple click
+            (range.startContainer == $('#text_box').get(0)) ||
+            // when Shift is pressed
+            (e.shiftKey) ||
+            // when nothing is selected
+            (selection.isCollapsed)
+            )
+        {
+            // bubbles go up
+            cancelSelect();
+            dismissBrowserSelection();
+            return true;
+        }
+
+        // no boundary crossing: normal -> create a entity
+        if (selection.anchorNode.parentElement.id === selection.focusNode.parentElement.id) {
+            clearSpanSelection();
+
+            var anchorPosition = getAnchorPosition(selection);
+            var focusPosition = getFocusPosition(selection);
+
+            // switch the position when the selection is made from right to left
+            if (anchorPosition > focusPosition) {
+                var tmpPos = anchorPosition;
+                anchorPosition = focusPosition;
+                focusPosition = tmpPos;
+            }
+
+            // when the whole text is selected by e.g., triple click (Chrome)
+            if ((anchorPosition == 0) && (focusPosition == sourceDoc.length)) {
                 // do nothing. bubbles go up
-                dismissBrowserSelection();
                 return true;
             }
 
-            // no boundary crossing: normal -> create a entity
-            if (selection.anchorNode.parentElement.id === selection.focusNode.parentElement.id) {
-                clearSpanSelection();
+            var beginPosition = adjustSpanBegin(anchorPosition);
+            var endPosition = adjustSpanEnd(focusPosition);
+            var sid = getSid(beginPosition, endPosition);
 
-                var anchorChilds = selection.anchorNode.parentNode.childNodes;
-                var focusChilds = selection.focusNode.parentNode.childNodes;
-
-                var absoluteAnchorPosition = getAbsoluteAnchorPosition(anchorChilds, selection);
-                var absoluteFocusPosition = getAbsoluteFocusPosition(focusChilds, selection);
-
-                dismissBrowserSelection();
-
-                // switch the position when the selection is made from right to left
-                if (absoluteAnchorPosition > absoluteFocusPosition) {
-                    var tmpPos = absoluteAnchorPosition;
-                    absoluteAnchorPosition = absoluteFocusPosition;
-                    absoluteFocusPosition = tmpPos;
+            if (!spans[sid]) {
+                if (endPosition - beginPosition > blockThreshold) {
+                    makeEdits([{action:'new_span', id:sid, begin:beginPosition, end:endPosition, block:true, type:blockTypeDefault}]);
                 }
 
-                // when the whole text is selected by e.g., triple click (Chrome)
-                if ((absoluteAnchorPosition == 0) && (absoluteFocusPosition == sourceDoc.length)) {
-                    // do nothing. bubbles go up
-                    dismissBrowserSelection();
-                    return true;
-                }
+                else {
+                    var edits = [{action:'new_span', id:sid, begin:beginPosition, end:endPosition}];
 
-                var startPosition = adjustSpanStart(absoluteAnchorPosition);
-                var endPosition = adjustSpanEnd(absoluteFocusPosition);
-                var sid = startPosition + '-' + endPosition;
-
-                if (!spans[sid]) {
-
-                    if (endPosition - startPosition > blockThreshold) {
-                        makeEdits([{action:'new_span', id:sid, begin:startPosition, end:endPosition, block:true, type:blockTypeDefault}]);
+                    if (replicateAuto) {
+                        var replicates = getSpanReplicates({begin:beginPosition, end:endPosition});
+                        edits = edits.concat(replicates);
                     }
-
-                    else {
-                        var edits = [{action:'new_span', id:sid, begin:startPosition, end:endPosition}];
-
-                        if (replicateAuto) {
-                            var replicates = getSpanReplicates({begin:startPosition, end:endPosition});
-                            edits = edits.concat(replicates);
-                        }
-                        if (edits.length > 0) makeEdits(edits);
-                    }
+                    if (edits.length > 0) makeEdits(edits);
                 }
             }
+        }
 
-            // boundary crossing: exception
-            else {
-                if (numSpanSelection() == 1) {
-                    var selectedId = popSpanSelection();
-                    if (selectedId == selection.focusNode.parentElement.id) {
-                        shortenSpan(selectedId, selection);
-                    } else if (selectedId == getSelectedIdByAnchorNode($('span#' + selectedId), selection.anchorNode)) {
-                        expandSpan(selectedId, selection);
-                    }
+        // boundary crossing: exception
+        else {
+            if (selection.anchorNode.parentNode.parentNode == selection.focusNode.parentNode) {
+                clearSpanSelection();
+                clearEntitySelection();
+                expandSpan(selection.anchorNode.parentNode.id, selection);
+            }
+            else if (selection.anchorNode.parentNode == selection.focusNode.parentNode.parentNode) {
+                clearSpanSelection();
+                clearEntitySelection();
+                shortenSpan(selection.focusNode.parentNode.id, selection);
+            }
+            else if (numSpanSelection() == 1) {
+                var sid = popSpanSelection();
+                
+                if  (   // The focus node should be at one level above the selected node.
+                        ($('#' + sid).get(0).childNodes[0].parentNode.parentNode == selection.focusNode.parentNode)
+                        &&
+                        (sid == getSidByAnchorNode($('#' + sid), selection.anchorNode))
+                    ) {
+                        expandSpan(sid, selection);
+                }
+                else if (sid == getSidByFocusNode($('#' + sid), selection.focusNode)) {
+                    shortenSpan(sid, selection);
                 }
                 else {
-                    alert('If you want to adjust a boundary of a span, first, select the span, and make a boundary crossing.');
+                    selectSpan(sid);
+                    alert('A span cannot be expanded beyond its container.');
                 }
-
             }
-
-            dismissBrowserSelection();
-            cancelBubble(e);
+            else {
+                alert('It is ambiguous for which span you want to adjust the boundary. Select the span, and try again.');
+            }
         }
 
+        dismissBrowserSelection();
+        cancelBubble(e);
         return false;
-    }
-
-
-    function instanceMouseHover(e) {
-        if (mode == 'view') {
-            var iid = $(this).attr('id');
-            var rids = relationsPerEntityEntity[iid];
-
-            if (event.type == 'mouseover') {
-                $(this).addClass('mouseHover');
-                for (var i = 0; i < rids.length; i++) {
-                    connectors[rids[i]].setHover(true);
-                    connectorHoverBegin(connectors[rids[i]]);
-                }
-            } else {
-                $(this).removeClass('mouseHover');
-                for (var i = 0; i < rids.length; i++) {
-                    connectors[rids[i]].setHover(false);
-                    connectorHoverEnd(connectors[rids[i]]);
-                }
-            }
-        }
     }
 
 
@@ -1395,17 +1122,6 @@ $(document).ready(function() {
         return maxIdNum;
     }
 
-    // get the max value of the modification Id
-    function getMaxModificationId() {
-        var numId = 0;
-        for(var i in modifications){
-            if(parseInt(modifications[i]["id"].slice(1)) > numId){
-                numId = parseInt(modifications[i]["id"].slice(1));
-            }
-        }
-        return numId;
-    }
-
 
     function newSpan(id, begin, end, block, type) {
         spans[id] = {begin:begin, end:end, block:block, type:type};
@@ -1414,6 +1130,12 @@ $(document).ready(function() {
 
 
     function cancelSelect(e) {
+        // if drag, bubble up
+        if (!window.getSelection().isCollapsed) {
+            dismissBrowserSelection();
+            return true;
+        }
+
         clearSpanSelection();
         clearEntitySelection();
         clearRelationSelection();
@@ -1423,226 +1145,113 @@ $(document).ready(function() {
         changeButtonStateDelete();
         changeButtonStateCopy();
         changeButtonStatePaste();
-
     }
 
 
     function expandSpan(sid, selection) {
-        var range = selection.getRangeAt(0);
+        var edits = [];
 
+        var focusPosition = getFocusPosition(selection);
+
+        var range = selection.getRangeAt(0);
         var anchorRange = document.createRange();
         anchorRange.selectNode(selection.anchorNode);
 
-        // compareBoundaryPoints: -1, 0, or 1
-        if (range.compareBoundaryPoints(Range.START_TO_START, anchorRange) > 0) {
-
-            // 選択された用素のの親の親と、selection.focusNodeの親が同じでないといけない
-            //if(selected.get(0).childNodes[0].parentNode.parentNode == selection.focusNode.parentNode){
-            if ($('span#' + sid).get(0).childNodes[0].parentNode.parentNode == selection.focusNode.parentNode){
-
-                // focusNodeの親ノードの位置を求めます
-                var offset = 0;
-
-                // focusノードを起点にしたchild node
-                var focusChilds = selection.focusNode.parentElement.childNodes;
-
-                // そのspanの文字数を計算
-                var len = getFocusPosBySpan(focusChilds, selection);
-
-                if(selection.focusNode.parentNode.id == 'text_box') {
-
-                } else {
-                    offset = spans[selection.focusNode.parentNode.id]['begin'];
+        // expand to the right
+        if (range.compareBoundaryPoints(Range.START_TO_START, anchorRange) < 0) {
+            var newBegin = adjustSpanBegin(focusPosition);
+            var new_sid = getSid(newBegin, spans[sid]['end']);
+            if (!spans[new_sid]) {
+                edits.push({action:'new_span', id:new_sid, begin:newBegin, end:spans[sid]['end']});
+                for (var i = 0; i < entitiesPerSpan[sid].length; i++) {
+                    var eid  = entitiesPerSpan[sid][i];
+                    var type = entities[eid].type;
+                    edits.push({action:'remove_denotation', id:eid, span:sid, type:type});
+                    edits.push({action:'new_denotation', id:eid, span:new_sid, type:type});
                 }
-
-                // 修正
-                var oldEnd = spans[sid]['end']
-                var newEnd = adjustSpanEnd(offset + len + selection.focusOffset);
-
-                dismissBrowserSelection();
-
-                if (!spans[spans[sid]['begin'] + '-' + newEnd]) {
-                    makeEdits([{action:'change_span_end', id:sid, old_end:oldEnd, new_end:newEnd}]);
-                }
-            }
-
-        } else {
-
-            if ($('span#' + sid).get(0).childNodes[0].parentNode.parentNode == selection.focusNode.parentNode){
-                // focusNodeの親ノードの位置を求めます
-                var offset = 0;
-
-                // focusノードを起点にしたchild node
-                var focusChilds = selection.focusNode.parentElement.childNodes;
-
-                // そのspanの文字数を計算
-                var len = getFocusPosBySpan(focusChilds, selection);
-
-                if(selection.focusNode.parentNode.id == 'text_box') {
-
-                } else {
-                    offset = spans[selection.focusNode.parentNode.id]['begin'];
-                }
-
-                // 修正
-                var oldBegin = spans[sid]['begin'];
-                var newBegin = adjustSpanStart(offset + len + selection.focusOffset);
-
-                dismissBrowserSelection();
-
-                if (!spans[newBegin + '-' + spans[sid]['end']]) {
-                    makeEdits([{action:'change_span_begin', id:sid, old_begin:oldBegin, new_begin:newBegin}]);
-                }
+                edits.push({action:'remove_span', id:sid, begin:spans[sid]['begin'], end:spans[sid]['end']});
             }
         }
+
+        // expand to the left
+        else {
+            var newEnd = adjustSpanEnd(focusPosition);
+            var new_sid = getSid(spans[sid]['begin'], newEnd);
+            if (!spans[new_sid]) {
+                edits.push({action:'new_span', id:new_sid, begin:spans[sid]['begin'], end:newEnd});
+                for (var i = 0; i < entitiesPerSpan[sid].length; i++) {
+                    var eid  = entitiesPerSpan[sid][i];
+                    var type = entities[eid].type;
+                    edits.push({action:'remove_denotation', id:eid, span:sid, type:type});
+                    edits.push({action:'new_denotation', id:eid, span:new_sid, type:type});
+                }
+                edits.push({action:'remove_span', id:sid, begin:spans[sid]['begin'], end:spans[sid]['end']});
+            }
+        }
+        if (edits.length > 0) makeEdits(edits);
     }
 
 
     function shortenSpan(sid, selection) {
-        var range = selection.getRangeAt(0);
+        var edits = [];
 
+        var focusPosition = getFocusPosition(selection);
+
+        var range = selection.getRangeAt(0);
         var focusRange = document.createRange();
         focusRange.selectNode(selection.focusNode);
 
-        // focusRange の開始点よりも、range の開始点が前なら -1、等しければ 0、後なら 1 を返します。
+        // shorten the right boundary
+        if (range.compareBoundaryPoints(Range.START_TO_START, focusRange) > 0) {
+            var newEnd = adjustSpanEnd2(focusPosition);
 
-        var i;
-        var len = spans.length - 1;
-
-        if(range.compareBoundaryPoints(Range.START_TO_START, focusRange) > 0) {
-
-            // focusノードを起点にしたchild node
-            var focusChilds = selection.focusNode.parentElement.childNodes;
-
-            // そのspanの文字数を計算
-            var spanLen = getFocusPosBySpan(focusChilds, selection);
-
-            // 位置修正
-            var endPosition = adjustSpanEnd2(spans[selection.focusNode.parentNode.id]['begin'] + spanLen + selection.focusOffset);
-
-            dismissBrowserSelection();
-
-            // 選択範囲がマークの最初と同じであれば、
-            // endPositionがマークのbeginよりも大きくなるので、
-            // その場合は何もしない
-            if(endPosition > spans[sid]['begin']) {
-                var oldEnd = spans[sid]['end'];
-                var newEnd = endPosition;
-                if (!spans[spans[sid]['begin'] + '-' + newEnd]) {
-                    makeEdits([{action:'change_span_end', id:sid, old_end:oldEnd, new_end:newEnd}]);
+            if (newEnd > spans[sid]['begin']) {
+                var new_sid = getSid(spans[sid]['begin'], newEnd);
+                if (!spans[new_sid]) {
+                    edits.push({action:'new_span', id:new_sid, begin:spans[sid]['begin'], end:newEnd});
+                    for (var i = 0; i < entitiesPerSpan[sid].length; i++) {
+                        var eid  = entitiesPerSpan[sid][i];
+                        var type = entities[eid].type;
+                        edits.push({action:'remove_denotation', id:eid, span:sid, type:type});
+                        edits.push({action:'new_denotation', id:eid, span:new_sid, type:type});
+                    }
+                    edits.push({action:'remove_span', id:sid, begin:spans[sid]['begin'], end:spans[sid]['end']});
                 }
-            } else {
-                // remove
-                makeEdits([{action:'remove_span', id:sid, begin:spans[sid].begin, end:spans[sid].end}]);
             }
-
-        } else {
-
-            // focusノードを起点にしたchild node
-            var focusChilds = selection.focusNode.parentElement.childNodes;
-
-            // そのspanの文字数を計算
-            var spanLen = getFocusPosBySpan(focusChilds, selection);
-
-            // 修正
-            var startPosition = adjustSpanStart2(spans[selection.focusNode.parentNode.id]['begin'] + spanLen +  selection.focusOffset);
-
-            dismissBrowserSelection();
-
-            // 選択範囲がメークの最後と同じであれば、
-            // startPositionがマークのendよりも大きくなるので、
-            // その場合は何もしない
-            if(startPosition < spans[sid]['end']) {
-                var oldBegin = spans[sid]['begin']
-                var newBegin = startPosition;
-                if (!spans[newBegin + '-' + spans[sid]['end']]) {
-                    makeEdits([{action:'change_span_begin', id:sid, old_begin:oldBegin, new_begin:newBegin}]);
-                }
-            } else {
-                // remove
-                makeEdits([{action:'remove_span', id:sid, begin:spans[sid].begin, end:spans[sid].end}]);
+            else {
+                selectSpan(sid);
+                removeElements();
             }
         }
-    }
 
+        // shorten the left boundary
+        else {
+            var newBegin = adjustSpanBegin2(focusPosition);
 
-    function separateElement(spans, selection, selectedId) {
-        sortEntities(spans);
-
-        var anchorChilds = selection.anchorNode.parentNode.childNodes;
-        var focusChilds = selection.focusNode.parentNode.childNodes;
-
-        var absoluteAnchorPosition = getAbsoluteAnchorPosition(anchorChilds, selection);
-        var absoluteFocusPosition = getAbsoluteFocusPosition(focusChilds, selection);
-
-        if(absoluteAnchorPosition > absoluteFocusPosition) {
-            var tmpPos = absoluteAnchorPosition;
-            absoluteAnchorPosition = absoluteFocusPosition;
-            absoluteFocusPosition = tmpPos;
-        }
-
-
-        // nodeの始点または終点を選択した場合
-        var selectedJson = spans[selectedId];
-
-        //if(absoluteAnchorPosition == spans[selectedId]['begin'] ||  absoluteFocusPosition == spans[selectedId]['end']) {
-        if(absoluteAnchorPosition == selectedJson['begin'] ||  absoluteFocusPosition == selectedJson['end']) {
-            //if(startPos == 0) {
-            if(absoluteAnchorPosition == selectedJson['begin']) {
-                newStart = absoluteFocusPosition;
-
-                // 修正
-                var startPosition = adjustSpanStart(newStart);
-
-                // 新たな開始点が終了点より小さい場合のみ
-                if(startPosition < selectedJson['end']) {
-                    //jsonを書き換え
-                    //spans[selection.anchorNode.parentElement.id]['begin'] = startPosition;
-                    selectedJson['begin'] = startPosition;
+            if (newBegin < spans[sid]['end']) {
+                var new_sid = getSid(newBegin, spans[sid]['end']);
+                if (!spans[new_sid]) {
+                    edits.push({action:'new_span', id:new_sid, begin:newBegin, end:spans[sid]['end']});
+                    for (var i = 0; i < entitiesPerSpan[sid].length; i++) {
+                        var eid  = entitiesPerSpan[sid][i];
+                        var type = entities[eid].type;
+                        edits.push({action:'remove_denotation', id:eid, span:sid, type:type});
+                        edits.push({action:'new_denotation', id:eid, span:new_sid, type:type});
+                    }
+                    edits.push({action:'remove_span', id:sid, begin:spans[sid]['begin'], end:spans[sid]['end']});
                 }
-
-            } else if(absoluteFocusPosition == selectedJson['end']) {
-
-                //var newEnd = spans[selection.anchorNode.parentElement.id]['begin'] + startPos;
-                var newEnd = absoluteAnchorPosition;
-                // 修正
-                var endPosition = adjustSpanEnd(newEnd);
-                //jsonを書き換え
-                selectedJson['end'] = endPosition;
-
             }
-
-        } else {
-            var newStart = absoluteFocusPosition;
-            var newEnd = selectedJson['end'];
-
-            var newStartPosition = adjustSpanStart(newStart);
-            var newEndPosition = adjustSpanEnd(newEnd);
-
-            // 分離した前方の終了位置
-            // var separatedEndPos = adjustSpanEnd(offset + startPos);
-            var separatedEndPos = adjustSpanEnd(absoluteAnchorPosition);
-
-            // 分離した前方の終了位置と分離した後方の終了位置が異なる場合のみ
-            if(separatedEndPos != newEndPosition && selectedJson['begin'] != newStartPosition) {
-                //jsonを書き換え
-                //spans[selection.anchorNode.parentElement.id]['end'] = separatedEndPos;
-                selectedJson['end'] = separatedEndPos;
-
-                // 新しいjsonを追加
-                var obj = new Object();
-                obj['begin'] = newStartPosition;
-                obj['end'] = newEndPosition;
-                obj['id'] = getSpanNewId();
-                spans.push(obj);
+            else {
+                selectSpan(sid);
+                removeElements();
             }
         }
+        if (edits.length > 0) makeEdits(edits);
     }
 
 
     // to check if the anchorNode is inside the selected span
-    function getSelectedIdByAnchorNode(selected, anchorNode) {
-
+    function getSidByAnchorNode(selected, anchorNode) {
         var anchorRange = document.createRange();
         anchorRange.selectNode(anchorNode);
 
@@ -1650,7 +1259,11 @@ $(document).ready(function() {
         var selectedRange = document.createRange();
         selectedRange.selectNode(selected.get(0).childNodes[0]);
 
-        if(anchorRange.compareBoundaryPoints(Range.START_TO_START, selectedRange) > 0 && anchorRange.compareBoundaryPoints( Range.END_TO_END, selectedRange ) > 0) {
+        if (
+            anchorRange.compareBoundaryPoints(Range.START_TO_START, selectedRange) >= 0
+            &&
+            anchorRange.compareBoundaryPoints(Range.END_TO_END, selectedRange) <= 0
+            ) {
             // if the anchorNode is inside the selected span, return the Id of the selected span
             return selected.attr('id');
         }
@@ -1658,6 +1271,30 @@ $(document).ready(function() {
         // if not, return the Id of the anchorNode
         return anchorNode.parentElement.id;
     }
+
+
+    // to check if the focusNode is inside the selected span
+    function getSidByFocusNode(selected, focusNode) {
+        var focusRange = document.createRange();
+        focusRange.selectNode(focusNode);
+
+        // range of the selected element
+        var selectedRange = document.createRange();
+        selectedRange.selectNode(selected.get(0).childNodes[0]);
+
+        if (
+            focusRange.compareBoundaryPoints(Range.START_TO_START, selectedRange) >= 0
+            &&
+            focusRange.compareBoundaryPoints(Range.END_TO_END, selectedRange) <= 0
+            ) {
+            // if the focusNode is inside the selected span, return the Id of the selected span
+            return selected.attr('id');
+        }
+
+        // if not, return the Id of the focusNode
+        return focusNode.parentElement.id;
+    }
+
 
     
     // search same strings
@@ -1685,139 +1322,43 @@ $(document).ready(function() {
                     }
                 }
 
-                // マウスでマークされた物以外の同じ文字列
                 if(!isExist && startPos != sameStrPos) {
                     ary.push(obj);
                 }
-
             }
             from = sameStrPos + 1;
         }
-
         return ary;
     }
 
 
-    /*
-     * focusNode上で、そのnodeまでの位置を求める
-     */
-    function getFocusPosBySpan(childNodes, selection) {
-        var len = 0;
+    function getFocusPosition(selection) {
+        // assumption: text_box only includes <span> elements that represents spans
+        var pos = (selection.focusNode.parentNode.id == 'text_box')? 0 : spans[selection.focusNode.parentNode.id]['begin'];
 
-        for(var i = 0; i < childNodes.length; i++) {
-
-            // docareaChilds[i]がfocusNodeならば、繰り返しを抜ける
-            if(childNodes[i] == selection.focusNode) {
-                break;
-            }
-
-            if(childNodes[i].nodeName == "#text") {
-                // text nodeであれば、textの長さ
-                len += childNodes[i].nodeValue.length;
-            } else {
-                // text modeでなけばentityノードなので、
-                // そのIDを取得して、文字列の長さを取得
-                len += $('#' + childNodes[i].id).text().length;
-            }
+        var childNodes = selection.focusNode.parentElement.childNodes;
+        for (var i = 0; childNodes[i] != selection.focusNode; i++) { // until the focus node
+            pos += (childNodes[i].nodeName == "#text")? childNodes[i].nodeValue.length : $('#' + childNodes[i].id).text().length;
         }
 
-        return len;
+        return pos += selection.focusOffset;
     }
 
 
-    /*
-     * anchorNode上で、そのnodeまでの位置を求める
-     */
-    function getAnchorPosBySpan(childNodes, selection) {
-        var len = 0;
+    function getAnchorPosition(selection) {
+        // assumption: text_box only includes <span> elements that represents spans
+        var pos = (selection.anchorNode.parentNode.id == 'text_box')? 0 : spans[selection.anchorNode.parentNode.id]['begin'];
 
-        for(var i = 0; i < childNodes.length; i++) {
-
-            // docareaChilds[i]がanchorNodeならば、繰り返しを抜ける
-            if(childNodes[i] == selection.anchorNode) {
-                break;
-            }
-
-            if(childNodes[i].nodeName == "#text") {
-                // text nodeであれば、textの長さ
-                len += childNodes[i].nodeValue.length;
-            } else {
-                // text modeでなけばentityノードなので、
-                // そのIDを取得して、文字列の長さを取得
-                len += $('#' + childNodes[i].id).text().length;
-            }
+        var childNodes = selection.anchorNode.parentNode.childNodes;
+        for (var i = 0; childNodes[i] != selection.anchorNode; i++) { // until the anchor node
+            pos += (childNodes[i].nodeName == "#text")? childNodes[i].nodeValue.length : $('#' + childNodes[i].id).text().length;
         }
 
-        return len;
+        return pos + selection.anchorOffset;
     }
 
 
-    /*
-     * focusNode上で、その絶対位置を求める
-     */
-    function getAbsoluteFocusPosition(childNodes, selection) {
-        var pos = 0;
-
-        if(selection.focusNode.parentNode.nodeName == 'SPAN' && selection.focusNode.parentNode.id != "text_box") {
-
-            pos = spans[selection.focusNode.parentNode.id]['begin'];
-        }
-
-        for(var i = 0; i < childNodes.length; i++) {
-
-            // docareaChilds[i]がfocusNodeならば、繰り返しを抜ける
-            if(childNodes[i] == selection.focusNode) {
-                pos += selection.focusOffset;
-                break;
-            }
-
-            if(childNodes[i].nodeName == "#text") {
-                // text nodeであれば、textの長さ
-                pos += childNodes[i].nodeValue.length;
-            } else {
-                // text modeでなけばentityノードなので、
-                // そのIDを取得して、文字列の長さを取得
-                pos += $('#' + childNodes[i].id).text().length;
-            }
-        }
-        return pos;
-    }
-
-    /*
-     * anchorNode上で、その絶対位置を求める
-     */
-    function getAbsoluteAnchorPosition(childNodes, selection) {
-        var pos = 0;
-
-        if(selection.anchorNode.parentNode.nodeName == 'SPAN' && selection.anchorNode.parentNode.id != "text_box") {
-            pos = spans[selection.anchorNode.parentNode.id]["begin"];
-        }
-
-        for(var i = 0; i < childNodes.length; i++) {
-
-            // docareaChilds[i]がanchorNodeならば、繰り返しを抜ける
-            if(childNodes[i] == selection.anchorNode) {
-                pos += selection.anchorOffset;
-                break;
-            }
-
-            if(childNodes[i].nodeName == "#text") {
-                // text nodeであれば、textの長さ
-                pos += childNodes[i].nodeValue.length;
-            } else {
-                // text modeでなけばentityノードなので、
-                // そのIDを取得して、文字列の長さを取得
-                pos += $('#' + childNodes[i].id).text().length;
-            }
-        }
-
-        return pos;
-    }
-
-
-    /*
-     * check the bondaries: used afte replication
-     */
+    // check the bondaries: used after replication
     function isOutsideDelimiter(document, startPos, endPos) {
         var precedingChar = document.charAt(startPos-1);
         var followingChar = document.charAt(endPos);
@@ -1827,9 +1368,7 @@ $(document).ready(function() {
     }
 
 
-    /*
-     * dismiss the default selection by the browser
-    */
+    // dismiss the default selection by the browser
     function dismissBrowserSelection() {
         if (window.getSelection){
             var selection = window.getSelection();
@@ -2097,10 +1636,6 @@ $(document).ready(function() {
         entityIdsSelected.length = 0;
     }
 
-    function copyEntity() {
-
-    }
-
 
     function createModification(pred) {
         var i;
@@ -2159,56 +1694,6 @@ $(document).ready(function() {
             }
         }
     }
-
-
-    // $('.span_type_label').live('click', function() {
-    //     var edits = new Array();
-
-    //     for (var i = 0; i < spanIdsSelected.length; i++) {
-    //         var sid = spanIdsSelected[i];
-    //         var oldObj = spans[sid].obj;
-    //         var newObj = $(this).text();
-
-    //         if (newObj != oldObj) {
-    //             edits.push({action:"change_span_obj", id:sid, old_obj:oldObj, new_obj:newObj});
-    //         }
-    //     }
-
-    //     if (edits.length > 0) {makeEdits(edits)}
-    // });
-
-
-    // $('.relation_type_label').live('click', function() {
-    //     var edits = new Array();
-
-    //     for(var i = 0; i < relationIdsSelected.length; i++) {
-    //         var rid = relationIdsSelected[i];
-    //         var oldPred = relations[rid].pred;
-    //         var newPred = $(this).text();
-
-    //         if (newPred != oldPred) {
-    //             edits.push({action:"change_relation_pred", id:rid, old_pred:oldPred, new_pred:newPred});
-    //         }
-    //     }
-
-    //     if (edits.length > 0) {makeEdits(edits)}
-    // });
-
-
-    // $('.modtype_apply_btn').live('click', function() {
-    //     for(var i in modificationIdsSelected) {
-    //         var modId = modificationIdsSelected[i];
-
-    //         for(var j in modifications) {
-    //             var mod = modifications[j];
-
-    //             if(modId == mod["id"]) {
-    //                 mod['pred'] = $(this).text();
-    //             }
-    //         }
-    //     }
-    // });
-
 
     // 'Read' button control
     function enableButtonRead() {
@@ -2390,7 +1875,7 @@ $(document).ready(function() {
         var edits = new Array();
         for (var i = 0; i < nspans.length; i++) {
             var nspan = nspans[i];
-            var id = nspan['begin'] + '-' + nspan['end'];
+            var id = getSid(nspan['begin'], nspan['end']);
             edits.push({action: "new_span", id:id, begin:nspan['begin'], end:nspan['end']});
         }
 
@@ -2405,7 +1890,6 @@ $(document).ready(function() {
                 clearSpanSelection();
                 clearEntitySelection();
                 clearRelationSelection();
-                clearModificationSelection();
                 break;
             default :
         }
@@ -2422,6 +1906,7 @@ $(document).ready(function() {
                     entitiesPerSpan[edit.id] = new Array();
                     // rendering
                     renderSpan(edit.id, spanIds);
+                    indexPosition(edit.id);
                     // select
                     selectSpan(edit.id);
                     break;
@@ -2436,23 +1921,39 @@ $(document).ready(function() {
                     break;
                 case 'change_span_begin' :
                     //model
-                    spans[edit.id].begin = edit.new_begin;
+                    new_sid = getSid(edit.new_begin, spans[edit.id].end);
+                    spans[new_sid] = spans[edit.id];
+                    spans[new_sid].begin = edit.new_begin;
+                    entitiesPerSpan[new_sid] = entitiesPerSpan[edit.id];
+                    delete spans[edit.id];
+                    delete entitiesPerSpan[edit.id];
+                    spanIds = Object.keys(spans);
                     sortSpanIds(spanIds);
                     //rendering
                     destroySpan(edit.id);
-                    renderSpan(edit.id, spanIds);
+                    renderSpan(new_sid, spanIds);
                     // select
-                    selectSpan(edit.id);
+                    selectSpan(new_sid);
+                    // for undo
+                    edit.id = new_sid;
                     break;
                 case 'change_span_end' :
                     //model
-                    spans[edit.id].end = edit.new_end;
+                    new_sid = getSid(spans[edit.id].begin, edit.new_end);
+                    spans[new_sid] = spans[edit.id];
+                    spans[new_sid].end = edit.new_end;
+                    entitiesPerSpan[new_sid] = entitiesPerSpan[edit.id];
+                    delete spans[edit.id];
+                    delete entitiesPerSpan[edit.id];
+                    spanIds = Object.keys(spans);
                     sortSpanIds(spanIds);
                     //rendering
                     destroySpan(edit.id);
-                    renderSpan(edit.id, spanIds);
+                    renderSpan(new_sid, spanIds);
                     // select
-                    selectSpan(edit.id);
+                    selectSpan(new_sid);
+                    // for undo
+                    edit.id = new_sid;
                     break;
 
                 // entity operations
@@ -2697,76 +2198,16 @@ $(document).ready(function() {
         if (mode == 'view') {
             $('#ins_area').css('z-index', 10);
             $('#rel_area').removeAttr('style');
-
-            makeClones();
         } else if (mode == 'span') {
             $('#ins_area').removeAttr('style');
             $('#rel_area').css('z-index', -10);
-
-            destroyClones();
         } else if (mode == 'relation') {
             $('#ins_area').css('z-index', 10);
             $('#rel_area').removeAttr('style');
-
-            makeClones();
         }
     }
 
-
-    function makeClones() {
-        $('#clone_area').empty();
-
-        // clone entities
-        var clones = new Array();
-
-        for (var sid in spans) {
-            var span = $('#' + sid);
-
-            obj = new Object();
-            obj["id"] = "clone_" + sid;
-            obj["left"] = span.get(0).offsetLeft;
-            obj["top"] = span.get(0).offsetTop;
-            obj["width"] = span.innerWidth();
-            obj["height"] = span.innerHeight();
-            obj["title"] = '[' + sid + '] ' + spans[sid]["category"];
-            clones.push(obj);
-        }
-
-        // put smaller divs forward 
-        sortCloneByWidth(clones);
-        for (var i = 0; i < clones.length; i++) {
-            var obj = clones[i];
-            var div = '<div id="' + obj['id'] + '" '
-                    + 'class="clone_entity" '
-                    + 'style="position:absolute; '
-                    + 'left:'   + obj['left']  + 'px; '
-                    + 'top:'    + obj['top']  + 'px; '
-                    + 'width:'  + obj["width"] + 'px; '
-                    + 'height:' + obj["height"] +'px" '
-                    + 'title="' + obj['title'] + '"></div>';
-            $('#clone_area').append(div);
-        }
-
-        $('.clone_entity').off('click', spanClicked).on('click', spanClicked);
-    }
-
-
-    function destroyClones() {
-        $('#clone_area').empty();
-    }
-
-
-    function sortCloneByWidth(ary) {
-        function compare(a, b) {
-            return(b['width'] - a['width']);
-        }
-        ary.sort(compare);
-    }
-
-
-    /*
-     * conversion from HEX to RGBA color
-     */
+    // conversion from HEX to RGBA color
     function colorTrans(color, opacity) {
         var c = color.slice(1);
         var r = c.substr(0,2);
