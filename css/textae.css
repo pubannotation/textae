@@ -75,9 +75,9 @@
 
 .icon.pushed {
     cursor: auto;
-    -moz-box-shadow:    inset 2px 2px 5px #000000;
-    -webkit-box-shadow: inset 2px 2px 5px #000000;
-    box-shadow:         inset 2px 2px 5px #000000;
+    -moz-box-shadow:    inset 1px 1px 3px #000000;
+    -webkit-box-shadow: inset 1px 1px 3px #000000;
+    box-shadow:         inset 1px 1px 3px #000000;
 }
 
 #btn_read {
@@ -104,6 +104,10 @@
 
 #btn_replicate_auto {
     background: url("../images/btn_replicate_auto_16.png");
+}
+
+#btn_entity {
+    background: url("../images/btn_denote_16.png");
 }
 
 #btn_pallet {
@@ -201,7 +205,7 @@
     border-style: solid;
     border-color: #656565;
     border-width: 1px 0px 1px 0px;
-    background-color: rgba(200,200,255,0.7);
+    background-color: rgba(100,100,215,0.5);
     white-space: pre;
 }
 

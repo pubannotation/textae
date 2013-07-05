@@ -317,11 +317,14 @@ $(document).ready(function() {
         lastSavePtr = -1;
 
         enableButtonRead();
+        enableButtonReplicateAuto();
 
         changeButtonStateUndoRedo();
         changeButtonStateSave();
         changeButtonStateReplicate();
+        changeButtonStateEntity();
         changeButtonStateDelete();
+        changeButtonStatePallet();
         changeButtonStateCopy();
         changeButtonStatePaste();
 
@@ -329,7 +332,6 @@ $(document).ready(function() {
         // if (entityTypeDefault == null || targetUrl === "") disableButtonSpan();
         // if (relationTypeDefault == null || targetUrl === "") disableButtonRelation();
         // pushButtonSpan();
-        enableButtonPallet();
     }
 
 
@@ -619,12 +621,35 @@ $(document).ready(function() {
         $('.entity_type_label').off('mouseup', setEntityType).on('mouseup', setEntityType);
    }
 
+    function enableButtonEntity() {
+        $("#btn_entity").off('click', createEntity).on('click', createEntity);
+        renderButtonEnable($("#btn_entity"));
+    }
+
+    function disableButtonEntity() {
+        $("#btn_entity").off('click', createEntity);
+        renderButtonDisable($("#btn_entity"));
+    }
+
+    function changeButtonStateEntity() {
+        if (numSpanSelection() > 0) enableButtonEntity();
+        else disableButtonEntity();
+    }
 
     function enableButtonPallet() {
         $("#btn_pallet").off('click', showPallet).on('click', showPallet);
         renderButtonEnable($("#btn_pallet"));
     }
 
+    function disableButtonPallet() {
+        $("#btn_pallet").off('click', showPallet);
+        renderButtonDisable($("#btn_pallet"));
+    }
+
+    function changeButtonStatePallet() {
+        if (numEntitySelection() > 0) enableButtonPallet();
+        else disableButtonPallet();
+    }
 
     function showPallet(e) {
         var p = $('#entity_type_pallet');
@@ -686,7 +711,6 @@ $(document).ready(function() {
         $('.entity_type_radio').off('mouseup', setEntityTypeDefault).on('mouseup', setEntityTypeDefault);
         $('.entity_type_label').off('mouseup', setEntityType).on('mouseup', setEntityType);
    }
-
 
     function enableButtonPallet() {
         $("#btn_pallet").off('click', showPallet).on('click', showPallet);
@@ -767,9 +791,7 @@ $(document).ready(function() {
         var len = end - beg;
 
         var c; // index of current span
-        for (c = 0; c < spanIds.length; c++) {
-            if (spanIds[c] == sid) break;
-        }
+        for (c = 0; c < spanIds.length; c++) {if (spanIds[c] == sid) break}
 
         var begnode, begoff;
         var endnode, endoff;
@@ -905,6 +927,7 @@ $(document).ready(function() {
         }
 
         changeButtonStateReplicate();
+        changeButtonStateEntity();
         changeButtonStateDelete();
         changeButtonStatePaste();
         return false;
@@ -1008,12 +1031,12 @@ $(document).ready(function() {
             return true;
         }
 
+        var anchorPosition = getAnchorPosition(selection);
+        var focusPosition = getFocusPosition(selection);
+
         // no boundary crossing: normal -> create a entity
         if (selection.anchorNode.parentElement.id === selection.focusNode.parentElement.id) {
             clearSpanSelection();
-
-            var anchorPosition = getAnchorPosition(selection);
-            var focusPosition = getFocusPosition(selection);
 
             // switch the position when the selection is made from right to left
             if (anchorPosition > focusPosition) {
@@ -1064,20 +1087,26 @@ $(document).ready(function() {
             else if (numSpanSelection() == 1) {
                 var sid = popSpanSelection();
                 
-                if  (   // The focus node should be at one level above the selected node.
-                        ($('#' + sid).get(0).childNodes[0].parentNode.parentNode == selection.focusNode.parentNode)
-                        &&
-                        (sid == getSidByAnchorNode($('#' + sid), selection.anchorNode))
-                    ) {
-                        expandSpan(sid, selection);
+                // drag began inside the selected span (expansion)
+                if ((anchorPosition > spans[sid].begin) && (anchorPosition < spans[sid].end)) {
+                    // The focus node should be at one level above the selected node.
+                    if ($('#' + sid).get(0).parentNode.id == selection.focusNode.parentNode.id) expandSpan(sid, selection);
+                    else {
+                        selectSpan(sid);
+                        alert('A span cannot be expanded to make a boundary crossing.');
+                    }
                 }
-                else if (sid == getSidByFocusNode($('#' + sid), selection.focusNode)) {
-                    shortenSpan(sid, selection);
+
+                // drag ended inside the selected span (shortening)
+                else if ((focusPosition > spans[sid].begin) && (focusPosition < spans[sid].end)) {
+                    if ($('#' + sid).get(0).id == selection.focusNode.parentNode.id) shortenSpan(sid, selection);
+                    else {
+                        selectSpan(sid);
+                        alert('A span cannot be shrinked to make a boundary crossing.');
+                    }
                 }
-                else {
-                    selectSpan(sid);
-                    alert('A span cannot be expanded beyond its container.');
-                }
+
+                else alert('It is ambiguous for which span you want to adjust the boundary. Reselect the span, and try again.');
             }
             else {
                 alert('It is ambiguous for which span you want to adjust the boundary. Select the span, and try again.');
@@ -1142,7 +1171,9 @@ $(document).ready(function() {
         clearModificationSelection();
         $('#entity_type_pallet').css('display', 'none');
         changeButtonStateReplicate();
+        changeButtonStateEntity();
         changeButtonStateDelete();
+        changeButtonStatePallet();
         changeButtonStateCopy();
         changeButtonStatePaste();
     }
@@ -1248,53 +1279,6 @@ $(document).ready(function() {
         }
         if (edits.length > 0) makeEdits(edits);
     }
-
-
-    // to check if the anchorNode is inside the selected span
-    function getSidByAnchorNode(selected, anchorNode) {
-        var anchorRange = document.createRange();
-        anchorRange.selectNode(anchorNode);
-
-        // range of the selected element
-        var selectedRange = document.createRange();
-        selectedRange.selectNode(selected.get(0).childNodes[0]);
-
-        if (
-            anchorRange.compareBoundaryPoints(Range.START_TO_START, selectedRange) >= 0
-            &&
-            anchorRange.compareBoundaryPoints(Range.END_TO_END, selectedRange) <= 0
-            ) {
-            // if the anchorNode is inside the selected span, return the Id of the selected span
-            return selected.attr('id');
-        }
-
-        // if not, return the Id of the anchorNode
-        return anchorNode.parentElement.id;
-    }
-
-
-    // to check if the focusNode is inside the selected span
-    function getSidByFocusNode(selected, focusNode) {
-        var focusRange = document.createRange();
-        focusRange.selectNode(focusNode);
-
-        // range of the selected element
-        var selectedRange = document.createRange();
-        selectedRange.selectNode(selected.get(0).childNodes[0]);
-
-        if (
-            focusRange.compareBoundaryPoints(Range.START_TO_START, selectedRange) >= 0
-            &&
-            focusRange.compareBoundaryPoints(Range.END_TO_END, selectedRange) <= 0
-            ) {
-            // if the focusNode is inside the selected span, return the Id of the selected span
-            return selected.attr('id');
-        }
-
-        // if not, return the Id of the focusNode
-        return focusNode.parentElement.id;
-    }
-
 
     
     // search same strings
@@ -1408,6 +1392,12 @@ $(document).ready(function() {
 
         switch (e.keyCode) {
             case 46: // win delete / mac fn + delete
+            case 65: // 'a' key
+                getAnnotation();
+                break;
+            case 83: // 's' key
+                saveAnnotation();
+                break;
             case 68: // 'd' key
                 removeElements();
                 break;
@@ -1420,7 +1410,7 @@ $(document).ready(function() {
             case 86: // 'v' key
                 pasteEntities();
                 break;
-            case 84: // 't' key
+            case 81: // 'q' key
                 // show type selector
                 showPallet();
                 break;
@@ -1441,6 +1431,7 @@ $(document).ready(function() {
             case 90: // 'z' key
                 if (lastEditPtr > -1) {doUndo()}
                 break;
+            case 88: // 'x' key
             case 89: // 'y' key
                 if (lastEditPtr < editHistory.length - 1) {doRedo()}
                 break;
@@ -1636,6 +1627,9 @@ $(document).ready(function() {
         entityIdsSelected.length = 0;
     }
 
+    function numEntitySelection() {
+        return $('.entity.ui-selected').length;
+    }
 
     function createModification(pred) {
         var i;
@@ -1742,25 +1736,13 @@ $(document).ready(function() {
 
         var denotations = [];
         for (var e in entities) {
-            var span = {'begin':entities[e]['span'].split('-')[0], 'end':entities[e]['span'].split('-')[1]};
+            var span = {'begin':spans[entities[e]['span']].begin, 'end':spans[entities[e]['span']].end};
             denotations.push({'id':e, 'span':span, 'obj':entities[e]['type']});
         }
-
-        // var instancesArr = [];
-        // for (var i in instances) {instancesArr.push(instances[i])}
-
-        // var relationsArr = [];
-        // for (var i in relations) {relationsArr.push(relations[i])}
-
-        // var mofidicationsArr = [];
-        // for (var i in modifications) {mofidicationsArr.push(modifications[i])}
 
         var postData = {
             "text": sourceDoc,
             "denotations": denotations
-            // "instances": instancesArr,
-            // "relations": relationsArr,
-            // "modifications": modificationsArr
         }
 
         $.ajax({
@@ -2054,7 +2036,9 @@ $(document).ready(function() {
                 changeButtonStateUndoRedo();
                 changeButtonStateSave();
                 changeButtonStateReplicate();
+                changeButtonStateEntity();
                 changeButtonStateDelete();
+                changeButtonStatePallet();
                 changeButtonStateCopy();
                 changeButtonStatePaste();
         }
@@ -2523,6 +2507,7 @@ $(document).ready(function() {
                 $('#' + id).off('mouseover mouseout', entityPaneMouseHover).on('mouseover mouseout', entityPaneMouseHover);
                 $('#' + id).selectable({
                     stop: function() {
+                        changeButtonStatePallet();
                         changeButtonStateDelete();
                         changeButtonStateCopy();
                     }
