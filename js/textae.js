@@ -6,6 +6,7 @@ $(document).ready(function() {
     var replicateAuto = false;
 
     var sourceDoc;
+    var pars;
 
     // selected slements
     var spanIdsSelected;
@@ -402,7 +403,6 @@ $(document).ready(function() {
     }
 
 
-
     function indexEntityPositions(spanIds) {
         for (var s = 0; s < spanIds.length; s++) {
             var sid = spanIds[s];
@@ -435,28 +435,33 @@ $(document).ready(function() {
     }
 
     function renderAnnotation() {
-        // $("#text_box").html(sourceDoc);
         container = document.getElementById("body");
         docArea = document.getElementById("text_box");
-        docArea.innerHTML = sourceDoc;
 
+        docArea.innerHTML = sourceDoc;
         getLineSpace();
         container.style.paddingTop = lineSpace/2 + 'px';
 
+        docArea.innerHTML = sourceDoc.split("\n").map(function(par){return '<p>' + par + '</p>'}).join("\n");
+        pars = {};
+        var pid = 0;
+        var pre_len = 0;
+        $('#text_box p').each(function(){
+            var len = $(this).context.innerText.length;
+            pars['P' + pid] = {begin:pre_len, end:pre_len + len};
+            pre_len += len + 1;
+            $(this).attr('id', 'P' + pid++);
+        });
+
         $('#annotation_box').empty();
         renderEntityTypePallet();
-        // renderBlockTypePallet();
 
         renderSpans(spanIds);
         indexPositions(spanIds);
 
         getEntityRepSizes();
         renderEntitiesOfSpans(spanIds);
-
-        // renderRelations(relationIds);
-        // renderModifications(modificationIds);
     }
-
 
     function indexRelationSize(rids) {
         for (var i = 0; i < rids.length; i++) {
@@ -482,6 +487,13 @@ $(document).ready(function() {
             return((spans[a]['begin'] - spans[b]['begin']) || (spans[b]['end'] - spans[a]['end']));
         }
         sids.sort(compare);
+    }
+
+    function getPidBySid(sid) {
+        for (var pid in pars) {
+            if ((spans[sid].begin > pars[pid].begin) && (spans[sid].end < pars[pid].end)) return pid;
+        }
+        return null;
     }
 
     // 'Undo' button control
@@ -775,29 +787,18 @@ $(document).ready(function() {
         var element = document.createElement('span');
         element.setAttribute('id', sid);
         element.setAttribute('title', '[' + sid + '] ');
-        if (spans[sid].block) {
-            element.setAttribute('class', 'block');
-            element.setAttribute('type', spans[sid].type);
-            element.style.paddingTop = '25px';
-            element.style.paddingBottom = '25px';
-        }
-        else {
-            element.setAttribute('class', 'span');
-        }
-        // element.style.whiteSpace = 'pre';
+        element.setAttribute('class', 'span');
 
+        var pid = getPidBySid(sid);
         var beg = spans[sid].begin;
         var end = spans[sid].end;
         var len = end - beg;
 
         var c; // index of current span
-        for (c = 0; c < spanIds.length; c++) {if (spanIds[c] == sid) break}
+        for (c = 0; c < spanIds.length; c++) if (spanIds[c] == sid) break;
 
-        var begnode, begoff;
-        var endnode, endoff;
-
-        begnode = document.getElementById("text_box").childNodes[0];
-        begoff = beg;
+        var begnode = document.getElementById(pid).childNodes[0];
+        var begoff = beg - pars[pid].begin;
 
         // adjust the begin node and offset
         if (c > 0) {
@@ -807,21 +808,25 @@ $(document).ready(function() {
             if (spans[spanIds[p]].end > beg) {
                 begnode = document.getElementById(spanIds[p]).childNodes[0];
                 begoff  = beg - spans[spanIds[p]].begin;
-            } else {
-                // find the outermost preceding span
-                var pnode = document.getElementById(spanIds[p]);
-                while (pnode.parentElement &&
-                        spans[pnode.parentElement.id] &&
-                        spans[pnode.parentElement.id].end > spans[pnode.id].begin &&
-                        spans[pnode.parentElement.id].end < end) {pnode = pnode.parentElement}
+            }
 
-                begnode = pnode.nextSibling;
-                begoff = beg - spans[pnode.id].end;
+            else {
+                if (getPidBySid(spanIds[p]) == pid) {
+                    // find the outermost preceding span
+                    var pnode = document.getElementById(spanIds[p]);
+                    while (pnode.parentElement &&
+                            spans[pnode.parentElement.id] &&
+                            spans[pnode.parentElement.id].end > spans[pnode.id].begin &&
+                            spans[pnode.parentElement.id].end < end) {pnode = pnode.parentElement}
+
+                    begnode = pnode.nextSibling;
+                    begoff = beg - spans[pnode.id].end;
+                }
             }
         }
 
-        endnode = begnode;
-        endoff = begoff + len;
+        var endnode = begnode;
+        var endoff = begoff + len;
 
         // if there is an intervening span, adjust the end node and offset
         if ((c < spanIds.length - 1) && (end > spans[spanIds[c + 1]].begin)) {
@@ -1317,8 +1322,10 @@ $(document).ready(function() {
 
 
     function getFocusPosition(selection) {
-        // assumption: text_box only includes <span> elements that represents spans
-        var pos = (selection.focusNode.parentNode.id == 'text_box')? 0 : spans[selection.focusNode.parentNode.id]['begin'];
+        // assumption: text_box only includes <p> elements that contains <span> elements that represents spans.
+        var cid = selection.focusNode.parentNode.id
+        var pos = (cid == 'text_box')? 0 :
+                  (cid.charAt(0) == 'P')? pars[cid].begin : spans[cid].begin;
 
         var childNodes = selection.focusNode.parentElement.childNodes;
         for (var i = 0; childNodes[i] != selection.focusNode; i++) { // until the focus node
@@ -1330,8 +1337,10 @@ $(document).ready(function() {
 
 
     function getAnchorPosition(selection) {
-        // assumption: text_box only includes <span> elements that represents spans
-        var pos = (selection.anchorNode.parentNode.id == 'text_box')? 0 : spans[selection.anchorNode.parentNode.id]['begin'];
+        // assumption: text_box only includes <p> elements that contains <span> elements that represents spans.
+        var cid = selection.anchorNode.parentNode.id
+        var pos = (cid == 'text_box')? 0 :
+                  (cid.charAt(0) == 'P')? pars[cid].begin : spans[cid].begin;
 
         var childNodes = selection.anchorNode.parentNode.childNodes;
         for (var i = 0; childNodes[i] != selection.anchorNode; i++) { // until the anchor node
