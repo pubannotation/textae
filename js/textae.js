@@ -129,7 +129,6 @@ $(document).ready(function() {
                 crossDomain: true,
                 success: function(data) {
                     setConfig(data);
-                    // renderFrame();
                     getAnnotationFrom(targetUrl);
                 },
                 error: function() {
@@ -137,7 +136,6 @@ $(document).ready(function() {
                 }
             });
         } else {
-            // renderFrame();
             getAnnotationFrom(targetUrl);
         }
     }
@@ -179,17 +177,6 @@ $(document).ready(function() {
 
     function isDelimiter(char){
         return ($.inArray(char, delimiterCharacters) >= 0);
-    }
-
-
-    function renderFrame() {
-        if (entityTypeDefault) tableEntityTypes(entityTypes);
-        if (relationTypeDefault) tableRelationTypes(relationTypes);
-        if (!entityTypeDefault && !relationTypeDefault) $('#notice').css('display', 'block');
-
-        // tableEntityTypes(instanceTypes);
-        // tableModificationTypes(modificationTypes);
-        initSlider();
     }
 
 
@@ -322,6 +309,7 @@ $(document).ready(function() {
 
         enableButtonRead();
         enableButtonReplicateAuto();
+        enableButtonHelp();
 
         changeButtonStateUndoRedo();
         changeButtonStateSave();
@@ -457,6 +445,7 @@ $(document).ready(function() {
         });
 
         $('#annotation_box').empty();
+        renderHelp();
         renderEntityTypePallet();
 
         renderSpans(spanIds);
@@ -745,35 +734,6 @@ $(document).ready(function() {
     function color(type) {
         if (entityTypes && entityTypes[type] && entityTypes[type]['color']) return entityTypes[type]['color'];
         else null;
-    }
-
-    function tableRelationTypes(relationTypes) {
-        var html = '<table>';
-        html += '<tr><th colentity="2">Relation Types</th></tr>';
-
-        for (var r in relationTypes) {
-            var uri   = relationTypes[r]["uri"];
-            var color = relationTypes[r]["color"];
-
-            html += '<tr style="background-color:' + color  + '">';
-
-            html += '<td class="radio"><input type="radio" name="rtype" class="relation_type_radio"';
-            html += (r == relationTypeDefault)? 'title="default type" checked' : '';
-            html += '></td>';
-
-            html += '<td><div class="relation_type_label">' + r  + '</div></td>';
-
-            if (uri) html += '<td title="' + uri + '">' + '<a href="' + uri + '" target="_blank"><img src="images/link.png"></a></td>';
-
-            html += '</tr>';
-
-            var obj = new Object();
-            obj[r] = {paintStyle:{strokeStyle:color, lineWidth:2}};
-            jsPlumb.registerConnectionTypes(obj);
-        }
-
-        html += '</table>';
-        $('#relation_types').html(html);
     }
 
 
@@ -1178,6 +1138,7 @@ $(document).ready(function() {
         clearRelationSelection();
         clearModificationSelection();
         $('#entity_type_pallet').css('display', 'none');
+        $('#help').css('display', 'none');
         changeButtonStateReplicate();
         changeButtonStateEntity();
         changeButtonStateDelete();
@@ -1571,11 +1532,8 @@ $(document).ready(function() {
     }
 
     function changeButtonStateCopy() {
-        if ($(".ui-selected").length > 0) {
-            enableButtonCopy();
-        } else {
-            disableButtonCopy();
-        }
+        if ($(".ui-selected").length > 0) enableButtonCopy();
+        else disableButtonCopy();
     }
 
     function copyEntities() {
@@ -1584,7 +1542,6 @@ $(document).ready(function() {
              clipBoard.push(this.id);
          });
     }
-
 
     // 'paste' button control
     function enableButtonPaste() {
@@ -1699,6 +1656,40 @@ $(document).ready(function() {
                 selectModification(id);
             }
         }
+    }
+
+    function renderHelp() {
+        $('#annotation_box').append("<div id='help'></div>");
+        hideHelp();
+        $('#help').off('mouseup', hideHelp).on('mouseup', hideHelp);
+        $('#help').html("<h3>Help</h3>" +
+                    "<p>今ご覧になっているTextAEはPubAnnotationで管理しているアノテーションのビューアもしくはエディタです。</p>" +
+                    "<p>PubAnnotationではPubMedのアブストラクトにアノテーションを付けることができます。</p>" +
+                    "<p>現在はEntrez Gene IDによる自動アノテーションおよびそのマニュアル修正作業が可能となっています。" +
+                    "今後は自動アノテーションの種類を増やす計画です。</p>" +
+                    "<p>間違ったアノテーションも目に付くと思いますが、それを簡単に直して自分のプロジェクトにセーブできるのがポイントです。</p>" +
+                    "<p>自分のアノテーションを作成するためにはPubAnnotation上で自分のプロジェクトを作る必要があります。" +
+                    "作成したアノテーションは後で纏めてダウンロードしたり共有することができます。</p>" +
+                    "<p>まだ開発中のサービスであり、実装すべき機能が残っています。" +
+                    "ユーザの皆様のご意見を大事にして開発していきたいと考えておりますので、ご意見などございましたら教えていただければ幸いです。</p>");
+    }
+
+    function showHelp() {
+        var p = $('#help');
+        p.css('display', 'block');
+        p.center();
+        return false;
+    }
+
+    function hideHelp() {
+        $('#help').css('display', 'none');
+        return false;
+    }
+    
+    // 'Help' button control
+    function enableButtonHelp() {
+        $("#btn_help").off('click', showHelp).on('click', showHelp);
+        renderButtonEnable($("#btn_help"))
     }
 
     // 'Read' button control

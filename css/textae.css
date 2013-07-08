@@ -280,7 +280,7 @@
     font-size: xx-small;
     overflow-x: visible;
     overflow-y: auto;
-    z-index: 255;
+    z-index: 250;
     -webkit-user-select: none;
     -khtml-user-select: none;
     -moz-user-select: none;
@@ -295,6 +295,15 @@
     border-collapse: collapse;
     border-width:1px;
     border-color:#AAAAAA;
+}
+
+#help {
+    border: solid 4px #aaaa88;
+    background-color: rgba(255,255,225,1.0);
+    width: 400px;
+    padding: 4px;
+    z-index: 255;
+    font-size: small;
 }
 
 .pallet th {
