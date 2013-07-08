@@ -1138,7 +1138,7 @@ $(document).ready(function() {
         clearRelationSelection();
         clearModificationSelection();
         $('#entity_type_pallet').css('display', 'none');
-        $('#help').css('display', 'none');
+        hideHelp();
         changeButtonStateReplicate();
         changeButtonStateEntity();
         changeButtonStateDelete();
@@ -1364,18 +1364,24 @@ $(document).ready(function() {
         if (isCtrl && e.keyCode == 18) {isCtrlAlt = true}
 
         switch (e.keyCode) {
-            case 46: // win delete / mac fn + delete
+            case 27: // 'ESC' key
+                cancelSelect();
+                break;
             case 65: // 'a' key
                 getAnnotation();
                 break;
             case 83: // 's' key
                 saveAnnotation();
                 break;
+            case 46: // win delete / mac fn + delete
             case 68: // 'd' key
                 removeElements();
                 break;
             case 69: // 'e' key
                 createEntity();
+                break;
+            case 72: // 'h' key
+                showHelp();
                 break;
             case 67: // 'c' key
                 copyEntities();
