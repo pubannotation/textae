@@ -143,8 +143,11 @@ $(document).ready(function() {
     }
 
 
-    function showSource() {
-        if (targetUrl != "") $('#message').html("(source: " + targetUrl + ")");
+    function showTarget() {
+        if (targetUrl != "") {
+            var targetDoc = targetUrl.replace(/\/annotations\.json$/, '');
+            $('#message').html("(Target: <a href='" + targetDoc + "'>" + targetDoc + "</a>)");
+        }
     }
 
 
@@ -329,7 +332,7 @@ $(document).ready(function() {
         changeButtonStateCopy();
         changeButtonStatePaste();
 
-        showSource();
+        showTarget();
         // if (entityTypeDefault == null || targetUrl === "") disableButtonSpan();
         // if (relationTypeDefault == null || targetUrl === "") disableButtonRelation();
         // pushButtonSpan();
@@ -1763,7 +1766,7 @@ $(document).ready(function() {
             success: function(res){
                 $('#message').html("annotation saved").fadeIn().fadeOut(5000, function() {
                     $(this).html('').removeAttr('style');
-                    showSource();
+                    showTarget();
                 });
                 lastSavePtr = lastEditPtr;
                 changeButtonStateSave();
@@ -1772,7 +1775,7 @@ $(document).ready(function() {
             error: function(res, textStatus, errorThrown){
                 $('#message').html("could not save").fadeIn().fadeOut(5000, function() {
                     $(this).html('').removeAttr('style');
-                    showSource();
+                    showTarget();
                 });
                 $('#textae_container').css('cursor', 'auto');
             }
