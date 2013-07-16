@@ -645,7 +645,7 @@ $(document).ready(function() {
     function newLabel() {
         if ($(".entity.ui-selected").length > 0) {
             var new_type = prompt("Please enter a new label","");
-            if (entityTypes[new_type] == undefined) 
+            if (entityTypes[new_type] == undefined) {
                 entityTypes[new_type] = {};
                 renderEntityTypePallet();
             }
