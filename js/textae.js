@@ -612,7 +612,9 @@ $(document).ready(function() {
         }
         pallet += '</table></div>';
 
-        $('#annotation_box').append(pallet);
+
+        if ($('#entity_type_pallet').length == 0) $('#annotation_box').append(pallet);
+        else                                      $('#entity_type_pallet').html(pallet);
 
         var p = $('#entity_type_pallet');
         p.css('position', 'absolute');
@@ -638,6 +640,24 @@ $(document).ready(function() {
     function changeButtonStateEntity() {
         if (numSpanSelection() > 0) enableButtonEntity();
         else disableButtonEntity();
+    }
+
+    function newLabel() {
+        if ($(".entity.ui-selected").length > 0) {
+            var new_type = prompt("Please enter a new label","");
+            if (entityTypes[new_type] == undefined) 
+                entityTypes[new_type] = {};
+                renderEntityTypePallet();
+            }
+
+            var edits = [];
+            $(".entity.ui-selected").each(function() {
+                var eid = this.id;
+                edits.push({action:'change_entity_type', id:eid, old_type:entities[eid].type, new_type:new_type});
+            });
+            if (edits.length > 0) makeEdits(edits);
+        }
+        return false;
     }
 
     function enableButtonPallet() {
@@ -1392,6 +1412,10 @@ $(document).ready(function() {
             case 81: // 'q' key
                 // show type selector
                 showPallet();
+                break;
+            case 87: // 'w' key
+                // show type selector
+                newLabel();
                 break;
             case 82: // 'r' key:
                 // replicate span annotatino
