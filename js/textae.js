@@ -317,6 +317,7 @@ $(document).ready(function() {
         changeButtonStateEntity();
         changeButtonStateDelete();
         changeButtonStatePallet();
+        changeButtonStateNewLabel();
         changeButtonStateCopy();
         changeButtonStatePaste();
 
@@ -438,7 +439,8 @@ $(document).ready(function() {
         var pid = 0;
         var pre_len = 0;
         $('#text_box p').each(function(){
-            var len = $(this).context.innerText.length;
+            // var len = $(this).context.innerText.length;
+            var len = $(this).text().length;
             pars['P' + pid] = {begin:pre_len, end:pre_len + len};
             pre_len += len + 1;
             $(this).attr('id', 'P' + pid++);
@@ -660,6 +662,23 @@ $(document).ready(function() {
         return false;
     }
 
+
+    function enableButtonNewLabel() {
+        $("#btn_new_label").off('click', newLabel).on('click', newLabel);
+        renderButtonEnable($("#btn_new_label"));
+    }
+
+    function disableButtonNewLabel() {
+        $("#btn_new_label").off('click', newLabel);
+        renderButtonDisable($("#btn_new_label"));
+    }
+
+    function changeButtonStateNewLabel() {
+        if (numEntitySelection() > 0) enableButtonNewLabel();
+        else disableButtonNewLabel();
+    }
+
+
     function enableButtonPallet() {
         $("#btn_pallet").off('click', showPallet).on('click', showPallet);
         renderButtonEnable($("#btn_pallet"));
@@ -734,11 +753,6 @@ $(document).ready(function() {
 
         $('.entity_type_radio').off('mouseup', setEntityTypeDefault).on('mouseup', setEntityTypeDefault);
         $('.entity_type_label').off('mouseup', setEntityType).on('mouseup', setEntityType);
-   }
-
-    function enableButtonPallet() {
-        $("#btn_pallet").off('click', showPallet).on('click', showPallet);
-        renderButtonEnable($("#btn_pallet"));
     }
 
 
@@ -1163,6 +1177,7 @@ $(document).ready(function() {
         changeButtonStateEntity();
         changeButtonStateDelete();
         changeButtonStatePallet();
+        changeButtonStateNewLabel();
         changeButtonStateCopy();
         changeButtonStatePaste();
     }
@@ -2072,6 +2087,7 @@ $(document).ready(function() {
                 changeButtonStateEntity();
                 changeButtonStateDelete();
                 changeButtonStatePallet();
+                changeButtonStateNewLabel();
                 changeButtonStateCopy();
                 changeButtonStatePaste();
         }
@@ -2541,6 +2557,7 @@ $(document).ready(function() {
                 $('#' + id).selectable({
                     stop: function() {
                         changeButtonStatePallet();
+                        changeButtonStateNewLabel();
                         changeButtonStateDelete();
                         changeButtonStateCopy();
                     }

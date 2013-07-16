@@ -114,6 +114,10 @@
     background: url("../images/btn_pallet_16.png");
 }
 
+#btn_new_label {
+    background: url("../images/btn_new_label_16.png");
+}
+
 #btn_delete {
     background: url("../images/btn_delete_16.png");
 }
