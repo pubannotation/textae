@@ -483,7 +483,7 @@ $(document).ready(function() {
 
     function getPidBySid(sid) {
         for (var pid in pars) {
-            if ((spans[sid].begin > pars[pid].begin) && (spans[sid].end < pars[pid].end)) return pid;
+            if ((spans[sid].begin >= pars[pid].begin) && (spans[sid].end <= pars[pid].end)) return pid;
         }
         return null;
     }
