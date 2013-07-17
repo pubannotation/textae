@@ -134,6 +134,10 @@
     background: url("../images/btn_help_16.png");
 }
 
+#btn_about {
+    background: url("../images/btn_about_16.png");
+}
+
 #footer {
     opacity: 0.9;
     width: 65em;
@@ -299,6 +303,15 @@
     border-collapse: collapse;
     border-width:1px;
     border-color:#AAAAAA;
+}
+
+#about {
+    border: solid 4px #aaaa88;
+    background-color: rgba(255,255,225,1.0);
+    width: 400px;
+    padding: 4px;
+    z-index: 255;
+    font-size: small;
 }
 
 #help {

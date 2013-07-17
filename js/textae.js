@@ -310,6 +310,7 @@ $(document).ready(function() {
         enableButtonRead();
         enableButtonReplicateAuto();
         enableButtonHelp();
+        enableButtonAbout();
 
         changeButtonStateUndoRedo();
         changeButtonStateSave();
@@ -448,6 +449,7 @@ $(document).ready(function() {
 
         $('#annotation_box').empty();
         renderHelp();
+        renderAbout();
         renderEntityTypePallet();
 
         renderSpans(spanIds);
@@ -1173,6 +1175,7 @@ $(document).ready(function() {
         clearModificationSelection();
         $('#entity_type_pallet').css('display', 'none');
         hideHelp();
+        hideAbout();
         changeButtonStateReplicate();
         changeButtonStateEntity();
         changeButtonStateDelete();
@@ -1707,16 +1710,7 @@ $(document).ready(function() {
         $('#annotation_box').append("<div id='help'></div>");
         hideHelp();
         $('#help').off('mouseup', hideHelp).on('mouseup', hideHelp);
-        $('#help').html("<h3>Help</h3>" +
-                    "<p>今ご覧になっているTextAEはPubAnnotationで管理しているアノテーションのビューアもしくはエディタです。</p>" +
-                    "<p>PubAnnotationではPubMedのアブストラクトにアノテーションを付けることができます。</p>" +
-                    "<p>現在はEntrez Gene IDによる自動アノテーションおよびそのマニュアル修正作業が可能となっています。" +
-                    "今後は自動アノテーションの種類を増やす計画です。</p>" +
-                    "<p>間違ったアノテーションも目に付くと思いますが、それを簡単に直して自分のプロジェクトにセーブできるのがポイントです。</p>" +
-                    "<p>自分のアノテーションを作成するためにはPubAnnotation上で自分のプロジェクトを作る必要があります。" +
-                    "作成したアノテーションは後で纏めてダウンロードしたり共有することができます。</p>" +
-                    "<p>まだ開発中のサービスであり、実装すべき機能が残っています。" +
-                    "ユーザの皆様の声を大事にして開発していきたいと考えておりますので、ご意見などございましたら教えていただければ幸いです。</p>");
+        $('#help').html("<h3>Help (Keyboard short-cuts)</h3><img src='images/keyhelp.png' />");
     }
 
     function showHelp() {
@@ -1736,6 +1730,42 @@ $(document).ready(function() {
         $("#btn_help").off('click', showHelp).on('click', showHelp);
         renderButtonEnable($("#btn_help"))
     }
+
+    function renderAbout() {
+        $('#annotation_box').append("<div id='about'></div>");
+        hideAbout();
+        $('#about').off('mouseup', hideAbout).on('mouseup', hideAbout);
+        $('#about').html("<h3>About TextAE (Text Annotation Editor)</h3>" +
+                    "<p>今ご覧になっているTextAEはPubAnnotationで管理しているアノテーションのビューアもしくはエディタです。</p>" +
+                    "<p>PubAnnotationではPubMedのアブストラクトにアノテーションを付けることができます。</p>" +
+                    "<p>現在はEntrez Gene IDによる自動アノテーションおよびそのマニュアル修正作業が可能となっています。" +
+                    "今後は自動アノテーションの種類を増やす計画です。</p>" +
+                    "<p>間違ったアノテーションも目に付くと思いますが、それを簡単に直して自分のプロジェクトにセーブできるのがポイントです。</p>" +
+                    "<p>自分のアノテーションを作成するためにはPubAnnotation上で自分のプロジェクトを作る必要があります。" +
+                    "作成したアノテーションは後で纏めてダウンロードしたり共有することができます。</p>" +
+                    "<p>まだ開発中のサービスであり、実装すべき機能が残っています。" +
+                    "ユーザの皆様の声を大事にして開発していきたいと考えておりますので、ご意見などございましたら教えていただければ幸いです。</p>");
+    }
+
+    function showAbout() {
+        var p = $('#about');
+        p.css('display', 'block');
+        p.center();
+        return false;
+    }
+
+    function hideAbout() {
+        $('#about').css('display', 'none');
+        return false;
+    }
+    
+    // 'About' button control
+    function enableButtonAbout() {
+        $("#btn_about").off('click', showAbout).on('click', showAbout);
+        renderButtonEnable($("#btn_about"))
+    }
+
+
 
     // 'Read' button control
     function enableButtonRead() {
