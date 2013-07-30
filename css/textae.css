@@ -73,8 +73,9 @@ a {
 #doc_area {
     margin: 0px;
     padding: 120px 0px;
-    line-height: 600%;
-    background-color: rgba(255,255,255,0.5);
+    line-height: 800%;
+    background-color: white;
+    /*background-color: rgba(255,255,255,0.5);*/
 }
 
 #ins_area {
