@@ -166,7 +166,7 @@
 
 #text_box {
     display: inline;
-    line-height: 600%;
+    line-height: 400%;
     /*background-color: rgba(255,255,255,0.5);*/
 }
 
@@ -209,12 +209,16 @@
 
 
 .span {
-    display:inline;
+    /*display: inline-block;*/
+    display: inline;
     border-style: solid;
     border-color: #656565;
     border-width: 1px 0px 1px 0px;
     background-color: rgba(100,100,215,0.5);
     white-space: pre;
+    /*margin-top: 50px;*/
+    /*width: 100px;*/
+    /*text-align: center;*/
 }
 
 .span:hover {

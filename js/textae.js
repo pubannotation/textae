@@ -2585,6 +2585,13 @@ $(document).ready(function() {
                 // $('#'+id).css('overflow', 'hidden');
                 $('#' + id).off('mouseover mouseout', entityPaneMouseHover).on('mouseover mouseout', entityPaneMouseHover);
                 $('#' + id).selectable({
+                    start: function(e, ui) {
+                        if (e.ctrlKey) {}
+                        else {
+                            clearSpanSelection();
+                            clearEntitySelection();
+                        }
+                    },
                     stop: function() {
                         changeButtonStatePallet();
                         changeButtonStateNewLabel();
