@@ -1802,9 +1802,10 @@ $(document).ready(function() {
     }
 
     jQuery.fn.center = function () {
+        var container = $("#textae_container");
         this.css("position","absolute");
-        this.css("top", ( $(window).height() - this.height() ) / 2+$(window).scrollTop() + "px");
-        this.css("left", ( $(window).width() - this.width() ) / 2+$(window).scrollLeft() + "px");
+        this.css("top", ( container.height() - this.height() ) / 2+container.scrollTop() + "px");
+        this.css("left", ( container.width() - this.width() ) / 2+container.scrollLeft() + "px");
         return this;
     };
 
