@@ -67,10 +67,10 @@ $(document).ready(function() {
     var lastEditPtr;
     var editHistoryLastSavePtr;
 
-    var entityHeight = 0;
-    var entityPaneWidthGap = 0;
-    var entityPaneHeightMargin = 0;
-    var objectGap = 6;
+    var typeHeight = 0;
+    var gridWidthGap = 0;
+    var typeMarginTop = 12;
+    var typeMarginBottom = 2;
     var palletHeightMax = 100;
 
     var mouseX;
@@ -80,16 +80,20 @@ $(document).ready(function() {
         mouseY = e.pageY - this.offsetTop;
     });
 
-    function getEntityRepSizes() {
-        var div = '<div id="temp_pane" class="entity_pane" style="width:10px; height:auto"></div>';
+    function getSizes() {
+        var div = '<div id="temp_grid" class="grid" style="width:10px; height:auto"></div>';
         $('#annotation_box').append(div);
-        div = '<div id="temp_entity" class="entity" title="[Temp] Temp" >T0</div>';
-        $('#temp_pane').append(div);
 
+        div = '<div id="temp_type" class="type" title="[Temp] Temp" >T0</div>';
+        $('#temp_grid').append(div);
+
+        div = '<div id="temp_instance_pane" class="instance_pane"><div id="temp_entity" class="entity"></div></div>';
+        $('#temp_type').append(div);
+
+        gridWidthGap = $('#temp_grid').outerWidth() - 10;
+        typeHeight = $('#temp_type').outerHeight();
         entityHeight = $('#temp_entity').outerHeight();
-        entityPaneWidthGap = $('#temp_pane').outerWidth() - 10;
-        entityPaneHeightMargin = $('#temp_pane').outerHeight() - entityHeight;
-        $('#temp_pane').remove();
+        $('#temp_grid').remove();
     }
 
     getUrlParameters();
@@ -337,6 +341,7 @@ $(document).ready(function() {
         relations = new Object();
 
         entitiesPerSpan = new Object();
+        typesPerSpan = new Object();
         positions = new Object();
         connectors = new Object();
 
@@ -352,6 +357,12 @@ $(document).ready(function() {
                 if (!entityTypes[d['obj']]) entityTypes[d['obj']] = {};
                 if (entityTypes[d['obj']]['count']) entityTypes[d['obj']]['count']++;
                 else entityTypes[d['obj']]['count'] = 1;
+
+                var tid = getTid(sid, d['obj']);
+                if (typesPerSpan[sid]) {
+                    if (typesPerSpan[sid].indexOf(tid) < 0) typesPerSpan[sid].push(tid);
+                } 
+                else typesPerSpan[sid] = [tid];
 
                 if (entitiesPerSpan[sid]) entitiesPerSpan[sid].push(d['id']);
                 else entitiesPerSpan[sid] = [d['id']];
@@ -370,56 +381,28 @@ $(document).ready(function() {
     }
 
 
+    // span Id
     function getSid(begin, end) {
         return 'S' + begin + '-' + end;
     }
 
-
-    function indexPositions(spanIdsSelected) {
-        indexSpanPositions(spanIdsSelected);
-        // indexEntityPositions(spanIdsSelected); // note that this function takes spans not instances.
+    // type id
+    function getTid(sid, type) {
+        return sid + '-' + type;
     }
 
-
-    function indexSpanPositions(spanIds) {
-        for (var i = 0; i < spanIds.length; i++) indexPosition(spanIds[i]);
+    function indexPositions(ids) {
+        for (var i in ids) indexPosition(ids[i]);
     }
-
 
     function indexPosition(id) {
         var e = $('#' + id);
         positions[id] = {};
-        positions[id]["top"]    = e.get(0).offsetTop;
-        positions[id]["left"]   = e.get(0).offsetLeft;
-        positions[id]["width"]  = e.outerWidth();
-        positions[id]["height"] = e.outerHeight();
+        positions[id].top    = e.get(0).offsetTop;
+        positions[id].left   = e.get(0).offsetLeft;
+        positions[id].width  = e.outerWidth();
+        positions[id].height = e.outerHeight();
     }
-
-
-    function indexEntityPositions(spanIds) {
-        for (var s = 0; s < spanIds.length; s++) {
-            var sid = spanIds[s];
-            var iids = instancesPerspan[sid];
-            var num = iids.length;
-
-            for (var i = 0; i < num; i++) {
-                var iid = iids[i];
-                var offset;
-                var p = i + 1;
-                if(p % 2 == 0) {
-                    offset = -(insMargin + insWidth + insBorder) * Math.floor(p/2);
-                } else {
-                    offset = +(insMargin + insWidth + insBorder) * Math.floor(p/2);
-                }
-                if (num % 2 == 0) {offset += (insWidth / 2 + insBorder);}
-
-                positions[iid] = {};
-                positions[iid]["top"]    = positions[sid]["top"] - insHeight - insBorder * 2;
-                positions[iid]["center"] = positions[sid]["center"] - insWidth/2 - insBorder + offset;
-            }
-        }
-    }
-
 
     function getLineSpace() {
         var lines = docArea.getClientRects();
@@ -455,7 +438,7 @@ $(document).ready(function() {
         renderSpans(spanIds);
         indexPositions(spanIds);
 
-        getEntityRepSizes();
+        getSizes();
         renderEntitiesOfSpans(spanIds);
     }
 
@@ -2023,7 +2006,7 @@ $(document).ready(function() {
                     entities[edit.id] = {id:edit.id, span:edit.span, type:edit.type};
                     entitiesPerSpan[edit.span].push(edit.id);
                     // rendering
-                    renderEntityPaneAsso(edit.span);
+                    renderGridAsso(edit.span);
                     renderEntity(edit.id);
                     // select
                     selectEntity(edit.id);
@@ -2035,7 +2018,7 @@ $(document).ready(function() {
                     arr.splice(arr.indexOf(edit.id), 1);
                     //rendering
                     destroyEntity(edit.id);
-                    renderEntityPaneAsso(edit.span);
+                    renderGridAsso(edit.span);
                     break;
                 case 'change_entity_type' :
                     //model
@@ -2096,9 +2079,8 @@ $(document).ready(function() {
 
         // update rendering
         indexPositions(spanIds);
-        renderEntityPanes(spanIds);
+        renderGrids(spanIds);
 
-        // positionEntities(Object.keys(instances));
         // renewConnections(Object.keys(relations));
 
         if (mode == 'view' || mode =='relation') {
@@ -2493,14 +2475,12 @@ $(document).ready(function() {
         }
     }
 
-
-    function destroyRelation (rid) {
+    function destroyRelation(rid) {
         var c = connectors[rid];
         var endpoints = c.endpoints;
         jsPlumb.deleteEndpoint(endpoints[0]);
         jsPlumb.deleteEndpoint(endpoints[1]);
     }
-
 
     function renderEntitiesOfSpans(sids) {
         for (var s = sids.length - 1; s >= 0; s--) renderEntitiesOfSpan(sids[s]);
@@ -2514,77 +2494,68 @@ $(document).ready(function() {
     }
 
     function renderEntitiesOfSpan(sid) {
-        renderEntityPane(sid);
+        renderGrid(sid);
         for (var i = 0; i < entitiesPerSpan[sid].length; i++) {
             var eid = entitiesPerSpan[sid][i];
             renderEntity(eid);
         }
     }
 
-
-    function isSpanEmbedded (s1, s2) {
+    function isSpanEmbedded(s1, s2) {
         return (s1.begin >= s2.begin) && (s1.end <= s2.end)
     }
 
-    function renderEntityPanes(sids) {
-        for (var s = sids.length - 1; s >= 0; s--) renderEntityPane(spanIds[s]);
+    function renderGrids(sids) {
+        for (var s = sids.length - 1; s >= 0; s--) renderGrid(spanIds[s]);
     }
 
     // render the entity pane of a given span and its dependent spans.
-    function renderEntityPaneAsso(sid) {
-        renderEntityPane(sid);
+    function renderGridAsso(sid) {
+        renderGrid(sid);
 
         // see if the pane of the parent node needs to be updated
         var pnode = document.getElementById(sid).parentElement;
         while (pnode && pnode.id && spans[pnode.id]) {
-            renderEntityPaneAsso(pnode.id);
+            renderGridAsso(pnode.id);
             pnode = pnode.parentElement;
         }
     }
 
-    function renderEntityPane(sid) {
-        var id = 'D' + sid;
+    function renderGrid(sid) {
+        var id = 'G' + sid;
 
         if (entitiesPerSpan[sid].length < 1) {
-            var pane = $('#' + id);
-            if (pane.length > 0) {
-                pane.remove();
+            var grid = $('#' + id);
+            if (grid.length > 0) {
+                grid.remove();
                 delete positions[id];
             }
             return null;
         }
         else {
-            // decide the bottom
-            var bottom = positions[sid].top - objectGap;
+            // decide the offset
+            var offset = typeMarginBottom;
+
             // check the following spans that are embedded in the current span.
             var c = spanIds.indexOf(sid)
             for (var f = c + 1; (f < spanIds.length) && isSpanEmbedded(spans[spanIds[f]], spans[spanIds[c]]); f++) {
-                if (positions['D' + spanIds[f]] && (positions['D' + spanIds[f]]['top'] < bottom)) bottom = positions['D' + spanIds[f]]['top'] - objectGap;
+                var cid = 'G' + spanIds[f];
+                if (positions[cid] && ((positions[cid].offset + positions[cid].height) < offset)) offset = (positions[cid].offset + positions[cid].height) + typeMarginTop + typeMarginBottom;
             }
 
-            // decide the top
-            var heightMax = lineSpace - (positions[sid].top - bottom) - objectGap;
-            // count the number of spans that embed the current span.
-            var pcount = 0;
-            for (var pnode = document.getElementById(sid).parentElement; pnode && pnode.id && spans[pnode.id]; pnode = pnode.parentElement) {
-                pcount++;
-            }
-            heightMax = heightMax - (pcount * (entityHeight + entityPaneHeightMargin));
-
-            var n = entitiesPerSpan[sid].length;
-            var paneHeight = n * entityHeight;
-            var paneHeightView = (paneHeight < heightMax)? paneHeight : heightMax;
+            var n = typesPerSpan[sid].length;
+            var gridHeight = n * (typeHeight + typeMarginBottom + typeMarginTop);
 
             positions[id]           = {}
-            positions[id]['top']    = bottom - paneHeightView;
+            positions[id]['offset'] = offset;
+            positions[id]['top']    = positions[sid].top - offset - gridHeight;
             positions[id]['left']   = positions[sid].left;
-            positions[id]['width']  = positions[sid].width - entityPaneWidthGap;
-            positions[id]['height'] = paneHeightView;
+            positions[id]['width']  = positions[sid].width - gridWidthGap;
+            positions[id]['height'] = gridHeight;
 
             if ($('#' + id).length == 0) {
-                createDiv(id, 'entity_pane', positions[id].top, positions[id].left, positions[id].width, positions[id].height);
-                // $('#'+id).css('overflow', 'hidden');
-                $('#' + id).off('mouseover mouseout', entityPaneMouseHover).on('mouseover mouseout', entityPaneMouseHover);
+                createDiv(id, 'grid', positions[id].top, positions[id].left, positions[id].width, positions[id].height);
+                $('#' + id).off('mouseover mouseout', gridMouseHover).on('mouseover mouseout', gridMouseHover);
                 $('#' + id).selectable({
                     start: function(e, ui) {
                         if (e.ctrlKey) {}
@@ -2601,41 +2572,47 @@ $(document).ready(function() {
                     }
                 });
             } else {
-                var pane = $('#' + id);
-                pane.css('top',  positions[id]['top']);
-                pane.css('left', positions[id]['left']);
-                if (pane.css('width')  != 'auto') pane.css('width',  positions[id]['width']);
-                if (pane.css('height') != 'auto') pane.css('height', positions[id]['height']);
+                var grid = $('#' + id);
+                grid.css('top',  positions[id]['top'] + positions[sid]['top']);
+                grid.css('left', positions[id]['left']);
             }
             return id;
         }
     }
 
-    function entityPaneMouseHover(e) {
-        var pane = $(this);
-        var id = pane.attr('id');
+    function gridMouseHover(e) {
+        var grid = $(this);
+        var id = grid.attr('id');
 
         if (e.type == 'mouseover') {
-            // $(this).css('overflow', 'visible');
-            pane.css('width', 'auto');
-            pane.css('height', 'auto');
-            if (pane.outerWidth() < positions[id]['width']) pane.css('width', positions[id]['width']);
-            pane.css('z-index', '254');
+            grid.css('height', 'auto');
+            if (grid.outerWidth() < positions[id]['width']) grid.css('width', positions[id]['width']);
+            grid.css('z-index', '254');
         }
         else {
-            // pane.css('overflow', 'hidden');
-            pane.css('top', positions[id]['top']);
-            pane.css('width', positions[id]['width']);
-            pane.css('height', positions[id]['height']);
-            pane.css('z-index', '');
+            grid.css('height', positions[id]['height']);
+            grid.css('z-index', '');
         }
     }
 
-
-    function destroyEntityPane(sid) {
-        $('#D' + sid).remove();
+    function positionGrids(sids) {
+        for (var s = sids.length - 1; s >= 0; s--) positionGrid(spanIds[s]);
     }
 
+    function positionGrid(sid) {
+        var gid = 'G' + sid
+        var grid = $('#' + gid);
+        if (grid.length > 0) {
+            positions[gid].top  = positions[sid].top - positions[gid].offset - positions[gid].height;
+            positions[gid].left = positions[sid].left;
+            grid.css('top',  positions[gid].top);
+            grid.css('left', positions[sid].left);
+        }
+    }
+
+    function destroyGrid(sid) {
+        $('#G' + sid).remove();
+    }
 
     function createDiv(id, cls, top, left, width, height, title) {
         $('#annotation_box').append('<div id="' + id + '"></div');
@@ -2650,23 +2627,38 @@ $(document).ready(function() {
         return id;
     }
 
+    function renderType(type, sid) {
+        var tid = getTid(sid, type);
 
-    function renderEntity(eid) {
-        var entity = entities[eid];
-        var type = entity['type'];
-        var sid  = entity['span'];
-
-        if ($('#' + eid).length == 0) {
-            var div = '<div id="' + eid +'" class="entity"></div>';
-            $('#D' + sid).append(div);
-            $('#' + eid).addClass('ui-selectee');
+        if ($('#' + tid).length == 0) {
+            $('#G' + sid).append('<div id="' + tid +'"></div>');
+            var t = $('#' + tid);
+            t.addClass('type');
+            t.css('background-color', color(type)? color(type) : '');
+            t.css('margin-top', typeMarginTop);
+            t.css('margin-bottom', typeMarginBottom);
+            t.attr('title', type);
+            t.append('<div class="instance_pane"></div>');
+            t.append(type);
         }
 
-        var e = $('#' + eid);
-        e.css('background-color', color(type)? color(type) : '');
-        e.attr('title', '[' + eid + '] ' + type)
-        e.text(type);
-        // $('#' + eid).off('mouseup', entityClicked).on('mouseup', entityClicked);
+        return tid;
+    }
+
+    function renderEntity(eid) {
+        if ($('#' + eid).length == 0) {
+            var entity = entities[eid];
+            var type = entity['type'];
+            var sid  = entity['span'];
+            var tid = renderType(type, sid);
+            var div = '<div id="' + eid +'" class="entity" />';
+            $('#' + getTid(sid, type) + ' .instance_pane').append(div);
+            var e = $('#' + eid);
+            e.attr('title', eid);
+            e.css('display: inline-block');
+            e.css('border-color', color(type)? color(type) : '')
+            e.addClass('ui-selectee');
+        }
     }
 
 
@@ -2725,27 +2717,11 @@ $(document).ready(function() {
         $('#' + eid).remove();
     }
 
-
-    function positionEntities(iids) {
-        for(var i = 0; i < iids.length; i++) {
-            var iid = iids[i];
-
-            // divを書く位置
-            var posX = positions[iid]["center"];
-            var posY = positions[iid]["top"];
-
-            $('#' + iid).css("left", posX);
-            $('#' + iid).css("top", posY);
-        }
-    }
-
-
     function renderModifications(mids) {
         for(var i = 0; i < mids.length; i++) {
             renderModification(mids[i]);
         }
     }
-
 
     function renderModification(mid) {
         var pred = modifications[mid]["pred"];
@@ -2830,7 +2806,7 @@ $(document).ready(function() {
 
     function redraw() {
         indexPositions(spanIds);
-        renderEntityPanes(spanIds);
+        positionGrids(spanIds);
         // renewConnections(Object.keys(relations));
         // changeMode(mode);
     }

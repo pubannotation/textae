@@ -140,17 +140,20 @@ html, body {
     border-width: 1px 0px 1px 0px;
 }
 
-.entity_pane {
-    border: 1px solid #888855;
+.grid {
+    border-width: 0px 1px;
+    border-style: solid;
+    border-color: #DDDDAA;
     padding: 1px;
     overflow: hidden;
 }
 
-.entity_pane:hover {
+.grid:hover {
     overflow: visible;
 }
 
-.entity {
+.type {
+    position: relative;
     border-radius: 3px; /* CSS3 */
     -moz-border-radius: 3px; /* Firefox */
     -webkit-border-radius: 3px;  /* Safari,Chrome */
@@ -160,7 +163,7 @@ html, body {
     font-size: xx-small;
     text-align: center;
     white-space: nowrap;
-    overflow: hidden;
+    /*overflow: hidden;*/
     -webkit-user-select: none;
     -khtml-user-select: none;
     -moz-user-select: none;
@@ -168,19 +171,38 @@ html, body {
     user-select: none;
 }
 
+.instance_pane {
+    position: absolute;
+    top:-13px;
+    width: 100%;
+    background-color: yellow
+    text-align: center;
+}
+
 .selectable .ui-selecting { background: #FECA40; }
 .selectable .ui-selected { background: #F39814; color: white; }
 .selectable { list-style-type: none; margin: 0; padding: 0; width: 60%; }
 .selectable li { margin: 3px; padding: 0.4em; font-size: 1.4em; height: 18px; }
+
+.entity {
+    display: inline-block;
+    border-width: 3px;
+    border-style: solid;
+    border-radius: 6px; /* CSS3 */
+    -moz-border-radius: 6px; /* Firefox */
+    -webkit-border-radius: 6px;  /* Safari,Chrome */
+    width: 6px;
+    height: 6px;
+    background-color: #cccccc;
+}
 
 .entity:hover {
     background-color: #999999;
 }
 
 .entity.ui-selecting {
-    background-color: #999999;
+    background-color: #777777;
 }
-
 
 .entity.ui-selected {
     background-color: #555555;
