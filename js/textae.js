@@ -1541,6 +1541,10 @@ $(document).ready(function() {
         $(".entity.ui-selected").each(function() {
             var eid = this.id;
             entityRemoves.push({action:'remove_denotation', id:eid, span:entities[eid].span, type:entities[eid].type});
+            for (var r in relationsPerEntity[eid]) {
+                var rid = relationsPerEntity[eid][r];
+                selectRelation(rid);
+            }
         });
 
         var relationRemoves = new Array();
@@ -2101,8 +2105,15 @@ $(document).ready(function() {
                 case 'new_relation' :
                     // model
                     relations[edit.id] = {id:edit.id, subj:edit.subj, obj:edit.obj, pred:edit.pred};
-                    relationsPerEntity[edit.subj].push(edit.id);
-                    relationsPerEntity[edit.obj].push(edit.id);
+                    if (relationsPerEntity[edit.subj]) {
+                        if (relationsPerEntity[edit.subj].indexOf(edit.id) < 0) relationsPerEntity[edit.subj].push(edit.id);
+                    } 
+                    else relationsPerEntity[edit.subj] = [edit.id];
+
+                    if (relationsPerEntity[edit.obj]) {
+                        if (relationsPerEntity[edit.obj].indexOf(edit.id) < 0) relationsPerEntity[edit.obj].push(edit.id);
+                    } 
+                    else relationsPerEntity[edit.obj] = [edit.id];
                     // rendering
                     connectors[edit.id] = renderRelation(edit.id);
                     // selection
@@ -2113,8 +2124,10 @@ $(document).ready(function() {
                     delete relations[edit.id];
                     var arr = relationsPerEntity[edit.subj];
                     arr.splice(arr.indexOf( edit.id ), 1);
+                    if (arr.length == 0) delete relationsPerEntity[edit.subj]
                     arr = relationsPerEntity[edit.obj];
                     arr.splice(arr.indexOf( edit.id ), 1);
+                    if (arr.length == 0) delete relationsPerEntity[edit.obj]
                     // rendering
                     destroyRelation(edit.id);
                     break;
@@ -2151,13 +2164,7 @@ $(document).ready(function() {
         indexPositions(spanIds);
         positionGrids(spanIds);
         indexPositionEntities(Object.keys(entities));
-        // renewConnections(Object.keys(relations));
-
-        // renewConnections(Object.keys(relations));
-
-        if (mode == 'view' || mode =='relation') {
-            // makeClones();
-        }
+        renewConnections(Object.keys(relations));
 
         switch (context) {
             case 'undo' :
@@ -2472,7 +2479,7 @@ $(document).ready(function() {
         indexRelationSize(rids);
         sortRelationIds(rids);
 
-        for (var i = 0; i < rids.length; i++) {
+        for (var i in rids) {
             var rid = rids[i];
 
             // recompute curviness
@@ -2494,12 +2501,9 @@ $(document).ready(function() {
 
             var conn = connectors[rid];
             var label = conn.getLabel();
-            conn.removeAllOverlays();
             conn.endpoints[0].repaint();
             conn.endpoints[1].repaint();
-            conn.setConnector(["Bezier", {curviness:curviness}], true);
-            conn.addOverlay(["Arrow", { width:10, length:12, location:1 }], true);
-            // conn.getLabelOverlay().hide();
+            conn.setConnector(["Bezier", {curviness:curviness}]);
         }
     }
 
