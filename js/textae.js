@@ -407,7 +407,7 @@ $(document).ready(function() {
 
     // span Id
     function getSid(begin, end) {
-        return 'S' + begin + '-' + end;
+        return begin + '-' + end;
     }
 
     // type id
@@ -827,7 +827,7 @@ $(document).ready(function() {
     function renderSpan(sid, spanIds) {
         var element = document.createElement('span');
         element.setAttribute('id', sid);
-        element.setAttribute('title', '[' + sid + ']');
+        element.setAttribute('title', sid);
         element.setAttribute('class', 'span');
 
         var pid = getPidBySid(sid);
@@ -2663,7 +2663,7 @@ $(document).ready(function() {
             t.css('margin-bottom', typeMarginBottom);
             t.attr('title', type);
             t.append('<div id="P-' + tid + '" class="entity_pane"></div>');
-            t.append(type);
+            t.append('<div class="type_label">' + type + '</div>');
         }
 
         return tid;
