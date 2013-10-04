@@ -2850,4 +2850,23 @@ $(document).ready(function() {
     function leaveMessage() {
         return "There is a change that has not been saved. If you leave now, you will lose it.";
     }
+
+    //setup FileAPI
+    (function(){
+        var onLocalAnnotationJsonChange = function(event){
+            var file = $("#local_annotation_json").prop("files")[0];
+            console.log(file);
+
+            var reader = new FileReader();
+            reader.onload = function(event){
+                var annotation_json = JSON.parse(event.target.result);
+                loadAnnotation(annotation_json);
+                initJsPlumb();
+                renderAnnotation();
+                initialize();
+            };
+            reader.readAsText(file);
+        }
+        $("#local_annotation_json").on("change", onLocalAnnotationJsonChange);
+    })();
 });
