@@ -281,9 +281,6 @@ $(document).ready(function() {
                 success: function(annotation) {
                     if (annotation.text != undefined) {
                         loadAnnotation(annotation);
-                        initJsPlumb();
-                        renderAnnotation();
-                        initialize();
                     } else {
                         alert("read failed.");
                     }
@@ -340,8 +337,14 @@ $(document).ready(function() {
         // pushButtonSpan();
     }
 
+    function loadAnnotation(annotation) {
+        parseAnnotationJson(annotation);
+        initJsPlumb();
+        renderAnnotation();
+        initialize();
+    }
 
-    function loadAnnotation(data) {
+    function parseAnnotationJson(data) {
         sourceDoc = data.text;
 
         spans     = new Object();
@@ -2859,11 +2862,8 @@ $(document).ready(function() {
 
             var reader = new FileReader();
             reader.onload = function(event){
-                var annotation_json = JSON.parse(event.target.result);
-                loadAnnotation(annotation_json);
-                initJsPlumb();
-                renderAnnotation();
-                initialize();
+                var annotation = JSON.parse(event.target.result);
+                loadAnnotation(annotation);
             };
             reader.readAsText(file);
         }
