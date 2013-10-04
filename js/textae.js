@@ -40,10 +40,11 @@ $(document).ready(function() {
     var modificationTypeDefault;
 
     // annotation data (Objects)
-    var blocks;
-    var spans;
-    var entities;
-    var relations;
+    var annotation_data = {
+        spans : null,
+        entities : null,
+        relations : null
+    };
     var modifications;
 
     var blockThreshold = 100;
@@ -347,9 +348,9 @@ $(document).ready(function() {
     function parseAnnotationJson(data) {
         sourceDoc = data.text;
 
-        spans     = new Object();
-        entities  = new Object();
-        relations = new Object();
+        annotation_data.spans     = new Object();
+        annotation_data.entities  = new Object();
+        annotation_data.relations = new Object();
 
         entitiesPerType = new Object();
         typesPerSpan = new Object();
@@ -362,9 +363,9 @@ $(document).ready(function() {
                 var d = data.denotations[i];
 
                 var sid = getSid(d['span']['begin'], d['span']['end']);
-                spans[sid] = {begin:d['span']['begin'], end:d['span']['end']};
+                annotation_data.spans[sid] = {begin:d['span']['begin'], end:d['span']['end']};
 
-                entities[d.id] = {span:sid, type:d['obj']};
+                annotation_data.entities[d.id] = {span:sid, type:d['obj']};
 
                 if (!entityTypes[d['obj']]) entityTypes[d['obj']] = {};
                 if (entityTypes[d['obj']]['count']) entityTypes[d['obj']]['count']++;
@@ -381,13 +382,13 @@ $(document).ready(function() {
             }
         }
 
-        spanIds = Object.keys(spans); // maintained sorted by the position.
+        spanIds = Object.keys(annotation_data.spans); // maintained sorted by the position.
         sortSpanIds(spanIds);
 
         if (data.relations != undefined) {
             for (var i in data.relations) {
                 var r = data.relations[i];
-                relations[r.id] = r;
+                annotation_data.relations[r.id] = r;
 
                 if (!relationTypes[r.pred]) relationTypes[r.pred] = {};
                 if (relationTypes[r.pred].count) relationTypes[r.pred].count++;
@@ -404,7 +405,7 @@ $(document).ready(function() {
                 else relationsPerEntity[r.obj] = [r.id];
             }
         }
-        relationIds = Object.keys(relations);
+        relationIds = Object.keys(annotation_data.relations);
     }
 
 
@@ -437,7 +438,7 @@ $(document).ready(function() {
     }
 
     function indexPositionEntity(id) {
-        var gid = 'G' + entities[id].span;
+        var gid = 'G' + annotation_data.entities[id].span;
         var e = $('#' + id);
         positions[id] = {};
         positions[id].top    = positions[gid].top + e.get(0).offsetTop;
@@ -452,7 +453,7 @@ $(document).ready(function() {
     }
 
     function updatePositionEntity(id) {
-        var gid = 'G' + entities[id].span;
+        var gid = 'G' + annotation_data.entities[id].span;
         positions[id] = {};
         positions[id].top    = positions[gid].top + e.get(0).offsetTop;
         positions[id].left   = positions[gid].left + e.get(0).offsetLeft;
@@ -505,16 +506,16 @@ $(document).ready(function() {
     function indexRelationSize(rids) {
         for (var i in rids) {
             rid = rids[i];
-            var sourceX = positions[relations[rid].subj].center;
-            var targetX = positions[relations[rid].obj].center;
-            relations[rid].size = Math.abs(sourceX - targetX);
+            var sourceX = positions[annotation_data.relations[rid].subj].center;
+            var targetX = positions[annotation_data.relations[rid].obj].center;
+            annotation_data.relations[rid].size = Math.abs(sourceX - targetX);
         }
     }
 
 
     function sortRelationIds(rids) {
         function compare(a, b) {
-            return (relations[b].size - relations[a].size);
+            return (annotation_data.relations[b].size - annotation_data.relations[a].size);
         }
         rids.sort(compare);
     }
@@ -522,14 +523,14 @@ $(document).ready(function() {
     // sort the span IDs by the position
     function sortSpanIds(sids) {
         function compare(a, b) {
-            return((spans[a]['begin'] - spans[b]['begin']) || (spans[b]['end'] - spans[a]['end']));
+            return((annotation_data.spans[a]['begin'] - annotation_data.spans[b]['begin']) || (annotation_data.spans[b]['end'] - annotation_data.spans[a]['end']));
         }
         sids.sort(compare);
     }
 
     function getPidBySid(sid) {
         for (var pid in pars) {
-            if ((spans[sid].begin >= pars[pid].begin) && (spans[sid].end <= pars[pid].end)) return pid;
+            if ((annotation_data.spans[sid].begin >= pars[pid].begin) && (annotation_data.spans[sid].end <= pars[pid].end)) return pid;
         }
         return null;
     }
@@ -697,7 +698,7 @@ $(document).ready(function() {
             var edits = [];
             $(".entity.ui-selected").each(function() {
                 var eid = this.id;
-                edits.push({action:'change_entity_type', id:eid, old_type:entities[eid].type, new_type:new_type});
+                edits.push({action:'change_entity_type', id:eid, old_type:annotation_data.entities[eid].type, new_type:new_type});
             });
             if (edits.length > 0) makeEdits(edits);
         }
@@ -755,7 +756,7 @@ $(document).ready(function() {
         var edits = [];
         $(".entity.ui-selected").each(function() {
             var eid = this.id;
-            edits.push({action:'change_entity_type', id:eid, old_type:entities[eid].type, new_type:new_type});
+            edits.push({action:'change_entity_type', id:eid, old_type:annotation_data.entities[eid].type, new_type:new_type});
         });
         if (edits.length > 0) makeEdits(edits);
         return false;
@@ -826,7 +827,7 @@ $(document).ready(function() {
 
 
     // assume the spanIds are sorted by the position.
-    // when there are embedded spans, the embedding ones comes earlier then embedded ones.
+    // when there are embedded annotation_data.spans, the embedding ones comes earlier then embedded ones.
     function renderSpan(sid, spanIds) {
         var element = document.createElement('span');
         element.setAttribute('id', sid);
@@ -834,8 +835,8 @@ $(document).ready(function() {
         element.setAttribute('class', 'span');
 
         var pid = getPidBySid(sid);
-        var beg = spans[sid].begin;
-        var end = spans[sid].end;
+        var beg = annotation_data.spans[sid].begin;
+        var end = annotation_data.spans[sid].end;
         var len = end - beg;
 
         var range = document.createRange();
@@ -862,12 +863,12 @@ $(document).ready(function() {
             var p = c - 1; // index of preceding span
 
             // when the previous span includes the region
-            if (spans[spanIds[p]].end > beg) {
+            if (annotation_data.spans[spanIds[p]].end > beg) {
                 var refnode = document.getElementById(spanIds[p]).childNodes[0];
                 if (refnode.nodeType == 1) range.setStartBefore(refnode); // element node
                 else if (refnode.nodeType == 3) { // text node
                     begnode = refnode;
-                    begoff  = beg - spans[spanIds[p]].begin
+                    begoff  = beg - annotation_data.spans[spanIds[p]].begin
                     range.setStart(begnode, begoff);
                 }
                 else alert("unexpected type of node:" + refnode.nodeType + ". please consult the developer.");
@@ -877,33 +878,33 @@ $(document).ready(function() {
                 // find the outermost preceding span
                 var pnode = document.getElementById(spanIds[p]);
                 while (pnode.parentElement &&
-                        spans[pnode.parentElement.id] &&
-                        spans[pnode.parentElement.id].end > spans[pnode.id].begin &&
-                        spans[pnode.parentElement.id].end < end) {pnode = pnode.parentElement}
+                        annotation_data.spans[pnode.parentElement.id] &&
+                        annotation_data.spans[pnode.parentElement.id].end > annotation_data.spans[pnode.id].begin &&
+                        annotation_data.spans[pnode.parentElement.id].end < end) {pnode = pnode.parentElement}
 
                 begnode = pnode.nextSibling;
-                begoff = beg - spans[pnode.id].end;
+                begoff = beg - annotation_data.spans[pnode.id].end;
                 range.setStart(begnode, begoff);
             }
         }
 
 
         // if there is an embedded span, find the rightmost one.intervening span
-        if ((c < spanIds.length - 1) && (end > spans[spanIds[c + 1]].begin)) {
+        if ((c < spanIds.length - 1) && (end > annotation_data.spans[spanIds[c + 1]].begin)) {
             var i = c + 1;  // index of the rightmost embedded span
 
             // if there is a room for further intervening
             while (i < spanIds.length - 1) {
                 // find the next span at the same level
                 var n = i + 1;
-                while ((n < spanIds.length) && (spans[spanIds[n]].begin < spans[spanIds[i]].end)) n++;
+                while ((n < spanIds.length) && (annotation_data.spans[spanIds[n]].begin < annotation_data.spans[spanIds[i]].end)) n++;
                 if (n == spanIds.length) break;
-                if (end > spans[spanIds[n]].begin) i = n;
+                if (end > annotation_data.spans[spanIds[n]].begin) i = n;
                 else break;
             }
 
             var renode = document.getElementById(spanIds[i]); // rightmost intervening node
-            if (renode.nextSibling) range.setEnd(renode.nextSibling, end - spans[spanIds[i]].end);
+            if (renode.nextSibling) range.setEnd(renode.nextSibling, end - annotation_data.spans[spanIds[i]].end);
             else range.setEndAfter(renode);
         }
 
@@ -1086,7 +1087,7 @@ $(document).ready(function() {
                 var endPosition = adjustSpanEnd(focusPosition);
                 var sid = getSid(beginPosition, endPosition);
 
-                if (!spans[sid]) {
+                if (!annotation_data.spans[sid]) {
                     if (endPosition - beginPosition > blockThreshold) {
                         makeEdits([{action:'new_span', id:sid, begin:beginPosition, end:endPosition, block:true, type:blockTypeDefault}]);
                     }
@@ -1117,7 +1118,7 @@ $(document).ready(function() {
                     var sid = popSpanSelection();
                     
                     // drag began inside the selected span (expansion)
-                    if ((anchorPosition > spans[sid].begin) && (anchorPosition < spans[sid].end)) {
+                    if ((anchorPosition > annotation_data.spans[sid].begin) && (anchorPosition < annotation_data.spans[sid].end)) {
                         // The focus node should be at one level above the selected node.
                         if ($('#' + sid).get(0).parentNode.id == selection.focusNode.parentNode.id) expandSpan(sid, selection);
                         else {
@@ -1127,7 +1128,7 @@ $(document).ready(function() {
                     }
 
                     // drag ended inside the selected span (shortening)
-                    else if ((focusPosition > spans[sid].begin) && (focusPosition < spans[sid].end)) {
+                    else if ((focusPosition > annotation_data.spans[sid].begin) && (focusPosition < annotation_data.spans[sid].end)) {
                         if ($('#' + sid).get(0).id == selection.focusNode.parentNode.id) shortenSpan(sid, selection);
                         else {
                             select(sid);
@@ -1160,7 +1161,7 @@ $(document).ready(function() {
     // get the max value of the connector Id
     function getMaxConnId() {
         var maxIdNum = 0;
-        for (var rid in relations) {
+        for (var rid in annotation_data.relations) {
             var idNum = parseInt(rid.slice(1));
             if (idNum > maxIdNum) {
                 maxIdNum = idNum;
@@ -1172,7 +1173,7 @@ $(document).ready(function() {
     // get the max value of the entity Id
     function getMaxEntityId() {
         var maxIdNum = 0;
-        for (var eid in entities) {
+        for (var eid in annotation_data.entities) {
             var idNum = parseInt(eid.slice(1));
             if (idNum > maxIdNum) {
                 maxIdNum = idNum;
@@ -1183,7 +1184,7 @@ $(document).ready(function() {
 
 
     function newSpan(id, begin, end, block, type) {
-        spans[id] = {begin:begin, end:end, block:block, type:type};
+        annotation_data.spans[id] = {begin:begin, end:end, block:block, type:type};
         return id;
     }
 
@@ -1223,38 +1224,38 @@ $(document).ready(function() {
         // expand to the left
         if (range.compareBoundaryPoints(Range.START_TO_START, anchorRange) < 0) {
             var newBegin = adjustSpanBegin(focusPosition);
-            var new_sid = getSid(newBegin, spans[sid]['end']);
-            if (!spans[new_sid]) {
-                edits.push({action:'new_span', id:new_sid, begin:newBegin, end:spans[sid]['end']});
+            var new_sid = getSid(newBegin, annotation_data.spans[sid]['end']);
+            if (!annotation_data.spans[new_sid]) {
+                edits.push({action:'new_span', id:new_sid, begin:newBegin, end:annotation_data.spans[sid]['end']});
                 for (var t in typesPerSpan[sid]) {
                     var tid = typesPerSpan[sid][t];
                     for (var e in entitiesPerType[tid]) {
                         var eid  = entitiesPerType[tid][e];
-                        var type = entities[eid].type;
+                        var type = annotation_data.entities[eid].type;
                         edits.push({action:'remove_denotation', id:eid, span:sid, type:type});
                         edits.push({action:'new_denotation', id:eid, span:new_sid, type:type});
                     }
                 }
-                edits.push({action:'remove_span', id:sid, begin:spans[sid]['begin'], end:spans[sid]['end']});
+                edits.push({action:'remove_span', id:sid, begin:annotation_data.spans[sid]['begin'], end:annotation_data.spans[sid]['end']});
             }
         }
 
         // expand to the right
         else {
             var newEnd = adjustSpanEnd(focusPosition);
-            var new_sid = getSid(spans[sid]['begin'], newEnd);
-            if (!spans[new_sid]) {
-                edits.push({action:'new_span', id:new_sid, begin:spans[sid]['begin'], end:newEnd});
+            var new_sid = getSid(annotation_data.spans[sid]['begin'], newEnd);
+            if (!annotation_data.spans[new_sid]) {
+                edits.push({action:'new_span', id:new_sid, begin:annotation_data.spans[sid]['begin'], end:newEnd});
                 for (var t in typesPerSpan[sid]) {
                     var tid = typesPerSpan[sid][t];
                     for (var e in entitiesPerType[tid]) {
                         var eid  = entitiesPerType[tid][e];
-                        var type = entities[eid].type;
+                        var type = annotation_data.entities[eid].type;
                         edits.push({action:'remove_denotation', id:eid, span:sid, type:type});
                         edits.push({action:'new_denotation', id:eid, span:new_sid, type:type});
                     }
                 }
-                edits.push({action:'remove_span', id:sid, begin:spans[sid]['begin'], end:spans[sid]['end']});
+                edits.push({action:'remove_span', id:sid, begin:annotation_data.spans[sid]['begin'], end:annotation_data.spans[sid]['end']});
             }
         }
         if (edits.length > 0) makeEdits(edits);
@@ -1274,23 +1275,23 @@ $(document).ready(function() {
         if (range.compareBoundaryPoints(Range.START_TO_START, focusRange) > 0) {
             var newEnd = adjustSpanEnd2(focusPosition);
 
-            if (newEnd > spans[sid]['begin']) {
-                var new_sid = getSid(spans[sid]['begin'], newEnd);
-                if (spans[new_sid]) {
-                    edits.push({action:'remove_span', id:sid, begin:spans[sid]['begin'], end:spans[sid]['end']});
+            if (newEnd > annotation_data.spans[sid]['begin']) {
+                var new_sid = getSid(annotation_data.spans[sid]['begin'], newEnd);
+                if (annotation_data.spans[new_sid]) {
+                    edits.push({action:'remove_span', id:sid, begin:annotation_data.spans[sid]['begin'], end:annotation_data.spans[sid]['end']});
                 }
                 else {
-                    edits.push({action:'new_span', id:new_sid, begin:spans[sid]['begin'], end:newEnd});
+                    edits.push({action:'new_span', id:new_sid, begin:annotation_data.spans[sid]['begin'], end:newEnd});
                     for (var t in typesPerSpan[sid]) {
                         var tid = typesPerSpan[sid][t];
                         for (var e in entitiesPerType[tid]) {
                             var eid  = entitiesPerType[tid][e];
-                            var type = entities[eid].type;
+                            var type = annotation_data.entities[eid].type;
                             edits.push({action:'remove_denotation', id:eid, span:sid, type:type});
                             edits.push({action:'new_denotation', id:eid, span:new_sid, type:type});
                         }
                     }
-                    edits.push({action:'remove_span', id:sid, begin:spans[sid]['begin'], end:spans[sid]['end']});
+                    edits.push({action:'remove_span', id:sid, begin:annotation_data.spans[sid]['begin'], end:annotation_data.spans[sid]['end']});
                 }
             }
             else {
@@ -1303,23 +1304,23 @@ $(document).ready(function() {
         else {
             var newBegin = adjustSpanBegin2(focusPosition);
 
-            if (newBegin < spans[sid]['end']) {
-                var new_sid = getSid(newBegin, spans[sid]['end']);
-                if (spans[new_sid]) {
-                    edits.push({action:'remove_span', id:sid, begin:spans[sid]['begin'], end:spans[sid]['end']});
+            if (newBegin < annotation_data.spans[sid]['end']) {
+                var new_sid = getSid(newBegin, annotation_data.spans[sid]['end']);
+                if (annotation_data.spans[new_sid]) {
+                    edits.push({action:'remove_span', id:sid, begin:annotation_data.spans[sid]['begin'], end:annotation_data.spans[sid]['end']});
                 }
                 else {
-                    edits.push({action:'new_span', id:new_sid, begin:newBegin, end:spans[sid]['end']});
+                    edits.push({action:'new_span', id:new_sid, begin:newBegin, end:annotation_data.spans[sid]['end']});
                     for (var t in typesPerSpan[sid]) {
                         var tid = typesPerSpan[sid][t];
                         for (var e in entitiesPerType[tid]) {
                             var eid  = entitiesPerType[tid][e];
-                            var type = entities[eid].type;
+                            var type = annotation_data.entities[eid].type;
                             edits.push({action:'remove_denotation', id:eid, span:sid, type:type});
                             edits.push({action:'new_denotation', id:eid, span:new_sid, type:type});
                         }
                     }
-                    edits.push({action:'remove_span', id:sid, begin:spans[sid]['begin'], end:spans[sid]['end']});
+                    edits.push({action:'remove_span', id:sid, begin:annotation_data.spans[sid]['begin'], end:annotation_data.spans[sid]['end']});
                 }
             }
             else {
@@ -1349,8 +1350,8 @@ $(document).ready(function() {
                 obj['end'] = sameStrPos + strLen;
 
                 var isExist = false;
-                for(var sid in spans) {
-                    if(spans[sid]['begin'] == obj['begin'] && spans[sid]['end'] == obj['end'] && spans[sid].category == obj.category) {
+                for(var sid in annotation_data.spans) {
+                    if(annotation_data.spans[sid]['begin'] == obj['begin'] && annotation_data.spans[sid]['end'] == obj['end'] && annotation_data.spans[sid].category == obj.category) {
                         isExist = true;
                         break;
                     }
@@ -1367,10 +1368,10 @@ $(document).ready(function() {
 
 
     function getFocusPosition(selection) {
-        // assumption: text_box only includes <p> elements that contains <span> elements that represents spans.
+        // assumption: text_box only includes <p> elements that contains <span> elements that represents annotation_data.spans.
         var cid = selection.focusNode.parentNode.id
         var pos = (cid == 'text_box')? 0 :
-                  (cid.charAt(0) == 'P')? pars[cid].begin : spans[cid].begin;
+                  (cid.charAt(0) == 'P')? pars[cid].begin : annotation_data.spans[cid].begin;
 
         var childNodes = selection.focusNode.parentElement.childNodes;
         for (var i = 0; childNodes[i] != selection.focusNode; i++) { // until the focus node
@@ -1382,10 +1383,10 @@ $(document).ready(function() {
 
 
     function getAnchorPosition(selection) {
-        // assumption: text_box only includes <p> elements that contains <span> elements that represents spans.
+        // assumption: text_box only includes <p> elements that contains <span> elements that represents annotation_data.spans.
         var cid = selection.anchorNode.parentNode.id
         var pos = (cid == 'text_box')? 0 :
-                  (cid.charAt(0) == 'P')? pars[cid].begin : spans[cid].begin;
+                  (cid.charAt(0) == 'P')? pars[cid].begin : annotation_data.spans[cid].begin;
 
         var childNodes = selection.anchorNode.parentNode.childNodes;
         for (var i = 0; childNodes[i] != selection.anchorNode; i++) { // until the anchor node
@@ -1530,7 +1531,7 @@ $(document).ready(function() {
         var spanRemoves = new Array();
         $(".span.ui-selected").each(function() {
             var sid = this.id;
-            spanRemoves.push({action:'remove_span', id:sid, begin:spans[sid].begin, end:spans[sid].end, obj:spans[sid].obj});
+            spanRemoves.push({action:'remove_span', id:sid, begin:annotation_data.spans[sid].begin, end:annotation_data.spans[sid].end, obj:annotation_data.spans[sid].obj});
             for (var t in typesPerSpan[sid]) {
                 var tid = typesPerSpan[sid][t];
                 for (var e in entitiesPerType[tid]) {
@@ -1543,7 +1544,7 @@ $(document).ready(function() {
         var entityRemoves = new Array();
         $(".entity.ui-selected").each(function() {
             var eid = this.id;
-            entityRemoves.push({action:'remove_denotation', id:eid, span:entities[eid].span, type:entities[eid].type});
+            entityRemoves.push({action:'remove_denotation', id:eid, span:annotation_data.entities[eid].span, type:annotation_data.entities[eid].type});
             for (var r in relationsPerEntity[eid]) {
                 var rid = relationsPerEntity[eid][r];
                 selectRelation(rid);
@@ -1553,7 +1554,7 @@ $(document).ready(function() {
         var relationRemoves = new Array();
         while (relationIdsSelected.length > 0) {
             rid = relationIdsSelected.pop();
-            relationRemoves.push({action:'remove_relation', id:rid, subj:relations[rid].subj, obj:relations[rid].obj, pred:relations[rid].pred});
+            relationRemoves.push({action:'remove_relation', id:rid, subj:annotation_data.relations[rid].subj, obj:annotation_data.relations[rid].obj, pred:annotation_data.relations[rid].pred});
         }
 
         var modificationRemoves = new Array();
@@ -1616,7 +1617,7 @@ $(document).ready(function() {
         while (sid = popSpanSelection()) {
             for (var e in clipBoard) {
                 var id = "E" + (++maxIdNum);
-                edits.push({action:'new_denotation', id:id, span:sid, type:entities[clipBoard[e]].type});
+                edits.push({action:'new_denotation', id:id, span:sid, type:annotation_data.entities[clipBoard[e]].type});
             }
         }
         if (edits.length > 0) makeEdits(edits);
@@ -1861,9 +1862,9 @@ $(document).ready(function() {
         $('#textae_container').css('cursor', 'wait');
 
         var denotations = [];
-        for (var e in entities) {
-            var span = {'begin':spans[entities[e]['span']].begin, 'end':spans[entities[e]['span']].end};
-            denotations.push({'id':e, 'span':span, 'obj':entities[e]['type']});
+        for (var e in annotation_data.entities) {
+            var span = {'begin':annotation_data.spans[annotation_data.entities[e]['span']].begin, 'end':annotation_data.spans[annotation_data.entities[e]['span']].end};
+            denotations.push({'id':e, 'span':span, 'obj':annotation_data.entities[e]['type']});
         }
 
         var postData = {
@@ -1946,7 +1947,7 @@ $(document).ready(function() {
 
     function replicate() {
         if (numSpanSelection() == 1) {
-            makeEdits(getSpanReplicates(spans[getSpanSelection()]));
+            makeEdits(getSpanReplicates(annotation_data.spans[getSpanSelection()]));
         }
         else alert('You can replicate span annotation when there is only span selected.');
     }
@@ -1956,19 +1957,19 @@ $(document).ready(function() {
         var startPos = span['begin'];
         var endPos   = span['end'];
 
-        var cspans = findSameString(startPos, endPos); // candidate spans
+        var cspans = findSameString(startPos, endPos); // candidate annotation_data.spans
 
-        var nspans = new Array(); // new spans
+        var nspans = new Array(); // new annotation_data.spans
         for (var i = 0; i < cspans.length; i++) {
             cspan = cspans[i];
 
             // check boundary crossing
             var crossing_p = false;
-            for (var sid in spans) {
+            for (var sid in annotation_data.spans) {
                 if (
-                    (cspan['begin'] > spans[sid]['begin'] && cspan['begin'] < spans[sid]['end'] && cspan['end'] > spans[sid]['end'])
+                    (cspan['begin'] > annotation_data.spans[sid]['begin'] && cspan['begin'] < annotation_data.spans[sid]['end'] && cspan['end'] > annotation_data.spans[sid]['end'])
                     ||
-                    (cspan['begin'] < spans[sid]['begin'] && cspan['end'] > spans[sid]['begin'] && cspan['end'] < spans[sid]['end'])
+                    (cspan['begin'] < annotation_data.spans[sid]['begin'] && cspan['end'] > annotation_data.spans[sid]['begin'] && cspan['end'] < annotation_data.spans[sid]['end'])
                    ) {
                    crossing_p = true;
                    break;
@@ -2008,7 +2009,7 @@ $(document).ready(function() {
                 case 'new_span' :
                     // model
                     newSpan(edit.id, edit.begin, edit.end, edit.block, edit.type);
-                    spanIds = Object.keys(spans);
+                    spanIds = Object.keys(annotation_data.spans);
                     sortSpanIds(spanIds);
                     typesPerSpan[edit.id] = new Array();
                     // rendering
@@ -2019,22 +2020,22 @@ $(document).ready(function() {
                     break;
                 case 'remove_span' :
                     //model
-                    delete spans[edit.id];
+                    delete annotation_data.spans[edit.id];
                     delete typesPerSpan[edit.id];
-                    spanIds = Object.keys(spans);
+                    spanIds = Object.keys(annotation_data.spans);
                     sortSpanIds(spanIds);
                     //rendering
                     destroySpan(edit.id);
                     break;
                 case 'change_span_begin' :
                     //model
-                    new_sid = getSid(edit.new_begin, spans[edit.id].end);
-                    spans[new_sid] = spans[edit.id];
-                    spans[new_sid].begin = edit.new_begin;
+                    new_sid = getSid(edit.new_begin, annotation_data.spans[edit.id].end);
+                    annotation_data.spans[new_sid] = annotation_data.spans[edit.id];
+                    annotation_data.spans[new_sid].begin = edit.new_begin;
                     typesPerSpan[new_sid] = typesPerSpan[edit.id];
-                    delete spans[edit.id];
+                    delete annotation_data.spans[edit.id];
                     delete typesPerSpan[edit.id];
-                    spanIds = Object.keys(spans);
+                    spanIds = Object.keys(annotation_data.spans);
                     sortSpanIds(spanIds);
                     //rendering
                     destroySpan(edit.id);
@@ -2046,13 +2047,13 @@ $(document).ready(function() {
                     break;
                 case 'change_span_end' :
                     //model
-                    new_sid = getSid(spans[edit.id].begin, edit.new_end);
-                    spans[new_sid] = spans[edit.id];
-                    spans[new_sid].end = edit.new_end;
+                    new_sid = getSid(annotation_data.spans[edit.id].begin, edit.new_end);
+                    annotation_data.spans[new_sid] = annotation_data.spans[edit.id];
+                    annotation_data.spans[new_sid].end = edit.new_end;
                     typesPerSpan[new_sid] = typesPerSpan[edit.id];
-                    delete spans[edit.id];
+                    delete annotation_data.spans[edit.id];
                     delete typesPerSpan[edit.id];
-                    spanIds = Object.keys(spans);
+                    spanIds = Object.keys(annotation_data.spans);
                     sortSpanIds(spanIds);
                     //rendering
                     destroySpan(edit.id);
@@ -2066,7 +2067,7 @@ $(document).ready(function() {
                 // entity operations
                 case 'new_denotation' :
                     // model
-                    entities[edit.id] = {id:edit.id, span:edit.span, type:edit.type};
+                    annotation_data.entities[edit.id] = {id:edit.id, span:edit.span, type:edit.type};
                     var tid = getTid(edit.span, edit.type);
                     if (typesPerSpan[edit.span].indexOf(tid) < 0) {
                         typesPerSpan[edit.span].push(tid);
@@ -2081,7 +2082,7 @@ $(document).ready(function() {
                     break;
                 case 'remove_denotation' :
                     //model
-                    delete entities[edit.id];
+                    delete annotation_data.entities[edit.id];
                     var tid = getTid(edit.span, edit.type);
                     var arr = entitiesPerType[tid];
                     arr.splice(arr.indexOf(edit.id), 1);
@@ -2099,7 +2100,7 @@ $(document).ready(function() {
                     break;
                 case 'change_entity_type' :
                     //model
-                    entities[edit.id].type = edit.new_type;
+                    annotation_data.entities[edit.id].type = edit.new_type;
                     //rendering
                     renderEntity(edit.id);
                     break;
@@ -2107,7 +2108,7 @@ $(document).ready(function() {
                 // relation operations
                 case 'new_relation' :
                     // model
-                    relations[edit.id] = {id:edit.id, subj:edit.subj, obj:edit.obj, pred:edit.pred};
+                    annotation_data.relations[edit.id] = {id:edit.id, subj:edit.subj, obj:edit.obj, pred:edit.pred};
                     if (relationsPerEntity[edit.subj]) {
                         if (relationsPerEntity[edit.subj].indexOf(edit.id) < 0) relationsPerEntity[edit.subj].push(edit.id);
                     } 
@@ -2124,7 +2125,7 @@ $(document).ready(function() {
                     break;
                 case 'remove_relation' :
                     // model
-                    delete relations[edit.id];
+                    delete annotation_data.relations[edit.id];
                     var arr = relationsPerEntity[edit.subj];
                     arr.splice(arr.indexOf( edit.id ), 1);
                     if (arr.length == 0) delete relationsPerEntity[edit.subj]
@@ -2136,7 +2137,7 @@ $(document).ready(function() {
                     break;
                 case 'change_relation_pred' :
                     // model
-                    relations[edit.id].pred = edit.new_pred;
+                    annotation_data.relations[edit.id].pred = edit.new_pred;
                     // rendering
                     connectors[edit.id].setPaintStyle(connectorTypes[edit.new_pred+"_selected"]["paintStyle"]);
                     connectors[edit.id].setHoverPaintStyle(connectorTypes[edit.new_pred+"_selected"]["hoverPaintStyle"]);
@@ -2166,8 +2167,8 @@ $(document).ready(function() {
         // update rendering
         indexPositions(spanIds);
         positionGrids(spanIds);
-        indexPositionEntities(Object.keys(entities));
-        renewConnections(Object.keys(relations));
+        indexPositionEntities(Object.keys(annotation_data.entities));
+        renewConnections(Object.keys(annotation_data.relations));
 
         switch (context) {
             case 'undo' :
@@ -2358,8 +2359,8 @@ $(document).ready(function() {
 
 
     function renderRelation (rid) {
-        var sourceId = relations[rid].subj;
-        var targetId = relations[rid].obj;
+        var sourceId = annotation_data.relations[rid].subj;
+        var targetId = annotation_data.relations[rid].obj;
 
         // Determination of curviness
         var sourceX = positions[sourceId].center;
@@ -2385,7 +2386,7 @@ $(document).ready(function() {
         }
 
         // make connector
-        var pred = relations[rid]['pred'];
+        var pred = annotation_data.relations[rid]['pred'];
         var rgba = colorTrans(relationColor(pred), connOpacity);
         var sourceElem = $('#' + sourceId);
         var targetElem = $('#' + targetId);
@@ -2455,7 +2456,7 @@ $(document).ready(function() {
 
     function selectRelation(rid) {
         if (!isRelationSelected(rid)) {
-            connectors[rid].setPaintStyle(connectorTypes[relations[rid].pred + "_selected"]["paintStyle"]);
+            connectors[rid].setPaintStyle(connectorTypes[annotation_data.relations[rid].pred + "_selected"]["paintStyle"]);
             relationIdsSelected.push(rid);
         }
     }
@@ -2464,7 +2465,7 @@ $(document).ready(function() {
     function deselectRelation(rid) {
         var i = relationIdsSelected.indexOf(rid);
         if (i > -1) {
-            connectors[rid].setPaintStyle(connectorTypes[relations[rid].pred]["paintStyle"]);
+            connectors[rid].setPaintStyle(connectorTypes[annotation_data.relations[rid].pred]["paintStyle"]);
             relationIdsSelected.splice(i, 1);
         }
     }
@@ -2473,7 +2474,7 @@ $(document).ready(function() {
     function clearRelationSelection() {
         while (relationIdsSelected.length > 0) {
             var rid = relationIdsSelected.pop();
-            connectors[rid].setPaintStyle(connectorTypes[relations[rid].pred]["paintStyle"]);
+            connectors[rid].setPaintStyle(connectorTypes[annotation_data.relations[rid].pred]["paintStyle"]);
         }
     }
 
@@ -2486,8 +2487,8 @@ $(document).ready(function() {
             var rid = rids[i];
 
             // recompute curviness
-            var sourceId = relations[rid].subj;
-            var targetId = relations[rid].obj;
+            var sourceId = annotation_data.relations[rid].subj;
+            var targetId = annotation_data.relations[rid].obj;
 
             var sourceX = positions[sourceId].center;
             var targetX = positions[targetId].center;
@@ -2522,11 +2523,11 @@ $(document).ready(function() {
         for (var s = sids.length - 1; s >= 0; s--) renderEntitiesOfSpan(sids[s]);
     }
 
-    // render the entities of a given span and dependent spans.
+    // render the annotation_data.entities of a given span and dependent annotation_data.spans.
     function renderEntitiesOfSpanAsso(sid) {
         renderEntitiesOfSpan(sid);
         var c = spanIds.indexOf(sid)
-        for (var p = c - 1; isSpanEmbedded(spans[spanIds[c]], spans[spanIds[p]]); p--) renderEntitiesOfSpan(spanIds[p]);
+        for (var p = c - 1; isSpanEmbedded(annotation_data.spans[spanIds[c]], annotation_data.spans[spanIds[p]]); p--) renderEntitiesOfSpan(spanIds[p]);
     }
 
     function renderEntitiesOfSpan(sid) {
@@ -2548,13 +2549,13 @@ $(document).ready(function() {
         for (var s = sids.length - 1; s >= 0; s--) renderGrid(spanIds[s]);
     }
 
-    // render the entity pane of a given span and its dependent spans.
+    // render the entity pane of a given span and its dependent annotation_data.spans.
     function renderGridAsso(sid) {
         renderGrid(sid);
 
         // see if the pane of the parent node needs to be updated
         var pnode = document.getElementById(sid).parentElement;
-        while (pnode && pnode.id && spans[pnode.id]) {
+        while (pnode && pnode.id && annotation_data.spans[pnode.id]) {
             renderGridAsso(pnode.id);
             pnode = pnode.parentElement;
         }
@@ -2575,9 +2576,9 @@ $(document).ready(function() {
             // decide the offset
             var offset = typeMarginBottom;
 
-            // check the following spans that are embedded in the current span.
+            // check the following annotation_data.spans that are embedded in the current span.
             var c = spanIds.indexOf(sid)
-            for (var f = c + 1; (f < spanIds.length) && isSpanEmbedded(spans[spanIds[f]], spans[spanIds[c]]); f++) {
+            for (var f = c + 1; (f < spanIds.length) && isSpanEmbedded(annotation_data.spans[spanIds[f]], annotation_data.spans[spanIds[c]]); f++) {
                 var cid = 'G' + spanIds[f];
                 if (positions[cid] && ((positions[cid].offset + positions[cid].height) < offset)) offset = (positions[cid].offset + positions[cid].height) + typeMarginTop + typeMarginBottom;
             }
@@ -2678,7 +2679,7 @@ $(document).ready(function() {
 
     function renderEntity(eid) {
         if ($('#' + eid).length == 0) {
-            var entity = entities[eid];
+            var entity = annotation_data.entities[eid];
             var type = entity['type'];
             var sid  = entity['span'];
             var tid = renderType(type, sid);
@@ -2807,14 +2808,14 @@ $(document).ready(function() {
         connOpacity = opacity;
         setConnectorTypes();
 
-        for (var rid in relations) {
-            var rtype = relations[rid]["pred"];
+        for (var rid in annotation_data.relations) {
+            var rtype = annotation_data.relations[rid]["pred"];
             connectors[rid].setPaintStyle(connectorTypes[rtype]["paintStyle"]);
         }
 
         for (var i = 0; i < relationIdsSelected; i++) {
             var id = relationIdsSelected[i];
-            var type = relations[id]["pred"];
+            var type = annotation_data.relations[id]["pred"];
             connectors[id].setPaintStyle(connectorTypes[type+"_selected"]["paintStyle"]);
         }
     }
@@ -2845,8 +2846,8 @@ $(document).ready(function() {
         indexPositions(spanIds);
         positionGrids(spanIds);
 
-        indexPositionEntities(Object.keys(entities));
-        renewConnections(Object.keys(relations));
+        indexPositionEntities(Object.keys(annotation_data.entities));
+        renewConnections(Object.keys(annotation_data.relations));
         // changeMode(mode);
     }
 
