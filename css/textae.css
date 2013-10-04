@@ -357,7 +357,10 @@ span.Sentence {
     -moz-user-select: none;
     -o-user-select: none;
     user-select: none;
+}
 
+#local_annotation_dialog {
+    display: inline-block;
 }
 
 .separator {
