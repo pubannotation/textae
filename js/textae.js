@@ -1843,9 +1843,13 @@ $(document).ready(function() {
     }
 
     function saveAnnotation() {
-        var location = prompt("Save annotation to the document. Enter the location:", targetUrl);
-        if (location != null && location != "") {
-            saveAnnotationTo(location);
+        if(isLocalIo()){
+            createAnnotationFileLink();
+        }else{
+            var location = prompt("Save annotation to the document. Enter the location:", targetUrl);
+            if (location != null && location != "") {
+               saveAnnotationTo(location);
+            }
         }
     }
 
@@ -1857,20 +1861,23 @@ $(document).ready(function() {
         return this;
     };
 
-
-    function saveAnnotationTo(location) {
-        $('#textae_container').css('cursor', 'wait');
-
+    function annotationDataToJson(annotation_data){
         var denotations = [];
         for (var e in annotation_data.entities) {
             var span = {'begin':annotation_data.spans[annotation_data.entities[e]['span']].begin, 'end':annotation_data.spans[annotation_data.entities[e]['span']].end};
             denotations.push({'id':e, 'span':span, 'obj':annotation_data.entities[e]['type']});
         }
 
-        var postData = {
+        return {
             "text": sourceDoc,
             "denotations": denotations
-        }
+        };
+    }
+
+    function saveAnnotationTo(location) {
+        $('#textae_container').css('cursor', 'wait');
+
+        var postData = annotationDataToJson(annotation_data);
 
         $.ajax({
             type: "post",
@@ -2870,4 +2877,17 @@ $(document).ready(function() {
         }
         $("#local_annotation_json").on("change", onLocalAnnotationJsonChange);
     })();
+
+    function isLocalIo(){
+        var file = $("#local_annotation_json").prop("files")[0];
+        return file != undefined;
+    }
+
+    function createAnnotationFileLink(){
+        var json = annotationDataToJson(annotation_data);
+        var blob = new Blob([JSON.stringify(json)],{type:'text/plain'});
+        URL.createObjectURL(blob);
+        var link = '<a href="' + URL.createObjectURL(blob) + '" target="_blank" download="annotation.json" onClick="$(event.target).remove();">annotation.json</a>';
+        $('#local_annotation_dialog').before(link);
+    }
 });
