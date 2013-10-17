@@ -30,13 +30,46 @@ $(document).ready(function() {
     var configuration = {
         delimiterCharacters: null,
         nonEdgeCharacters: null,
+        defaults: {
+                "delimiter characters": [
+                    " ",
+                    ".",
+                    "!",
+                    "?",
+                    ",",
+                    ":",
+                    ";",
+                    "-",
+                    "/",
+                    "&",
+                    "(",
+                    ")",
+                    "{",
+                    "}",
+                    "[",
+                    "]",
+                    "+",
+                    "*",
+                    "\\",
+                    "\"",
+                    "'",
+                    "\n",
+                    "–"
+                ],
+                "non-edge characters": [
+                    " ",
+                    "\n"
+                ]
+            },
         set: function(config){
-            if (config['delimiter characters'] != undefined) {
-                this.delimiterCharacters = config['delimiter characters'];
+            var settings = $.extend({}, this.defaults, config)
+
+            if (settings['delimiter characters'] != undefined) {
+                this.delimiterCharacters = settings['delimiter characters'];
             }
 
-            if (config['non-edge characters'] != undefined) {
-                this.nonEdgeCharacters = config['non-edge characters'];
+            if (settings['non-edge characters'] != undefined) {
+                this.nonEdgeCharacters = settings['non-edge characters'];
             }
         },
         isNonEdgeCharacter: function(char){
@@ -140,18 +173,7 @@ $(document).ready(function() {
         }
 
         // read default configuration
-        $.ajax({
-            type: "GET",
-            url: "config/default.json",
-            dataType: "json",
-            async: false,
-            success: function(data) {
-                configuration.set(data);
-            },
-            error: function() {
-                alert("Could not read default configuration. Consult the administrator.");
-            }
-        });
+        configuration.set();
 
         if (configUrl != "") {
             $.ajax({
