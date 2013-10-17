@@ -165,36 +165,77 @@ $(document).ready(function() {
 
         var targetUrl = "";
         var configUrl = "";
+        var debug = false;
 
         for (var i =0; i < params.length; i++) {
             var param = params[i];
             if (param.split('=')[0] == 'target') {targetUrl = param.split('=')[1]}
             if (param.split('=')[0] == 'config') {configUrl = param.split('=')[1]}
+            if (param.split('=')[0] == 'debug') {debug = true}
         }
 
         // read default configuration
         configuration.set();
 
-        if (configUrl != "") {
-            $.ajax({
-                type: "GET",
-                url: configUrl,
-                dataType: "json",
-                crossDomain: true,
-                success: function(data) {
-                    configuration.set(data);
-                    setTypes(data);
-                    getAnnotationFrom(targetUrl);
-                },
-                error: function() {
-                    alert('could not read the configuration from the location you specified.');
-                }
-            });
+        if (debug) {
+            var types_for_debug = {
+                "span types": [{
+                    "color": "#0000FF",
+                    "name": "Protein",
+                    "default": true
+                }, {
+                    "color": "#FF0000",
+                    "name": "Cell"
+                }, {
+                    "color": "#00FF00",
+                    "name": "Transcription"
+                }, {
+                    "color": "#FFFF00",
+                    "name": "Gene_expression"
+                }, {
+                    "color": "#FF00FF",
+                    "name": "Negative_regulation"
+                }, {
+                    "color": "#00FFFF",
+                    "name": "Positive_regulation"
+                }, {
+                    "color": "#FFFF66",
+                    "name": "Regulation"
+                }],
+                "relation types": [{
+                    "color": "#5CFF0A",
+                    "name": "locatedAt"
+                }, {
+                    "color": "#FF0000",
+                    "name": "themeOf"
+                }, {
+                    "color": "#0000FF",
+                    "name": "equivalentTo"
+                }]
+            };
+            setTypes(types_for_debug);
+            initialize();
         } else {
-            getAnnotationFrom(targetUrl);
+            if (configUrl != "") {
+                $.ajax({
+                    type: "GET",
+                    url: configUrl,
+                    dataType: "json",
+                    crossDomain: true,
+                    success: function(data) {
+                        configuration.set(data);
+                        setTypes(data);
+                        getAnnotationFrom(targetUrl);
+                    },
+                    error: function() {
+                        alert('could not read the configuration from the location you specified.');
+                    }
+                });
+            } else {
+                getAnnotationFrom(targetUrl);
+            }
         }
     }
-
 
     function showTarget() {
         if (targetUrl != "") {
