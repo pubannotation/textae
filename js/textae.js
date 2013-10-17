@@ -27,8 +27,25 @@ $(document).ready(function() {
     var c_offset = 20;
 
     // configuration data
-    var delimiterCharacters;
-    var nonEdgeCharacters;
+    var configuration = {
+        delimiterCharacters: null,
+        nonEdgeCharacters: null,
+        set: function(config){
+            if (config['delimiter characters'] != undefined) {
+                this.delimiterCharacters = config['delimiter characters'];
+            }
+
+            if (config['non-edge characters'] != undefined) {
+                this.nonEdgeCharacters = config['non-edge characters'];
+            }
+        },
+        isNonEdgeCharacter: function(char){
+            return (this.nonEdgeCharacters.indexOf(char) >= 0);
+        },
+        isDelimiter: function(char){
+            return (this.delimiterCharacters.indexOf(char) >= 0);
+        }
+    };
 
     var entityTypes;
     var relationTypes;
@@ -129,7 +146,7 @@ $(document).ready(function() {
             dataType: "json",
             async: false,
             success: function(data) {
-                setConfig(data);
+                configuration.set(data);
             },
             error: function() {
                 alert("Could not read default configuration. Consult the administrator.");
@@ -143,7 +160,8 @@ $(document).ready(function() {
                 dataType: "json",
                 crossDomain: true,
                 success: function(data) {
-                    setConfig(data);
+                    configuration.set(data);
+                    setTypes(data);
                     getAnnotationFrom(targetUrl);
                 },
                 error: function() {
@@ -184,27 +202,8 @@ $(document).ready(function() {
         $( "#slider_value" ).html( $("#slider").slider( "value" )*0.1);
     }
 
-
-    function isNonEdgeCharacter(char){
-        return (nonEdgeCharacters.indexOf(char) >= 0);
-    }
-
-
-    function isDelimiter(char){
-        return (delimiterCharacters.indexOf(char) >= 0);
-    }
-
-
-    function setConfig(config){
-        if (config['delimiter characters'] != undefined) {
-            delimiterCharacters = config['delimiter characters'];
-        }
-
-        if (config['non-edge characters'] != undefined) {
-            nonEdgeCharacters = config['non-edge characters'];
-        }
-
-        entityTypes = new Object();
+    function setTypes(config){
+        entityTypes = {};
         entityTypeDefault = null;
         if (config['entity types'] != undefined) {
             var entity_types = config['entity types'];
@@ -1014,16 +1013,16 @@ $(document).ready(function() {
     // adjust the beginning position of a span
     function adjustSpanBegin(beginPosition) {
         var pos = beginPosition;
-        while (isNonEdgeCharacter(sourceDoc.charAt(pos))) {pos++}
-        while (!isDelimiter(sourceDoc.charAt(pos)) && pos > 0 && !isDelimiter(sourceDoc.charAt(pos - 1))) {pos--}
+        while (configuration.isNonEdgeCharacter(sourceDoc.charAt(pos))) {pos++}
+        while (!configuration.isDelimiter(sourceDoc.charAt(pos)) && pos > 0 && !configuration.isDelimiter(sourceDoc.charAt(pos - 1))) {pos--}
         return pos;
     }
 
     // adjust the end position of a span
     function adjustSpanEnd(endPosition) {
         var pos = endPosition;
-        while (isNonEdgeCharacter(sourceDoc.charAt(pos - 1))) {pos--}
-        while (!isDelimiter(sourceDoc.charAt(pos)) && pos < sourceDoc.length) {pos++}
+        while (configuration.isNonEdgeCharacter(sourceDoc.charAt(pos - 1))) {pos--}
+        while (!configuration.isDelimiter(sourceDoc.charAt(pos)) && pos < sourceDoc.length) {pos++}
         return pos;
     }
 
@@ -1031,14 +1030,14 @@ $(document).ready(function() {
     // adjust the beginning position of a span for shortening
     function adjustSpanBegin2(beginPosition) {
         var pos = beginPosition;
-        while ((pos < sourceDoc.length) && (isNonEdgeCharacter(sourceDoc.charAt(pos)) || !isDelimiter(sourceDoc.charAt(pos - 1)))) {pos++}
+        while ((pos < sourceDoc.length) && (configuration.isNonEdgeCharacter(sourceDoc.charAt(pos)) || !configuration.isDelimiter(sourceDoc.charAt(pos - 1)))) {pos++}
         return pos;
     }
 
     // adjust the end position of a span for shortening
     function adjustSpanEnd2(endPosition) {
         var pos = endPosition;
-        while ((pos > 0) && (isNonEdgeCharacter(sourceDoc.charAt(pos - 1)) || !isDelimiter(sourceDoc.charAt(pos)))) {pos--}
+        while ((pos > 0) && (configuration.isNonEdgeCharacter(sourceDoc.charAt(pos - 1)) || !configuration.isDelimiter(sourceDoc.charAt(pos)))) {pos--}
         return pos;
     }
 
@@ -1402,7 +1401,7 @@ $(document).ready(function() {
         var precedingChar = document.charAt(startPos-1);
         var followingChar = document.charAt(endPos);
 
-        if (!isDelimiter(precedingChar) || !isDelimiter(followingChar)) {return true}
+        if (!configuration.isDelimiter(precedingChar) || !configuration.isDelimiter(followingChar)) {return true}
         else {return false}
     }
 
