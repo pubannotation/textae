@@ -1843,8 +1843,8 @@ $(document).ready(function() {
     }
 
     function saveAnnotation() {
-        if(isLocalIo()){
-            createAnnotationFileLink();
+        if(localAnnotationFile.isLocalIo()){
+            localAnnotationFile.createAnnotationFileLink();
         }else{
             var location = prompt("Save annotation to the document. Enter the location:", targetUrl);
             if (location != null && location != "") {
@@ -2863,31 +2863,32 @@ $(document).ready(function() {
     }
 
     //setup FileAPI
-    (function(){
-        var onLocalAnnotationJsonChange = function(event){
+    var localAnnotationFile = {
+        init: function(selector){
+            var onLocalAnnotationJsonChange = function(event){
+                var file = $(selector).prop("files")[0];
+                console.log(file);
+
+                var reader = new FileReader();
+                reader.onload = function(event){
+                    var annotation = JSON.parse(event.target.result);
+                    loadAnnotation(annotation);
+                };
+                reader.readAsText(file);
+            }
+            $(selector).on("change", onLocalAnnotationJsonChange);
+        },
+        isLocalIo: function(){
             var file = $("#local_annotation_json").prop("files")[0];
-            console.log(file);
-
-            var reader = new FileReader();
-            reader.onload = function(event){
-                var annotation = JSON.parse(event.target.result);
-                loadAnnotation(annotation);
-            };
-            reader.readAsText(file);
+            return file != undefined;
+        },
+        createAnnotationFileLink: function(){
+            var json = annotationDataToJson(annotation_data);
+            var blob = new Blob([JSON.stringify(json)],{type:'text/plain'});
+            URL.createObjectURL(blob);
+            var link = '<a href="' + URL.createObjectURL(blob) + '" target="_blank" download="annotation.json" onClick="$(event.target).remove();">annotation.json</a>';
+            $('#local_annotation_dialog').before(link);
         }
-        $("#local_annotation_json").on("change", onLocalAnnotationJsonChange);
-    })();
-
-    function isLocalIo(){
-        var file = $("#local_annotation_json").prop("files")[0];
-        return file != undefined;
-    }
-
-    function createAnnotationFileLink(){
-        var json = annotationDataToJson(annotation_data);
-        var blob = new Blob([JSON.stringify(json)],{type:'text/plain'});
-        URL.createObjectURL(blob);
-        var link = '<a href="' + URL.createObjectURL(blob) + '" target="_blank" download="annotation.json" onClick="$(event.target).remove();">annotation.json</a>';
-        $('#local_annotation_dialog').before(link);
-    }
+    };
+    localAnnotationFile.init("#local_annotation_json");
 });
