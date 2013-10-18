@@ -359,10 +359,6 @@ span.Sentence {
     user-select: none;
 }
 
-#local_annotation_dialog {
-    display: inline-block;
-}
-
 .separator {
     display: inline-block;
     margin: 2px;

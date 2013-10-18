@@ -2892,7 +2892,7 @@ $(document).ready(function() {
                 .attr("download", name)
                 .on("click", function(){$(this).remove();});
 
-            $('#local_annotation_dialog').before(link);
+            this.$fileInput.before(link);
         }
     };
     localFile.init("#input_file_local_annotaton_json", function(file_contents){
