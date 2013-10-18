@@ -2885,8 +2885,13 @@ $(document).ready(function() {
         },
         createFileLink: function(name, contents){
             var blob = new Blob([contents],{type:'text/plain'});
-            URL.createObjectURL(blob);
-            var link = '<a href="' + URL.createObjectURL(blob) + '" target="_blank" download="annotation.json" onClick="$(event.target).remove();">' + name + '</a>';
+            var link = $('<a>')
+                .text(name)
+                .attr("href",URL.createObjectURL(blob))
+                .attr("target", "_blank")
+                .attr("download", name)
+                .on("click", function(){$(this).remove();});
+
             $('#local_annotation_dialog').before(link);
         }
     };
