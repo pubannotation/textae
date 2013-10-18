@@ -2895,7 +2895,7 @@ $(document).ready(function() {
             $('#local_annotation_dialog').before(link);
         }
     };
-    localFile.init("#local_annotation_json", function(file_contents){
+    localFile.init("#input_file_local_annotaton_json", function(file_contents){
         var annotation = JSON.parse(file_contents);
         loadAnnotation(annotation);
     });
