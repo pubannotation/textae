@@ -1843,8 +1843,9 @@ $(document).ready(function() {
     }
 
     function saveAnnotation() {
-        if(localAnnotationFile.isLocalIo()){
-            localAnnotationFile.createAnnotationFileLink();
+        if(localFile.hasLocalFile()){
+            var json = JSON.stringify(annotationDataToJson(annotation_data));
+            localFile.createFileLink("annotation.json", json);
         }else{
             var location = prompt("Save annotation to the document. Enter the location:", targetUrl);
             if (location != null && location != "") {
@@ -2863,32 +2864,34 @@ $(document).ready(function() {
     }
 
     //setup FileAPI
-    var localAnnotationFile = {
-        init: function(selector){
-            var onLocalAnnotationJsonChange = function(event){
-                var file = $(selector).prop("files")[0];
-                console.log(file);
+    var localFile = {
+        $fileInput: null,//target element which is "input type="file".
 
+        init: function(selector, fileParseFunc){
+            //cache target element
+            this.$fileInput = $(selector); 
+
+            //bind event handler
+            var onFileChange = function(){
                 var reader = new FileReader();
-                reader.onload = function(event){
-                    var annotation = JSON.parse(event.target.result);
-                    loadAnnotation(annotation);
-                };
-                reader.readAsText(file);
+                reader.onload = function(){ fileParseFunc(this.result); };
+                reader.readAsText(this.files[0]);
             }
-            $(selector).on("change", onLocalAnnotationJsonChange);
+            this.$fileInput.on("change", onFileChange);
         },
-        isLocalIo: function(){
-            var file = $("#local_annotation_json").prop("files")[0];
+        hasLocalFile: function(){
+            var file = this.$fileInput.prop("files")[0];
             return file != undefined;
         },
-        createAnnotationFileLink: function(){
-            var json = annotationDataToJson(annotation_data);
-            var blob = new Blob([JSON.stringify(json)],{type:'text/plain'});
+        createFileLink: function(name, contents){
+            var blob = new Blob([contents],{type:'text/plain'});
             URL.createObjectURL(blob);
-            var link = '<a href="' + URL.createObjectURL(blob) + '" target="_blank" download="annotation.json" onClick="$(event.target).remove();">annotation.json</a>';
+            var link = '<a href="' + URL.createObjectURL(blob) + '" target="_blank" download="annotation.json" onClick="$(event.target).remove();">' + name + '</a>';
             $('#local_annotation_dialog').before(link);
         }
     };
-    localAnnotationFile.init("#local_annotation_json");
+    localFile.init("#local_annotation_json", function(file_contents){
+        var annotation = JSON.parse(file_contents);
+        loadAnnotation(annotation);
+    });
 });
