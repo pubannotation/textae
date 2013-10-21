@@ -2884,7 +2884,7 @@ $(document).ready(function() {
             return file != undefined;
         },
         createFileLink: function(name, contents){
-            var blob = new Blob([contents],{type:'text/plain'});
+            var blob = new Blob([contents],{type:'application/json'});
             var link = $('<a>')
                 .text(name)
                 .attr("href",URL.createObjectURL(blob))
