@@ -126,13 +126,11 @@ $(document).ready(function() {
             type: "GET",
             url: "config/default.json",
             dataType: "json",
-            async: false,
-            success: function(data) {
-                setConfig(data);
-            },
-            error: function() {
-                alert("Could not read default configuration. Consult the administrator.");
-            }
+            async: false
+        }).done(function(data){
+            setConfig(data);
+        }).fail(function(){
+            alert("Could not read default configuration. Consult the administrator.");
         });
 
         if (configUrl != "") {
@@ -140,15 +138,14 @@ $(document).ready(function() {
                 type: "GET",
                 url: configUrl,
                 dataType: "json",
-                crossDomain: true,
-                success: function(data) {
-                    setConfig(data);
-                    getAnnotationFrom(targetUrl);
-                },
-                error: function() {
-                    alert('could not read the configuration from the location you specified.');
-                }
-            });
+                crossDomain: true
+            }).done(function(data){
+                setConfig(data);
+                getAnnotationFrom(targetUrl);
+            }).fail(function(){
+                alert('could not read the configuration from the location you specified.');
+            })
+            ;
         } else {
             getAnnotationFrom(targetUrl);
         }
@@ -276,23 +273,22 @@ $(document).ready(function() {
                 type: "GET",
                 url: targetUrl,
                 dataType: "json",
-                crossDomain: true,
-                xhrFields: {withCredentials: true},
-                success: function(annotation) {
-                    if (annotation.text != undefined) {
-                        loadAnnotation(annotation);
-                        initJsPlumb();
-                        renderAnnotation();
-                        initialize();
-                    } else {
-                        alert("read failed.");
-                    }
-                    $('#textae_container').css('cursor', 'auto');
-                },
-                error: function(res, textStatus, errorThrown){
-                    alert("connection failed.");
-                    $('#textae_container').css('cursor', 'auto');
+            })
+            .done(function(annotation) {
+                if (annotation.text != undefined) {
+                    loadAnnotation(annotation);
+                    initJsPlumb();
+                    renderAnnotation();
+                    initialize();
+                } else {
+                    alert("read failed.");
                 }
+            })
+            .fail(function(res, textStatus, errorThrown){
+                alert("connection failed.");
+            })
+            .always(function(data){
+                $('#textae_container').css('cursor', 'auto');
             });
         }
         else {
@@ -1873,23 +1869,21 @@ $(document).ready(function() {
             url: location,
             data: {annotations:JSON.stringify(postData)},
             crossDomain: true,
-            xhrFields: {withCredentials: true},
-            success: function(res){
-                $('#message').html("annotation saved").fadeIn().fadeOut(5000, function() {
-                    $(this).html('').removeAttr('style');
-                    showTarget();
-                });
-                lastSavePtr = lastEditPtr;
-                changeButtonStateSave();
-                $('#textae_container').css('cursor', 'auto');
-            },
-            error: function(res, textStatus, errorThrown){
-                $('#message').html("could not save").fadeIn().fadeOut(5000, function() {
-                    $(this).html('').removeAttr('style');
-                    showTarget();
-                });
-                $('#textae_container').css('cursor', 'auto');
-            }
+            xhrFields: {withCredentials: true}
+        }).done(function(res){
+            $('#message').html("annotation saved").fadeIn().fadeOut(5000, function() {
+                $(this).html('').removeAttr('style');
+                showTarget();
+            });
+            lastSavePtr = lastEditPtr;
+            changeButtonStateSave();
+            $('#textae_container').css('cursor', 'auto');
+        }).fail(function(res, textStatus, errorThrown){
+            $('#message').html("could not save").fadeIn().fadeOut(5000, function() {
+                $(this).html('').removeAttr('style');
+                showTarget();
+            });
+            $('#textae_container').css('cursor', 'auto');
         });
     }
 
