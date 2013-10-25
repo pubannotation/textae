@@ -337,7 +337,8 @@ $(document).ready(function() {
                 type: "GET",
                 url: targetUrl,
                 dataType: "json",
-                crossDomain: true
+                crossDomain: true,
+                cache: false
             })
             .done(function(annotation) {
                 if (annotation.text != undefined) {
