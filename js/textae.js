@@ -1887,10 +1887,24 @@ $(document).ready(function() {
 
 
     function getAnnotation() {
-        var location = prompt("Load document with annotation. Enter the location:", targetUrl);
-        if (location != null && location != "") {
-            getAnnotationFrom(location);
-        }
+        $("#dialog_load_file").dialog({
+          resizable: false,
+          width:550,
+          height:190,
+          modal: true,
+          buttons: {
+            "Load from server": function() {
+              $( this ).dialog( "close" );
+                var location = prompt("Load document with annotation. Enter the location:", targetUrl);
+                if (location != null && location != "") {
+                    getAnnotationFrom(location);
+                }
+            },
+            Cancel: function() {
+              $( this ).dialog( "close" );
+            }
+          }
+        });
     }
 
     // 'Save' button control
@@ -2936,7 +2950,10 @@ $(document).ready(function() {
             //bind event handler
             var onFileChange = function(){
                 var reader = new FileReader();
-                reader.onload = function(){ fileParseFunc(this.result); };
+                reader.onload = function(){ 
+                    fileParseFunc(this.result);
+                    $("#dialog_load_file").dialog("close");
+                };
                 reader.readAsText(this.files[0]);
             }
             this.$fileInput.on("change", onFileChange);
@@ -2954,7 +2971,7 @@ $(document).ready(function() {
                 .attr("download", name)
                 .on("click", function(){$(this).remove();});
 
-            this.$fileInput.before(link);
+            $(".icon_bar").append(link);
         }
     };
     localFile.init("#input_file_local_annotaton_json", function(file_contents){

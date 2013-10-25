@@ -3,6 +3,7 @@
 <head>
     <meta charset="utf-8" />
 
+    <link rel="stylesheet" href="css/jquery-ui-1.10.3.custom.min.css" />
     <link rel="stylesheet" href="css/jquery.ui.slider.css" />
     <link rel="stylesheet" href="css/textae.css">
 
@@ -44,10 +45,12 @@
             <div class="icon" id="btn_about" title="About"></div>
             <div class="separator"></div>
         </div>
-        <span id="local_annotation">
-            <label for="input_file_local_annotaton_json">local io :</label>
-            <input id="input_file_local_annotaton_json" type="file"　name="hoge" />
-        </span>
+        <div id="dialog_load_file" title="Load document with annotation." style="display:none;">        
+            <span id="local_annotation">
+                <label for="input_file_local_annotaton_json">Load from local file :</label>
+                <input id="input_file_local_annotaton_json" type="file"　name="hoge" />
+            </span>
+        </div>
     </div>
 
     <div id="body">
