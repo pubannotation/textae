@@ -1904,18 +1904,6 @@ $(document).ready(function() {
         renderButtonDisable($("#btn_write"))
     }
 
-    function saveAnnotation() {
-        if(localFile.hasLocalFile()){
-            var json = JSON.stringify(annotationDataToJson(annotation_data));
-            localFile.createFileLink("annotation.json", json);
-        }else{
-            var location = prompt("Save annotation to the document. Enter the location:", targetUrl);
-            if (location != null && location != "") {
-               saveAnnotationTo(location);
-            }
-        }
-    }
-
     jQuery.fn.center = function () {
         var container = $("#textae_container");
         this.css("position","absolute");
@@ -2944,17 +2932,45 @@ $(document).ready(function() {
             });
     }
 
+    function saveAnnotation() {
+        //create local link
+        var filename = localFile.getLocalFileName();
+        var json = JSON.stringify(annotationDataToJson(annotation_data));
+        localFile.createFileLink(filename, json);
+
+        //open dialog
+        var $dialog = $("#dialog_save_file");
+        $dialog
+            .find("input[type='text']")
+            .val(targetUrl);
+        disableKeybordShortcut();
+        $dialog
+            .dialog({
+                resizable: false,
+                width:550,
+                height:220,
+                modal: true,
+                buttons: {
+                    Cancel: function() {
+                        $( this ).dialog( "close" );
+                    }
+                }
+            });
+    }
+
     var localFile = {
         $fileInput: null,//target element which is "input type="file".
 
-        init: function(dialog_selector, fileParseFunc){
-            var $dialog = $(dialog_selector);
-            $dialog.hide()
-            //cache target element
-            this.$fileInput = $dialog.find("input[type='file']"); 
+        init: function(load_dialog_selector, fileParseFunc, save_dialog_selector){
+            //setup load dialog
+            var $load_dialog = $(load_dialog_selector);
+            $load_dialog.hide()
 
-            var close = function(){
-                $dialog.dialog("close");
+            //cache target element
+            this.$fileInput = $load_dialog.find("input[type='file']"); 
+
+            var close_load = function(){
+                $load_dialog.dialog("close");
                 enableKeybordShortcut();
             };
 
@@ -2963,22 +2979,48 @@ $(document).ready(function() {
                 var reader = new FileReader();
                 reader.onload = function(){ 
                     fileParseFunc(this.result);
-                    close();
+                    close_load();
                 };
                 reader.readAsText(this.files[0]);
             }
             this.$fileInput.on("change", onFileChange);
 
-            $dialog.find("input[type='button']")
+            $load_dialog.find("input[type='button']")
                 .on("click", function(){
-                    var $input_text = $dialog.find("input[type='text']");
+                    var $input_text = $load_dialog.find("input[type='text']");
                     getAnnotationFrom($input_text.val());
-                    close();
+                    close_load();
                 });
+
+            //setup save dialog
+            var $save_dialog = $(save_dialog_selector);
+            $save_dialog.hide();
+
+            var close_save = function(){
+                $save_dialog.dialog("close");
+                enableKeybordShortcut();
+            };
+
+            $save_dialog.find("input[type='button']")
+                .on("click", function(){
+                    var $input_text = $save_dialog.find("input[type='text']");
+                    var location = $input_text.val();
+                    if(location != null && location != ""){
+                        saveAnnotationTo(location);
+                    }
+                    close_save();
+                });
+
+            this.$save_dialog = $save_dialog; //cache element
+            this.close_save = close_save;
         },
         hasLocalFile: function(){
             var file = this.$fileInput.prop("files")[0];
             return file != undefined;
+        },
+        getLocalFileName: function(){
+            var file = this.$fileInput.prop("files")[0] 
+            return file ? file.name : "annotations.json";
         },
         createFileLink: function(name, contents){
             var blob = new Blob([contents],{type:'application/json'});
@@ -2987,14 +3029,16 @@ $(document).ready(function() {
                 .attr("href",URL.createObjectURL(blob))
                 .attr("target", "_blank")
                 .attr("download", name)
-                .on("click", function(){$(this).remove();});
+                .on("click", this.close_save);
 
-            $(".icon_bar").append(link);
+            this.$save_dialog.find("span")
+                .empty()
+                .append(link);
         }
     };
 
     localFile.init("#dialog_load_file", function(file_contents){
         var annotation = JSON.parse(file_contents);
         loadAnnotation(annotation);
-    });
+    },"#dialog_save_file");
 });
