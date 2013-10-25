@@ -337,8 +337,7 @@ $(document).ready(function() {
                 type: "GET",
                 url: targetUrl,
                 dataType: "json",
-                crossDomain: true,
-                xhrFields: {withCredentials: true}
+                crossDomain: true
             })
             .done(function(annotation) {
                 if (annotation.text != undefined) {
