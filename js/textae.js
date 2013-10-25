@@ -3015,10 +3015,6 @@ $(document).ready(function() {
             this.$save_dialog = $save_dialog; //cache element
             this.close_save = close_save;
         },
-        hasLocalFile: function(){
-            var file = this.$fileInput.prop("files")[0];
-            return file != undefined;
-        },
         getLocalFileName: function(){
             var file = this.$fileInput.prop("files")[0] 
             return file ? file.name : "annotations.json";
