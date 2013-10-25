@@ -1482,8 +1482,8 @@ $(document).ready(function() {
         }
     }
 
-
-    $(document).keydown(function(e) {
+    //keybord shortcut
+    var onKeybordShortcut = function(e) {
         switch (e.keyCode) {
             case 27: // 'ESC' key
                 cancelSelect();
@@ -1567,8 +1567,14 @@ $(document).ready(function() {
             //     if (!e.ctrlKey && !isButtonDisabled($('#btn_mode_relation'))) {pushButtonRelation()}
             //     break;
         }
-    });
-
+    };
+    var enableKeybordShortcut = function(){
+        $(document).on("keydown", onKeybordShortcut);
+    };
+    var disableKeybordShortcut = function(){
+        $(document).off("keydown", onKeybordShortcut);
+    }
+    enableKeybordShortcut(); //invoke immediately
 
     // 'delete' button control
     function enableButtonDelete() {
@@ -1884,27 +1890,6 @@ $(document).ready(function() {
         renderButtonEnable($("#btn_read"))
     }
 
-
-    function getAnnotation() {
-        $("#dialog_load_file").dialog({
-          resizable: false,
-          width:550,
-          height:190,
-          modal: true,
-          buttons: {
-            "Load from server": function() {
-              $( this ).dialog( "close" );
-                var location = prompt("Load document with annotation. Enter the location:", targetUrl);
-                if (location != null && location != "") {
-                    getAnnotationFrom(location);
-                }
-            },
-            Cancel: function() {
-              $( this ).dialog( "close" );
-            }
-          }
-        });
-    }
 
     // 'Save' button control
     function enableButtonWrite() {
@@ -2939,23 +2924,57 @@ $(document).ready(function() {
     }
 
     //setup FileAPI
+   function getAnnotation() {
+        var $dialog = $("#dialog_load_file");
+        $dialog
+            .find("input[type='text']")
+            .val(targetUrl);
+        disableKeybordShortcut();
+        $dialog
+            .dialog({
+                resizable: false,
+                width:550,
+                height:220,
+                modal: true,
+                buttons: {
+                    Cancel: function() {
+                        $( this ).dialog( "close" );
+                    }
+                }
+            });
+    }
+
     var localFile = {
         $fileInput: null,//target element which is "input type="file".
 
-        init: function(selector, fileParseFunc){
+        init: function(dialog_selector, fileParseFunc){
+            var $dialog = $(dialog_selector);
+            $dialog.hide()
             //cache target element
-            this.$fileInput = $(selector); 
+            this.$fileInput = $dialog.find("input[type='file']"); 
+
+            var close = function(){
+                $dialog.dialog("close");
+                enableKeybordShortcut();
+            };
 
             //bind event handler
             var onFileChange = function(){
                 var reader = new FileReader();
                 reader.onload = function(){ 
                     fileParseFunc(this.result);
-                    $("#dialog_load_file").dialog("close");
+                    close();
                 };
                 reader.readAsText(this.files[0]);
             }
             this.$fileInput.on("change", onFileChange);
+
+            $dialog.find("input[type='button']")
+                .on("click", function(){
+                    var $input_text = $dialog.find("input[type='text']");
+                    getAnnotationFrom($input_text.val());
+                    close();
+                });
         },
         hasLocalFile: function(){
             var file = this.$fileInput.prop("files")[0];
@@ -2973,7 +2992,8 @@ $(document).ready(function() {
             $(".icon_bar").append(link);
         }
     };
-    localFile.init("#input_file_local_annotaton_json", function(file_contents){
+
+    localFile.init("#dialog_load_file", function(file_contents){
         var annotation = JSON.parse(file_contents);
         loadAnnotation(annotation);
     });
