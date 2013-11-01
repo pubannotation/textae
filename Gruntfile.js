@@ -9,9 +9,13 @@ module.exports = function(grunt) {
     watch: {
       files: 'src/*.js',
       tasks: 'concat'
+    },
+    qunit: {
+      all: 'test/index.html'
     }
   });
 
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.loadNpmTasks('grunt-contrib-qunit');
 };

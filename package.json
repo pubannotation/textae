@@ -19,6 +19,7 @@
   "license": "BSD-2-Clause",
   "devDependencies": {
     "grunt-contrib-concat": "~0.3.0",
-    "grunt-contrib-watch": "~0.5.3"
+    "grunt-contrib-watch": "~0.5.3",
+    "grunt-contrib-qunit": "~0.3.0"
   }
 }
