@@ -11,7 +11,7 @@ module.exports = function(grunt) {
       tasks: 'concat'
     },
     qunit: {
-      all: 'test/index.html'
+      all: 'test/util.html'
     }
   });
 
