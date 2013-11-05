@@ -369,7 +369,7 @@ $(document).ready(function() {
     function getAnnotationFrom(url) {
         if (url) {targetUrl = url}
         if (targetUrl != null && targetUrl != "") {
-            $('#textae_container').css('cursor', 'wait');
+            $textae.startWait();
             $.ajax({
                 type: "GET",
                 url: targetUrl,
@@ -391,7 +391,7 @@ $(document).ready(function() {
                 alert("connection failed.");
             })
             .always(function(data){
-                $('#textae_container').css('cursor', 'auto');
+                $textae.endWait();
             });
         }
         else {
@@ -592,8 +592,6 @@ $(document).ready(function() {
         });
 
         $('#annotation_box').empty();
-        renderHelp();
-        renderAbout();
         renderEntityTypePallet();
 
         renderSpans(spanIds);
@@ -1301,8 +1299,8 @@ $(document).ready(function() {
         clearRelationSelection();
         clearModificationSelection();
         $('#entity_type_pallet').css('display', 'none');
-        hideHelp();
-        hideAbout();
+        $textae.hideHelp();
+        $textae.hideAbout();
         changeButtonStateReplicate();
         changeButtonStateEntity();
         changeButtonStateDelete();
@@ -1540,7 +1538,7 @@ $(document).ready(function() {
                 createEntity();
                 break;
             case 72: // 'h' key
-                showHelp();
+                $textae.showHelp();
                 break;
             case 67: // 'c' key
                 copyEntities();
@@ -1861,62 +1859,15 @@ $(document).ready(function() {
         }
     }
 
-    function renderHelp() {
-        $('#annotation_box').append("<div id='help'></div>");
-        hideHelp();
-        $('#help').off('mouseup', hideHelp).on('mouseup', hideHelp);
-        $('#help').html("<h3>Help (Keyboard short-cuts)</h3><img src='images/keyhelp.png' />");
-    }
-
-    function showHelp() {
-        var p = $('#help');
-        p.css('display', 'block');
-        p.center();
-        return false;
-    }
-
-    function hideHelp() {
-        $('#help').css('display', 'none');
-        return false;
-    }
-    
     // 'Help' button control
     function enableButtonHelp() {
-        $("#btn_help").off('click', showHelp).on('click', showHelp);
+        $("#btn_help").off('click', $textae.showHelp).on('click', $textae.showHelp);
         renderButtonEnable($("#btn_help"))
     }
 
-    function renderAbout() {
-        $('#annotation_box').append("<div id='about'></div>");
-        hideAbout();
-        $('#about').off('mouseup', hideAbout).on('mouseup', hideAbout);
-        $('#about').html("<h3>About TextAE (Text Annotation Editor)</h3>" +
-                    "<p>今ご覧になっているTextAEはPubAnnotationで管理しているアノテーションのビューアもしくはエディタです。</p>" +
-                    "<p>PubAnnotationではPubMedのアブストラクトにアノテーションを付けることができます。</p>" +
-                    "<p>現在はEntrez Gene IDによる自動アノテーションおよびそのマニュアル修正作業が可能となっています。" +
-                    "今後は自動アノテーションの種類を増やす計画です。</p>" +
-                    "<p>間違ったアノテーションも目に付くと思いますが、それを簡単に直して自分のプロジェクトにセーブできるのがポイントです。</p>" +
-                    "<p>自分のアノテーションを作成するためにはPubAnnotation上で自分のプロジェクトを作る必要があります。" +
-                    "作成したアノテーションは後で纏めてダウンロードしたり共有することができます。</p>" +
-                    "<p>まだ開発中のサービスであり、実装すべき機能が残っています。" +
-                    "ユーザの皆様の声を大事にして開発していきたいと考えておりますので、ご意見などございましたら教えていただければ幸いです。</p>");
-    }
-
-    function showAbout() {
-        var p = $('#about');
-        p.css('display', 'block');
-        p.center();
-        return false;
-    }
-
-    function hideAbout() {
-        $('#about').css('display', 'none');
-        return false;
-    }
-    
     // 'About' button control
     function enableButtonAbout() {
-        $("#btn_about").off('click', showAbout).on('click', showAbout);
+        $("#btn_about").off('click', $textae.showAbout).on('click', $textae.showAbout);
         renderButtonEnable($("#btn_about"))
     }
 
@@ -1942,14 +1893,6 @@ $(document).ready(function() {
         renderButtonDisable($("#btn_write"))
     }
 
-    jQuery.fn.center = function () {
-        var container = $("#textae_container");
-        this.css("position","absolute");
-        this.css("top", ( container.height() - this.height() ) / 2+container.scrollTop() + "px");
-        this.css("left", ( container.width() - this.width() ) / 2+container.scrollLeft() + "px");
-        return this;
-    };
-
     function annotationDataToJson(annotation_data){
         var denotations = [];
         for (var e in annotation_data.entities) {
@@ -1964,7 +1907,7 @@ $(document).ready(function() {
     }
 
     function saveAnnotationTo(location) {
-        $('#textae_container').css('cursor', 'wait');
+        $textae.startWait();
 
         var postData = annotationDataToJson(annotation_data);
 
@@ -1981,13 +1924,13 @@ $(document).ready(function() {
             });
             lastSavePtr = lastEditPtr;
             changeButtonStateSave();
-            $('#textae_container').css('cursor', 'auto');
+            $textae.endWait();
         }).fail(function(res, textStatus, errorThrown){
             $('#message').html("could not save").fadeIn().fadeOut(5000, function() {
                 $(this).html('').removeAttr('style');
                 showTarget();
             });
-            $('#textae_container').css('cursor', 'auto');
+            $textae.endWait();
         });
     }
 
@@ -3075,4 +3018,101 @@ $(document).ready(function() {
         var annotation = JSON.parse(file_contents);
         loadAnnotation(annotation);
     },"#dialog_save_file");
+
+    //like a jQuery plugin
+    jQuery.fn.textae = function () {
+        var $textae_container = this;
+        var elements = {};
+
+        // DOM util
+        var center = function ($self) {
+            var container = $textae_container;
+            $self.css("position","absolute");
+            $self.css("top", ( container.height() - $self.height() ) / 2+container.scrollTop() + "px");
+            $self.css("left", ( container.width() - $self.width() ) / 2+container.scrollLeft() + "px");
+            return $self;
+        };
+
+        //help 
+        var setupHelp = function setupHelp(self) {
+            var showHelp = function () {
+                var p = elements.$help;
+                p.show();
+                center(p);
+                return false;
+            };
+
+            var hideHelp = function () {
+                elements.$help.hide();
+                return false;
+            };
+
+            elements.$help = $("<div>")
+                .addClass("help")
+                .hide()
+                .on('mouseup', hideHelp)
+                .append($("<h3>").text("Help (Keyboard short-cuts)"))
+                .append($("<img>").attr("src", "images/keyhelp.png"));
+ 
+            self.append(elements.$help);
+            self.showHelp = showHelp;
+            self.hideHelp = hideHelp;
+        };
+
+
+        //about
+        var setupAbout = function setupAbout(self) {
+            var showAbout = function () {
+                var p = elements.$about;
+                p.show();
+                center(p);
+                return false;
+            };
+
+            var hideAbout = function () {
+                elements.$about.hide();
+                return false;
+            };
+
+            elements.$about= $("<div>")
+                .addClass("about")
+                .hide()
+                .on("mouseup", hideAbout)
+                .html("<h3>About TextAE (Text Annotation Editor)</h3>" +
+                        "<p>今ご覧になっているTextAEはPubAnnotationで管理しているアノテーションのビューアもしくはエディタです。</p>" +
+                        "<p>PubAnnotationではPubMedのアブストラクトにアノテーションを付けることができます。</p>" +
+                        "<p>現在はEntrez Gene IDによる自動アノテーションおよびそのマニュアル修正作業が可能となっています。" +
+                        "今後は自動アノテーションの種類を増やす計画です。</p>" +
+                        "<p>間違ったアノテーションも目に付くと思いますが、それを簡単に直して自分のプロジェクトにセーブできるのがポイントです。</p>" +
+                        "<p>自分のアノテーションを作成するためにはPubAnnotation上で自分のプロジェクトを作る必要があります。" +
+                        "作成したアノテーションは後で纏めてダウンロードしたり共有することができます。</p>" +
+                        "<p>まだ開発中のサービスであり、実装すべき機能が残っています。" +
+                        "ユーザの皆様の声を大事にして開発していきたいと考えておりますので、ご意見などございましたら教えていただければ幸いです。</p>");
+
+            self.append(elements.$about);
+            self.showAbout = showAbout;
+            self.hideAbout = hideAbout;
+        };
+
+        //cursor
+        var setupWait = function setuoWait(self){
+            var wait = function(){
+                $textae_container.css('cursor', 'wait');
+            };
+            var endWait = function(){
+                $textae_container.css('cursor', 'auto');
+            }
+            self.startWait = wait;
+            self.endWait = endWait;
+        }
+
+        //init
+        setupHelp(this);
+        setupAbout(this);
+        setupWait(this);
+    
+        return this;
+    };
+
+    $textae = $(".textae").textae();
 });

@@ -3,7 +3,7 @@ html, body {
     height: 100%;
 }
 
-#textae_container {
+.textae {
     position: relative;
     left: 0px;
     height: 600px;
@@ -240,7 +240,7 @@ html, body {
     border-color:#AAAAAA;
 }
 
-#about {
+.about {
     border: solid 4px #aaaa88;
     background-color: rgba(255,255,225,1.0);
     width: 400px;
@@ -249,7 +249,7 @@ html, body {
     font-size: small;
 }
 
-#help {
+.help {
     border: solid 4px #aaaa88;
     background-color: rgba(255,255,225,1.0);
     width: 400px;
