@@ -39,7 +39,6 @@
             self.hideHelp = hideHelp;
         };
 
-
         //about
         var setupAbout = function setupAbout(self) {
             var showAbout = function() {
