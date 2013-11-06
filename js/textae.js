@@ -50,6 +50,7 @@
         var elements = {};
 
         // DOM util
+        // TODO : which instance is center of, when instances is multi.
         var center = function($self) {
             var container = $textae_container;
             $self.css("position", "absolute");
@@ -83,7 +84,6 @@
             self.showHelp = showHelp;
             self.hideHelp = hideHelp;
         };
-
 
         //about
         var setupAbout = function setupAbout(self) {
@@ -135,6 +135,160 @@
         setupHelp(this);
         setupAbout(this);
         setupWait(this);
+
+        return this;
+    };
+})(jQuery);
+// textae control plugin
+(function(jQuery) {
+    //utility functions for button
+    //TODO: both main and this plugnin independent global object below. 
+    window.buttonUtil = {
+        enable: function($button) {
+            $button.removeClass('textae-control__icon-bar__icon--disabled');
+        },
+        disable: function($button) {
+            $button.addClass('textae-control__icon-bar__icon--disabled');
+        },
+        isDisable: function($button) {
+            return $button.hasClass('textae-control__icon-bar__icon--disabled');
+        },
+        push: function($button) {
+            $button.addClass('textae-control__icon-bar__icon--pushed');
+        },
+        unpush: function($button) {
+            $button.removeClass('textae-control__icon-bar__icon--pushed');
+        },
+        isPushed: function($button) {
+            return $button.hasClass('textae-control__icon-bar__icon--pushed');
+        }
+    };
+
+    jQuery.fn.textaeControl = function() {
+        var $title = $('<span class="textae-control__title">')
+            .append('<a href="http://bionlp.dbcls.jp/textae/">TextAE</a>'),
+            $icon_bar = $($('<span class = "textae-control__icon-bar">')
+                .append('<span class="separator"></span>')
+                .append('<span class="textae-control__icon-bar__icon textae-control__icon-bar__read-button" title="Access [A]"></span>')
+                .append('<span class="textae-control__icon-bar__icon textae-control__icon-bar__write-button" title="Save [S]"></span>')
+                .append('<span class="separator"></span>')
+                .append('<span class="textae-control__icon-bar__icon textae-control__icon-bar__undo-button" title="Undo [Z]"></span>')
+                .append('<span class="textae-control__icon-bar__icon textae-control__icon-bar__redo-button" title="Redo [X]"></span>')
+                .append('<span class="separator"></span>')
+                .append('<span class="textae-control__icon-bar__icon textae-control__icon-bar__replicate-button" title="Replicate span annotation [R]"></span>')
+                .append('<span class="textae-control__icon-bar__icon textae-control__icon-bar__replicate-auto-button" title="Auto replicate (Toggle)"></span>')
+                .append('<span class="separator"></span>')
+                .append('<span class="textae-control__icon-bar__icon textae-control__icon-bar__entity-button" title="New entity [E]"></span>')
+                .append('<span class="textae-control__icon-bar__icon textae-control__icon-bar__pallet-button" title="Select label [Q]"></span>')
+                .append('<span class="textae-control__icon-bar__icon textae-control__icon-bar__new-label-button" title="Enter label [W]"></span>')
+                .append('<span class="separator"></span>')
+                .append('<span class="textae-control__icon-bar__icon textae-control__icon-bar__delete-button" title="Delete [D]"></span>')
+                .append('<span class="textae-control__icon-bar__icon textae-control__icon-bar__copy-button" title="Copy [C]"></span>')
+                .append('<span class="textae-control__icon-bar__icon textae-control__icon-bar__paste-button" title="Paste [V]"></span>')
+                .append('<span class="separator"></span>')
+                .append('<span class="textae-control__icon-bar__icon textae-control__icon-bar__help-button" title="Help [H]"></span>')
+                .append('<span class="textae-control__icon-bar__icon textae-control__icon-bar__about-button" title="About"></span>')
+                .append('<span class="separator"></span>')
+            )
+                .append($('<div id="dialog_load_file" title="Load document with annotation.">')
+                    .append('<div>Sever :<input type="text" style="width:345px"/><input type="button" value="OK" /></div>')
+                    .append('<div>Local :<input type="file"　/></div>')
+            )
+                .append($('<div id="dialog_save_file" title="Save document with annotation.">')
+                    .append('<div>Sever :<input type="text" style="width:345px"/><input type="button" value="OK" /></div>')
+                    .append('<div>Local :<span class="span_link_place"></span></div>')
+            );
+
+        this.append($title)
+            .append($icon_bar);
+
+        // button cache and event definition.
+        var buttons = {
+            read: {
+                obj: this.find(".textae-control__icon-bar__read-button"),
+                ev: "textae.control.button.read.click"
+            },
+            write: {
+                obj: this.find(".textae-control__icon-bar__write-button"),
+                ev: "textae.control.button.write.click"
+            },
+            undo: {
+                obj: this.find(".textae-control__icon-bar__undo-button"),
+                ev: "textae.control.button.undo.click"
+            },
+            redo: {
+                obj: this.find(".textae-control__icon-bar__redo-button"),
+                ev: "textae.control.button.redo.click"
+            },
+            replicate: {
+                obj: this.find(".textae-control__icon-bar__replicate-button"),
+                ev: "textae.control.button.replicate.click"
+            },
+            replicateAuto: {
+                obj: this.find(".textae-control__icon-bar__replicate-auto-button"),
+                ev: "textae.control.button.replicate-auto.click"
+            },
+            entity: {
+                obj: this.find(".textae-control__icon-bar__entity-button"),
+                ev: "textae.control.button.entity.click"
+            },
+            pallet: {
+                obj: this.find(".textae-control__icon-bar__pallet-button"),
+                ev: "textae.control.button.pallet.click"
+            },
+            newLabel: {
+                obj: this.find(".textae-control__icon-bar__new-label-button"),
+                ev: "textae.control.button.new-label.click"
+            },
+            delete: {
+                obj: this.find(".textae-control__icon-bar__delete-button"),
+                ev: "textae.control.button.delete.click"
+            },
+            copy: {
+                obj: this.find(".textae-control__icon-bar__copy-button"),
+                ev: "textae.control.button.copy.click"
+            },
+            paste: {
+                obj: this.find(".textae-control__icon-bar__paste-button"),
+                ev: "textae.control.button.paste.click"
+            },
+            help: {
+                obj: this.find(".textae-control__icon-bar__help-button"),
+                ev: "textae.control.button.help.click"
+            },
+            about: {
+                obj: this.find(".textae-control__icon-bar__about-button"),
+                ev: "textae.control.button.about.click"
+            }
+        };
+        this.buttons = buttons;
+
+        var $self = this,
+            CLICK = "click";
+        // function to enable/disable button
+        this.enableButton = function(button_name, enable) {
+            var button = buttons[button_name];
+
+            if (button) {
+                if (enable) {
+                    button.obj
+                        .off(CLICK)
+                        .on(CLICK, function() {
+                            $self.trigger(button.ev);
+                        });
+                    buttonUtil.enable(button.obj);
+                } else {
+                    button.obj.off(CLICK);
+                    buttonUtil.disable(button.obj);
+                }
+            }
+        };
+
+        // buttons always eanable.
+        this.enableButton("read", true);
+        this.enableButton("replicateAuto", true);
+        this.enableButton("help", true);
+        this.enableButton("about", true);
 
         return this;
     };
@@ -252,10 +406,6 @@ $(document).ready(function() {
     // target URL
     var targetUrl = '';
 
-    var editHistory;
-    var lastEditPtr;
-    var editHistoryLastSavePtr;
-
     var typeHeight = 0;
     var gridWidthGap = 0;
     var typeMarginTop = 18;
@@ -299,8 +449,106 @@ $(document).ready(function() {
         $('#temp_grid').remove();
     }
 
-    window.$textae = $(".textae").textae();
-    parseUrlParameters();
+    var localFile = {
+        $fileInput: null,//target element which is "input type="file".
+
+        init: function(load_dialog_selector, fileParseFunc, save_dialog_selector){
+            //setup load dialog
+            var $load_dialog = $(load_dialog_selector);
+            $load_dialog.hide()
+
+            //cache target element
+            this.$fileInput = $load_dialog.find("input[type='file']"); 
+
+            var close_load = function(){
+                $load_dialog.dialog("close");
+                keyboard.enableShortcut();
+            };
+
+            //bind event handler
+            var onFileChange = function(){
+                var reader = new FileReader();
+                reader.onload = function(){ 
+                    fileParseFunc(this.result);
+                    close_load();
+                };
+                reader.readAsText(this.files[0]);
+            }
+            this.$fileInput.on("change", onFileChange);
+
+            $load_dialog.find("input[type='button']")
+                .on("click", function(){
+                    var $input_text = $load_dialog.find("input[type='text']");
+                    getAnnotationFrom($input_text.val());
+                    close_load();
+                });
+
+            //setup save dialog
+            var $save_dialog = $(save_dialog_selector);
+            $save_dialog.hide();
+
+            var close_save = function(){
+                $save_dialog.dialog("close");
+                keyboard.enableShortcut();
+            },
+            saveAnnotationTo = function(location) {
+                $textae.startWait();
+
+                var postData = annotationDataToJson(annotation_data);
+
+                $.ajax({
+                    type: "post",
+                    url: location,
+                    data: {annotations:JSON.stringify(postData)},
+                    crossDomain: true,
+                    xhrFields: {withCredentials: true}
+                }).done(function(res){
+                    $('#message').html("annotation saved").fadeIn().fadeOut(5000, function() {
+                        $(this).html('').removeAttr('style');
+                        showTarget();
+                    });
+                    editHistory.saved();
+                    $textae.endWait();
+                }).fail(function(res, textStatus, errorThrown){
+                    $('#message').html("could not save").fadeIn().fadeOut(5000, function() {
+                        $(this).html('').removeAttr('style');
+                        showTarget();
+                    });
+                    $textae.endWait();
+                });
+            };
+
+            $save_dialog.find("input[type='button']")
+                .on("click", function(){
+                    var $input_text = $save_dialog.find("input[type='text']");
+                    var location = $input_text.val();
+                    if(location != null && location != ""){
+                        saveAnnotationTo(location);
+                    }
+                    close_save();
+                });
+
+            this.$save_dialog = $save_dialog; //cache element
+            this.close_save = close_save;
+        },
+        getLocalFileName: function(){
+            var file = this.$fileInput.prop("files")[0] 
+            return file ? file.name : "annotations.json";
+        },
+        createFileLink: function(name, contents){
+            var blob = new Blob([contents],{type:'application/json'});
+            var link = $('<a>')
+                .text(name)
+                .attr("href",URL.createObjectURL(blob))
+                .attr("target", "_blank")
+                .attr("download", name)
+                .on("click", this.close_save);
+
+            this.$save_dialog.find("span")
+                .empty()
+                .append(link);
+        }
+    };
 
     // get the url parameters: beginning of the program
     function parseUrlParameters() {
@@ -374,27 +622,6 @@ $(document).ready(function() {
         }
     }
 
-
-    function initSlider() {
-        $('#slider').slider({
-            range: "max",
-            min: 0,
-            max: 10,
-            step: 1,
-            value: connOpacity*10,
-            stop: function( event, ui ) {
-                connOpacity = ((ui.value)*0.1).toFixed(1);
-                $( "#slider_value" ).html(connOpacity);
-                changeConnectionOpacity(connOpacity);
-            },
-            slide: function( event, ui ) {
-                connOpacity = ((ui.value)*0.1).toFixed(1);
-                $( "#slider_value" ).html(connOpacity);
-            }
-        });
-        $( "#slider_value" ).html( $("#slider").slider( "value" )*0.1);
-    }
-
     function setTypes(config){
         entityTypes = {};
         entityTypeDefault = null;
@@ -435,7 +662,6 @@ $(document).ready(function() {
         }
     }
 
-
     function initJsPlumb() {
         jsPlumb.reset();
         jsPlumb.setRenderMode(jsPlumb.SVG);
@@ -446,7 +672,6 @@ $(document).ready(function() {
         });
         setConnectorTypes();
     }
-
 
     function setConnectorTypes() {
         for (var name in relationTypes) {
@@ -459,7 +684,6 @@ $(document).ready(function() {
         }
         // jsPlumb.registerConnectionTypes(connectorTypes);
     }
-
 
     function getAnnotationFrom(url) {
         if (url) {targetUrl = url}
@@ -475,9 +699,6 @@ $(document).ready(function() {
             .done(function(annotation) {
                 if (annotation.text != undefined) {
                     loadAnnotation(annotation);
-                    initJsPlumb();
-                    renderAnnotation();
-                    initialize();
                 } else {
                     alert("read failed.");
                 }
@@ -494,32 +715,190 @@ $(document).ready(function() {
         }
     }
 
+    // histories of edit to undo and redo.
+    var editHistory = function (){
+        var lastSaveIndex = -1,
+            lastEditIndex = -1,
+            history = [],
+            onChangeFunc,
+            trigger = function(){ onChangeFunc && onChangeFunc(); };
+        
+        return {
+            init : function(onChange){
+                lastSaveIndex = -1;
+                lastEditIndex = -1;
+                history = [],
+                onChangeFunc = onChange.bind(this);
+
+                trigger();
+            },
+            push :function(edits){
+                history.push(edits);
+                lastEditIndex++;
+                trigger();
+            },
+            next :function(){
+                lastEditIndex++;
+                trigger();
+                return history[lastEditIndex];
+            },
+            prev :function(){
+                var lastEdit = history[lastEditIndex]; 
+                lastEditIndex--;
+                trigger();
+                return lastEdit;
+            },
+            saved: function(){
+                lastSaveIndex = lastEditIndex;
+                trigger();
+            },
+            hasAnythingToUndo : function(){
+                return lastEditIndex > -1;
+            },
+            hasAnythingToRedo : function(){
+                return lastEditIndex < history.length - 1;
+            },
+            hasAnythingToSave : function(){
+                return lastEditIndex != lastSaveIndex;
+            }
+        };
+    }();
+
+    //action when editHistory is changed.
+    var editHistoryChanged = function(){
+        //change button state
+        $textaeControl.enableButton("write", this.hasAnythingToSave());
+        $textaeControl.enableButton("undo", this.hasAnythingToUndo());
+        $textaeControl.enableButton("redo", this.hasAnythingToRedo());
+
+        //change leaveMessage show
+        if (this.hasAnythingToSave()) {
+            $(window).off('beforeunload', leaveMessage).on('beforeunload', leaveMessage);
+        } else {
+            $(window).off('beforeunload', leaveMessage);
+        }
+    };
+
+    //keyboard shortcut
+    var keyboard = {
+        onKeydown : function(e) {
+            switch (e.keyCode) {
+                case 27: // 'ESC' key
+                    cancelSelect();
+                    break;
+                case 65: // 'a' key
+                    businessLogic.getAnnotation();
+                    break;
+                case 83: // 's' key
+                    businessLogic.saveAnnotation();
+                    break;
+                case 46: // win delete / mac fn + delete
+                case 68: // 'd' key
+                    businessLogic.removeElements();
+                    break;
+                case 69: // 'e' key
+                    businessLogic.createEntity();
+                    break;
+                case 72: // 'h' key
+                    businessLogic.showHelp();
+                    break;
+                case 67: // 'c' key
+                    businessLogic.copyEntities();
+                    break;
+                case 86: // 'v' key
+                    businessLogic.pasteEntities();
+                    break;
+                case 81: // 'q' key
+                    // show type selector
+                    businessLogic.showPallet();
+                    break;
+                case 87: // 'w' key
+                    // show type selector
+                    businessLogic.newLabel();
+                    break;
+                case 82: // 'r' key:
+                    // replicate span annotatino
+                    replicate();
+                    break;
+                // case 191: // '?' key
+                //     if (mode == 'span') {
+                //         createModification("Speculation");
+                //     }
+                //     break;
+                // case 88: // 'x' key
+                //     if (mode == 'span') {
+                //         if (!e.ctrlKey) {createModification("Negation")}
+                //     }
+                //     break;
+                case 90: // 'z' key
+                    if (editHistory.hasAnythingToUndo()) {
+                        businessLogic.undo();
+                    }
+                    break;
+                case 88: // 'x' key
+                case 89: // 'y' key
+                    if (editHistory.hasAnythingToRedo()) { 
+                        businessLogic.redo();
+                    }
+                    break;
+                case 37: // left arrow key: move the span selection backward
+                    if (numSpanSelection() == 1) {
+                        var spanIdx = spanIds.indexOf(popSpanSelection());
+                        clearSelection()
+                        spanIdx--;
+                        if (spanIdx < 0) {spanIdx = spanIds.length - 1}
+                        select(spanIds[spanIdx]);
+                    }
+                    break;
+                case 39: //right arrow key: move the span selection forward
+                    if (numSpanSelection() == 1) {
+                        var spanIdx = spanIds.indexOf(popSpanSelection());
+                        clearSelection()
+                        spanIdx++;
+                        if (spanIdx > spanIds.length - 1) {spanIdx = 0}
+                        select(spanIds[spanIdx]);
+                    }
+                    break;
+            }
+        },
+        enableShortcut : function(){
+            $(document).on("keydown", keyboard.onKeydown);
+        },
+        disableShortcut : function(){
+            $(document).off("keydown", keyboard.onKeydown);
+        }
+    };
+
+    //setup
+    (function() {
+        //setup contorl
+        window.$textaeControl = $(".textae-control").textaeControl();
+        localFile.init("#dialog_load_file", function(file_contents){
+            var annotation = JSON.parse(file_contents);
+            loadAnnotation(annotation);
+        },"#dialog_save_file");
+
+        //setup editor
+        window.$textae = $(".textae").textae();
+        parseUrlParameters();
+
+        keyboard.enableShortcut();
+    })();
 
     function initialize() {
         detectOS();
         browserNameVersion = navigator.sayswho
 
-        // $('#text_box').off('mouseup', doMouseup).on('mouseup', doMouseup);
-        // $('#body').off('mouseup', cancelSelect).on('mouseup', cancelSelect);
         $('#body').off('mouseup', doMouseup).on('mouseup', doMouseup);
-        // $('#body').off('click', cancelSelect).on('click', cancelSelect);
 
         relationIdsSelected = new Array();
         modificationIdsSelected = new Array();
 
         clipBoard = new Array();
 
-        editHistory = new Array();
-        lastEditPtr = -1;
-        lastSavePtr = -1;
+        bindTextaeControlEventhandler();
 
-        enableButtonRead();
-        enableButtonReplicateAuto();
-        enableButtonHelp();
-        enableButtonAbout();
-
-        changeButtonStateUndoRedo();
-        changeButtonStateSave();
+        editHistory.init(editHistoryChanged);
         changeButtonStateReplicate();
         changeButtonStateEntity();
         changeButtonStateDelete();
@@ -529,9 +908,6 @@ $(document).ready(function() {
         changeButtonStatePaste();
 
         showTarget();
-        // if (entityTypeDefault == null || targetUrl === "") disableButtonSpan();
-        // if (relationTypeDefault == null || targetUrl === "") disableButtonRelation();
-        // pushButtonSpan();
     }
 
     function loadAnnotation(annotation) {
@@ -604,7 +980,6 @@ $(document).ready(function() {
         relationIds = Object.keys(annotation_data.relations);
     }
 
-
     // span Id
     function getSid(begin, end) {
         return begin + '-' + end;
@@ -629,8 +1004,10 @@ $(document).ready(function() {
         positions[id].center = positions[id].left + positions[id].width/2;
     }
 
-    function indexPositionEntities(ids) {
-        for (var i in ids) indexPositionEntity(ids[i]);
+    function indexPositionEntities() {
+        Object.keys(annotation_data.entities).forEach(function(id){
+            indexPositionEntity(id);
+        });
     }
 
     function indexPositionEntity(id) {
@@ -644,36 +1021,16 @@ $(document).ready(function() {
         positions[id].center = positions[id].left + positions[id].width/2;
     }
 
-    function updatePositionEntities(ids) {
-        for (var i in ids) updatePositionEntity(ids[i]);
-    }
-
-    function updatePositionEntity(id) {
-        var gid = 'G' + annotation_data.entities[id].span;
-        positions[id] = {};
-        positions[id].top    = positions[gid].top + e.get(0).offsetTop;
-        positions[id].left   = positions[gid].left + e.get(0).offsetLeft;
-        positions[id].width  = e.outerWidth();
-        positions[id].height = e.outerHeight();
-        positions[id].center = positions[id].left + positions[id].width/2;
-    }
-
-
-
-    function getLineSpace() {
-        var lines = docArea.getClientRects();
-        lineSpace = lines[1].top - lines[0].bottom;
-        return lineSpace;
-    }
-
     function renderAnnotation() {
         container = document.getElementById("body");
         docArea = document.getElementById("text_box");
 
         docArea.innerHTML = sourceDoc;
-        getLineSpace();
+        var lines = docArea.getClientRects();
+        var lineSpace = lines[1].top - lines[0].bottom;
         container.style.paddingTop = lineSpace/2 + 'px';
 
+        //set sroucedoc tagged <p> per line.
         docArea.innerHTML = sourceDoc.split("\n").map(function(par){return '<p>' + par + '</p>'}).join("\n");
         pars = {};
         var pid = 0;
@@ -706,7 +1063,6 @@ $(document).ready(function() {
         }
     }
 
-
     function sortRelationIds(rids) {
         function compare(a, b) {
             return (annotation_data.relations[b].size - annotation_data.relations[a].size);
@@ -728,102 +1084,6 @@ $(document).ready(function() {
         }
         return null;
     }
-
-    // 'Undo' button control
-    function enableButtonUndo() {
-        $("#btn_undo").off('click', doUndo).on('click', doUndo);
-        renderButtonEnable($("#btn_undo"))
-    }
-
-    function disableButtonUndo() {
-        $("#btn_undo").off('click', doUndo);
-        renderButtonDisable($("#btn_undo"))
-    }
-
-    // 'Redo' button control
-    function enableButtonRedo() {
-        $("#btn_redo").off('click', doRedo).on('click', doRedo);
-        renderButtonEnable($("#btn_redo"))
-    }
-
-    function disableButtonRedo() {
-        $("#btn_redo").off('click', doRedo);
-        renderButtonDisable($("#btn_redo"))
-    }
-
-
-    function doUndo() {
-        clearSelection();
-        clearRelationSelection();
-        clearModificationSelection();
-
-        revertEdits(editHistory[lastEditPtr--]);
-        changeButtonStateUndoRedo();
-        changeButtonStateSave();
-    }
-
-
-    function doRedo() {
-        clearSelection();
-        clearRelationSelection();
-        clearModificationSelection();
-
-        makeEdits(editHistory[++lastEditPtr], 'redo');
-        changeButtonStateUndoRedo();
-        changeButtonStateSave();
-
-        return false;
-    }
-
-
-    function changeButtonStateUndoRedo() {
-        if (lastEditPtr > -1) {
-            enableButtonUndo();
-            $('#btn_undo').html(lastEditPtr + 1);
-        } else {
-            disableButtonUndo();
-            $('#btn_undo').html('');
-        }
-
-        if (lastEditPtr < editHistory.length - 1) {
-            enableButtonRedo();
-            $('#btn_redo').html(editHistory.length - lastEditPtr - 1);
-        } else {
-            disableButtonRedo();
-            $('#btn_redo').html('');
-        }
-    }
-
-
-    function changeButtonStateSave() {
-        if (lastEditPtr == lastSavePtr) {
-            disableButtonWrite();
-        } else {
-            enableButtonWrite();
-        }
-    }
-
-
-    function renderButtonDisable(button) {
-        button.addClass('disabled');
-    }
-
-    function renderButtonEnable(button) {
-        button.removeClass('disabled');
-    }
-
-    function isButtonDisabled(button) {
-        return button.hasClass('disabled');
-    }
-
-    function renderButtonPush(button) {
-        button.addClass('pushed');
-    }
-
-    function renderButtonUnpush(button) {
-        button.removeClass('pushed');
-    }
-
 
     function renderEntityTypePallet() {
         var types = Object.keys(entityTypes);
@@ -866,76 +1126,16 @@ $(document).ready(function() {
         $('.entity_type_label').off('mouseup', setEntityType).on('mouseup', setEntityType);
    }
 
-    function enableButtonEntity() {
-        $("#btn_entity").off('click', createEntity).on('click', createEntity);
-        renderButtonEnable($("#btn_entity"));
-    }
-
-    function disableButtonEntity() {
-        $("#btn_entity").off('click', createEntity);
-        renderButtonDisable($("#btn_entity"));
-    }
-
     function changeButtonStateEntity() {
-        if (numSpanSelection() > 0) enableButtonEntity();
-        else disableButtonEntity();
-    }
-
-    function newLabel() {
-        if ($(".entity.ui-selected").length > 0) {
-            var new_type = prompt("Please enter a new label","");
-            if (entityTypes[new_type] == undefined) {
-                entityTypes[new_type] = {};
-                renderEntityTypePallet();
-            }
-
-            var edits = [];
-            $(".entity.ui-selected").each(function() {
-                var eid = this.id;
-                edits.push({action:'change_entity_type', id:eid, old_type:annotation_data.entities[eid].type, new_type:new_type});
-            });
-            if (edits.length > 0) makeEdits(edits);
-        }
-        return false;
-    }
-
-    function enableButtonNewLabel() {
-        $("#btn_new_label").off('click', newLabel).on('click', newLabel);
-        renderButtonEnable($("#btn_new_label"));
-    }
-
-    function disableButtonNewLabel() {
-        $("#btn_new_label").off('click', newLabel);
-        renderButtonDisable($("#btn_new_label"));
-    }
-
-    function changeButtonStateNewLabel() {
-        if (numEntitySelection() > 0) enableButtonNewLabel();
-        else disableButtonNewLabel();
-    }
-
-
-    function enableButtonPallet() {
-        $("#btn_pallet").off('click', showPallet).on('click', showPallet);
-        renderButtonEnable($("#btn_pallet"));
-    }
-
-    function disableButtonPallet() {
-        $("#btn_pallet").off('click', showPallet);
-        renderButtonDisable($("#btn_pallet"));
+        $textaeControl.enableButton("entity", numSpanSelection() > 0);
     }
 
     function changeButtonStatePallet() {
-        if (numEntitySelection() > 0) enableButtonPallet();
-        else disableButtonPallet();
+        $textaeControl.enableButton("pallet", numEntitySelection() > 0);
     }
 
-    function showPallet(e) {
-        var p = $('#entity_type_pallet');
-        p.css('top', mouseY);
-        p.css('left', mouseX);
-        p.css('display', 'block');
-        return false;
+    function changeButtonStateNewLabel() {
+        $textaeControl.enableButton("newLabel", numEntitySelection() > 0);
     }
 
     // set the default type of denoting object
@@ -991,34 +1191,21 @@ $(document).ready(function() {
         $('.entity_type_label').off('mouseup', setEntityType).on('mouseup', setEntityType);
     }
 
-
-    function showPallet(e) {
-        var p = $('#entity_type_pallet');
-        p.css('top', mouseY);
-        p.css('left', mouseX);
-        p.css('display', 'block');
-        return false;
-    }
-
-
     function typeColor(type) {
         if (entityTypes && entityTypes[type] && entityTypes[type].color) return entityTypes[type].color;
         return "#77DDDD";
     }
-
 
     function relationColor(type) {
         if (relationTypes && relationTypes[type] && relationTypes[type].color) return relationTypes[type].color;
         return "#555555";
     }
 
-
     function renderSpans(sids) {
         for (var i = 0; i < sids.length; i++) {
             renderSpan(sids[i], sids.slice(0, i));
         }
     }
-
 
     // assume the spanIds are sorted by the position.
     // when there are embedded annotation_data.spans, the embedding ones comes earlier then embedded ones.
@@ -1110,7 +1297,6 @@ $(document).ready(function() {
 
         $('#' + sid).off('mouseup', spanClicked).on('mouseup', spanClicked);
     }
-
 
     function spanClicked(e) {
         $('#entity_type_pallet').css('display', 'none');
@@ -1394,8 +1580,8 @@ $(document).ready(function() {
         clearRelationSelection();
         clearModificationSelection();
         $('#entity_type_pallet').css('display', 'none');
-        $textae.hideHelp();
-        $textae.hideAbout();
+        businessLogic.hideHelp();
+        businessLogic.hideAbout();
         changeButtonStateReplicate();
         changeButtonStateEntity();
         changeButtonStateDelete();
@@ -1490,7 +1676,7 @@ $(document).ready(function() {
             }
             else {
                 select(sid);
-                removeElements();
+                businessLogic.removeElements();
             }
         }
 
@@ -1519,7 +1705,7 @@ $(document).ready(function() {
             }
             else {
                 select(sid);
-                removeElements();
+                businessLogic.removeElements();
             }
         }
         if (edits.length > 0) makeEdits(edits);
@@ -1613,226 +1799,16 @@ $(document).ready(function() {
         }
     }
 
-    //keybord shortcut
-    var onKeybordShortcut = function(e) {
-        switch (e.keyCode) {
-            case 27: // 'ESC' key
-                cancelSelect();
-                break;
-            case 65: // 'a' key
-                getAnnotation();
-                break;
-            case 83: // 's' key
-                saveAnnotation();
-                break;
-            case 46: // win delete / mac fn + delete
-            case 68: // 'd' key
-                removeElements();
-                break;
-            case 69: // 'e' key
-                createEntity();
-                break;
-            case 72: // 'h' key
-                $textae.showHelp();
-                break;
-            case 67: // 'c' key
-                copyEntities();
-                break;
-            case 86: // 'v' key
-                pasteEntities();
-                break;
-            case 81: // 'q' key
-                // show type selector
-                showPallet();
-                break;
-            case 87: // 'w' key
-                // show type selector
-                newLabel();
-                break;
-            case 82: // 'r' key:
-                // replicate span annotatino
-                replicate();
-                break;
-            // case 191: // '?' key
-            //     if (mode == 'span') {
-            //         createModification("Speculation");
-            //     }
-            //     break;
-            // case 88: // 'x' key
-            //     if (mode == 'span') {
-            //         if (!e.ctrlKey) {createModification("Negation")}
-            //     }
-            //     break;
-            case 90: // 'z' key
-                if (lastEditPtr > -1) {doUndo()}
-                break;
-            case 88: // 'x' key
-            case 89: // 'y' key
-                if (lastEditPtr < editHistory.length - 1) {doRedo()}
-                break;
-            case 37: // left arrow key: move the span selection backward
-                if (numSpanSelection() == 1) {
-                    var spanIdx = spanIds.indexOf(popSpanSelection());
-                    clearSelection()
-                    spanIdx--;
-                    if (spanIdx < 0) {spanIdx = spanIds.length - 1}
-                    select(spanIds[spanIdx]);
-                }
-                break;
-            case 39: //right arrow key: move the span selection forward
-                if (numSpanSelection() == 1) {
-                    var spanIdx = spanIds.indexOf(popSpanSelection());
-                    clearSelection()
-                    spanIdx++;
-                    if (spanIdx > spanIds.length - 1) {spanIdx = 0}
-                    select(spanIds[spanIdx]);
-                }
-                break;
-            // case 86: // 'v' key: change to view mode
-            //     if (!e.ctrlKey && !isButtonDisabled($('#btn_mode_view'))) {pushButtonView()}
-            //     break
-            // case 83: // 's' key: change to span edit mode
-            //     if (!e.ctrlKey && !isButtonDisabled($('#btn_mode_span'))) {pushButtonSpan()}
-            //     break;
-            // case 82: // 'r' key: change to relation edit mode
-            //     if (!e.ctrlKey && !isButtonDisabled($('#btn_mode_relation'))) {pushButtonRelation()}
-            //     break;
-        }
-    };
-    var enableKeybordShortcut = function(){
-        $(document).on("keydown", onKeybordShortcut);
-    };
-    var disableKeybordShortcut = function(){
-        $(document).off("keydown", onKeybordShortcut);
-    }
-    enableKeybordShortcut(); //invoke immediately
-
-    // 'delete' button control
-    function enableButtonDelete() {
-        $("#btn_delete").off('click', removeElements).on('click', removeElements);
-        renderButtonEnable($("#btn_delete"));
-    }
-
-    function disableButtonDelete() {
-        $("#btn_delete").off('click', removeElements);
-        renderButtonDisable($("#btn_delete"));
-    }
-
     function changeButtonStateDelete() {
-        if ((numSpanSelection() > 0) || ($(".ui-selected").length > 0)) {
-            enableButtonDelete();
-        } else {
-            disableButtonDelete();
-        }
-    }
-
-
-    function removeElements() {
-        var spanRemoves = new Array();
-        $(".span.ui-selected").each(function() {
-            var sid = this.id;
-            spanRemoves.push({action:'remove_span', id:sid, begin:annotation_data.spans[sid].begin, end:annotation_data.spans[sid].end, obj:annotation_data.spans[sid].obj});
-            for (var t in typesPerSpan[sid]) {
-                var tid = typesPerSpan[sid][t];
-                for (var e in entitiesPerType[tid]) {
-                    var eid = entitiesPerType[tid][e];
-                    selectEntity(eid);
-                }
-            }
-        });
-
-        var entityRemoves = new Array();
-        $(".entity.ui-selected").each(function() {
-            var eid = this.id;
-            entityRemoves.push({action:'remove_denotation', id:eid, span:annotation_data.entities[eid].span, type:annotation_data.entities[eid].type});
-            for (var r in relationsPerEntity[eid]) {
-                var rid = relationsPerEntity[eid][r];
-                selectRelation(rid);
-            }
-        });
-
-        var relationRemoves = new Array();
-        while (relationIdsSelected.length > 0) {
-            rid = relationIdsSelected.pop();
-            relationRemoves.push({action:'remove_relation', id:rid, subj:annotation_data.relations[rid].subj, obj:annotation_data.relations[rid].obj, pred:annotation_data.relations[rid].pred});
-        }
-
-        var modificationRemoves = new Array();
-        while (modificationIdsSelected.length > 0) {
-            mid = modificationIdsSelected.pop();
-            modificationRemoves.push({action:'remove_modification', id:mid, obj:modifications[mid].obj, pred:modifications[mid].pred});
-        }
-
-        var edits = modificationRemoves.concat(relationRemoves, entityRemoves, spanRemoves);
-
-        if (edits.length > 0) makeEdits(edits);
-    }
-
-
-    // 'copy' button control
-    function enableButtonCopy() {
-        $("#btn_copy").off('click', copyEntities).on('click', copyEntities);
-        renderButtonEnable($("#btn_copy"));
-    }
-
-    function disableButtonCopy() {
-        $("#btn_copy").off('click', copyEntities);
-        renderButtonDisable($("#btn_copy"));
+        $textaeControl.enableButton("delete", numSpanSelection() > 0 || $(".ui-selected").length > 0);
     }
 
     function changeButtonStateCopy() {
-        if ($(".ui-selected").length > 0) enableButtonCopy();
-        else disableButtonCopy();
-    }
-
-    function copyEntities() {
-        clipBoard.length = 0;
-        $(".ui-selected").each(function() {
-             clipBoard.push(this.id);
-         });
-    }
-
-    // 'paste' button control
-    function enableButtonPaste() {
-        $("#btn_paste").off('click', pasteEntities).on('click', pasteEntities);
-        renderButtonEnable($("#btn_paste"));
-    }
-
-    function disableButtonPaste() {
-        $("#btn_paste").off('click', pasteEntities);
-        renderButtonDisable($("#btn_paste"));
+        $textaeControl.enableButton("copy", $(".ui-selected").length > 0);
     }
 
     function changeButtonStatePaste() {
-        if ((clipBoard.length > 0) && (numSpanSelection() > 0)) {
-            enableButtonPaste();
-        } else {
-            disableButtonPaste();
-        }
-    }
-
-    function pasteEntities() {
-        var edits = new Array();
-        var maxIdNum = getMaxEntityId()
-        while (sid = popSpanSelection()) {
-            for (var e in clipBoard) {
-                var id = "E" + (++maxIdNum);
-                edits.push({action:'new_denotation', id:id, span:sid, type:annotation_data.entities[clipBoard[e]].type});
-            }
-        }
-        if (edits.length > 0) makeEdits(edits);
-    }
-
-
-    function createEntity() {
-        clearEntitySelection();
-
-        var maxIdNum = getMaxEntityId()
-        while (numSpanSelection() > 0) {
-            sid = popSpanSelection();
-            var id = "E" + (++maxIdNum);
-            makeEdits([{action:'new_denotation', id:id, span:sid, type:entityTypeDefault}]);
-        }
+        $textaeControl.enableButton("paste", clipBoard.length > 0 && numSpanSelection() > 0);
     }
 
     function isSelected(id) {
@@ -1935,7 +1911,6 @@ $(document).ready(function() {
         }
     }
 
-
     function modificationClicked(e) {
         if (mode == 'span' || mode == 'relation') {
             cancelBubble(e);
@@ -1954,38 +1929,223 @@ $(document).ready(function() {
         }
     }
 
-    // 'Help' button control
-    function enableButtonHelp() {
-        $("#btn_help").off('click', $textae.showHelp).on('click', $textae.showHelp);
-        renderButtonEnable($("#btn_help"))
-    }
+    var businessLogic = {
+       getAnnotation : function() {
+            var $dialog = $("#dialog_load_file");
+            $dialog
+                .find("input[type='text']")
+                .val(targetUrl);
+            keyboard.disableShortcut();
+            $dialog
+                .dialog({
+                    resizable: false,
+                    width:550,
+                    height:220,
+                    modal: true,
+                    buttons: {
+                        Cancel: function() {
+                            $( this ).dialog( "close" );
+                        }
+                    }
+                });
+        },
 
-    // 'About' button control
-    function enableButtonAbout() {
-        $("#btn_about").off('click', $textae.showAbout).on('click', $textae.showAbout);
-        renderButtonEnable($("#btn_about"))
-    }
+        saveAnnotation : function() {
+            //create local link
+            var filename = localFile.getLocalFileName();
+            var json = JSON.stringify(annotationDataToJson(annotation_data));
+            localFile.createFileLink(filename, json);
 
+            //open dialog
+            var $dialog = $("#dialog_save_file");
+            $dialog
+                .find("input[type='text']")
+                .val(targetUrl);
+            keyboard.disableShortcut();
+            $dialog
+                .dialog({
+                    resizable: false,
+                    width:550,
+                    height:220,
+                    modal: true,
+                    buttons: {
+                        Cancel: function() {
+                            $( this ).dialog( "close" );
+                        }
+                    }
+                });
+        },
 
+        undo : function() {
+            clearSelection();
+            clearRelationSelection();
+            clearModificationSelection();
 
-    // 'Read' button control
-    function enableButtonRead() {
-        $("#btn_read").off('click', getAnnotation).on('click', getAnnotation);
-        renderButtonEnable($("#btn_read"))
-    }
+            revertEdits(editHistory.prev());
+        },
 
+        redo : function() {
+            clearSelection();
+            clearRelationSelection();
+            clearModificationSelection();
 
-    // 'Save' button control
-    function enableButtonWrite() {
-        $("#btn_write").off('click', saveAnnotation).on('click', saveAnnotation);
-        $(window).off('beforeunload', leaveMessage).on('beforeunload', leaveMessage);
-        renderButtonEnable($("#btn_write"))
-    }
+            makeEdits(editHistory.next(), 'redo');
 
-    function disableButtonWrite() {
-        $("#btn_write").off('click', saveAnnotation);
-        $(window).off('beforeunload', leaveMessage);
-        renderButtonDisable($("#btn_write"))
+            return false;
+        },
+
+        replicate : function() {
+            if (numSpanSelection() == 1) {
+                makeEdits(getSpanReplicates(annotation_data.spans[getSpanSelection()]));
+            }
+            else alert('You can replicate span annotation when there is only span selected.');
+        },
+
+        pushButtonReplicateAuto : function() {
+            $button = $textaeControl.buttons.replicateAuto.obj;
+            if (!buttonUtil.isDisable($button)) {
+                if(buttonUtil.isPushed($button)){
+                    buttonUtil.unpush($button);
+                    replicateAuto = false;
+                    console.log("unpush");
+                }else{
+                    buttonUtil.push($button);
+                    replicateAuto = true;
+                    console.log("push");
+                }
+            }
+        },
+
+        createEntity : function() {
+            clearEntitySelection();
+
+            var maxIdNum = getMaxEntityId()
+            while (numSpanSelection() > 0) {
+                sid = popSpanSelection();
+                var id = "E" + (++maxIdNum);
+                makeEdits([{action:'new_denotation', id:id, span:sid, type:entityTypeDefault}]);
+            }
+        },
+    
+        showPallet : function(e) {
+            var p = $('#entity_type_pallet');
+            p.css('top', mouseY);
+            p.css('left', mouseX);
+            p.css('display', 'block');
+            return false;
+        },
+
+        newLabel : function() {
+            if ($(".entity.ui-selected").length > 0) {
+                var new_type = prompt("Please enter a new label","");
+                if (entityTypes[new_type] == undefined) {
+                    entityTypes[new_type] = {};
+                    renderEntityTypePallet();
+                }
+
+                var edits = [];
+                $(".entity.ui-selected").each(function() {
+                    var eid = this.id;
+                    edits.push({action:'change_entity_type', id:eid, old_type:annotation_data.entities[eid].type, new_type:new_type});
+                });
+                if (edits.length > 0) makeEdits(edits);
+            }
+            return false;
+        },
+
+        removeElements : function() {
+            var spanRemoves = new Array();
+            $(".span.ui-selected").each(function() {
+                var sid = this.id;
+                spanRemoves.push({action:'remove_span', id:sid, begin:annotation_data.spans[sid].begin, end:annotation_data.spans[sid].end, obj:annotation_data.spans[sid].obj});
+                for (var t in typesPerSpan[sid]) {
+                    var tid = typesPerSpan[sid][t];
+                    for (var e in entitiesPerType[tid]) {
+                        var eid = entitiesPerType[tid][e];
+                        selectEntity(eid);
+                    }
+                }
+            });
+
+            var entityRemoves = new Array();
+            $(".entity.ui-selected").each(function() {
+                var eid = this.id;
+                entityRemoves.push({action:'remove_denotation', id:eid, span:annotation_data.entities[eid].span, type:annotation_data.entities[eid].type});
+                for (var r in relationsPerEntity[eid]) {
+                    var rid = relationsPerEntity[eid][r];
+                    selectRelation(rid);
+                }
+            });
+
+            var relationRemoves = new Array();
+            while (relationIdsSelected.length > 0) {
+                rid = relationIdsSelected.pop();
+                relationRemoves.push({action:'remove_relation', id:rid, subj:annotation_data.relations[rid].subj, obj:annotation_data.relations[rid].obj, pred:annotation_data.relations[rid].pred});
+            }
+
+            var modificationRemoves = new Array();
+            while (modificationIdsSelected.length > 0) {
+                mid = modificationIdsSelected.pop();
+                modificationRemoves.push({action:'remove_modification', id:mid, obj:modifications[mid].obj, pred:modifications[mid].pred});
+            }
+
+            var edits = modificationRemoves.concat(relationRemoves, entityRemoves, spanRemoves);
+
+            if (edits.length > 0) makeEdits(edits);
+        },
+
+        copyEntities : function() {
+            clipBoard.length = 0;
+            $(".ui-selected").each(function() {
+                 clipBoard.push(this.id);
+             });
+        },
+
+        pasteEntities : function() {
+            var edits = new Array();
+            var maxIdNum = getMaxEntityId()
+            while (sid = popSpanSelection()) {
+                for (var e in clipBoard) {
+                    var id = "E" + (++maxIdNum);
+                    edits.push({action:'new_denotation', id:id, span:sid, type:annotation_data.entities[clipBoard[e]].type});
+                }
+            }
+            if (edits.length > 0) makeEdits(edits);
+        },
+
+        showHelp : function() {
+            $textae.showHelp();
+        },
+
+        hideHelp : function() {
+            $textae.hideHelp();
+        },
+
+        showAbout : function() {
+            $textae.showAbout();
+        },
+
+        hideAbout : function () {
+            $textae.hideAbout();
+        }
+    };
+
+    // bind textaeCotnrol eventhandler
+    function bindTextaeControlEventhandler() {
+        $textaeControl.on($textaeControl.buttons.read.ev, businessLogic.getAnnotation);
+        $textaeControl.on($textaeControl.buttons.write.ev, businessLogic.saveAnnotation);
+        $textaeControl.on($textaeControl.buttons.undo.ev, businessLogic.undo);
+        $textaeControl.on($textaeControl.buttons.redo.ev, businessLogic.redo);
+        $textaeControl.on($textaeControl.buttons.replicate.ev, businessLogic.replicate);
+        $textaeControl.on($textaeControl.buttons.replicateAuto.ev, businessLogic.pushButtonReplicateAuto);
+        $textaeControl.on($textaeControl.buttons.entity.ev, businessLogic.createEntity);
+        $textaeControl.on($textaeControl.buttons.newLabel.ev, businessLogic.newLabel);
+        $textaeControl.on($textaeControl.buttons.pallet.ev, businessLogic.showPallet);
+        $textaeControl.on($textaeControl.buttons.delete.ev, businessLogic.removeElements);
+        $textaeControl.on($textaeControl.buttons.copy.ev, businessLogic.copyEntities);
+        $textaeControl.on($textaeControl.buttons.paste.ev, businessLogic.pasteEntities);
+        $textaeControl.on($textaeControl.buttons.help.ev, businessLogic.showHelp);
+        $textaeControl.on($textaeControl.buttons.about.ev, businessLogic.showAbout);
     }
 
     function annotationDataToJson(annotation_data){
@@ -2001,89 +2161,9 @@ $(document).ready(function() {
         };
     }
 
-    function saveAnnotationTo(location) {
-        $textae.startWait();
-
-        var postData = annotationDataToJson(annotation_data);
-
-        $.ajax({
-            type: "post",
-            url: location,
-            data: {annotations:JSON.stringify(postData)},
-            crossDomain: true,
-            xhrFields: {withCredentials: true}
-        }).done(function(res){
-            $('#message').html("annotation saved").fadeIn().fadeOut(5000, function() {
-                $(this).html('').removeAttr('style');
-                showTarget();
-            });
-            lastSavePtr = lastEditPtr;
-            changeButtonStateSave();
-            $textae.endWait();
-        }).fail(function(res, textStatus, errorThrown){
-            $('#message').html("could not save").fadeIn().fadeOut(5000, function() {
-                $(this).html('').removeAttr('style');
-                showTarget();
-            });
-            $textae.endWait();
-        });
-    }
-
-    // 'Replicate Auto' button control
-    function enableButtonReplicateAuto() {
-        $("#btn_replicate_auto").off('click', pushButtonReplicateAuto).on('click', pushButtonReplicateAuto);
-        renderButtonEnable($("#btn_replicate_auto"));
-    }
-
-    function disableButtonReplicateAuto() {
-        $("#btn_replicate_auto").off('click', pushButtonReplicateAuto);
-        renderButtonDisable($("#btn_replicate_auto"));
-    }
-
-    function pushButtonReplicateAuto() {
-        if (!isButtonDisabled($('#btn_replicate_auto'))) {
-            renderButtonPush($('#btn_replicate_auto'));
-            replicateAuto = true;
-            $('#btn_replicate_auto').off('click', pushButtonReplicateAuto);
-            $('#btn_replicate_auto').off('click', unpushButtonReplicateAuto).on('click', unpushButtonReplicateAuto);
-        }
-    }
-
-    function unpushButtonReplicateAuto() {
-        if (!isButtonDisabled($('#btn_replicate_auto'))) {
-            renderButtonUnpush($('#btn_replicate_auto'));
-            replicateAuto = false;
-            $('#btn_replicate_auto').off('click', unpushButtonReplicateAuto);
-            $('#btn_replicate_auto').off('click', pushButtonReplicateAuto).on('click', pushButtonReplicateAuto);
-        }
-    }
-
-    // 'Replicate' button control
-    function enableButtonReplicate() {
-        $("#btn_replicate").off('click', replicate).on('click', replicate);
-        renderButtonEnable($("#btn_replicate"));
-    }
-
-    function disableButtonReplicate() {
-        $("#btn_replicate").off('click', replicate);
-        renderButtonDisable($("#btn_replicate"));
-    }
-
     function changeButtonStateReplicate() {
-        if (numSpanSelection() == 1) {
-            enableButtonReplicate();
-        } else {
-            disableButtonReplicate();
-        }
+        $textaeControl.enableButton("replicate", numSpanSelection() == 1);
     }
-
-    function replicate() {
-        if (numSpanSelection() == 1) {
-            makeEdits(getSpanReplicates(annotation_data.spans[getSpanSelection()]));
-        }
-        else alert('You can replicate span annotation when there is only span selected.');
-    }
-
 
     function getSpanReplicates(span) {
         var startPos = span['begin'];
@@ -2122,7 +2202,6 @@ $(document).ready(function() {
 
         return edits;
     }
-
 
     function makeEdits(edits, context) {
         switch (context) {
@@ -2297,20 +2376,14 @@ $(document).ready(function() {
         }
 
         // update rendering
-        indexPositions(spanIds);
-        positionGrids(spanIds);
-        indexPositionEntities(Object.keys(annotation_data.entities));
-        renewConnections(Object.keys(annotation_data.relations));
+        redraw();
 
         switch (context) {
             case 'undo' :
             case 'redo' :
                 break;
             default :
-                editHistory.splice(++lastEditPtr);
                 editHistory.push(edits);
-                changeButtonStateUndoRedo();
-                changeButtonStateSave();
                 changeButtonStateReplicate();
                 changeButtonStateEntity();
                 changeButtonStateDelete();
@@ -2386,85 +2459,10 @@ $(document).ready(function() {
         makeEdits(redits, 'undo');
     }
 
-
     function cloneEdit(e) {
         c = new Object();
         for (p in e) {c[p] = e[p]}
         return c;
-    }
-
-
-    // mode button controls
-    function pushButtonView() {
-        unpushButtonSpan();
-        unpushButtonRelation();
-        renderButtonPush($('#btn_mode_view'));
-        $('#btn_mode_view').off('click', pushButtonView);
-        changeMode('view');
-    }
-
-    function unpushButtonView() {
-        renderButtonUnpush($('#btn_mode_view'));
-        $('#btn_mode_view').off('click', pushButtonView).on('click', pushButtonView);
-    }
-
-    function pushButtonSpan() {
-        unpushButtonView();
-        unpushButtonRelation();
-        renderButtonPush($('#btn_mode_entity'));
-        $('#btn_mode_entity').off('click', pushButtonSpan);
-        changeMode('span');
-    }
-
-    function unpushButtonSpan() {
-        if (!isButtonDisabled($('#btn_mode_entity'))) {
-            renderButtonUnpush($('#btn_mode_entity'));
-            $('#btn_mode_entity').off('click', pushButtonSpan).on('click', pushButtonSpan);
-        }
-    }
-
-    function disableButtonSpan() {
-        $('#btn_mode_entity').off('click', pushButtonSpan);
-        renderButtonDisable($('#btn_mode_entity'));
-    }
-
-    function pushButtonRelation() {
-        unpushButtonView();
-        unpushButtonSpan();
-        renderButtonPush($('#btn_mode_relation'));
-        $('#btn_mode_relation').off('click', pushButtonRelation);
-        changeMode('relation');
-    }
-
-    function unpushButtonRelation() {
-        if (!isButtonDisabled($('#btn_mode_relation'))) {
-            renderButtonUnpush($('#btn_mode_relation'));
-            $('#btn_mode_relation').off('click', pushButtonRelation).on('click', pushButtonRelation);
-        }
-    }
-
-    function disableButtonRelation() {
-        $('#btn_mode_relation').off('click', pushButtonRelation);
-        renderButtonDisable($('#btn_mode_relation'));
-    }
-
-    function changeMode(tomode) {
-        clearSelection();
-        clearModificationSelection();
-        clearRelationSelection();
-
-        mode = tomode;
-
-        if (mode == 'view') {
-            $('#ins_area').css('z-index', 10);
-            $('#rel_area').removeAttr('style');
-        } else if (mode == 'span') {
-            $('#ins_area').removeAttr('style');
-            $('#rel_area').css('z-index', -10);
-        } else if (mode == 'relation') {
-            $('#ins_area').css('z-index', 10);
-            $('#rel_area').removeAttr('style');
-        }
     }
 
     // conversion from HEX to RGBA color
@@ -2523,16 +2521,6 @@ $(document).ready(function() {
         var sourceElem = $('#' + sourceId);
         var targetElem = $('#' + targetId);
 
-        // jsPlumb.makeSource(sourceElem, {
-        //     anchor:sourceAnchor,
-        //     paintStyle:{ fillStyle:rgba, radius:2 }
-        // });
-
-        // jsPlumb.makeTarget(targetElem, {
-        //     anchor:targetAnchor,
-        //     paintStyle:{ fillStyle:rgba, radius:2 }
-        // });
-
         var label = '[' + rid + '] ' + pred;
 
         var conn = jsPlumb.connect({
@@ -2548,38 +2536,24 @@ $(document).ready(function() {
 
         conn.addOverlay(["Arrow", { width:10, length:12, location:1 }]);
         conn.setLabel({label:label, cssClass:"label"});
-        // conn.getLabelOverlay().hide();
         conn.bind("click", connectorClicked);
-        // conn.bind("mouseenter", connectorHoverBegin);
-        // conn.bind("mouseexit", connectorHoverEnd);
         return conn;       
     }
 
-
     function connectorClicked (conn, e) {
-        // if (mode == "relation") {
-            var rid  = conn.getParameter("id");
+        var rid  = conn.getParameter("id");
 
-            clearSelection();
-            // clearModificationSelection();
+        clearSelection();
 
-            if (isRelationSelected(rid)) {
-                deselectRelation(rid);
-            } else {
-                if (!e.ctrlKey) {clearRelationSelection()}
-                selectRelation(rid);
-            }
-        // }
+        if (isRelationSelected(rid)) {
+            deselectRelation(rid);
+        } else {
+            if (!e.ctrlKey) {clearRelationSelection()}
+            selectRelation(rid);
+        }
+
         cancelBubble(e);
         return false;
-    }
-
-    function connectorHoverBegin (conn, e) {
-        conn.getLabelOverlay().show();
-    }
-
-    function connectorHoverEnd (conn, e) {
-        conn.getLabelOverlay().hide();
     }
 
     function isRelationSelected(rid) {
@@ -2593,7 +2567,6 @@ $(document).ready(function() {
         }
     }
 
-
     function deselectRelation(rid) {
         var i = relationIdsSelected.indexOf(rid);
         if (i > -1) {
@@ -2602,14 +2575,12 @@ $(document).ready(function() {
         }
     }
 
-
     function clearRelationSelection() {
         while (relationIdsSelected.length > 0) {
             var rid = relationIdsSelected.pop();
             connectors[rid].setPaintStyle(connectorTypes[annotation_data.relations[rid].pred]["paintStyle"]);
         }
     }
-
 
     function renewConnections (rids) {
         indexRelationSize(rids);
@@ -2655,13 +2626,6 @@ $(document).ready(function() {
         for (var s = sids.length - 1; s >= 0; s--) renderEntitiesOfSpan(sids[s]);
     }
 
-    // render the annotation_data.entities of a given span and dependent annotation_data.spans.
-    function renderEntitiesOfSpanAsso(sid) {
-        renderEntitiesOfSpan(sid);
-        var c = spanIds.indexOf(sid)
-        for (var p = c - 1; isSpanEmbedded(annotation_data.spans[spanIds[c]], annotation_data.spans[spanIds[p]]); p--) renderEntitiesOfSpan(spanIds[p]);
-    }
-
     function renderEntitiesOfSpan(sid) {
         renderGrid(sid);
         for (var t in typesPerSpan[sid]) {
@@ -2675,10 +2639,6 @@ $(document).ready(function() {
 
     function isSpanEmbedded(s1, s2) {
         return (s1.begin >= s2.begin) && (s1.end <= s2.end)
-    }
-
-    function renderGrids(sids) {
-        for (var s = sids.length - 1; s >= 0; s--) renderGrid(spanIds[s]);
     }
 
     // render the entity pane of a given span and its dependent annotation_data.spans.
@@ -2978,139 +2938,12 @@ $(document).ready(function() {
         indexPositions(spanIds);
         positionGrids(spanIds);
 
-        indexPositionEntities(Object.keys(annotation_data.entities));
+        indexPositionEntities();
         renewConnections(Object.keys(annotation_data.relations));
-        // changeMode(mode);
     }
 
     function leaveMessage() {
         return "There is a change that has not been saved. If you leave now, you will lose it.";
     }
 
-    //setup FileAPI
-   function getAnnotation() {
-        var $dialog = $("#dialog_load_file");
-        $dialog
-            .find("input[type='text']")
-            .val(targetUrl);
-        disableKeybordShortcut();
-        $dialog
-            .dialog({
-                resizable: false,
-                width:550,
-                height:220,
-                modal: true,
-                buttons: {
-                    Cancel: function() {
-                        $( this ).dialog( "close" );
-                    }
-                }
-            });
-    }
-
-    function saveAnnotation() {
-        //create local link
-        var filename = localFile.getLocalFileName();
-        var json = JSON.stringify(annotationDataToJson(annotation_data));
-        localFile.createFileLink(filename, json);
-
-        //open dialog
-        var $dialog = $("#dialog_save_file");
-        $dialog
-            .find("input[type='text']")
-            .val(targetUrl);
-        disableKeybordShortcut();
-        $dialog
-            .dialog({
-                resizable: false,
-                width:550,
-                height:220,
-                modal: true,
-                buttons: {
-                    Cancel: function() {
-                        $( this ).dialog( "close" );
-                    }
-                }
-            });
-    }
-
-    var localFile = {
-        $fileInput: null,//target element which is "input type="file".
-
-        init: function(load_dialog_selector, fileParseFunc, save_dialog_selector){
-            //setup load dialog
-            var $load_dialog = $(load_dialog_selector);
-            $load_dialog.hide()
-
-            //cache target element
-            this.$fileInput = $load_dialog.find("input[type='file']"); 
-
-            var close_load = function(){
-                $load_dialog.dialog("close");
-                enableKeybordShortcut();
-            };
-
-            //bind event handler
-            var onFileChange = function(){
-                var reader = new FileReader();
-                reader.onload = function(){ 
-                    fileParseFunc(this.result);
-                    close_load();
-                };
-                reader.readAsText(this.files[0]);
-            }
-            this.$fileInput.on("change", onFileChange);
-
-            $load_dialog.find("input[type='button']")
-                .on("click", function(){
-                    var $input_text = $load_dialog.find("input[type='text']");
-                    getAnnotationFrom($input_text.val());
-                    close_load();
-                });
-
-            //setup save dialog
-            var $save_dialog = $(save_dialog_selector);
-            $save_dialog.hide();
-
-            var close_save = function(){
-                $save_dialog.dialog("close");
-                enableKeybordShortcut();
-            };
-
-            $save_dialog.find("input[type='button']")
-                .on("click", function(){
-                    var $input_text = $save_dialog.find("input[type='text']");
-                    var location = $input_text.val();
-                    if(location != null && location != ""){
-                        saveAnnotationTo(location);
-                    }
-                    close_save();
-                });
-
-            this.$save_dialog = $save_dialog; //cache element
-            this.close_save = close_save;
-        },
-        getLocalFileName: function(){
-            var file = this.$fileInput.prop("files")[0] 
-            return file ? file.name : "annotations.json";
-        },
-        createFileLink: function(name, contents){
-            var blob = new Blob([contents],{type:'application/json'});
-            var link = $('<a>')
-                .text(name)
-                .attr("href",URL.createObjectURL(blob))
-                .attr("target", "_blank")
-                .attr("download", name)
-                .on("click", this.close_save);
-
-            this.$save_dialog.find("span")
-                .empty()
-                .append(link);
-        }
-    };
-
-    localFile.init("#dialog_load_file", function(file_contents){
-        var annotation = JSON.parse(file_contents);
-        loadAnnotation(annotation);
-    },"#dialog_save_file");
 });

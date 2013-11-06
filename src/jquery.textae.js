@@ -5,6 +5,7 @@
         var elements = {};
 
         // DOM util
+        // TODO : which instance is center of, when instances is multi.
         var center = function($self) {
             var container = $textae_container;
             $self.css("position", "absolute");
