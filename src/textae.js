@@ -1,8 +1,5 @@
 // Application main
 $(document).ready(function() {
-    var OSName;
-    var browserNameVersion;
-
     var mode = 'span';  // screen mode: view | span(default) | relation
     var replicateAuto = false;
 
@@ -584,16 +581,13 @@ $(document).ready(function() {
         },"#dialog_save_file");
 
         //setup editor
-        window.$textae = $(".textae").textae();
+        window.$textae = $(".textae-editor").textae();
         parseUrlParameters();
 
         keyboard.enableShortcut();
     })();
 
     function initialize() {
-        detectOS();
-        browserNameVersion = navigator.sayswho
-
         $('#body').off('mouseup', doMouseup).on('mouseup', doMouseup);
 
         relationIdsSelected = new Array();
@@ -2616,24 +2610,6 @@ $(document).ready(function() {
             connectors[id].setPaintStyle(connectorTypes[type+"_selected"]["paintStyle"]);
         }
     }
-
-    function detectOS() {
-        OSName="Unknown OS";
-        if (navigator.appVersion.indexOf("Win")!=-1) OSName="Windows";
-        if (navigator.appVersion.indexOf("Mac")!=-1) OSName="MacOS";
-        if (navigator.appVersion.indexOf("X11")!=-1) OSName="UNIX";
-        if (navigator.appVersion.indexOf("Linux")!=-1) OSName="Linux";
-    }
-
-
-    navigator.sayswho= (function(){
-        var N= navigator.appName, ua= navigator.userAgent, tem;
-        var M= ua.match(/(opera|chrome|safari|firefox|msie)\/?\s*(\.?\d+(\.\d+)*)/i);
-        if(M && (tem= ua.match(/version\/([\.\d]+)/i))!= null) M[2]= tem[1];
-        M= M? [M[1], M[2]]: [N, navigator.appVersion,'-?'];
-        return M;
-    })();
-
 
     $(window).resize(function(){
       redraw();
