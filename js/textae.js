@@ -43,9 +43,31 @@
         }
     };
 })();
+    //utility functions for button
+    //TODO: both main and this plugnin independent global object below. 
+    window.buttonUtil = {
+        enable: function($button) {
+            $button.removeClass('textae-control__icon-bar__icon--disabled');
+        },
+        disable: function($button) {
+            $button.addClass('textae-control__icon-bar__icon--disabled');
+        },
+        isDisable: function($button) {
+            return $button.hasClass('textae-control__icon-bar__icon--disabled');
+        },
+        push: function($button) {
+            $button.addClass('textae-control__icon-bar__icon--pushed');
+        },
+        unpush: function($button) {
+            $button.removeClass('textae-control__icon-bar__icon--pushed');
+        },
+        isPushed: function($button) {
+            return $button.hasClass('textae-control__icon-bar__icon--pushed');
+        }
+    };
 //like a jQuery plugin
 (function(jQuery) {
-    jQuery.fn.textae = function() {
+    var editor = function() {
         var $textae_container = this;
         var elements = {};
 
@@ -137,33 +159,8 @@
 
         return this;
     };
-})(jQuery);
-// textae control plugin
-(function(jQuery) {
-    //utility functions for button
-    //TODO: both main and this plugnin independent global object below. 
-    window.buttonUtil = {
-        enable: function($button) {
-            $button.removeClass('textae-control__icon-bar__icon--disabled');
-        },
-        disable: function($button) {
-            $button.addClass('textae-control__icon-bar__icon--disabled');
-        },
-        isDisable: function($button) {
-            return $button.hasClass('textae-control__icon-bar__icon--disabled');
-        },
-        push: function($button) {
-            $button.addClass('textae-control__icon-bar__icon--pushed');
-        },
-        unpush: function($button) {
-            $button.removeClass('textae-control__icon-bar__icon--pushed');
-        },
-        isPushed: function($button) {
-            return $button.hasClass('textae-control__icon-bar__icon--pushed');
-        }
-    };
 
-    jQuery.fn.textaeControl = function() {
+    var control = function() {
         var $title = $('<span class="textae-control__title">')
             .append('<a href="http://bionlp.dbcls.jp/textae/">TextAE</a>'),
             $icon_bar = $($('<span class = "textae-control__icon-bar">')
@@ -290,6 +287,14 @@
         this.enableButton("about", true);
 
         return this;
+    };
+
+    jQuery.fn.textae = function() {
+        if (this.hasClass("textae-editor")) {
+            return editor.apply(this);
+        } else if (this.hasClass("textae-control")) {
+            return control.apply(this);
+        }
     };
 })(jQuery);
 // Application main
@@ -868,7 +873,7 @@ $(document).ready(function() {
     //setup
     (function() {
         //setup contorl
-        window.$textaeControl = $(".textae-control").textaeControl();
+        window.$textaeControl = $(".textae-control").textae();
         localFile.init("#dialog_load_file", function(file_contents){
             var annotation = JSON.parse(file_contents);
             loadAnnotation(annotation);

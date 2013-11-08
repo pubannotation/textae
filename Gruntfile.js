@@ -2,7 +2,7 @@ module.exports = function(grunt) {
   grunt.initConfig({
     concat: {
       dist: {
-        src: ['src/dummy.js', 'src/util.js', 'src/jquery.textae.js', 'src/jquery.textaeControl.js', 'src/textae.js'],
+        src: ['src/dummy.js', 'src/util.js', 'src/buttonUtil.js', 'src/jquery.textae.js', 'src/textae.js'],
         dest: 'js/textae.js',
       }
     },

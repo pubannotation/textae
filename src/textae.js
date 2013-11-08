@@ -574,7 +574,7 @@ $(document).ready(function() {
     //setup
     (function() {
         //setup contorl
-        window.$textaeControl = $(".textae-control").textaeControl();
+        window.$textaeControl = $(".textae-control").textae();
         localFile.init("#dialog_load_file", function(file_contents){
             var annotation = JSON.parse(file_contents);
             loadAnnotation(annotation);
