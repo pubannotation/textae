@@ -4,14 +4,13 @@
         var $textae_container = this;
         var elements = {};
 
-        // DOM util
-        // TODO : which instance is center of, when instances is multi.
         var center = function($self) {
-            var container = $textae_container;
-            $self.css("position", "absolute");
-            $self.css("top", (container.height() - $self.height()) / 2 + container.scrollTop() + "px");
-            $self.css("left", (container.width() - $self.width()) / 2 + container.scrollLeft() + "px");
-            return $self;
+            var $window = $(window);
+            $self.css({
+                "position": "absolute",
+                "top": ($window.height() - $self.height()) / 2 + $window.scrollTop(),
+                "left": ($window.width() - $self.width()) / 2 + $window.scrollLeft()
+            });
         };
 
         //help 
