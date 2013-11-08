@@ -7,8 +7,19 @@ module.exports = function(grunt) {
       }
     },
     watch: {
-      files: 'src/*.js',
-      tasks: 'concat'
+      javascript: {
+        files: 'src/*.js',
+        tasks: 'concat'
+      },
+      static_files: {
+        files: ['textae.html', 'js/textae.js'],
+        options: {
+          livereload: true
+        }
+      }
+    },
+    connect: {
+      uses_defaults: {}
     },
     qunit: {
       all: 'test/util.html'
@@ -17,5 +28,6 @@ module.exports = function(grunt) {
 
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.loadNpmTasks('grunt-contrib-connect');
   grunt.loadNpmTasks('grunt-contrib-qunit');
 };
