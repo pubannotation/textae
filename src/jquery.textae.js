@@ -1,62 +1,65 @@
 //like a jQuery plugin
 (function(jQuery) {
     var editor = function() {
-        var $textae_container = this;
+        var $$textaeEditor = this;
 
         //cursor
         var setupWait = function setuoWait(self) {
             var wait = function() {
-                $textae_container.css('cursor', 'wait');
+                $$textaeEditor.css('cursor', 'wait');
             };
             var endWait = function() {
-                $textae_container.css('cursor', 'auto');
+                $$textaeEditor.css('cursor', 'auto');
             }
             self.startWait = wait;
             self.endWait = endWait;
         }
 
         //entityTypes
-        var entityTypes = function(){
-            var types =  {},
-                defaultType ="",
-                getColor = function(){
+        var entityTypes = function() {
+            var types = {},
+                defaultType = "",
+                getColor = function() {
                     return this.color ? this.color : "#77DDDD";
                 };
 
             return {
-                setDefaultType : function (nameOfEntityType) {
+                setDefaultType: function(nameOfEntityType) {
                     defaultType = nameOfEntityType;
                 },
-                getDefaultType : function () {
+                getDefaultType: function() {
                     return defaultType || entityTypes.getType(entityTypes.getSortedNames()[0]).name;
                 },
-                getType : function(nameOfEntityType){
-                    return types[nameOfEntityType] = types[nameOfEntityType] || {getColor:getColor};
+                getType: function(nameOfEntityType) {
+                    return types[nameOfEntityType] = types[nameOfEntityType] || {
+                        getColor: getColor
+                    };
                 },
-                setTypes : function(newEntityTypes){
+                setTypes: function(newEntityTypes) {
                     // expected newEntityTypes is an array of object. example of object is {"name": "Regulation","color": "#FFFF66","default": true}.
                     types = {};
                     defaultType = "";
                     if (newEntityTypes !== undefined) {
-                        newEntityTypes.forEach(function(newEntity){
+                        newEntityTypes.forEach(function(newEntity) {
                             newEntity.getColor = getColor;
                             types[newEntity.name] = newEntity;
-                            if (newEntity.default === true) {
+                            if (newEntity.
+                                default === true) {
                                 defaultType = newEntity.name;
                             }
-                      });
+                        });
                     }
                 },
                 //save number of type, to sort by numer when show entity pallet.
-                incrementNumberOfTypes : function(nameOfEntityType){
+                incrementNumberOfTypes: function(nameOfEntityType) {
                     //access by square brancket, because nameOfEntityType is user input value, maybe 'null', '-', and other invalid indentifier name.
                     var type = entityTypes.getType(nameOfEntityType);
                     type.count = (type.count || 0) + 1;
                 },
-                getSortedNames : function (){
+                getSortedNames: function() {
                     //sort by number of types
                     var typeNames = Object.keys(types);
-                    typeNames.sort(function(a,b) {
+                    typeNames.sort(function(a, b) {
                         return types[b].count - types[a].count;
                     });
                     return typeNames;
@@ -174,51 +177,55 @@
         return this;
     };
 
+    var god = function() {
+        return {
+            setControl: function(control) {
+                var helpDialog = textAeUtil.makeInformationDialog({
+                    className: "textae-control__help",
+                    addContentsFunc: function() {
+                        return this
+                            .append($("<h3>").text("Help (Keyboard short-cuts)"))
+                            .append($("<img>").attr("src", "images/keyhelp.png"));
+                    }
+                });
+
+                var aboutDialog = textAeUtil.makeInformationDialog({
+                    className: "textae-control__about",
+                    addContentsFunc: function() {
+                        return this
+                            .html("<h3>About TextAE (Text Annotation Editor)</h3>" +
+                                "<p>今ご覧になっているTextAEはPubAnnotationで管理しているアノテーションのビューアもしくはエディタです。</p>" +
+                                "<p>PubAnnotationではPubMedのアブストラクトにアノテーションを付けることができます。</p>" +
+                                "<p>現在はEntrez Gene IDによる自動アノテーションおよびそのマニュアル修正作業が可能となっています。" +
+                                "今後は自動アノテーションの種類を増やす計画です。</p>" +
+                                "<p>間違ったアノテーションも目に付くと思いますが、それを簡単に直して自分のプロジェクトにセーブできるのがポイントです。</p>" +
+                                "<p>自分のアノテーションを作成するためにはPubAnnotation上で自分のプロジェクトを作る必要があります。" +
+                                "作成したアノテーションは後で纏めてダウンロードしたり共有することができます。</p>" +
+                                "<p>まだ開発中のサービスであり、実装すべき機能が残っています。" +
+                                "ユーザの皆様の声を大事にして開発していきたいと考えておりますので、ご意見などございましたら教えていただければ幸いです。</p>");
+                    }
+                });
+
+                control.on(control.buttons["help"].ev, helpDialog.show);
+                control.on(control.buttons["about"].ev, aboutDialog.show);
+
+                $("body").on("textae.select.cancel", function() {
+                    helpDialog.hide();
+                    aboutDialog.hide();
+                });
+            },
+            pushEditor: function(editor) {
+
+            }
+        };
+    };
+
     jQuery.fn.textae = (function() {
         var texaeGod,
             initGod = function() {
                 //init management object
                 if (texaeGod === undefined) {
-                    texaeGod = {
-                        setControl: function(control) {
-                            var helpDialog = textAeUtil.makeInformationDialog({
-                                className: "textae-control__help",
-                                addContentsFunc: function() {
-                                    return this
-                                        .append($("<h3>").text("Help (Keyboard short-cuts)"))
-                                        .append($("<img>").attr("src", "images/keyhelp.png"));
-                                }
-                            });
-
-                            var aboutDialog = textAeUtil.makeInformationDialog({
-                                className: "textae-control__about",
-                                addContentsFunc: function() {
-                                    return this
-                                        .html("<h3>About TextAE (Text Annotation Editor)</h3>" +
-                                            "<p>今ご覧になっているTextAEはPubAnnotationで管理しているアノテーションのビューアもしくはエディタです。</p>" +
-                                            "<p>PubAnnotationではPubMedのアブストラクトにアノテーションを付けることができます。</p>" +
-                                            "<p>現在はEntrez Gene IDによる自動アノテーションおよびそのマニュアル修正作業が可能となっています。" +
-                                            "今後は自動アノテーションの種類を増やす計画です。</p>" +
-                                            "<p>間違ったアノテーションも目に付くと思いますが、それを簡単に直して自分のプロジェクトにセーブできるのがポイントです。</p>" +
-                                            "<p>自分のアノテーションを作成するためにはPubAnnotation上で自分のプロジェクトを作る必要があります。" +
-                                            "作成したアノテーションは後で纏めてダウンロードしたり共有することができます。</p>" +
-                                            "<p>まだ開発中のサービスであり、実装すべき機能が残っています。" +
-                                            "ユーザの皆様の声を大事にして開発していきたいと考えておりますので、ご意見などございましたら教えていただければ幸いです。</p>");
-                                }
-                            });
-
-                            control.on(control.buttons["help"].ev, helpDialog.show);
-                            control.on(control.buttons["about"].ev, aboutDialog.show);
-
-                            $("body").on("textae.select.cancel", function() {
-                                helpDialog.hide();
-                                aboutDialog.hide();
-                            });
-                        },
-                        pushEditor: function(editor) {
-
-                        }
-                    };
+                    texaeGod = god();
                 }
             };
 
