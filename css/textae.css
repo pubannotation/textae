@@ -209,7 +209,7 @@ html, body {
     background-color: #ff0000;
 }
 
-.pallet {
+.textae-control__entity-pallet {
     border: solid 2px #333333;
     background-color: rgba(200,255,255,0.9);
     width: auto;
@@ -226,7 +226,7 @@ html, body {
     user-select: none;
 }
 
-.pallet table, tr, th, td {
+.textae-control__entity-pallet table, .textae-control__entity-pallet tr, .textae-control__entity-pallet th, .textae-control__entity-pallet td {
     margin: 0px;
     padding: 0px;
     border-style: solid;
@@ -235,34 +235,50 @@ html, body {
     border-color:#AAAAAA;
 }
 
-.about {
-    border: solid 4px #aaaa88;
-    background-color: rgba(255,255,225,1.0);
-    width: 400px;
-    padding: 4px;
-    z-index: 255;
-    font-size: small;
+.textae-control__entity-pallet table {
+    width: 100%;
 }
 
-.help {
-    border: solid 4px #aaaa88;
-    background-color: rgba(255,255,225,1.0);
-    width: 400px;
-    padding: 4px;
-    z-index: 255;
-    font-size: small;
+.textae-control__entity-pallet td {
+    padding: 5px;
 }
 
-.pallet th {
+.textae-control__entity-pallet th {
     width:auto;
 }
 
-.entity_type {
+.textae-control__entity-pallet__entity-type {
     opacity:0.8;
 }
 
-.entity_type:hover {
+.textae-control__entity-pallet__entity-type:hover {
     opacity:1;
+}
+
+.textae-control__entity-pallet__entity-type__radio {
+    cursor: pointer;
+}
+
+.textae-control__entity-pallet__entity-type__label {
+    cursor: pointer;
+}
+
+.textae-control__about {
+    border: solid 4px #aaaa88;
+    background-color: rgba(255,255,225,1.0);
+    width: 400px;
+    padding: 4px;
+    z-index: 255;
+    font-size: small;
+}
+
+.textae-control__help {
+    border: solid 4px #aaaa88;
+    background-color: rgba(255,255,225,1.0);
+    width: 400px;
+    padding: 4px;
+    z-index: 255;
+    font-size: small;
 }
 
 #notice {
@@ -276,14 +292,6 @@ html, body {
     background-color: #ffdddd;
     font-style: italic;
     font-size: small;
-}
-
-.entity_type_radio {
-    cursor: pointer;
-}
-
-.entity_type_label {
-    cursor: pointer;
 }
 
 span.Sentence {

@@ -112,7 +112,7 @@ $(document).ready(function() {
     var gridWidthGap = 0;
     var typeMarginTop = 18;
     var typeMarginBottom = 2;
-    var palletHeightMax = 100;
+    var PALLET_HEIGHT_MAX = 100;
 
     var lineHeight = 600;
 
@@ -126,13 +126,6 @@ $(document).ready(function() {
         change: setLineHeight,
         stop: setLineHeight
     }).spinner("value", lineHeight);
-
-    var mouseX;
-    var mouseY;
-    $('#body').mousemove(function(e) {
-        mouseX = e.pageX - this.offsetLeft;
-        mouseY = e.pageY - this.offsetTop;
-    });
 
     function getSizes() {
         var div = '<div id="temp_grid" class="grid" style="width:10px; height:auto"></div>';
@@ -502,7 +495,7 @@ $(document).ready(function() {
                     businessLogic.createEntity();
                     break;
                 case 72: // 'h' key
-                    businessLogic.showHelp();
+                    presentationLogic.showHelp();
                     break;
                 case 67: // 'c' key
                     businessLogic.copyEntities();
@@ -512,7 +505,7 @@ $(document).ready(function() {
                     break;
                 case 81: // 'q' key
                     // show type selector
-                    businessLogic.showPallet();
+                    presentationLogic.showPallet();
                     break;
                 case 87: // 'w' key
                     // show type selector
@@ -743,7 +736,6 @@ $(document).ready(function() {
         });
 
         $('#annotation_box').empty();
-        renderEntityTypePallet();
 
         renderSpans(spanIds);
         indexPositions(spanIds);
@@ -784,47 +776,6 @@ $(document).ready(function() {
         return null;
     }
 
-    function renderEntityTypePallet() {
-        var types = Object.keys(entityTypes);
-        types.sort(function(a,b) {return (entityTypes[b].count - entityTypes[a].count)});
-        if (!entityTypeDefault) {entityTypeDefault = types[0]}
-
-        var pallet = '<div id="entity_type_pallet" class="pallet"><table>';
-        for (var i = 0; i < types.length; i++) {
-            var t = types[i];
-            var uri = entityTypes[t]["uri"];
-
-            pallet += '<tr class="entity_type"';
-            pallet += typeColor(t)? ' style="background-color:' + typeColor(t) + '"' : '';
-            pallet += '>';
-
-            pallet += '<th><input type="radio" name="etype" class="entity_type_radio" label="' + t + '"';
-            pallet += (t == entityTypeDefault)? ' title="default type" checked' : '';
-            pallet += '/></th>';
-
-            pallet += '<td class="entity_type_label" label="' + t + '">' + t + '</td>';
-
-            if (uri) pallet += '<th title="' + uri + '">' + '<a href="' + uri + '" target="_blank"><img src="images/link.png"/></a></th>';
-
-            pallet += '</tr>';
-        }
-        pallet += '</table></div>';
-
-
-        if ($('#entity_type_pallet').length == 0) $('#annotation_box').append(pallet);
-        else                                      $('#entity_type_pallet').html(pallet);
-
-        var p = $('#entity_type_pallet');
-        p.css('position', 'absolute');
-        p.css('display', 'none');
-        p.css('width', p.outerWidth() + 15);
-        $('#entity_type_pallet > table').css('width', '100%');
-        if (p.outerHeight() > palletHeightMax) p.css('height', palletHeightMax);
-
-        $('.entity_type_radio').off('mouseup', setEntityTypeDefault).on('mouseup', setEntityTypeDefault);
-        $('.entity_type_label').off('mouseup', setEntityType).on('mouseup', setEntityType);
-   }
-
     function changeButtonStateEntity() {
         $textaeControl.enableButton("entity", numSpanSelection() > 0);
     }
@@ -835,59 +786,6 @@ $(document).ready(function() {
 
     function changeButtonStateNewLabel() {
         $textaeControl.enableButton("newLabel", numEntitySelection() > 0);
-    }
-
-    // set the default type of denoting object
-    function setEntityTypeDefault() {
-        entityTypeDefault = $(this).attr('label');
-        return false;
-    }
-
-    // set the type of an entity
-    function setEntityType() {
-        var new_type = $(this).attr('label')
-        var edits = [];
-        $(".entity.ui-selected").each(function() {
-            var eid = this.id;
-            edits.push({action:'change_entity_type', id:eid, old_type:annotation_data.entities[eid].type, new_type:new_type});
-        });
-        if (edits.length > 0) makeEdits(edits);
-        return false;
-    }
-
-    function renderPalletWidget(id, items) {
-        var pallet = '<div id="entity_type_pallet" class="pallet"><table>';
-        for (var i = 0; i < items.length; i++) {
-            var t = items[i];
-            var uri = entityTypes[t]["uri"];
-
-            pallet += '<tr class="entity_type"';
-            pallet += typeColor(t)? ' style="background-color:' + typeColor(t) + '"' : '';
-            pallet += '>';
-
-            pallet += '<th><input type="radio" name="etype" class="entity_type_radio" label="' + t + '"';
-            pallet += (t == entityTypeDefault)? ' title="default type" checked' : '';
-            pallet += '/></th>';
-
-            pallet += '<td class="entity_type_label" label="' + t + '">' + t + '</td>';
-
-            if (uri) pallet += '<th title="' + uri + '">' + '<a href="' + uri + '" target="_blank"><img src="images/link.png"/></a></th>';
-
-            pallet += '</tr>';
-        }
-        pallet += '</table></div>';
-
-        $('#annotation_box').append(pallet);
-
-        var p = $('#entity_type_pallet');
-        p.css('position', 'absolute');
-        p.css('display', 'none');
-        p.css('width', p.outerWidth() + 15);
-        $('#entity_type_pallet > table').css('width', '100%');
-        if (p.outerHeight() > palletHeightMax) p.css('height', palletHeightMax);
-
-        $('.entity_type_radio').off('mouseup', setEntityTypeDefault).on('mouseup', setEntityTypeDefault);
-        $('.entity_type_label').off('mouseup', setEntityType).on('mouseup', setEntityType);
     }
 
     function typeColor(type) {
@@ -998,7 +896,7 @@ $(document).ready(function() {
     }
 
     function spanClicked(e) {
-        $('#entity_type_pallet').css('display', 'none');
+        presentationLogic.hidePallet();
         var selection = window.getSelection();
         var range = selection.getRangeAt(0);
 
@@ -1278,9 +1176,9 @@ $(document).ready(function() {
         clearSelection();
         clearRelationSelection();
         clearModificationSelection();
-        $('#entity_type_pallet').css('display', 'none');
-        businessLogic.hideHelp();
-        businessLogic.hideAbout();
+        presentationLogic.hidePallet();
+        presentationLogic.hideHelp();
+        presentationLogic.hideAbout();
         changeButtonStateReplicate();
         changeButtonStateEntity();
         changeButtonStateDelete();
@@ -1628,6 +1526,7 @@ $(document).ready(function() {
         }
     }
 
+    //user event to edit model
     var businessLogic = {
        getAnnotation : function() {
             var $dialog = $("#dialog_load_file");
@@ -1726,20 +1625,11 @@ $(document).ready(function() {
             }
         },
     
-        showPallet : function(e) {
-            var p = $('#entity_type_pallet');
-            p.css('top', mouseY);
-            p.css('left', mouseX);
-            p.css('display', 'block');
-            return false;
-        },
-
         newLabel : function() {
             if ($(".entity.ui-selected").length > 0) {
                 var new_type = prompt("Please enter a new label","");
                 if (entityTypes[new_type] == undefined) {
                     entityTypes[new_type] = {};
-                    renderEntityTypePallet();
                 }
 
                 var edits = [];
@@ -1812,39 +1702,142 @@ $(document).ready(function() {
             if (edits.length > 0) makeEdits(edits);
         },
 
+        // set the default type of denoting object
+        setEntityTypeDefault:function () {
+            entityTypeDefault = $(this).attr('label');
+            return false;
+        },
+
+        // set the type of an entity
+         setEntityType:function() {
+            var new_type = $(this).attr('label')
+            var edits = [];
+            $(".entity.ui-selected").each(function() {
+                var eid = this.id;
+                edits.push({action:'change_entity_type', id:eid, old_type:annotation_data.entities[eid].type, new_type:new_type});
+            });
+            if (edits.length > 0) makeEdits(edits);
+            return false;
+        }
+    };
+
+    //user event that does not change data.
+    var presentationLogic = {
+        showPallet : function(controlEvent, buttonEvent) {
+            //create table contents for entity type.
+            var makeEntityTypeOfEntityTypePallet = function(entityTypes, entityTypeDefault){
+                var row = "";
+                var types = Object.keys(entityTypes);
+                types.sort(function(a,b) {
+                    return (entityTypes[b].count - entityTypes[a].count);
+                });
+                
+                if (!entityTypeDefault) {
+                    entityTypeDefault = types[0];
+                }
+                for (var i = 0; i < types.length; i++) {
+                    var t = types[i];
+                    var uri = entityTypes[t]["uri"];
+
+                    row += '<tr class="textae-control__entity-pallet__entity-type"';
+                    row += typeColor(t)? ' style="background-color:' + typeColor(t) + '"' : '';
+                    row += '>';
+
+                    row += '<th><input type="radio" name="etype" class="textae-control__entity-pallet__entity-type__radio" label="' + t + '"';
+                    row += (t == entityTypeDefault)? ' title="default type" checked' : '';
+                    row += '/></th>';
+
+                    row += '<td class="textae-control__entity-pallet__entity-type__label" label="' + t + '">' + t + '</td>';
+
+                    if (uri) row += '<th title="' + uri + '">' + '<a href="' + uri + '" target="_blank"><img src="images/link.png"/></a></th>';
+
+                    row += '</tr>';
+                }
+
+                return row;
+            };
+
+            //return a Pallet that created if not exists.
+            var getEmptyPallet = function() {
+                var $pallet = $('.textae-control__entity-pallet');
+                if ($pallet.length === 0){
+                    //setup new pallet
+                    $pallet = $('<div>')
+                        .addClass("textae-control__entity-pallet")
+                        .append($('<table>'))
+                        .css({
+                            'position': 'absolute',
+                            'display': 'none'
+                        })
+                        .on('mouseup', '.textae-control__entity-pallet__entity-type__radio', businessLogic.setEntityTypeDefault)
+                        .on('mouseup', '.textae-control__entity-pallet__entity-type__label', businessLogic.setEntityType);
+
+                    //for show on top append to body.
+                    $("body").append($pallet);
+                }else{
+                    $pallet.find('table').empty();
+                    $pallet.css('width', 'auto');                   
+                }
+                return $pallet;
+            };
+
+            var $pallet　= getEmptyPallet();
+            $pallet.find("table")
+                .append(makeEntityTypeOfEntityTypePallet(entityTypes, entityTypeDefault));
+
+            //limti max height.
+            if ($pallet.outerHeight() > PALLET_HEIGHT_MAX) {
+                $pallet.css('height', PALLET_HEIGHT_MAX);
+                $pallet.css('width', $pallet.outerWidth() + 15);
+            }
+
+            //if open by mouseevent
+            if(arguments.length === 2){
+                $pallet.css('top', buttonEvent.clientY - controlEvent.target.offsetTop);
+                $pallet.css('left', buttonEvent.clientX - controlEvent.target.offsetLeft);
+            }
+            $pallet.css('display', 'block');
+            return false;
+        },
+
+        hidePallet :function(){
+            $('.textae-control__entity-pallet').css('display', 'none');
+        },
+
         showHelp : function() {
-            $textae.showHelp();
+            $textaeControl.showHelp();
         },
 
         hideHelp : function() {
-            $textae.hideHelp();
+            $textaeControl.hideHelp();
         },
 
         showAbout : function() {
-            $textae.showAbout();
+            $textaeControl.showAbout();
         },
 
         hideAbout : function () {
-            $textae.hideAbout();
+            $textaeControl.hideAbout();
         }
     };
 
     // bind textaeCotnrol eventhandler
     function bindTextaeControlEventhandler() {
-        $textaeControl.on($textaeControl.buttons.read.ev, businessLogic.getAnnotation);
-        $textaeControl.on($textaeControl.buttons.write.ev, businessLogic.saveAnnotation);
-        $textaeControl.on($textaeControl.buttons.undo.ev, businessLogic.undo);
-        $textaeControl.on($textaeControl.buttons.redo.ev, businessLogic.redo);
-        $textaeControl.on($textaeControl.buttons.replicate.ev, businessLogic.replicate);
-        $textaeControl.on($textaeControl.buttons.replicateAuto.ev, businessLogic.pushButtonReplicateAuto);
-        $textaeControl.on($textaeControl.buttons.entity.ev, businessLogic.createEntity);
-        $textaeControl.on($textaeControl.buttons.newLabel.ev, businessLogic.newLabel);
-        $textaeControl.on($textaeControl.buttons.pallet.ev, businessLogic.showPallet);
-        $textaeControl.on($textaeControl.buttons.delete.ev, businessLogic.removeElements);
-        $textaeControl.on($textaeControl.buttons.copy.ev, businessLogic.copyEntities);
-        $textaeControl.on($textaeControl.buttons.paste.ev, businessLogic.pasteEntities);
-        $textaeControl.on($textaeControl.buttons.help.ev, businessLogic.showHelp);
-        $textaeControl.on($textaeControl.buttons.about.ev, businessLogic.showAbout);
+        // access by square brancket because property names include "-". 
+        $textaeControl.on($textaeControl.buttons["read"].ev, businessLogic.getAnnotation);
+        $textaeControl.on($textaeControl.buttons["write"].ev, businessLogic.saveAnnotation);
+        $textaeControl.on($textaeControl.buttons["undo"].ev, businessLogic.undo);
+        $textaeControl.on($textaeControl.buttons["redo"].ev, businessLogic.redo);
+        $textaeControl.on($textaeControl.buttons["replicate"].ev, businessLogic.replicate);
+        $textaeControl.on($textaeControl.buttons["replicate-auto"].ev, businessLogic.pushButtonReplicateAuto);
+        $textaeControl.on($textaeControl.buttons["entity"].ev, businessLogic.createEntity);
+        $textaeControl.on($textaeControl.buttons["new-label"].ev, businessLogic.newLabel);
+        $textaeControl.on($textaeControl.buttons["pallet"].ev, presentationLogic.showPallet);
+        $textaeControl.on($textaeControl.buttons["delete"].ev, businessLogic.removeElements);
+        $textaeControl.on($textaeControl.buttons["copy"].ev, businessLogic.copyEntities);
+        $textaeControl.on($textaeControl.buttons["paste"].ev, businessLogic.pasteEntities);
+        $textaeControl.on($textaeControl.buttons["help"].ev, presentationLogic.showHelp);
+        $textaeControl.on($textaeControl.buttons["about"].ev, presentationLogic.showAbout);
     }
 
     function annotationDataToJson(annotation_data){
