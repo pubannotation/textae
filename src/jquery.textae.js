@@ -15,12 +15,61 @@
             self.endWait = endWait;
         }
 
+        //entityTypes
+        var entityTypes = function(){
+            var types =  {},
+                defaultType ="",
+                getColor = function(){
+                    return this.color ? this.color : "#77DDDD";
+                };
+
+            return {
+                setDefaultType : function (nameOfEntityType) {
+                    defaultType = nameOfEntityType;
+                },
+                getDefaultType : function () {
+                    return defaultType || entityTypes.getType(entityTypes.getSortedNames()[0]).name;
+                },
+                getType : function(nameOfEntityType){
+                    return types[nameOfEntityType] = types[nameOfEntityType] || {getColor:getColor};
+                },
+                setTypes : function(newEntityTypes){
+                    // expected newEntityTypes is an array of object. example of object is {"name": "Regulation","color": "#FFFF66","default": true}.
+                    types = {};
+                    defaultType = "";
+                    if (newEntityTypes !== undefined) {
+                        newEntityTypes.forEach(function(newEntity){
+                            newEntity.getColor = getColor;
+                            types[newEntity.name] = newEntity;
+                            if (newEntity.default === true) {
+                                defaultType = newEntity.name;
+                            }
+                      });
+                    }
+                },
+                //save number of type, to sort by numer when show entity pallet.
+                incrementNumberOfTypes : function(nameOfEntityType){
+                    //access by square brancket, because nameOfEntityType is user input value, maybe 'null', '-', and other invalid indentifier name.
+                    var type = entityTypes.getType(nameOfEntityType);
+                    type.count = (type.count || 0) + 1;
+                },
+                getSortedNames : function (){
+                    //sort by number of types
+                    var typeNames = Object.keys(types);
+                    typeNames.sort(function(a,b) {
+                        return types[b].count - types[a].count;
+                    });
+                    return typeNames;
+                }
+            }
+        }();
+
         //init
         setupWait(this);
+        this.entityTypes = entityTypes;
 
         return this;
     };
-
 
     var control = function() {
         var $self = this;

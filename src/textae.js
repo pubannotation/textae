@@ -78,12 +78,10 @@ $(document).ready(function() {
         }
     };
 
-    var entityTypes;
     var relationTypes;
     var modificationTypes;
 
     var blockTypeDefault = 'block';
-    var entityTypeDefault;
     var relationTypeDefault;
     var modificationTypeDefault;
 
@@ -318,15 +316,7 @@ $(document).ready(function() {
     }
 
     function setTypes(config){
-        entityTypes = {};
-        entityTypeDefault = null;
-        if (config['entity types'] != undefined) {
-            var entity_types = config['entity types'];
-            for (var i in entity_types) {
-                entityTypes[entity_types[i]["name"]] = entity_types[i];
-                if (entity_types[i]["default"] == true) {entityTypeDefault = entity_types[i]["name"];}
-            }
-        }
+        $textae.entityTypes.setTypes(config['entity types']);
 
         relationTypes = new Object();
         relationTypeDefault = null;
@@ -624,6 +614,7 @@ $(document).ready(function() {
 
         if (data.denotations != undefined) {
             for (var i in data.denotations) {
+                //expected d is like { "id": "T1", "span": { "begin": 19, "end": 49 }, "obj": "Cell" }
                 var d = data.denotations[i];
 
                 var sid = getSid(d['span']['begin'], d['span']['end']);
@@ -631,9 +622,7 @@ $(document).ready(function() {
 
                 annotation_data.entities[d.id] = {span:sid, type:d['obj']};
 
-                if (!entityTypes[d['obj']]) entityTypes[d['obj']] = {};
-                if (entityTypes[d['obj']]['count']) entityTypes[d['obj']]['count']++;
-                else entityTypes[d['obj']]['count'] = 1;
+                $textae.entityTypes.incrementNumberOfTypes(d['obj']);
 
                 var tid = getTid(sid, d['obj']);
                 if (typesPerSpan[sid]) {
@@ -786,11 +775,6 @@ $(document).ready(function() {
 
     function changeButtonStateNewLabel() {
         $textaeControl.enableButton("newLabel", numEntitySelection() > 0);
-    }
-
-    function typeColor(type) {
-        if (entityTypes && entityTypes[type] && entityTypes[type].color) return entityTypes[type].color;
-        return "#77DDDD";
     }
 
     function relationColor(type) {
@@ -1621,16 +1605,13 @@ $(document).ready(function() {
             while (numSpanSelection() > 0) {
                 sid = popSpanSelection();
                 var id = "E" + (++maxIdNum);
-                makeEdits([{action:'new_denotation', id:id, span:sid, type:entityTypeDefault}]);
+                makeEdits([{action:'new_denotation', id:id, span:sid, type:$textae.entityTypes.getDefaultType()}]);
             }
         },
     
         newLabel : function() {
             if ($(".entity.ui-selected").length > 0) {
                 var new_type = prompt("Please enter a new label","");
-                if (entityTypes[new_type] == undefined) {
-                    entityTypes[new_type] = {};
-                }
 
                 var edits = [];
                 $(".entity.ui-selected").each(function() {
@@ -1704,12 +1685,12 @@ $(document).ready(function() {
 
         // set the default type of denoting object
         setEntityTypeDefault:function () {
-            entityTypeDefault = $(this).attr('label');
+            $textae.entityTypes.setDefaultType($(this).attr('label'));
             return false;
         },
 
         // set the type of an entity
-         setEntityType:function() {
+        setEntityType:function() {
             var new_type = $(this).attr('label')
             var edits = [];
             $(".entity.ui-selected").each(function() {
@@ -1725,36 +1706,29 @@ $(document).ready(function() {
     var presentationLogic = {
         showPallet : function(controlEvent, buttonEvent) {
             //create table contents for entity type.
-            var makeEntityTypeOfEntityTypePallet = function(entityTypes, entityTypeDefault){
-                var row = "";
-                var types = Object.keys(entityTypes);
-                types.sort(function(a,b) {
-                    return (entityTypes[b].count - entityTypes[a].count);
-                });
-                
-                if (!entityTypeDefault) {
-                    entityTypeDefault = types[0];
-                }
-                for (var i = 0; i < types.length; i++) {
-                    var t = types[i];
-                    var uri = entityTypes[t]["uri"];
-
-                    row += '<tr class="textae-control__entity-pallet__entity-type"';
-                    row += typeColor(t)? ' style="background-color:' + typeColor(t) + '"' : '';
-                    row += '>';
+            var makeEntityTypeOfEntityTypePallet = function(entityTypes){
+                return entityTypes.getSortedNames().map(function(t){
+                    var type = entityTypes.getType(t);
+                    var row = '<tr class="textae-control__entity-pallet__entity-type" style="background-color:' + type.getColor() + '">';
 
                     row += '<th><input type="radio" name="etype" class="textae-control__entity-pallet__entity-type__radio" label="' + t + '"';
-                    row += (t == entityTypeDefault)? ' title="default type" checked' : '';
+                    row += (t == entityTypes.getDefaultType())? ' title="default type" checked' : '';
                     row += '/></th>';
 
                     row += '<td class="textae-control__entity-pallet__entity-type__label" label="' + t + '">' + t + '</td>';
 
-                    if (uri) row += '<th title="' + uri + '">' + '<a href="' + uri + '" target="_blank"><img src="images/link.png"/></a></th>';
+                    row += '<th title="' + uri + '">';
+
+                    var uri = type["uri"];
+                    if (uri) {
+                        row += '<a href="' + uri + '" target="_blank"><img src="images/link.png"/></a>'
+                    };
+
+                    row += '</th>'
 
                     row += '</tr>';
-                }
-
-                return row;
+                    return row;
+                }).join();
             };
 
             //return a Pallet that created if not exists.
@@ -1783,7 +1757,7 @@ $(document).ready(function() {
 
             var $pallet　= getEmptyPallet();
             $pallet.find("table")
-                .append(makeEntityTypeOfEntityTypePallet(entityTypes, entityTypeDefault));
+                .append(makeEntityTypeOfEntityTypePallet($textae.entityTypes));
 
             //limti max height.
             if ($pallet.outerHeight() > PALLET_HEIGHT_MAX) {
@@ -2421,6 +2395,7 @@ $(document).ready(function() {
         return id;
     }
 
+    //label over span
     function renderType(type, sid) {
         var tid = getTid(sid, type);
 
@@ -2428,7 +2403,7 @@ $(document).ready(function() {
             $('#G' + sid).append('<div id="' + tid +'"></div>');
             var t = $('#' + tid);
             t.addClass('type');
-            t.css('background-color', typeColor(type));
+            t.css('background-color', $textae.entityTypes.getType(type).getColor());
             t.css('margin-top', typeMarginTop);
             t.css('margin-bottom', typeMarginBottom);
             t.attr('title', type);
@@ -2443,6 +2418,7 @@ $(document).ready(function() {
         $('#' + tid).remove();
     }
 
+    //a circle on Type
     function renderEntity(eid) {
         if ($('#' + eid).length == 0) {
             var entity = annotation_data.entities[eid];
@@ -2458,7 +2434,7 @@ $(document).ready(function() {
             var e = $('#' + eid);
             e.attr('title', eid);
             e.css('display: inline-block');
-            e.css('border-color', typeColor(type));
+            e.css('border-color', $textae.entityTypes.getType(type).getColor());
             e.off('mouseup', entityClicked).on('mouseup', entityClicked);
             indexPositionEntity(eid);
         }
