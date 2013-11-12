@@ -134,7 +134,7 @@
 (function(jQuery) {
     var editor = function() {
         var $textae_container = this;
-        
+
         //cursor
         var setupWait = function setuoWait(self) {
             var wait = function() {
@@ -240,44 +240,6 @@
             }
         };
 
-        //help 
-        var publicateHelpDialog = function publicateHelpDialog(self) {
-            var helpDialog = textAeUtil.makeInformationDialog({
-                className: "textae-control__help",
-                addContentsFunc: function() {
-                    return this
-                        .append($("<h3>").text("Help (Keyboard short-cuts)"))
-                        .append($("<img>").attr("src", "images/keyhelp.png"));
-                }
-            });
-
-            self.showHelp = helpDialog.show;
-            self.hideHelp = helpDialog.hide;
-        };
-
-        //about
-        var publicateAboutDialog = function setupAbout(self) {
-            var aboutDialog = textAeUtil.makeInformationDialog({
-                className: "textae-control__about",
-                addContentsFunc: function() {
-                    return this
-                        .html("<h3>About TextAE (Text Annotation Editor)</h3>" +
-                            "<p>今ご覧になっているTextAEはPubAnnotationで管理しているアノテーションのビューアもしくはエディタです。</p>" +
-                            "<p>PubAnnotationではPubMedのアブストラクトにアノテーションを付けることができます。</p>" +
-                            "<p>現在はEntrez Gene IDによる自動アノテーションおよびそのマニュアル修正作業が可能となっています。" +
-                            "今後は自動アノテーションの種類を増やす計画です。</p>" +
-                            "<p>間違ったアノテーションも目に付くと思いますが、それを簡単に直して自分のプロジェクトにセーブできるのがポイントです。</p>" +
-                            "<p>自分のアノテーションを作成するためにはPubAnnotation上で自分のプロジェクトを作る必要があります。" +
-                            "作成したアノテーションは後で纏めてダウンロードしたり共有することができます。</p>" +
-                            "<p>まだ開発中のサービスであり、実装すべき機能が残っています。" +
-                            "ユーザの皆様の声を大事にして開発していきたいと考えておりますので、ご意見などございましたら教えていただければ幸いです。</p>");
-                }
-            });
-
-            self.showAbout = aboutDialog.show;
-            self.hideAbout = aboutDialog.hide;
-        };
-
         // build elements
         this.append(makeTitle())
             .append(makeIconBar());
@@ -288,27 +250,66 @@
         enableButton("help", true);
         enableButton("about", true);
 
-        // bind button event
-        var self = this;
-        this.on(buttonCache["about"].ev, function(){
-            console.log("AAA");
-            self.showAbout();
-        });
-
         // public
         this.enableButton = enableButton;
         this.buttons = buttonCache;
-        publicateHelpDialog(this);
-        publicateAboutDialog(this);
 
         return this;
     };
 
     jQuery.fn.textae = function() {
+        //init management object
+        if (window.texaeGod === undefined) {
+            window.texaeGod = {
+                setControl: function(control) {
+                    var helpDialog = textAeUtil.makeInformationDialog({
+                        className: "textae-control__help",
+                        addContentsFunc: function() {
+                            return this
+                                .append($("<h3>").text("Help (Keyboard short-cuts)"))
+                                .append($("<img>").attr("src", "images/keyhelp.png"));
+                        }
+                    });
+
+                    var aboutDialog = textAeUtil.makeInformationDialog({
+                        className: "textae-control__about",
+                        addContentsFunc: function() {
+                            return this
+                                .html("<h3>About TextAE (Text Annotation Editor)</h3>" +
+                                    "<p>今ご覧になっているTextAEはPubAnnotationで管理しているアノテーションのビューアもしくはエディタです。</p>" +
+                                    "<p>PubAnnotationではPubMedのアブストラクトにアノテーションを付けることができます。</p>" +
+                                    "<p>現在はEntrez Gene IDによる自動アノテーションおよびそのマニュアル修正作業が可能となっています。" +
+                                    "今後は自動アノテーションの種類を増やす計画です。</p>" +
+                                    "<p>間違ったアノテーションも目に付くと思いますが、それを簡単に直して自分のプロジェクトにセーブできるのがポイントです。</p>" +
+                                    "<p>自分のアノテーションを作成するためにはPubAnnotation上で自分のプロジェクトを作る必要があります。" +
+                                    "作成したアノテーションは後で纏めてダウンロードしたり共有することができます。</p>" +
+                                    "<p>まだ開発中のサービスであり、実装すべき機能が残っています。" +
+                                    "ユーザの皆様の声を大事にして開発していきたいと考えておりますので、ご意見などございましたら教えていただければ幸いです。</p>");
+                        }
+                    });
+
+                    control.on(control.buttons["help"].ev, helpDialog.show);
+                    control.on(control.buttons["about"].ev, aboutDialog.show);
+
+                    $("body").on("textae.select.cancel", function() {
+                        helpDialog.hide();
+                        aboutDialog.hide();
+                    });
+                },
+                pushEditor: function(editor) {
+
+                }
+            };
+        }
+
         if (this.hasClass("textae-editor")) {
-            return editor.apply(this);
+            var e = editor.apply(this);
+            texaeGod.pushEditor(e);
+            return e;
         } else if (this.hasClass("textae-control")) {
-            return control.apply(this);
+            var c = control.apply(this);
+            texaeGod.setControl(c);
+            return c;
         }
     };
 })(jQuery);
@@ -1491,8 +1492,6 @@ $(document).ready(function() {
         clearRelationSelection();
         clearModificationSelection();
         presentationLogic.hidePallet();
-        presentationLogic.hideHelp();
-        presentationLogic.hideAbout();
         changeButtonStateReplicate();
         changeButtonStateEntity();
         changeButtonStateDelete();
@@ -1500,6 +1499,8 @@ $(document).ready(function() {
         changeButtonStateNewLabel();
         changeButtonStateCopy();
         changeButtonStatePaste();
+
+        $("body").trigger("textae.select.cancel");
     }
 
 
@@ -2116,22 +2117,6 @@ $(document).ready(function() {
 
         hidePallet :function(){
             $('.textae-control__entity-pallet').css('display', 'none');
-        },
-
-        showHelp : function() {
-            $textaeControl.showHelp();
-        },
-
-        hideHelp : function() {
-            $textaeControl.hideHelp();
-        },
-
-        showAbout : function() {
-            $textaeControl.showAbout();
-        },
-
-        hideAbout : function () {
-            $textaeControl.hideAbout();
         }
     };
 
@@ -2150,8 +2135,6 @@ $(document).ready(function() {
         $textaeControl.on($textaeControl.buttons["delete"].ev, businessLogic.removeElements);
         $textaeControl.on($textaeControl.buttons["copy"].ev, businessLogic.copyEntities);
         $textaeControl.on($textaeControl.buttons["paste"].ev, businessLogic.pasteEntities);
-        $textaeControl.on($textaeControl.buttons["help"].ev, presentationLogic.showHelp);
-        $textaeControl.on($textaeControl.buttons["about"].ev, presentationLogic.showAbout);
     }
 
     function annotationDataToJson(annotation_data){

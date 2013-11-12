@@ -1177,8 +1177,6 @@ $(document).ready(function() {
         clearRelationSelection();
         clearModificationSelection();
         presentationLogic.hidePallet();
-        presentationLogic.hideHelp();
-        presentationLogic.hideAbout();
         changeButtonStateReplicate();
         changeButtonStateEntity();
         changeButtonStateDelete();
@@ -1186,6 +1184,8 @@ $(document).ready(function() {
         changeButtonStateNewLabel();
         changeButtonStateCopy();
         changeButtonStatePaste();
+
+        $("body").trigger("textae.select.cancel");
     }
 
 
@@ -1802,22 +1802,6 @@ $(document).ready(function() {
 
         hidePallet :function(){
             $('.textae-control__entity-pallet').css('display', 'none');
-        },
-
-        showHelp : function() {
-            $textaeControl.showHelp();
-        },
-
-        hideHelp : function() {
-            $textaeControl.hideHelp();
-        },
-
-        showAbout : function() {
-            $textaeControl.showAbout();
-        },
-
-        hideAbout : function () {
-            $textaeControl.hideAbout();
         }
     };
 
@@ -1836,8 +1820,6 @@ $(document).ready(function() {
         $textaeControl.on($textaeControl.buttons["delete"].ev, businessLogic.removeElements);
         $textaeControl.on($textaeControl.buttons["copy"].ev, businessLogic.copyEntities);
         $textaeControl.on($textaeControl.buttons["paste"].ev, businessLogic.pasteEntities);
-        $textaeControl.on($textaeControl.buttons["help"].ev, presentationLogic.showHelp);
-        $textaeControl.on($textaeControl.buttons["about"].ev, presentationLogic.showAbout);
     }
 
     function annotationDataToJson(annotation_data){
