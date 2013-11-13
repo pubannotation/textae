@@ -139,21 +139,7 @@ $(document).ready(function() {
                 };
             },
             getRelationIds :function(){
-                 function calculateRelationSize(rids) {
-                    rids.forEach(function(rid){
-                        var sourceX = positions[annotation_data.relations[rid].subj].center;
-                        var targetX = positions[annotation_data.relations[rid].obj].center;
-                        annotation_data.relations[rid].size = Math.abs(sourceX - targetX);
-                    });
-                }
-
-                var rids = Object.keys(annotation_data.relations);
-                calculateRelationSize(rids);
-                var bySize = function(a, b) {
-                    return (annotation_data.relations[b].size - annotation_data.relations[a].size);
-                }
-                rids.sort(bySize);
-                return rids
+                return Object.keys(annotation_data.relations);
             }
         };
     }();
