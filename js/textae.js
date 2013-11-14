@@ -537,41 +537,10 @@ $(document).ready(function() {
     // target URL
     var targetUrl = '';
 
-    var typeHeight = 0;
-    var gridWidthGap = 0;
     var typeMarginTop = 18;
     var typeMarginBottom = 2;
     var PALLET_HEIGHT_MAX = 100;
 
-    var lineHeight = 600;
-
-    function setLineHeight() {
-        $('#text_box').css('line-height', $('#line-height').val() + '%');
-        // redraw();
-    }
-
-    $( "#line-height" ).spinner({
-        step: 50,
-        change: setLineHeight,
-        stop: setLineHeight
-    }).spinner("value", lineHeight);
-
-    function getSizes() {
-        var div = '<div id="temp_grid" class="grid" style="width:10px; height:auto"></div>';
-        $('#annotation_box').append(div);
-
-        div = '<div id="temp_type" class="type" title="[Temp] Temp" >T0</div>';
-        $('#temp_grid').append(div);
-
-        div = '<div id="temp_entity_pane" class="entity_pane"><div id="temp_entity" class="entity"></div></div>';
-        $('#temp_type').append(div);
-
-        gridWidthGap = $('#temp_grid').outerWidth() - 10;
-        typeHeight   = $('#temp_type').outerHeight();
-        entityHeight = $('#temp_entity').outerHeight();
-        entityWidth  = $('#temp_entity').outerWidth();
-        $('#temp_grid').remove();
-    }
 
     var localFile = {
         $fileInput: null,//target element which is "input type="file".
@@ -1166,7 +1135,6 @@ $(document).ready(function() {
         renderSpans(annotation_data.spanIds);
         indexPositionSpans(annotation_data.spanIds);
 
-        getSizes();
         renderEntitiesOfSpans(annotation_data.spanIds);
         renderRelations();
     }
@@ -2620,8 +2588,33 @@ $(document).ready(function() {
         // jsPlumb.deleteEndpoint(endpoints[1]);
     }
 
+    var renderSize = {
+        gridWidthGap : 0,
+        typeHeight : 0,
+        entityWidth : 0,
+        mesure : function() {
+            var div = '<div id="temp_grid" class="grid" style="width:10px; height:auto"></div>';
+            $('#annotation_box').append(div);
+
+            div = '<div id="temp_type" class="type" title="[Temp] Temp" >T0</div>';
+            $('#temp_grid').append(div);
+
+            div = '<div id="temp_entity_pane" class="entity_pane"><div id="temp_entity" class="entity"></div></div>';
+            $('#temp_type').append(div);
+
+            renderSize.gridWidthGap = $('#temp_grid').outerWidth() - 10;
+            renderSize.typeHeight   = $('#temp_type').outerHeight();
+            renderSize.entityWidth  = $('#temp_entity').outerWidth();
+            $('#temp_grid').remove();
+        }
+    };
+
     function renderEntitiesOfSpans(sids) {
-        for (var s = sids.length - 1; s >= 0; s--) renderEntitiesOfSpan(sids[s]);
+        renderSize.mesure();
+
+        sids.forEach(function(sid){
+            renderEntitiesOfSpan(sid);
+        });
     }
 
     function renderEntitiesOfSpan(sid) {
@@ -2674,13 +2667,13 @@ $(document).ready(function() {
             }
 
             var n = typesPerSpan[sid].length;
-            var gridHeight = n * (typeHeight + typeMarginBottom + typeMarginTop);
+            var gridHeight = n * (renderSize.typeHeight + typeMarginBottom + typeMarginTop);
 
             positions[id]        = {}
             positions[id].offset = offset;
             positions[id].top    = positions[sid].top - offset - gridHeight;
             positions[id].left   = positions[sid].left;
-            positions[id].width  = positions[sid].width - gridWidthGap;
+            positions[id].width  = positions[sid].width - renderSize.gridWidthGap;
             positions[id].height = gridHeight;
 
             if ($('#' + id).length == 0) {
@@ -2779,7 +2772,7 @@ $(document).ready(function() {
 
             var p = $('#P-' + tid);
             p.append(div);
-            p.css('left', (positions['G' + sid].width - (entityWidth * entitiesPerType[tid].length)) / 2);
+            p.css('left', (positions['G' + sid].width - (renderSize.entityWidth * entitiesPerType[tid].length)) / 2);
 
             var e = $('#' + eid);
             e.attr('title', eid);
@@ -2792,7 +2785,7 @@ $(document).ready(function() {
 
     function positionEntities(sid, type) {
         var tid = getTid(sid, type);
-        $('#P-' + tid).css('left', (positions['G' + sid].width - (entityWidth * entitiesPerType[tid].length)) / 2);
+        $('#P-' + tid).css('left', (positions['G' + sid].width - (renderSize.entityWidth * entitiesPerType[tid].length)) / 2);
     }
 
     // event handler (entity is clicked)
