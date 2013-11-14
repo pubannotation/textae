@@ -10,7 +10,7 @@ $(document).ready(function() {
     var modificationIdsSelected;
     var relationIdsSelected;
 
-    var clipBoard;
+    var clipBoard = [];
 
     // opacity of connectors
     var connOpacity = 0.6;
@@ -195,7 +195,7 @@ $(document).ready(function() {
             $load_dialog.find("input[type='button']")
                 .on("click", function(){
                     var $input_text = $load_dialog.find("input[type='text']");
-                    getAnnotationFrom($input_text.val());
+                    businessLogic.getAnnotationFromServer($input_text.val());
                     close_load();
                 });
 
@@ -267,10 +267,59 @@ $(document).ready(function() {
     };
 
     function startEdit() {
+        var setTypeConfig = function(config){
+            $textaeEditor.entityTypes.set(config['entity types']);
+
+            relationTypes = {};
+            relationTypeDefault = null;
+            if (config['relation types'] != undefined) {
+                var relation_types = config['relation types'];
+                for (var i in relation_types) {
+                    relationTypes[relation_types[i]["name"]] = relation_types[i];
+                    if (relation_types[i]["default"] == true) {relationTypeDefault = relation_types[i]["name"];}
+                }
+                if (!relationTypeDefault) {relationTypeDefault = relation_types[0]["name"];}
+            }
+
+            connectorTypes = {};
+
+            modificationTypes = {};
+            modificationTypeDefault = null;
+            if (config['modification types'] != undefined) {
+                var mod_types = config['modification types'];
+                for (var i in mod_types) {
+                    modificationTypes[mod_types[i]["name"]] = mod_types[i];
+                    if (mod_types[i]["default"] == true) {modificationTypeDefault = mod_types[i]["name"];}
+                }
+                if (!modificationTypeDefault) {modificationTypeDefault = mod_types[0]["name"];}
+            }
+
+            if (config["css"] != undefined) {
+                $('#css_area').html('<link rel="stylesheet" href="' + config["css"] + '"/>');
+            }
+        };
+
+        var initializeState = function(){
+            $('#body').off('mouseup', doMouseup).on('mouseup', doMouseup);
+            bindTextaeControlEventhandler();
+
+            editHistory.init(editHistoryChanged);
+            changeButtonStateReplicate();
+            changeButtonStateEntity();
+            changeButtonStateDelete();
+            changeButtonStatePallet();
+            changeButtonStateNewLabel();
+            changeButtonStateCopy();
+            changeButtonStatePaste();
+        };
+
+        initializeState();
+
         // read default spanConfig
         spanConfig.set();
 
         if ($textaeEditor.urlParams.debug) {
+            //no file is get from server, if debug.
             var types_for_debug = {
                 "span types": [{
                     "color": "#0000FF",
@@ -306,24 +355,33 @@ $(document).ready(function() {
                     "name": "equivalentTo"
                 }]
             };
-            setTypes(types_for_debug);
-            initialize();
+            setTypeConfig(types_for_debug);
         } else {
             if ($textaeEditor.urlParams.config != "") {
-                $.ajax({
-                    type: "GET",
-                    url: $textaeEditor.urlParams.config,
-                    dataType: "json",
-                    crossDomain: true
-                }).done(function(data){
-                    spanConfig.set(data);
-                    setTypes(data);
-                    getAnnotationFrom($textaeEditor.urlParams.target);
-                }).fail(function(){
+                // load sync, because load annotation after load config. 
+                var getTypeConfigFromServer = function(url){
+                    var result = false;
+                    $.ajax({
+                        type: "GET",
+                        url: url,
+                        dataType: "json",
+                        crossDomain: true,
+                        async: false
+                    }).done(function(data){
+                        spanConfig.set(data);
+                        setTypeConfig(data);
+                        result = true;
+                    });
+                    return result;
+                };
+
+                if(getTypeConfigFromServer($textaeEditor.urlParams.config)){
+                    businessLogic.getAnnotationFromServer($textaeEditor.urlParams.target);
+                }else{
                     alert('could not read the span configuration from the location you specified.');
-                });
+                }
             } else {
-                getAnnotationFrom($textaeEditor.urlParams.target);
+                businessLogic.getAnnotationFromServer($textaeEditor.urlParams.target);
             }
         }
     }
@@ -332,38 +390,6 @@ $(document).ready(function() {
         if (targetUrl != "") {
             var targetDoc = targetUrl.replace(/\/annotations\.json$/, '');
             $('#message').html("(Target: <a href='" + targetDoc + "'>" + targetDoc + "</a>)");
-        }
-    }
-
-    function setTypes(config){
-        $textaeEditor.entityTypes.setTypes(config['entity types']);
-
-        relationTypes = new Object();
-        relationTypeDefault = null;
-        if (config['relation types'] != undefined) {
-            var relation_types = config['relation types'];
-            for (var i in relation_types) {
-                relationTypes[relation_types[i]["name"]] = relation_types[i];
-                if (relation_types[i]["default"] == true) {relationTypeDefault = relation_types[i]["name"];}
-            }
-            if (!relationTypeDefault) {relationTypeDefault = relation_types[0]["name"];}
-        }
-
-        connectorTypes = new Object();
-
-        modificationTypes = new Object();
-        modificationTypeDefault = null;
-        if (config['modification types'] != undefined) {
-            var mod_types = config['modification types'];
-            for (var i in mod_types) {
-                modificationTypes[mod_types[i]["name"]] = mod_types[i];
-                if (mod_types[i]["default"] == true) {modificationTypeDefault = mod_types[i]["name"];}
-            }
-            if (!modificationTypeDefault) {modificationTypeDefault = mod_types[0]["name"];}
-        }
-
-        if (config["css"] != undefined) {
-            $('#css_area').html('<link rel="stylesheet" href="' + config["css"] + '"/>');
         }
     }
 
@@ -388,36 +414,6 @@ $(document).ready(function() {
             connectorTypes[name + '_selected'] = {paintStyle:{strokeStyle:rgba1, lineWidth:3}, hoverPaintStyle:{strokeStyle:rgba1, lineWidth:3}};
         }
         // jsPlumb.registerConnectionTypes(connectorTypes);
-    }
-
-    function getAnnotationFrom(url) {
-        if (url) {targetUrl = url}
-        if (targetUrl != null && targetUrl != "") {
-            $textaeEditor.startWait();
-            $.ajax({
-                type: "GET",
-                url: targetUrl,
-                dataType: "json",
-                crossDomain: true,
-                cache: false
-            })
-            .done(function(annotation) {
-                if (annotation.text != undefined) {
-                    loadAnnotation(annotation);
-                } else {
-                    alert("read failed.");
-                }
-            })
-            .fail(function(res, textStatus, errorThrown){
-                alert("connection failed.");
-            })
-            .always(function(data){
-                $textaeEditor.endWait();
-            });
-        }
-        else {
-            initialize();
-        }
     }
 
     // histories of edit to undo and redo.
@@ -492,10 +488,10 @@ $(document).ready(function() {
                     cancelSelect();
                     break;
                 case 65: // 'a' key
-                    businessLogic.getAnnotation();
+                    presentationLogic.showAccess();
                     break;
                 case 83: // 's' key
-                    businessLogic.saveAnnotation();
+                    presentationLogic.showSave();
                     break;
                 case 46: // win delete / mac fn + delete
                 case 68: // 'd' key
@@ -574,33 +570,11 @@ $(document).ready(function() {
         }
     };
 
-    function initialize() {
-        $('#body').off('mouseup', doMouseup).on('mouseup', doMouseup);
-
-        relationIdsSelected = new Array();
-        modificationIdsSelected = new Array();
-
-        clipBoard = new Array();
-
-        bindTextaeControlEventhandler();
-
-        editHistory.init(editHistoryChanged);
-        changeButtonStateReplicate();
-        changeButtonStateEntity();
-        changeButtonStateDelete();
-        changeButtonStatePallet();
-        changeButtonStateNewLabel();
-        changeButtonStateCopy();
-        changeButtonStatePaste();
-
-        showTarget();
-    }
-
     function loadAnnotation(annotation) {
         parseAnnotationJson(annotation);
         initJsPlumb();
         renderAnnotation();
-        initialize();
+        showTarget();
     }
 
     function parseAnnotationJson(data) {
@@ -610,11 +584,11 @@ $(document).ready(function() {
         annotation_data.parseDenotations(data.denotations);
         annotation_data.parseRelations(data.relations);
 
-        entitiesPerType = new Object();
-        typesPerSpan = new Object();
-        relationsPerEntity = new Object();
-        positions = new Object();
-        connectors = new Object();
+        entitiesPerType = {};
+        typesPerSpan = {};
+        relationsPerEntity = {};
+        positions = {};
+        connectors = {};
 
         if (data.denotations != undefined) {
             data.denotations.forEach(function(d){
@@ -669,6 +643,9 @@ $(document).ready(function() {
                 }
             })
         }
+
+        relationIdsSelected = [];
+        modificationIdsSelected = [];
     }
 
     // span Id
@@ -1286,7 +1263,7 @@ $(document).ready(function() {
             if (sameStrPos == -1) break;
 
             if (!isOutsideDelimiter(sourceDoc, sameStrPos, sameStrPos + strLen)) {
-                var obj = new Object();
+                var obj = {};
                 obj['begin'] = sameStrPos;
                 obj['end'] = sameStrPos + strLen;
 
@@ -1443,7 +1420,7 @@ $(document).ready(function() {
             for(i = 0; i <  relationIdsSelected.length; i++) {
                 var conn = relationIdsSelected[i];
 
-                var obj = new Object();
+                var obj = {};
                 obj['pred'] = pred;
                 obj['obj'] = conn.getParameter('connId');
                 obj['id'] = 'M' + (getMaxModificationId() + 1);
@@ -1492,50 +1469,31 @@ $(document).ready(function() {
 
     //user event to edit model
     var businessLogic = {
-       getAnnotation : function() {
-            var $dialog = $("#dialog_load_file");
-            $dialog
-                .find("input[type='text']")
-                .val(targetUrl);
-            keyboard.disableShortcut();
-            $dialog
-                .dialog({
-                    resizable: false,
-                    width:550,
-                    height:220,
-                    modal: true,
-                    buttons: {
-                        Cancel: function() {
-                            $( this ).dialog( "close" );
-                        }
+        getAnnotationFromServer : function(url) {
+            if (url && url !== "") {
+                $textaeEditor.startWait();
+                $.ajax({
+                    type: "GET",
+                    url: url,
+                    dataType: "json",
+                    crossDomain: true,
+                    cache: false
+                })
+                .done(function(annotation) {
+                    if (annotation.text != undefined) {
+                        targetUrl = url;
+                        loadAnnotation(annotation);
+                    } else {
+                        alert("read failed.");
                     }
+                })
+                .fail(function(res, textStatus, errorThrown){
+                    alert("connection failed.");
+                })
+                .always(function(data){
+                    $textaeEditor.endWait();
                 });
-        },
-
-        saveAnnotation : function() {
-            //create local link
-            var filename = localFile.getLocalFileName();
-            var json = JSON.stringify(annotationDataToJson(annotation_data));
-            localFile.createFileLink(filename, json);
-
-            //open dialog
-            var $dialog = $("#dialog_save_file");
-            $dialog
-                .find("input[type='text']")
-                .val(targetUrl);
-            keyboard.disableShortcut();
-            $dialog
-                .dialog({
-                    resizable: false,
-                    width:550,
-                    height:220,
-                    modal: true,
-                    buttons: {
-                        Cancel: function() {
-                            $( this ).dialog( "close" );
-                        }
-                    }
-                });
+            }
         },
 
         undo : function() {
@@ -1684,6 +1642,52 @@ $(document).ready(function() {
 
     //user event that does not change data.
     var presentationLogic = {
+       showAccess : function() {
+            var $dialog = $("#dialog_load_file");
+            $dialog
+                .find("input[type='text']")
+                .val(targetUrl);
+            keyboard.disableShortcut();
+            $dialog
+                .dialog({
+                    resizable: false,
+                    width:550,
+                    height:220,
+                    modal: true,
+                    buttons: {
+                        Cancel: function() {
+                            $( this ).dialog( "close" );
+                        }
+                    }
+                });
+        },
+
+        showSave : function() {
+            //create local link
+            var filename = localFile.getLocalFileName();
+            var json = JSON.stringify(annotationDataToJson(annotation_data));
+            localFile.createFileLink(filename, json);
+
+            //open dialog
+            var $dialog = $("#dialog_save_file");
+            $dialog
+                .find("input[type='text']")
+                .val(targetUrl);
+            keyboard.disableShortcut();
+            $dialog
+                .dialog({
+                    resizable: false,
+                    width:550,
+                    height:220,
+                    modal: true,
+                    buttons: {
+                        Cancel: function() {
+                            $( this ).dialog( "close" );
+                        }
+                    }
+                });
+        },
+
         showPallet : function(controlEvent, buttonEvent) {
             //create table contents for entity type.
             var makeEntityTypeOfEntityTypePallet = function(entityTypes){
@@ -1762,8 +1766,8 @@ $(document).ready(function() {
     // bind textaeCotnrol eventhandler
     function bindTextaeControlEventhandler() {
         // access by square brancket because property names include "-". 
-        $textaeControl.on($textaeControl.buttons["read"].ev, businessLogic.getAnnotation);
-        $textaeControl.on($textaeControl.buttons["write"].ev, businessLogic.saveAnnotation);
+        $textaeControl.on($textaeControl.buttons["read"].ev, presentationLogic.showAccess);
+        $textaeControl.on($textaeControl.buttons["write"].ev, presentationLogic.showSave);
         $textaeControl.on($textaeControl.buttons["undo"].ev, businessLogic.undo);
         $textaeControl.on($textaeControl.buttons["redo"].ev, businessLogic.redo);
         $textaeControl.on($textaeControl.buttons["replicate"].ev, businessLogic.replicate);
@@ -2040,7 +2044,7 @@ $(document).ready(function() {
     }
 
     function cloneEdit(e) {
-        c = new Object();
+        c = {};
         for (p in e) {c[p] = e[p]}
         return c;
     }

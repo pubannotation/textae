@@ -35,7 +35,7 @@
                         getColor: getColor
                     };
                 },
-                setTypes: function(newEntityTypes) {
+                set: function(newEntityTypes) {
                     // expected newEntityTypes is an array of object. example of object is {"name": "Regulation","color": "#FFFF66","default": true}.
                     types = {};
                     defaultType = "";
