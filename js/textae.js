@@ -147,18 +147,6 @@
             self.endWait = endWait;
         };
 
-        //localFileDialog
-        var setupLocalFileDialog = function(self) {
-            self.append($('<div id="dialog_load_file" title="Load document with annotation.">')
-                .append('<div>Sever :<input type="text" style="width:345px"/><input type="button" value="OK" /></div>')
-                .append('<div>Local :<input type="file"　/></div>')
-            )
-                .append($('<div id="dialog_save_file" title="Save document with annotation.">')
-                    .append('<div>Sever :<input type="text" style="width:345px"/><input type="button" value="OK" /></div>')
-                    .append('<div>Local :<span class="span_link_place"></span></div>')
-            );
-        };
-
         //entityTypes
         var entityTypes = function() {
             var types = {},
@@ -213,7 +201,6 @@
 
         //init
         setupWait(this);
-        setupLocalFileDialog(this);
         this.entityTypes = entityTypes;
 
         return this;
@@ -384,6 +371,123 @@
         };
     })();
 })(jQuery);
+var loadSaveDialog = function() {
+    var getLoadDialog = function(){
+        $body = $("body");
+        var $dialog = $body.find("#textae.dialog.load");
+
+        //make unless exists
+        if($dialog.length === 0){
+            $dialog = $('<div id="textae.dialog.load" title="Load document with annotation.">')
+                .append('<div>Sever :<input type="text" style="width:345px"/><input type="button" value="OK" /></div>')
+                .append('<div>Local :<input type="file"　/></div>');
+
+            //bind event handler
+            var onFileChange = function(){
+                var reader = new FileReader();
+                reader.onload = function(){ 
+                    var annotation = JSON.parse(this.result);
+                    $("body").trigger("textae.dialog.localfile.load", annotation);
+                    $dialog.dialog("close");
+                };
+                reader.readAsText(this.files[0]);
+            }
+
+            $body.append($dialog);
+            $dialog.hide()
+            $dialog.find("input[type='file']").on("change", onFileChange);
+            $dialog.find("input[type='button']")
+                .on("click", function(){
+                    var url = $dialog.find("input[type='text']").val();
+                    $("body").trigger("textae.dialog.loadurl.select", url);
+                    $dialog.dialog("close");
+                });
+        }
+
+        return $dialog;
+    };
+    return {
+        showAccess : function(targetUrl) {
+            var $dialog = getLoadDialog();
+            $dialog
+                .find("input[type='text']")
+                .val(targetUrl);
+            $dialog
+                .dialog({
+                    resizable: false,
+                    width:550,
+                    height:220,
+                    modal: true,
+                    buttons: {
+                        Cancel: function() {
+                            $( this ).dialog( "close" );
+                        }
+                    }
+                });
+        },
+        showSave : function(url, content) {
+            var getSaveDialog = function(){
+                $body = $("body");
+                var $dialog = $body.find("#textae.dialog.save");
+                if($dialog.length === 0){
+                    $dialog = $('<div id="textae.dialog.save" title="Save document with annotation.">')
+                        .append('<div>Sever :<input type="text" style="width:345px"/><input type="button" value="OK" /></div>')
+                        .append('<div>Local :<span class="span_link_place"><a target="_blank"/></span></div>');
+                 
+                    $body.append($dialog);
+                    $dialog.hide();
+                    $dialog
+                        .on("click", "a", function(){
+                            $("body").trigger("textae.dialog.localfile.save");
+                            $dialog.dialog("close");
+                    }   )
+                        .on("click", "input[type='button']", function(){
+                            $("body").trigger("textae.dialog.saveurl.select", $dialog.find("input[type='text']").val());
+                            $dialog.dialog("close");
+                        });
+
+                    }
+
+                return $dialog;
+            };
+
+            var createFileLink= function(contents, $save_dialog){
+                var $fileInput = getLoadDialog().find("input[type='file']");
+
+                var file = $fileInput.prop("files")[0] 
+                var name = file ? file.name : "annotations.json";
+                var blob = new Blob([contents],{type:'application/json'});
+                var link = $save_dialog.find('a')
+                    .text(name)
+                    .attr("href",URL.createObjectURL(blob))
+                    .attr("download", name);
+            };
+
+            var $dialog = getSaveDialog();
+
+            //create local link
+            createFileLink(content, $dialog);
+
+            //open dialog
+            $dialog
+                .find("input[type='text']")
+                .val(url);
+            $dialog
+                .dialog({
+                    resizable: false,
+                    width:550,
+                    height:220,
+                    modal: true,
+                    buttons: {
+                        Cancel: function() {
+                            $( this ).dialog( "close" );
+                        }
+                    }
+                });
+        }
+    };
+}();
+
 // Application main
 $(document).ready(function() {
     var mode = 'span';  // screen mode: view | span(default) | relation
@@ -526,6 +630,18 @@ $(document).ready(function() {
             },
             getRelationIds :function(){
                 return Object.keys(annotation_data.relations);
+            },
+            toJason : function(){
+                var denotations = [];
+                for (var e in annotation_data.entities) {
+                    var span = {'begin':annotation_data.spans[annotation_data.entities[e]['span']].begin, 'end':annotation_data.spans[annotation_data.entities[e]['span']].end};
+                    denotations.push({'id':e, 'span':span, 'obj':annotation_data.entities[e]['type']});
+                }
+
+                return  JSON.stringify({
+                    "text": sourceDoc,
+                    "denotations": denotations
+                });
             }
         };
     }();
@@ -549,79 +665,6 @@ $(document).ready(function() {
         TYPE_MARGIN_TOP : 18,
         TYPE_MARGIN_BOTTOM : 2,
         PALLET_HEIGHT_MAX : 100
-    };
-
-    var localFile = {
-        $fileInput: null,//target element which is "input type="file".
-
-        init: function(load_dialog_selector, fileParseFunc, save_dialog_selector){
-            //setup load dialog
-            var $load_dialog = $(load_dialog_selector);
-            $load_dialog.hide()
-
-            //cache target element
-            this.$fileInput = $load_dialog.find("input[type='file']"); 
-
-            var close_load = function(){
-                $load_dialog.dialog("close");
-                keyboard.enableShortcut();
-            };
-
-            //bind event handler
-            var onFileChange = function(){
-                var reader = new FileReader();
-                reader.onload = function(){ 
-                    fileParseFunc(this.result);
-                    close_load();
-                };
-                reader.readAsText(this.files[0]);
-            }
-            this.$fileInput.on("change", onFileChange);
-
-            $load_dialog.find("input[type='button']")
-                .on("click", function(){
-                    var $input_text = $load_dialog.find("input[type='text']");
-                    businessLogic.loadAnnotation($input_text.val());
-                    close_load();
-                });
-
-            //setup save dialog
-            var $save_dialog = $(save_dialog_selector);
-            $save_dialog.hide();
-
-            var close_save = function(){
-                $save_dialog.dialog("close");
-                keyboard.enableShortcut();
-            };
-
-            $save_dialog.find("input[type='button']")
-                .on("click", function(){
-                    var $input_text = $save_dialog.find("input[type='text']");
-                    var location = $input_text.val();
-                    businessLogic.saveAnnotation(location);
-                    close_save();
-                });
-
-            this.$save_dialog = $save_dialog; //cache element
-            this.close_save = close_save;
-        },
-        getLocalFileName: function(){
-            var file = this.$fileInput.prop("files")[0] 
-            return file ? file.name : "annotations.json";
-        },
-        createFileLink: function(name, contents){
-            var blob = new Blob([contents],{type:'application/json'});
-            var link = $('<a>')
-                .text(name)
-                .attr("href",URL.createObjectURL(blob))
-                .attr("target", "_blank")
-                .attr("download", name)
-                .on("click", this.close_save);
-
-            this.$save_dialog.find("span")
-                .empty()
-                .append(link);
-        }
     };
 
     var setTypeConfig = function(config){
@@ -722,20 +765,13 @@ $(document).ready(function() {
                     spanConfig.set(data);
                     setTypeConfig(data);
 
-                    businessLogic.loadAnnotation($textaeEditor.urlParams.target);
+                    businessLogic.getAnnotationFromServer($textaeEditor.urlParams.target);
                 }else{
                     alert('could not read the span configuration from the location you specified.');
                 }
             } else {
-                businessLogic.loadAnnotation($textaeEditor.urlParams.target);
+                businessLogic.getAnnotationFromServer($textaeEditor.urlParams.target);
             }
-        }
-    }
-
-    function showTarget() {
-        if (targetUrl != "") {
-            var targetDoc = targetUrl.replace(/\/annotations\.json$/, '');
-            $('#message').html("(Target: <a href='" + targetDoc + "'>" + targetDoc + "</a>)");
         }
     }
 
@@ -774,9 +810,11 @@ $(document).ready(function() {
             init : function(onChange){
                 lastSaveIndex = -1;
                 lastEditIndex = -1;
-                history = [],
-                onChangeFunc = onChange.bind(this);
-
+                history = [];
+           
+                if(onChange !== undefined){
+                    onChangeFunc = onChange.bind(this);
+                }
                 trigger();
             },
             push :function(edits){
@@ -828,16 +866,16 @@ $(document).ready(function() {
 
     //keyboard shortcut
     var keyboard = {
-        onKeydown : function(e) {
+        onKeyup : function(e) {
             switch (e.keyCode) {
                 case 27: // 'ESC' key
                     cancelSelect();
                     break;
                 case 65: // 'a' key
-                    presentationLogic.showAccess();
+                    loadSaveDialog.showAccess(targetUrl);
                     break;
                 case 83: // 's' key
-                    presentationLogic.showSave();
+                    loadSaveDialog.showSave(targetUrl, annotation_data.toJason());
                     break;
                 case 46: // win delete / mac fn + delete
                 case 68: // 'd' key
@@ -909,19 +947,12 @@ $(document).ready(function() {
             }
         },
         enableShortcut : function(){
-            $(document).on("keydown", keyboard.onKeydown);
+            $(document).on("keyup", keyboard.onKeyup);
         },
         disableShortcut : function(){
-            $(document).off("keydown", keyboard.onKeydown);
+            $(document).off("keyup", keyboard.onKeyup);
         }
     };
-
-    function loadAnnotation(annotation) {
-        parseAnnotationJson(annotation);
-        initJsPlumb();
-        renderAnnotation();
-        showTarget();
-    }
 
     function parseAnnotationJson(data) {
         //validate
@@ -1882,25 +1913,34 @@ $(document).ready(function() {
 
     //user event to edit model
     var businessLogic = {
-        loadAnnotation : function(url) {
+        loadAnnotation : function(annotation) {
+            parseAnnotationJson(annotation);
+            editHistory.init();
+
+            initJsPlumb();
+            renderAnnotation();
+            presentationLogic.showTarget(targetUrl);
+        },
+
+        getAnnotationFromServer : function(url) {
             targetUrl = url;
             $textaeEditor.startWait();
-            ajaxAccessor.getAsync(url, loadAnnotation, function(){$textaeEditor.endWait()});
+            ajaxAccessor.getAsync(url, businessLogic.loadAnnotation, function(){$textaeEditor.endWait()});
         },
-        saveAnnotation : function(url) {
+        saveAnnotationToServer : function(url) {
             $textaeEditor.startWait();
-            var postData = JSON.stringify(annotationDataToJson(annotation_data));
+            var postData = annotation_data.toJason();
             ajaxAccessor.post(url, postData, function(){
                 $('#message').html("annotation saved").fadeIn().fadeOut(5000, function() {
                     $(this).html('').removeAttr('style');
-                    showTarget();
+                    presentationLogic.showTarget(targetUrl);
                 });
                 editHistory.saved();
                 $textaeEditor.endWait();
             },function(){
                 $('#message').html("could not save").fadeIn().fadeOut(5000, function() {
                     $(this).html('').removeAttr('style');
-                    showTarget();
+                    presentationLogic.showTarget(targetUrl);
                 });
                 $textaeEditor.endWait();
             });
@@ -2051,50 +2091,11 @@ $(document).ready(function() {
 
     //user event that does not change data.
     var presentationLogic = {
-       showAccess : function() {
-            var $dialog = $("#dialog_load_file");
-            $dialog
-                .find("input[type='text']")
-                .val(targetUrl);
-            keyboard.disableShortcut();
-            $dialog
-                .dialog({
-                    resizable: false,
-                    width:550,
-                    height:220,
-                    modal: true,
-                    buttons: {
-                        Cancel: function() {
-                            $( this ).dialog( "close" );
-                        }
-                    }
-                });
-        },
-
-        showSave : function() {
-            //create local link
-            var filename = localFile.getLocalFileName();
-            var json = JSON.stringify(annotationDataToJson(annotation_data));
-            localFile.createFileLink(filename, json);
-
-            //open dialog
-            var $dialog = $("#dialog_save_file");
-            $dialog
-                .find("input[type='text']")
-                .val(targetUrl);
-            keyboard.disableShortcut();
-            $dialog
-                .dialog({
-                    resizable: false,
-                    width:550,
-                    height:220,
-                    modal: true,
-                    buttons: {
-                        Cancel: function() {
-                            $( this ).dialog( "close" );
-                        }
-                    }
-                });
+        showTarget :function(targetUrl) {
+            if (targetUrl != "") {
+                var targetDoc = targetUrl.replace(/\/annotations\.json$/, '');
+                $('#message').html("(Target: <a href='" + targetDoc + "'>" + targetDoc + "</a>)");
+            }
         },
 
         showPallet : function(controlEvent, buttonEvent) {
@@ -2175,8 +2176,8 @@ $(document).ready(function() {
     // bind textaeCotnrol eventhandler
     function bindTextaeControlEventhandler() {
         // access by square brancket because property names include "-". 
-        $textaeControl.on($textaeControl.buttons["read"].ev, presentationLogic.showAccess);
-        $textaeControl.on($textaeControl.buttons["write"].ev, presentationLogic.showSave);
+        $textaeControl.on($textaeControl.buttons["read"].ev, function(){loadSaveDialog.showAccess(targetUrl);});
+        $textaeControl.on($textaeControl.buttons["write"].ev, function(){loadSaveDialog.showSave(targetUrl, annotation_data.toJason());});
         $textaeControl.on($textaeControl.buttons["undo"].ev, businessLogic.undo);
         $textaeControl.on($textaeControl.buttons["redo"].ev, businessLogic.redo);
         $textaeControl.on($textaeControl.buttons["replicate"].ev, businessLogic.replicate);
@@ -2187,19 +2188,6 @@ $(document).ready(function() {
         $textaeControl.on($textaeControl.buttons["delete"].ev, businessLogic.removeElements);
         $textaeControl.on($textaeControl.buttons["copy"].ev, businessLogic.copyEntities);
         $textaeControl.on($textaeControl.buttons["paste"].ev, businessLogic.pasteEntities);
-    }
-
-    function annotationDataToJson(annotation_data){
-        var denotations = [];
-        for (var e in annotation_data.entities) {
-            var span = {'begin':annotation_data.spans[annotation_data.entities[e]['span']].begin, 'end':annotation_data.spans[annotation_data.entities[e]['span']].end};
-            denotations.push({'id':e, 'span':span, 'obj':annotation_data.entities[e]['type']});
-        }
-
-        return {
-            "text": sourceDoc,
-            "denotations": denotations
-        };
     }
 
     function changeButtonStateReplicate() {
@@ -2941,14 +2929,28 @@ $(document).ready(function() {
 
         //setup editor
         window.$textaeEditor = $(".textae-editor").textae();
-        localFile.init("#dialog_load_file", function(file_contents){
-            var annotation = JSON.parse(file_contents);
-            loadAnnotation(annotation);
-        },"#dialog_save_file");
         keyboard.enableShortcut();
 
+
+        //do by god better, but businessLogic is not see by god yet.
+        $("body")
+            .on("textae.dialog.localfile.load", function(e, data){
+                businessLogic.loadAnnotation(data);
+            })
+            .on("textae.dialog.loadurl.select", function(e, data){
+                businessLogic.getAnnotationFromServer(data);
+            })
+            .on("textae.dialog.localfile.save", function(e, data){
+                editHistory.saved();
+            })
+            .on("textae.dialog.saveurl.select", function(e, data){
+                businessLogic.saveAnnotationToServer(data);
+            })
+            .on("dialogopen", ".ui-dialog", keyboard.disableShortcut)
+            .on("dialogclose", ".ui-dialog", keyboard.enableShortcut);
+
         $(window).resize(function(){
-          redraw();
+            redraw();
         });
 
         //start application

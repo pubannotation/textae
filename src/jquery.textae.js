@@ -15,18 +15,6 @@
             self.endWait = endWait;
         };
 
-        //localFileDialog
-        var setupLocalFileDialog = function(self) {
-            self.append($('<div id="dialog_load_file" title="Load document with annotation.">')
-                .append('<div>Sever :<input type="text" style="width:345px"/><input type="button" value="OK" /></div>')
-                .append('<div>Local :<input type="file"　/></div>')
-            )
-                .append($('<div id="dialog_save_file" title="Save document with annotation.">')
-                    .append('<div>Sever :<input type="text" style="width:345px"/><input type="button" value="OK" /></div>')
-                    .append('<div>Local :<span class="span_link_place"></span></div>')
-            );
-        };
-
         //entityTypes
         var entityTypes = function() {
             var types = {},
@@ -81,7 +69,6 @@
 
         //init
         setupWait(this);
-        setupLocalFileDialog(this);
         this.entityTypes = entityTypes;
 
         return this;
