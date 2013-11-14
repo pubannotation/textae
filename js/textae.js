@@ -3,6 +3,67 @@
 // utility functions
 (function() {
     window.textAeUtil = {
+        // ajax wrapper
+        ajaxAccessor : function(){
+            var isEmpty = function(str){
+                return !str || str === ""
+            };
+            return {
+                getSync : function(url){
+                    if(isEmpty(url)){
+                        return;
+                    }
+
+                    var result = null;
+                    $.ajax({
+                        type: "GET",
+                        url: url,
+                        async: false
+                    }).done(function(data){
+                        result = data;
+                    });
+                    return result;
+                },
+
+                getAsync : function(url, dataHandler, finishHandler) {
+                    if(isEmpty(url)){
+                        return;
+                    }
+
+                    $.ajax({
+                        type: "GET",
+                        url: url,
+                        cache: false
+                    })
+                    .done(function(data) {
+                        if(dataHandler !== undefined){
+                            dataHandler(data);
+                        }
+                    })
+                    .fail(function(res, textStatus, errorThrown){
+                        alert("connection failed.");
+                    })
+                    .always(function(data){
+                        if(finishHandler !== undefined){
+                            finishHandler();
+                        }
+                    });
+                },
+
+                post : function(url, data, successHandler, failHandler) {
+                    if(isEmpty(url)){
+                        return;
+                    }
+
+                    $.ajax({
+                        type: "post",
+                        url: url,
+                        data: {annotations:data}
+                    }).done(successHandler).fail(failHandler);
+                }
+            };
+        }(),
+
         // set arg1 location.serach
         getUrlParameters: function(url_query) {
             //if exists convert to string and parse
@@ -667,39 +728,40 @@ $(document).ready(function() {
         PALLET_HEIGHT_MAX : 100
     };
 
-    var setTypeConfig = function(config){
-        $textaeEditor.entityTypes.set(config['entity types']);
-
-        relationTypes = {};
-        relationTypeDefault = null;
-        if (config['relation types'] != undefined) {
-            var relation_types = config['relation types'];
-            for (var i in relation_types) {
-                relationTypes[relation_types[i]["name"]] = relation_types[i];
-                if (relation_types[i]["default"] == true) {relationTypeDefault = relation_types[i]["name"];}
-            }
-            if (!relationTypeDefault) {relationTypeDefault = relation_types[0]["name"];}
-        }
-
-        connectorTypes = {};
-
-        modificationTypes = {};
-        modificationTypeDefault = null;
-        if (config['modification types'] != undefined) {
-            var mod_types = config['modification types'];
-            for (var i in mod_types) {
-                modificationTypes[mod_types[i]["name"]] = mod_types[i];
-                if (mod_types[i]["default"] == true) {modificationTypeDefault = mod_types[i]["name"];}
-            }
-            if (!modificationTypeDefault) {modificationTypeDefault = mod_types[0]["name"];}
-        }
-
-        if (config["css"] != undefined) {
-            $('#css_area').html('<link rel="stylesheet" href="' + config["css"] + '"/>');
-        }
-    };
-
+    // will be API of texteaEditor
     function startEdit() {
+        var setTypeConfig = function(config){
+            $textaeEditor.entityTypes.set(config['entity types']);
+
+            relationTypes = {};
+            relationTypeDefault = null;
+            if (config['relation types'] != undefined) {
+                var relation_types = config['relation types'];
+                for (var i in relation_types) {
+                    relationTypes[relation_types[i]["name"]] = relation_types[i];
+                    if (relation_types[i]["default"] == true) {relationTypeDefault = relation_types[i]["name"];}
+                }
+                if (!relationTypeDefault) {relationTypeDefault = relation_types[0]["name"];}
+            }
+
+            connectorTypes = {};
+
+            modificationTypes = {};
+            modificationTypeDefault = null;
+            if (config['modification types'] != undefined) {
+                var mod_types = config['modification types'];
+                for (var i in mod_types) {
+                    modificationTypes[mod_types[i]["name"]] = mod_types[i];
+                    if (mod_types[i]["default"] == true) {modificationTypeDefault = mod_types[i]["name"];}
+                }
+                if (!modificationTypeDefault) {modificationTypeDefault = mod_types[0]["name"];}
+            }
+
+            if (config["css"] != undefined) {
+                $('#css_area').html('<link rel="stylesheet" href="' + config["css"] + '"/>');
+            }
+        };
+
         var initializeState = function(){
             $('#body').off('mouseup', doMouseup).on('mouseup', doMouseup);
             bindTextaeControlEventhandler();
@@ -760,7 +822,7 @@ $(document).ready(function() {
         } else {
             if ($textaeEditor.urlParams.config != "") {
                 // load sync, because load annotation after load config. 
-                var data = ajaxAccessor.getSync($textaeEditor.urlParams.config); 
+                var data = textAeUtil.ajaxAccessor.getSync($textaeEditor.urlParams.config); 
                 if(data !== null){
                     spanConfig.set(data);
                     setTypeConfig(data);
@@ -773,17 +835,6 @@ $(document).ready(function() {
                 businessLogic.getAnnotationFromServer($textaeEditor.urlParams.target);
             }
         }
-    }
-
-    function initJsPlumb() {
-        jsPlumb.reset();
-        jsPlumb.setRenderMode(jsPlumb.SVG);
-        jsPlumb.Defaults.Container = $("#annotation_box");
-        jsPlumb.importDefaults({
-            ConnectionsDetachable:false,
-            Endpoint:[ "Dot", { radius:1 } ]
-        });
-        setConnectorTypes();
     }
 
     function setConnectorTypes() {
@@ -1851,69 +1902,21 @@ $(document).ready(function() {
         }
     }
 
-    var ajaxAccessor = function(){
-        var isEmpty = function(str){
-            return !str || str === ""
-        };
-        return {
-            getSync : function(url){
-                if(isEmpty(url)){
-                    return;
-                }
-
-                var result = null;
-                $.ajax({
-                    type: "GET",
-                    url: url,
-                    async: false
-                }).done(function(data){
-                    result = data;
-                });
-                return result;
-            },
-
-            getAsync : function(url, dataHandler, finishHandler) {
-                if(isEmpty(url)){
-                    return;
-                }
-
-                $.ajax({
-                    type: "GET",
-                    url: url,
-                    cache: false
-                })
-                .done(function(data) {
-                    if(dataHandler !== undefined){
-                        dataHandler(data);
-                    }
-                })
-                .fail(function(res, textStatus, errorThrown){
-                    alert("connection failed.");
-                })
-                .always(function(data){
-                    if(finishHandler !== undefined){
-                        finishHandler();
-                    }
-                });
-            },
-
-            post : function(url, data, successHandler, failHandler) {
-                if(isEmpty(url)){
-                    return;
-                }
-
-                $.ajax({
-                    type: "post",
-                    url: url,
-                    data: {annotations:data}
-                }).done(successHandler).fail(failHandler);
-            }
-        };
-    }();
 
     //user event to edit model
     var businessLogic = {
         loadAnnotation : function(annotation) {
+            var initJsPlumb = function () {
+                jsPlumb.reset();
+                jsPlumb.setRenderMode(jsPlumb.SVG);
+                jsPlumb.Defaults.Container = $("#annotation_box");
+                jsPlumb.importDefaults({
+                    ConnectionsDetachable:false,
+                    Endpoint:[ "Dot", { radius:1 } ]
+                });
+                setConnectorTypes();
+            };
+
             parseAnnotationJson(annotation);
             editHistory.init();
 
@@ -1925,12 +1928,12 @@ $(document).ready(function() {
         getAnnotationFromServer : function(url) {
             targetUrl = url;
             $textaeEditor.startWait();
-            ajaxAccessor.getAsync(url, businessLogic.loadAnnotation, function(){$textaeEditor.endWait()});
+            textAeUtil.ajaxAccessor.getAsync(url, businessLogic.loadAnnotation, function(){$textaeEditor.endWait()});
         },
         saveAnnotationToServer : function(url) {
             $textaeEditor.startWait();
             var postData = annotation_data.toJason();
-            ajaxAccessor.post(url, postData, function(){
+            textAeUtil.ajaxAccessor.post(url, postData, function(){
                 $('#message').html("annotation saved").fadeIn().fadeOut(5000, function() {
                     $(this).html('').removeAttr('style');
                     presentationLogic.showTarget(targetUrl);
