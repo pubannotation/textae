@@ -955,22 +955,6 @@ $(document).ready(function() {
         }
     };
 
-    //setup
-    (function() {
-        //setup contorl
-        window.$textaeControl = $(".textae-control").textae();
-        localFile.init("#dialog_load_file", function(file_contents){
-            var annotation = JSON.parse(file_contents);
-            loadAnnotation(annotation);
-        },"#dialog_save_file");
-
-        //setup editor
-        window.$textae = $(".textae-editor").textae();
-        parseUrlParameters();
-
-        keyboard.enableShortcut();
-    })();
-
     function initialize() {
         $('#body').off('mouseup', doMouseup).on('mouseup', doMouseup);
 
@@ -2906,10 +2890,6 @@ $(document).ready(function() {
         }
     }
 
-    $(window).resize(function(){
-      redraw();
-    });
-
     function redraw() {
         indexPositionSpans(annotation_data.spanIds);
         positionGrids(annotation_data.spanIds);
@@ -2922,4 +2902,24 @@ $(document).ready(function() {
         return "There is a change that has not been saved. If you leave now, you will lose it.";
     }
 
+    //main
+    (function() {
+        //setup contorl
+        window.$textaeControl = $(".textae-control").textae();
+        localFile.init("#dialog_load_file", function(file_contents){
+            var annotation = JSON.parse(file_contents);
+            loadAnnotation(annotation);
+        },"#dialog_save_file");
+
+        //setup editor
+        window.$textae = $(".textae-editor").textae();
+        keyboard.enableShortcut();
+ 
+        $(window).resize(function(){
+          redraw();
+        });
+
+        //start application
+        parseUrlParameters();
+    })();
 });
