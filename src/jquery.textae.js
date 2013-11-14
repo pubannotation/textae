@@ -178,6 +178,9 @@
     };
 
     var god = function() {
+        // get the url parameters: beginning of the program
+        var urlParams = textAeUtil.getUrlParameters(location.search);
+
         return {
             setControl: function(control) {
                 var helpDialog = textAeUtil.makeInformationDialog({
@@ -215,7 +218,7 @@
                 });
             },
             pushEditor: function(editor) {
-
+                editor.urlParams = urlParams;
             }
         };
     };

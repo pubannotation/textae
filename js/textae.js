@@ -310,6 +310,9 @@
     };
 
     var god = function() {
+        // get the url parameters: beginning of the program
+        var urlParams = textAeUtil.getUrlParameters(location.search);
+
         return {
             setControl: function(control) {
                 var helpDialog = textAeUtil.makeInformationDialog({
@@ -347,7 +350,7 @@
                 });
             },
             pushEditor: function(editor) {
-
+                editor.urlParams = urlParams;
             }
         };
     };
@@ -586,7 +589,7 @@ $(document).ready(function() {
                 keyboard.enableShortcut();
             },
             saveAnnotationTo = function(location) {
-                $textae.startWait();
+                $textaeEditor.startWait();
 
                 var postData = annotationDataToJson(annotation_data);
 
@@ -602,13 +605,13 @@ $(document).ready(function() {
                         showTarget();
                     });
                     editHistory.saved();
-                    $textae.endWait();
+                    $textaeEditor.endWait();
                 }).fail(function(res, textStatus, errorThrown){
                     $('#message').html("could not save").fadeIn().fadeOut(5000, function() {
                         $(this).html('').removeAttr('style');
                         showTarget();
                     });
-                    $textae.endWait();
+                    $textaeEditor.endWait();
                 });
             };
 
@@ -645,13 +648,10 @@ $(document).ready(function() {
     };
 
     function startEdit() {
-        // get the url parameters: beginning of the program
-        var url_params = textAeUtil.getUrlParameters(location.search);
-
         // read default spanConfig
         spanConfig.set();
 
-        if (url_params.debug) {
+        if ($textaeEditor.urlParams.debug) {
             var types_for_debug = {
                 "span types": [{
                     "color": "#0000FF",
@@ -690,21 +690,21 @@ $(document).ready(function() {
             setTypes(types_for_debug);
             initialize();
         } else {
-            if (url_params.config != "") {
+            if ($textaeEditor.urlParams.config != "") {
                 $.ajax({
                     type: "GET",
-                    url: url_params.config,
+                    url: $textaeEditor.urlParams.config,
                     dataType: "json",
                     crossDomain: true
                 }).done(function(data){
                     spanConfig.set(data);
                     setTypes(data);
-                    getAnnotationFrom(url_params.target);
+                    getAnnotationFrom($textaeEditor.urlParams.target);
                 }).fail(function(){
                     alert('could not read the span configuration from the location you specified.');
                 });
             } else {
-                getAnnotationFrom(url_params.target);
+                getAnnotationFrom($textaeEditor.urlParams.target);
             }
         }
     }
@@ -717,7 +717,7 @@ $(document).ready(function() {
     }
 
     function setTypes(config){
-        $textae.entityTypes.setTypes(config['entity types']);
+        $textaeEditor.entityTypes.setTypes(config['entity types']);
 
         relationTypes = new Object();
         relationTypeDefault = null;
@@ -774,7 +774,7 @@ $(document).ready(function() {
     function getAnnotationFrom(url) {
         if (url) {targetUrl = url}
         if (targetUrl != null && targetUrl != "") {
-            $textae.startWait();
+            $textaeEditor.startWait();
             $.ajax({
                 type: "GET",
                 url: targetUrl,
@@ -793,7 +793,7 @@ $(document).ready(function() {
                 alert("connection failed.");
             })
             .always(function(data){
-                $textae.endWait();
+                $textaeEditor.endWait();
             });
         }
         else {
@@ -1004,7 +1004,7 @@ $(document).ready(function() {
                 var spanId = getSid(span.begin, span.end);
                 var entityType = d.obj;
 
-                $textae.entityTypes.incrementNumberOfTypes(entityType);
+                $textaeEditor.entityTypes.incrementNumberOfTypes(entityType);
 
                 var tid = getTid(spanId, entityType);
                 if (typesPerSpan[spanId]) {
@@ -1966,7 +1966,7 @@ $(document).ready(function() {
             while (numSpanSelection() > 0) {
                 sid = popSpanSelection();
                 var id = "E" + (++maxIdNum);
-                makeEdits([{action:'new_denotation', id:id, span:sid, type:$textae.entityTypes.getDefaultType()}]);
+                makeEdits([{action:'new_denotation', id:id, span:sid, type:$textaeEditor.entityTypes.getDefaultType()}]);
             }
         },
     
@@ -2046,7 +2046,7 @@ $(document).ready(function() {
 
         // set the default type of denoting object
         setEntityTypeDefault:function () {
-            $textae.entityTypes.setDefaultType($(this).attr('label'));
+            $textaeEditor.entityTypes.setDefaultType($(this).attr('label'));
             return false;
         },
 
@@ -2118,7 +2118,7 @@ $(document).ready(function() {
 
             var $pallet　= getEmptyPallet();
             $pallet.find("table")
-                .append(makeEntityTypeOfEntityTypePallet($textae.entityTypes));
+                .append(makeEntityTypeOfEntityTypePallet($textaeEditor.entityTypes));
 
             //limti max height.
             if ($pallet.outerHeight() > CONSTS.PALLET_HEIGHT_MAX) {
@@ -2731,7 +2731,7 @@ $(document).ready(function() {
             $('#G' + sid).append('<div id="' + tid +'"></div>');
             var t = $('#' + tid);
             t.addClass('type');
-            t.css('background-color', $textae.entityTypes.getType(type).getColor());
+            t.css('background-color', $textaeEditor.entityTypes.getType(type).getColor());
             t.css('margin-top', CONSTS.TYPE_MARGIN_TOP);
             t.css('margin-bottom', CONSTS.TYPE_MARGIN_BOTTOM);
             t.attr('title', type);
@@ -2762,7 +2762,7 @@ $(document).ready(function() {
             var e = $('#' + eid);
             e.attr('title', eid);
             e.css('display: inline-block');
-            e.css('border-color', $textae.entityTypes.getType(type).getColor());
+            e.css('border-color', $textaeEditor.entityTypes.getType(type).getColor());
             e.off('mouseup', entityClicked).on('mouseup', entityClicked);
             indexPositionEntity(eid);
         }
@@ -2912,7 +2912,7 @@ $(document).ready(function() {
         },"#dialog_save_file");
 
         //setup editor
-        window.$textae = $(".textae-editor").textae();
+        window.$textaeEditor = $(".textae-editor").textae();
         keyboard.enableShortcut();
  
         $(window).resize(function(){
