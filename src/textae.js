@@ -2529,13 +2529,13 @@ $(document).ready(function() {
     (function() {
         //setup contorl
         window.$textaeControl = $(".textae-control").textae();
+
+        //setup editor
+        window.$textaeEditor = $(".textae-editor").textae();
         localFile.init("#dialog_load_file", function(file_contents){
             var annotation = JSON.parse(file_contents);
             loadAnnotation(annotation);
         },"#dialog_save_file");
-
-        //setup editor
-        window.$textaeEditor = $(".textae-editor").textae();
         keyboard.enableShortcut();
  
         $(window).resize(function(){

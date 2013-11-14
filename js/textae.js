@@ -136,7 +136,7 @@
         var $$textaeEditor = this;
 
         //cursor
-        var setupWait = function setuoWait(self) {
+        var setupWait = function(self) {
             var wait = function() {
                 $$textaeEditor.css('cursor', 'wait');
             };
@@ -145,7 +145,19 @@
             }
             self.startWait = wait;
             self.endWait = endWait;
-        }
+        };
+
+        //localFileDialog
+        var setupLocalFileDialog = function(self) {
+            self.append($('<div id="dialog_load_file" title="Load document with annotation.">')
+                .append('<div>Sever :<input type="text" style="width:345px"/><input type="button" value="OK" /></div>')
+                .append('<div>Local :<input type="file"　/></div>')
+            )
+                .append($('<div id="dialog_save_file" title="Save document with annotation.">')
+                    .append('<div>Sever :<input type="text" style="width:345px"/><input type="button" value="OK" /></div>')
+                    .append('<div>Local :<span class="span_link_place"></span></div>')
+            );
+        };
 
         //entityTypes
         var entityTypes = function() {
@@ -201,6 +213,7 @@
 
         //init
         setupWait(this);
+        setupLocalFileDialog(this);
         this.entityTypes = entityTypes;
 
         return this;
@@ -261,14 +274,6 @@
                 .append(makeButton('help', "Help [H]"))
                 .append(makeButton('about', "About"))
                 .append(makeSeparator())
-            )
-                .append($('<div id="dialog_load_file" title="Load document with annotation.">')
-                    .append('<div>Sever :<input type="text" style="width:345px"/><input type="button" value="OK" /></div>')
-                    .append('<div>Local :<input type="file"　/></div>')
-            )
-                .append($('<div id="dialog_save_file" title="Save document with annotation.">')
-                    .append('<div>Sever :<input type="text" style="width:345px"/><input type="button" value="OK" /></div>')
-                    .append('<div>Local :<span class="span_link_place"></span></div>')
             );
         };
 
@@ -2910,13 +2915,13 @@ $(document).ready(function() {
     (function() {
         //setup contorl
         window.$textaeControl = $(".textae-control").textae();
+
+        //setup editor
+        window.$textaeEditor = $(".textae-editor").textae();
         localFile.init("#dialog_load_file", function(file_contents){
             var annotation = JSON.parse(file_contents);
             loadAnnotation(annotation);
         },"#dialog_save_file");
-
-        //setup editor
-        window.$textaeEditor = $(".textae-editor").textae();
         keyboard.enableShortcut();
  
         $(window).resize(function(){
