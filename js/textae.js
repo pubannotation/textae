@@ -400,8 +400,8 @@ $(document).ready(function() {
     // curviness offset
     var c_offset = 20;
 
-    // configuration data
-    var configuration = {
+    // spanConfig data
+    var spanConfig = {
         delimiterCharacters: null,
         nonEdgeCharacters: null,
         defaults: {
@@ -644,12 +644,12 @@ $(document).ready(function() {
         }
     };
 
-    // get the url parameters: beginning of the program
-    function parseUrlParameters() {
+    function startEdit() {
+        // get the url parameters: beginning of the program
         var url_params = textAeUtil.getUrlParameters(location.search);
 
-        // read default configuration
-        configuration.set();
+        // read default spanConfig
+        spanConfig.set();
 
         if (url_params.debug) {
             var types_for_debug = {
@@ -697,11 +697,11 @@ $(document).ready(function() {
                     dataType: "json",
                     crossDomain: true
                 }).done(function(data){
-                    configuration.set(data);
+                    spanConfig.set(data);
                     setTypes(data);
                     getAnnotationFrom(url_params.target);
                 }).fail(function(){
-                    alert('could not read the configuration from the location you specified.');
+                    alert('could not read the span configuration from the location you specified.');
                 });
             } else {
                 getAnnotationFrom(url_params.target);
@@ -1343,16 +1343,16 @@ $(document).ready(function() {
     // adjust the beginning position of a span
     function adjustSpanBegin(beginPosition) {
         var pos = beginPosition;
-        while (configuration.isNonEdgeCharacter(sourceDoc.charAt(pos))) {pos++}
-        while (!configuration.isDelimiter(sourceDoc.charAt(pos)) && pos > 0 && !configuration.isDelimiter(sourceDoc.charAt(pos - 1))) {pos--}
+        while (spanConfig.isNonEdgeCharacter(sourceDoc.charAt(pos))) {pos++}
+        while (!spanConfig.isDelimiter(sourceDoc.charAt(pos)) && pos > 0 && !spanConfig.isDelimiter(sourceDoc.charAt(pos - 1))) {pos--}
         return pos;
     }
 
     // adjust the end position of a span
     function adjustSpanEnd(endPosition) {
         var pos = endPosition;
-        while (configuration.isNonEdgeCharacter(sourceDoc.charAt(pos - 1))) {pos--}
-        while (!configuration.isDelimiter(sourceDoc.charAt(pos)) && pos < sourceDoc.length) {pos++}
+        while (spanConfig.isNonEdgeCharacter(sourceDoc.charAt(pos - 1))) {pos--}
+        while (!spanConfig.isDelimiter(sourceDoc.charAt(pos)) && pos < sourceDoc.length) {pos++}
         return pos;
     }
 
@@ -1360,14 +1360,14 @@ $(document).ready(function() {
     // adjust the beginning position of a span for shortening
     function adjustSpanBegin2(beginPosition) {
         var pos = beginPosition;
-        while ((pos < sourceDoc.length) && (configuration.isNonEdgeCharacter(sourceDoc.charAt(pos)) || !configuration.isDelimiter(sourceDoc.charAt(pos - 1)))) {pos++}
+        while ((pos < sourceDoc.length) && (spanConfig.isNonEdgeCharacter(sourceDoc.charAt(pos)) || !spanConfig.isDelimiter(sourceDoc.charAt(pos - 1)))) {pos++}
         return pos;
     }
 
     // adjust the end position of a span for shortening
     function adjustSpanEnd2(endPosition) {
         var pos = endPosition;
-        while ((pos > 0) && (configuration.isNonEdgeCharacter(sourceDoc.charAt(pos - 1)) || !configuration.isDelimiter(sourceDoc.charAt(pos)))) {pos--}
+        while ((pos > 0) && (spanConfig.isNonEdgeCharacter(sourceDoc.charAt(pos - 1)) || !spanConfig.isDelimiter(sourceDoc.charAt(pos)))) {pos--}
         return pos;
     }
 
@@ -1724,7 +1724,7 @@ $(document).ready(function() {
         var precedingChar = document.charAt(startPos-1);
         var followingChar = document.charAt(endPos);
 
-        if (!configuration.isDelimiter(precedingChar) || !configuration.isDelimiter(followingChar)) {return true}
+        if (!spanConfig.isDelimiter(precedingChar) || !spanConfig.isDelimiter(followingChar)) {return true}
         else {return false}
     }
 
@@ -2920,6 +2920,6 @@ $(document).ready(function() {
         });
 
         //start application
-        parseUrlParameters();
+        startEdit();
     })();
 });
