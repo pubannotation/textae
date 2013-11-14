@@ -146,8 +146,6 @@ $(document).ready(function() {
 
     var modifications;
 
-    var blockThreshold = 100;
-
     var connectors;
     var connectorTypes;
 
@@ -159,10 +157,13 @@ $(document).ready(function() {
     // target URL
     var targetUrl = '';
 
-    var typeMarginTop = 18;
-    var typeMarginBottom = 2;
-    var PALLET_HEIGHT_MAX = 100;
-
+    // constant values
+    var CONSTS = {
+        BLOCK_THRESHOLD : 100,
+        TYPE_MARGIN_TOP : 18,
+        TYPE_MARGIN_BOTTOM : 2,
+        PALLET_HEIGHT_MAX : 100
+    };
 
     var localFile = {
         $fileInput: null,//target element which is "input type="file".
@@ -1054,7 +1055,7 @@ $(document).ready(function() {
                 var sid = getSid(beginPosition, endPosition);
 
                 if (!annotation_data.spans[sid]) {
-                    if (endPosition - beginPosition > blockThreshold) {
+                    if (endPosition - beginPosition > CONSTS.BLOCK_THRESHOLD) {
                         makeEdits([{action:'new_span', id:sid, begin:beginPosition, end:endPosition}]);
                     }
 
@@ -1758,8 +1759,8 @@ $(document).ready(function() {
                 .append(makeEntityTypeOfEntityTypePallet($textae.entityTypes));
 
             //limti max height.
-            if ($pallet.outerHeight() > PALLET_HEIGHT_MAX) {
-                $pallet.css('height', PALLET_HEIGHT_MAX);
+            if ($pallet.outerHeight() > CONSTS.PALLET_HEIGHT_MAX) {
+                $pallet.css('height', CONSTS.PALLET_HEIGHT_MAX);
                 $pallet.css('width', $pallet.outerWidth() + 15);
             }
 
@@ -2279,17 +2280,17 @@ $(document).ready(function() {
         }
         else {
             // decide the offset
-            var offset = typeMarginBottom;
+            var offset = CONSTS.TYPE_MARGIN_BOTTOM;
 
             // check the following annotation_data.spans that are embedded in the current span.
             var c = annotation_data.spanIds.indexOf(sid)
             for (var f = c + 1; (f < annotation_data.spanIds.length) && isSpanEmbedded(annotation_data.spans[annotation_data.spanIds[f]], annotation_data.spans[annotation_data.spanIds[c]]); f++) {
                 var cid = 'G' + annotation_data.spanIds[f];
-                if (positions[cid] && ((positions[cid].offset + positions[cid].height) < offset)) offset = (positions[cid].offset + positions[cid].height) + typeMarginTop + typeMarginBottom;
+                if (positions[cid] && ((positions[cid].offset + positions[cid].height) < offset)) offset = (positions[cid].offset + positions[cid].height) + CONSTS.TYPE_MARGIN_TOP + CONSTS.TYPE_MARGIN_BOTTOM;
             }
 
             var n = typesPerSpan[sid].length;
-            var gridHeight = n * (renderSize.typeHeight + typeMarginBottom + typeMarginTop);
+            var gridHeight = n * (renderSize.typeHeight + CONSTS.TYPE_MARGIN_BOTTOM + CONSTS.TYPE_MARGIN_TOP);
 
             positions[id]        = {}
             positions[id].offset = offset;
@@ -2369,8 +2370,8 @@ $(document).ready(function() {
             var t = $('#' + tid);
             t.addClass('type');
             t.css('background-color', $textae.entityTypes.getType(type).getColor());
-            t.css('margin-top', typeMarginTop);
-            t.css('margin-bottom', typeMarginBottom);
+            t.css('margin-top', CONSTS.TYPE_MARGIN_TOP);
+            t.css('margin-bottom', CONSTS.TYPE_MARGIN_BOTTOM);
             t.attr('title', type);
             t.append('<div id="P-' + tid + '" class="entity_pane"></div>');
             t.append('<div class="type_label">' + type + '</div>');
