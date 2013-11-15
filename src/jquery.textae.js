@@ -293,7 +293,7 @@
         var editors = [];
         var isFirstEditor = function() {
             return editors.length === 1;
-        }
+        };
 
         return {
             setControl: function(control) {
@@ -335,55 +335,72 @@
                         }
                     };
                     textAeUtil.bindEvents($("body"), disableKeyboardIfDialogOpen);
-
-                    //api call in method, because api will is set after this.
-                    var keyboardEvents = {
-                        "textae.keyboard.A.click": function() {
-                            editor.api.showAccess();
-                        },
-                        "textae.keyboard.C.click": function() {
-                            editor.api.copyEntities();
-                        },
-                        "textae.keyboard.D.click textae.keyboard.DEL.click": function() {
-                            editor.api.removeElements();
-                        },
-                        "textae.keyboard.E.click": function() {
-                            editor.api.createEntity();
-                        },
-                        "textae.keyboard.H.click": helpDialog.show,
-                        "textae.keyboard.Q.click": function() {
-                            editor.api.showPallet();
-                        },
-                        "textae.keyboard.R.click": function() {
-                            editor.api.replicate();
-                        },
-                        "textae.keyboard.S.click": function() {
-                            editor.api.showSave();
-                        },
-                        "textae.keyboard.V.click": function() {
-                            editor.api.pasteEntities();
-                        },
-                        "textae.keyboard.W.click": function() {
-                            editor.api.newLabel();
-                        },
-                        "textae.keyboard.X.click textae.keyboard.Y.click": function() {
-                            editor.api.redo();
-                        },
-                        "textae.keyboard.Z.click": function() {
-                            editor.api.undo();
-                        },
-                        "textae.keyboard.ESC.click": function() {
-                            editor.api.cancelSelect();
-                        },
-                        "textae.keyboard.LEFT.click": function() {
-                            editor.api.selectLeftEntity();
-                        },
-                        "textae.keyboard.RIGHT.click": function() {
-                            editor.api.selectRightEntity();
-                        },
-                    };
-                    textAeUtil.bindEvents($("body"), keyboardEvents);
                 }
+
+                //api call in method, because api will is set after this.
+                var keyboardEvents = {
+                    "textae.keyboard.A.click": function() {
+                        editor.api.showAccess();
+                    },
+                    "textae.keyboard.C.click": function() {
+                        editor.api.copyEntities();
+                    },
+                    "textae.keyboard.D.click textae.keyboard.DEL.click": function() {
+                        editor.api.removeElements();
+                    },
+                    "textae.keyboard.E.click": function() {
+                        editor.api.createEntity();
+                    },
+                    "textae.keyboard.H.click": helpDialog.show,
+                    "textae.keyboard.Q.click": function() {
+                        editor.api.showPallet();
+                    },
+                    "textae.keyboard.R.click": function() {
+                        editor.api.replicate();
+                    },
+                    "textae.keyboard.S.click": function() {
+                        editor.api.showSave();
+                    },
+                    "textae.keyboard.V.click": function() {
+                        editor.api.pasteEntities();
+                    },
+                    "textae.keyboard.W.click": function() {
+                        editor.api.newLabel();
+                    },
+                    "textae.keyboard.X.click textae.keyboard.Y.click": function() {
+                        editor.api.redo();
+                    },
+                    "textae.keyboard.Z.click": function() {
+                        editor.api.undo();
+                    },
+                    "textae.keyboard.ESC.click": function() {
+                        editor.api.cancelSelect();
+                    },
+                    "textae.keyboard.LEFT.click": function() {
+                        editor.api.selectLeftEntity();
+                    },
+                    "textae.keyboard.RIGHT.click": function() {
+                        editor.api.selectRightEntity();
+                    },
+                };
+                textAeUtil.bindEvents($("body"), keyboardEvents);
+
+                // bind Dialog eventhandler
+                var saveLoadDialogEvents = {
+                    "textae.dialog.localfile.load": function(e, data) {
+                        editor.api.loadAnnotation(data);
+                    },
+                    "textae.dialog.loadurl.select": function(e, data) {
+                        editor.api.getAnnotationFromServer(data);
+                    },
+                    "textae.dialog.localfile.save": function(e, data) {
+                        editor.api.saveAnnotation();
+                    },
+                    "textae.dialog.saveurl.select": function(e, data) {
+                        editor.api.saveAnnotationToServer(data);
+                    },
+                }
+                textAeUtil.bindEvents($("body"), saveLoadDialogEvents);
 
                 bindTextaeControlEventhandler(cachedControl, editor);
             }

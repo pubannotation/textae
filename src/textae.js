@@ -2383,27 +2383,12 @@ $(document).ready(function() {
         return "There is a change that has not been saved. If you leave now, you will lose it.";
     }
 
-    // bind Dialog eventhandler
-    var bindDialogEventhandler = function(){
-        var controlEvents = {
-            "textae.dialog.localfile.load": function(e, data){
-                businessLogic.loadAnnotation(data);
-            },
-            "textae.dialog.loadurl.select": function(e, data){
-                businessLogic.getAnnotationFromServer(data);
-            },
-            "textae.dialog.localfile.save": function(e, data){
-                editHistory.saved();
-            },
-            "textae.dialog.saveurl.select": function(e, data){
-                businessLogic.saveAnnotationToServer(data);
-            },
-        }
-        textAeUtil.bindEvents($("body"), controlEvents);
-    };
-
     // public funcitons of editor
     var editorApi = {
+        loadAnnotation: businessLogic.loadAnnotation,
+        getAnnotationFromServer: businessLogic.getAnnotationFromServer,
+        saveAnnotation: function(){editHistory.saved();},
+        saveAnnotationToServer: businessLogic.saveAnnotationToServer,
         createEntity: businessLogic.createEntity,
         removeElements: businessLogic.removeElements,
         copyEntities: businessLogic.copyEntities,
@@ -2448,9 +2433,6 @@ $(document).ready(function() {
 
         //set reference to see from god.
         $textaeEditor.api = editorApi;
-
-        //do by god better, but businessLogic is not see by god yet.
-        bindDialogEventhandler();
 
         $(window).resize(function(){
             redraw();
