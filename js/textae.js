@@ -455,6 +455,59 @@
             }
         });
 
+        // bind textaeCotnrol eventhandler
+        var bindTextaeControlEventhandler = function(control, editor) {
+            if (control && editor) {
+                var buttons = control.buttons;
+                // object leteral treat key as string, so set controlEvents after declare.
+                var controlEvents = {};
+                // access by square brancket because property names include "-". 
+                controlEvents[buttons["read"].ev] = function() {
+                    editor.api.showAccess();
+                };
+                controlEvents[buttons["write"].ev] = function() {
+                    editor.api.showSave();
+                };
+                controlEvents[buttons["undo"].ev] = function() {
+                    editor.api.undo();
+                };
+                controlEvents[buttons["redo"].ev] = function() {
+                    editor.api.redo();
+                };
+                controlEvents[buttons["replicate"].ev] = function() {
+                    editor.api.replicate();
+                };
+                controlEvents[buttons["replicate-auto"].ev] = function() {
+                    editor.api.toggleReplicateAuto();
+                };
+                controlEvents[buttons["entity"].ev] = function() {
+                    editor.api.createEntity();
+                };
+                controlEvents[buttons["new-label"].ev] = function() {
+                    editor.api.newLabel();
+                };
+                controlEvents[buttons["pallet"].ev] = function() {
+                    editor.api.showPallet();
+                };
+                controlEvents[buttons["delete"].ev] = function() {
+                    editor.api.removeElements();
+                };
+                controlEvents[buttons["copy"].ev] = function() {
+                    editor.api.copyEntities();
+                };
+                controlEvents[buttons["paste"].ev] = function() {
+                    editor.api.pasteEntities();
+                };
+                textAeUtil.bindEvents($textaeControl, controlEvents);
+            }
+        };
+
+        var cachedControl = null;
+        var editors = [];
+        var isFirstEditor = function() {
+            return editors.length === 1;
+        }
+
         return {
             setControl: function(control) {
                 control.on(control.buttons["help"].ev, helpDialog.show);
@@ -464,14 +517,16 @@
                     helpDialog.hide();
                     aboutDialog.hide();
                 });
+
+                editors.forEach(function(editor) {
+                    bindTextaeControlEventhandler(control, editor);
+                })
+
+                cachedControl = control;
             },
             pushEditor: function(editor) {
                 editor.urlParams = urlParams;
 
-                var editors = [];
-                var isFirstEditor = function() {
-                    return editors.length === 1;
-                }
                 editors.push(editor);
 
                 if (isFirstEditor) {
@@ -542,6 +597,8 @@
                     };
                     textAeUtil.bindEvents($("body"), keyboardEvents);
                 }
+
+                bindTextaeControlEventhandler(cachedControl, editor);
             }
         };
     };
@@ -2020,7 +2077,7 @@ $(document).ready(function() {
             else alert('You can replicate span annotation when there is only span selected.');
         },
 
-        pushButtonReplicateAuto : function() {
+        toggleReplicateAuto : function() {
             $button = $textaeControl.buttons.replicateAuto.obj;
             if (!buttonUtil.isDisable($button)) {
                 if(buttonUtil.isPushed($button)){
@@ -2957,7 +3014,7 @@ $(document).ready(function() {
 
     // bind Dialog eventhandler
     var bindDialogEventhandler = function(){
-        var events = {
+        var controlEvents = {
             "textae.dialog.localfile.load": function(e, data){
                 businessLogic.loadAnnotation(data);
             },
@@ -2971,7 +3028,7 @@ $(document).ready(function() {
                 businessLogic.saveAnnotationToServer(data);
             },
         }
-        textAeUtil.bindEvents($("body"), events);
+        textAeUtil.bindEvents($("body"), controlEvents);
     };
 
     // public funcitons of editor
@@ -2981,6 +3038,7 @@ $(document).ready(function() {
         copyEntities: businessLogic.copyEntities,
         pasteEntities: businessLogic.pasteEntities,
         replicate: businessLogic.replicate,
+        toggleReplicateAuto: businessLogic.toggleReplicateAuto,
         showPallet: presentationLogic.showPallet,
         showAccess: function(){loadSaveDialog.showAccess(targetUrl);},
         showSave: function(){loadSaveDialog.showSave(targetUrl, annotation_data.toJason());},
@@ -3009,27 +3067,6 @@ $(document).ready(function() {
             },
     };
 
-    // bind textaeCotnrol eventhandler
-    var bindTextaeControlEventhandler = function() {
-        var buttons = $textaeControl.buttons;
-        // object leteral treat key as string, so set events after declare.
-        var events = {};
-        // access by square brancket because property names include "-". 
-        events[buttons["read"].ev] = function(){loadSaveDialog.showAccess(targetUrl);};
-        events[buttons["write"].ev] = function(){loadSaveDialog.showSave(targetUrl = annotation_data.toJason());};
-        events[buttons["undo"].ev] = businessLogic.undo;
-        events[buttons["redo"].ev] = businessLogic.redo;
-        events[buttons["replicate"].ev] = businessLogic.replicate;
-        events[buttons["replicate-auto"].ev] = businessLogic.pushButtonReplicateAuto;
-        events[buttons["entity"].ev] = businessLogic.createEntity;
-        events[buttons["new-label"].ev] = businessLogic.newLabel;
-        events[buttons["pallet"].ev] = presentationLogic.showPallet;
-        events[buttons["delete"].ev] = businessLogic.removeElements;
-        events[buttons["copy"].ev] = businessLogic.copyEntities;
-        events[buttons["paste"].ev] = businessLogic.pasteEntities;
-        textAeUtil.bindEvents($textaeControl, events);
-    };
-
     //main
     (function() {
         //setup contorl
@@ -3043,7 +3080,6 @@ $(document).ready(function() {
 
         //do by god better, but businessLogic is not see by god yet.
         bindDialogEventhandler();
-        bindTextaeControlEventhandler();
 
         $(window).resize(function(){
             redraw();

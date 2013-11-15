@@ -1448,7 +1448,7 @@ $(document).ready(function() {
             else alert('You can replicate span annotation when there is only span selected.');
         },
 
-        pushButtonReplicateAuto : function() {
+        toggleReplicateAuto : function() {
             $button = $textaeControl.buttons.replicateAuto.obj;
             if (!buttonUtil.isDisable($button)) {
                 if(buttonUtil.isPushed($button)){
@@ -2385,7 +2385,7 @@ $(document).ready(function() {
 
     // bind Dialog eventhandler
     var bindDialogEventhandler = function(){
-        var events = {
+        var controlEvents = {
             "textae.dialog.localfile.load": function(e, data){
                 businessLogic.loadAnnotation(data);
             },
@@ -2399,7 +2399,7 @@ $(document).ready(function() {
                 businessLogic.saveAnnotationToServer(data);
             },
         }
-        textAeUtil.bindEvents($("body"), events);
+        textAeUtil.bindEvents($("body"), controlEvents);
     };
 
     // public funcitons of editor
@@ -2409,6 +2409,7 @@ $(document).ready(function() {
         copyEntities: businessLogic.copyEntities,
         pasteEntities: businessLogic.pasteEntities,
         replicate: businessLogic.replicate,
+        toggleReplicateAuto: businessLogic.toggleReplicateAuto,
         showPallet: presentationLogic.showPallet,
         showAccess: function(){loadSaveDialog.showAccess(targetUrl);},
         showSave: function(){loadSaveDialog.showSave(targetUrl, annotation_data.toJason());},
@@ -2437,27 +2438,6 @@ $(document).ready(function() {
             },
     };
 
-    // bind textaeCotnrol eventhandler
-    var bindTextaeControlEventhandler = function() {
-        var buttons = $textaeControl.buttons;
-        // object leteral treat key as string, so set events after declare.
-        var events = {};
-        // access by square brancket because property names include "-". 
-        events[buttons["read"].ev] = function(){loadSaveDialog.showAccess(targetUrl);};
-        events[buttons["write"].ev] = function(){loadSaveDialog.showSave(targetUrl = annotation_data.toJason());};
-        events[buttons["undo"].ev] = businessLogic.undo;
-        events[buttons["redo"].ev] = businessLogic.redo;
-        events[buttons["replicate"].ev] = businessLogic.replicate;
-        events[buttons["replicate-auto"].ev] = businessLogic.pushButtonReplicateAuto;
-        events[buttons["entity"].ev] = businessLogic.createEntity;
-        events[buttons["new-label"].ev] = businessLogic.newLabel;
-        events[buttons["pallet"].ev] = presentationLogic.showPallet;
-        events[buttons["delete"].ev] = businessLogic.removeElements;
-        events[buttons["copy"].ev] = businessLogic.copyEntities;
-        events[buttons["paste"].ev] = businessLogic.pasteEntities;
-        textAeUtil.bindEvents($textaeControl, events);
-    };
-
     //main
     (function() {
         //setup contorl
@@ -2471,7 +2451,6 @@ $(document).ready(function() {
 
         //do by god better, but businessLogic is not see by god yet.
         bindDialogEventhandler();
-        bindTextaeControlEventhandler();
 
         $(window).resize(function(){
             redraw();
