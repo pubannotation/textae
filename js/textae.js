@@ -391,7 +391,7 @@
             //cache element
             var $body = $("body");
 
-            //declare events of cotorol keys 
+            //declare keyboardEvents of cotorol keys 
             var controlKeysEvents = {
                 27: "ESC",
                 46: "DEL",
@@ -429,36 +429,34 @@
             };
         }();
 
+        var helpDialog = textAeUtil.makeInformationDialog({
+            className: "textae-control__help",
+            addContentsFunc: function() {
+                return this
+                    .append($("<h3>").text("Help (Keyboard short-cuts)"))
+                    .append($("<img>").attr("src", "images/keyhelp.png"));
+            }
+        });
+
+        var aboutDialog = textAeUtil.makeInformationDialog({
+            className: "textae-control__about",
+            addContentsFunc: function() {
+                return this
+                    .html("<h3>About TextAE (Text Annotation Editor)</h3>" +
+                        "<p>今ご覧になっているTextAEはPubAnnotationで管理しているアノテーションのビューアもしくはエディタです。</p>" +
+                        "<p>PubAnnotationではPubMedのアブストラクトにアノテーションを付けることができます。</p>" +
+                        "<p>現在はEntrez Gene IDによる自動アノテーションおよびそのマニュアル修正作業が可能となっています。" +
+                        "今後は自動アノテーションの種類を増やす計画です。</p>" +
+                        "<p>間違ったアノテーションも目に付くと思いますが、それを簡単に直して自分のプロジェクトにセーブできるのがポイントです。</p>" +
+                        "<p>自分のアノテーションを作成するためにはPubAnnotation上で自分のプロジェクトを作る必要があります。" +
+                        "作成したアノテーションは後で纏めてダウンロードしたり共有することができます。</p>" +
+                        "<p>まだ開発中のサービスであり、実装すべき機能が残っています。" +
+                        "ユーザの皆様の声を大事にして開発していきたいと考えておりますので、ご意見などございましたら教えていただければ幸いです。</p>");
+            }
+        });
+
         return {
             setControl: function(control) {
-                var helpDialog = textAeUtil.makeInformationDialog({
-                    className: "textae-control__help",
-                    addContentsFunc: function() {
-                        return this
-                            .append($("<h3>").text("Help (Keyboard short-cuts)"))
-                            .append($("<img>").attr("src", "images/keyhelp.png"));
-                    }
-                });
-
-                var aboutDialog = textAeUtil.makeInformationDialog({
-                    className: "textae-control__about",
-                    addContentsFunc: function() {
-                        return this
-                            .html("<h3>About TextAE (Text Annotation Editor)</h3>" +
-                                "<p>今ご覧になっているTextAEはPubAnnotationで管理しているアノテーションのビューアもしくはエディタです。</p>" +
-                                "<p>PubAnnotationではPubMedのアブストラクトにアノテーションを付けることができます。</p>" +
-                                "<p>現在はEntrez Gene IDによる自動アノテーションおよびそのマニュアル修正作業が可能となっています。" +
-                                "今後は自動アノテーションの種類を増やす計画です。</p>" +
-                                "<p>間違ったアノテーションも目に付くと思いますが、それを簡単に直して自分のプロジェクトにセーブできるのがポイントです。</p>" +
-                                "<p>自分のアノテーションを作成するためにはPubAnnotation上で自分のプロジェクトを作る必要があります。" +
-                                "作成したアノテーションは後で纏めてダウンロードしたり共有することができます。</p>" +
-                                "<p>まだ開発中のサービスであり、実装すべき機能が残っています。" +
-                                "ユーザの皆様の声を大事にして開発していきたいと考えておりますので、ご意見などございましたら教えていただければ幸いです。</p>");
-                    }
-                });
-
-
-
                 control.on(control.buttons["help"].ev, helpDialog.show);
                 control.on(control.buttons["about"].ev, aboutDialog.show);
 
@@ -471,7 +469,7 @@
                 editor.urlParams = urlParams;
 
                 var editors = [];
-                var isFirstEditor = function(){
+                var isFirstEditor = function() {
                     return editors.length === 1;
                 }
                 editors.push(editor);
@@ -493,8 +491,56 @@
                                 keyboard.enable();
                             }
                         }
-                    }
+                    };
                     textAeUtil.bindEvents($("body"), disableKeyboardIfDialogOpen);
+
+                    //api call in method, because api will is set after this.
+                    var keyboardEvents = {
+                        "textae.keyboard.A.click": function() {
+                            editor.api.showAccess();
+                        },
+                        "textae.keyboard.C.click": function() {
+                            editor.api.copyEntities();
+                        },
+                        "textae.keyboard.D.click textae.keyboard.DEL.click": function() {
+                            editor.api.removeElements();
+                        },
+                        "textae.keyboard.E.click": function() {
+                            editor.api.createEntity();
+                        },
+                        "textae.keyboard.H.click": helpDialog.show,
+                        "textae.keyboard.Q.click": function() {
+                            editor.api.showPallet();
+                        },
+                        "textae.keyboard.R.click": function() {
+                            editor.api.replicate();
+                        },
+                        "textae.keyboard.S.click": function() {
+                            editor.api.showSave();
+                        },
+                        "textae.keyboard.V.click": function() {
+                            editor.api.pasteEntities();
+                        },
+                        "textae.keyboard.W.click": function() {
+                            editor.api.newLabel();
+                        },
+                        "textae.keyboard.X.click textae.keyboard.Y.click": function() {
+                            editor.api.redo();
+                        },
+                        "textae.keyboard.Z.click": function() {
+                            editor.api.undo();
+                        },
+                        "textae.keyboard.ESC.click": function() {
+                            editor.api.cancelSelect();
+                        },
+                        "textae.keyboard.LEFT.click": function() {
+                            editor.api.selectLeftEntity();
+                        },
+                        "textae.keyboard.RIGHT.click": function() {
+                            editor.api.selectRightEntity();
+                        },
+                    };
+                    textAeUtil.bindEvents($("body"), keyboardEvents);
                 }
             }
         };
@@ -2963,28 +3009,6 @@ $(document).ready(function() {
             },
     };
 
-    var bindKeyboardEventhandler = function(){
-        var events ={
-            "textae.keyboard.A.click": editorApi.showAccess,
-            "textae.keyboard.C.click": editorApi.copyEntities,
-            "textae.keyboard.D.click textae.keyboard.DEL.click": editorApi.removeElements,
-            "textae.keyboard.E.click": editorApi.createEntity,
-            "textae.keyboard.H.click": presentationLogic.showHelp,
-            "textae.keyboard.Q.click": editorApi.showPallet,
-            "textae.keyboard.R.click": editorApi.replicate,
-            "textae.keyboard.S.click": editorApi.showSave,
-            "textae.keyboard.V.click": editorApi.pasteEntities,
-            "textae.keyboard.W.click": editorApi.newLabel,
-            "textae.keyboard.X.click textae.keyboard.Y.click": editorApi.redo,
-            "textae.keyboard.Z.click": editorApi.undo,
-            "textae.keyboard.ESC.click": editorApi.cancelSelect,
-            "textae.keyboard.LEFT.click": editorApi.selectLeftEntity,
-            "textae.keyboard.RIGHT.click": editorApi.selectRightEntity,
-        };
-
-        textAeUtil.bindEvents($("body"), events);
-   };
-
     // bind textaeCotnrol eventhandler
     var bindTextaeControlEventhandler = function() {
         var buttons = $textaeControl.buttons;
@@ -3014,9 +3038,11 @@ $(document).ready(function() {
         //setup editor
         window.$textaeEditor = $(".textae-editor").textae();
 
+        //set reference to see from god.
+        $textaeEditor.api = editorApi;
+
         //do by god better, but businessLogic is not see by god yet.
         bindDialogEventhandler();
-        bindKeyboardEventhandler();
         bindTextaeControlEventhandler();
 
         $(window).resize(function(){

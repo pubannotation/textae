@@ -2437,28 +2437,6 @@ $(document).ready(function() {
             },
     };
 
-    var bindKeyboardEventhandler = function(){
-        var events ={
-            "textae.keyboard.A.click": editorApi.showAccess,
-            "textae.keyboard.C.click": editorApi.copyEntities,
-            "textae.keyboard.D.click textae.keyboard.DEL.click": editorApi.removeElements,
-            "textae.keyboard.E.click": editorApi.createEntity,
-            "textae.keyboard.H.click": presentationLogic.showHelp,
-            "textae.keyboard.Q.click": editorApi.showPallet,
-            "textae.keyboard.R.click": editorApi.replicate,
-            "textae.keyboard.S.click": editorApi.showSave,
-            "textae.keyboard.V.click": editorApi.pasteEntities,
-            "textae.keyboard.W.click": editorApi.newLabel,
-            "textae.keyboard.X.click textae.keyboard.Y.click": editorApi.redo,
-            "textae.keyboard.Z.click": editorApi.undo,
-            "textae.keyboard.ESC.click": editorApi.cancelSelect,
-            "textae.keyboard.LEFT.click": editorApi.selectLeftEntity,
-            "textae.keyboard.RIGHT.click": editorApi.selectRightEntity,
-        };
-
-        textAeUtil.bindEvents($("body"), events);
-   };
-
     // bind textaeCotnrol eventhandler
     var bindTextaeControlEventhandler = function() {
         var buttons = $textaeControl.buttons;
@@ -2488,9 +2466,11 @@ $(document).ready(function() {
         //setup editor
         window.$textaeEditor = $(".textae-editor").textae();
 
+        //set reference to see from god.
+        $textaeEditor.api = editorApi;
+
         //do by god better, but businessLogic is not see by god yet.
         bindDialogEventhandler();
-        bindKeyboardEventhandler();
         bindTextaeControlEventhandler();
 
         $(window).resize(function(){
