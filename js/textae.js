@@ -626,7 +626,7 @@
                 controlEvents[buttons["paste"].ev] = function() {
                     editor.api.pasteEntities();
                 };
-                textAeUtil.bindEvents($textaeControl, controlEvents);
+                textAeUtil.bindEvents(control, controlEvents);
             }
         };
 
@@ -646,10 +646,18 @@
                     aboutDialog.hide();
                 });
 
-                $("body").on("textae.editor.buttonState.change", function(e, data) {
-                    console.log(data);
-                    control.disableButtons(data);
-                });
+                $("body")
+                    .on("textae.editor.buttonState.change", function(e, data) {
+                        console.log(data);
+                        control.disableButtons(data);
+                    })
+                    .on("textae.editor.button.repulicateAuto.push", function(e, data){
+                        if(data){
+                            buttonUtil.push(control.buttons["replicate-auto"].obj);
+                        }else{
+                            buttonUtil.unpush(control.buttons["replicate-auto"].obj);
+                        }
+                    });
 
                 editors.forEach(function(editor) {
                     bindTextaeControlEventhandler(control, editor);
@@ -785,7 +793,7 @@
 // Application main
 $(document).ready(function() {
     var mode = 'span';  // screen mode: view | span(default) | relation
-    var replicateAuto = false;
+    var isReplicateAuto = false;
 
     var sourceDoc;
     var pars;
@@ -1085,7 +1093,7 @@ $(document).ready(function() {
         var disableButtons = {};
 
         return {
-            change : function(button, enable){
+            enabled : function(button, enable){
                 if(enable){
                     delete disableButtons[button]
                 }else{
@@ -1095,35 +1103,39 @@ $(document).ready(function() {
 
                 console.log(button, disableButtons);
             },
+            pushed : function(button, push){
+                $("body").trigger("textae.editor.button.repulicateAuto.push", push);
+                console.log(button, push);
+            }
         };
     }();
 
     function changeButtonStateEntity() {
-        buttonState.change("entity", numSpanSelection() > 0);
+        buttonState.enabled("entity", numSpanSelection() > 0);
     }
 
     function changeButtonStatePallet() {
-        buttonState.change("pallet", numEntitySelection() > 0);
+        buttonState.enabled("pallet", numEntitySelection() > 0);
     }
 
     function changeButtonStateNewLabel() {
-        buttonState.change("newLabel", numEntitySelection() > 0);
+        buttonState.enabled("newLabel", numEntitySelection() > 0);
     }
 
     function changeButtonStateDelete() {
-        buttonState.change("delete", numSpanSelection() > 0 || $(".ui-selected").length > 0);
+        buttonState.enabled("delete", numSpanSelection() > 0 || $(".ui-selected").length > 0);
     }
 
     function changeButtonStateCopy() {
-        buttonState.change("copy", $(".ui-selected").length > 0);
+        buttonState.enabled("copy", $(".ui-selected").length > 0);
     }
 
     function changeButtonStatePaste() {
-        buttonState.change("paste", clipBoard.length > 0 && numSpanSelection() > 0);
+        buttonState.enabled("paste", clipBoard.length > 0 && numSpanSelection() > 0);
     }
 
     function changeButtonStateReplicate() {
-        buttonState.change("replicate", numSpanSelection() == 1);
+        buttonState.enabled("replicate", numSpanSelection() == 1);
     }
 
     // histories of edit to undo and redo.
@@ -1184,9 +1196,9 @@ $(document).ready(function() {
         };
 
         //change button state
-        buttonState.change("write", this.hasAnythingToSave());
-        buttonState.change("undo", this.hasAnythingToUndo());
-        buttonState.change("redo", this.hasAnythingToRedo());
+        buttonState.enabled("write", this.hasAnythingToSave());
+        buttonState.enabled("undo", this.hasAnythingToUndo());
+        buttonState.enabled("redo", this.hasAnythingToRedo());
 
         //change leaveMessage show
         if (this.hasAnythingToSave()) {
@@ -1634,7 +1646,7 @@ $(document).ready(function() {
                     else {
                         var edits = [{action:'new_span', id:sid, begin:beginPosition, end:endPosition}];
 
-                        if (replicateAuto) {
+                        if (isReplicateAuto) {
                             var replicates = getSpanReplicates({begin:beginPosition, end:endPosition});
                             edits = edits.concat(replicates);
                         }
@@ -2141,18 +2153,8 @@ $(document).ready(function() {
         },
 
         toggleReplicateAuto : function() {
-            $button = $textaeControl.buttons.replicateAuto.obj;
-            if (!buttonUtil.isDisable($button)) {
-                if(buttonUtil.isPushed($button)){
-                    buttonUtil.unpush($button);
-                    replicateAuto = false;
-                    console.log("unpush");
-                }else{
-                    buttonUtil.push($button);
-                    replicateAuto = true;
-                    console.log("push");
-                }
-            }
+            isReplicateAuto = !isReplicateAuto;
+            buttonState.pushed("replicate-auto", isReplicateAuto);
         },
 
         createEntity : function() {
@@ -3112,7 +3114,7 @@ $(document).ready(function() {
     //main
     (function() {
         //setup contorl
-        window.$textaeControl = $(".textae-control").textae();
+        $(".textae-control").textae();
 
         //setup editor
         window.$textaeEditor = $(".textae-editor").textae();

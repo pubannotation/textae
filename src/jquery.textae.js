@@ -413,7 +413,7 @@
                 controlEvents[buttons["paste"].ev] = function() {
                     editor.api.pasteEntities();
                 };
-                textAeUtil.bindEvents($textaeControl, controlEvents);
+                textAeUtil.bindEvents(control, controlEvents);
             }
         };
 
@@ -433,10 +433,18 @@
                     aboutDialog.hide();
                 });
 
-                $("body").on("textae.editor.buttonState.change", function(e, data) {
-                    console.log(data);
-                    control.disableButtons(data);
-                });
+                $("body")
+                    .on("textae.editor.buttonState.change", function(e, data) {
+                        console.log(data);
+                        control.disableButtons(data);
+                    })
+                    .on("textae.editor.button.repulicateAuto.push", function(e, data){
+                        if(data){
+                            buttonUtil.push(control.buttons["replicate-auto"].obj);
+                        }else{
+                            buttonUtil.unpush(control.buttons["replicate-auto"].obj);
+                        }
+                    });
 
                 editors.forEach(function(editor) {
                     bindTextaeControlEventhandler(control, editor);
