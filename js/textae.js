@@ -615,6 +615,11 @@
                 }
                 textAeUtil.bindEvents($("body"), saveLoadDialogEvents);
 
+                // bind resize event
+                $(window).on("resize", function() {
+                    editor.api.redraw();
+                });
+
                 bindTextaeControlEventhandler(cachedControl, editor);
             }
         };
@@ -2294,7 +2299,15 @@ $(document).ready(function() {
 
         hidePallet :function(){
             $('.textae-control__entity-pallet').css('display', 'none');
-        }
+        },
+
+        redraw : function() {
+            indexPositionSpans(annotation_data.spanIds);
+            positionGrids(annotation_data.spanIds);
+
+            indexPositionEntities();
+            renewConnections();
+        },
     };
 
     function changeButtonStateReplicate() {
@@ -2476,7 +2489,7 @@ $(document).ready(function() {
         }
 
         // update rendering
-        redraw();
+        presentationLogic.redraw();
 
         switch (context) {
             case 'undo' :
@@ -3017,14 +3030,6 @@ $(document).ready(function() {
         }
     }
 
-    function redraw() {
-        indexPositionSpans(annotation_data.spanIds);
-        positionGrids(annotation_data.spanIds);
-
-        indexPositionEntities();
-        renewConnections();
-    }
-
     function leaveMessage() {
         return "There is a change that has not been saved. If you leave now, you will lose it.";
     }
@@ -3067,6 +3072,7 @@ $(document).ready(function() {
                     select(annotation_data.spanIds[spanIdx]);
                 }                
             },
+        redraw: presentationLogic.redraw,
     };
 
     //main
@@ -3080,9 +3086,6 @@ $(document).ready(function() {
         //set reference to see from god.
         $textaeEditor.api = editorApi;
 
-        $(window).resize(function(){
-            redraw();
-        });
 
         //start application
         startEdit();

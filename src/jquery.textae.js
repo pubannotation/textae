@@ -402,6 +402,11 @@
                 }
                 textAeUtil.bindEvents($("body"), saveLoadDialogEvents);
 
+                // bind resize event
+                $(window).on("resize", function() {
+                    editor.api.redraw();
+                });
+
                 bindTextaeControlEventhandler(cachedControl, editor);
             }
         };
