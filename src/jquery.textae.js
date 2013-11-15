@@ -273,6 +273,13 @@
             }
         };
 
+        // update all button state, because an instance of textEditor maybe change.
+        var disableButtons = function(disableButtons) {
+            for (buttonType in buttonCache) {
+                enableButton(buttonType, !disableButtons.hasOwnProperty(buttonType));
+            }
+        }
+
         // build elements
         this.append(makeTitle())
             .append(makeIconBar());
@@ -284,7 +291,7 @@
         enableButton("about", true);
 
         // public
-        this.enableButton = enableButton;
+        this.disableButtons = disableButtons;
         this.buttons = buttonCache;
 
         return this;
@@ -424,6 +431,11 @@
                 $("body").on("textae.select.cancel", function() {
                     helpDialog.hide();
                     aboutDialog.hide();
+                });
+
+                $("body").on("textae.editor.buttonState.change", function(e, data) {
+                    console.log(data);
+                    control.disableButtons(data);
                 });
 
                 editors.forEach(function(editor) {

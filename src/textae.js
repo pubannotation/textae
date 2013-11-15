@@ -297,6 +297,51 @@ $(document).ready(function() {
         // jsPlumb.registerConnectionTypes(connectorTypes);
     }
 
+    var buttonState = function(){
+        var disableButtons = {};
+
+        return {
+            change : function(button, enable){
+                if(enable){
+                    delete disableButtons[button]
+                }else{
+                    disableButtons[button] = true;
+                }
+                $("body").trigger("textae.editor.buttonState.change", disableButtons);
+
+                console.log(button, disableButtons);
+            },
+        };
+    }();
+
+    function changeButtonStateEntity() {
+        buttonState.change("entity", numSpanSelection() > 0);
+    }
+
+    function changeButtonStatePallet() {
+        buttonState.change("pallet", numEntitySelection() > 0);
+    }
+
+    function changeButtonStateNewLabel() {
+        buttonState.change("newLabel", numEntitySelection() > 0);
+    }
+
+    function changeButtonStateDelete() {
+        buttonState.change("delete", numSpanSelection() > 0 || $(".ui-selected").length > 0);
+    }
+
+    function changeButtonStateCopy() {
+        buttonState.change("copy", $(".ui-selected").length > 0);
+    }
+
+    function changeButtonStatePaste() {
+        buttonState.change("paste", clipBoard.length > 0 && numSpanSelection() > 0);
+    }
+
+    function changeButtonStateReplicate() {
+        buttonState.change("replicate", numSpanSelection() == 1);
+    }
+
     // histories of edit to undo and redo.
     var editHistory = function (){
         var lastSaveIndex = -1,
@@ -350,10 +395,14 @@ $(document).ready(function() {
 
     //action when editHistory is changed.
     var editHistoryChanged = function(){
+        var leaveMessage = function() {
+            return "There is a change that has not been saved. If you leave now, you will lose it.";
+        };
+
         //change button state
-        $textaeControl.enableButton("write", this.hasAnythingToSave());
-        $textaeControl.enableButton("undo", this.hasAnythingToUndo());
-        $textaeControl.enableButton("redo", this.hasAnythingToRedo());
+        buttonState.change("write", this.hasAnythingToSave());
+        buttonState.change("undo", this.hasAnythingToUndo());
+        buttonState.change("redo", this.hasAnythingToRedo());
 
         //change leaveMessage show
         if (this.hasAnythingToSave()) {
@@ -511,18 +560,6 @@ $(document).ready(function() {
 
         renderEntitiesOfSpans(annotation_data.spanIds);
         renderRelations();
-    }
-
-    function changeButtonStateEntity() {
-        $textaeControl.enableButton("entity", numSpanSelection() > 0);
-    }
-
-    function changeButtonStatePallet() {
-        $textaeControl.enableButton("pallet", numEntitySelection() > 0);
-    }
-
-    function changeButtonStateNewLabel() {
-        $textaeControl.enableButton("newLabel", numEntitySelection() > 0);
     }
 
     function relationColor(type) {
@@ -1130,18 +1167,6 @@ $(document).ready(function() {
         }
     }
 
-    function changeButtonStateDelete() {
-        $textaeControl.enableButton("delete", numSpanSelection() > 0 || $(".ui-selected").length > 0);
-    }
-
-    function changeButtonStateCopy() {
-        $textaeControl.enableButton("copy", $(".ui-selected").length > 0);
-    }
-
-    function changeButtonStatePaste() {
-        $textaeControl.enableButton("paste", clipBoard.length > 0 && numSpanSelection() > 0);
-    }
-
     function isSelected(id) {
         return ($('#' + id + '.ui-selected').length > 0);
     }
@@ -1541,10 +1566,6 @@ $(document).ready(function() {
             renewConnections();
         },
     };
-
-    function changeButtonStateReplicate() {
-        $textaeControl.enableButton("replicate", numSpanSelection() == 1);
-    }
 
     function getSpanReplicates(span) {
         var startPos = span['begin'];
@@ -2260,10 +2281,6 @@ $(document).ready(function() {
             var type = annotation_data.relations[id]["pred"];
             connectors[id].setPaintStyle(connectorTypes[type+"_selected"]["paintStyle"]);
         }
-    }
-
-    function leaveMessage() {
-        return "There is a change that has not been saved. If you leave now, you will lose it.";
     }
 
     // public funcitons of editor
