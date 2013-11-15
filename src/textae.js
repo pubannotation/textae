@@ -480,96 +480,6 @@ $(document).ready(function() {
         }
     };
 
-    //keyboard shortcut
-    var keyboard = {
-        onKeyup : function(e) {
-            switch (e.keyCode) {
-                case 27: // 'ESC' key
-                    cancelSelect();
-                    break;
-                case 65: // 'a' key
-                    loadSaveDialog.showAccess(targetUrl);
-                    break;
-                case 83: // 's' key
-                    loadSaveDialog.showSave(targetUrl, annotation_data.toJason());
-                    break;
-                case 46: // win delete / mac fn + delete
-                case 68: // 'd' key
-                    businessLogic.removeElements();
-                    break;
-                case 69: // 'e' key
-                    businessLogic.createEntity();
-                    break;
-                case 72: // 'h' key
-                    presentationLogic.showHelp();
-                    break;
-                case 67: // 'c' key
-                    businessLogic.copyEntities();
-                    break;
-                case 86: // 'v' key
-                    businessLogic.pasteEntities();
-                    break;
-                case 81: // 'q' key
-                    // show type selector
-                    presentationLogic.showPallet();
-                    break;
-                case 87: // 'w' key
-                    // show type selector
-                    businessLogic.newLabel();
-                    break;
-                case 82: // 'r' key:
-                    // replicate span annotatino
-                    replicate();
-                    break;
-                // case 191: // '?' key
-                //     if (mode == 'span') {
-                //         createModification("Speculation");
-                //     }
-                //     break;
-                // case 88: // 'x' key
-                //     if (mode == 'span') {
-                //         if (!e.ctrlKey) {createModification("Negation")}
-                //     }
-                //     break;
-                case 90: // 'z' key
-                    if (editHistory.hasAnythingToUndo()) {
-                        businessLogic.undo();
-                    }
-                    break;
-                case 88: // 'x' key
-                case 89: // 'y' key
-                    if (editHistory.hasAnythingToRedo()) { 
-                        businessLogic.redo();
-                    }
-                    break;
-                case 37: // left arrow key: move the span selection backward
-                    if (numSpanSelection() == 1) {
-                        var spanIdx = annotation_data.spanIds.indexOf(popSpanSelection());
-                        clearSelection()
-                        spanIdx--;
-                        if (spanIdx < 0) {spanIdx = annotation_data.spanIds.length - 1}
-                        select(annotation_data.spanIds[spanIdx]);
-                    }
-                    break;
-                case 39: //right arrow key: move the span selection forward
-                    if (numSpanSelection() == 1) {
-                        var spanIdx = annotation_data.spanIds.indexOf(popSpanSelection());
-                        clearSelection()
-                        spanIdx++;
-                        if (spanIdx > annotation_data.spanIds.length - 1) {spanIdx = 0}
-                        select(annotation_data.spanIds[spanIdx]);
-                    }
-                    break;
-            }
-        },
-        enableShortcut : function(){
-            $(document).on("keyup", keyboard.onKeyup);
-        },
-        disableShortcut : function(){
-            $(document).off("keyup", keyboard.onKeyup);
-        }
-    };
-
     function parseAnnotationJson(data) {
         //validate
         if(data.text === undefined){
@@ -2473,8 +2383,51 @@ $(document).ready(function() {
         return "There is a change that has not been saved. If you leave now, you will lose it.";
     }
 
+    //keyboard shortcut
+    var keyboard = function(){
+        //cache element
+        var $body = $("body");
+
+        //declare events of cotorol keys 
+        var controlKeysEvents = {
+            27: "ESC",
+            46: "DEL",
+            37: "LEFT",
+            39: "RIGHT"
+        };
+
+        var dispatchKeyEvents = function(e) {
+            var triggerBody = function(key){
+                $body.trigger("textae.keyboard."+key+".click");
+            };
+
+            //from a to z, like "textae.keyboard.A.click"
+            if(65 <= e.keyCode && e.keyCode <= 90){
+                triggerBody(String.fromCharCode(e.keyCode));
+                return;
+            }
+
+            //control key, like "textae.keyboard.ESC.click"
+            if(controlKeysEvents[e.keyCode]){
+                triggerBody(controlKeysEvents[e.keyCode]);
+                return;
+            }
+        };
+
+        return {
+            enable: function(enable){
+                //undefined is true
+                if(enable === false){
+                    $(document).off("keyup", dispatchKeyEvents);
+                }else{
+                    $(document).on("keyup", dispatchKeyEvents);
+                }
+            }
+        };
+    }();
+
     // bind Dialog eventhandler
-    var bindDialogEventhandler =  function(){
+    var bindDialogEventhandler = function(){
         $("body")
             .on("textae.dialog.localfile.load", function(e, data){
                 businessLogic.loadAnnotation(data);
@@ -2488,9 +2441,52 @@ $(document).ready(function() {
             .on("textae.dialog.saveurl.select", function(e, data){
                 businessLogic.saveAnnotationToServer(data);
             })
-            .on("dialogopen", ".ui-dialog", keyboard.disableShortcut)
-            .on("dialogclose", ".ui-dialog", keyboard.enableShortcut);
-    }
+            .on("dialogopen", ".ui-dialog", function(){keyboard.enalbe(false);})
+            .on("dialogclose", ".ui-dialog", function(){keyboard.enalbe(true);});
+    };
+
+    var bindKeyboardEventhandler = function(){
+        var $body = $("body");
+
+        var events ={
+            "textae.keyboard.A.click": function(){loadSaveDialog.showAccess(targetUrl);},
+            "textae.keyboard.C.click": businessLogic.copyEntities,
+            "textae.keyboard.D.click textae.keyboard.DEL.click": businessLogic.removeElements,
+            "textae.keyboard.E.click": businessLogic.createEntity,
+            "textae.keyboard.H.click": presentationLogic.showHelp,
+            "textae.keyboard.Q.click": presentationLogic.showPallet,
+            "textae.keyboard.R.click": businessLogic.replicate,
+            "textae.keyboard.S.click": function(){loadSaveDialog.showSave(targetUrl, annotation_data.toJason());},
+            "textae.keyboard.V.click": businessLogic.pasteEntities,
+            "textae.keyboard.W.click": businessLogic.newLabel,
+            "textae.keyboard.X.click textae.keyboard.Y.click": function(){if (editHistory.hasAnythingToRedo()) { businessLogic.redo();}},
+            "textae.keyboard.Z.click": function(){if (editHistory.hasAnythingToUndo()) {businessLogic.undo();}},
+            "textae.keyboard.ESC.click": cancelSelect,
+            "textae.keyboard.LEFT.click": function(){
+                //TODO presentation logic?
+                if (numSpanSelection() == 1) {
+                    var spanIdx = annotation_data.spanIds.indexOf(popSpanSelection());
+                    clearSelection()
+                    spanIdx--;
+                    if (spanIdx < 0) {spanIdx = annotation_data.spanIds.length - 1}
+                    select(annotation_data.spanIds[spanIdx]);
+                }
+            },
+            "textae.keyboard.RIGHT.click": function(){
+                if (numSpanSelection() == 1) {
+                    var spanIdx = annotation_data.spanIds.indexOf(popSpanSelection());
+                    clearSelection()
+                    spanIdx++;
+                    if (spanIdx > annotation_data.spanIds.length - 1) {spanIdx = 0}
+                    select(annotation_data.spanIds[spanIdx]);
+                }                
+            },  
+        };
+
+        for(event in events){
+            $body.on(event, events[event]);
+        }
+   };
 
     // bind textaeCotnrol eventhandler
     var bindTextaeControlEventhandler = function() {
@@ -2517,11 +2513,12 @@ $(document).ready(function() {
 
         //setup editor
         window.$textaeEditor = $(".textae-editor").textae();
-        keyboard.enableShortcut();
+        keyboard.enable();
 
 
         //do by god better, but businessLogic is not see by god yet.
         bindDialogEventhandler();
+        bindKeyboardEventhandler();
         bindTextaeControlEventhandler();
 
         $(window).resize(function(){
