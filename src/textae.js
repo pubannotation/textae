@@ -2383,49 +2383,6 @@ $(document).ready(function() {
         return "There is a change that has not been saved. If you leave now, you will lose it.";
     }
 
-    //keyboard shortcut
-    var keyboard = function(){
-        //cache element
-        var $body = $("body");
-
-        //declare events of cotorol keys 
-        var controlKeysEvents = {
-            27: "ESC",
-            46: "DEL",
-            37: "LEFT",
-            39: "RIGHT"
-        };
-
-        var dispatchKeyEvents = function(e) {
-            var triggerBody = function(key){
-                $body.trigger("textae.keyboard."+key+".click");
-            };
-
-            //from a to z, like "textae.keyboard.A.click"
-            if(65 <= e.keyCode && e.keyCode <= 90){
-                triggerBody(String.fromCharCode(e.keyCode));
-                return;
-            }
-
-            //control key, like "textae.keyboard.ESC.click"
-            if(controlKeysEvents[e.keyCode]){
-                triggerBody(controlKeysEvents[e.keyCode]);
-                return;
-            }
-        };
-
-        return {
-            enable: function(enable){
-                //undefined is true
-                if(enable === false){
-                    $(document).off("keyup", dispatchKeyEvents);
-                }else{
-                    $(document).on("keyup", dispatchKeyEvents);
-                }
-            }
-        };
-    }();
-
     // bind Dialog eventhandler
     var bindDialogEventhandler = function(){
         var events = {
@@ -2441,35 +2398,25 @@ $(document).ready(function() {
             "textae.dialog.saveurl.select": function(e, data){
                 businessLogic.saveAnnotationToServer(data);
             },
-            //keybord disable/enable if jquery ui dialog is open/close
-            "dialogopen":{selector : ".ui-dialog", func: function(){
-                keyboard.enable(false);
-            }},
-            "dialogclose":{selector : ".ui-dialog", func: function(){
-                keyboard.enable();
-            }}
-
         }
-
         textAeUtil.bindEvents($("body"), events);
     };
 
-    var bindKeyboardEventhandler = function(){
-        var events ={
-            "textae.keyboard.A.click": function(){loadSaveDialog.showAccess(targetUrl);},
-            "textae.keyboard.C.click": businessLogic.copyEntities,
-            "textae.keyboard.D.click textae.keyboard.DEL.click": businessLogic.removeElements,
-            "textae.keyboard.E.click": businessLogic.createEntity,
-            "textae.keyboard.H.click": presentationLogic.showHelp,
-            "textae.keyboard.Q.click": presentationLogic.showPallet,
-            "textae.keyboard.R.click": businessLogic.replicate,
-            "textae.keyboard.S.click": function(){loadSaveDialog.showSave(targetUrl, annotation_data.toJason());},
-            "textae.keyboard.V.click": businessLogic.pasteEntities,
-            "textae.keyboard.W.click": businessLogic.newLabel,
-            "textae.keyboard.X.click textae.keyboard.Y.click": function(){if (editHistory.hasAnythingToRedo()) { businessLogic.redo();}},
-            "textae.keyboard.Z.click": function(){if (editHistory.hasAnythingToUndo()) {businessLogic.undo();}},
-            "textae.keyboard.ESC.click": cancelSelect,
-            "textae.keyboard.LEFT.click": function(){
+    // public funcitons of editor
+    var editorApi = {
+        createEntity: businessLogic.createEntity,
+        removeElements: businessLogic.removeElements,
+        copyEntities: businessLogic.copyEntities,
+        pasteEntities: businessLogic.pasteEntities,
+        replicate: businessLogic.replicate,
+        showPallet: presentationLogic.showPallet,
+        showAccess: function(){loadSaveDialog.showAccess(targetUrl);},
+        showSave: function(){loadSaveDialog.showSave(targetUrl, annotation_data.toJason());},
+        newLabe: businessLogic.newLabe,
+        redo: function(){if (editHistory.hasAnythingToRedo()) { businessLogic.redo();}},
+        undo: function(){if (editHistory.hasAnythingToUndo()) {businessLogic.undo();}},
+        cancelSelect: cancelSelect,
+        selectLeftEntity: function(){
                 //TODO presentation logic?
                 if (numSpanSelection() == 1) {
                     var spanIdx = annotation_data.spanIds.indexOf(popSpanSelection());
@@ -2479,7 +2426,7 @@ $(document).ready(function() {
                     select(annotation_data.spanIds[spanIdx]);
                 }
             },
-            "textae.keyboard.RIGHT.click": function(){
+        selectRightEntity: function(){
                 if (numSpanSelection() == 1) {
                     var spanIdx = annotation_data.spanIds.indexOf(popSpanSelection());
                     clearSelection()
@@ -2487,7 +2434,26 @@ $(document).ready(function() {
                     if (spanIdx > annotation_data.spanIds.length - 1) {spanIdx = 0}
                     select(annotation_data.spanIds[spanIdx]);
                 }                
-            },  
+            },
+    };
+
+    var bindKeyboardEventhandler = function(){
+        var events ={
+            "textae.keyboard.A.click": editorApi.showAccess,
+            "textae.keyboard.C.click": editorApi.copyEntities,
+            "textae.keyboard.D.click textae.keyboard.DEL.click": editorApi.removeElements,
+            "textae.keyboard.E.click": editorApi.createEntity,
+            "textae.keyboard.H.click": presentationLogic.showHelp,
+            "textae.keyboard.Q.click": editorApi.showPallet,
+            "textae.keyboard.R.click": editorApi.replicate,
+            "textae.keyboard.S.click": editorApi.showSave,
+            "textae.keyboard.V.click": editorApi.pasteEntities,
+            "textae.keyboard.W.click": editorApi.newLabel,
+            "textae.keyboard.X.click textae.keyboard.Y.click": editorApi.redo,
+            "textae.keyboard.Z.click": editorApi.undo,
+            "textae.keyboard.ESC.click": editorApi.cancelSelect,
+            "textae.keyboard.LEFT.click": editorApi.selectLeftEntity,
+            "textae.keyboard.RIGHT.click": editorApi.selectRightEntity,
         };
 
         textAeUtil.bindEvents($("body"), events);
@@ -2521,8 +2487,6 @@ $(document).ready(function() {
 
         //setup editor
         window.$textaeEditor = $(".textae-editor").textae();
-        keyboard.enable();
-
 
         //do by god better, but businessLogic is not see by god yet.
         bindDialogEventhandler();

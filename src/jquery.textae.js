@@ -173,6 +173,49 @@
         // get the url parameters: beginning of the program
         var urlParams = textAeUtil.getUrlParameters(location.search);
 
+        //keyboard shortcut
+        var keyboard = function() {
+            //cache element
+            var $body = $("body");
+
+            //declare events of cotorol keys 
+            var controlKeysEvents = {
+                27: "ESC",
+                46: "DEL",
+                37: "LEFT",
+                39: "RIGHT"
+            };
+
+            var dispatchKeyEvents = function(e) {
+                var triggerBody = function(key) {
+                    $body.trigger("textae.keyboard." + key + ".click");
+                };
+
+                //from a to z, like "textae.keyboard.A.click"
+                if (65 <= e.keyCode && e.keyCode <= 90) {
+                    triggerBody(String.fromCharCode(e.keyCode));
+                    return;
+                }
+
+                //control key, like "textae.keyboard.ESC.click"
+                if (controlKeysEvents[e.keyCode]) {
+                    triggerBody(controlKeysEvents[e.keyCode]);
+                    return;
+                }
+            };
+
+            return {
+                enable: function(enable) {
+                    //undefined is true
+                    if (enable === false) {
+                        $(document).off("keyup", dispatchKeyEvents);
+                    } else {
+                        $(document).on("keyup", dispatchKeyEvents);
+                    }
+                }
+            };
+        }();
+
         return {
             setControl: function(control) {
                 var helpDialog = textAeUtil.makeInformationDialog({
@@ -201,6 +244,8 @@
                     }
                 });
 
+
+
                 control.on(control.buttons["help"].ev, helpDialog.show);
                 control.on(control.buttons["about"].ev, aboutDialog.show);
 
@@ -211,6 +256,33 @@
             },
             pushEditor: function(editor) {
                 editor.urlParams = urlParams;
+
+                var editors = [];
+                var isFirstEditor = function(){
+                    return editors.length === 1;
+                }
+                editors.push(editor);
+
+                if (isFirstEditor) {
+                    keyboard.enable();
+
+                    var disableKeyboardIfDialogOpen = {
+                        //keybord disable/enable if jquery ui dialog is open/close
+                        "dialogopen": {
+                            selector: ".ui-dialog",
+                            func: function() {
+                                keyboard.enable(false);
+                            }
+                        },
+                        "dialogclose": {
+                            selector: ".ui-dialog",
+                            func: function() {
+                                keyboard.enable();
+                            }
+                        }
+                    }
+                    textAeUtil.bindEvents($("body"), disableKeyboardIfDialogOpen);
+                }
             }
         };
     };
