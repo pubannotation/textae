@@ -1,6 +1,26 @@
 // utility functions
 (function() {
     window.textAeUtil = {
+        //bind event according to object like { event : function }
+        //if use selector { event : {selector : selector , func : function } }
+        bindEvents : function($target, events){
+            var isFunction = function(func) {
+                return func && {}.toString.call(func) === '[object Function]';
+            };
+
+            var value;
+            for(event in events){
+                value = events[event];
+                if(value){
+                    if(isFunction(value)){
+                        $target.on(event, value);
+                    }else if(value.selector && value.func){
+                        $target.on(event, value.selector, value.func);
+                    }
+                }
+            }
+        },
+
         // ajax wrapper
         ajaxAccessor : function(){
             var isEmpty = function(str){

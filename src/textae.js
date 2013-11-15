@@ -2428,26 +2428,33 @@ $(document).ready(function() {
 
     // bind Dialog eventhandler
     var bindDialogEventhandler = function(){
-        $("body")
-            .on("textae.dialog.localfile.load", function(e, data){
+        var events = {
+            "textae.dialog.localfile.load": function(e, data){
                 businessLogic.loadAnnotation(data);
-            })
-            .on("textae.dialog.loadurl.select", function(e, data){
+            },
+            "textae.dialog.loadurl.select": function(e, data){
                 businessLogic.getAnnotationFromServer(data);
-            })
-            .on("textae.dialog.localfile.save", function(e, data){
+            },
+            "textae.dialog.localfile.save": function(e, data){
                 editHistory.saved();
-            })
-            .on("textae.dialog.saveurl.select", function(e, data){
+            },
+            "textae.dialog.saveurl.select": function(e, data){
                 businessLogic.saveAnnotationToServer(data);
-            })
-            .on("dialogopen", ".ui-dialog", function(){keyboard.enalbe(false);})
-            .on("dialogclose", ".ui-dialog", function(){keyboard.enalbe(true);});
+            },
+            //keybord disable/enable if jquery ui dialog is open/close
+            "dialogopen":{selector : ".ui-dialog", func: function(){
+                keyboard.enable(false);
+            }},
+            "dialogclose":{selector : ".ui-dialog", func: function(){
+                keyboard.enable();
+            }}
+
+        }
+
+        textAeUtil.bindEvents($("body"), events);
     };
 
     var bindKeyboardEventhandler = function(){
-        var $body = $("body");
-
         var events ={
             "textae.keyboard.A.click": function(){loadSaveDialog.showAccess(targetUrl);},
             "textae.keyboard.C.click": businessLogic.copyEntities,
@@ -2483,27 +2490,28 @@ $(document).ready(function() {
             },  
         };
 
-        for(event in events){
-            $body.on(event, events[event]);
-        }
+        textAeUtil.bindEvents($("body"), events);
    };
 
     // bind textaeCotnrol eventhandler
     var bindTextaeControlEventhandler = function() {
+        var buttons = $textaeControl.buttons;
+        // object leteral treat key as string, so set events after declare.
+        var events = {};
         // access by square brancket because property names include "-". 
-        $textaeControl
-            .on($textaeControl.buttons["read"].ev, function(){loadSaveDialog.showAccess(targetUrl);})
-            .on($textaeControl.buttons["write"].ev, function(){loadSaveDialog.showSave(targetUrl, annotation_data.toJason());})
-            .on($textaeControl.buttons["undo"].ev, businessLogic.undo)
-            .on($textaeControl.buttons["redo"].ev, businessLogic.redo)
-            .on($textaeControl.buttons["replicate"].ev, businessLogic.replicate)
-            .on($textaeControl.buttons["replicate-auto"].ev, businessLogic.pushButtonReplicateAuto)
-            .on($textaeControl.buttons["entity"].ev, businessLogic.createEntity)
-            .on($textaeControl.buttons["new-label"].ev, businessLogic.newLabel)
-            .on($textaeControl.buttons["pallet"].ev, presentationLogic.showPallet)
-            .on($textaeControl.buttons["delete"].ev, businessLogic.removeElements)
-            .on($textaeControl.buttons["copy"].ev, businessLogic.copyEntities)
-            .on($textaeControl.buttons["paste"].ev, businessLogic.pasteEntities);
+        events[buttons["read"].ev] = function(){loadSaveDialog.showAccess(targetUrl);};
+        events[buttons["write"].ev] = function(){loadSaveDialog.showSave(targetUrl = annotation_data.toJason());};
+        events[buttons["undo"].ev] = businessLogic.undo;
+        events[buttons["redo"].ev] = businessLogic.redo;
+        events[buttons["replicate"].ev] = businessLogic.replicate;
+        events[buttons["replicate-auto"].ev] = businessLogic.pushButtonReplicateAuto;
+        events[buttons["entity"].ev] = businessLogic.createEntity;
+        events[buttons["new-label"].ev] = businessLogic.newLabel;
+        events[buttons["pallet"].ev] = presentationLogic.showPallet;
+        events[buttons["delete"].ev] = businessLogic.removeElements;
+        events[buttons["copy"].ev] = businessLogic.copyEntities;
+        events[buttons["paste"].ev] = businessLogic.pasteEntities;
+        textAeUtil.bindEvents($textaeControl, events);
     };
 
     //main
