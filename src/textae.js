@@ -330,7 +330,6 @@ $(document).ready(function() {
 
         var initializeState = function(){
             $('#body').off('mouseup', doMouseup).on('mouseup', doMouseup);
-            bindTextaeControlEventhandler();
 
             editHistory.init(editHistoryChanged);
             changeButtonStateReplicate();
@@ -1742,23 +1741,6 @@ $(document).ready(function() {
         }
     };
 
-    // bind textaeCotnrol eventhandler
-    function bindTextaeControlEventhandler() {
-        // access by square brancket because property names include "-". 
-        $textaeControl.on($textaeControl.buttons["read"].ev, function(){loadSaveDialog.showAccess(targetUrl);});
-        $textaeControl.on($textaeControl.buttons["write"].ev, function(){loadSaveDialog.showSave(targetUrl, annotation_data.toJason());});
-        $textaeControl.on($textaeControl.buttons["undo"].ev, businessLogic.undo);
-        $textaeControl.on($textaeControl.buttons["redo"].ev, businessLogic.redo);
-        $textaeControl.on($textaeControl.buttons["replicate"].ev, businessLogic.replicate);
-        $textaeControl.on($textaeControl.buttons["replicate-auto"].ev, businessLogic.pushButtonReplicateAuto);
-        $textaeControl.on($textaeControl.buttons["entity"].ev, businessLogic.createEntity);
-        $textaeControl.on($textaeControl.buttons["new-label"].ev, businessLogic.newLabel);
-        $textaeControl.on($textaeControl.buttons["pallet"].ev, presentationLogic.showPallet);
-        $textaeControl.on($textaeControl.buttons["delete"].ev, businessLogic.removeElements);
-        $textaeControl.on($textaeControl.buttons["copy"].ev, businessLogic.copyEntities);
-        $textaeControl.on($textaeControl.buttons["paste"].ev, businessLogic.pasteEntities);
-    }
-
     function changeButtonStateReplicate() {
         $textaeControl.enableButton("replicate", numSpanSelection() == 1);
     }
@@ -2491,17 +2473,8 @@ $(document).ready(function() {
         return "There is a change that has not been saved. If you leave now, you will lose it.";
     }
 
-    //main
-    (function() {
-        //setup contorl
-        window.$textaeControl = $(".textae-control").textae();
-
-        //setup editor
-        window.$textaeEditor = $(".textae-editor").textae();
-        keyboard.enableShortcut();
-
-
-        //do by god better, but businessLogic is not see by god yet.
+    // bind Dialog eventhandler
+    var bindDialogEventhandler =  function(){
         $("body")
             .on("textae.dialog.localfile.load", function(e, data){
                 businessLogic.loadAnnotation(data);
@@ -2517,6 +2490,39 @@ $(document).ready(function() {
             })
             .on("dialogopen", ".ui-dialog", keyboard.disableShortcut)
             .on("dialogclose", ".ui-dialog", keyboard.enableShortcut);
+    }
+
+    // bind textaeCotnrol eventhandler
+    var bindTextaeControlEventhandler = function() {
+        // access by square brancket because property names include "-". 
+        $textaeControl
+            .on($textaeControl.buttons["read"].ev, function(){loadSaveDialog.showAccess(targetUrl);})
+            .on($textaeControl.buttons["write"].ev, function(){loadSaveDialog.showSave(targetUrl, annotation_data.toJason());})
+            .on($textaeControl.buttons["undo"].ev, businessLogic.undo)
+            .on($textaeControl.buttons["redo"].ev, businessLogic.redo)
+            .on($textaeControl.buttons["replicate"].ev, businessLogic.replicate)
+            .on($textaeControl.buttons["replicate-auto"].ev, businessLogic.pushButtonReplicateAuto)
+            .on($textaeControl.buttons["entity"].ev, businessLogic.createEntity)
+            .on($textaeControl.buttons["new-label"].ev, businessLogic.newLabel)
+            .on($textaeControl.buttons["pallet"].ev, presentationLogic.showPallet)
+            .on($textaeControl.buttons["delete"].ev, businessLogic.removeElements)
+            .on($textaeControl.buttons["copy"].ev, businessLogic.copyEntities)
+            .on($textaeControl.buttons["paste"].ev, businessLogic.pasteEntities);
+    };
+
+    //main
+    (function() {
+        //setup contorl
+        window.$textaeControl = $(".textae-control").textae();
+
+        //setup editor
+        window.$textaeEditor = $(".textae-editor").textae();
+        keyboard.enableShortcut();
+
+
+        //do by god better, but businessLogic is not see by god yet.
+        bindDialogEventhandler();
+        bindTextaeControlEventhandler();
 
         $(window).resize(function(){
             redraw();
