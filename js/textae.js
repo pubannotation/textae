@@ -946,7 +946,7 @@ $(document).ready(function() {
     };
 
     // will be API of texteaEditor
-    function startEdit() {
+    startEdit = function() {
         var setTypeConfig = function(config){
             $textaeEditor.entityTypes.set(config['entity types']);
 
@@ -3073,6 +3073,7 @@ $(document).ready(function() {
                 }                
             },
         redraw: presentationLogic.redraw,
+        start : startEdit,
     };
 
     //main
@@ -3086,8 +3087,7 @@ $(document).ready(function() {
         //set reference to see from god.
         $textaeEditor.api = editorApi;
 
-
         //start application
-        startEdit();
+        $textaeEditor.api.start();
     })();
 });
