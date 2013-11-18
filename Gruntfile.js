@@ -16,6 +16,10 @@ module.exports = function(grunt) {
         options: {
           livereload: true
         }
+      },
+      jshint: {
+        files: ['src/jquery.textae.editor.js'],
+        tasks: 'jshint'
       }
     },
     connect: {
@@ -23,6 +27,9 @@ module.exports = function(grunt) {
     },
     qunit: {
       all: 'test/util.html'
+    },
+    jshint: {
+      all: ['src/jquery.textae.editor.js']
     }
   });
 
@@ -30,4 +37,5 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-connect');
   grunt.loadNpmTasks('grunt-contrib-qunit');
+  grunt.loadNpmTasks('grunt-contrib-jshint');
 };

@@ -250,13 +250,13 @@
                 ]
             },
             set: function(config) {
-                var settings = $.extend({}, this.defaults, config)
+                var settings = $.extend({}, this.defaults, config);
 
-                if (settings['delimiter characters'] != undefined) {
+                if (settings['delimiter characters'] !== undefined) {
                     this.delimiterCharacters = settings['delimiter characters'];
                 }
 
-                if (settings['non-edge characters'] != undefined) {
+                if (settings['non-edge characters'] !== undefined) {
                     this.nonEdgeCharacters = settings['non-edge characters'];
                 }
             },
@@ -337,7 +337,7 @@
                         relations.forEach(function(r) {
                             annotation_data.relations[r.id] = r;
                         });
-                    };
+                    }
                 },
                 getRelationIds: function() {
                     return Object.keys(annotation_data.relations);
@@ -346,13 +346,13 @@
                     var denotations = [];
                     for (var e in annotation_data.entities) {
                         var span = {
-                            'begin': annotation_data.spans[annotation_data.entities[e]['span']].begin,
-                            'end': annotation_data.spans[annotation_data.entities[e]['span']].end
+                            'begin': annotation_data.spans[annotation_data.entities[e].span].begin,
+                            'end': annotation_data.spans[annotation_data.entities[e].span].end
                         };
                         denotations.push({
                             'id': e,
                             'span': span,
-                            'obj': annotation_data.entities[e]['type']
+                            'obj': annotation_data.entities[e].type
                         });
                     }
 
@@ -392,16 +392,16 @@
 
                 relationTypes = {};
                 relationTypeDefault = null;
-                if (config['relation types'] != undefined) {
+                if (config['relation types'] !== undefined) {
                     var relation_types = config['relation types'];
                     for (var i in relation_types) {
-                        relationTypes[relation_types[i]["name"]] = relation_types[i];
-                        if (relation_types[i]["default"] == true) {
-                            relationTypeDefault = relation_types[i]["name"];
+                        relationTypes[relation_types[i].name] = relation_types[i];
+                        if (relation_types[i]["default"] === true) {
+                            relationTypeDefault = relation_types[i].name;
                         }
                     }
                     if (!relationTypeDefault) {
-                        relationTypeDefault = relation_types[0]["name"];
+                        relationTypeDefault = relation_types[0].name;
                     }
                 }
 
@@ -409,21 +409,21 @@
 
                 modificationTypes = {};
                 modificationTypeDefault = null;
-                if (config['modification types'] != undefined) {
+                if (config['modification types'] !== undefined) {
                     var mod_types = config['modification types'];
-                    for (var i in mod_types) {
-                        modificationTypes[mod_types[i]["name"]] = mod_types[i];
-                        if (mod_types[i]["default"] == true) {
-                            modificationTypeDefault = mod_types[i]["name"];
+                    for (var j in mod_types) {
+                        modificationTypes[mod_types[j].name] = mod_types[j];
+                        if (mod_types[j]["default"] === true) {
+                            modificationTypeDefault = mod_types[j].name;
                         }
                     }
                     if (!modificationTypeDefault) {
-                        modificationTypeDefault = mod_types[0]["name"];
+                        modificationTypeDefault = mod_types[0].name;
                     }
                 }
 
-                if (config["css"] != undefined) {
-                    $('#css_area').html('<link rel="stylesheet" href="' + config["css"] + '"/>');
+                if (config.css !== undefined) {
+                    $('#css_area').html('<link rel="stylesheet" href="' + config.css + '"/>');
                 }
             };
 
@@ -484,7 +484,7 @@
                 };
                 setTypeConfig(types_for_debug);
             } else {
-                if ($textaeEditor.urlParams.config != "") {
+                if ($textaeEditor.urlParams.config !== "") {
                     // load sync, because load annotation after load config. 
                     var data = textAeUtil.ajaxAccessor.getSync($textaeEditor.urlParams.config);
                     if (data !== null) {
@@ -499,7 +499,7 @@
                     businessLogic.getAnnotationFromServer($textaeEditor.urlParams.target);
                 }
             }
-        }
+        };
 
         function setConnectorTypes() {
             for (var name in relationTypes) {
@@ -537,7 +537,7 @@
             return {
                 enabled: function(button, enable) {
                     if (enable) {
-                        delete disableButtons[button]
+                        delete disableButtons[button];
                     } else {
                         disableButtons[button] = true;
                     }
@@ -587,7 +587,9 @@
                 history = [],
                 onChangeFunc,
                 trigger = function() {
-                    onChangeFunc && onChangeFunc();
+                    if (onChangeFunc) {
+                        onChangeFunc();
+                    }
                 };
 
             return {
@@ -672,7 +674,7 @@
             positions = {};
             connectors = {};
 
-            if (data.denotations != undefined) {
+            if (data.denotations !== undefined) {
                 data.denotations.forEach(function(d) {
                     //expected d is like { "id": "T1", "span": { "begin": 19, "end": 49 }, "obj": "Cell" }
                     var span = d.span;
@@ -689,14 +691,14 @@
                     }
 
                     if (entitiesPerType[tid]) {
-                        entitiesPerType[tid].push(d['id']);
+                        entitiesPerType[tid].push(d.id);
                     } else {
-                        entitiesPerType[tid] = [d['id']];
+                        entitiesPerType[tid] = [d.id];
                     }
-                })
+                });
             }
 
-            if (data.relations != undefined) {
+            if (data.relations !== undefined) {
                 data.relations.forEach(function(r) {
                     if (!relationTypes[r.pred]) {
                         relationTypes[r.pred] = {};
@@ -723,7 +725,7 @@
                     } else {
                         relationsPerEntity[r.obj] = [r.id];
                     }
-                })
+                });
             }
 
             relationIdsSelected = [];
@@ -782,7 +784,7 @@
 
             //set sroucedoc tagged <p> per line.
             docArea.innerHTML = sourceDoc.split("\n").map(function(par) {
-                return '<p>' + par + '</p>'
+                return '<p>' + par + '</p>';
             }).join("\n");
             pars = {};
             var pid = 0;
@@ -849,8 +851,9 @@
             var begnode, begoff;
 
             // when there is no preceding span in the paragraph
-            if ((c == 0) || (getPidBySid(arguments_spanIds[c - 1]) != pid)) {
-                var refnode = document.getElementById(pid).childNodes[0];
+            var refnode;
+            if ((c === 0) || (getPidBySid(arguments_spanIds[c - 1]) != pid)) {
+                refnode = document.getElementById(pid).childNodes[0];
                 if (refnode.nodeType == 1) range.setStartBefore(refnode); // element node
                 else if (refnode.nodeType == 3) { // text node
                     begnode = refnode;
@@ -862,11 +865,11 @@
 
                 // when the previous span includes the region
                 if (annotation_data.spans[arguments_spanIds[p]].end > beg) {
-                    var refnode = document.getElementById(arguments_spanIds[p]).childNodes[0];
+                    refnode = document.getElementById(arguments_spanIds[p]).childNodes[0];
                     if (refnode.nodeType == 1) range.setStartBefore(refnode); // element node
                     else if (refnode.nodeType == 3) { // text node
                         begnode = refnode;
-                        begoff = beg - annotation_data.spans[arguments_spanIds[p]].begin
+                        begoff = beg - annotation_data.spans[arguments_spanIds[p]].begin;
                         range.setStart(begnode, begoff);
                     } else alert("unexpected type of node:" + refnode.nodeType + ". please consult the developer.");
                 } else {
@@ -876,7 +879,7 @@
                         annotation_data.spans[pnode.parentElement.id] &&
                         annotation_data.spans[pnode.parentElement.id].end > annotation_data.spans[pnode.id].begin &&
                         annotation_data.spans[pnode.parentElement.id].end < end) {
-                        pnode = pnode.parentElement
+                        pnode = pnode.parentElement;
                     }
 
                     begnode = pnode.nextSibling;
@@ -922,14 +925,15 @@
                 return true;
             }
 
+            var id;
             if (mode == "span") {
-                var id = $(this).attr('id');
+                id = $(this).attr('id');
 
                 if (e.ctrlKey) {
                     if (isSelected(id)) {
-                        deselect(id)
+                        deselect(id);
                     } else {
-                        select(id)
+                        select(id);
                     }
                 } else if (e.shiftKey && numSpanSelection() == 1) {
                     var firstId = popSpanSelection();
@@ -955,11 +959,11 @@
                     select(id);
                 }
             } else if (mode == "relation") {
-                var id = $(this).attr('id').split('_')[1]; // in clone area, clone_id
+                id = $(this).attr('id').split('_')[1]; // in clone area, clone_id
 
                 clearRelationSelection();
 
-                if (numSpanSelection() == 0 && numEntitySelection() == 0) {
+                if (numSpanSelection() === 0 && numEntitySelection() === 0) {
                     select(id);
                 } else {
                     // make connection
@@ -968,9 +972,9 @@
 
                     var sid;
                     if (numSpanSelection() > 0) {
-                        sid = getSpanSelection()
+                        sid = getSpanSelection();
                     } else {
-                        sid = getEntitySelection()
+                        sid = getEntitySelection();
                     }
 
                     makeEdits([{
@@ -987,7 +991,7 @@
 
                         // continuous chaining
                         if (e.shiftKey) {
-                            select(oid)
+                            select(oid);
                         }
                     }
                 }
@@ -1014,10 +1018,10 @@
         function adjustSpanBegin(beginPosition) {
             var pos = beginPosition;
             while (spanConfig.isNonEdgeCharacter(sourceDoc.charAt(pos))) {
-                pos++
+                pos++;
             }
             while (!spanConfig.isDelimiter(sourceDoc.charAt(pos)) && pos > 0 && !spanConfig.isDelimiter(sourceDoc.charAt(pos - 1))) {
-                pos--
+                pos--;
             }
             return pos;
         }
@@ -1026,10 +1030,10 @@
         function adjustSpanEnd(endPosition) {
             var pos = endPosition;
             while (spanConfig.isNonEdgeCharacter(sourceDoc.charAt(pos - 1))) {
-                pos--
+                pos--;
             }
             while (!spanConfig.isDelimiter(sourceDoc.charAt(pos)) && pos < sourceDoc.length) {
-                pos++
+                pos++;
             }
             return pos;
         }
@@ -1039,7 +1043,7 @@
         function adjustSpanBegin2(beginPosition) {
             var pos = beginPosition;
             while ((pos < sourceDoc.length) && (spanConfig.isNonEdgeCharacter(sourceDoc.charAt(pos)) || !spanConfig.isDelimiter(sourceDoc.charAt(pos - 1)))) {
-                pos++
+                pos++;
             }
             return pos;
         }
@@ -1048,7 +1052,7 @@
         function adjustSpanEnd2(endPosition) {
             var pos = endPosition;
             while ((pos > 0) && (spanConfig.isNonEdgeCharacter(sourceDoc.charAt(pos - 1)) || !spanConfig.isDelimiter(sourceDoc.charAt(pos)))) {
-                pos--
+                pos--;
             }
             return pos;
         }
@@ -1077,6 +1081,7 @@
                 var focusPosition = getFocusPosition(selection);
 
                 // no boundary crossing: normal -> create a entity
+                var sid;
                 if (selection.anchorNode.parentElement.id === selection.focusNode.parentElement.id) {
                     clearSelection();
 
@@ -1088,14 +1093,14 @@
                     }
 
                     // when the whole text is selected by e.g., triple click (Chrome)
-                    if ((anchorPosition == 0) && (focusPosition == sourceDoc.length)) {
+                    if ((anchorPosition === 0) && (focusPosition == sourceDoc.length)) {
                         // do nothing. bubbles go up
                         return true;
                     }
 
                     var beginPosition = adjustSpanBegin(anchorPosition);
                     var endPosition = adjustSpanEnd(focusPosition);
-                    var sid = getSid(beginPosition, endPosition);
+                    sid = getSid(beginPosition, endPosition);
 
                     if (!annotation_data.spans[sid]) {
                         if (endPosition - beginPosition > CONSTS.BLOCK_THRESHOLD) {
@@ -1134,7 +1139,7 @@
                         clearSelection();
                         shortenSpan(selection.focusNode.parentNode.id, selection);
                     } else if (numSpanSelection() == 1) {
-                        var sid = popSpanSelection();
+                        sid = popSpanSelection();
 
                         // drag began inside the selected span (expansion)
                         if ((anchorPosition > annotation_data.spans[sid].begin) && (anchorPosition < annotation_data.spans[sid].end)) {
@@ -1231,21 +1236,21 @@
             anchorRange.selectNode(selection.anchorNode);
 
             // expand to the left
+            var new_sid, tid, eid, type;
             if (range.compareBoundaryPoints(Range.START_TO_START, anchorRange) < 0) {
                 var newBegin = adjustSpanBegin(focusPosition);
-                var new_sid = getSid(newBegin, annotation_data.spans[sid]['end']);
+                new_sid = getSid(newBegin, annotation_data.spans[sid].end);
                 if (!annotation_data.spans[new_sid]) {
                     edits.push({
                         action: 'new_span',
                         id: new_sid,
                         begin: newBegin,
-                        end: annotation_data.spans[sid]['end']
+                        end: annotation_data.spans[sid].end
                     });
-                    for (var t in typesPerSpan[sid]) {
-                        var tid = typesPerSpan[sid][t];
-                        for (var e in entitiesPerType[tid]) {
-                            var eid = entitiesPerType[tid][e];
-                            var type = annotation_data.entities[eid].type;
+
+                    typesPerSpan[sid].forEach(function(tid) {
+                        entitiesPerType[tid].forEach(function(eid) {
+                            type = annotation_data.entities[eid].type;
                             edits.push({
                                 action: 'remove_denotation',
                                 id: eid,
@@ -1258,8 +1263,9 @@
                                 span: new_sid,
                                 type: type
                             });
-                        }
-                    }
+                        });
+                    });
+
                     edits.push({
                         action: 'remove_span',
                         id: sid
@@ -1270,19 +1276,18 @@
             // expand to the right
             else {
                 var newEnd = adjustSpanEnd(focusPosition);
-                var new_sid = getSid(annotation_data.spans[sid]['begin'], newEnd);
+                new_sid = getSid(annotation_data.spans[sid].begin, newEnd);
                 if (!annotation_data.spans[new_sid]) {
                     edits.push({
                         action: 'new_span',
                         id: new_sid,
-                        begin: annotation_data.spans[sid]['begin'],
+                        begin: annotation_data.spans[sid].begin,
                         end: newEnd
                     });
-                    for (var t in typesPerSpan[sid]) {
-                        var tid = typesPerSpan[sid][t];
-                        for (var e in entitiesPerType[tid]) {
-                            var eid = entitiesPerType[tid][e];
-                            var type = annotation_data.entities[eid].type;
+
+                    typesPerSpan[sid].forEach(function(tid) {
+                        entitiesPerType[tid].forEach(function(eid){
+                            type = annotation_data.entities[eid].type;
                             edits.push({
                                 action: 'remove_denotation',
                                 id: eid,
@@ -1295,8 +1300,8 @@
                                 span: new_sid,
                                 type: type
                             });
-                        }
-                    }
+                        });
+                    });
                     edits.push({
                         action: 'remove_span',
                         id: sid
@@ -1317,11 +1322,12 @@
             focusRange.selectNode(selection.focusNode);
 
             // shorten the right boundary
+            var new_sid, tid, eid, type;
             if (range.compareBoundaryPoints(Range.START_TO_START, focusRange) > 0) {
                 var newEnd = adjustSpanEnd2(focusPosition);
 
-                if (newEnd > annotation_data.spans[sid]['begin']) {
-                    var new_sid = getSid(annotation_data.spans[sid]['begin'], newEnd);
+                if (newEnd > annotation_data.spans[sid].begin) {
+                    new_sid = getSid(annotation_data.spans[sid].begin, newEnd);
                     if (annotation_data.spans[new_sid]) {
                         edits.push({
                             action: 'remove_span',
@@ -1331,14 +1337,12 @@
                         edits.push({
                             action: 'new_span',
                             id: new_sid,
-                            begin: annotation_data.spans[sid]['begin'],
+                            begin: annotation_data.spans[sid].begin,
                             end: newEnd
                         });
-                        for (var t in typesPerSpan[sid]) {
-                            var tid = typesPerSpan[sid][t];
-                            for (var e in entitiesPerType[tid]) {
-                                var eid = entitiesPerType[tid][e];
-                                var type = annotation_data.entities[eid].type;
+                        typesPerSpan[sid].forEach(function(tid){
+                            entitiesPerType[tid].forEach(function(eid){
+                                type = annotation_data.entities[eid].type;
                                 edits.push({
                                     action: 'remove_denotation',
                                     id: eid,
@@ -1351,8 +1355,8 @@
                                     span: new_sid,
                                     type: type
                                 });
-                            }
-                        }
+                            });
+                        });
                         edits.push({
                             action: 'remove_span',
                             id: sid
@@ -1368,8 +1372,8 @@
             else {
                 var newBegin = adjustSpanBegin2(focusPosition);
 
-                if (newBegin < annotation_data.spans[sid]['end']) {
-                    var new_sid = getSid(newBegin, annotation_data.spans[sid]['end']);
+                if (newBegin < annotation_data.spans[sid].end) {
+                    new_sid = getSid(newBegin, annotation_data.spans[sid].end);
                     if (annotation_data.spans[new_sid]) {
                         edits.push({
                             action: 'remove_span',
@@ -1380,13 +1384,11 @@
                             action: 'new_span',
                             id: new_sid,
                             begin: newBegin,
-                            end: annotation_data.spans[sid]['end']
+                            end: annotation_data.spans[sid].end
                         });
-                        for (var t in typesPerSpan[sid]) {
-                            var tid = typesPerSpan[sid][t];
-                            for (var e in entitiesPerType[tid]) {
-                                var eid = entitiesPerType[tid][e];
-                                var type = annotation_data.entities[eid].type;
+                        typesPerSpan[sid].forEach(function(tid){
+                            entitiesPerType[tid].forEach(function(eid){
+                                type = annotation_data.entities[eid].type;
                                 edits.push({
                                     action: 'remove_denotation',
                                     id: eid,
@@ -1399,8 +1401,8 @@
                                     span: new_sid,
                                     type: type
                                 });
-                            }
-                        }
+                            });
+                        });
                         edits.push({
                             action: 'remove_span',
                             id: sid
@@ -1421,7 +1423,7 @@
             var oentity = sourceDoc.substring(startPos, endPos);
             var strLen = endPos - startPos;
 
-            var ary = new Array();
+            var ary = [];
             var from = 0;
             while (true) {
                 var sameStrPos = sourceDoc.indexOf(oentity, from);
@@ -1429,12 +1431,12 @@
 
                 if (!isOutsideDelimiter(sourceDoc, sameStrPos, sameStrPos + strLen)) {
                     var obj = {};
-                    obj['begin'] = sameStrPos;
-                    obj['end'] = sameStrPos + strLen;
+                    obj.begin = sameStrPos;
+                    obj.end = sameStrPos + strLen;
 
                     var isExist = false;
                     for (var sid in annotation_data.spans) {
-                        if (annotation_data.spans[sid]['begin'] == obj['begin'] && annotation_data.spans[sid]['end'] == obj['end'] && annotation_data.spans[sid].category == obj.category) {
+                        if (annotation_data.spans[sid].begin == obj.begin && annotation_data.spans[sid].end == obj.end && annotation_data.spans[sid].category == obj.category) {
                             isExist = true;
                             break;
                         }
@@ -1452,7 +1454,7 @@
 
         function getFocusPosition(selection) {
             // assumption: text_box only includes <p> elements that contains <span> elements that represents annotation_data.spans.
-            var cid = selection.focusNode.parentNode.id
+            var cid = selection.focusNode.parentNode.id;
             var pos = (cid == 'text_box') ? 0 :
                 (cid.charAt(0) == 'P') ? pars[cid].begin : annotation_data.spans[cid].begin;
 
@@ -1467,7 +1469,7 @@
 
         function getAnchorPosition(selection) {
             // assumption: text_box only includes <p> elements that contains <span> elements that represents annotation_data.spans.
-            var cid = selection.anchorNode.parentNode.id
+            var cid = selection.anchorNode.parentNode.id;
             var pos = (cid == 'text_box') ? 0 :
                 (cid.charAt(0) == 'P') ? pars[cid].begin : annotation_data.spans[cid].begin;
 
@@ -1486,20 +1488,21 @@
             var followingChar = document.charAt(endPos);
 
             if (!spanConfig.isDelimiter(precedingChar) || !spanConfig.isDelimiter(followingChar)) {
-                return true
+                return true;
             } else {
-                return false
+                return false;
             }
         }
 
 
         // dismiss the default selection by the browser
         function dismissBrowserSelection() {
+            var selection;
             if (window.getSelection) {
-                var selection = window.getSelection();
+                selection = window.getSelection();
                 selection.collapse(document.body, 0);
             } else {
-                var selection = document.selection.createRange();
+                selection = document.selection.createRange();
                 selection.setEndPoint("EndToStart", selection);
                 selection.select();
             }
@@ -1538,7 +1541,7 @@
         }
 
         function popSpanSelection() {
-            var ss = $('.span.ui-selected')
+            var ss = $('.span.ui-selected');
             if (ss.length == 1) {
                 ss.removeClass('ui-selected');
                 return ss.attr('id');
@@ -1548,7 +1551,6 @@
         function getSpanSelection() {
             return $('.span.ui-selected').attr('id');
         }
-
 
         function selectEntity(eid) {
             $('#' + eid).addClass('ui-selected');
@@ -1562,7 +1564,7 @@
             return $('.entity.ui-selected').length;
         }
 
-        function getSpanSelection() {
+        function getEntitySelection() {
             return $('.entity.ui-selected').attr('id');
         }
 
@@ -1571,24 +1573,6 @@
 
             if (mode == "relation") {
                 return;
-
-                for (i = 0; i < relationIdsSelected.length; i++) {
-                    var conn = relationIdsSelected[i];
-
-                    var obj = {};
-                    obj['pred'] = pred;
-                    obj['obj'] = conn.getParameter('connId');
-                    obj['id'] = 'M' + (getMaxModificationId() + 1);
-                    obj['created_at'] = (new Date()).getTime();
-
-                    modifications.push(obj);
-
-                    // add to selection
-                    modificationIdsSelected.push(obj["id"]);
-                }
-
-                relationIdsSelected.length = 0;
-
             } else if (mode == "span") {
                 var edits = [];
 
@@ -1616,9 +1600,9 @@
 
                 if (e.ctrlKey) {
                     if (isModificationSelected(id)) {
-                        deselectModification(id)
+                        deselectModification(id);
                     } else {
-                        selectModification(id)
+                        selectModification(id);
                     }
                 } else {
                     clearSelection();
@@ -1657,7 +1641,7 @@
                 targetUrl = url;
                 $textaeEditor.startWait();
                 textAeUtil.ajaxAccessor.getAsync(url, businessLogic.loadAnnotation, function() {
-                    $textaeEditor.endWait()
+                    $textaeEditor.endWait();
                 });
             },
             saveAnnotationToServer: function(url) {
@@ -1710,7 +1694,7 @@
             createEntity: function() {
                 clearEntitySelection();
 
-                var maxIdNum = getMaxEntityId()
+                var maxIdNum = getMaxEntityId();
                 while (numSpanSelection() > 0) {
                     sid = popSpanSelection();
                     var id = "E" + (++maxIdNum);
@@ -1743,7 +1727,7 @@
             },
 
             removeElements: function() {
-                var spanRemoves = new Array();
+                var spanRemoves = [];
                 $(".span.ui-selected").each(function() {
                     var sid = this.id;
                     spanRemoves.push({
@@ -1759,7 +1743,7 @@
                     }
                 });
 
-                var entityRemoves = new Array();
+                var entityRemoves = [];
                 $(".entity.ui-selected").each(function() {
                     var eid = this.id;
                     entityRemoves.push({
@@ -1774,7 +1758,7 @@
                     }
                 });
 
-                var relationRemoves = new Array();
+                var relationRemoves = [];
                 while (relationIdsSelected.length > 0) {
                     rid = relationIdsSelected.pop();
                     relationRemoves.push({
@@ -1786,7 +1770,7 @@
                     });
                 }
 
-                var modificationRemoves = new Array();
+                var modificationRemoves = [];
                 while (modificationIdsSelected.length > 0) {
                     mid = modificationIdsSelected.pop();
                     modificationRemoves.push({
@@ -1810,9 +1794,10 @@
             },
 
             pasteEntities: function() {
-                var edits = new Array();
-                var maxIdNum = getMaxEntityId()
-                while (sid = popSpanSelection()) {
+                var edits = [];
+                var maxIdNum = getMaxEntityId();
+                while (numSpanSelection() == 1) {
+                    sid = popSpanSelection();
                     for (var e in clipBoard) {
                         var id = "E" + (++maxIdNum);
                         edits.push({
@@ -1834,7 +1819,7 @@
 
             // set the type of an entity
             setEntityType: function() {
-                var new_type = $(this).attr('label')
+                var new_type = $(this).attr('label');
                 var edits = [];
                 $(".entity.ui-selected").each(function() {
                     var eid = this.id;
@@ -1853,7 +1838,7 @@
         //user event that does not change data.
         var presentationLogic = {
             showTarget: function(targetUrl) {
-                if (targetUrl != "") {
+                if (targetUrl !== "") {
                     var targetDoc = targetUrl.replace(/\/annotations\.json$/, '');
                     $('#message').html("(Target: <a href='" + targetDoc + "'>" + targetDoc + "</a>)");
                 }
@@ -1874,13 +1859,12 @@
 
                         row += '<th title="' + uri + '">';
 
-                        var uri = type["uri"];
+                        var uri = type.uri;
                         if (uri) {
-                            row += '<a href="' + uri + '" target="_blank"><img src="images/link.png"/></a>'
-                        };
+                            row += '<a href="' + uri + '" target="_blank"><img src="images/link.png"/></a>';
+                        }
 
-                        row += '</th>'
-
+                        row += '</th>';
                         row += '</tr>';
                         return row;
                     }).join();
@@ -1943,12 +1927,12 @@
         };
 
         function getSpanReplicates(span) {
-            var startPos = span['begin'];
-            var endPos = span['end'];
+            var startPos = span.begin;
+            var endPos = span.end;
 
             var cspans = findSameString(startPos, endPos); // candidate annotation_data.spans
 
-            var nspans = new Array(); // new annotation_data.spans
+            var nspans = []; // new annotation_data.spans
             for (var i = 0; i < cspans.length; i++) {
                 cspan = cspans[i];
 
@@ -1956,8 +1940,8 @@
                 var crossing_p = false;
                 for (var sid in annotation_data.spans) {
                     if (
-                        (cspan['begin'] > annotation_data.spans[sid]['begin'] && cspan['begin'] < annotation_data.spans[sid]['end'] && cspan['end'] > annotation_data.spans[sid]['end']) ||
-                        (cspan['begin'] < annotation_data.spans[sid]['begin'] && cspan['end'] > annotation_data.spans[sid]['begin'] && cspan['end'] < annotation_data.spans[sid]['end'])
+                        (cspan.begin > annotation_data.spans[sid].begin && cspan.begin < annotation_data.spans[sid].end && cspan.end > annotation_data.spans[sid].end) ||
+                        (cspan.begin < annotation_data.spans[sid].begin && cspan.end > annotation_data.spans[sid].begin && cspan.end < annotation_data.spans[sid].end)
                     ) {
                         crossing_p = true;
                         break;
@@ -1969,15 +1953,15 @@
                 }
             }
 
-            var edits = new Array();
-            for (var i = 0; i < nspans.length; i++) {
-                var nspan = nspans[i];
-                var id = getSid(nspan['begin'], nspan['end']);
+            var edits = [];
+            for (var j = 0; j < nspans.length; j++) {
+                var nspan = nspans[j];
+                var id = getSid(nspan.begin, nspan.end);
                 edits.push({
                     action: "new_span",
                     id: id,
-                    begin: nspan['begin'],
-                    end: nspan['end']
+                    begin: nspan.begin,
+                    end: nspan.end
                 });
             }
 
@@ -1993,6 +1977,7 @@
                     break;
                 default:
             }
+            var tid, arr;
 
             for (var i in edits) {
                 var edit = edits[i];
@@ -2004,7 +1989,7 @@
                             begin: edit.begin,
                             end: edit.end
                         });
-                        typesPerSpan[edit.id] = new Array();
+                        typesPerSpan[edit.id] = [];
                         // rendering
                         renderSpan(edit.id, annotation_data.spanIds);
                         indexPositionSpan(edit.id);
@@ -2031,10 +2016,10 @@
                             span: edit.span,
                             type: edit.type
                         };
-                        var tid = getTid(edit.span, edit.type);
+                        tid = getTid(edit.span, edit.type);
                         if (typesPerSpan[edit.span].indexOf(tid) < 0) {
                             typesPerSpan[edit.span].push(tid);
-                            entitiesPerType[tid] = new Array();
+                            entitiesPerType[tid] = [];
                             renderGridAsso(edit.span);
                         }
                         entitiesPerType[tid].push(edit.id);
@@ -2046,14 +2031,14 @@
                     case 'remove_denotation':
                         //model
                         delete annotation_data.entities[edit.id];
-                        var tid = getTid(edit.span, edit.type);
-                        var arr = entitiesPerType[tid];
+                        tid = getTid(edit.span, edit.type);
+                        arr = entitiesPerType[tid];
                         arr.splice(arr.indexOf(edit.id), 1);
                         //rendering
                         destroyEntity(edit.id);
                         positionEntities(edit.span, edit.type);
                         // consequence
-                        if (entitiesPerType[tid].length == 0) {
+                        if (entitiesPerType[tid].length === 0) {
                             delete entitiesPerType[tid];
                             arr = typesPerSpan[edit.span];
                             arr.splice(arr.indexOf(tid), 1);
@@ -2092,12 +2077,16 @@
                     case 'remove_relation':
                         // model
                         delete annotation_data.relations[edit.id];
-                        var arr = relationsPerEntity[edit.subj];
+                        arr = relationsPerEntity[edit.subj];
                         arr.splice(arr.indexOf(edit.id), 1);
-                        if (arr.length == 0) delete relationsPerEntity[edit.subj]
+                        if (arr.length === 0) {
+                            delete relationsPerEntity[edit.subj];
+                        }
                         arr = relationsPerEntity[edit.obj];
                         arr.splice(arr.indexOf(edit.id), 1);
-                        if (arr.length == 0) delete relationsPerEntity[edit.obj]
+                        if (arr.length === 0) {
+                            delete relationsPerEntity[edit.obj];
+                        }
                         // rendering
                         destroyRelation(edit.id);
                         break;
@@ -2105,8 +2094,8 @@
                         // model
                         annotation_data.relations[edit.id].pred = edit.new_pred;
                         // rendering
-                        connectors[edit.id].setPaintStyle(connectorTypes[edit.new_pred + "_selected"]["paintStyle"]);
-                        connectors[edit.id].setHoverPaintStyle(connectorTypes[edit.new_pred + "_selected"]["hoverPaintStyle"]);
+                        connectors[edit.id].setPaintStyle(connectorTypes[edit.new_pred + "_selected"].paintStyle);
+                        connectors[edit.id].setHoverPaintStyle(connectorTypes[edit.new_pred + "_selected"].hoverPaintStyle);
                         connectors[edit.id].setLabel('[' + edit.id + '] ' + edit.new_pred);
                         // selection
                         selectRelation(edit.id);
@@ -2155,7 +2144,7 @@
 
 
         function revertEdits(edits) {
-            var redits = new Array();
+            var redits = [];
             for (var i = edits.length - 1; i >= 0; i--) {
                 edit = edits[i];
                 var redit = cloneEdit(edit);
@@ -2208,8 +2197,8 @@
 
         function cloneEdit(e) {
             c = {};
-            for (p in e) {
-                c[p] = e[p]
+            for (var p in e) {
+                c[p] = e[p];
             }
             return c;
         }
@@ -2289,7 +2278,7 @@
             }
 
             // make connector
-            var pred = annotation_data.relations[rid]['pred'];
+            var pred = annotation_data.relations[rid].pred;
             var rgba = colorTrans(relationColor(pred), connOpacity);
             var sourceElem = $('#' + sourceId);
             var targetElem = $('#' + targetId);
@@ -2303,8 +2292,8 @@
                 connector: ["Bezier", {
                     curviness: curviness
                 }],
-                paintStyle: connectorTypes[pred]["paintStyle"],
-                hoverPaintStyle: connectorTypes[pred]["hoverPaintStyle"],
+                paintStyle: connectorTypes[pred].paintStyle,
+                hoverPaintStyle: connectorTypes[pred].hoverPaintStyle,
                 tooltip: '[' + rid + '] ' + pred,
                 parameters: {
                     "id": rid,
@@ -2334,7 +2323,7 @@
                 deselectRelation(rid);
             } else {
                 if (!e.ctrlKey) {
-                    clearRelationSelection()
+                    clearRelationSelection();
                 }
                 selectRelation(rid);
             }
@@ -2349,7 +2338,7 @@
 
         function selectRelation(rid) {
             if (!isRelationSelected(rid)) {
-                connectors[rid].setPaintStyle(connectorTypes[annotation_data.relations[rid].pred + "_selected"]["paintStyle"]);
+                connectors[rid].setPaintStyle(connectorTypes[annotation_data.relations[rid].pred + "_selected"].paintStyle);
                 relationIdsSelected.push(rid);
             }
         }
@@ -2357,7 +2346,7 @@
         function deselectRelation(rid) {
             var i = relationIdsSelected.indexOf(rid);
             if (i > -1) {
-                connectors[rid].setPaintStyle(connectorTypes[annotation_data.relations[rid].pred]["paintStyle"]);
+                connectors[rid].setPaintStyle(connectorTypes[annotation_data.relations[rid].pred].paintStyle);
                 relationIdsSelected.splice(i, 1);
             }
         }
@@ -2365,7 +2354,7 @@
         function clearRelationSelection() {
             while (relationIdsSelected.length > 0) {
                 var rid = relationIdsSelected.pop();
-                connectors[rid].setPaintStyle(connectorTypes[annotation_data.relations[rid].pred]["paintStyle"]);
+                connectors[rid].setPaintStyle(connectorTypes[annotation_data.relations[rid].pred].paintStyle);
             }
         }
 
@@ -2418,7 +2407,7 @@
         }
 
         function isSpanEmbedded(s1, s2) {
-            return (s1.begin >= s2.begin) && (s1.end <= s2.end)
+            return (s1.begin >= s2.begin) && (s1.end <= s2.end);
         }
 
         // render the entity pane of a given span and its dependent annotation_data.spans.
@@ -2434,10 +2423,11 @@
         }
 
         function renderGrid(sid) {
-            var id = 'G' + sid;
+            var grid,
+                id = 'G' + sid;
 
             if (typesPerSpan[sid].length < 1) {
-                var grid = $('#' + id);
+                grid = $('#' + id);
                 if (grid.length > 0) {
                     grid.remove();
                     delete positions[id];
@@ -2448,7 +2438,7 @@
                 var offset = CONSTS.TYPE_MARGIN_BOTTOM;
 
                 // check the following annotation_data.spans that are embedded in the current span.
-                var c = annotation_data.spanIds.indexOf(sid)
+                var c = annotation_data.spanIds.indexOf(sid);
                 for (var f = c + 1;
                     (f < annotation_data.spanIds.length) && isSpanEmbedded(annotation_data.spans[annotation_data.spanIds[f]], annotation_data.spans[annotation_data.spanIds[c]]); f++) {
                     var cid = 'G' + annotation_data.spanIds[f];
@@ -2458,19 +2448,19 @@
                 var n = typesPerSpan[sid].length;
                 var gridHeight = n * (renderSize.typeHeight + CONSTS.TYPE_MARGIN_BOTTOM + CONSTS.TYPE_MARGIN_TOP);
 
-                positions[id] = {}
+                positions[id] = {};
                 positions[id].offset = offset;
                 positions[id].top = positions[sid].top - offset - gridHeight;
                 positions[id].left = positions[sid].left;
                 positions[id].width = positions[sid].width - renderSize.gridWidthGap;
                 positions[id].height = gridHeight;
 
-                if ($('#' + id).length == 0) {
+                if ($('#' + id).length === 0) {
                     createDiv(id, 'grid', positions[id].top, positions[id].left, positions[id].width, positions[id].height);
                     $('#' + id).off('mouseover mouseout', gridMouseHover).on('mouseover mouseout', gridMouseHover);
                     // $('#' + id).off('mouseup', doNothing).on('mouseup', doNothing);
                 } else {
-                    var grid = $('#' + id);
+                    grid = $('#' + id);
                     grid.css('top', positions[id].top);
                     grid.css('left', positions[id].left);
                     grid.css('width', positions[id].width);
@@ -2486,10 +2476,10 @@
 
             if (e.type == 'mouseover') {
                 grid.css('height', 'auto');
-                if (grid.outerWidth() < positions[id]['width']) grid.css('width', positions[id]['width']);
+                if (grid.outerWidth() < positions[id].width) grid.css('width', positions[id].width);
                 // grid.css('z-index', '254');
             } else {
-                grid.css('height', positions[id]['height']);
+                grid.css('height', positions[id].height);
                 // grid.css('z-index', '');
             }
         }
@@ -2499,7 +2489,7 @@
         }
 
         function positionGrid(sid) {
-            var gid = 'G' + sid
+            var gid = 'G' + sid;
             var grid = $('#' + gid);
             if (grid.length > 0) {
                 positions[gid].top = positions[sid].top - positions[gid].offset - positions[gid].height;
@@ -2530,7 +2520,7 @@
         function renderType(type, sid) {
             var tid = getTid(sid, type);
 
-            if ($('#' + tid).length == 0) {
+            if ($('#' + tid).length === 0) {
                 $('#G' + sid).append('<div id="' + tid + '"></div>');
                 var t = $('#' + tid);
                 t.addClass('type');
@@ -2551,10 +2541,10 @@
 
         //a circle on Type
         function renderEntity(eid) {
-            if ($('#' + eid).length == 0) {
+            if ($('#' + eid).length === 0) {
                 var entity = annotation_data.entities[eid];
-                var type = entity['type'];
-                var sid = entity['span'];
+                var type = entity.type;
+                var sid = entity.span;
                 var tid = renderType(type, sid);
                 var div = '<div id="' + eid + '" class="entity" />';
 
@@ -2583,9 +2573,9 @@
             if (mode == "span") {
                 if (e.ctrlKey) {
                     if (isSelected(id)) {
-                        deselect(id)
+                        deselect(id);
                     } else {
-                        select(id)
+                        select(id);
                     }
                 } else {
                     clearSelection();
@@ -2594,7 +2584,7 @@
             } else if (mode == "relation") {
                 clearRelationSelection();
 
-                if (numSpanSelection() == 0 && numEntitySelection() == 0) {
+                if (numSpanSelection() === 0 && numEntitySelection() === 0) {
                     selectEntity(id);
                 } else {
                     // make connection
@@ -2603,9 +2593,9 @@
 
                     var sid;
                     if (numSpanSelection() > 0) {
-                        sid = getSpanSelection()
+                        sid = getSpanSelection();
                     } else {
-                        sid = getEntitySelection()
+                        sid = getEntitySelection();
                     }
 
                     makeEdits([{
@@ -2622,7 +2612,7 @@
 
                         // continuous chaining
                         if (e.shiftKey) {
-                            select(oid)
+                            select(oid);
                         }
                     }
                 }
@@ -2643,8 +2633,8 @@
         }
 
         function renderModification(mid) {
-            var pred = modifications[mid]["pred"];
-            var oid = modifications[mid]['obj'];
+            var pred = modifications[mid].pred;
+            var oid = modifications[mid].obj;
             var symbol;
             if (pred == "Negation") {
                 symbol = 'X';
@@ -2690,14 +2680,14 @@
             setConnectorTypes();
 
             for (var rid in annotation_data.relations) {
-                var rtype = annotation_data.relations[rid]["pred"];
-                connectors[rid].setPaintStyle(connectorTypes[rtype]["paintStyle"]);
+                var rtype = annotation_data.relations[rid].pred;
+                connectors[rid].setPaintStyle(connectorTypes[rtype].paintStyle);
             }
 
             for (var i = 0; i < relationIdsSelected; i++) {
                 var id = relationIdsSelected[i];
-                var type = annotation_data.relations[id]["pred"];
-                connectors[id].setPaintStyle(connectorTypes[type + "_selected"]["paintStyle"]);
+                var type = annotation_data.relations[id].pred;
+                connectors[id].setPaintStyle(connectorTypes[type + "_selected"].paintStyle);
             }
         }
 
@@ -2738,10 +2728,10 @@
                 //TODO presentation logic?
                 if (numSpanSelection() == 1) {
                     var spanIdx = annotation_data.spanIds.indexOf(popSpanSelection());
-                    clearSelection()
+                    clearSelection();
                     spanIdx--;
                     if (spanIdx < 0) {
-                        spanIdx = annotation_data.spanIds.length - 1
+                        spanIdx = annotation_data.spanIds.length - 1;
                     }
                     select(annotation_data.spanIds[spanIdx]);
                 }
@@ -2749,10 +2739,10 @@
             selectRightEntity: function() {
                 if (numSpanSelection() == 1) {
                     var spanIdx = annotation_data.spanIds.indexOf(popSpanSelection());
-                    clearSelection()
+                    clearSelection();
                     spanIdx++;
                     if (spanIdx > annotation_data.spanIds.length - 1) {
-                        spanIdx = 0
+                        spanIdx = 0;
                     }
                     select(annotation_data.spanIds[spanIdx]);
                 }
