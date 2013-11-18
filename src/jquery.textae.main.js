@@ -13,6 +13,7 @@
             if (this.hasClass("textae-editor")) {
                 var e = editor.apply(this);
                 texaeGod.pushEditor(e);
+                e.api.start();
                 return e;
             } else if (this.hasClass("textae-control")) {
                 var c = control.apply(this);
