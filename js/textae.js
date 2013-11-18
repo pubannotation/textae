@@ -213,6 +213,7 @@
     };
 //like a jQuery plugin
 (function(jQuery) {
+
     var editor = function() {
         var $textaeEditor = this;
 
@@ -408,6 +409,8 @@
         return this;
     };
 
+
+
     var control = function() {
         var $self = this;
         var buttonCache = {};
@@ -509,7 +512,6 @@
 
         return this;
     };
-
     var god = function() {
         // get the url parameters: beginning of the program
         var urlParams = textAeUtil.getUrlParameters(location.search);
@@ -651,10 +653,10 @@
                         console.log(data);
                         control.disableButtons(data);
                     })
-                    .on("textae.editor.button.repulicateAuto.push", function(e, data){
-                        if(data){
+                    .on("textae.editor.button.repulicateAuto.push", function(e, data) {
+                        if (data) {
                             buttonUtil.push(control.buttons["replicate-auto"].obj);
-                        }else{
+                        } else {
                             buttonUtil.unpush(control.buttons["replicate-auto"].obj);
                         }
                     });
@@ -765,7 +767,6 @@
             }
         };
     };
-
     jQuery.fn.textae = (function() {
         var texaeGod,
             initGod = function() {

@@ -1,0 +1,23 @@
+    jQuery.fn.textae = (function() {
+        var texaeGod,
+            initGod = function() {
+                //init management object
+                if (texaeGod === undefined) {
+                    texaeGod = god();
+                }
+            };
+
+        return function() {
+            initGod();
+
+            if (this.hasClass("textae-editor")) {
+                var e = editor.apply(this);
+                texaeGod.pushEditor(e);
+                return e;
+            } else if (this.hasClass("textae-control")) {
+                var c = control.apply(this);
+                texaeGod.setControl(c);
+                return c;
+            }
+        };
+    })();
