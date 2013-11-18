@@ -1286,7 +1286,7 @@
                     });
 
                     typesPerSpan[sid].forEach(function(tid) {
-                        entitiesPerType[tid].forEach(function(eid){
+                        entitiesPerType[tid].forEach(function(eid) {
                             type = annotation_data.entities[eid].type;
                             edits.push({
                                 action: 'remove_denotation',
@@ -1340,8 +1340,8 @@
                             begin: annotation_data.spans[sid].begin,
                             end: newEnd
                         });
-                        typesPerSpan[sid].forEach(function(tid){
-                            entitiesPerType[tid].forEach(function(eid){
+                        typesPerSpan[sid].forEach(function(tid) {
+                            entitiesPerType[tid].forEach(function(eid) {
                                 type = annotation_data.entities[eid].type;
                                 edits.push({
                                     action: 'remove_denotation',
@@ -1386,8 +1386,8 @@
                             begin: newBegin,
                             end: annotation_data.spans[sid].end
                         });
-                        typesPerSpan[sid].forEach(function(tid){
-                            entitiesPerType[tid].forEach(function(eid){
+                        typesPerSpan[sid].forEach(function(tid) {
+                            entitiesPerType[tid].forEach(function(eid) {
                                 type = annotation_data.entities[eid].type;
                                 edits.push({
                                     action: 'remove_denotation',
@@ -1636,7 +1636,6 @@
                 renderAnnotation();
                 presentationLogic.showTarget(targetUrl);
             },
-
             getAnnotationFromServer: function(url) {
                 targetUrl = url;
                 $textaeEditor.startWait();
@@ -1647,20 +1646,7 @@
             saveAnnotationToServer: function(url) {
                 $textaeEditor.startWait();
                 var postData = annotation_data.toJason();
-                textAeUtil.ajaxAccessor.post(url, postData, function() {
-                    $('#message').html("annotation saved").fadeIn().fadeOut(5000, function() {
-                        $(this).html('').removeAttr('style');
-                        presentationLogic.showTarget(targetUrl);
-                    });
-                    editHistory.saved();
-                    $textaeEditor.endWait();
-                }, function() {
-                    $('#message').html("could not save").fadeIn().fadeOut(5000, function() {
-                        $(this).html('').removeAttr('style');
-                        presentationLogic.showTarget(targetUrl);
-                    });
-                    $textaeEditor.endWait();
-                });
+                textAeUtil.ajaxAccessor.post(url, postData, presentationLogic.showSaveSuccess, presentationLogic.showSaveError);
             },
             undo: function() {
                 clearSelection();
@@ -1836,95 +1822,124 @@
         };
 
         //user event that does not change data.
-        var presentationLogic = {
-            showTarget: function(targetUrl) {
-                if (targetUrl !== "") {
-                    var targetDoc = targetUrl.replace(/\/annotations\.json$/, '');
-                    $('#message').html("(Target: <a href='" + targetDoc + "'>" + targetDoc + "</a>)");
+        var presentationLogic = function(self) {
+            var getMessageArea = function(){
+                $messageArea = self.find('.textae-editor__footer .textae-editor__footer__message');
+                if($messageArea.length === 0){
+                    var $footer = $("<div>")
+                        .addClass("textae-editor__footer")
+                        .append($("<div>").addClass("textae-editor__footer__message"));
+                    self.append($footer);
                 }
-            },
 
-            showPallet: function(controlEvent, buttonEvent) {
-                //create table contents for entity type.
-                var makeEntityTypeOfEntityTypePallet = function(entityTypes) {
-                    return entityTypes.getSortedNames().map(function(t) {
-                        var type = entityTypes.getType(t);
-                        var row = '<tr class="textae-control__entity-pallet__entity-type" style="background-color:' + type.getColor() + '">';
+                return self.find('.textae-editor__footer__message');
+            };
 
-                        row += '<th><input type="radio" name="etype" class="textae-control__entity-pallet__entity-type__radio" label="' + t + '"';
-                        row += (t == entityTypes.getDefaultType()) ? ' title="default type" checked' : '';
-                        row += '/></th>';
-
-                        row += '<td class="textae-control__entity-pallet__entity-type__label" label="' + t + '">' + t + '</td>';
-
-                        row += '<th title="' + uri + '">';
-
-                        var uri = type.uri;
-                        if (uri) {
-                            row += '<a href="' + uri + '" target="_blank"><img src="images/link.png"/></a>';
-                        }
-
-                        row += '</th>';
-                        row += '</tr>';
-                        return row;
-                    }).join();
-                };
-
-                //return a Pallet that created if not exists.
-                var getEmptyPallet = function() {
-                    var $pallet = $('.textae-control__entity-pallet');
-                    if ($pallet.length === 0) {
-                        //setup new pallet
-                        $pallet = $('<div>')
-                            .addClass("textae-control__entity-pallet")
-                            .append($('<table>'))
-                            .css({
-                                'position': 'absolute',
-                                'display': 'none'
-                            })
-                            .on('mouseup', '.textae-control__entity-pallet__entity-type__radio', businessLogic.setEntityTypeDefault)
-                            .on('mouseup', '.textae-control__entity-pallet__entity-type__label', businessLogic.setEntityType);
-
-                        //for show on top append to body.
-                        $("body").append($pallet);
-                    } else {
-                        $pallet.find('table').empty();
-                        $pallet.css('width', 'auto');
+            return {
+                showTarget: function(targetUrl) {
+                    if (targetUrl !== "") {
+                        var targetDoc = targetUrl.replace(/\/annotations\.json$/, '');
+                        getMessageArea().html("(Target: <a href='" + targetDoc + "'>" + targetDoc + "</a>)");
                     }
-                    return $pallet;
-                };
+                },
+                showSaveSuccess: function() {
+                    getMessageArea().html("annotation saved").fadeIn().fadeOut(5000, function() {
+                        $(this).html('').removeAttr('style');
+                        presentationLogic.showTarget(targetUrl);
+                    });
+                    editHistory.saved();
+                    $textaeEditor.endWait();
+                },
+                showSaveError: function() {
+                    getMessageArea.html("could not save").fadeIn().fadeOut(5000, function() {
+                        $(this).html('').removeAttr('style');
+                        presentationLogic.showTarget(targetUrl);
+                    });
+                    $textaeEditor.endWait();
+                },
 
-                var $pallet　 = getEmptyPallet();
-                $pallet.find("table")
-                    .append(makeEntityTypeOfEntityTypePallet($textaeEditor.entityTypes));
+                showPallet: function(controlEvent, buttonEvent) {
+                    //create table contents for entity type.
+                    var makeEntityTypeOfEntityTypePallet = function(entityTypes) {
+                        return entityTypes.getSortedNames().map(function(t) {
+                            var type = entityTypes.getType(t);
+                            var row = '<tr class="textae-control__entity-pallet__entity-type" style="background-color:' + type.getColor() + '">';
 
-                //limti max height.
-                if ($pallet.outerHeight() > CONSTS.PALLET_HEIGHT_MAX) {
-                    $pallet.css('height', CONSTS.PALLET_HEIGHT_MAX);
-                    $pallet.css('width', $pallet.outerWidth() + 15);
-                }
+                            row += '<th><input type="radio" name="etype" class="textae-control__entity-pallet__entity-type__radio" label="' + t + '"';
+                            row += (t == entityTypes.getDefaultType()) ? ' title="default type" checked' : '';
+                            row += '/></th>';
 
-                //if open by mouseevent
-                if (arguments.length === 2) {
-                    $pallet.css('top', buttonEvent.clientY - controlEvent.target.offsetTop);
-                    $pallet.css('left', buttonEvent.clientX - controlEvent.target.offsetLeft);
-                }
-                $pallet.css('display', 'block');
-                return false;
-            },
+                            row += '<td class="textae-control__entity-pallet__entity-type__label" label="' + t + '">' + t + '</td>';
 
-            hidePallet: function() {
-                $('.textae-control__entity-pallet').css('display', 'none');
-            },
+                            row += '<th title="' + uri + '">';
 
-            redraw: function() {
-                indexPositionSpans(annotation_data.spanIds);
-                positionGrids(annotation_data.spanIds);
+                            var uri = type.uri;
+                            if (uri) {
+                                row += '<a href="' + uri + '" target="_blank"><img src="images/link.png"/></a>';
+                            }
 
-                indexPositionEntities();
-                renewConnections();
-            },
-        };
+                            row += '</th>';
+                            row += '</tr>';
+                            return row;
+                        }).join();
+                    };
+
+                    //return a Pallet that created if not exists.
+                    var getEmptyPallet = function() {
+                        var $pallet = $('.textae-control__entity-pallet');
+                        if ($pallet.length === 0) {
+                            //setup new pallet
+                            $pallet = $('<div>')
+                                .addClass("textae-control__entity-pallet")
+                                .append($('<table>'))
+                                .css({
+                                    'position': 'absolute',
+                                    'display': 'none'
+                                })
+                                .on('mouseup', '.textae-control__entity-pallet__entity-type__radio', businessLogic.setEntityTypeDefault)
+                                .on('mouseup', '.textae-control__entity-pallet__entity-type__label', businessLogic.setEntityType);
+
+                            //for show on top append to body.
+                            $("body").append($pallet);
+                        } else {
+                            $pallet.find('table').empty();
+                            $pallet.css('width', 'auto');
+                        }
+                        return $pallet;
+                    };
+
+                    var $pallet　 = getEmptyPallet();
+                    $pallet.find("table")
+                        .append(makeEntityTypeOfEntityTypePallet($textaeEditor.entityTypes));
+
+                    //limti max height.
+                    if ($pallet.outerHeight() > CONSTS.PALLET_HEIGHT_MAX) {
+                        $pallet.css('height', CONSTS.PALLET_HEIGHT_MAX);
+                        $pallet.css('width', $pallet.outerWidth() + 15);
+                    }
+
+                    //if open by mouseevent
+                    if (arguments.length === 2) {
+                        $pallet.css('top', buttonEvent.clientY - controlEvent.target.offsetTop);
+                        $pallet.css('left', buttonEvent.clientX - controlEvent.target.offsetLeft);
+                    }
+                    $pallet.css('display', 'block');
+                    return false;
+                },
+
+                hidePallet: function() {
+                    $('.textae-control__entity-pallet').css('display', 'none');
+                },
+
+                redraw: function() {
+                    indexPositionSpans(annotation_data.spanIds);
+                    positionGrids(annotation_data.spanIds);
+
+                    indexPositionEntities();
+                    renewConnections();
+                },
+            };
+        }(this);
 
         function getSpanReplicates(span) {
             var startPos = span.begin;

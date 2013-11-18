@@ -28,8 +28,8 @@ html, body {
     filter: progid:DXImageTransform.Microsoft.Gradient(StartColorStr='#BBBBEE', EndColorStr='#FFFFFF', GradientType=1);
 }
 
-#footer {
-    position: absolute;
+.textae-editor__footer {
+    position: fixed;
     bottom: 0px;
 
     width: 90%;
@@ -47,7 +47,7 @@ html, body {
     filter: progid:DXImageTransform.Microsoft.Gradient(StartColorStr='#DDDDFF', EndColorStr='#FFFFFF', GradientType=1);
 }
 
-#message {
+.textae-editor__footer__message {
     margin-left: 10px;
     font-style:italic;
     color:gray;
