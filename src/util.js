@@ -9,7 +9,7 @@
             };
 
             var value;
-            for(event in events){
+            for(var event in events){
                 value = events[event];
                 if(value){
                     if(isFunction(value)){
@@ -24,7 +24,7 @@
         // ajax wrapper
         ajaxAccessor : function(){
             var isEmpty = function(str){
-                return !str || str === ""
+                return !str || str === "";
             };
             return {
                 getSync : function(url){
@@ -138,7 +138,7 @@
             var makeDialog = function() {
                 return makeBasicDialog.call(this)
                     .addContents();
-            }
+            };
 
             var showDialog = function(className, obj) {
                 var getDialog = function() {
@@ -149,7 +149,7 @@
                         $("body").append(p);
                     }
                     return p;
-                }
+                };
 
                 var setPositionCenter = function() {
                     var $window = $(window);
@@ -180,7 +180,7 @@
                 return {
                     show: showDialog.bind(param),
                     hide: hideDialog.bind(param)
-                }
+                };
             };
 
             return bindMethods;

@@ -11,7 +11,7 @@
             };
 
             var value;
-            for(event in events){
+            for(var event in events){
                 value = events[event];
                 if(value){
                     if(isFunction(value)){
@@ -26,7 +26,7 @@
         // ajax wrapper
         ajaxAccessor : function(){
             var isEmpty = function(str){
-                return !str || str === ""
+                return !str || str === "";
             };
             return {
                 getSync : function(url){
@@ -140,7 +140,7 @@
             var makeDialog = function() {
                 return makeBasicDialog.call(this)
                     .addContents();
-            }
+            };
 
             var showDialog = function(className, obj) {
                 var getDialog = function() {
@@ -151,7 +151,7 @@
                         $("body").append(p);
                     }
                     return p;
-                }
+                };
 
                 var setPositionCenter = function() {
                     var $window = $(window);
@@ -182,7 +182,7 @@
                 return {
                     show: showDialog.bind(param),
                     hide: hideDialog.bind(param)
-                }
+                };
             };
 
             return bindMethods;
@@ -224,7 +224,7 @@
             };
             var endWait = function() {
                 $textaeEditor.css('cursor', 'auto');
-            }
+            };
             self.startWait = wait;
             self.endWait = endWait;
         };
@@ -245,9 +245,10 @@
                     return defaultType || entityTypes.getType(entityTypes.getSortedNames()[0]).name;
                 },
                 getType: function(nameOfEntityType) {
-                    return types[nameOfEntityType] = types[nameOfEntityType] || {
+                    types[nameOfEntityType] = types[nameOfEntityType] || {
                         getColor: getColor
                     };
+                    return types[nameOfEntityType];
                 },
                 set: function(newEntityTypes) {
                     // expected newEntityTypes is an array of object. example of object is {"name": "Regulation","color": "#FFFF66","default": true}.
@@ -278,7 +279,7 @@
                     });
                     return typeNames;
                 }
-            }
+            };
         }();
 
         //load/saveDialog
@@ -302,10 +303,10 @@
                             $dialog.dialog("close");
                         };
                         reader.readAsText(this.files[0]);
-                    }
+                    };
 
                     $body.append($dialog);
-                    $dialog.hide()
+                    $dialog.hide();
                     $dialog.find("input[type='file']").on("change", onFileChange);
                     $dialog.find("input[type='button']")
                         .on("click", function() {
@@ -365,7 +366,7 @@
                     var createFileLink = function(contents, $save_dialog) {
                         var $fileInput = getLoadDialog().find("input[type='file']");
 
-                        var file = $fileInput.prop("files")[0]
+                        var file = $fileInput.prop("files")[0];
                         var name = file ? file.name : "annotations.json";
                         var blob = new Blob([contents], {
                             type: 'application/json'
@@ -408,9 +409,6 @@
 
         return this;
     };
-
-
-
     var control = function() {
         var $self = this;
         var buttonCache = {};
@@ -491,10 +489,10 @@
 
         // update all button state, because an instance of textEditor maybe change.
         var disableButtons = function(disableButtons) {
-            for (buttonType in buttonCache) {
+            for (var buttonType in buttonCache) {
                 enableButton(buttonType, !disableButtons.hasOwnProperty(buttonType));
             }
-        }
+        };
 
         // build elements
         this.append(makeTitle())
@@ -592,40 +590,40 @@
                 // object leteral treat key as string, so set controlEvents after declare.
                 var controlEvents = {};
                 // access by square brancket because property names include "-". 
-                controlEvents[buttons["read"].ev] = function() {
+                controlEvents[buttons.read.ev] = function() {
                     editor.api.showAccess();
                 };
-                controlEvents[buttons["write"].ev] = function() {
+                controlEvents[buttons.write.ev] = function() {
                     editor.api.showSave();
                 };
-                controlEvents[buttons["undo"].ev] = function() {
+                controlEvents[buttons.undo.ev] = function() {
                     editor.api.undo();
                 };
-                controlEvents[buttons["redo"].ev] = function() {
+                controlEvents[buttons.redo.ev] = function() {
                     editor.api.redo();
                 };
-                controlEvents[buttons["replicate"].ev] = function() {
+                controlEvents[buttons.replicate.ev] = function() {
                     editor.api.replicate();
                 };
                 controlEvents[buttons["replicate-auto"].ev] = function() {
                     editor.api.toggleReplicateAuto();
                 };
-                controlEvents[buttons["entity"].ev] = function() {
+                controlEvents[buttons.entity.ev] = function() {
                     editor.api.createEntity();
                 };
                 controlEvents[buttons["new-label"].ev] = function() {
                     editor.api.newLabel();
                 };
-                controlEvents[buttons["pallet"].ev] = function() {
+                controlEvents[buttons.pallet.ev] = function() {
                     editor.api.showPallet();
                 };
-                controlEvents[buttons["delete"].ev] = function() {
+                controlEvents[buttons.delete.ev] = function() {
                     editor.api.removeElements();
                 };
-                controlEvents[buttons["copy"].ev] = function() {
+                controlEvents[buttons.copy.ev] = function() {
                     editor.api.copyEntities();
                 };
-                controlEvents[buttons["paste"].ev] = function() {
+                controlEvents[buttons.paste.ev] = function() {
                     editor.api.pasteEntities();
                 };
                 textAeUtil.bindEvents(control, controlEvents);
@@ -640,8 +638,8 @@
 
         return {
             setControl: function(control) {
-                control.on(control.buttons["help"].ev, helpDialog.show);
-                control.on(control.buttons["about"].ev, aboutDialog.show);
+                control.on(control.buttons.help.ev, helpDialog.show);
+                control.on(control.buttons.about.ev, aboutDialog.show);
 
                 $("body").on("textae.select.cancel", function() {
                     helpDialog.hide();
@@ -663,7 +661,7 @@
 
                 editors.forEach(function(editor) {
                     bindTextaeControlEventhandler(control, editor);
-                })
+                });
 
                 cachedControl = control;
             },
@@ -755,7 +753,7 @@
                     "textae.dialog.saveurl.select": function(e, data) {
                         editor.api.saveAnnotationToServer(data);
                     },
-                }
+                };
                 textAeUtil.bindEvents($("body"), saveLoadDialogEvents);
 
                 // bind resize event
@@ -851,13 +849,13 @@ $(document).ready(function() {
                 ]
             },
         set: function(config){
-            var settings = $.extend({}, this.defaults, config)
+            var settings = $.extend({}, this.defaults, config);
 
-            if (settings['delimiter characters'] != undefined) {
+            if (settings['delimiter characters'] !== undefined) {
                 this.delimiterCharacters = settings['delimiter characters'];
             }
 
-            if (settings['non-edge characters'] != undefined) {
+            if (settings['non-edge characters'] !== undefined) {
                 this.nonEdgeCharacters = settings['non-edge characters'];
             }
         },
@@ -929,7 +927,7 @@ $(document).ready(function() {
                     relations.forEach(function(r){
                         annotation_data.relations[r.id] = r;
                     });
-                };
+                }
             },
             getRelationIds :function(){
                 return Object.keys(annotation_data.relations);
@@ -937,8 +935,8 @@ $(document).ready(function() {
             toJason : function(){
                 var denotations = [];
                 for (var e in annotation_data.entities) {
-                    var span = {'begin':annotation_data.spans[annotation_data.entities[e]['span']].begin, 'end':annotation_data.spans[annotation_data.entities[e]['span']].end};
-                    denotations.push({'id':e, 'span':span, 'obj':annotation_data.entities[e]['type']});
+                    var span = {'begin':annotation_data.spans[annotation_data.entities[e].span].begin, 'end':annotation_data.spans[annotation_data.entities[e].span].end};
+                    denotations.push({'id':e, 'span':span, 'obj':annotation_data.entities[e].type});
                 }
 
                 return  JSON.stringify({
@@ -977,13 +975,13 @@ $(document).ready(function() {
 
             relationTypes = {};
             relationTypeDefault = null;
-            if (config['relation types'] != undefined) {
+            if (config['relation types'] !== undefined) {
                 var relation_types = config['relation types'];
                 for (var i in relation_types) {
-                    relationTypes[relation_types[i]["name"]] = relation_types[i];
-                    if (relation_types[i]["default"] == true) {relationTypeDefault = relation_types[i]["name"];}
+                    relationTypes[relation_types[i].name] = relation_types[i];
+                    if (relation_types[i]["default"] === true) {relationTypeDefault = relation_types[i].name;}
                 }
-                if (!relationTypeDefault) {relationTypeDefault = relation_types[0]["name"];}
+                if (!relationTypeDefault) {relationTypeDefault = relation_types[0].name;}
             }
 
             connectorTypes = {};
@@ -993,10 +991,10 @@ $(document).ready(function() {
             if (config['modification types'] != undefined) {
                 var mod_types = config['modification types'];
                 for (var i in mod_types) {
-                    modificationTypes[mod_types[i]["name"]] = mod_types[i];
-                    if (mod_types[i]["default"] == true) {modificationTypeDefault = mod_types[i]["name"];}
+                    modificationTypes[mod_types[i].name] = mod_types[i];
+                    if (mod_types[i]["default"] === true) {modificationTypeDefault = mod_types[i].name;}
                 }
-                if (!modificationTypeDefault) {modificationTypeDefault = mod_types[0]["name"];}
+                if (!modificationTypeDefault) {modificationTypeDefault = mod_types[0].name;}
             }
 
             if (config["css"] != undefined) {

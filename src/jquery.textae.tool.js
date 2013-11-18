@@ -78,40 +78,40 @@
                 // object leteral treat key as string, so set controlEvents after declare.
                 var controlEvents = {};
                 // access by square brancket because property names include "-". 
-                controlEvents[buttons["read"].ev] = function() {
+                controlEvents[buttons.read.ev] = function() {
                     editor.api.showAccess();
                 };
-                controlEvents[buttons["write"].ev] = function() {
+                controlEvents[buttons.write.ev] = function() {
                     editor.api.showSave();
                 };
-                controlEvents[buttons["undo"].ev] = function() {
+                controlEvents[buttons.undo.ev] = function() {
                     editor.api.undo();
                 };
-                controlEvents[buttons["redo"].ev] = function() {
+                controlEvents[buttons.redo.ev] = function() {
                     editor.api.redo();
                 };
-                controlEvents[buttons["replicate"].ev] = function() {
+                controlEvents[buttons.replicate.ev] = function() {
                     editor.api.replicate();
                 };
                 controlEvents[buttons["replicate-auto"].ev] = function() {
                     editor.api.toggleReplicateAuto();
                 };
-                controlEvents[buttons["entity"].ev] = function() {
+                controlEvents[buttons.entity.ev] = function() {
                     editor.api.createEntity();
                 };
                 controlEvents[buttons["new-label"].ev] = function() {
                     editor.api.newLabel();
                 };
-                controlEvents[buttons["pallet"].ev] = function() {
+                controlEvents[buttons.pallet.ev] = function() {
                     editor.api.showPallet();
                 };
-                controlEvents[buttons["delete"].ev] = function() {
+                controlEvents[buttons.delete.ev] = function() {
                     editor.api.removeElements();
                 };
-                controlEvents[buttons["copy"].ev] = function() {
+                controlEvents[buttons.copy.ev] = function() {
                     editor.api.copyEntities();
                 };
-                controlEvents[buttons["paste"].ev] = function() {
+                controlEvents[buttons.paste.ev] = function() {
                     editor.api.pasteEntities();
                 };
                 textAeUtil.bindEvents(control, controlEvents);
@@ -126,8 +126,8 @@
 
         return {
             setControl: function(control) {
-                control.on(control.buttons["help"].ev, helpDialog.show);
-                control.on(control.buttons["about"].ev, aboutDialog.show);
+                control.on(control.buttons.help.ev, helpDialog.show);
+                control.on(control.buttons.about.ev, aboutDialog.show);
 
                 $("body").on("textae.select.cancel", function() {
                     helpDialog.hide();
@@ -149,7 +149,7 @@
 
                 editors.forEach(function(editor) {
                     bindTextaeControlEventhandler(control, editor);
-                })
+                });
 
                 cachedControl = control;
             },
@@ -241,7 +241,7 @@
                     "textae.dialog.saveurl.select": function(e, data) {
                         editor.api.saveAnnotationToServer(data);
                     },
-                }
+                };
                 textAeUtil.bindEvents($("body"), saveLoadDialogEvents);
 
                 // bind resize event

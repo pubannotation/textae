@@ -8,7 +8,7 @@
             };
             var endWait = function() {
                 $textaeEditor.css('cursor', 'auto');
-            }
+            };
             self.startWait = wait;
             self.endWait = endWait;
         };
@@ -29,9 +29,10 @@
                     return defaultType || entityTypes.getType(entityTypes.getSortedNames()[0]).name;
                 },
                 getType: function(nameOfEntityType) {
-                    return types[nameOfEntityType] = types[nameOfEntityType] || {
+                    types[nameOfEntityType] = types[nameOfEntityType] || {
                         getColor: getColor
                     };
+                    return types[nameOfEntityType];
                 },
                 set: function(newEntityTypes) {
                     // expected newEntityTypes is an array of object. example of object is {"name": "Regulation","color": "#FFFF66","default": true}.
@@ -62,7 +63,7 @@
                     });
                     return typeNames;
                 }
-            }
+            };
         }();
 
         //load/saveDialog
@@ -86,10 +87,10 @@
                             $dialog.dialog("close");
                         };
                         reader.readAsText(this.files[0]);
-                    }
+                    };
 
                     $body.append($dialog);
-                    $dialog.hide()
+                    $dialog.hide();
                     $dialog.find("input[type='file']").on("change", onFileChange);
                     $dialog.find("input[type='button']")
                         .on("click", function() {
@@ -149,7 +150,7 @@
                     var createFileLink = function(contents, $save_dialog) {
                         var $fileInput = getLoadDialog().find("input[type='file']");
 
-                        var file = $fileInput.prop("files")[0]
+                        var file = $fileInput.prop("files")[0];
                         var name = file ? file.name : "annotations.json";
                         var blob = new Blob([contents], {
                             type: 'application/json'
@@ -192,5 +193,3 @@
 
         return this;
     };
-
-

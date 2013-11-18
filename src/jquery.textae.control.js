@@ -78,10 +78,10 @@
 
         // update all button state, because an instance of textEditor maybe change.
         var disableButtons = function(disableButtons) {
-            for (buttonType in buttonCache) {
+            for (var buttonType in buttonCache) {
                 enableButton(buttonType, !disableButtons.hasOwnProperty(buttonType));
             }
-        }
+        };
 
         // build elements
         this.append(makeTitle())
