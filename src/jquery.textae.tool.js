@@ -102,8 +102,8 @@
                 controlEvents[buttons["new-label"].ev] = function() {
                     editor.api.newLabel();
                 };
-                controlEvents[buttons.pallet.ev] = function() {
-                    editor.api.showPallet();
+                controlEvents[buttons.pallet.ev] = function(controlEvent, buttonEvent) {
+                    editor.api.showPallet(controlEvent, buttonEvent);
                 };
                 controlEvents[buttons.delete.ev] = function() {
                     editor.api.removeElements();
@@ -157,6 +157,7 @@
                 editor.urlParams = urlParams;
 
                 editors.push(editor);
+                editor.editorId = "editor" +editors.length;
 
                 if (isFirstEditor) {
                     keyboard.enable();
@@ -194,8 +195,8 @@
                         editor.api.createEntity();
                     },
                     "textae.keyboard.H.click": helpDialog.show,
-                    "textae.keyboard.Q.click": function() {
-                        editor.api.showPallet();
+                    "textae.keyboard.Q.click": function(controlEvent) {
+                        editor.api.showPallet(controlEvent);
                     },
                     "textae.keyboard.R.click": function() {
                         editor.api.replicate();

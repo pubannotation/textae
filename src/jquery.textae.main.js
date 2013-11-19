@@ -12,8 +12,9 @@
 
             if (this.hasClass("textae-editor")) {
                 this.each(function(){
-                    var e = editor.apply($(this));
+                    var e = $(this);
                     texaeGod.pushEditor(e);
+                    editor.apply(e);
                     e.api.start();
                     return e;
                 })
