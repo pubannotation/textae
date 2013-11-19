@@ -3,14 +3,6 @@ html, body {
     height: 100%;
 }
 
-.textae {
-    position: relative;
-    left: 0px;
-    height: 600px;
-    border: 1px solid black;
-    font-family: verdana, arial, helvetica, sans-serif;
-}
-
 .textae-control {
     position: fixed;
     width: 90%;
@@ -27,6 +19,14 @@ html, body {
     background: -webkit-gradient(linear,  left top, right top, from(#BBBBEE), to(#FFFFFF));
     /* MSIE */
     filter: progid:DXImageTransform.Microsoft.Gradient(StartColorStr='#BBBBEE', EndColorStr='#FFFFFF', GradientType=1);
+}
+
+.textae-editor {
+    left: 0px;
+/*    height: 600px;
+    overflow: auto;
+*/    border: 1px solid black;
+    font-family: verdana, arial, helvetica, sans-serif;
 }
 
 .textae-editor__footer {
