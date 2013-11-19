@@ -739,7 +739,6 @@
                     }
                 };
             }
-            // jsPlumb.registerConnectionTypes(connectorTypes);
         }
 
         var buttonState = function() {
@@ -991,35 +990,34 @@
                         return $area;
                     };
 
+                    var initJsPlumb = function() {
+                        renderer.jsPlumb = jsPlumb.getInstance({
+                            ConnectionsDetachable: false,
+                            Endpoint: ["Dot", {
+                                radius: 1
+                            }]
+                        });
+                        renderer.jsPlumb.setRenderMode(renderer.jsPlumb.SVG);
+                        renderer.jsPlumb.Defaults.Container = editor.getAnnotationArea();
+                    };
+
                     //make view
                     editor.body = getArea(editor, "textae-editor__body");
 
-                    var rendererMethods = {
+                    //set method to get Area
+                    $.extend(editor, {
                         getSourceDocArea: function() {
                             return getArea(editor.body, "textae-editor__body__text-box");
                         },
                         getAnnotationArea: function() {
                             return getArea(editor.body, 'textae-editor__body__annotation_box');
                         }
-                    };
+                    });
 
-                    $.extend(editor, rendererMethods);
+                    initJsPlumb();
                 },
 
                 renderAnnotation: function() {
-                    var initJsPlumb = function() {
-                        jsPlumb.reset();
-                        jsPlumb.setRenderMode(jsPlumb.SVG);
-                        jsPlumb.Defaults.Container = editor.getAnnotationArea();
-                        jsPlumb.importDefaults({
-                            ConnectionsDetachable: false,
-                            Endpoint: ["Dot", {
-                                radius: 1
-                            }]
-                        });
-                        setConnectorTypes();
-                    };
-
                     var setBodyOffset = function() {
                         //set body offset top half of line space between line of text-box.
                         var $area = editor.getSourceDocArea();
@@ -1066,7 +1064,7 @@
                         }
                     };
 
-                    initJsPlumb();
+                    setConnectorTypes();
                     setBodyOffset();
 
                     //add source doc
@@ -2705,7 +2703,7 @@
             return {
                 renderRelations: function() {
                     var rids = model.annotationData.getRelationIds();
-                    jsPlumb.reset();
+                    renderer.jsPlumb.reset();
 
                     rids.forEach(function(rid) {
                         connectors[rid] = renderer.relations.renderRelation(rid);
@@ -2759,7 +2757,7 @@
 
                     var label = '[' + rid + '] ' + pred;
 
-                    var conn = jsPlumb.connect({
+                    var conn = renderer.jsPlumb.connect({
                         source: sourceElem,
                         target: targetElem,
                         anchors: [sourceAnchor, targetAnchor],
@@ -2811,10 +2809,7 @@
                 },
                 destroyRelation: function(rid) {
                     var c = connectors[rid];
-                    jsPlumb.detach(c);
-                    // var endpoints = c.endpoints;
-                    // jsPlumb.deleteEndpoint(endpoints[0]);
-                    // jsPlumb.deleteEndpoint(endpoints[1]);
+                    renderer.jsPlumb.detach(c);
                 },
 
             };
