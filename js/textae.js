@@ -358,7 +358,6 @@
 
         // selected slements
         var modificationIdsSelected;
-        var relationIdsSelected;
 
         var clipBoard = [];
 
@@ -883,7 +882,7 @@
             entitiesPerType = {};
             typesPerSpan = {};
             relationsPerEntity = {};
-            positions = {};
+            renderer.positions = {};
             connectors = {};
 
             if (data.denotations !== undefined) {
@@ -940,39 +939,7 @@
                 });
             }
 
-            relationIdsSelected = [];
             modificationIdsSelected = [];
-        }
-
-        function indexPositionSpans(ids) {
-            for (var i in ids) indexPositionSpan(ids[i]);
-        }
-
-        function indexPositionSpan(id) {
-            var e = $('#' + id);
-            positions[id] = {};
-            positions[id].top = e.get(0).offsetTop;
-            positions[id].left = e.get(0).offsetLeft;
-            positions[id].width = e.outerWidth();
-            positions[id].height = e.outerHeight();
-            positions[id].center = positions[id].left + positions[id].width / 2;
-        }
-
-        function indexPositionEntities() {
-            Object.keys(model.annotationData.entities).forEach(function(id) {
-                indexPositionEntity(id);
-            });
-        }
-
-        function indexPositionEntity(id) {
-            var gid = 'G' + model.annotationData.entities[id].span;
-            var e = domSelector.getEntity(id);
-            positions[id] = {};
-            positions[id].top = positions[gid].top + e.get(0).offsetTop;
-            positions[id].left = positions[gid].left + e.get(0).offsetLeft;
-            positions[id].width = e.outerWidth();
-            positions[id].height = e.outerHeight();
-            positions[id].center = positions[id].left + positions[id].width / 2;
         }
 
         var idFactory = function(editor) {
@@ -997,6 +964,22 @@
 
         // render view.
         var renderer = function(editor) {
+            var renderEntitiesOfSpan = function(sid) {
+                renderGrid(sid);
+                for (var t in typesPerSpan[sid]) {
+                    var tid = typesPerSpan[sid][t];
+                    for (var e in entitiesPerType[tid]) {
+                        var eid = entitiesPerType[tid][e];
+                        renderer.renderEntity(eid);
+                    }
+                }
+            };
+
+            var renderEntitiesOfSpans = function(sids) {
+                renderer.renderSize.mesure();
+                sids.forEach(renderEntitiesOfSpan);
+            };
+
             return {
                 init: function() {
                     var getArea = function($parent, className) {
@@ -1094,10 +1077,10 @@
                     editor.getAnnotationArea().empty();
 
                     renderAllSpan();
-                    indexPositionSpans(model.annotationData.spanIds);
+                    renderer.indexPositionSpans(model.annotationData.spanIds);
 
                     renderEntitiesOfSpans(model.annotationData.spanIds);
-                    renderRelations();
+                    renderer.relations.renderRelations();
                 },
                 renderSize: {
                     gridWidthGap: 0,
@@ -1285,8 +1268,35 @@
 
                         positionEntities(sid, type);
 
-                        indexPositionEntity(eid);
+                        renderer.indexPositionEntity(eid);
                     }
+                },
+                indexPositionSpans: function(ids) {
+                    for (var i in ids) renderer.indexPositionSpan(ids[i]);
+                },
+                indexPositionSpan: function(id) {
+                    var e = $('#' + id);
+                    renderer.positions[id] = {};
+                    renderer.positions[id].top = e.get(0).offsetTop;
+                    renderer.positions[id].left = e.get(0).offsetLeft;
+                    renderer.positions[id].width = e.outerWidth();
+                    renderer.positions[id].height = e.outerHeight();
+                    renderer.positions[id].center = renderer.positions[id].left + renderer.positions[id].width / 2;
+                },
+                indexPositionEntities: function() {
+                    Object.keys(model.annotationData.entities).forEach(function(id) {
+                        renderer.indexPositionEntity(id);
+                    });
+                },
+                indexPositionEntity: function(id) {
+                    var gid = 'G' + model.annotationData.entities[id].span;
+                    var e = domSelector.getEntity(id);
+                    renderer.positions[id] = {};
+                    renderer.positions[id].top = renderer.positions[gid].top + e.get(0).offsetTop;
+                    renderer.positions[id].left = renderer.positions[gid].left + e.get(0).offsetLeft;
+                    renderer.positions[id].width = e.outerWidth();
+                    renderer.positions[id].height = e.outerHeight();
+                    renderer.positions[id].center = renderer.positions[id].left + renderer.positions[id].width / 2;
                 },
             };
         }(this);
@@ -1631,7 +1641,6 @@
 
                     dismissBrowserSelection();
                     cancelBubble(e);
-                    return false;
                 },
                 spanClicked: function(e) {
                     presentationLogic.hidePallet();
@@ -1679,7 +1688,7 @@
                     } else if (mode == "relation") {
                         id = $(this).attr('id').split('_')[1]; // in clone area, clone_id
 
-                        clearRelationSelection();
+                        renderer.relations.clearRelationSelection();
 
                         if (numSpanSelection() === 0 && numEntitySelection() === 0) {
                             select(id);
@@ -1737,7 +1746,7 @@
                             select(id);
                         }
                     } else if (mode == "relation") {
-                        clearRelationSelection();
+                        renderer.relations.clearRelationSelection();
 
                         if (numSpanSelection() === 0 && numEntitySelection() === 0) {
                             selectEntity(id);
@@ -1782,12 +1791,29 @@
 
                     if (e.type == 'mouseover') {
                         grid.css('height', 'auto');
-                        if (grid.outerWidth() < positions[id].width) grid.css('width', positions[id].width);
+                        if (grid.outerWidth() < renderer.positions[id].width) grid.css('width', renderer.positions[id].width);
                         // grid.css('z-index', '254');
                     } else {
-                        grid.css('height', positions[id].height);
+                        grid.css('height', renderer.positions[id].height);
                         // grid.css('z-index', '');
                     }
+                },
+                connectorClicked: function(conn, e) {
+                    var rid = conn.getParameter("id");
+
+                    clearSelection();
+
+                    if (renderer.relations.isRelationSelected(rid)) {
+                        renderer.relations.deselectRelation(rid);
+                    } else {
+                        if (!e.ctrlKey) {
+                            renderer.relations.clearRelationSelection();
+                        }
+                        renderer.relations.selectRelation(rid);
+                    }
+
+                    cancelBubble(e);
+                    return false;
                 },
             };
         }(this);
@@ -1874,7 +1900,7 @@
             }
 
             clearSelection();
-            clearRelationSelection();
+            renderer.relations.clearRelationSelection();
             clearModificationSelection();
             presentationLogic.hidePallet();
             changeButtonStateReplicate();
@@ -2075,7 +2101,7 @@
             },
             undo: function() {
                 clearSelection();
-                clearRelationSelection();
+                renderer.relations.clearRelationSelection();
                 clearModificationSelection();
 
                 revertEdits(editHistory.prev());
@@ -2083,7 +2109,7 @@
 
             redo: function() {
                 clearSelection();
-                clearRelationSelection();
+                renderer.relations.clearRelationSelection();
                 clearModificationSelection();
 
                 makeEdits(editHistory.next(), 'redo');
@@ -2166,13 +2192,13 @@
                     });
                     for (var r in relationsPerEntity[eid]) {
                         var rid = relationsPerEntity[eid][r];
-                        selectRelation(rid);
+                        renderer.relations.selectRelation(rid);
                     }
                 });
 
                 var relationRemoves = [];
-                while (relationIdsSelected.length > 0) {
-                    rid = relationIdsSelected.pop();
+                while (renderer.relations.relationIdsSelected.length > 0) {
+                    rid = renderer.relations.relationIdsSelected.pop();
                     relationRemoves.push({
                         action: 'remove_relation',
                         id: rid,
@@ -2361,11 +2387,11 @@
                 },
 
                 redraw: function() {
-                    indexPositionSpans(model.annotationData.spanIds);
+                    renderer.indexPositionSpans(model.annotationData.spanIds);
                     positionGrids(model.annotationData.spanIds);
 
-                    indexPositionEntities();
-                    renewConnections();
+                    renderer.indexPositionEntities();
+                    renderer.relations.renewConnections();
                 },
             };
         }(this);
@@ -2417,7 +2443,7 @@
                 case 'undo':
                 case 'redo':
                     clearSelection();
-                    clearRelationSelection();
+                    renderer.relations.clearRelationSelection();
                     break;
                 default:
             }
@@ -2436,7 +2462,7 @@
                         typesPerSpan[edit.id] = [];
                         // rendering
                         renderer.renderSpan(edit.id, model.annotationData.spanIds, model.annotationData.spanIds.length);
-                        indexPositionSpan(edit.id);
+                        renderer.indexPositionSpan(edit.id);
                         // select
                         select(edit.id);
                         break;
@@ -2514,9 +2540,9 @@
                             if (relationsPerEntity[edit.obj].indexOf(edit.id) < 0) relationsPerEntity[edit.obj].push(edit.id);
                         } else relationsPerEntity[edit.obj] = [edit.id];
                         // rendering
-                        connectors[edit.id] = renderRelation(edit.id);
+                        connectors[edit.id] = renderer.relations.renderRelation(edit.id);
                         // selection
-                        selectRelation(edit.id);
+                        renderer.relations.selectRelation(edit.id);
                         break;
                     case 'remove_relation':
                         // model
@@ -2532,7 +2558,7 @@
                             delete relationsPerEntity[edit.obj];
                         }
                         // rendering
-                        destroyRelation(edit.id);
+                        renderer.relations.destroyRelation(edit.id);
                         break;
                     case 'change_relation_pred':
                         // model
@@ -2542,7 +2568,7 @@
                         connectors[edit.id].setHoverPaintStyle(connectorTypes[edit.new_pred + "_selected"].hoverPaintStyle);
                         connectors[edit.id].setLabel('[' + edit.id + '] ' + edit.new_pred);
                         // selection
-                        selectRelation(edit.id);
+                        renderer.relations.selectRelation(edit.id);
                         break;
 
                         // modification operations
@@ -2660,174 +2686,139 @@
             return 'rgba(' + r + ', ' + g + ', ' + b + ', ' + opacity + ')';
         }
 
-        function renderRelations() {
-            var rids = model.annotationData.getRelationIds();
-            jsPlumb.reset();
+        renderer.relations = function() {
+            var determineCurviness = function(sourceId, targetId) {
+                var sourceX = renderer.positions[sourceId].center;
+                var targetX = renderer.positions[targetId].center;
 
-            rids.forEach(function(rid) {
-                connectors[rid] = renderRelation(rid);
-            });
-        }
+                var sourceY = renderer.positions[sourceId].top;
+                var targetY = renderer.positions[targetId].top;
 
-        var determineCurviness = function(sourceId, targetId) {
-            var sourceX = positions[sourceId].center;
-            var targetX = positions[targetId].center;
+                var xdiff = Math.abs(sourceX - targetX);
+                var ydiff = Math.abs(sourceY - targetY);
+                var curviness = xdiff * xrate + ydiff * yrate + c_offset;
+                curviness /= 2.4;
 
-            var sourceY = positions[sourceId].top;
-            var targetY = positions[targetId].top;
+                return curviness;
+            };
 
-            var xdiff = Math.abs(sourceX - targetX);
-            var ydiff = Math.abs(sourceY - targetY);
-            var curviness = xdiff * xrate + ydiff * yrate + c_offset;
-            curviness /= 2.4;
+            return {
+                renderRelations: function() {
+                    var rids = model.annotationData.getRelationIds();
+                    jsPlumb.reset();
 
-            return curviness;
-        };
+                    rids.forEach(function(rid) {
+                        connectors[rid] = renderer.relations.renderRelation(rid);
+                    });
+                    renderer.relations.relationIdsSelected = [];
+                },
 
-        function renewConnections() {
-            var rids = model.annotationData.getRelationIds();
+                //only move position for window.resize.
+                renewConnections: function() {
+                    var rids = model.annotationData.getRelationIds();
 
-            rids.forEach(function(rid) {
-                // recompute curviness
-                var sourceId = model.annotationData.relations[rid].subj;
-                var targetId = model.annotationData.relations[rid].obj;
-                var curviness = determineCurviness(sourceId, targetId);
+                    rids.forEach(function(rid) {
+                        // recompute curviness
+                        var sourceId = model.annotationData.relations[rid].subj;
+                        var targetId = model.annotationData.relations[rid].obj;
+                        var curviness = determineCurviness(sourceId, targetId);
 
-                if (sourceId == targetId) curviness = 30;
+                        if (sourceId == targetId) curviness = 30;
 
-                var conn = connectors[rid];
-                var label = conn.getLabel();
-                conn.endpoints[0].repaint();
-                conn.endpoints[1].repaint();
-                conn.setConnector(["Bezier", {
-                    curviness: curviness
-                }]);
-            });
-        }
+                        var conn = connectors[rid];
+                        var label = conn.getLabel();
+                        conn.endpoints[0].repaint();
+                        conn.endpoints[1].repaint();
+                        conn.setConnector(["Bezier", {
+                            curviness: curviness
+                        }]);
+                    });
+                },
 
-        function renderRelation(rid) {
-            var sourceId = model.annotationData.relations[rid].subj;
-            var targetId = model.annotationData.relations[rid].obj;
-            var curviness = determineCurviness(sourceId, targetId);
+                renderRelation: function(rid) {
+                    var sourceId = model.annotationData.relations[rid].subj;
+                    var targetId = model.annotationData.relations[rid].obj;
+                    var curviness = determineCurviness(sourceId, targetId);
 
-            //  Determination of anchor points
-            var sourceAnchor = "TopCenter";
-            var targetAnchor = "TopCenter";
+                    //  Determination of anchor points
+                    var sourceAnchor = "TopCenter";
+                    var targetAnchor = "TopCenter";
 
-            // In case of self-reference
-            if (sourceId == targetId) {
-                sourceAnchor = [0.5, 0, -1, -1];
-                targetAnchor = [0.5, 0, 1, -1];
-                curviness = 30;
-            }
+                    // In case of self-reference
+                    if (sourceId == targetId) {
+                        sourceAnchor = [0.5, 0, -1, -1];
+                        targetAnchor = [0.5, 0, 1, -1];
+                        curviness = 30;
+                    }
 
-            // make connector
-            var pred = model.annotationData.relations[rid].pred;
-            var rgba = colorTrans(relationColor(pred), connOpacity);
-            var sourceElem = domSelector.getEntity(sourceId);
-            var targetElem = domSelector.getEntity(targetId);
+                    // make connector
+                    var pred = model.annotationData.relations[rid].pred;
+                    var rgba = colorTrans(relationColor(pred), connOpacity);
+                    var sourceElem = domSelector.getEntity(sourceId);
+                    var targetElem = domSelector.getEntity(targetId);
 
-            var label = '[' + rid + '] ' + pred;
+                    var label = '[' + rid + '] ' + pred;
 
-            var conn = jsPlumb.connect({
-                source: sourceElem,
-                target: targetElem,
-                anchors: [sourceAnchor, targetAnchor],
-                connector: ["Bezier", {
-                    curviness: curviness
-                }],
-                paintStyle: connectorTypes[pred].paintStyle,
-                hoverPaintStyle: connectorTypes[pred].hoverPaintStyle,
-                tooltip: '[' + rid + '] ' + pred,
-                parameters: {
-                    "id": rid,
-                    "label": label
-                }
-            });
+                    var conn = jsPlumb.connect({
+                        source: sourceElem,
+                        target: targetElem,
+                        anchors: [sourceAnchor, targetAnchor],
+                        connector: ["Bezier", {
+                            curviness: curviness
+                        }],
+                        paintStyle: connectorTypes[pred].paintStyle,
+                        hoverPaintStyle: connectorTypes[pred].hoverPaintStyle,
+                        tooltip: '[' + rid + '] ' + pred,
+                        parameters: {
+                            "id": rid,
+                            "label": label
+                        }
+                    });
 
-            conn.addOverlay(["Arrow", {
-                width: 10,
-                length: 12,
-                location: 1
-            }]);
-            conn.setLabel({
-                label: label,
-                cssClass: "label"
-            });
-            conn.bind("click", connectorClicked);
-            return conn;
-        }
+                    conn.addOverlay(["Arrow", {
+                        width: 10,
+                        length: 12,
+                        location: 1
+                    }]);
+                    conn.setLabel({
+                        label: label,
+                        cssClass: "label"
+                    });
+                    conn.bind("click", controller.connectorClicked);
+                    return conn;
+                },
+                isRelationSelected: function(rid) {
+                    return (renderer.relations.relationIdsSelected.indexOf(rid) > -1);
+                },
+                selectRelation: function(rid) {
+                    if (!renderer.relations.isRelationSelected(rid)) {
+                        connectors[rid].setPaintStyle(connectorTypes[model.annotationData.relations[rid].pred + "_selected"].paintStyle);
+                        renderer.relations.relationIdsSelected.push(rid);
+                    }
+                },
+                deselectRelation: function(rid) {
+                    var i = renderer.relations.relationIdsSelected.indexOf(rid);
+                    if (i > -1) {
+                        connectors[rid].setPaintStyle(connectorTypes[model.annotationData.relations[rid].pred].paintStyle);
+                        renderer.relations.relationIdsSelected.splice(i, 1);
+                    }
+                },
+                clearRelationSelection: function() {
+                    while (renderer.relations.relationIdsSelected.length > 0) {
+                        var rid = renderer.relations.relationIdsSelected.pop();
+                        connectors[rid].setPaintStyle(connectorTypes[model.annotationData.relations[rid].pred].paintStyle);
+                    }
+                },
+                destroyRelation: function(rid) {
+                    var c = connectors[rid];
+                    jsPlumb.detach(c);
+                    // var endpoints = c.endpoints;
+                    // jsPlumb.deleteEndpoint(endpoints[0]);
+                    // jsPlumb.deleteEndpoint(endpoints[1]);
+                },
 
-        function connectorClicked(conn, e) {
-            var rid = conn.getParameter("id");
-
-            clearSelection();
-
-            if (isRelationSelected(rid)) {
-                deselectRelation(rid);
-            } else {
-                if (!e.ctrlKey) {
-                    clearRelationSelection();
-                }
-                selectRelation(rid);
-            }
-
-            cancelBubble(e);
-            return false;
-        }
-
-        function isRelationSelected(rid) {
-            return (relationIdsSelected.indexOf(rid) > -1);
-        }
-
-        function selectRelation(rid) {
-            if (!isRelationSelected(rid)) {
-                connectors[rid].setPaintStyle(connectorTypes[model.annotationData.relations[rid].pred + "_selected"].paintStyle);
-                relationIdsSelected.push(rid);
-            }
-        }
-
-        function deselectRelation(rid) {
-            var i = relationIdsSelected.indexOf(rid);
-            if (i > -1) {
-                connectors[rid].setPaintStyle(connectorTypes[model.annotationData.relations[rid].pred].paintStyle);
-                relationIdsSelected.splice(i, 1);
-            }
-        }
-
-        function clearRelationSelection() {
-            while (relationIdsSelected.length > 0) {
-                var rid = relationIdsSelected.pop();
-                connectors[rid].setPaintStyle(connectorTypes[model.annotationData.relations[rid].pred].paintStyle);
-            }
-        }
-
-        function destroyRelation(rid) {
-            var c = connectors[rid];
-            jsPlumb.detach(c);
-            // var endpoints = c.endpoints;
-            // jsPlumb.deleteEndpoint(endpoints[0]);
-            // jsPlumb.deleteEndpoint(endpoints[1]);
-        }
-
-        function renderEntitiesOfSpans(sids) {
-            renderer.renderSize.mesure();
-
-            sids.forEach(function(sid) {
-                renderEntitiesOfSpan(sid);
-            });
-        }
-
-        function renderEntitiesOfSpan(sid) {
-            renderGrid(sid);
-            for (var t in typesPerSpan[sid]) {
-                var tid = typesPerSpan[sid][t];
-                for (var e in entitiesPerType[tid]) {
-                    var eid = entitiesPerType[tid][e];
-                    renderer.renderEntity(eid);
-                }
-            }
-        }
+            };
+        }();
 
         function isSpanEmbedded(s1, s2) {
             return (s1.begin >= s2.begin) && (s1.end <= s2.end);
@@ -2853,7 +2844,7 @@
                 grid = $('#' + id);
                 if (grid.length > 0) {
                     grid.remove();
-                    delete positions[id];
+                    delete renderer.positions[id];
                 }
                 return null;
             } else {
@@ -2865,46 +2856,49 @@
                 for (var f = c + 1;
                     (f < model.annotationData.spanIds.length) && isSpanEmbedded(model.annotationData.spans[model.annotationData.spanIds[f]], model.annotationData.spans[model.annotationData.spanIds[c]]); f++) {
                     var cid = 'G' + model.annotationData.spanIds[f];
-                    if (positions[cid] && ((positions[cid].offset + positions[cid].height) < offset)) offset = (positions[cid].offset + positions[cid].height) + CONSTS.TYPE_MARGIN_TOP + CONSTS.TYPE_MARGIN_BOTTOM;
+                    if (renderer.positions[cid] && ((renderer.positions[cid].offset + renderer.positions[cid].height) < offset)) offset = (renderer.positions[cid].offset + renderer.positions[cid].height) + CONSTS.TYPE_MARGIN_TOP + CONSTS.TYPE_MARGIN_BOTTOM;
                 }
 
                 var n = typesPerSpan[sid].length;
                 var gridHeight = n * (renderer.renderSize.typeHeight + CONSTS.TYPE_MARGIN_BOTTOM + CONSTS.TYPE_MARGIN_TOP);
 
-                positions[id] = {};
-                positions[id].offset = offset;
-                positions[id].top = positions[sid].top - offset - gridHeight;
-                positions[id].left = positions[sid].left;
-                positions[id].width = positions[sid].width - renderer.renderSize.gridWidthGap;
-                positions[id].height = gridHeight;
+                renderer.positions[id] = {};
+                renderer.positions[id].offset = offset;
+                renderer.positions[id].top = renderer.positions[sid].top - offset - gridHeight;
+                renderer.positions[id].left = renderer.positions[sid].left;
+                renderer.positions[id].width = renderer.positions[sid].width - renderer.renderSize.gridWidthGap;
+                renderer.positions[id].height = gridHeight;
 
                 if ($('#' + id).length === 0) {
-                    renderer.createDiv(id, 'grid', positions[id].top, positions[id].left, positions[id].width, positions[id].height);
+                    renderer.createDiv(id, 'grid', renderer.positions[id].top, renderer.positions[id].left, renderer.positions[id].width, renderer.positions[id].height);
                     $('#' + id).off('mouseover mouseout', controller.gridMouseHover).on('mouseover mouseout', controller.gridMouseHover);
                     // $('#' + id).off('mouseup', doNothing).on('mouseup', doNothing);
                 } else {
                     grid = $('#' + id);
-                    grid.css('top', positions[id].top);
-                    grid.css('left', positions[id].left);
-                    grid.css('width', positions[id].width);
-                    grid.css('height', positions[id].height);
+                    grid.css('top', renderer.positions[id].top);
+                    grid.css('left', renderer.positions[id].left);
+                    grid.css('width', renderer.positions[id].width);
+                    grid.css('height', renderer.positions[id].height);
                 }
                 return id;
             }
         }
 
         function positionGrids(sids) {
-            for (var s = sids.length - 1; s >= 0; s--) positionGrid(model.annotationData.spanIds[s]);
+            console.log(sids);
+            for (var s = sids.length - 1; s >= 0; s--) {
+                positionGrid(model.annotationData.spanIds[s]);
+            }
         }
 
         function positionGrid(sid) {
             var gid = 'G' + sid;
             var grid = $('#' + gid);
             if (grid.length > 0) {
-                positions[gid].top = positions[sid].top - positions[gid].offset - positions[gid].height;
-                positions[gid].left = positions[sid].left;
-                grid.css('top', positions[gid].top);
-                grid.css('left', positions[sid].left);
+                renderer.positions[gid].top = renderer.positions[sid].top - renderer.positions[gid].offset - renderer.positions[gid].height;
+                renderer.positions[gid].left = renderer.positions[sid].left;
+                grid.css('top', renderer.positions[gid].top);
+                grid.css('left', renderer.positions[sid].left);
             }
         }
 
@@ -2923,7 +2917,7 @@
 
         function positionEntities(sid, type) {
             var tid = idFactory.makeTypeId(sid, type);
-            $('#P-' + tid).css('left', (positions['G' + sid].width - (renderer.renderSize.entityWidth * entitiesPerType[tid].length)) / 2);
+            $('#P-' + tid).css('left', (renderer.positions['G' + sid].width - (renderer.renderSize.entityWidth * entitiesPerType[tid].length)) / 2);
         }
 
         function destroyEntity(eid) {
@@ -2988,15 +2982,14 @@
                 connectors[rid].setPaintStyle(connectorTypes[rtype].paintStyle);
             }
 
-            for (var i = 0; i < relationIdsSelected; i++) {
-                var id = relationIdsSelected[i];
+            for (var i = 0; i < renderer.relations.relationIdsSelected; i++) {
+                var id = renderer.relations.relationIdsSelected[i];
                 var type = model.annotationData.relations[id].pred;
                 connectors[id].setPaintStyle(connectorTypes[type + "_selected"].paintStyle);
             }
         }
 
         // public funcitons of editor
-        var self = this;
         var editorApi = {
             loadAnnotation: businessLogic.loadAnnotation,
             getAnnotationFromServer: businessLogic.getAnnotationFromServer,
