@@ -136,7 +136,7 @@
 
                 $("body")
                     .on("textae.editor.buttonState.change", function(e, data) {
-                        console.log(data);
+                        // console.log(data);
                         control.disableButtons(data);
                     })
                     .on("textae.editor.button.repulicateAuto.push", function(e, data) {

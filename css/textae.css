@@ -12,6 +12,7 @@ html, body {
 }
 
 .textae-control {
+    position: fixed;
     width: 90%;
     height: 20px;
     border-left: 5px solid #555588;
@@ -26,6 +27,25 @@ html, body {
     background: -webkit-gradient(linear,  left top, right top, from(#BBBBEE), to(#FFFFFF));
     /* MSIE */
     filter: progid:DXImageTransform.Microsoft.Gradient(StartColorStr='#BBBBEE', EndColorStr='#FFFFFF', GradientType=1);
+}
+
+.textae-editor__footer {
+    position: absolute;
+    height: 540px;
+    margin: 0px 4px;
+    overflow-y: scroll;
+}
+
+.textae-editor__body__text-box {
+    display: inline;
+    line-height: 400%;
+    z-index: 255;
+}
+
+.textae-editor__body__annotation_box {
+    position: absolute;
+    top: 0px;
+    left: 0px;
 }
 
 .textae-editor__footer {
@@ -45,6 +65,8 @@ html, body {
     background: -webkit-gradient(linear,  left top, right top, from(#DDDDFF), to(#FFFFFF));
     /* MSIE */
     filter: progid:DXImageTransform.Microsoft.Gradient(StartColorStr='#DDDDFF', EndColorStr='#FFFFFF', GradientType=1);
+
+    overflow-y: hidden;
 }
 
 .textae-editor__footer__message {
@@ -52,26 +74,6 @@ html, body {
     font-style:italic;
     color:gray;
 }
-
-#body {
-    position: absolute;
-    height: 540px;
-    margin: 0px 4px;
-    overflow-y: scroll;
-}
-
-#text_box {
-    display: inline;
-    line-height: 400%;
-    z-index: 255;
-}
-
-#annotation_box{
-    position: absolute;
-    top: 0px;
-    left: 0px;
-}
-
 
 .block {
     display: block;
