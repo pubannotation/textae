@@ -17,7 +17,7 @@
                     editor.apply(e);
                     e.api.start();
                     return e;
-                })
+                });
             } else if (this.hasClass("textae-control")) {
                 var c = control.apply(this);
                 texaeGod.setControl(c);

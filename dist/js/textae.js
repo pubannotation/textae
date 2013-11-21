@@ -187,28 +187,6 @@
         }()
     };
 })();
-    //utility functions for button
-    //TODO: both main and this plugnin independent global object below. 
-    window.buttonUtil = {
-        enable: function($button) {
-            $button.removeClass('textae-control__icon-bar__icon--disabled');
-        },
-        disable: function($button) {
-            $button.addClass('textae-control__icon-bar__icon--disabled');
-        },
-        isDisable: function($button) {
-            return $button.hasClass('textae-control__icon-bar__icon--disabled');
-        },
-        push: function($button) {
-            $button.addClass('textae-control__icon-bar__icon--pushed');
-        },
-        unpush: function($button) {
-            $button.removeClass('textae-control__icon-bar__icon--pushed');
-        },
-        isPushed: function($button) {
-            return $button.hasClass('textae-control__icon-bar__icon--pushed');
-        }
-    };
 //like a jQuery plugin
 (function(jQuery) {
 
@@ -3048,6 +3026,27 @@
         return this;
     };
     var control = function() {
+        var buttonUtil = {
+            enable: function($button) {
+                $button.removeClass('textae-control__icon-bar__icon--disabled');
+            },
+            disable: function($button) {
+                $button.addClass('textae-control__icon-bar__icon--disabled');
+            },
+            isDisable: function($button) {
+                return $button.hasClass('textae-control__icon-bar__icon--disabled');
+            },
+            push: function($button) {
+                $button.addClass('textae-control__icon-bar__icon--pushed');
+            },
+            unpush: function($button) {
+                $button.removeClass('textae-control__icon-bar__icon--pushed');
+            },
+            isPushed: function($button) {
+                return $button.hasClass('textae-control__icon-bar__icon--pushed');
+            }
+        };
+
         var $self = this;
         var buttonCache = {};
 
@@ -3107,8 +3106,8 @@
 
         var CLICK = "click";
         // function to enable/disable button
-        var enableButton = function(button_name, enable) {
-            var button = buttonCache[button_name];
+        var enableButton = function(buttonName, enable) {
+            var button = buttonCache[buttonName];
 
             if (button) {
                 if (enable) {
@@ -3126,9 +3125,18 @@
         };
 
         // update all button state, because an instance of textEditor maybe change.
-        var disableButtons = function(disableButtons) {
-            for (var buttonType in buttonCache) {
-                enableButton(buttonType, !disableButtons.hasOwnProperty(buttonType));
+        // expected disableButtons is an object has keys that is a name of buttons.  
+        var updateAllButtonEnableState = function(disableButtons) {
+            for (var buttonName in buttonCache) {
+                enableButton(buttonName, !disableButtons.hasOwnProperty(buttonName));
+            }
+        };
+
+        var updateReplicateAutoButtonPushState = function(state) {
+            if (state) {
+                buttonUtil.push(buttonCache["replicate-auto"].obj);
+            } else {
+                buttonUtil.unpush(buttonCache["replicate-auto"].obj);
             }
         };
 
@@ -3143,7 +3151,8 @@
         enableButton("about", true);
 
         // public
-        this.disableButtons = disableButtons;
+        this.updateAllButtonEnableState = updateAllButtonEnableState;
+        this.updateReplicateAutoButtonPushState = updateReplicateAutoButtonPushState;
         this.buttons = buttonCache;
 
         return this;
@@ -3287,14 +3296,10 @@
                 $("body")
                     .on("textae.editor.buttonState.change", function(e, data) {
                         // console.log(data);
-                        control.disableButtons(data);
+                        control.updateAllButtonEnableState(data);
                     })
                     .on("textae.editor.button.repulicateAuto.push", function(e, data) {
-                        if (data) {
-                            buttonUtil.push(control.buttons["replicate-auto"].obj);
-                        } else {
-                            buttonUtil.unpush(control.buttons["replicate-auto"].obj);
-                        }
+                        control.updateReplicateAutoButtonPushState(data);
                     });
 
                 editors.forEach(function(editor) {
@@ -3307,7 +3312,7 @@
                 editor.urlParams = urlParams;
 
                 editors.push(editor);
-                editor.editorId = "editor" +editors.length;
+                editor.editorId = "editor" + editors.length;
 
                 if (isFirstEditor) {
                     keyboard.enable();
@@ -3423,7 +3428,7 @@
                     editor.apply(e);
                     e.api.start();
                     return e;
-                })
+                });
             } else if (this.hasClass("textae-control")) {
                 var c = control.apply(this);
                 texaeGod.setControl(c);

@@ -137,14 +137,10 @@
                 $("body")
                     .on("textae.editor.buttonState.change", function(e, data) {
                         // console.log(data);
-                        control.disableButtons(data);
+                        control.updateAllButtonEnableState(data);
                     })
                     .on("textae.editor.button.repulicateAuto.push", function(e, data) {
-                        if (data) {
-                            buttonUtil.push(control.buttons["replicate-auto"].obj);
-                        } else {
-                            buttonUtil.unpush(control.buttons["replicate-auto"].obj);
-                        }
+                        control.updateReplicateAutoButtonPushState(data);
                     });
 
                 editors.forEach(function(editor) {
@@ -157,7 +153,7 @@
                 editor.urlParams = urlParams;
 
                 editors.push(editor);
-                editor.editorId = "editor" +editors.length;
+                editor.editorId = "editor" + editors.length;
 
                 if (isFirstEditor) {
                     keyboard.enable();
