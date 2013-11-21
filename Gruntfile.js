@@ -2,8 +2,8 @@ module.exports = function(grunt) {
   grunt.initConfig({
     concat: {
       dist: {
-        src: ['src/dummy.js', 'src/util.js', 'src/buttonUtil.js', 'src/jquery.textae.head.js', 'src/jquery.textae.editor.js', 'src/jquery.textae.control.js', 'src/jquery.textae.tool.js', 'src/jquery.textae.main.js', 'src/jquery.textae.tail.js', 'src/textae.js'],
-        dest: 'js/textae.js',
+        src: ['src/util.js', 'src/buttonUtil.js', 'src/head.js', 'src/editor.js', 'src/control.js', 'src/tool.js', 'src/jquery.textae.js', 'src/tail.js', 'src/main.js'],
+        dest: 'dist/js/textae.js',
       }
     },
     watch: {
@@ -12,13 +12,13 @@ module.exports = function(grunt) {
         tasks: 'concat'
       },
       static_files: {
-        files: ['textae.html', 'js/textae.js', 'css/*.css'],
+        files: ['textae.html', 'dist/js/textae.js', 'css/*.css'],
         options: {
           livereload: true
         }
       },
       jshint: {
-        files: ['src/jquery.textae.editor.js'],
+        files: ['src/*.js'],
         tasks: 'jshint'
       }
     },
@@ -29,7 +29,10 @@ module.exports = function(grunt) {
       all: 'test/util.html'
     },
     jshint: {
-      all: ['src/jquery.textae.editor.js']
+      files: ['src/*.js'],
+      options: {
+        ignores: ['src/head.js', 'src/tail.js']
+      }
     }
   });
 

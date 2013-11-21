@@ -1,5 +1,3 @@
-// this is dummy file for test grunt-contrib-concat
-
 // utility functions
 (function() {
     window.textAeUtil = {
