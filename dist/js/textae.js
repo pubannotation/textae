@@ -1507,6 +1507,8 @@
                         if (edits.length > 0) makeEdits(edits);
                     };
 
+                    editor.saySelectMeToTool();
+
                     var selection = window.getSelection();
                     if (selection) {
                         var range = selection.getRangeAt(0);
@@ -3020,6 +3022,27 @@
             start: function() {
                 startEdit(self);
             },
+            handleInputKey: function(key) {
+                var keyApiMap = {
+                    "A": editorApi.showAccess,
+                    "C": editorApi.copyEntities,
+                    "D DEL": editorApi.removeElements,
+                    "E": editorApi.createEntity,
+                    "Q": editorApi.showPallet,
+                    "R": editorApi.replicate,
+                    "S": editorApi.showSave,
+                    "V": editorApi.pasteEntities,
+                    "W": editorApi.newLabel,
+                    "X Y": editorApi.redo,
+                    "Z": editorApi.undo,
+                    "ESC": editorApi.cancelSelect,
+                    "LEFT": editorApi.selectLeftEntity,
+                    "RIGHT": editorApi.selectRightEntity,
+                };
+                if (keyApiMap[key]) {
+                    keyApiMap[key]();
+                }
+            },
         };
         this.api = editorApi;
 
@@ -3047,7 +3070,6 @@
             }
         };
 
-        var $self = this;
         var buttonCache = {};
 
         var makeTitle = function() {
@@ -3157,53 +3179,73 @@
 
         return this;
     };
-    var god = function() {
+    var tool = function() {
         // get the url parameters: beginning of the program
         var urlParams = textAeUtil.getUrlParameters(location.search);
 
-        //keyboard shortcut
-        var keyboard = function() {
-            //cache element
-            var $body = $("body");
+        // components to manage
+        var components = {
+            control: null,
+            editors: [],
+            isFirstEditor: function() {
+                return components.editors.length === 1;
+            },
+            selectedEditor: null
+        };
 
-            //declare keyboardEvents of cotorol keys 
-            var controlKeysEvents = {
+        // decide "is which controller handle certain event.""
+        var traficController = {
+            handleInputKey: function(key) {
+                if (key === "H") {
+                    helpDialog.show();
+                } else {
+                    if (components.selectedEditor) {
+                        components.selectedEditor.api.handleInputKey(key);
+                    }
+                }
+            },
+        };
+
+        // keyboradController observe key-input events and convert events to readable code.
+        var keyboardController = function() {
+            //declare keyApiMap of cotorol keys 
+            var controlKeyEventMap = {
                 27: "ESC",
                 46: "DEL",
                 37: "LEFT",
                 39: "RIGHT"
             };
-
-            var dispatchKeyEvents = function(e) {
-                var triggerBody = function(key) {
-                    $body.trigger("textae.keyboard." + key + ".click");
-                };
-
-                //from a to z, like "textae.keyboard.A.click"
-                if (65 <= e.keyCode && e.keyCode <= 90) {
-                    triggerBody(String.fromCharCode(e.keyCode));
-                    return;
-                }
-
-                //control key, like "textae.keyboard.ESC.click"
-                if (controlKeysEvents[e.keyCode]) {
-                    triggerBody(controlKeysEvents[e.keyCode]);
-                    return;
+            var convertKeyEvent = function(keyCode) {
+                if (65 <= keyCode && keyCode <= 90) {
+                    //from a to z, convert "A" to "Z"
+                    return String.fromCharCode(keyCode);
+                } else if (controlKeyEventMap[keyCode]) {
+                    //control key, like ESC, DEL ...
+                    return controlKeyEventMap[keyCode];
                 }
             };
 
-            return {
-                enable: function(enable) {
-                    //undefined is true
-                    if (enable === false) {
-                        $(document).off("keyup", dispatchKeyEvents);
-                    } else {
-                        $(document).on("keyup", dispatchKeyEvents);
-                    }
+            //observe key-input event
+            var onKeyup = function(e) {
+                if (isActive) {
+                    traficController.handleInputKey(convertKeyEvent(e.keyCode));
                 }
+            };
+            $(document).on("keyup", onKeyup);
+
+            var isActive = true;
+            var enable = function(enable) {
+                //undefined is true
+                isActive = enable === false ? enable : true;
+            };
+
+            //public api
+            return {
+                enable: enable
             };
         }();
 
+        //help dialog
         var helpDialog = textAeUtil.makeInformationDialog({
             className: "textae-control__help",
             addContentsFunc: function() {
@@ -3213,6 +3255,7 @@
             }
         });
 
+        //about dialog
         var aboutDialog = textAeUtil.makeInformationDialog({
             className: "textae-control__about",
             addContentsFunc: function() {
@@ -3277,12 +3320,6 @@
             }
         };
 
-        var cachedControl = null;
-        var editors = [];
-        var isFirstEditor = function() {
-            return editors.length === 1;
-        };
-
         return {
             setControl: function(control) {
                 control.on(control.buttons.help.ev, helpDialog.show);
@@ -3302,86 +3339,41 @@
                         control.updateReplicateAutoButtonPushState(data);
                     });
 
-                editors.forEach(function(editor) {
+                components.editors.forEach(function(editor) {
                     bindTextaeControlEventhandler(control, editor);
                 });
 
-                cachedControl = control;
+                components.control = control;
             },
             pushEditor: function(editor) {
                 editor.urlParams = urlParams;
 
-                editors.push(editor);
-                editor.editorId = "editor" + editors.length;
+                components.editors.push(editor);
+                editor.editorId = "editor" + components.editors.length;
+                editor.saySelectMeToTool = function() {
+                    components.selectedEditor = editor;
+                };
 
-                if (isFirstEditor) {
-                    keyboard.enable();
+                if (components.isFirstEditor()) {
+                    keyboardController.enable();
 
                     var disableKeyboardIfDialogOpen = {
                         //keybord disable/enable if jquery ui dialog is open/close
                         "dialogopen": {
                             selector: ".ui-dialog",
                             func: function() {
-                                keyboard.enable(false);
+                                keyboardController.enable(false);
                             }
                         },
                         "dialogclose": {
                             selector: ".ui-dialog",
                             func: function() {
-                                keyboard.enable();
+                                keyboardController.enable();
                             }
                         }
                     };
                     textAeUtil.bindEvents($("body"), disableKeyboardIfDialogOpen);
                 }
-
-                //api call in method, because api will is set after this.
-                var keyboardEvents = {
-                    "textae.keyboard.A.click": function() {
-                        editor.api.showAccess();
-                    },
-                    "textae.keyboard.C.click": function() {
-                        editor.api.copyEntities();
-                    },
-                    "textae.keyboard.D.click textae.keyboard.DEL.click": function() {
-                        editor.api.removeElements();
-                    },
-                    "textae.keyboard.E.click": function() {
-                        editor.api.createEntity();
-                    },
-                    "textae.keyboard.H.click": helpDialog.show,
-                    "textae.keyboard.Q.click": function(controlEvent) {
-                        editor.api.showPallet(controlEvent);
-                    },
-                    "textae.keyboard.R.click": function() {
-                        editor.api.replicate();
-                    },
-                    "textae.keyboard.S.click": function() {
-                        editor.api.showSave();
-                    },
-                    "textae.keyboard.V.click": function() {
-                        editor.api.pasteEntities();
-                    },
-                    "textae.keyboard.W.click": function() {
-                        editor.api.newLabel();
-                    },
-                    "textae.keyboard.X.click textae.keyboard.Y.click": function() {
-                        editor.api.redo();
-                    },
-                    "textae.keyboard.Z.click": function() {
-                        editor.api.undo();
-                    },
-                    "textae.keyboard.ESC.click": function() {
-                        editor.api.cancelSelect();
-                    },
-                    "textae.keyboard.LEFT.click": function() {
-                        editor.api.selectLeftEntity();
-                    },
-                    "textae.keyboard.RIGHT.click": function() {
-                        editor.api.selectRightEntity();
-                    },
-                };
-                textAeUtil.bindEvents($("body"), keyboardEvents);
 
                 // bind Dialog eventhandler
                 var saveLoadDialogEvents = {
@@ -3405,33 +3397,23 @@
                     editor.api.redraw();
                 });
 
-                bindTextaeControlEventhandler(cachedControl, editor);
+                bindTextaeControlEventhandler(components.control, editor);
             }
         };
-    };
+    }();
     jQuery.fn.textae = (function() {
-        var texaeGod,
-            initGod = function() {
-                //init management object
-                if (texaeGod === undefined) {
-                    texaeGod = god();
-                }
-            };
-
         return function() {
-            initGod();
-
             if (this.hasClass("textae-editor")) {
                 this.each(function(){
                     var e = $(this);
-                    texaeGod.pushEditor(e);
+                    tool.pushEditor(e);
                     editor.apply(e);
                     e.api.start();
                     return e;
                 });
             } else if (this.hasClass("textae-control")) {
                 var c = control.apply(this);
-                texaeGod.setControl(c);
+                tool.setControl(c);
                 return c;
             }
         };

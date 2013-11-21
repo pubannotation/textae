@@ -1315,6 +1315,8 @@
                         if (edits.length > 0) makeEdits(edits);
                     };
 
+                    editor.saySelectMeToTool();
+
                     var selection = window.getSelection();
                     if (selection) {
                         var range = selection.getRangeAt(0);
@@ -2827,6 +2829,27 @@
             redraw: presentationLogic.redraw,
             start: function() {
                 startEdit(self);
+            },
+            handleInputKey: function(key) {
+                var keyApiMap = {
+                    "A": editorApi.showAccess,
+                    "C": editorApi.copyEntities,
+                    "D DEL": editorApi.removeElements,
+                    "E": editorApi.createEntity,
+                    "Q": editorApi.showPallet,
+                    "R": editorApi.replicate,
+                    "S": editorApi.showSave,
+                    "V": editorApi.pasteEntities,
+                    "W": editorApi.newLabel,
+                    "X Y": editorApi.redo,
+                    "Z": editorApi.undo,
+                    "ESC": editorApi.cancelSelect,
+                    "LEFT": editorApi.selectLeftEntity,
+                    "RIGHT": editorApi.selectRightEntity,
+                };
+                if (keyApiMap[key]) {
+                    keyApiMap[key]();
+                }
             },
         };
         this.api = editorApi;

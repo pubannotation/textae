@@ -20,7 +20,6 @@
             }
         };
 
-        var $self = this;
         var buttonCache = {};
 
         var makeTitle = function() {
