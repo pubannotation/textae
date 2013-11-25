@@ -30,7 +30,7 @@
                         var reader = new FileReader();
                         reader.onload = function() {
                             var annotation = JSON.parse(this.result);
-                            $("body").trigger("textae.dialog.localfile.load", annotation);
+                            businessLogic.loadAnnotation(annotation);
                             $dialog.dialog("close");
                         };
                         reader.readAsText(this.files[0]);
@@ -42,7 +42,7 @@
                     $dialog.find("input[type='button']")
                         .on("click", function() {
                             var url = $dialog.find("input[type='text']").val();
-                            $("body").trigger("textae.dialog.loadurl.select", url);
+                            businessLogic.getAnnotationFromServer(url);
                             $dialog.dialog("close");
                         });
                 }
@@ -81,11 +81,12 @@
                             $dialog.hide();
                             $dialog
                                 .on("click", "a", function() {
-                                    $("body").trigger("textae.dialog.localfile.save");
+                                    businessLogic.saveAnnotation();
                                     $dialog.dialog("close");
                                 })
                                 .on("click", "input[type='button']", function() {
-                                    $("body").trigger("textae.dialog.saveurl.select", $dialog.find("input[type='text']").val());
+                                    var url = $dialog.find("input[type='text']").val();
+                                    businessLogic.saveAnnotationToServer(url);
                                     $dialog.dialog("close");
                                 });
 
@@ -1878,6 +1879,9 @@
                     $textaeEditor.endWait();
                 });
             },
+            saveAnnotation: function() {
+                editHistory.saved();
+            },
             saveAnnotationToServer: function(url) {
                 $textaeEditor.startWait();
                 var postData = model.annotationData.toJason();
@@ -2772,12 +2776,6 @@
 
         // public funcitons of editor
         var editorApi = {
-            loadAnnotation: businessLogic.loadAnnotation,
-            getAnnotationFromServer: businessLogic.getAnnotationFromServer,
-            saveAnnotation: function() {
-                editHistory.saved();
-            },
-            saveAnnotationToServer: businessLogic.saveAnnotationToServer,
             createEntity: businessLogic.createEntity,
             removeElements: businessLogic.removeElements,
             copyEntities: businessLogic.copyEntities,

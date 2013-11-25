@@ -172,23 +172,6 @@
                     components.selectedEditor = editor;
                 };
 
-                // bind Dialog eventhandler
-                var saveLoadDialogEvents = {
-                    "textae.dialog.localfile.load": function(e, data) {
-                        editor.api.loadAnnotation(data);
-                    },
-                    "textae.dialog.loadurl.select": function(e, data) {
-                        editor.api.getAnnotationFromServer(data);
-                    },
-                    "textae.dialog.localfile.save": function(e, data) {
-                        editor.api.saveAnnotation();
-                    },
-                    "textae.dialog.saveurl.select": function(e, data) {
-                        editor.api.saveAnnotationToServer(data);
-                    },
-                };
-                textAeUtil.bindEvents($("body"), saveLoadDialogEvents);
-
                 // bind resize event
                 $(window).on("resize", function() {
                     editor.api.redraw();
