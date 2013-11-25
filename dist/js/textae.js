@@ -3187,9 +3187,6 @@
         var components = {
             control: null,
             editors: [],
-            isFirstEditor: function() {
-                return components.editors.length === 1;
-            },
             selectedEditor: null
         };
 
@@ -3243,6 +3240,30 @@
             return {
                 enable: enable
             };
+        }();
+
+        // dialogEventController observe dialog open/close events and disable/enable keyboardCotroller.
+        var dialogEventController = function() {
+            var disableKeyboardIfDialogOpen = {
+                //keybord disable/enable if jquery ui dialog is open/close
+                "dialogopen": {
+                    selector: ".ui-dialog",
+                    func: function() {
+                        keyboardController.enable(false);
+                    }
+                },
+                "dialogclose": {
+                    selector: ".ui-dialog",
+                    func: function() {
+                        keyboardController.enable();
+                    }
+                }
+            };
+
+            //start observe at document ready.
+            $(function() {
+                textAeUtil.bindEvents($("body"), disableKeyboardIfDialogOpen)
+            });
         }();
 
         //help dialog
@@ -3353,27 +3374,6 @@
                 editor.saySelectMeToTool = function() {
                     components.selectedEditor = editor;
                 };
-
-                if (components.isFirstEditor()) {
-                    keyboardController.enable();
-
-                    var disableKeyboardIfDialogOpen = {
-                        //keybord disable/enable if jquery ui dialog is open/close
-                        "dialogopen": {
-                            selector: ".ui-dialog",
-                            func: function() {
-                                keyboardController.enable(false);
-                            }
-                        },
-                        "dialogclose": {
-                            selector: ".ui-dialog",
-                            func: function() {
-                                keyboardController.enable();
-                            }
-                        }
-                    };
-                    textAeUtil.bindEvents($("body"), disableKeyboardIfDialogOpen);
-                }
 
                 // bind Dialog eventhandler
                 var saveLoadDialogEvents = {
