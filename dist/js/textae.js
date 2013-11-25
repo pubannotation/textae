@@ -3223,6 +3223,7 @@
             };
 
             //observe key-input event
+            var isActive = true;
             var onKeyup = function(e) {
                 if (isActive) {
                     traficController.handleInputKey(convertKeyEvent(e.keyCode));
@@ -3230,39 +3231,14 @@
             };
             $(document).on("keyup", onKeyup);
 
-            var isActive = true;
-            var enable = function(enable) {
-                //undefined is true
-                isActive = enable === false ? enable : true;
-            };
-
-            //public api
-            return {
-                enable: enable
-            };
-        }();
-
-        // dialogEventController observe dialog open/close events and disable/enable keyboardCotroller.
-        var dialogEventController = function() {
-            var disableKeyboardIfDialogOpen = {
-                //keybord disable/enable if jquery ui dialog is open/close
-                "dialogopen": {
-                    selector: ".ui-dialog",
-                    func: function() {
-                        keyboardController.enable(false);
-                    }
-                },
-                "dialogclose": {
-                    selector: ".ui-dialog",
-                    func: function() {
-                        keyboardController.enable();
-                    }
-                }
-            };
-
-            //start observe at document ready.
+            //keybord disable/enable if jquery ui dialog is open/close
+            //start observe at document ready, because this function may be called before body is loaded.
             $(function() {
-                textAeUtil.bindEvents($("body"), disableKeyboardIfDialogOpen)
+                $("body").on("dialogopen", ".ui-dialog", function() {
+                    isActive = false;
+                }).on("dialogclose", ".ui-dialog", function() {
+                    isActive = true;
+                });
             });
         }();
 
