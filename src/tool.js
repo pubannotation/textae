@@ -90,47 +90,51 @@
         });
 
         // bind textaeCotnrol eventhandler
-        var bindTextaeControlEventhandler = function(control, editor) {
-            if (control && editor) {
+        var bindTextaeControlEventhandler = function(control) {
+            var getEditor = function() {
+                return components.selectedEditor;
+            };
+
+            if (control) {
                 var buttons = control.buttons;
                 // object leteral treat key as string, so set controlEvents after declare.
                 var controlEvents = {};
                 // access by square brancket because property names include "-". 
                 controlEvents[buttons.read.ev] = function() {
-                    editor.api.showAccess();
+                    getEditor().api.showAccess();
                 };
                 controlEvents[buttons.write.ev] = function() {
-                    editor.api.showSave();
+                    getEditor().api.showSave();
                 };
                 controlEvents[buttons.undo.ev] = function() {
-                    editor.api.undo();
+                    getEditor().api.undo();
                 };
                 controlEvents[buttons.redo.ev] = function() {
-                    editor.api.redo();
+                    getEditor().api.redo();
                 };
                 controlEvents[buttons.replicate.ev] = function() {
-                    editor.api.replicate();
+                    getEditor().api.replicate();
                 };
                 controlEvents[buttons["replicate-auto"].ev] = function() {
-                    editor.api.toggleReplicateAuto();
+                    getEditor().api.toggleReplicateAuto();
                 };
                 controlEvents[buttons.entity.ev] = function() {
-                    editor.api.createEntity();
+                    getEditor().api.createEntity();
                 };
                 controlEvents[buttons["new-label"].ev] = function() {
-                    editor.api.newLabel();
+                    getEditor().api.newLabel();
                 };
                 controlEvents[buttons.pallet.ev] = function(controlEvent, buttonEvent) {
-                    editor.api.showPallet(controlEvent, buttonEvent);
+                    getEditor().api.showPallet(controlEvent, buttonEvent);
                 };
                 controlEvents[buttons.delete.ev] = function() {
-                    editor.api.removeElements();
+                    getEditor().api.removeElements();
                 };
                 controlEvents[buttons.copy.ev] = function() {
-                    editor.api.copyEntities();
+                    getEditor().api.copyEntities();
                 };
                 controlEvents[buttons.paste.ev] = function() {
-                    editor.api.pasteEntities();
+                    getEditor().api.pasteEntities();
                 };
                 textAeUtil.bindEvents(control, controlEvents);
             }
@@ -155,9 +159,7 @@
                         control.updateReplicateAutoButtonPushState(data);
                     });
 
-                components.editors.forEach(function(editor) {
-                    bindTextaeControlEventhandler(control, editor);
-                });
+                bindTextaeControlEventhandler(control);
 
                 components.control = control;
             },
@@ -191,8 +193,6 @@
                 $(window).on("resize", function() {
                     editor.api.redraw();
                 });
-
-                bindTextaeControlEventhandler(components.control, editor);
             }
         };
     }();

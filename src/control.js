@@ -76,25 +76,26 @@
             );
         };
 
-        var CLICK = "click";
         // function to enable/disable button
-        var enableButton = function(buttonName, enable) {
-            var button = buttonCache[buttonName];
+        var enableButton = function(CLICK, $self) {
+            return function(buttonName, enable) {
+                var button = buttonCache[buttonName];
 
-            if (button) {
-                if (enable) {
-                    button.obj
-                        .off(CLICK)
-                        .on(CLICK, function(e) {
-                            $self.trigger(button.ev, e);
-                        });
-                    buttonUtil.enable(button.obj);
-                } else {
-                    button.obj.off(CLICK);
-                    buttonUtil.disable(button.obj);
+                if (button) {
+                    if (enable) {
+                        button.obj
+                            .off(CLICK)
+                            .on(CLICK, function(e) {
+                                $self.trigger(button.ev, e);
+                            });
+                        buttonUtil.enable(button.obj);
+                    } else {
+                        button.obj.off(CLICK);
+                        buttonUtil.disable(button.obj);
+                    }
                 }
             }
-        };
+        }("click", this);
 
         // update all button state, because an instance of textEditor maybe change.
         // expected disableButtons is an object has keys that is a name of buttons.  
