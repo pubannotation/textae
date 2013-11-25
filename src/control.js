@@ -94,7 +94,7 @@
                         buttonUtil.disable(button.obj);
                     }
                 }
-            }
+            };
         }("click", this);
 
         // update all button state, because an instance of textEditor maybe change.

@@ -3,18 +3,18 @@
     window.textAeUtil = {
         //bind event according to object like { event : function }
         //if use selector { event : {selector : selector , func : function } }
-        bindEvents : function($target, events){
+        bindEvents: function($target, events) {
             var isFunction = function(func) {
                 return func && {}.toString.call(func) === '[object Function]';
             };
 
             var value;
-            for(var event in events){
+            for (var event in events) {
                 value = events[event];
-                if(value){
-                    if(isFunction(value)){
+                if (value) {
+                    if (isFunction(value)) {
                         $target.on(event, value);
-                    }else if(value.selector && value.func){
+                    } else if (value.selector && value.func) {
                         $target.on(event, value.selector, value.func);
                     }
                 }
@@ -22,13 +22,13 @@
         },
 
         // ajax wrapper
-        ajaxAccessor : function(){
-            var isEmpty = function(str){
+        ajaxAccessor: function() {
+            var isEmpty = function(str) {
                 return !str || str === "";
             };
             return {
-                getSync : function(url){
-                    if(isEmpty(url)){
+                getSync: function(url) {
+                    if (isEmpty(url)) {
                         return;
                     }
 
@@ -37,14 +37,14 @@
                         type: "GET",
                         url: url,
                         async: false
-                    }).done(function(data){
+                    }).done(function(data) {
                         result = data;
                     });
                     return result;
                 },
 
-                getAsync : function(url, dataHandler, finishHandler) {
-                    if(isEmpty(url)){
+                getAsync: function(url, dataHandler, finishHandler) {
+                    if (isEmpty(url)) {
                         return;
                     }
 
@@ -53,31 +53,37 @@
                         url: url,
                         cache: false
                     })
-                    .done(function(data) {
-                        if(dataHandler !== undefined){
-                            dataHandler(data);
-                        }
-                    })
-                    .fail(function(res, textStatus, errorThrown){
-                        alert("connection failed.");
-                    })
-                    .always(function(data){
-                        if(finishHandler !== undefined){
-                            finishHandler();
-                        }
-                    });
+                        .done(function(data) {
+                            if (dataHandler !== undefined) {
+                                dataHandler(data);
+                            }
+                        })
+                        .fail(function(res, textStatus, errorThrown) {
+                            alert("connection failed.");
+                        })
+                        .always(function(data) {
+                            if (finishHandler !== undefined) {
+                                finishHandler();
+                            }
+                        });
                 },
 
-                post : function(url, data, successHandler, failHandler) {
-                    if(isEmpty(url)){
+                post: function(url, data, successHandler, failHandler, finishHandler) {
+                    if (isEmpty(url)) {
                         return;
                     }
 
                     $.ajax({
                         type: "post",
                         url: url,
-                        data: {annotations:data}
-                    }).done(successHandler).fail(failHandler);
+                        contentType: "application/json",
+                        data: {
+                            annotations: data
+                        }
+                    })
+                        .done(successHandler)
+                        .fail(failHandler)
+                        .always(finishHandler);
                 }
             };
         }(),

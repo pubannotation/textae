@@ -1885,7 +1885,9 @@
             saveAnnotationToServer: function(url) {
                 $textaeEditor.startWait();
                 var postData = model.annotationData.toJason();
-                textAeUtil.ajaxAccessor.post(url, postData, presentationLogic.showSaveSuccess, presentationLogic.showSaveError);
+                textAeUtil.ajaxAccessor.post(url, postData, presentationLogic.showSaveSuccess, presentationLogic.showSaveError, function() {
+                    $textaeEditor.endWait();
+                });
             },
             undo: function() {
                 clearSelection();
