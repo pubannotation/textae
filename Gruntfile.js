@@ -12,7 +12,7 @@ module.exports = function(grunt) {
         tasks: ['concat', 'jshint']
       },
       static_files: {
-        files: ['textae.html', 'dist/js/textae.js', 'css/*.css'],
+        files: ['dist/textae.html', 'dist/js/textae.js', 'dist/css/*.css'],
         options: {
           livereload: true
         }
