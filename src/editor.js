@@ -1331,7 +1331,7 @@
                             (selection.isCollapsed)
                         ) {
                             // bubbles go up
-                            cancelSelect();
+                            presentationLogic.cancelSelect();
                             dismissBrowserSelection();
                             return true;
                         }
@@ -1675,28 +1675,6 @@
                 }
             }
             return maxIdNum;
-        }
-
-        function cancelSelect(e) {
-            // if drag, bubble up
-            if (!window.getSelection().isCollapsed) {
-                dismissBrowserSelection();
-                return true;
-            }
-
-            clearSelection();
-            renderer.relations.clearRelationSelection();
-            clearModificationSelection();
-            presentationLogic.hidePallet();
-            changeButtonStateReplicate();
-            changeButtonStateEntity();
-            changeButtonStateDelete();
-            changeButtonStatePallet();
-            changeButtonStateNewLabel();
-            changeButtonStateCopy();
-            changeButtonStatePaste();
-
-            $("body").trigger("textae.select.cancel");
         }
 
         // search same strings
@@ -2182,6 +2160,27 @@
 
                     renderer.indexPositionEntities();
                     renderer.relations.renewConnections();
+                },
+                cancelSelect: function() {
+                    // if drag, bubble up
+                    if (!window.getSelection().isCollapsed) {
+                        dismissBrowserSelection();
+                        return true;
+                    }
+
+                    clearSelection();
+                    renderer.relations.clearRelationSelection();
+                    clearModificationSelection();
+                    presentationLogic.hidePallet();
+                    changeButtonStateReplicate();
+                    changeButtonStateEntity();
+                    changeButtonStateDelete();
+                    changeButtonStatePallet();
+                    changeButtonStateNewLabel();
+                    changeButtonStateCopy();
+                    changeButtonStatePaste();
+
+                    self.sayCanselSelectToTool();
                 },
             };
         }(this);
@@ -2802,7 +2801,6 @@
                     businessLogic.undo();
                 }
             },
-            cancelSelect: cancelSelect,
             selectLeftEntity: function() {
                 //TODO presentation logic?
                 if (numSpanSelection() == 1) {
@@ -2843,7 +2841,7 @@
                     "W": editorApi.newLabel,
                     "X Y": editorApi.redo,
                     "Z": editorApi.undo,
-                    "ESC": editorApi.cancelSelect,
+                    "ESC": presentationLogic.cancelSelect,
                     "LEFT": editorApi.selectLeftEntity,
                     "RIGHT": editorApi.selectRightEntity,
                 };

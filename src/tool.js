@@ -21,6 +21,10 @@
                     if (components.selectedEditor) {
                         components.selectedEditor.api.handleInputKey(key);
                     }
+                    if (key === "ESC") {
+                        helpDialog.hide();
+                        aboutDialog.hide();
+                    }
                 }
             },
             handleInputButton: function(event) {
@@ -111,11 +115,6 @@
 
         return {
             setControl: function(control) {
-                $("body").on("textae.select.cancel", function() {
-                    helpDialog.hide();
-                    aboutDialog.hide();
-                });
-
                 $("body")
                     .on("textae.editor.buttonState.change", function(e, data) {
                         // console.log(data);
@@ -136,9 +135,15 @@
 
                 components.editors.push(editor);
                 editor.editorId = "editor" + components.editors.length;
-                editor.saySelectMeToTool = function() {
-                    components.selectedEditor = editor;
-                };
+                $.extend(editor, {
+                    saySelectMeToTool: function() {
+                        components.selectedEditor = editor;
+                    },
+                    sayCanselSelectToTool: function() {
+                        helpDialog.hide();
+                        aboutDialog.hide();
+                    },
+                })
 
                 // bind resize event
                 $(window).on("resize", function() {
