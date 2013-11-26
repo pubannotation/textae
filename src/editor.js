@@ -526,7 +526,7 @@
             }
         }
 
-        var buttonState = function() {
+        var buttonState = function(self) {
             var disableButtons = {};
 
             return {
@@ -536,16 +536,13 @@
                     } else {
                         disableButtons[button] = true;
                     }
-                    $("body").trigger("textae.editor.buttonState.change", disableButtons);
-
-                    // console.log(button, disableButtons);
+                    self.tool.changeButtonState(disableButtons);
                 },
                 pushed: function(button, push) {
-                    $("body").trigger("textae.editor.button.repulicateAuto.push", push);
-                    // console.log(button, push);
+                    self.tool.pushReplicateAuto(push);
                 }
             };
-        }();
+        }(this);
 
         function changeButtonStateEntity() {
             buttonState.enabled("entity", numSpanSelection() > 0);
@@ -1316,7 +1313,7 @@
                         if (edits.length > 0) makeEdits(edits);
                     };
 
-                    editor.saySelectMeToTool();
+                    editor.tool.selectMe();
 
                     var selection = window.getSelection();
                     if (selection) {
@@ -2180,7 +2177,7 @@
                     changeButtonStateCopy();
                     changeButtonStatePaste();
 
-                    self.sayCanselSelectToTool();
+                    self.tool.cancelSelect();
                 },
             };
         }(this);
@@ -2828,7 +2825,7 @@
             start: function() {
                 startEdit(self);
             },
-            handleInputKey: function(key) {
+            handleKeyInput: function(key) {
                 var keyApiMap = {
                     "A": editorApi.showAccess,
                     "C": editorApi.copyEntities,
@@ -2849,7 +2846,7 @@
                     keyApiMap[key]();
                 }
             },
-            handleInputButton: function(event) {
+            handleButtonClick: function(event) {
                 var buttonApiMap = {
                     "textae.control.button.read.click": editorApi.showAccess,
                     "textae.control.button.write.click": editorApi.showSave,
