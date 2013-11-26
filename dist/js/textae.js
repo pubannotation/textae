@@ -2299,7 +2299,7 @@
                     $textaeEditor.endWait();
                 },
 
-                showPallet: function(controlEvent, buttonEvent) {
+                showPallet: function(point) {
                     //create table contents for entity type.
                     var makeEntityTypeOfEntityTypePallet = function() {
                         return model.entityTypes.getSortedNames().map(function(t) {
@@ -2360,9 +2360,9 @@
                     }
 
                     //if open by mouseevent
-                    if (arguments.length === 2) {
-                        $pallet.css('top', buttonEvent.clientY - controlEvent.target.offsetTop);
-                        $pallet.css('left', buttonEvent.clientX - controlEvent.target.offsetLeft);
+                    if (arguments.length === 1) {
+                        $pallet.css('top', point.top);
+                        $pallet.css('left', point.left);
                     } else {
                         $pallet.css('top', 10);
                         $pallet.css('left', 20);
@@ -3049,6 +3049,25 @@
                     keyApiMap[key]();
                 }
             },
+            handleInputButton: function(event) {
+                var buttonApiMap = {
+                    "textae.control.button.read.click": editorApi.showAccess,
+                    "textae.control.button.write.click": editorApi.showSave,
+                    "textae.control.button.undo.click": editorApi.undo,
+                    "textae.control.button.redo.click": editorApi.redo,
+                    "textae.control.button.replicate.click": editorApi.replicate,
+                    "textae.control.button.replicate_auto.click": editorApi.toggleReplicateAuto,
+                    "textae.control.button.entity.click": editorApi.createEntity,
+                    "textae.control.button.new_label.click": editorApi.newLabel,
+                    "textae.control.button.pallet.click": function() {
+                        editorApi.showPallet(event.point);
+                    },
+                    "textae.control.button.delete.click": editorApi.removeElements,
+                    "textae.control.button.copy.click": editorApi.copyEntities,
+                    "textae.control.button.paste.click": editorApi.pasteEntities,
+                };
+                buttonApiMap[event.name]();
+            },
         };
         this.api = editorApi;
 
@@ -3101,7 +3120,7 @@
                 // button cache and event definition.
                 buttonCache[buttonType] = {
                     obj: $button,
-                    ev: "textae.control.button." + buttonType + ".click"
+                    eventName: "textae.control.button." + buttonType.replace(/-/g, "_") + ".click"
                 };
                 return $button;
             };
@@ -3142,7 +3161,13 @@
                         button.obj
                             .off(CLICK)
                             .on(CLICK, function(e) {
-                                $self.trigger(button.ev, e);
+                                $self.buttonClick({
+                                    name: button.eventName,
+                                    point: {
+                                        top: e.clientY - $self.get(0).offsetTop,
+                                        left: e.clientX - $self.get(0).offsetLeft
+                                    }
+                                });
                             });
                         buttonUtil.enable(button.obj);
                     } else {
@@ -3182,7 +3207,6 @@
         // public
         this.updateAllButtonEnableState = updateAllButtonEnableState;
         this.updateReplicateAutoButtonPushState = updateReplicateAutoButtonPushState;
-        this.buttons = buttonCache;
 
         return this;
     };
@@ -3194,7 +3218,10 @@
         var components = {
             control: null,
             editors: [],
-            selectedEditor: null
+            selectedEditor: null,
+            selectFirstEditor: function() {
+                this.selectedEditor = this.editors[0];
+            },
         };
 
         // decide "is which controller handle certain event.""
@@ -3206,6 +3233,23 @@
                     if (components.selectedEditor) {
                         components.selectedEditor.api.handleInputKey(key);
                     }
+                }
+            },
+            handleInputButton: function(event) {
+                switch (event.name) {
+                    case "textae.control.button.help.click":
+                        helpDialog.show();
+                        break;
+                    default:
+                        if (event.name === "textae.control.button.help.click") {
+                            helpDialog.show();
+                        } else if (event.name === "textae.control.button.about.click") {
+                            aboutDialog.show();
+                        } else {
+                            if (components.selectedEditor) {
+                                components.selectedEditor.api.handleInputButton(event);
+                            }
+                        }
                 }
             },
         };
@@ -3277,62 +3321,8 @@
             }
         });
 
-        // bind textaeCotnrol eventhandler
-        var bindTextaeControlEventhandler = function(control) {
-            var getEditor = function() {
-                return components.selectedEditor;
-            };
-
-            if (control) {
-                var buttons = control.buttons;
-                // object leteral treat key as string, so set controlEvents after declare.
-                var controlEvents = {};
-                // access by square brancket because property names include "-". 
-                controlEvents[buttons.read.ev] = function() {
-                    getEditor().api.showAccess();
-                };
-                controlEvents[buttons.write.ev] = function() {
-                    getEditor().api.showSave();
-                };
-                controlEvents[buttons.undo.ev] = function() {
-                    getEditor().api.undo();
-                };
-                controlEvents[buttons.redo.ev] = function() {
-                    getEditor().api.redo();
-                };
-                controlEvents[buttons.replicate.ev] = function() {
-                    getEditor().api.replicate();
-                };
-                controlEvents[buttons["replicate-auto"].ev] = function() {
-                    getEditor().api.toggleReplicateAuto();
-                };
-                controlEvents[buttons.entity.ev] = function() {
-                    getEditor().api.createEntity();
-                };
-                controlEvents[buttons["new-label"].ev] = function() {
-                    getEditor().api.newLabel();
-                };
-                controlEvents[buttons.pallet.ev] = function(controlEvent, buttonEvent) {
-                    getEditor().api.showPallet(controlEvent, buttonEvent);
-                };
-                controlEvents[buttons.delete.ev] = function() {
-                    getEditor().api.removeElements();
-                };
-                controlEvents[buttons.copy.ev] = function() {
-                    getEditor().api.copyEntities();
-                };
-                controlEvents[buttons.paste.ev] = function() {
-                    getEditor().api.pasteEntities();
-                };
-                textAeUtil.bindEvents(control, controlEvents);
-            }
-        };
-
         return {
             setControl: function(control) {
-                control.on(control.buttons.help.ev, helpDialog.show);
-                control.on(control.buttons.about.ev, aboutDialog.show);
-
                 $("body").on("textae.select.cancel", function() {
                     helpDialog.hide();
                     aboutDialog.hide();
@@ -3347,7 +3337,9 @@
                         control.updateReplicateAutoButtonPushState(data);
                     });
 
-                bindTextaeControlEventhandler(control);
+                control.buttonClick = function(buttonEvent) {
+                    traficController.handleInputButton(buttonEvent);
+                };
 
                 components.control = control;
             },
@@ -3364,19 +3356,23 @@
                 $(window).on("resize", function() {
                     editor.api.redraw();
                 });
-            }
+            },
+            selectFirstEditor: function() {
+                components.selectFirstEditor();
+            },
         };
     }();
     jQuery.fn.textae = (function() {
         return function() {
             if (this.hasClass("textae-editor")) {
-                this.each(function(){
+                this.each(function() {
                     var e = $(this);
                     tool.pushEditor(e);
                     editor.apply(e);
                     e.api.start();
                     return e;
                 });
+                tool.selectFirstEditor();
             } else if (this.hasClass("textae-control")) {
                 var c = control.apply(this);
                 tool.setControl(c);

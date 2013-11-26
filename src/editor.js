@@ -2101,7 +2101,7 @@
                     $textaeEditor.endWait();
                 },
 
-                showPallet: function(controlEvent, buttonEvent) {
+                showPallet: function(point) {
                     //create table contents for entity type.
                     var makeEntityTypeOfEntityTypePallet = function() {
                         return model.entityTypes.getSortedNames().map(function(t) {
@@ -2162,9 +2162,9 @@
                     }
 
                     //if open by mouseevent
-                    if (arguments.length === 2) {
-                        $pallet.css('top', buttonEvent.clientY - controlEvent.target.offsetTop);
-                        $pallet.css('left', buttonEvent.clientX - controlEvent.target.offsetLeft);
+                    if (arguments.length === 1) {
+                        $pallet.css('top', point.top);
+                        $pallet.css('left', point.left);
                     } else {
                         $pallet.css('top', 10);
                         $pallet.css('left', 20);
@@ -2850,6 +2850,25 @@
                 if (keyApiMap[key]) {
                     keyApiMap[key]();
                 }
+            },
+            handleInputButton: function(event) {
+                var buttonApiMap = {
+                    "textae.control.button.read.click": editorApi.showAccess,
+                    "textae.control.button.write.click": editorApi.showSave,
+                    "textae.control.button.undo.click": editorApi.undo,
+                    "textae.control.button.redo.click": editorApi.redo,
+                    "textae.control.button.replicate.click": editorApi.replicate,
+                    "textae.control.button.replicate_auto.click": editorApi.toggleReplicateAuto,
+                    "textae.control.button.entity.click": editorApi.createEntity,
+                    "textae.control.button.new_label.click": editorApi.newLabel,
+                    "textae.control.button.pallet.click": function() {
+                        editorApi.showPallet(event.point);
+                    },
+                    "textae.control.button.delete.click": editorApi.removeElements,
+                    "textae.control.button.copy.click": editorApi.copyEntities,
+                    "textae.control.button.paste.click": editorApi.pasteEntities,
+                };
+                buttonApiMap[event.name]();
             },
         };
         this.api = editorApi;

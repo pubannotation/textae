@@ -45,7 +45,7 @@
                 // button cache and event definition.
                 buttonCache[buttonType] = {
                     obj: $button,
-                    ev: "textae.control.button." + buttonType + ".click"
+                    eventName: "textae.control.button." + buttonType.replace(/-/g, "_") + ".click"
                 };
                 return $button;
             };
@@ -86,7 +86,13 @@
                         button.obj
                             .off(CLICK)
                             .on(CLICK, function(e) {
-                                $self.trigger(button.ev, e);
+                                $self.buttonClick({
+                                    name: button.eventName,
+                                    point: {
+                                        top: e.clientY - $self.get(0).offsetTop,
+                                        left: e.clientX - $self.get(0).offsetLeft
+                                    }
+                                });
                             });
                         buttonUtil.enable(button.obj);
                     } else {
@@ -126,7 +132,6 @@
         // public
         this.updateAllButtonEnableState = updateAllButtonEnableState;
         this.updateReplicateAutoButtonPushState = updateReplicateAutoButtonPushState;
-        this.buttons = buttonCache;
 
         return this;
     };
