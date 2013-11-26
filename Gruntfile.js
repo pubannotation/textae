@@ -9,7 +9,7 @@ module.exports = function(grunt) {
     watch: {
       javascript: {
         files: ['Gruntfile.js', 'src/*.js'],
-        tasks: 'concat'
+        tasks: ['concat', 'jshint']
       },
       static_files: {
         files: ['textae.html', 'dist/js/textae.js', 'css/*.css'],
@@ -17,10 +17,6 @@ module.exports = function(grunt) {
           livereload: true
         }
       },
-      jshint: {
-        files: ['Gruntfile.js', 'src/*.js'],
-        tasks: 'jshint'
-      }
     },
     connect: {
       developmentServer: {
