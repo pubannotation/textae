@@ -80,20 +80,21 @@
         var enableButton = function(CLICK, $self) {
             return function(buttonName, enable) {
                 var button = buttonCache[buttonName];
+                var buttonClicked = function(e) {
+                    $self.buttonClick({
+                        name: button.eventName,
+                        point: {
+                            top: e.clientY - $self.get(0).offsetTop,
+                            left: e.clientX - $self.get(0).offsetLeft
+                        }
+                    });
+                };
 
                 if (button) {
                     if (enable) {
                         button.obj
                             .off(CLICK)
-                            .on(CLICK, function(e) {
-                                $self.buttonClick({
-                                    name: button.eventName,
-                                    point: {
-                                        top: e.clientY - $self.get(0).offsetTop,
-                                        left: e.clientX - $self.get(0).offsetLeft
-                                    }
-                                });
-                            });
+                            .on(CLICK, buttonClicked);
                         buttonUtil.enable(button.obj);
                     } else {
                         button.obj.off(CLICK);
