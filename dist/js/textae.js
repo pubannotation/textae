@@ -128,41 +128,28 @@
         },
 
         makeInformationDialog: function() {
-            var makeBasicDialog = function() {
-                $dialog = $("<div>")
-                    .addClass("textae__information-dialog")
-                    .addClass(this.className)
-                    .hide()
-                    .on('mouseup', function() {
-                        hide(className);
-                    });
-                $dialog.addContents = this.addContentsFunc;
-
-                return $dialog;
-            };
-
-            var makeDialog = function() {
-                return makeBasicDialog.call(this)
-                    .addContents();
-            };
-
+            //this is bound object.
             var showDialog = function(className, obj) {
                 var getDialog = function() {
-                    var p = $("." + this.className);
+                    var $dialog = $("." + this.className);
                     // add dialog unless exists
-                    if (p.length === 0) {
-                        p = makeDialog.call(this);
-                        $("body").append(p);
+                    if ($dialog.length === 0) {
+                        $dialog = $("<div>")
+                            .addClass("textae__information-dialog")
+                            .addClass(this.className)
+                            .hide();
+                        this.addContentsFunc.call($dialog);
+                        $("body").append($dialog);
                     }
-                    return p;
+                    return $dialog;
                 };
 
-                var setPositionCenter = function() {
+                var setPositionCenter = function($dialog) {
                     var $window = $(window);
-                    this.css({
+                    $dialog.css({
                         "position": "absolute",
-                        "top": ($window.height() - this.height()) / 2 + $window.scrollTop(),
-                        "left": ($window.width() - this.width()) / 2 + $window.scrollLeft()
+                        "top": ($window.height() - $dialog.height()) / 2 + $window.scrollTop(),
+                        "left": ($window.width() - $dialog.width()) / 2 + $window.scrollLeft()
                     });
                 };
 
@@ -170,26 +157,32 @@
                 $(".textae__information-dialog").hide();
 
                 //show at center
-                var dialog = getDialog.call(this);
-                setPositionCenter.call(dialog);
-                dialog.show();
-
-                return false;
+                var $dialog = getDialog.call(this);
+                setPositionCenter($dialog);
+                $dialog.show();
             };
 
+            //this is bound object.
             var hideDialog = function(className) {
                 $("." + this.className).hide();
-                return false;
             };
 
-            var bindMethods = function(param) {
+            //expected param has className and addContentsFunc.
+            var bindObject = function(param) {
                 return {
                     show: showDialog.bind(param),
                     hide: hideDialog.bind(param)
                 };
             };
 
-            return bindMethods;
+            //close dialog when dialog clicked.
+            $(function() {
+                $("body").on("mouseup", ".textae__information-dialog", function() {
+                    $(this).hide();
+                });
+            });
+
+            return bindObject;
         }()
     };
 })();
@@ -3299,7 +3292,7 @@
         var helpDialog = textAeUtil.makeInformationDialog({
             className: "textae-control__help",
             addContentsFunc: function() {
-                return this
+                this
                     .append($("<h3>").text("Help (Keyboard short-cuts)"))
                     .append($("<img>").attr("src", "images/keyhelp.png"));
             }
@@ -3309,7 +3302,7 @@
         var aboutDialog = textAeUtil.makeInformationDialog({
             className: "textae-control__about",
             addContentsFunc: function() {
-                return this
+                this
                     .html("<h3>About TextAE (Text Annotation Editor)</h3>" +
                         "<p>今ご覧になっているTextAEはPubAnnotationで管理しているアノテーションのビューアもしくはエディタです。</p>" +
                         "<p>PubAnnotationではPubMedのアブストラクトにアノテーションを付けることができます。</p>" +

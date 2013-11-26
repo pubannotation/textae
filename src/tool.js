@@ -89,7 +89,7 @@
         var helpDialog = textAeUtil.makeInformationDialog({
             className: "textae-control__help",
             addContentsFunc: function() {
-                return this
+                this
                     .append($("<h3>").text("Help (Keyboard short-cuts)"))
                     .append($("<img>").attr("src", "images/keyhelp.png"));
             }
@@ -99,7 +99,7 @@
         var aboutDialog = textAeUtil.makeInformationDialog({
             className: "textae-control__about",
             addContentsFunc: function() {
-                return this
+                this
                     .html("<h3>About TextAE (Text Annotation Editor)</h3>" +
                         "<p>今ご覧になっているTextAEはPubAnnotationで管理しているアノテーションのビューアもしくはエディタです。</p>" +
                         "<p>PubAnnotationではPubMedのアブストラクトにアノテーションを付けることができます。</p>" +
