@@ -1,8 +1,8 @@
-// Application main
-$(document).ready(function() {
-    //setup contorl
-    $(".textae-control").textae();
+    // Application main
+    $(function() {
+        //setup contorl
+        $(".textae-control").textae();
 
-    //setup editor
-    $(".textae-editor").textae();
-});
+        //setup editor
+        $(".textae-editor").textae();
+    });

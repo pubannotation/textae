@@ -1,26 +1,8 @@
-// utility functions
-(function() {
-    window.textAeUtil = {
-        //bind event according to object like { event : function }
-        //if use selector { event : {selector : selector , func : function } }
-        bindEvents: function($target, events) {
-            var isFunction = function(func) {
-                return func && {}.toString.call(func) === '[object Function]';
-            };
+//like a jQuery plugin
+(function(jQuery) {
 
-            var value;
-            for (var event in events) {
-                value = events[event];
-                if (value) {
-                    if (isFunction(value)) {
-                        $target.on(event, value);
-                    } else if (value.selector && value.func) {
-                        $target.on(event, value.selector, value.func);
-                    }
-                }
-            }
-        },
-
+    // utility functions
+    var textAeUtil = {
         // ajax wrapper
         ajaxAccessor: function() {
             var isEmpty = function(str) {
@@ -183,12 +165,8 @@
             });
 
             return bindObject;
-        }()
+        }(),
     };
-})();
-//like a jQuery plugin
-(function(jQuery) {
-
     var editor = function() {
         var $textaeEditor = this;
 
@@ -3403,12 +3381,12 @@
             }
         };
     })();
-})(jQuery);
-// Application main
-$(document).ready(function() {
-    //setup contorl
-    $(".textae-control").textae();
+    // Application main
+    $(function() {
+        //setup contorl
+        $(".textae-control").textae();
 
-    //setup editor
-    $(".textae-editor").textae();
-});
+        //setup editor
+        $(".textae-editor").textae();
+    });
+})(jQuery);
