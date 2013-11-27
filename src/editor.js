@@ -995,8 +995,6 @@
                     element.setAttribute('title', sid);
                     element.setAttribute('class', 'span');
                     range.surroundContents(element);
-
-                    $('#' + sid).off('mouseup', controller.spanClicked).on('mouseup', controller.spanClicked);
                 },
                 destroySpan: function(sid) {
                     var span = document.getElementById(sid);
@@ -1043,7 +1041,6 @@
                         $entity.css('display: inline-block');
                         var type = entity.type;
                         $entity.css('border-color', model.entityTypes.getType(type).getColor());
-                        $entity.off('mouseup', controller.entityClicked).on('mouseup', controller.entityClicked);
                         $entityPane.append($entity);
 
                         positionEntities(sid, type);
@@ -1091,9 +1088,15 @@
             return {
                 //bind user input event to handler
                 init: function() {
-                    editor.on('mouseup', '.textae-editor__body', controller.doMouseup);
+                    editor
+                        .on('mouseup', '.textae-editor__body', controller.bodyClicked)
+                        .on('mouseup', '.span', controller.spanClicked)
+                        .on('mouseup', '.entity', controller.entityClicked)
+                        .on('mouseover mouseout', '.grid', controller.gridMouseHover);
+
+                    //connector clicked is bind by jsPlumb bind function.
                 },
-                doMouseup: function(e) {
+                bodyClicked: function(e) {
                     var getPosition = function(node) {
                         // assumption: text_box only includes <p> elements that contains <span> elements that represents model.annotationData.spans.
                         var $parent = $(node).parent();
@@ -2654,8 +2657,6 @@
 
                 if ($('#' + id).length === 0) {
                     renderer.createDiv(id, 'grid', renderer.positions[id].top, renderer.positions[id].left, renderer.positions[id].width, renderer.positions[id].height);
-                    $('#' + id).off('mouseover mouseout', controller.gridMouseHover).on('mouseover mouseout', controller.gridMouseHover);
-                    // $('#' + id).off('mouseup', doNothing).on('mouseup', doNothing);
                 } else {
                     grid = $('#' + id);
                     grid.css('top', renderer.positions[id].top);
