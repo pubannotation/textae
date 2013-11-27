@@ -224,6 +224,23 @@
                         model.annotationData.spanIds = spanIds;
                     };
 
+                    var getMaxEntityId = function() {
+                        var maxIdNum = 0;
+                        var entityIds = Object.keys(model.annotationData.entities)
+                            .filter(function(eid) {
+                                return eid[0] === "E";
+                            })
+                            .map(function(eid) {
+                                return eid.slice(1);
+                            });
+                        entityIds.sort(function(a, b) {
+                            //reverse by number
+                            return b - a;
+                        });
+
+                        return entityIds[0] || 0;
+                    };
+
                     return {
                         spans: null,
                         entities: null,
@@ -278,6 +295,9 @@
                         },
                         getRelationIds: function() {
                             return Object.keys(model.annotationData.relations);
+                        },
+                        getNewEntityId: function() {
+                            return "E" + (getMaxEntityId() + 1);
                         },
                         toJason: function() {
                             var denotations = [];
@@ -379,7 +399,7 @@
                         updateDisableButtons("delete", domSelector.hasSelecteds());
                     };
                     var updateCopy = function() {
-                        updateDisableButtons("copy", domSelector.hasSelecteds());
+                        updateDisableButtons("copy", domSelector.entity.hasSelecteds());
                     };
                     var updateBySpanAndEntityBoth = function() {
                         updateDelete();
@@ -1584,18 +1604,6 @@
             return maxIdNum;
         }
 
-        // get the max value of the entity Id
-        function getMaxEntityId() {
-            var maxIdNum = 0;
-            for (var eid in model.annotationData.entities) {
-                var idNum = parseInt(eid.slice(1));
-                if (idNum > maxIdNum) {
-                    maxIdNum = idNum;
-                }
-            }
-            return maxIdNum;
-        }
-
         // search same strings
         // both ends should be delimiter characters
         function findSameString(startPos, endPos) {
@@ -1659,8 +1667,8 @@
             getSelecteds: function() {
                 return $('.ui-selected');
             },
-            hasSelecteds: function(){
-               return domSelector.getSelecteds().length > 0; 
+            hasSelecteds: function() {
+                return domSelector.getSelecteds().length > 0;
             },
             unselect: function() {
                 domSelector.getSelecteds().removeClass('ui-selected');
@@ -1724,6 +1732,9 @@
                 },
                 getNumberOfSelected: function() {
                     return domSelector.entity.getSelecteds().length;
+                },
+                hasSelecteds: function() {
+                    return domSelector.entity.getNumberOfSelected() > 0;
                 },
                 getSelectedId: function() {
                     return domSelector.entity.getSelecteds().attr('title');
@@ -1835,17 +1846,17 @@
             },
 
             createEntity: function() {
-                var maxIdNum = getMaxEntityId();
-                while (domSelector.span.getNumberOfSelected() > 0) {
-                    sid = domSelector.span.popSelectedId();
-                    var id = "E" + (++maxIdNum);
-                    executeCommands([{
+                var commands = [];
+                domSelector.span.getSelecteds().each(function() {
+                    var sid = this.id;
+                    commands.push({
                         action: 'new_denotation',
-                        id: id,
                         span: sid,
                         type: model.entityTypes.getDefaultType()
-                    }]);
-                }
+                    });
+                });
+
+                executeCommands(commands);
             },
 
             newLabel: function() {
@@ -1919,26 +1930,24 @@
 
             copyEntities: function() {
                 clipBoard.length = 0;
-                domSelector.getSelecteds().each(function() {
-                    clipBoard.push(this.id);
+                domSelector.entity.getSelecteds().each(function() {
+                    clipBoard.push(this.title);
                 });
             },
 
             pasteEntities: function() {
                 var commands = [];
-                var maxIdNum = getMaxEntityId();
-                while (domSelector.span.getNumberOfSelected() == 1) {
-                    sid = domSelector.span.popSelectedId();
-                    for (var e in clipBoard) {
-                        var id = "E" + (++maxIdNum);
-                        commands.push({
+                domSelector.span.getSelecteds().each(function() {
+                    var sid = this.id;
+                    //clipBoard has entity ids.
+                    commands = commands.concat(clipBoard.map(function(e) {
+                        return {
                             action: 'new_denotation',
-                            id: id,
                             span: sid,
-                            type: model.annotationData.entities[clipBoard[e]].type
-                        });
-                    }
-                }
+                            type: model.annotationData.entities[e].type
+                        };
+                    }));
+                });
 
                 executeCommands(commands);
             },
@@ -2192,12 +2201,19 @@
                             // entity operations
                         case 'new_denotation':
                             // model
+                            if (!edit.id) {
+                                edit.id = model.annotationData.getNewEntityId();
+                            }
                             model.annotationData.entities[edit.id] = {
                                 id: edit.id,
                                 span: edit.span,
                                 type: edit.type
                             };
                             tid = idFactory.makeTypeId(edit.span, edit.type);
+
+                            console.log(typesPerSpan);
+                            console.log(edit.span, typesPerSpan[edit.span]);
+
                             if (typesPerSpan[edit.span].indexOf(tid) < 0) {
                                 typesPerSpan[edit.span].push(tid);
                                 entitiesPerType[tid] = [];
@@ -2508,7 +2524,7 @@
         }
 
         function positionGrids(sids) {
-            console.log(sids);
+            // console.log(sids);
             for (var s = sids.length - 1; s >= 0; s--) {
                 positionGrid(model.annotationData.spanIds[s]);
             }
