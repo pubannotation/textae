@@ -168,19 +168,19 @@
         }(),
     };
     var editor = function() {
-        var $textaeEditor = this;
-
         //cursor
-        var setupWait = function(self) {
+        var cursor = function(editor) {
             var wait = function() {
-                $textaeEditor.css('cursor', 'wait');
+                editor.css('cursor', 'wait');
             };
             var endWait = function() {
-                $textaeEditor.css('cursor', 'auto');
+                editor.css('cursor', 'auto');
             };
-            self.startWait = wait;
-            self.endWait = endWait;
-        };
+            return {
+                startWait: wait,
+                endWait: endWait,
+            };
+        }(this);
 
         //load/saveDialog
         var loadSaveDialog = function() {
@@ -302,10 +302,6 @@
                 }
             };
         }();
-
-        //public to use on textae.js
-        setupWait(this);
-        this.loadSaveDialog = loadSaveDialog;
 
         var isReplicateAuto = false;
 
@@ -638,7 +634,7 @@
         };
 
         // will be API of texteaEditor
-        startEdit = function(self) {
+        startEdit = function() {
             var setTypeConfig = function(config) {
                 model.entityTypes.set(config['entity types']);
 
@@ -676,7 +672,7 @@
             // read default spanConfig
             spanConfig.set();
 
-            if ($textaeEditor.urlParams.debug) {
+            if (this.urlParams.debug) {
                 //no file is get from server, if debug.
                 var types_for_debug = {
                     "span types": [{
@@ -715,22 +711,22 @@
                 };
                 setTypeConfig(types_for_debug);
             } else {
-                if ($textaeEditor.urlParams.config !== "") {
+                if (this.urlParams.config !== "") {
                     // load sync, because load annotation after load config. 
-                    var data = textAeUtil.ajaxAccessor.getSync($textaeEditor.urlParams.config);
+                    var data = textAeUtil.ajaxAccessor.getSync(this.urlParams.config);
                     if (data !== null) {
                         spanConfig.set(data);
                         setTypeConfig(data);
 
-                        businessLogic.getAnnotationFromServer($textaeEditor.urlParams.target);
+                        businessLogic.getAnnotationFromServer(this.urlParams.target);
                     } else {
                         alert('could not read the span configuration from the location you specified.');
                     }
                 } else {
-                    businessLogic.getAnnotationFromServer($textaeEditor.urlParams.target);
+                    businessLogic.getAnnotationFromServer(this.urlParams.target);
                 }
             }
-        };
+        }.bind(this);
 
         function setConnectorTypes() {
             for (var name in model.relationTypes) {
@@ -1925,19 +1921,19 @@
             },
             getAnnotationFromServer: function(url) {
                 targetUrl = url;
-                $textaeEditor.startWait();
+                cursor.startWait();
                 textAeUtil.ajaxAccessor.getAsync(url, businessLogic.loadAnnotation, function() {
-                    $textaeEditor.endWait();
+                    cursor.endWait();
                 });
             },
             saveAnnotation: function() {
                 commandHistory.saved();
             },
             saveAnnotationToServer: function(url) {
-                $textaeEditor.startWait();
+                cursor.startWait();
                 var postData = model.annotationData.toJason();
                 textAeUtil.ajaxAccessor.post(url, postData, presentationLogic.showSaveSuccess, presentationLogic.showSaveError, function() {
-                    $textaeEditor.endWait();
+                    cursor.endWait();
                 });
             },
             undo: function() {
@@ -2174,14 +2170,14 @@
                         presentationLogic.showTarget(targetUrl);
                     });
                     commandHistory.saved();
-                    $textaeEditor.endWait();
+                    cursor.endWait();
                 },
                 showSaveError: function() {
                     getMessageArea.html("could not save").fadeIn().fadeOut(5000, function() {
                         $(this).html('').removeAttr('style');
                         presentationLogic.showTarget(targetUrl);
                     });
-                    $textaeEditor.endWait();
+                    cursor.endWait();
                 },
 
                 showPallet: function(point) {
@@ -2733,10 +2729,10 @@
             toggleReplicateAuto: businessLogic.toggleReplicateAuto,
             showPallet: presentationLogic.showPallet,
             showAccess: function() {
-                $textaeEditor.loadSaveDialog.showAccess(targetUrl);
+                loadSaveDialog.showAccess(targetUrl);
             },
             showSave: function() {
-                $textaeEditor.loadSaveDialog.showSave(targetUrl, model.annotationData.toJason());
+                loadSaveDialog.showSave(targetUrl, model.annotationData.toJason());
             },
             newLabel: businessLogic.newLabel,
             redo: function() {
@@ -2774,7 +2770,7 @@
             },
             redraw: presentationLogic.redraw,
             start: function() {
-                startEdit(self);
+                startEdit();
             },
             handleKeyInput: function(key) {
                 var keyApiMap = {
