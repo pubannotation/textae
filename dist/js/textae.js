@@ -526,8 +526,51 @@
                         }
                     };
                 }(),
+                buttonState: function() {
+                    var disableButtons = {};
+
+                    return {
+                        enabled: function(button, enable) {
+                            if (enable) {
+                                delete disableButtons[button];
+                            } else {
+                                disableButtons[button] = true;
+                            }
+                            editor.tool.changeButtonState(disableButtons);
+                        },
+                        pushed: function(button, push) {
+                            editor.tool.pushReplicateAuto(push);
+                        },
+                        update: function() {
+                            editor.tool.changeButtonState(disableButtons);
+                        },
+                        updateEntity: function() {
+                            this.enabled("entity", numSpanSelection() > 0);
+                        },
+                        updatePallet: function() {
+                            this.enabled("pallet", numEntitySelection() > 0);
+                        },
+                        updateNewLabel: function() {
+                            this.enabled("newLabel", numEntitySelection() > 0);
+                        },
+                        updateDelete: function() {
+                            this.enabled("delete", numSpanSelection() > 0 || $(".ui-selected").length > 0);
+                        },
+                        updateCopy: function() {
+                            this.enabled("copy", $(".ui-selected").length > 0);
+                        },
+                        updatePaste: function() {
+                            this.enabled("paste", clipBoard.length > 0 && numSpanSelection() > 0);
+                        },
+                        updateReplicate: function() {
+                            this.enabled("replicate", numSpanSelection() == 1);
+                        },
+                    };
+                }(),
             };
         }(this);
+
+
 
         var modifications;
 
@@ -594,13 +637,13 @@
 
             var initState = function() {
                 editHistory.init(editHistoryChanged);
-                changeButtonStateReplicate();
-                changeButtonStateEntity();
-                changeButtonStateDelete();
-                changeButtonStatePallet();
-                changeButtonStateNewLabel();
-                changeButtonStateCopy();
-                changeButtonStatePaste();
+                model.buttonState.updateReplicate();
+                model.buttonState.updateEntity();
+                model.buttonState.updateDelete();
+                model.buttonState.updatePallet();
+                model.buttonState.updateNewLabel();
+                model.buttonState.updateCopy();
+                model.buttonState.updatePaste();
             };
 
             renderer.init();
@@ -695,55 +738,6 @@
             }
         }
 
-        var buttonState = function(self) {
-            var disableButtons = {};
-
-            return {
-                enabled: function(button, enable) {
-                    if (enable) {
-                        delete disableButtons[button];
-                    } else {
-                        disableButtons[button] = true;
-                    }
-                    self.tool.changeButtonState(disableButtons);
-                },
-                pushed: function(button, push) {
-                    self.tool.pushReplicateAuto(push);
-                },
-                update: function() {
-                    self.tool.changeButtonState(disableButtons);
-                }
-            };
-        }(this);
-
-        function changeButtonStateEntity() {
-            buttonState.enabled("entity", numSpanSelection() > 0);
-        }
-
-        function changeButtonStatePallet() {
-            buttonState.enabled("pallet", numEntitySelection() > 0);
-        }
-
-        function changeButtonStateNewLabel() {
-            buttonState.enabled("newLabel", numEntitySelection() > 0);
-        }
-
-        function changeButtonStateDelete() {
-            buttonState.enabled("delete", numSpanSelection() > 0 || $(".ui-selected").length > 0);
-        }
-
-        function changeButtonStateCopy() {
-            buttonState.enabled("copy", $(".ui-selected").length > 0);
-        }
-
-        function changeButtonStatePaste() {
-            buttonState.enabled("paste", clipBoard.length > 0 && numSpanSelection() > 0);
-        }
-
-        function changeButtonStateReplicate() {
-            buttonState.enabled("replicate", numSpanSelection() == 1);
-        }
-
         // histories of edit to undo and redo.
         var editHistory = function() {
             var lastSaveIndex = -1,
@@ -806,9 +800,9 @@
             };
 
             //change button state
-            buttonState.enabled("write", this.hasAnythingToSave());
-            buttonState.enabled("undo", this.hasAnythingToUndo());
-            buttonState.enabled("redo", this.hasAnythingToRedo());
+            model.buttonState.enabled("write", this.hasAnythingToSave());
+            model.buttonState.enabled("undo", this.hasAnythingToUndo());
+            model.buttonState.enabled("redo", this.hasAnythingToRedo());
 
             //change leaveMessage show
             if (this.hasAnythingToSave()) {
@@ -1669,10 +1663,10 @@
                     }
                 }
 
-                changeButtonStateReplicate();
-                changeButtonStateEntity();
-                changeButtonStateDelete();
-                changeButtonStatePaste();
+                model.buttonState.updateReplicate();
+                model.buttonState.updateEntity();
+                model.buttonState.updateDelete();
+                model.buttonState.updatePaste();
                 return false;
             };
 
@@ -1748,7 +1742,7 @@
 
             var editorSelected = function() {
                 editor.tool.selectMe();
-                buttonState.update();
+                model.buttonState.update();
             };
 
             return {
@@ -1922,26 +1916,26 @@
 
         function select(id) {
             $('#' + id).addClass('ui-selected');
-            changeButtonStatePallet();
-            changeButtonStateNewLabel();
-            changeButtonStateDelete();
-            changeButtonStateCopy();
+            model.buttonState.updatePallet();
+            model.buttonState.updateNewLabel();
+            model.buttonState.updateDelete();
+            model.buttonState.updateCopy();
         }
 
         function deselect(id) {
             $('#' + id).removeClass('ui-selected');
-            changeButtonStatePallet();
-            changeButtonStateNewLabel();
-            changeButtonStateDelete();
-            changeButtonStateCopy();
+            model.buttonState.updatePallet();
+            model.buttonState.updateNewLabel();
+            model.buttonState.updateDelete();
+            model.buttonState.updateCopy();
         }
 
         function clearSelection() {
             $('.ui-selected').removeClass('ui-selected');
-            changeButtonStatePallet();
-            changeButtonStateNewLabel();
-            changeButtonStateDelete();
-            changeButtonStateCopy();
+            model.buttonState.updatePallet();
+            model.buttonState.updateNewLabel();
+            model.buttonState.updateDelete();
+            model.buttonState.updateCopy();
         }
 
         function numSpanSelection() {
@@ -2073,7 +2067,7 @@
 
             toggleReplicateAuto: function() {
                 isReplicateAuto = !isReplicateAuto;
-                buttonState.pushed("replicate-auto", isReplicateAuto);
+                model.buttonState.pushed("replicate-auto", isReplicateAuto);
             },
 
             createEntity: function() {
@@ -2352,13 +2346,13 @@
                     renderer.relations.clearRelationSelection();
                     clearModificationSelection();
                     presentationLogic.hidePallet();
-                    changeButtonStateReplicate();
-                    changeButtonStateEntity();
-                    changeButtonStateDelete();
-                    changeButtonStatePallet();
-                    changeButtonStateNewLabel();
-                    changeButtonStateCopy();
-                    changeButtonStatePaste();
+                    model.buttonState.updateReplicate();
+                    model.buttonState.updateEntity();
+                    model.buttonState.updateDelete();
+                    model.buttonState.updatePallet();
+                    model.buttonState.updateNewLabel();
+                    model.buttonState.updateCopy();
+                    model.buttonState.updatePaste();
 
                     self.tool.cancelSelect();
                 },
@@ -2571,13 +2565,13 @@
                     break;
                 default:
                     editHistory.push(edits);
-                    changeButtonStateReplicate();
-                    changeButtonStateEntity();
-                    changeButtonStateDelete();
-                    changeButtonStatePallet();
-                    changeButtonStateNewLabel();
-                    changeButtonStateCopy();
-                    changeButtonStatePaste();
+                    model.buttonState.updateReplicate();
+                    model.buttonState.updateEntity();
+                    model.buttonState.updateDelete();
+                    model.buttonState.updatePallet();
+                    model.buttonState.updateNewLabel();
+                    model.buttonState.updateCopy();
+                    model.buttonState.updatePaste();
             }
         }
 
