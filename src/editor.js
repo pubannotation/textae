@@ -540,6 +540,9 @@
                 },
                 pushed: function(button, push) {
                     self.tool.pushReplicateAuto(push);
+                },
+                update: function() {
+                    self.tool.changeButtonState(disableButtons);
                 }
             };
         }(this);
@@ -1085,107 +1088,150 @@
 
         //handle user input event.
         var controller = function(editor) {
-            return {
-                //bind user input event to handler
-                init: function() {
-                    editor
-                        .on('mouseup', '.textae-editor__body', controller.bodyClicked)
-                        .on('mouseup', '.span', controller.spanClicked)
-                        .on('mouseup', '.entity', controller.entityClicked)
-                        .on('mouseover mouseout', '.grid', controller.gridMouseHover);
+            var bodyClicked = function(e) {
+                var getPosition = function(node) {
+                    // assumption: text_box only includes <p> elements that contains <span> elements that represents model.annotationData.spans.
+                    var $parent = $(node).parent();
+                    var parentId = $parent.attr("id");
 
-                    //connector clicked is bind by jsPlumb bind function.
-                },
-                bodyClicked: function(e) {
-                    var getPosition = function(node) {
-                        // assumption: text_box only includes <p> elements that contains <span> elements that represents model.annotationData.spans.
-                        var $parent = $(node).parent();
-                        var parentId = $parent.attr("id");
+                    var pos;
+                    if ($parent.hasClass("textae-editor__body__text-box__paragraph")) {
+                        pos = renderer.paragraphs[parentId].begin;
+                    } else {
+                        pos = model.annotationData.spans[parentId].begin;
+                    }
 
-                        var pos;
-                        if ($parent.hasClass("textae-editor__body__text-box__paragraph")) {
-                            pos = renderer.paragraphs[parentId].begin;
-                        } else {
-                            pos = model.annotationData.spans[parentId].begin;
-                        }
+                    var childNodes = node.parentElement.childNodes;
+                    for (var i = 0; childNodes[i] != node; i++) { // until the focus node
+                        pos += (childNodes[i].nodeName == "#text") ? childNodes[i].nodeValue.length : $('#' + childNodes[i].id).text().length;
+                    }
 
-                        var childNodes = node.parentElement.childNodes;
-                        for (var i = 0; childNodes[i] != node; i++) { // until the focus node
-                            pos += (childNodes[i].nodeName == "#text") ? childNodes[i].nodeValue.length : $('#' + childNodes[i].id).text().length;
-                        }
+                    return pos;
+                };
 
-                        return pos;
-                    };
+                var getFocusPosition = function(selection) {
+                    var pos = getPosition(selection.focusNode);
+                    return pos += selection.focusOffset;
+                };
 
-                    var getFocusPosition = function(selection) {
-                        var pos = getPosition(selection.focusNode);
-                        return pos += selection.focusOffset;
-                    };
+                var getAnchorPosition = function(selection) {
+                    var pos = getPosition(selection.anchorNode);
+                    return pos + selection.anchorOffset;
+                };
 
-                    var getAnchorPosition = function(selection) {
-                        var pos = getPosition(selection.anchorNode);
-                        return pos + selection.anchorOffset;
-                    };
+                var expandSpan = function(sid, selection) {
+                    var edits = [];
 
-                    var expandSpan = function(sid, selection) {
-                        var edits = [];
+                    var focusPosition = getFocusPosition(selection);
 
-                        var focusPosition = getFocusPosition(selection);
+                    var range = selection.getRangeAt(0);
+                    var anchorRange = document.createRange();
+                    anchorRange.selectNode(selection.anchorNode);
 
-                        var range = selection.getRangeAt(0);
-                        var anchorRange = document.createRange();
-                        anchorRange.selectNode(selection.anchorNode);
+                    // expand to the left
+                    var new_sid, tid, eid, type;
+                    if (range.compareBoundaryPoints(Range.START_TO_START, anchorRange) < 0) {
+                        var newBegin = adjustSpanBegin(focusPosition);
+                        new_sid = idFactory.makeSpanId(newBegin, model.annotationData.spans[sid].end);
+                        if (!model.annotationData.spans[new_sid]) {
+                            edits.push({
+                                action: 'new_span',
+                                id: new_sid,
+                                begin: newBegin,
+                                end: model.annotationData.spans[sid].end
+                            });
 
-                        // expand to the left
-                        var new_sid, tid, eid, type;
-                        if (range.compareBoundaryPoints(Range.START_TO_START, anchorRange) < 0) {
-                            var newBegin = adjustSpanBegin(focusPosition);
-                            new_sid = idFactory.makeSpanId(newBegin, model.annotationData.spans[sid].end);
-                            if (!model.annotationData.spans[new_sid]) {
-                                edits.push({
-                                    action: 'new_span',
-                                    id: new_sid,
-                                    begin: newBegin,
-                                    end: model.annotationData.spans[sid].end
-                                });
-
-                                typesPerSpan[sid].forEach(function(tid) {
-                                    entitiesPerType[tid].forEach(function(eid) {
-                                        type = model.annotationData.entities[eid].type;
-                                        edits.push({
-                                            action: 'remove_denotation',
-                                            id: eid,
-                                            span: sid,
-                                            type: type
-                                        });
-                                        edits.push({
-                                            action: 'new_denotation',
-                                            id: eid,
-                                            span: new_sid,
-                                            type: type
-                                        });
+                            typesPerSpan[sid].forEach(function(tid) {
+                                entitiesPerType[tid].forEach(function(eid) {
+                                    type = model.annotationData.entities[eid].type;
+                                    edits.push({
+                                        action: 'remove_denotation',
+                                        id: eid,
+                                        span: sid,
+                                        type: type
+                                    });
+                                    edits.push({
+                                        action: 'new_denotation',
+                                        id: eid,
+                                        span: new_sid,
+                                        type: type
                                     });
                                 });
+                            });
 
+                            edits.push({
+                                action: 'remove_span',
+                                id: sid
+                            });
+                        }
+                    }
+
+                    // expand to the right
+                    else {
+                        var newEnd = adjustSpanEnd(focusPosition);
+                        new_sid = idFactory.makeSpanId(model.annotationData.spans[sid].begin, newEnd);
+                        if (!model.annotationData.spans[new_sid]) {
+                            edits.push({
+                                action: 'new_span',
+                                id: new_sid,
+                                begin: model.annotationData.spans[sid].begin,
+                                end: newEnd
+                            });
+
+                            typesPerSpan[sid].forEach(function(tid) {
+                                entitiesPerType[tid].forEach(function(eid) {
+                                    type = model.annotationData.entities[eid].type;
+                                    edits.push({
+                                        action: 'remove_denotation',
+                                        id: eid,
+                                        span: sid,
+                                        type: type
+                                    });
+                                    edits.push({
+                                        action: 'new_denotation',
+                                        id: eid,
+                                        span: new_sid,
+                                        type: type
+                                    });
+                                });
+                            });
+                            edits.push({
+                                action: 'remove_span',
+                                id: sid
+                            });
+                        }
+                    }
+                    if (edits.length > 0) makeEdits(edits);
+                };
+
+                var shortenSpan = function(sid, selection) {
+                    var edits = [];
+
+                    var focusPosition = getFocusPosition(selection);
+
+                    var range = selection.getRangeAt(0);
+                    var focusRange = document.createRange();
+                    focusRange.selectNode(selection.focusNode);
+
+                    // shorten the right boundary
+                    var new_sid, tid, eid, type;
+                    if (range.compareBoundaryPoints(Range.START_TO_START, focusRange) > 0) {
+                        var newEnd = adjustSpanEnd2(focusPosition);
+
+                        if (newEnd > model.annotationData.spans[sid].begin) {
+                            new_sid = idFactory.makeSpanId(model.annotationData.spans[sid].begin, newEnd);
+                            if (model.annotationData.spans[new_sid]) {
                                 edits.push({
                                     action: 'remove_span',
                                     id: sid
                                 });
-                            }
-                        }
-
-                        // expand to the right
-                        else {
-                            var newEnd = adjustSpanEnd(focusPosition);
-                            new_sid = idFactory.makeSpanId(model.annotationData.spans[sid].begin, newEnd);
-                            if (!model.annotationData.spans[new_sid]) {
+                            } else {
                                 edits.push({
                                     action: 'new_span',
                                     id: new_sid,
                                     begin: model.annotationData.spans[sid].begin,
                                     end: newEnd
                                 });
-
                                 typesPerSpan[sid].forEach(function(tid) {
                                     entitiesPerType[tid].forEach(function(eid) {
                                         type = model.annotationData.entities[eid].type;
@@ -1208,381 +1254,346 @@
                                     id: sid
                                 });
                             }
-                        }
-                        if (edits.length > 0) makeEdits(edits);
-                    };
-
-                    var shortenSpan = function(sid, selection) {
-                        var edits = [];
-
-                        var focusPosition = getFocusPosition(selection);
-
-                        var range = selection.getRangeAt(0);
-                        var focusRange = document.createRange();
-                        focusRange.selectNode(selection.focusNode);
-
-                        // shorten the right boundary
-                        var new_sid, tid, eid, type;
-                        if (range.compareBoundaryPoints(Range.START_TO_START, focusRange) > 0) {
-                            var newEnd = adjustSpanEnd2(focusPosition);
-
-                            if (newEnd > model.annotationData.spans[sid].begin) {
-                                new_sid = idFactory.makeSpanId(model.annotationData.spans[sid].begin, newEnd);
-                                if (model.annotationData.spans[new_sid]) {
-                                    edits.push({
-                                        action: 'remove_span',
-                                        id: sid
-                                    });
-                                } else {
-                                    edits.push({
-                                        action: 'new_span',
-                                        id: new_sid,
-                                        begin: model.annotationData.spans[sid].begin,
-                                        end: newEnd
-                                    });
-                                    typesPerSpan[sid].forEach(function(tid) {
-                                        entitiesPerType[tid].forEach(function(eid) {
-                                            type = model.annotationData.entities[eid].type;
-                                            edits.push({
-                                                action: 'remove_denotation',
-                                                id: eid,
-                                                span: sid,
-                                                type: type
-                                            });
-                                            edits.push({
-                                                action: 'new_denotation',
-                                                id: eid,
-                                                span: new_sid,
-                                                type: type
-                                            });
-                                        });
-                                    });
-                                    edits.push({
-                                        action: 'remove_span',
-                                        id: sid
-                                    });
-                                }
-                            } else {
-                                select(sid);
-                                businessLogic.removeElements();
-                            }
-                        }
-
-                        // shorten the left boundary
-                        else {
-                            var newBegin = adjustSpanBegin2(focusPosition);
-
-                            if (newBegin < model.annotationData.spans[sid].end) {
-                                new_sid = idFactory.makeSpanId(newBegin, model.annotationData.spans[sid].end);
-                                if (model.annotationData.spans[new_sid]) {
-                                    edits.push({
-                                        action: 'remove_span',
-                                        id: sid
-                                    });
-                                } else {
-                                    edits.push({
-                                        action: 'new_span',
-                                        id: new_sid,
-                                        begin: newBegin,
-                                        end: model.annotationData.spans[sid].end
-                                    });
-                                    typesPerSpan[sid].forEach(function(tid) {
-                                        entitiesPerType[tid].forEach(function(eid) {
-                                            type = model.annotationData.entities[eid].type;
-                                            edits.push({
-                                                action: 'remove_denotation',
-                                                id: eid,
-                                                span: sid,
-                                                type: type
-                                            });
-                                            edits.push({
-                                                action: 'new_denotation',
-                                                id: eid,
-                                                span: new_sid,
-                                                type: type
-                                            });
-                                        });
-                                    });
-                                    edits.push({
-                                        action: 'remove_span',
-                                        id: sid
-                                    });
-                                }
-                            } else {
-                                select(sid);
-                                businessLogic.removeElements();
-                            }
-                        }
-                        if (edits.length > 0) makeEdits(edits);
-                    };
-
-                    editor.tool.selectMe();
-
-                    var selection = window.getSelection();
-                    if (selection) {
-                        var range = selection.getRangeAt(0);
-
-                        if (
-                            // when the whole div is selected by e.g., triple click
-                            (range.startContainer == editor.getSourceDocArea().get(0)) ||
-                            // when Shift is pressed
-                            (e.shiftKey) ||
-                            // when nothing is selected
-                            (selection.isCollapsed)
-                        ) {
-                            // bubbles go up
-                            presentationLogic.cancelSelect();
-                            dismissBrowserSelection();
-                            return true;
-                        }
-
-                        var anchorPosition = getAnchorPosition(selection);
-                        var focusPosition = getFocusPosition(selection);
-
-                        // no boundary crossing: normal -> create a entity
-                        var sid;
-                        if (selection.anchorNode.parentElement.id === selection.focusNode.parentElement.id) {
-                            clearSelection();
-
-                            // switch the position when the selection is made from right to left
-                            if (anchorPosition > focusPosition) {
-                                var tmpPos = anchorPosition;
-                                anchorPosition = focusPosition;
-                                focusPosition = tmpPos;
-                            }
-
-                            // when the whole text is selected by e.g., triple click (Chrome)
-                            if ((anchorPosition === 0) && (focusPosition == model.sourceDoc.length)) {
-                                // do nothing. bubbles go up
-                                return true;
-                            }
-
-                            var beginPosition = adjustSpanBegin(anchorPosition);
-                            var endPosition = adjustSpanEnd(focusPosition);
-                            sid = idFactory.makeSpanId(beginPosition, endPosition);
-
-                            if (!model.annotationData.spans[sid]) {
-                                if (endPosition - beginPosition > CONSTS.BLOCK_THRESHOLD) {
-                                    makeEdits([{
-                                        action: 'new_span',
-                                        id: sid,
-                                        begin: beginPosition,
-                                        end: endPosition
-                                    }]);
-                                } else {
-                                    var edits = [{
-                                        action: 'new_span',
-                                        id: sid,
-                                        begin: beginPosition,
-                                        end: endPosition
-                                    }];
-
-                                    if (isReplicateAuto) {
-                                        var replicates = getSpanReplicates({
-                                            begin: beginPosition,
-                                            end: endPosition
-                                        });
-                                        edits = edits.concat(replicates);
-                                    }
-                                    if (edits.length > 0) makeEdits(edits);
-                                }
-                            }
-                        }
-
-                        // boundary crossing: exception
-                        else {
-                            if (selection.anchorNode.parentNode.parentNode == selection.focusNode.parentNode) {
-                                clearSelection();
-                                expandSpan(selection.anchorNode.parentNode.id, selection);
-                            } else if (selection.anchorNode.parentNode == selection.focusNode.parentNode.parentNode) {
-                                clearSelection();
-                                shortenSpan(selection.focusNode.parentNode.id, selection);
-                            } else if (numSpanSelection() == 1) {
-                                sid = popSpanSelection();
-
-                                // drag began inside the selected span (expansion)
-                                if ((anchorPosition > model.annotationData.spans[sid].begin) && (anchorPosition < model.annotationData.spans[sid].end)) {
-                                    // The focus node should be at one level above the selected node.
-                                    if ($('#' + sid).get(0).parentNode.id == selection.focusNode.parentNode.id) expandSpan(sid, selection);
-                                    else {
-                                        select(sid);
-                                        alert('A span cannot be expanded to make a boundary crossing.');
-                                    }
-                                }
-
-                                // drag ended inside the selected span (shortening)
-                                else if ((focusPosition > model.annotationData.spans[sid].begin) && (focusPosition < model.annotationData.spans[sid].end)) {
-                                    if ($('#' + sid).get(0).id == selection.focusNode.parentNode.id) shortenSpan(sid, selection);
-                                    else {
-                                        select(sid);
-                                        alert('A span cannot be shrinked to make a boundary crossing.');
-                                    }
-                                } else alert('It is ambiguous for which span you want to adjust the boundary. Reselect the span, and try again.');
-                            } else {
-                                alert('It is ambiguous for which span you want to adjust the boundary. Select the span, and try again.');
-                            }
+                        } else {
+                            select(sid);
+                            businessLogic.removeElements();
                         }
                     }
 
-                    dismissBrowserSelection();
-                    cancelBubble(e);
-                },
-                spanClicked: function(e) {
-                    presentationLogic.hidePallet();
-                    var selection = window.getSelection();
+                    // shorten the left boundary
+                    else {
+                        var newBegin = adjustSpanBegin2(focusPosition);
+
+                        if (newBegin < model.annotationData.spans[sid].end) {
+                            new_sid = idFactory.makeSpanId(newBegin, model.annotationData.spans[sid].end);
+                            if (model.annotationData.spans[new_sid]) {
+                                edits.push({
+                                    action: 'remove_span',
+                                    id: sid
+                                });
+                            } else {
+                                edits.push({
+                                    action: 'new_span',
+                                    id: new_sid,
+                                    begin: newBegin,
+                                    end: model.annotationData.spans[sid].end
+                                });
+                                typesPerSpan[sid].forEach(function(tid) {
+                                    entitiesPerType[tid].forEach(function(eid) {
+                                        type = model.annotationData.entities[eid].type;
+                                        edits.push({
+                                            action: 'remove_denotation',
+                                            id: eid,
+                                            span: sid,
+                                            type: type
+                                        });
+                                        edits.push({
+                                            action: 'new_denotation',
+                                            id: eid,
+                                            span: new_sid,
+                                            type: type
+                                        });
+                                    });
+                                });
+                                edits.push({
+                                    action: 'remove_span',
+                                    id: sid
+                                });
+                            }
+                        } else {
+                            select(sid);
+                            businessLogic.removeElements();
+                        }
+                    }
+                    if (edits.length > 0) makeEdits(edits);
+                };
+
+                var selection = window.getSelection();
+                if (selection) {
                     var range = selection.getRangeAt(0);
 
-                    // if drag, bubble up
-                    if (!selection.isCollapsed) {
+                    if (
+                        // when the whole div is selected by e.g., triple click
+                        (range.startContainer == editor.getSourceDocArea().get(0)) ||
+                        // when Shift is pressed
+                        (e.shiftKey) ||
+                        // when nothing is selected
+                        (selection.isCollapsed)
+                    ) {
+                        // bubbles go up
+                        presentationLogic.cancelSelect();
+                        dismissBrowserSelection();
                         return true;
                     }
 
-                    var id;
-                    if (mode == "span") {
-                        id = $(this).attr('id');
+                    var anchorPosition = getAnchorPosition(selection);
+                    var focusPosition = getFocusPosition(selection);
 
-                        if (e.ctrlKey) {
-                            if (isSelected(e.target)) {
-                                deselect(id);
-                            } else {
-                                select(id);
-                            }
-                        } else if (e.shiftKey && numSpanSelection() == 1) {
-                            var firstId = popSpanSelection();
-                            var secondId = $(this).attr('id');
+                    // no boundary crossing: normal -> create a entity
+                    var sid;
+                    if (selection.anchorNode.parentElement.id === selection.focusNode.parentElement.id) {
+                        clearSelection();
 
-                            dismissBrowserSelection();
-                            clearSelection();
-
-                            var firstIndex = model.annotationData.spanIds.indexOf(firstId);
-                            var secondIndex = model.annotationData.spanIds.indexOf(secondId);
-
-                            if (secondIndex < firstIndex) {
-                                var tmpIndex = firstIndex;
-                                firstIndex = secondIndex;
-                                secondIndex = tmpIndex;
-                            }
-
-                            for (var i = firstIndex; i <= secondIndex; i++) {
-                                select(model.annotationData.spanIds[i]);
-                            }
-                        } else {
-                            clearSelection();
-                            select(id);
+                        // switch the position when the selection is made from right to left
+                        if (anchorPosition > focusPosition) {
+                            var tmpPos = anchorPosition;
+                            anchorPosition = focusPosition;
+                            focusPosition = tmpPos;
                         }
-                    } else if (mode == "relation") {
-                        id = $(this).attr('id').split('_')[1]; // in clone area, clone_id
 
-                        renderer.relations.clearRelationSelection();
+                        // when the whole text is selected by e.g., triple click (Chrome)
+                        if ((anchorPosition === 0) && (focusPosition == model.sourceDoc.length)) {
+                            // do nothing. bubbles go up
+                            return true;
+                        }
 
-                        if (numSpanSelection() === 0 && numEntitySelection() === 0) {
-                            select(id);
-                        } else {
-                            // make connection
-                            var rid = "R" + (getMaxConnId() + 1);
-                            var oid = id;
+                        var beginPosition = adjustSpanBegin(anchorPosition);
+                        var endPosition = adjustSpanEnd(focusPosition);
+                        sid = idFactory.makeSpanId(beginPosition, endPosition);
 
-                            var sid;
-                            if (numSpanSelection() > 0) {
-                                sid = getSpanSelection();
+                        if (!model.annotationData.spans[sid]) {
+                            if (endPosition - beginPosition > CONSTS.BLOCK_THRESHOLD) {
+                                makeEdits([{
+                                    action: 'new_span',
+                                    id: sid,
+                                    begin: beginPosition,
+                                    end: endPosition
+                                }]);
                             } else {
-                                sid = getEntitySelection();
-                            }
+                                var edits = [{
+                                    action: 'new_span',
+                                    id: sid,
+                                    begin: beginPosition,
+                                    end: endPosition
+                                }];
 
-                            makeEdits([{
-                                action: 'new_relation',
-                                id: rid,
-                                pred: model.relationTypeDefault,
-                                subj: sid,
-                                obj: oid
-                            }]);
-
-                            // star chanining
-                            if (e.ctrlKey) {} else {
-                                clearSelection();
-
-                                // continuous chaining
-                                if (e.shiftKey) {
-                                    select(oid);
+                                if (isReplicateAuto) {
+                                    var replicates = getSpanReplicates({
+                                        begin: beginPosition,
+                                        end: endPosition
+                                    });
+                                    edits = edits.concat(replicates);
                                 }
+                                if (edits.length > 0) makeEdits(edits);
                             }
                         }
                     }
 
-                    changeButtonStateReplicate();
-                    changeButtonStateEntity();
-                    changeButtonStateDelete();
-                    changeButtonStatePaste();
-                    return false;
-                },
-                // event handler (entity is clicked)
-                entityClicked: function(e) {
-                    var id = $(this).attr('id');
-
-                    if (mode == "span") {
-                        if (e.ctrlKey) {
-                            if (isSelected(e.target)) {
-                                deselect(id);
-                            } else {
-                                select(id);
-                            }
-                        } else {
+                    // boundary crossing: exception
+                    else {
+                        if (selection.anchorNode.parentNode.parentNode == selection.focusNode.parentNode) {
                             clearSelection();
-                            select(id);
-                        }
-                    } else if (mode == "relation") {
-                        renderer.relations.clearRelationSelection();
+                            expandSpan(selection.anchorNode.parentNode.id, selection);
+                        } else if (selection.anchorNode.parentNode == selection.focusNode.parentNode.parentNode) {
+                            clearSelection();
+                            shortenSpan(selection.focusNode.parentNode.id, selection);
+                        } else if (numSpanSelection() == 1) {
+                            sid = popSpanSelection();
 
-                        if (numSpanSelection() === 0 && numEntitySelection() === 0) {
-                            selectEntity(id);
-                        } else {
-                            // make connection
-                            var rid = "R" + (getMaxConnId() + 1);
-                            var oid = id;
-
-                            var sid;
-                            if (numSpanSelection() > 0) {
-                                sid = getSpanSelection();
-                            } else {
-                                sid = getEntitySelection();
-                            }
-
-                            makeEdits([{
-                                action: 'new_relation',
-                                id: rid,
-                                pred: model.relationTypeDefault,
-                                subj: sid,
-                                obj: oid
-                            }]);
-
-                            // star chanining
-                            if (e.ctrlKey) {} else {
-                                clearSelection();
-
-                                // continuous chaining
-                                if (e.shiftKey) {
-                                    select(oid);
+                            // drag began inside the selected span (expansion)
+                            if ((anchorPosition > model.annotationData.spans[sid].begin) && (anchorPosition < model.annotationData.spans[sid].end)) {
+                                // The focus node should be at one level above the selected node.
+                                if ($('#' + sid).get(0).parentNode.id == selection.focusNode.parentNode.id) expandSpan(sid, selection);
+                                else {
+                                    select(sid);
+                                    alert('A span cannot be expanded to make a boundary crossing.');
                                 }
                             }
+
+                            // drag ended inside the selected span (shortening)
+                            else if ((focusPosition > model.annotationData.spans[sid].begin) && (focusPosition < model.annotationData.spans[sid].end)) {
+                                if ($('#' + sid).get(0).id == selection.focusNode.parentNode.id) shortenSpan(sid, selection);
+                                else {
+                                    select(sid);
+                                    alert('A span cannot be shrinked to make a boundary crossing.');
+                                }
+                            } else alert('It is ambiguous for which span you want to adjust the boundary. Reselect the span, and try again.');
+                        } else {
+                            alert('It is ambiguous for which span you want to adjust the boundary. Select the span, and try again.');
                         }
                     }
+                }
 
-                    cancelBubble(e);
-                    return false;
-                },
-                gridMouseHover: function(e) {
-                    var grid = $(this);
-                    var id = grid.attr('id');
+                dismissBrowserSelection();
+                cancelBubble(e);
+            };
 
-                    if (e.type == 'mouseover') {
-                        grid.css('height', 'auto');
-                        if (grid.outerWidth() < renderer.positions[id].width) grid.css('width', renderer.positions[id].width);
-                        // grid.css('z-index', '254');
+            var spanClicked = function(e) {
+                presentationLogic.hidePallet();
+                var selection = window.getSelection();
+                var range = selection.getRangeAt(0);
+
+                // if drag, bubble up
+                if (!selection.isCollapsed) {
+                    return true;
+                }
+
+                var id;
+                if (mode == "span") {
+                    id = $(this).attr('id');
+
+                    if (e.ctrlKey) {
+                        if (isSelected(e.target)) {
+                            deselect(id);
+                        } else {
+                            select(id);
+                        }
+                    } else if (e.shiftKey && numSpanSelection() == 1) {
+                        var firstId = popSpanSelection();
+                        var secondId = $(this).attr('id');
+
+                        dismissBrowserSelection();
+                        clearSelection();
+
+                        var firstIndex = model.annotationData.spanIds.indexOf(firstId);
+                        var secondIndex = model.annotationData.spanIds.indexOf(secondId);
+
+                        if (secondIndex < firstIndex) {
+                            var tmpIndex = firstIndex;
+                            firstIndex = secondIndex;
+                            secondIndex = tmpIndex;
+                        }
+
+                        for (var i = firstIndex; i <= secondIndex; i++) {
+                            select(model.annotationData.spanIds[i]);
+                        }
                     } else {
-                        grid.css('height', renderer.positions[id].height);
-                        // grid.css('z-index', '');
+                        clearSelection();
+                        select(id);
                     }
+                } else if (mode == "relation") {
+                    id = $(this).attr('id').split('_')[1]; // in clone area, clone_id
+
+                    renderer.relations.clearRelationSelection();
+
+                    if (numSpanSelection() === 0 && numEntitySelection() === 0) {
+                        select(id);
+                    } else {
+                        // make connection
+                        var rid = "R" + (getMaxConnId() + 1);
+                        var oid = id;
+
+                        var sid;
+                        if (numSpanSelection() > 0) {
+                            sid = getSpanSelection();
+                        } else {
+                            sid = getEntitySelection();
+                        }
+
+                        makeEdits([{
+                            action: 'new_relation',
+                            id: rid,
+                            pred: model.relationTypeDefault,
+                            subj: sid,
+                            obj: oid
+                        }]);
+
+                        // star chanining
+                        if (e.ctrlKey) {} else {
+                            clearSelection();
+
+                            // continuous chaining
+                            if (e.shiftKey) {
+                                select(oid);
+                            }
+                        }
+                    }
+                }
+
+                changeButtonStateReplicate();
+                changeButtonStateEntity();
+                changeButtonStateDelete();
+                changeButtonStatePaste();
+                return false;
+            };
+
+            // event handler (entity is clicked)
+            var entityClicked = function(e) {
+                var id = $(this).attr('id');
+
+                if (mode == "span") {
+                    if (e.ctrlKey) {
+                        if (isSelected(e.target)) {
+                            deselect(id);
+                        } else {
+                            select(id);
+                        }
+                    } else {
+                        clearSelection();
+                        select(id);
+                    }
+                } else if (mode == "relation") {
+                    renderer.relations.clearRelationSelection();
+
+                    if (numSpanSelection() === 0 && numEntitySelection() === 0) {
+                        selectEntity(id);
+                    } else {
+                        // make connection
+                        var rid = "R" + (getMaxConnId() + 1);
+                        var oid = id;
+
+                        var sid;
+                        if (numSpanSelection() > 0) {
+                            sid = getSpanSelection();
+                        } else {
+                            sid = getEntitySelection();
+                        }
+
+                        makeEdits([{
+                            action: 'new_relation',
+                            id: rid,
+                            pred: model.relationTypeDefault,
+                            subj: sid,
+                            obj: oid
+                        }]);
+
+                        // star chanining
+                        if (e.ctrlKey) {} else {
+                            clearSelection();
+
+                            // continuous chaining
+                            if (e.shiftKey) {
+                                select(oid);
+                            }
+                        }
+                    }
+                }
+
+                cancelBubble(e);
+                return false;
+            };
+
+            var gridMouseHover = function(e) {
+                var grid = $(this);
+                var id = grid.attr('id');
+
+                if (e.type == 'mouseover') {
+                    grid.css('height', 'auto');
+                    if (grid.outerWidth() < renderer.positions[id].width) grid.css('width', renderer.positions[id].width);
+                    // grid.css('z-index', '254');
+                } else {
+                    grid.css('height', renderer.positions[id].height);
+                    // grid.css('z-index', '');
+                }
+            };
+
+            var editorSelected = function() {
+                editor.tool.selectMe();
+                buttonState.update();
+            };
+
+            return {
+                //bind user input event to handler
+                init: function() {
+                    editor
+                        .on('mouseup', '.textae-editor__body', bodyClicked)
+                        .on('mouseup', '.span', spanClicked)
+                        .on('mouseup', '.entity', entityClicked)
+                        .on('mouseover mouseout', '.grid', gridMouseHover)
+                        .on('mouseup', '.textae-editor__body,.span,.entity,.grid', editorSelected);
                 },
+
+                //connector clicked is bind by jsPlumb bind function.
                 connectorClicked: function(conn, e) {
                     var rid = conn.getParameter("id");
 
@@ -2830,14 +2841,16 @@
                 var keyApiMap = {
                     "A": editorApi.showAccess,
                     "C": editorApi.copyEntities,
-                    "D DEL": editorApi.removeElements,
+                    "D": editorApi.removeElements,
+                    "DEL": editorApi.removeElements,
                     "E": editorApi.createEntity,
                     "Q": editorApi.showPallet,
                     "R": editorApi.replicate,
                     "S": editorApi.showSave,
                     "V": editorApi.pasteEntities,
                     "W": editorApi.newLabel,
-                    "X Y": editorApi.redo,
+                    "X": editorApi.redo,
+                    "Y": editorApi.redo,
                     "Z": editorApi.undo,
                     "ESC": presentationLogic.cancelSelect,
                     "LEFT": editorApi.selectLeftEntity,
