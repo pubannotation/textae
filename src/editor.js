@@ -138,11 +138,7 @@
         setupWait(this);
         this.loadSaveDialog = loadSaveDialog;
 
-        var mode = 'span'; // screen mode: view | span(default) | relation
         var isReplicateAuto = false;
-
-        // selected slements
-        var modificationIdsSelected;
 
         var clipBoard = [];
 
@@ -216,8 +212,6 @@
                 sourceDoc: "",
                 relationTypes: {},
                 relationTypeDefault: "",
-                modificationTypes: {},
-                modificationTypeDefault: "",
                 annotationData: function() {
                     var updateSpanIds = function() {
                         // sort the span IDs by the position
@@ -359,51 +353,81 @@
                 }(),
                 buttonState: function() {
                     var disableButtons = {};
-
+                    var updateDisableButtons = function(button, enable) {
+                        if (enable) {
+                            delete disableButtons[button];
+                        } else {
+                            disableButtons[button] = true;
+                        }
+                    };
+                    var updateEntity = function() {
+                        updateDisableButtons("entity", domSelector.span.getNumberOfSelected() > 0);
+                    };
+                    var updatePaste = function() {
+                        updateDisableButtons("paste", clipBoard.length > 0 && domSelector.span.getNumberOfSelected() > 0);
+                    };
+                    var updateReplicate = function() {
+                        updateDisableButtons("replicate", domSelector.span.getNumberOfSelected() == 1);
+                    };
+                    var updatePallet = function() {
+                        updateDisableButtons("pallet", domSelector.entity.getNumberOfSelected() > 0);
+                    };
+                    var updateNewLabel = function() {
+                        updateDisableButtons("newLabel", domSelector.entity.getNumberOfSelected() > 0);
+                    };
+                    var updateDelete = function() {
+                        updateDisableButtons("delete", domSelector.hasSelecteds());
+                    };
+                    var updateCopy = function() {
+                        updateDisableButtons("copy", domSelector.hasSelecteds());
+                    };
+                    var updateBySpanAndEntityBoth = function() {
+                        updateDelete();
+                        updateCopy();
+                    };
                     return {
-                        enabled: function(button, enable) {
-                            if (enable) {
-                                delete disableButtons[button];
-                            } else {
-                                disableButtons[button] = true;
-                            }
-                            editor.tool.changeButtonState(disableButtons);
-                        },
                         pushed: function(button, push) {
                             editor.tool.pushReplicateAuto(push);
                         },
-                        update: function() {
+                        renderEnable: function() {
                             editor.tool.changeButtonState(disableButtons);
                         },
-                        updateEntity: function() {
-                            this.enabled("entity", numSpanSelection() > 0);
+                        enabled: function(button, enable) {
+                            updateDisableButtons(button, enable);
+                            this.renderEnable();
                         },
-                        updatePallet: function() {
-                            this.enabled("pallet", numEntitySelection() > 0);
+                        updateBySpan: function() {
+                            updateBySpanAndEntityBoth();
+
+                            updateEntity();
+                            updatePaste();
+                            updateReplicate();
+
+                            this.renderEnable();
                         },
-                        updateNewLabel: function() {
-                            this.enabled("newLabel", numEntitySelection() > 0);
+                        updateByEntity: function() {
+                            updateBySpanAndEntityBoth();
+
+                            updatePallet();
+                            updateNewLabel();
+
+                            this.renderEnable();
                         },
-                        updateDelete: function() {
-                            this.enabled("delete", numSpanSelection() > 0 || $(".ui-selected").length > 0);
-                        },
-                        updateCopy: function() {
-                            this.enabled("copy", $(".ui-selected").length > 0);
-                        },
-                        updatePaste: function() {
-                            this.enabled("paste", clipBoard.length > 0 && numSpanSelection() > 0);
-                        },
-                        updateReplicate: function() {
-                            this.enabled("replicate", numSpanSelection() == 1);
+                        updateAll: function() {
+                            updateBySpanAndEntityBoth();
+
+                            updateEntity();
+                            updatePaste();
+                            updateReplicate();
+                            updatePallet();
+                            updateNewLabel();
+
+                            this.renderEnable();
                         },
                     };
                 }(),
             };
         }(this);
-
-
-
-        var modifications;
 
         var connectors;
         var connectorTypes;
@@ -446,35 +470,14 @@
 
                 connectorTypes = {};
 
-                model.modificationTypes = {};
-                model.modificationTypeDefault = null;
-                if (config['modification types'] !== undefined) {
-                    var mod_types = config['modification types'];
-                    for (var j in mod_types) {
-                        model.modificationTypes[mod_types[j].name] = mod_types[j];
-                        if (mod_types[j]["default"] === true) {
-                            model.modificationTypeDefault = mod_types[j].name;
-                        }
-                    }
-                    if (!model.modificationTypeDefault) {
-                        model.modificationTypeDefault = mod_types[0].name;
-                    }
-                }
-
                 if (config.css !== undefined) {
                     $('#css_area').html('<link rel="stylesheet" href="' + config.css + '"/>');
                 }
             };
 
             var initState = function() {
-                editHistory.init(editHistoryChanged);
-                model.buttonState.updateReplicate();
-                model.buttonState.updateEntity();
-                model.buttonState.updateDelete();
-                model.buttonState.updatePallet();
-                model.buttonState.updateNewLabel();
-                model.buttonState.updateCopy();
-                model.buttonState.updatePaste();
+                commandHistory.init(commandHistoryChanged);
+                model.buttonState.updateAll();
             };
 
             renderer.init();
@@ -570,7 +573,7 @@
         }
 
         // histories of edit to undo and redo.
-        var editHistory = function() {
+        var commandHistory = function() {
             var lastSaveIndex = -1,
                 lastEditIndex = -1,
                 history = [],
@@ -592,8 +595,8 @@
                     }
                     trigger();
                 },
-                push: function(edits) {
-                    history.push(edits);
+                push: function(commands) {
+                    history.push(commands);
                     lastEditIndex++;
                     trigger();
                 },
@@ -624,8 +627,8 @@
             };
         }();
 
-        //action when editHistory is changed.
-        var editHistoryChanged = function() {
+        //action when commandHistory is changed.
+        var commandHistoryChanged = function() {
             var leaveMessage = function() {
                 return "There is a change that has not been saved. If you leave now, you will lose it.";
             };
@@ -716,8 +719,6 @@
                     }
                 });
             }
-
-            modificationIdsSelected = [];
         }
 
         var idFactory = function(editor) {
@@ -1027,7 +1028,7 @@
                         return $type;
                     };
 
-                    if (domSelector.getEntity(eid).length === 0) {
+                    if (domSelector.entity.get(eid).length === 0) {
                         var entity = model.annotationData.entities[eid];
                         var sid = entity.span;
 
@@ -1064,7 +1065,7 @@
                 },
                 indexPositionEntity: function(id) {
                     var gid = 'G' + model.annotationData.entities[id].span;
-                    var e = domSelector.getEntity(id);
+                    var e = domSelector.entity.get(id);
                     renderer.positions[id] = {};
                     renderer.positions[id].top = renderer.positions[gid].top + e.get(0).offsetTop;
                     renderer.positions[id].left = renderer.positions[gid].left + e.get(0).offsetLeft;
@@ -1114,7 +1115,7 @@
                 };
 
                 var expandSpan = function(sid, selection) {
-                    var edits = [];
+                    var commands = [];
 
                     var focusPosition = getFocusPosition(selection);
 
@@ -1128,7 +1129,7 @@
                         var newBegin = adjustSpanBegin(focusPosition);
                         new_sid = idFactory.makeSpanId(newBegin, model.annotationData.spans[sid].end);
                         if (!model.annotationData.spans[new_sid]) {
-                            edits.push({
+                            commands.push({
                                 action: 'new_span',
                                 id: new_sid,
                                 begin: newBegin,
@@ -1138,13 +1139,13 @@
                             typesPerSpan[sid].forEach(function(tid) {
                                 entitiesPerType[tid].forEach(function(eid) {
                                     type = model.annotationData.entities[eid].type;
-                                    edits.push({
+                                    commands.push({
                                         action: 'remove_denotation',
                                         id: eid,
                                         span: sid,
                                         type: type
                                     });
-                                    edits.push({
+                                    commands.push({
                                         action: 'new_denotation',
                                         id: eid,
                                         span: new_sid,
@@ -1153,7 +1154,7 @@
                                 });
                             });
 
-                            edits.push({
+                            commands.push({
                                 action: 'remove_span',
                                 id: sid
                             });
@@ -1165,7 +1166,7 @@
                         var newEnd = adjustSpanEnd(focusPosition);
                         new_sid = idFactory.makeSpanId(model.annotationData.spans[sid].begin, newEnd);
                         if (!model.annotationData.spans[new_sid]) {
-                            edits.push({
+                            commands.push({
                                 action: 'new_span',
                                 id: new_sid,
                                 begin: model.annotationData.spans[sid].begin,
@@ -1175,13 +1176,13 @@
                             typesPerSpan[sid].forEach(function(tid) {
                                 entitiesPerType[tid].forEach(function(eid) {
                                     type = model.annotationData.entities[eid].type;
-                                    edits.push({
+                                    commands.push({
                                         action: 'remove_denotation',
                                         id: eid,
                                         span: sid,
                                         type: type
                                     });
-                                    edits.push({
+                                    commands.push({
                                         action: 'new_denotation',
                                         id: eid,
                                         span: new_sid,
@@ -1189,17 +1190,18 @@
                                     });
                                 });
                             });
-                            edits.push({
+                            commands.push({
                                 action: 'remove_span',
                                 id: sid
                             });
                         }
                     }
-                    if (edits.length > 0) makeEdits(edits);
+
+                    executeCommands(commands);
                 };
 
                 var shortenSpan = function(sid, selection) {
-                    var edits = [];
+                    var commands = [];
 
                     var focusPosition = getFocusPosition(selection);
 
@@ -1215,12 +1217,12 @@
                         if (newEnd > model.annotationData.spans[sid].begin) {
                             new_sid = idFactory.makeSpanId(model.annotationData.spans[sid].begin, newEnd);
                             if (model.annotationData.spans[new_sid]) {
-                                edits.push({
+                                commands.push({
                                     action: 'remove_span',
                                     id: sid
                                 });
                             } else {
-                                edits.push({
+                                commands.push({
                                     action: 'new_span',
                                     id: new_sid,
                                     begin: model.annotationData.spans[sid].begin,
@@ -1229,13 +1231,13 @@
                                 typesPerSpan[sid].forEach(function(tid) {
                                     entitiesPerType[tid].forEach(function(eid) {
                                         type = model.annotationData.entities[eid].type;
-                                        edits.push({
+                                        commands.push({
                                             action: 'remove_denotation',
                                             id: eid,
                                             span: sid,
                                             type: type
                                         });
-                                        edits.push({
+                                        commands.push({
                                             action: 'new_denotation',
                                             id: eid,
                                             span: new_sid,
@@ -1243,13 +1245,13 @@
                                         });
                                     });
                                 });
-                                edits.push({
+                                commands.push({
                                     action: 'remove_span',
                                     id: sid
                                 });
                             }
                         } else {
-                            select(sid);
+                            domSelector.span.select(sid);
                             businessLogic.removeElements();
                         }
                     }
@@ -1261,12 +1263,12 @@
                         if (newBegin < model.annotationData.spans[sid].end) {
                             new_sid = idFactory.makeSpanId(newBegin, model.annotationData.spans[sid].end);
                             if (model.annotationData.spans[new_sid]) {
-                                edits.push({
+                                commands.push({
                                     action: 'remove_span',
                                     id: sid
                                 });
                             } else {
-                                edits.push({
+                                commands.push({
                                     action: 'new_span',
                                     id: new_sid,
                                     begin: newBegin,
@@ -1275,13 +1277,13 @@
                                 typesPerSpan[sid].forEach(function(tid) {
                                     entitiesPerType[tid].forEach(function(eid) {
                                         type = model.annotationData.entities[eid].type;
-                                        edits.push({
+                                        commands.push({
                                             action: 'remove_denotation',
                                             id: eid,
                                             span: sid,
                                             type: type
                                         });
-                                        edits.push({
+                                        commands.push({
                                             action: 'new_denotation',
                                             id: eid,
                                             span: new_sid,
@@ -1289,17 +1291,18 @@
                                         });
                                     });
                                 });
-                                edits.push({
+                                commands.push({
                                     action: 'remove_span',
                                     id: sid
                                 });
                             }
                         } else {
-                            select(sid);
+                            domSelector.span.select(sid);
                             businessLogic.removeElements();
                         }
                     }
-                    if (edits.length > 0) makeEdits(edits);
+
+                    executeCommands(commands);
                 };
 
                 var selection = window.getSelection();
@@ -1326,7 +1329,7 @@
                     // no boundary crossing: normal -> create a entity
                     var sid;
                     if (selection.anchorNode.parentElement.id === selection.focusNode.parentElement.id) {
-                        clearSelection();
+                        domSelector.unselect();
 
                         // switch the position when the selection is made from right to left
                         if (anchorPosition > focusPosition) {
@@ -1347,14 +1350,14 @@
 
                         if (!model.annotationData.spans[sid]) {
                             if (endPosition - beginPosition > CONSTS.BLOCK_THRESHOLD) {
-                                makeEdits([{
+                                executeCommands([{
                                     action: 'new_span',
                                     id: sid,
                                     begin: beginPosition,
                                     end: endPosition
                                 }]);
                             } else {
-                                var edits = [{
+                                var commands = [{
                                     action: 'new_span',
                                     id: sid,
                                     begin: beginPosition,
@@ -1366,9 +1369,9 @@
                                         begin: beginPosition,
                                         end: endPosition
                                     });
-                                    edits = edits.concat(replicates);
+                                    commands = commands.concat(replicates);
                                 }
-                                if (edits.length > 0) makeEdits(edits);
+                                if (commands.length > 0) executeCommands(commands);
                             }
                         }
                     }
@@ -1376,20 +1379,20 @@
                     // boundary crossing: exception
                     else {
                         if (selection.anchorNode.parentNode.parentNode == selection.focusNode.parentNode) {
-                            clearSelection();
+                            domSelector.unselect();
                             expandSpan(selection.anchorNode.parentNode.id, selection);
                         } else if (selection.anchorNode.parentNode == selection.focusNode.parentNode.parentNode) {
-                            clearSelection();
+                            domSelector.unselect();
                             shortenSpan(selection.focusNode.parentNode.id, selection);
-                        } else if (numSpanSelection() == 1) {
-                            sid = popSpanSelection();
+                        } else if (domSelector.span.getNumberOfSelected() == 1) {
+                            sid = domSelector.span.popSelectedId();
 
                             // drag began inside the selected span (expansion)
                             if ((anchorPosition > model.annotationData.spans[sid].begin) && (anchorPosition < model.annotationData.spans[sid].end)) {
                                 // The focus node should be at one level above the selected node.
                                 if ($('#' + sid).get(0).parentNode.id == selection.focusNode.parentNode.id) expandSpan(sid, selection);
                                 else {
-                                    select(sid);
+                                    domSelector.span.select(sid);
                                     alert('A span cannot be expanded to make a boundary crossing.');
                                 }
                             }
@@ -1398,7 +1401,7 @@
                             else if ((focusPosition > model.annotationData.spans[sid].begin) && (focusPosition < model.annotationData.spans[sid].end)) {
                                 if ($('#' + sid).get(0).id == selection.focusNode.parentNode.id) shortenSpan(sid, selection);
                                 else {
-                                    select(sid);
+                                    domSelector.span.select(sid);
                                     alert('A span cannot be shrinked to make a boundary crossing.');
                                 }
                             } else alert('It is ambiguous for which span you want to adjust the boundary. Reselect the span, and try again.');
@@ -1417,27 +1420,13 @@
                 var selection = window.getSelection();
                 var range = selection.getRangeAt(0);
 
-                // if drag, bubble up
                 if (!selection.isCollapsed) {
-                    return true;
-                }
-
-                var id;
-                if (mode == "span") {
-                    id = $(this).attr('id');
-
-                    if (e.ctrlKey) {
-                        if (isSelected(e.target)) {
-                            deselect(id);
-                        } else {
-                            select(id);
-                        }
-                    } else if (e.shiftKey && numSpanSelection() == 1) {
-                        var firstId = popSpanSelection();
+                    if (e.shiftKey && domSelector.span.getNumberOfSelected() == 1) {
+                        var firstId = domSelector.span.popSelectedId();
                         var secondId = $(this).attr('id');
 
                         dismissBrowserSelection();
-                        clearSelection();
+                        domSelector.unselect();
 
                         var firstIndex = model.annotationData.spanIds.indexOf(firstId);
                         var secondIndex = model.annotationData.spanIds.indexOf(secondId);
@@ -1449,108 +1438,33 @@
                         }
 
                         for (var i = firstIndex; i <= secondIndex; i++) {
-                            select(model.annotationData.spanIds[i]);
+                            domSelector.span.select(model.annotationData.spanIds[i]);
                         }
+
+                        model.buttonState.updateBySpan();
                     } else {
-                        clearSelection();
-                        select(id);
+                        // if drag, bubble up
+                        return true;
                     }
-                } else if (mode == "relation") {
-                    id = $(this).attr('id').split('_')[1]; // in clone area, clone_id
-
-                    renderer.relations.clearRelationSelection();
-
-                    if (numSpanSelection() === 0 && numEntitySelection() === 0) {
-                        select(id);
-                    } else {
-                        // make connection
-                        var rid = "R" + (getMaxConnId() + 1);
-                        var oid = id;
-
-                        var sid;
-                        if (numSpanSelection() > 0) {
-                            sid = getSpanSelection();
-                        } else {
-                            sid = getEntitySelection();
-                        }
-
-                        makeEdits([{
-                            action: 'new_relation',
-                            id: rid,
-                            pred: model.relationTypeDefault,
-                            subj: sid,
-                            obj: oid
-                        }]);
-
-                        // star chanining
-                        if (e.ctrlKey) {} else {
-                            clearSelection();
-
-                            // continuous chaining
-                            if (e.shiftKey) {
-                                select(oid);
-                            }
-                        }
-                    }
+                } else if (e.ctrlKey) {
+                    domSelector.domElement.toggle(e.target);
+                    model.buttonState.updateBySpan();
+                } else {
+                    domSelector.domElement.selectOnly(e.target);
+                    model.buttonState.updateAll();
                 }
 
-                model.buttonState.updateReplicate();
-                model.buttonState.updateEntity();
-                model.buttonState.updateDelete();
-                model.buttonState.updatePaste();
                 return false;
             };
 
             // event handler (entity is clicked)
             var entityClicked = function(e) {
-                var id = $(this).attr('id');
-
-                if (mode == "span") {
-                    if (e.ctrlKey) {
-                        if (isSelected(e.target)) {
-                            deselect(id);
-                        } else {
-                            select(id);
-                        }
-                    } else {
-                        clearSelection();
-                        select(id);
-                    }
-                } else if (mode == "relation") {
-                    renderer.relations.clearRelationSelection();
-
-                    if (numSpanSelection() === 0 && numEntitySelection() === 0) {
-                        selectEntity(id);
-                    } else {
-                        // make connection
-                        var rid = "R" + (getMaxConnId() + 1);
-                        var oid = id;
-
-                        var sid;
-                        if (numSpanSelection() > 0) {
-                            sid = getSpanSelection();
-                        } else {
-                            sid = getEntitySelection();
-                        }
-
-                        makeEdits([{
-                            action: 'new_relation',
-                            id: rid,
-                            pred: model.relationTypeDefault,
-                            subj: sid,
-                            obj: oid
-                        }]);
-
-                        // star chanining
-                        if (e.ctrlKey) {} else {
-                            clearSelection();
-
-                            // continuous chaining
-                            if (e.shiftKey) {
-                                select(oid);
-                            }
-                        }
-                    }
+                if (e.ctrlKey) {
+                    domSelector.domElement.toggle(e.target);
+                    mouseover.buttonState.updateByEntity();
+                } else {
+                    domSelector.domElement.selectOnly(e.target);
+                    model.buttonState.updateAll();
                 }
 
                 cancelBubble(e);
@@ -1573,7 +1487,7 @@
 
             var editorSelected = function() {
                 editor.tool.selectMe();
-                model.buttonState.update();
+                model.buttonState.renderEnable();
             };
 
             return {
@@ -1591,7 +1505,7 @@
                 connectorClicked: function(conn, e) {
                     var rid = conn.getParameter("id");
 
-                    clearSelection();
+                    domSelector.unselect();
 
                     if (renderer.relations.isRelationSelected(rid)) {
                         renderer.relations.deselectRelation(rid);
@@ -1741,116 +1655,90 @@
             }
         }
 
-        function isSelected(target) {
-            return $(target).hasClass('ui-selected');
-        }
-
-        function select(id) {
-            $('#' + id).addClass('ui-selected');
-            model.buttonState.updatePallet();
-            model.buttonState.updateNewLabel();
-            model.buttonState.updateDelete();
-            model.buttonState.updateCopy();
-        }
-
-        function deselect(id) {
-            $('#' + id).removeClass('ui-selected');
-            model.buttonState.updatePallet();
-            model.buttonState.updateNewLabel();
-            model.buttonState.updateDelete();
-            model.buttonState.updateCopy();
-        }
-
-        function clearSelection() {
-            $('.ui-selected').removeClass('ui-selected');
-            model.buttonState.updatePallet();
-            model.buttonState.updateNewLabel();
-            model.buttonState.updateDelete();
-            model.buttonState.updateCopy();
-        }
-
-        function numSpanSelection() {
-            return $('.span.ui-selected').length;
-        }
-
-        function popSpanSelection() {
-            var ss = $('.span.ui-selected');
-            if (ss.length == 1) {
-                ss.removeClass('ui-selected');
-                return ss.attr('id');
-            } else return null;
-        }
-
-        function getSpanSelection() {
-            return $('.span.ui-selected').attr('id');
-        }
-
-        function selectEntity(eid) {
-            domSelector.getEntity(eid).addClass('ui-selected');
-        }
-
-        function clearEntitySelection() {
-            domSelector.getSelectedEntities().removeClass('ui-selected');
-        }
-
-        function numEntitySelection() {
-            return domSelector.getSelectedEntities().length;
-        }
-
-        function getEntitySelection() {
-            return domSelector.getSelectedEntities().attr('title');
-        }
-
-        function createModification(pred) {
-            var i;
-
-            if (mode == "relation") {
-                return;
-            } else if (mode == "span") {
-                var edits = [];
-
-                var maxIdNum = getMaxModificationId();
-                for (i = 0; i < instanceIdsSelected.length; i++) {
-                    var iid = instanceIdsSelected[i];
-                    if ($('#' + iid + ' .modification.' + pred).length) continue;
-                    var mid = "M" + (++maxIdNum);
-                    edits.push({
-                        action: 'new_modification',
-                        id: mid,
-                        obj: iid,
-                        pred: pred
-                    });
-                }
-
-                if (edits.length > 0) makeEdits(edits);
-            }
-        }
-
-        function modificationClicked(e) {
-            if (mode == 'span' || mode == 'relation') {
-                cancelBubble(e);
-                var id = $(this).attr('id');
-
-                if (e.ctrlKey) {
-                    if (isModificationSelected(id)) {
-                        deselectModification(id);
-                    } else {
-                        selectModification(id);
+        var domSelector = {
+            getSelecteds: function() {
+                return $('.ui-selected');
+            },
+            hasSelecteds: function(){
+               return domSelector.getSelecteds().length > 0; 
+            },
+            unselect: function() {
+                domSelector.getSelecteds().removeClass('ui-selected');
+                model.buttonState.updateAll();
+            },
+            domElement: function() {
+                var isSelected = function(target) {
+                    return $(target).hasClass('ui-selected');
+                };
+                var select = function(target) {
+                    $(target).addClass('ui-selected');
+                };
+                var deselect = function(target) {
+                    $(target).removeClass('ui-selected');
+                };
+                return {
+                    toggle: function(target) {
+                        if (isSelected(target)) {
+                            deselect(target);
+                        } else {
+                            select(target);
+                        }
+                    },
+                    selectOnly: function(target) {
+                        domSelector.getSelecteds().removeClass('ui-selected');
+                        select(target);
                     }
-                } else {
-                    clearSelection();
-                    clearModificationSelection();
-                    selectModification(id);
-                }
-            }
-        }
-
+                };
+            }(),
+            span: {
+                getSelecteds: function() {
+                    return $('.span.ui-selected');
+                },
+                getNumberOfSelected: function() {
+                    return domSelector.span.getSelecteds().length;
+                },
+                getSelectedId: function() {
+                    //return first element id even if multi elements selected.
+                    return domSelector.span.getSelecteds().attr('id');
+                },
+                popSelectedId: function() {
+                    var ss = domSelector.span.getSelecteds();
+                    if (ss.length === 1) {
+                        ss.removeClass('ui-selected');
+                        return ss.attr('id');
+                    } else {
+                        return null;
+                    }
+                },
+                select: function(id) {
+                    $('#' + id).addClass('ui-selected');
+                    model.buttonState.updateBySpan();
+                },
+            },
+            entity: {
+                get: function(eid) {
+                    return $('#' + idFactory.makeEntityDomId(eid));
+                },
+                getSelecteds: function() {
+                    return $('.entity.ui-selected');
+                },
+                getNumberOfSelected: function() {
+                    return domSelector.entity.getSelecteds().length;
+                },
+                getSelectedId: function() {
+                    return domSelector.entity.getSelecteds().attr('title');
+                },
+                select: function(eid) {
+                    domSelector.entity.get(eid).addClass('ui-selected');
+                },
+            },
+        };
 
         //user event to edit model
         var businessLogic = {
             loadAnnotation: function(annotation) {
                 parseAnnotationJson(annotation);
-                editHistory.init();
+                commandHistory.init();
 
                 renderer.renderAnnotation();
                 presentationLogic.showTarget(targetUrl);
@@ -1863,7 +1751,7 @@
                 });
             },
             saveAnnotation: function() {
-                editHistory.saved();
+                commandHistory.saved();
             },
             saveAnnotationToServer: function(url) {
                 $textaeEditor.startWait();
@@ -1873,26 +1761,71 @@
                 });
             },
             undo: function() {
-                clearSelection();
-                renderer.relations.clearRelationSelection();
-                clearModificationSelection();
+                var revertCommand = function(command) {
+                    var reverted = Object.create(command);
+                    switch (command.action) {
+                        case 'new_span':
+                            reverted.action = 'remove_span';
+                            break;
+                        case 'remove_span':
+                            reverted.action = 'new_span';
+                            break;
+                        case 'new_denotation':
+                            reverted.action = 'remove_denotation';
+                            break;
+                        case 'remove_denotation':
+                            reverted.action = 'new_denotation';
+                            break;
+                        case 'change_entity_type':
+                            reverted.old_type = command.new_type;
+                            reverted.new_type = command.old_type;
+                            break;
+                        case 'new_relation':
+                            reverted.action = 'remove_relation';
+                            break;
+                        case 'remove_relation':
+                            reverted.action = 'new_relation';
+                            break;
+                        case 'change_relation_subj':
+                            reverted.old_subj = command.new_subj;
+                            reverted.new_subj = command.old_subj;
+                            break;
+                        case 'change_relation_obj':
+                            reverted.old_obj = command.new_obj;
+                            reverted.new_obj = command.old_obj;
+                            break;
+                        case 'change_relation_pred':
+                            reverted.old_pred = command.new_pred;
+                            reverted.new_pred = command.old_pred;
+                            break;
+                    }
+                    return reverted;
+                };
 
-                revertEdits(editHistory.prev());
+                var getRevertCommands = function(commands) {
+                    commands = Object.create(commands);
+                    commands.reverse();
+                    return commands.map(revertCommand);
+                };
+
+                domSelector.unselect();
+                renderer.relations.clearRelationSelection();
+
+                executeCommands(getRevertCommands(commandHistory.prev()), 'undo');
             },
 
             redo: function() {
-                clearSelection();
+                domSelector.unselect();
                 renderer.relations.clearRelationSelection();
-                clearModificationSelection();
 
-                makeEdits(editHistory.next(), 'redo');
+                executeCommands(commandHistory.next(), 'redo');
 
                 return false;
             },
 
             replicate: function() {
-                if (numSpanSelection() == 1) {
-                    makeEdits(getSpanReplicates(model.annotationData.spans[getSpanSelection()]));
+                if (domSelector.span.getNumberOfSelected() == 1) {
+                    executeCommands(getSpanReplicates(model.annotationData.spans[domSelector.span.getSelectedId()]));
                 } else alert('You can replicate span annotation when there is only span selected.');
             },
 
@@ -1902,13 +1835,11 @@
             },
 
             createEntity: function() {
-                clearEntitySelection();
-
                 var maxIdNum = getMaxEntityId();
-                while (numSpanSelection() > 0) {
-                    sid = popSpanSelection();
+                while (domSelector.span.getNumberOfSelected() > 0) {
+                    sid = domSelector.span.popSelectedId();
                     var id = "E" + (++maxIdNum);
-                    makeEdits([{
+                    executeCommands([{
                         action: 'new_denotation',
                         id: id,
                         span: sid,
@@ -1918,28 +1849,29 @@
             },
 
             newLabel: function() {
-                var $selectedEntities = domSelector.getSelectedEntities();
+                var $selectedEntities = domSelector.entity.getSelecteds();
                 if ($selectedEntities.length > 0) {
                     var new_type = prompt("Please enter a new label", "");
 
-                    var edits = [];
+                    var commands = [];
                     $selectedEntities.each(function() {
                         var eid = this.title;
                         console.log(eid);
-                        edits.push({
+                        commands.push({
                             action: 'change_entity_type',
                             id: eid,
                             old_type: model.annotationData.entities[eid].type,
                             new_type: new_type
                         });
                     });
-                    if (edits.length > 0) makeEdits(edits);
+
+                    executeCommands(commands);
                 }
             },
 
             removeElements: function() {
                 var spanRemoves = [];
-                $(".span.ui-selected").each(function() {
+                domSelector.span.getSelecteds().each(function() {
                     var sid = this.id;
                     spanRemoves.push({
                         action: 'remove_span',
@@ -1949,13 +1881,13 @@
                         var tid = typesPerSpan[sid][t];
                         for (var e in entitiesPerType[tid]) {
                             var eid = entitiesPerType[tid][e];
-                            selectEntity(eid);
+                            domSelector.entity.select(eid);
                         }
                     }
                 });
 
                 var entityRemoves = [];
-                domSelector.getSelectedEntities().each(function() {
+                domSelector.entity.getSelecteds().each(function() {
                     var eid = this.title;
                     entityRemoves.push({
                         action: 'remove_denotation',
@@ -1981,37 +1913,25 @@
                     });
                 }
 
-                var modificationRemoves = [];
-                while (modificationIdsSelected.length > 0) {
-                    mid = modificationIdsSelected.pop();
-                    modificationRemoves.push({
-                        action: 'remove_modification',
-                        id: mid,
-                        obj: modifications[mid].obj,
-                        pred: modifications[mid].pred
-                    });
-                }
-
-                var edits = modificationRemoves.concat(relationRemoves, entityRemoves, spanRemoves);
-
-                if (edits.length > 0) makeEdits(edits);
+                var commands = [].concat(relationRemoves, entityRemoves, spanRemoves);
+                executeCommands(commands);
             },
 
             copyEntities: function() {
                 clipBoard.length = 0;
-                $(".ui-selected").each(function() {
+                domSelector.getSelecteds().each(function() {
                     clipBoard.push(this.id);
                 });
             },
 
             pasteEntities: function() {
-                var edits = [];
+                var commands = [];
                 var maxIdNum = getMaxEntityId();
-                while (numSpanSelection() == 1) {
-                    sid = popSpanSelection();
+                while (domSelector.span.getNumberOfSelected() == 1) {
+                    sid = domSelector.span.popSelectedId();
                     for (var e in clipBoard) {
                         var id = "E" + (++maxIdNum);
-                        edits.push({
+                        commands.push({
                             action: 'new_denotation',
                             id: id,
                             span: sid,
@@ -2019,7 +1939,8 @@
                         });
                     }
                 }
-                if (edits.length > 0) makeEdits(edits);
+
+                executeCommands(commands);
             },
 
             // set the default type of denoting object
@@ -2031,17 +1952,18 @@
             // set the type of an entity
             setEntityType: function() {
                 var new_type = $(this).attr('label');
-                var edits = [];
-                domSelector.getSelectedEntities().each(function() {
+                var commands = [];
+                domSelector.entity.getSelecteds().each(function() {
                     var eid = this.title;
-                    edits.push({
+                    commands.push({
                         action: 'change_entity_type',
                         id: eid,
                         old_type: model.annotationData.entities[eid].type,
                         new_type: new_type
                     });
                 });
-                if (edits.length > 0) makeEdits(edits);
+
+                executeCommands(commands);
                 return false;
             }
         };
@@ -2073,7 +1995,7 @@
                         $(this).html('').removeAttr('style');
                         presentationLogic.showTarget(targetUrl);
                     });
-                    editHistory.saved();
+                    commandHistory.saved();
                     $textaeEditor.endWait();
                 },
                 showSaveError: function() {
@@ -2173,17 +2095,10 @@
                         return true;
                     }
 
-                    clearSelection();
+                    domSelector.unselect();
                     renderer.relations.clearRelationSelection();
-                    clearModificationSelection();
                     presentationLogic.hidePallet();
-                    model.buttonState.updateReplicate();
-                    model.buttonState.updateEntity();
-                    model.buttonState.updateDelete();
-                    model.buttonState.updatePallet();
-                    model.buttonState.updateNewLabel();
-                    model.buttonState.updateCopy();
-                    model.buttonState.updatePaste();
+                    model.buttonState.updateAll();
 
                     self.tool.cancelSelect();
                 },
@@ -2217,11 +2132,11 @@
                 }
             }
 
-            var edits = [];
+            var commands = [];
             for (var j = 0; j < nspans.length; j++) {
                 var nspan = nspans[j];
                 var id = idFactory.makeSpanId(nspan.begin, nspan.end);
-                edits.push({
+                commands.push({
                     action: "new_span",
                     id: id,
                     begin: nspan.begin,
@@ -2229,243 +2144,162 @@
                 });
             }
 
-            return edits;
+            return commands;
         }
 
-        function makeEdits(edits, context) {
-            switch (context) {
-                case 'undo':
-                case 'redo':
-                    clearSelection();
-                    renderer.relations.clearRelationSelection();
-                    break;
-                default:
-            }
-            var tid, arr;
-
-            for (var i in edits) {
-                var edit = edits[i];
-                switch (edit.action) {
-                    // span operations
-                    case 'new_span':
-                        // model
-                        model.annotationData.addSpan({
-                            begin: edit.begin,
-                            end: edit.end
-                        });
-                        typesPerSpan[edit.id] = [];
-                        // rendering
-                        renderer.renderSpan(edit.id, model.annotationData.spanIds, model.annotationData.spanIds.length);
-                        renderer.indexPositionSpan(edit.id);
-                        // select
-                        select(edit.id);
-                        break;
-                    case 'remove_span':
-                        //save span potision for undo
-                        var span = model.annotationData.getSpan(edit.id);
-                        edit.begin = span.begin;
-                        edit.end = span.end;
-                        //model
-                        model.annotationData.removeSpan(edit.id);
-                        delete typesPerSpan[edit.id];
-                        //rendering
-                        renderer.destroySpan(edit.id);
-                        break;
-
-                        // entity operations
-                    case 'new_denotation':
-                        // model
-                        model.annotationData.entities[edit.id] = {
-                            id: edit.id,
-                            span: edit.span,
-                            type: edit.type
-                        };
-                        tid = idFactory.makeTypeId(edit.span, edit.type);
-                        if (typesPerSpan[edit.span].indexOf(tid) < 0) {
-                            typesPerSpan[edit.span].push(tid);
-                            entitiesPerType[tid] = [];
-                            renderGridAsso(edit.span);
-                        }
-                        entitiesPerType[tid].push(edit.id);
-                        // rendering
-                        renderer.renderEntity(edit.id);
-                        // select
-                        selectEntity(edit.id);
-                        break;
-                    case 'remove_denotation':
-                        //model
-                        delete model.annotationData.entities[edit.id];
-                        tid = idFactory.makeTypeId(edit.span, edit.type);
-                        arr = entitiesPerType[tid];
-                        arr.splice(arr.indexOf(edit.id), 1);
-                        //rendering
-                        destroyEntity(edit.id);
-                        positionEntities(edit.span, edit.type);
-                        // consequence
-                        if (entitiesPerType[tid].length === 0) {
-                            delete entitiesPerType[tid];
-                            arr = typesPerSpan[edit.span];
-                            arr.splice(arr.indexOf(tid), 1);
-                            destroyType(tid);
-                            renderGridAsso(edit.span);
-                        }
-                        break;
-                    case 'change_entity_type':
-                        //model
-                        model.annotationData.entities[edit.id].type = edit.new_type;
-                        //rendering
-                        renderer.renderEntity(edit.id);
-                        break;
-
-                        // relation operations
-                    case 'new_relation':
-                        // model
-                        model.annotationData.relations[edit.id] = {
-                            id: edit.id,
-                            subj: edit.subj,
-                            obj: edit.obj,
-                            pred: edit.pred
-                        };
-                        if (relationsPerEntity[edit.subj]) {
-                            if (relationsPerEntity[edit.subj].indexOf(edit.id) < 0) relationsPerEntity[edit.subj].push(edit.id);
-                        } else relationsPerEntity[edit.subj] = [edit.id];
-
-                        if (relationsPerEntity[edit.obj]) {
-                            if (relationsPerEntity[edit.obj].indexOf(edit.id) < 0) relationsPerEntity[edit.obj].push(edit.id);
-                        } else relationsPerEntity[edit.obj] = [edit.id];
-                        // rendering
-                        connectors[edit.id] = renderer.relations.renderRelation(edit.id);
-                        // selection
-                        renderer.relations.selectRelation(edit.id);
-                        break;
-                    case 'remove_relation':
-                        // model
-                        delete model.annotationData.relations[edit.id];
-                        arr = relationsPerEntity[edit.subj];
-                        arr.splice(arr.indexOf(edit.id), 1);
-                        if (arr.length === 0) {
-                            delete relationsPerEntity[edit.subj];
-                        }
-                        arr = relationsPerEntity[edit.obj];
-                        arr.splice(arr.indexOf(edit.id), 1);
-                        if (arr.length === 0) {
-                            delete relationsPerEntity[edit.obj];
-                        }
-                        // rendering
-                        renderer.relations.destroyRelation(edit.id);
-                        break;
-                    case 'change_relation_pred':
-                        // model
-                        model.annotationData.relations[edit.id].pred = edit.new_pred;
-                        // rendering
-                        connectors[edit.id].setPaintStyle(connectorTypes[edit.new_pred + "_selected"].paintStyle);
-                        connectors[edit.id].setHoverPaintStyle(connectorTypes[edit.new_pred + "_selected"].hoverPaintStyle);
-                        connectors[edit.id].setLabel('[' + edit.id + '] ' + edit.new_pred);
-                        // selection
-                        renderer.relations.selectRelation(edit.id);
-                        break;
-
-                        // modification operations
-                    case 'new_modification':
-                        // model
-                        modifications[edit.id] = {
-                            id: edit.id,
-                            obj: edit.obj,
-                            pred: edit.pred
-                        };
-                        // rendering
-                        renderModification(edit.id);
-                        break;
-                    case 'remove_modification':
-                        // model
-                        delete modifications[edit.id];
-                        // rendering
-                        destroyModification(edit.id);
+        //context may be 'undo' or 'redo'.
+        function executeCommands(commands, context) {
+            if (commands && commands.length > 0) {
+                switch (context) {
+                    case 'undo':
+                    case 'redo':
+                        domSelector.unselect();
+                        renderer.relations.clearRelationSelection();
                         break;
                     default:
-                        // do nothing
+                }
+                var tid, arr;
+
+                for (var i in commands) {
+                    var edit = commands[i];
+                    switch (edit.action) {
+                        // span operations
+                        case 'new_span':
+                            // model
+                            model.annotationData.addSpan({
+                                begin: edit.begin,
+                                end: edit.end
+                            });
+                            typesPerSpan[edit.id] = [];
+                            // rendering
+                            renderer.renderSpan(edit.id, model.annotationData.spanIds, model.annotationData.spanIds.length);
+                            renderer.indexPositionSpan(edit.id);
+                            // select
+                            domSelector.span.select(edit.id);
+                            break;
+                        case 'remove_span':
+                            //save span potision for undo
+                            var span = model.annotationData.getSpan(edit.id);
+                            edit.begin = span.begin;
+                            edit.end = span.end;
+                            //model
+                            model.annotationData.removeSpan(edit.id);
+                            delete typesPerSpan[edit.id];
+                            //rendering
+                            renderer.destroySpan(edit.id);
+                            break;
+
+                            // entity operations
+                        case 'new_denotation':
+                            // model
+                            model.annotationData.entities[edit.id] = {
+                                id: edit.id,
+                                span: edit.span,
+                                type: edit.type
+                            };
+                            tid = idFactory.makeTypeId(edit.span, edit.type);
+                            if (typesPerSpan[edit.span].indexOf(tid) < 0) {
+                                typesPerSpan[edit.span].push(tid);
+                                entitiesPerType[tid] = [];
+                                renderGridAsso(edit.span);
+                            }
+                            entitiesPerType[tid].push(edit.id);
+                            // rendering
+                            renderer.renderEntity(edit.id);
+                            // select
+                            domSelector.entity.select(edit.id);
+                            break;
+                        case 'remove_denotation':
+                            //model
+                            delete model.annotationData.entities[edit.id];
+                            tid = idFactory.makeTypeId(edit.span, edit.type);
+                            arr = entitiesPerType[tid];
+                            arr.splice(arr.indexOf(edit.id), 1);
+                            //rendering
+                            destroyEntity(edit.id);
+                            positionEntities(edit.span, edit.type);
+                            // consequence
+                            if (entitiesPerType[tid].length === 0) {
+                                delete entitiesPerType[tid];
+                                arr = typesPerSpan[edit.span];
+                                arr.splice(arr.indexOf(tid), 1);
+                                destroyType(tid);
+                                renderGridAsso(edit.span);
+                            }
+                            break;
+                        case 'change_entity_type':
+                            //model
+                            model.annotationData.entities[edit.id].type = edit.new_type;
+                            //rendering
+                            renderer.renderEntity(edit.id);
+                            break;
+
+                            // relation operations
+                        case 'new_relation':
+                            // model
+                            model.annotationData.relations[edit.id] = {
+                                id: edit.id,
+                                subj: edit.subj,
+                                obj: edit.obj,
+                                pred: edit.pred
+                            };
+                            if (relationsPerEntity[edit.subj]) {
+                                if (relationsPerEntity[edit.subj].indexOf(edit.id) < 0) relationsPerEntity[edit.subj].push(edit.id);
+                            } else relationsPerEntity[edit.subj] = [edit.id];
+
+                            if (relationsPerEntity[edit.obj]) {
+                                if (relationsPerEntity[edit.obj].indexOf(edit.id) < 0) relationsPerEntity[edit.obj].push(edit.id);
+                            } else relationsPerEntity[edit.obj] = [edit.id];
+                            // rendering
+                            connectors[edit.id] = renderer.relations.renderRelation(edit.id);
+                            // selection
+                            renderer.relations.selectRelation(edit.id);
+                            break;
+                        case 'remove_relation':
+                            // model
+                            delete model.annotationData.relations[edit.id];
+                            arr = relationsPerEntity[edit.subj];
+                            arr.splice(arr.indexOf(edit.id), 1);
+                            if (arr.length === 0) {
+                                delete relationsPerEntity[edit.subj];
+                            }
+                            arr = relationsPerEntity[edit.obj];
+                            arr.splice(arr.indexOf(edit.id), 1);
+                            if (arr.length === 0) {
+                                delete relationsPerEntity[edit.obj];
+                            }
+                            // rendering
+                            renderer.relations.destroyRelation(edit.id);
+                            break;
+                        case 'change_relation_pred':
+                            // model
+                            model.annotationData.relations[edit.id].pred = edit.new_pred;
+                            // rendering
+                            connectors[edit.id].setPaintStyle(connectorTypes[edit.new_pred + "_selected"].paintStyle);
+                            connectors[edit.id].setHoverPaintStyle(connectorTypes[edit.new_pred + "_selected"].hoverPaintStyle);
+                            connectors[edit.id].setLabel('[' + edit.id + '] ' + edit.new_pred);
+                            // selection
+                            renderer.relations.selectRelation(edit.id);
+                            break;
+                        default:
+                            // do nothing
+                    }
+                }
+
+                // update rendering
+                presentationLogic.redraw();
+
+                switch (context) {
+                    case 'undo':
+                    case 'redo':
+                        break;
+                    default:
+                        commandHistory.push(commands);
+                        model.buttonState.updateAll();
                 }
             }
-
-            // update rendering
-            presentationLogic.redraw();
-
-            switch (context) {
-                case 'undo':
-                case 'redo':
-                    break;
-                default:
-                    editHistory.push(edits);
-                    model.buttonState.updateReplicate();
-                    model.buttonState.updateEntity();
-                    model.buttonState.updateDelete();
-                    model.buttonState.updatePallet();
-                    model.buttonState.updateNewLabel();
-                    model.buttonState.updateCopy();
-                    model.buttonState.updatePaste();
-            }
         }
 
-
-        function revertEdits(edits) {
-            var redits = [];
-            for (var i = edits.length - 1; i >= 0; i--) {
-                edit = edits[i];
-                var redit = cloneEdit(edit);
-                switch (edit.action) {
-                    case 'new_span':
-                        redit.action = 'remove_span';
-                        break;
-                    case 'remove_span':
-                        redit.action = 'new_span';
-                        break;
-                    case 'new_denotation':
-                        redit.action = 'remove_denotation';
-                        break;
-                    case 'remove_denotation':
-                        redit.action = 'new_denotation';
-                        break;
-                    case 'change_entity_type':
-                        redit.old_type = edit.new_type;
-                        redit.new_type = edit.old_type;
-                        break;
-                    case 'new_relation':
-                        redit.action = 'remove_relation';
-                        break;
-                    case 'remove_relation':
-                        redit.action = 'new_relation';
-                        break;
-                    case 'change_relation_subj':
-                        redit.old_subj = edit.new_subj;
-                        redit.new_subj = edit.old_subj;
-                        break;
-                    case 'change_relation_obj':
-                        redit.old_obj = edit.new_obj;
-                        redit.new_obj = edit.old_obj;
-                        break;
-                    case 'change_relation_pred':
-                        redit.old_pred = edit.new_pred;
-                        redit.new_pred = edit.old_pred;
-                        break;
-                    case 'new_modification':
-                        redit.action = 'remove_modification';
-                        break;
-                    case 'remove_modification':
-                        redit.action = 'new_modification';
-                        break;
-                }
-                redits.push(redit);
-            }
-            makeEdits(redits, 'undo');
-        }
-
-        function cloneEdit(e) {
-            c = {};
-            for (var p in e) {
-                c[p] = e[p];
-            }
-            return c;
-        }
 
         // conversion from HEX to RGBA color
         function colorTrans(color, opacity) {
@@ -2548,8 +2382,8 @@
                     // make connector
                     var pred = model.annotationData.relations[rid].pred;
                     var rgba = colorTrans(relationColor(pred), connOpacity);
-                    var sourceElem = domSelector.getEntity(sourceId);
-                    var targetElem = domSelector.getEntity(targetId);
+                    var sourceElem = domSelector.entity.get(sourceId);
+                    var targetElem = domSelector.entity.get(targetId);
 
                     var label = '[' + rid + '] ' + pred;
 
@@ -2695,87 +2529,13 @@
             $('#' + tid).remove();
         }
 
-        var domSelector = {
-            getEntity: function(eid) {
-                return $('#' + idFactory.makeEntityDomId(eid));
-            },
-            getSelectedEntities: function() {
-                return $('.entity.ui-selected');
-            }
-        };
-
         function positionEntities(sid, type) {
             var tid = idFactory.makeTypeId(sid, type);
             $('#P-' + tid).css('left', (renderer.positions['G' + sid].width - (renderer.renderSize.entityWidth * entitiesPerType[tid].length)) / 2);
         }
 
         function destroyEntity(eid) {
-            domSelector.getEntity(eid).remove();
-        }
-
-        function renderModifications(mids) {
-            for (var i = 0; i < mids.length; i++) {
-                renderModification(mids[i]);
-            }
-        }
-
-        function renderModification(mid) {
-            var pred = modifications[mid].pred;
-            var oid = modifications[mid].obj;
-            var symbol;
-            if (pred == "Negation") {
-                symbol = 'X';
-            } else if (pred == "Speculation") {
-                symbol = '?';
-            }
-            $('#' + oid).append('<entity class="modification" id="' + mid + '">' + symbol + '</entity>');
-            $('#' + mid).off('click', modificationClicked).on('click', modificationClicked);
-        }
-
-
-        function destroyModification(mid) {
-            $('#' + mid).remove();
-        }
-
-        function isModificationSelected(mid) {
-            return (modificationIdsSelected.indexOf(mid) > -1);
-        }
-
-        function selectModification(mid) {
-            if (!isModificationSelected(mid)) {
-                $('#' + mid).addClass('selected');
-                modificationIdsSelected.push(mid);
-            }
-        }
-
-        function deselectModification(mid) {
-            var i = spanIdsSelected.indexOf(mid);
-            if (i > -1) {
-                $('#' + mid).removeClass('selected');
-                modificationIdsSelected.splice(i, 1);
-            }
-        }
-
-        function clearModificationSelection() {
-            $('modification.selected').removeClass('selected');
-            modificationIdsSelected.length = 0;
-        }
-
-
-        function changeConnectionOpacity(opacity) {
-            connOpacity = opacity;
-            setConnectorTypes();
-
-            for (var rid in model.annotationData.relations) {
-                var rtype = model.annotationData.relations[rid].pred;
-                connectors[rid].setPaintStyle(connectorTypes[rtype].paintStyle);
-            }
-
-            for (var i = 0; i < renderer.relations.relationIdsSelected; i++) {
-                var id = renderer.relations.relationIdsSelected[i];
-                var type = model.annotationData.relations[id].pred;
-                connectors[id].setPaintStyle(connectorTypes[type + "_selected"].paintStyle);
-            }
+            domSelector.entity.get(eid).remove();
         }
 
         // public funcitons of editor
@@ -2795,36 +2555,36 @@
             },
             newLabel: businessLogic.newLabel,
             redo: function() {
-                if (editHistory.hasAnythingToRedo()) {
+                if (commandHistory.hasAnythingToRedo()) {
                     businessLogic.redo();
                 }
             },
             undo: function() {
-                if (editHistory.hasAnythingToUndo()) {
+                if (commandHistory.hasAnythingToUndo()) {
                     businessLogic.undo();
                 }
             },
             selectLeftEntity: function() {
                 //TODO presentation logic?
-                if (numSpanSelection() == 1) {
-                    var spanIdx = model.annotationData.spanIds.indexOf(popSpanSelection());
-                    clearSelection();
+                if (domSelector.span.getNumberOfSelected() == 1) {
+                    var spanIdx = model.annotationData.spanIds.indexOf(domSelector.span.popSelectedId());
+                    domSelector.unselect();
                     spanIdx--;
                     if (spanIdx < 0) {
                         spanIdx = model.annotationData.spanIds.length - 1;
                     }
-                    select(model.annotationData.spanIds[spanIdx]);
+                    domSelector.span.select(model.annotationData.spanIds[spanIdx]);
                 }
             },
             selectRightEntity: function() {
-                if (numSpanSelection() == 1) {
-                    var spanIdx = model.annotationData.spanIds.indexOf(popSpanSelection());
-                    clearSelection();
+                if (domSelector.span.getNumberOfSelected() == 1) {
+                    var spanIdx = model.annotationData.spanIds.indexOf(domSelector.span.popSelectedId());
+                    domSelector.unselect();
                     spanIdx++;
                     if (spanIdx > model.annotationData.spanIds.length - 1) {
                         spanIdx = 0;
                     }
-                    select(model.annotationData.spanIds[spanIdx]);
+                    domSelector.span.select(model.annotationData.spanIds[spanIdx]);
                 }
             },
             redraw: presentationLogic.redraw,
