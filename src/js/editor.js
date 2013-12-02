@@ -578,7 +578,13 @@
             // read default spanConfig
             spanConfig.set();
 
-            if (this.urlParams.debug) {
+            var params = {
+                debug: this.attr("debug"),
+                config: this.attr("config"),
+                target: this.attr("annotations")
+            };
+
+            if (params.debug) {
                 //no file is get from server, if debug.
                 var types_for_debug = {
                     "span types": [{
@@ -617,19 +623,19 @@
                 };
                 setTypeConfig(types_for_debug);
             } else {
-                if (this.urlParams.config !== "") {
+                if (params.config !== "") {
                     // load sync, because load annotation after load config. 
-                    var data = textAeUtil.ajaxAccessor.getSync(this.urlParams.config);
+                    var data = textAeUtil.ajaxAccessor.getSync(params.config);
                     if (data !== null) {
                         spanConfig.set(data);
                         setTypeConfig(data);
 
-                        businessLogic.getAnnotationFromServer(this.urlParams.target);
+                        businessLogic.getAnnotationFromServer(params.target);
                     } else {
                         alert('could not read the span configuration from the location you specified.');
                     }
                 } else {
-                    businessLogic.getAnnotationFromServer(this.urlParams.target);
+                    businessLogic.getAnnotationFromServer(params.target);
                 }
             }
         }.bind(this);

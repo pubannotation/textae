@@ -1,8 +1,5 @@
     // tool manage interactions between components. 
     var tool = function() {
-        // get the url parameters: beginning of the program
-        var urlParams = textAeUtil.getUrlParameters(location.search);
-
         // components to manage
         var components = {
             control: null,
@@ -171,7 +168,6 @@
 
                 $.extend(editor, {
                     editorId: components.editors.getNewId(),
-                    urlParams: urlParams,
                     tool: {
                         selectMe: eventDispatcher.handleEditor.select.bind(this, editor),
                         cancelSelect: eventDispatcher.handleEditor.cancel,

@@ -69,7 +69,7 @@
             };
         }(),
 
-        // set arg1 location.serach
+        // todo remove. but this is an only target of qunit tests. 
         getUrlParameters: function(url_query) {
             //if exists convert to string and parse
             var querys = url_query ? ("" + url_query).slice(1).split('&') : [];
@@ -746,7 +746,13 @@
             // read default spanConfig
             spanConfig.set();
 
-            if (this.urlParams.debug) {
+            var urlParams = {
+                debug: this.attr("debug"),
+                config: this.attr("config"),
+                target: this.attr("annotations")
+            };
+
+            if (urlParams.debug) {
                 //no file is get from server, if debug.
                 var types_for_debug = {
                     "span types": [{
@@ -785,19 +791,19 @@
                 };
                 setTypeConfig(types_for_debug);
             } else {
-                if (this.urlParams.config !== "") {
+                if (urlParams.config !== "") {
                     // load sync, because load annotation after load config. 
-                    var data = textAeUtil.ajaxAccessor.getSync(this.urlParams.config);
+                    var data = textAeUtil.ajaxAccessor.getSync(urlParams.config);
                     if (data !== null) {
                         spanConfig.set(data);
                         setTypeConfig(data);
 
-                        businessLogic.getAnnotationFromServer(this.urlParams.target);
+                        businessLogic.getAnnotationFromServer(urlParams.target);
                     } else {
                         alert('could not read the span configuration from the location you specified.');
                     }
                 } else {
-                    businessLogic.getAnnotationFromServer(this.urlParams.target);
+                    businessLogic.getAnnotationFromServer(urlParams.target);
                 }
             }
         }.bind(this);
@@ -2925,9 +2931,6 @@
     };
     // tool manage interactions between components. 
     var tool = function() {
-        // get the url parameters: beginning of the program
-        var urlParams = textAeUtil.getUrlParameters(location.search);
-
         // components to manage
         var components = {
             control: null,
@@ -3096,7 +3099,6 @@
 
                 $.extend(editor, {
                     editorId: components.editors.getNewId(),
-                    urlParams: urlParams,
                     tool: {
                         selectMe: eventDispatcher.handleEditor.select.bind(this, editor),
                         cancelSelect: eventDispatcher.handleEditor.cancel,

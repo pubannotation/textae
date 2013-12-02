@@ -2,7 +2,7 @@ var version = "0.0.1";
 
 module.exports = function(grunt) {
   grunt.initConfig({
-    clean:{
+    clean: {
       copy: "dist/*"
     },
     copy: {
@@ -99,6 +99,6 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-qunit');
   grunt.loadNpmTasks('grunt-contrib-watch');
 
-  grunt.registerTask('dist', ['clean', 'concat', 'copy']);
+  grunt.registerTask('dist', ['jshint', 'qunit', 'clean', 'concat', 'copy']);
   grunt.registerTask('dev', ['connect', 'watch']);
 };

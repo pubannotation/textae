@@ -67,7 +67,7 @@
             };
         }(),
 
-        // set arg1 location.serach
+        // todo remove. but this is an only target of qunit tests. 
         getUrlParameters: function(url_query) {
             //if exists convert to string and parse
             var querys = url_query ? ("" + url_query).slice(1).split('&') : [];
