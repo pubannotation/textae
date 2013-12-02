@@ -1,6 +1,5 @@
-//like a jQuery plugin
+//for module pattern with tail.js
 (function(jQuery) {
-
     // utility functions
     var textAeUtil = {
         // ajax wrapper
@@ -3008,6 +3007,7 @@
                         }
                 }
             },
+            //methods for editor to call tool.
             handleEditor: {
                 select: function(editor) {
                     components.editors.select(editor);

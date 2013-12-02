@@ -82,6 +82,7 @@
                         }
                 }
             },
+            //methods for editor to call tool.
             handleEditor: {
                 select: function(editor) {
                     components.editors.select(editor);

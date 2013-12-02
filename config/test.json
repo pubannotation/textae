@@ -1,1 +1,0 @@
-{"delimiter characters":[" ",".","!","?",",",":",";","-","/","&","(",")","{","}","[","]","\\","\"","'","\n"],"span types":[{"color":"#0000FF","name":"Protein","default":true},{"color":"#FF0000","name":"Cell"}],"non-edge characters":[" ","\n"],"relation types":[{"color":"#5CFF0A","name":"locatedAt"}]}
