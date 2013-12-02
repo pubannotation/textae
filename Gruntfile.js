@@ -98,4 +98,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-qunit');
   grunt.loadNpmTasks('grunt-contrib-watch');
+
+  grunt.registerTask('dist', ['clean', 'concat', 'copy']);
+  grunt.registerTask('dev', ['connect', 'watch']);
 };
