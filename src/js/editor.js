@@ -367,6 +367,7 @@
                         }
                     };
                 }(),
+                connectorTypes: {},
                 buttonState: function() {
                     var disableButtons = {};
                     var updateDisableButtons = function(button, enable) {
@@ -515,13 +516,10 @@
                         }
                     }
                 },
-
-
             };
         }(this);
 
         var connectors;
-        var connectorTypes;
 
         // index
         var typesPerSpan;
@@ -559,7 +557,7 @@
                     }
                 }
 
-                connectorTypes = {};
+                model.connectorTypes = {};
 
                 if (config.css !== undefined) {
                     $('#css_area').html('<link rel="stylesheet" href="' + config.css + '"/>');
@@ -584,59 +582,19 @@
                 target: this.attr("annotations")
             };
 
-            if (params.debug) {
-                //no file is get from server, if debug.
-                var types_for_debug = {
-                    "span types": [{
-                        "color": "#0000FF",
-                        "name": "Protein",
-                        "default": true
-                    }, {
-                        "color": "#FF0000",
-                        "name": "Cell"
-                    }, {
-                        "color": "#00FF00",
-                        "name": "Transcription"
-                    }, {
-                        "color": "#FFFF00",
-                        "name": "Gene_expression"
-                    }, {
-                        "color": "#FF00FF",
-                        "name": "Negative_regulation"
-                    }, {
-                        "color": "#00FFFF",
-                        "name": "Positive_regulation"
-                    }, {
-                        "color": "#FFFF66",
-                        "name": "Regulation"
-                    }],
-                    "relation types": [{
-                        "color": "#5CFF0A",
-                        "name": "locatedAt"
-                    }, {
-                        "color": "#FF0000",
-                        "name": "themeOf"
-                    }, {
-                        "color": "#0000FF",
-                        "name": "equivalentTo"
-                    }]
-                };
-                setTypeConfig(types_for_debug);
-            } else {
-                if (params.config !== "") {
-                    // load sync, because load annotation after load config. 
-                    var data = textAeUtil.ajaxAccessor.getSync(params.config);
-                    if (data !== null) {
-                        spanConfig.set(data);
-                        setTypeConfig(data);
-
-                        businessLogic.getAnnotationFromServer(params.target);
-                    } else {
-                        alert('could not read the span configuration from the location you specified.');
-                    }
+            if (params.config && params.config !== "") {
+                // load sync, because load annotation after load config. 
+                var data = textAeUtil.ajaxAccessor.getSync(params.config);
+                if (data !== null) {
+                    spanConfig.set(data);
+                    setTypeConfig(data);
                 } else {
-                    businessLogic.getAnnotationFromServer(params.target);
+                    alert('could not read the span configuration from the location you specified.');
                 }
+            }
+
+            if (params.target && params.target !== "") {
+                businessLogic.getAnnotationFromServer(params.target);
             }
         }.bind(this);
 
@@ -848,8 +806,8 @@
                                 // model
                                 model.annotationData.relations[edit.id].pred = edit.new_pred;
                                 // rendering
-                                connectors[edit.id].setPaintStyle(connectorTypes[edit.new_pred + "_selected"].paintStyle);
-                                connectors[edit.id].setHoverPaintStyle(connectorTypes[edit.new_pred + "_selected"].hoverPaintStyle);
+                                connectors[edit.id].setPaintStyle(model.connectorTypes[edit.new_pred + "_selected"].paintStyle);
+                                connectors[edit.id].setHoverPaintStyle(model.connectorTypes[edit.new_pred + "_selected"].hoverPaintStyle);
                                 connectors[edit.id].setLabel('[' + edit.id + '] ' + edit.new_pred);
                                 // selection
                                 renderer.relations.selectRelation(edit.id);
@@ -1038,7 +996,7 @@
                             var rgba0 = colorTrans(c, connOpacity);
                             var rgba1 = colorTrans(c, 1);
 
-                            connectorTypes[name] = {
+                            model.connectorTypes[name] = {
                                 paintStyle: {
                                     strokeStyle: rgba0,
                                     lineWidth: 1
@@ -1048,7 +1006,7 @@
                                     lineWidth: 3
                                 }
                             };
-                            connectorTypes[name + '_selected'] = {
+                            model.connectorTypes[name + '_selected'] = {
                                 paintStyle: {
                                     strokeStyle: rgba1,
                                     lineWidth: 3
@@ -1371,8 +1329,8 @@
                                 connector: ["Bezier", {
                                     curviness: curviness
                                 }],
-                                paintStyle: connectorTypes[pred].paintStyle,
-                                hoverPaintStyle: connectorTypes[pred].hoverPaintStyle,
+                                paintStyle: model.connectorTypes[pred].paintStyle,
+                                hoverPaintStyle: model.connectorTypes[pred].hoverPaintStyle,
                                 tooltip: '[' + rid + '] ' + pred,
                                 parameters: {
                                     "id": rid,
@@ -1397,21 +1355,21 @@
                         },
                         selectRelation: function(rid) {
                             if (!renderer.relations.isRelationSelected(rid)) {
-                                connectors[rid].setPaintStyle(connectorTypes[model.annotationData.relations[rid].pred + "_selected"].paintStyle);
+                                connectors[rid].setPaintStyle(model.connectorTypes[model.annotationData.relations[rid].pred + "_selected"].paintStyle);
                                 renderer.relations.relationIdsSelected.push(rid);
                             }
                         },
                         deselectRelation: function(rid) {
                             var i = renderer.relations.relationIdsSelected.indexOf(rid);
                             if (i > -1) {
-                                connectors[rid].setPaintStyle(connectorTypes[model.annotationData.relations[rid].pred].paintStyle);
+                                connectors[rid].setPaintStyle(model.connectorTypes[model.annotationData.relations[rid].pred].paintStyle);
                                 renderer.relations.relationIdsSelected.splice(i, 1);
                             }
                         },
                         clearRelationSelection: function() {
                             while (renderer.relations.relationIdsSelected.length > 0) {
                                 var rid = renderer.relations.relationIdsSelected.pop();
-                                connectors[rid].setPaintStyle(connectorTypes[model.annotationData.relations[rid].pred].paintStyle);
+                                connectors[rid].setPaintStyle(model.connectorTypes[model.annotationData.relations[rid].pred].paintStyle);
                             }
                         },
                         destroyRelation: function(rid) {
