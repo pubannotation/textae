@@ -146,5 +146,5 @@
             "color": "#222222"
         }
     ],
-    "css": "http://localhost/~jdkim/textae/css/textae.css"
+    "css": "../../css/textae.css"
 }

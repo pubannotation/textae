@@ -29,7 +29,7 @@ module.exports = function(grunt) {
       }
     },
     qunit: {
-      all: 'test/util.html'
+      all: 'test/src/util.html',
     },
     watch: {
       javascript: {
@@ -62,6 +62,6 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-qunit');
   grunt.loadNpmTasks('grunt-contrib-watch');
 
-  grunt.registerTask('dist', ['jshint', 'qunit', 'clean', 'concat', 'copy']);
+  grunt.registerTask('dist', ['jshint', 'qunit:src', 'clean', 'concat', 'copy']);
   grunt.registerTask('dev', ['connect', 'watch']);
 };

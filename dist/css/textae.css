@@ -29,13 +29,6 @@ html, body {
     font-family: verdana, arial, helvetica, sans-serif;
 }
 
-.textae-editor__footer {
-    position: absolute;
-    height: 540px;
-    margin: 0px 4px;
-    overflow-y: scroll;
-}
-
 .textae-editor__body__text-box {
     display: inline;
     line-height: 400%;
@@ -49,7 +42,7 @@ html, body {
 }
 
 .textae-editor__footer {
-    position: fixed;
+    position: relative;
     bottom: 0px;
 
     width: 90%;
