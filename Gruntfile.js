@@ -47,7 +47,25 @@ module.exports = function(grunt) {
       developmentServer: {
         options: {
           middleware: function(connect, options) {
-            return [connect.static(options.base)];
+            return [connect.static(options.base),
+              function(req, res) {
+                if (req.method === "POST") {
+                  // concat recieved data.
+                  var fullBody = '';
+                  req.on('data', function(chunk) {
+                    fullBody += chunk.toString();
+                  });
+
+                  req.on('end', function() {
+                    var decodedBody = require('querystring').parse(fullBody); // decode to object.
+                    require("fs").writeFile(req.url.substr(1) + ".dev_data", decodedBody.annotations); // url as saved filename.
+                    res.end();
+                  });
+                } else {
+                  res.statusCode = 404;
+                  res.end();
+                }
+              }];
           },
         },
       }
