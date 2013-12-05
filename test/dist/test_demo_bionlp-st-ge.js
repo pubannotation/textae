@@ -6,7 +6,7 @@ casper.test.begin("Demo bionlp-st-ge", 7, function(test) {
 		test.assertExist('.textae-control', "one control is exits");
 		test.assertExist('.textae-editor', "one edtor is exits");
 		test.assertExist('#editor1__S0_15', "span is rendered");
-		test.assertExist('#Geditor1__S0_15', "endity is rendered");
+		test.assertExist('#Geditor1__S0_15', "entity is rendered");
 		test.assertExist('._jsPlumb_connector', "relation is rendered");
 	}).run(function() {
 		test.done();
