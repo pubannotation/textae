@@ -134,7 +134,91 @@
             };
         }();
 
-        var isReplicateAuto = false;
+        // state of editor component.
+        var editorState = function(editor) {
+            return {
+                isReplicateAuto: false,
+                buttonState: function() {
+                    var disableButtons = {};
+                    var updateDisableButtons = function(button, enable) {
+                        if (enable) {
+                            delete disableButtons[button];
+                        } else {
+                            disableButtons[button] = true;
+                        }
+                    };
+                    var updateEntity = function() {
+                        updateDisableButtons("entity", domSelector.span.getNumberOfSelected() > 0);
+                    };
+                    var updatePaste = function() {
+                        updateDisableButtons("paste", clipBoard.length > 0 && domSelector.span.getNumberOfSelected() > 0);
+                    };
+                    var updateReplicate = function() {
+                        updateDisableButtons("replicate", domSelector.span.getNumberOfSelected() == 1);
+                    };
+                    var updatePallet = function() {
+                        updateDisableButtons("pallet", domSelector.entity.getNumberOfSelected() > 0);
+                    };
+                    var updateNewLabel = function() {
+                        updateDisableButtons("newLabel", domSelector.entity.getNumberOfSelected() > 0);
+                    };
+                    var updateDelete = function() {
+                        updateDisableButtons("delete", domSelector.hasSelecteds());
+                    };
+                    var updateCopy = function() {
+                        updateDisableButtons("copy", domSelector.entity.hasSelecteds());
+                    };
+                    var updateBySpanAndEntityBoth = function() {
+                        updateDelete();
+                        updateCopy();
+                    };
+                    return {
+                        pushed: function(button, push) {
+                            editor.tool.pushReplicateAuto(push);
+                        },
+                        renderEnable: function() {
+                            editor.tool.changeButtonState(disableButtons);
+                        },
+                        enabled: function(button, enable) {
+                            updateDisableButtons(button, enable);
+                            this.renderEnable();
+                        },
+                        updateBySpan: function() {
+                            updateBySpanAndEntityBoth();
+
+                            updateEntity();
+                            updatePaste();
+                            updateReplicate();
+
+                            this.renderEnable();
+                        },
+                        updateByEntity: function() {
+                            updateBySpanAndEntityBoth();
+
+                            updatePallet();
+                            updateNewLabel();
+
+                            this.renderEnable();
+                        },
+                        updateAll: function() {
+                            updateBySpanAndEntityBoth();
+
+                            updateEntity();
+                            updatePaste();
+                            updateReplicate();
+                            updatePallet();
+                            updateNewLabel();
+
+                            this.renderEnable();
+                        },
+                    };
+                }(),
+                toggleReplicateAuto: function() {
+                    editorState.isReplicateAuto = !editorState.isReplicateAuto;
+                    editorState.buttonState.pushed("replicate-auto", editorState.isReplicateAuto);
+                },
+            };
+        }(this);
 
         var clipBoard = [];
 
@@ -368,81 +452,6 @@
                     };
                 }(),
                 connectorTypes: {},
-                buttonState: function() {
-                    var disableButtons = {};
-                    var updateDisableButtons = function(button, enable) {
-                        if (enable) {
-                            delete disableButtons[button];
-                        } else {
-                            disableButtons[button] = true;
-                        }
-                    };
-                    var updateEntity = function() {
-                        updateDisableButtons("entity", domSelector.span.getNumberOfSelected() > 0);
-                    };
-                    var updatePaste = function() {
-                        updateDisableButtons("paste", clipBoard.length > 0 && domSelector.span.getNumberOfSelected() > 0);
-                    };
-                    var updateReplicate = function() {
-                        updateDisableButtons("replicate", domSelector.span.getNumberOfSelected() == 1);
-                    };
-                    var updatePallet = function() {
-                        updateDisableButtons("pallet", domSelector.entity.getNumberOfSelected() > 0);
-                    };
-                    var updateNewLabel = function() {
-                        updateDisableButtons("newLabel", domSelector.entity.getNumberOfSelected() > 0);
-                    };
-                    var updateDelete = function() {
-                        updateDisableButtons("delete", domSelector.hasSelecteds());
-                    };
-                    var updateCopy = function() {
-                        updateDisableButtons("copy", domSelector.entity.hasSelecteds());
-                    };
-                    var updateBySpanAndEntityBoth = function() {
-                        updateDelete();
-                        updateCopy();
-                    };
-                    return {
-                        pushed: function(button, push) {
-                            editor.tool.pushReplicateAuto(push);
-                        },
-                        renderEnable: function() {
-                            editor.tool.changeButtonState(disableButtons);
-                        },
-                        enabled: function(button, enable) {
-                            updateDisableButtons(button, enable);
-                            this.renderEnable();
-                        },
-                        updateBySpan: function() {
-                            updateBySpanAndEntityBoth();
-
-                            updateEntity();
-                            updatePaste();
-                            updateReplicate();
-
-                            this.renderEnable();
-                        },
-                        updateByEntity: function() {
-                            updateBySpanAndEntityBoth();
-
-                            updatePallet();
-                            updateNewLabel();
-
-                            this.renderEnable();
-                        },
-                        updateAll: function() {
-                            updateBySpanAndEntityBoth();
-
-                            updateEntity();
-                            updatePaste();
-                            updateReplicate();
-                            updatePallet();
-                            updateNewLabel();
-
-                            this.renderEnable();
-                        },
-                    };
-                }(),
                 getSpanReplications: function(span) {
                     // check the bondaries: used after replication
                     var isOutsideDelimiter = function(document, startPos, endPos) {
@@ -566,7 +575,7 @@
 
             var initState = function() {
                 command.history.init(command.historyChanged);
-                model.buttonState.updateAll();
+                editorState.buttonState.updateAll();
             };
 
             renderer.init();
@@ -660,9 +669,9 @@
                 };
 
                 //change button state
-                model.buttonState.enabled("write", this.hasAnythingToSave());
-                model.buttonState.enabled("undo", this.hasAnythingToUndo());
-                model.buttonState.enabled("redo", this.hasAnythingToRedo());
+                editorState.buttonState.enabled("write", this.hasAnythingToSave());
+                editorState.buttonState.enabled("undo", this.hasAnythingToUndo());
+                editorState.buttonState.enabled("redo", this.hasAnythingToRedo());
 
                 //change leaveMessage show
                 if (this.hasAnythingToSave()) {
@@ -826,7 +835,7 @@
                             break;
                         default:
                             command.history.push(commands);
-                            model.buttonState.updateAll();
+                            editorState.buttonState.updateAll();
                     }
                 }
             },
@@ -1773,7 +1782,7 @@
                                     end: endPosition
                                 }];
 
-                                if (isReplicateAuto) {
+                                if (editorState.isReplicateAuto) {
                                     var replicates = command.getReplicateSpanCommands({
                                         begin: beginPosition,
                                         end: endPosition
@@ -1850,17 +1859,17 @@
                             domSelector.span.select(model.annotationData.spanIds[i]);
                         }
 
-                        model.buttonState.updateBySpan();
+                        editorState.buttonState.updateBySpan();
                     } else {
                         // if drag, bubble up
                         return true;
                     }
                 } else if (e.ctrlKey) {
                     domSelector.domElement.toggle(e.target);
-                    model.buttonState.updateBySpan();
+                    editorState.buttonState.updateBySpan();
                 } else {
                     domSelector.domElement.selectOnly(e.target);
-                    model.buttonState.updateAll();
+                    editorState.buttonState.updateAll();
                 }
 
                 return false;
@@ -1873,7 +1882,7 @@
                     mouseover.buttonState.updateByEntity();
                 } else {
                     domSelector.domElement.selectOnly(e.target);
-                    model.buttonState.updateAll();
+                    editorState.buttonState.updateAll();
                 }
 
                 cancelBubble(e);
@@ -1896,7 +1905,7 @@
 
             var editorSelected = function() {
                 editor.tool.selectMe();
-                model.buttonState.renderEnable();
+                editorState.buttonState.renderEnable();
             };
 
             return {
@@ -1940,7 +1949,7 @@
             },
             unselect: function() {
                 domSelector.getSelecteds().removeClass('ui-selected');
-                model.buttonState.updateAll();
+                editorState.buttonState.updateAll();
             },
             domElement: function() {
                 var isSelected = function(target) {
@@ -1988,7 +1997,7 @@
                 },
                 select: function(id) {
                     $('#' + id).addClass('ui-selected');
-                    model.buttonState.updateBySpan();
+                    editorState.buttonState.updateBySpan();
                 },
             },
             entity: {
@@ -2182,11 +2191,6 @@
                 if (domSelector.span.getNumberOfSelected() == 1) {
                     command.execute(command.getReplicateSpanCommands(model.annotationData.spans[domSelector.span.getSelectedId()]));
                 } else alert('You can replicate span annotation when there is only span selected.');
-            },
-
-            toggleReplicateAuto: function() {
-                isReplicateAuto = !isReplicateAuto;
-                model.buttonState.pushed("replicate-auto", isReplicateAuto);
             },
 
             createEntity: function() {
@@ -2469,7 +2473,7 @@
                     domSelector.unselect();
                     renderer.relations.clearRelationSelection();
                     presentationLogic.hidePallet();
-                    model.buttonState.updateAll();
+                    editorState.buttonState.updateAll();
 
                     self.tool.cancelSelect();
                 },
@@ -2488,7 +2492,6 @@
             copyEntities: businessLogic.copyEntities,
             pasteEntities: businessLogic.pasteEntities,
             replicate: businessLogic.replicate,
-            toggleReplicateAuto: businessLogic.toggleReplicateAuto,
             showPallet: presentationLogic.showPallet,
             showAccess: function() {
                 loadSaveDialog.showAccess(targetUrl);
@@ -2564,7 +2567,7 @@
                     "textae.control.button.undo.click": editorApi.undo,
                     "textae.control.button.redo.click": editorApi.redo,
                     "textae.control.button.replicate.click": editorApi.replicate,
-                    "textae.control.button.replicate_auto.click": editorApi.toggleReplicateAuto,
+                    "textae.control.button.replicate_auto.click": editorState.toggleReplicateAuto,
                     "textae.control.button.entity.click": editorApi.createEntity,
                     "textae.control.button.new_label.click": editorApi.newLabel,
                     "textae.control.button.pallet.click": function() {
