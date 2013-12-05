@@ -220,17 +220,21 @@
             };
         }(this);
 
+        // clipBoard has entity id only.
         var clipBoard = [];
 
-        // opacity of connectors
-        var connOpacity = 0.6;
+        // parameters to render relations.
+        var relationSettings = {
+            // opacity of connectors
+            connOpacity: 0.6,
 
-        // curviness parameters
-        var xrate = 0.6;
-        var yrate = 0.05;
+            // curviness parameters
+            xrate: 0.6,
+            yrate: 0.05,
 
-        // curviness offset
-        var c_offset = 20;
+            // curviness offset
+            c_offset: 20,
+        };
 
         // spanConfig data
         var spanConfig = {
@@ -1002,7 +1006,7 @@
                     var setConnectorTypes = function() {
                         for (var name in model.relationTypes) {
                             var c = relationColor(name);
-                            var rgba0 = colorTrans(c, connOpacity);
+                            var rgba0 = colorTrans(c, relationSettings.connOpacity);
                             var rgba1 = colorTrans(c, 1);
 
                             model.connectorTypes[name] = {
@@ -1268,7 +1272,7 @@
 
                         var xdiff = Math.abs(sourceX - targetX);
                         var ydiff = Math.abs(sourceY - targetY);
-                        var curviness = xdiff * xrate + ydiff * yrate + c_offset;
+                        var curviness = xdiff * relationSettings.xrate + ydiff * relationSettings.yrate + relationSettings.c_offset;
                         curviness /= 2.4;
 
                         return curviness;
@@ -1325,7 +1329,7 @@
 
                             // make connector
                             var pred = model.annotationData.relations[rid].pred;
-                            var rgba = colorTrans(relationColor(pred), connOpacity);
+                            var rgba = colorTrans(relationColor(pred), relationSettings.connOpacity);
                             var sourceElem = domSelector.entity.get(sourceId);
                             var targetElem = domSelector.entity.get(targetId);
 
