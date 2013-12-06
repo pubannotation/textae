@@ -305,6 +305,13 @@
                             return (spans[a].begin - spans[b].begin || spans[b].end - spans[a].end);
                         };
                         spanIds.sort(byPosition);
+
+                        $.extend(spanIds, {
+                            getPrevSpanId : function(sid){
+                                return this[this.indexOf(sid) - 1];
+                            },
+                        });
+
                         model.annotationData.spanIds = spanIds;
                     };
 
@@ -708,7 +715,7 @@
                                 });
                                 typesPerSpan[edit.id] = [];
                                 // rendering
-                                renderer.renderSpan(edit.id, model.annotationData.spanIds, model.annotationData.spanIds.length);
+                                renderer.renderSpan(edit.id);
                                 renderer.indexPositionSpan(edit.id);
                                 // select
                                 domSelector.span.select(edit.id);
@@ -738,14 +745,13 @@
                                 };
                                 tid = idFactory.makeTypeId(edit.span, edit.type);
 
-                                console.log(typesPerSpan);
-                                console.log(edit.span, typesPerSpan[edit.span]);
-
+                                //first entity of span
                                 if (typesPerSpan[edit.span].indexOf(tid) < 0) {
                                     typesPerSpan[edit.span].push(tid);
                                     entitiesPerType[tid] = [];
                                     renderer.renderGrid(edit.span);
                                 }
+
                                 entitiesPerType[tid].push(edit.id);
                                 // rendering
                                 renderer.renderEntity(edit.id);
@@ -883,21 +889,6 @@
 
         // render view.
         var renderer = function(editor) {
-            var renderEntitiesOfSpan = function(sid) {
-                renderer.renderGrid(sid);
-                for (var t in typesPerSpan[sid]) {
-                    var tid = typesPerSpan[sid][t];
-                    for (var e in entitiesPerType[tid]) {
-                        var eid = entitiesPerType[tid][e];
-                        renderer.renderEntity(eid);
-                    }
-                }
-            };
-
-            var renderEntitiesOfSpans = function(sids) {
-                renderer.renderSize.mesure();
-                sids.forEach(renderEntitiesOfSpan);
-            };
 
             var relationColor = function(type) {
                 if (model.relationTypes && model.relationTypes[type] && model.relationTypes[type].color) return model.relationTypes[type].color;
@@ -976,30 +967,61 @@
 
                     //paragraphs is Object that has position of charactor at start and end of the statement in each paragraph.
                     var makeParagraphs = function() {
-                        var paragraphs = {};
+                        var paragraphs = $.extend({}, {
+                            //get the paragraph that span is belong to.
+                            getBySid: function(sid) {
+                                var span = model.annotationData.getSpan(sid);
+                                if (span) {
+                                    for (var pid in renderer.paragraphs) {
+                                        var paragraph = renderer.paragraphs[pid];
+                                        if (span.begin >= paragraph.begin && span.end <= paragraph.end) {
+                                            return paragraph;
+                                        }
+                                    }
+                                }
+                                return null;
+                            },
+                        });
+
                         var index = 0;
                         var pre_len = 0;
                         editor.getSourceDocArea().find('p').each(function() {
                             var pid = idFactory.makeParagraphId(index);
-                            var numberOfCharactors = $(this).text().length;
+                            var $element = $(this);
+                            var numberOfCharactors = $element.text().length;
                             paragraphs[pid] = {
+                                id: pid,
                                 begin: pre_len,
-                                end: pre_len + numberOfCharactors
+                                end: pre_len + numberOfCharactors,
+                                element: $element,
                             };
                             pre_len += numberOfCharactors + 1;
-                            $(this).attr('id', pid);
+                            $element.attr('id', pid);
                             index++;
                         });
                         return paragraphs;
                     };
 
+                    var renderEntitiesOfSpan = function(sid) {
+                        renderer.renderGrid(sid);
+                        typesPerSpan[sid].forEach(function(tid) {
+                            entitiesPerType[tid].forEach(function(eid) {
+                                renderer.renderEntity(eid);
+                            });
+                        });
+                    };
+
                     var renderAllSpan = function() {
                         var sids = model.annotationData.spanIds;
-                        var renderedSpans;
-                        for (var i = 0; i < sids.length; i++) {
-                            renderedSpans = sids.slice(0, i);
-                            renderer.renderSpan(sids[i], renderedSpans, renderedSpans.length);
-                        }
+                        var renderedSpans = [];
+
+                        sids.forEach(function(sid) {
+                            renderedSpans.push(sid);
+
+                            renderer.renderSpan(sid);
+                            renderer.indexPositionSpan(sid);
+                            renderEntitiesOfSpan(sid);
+                        });
                     };
 
                     var setConnectorTypes = function() {
@@ -1041,10 +1063,9 @@
                     renderer.paragraphs = makeParagraphs();
                     editor.getAnnotationArea().empty();
 
+                    renderer.renderSize.mesure();
                     renderAllSpan();
-                    renderer.indexPositionSpans(model.annotationData.spanIds);
 
-                    renderEntitiesOfSpans(model.annotationData.spanIds);
                     renderer.relations.renderRelations();
                 },
                 renderSize: {
@@ -1079,107 +1100,82 @@
                     div.css('height', height);
                     return id;
                 },
-                // assume the model.annotationData.spanIds are sorted by the position.
-                // when there are embedded model.annotationData.spans, the embedding ones comes earlier then embedded ones.
-                renderSpan: function(sid, arguments_spanIds, numOfRenderedSpans) {
-                    // console.log(sid, arguments_spanIds);
+                renderSpan: function(sid) {
+                    //assume the model.annotationData.spanIds are sorted by the position.
+                    //because get position to insert span tag by previous span tag. 
+                    var getRangeToInsertSpanTag = function(sid) {
+                        var previousSpanId = model.annotationData.spanIds.getPrevSpanId(sid);
 
-                    //get the paragraph-id that span is belong to.
-                    function getPidBySid(sid) {
-                        var span = model.annotationData.getSpan(sid);
-                        for (var pid in renderer.paragraphs) {
-                            if ((span.begin >= renderer.paragraphs[pid].begin) && (span.end <= renderer.paragraphs[pid].end)) return pid;
-                        }
-                        return null;
-                    }
+                        var paragraph = renderer.paragraphs.getBySid(sid);
+                        var currentSpan = model.annotationData.spans[sid];
+                        var len = currentSpan.end - currentSpan.begin;
 
-                    var pid = getPidBySid(sid);
-                    var beg = model.annotationData.spans[sid].begin;
-                    var end = model.annotationData.spans[sid].end;
-                    var len = end - beg;
+                        // create potision to a new span add 
+                        var createRange = function(currentSpan, textNode, textNodeStartPosition) {
+                            var range = document.createRange();
 
-                    // potision to a new span add 
-                    var range = document.createRange();
+                            range.setStart(textNode, currentSpan.begin - textNodeStartPosition);
+                            range.setEnd(textNode, currentSpan.end - textNodeStartPosition);
 
-                    // index of current span
-                    var c = arguments_spanIds.indexOf(sid);
+                            return range;
+                        }.bind(this, currentSpan);
 
-                    // c is max if add new span.
-                    if (c === -1) {
-                        c = numOfRenderedSpans;
-                    }
-
-                    // determine the begin node and offset
-                    var begnode, begoff;
-
-                    // when there is no preceding span in the paragraph
-                    if ((c === 0) || (getPidBySid(arguments_spanIds[c - 1]) != pid)) {
-                        var refnode1 = document.getElementById(pid).childNodes[0];
-                        if (refnode1.nodeType == 1) {
-                            range.setStartBefore(refnode1); // element node
-                        } else if (refnode1.nodeType == 3) { // text node
-                            begnode = refnode1;
-                            begoff = beg - renderer.paragraphs[pid].begin;
-                            range.setStart(begnode, begoff);
+                        if (renderer.paragraphs.getBySid(previousSpanId) != paragraph) {
+                            // the first span in the paragraph.
+                            textNodeInParagraph = paragraph.element.contents().filter(function() {
+                                return this.nodeType === 3; //TEXT_NODE
+                            }).get(0);
+                            return createRange(textNodeInParagraph, paragraph.begin);
                         } else {
-                            alert("unexpected type of node:" + refnode1.nodeType + ". please consult the developer.");
-                        }
-                    } else {
-                        var p = c - 1; // index of preceding span
+                            // there is previousSpan.
+                            var previousSpan = model.annotationData.spans[previousSpanId];
 
-                        // when the previous span includes the region
-                        if (model.annotationData.spans[arguments_spanIds[p]].end > beg) {
-                            var refnode2 = document.getElementById(arguments_spanIds[p]).childNodes[0];
-                            if (refnode2.nodeType == 1) range.setStartBefore(refnode2); // element node
-                            else if (refnode2.nodeType == 3) { // text node
-                                begnode = refnode2;
-                                begoff = beg - model.annotationData.spans[arguments_spanIds[p]].begin;
-                                range.setStart(begnode, begoff);
-                            } else alert("unexpected type of node:" + refnode2.nodeType + ". please consult the developer.");
-                        } else {
-                            // find the outermost preceding span
-                            var pnode = document.getElementById(arguments_spanIds[p]);
-                            while (pnode.parentElement &&
-                                model.annotationData.spans[pnode.parentElement.id] &&
-                                model.annotationData.spans[pnode.parentElement.id].end > model.annotationData.spans[pnode.id].begin &&
-                                model.annotationData.spans[pnode.parentElement.id].end < end) {
-                                pnode = pnode.parentElement;
+                            if (currentSpan.begin < previousSpan.begin) {
+                                // error! sids is not sorted! 
+                                // |current| |prev|
+                                // or
+                                // |current |prev|| 
+                                console.log("Error: sid is not sorted");
+                            } else if (previousSpan.end <= currentSpan.begin) {
+                                // |prev| |current|
+                                // this pattern is most ordinaly.
+
+                                // the preveious span is may be amoug other span.
+                                // |parent |prev| | |current|
+                                // find the parent of previous span.
+                                //
+                                // the prev amoung same parent of the current. 
+                                //  | same parent |prev| |current| |
+                                // it is decided if parent end is after current begin.
+                                var pnode = document.getElementById(previousSpanId);
+                                while (pnode.parentElement &&
+                                    model.annotationData.spans[pnode.parentElement.id] &&
+                                    model.annotationData.spans[pnode.parentElement.id].end < currentSpan.begin) {
+                                    pnode = pnode.parentElement;
+                                }
+
+                                textNodeAfterPrevSpan = pnode.nextSibling;
+                                return createRange(textNodeAfterPrevSpan, model.annotationData.spans[pnode.id].end);
+                            } else if (previousSpan.end < currentSpan.end) {
+                                // crossover cannot not render by span. 
+                                // |prev|
+                                //    |current|
+                            } else if (currentSpan.end <= previousSpan.end) {
+                                // current span among previous span.
+                                // |prev |current| |
+                                var textNodeInPrevSpan = $("#" + previousSpanId).contents().filter(function() {
+                                    return this.nodeType === 3;
+                                }).get(0);
+                                return createRange(textNodeInPrevSpan, previousSpan.begin);
                             }
-
-                            begnode = pnode.nextSibling;
-                            begoff = beg - model.annotationData.spans[pnode.id].end;
-                            range.setStart(begnode, begoff);
                         }
-                    }
-
-
-                    // if there is an embedded span, find the rightmost one.intervening span
-                    if ((c < numOfRenderedSpans - 1) && (end > model.annotationData.spans[arguments_spanIds[c + 1]].begin)) {
-                        var i = c + 1; // index of the rightmost embedded span
-
-                        // if there is a room for further intervening
-                        while (i < numOfRenderedSpans - 1) {
-                            // find the next span at the same level
-                            var n = i + 1;
-                            while ((n < numOfRenderedSpans) && (model.annotationData.spans[arguments_spanIds[n]].begin < model.annotationData.spans[arguments_spanIds[i]].end)) n++;
-                            if (n == numOfRenderedSpans) break;
-                            if (end > model.annotationData.spans[arguments_spanIds[n]].begin) i = n;
-                            else break;
-                        }
-
-                        var renode = document.getElementById(arguments_spanIds[i]); // rightmost intervening node
-                        if (renode.nextSibling) range.setEnd(renode.nextSibling, end - model.annotationData.spans[arguments_spanIds[i]].end);
-                        else range.setEndAfter(renode);
-                    } else {
-                        // console.log(editor.editorId, range, begnode, begoff + len);
-                        range.setEnd(begnode, begoff + len);
-                    }
+                    };
 
                     var element = document.createElement('span');
                     element.setAttribute('id', sid);
                     element.setAttribute('title', sid);
                     element.setAttribute('class', 'span');
-                    range.surroundContents(element);
+                    getRangeToInsertSpanTag(sid).surroundContents(element);
                 },
                 destroySpan: function(sid) {
                     var span = document.getElementById(sid);
@@ -1411,9 +1407,8 @@
                         var offset = CONSTS.TYPE_MARGIN_BOTTOM;
 
                         // check the following model.annotationData.spans that are embedded in the current span.
-                        var c = model.annotationData.spanIds.indexOf(sid);
-                        for (var f = c + 1;
-                            (f < model.annotationData.spanIds.length) && isSpanEmbedded(model.annotationData.spans[model.annotationData.spanIds[f]], model.annotationData.spans[model.annotationData.spanIds[c]]); f++) {
+                        var currentSpanIndex = model.annotationData.spanIds.indexOf(sid);
+                        for (var f = currentSpanIndex + 1; f < model.annotationData.spanIds.length && isSpanEmbedded(model.annotationData.spans[model.annotationData.spanIds[f]], model.annotationData.spans[model.annotationData.spanIds[currentSpanIndex]]); f++) {
                             var cid = 'G' + model.annotationData.spanIds[f];
                             if (renderer.positions[cid] && ((renderer.positions[cid].offset + renderer.positions[cid].height) < offset)) offset = (renderer.positions[cid].offset + renderer.positions[cid].height) + CONSTS.TYPE_MARGIN_TOP + CONSTS.TYPE_MARGIN_BOTTOM;
                         }
@@ -2059,6 +2054,7 @@
 
                             var tid = idFactory.makeTypeId(spanId, entityType);
                             if (typesPerSpan[spanId]) {
+
                                 if (typesPerSpan[spanId].indexOf(tid) < 0) typesPerSpan[spanId].push(tid);
                             } else {
                                 typesPerSpan[spanId] = [tid];
@@ -2581,6 +2577,7 @@
                 };
                 buttonApiMap[event.name]();
             },
+            redraw: presentationLogic.redraw,
         };
         this.api = editorApi;
 
