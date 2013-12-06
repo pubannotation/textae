@@ -354,17 +354,16 @@
                         //expected denotations Array of object like { "id": "T1", "span": { "begin": 19, "end": 49 }, "obj": "Cell" }.
                         parseDenotations: function(denotations) {
                             if (denotations) {
-                                denotations.forEach(function(d) {
-                                    var span = d.span;
+                                denotations.forEach(function(entity) {
+                                    var span = entity.span;
                                     var spanId = idFactory.makeSpanId(span.begin, span.end);
                                     model.annotationData.spans[spanId] = {
                                         begin: span.begin,
-                                        end: span.end
+                                        end: span.end,
                                     };
-                                    var entityType = d.obj;
-                                    model.annotationData.entities[d.id] = {
+                                    model.annotationData.entities[entity.id] = {
                                         span: spanId,
-                                        type: entityType
+                                        type: entity.obj,
                                     };
                                 });
                             }
