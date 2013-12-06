@@ -322,7 +322,7 @@
                             return b - a;
                         });
 
-                        return entityIds[0] || 0;
+                        return parseInt(entityIds[0]) || 0;
                     };
 
                     return {
