@@ -2536,7 +2536,6 @@
                     domSelector.span.select(model.annotationData.spanIds[spanIdx]);
                 }
             },
-            redraw: presentationLogic.redraw,
             start: function() {
                 startEdit();
             },
