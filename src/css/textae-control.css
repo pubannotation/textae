@@ -1,0 +1,17 @@
+.textae-control {
+    position: fixed;
+    width: 90%;
+    height: 20px;
+    border-left: 5px solid #555588;
+    opacity: 0.9;
+
+    background-color: #BBBBEE;
+    /* fallback (Opera) */
+    background: #BBBBEE;
+    /* Mozilla: */
+    background: -moz-linear-gradient(left, #BBBBEE, #FFFFFF);
+    /* Chrome, Safari:*/
+    background: -webkit-gradient(linear,  left top, right top, from(#BBBBEE), to(#FFFFFF));
+    /* MSIE */
+    filter: progid:DXImageTransform.Microsoft.Gradient(StartColorStr='#BBBBEE', EndColorStr='#FFFFFF', GradientType=1);
+}

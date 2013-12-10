@@ -1,3 +1,11 @@
+var rename = {
+  ext: function(ext) {
+    return function (dest, src) {
+      return dest + "/" + src.replace(/(\.[^\/\.]*)?$/, ext);
+    };
+  },
+};
+
 module.exports = function(grunt) {
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
@@ -7,9 +15,13 @@ module.exports = function(grunt) {
     },
     // create dist files
     concat: {
-      dist: {
+      js: {
         src: ['src/js/head.js', 'src/js/util.js', 'src/js/editor.js', 'src/js/control.js', 'src/js/tool.js', 'src/js/jquery.textae.js', 'src/js/main.js', 'src/js/tail.js'],
         dest: 'dist/js/lib-<%= pkg.name %>-<%= pkg.version %>.js',
+      },
+      css: {
+        src: ['src/css/textae.css', 'src/css/textae-control.css'],
+        dest: 'dist/css/lib-<%= pkg.name %>-<%= pkg.version %>.css',
       }
     },
     uglify: {
@@ -18,8 +30,17 @@ module.exports = function(grunt) {
       },
       dist: {
         files: {
-          'dist/js/lib-<%= pkg.name %>-<%= pkg.version %>.min.js': ['<%= concat.dist.dest %>']
+          'dist/js/lib-<%= pkg.name %>-<%= pkg.version %>.min.js': ['<%= concat.js.dest %>']
         }
+      }
+    },
+    cssmin: {
+      minify: {
+        expand: true,
+        cwd: 'dist/css/',
+        src: ['lib-<%= pkg.name %>-<%= pkg.version %>.css'],
+        dest: 'dist/css/',
+        rename: rename.ext(".min.css")
       }
     },
     copy: {
@@ -27,20 +48,11 @@ module.exports = function(grunt) {
         files: [{
           expand: true,
           cwd: 'src/',
-          src: ['css/**', 'demo/**', 'images/**', 'lib/**'],
+          src: ['css/**', '!css/textae*.css', 'demo/**', 'images/**', 'lib/**'],
           dest: 'dist/',
           filter: 'isFile'
         }, ]
       },
-    },
-    cssmin: {
-      minify: {
-        expand: true,
-        cwd: 'dist/css/',
-        src: ['textae.css'],
-        dest: 'dist/css/',
-        ext: '.min.css'
-      }
     },
     // for test
     jshint: {
