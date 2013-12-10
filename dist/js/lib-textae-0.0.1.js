@@ -591,7 +591,7 @@
                             defaultType = nameOfEntityType;
                         },
                         getDefaultType: function() {
-                            return defaultType || model.entityTypes.getType(model.entityTypes.getSortedNames()[0]).name;
+                            return defaultType || model.entityTypes.getSortedNames()[0];
                         },
                         getType: function(nameOfEntityType) {
                             types[nameOfEntityType] = types[nameOfEntityType] || {
@@ -607,8 +607,7 @@
                                 newEntityTypes.forEach(function(newEntity) {
                                     newEntity.getColor = getColor;
                                     types[newEntity.name] = newEntity;
-                                    if (newEntity.
-                                        default === true) {
+                                    if (newEntity["default"] === true) {
                                         defaultType = newEntity.name;
                                     }
                                 });
@@ -726,7 +725,7 @@
         };
 
         // will be API of texteaEditor
-        var startEdit = function() {
+        var startEdit = function startEdit() {
             var setTypeConfig = function(config) {
                 model.entityTypes.set(config['entity types']);
 
@@ -2127,7 +2126,7 @@
         //user event to edit model
         var businessLogic = {
             loadAnnotation: function(annotation) {
-                var parseAnnotationJson = function(data) {
+                var parseAnnotationJson = function parseAnnotationJson(data) {
                     //validate
                     if (data.text === undefined) {
                         alert("read failed.");
