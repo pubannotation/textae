@@ -185,7 +185,7 @@ html, body {
     background-color: #ff0000;
 }
 
-.textae-control__entity-pallet {
+.textae-editor__entity-pallet {
     border: solid 2px #333333;
     background-color: rgba(200,255,255,0.9);
     width: auto;
@@ -202,7 +202,7 @@ html, body {
     user-select: none;
 }
 
-.textae-control__entity-pallet table, .textae-control__entity-pallet tr, .textae-control__entity-pallet th, .textae-control__entity-pallet td {
+.textae-editor__entity-pallet table, .textae-editor__entity-pallet tr, .textae-editor__entity-pallet th, .textae-editor__entity-pallet td {
     margin: 0px;
     padding: 0px;
     border-style: solid;
@@ -211,31 +211,31 @@ html, body {
     border-color:#AAAAAA;
 }
 
-.textae-control__entity-pallet table {
+.textae-editor__entity-pallet table {
     width: 100%;
 }
 
-.textae-control__entity-pallet td {
+.textae-editor__entity-pallet td {
     padding: 5px;
 }
 
-.textae-control__entity-pallet th {
+.textae-editor__entity-pallet th {
     width:auto;
 }
 
-.textae-control__entity-pallet__entity-type {
+.textae-editor__entity-pallet__entity-type {
     opacity:0.8;
 }
 
-.textae-control__entity-pallet__entity-type:hover {
+.textae-editor__entity-pallet__entity-type:hover {
     opacity:1;
 }
 
-.textae-control__entity-pallet__entity-type__radio {
+.textae-editor__entity-pallet__entity-type__radio {
     cursor: pointer;
 }
 
-.textae-control__entity-pallet__entity-type__label {
+.textae-editor__entity-pallet__entity-type__label {
     cursor: pointer;
 }
 

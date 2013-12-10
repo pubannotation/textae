@@ -2303,13 +2303,13 @@
                     var makeEntityTypeOfEntityTypePallet = function() {
                         return model.entityTypes.getSortedNames().map(function(t) {
                             var type = model.entityTypes.getType(t);
-                            var row = '<tr class="textae-control__entity-pallet__entity-type" style="background-color:' + type.getColor() + '">';
+                            var row = '<tr class="textae-editor__entity-pallet__entity-type" style="background-color:' + type.getColor() + '">';
 
-                            row += '<th><input type="radio" name="etype" class="textae-control__entity-pallet__entity-type__radio" label="' + t + '"';
+                            row += '<th><input type="radio" name="etype" class="textae-editor__entity-pallet__entity-type__radio" label="' + t + '"';
                             row += (t == model.entityTypes.getDefaultType()) ? ' title="default type" checked' : '';
                             row += '/></th>';
 
-                            row += '<td class="textae-control__entity-pallet__entity-type__label" label="' + t + '">' + t + '</td>';
+                            row += '<td class="textae-editor__entity-pallet__entity-type__label" label="' + t + '">' + t + '</td>';
 
                             row += '<th title="' + uri + '">';
 
@@ -2326,18 +2326,18 @@
 
                     //return a Pallet that created if not exists.
                     var getEmptyPallet = function() {
-                        var $pallet = $('.textae-control__entity-pallet');
+                        var $pallet = $('.textae-editor__entity-pallet');
                         if ($pallet.length === 0) {
                             //setup new pallet
                             $pallet = $('<div>')
-                                .addClass("textae-control__entity-pallet")
+                                .addClass("textae-editor__entity-pallet")
                                 .append($('<table>'))
                                 .css({
                                     'position': 'fixed',
                                     'display': 'none'
                                 })
-                                .on('mouseup', '.textae-control__entity-pallet__entity-type__radio', businessLogic.setEntityTypeDefault)
-                                .on('mouseup', '.textae-control__entity-pallet__entity-type__label', businessLogic.setEntityType);
+                                .on('mouseup', '.textae-edtior__entity-pallet__entity-type__radio', businessLogic.setEntityTypeDefault)
+                                .on('mouseup', '.textae-edtior__entity-pallet__entity-type__label', businessLogic.setEntityType);
 
                             //for show on top append to body.
                             $("body").append($pallet);
@@ -2370,7 +2370,7 @@
                 },
 
                 hidePallet: function() {
-                    $('.textae-control__entity-pallet').css('display', 'none');
+                    $('.textae-editor__entity-pallet').css('display', 'none');
                 },
 
                 redraw: function() {
