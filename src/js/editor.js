@@ -1486,8 +1486,11 @@
                     var pos;
                     if ($parent.hasClass("textae-editor__body__text-box__paragraph")) {
                         pos = renderer.paragraphs[parentId].begin;
-                    } else {
+                    } else if ($parent.hasClass("span")) {
                         pos = model.annotationData.spans[parentId].begin;
+                    } else {
+                        console.log(parentId);
+                        return;
                     }
 
                     var childNodes = node.parentElement.childNodes;
