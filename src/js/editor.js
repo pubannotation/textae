@@ -1635,7 +1635,7 @@
                             }
                         } else {
                             domSelector.span.select(sid);
-                            businessLogic.removeElements();
+                            businessLogic.removeSelectedElements();
                         }
                     } else {
                         // shorten the left boundary
@@ -1650,7 +1650,7 @@
                             }
                         } else {
                             domSelector.span.select(sid);
-                            businessLogic.removeElements();
+                            businessLogic.removeSelectedElements();
                         }
                     }
 
@@ -2163,7 +2163,7 @@
                 }
             },
 
-            removeElements: function() {
+            removeSelectedElements: function() {
                 var spanRemoves = [];
                 domSelector.span.getSelecteds().each(function() {
                     var sid = this.id;
@@ -2429,7 +2429,7 @@
         // public funcitons of editor
         var editorApi = {
             createEntity: businessLogic.createEntity,
-            removeElements: businessLogic.removeElements,
+            removeSelectedElements: businessLogic.removeSelectedElements,
             copyEntities: businessLogic.copyEntities,
             pasteEntities: businessLogic.pasteEntities,
             replicate: businessLogic.replicate,
@@ -2481,8 +2481,8 @@
                 var keyApiMap = {
                     "A": editorApi.showAccess,
                     "C": editorApi.copyEntities,
-                    "D": editorApi.removeElements,
-                    "DEL": editorApi.removeElements,
+                    "D": editorApi.removeSelectedElements,
+                    "DEL": editorApi.removeSelectedElements,
                     "E": editorApi.createEntity,
                     "Q": editorApi.showPallet,
                     "R": editorApi.replicate,
@@ -2513,7 +2513,7 @@
                     "textae.control.button.pallet.click": function() {
                         editorApi.showPallet(event.point);
                     },
-                    "textae.control.button.delete.click": editorApi.removeElements,
+                    "textae.control.button.delete.click": editorApi.removeSelectedElements,
                     "textae.control.button.copy.click": editorApi.copyEntities,
                     "textae.control.button.paste.click": editorApi.pasteEntities,
                 };
