@@ -1,9 +1,26 @@
-var version = "0.0.1";
-
 module.exports = function(grunt) {
   grunt.initConfig({
+    pkg: grunt.file.readJSON('package.json'),
+    // clean dist directory
     clean: {
       copy: "dist/*"
+    },
+    // create dist files
+    concat: {
+      dist: {
+        src: ['src/js/head.js', 'src/js/util.js', 'src/js/editor.js', 'src/js/control.js', 'src/js/tool.js', 'src/js/jquery.textae.js', 'src/js/main.js', 'src/js/tail.js'],
+        dest: 'dist/js/lib-<%= pkg.name %>-<%= pkg.version %>.js',
+      }
+    },
+    uglify: {
+      options: {
+        banner: '/*! <%= pkg.name %> <%= pkg.version %> <%= grunt.template.today("dd-mm-yyyy") %> */\n',
+      },
+      dist: {
+        files: {
+          'dist/js/lib-<%= pkg.name %>-<%= pkg.version %>.min.js': ['<%= concat.dist.dest %>']
+        }
+      }
     },
     copy: {
       main: {
@@ -16,12 +33,16 @@ module.exports = function(grunt) {
         }, ]
       },
     },
-    concat: {
-      dist: {
-        src: ['src/js/head.js', 'src/js/util.js', 'src/js/editor.js', 'src/js/control.js', 'src/js/tool.js', 'src/js/jquery.textae.js', 'src/js/main.js', 'src/js/tail.js'],
-        dest: 'dist/js/lib-textae-' + version + '.js',
+    cssmin: {
+      minify: {
+        expand: true,
+        cwd: 'dist/css/',
+        src: ['textae.css'],
+        dest: 'dist/css/',
+        ext: '.min.css'
       }
     },
+    // for test
     jshint: {
       files: ['Gruntfile.js', 'src/js/*.js'],
       options: {
@@ -31,6 +52,7 @@ module.exports = function(grunt) {
     qunit: {
       all: 'test/src/util.html',
     },
+    // for development
     watch: {
       javascript: {
         files: ['Gruntfile.js', 'src/js/*.js'],
@@ -76,10 +98,12 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-connect');
   grunt.loadNpmTasks('grunt-contrib-copy');
+  grunt.loadNpmTasks('grunt-contrib-cssmin');
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-qunit');
+  grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-watch');
 
-  grunt.registerTask('dist', ['jshint', 'qunit', 'clean', 'concat', 'copy']);
+  grunt.registerTask('dist', ['jshint', 'qunit', 'clean', 'concat', 'uglify', 'copy', 'cssmin']);
   grunt.registerTask('dev', ['connect', 'watch']);
 };

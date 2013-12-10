@@ -146,5 +146,5 @@
             "color": "#222222"
         }
     ],
-    "css": "../../css/textae.css"
+    "css": "../../css/textae.min.css"
 }
