@@ -439,8 +439,7 @@
                                 newEntityTypes.forEach(function(newEntity) {
                                     newEntity.getColor = getColor;
                                     types[newEntity.name] = newEntity;
-                                    if (newEntity.
-                                        default === true) {
+                                    if (newEntity["default"] === true) {
                                         defaultType = newEntity.name;
                                     }
                                 });
