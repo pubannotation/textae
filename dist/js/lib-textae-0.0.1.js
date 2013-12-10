@@ -2696,22 +2696,22 @@
     var control = function() {
         var buttonUtil = {
             enable: function($button) {
-                $button.removeClass('textae-control__icon-bar__icon--disabled');
+                $button.removeClass('textae-control__icon--disabled');
             },
             disable: function($button) {
-                $button.addClass('textae-control__icon-bar__icon--disabled');
+                $button.addClass('textae-control__icon--disabled');
             },
             isDisable: function($button) {
-                return $button.hasClass('textae-control__icon-bar__icon--disabled');
+                return $button.hasClass('textae-control__icon--disabled');
             },
             push: function($button) {
-                $button.addClass('textae-control__icon-bar__icon--pushed');
+                $button.addClass('textae-control__icon--pushed');
             },
             unpush: function($button) {
-                $button.removeClass('textae-control__icon-bar__icon--pushed');
+                $button.removeClass('textae-control__icon--pushed');
             },
             isPushed: function($button) {
-                return $button.hasClass('textae-control__icon-bar__icon--pushed');
+                return $button.hasClass('textae-control__icon--pushed');
             }
         };
 
@@ -2728,13 +2728,13 @@
         var makeIconBar = function() {
             var makeSeparator = function() {
                 return $('<span>')
-                    .addClass("textae-control__icon-bar__separator");
+                    .addClass("textae-control__separator");
             };
 
             var makeButton = function(buttonType, title) {
                 var $button = $('<span>')
-                    .addClass('textae-control__icon-bar__icon')
-                    .addClass('textae-control__icon-bar__' + buttonType + '-button')
+                    .addClass('textae-control__icon')
+                    .addClass('textae-control__' + buttonType + '-button')
                     .attr('title', title);
 
                 // button cache and event definition.
@@ -2746,7 +2746,6 @@
             };
 
             return $($('<span>')
-                .addClass("textae-control__icon-bar")
                 .append(makeSeparator())
                 .append(makeButton('read', 'Access [A]'))
                 .append(makeButton('write', "Save [S]"))

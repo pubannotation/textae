@@ -1,9 +1,7 @@
-html, body {
-    margin: 0;
-    height: 100%;
-}
 
 .textae-editor {
+    position: relative;
+    top: 22px;
     left: 0px;
 /*    height: 600px;
     overflow: auto;
@@ -14,7 +12,6 @@ html, body {
 .textae-editor__body__text-box {
     display: inline;
     line-height: 400%;
-    z-index: 255;
 }
 
 .textae-editor__body__annotation_box {
