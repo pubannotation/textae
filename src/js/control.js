@@ -33,7 +33,7 @@
         var makeIconBar = function() {
             var makeSeparator = function() {
                 return $('<span>')
-                    .addClass("separator");
+                    .addClass("textae-control__icon-bar__separator");
             };
 
             var makeButton = function(buttonType, title) {

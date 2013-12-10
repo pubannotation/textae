@@ -185,7 +185,7 @@ html, body {
     background-color: #ff0000;
 }
 
-.textae-control__entity-pallet {
+.textae-editor__entity-pallet {
     border: solid 2px #333333;
     background-color: rgba(200,255,255,0.9);
     width: auto;
@@ -202,7 +202,7 @@ html, body {
     user-select: none;
 }
 
-.textae-control__entity-pallet table, .textae-control__entity-pallet tr, .textae-control__entity-pallet th, .textae-control__entity-pallet td {
+.textae-editor__entity-pallet table, .textae-editor__entity-pallet tr, .textae-editor__entity-pallet th, .textae-editor__entity-pallet td {
     margin: 0px;
     padding: 0px;
     border-style: solid;
@@ -211,63 +211,32 @@ html, body {
     border-color:#AAAAAA;
 }
 
-.textae-control__entity-pallet table {
+.textae-editor__entity-pallet table {
     width: 100%;
 }
 
-.textae-control__entity-pallet td {
+.textae-editor__entity-pallet td {
     padding: 5px;
 }
 
-.textae-control__entity-pallet th {
+.textae-editor__entity-pallet th {
     width:auto;
 }
 
-.textae-control__entity-pallet__entity-type {
+.textae-editor__entity-pallet__entity-type {
     opacity:0.8;
 }
 
-.textae-control__entity-pallet__entity-type:hover {
+.textae-editor__entity-pallet__entity-type:hover {
     opacity:1;
 }
 
-.textae-control__entity-pallet__entity-type__radio {
+.textae-editor__entity-pallet__entity-type__radio {
     cursor: pointer;
 }
 
-.textae-control__entity-pallet__entity-type__label {
+.textae-editor__entity-pallet__entity-type__label {
     cursor: pointer;
-}
-
-.textae-control__about {
-    border: solid 4px #aaaa88;
-    background-color: rgba(255,255,225,1.0);
-    width: 400px;
-    padding: 4px;
-    z-index: 255;
-    font-size: small;
-}
-
-.textae-control__help {
-    border: solid 4px #aaaa88;
-    background-color: rgba(255,255,225,1.0);
-    width: 400px;
-    padding: 4px;
-    z-index: 255;
-    font-size: small;
-}
-
-#notice {
-    position: static;
-    width: 160px;
-
-    display: none;
-    border: 1px solid #aaaa55;
-    padding: 5px;
-    margin: 2px 0px;
-    background-color: #ffdddd;
-    font-style: italic;
-    font-size: small;
 }
 
 span.Sentence {
@@ -275,14 +244,6 @@ span.Sentence {
     border: 1px solid gray;
     margin-top: 20px;
     padding-top: 20px;
-}
-
-#widgets {
-    display:none;
-}
-
-.control {
-    font-size: x-small;
 }
 
 ._jsPlumb_endpoint {
@@ -313,6 +274,42 @@ span.Sentence {
     z-index: 2;
 }
 
+.textae-control {
+    position: fixed;
+    width: 90%;
+    height: 20px;
+    border-left: 5px solid #555588;
+    opacity: 0.9;
+
+    background-color: #BBBBEE;
+    /* fallback (Opera) */
+    background: #BBBBEE;
+    /* Mozilla: */
+    background: -moz-linear-gradient(left, #BBBBEE, #FFFFFF);
+    /* Chrome, Safari:*/
+    background: -webkit-gradient(linear,  left top, right top, from(#BBBBEE), to(#FFFFFF));
+    /* MSIE */
+    filter: progid:DXImageTransform.Microsoft.Gradient(StartColorStr='#BBBBEE', EndColorStr='#FFFFFF', GradientType=1);
+}
+
+.textae-control__about {
+    border: solid 4px #aaaa88;
+    background-color: rgba(255,255,225,1.0);
+    width: 400px;
+    padding: 4px;
+    z-index: 255;
+    font-size: small;
+}
+
+.textae-control__help {
+    border: solid 4px #aaaa88;
+    background-color: rgba(255,255,225,1.0);
+    width: 400px;
+    padding: 4px;
+    z-index: 255;
+    font-size: small;
+}
+
 /*== Elements inside the textae_control ==*/
 .textae-control__title {
     margin: 0px 10px 3px 1px;
@@ -334,7 +331,7 @@ span.Sentence {
     user-select: none;
 }
 
-.separator {
+.textae-control__icon-bar__separator {
     display: inline-block;
     margin: 3px 2px 2px 2px;
     height: 10px;
@@ -424,22 +421,4 @@ span.Sentence {
 
 .textae-control__icon-bar__about-button {
     background: url("../images/btn_about_16.png");
-}
-
-.textae-control {
-    position: fixed;
-    width: 90%;
-    height: 20px;
-    border-left: 5px solid #555588;
-    opacity: 0.9;
-
-    background-color: #BBBBEE;
-    /* fallback (Opera) */
-    background: #BBBBEE;
-    /* Mozilla: */
-    background: -moz-linear-gradient(left, #BBBBEE, #FFFFFF);
-    /* Chrome, Safari:*/
-    background: -webkit-gradient(linear,  left top, right top, from(#BBBBEE), to(#FFFFFF));
-    /* MSIE */
-    filter: progid:DXImageTransform.Microsoft.Gradient(StartColorStr='#BBBBEE', EndColorStr='#FFFFFF', GradientType=1);
 }

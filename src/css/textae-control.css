@@ -15,3 +15,134 @@
     /* MSIE */
     filter: progid:DXImageTransform.Microsoft.Gradient(StartColorStr='#BBBBEE', EndColorStr='#FFFFFF', GradientType=1);
 }
+
+.textae-control__about {
+    border: solid 4px #aaaa88;
+    background-color: rgba(255,255,225,1.0);
+    width: 400px;
+    padding: 4px;
+    z-index: 255;
+    font-size: small;
+}
+
+.textae-control__help {
+    border: solid 4px #aaaa88;
+    background-color: rgba(255,255,225,1.0);
+    width: 400px;
+    padding: 4px;
+    z-index: 255;
+    font-size: small;
+}
+
+/*== Elements inside the textae_control ==*/
+.textae-control__title {
+    margin: 0px 10px 3px 1px;
+    font-weight:bold;
+    text-shadow: 2px 2px 5px #555555;
+}
+
+.textae-control__title a {
+    text-decoration: none;
+}
+
+.textae-control__icon-bar {
+    margin: 0 10px;
+    padding: 0px;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+}
+
+.textae-control__icon-bar__separator {
+    display: inline-block;
+    margin: 3px 2px 2px 2px;
+    height: 10px;
+    border: 2px solid #AAAADD;
+}
+
+.textae-control__icon-bar__icon {
+    display: inline-block;
+    cursor: pointer;
+    border: solid 0px #ff0000;
+    height: 16px;
+    width: 16px;
+    text-align: right;
+    vertical-align: top;
+    font-size: x-small;
+    background-repeat: no-repeat;
+    background-position: top right;
+    background-color: transparent;
+    margin: 2px 3px 0px 3px;
+}
+
+.textae-control__icon-bar__icon--disabled {
+    cursor: auto;
+    opacity: 0.3;
+}
+
+.textae-control__icon-bar__icon--pushed {
+    cursor: auto;
+    -moz-box-shadow:    inset 1px 1px 3px #000000;
+    -webkit-box-shadow: inset 1px 1px 3px #000000;
+    box-shadow:         inset 1px 1px 3px #000000;
+}
+
+.textae-control__icon-bar__read-button {
+    background: url("../images/btn_read_16.png");
+}
+
+.textae-control__icon-bar__write-button {
+    background: url("../images/btn_write_16.png");
+}
+
+.textae-control__icon-bar__undo-button {
+    background: url("../images/btn_undo_16.png");
+    text-align: right;
+}
+
+.textae-control__icon-bar__redo-button {
+    background: url("../images/btn_redo_16.png");
+    text-align: left;
+}
+
+.textae-control__icon-bar__replicate-button {
+    background: url("../images/btn_replicate_16.png");
+}
+
+.textae-control__icon-bar__replicate-auto-button {
+    background: url("../images/btn_replicate_auto_16.png");
+}
+
+.textae-control__icon-bar__entity-button {
+    background: url("../images/btn_denote_16.png");
+}
+
+.textae-control__icon-bar__pallet-button {
+    background: url("../images/btn_pallet_16.png");
+}
+
+.textae-control__icon-bar__new-label-button {
+    background: url("../images/btn_new_label_16.png");
+}
+
+.textae-control__icon-bar__delete-button {
+    background: url("../images/btn_delete_16.png");
+}
+
+.textae-control__icon-bar__copy-button {
+    background: url("../images/btn_copy_16.png");
+}
+
+.textae-control__icon-bar__paste-button {
+    background: url("../images/btn_paste_16.png");
+}
+
+.textae-control__icon-bar__help-button {
+    background: url("../images/btn_help_16.png");
+}
+
+.textae-control__icon-bar__about-button {
+    background: url("../images/btn_about_16.png");
+}
