@@ -290,7 +290,7 @@
             }
         };
 
-        // management data
+        // model manages data objects.
         var model = function(editor) {
             return {
                 sourceDoc: "",
