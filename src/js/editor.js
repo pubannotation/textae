@@ -298,19 +298,73 @@
                 relationTypeDefault: "",
                 annotationData: function() {
                     var updateSpanIds = function() {
+                        var spans = model.annotationData.spans;
                         // sort the span IDs by the position
-                        var spanIds = Object.keys(model.annotationData.spans); // maintained sorted by the position.
-                        var byPosition = function(a, b) {
-                            var spans = model.annotationData.spans;
+                        var spanIds = Object.keys(model.annotationData.spans).sort(function(a, b) {
                             return (spans[a].begin - spans[b].begin || spans[b].end - spans[a].end);
-                        };
-                        spanIds.sort(byPosition);
-
-                        $.extend(spanIds, {
-                            getPrevSpanId: function spnaId_getPrevSpanId(sid) {
-                                return this[this.indexOf(sid) - 1];
-                            },
                         });
+
+                        //spanTree has parent-child structure.
+                        var spanTree = [];
+                        spanIds.forEach(function(spanId, index, array) {
+                            var span = model.annotationData.spans[spanId];
+                            $.extend(span, {
+                                id: spanId,
+                                children: [],
+                                isChildOf: function(maybeParent) {
+                                    return maybeParent && maybeParent.begin <= span.begin && span.end <= maybeParent.end;
+                                },
+                                toStringOnlyThis: function() {
+                                    return "this " + this.begin + ":" + this.end + ":" + model.sourceDoc.substring(this.begin, this.end);
+                                },
+                                toString: function(depth) {
+                                    depth = depth || 1; //default depth is 1
+
+                                    var childrenString = this.children.length > 0 ?
+                                        "\n" + this.children.map(function(child) {
+                                            return new Array(depth + 1).join("\t") + child.toString(depth + 1);
+                                        }).join("\n") : "";
+
+                                    return this.toStringOnlyThis() + childrenString;
+                                },
+                                getBigBrother: function() {
+                                    var index;
+                                    if (this.parent) {
+                                        index = this.parent.children.indexOf(this);
+                                        return index === 0 ? null : this.parent.children[index - 1];
+                                    } else {
+                                        index = spanTree.indexOf(this);
+                                        return index === 0 ? null : spanTree[index - 1];
+                                    }
+                                },
+                            });
+
+                            //find parent of this span.
+                            var prevOrderById = model.annotationData.spans[array[index - 1]];
+                            var lastPushedSpan = spanTree[spanTree.length - 1];
+                            if (span.isChildOf(prevOrderById)) {
+                                //last span order by id is parent.
+                                //last span may be parent of current span because span id is sorted.
+                                prevOrderById.children.push(span);
+                                span.parent = prevOrderById;
+                            } else　 if (span.isChildOf(lastPushedSpan)) {
+                                //last pushed span is parent.
+                                //this occur when prev node is also a child of last pushed span.
+                                lastPushedSpan.children.push(span);
+                                span.parent = lastPushedSpan;
+                            } else {
+                                //span has no parent.
+                                spanTree.push(span);
+                            }
+                        });
+
+                        //this for debug.
+                        spanTree.toString = function() {
+                            return this.map(function(span) {
+                                return span.toString();
+                            }).join("\n");
+                        };
+                        //console.log(spanTree.toString());
 
                         model.annotationData.spanIds = spanIds;
                     };
@@ -715,8 +769,15 @@
                                 });
                                 typesPerSpan[edit.id] = [];
                                 // rendering
+
+                                // for prodcut
                                 renderer.renderSpan(edit.id);
                                 renderer.positions.indexPositionSpan(edit.id);
+
+                                // for debug rerender all element.
+                                // span can not be renderd that over exists span.
+                                // renderer.renderAnnotation();
+
                                 // select
                                 domSelector.span.select(edit.id);
                                 break;
@@ -1109,71 +1170,52 @@
                     //assume the model.annotationData.spanIds are sorted by the position.
                     //because get position to insert span tag by previous span tag. 
                     var getRangeToInsertSpanTag = function(sid) {
-                        var previousSpanId = model.annotationData.spanIds.getPrevSpanId(sid);
-
-                        var paragraph = renderer.paragraphs.getBySid(sid);
-                        var currentSpan = model.annotationData.spans[sid];
-                        var len = currentSpan.end - currentSpan.begin;
-
                         // create potision to a new span add 
-                        var createRange = function(currentSpan, textNode, textNodeStartPosition) {
+                        var createRange = function(textNode, textNodeStartPosition) {
                             var range = document.createRange();
 
                             range.setStart(textNode, currentSpan.begin - textNodeStartPosition);
-                            range.setEnd(textNode, currentSpan.end - textNodeStartPosition);
+
+                            var endPos;
+                            if (textNode.length >= currentSpan.end - textNodeStartPosition) {
+                                range.setEnd(textNode, currentSpan.end - textNodeStartPosition);
+                            } else {
+                                throw new Error("oh my god! I cannot render this span. " + currentSpan.toStringOnlyThis() + ", textNode " + textNode.textContent);
+                            }
 
                             return range;
-                        }.bind(this, currentSpan);
+                        };
 
-                        if (renderer.paragraphs.getBySid(previousSpanId) != paragraph) {
-                            // the first span in the paragraph.
-                            textNodeInParagraph = paragraph.element.contents().filter(function() {
-                                return this.nodeType === 3; //TEXT_NODE
-                            }).get(0);
-                            return createRange(textNodeInParagraph, paragraph.begin);
+                        var currentSpan = model.annotationData.spans[sid];
+                        var paragraph = renderer.paragraphs.getBySid(sid);
+                        //bigBrother has same parent that is span or root of spanTree with currentSpan. 
+                        //text arrounded currentSpan is in textNode after bigBrother if bigBrother exists.
+                        //it is first child of parent unless bigBrother exists.
+                        var bigBrother = currentSpan.getBigBrother();
+                        if (bigBrother) {
+                            if (renderer.paragraphs.getBySid(bigBrother.id) === paragraph) {
+                                //bigBrother in same paragraph of currentSpan.
+                                return createRange(document.getElementById(bigBrother.id).nextSibling, bigBrother.end);
+                            } else {
+                                //parent is paragraph, because bigBrother's paragraph is different from currentSpan's.
+                                textNodeInParagraph = paragraph.element.contents().filter(function() {
+                                    return this.nodeType === 3; //TEXT_NODE
+                                }).get(0);
+                                return createRange(textNodeInParagraph, paragraph.begin);
+                            }
                         } else {
-                            // there is previousSpan.
-                            var previousSpan = model.annotationData.spans[previousSpanId];
-
-                            if (currentSpan.begin < previousSpan.begin) {
-                                // error! sids is not sorted! 
-                                // |current| |prev|
-                                // or
-                                // |current |prev|| 
-                                console.log("Error: sid is not sorted");
-                            } else if (previousSpan.end <= currentSpan.begin) {
-                                // |prev| |current|
-                                // this pattern is most ordinaly.
-
-                                // the preveious span is may be amoug other span.
-                                // |parent |prev| | |current|
-                                // find the parent of previous span.
-                                //
-                                // the prev amoung same parent of the current. 
-                                //  | same parent |prev| |current| |
-                                // it is decided if parent end is after current begin.
-                                // it can not decied by parent element of current span, for current span is not exiest yet.
-                                var prevSpanTag = document.getElementById(previousSpanId);
-                                while (
-                                    prevSpanTag.parentElement && //has parent
-                                    model.annotationData.spans[prevSpanTag.parentElement.id] && //parent is span
-                                    model.annotationData.spans[prevSpanTag.parentElement.id].end < currentSpan.begin //parent is not same parent of current span
-                                ) {
-                                    prevSpanTag = prevSpanTag.parentElement;
-                                }
-
-                                return createRange(prevSpanTag.nextSibling, model.annotationData.spans[prevSpanTag.id].end);
-                            } else if (previousSpan.end < currentSpan.end) {
-                                // crossover cannot not render by span. 
-                                // |prev|
-                                //    |current|
-                            } else if (currentSpan.end <= previousSpan.end) {
-                                // current span among previous span.
-                                // |prev |current| |
-                                var textNodeInPrevSpan = $("#" + previousSpanId).contents().filter(function() {
+                            if (currentSpan.parent) {
+                                //parent is span
+                                var textNodeInPrevSpan = $("#" + currentSpan.parent.id).contents().filter(function() {
                                     return this.nodeType === 3;
                                 }).get(0);
-                                return createRange(textNodeInPrevSpan, previousSpan.begin);
+                                return createRange(textNodeInPrevSpan, currentSpan.parent.begin);
+                            } else {
+                                //parent is paragraph
+                                textNodeInParagraph = paragraph.element.contents().filter(function() {
+                                    return this.nodeType === 3; //TEXT_NODE
+                                }).get(0);
+                                return createRange(textNodeInParagraph, paragraph.begin);
                             }
                         }
                     };
