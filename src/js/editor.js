@@ -297,53 +297,27 @@
                 relationTypes: {},
                 relationTypeDefault: "",
                 annotationData: function() {
-                    var updateSpanIds = function() {
-                        var spans = model.annotationData.spans;
+                    var sortedSpanIds = null;
+
+                    var updateSpanTree = function() {
                         // sort the span IDs by the position
-                        var spanIds = Object.keys(model.annotationData.spans).sort(function(a, b) {
-                            return (spans[a].begin - spans[b].begin || spans[b].end - spans[a].end);
+                        var sortedSpans = model.annotationData.getAllSpan().sort(function(a, b) {
+                            return a.begin - b.begin || b.end - a.end;
                         });
 
                         //spanTree has parent-child structure.
                         var spanTree = [];
-                        spanIds.forEach(function(spanId, index, array) {
-                            var span = model.annotationData.spans[spanId];
+                        sortedSpans.forEach(function(span, index, array) {
                             $.extend(span, {
-                                id: spanId,
+                                //reset children
                                 children: [],
-                                isChildOf: function(maybeParent) {
-                                    return maybeParent && maybeParent.begin <= span.begin && span.end <= maybeParent.end;
-                                },
-                                toStringOnlyThis: function() {
-                                    return "span " + this.begin + ":" + this.end + ":" + model.sourceDoc.substring(this.begin, this.end);
-                                },
-                                toString: function(depth) {
-                                    depth = depth || 1; //default depth is 1
-
-                                    var childrenString = this.children.length > 0 ?
-                                        "\n" + this.children.map(function(child) {
-                                            return new Array(depth + 1).join("\t") + child.toString(depth + 1);
-                                        }).join("\n") : "";
-
-                                    return this.toStringOnlyThis() + childrenString;
-                                },
-                                getBigBrother: function() {
-                                    var index;
-                                    if (this.parent) {
-                                        index = this.parent.children.indexOf(this);
-                                        return index === 0 ? null : this.parent.children[index - 1];
-                                    } else {
-                                        index = spanTree.indexOf(this);
-                                        return index === 0 ? null : spanTree[index - 1];
-                                    }
-                                },
                                 //order by position
-                                left: index !== 0 ? spans[array[index - 1]] : null,
-                                right: index !== array.length - 1 ? spans[array[index + 1]] : null,
+                                left: index !== 0 ? array[index - 1] : null,
+                                right: index !== array.length - 1 ? array[index + 1] : null,
                             });
 
                             //find parent of this span.
-                            var prevOrderById = model.annotationData.spans[array[index - 1]];
+                            var prevOrderById = array[index - 1];
                             var lastPushedSpan = spanTree[spanTree.length - 1];
                             if (span.isChildOf(prevOrderById)) {
                                 //last span order by id is parent.
@@ -374,7 +348,10 @@
                         };
                         // console.log(spanTree.toString());
 
-                        model.annotationData.spanIds = spanIds;
+                        sortedSpanIds = sortedSpans.map(function(span) {
+                            return span.id;
+                        });
+                        model.annotationData.spanTree = spanTree;
                     };
 
                     var getMaxEntityId = function() {
@@ -394,11 +371,48 @@
                         return parseInt(entityIds[0]) || 0;
                     };
 
+                    var innerAddSpan = function(span) {
+                        var spanId = idFactory.makeSpanId(span.begin, span.end);
+
+                        //extend span for rendering.
+                        model.annotationData.spans[spanId] = $.extend({
+                            begin: span.begin,
+                            end: span.end
+                        }, {
+                            id: spanId,
+                            isChildOf: function(maybeParent) {
+                                return maybeParent && maybeParent.begin <= span.begin && span.end <= maybeParent.end;
+                            },
+                            toStringOnlyThis: function() {
+                                return "span " + this.begin + ":" + this.end + ":" + model.sourceDoc.substring(this.begin, this.end);
+                            },
+                            toString: function(depth) {
+                                depth = depth || 1; //default depth is 1
+
+                                var childrenString = this.children.length > 0 ?
+                                    "\n" + this.children.map(function(child) {
+                                        return new Array(depth + 1).join("\t") + child.toString(depth + 1);
+                                    }).join("\n") : "";
+
+                                return this.toStringOnlyThis() + childrenString;
+                            },
+                            getBigBrother: function() {
+                                var index;
+                                if (this.parent) {
+                                    index = this.parent.children.indexOf(this);
+                                    return index === 0 ? null : this.parent.children[index - 1];
+                                } else {
+                                    index = model.annotationData.spanTree.indexOf(this);
+                                    return index === 0 ? null : model.annotationData.spanTree[index - 1];
+                                }
+                            },
+                        });
+                    };
+
                     return {
                         spans: null,
                         entities: null,
                         relations: null,
-                        spanIds: null,
                         reset: function() {
                             model.annotationData.spans = {};
                             model.annotationData.entities = {};
@@ -406,23 +420,20 @@
                         },
                         //expected span is like { "begin": 19, "end": 49 }
                         addSpan: function(span) {
-                            var spanId = idFactory.makeSpanId(span.begin, span.end);
-                            model.annotationData.spans[spanId] = {
-                                begin: span.begin,
-                                end: span.end
-                            };
-                            updateSpanIds();
+                            innerAddSpan(span);
+                            updateSpanTree();
                         },
                         removeSpan: function(spanId) {
                             delete model.annotationData.spans[spanId];
-                            updateSpanIds();
+                            console.log("delete " + model.annotationData.spans);
+                            updateSpanTree();
                         },
                         getSpan: function(spanId) {
                             return model.annotationData.spans[spanId];
                         },
                         getRangeOfSpan: function(firstId, secondId) {
-                            var firstIndex = model.annotationData.spanIds.indexOf(firstId);
-                            var secondIndex = model.annotationData.spanIds.indexOf(secondId);
+                            var firstIndex = sortedSpanIds.indexOf(firstId);
+                            var secondIndex = sortedSpanIds.indexOf(secondId);
 
                             //switch if seconfIndex before firstIndex
                             if (secondIndex < firstIndex) {
@@ -431,26 +442,28 @@
                                 secondIndex = tmpIndex;
                             }
 
-                            return model.annotationData.spanIds.slice(firstIndex, secondIndex + 1);
+                            return sortedSpanIds.slice(firstIndex, secondIndex + 1);
+                        },
+                        getAllSpan: function() {
+                            return $.map(model.annotationData.spans, function(span) {
+                                return span;
+                            });
                         },
                         //expected denotations Array of object like { "id": "T1", "span": { "begin": 19, "end": 49 }, "obj": "Cell" }.
                         parseDenotations: function(denotations) {
                             if (denotations) {
                                 denotations.forEach(function(entity) {
-                                    var span = entity.span;
-                                    var spanId = idFactory.makeSpanId(span.begin, span.end);
-                                    model.annotationData.spans[spanId] = {
-                                        begin: span.begin,
-                                        end: span.end,
-                                    };
+                                    innerAddSpan(entity.span);
+
                                     model.annotationData.entities[entity.id] = {
                                         id: entity.id,
-                                        span: spanId,
+                                        span: idFactory.makeSpanId(entity.span.begin, entity.span.end),
                                         type: entity.obj,
                                     };
                                 });
+
+                                updateSpanTree();
                             }
-                            updateSpanIds();
                         },
                         parseRelations: function(relations) {
                             if (relations) {
@@ -794,7 +807,6 @@
 
                                     // for prodcut
                                     renderer.renderSpan(edit.id);
-                                    renderer.positions.indexPositionSpan(edit.id);
 
                                     // for debug rerender all element.
                                     // span can not be renderd that over exists span.
@@ -1093,24 +1105,9 @@
                         return paragraphs;
                     };
 
-                    var renderEntitiesOfSpan = function(sid) {
-                        //render a gird.
-                        renderer.renderGrid(sid);
-
-                        //render entities.
-                        typesPerSpan[sid].forEach(function(tid) {
-                            entitiesPerType[tid].forEach(function(eid) {
-                                renderer.renderEntity(model.annotationData.entities[eid]);
-                            });
-                        });
-                    };
-
                     var renderAllSpan = function() {
-                        model.annotationData.spanIds.forEach(function(sid) {
-                            renderer.renderSpan(sid);
-                            renderer.positions.indexPositionSpan(sid);
-
-                            renderEntitiesOfSpan(sid);
+                        model.annotationData.spanTree.forEach(function(span) {
+                            renderer.renderSpan(span.id);
                         });
                     };
 
@@ -1242,15 +1239,32 @@
                         getRangeToInsertSpanTag(currentSpan.id).surroundContents(element);
                     };
 
-                    //rerender children to add new span over exists spans.
-                    var currentSpan = model.annotationData.spans[spanId];
-
+                    //destoroy DOM elements of descendant spans.
                     var destroySpanRecurcive = function(span) {
                         span.children.forEach(function(span) {
                             destroySpanRecurcive(span);
                         });
                         renderer.destroySpan(span.id);
                     };
+
+                    //render entity of span
+                    var renderEntitiesOfSpan = function(span) {
+                        // render grid unless span has entities.
+                        if (typesPerSpan[span.id]) {
+                            //render a gird.
+                            renderer.renderGrid(span.id);
+
+                            //render entities.
+                            typesPerSpan[span.id].forEach(function(tid) {
+                                entitiesPerType[tid].forEach(function(eid) {
+                                    renderer.renderEntity(model.annotationData.entities[eid]);
+                                });
+                            });
+                        }
+                    };
+
+                    //rerender children to add new span over exists spans.
+                    var currentSpan = model.annotationData.spans[spanId];
 
                     //destroy rendered children.
                     currentSpan.children.filter(function(childSpan) {
@@ -1259,10 +1273,9 @@
                         destroySpanRecurcive(childSpan);
                     });
 
-                    //children node may be renderd by parent node.
-                    if (document.getElementById(currentSpan.id) === null) {
-                        renderSingleSpan(currentSpan);
-                    }
+                    renderSingleSpan(currentSpan);
+                    renderer.positions.indexPositionSpan(currentSpan.id);
+                    renderEntitiesOfSpan(currentSpan);
 
                     //render unredered children.
                     currentSpan.children.filter(function(childSpan) {
@@ -1360,6 +1373,10 @@
                         var gridId = 'G' + model.annotationData.entities[entityId].span;
                         var $entity = domSelector.entity.get(entityId);
 
+                        if ($entity.length === 0) {
+                            throw new Error("entity is not rendered : " + entityId);
+                        }
+
                         //use to calculate relation curvines.
                         renderer.positions.entity[entityId] = {
                             top: renderer.positions.grid[gridId].top + $entity.get(0).offsetTop,
@@ -1371,13 +1388,6 @@
                     },
                 },
                 renderGrid: function(spanId) {
-                    var isSpanEmbedded = function(f, spanId) {
-                        var s1 = model.annotationData.spans[model.annotationData.spanIds[f]];
-                        var s2 = model.annotationData.spans[spanId];
-
-                        return (s1.begin >= s2.begin) && (s1.end <= s2.end);
-                    };
-
                     var createDiv = function(id, cls, top, left, width, height, title) {
                         editor.getAnnotationArea().append('<div id="' + id + '"></div');
                         var div = $('#' + id);
@@ -2495,9 +2505,9 @@
                     };
 
                     //sitck all grid on span.
-                    model.annotationData.spanIds.forEach(function(spanId) {
-                        renderer.positions.indexPositionSpan(spanId);
-                        stickGridOnSpan(spanId);
+                    model.annotationData.getAllSpan().forEach(function(span) {
+                        renderer.positions.indexPositionSpan(span.id);
+                        stickGridOnSpan(span.id);
                     });
 
                     //calculate positions of all entity.
