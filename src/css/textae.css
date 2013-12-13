@@ -47,68 +47,21 @@
     color:gray;
 }
 
-.block {
-    display: block;
-    border-style: solid;
-    border-color: #656565;
-    border-width: 1px 1px 1px 20px;
-    background-color: rgba(255,255,255,0.7);
-    margin:2px;
-    padding:2px;
-}
-
-.block:hover {
-    background-color: rgba(245,245,245,0.7);
-}
-
-.block.selected {
-    background-color: rgba(235,235,235,0.7);
-}
-.block:before {
-    float:left;
-    position:absolute;
-    margin-left:-11px;
-    content: attr(type);
-    color: white;
-
-    -webkit-transform: rotate(-90deg);
-    -moz-transform: rotate(-90deg);
-    -ms-transform: rotate(-90deg);
-    -o-transform: rotate(-90deg);
-    transform: rotate(-90deg);
-
-    -webkit-transform-origin: left center;
-    -moz-transform-origin: left center;
-    -ms-transform-origin: left center;
-    -o-transform-origin: left center;
-    transform-origin: left center;
-}
-
-.span {
-    /*display: inline-block;*/
+.textae-editor__span {
     display: inline;
     border-style: solid;
     border-color: #656565;
     border-width: 1px 0px 1px 0px;
     background-color: rgba(100,100,215,0.5);
     white-space: pre;
-    /*margin-top: 50px;*/
-    /*width: 100px;*/
-    /*text-align: center;*/
 }
 
-.span:hover {
-    background-color: #8888CC;
-    background-color: rgba(130,130,200,0.7);
-
+.textae-editor__span:hover, .textae-editor__span.ui-selected {
+    background-color: rgba(255,200,100,0.9);
+    color: #0000DD;
 }
 
-.span.ui-selected {
-    background-color: rgba(55,55,0,0.6);
-    color: #DDDDDD;
-}
-
-.grid {
+.textae-editor__grid {
     border-width: 0px 1px;
     border-style: solid;
     border-color: #DDDDAA;
@@ -116,11 +69,7 @@
     overflow: visible;
 }
 
-.grid:hover {
-    overflow: visible;
-}
-
-.type {
+.textae-editor__type {
     position: relative;
     border-radius: 4px;
     text-align: center;
@@ -128,57 +77,40 @@
     font-size: small;
 }
 
-.type_label {
+.textae-editor__type_label {
     width: 100%;
     overflow: hidden;
-    user-select: none; /* CSS3 */
-    -moz-user-select: none; /* Firefox */
-    -webkit-user-select: none; /* Safari、Chromeなど */
-    -ms-user-select: none; /* IE10かららしい */
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
-.type_label:hover {
+.textae-editor__type_label:hover {
     overflow: visible;
 }
 
-
-.entity_pane {
+.textae-editor__entity_pane {
     position: absolute;
     top:-10px;
     text-align: center;
 }
 
-.selectable .ui-selecting { background: #FECA40; }
-.selectable .ui-selected { background: #F39814; color: white; }
-.selectable { list-style-type: none; margin: 0; padding: 0; width: 60%; }
-.selectable li { margin: 3px; padding: 0.4em; font-size: 1.4em; height: 18px; }
-
-.entity {
+.textae-editor__entity {
     display: inline-block;
     border-width: 3px;
     border-style: solid;
-    border-radius: 6px; /* CSS3 */
-    -moz-border-radius: 6px; /* Firefox */
-    -webkit-border-radius: 6px;  /* Safari,Chrome */
+    border-radius: 6px;
     width: 6px;
     height: 6px;
-    background-color: #cccccc;
+    background-color: lightblue;
 }
 
-.entity:hover {
-    background-color: #999999;
-}
-
-.entity.ui-selecting {
-    background-color: #777777;
-}
-
-.entity.ui-selected {
-    background-color: #555555;
-}
-
-.error {
-    background-color: #ff0000;
+.textae-editor__entity:hover, .textae-editor__entity.ui-selected {
+    background-color: yellow;
+    height: 9px;
 }
 
 .textae-editor__entity-pallet {
@@ -191,10 +123,11 @@
     overflow-x: visible;
     overflow-y: auto;
     z-index: 250;
+    -webkit-touch-callout: none;
     -webkit-user-select: none;
     -khtml-user-select: none;
     -moz-user-select: none;
-    -o-user-select: none;
+    -ms-user-select: none;
     user-select: none;
 }
 
@@ -233,13 +166,6 @@
 
 .textae-editor__entity-pallet__entity-type__label {
     cursor: pointer;
-}
-
-span.Sentence {
-    display: block;
-    border: 1px solid gray;
-    margin-top: 20px;
-    padding-top: 20px;
 }
 
 ._jsPlumb_endpoint {

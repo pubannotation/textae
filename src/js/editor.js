@@ -1139,13 +1139,13 @@
                     typeHeight: 0,
                     entityWidth: 0,
                     mesure: function() {
-                        var div = '<div id="temp_grid" class="grid" style="width:10px; height:auto"></div>';
+                        var div = '<div id="temp_grid" class="textae-editor__grid" style="width:10px; height:auto"></div>';
                         editor.getAnnotationArea().append(div);
 
-                        div = '<div id="temp_type" class="type" title="[Temp] Temp" >T0</div>';
+                        div = '<div id="temp_type" class="textae-editor__type" title="[Temp] Temp" >T0</div>';
                         $('#temp_grid').append(div);
 
-                        div = '<div id="temp_entity_pane" class="entity_pane"><div id="temp_entity" class="entity"></div></div>';
+                        div = '<div id="temp_entity_pane" class="textae-editor__entity_pane"><div id="temp_entity" class="textae-editor__entity"></div></div>';
                         $('#temp_type').append(div);
 
                         renderer.renderSize.gridWidthGap = $('#temp_grid').outerWidth() - 10;
@@ -1153,18 +1153,6 @@
                         renderer.renderSize.entityWidth = $('#temp_entity').outerWidth();
                         $('#temp_grid').remove();
                     }
-                },
-                createDiv: function(id, cls, top, left, width, height, title) {
-                    editor.getAnnotationArea().append('<div id="' + id + '"></div');
-                    var div = $('#' + id);
-                    div.addClass(cls);
-                    div.attr('title', title);
-                    div.css('position', 'absolute');
-                    div.css('top', top);
-                    div.css('left', left);
-                    div.css('width', width);
-                    div.css('height', height);
-                    return id;
                 },
                 renderSpan: function(sid) {
                     //assume the model.annotationData.spanIds are sorted by the position.
@@ -1223,7 +1211,7 @@
                     var element = document.createElement('span');
                     element.setAttribute('id', sid);
                     element.setAttribute('title', sid);
-                    element.setAttribute('class', 'span');
+                    element.setAttribute('class', 'textae-editor__span');
                     getRangeToInsertSpanTag(sid).surroundContents(element);
                 },
                 destroySpan: function(sid) {
@@ -1240,17 +1228,17 @@
                     //type has entity_pane has entities and label.
                     var createType = function(type, typeId) {
                         var $type = $('<div id="' + typeId + '"></div>');
-                        $type.addClass('type');
+                        $type.addClass('textae-editor__type');
                         $type.css('background-color', model.entityTypes.getType(type).getColor());
                         $type.css('margin-top', CONSTS.TYPE_MARGIN_TOP);
                         $type.css('margin-bottom', CONSTS.TYPE_MARGIN_BOTTOM);
                         $type.attr('title', type);
 
                         //type panel has entities
-                        $type.append('<div id="P-' + typeId + '" class="entity_pane"></div>');
+                        $type.append('<div id="P-' + typeId + '" class="textae-editor__entity_pane"></div>');
 
                         //label over span
-                        $type.append('<div class="type_label">' + type + '</div>');
+                        $type.append('<div class="textae-editor__type_label">' + type + '</div>');
                         return $type;
                     };
 
@@ -1268,7 +1256,7 @@
                     };
 
                     var createElement = function(entityId) {
-                        var $entity = $('<div id="' + idFactory.makeEntityDomId(entityId) + '" class="entity" />');
+                        var $entity = $('<div id="' + idFactory.makeEntityDomId(entityId) + '" class="textae-editor__entity" />');
                         $entity.attr('title', entityId);
                         $entity.css('display: inline-block');
 
@@ -1283,7 +1271,7 @@
                         var $entity = createElement(entity.id);
 
                         getTypeElement(entity.span, entity.type)
-                            .find(".entity_pane")
+                            .find(".textae-editor__entity_pane")
                             .append($entity);
 
                         renderer.positionEntityPanel(entity.span, entity.type);
@@ -1329,6 +1317,19 @@
                         return (s1.begin >= s2.begin) && (s1.end <= s2.end);
                     };
 
+                    var createDiv = function(id, cls, top, left, width, height, title) {
+                        editor.getAnnotationArea().append('<div id="' + id + '"></div');
+                        var div = $('#' + id);
+                        div.addClass(cls);
+                        div.attr('title', title);
+                        div.css('position', 'absolute');
+                        div.css('top', top);
+                        div.css('left', left);
+                        div.css('width', width);
+                        div.css('height', height);
+                        return id;
+                    };
+
                     var gridId = 'G' + spanId,
                         $grid = $('#' + gridId);
 
@@ -1352,13 +1353,11 @@
                         };
 
                         if ($grid.length === 0) {
-                            renderer.createDiv(gridId, '$grid', gridPosition.top, gridPosition.left, gridPosition.width, gridPosition.height);
+                            createDiv(gridId, 'textae-editor__grid', gridPosition.top, gridPosition.left, gridPosition.width, gridPosition.height);
                         } else {
-                            $grid = $('#' + gridId);
                             $grid.css('top', gridPosition.top);
                             $grid.css('left', gridPosition.left);
-                            $grid.css('width', gridPosition.width);
-                            $grid.css('height', gridPosition.height);
+                            $grid.css('height', gridPosition.height); //entity may be added.
                         }
 
                         // for functions 'positionEntityPanel' and 'indexPositionEntity', to calculate position of entity.
@@ -1528,7 +1527,7 @@
                     var pos;
                     if ($parent.hasClass("textae-editor__body__text-box__paragraph")) {
                         pos = renderer.paragraphs[parentId].begin;
-                    } else if ($parent.hasClass("span")) {
+                    } else if ($parent.hasClass("textae-editor__span")) {
                         pos = model.annotationData.spans[parentId].begin;
                     } else {
                         console.log(parentId);
@@ -1857,7 +1856,7 @@
             var entityClicked = function(e) {
                 if (e.ctrlKey) {
                     domSelector.domElement.toggle(e.target);
-                    mouseover.buttonState.updateByEntity();
+                    editorState.buttonState.updateByEntity();
                 } else {
                     domSelector.domElement.selectOnly(e.target);
                     editorState.buttonState.updateAll();
@@ -1873,11 +1872,11 @@
 
                 if (event.type == 'mouseover') {
                     $grid.css('height', 'auto');
-                    if ($grid.outerWidth() < renderer.positions.grid[gridId].width) $grid.css('width', renderer.positions.grid[gridId].width);
-                    // $grid.css('z-index', '254');
+                    if ($grid.outerWidth() < renderer.positions.grid[gridId].width) {
+                        $grid.css('width', renderer.positions.grid[gridId].width);
+                    }
                 } else {
                     $grid.css('height', renderer.positions.grid[gridId].height);
-                    // $grid.css('z-index', '');
                 }
             };
 
@@ -1891,9 +1890,9 @@
                 init: function() {
                     editor
                         .on('mouseup', '.textae-editor__body', bodyClicked)
-                        .on('mouseup', '.span', spanClicked)
-                        .on('mouseup', '.entity', entityClicked)
-                        .on('mouseover mouseout', '.grid', gridMouseHover)
+                        .on('mouseup', '.textae-editor__span', spanClicked)
+                        .on('mouseup', '.textae-editor__entity', entityClicked)
+                        .on('mouseover mouseout', '.textae-editor__grid', gridMouseHover)
                         .on('mouseup', '.textae-editor__body,.span,.entity,.grid', editorSelected);
                 },
 
@@ -1955,7 +1954,7 @@
             }(),
             span: {
                 getSelecteds: function() {
-                    return $('.span.ui-selected');
+                    return $('.textae-editor__span.ui-selected');
                 },
                 getNumberOfSelected: function() {
                     return domSelector.span.getSelecteds().length;
@@ -1983,7 +1982,7 @@
                     return $('#' + idFactory.makeEntityDomId(eid));
                 },
                 getSelecteds: function() {
-                    return $('.entity.ui-selected');
+                    return $('.textae-editor__entity.ui-selected');
                 },
                 getNumberOfSelected: function() {
                     return domSelector.entity.getSelecteds().length;
