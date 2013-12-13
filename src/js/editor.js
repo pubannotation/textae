@@ -315,7 +315,7 @@
                                     return maybeParent && maybeParent.begin <= span.begin && span.end <= maybeParent.end;
                                 },
                                 toStringOnlyThis: function() {
-                                    return "this " + this.begin + ":" + this.end + ":" + model.sourceDoc.substring(this.begin, this.end);
+                                    return "span " + this.begin + ":" + this.end + ":" + model.sourceDoc.substring(this.begin, this.end);
                                 },
                                 toString: function(depth) {
                                     depth = depth || 1; //default depth is 1
@@ -350,6 +350,11 @@
                                 //last span may be parent of current span because span id is sorted.
                                 prevOrderById.children.push(span);
                                 span.parent = prevOrderById;
+                            } else if (prevOrderById && span.isChildOf(prevOrderById.parent)) {
+                                //last span order by id is bigBrother.
+                                //parent of last span may be parent of current span.
+                                prevOrderById.parent.children.push(span);
+                                span.parent = prevOrderById.parent;
                             } else　 if (span.isChildOf(lastPushedSpan)) {
                                 //last pushed span is parent.
                                 //this occur when prev node is also a child of last pushed span.
@@ -367,7 +372,7 @@
                                 return span.toString();
                             }).join("\n");
                         };
-                        //console.log(spanTree.toString());
+                        // console.log(spanTree.toString());
 
                         model.annotationData.spanIds = spanIds;
                     };
@@ -1177,71 +1182,102 @@
                         $('#temp_grid').remove();
                     }
                 },
-                renderSpan: function(sid) {
-                    var getRangeToInsertSpanTag = function(sid) {
+                renderSpan: function(spanId) {
+                    //render single span
+                    var renderSingleSpan = function(currentSpan) {
                         // create potision to a new span add 
                         var createRange = function(textNode, textNodeStartPosition) {
-                            var range = document.createRange();
-
-                            range.setStart(textNode, currentSpan.begin - textNodeStartPosition);
-
-                            var endPos;
-                            if (textNode.length >= currentSpan.end - textNodeStartPosition) {
-                                range.setEnd(textNode, currentSpan.end - textNodeStartPosition);
-                            } else {
+                            var startPos = currentSpan.begin - textNodeStartPosition;
+                            var endPos = currentSpan.end - textNodeStartPosition;
+                            if (startPos < 0 || textNode.length < endPos) {
                                 throw new Error("oh my god! I cannot render this span. " + currentSpan.toStringOnlyThis() + ", textNode " + textNode.textContent);
                             }
 
+                            var range = document.createRange();
+                            range.setStart(textNode, startPos);
+                            range.setEnd(textNode, endPos);
                             return range;
                         };
 
-                        var currentSpan = model.annotationData.spans[sid];
-                        var paragraph = renderer.paragraphs.getBySid(sid);
-                        //bigBrother has same parent that is span or root of spanTree with currentSpan. 
-                        //text arrounded currentSpan is in textNode after bigBrother if bigBrother exists.
-                        //it is first child of parent unless bigBrother exists.
-                        var bigBrother = currentSpan.getBigBrother();
-                        if (bigBrother) {
-                            if (renderer.paragraphs.getBySid(bigBrother.id) === paragraph) {
-                                //bigBrother in same paragraph of currentSpan.
-                                return createRange(document.getElementById(bigBrother.id).nextSibling, bigBrother.end);
+                        // get Range to that new span tag insert.
+                        // this function works well when no child span is rendered. 
+                        var getRangeToInsertSpanTag = function(spanId) {
+                            var paragraph = renderer.paragraphs.getBySid(currentSpan.id);
+                            //bigBrother has same parent that is span or root of spanTree with currentSpan. 
+                            //text arrounded currentSpan is in textNode after bigBrother if bigBrother exists.
+                            //it is first child of parent unless bigBrother exists.
+                            var bigBrother = currentSpan.getBigBrother();
+                            if (bigBrother) {
+                                if (renderer.paragraphs.getBySid(bigBrother.id) === paragraph) {
+                                    //bigBrother in same paragraph of currentSpan.
+                                    return createRange(document.getElementById(bigBrother.id).nextSibling, bigBrother.end);
+                                } else {
+                                    //parent is paragraph, because bigBrother's paragraph is different from currentSpan's.
+                                    textNodeInParagraph = paragraph.element.contents().filter(function() {
+                                        return this.nodeType === 3; //TEXT_NODE
+                                    }).get(0);
+                                    return createRange(textNodeInParagraph, paragraph.begin);
+                                }
                             } else {
-                                //parent is paragraph, because bigBrother's paragraph is different from currentSpan's.
-                                textNodeInParagraph = paragraph.element.contents().filter(function() {
-                                    return this.nodeType === 3; //TEXT_NODE
-                                }).get(0);
-                                return createRange(textNodeInParagraph, paragraph.begin);
+                                if (currentSpan.parent) {
+                                    //parent is span
+                                    var textNodeInPrevSpan = $("#" + currentSpan.parent.id).contents().filter(function() {
+                                        return this.nodeType === 3;
+                                    }).get(0);
+                                    return createRange(textNodeInPrevSpan, currentSpan.parent.begin);
+                                } else {
+                                    //parent is paragraph
+                                    textNodeInParagraph = paragraph.element.contents().filter(function() {
+                                        return this.nodeType === 3; //TEXT_NODE
+                                    }).get(0);
+                                    return createRange(textNodeInParagraph, paragraph.begin);
+                                }
                             }
-                        } else {
-                            if (currentSpan.parent) {
-                                //parent is span
-                                var textNodeInPrevSpan = $("#" + currentSpan.parent.id).contents().filter(function() {
-                                    return this.nodeType === 3;
-                                }).get(0);
-                                return createRange(textNodeInPrevSpan, currentSpan.parent.begin);
-                            } else {
-                                //parent is paragraph
-                                textNodeInParagraph = paragraph.element.contents().filter(function() {
-                                    return this.nodeType === 3; //TEXT_NODE
-                                }).get(0);
-                                return createRange(textNodeInParagraph, paragraph.begin);
-                            }
-                        }
+                        };
+
+                        var element = document.createElement('span');
+                        element.setAttribute('id', currentSpan.id);
+                        element.setAttribute('title', currentSpan.id);
+                        element.setAttribute('class', 'textae-editor__span');
+                        getRangeToInsertSpanTag(currentSpan.id).surroundContents(element);
                     };
 
-                    var element = document.createElement('span');
-                    element.setAttribute('id', sid);
-                    element.setAttribute('title', sid);
-                    element.setAttribute('class', 'textae-editor__span');
-                    getRangeToInsertSpanTag(sid).surroundContents(element);
-                },
-                destroySpan: function(sid) {
-                    var span = document.getElementById(sid);
-                    var parent = span.parentNode;
-                    while (span.firstChild) {
-                        parent.insertBefore(span.firstChild, span);
+                    //rerender children to add new span over exists spans.
+                    var currentSpan = model.annotationData.spans[spanId];
+
+                    var destroySpanRecurcive = function(span) {
+                        span.children.forEach(function(span) {
+                            destroySpanRecurcive(span);
+                        });
+                        renderer.destroySpan(span.id);
+                    };
+
+                    //destroy rendered children.
+                    currentSpan.children.filter(function(childSpan) {
+                        return document.getElementById(childSpan.id) !== null;
+                    }).forEach(function(childSpan) {
+                        destroySpanRecurcive(childSpan);
+                    });
+
+                    //children node may be renderd by parent node.
+                    if (document.getElementById(currentSpan.id) === null) {
+                        renderSingleSpan(currentSpan);
                     }
-                    parent.removeChild(span);
+
+                    //render unredered children.
+                    currentSpan.children.filter(function(childSpan) {
+                        return document.getElementById(childSpan.id) === null;
+                    }).forEach(function(childSpan) {
+                        renderer.renderSpan(childSpan.id);
+                    });
+                },
+                destroySpan: function(spanId) {
+                    var spanElement = document.getElementById(spanId);
+                    var parent = spanElement.parentNode;
+                    while (spanElement.firstChild) {
+                        parent.insertBefore(spanElement.firstChild, spanElement);
+                    }
+                    parent.removeChild(spanElement);
                     parent.normalize();
                 },
                 //a circle on Type
@@ -1307,6 +1343,10 @@
                     },
                     indexPositionSpan: function(spanId) {
                         var $span = $('#' + spanId);
+
+                        if ($span.length === 0) {
+                            throw new Error("span is not renderd : " + spanId);
+                        }
 
                         renderer.positions.span[spanId] = {
                             top: $span.get(0).offsetTop,
