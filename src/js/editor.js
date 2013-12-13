@@ -337,6 +337,9 @@
                                         return index === 0 ? null : spanTree[index - 1];
                                     }
                                 },
+                                //order by position
+                                left: index !== 0 ? spans[array[index - 1]] : null,
+                                right: index !== array.length - 1 ? spans[array[index + 1]] : null,
                             });
 
                             //find parent of this span.
@@ -1162,8 +1165,6 @@
                     }
                 },
                 renderSpan: function(sid) {
-                    //assume the model.annotationData.spanIds are sorted by the position.
-                    //because get position to insert span tag by previous span tag. 
                     var getRangeToInsertSpanTag = function(sid) {
                         // create potision to a new span add 
                         var createRange = function(textNode, textNodeStartPosition) {
@@ -2474,11 +2475,31 @@
                     var selection = window.getSelection();
                     selection.collapse(document.body, 0);
                 },
+                selectLeftSpan: function() {
+                    if (domSelector.span.getNumberOfSelected() == 1) {
+                        var span = model.annotationData.spans[domSelector.span.popSelectedId()];
+                        domSelector.unselect();
+                        if (span.left) {
+                            domSelector.span.select(span.left.id);
+                        }
+                    }
+                },
+                selectRightSpan: function() {
+                    if (domSelector.span.getNumberOfSelected() == 1) {
+
+                        var span = model.annotationData.spans[domSelector.span.popSelectedId()];
+                        domSelector.unselect();
+                        if (span.right) {
+                            domSelector.span.select(span.right.id);
+                        }
+                    }
+                },
             };
         }(this);
 
         // public funcitons of editor
         var editorApi = {
+            //TODO: createEntity ~ undo is not public already.
             createEntity: businessLogic.createEntity,
             removeSelectedElements: businessLogic.removeSelectedElements,
             copyEntities: businessLogic.copyEntities,
@@ -2502,29 +2523,6 @@
                     businessLogic.undo();
                 }
             },
-            selectLeftEntity: function() {
-                //TODO presentation logic?
-                if (domSelector.span.getNumberOfSelected() == 1) {
-                    var spanIdx = model.annotationData.spanIds.indexOf(domSelector.span.popSelectedId());
-                    domSelector.unselect();
-                    spanIdx--;
-                    if (spanIdx < 0) {
-                        spanIdx = model.annotationData.spanIds.length - 1;
-                    }
-                    domSelector.span.select(model.annotationData.spanIds[spanIdx]);
-                }
-            },
-            selectRightEntity: function() {
-                if (domSelector.span.getNumberOfSelected() == 1) {
-                    var spanIdx = model.annotationData.spanIds.indexOf(domSelector.span.popSelectedId());
-                    domSelector.unselect();
-                    spanIdx++;
-                    if (spanIdx > model.annotationData.spanIds.length - 1) {
-                        spanIdx = 0;
-                    }
-                    domSelector.span.select(model.annotationData.spanIds[spanIdx]);
-                }
-            },
             start: function() {
                 startEdit();
             },
@@ -2544,8 +2542,8 @@
                     "Y": editorApi.redo,
                     "Z": editorApi.undo,
                     "ESC": presentationLogic.cancelSelect,
-                    "LEFT": editorApi.selectLeftEntity,
-                    "RIGHT": editorApi.selectRightEntity,
+                    "LEFT": presentationLogic.selectLeftSpan,
+                    "RIGHT": presentationLogic.selectRightSpan,
                 };
                 if (keyApiMap[key]) {
                     keyApiMap[key]();
