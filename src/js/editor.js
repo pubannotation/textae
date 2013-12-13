@@ -1926,6 +1926,7 @@
             },
             unselect: function() {
                 domSelector.getSelecteds().removeClass('ui-selected');
+                renderer.relations.clearRelationSelection();
                 editorState.buttonState.updateAll();
             },
             domElement: function() {
@@ -1948,6 +1949,7 @@
                     },
                     selectOnly: function(target) {
                         domSelector.getSelecteds().removeClass('ui-selected');
+                        renderer.relations.clearRelationSelection();
                         select(target);
                     }
                 };
@@ -2455,7 +2457,6 @@
                     }
 
                     domSelector.unselect();
-                    renderer.relations.clearRelationSelection();
                     presentationLogic.hidePallet();
                     editorState.buttonState.updateAll();
 
