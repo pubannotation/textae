@@ -762,24 +762,31 @@
                         switch (edit.action) {
                             // span operations
                             case 'new_span':
-                                // model
-                                model.annotationData.addSpan({
-                                    begin: edit.begin,
-                                    end: edit.end
-                                });
-                                typesPerSpan[edit.id] = [];
-                                // rendering
+                                try {
+                                    // model
+                                    model.annotationData.addSpan({
+                                        begin: edit.begin,
+                                        end: edit.end
+                                    });
+                                    typesPerSpan[edit.id] = [];
+                                    // rendering
 
-                                // for prodcut
-                                renderer.renderSpan(edit.id);
-                                renderer.positions.indexPositionSpan(edit.id);
+                                    // for prodcut
+                                    renderer.renderSpan(edit.id);
+                                    renderer.positions.indexPositionSpan(edit.id);
 
-                                // for debug rerender all element.
-                                // span can not be renderd that over exists span.
-                                // renderer.renderAnnotation();
+                                    // for debug rerender all element.
+                                    // span can not be renderd that over exists span.
+                                    // renderer.renderAnnotation();
 
-                                // select
-                                domSelector.span.select(edit.id);
+                                    // select
+                                    domSelector.span.select(edit.id);
+                                } catch (e) {
+                                    // rollback model data unless dom create.
+                                    model.annotationData.removeSpan(edit.id);
+                                    throw e;
+                                }
+
                                 break;
                             case 'remove_span':
                                 //save span potision for undo
