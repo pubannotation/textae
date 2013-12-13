@@ -408,12 +408,25 @@
                             };
                             updateSpanIds();
                         },
-                        getSpan: function(spanId) {
-                            return model.annotationData.spans[spanId];
-                        },
                         removeSpan: function(spanId) {
                             delete model.annotationData.spans[spanId];
                             updateSpanIds();
+                        },
+                        getSpan: function(spanId) {
+                            return model.annotationData.spans[spanId];
+                        },
+                        getRangeOfSpan: function(firstId, secondId) {
+                            var firstIndex = model.annotationData.spanIds.indexOf(firstId);
+                            var secondIndex = model.annotationData.spanIds.indexOf(secondId);
+
+                            //switch if seconfIndex before firstIndex
+                            if (secondIndex < firstIndex) {
+                                var tmpIndex = firstIndex;
+                                firstIndex = secondIndex;
+                                secondIndex = tmpIndex;
+                            }
+
+                            return model.annotationData.spanIds.slice(firstIndex, secondIndex + 1);
                         },
                         //expected denotations Array of object like { "id": "T1", "span": { "begin": 19, "end": 49 }, "obj": "Cell" }.
                         parseDenotations: function(denotations) {
@@ -1722,7 +1735,7 @@
                     ) {
                         // bubbles go up
                         presentationLogic.cancelSelect();
-                        presentationLogic.dismissBrowserSelection();
+                        domSelector.dismissBrowserSelection();
                         return true;
                     }
 
@@ -1814,7 +1827,7 @@
                     }
                 }
 
-                presentationLogic.dismissBrowserSelection();
+                domSelector.dismissBrowserSelection();
                 cancelBubble(e);
             };
 
@@ -1825,24 +1838,16 @@
 
                 if (!selection.isCollapsed) {
                     if (e.shiftKey && domSelector.span.getNumberOfSelected() == 1) {
+                        //select reange of spans.
                         var firstId = domSelector.span.popSelectedId();
                         var secondId = $(this).attr('id');
 
-                        presentationLogic.dismissBrowserSelection();
+                        domSelector.dismissBrowserSelection();
                         domSelector.unselect();
 
-                        var firstIndex = model.annotationData.spanIds.indexOf(firstId);
-                        var secondIndex = model.annotationData.spanIds.indexOf(secondId);
-
-                        if (secondIndex < firstIndex) {
-                            var tmpIndex = firstIndex;
-                            firstIndex = secondIndex;
-                            secondIndex = tmpIndex;
-                        }
-
-                        for (var i = firstIndex; i <= secondIndex; i++) {
-                            domSelector.span.select(model.annotationData.spanIds[i]);
-                        }
+                        model.annotationData.getRangeOfSpan(firstId, secondId).forEach(function(spanId) {
+                            domSelector.span.select(spanId);
+                        });
 
                         editorState.buttonState.updateBySpan();
                     } else {
@@ -1926,6 +1931,11 @@
         }(this);
 
         var domSelector = {
+            // dismiss the default selection by the browser
+            dismissBrowserSelection: function() {
+                var selection = window.getSelection();
+                selection.collapse(document.body, 0);
+            },
             getSelecteds: function() {
                 return $('.ui-selected');
             },
@@ -2460,7 +2470,7 @@
                 cancelSelect: function() {
                     // if drag, bubble up
                     if (!window.getSelection().isCollapsed) {
-                        presentationLogic.dismissBrowserSelection();
+                        domSelector.dismissBrowserSelection();
                         return true;
                     }
 
@@ -2469,11 +2479,6 @@
                     editorState.buttonState.updateAll();
 
                     self.tool.cancelSelect();
-                },
-                // dismiss the default selection by the browser
-                dismissBrowserSelection: function() {
-                    var selection = window.getSelection();
-                    selection.collapse(document.body, 0);
                 },
                 selectLeftSpan: function() {
                     if (domSelector.span.getNumberOfSelected() == 1) {
