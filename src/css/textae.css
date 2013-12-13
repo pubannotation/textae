@@ -122,14 +122,11 @@
 
 .type {
     position: relative;
-    border-radius: 3px;
-    border-width: 1px;
-    border-style: solid;
-    background-color: #CCFFCC;
+    border-radius: 4px;
     text-align: center;
     white-space: nowrap;
     /*overflow: hidden;*/
-    font-size: xx-small;
+    font-size: small;
     user-select: none;
 }
 
