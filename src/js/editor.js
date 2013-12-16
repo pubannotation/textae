@@ -406,6 +406,19 @@
                                     return index === 0 ? null : model.annotationData.spanTree[index - 1];
                                 }
                             },
+                            //get the paragraph that span is belong to.
+                            getParagraphId: function() {
+                                var self = this;
+                                if (self) {
+                                    var match = model.annotationData.paragraphsArray.filter(function(p) {
+                                        return self.begin >= p.begin && self.end <= p.end;
+                                    });
+                                    if (match.length > 0) {
+                                        return match[0].id;
+                                    }
+                                }
+                                return null;
+                            },
                         });
                     };
 
@@ -1084,21 +1097,7 @@
 
                     //paragraphs is Object that has position of charactor at start and end of the statement in each paragraph.
                     var makeParagraphs = function() {
-                        var paragraphs = $.extend({}, {
-                            //get the paragraph that span is belong to.
-                            getBySid: function(sid) {
-                                var span = model.annotationData.getSpan(sid);
-                                if (span) {
-                                    for (var pid in renderer.paragraphs) {
-                                        var paragraph = renderer.paragraphs[pid];
-                                        if (span.begin >= paragraph.begin && span.end <= paragraph.end) {
-                                            return paragraph;
-                                        }
-                                    }
-                                }
-                                return null;
-                            },
-                        });
+                        var paragraphs = {};
 
                         //enchant id to paragraph element and chache it.
                         editor.getSourceDocArea().find('p').each(function(index, element) {
@@ -1205,13 +1204,13 @@
                         // get Range to that new span tag insert.
                         // this function works well when no child span is rendered. 
                         var getRangeToInsertSpanTag = function(spanId) {
-                            var paragraph = renderer.paragraphs.getBySid(currentSpan.id);
+                            var paragraph = renderer.paragraphs[currentSpan.getParagraphId()];
                             //bigBrother has same parent that is span or root of spanTree with currentSpan. 
                             //text arrounded currentSpan is in textNode after bigBrother if bigBrother exists.
                             //it is first child of parent unless bigBrother exists.
                             var bigBrother = currentSpan.getBigBrother();
                             if (bigBrother) {
-                                if (renderer.paragraphs.getBySid(bigBrother.id) === paragraph) {
+                                if (renderer.paragraphs[bigBrother.getParagraphId()] === paragraph) {
                                     //bigBrother in same paragraph of currentSpan.
                                     return createRange(document.getElementById(bigBrother.id).nextSibling, bigBrother.end);
                                 } else {
