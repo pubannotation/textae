@@ -436,7 +436,7 @@
                         },
                         removeSpan: function(spanId) {
                             delete model.annotationData.spans[spanId];
-                            console.log("delete " + model.annotationData.spans);
+                            typesPerSpan[spanId] = [];
                             updateSpanTree();
                         },
                         getSpan: function(spanId) {
@@ -486,6 +486,10 @@
                             var typeId = idFactory.makeTypeId(spanId, entity.type);
                             addTypeToSpan(spanId, typeId);
                             addEntityToType(typeId, entity.id);
+                        },
+                        removeTypeFromSpan: function(spanId, typeId) {
+                            var arr = typesPerSpan[spanId];
+                            arr.splice(arr.indexOf(typeId), 1);
                         },
                         parseParagraphs: function(sourceDoc) {
                             var paragraphsArray = [];
@@ -874,7 +878,6 @@
                                 edit.end = span.end;
                                 //model
                                 model.annotationData.removeSpan(edit.id);
-                                typesPerSpan[edit.id] = [];
                                 //rendering
                                 renderer.destroySpan(edit.id);
                                 renderer.renderGrid(edit.id);
@@ -917,8 +920,9 @@
                                 // consequence
                                 if (entitiesPerType[tid].length === 0) {
                                     delete entitiesPerType[tid];
-                                    arr = typesPerSpan[edit.span];
-                                    arr.splice(arr.indexOf(tid), 1);
+
+                                    model.annotationData.removeTypeFromSpan(edit.span, tid);
+
                                     renderer.destroyType(tid);
                                     renderer.renderGrid(edit.span);
                                 }
