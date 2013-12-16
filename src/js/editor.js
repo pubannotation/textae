@@ -404,7 +404,9 @@
 
                                 return this.toStringOnlyThis() + childrenString;
                             },
-                            //a big brother is brother node on a structure at rendered
+                            //a big brother is brother node on a structure at rendered.
+                            //thre is no big brother if the span is first in a paragrpah.
+                            //Warning: parent is set at updateSpanTree, is not exists now.
                             getBigBrother: function() {
                                 var index;
                                 if (this.parent) {
@@ -412,7 +414,7 @@
                                     return index === 0 ? null : this.parent.children[index - 1];
                                 } else {
                                     index = model.annotationData.spanTree.indexOf(this);
-                                    return index === 0 ? null : model.annotationData.spanTree[index - 1];
+                                    return index === 0 || model.annotationData.spanTree[index - 1].paragraph !== this.paragraph ? null : model.annotationData.spanTree[index - 1];
                                 }
                             },
                         });
@@ -1208,19 +1210,13 @@
                                 return createRange(textNodeInParagraph, paragraph.begin);
                             };
 
-                            //bigBrother has same parent that is span or root of spanTree with currentSpan. 
-                            //text arrounded currentSpan is in textNode after bigBrother if bigBrother exists.
-                            //it is first child of parent unless bigBrother exists.
+                            //the parent of the bigBrother is same withc currentSpan, whitc is a span or the root of spanTree. 
                             var bigBrother = currentSpan.getBigBrother();
                             if (bigBrother) {
-                                if (bigBrother.paragraph.id === currentSpan.paragraph.id) {
-                                    //bigBrother in same paragraph of currentSpan.
-                                    return createRange(document.getElementById(bigBrother.id).nextSibling, bigBrother.end);
-                                } else {
-                                    //parent is paragraph, because bigBrother's paragraph is different from currentSpan's.
-                                    return createRangeForFirstSpanInParagraph(currentSpan);
-                                }
+                                //the target text arrounded by currentSpan is in a textNode after the bigBrother if bigBrother exists.
+                                return createRange(document.getElementById(bigBrother.id).nextSibling, bigBrother.end);
                             } else {
+                                //the target text arrounded by currentSpan is the first child of parent unless bigBrother exists.
                                 if (currentSpan.parent) {
                                     //parent is span
                                     var textNodeInPrevSpan = $("#" + currentSpan.parent.id).contents().filter(function() {
