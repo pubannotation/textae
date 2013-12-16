@@ -374,18 +374,17 @@
                     var innerAddSpan = function(span) {
                         var spanId = idFactory.makeSpanId(span.begin, span.end);
 
-                        //extend span for rendering.
-                        model.annotationData.spans[spanId] = $.extend({
-                            begin: span.begin,
-                            end: span.end
-                        }, {
+                        //a span is exteded nondestructively to render.
+                        model.annotationData.spans[spanId] = $.extend({}, span, {
                             id: spanId,
                             isChildOf: function(maybeParent) {
                                 return maybeParent && maybeParent.begin <= span.begin && span.end <= maybeParent.end;
                             },
+                            //for debug. print myself only.
                             toStringOnlyThis: function() {
                                 return "span " + this.begin + ":" + this.end + ":" + model.sourceDoc.substring(this.begin, this.end);
                             },
+                            //for debug. print with children.
                             toString: function(depth) {
                                 depth = depth || 1; //default depth is 1
 
@@ -396,6 +395,7 @@
 
                                 return this.toStringOnlyThis() + childrenString;
                             },
+                            //a big brother is brother node on a structure at rendered
                             getBigBrother: function() {
                                 var index;
                                 if (this.parent) {
