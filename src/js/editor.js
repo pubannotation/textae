@@ -298,7 +298,6 @@
                 relationTypeDefault: "",
                 annotationData: function() {
                     var sortedSpanIds = null;
-                    var typesPerSpan;
 
                     var updateSpanTree = function() {
                         // sort the span IDs by the position
@@ -387,6 +386,8 @@
                         model.annotationData.spans[spanId] = $.extend({}, span, {
                             id: spanId,
                             paragraph: findParagraph(span),
+                            //type is one per one span.
+                            types: {},
                             isChildOf: function(maybeParent) {
                                 return maybeParent && maybeParent.begin <= span.begin && span.end <= maybeParent.end;
                             },
@@ -420,7 +421,7 @@
                             },
                             //get online for update is not grantieed.
                             getTypes: function() {
-                                return typesPerSpan[this.id];
+                                return Object.keys(this.types);
                             },
                         });
                     };
@@ -433,7 +434,6 @@
                             model.annotationData.spans = {};
                             model.annotationData.entities = {};
                             model.annotationData.relations = {};
-                            typesPerSpan = {};
                         },
                         //expected span is like { "begin": 19, "end": 49 }
                         addSpan: function(span) {
@@ -442,7 +442,6 @@
                         },
                         removeSpan: function(spanId) {
                             delete model.annotationData.spans[spanId];
-                            typesPerSpan[spanId] = [];
                             updateSpanTree();
                         },
                         getSpan: function(spanId) {
@@ -466,36 +465,23 @@
                                 return span;
                             });
                         },
+                        //span is alredy exists
                         addEntityToSpan: function(spanId, entity) {
-                            //type is one per one span.
-                            var addTypeToSpan = function(spanId, typeId) {
-                                var types = typesPerSpan[spanId];
-
-                                if (types) {
-                                    //first entity of span
-                                    if (types.indexOf(typeId) < 0) {
-                                        types.push(typeId);
-                                    }
+                            var addEntityToType = function(typeId, entityId) {
+                                if (entitiesPerType[typeId]) {
+                                    entitiesPerType[typeId].push(entityId);
                                 } else {
-                                    //first span
-                                    typesPerSpan[spanId] = [typeId];
+                                    entitiesPerType[typeId] = [entityId];
                                 }
-                            },
-                                addEntityToType = function(typeId, entityId) {
-                                    if (entitiesPerType[typeId]) {
-                                        entitiesPerType[typeId].push(entityId);
-                                    } else {
-                                        entitiesPerType[typeId] = [entityId];
-                                    }
-                                };
+                            };
 
                             var typeId = idFactory.makeTypeId(spanId, entity.type);
-                            addTypeToSpan(spanId, typeId);
+                            //span must have types as object.
+                            model.annotationData.spans[spanId].types[typeId] = true;
                             addEntityToType(typeId, entity.id);
                         },
                         removeTypeFromSpan: function(spanId, typeId) {
-                            var arr = typesPerSpan[spanId];
-                            arr.splice(arr.indexOf(typeId), 1);
+                            delete model.annotationData.spans[spanId].types[typeId];
                         },
                         parseParagraphs: function(sourceDoc) {
                             var paragraphsArray = [];
