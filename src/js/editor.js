@@ -298,6 +298,7 @@
                 relationTypeDefault: "",
                 annotationData: function() {
                     var sortedSpanIds = null;
+                    var typesPerSpan;
 
                     var updateSpanTree = function() {
                         // sort the span IDs by the position
@@ -417,6 +418,10 @@
                                     return index === 0 || model.annotationData.spanTree[index - 1].paragraph !== this.paragraph ? null : model.annotationData.spanTree[index - 1];
                                 }
                             },
+                            //get online for update is not grantieed.
+                            getTypes: function() {
+                                return typesPerSpan[this.id];
+                            },
                         });
                     };
 
@@ -428,6 +433,7 @@
                             model.annotationData.spans = {};
                             model.annotationData.entities = {};
                             model.annotationData.relations = {};
+                            typesPerSpan = {};
                         },
                         //expected span is like { "begin": 19, "end": 49 }
                         addSpan: function(span) {
@@ -685,7 +691,6 @@
         var connectors;
 
         // index
-        var typesPerSpan;
         var entitiesPerType;
         var relationsPerEntity;
 
@@ -837,6 +842,8 @@
             //context may be 'undo' or 'redo'.
             execute: function(commands, context) {
                 if (commands && commands.length > 0) {
+                    commands = command.util.uniq(commands);
+
                     switch (context) {
                         case 'undo':
                         case 'redo':
@@ -999,22 +1006,61 @@
                     }
                 }
             },
-            getReplicateSpanCommands: function(span) {
-                var nspans = model.getSpanReplications(span);
+            create: {
+                replicateSpanCommands: function(span) {
+                    var nspans = model.getSpanReplications(span);
 
-                var commands = [];
-                for (var j = 0; j < nspans.length; j++) {
-                    var nspan = nspans[j];
-                    var id = idFactory.makeSpanId(nspan.begin, nspan.end);
-                    commands.push({
-                        action: "new_span",
-                        id: id,
-                        begin: nspan.begin,
-                        end: nspan.end
+                    var commands = [];
+                    for (var j = 0; j < nspans.length; j++) {
+                        var nspan = nspans[j];
+                        var id = idFactory.makeSpanId(nspan.begin, nspan.end);
+                        commands.push({
+                            action: "new_span",
+                            id: id,
+                            begin: nspan.begin,
+                            end: nspan.end
+                        });
+                    }
+
+                    return commands;
+                },
+                removeSpanCommand: function(spanId) {
+                    return {
+                        action: 'remove_span',
+                        id: spanId,
+                    };
+                },
+                removeEntityCommand: function(entityId) {
+                    return {
+                        action: 'remove_denotation',
+                        id: entityId,
+                        span: model.annotationData.entities[entityId].span,
+                        type: model.annotationData.entities[entityId].type
+                    };
+                },
+                removeRelationCommand: function(relationId) {
+                    return {
+                        action: 'remove_relation',
+                        id: relationId,
+                        subj: model.annotationData.relations[relationId].subj,
+                        obj: model.annotationData.relations[relationId].obj,
+                        pred: model.annotationData.relations[relationId].pred
+                    };
+                },
+            },
+            util: {
+                uniq: function(commands) {
+                    var hash = {}, hashKey, result = [];
+
+                    commands.forEach(function(command) {
+                        hash[command.id] = command;
                     });
-                }
 
-                return commands;
+                    for (hashKey in hash) {
+                        result.push(hash[hashKey]);
+                    }
+                    return result;
+                },
             },
         };
 
@@ -1270,13 +1316,14 @@
 
                     //render entity of span
                     var renderEntitiesOfSpan = function(span) {
+                        var typeArray = span.getTypes();
                         // render grid unless span has entities.
-                        if (typesPerSpan[span.id]) {
+                        if (typeArray) {
                             //render a gird.
                             renderer.renderGrid(span.id);
 
                             //render entities.
-                            typesPerSpan[span.id].forEach(function(tid) {
+                            typeArray.forEach(function(tid) {
                                 entitiesPerType[tid].forEach(function(eid) {
                                     renderer.renderEntity(model.annotationData.entities[eid]);
                                 });
@@ -1425,16 +1472,9 @@
                     var gridId = 'G' + spanId,
                         $grid = $('#' + gridId);
 
-                    if (typesPerSpan[spanId].length < 1) {
-                        //delete $grid unless the span has types.
-                        if ($grid.length > 0) {
-                            $grid.remove();
-                            delete renderer.positions.grid[gridId];
-                        }
-                        return null;
-                    } else {
+                    if (model.annotationData.spans[spanId] && model.annotationData.spans[spanId].getTypes().length > 0) {
                         //height of $grid is adapt number of types on the span.
-                        var gridHeight = typesPerSpan[spanId].length * (renderer.renderSize.typeHeight + CONSTS.TYPE_MARGIN_BOTTOM + CONSTS.TYPE_MARGIN_TOP);
+                        var gridHeight = model.annotationData.spans[spanId].getTypes().length * (renderer.renderSize.typeHeight + CONSTS.TYPE_MARGIN_BOTTOM + CONSTS.TYPE_MARGIN_TOP);
 
                         var gridPosition = {
                             offset: CONSTS.TYPE_MARGIN_BOTTOM,
@@ -1455,6 +1495,13 @@
                         // for functions 'positionEntityPanel' and 'indexPositionEntity', to calculate position of entity.
                         renderer.positions.grid[gridId] = gridPosition;
                         return gridId;
+                    } else {
+                        //delete $grid unless the span has types.
+                        if ($grid.length > 0) {
+                            $grid.remove();
+                            delete renderer.positions.grid[gridId];
+                        }
+                        return null;
                     }
                 },
                 destroyType: function(typeId) {
@@ -1700,7 +1747,7 @@
                             begin: begin,
                             end: end
                         });
-                        typesPerSpan[sid].forEach(function(tid) {
+                        model.annotationData.spans[sid].getTypes().forEach(function(tid) {
                             entitiesPerType[tid].forEach(function(eid) {
                                 type = model.annotationData.entities[eid].type;
                                 commands.push({
@@ -1852,7 +1899,7 @@
                                 }];
 
                                 if (editorState.isReplicateAuto) {
-                                    var replicates = command.getReplicateSpanCommands({
+                                    var replicates = command.create.replicateSpanCommands({
                                         begin: beginPosition,
                                         end: endPosition
                                     });
@@ -2110,7 +2157,6 @@
                     model.annotationData.parseRelations(data.relations);
 
                     entitiesPerType = {};
-                    typesPerSpan = {};
                     relationsPerEntity = {};
 
                     connectors = {};
@@ -2251,7 +2297,7 @@
 
             replicate: function() {
                 if (domSelector.span.getNumberOfSelected() == 1) {
-                    command.execute(command.getReplicateSpanCommands(model.annotationData.spans[domSelector.span.getSelectedId()]));
+                    command.execute(command.create.replicateSpanCommands(model.annotationData.spans[domSelector.span.getSelectedId()]));
                 } else alert('You can replicate span annotation when there is only span selected.');
             },
 
@@ -2291,51 +2337,48 @@
             },
 
             removeSelectedElements: function() {
-                var spanRemoves = [];
+                var removeCommand = {
+                    spans: [],
+                    entities: [],
+                    relations: [],
+                    getAll: function() {
+                        return removeCommand.relations.concat(removeCommand.entities, removeCommand.spans);
+                    },
+                };
+
+                var removeEnitity = function(eid) {
+                    removeCommand.entities.push(command.create.removeEntityCommand(eid));
+                    if (relationsPerEntity[eid]) {
+                        Array.prototype.push.apply(removeCommand.relations, relationsPerEntity[eid].map(command.create.removeRelationCommand));
+                    }
+                };
+
+                //remove spans
                 domSelector.span.getSelecteds().each(function() {
                     var sid = this.id;
-                    spanRemoves.push({
-                        action: 'remove_span',
-                        id: sid
-                    });
-                    for (var t in typesPerSpan[sid]) {
-                        var tid = typesPerSpan[sid][t];
+                    removeCommand.spans.push(command.create.removeSpanCommand(sid));
+
+                    var typeArray = model.annotationData.spans[sid].getTypes();
+                    for (var t in typeArray) {
+                        var tid = typeArray[t];
                         for (var e in entitiesPerType[tid]) {
                             var eid = entitiesPerType[tid][e];
-                            domSelector.entity.select(eid);
+                            removeEnitity(eid);
                         }
                     }
                 });
 
-                var entityRemoves = [];
+                //remove entities
                 domSelector.entity.getSelecteds().each(function() {
                     var eid = this.title;
-                    entityRemoves.push({
-                        action: 'remove_denotation',
-                        id: eid,
-                        span: model.annotationData.entities[eid].span,
-                        type: model.annotationData.entities[eid].type
-                    });
-                    for (var r in relationsPerEntity[eid]) {
-                        var rid = relationsPerEntity[eid][r];
-                        renderer.relations.selectRelation(rid);
-                    }
+                    removeEnitity(eid);
                 });
 
-                var relationRemoves = [];
-                while (renderer.relations.relationIdsSelected.length > 0) {
-                    rid = renderer.relations.relationIdsSelected.pop();
-                    relationRemoves.push({
-                        action: 'remove_relation',
-                        id: rid,
-                        subj: model.annotationData.relations[rid].subj,
-                        obj: model.annotationData.relations[rid].obj,
-                        pred: model.annotationData.relations[rid].pred
-                    });
-                }
+                //remove relations
+                Array.prototype.push.apply(removeCommand.relations, renderer.relations.relationIdsSelected.map(command.create.removeRelationCommand));
+                renderer.relations.relationIdsSelected = [];
 
-                var commands = [].concat(relationRemoves, entityRemoves, spanRemoves);
-                command.execute(commands);
+                command.execute(removeCommand.getAll());
             },
 
             copyEntities: function() {
