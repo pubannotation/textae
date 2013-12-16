@@ -372,11 +372,20 @@
                     };
 
                     var innerAddSpan = function(span) {
+                        //get the paragraph that span is belong to.
+                        var findParagraph = function(self) {
+                            var match = model.annotationData.paragraphsArray.filter(function(p) {
+                                return self.begin >= p.begin && self.end <= p.end;
+                            });
+                            return match.length > 0 ? match[0] : null;
+                        };
+
                         var spanId = idFactory.makeSpanId(span.begin, span.end);
 
                         //a span is exteded nondestructively to render.
                         model.annotationData.spans[spanId] = $.extend({}, span, {
                             id: spanId,
+                            paragraph: findParagraph(span),
                             isChildOf: function(maybeParent) {
                                 return maybeParent && maybeParent.begin <= span.begin && span.end <= maybeParent.end;
                             },
@@ -405,19 +414,6 @@
                                     index = model.annotationData.spanTree.indexOf(this);
                                     return index === 0 ? null : model.annotationData.spanTree[index - 1];
                                 }
-                            },
-                            //get the paragraph that span is belong to.
-                            getParagraphId: function() {
-                                var self = this;
-                                if (self) {
-                                    var match = model.annotationData.paragraphsArray.filter(function(p) {
-                                        return self.begin >= p.begin && self.end <= p.end;
-                                    });
-                                    if (match.length > 0) {
-                                        return match[0].id;
-                                    }
-                                }
-                                return null;
                             },
                         });
                     };
@@ -1205,7 +1201,7 @@
                         // this function works well when no child span is rendered. 
                         var getRangeToInsertSpanTag = function(spanId) {
                             var createRangeForFirstSpanInParagraph = function(currentSpan) {
-                                var paragraph = renderer.paragraphs[currentSpan.getParagraphId()];
+                                var paragraph = renderer.paragraphs[currentSpan.paragraph.id];
                                 textNodeInParagraph = paragraph.element.contents().filter(function() {
                                     return this.nodeType === 3; //TEXT_NODE
                                 }).get(0);
@@ -1217,7 +1213,7 @@
                             //it is first child of parent unless bigBrother exists.
                             var bigBrother = currentSpan.getBigBrother();
                             if (bigBrother) {
-                                if (bigBrother.getParagraphId() === currentSpan.getParagraphId()) {
+                                if (bigBrother.paragraph.id === currentSpan.paragraph.id) {
                                     //bigBrother in same paragraph of currentSpan.
                                     return createRange(document.getElementById(bigBrother.id).nextSibling, bigBrother.end);
                                 } else {
