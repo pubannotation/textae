@@ -449,6 +449,20 @@
                                 return span;
                             });
                         },
+                        parseParagraphs: function(sourceDoc) {
+                            var paragraphsArray = [];
+                            var textLengthBeforeThisParagraph = 0;
+                            sourceDoc.split("\n").forEach(function(p, index, array) {
+                                paragraphsArray.push({
+                                    id: idFactory.makeParagraphId(index),
+                                    begin: textLengthBeforeThisParagraph,
+                                    end: textLengthBeforeThisParagraph + p.length,
+                                });
+
+                                textLengthBeforeThisParagraph += p.length + 1;
+                            });
+                            model.annotationData.paragraphsArray = paragraphsArray;
+                        },
                         //expected denotations Array of object like { "id": "T1", "span": { "begin": 19, "end": 49 }, "obj": "Cell" }.
                         parseDenotations: function(denotations) {
                             if (denotations) {
@@ -1086,22 +1100,17 @@
                             },
                         });
 
-                        var index = 0;
-                        var pre_len = 0;
-                        editor.getSourceDocArea().find('p').each(function() {
-                            var pid = idFactory.makeParagraphId(index);
-                            var $element = $(this);
-                            var numberOfCharactors = $element.text().length;
-                            paragraphs[pid] = {
-                                id: pid,
-                                begin: pre_len,
-                                end: pre_len + numberOfCharactors,
+                        //enchant id to paragraph element and chache it.
+                        editor.getSourceDocArea().find('p').each(function(index, element) {
+                            var $element = $(element);
+                            var paragraph = $.extend(model.annotationData.paragraphsArray[index], {
                                 element: $element,
-                            };
-                            pre_len += numberOfCharactors + 1;
-                            $element.attr('id', pid);
-                            index++;
+                            });
+                            $element.attr('id', paragraph.id);
+
+                            paragraphs[paragraph.id] = paragraph;
                         });
+
                         return paragraphs;
                     };
 
@@ -1140,22 +1149,19 @@
                         }
                     };
 
-                    setConnectorTypes();
+                    //render an source document
                     setBodyOffset();
-
-                    //add source doc
-                    var $textBox = editor.getSourceDocArea();
-                    $textBox.html(getTaggedSourceDoc());
-
+                    editor.getSourceDocArea().html(getTaggedSourceDoc());
                     renderer.paragraphs = makeParagraphs();
+
+                    //render annotations
                     editor.getAnnotationArea().empty();
-
                     renderer.renderSize.mesure();
-
                     renderer.positions.reset();
-
                     renderAllSpan();
 
+                    //render relations
+                    setConnectorTypes();
                     renderer.relations.renderRelations();
                 },
                 //size of class rendered really
@@ -2083,6 +2089,8 @@
                     model.sourceDoc = data.text;
 
                     model.annotationData.reset();
+
+                    model.annotationData.parseParagraphs(data.text);
                     model.annotationData.parseDenotations(data.denotations);
                     model.annotationData.parseRelations(data.relations);
 
