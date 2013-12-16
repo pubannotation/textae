@@ -460,6 +460,33 @@
                                 return span;
                             });
                         },
+                        addEntityToSpan: function(spanId, entity) {
+                            //type is one per one span.
+                            var addTypeToSpan = function(spanId, typeId) {
+                                var types = typesPerSpan[spanId];
+
+                                if (types) {
+                                    //first entity of span
+                                    if (types.indexOf(typeId) < 0) {
+                                        types.push(typeId);
+                                    }
+                                } else {
+                                    //first span
+                                    typesPerSpan[spanId] = [typeId];
+                                }
+                            },
+                                addEntityToType = function(typeId, entityId) {
+                                    if (entitiesPerType[typeId]) {
+                                        entitiesPerType[typeId].push(entityId);
+                                    } else {
+                                        entitiesPerType[typeId] = [entityId];
+                                    }
+                                };
+
+                            var typeId = idFactory.makeTypeId(spanId, entity.type);
+                            addTypeToSpan(spanId, typeId);
+                            addEntityToType(typeId, entity.id);
+                        },
                         parseParagraphs: function(sourceDoc) {
                             var paragraphsArray = [];
                             var textLengthBeforeThisParagraph = 0;
@@ -827,15 +854,9 @@
                                         begin: edit.begin,
                                         end: edit.end
                                     });
-                                    typesPerSpan[edit.id] = [];
+
                                     // rendering
-
-                                    // for prodcut
                                     renderer.renderSpan(edit.id);
-
-                                    // for debug rerender all element.
-                                    // span can not be renderd that over exists span.
-                                    // renderer.renderAnnotation();
 
                                     // select
                                     domSelector.span.select(edit.id);
@@ -873,15 +894,13 @@
                                 model.annotationData.entities[edit.id] = newEntity;
                                 tid = idFactory.makeTypeId(edit.span, edit.type);
 
-                                //first entity of span
-                                if (typesPerSpan[edit.span].indexOf(tid) < 0) {
-                                    typesPerSpan[edit.span].push(tid);
-                                    entitiesPerType[tid] = [];
-                                    renderer.renderGrid(edit.span);
-                                }
+                                model.annotationData.addEntityToSpan(edit.span, {
+                                    type: edit.type,
+                                    id: edit.id
+                                });
 
-                                entitiesPerType[tid].push(edit.id);
                                 // rendering
+                                renderer.renderGrid(edit.span);
                                 renderer.renderEntity(newEntity);
                                 // select
                                 domSelector.entity.select(edit.id);
@@ -2101,19 +2120,10 @@
 
                             model.entityTypes.incrementNumberOfTypes(entityType);
 
-                            var tid = idFactory.makeTypeId(spanId, entityType);
-                            if (typesPerSpan[spanId]) {
-
-                                if (typesPerSpan[spanId].indexOf(tid) < 0) typesPerSpan[spanId].push(tid);
-                            } else {
-                                typesPerSpan[spanId] = [tid];
-                            }
-
-                            if (entitiesPerType[tid]) {
-                                entitiesPerType[tid].push(d.id);
-                            } else {
-                                entitiesPerType[tid] = [d.id];
-                            }
+                            model.annotationData.addEntityToSpan(spanId, {
+                                type: d.obj,
+                                id: d.id
+                            });
                         });
                     }
 
