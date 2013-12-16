@@ -1204,21 +1204,25 @@
                         // get Range to that new span tag insert.
                         // this function works well when no child span is rendered. 
                         var getRangeToInsertSpanTag = function(spanId) {
-                            var paragraph = renderer.paragraphs[currentSpan.getParagraphId()];
+                            var createRangeForFirstSpanInParagraph = function(currentSpan) {
+                                var paragraph = renderer.paragraphs[currentSpan.getParagraphId()];
+                                textNodeInParagraph = paragraph.element.contents().filter(function() {
+                                    return this.nodeType === 3; //TEXT_NODE
+                                }).get(0);
+                                return createRange(textNodeInParagraph, paragraph.begin);
+                            };
+
                             //bigBrother has same parent that is span or root of spanTree with currentSpan. 
                             //text arrounded currentSpan is in textNode after bigBrother if bigBrother exists.
                             //it is first child of parent unless bigBrother exists.
                             var bigBrother = currentSpan.getBigBrother();
                             if (bigBrother) {
-                                if (renderer.paragraphs[bigBrother.getParagraphId()] === paragraph) {
+                                if (bigBrother.getParagraphId() === currentSpan.getParagraphId()) {
                                     //bigBrother in same paragraph of currentSpan.
                                     return createRange(document.getElementById(bigBrother.id).nextSibling, bigBrother.end);
                                 } else {
                                     //parent is paragraph, because bigBrother's paragraph is different from currentSpan's.
-                                    textNodeInParagraph = paragraph.element.contents().filter(function() {
-                                        return this.nodeType === 3; //TEXT_NODE
-                                    }).get(0);
-                                    return createRange(textNodeInParagraph, paragraph.begin);
+                                    return createRangeForFirstSpanInParagraph(currentSpan);
                                 }
                             } else {
                                 if (currentSpan.parent) {
@@ -1229,10 +1233,7 @@
                                     return createRange(textNodeInPrevSpan, currentSpan.parent.begin);
                                 } else {
                                     //parent is paragraph
-                                    textNodeInParagraph = paragraph.element.contents().filter(function() {
-                                        return this.nodeType === 3; //TEXT_NODE
-                                    }).get(0);
-                                    return createRange(textNodeInParagraph, paragraph.begin);
+                                    return createRangeForFirstSpanInParagraph(currentSpan);
                                 }
                             }
                         };
