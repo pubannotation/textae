@@ -2320,19 +2320,22 @@
                     return commands.map(revertCommand);
                 };
 
-                domSelector.unselect();
-                renderer.relations.clearRelationSelection();
+                if (command.history.hasAnythingToUndo()) {
+                    domSelector.unselect();
+                    renderer.relations.clearRelationSelection();
 
-                command.execute(getRevertCommands(command.history.prev()), 'undo');
+                    command.execute(getRevertCommands(command.history.prev()), 'undo');
+                    businessLogic.undo();
+                }
             },
 
             redo: function() {
-                domSelector.unselect();
-                renderer.relations.clearRelationSelection();
+                if (command.history.hasAnythingToRedo()) {
+                    domSelector.unselect();
+                    renderer.relations.clearRelationSelection();
 
-                command.execute(command.history.next(), 'redo');
-
-                return false;
+                    command.execute(command.history.next(), 'redo');
+                }
             },
 
             replicate: function() {
@@ -2504,7 +2507,12 @@
                     });
                     cursor.endWait();
                 },
-
+                showAccess: function() {
+                    loadSaveDialog.showAccess(targetUrl);
+                },
+                showSave: function() {
+                    loadSaveDialog.showSave(targetUrl, model.annotationData.toJason());
+                },
                 showPallet: function(point) {
                     //create table contents for entity type.
                     var makeEntityTypeOfEntityTypePallet = function() {
@@ -2575,11 +2583,9 @@
                     }
                     $pallet.css('display', 'block');
                 },
-
                 hidePallet: function() {
                     $('.textae-editor__entity-pallet').css('display', 'none');
                 },
-
                 redraw: function() {
                     var stickGridOnSpan = function(spanId) {
                         var gridId = 'G' + spanId;
@@ -2648,48 +2654,24 @@
 
         // public funcitons of editor
         var editorApi = {
-            //TODO: createEntity ~ undo is not public already.
-            createEntity: businessLogic.createEntity,
-            removeSelectedElements: businessLogic.removeSelectedElements,
-            copyEntities: businessLogic.copyEntities,
-            pasteEntities: businessLogic.pasteEntities,
-            replicate: businessLogic.replicate,
-            showPallet: presentationLogic.showPallet,
-            showAccess: function() {
-                loadSaveDialog.showAccess(targetUrl);
-            },
-            showSave: function() {
-                loadSaveDialog.showSave(targetUrl, model.annotationData.toJason());
-            },
-            newLabel: businessLogic.newLabel,
-            redo: function() {
-                if (command.history.hasAnythingToRedo()) {
-                    businessLogic.redo();
-                }
-            },
-            undo: function() {
-                if (command.history.hasAnythingToUndo()) {
-                    businessLogic.undo();
-                }
-            },
             start: function() {
                 startEdit();
             },
             handleKeyInput: function(key) {
                 var keyApiMap = {
-                    "A": editorApi.showAccess,
-                    "C": editorApi.copyEntities,
-                    "D": editorApi.removeSelectedElements,
-                    "DEL": editorApi.removeSelectedElements,
-                    "E": editorApi.createEntity,
-                    "Q": editorApi.showPallet,
-                    "R": editorApi.replicate,
-                    "S": editorApi.showSave,
-                    "V": editorApi.pasteEntities,
-                    "W": editorApi.newLabel,
-                    "X": editorApi.redo,
-                    "Y": editorApi.redo,
-                    "Z": editorApi.undo,
+                    "A": presentationLogic.showAccess,
+                    "C": businessLogic.copyEntities,
+                    "D": businessLogic.removeSelectedElements,
+                    "DEL": businessLogic.removeSelectedElements,
+                    "E": businessLogic.createEntity,
+                    "Q": presentationLogic.showPallet,
+                    "R": businessLogic.replicate,
+                    "S": presentationLogic.showSave,
+                    "V": businessLogic.pasteEntities,
+                    "W": businessLogic.newLabel,
+                    "X": businessLogic.redo,
+                    "Y": businessLogic.redo,
+                    "Z": businessLogic.undo,
                     "ESC": presentationLogic.cancelSelect,
                     "LEFT": presentationLogic.selectLeftSpan,
                     "RIGHT": presentationLogic.selectRightSpan,
@@ -2700,20 +2682,20 @@
             },
             handleButtonClick: function(event) {
                 var buttonApiMap = {
-                    "textae.control.button.read.click": editorApi.showAccess,
-                    "textae.control.button.write.click": editorApi.showSave,
-                    "textae.control.button.undo.click": editorApi.undo,
-                    "textae.control.button.redo.click": editorApi.redo,
-                    "textae.control.button.replicate.click": editorApi.replicate,
+                    "textae.control.button.read.click": presentationLogic.showAccess,
+                    "textae.control.button.write.click": presentationLogic.showSave,
+                    "textae.control.button.undo.click": businessLogic.undo,
+                    "textae.control.button.redo.click": businessLogic.redo,
+                    "textae.control.button.replicate.click": businessLogic.replicate,
                     "textae.control.button.replicate_auto.click": editorState.toggleReplicateAuto,
-                    "textae.control.button.entity.click": editorApi.createEntity,
-                    "textae.control.button.new_label.click": editorApi.newLabel,
+                    "textae.control.button.entity.click": businessLogic.createEntity,
+                    "textae.control.button.new_label.click": businessLogic.newLabel,
                     "textae.control.button.pallet.click": function() {
-                        editorApi.showPallet(event.point);
+                        presentationLogic.showPallet(event.point);
                     },
-                    "textae.control.button.delete.click": editorApi.removeSelectedElements,
-                    "textae.control.button.copy.click": editorApi.copyEntities,
-                    "textae.control.button.paste.click": editorApi.pasteEntities,
+                    "textae.control.button.delete.click": businessLogic.removeSelectedElements,
+                    "textae.control.button.copy.click": businessLogic.copyEntities,
+                    "textae.control.button.paste.click": businessLogic.pasteEntities,
                 };
                 buttonApiMap[event.name]();
             },
