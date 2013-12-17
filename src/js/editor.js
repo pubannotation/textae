@@ -2077,7 +2077,7 @@
                         .on('mouseup', '.textae-editor__span', spanClicked)
                         .on('mouseup', '.textae-editor__entity', entityClicked)
                         .on('mouseover mouseout', '.textae-editor__grid', gridMouseHover)
-                        .on('mouseup', '.textae-editor__body,.span,.entity,.grid', editorSelected);
+                        .on('mouseup', '.textae-editor__body,.textae-editor__span,.textae-editor__grid,.textae-editor__entity', editorSelected);
                 },
 
                 //connector clicked is bind by jsPlumb bind function.
