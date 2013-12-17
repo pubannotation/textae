@@ -1036,9 +1036,13 @@
                     };
                 },
                 removeEntityCommand: function(entityId) {
+                    //span and type are neccesary to undo.
+                    var entity = model.annotationData.entities[entityId];
                     return {
                         action: 'remove_denotation',
                         id: entityId,
+                        span: entity.span,
+                        type: entity.type,
                     };
                 },
                 removeRelationCommand: function(relationId) {
