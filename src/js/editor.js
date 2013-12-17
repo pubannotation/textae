@@ -298,6 +298,7 @@
                 relationTypeDefault: "",
                 annotationData: function() {
                     var sortedSpanIds = null;
+                    var entitiesPerType;
 
                     var updateSpanTree = function() {
                         // sort the span IDs by the position
@@ -372,20 +373,7 @@
                     };
 
                     var innerAddSpan = function(span) {
-                        //get the paragraph that span is belong to.
-                        var findParagraph = function(self) {
-                            var match = model.annotationData.paragraphsArray.filter(function(p) {
-                                return self.begin >= p.begin && self.end <= p.end;
-                            });
-                            return match.length > 0 ? match[0] : null;
-                        };
-
-                        var spanId = idFactory.makeSpanId(span.begin, span.end);
-
-                        //a span is exteded nondestructively to render.
-                        model.annotationData.spans[spanId] = $.extend({}, span, {
-                            id: spanId,
-                            paragraph: findParagraph(span),
+                        var additionalPropertiesForSpan = {
                             //type is one per one span.
                             types: {},
                             isChildOf: function(maybeParent) {
@@ -421,9 +409,36 @@
                             },
                             //get online for update is not grantieed.
                             getTypes: function() {
-                                return Object.keys(this.types);
-                            },
-                        });
+                                return $.map(this.types, function(value, key) {
+                                    return {
+                                        id: key,
+                                        name: value,
+                                        entities: entitiesPerType[key],
+                                    };
+                                });
+                            }
+                        };
+
+                        //get the paragraph that span is belong to.
+                        var findParagraph = function(self) {
+                            var match = model.annotationData.paragraphsArray.filter(function(p) {
+                                return self.begin >= p.begin && self.end <= p.end;
+                            });
+                            return match.length > 0 ? match[0] : null;
+                        };
+
+                        var spanId = idFactory.makeSpanId(span.begin, span.end);
+
+                        //add a span unless exists, because an annotations.json is defiend by entities so spans are added many times. 
+                        if (!model.annotationData.spans[spanId]) {
+                            //a span is exteded nondestructively to render.
+                            model.annotationData.spans[spanId] = $.extend({
+                                    id: spanId,
+                                    paragraph: findParagraph(span),
+                                },
+                                span,
+                                additionalPropertiesForSpan);
+                        }
                     };
 
                     return {
@@ -465,23 +480,47 @@
                                 return span;
                             });
                         },
-                        //span is alredy exists
-                        addEntityToSpan: function(spanId, entity) {
-                            var addEntityToType = function(typeId, entityId) {
-                                if (entitiesPerType[typeId]) {
-                                    entitiesPerType[typeId].push(entityId);
-                                } else {
-                                    entitiesPerType[typeId] = [entityId];
+                        //expected entiy like {id: "E21", span: "editor2__S50_54", type: "Protein"}.
+                        addEntity: function(entity) {
+                            //expect the span is alredy exists
+                            var addEntityToSpan = function(entity) {
+                                var addEntityToType = function(typeId, entityId) {
+                                    if (entitiesPerType[typeId]) {
+                                        entitiesPerType[typeId].push(entityId);
+                                    } else {
+                                        entitiesPerType[typeId] = [entityId];
+                                    }
+                                };
+
+                                var typeId = idFactory.makeTypeId(entity.span, entity.type);
+                                //span must have types as object.
+                                model.annotationData.spans[entity.span].types[typeId] = entity.type;
+                                addEntityToType(typeId, entity.id);
+                            };
+
+                            model.annotationData.entities[entity.id] = entity;
+                            addEntityToSpan(entity);
+                        },
+                        removeEnitity: function(entityId) {
+                            var removeEntityFromSpan = function(spanId, type, entityId) {
+                                'use strict';
+                                var typeId = idFactory.makeTypeId(spanId, type);
+
+                                //remove entity
+                                var arr = entitiesPerType[typeId];
+                                arr.splice(arr.indexOf(entityId), 1);
+
+                                //remove type
+                                if (entitiesPerType[typeId].length === 0) {
+                                    delete entitiesPerType[typeId];
+                                    delete model.annotationData.spans[spanId].types[typeId];
                                 }
                             };
 
-                            var typeId = idFactory.makeTypeId(spanId, entity.type);
-                            //span must have types as object.
-                            model.annotationData.spans[spanId].types[typeId] = true;
-                            addEntityToType(typeId, entity.id);
-                        },
-                        removeTypeFromSpan: function(spanId, typeId) {
-                            delete model.annotationData.spans[spanId].types[typeId];
+                            var endity = model.annotationData.entities[entityId];
+                            removeEntityFromSpan(endity.span, endity.type, entityId);
+                            delete model.annotationData.entities[entityId];
+                            return endity;
                         },
                         parseParagraphs: function(sourceDoc) {
                             var paragraphsArray = [];
@@ -500,14 +539,15 @@
                         //expected denotations Array of object like { "id": "T1", "span": { "begin": 19, "end": 49 }, "obj": "Cell" }.
                         parseDenotations: function(denotations) {
                             if (denotations) {
+                                entitiesPerType = {};
+
                                 denotations.forEach(function(entity) {
                                     innerAddSpan(entity.span);
-
-                                    model.annotationData.entities[entity.id] = {
+                                    model.annotationData.addEntity({
                                         id: entity.id,
                                         span: idFactory.makeSpanId(entity.span.begin, entity.span.end),
                                         type: entity.obj,
-                                    };
+                                    });
                                 });
 
                                 updateSpanTree();
@@ -677,7 +717,6 @@
         var connectors;
 
         // index
-        var entitiesPerType;
         var relationsPerEntity;
 
         // target URL
@@ -879,46 +918,26 @@
                                 // entity operations
                             case 'new_denotation':
                                 // model
-                                if (!edit.id) {
-                                    edit.id = model.annotationData.getNewEntityId();
-                                }
                                 var newEntity = {
-                                    id: edit.id,
+                                    id: edit.id || model.annotationData.getNewEntityId(),
                                     span: edit.span,
                                     type: edit.type
                                 };
-                                model.annotationData.entities[edit.id] = newEntity;
-                                tid = idFactory.makeTypeId(edit.span, edit.type);
-
-                                model.annotationData.addEntityToSpan(edit.span, {
-                                    type: edit.type,
-                                    id: edit.id
-                                });
+                                model.annotationData.addEntity(newEntity);
 
                                 // rendering
-                                renderer.renderGrid(edit.span);
+                                renderer.renderGrid(newEntity.span);
                                 renderer.renderEntity(newEntity);
                                 // select
                                 domSelector.entity.select(edit.id);
                                 break;
                             case 'remove_denotation':
                                 //model
-                                delete model.annotationData.entities[edit.id];
-                                tid = idFactory.makeTypeId(edit.span, edit.type);
-                                arr = entitiesPerType[tid];
-                                arr.splice(arr.indexOf(edit.id), 1);
+                                var deleteEntity = model.annotationData.removeEnitity(edit.id);
+
                                 //rendering
-                                renderer.destroyEntity(edit.id);
-                                renderer.positionEntityPanel(edit.span, edit.type);
-                                // consequence
-                                if (entitiesPerType[tid].length === 0) {
-                                    delete entitiesPerType[tid];
-
-                                    model.annotationData.removeTypeFromSpan(edit.span, tid);
-
-                                    renderer.destroyType(tid);
-                                    renderer.renderGrid(edit.span);
-                                }
+                                renderer.renderEntity(deleteEntity);
+                                renderer.renderGrid(deleteEntity.span);
                                 break;
                             case 'change_entity_type':
                                 //model
@@ -1020,8 +1039,6 @@
                     return {
                         action: 'remove_denotation',
                         id: entityId,
-                        span: model.annotationData.entities[entityId].span,
-                        type: model.annotationData.entities[entityId].type
                     };
                 },
                 removeRelationCommand: function(relationId) {
@@ -1309,9 +1326,9 @@
                             renderer.renderGrid(span.id);
 
                             //render entities.
-                            typeArray.forEach(function(tid) {
-                                entitiesPerType[tid].forEach(function(eid) {
-                                    renderer.renderEntity(model.annotationData.entities[eid]);
+                            typeArray.forEach(function(type) {
+                                type.entities.forEach(function(entityId) {
+                                    renderer.renderEntity(model.annotationData.entities[entityId]);
                                 });
                             });
                         }
@@ -1349,57 +1366,155 @@
                 },
                 //a circle on Type
                 renderEntity: function(entity) {
-                    //type has entity_pane has entities and label.
-                    var createType = function(type, typeId) {
-                        var $type = $('<div id="' + typeId + '"></div>');
-                        $type.addClass('textae-editor__type');
-                        $type.css('background-color', model.entityTypes.getType(type).getColor());
-                        $type.css('margin-top', CONSTS.TYPE_MARGIN_TOP);
-                        $type.css('margin-bottom', CONSTS.TYPE_MARGIN_BOTTOM);
-                        $type.attr('title', type);
-
-                        //type panel has entities
-                        $type.append('<div id="P-' + typeId + '" class="textae-editor__entity_pane"></div>');
-
-                        //label over span
-                        $type.append('<div class="textae-editor__type_label">' + type + '</div>');
-                        return $type;
+                    var doesModelHasEntity = function(entity) {
+                        return model.annotationData.entities[entity.id];
                     };
 
-                    //render type unless exists.
-                    var getTypeElement = function(spanId, type) {
-                        var typeId = idFactory.makeTypeId(spanId, type);
+                    var entityElement = {
+                        show: function(entity) {
+                            var getColor = function(type) {
+                                return model.entityTypes.getType(type).getColor();
+                            };
 
-                        var $type = $('#' + typeId);
-                        if ($type.length === 0) {
-                            $type = createType(type, typeId);
-                            $('#G' + spanId).append($type);
+                            var createDiv = function(entity) {
+                                var color = getColor(entity.type);
+
+                                return $("<div>")
+                                    .attr("id", idFactory.makeEntityDomId(entity.id))
+                                    .attr("title", entity.id)
+                                    .addClass("textae-editor__entity")
+                                    .css({
+                                        "display": "inline-block",
+                                        'border-color': color
+                                    });
+                            };
+
+                            //render type unless exists.
+                            var getTypeElement = function(spanId, type) {
+                                //type has entity_pane has entities and label.
+                                var createType = function(type, typeId) {
+                                    //entityPane has entities
+                                    var $entityPane = $("<div>")
+                                        .attr("id", "P-" + typeId)
+                                        .addClass("textae-editor__entity_pane");
+
+                                    //label over span
+                                    var $typeLabel = $("<div>").addClass("textae-editor__type_label").text(type);
+
+                                    return $("<div>")
+                                        .attr("id", typeId)
+                                        .addClass("textae-editor__type")
+                                        .css({
+                                            "background-color": getColor(type),
+                                            "margin-top": CONSTS.TYPE_MARGIN_TOP,
+                                            "margin-bottom": CONSTS.TYPE_MARGIN_BOTTOM,
+                                            "title": type
+                                        })
+                                        .append($entityPane)
+                                        .append($typeLabel);
+                                };
+
+                                var typeId = idFactory.makeTypeId(spanId, type);
+
+                                var $type = $('#' + typeId);
+                                if ($type.length === 0) {
+                                    $type = createType(type, typeId);
+                                    $('#G' + spanId).append($type);
+                                }
+
+                                return $type;
+                            };
+
+                            //create entity element unless exists
+                            if (domSelector.entity.get(entity.id).length === 0) {
+                                var $entity = createDiv(entity);
+
+                                //append to the type
+                                getTypeElement(entity.span, entity.type)
+                                    .find(".textae-editor__entity_pane")
+                                    .append($entity);
+
+                                renderer.positions.indexPositionEntity(entity.id);
+                            }
+
+                        },
+                        hide: function(entity) {
+                            var isTypeNotExists = function(typeName) {
+                                return model.annotationData.spans[entity.span].getTypes().filter(function(type) {
+                                    return type.name == typeName;
+                                }).length === 0;
+                            };
+
+                            domSelector.entity.get(entity.id).remove();
+
+                            //delete type if no entity.
+                            if (isTypeNotExists(entity.type)) {
+                                $('#' + idFactory.makeTypeId(entity.span, entity.type)).remove();
+                            }
+                        },
+                    };
+
+                    //show entity when model has that entity.
+                    if (doesModelHasEntity(entity)) {
+                        entityElement.show(entity);
+                    } else {
+                        entityElement.hide(entity);
+                    }
+                },
+                renderGrid: function(spanId) {
+                    var doesSpanHasType = function(spanId) {
+                        return model.annotationData.spans[spanId] && model.annotationData.spans[spanId].getTypes().length > 0;
+                    };
+
+                    var gridElement = {
+                        show: function(gridId) {
+                            var createDiv = function(id) {
+                                return $("<div>")
+                                    .attr("id", id)
+                                    .addClass('textae-editor__grid');
+                            };
+
+                            var getGrid = function(gridId) {
+                                $grid = $('#' + gridId);
+                                if ($grid.length === 0) {
+                                    $grid = createDiv(gridId);
+
+                                    //append to the annotation area.
+                                    editor.getAnnotationArea().append($grid);
+                                }
+                                return $grid;
+                            };
+
+                            var setPosition = function($grid, gridPosition) {
+                                $grid.css({
+                                    'position': 'absolute',
+                                    'top': gridPosition.top,
+                                    'left': gridPosition.left,
+                                    'width': gridPosition.width,
+                                    'height': gridPosition.height
+                                });
+                            };
+
+                            var $grid = getGrid(gridId);
+                            var gridPosition = renderer.positions.getGridPosition(spanId);
+                            setPosition($grid, gridPosition);
+
+                            // for functions 'indexPositionEntity', to calculate position of entity.
+                            renderer.positions.grid[gridId] = gridPosition;
+                        },
+                        hide: function(gridId) {
+                            $grid = $('#' + gridId);
+                            $grid.remove();
+                            delete renderer.positions.grid[gridId];
                         }
-
-                        return $type;
                     };
 
-                    var createElement = function(entityId) {
-                        var $entity = $('<div id="' + idFactory.makeEntityDomId(entityId) + '" class="textae-editor__entity" />');
-                        $entity.attr('title', entityId);
-                        $entity.css('display: inline-block');
-
-                        var type = model.annotationData.entities[entityId].type;
-                        $entity.css('border-color', model.entityTypes.getType(type).getColor());
-
-                        return $entity;
-                    };
-
-                    //create entity element unless exists
-                    if (domSelector.entity.get(entity.id).length === 0) {
-                        var $entity = createElement(entity.id);
-
-                        getTypeElement(entity.span, entity.type)
-                            .find(".textae-editor__entity_pane")
-                            .append($entity);
-
-                        renderer.positionEntityPanel(entity.span, entity.type);
-                        renderer.positions.indexPositionEntity(entity.id);
+                    //show grid when the span has types.
+                    var gridId = 'G' + spanId;
+                    if (doesSpanHasType(spanId)) {
+                        gridElement.show(gridId);
+                    } else {
+                        gridElement.hide(gridId);
                     }
                 },
                 positions: {
@@ -1424,82 +1539,35 @@
                         };
                     },
                     indexPositionEntity: function(entityId) {
-                        var gridId = 'G' + model.annotationData.entities[entityId].span;
-                        var $entity = domSelector.entity.get(entityId);
+                        var spanId = model.annotationData.entities[entityId].span;
 
+                        var $entity = domSelector.entity.get(entityId);
                         if ($entity.length === 0) {
                             throw new Error("entity is not rendered : " + entityId);
                         }
 
                         //use to calculate relation curvines.
+                        var gridPosition = renderer.positions.getGridPosition(spanId);
                         renderer.positions.entity[entityId] = {
-                            top: renderer.positions.grid[gridId].top + $entity.get(0).offsetTop,
-                            left: renderer.positions.grid[gridId].left + $entity.get(0).offsetLeft,
+                            top: gridPosition.top + $entity.get(0).offsetTop,
+                            left: gridPosition.left + $entity.get(0).offsetLeft,
                             width: $entity.outerWidth(),
                             height: $entity.outerHeight(),
-                            center: renderer.positions.grid[gridId].left + $entity.get(0).offsetLeft + $entity.outerWidth() / 2,
+                            center: gridPosition.left + $entity.get(0).offsetLeft + $entity.outerWidth() / 2,
                         };
                     },
-                },
-                renderGrid: function(spanId) {
-                    var createDiv = function(id, cls, top, left, width, height, title) {
-                        editor.getAnnotationArea().append('<div id="' + id + '"></div');
-                        var div = $('#' + id);
-                        div.addClass(cls);
-                        div.attr('title', title);
-                        div.css('position', 'absolute');
-                        div.css('top', top);
-                        div.css('left', left);
-                        div.css('width', width);
-                        div.css('height', height);
-                        return id;
-                    };
-
-                    var gridId = 'G' + spanId,
-                        $grid = $('#' + gridId);
-
-                    if (model.annotationData.spans[spanId] && model.annotationData.spans[spanId].getTypes().length > 0) {
-                        //height of $grid is adapt number of types on the span.
+                    //height of $grid is adapt number of types on the span.
+                    getGridPosition: function(spanId) {
                         var gridHeight = model.annotationData.spans[spanId].getTypes().length * (renderer.renderSize.typeHeight + CONSTS.TYPE_MARGIN_BOTTOM + CONSTS.TYPE_MARGIN_TOP);
-
-                        var gridPosition = {
+                        return {
                             offset: CONSTS.TYPE_MARGIN_BOTTOM,
                             top: renderer.positions.span[spanId].top - CONSTS.TYPE_MARGIN_BOTTOM - gridHeight,
                             left: renderer.positions.span[spanId].left,
                             width: renderer.positions.span[spanId].width - renderer.renderSize.gridWidthGap,
                             height: gridHeight,
                         };
+                    },
 
-                        if ($grid.length === 0) {
-                            createDiv(gridId, 'textae-editor__grid', gridPosition.top, gridPosition.left, gridPosition.width, gridPosition.height);
-                        } else {
-                            $grid.css('top', gridPosition.top);
-                            $grid.css('left', gridPosition.left);
-                            $grid.css('height', gridPosition.height); //entity may be added.
-                        }
-
-                        // for functions 'positionEntityPanel' and 'indexPositionEntity', to calculate position of entity.
-                        renderer.positions.grid[gridId] = gridPosition;
-                        return gridId;
-                    } else {
-                        //delete $grid unless the span has types.
-                        if ($grid.length > 0) {
-                            $grid.remove();
-                            delete renderer.positions.grid[gridId];
-                        }
-                        return null;
-                    }
-                },
-                destroyType: function(typeId) {
-                    $('#' + typeId).remove();
-                },
-                positionEntityPanel: function(spanId, type) {
-                    var typeId = idFactory.makeTypeId(spanId, type);
-                    var left = (renderer.positions.grid['G' + spanId].width - renderer.renderSize.entityWidth * entitiesPerType[typeId].length) / 2;
-                    $('#P-' + typeId).css('left', left);
-                },
-                destroyEntity: function(entityId) {
-                    domSelector.entity.get(entityId).remove();
                 },
                 relations: function() {
                     var determineCurviness = function(sourceId, targetId) {
@@ -1719,13 +1787,13 @@
                     return pos;
                 };
 
-                var moveSpan = function(sid, begin, end) {
+                var moveSpan = function(spanId, begin, end) {
                     var commands = [];
                     var new_sid = idFactory.makeSpanId(begin, end);
                     if (!model.annotationData.spans[new_sid]) {
                         commands.push({
                             action: 'remove_span',
-                            id: sid
+                            id: spanId
                         });
                         commands.push({
                             action: 'new_span',
@@ -1733,14 +1801,13 @@
                             begin: begin,
                             end: end
                         });
-                        model.annotationData.spans[sid].getTypes().forEach(function(tid) {
-                            entitiesPerType[tid].forEach(function(eid) {
-                                type = model.annotationData.entities[eid].type;
+                        model.annotationData.spans[spanId].getTypes().forEach(function(type) {
+                            type.entities.forEach(function(entityId) {
                                 commands.push({
                                     action: 'new_denotation',
-                                    id: eid,
+                                    id: entityId,
                                     span: new_sid,
-                                    type: type
+                                    type: type.name
                                 });
                             });
                         });
@@ -2133,36 +2200,24 @@
                         return;
                     }
 
-                    //parse
+                    //parse a souce document.
                     model.sourceDoc = data.text;
 
+                    //parse denotaitons.
                     model.annotationData.reset();
-
                     model.annotationData.parseParagraphs(data.text);
                     model.annotationData.parseDenotations(data.denotations);
                     model.annotationData.parseRelations(data.relations);
-
-                    entitiesPerType = {};
-                    relationsPerEntity = {};
-
-                    connectors = {};
-
                     if (data.denotations !== undefined) {
                         data.denotations.forEach(function(d) {
-                            //expected d is like { "id": "T1", "span": { "begin": 19, "end": 49 }, "obj": "Cell" }
-                            var span = d.span;
-                            var spanId = idFactory.makeSpanId(span.begin, span.end);
-                            var entityType = d.obj;
-
-                            model.entityTypes.incrementNumberOfTypes(entityType);
-
-                            model.annotationData.addEntityToSpan(spanId, {
-                                type: d.obj,
-                                id: d.id
-                            });
+                            //d.obj is type of entity.
+                            model.entityTypes.incrementNumberOfTypes(d.obj);
                         });
                     }
 
+                    //parse relations.
+                    relationsPerEntity = {};
+                    connectors = {};
                     if (data.relations !== undefined) {
                         data.relations.forEach(function(r) {
                             if (!model.relationTypes[r.pred]) {
@@ -2193,7 +2248,6 @@
                         });
                     }
                 };
-
 
                 parseAnnotationJson(annotation);
                 command.history.init();
@@ -2341,23 +2395,20 @@
 
                 //remove spans
                 domSelector.span.getSelecteds().each(function() {
-                    var sid = this.id;
-                    removeCommand.spans.push(command.create.removeSpanCommand(sid));
+                    var spanId = this.id;
+                    removeCommand.spans.push(command.create.removeSpanCommand(spanId));
 
-                    var typeArray = model.annotationData.spans[sid].getTypes();
-                    for (var t in typeArray) {
-                        var tid = typeArray[t];
-                        for (var e in entitiesPerType[tid]) {
-                            var eid = entitiesPerType[tid][e];
-                            removeEnitity(eid);
-                        }
-                    }
+                    model.annotationData.spans[spanId].getTypes().forEach(function(type) {
+                        type.entities.forEach(function(entityId) {
+                            removeEnitity(entityId);
+                        });
+                    });
                 });
 
                 //remove entities
                 domSelector.entity.getSelecteds().each(function() {
-                    var eid = this.title;
-                    removeEnitity(eid);
+                    //an entity element has the entityId in title. an id is per Editor.
+                    removeEnitity(this.title);
                 });
 
                 //remove relations

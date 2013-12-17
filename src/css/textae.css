@@ -75,9 +75,12 @@
     text-align: center;
     white-space: nowrap;
     font-size: small;
+    height: 16px;
 }
 
 .textae-editor__type_label {
+    position: absolute;
+    top: 0;
     width: 100%;
     overflow: hidden;
     -webkit-touch-callout: none;
@@ -93,9 +96,9 @@
 }
 
 .textae-editor__entity_pane {
-    position: absolute;
+    position: relative;
     top:-10px;
-    text-align: center;
+    margin: 0 auto;
 }
 
 .textae-editor__entity {
