@@ -181,127 +181,6 @@
             };
         }(this);
 
-        //load/saveDialog
-        var loadSaveDialog = function() {
-            var getLoadDialog = function() {
-                $body = $("body");
-                var $dialog = $body.find("#textae.dialog.load");
-
-                //make unless exists
-                if ($dialog.length === 0) {
-                    $dialog = $('<div id="textae.dialog.load" title="Load document with annotation.">')
-                        .append('<div>Sever :<input type="text" style="width:345px"/><input type="button" value="OK" /></div>')
-                        .append('<div>Local :<input type="file"　/></div>');
-
-                    //bind event handler
-                    var onFileChange = function() {
-                        var reader = new FileReader();
-                        reader.onload = function() {
-                            var annotation = JSON.parse(this.result);
-                            businessLogic.loadAnnotation(annotation);
-                            $dialog.dialog("close");
-                        };
-                        reader.readAsText(this.files[0]);
-                    };
-
-                    $body.append($dialog);
-                    $dialog.hide();
-                    $dialog.find("input[type='file']").on("change", onFileChange);
-                    $dialog.find("input[type='button']")
-                        .on("click", function() {
-                            var url = $dialog.find("input[type='text']").val();
-                            businessLogic.getAnnotationFromServer(url);
-                            $dialog.dialog("close");
-                        });
-                }
-
-                return $dialog;
-            };
-            return {
-                showAccess: function(targetUrl) {
-                    var $dialog = getLoadDialog();
-                    $dialog
-                        .find("input[type='text']")
-                        .val(targetUrl);
-                    $dialog
-                        .dialog({
-                            resizable: false,
-                            width: 550,
-                            height: 220,
-                            modal: true,
-                            buttons: {
-                                Cancel: function() {
-                                    $(this).dialog("close");
-                                }
-                            }
-                        });
-                },
-                showSave: function(url, content) {
-                    var getSaveDialog = function() {
-                        $body = $("body");
-                        var $dialog = $body.find("#textae.dialog.save");
-                        if ($dialog.length === 0) {
-                            $dialog = $('<div id="textae.dialog.save" title="Save document with annotation.">')
-                                .append('<div>Sever :<input type="text" style="width:345px"/><input type="button" value="OK" /></div>')
-                                .append('<div>Local :<span class="span_link_place"><a target="_blank"/></span></div>');
-
-                            $body.append($dialog);
-                            $dialog.hide();
-                            $dialog
-                                .on("click", "a", function() {
-                                    businessLogic.saveAnnotation();
-                                    $dialog.dialog("close");
-                                })
-                                .on("click", "input[type='button']", function() {
-                                    var url = $dialog.find("input[type='text']").val();
-                                    businessLogic.saveAnnotationToServer(url);
-                                    $dialog.dialog("close");
-                                });
-
-                        }
-
-                        return $dialog;
-                    };
-
-                    var createFileLink = function(contents, $save_dialog) {
-                        var $fileInput = getLoadDialog().find("input[type='file']");
-
-                        var file = $fileInput.prop("files")[0];
-                        var name = file ? file.name : "annotations.json";
-                        var blob = new Blob([contents], {
-                            type: 'application/json'
-                        });
-                        var link = $save_dialog.find('a')
-                            .text(name)
-                            .attr("href", URL.createObjectURL(blob))
-                            .attr("download", name);
-                    };
-
-                    var $dialog = getSaveDialog();
-
-                    //create local link
-                    createFileLink(content, $dialog);
-
-                    //open dialog
-                    $dialog
-                        .find("input[type='text']")
-                        .val(url);
-                    $dialog
-                        .dialog({
-                            resizable: false,
-                            width: 550,
-                            height: 220,
-                            modal: true,
-                            buttons: {
-                                Cancel: function() {
-                                    $(this).dialog("close");
-                                }
-                            }
-                        });
-                }
-            };
-        }();
-
         // state of editor component.
         var editorState = function(editor) {
             return {
@@ -887,9 +766,6 @@
         // index
         var relationsPerEntity;
 
-        // target URL
-        var targetUrl = '';
-
         // constant values
         var CONSTS = {
             BLOCK_THRESHOLD: 100,
@@ -955,7 +831,7 @@
             }
 
             if (params.target && params.target !== "") {
-                businessLogic.getAnnotationFromServer(params.target);
+                dataAccessObject.getAnnotationFromServer(params.target);
             }
         }.bind(this);
 
@@ -1204,9 +1080,13 @@
                     };
                 },
                 removeEntityCommand: function(entityId) {
+                    //span and type are neccesary to undo.
+                    var entity = model.annotationData.entities[entityId];
                     return {
                         action: 'remove_denotation',
                         id: entityId,
+                        span: entity.span,
+                        type: entity.type,
                     };
                 },
                 removeRelationCommand: function(relationId) {
@@ -2245,7 +2125,7 @@
                         .on('mouseup', '.textae-editor__span', spanClicked)
                         .on('mouseup', '.textae-editor__entity', entityClicked)
                         .on('mouseover mouseout', '.textae-editor__grid', gridMouseHover)
-                        .on('mouseup', '.textae-editor__body,.span,.entity,.grid', editorSelected);
+                        .on('mouseup', '.textae-editor__body,.textae-editor__span,.textae-editor__grid,.textae-editor__entity', editorSelected);
                 },
 
                 //connector clicked is bind by jsPlumb bind function.
@@ -2421,24 +2301,9 @@
                 command.history.init();
 
                 renderer.renderAnnotation();
-                presentationLogic.showTarget(targetUrl);
             },
-            getAnnotationFromServer: function(url) {
-                targetUrl = url;
-                cursor.startWait();
-                textAeUtil.ajaxAccessor.getAsync(url, businessLogic.loadAnnotation, function() {
-                    cursor.endWait();
-                });
-            },
-            saveAnnotation: function() {
+            saveHistory: function() {
                 command.history.saved();
-            },
-            saveAnnotationToServer: function(url) {
-                cursor.startWait();
-                var postData = model.annotationData.toJason();
-                textAeUtil.ajaxAccessor.post(url, postData, presentationLogic.showSaveSuccess, presentationLogic.showSaveError, function() {
-                    cursor.endWait();
-                });
             },
             undo: function() {
                 var revertCommand = function(command) {
@@ -2488,19 +2353,22 @@
                     return commands.map(revertCommand);
                 };
 
-                domSelector.unselect();
-                renderer.relations.clearRelationSelection();
+                if (command.history.hasAnythingToUndo()) {
+                    domSelector.unselect();
+                    renderer.relations.clearRelationSelection();
 
-                command.execute(getRevertCommands(command.history.prev()), 'undo');
+                    command.execute(getRevertCommands(command.history.prev()), 'undo');
+                    businessLogic.undo();
+                }
             },
 
             redo: function() {
-                domSelector.unselect();
-                renderer.relations.clearRelationSelection();
+                if (command.history.hasAnythingToRedo()) {
+                    domSelector.unselect();
+                    renderer.relations.clearRelationSelection();
 
-                command.execute(command.history.next(), 'redo');
-
-                return false;
+                    command.execute(command.history.next(), 'redo');
+                }
             },
 
             replicate: function() {
@@ -2635,8 +2503,118 @@
             }
         };
 
-        //user event that does not change data.
-        var presentationLogic = function(self) {
+        //this object respose to save and load data.
+        var dataAccessObject = function(self) {
+            //load/saveDialog
+            var loadSaveDialog = function() {
+                var getLoadDialog = function() {
+                    $body = $("body");
+                    var $dialog = $body.find("#textae.dialog.load");
+
+                    //make unless exists
+                    if ($dialog.length === 0) {
+                        $dialog = $('<div id="textae.dialog.load" title="Load document with annotation.">')
+                            .append('<div>Sever :<input type="text" style="width:345px"/><input type="button" value="OK" /></div>')
+                            .append('<div>Local :<input type="file"　/></div>')
+                            .hide()
+                            .on("change", "input[type='file']",
+                                function() {
+                                    dataAccessObject.getAnnotationFromFile(this);
+                                    $dialog.dialog("close");
+                                })
+                            .on("click", "input[type='button']",
+                                function() {
+                                    var url = $dialog.find("input[type='text']").val();
+                                    dataAccessObject.getAnnotationFromServer(url);
+                                    $dialog.dialog("close");
+                                });
+                        $body.append($dialog);
+                    }
+
+                    return $dialog;
+                };
+                return {
+                    showLoad: function(url) {
+                        var $dialog = getLoadDialog();
+                        $dialog
+                            .find("input[type='text']")
+                            .val(url);
+                        $dialog
+                            .dialog({
+                                resizable: false,
+                                width: 550,
+                                height: 220,
+                                modal: true,
+                                buttons: {
+                                    Cancel: function() {
+                                        $(this).dialog("close");
+                                    }
+                                }
+                            });
+                    },
+                    showSave: function(url, downloadPath) {
+                        var getSaveDialog = function() {
+                            $body = $("body");
+                            var $dialog = $body.find("#textae.dialog.save");
+                            if ($dialog.length === 0) {
+                                $dialog = $('<div id="textae.dialog.save" title="Save document with annotation.">')
+                                    .append('<div>Sever :<input type="text" style="width:345px"/><input type="button" value="OK" /></div>')
+                                    .append('<div>Local :<span class="span_link_place"><a target="_blank"/></span></div>');
+
+                                $body.append($dialog);
+                                $dialog.hide();
+                                $dialog
+                                    .on("click", "a", function() {
+                                        businessLogic.saveHistory();
+                                        $dialog.dialog("close");
+                                    })
+                                    .on("click", "input[type='button']", function() {
+                                        var url = $dialog.find("input[type='text']").val();
+                                        dataAccessObject.saveAnnotationToServer(url);
+                                        $dialog.dialog("close");
+                                    });
+
+                            }
+
+                            return $dialog;
+                        };
+
+                        var createFileLink = function($save_dialog, downloadPath) {
+                            var $fileInput = getLoadDialog().find("input[type='file']");
+
+                            var file = $fileInput.prop("files")[0];
+                            var name = file ? file.name : "annotations.json";
+                            var link = $save_dialog.find('a')
+                                .text(name)
+                                .attr("href", downloadPath)
+                                .attr("download", name);
+                        };
+
+                        var $dialog = getSaveDialog();
+
+                        //create local link
+                        createFileLink($dialog, downloadPath);
+
+                        //open dialog
+                        $dialog
+                            .find("input[type='text']")
+                            .val(url);
+                        $dialog
+                            .dialog({
+                                resizable: false,
+                                width: 550,
+                                height: 220,
+                                modal: true,
+                                buttons: {
+                                    Cancel: function() {
+                                        $(this).dialog("close");
+                                    }
+                                }
+                            });
+                    }
+                };
+            }();
+
             var getMessageArea = function() {
                 $messageArea = self.find('.textae-editor__footer .textae-editor__footer__message');
                 if ($messageArea.length === 0) {
@@ -2650,29 +2628,78 @@
                 return $messageArea;
             };
 
-            return {
-                showTarget: function(targetUrl) {
-                    if (targetUrl !== "") {
-                        var targetDoc = targetUrl.replace(/\/annotations\.json$/, '');
-                        getMessageArea().html("(Target: <a href='" + targetDoc + "'>" + targetDoc + "</a>)");
-                    }
-                },
-                showSaveSuccess: function() {
-                    getMessageArea().html("annotation saved").fadeIn().fadeOut(5000, function() {
-                        $(this).html('').removeAttr('style');
-                        presentationLogic.showTarget(targetUrl);
-                    });
-                    command.history.saved();
-                    cursor.endWait();
-                },
-                showSaveError: function() {
-                    getMessageArea.html("could not save").fadeIn().fadeOut(5000, function() {
-                        $(this).html('').removeAttr('style');
-                        presentationLogic.showTarget(targetUrl);
-                    });
-                    cursor.endWait();
-                },
+            var showSaveSuccess = function() {
+                getMessageArea().html("annotation saved").fadeIn().fadeOut(5000, function() {
+                    $(this).html('').removeAttr('style');
+                    setDataSourceUrl(dataSourceUrl);
+                });
+                command.history.saved();
+                cursor.endWait();
+            };
 
+            var showSaveError = function() {
+                getMessageArea.html("could not save").fadeIn().fadeOut(5000, function() {
+                    $(this).html('').removeAttr('style');
+                    setDataSourceUrl(dataSourceUrl);
+                });
+                cursor.endWait();
+            };
+
+            var setDataSourceUrl = function(url) {
+                if (url !== "") {
+                    var targetDoc = url.replace(/\/annotations\.json$/, '');
+                    getMessageArea().html("(Target: <a href='" + targetDoc + "'>" + targetDoc + "</a>)");
+                    dataSourceUrl = url;
+                }
+            };
+
+            var dataSourceUrl = "";
+
+            return {
+                getAnnotationFromServer: function(url) {
+                    cursor.startWait();
+                    textAeUtil.ajaxAccessor.getAsync(url, function(data) {
+                        businessLogic.loadAnnotation(data);
+                        setDataSourceUrl(url);
+                    }, function() {
+                        cursor.endWait();
+                    });
+                },
+                getAnnotationFromFile: function(fileEvent) {
+                    var reader = new FileReader();
+                    reader.onload = function() {
+                        var annotation = JSON.parse(this.result);
+                        businessLogic.loadAnnotation(annotation);
+                    };
+                    reader.readAsText(fileEvent.files[0]);
+                },
+                saveAnnotationToServer: function(url) {
+                    cursor.startWait();
+                    var postData = model.annotationData.toJason();
+                    textAeUtil.ajaxAccessor.post(url, postData, showSaveSuccess, showSaveError, function() {
+                        cursor.endWait();
+                    });
+                    businessLogic.saveHistory();
+                },
+                showAccess: function() {
+                    loadSaveDialog.showLoad(dataSourceUrl);
+                },
+                showSave: function() {
+                    var createSaveFile = function(contents) {
+                        var blob = new Blob([contents], {
+                            type: 'application/json'
+                        });
+                        return URL.createObjectURL(blob);
+                    };
+
+                    loadSaveDialog.showSave(dataSourceUrl, createSaveFile(model.annotationData.toJason()));
+                },
+            };
+        }(this);
+
+        //user event that does not change data.
+        var presentationLogic = function(self) {
+            return {
                 showPallet: function(point) {
                     //create table contents for entity type.
                     var makeEntityTypeOfEntityTypePallet = function() {
@@ -2743,11 +2770,9 @@
                     }
                     $pallet.css('display', 'block');
                 },
-
                 hidePallet: function() {
                     $('.textae-editor__entity-pallet').css('display', 'none');
                 },
-
                 redraw: function() {
                     var stickGridOnSpan = function(spanId) {
                         var gridId = 'G' + spanId;
@@ -2816,48 +2841,24 @@
 
         // public funcitons of editor
         var editorApi = {
-            //TODO: createEntity ~ undo is not public already.
-            createEntity: businessLogic.createEntity,
-            removeSelectedElements: businessLogic.removeSelectedElements,
-            copyEntities: businessLogic.copyEntities,
-            pasteEntities: businessLogic.pasteEntities,
-            replicate: businessLogic.replicate,
-            showPallet: presentationLogic.showPallet,
-            showAccess: function() {
-                loadSaveDialog.showAccess(targetUrl);
-            },
-            showSave: function() {
-                loadSaveDialog.showSave(targetUrl, model.annotationData.toJason());
-            },
-            newLabel: businessLogic.newLabel,
-            redo: function() {
-                if (command.history.hasAnythingToRedo()) {
-                    businessLogic.redo();
-                }
-            },
-            undo: function() {
-                if (command.history.hasAnythingToUndo()) {
-                    businessLogic.undo();
-                }
-            },
             start: function() {
                 startEdit();
             },
             handleKeyInput: function(key) {
                 var keyApiMap = {
-                    "A": editorApi.showAccess,
-                    "C": editorApi.copyEntities,
-                    "D": editorApi.removeSelectedElements,
-                    "DEL": editorApi.removeSelectedElements,
-                    "E": editorApi.createEntity,
-                    "Q": editorApi.showPallet,
-                    "R": editorApi.replicate,
-                    "S": editorApi.showSave,
-                    "V": editorApi.pasteEntities,
-                    "W": editorApi.newLabel,
-                    "X": editorApi.redo,
-                    "Y": editorApi.redo,
-                    "Z": editorApi.undo,
+                    "A": dataAccessObject.showAccess,
+                    "C": businessLogic.copyEntities,
+                    "D": businessLogic.removeSelectedElements,
+                    "DEL": businessLogic.removeSelectedElements,
+                    "E": businessLogic.createEntity,
+                    "Q": presentationLogic.showPallet,
+                    "R": businessLogic.replicate,
+                    "S": dataAccessObject.showSave,
+                    "V": businessLogic.pasteEntities,
+                    "W": businessLogic.newLabel,
+                    "X": businessLogic.redo,
+                    "Y": businessLogic.redo,
+                    "Z": businessLogic.undo,
                     "ESC": presentationLogic.cancelSelect,
                     "LEFT": presentationLogic.selectLeftSpan,
                     "RIGHT": presentationLogic.selectRightSpan,
@@ -2868,20 +2869,20 @@
             },
             handleButtonClick: function(event) {
                 var buttonApiMap = {
-                    "textae.control.button.read.click": editorApi.showAccess,
-                    "textae.control.button.write.click": editorApi.showSave,
-                    "textae.control.button.undo.click": editorApi.undo,
-                    "textae.control.button.redo.click": editorApi.redo,
-                    "textae.control.button.replicate.click": editorApi.replicate,
+                    "textae.control.button.read.click": dataAccessObject.showAccess,
+                    "textae.control.button.write.click": dataAccessObject.showSave,
+                    "textae.control.button.undo.click": businessLogic.undo,
+                    "textae.control.button.redo.click": businessLogic.redo,
+                    "textae.control.button.replicate.click": businessLogic.replicate,
                     "textae.control.button.replicate_auto.click": editorState.toggleReplicateAuto,
-                    "textae.control.button.entity.click": editorApi.createEntity,
-                    "textae.control.button.new_label.click": editorApi.newLabel,
+                    "textae.control.button.entity.click": businessLogic.createEntity,
+                    "textae.control.button.new_label.click": businessLogic.newLabel,
                     "textae.control.button.pallet.click": function() {
-                        editorApi.showPallet(event.point);
+                        presentationLogic.showPallet(event.point);
                     },
-                    "textae.control.button.delete.click": editorApi.removeSelectedElements,
-                    "textae.control.button.copy.click": editorApi.copyEntities,
-                    "textae.control.button.paste.click": editorApi.pasteEntities,
+                    "textae.control.button.delete.click": businessLogic.removeSelectedElements,
+                    "textae.control.button.copy.click": businessLogic.copyEntities,
+                    "textae.control.button.paste.click": businessLogic.pasteEntities,
                 };
                 buttonApiMap[event.name]();
             },
