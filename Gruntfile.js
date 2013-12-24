@@ -1,6 +1,8 @@
+'use strict';
+
 var rename = {
   ext: function(ext) {
-    return function (dest, src) {
+    return function(dest, src) {
       return dest + "/" + src.replace(/(\.[^\/\.]*)?$/, ext);
     };
   },
@@ -58,6 +60,7 @@ module.exports = function(grunt) {
     jshint: {
       files: ['Gruntfile.js', 'src/js/*.js'],
       options: {
+        jshintrc: '.jshintrc',
         ignores: ['src/js/head.js', 'src/js/tail.js']
       }
     },
@@ -104,6 +107,11 @@ module.exports = function(grunt) {
         },
       }
     },
+    open: {
+      server: {
+        url: 'http://localhost:8000/src'
+      }
+    },
   });
 
   grunt.loadNpmTasks('grunt-contrib-clean');
@@ -115,7 +123,8 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-qunit');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.loadNpmTasks('grunt-open');
 
   grunt.registerTask('dist', ['jshint', 'qunit', 'clean', 'concat', 'uglify', 'copy', 'cssmin']);
-  grunt.registerTask('dev', ['connect', 'watch']);
+  grunt.registerTask('dev', ['connect', 'open', 'watch']);
 };
