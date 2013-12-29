@@ -1,19 +1,19 @@
 {
   "name": "textae",
   "version": "0.0.1",
-  "description": "text annotation engine",
+  "description": "text annotation editor",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git@bitbucket.org:jdkim/textae-term.git"
+    "url": "https://github.com/jdkim/textae.git"
   },
   "keywords": [
     "javascript",
     "annotation",
-    "dbcsl"
+    "DBCLS"
   ],
   "author": "jdkim",
   "license": "BSD-2-Clause",

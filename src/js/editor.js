@@ -1495,6 +1495,12 @@
                                 conn.setConnector(["Bezier", {
                                     curviness: curviness
                                 }]);
+                                conn.addOverlay(["Arrow", {
+                                    width: 10,
+                                    length: 12,
+                                    location: 1
+                                }]);
+                                
                             });
                         },
 
