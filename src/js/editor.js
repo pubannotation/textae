@@ -209,7 +209,7 @@
                                 //parent of last span may be parent of current span.
                                 prevOrderById.parent.children.push(span);
                                 span.parent = prevOrderById.parent;
-                            } else　 if (span.isChildOf(lastPushedSpan)) {
+                            } else　if (span.isChildOf(lastPushedSpan)) {
                                 //last pushed span is parent.
                                 //this occur when prev node is also a child of last pushed span.
                                 lastPushedSpan.children.push(span);
@@ -220,7 +220,7 @@
                             }
                         });
 
-                        //this for debug.
+                        // for the purpose of debugging, etc.
                         spanTree.toString = function() {
                             return this.map(function(span) {
                                 return span.toString();
@@ -1113,6 +1113,7 @@
                     setConnectorTypes();
                     renderer.relations.renderRelations();
                 },
+
                 //size of class rendered really
                 renderSize: {
                     gridWidthGap: 0,
@@ -1134,6 +1135,7 @@
                         $('#temp_grid').remove();
                     }
                 },
+
                 renderSpan: function(spanId) {
                     //render single span
                     var renderSingleSpan = function(currentSpan) {
@@ -1235,6 +1237,7 @@
                         renderer.renderSpan(childSpan.id);
                     });
                 },
+
                 destroySpan: function(spanId) {
                     var spanElement = document.getElementById(spanId);
                     var parent = spanElement.parentNode;
@@ -1244,6 +1247,7 @@
                     parent.removeChild(spanElement);
                     parent.normalize();
                 },
+
                 //a circle on Type
                 renderEntity: function(entity) {
                     var doesModelHasEntity = function(entity) {
@@ -1393,6 +1397,9 @@
                     var gridId = 'G' + spanId;
                     if (doesSpanHasType(spanId)) {
                         gridElement.show(gridId);
+                        // if (model.annotationData.spans[spanId].parent) {
+                        //     renderer.renderGrid(model.annotationData.spans[spanId].parent.id);
+                        // }
                     } else {
                         gridElement.hide(gridId);
                     }
@@ -1438,10 +1445,21 @@
                     },
                     //height of $grid is adapt number of types on the span.
                     getGridPosition: function(spanId) {
+                        var offset = CONSTS.TYPE_MARGIN_BOTTOM;
+
+                        // check the height of the child spans.
+                        var childSpans = model.annotationData.spans[spanId].children;
+                        for (var cid in childSpans) {
+                            var gid = 'G' + childSpans[cid].id;
+                            if (!renderer.positions.grid[gid]) {renderer.positions.getGridPosition(childSpans[cid].id)}
+                            if ((renderer.positions.grid[gid].offset + renderer.positions.grid[gid].height) > offset) offset = (renderer.positions.grid[gid].offset + renderer.positions.grid[gid].height) + CONSTS.TYPE_MARGIN_TOP + CONSTS.TYPE_MARGIN_BOTTOM;
+                        }
+
                         var gridHeight = model.annotationData.spans[spanId].getTypes().length * (renderer.renderSize.typeHeight + CONSTS.TYPE_MARGIN_BOTTOM + CONSTS.TYPE_MARGIN_TOP);
+
                         return {
-                            offset: CONSTS.TYPE_MARGIN_BOTTOM,
-                            top: renderer.positions.span[spanId].top - CONSTS.TYPE_MARGIN_BOTTOM - gridHeight,
+                            offset: offset,
+                            top: renderer.positions.span[spanId].top - offset - gridHeight,
                             left: renderer.positions.span[spanId].left,
                             width: renderer.positions.span[spanId].width - renderer.renderSize.gridWidthGap,
                             height: gridHeight,
@@ -1500,7 +1518,7 @@
                                     length: 12,
                                     location: 1
                                 }]);
-                                
+
                             });
                         },
 
