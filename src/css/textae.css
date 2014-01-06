@@ -1,4 +1,8 @@
 
+*{
+    box-sizing: border-box;
+}
+
 .textae-editor {
     position: relative;
     top: 22px;
@@ -71,24 +75,22 @@
 
 .textae-editor__type {
     position: relative;
-    border-radius: 4px;
     text-align: center;
     white-space: nowrap;
     font-size: small;
-    height: 16px;
+    height: 36px;
 }
 
 .textae-editor__type_label {
-    position: absolute;
-    top: 0;
-    width: 100%;
-    overflow: hidden;
+    position: relative;
+    border-radius: 4px;
     -webkit-touch-callout: none;
     -webkit-user-select: none;
     -khtml-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+    overflow: hidden;
 }
 
 .textae-editor__type_label:hover {
@@ -97,8 +99,8 @@
 
 .textae-editor__entity_pane {
     position: relative;
-    top:-10px;
-    margin: 0 auto;
+    top: -25px;
+    width: 100%;
 }
 
 .textae-editor__entity {
@@ -106,14 +108,15 @@
     border-width: 3px;
     border-style: solid;
     border-radius: 6px;
-    width: 6px;
-    height: 6px;
+    width: 12px;
+    height: 12px;
     background-color: lightblue;
+    margin: 0 auto;
 }
 
 .textae-editor__entity:hover, .textae-editor__entity.ui-selected {
     background-color: yellow;
-    height: 9px;
+    height: 15px;
 }
 
 .textae-editor__entity-pallet {
@@ -122,7 +125,7 @@
     width: auto;
     margin: 0px;
     padding: 0px;
-    font-size: xx-small;
+    font-size: x-small;
     overflow-x: visible;
     overflow-y: auto;
     z-index: 250;

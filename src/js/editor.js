@@ -817,9 +817,12 @@
                                 break;
                             case 'change_entity_type':
                                 //model
-                                model.annotationData.entities[edit.id].type = edit.new_type;
+                                var changedEntity = model.annotationData.removeEnitity(edit.id);
+                                changedEntity.type = edit.new_type;
+                                model.annotationData.addEntity(changedEntity);
                                 //rendering
-                                renderer.renderEntity(model.annotationData.entities[edit.id]);
+                                renderer.renderEntity(changedEntity);
+                                renderer.renderGrid(changedEntity.span);
                                 break;
 
                                 // relation operations
@@ -1256,15 +1259,15 @@
                                 return model.entityTypes.getType(type).getColor();
                             };
 
-                            var createDiv = function(entity) {
+                            var createEntityElement = function(entity) {
                                 var color = getColor(entity.type);
 
-                                return $("<div>")
-                                    .attr("id", idFactory.makeEntityDomId(entity.id))
-                                    .attr("title", entity.id)
-                                    .addClass("textae-editor__entity")
+                                return $('<div>')
+                                    .attr('id', idFactory.makeEntityDomId(entity.id))
+                                    .attr('title', entity.id)
+                                    .attr('type', String(entity.type)) //if null replace to 'null'
+                                .addClass('textae-editor__entity')
                                     .css({
-                                        "display": "inline-block",
                                         'border-color': color
                                     });
                             };
@@ -1274,24 +1277,27 @@
                                 //type has entity_pane has entities and label.
                                 var createType = function(type, typeId) {
                                     //entityPane has entities
-                                    var $entityPane = $("<div>")
-                                        .attr("id", "P-" + typeId)
-                                        .addClass("textae-editor__entity_pane");
+                                    var $entityPane = $('<div>')
+                                        .attr('id', 'P-' + typeId)
+                                        .addClass('textae-editor__entity_pane');
 
                                     //label over span
-                                    var $typeLabel = $("<div>").addClass("textae-editor__type_label").text(type);
-
-                                    return $("<div>")
-                                        .attr("id", typeId)
-                                        .addClass("textae-editor__type")
+                                    var $typeLabel = $('<div>')
+                                        .addClass('textae-editor__type_label')
+                                        .text(type)
                                         .css({
-                                            "background-color": getColor(type),
-                                            "margin-top": CONSTS.TYPE_MARGIN_TOP,
-                                            "margin-bottom": CONSTS.TYPE_MARGIN_BOTTOM,
-                                            "title": type
+                                            'background-color': getColor(type),
+                                        });
+
+                                    return $('<div>')
+                                        .attr('id', typeId)
+                                        .addClass('textae-editor__type')
+                                        .css({
+                                            'padding-top': CONSTS.TYPE_MARGIN_TOP,
+                                            'margin-bottom': CONSTS.TYPE_MARGIN_BOTTOM
                                         })
-                                        .append($entityPane)
-                                        .append($typeLabel);
+                                        .append($typeLabel)
+                                        .append($entityPane); //set pane after label because pane is over label.
                                 };
 
                                 var typeId = idFactory.makeTypeId(spanId, type);
@@ -1306,8 +1312,9 @@
                             };
 
                             //create entity element unless exists
+                            var $entity = domSelector.entity.get(entity.id);
                             if (domSelector.entity.get(entity.id).length === 0) {
-                                var $entity = createDiv(entity);
+                                $entity = createEntityElement(entity);
 
                                 //append to the type
                                 getTypeElement(entity.span, entity.type)
@@ -1315,8 +1322,15 @@
                                     .append($entity);
 
                                 renderer.positions.indexPositionEntity(entity.id);
-                            }
+                            } else {
+                                //change type of exists entity.
 
+                                //remove old
+                                entityElement.hide(entity);
+
+                                //show new
+                                entityElement.show(entity);
+                            }
                         },
                         hide: function(entity) {
                             var isTypeNotExists = function(typeName) {
@@ -1325,11 +1339,13 @@
                                 }).length === 0;
                             };
 
-                            domSelector.entity.get(entity.id).remove();
+                            //an entity may have new type when changing type of the entity.
+                            //DOM has old type.
+                            var typeOnDom = domSelector.entity.get(entity.id).remove().attr('type');
 
                             //delete type if no entity.
-                            if (isTypeNotExists(entity.type)) {
-                                $('#' + idFactory.makeTypeId(entity.span, entity.type)).remove();
+                            if (isTypeNotExists(typeOnDom)) {
+                                $('#' + idFactory.makeTypeId(entity.span, typeOnDom)).remove();
                             }
                         },
                     };
@@ -1438,7 +1454,7 @@
                     },
                     //height of $grid is adapt number of types on the span.
                     getGridPosition: function(spanId) {
-                        var gridHeight = model.annotationData.spans[spanId].getTypes().length * (renderer.renderSize.typeHeight + CONSTS.TYPE_MARGIN_BOTTOM + CONSTS.TYPE_MARGIN_TOP);
+                        var gridHeight = model.annotationData.spans[spanId].getTypes().length * (renderer.renderSize.typeHeight + CONSTS.TYPE_MARGIN_BOTTOM);
                         return {
                             offset: CONSTS.TYPE_MARGIN_BOTTOM,
                             top: renderer.positions.span[spanId].top - CONSTS.TYPE_MARGIN_BOTTOM - gridHeight,
@@ -1500,7 +1516,7 @@
                                     length: 12,
                                     location: 1
                                 }]);
-                                
+
                             });
                         },
 
@@ -2577,7 +2593,10 @@
                                     'display': 'none'
                                 })
                                 .on('mouseup', '.textae-edtior__entity-pallet__entity-type__radio', businessLogic.setEntityTypeDefault)
-                                .on('mouseup', '.textae-edtior__entity-pallet__entity-type__label', businessLogic.setEntityType);
+                                .on('click', '.textae-editor__entity-pallet__entity-type__label', function() {
+                                    presentationLogic.hidePallet();
+                                    businessLogic.setEntityType.call(this);
+                                });
 
                             //for show on top append to body.
                             $("body").append($pallet);
@@ -2595,7 +2614,7 @@
                     //limti max height.
                     if ($pallet.outerHeight() > CONSTS.PALLET_HEIGHT_MAX) {
                         $pallet.css('height', CONSTS.PALLET_HEIGHT_MAX);
-                        $pallet.css('width', $pallet.outerWidth() + 15);
+                        $pallet.css('width', $pallet.outerWidth() + 30);
                     }
 
                     //if open by mouseevent
