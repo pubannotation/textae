@@ -137,6 +137,10 @@
     user-select: none;
 }
 
+.textae-editor__load-dialog__file-name, .textae-editor__save-dialog__file-name {
+    width: 345px;
+}
+
 .textae-editor__entity-pallet table, .textae-editor__entity-pallet tr, .textae-editor__entity-pallet th, .textae-editor__entity-pallet td {
     margin: 0px;
     padding: 0px;

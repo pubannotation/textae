@@ -2,15 +2,13 @@
     position: fixed;
     margin-left: 2px;
 
-    box-sizing:border-box;
-    width: 510px;
     height: 28px;
     border-left: 5px solid #555588;
     border-right: 5px solid #555588;
     box-shadow: 6px 6px 6px 6px rgba(0,0,0,0.4);
     z-index: 1;
     border-radius: 15px;
-    padding: 4px 0 0 10px;
+    padding: 4px 20px 0 10px;
 
     background-color: #BBBBEE;
     /* fallback (Opera) */
@@ -124,6 +122,12 @@
 .textae-control__about-button {
     background: url("../images/btn_about_16.png");
 }
+
+.textae-control__setting-button {
+    background: url("../images/application_view_tile.png");
+}
+
+
 
 .textae-control__about {
     border: solid 4px #aaaa88;

@@ -106,61 +106,115 @@
             };
         },
 
-        makeInformationDialog: function() {
+        makeInformationModal: function() {
             //this is bound object.
-            var showDialog = function(className, obj) {
-                var getDialog = function() {
-                    var $dialog = $("." + this.className);
-                    // add dialog unless exists
-                    if ($dialog.length === 0) {
-                        $dialog = $("<div>")
-                            .addClass("textae__information-dialog")
+            var showModal = function(className, obj) {
+                var getModal = function() {
+                    var $modal = $('.' + this.className);
+                    // add modal unless exists
+                    if ($modal.length === 0) {
+                        $modal = $('<div>')
+                            .addClass('textae__information-modal')
                             .addClass(this.className)
                             .hide();
-                        this.addContentsFunc.call($dialog);
-                        $("body").append($dialog);
+                        this.addContentsFunc.call($modal);
+                        $('body').append($modal);
                     }
-                    return $dialog;
+                    return $modal;
                 };
 
-                var setPositionCenter = function($dialog) {
+                var setPositionCenter = function($modal) {
                     var $window = $(window);
-                    $dialog.css({
-                        "position": "absolute",
-                        "top": ($window.height() - $dialog.height()) / 2 + $window.scrollTop(),
-                        "left": ($window.width() - $dialog.width()) / 2 + $window.scrollLeft()
+                    $modal.css({
+                        'position': 'absolute',
+                        'top': ($window.height() - $modal.height()) / 2 + $window.scrollTop(),
+                        'left': ($window.width() - $modal.width()) / 2 + $window.scrollLeft()
                     });
                 };
 
                 //close other dialogs
-                $(".textae__information-dialog").hide();
+                $('.textae__information-modal').hide();
 
                 //show at center
-                var $dialog = getDialog.call(this);
-                setPositionCenter($dialog);
-                $dialog.show();
+                var $modal = getModal.call(this);
+                setPositionCenter($modal);
+                $modal.show();
             };
 
             //this is bound object.
-            var hideDialog = function(className) {
-                $("." + this.className).hide();
+            var hideModal = function(className) {
+                $('.' + this.className).hide();
             };
 
             //expected param has className and addContentsFunc.
             var bindObject = function(param) {
                 return {
-                    show: showDialog.bind(param),
-                    hide: hideDialog.bind(param)
+                    show: showModal.bind(param),
+                    hide: hideModal.bind(param)
                 };
             };
 
-            //close dialog when dialog clicked.
+            //close modal when modal clicked.
             $(function() {
-                $("body").on("mouseup", ".textae__information-dialog", function() {
+                $('body').on('mouseup', '.textae__information-modal', function() {
                     $(this).hide();
                 });
             });
 
             return bindObject;
         }(),
+
+        getDialog: function(id, title, $content, noCancelButton) {
+            var makeDialog = function() {
+                var $dialog = $('<div>')
+                    .attr('id', id)
+                    .attr('title', title)
+                    .hide()
+                    .append($content);
+
+                $.extend($dialog, {
+                    open: function(defautlValue) {
+                        this.dialog({
+                            resizable: false,
+                            width: 550,
+                            height: 220,
+                            modal: true,
+                            buttons: noCancelButton ? {} : {
+                                Cancel: function() {
+                                    $(this).dialog('close');
+                                }
+                            }
+                        });
+
+                        if (defautlValue) {
+                            this.find('[type="text"]')
+                                .val(defautlValue);
+                        }
+                    },
+                    close: function() {
+                        this.dialog('close');
+                    },
+                });
+
+                return $dialog;
+            };
+
+            var $body = $('body');
+            var $dialog = $body.find('#' + id);
+
+            //make unless exists
+            if ($dialog.length === 0) {
+                $dialog = makeDialog();
+
+                $.extend($content, {
+                    dialogClose: function() {
+                        $dialog.close();
+                    }
+                });
+
+                $body.append($dialog);
+            }
+
+            return $dialog;
+        },
     };

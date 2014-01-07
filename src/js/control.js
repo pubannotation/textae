@@ -26,14 +26,14 @@
             return $('<span>')
                 .addClass('textae-control__title')
                 .append($('<a>')
-                    .attr('href', "http://bionlp.dbcls.jp/textae/")
+                    .attr('href', 'http://bionlp.dbcls.jp/textae/')
                     .text('TextAE'));
         };
 
         var makeIconBar = function() {
             var makeSeparator = function() {
                 return $('<span>')
-                    .addClass("textae-control__separator");
+                    .addClass('textae-control__separator');
             };
 
             var makeButton = function(buttonType, title) {
@@ -45,7 +45,7 @@
                 // button cache and event definition.
                 buttonCache[buttonType] = {
                     obj: $button,
-                    eventName: "textae.control.button." + buttonType.replace(/-/g, "_") + ".click"
+                    eventName: 'textae.control.button.' + buttonType.replace(/-/g, '_') + '.click'
                 };
                 return $button;
             };
@@ -53,30 +53,33 @@
             return $($('<span>')
                 .append(makeSeparator())
                 .append(makeButton('read', 'Access [A]'))
-                .append(makeButton('write', "Save [S]"))
+                .append(makeButton('write', 'Save [S]'))
                 .append(makeSeparator())
-                .append(makeButton('undo', "Undo [Z]"))
-                .append(makeButton('redo', "Redo [X]"))
+                .append(makeButton('undo', 'Undo [Z]'))
+                .append(makeButton('redo', 'Redo [X]'))
                 .append(makeSeparator())
-                .append(makeButton('replicate', "Replicate span annotation [R]"))
-                .append(makeButton('replicate-auto', "Auto replicate (Toggle)"))
+                .append(makeButton('replicate', 'Replicate span annotation [R]'))
+                .append(makeButton('replicate-auto', 'Auto replicate (Toggle)'))
                 .append(makeSeparator())
-                .append(makeButton('entity', "New entity [E]"))
-                .append(makeButton('pallet', "Select label [Q]"))
-                .append(makeButton('new-label', "Enter label [W]"))
+                .append(makeButton('entity', 'New entity [E]'))
+                .append(makeButton('pallet', 'Select label [Q]'))
+                .append(makeButton('new-label', 'Enter label [W]'))
                 .append(makeSeparator())
-                .append(makeButton('delete', "Delete [D]"))
-                .append(makeButton('copy', "Copy [C]"))
-                .append(makeButton('paste', "Paste [V]"))
+                .append(makeButton('delete', 'Delete [D]'))
+                .append(makeButton('copy', 'Copy [C]'))
+                .append(makeButton('paste', 'Paste [V]'))
                 .append(makeSeparator())
-                .append(makeButton('help', "Help [H]"))
-                .append(makeButton('about', "About"))
+                .append(makeButton('setting', 'Setting'))
                 .append(makeSeparator())
+                .append(makeButton('help', 'Help [H]'))
+                .append(makeButton('about', 'About'))
             );
         };
 
+        var $self =this;
+
         // function to enable/disable button
-        var enableButton = function(CLICK, $self) {
+        var enableButton = function(event, $self) {
             return function(buttonName, enable) {
                 var button = buttonCache[buttonName];
                 var buttonClicked = function(e) {
@@ -92,11 +95,11 @@
                 if (button) {
                     if (enable) {
                         button.obj
-                            .off(CLICK)
-                            .on(CLICK, buttonClicked);
+                            .off(event)
+                            .on(event, buttonClicked);
                         buttonUtil.enable(button.obj);
                     } else {
-                        button.obj.off(CLICK);
+                        button.obj.off(event);
                         buttonUtil.disable(button.obj);
                     }
                 }
@@ -124,10 +127,10 @@
             .append(makeIconBar());
 
         // buttons always eanable.
-        enableButton("read", true);
-        enableButton("replicateAuto", true);
-        enableButton("help", true);
-        enableButton("about", true);
+        enableButton('read', true);
+        enableButton('replicateAuto', true);
+        enableButton('help', true);
+        enableButton('about', true);
 
         // public
         this.updateAllButtonEnableState = updateAllButtonEnableState;
