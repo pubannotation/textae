@@ -2359,7 +2359,7 @@
                                 $content.dialogClose();
                             });
 
-                    return textAeUtil.getDialog('textae.dialog.load', 'Load document with annotation.', $content);
+                    return textAeUtil.getDialog(self.editorId, 'textae.dialog.load', 'Load document with annotation.', $content);
                 };
 
                 var getSaveDialog = function() {
@@ -2376,7 +2376,7 @@
                             $content.dialogClose();
                         });
 
-                    return textAeUtil.getDialog('textae.dialog.save', 'Save document with annotation.', $content);
+                    return textAeUtil.getDialog(self.editorId, 'textae.dialog.save', 'Save document with annotation.', $content);
                 };
 
                 return {
@@ -2645,7 +2645,7 @@
                             });
                             presentationLogic.redraw();
                         });
-                    textAeUtil.getDialog('textae.dialog.setting', 'Chage Settings', $content, true).open();
+                    textAeUtil.getDialog(self.editorId, 'textae.dialog.setting', 'Chage Settings', $content, true).open();
                 },
             };
         }(this);
