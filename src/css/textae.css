@@ -66,6 +66,7 @@
 }
 
 .textae-editor__grid {
+    position: absolute;
     border-width: 0px 1px;
     border-style: solid;
     border-color: #DDDDAA;

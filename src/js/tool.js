@@ -138,10 +138,23 @@
             var observeWindowResize = function() {
                 // bind resize event
                 $(window).on('resize', function() {
-                    components.editors.forEach(function(e) {
-                        e.api.redraw();
-                    });
-                });
+                    //Call redraw when the window resize is end. Because resize-event is occuerd multiply during resize the window.
+                    var redrawTimer;
+
+                    return function() {
+                        //Cancel the redrawTimer if redrawTimer is set alredy
+                        if (redrawTimer) {
+                            window.clearTimeout(redrawTimer);
+                        }
+
+                        redrawTimer = window.setTimeout(function() {
+                            //Call all editors
+                            components.editors.forEach(function(e) {
+                                e.api.redraw();
+                            });
+                        }, 200);
+                    };
+                }());
             };
 
             //start observe at document ready, because this function may be called before body is loaded.
