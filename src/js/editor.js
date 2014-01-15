@@ -102,19 +102,6 @@
         // clipBoard has entity id only.
         var clipBoard = [];
 
-        // parameters to render relations.
-        var relationSettings = {
-            // opacity of connectors
-            connOpacity: 0.6,
-
-            // curviness parameters
-            xrate: 0.6,
-            yrate: 0.05,
-
-            // curviness offset
-            c_offset: 20,
-        };
-
         // spanConfig data
         var spanConfig = {
             delimiterCharacters: null,
@@ -173,8 +160,6 @@
         var model = function(editor) {
             return {
                 sourceDoc: "",
-                relationTypes: {},
-                relationTypeDefault: "",
                 annotationData: function() {
                     var sortedSpanIds = null;
                     var entitiesPerType;
@@ -515,7 +500,110 @@
                         }
                     };
                 }(),
+                relationTypes: {},
+                relationTypeDefault: '',
+                setRelationTypes: function(relationTypes) {
+                    if (relationTypes !== undefined) {
+                        model.relationTypes = {};
+                        model.relationTypeDefault = null;
+
+                        relationTypes.forEach(function(type) {
+                            model.relationTypes[type.name] = type;
+                            if (type["default"] === true) {
+                                model.relationTypeDefault = type.name;
+                            }
+                        });
+
+                        if (!model.relationTypeDefault) {
+                            model.relationTypeDefault = relationTypes[0].name;
+                        }
+                    }
+                },
+                initRelationsPerEntity: function(relations) {
+                    if (relations !== undefined) {
+                        relations.forEach(function(r) {
+                            // Update model.relationTypes
+                            if (!model.relationTypes[r.pred]) {
+                                model.relationTypes[r.pred] = {};
+                            }
+
+                            if (model.relationTypes[r.pred].count) {
+                                model.relationTypes[r.pred].count++;
+                            } else {
+                                model.relationTypes[r.pred].count = 1;
+                            }
+
+                            // initRelationsPerEntity
+                            relationsPerEntity = {};
+                            if (relationsPerEntity[r.subj]) {
+                                if (relationsPerEntity[r.subj].indexOf(r.id) < 0) {
+                                    relationsPerEntity[r.subj].push(r.id);
+                                }
+                            } else {
+                                relationsPerEntity[r.subj] = [r.id];
+                            }
+
+                            if (relationsPerEntity[r.obj]) {
+                                if (relationsPerEntity[r.obj].indexOf(r.id) < 0) {
+                                    relationsPerEntity[r.obj].push(r.id);
+                                }
+                            } else {
+                                relationsPerEntity[r.obj] = [r.id];
+                            }
+                        });
+                    }
+                },
                 connectorTypes: {},
+                initConnectorTypes: function() {
+                    var getRelationColor = function(type) {
+                        if (model.relationTypes[type] && model.relationTypes[type].color) {
+                            return model.relationTypes[type].color;
+                        } else {
+                            return "#555555";
+                        }
+                    };
+
+                    var converseHEXinotRGBA = function(color, opacity) {
+                        var c = color.slice(1);
+                        var r = c.substr(0, 2);
+                        var g = c.substr(2, 2);
+                        var b = c.substr(4, 2);
+                        r = parseInt(r, 16);
+                        g = parseInt(g, 16);
+                        b = parseInt(b, 16);
+
+                        return 'rgba(' + r + ', ' + g + ', ' + b + ', ' + opacity + ')';
+                    };
+
+                    model.connectorTypes = {};
+
+                    for (var name in model.relationTypes) {
+                        var colorHex = getRelationColor(name);
+                        var paintRGBA = converseHEXinotRGBA(colorHex, renderer.relation.settings.connOpacity);
+                        var hoverRGBA = converseHEXinotRGBA(colorHex, 1);
+
+                        model.connectorTypes[name] = {
+                            paintStyle: {
+                                strokeStyle: paintRGBA,
+                                lineWidth: 1
+                            },
+                            hoverPaintStyle: {
+                                strokeStyle: hoverRGBA,
+                                lineWidth: 3
+                            }
+                        };
+                        model.connectorTypes[name + '_selected'] = {
+                            paintStyle: {
+                                strokeStyle: hoverRGBA,
+                                lineWidth: 3
+                            },
+                            hoverPaintStyle: {
+                                strokeStyle: hoverRGBA,
+                                lineWidth: 3
+                            }
+                        };
+                    }
+                },
                 getSpanReplications: function(span) {
                     // check the bondaries: used after replication
                     var isOutsideDelimiter = function(document, startPos, endPos) {
@@ -592,8 +680,6 @@
             };
         }(this);
 
-        var connectors;
-
         // index
         var relationsPerEntity;
 
@@ -605,27 +691,10 @@
             PALLET_HEIGHT_MAX: 100
         };
 
-        // will be API of texteaEditor
         var startEdit = function startEdit() {
             var setTypeConfig = function(config) {
                 model.entityTypes.set(config['entity types']);
-
-                model.relationTypes = {};
-                model.relationTypeDefault = null;
-                if (config['relation types'] !== undefined) {
-                    var relation_types = config['relation types'];
-                    for (var i in relation_types) {
-                        model.relationTypes[relation_types[i].name] = relation_types[i];
-                        if (relation_types[i]["default"] === true) {
-                            model.relationTypeDefault = relation_types[i].name;
-                        }
-                    }
-                    if (!model.relationTypeDefault) {
-                        model.relationTypeDefault = relation_types[0].name;
-                    }
-                }
-
-                model.connectorTypes = {};
+                model.setRelationTypes(config['relation types']);
 
                 if (config.css !== undefined) {
                     $('#css_area').html('<link rel="stylesheet" href="' + config.css + '"/>');
@@ -637,7 +706,6 @@
                 editorState.buttonState.updateAll();
             };
 
-            renderer.init();
             controller.init();
             initState();
 
@@ -666,6 +734,7 @@
             }
         }.bind(this);
 
+        // Commands for edit the model and render Dom elements.
         var command = {
             // histories of edit to undo and redo.
             history: function() {
@@ -834,7 +903,7 @@
                                     if (relationsPerEntity[edit.obj].indexOf(edit.id) < 0) relationsPerEntity[edit.obj].push(edit.id);
                                 } else relationsPerEntity[edit.obj] = [edit.id];
                                 // rendering
-                                connectors[edit.id] = renderer.relation.render(edit.id);
+                                renderer.relation.render(edit.id);
                                 // selection
                                 renderer.relation.selectRelation(edit.id);
                                 break;
@@ -858,9 +927,9 @@
                                 // model
                                 model.annotationData.relations[edit.id].pred = edit.new_pred;
                                 // rendering
-                                connectors[edit.id].setPaintStyle(model.connectorTypes[edit.new_pred + "_selected"].paintStyle);
-                                connectors[edit.id].setHoverPaintStyle(model.connectorTypes[edit.new_pred + "_selected"].hoverPaintStyle);
-                                connectors[edit.id].setLabel('[' + edit.id + '] ' + edit.new_pred);
+                                renderer.relation.cachedConnectors[edit.id].setPaintStyle(model.connectorTypes[edit.new_pred + "_selected"].paintStyle);
+                                renderer.relation.cachedConnectors[edit.id].setHoverPaintStyle(model.connectorTypes[edit.new_pred + "_selected"].hoverPaintStyle);
+                                renderer.relation.cachedConnectors[edit.id].setLabel('[' + edit.id + '] ' + edit.new_pred);
                                 // selection
                                 renderer.relation.selectRelation(edit.id);
                                 break;
@@ -962,30 +1031,13 @@
             };
         }(this);
 
-        // Render DOM objects.
+        // Render DOM elements conforming with the Model.
         var renderer = function(editor) {
-            var relationColor = function(type) {
-                if (model.relationTypes && model.relationTypes[type] && model.relationTypes[type].color) return model.relationTypes[type].color;
-                return "#555555";
-            };
-
-            // conversion from HEX to RGBA color
-            var colorTrans = function(color, opacity) {
-                var c = color.slice(1);
-                var r = c.substr(0, 2);
-                var g = c.substr(2, 2);
-                var b = c.substr(4, 2);
-                r = parseInt(r, 16);
-                g = parseInt(g, 16);
-                b = parseInt(b, 16);
-
-                return 'rgba(' + r + ', ' + g + ', ' + b + ', ' + opacity + ')';
-            };
-
             var destroyGrid = function(spanId) {
                 var gridId = domSelector.grid.get(spanId).remove().attr('id');
             };
 
+            // Utility functions for get positions of elemnts.
             var positionUtils = {
                 getSpan: function(spanId) {
                     var $span = domSelector.span.get(spanId);
@@ -1033,145 +1085,239 @@
                 },
             };
 
+            var getDivByClass = function($parent, className) {
+                var $area = $parent.find('.' + className);
+                if ($area.length === 0) {
+                    $area = $('<div>').addClass(className);
+                    $parent.append($area);
+                }
+                return $area;
+            };
+
+            // Make the display area for text, spans, denotations, relations.
+            var displayArea = getDivByClass(editor, 'textae-editor__body');
+
+            // Get the display area for denotations and relations.
+            var getAnnotationArea = function() {
+                return getDivByClass(displayArea, 'textae-editor__body__annotation-box');
+            };
+
+            // Init a jsPlumb instance.
+            var jsPlumbInstance = function() {
+                var newInstance = jsPlumb.getInstance({
+                    ConnectionsDetachable: false,
+                    Endpoint: ['Dot', {
+                        radius: 1
+                    }]
+                });
+                newInstance.setRenderMode(newInstance.SVG);
+                newInstance.Defaults.Container = getAnnotationArea();
+                return newInstance;
+            }();
+
+            // Two functions are provided used when 'Instance Cemantic Mode' and 'Term Cemantic Mode'.
+            var createEmptyTypeDomElementFuncs = function() {
+                // A Type element has an entity_pane elment that has a label and will have entities.
+                var templateFunction = function(hideEntityPaneFunc, classOfEntityType, spanId, type) {
+                    var typeId = idFactory.makeTypeId(spanId, type);
+                    // The EntityPane will have entities.
+                    var $entityPane = $('<div>')
+                        .attr('id', 'P-' + typeId)
+                        .addClass('textae-editor__entity-pane');
+
+                    hideEntityPaneFunc.apply($entityPane);
+
+                    // Label over the span.
+                    var $typeLabel = $('<div>')
+                        .addClass('textae-editor__type-label')
+                        .text(type)
+                        .css({
+                            'background-color': model.entityTypes.getType(type).getColor(),
+                        });
+
+                    return $('<div>')
+                        .attr('id', typeId)
+                        .addClass(classOfEntityType)
+                        .css({
+                            'padding-top': CONSTS.TYPE_MARGIN_TOP,
+                            'margin-bottom': CONSTS.TYPE_MARGIN_BOTTOM
+                        })
+                        .append($typeLabel)
+                        .append($entityPane); //set pane after label because pane is over label.
+                };
+
+                return {
+                    visible: templateFunction.bind(null, function() {
+                        // Do not hide.
+                    }, 'textae-editor__type'),
+                    invisible: templateFunction.bind(null, function() {
+                        this.hide();
+                    }, 'textae-editor__type_term-cemantic-mode'),
+                };
+            }();
+
+            // Set a default function for 'Instance Cemantic Mode'.
+            var createEmptyTypeDomElement = createEmptyTypeDomElementFuncs.visible;
+
             return {
-                init: function() {
-                    var getArea = function($parent, className) {
-                        var $area = editor.find('.' + className);
-                        if ($area.length === 0) {
-                            $area = $('<div>').addClass(className);
-                            $parent.append($area);
-                        }
-                        return $area;
+                helper: function() {
+                    var originalRedrawFunction = function() {
+                        renderer.grid.arrangePositionAll();
+                        renderer.relation.arrangePositionAll();
                     };
 
-                    var initJsPlumb = function() {
-                        renderer.jsPlumb = jsPlumb.getInstance({
-                            ConnectionsDetachable: false,
-                            Endpoint: ['Dot', {
-                                radius: 1
-                            }]
-                        });
-                        renderer.jsPlumb.setRenderMode(renderer.jsPlumb.SVG);
-                        renderer.jsPlumb.Defaults.Container = editor.getAnnotationArea();
-                    };
-
-                    //make view
-                    editor.body = getArea(editor, 'textae-editor__body');
-
-                    //set method to get Area
-                    $.extend(editor, {
+                    return {
+                        // Get the display area for text and spans.
                         getSourceDocArea: function() {
-                            return getArea(editor.body, 'textae-editor__body__text-box');
+                            return getDivByClass(displayArea, 'textae-editor__body__text-box');
                         },
-                        getAnnotationArea: function() {
-                            return getArea(editor.body, 'textae-editor__body__annotation_box');
-                        }
-                    });
+                        renderAnnotation: function() {
+                            var setBodyOffset = function() {
+                                //set body offset top half of line space between line of text-box.
+                                var $area = renderer.helper.getSourceDocArea();
+                                $area.html(model.sourceDoc);
+                                var lines = $area.get(0).getClientRects();
+                                var lineSpace = lines[1].top - lines[0].bottom;
+                                editor.find(".textae-editor__body").css("paddingTop", lineSpace / 2);
+                                $area.empty();
+                            };
 
-                    initJsPlumb();
-                },
-                renderAnnotation: function() {
-                    var setBodyOffset = function() {
-                        //set body offset top half of line space between line of text-box.
-                        var $area = editor.getSourceDocArea();
-                        $area.html(model.sourceDoc);
-                        var lines = $area.get(0).getClientRects();
-                        var lineSpace = lines[1].top - lines[0].bottom;
-                        editor.find(".textae-editor__body").css("paddingTop", lineSpace / 2);
-                        $area.empty();
-                    };
+                            //souce document has multi paragraphs that are splited by '\n'.
+                            var getTaggedSourceDoc = function() {
+                                //set sroucedoc tagged <p> per line.
+                                return model.sourceDoc.split("\n").map(function(par) {
+                                    return '<p class="textae-editor__body__text-box__paragraph">' + par + '</p>';
+                                }).join("\n");
+                            };
 
-                    //souce document has multi paragraphs that are splited by '\n'.
-                    var getTaggedSourceDoc = function() {
-                        //set sroucedoc tagged <p> per line.
-                        return model.sourceDoc.split("\n").map(function(par) {
-                            return '<p class="textae-editor__body__text-box__paragraph">' + par + '</p>';
-                        }).join("\n");
-                    };
+                            //paragraphs is Object that has position of charactor at start and end of the statement in each paragraph.
+                            var makeParagraphs = function() {
+                                var paragraphs = {};
 
-                    //paragraphs is Object that has position of charactor at start and end of the statement in each paragraph.
-                    var makeParagraphs = function() {
-                        var paragraphs = {};
+                                //enchant id to paragraph element and chache it.
+                                renderer.helper.getSourceDocArea().find('p').each(function(index, element) {
+                                    var $element = $(element);
+                                    var paragraph = $.extend(model.annotationData.paragraphsArray[index], {
+                                        element: $element,
+                                    });
+                                    $element.attr('id', paragraph.id);
 
-                        //enchant id to paragraph element and chache it.
-                        editor.getSourceDocArea().find('p').each(function(index, element) {
-                            var $element = $(element);
-                            var paragraph = $.extend(model.annotationData.paragraphsArray[index], {
-                                element: $element,
+                                    paragraphs[paragraph.id] = paragraph;
+                                });
+
+                                return paragraphs;
+                            };
+
+                            //render an source document
+                            setBodyOffset();
+                            renderer.helper.getSourceDocArea().html(getTaggedSourceDoc());
+                            renderer.paragraphs = makeParagraphs();
+
+                            //render annotations
+                            getAnnotationArea().empty();
+                            renderer.helper.renderAllSpan();
+
+                            // Render relations
+                            renderer.helper.renderAllRelation();
+                        },
+                        renderAllSpan: function() {
+                            // For tuning
+                            // var startTime = new Date();
+
+                            model.annotationData.spansTopLevel.forEach(function(span) {
+                                renderer.span.render(span.id);
                             });
-                            $element.attr('id', paragraph.id);
 
-                            paragraphs[paragraph.id] = paragraph;
-                        });
+                            // For tuning
+                            // var endTime = new Date();
+                            // console.log('render all span : ', endTime.getTime() - startTime.getTime() + 'ms');
+                        },
+                        renderAllRelation: function() {
+                            var rids = model.annotationData.getRelationIds();
+                            jsPlumbInstance.reset();
 
-                        return paragraphs;
-                    };
+                            renderer.relation.cachedConnectors = {};
+                            rids.forEach(function(rid) {
+                                renderer.relation.render(rid);
+                            });
+                            renderer.relation.relationIdsSelected = [];
+                        },
+                        redraw: originalRedrawFunction,
+                        switchViewMode: function() {
+                            var showAllEntities = function() {
+                                var originalMarginBottomOfGrid;
+                                return function(isShow) {
+                                    if (isShow) {
+                                        editor.find('.textae-editor__entity-pane').show();
+                                        editor.find('.textae-editor__type_term-cemantic-mode')
+                                            .removeClass('textae-editor__type_term-cemantic-mode')
+                                            .addClass('textae-editor__type');
 
-                    var renderAllSpan = function() {
-                        // For tuning
-                        // var startTime = new Date();
+                                        CONSTS.TYPE_MARGIN_BOTTOM = originalMarginBottomOfGrid;
+                                    } else {
+                                        editor.find('.textae-editor__entity-pane').hide();
+                                        editor.find('.textae-editor__type')
+                                            .removeClass('textae-editor__type')
+                                            .addClass('textae-editor__type_term-cemantic-mode');
 
-                        model.annotationData.spansTopLevel.forEach(function(span) {
-                            renderer.span.render(span.id);
-                        });
+                                        // Override margin-bottom of gird.
+                                        originalMarginBottomOfGrid = CONSTS.TYPE_MARGIN_BOTTOM;
+                                        CONSTS.TYPE_MARGIN_BOTTOM = 0;
+                                    }
+                                };
+                            }();
 
-                        // For tuning
-                        // var endTime = new Date();
-                        // console.log('render all span : ', endTime.getTime() - startTime.getTime() + 'ms');
-                    };
+                            var showAllRelations = function(isShow) {
+                                $.map(renderer.relation.cachedConnectors, function(connector) {
+                                    return connector;
+                                }).forEach(function(connector) {
+                                    connector.endpoints.forEach(function(endpoint) {
+                                        endpoint.setVisible(isShow);
+                                    });
+                                    connector.setVisible(isShow);
+                                });
+                            };
 
-                    var setConnectorTypes = function() {
-                        for (var name in model.relationTypes) {
-                            var c = relationColor(name);
-                            var rgba0 = colorTrans(c, relationSettings.connOpacity);
-                            var rgba1 = colorTrans(c, 1);
-
-                            model.connectorTypes[name] = {
-                                paintStyle: {
-                                    strokeStyle: rgba0,
-                                    lineWidth: 1
-                                },
-                                hoverPaintStyle: {
-                                    strokeStyle: rgba1,
-                                    lineWidth: 3
+                            var addRelationsIntoTargetOfRedraw = function(isWhithRelation) {
+                                if (isWhithRelation) {
+                                    // Revert the redraw logic.
+                                    renderer.helper.redraw = originalRedrawFunction;
+                                } else {
+                                    // Override the redraw logic to exclude relations from rendered.
+                                    originalRedrawFunction = renderer.helper.redraw;
+                                    renderer.helper.redraw = renderer.grid.arrangePositionAll;
                                 }
                             };
-                            model.connectorTypes[name + '_selected'] = {
-                                paintStyle: {
-                                    strokeStyle: rgba1,
-                                    lineWidth: 3
-                                },
-                                hoverPaintStyle: {
-                                    strokeStyle: rgba1,
-                                    lineWidth: 3
+
+                            var visualizeEntityTypeCreated = function(isVisible) {
+                                if (isVisible) {
+                                    createEmptyTypeDomElement = createEmptyTypeDomElementFuncs.visible;
+                                } else {
+                                    createEmptyTypeDomElement = createEmptyTypeDomElementFuncs.invisible;
                                 }
                             };
-                        }
+
+                            return function(mode) {
+                                if (mode === 'TERM') {
+                                    showAllEntities(false);
+                                    showAllRelations(false);
+                                    addRelationsIntoTargetOfRedraw(false);
+                                    visualizeEntityTypeCreated(false);
+                                } else if (mode === 'INSTANCE') {
+                                    showAllEntities(true);
+                                    showAllRelations(true);
+                                    addRelationsIntoTargetOfRedraw(true);
+                                    visualizeEntityTypeCreated(true);
+                                }
+                            };
+                        }(),
+                        changeLineHeight: function(heightValue) {
+                            editor.find('.textae-editor__body__text-box').css({
+                                'line-height': heightValue * 100 + '%'
+                            });
+                        },
                     };
-
-                    var renderAllRlation = function() {
-                        var rids = model.annotationData.getRelationIds();
-                        renderer.jsPlumb.reset();
-
-                        rids.forEach(function(rid) {
-                            connectors[rid] = renderer.relation.render(rid);
-                        });
-                        renderer.relation.relationIdsSelected = [];
-                    };
-
-                    //render an source document
-                    setBodyOffset();
-                    editor.getSourceDocArea().html(getTaggedSourceDoc());
-                    renderer.paragraphs = makeParagraphs();
-
-                    //render annotations
-                    editor.getAnnotationArea().empty();
-                    renderAllSpan();
-
-                    //render relations
-                    setConnectorTypes();
-                    renderAllRlation();
-                },
+                }(),
                 span: {
                     render: function(spanId) {
                         var renderSingleSpan = function(currentSpan) {
@@ -1309,11 +1455,6 @@
                         // A span have one grid and a grid can have multi types and a type can have multi entities.
                         // A grid is only shown when at least one entiy is owned by a correspond span.  
                         render: function(entity) {
-                            // Get color of type and entity.
-                            var getColor = function(type) {
-                                return model.entityTypes.getType(type).getColor();
-                            };
-
                             //render type unless exists.
                             var getTypeElement = function(spanId, type) {
                                 var getGrid = function(spanId) {
@@ -1327,7 +1468,7 @@
                                             });
 
                                         //append to the annotation area.
-                                        editor.getAnnotationArea().append($grid);
+                                        getAnnotationArea().append($grid);
 
                                         return $grid;
                                     };
@@ -1341,36 +1482,9 @@
                                     }
                                 };
 
-                                //type has entity_pane has entities and label.
-                                var createType = function(spanId, type) {
-                                    var typeId = idFactory.makeTypeId(spanId, type);
-                                    //entityPane has entities
-                                    var $entityPane = $('<div>')
-                                        .attr('id', 'P-' + typeId)
-                                        .addClass('textae-editor__entity_pane');
-
-                                    //label over span
-                                    var $typeLabel = $('<div>')
-                                        .addClass('textae-editor__type_label')
-                                        .text(type)
-                                        .css({
-                                            'background-color': getColor(type),
-                                        });
-
-                                    return $('<div>')
-                                        .attr('id', typeId)
-                                        .addClass('textae-editor__type')
-                                        .css({
-                                            'padding-top': CONSTS.TYPE_MARGIN_TOP,
-                                            'margin-bottom': CONSTS.TYPE_MARGIN_BOTTOM
-                                        })
-                                        .append($typeLabel)
-                                        .append($entityPane); //set pane after label because pane is over label.
-                                };
-
                                 var $type = getTypeDom(spanId, type);
                                 if ($type.length === 0) {
-                                    $type = createType(spanId, type);
+                                    $type = createEmptyTypeDomElement(spanId, type);
                                     getGrid(spanId).append($type);
                                 }
 
@@ -1378,7 +1492,7 @@
                             };
 
                             var createEntityElement = function(entity) {
-                                var color = getColor(entity.type);
+                                var color = model.entityTypes.getType(entity.type).getColor();
 
                                 return $('<div>')
                                     .attr('id', idFactory.makeEntityDomId(entity.id))
@@ -1392,7 +1506,7 @@
 
                             //append to the type
                             getTypeElement(entity.span, entity.type)
-                                .find(".textae-editor__entity_pane")
+                                .find(".textae-editor__entity-pane")
                                 .append(createEntityElement(entity));
                         },
                         destroy: function(entity) {
@@ -1461,12 +1575,31 @@
                                 domSelector.grid.get(span.id).css({
                                     'top': spanPosition.top - CONSTS.TYPE_MARGIN_BOTTOM - descendantsMaxHeight,
                                 });
-                                // console.log('pull', span.id, descendantsMaxHeight);
+                                // console.log('pull', span.id, spanPosition.top, '-', CONSTS.TYPE_MARGIN_BOTTOM, '-', descendantsMaxHeight, '=', spanPosition.top - CONSTS.TYPE_MARGIN_BOTTOM - descendantsMaxHeight);
                             }
                         };
 
                         stickGridOnSpan(span);
                         pullUpGridOverDescendants(span);
+                    },
+                    arrangePositionAll: function() {
+                        var arrangePositionGridAndoDescendant = function(span) {
+                            // Arrange position All descendants because a grandchild maybe have types when a child has no type. 
+                            span.children
+                                .forEach(function(span) {
+                                    arrangePositionGridAndoDescendant(span);
+                                });
+                            renderer.grid.arrangePosition(span);
+                        };
+
+                        model.annotationData.spansTopLevel
+                            .filter(function(span) {
+                                // There is at least one type in span that has a grid.
+                                return span.getTypes().length > 0;
+                            })
+                            .forEach(function(span) {
+                                arrangePositionGridAndoDescendant(span);
+                            });
                     }
                 },
                 relation: function() {
@@ -1482,21 +1615,34 @@
 
                         var xdiff = Math.abs(sourceX - targetX);
                         var ydiff = Math.abs(sourceY - targetY);
-                        var curviness = xdiff * relationSettings.xrate + ydiff * relationSettings.yrate + relationSettings.c_offset;
+                        var curviness = xdiff * renderer.relation.settings.xrate + ydiff * renderer.relation.settings.yrate + renderer.relation.settings.c_offset;
                         curviness /= 2.4;
 
                         return curviness;
                     };
 
                     return {
+                        // Parameters to render relations.
+                        settings: {
+                            // opacity of connectorsA
+                            connOpacity: 0.6,
+
+                            // curviness parameters
+                            xrate: 0.6,
+                            yrate: 0.05,
+
+                            // curviness offset
+                            c_offset: 20,
+                        },
+                        cachedConnectors: {},
                         render: function(rid) {
                             var sourceId = model.annotationData.relations[rid].subj;
                             var targetId = model.annotationData.relations[rid].obj;
                             var curviness = determineCurviness(sourceId, targetId);
 
                             //  Determination of anchor points
-                            var sourceAnchor = "TopCenter";
-                            var targetAnchor = "TopCenter";
+                            var sourceAnchor = 'TopCenter';
+                            var targetAnchor = 'TopCenter';
 
                             // In case of self-reference
                             if (sourceId == targetId) {
@@ -1507,43 +1653,46 @@
 
                             // make connector
                             var pred = model.annotationData.relations[rid].pred;
-                            var rgba = colorTrans(relationColor(pred), relationSettings.connOpacity);
                             var sourceElem = domSelector.entity.get(sourceId);
                             var targetElem = domSelector.entity.get(targetId);
 
                             var label = '[' + rid + '] ' + pred;
 
-                            var conn = renderer.jsPlumb.connect({
+                            var conn = jsPlumbInstance.connect({
                                 source: sourceElem,
                                 target: targetElem,
                                 anchors: [sourceAnchor, targetAnchor],
-                                connector: ["Bezier", {
+                                connector: ['Bezier', {
                                     curviness: curviness
                                 }],
                                 paintStyle: model.connectorTypes[pred].paintStyle,
                                 hoverPaintStyle: model.connectorTypes[pred].hoverPaintStyle,
                                 tooltip: '[' + rid + '] ' + pred,
                                 parameters: {
-                                    "id": rid,
-                                    "label": label
+                                    'id': rid,
+                                    'label': label
                                 }
                             });
 
-                            conn.addOverlay(["Arrow", {
+                            conn.addOverlay(['Arrow', {
                                 width: 10,
                                 length: 12,
                                 location: 1
                             }]);
+
                             conn.setLabel({
                                 label: label,
-                                cssClass: "label"
+                                cssClass: 'label'
                             });
-                            conn.bind("click", controller.connectorClicked);
-                            return conn;
+
+                            conn.bind('click', controller.connectorClicked);
+
+                            // Cache a connector instance.
+                            renderer.relation.cachedConnectors[rid] = conn;
                         },
                         destroy: function(rid) {
-                            var c = connectors[rid];
-                            renderer.jsPlumb.detach(c);
+                            var c = renderer.relation.cachedConnectors[rid];
+                            jsPlumbInstance.detach(c);
                         },
                         arrangePosition: function(rid) {
                             // recompute curviness
@@ -1553,39 +1702,45 @@
 
                             if (sourceId == targetId) curviness = 30;
 
-                            var conn = connectors[rid];
+                            var conn = renderer.relation.cachedConnectors[rid];
                             var label = conn.getLabel();
                             conn.endpoints[0].repaint();
                             conn.endpoints[1].repaint();
-                            conn.setConnector(["Bezier", {
+                            conn.setConnector(['Bezier', {
                                 curviness: curviness
                             }]);
-                            conn.addOverlay(["Arrow", {
+                            conn.addOverlay(['Arrow', {
                                 width: 10,
                                 length: 12,
                                 location: 1
                             }]);
+                        },
+                        arrangePositionAll: function() {
+                            model.annotationData.getRelationIds()
+                                .forEach(function(rid) {
+                                    renderer.relation.arrangePosition(rid);
+                                });
                         },
                         isRelationSelected: function(rid) {
                             return (renderer.relation.relationIdsSelected.indexOf(rid) > -1);
                         },
                         selectRelation: function(rid) {
                             if (!renderer.relation.isRelationSelected(rid)) {
-                                connectors[rid].setPaintStyle(model.connectorTypes[model.annotationData.relations[rid].pred + "_selected"].paintStyle);
+                                renderer.relation.cachedConnectors[rid].setPaintStyle(model.connectorTypes[model.annotationData.relations[rid].pred + "_selected"].paintStyle);
                                 renderer.relation.relationIdsSelected.push(rid);
                             }
                         },
                         deselectRelation: function(rid) {
                             var i = renderer.relation.relationIdsSelected.indexOf(rid);
                             if (i > -1) {
-                                connectors[rid].setPaintStyle(model.connectorTypes[model.annotationData.relations[rid].pred].paintStyle);
+                                renderer.relation.cachedConnectors[rid].setPaintStyle(model.connectorTypes[model.annotationData.relations[rid].pred].paintStyle);
                                 renderer.relation.relationIdsSelected.splice(i, 1);
                             }
                         },
                         clearRelationSelection: function() {
                             while (renderer.relation.relationIdsSelected.length > 0) {
                                 var rid = renderer.relation.relationIdsSelected.pop();
-                                connectors[rid].setPaintStyle(model.connectorTypes[model.annotationData.relations[rid].pred].paintStyle);
+                                renderer.relation.cachedConnectors[rid].setPaintStyle(model.connectorTypes[model.annotationData.relations[rid].pred].paintStyle);
                             }
                         },
                     };
@@ -1789,7 +1944,7 @@
 
                     if (
                         // when the whole div is selected by e.g., triple click
-                        (range.startContainer == editor.getSourceDocArea().get(0)) ||
+                        (range.startContainer == renderer.helper.getSourceDocArea().get(0)) ||
                         // when Shift is pressed
                         (e.shiftKey) ||
                         // when nothing is selected
@@ -2077,7 +2232,7 @@
         //user event to edit model
         var businessLogic = {
             loadAnnotation: function(annotation) {
-                var parseAnnotationJson = function parseAnnotationJson(data) {
+                var parseSouseDoc = function(data) {
                     //validate
                     if (data.text === undefined) {
                         alert("read failed.");
@@ -2086,57 +2241,32 @@
 
                     //parse a souce document.
                     model.sourceDoc = data.text;
-
-                    //parse denotaitons.
-                    model.annotationData.reset();
                     model.annotationData.parseParagraphs(data.text);
+                };
+
+                var parseDenotations = function(data) {
                     model.annotationData.parseDenotations(data.denotations);
-                    model.annotationData.parseRelations(data.relations);
                     if (data.denotations !== undefined) {
                         data.denotations.forEach(function(d) {
                             //d.obj is type of entity.
                             model.entityTypes.incrementNumberOfTypes(d.obj);
                         });
                     }
-
-                    //parse relations.
-                    relationsPerEntity = {};
-                    connectors = {};
-                    if (data.relations !== undefined) {
-                        data.relations.forEach(function(r) {
-                            if (!model.relationTypes[r.pred]) {
-                                model.relationTypes[r.pred] = {};
-                            }
-
-                            if (model.relationTypes[r.pred].count) {
-                                model.relationTypes[r.pred].count++;
-                            } else {
-                                model.relationTypes[r.pred].count = 1;
-                            }
-
-                            if (relationsPerEntity[r.subj]) {
-                                if (relationsPerEntity[r.subj].indexOf(r.id) < 0) {
-                                    relationsPerEntity[r.subj].push(r.id);
-                                }
-                            } else {
-                                relationsPerEntity[r.subj] = [r.id];
-                            }
-
-                            if (relationsPerEntity[r.obj]) {
-                                if (relationsPerEntity[r.obj].indexOf(r.id) < 0) {
-                                    relationsPerEntity[r.obj].push(r.id);
-                                }
-                            } else {
-                                relationsPerEntity[r.obj] = [r.id];
-                            }
-                        });
-                    }
                 };
 
-                parseAnnotationJson(annotation);
+                var parseRelations = function(data) {
+                    model.annotationData.parseRelations(data.relations);
+                    model.initRelationsPerEntity(data.relations);
+                    model.initConnectorTypes();
+                };
+
+                model.annotationData.reset();
+                parseSouseDoc(annotation);
+                parseDenotations(annotation);
+                parseRelations(annotation);
                 command.history.init();
 
-                renderer.renderAnnotation();
+                renderer.helper.renderAnnotation();
             },
             saveHistory: function() {
                 command.history.saved();
@@ -2568,29 +2698,7 @@
                     $('.textae-editor__entity-pallet').css('display', 'none');
                 },
                 redraw: function() {
-                    var stickGridAndoDescendants = function(span) {
-                        // Stcik All descendants because a grandchild maybe have types when a child has no type. 
-                        span.children
-                            .forEach(function(span) {
-                                stickGridAndoDescendants(span);
-                            });
-                        renderer.grid.arrangePosition(span);
-                    };
-
-                    //sitck all grid on span.
-                    model.annotationData.spansTopLevel
-                        .filter(function(span) {
-                            // Ther is at least one type in span that has a grid.
-                            return span.getTypes().length > 0;
-                        })
-                        .forEach(function(span) {
-                            stickGridAndoDescendants(span);
-                        });
-
-                    model.annotationData.getRelationIds()
-                        .forEach(function(rid) {
-                            renderer.relation.arrangePosition(rid);
-                        });
+                    renderer.helper.redraw();
                 },
                 cancelSelect: function() {
                     // if drag, bubble up
@@ -2626,6 +2734,10 @@
                 },
                 showSettingDialog: function() {
                     var $content = $('<div>')
+                        .addClass('textae-editor__setting-dialog');
+
+                    // Line Height
+                    $content
                         .append($('<div>')
                             .append('<label>Line Height:')
                             .append($('<input>')
@@ -2640,12 +2752,38 @@
                             ))
                         .on('change', '.textae-editor__setting-dialog__line-height', function() {
                             var value = $(this).val();
-                            self.find('.textae-editor__body__text-box').css({
-                                'line-height': value * 100 + '%'
-                            });
-                            presentationLogic.redraw();
+                            presentationLogic.changeLineHeight(value);
                         });
+
+                    // Term Cemantic View
+                    $content
+                        .append($('<div>')
+                            .append('<label>Term Cemantic View:')
+                            .append($('<input>')
+                                .attr({
+                                    'type': 'checkbox'
+                                })
+                                .addClass('textae-editor__setting-dialog__term-cemantic-view')
+                            ))
+                        .on('click', '.textae-editor__setting-dialog__term-cemantic-view', function() {
+                            var value = $(this).is(':checked');
+                            presentationLogic.switchTermCemanticView(value);
+                        });
+
+                    // Open the dialog.                        
                     textAeUtil.getDialog(self.editorId, 'textae.dialog.setting', 'Chage Settings', $content, true).open();
+                },
+                changeLineHeight: function(heightValue) {
+                    renderer.helper.changeLineHeight(heightValue);
+                    renderer.helper.redraw();
+                },
+                switchTermCemanticView: function(isActive) {
+                    if (isActive) {
+                        renderer.helper.switchViewMode('TERM');
+                    } else {
+                        renderer.helper.switchViewMode('INSTANCE');
+                    }
+                    renderer.helper.redraw();
                 },
             };
         }(this);

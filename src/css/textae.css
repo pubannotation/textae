@@ -18,7 +18,7 @@
     line-height: 400%;
 }
 
-.textae-editor__body__annotation_box {
+.textae-editor__body__annotation-box {
     position: absolute;
     top: 0px;
     left: 0px;
@@ -70,19 +70,28 @@
     border-width: 0px 1px;
     border-style: solid;
     border-color: #DDDDAA;
-    padding: 1px;
+    padding: 0 1px;
     overflow: visible;
 }
 
-.textae-editor__type {
+.textae-editor__type, .textae-editor__type_term-cemantic-mode {
     position: relative;
     text-align: center;
     white-space: nowrap;
     font-size: small;
+}
+
+.textae-editor__type {
     height: 36px;
 }
 
-.textae-editor__type_label {
+.textae-editor__type_term-cemantic-mode {
+    height: 16px;
+    padding-top: 0 !important;
+    margin-bottom: 0 !important
+}
+
+.textae-editor__type-label {
     position: relative;
     border-radius: 4px;
     -webkit-touch-callout: none;
@@ -94,11 +103,11 @@
     overflow: hidden;
 }
 
-.textae-editor__type_label:hover {
+.textae-editor__type-label:hover {
     overflow: visible;
 }
 
-.textae-editor__entity_pane {
+.textae-editor__entity-pane {
     position: relative;
     top: -25px;
 }
@@ -119,6 +128,16 @@
     height: 15px;
 }
 
+.textae-editor__load-dialog__file-name, .textae-editor__save-dialog__file-name {
+    width: 345px;
+}
+
+.textae-editor__setting-dialog label{
+    display: inline-block;
+    width: 180px;
+    text-align: right;
+}
+
 .textae-editor__entity-pallet {
     border: solid 2px #333333;
     background-color: rgba(200,255,255,0.9);
@@ -135,10 +154,6 @@
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-}
-
-.textae-editor__load-dialog__file-name, .textae-editor__save-dialog__file-name {
-    width: 345px;
 }
 
 .textae-editor__entity-pallet table, .textae-editor__entity-pallet tr, .textae-editor__entity-pallet th, .textae-editor__entity-pallet td {
