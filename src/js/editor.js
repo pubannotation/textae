@@ -1492,22 +1492,33 @@
                             };
 
                             var createEntityElement = function(entity) {
-                                var color = model.entityTypes.getType(entity.type).getColor();
-
                                 return $('<div>')
                                     .attr('id', idFactory.makeEntityDomId(entity.id))
                                     .attr('title', entity.id)
-                                    .attr('type', String(entity.type)) //if null replace to 'null'
+                                    .attr('type', String(entity.type)) // Replace null to 'null' if type is null. 
                                 .addClass('textae-editor__entity')
                                     .css({
-                                        'border-color': color
+                                        'border-color': model.entityTypes.getType(entity.type).getColor()
                                     });
                             };
 
-                            //append to the type
-                            getTypeElement(entity.span, entity.type)
+                            // Append a new entity to the type
+                            var pane = getTypeElement(entity.span, entity.type)
                                 .find(".textae-editor__entity-pane")
                                 .append(createEntityElement(entity));
+
+                            // Arrange a position of the pane to center entities when enties width is longer than pane width.
+                            var paneWidth = pane.outerWidth();
+                            var entitiesWidth = pane.find('.textae-editor__entity').toArray().map(function(e) {
+                                return e.offsetWidth;
+                            }).reduce(function(pv, cv) {
+                                return pv + cv;
+                            }, 0);
+                            if (entitiesWidth > paneWidth) {
+                                pane.css({
+                                    'left': (paneWidth - entitiesWidth) / 2
+                                });
+                            }
                         },
                         destroy: function(entity) {
                             var doesSpanHasNoEntity = function(spanId) {
