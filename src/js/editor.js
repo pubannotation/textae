@@ -1115,7 +1115,7 @@
                 return newInstance;
             }();
 
-            // Two functions are provided used when 'Instance Cemantic Mode' and 'Term Cemantic Mode'.
+            // Two functions are provided used when 'Instance Centric Mode' and 'Term Centric Mode'.
             var createEmptyTypeDomElementFuncs = function() {
                 // A Type element has an entity_pane elment that has a label and will have entities.
                 var templateFunction = function(hideEntityPaneFunc, classOfEntityType, spanId, type) {
@@ -1152,11 +1152,11 @@
                     }, 'textae-editor__type'),
                     invisible: templateFunction.bind(null, function() {
                         this.hide();
-                    }, 'textae-editor__type_term-cemantic-mode'),
+                    }, 'textae-editor__type_term-centric-mode'),
                 };
             }();
 
-            // Set a default function for 'Instance Cemantic Mode'.
+            // Set a default function for 'Instance Centric Mode'.
             var createEmptyTypeDomElement = createEmptyTypeDomElementFuncs.visible;
 
             return {
@@ -1249,8 +1249,8 @@
                                 return function(isShow) {
                                     if (isShow) {
                                         editor.find('.textae-editor__entity-pane').show();
-                                        editor.find('.textae-editor__type_term-cemantic-mode')
-                                            .removeClass('textae-editor__type_term-cemantic-mode')
+                                        editor.find('.textae-editor__type_term-centric-mode')
+                                            .removeClass('textae-editor__type_term-centric-mode')
                                             .addClass('textae-editor__type');
 
                                         CONSTS.TYPE_MARGIN_BOTTOM = originalMarginBottomOfGrid;
@@ -1258,7 +1258,7 @@
                                         editor.find('.textae-editor__entity-pane').hide();
                                         editor.find('.textae-editor__type')
                                             .removeClass('textae-editor__type')
-                                            .addClass('textae-editor__type_term-cemantic-mode');
+                                            .addClass('textae-editor__type_term-centric-mode');
 
                                         // Override margin-bottom of gird.
                                         originalMarginBottomOfGrid = CONSTS.TYPE_MARGIN_BOTTOM;
@@ -2766,19 +2766,19 @@
                             presentationLogic.changeLineHeight(value);
                         });
 
-                    // Term Cemantic View
+                    // Term Centric View
                     $content
                         .append($('<div>')
-                            .append('<label>Term Cemantic View:')
+                            .append('<label>Term Centric View:')
                             .append($('<input>')
                                 .attr({
                                     'type': 'checkbox'
                                 })
-                                .addClass('textae-editor__setting-dialog__term-cemantic-view')
+                                .addClass('textae-editor__setting-dialog__term-centric-view')
                             ))
-                        .on('click', '.textae-editor__setting-dialog__term-cemantic-view', function() {
+                        .on('click', '.textae-editor__setting-dialog__term-centric-view', function() {
                             var value = $(this).is(':checked');
-                            presentationLogic.switchTermCemanticView(value);
+                            presentationLogic.switchTermCentricView(value);
                         });
 
                     // Open the dialog.                        
@@ -2788,7 +2788,7 @@
                     renderer.helper.changeLineHeight(heightValue);
                     renderer.helper.redraw();
                 },
-                switchTermCemanticView: function(isActive) {
+                switchTermCentricView: function(isActive) {
                     if (isActive) {
                         renderer.helper.switchViewMode('TERM');
                     } else {
