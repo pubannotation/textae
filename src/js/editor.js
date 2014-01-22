@@ -1433,6 +1433,20 @@
                         return $('#' + idFactory.makeTypeId(spanId, type));
                     };
 
+                    // Arrange a position of the pane to center entities when enties width is longer than pane width.
+                    var arrangePositionOfPane = function(pane) {
+                        var paneWidth = pane.outerWidth();
+                        var entitiesWidth = pane.find('.textae-editor__entity').toArray().map(function(e) {
+                            return e.offsetWidth;
+                        }).reduce(function(pv, cv) {
+                            return pv + cv;
+                        }, 0);
+
+                        pane.css({
+                            'left': entitiesWidth > paneWidth ? (paneWidth - entitiesWidth) / 2 : 0
+                        });
+                    };
+
                     var removeEntityElement = function(entity) {
                         var doesTypeHasNoEntity = function(typeName) {
                             return model.annotationData.spans[entity.span].getTypes().filter(function(type) {
@@ -1447,6 +1461,8 @@
                         // Delete type if no entity.
                         if (doesTypeHasNoEntity(typeOnDom)) {
                             getTypeDom(entity.span, typeOnDom).remove();
+                        } else {
+                            arrangePositionOfPane(getTypeDom(entity.span, typeOnDom).find('.textae-editor__entity-pane'));
                         }
                     };
 
@@ -1504,21 +1520,10 @@
 
                             // Append a new entity to the type
                             var pane = getTypeElement(entity.span, entity.type)
-                                .find(".textae-editor__entity-pane")
+                                .find('.textae-editor__entity-pane')
                                 .append(createEntityElement(entity));
 
-                            // Arrange a position of the pane to center entities when enties width is longer than pane width.
-                            var paneWidth = pane.outerWidth();
-                            var entitiesWidth = pane.find('.textae-editor__entity').toArray().map(function(e) {
-                                return e.offsetWidth;
-                            }).reduce(function(pv, cv) {
-                                return pv + cv;
-                            }, 0);
-                            if (entitiesWidth > paneWidth) {
-                                pane.css({
-                                    'left': (paneWidth - entitiesWidth) / 2
-                                });
-                            }
+                            arrangePositionOfPane(pane);
                         },
                         destroy: function(entity) {
                             var doesSpanHasNoEntity = function(spanId) {
