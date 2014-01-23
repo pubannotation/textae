@@ -1102,19 +1102,6 @@
                 return getDivByClass(displayArea, 'textae-editor__body__annotation-box');
             };
 
-            // Init a jsPlumb instance.
-            var jsPlumbInstance = function() {
-                var newInstance = jsPlumb.getInstance({
-                    ConnectionsDetachable: false,
-                    Endpoint: ['Dot', {
-                        radius: 1
-                    }]
-                });
-                newInstance.setRenderMode(newInstance.SVG);
-                newInstance.Defaults.Container = getAnnotationArea();
-                return newInstance;
-            }();
-
             // Two functions are provided used when 'Instance Centric Mode' and 'Term Centric Mode'.
             var createEmptyTypeDomElementFuncs = function() {
                 // A Type element has an entity_pane elment that has a label and will have entities.
@@ -1233,14 +1220,12 @@
                             // console.log('render all span : ', endTime.getTime() - startTime.getTime() + 'ms');
                         },
                         renderAllRelation: function() {
-                            var rids = model.annotationData.getRelationIds();
-                            jsPlumbInstance.reset();
+                            renderer.relation.reset();
 
-                            renderer.relation.cachedConnectors = {};
-                            rids.forEach(function(rid) {
-                                renderer.relation.render(rid);
-                            });
-                            renderer.relation.relationIdsSelected = [];
+                            model.annotationData.getRelationIds()
+                                .forEach(function(relationId) {
+                                    renderer.relation.render(relationId);
+                                });
                         },
                         redraw: originalRedrawFunction,
                         switchViewMode: function() {
@@ -1619,6 +1604,19 @@
                     }
                 },
                 relation: function() {
+                    // Init a jsPlumb instance.
+                    var jsPlumbInstance = function() {
+                        var newInstance = jsPlumb.getInstance({
+                            ConnectionsDetachable: false,
+                            Endpoint: ['Dot', {
+                                radius: 1
+                            }]
+                        });
+                        newInstance.setRenderMode(newInstance.SVG);
+                        newInstance.Defaults.Container = getAnnotationArea();
+                        return newInstance;
+                    }();
+
                     var determineCurviness = function(sourceId, targetId) {
                         var sourcePosition = positionUtils.getEntity(sourceId);
                         var targetPosition = positionUtils.getEntity(targetId);
@@ -1651,75 +1649,75 @@
                             c_offset: 20,
                         },
                         cachedConnectors: {},
-                        render: function(rid) {
-                            var sourceId = model.annotationData.relations[rid].subj;
-                            var targetId = model.annotationData.relations[rid].obj;
-                            var curviness = determineCurviness(sourceId, targetId);
+                        reset: function() {
+                            jsPlumbInstance.reset();
+                            renderer.relation.cachedConnectors = {};
+                            renderer.relation.relationIdsSelected = [];
+                        },
+                        render: function(relationId) {
+                            var sourceId = model.annotationData.relations[relationId].subj;
+                            var targetId = model.annotationData.relations[relationId].obj;
 
                             //  Determination of anchor points
-                            var sourceAnchor = 'TopCenter';
-                            var targetAnchor = 'TopCenter';
-
-                            // In case of self-reference
+                            var sourceAnchor, targetAnchor, curviness;
                             if (sourceId == targetId) {
+                                // In case of self-reference
                                 sourceAnchor = [0.5, 0, -1, -1];
                                 targetAnchor = [0.5, 0, 1, -1];
                                 curviness = 30;
+                            } else {
+                                sourceAnchor = 'TopCenter';
+                                targetAnchor = 'TopCenter';
+                                curviness = determineCurviness(sourceId, targetId);
                             }
 
                             // make connector
-                            var pred = model.annotationData.relations[rid].pred;
-                            var sourceElem = domSelector.entity.get(sourceId);
-                            var targetElem = domSelector.entity.get(targetId);
-
-                            var label = '[' + rid + '] ' + pred;
-
+                            var pred = model.annotationData.relations[relationId].pred;
                             var conn = jsPlumbInstance.connect({
-                                source: sourceElem,
-                                target: targetElem,
+                                source: domSelector.entity.get(sourceId),
+                                target: domSelector.entity.get(targetId),
                                 anchors: [sourceAnchor, targetAnchor],
                                 connector: ['Bezier', {
                                     curviness: curviness
                                 }],
                                 paintStyle: model.connectorTypes[pred].paintStyle,
                                 hoverPaintStyle: model.connectorTypes[pred].hoverPaintStyle,
-                                tooltip: '[' + rid + '] ' + pred,
                                 parameters: {
-                                    'id': rid,
-                                    'label': label
-                                }
+                                    'id': relationId,
+                                },
+                                cssClass: 'textae-editor__relation',
+                                overlays: [
+                                    ['Arrow', {
+                                        width: 10,
+                                        length: 12,
+                                        location: 1
+                                    }],
+                                    ['Label', {
+                                        label: '[' + relationId + '] ' + pred,
+                                        cssClass: 'textae-editor__relation__label'
+                                    }]
+                                ],
                             });
 
-                            conn.addOverlay(['Arrow', {
-                                width: 10,
-                                length: 12,
-                                location: 1
-                            }]);
-
-                            conn.setLabel({
-                                label: label,
-                                cssClass: 'label'
-                            });
-
-                            conn.bind('click', controller.connectorClicked);
+                            // Notify to contoroller that a new jsPlumbConnection is added.
+                            editor.trigger('textae.editor.jsPlumbConnection.add', conn);
 
                             // Cache a connector instance.
-                            renderer.relation.cachedConnectors[rid] = conn;
+                            renderer.relation.cachedConnectors[relationId] = conn;
                         },
-                        destroy: function(rid) {
-                            var c = renderer.relation.cachedConnectors[rid];
+                        destroy: function(relationId) {
+                            var c = renderer.relation.cachedConnectors[relationId];
                             jsPlumbInstance.detach(c);
                         },
-                        arrangePosition: function(rid) {
+                        arrangePosition: function(relationId) {
                             // recompute curviness
-                            var sourceId = model.annotationData.relations[rid].subj;
-                            var targetId = model.annotationData.relations[rid].obj;
+                            var sourceId = model.annotationData.relations[relationId].subj;
+                            var targetId = model.annotationData.relations[relationId].obj;
                             var curviness = determineCurviness(sourceId, targetId);
 
                             if (sourceId == targetId) curviness = 30;
 
-                            var conn = renderer.relation.cachedConnectors[rid];
-                            var label = conn.getLabel();
+                            var conn = renderer.relation.cachedConnectors[relationId];
                             conn.endpoints[0].repaint();
                             conn.endpoints[1].repaint();
                             conn.setConnector(['Bezier', {
@@ -1733,30 +1731,30 @@
                         },
                         arrangePositionAll: function() {
                             model.annotationData.getRelationIds()
-                                .forEach(function(rid) {
-                                    renderer.relation.arrangePosition(rid);
+                                .forEach(function(relationId) {
+                                    renderer.relation.arrangePosition(relationId);
                                 });
                         },
-                        isRelationSelected: function(rid) {
-                            return (renderer.relation.relationIdsSelected.indexOf(rid) > -1);
+                        isRelationSelected: function(relationId) {
+                            return (renderer.relation.relationIdsSelected.indexOf(relationId) > -1);
                         },
-                        selectRelation: function(rid) {
-                            if (!renderer.relation.isRelationSelected(rid)) {
-                                renderer.relation.cachedConnectors[rid].setPaintStyle(model.connectorTypes[model.annotationData.relations[rid].pred + "_selected"].paintStyle);
-                                renderer.relation.relationIdsSelected.push(rid);
+                        selectRelation: function(relationId) {
+                            if (!renderer.relation.isRelationSelected(relationId)) {
+                                renderer.relation.cachedConnectors[relationId].setPaintStyle(model.connectorTypes[model.annotationData.relations[relationId].pred + "_selected"].paintStyle);
+                                renderer.relation.relationIdsSelected.push(relationId);
                             }
                         },
-                        deselectRelation: function(rid) {
-                            var i = renderer.relation.relationIdsSelected.indexOf(rid);
+                        deselectRelation: function(relationId) {
+                            var i = renderer.relation.relationIdsSelected.indexOf(relationId);
                             if (i > -1) {
-                                renderer.relation.cachedConnectors[rid].setPaintStyle(model.connectorTypes[model.annotationData.relations[rid].pred].paintStyle);
+                                renderer.relation.cachedConnectors[relationId].setPaintStyle(model.connectorTypes[model.annotationData.relations[relationId].pred].paintStyle);
                                 renderer.relation.relationIdsSelected.splice(i, 1);
                             }
                         },
                         clearRelationSelection: function() {
                             while (renderer.relation.relationIdsSelected.length > 0) {
-                                var rid = renderer.relation.relationIdsSelected.pop();
-                                renderer.relation.cachedConnectors[rid].setPaintStyle(model.connectorTypes[model.annotationData.relations[rid].pred].paintStyle);
+                                var relationId = renderer.relation.relationIdsSelected.pop();
+                                renderer.relation.cachedConnectors[relationId].setPaintStyle(model.connectorTypes[model.annotationData.relations[relationId].pred].paintStyle);
                             }
                         },
                     };
@@ -2112,39 +2110,46 @@
                 return false;
             };
 
+            // A relation is drawn by a jsPlumbConnection.
+            var jsPlumbConnectionClicked = function(jsPlumbConnection, event) {
+                var relationId = jsPlumbConnection.getParameter("id");
+
+                domSelector.unselect();
+
+                if (renderer.relation.isRelationSelected(relationId)) {
+                    renderer.relation.deselectRelation(relationId);
+                } else {
+                    if (!event.ctrlKey) {
+                        renderer.relation.clearRelationSelection();
+                    }
+                    renderer.relation.selectRelation(relationId);
+                }
+
+                cancelBubble(event);
+                return false;
+            };
+
             var editorSelected = function() {
                 editor.tool.selectMe();
                 editorState.buttonState.renderEnable();
             };
 
             return {
-                //bind user input event to handler
+                // Bind user input event to handler
                 init: function() {
                     editor
                         .on('mouseup', '.textae-editor__body', bodyClicked)
                         .on('mouseup', '.textae-editor__span', spanClicked)
                         .on('mouseup', '.textae-editor__entity', entityClicked)
                         .on('mouseup', '.textae-editor__body,.textae-editor__span,.textae-editor__grid,.textae-editor__entity', editorSelected);
-                },
 
-                //connector clicked is bind by jsPlumb bind function.
-                connectorClicked: function(conn, e) {
-                    var rid = conn.getParameter("id");
-
-                    domSelector.unselect();
-
-                    if (renderer.relation.isRelationSelected(rid)) {
-                        renderer.relation.deselectRelation(rid);
-                    } else {
-                        if (!e.ctrlKey) {
-                            renderer.relation.clearRelationSelection();
-                        }
-                        renderer.relation.selectRelation(rid);
-                    }
-
-                    cancelBubble(e);
-                    return false;
-                },
+                    // The jsPlumbConnetion has an original event mecanism.
+                    // We can only bind the connection directory.
+                    editor
+                        .on('textae.editor.jsPlumbConnection.add', function(event, jsPlumbConnection) {
+                            jsPlumbConnection.bind('click', jsPlumbConnectionClicked);
+                        });
+                }
             };
         }(this);
 

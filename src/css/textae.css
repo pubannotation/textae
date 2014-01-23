@@ -193,16 +193,17 @@
     cursor: pointer;
 }
 
-._jsPlumb_endpoint {
-    z-index: 0;
-}
-
-._jsPlumb_connector {
+.textae-editor__relation {
     opacity:0.6;
     z-index: 0;
 }
 
-._jsPlumb_overlay {
+.textae-editor__relation:hover {
+    opacity: 1;
+    z-index: 1;
+}
+
+.textae-editor__relation__label {
     display:block;
     white-space:nowrap;
     font-size:x-small;
@@ -211,12 +212,7 @@
     z-index: 0;
 }
 
-._jsPlumb_connector._jsPlumb_hover {
-    opacity: 1;
-    z-index: 1;
-}
-
-._jsPlumb_overlay._jsPlumb_hover {
+.textae-editor__relation__label:hover {
     opacity: 1;
     z-index: 2;
 }
