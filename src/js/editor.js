@@ -604,78 +604,59 @@
                         };
                     }
                 },
-                getSpanReplications: function(span) {
-                    // check the bondaries: used after replication
-                    var isOutsideDelimiter = function(document, startPos, endPos) {
-                        var precedingChar = document.charAt(startPos - 1);
-                        var followingChar = document.charAt(endPos);
+                getReplicationSpans: function(originSpan) {
+                    // Get spans their stirng is same with the originSpan from sourceDoc.
+                    var getSpansTheirStringIsSameWith = function(originSpan) {
+                        var getNextStringIndex = String.prototype.indexOf.bind(model.sourceDoc, model.sourceDoc.substring(originSpan.begin, originSpan.end));
+                        var length = originSpan.end - originSpan.begin;
 
-                        if (!spanConfig.isDelimiter(precedingChar) || !spanConfig.isDelimiter(followingChar)) {
-                            return true;
-                        } else {
-                            return false;
+                        var findStrings = [];
+                        var offset = 0;
+                        for (var index = getNextStringIndex(offset); index !== -1; index = getNextStringIndex(offset)) {
+                            findStrings.push({
+                                begin: index,
+                                end: index + length
+                            });
+
+                            offset = index + length;
                         }
+                        return findStrings;
                     };
 
-                    // search same strings
-                    // both ends should be delimiter characters
-                    var findSameString = function(startPos, endPos) {
-                        var oentity = model.sourceDoc.substring(startPos, endPos);
-                        var strLen = endPos - startPos;
-
-                        var ary = [];
-                        var from = 0;
-                        while (true) {
-                            var sameStrPos = model.sourceDoc.indexOf(oentity, from);
-                            if (sameStrPos == -1) break;
-
-                            if (!isOutsideDelimiter(model.sourceDoc, sameStrPos, sameStrPos + strLen)) {
-                                var obj = {};
-                                obj.begin = sameStrPos;
-                                obj.end = sameStrPos + strLen;
-
-                                var isExist = false;
-                                for (var sid in model.annotationData.spans) {
-                                    if (model.annotationData.spans[sid].begin == obj.begin && model.annotationData.spans[sid].end == obj.end && model.annotationData.spans[sid].category == obj.category) {
-                                        isExist = true;
-                                        break;
-                                    }
-                                }
-
-                                if (!isExist && startPos != sameStrPos) {
-                                    ary.push(obj);
-                                }
-                            }
-                            from = sameStrPos + 1;
-                        }
-                        return ary;
+                    // The candidateSpan is a same span when begin is same.
+                    // Because string of each others are same. End of them are same too.
+                    var isOriginSpan = function(candidateSpan) {
+                        return candidateSpan.begin === originSpan.begin;
                     };
 
-                    var startPos = span.begin;
-                    var endPos = span.end;
+                    // The preceding charactor and the following of a word charactor are delimiter.
+                    // For example, 't' ,a part of 'that', is not same with an origin span when it is 't'. 
+                    var isWord = function(candidateSpan) {
+                        var precedingChar = model.sourceDoc.charAt(candidateSpan.begin - 1);
+                        var followingChar = model.sourceDoc.charAt(candidateSpan.end);
 
-                    var cspans = findSameString(startPos, endPos); // candidate model.annotationData.spans
+                        return spanConfig.isDelimiter(precedingChar) && spanConfig.isDelimiter(followingChar);
+                    };
 
-                    var nspans = []; // new model.annotationData.spans
-                    for (var i = 0; i < cspans.length; i++) {
-                        cspan = cspans[i];
+                    // Is the candidateSpan is spaned already?
+                    var isAlreadySpaned = function(candidateSpan) {
+                        return model.annotationData.getAllSpan().filter(function(existSpan) {
+                            return existSpan.begin === candidateSpan.begin && existSpan.end === candidateSpan.end;
+                        }).length > 0;
+                    };
 
-                        // check boundary crossing
-                        var crossing_p = false;
-                        for (var sid in model.annotationData.spans) {
-                            if (
-                                (cspan.begin > model.annotationData.spans[sid].begin && cspan.begin < model.annotationData.spans[sid].end && cspan.end > model.annotationData.spans[sid].end) ||
-                                (cspan.begin < model.annotationData.spans[sid].begin && cspan.end > model.annotationData.spans[sid].begin && cspan.end < model.annotationData.spans[sid].end)
-                            ) {
-                                crossing_p = true;
-                                break;
-                            }
-                        }
+                    // A span its range is coross over with other spans are not able to rendered.
+                    // Because spans are renderd with span tag. Html tags can not be cross over.
+                    var isBoundaryCrossingWithOtherSpans = function(candidateSpan) {
+                        return model.annotationData.getAllSpan().filter(function(existSpan) {
+                            return (existSpan.begin < candidateSpan.begin && candidateSpan.begin < existSpan.end && existSpan.end < candidateSpan.end) ||
+                                (candidateSpan.begin < existSpan.begin && existSpan.begin < candidateSpan.end && candidateSpan.end < existSpan.end);
+                        }).length > 0;
+                    };
 
-                        if (!crossing_p) {
-                            nspans.push(cspan);
-                        }
-                    }
+                    return getSpansTheirStringIsSameWith(originSpan).filter(function(span) {
+                        return !isOriginSpan(span) && isWord(span) && !isAlreadySpaned(span) && !isBoundaryCrossingWithOtherSpans(span);
+                    });
                 },
             };
         }(this);
@@ -953,21 +934,15 @@
             },
             create: {
                 replicateSpanCommands: function(span) {
-                    var nspans = model.getSpanReplications(span);
-
-                    var commands = [];
-                    for (var j = 0; j < nspans.length; j++) {
-                        var nspan = nspans[j];
-                        var id = idFactory.makeSpanId(nspan.begin, nspan.end);
-                        commands.push({
-                            action: "new_span",
-                            id: id,
-                            begin: nspan.begin,
-                            end: nspan.end
+                    return model.getReplicationSpans(span)
+                        .map(function(newSpan) {
+                            return {
+                                action: "new_span",
+                                id: idFactory.makeSpanId(newSpan.begin, newSpan.end),
+                                begin: newSpan.begin,
+                                end: newSpan.end
+                            };
                         });
-                    }
-
-                    return commands;
                 },
                 removeSpanCommand: function(spanId) {
                     return {
