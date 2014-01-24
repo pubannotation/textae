@@ -521,6 +521,7 @@
                 },
                 initRelationsPerEntity: function(relations) {
                     if (relations !== undefined) {
+                        relationsPerEntity = {};
                         relations.forEach(function(r) {
                             // Update model.relationTypes
                             if (!model.relationTypes[r.pred]) {
@@ -534,7 +535,6 @@
                             }
 
                             // initRelationsPerEntity
-                            relationsPerEntity = {};
                             if (relationsPerEntity[r.subj]) {
                                 if (relationsPerEntity[r.subj].indexOf(r.id) < 0) {
                                     relationsPerEntity[r.subj].push(r.id);
