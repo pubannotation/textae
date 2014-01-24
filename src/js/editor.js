@@ -161,6 +161,7 @@
             return {
                 sourceDoc: "",
                 annotationData: function() {
+                    var spanContainer;
                     var sortedSpanIds = null;
                     var entitiesPerType;
 
@@ -293,9 +294,9 @@
                         var spanId = idFactory.makeSpanId(span.begin, span.end);
 
                         //add a span unless exists, because an annotations.json is defiend by entities so spans are added many times. 
-                        if (!model.annotationData.spans[spanId]) {
+                        if (!model.annotationData.getSpan(spanId)) {
                             //a span is exteded nondestructively to render.
-                            model.annotationData.spans[spanId] = $.extend({
+                            spanContainer[spanId] = $.extend({
                                     id: spanId,
                                     paragraph: findParagraph(span),
                                 },
@@ -305,11 +306,10 @@
                     };
 
                     return {
-                        spans: null,
                         entities: null,
                         relations: null,
                         reset: function() {
-                            model.annotationData.spans = {};
+                            spanContainer = {};
                             model.annotationData.entities = {};
                             model.annotationData.relations = {};
                         },
@@ -319,11 +319,11 @@
                             updateSpanTree();
                         },
                         removeSpan: function(spanId) {
-                            delete model.annotationData.spans[spanId];
+                            delete spanContainer[spanId];
                             updateSpanTree();
                         },
                         getSpan: function(spanId) {
-                            return model.annotationData.spans[spanId];
+                            return spanContainer[spanId];
                         },
                         getRangeOfSpan: function(firstId, secondId) {
                             var firstIndex = sortedSpanIds.indexOf(firstId);
@@ -339,7 +339,7 @@
                             return sortedSpanIds.slice(firstIndex, secondIndex + 1);
                         },
                         getAllSpan: function() {
-                            return $.map(model.annotationData.spans, function(span) {
+                            return $.map(spanContainer, function(span) {
                                 return span;
                             });
                         },
@@ -357,7 +357,7 @@
 
                                 var typeId = idFactory.makeTypeId(entity.span, entity.type);
                                 //span must have types as object.
-                                model.annotationData.spans[entity.span].types[typeId] = entity.type;
+                                model.annotationData.getSpan(entity.span).types[typeId] = entity.type;
                                 addEntityToType(typeId, entity.id);
                             };
 
@@ -376,7 +376,7 @@
                                 //remove type
                                 if (entitiesPerType[typeId].length === 0) {
                                     delete entitiesPerType[typeId];
-                                    delete model.annotationData.spans[spanId].types[typeId];
+                                    delete model.annotationData.getSpan(spanId).types[typeId];
                                 }
                             };
 
@@ -432,9 +432,10 @@
                         toJason: function() {
                             var denotations = [];
                             for (var e in model.annotationData.entities) {
+                                var spanId = model.annotationData.entities[e].span;
                                 var span = {
-                                    'begin': model.annotationData.spans[model.annotationData.entities[e].span].begin,
-                                    'end': model.annotationData.spans[model.annotationData.entities[e].span].end
+                                    'begin': model.annotationData.getSpan(spanId).begin,
+                                    'end': model.annotationData.getSpan(spanId).end
                                 };
                                 denotations.push({
                                     'id': e,
@@ -604,78 +605,59 @@
                         };
                     }
                 },
-                getSpanReplications: function(span) {
-                    // check the bondaries: used after replication
-                    var isOutsideDelimiter = function(document, startPos, endPos) {
-                        var precedingChar = document.charAt(startPos - 1);
-                        var followingChar = document.charAt(endPos);
+                getReplicationSpans: function(originSpan) {
+                    // Get spans their stirng is same with the originSpan from sourceDoc.
+                    var getSpansTheirStringIsSameWith = function(originSpan) {
+                        var getNextStringIndex = String.prototype.indexOf.bind(model.sourceDoc, model.sourceDoc.substring(originSpan.begin, originSpan.end));
+                        var length = originSpan.end - originSpan.begin;
 
-                        if (!spanConfig.isDelimiter(precedingChar) || !spanConfig.isDelimiter(followingChar)) {
-                            return true;
-                        } else {
-                            return false;
+                        var findStrings = [];
+                        var offset = 0;
+                        for (var index = getNextStringIndex(offset); index !== -1; index = getNextStringIndex(offset)) {
+                            findStrings.push({
+                                begin: index,
+                                end: index + length
+                            });
+
+                            offset = index + length;
                         }
+                        return findStrings;
                     };
 
-                    // search same strings
-                    // both ends should be delimiter characters
-                    var findSameString = function(startPos, endPos) {
-                        var oentity = model.sourceDoc.substring(startPos, endPos);
-                        var strLen = endPos - startPos;
-
-                        var ary = [];
-                        var from = 0;
-                        while (true) {
-                            var sameStrPos = model.sourceDoc.indexOf(oentity, from);
-                            if (sameStrPos == -1) break;
-
-                            if (!isOutsideDelimiter(model.sourceDoc, sameStrPos, sameStrPos + strLen)) {
-                                var obj = {};
-                                obj.begin = sameStrPos;
-                                obj.end = sameStrPos + strLen;
-
-                                var isExist = false;
-                                for (var sid in model.annotationData.spans) {
-                                    if (model.annotationData.spans[sid].begin == obj.begin && model.annotationData.spans[sid].end == obj.end && model.annotationData.spans[sid].category == obj.category) {
-                                        isExist = true;
-                                        break;
-                                    }
-                                }
-
-                                if (!isExist && startPos != sameStrPos) {
-                                    ary.push(obj);
-                                }
-                            }
-                            from = sameStrPos + 1;
-                        }
-                        return ary;
+                    // The candidateSpan is a same span when begin is same.
+                    // Because string of each others are same. End of them are same too.
+                    var isOriginSpan = function(candidateSpan) {
+                        return candidateSpan.begin === originSpan.begin;
                     };
 
-                    var startPos = span.begin;
-                    var endPos = span.end;
+                    // The preceding charactor and the following of a word charactor are delimiter.
+                    // For example, 't' ,a part of 'that', is not same with an origin span when it is 't'. 
+                    var isWord = function(candidateSpan) {
+                        var precedingChar = model.sourceDoc.charAt(candidateSpan.begin - 1);
+                        var followingChar = model.sourceDoc.charAt(candidateSpan.end);
 
-                    var cspans = findSameString(startPos, endPos); // candidate model.annotationData.spans
+                        return spanConfig.isDelimiter(precedingChar) && spanConfig.isDelimiter(followingChar);
+                    };
 
-                    var nspans = []; // new model.annotationData.spans
-                    for (var i = 0; i < cspans.length; i++) {
-                        cspan = cspans[i];
+                    // Is the candidateSpan is spaned already?
+                    var isAlreadySpaned = function(candidateSpan) {
+                        return model.annotationData.getAllSpan().filter(function(existSpan) {
+                            return existSpan.begin === candidateSpan.begin && existSpan.end === candidateSpan.end;
+                        }).length > 0;
+                    };
 
-                        // check boundary crossing
-                        var crossing_p = false;
-                        for (var sid in model.annotationData.spans) {
-                            if (
-                                (cspan.begin > model.annotationData.spans[sid].begin && cspan.begin < model.annotationData.spans[sid].end && cspan.end > model.annotationData.spans[sid].end) ||
-                                (cspan.begin < model.annotationData.spans[sid].begin && cspan.end > model.annotationData.spans[sid].begin && cspan.end < model.annotationData.spans[sid].end)
-                            ) {
-                                crossing_p = true;
-                                break;
-                            }
-                        }
+                    // A span its range is coross over with other spans are not able to rendered.
+                    // Because spans are renderd with span tag. Html tags can not be cross over.
+                    var isBoundaryCrossingWithOtherSpans = function(candidateSpan) {
+                        return model.annotationData.getAllSpan().filter(function(existSpan) {
+                            return (existSpan.begin < candidateSpan.begin && candidateSpan.begin < existSpan.end && existSpan.end < candidateSpan.end) ||
+                                (candidateSpan.begin < existSpan.begin && existSpan.begin < candidateSpan.end && candidateSpan.end < existSpan.end);
+                        }).length > 0;
+                    };
 
-                        if (!crossing_p) {
-                            nspans.push(cspan);
-                        }
-                    }
+                    return getSpansTheirStringIsSameWith(originSpan).filter(function(span) {
+                        return !isOriginSpan(span) && isWord(span) && !isAlreadySpaned(span) && !isBoundaryCrossingWithOtherSpans(span);
+                    });
                 },
             };
         }(this);
@@ -953,21 +935,15 @@
             },
             create: {
                 replicateSpanCommands: function(span) {
-                    var nspans = model.getSpanReplications(span);
-
-                    var commands = [];
-                    for (var j = 0; j < nspans.length; j++) {
-                        var nspan = nspans[j];
-                        var id = idFactory.makeSpanId(nspan.begin, nspan.end);
-                        commands.push({
-                            action: "new_span",
-                            id: id,
-                            begin: nspan.begin,
-                            end: nspan.end
+                    return model.getReplicationSpans(span)
+                        .map(function(newSpan) {
+                            return {
+                                action: "new_span",
+                                id: idFactory.makeSpanId(newSpan.begin, newSpan.end),
+                                begin: newSpan.begin,
+                                end: newSpan.end
+                            };
                         });
-                    }
-
-                    return commands;
                 },
                 removeSpanCommand: function(spanId) {
                     return {
@@ -1381,7 +1357,7 @@
                             });
                         };
 
-                        var currentSpan = model.annotationData.spans[spanId];
+                        var currentSpan = model.annotationData.getSpan(spanId);
 
                         // Destroy children spans to wrap a TextNode with <span> tag when new span over exists spans.
                         destroyChildrenSpan(currentSpan);
@@ -1432,7 +1408,7 @@
 
                     var removeEntityElement = function(entity) {
                         var doesTypeHasNoEntity = function(typeName) {
-                            return model.annotationData.spans[entity.span].getTypes().filter(function(type) {
+                            return model.annotationData.getSpan(entity.span).getTypes().filter(function(type) {
                                 return type.name === typeName;
                             }).length === 0;
                         };
@@ -1510,7 +1486,7 @@
                         },
                         destroy: function(entity) {
                             var doesSpanHasNoEntity = function(spanId) {
-                                return model.annotationData.spans[spanId].getTypes().length === 0;
+                                return model.annotationData.getSpan(spanId).getTypes().length === 0;
                             };
 
                             if (doesSpanHasNoEntity(entity.span)) {
@@ -1771,7 +1747,6 @@
 
             var bodyClicked = function(e) {
                 var getPosition = function(node) {
-                    // assumption: text_box only includes <p> elements that contains <span> elements that represents model.annotationData.spans.
                     var $parent = $(node).parent();
                     var parentId = $parent.attr("id");
 
@@ -1779,7 +1754,7 @@
                     if ($parent.hasClass("textae-editor__body__text-box__paragraph")) {
                         pos = renderer.paragraphs[parentId].begin;
                     } else if ($parent.hasClass("textae-editor__span")) {
-                        pos = model.annotationData.spans[parentId].begin;
+                        pos = model.annotationData.getSpan(parentId).begin;
                     } else {
                         console.log(parentId);
                         return;
@@ -1848,7 +1823,7 @@
                 var moveSpan = function(spanId, begin, end) {
                     var commands = [];
                     var new_sid = idFactory.makeSpanId(begin, end);
-                    if (!model.annotationData.spans[new_sid]) {
+                    if (!model.annotationData.getSpan(new_sid)) {
                         commands.push({
                             action: 'remove_span',
                             id: spanId
@@ -1859,7 +1834,7 @@
                             begin: begin,
                             end: end
                         });
-                        model.annotationData.spans[spanId].getTypes().forEach(function(type) {
+                        model.annotationData.getSpan(spanId).getTypes().forEach(function(type) {
                             type.entities.forEach(function(entityId) {
                                 commands.push({
                                     action: 'new_denotation',
@@ -1886,11 +1861,11 @@
                     if (range.compareBoundaryPoints(Range.START_TO_START, anchorRange) < 0) {
                         // expand to the left
                         var newBegin = adjustSpanBegin(focusPosition);
-                        commands = moveSpan(sid, newBegin, model.annotationData.spans[sid].end);
+                        commands = moveSpan(sid, newBegin, model.annotationData.getSpan(sid).end);
                     } else {
                         // expand to the right
                         var newEnd = adjustSpanEnd(focusPosition);
-                        commands = moveSpan(sid, model.annotationData.spans[sid].begin, newEnd);
+                        commands = moveSpan(sid, model.annotationData.getSpan(sid).begin, newEnd);
                     }
 
                     command.execute(commands);
@@ -1919,12 +1894,12 @@
                         // shorten the right boundary
                         var newEnd = adjustSpanEnd2(focusPosition);
 
-                        if (newEnd > model.annotationData.spans[sid].begin) {
-                            new_sid = idFactory.makeSpanId(model.annotationData.spans[sid].begin, newEnd);
-                            if (model.annotationData.spans[new_sid]) {
+                        if (newEnd > model.annotationData.getSpan(sid).begin) {
+                            new_sid = idFactory.makeSpanId(model.annotationData.getSpan(sid).begin, newEnd);
+                            if (model.annotationData.getSpan(new_sid)) {
                                 commands = removeSpan(sid);
                             } else {
-                                commands = moveSpan(sid, model.annotationData.spans[sid].begin, newEnd);
+                                commands = moveSpan(sid, model.annotationData.getSpan(sid).begin, newEnd);
                             }
                         } else {
                             domSelector.span.select(sid);
@@ -1934,12 +1909,12 @@
                         // shorten the left boundary
                         var newBegin = adjustSpanBegin2(focusPosition);
 
-                        if (newBegin < model.annotationData.spans[sid].end) {
-                            new_sid = idFactory.makeSpanId(newBegin, model.annotationData.spans[sid].end);
-                            if (model.annotationData.spans[new_sid]) {
+                        if (newBegin < model.annotationData.getSpan(sid).end) {
+                            new_sid = idFactory.makeSpanId(newBegin, model.annotationData.getSpan(sid).end);
+                            if (model.annotationData.getSpan(new_sid)) {
                                 commands = removeSpan(sid);
                             } else {
-                                commands = moveSpan(sid, newBegin, model.annotationData.spans[sid].end);
+                                commands = moveSpan(sid, newBegin, model.annotationData.getSpan(sid).end);
                             }
                         } else {
                             domSelector.span.select(sid);
@@ -1993,7 +1968,7 @@
                         var endPosition = adjustSpanEnd(focusPosition);
                         sid = idFactory.makeSpanId(beginPosition, endPosition);
 
-                        if (!model.annotationData.spans[sid]) {
+                        if (!model.annotationData.getSpan(sid)) {
                             if (endPosition - beginPosition > CONSTS.BLOCK_THRESHOLD) {
                                 command.execute([{
                                     action: 'new_span',
@@ -2033,7 +2008,7 @@
                             sid = domSelector.span.popSelectedId();
 
                             // drag began inside the selected span (expansion)
-                            if ((anchorPosition > model.annotationData.spans[sid].begin) && (anchorPosition < model.annotationData.spans[sid].end)) {
+                            if ((anchorPosition > model.annotationData.getSpan(sid).begin) && (anchorPosition < model.annotationData.getSpan(sid).end)) {
                                 // The focus node should be at one level above the selected node.
                                 if (domSelector.span.get(sid).get(0).parentNode.id == selection.focusNode.parentNode.id) expandSpan(sid, selection);
                                 else {
@@ -2043,7 +2018,7 @@
                             }
 
                             // drag ended inside the selected span (shortening)
-                            else if ((focusPosition > model.annotationData.spans[sid].begin) && (focusPosition < model.annotationData.spans[sid].end)) {
+                            else if ((focusPosition > model.annotationData.getSpan(sid).begin) && (focusPosition < model.annotationData.getSpan(sid).end)) {
                                 if (domSelector.span.get(sid).get(0).id == selection.focusNode.parentNode.id) shortenSpan(sid, selection);
                                 else {
                                     domSelector.span.select(sid);
@@ -2358,7 +2333,7 @@
 
             replicate: function() {
                 if (domSelector.span.getNumberOfSelected() == 1) {
-                    command.execute(command.create.replicateSpanCommands(model.annotationData.spans[domSelector.span.getSelectedId()]));
+                    command.execute(command.create.replicateSpanCommands(model.annotationData.getSpan(domSelector.span.getSelectedId())));
                 } else alert('You can replicate span annotation when there is only span selected.');
             },
 
@@ -2419,7 +2394,7 @@
                     var spanId = this.id;
                     removeCommand.spans.push(command.create.removeSpanCommand(spanId));
 
-                    model.annotationData.spans[spanId].getTypes().forEach(function(type) {
+                    model.annotationData.getSpan(spanId).getTypes().forEach(function(type) {
                         type.entities.forEach(function(entityId) {
                             removeEnitity(entityId);
                         });
@@ -2734,7 +2709,7 @@
                 },
                 selectLeftSpan: function() {
                     if (domSelector.span.getNumberOfSelected() == 1) {
-                        var span = model.annotationData.spans[domSelector.span.popSelectedId()];
+                        var span = model.annotationData.getSpan(domSelector.span.popSelectedId());
                         domSelector.unselect();
                         if (span.left) {
                             domSelector.span.select(span.left.id);
@@ -2744,7 +2719,7 @@
                 selectRightSpan: function() {
                     if (domSelector.span.getNumberOfSelected() == 1) {
 
-                        var span = model.annotationData.spans[domSelector.span.popSelectedId()];
+                        var span = model.annotationData.getSpan(domSelector.span.popSelectedId());
                         domSelector.unselect();
                         if (span.right) {
                             domSelector.span.select(span.right.id);
