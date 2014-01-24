@@ -997,16 +997,14 @@
             },
             util: {
                 uniq: function(commands) {
-                    var hash = {}, hashKey, result = [];
-
+                    var hash = {};
                     commands.forEach(function(command) {
-                        hash[command.id] = command;
+                        hash[command.id + command.span] = command;
                     });
 
-                    for (hashKey in hash) {
-                        result.push(hash[hashKey]);
-                    }
-                    return result;
+                    return $.map(hash, function(value) {
+                        return value;
+                    });
                 },
             },
         };
