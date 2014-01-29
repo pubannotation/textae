@@ -182,32 +182,27 @@
                 }
             };
 
-            var initState = function() {
-                command.init(
-                    function() {
-                        // An event handler called when command.history is changed.
-                        var leaveMessage = function() {
+            controller.init();
+            command.init(
+                function commandChangedHandler() {
+                    // An event handler called when command state is changed.
+
+                    //change button state
+                    editorState.buttonStateHelper.enabled("write", this.hasAnythingToSave());
+                    editorState.buttonStateHelper.enabled("undo", this.hasAnythingToUndo());
+                    editorState.buttonStateHelper.enabled("redo", this.hasAnythingToRedo());
+
+                    //change leaveMessage show
+                    if (this.hasAnythingToSave()) {
+                        window.onbeforeunload = function() {
                             return "There is a change that has not been saved. If you leave now, you will lose it.";
                         };
-
-                        //change button state
-                        editorState.buttonStateHelper.enabled("write", this.hasAnythingToSave());
-                        editorState.buttonStateHelper.enabled("undo", this.hasAnythingToUndo());
-                        editorState.buttonStateHelper.enabled("redo", this.hasAnythingToRedo());
-
-                        //change leaveMessage show
-                        if (this.hasAnythingToSave()) {
-                            $(window).off('beforeunload', leaveMessage).on('beforeunload', leaveMessage);
-                        } else {
-                            $(window).off('beforeunload', leaveMessage);
-                        }
+                    } else {
+                        window.onbeforeunload = null;
                     }
-                );
-                editorState.buttonStateHelper.updateAll();
-            };
-
-            controller.init();
-            initState();
+                }
+            );
+            editorState.buttonStateHelper.updateAll();
 
             // read default spanConfig
             spanConfig.set();
