@@ -1,106 +1,122 @@
     var editor = function() {
-        //cursor
-        var cursor = function(editor) {
-            var wait = function() {
-                editor.css('cursor', 'wait');
-            };
-            var endWait = function() {
-                editor.css('cursor', 'auto');
-            };
-            return {
-                startWait: wait,
-                endWait: endWait,
-            };
-        }(this);
-
-        // state of editor component.
-        var editorState = function(editor) {
-            return {
-                isReplicateAuto: false,
-                buttonState: function() {
-                    var disableButtons = {};
-                    var updateDisableButtons = function(button, enable) {
-                        if (enable) {
-                            delete disableButtons[button];
-                        } else {
-                            disableButtons[button] = true;
-                        }
+        var domUtil = { //domUtil.cursorChanger
+            cursorChanger: function(editor) {
+                var wait = function() {
+                    editor.css('cursor', 'wait');
+                };
+                var endWait = function() {
+                    editor.css('cursor', 'auto');
+                };
+                return {
+                    startWait: wait,
+                    endWait: endWait,
+                };
+            }(this),
+            selector: {
+                // dismiss the default selection by the browser
+                dismissBrowserSelection: function() {
+                    var selection = window.getSelection();
+                    selection.collapse(document.body, 0);
+                },
+                getSelecteds: function() {
+                    return $('.ui-selected');
+                },
+                hasSelecteds: function() {
+                    return domUtil.selector.getSelecteds().length > 0;
+                },
+                unselect: function() {
+                    domUtil.selector.getSelecteds().removeClass('ui-selected');
+                    renderer.relation.clearRelationSelection();
+                    editorState.buttonStateHelper.updateAll();
+                },
+                domElement: function() {
+                    var isSelected = function(target) {
+                        return $(target).hasClass('ui-selected');
                     };
-                    var updateEntity = function() {
-                        updateDisableButtons("entity", domSelector.span.getNumberOfSelected() > 0);
+                    var select = function(target) {
+                        $(target).addClass('ui-selected');
                     };
-                    var updatePaste = function() {
-                        updateDisableButtons("paste", clipBoard.length > 0 && domSelector.span.getNumberOfSelected() > 0);
-                    };
-                    var updateReplicate = function() {
-                        updateDisableButtons("replicate", domSelector.span.getNumberOfSelected() == 1);
-                    };
-                    var updatePallet = function() {
-                        updateDisableButtons("pallet", domSelector.entity.getNumberOfSelected() > 0);
-                    };
-                    var updateNewLabel = function() {
-                        updateDisableButtons("newLabel", domSelector.entity.getNumberOfSelected() > 0);
-                    };
-                    var updateDelete = function() {
-                        updateDisableButtons("delete", domSelector.hasSelecteds());
-                    };
-                    var updateCopy = function() {
-                        updateDisableButtons("copy", domSelector.entity.hasSelecteds());
-                    };
-                    var updateBySpanAndEntityBoth = function() {
-                        updateDelete();
-                        updateCopy();
+                    var deselect = function(target) {
+                        $(target).removeClass('ui-selected');
                     };
                     return {
-                        pushed: function(button, push) {
-                            editor.tool.pushReplicateAuto(push);
+                        toggle: function(target) {
+                            if (isSelected(target)) {
+                                deselect(target);
+                            } else {
+                                select(target);
+                            }
                         },
-                        renderEnable: function() {
-                            editor.tool.changeButtonState(disableButtons);
-                        },
-                        enabled: function(button, enable) {
-                            updateDisableButtons(button, enable);
-                            this.renderEnable();
-                        },
-                        updateBySpan: function() {
-                            updateBySpanAndEntityBoth();
-
-                            updateEntity();
-                            updatePaste();
-                            updateReplicate();
-
-                            this.renderEnable();
-                        },
-                        updateByEntity: function() {
-                            updateBySpanAndEntityBoth();
-
-                            updatePallet();
-                            updateNewLabel();
-
-                            this.renderEnable();
-                        },
-                        updateAll: function() {
-                            updateBySpanAndEntityBoth();
-
-                            updateEntity();
-                            updatePaste();
-                            updateReplicate();
-                            updatePallet();
-                            updateNewLabel();
-
-                            this.renderEnable();
-                        },
+                        selectOnly: function(target) {
+                            domUtil.selector.getSelecteds().removeClass('ui-selected');
+                            renderer.relation.clearRelationSelection();
+                            select(target);
+                        }
                     };
                 }(),
-                toggleReplicateAuto: function() {
-                    editorState.isReplicateAuto = !editorState.isReplicateAuto;
-                    editorState.buttonState.pushed("replicate-auto", editorState.isReplicateAuto);
+                span: {
+                    get: function(spanId) {
+                        return $('#' + spanId);
+                    },
+                    getSelecteds: function() {
+                        return $('.textae-editor__span.ui-selected');
+                    },
+                    getNumberOfSelected: function() {
+                        return domUtil.selector.span.getSelecteds().length;
+                    },
+                    getSelectedId: function() {
+                        //return first element id even if multi elements selected.
+                        return domUtil.selector.span.getSelecteds().attr('id');
+                    },
+                    popSelectedId: function() {
+                        var ss = domUtil.selector.span.getSelecteds();
+                        if (ss.length === 1) {
+                            ss.removeClass('ui-selected');
+                            return ss.attr('id');
+                        } else {
+                            return null;
+                        }
+                    },
+                    select: function(spanId) {
+                        domUtil.selector.span.get(spanId).addClass('ui-selected');
+                        editorState.buttonStateHelper.updateBySpan();
+                    },
                 },
-            };
-        }(this);
+                entity: {
+                    get: function(eid) {
+                        return $('#' + idFactory.makeEntityDomId(eid));
+                    },
+                    getSelecteds: function() {
+                        return $('.textae-editor__entity.ui-selected');
+                    },
+                    getNumberOfSelected: function() {
+                        return domUtil.selector.entity.getSelecteds().length;
+                    },
+                    hasSelecteds: function() {
+                        return domUtil.selector.entity.getNumberOfSelected() > 0;
+                    },
+                    getSelectedId: function() {
+                        return domUtil.selector.entity.getSelecteds().attr('title');
+                    },
+                    select: function(eid) {
+                        domUtil.selector.entity.get(eid).addClass('ui-selected');
+                    },
+                },
+                grid: {
+                    get: function(spanId) {
+                        return $('#G' + spanId);
+                    }
+                },
+            }
+        };
 
-        // clipBoard has entity id only.
-        var clipBoard = [];
+        // constant values
+        var CONSTS = {
+            BLOCK_THRESHOLD: 100,
+            TYPE_MARGIN_TOP: 18,
+            TYPE_MARGIN_BOTTOM: 2,
+            PALLET_HEIGHT_MAX: 100
+        };
 
         // spanConfig data
         var spanConfig = {
@@ -155,6 +171,333 @@
                 return (this.delimiterCharacters.indexOf(char) >= 0);
             }
         };
+
+        var startEdit = function startEdit() {
+            var setTypeConfig = function(config) {
+                model.entityTypes.set(config['entity types']);
+                model.setRelationTypes(config['relation types']);
+
+                if (config.css !== undefined) {
+                    $('#css_area').html('<link rel="stylesheet" href="' + config.css + '"/>');
+                }
+            };
+
+            var initState = function() {
+                command.init(
+                    function() {
+                        // An event handler called when command.history is changed.
+                        var leaveMessage = function() {
+                            return "There is a change that has not been saved. If you leave now, you will lose it.";
+                        };
+
+                        //change button state
+                        editorState.buttonStateHelper.enabled("write", this.hasAnythingToSave());
+                        editorState.buttonStateHelper.enabled("undo", this.hasAnythingToUndo());
+                        editorState.buttonStateHelper.enabled("redo", this.hasAnythingToRedo());
+
+                        //change leaveMessage show
+                        if (this.hasAnythingToSave()) {
+                            $(window).off('beforeunload', leaveMessage).on('beforeunload', leaveMessage);
+                        } else {
+                            $(window).off('beforeunload', leaveMessage);
+                        }
+                    }
+                );
+                editorState.buttonStateHelper.updateAll();
+            };
+
+            controller.init();
+            initState();
+
+            // read default spanConfig
+            spanConfig.set();
+
+            var params = {
+                debug: this.attr("debug"),
+                config: this.attr("config"),
+                target: this.attr("annotations")
+            };
+
+            if (params.config && params.config !== "") {
+                // load sync, because load annotation after load config. 
+                var data = textAeUtil.ajaxAccessor.getSync(params.config);
+                if (data !== null) {
+                    spanConfig.set(data);
+                    setTypeConfig(data);
+                } else {
+                    alert('could not read the span configuration from the location you specified.');
+                }
+            }
+
+            if (params.target && params.target !== "") {
+                dataAccessObject.getAnnotationFromServer(params.target);
+            }
+        }.bind(this);
+
+        // state of editor component.
+        var editorState = function(editor) {
+            return {
+                // editorState.clipBoard has entity id only.
+                clipBoard: [],
+                isReplicateAuto: false,
+                // Helper to update button state. 
+                buttonStateHelper: function() {
+                    var disableButtons = {};
+                    var updateDisableButtons = function(button, enable) {
+                        if (enable) {
+                            delete disableButtons[button];
+                        } else {
+                            disableButtons[button] = true;
+                        }
+                    };
+                    var updateEntity = function() {
+                        updateDisableButtons("entity", domUtil.selector.span.getNumberOfSelected() > 0);
+                    };
+                    var updatePaste = function() {
+                        updateDisableButtons("paste", editorState.clipBoard.length > 0 && domUtil.selector.span.getNumberOfSelected() > 0);
+                    };
+                    var updateReplicate = function() {
+                        updateDisableButtons("replicate", domUtil.selector.span.getNumberOfSelected() == 1);
+                    };
+                    var updatePallet = function() {
+                        updateDisableButtons("pallet", domUtil.selector.entity.getNumberOfSelected() > 0);
+                    };
+                    var updateNewLabel = function() {
+                        updateDisableButtons("newLabel", domUtil.selector.entity.getNumberOfSelected() > 0);
+                    };
+                    var updateDelete = function() {
+                        updateDisableButtons("delete", domUtil.selector.hasSelecteds());
+                    };
+                    var updateCopy = function() {
+                        updateDisableButtons("copy", domUtil.selector.entity.hasSelecteds());
+                    };
+                    var updateBySpanAndEntityBoth = function() {
+                        updateDelete();
+                        updateCopy();
+                    };
+                    return {
+                        pushed: function(button, push) {
+                            editor.tool.pushReplicateAuto(push);
+                        },
+                        renderEnable: function() {
+                            editor.tool.changeButtonState(disableButtons);
+                        },
+                        enabled: function(button, enable) {
+                            updateDisableButtons(button, enable);
+                            this.renderEnable();
+                        },
+                        updateBySpan: function() {
+                            updateBySpanAndEntityBoth();
+
+                            updateEntity();
+                            updatePaste();
+                            updateReplicate();
+
+                            this.renderEnable();
+                        },
+                        updateByEntity: function() {
+                            updateBySpanAndEntityBoth();
+
+                            updatePallet();
+                            updateNewLabel();
+
+                            this.renderEnable();
+                        },
+                        updateAll: function() {
+                            updateBySpanAndEntityBoth();
+
+                            updateEntity();
+                            updatePaste();
+                            updateReplicate();
+                            updatePallet();
+                            updateNewLabel();
+
+                            this.renderEnable();
+                        },
+                    };
+                }(),
+                toggleReplicateAuto: function() {
+                    editorState.isReplicateAuto = !editorState.isReplicateAuto;
+                    editorState.buttonStateHelper.pushed("replicate-auto", editorState.isReplicateAuto);
+                },
+            };
+        }(this);
+
+        //this object respose to save and load data.
+        var dataAccessObject = function(self) {
+            //load/saveDialog
+            var loadSaveDialog = function() {
+                var getLoadDialog = function() {
+                    var $content = $('<div>')
+                        .append('<div>Sever :<input type="text" class="textae-editor__load-dialog__file-name" /><input type="button" value="OK" /></div>')
+                        .append('<div>Local :<input type="file"　/></div>')
+                        .on('change', '[type="file"]',
+                            function() {
+                                dataAccessObject.getAnnotationFromFile(this);
+                                $content.dialogClose();
+                            })
+                        .on('click', '[type="button"]',
+                            function() {
+                                var url = $content.find('.textae-editor__load-dialog__file-name').val();
+                                dataAccessObject.getAnnotationFromServer(url);
+                                $content.dialogClose();
+                            });
+
+                    return textAeUtil.getDialog(self.editorId, 'textae.dialog.load', 'Load document with annotation.', $content);
+                };
+
+                var getSaveDialog = function() {
+                    var $content = $('<div>')
+                        .append('<div>Sever :<input type="text" class="textae-editor__save-dialog__file-name" /><input type="button" value="OK" /></div>')
+                        .append('<div>Local :<span class="span_link_place"><a target="_blank"/></span></div>')
+                        .on('click', 'a', function() {
+                            command.updateSavePoint();
+                            $content.dialogClose();
+                        })
+                        .on('click', '[type="button"]', function() {
+                            var url = $content.find('.textae-editor__save-dialog__file-name').val();
+                            dataAccessObject.saveAnnotationToServer(url);
+                            $content.dialogClose();
+                        });
+
+                    return textAeUtil.getDialog(self.editorId, 'textae.dialog.save', 'Save document with annotation.', $content);
+                };
+
+                return {
+                    showLoad: function(url) {
+                        getLoadDialog().open(url);
+                    },
+                    showSave: function(url, downloadPath) {
+                        var createFileLink = function($save_dialog, downloadPath) {
+                            var $fileInput = getLoadDialog().find("input[type='file']");
+
+                            var file = $fileInput.prop('files')[0];
+                            var name = file ? file.name : 'annotations.json';
+                            var link = $save_dialog.find('a')
+                                .text(name)
+                                .attr('href', downloadPath)
+                                .attr('download', name);
+                        };
+
+                        var $dialog = getSaveDialog();
+
+                        //create local link
+                        createFileLink($dialog, downloadPath);
+
+                        //open dialog
+                        $dialog.open(url);
+                    }
+                };
+            }();
+
+            var getMessageArea = function() {
+                $messageArea = self.find('.textae-editor__footer .textae-editor__footer__message');
+                if ($messageArea.length === 0) {
+                    $messageArea = $("<div>").addClass("textae-editor__footer__message");
+                    var $footer = $("<div>")
+                        .addClass("textae-editor__footer")
+                        .append($messageArea);
+                    self.append($footer);
+                }
+
+                return $messageArea;
+            };
+
+            var showSaveSuccess = function() {
+                getMessageArea().html("annotation saved").fadeIn().fadeOut(5000, function() {
+                    $(this).html('').removeAttr('style');
+                    setDataSourceUrl(dataSourceUrl);
+                });
+                command.updateSavePoint();
+                domUtil.cursorChanger.endWait();
+            };
+
+            var showSaveError = function() {
+                getMessageArea.html("could not save").fadeIn().fadeOut(5000, function() {
+                    $(this).html('').removeAttr('style');
+                    setDataSourceUrl(dataSourceUrl);
+                });
+                domUtil.cursorChanger.endWait();
+            };
+
+            var setDataSourceUrl = function(url) {
+                if (url !== "") {
+                    var targetDoc = url.replace(/\/annotations\.json$/, '');
+                    getMessageArea().html("(Target: <a href='" + targetDoc + "'>" + targetDoc + "</a>)");
+                    dataSourceUrl = url;
+                }
+            };
+
+            var dataSourceUrl = "";
+
+            return {
+                getAnnotationFromServer: function(url) {
+                    domUtil.cursorChanger.startWait();
+                    textAeUtil.ajaxAccessor.getAsync(url, function(annotation) {
+                        command.reset(annotation);
+                        setDataSourceUrl(url);
+                    }, function() {
+                        domUtil.cursorChanger.endWait();
+                    });
+                },
+                getAnnotationFromFile: function(fileEvent) {
+                    var reader = new FileReader();
+                    reader.onload = function() {
+                        var annotation = JSON.parse(this.result);
+                        command.reset(annotation);
+                    };
+                    reader.readAsText(fileEvent.files[0]);
+                },
+                saveAnnotationToServer: function(url) {
+                    domUtil.cursorChanger.startWait();
+                    var postData = model.annotationData.toJason();
+                    textAeUtil.ajaxAccessor.post(url, postData, showSaveSuccess, showSaveError, function() {
+                        domUtil.cursorChanger.endWait();
+                    });
+                    command.updateSavePoint();
+                },
+                showAccess: function() {
+                    loadSaveDialog.showLoad(dataSourceUrl);
+                },
+                showSave: function() {
+                    var createSaveFile = function(contents) {
+                        var blob = new Blob([contents], {
+                            type: 'application/json'
+                        });
+                        return URL.createObjectURL(blob);
+                    };
+
+                    loadSaveDialog.showSave(dataSourceUrl, createSaveFile(model.annotationData.toJason()));
+                },
+            };
+        }(this);
+
+        var idFactory = function(editor) {
+            return {
+                // paragraph id
+                makeParagraphId: function(index) {
+                    return editor.editorId + '__P' + index;
+                },
+                // span id
+                makeSpanId: function(begin, end) {
+                    return editor.editorId + '__S' + begin + '_' + end;
+                },
+                parseSpanId: function(spanId) {
+                    var beginEnd = spanId.replace(editor.editorId + '__S', '').split('_');
+                    return {
+                        begin: beginEnd[0],
+                        end: beginEnd[1]
+                    };
+                },
+                // type id
+                makeTypeId: function(sid, type) {
+                    return sid + '-' + type;
+                },
+                makeEntityDomId: function(entityId) {
+                    return editor.editorId + '__E' + entityId;
+                }
+            };
+        }(this);
 
         // model manages data objects.
         var model = function(editor) {
@@ -520,9 +863,10 @@
                         }
                     }
                 },
+                relationsPerEntity: {},
                 initRelationsPerEntity: function(relations) {
                     if (relations !== undefined) {
-                        relationsPerEntity = {};
+                        model.relationsPerEntity = {};
                         relations.forEach(function(r) {
                             // Update model.relationTypes
                             if (!model.relationTypes[r.pred]) {
@@ -536,20 +880,20 @@
                             }
 
                             // initRelationsPerEntity
-                            if (relationsPerEntity[r.subj]) {
-                                if (relationsPerEntity[r.subj].indexOf(r.id) < 0) {
-                                    relationsPerEntity[r.subj].push(r.id);
+                            if (model.relationsPerEntity[r.subj]) {
+                                if (model.relationsPerEntity[r.subj].indexOf(r.id) < 0) {
+                                    model.relationsPerEntity[r.subj].push(r.id);
                                 }
                             } else {
-                                relationsPerEntity[r.subj] = [r.id];
+                                model.relationsPerEntity[r.subj] = [r.id];
                             }
 
-                            if (relationsPerEntity[r.obj]) {
-                                if (relationsPerEntity[r.obj].indexOf(r.id) < 0) {
-                                    relationsPerEntity[r.obj].push(r.id);
+                            if (model.relationsPerEntity[r.obj]) {
+                                if (model.relationsPerEntity[r.obj].indexOf(r.id) < 0) {
+                                    model.relationsPerEntity[r.obj].push(r.id);
                                 }
                             } else {
-                                relationsPerEntity[r.obj] = [r.id];
+                                model.relationsPerEntity[r.obj] = [r.id];
                             }
                         });
                     }
@@ -659,482 +1003,51 @@
                         return !isOriginSpan(span) && isWord(span) && !isAlreadySpaned(span) && !isBoundaryCrossingWithOtherSpans(span);
                     });
                 },
-            };
-        }(this);
-
-        // index
-        var relationsPerEntity;
-
-        // constant values
-        var CONSTS = {
-            BLOCK_THRESHOLD: 100,
-            TYPE_MARGIN_TOP: 18,
-            TYPE_MARGIN_BOTTOM: 2,
-            PALLET_HEIGHT_MAX: 100
-        };
-
-        var startEdit = function startEdit() {
-            var setTypeConfig = function(config) {
-                model.entityTypes.set(config['entity types']);
-                model.setRelationTypes(config['relation types']);
-
-                if (config.css !== undefined) {
-                    $('#css_area').html('<link rel="stylesheet" href="' + config.css + '"/>');
-                }
-            };
-
-            var initState = function() {
-                command.init(
-                    function() {
-                        // An event handler called when command.history is changed.
-                        var leaveMessage = function() {
-                            return "There is a change that has not been saved. If you leave now, you will lose it.";
-                        };
-
-                        //change button state
-                        editorState.buttonState.enabled("write", this.hasAnythingToSave());
-                        editorState.buttonState.enabled("undo", this.hasAnythingToUndo());
-                        editorState.buttonState.enabled("redo", this.hasAnythingToRedo());
-
-                        //change leaveMessage show
-                        if (this.hasAnythingToSave()) {
-                            $(window).off('beforeunload', leaveMessage).on('beforeunload', leaveMessage);
-                        } else {
-                            $(window).off('beforeunload', leaveMessage);
-                        }
-                    }
-                );
-                editorState.buttonState.updateAll();
-            };
-
-            controller.init();
-            initState();
-
-            // read default spanConfig
-            spanConfig.set();
-
-            var params = {
-                debug: this.attr("debug"),
-                config: this.attr("config"),
-                target: this.attr("annotations")
-            };
-
-            if (params.config && params.config !== "") {
-                // load sync, because load annotation after load config. 
-                var data = textAeUtil.ajaxAccessor.getSync(params.config);
-                if (data !== null) {
-                    spanConfig.set(data);
-                    setTypeConfig(data);
-                } else {
-                    alert('could not read the span configuration from the location you specified.');
-                }
-            }
-
-            if (params.target && params.target !== "") {
-                dataAccessObject.getAnnotationFromServer(params.target);
-            }
-        }.bind(this);
-
-        // A command is an operation by user that is saved as history, and can undo and redo.
-        // Users can edit model only via commands. 
-        var command = function() {
-            // histories of edit to undo and redo.
-            var history = function() {
-                var lastSaveIndex = -1,
-                    lastEditIndex = -1,
-                    history = [],
-                    onChangeFunc,
-                    trigger = function() {
-                        if (onChangeFunc) {
-                            onChangeFunc();
-                        }
-                    };
-
-                return {
-                    init: function(onChange) {
-                        if (onChange !== undefined) {
-                            onChangeFunc = onChange.bind(this);
-                        }
-                    },
-                    reset: function() {
-                        lastSaveIndex = -1;
-                        lastEditIndex = -1;
-                        history = [];
-                        trigger();
-                    },
-                    push: function(commands) {
-                        history.splice(lastEditIndex + 1, history.length - lastEditIndex, commands);
-                        lastEditIndex++;
-                        trigger();
-                    },
-                    next: function() {
-                        lastEditIndex++;
-                        trigger();
-                        return history[lastEditIndex];
-                    },
-                    prev: function() {
-                        var lastEdit = history[lastEditIndex];
-                        lastEditIndex--;
-                        trigger();
-                        return lastEdit;
-                    },
-                    saved: function() {
-                        lastSaveIndex = lastEditIndex;
-                        trigger();
-                    },
-                    hasAnythingToUndo: function() {
-                        return lastEditIndex > -1;
-                    },
-                    hasAnythingToRedo: function() {
-                        return lastEditIndex < history.length - 1;
-                    },
-                    hasAnythingToSave: function() {
-                        return lastEditIndex != lastSaveIndex;
-                    }
-                };
-            }();
-
-            return {
-                init: function(onChange) {
-                    history.init(onChange);
-                    history.reset();
-                },
-                resetHistory: function() {
-                    history.reset();
-                },
-                updateSavePoint: function() {
-                    history.saved();
-                },
-                // Make isHistoryCommand true when 'undo' or 'redo'.
-                invoke: function(commands, isHistoryCommand) {
-                    if (commands && commands.length > 0) {
-                        if (isHistoryCommand) {
-                            domSelector.unselect();
-                            renderer.relation.clearRelationSelection();
+                reset: function(annotation) {
+                    var parseSouseDoc = function(data) {
+                        //validate
+                        if (data.text === undefined) {
+                            alert("read failed.");
+                            return;
                         }
 
-                        commands.forEach(function(command) {
-                            command.execute();
-                        });
-
-                        presentationLogic.redraw();
-
-                        if (!isHistoryCommand) {
-                            history.push(commands);
-                            editorState.buttonState.updateAll();
+                        //parse a souce document.
+                        model.sourceDoc = data.text;
+                        model.annotationData.parseParagraphs(data.text);
+                    };
+                    var parseDenotations = function(data) {
+                        model.annotationData.parseDenotations(data.denotations);
+                        if (data.denotations !== undefined) {
+                            data.denotations.forEach(function(d) {
+                                //d.obj is type of entity.
+                                model.entityTypes.incrementNumberOfTypes(d.obj);
+                            });
                         }
-                    }
-                },
-                factory: function() {
-                    var debugLog = function(message) {
-                        // For debug
-                        console.log('[command.invoke]', message);
+                    };
+                    var parseRelations = function(data) {
+                        model.annotationData.parseRelations(data.relations);
+                        model.initRelationsPerEntity(data.relations);
+                        model.initConnectorTypes();
                     };
 
-                    return {
-                        spanCreateCommand: function(newSpan) {
-                            var id = idFactory.makeSpanId(newSpan.begin, newSpan.end);
-                            return {
-                                execute: function() {
-                                    try {
-                                        // model
-                                        model.annotationData.addSpan({
-                                            begin: newSpan.begin,
-                                            end: newSpan.end
-                                        });
-
-                                        // rendering
-                                        renderer.span.render(id);
-
-                                        // select
-                                        domSelector.span.select(id);
-
-                                        debugLog('create a new span, spanId:' + id);
-                                    } catch (e) {
-                                        // Rollback model data unless dom create.
-                                        model.annotationData.removeSpan(id);
-                                        throw e;
-                                    }
-                                },
-                                revert: command.factory.spanRemoveCommand.bind(null, id),
-                            };
-                        },
-                        spanRemoveCommand: function(spanId) {
-                            var span = model.annotationData.getSpan(spanId);
-                            return {
-                                execute: function() {
-                                    // Save a span potision for undo
-                                    this.begin = span.begin;
-                                    this.end = span.end;
-                                    // model
-                                    model.annotationData.removeSpan(spanId);
-                                    // rendering
-                                    renderer.span.destroy(spanId);
-
-                                    debugLog('remove a span, spanId:' + spanId);
-                                },
-                                revert: command.factory.spanCreateCommand.bind(null, {
-                                    begin: span.begin,
-                                    end: span.end
-                                })
-                            };
-                        },
-                        spanMoveCommand: function(spanId, begin, end) {
-                            var commands = [];
-                            var newSpanId = idFactory.makeSpanId(begin, end);
-                            if (!model.annotationData.getSpan(newSpanId)) {
-                                commands.push(command.factory.spanRemoveCommand(spanId));
-                                commands.push(command.factory.spanCreateCommand({
-                                    begin: begin,
-                                    end: end
-                                }));
-                                model.annotationData.getSpan(spanId).getTypes().forEach(function(type) {
-                                    type.entities.forEach(function(entityId) {
-                                        commands.push(command.factory.entityCreateCommand(newSpanId, type.name, entityId));
-                                    });
-                                });
-                            }
-                            var oldBeginEnd = idFactory.parseSpanId(spanId);
-
-                            return {
-                                execute: function() {
-                                    commands.forEach(function(command) {
-                                        command.execute();
-                                    });
-                                    debugLog('move a span, spanId:' + spanId + ', newBegin:' + begin + ', newEnd:' + end);
-                                },
-                                revert: command.factory.spanMoveCommand.bind(null, newSpanId, oldBeginEnd.begin, oldBeginEnd.end),
-                            };
-                        },
-                        spanReplicateCommand: function(span) {
-                            var commands = model.getReplicationSpans(span)
-                                .map(command.factory.spanCreateCommand);
-
-                            return {
-                                execute: function() {
-                                    commands.forEach(function(command) {
-                                        command.execute();
-                                    });
-                                    debugLog('replicate a span, begin:' + span.begin + ', end:' + span.end);
-                                },
-                                revert: function() {
-                                    var revertedCommands = commands.map(function(command) {
-                                        return command.revert();
-                                    });
-                                    return {
-                                        execute: function() {
-                                            revertedCommands.forEach(function(command) {
-                                                command.execute();
-                                            });
-                                            debugLog('revert replicate a span, begin:' + span.begin + ', end:' + span.end);
-                                        }
-                                    };
-                                }
-                            };
-                        },
-                        entityCreateCommand: function(spanId, typeName, entityId) {
-                            return {
-                                execute: function() {
-                                    // Overwrite to revert
-                                    entityId = entityId || model.annotationData.getNewEntityId();
-                                    // model
-                                    var newEntity = {
-                                        id: entityId,
-                                        span: spanId,
-                                        type: typeName
-                                    };
-                                    model.annotationData.addEntity(newEntity);
-                                    // rendering
-                                    renderer.entity.render(newEntity);
-                                    // select
-                                    domSelector.entity.select(entityId);
-
-                                    debugLog('create a new entity, spanId:' + spanId + ', type:' + typeName + '  entityId:' + entityId);
-                                },
-                                revert: function() {
-                                    // This function cannot be bound, because a new entity id is created at execute.
-                                    return command.factory.entityRemoveCommand(entityId, spanId, typeName);
-                                }
-                            };
-                        },
-                        entityRemoveCommand: function(entityId, spanId, typeName) {
-                            // The spanId and typeName of exist entity are neccesary to revert.
-                            // The spanId and typeName are specified when this function is called from revert of createEntityCommand.
-                            // Because a new entity is not exist yet.
-                            var entity = model.annotationData.entities[entityId];
-                            return {
-                                execute: function() {
-                                    // model
-                                    var deleteEntity = model.annotationData.removeEnitity(entityId);
-                                    // rendering
-                                    renderer.entity.destroy(deleteEntity);
-
-                                    debugLog('remove a entity, spanId:' + entity.span + ', type:' + entity.type + ', entityId:' + entityId);
-                                },
-                                revert: command.factory.entityCreateCommand.bind(null, spanId || entity.span, typeName || entity.type, entityId)
-                            };
-                        },
-                        entityChangeTypeCommand: function(entityId, newType) {
-                            return {
-                                execute: function() {
-                                    var changedEntity = model.annotationData.removeEnitity(entityId);
-                                    var oldType = changedEntity.type;
-                                    changedEntity.type = newType;
-                                    model.annotationData.addEntity(changedEntity);
-                                    // rendering
-                                    renderer.entity.changeTypeOfExists(changedEntity);
-
-                                    debugLog('change type of a entity, spanId:' + changedEntity.span + ', type:' + oldType + ', entityId:' + entityId + ', newType:' + newType);
-                                },
-                                revert: command.factory.entityChangeTypeCommand.bind(null, entityId, model.annotationData.entities[entityId].type)
-                            };
-                        },
-                        relationCreateCommand: function(relationId, subject, object, predicate) {
-                            return {
-                                execute: function() {
-                                    model.annotationData.relations[relationId] = {
-                                        id: relationId,
-                                        subj: subject,
-                                        obj: object,
-                                        pred: predicate
-                                    };
-
-                                    if (relationsPerEntity[subject]) {
-                                        if (relationsPerEntity[subject].indexOf(relationId) < 0) {
-                                            relationsPerEntity[subject].push(relationId);
-                                        }
-                                    } else {
-                                        relationsPerEntity[subject] = [relationId];
-                                    }
-
-                                    if (relationsPerEntity[object]) {
-                                        if (relationsPerEntity[object].indexOf(relationId) < 0) {
-                                            relationsPerEntity[object].push(relationId);
-                                        }
-                                    } else {
-                                        relationsPerEntity[object] = [relationId];
-                                    }
-
-                                    // rendering
-                                    renderer.relation.render(relationId);
-
-                                    // selection
-                                    renderer.relation.selectRelation(relationId);
-
-                                    debugLog('create a new relation relationId:' + relationId + ', subject:' + subject + ', object:' + object + ', predicate:' + predicate);
-                                },
-                                revert: command.factory.relationRemoveCommand.bind(null, relationId)
-                            };
-                        },
-                        relationRemoveCommand: function(relationId) {
-                            var relation = model.annotationData.relations[relationId];
-                            var subject = relation.subj;
-                            var object = relation.obj;
-                            var predicate = relation.pred;
-
-                            return {
-                                execute: function() {
-                                    // model
-                                    delete model.annotationData.relations[relationId];
-
-                                    console.log('before remove relation', relationsPerEntity);
-
-                                    var relatinosOfSubject = relationsPerEntity[subject];
-                                    relatinosOfSubject.splice(relatinosOfSubject.indexOf(relationId), 1);
-                                    if (relatinosOfSubject.length === 0) {
-                                        delete relationsPerEntity[subject];
-                                    }
-                                    var relatinosOfObject = relationsPerEntity[object];
-                                    relatinosOfObject.splice(relatinosOfObject.indexOf(relationId), 1);
-                                    if (relatinosOfObject.length === 0) {
-                                        delete relationsPerEntity[object];
-                                    }
-
-                                    // rendering
-                                    renderer.relation.destroy(relationId);
-
-                                    debugLog('remove a relation relationId:' + relationId + ', subject:' + subject + ', object:' + object + ', predicate:' + predicate);
-                                },
-                                revert: command.factory.relationCreateCommand.bind(null, relationId, subject, object, predicate)
-                            };
-                        },
-                        relationChangePredicateCommand: function(relationId, predicate) {
-                            var oldPredicate = model.annotationData.relations[relationId].pred;
-                            return {
-                                execute: function() {
-                                    // model
-                                    model.annotationData.relations[relationId].pred = predicate;
-                                    // rendering
-                                    renderer.relation.cachedConnectors[relationId].setPaintStyle(model.connectorTypes[predicate + "_selected"].paintStyle);
-                                    renderer.relation.cachedConnectors[relationId].setHoverPaintStyle(model.connectorTypes[predicate + "_selected"].hoverPaintStyle);
-                                    renderer.relation.cachedConnectors[relationId].setLabel('[' + relationId + '] ' + predicate);
-                                    // selection
-                                    renderer.relation.selectRelation(relationId);
-                                },
-                                revert: command.factory.relationChangePredicateCommand.bind(null, relationId, oldPredicate)
-                            };
-                        },
-                        //TODO: relationChangeSubjectCommand, relationChangeObjectCommand
-                    };
-                }(),
-                undo: function() {
-                    var getRevertCommands = function(commands) {
-                        commands = Object.create(commands);
-                        commands.reverse();
-                        return commands.map(function(originCommand) {
-                            return originCommand.revert();
-                        });
-                    };
-
-                    if (history.hasAnythingToUndo()) {
-                        command.invoke(getRevertCommands(history.prev()), true);
-                    }
+                    model.annotationData.reset();
+                    parseSouseDoc(annotation);
+                    parseDenotations(annotation);
+                    parseRelations(annotation);
                 },
-                redo: function() {
-                    if (history.hasAnythingToRedo()) {
-                        command.invoke(history.next(), true);
-                    }
-                },
-            };
-        }();
-
-        var idFactory = function(editor) {
-            return {
-                // paragraph id
-                makeParagraphId: function(index) {
-                    return editor.editorId + '__P' + index;
-                },
-                // span id
-                makeSpanId: function(begin, end) {
-                    return editor.editorId + '__S' + begin + '_' + end;
-                },
-                parseSpanId: function(spanId) {
-                    var beginEnd = spanId.replace(editor.editorId + '__S', '').split('_');
-                    return {
-                        begin: beginEnd[0],
-                        end: beginEnd[1]
-                    };
-                },
-                // type id
-                makeTypeId: function(sid, type) {
-                    return sid + '-' + type;
-                },
-                makeEntityDomId: function(entityId) {
-                    return editor.editorId + '__E' + entityId;
-                }
             };
         }(this);
 
         // Render DOM elements conforming with the Model.
         var renderer = function(editor) {
             var destroyGrid = function(spanId) {
-                var gridId = domSelector.grid.get(spanId).remove().attr('id');
+                var gridId = domUtil.selector.grid.get(spanId).remove().attr('id');
             };
 
             // Utility functions for get positions of elemnts.
             var positionUtils = {
                 getSpan: function(spanId) {
-                    var $span = domSelector.span.get(spanId);
+                    var $span = domUtil.selector.span.get(spanId);
 
                     if ($span.length === 0) {
                         throw new Error("span is not renderd : " + spanId);
@@ -1149,7 +1062,7 @@
                     };
                 },
                 getGrid: function(spanId) {
-                    var $grid = domSelector.grid.get(spanId);
+                    var $grid = domUtil.selector.grid.get(spanId);
                     var gridElement = $grid.get(0);
 
                     return gridElement ? {
@@ -1165,7 +1078,7 @@
                 getEntity: function(entityId) {
                     var spanId = model.annotationData.entities[entityId].span;
 
-                    var $entity = domSelector.entity.get(entityId);
+                    var $entity = domUtil.selector.entity.get(entityId);
                     if ($entity.length === 0) {
                         throw new Error("entity is not rendered : " + entityId);
                     }
@@ -1241,6 +1154,55 @@
             var createEmptyTypeDomElement = createEmptyTypeDomElementFuncs.visible;
 
             return {
+                reset: function() {
+                    var setBodyOffset = function() {
+                        //set body offset top half of line space between line of text-box.
+                        var $area = renderer.helper.getSourceDocArea();
+                        $area.html(model.sourceDoc);
+                        var lines = $area.get(0).getClientRects();
+                        var lineSpace = lines[1].top - lines[0].bottom;
+                        editor.find(".textae-editor__body").css("paddingTop", lineSpace / 2);
+                        $area.empty();
+                    };
+
+                    //souce document has multi paragraphs that are splited by '\n'.
+                    var getTaggedSourceDoc = function() {
+                        //set sroucedoc tagged <p> per line.
+                        return model.sourceDoc.split("\n").map(function(par) {
+                            return '<p class="textae-editor__body__text-box__paragraph">' + par + '</p>';
+                        }).join("\n");
+                    };
+
+                    //paragraphs is Object that has position of charactor at start and end of the statement in each paragraph.
+                    var makeParagraphs = function() {
+                        var paragraphs = {};
+
+                        //enchant id to paragraph element and chache it.
+                        renderer.helper.getSourceDocArea().find('p').each(function(index, element) {
+                            var $element = $(element);
+                            var paragraph = $.extend(model.annotationData.paragraphsArray[index], {
+                                element: $element,
+                            });
+                            $element.attr('id', paragraph.id);
+
+                            paragraphs[paragraph.id] = paragraph;
+                        });
+
+                        return paragraphs;
+                    };
+
+                    //render an source document
+                    setBodyOffset();
+                    renderer.helper.getSourceDocArea().html(getTaggedSourceDoc());
+                    renderer.paragraphs = makeParagraphs();
+
+                    //render annotations
+                    getAnnotationArea().empty();
+                    renderer.helper.renderAllSpan();
+
+                    // Render relations
+                    renderer.helper.renderAllRelation();
+                },
                 helper: function() {
                     var originalRedrawFunction = function() {
                         renderer.grid.arrangePositionAll();
@@ -1251,55 +1213,6 @@
                         // Get the display area for text and spans.
                         getSourceDocArea: function() {
                             return getDivByClass(displayArea, 'textae-editor__body__text-box');
-                        },
-                        renderAnnotation: function() {
-                            var setBodyOffset = function() {
-                                //set body offset top half of line space between line of text-box.
-                                var $area = renderer.helper.getSourceDocArea();
-                                $area.html(model.sourceDoc);
-                                var lines = $area.get(0).getClientRects();
-                                var lineSpace = lines[1].top - lines[0].bottom;
-                                editor.find(".textae-editor__body").css("paddingTop", lineSpace / 2);
-                                $area.empty();
-                            };
-
-                            //souce document has multi paragraphs that are splited by '\n'.
-                            var getTaggedSourceDoc = function() {
-                                //set sroucedoc tagged <p> per line.
-                                return model.sourceDoc.split("\n").map(function(par) {
-                                    return '<p class="textae-editor__body__text-box__paragraph">' + par + '</p>';
-                                }).join("\n");
-                            };
-
-                            //paragraphs is Object that has position of charactor at start and end of the statement in each paragraph.
-                            var makeParagraphs = function() {
-                                var paragraphs = {};
-
-                                //enchant id to paragraph element and chache it.
-                                renderer.helper.getSourceDocArea().find('p').each(function(index, element) {
-                                    var $element = $(element);
-                                    var paragraph = $.extend(model.annotationData.paragraphsArray[index], {
-                                        element: $element,
-                                    });
-                                    $element.attr('id', paragraph.id);
-
-                                    paragraphs[paragraph.id] = paragraph;
-                                });
-
-                                return paragraphs;
-                            };
-
-                            //render an source document
-                            setBodyOffset();
-                            renderer.helper.getSourceDocArea().html(getTaggedSourceDoc());
-                            renderer.paragraphs = makeParagraphs();
-
-                            //render annotations
-                            getAnnotationArea().empty();
-                            renderer.helper.renderAllSpan();
-
-                            // Render relations
-                            renderer.helper.renderAllRelation();
                         },
                         renderAllSpan: function() {
                             // For tuning
@@ -1434,7 +1347,7 @@
                                     // The target text arrounded by currentSpan is the first child of parent unless bigBrother exists.
                                     if (currentSpan.parent) {
                                         // The parent is span
-                                        var textNodeInPrevSpan = domSelector.span.get(currentSpan.parent.id).contents().filter(function() {
+                                        var textNodeInPrevSpan = domUtil.selector.span.get(currentSpan.parent.id).contents().filter(function() {
                                             return this.nodeType === 3;
                                         }).get(0);
                                         return createRange(textNodeInPrevSpan, currentSpan.parent.begin);
@@ -1535,7 +1448,7 @@
 
                         // An entity may have new type when changing type of the entity.
                         // DOM has old type.
-                        var typeOnDom = domSelector.entity.get(entity.id).remove().attr('type');
+                        var typeOnDom = domUtil.selector.entity.get(entity.id).remove().attr('type');
 
                         // Delete type if no entity.
                         if (doesTypeHasNoEntity(typeOnDom)) {
@@ -1569,7 +1482,7 @@
                                     };
 
                                     // Create a grid unless it exists.
-                                    var $grid = domSelector.grid.get(spanId);
+                                    var $grid = domUtil.selector.grid.get(spanId);
                                     if ($grid.length === 0) {
                                         return createGrid(spanId);
                                     } else {
@@ -1632,7 +1545,7 @@
                             var spanId = span.id;
                             var spanPosition = positionUtils.getSpan(spanId);
                             var gridPosition = positionUtils.getGrid(spanId);
-                            domSelector.grid.get(spanId).css({
+                            domUtil.selector.grid.get(spanId).css({
                                 'top': spanPosition.top - CONSTS.TYPE_MARGIN_BOTTOM - gridPosition.height,
                                 'left': spanPosition.left
                             });
@@ -1642,7 +1555,7 @@
                             var getChildrenMaxHeight = function(span) {
                                 return span.children.length === 0 ? 0 :
                                     Math.max.apply(null, span.children.map(function(childSpan) {
-                                        return domSelector.span.get(childSpan.id).outerHeight();
+                                        return domUtil.selector.span.get(childSpan.id).outerHeight();
                                     }));
                             };
 
@@ -1655,7 +1568,7 @@
 
                                 // console.log(span.id, 'childrenMaxHeight', descendantsMaxHeight);
 
-                                // var ret = domSelector.grid.get(span.id).outerHeight() + descendantsMaxHeight + CONSTS.TYPE_MARGIN_BOTTOM;
+                                // var ret = domUtil.selector.grid.get(span.id).outerHeight() + descendantsMaxHeight + CONSTS.TYPE_MARGIN_BOTTOM;
                                 var ret = positionUtils.getGrid(span.id).height + descendantsMaxHeight + CONSTS.TYPE_MARGIN_BOTTOM;
 
                                 // console.log(span.id, 'descendantsMaxHeight', ret);
@@ -1667,7 +1580,7 @@
                                 var spanPosition = positionUtils.getSpan(span.id);
                                 var descendantsMaxHeight = getHeightIncludeDescendantGrids(span);
 
-                                domSelector.grid.get(span.id).css({
+                                domUtil.selector.grid.get(span.id).css({
                                     'top': spanPosition.top - CONSTS.TYPE_MARGIN_BOTTOM - descendantsMaxHeight,
                                 });
                                 // console.log('pull', span.id, spanPosition.top, '-', CONSTS.TYPE_MARGIN_BOTTOM, '-', descendantsMaxHeight, '=', spanPosition.top - CONSTS.TYPE_MARGIN_BOTTOM - descendantsMaxHeight);
@@ -1768,8 +1681,8 @@
                             // make connector
                             var pred = model.annotationData.relations[relationId].pred;
                             var conn = jsPlumbInstance.connect({
-                                source: domSelector.entity.get(sourceId),
-                                target: domSelector.entity.get(targetId),
+                                source: domUtil.selector.entity.get(sourceId),
+                                target: domUtil.selector.entity.get(targetId),
                                 anchors: [sourceAnchor, targetAnchor],
                                 connector: ['Bezier', {
                                     curviness: curviness
@@ -1992,8 +1905,8 @@
                                 commands = moveSpan(sid, model.annotationData.getSpan(sid).begin, newEnd);
                             }
                         } else {
-                            domSelector.span.select(sid);
-                            businessLogic.removeSelectedElements();
+                            domUtil.selector.span.select(sid);
+                            userEvent.editHandler.removeSelectedElements();
                         }
                     } else {
                         // shorten the left boundary
@@ -2007,8 +1920,8 @@
                                 commands = moveSpan(sid, newBegin, model.annotationData.getSpan(sid).end);
                             }
                         } else {
-                            domSelector.span.select(sid);
-                            businessLogic.removeSelectedElements();
+                            domUtil.selector.span.select(sid);
+                            userEvent.editHandler.removeSelectedElements();
                         }
                     }
 
@@ -2028,8 +1941,8 @@
                         (selection.isCollapsed)
                     ) {
                         // bubbles go up
-                        presentationLogic.cancelSelect();
-                        domSelector.dismissBrowserSelection();
+                        userEvent.viewHandler.cancelSelect();
+                        domUtil.selector.dismissBrowserSelection();
                         return true;
                     }
 
@@ -2039,7 +1952,7 @@
                     // no boundary crossing: normal -> create a entity
                     var sid;
                     if (selection.anchorNode.parentElement.id === selection.focusNode.parentElement.id) {
-                        domSelector.unselect();
+                        domUtil.selector.unselect();
 
                         // switch the position when the selection is made from right to left
                         if (anchorPosition > focusPosition) {
@@ -2085,29 +1998,29 @@
                     // boundary crossing: exception
                     else {
                         if (selection.anchorNode.parentNode.parentNode == selection.focusNode.parentNode) {
-                            domSelector.unselect();
+                            domUtil.selector.unselect();
                             expandSpan(selection.anchorNode.parentNode.id, selection);
                         } else if (selection.anchorNode.parentNode == selection.focusNode.parentNode.parentNode) {
-                            domSelector.unselect();
+                            domUtil.selector.unselect();
                             shortenSpan(selection.focusNode.parentNode.id, selection);
-                        } else if (domSelector.span.getNumberOfSelected() == 1) {
-                            sid = domSelector.span.popSelectedId();
+                        } else if (domUtil.selector.span.getNumberOfSelected() == 1) {
+                            sid = domUtil.selector.span.popSelectedId();
 
                             // drag began inside the selected span (expansion)
                             if ((anchorPosition > model.annotationData.getSpan(sid).begin) && (anchorPosition < model.annotationData.getSpan(sid).end)) {
                                 // The focus node should be at one level above the selected node.
-                                if (domSelector.span.get(sid).get(0).parentNode.id == selection.focusNode.parentNode.id) expandSpan(sid, selection);
+                                if (domUtil.selector.span.get(sid).get(0).parentNode.id == selection.focusNode.parentNode.id) expandSpan(sid, selection);
                                 else {
-                                    domSelector.span.select(sid);
+                                    domUtil.selector.span.select(sid);
                                     alert('A span cannot be expanded to make a boundary crossing.');
                                 }
                             }
 
                             // drag ended inside the selected span (shortening)
                             else if ((focusPosition > model.annotationData.getSpan(sid).begin) && (focusPosition < model.annotationData.getSpan(sid).end)) {
-                                if (domSelector.span.get(sid).get(0).id == selection.focusNode.parentNode.id) shortenSpan(sid, selection);
+                                if (domUtil.selector.span.get(sid).get(0).id == selection.focusNode.parentNode.id) shortenSpan(sid, selection);
                                 else {
-                                    domSelector.span.select(sid);
+                                    domUtil.selector.span.select(sid);
                                     alert('A span cannot be shrinked to make a boundary crossing.');
                                 }
                             } else alert('It is ambiguous for which span you want to adjust the boundary. Reselect the span, and try again.');
@@ -2117,39 +2030,39 @@
                     }
                 }
 
-                domSelector.dismissBrowserSelection();
+                domUtil.selector.dismissBrowserSelection();
                 cancelBubble(e);
             };
 
             var spanClicked = function(e) {
-                presentationLogic.hidePallet();
+                userEvent.viewHandler.hidePallet();
                 var selection = window.getSelection();
                 var range = selection.getRangeAt(0);
 
                 if (!selection.isCollapsed) {
-                    if (e.shiftKey && domSelector.span.getNumberOfSelected() == 1) {
+                    if (e.shiftKey && domUtil.selector.span.getNumberOfSelected() == 1) {
                         //select reange of spans.
-                        var firstId = domSelector.span.popSelectedId();
+                        var firstId = domUtil.selector.span.popSelectedId();
                         var secondId = $(this).attr('id');
 
-                        domSelector.dismissBrowserSelection();
-                        domSelector.unselect();
+                        domUtil.selector.dismissBrowserSelection();
+                        domUtil.selector.unselect();
 
                         model.annotationData.getRangeOfSpan(firstId, secondId).forEach(function(spanId) {
-                            domSelector.span.select(spanId);
+                            domUtil.selector.span.select(spanId);
                         });
 
-                        editorState.buttonState.updateBySpan();
+                        editorState.buttonStateHelper.updateBySpan();
                     } else {
                         // if drag, bubble up
                         return true;
                     }
                 } else if (e.ctrlKey) {
-                    domSelector.domElement.toggle(e.target);
-                    editorState.buttonState.updateBySpan();
+                    domUtil.selector.domElement.toggle(e.target);
+                    editorState.buttonStateHelper.updateBySpan();
                 } else {
-                    domSelector.domElement.selectOnly(e.target);
-                    editorState.buttonState.updateAll();
+                    domUtil.selector.domElement.selectOnly(e.target);
+                    editorState.buttonStateHelper.updateAll();
                 }
 
                 return false;
@@ -2158,11 +2071,11 @@
             // event handler (entity is clicked)
             var entityClicked = function(e) {
                 if (e.ctrlKey) {
-                    domSelector.domElement.toggle(e.target);
-                    editorState.buttonState.updateByEntity();
+                    domUtil.selector.domElement.toggle(e.target);
+                    editorState.buttonStateHelper.updateByEntity();
                 } else {
-                    domSelector.domElement.selectOnly(e.target);
-                    editorState.buttonState.updateAll();
+                    domUtil.selector.domElement.selectOnly(e.target);
+                    editorState.buttonStateHelper.updateAll();
                 }
 
                 cancelBubble(e);
@@ -2173,7 +2086,7 @@
             var jsPlumbConnectionClicked = function(jsPlumbConnection, event) {
                 var relationId = jsPlumbConnection.getParameter("id");
 
-                domSelector.unselect();
+                domUtil.selector.unselect();
 
                 if (renderer.relation.isRelationSelected(relationId)) {
                     renderer.relation.deselectRelation(relationId);
@@ -2190,7 +2103,7 @@
 
             var editorSelected = function() {
                 editor.tool.selectMe();
-                editorState.buttonState.renderEnable();
+                editorState.buttonStateHelper.renderEnable();
             };
 
             return {
@@ -2212,598 +2125,674 @@
             };
         }(this);
 
-        var domSelector = {
-            // dismiss the default selection by the browser
-            dismissBrowserSelection: function() {
-                var selection = window.getSelection();
-                selection.collapse(document.body, 0);
-            },
-            getSelecteds: function() {
-                return $('.ui-selected');
-            },
-            hasSelecteds: function() {
-                return domSelector.getSelecteds().length > 0;
-            },
-            unselect: function() {
-                domSelector.getSelecteds().removeClass('ui-selected');
-                renderer.relation.clearRelationSelection();
-                editorState.buttonState.updateAll();
-            },
-            domElement: function() {
-                var isSelected = function(target) {
-                    return $(target).hasClass('ui-selected');
-                };
-                var select = function(target) {
-                    $(target).addClass('ui-selected');
-                };
-                var deselect = function(target) {
-                    $(target).removeClass('ui-selected');
-                };
+        // A command is an operation by user that is saved as history, and can undo and redo.
+        // Users can edit model only via commands. 
+        var command = function() {
+            // histories of edit to undo and redo.
+            var history = function() {
+                var lastSaveIndex = -1,
+                    lastEditIndex = -1,
+                    history = [],
+                    onChangeFunc,
+                    trigger = function() {
+                        if (onChangeFunc) {
+                            onChangeFunc();
+                        }
+                    };
+
                 return {
-                    toggle: function(target) {
-                        if (isSelected(target)) {
-                            deselect(target);
-                        } else {
-                            select(target);
+                    init: function(onChange) {
+                        if (onChange !== undefined) {
+                            onChangeFunc = onChange.bind(this);
                         }
                     },
-                    selectOnly: function(target) {
-                        domSelector.getSelecteds().removeClass('ui-selected');
-                        renderer.relation.clearRelationSelection();
-                        select(target);
-                    }
-                };
-            }(),
-            span: {
-                get: function(spanId) {
-                    return $('#' + spanId);
-                },
-                getSelecteds: function() {
-                    return $('.textae-editor__span.ui-selected');
-                },
-                getNumberOfSelected: function() {
-                    return domSelector.span.getSelecteds().length;
-                },
-                getSelectedId: function() {
-                    //return first element id even if multi elements selected.
-                    return domSelector.span.getSelecteds().attr('id');
-                },
-                popSelectedId: function() {
-                    var ss = domSelector.span.getSelecteds();
-                    if (ss.length === 1) {
-                        ss.removeClass('ui-selected');
-                        return ss.attr('id');
-                    } else {
-                        return null;
-                    }
-                },
-                select: function(spanId) {
-                    domSelector.span.get(spanId).addClass('ui-selected');
-                    editorState.buttonState.updateBySpan();
-                },
-            },
-            entity: {
-                get: function(eid) {
-                    return $('#' + idFactory.makeEntityDomId(eid));
-                },
-                getSelecteds: function() {
-                    return $('.textae-editor__entity.ui-selected');
-                },
-                getNumberOfSelected: function() {
-                    return domSelector.entity.getSelecteds().length;
-                },
-                hasSelecteds: function() {
-                    return domSelector.entity.getNumberOfSelected() > 0;
-                },
-                getSelectedId: function() {
-                    return domSelector.entity.getSelecteds().attr('title');
-                },
-                select: function(eid) {
-                    domSelector.entity.get(eid).addClass('ui-selected');
-                },
-            },
-            grid: {
-                get: function(spanId) {
-                    return $('#G' + spanId);
-                }
-            },
-        };
-
-        //user event to edit model
-        var businessLogic = {
-            loadAnnotation: function(annotation) {
-                var parseSouseDoc = function(data) {
-                    //validate
-                    if (data.text === undefined) {
-                        alert("read failed.");
-                        return;
-                    }
-
-                    //parse a souce document.
-                    model.sourceDoc = data.text;
-                    model.annotationData.parseParagraphs(data.text);
-                };
-
-                var parseDenotations = function(data) {
-                    model.annotationData.parseDenotations(data.denotations);
-                    if (data.denotations !== undefined) {
-                        data.denotations.forEach(function(d) {
-                            //d.obj is type of entity.
-                            model.entityTypes.incrementNumberOfTypes(d.obj);
-                        });
-                    }
-                };
-
-                var parseRelations = function(data) {
-                    model.annotationData.parseRelations(data.relations);
-                    model.initRelationsPerEntity(data.relations);
-                    model.initConnectorTypes();
-                };
-
-                model.annotationData.reset();
-                parseSouseDoc(annotation);
-                parseDenotations(annotation);
-                parseRelations(annotation);
-                command.resetHistory();
-
-                renderer.helper.renderAnnotation();
-            },
-            saveHistory: function() {
-                command.updateSavePoint();
-            },
-
-            replicate: function() {
-                if (domSelector.span.getNumberOfSelected() === 1) {
-                    command.invoke([command.factory.spanReplicateCommand(model.annotationData.getSpan(domSelector.span.getSelectedId()))]);
-                } else {
-                    alert('You can replicate span annotation when there is only span selected.');
-                }
-            },
-
-            createEntity: function() {
-                var commands = [];
-                domSelector.span.getSelecteds().each(function() {
-                    commands.push(command.factory.entityCreateCommand(this.id, model.entityTypes.getDefaultType()));
-                });
-
-                command.invoke(commands);
-            },
-
-            changeTypeOfSelectedEntities: function(newType) {
-                var $selectedEntities = domSelector.entity.getSelecteds();
-                if ($selectedEntities.length > 0) {
-
-                    var commands = [];
-                    $selectedEntities.each(function() {
-                        commands.push(command.factory.entityChangeTypeCommand(this.title, newType));
-                    });
-
-                    command.invoke(commands);
-                }
-            },
-            // set the type of an entity
-            setEntityType: function() {
-                var newType = $(this).attr('label');
-                businessLogic.changeTypeOfSelectedEntities(newType);
-                return false;
-            },
-            newLabel: function() {
-                var newType = prompt("Please enter a new label", "");
-                businessLogic.changeTypeOfSelectedEntities(newType);
-            },
-
-            removeSelectedElements: function() {
-                var removeCommand = function() {
-                    var unique = function(array) {
-                        var hash = {};
-                        array.forEach(function(element) {
-                            hash[element] = null;
-                        });
-                        return Object.keys(hash);
-                    };
-
-                    var spanIds = [],
-                        entityIds = [],
-                        relationIds = [];
-                    return {
-                        addSpanId: function(spanId) {
-                            spanIds.push(spanId);
-                        },
-                        addEntityId: function(entityId) {
-                            entityIds.push(entityId);
-                        },
-                        addRelations: function(addedRelations) {
-                            Array.prototype.push.apply(relationIds, addedRelations);
-                        },
-                        getAll: function() {
-                            return unique(relationIds).map(command.factory.relationRemoveCommand)
-                                .concat(
-                                    unique(entityIds).map(function(entity) {
-                                        // Wrap by a anonymous function, because command.factory.entityRemoveCommand has two optional argumets.
-                                        return command.factory.entityRemoveCommand(entity);
-                                    }),
-                                    unique(spanIds).map(command.factory.spanRemoveCommand));
-                        },
-                    };
-                }();
-
-                var removeEnitity = function(entityId) {
-                    removeCommand.addEntityId(entityId);
-                    if (relationsPerEntity[entityId]) {
-                        removeCommand.addRelations(relationsPerEntity[entityId]);
-                    }
-                };
-
-                //remove spans
-                domSelector.span.getSelecteds().each(function() {
-                    var spanId = this.id;
-                    removeCommand.addSpanId(spanId);
-
-                    model.annotationData.getSpan(spanId).getTypes().forEach(function(type) {
-                        type.entities.forEach(function(entityId) {
-                            removeEnitity(entityId);
-                        });
-                    });
-                });
-
-                //remove entities
-                domSelector.entity.getSelecteds().each(function() {
-                    //an entity element has the entityId in title. an id is per Editor.
-                    removeEnitity(this.title);
-                });
-
-                //remove relations
-                removeCommand.addRelations(renderer.relation.relationIdsSelected);
-                renderer.relation.relationIdsSelected = [];
-
-                command.invoke(removeCommand.getAll());
-            },
-
-            copyEntities: function() {
-                clipBoard.length = 0;
-                domSelector.entity.getSelecteds().each(function() {
-                    clipBoard.push(this.title);
-                });
-            },
-
-            pasteEntities: function() {
-                var commands = [];
-                domSelector.span.getSelecteds().each(function() {
-                    var spanId = this.id;
-                    //clipBoard has entity ids.
-                    commands = commands.concat(clipBoard.map(function(e) {
-                        return command.factory.entityCreateCommand(spanId, model.annotationData.entities[e].type);
-                    }));
-                });
-
-                command.invoke(commands);
-            },
-
-            // set the default type of denoting object
-            setEntityTypeDefault: function() {
-                model.entityTypes.setDefaultType($(this).attr('label'));
-                return false;
-            },
-        };
-
-        //this object respose to save and load data.
-        var dataAccessObject = function(self) {
-            //load/saveDialog
-            var loadSaveDialog = function() {
-                var getLoadDialog = function() {
-                    var $content = $('<div>')
-                        .append('<div>Sever :<input type="text" class="textae-editor__load-dialog__file-name" /><input type="button" value="OK" /></div>')
-                        .append('<div>Local :<input type="file"　/></div>')
-                        .on('change', '[type="file"]',
-                            function() {
-                                dataAccessObject.getAnnotationFromFile(this);
-                                $content.dialogClose();
-                            })
-                        .on('click', '[type="button"]',
-                            function() {
-                                var url = $content.find('.textae-editor__load-dialog__file-name').val();
-                                dataAccessObject.getAnnotationFromServer(url);
-                                $content.dialogClose();
-                            });
-
-                    return textAeUtil.getDialog(self.editorId, 'textae.dialog.load', 'Load document with annotation.', $content);
-                };
-
-                var getSaveDialog = function() {
-                    var $content = $('<div>')
-                        .append('<div>Sever :<input type="text" class="textae-editor__save-dialog__file-name" /><input type="button" value="OK" /></div>')
-                        .append('<div>Local :<span class="span_link_place"><a target="_blank"/></span></div>')
-                        .on('click', 'a', function() {
-                            businessLogic.saveHistory();
-                            $content.dialogClose();
-                        })
-                        .on('click', '[type="button"]', function() {
-                            var url = $content.find('.textae-editor__save-dialog__file-name').val();
-                            dataAccessObject.saveAnnotationToServer(url);
-                            $content.dialogClose();
-                        });
-
-                    return textAeUtil.getDialog(self.editorId, 'textae.dialog.save', 'Save document with annotation.', $content);
-                };
-
-                return {
-                    showLoad: function(url) {
-                        getLoadDialog().open(url);
+                    reset: function() {
+                        lastSaveIndex = -1;
+                        lastEditIndex = -1;
+                        history = [];
+                        trigger();
                     },
-                    showSave: function(url, downloadPath) {
-                        var createFileLink = function($save_dialog, downloadPath) {
-                            var $fileInput = getLoadDialog().find("input[type='file']");
-
-                            var file = $fileInput.prop('files')[0];
-                            var name = file ? file.name : 'annotations.json';
-                            var link = $save_dialog.find('a')
-                                .text(name)
-                                .attr('href', downloadPath)
-                                .attr('download', name);
-                        };
-
-                        var $dialog = getSaveDialog();
-
-                        //create local link
-                        createFileLink($dialog, downloadPath);
-
-                        //open dialog
-                        $dialog.open(url);
+                    push: function(commands) {
+                        history.splice(lastEditIndex + 1, history.length - lastEditIndex, commands);
+                        lastEditIndex++;
+                        trigger();
+                    },
+                    next: function() {
+                        lastEditIndex++;
+                        trigger();
+                        return history[lastEditIndex];
+                    },
+                    prev: function() {
+                        var lastEdit = history[lastEditIndex];
+                        lastEditIndex--;
+                        trigger();
+                        return lastEdit;
+                    },
+                    saved: function() {
+                        lastSaveIndex = lastEditIndex;
+                        trigger();
+                    },
+                    hasAnythingToUndo: function() {
+                        return lastEditIndex > -1;
+                    },
+                    hasAnythingToRedo: function() {
+                        return lastEditIndex < history.length - 1;
+                    },
+                    hasAnythingToSave: function() {
+                        return lastEditIndex != lastSaveIndex;
                     }
                 };
             }();
 
-            var getMessageArea = function() {
-                $messageArea = self.find('.textae-editor__footer .textae-editor__footer__message');
-                if ($messageArea.length === 0) {
-                    $messageArea = $("<div>").addClass("textae-editor__footer__message");
-                    var $footer = $("<div>")
-                        .addClass("textae-editor__footer")
-                        .append($messageArea);
-                    self.append($footer);
-                }
-
-                return $messageArea;
-            };
-
-            var showSaveSuccess = function() {
-                getMessageArea().html("annotation saved").fadeIn().fadeOut(5000, function() {
-                    $(this).html('').removeAttr('style');
-                    setDataSourceUrl(dataSourceUrl);
-                });
-                command.updateSavePoint();
-                cursor.endWait();
-            };
-
-            var showSaveError = function() {
-                getMessageArea.html("could not save").fadeIn().fadeOut(5000, function() {
-                    $(this).html('').removeAttr('style');
-                    setDataSourceUrl(dataSourceUrl);
-                });
-                cursor.endWait();
-            };
-
-            var setDataSourceUrl = function(url) {
-                if (url !== "") {
-                    var targetDoc = url.replace(/\/annotations\.json$/, '');
-                    getMessageArea().html("(Target: <a href='" + targetDoc + "'>" + targetDoc + "</a>)");
-                    dataSourceUrl = url;
-                }
-            };
-
-            var dataSourceUrl = "";
-
             return {
-                getAnnotationFromServer: function(url) {
-                    cursor.startWait();
-                    textAeUtil.ajaxAccessor.getAsync(url, function(data) {
-                        businessLogic.loadAnnotation(data);
-                        setDataSourceUrl(url);
-                    }, function() {
-                        cursor.endWait();
-                    });
+                init: function(onChange) {
+                    history.init(onChange);
+                    history.reset();
                 },
-                getAnnotationFromFile: function(fileEvent) {
-                    var reader = new FileReader();
-                    reader.onload = function() {
-                        var annotation = JSON.parse(this.result);
-                        businessLogic.loadAnnotation(annotation);
-                    };
-                    reader.readAsText(fileEvent.files[0]);
+                reset: function(annotation) {
+                    model.reset(annotation);
+                    history.reset();
+                    renderer.reset();
                 },
-                saveAnnotationToServer: function(url) {
-                    cursor.startWait();
-                    var postData = model.annotationData.toJason();
-                    textAeUtil.ajaxAccessor.post(url, postData, showSaveSuccess, showSaveError, function() {
-                        cursor.endWait();
-                    });
-                    businessLogic.saveHistory();
+                updateSavePoint: function() {
+                    history.saved();
                 },
-                showAccess: function() {
-                    loadSaveDialog.showLoad(dataSourceUrl);
-                },
-                showSave: function() {
-                    var createSaveFile = function(contents) {
-                        var blob = new Blob([contents], {
-                            type: 'application/json'
+                // Make isHistoryCommand true when 'undo' or 'redo'.
+                invoke: function(commands, isHistoryCommand) {
+                    if (commands && commands.length > 0) {
+                        if (isHistoryCommand) {
+                            domUtil.selector.unselect();
+                            renderer.relation.clearRelationSelection();
+                        }
+
+                        commands.forEach(function(command) {
+                            command.execute();
                         });
-                        return URL.createObjectURL(blob);
-                    };
 
-                    loadSaveDialog.showSave(dataSourceUrl, createSaveFile(model.annotationData.toJason()));
+                        renderer.helper.redraw();
+
+                        if (!isHistoryCommand) {
+                            history.push(commands);
+                            editorState.buttonStateHelper.updateAll();
+                        }
+                    }
                 },
-            };
-        }(this);
-
-        //user event that does not change data.
-        var presentationLogic = function(self) {
-            return {
-                showPallet: function(point) {
-                    //create table contents for entity type.
-                    var makeEntityTypeOfEntityTypePallet = function() {
-                        return model.entityTypes.getSortedNames().map(function(t) {
-                            var type = model.entityTypes.getType(t);
-                            var row = '<tr class="textae-editor__entity-pallet__entity-type" style="background-color:' + type.getColor() + '">';
-
-                            row += '<th><input type="radio" name="etype" class="textae-editor__entity-pallet__entity-type__radio" label="' + t + '"';
-                            row += (t == model.entityTypes.getDefaultType()) ? ' title="default type" checked' : '';
-                            row += '/></th>';
-
-                            row += '<td class="textae-editor__entity-pallet__entity-type__label" label="' + t + '">' + t + '</td>';
-
-                            row += '<th title="' + uri + '">';
-
-                            var uri = type.uri;
-                            if (uri) {
-                                row += '<a href="' + uri + '" target="_blank"><img src="images/link.png"/></a>';
-                            }
-
-                            row += '</th>';
-                            row += '</tr>';
-                            return row;
-                        }).join();
+                factory: function() {
+                    var debugLog = function(message) {
+                        // For debug
+                        console.log('[command.invoke]', message);
                     };
 
-                    //return a Pallet that created if not exists.
-                    var getEmptyPallet = function() {
-                        var $pallet = $('.textae-editor__entity-pallet');
-                        if ($pallet.length === 0) {
-                            //setup new pallet
-                            $pallet = $('<div>')
-                                .addClass("textae-editor__entity-pallet")
-                                .append($('<table>'))
-                                .css({
-                                    'position': 'fixed',
-                                    'display': 'none'
+                    return {
+                        spanCreateCommand: function(newSpan) {
+                            var id = idFactory.makeSpanId(newSpan.begin, newSpan.end);
+                            return {
+                                execute: function() {
+                                    try {
+                                        // model
+                                        model.annotationData.addSpan({
+                                            begin: newSpan.begin,
+                                            end: newSpan.end
+                                        });
+
+                                        // rendering
+                                        renderer.span.render(id);
+
+                                        // select
+                                        domUtil.selector.span.select(id);
+
+                                        debugLog('create a new span, spanId:' + id);
+                                    } catch (e) {
+                                        // Rollback model data unless dom create.
+                                        model.annotationData.removeSpan(id);
+                                        throw e;
+                                    }
+                                },
+                                revert: command.factory.spanRemoveCommand.bind(null, id),
+                            };
+                        },
+                        spanRemoveCommand: function(spanId) {
+                            var span = model.annotationData.getSpan(spanId);
+                            return {
+                                execute: function() {
+                                    // Save a span potision for undo
+                                    this.begin = span.begin;
+                                    this.end = span.end;
+                                    // model
+                                    model.annotationData.removeSpan(spanId);
+                                    // rendering
+                                    renderer.span.destroy(spanId);
+
+                                    debugLog('remove a span, spanId:' + spanId);
+                                },
+                                revert: command.factory.spanCreateCommand.bind(null, {
+                                    begin: span.begin,
+                                    end: span.end
                                 })
-                                .on('mouseup', '.textae-edtior__entity-pallet__entity-type__radio', businessLogic.setEntityTypeDefault)
-                                .on('click', '.textae-editor__entity-pallet__entity-type__label', function() {
-                                    presentationLogic.hidePallet();
-                                    businessLogic.setEntityType.call(this);
+                            };
+                        },
+                        spanMoveCommand: function(spanId, begin, end) {
+                            var commands = [];
+                            var newSpanId = idFactory.makeSpanId(begin, end);
+                            if (!model.annotationData.getSpan(newSpanId)) {
+                                commands.push(command.factory.spanRemoveCommand(spanId));
+                                commands.push(command.factory.spanCreateCommand({
+                                    begin: begin,
+                                    end: end
+                                }));
+                                model.annotationData.getSpan(spanId).getTypes().forEach(function(type) {
+                                    type.entities.forEach(function(entityId) {
+                                        commands.push(command.factory.entityCreateCommand(newSpanId, type.name, entityId));
+                                    });
                                 });
+                            }
+                            var oldBeginEnd = idFactory.parseSpanId(spanId);
 
-                            //for show on top append to body.
-                            $("body").append($pallet);
-                        } else {
-                            $pallet.find('table').empty();
-                            $pallet.css('width', 'auto');
-                        }
-                        return $pallet;
+                            return {
+                                execute: function() {
+                                    commands.forEach(function(command) {
+                                        command.execute();
+                                    });
+                                    debugLog('move a span, spanId:' + spanId + ', newBegin:' + begin + ', newEnd:' + end);
+                                },
+                                revert: command.factory.spanMoveCommand.bind(null, newSpanId, oldBeginEnd.begin, oldBeginEnd.end),
+                            };
+                        },
+                        spanReplicateCommand: function(span) {
+                            var commands = model.getReplicationSpans(span)
+                                .map(command.factory.spanCreateCommand);
+
+                            return {
+                                execute: function() {
+                                    commands.forEach(function(command) {
+                                        command.execute();
+                                    });
+                                    debugLog('replicate a span, begin:' + span.begin + ', end:' + span.end);
+                                },
+                                revert: function() {
+                                    var revertedCommands = commands.map(function(command) {
+                                        return command.revert();
+                                    });
+                                    return {
+                                        execute: function() {
+                                            revertedCommands.forEach(function(command) {
+                                                command.execute();
+                                            });
+                                            debugLog('revert replicate a span, begin:' + span.begin + ', end:' + span.end);
+                                        }
+                                    };
+                                }
+                            };
+                        },
+                        entityCreateCommand: function(spanId, typeName, entityId) {
+                            return {
+                                execute: function() {
+                                    // Overwrite to revert
+                                    entityId = entityId || model.annotationData.getNewEntityId();
+                                    // model
+                                    var newEntity = {
+                                        id: entityId,
+                                        span: spanId,
+                                        type: typeName
+                                    };
+                                    model.annotationData.addEntity(newEntity);
+                                    // rendering
+                                    renderer.entity.render(newEntity);
+                                    // select
+                                    domUtil.selector.entity.select(entityId);
+
+                                    debugLog('create a new entity, spanId:' + spanId + ', type:' + typeName + '  entityId:' + entityId);
+                                },
+                                revert: function() {
+                                    // This function cannot be bound, because a new entity id is created at execute.
+                                    return command.factory.entityRemoveCommand(entityId, spanId, typeName);
+                                }
+                            };
+                        },
+                        entityRemoveCommand: function(entityId, spanId, typeName) {
+                            // The spanId and typeName of exist entity are neccesary to revert.
+                            // The spanId and typeName are specified when this function is called from revert of createEntityCommand.
+                            // Because a new entity is not exist yet.
+                            var entity = model.annotationData.entities[entityId];
+                            return {
+                                execute: function() {
+                                    // model
+                                    var deleteEntity = model.annotationData.removeEnitity(entityId);
+                                    // rendering
+                                    renderer.entity.destroy(deleteEntity);
+
+                                    debugLog('remove a entity, spanId:' + entity.span + ', type:' + entity.type + ', entityId:' + entityId);
+                                },
+                                revert: command.factory.entityCreateCommand.bind(null, spanId || entity.span, typeName || entity.type, entityId)
+                            };
+                        },
+                        entityChangeTypeCommand: function(entityId, newType) {
+                            return {
+                                execute: function() {
+                                    var changedEntity = model.annotationData.removeEnitity(entityId);
+                                    var oldType = changedEntity.type;
+                                    changedEntity.type = newType;
+                                    model.annotationData.addEntity(changedEntity);
+                                    // rendering
+                                    renderer.entity.changeTypeOfExists(changedEntity);
+
+                                    debugLog('change type of a entity, spanId:' + changedEntity.span + ', type:' + oldType + ', entityId:' + entityId + ', newType:' + newType);
+                                },
+                                revert: command.factory.entityChangeTypeCommand.bind(null, entityId, model.annotationData.entities[entityId].type)
+                            };
+                        },
+                        relationCreateCommand: function(relationId, subject, object, predicate) {
+                            return {
+                                execute: function() {
+                                    model.annotationData.relations[relationId] = {
+                                        id: relationId,
+                                        subj: subject,
+                                        obj: object,
+                                        pred: predicate
+                                    };
+
+                                    if (model.relationsPerEntity[subject]) {
+                                        if (model.relationsPerEntity[subject].indexOf(relationId) < 0) {
+                                            model.relationsPerEntity[subject].push(relationId);
+                                        }
+                                    } else {
+                                        model.relationsPerEntity[subject] = [relationId];
+                                    }
+
+                                    if (model.relationsPerEntity[object]) {
+                                        if (model.relationsPerEntity[object].indexOf(relationId) < 0) {
+                                            model.relationsPerEntity[object].push(relationId);
+                                        }
+                                    } else {
+                                        model.relationsPerEntity[object] = [relationId];
+                                    }
+
+                                    // rendering
+                                    renderer.relation.render(relationId);
+
+                                    // selection
+                                    renderer.relation.selectRelation(relationId);
+
+                                    debugLog('create a new relation relationId:' + relationId + ', subject:' + subject + ', object:' + object + ', predicate:' + predicate);
+                                },
+                                revert: command.factory.relationRemoveCommand.bind(null, relationId)
+                            };
+                        },
+                        relationRemoveCommand: function(relationId) {
+                            var relation = model.annotationData.relations[relationId];
+                            var subject = relation.subj;
+                            var object = relation.obj;
+                            var predicate = relation.pred;
+
+                            return {
+                                execute: function() {
+                                    // model
+                                    delete model.annotationData.relations[relationId];
+
+                                    console.log('before remove relation', model.relationsPerEntity);
+
+                                    var relatinosOfSubject = model.relationsPerEntity[subject];
+                                    relatinosOfSubject.splice(relatinosOfSubject.indexOf(relationId), 1);
+                                    if (relatinosOfSubject.length === 0) {
+                                        delete model.relationsPerEntity[subject];
+                                    }
+                                    var relatinosOfObject = model.relationsPerEntity[object];
+                                    relatinosOfObject.splice(relatinosOfObject.indexOf(relationId), 1);
+                                    if (relatinosOfObject.length === 0) {
+                                        delete model.relationsPerEntity[object];
+                                    }
+
+                                    // rendering
+                                    renderer.relation.destroy(relationId);
+
+                                    debugLog('remove a relation relationId:' + relationId + ', subject:' + subject + ', object:' + object + ', predicate:' + predicate);
+                                },
+                                revert: command.factory.relationCreateCommand.bind(null, relationId, subject, object, predicate)
+                            };
+                        },
+                        relationChangePredicateCommand: function(relationId, predicate) {
+                            var oldPredicate = model.annotationData.relations[relationId].pred;
+                            return {
+                                execute: function() {
+                                    // model
+                                    model.annotationData.relations[relationId].pred = predicate;
+                                    // rendering
+                                    renderer.relation.cachedConnectors[relationId].setPaintStyle(model.connectorTypes[predicate + "_selected"].paintStyle);
+                                    renderer.relation.cachedConnectors[relationId].setHoverPaintStyle(model.connectorTypes[predicate + "_selected"].hoverPaintStyle);
+                                    renderer.relation.cachedConnectors[relationId].setLabel('[' + relationId + '] ' + predicate);
+                                    // selection
+                                    renderer.relation.selectRelation(relationId);
+                                },
+                                revert: command.factory.relationChangePredicateCommand.bind(null, relationId, oldPredicate)
+                            };
+                        },
+                        //TODO: relationChangeSubjectCommand, relationChangeObjectCommand
+                    };
+                }(),
+                undo: function() {
+                    var getRevertCommands = function(commands) {
+                        commands = Object.create(commands);
+                        commands.reverse();
+                        return commands.map(function(originCommand) {
+                            return originCommand.revert();
+                        });
                     };
 
-                    var $pallet　 = getEmptyPallet();
-                    $pallet.find("table")
-                        .append(makeEntityTypeOfEntityTypePallet(model.entityTypes));
-
-                    //limti max height.
-                    if ($pallet.outerHeight() > CONSTS.PALLET_HEIGHT_MAX) {
-                        $pallet.css('height', CONSTS.PALLET_HEIGHT_MAX);
-                        $pallet.css('width', $pallet.outerWidth() + 30);
-                    }
-
-                    //if open by mouseevent
-                    if (arguments.length === 1) {
-                        $pallet.css('top', point.top);
-                        $pallet.css('left', point.left);
-                    } else {
-                        $pallet.css('top', 10);
-                        $pallet.css('left', 20);
-                    }
-                    $pallet.css('display', 'block');
-                },
-                hidePallet: function() {
-                    $('.textae-editor__entity-pallet').css('display', 'none');
-                },
-                redraw: function() {
-                    renderer.helper.redraw();
-                },
-                cancelSelect: function() {
-                    // if drag, bubble up
-                    if (!window.getSelection().isCollapsed) {
-                        domSelector.dismissBrowserSelection();
-                        return true;
-                    }
-
-                    domSelector.unselect();
-                    presentationLogic.hidePallet();
-                    editorState.buttonState.updateAll();
-
-                    self.tool.cancelSelect();
-                },
-                selectLeftSpan: function() {
-                    if (domSelector.span.getNumberOfSelected() == 1) {
-                        var span = model.annotationData.getSpan(domSelector.span.popSelectedId());
-                        domSelector.unselect();
-                        if (span.left) {
-                            domSelector.span.select(span.left.id);
-                        }
+                    if (history.hasAnythingToUndo()) {
+                        command.invoke(getRevertCommands(history.prev()), true);
                     }
                 },
-                selectRightSpan: function() {
-                    if (domSelector.span.getNumberOfSelected() == 1) {
-
-                        var span = model.annotationData.getSpan(domSelector.span.popSelectedId());
-                        domSelector.unselect();
-                        if (span.right) {
-                            domSelector.span.select(span.right.id);
-                        }
+                redo: function() {
+                    if (history.hasAnythingToRedo()) {
+                        command.invoke(history.next(), true);
                     }
-                },
-                showSettingDialog: function() {
-                    var $content = $('<div>')
-                        .addClass('textae-editor__setting-dialog');
-
-                    // Line Height
-                    $content
-                        .append($('<div>')
-                            .append('<label>Line Height:')
-                            .append($('<input>')
-                                .attr({
-                                    'type': 'number',
-                                    'step': 1,
-                                    'min': 3,
-                                    'max': 10,
-                                    'value': 4,
-                                })
-                                .addClass('textae-editor__setting-dialog__line-height')
-                            ))
-                        .on('change', '.textae-editor__setting-dialog__line-height', function() {
-                            var value = $(this).val();
-                            presentationLogic.changeLineHeight(value);
-                        });
-
-                    // Term Centric View
-                    $content
-                        .append($('<div>')
-                            .append('<label>Term Centric View:')
-                            .append($('<input>')
-                                .attr({
-                                    'type': 'checkbox'
-                                })
-                                .addClass('textae-editor__setting-dialog__term-centric-view')
-                            ))
-                        .on('click', '.textae-editor__setting-dialog__term-centric-view', function() {
-                            var value = $(this).is(':checked');
-                            presentationLogic.switchTermCentricView(value);
-                        });
-
-                    // Open the dialog.                        
-                    textAeUtil.getDialog(self.editorId, 'textae.dialog.setting', 'Chage Settings', $content, true).open();
-                },
-                changeLineHeight: function(heightValue) {
-                    renderer.helper.changeLineHeight(heightValue);
-                    renderer.helper.redraw();
-                },
-                switchTermCentricView: function(isActive) {
-                    if (isActive) {
-                        renderer.helper.switchViewMode('TERM');
-                    } else {
-                        renderer.helper.switchViewMode('INSTANCE');
-                    }
-                    renderer.helper.redraw();
                 },
             };
-        }(this);
+        }();
+
+        var userEvent = {
+            // User event to edit model
+            editHandler: function() {
+                var changeTypeOfSelectedEntities = function(newType) {
+                    var $selectedEntities = domUtil.selector.entity.getSelecteds();
+                    if ($selectedEntities.length > 0) {
+
+                        var commands = [];
+                        $selectedEntities.each(function() {
+                            commands.push(command.factory.entityChangeTypeCommand(this.title, newType));
+                        });
+
+                        command.invoke(commands);
+                    }
+                };
+
+                return {
+                    replicate: function() {
+                        if (domUtil.selector.span.getNumberOfSelected() === 1) {
+                            command.invoke([command.factory.spanReplicateCommand(model.annotationData.getSpan(domUtil.selector.span.getSelectedId()))]);
+                        } else {
+                            alert('You can replicate span annotation when there is only span selected.');
+                        }
+                    },
+                    createEntity: function() {
+                        var commands = [];
+                        domUtil.selector.span.getSelecteds().each(function() {
+                            commands.push(command.factory.entityCreateCommand(this.id, model.entityTypes.getDefaultType()));
+                        });
+
+                        command.invoke(commands);
+                    },
+                    // set the type of an entity
+                    setEntityType: function() {
+                        var newType = $(this).attr('label');
+                        changeTypeOfSelectedEntities(newType);
+                        return false;
+                    },
+                    newLabel: function() {
+                        var newType = prompt("Please enter a new label", "");
+                        changeTypeOfSelectedEntities(newType);
+                    },
+                    removeSelectedElements: function() {
+                        var removeCommand = function() {
+                            var unique = function(array) {
+                                var hash = {};
+                                array.forEach(function(element) {
+                                    hash[element] = null;
+                                });
+                                return Object.keys(hash);
+                            };
+
+                            var spanIds = [],
+                                entityIds = [],
+                                relationIds = [];
+                            return {
+                                addSpanId: function(spanId) {
+                                    spanIds.push(spanId);
+                                },
+                                addEntityId: function(entityId) {
+                                    entityIds.push(entityId);
+                                },
+                                addRelations: function(addedRelations) {
+                                    Array.prototype.push.apply(relationIds, addedRelations);
+                                },
+                                getAll: function() {
+                                    return unique(relationIds).map(command.factory.relationRemoveCommand)
+                                        .concat(
+                                            unique(entityIds).map(function(entity) {
+                                                // Wrap by a anonymous function, because command.factory.entityRemoveCommand has two optional argumets.
+                                                return command.factory.entityRemoveCommand(entity);
+                                            }),
+                                            unique(spanIds).map(command.factory.spanRemoveCommand));
+                                },
+                            };
+                        }();
+
+                        var removeEnitity = function(entityId) {
+                            removeCommand.addEntityId(entityId);
+                            if (model.relationsPerEntity[entityId]) {
+                                removeCommand.addRelations(model.relationsPerEntity[entityId]);
+                            }
+                        };
+
+                        //remove spans
+                        domUtil.selector.span.getSelecteds().each(function() {
+                            var spanId = this.id;
+                            removeCommand.addSpanId(spanId);
+
+                            model.annotationData.getSpan(spanId).getTypes().forEach(function(type) {
+                                type.entities.forEach(function(entityId) {
+                                    removeEnitity(entityId);
+                                });
+                            });
+                        });
+
+                        //remove entities
+                        domUtil.selector.entity.getSelecteds().each(function() {
+                            //an entity element has the entityId in title. an id is per Editor.
+                            removeEnitity(this.title);
+                        });
+
+                        //remove relations
+                        removeCommand.addRelations(renderer.relation.relationIdsSelected);
+                        renderer.relation.relationIdsSelected = [];
+
+                        command.invoke(removeCommand.getAll());
+                    },
+                    copyEntities: function() {
+                        editorState.clipBoard.length = 0;
+                        domUtil.selector.entity.getSelecteds().each(function() {
+                            editorState.clipBoard.push(this.title);
+                        });
+                    },
+                    pasteEntities: function() {
+                        var commands = [];
+                        domUtil.selector.span.getSelecteds().each(function() {
+                            var spanId = this.id;
+                            //editorState.clipBoard has entity ids.
+                            commands = commands.concat(editorState.clipBoard.map(function(entityId) {
+                                return command.factory.entityCreateCommand(spanId, model.annotationData.entities[entityId].type);
+                            }));
+                        });
+
+                        command.invoke(commands);
+                    },
+                    // set the default type of denoting object
+                    setEntityTypeDefault: function() {
+                        model.entityTypes.setDefaultType($(this).attr('label'));
+                        return false;
+                    },
+                };
+            }(),
+            // User event that does not change data.
+            viewHandler: function(self) {
+                return {
+                    showPallet: function(point) {
+                        //create table contents for entity type.
+                        var makeEntityTypeOfEntityTypePallet = function() {
+                            return model.entityTypes.getSortedNames().map(function(t) {
+                                var type = model.entityTypes.getType(t);
+                                var row = '<tr class="textae-editor__entity-pallet__entity-type" style="background-color:' + type.getColor() + '">';
+
+                                row += '<th><input type="radio" name="etype" class="textae-editor__entity-pallet__entity-type__radio" label="' + t + '"';
+                                row += (t == model.entityTypes.getDefaultType()) ? ' title="default type" checked' : '';
+                                row += '/></th>';
+
+                                row += '<td class="textae-editor__entity-pallet__entity-type__label" label="' + t + '">' + t + '</td>';
+
+                                row += '<th title="' + uri + '">';
+
+                                var uri = type.uri;
+                                if (uri) {
+                                    row += '<a href="' + uri + '" target="_blank"><img src="images/link.png"/></a>';
+                                }
+
+                                row += '</th>';
+                                row += '</tr>';
+                                return row;
+                            }).join();
+                        };
+
+                        //return a Pallet that created if not exists.
+                        var getEmptyPallet = function() {
+                            var $pallet = $('.textae-editor__entity-pallet');
+                            if ($pallet.length === 0) {
+                                //setup new pallet
+                                $pallet = $('<div>')
+                                    .addClass("textae-editor__entity-pallet")
+                                    .append($('<table>'))
+                                    .css({
+                                        'position': 'fixed',
+                                        'display': 'none'
+                                    })
+                                    .on('mouseup', '.textae-edtior__entity-pallet__entity-type__radio', userEvent.editHandler.setEntityTypeDefault)
+                                    .on('click', '.textae-editor__entity-pallet__entity-type__label', function() {
+                                        userEvent.viewHandler.hidePallet();
+                                        userEvent.editHandler.setEntityType.call(this);
+                                    });
+
+                                //for show on top append to body.
+                                $("body").append($pallet);
+                            } else {
+                                $pallet.find('table').empty();
+                                $pallet.css('width', 'auto');
+                            }
+                            return $pallet;
+                        };
+
+                        var $pallet　 = getEmptyPallet();
+                        $pallet.find("table")
+                            .append(makeEntityTypeOfEntityTypePallet(model.entityTypes));
+
+                        //limti max height.
+                        if ($pallet.outerHeight() > CONSTS.PALLET_HEIGHT_MAX) {
+                            $pallet.css('height', CONSTS.PALLET_HEIGHT_MAX);
+                            $pallet.css('width', $pallet.outerWidth() + 30);
+                        }
+
+                        //if open by mouseevent
+                        if (arguments.length === 1) {
+                            $pallet.css('top', point.top);
+                            $pallet.css('left', point.left);
+                        } else {
+                            $pallet.css('top', 10);
+                            $pallet.css('left', 20);
+                        }
+                        $pallet.css('display', 'block');
+                    },
+                    hidePallet: function() {
+                        $('.textae-editor__entity-pallet').css('display', 'none');
+                    },
+                    redraw: function() {
+                        renderer.helper.redraw();
+                    },
+                    cancelSelect: function() {
+                        // if drag, bubble up
+                        if (!window.getSelection().isCollapsed) {
+                            domUtil.selector.dismissBrowserSelection();
+                            return true;
+                        }
+
+                        domUtil.selector.unselect();
+                        userEvent.viewHandler.hidePallet();
+                        editorState.buttonStateHelper.updateAll();
+
+                        self.tool.cancelSelect();
+                    },
+                    selectLeftSpan: function() {
+                        if (domUtil.selector.span.getNumberOfSelected() == 1) {
+                            var span = model.annotationData.getSpan(domUtil.selector.span.popSelectedId());
+                            domUtil.selector.unselect();
+                            if (span.left) {
+                                domUtil.selector.span.select(span.left.id);
+                            }
+                        }
+                    },
+                    selectRightSpan: function() {
+                        if (domUtil.selector.span.getNumberOfSelected() == 1) {
+
+                            var span = model.annotationData.getSpan(domUtil.selector.span.popSelectedId());
+                            domUtil.selector.unselect();
+                            if (span.right) {
+                                domUtil.selector.span.select(span.right.id);
+                            }
+                        }
+                    },
+                    showSettingDialog: function() {
+                        var $content = $('<div>')
+                            .addClass('textae-editor__setting-dialog');
+
+                        // Line Height
+                        $content
+                            .append($('<div>')
+                                .append('<label>Line Height:')
+                                .append($('<input>')
+                                    .attr({
+                                        'type': 'number',
+                                        'step': 1,
+                                        'min': 3,
+                                        'max': 10,
+                                        'value': 4,
+                                    })
+                                    .addClass('textae-editor__setting-dialog__line-height')
+                                ))
+                            .on('change', '.textae-editor__setting-dialog__line-height', function() {
+                                var value = $(this).val();
+                                userEvent.viewHandler.changeLineHeight(value);
+                            });
+
+                        // Term Centric View
+                        $content
+                            .append($('<div>')
+                                .append('<label>Term Centric View:')
+                                .append($('<input>')
+                                    .attr({
+                                        'type': 'checkbox'
+                                    })
+                                    .addClass('textae-editor__setting-dialog__term-centric-view')
+                                ))
+                            .on('click', '.textae-editor__setting-dialog__term-centric-view', function() {
+                                var value = $(this).is(':checked');
+                                userEvent.viewHandler.switchTermCentricView(value);
+                            });
+
+                        // Open the dialog.                        
+                        textAeUtil.getDialog(self.editorId, 'textae.dialog.setting', 'Chage Settings', $content, true).open();
+                    },
+                    changeLineHeight: function(heightValue) {
+                        renderer.helper.changeLineHeight(heightValue);
+                        renderer.helper.redraw();
+                    },
+                    switchTermCentricView: function(isActive) {
+                        if (isActive) {
+                            renderer.helper.switchViewMode('TERM');
+                        } else {
+                            renderer.helper.switchViewMode('INSTANCE');
+                        }
+                        renderer.helper.redraw();
+                    },
+                };
+            }(this)
+        };
 
         // public funcitons of editor
         var editorApi = {
@@ -2813,21 +2802,21 @@
             handleKeyInput: function(key) {
                 var keyApiMap = {
                     'A': dataAccessObject.showAccess,
-                    'C': businessLogic.copyEntities,
-                    'D': businessLogic.removeSelectedElements,
-                    'DEL': businessLogic.removeSelectedElements,
-                    'E': businessLogic.createEntity,
-                    'Q': presentationLogic.showPallet,
-                    'R': businessLogic.replicate,
+                    'C': userEvent.editHandler.copyEntities,
+                    'D': userEvent.editHandler.removeSelectedElements,
+                    'DEL': userEvent.editHandler.removeSelectedElements,
+                    'E': userEvent.editHandler.createEntity,
+                    'Q': userEvent.viewHandler.showPallet,
+                    'R': userEvent.editHandler.replicate,
                     'S': dataAccessObject.showSave,
-                    'V': businessLogic.pasteEntities,
-                    'W': businessLogic.newLabel,
+                    'V': userEvent.editHandler.pasteEntities,
+                    'W': userEvent.editHandler.newLabel,
                     'X': command.redo,
                     'Y': command.redo,
                     'Z': command.undo,
-                    'ESC': presentationLogic.cancelSelect,
-                    'LEFT': presentationLogic.selectLeftSpan,
-                    'RIGHT': presentationLogic.selectRightSpan,
+                    'ESC': userEvent.viewHandler.cancelSelect,
+                    'LEFT': userEvent.viewHandler.selectLeftSpan,
+                    'RIGHT': userEvent.viewHandler.selectRightSpan,
                 };
                 if (keyApiMap[key]) {
                     keyApiMap[key]();
@@ -2839,21 +2828,21 @@
                     'textae.control.button.write.click': dataAccessObject.showSave,
                     'textae.control.button.undo.click': command.undo,
                     'textae.control.button.redo.click': command.redo,
-                    'textae.control.button.replicate.click': businessLogic.replicate,
+                    'textae.control.button.replicate.click': userEvent.editHandler.replicate,
                     'textae.control.button.replicate_auto.click': editorState.toggleReplicateAuto,
-                    'textae.control.button.entity.click': businessLogic.createEntity,
-                    'textae.control.button.new_label.click': businessLogic.newLabel,
+                    'textae.control.button.entity.click': userEvent.editHandler.createEntity,
+                    'textae.control.button.new_label.click': userEvent.editHandler.newLabel,
                     'textae.control.button.pallet.click': function() {
-                        presentationLogic.showPallet(event.point);
+                        userEvent.viewHandler.showPallet(event.point);
                     },
-                    'textae.control.button.delete.click': businessLogic.removeSelectedElements,
-                    'textae.control.button.copy.click': businessLogic.copyEntities,
-                    'textae.control.button.paste.click': businessLogic.pasteEntities,
-                    'textae.control.button.setting.click': presentationLogic.showSettingDialog,
+                    'textae.control.button.delete.click': userEvent.editHandler.removeSelectedElements,
+                    'textae.control.button.copy.click': userEvent.editHandler.copyEntities,
+                    'textae.control.button.paste.click': userEvent.editHandler.pasteEntities,
+                    'textae.control.button.setting.click': userEvent.viewHandler.showSettingDialog,
                 };
                 buttonApiMap[event.name]();
             },
-            redraw: presentationLogic.redraw,
+            redraw: userEvent.viewHandler.redraw,
         };
         this.api = editorApi;
 
