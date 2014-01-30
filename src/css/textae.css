@@ -87,21 +87,29 @@
 }
 
 .textae-editor__type_term-centric-mode {
-    height: 16px;
+    height: 18px;
+    margin-bottom: 0 !important;
     padding-top: 0 !important;
-    margin-bottom: 0 !important
 }
 
 .textae-editor__type-label {
-    position: relative;
+    border-color: darkgrey;
     border-radius: 4px;
-    -webkit-touch-callout: none;
+    border-style: solid;
+    border-width: 1px;
+    overflow: hidden;
+    position: relative;
     -webkit-user-select: none;
     -khtml-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-    overflow: hidden;
+    -webkit-touch-callout: none;
+    z-index: 1;
+}
+
+.textae-editor__type-label.ui-selected {
+    border-color: red;
 }
 
 .textae-editor__type-label:hover {
@@ -111,6 +119,7 @@
 .textae-editor__entity-pane {
     position: relative;
     top: -25px;
+    z-index: 1;
 }
 
 .textae-editor__entity {

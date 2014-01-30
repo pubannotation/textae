@@ -13,47 +13,12 @@
                 };
             }(this),
             selector: {
-                // dismiss the default selection by the browser
-                dismissBrowserSelection: function() {
-                    var selection = window.getSelection();
-                    selection.collapse(document.body, 0);
-                },
                 getSelecteds: function() {
                     return $('.ui-selected');
                 },
                 hasSelecteds: function() {
                     return domUtil.selector.getSelecteds().length > 0;
                 },
-                unselect: function() {
-                    domUtil.selector.getSelecteds().removeClass('ui-selected');
-                    renderer.relation.clearRelationSelection();
-                    editorState.buttonStateHelper.updateAll();
-                },
-                domElement: function() {
-                    var isSelected = function(target) {
-                        return $(target).hasClass('ui-selected');
-                    };
-                    var select = function(target) {
-                        $(target).addClass('ui-selected');
-                    };
-                    var deselect = function(target) {
-                        $(target).removeClass('ui-selected');
-                    };
-                    return {
-                        toggle: function(target) {
-                            if (isSelected(target)) {
-                                deselect(target);
-                            } else {
-                                select(target);
-                            }
-                        },
-                        selectOnly: function(target) {
-                            domUtil.selector.getSelecteds().removeClass('ui-selected');
-                            renderer.relation.clearRelationSelection();
-                            select(target);
-                        }
-                    };
-                }(),
                 span: {
                     get: function(spanId) {
                         return $('#' + spanId);
@@ -78,13 +43,12 @@
                         }
                     },
                     select: function(spanId) {
-                        domUtil.selector.span.get(spanId).addClass('ui-selected');
-                        editorState.buttonStateHelper.updateBySpan();
+                        domUtil.manipulate.select(domUtil.selector.span.get(spanId));
                     },
                 },
                 entity: {
-                    get: function(eid) {
-                        return $('#' + idFactory.makeEntityDomId(eid));
+                    get: function(entityId) {
+                        return $('#' + idFactory.makeEntityDomId(entityId));
                     },
                     getSelecteds: function() {
                         return $('.textae-editor__entity.ui-selected');
@@ -98,8 +62,8 @@
                     getSelectedId: function() {
                         return domUtil.selector.entity.getSelecteds().attr('title');
                     },
-                    select: function(eid) {
-                        domUtil.selector.entity.get(eid).addClass('ui-selected');
+                    select: function(entityId) {
+                        domUtil.manipulate.select(domUtil.selector.entity.get(entityId));
                     },
                 },
                 grid: {
@@ -107,7 +71,60 @@
                         return $('#G' + spanId);
                     }
                 },
-            }
+            },
+            manipulate: function() {
+                var isSelected = function(target) {
+                    return $(target).hasClass('ui-selected');
+                };
+                var select = function() {
+                    if (!isSelected(this)) {
+                        $(this).addClass('ui-selected').trigger('selectChanged', true);
+                    }
+                };
+                var deselect = function() {
+                    if (isSelected(this)) {
+                        $(this).removeClass('ui-selected').trigger('selectChanged', false);
+                    }
+                };
+                var toggle = function() {
+                    if (isSelected(this)) {
+                        deselect.apply(this);
+                    } else {
+                        select.apply(this);
+                    }
+                };
+                var remove = function() {
+                    var $self = $(this);
+                    deselect.call($self.add($self.find('.ui-selected')));
+                    $self.remove();
+                };
+                var applyMultiJQueryObject = function(func, target) {
+                    // A target may be multi jQuery object.
+                    return $(target).each(func);
+                };
+
+                return {
+                    select: applyMultiJQueryObject.bind(null, select),
+                    deselect: applyMultiJQueryObject.bind(null, deselect),
+                    toggle: applyMultiJQueryObject.bind(null, toggle),
+                    remove: applyMultiJQueryObject.bind(null, remove),
+                    selectOnly: function(target) {
+                        domUtil.manipulate.deselect(domUtil.selector.getSelecteds().not(target));
+                        renderer.relation.clearRelationSelection();
+
+                        domUtil.manipulate.select(target);
+                    },
+                    unselect: function() {
+                        domUtil.manipulate.deselect(domUtil.selector.getSelecteds());
+                        renderer.relation.clearRelationSelection();
+                    },
+                    // dismiss the default selection by the browser
+                    dismissBrowserSelection: function() {
+                        var selection = window.getSelection();
+                        selection.collapse(document.body, 0);
+                    },
+                };
+            }(),
         };
 
         // constant values
@@ -1036,7 +1053,7 @@
         // Render DOM elements conforming with the Model.
         var renderer = function(editor) {
             var destroyGrid = function(spanId) {
-                var gridId = domUtil.selector.grid.get(spanId).remove().attr('id');
+                domUtil.manipulate.remove(domUtil.selector.grid.get(spanId));
             };
 
             // Utility functions for get positions of elemnts.
@@ -1405,10 +1422,13 @@
                     destroy: function(spanId) {
                         var spanElement = document.getElementById(spanId);
                         var parent = spanElement.parentNode;
+
+                        // Move the textNode wrapped this span in front of this span.
                         while (spanElement.firstChild) {
                             parent.insertBefore(spanElement.firstChild, spanElement);
                         }
-                        parent.removeChild(spanElement);
+
+                        domUtil.manipulate.remove(spanElement);
                         parent.normalize();
 
                         // Destroy a grid of the span. 
@@ -1441,15 +1461,15 @@
                             }).length === 0;
                         };
 
-                        // An entity may have new type when changing type of the entity.
-                        // DOM has old type.
-                        var typeOnDom = domUtil.selector.entity.get(entity.id).remove().attr('type');
+                        // Get old type from Dom, Because the entity may have new type when changing type of the entity.
+                        var oldType = domUtil.manipulate.remove(domUtil.selector.entity.get(entity.id)).attr('type');
 
                         // Delete type if no entity.
-                        if (doesTypeHasNoEntity(typeOnDom)) {
-                            getTypeDom(entity.span, typeOnDom).remove();
+                        if (doesTypeHasNoEntity(oldType)) {
+                            getTypeDom(entity.span, oldType).remove();
                         } else {
-                            arrangePositionOfPane(getTypeDom(entity.span, typeOnDom).find('.textae-editor__entity-pane'));
+                            // Arrage the position of TypePane, because number of entities decrease.
+                            arrangePositionOfPane(getTypeDom(entity.span, oldType).find('.textae-editor__entity-pane'));
                         }
                     };
 
@@ -1937,7 +1957,7 @@
                     ) {
                         // bubbles go up
                         userEvent.viewHandler.cancelSelect();
-                        domUtil.selector.dismissBrowserSelection();
+                        domUtil.manipulate.dismissBrowserSelection();
                         return true;
                     }
 
@@ -1947,7 +1967,7 @@
                     // no boundary crossing: normal -> create a entity
                     var sid;
                     if (selection.anchorNode.parentElement.id === selection.focusNode.parentElement.id) {
-                        domUtil.selector.unselect();
+                        domUtil.manipulate.unselect();
 
                         // switch the position when the selection is made from right to left
                         if (anchorPosition > focusPosition) {
@@ -1993,10 +2013,10 @@
                     // boundary crossing: exception
                     else {
                         if (selection.anchorNode.parentNode.parentNode == selection.focusNode.parentNode) {
-                            domUtil.selector.unselect();
+                            domUtil.manipulate.unselect();
                             expandSpan(selection.anchorNode.parentNode.id, selection);
                         } else if (selection.anchorNode.parentNode == selection.focusNode.parentNode.parentNode) {
-                            domUtil.selector.unselect();
+                            domUtil.manipulate.unselect();
                             shortenSpan(selection.focusNode.parentNode.id, selection);
                         } else if (domUtil.selector.span.getNumberOfSelected() == 1) {
                             sid = domUtil.selector.span.popSelectedId();
@@ -2025,7 +2045,7 @@
                     }
                 }
 
-                domUtil.selector.dismissBrowserSelection();
+                domUtil.manipulate.dismissBrowserSelection();
                 cancelBubble(e);
             };
 
@@ -2040,48 +2060,88 @@
                         var firstId = domUtil.selector.span.popSelectedId();
                         var secondId = $(this).attr('id');
 
-                        domUtil.selector.dismissBrowserSelection();
-                        domUtil.selector.unselect();
+                        domUtil.manipulate.dismissBrowserSelection();
+                        domUtil.manipulate.unselect();
 
                         model.annotationData.getRangeOfSpan(firstId, secondId).forEach(function(spanId) {
                             domUtil.selector.span.select(spanId);
                         });
 
-                        editorState.buttonStateHelper.updateBySpan();
                     } else {
                         // if drag, bubble up
                         return true;
                     }
                 } else if (e.ctrlKey) {
-                    domUtil.selector.domElement.toggle(e.target);
-                    editorState.buttonStateHelper.updateBySpan();
+                    domUtil.manipulate.toggle(e.target);
                 } else {
-                    domUtil.selector.domElement.selectOnly(e.target);
-                    editorState.buttonStateHelper.updateAll();
+                    domUtil.manipulate.selectOnly(e.target);
                 }
 
                 return false;
             };
 
-            // event handler (entity is clicked)
+            var entitiesClicked = function(ctrlKey, $typeLabel, $entities) {
+                var $targets = $typeLabel.add($entities);
+                if (ctrlKey) {
+                    if ($typeLabel.hasClass('ui-selected')) {
+                        domUtil.manipulate.deselect($targets);
+                    } else {
+                        domUtil.manipulate.select($targets);
+                    }
+                } else {
+                    domUtil.manipulate.selectOnly($targets);
+                }
+                return false;
+            };
+
+            var typeLabelClicked = function(e) {
+                var $typeLabel = $(e.target);
+                return entitiesClicked(e.ctrlKey, $typeLabel, $typeLabel.next().children());
+            };
+
+            var entityPaneClicked = function(e) {
+                var $typePane = $(e.target);
+                return entitiesClicked(e.ctrlKey, $typePane.prev(), $typePane.children());
+            };
+
             var entityClicked = function(e) {
                 if (e.ctrlKey) {
-                    domUtil.selector.domElement.toggle(e.target);
-                    editorState.buttonStateHelper.updateByEntity();
+                    domUtil.manipulate.toggle(e.target);
                 } else {
-                    domUtil.selector.domElement.selectOnly(e.target);
-                    editorState.buttonStateHelper.updateAll();
+                    var $typePane = $(e.target).parent();
+
+                    if ($typePane.children().length === 1) {
+                        // Select the typeLabel if only one entity is selected.
+                        domUtil.manipulate.selectOnly($typePane.prev().add($typePane.children()));
+                    } else {
+                        domUtil.manipulate.selectOnly(e.target);
+                    }
+                }
+                return false;
+            };
+
+            var spanSelectChanged = function(e, isSelected) {
+                editorState.buttonStateHelper.updateBySpan();
+            };
+
+            var entitySelectChanged = function(e, isSelected) {
+                var $typePane = $(e.target).parent();
+
+                // Select the typeLabel if all entities is selected.
+                if ($typePane.children().length === $typePane.find('.ui-selected').length) {
+                    domUtil.manipulate.select($typePane.prev());
+                } else {
+                    domUtil.manipulate.deselect($typePane.prev());
                 }
 
-                cancelBubble(e);
-                return false;
+                editorState.buttonStateHelper.updateByEntity();
             };
 
             // A relation is drawn by a jsPlumbConnection.
             var jsPlumbConnectionClicked = function(jsPlumbConnection, event) {
                 var relationId = jsPlumbConnection.getParameter("id");
 
-                domUtil.selector.unselect();
+                domUtil.manipulate.unselect();
 
                 if (renderer.relation.isRelationSelected(relationId)) {
                     renderer.relation.deselectRelation(relationId);
@@ -2107,8 +2167,12 @@
                     editor
                         .on('mouseup', '.textae-editor__body', bodyClicked)
                         .on('mouseup', '.textae-editor__span', spanClicked)
+                        .on('mouseup', '.textae-editor__type-label', typeLabelClicked)
+                        .on('mouseup', '.textae-editor__entity-pane', entityPaneClicked)
                         .on('mouseup', '.textae-editor__entity', entityClicked)
-                        .on('mouseup', '.textae-editor__body,.textae-editor__span,.textae-editor__grid,.textae-editor__entity', editorSelected);
+                        .on('mouseup', '.textae-editor__body,.textae-editor__span,.textae-editor__grid,.textae-editor__entity', editorSelected)
+                        .on('selectChanged', '.textae-editor__span', spanSelectChanged)
+                        .on('selectChanged', '.textae-editor__entity', entitySelectChanged);
 
                     // The jsPlumbConnetion has an original event mecanism.
                     // We can only bind the connection directory.
@@ -2185,7 +2249,6 @@
                 });
 
                 renderer.helper.redraw();
-                editorState.buttonStateHelper.updateAll();
             };
 
             return {
@@ -2217,14 +2280,14 @@
                     };
 
                     if (history.hasAnythingToUndo()) {
-                        domUtil.selector.unselect();
+                        domUtil.manipulate.unselect();
                         renderer.relation.clearRelationSelection();
                         invoke(getRevertCommands(history.prev()));
                     }
                 },
                 redo: function() {
                     if (history.hasAnythingToRedo()) {
-                        domUtil.selector.unselect();
+                        domUtil.manipulate.unselect();
                         renderer.relation.clearRelationSelection();
                         invoke(history.next());
                     }
@@ -2559,7 +2622,7 @@
                                     return unique(relationIds).map(command.factory.relationRemoveCommand)
                                         .concat(
                                             unique(entityIds).map(function(entity) {
-                                                // Wrap by a anonymous function, because command.factory.entityRemoveCommand has two optional argumets.
+                                                // Wrap by a anonymous function, because command.factory.entityRemoveCommand has two optional arguments.
                                                 return command.factory.entityRemoveCommand(entity);
                                             }),
                                             unique(spanIds).map(command.factory.spanRemoveCommand));
@@ -2708,20 +2771,19 @@
                     cancelSelect: function() {
                         // if drag, bubble up
                         if (!window.getSelection().isCollapsed) {
-                            domUtil.selector.dismissBrowserSelection();
+                            domUtil.manipulate.dismissBrowserSelection();
                             return true;
                         }
 
-                        domUtil.selector.unselect();
+                        domUtil.manipulate.unselect();
                         userEvent.viewHandler.hidePallet();
-                        editorState.buttonStateHelper.updateAll();
 
                         self.tool.cancelSelect();
                     },
                     selectLeftSpan: function() {
                         if (domUtil.selector.span.getNumberOfSelected() == 1) {
                             var span = model.annotationData.getSpan(domUtil.selector.span.popSelectedId());
-                            domUtil.selector.unselect();
+                            domUtil.manipulate.unselect();
                             if (span.left) {
                                 domUtil.selector.span.select(span.left.id);
                             }
@@ -2731,7 +2793,7 @@
                         if (domUtil.selector.span.getNumberOfSelected() == 1) {
 
                             var span = model.annotationData.getSpan(domUtil.selector.span.popSelectedId());
-                            domUtil.selector.unselect();
+                            domUtil.manipulate.unselect();
                             if (span.right) {
                                 domUtil.selector.span.select(span.right.id);
                             }
