@@ -2179,6 +2179,15 @@
                 };
             }();
 
+            var invoke = function(commands) {
+                commands.forEach(function(command) {
+                    command.execute();
+                });
+
+                renderer.helper.redraw();
+                editorState.buttonStateHelper.updateAll();
+            };
+
             return {
                 init: function(onChange) {
                     history.init(onChange);
@@ -2192,24 +2201,32 @@
                 updateSavePoint: function() {
                     history.saved();
                 },
-                // Make isHistoryCommand true when 'undo' or 'redo'.
-                invoke: function(commands, isHistoryCommand) {
+                invoke: function(commands) {
                     if (commands && commands.length > 0) {
-                        if (isHistoryCommand) {
-                            domUtil.selector.unselect();
-                            renderer.relation.clearRelationSelection();
-                        }
-
-                        commands.forEach(function(command) {
-                            command.execute();
+                        invoke(commands);
+                        history.push(commands);
+                    }
+                },
+                undo: function() {
+                    var getRevertCommands = function(commands) {
+                        commands = Object.create(commands);
+                        commands.reverse();
+                        return commands.map(function(originCommand) {
+                            return originCommand.revert();
                         });
+                    };
 
-                        renderer.helper.redraw();
-
-                        if (!isHistoryCommand) {
-                            history.push(commands);
-                            editorState.buttonStateHelper.updateAll();
-                        }
+                    if (history.hasAnythingToUndo()) {
+                        domUtil.selector.unselect();
+                        renderer.relation.clearRelationSelection();
+                        invoke(getRevertCommands(history.prev()));
+                    }
+                },
+                redo: function() {
+                    if (history.hasAnythingToRedo()) {
+                        domUtil.selector.unselect();
+                        renderer.relation.clearRelationSelection();
+                        invoke(history.next());
                     }
                 },
                 factory: function() {
@@ -2464,24 +2481,6 @@
                         //TODO: relationChangeSubjectCommand, relationChangeObjectCommand
                     };
                 }(),
-                undo: function() {
-                    var getRevertCommands = function(commands) {
-                        commands = Object.create(commands);
-                        commands.reverse();
-                        return commands.map(function(originCommand) {
-                            return originCommand.revert();
-                        });
-                    };
-
-                    if (history.hasAnythingToUndo()) {
-                        command.invoke(getRevertCommands(history.prev()), true);
-                    }
-                },
-                redo: function() {
-                    if (history.hasAnythingToRedo()) {
-                        command.invoke(history.next(), true);
-                    }
-                },
             };
         }();
 
