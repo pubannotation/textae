@@ -2523,8 +2523,14 @@
                         return false;
                     },
                     newLabel: function() {
-                        var newType = prompt("Please enter a new label", "");
-                        changeTypeOfSelectedEntities(newType);
+                        if (!domUtil.selector.entity.hasSelecteds()) {
+                            return;
+                        }
+
+                        var newTypeLabel = prompt("Please enter a new label", "");
+                        if (newTypeLabel) {
+                            changeTypeOfSelectedEntities(newTypeLabel);
+                        }
                     },
                     removeSelectedElements: function() {
                         var removeCommand = function() {
