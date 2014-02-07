@@ -953,7 +953,7 @@
                             if (enable) {
                                 delete disableButtons[button];
                             } else {
-                                disableButtons[button] = true;
+                                disableButtons[button] = false;
                             }
                         };
                         var updateEntity = function() {
@@ -969,7 +969,7 @@
                             updateDisableButtons("pallet", domUtil.selector.entity.getNumberOfSelected() > 0);
                         };
                         var updateNewLabel = function() {
-                            updateDisableButtons("newLabel", domUtil.selector.entity.getNumberOfSelected() > 0);
+                            updateDisableButtons("change-label", domUtil.selector.entity.getNumberOfSelected() > 0);
                         };
                         var updateDelete = function() {
                             updateDisableButtons("delete", domUtil.selector.hasSelecteds());
@@ -2929,7 +2929,7 @@
                     'textae.control.button.replicate.click': controller.userEvent.editHandler.replicate,
                     'textae.control.button.replicate_auto.click': view.viewModel.toggleReplicateAuto,
                     'textae.control.button.entity.click': controller.userEvent.editHandler.createEntity,
-                    'textae.control.button.new_label.click': controller.userEvent.editHandler.newLabel,
+                    'textae.control.button.change_label.click': controller.userEvent.editHandler.newLabel,
                     'textae.control.button.pallet.click': function() {
                         controller.userEvent.viewHandler.showPallet(event.point);
                     },
