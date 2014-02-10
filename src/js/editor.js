@@ -29,6 +29,9 @@
                     getNumberOfSelected: function() {
                         return domUtil.selector.span.getSelecteds().length;
                     },
+                    hasSelecteds: function() {
+                        return domUtil.selector.span.getNumberOfSelected() > 0;
+                    },
                     getSelectedId: function() {
                         //return first element id even if multi elements selected.
                         return domUtil.selector.span.getSelecteds().attr('id');
@@ -974,7 +977,7 @@
                             updateDisableButtons("delete", domUtil.selector.hasSelecteds());
                         };
                         var updateCopy = function() {
-                            updateDisableButtons("copy", domUtil.selector.entity.hasSelecteds());
+                            updateDisableButtons("copy", domUtil.selector.span.hasSelecteds() || domUtil.selector.entity.hasSelecteds());
                         };
                         var updateBySpanAndEntityBoth = function() {
                             updateDelete();
@@ -2645,25 +2648,40 @@
 
                             controller.command.invoke(removeCommand.getAll());
                         },
-                        copyEntities: function() {
-                            view.viewModel.clipBoard.length = 0;
-                            domUtil.selector.entity.getSelecteds().each(function() {
-                                view.viewModel.clipBoard.push(this.title);
-                            });
+                        copyTypes: function() {
+                            view.viewModel.clipBoard = function getTypesFromSelectedSpan() {
+                                return domUtil.selector.span.getSelecteds().map(function() {
+                                    return model.annotationData.getSpan(this.id).getTypes().map(function(t) {
+                                        return t.name;
+                                    });
+                                }).get();
+                            }().concat(
+                                function getTypesFromSelectedEntities() {
+                                    return domUtil.selector.entity.getSelecteds().map(function() {
+                                        return $(this).attr('type');
+                                    }).get();
+                                }()
+                            ).reduce(function(p, c) {
+                                // Unique types.
+                                if (p.indexOf(c) < 0) {
+                                    p.push(c);
+                                }
+                                return p;
+                            }, []);
                         },
-                        pasteEntities: function() {
-                            var commands = [];
-                            domUtil.selector.span.getSelecteds().each(function() {
+                        pasteTypes: function() {
+                            // Make commands per selected spans and types in clipBord. 
+                            var commands  = domUtil.selector.span.getSelecteds().map(function() {
                                 var spanId = this.id;
-                                //view.viewModel.clipBoard has entity ids.
-                                commands = commands.concat(view.viewModel.clipBoard.map(function(entityId) {
-                                    return controller.command.factory.entityCreateCommand(spanId, model.annotationData.entities[entityId].type);
-                                }));
-                            });
+                                // The view.viewModel.clipBoard has typeName.
+                                return view.viewModel.clipBoard.map(function(typeName) {
+                                    return controller.command.factory.entityCreateCommand(spanId, typeName);
+                                });
+                            }).get();
 
                             controller.command.invoke(commands);
                         },
-                        // set the default type of denoting object
+                        // Set the default type of denoting object
                         setEntityTypeDefault: function() {
                             model.entityTypes.setDefaultType($(this).attr('label'));
                             return false;
@@ -2925,14 +2943,14 @@
             handleKeyInput: function(key) {
                 var keyApiMap = {
                     'A': dataAccessObject.showAccess,
-                    'C': controller.userEvent.editHandler.copyEntities,
+                    'C': controller.userEvent.editHandler.copyTypes,
                     'D': controller.userEvent.editHandler.removeSelectedElements,
                     'DEL': controller.userEvent.editHandler.removeSelectedElements,
                     'E': controller.userEvent.editHandler.createEntity,
                     'Q': controller.userEvent.viewHandler.showPallet,
                     'R': controller.userEvent.editHandler.replicate,
                     'S': dataAccessObject.showSave,
-                    'V': controller.userEvent.editHandler.pasteEntities,
+                    'V': controller.userEvent.editHandler.pasteTypes,
                     'W': controller.userEvent.editHandler.newLabel,
                     'X': controller.command.redo,
                     'Y': controller.command.redo,
@@ -2959,8 +2977,8 @@
                         controller.userEvent.viewHandler.showPallet(event.point);
                     },
                     'textae.control.button.delete.click': controller.userEvent.editHandler.removeSelectedElements,
-                    'textae.control.button.copy.click': controller.userEvent.editHandler.copyEntities,
-                    'textae.control.button.paste.click': controller.userEvent.editHandler.pasteEntities,
+                    'textae.control.button.copy.click': controller.userEvent.editHandler.copyTypes,
+                    'textae.control.button.paste.click': controller.userEvent.editHandler.pasteTypes,
                     'textae.control.button.setting.click': controller.userEvent.viewHandler.showSettingDialog,
                 };
                 buttonApiMap[event.name]();
