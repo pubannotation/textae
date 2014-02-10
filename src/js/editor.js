@@ -129,8 +129,7 @@
 
         // constant values
         var CONSTS = {
-            BLOCK_THRESHOLD: 100,
-            PALLET_HEIGHT_MAX: 100
+            BLOCK_THRESHOLD: 100
         };
 
         // A sub component to save and load data.
@@ -2675,32 +2674,53 @@
                 viewHandler: function(self) {
                     return {
                         showPallet: function(point) {
-                            //create table contents for entity type.
-                            var makeEntityTypeOfEntityTypePallet = function() {
-                                return model.entityTypes.getSortedNames().map(function(t) {
-                                    var type = model.entityTypes.getType(t);
-                                    var row = '<tr class="textae-editor__entity-pallet__entity-type" style="background-color:' + type.getColor() + '">';
+                            // Create table contents per entity type.
+                            var makeTableRowOFEntityPallet = function() {
+                                return model.entityTypes.getSortedNames().map(function(typeName) {
+                                    var type = model.entityTypes.getType(typeName);
 
-                                    row += '<th><input type="radio" name="etype" class="textae-editor__entity-pallet__entity-type__radio" label="' + t + '"';
-                                    row += (t == model.entityTypes.getDefaultType()) ? ' title="default type" checked' : '';
-                                    row += '/></th>';
+                                    var $column1 = $('<td>').append(function() {
+                                        var $radioButton = $('<input>').addClass('textae-editor__entity-pallet__entity-type__radio').attr({
+                                            'type': 'radio',
+                                            'name': 'etype',
+                                            'label': typeName
+                                        });
+                                        // Select the radio button if it is default type.
+                                        if (typeName === model.entityTypes.getDefaultType()) {
+                                            $radioButton.attr({
+                                                'title': 'default type',
+                                                'checked': 'checked'
+                                            });
+                                        }
+                                        return $radioButton;
+                                    }());
 
-                                    row += '<td class="textae-editor__entity-pallet__entity-type__label" label="' + t + '">' + t + '</td>';
+                                    var $column2 = $('<td>')
+                                        .addClass('textae-editor__entity-pallet__entity-type__label')
+                                        .attr('label', typeName)
+                                        .text(typeName);
 
-                                    row += '<th title="' + uri + '">';
-
-                                    var uri = type.uri;
-                                    if (uri) {
-                                        row += '<a href="' + uri + '" target="_blank"><img src="images/link.png"/></a>';
+                                    var $column3 = $('<td>');
+                                    if (type.uri) {
+                                        $column3.append($('<a>')
+                                            .attr({
+                                                'href': type.uri,
+                                                'target': '_blank'
+                                            })
+                                            .append('<img src="images/link.png"/>')
+                                        );
                                     }
 
-                                    row += '</th>';
-                                    row += '</tr>';
-                                    return row;
-                                }).join();
+                                    return $('<tr>')
+                                        .addClass('textae-editor__entity-pallet__entity-type')
+                                        .css({
+                                            'background-color': type.getColor()
+                                        })
+                                        .append([$column1, $column2, $column3]);
+                                });
                             };
 
-                            //return a Pallet that created if not exists.
+                            // Return the pallet. It will be created unless exists.
                             var getEmptyPallet = function() {
                                 var $pallet = $('.textae-editor__entity-pallet');
                                 if ($pallet.length === 0) {
@@ -2708,17 +2728,15 @@
                                     $pallet = $('<div>')
                                         .addClass("textae-editor__entity-pallet")
                                         .append($('<table>'))
-                                        .css({
-                                            'position': 'fixed',
-                                            'display': 'none'
-                                        })
+                                        .css('position', 'fixed')
                                         .on('mouseup', '.textae-edtior__entity-pallet__entity-type__radio', controller.userEvent.editHandler.setEntityTypeDefault)
                                         .on('click', '.textae-editor__entity-pallet__entity-type__label', function() {
                                             controller.userEvent.viewHandler.hidePallet();
                                             controller.userEvent.editHandler.setEntityType.call(this);
-                                        });
+                                        })
+                                        .hide();
 
-                                    //for show on top append to body.
+                                    // Append the pallet to body to show on top.
                                     $("body").append($pallet);
                                 } else {
                                     $pallet.find('table').empty();
@@ -2728,27 +2746,34 @@
                             };
 
                             var $pallet　 = getEmptyPallet();
+
+                            // Make all rows per show to show new entity type too.
                             $pallet.find("table")
-                                .append(makeEntityTypeOfEntityTypePallet(model.entityTypes));
+                                .append(makeTableRowOFEntityPallet(model.entityTypes));
 
-                            //limti max height.
-                            if ($pallet.outerHeight() > CONSTS.PALLET_HEIGHT_MAX) {
-                                $pallet.css('height', CONSTS.PALLET_HEIGHT_MAX);
-                                $pallet.css('width', $pallet.outerWidth() + 30);
-                            }
-
-                            //if open by mouseevent
-                            if (arguments.length === 1) {
-                                $pallet.css('top', point.top);
-                                $pallet.css('left', point.left);
+                            // Show the scrollbar-y if the height of the pallet is same witch max-height.
+                            if ($pallet.outerHeight() + 'px' === $pallet.css('max-height')) {
+                                $pallet.css('overflow-y', 'scroll');
                             } else {
-                                $pallet.css('top', 10);
-                                $pallet.css('left', 20);
+                                $pallet.css('overflow-y', '');
                             }
-                            $pallet.css('display', 'block');
+
+                            // Move the pallet to mouse if it is opened by mouseEvent.
+                            if (arguments.length === 1) {
+                                $pallet.css({
+                                    'top': point.top,
+                                    'left': point.left
+                                });
+                            } else {
+                                $pallet.css({
+                                    'top': 10,
+                                    'left': 20
+                                });
+                            }
+                            $pallet.show();
                         },
                         hidePallet: function() {
-                            $('.textae-editor__entity-pallet').css('display', 'none');
+                            $('.textae-editor__entity-pallet').hide();
                         },
                         redraw: function() {
                             view.renderer.helper.redraw();
