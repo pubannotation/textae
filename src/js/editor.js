@@ -2648,34 +2648,36 @@
 
                             controller.command.invoke(removeCommand.getAll());
                         },
-                        copyTypes: function() {
-                            view.viewModel.clipBoard = function getTypesFromSelectedSpan() {
+                        copyEntities: function() {
+                            view.viewModel.clipBoard = function getEntitiesFromSelectedSpan() {
                                 return domUtil.selector.span.getSelecteds().map(function() {
                                     return model.annotationData.getSpan(this.id).getTypes().map(function(t) {
-                                        return t.name;
+                                        return t.entities;
+                                    }).reduce(function(a, b) {
+                                        return a.concat(b);
                                     });
                                 }).get();
                             }().concat(
-                                function getTypesFromSelectedEntities() {
+                                function getSelectedEntities() {
                                     return domUtil.selector.entity.getSelecteds().map(function() {
-                                        return $(this).attr('type');
+                                        return $(this).attr('title');
                                     }).get();
                                 }()
                             ).reduce(function(p, c) {
-                                // Unique types.
+                                // Unique Entities. Because a entity is deplicate When a span and thats entity is selected.
                                 if (p.indexOf(c) < 0) {
                                     p.push(c);
                                 }
                                 return p;
                             }, []);
                         },
-                        pasteTypes: function() {
-                            // Make commands per selected spans and types in clipBord. 
-                            var commands  = domUtil.selector.span.getSelecteds().map(function() {
+                        pasteEntities: function() {
+                            // Make commands per selected spans from entities in clipBord. 
+                            var commands = domUtil.selector.span.getSelecteds().map(function() {
                                 var spanId = this.id;
-                                // The view.viewModel.clipBoard has typeName.
-                                return view.viewModel.clipBoard.map(function(typeName) {
-                                    return controller.command.factory.entityCreateCommand(spanId, typeName);
+                                // The view.viewModel.clipBoard has enitityIds.
+                                return view.viewModel.clipBoard.map(function(entityId) {
+                                    return controller.command.factory.entityCreateCommand(spanId, model.annotationData.entities[entityId].type);
                                 });
                             }).get();
 
@@ -2943,14 +2945,14 @@
             handleKeyInput: function(key) {
                 var keyApiMap = {
                     'A': dataAccessObject.showAccess,
-                    'C': controller.userEvent.editHandler.copyTypes,
+                    'C': controller.userEvent.editHandler.copyEntities,
                     'D': controller.userEvent.editHandler.removeSelectedElements,
                     'DEL': controller.userEvent.editHandler.removeSelectedElements,
                     'E': controller.userEvent.editHandler.createEntity,
                     'Q': controller.userEvent.viewHandler.showPallet,
                     'R': controller.userEvent.editHandler.replicate,
                     'S': dataAccessObject.showSave,
-                    'V': controller.userEvent.editHandler.pasteTypes,
+                    'V': controller.userEvent.editHandler.pasteEntities,
                     'W': controller.userEvent.editHandler.newLabel,
                     'X': controller.command.redo,
                     'Y': controller.command.redo,
@@ -2977,8 +2979,8 @@
                         controller.userEvent.viewHandler.showPallet(event.point);
                     },
                     'textae.control.button.delete.click': controller.userEvent.editHandler.removeSelectedElements,
-                    'textae.control.button.copy.click': controller.userEvent.editHandler.copyTypes,
-                    'textae.control.button.paste.click': controller.userEvent.editHandler.pasteTypes,
+                    'textae.control.button.copy.click': controller.userEvent.editHandler.copyEntities,
+                    'textae.control.button.paste.click': controller.userEvent.editHandler.pasteEntities,
                     'textae.control.button.setting.click': controller.userEvent.viewHandler.showSettingDialog,
                 };
                 buttonApiMap[event.name]();
