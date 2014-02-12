@@ -380,11 +380,13 @@
                     // read default model.spanConfig
                     model.spanConfig.set();
 
-                    var params = {
+                    // Read model parameters from url parameters and html attributes.
+                    // Html attributes preced url parameters.
+                    var params =$.extend(textAeUtil.getUrlParameters(location.search), {
                         debug: editor.attr("debug"),
                         config: editor.attr("config"),
                         target: editor.attr("annotations")
-                    };
+                    });
 
                     if (params.config && params.config !== "") {
                         // load sync, because load annotation after load config. 

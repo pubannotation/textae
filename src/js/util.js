@@ -67,43 +67,28 @@
             };
         }(),
 
-        // todo remove. but this is an only target of qunit tests. 
-        getUrlParameters: function(url_query) {
-            //if exists convert to string and parse
-            var querys = url_query ? ("" + url_query).slice(1).split('&') : [];
-            var targetUrl = "";
-            var configUrl = "";
-            var debug = false;
+        // Usage sample: textAeUtil.getUrlParameters(location.search). 
+        getUrlParameters: function(urlQuery) {
+            // Remove ? at top.
+            var queryString = urlQuery ? String(urlQuery).replace(/^\?(.*)/, '$1') : '';
 
-            querys
+            // Convert to array if exists
+            var querys = queryString.length > 0 ? queryString.split('&') : [];
+
+            return querys
                 .map(function(param) {
-                    // convert string "key=value" to object.
-                    var vals = param.split("=");
+                    // Convert string "key=value" to object.
+                    var vals = param.split('=');
                     return {
                         key: vals[0],
                         val: vals[1]
                     };
-                })
-                .forEach(function(q) {
-                    // parse parameters
-                    switch (q.key) {
-                        case 'target':
-                            targetUrl = q.val;
-                            break;
-                        case 'config':
-                            configUrl = q.val;
-                            break;
-                        case 'debug':
-                            debug = true;
-                            break;
-                    }
-                });
-
-            return {
-                target: targetUrl,
-                config: configUrl,
-                debug: debug
-            };
+                }).reduce(function(a, b) {
+                    // Convert [{key: 'abc', val: '123'},...] to { abc: 123 ,...}
+                    // Set value true if val is not set.
+                    a[b.key] = b.val ? b.val : true;
+                    return a;
+                }, {});
         },
 
         makeInformationModal: function() {

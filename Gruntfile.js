@@ -111,7 +111,7 @@ module.exports = function(grunt) {
     },
     open: {
       server: {
-        url: 'http://localhost:8000/src'
+        url: 'http://localhost:8000/src/?config=1_config.json&target=1_annotations.json'
       }
     },
   });
