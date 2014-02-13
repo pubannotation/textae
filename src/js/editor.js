@@ -382,7 +382,7 @@
 
                     // Read model parameters from url parameters and html attributes.
                     // Html attributes preced url parameters.
-                    var params =$.extend(textAeUtil.getUrlParameters(location.search), {
+                    var params = $.extend(textAeUtil.getUrlParameters(location.search), {
                         debug: editor.attr("debug"),
                         config: editor.attr("config"),
                         target: editor.attr("annotations")
@@ -1210,21 +1210,21 @@
                     },
                 };
 
-                var getDivByClass = function($parent, className) {
+                var getElement = function($parent, tagName, className) {
                     var $area = $parent.find('.' + className);
                     if ($area.length === 0) {
-                        $area = $('<div>').addClass(className);
+                        $area = $('<' + tagName + '>').addClass(className);
                         $parent.append($area);
                     }
                     return $area;
                 };
 
                 // Make the display area for text, spans, denotations, relations.
-                var displayArea = getDivByClass(editor, 'textae-editor__body');
+                var displayArea = getElement(editor, 'div', 'textae-editor__body');
 
                 // Get the display area for denotations and relations.
                 var getAnnotationArea = function() {
-                    return getDivByClass(displayArea, 'textae-editor__body__annotation-box');
+                    return getElement(displayArea, 'div', 'textae-editor__body__annotation-box');
                 };
 
                 return {
@@ -1281,7 +1281,7 @@
                         return {
                             // Get the display area for text and spans.
                             getSourceDocArea: function() {
-                                return getDivByClass(displayArea, 'textae-editor__body__text-box');
+                                return getElement(displayArea, 'span', 'textae-editor__body__text-box');
                             },
                             renderAllSpan: function() {
                                 // For tuning
