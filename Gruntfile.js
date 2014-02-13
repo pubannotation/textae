@@ -110,12 +110,16 @@ module.exports = function(grunt) {
       }
     },
     open: {
-      server: {
+      dev: {
         url: 'http://localhost:8000/src/?config=1_config.json&target=1_annotations.json'
+      },
+      demo: {
+        url: 'http://localhost:8000/dist/demo/bionlp-st-ge/index.html'
       }
     },
   });
 
   grunt.registerTask('dist', ['jshint', 'qunit', 'clean', 'concat', 'uglify', 'copy', 'cssmin']);
-  grunt.registerTask('dev', ['connect', 'open', 'watch']);
+  grunt.registerTask('dev', ['connect', 'open:dev', 'watch']);
+  grunt.registerTask('demo', ['open:demo', 'connect:developmentServer:keepalive']);
 };
