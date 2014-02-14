@@ -1,8 +1,8 @@
 {
   "name": "textae",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "text annotation editor",
-  "main": "index.js",
+  "main": "dist/js/lib-textae-0.0.1.min.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

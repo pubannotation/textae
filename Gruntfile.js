@@ -52,7 +52,7 @@ module.exports = function(grunt) {
         files: [{
           expand: true,
           cwd: 'src/',
-          src: ['css/**', '!css/textae*.css', 'demo/**', 'images/**', 'lib/**'],
+          src: ['app/**', 'css/**', '!css/textae*.css', 'demo/**', 'images/**', 'lib/**'],
           dest: 'dist/',
           filter: 'isFile'
         }, ]
@@ -110,6 +110,9 @@ module.exports = function(grunt) {
       }
     },
     open: {
+      app: {
+        url: 'http://localhost:8000/dist/app/textae.html'
+      },
       dev: {
         url: 'http://localhost:8000/src/?config=1_config.json&target=1_annotations.json'
       },
@@ -119,7 +122,8 @@ module.exports = function(grunt) {
     },
   });
 
-  grunt.registerTask('dist', ['jshint', 'qunit', 'clean', 'concat', 'uglify', 'copy', 'cssmin']);
   grunt.registerTask('dev', ['connect', 'open:dev', 'watch']);
+  grunt.registerTask('dist', ['jshint', 'qunit', 'clean', 'concat', 'uglify', 'copy', 'cssmin']);
   grunt.registerTask('demo', ['open:demo', 'connect:developmentServer:keepalive']);
+  grunt.registerTask('app', ['open:app', 'connect:developmentServer:keepalive']);
 };
