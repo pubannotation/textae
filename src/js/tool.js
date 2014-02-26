@@ -24,7 +24,7 @@
                     addContentsFunc: function() {
                         this
                             .append($('<h3>').text('Help (Keyboard short-cuts)'))
-                            .append($('<img>').attr('src', 'images/keyhelp.png'));
+                            .append($('<div>').addClass('textae-tool__key-help'));
                     }
                 }),
                 //about dialog

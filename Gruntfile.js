@@ -24,7 +24,7 @@ module.exports = function(grunt) {
         dest: 'dist/js/lib-<%= pkg.name %>-<%= pkg.version %>.js',
       },
       css: {
-        src: ['src/css/textae.css', 'src/css/textae-control.css'],
+        src: ['src/css/textae.css', 'src/css/textae-control.css', 'src/css/textae-editor.css'],
         dest: 'dist/css/lib-<%= pkg.name %>-<%= pkg.version %>.css',
       }
     },
@@ -76,7 +76,7 @@ module.exports = function(grunt) {
         tasks: ['jshint']
       },
       static_files: {
-        files: ['src/index.html', 'src/js/*.js', 'src/css/*.css'],
+        files: ['src/development.html', 'src/js/*.js', 'src/css/*.css'],
         options: {
           livereload: true
         }
@@ -114,7 +114,7 @@ module.exports = function(grunt) {
         url: 'http://localhost:8000/dist/app/textae.html'
       },
       dev: {
-        url: 'http://localhost:8000/src/?config=1_config.json&target=1_annotations.json'
+        url: 'http://localhost:8000/src/development.html?config=1_config.json&target=1_annotations.json'
       },
       demo: {
         url: 'http://localhost:8000/dist/demo/bionlp-st-ge/index.html'

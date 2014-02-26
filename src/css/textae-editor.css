@@ -1,13 +1,4 @@
-
-*{
-    box-sizing: border-box;
-    -moz-box-sizing: border-box;
-}
-
 .textae-editor {
-    position: relative;
-    top: 22px;
-    left: 0px;
 /*    height: 600px;
     overflow: auto;
 */    border: 1px solid black;
@@ -224,7 +215,7 @@
     /*color: red;*/
 }
 
-@-webkit-keyframes buzz {
+@-webkit-keyframes textae-editor__type-buzz {
   50% {
     -webkit-transform: translateX(3px) translateY(1px);
     transform: translateX(3px) translateY(1px);
@@ -236,7 +227,7 @@
   }
 }
 
-@keyframes buzz {
+@keyframes textae-editor__type-buzz {
   50% {
     -webkit-transform: translateX(3px) translateY(1px);
     -ms-transform: translateX(3px) translateY(1px);
@@ -251,7 +242,6 @@
 }
 
 .textae-editor__type {
-  /*display: inline-block;*/
   -webkit-transform: translateZ(0);
   -ms-transform: translateZ(0);
   transform: translateZ(0);
@@ -259,8 +249,8 @@
 }
 
 .textae-editor__type:hover, .textae-editor__type_term-centric-mode:hover {
-  -webkit-animation-name: buzz;
-  animation-name: buzz;
+  -webkit-animation-name: textae-editor__type-buzz;
+  animation-name: textae-editor__type-buzz;
   -webkit-animation-duration: .15s;
   animation-duration: .15s;
   -webkit-animation-timing-function: linear;
@@ -288,151 +278,4 @@
     -webkit-transform: scale(1.8);
     -ms-transform: scale(1.8);
     transform: scale(1.8);
-}
-
-.textae-control {
-    background-color: #BBBBEE;
-    /* fallback (Opera) */
-    background: #BBBBEE;
-    /* Mozilla: */
-    background: -moz-linear-gradient(left, #BBBBEE, #FFFFFF);
-    /* Chrome, Safari:*/
-    background: -webkit-gradient(linear,  left top, right top, from(#BBBBEE), to(#FFFFFF));
-    /* MSIE */
-    filter: progid:DXImageTransform.Microsoft.Gradient(StartColorStr='#BBBBEE', EndColorStr='#FFFFFF', GradientType=1);
-    border-left: 5px solid #555588;
-    border-radius: 15px;
-    border-right: 5px solid #555588;
-    box-shadow: 6px 6px 6px 6px rgba(0,0,0,0.4);
-    height: 28px;
-    margin-left: 2px;
-    padding: 4px 20px 0 10px;
-    position: fixed;
-    z-index: 2;
-}
-
-/*== Elements inside the textae_control ==*/
-.textae-control__title {
-    margin: 0 10px 0 0;
-    font-weight: bold;
-    text-shadow: 2px 2px 5px #555555;
-    font-size: 20px;
-    vertical-align: bottom;
- }
-
-.textae-control__title a {
-    text-decoration: none;
-}
-
-.textae-control__separator {
-    margin: 0 2px;
-    height: 10px;
-    border: 2px solid #AAAADD;
-}
-
-.textae-control__icon {
-    cursor: pointer;
-    display: inline-block;
-    height: 16px;
-    width: 16px;
-
-    background-repeat: no-repeat;
-    background-position: bottom;
-    background-size: 16px 16px;
-
-    margin: 0 4px;
-}
-
-.textae-control__icon--disabled {
-    cursor: auto;
-    opacity: 0.3;
-}
-
-.textae-control__icon--pushed {
-    cursor: auto;
-    -moz-box-shadow:    inset 1px 1px 3px #000000;
-    -webkit-box-shadow: inset 1px 1px 3px #000000;
-    box-shadow:         inset 1px 1px 3px #000000;
-}
-
-.textae-control__read-button {
-    background: url("../images/btn_read_16.png");
-}
-
-.textae-control__write-button {
-    background: url("../images/btn_write_16.png");
-}
-
-.textae-control__undo-button {
-    background: url("../images/btn_undo_16.png");
-    text-align: right;
-}
-
-.textae-control__redo-button {
-    background: url("../images/btn_redo_16.png");
-    text-align: left;
-}
-
-.textae-control__replicate-button {
-    background: url("../images/btn_replicate_16.png");
-}
-
-.textae-control__replicate-auto-button {
-    background: url("../images/btn_replicate_auto_16.png");
-}
-
-.textae-control__entity-button {
-    background: url("../images/btn_denote_16.png");
-}
-
-.textae-control__pallet-button {
-    background: url("../images/btn_pallet_16.png");
-}
-
-.textae-control__change-label-button {
-    background: url("../images/btn_change_label_16.png");
-}
-
-.textae-control__delete-button {
-    background: url("../images/btn_delete_16.png");
-}
-
-.textae-control__copy-button {
-    background: url("../images/btn_copy_16.png");
-}
-
-.textae-control__paste-button {
-    background: url("../images/btn_paste_16.png");
-}
-
-.textae-control__help-button {
-    background: url("../images/btn_help_16.png");
-}
-
-.textae-control__about-button {
-    background: url("../images/btn_about_16.png");
-}
-
-.textae-control__setting-button {
-    background: url("../images/application_view_tile.png");
-}
-
-
-
-.textae-control__about {
-    border: solid 4px #aaaa88;
-    background-color: rgba(255,255,225,1.0);
-    width: 400px;
-    padding: 4px;
-    z-index: 255;
-    font-size: small;
-}
-
-.textae-control__help {
-    border: solid 4px #aaaa88;
-    background-color: rgba(255,255,225,1.0);
-    width: 400px;
-    padding: 4px;
-    z-index: 255;
-    font-size: small;
 }

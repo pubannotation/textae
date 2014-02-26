@@ -1,0 +1,13 @@
+.textae-control {
+	position: fixed;
+	z-index: 2;
+}
+
+.textae-editor {
+    position: relative;
+    top: 22px;
+}
+
+.textae-editor__body {
+    padding-top: 25px;
+}

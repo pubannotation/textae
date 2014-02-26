@@ -598,7 +598,7 @@
                     var params = $.extend(textAeUtil.getUrlParameters(location.search), {
                         debug: editor.attr("debug"),
                         config: editor.attr("config"),
-                        target: editor.attr("annotations")
+                        target: editor.attr("target")
                     });
 
                     if (params.config && params.config !== "") {
@@ -1442,17 +1442,7 @@
 
                 return {
                     reset: function() {
-                        var setBodyOffset = function() {
-                            //set body offset top half of line space between line of text-box.
-                            var $area = view.renderer.helper.getSourceDocArea();
-                            $area.html(model.sourceDoc);
-                            var lines = $area.get(0).getClientRects();
-                            var lineSpace = lines[1].top - lines[0].bottom;
-                            editor.find(".textae-editor__body").css("paddingTop", lineSpace / 2);
-                            $area.empty();
-                        };
-
-                        //souce document has multi paragraphs that are splited by '\n'.
+                        // the Souce document has multi paragraphs that are splited by '\n'.
                         var getTaggedSourceDoc = function() {
                             //set sroucedoc tagged <p> per line.
                             return model.sourceDoc.split("\n").map(function(par) {
@@ -1460,7 +1450,7 @@
                             }).join("\n");
                         };
 
-                        //paragraphs is Object that has position of charactor at start and end of the statement in each paragraph.
+                        // Paragraphs is Object that has position of charactor at start and end of the statement in each paragraph.
                         var makeParagraphs = function() {
                             var paragraphs = {};
 
@@ -1478,12 +1468,11 @@
                             return paragraphs;
                         };
 
-                        //render an source document
-                        setBodyOffset();
+                        // Render the source document
                         view.renderer.helper.getSourceDocArea().html(getTaggedSourceDoc());
                         view.renderer.paragraphs = makeParagraphs();
 
-                        //render annotations
+                        // Render annotations
                         getAnnotationArea().empty();
                         view.renderer.helper.renderAllSpan();
 
@@ -3393,7 +3382,7 @@
                     addContentsFunc: function() {
                         this
                             .append($('<h3>').text('Help (Keyboard short-cuts)'))
-                            .append($('<img>').attr('src', 'images/keyhelp.png'));
+                            .append($('<div>').addClass('textae-tool__key-help'));
                     }
                 }),
                 //about dialog
