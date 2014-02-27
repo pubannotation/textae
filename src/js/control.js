@@ -64,7 +64,8 @@
                         'redo': 'Redo [X]'
                     }, {
                         'replicate': 'Replicate span annotation [R]',
-                        'replicate-auto': 'Auto replicate (Toggle)'
+                        'replicate-auto': 'Auto replicate (Toggle)',
+                        'relation-edit-mode': 'Edit Relation'
                     }, {
                         'entity': 'New entity [E]',
                         'pallet': 'Select label [Q]',
@@ -131,11 +132,13 @@
             enableButton($.extend({}, buttonCache, disableButtons));
         };
 
-        var updateReplicateAutoButtonPushState = function(isPushed) {
+        // Update button push state.
+        var updateButtonPushState = function(bottonName, isPushed) {
+            var buttonInstance = buttonCache[bottonName].instance;
             if (isPushed) {
-                buttonAppearanceUtil.push(buttonCache["replicate-auto"].instance);
+                buttonAppearanceUtil.push(buttonInstance);
             } else {
-                buttonAppearanceUtil.unpush(buttonCache["replicate-auto"].instance);
+                buttonAppearanceUtil.unpush(buttonInstance);
             }
         };
 
@@ -145,6 +148,8 @@
 
         // Build elements
         buildElement(this);
+
+        // Make Function to push button.
 
         // Enable buttons that always eanable.
         enableButton({
@@ -156,7 +161,7 @@
 
         // Public API
         this.updateAllButtonEnableState = updateAllButtonEnableState;
-        this.updateReplicateAutoButtonPushState = updateReplicateAutoButtonPushState;
+        this.updateButtonPushState = updateButtonPushState;
 
         return this;
     };

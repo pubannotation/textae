@@ -81,18 +81,25 @@
             },
             //methods for editor to call tool.
             handleEditor: {
+                // A method to public bind an editor instance.
                 select: function(editor) {
                     components.editors.select(editor);
                 },
-                cancel: function() {
-                    components.infoModals.hideAll();
-                },
-                changeButtonState: function(disableButtons) {
-                    components.control.updateAllButtonEnableState(disableButtons);
-                },
-                pushReplicateAuto: function(push) {
-                    components.control.updateReplicateAutoButtonPushState(push);
-                },
+                // Methods to public as is.
+                public: {
+                    cancel: function() {
+                        components.infoModals.hideAll();
+                    },
+                    changeButtonState: function(disableButtons) {
+                        components.control.updateAllButtonEnableState(disableButtons);
+                    },
+                    pushReplicateAuto: function(push) {
+                        components.control.updateReplicateAutoButtonPushState(push);
+                    },
+                    push: function(buttonName, push) {
+                        components.control.updateButtonPushState(buttonName, push);
+                    }
+                }
             },
         };
 
@@ -181,12 +188,9 @@
 
                 $.extend(editor, {
                     editorId: components.editors.getNewId(),
-                    tool: {
-                        selectMe: eventDispatcher.handleEditor.select.bind(this, editor),
-                        cancelSelect: eventDispatcher.handleEditor.cancel,
-                        changeButtonState: eventDispatcher.handleEditor.changeButtonState,
-                        pushReplicateAuto: eventDispatcher.handleEditor.pushReplicateAuto,
-                    },
+                    tool: $.extend({
+                        selectMe: eventDispatcher.handleEditor.select.bind(null, editor),
+                    }, eventDispatcher.handleEditor.public),
                 });
             },
             // select first editor

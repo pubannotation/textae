@@ -5,6 +5,10 @@
     font-family: verdana, arial, helvetica, sans-serif;
 }
 
+.textae-editor_wait {
+    cursor: wait;
+}
+
 .textae-editor__body__text-box {
     line-height: 400%;
 }
@@ -188,11 +192,6 @@
     z-index: 0;
 }
 
-.textae-editor__relation:hover {
-    opacity: 1;
-    z-index: 1;
-}
-
 .textae-editor__relation__label {
     display:block;
     white-space:nowrap;
@@ -211,8 +210,6 @@
 .textae-editor__span:hover {
     text-shadow: 1px 1px 1px #00D;
     padding: 1px 0;
-    /*background-color: rgba(255,200,100,0.5);*/
-    /*color: red;*/
 }
 
 @-webkit-keyframes textae-editor__type-buzz {
@@ -278,4 +275,24 @@
     -webkit-transform: scale(1.8);
     -ms-transform: scale(1.8);
     transform: scale(1.8);
+}
+
+/* relation mode */
+.textae-editor_relation-mode {
+    cursor: url("../images/Handwriting.cur"), default;
+}
+
+.textae-editor_relation-mode .textae-editor__type:hover{
+  -webkit-animation-name: none;
+  animation-name: none;
+}
+
+.textae-editor_relation-mode .textae-editor__span:hover {
+    text-shadow: none;
+    padding: 0;
+}
+
+.textae-editor_relation-mode .textae-editor__relation:hover {
+    opacity: 1;
+    z-index: 1;
 }

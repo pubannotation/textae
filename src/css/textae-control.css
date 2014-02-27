@@ -88,6 +88,10 @@
     background: url("../images/btn_replicate_auto_16.png");
 }
 
+.textae-control__relation-edit-mode-button {
+    background: url("../images/btn_relation_16.png");
+}
+
 .textae-control__entity-button {
     background: url("../images/btn_denote_16.png");
 }

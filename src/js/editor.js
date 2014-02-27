@@ -2,10 +2,10 @@
         var domUtil = { //domUtil.cursorChanger
             cursorChanger: function(editor) {
                 var wait = function() {
-                    editor.css('cursor', 'wait');
+                    editor.addClass('textae-editor_wait');
                 };
                 var endWait = function() {
-                    editor.css('cursor', 'auto');
+                    editor.removeClass('textae-editor_wait');
                 };
                 return {
                     startWait: wait,
@@ -245,7 +245,7 @@
             return {
                 getAnnotationFromServer: function(url) {
                     domUtil.cursorChanger.startWait();
-                    textAeUtil.ajaxAccessor.getAsync(url, function(annotation) {
+                    textAeUtil.ajaxAccessor.getAsync(url, function getAnnotationFromServerSuccess(annotation) {
                         controller.command.reset(annotation);
                         setDataSourceUrl(url);
                     }, function() {
@@ -464,22 +464,28 @@
                         model.annotationData.spansTopLevel = spanTree;
                     };
 
-                    var getMaxEntityId = function() {
-                        var maxIdNum = 0;
-                        var entityIds = Object.keys(model.annotationData.entities)
-                            .filter(function(eid) {
-                                return eid[0] === "E";
+                    var getNewId = function(prefix, getIdsFunction) {
+                        var ids = getIdsFunction()
+                            .filter(function(id) {
+                                return id[0] === prefix;
                             })
-                            .map(function(eid) {
-                                return eid.slice(1);
+                            .map(function(id) {
+                                return id.slice(1);
                             });
-                        entityIds.sort(function(a, b) {
-                            //reverse by number
-                            return b - a;
-                        });
 
-                        return parseInt(entityIds[0]) || 0;
+                        // The Math.max retrun -Infinity when the second argument array is empty.
+                        return prefix + (ids.length === 0 ? 1 : Math.max.apply(null, ids) + 1);
                     };
+
+                    var getNewEntityId = getNewId.bind(null, 'E', function() {
+                        return Object.keys(model.annotationData.entities);
+                    });
+
+                    var getRelationIds = function() {
+                        return Object.keys(model.annotationData.relations);
+                    };
+
+                    var getNewRelationId = getNewId.bind(null, 'R', getRelationIds);
 
                     var innerAddSpan = function(span) {
                         var additionalPropertiesForSpan = {
@@ -686,12 +692,9 @@
                                 });
                             }
                         },
-                        getRelationIds: function() {
-                            return Object.keys(model.annotationData.relations);
-                        },
-                        getNewEntityId: function() {
-                            return "E" + (getMaxEntityId() + 1);
-                        },
+                        getNewEntityId: getNewEntityId,
+                        getRelationIds: getRelationIds,
+                        getNewRelationId: getNewRelationId,
                         toJason: function() {
                             var denotations = [];
                             for (var e in model.annotationData.entities) {
@@ -848,8 +851,8 @@
                                 lineWidth: 1
                             },
                             hoverPaintStyle: {
-                                strokeStyle: hoverRGBA,
-                                lineWidth: 3
+                                // strokeStyle: hoverRGBA,
+                                // lineWidth: 3
                             }
                         };
                         model.connectorTypes[name + '_selected'] = {
@@ -940,7 +943,53 @@
                 return {
                     // view.viewModel.clipBoard has entity id only.
                     clipBoard: [],
-                    isReplicateAuto: false,
+                    // Modes accoding to buttons of control.
+                    modeAccordingToButton: function() {
+                        // Functions to propagate to each buttons.
+                        var propagateFunctions = [];
+
+                        // The public object.
+                        var ret = {
+                            propagate: function() {
+                                propagateFunctions.forEach(function(func) {
+                                    func();
+                                });
+                            }
+                        };
+
+                        // Set up buttons value and function.
+                        ['replicate-auto', 'relation-edit-mode']
+                            .forEach(function bindButton(ret, propagateFunctions, buttonName) {
+                                // Button state is true when the button is pushed.
+                                var buttonState = false;
+
+                                // Propagate button state to the tool.
+                                var push = function() {
+                                    editor.tool.push(buttonName, buttonState);
+                                };
+
+                                // Set property to public object.
+                                ret[buttonName] = {
+                                    value: function(newValue) {
+                                        if (newValue !== undefined) {
+                                            buttonState = newValue;
+                                            push();
+                                        } else {
+                                            return buttonState;
+                                        }
+                                    },
+                                    toggle: function toggleButton() {
+                                        buttonState = !buttonState;
+                                        push();
+                                    }
+                                };
+
+                                // Set propagate functions. They will be called when the editor is switched.
+                                propagateFunctions.push(push);
+                            }.bind(null, ret, propagateFunctions));
+
+                        return ret;
+                    }(),
                     // Helper to update button state. 
                     buttonStateHelper: function() {
                         var disableButtons = {};
@@ -977,6 +1026,10 @@
                             updateCopy();
                         };
                         return {
+                            propagate: function() {
+                                editor.tool.changeButtonState(disableButtons);
+                                view.viewModel.modeAccordingToButton.propagate();
+                            },
                             init: function() {
                                 updateBySpanAndEntityBoth();
 
@@ -986,17 +1039,11 @@
                                 updatePallet();
                                 updateNewLabel();
 
-                                this.renderEnable();
-                            },
-                            pushed: function(button, push) {
-                                editor.tool.pushReplicateAuto(push);
-                            },
-                            renderEnable: function() {
-                                editor.tool.changeButtonState(disableButtons);
+                                this.propagate();
                             },
                             enabled: function(button, enable) {
                                 updateDisableButtons(button, enable);
-                                this.renderEnable();
+                                this.propagate();
                             },
                             updateBySpan: function() {
                                 updateBySpanAndEntityBoth();
@@ -1005,7 +1052,7 @@
                                 updatePaste();
                                 updateReplicate();
 
-                                this.renderEnable();
+                                this.propagate();
                             },
                             updateByEntity: function() {
                                 updateBySpanAndEntityBoth();
@@ -1013,14 +1060,15 @@
                                 updatePallet();
                                 updateNewLabel();
 
-                                this.renderEnable();
+                                this.propagate();
+                            },
+                            updateRelation: function() {
+                                // TODO リレーションを選択中は有効になります。
+                                // updateDisableButtons("delete", domUtil.selector.hasSelecteds());
+                                // this.propagate();
                             }
                         };
                     }(),
-                    toggleReplicateAuto: function() {
-                        view.viewModel.isReplicateAuto = !view.viewModel.isReplicateAuto;
-                        view.viewModel.buttonStateHelper.pushed("replicate-auto", view.viewModel.isReplicateAuto);
-                    },
                     viewMode: function() {
                         var mode;
                         return {
@@ -1769,10 +1817,17 @@
             return {
                 init: function() {
                     view.viewModel.buttonStateHelper.init();
-                    view.viewModel.viewMode.set('TERM'); // or INSTANCE
                 },
                 renderer: renderer,
-                viewModel: viewModel
+                viewModel: viewModel,
+                changeToRelationMode: function(on) {
+                    view.viewModel.modeAccordingToButton['relation-edit-mode'].value(on);
+                    if (on) {
+                        editor.addClass('textae-editor_relation-mode');
+                    } else {
+                        editor.removeClass('textae-editor_relation-mode');
+                    }
+                }
             };
         }(this);
 
@@ -1990,7 +2045,7 @@
                                     end: endPosition
                                 })];
 
-                                if (view.viewModel.isReplicateAuto) {
+                                if (view.viewModel.modeAccordingToButton['replicate-auto'].value()) {
                                     var replicates = controller.command.factory.spanReplicateCommand({
                                         begin: beginPosition,
                                         end: endPosition
@@ -2129,8 +2184,9 @@
                 view.viewModel.buttonStateHelper.updateByEntity();
             };
 
-            // A relation is drawn by a jsPlumbConnection.
-            var jsPlumbConnectionClicked = function(jsPlumbConnection, event) {
+            // Select or deselect relation.
+            // This function is expected to be called when Relation-Edit-Mode.
+            var selectRelation = function(jsPlumbConnection, event) {
                 var relationId = jsPlumbConnection.getParameter("id");
 
                 domUtil.manipulate.unselect();
@@ -2143,6 +2199,17 @@
                     }
                     view.renderer.relation.selectRelation(relationId);
                 }
+            };
+
+            // A Swithing point to change a behavior when relation is clicked.
+            var jsPlumbConnectionClickedImpl = null;
+
+            // A relation is drawn by a jsPlumbConnection.
+            // The EventHandlar for clieck event of jsPlumbConnection. 
+            var jsPlumbConnectionClicked = function(jsPlumbConnection, event) {
+                if (jsPlumbConnectionClickedImpl) {
+                    jsPlumbConnectionClickedImpl(jsPlumbConnection, event);
+                }
 
                 cancelBubble(event);
                 return false;
@@ -2150,7 +2217,7 @@
 
             var editorSelected = function() {
                 editor.tool.selectMe();
-                view.viewModel.buttonStateHelper.renderEnable();
+                view.viewModel.buttonStateHelper.propagate();
             };
 
             // A command is an operation by user that is saved as history, and can undo and redo.
@@ -2675,6 +2742,100 @@
                 }(),
                 // User event that does not change data.
                 viewHandler: function() {
+                    var switchRelationEditMode = function(value) {
+                        (function changeToRelationMode(on) {
+                            var entityClickedAtRelationMode = function() {
+                                var entityId;
+                                return function(e) {
+                                    // TODO 選択状態がないとわかりにくい。
+                                    if (!entityId) {
+                                        entityId = $(e.target).attr('title');
+                                    } else {
+                                        // Cannot make a self reference relation.
+                                        if (entityId !== $(e.target).attr('title')) {
+                                            controller.command.invoke([controller.command.factory.relationCreateCommand(
+                                                model.annotationData.getNewRelationId(),
+                                                entityId,
+                                                $(e.target).attr('title'), 'equivalentTo'
+                                            )]);
+                                            entityId = '';
+                                        }
+                                    }
+                                    console.log('hahaha', entityId);
+                                };
+                            }();
+
+                            if (on) {
+                                // Control only entities and relations.
+                                editor
+                                    .off('mouseup', '.textae-editor__body')
+                                    .off('mouseup', '.textae-editor__span')
+                                    .off('mouseup', '.textae-editor__type-label')
+                                    .off('mouseup', '.textae-editor__entity-pane')
+                                    .off('mouseup', '.textae-editor__entity')
+                                    .on('mouseup', '.textae-editor__entity', entityClickedAtRelationMode);
+
+                                jsPlumbConnectionClickedImpl = selectRelation;
+                            } else {
+                                editor
+                                    .on('mouseup', '.textae-editor__body', bodyClicked)
+                                    .on('mouseup', '.textae-editor__span', spanClicked)
+                                    .on('mouseup', '.textae-editor__type-label', typeLabelClicked)
+                                    .on('mouseup', '.textae-editor__entity-pane', entityPaneClicked)
+                                    .off('mouseup', '.textae-editor__entity')
+                                    .on('mouseup', '.textae-editor__entity', entityClicked);
+
+                                jsPlumbConnectionClickedImpl = null;
+                            }
+                        })(value);
+
+                        view.changeToRelationMode(value);
+                    };
+
+                    var controllerState = function() {
+                        var transitToTerm = function() {
+                            domUtil.manipulate.unselect();
+                            switchRelationEditMode(false);
+                            view.viewModel.viewMode.set('TERM');
+    
+                            controllerState = termCentricState;
+                        };
+
+                        var transitToInstance = function() {
+                            domUtil.manipulate.unselect();
+                            switchRelationEditMode(false);
+                            view.viewModel.viewMode.set('INSTANCE');
+    
+                            controllerState = {
+                                name: 'Instance / Relation',
+                                onRelation: transitToRelation,
+                                offInstance: transitToTerm
+                            };
+                        };
+
+                        var transitToRelation = function() {
+                            domUtil.manipulate.unselect();
+                            switchRelationEditMode(true);
+                            view.viewModel.viewMode.set('INSTANCE');
+    
+                            controllerState = {
+                                name: 'Relation Edit',
+                                offRelation: transitToInstance,
+                                offInstance: transitToTerm
+                            };
+                        };
+
+                        var termCentricState = {
+                            name: 'Term Centric',
+                            onInstance: transitToInstance,
+                            onRelation: transitToRelation
+                        };
+
+                        // init as TermCentricState
+                        view.viewModel.viewMode.set('TERM'); // or INSTANCE
+                        return termCentricState;
+                    }();
+
                     return {
                         showPallet: function(point) {
                             // Create table contents per entity type.
@@ -2793,7 +2954,7 @@
                             domUtil.manipulate.unselect();
                             controller.userEvent.viewHandler.hidePallet();
 
-                            editor.tool.cancelSelect();
+                            editor.tool.cancel();
                         },
                         selectLeftSpan: function() {
                             if (domUtil.selector.span.getNumberOfSelected() == 1) {
@@ -2848,10 +3009,11 @@
                                 )
                             )
                                 .on('click', '.textae-editor__setting-dialog__term-centric-view', function() {
+                                    // switchRelationEditMode(false);
                                     if ($(this).is(':checked')) {
-                                        view.viewModel.viewMode.set('INSTANCE');
+                                        controllerState.onInstance();
                                     } else {
-                                        view.viewModel.viewMode.set('TERM');
+                                        controllerState.offInstance();
                                     }
                                     view.renderer.helper.redraw();
                                 });
@@ -2871,6 +3033,15 @@
                             view.renderer.helper.changeLineHeight(heightValue);
                             view.renderer.helper.redraw();
                         },
+                        toggleRelationEditMode: function() {
+                            // ビューモードを切り替える
+                            if (view.viewModel.modeAccordingToButton['relation-edit-mode'].value()) {
+                                controllerState.offRelation();
+                            } else {
+                                controllerState.onRelation();
+                            }
+                            view.renderer.helper.redraw();
+                        }
                     };
                 }()
             };
@@ -2958,7 +3129,8 @@
                     'textae.control.button.undo.click': controller.command.undo,
                     'textae.control.button.redo.click': controller.command.redo,
                     'textae.control.button.replicate.click': controller.userEvent.editHandler.replicate,
-                    'textae.control.button.replicate_auto.click': view.viewModel.toggleReplicateAuto,
+                    'textae.control.button.replicate_auto.click': view.viewModel.modeAccordingToButton['replicate-auto'].toggle,
+                    'textae.control.button.relation_edit_mode.click': controller.userEvent.viewHandler.toggleRelationEditMode,
                     'textae.control.button.entity.click': controller.userEvent.editHandler.createEntity,
                     'textae.control.button.change_label.click': controller.userEvent.editHandler.newLabel,
                     'textae.control.button.pallet.click': function() {
