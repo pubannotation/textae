@@ -150,7 +150,7 @@
         }(),
 
         getDialog: function() {
-            // Cash a div for dialog by self, because $('#dialog_id') cannot exists div element.
+            // Cash a div for dialog by self, because $('#dialog_id') cannot find exists div element.
             var cash = {};
 
             return function(editorId, id, title, $content, noCancelButton) {
@@ -193,7 +193,7 @@
                 if (cash.hasOwnProperty(dialogId)) {
                     return cash[dialogId];
                 } else {
-                    //make unless exists
+                    // Make unless exists
                     var $dialog = makeDialog(dialogId);
 
                     $.extend($content, {

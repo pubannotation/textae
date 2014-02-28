@@ -152,7 +152,7 @@
         }(),
 
         getDialog: function() {
-            // Cash a div for dialog by self, because $('#dialog_id') cannot exists div element.
+            // Cash a div for dialog by self, because $('#dialog_id') cannot find exists div element.
             var cash = {};
 
             return function(editorId, id, title, $content, noCancelButton) {
@@ -195,7 +195,7 @@
                 if (cash.hasOwnProperty(dialogId)) {
                     return cash[dialogId];
                 } else {
-                    //make unless exists
+                    // Make unless exists
                     var $dialog = makeDialog(dialogId);
 
                     $.extend($content, {
@@ -582,7 +582,7 @@
             return {
                 init: function() {
                     var setTypeConfig = function(config) {
-                        model.entityTypes.set(config['entity types']);
+                        model.annotationData.entityTypeContainer.set(config['entity types']);
                         model.setRelationTypes(config['relation types']);
 
                         if (config.css !== undefined) {
@@ -617,8 +617,8 @@
                     }
                 },
                 spanConfig: spanConfig,
-                sourceDoc: "",
                 annotationData: function() {
+                    var originalData;
                     var spanContainer;
                     var sortedSpanIds = null;
                     var entitiesPerType;
@@ -703,7 +703,7 @@
                             },
                             //for debug. print myself only.
                             toStringOnlyThis: function() {
-                                return "span " + this.begin + ":" + this.end + ":" + model.sourceDoc.substring(this.begin, this.end);
+                                return "span " + this.begin + ":" + this.end + ":" + model.annotationData.sourceDoc.substring(this.begin, this.end);
                             },
                             //for debug. print with children.
                             toString: function(depth) {
@@ -764,12 +764,61 @@
                     };
 
                     return {
+                        sourceDoc: "",
                         entities: null,
                         relations: null,
-                        reset: function() {
+                        reset: function(annotation) {
+                            // Init
                             spanContainer = {};
                             model.annotationData.entities = {};
                             model.annotationData.relations = {};
+
+                            // SetNewData
+                            originalData = annotation;
+                            (function parseBaseText(sourceDoc) {
+                                // Validate
+                                if (sourceDoc === undefined) {
+                                    alert("read failed.");
+                                    return;
+                                }
+
+                                // Parse a souce document.
+                                model.annotationData.sourceDoc = sourceDoc;
+
+                                // Parse paragraphs
+                                var paragraphsArray = [];
+                                var textLengthBeforeThisParagraph = 0;
+                                sourceDoc.split("\n").forEach(function(p, index, array) {
+                                    paragraphsArray.push({
+                                        id: idFactory.makeParagraphId(index),
+                                        begin: textLengthBeforeThisParagraph,
+                                        end: textLengthBeforeThisParagraph + p.length,
+                                    });
+
+                                    textLengthBeforeThisParagraph += p.length + 1;
+                                });
+                                model.annotationData.paragraphsArray = paragraphsArray;
+                            })(annotation.base_text);
+
+
+                            //expected denotations Array of object like { "id": "T1", "span": { "begin": 19, "end": 49 }, "obj": "Cell" }.
+                            (function parseDenotations(denotations) {
+                                if (denotations) {
+                                    entitiesPerType = {};
+
+                                    denotations.forEach(function(entity) {
+                                        innerAddSpan(entity.span);
+                                        model.annotationData.addEntity({
+                                            id: entity.id,
+                                            span: idFactory.makeSpanId(entity.span.begin, entity.span.end),
+                                            type: entity.obj,
+                                        });
+                                        model.annotationData.entityTypeContainer.incrementNumberOfTypes(entity.obj);
+                                    });
+
+                                    updateSpanTree();
+                                }
+                            })(annotation.denotations);
                         },
                         //expected span is like { "begin": 19, "end": 49 }
                         addSpan: function(span) {
@@ -843,37 +892,6 @@
                             }
                             return entity;
                         },
-                        parseParagraphs: function(sourceDoc) {
-                            var paragraphsArray = [];
-                            var textLengthBeforeThisParagraph = 0;
-                            sourceDoc.split("\n").forEach(function(p, index, array) {
-                                paragraphsArray.push({
-                                    id: idFactory.makeParagraphId(index),
-                                    begin: textLengthBeforeThisParagraph,
-                                    end: textLengthBeforeThisParagraph + p.length,
-                                });
-
-                                textLengthBeforeThisParagraph += p.length + 1;
-                            });
-                            model.annotationData.paragraphsArray = paragraphsArray;
-                        },
-                        //expected denotations Array of object like { "id": "T1", "span": { "begin": 19, "end": 49 }, "obj": "Cell" }.
-                        parseDenotations: function(denotations) {
-                            if (denotations) {
-                                entitiesPerType = {};
-
-                                denotations.forEach(function(entity) {
-                                    innerAddSpan(entity.span);
-                                    model.annotationData.addEntity({
-                                        id: entity.id,
-                                        span: idFactory.makeSpanId(entity.span.begin, entity.span.end),
-                                        type: entity.obj,
-                                    });
-                                });
-
-                                updateSpanTree();
-                            }
-                        },
                         parseRelations: function(relations) {
                             if (relations) {
                                 relations.forEach(function(r) {
@@ -902,61 +920,61 @@
                                 });
                             }
 
-                            return JSON.stringify({
-                                "text": model.sourceDoc,
+                            return JSON.stringify($.extend(originalData,{
                                 "denotations": denotations
-                            });
-                        }
-                    };
-                }(),
-                entityTypes: function() {
-                    var types = {},
-                        defaultType = "",
-                        getColor = function() {
-                            return this.color ? this.color : "#77DDDD";
-                        };
+                            }));
+                        },
+                        entityTypeContainer: function() {
+                            var types = {},
+                                defaultType = "",
+                                getColor = function() {
+                                    return this.color ? this.color : "#77DDDD";
+                                };
 
-                    return {
-                        setDefaultType: function(nameOfEntityType) {
-                            defaultType = nameOfEntityType;
-                        },
-                        getDefaultType: function() {
-                            return defaultType || model.entityTypes.getSortedNames()[0];
-                        },
-                        getType: function(nameOfEntityType) {
-                            types[nameOfEntityType] = types[nameOfEntityType] || {
-                                getColor: getColor
-                            };
-                            return types[nameOfEntityType];
-                        },
-                        set: function(newEntityTypes) {
-                            // expected newEntityTypes is an array of object. example of object is {"name": "Regulation","color": "#FFFF66","default": true}.
-                            types = {};
-                            defaultType = "";
-                            if (newEntityTypes !== undefined) {
-                                newEntityTypes.forEach(function(newEntity) {
-                                    newEntity.getColor = getColor;
-                                    types[newEntity.name] = newEntity;
-                                    if (newEntity["default"] === true) {
-                                        defaultType = newEntity.name;
+                            return {
+                                setDefaultType: function(nameOfEntityType) {
+                                    defaultType = nameOfEntityType;
+                                },
+                                getDefaultType: function() {
+                                    console.log("aa", defaultType);
+                                    return defaultType || this.getSortedNames()[0];
+                                },
+                                getType: function(nameOfEntityType) {
+                                    types[nameOfEntityType] = types[nameOfEntityType] || {
+                                        getColor: getColor
+                                    };
+                                    return types[nameOfEntityType];
+                                },
+                                set: function(newEntityTypes) {
+                                    // expected newEntityTypes is an array of object. example of object is {"name": "Regulation","color": "#FFFF66","default": true}.
+                                    types = {};
+                                    defaultType = "";
+                                    if (newEntityTypes !== undefined) {
+                                        newEntityTypes.forEach(function(newEntity) {
+                                            newEntity.getColor = getColor;
+                                            types[newEntity.name] = newEntity;
+                                            if (newEntity["default"] === true) {
+                                                defaultType = newEntity.name;
+                                            }
+                                        });
                                     }
-                                });
-                            }
-                        },
-                        //save number of type, to sort by numer when show entity pallet.
-                        incrementNumberOfTypes: function(nameOfEntityType) {
-                            //access by square brancket, because nameOfEntityType is user input value, maybe 'null', '-', and other invalid indentifier name.
-                            var type = model.entityTypes.getType(nameOfEntityType);
-                            type.count = (type.count || 0) + 1;
-                        },
-                        getSortedNames: function() {
-                            //sort by number of types
-                            var typeNames = Object.keys(types);
-                            typeNames.sort(function(a, b) {
-                                return types[b].count - types[a].count;
-                            });
-                            return typeNames;
-                        }
+                                },
+                                //save number of type, to sort by numer when show entity pallet.
+                                incrementNumberOfTypes: function(nameOfEntityType) {
+                                    //access by square brancket, because nameOfEntityType is user input value, maybe 'null', '-', and other invalid indentifier name.
+                                    var type = this.getType(nameOfEntityType);
+                                    type.count = (type.count || 0) + 1;
+                                },
+                                getSortedNames: function() {
+                                    //sort by number of types
+                                    var typeNames = Object.keys(types);
+                                    typeNames.sort(function(a, b) {
+                                        return types[b].count - types[a].count;
+                                    });
+                                    return typeNames;
+                                }
+                            };
+                        }(),
                     };
                 }(),
                 relationTypes: {},
@@ -1067,7 +1085,7 @@
                 getReplicationSpans: function(originSpan) {
                     // Get spans their stirng is same with the originSpan from sourceDoc.
                     var getSpansTheirStringIsSameWith = function(originSpan) {
-                        var getNextStringIndex = String.prototype.indexOf.bind(model.sourceDoc, model.sourceDoc.substring(originSpan.begin, originSpan.end));
+                        var getNextStringIndex = String.prototype.indexOf.bind(model.annotationData.sourceDoc, model.annotationData.sourceDoc.substring(originSpan.begin, originSpan.end));
                         var length = originSpan.end - originSpan.begin;
 
                         var findStrings = [];
@@ -1092,8 +1110,8 @@
                     // The preceding charactor and the following of a word charactor are delimiter.
                     // For example, 't' ,a part of 'that', is not same with an origin span when it is 't'. 
                     var isWord = function(candidateSpan) {
-                        var precedingChar = model.sourceDoc.charAt(candidateSpan.begin - 1);
-                        var followingChar = model.sourceDoc.charAt(candidateSpan.end);
+                        var precedingChar = model.annotationData.sourceDoc.charAt(candidateSpan.begin - 1);
+                        var followingChar = model.annotationData.sourceDoc.charAt(candidateSpan.end);
 
                         return model.spanConfig.isDelimiter(precedingChar) && model.spanConfig.isDelimiter(followingChar);
                     };
@@ -1119,35 +1137,13 @@
                     });
                 },
                 reset: function(annotation) {
-                    var parseSouseDoc = function(data) {
-                        //validate
-                        if (data.text === undefined) {
-                            alert("read failed.");
-                            return;
-                        }
-
-                        //parse a souce document.
-                        model.sourceDoc = data.text;
-                        model.annotationData.parseParagraphs(data.text);
-                    };
-                    var parseDenotations = function(data) {
-                        model.annotationData.parseDenotations(data.denotations);
-                        if (data.denotations !== undefined) {
-                            data.denotations.forEach(function(d) {
-                                //d.obj is type of entity.
-                                model.entityTypes.incrementNumberOfTypes(d.obj);
-                            });
-                        }
-                    };
                     var parseRelations = function(data) {
                         model.annotationData.parseRelations(data.relations);
                         model.initRelationsPerEntity(data.relations);
                         model.initConnectorTypes();
                     };
 
-                    model.annotationData.reset();
-                    parseSouseDoc(annotation);
-                    parseDenotations(annotation);
+                    model.annotationData.reset(annotation);
                     parseRelations(annotation);
                 },
             };
@@ -1319,7 +1315,7 @@
                                             .addClass('textae-editor__type-label')
                                             .text(type)
                                             .css({
-                                                'background-color': model.entityTypes.getType(type).getColor(),
+                                                'background-color': model.annotationData.entityTypeContainer.getType(type).getColor(),
                                             });
 
                                         return $('<div>')
@@ -1445,7 +1441,7 @@
                         // the Souce document has multi paragraphs that are splited by '\n'.
                         var getTaggedSourceDoc = function() {
                             //set sroucedoc tagged <p> per line.
-                            return model.sourceDoc.split("\n").map(function(par) {
+                            return model.annotationData.sourceDoc.split("\n").map(function(par) {
                                 return '<p class="textae-editor__body__text-box__paragraph">' + par + '</p>';
                             }).join("\n");
                         };
@@ -1711,7 +1707,7 @@
                                         .attr('type', String(entity.type)) // Replace null to 'null' if type is null. 
                                     .addClass('textae-editor__entity')
                                         .css({
-                                            'border-color': model.entityTypes.getType(entity.type).getColor()
+                                            'border-color': model.annotationData.entityTypeContainer.getType(entity.type).getColor()
                                         });
                                 };
 
@@ -2043,10 +2039,10 @@
                 // adjust the beginning position of a span
                 var adjustSpanBegin = function(beginPosition) {
                     var pos = beginPosition;
-                    while (model.spanConfig.isNonEdgeCharacter(model.sourceDoc.charAt(pos))) {
+                    while (model.spanConfig.isNonEdgeCharacter(model.annotationData.sourceDoc.charAt(pos))) {
                         pos++;
                     }
-                    while (!model.spanConfig.isDelimiter(model.sourceDoc.charAt(pos)) && pos > 0 && !model.spanConfig.isDelimiter(model.sourceDoc.charAt(pos - 1))) {
+                    while (!model.spanConfig.isDelimiter(model.annotationData.sourceDoc.charAt(pos)) && pos > 0 && !model.spanConfig.isDelimiter(model.annotationData.sourceDoc.charAt(pos - 1))) {
                         pos--;
                     }
                     return pos;
@@ -2055,10 +2051,10 @@
                 // adjust the end position of a span
                 var adjustSpanEnd = function(endPosition) {
                     var pos = endPosition;
-                    while (model.spanConfig.isNonEdgeCharacter(model.sourceDoc.charAt(pos - 1))) {
+                    while (model.spanConfig.isNonEdgeCharacter(model.annotationData.sourceDoc.charAt(pos - 1))) {
                         pos--;
                     }
-                    while (!model.spanConfig.isDelimiter(model.sourceDoc.charAt(pos)) && pos < model.sourceDoc.length) {
+                    while (!model.spanConfig.isDelimiter(model.annotationData.sourceDoc.charAt(pos)) && pos < model.annotationData.sourceDoc.length) {
                         pos++;
                     }
                     return pos;
@@ -2067,7 +2063,7 @@
                 // adjust the beginning position of a span for shortening
                 var adjustSpanBegin2 = function(beginPosition) {
                     var pos = beginPosition;
-                    while ((pos < model.sourceDoc.length) && (model.spanConfig.isNonEdgeCharacter(model.sourceDoc.charAt(pos)) || !model.spanConfig.isDelimiter(model.sourceDoc.charAt(pos - 1)))) {
+                    while ((pos < model.annotationData.sourceDoc.length) && (model.spanConfig.isNonEdgeCharacter(model.annotationData.sourceDoc.charAt(pos)) || !model.spanConfig.isDelimiter(model.annotationData.sourceDoc.charAt(pos - 1)))) {
                         pos++;
                     }
                     return pos;
@@ -2076,7 +2072,7 @@
                 // adjust the end position of a span for shortening
                 var adjustSpanEnd2 = function(endPosition) {
                     var pos = endPosition;
-                    while ((pos > 0) && (model.spanConfig.isNonEdgeCharacter(model.sourceDoc.charAt(pos - 1)) || !model.spanConfig.isDelimiter(model.sourceDoc.charAt(pos)))) {
+                    while ((pos > 0) && (model.spanConfig.isNonEdgeCharacter(model.annotationData.sourceDoc.charAt(pos - 1)) || !model.spanConfig.isDelimiter(model.annotationData.sourceDoc.charAt(pos)))) {
                         pos--;
                     }
                     return pos;
@@ -2191,7 +2187,7 @@
                         }
 
                         // when the whole text is selected by e.g., triple click (Chrome)
-                        if ((anchorPosition === 0) && (focusPosition == model.sourceDoc.length)) {
+                        if ((anchorPosition === 0) && (focusPosition == model.annotationData.sourceDoc.length)) {
                             // do nothing. bubbles go up
                             return true;
                         }
@@ -2765,7 +2761,7 @@
                         createEntity: function() {
                             var commands = [];
                             domUtil.selector.span.getSelecteds().each(function() {
-                                commands.push(controller.command.factory.entityCreateCommand(this.id, model.entityTypes.getDefaultType()));
+                                commands.push(controller.command.factory.entityCreateCommand(this.id, model.annotationData.entityTypeContainer.getDefaultType()));
                             });
 
                             controller.command.invoke(commands);
@@ -2889,19 +2885,19 @@
                         },
                         // Set the default type of denoting object
                         setEntityTypeDefault: function() {
-                            model.entityTypes.setDefaultType($(this).attr('label'));
+                            model.annotationData.entityTypeContainer.setDefaultType($(this).attr('label'));
                             return false;
                         },
                     };
                 }(),
                 // User event that does not change data.
-                viewHandler: function(self) {
+                viewHandler: function() {
                     return {
                         showPallet: function(point) {
                             // Create table contents per entity type.
                             var makeTableRowOFEntityPallet = function() {
-                                return model.entityTypes.getSortedNames().map(function(typeName) {
-                                    var type = model.entityTypes.getType(typeName);
+                                return model.annotationData.entityTypeContainer.getSortedNames().map(function(typeName) {
+                                    var type = model.annotationData.entityTypeContainer.getType(typeName);
 
                                     var $column1 = $('<td>').append(function() {
                                         var $radioButton = $('<input>').addClass('textae-editor__entity-pallet__entity-type__radio').attr({
@@ -2910,7 +2906,7 @@
                                             'label': typeName
                                         });
                                         // Select the radio button if it is default type.
-                                        if (typeName === model.entityTypes.getDefaultType()) {
+                                        if (typeName === model.annotationData.entityTypeContainer.getDefaultType()) {
                                             $radioButton.attr({
                                                 'title': 'default type',
                                                 'checked': 'checked'
@@ -2969,11 +2965,11 @@
                                 return $pallet;
                             };
 
-                            var $pallet　 = getEmptyPallet();
+                            var $pallet = getEmptyPallet();
 
                             // Make all rows per show to show new entity type too.
                             $pallet.find("table")
-                                .append(makeTableRowOFEntityPallet(model.entityTypes));
+                                .append(makeTableRowOFEntityPallet(model.annotationData.entityTypeContainer));
 
                             // Show the scrollbar-y if the height of the pallet is same witch max-height.
                             if ($pallet.outerHeight() + 'px' === $pallet.css('max-height')) {
@@ -3082,15 +3078,15 @@
                                     view.renderer.helper.redraw();
                                 });
 
-                            // Open the dialog.                        
-                            textAeUtil.getDialog(self.editorId, 'textae.dialog.setting', 'Chage Settings', $content, true).open();
+                            // Open the dialog.
+                            textAeUtil.getDialog(editor.editorId, 'textae.dialog.setting', 'Chage Settings', $content, true).open();
                         },
                         changeLineHeight: function(heightValue) {
                             view.renderer.helper.changeLineHeight(heightValue);
                             view.renderer.helper.redraw();
                         },
                     };
-                }(this)
+                }()
             };
 
             return {
