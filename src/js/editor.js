@@ -707,7 +707,7 @@
                                 });
                             }
 
-                            return JSON.stringify($.extend(originalData,{
+                            return JSON.stringify($.extend(originalData, {
                                 "denotations": denotations
                             }));
                         },
@@ -2840,21 +2840,14 @@
                                 });
 
                             // Instance/Relation View
-                            var $checkbox = $('<input>')
-                                .attr({
-                                    'type': 'checkbox'
-                                })
-                                .addClass('textae-editor__setting-dialog__term-centric-view');
-                            if (view.viewModel.viewMode.get() === 'INSTANCE') {
-                                $checkbox.attr({
-                                    'checked': 'checked'
-                                });
-                            }
-
-                            $content
-                                .append($('<div>')
-                                    .append('<label>Instance/Relation View:')
-                                    .append($checkbox)
+                            $content.append($('<div>')
+                                .append('<label>Instance/Relation View:')
+                                .append($('<input>')
+                                    .attr({
+                                        'type': 'checkbox'
+                                    })
+                                    .addClass('textae-editor__setting-dialog__term-centric-view')
+                                )
                             )
                                 .on('click', '.textae-editor__setting-dialog__term-centric-view', function() {
                                     if ($(this).is(':checked')) {
@@ -2866,7 +2859,15 @@
                                 });
 
                             // Open the dialog.
-                            textAeUtil.getDialog(editor.editorId, 'textae.dialog.setting', 'Chage Settings', $content, true).open();
+                            var $dialog = textAeUtil.getDialog(editor.editorId, 'textae.dialog.setting', 'Chage Settings', $content, true);
+
+                            // Update the checkbox state, because it is updated by an other than users that is programing.
+                            $dialog.find('.textae-editor__setting-dialog__term-centric-view')
+                                .prop({
+                                    'checked': view.viewModel.viewMode.get() === 'INSTANCE' ? 'checked' : null
+                                });
+
+                            $dialog.open();
                         },
                         changeLineHeight: function(heightValue) {
                             view.renderer.helper.changeLineHeight(heightValue);
