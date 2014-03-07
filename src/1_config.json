@@ -55,5 +55,8 @@
 		"color": "#FFFF66",
 		"name": "Regulation",
 		"uri": "http://www.yahoo.co.jp"
+	}, {
+		"color": "#666666",
+		"name": "New"
 	}]
 }
