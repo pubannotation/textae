@@ -713,24 +713,20 @@
                         },
                         entityTypeContainer: function() {
                             var types = {},
-                                defaultType = "",
-                                getColor = function() {
-                                    return this.color ? this.color : "#77DDDD";
-                                };
+                                defaultType = '';
 
                             return {
                                 setDefaultType: function(nameOfEntityType) {
                                     defaultType = nameOfEntityType;
                                 },
                                 getDefaultType: function() {
-                                    console.log("aa", defaultType);
                                     return defaultType || this.getSortedNames()[0];
                                 },
-                                getType: function(nameOfEntityType) {
-                                    types[nameOfEntityType] = types[nameOfEntityType] || {
-                                        getColor: getColor
-                                    };
-                                    return types[nameOfEntityType];
+                                getColor: function(nameOfEntityType) {
+                                    return types[nameOfEntityType] && types[nameOfEntityType].color || '#77DDDD';
+                                },
+                                getUri: function(nameOfEntityType) {
+                                    return types[nameOfEntityType].uri;
                                 },
                                 set: function(newEntityTypes) {
                                     // expected newEntityTypes is an array of object. example of object is {"name": "Regulation","color": "#FFFF66","default": true}.
@@ -738,7 +734,6 @@
                                     defaultType = "";
                                     if (newEntityTypes !== undefined) {
                                         newEntityTypes.forEach(function(newEntity) {
-                                            newEntity.getColor = getColor;
                                             types[newEntity.name] = newEntity;
                                             if (newEntity["default"] === true) {
                                                 defaultType = newEntity.name;
@@ -749,7 +744,7 @@
                                 //save number of type, to sort by numer when show entity pallet.
                                 incrementNumberOfTypes: function(nameOfEntityType) {
                                     //access by square brancket, because nameOfEntityType is user input value, maybe 'null', '-', and other invalid indentifier name.
-                                    var type = this.getType(nameOfEntityType);
+                                    var type = types[nameOfEntityType] || {};
                                     type.count = (type.count || 0) + 1;
                                 },
                                 getSortedNames: function() {
@@ -1102,7 +1097,7 @@
                                             .addClass('textae-editor__type-label')
                                             .text(type)
                                             .css({
-                                                'background-color': model.annotationData.entityTypeContainer.getType(type).getColor(),
+                                                'background-color': model.annotationData.entityTypeContainer.getColor(type),
                                             });
 
                                         return $('<div>')
@@ -1494,7 +1489,7 @@
                                         .attr('type', String(entity.type)) // Replace null to 'null' if type is null. 
                                     .addClass('textae-editor__entity')
                                         .css({
-                                            'border-color': model.annotationData.entityTypeContainer.getType(entity.type).getColor()
+                                            'border-color': model.annotationData.entityTypeContainer.getColor(entity.type)
                                         });
                                 };
 
@@ -2672,6 +2667,7 @@
                         },
                         // Set the default type of denoting object
                         setEntityTypeDefault: function() {
+                            console.log('abbbbb');
                             model.annotationData.entityTypeContainer.setDefaultType($(this).attr('label'));
                             return false;
                         },
@@ -2684,14 +2680,16 @@
                             // Create table contents per entity type.
                             var makeTableRowOFEntityPallet = function() {
                                 return model.annotationData.entityTypeContainer.getSortedNames().map(function(typeName) {
-                                    var type = model.annotationData.entityTypeContainer.getType(typeName);
-
                                     var $column1 = $('<td>').append(function() {
-                                        var $radioButton = $('<input>').addClass('textae-editor__entity-pallet__entity-type__radio').attr({
-                                            'type': 'radio',
-                                            'name': 'etype',
-                                            'label': typeName
-                                        });
+                                        // The event handler is bound direct,because jQuery detects events of radio buttons directly only.
+                                        var $radioButton = $('<input>')
+                                            .addClass('textae-editor__entity-pallet__entity-type__radio')
+                                            .attr({
+                                                'type': 'radio',
+                                                'name': 'etype',
+                                                'label': typeName
+                                            }).change(controller.userEvent.editHandler.setEntityTypeDefault);
+
                                         // Select the radio button if it is default type.
                                         if (typeName === model.annotationData.entityTypeContainer.getDefaultType()) {
                                             $radioButton.attr({
@@ -2708,10 +2706,11 @@
                                         .text(typeName);
 
                                     var $column3 = $('<td>');
-                                    if (type.uri) {
+                                    var uri = model.annotationData.entityTypeContainer.getUri(typeName);
+                                    if (uri) {
                                         $column3.append($('<a>')
                                             .attr({
-                                                'href': type.uri,
+                                                'href': uri,
                                                 'target': '_blank'
                                             })
                                             .append('<img src="images/link.png"/>')
@@ -2721,7 +2720,7 @@
                                     return $('<tr>')
                                         .addClass('textae-editor__entity-pallet__entity-type')
                                         .css({
-                                            'background-color': type.getColor()
+                                            'background-color': model.annotationData.entityTypeContainer.getColor(typeName)
                                         })
                                         .append([$column1, $column2, $column3]);
                                 });
@@ -2736,7 +2735,6 @@
                                         .addClass("textae-editor__entity-pallet")
                                         .append($('<table>'))
                                         .css('position', 'fixed')
-                                        .on('mouseup', '.textae-edtior__entity-pallet__entity-type__radio', controller.userEvent.editHandler.setEntityTypeDefault)
                                         .on('click', '.textae-editor__entity-pallet__entity-type__label', function() {
                                             controller.userEvent.viewHandler.hidePallet();
                                             controller.userEvent.editHandler.setEntityType.call(this);
