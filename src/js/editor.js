@@ -500,7 +500,7 @@
                             (function parseRelations(relations) {
                                 if (relations) {
                                     model.annotationData.relations = relations.reduce(function(a, b) {
-                                        a[b.id] = b;
+                                        a[b.id] = $.extend({}, b);
                                         return a;
                                     }, {});
                                 }
@@ -567,22 +567,28 @@
                         getRelationIds: getRelationIds,
                         getNewRelationId: getNewRelationId,
                         toJson: function() {
-                            var denotations = [];
-                            for (var e in model.annotationData.entities) {
-                                var spanId = model.annotationData.entities[e].span;
-                                var span = {
-                                    'begin': model.annotationData.getSpan(spanId).begin,
-                                    'end': model.annotationData.getSpan(spanId).end
+                            var denotations = Object.keys(model.annotationData.entities).map(function(entityId) {
+                                var entity = model.annotationData.entities[entityId];
+                                var span = model.annotationData.getSpan(entity.span);
+                                return {
+                                    'id': entityId,
+                                    'span': {
+                                        'begin': span.begin,
+                                        'end': span.end
+                                    },
+                                    'obj': entity.type
                                 };
-                                denotations.push({
-                                    'id': e,
-                                    'span': span,
-                                    'obj': model.annotationData.entities[e].type
-                                });
-                            }
+                            });
+
+                            var relations = Object.keys(model.annotationData.relations).map(function(relationId) {
+                                return model.annotationData.relations[relationId];
+                            });
+
+                            console.log(relations);
 
                             return JSON.stringify($.extend(originalData, {
-                                "denotations": denotations
+                                'denotations': denotations,
+                                'relations': relations
                             }));
                         }
                     };
@@ -2488,9 +2494,9 @@
                                     execute: function() {
                                         model.annotationData.relations[relationId] = {
                                             id: relationId,
+                                            pred: predicate,
                                             subj: subject,
-                                            obj: object,
-                                            pred: predicate
+                                            obj: object
                                         };
 
                                         // rendering
