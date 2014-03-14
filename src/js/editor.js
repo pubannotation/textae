@@ -519,17 +519,13 @@
                             return spanContainer[spanId];
                         },
                         getRangeOfSpan: function(firstId, secondId) {
-                            var firstIndex = sortedSpanIds.indexOf(firstId);
-                            var secondIndex = sortedSpanIds.indexOf(secondId);
+                            var first = spanContainer[firstId];
+                            var second = spanContainer[secondId];
 
-                            //switch if seconfIndex before firstIndex
-                            if (secondIndex < firstIndex) {
-                                var tmpIndex = firstIndex;
-                                firstIndex = secondIndex;
-                                secondIndex = tmpIndex;
-                            }
-
-                            return sortedSpanIds.slice(firstIndex, secondIndex + 1);
+                            return Object.keys(spanContainer).filter(function(spanId) {
+                                var span = spanContainer[spanId];
+                                return first.begin <= span.begin && span.end <= second.end;
+                            });
                         },
                         getAllSpan: function() {
                             return $.map(spanContainer, function(span) {
@@ -651,9 +647,6 @@
         }(this);
 
         var view = function(editor) {
-            var TYPE_MARGIN_TOP = 18;
-            var TYPE_MARGIN_BOTTOM = 2;
-
             // The cachedConnectors has jsPlumbConnectors to call jsPlumbConnector instance to edit an according dom object.
             // This is refered by view.render.relation and view.domUtil.selector.relation.
             var cachedConnectors = {};
@@ -867,132 +860,48 @@
                         };
                     }(),
                     viewMode: function() {
-                        var mode;
+                        var changeCssClass = function(mode) {
+                            // For tuning, the style will be changed at the next event.
+                            window.setTimeout(function() {
+                                editor
+                                    .removeClass('textae-editor_term-mode')
+                                    .removeClass('textae-editor_instance-mode')
+                                    .removeClass('textae-editor_relation-mode')
+                                    .addClass('textae-editor_' + mode + '-mode');
+                                view.renderer.grid.arrangePositionAll();
+                            }, 0);
+                        },
+                            setRelationEditButtonPushed = function(push) {
+                                view.viewModel.modeAccordingToButton['relation-edit-mode'].value(push);
+                            };
+
                         return {
-                            get: function() {
-                                return mode;
+                            // This is base value to calculate the position of grids.
+                            // Grids cannot be set positon by 'margin-bottom' style.
+                            // Because grids is setted 'positin:absolute' style in the overlay over spans.
+                            // So we caluclate and set 'top' of grids in fuctions of 'view.renderer.grid'. 
+                            marginBottomOfGrid: 0,
+                            isTerm: function() {
+                                return editor.hasClass('textae-editor_term-mode');
                             },
-                            set: function() {
-                                // Set visibility style to hide entities, because size of entities are necesarry to render relation.
-                                // Relations are rendered and set invisible when 'Term Centric View'.
-                                var showEntityPaneFunc = function() {
-                                    this.css({
-                                        'visibility': 'visible'
-                                    });
-                                };
-                                var hideEntityPaneFunc = function() {
-                                    this.css({
-                                        'visibility': 'hidden'
-                                    });
-                                };
+                            setTerm: function() {
+                                changeCssClass('term');
+                                setRelationEditButtonPushed(false);
 
-                                var refreshExistsDom = function(mode) {
-                                    var showAllEntities = function() {
-                                        var originalMarginBottomOfGrid = TYPE_MARGIN_BOTTOM;
-                                        return function() {
-                                            showEntityPaneFunc.apply(editor.find('.textae-editor__entity-pane'));
-                                            editor.find('.textae-editor__type_term-centric-mode')
-                                                .removeClass('textae-editor__type_term-centric-mode')
-                                                .addClass('textae-editor__type');
+                                view.viewModel.viewMode.marginBottomOfGrid = 0;
+                            },
+                            setInstance: function() {
+                                changeCssClass('instance');
+                                setRelationEditButtonPushed(false);
 
-                                            TYPE_MARGIN_BOTTOM = originalMarginBottomOfGrid;
-                                        };
-                                    }();
+                                view.viewModel.viewMode.marginBottomOfGrid = 2;
+                            },
+                            setRelation: function() {
+                                changeCssClass('relation');
+                                setRelationEditButtonPushed(true);
 
-                                    var hideAllEntities = function() {
-                                        hideEntityPaneFunc.apply(editor.find('.textae-editor__entity-pane'));
-                                        editor.find('.textae-editor__type')
-                                            .removeClass('textae-editor__type')
-                                            .addClass('textae-editor__type_term-centric-mode');
-
-                                        // Override margin-bottom of gird.
-                                        TYPE_MARGIN_BOTTOM = 0;
-                                    };
-
-                                    var setAllRelationsVisible = function(isShow) {
-                                        $.map(cachedConnectors, function(connector) {
-                                            return connector;
-                                        }).forEach(function(connector, index) {
-                                            // For tunning. Connectors are re-rendered when the visible attribute is override even in not changed.  
-                                            if (isShow !== connector.isVisible()) {
-                                                // For tuning. Switch the thread to user control, because connector rendering is too slow. 
-                                                window.setTimeout(function() {
-                                                    connector.setConnectorVisible(isShow);
-                                                }, 0);
-                                            }
-                                        });
-                                    };
-
-                                    if (mode === 'TERM') {
-                                        hideAllEntities();
-                                        setAllRelationsVisible(false);
-                                    } else if (mode === 'INSTANCE') {
-                                        showAllEntities();
-                                        setAllRelationsVisible(true);
-                                    }
-                                };
-
-                                var changeMethodForRender = function(mode) {
-                                    // A Type element has an entity_pane elment that has a label and will have entities.
-                                    var createEmptyTypeDomElementTemplateFunction = function(entityPaneVisibleFunc, classOfEntityTypeForViewMode, spanId, type) {
-                                        var typeId = idFactory.makeTypeId(spanId, type);
-                                        // The EntityPane will have entities.
-                                        var $entityPane = $('<div>')
-                                            .attr('id', 'P-' + typeId)
-                                            .addClass('textae-editor__entity-pane');
-
-                                        entityPaneVisibleFunc.apply($entityPane);
-
-                                        // Label over the span.
-                                        var $typeLabel = $('<div>')
-                                            .addClass('textae-editor__type-label')
-                                            .text(type)
-                                            .css({
-                                                'background-color': view.viewModel.typeContainer.entity.getColor(type),
-                                            });
-
-                                        return $('<div>')
-                                            .attr('id', typeId)
-                                            .addClass(classOfEntityTypeForViewMode)
-                                            .css({
-                                                'padding-top': TYPE_MARGIN_TOP,
-                                                'margin-bottom': TYPE_MARGIN_BOTTOM
-                                            })
-                                            .append($typeLabel)
-                                            .append($entityPane); // Set pane after label because pane is over label.
-                                    };
-
-                                    if (mode === 'TERM') {
-                                        // Relations are not redrawed.
-                                        view.renderer.helper.redraw = view.renderer.grid.arrangePositionAll;
-
-                                        // Create entity as invisible
-                                        view.renderer.entity.createEmptyTypeDomElement = createEmptyTypeDomElementTemplateFunction.bind(null, hideEntityPaneFunc, 'textae-editor__type_term-centric-mode');
-
-                                        // Create relation as invisible
-                                        view.renderer.relation.render = function(relationId) {
-                                            return view.renderer.relation.renderRelation(relationId).setConnectorVisible(false);
-                                        };
-                                    } else if (mode === 'INSTANCE') {
-                                        // Relations are redrawed.
-                                        view.renderer.helper.redraw = function() {
-                                            view.renderer.grid.arrangePositionAll();
-                                            view.renderer.relation.arrangePositionAll();
-                                        };
-
-                                        // Create entity as visible
-                                        view.renderer.entity.createEmptyTypeDomElement = createEmptyTypeDomElementTemplateFunction.bind(null, showEntityPaneFunc, 'textae-editor__type');
-
-                                        view.renderer.relation.render = view.renderer.relation.renderRelation;
-                                    }
-                                };
-
-                                return function(newMode) {
-                                    mode = newMode;
-                                    refreshExistsDom(newMode);
-                                    changeMethodForRender(newMode);
-                                };
-                            }()
+                                view.viewModel.viewMode.marginBottomOfGrid = 2;
+                            }
                         };
                     }(),
                     typeContainer: {
@@ -1164,6 +1073,10 @@
                                     'line-height': heightValue * 100 + '%'
                                 });
                             },
+                            redraw: function() {
+                                view.renderer.grid.arrangePositionAll();
+                                view.renderer.relation.arrangePositionAll();
+                            }
                         };
                     }(),
                     span: {
@@ -1324,6 +1237,29 @@
                             render: function(entity) {
                                 //render type unless exists.
                                 var getTypeElement = function(spanId, type) {
+                                    // A Type element has an entity_pane elment that has a label and will have entities.
+                                    var createEmptyTypeDomElement = function(spanId, type) {
+                                        var typeId = idFactory.makeTypeId(spanId, type);
+                                        // The EntityPane will have entities.
+                                        var $entityPane = $('<div>')
+                                            .attr('id', 'P-' + typeId)
+                                            .addClass('textae-editor__entity-pane');
+
+                                        // Label over the span.
+                                        var $typeLabel = $('<div>')
+                                            .addClass('textae-editor__type-label')
+                                            .text(type)
+                                            .css({
+                                                'background-color': view.viewModel.typeContainer.entity.getColor(type),
+                                            });
+
+                                        return $('<div>')
+                                            .attr('id', typeId)
+                                            .addClass('textae-editor__type')
+                                            .append($typeLabel)
+                                            .append($entityPane); // Set pane after label because pane is over label.
+                                    };
+
                                     var getGrid = function(spanId) {
                                         var createGrid = function(spanId) {
                                             var spanPosition = positionUtils.getSpan(spanId);
@@ -1351,7 +1287,7 @@
 
                                     var $type = getTypeDom(spanId, type);
                                     if ($type.length === 0) {
-                                        $type = view.renderer.entity.createEmptyTypeDomElement(spanId, type);
+                                        $type = createEmptyTypeDomElement(spanId, type);
                                         getGrid(spanId).append($type);
                                     }
 
@@ -1405,7 +1341,7 @@
                                 var spanPosition = positionUtils.getSpan(spanId);
                                 var gridPosition = positionUtils.getGrid(spanId);
                                 view.domUtil.selector.grid.get(spanId).css({
-                                    'top': spanPosition.top - TYPE_MARGIN_BOTTOM - gridPosition.height,
+                                    'top': spanPosition.top - view.viewModel.viewMode.marginBottomOfGrid - gridPosition.height,
                                     'left': spanPosition.left
                                 });
                             };
@@ -1425,14 +1361,7 @@
                                             return getHeightIncludeDescendantGrids(childSpan);
                                         }));
 
-                                    // console.log(span.id, 'childrenMaxHeight', descendantsMaxHeight);
-
-                                    // var ret = view.domUtil.selector.grid.get(span.id).outerHeight() + descendantsMaxHeight + TYPE_MARGIN_BOTTOM;
-                                    var ret = positionUtils.getGrid(span.id).height + descendantsMaxHeight + TYPE_MARGIN_BOTTOM;
-
-                                    // console.log(span.id, 'descendantsMaxHeight', ret);
-
-                                    return ret;
+                                    return positionUtils.getGrid(span.id).height + descendantsMaxHeight + view.viewModel.viewMode.marginBottomOfGrid;
                                 };
 
                                 if (span.getTypes().length > 0 && span.children.length > 0) {
@@ -1440,9 +1369,8 @@
                                     var descendantsMaxHeight = getHeightIncludeDescendantGrids(span);
 
                                     view.domUtil.selector.grid.get(span.id).css({
-                                        'top': spanPosition.top - TYPE_MARGIN_BOTTOM - descendantsMaxHeight,
+                                        'top': spanPosition.top - view.viewModel.viewMode.marginBottomOfGrid - descendantsMaxHeight,
                                     });
-                                    // console.log('pull', span.id, spanPosition.top, '-', TYPE_MARGIN_BOTTOM, '-', descendantsMaxHeight, '=', spanPosition.top - TYPE_MARGIN_BOTTOM - descendantsMaxHeight);
                                 }
                             };
 
@@ -1501,15 +1429,6 @@
                             return curviness;
                         };
 
-                        // Set visible connector and their endpoints.
-                        var setConnectorVisible = function(isShow) {
-                            this.endpoints.forEach(function(endpoint) {
-                                endpoint.setVisible(isShow);
-                            });
-                            this.setVisible(isShow);
-                            return this;
-                        };
-
                         return {
                             // Parameters to render relations.
                             settings: {
@@ -1528,7 +1447,7 @@
                                 cachedConnectors = {};
                                 view.domUtil.selector.relation.emptyRelationIdsSelected();
                             },
-                            renderRelation: function(relationId) {
+                            render: function(relationId) {
                                 var sourceId = model.annotationData.relations[relationId].subj;
                                 var targetId = model.annotationData.relations[relationId].obj;
 
@@ -1573,11 +1492,6 @@
 
                                 // Notify to contoroller that a new jsPlumbConnection is added.
                                 editor.trigger('textae.editor.jsPlumbConnection.add', conn);
-
-                                // Extend for viewMode.
-                                $.extend(conn, {
-                                    setConnectorVisible: setConnectorVisible
-                                });
 
                                 // Cache a connector instance.
                                 cachedConnectors[relationId] = conn;
@@ -1669,15 +1583,6 @@
                         },
                         isSelectOne: function() {
                             return view.domUtil.selector.span.getSelecteds().length === 1;
-                        },
-                        popSelectedId: function() {
-                            var ss = view.domUtil.selector.span.getSelecteds();
-                            if (ss.length === 1) {
-                                editor.find('#' + ss[0]).removeClass('ui-selected');
-                                return ss[0];
-                            } else {
-                                return null;
-                            }
                         },
                         select: function(spanId) {
                             view.domUtil.manipulate.select(view.domUtil.selector.span.get(spanId));
@@ -1821,15 +1726,7 @@
                 },
                 renderer: renderer,
                 domUtil: domUtil,
-                viewModel: viewModel,
-                changeToRelationMode: function(on) {
-                    view.viewModel.modeAccordingToButton['relation-edit-mode'].value(on);
-                    if (on) {
-                        editor.addClass('textae-editor_relation-mode');
-                    } else {
-                        editor.removeClass('textae-editor_relation-mode');
-                    }
-                }
+                viewModel: viewModel
             };
         }(this);
 
@@ -1842,291 +1739,397 @@
                 if (e.stopPropagation) e.stopPropagation();
             };
 
-            var bodyClicked = function(e) {
-                var getPosition = function(node) {
-                    var $parent = $(node).parent();
-                    var parentId = $parent.attr("id");
+            var getPosition = function(node) {
+                var $parent = $(node).parent();
+                var parentId = $parent.attr("id");
 
-                    var pos;
-                    if ($parent.hasClass("textae-editor__body__text-box__paragraph")) {
-                        pos = view.renderer.paragraphs[parentId].begin;
-                    } else if ($parent.hasClass("textae-editor__span")) {
-                        pos = model.annotationData.getSpan(parentId).begin;
-                    } else {
-                        console.log(parentId);
+                var pos;
+                if ($parent.hasClass("textae-editor__body__text-box__paragraph")) {
+                    pos = view.renderer.paragraphs[parentId].begin;
+                } else if ($parent.hasClass("textae-editor__span")) {
+                    pos = model.annotationData.getSpan(parentId).begin;
+                } else {
+                    console.log(parentId);
+                    return;
+                }
+
+                var childNodes = node.parentElement.childNodes;
+                for (var i = 0; childNodes[i] != node; i++) { // until the focus node
+                    pos += (childNodes[i].nodeName == "#text") ? childNodes[i].nodeValue.length : $('#' + childNodes[i].id).text().length;
+                }
+
+                return pos;
+            };
+
+            var getFocusPosition = function(selection) {
+                var pos = getPosition(selection.focusNode);
+                return pos += selection.focusOffset;
+            };
+
+            var getAnchorPosition = function(selection) {
+                var pos = getPosition(selection.anchorNode);
+                return pos + selection.anchorOffset;
+            };
+
+            // adjust the beginning position of a span
+            var adjustSpanBegin = function(beginPosition) {
+                var pos = beginPosition;
+                while (model.spanConfig.isNonEdgeCharacter(model.annotationData.sourceDoc.charAt(pos))) {
+                    pos++;
+                }
+                while (!model.spanConfig.isDelimiter(model.annotationData.sourceDoc.charAt(pos)) && pos > 0 && !model.spanConfig.isDelimiter(model.annotationData.sourceDoc.charAt(pos - 1))) {
+                    pos--;
+                }
+                return pos;
+            };
+
+            // adjust the end position of a span
+            var adjustSpanEnd = function(endPosition) {
+                var pos = endPosition;
+                while (model.spanConfig.isNonEdgeCharacter(model.annotationData.sourceDoc.charAt(pos - 1))) {
+                    pos--;
+                }
+                while (!model.spanConfig.isDelimiter(model.annotationData.sourceDoc.charAt(pos)) && pos < model.annotationData.sourceDoc.length) {
+                    pos++;
+                }
+                return pos;
+            };
+
+            // adjust the beginning position of a span for shortening
+            var adjustSpanBegin2 = function(beginPosition) {
+                var pos = beginPosition;
+                while ((pos < model.annotationData.sourceDoc.length) && (model.spanConfig.isNonEdgeCharacter(model.annotationData.sourceDoc.charAt(pos)) || !model.spanConfig.isDelimiter(model.annotationData.sourceDoc.charAt(pos - 1)))) {
+                    pos++;
+                }
+                return pos;
+            };
+
+            // adjust the end position of a span for shortening
+            var adjustSpanEnd2 = function(endPosition) {
+                var pos = endPosition;
+                while ((pos > 0) && (model.spanConfig.isNonEdgeCharacter(model.annotationData.sourceDoc.charAt(pos - 1)) || !model.spanConfig.isDelimiter(model.annotationData.sourceDoc.charAt(pos)))) {
+                    pos--;
+                }
+                return pos;
+            };
+
+            var createSpanIfOneParent = function(selection) {
+                // A span can be created at the same parent node.
+                // The parentElement is expected as a paragraph or a span.
+                if (selection.anchorNode.parentElement.id !== selection.focusNode.parentElement.id) {
+                    console.log(selection.anchorNode.parentElement.id, selection.focusNode.parentElement.id);
+                    return false;
+                }
+
+                var anchorPosition = getAnchorPosition(selection);
+                var focusPosition = getFocusPosition(selection);
+
+                // switch the position when the selection is made from right to left
+                if (anchorPosition > focusPosition) {
+                    var tmpPos = anchorPosition;
+                    anchorPosition = focusPosition;
+                    focusPosition = tmpPos;
+                }
+
+                // A span cannot be created include nonEdgeCharacters only.
+                var stringWithoutNonEdgeCharacters = model.annotationData.sourceDoc.substring(anchorPosition, focusPosition);
+                model.spanConfig.nonEdgeCharacters.forEach(function(char) {
+                    stringWithoutNonEdgeCharacters = stringWithoutNonEdgeCharacters.replace(char, '');
+                });
+                if (stringWithoutNonEdgeCharacters.length === 0) {
+                    view.domUtil.manipulate.dismissBrowserSelection();
+                    // Return true to return from the caller function.
+                    return true;
+                }
+
+                view.domUtil.manipulate.unselect();
+                (function doCreate(beginPosition, endPosition) {
+                    var spanId = idFactory.makeSpanId(beginPosition, endPosition);
+
+                    // The span exists already.
+                    if (model.annotationData.getSpan(spanId)) {
                         return;
                     }
 
-                    var childNodes = node.parentElement.childNodes;
-                    for (var i = 0; childNodes[i] != node; i++) { // until the focus node
-                        pos += (childNodes[i].nodeName == "#text") ? childNodes[i].nodeValue.length : $('#' + childNodes[i].id).text().length;
-                    }
+                    var commands = [controller.command.factory.spanCreateCommand({
+                        begin: beginPosition,
+                        end: endPosition
+                    })];
 
-                    return pos;
-                };
-
-                var getFocusPosition = function(selection) {
-                    var pos = getPosition(selection.focusNode);
-                    return pos += selection.focusOffset;
-                };
-
-                var getAnchorPosition = function(selection) {
-                    var pos = getPosition(selection.anchorNode);
-                    return pos + selection.anchorOffset;
-                };
-
-                // adjust the beginning position of a span
-                var adjustSpanBegin = function(beginPosition) {
-                    var pos = beginPosition;
-                    while (model.spanConfig.isNonEdgeCharacter(model.annotationData.sourceDoc.charAt(pos))) {
-                        pos++;
-                    }
-                    while (!model.spanConfig.isDelimiter(model.annotationData.sourceDoc.charAt(pos)) && pos > 0 && !model.spanConfig.isDelimiter(model.annotationData.sourceDoc.charAt(pos - 1))) {
-                        pos--;
-                    }
-                    return pos;
-                };
-
-                // adjust the end position of a span
-                var adjustSpanEnd = function(endPosition) {
-                    var pos = endPosition;
-                    while (model.spanConfig.isNonEdgeCharacter(model.annotationData.sourceDoc.charAt(pos - 1))) {
-                        pos--;
-                    }
-                    while (!model.spanConfig.isDelimiter(model.annotationData.sourceDoc.charAt(pos)) && pos < model.annotationData.sourceDoc.length) {
-                        pos++;
-                    }
-                    return pos;
-                };
-
-                // adjust the beginning position of a span for shortening
-                var adjustSpanBegin2 = function(beginPosition) {
-                    var pos = beginPosition;
-                    while ((pos < model.annotationData.sourceDoc.length) && (model.spanConfig.isNonEdgeCharacter(model.annotationData.sourceDoc.charAt(pos)) || !model.spanConfig.isDelimiter(model.annotationData.sourceDoc.charAt(pos - 1)))) {
-                        pos++;
-                    }
-                    return pos;
-                };
-
-                // adjust the end position of a span for shortening
-                var adjustSpanEnd2 = function(endPosition) {
-                    var pos = endPosition;
-                    while ((pos > 0) && (model.spanConfig.isNonEdgeCharacter(model.annotationData.sourceDoc.charAt(pos - 1)) || !model.spanConfig.isDelimiter(model.annotationData.sourceDoc.charAt(pos)))) {
-                        pos--;
-                    }
-                    return pos;
-                };
-
-                var moveSpan = function(spanId, begin, end) {
-                    return [controller.command.factory.spanMoveCommand(spanId, begin, end)];
-                };
-
-                var expandSpan = function(sid, selection) {
-                    var commands = [];
-
-                    var focusPosition = getFocusPosition(selection);
-
-                    var range = selection.getRangeAt(0);
-                    var anchorRange = document.createRange();
-                    anchorRange.selectNode(selection.anchorNode);
-
-                    if (range.compareBoundaryPoints(Range.START_TO_START, anchorRange) < 0) {
-                        // expand to the left
-                        var newBegin = adjustSpanBegin(focusPosition);
-                        commands = moveSpan(sid, newBegin, model.annotationData.getSpan(sid).end);
-                    } else {
-                        // expand to the right
-                        var newEnd = adjustSpanEnd(focusPosition);
-                        commands = moveSpan(sid, model.annotationData.getSpan(sid).begin, newEnd);
+                    if (view.viewModel.modeAccordingToButton['replicate-auto'].value() && endPosition - beginPosition <= CONSTS.BLOCK_THRESHOLD) {
+                        commands.push(controller.command.factory.spanReplicateCommand({
+                            begin: beginPosition,
+                            end: endPosition
+                        }));
                     }
 
                     controller.command.invoke(commands);
+
+                })(adjustSpanBegin(anchorPosition), adjustSpanEnd(focusPosition));
+
+                return true;
+            };
+
+            var moveSpan = function(spanId, begin, end) {
+                // Do not need move.
+                if (spanId === idFactory.makeSpanId(begin, end)) {
+                    return;
+                }
+
+                return [controller.command.factory.spanMoveCommand(spanId, begin, end)];
+            };
+
+            var expandSpan = function(spanId, selection) {
+                var commands = [];
+
+                var focusPosition = getFocusPosition(selection);
+
+                var range = selection.getRangeAt(0);
+                var anchorRange = document.createRange();
+                anchorRange.selectNode(selection.anchorNode);
+
+                if (range.compareBoundaryPoints(Range.START_TO_START, anchorRange) < 0) {
+                    // expand to the left
+                    var newBegin = adjustSpanBegin(focusPosition);
+                    commands = moveSpan(spanId, newBegin, model.annotationData.getSpan(spanId).end);
+                } else {
+                    // expand to the right
+                    var newEnd = adjustSpanEnd(focusPosition);
+                    commands = moveSpan(spanId, model.annotationData.getSpan(spanId).begin, newEnd);
+                }
+
+                controller.command.invoke(commands);
+            };
+
+            var shortenSpan = function(spanId, selection) {
+                var commands = [];
+
+                var focusPosition = getFocusPosition(selection);
+
+                var range = selection.getRangeAt(0);
+                var focusRange = document.createRange();
+                focusRange.selectNode(selection.focusNode);
+
+                var removeSpan = function(spanId) {
+                    return [controller.command.factory.spanRemoveCommand(spanId)];
                 };
 
-                var shortenSpan = function(sid, selection) {
-                    var commands = [];
+                var new_sid, tid, eid, type;
+                if (range.compareBoundaryPoints(Range.START_TO_START, focusRange) > 0) {
+                    // shorten the right boundary
+                    var newEnd = adjustSpanEnd2(focusPosition);
 
-                    var focusPosition = getFocusPosition(selection);
-
-                    var range = selection.getRangeAt(0);
-                    var focusRange = document.createRange();
-                    focusRange.selectNode(selection.focusNode);
-
-                    var removeSpan = function(spanId) {
-                        return [controller.command.factory.spanRemoveCommand(spanId)];
-                    };
-
-                    var new_sid, tid, eid, type;
-                    if (range.compareBoundaryPoints(Range.START_TO_START, focusRange) > 0) {
-                        // shorten the right boundary
-                        var newEnd = adjustSpanEnd2(focusPosition);
-
-                        if (newEnd > model.annotationData.getSpan(sid).begin) {
-                            new_sid = idFactory.makeSpanId(model.annotationData.getSpan(sid).begin, newEnd);
-                            if (model.annotationData.getSpan(new_sid)) {
-                                commands = removeSpan(sid);
-                            } else {
-                                commands = moveSpan(sid, model.annotationData.getSpan(sid).begin, newEnd);
-                            }
+                    if (newEnd > model.annotationData.getSpan(spanId).begin) {
+                        new_sid = idFactory.makeSpanId(model.annotationData.getSpan(spanId).begin, newEnd);
+                        if (model.annotationData.getSpan(new_sid)) {
+                            commands = removeSpan(spanId);
                         } else {
-                            view.domUtil.selector.span.select(sid);
-                            controller.userEvent.editHandler.removeSelectedElements();
+                            commands = moveSpan(spanId, model.annotationData.getSpan(spanId).begin, newEnd);
                         }
                     } else {
-                        // shorten the left boundary
-                        var newBegin = adjustSpanBegin2(focusPosition);
+                        view.domUtil.selector.span.select(spanId);
+                        controller.userEvent.editHandler.removeSelectedElements();
+                    }
+                } else {
+                    // shorten the left boundary
+                    var newBegin = adjustSpanBegin2(focusPosition);
 
-                        if (newBegin < model.annotationData.getSpan(sid).end) {
-                            new_sid = idFactory.makeSpanId(newBegin, model.annotationData.getSpan(sid).end);
-                            if (model.annotationData.getSpan(new_sid)) {
-                                commands = removeSpan(sid);
-                            } else {
-                                commands = moveSpan(sid, newBegin, model.annotationData.getSpan(sid).end);
-                            }
+                    if (newBegin < model.annotationData.getSpan(spanId).end) {
+                        new_sid = idFactory.makeSpanId(newBegin, model.annotationData.getSpan(spanId).end);
+                        if (model.annotationData.getSpan(new_sid)) {
+                            commands = removeSpan(spanId);
                         } else {
-                            view.domUtil.selector.span.select(sid);
-                            controller.userEvent.editHandler.removeSelectedElements();
+                            commands = moveSpan(spanId, newBegin, model.annotationData.getSpan(spanId).end);
                         }
-                    }
-
-                    controller.command.invoke(commands);
-                };
-
-                var selection = window.getSelection();
-                if (selection && selection.rangeCount > 0) {
-                    var range = selection.getRangeAt(0);
-
-                    if (
-                        // when the whole div is selected by e.g., triple click
-                        (range.startContainer == view.renderer.helper.getSourceDocArea().get(0)) ||
-                        // when Shift is pressed
-                        (e.shiftKey) ||
-                        // when nothing is selected
-                        (selection.isCollapsed)
-                    ) {
-                        // bubbles go up
-                        controller.userEvent.viewHandler.cancelSelect();
-                        view.domUtil.manipulate.dismissBrowserSelection();
-                        return true;
-                    }
-
-                    var anchorPosition = getAnchorPosition(selection);
-                    var focusPosition = getFocusPosition(selection);
-
-                    // no boundary crossing: normal -> create a entity
-                    var sid;
-                    if (selection.anchorNode.parentElement.id === selection.focusNode.parentElement.id) {
-                        view.domUtil.manipulate.unselect();
-
-                        // switch the position when the selection is made from right to left
-                        if (anchorPosition > focusPosition) {
-                            var tmpPos = anchorPosition;
-                            anchorPosition = focusPosition;
-                            focusPosition = tmpPos;
-                        }
-
-                        // when the whole text is selected by e.g., triple click (Chrome)
-                        if ((anchorPosition === 0) && (focusPosition == model.annotationData.sourceDoc.length)) {
-                            // do nothing. bubbles go up
-                            return true;
-                        }
-
-                        var beginPosition = adjustSpanBegin(anchorPosition);
-                        var endPosition = adjustSpanEnd(focusPosition);
-                        sid = idFactory.makeSpanId(beginPosition, endPosition);
-
-                        if (!model.annotationData.getSpan(sid)) {
-                            if (endPosition - beginPosition > CONSTS.BLOCK_THRESHOLD) {
-                                controller.command.invoke([controller.command.factory.spanCreateCommand({
-                                    begin: beginPosition,
-                                    end: endPosition
-                                })]);
-                            } else {
-                                var commands = [controller.command.factory.spanCreateCommand({
-                                    begin: beginPosition,
-                                    end: endPosition
-                                })];
-
-                                if (view.viewModel.modeAccordingToButton['replicate-auto'].value()) {
-                                    var replicates = controller.command.factory.spanReplicateCommand({
-                                        begin: beginPosition,
-                                        end: endPosition
-                                    });
-                                    commands.push(replicates);
-                                }
-                                controller.command.invoke(commands);
-                            }
-                        }
-                    }
-
-                    // boundary crossing: exception
-                    else {
-                        if (selection.anchorNode.parentNode.parentNode == selection.focusNode.parentNode) {
-                            view.domUtil.manipulate.unselect();
-                            expandSpan(selection.anchorNode.parentNode.id, selection);
-                        } else if (selection.anchorNode.parentNode == selection.focusNode.parentNode.parentNode) {
-                            view.domUtil.manipulate.unselect();
-                            shortenSpan(selection.focusNode.parentNode.id, selection);
-                        } else if (view.domUtil.selector.span.isSelectOne()) {
-                            sid = view.domUtil.selector.span.popSelectedId();
-
-                            // drag began inside the selected span (expansion)
-                            if ((anchorPosition > model.annotationData.getSpan(sid).begin) && (anchorPosition < model.annotationData.getSpan(sid).end)) {
-                                // The focus node should be at one level above the selected node.
-                                if (view.domUtil.selector.span.get(sid).get(0).parentNode.id == selection.focusNode.parentNode.id) expandSpan(sid, selection);
-                                else {
-                                    view.domUtil.selector.span.select(sid);
-                                    alert('A span cannot be expanded to make a boundary crossing.');
-                                }
-                            }
-
-                            // drag ended inside the selected span (shortening)
-                            else if ((focusPosition > model.annotationData.getSpan(sid).begin) && (focusPosition < model.annotationData.getSpan(sid).end)) {
-                                if (view.domUtil.selector.span.get(sid).get(0).id == selection.focusNode.parentNode.id) shortenSpan(sid, selection);
-                                else {
-                                    view.domUtil.selector.span.select(sid);
-                                    alert('A span cannot be shrinked to make a boundary crossing.');
-                                }
-                            } else alert('It is ambiguous for which span you want to adjust the boundary. Reselect the span, and try again.');
-                        } else {
-                            alert('It is ambiguous for which span you want to adjust the boundary. Select the span, and try again.');
-                        }
+                    } else {
+                        view.domUtil.selector.span.select(spanId);
+                        controller.userEvent.editHandler.removeSelectedElements();
                     }
                 }
 
+                controller.command.invoke(commands);
+            };
+
+            var isInSelectedSpan = function(position) {
+                if (view.domUtil.selector.span.isSelectOne()) {
+                    var spanId = view.domUtil.selector.span.getSelecteds()[0];
+                    var selectedSpan = model.annotationData.getSpan(spanId);
+                    return selectedSpan.begin < position && position < selectedSpan.end;
+                }
+                return false;
+            };
+
+            var expandIfable = function(selection) {
+                if (selection.anchorNode.parentNode.parentNode === selection.focusNode.parentNode) {
+                    // To expand the span , belows are needed:
+                    // 1. The anchorNode is in the span.
+                    // 2. The foucusNode is out of the span and in the parent of the span.
+                    view.domUtil.manipulate.unselect();
+                    expandSpan(selection.anchorNode.parentNode.id, selection);
+
+                    view.domUtil.manipulate.dismissBrowserSelection();
+                    return true;
+                }
+
+                // If a span is selected, it is able to begin drag a span in the span and expand the span.
+                if (isInSelectedSpan(getAnchorPosition(selection))) {
+                    var selectedSpanId = view.domUtil.selector.span.getSelecteds()[0];
+
+                    // The focus node should be at one level above the selected node.
+                    if (view.domUtil.selector.span.get(selectedSpanId).parent().attr('id') === selection.focusNode.parentNode.id) {
+                        // cf.
+                        // 1. Select an outside span.
+                        // 2. Begin Drug from an inner span to out of an outside span. 
+                        // Expand the selected span.
+                        expandSpan(selectedSpanId, selection);
+                        view.domUtil.manipulate.dismissBrowserSelection();
+                        return true;
+                    } else {
+                        // cf.
+                        // 1. Select an inner span.
+                        // 2. Begin Drug from an inner span to out of an outside span. 
+                        // To expand the selected span is disable.
+                        alert('A span cannot be expanded to make a boundary crossing.');
+                        view.domUtil.manipulate.dismissBrowserSelection();
+                        return true;
+                    }
+                }
+
+                // To expand a span is disable.
+                return false;
+            };
+
+            var shrinkIfable = function(selection) {
+                if (selection.anchorNode.parentNode === selection.focusNode.parentNode.parentNode) {
+                    // To shrink the span , belows are needed:
+                    // 1. The anchorNode out of the span and in the parent of the span.
+                    // 2. The foucusNode is in the span.
+                    view.domUtil.manipulate.unselect();
+                    shortenSpan(selection.focusNode.parentNode.id, selection);
+                    view.domUtil.manipulate.dismissBrowserSelection();
+                    return true;
+                }
+
+                // If a span is selected, it is able to begin drag out of an outer span of the span and shrink the span.
+                if (isInSelectedSpan(getFocusPosition(selection))) {
+                    var selectedSpanId = view.domUtil.selector.span.getSelecteds()[0];
+
+                    // The focus node should be at the selected node.
+                    if (selection.focusNode.parentNode.id === selectedSpanId) {
+                        // cf.
+                        // 1. Select an inner span.
+                        // 2. Begin Drug from out of an outside span to the selected span. 
+                        // Shrink the selected span.
+                        shortenSpan(selectedSpanId, selection);
+                        view.domUtil.manipulate.dismissBrowserSelection();
+                        return true;
+                    } else {
+                        // cf.
+                        // 1. Select an outside span.
+                        // 2. Begin Drug from out of an outside span to an inner span. 
+                        // To shrink the selected span is disable.
+                        alert('A span cannot be shrinked to make a boundary crossing.');
+                        view.domUtil.manipulate.dismissBrowserSelection();
+                        return true;
+                    }
+                }
+
+                // To shrink a span is disable.
+                return false;
+            };
+
+            var overParagraph = function() {
+                alert('It is ambiguous for which span you want to adjust the boundary. Select the span, and try again.');
                 view.domUtil.manipulate.dismissBrowserSelection();
-                cancelBubble(e);
+            };
+
+            var selectEndOfText = function(selection) {
+                // The Both node is not TextNode( nodeType == 3 ) either.
+                if (selection.anchorNode.nodeType !== 3 || selection.focusNode.nodeType !== 3) {
+                    // Blinking occurs if dissmiss here.
+                    // Return true and the browser dissmiss the selection. 
+                    return true;
+                }
+
+                if (createSpanIfOneParent(selection)) {
+                    return false;
+                }
+
+                if (expandIfable(selection)) {
+                    return false;
+                }
+
+                overParagraph();
+                return false;
+            };
+
+            var selectEndOnSpan = function(selection) {
+                // The Both node is not TextNode( nodeType == 3 ) either.
+                if (selection.anchorNode.nodeType !== 3 || selection.focusNode.nodeType !== 3) {
+                    // Blinking occurs if dissmiss here.
+                    // Return true and the browser dissmiss the selection. 
+                    // A span is clicked and come here when the selection over that span by triple-clicked. 
+                    return true;
+                }
+
+                if (createSpanIfOneParent(selection)) {
+                    return false;
+                }
+
+                if (expandIfable(selection)) {
+                    return false;
+                }
+
+                if (shrinkIfable(selection)) {
+                    return false;
+                }
+
+                overParagraph();
+                return false;
+            };
+
+            var bodyClicked = function(e) {
+                controller.userEvent.viewHandler.hidePallet();
+                var selection = window.getSelection();
+
+                // No select
+                if (selection.isCollapsed) {
+                    controller.userEvent.viewHandler.cancelSelect();
+                    view.domUtil.manipulate.dismissBrowserSelection();
+
+                    return true;
+                }
+
+                return selectEndOfText(selection);
             };
 
             var spanClicked = function(e) {
                 controller.userEvent.viewHandler.hidePallet();
                 var selection = window.getSelection();
-                var range = selection.getRangeAt(0);
 
-                if (!selection.isCollapsed) {
+                // No select
+                if (selection.isCollapsed) {
                     if (e.shiftKey && view.domUtil.selector.span.isSelectOne()) {
                         //select reange of spans.
                         var firstId = view.domUtil.selector.span.getSelecteds()[0];
                         var secondId = $(this).attr('id');
 
-                        view.domUtil.manipulate.dismissBrowserSelection();
                         view.domUtil.manipulate.unselect();
 
-                        model.annotationData.getRangeOfSpan(firstId, secondId).forEach(function(spanId) {
-                            view.domUtil.selector.span.select(spanId);
-                        });
-
+                        model.annotationData.getRangeOfSpan(firstId, secondId)
+                            .forEach(function(spanId) {
+                                view.domUtil.selector.span.select(spanId);
+                            });
+                    } else if (e.ctrlKey) {
+                        view.domUtil.manipulate.toggle(e.target);
                     } else {
-                        // if drag, bubble up
-                        return true;
+                        view.domUtil.manipulate.selectOnly(e.target);
                     }
-                } else if (e.ctrlKey) {
-                    view.domUtil.manipulate.toggle(e.target);
-                } else {
-                    view.domUtil.manipulate.selectOnly(e.target);
+
+                    return false;
                 }
 
-                return false;
+                return selectEndOnSpan(selection);
             };
 
             var entitiesClicked = function(ctrlKey, $typeLabel, $entities) {
@@ -2151,22 +2154,6 @@
             var entityPaneClicked = function(e) {
                 var $typePane = $(e.target);
                 return entitiesClicked(e.ctrlKey, $typePane.prev(), $typePane.children());
-            };
-
-            var entityClicked = function(e) {
-                if (e.ctrlKey) {
-                    view.domUtil.manipulate.toggle(e.target);
-                } else {
-                    var $typePane = $(e.target).parent();
-
-                    if ($typePane.children().length === 1) {
-                        // Select the typeLabel if only one entity is selected.
-                        view.domUtil.manipulate.selectOnly($typePane.prev().add($typePane.children()));
-                    } else {
-                        view.domUtil.manipulate.selectOnly(e.target);
-                    }
-                }
-                return false;
             };
 
             var spanSelectChanged = function(e, isSelected) {
@@ -2503,7 +2490,6 @@
                                         view.renderer.relation.render(relationId);
 
                                         // selection
-                                        // TODO 選択されていないように見える
                                         view.domUtil.selector.relation.select(relationId);
 
                                         debugLog('create a new relation relationId:' + relationId + ', subject:' + subject + ', object:' + object + ', predicate:' + predicate);
@@ -2554,7 +2540,7 @@
             }();
 
             var userEvent = function() {
-                // switchRelationEditMode will init.
+                // changeEventHandler will init.
                 var changeTypeOfSelected;
 
                 return {
@@ -2698,12 +2684,24 @@
                     }(),
                     // User event that does not change data.
                     viewHandler: function() {
+                        // The Reference to content to be shown in the pallet.
                         var palletConfig = {};
 
-                        var switchRelationEditMode = function(value) {
-                            (function changeToRelationMode(on) {
-                                var entityClickedAtRelationMode = function() {
-                                    return function(e) {
+                        var eventHandlerComposer = function() {
+                            var changeType = function(getIdsFunction, createChangeTypeCommandFunction, newType) {
+                                var ids = getIdsFunction();
+                                if (ids.length > 0) {
+                                    var commands = ids.map(function(id) {
+                                        return createChangeTypeCommandFunction(id, newType);
+                                    });
+
+                                    controller.command.invoke(commands);
+                                }
+                            };
+
+                            return {
+                                relationEdit: function() {
+                                    var entityClickedAtRelationMode = function(e) {
                                         if (view.domUtil.selector.entity.getSelecteds().length === 0) {
                                             view.domUtil.manipulate.selectOnly(e.target);
                                         } else {
@@ -2718,24 +2716,20 @@
                                                     objectEntityId,
                                                     view.viewModel.typeContainer.relation.getDefaultType()
                                                 )]);
-                                                view.domUtil.selector.entity.deselect(subjectEntityId);
+                                                if (e.ctrlKey) {
+                                                    // Remaining selection of the subject entity.
+                                                } else if (e.shiftKey) {
+                                                    view.domUtil.manipulate.dismissBrowserSelection();
+                                                    view.domUtil.selector.entity.deselect(subjectEntityId);
+                                                    view.domUtil.selector.entity.select(objectEntityId);
+                                                    return false;
+                                                } else {
+                                                    view.domUtil.selector.entity.deselect(subjectEntityId);
+                                                }
                                             }
                                         }
                                     };
-                                }();
 
-                                var changeType = function(getIdsFunction, createChangeTypeCommandFunction, newType) {
-                                    var ids = getIdsFunction();
-                                    if (ids.length > 0) {
-                                        var commands = ids.map(function(id) {
-                                            return createChangeTypeCommandFunction(id, newType);
-                                        });
-
-                                        controller.command.invoke(commands);
-                                    }
-                                };
-
-                                if (on) {
                                     // Control only entities and relations.
                                     editor
                                         .off('mouseup', '.textae-editor__body')
@@ -2750,7 +2744,24 @@
                                     changeTypeOfSelected = changeType.bind(null, view.domUtil.selector.relation.getSelecteds, controller.command.factory.relationChangePredicateCommand);
 
                                     jsPlumbConnectionClickedImpl = selectRelation;
-                                } else {
+                                },
+                                noRelationEdit: function() {
+                                    var entityClicked = function(e) {
+                                        if (e.ctrlKey) {
+                                            view.domUtil.manipulate.toggle(e.target);
+                                        } else {
+                                            var $typePane = $(e.target).parent();
+
+                                            if ($typePane.children().length === 1) {
+                                                // Select the typeLabel if only one entity is selected.
+                                                view.domUtil.manipulate.selectOnly($typePane.prev().add($typePane.children()));
+                                            } else {
+                                                view.domUtil.manipulate.selectOnly(e.target);
+                                            }
+                                        }
+                                        return false;
+                                    };
+
                                     editor
                                         .on('mouseup', '.textae-editor__body', bodyClicked)
                                         .on('mouseup', '.textae-editor__span', spanClicked)
@@ -2765,10 +2776,8 @@
 
                                     jsPlumbConnectionClickedImpl = null;
                                 }
-                            })(value);
-
-                            view.changeToRelationMode(value);
-                        };
+                            };
+                        }();
 
                         var controllerState = function() {
                             var resetView = function() {
@@ -2776,49 +2785,52 @@
                                 view.domUtil.manipulate.unselect();
                             };
 
-                            var transitToTerm = function() {
-                                resetView();
-                                switchRelationEditMode(false);
-                                view.viewModel.viewMode.set('TERM');
+                            var transition = {
+                                toTerm: function() {
+                                    resetView();
+                                    eventHandlerComposer.noRelationEdit();
+                                    view.viewModel.viewMode.setTerm();
 
-                                controllerState = termCentricState;
+                                    controllerState = state.termCentric;
+                                },
+                                toInstance: function() {
+                                    resetView();
+                                    eventHandlerComposer.noRelationEdit();
+                                    view.viewModel.viewMode.setInstance();
+
+                                    controllerState = state.instanceRelation;
+                                },
+                                toRelation: function() {
+                                    resetView();
+                                    eventHandlerComposer.relationEdit();
+                                    view.viewModel.viewMode.setRelation();
+
+                                    controllerState = state.relationEdit;
+                                }
                             };
 
-                            var transitToInstance = function() {
-                                resetView();
-                                switchRelationEditMode(false);
-                                view.viewModel.viewMode.set('INSTANCE');
-
-                                controllerState = {
+                            var state = {
+                                termCentric: {
+                                    name: 'Term Centric',
+                                    onInstance: transition.toInstance,
+                                    onRelation: transition.toRelation
+                                },
+                                instanceRelation: {
                                     name: 'Instance / Relation',
-                                    onRelation: transitToRelation,
-                                    offInstance: transitToTerm
-                                };
-                            };
-
-                            var transitToRelation = function() {
-                                resetView();
-                                view.domUtil.manipulate.unselect();
-                                switchRelationEditMode(true);
-                                view.viewModel.viewMode.set('INSTANCE');
-
-                                controllerState = {
+                                    onRelation: transition.toRelation,
+                                    offInstance: transition.toTerm
+                                },
+                                relationEdit: {
                                     name: 'Relation Edit',
-                                    offRelation: transitToInstance,
-                                    offInstance: transitToTerm
-                                };
-                            };
-
-                            var termCentricState = {
-                                name: 'Term Centric',
-                                onInstance: transitToInstance,
-                                onRelation: transitToRelation
+                                    offRelation: transition.toInstance,
+                                    offInstance: transition.toTerm
+                                }
                             };
 
                             return {
-                                // init as TermCentricState
+                                // Init as TermCentricState
                                 init: function() {
-                                    transitToTerm();
+                                    transition.toTerm();
                                 }
                             };
                         }();
@@ -3008,7 +3020,6 @@
                                         } else {
                                             controllerState.offInstance();
                                         }
-                                        view.renderer.helper.redraw();
                                     });
 
                                 // Open the dialog.
@@ -3017,7 +3028,7 @@
                                 // Update the checkbox state, because it is updated by an other than users that is programing.
                                 $dialog.find('.textae-editor__setting-dialog__term-centric-view')
                                     .prop({
-                                        'checked': view.viewModel.viewMode.get() === 'INSTANCE' ? 'checked' : null
+                                        'checked': view.viewModel.viewMode.isTerm() ? null : 'checked'
                                     });
 
                                 $dialog.open();
@@ -3033,7 +3044,6 @@
                                 } else {
                                     controllerState.onRelation();
                                 }
-                                view.renderer.helper.redraw();
                             }
                         };
                     }()
@@ -3042,6 +3052,13 @@
 
             return {
                 init: function() {
+                    // Prevent the default selection by the browser with shift keies.
+                    editor.on('mousedown', function(e) {
+                        if (e.shiftKey) {
+                            return false;
+                        }
+                    });
+
                     // Bind user input event to handler
                     editor
                         .on('mouseup', '.textae-editor__body,.textae-editor__span,.textae-editor__grid,.textae-editor__entity', editorSelected)

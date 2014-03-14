@@ -338,5 +338,50 @@
 		"pred": "equivalentTo",
 		"subj": "E3",
 		"obj": "T3"
+	}, {
+		"id": "R4",
+		"pred": "equivalentTo",
+		"subj": "E23",
+		"obj": "E25"
+	}, {
+		"id": "R5",
+		"pred": "equivalentTo",
+		"subj": "E25",
+		"obj": "E26"
+	}, {
+		"id": "R6",
+		"pred": "equivalentTo",
+		"subj": "E26",
+		"obj": "E27"
+	}, {
+		"id": "R7",
+		"pred": "equivalentTo",
+		"subj": "E27",
+		"obj": "E24"
+	}, {
+		"id": "R8",
+		"pred": "equivalentTo",
+		"subj": "E24",
+		"obj": "E22"
+	}, {
+		"id": "R9",
+		"pred": "equivalentTo",
+		"subj": "E22",
+		"obj": "E28"
+	}, {
+		"id": "R10",
+		"pred": "equivalentTo",
+		"subj": "E28",
+		"obj": "E29"
+	}, {
+		"id": "R11",
+		"pred": "equivalentTo",
+		"subj": "E29",
+		"obj": "T4"
+	}, {
+		"id": "R12",
+		"pred": "equivalentTo",
+		"subj": "T4",
+		"obj": "E3"
 	}]
 }
