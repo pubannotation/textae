@@ -2709,23 +2709,32 @@
                                             var subjectEntityId = view.domUtil.selector.entity.getSelecteds()[0];
                                             var objectEntityId = $(e.target).attr('title');
 
-                                            if (subjectEntityId !== objectEntityId) {
-                                                controller.command.invoke([controller.command.factory.relationCreateCommand(
-                                                    model.annotationData.getNewRelationId(),
-                                                    subjectEntityId,
-                                                    objectEntityId,
-                                                    view.viewModel.typeContainer.relation.getDefaultType()
-                                                )]);
-                                                if (e.ctrlKey) {
-                                                    // Remaining selection of the subject entity.
-                                                } else if (e.shiftKey) {
-                                                    view.domUtil.manipulate.dismissBrowserSelection();
-                                                    view.domUtil.selector.entity.deselect(subjectEntityId);
-                                                    view.domUtil.selector.entity.select(objectEntityId);
-                                                    return false;
-                                                } else {
-                                                    view.domUtil.selector.entity.deselect(subjectEntityId);
-                                                }
+                                            if (subjectEntityId === objectEntityId) {
+                                                // Deslect already selected entity.
+                                                view.domUtil.selector.entity.deselect(subjectEntityId);
+                                            } else {
+                                                view.domUtil.selector.entity.select(objectEntityId);
+                                                window.setTimeout(function() {
+                                                    controller.command.invoke([controller.command.factory.relationCreateCommand(
+                                                        model.annotationData.getNewRelationId(),
+                                                        subjectEntityId,
+                                                        objectEntityId,
+                                                        view.viewModel.typeContainer.relation.getDefaultType()
+                                                    )]);
+
+                                                    if (e.ctrlKey) {
+                                                        // Remaining selection of the subject entity.
+                                                        view.domUtil.selector.entity.deselect(objectEntityId);
+                                                    } else if (e.shiftKey) {
+                                                        view.domUtil.manipulate.dismissBrowserSelection();
+                                                        view.domUtil.selector.entity.deselect(subjectEntityId);
+                                                        view.domUtil.selector.entity.select(objectEntityId);
+                                                        return false;
+                                                    } else {
+                                                        view.domUtil.selector.entity.deselect(subjectEntityId);
+                                                        view.domUtil.selector.entity.deselect(objectEntityId);
+                                                    }
+                                                }, 50);
                                             }
                                         }
                                     };
@@ -3001,7 +3010,9 @@
                                         ))
                                     .on('change', '.textae-editor__setting-dialog__line-height', function() {
                                         var value = $(this).val();
-                                        controller.userEvent.viewHandler.changeLineHeight(value);
+                                        window.setTimeout(function() {
+                                            controller.userEvent.viewHandler.changeLineHeight(value);
+                                        });
                                     });
 
                                 // Instance/Relation View
