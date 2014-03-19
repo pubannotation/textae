@@ -861,15 +861,11 @@
                     }(),
                     viewMode: function() {
                         var changeCssClass = function(mode) {
-                            // For tuning, the style will be changed at the next event.
-                            window.setTimeout(function() {
-                                editor
-                                    .removeClass('textae-editor_term-mode')
-                                    .removeClass('textae-editor_instance-mode')
-                                    .removeClass('textae-editor_relation-mode')
-                                    .addClass('textae-editor_' + mode + '-mode');
-                                view.renderer.grid.arrangePositionAll();
-                            }, 0);
+                            editor
+                                .removeClass('textae-editor_term-mode')
+                                .removeClass('textae-editor_instance-mode')
+                                .removeClass('textae-editor_relation-mode')
+                                .addClass('textae-editor_' + mode + '-mode');
                         },
                             setRelationEditButtonPushed = function(push) {
                                 view.viewModel.modeAccordingToButton['relation-edit-mode'].value(push);
@@ -938,36 +934,52 @@
                     view.domUtil.manipulate.remove(view.domUtil.selector.grid.get(spanId));
                 };
 
+                // The cache for span positions.
+                // Getting the postion of spans is too slow about 5-10 ms per a element in Chrome browser. For example offsetTop property.
+                // This cache is big effective for the initiation, and little effective for resize. 
+                var positionCache = {};
+
                 // Utility functions for get positions of elemnts.
                 var positionUtils = {
+                    reset: function() {
+                        positionCache = {};
+                    },
                     getSpan: function(spanId) {
-                        var $span = view.domUtil.selector.span.get(spanId);
+                        if (positionCache[spanId]) {
+                            return positionCache[spanId];
+                        }
 
+                        var $span = view.domUtil.selector.span.get(spanId);
                         if ($span.length === 0) {
                             throw new Error("span is not renderd : " + spanId);
                         }
 
-                        return {
-                            top: $span.get(0).offsetTop,
-                            left: $span.get(0).offsetLeft,
+                        var offset = $span.offset();
+                        var ret = {
+                            top: offset.top,
+                            left: offset.left,
                             width: $span.outerWidth(),
                             height: $span.outerHeight(),
-                            center: $span.get(0).offsetLeft + $span.outerWidth() / 2,
+                            center: $span.get(0).offsetLeft + $span.outerWidth() / 2
                         };
+
+                        positionCache[spanId] = ret;
+                        return ret;
                     },
                     getGrid: function(spanId) {
-                        var $grid = view.domUtil.selector.grid.get(spanId);
-                        var gridElement = $grid.get(0);
+                        if (positionCache['G' + spanId]) {
+                            return positionCache['G' + spanId];
+                        }
 
-                        return gridElement ? {
-                            top: gridElement.offsetTop,
-                            left: gridElement.offsetLeft,
+                        var $grid = view.domUtil.selector.grid.get(spanId);
+                        var ret = {
+                            top: $grid.offset().top,
+                            left: $grid.offset().left,
                             height: $grid.outerHeight(),
-                        } : {
-                            top: 0,
-                            left: 0,
-                            height: 0
                         };
+
+                        positionCache['G' + spanId] = ret;
+                        return ret;
                     },
                     getEntity: function(entityId) {
                         var spanId = model.annotationData.entities[entityId].span;
@@ -1074,8 +1086,11 @@
                                 });
                             },
                             redraw: function() {
-                                view.renderer.grid.arrangePositionAll();
-                                view.renderer.relation.arrangePositionAll();
+                                // To render per editor.
+                                window.setTimeout(function() {
+                                    view.renderer.grid.arrangePositionAll();
+                                    view.renderer.relation.arrangePositionAll();
+                                }, 0);
                             }
                         };
                     }(),
@@ -1340,10 +1355,12 @@
                                 var spanId = span.id;
                                 var spanPosition = positionUtils.getSpan(spanId);
                                 var gridPosition = positionUtils.getGrid(spanId);
+
                                 view.domUtil.selector.grid.get(spanId).css({
                                     'top': spanPosition.top - view.viewModel.viewMode.marginBottomOfGrid - gridPosition.height,
                                     'left': spanPosition.left
                                 });
+
                             };
 
                             var pullUpGridOverDescendants = function(span) {
@@ -1387,12 +1404,13 @@
                                 view.renderer.grid.arrangePosition(span);
                             };
 
+                            positionUtils.reset();
+
                             model.annotationData.spansTopLevel
                                 .filter(function(span) {
                                     // There is at least one type in span that has a grid.
                                     return span.getTypes().length > 0;
-                                })
-                                .forEach(function(span) {
+                                }).forEach(function(span) {
                                     arrangePositionGridAndoDescendant(span);
                                 });
                         }
@@ -1539,10 +1557,13 @@
                                 }]);
                             },
                             arrangePositionAll: function() {
-                                model.annotationData.getRelationIds()
-                                    .forEach(function(relationId) {
-                                        view.renderer.relation.arrangePosition(relationId);
-                                    });
+                                // Move entitis before a calculation the position of relations.
+                                window.setTimeout(function() {
+                                    model.annotationData.getRelationIds()
+                                        .forEach(function(relationId) {
+                                            view.renderer.relation.arrangePosition(relationId);
+                                        });
+                                }, 0);
                             }
                         };
                     }(),
@@ -2799,6 +2820,7 @@
                                     resetView();
                                     eventHandlerComposer.noRelationEdit();
                                     view.viewModel.viewMode.setTerm();
+                                    view.renderer.helper.redraw();
 
                                     controllerState = state.termCentric;
                                 },
@@ -2806,6 +2828,7 @@
                                     resetView();
                                     eventHandlerComposer.noRelationEdit();
                                     view.viewModel.viewMode.setInstance();
+                                    view.renderer.helper.redraw();
 
                                     controllerState = state.instanceRelation;
                                 },
@@ -2813,6 +2836,7 @@
                                     resetView();
                                     eventHandlerComposer.relationEdit();
                                     view.viewModel.viewMode.setRelation();
+                                    view.renderer.helper.redraw();
 
                                     controllerState = state.relationEdit;
                                 }
