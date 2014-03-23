@@ -3057,7 +3057,9 @@
                             },
                             changeLineHeight: function(heightValue) {
                                 view.renderer.helper.changeLineHeight(heightValue);
-                                view.renderer.helper.redraw();
+
+                                // Redraw all editors in tha windows.
+                                $(window).trigger('resize');
                             },
                             toggleRelationEditMode: function() {
                                 // ビューモードを切り替える
