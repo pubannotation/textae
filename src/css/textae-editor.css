@@ -339,3 +339,18 @@
 .textae-editor_relation-mode .textae-editor__relation__label:hover {
     z-index: 2;
 }
+
+/* modification */
+.textae-editor__entity-negation::before{
+    content: 'X';
+    left: -4px;
+    position: relative;
+    top: -15px;
+}
+
+.textae-editor__entity-speculation::after {
+    content: '?';
+    left: -6px;
+    position: relative;
+    top: -15px;
+}

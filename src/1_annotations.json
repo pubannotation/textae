@@ -383,5 +383,26 @@
 		"pred": "equivalentTo",
 		"subj": "T4",
 		"obj": "E3"
+	}],
+	"modifications": [{
+		"id": "M1",
+		"pred": "Negation",
+		"obj": "E1"
+	}, {
+		"id": "M2",
+		"pred": "Negation",
+		"obj": "E2"
+	}, {
+		"id": "M3",
+		"pred": "Speculation",
+		"obj": "E18"
+	}, {
+		"id": "M4",
+		"pred": "Negation",
+		"obj": "T2"
+	}, {
+		"id": "M5",
+		"pred": "Speculation",
+		"obj": "T2"
 	}]
 }

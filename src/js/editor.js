@@ -448,6 +448,7 @@
                         spansTopLevel: [],
                         entities: null,
                         relations: null,
+                        modifications: [],
                         reset: function(annotation) {
 
                             // SetNewData
@@ -460,7 +461,7 @@
                                 }
 
                                 // Parse a souce document.
-                                model.annotationData.sourceDoc = sourceDoc;
+                                this.sourceDoc = sourceDoc;
 
                                 // Parse paragraphs
                                 var paragraphsArray = [];
@@ -474,38 +475,53 @@
 
                                     textLengthBeforeThisParagraph += p.length + 1;
                                 });
-                                model.annotationData.paragraphsArray = paragraphsArray;
-                            })(annotation.base_text);
+                                this.paragraphsArray = paragraphsArray;
+                            }).call(this, annotation.base_text);
 
                             // Expected denotations is an Array of object like { "id": "T1", "span": { "begin": 19, "end": 49 }, "obj": "Cell" }.
                             (function parseDenotations(denotations) {
+                                var annotationData = this;
+
                                 // Init
                                 spanContainer = {};
-                                model.annotationData.entities = {};
+                                annotationData.entities = {};
 
-                                if (denotations) {
-                                    denotations.forEach(function(entity) {
-                                        innerAddSpan(entity.span);
-                                        model.annotationData.addEntity({
-                                            id: entity.id,
-                                            span: idFactory.makeSpanId(entity.span.begin, entity.span.end),
-                                            type: entity.obj,
-                                        });
+                                if (!denotations) {
+                                    return;
+                                }
+
+                                denotations.forEach(function(entity) {
+                                    innerAddSpan(entity.span);
+                                    annotationData.addEntity({
+                                        id: entity.id,
+                                        span: idFactory.makeSpanId(entity.span.begin, entity.span.end),
+                                        type: entity.obj,
                                     });
+                                });
 
-                                    updateSpanTree();
-                                }
-                            })(annotation.denotations);
+                                updateSpanTree();
+                            }).call(this, annotation.denotations);
 
-                            // the relations is an Array of object like { "id": "R1", "pred": "locatedAt", "subj": "E1", "obj": "T1" }.
+                            // Expected relations is an Array of object like { "id": "R1", "pred": "locatedAt", "subj": "E1", "obj": "T1" }.
                             (function parseRelations(relations) {
-                                if (relations) {
-                                    model.annotationData.relations = relations.reduce(function(a, b) {
-                                        a[b.id] = $.extend({}, b);
-                                        return a;
-                                    }, {});
+                                if (!relations) {
+                                    return;
                                 }
-                            })(annotation.relations);
+
+                                this.relations = relations.reduce(function(a, b) {
+                                    a[b.id] = $.extend({}, b);
+                                    return a;
+                                }, {});
+                            }).call(this, annotation.relations);
+
+                            // Expected modifications is an Array of object like { "id": "M1", "pred": "Negation", "obj": "E1" }.
+                            (function parseModifications(modifications) {
+                                if (!modifications) {
+                                    return;
+                                }
+
+                                this.modifications = modifications;
+                            }).call(this, annotation.modifications);
                         },
                         //expected span is like { "begin": 19, "end": 49 }
                         addSpan: function(span) {
@@ -876,7 +892,7 @@
                             // This is base value to calculate the position of grids.
                             // Grids cannot be set positon by 'margin-bottom' style.
                             // Because grids is setted 'positin:absolute' style in the overlay over spans.
-                            // So we caluclate and set 'top' of grids in fuctions of 'view.renderer.grid'. 
+                            // So we caluclate and set 'top' of grids in functions of 'view.renderer.grid'. 
                             marginBottomOfGrid: 0,
                             isTerm: function() {
                                 return editor.hasClass('textae-editor_term-mode');
@@ -1297,7 +1313,7 @@
                                 };
 
                                 var createEntityElement = function(entity) {
-                                    return $('<div>')
+                                    var $entity = $('<div>')
                                         .attr('id', idFactory.makeEntityDomId(entity.id))
                                         .attr('title', entity.id)
                                         .attr('type', String(entity.type)) // Replace null to 'null' if type is null. 
@@ -1305,6 +1321,17 @@
                                         .css({
                                             'border-color': view.viewModel.typeContainer.entity.getColor(entity.type)
                                         });
+
+                                    // Set css classes for modifications.
+                                    model.annotationData.modifications.filter(function(m) {
+                                        return m.obj === entity.id;
+                                    }).map(function(m) {
+                                        return 'textae-editor__entity-' + m.pred.toLowerCase();
+                                    }).forEach(function(className) {
+                                        $entity.addClass(className);
+                                    });
+
+                                    return $entity;
                                 };
 
                                 // Append a new entity to the type
