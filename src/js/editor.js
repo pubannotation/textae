@@ -445,6 +445,7 @@
 
                     return {
                         sourceDoc: "",
+                        spansTopLevel: [],
                         entities: null,
                         relations: null,
                         reset: function(annotation) {
