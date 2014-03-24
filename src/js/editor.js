@@ -939,48 +939,34 @@
                 // This cache is big effective for the initiation, and little effective for resize. 
                 var positionCache = {};
 
+                var useCache = function(prefix, getPositionFunciton, spanId) {
+                    var chacheId = prefix + spanId;
+                    return positionCache[chacheId] ? positionCache[chacheId] : positionCache[chacheId] = getPositionFunciton(spanId);
+                };
+
                 // Utility functions for get positions of elemnts.
                 var positionUtils = {
                     reset: function() {
                         positionCache = {};
                     },
-                    getSpan: function(spanId) {
-                        if (positionCache[spanId]) {
-                            return positionCache[spanId];
-                        }
-
+                    getSpan: useCache.bind(null, 'S', function(spanId) {
                         var $span = view.domUtil.selector.span.get(spanId);
                         if ($span.length === 0) {
                             throw new Error("span is not renderd : " + spanId);
                         }
 
                         var offset = $span.offset();
-                        var ret = {
+                        return {
                             top: offset.top,
                             left: offset.left,
                             width: $span.outerWidth(),
                             height: $span.outerHeight(),
                             center: $span.get(0).offsetLeft + $span.outerWidth() / 2
                         };
-
-                        positionCache[spanId] = ret;
-                        return ret;
-                    },
-                    getGrid: function(spanId) {
-                        if (positionCache['G' + spanId]) {
-                            return positionCache['G' + spanId];
-                        }
-
-                        var $grid = view.domUtil.selector.grid.get(spanId);
-                        var ret = {
-                            top: $grid.offset().top,
-                            left: $grid.offset().left,
-                            height: $grid.outerHeight(),
-                        };
-
-                        positionCache['G' + spanId] = ret;
-                        return ret;
-                    },
+                    }),
+                    getGrid: useCache.bind(null, 'G', function(spanId) {
+                        return view.domUtil.selector.grid.get(spanId).offset();
+                    }),
                     getEntity: function(entityId) {
                         var spanId = model.annotationData.entities[entityId].span;
 
@@ -1352,15 +1338,15 @@
                     grid: {
                         arrangePosition: function(span) {
                             var stickGridOnSpan = function(span) {
-                                var spanId = span.id;
-                                var spanPosition = positionUtils.getSpan(spanId);
-                                var gridPosition = positionUtils.getGrid(spanId);
+                                var spanPosition = positionUtils.getSpan(span.id),
+                                    grid = view.domUtil.selector.grid.get(span.id);
 
-                                view.domUtil.selector.grid.get(spanId).css({
-                                    'top': spanPosition.top - view.viewModel.viewMode.marginBottomOfGrid - gridPosition.height,
-                                    'left': spanPosition.left
-                                });
-
+                                if (grid.length > 0) {
+                                    grid.css({
+                                        'top': spanPosition.top - view.viewModel.viewMode.marginBottomOfGrid - grid.outerHeight(),
+                                        'left': spanPosition.left
+                                    });
+                                }
                             };
 
                             var pullUpGridOverDescendants = function(span) {
@@ -1378,7 +1364,7 @@
                                             return getHeightIncludeDescendantGrids(childSpan);
                                         }));
 
-                                    return positionUtils.getGrid(span.id).height + descendantsMaxHeight + view.viewModel.viewMode.marginBottomOfGrid;
+                                    return view.domUtil.selector.grid.get(span.id).outerHeight() + descendantsMaxHeight + view.viewModel.viewMode.marginBottomOfGrid;
                                 };
 
                                 if (span.getTypes().length > 0 && span.children.length > 0) {
