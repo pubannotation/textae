@@ -447,7 +447,7 @@
                         sourceDoc: "",
                         spansTopLevel: [],
                         entities: null,
-                        relations: null,
+                        relations: {},
                         modifications: [],
                         reset: function(annotation) {
 
