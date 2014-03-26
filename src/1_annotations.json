@@ -20,49 +20,49 @@
 			"begin": 55,
 			"end": 65
 		},
-		"obj": "Gene_expression"
+		"obj": "http://www.w3.org/TR/CSS2/selector.html#pseudo-class-selectors"
 	}, {
 		"id": "T2",
 		"span": {
 			"begin": 158,
 			"end": 161
 		},
-		"obj": "Protein"
+		"obj": "http://msdn.microsoft.com/en-us/library/aa752574(VS.85).aspx"
 	}, {
 		"id": "T3",
 		"span": {
 			"begin": 162,
 			"end": 165
 		},
-		"obj": "Protein"
+		"obj": "http://foo.com/blah_blah_(wikipedia)_(again)"
 	}, {
 		"id": "E3",
 		"span": {
 			"begin": 305,
 			"end": 317
 		},
-		"obj": "Regulation"
+		"obj": "http://only-domain.com"
 	}, {
 		"id": "T4",
 		"span": {
 			"begin": 367,
 			"end": 397
 		},
-		"obj": "Protein"
+		"obj": "http://www.stackoverflow.com/質問/日本語のURLはどうする"
 	}, {
 		"id": "T5",
 		"span": {
 			"begin": 399,
 			"end": 404
 		},
-		"obj": "Protein"
+		"obj": "https://www.google.com/search?hl=en&sugexp=les%3B&tok=4oIhSu9cPUzgSXZqciITjA&pq=w3c+selectors&cp=11&gs_id=2i&xhr=t&q=dancing+banana&bav=on.2,or.r_gc.r_pw.r_cp.r_qf.&biw=1920&bih=965&um=1&ie=UTF-8&tbm=isch&source=og&sa=N&tab=wi&ei=WW1tULLwIoiztAb724HwBw"
 	}, {
 		"id": "T6",
 		"span": {
 			"begin": 658,
 			"end": 663
 		},
-		"obj": "Protein"
+		"obj": "http://exapmle.com/first-directory/last-directory/"
 	}, {
 		"id": "E4",
 		"span": {
