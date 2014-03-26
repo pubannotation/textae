@@ -154,15 +154,13 @@
         }(this);
 
         var idFactory = function(editor) {
+            var typeCounter = [];
             return {
-                // paragraph id
-                makeParagraphId: function(index) {
-                    return editor.editorId + '__P' + index;
-                },
-                // span id
+                // The ID of spans has editorId and begin and end, like 'editor1__S0_15'.
                 makeSpanId: function(begin, end) {
                     return editor.editorId + '__S' + begin + '_' + end;
                 },
+                // Get a span object from the spanId.
                 parseSpanId: function(spanId) {
                     var beginEnd = spanId.replace(editor.editorId + '__S', '').split('_');
                     return {
@@ -170,12 +168,20 @@
                         end: beginEnd[1]
                     };
                 },
-                // type id
-                makeTypeId: function(sid, type) {
-                    return sid + '-' + type;
+                // The ID of type has number of type.
+                // This IDs are used for id of DOM element and css selector for jQuery.
+                // But types are inputed by users and may have `!"#$%&'()*+,./:;<=>?@[\]^`{|}~` which can not be used for css selecor. 
+                makeTypeId: function(spanId, type) {
+                    if (typeCounter.indexOf(type) === -1) {
+                        typeCounter.push(type);
+                    }
+                    return spanId + '-' + typeCounter.indexOf(type);
                 },
                 makeEntityDomId: function(entityId) {
                     return editor.editorId + '__E' + entityId;
+                },
+                makeParagraphId: function(index) {
+                    return editor.editorId + '__P' + index;
                 }
             };
         }(this);
@@ -392,7 +398,7 @@
                             getTypes: function() {
                                 var spanId = this.id;
 
-                                // Return an array of type like { id : "editor2__S1741_1755-Negative_regulation", name: "Negative_regulation", entities: ["E16", "E17"] }.
+                                // Return an array of type like { id : "editor2__S1741_1755-1", name: "Negative_regulation", entities: ["E16", "E17"] }.
                                 return Object.keys(model.annotationData.entities)
                                     .map(function(entityId) {
                                         return model.annotationData.entities[entityId];
@@ -464,18 +470,17 @@
                                 this.sourceDoc = sourceDoc;
 
                                 // Parse paragraphs
-                                var paragraphsArray = [];
                                 var textLengthBeforeThisParagraph = 0;
-                                sourceDoc.split("\n").forEach(function(p, index, array) {
-                                    paragraphsArray.push({
+                                this.paragraphsArray = sourceDoc.split("\n").map(function(p, index) {
+                                    var ret = {
                                         id: idFactory.makeParagraphId(index),
                                         begin: textLengthBeforeThisParagraph,
                                         end: textLengthBeforeThisParagraph + p.length,
-                                    });
+                                    };
 
                                     textLengthBeforeThisParagraph += p.length + 1;
+                                    return ret;
                                 });
-                                this.paragraphsArray = paragraphsArray;
                             }).call(this, annotation.base_text);
 
                             // Expected denotations is an Array of object like { "id": "T1", "span": { "begin": 19, "end": 49 }, "obj": "Cell" }.
