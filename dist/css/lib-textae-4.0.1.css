@@ -99,6 +99,10 @@
     background: url("../images/btn_replicate_auto_16.png");
 }
 
+.textae-control__relation-edit-mode-button {
+    background: url("../images/btn_relation_16.png");
+}
+
 .textae-control__entity-button {
     background: url("../images/btn_denote_16.png");
 }
@@ -152,11 +156,22 @@
     z-index: 255;
     font-size: small;
 }
+
+.textae-controle {
+    position: fixed;
+}
+
 .textae-editor {
-/*    height: 600px;
-    overflow: auto;
-*/    border: 1px solid black;
+    border: 1px solid black;
     font-family: verdana, arial, helvetica, sans-serif;
+}
+
+.textae-editor_wait {
+    cursor: wait;
+}
+
+.textae-editor__body {
+    position: relative;
 }
 
 .textae-editor__body__text-box {
@@ -164,19 +179,12 @@
 }
 
 .textae-editor__body__annotation-box {
+    left: 0px;
     position: absolute;
     top: 0px;
-    left: 0px;
 }
 
 .textae-editor__footer {
-    position: relative;
-    bottom: 0px;
-
-    width: 90%;
-    height: 20px;
-    opacity: 0.9;
-
     background-color: #DDDDFF;
     /* fallback (Opera) */
     background: #DDDDFF;
@@ -186,14 +194,18 @@
     background: -webkit-gradient(linear,  left top, right top, from(#DDDDFF), to(#FFFFFF));
     /* MSIE */
     filter: progid:DXImageTransform.Microsoft.Gradient(StartColorStr='#DDDDFF', EndColorStr='#FFFFFF', GradientType=1);
-
+    bottom: 0px;
+    height: 20px;
+    opacity: 0.9;
     overflow-y: hidden;
+    position: relative;
+    width: 90%;
 }
 
 .textae-editor__footer__message {
-    margin-left: 10px;
-    font-style:italic;
     color:gray;
+    font-style:italic;
+    margin-left: 10px;
 }
 
 .textae-editor__span {
@@ -210,33 +222,28 @@
 }
 
 .textae-editor__grid {
-    position: absolute;
-    border-width: 0px 1px;
-    border-style: solid;
     border-color: #DDDDAA;
-    padding: 0;
+    border-style: solid;
+    border-width: 0px 1px;
     overflow: visible;
+    padding: 0;
+    position: absolute;
 }
 
-.textae-editor__type, .textae-editor__type_term-centric-mode {
+.textae-editor__type {
+    font-size: small;
+    padding-top: 18px;
     position: relative;
     text-align: center;
     white-space: nowrap;
-    font-size: small;
 }
 
 .textae-editor__type {
     height: 36px;
 }
 
-.textae-editor__type_term-centric-mode {
-    height: 18px;
-    margin-bottom: 0 !important;
-    padding-top: 0 !important;
-}
-
 .textae-editor__type-label {
-    border-color: darkgrey;
+    border-color: #A9A9A9;
     border-radius: 4px;
     border-style: solid;
     border-width: 1px;
@@ -251,33 +258,32 @@
     z-index: 1;
 }
 
+.textae-editor__type-label, .textae-editor__entity,
+.textae-editor_relation-mode .textae-editor__type:hover .textae-editor__entity,
+.textae-editor_relation-mode .textae-editor__type:hover .textae-editor__type-label
+{
+    opacity: 0.8;
+    /* TODO 透明度を上げるとentityとlabelの重なった部分だけ色が濃くて目立ちます。 */
+}
+
 .textae-editor__type-label.ui-selected {
     box-shadow: 1px 1px 15px #F00;
 }
 
-.textae-editor__type:hover .textae-editor__type-label, .textae-editor__type_term-centric-mode:hover .textae-editor__type-label {
+.textae-editor__type:hover .textae-editor__entity,
+.textae-editor__type:hover .textae-editor__type-label {
     overflow: visible;
+    opacity: 1;
+}
+
+.textae-editor__type:hover {
+    z-index: 3;
 }
 
 .textae-editor__entity-pane {
     position: relative;
     top: -28px;
     z-index: 1;
-}
-
-.textae-editor__entity {
-    display: inline-block;
-    border-width: 3px;
-    border-style: solid;
-    border-radius: 6px;
-    width: 12px;
-    height: 12px;
-    background-color: lightblue;
-    margin: 0 auto;
-}
-
-.textae-editor__entity.ui-selected {
-    background-color: yellow;
 }
 
 .textae-editor__load-dialog__file-name, .textae-editor__save-dialog__file-name {
@@ -295,7 +301,7 @@
     border: solid 2px #333333;
     font-size: x-small;
     margin: 0px;
-    max-height: 100px;
+    max-height: 300px;
     overflow-x: hidden;
     padding: 0px;
     -webkit-touch-callout: none;
@@ -309,12 +315,12 @@
 }
 
 .textae-editor__entity-pallet table, .textae-editor__entity-pallet tr, .textae-editor__entity-pallet td {
+    border-collapse: collapse;
+    border-color:#AAAAAA;
+    border-style: solid;
+    border-width:1px;
     margin: 0px;
     padding: 0px;
-    border-style: solid;
-    border-collapse: collapse;
-    border-width:1px;
-    border-color:#AAAAAA;
 }
 
 .textae-editor__entity-pallet table {
@@ -326,47 +332,28 @@
 }
 
 .textae-editor__entity-pallet__entity-type {
-    opacity:0.8;
+    opacity: 0.8;
 }
 
 .textae-editor__entity-pallet__entity-type:hover {
-    opacity:1;
+    opacity: 1;
 }
 
 .textae-editor__entity-pallet__entity-type__radio, .textae-editor__entity-pallet__entity-type__label {
     cursor: pointer;
 }
 
-.textae-editor__relation {
-    opacity:0.6;
-    z-index: 0;
-}
-
-.textae-editor__relation:hover {
-    opacity: 1;
-    z-index: 1;
-}
-
-.textae-editor__relation__label {
-    display:block;
-    white-space:nowrap;
-    font-size:x-small;
-    background-color:yellow;
-    opacity:0.6;
-    z-index: 0;
-}
-
-.textae-editor__relation__label:hover {
-    opacity: 1;
-    z-index: 2;
+.textae-editor__entity-pallet__link {
+    background: url("../images/link.png");
+    display: inline-block;
+    height: 16px;
+    width: 16px;
 }
 
 /* hover */
 .textae-editor__span:hover {
     text-shadow: 1px 1px 1px #00D;
     padding: 1px 0;
-    /*background-color: rgba(255,200,100,0.5);*/
-    /*color: red;*/
 }
 
 @-webkit-keyframes textae-editor__type-buzz {
@@ -395,41 +382,142 @@
   }
 }
 
-.textae-editor__type {
-  -webkit-transform: translateZ(0);
-  -ms-transform: translateZ(0);
-  transform: translateZ(0);
-  box-shadow: 0 0 1px rgba(0, 0, 0, 0);
-}
-
-.textae-editor__type:hover, .textae-editor__type_term-centric-mode:hover {
+.textae-editor__type:hover {
   -webkit-animation-name: textae-editor__type-buzz;
   animation-name: textae-editor__type-buzz;
   -webkit-animation-duration: .15s;
   animation-duration: .15s;
   -webkit-animation-timing-function: linear;
   animation-timing-function: linear;
-}
-
-.textae-editor__type:hover, .textae-editor__type_term-centric-mode:hover {
   -webkit-animation-iteration-count: 1;
   animation-iteration-count: 1;
 }
 
+/* entity */
+@-webkit-keyframes textae-editor__entity-buzz {
+  50% {
+    -webkit-transform: translateX(2px) translateY(1px);
+    transform: translateX(2px) translateY(1px);
+  }
+
+  100% {
+    -webkit-transform: translateX(-2px) translateY(-1px);
+    transform: translateX(-2px) translateY(-1px);
+  }
+}
+
 .textae-editor__entity {
-    -webkit-transition-duration: 0.3s;
-    transition-duration: 0.3s;
-    -webkit-transition-property: -webkit-transform;
-    transition-property: transform;
-    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-    -webkit-transform: translateZ(0);
-    -ms-transform: translateZ(0);
-    transform: translateZ(0);
-    box-shadow: 0 0 1px rgba(0, 0, 0, 0);
+    background-color: #add8e6;
+    border-radius: 6px;
+    border-style: solid;
+    border-width: 3px;
+    display: inline-block;
+    height: 12px;
+    margin: 0 auto;
+    width: 12px;
+}
+
+.textae-editor__entity.ui-selected {
+    background-color: yellow;
 }
 
 .textae-editor__entity:hover {
-    -webkit-transform: scale(1.8);
-    -ms-transform: scale(1.8);
-    transform: scale(1.8);
+    box-shadow: 1px 1px 10px #600;
+}
+
+.textae-editor__relation {
+    opacity: 0.6;
+    z-index: 0;
+}
+
+.textae-editor__relation.ui-selected {
+    opacity: 1;
+}
+
+.textae-editor__relation__label {
+    background-color: yellow;
+    display: block;
+    font-size: x-small;
+    opacity: 0.6;
+    white-space: nowrap;
+    z-index: 0;
+}
+
+.textae-editor__relation__label:hover {
+    opacity: 1;
+    z-index: 2;
+}
+
+/* term centric mode */
+.textae-editor_term-mode .textae-editor__type {
+    height: 18px;
+    margin-bottom: 0;
+    padding-top: 0;
+}
+
+.textae-editor_term-mode .textae-editor__relation, .textae-editor_term-mode .textae-editor__relation__label{
+    display: none;
+}
+
+.textae-editor_term-mode .textae-editor__entity-pane {
+    /*Set visibility style to hide entities, because size of entities are necesarry to render relation.*/
+    visibility: hidden;
+}
+
+.textae-editor_term-mode path, .textae-editor_term-mode circle {
+    fill: none;
+    height: 0;
+    stroke-width: 0;
+    width: 0;
+}
+
+/* relation edit mode */
+.textae-editor_relation-mode {
+    cursor: url("../images/relation_cur.png"), default;
+}
+
+.textae-editor_relation-mode .textae-editor__type:hover {
+  -webkit-animation-name: none;
+  animation-name: none;
+}
+
+.textae-editor_relation-mode .textae-editor__span:hover {
+    text-shadow: none;
+    padding: 0;
+}
+
+.textae-editor_relation-mode .textae-editor__relation {
+    z-index: 1;
+}
+
+.textae-editor_relation-mode .textae-editor__relation path {
+    stroke-width: 4;
+}
+
+.textae-editor_relation-mode .textae-editor__relation:hover {
+    opacity: 1;
+    z-index: 1;
+}
+
+.textae-editor_relation-mode .textae-editor__relation__label {
+    z-index: 1;
+}
+
+.textae-editor_relation-mode .textae-editor__relation__label:hover {
+    z-index: 2;
+}
+
+/* modification */
+.textae-editor__entity-negation::before{
+    content: 'X';
+    left: -4px;
+    position: relative;
+    top: -15px;
+}
+
+.textae-editor__entity-speculation::after {
+    content: '?';
+    left: -6px;
+    position: relative;
+    top: -15px;
 }

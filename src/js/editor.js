@@ -966,10 +966,14 @@
                     return positionCache[chacheId] ? positionCache[chacheId] : positionCache[chacheId] = getPositionFunciton(spanId);
                 };
 
+                // The posion of the text-box to calculate span postion; 
+                var textOffset;
+
                 // Utility functions for get positions of elemnts.
                 var positionUtils = {
                     reset: function() {
                         positionCache = {};
+                        textOffset = editor.find('.textae-editor__body__text-box').offset();
                     },
                     getSpan: useCache.bind(null, 'S', function(spanId) {
                         var $span = view.domUtil.selector.span.get(spanId);
@@ -979,8 +983,8 @@
 
                         var offset = $span.offset();
                         return {
-                            top: offset.top,
-                            left: offset.left,
+                            top: offset.top - textOffset.top,
+                            left: offset.left - textOffset.left,
                             width: $span.outerWidth(),
                             height: $span.outerHeight(),
                             center: $span.get(0).offsetLeft + $span.outerWidth() / 2
@@ -1057,6 +1061,7 @@
 
                         // Render annotations
                         getAnnotationArea().empty();
+                        positionUtils.reset();
                         view.renderer.helper.renderAllSpan();
 
                         // Render relations
@@ -1066,7 +1071,7 @@
                         return {
                             // Get the display area for text and spans.
                             getSourceDocArea: function() {
-                                return getElement(displayArea, 'span', 'textae-editor__body__text-box');
+                                return getElement(displayArea, 'div', 'textae-editor__body__text-box');
                             },
                             renderAllSpan: function() {
                                 // For tuning
@@ -1098,7 +1103,7 @@
                                 window.setTimeout(function() {
                                     view.renderer.grid.arrangePositionAll();
                                     view.renderer.relation.arrangePositionAll();
-                                }, 0);
+                                }, 10);
                             }
                         };
                     }(),

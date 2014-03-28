@@ -1,3 +1,7 @@
+.textae-controle {
+    position: fixed;
+}
+
 .textae-editor {
     border: 1px solid black;
     font-family: verdana, arial, helvetica, sans-serif;
@@ -5,6 +9,10 @@
 
 .textae-editor_wait {
     cursor: wait;
+}
+
+.textae-editor__body {
+    position: relative;
 }
 
 .textae-editor__body__text-box {
