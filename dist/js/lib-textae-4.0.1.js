@@ -54,13 +54,15 @@
                         return;
                     }
 
+                    console.log("POST data");
+
                     $.ajax({
                         type: "post",
                         url: url,
                         contentType: "application/json",
-                        data: {
-                            annotations: data
-                        }
+                        data: data,
+                        crossDomain: true,
+                        xhrFields: {withCredentials: true}
                     })
                         .done(successHandler)
                         .fail(failHandler)
@@ -694,7 +696,7 @@
                                     textLengthBeforeThisParagraph += p.length + 1;
                                     return ret;
                                 });
-                            }).call(this, annotation.base_text);
+                            }).call(this, annotation.text);
 
                             // Expected denotations is an Array of object like { "id": "T1", "span": { "begin": 19, "end": 49 }, "obj": "Cell" }.
                             (function parseDenotations(denotations) {
@@ -815,12 +817,12 @@
                                 return model.annotationData.relations[relationId];
                             });
 
-                            console.log(relations);
-
-                            return JSON.stringify($.extend(originalData, {
-                                'denotations': denotations,
-                                'relations': relations
-                            }));
+                            return JSON.stringify({
+                                annotations: $.extend(originalData, {
+                                    'denotations': denotations,
+                                    'relations': relations
+                                })
+                            });
                         }
                     };
                 }(),

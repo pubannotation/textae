@@ -52,13 +52,15 @@
                         return;
                     }
 
+                    console.log("POST data");
+
                     $.ajax({
                         type: "post",
                         url: url,
                         contentType: "application/json",
-                        data: {
-                            annotations: data
-                        }
+                        data: data,
+                        crossDomain: true,
+                        xhrFields: {withCredentials: true}
                     })
                         .done(successHandler)
                         .fail(failHandler)
