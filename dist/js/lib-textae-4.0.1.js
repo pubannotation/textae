@@ -453,6 +453,9 @@
                     return (this.nonEdgeCharacters.indexOf(char) >= 0);
                 },
                 isDelimiter: function(char) {
+                    if (this.delimiterCharacters.indexOf('ANY') >= 0) {
+                        return 1;
+                    }
                     return (this.delimiterCharacters.indexOf(char) >= 0);
                 }
             };
