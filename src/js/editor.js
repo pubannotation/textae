@@ -94,7 +94,7 @@
             };
 
             var showSaveError = function() {
-                getMessageArea.html("could not save").fadeIn().fadeOut(5000, function() {
+                getMessageArea().html("could not save").fadeIn().fadeOut(5000, function() {
                     $(this).html('').removeAttr('style');
                     setDataSourceUrl(dataSourceUrl);
                 });
