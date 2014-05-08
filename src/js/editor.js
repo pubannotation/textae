@@ -2188,7 +2188,7 @@
                             .forEach(function(spanId) {
                                 view.domUtil.selector.span.select(spanId);
                             });
-                    } else if (e.ctrlKey) {
+                    } else if (e.ctrlKey || e.metaKey) {
                         view.domUtil.manipulate.toggle(e.target);
                     } else {
                         view.domUtil.manipulate.selectOnly(e.target);
@@ -2216,12 +2216,12 @@
 
             var typeLabelClicked = function(e) {
                 var $typeLabel = $(e.target);
-                return entitiesClicked(e.ctrlKey, $typeLabel, $typeLabel.next().children());
+                return entitiesClicked(e.ctrlKey || e.metaKey, $typeLabel, $typeLabel.next().children());
             };
 
             var entityPaneClicked = function(e) {
                 var $typePane = $(e.target);
-                return entitiesClicked(e.ctrlKey, $typePane.prev(), $typePane.children());
+                return entitiesClicked(e.ctrlKey || e.metaKey, $typePane.prev(), $typePane.children());
             };
 
             var spanSelectChanged = function(e, isSelected) {
@@ -2246,7 +2246,7 @@
             var selectRelation = function(jsPlumbConnection, event) {
                 var relationId = jsPlumbConnection.getParameter("id");
 
-                if (event.ctrlKey) {
+                if (event.ctrlKey || event.metaKey) {
                     view.domUtil.selector.relation.toggle(relationId);
                 } else {
                     // Select only self
@@ -2790,7 +2790,7 @@
                                                         view.viewModel.typeContainer.relation.getDefaultType()
                                                     )]);
 
-                                                    if (e.ctrlKey) {
+                                                    if (e.ctrlKey || e.metaKey) {
                                                         // Remaining selection of the subject entity.
                                                         view.domUtil.selector.entity.deselect(objectEntityId);
                                                     } else if (e.shiftKey) {
@@ -2824,7 +2824,7 @@
                                 },
                                 noRelationEdit: function() {
                                     var entityClicked = function(e) {
-                                        if (e.ctrlKey) {
+                                        if (e.ctrlKey || e.metaKey) {
                                             view.domUtil.manipulate.toggle(e.target);
                                         } else {
                                             var $typePane = $(e.target).parent();
