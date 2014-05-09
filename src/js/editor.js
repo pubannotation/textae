@@ -1349,8 +1349,8 @@
                                     var $entity = $('<div>')
                                         .attr('id', idFactory.makeEntityDomId(entity.id))
                                         .attr('title', entity.id)
-                                        .attr('type', String(entity.type)) // Replace null to 'null' if type is null. 
-                                    .addClass('textae-editor__entity')
+                                        .attr('type', entity.type)
+                                        .addClass('textae-editor__entity')
                                         .css({
                                             'border-color': view.viewModel.typeContainer.entity.getColor(entity.type)
                                         });
@@ -1366,6 +1366,9 @@
 
                                     return $entity;
                                 };
+
+                                // Replace null to 'null' if type is null and undefined too.
+                                entity.type = String(entity.type);
 
                                 // Append a new entity to the type
                                 var pane = getTypeElement(entity.span, entity.type)
