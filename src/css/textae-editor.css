@@ -275,6 +275,10 @@
     opacity: 1;
 }
 
+.textae-editor__relation.ui-selected path {
+    stroke-width: 4;
+}
+
 .textae-editor__relation__label {
     background-color: yellow;
     display: block;
@@ -328,16 +332,15 @@
 }
 
 .textae-editor_relation-mode .textae-editor__relation {
-    z-index: 1;
-}
-
-.textae-editor_relation-mode .textae-editor__relation path {
-    stroke-width: 4;
+    z-index: 5;
 }
 
 .textae-editor_relation-mode .textae-editor__relation:hover {
-    opacity: 1;
-    z-index: 1;
+    z-index: 5;
+}
+
+.textae-editor_relation-mode .textae-editor__relation:hover path {
+    stroke-width: 4;
 }
 
 .textae-editor_relation-mode .textae-editor__relation__label {
