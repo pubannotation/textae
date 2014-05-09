@@ -25,37 +25,5 @@
     "non-edge characters": [
         " ",
         "\n"
-    ],
-    "relation types": [
-        {
-            "name": "themeOf",
-            "color": "#0000FF",
-            "default": true
-        },
-        {
-            "name": "causeOf",
-            "color": "#FF0000"
-        },
-        {
-            "name": "partOf",
-            "color": "#00FF00"
-        },
-        {
-            "name": "locationOf",
-            "color": "#00FFFF"
-        },
-        {
-            "name": "oldLocationOf",
-            "color": "#00BBBB"
-        },
-
-        {
-            "name": "coreferenceOf",
-            "color": "#BBBBBB"
-        },
-        {
-            "name": "equivalentTo",
-            "color": "#EEEE55"
-        }
     ]
 }
