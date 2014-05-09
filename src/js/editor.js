@@ -680,7 +680,7 @@
             var viewModel = function() {
                 var createTypeContainer = function(getActualTypesFunction, defaultColor) {
                     var definedTypes = {},
-                        defaultType = '';
+                        defaultType = 'something';
 
                     return {
                         setDefinedTypes: function(newDefinedTypes) {
