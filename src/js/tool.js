@@ -1,9 +1,9 @@
-    // tool manage interactions between components. 
+    // The tool manages interactions between components. 
     var tool = function() {
-        // components to manage
+        // Components to be managed
         var components = {
             control: null,
-            // a container of editors that is extended from Array. 
+            // A container of editors that is extended from Array. 
             editors: $.extend([], {
                 getNewId: function() {
                     return 'editor' + this.length;
@@ -18,7 +18,7 @@
                 selected: null,
             }),
             infoModals: {
-                //help dialog
+                // The help dialog.
                 help: textAeUtil.makeInformationModal({
                     className: 'textae-control__help',
                     addContentsFunc: function() {
@@ -27,7 +27,7 @@
                             .append($('<div>').addClass('textae-tool__key-help'));
                     }
                 }),
-                //about dialog
+                // The about dialog.
                 about: textAeUtil.makeInformationModal({
                     className: 'textae-control__about',
                     addContentsFunc: function() {
@@ -51,7 +51,7 @@
             },
         };
 
-        // decide "which component handles certain event.""
+        // Decide "which component handles certain event.""
         var eventDispatcher = {
             handleKeyInput: function(key) {
                 if (key === 'H') {
@@ -79,7 +79,7 @@
                         }
                 }
             },
-            //methods for editor to call tool.
+            // Methods for editor to call tool.
             handleEditor: {
                 // A method to public bind an editor instance.
                 select: function(editor) {
@@ -103,23 +103,24 @@
             },
         };
 
-        //controller observe user input.
+        // The controller observes user inputs.
         var controller = function() {
-            // observe key-input events and convert events to readable code.
+            // Observe key-input events and convert events to readable code.
             var observeKeybordInput = function() {
-                //declare keyApiMap of cotorol keys 
+                // Declare keyApiMap of control keys 
                 var controlKeyEventMap = {
                     27: 'ESC',
                     46: 'DEL',
                     37: 'LEFT',
                     39: 'RIGHT'
                 };
+
                 var convertKeyEvent = function(keyCode) {
                     if (65 <= keyCode && keyCode <= 90) {
-                        //from a to z, convert 'A' to 'Z'
+                        // From a to z, convert 'A' to 'Z'
                         return String.fromCharCode(keyCode);
                     } else if (controlKeyEventMap[keyCode]) {
-                        //control key, like ESC, DEL ...
+                        // Control keys, like ESC, DEL ...
                         return controlKeyEventMap[keyCode];
                     }
                 };
@@ -146,21 +147,21 @@
                 });
             };
 
-            // observe window-resize event and redraw all editors. 
+            // Observe window-resize event and redraw all editors. 
             var observeWindowResize = function() {
-                // bind resize event
+                // Bind resize event
                 $(window).on('resize', function() {
-                    //Call redraw when the window resize is end. Because resize-event is occuerd multiply during resize the window.
+                    // Call redraw when the window resize is end. Because resize-event is occuerd multiply during resize the window.
                     var redrawTimer;
 
                     return function() {
-                        //Cancel the redrawTimer if redrawTimer is set alredy
+                        // Cancel the redrawTimer if redrawTimer is set alredy
                         if (redrawTimer) {
                             window.clearTimeout(redrawTimer);
                         }
 
                         redrawTimer = window.setTimeout(function() {
-                            //Call all editors
+                            // Call all editors
                             components.editors.forEach(function(e) {
                                 e.api.redraw();
                             });
@@ -169,7 +170,7 @@
                 }());
             };
 
-            //start observe at document ready, because this function may be called before body is loaded.
+            // Start observations at document ready, because this function may be called before body is loaded.
             $(function() {
                 observeKeybordInput();
                 observeWindowResize();
@@ -177,7 +178,7 @@
         }();
 
         return {
-            // register a control to tool.
+            // Register a control to tool.
             setControl: function(control) {
                 $.extend(control, {
                     buttonClick: function(buttonEvent) {
@@ -187,7 +188,7 @@
 
                 components.control = control;
             },
-            // register editors to tool
+            // Register editors to tool
             pushEditor: function(editor) {
                 components.editors.push(editor);
 
@@ -198,7 +199,7 @@
                     }, eventDispatcher.handleEditor.public),
                 });
             },
-            // select first editor
+            // Select the first editor
             selectFirstEditor: function() {
                 components.editors.selectFirst();
             },
