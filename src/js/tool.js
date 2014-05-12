@@ -1,34 +1,16 @@
     // The tool manages interactions between components. 
     var tool = function() {
         // Components to be managed
-        var components = {
-            control: null,
-            // A container of editors that is extended from Array. 
-            editors: $.extend([], {
-                getNewId: function() {
-                    return 'editor' + this.length;
-                },
-                select: function(editor) {
-                    this.selected = editor;
-                    console.log(editor.editorId);
-                },
-                selectFirst: function() {
-                    this.select(this[0]);
-                },
-                selected: null,
+        var components = function() {
+            var helpDialog = textAeUtil.makeInformationModal({
+                className: 'textae-control__help',
+                addContentsFunc: function() {
+                    this
+                        .append($('<h3>').text('Help (Keyboard short-cuts)'))
+                        .append($('<div>').addClass('textae-tool__key-help'));
+                }
             }),
-            infoModals: {
-                // The help dialog.
-                help: textAeUtil.makeInformationModal({
-                    className: 'textae-control__help',
-                    addContentsFunc: function() {
-                        this
-                            .append($('<h3>').text('Help (Keyboard short-cuts)'))
-                            .append($('<div>').addClass('textae-tool__key-help'));
-                    }
-                }),
-                // The about dialog.
-                about: textAeUtil.makeInformationModal({
+                aboutDialog = textAeUtil.makeInformationModal({
                     className: 'textae-control__about',
                     addContentsFunc: function() {
                         this
@@ -43,13 +25,34 @@
                                 '<p>まだ開発中のサービスであり、実装すべき機能が残っています。' +
                                 'ユーザの皆様の声を大事にして開発していきたいと考えておりますので、ご意見などございましたら教えていただければ幸いです。</p>');
                     }
+                });
+
+            return {
+                control: null,
+                // A container of editors that is extended from Array. 
+                editors: $.extend([], {
+                    getNewId: function() {
+                        return 'editor' + this.length;
+                    },
+                    select: function(editor) {
+                        this.selected = editor;
+                        console.log(editor.editorId);
+                    },
+                    selectFirst: function() {
+                        this.select(this[0]);
+                    },
+                    selected: null,
                 }),
-                hideAll: function() {
-                    components.infoModals.help.hide();
-                    components.infoModals.about.hide();
-                },
-            },
-        };
+                infoModals: {
+                    help: helpDialog,
+                    about: aboutDialog,
+                    hideAll: function() {
+                        helpDialog.hide();
+                        aboutDialog.hide();
+                    }
+                }
+            };
+        }();
 
         // Decide "which component handles certain event.""
         var eventDispatcher = {
@@ -125,25 +128,26 @@
                     }
                 };
 
+                var getKeyCode = function(e) {
+                    return e.keyCode;
+                };
+
                 // EventHandlers for key-input.
-                var eventHandler = {
-                    active: function(e) {
-                        eventDispatcher.handleKeyInput(convertKeyEvent(e.keyCode));
-                    },
-                    deactive: function() {}
+                var eventHandler = function(e) {
+                    eventDispatcher.handleKeyInput(convertKeyEvent(getKeyCode(e)));
                 };
 
                 // Observe key-input
-                var onKeyup = eventHandler.active;
+                var onKeyup = eventHandler;
                 $(document).on('keyup', function(event) {
                     onKeyup(event);
                 });
 
                 // Disable/Enable key-input When a jquery-ui dialog is opened/closeed
                 $('body').on('dialogopen', '.ui-dialog', function() {
-                    onKeyup = eventHandler.deactive;
+                    onKeyup = function() {};
                 }).on('dialogclose', '.ui-dialog', function() {
-                    onKeyup = eventHandler.active;
+                    onKeyup = eventHandler;
                 });
             };
 
