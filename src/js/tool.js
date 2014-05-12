@@ -124,20 +124,25 @@
                     }
                 };
 
-                //observe key-input event
-                var isActive = true;
-                var onKeyup = function(e) {
-                    if (isActive) {
+                // EventHandlers for key-input.
+                var eventHandler = {
+                    active: function(e) {
                         eventDispatcher.handleKeyInput(convertKeyEvent(e.keyCode));
-                    }
+                    },
+                    deactive: function() {}
                 };
-                $(document).on('keyup', onKeyup);
 
-                //keybord disable/enable if jquery ui dialog is open/close
+                // Observe key-input
+                var onKeyup = eventHandler.active;
+                $(document).on('keyup', function(event) {
+                    onKeyup(event);
+                });
+
+                // Disable/Enable key-input When a jquery-ui dialog is opened/closeed
                 $('body').on('dialogopen', '.ui-dialog', function() {
-                    isActive = false;
+                    onKeyup = eventHandler.deactive;
                 }).on('dialogclose', '.ui-dialog', function() {
-                    isActive = true;
+                    onKeyup = eventHandler.active;
                 });
             };
 
