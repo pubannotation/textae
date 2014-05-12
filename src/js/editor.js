@@ -1497,6 +1497,27 @@
                             return curviness;
                         };
 
+                        var arrangePosition = function(relationId) {
+                            // recompute curviness
+                            var sourceId = model.annotationData.relations[relationId].subj;
+                            var targetId = model.annotationData.relations[relationId].obj;
+                            var curviness = determineCurviness(sourceId, targetId);
+
+                            if (sourceId == targetId) curviness = 30;
+
+                            var conn = cachedConnectors[relationId];
+                            conn.endpoints[0].repaint();
+                            conn.endpoints[1].repaint();
+                            conn.setConnector(['Bezier', {
+                                curviness: curviness
+                            }]);
+                            conn.addOverlay(['Arrow', {
+                                width: 10,
+                                length: 12,
+                                location: 1
+                            }]);
+                        };
+
                         return {
                             // Parameters to render relations.
                             settings: {
@@ -1586,32 +1607,12 @@
                                 labelOverlay.setLabel('[' + relationId + '] ' + predicate);
                                 connector.setPaintStyle(view.viewModel.getConnectorStrokeStyle(relationId));
                             },
-                            arrangePosition: function(relationId) {
-                                // recompute curviness
-                                var sourceId = model.annotationData.relations[relationId].subj;
-                                var targetId = model.annotationData.relations[relationId].obj;
-                                var curviness = determineCurviness(sourceId, targetId);
-
-                                if (sourceId == targetId) curviness = 30;
-
-                                var conn = cachedConnectors[relationId];
-                                conn.endpoints[0].repaint();
-                                conn.endpoints[1].repaint();
-                                conn.setConnector(['Bezier', {
-                                    curviness: curviness
-                                }]);
-                                conn.addOverlay(['Arrow', {
-                                    width: 10,
-                                    length: 12,
-                                    location: 1
-                                }]);
-                            },
                             arrangePositionAll: function() {
                                 // Move entitis before a calculation the position of relations.
                                 window.setTimeout(function() {
                                     model.annotationData.getRelationIds()
                                         .forEach(function(relationId) {
-                                            view.renderer.relation.arrangePosition(relationId);
+                                            arrangePosition(relationId);
                                         });
                                 }, 0);
                             }
