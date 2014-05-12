@@ -1479,7 +1479,10 @@
                             return newInstance;
                         }();
 
-                        var determineCurviness = function(sourceId, targetId) {
+                        var determineCurviness = function(relationId) {
+                            var sourceId = model.annotationData.relations[relationId].subj;
+                            var targetId = model.annotationData.relations[relationId].obj;
+
                             var sourcePosition = positionUtils.getEntity(sourceId);
                             var targetPosition = positionUtils.getEntity(targetId);
 
@@ -1498,18 +1501,11 @@
                         };
 
                         var arrangePosition = function(relationId) {
-                            // recompute curviness
-                            var sourceId = model.annotationData.relations[relationId].subj;
-                            var targetId = model.annotationData.relations[relationId].obj;
-                            var curviness = determineCurviness(sourceId, targetId);
-
-                            if (sourceId == targetId) curviness = 30;
-
                             var conn = cachedConnectors[relationId];
                             conn.endpoints[0].repaint();
                             conn.endpoints[1].repaint();
                             conn.setConnector(['Bezier', {
-                                curviness: curviness
+                                curviness: determineCurviness(relationId)
                             }]);
                             conn.addOverlay(['Arrow', {
                                 width: 10,
@@ -1537,29 +1533,13 @@
                                 view.domUtil.selector.relation.emptyRelationIdsSelected();
                             },
                             render: function(relationId) {
-                                var sourceId = model.annotationData.relations[relationId].subj;
-                                var targetId = model.annotationData.relations[relationId].obj;
-
-                                //  Determination of anchor points
-                                var sourceAnchor, targetAnchor, curviness;
-                                if (sourceId == targetId) {
-                                    // In case of self-reference
-                                    sourceAnchor = [0.5, 0, -1, -1];
-                                    targetAnchor = [0.5, 0, 1, -1];
-                                    curviness = 30;
-                                } else {
-                                    sourceAnchor = 'TopCenter';
-                                    targetAnchor = 'TopCenter';
-                                    curviness = determineCurviness(sourceId, targetId);
-                                }
-
                                 // Make a connector by jsPlumb.
                                 var conn = jsPlumbInstance.connect({
-                                    source: view.domUtil.selector.entity.get(sourceId),
-                                    target: view.domUtil.selector.entity.get(targetId),
-                                    anchors: [sourceAnchor, targetAnchor],
+                                    source: view.domUtil.selector.entity.get(model.annotationData.relations[relationId].subj),
+                                    target: view.domUtil.selector.entity.get(model.annotationData.relations[relationId].obj),
+                                    anchors: ['TopCenter', "TopCenter"],
                                     connector: ['Bezier', {
-                                        curviness: curviness
+                                        curviness: determineCurviness(relationId)
                                     }],
                                     paintStyle: view.viewModel.getConnectorStrokeStyle(relationId),
                                     parameters: {
