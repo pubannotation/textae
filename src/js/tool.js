@@ -46,10 +46,7 @@
                 infoModals: {
                     help: helpDialog,
                     about: aboutDialog,
-                    hideAll: function() {
-                        helpDialog.hide();
-                        aboutDialog.hide();
-                    }
+                    hideAll: _.compose(helpDialog.hide, aboutDialog.hide)
                 }
             };
         }();
@@ -133,9 +130,7 @@
                 };
 
                 // EventHandlers for key-input.
-                var eventHandler = function(e) {
-                    eventDispatcher.handleKeyInput(convertKeyEvent(getKeyCode(e)));
-                };
+                var eventHandler = _.compose(eventDispatcher.handleKeyInput, convertKeyEvent, getKeyCode);
 
                 // Observe key-input
                 var onKeyup = eventHandler;
@@ -154,31 +149,16 @@
             // Observe window-resize event and redraw all editors. 
             var observeWindowResize = function() {
                 // Bind resize event
-                $(window).on('resize', function() {
-                    // Call redraw when the window resize is end. Because resize-event is occuerd multiply during resize the window.
-                    var redrawTimer;
-
-                    return function() {
-                        // Cancel the redrawTimer if redrawTimer is set alredy
-                        if (redrawTimer) {
-                            window.clearTimeout(redrawTimer);
-                        }
-
-                        redrawTimer = window.setTimeout(function() {
-                            // Call all editors
-                            components.editors.forEach(function(e) {
-                                e.api.redraw();
-                            });
-                        }, 200);
-                    };
-                }());
+                $(window).on('resize', _.debounce(function() {
+                    // Call all editors
+                    _.invoke(components.editors.map(function(e) {
+                        return e.api;
+                    }), 'redraw');
+                }, 20));
             };
 
-            // Start observations at document ready, because this function may be called before body is loaded.
-            $(function() {
-                observeKeybordInput();
-                observeWindowResize();
-            });
+            // Start observation at document ready, because this function may be called before body is loaded.
+            $(_.compose(observeWindowResize, observeKeybordInput));
         }();
 
         return {
