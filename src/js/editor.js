@@ -1664,6 +1664,15 @@
                         var relationIdsSelected = [],
                             isRelationSelected = function(relationId) {
                                 return relationIdsSelected.indexOf(relationId) > -1;
+                            },
+                            toConnector = function(relationId) {
+                                return cachedConnectors[relationId];
+                            },
+                            addUiSelectClass = function(connector) {
+                                connector.addClass('ui-selected');
+                            },
+                            removeUiSelectClass = function(connector) {
+                                connector.removeClass('ui-selected');
                             };
 
                         return {
@@ -1683,16 +1692,14 @@
                             deselect: function(relationId) {
                                 var i = relationIdsSelected.indexOf(relationId);
                                 if (i > -1) {
-                                    cachedConnectors[relationId].removeClass('ui-selected');
+                                    removeUiSelectClass(toConnector(relationId));
 
                                     relationIdsSelected.splice(i, 1);
                                     view.viewModel.buttonStateHelper.updateByRelation();
                                 }
                             },
                             clearRelationSelection: function() {
-                                relationIdsSelected.forEach(function(relationId) {
-                                    cachedConnectors[relationId].removeClass('ui-selected');
-                                });
+                                relationIdsSelected.map(toConnector).forEach(removeUiSelectClass);
                                 view.domUtil.selector.relation.emptyRelationIdsSelected();
                             },
                             emptyRelationIdsSelected: function() {
