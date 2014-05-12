@@ -1093,7 +1093,7 @@
 
                                 model.annotationData.getRelationIds()
                                     .forEach(function(relationId) {
-                                        view.renderer.relation.render(relationId);
+                                        _.defer(_.partial(view.renderer.relation.render, relationId));
                                     });
                             },
                             changeLineHeight: function(heightValue) {
@@ -1103,10 +1103,7 @@
                             },
                             redraw: function() {
                                 // To render per editor.
-                                window.setTimeout(function() {
-                                    view.renderer.grid.arrangePositionAll();
-                                    view.renderer.relation.arrangePositionAll();
-                                }, 10);
+                                _.defer(_.compose(view.renderer.relation.arrangePositionAll, view.renderer.grid.arrangePositionAll));
                             }
                         };
                     }(),
@@ -1562,6 +1559,9 @@
                                 // Notify to contoroller that a new jsPlumbConnection is added.
                                 editor.trigger('textae.editor.jsPlumbConnection.add', conn);
 
+                                // Set a function debounce to avoid over rendering.
+                                conn.arrangePosition = _.debounce(_.partial(arrangePosition, relationId), 20);
+
                                 // Cache a connector instance.
                                 cachedConnectors[relationId] = conn;
                                 return conn;
@@ -1589,12 +1589,7 @@
                             },
                             arrangePositionAll: function() {
                                 // Move entitis before a calculation the position of relations.
-                                window.setTimeout(function() {
-                                    model.annotationData.getRelationIds()
-                                        .forEach(function(relationId) {
-                                            arrangePosition(relationId);
-                                        });
-                                }, 0);
+                                _.invoke(_.values(cachedConnectors), 'arrangePosition');
                             }
                         };
                     }(),
@@ -1673,7 +1668,9 @@
                             },
                             removeUiSelectClass = function(connector) {
                                 connector.removeClass('ui-selected');
-                            };
+                            },
+                            selectRelation = _.compose(addUiSelectClass, toConnector),
+                            deselectRelation = _.compose(removeUiSelectClass, toConnector);
 
                         return {
                             getSelecteds: function() {
@@ -1692,14 +1689,14 @@
                             deselect: function(relationId) {
                                 var i = relationIdsSelected.indexOf(relationId);
                                 if (i > -1) {
-                                    removeUiSelectClass(toConnector(relationId));
+                                    deselectRelation(relationId);
 
                                     relationIdsSelected.splice(i, 1);
                                     view.viewModel.buttonStateHelper.updateByRelation();
                                 }
                             },
                             clearRelationSelection: function() {
-                                relationIdsSelected.map(toConnector).forEach(removeUiSelectClass);
+                                relationIdsSelected.forEach(deselectRelation);
                                 view.domUtil.selector.relation.emptyRelationIdsSelected();
                             },
                             emptyRelationIdsSelected: function() {
@@ -2546,9 +2543,7 @@
 
                                         // Selection
                                         // Set the css class lately, because jsPlumbConnector is no applyed that css class immediately after create.
-                                        setTimeout(function() {
-                                            view.domUtil.selector.relation.select(relationId);
-                                        }, 100);
+                                        _.delay(_.partial(view.domUtil.selector.relation.select, relationId), 100);
 
                                         debugLog('create a new relation relationId:' + relationId + ', subject:' + subject + ', object:' + object + ', predicate:' + predicate);
                                     },
@@ -2772,7 +2767,7 @@
                                                 view.domUtil.selector.entity.deselect(subjectEntityId);
                                             } else {
                                                 view.domUtil.selector.entity.select(objectEntityId);
-                                                window.setTimeout(function() {
+                                                _.defer(function() {
                                                     controller.command.invoke([controller.command.factory.relationCreateCommand(
                                                         model.annotationData.getNewRelationId(),
                                                         subjectEntityId,
@@ -2792,7 +2787,7 @@
                                                         view.domUtil.selector.entity.deselect(subjectEntityId);
                                                         view.domUtil.selector.entity.deselect(objectEntityId);
                                                     }
-                                                }, 50);
+                                                });
                                             }
                                         }
                                     };
@@ -3071,9 +3066,7 @@
                                         ))
                                     .on('change', '.textae-editor__setting-dialog__line-height', function() {
                                         var value = $(this).val();
-                                        window.setTimeout(function() {
-                                            controller.userEvent.viewHandler.changeLineHeight(value);
-                                        });
+                                        _.defer(_.partial(controller.userEvent.viewHandler.changeLineHeight, value));
                                     });
 
                                 // Instance/Relation View
