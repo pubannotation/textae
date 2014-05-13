@@ -2553,10 +2553,10 @@
                                             obj: object
                                         };
 
-                                        // rendering
+                                        // Rendering
                                         view.renderer.relation.render(relationId);
 
-                                        // selection
+                                        // Selection
                                         // Set the css class lately, because jsPlumbConnector is no applyed that css class immediately after create.
                                         setTimeout(function() {
                                             view.domUtil.selector.relation.select(relationId);
