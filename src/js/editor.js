@@ -1696,11 +1696,7 @@
                                 if (!isRelationSelected(relationId)) {
                                     relationIdsSelected.push(relationId);
                                     view.viewModel.buttonStateHelper.updateByRelation();
-
-                                    // Set the css class lately, because jsPlumbConnector is no applyed that css class immediately after create.
-                                    window.setTimeout(function() {
-                                        cachedConnectors[relationId].addClass('ui-selected');
-                                    }, 0);
+                                    cachedConnectors[relationId].addClass('ui-selected');
                                 }
                             },
                             deselect: function(relationId) {
@@ -2561,7 +2557,10 @@
                                         view.renderer.relation.render(relationId);
 
                                         // selection
-                                        view.domUtil.selector.relation.select(relationId);
+                                        // Set the css class lately, because jsPlumbConnector is no applyed that css class immediately after create.
+                                        setTimeout(function() {
+                                            view.domUtil.selector.relation.select(relationId);
+                                        }, 0);
 
                                         debugLog('create a new relation relationId:' + relationId + ', subject:' + subject + ', object:' + object + ', predicate:' + predicate);
                                     },
