@@ -354,7 +354,7 @@
                         return prefix + (ids.length === 0 ? 1 : Math.max.apply(null, ids) + 1);
                     };
 
-                    var getNewEntityId = getNewId.bind(null, 'E', function() {
+                    var getNewEntityId = _.partial(getNewId, 'E', function() {
                         return Object.keys(model.annotationData.entities);
                     });
 
@@ -362,7 +362,7 @@
                         return Object.keys(model.annotationData.relations);
                     };
 
-                    var getNewRelationId = getNewId.bind(null, 'R', getRelationIds);
+                    var getNewRelationId = _.partial(getNewId, 'R', getRelationIds);
 
                     var innerAddSpan = function(span) {
                         var additionalPropertiesForSpan = {
@@ -767,36 +767,37 @@
                             }
                         };
 
-                        // Set up buttons value and function.
-                        ['replicate-auto', 'relation-edit-mode']
-                            .forEach(function bindButton(ret, propagateFunctions, buttonName) {
-                                // Button state is true when the button is pushed.
-                                var buttonState = false;
+                        var setupButton = _.partial(function bindButton(ret, propagateFunctions, buttonName) {
+                            // Button state is true when the button is pushed.
+                            var buttonState = false;
 
-                                // Propagate button state to the tool.
-                                var push = function() {
-                                    editor.tool.push(buttonName, buttonState);
-                                };
+                            // Propagate button state to the tool.
+                            var push = function() {
+                                editor.tool.push(buttonName, buttonState);
+                            };
 
-                                // Set property to public object.
-                                ret[buttonName] = {
-                                    value: function(newValue) {
-                                        if (newValue !== undefined) {
-                                            buttonState = newValue;
-                                            push();
-                                        } else {
-                                            return buttonState;
-                                        }
-                                    },
-                                    toggle: function toggleButton() {
-                                        buttonState = !buttonState;
+                            // Set property to public object.
+                            ret[buttonName] = {
+                                value: function(newValue) {
+                                    if (newValue !== undefined) {
+                                        buttonState = newValue;
                                         push();
+                                    } else {
+                                        return buttonState;
                                     }
-                                };
+                                },
+                                toggle: function toggleButton() {
+                                    buttonState = !buttonState;
+                                    push();
+                                }
+                            };
 
-                                // Set propagate functions. They will be called when the editor is switched.
-                                propagateFunctions.push(push);
-                            }.bind(null, ret, propagateFunctions));
+                            // Set propagate functions. They will be called when the editor is switched.
+                            propagateFunctions.push(push);
+                        }, ret, propagateFunctions);
+
+                        // Set up buttons value and function.
+                        ['replicate-auto', 'relation-edit-mode'].forEach(setupButton);
 
                         return ret;
                     }(),
@@ -927,9 +928,9 @@
                     }(),
                     typeContainer: {
                         entity: entityContainer,
-                        setDefinedEntityTypes: setContainerDefinedTypes.bind(null, entityContainer),
+                        setDefinedEntityTypes: _.partial(setContainerDefinedTypes, entityContainer),
                         relation: relationContaier,
-                        setDefinedRelationTypes: setContainerDefinedTypes.bind(null, relationContaier)
+                        setDefinedRelationTypes: _.partial(setContainerDefinedTypes, relationContaier)
                     },
                     getConnectorStrokeStyle: function(relationId) {
                         var converseHEXinotRGBA = function(color, opacity) {
@@ -978,7 +979,7 @@
                         positionCache = {};
                         textOffset = editor.find('.textae-editor__body__text-box').offset();
                     },
-                    getSpan: useCache.bind(null, 'S', function(spanId) {
+                    getSpan: _.partial(useCache, 'S', function(spanId) {
                         var $span = view.domUtil.selector.span.get(spanId);
                         if ($span.length === 0) {
                             throw new Error("span is not renderd : " + spanId);
@@ -993,7 +994,7 @@
                             center: $span.get(0).offsetLeft + $span.outerWidth() / 2
                         };
                     }),
-                    getGrid: useCache.bind(null, 'G', function(spanId) {
+                    getGrid: _.partial(useCache, 'G', function(spanId) {
                         return view.domUtil.selector.grid.get(spanId).offset();
                     }),
                     getEntity: function(entityId) {
@@ -1750,10 +1751,10 @@
                     };
 
                     return {
-                        select: applyMultiJQueryObject.bind(null, select),
-                        deselect: applyMultiJQueryObject.bind(null, deselect),
-                        toggle: applyMultiJQueryObject.bind(null, toggle),
-                        remove: applyMultiJQueryObject.bind(null, remove),
+                        select: _.partial(applyMultiJQueryObject, select),
+                        deselect: _.partial(applyMultiJQueryObject, deselect),
+                        toggle: _.partial(applyMultiJQueryObject, toggle),
+                        remove: _.partial(applyMultiJQueryObject, remove),
                         selectOnly: function(target) {
                             view.domUtil.manipulate.deselect(view.domUtil.selector.getSelecteds().not(target));
                             view.domUtil.selector.relation.clearRelationSelection();
@@ -2395,7 +2396,7 @@
                                             throw e;
                                         }
                                     },
-                                    revert: controller.command.factory.spanRemoveCommand.bind(null, id),
+                                    revert: _.partial(controller.command.factory.spanRemoveCommand, id)
                                 };
                             },
                             spanRemoveCommand: function(spanId) {
@@ -2412,7 +2413,7 @@
 
                                         debugLog('remove a span, spanId:' + spanId);
                                     },
-                                    revert: controller.command.factory.spanCreateCommand.bind(null, {
+                                    revert: _.partial(controller.command.factory.spanCreateCommand, {
                                         begin: span.begin,
                                         end: span.end
                                     })
@@ -2442,7 +2443,7 @@
                                         });
                                         debugLog('move a span, spanId:' + spanId + ', newBegin:' + begin + ', newEnd:' + end);
                                     },
-                                    revert: controller.command.factory.spanMoveCommand.bind(null, newSpanId, oldBeginEnd.begin, oldBeginEnd.end),
+                                    revert: _.partial(controller.command.factory.spanMoveCommand, newSpanId, oldBeginEnd.begin, oldBeginEnd.end)
                                 };
                             },
                             spanReplicateCommand: function(span) {
@@ -2510,7 +2511,7 @@
 
                                         debugLog('remove a entity, spanId:' + entity.span + ', type:' + entity.type + ', entityId:' + entityId);
                                     },
-                                    revert: controller.command.factory.entityCreateCommand.bind(null, spanId || entity.span, typeName || entity.type, entityId)
+                                    revert: _.partial(controller.command.factory.entityCreateCommand, spanId || entity.span, typeName || entity.type, entityId)
                                 };
                             },
                             entityChangeTypeCommand: function(entityId, newType) {
@@ -2525,7 +2526,7 @@
 
                                         debugLog('change type of a entity, spanId:' + changedEntity.span + ', type:' + oldType + ', entityId:' + entityId + ', newType:' + newType);
                                     },
-                                    revert: controller.command.factory.entityChangeTypeCommand.bind(null, entityId, model.annotationData.entities[entityId].type)
+                                    revert: _.partial(controller.command.factory.entityChangeTypeCommand, entityId, model.annotationData.entities[entityId].type)
                                 };
                             },
                             relationCreateCommand: function(relationId, subject, object, predicate) {
@@ -2547,7 +2548,7 @@
 
                                         debugLog('create a new relation relationId:' + relationId + ', subject:' + subject + ', object:' + object + ', predicate:' + predicate);
                                     },
-                                    revert: controller.command.factory.relationRemoveCommand.bind(null, relationId)
+                                    revert: _.partial(controller.command.factory.relationRemoveCommand, relationId)
                                 };
                             },
                             relationRemoveCommand: function(relationId) {
@@ -2566,7 +2567,7 @@
 
                                         debugLog('remove a relation relationId:' + relationId + ', subject:' + subject + ', object:' + object + ', predicate:' + predicate);
                                     },
-                                    revert: controller.command.factory.relationCreateCommand.bind(null, relationId, subject, object, predicate)
+                                    revert: _.partial(controller.command.factory.relationCreateCommand, relationId, subject, object, predicate)
                                 };
                             },
                             relationChangePredicateCommand: function(relationId, predicate) {
@@ -2584,7 +2585,7 @@
 
                                         debugLog('change predicate of relation, relationId:' + relationId + ', subject:' + model.annotationData.relations[relationId].subj + ', object:' + model.annotationData.relations[relationId].obj + ', predicate:' + oldPredicate + ', newPredicate:' + predicate);
                                     },
-                                    revert: controller.command.factory.relationChangePredicateCommand.bind(null, relationId, oldPredicate)
+                                    revert: _.partial(controller.command.factory.relationChangePredicateCommand, relationId, oldPredicate)
                                 };
                             }
                         };
@@ -2803,7 +2804,7 @@
                                         .on('mouseup', '.textae-editor__entity', entityClickedAtRelationMode);
 
                                     palletConfig.typeContainer = view.viewModel.typeContainer.relation;
-                                    changeTypeOfSelected = changeType.bind(null, view.domUtil.selector.relation.getSelecteds, controller.command.factory.relationChangePredicateCommand);
+                                    changeTypeOfSelected = _.partial(changeType, view.domUtil.selector.relation.getSelecteds, controller.command.factory.relationChangePredicateCommand);
 
                                     jsPlumbConnectionClickedImpl = selectRelation;
                                 },
@@ -2834,7 +2835,7 @@
                                         .on('mouseup', '.textae-editor__entity', entityClicked);
 
                                     palletConfig.typeContainer = view.viewModel.typeContainer.entity;
-                                    changeTypeOfSelected = changeType.bind(null, view.domUtil.selector.entity.getSelecteds, controller.command.factory.entityChangeTypeCommand);
+                                    changeTypeOfSelected = _.partial(changeType, view.domUtil.selector.entity.getSelecteds, controller.command.factory.entityChangeTypeCommand);
 
                                     jsPlumbConnectionClickedImpl = null;
                                 }
