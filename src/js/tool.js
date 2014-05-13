@@ -1,34 +1,16 @@
-    // tool manage interactions between components. 
+    // The tool manages interactions between components. 
     var tool = function() {
-        // components to manage
-        var components = {
-            control: null,
-            // a container of editors that is extended from Array. 
-            editors: $.extend([], {
-                getNewId: function() {
-                    return 'editor' + this.length;
-                },
-                select: function(editor) {
-                    this.selected = editor;
-                    console.log(editor.editorId);
-                },
-                selectFirst: function() {
-                    this.select(this[0]);
-                },
-                selected: null,
+        // Components to be managed
+        var components = function() {
+            var helpDialog = textAeUtil.makeInformationModal({
+                className: 'textae-control__help',
+                addContentsFunc: function() {
+                    this
+                        .append($('<h3>').text('Help (Keyboard short-cuts)'))
+                        .append($('<div>').addClass('textae-tool__key-help'));
+                }
             }),
-            infoModals: {
-                //help dialog
-                help: textAeUtil.makeInformationModal({
-                    className: 'textae-control__help',
-                    addContentsFunc: function() {
-                        this
-                            .append($('<h3>').text('Help (Keyboard short-cuts)'))
-                            .append($('<div>').addClass('textae-tool__key-help'));
-                    }
-                }),
-                //about dialog
-                about: textAeUtil.makeInformationModal({
+                aboutDialog = textAeUtil.makeInformationModal({
                     className: 'textae-control__about',
                     addContentsFunc: function() {
                         this
@@ -43,15 +25,33 @@
                                 '<p>まだ開発中のサービスであり、実装すべき機能が残っています。' +
                                 'ユーザの皆様の声を大事にして開発していきたいと考えておりますので、ご意見などございましたら教えていただければ幸いです。</p>');
                     }
-                }),
-                hideAll: function() {
-                    components.infoModals.help.hide();
-                    components.infoModals.about.hide();
-                },
-            },
-        };
+                });
 
-        // decide "which component handles certain event.""
+            return {
+                control: null,
+                // A container of editors that is extended from Array. 
+                editors: $.extend([], {
+                    getNewId: function() {
+                        return 'editor' + this.length;
+                    },
+                    select: function(editor) {
+                        this.selected = editor;
+                        console.log(editor.editorId);
+                    },
+                    selectFirst: function() {
+                        this.select(this[0]);
+                    },
+                    selected: null,
+                }),
+                infoModals: {
+                    help: helpDialog,
+                    about: aboutDialog,
+                    hideAll: _.compose(helpDialog.hide, aboutDialog.hide)
+                }
+            };
+        }();
+
+        // Decide "which component handles certain event.""
         var eventDispatcher = {
             handleKeyInput: function(key) {
                 if (key === 'H') {
@@ -79,7 +79,7 @@
                         }
                 }
             },
-            //methods for editor to call tool.
+            // Methods for editor to call tool.
             handleEditor: {
                 // A method to public bind an editor instance.
                 select: function(editor) {
@@ -103,76 +103,66 @@
             },
         };
 
-        //controller observe user input.
+        // The controller observes user inputs.
         var controller = function() {
-            // observe key-input events and convert events to readable code.
+            // Observe key-input events and convert events to readable code.
             var observeKeybordInput = function() {
-                //declare keyApiMap of cotorol keys 
+                // Declare keyApiMap of control keys 
                 var controlKeyEventMap = {
                     27: 'ESC',
                     46: 'DEL',
                     37: 'LEFT',
                     39: 'RIGHT'
                 };
+
                 var convertKeyEvent = function(keyCode) {
                     if (65 <= keyCode && keyCode <= 90) {
-                        //from a to z, convert 'A' to 'Z'
+                        // From a to z, convert 'A' to 'Z'
                         return String.fromCharCode(keyCode);
                     } else if (controlKeyEventMap[keyCode]) {
-                        //control key, like ESC, DEL ...
+                        // Control keys, like ESC, DEL ...
                         return controlKeyEventMap[keyCode];
                     }
                 };
 
-                //observe key-input event
-                var isActive = true;
-                var onKeyup = function(e) {
-                    if (isActive) {
-                        eventDispatcher.handleKeyInput(convertKeyEvent(e.keyCode));
-                    }
+                var getKeyCode = function(e) {
+                    return e.keyCode;
                 };
-                $(document).on('keyup', onKeyup);
 
-                //keybord disable/enable if jquery ui dialog is open/close
+                // EventHandlers for key-input.
+                var eventHandler = _.compose(eventDispatcher.handleKeyInput, convertKeyEvent, getKeyCode);
+
+                // Observe key-input
+                var onKeyup = eventHandler;
+                $(document).on('keyup', function(event) {
+                    onKeyup(event);
+                });
+
+                // Disable/Enable key-input When a jquery-ui dialog is opened/closeed
                 $('body').on('dialogopen', '.ui-dialog', function() {
-                    isActive = false;
+                    onKeyup = function() {};
                 }).on('dialogclose', '.ui-dialog', function() {
-                    isActive = true;
+                    onKeyup = eventHandler;
                 });
             };
 
-            // observe window-resize event and redraw all editors. 
+            // Observe window-resize event and redraw all editors. 
             var observeWindowResize = function() {
-                // bind resize event
-                $(window).on('resize', function() {
-                    //Call redraw when the window resize is end. Because resize-event is occuerd multiply during resize the window.
-                    var redrawTimer;
-
-                    return function() {
-                        //Cancel the redrawTimer if redrawTimer is set alredy
-                        if (redrawTimer) {
-                            window.clearTimeout(redrawTimer);
-                        }
-
-                        redrawTimer = window.setTimeout(function() {
-                            //Call all editors
-                            components.editors.forEach(function(e) {
-                                e.api.redraw();
-                            });
-                        }, 200);
-                    };
-                }());
+                // Bind resize event
+                $(window).on('resize', _.debounce(function() {
+                    // Call all editors
+                    _.invoke(components.editors.map(function(e) {
+                        return e.api;
+                    }), 'redraw');
+                }, 20));
             };
 
-            //start observe at document ready, because this function may be called before body is loaded.
-            $(function() {
-                observeKeybordInput();
-                observeWindowResize();
-            });
+            // Start observation at document ready, because this function may be called before body is loaded.
+            $(_.compose(observeWindowResize, observeKeybordInput));
         }();
 
         return {
-            // register a control to tool.
+            // Register a control to tool.
             setControl: function(control) {
                 $.extend(control, {
                     buttonClick: function(buttonEvent) {
@@ -182,7 +172,7 @@
 
                 components.control = control;
             },
-            // register editors to tool
+            // Register editors to tool
             pushEditor: function(editor) {
                 components.editors.push(editor);
 
@@ -193,7 +183,7 @@
                     }, eventDispatcher.handleEditor.public),
                 });
             },
-            // select first editor
+            // Select the first editor
             selectFirstEditor: function() {
                 components.editors.selectFirst();
             },
