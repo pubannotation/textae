@@ -1103,8 +1103,7 @@
                                 });
                             },
                             redraw: function() {
-                                // To render per editor.
-                                _.defer(_.compose(view.renderer.relation.arrangePositionAll, view.renderer.grid.arrangePositionAll));
+                                _.compose(view.renderer.relation.arrangePositionAll, view.renderer.grid.arrangePositionAll)();
                             }
                         };
                     }(),
