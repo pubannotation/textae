@@ -2900,12 +2900,12 @@
                             };
                         }();
 
-                        var changeLineHeight = function(heightValue) {
+                        var changeLineHeight = _.debounce(function(heightValue) {
                             view.renderer.helper.changeLineHeight(heightValue);
 
                             // Redraw all editors in tha windows.
                             $(window).trigger('resize');
-                        };
+                        }, 300);
 
                         return {
                             init: function() {
@@ -3072,8 +3072,7 @@
                                             .addClass('textae-editor__setting-dialog__line-height')
                                         ))
                                     .on('change', '.textae-editor__setting-dialog__line-height', function() {
-                                        var value = $(this).val();
-                                        _.defer(_.partial(changeLineHeight, value));
+                                        changeLineHeight($(this).val());
                                     });
 
                                 // Instance/Relation View
