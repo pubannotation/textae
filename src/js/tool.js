@@ -150,10 +150,10 @@
             var observeWindowResize = function() {
                 // Bind resize event
                 $(window).on('resize', _.debounce(function() {
-                    // Call all editors
-                    _.invoke(components.editors.map(function(e) {
-                        return e.api;
-                    }), 'redraw');
+                    // Redraw all editors per editor.
+                    components.editors.forEach(function(editor) {
+                        _.defer(editor.api.redraw);
+                    });
                 }, 20));
             };
 

@@ -1103,8 +1103,7 @@
                                 });
                             },
                             redraw: function() {
-                                // To render per editor.
-                                _.defer(_.compose(view.renderer.relation.arrangePositionAll, view.renderer.grid.arrangePositionAll));
+                                _.compose(view.renderer.relation.arrangePositionAll, view.renderer.grid.arrangePositionAll)();
                             }
                         };
                     }(),
@@ -2901,6 +2900,13 @@
                             };
                         }();
 
+                        var changeLineHeight = _.debounce(function(heightValue) {
+                            view.renderer.helper.changeLineHeight(heightValue);
+
+                            // Redraw all editors in tha windows.
+                            $(window).trigger('resize');
+                        }, 300);
+
                         return {
                             init: function() {
                                 controllerState.init();
@@ -3066,8 +3072,7 @@
                                             .addClass('textae-editor__setting-dialog__line-height')
                                         ))
                                     .on('change', '.textae-editor__setting-dialog__line-height', function() {
-                                        var value = $(this).val();
-                                        _.defer(_.partial(controller.userEvent.viewHandler.changeLineHeight, value));
+                                        changeLineHeight($(this).val());
                                     });
 
                                 // Instance/Relation View
@@ -3098,12 +3103,6 @@
                                     });
 
                                 $dialog.open();
-                            },
-                            changeLineHeight: function(heightValue) {
-                                view.renderer.helper.changeLineHeight(heightValue);
-
-                                // Redraw all editors in tha windows.
-                                $(window).trigger('resize');
                             },
                             toggleRelationEditMode: function() {
                                 // ビューモードを切り替える
