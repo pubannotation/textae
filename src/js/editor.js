@@ -2900,6 +2900,13 @@
                             };
                         }();
 
+                        var changeLineHeight = function(heightValue) {
+                            view.renderer.helper.changeLineHeight(heightValue);
+
+                            // Redraw all editors in tha windows.
+                            $(window).trigger('resize');
+                        };
+
                         return {
                             init: function() {
                                 controllerState.init();
@@ -3066,7 +3073,7 @@
                                         ))
                                     .on('change', '.textae-editor__setting-dialog__line-height', function() {
                                         var value = $(this).val();
-                                        _.defer(_.partial(controller.userEvent.viewHandler.changeLineHeight, value));
+                                        _.defer(_.partial(changeLineHeight, value));
                                     });
 
                                 // Instance/Relation View
@@ -3097,12 +3104,6 @@
                                     });
 
                                 $dialog.open();
-                            },
-                            changeLineHeight: function(heightValue) {
-                                view.renderer.helper.changeLineHeight(heightValue);
-
-                                // Redraw all editors in tha windows.
-                                $(window).trigger('resize');
                             },
                             toggleRelationEditMode: function() {
                                 // ビューモードを切り替える
