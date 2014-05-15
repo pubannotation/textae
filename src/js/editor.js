@@ -887,12 +887,12 @@
                     }(),
                     viewMode: function() {
                         var changeCssClass = function(mode) {
-                            editor
-                                .removeClass('textae-editor_term-mode')
-                                .removeClass('textae-editor_instance-mode')
-                                .removeClass('textae-editor_relation-mode')
-                                .addClass('textae-editor_' + mode + '-mode');
-                        },
+                                editor
+                                    .removeClass('textae-editor_term-mode')
+                                    .removeClass('textae-editor_instance-mode')
+                                    .removeClass('textae-editor_relation-mode')
+                                    .addClass('textae-editor_' + mode + '-mode');
+                            },
                             setRelationEditButtonPushed = function(push) {
                                 view.viewModel.modeAccordingToButton['relation-edit-mode'].value(push);
                             };
