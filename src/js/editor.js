@@ -1101,9 +1101,6 @@
                                 editor.find('.textae-editor__body__text-box').css({
                                     'line-height': heightValue * 100 + '%'
                                 });
-                            },
-                            redraw: function() {
-                                view.renderer.grid.arrangePositionAll();
                             }
                         };
                     }(),
@@ -2364,7 +2361,7 @@
                         command.execute();
                     });
 
-                    view.renderer.helper.redraw();
+                    view.renderer.grid.arrangePositionAll();
                 };
 
                 return {
@@ -2894,7 +2891,7 @@
                                     resetView();
                                     eventHandlerComposer.noRelationEdit();
                                     view.viewModel.viewMode.setTerm();
-                                    view.renderer.helper.redraw();
+                                    view.renderer.grid.arrangePositionAll();
 
                                     controllerState = state.termCentric;
                                 },
@@ -2902,7 +2899,7 @@
                                     resetView();
                                     eventHandlerComposer.noRelationEdit();
                                     view.viewModel.viewMode.setInstance();
-                                    view.renderer.helper.redraw();
+                                    view.renderer.grid.arrangePositionAll();
 
                                     controllerState = state.instanceRelation;
                                 },
@@ -2910,7 +2907,7 @@
                                     resetView();
                                     eventHandlerComposer.relationEdit();
                                     view.viewModel.viewMode.setRelation();
-                                    view.renderer.helper.redraw();
+                                    view.renderer.grid.arrangePositionAll();
 
                                     controllerState = state.relationEdit;
                                 }
@@ -3063,7 +3060,7 @@
                                 $('.textae-editor__entity-pallet').hide();
                             },
                             redraw: function() {
-                                view.renderer.helper.redraw();
+                                view.renderer.grid.arrangePositionAll();
                             },
                             cancelSelect: function() {
                                 // if drag, bubble up
