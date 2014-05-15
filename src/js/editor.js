@@ -1426,7 +1426,7 @@
                                     return view.domUtil.selector.grid.get(span.id).outerHeight() + descendantsMaxHeight + view.viewModel.viewMode.marginBottomOfGrid;
                                 };
 
-                                if (span.getTypes().length > 0 && span.children.length > 0) {
+                                if (span.children.length > 0) {
                                     var spanPosition = positionUtils.getSpan(span.id);
                                     var descendantsMaxHeight = getHeightIncludeDescendantGrids(span);
 
