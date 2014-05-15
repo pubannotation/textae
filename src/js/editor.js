@@ -1402,12 +1402,10 @@
                                 var spanPosition = positionUtils.getSpan(span.id),
                                     grid = view.domUtil.selector.grid.get(span.id);
 
-                                if (grid.length > 0) {
-                                    grid.css({
-                                        'top': spanPosition.top - view.viewModel.viewMode.marginBottomOfGrid - grid.outerHeight(),
-                                        'left': spanPosition.left
-                                    });
-                                }
+                                grid.css({
+                                    'top': spanPosition.top - view.viewModel.viewMode.marginBottomOfGrid - grid.outerHeight(),
+                                    'left': spanPosition.left
+                                });
                             };
 
                             var pullUpGridOverDescendants = function(span) {
