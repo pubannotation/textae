@@ -887,12 +887,12 @@
                     }(),
                     viewMode: function() {
                         var changeCssClass = function(mode) {
-                            editor
-                                .removeClass('textae-editor_term-mode')
-                                .removeClass('textae-editor_instance-mode')
-                                .removeClass('textae-editor_relation-mode')
-                                .addClass('textae-editor_' + mode + '-mode');
-                        },
+                                editor
+                                    .removeClass('textae-editor_term-mode')
+                                    .removeClass('textae-editor_instance-mode')
+                                    .removeClass('textae-editor_relation-mode')
+                                    .addClass('textae-editor_' + mode + '-mode');
+                            },
                             setRelationEditButtonPushed = function(push) {
                                 view.viewModel.modeAccordingToButton['relation-edit-mode'].value(push);
                             };
@@ -1101,9 +1101,6 @@
                                 editor.find('.textae-editor__body__text-box').css({
                                     'line-height': heightValue * 100 + '%'
                                 });
-                            },
-                            redraw: function() {
-                                _.compose(view.renderer.relation.arrangePositionAll, view.renderer.grid.arrangePositionAll)();
                             }
                         };
                     }(),
@@ -1396,18 +1393,48 @@
                             },
                         };
                     }(),
-                    grid: {
-                        arrangePosition: function(span) {
+                    grid: function() {
+                        var gridPositionCache = {};
+
+                        var isMove = function(span, newPosition) {
+                            var oldGridPosition = gridPositionCache[span.id];
+                            return !oldGridPosition || oldGridPosition.top !== newPosition.top || oldGridPosition.left !== newPosition.left;
+                        };
+
+                        var arrangeRelationPosition = function(span) {
+                            var flatten = function(a, b) {
+                                return a.concat(b);
+                            };
+
+                            _.compact(
+                                span.getTypes().map(function(type) {
+                                    return type.entities;
+                                }).reduce(flatten, [])
+                                .map(model.annotationData.getAssosicatedRelations)
+                                .reduce(flatten, [])
+                                .map(function(relationId) {
+                                    return cachedConnectors[relationId];
+                                })
+                            ).forEach(function(connector) {
+                                connector.arrangePosition();
+                            });
+                        };
+
+                        var updateGridPositon = function(span, newPosition) {
+                            view.domUtil.selector.grid.get(span.id).css(newPosition);
+                            gridPositionCache[span.id] = newPosition;
+                            arrangeRelationPosition(span);
+                        };
+
+                        var getNewPosition = function(span) {
                             var stickGridOnSpan = function(span) {
                                 var spanPosition = positionUtils.getSpan(span.id),
                                     grid = view.domUtil.selector.grid.get(span.id);
 
-                                if (grid.length > 0) {
-                                    grid.css({
-                                        'top': spanPosition.top - view.viewModel.viewMode.marginBottomOfGrid - grid.outerHeight(),
-                                        'left': spanPosition.left
-                                    });
-                                }
+                                return {
+                                    'top': spanPosition.top - view.viewModel.viewMode.marginBottomOfGrid - grid.outerHeight(),
+                                    'left': spanPosition.left
+                                };
                             };
 
                             var pullUpGridOverDescendants = function(span) {
@@ -1428,40 +1455,52 @@
                                     return view.domUtil.selector.grid.get(span.id).outerHeight() + descendantsMaxHeight + view.viewModel.viewMode.marginBottomOfGrid;
                                 };
 
-                                if (span.getTypes().length > 0 && span.children.length > 0) {
-                                    var spanPosition = positionUtils.getSpan(span.id);
-                                    var descendantsMaxHeight = getHeightIncludeDescendantGrids(span);
+                                var spanPosition = positionUtils.getSpan(span.id);
+                                var descendantsMaxHeight = getHeightIncludeDescendantGrids(span);
 
-                                    view.domUtil.selector.grid.get(span.id).css({
-                                        'top': spanPosition.top - view.viewModel.viewMode.marginBottomOfGrid - descendantsMaxHeight,
-                                    });
+                                return {
+                                    'top': spanPosition.top - view.viewModel.viewMode.marginBottomOfGrid - descendantsMaxHeight,
+                                    'left': spanPosition.left
+                                };
+                            };
+
+                            if (span.children.length === 0) {
+                                return stickGridOnSpan(span);
+                            } else {
+                                return pullUpGridOverDescendants(span);
+                            }
+                        };
+
+                        return {
+                            arrangePosition: function(span) {
+                                var newPosition = getNewPosition(span);
+
+                                if (isMove(span, newPosition)) {
+                                    updateGridPositon(span, newPosition);
                                 }
-                            };
+                            },
+                            arrangePositionAll: function() {
+                                var arrangePositionGridAndoDescendant = function(span) {
+                                    // Arrange position All descendants because a grandchild maybe have types when a child has no type. 
+                                    span.children
+                                        .forEach(function(span) {
+                                            arrangePositionGridAndoDescendant(span);
+                                        });
+                                    view.renderer.grid.arrangePosition(span);
+                                };
 
-                            stickGridOnSpan(span);
-                            pullUpGridOverDescendants(span);
-                        },
-                        arrangePositionAll: function() {
-                            var arrangePositionGridAndoDescendant = function(span) {
-                                // Arrange position All descendants because a grandchild maybe have types when a child has no type. 
-                                span.children
-                                    .forEach(function(span) {
-                                        arrangePositionGridAndoDescendant(span);
+                                positionUtils.reset();
+
+                                model.annotationData.spansTopLevel
+                                    .filter(function(span) {
+                                        // There is at least one type in span that has a grid.
+                                        return span.getTypes().length > 0;
+                                    }).forEach(function(span) {
+                                        _.defer(_.partial(arrangePositionGridAndoDescendant, span));
                                     });
-                                view.renderer.grid.arrangePosition(span);
-                            };
-
-                            positionUtils.reset();
-
-                            model.annotationData.spansTopLevel
-                                .filter(function(span) {
-                                    // There is at least one type in span that has a grid.
-                                    return span.getTypes().length > 0;
-                                }).forEach(function(span) {
-                                    arrangePositionGridAndoDescendant(span);
-                                });
-                        }
-                    },
+                            }
+                        };
+                    }(),
                     relation: function() {
                         // Init a jsPlumb instance.
                         var jsPlumbInstance = function() {
@@ -2322,7 +2361,7 @@
                         command.execute();
                     });
 
-                    view.renderer.helper.redraw();
+                    view.renderer.grid.arrangePositionAll();
                 };
 
                 return {
@@ -2852,7 +2891,7 @@
                                     resetView();
                                     eventHandlerComposer.noRelationEdit();
                                     view.viewModel.viewMode.setTerm();
-                                    view.renderer.helper.redraw();
+                                    view.renderer.grid.arrangePositionAll();
 
                                     controllerState = state.termCentric;
                                 },
@@ -2860,7 +2899,7 @@
                                     resetView();
                                     eventHandlerComposer.noRelationEdit();
                                     view.viewModel.viewMode.setInstance();
-                                    view.renderer.helper.redraw();
+                                    view.renderer.grid.arrangePositionAll();
 
                                     controllerState = state.instanceRelation;
                                 },
@@ -2868,7 +2907,7 @@
                                     resetView();
                                     eventHandlerComposer.relationEdit();
                                     view.viewModel.viewMode.setRelation();
-                                    view.renderer.helper.redraw();
+                                    view.renderer.grid.arrangePositionAll();
 
                                     controllerState = state.relationEdit;
                                 }
@@ -3021,7 +3060,7 @@
                                 $('.textae-editor__entity-pallet').hide();
                             },
                             redraw: function() {
-                                view.renderer.helper.redraw();
+                                view.renderer.grid.arrangePositionAll();
                             },
                             cancelSelect: function() {
                                 // if drag, bubble up
