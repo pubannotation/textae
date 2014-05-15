@@ -1426,18 +1426,20 @@
                                     return view.domUtil.selector.grid.get(span.id).outerHeight() + descendantsMaxHeight + view.viewModel.viewMode.marginBottomOfGrid;
                                 };
 
-                                if (span.children.length > 0) {
-                                    var spanPosition = positionUtils.getSpan(span.id);
-                                    var descendantsMaxHeight = getHeightIncludeDescendantGrids(span);
+                                var spanPosition = positionUtils.getSpan(span.id);
+                                var descendantsMaxHeight = getHeightIncludeDescendantGrids(span);
 
-                                    view.domUtil.selector.grid.get(span.id).css({
-                                        'top': spanPosition.top - view.viewModel.viewMode.marginBottomOfGrid - descendantsMaxHeight,
-                                    });
-                                }
+                                view.domUtil.selector.grid.get(span.id).css({
+                                    'top': spanPosition.top - view.viewModel.viewMode.marginBottomOfGrid - descendantsMaxHeight,
+                                    'left': spanPosition.left
+                                });
                             };
 
-                            stickGridOnSpan(span);
-                            pullUpGridOverDescendants(span);
+                            if (span.children.length === 0) {
+                                stickGridOnSpan(span);
+                            } else {
+                                pullUpGridOverDescendants(span);
+                            }
                         },
                         arrangePositionAll: function() {
                             var arrangePositionGridAndoDescendant = function(span) {
