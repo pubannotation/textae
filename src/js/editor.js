@@ -1103,7 +1103,7 @@
                                 });
                             },
                             redraw: function() {
-                                _.compose(view.renderer.relation.arrangePositionAll, view.renderer.grid.arrangePositionAll)();
+                                view.renderer.grid.arrangePositionAll();
                             }
                         };
                     }(),
@@ -1404,9 +1404,29 @@
                             return !oldGridPosition || oldGridPosition.top !== newPosition.top || oldGridPosition.left !== newPosition.left;
                         };
 
+                        var arrangeRelationPosition = function(span) {
+                            var flatten = function(a, b) {
+                                return a.concat(b);
+                            };
+
+                            _.compact(
+                                span.getTypes().map(function(type) {
+                                    return type.entities;
+                                }).reduce(flatten, [])
+                                .map(model.annotationData.getAssosicatedRelations)
+                                .reduce(flatten, [])
+                                .map(function(relationId) {
+                                    return cachedConnectors[relationId];
+                                })
+                            ).forEach(function(connector) {
+                                connector.arrangePosition();
+                            });
+                        };
+
                         var updateGridPositon = function(span, newPosition) {
                             view.domUtil.selector.grid.get(span.id).css(newPosition);
                             gridPositionCache[span.id] = newPosition;
+                            arrangeRelationPosition(span);
                         };
 
                         var getNewPosition = function(span) {
@@ -1479,7 +1499,7 @@
                                         // There is at least one type in span that has a grid.
                                         return span.getTypes().length > 0;
                                     }).forEach(function(span) {
-                                        arrangePositionGridAndoDescendant(span);
+                                        _.defer(_.partial(arrangePositionGridAndoDescendant, span));
                                     });
                             }
                         };
