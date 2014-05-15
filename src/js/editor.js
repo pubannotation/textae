@@ -1397,61 +1397,69 @@
                         };
                     }(),
                     grid: function() {
-                        var updateGridPositon = function() {
-                            var gridPositionCache = {};
-                            return function(span, newPosition) {
-                                var oldGridPosition = gridPositionCache[span.id];
+                        var gridPositionCache = {};
 
-                                // Update the position of a grid only if that position is changed.
-                                if (!oldGridPosition || oldGridPosition.top !== newPosition.top || oldGridPosition.left !== newPosition.left) {
-                                    view.domUtil.selector.grid.get(span.id).css(newPosition);
-                                    gridPositionCache[span.id] = $.extend({}, oldGridPosition, newPosition);
-                                }
+                        var isMove = function(span, newPosition) {
+                            var oldGridPosition = gridPositionCache[span.id];
+                            return !oldGridPosition || oldGridPosition.top !== newPosition.top || oldGridPosition.left !== newPosition.left;
+                        };
+
+                        var updateGridPositon = function(span, newPosition) {
+                            view.domUtil.selector.grid.get(span.id).css(newPosition);
+                            gridPositionCache[span.id] = newPosition;
+                        };
+
+                        var getNewPosition = function(span) {
+                            var stickGridOnSpan = function(span) {
+                                var spanPosition = positionUtils.getSpan(span.id),
+                                    grid = view.domUtil.selector.grid.get(span.id);
+
+                                return {
+                                    'top': spanPosition.top - view.viewModel.viewMode.marginBottomOfGrid - grid.outerHeight(),
+                                    'left': spanPosition.left
+                                };
                             };
-                        }();
+
+                            var pullUpGridOverDescendants = function(span) {
+                                var getChildrenMaxHeight = function(span) {
+                                    return span.children.length === 0 ? 0 :
+                                        Math.max.apply(null, span.children.map(function(childSpan) {
+                                            return view.domUtil.selector.span.get(childSpan.id).outerHeight();
+                                        }));
+                                };
+
+                                // Culculate the height of the grid include descendant grids, because css style affects slowly.
+                                var getHeightIncludeDescendantGrids = function(span) {
+                                    var descendantsMaxHeight = span.children.length === 0 ? 0 :
+                                        Math.max.apply(null, span.children.map(function(childSpan) {
+                                            return getHeightIncludeDescendantGrids(childSpan);
+                                        }));
+
+                                    return view.domUtil.selector.grid.get(span.id).outerHeight() + descendantsMaxHeight + view.viewModel.viewMode.marginBottomOfGrid;
+                                };
+
+                                var spanPosition = positionUtils.getSpan(span.id);
+                                var descendantsMaxHeight = getHeightIncludeDescendantGrids(span);
+
+                                return {
+                                    'top': spanPosition.top - view.viewModel.viewMode.marginBottomOfGrid - descendantsMaxHeight,
+                                    'left': spanPosition.left
+                                };
+                            };
+
+                            if (span.children.length === 0) {
+                                return stickGridOnSpan(span);
+                            } else {
+                                return pullUpGridOverDescendants(span);
+                            }
+                        };
+
                         return {
                             arrangePosition: function(span) {
-                                var stickGridOnSpan = function(span) {
-                                    var spanPosition = positionUtils.getSpan(span.id),
-                                        grid = view.domUtil.selector.grid.get(span.id);
+                                var newPosition = getNewPosition(span);
 
-                                    updateGridPositon(span, {
-                                        'top': spanPosition.top - view.viewModel.viewMode.marginBottomOfGrid - grid.outerHeight(),
-                                        'left': spanPosition.left
-                                    });
-                                };
-
-                                var pullUpGridOverDescendants = function(span) {
-                                    var getChildrenMaxHeight = function(span) {
-                                        return span.children.length === 0 ? 0 :
-                                            Math.max.apply(null, span.children.map(function(childSpan) {
-                                                return view.domUtil.selector.span.get(childSpan.id).outerHeight();
-                                            }));
-                                    };
-
-                                    // Culculate the height of the grid include descendant grids, because css style affects slowly.
-                                    var getHeightIncludeDescendantGrids = function(span) {
-                                        var descendantsMaxHeight = span.children.length === 0 ? 0 :
-                                            Math.max.apply(null, span.children.map(function(childSpan) {
-                                                return getHeightIncludeDescendantGrids(childSpan);
-                                            }));
-
-                                        return view.domUtil.selector.grid.get(span.id).outerHeight() + descendantsMaxHeight + view.viewModel.viewMode.marginBottomOfGrid;
-                                    };
-
-                                    var spanPosition = positionUtils.getSpan(span.id);
-                                    var descendantsMaxHeight = getHeightIncludeDescendantGrids(span);
-
-                                    updateGridPositon(span, {
-                                        'top': spanPosition.top - view.viewModel.viewMode.marginBottomOfGrid - descendantsMaxHeight,
-                                        'left': spanPosition.left
-                                    });
-                                };
-
-                                if (span.children.length === 0) {
-                                    stickGridOnSpan(span);
-                                } else {
-                                    pullUpGridOverDescendants(span);
+                                if (isMove(span, newPosition)) {
+                                    updateGridPositon(span, newPosition);
                                 }
                             },
                             arrangePositionAll: function() {
