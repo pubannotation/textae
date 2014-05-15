@@ -1397,13 +1397,20 @@
                         };
                     }(),
                     grid: function() {
+                        var updateGridPositon = function() {
+                            return function(span, newPosition) {
+                                var grid = view.domUtil.selector.grid.get(span.id);
+                                grid.css(newPosition);
+                            };
+                        }();
+
                         return {
                             arrangePosition: function(span) {
                                 var stickGridOnSpan = function(span) {
                                     var spanPosition = positionUtils.getSpan(span.id),
                                         grid = view.domUtil.selector.grid.get(span.id);
 
-                                    grid.css({
+                                    updateGridPositon(span, {
                                         'top': spanPosition.top - view.viewModel.viewMode.marginBottomOfGrid - grid.outerHeight(),
                                         'left': spanPosition.left
                                     });
@@ -1430,7 +1437,7 @@
                                     var spanPosition = positionUtils.getSpan(span.id);
                                     var descendantsMaxHeight = getHeightIncludeDescendantGrids(span);
 
-                                    view.domUtil.selector.grid.get(span.id).css({
+                                    updateGridPositon(span, {
                                         'top': spanPosition.top - view.viewModel.viewMode.marginBottomOfGrid - descendantsMaxHeight,
                                         'left': spanPosition.left
                                     });
