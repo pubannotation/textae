@@ -1396,72 +1396,74 @@
                             },
                         };
                     }(),
-                    grid: {
-                        arrangePosition: function(span) {
-                            var stickGridOnSpan = function(span) {
-                                var spanPosition = positionUtils.getSpan(span.id),
-                                    grid = view.domUtil.selector.grid.get(span.id);
+                    grid: function() {
+                        return {
+                            arrangePosition: function(span) {
+                                var stickGridOnSpan = function(span) {
+                                    var spanPosition = positionUtils.getSpan(span.id),
+                                        grid = view.domUtil.selector.grid.get(span.id);
 
-                                grid.css({
-                                    'top': spanPosition.top - view.viewModel.viewMode.marginBottomOfGrid - grid.outerHeight(),
-                                    'left': spanPosition.left
-                                });
-                            };
-
-                            var pullUpGridOverDescendants = function(span) {
-                                var getChildrenMaxHeight = function(span) {
-                                    return span.children.length === 0 ? 0 :
-                                        Math.max.apply(null, span.children.map(function(childSpan) {
-                                            return view.domUtil.selector.span.get(childSpan.id).outerHeight();
-                                        }));
+                                    grid.css({
+                                        'top': spanPosition.top - view.viewModel.viewMode.marginBottomOfGrid - grid.outerHeight(),
+                                        'left': spanPosition.left
+                                    });
                                 };
 
-                                // Culculate the height of the grid include descendant grids, because css style affects slowly.
-                                var getHeightIncludeDescendantGrids = function(span) {
-                                    var descendantsMaxHeight = span.children.length === 0 ? 0 :
-                                        Math.max.apply(null, span.children.map(function(childSpan) {
-                                            return getHeightIncludeDescendantGrids(childSpan);
-                                        }));
+                                var pullUpGridOverDescendants = function(span) {
+                                    var getChildrenMaxHeight = function(span) {
+                                        return span.children.length === 0 ? 0 :
+                                            Math.max.apply(null, span.children.map(function(childSpan) {
+                                                return view.domUtil.selector.span.get(childSpan.id).outerHeight();
+                                            }));
+                                    };
 
-                                    return view.domUtil.selector.grid.get(span.id).outerHeight() + descendantsMaxHeight + view.viewModel.viewMode.marginBottomOfGrid;
+                                    // Culculate the height of the grid include descendant grids, because css style affects slowly.
+                                    var getHeightIncludeDescendantGrids = function(span) {
+                                        var descendantsMaxHeight = span.children.length === 0 ? 0 :
+                                            Math.max.apply(null, span.children.map(function(childSpan) {
+                                                return getHeightIncludeDescendantGrids(childSpan);
+                                            }));
+
+                                        return view.domUtil.selector.grid.get(span.id).outerHeight() + descendantsMaxHeight + view.viewModel.viewMode.marginBottomOfGrid;
+                                    };
+
+                                    var spanPosition = positionUtils.getSpan(span.id);
+                                    var descendantsMaxHeight = getHeightIncludeDescendantGrids(span);
+
+                                    view.domUtil.selector.grid.get(span.id).css({
+                                        'top': spanPosition.top - view.viewModel.viewMode.marginBottomOfGrid - descendantsMaxHeight,
+                                        'left': spanPosition.left
+                                    });
                                 };
 
-                                var spanPosition = positionUtils.getSpan(span.id);
-                                var descendantsMaxHeight = getHeightIncludeDescendantGrids(span);
+                                if (span.children.length === 0) {
+                                    stickGridOnSpan(span);
+                                } else {
+                                    pullUpGridOverDescendants(span);
+                                }
+                            },
+                            arrangePositionAll: function() {
+                                var arrangePositionGridAndoDescendant = function(span) {
+                                    // Arrange position All descendants because a grandchild maybe have types when a child has no type. 
+                                    span.children
+                                        .forEach(function(span) {
+                                            arrangePositionGridAndoDescendant(span);
+                                        });
+                                    view.renderer.grid.arrangePosition(span);
+                                };
 
-                                view.domUtil.selector.grid.get(span.id).css({
-                                    'top': spanPosition.top - view.viewModel.viewMode.marginBottomOfGrid - descendantsMaxHeight,
-                                    'left': spanPosition.left
-                                });
-                            };
+                                positionUtils.reset();
 
-                            if (span.children.length === 0) {
-                                stickGridOnSpan(span);
-                            } else {
-                                pullUpGridOverDescendants(span);
-                            }
-                        },
-                        arrangePositionAll: function() {
-                            var arrangePositionGridAndoDescendant = function(span) {
-                                // Arrange position All descendants because a grandchild maybe have types when a child has no type. 
-                                span.children
-                                    .forEach(function(span) {
+                                model.annotationData.spansTopLevel
+                                    .filter(function(span) {
+                                        // There is at least one type in span that has a grid.
+                                        return span.getTypes().length > 0;
+                                    }).forEach(function(span) {
                                         arrangePositionGridAndoDescendant(span);
                                     });
-                                view.renderer.grid.arrangePosition(span);
-                            };
-
-                            positionUtils.reset();
-
-                            model.annotationData.spansTopLevel
-                                .filter(function(span) {
-                                    // There is at least one type in span that has a grid.
-                                    return span.getTypes().length > 0;
-                                }).forEach(function(span) {
-                                    arrangePositionGridAndoDescendant(span);
-                                });
-                        }
-                    },
+                            }
+                        };
+                    }(),
                     relation: function() {
                         // Init a jsPlumb instance.
                         var jsPlumbInstance = function() {
