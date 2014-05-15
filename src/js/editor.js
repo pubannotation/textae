@@ -1398,12 +1398,17 @@
                     }(),
                     grid: function() {
                         var updateGridPositon = function() {
+                            var gridPositionCache = {};
                             return function(span, newPosition) {
-                                var grid = view.domUtil.selector.grid.get(span.id);
-                                grid.css(newPosition);
+                                var oldGridPosition = gridPositionCache[span.id];
+
+                                // Update the position of a grid only if that position is changed.
+                                if (!oldGridPosition || oldGridPosition.top !== newPosition.top || oldGridPosition.left !== newPosition.left) {
+                                    view.domUtil.selector.grid.get(span.id).css(newPosition);
+                                    gridPositionCache[span.id] = $.extend({}, oldGridPosition, newPosition);
+                                }
                             };
                         }();
-
                         return {
                             arrangePosition: function(span) {
                                 var stickGridOnSpan = function(span) {
