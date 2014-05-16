@@ -958,6 +958,7 @@
             var renderer = function() {
                 var destroyGrid = function(spanId) {
                     view.domUtil.manipulate.remove(view.domUtil.selector.grid.get(spanId));
+                    view.renderer.grid.destroy(spanId);
                 };
 
                 // The cache for span positions.
@@ -1085,6 +1086,8 @@
                                     view.renderer.span.render(span.id);
                                 });
 
+                                view.renderer.grid.arrangePositionAll();
+
                                 // For tuning
                                 // var endTime = new Date();
                                 // console.log('render all span : ', endTime.getTime() - startTime.getTime() + 'ms');
@@ -1198,8 +1201,6 @@
                             }).forEach(function(childSpan) {
                                 view.renderer.span.render(childSpan.id);
                             });
-
-                            view.renderer.grid.arrangePosition(currentSpan);
                         },
                         destroy: function(spanId) {
                             var spanElement = document.getElementById(spanId);
@@ -1311,6 +1312,7 @@
                                             var $grid = $('<div>')
                                                 .attr('id', 'G' + spanId)
                                                 .addClass('textae-editor__grid')
+                                                .addClass('hidden')
                                                 .css({
                                                     'width': spanPosition.width
                                                 });
@@ -1396,9 +1398,13 @@
                     grid: function() {
                         var gridPositionCache = {};
 
-                        var isMove = function(span, newPosition) {
+                        var filterChanged = function(span, newPosition) {
                             var oldGridPosition = gridPositionCache[span.id];
-                            return !oldGridPosition || oldGridPosition.top !== newPosition.top || oldGridPosition.left !== newPosition.left;
+                            if (!oldGridPosition || oldGridPosition.top !== newPosition.top || oldGridPosition.left !== newPosition.left) {
+                                return newPosition;
+                            } else {
+                                return undefined;
+                            }
                         };
 
                         var arrangeRelationPosition = function(span) {
@@ -1421,9 +1427,12 @@
                         };
 
                         var updateGridPositon = function(span, newPosition) {
-                            view.domUtil.selector.grid.get(span.id).css(newPosition);
-                            gridPositionCache[span.id] = newPosition;
-                            arrangeRelationPosition(span);
+                            if (newPosition) {
+                                view.domUtil.selector.grid.get(span.id).css(newPosition);
+                                gridPositionCache[span.id] = newPosition;
+                                arrangeRelationPosition(span);
+                                return span;
+                            }
                         };
 
                         var getNewPosition = function(span) {
@@ -1438,13 +1447,6 @@
                             };
 
                             var pullUpGridOverDescendants = function(span) {
-                                var getChildrenMaxHeight = function(span) {
-                                    return span.children.length === 0 ? 0 :
-                                        Math.max.apply(null, span.children.map(function(childSpan) {
-                                            return view.domUtil.selector.span.get(childSpan.id).outerHeight();
-                                        }));
-                                };
-
                                 // Culculate the height of the grid include descendant grids, because css style affects slowly.
                                 var getHeightIncludeDescendantGrids = function(span) {
                                     var descendantsMaxHeight = span.children.length === 0 ? 0 :
@@ -1471,14 +1473,16 @@
                             }
                         };
 
-                        return {
-                            arrangePosition: function(span) {
-                                var newPosition = getNewPosition(span);
+                        var visibleGrid = function(span) {
+                            view.domUtil.selector.grid.get(span.id).removeClass('hidden');
+                        };
 
-                                if (isMove(span, newPosition)) {
-                                    updateGridPositon(span, newPosition);
-                                }
-                            },
+                        var arrangeGridPosition = function(span) {
+                            var moveTheGridIfChange = _.compose(_.partial(updateGridPositon, span), _.partial(filterChanged, span));
+                            _.compose(visibleGrid, moveTheGridIfChange, getNewPosition)(span);
+                        };
+
+                        return {
                             arrangePositionAll: function() {
                                 var arrangePositionGridAndoDescendant = function(span) {
                                     // Arrange position All descendants because a grandchild maybe have types when a child has no type. 
@@ -1486,7 +1490,7 @@
                                         .forEach(function(span) {
                                             arrangePositionGridAndoDescendant(span);
                                         });
-                                    view.renderer.grid.arrangePosition(span);
+                                    arrangeGridPosition(span);
                                 };
 
                                 positionUtils.reset();
@@ -1498,6 +1502,9 @@
                                     }).forEach(function(span) {
                                         _.defer(_.partial(arrangePositionGridAndoDescendant, span));
                                     });
+                            },
+                            destroy: function(spanId) {
+                                delete gridPositionCache[spanId];
                             }
                         };
                     }(),
