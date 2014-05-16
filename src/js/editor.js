@@ -1085,6 +1085,8 @@
                                     view.renderer.span.render(span.id);
                                 });
 
+                                view.renderer.grid.arrangePositionAll();
+
                                 // For tuning
                                 // var endTime = new Date();
                                 // console.log('render all span : ', endTime.getTime() - startTime.getTime() + 'ms');
@@ -1198,8 +1200,6 @@
                             }).forEach(function(childSpan) {
                                 view.renderer.span.render(childSpan.id);
                             });
-
-                            view.renderer.grid.arrangePosition(currentSpan);
                         },
                         destroy: function(spanId) {
                             var spanElement = document.getElementById(spanId);
