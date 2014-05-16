@@ -1312,6 +1312,7 @@
                                             var $grid = $('<div>')
                                                 .attr('id', 'G' + spanId)
                                                 .addClass('textae-editor__grid')
+                                                .addClass('hidden')
                                                 .css({
                                                     'width': spanPosition.width
                                                 });
@@ -1430,6 +1431,7 @@
                                 view.domUtil.selector.grid.get(span.id).css(newPosition);
                                 gridPositionCache[span.id] = newPosition;
                                 arrangeRelationPosition(span);
+                                return span;
                             }
                         };
 
@@ -1471,9 +1473,13 @@
                             }
                         };
 
+                        var visibleGrid = function(span) {
+                            view.domUtil.selector.grid.get(span.id).removeClass('hidden');
+                        };
+
                         var arrangeGridPosition = function(span) {
                             var moveTheGridIfChange = _.compose(_.partial(updateGridPositon, span), _.partial(filterChanged, span));
-                            _.compose(moveTheGridIfChange, getNewPosition)(span);
+                            _.compose(visibleGrid, moveTheGridIfChange, getNewPosition)(span);
                         };
 
                         return {
