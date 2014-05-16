@@ -283,6 +283,14 @@
     stroke-width: 4;
 }
 
+.textae-editor__relation.hover {
+    z-index: 5;
+}
+
+.textae-editor__relation.hover path {
+    stroke-width: 4;
+}
+
 .textae-editor__relation__label {
     background-color: yellow;
     display: block;
