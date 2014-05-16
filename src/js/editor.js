@@ -958,6 +958,7 @@
             var renderer = function() {
                 var destroyGrid = function(spanId) {
                     view.domUtil.manipulate.remove(view.domUtil.selector.grid.get(spanId));
+                    view.renderer.grid.destroy(spanId);
                 };
 
                 // The cache for span positions.
@@ -1498,6 +1499,9 @@
                                     }).forEach(function(span) {
                                         _.defer(_.partial(arrangePositionGridAndoDescendant, span));
                                     });
+                            },
+                            destroy: function(spanId) {
+                                delete gridPositionCache[spanId];
                             }
                         };
                     }(),
