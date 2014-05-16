@@ -675,6 +675,9 @@
             // The cachedConnectors has jsPlumbConnectors to call jsPlumbConnector instance to edit an according dom object.
             // This is refered by view.render.relation and view.domUtil.selector.relation.
             var cachedConnectors = {};
+            var toConnector = function(relationId) {
+                return cachedConnectors[relationId];
+            };
 
             // Data for view.
             var viewModel = function() {
@@ -1418,9 +1421,7 @@
                                 }).reduce(flatten, [])
                                 .map(model.annotationData.getAssosicatedRelations)
                                 .reduce(flatten, [])
-                                .map(function(relationId) {
-                                    return cachedConnectors[relationId];
-                                })
+                                .map(toConnector)
                             ).forEach(function(connector) {
                                 connector.arrangePosition();
                             });
@@ -1544,7 +1545,7 @@
                         };
 
                         var arrangePosition = function(relationId) {
-                            var conn = cachedConnectors[relationId];
+                            var conn = toConnector(relationId);
                             conn.endpoints[0].repaint();
                             conn.endpoints[1].repaint();
                             conn.setConnector(['Bezier', {
@@ -1613,11 +1614,11 @@
                                 return conn;
                             },
                             destroy: function(relationId) {
-                                jsPlumbInstance.detach(cachedConnectors[relationId]);
+                                jsPlumbInstance.detach(toConnector(relationId));
                                 delete cachedConnectors[relationId];
                             },
                             changePredicate: function(relationId, predicate) {
-                                var connector = cachedConnectors[relationId];
+                                var connector = toConnector(relationId);
                                 if (!connector) {
                                     throw 'no connector';
                                 }
@@ -1706,9 +1707,6 @@
                             isRelationSelected = function(relationId) {
                                 return relationIdsSelected.indexOf(relationId) > -1;
                             },
-                            toConnector = function(relationId) {
-                                return cachedConnectors[relationId];
-                            },
                             addUiSelectClass = function(connector) {
                                 connector.addClass('ui-selected');
                             },
@@ -1729,7 +1727,7 @@
                                 if (!isRelationSelected(relationId)) {
                                     relationIdsSelected.push(relationId);
                                     view.viewModel.buttonStateHelper.updateByRelation();
-                                    cachedConnectors[relationId].addClass('ui-selected');
+                                    toConnector(relationId).addClass('ui-selected');
                                 }
                             },
                             deselect: function(relationId) {
@@ -1817,6 +1815,22 @@
                         },
                     };
                 }(),
+                hover: function() {
+                    var processAccosiatedRelation = function(func, entityId) {
+                        model.annotationData.getAssosicatedRelations(entityId)
+                            .map(toConnector)
+                            .forEach(func);
+                    };
+
+                    return {
+                        on: _.partial(processAccosiatedRelation, function(connector) {
+                            connector.addClass('hover');
+                        }),
+                        off: _.partial(processAccosiatedRelation, function(connector) {
+                            connector.removeClass('hover');
+                        })
+                    };
+                }()
             };
             return {
                 init: function() {
@@ -3176,7 +3190,13 @@
                     editor
                         .on('mouseup', '.textae-editor__body,.textae-editor__span,.textae-editor__grid,.textae-editor__entity', editorSelected)
                         .on('selectChanged', '.textae-editor__span', spanSelectChanged)
-                        .on('selectChanged', '.textae-editor__entity', entitySelectChanged);
+                        .on('selectChanged', '.textae-editor__entity', entitySelectChanged)
+                        .on('mouseenter', '.textae-editor__entity', function(e) {
+                            view.domUtil.hover.on($(this).attr('title'));
+                        }).on('mouseleave', '.textae-editor__entity', function(e) {
+                            view.domUtil.hover.off($(this).attr('title'));
+                        });
+
 
                     // The jsPlumbConnetion has an original event mecanism.
                     // We can only bind the connection directory.
