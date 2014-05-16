@@ -6,6 +6,10 @@
     border: 1px solid black;
 }
 
+.textae-editor .hidden {
+    visibility: hidden;
+}
+
 .textae-editor_wait {
     cursor: wait;
 }
@@ -72,15 +76,15 @@
 
 .textae-editor__type {
     font-size: small;
+    height: 36px;
     padding-top: 18px;
     position: relative;
     text-align: center;
     white-space: nowrap;
 }
 
-.textae-editor__type {
-    height: 36px;
-}
+
+
 
 .textae-editor__type-label {
     border-color: #A9A9A9;
