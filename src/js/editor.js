@@ -1475,7 +1475,9 @@
                         };
 
                         var visibleGrid = function(span) {
-                            view.domUtil.selector.grid.get(span.id).removeClass('hidden');
+                            if (span) {
+                                view.domUtil.selector.grid.get(span.id).removeClass('hidden');
+                            }
                         };
 
                         var arrangeGridPosition = function(span) {
