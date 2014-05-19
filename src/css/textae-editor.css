@@ -111,7 +111,7 @@
     /* TODO 透明度を上げるとentityとlabelの重なった部分だけ色が濃くて目立ちます。 */
 }
 
-.textae-editor__type-label.ui-selected {
+.textae-editor__type-label.ui-selected, .textae-editor__type:hover .textae-editor__type-label.ui-selected {
     box-shadow: 1px 1px 15px #F00;
 }
 
@@ -119,6 +119,10 @@
 .textae-editor__type:hover .textae-editor__type-label {
     overflow: visible;
     opacity: 1;
+}
+
+.textae-editor__type:hover .textae-editor__type-label{
+    box-shadow: 1px 1px 10px #600;
 }
 
 .textae-editor__type:hover {
@@ -199,43 +203,6 @@
 .textae-editor__span:hover {
     text-shadow: 1px 1px 1px #00D;
     padding: 1px 0;
-}
-
-@-webkit-keyframes textae-editor__type-buzz {
-  50% {
-    -webkit-transform: translateX(3px) translateY(1px);
-    transform: translateX(3px) translateY(1px);
-  }
-
-  100% {
-    -webkit-transform: translateX(-3px) translateY(-1px);
-    transform: translateX(-3px) translateY(-1px);
-  }
-}
-
-@keyframes textae-editor__type-buzz {
-  50% {
-    -webkit-transform: translateX(3px) translateY(1px);
-    -ms-transform: translateX(3px) translateY(1px);
-    transform: translateX(3px) translateY(1px);
-  }
-
-  100% {
-    -webkit-transform: translateX(-3px) translateY(-1px);
-    -ms-transform: translateX(-3px) translateY(-1px);
-    transform: translateX(-3px) translateY(-1px);
-  }
-}
-
-.textae-editor__type:hover {
-  -webkit-animation-name: textae-editor__type-buzz;
-  animation-name: textae-editor__type-buzz;
-  -webkit-animation-duration: .15s;
-  animation-duration: .15s;
-  -webkit-animation-timing-function: linear;
-  animation-timing-function: linear;
-  -webkit-animation-iteration-count: 1;
-  animation-iteration-count: 1;
 }
 
 /* entity */
@@ -321,9 +288,8 @@
     cursor: url("../images/relation_cur.png"), default;
 }
 
-.textae-editor_relation-mode .textae-editor__type:hover {
-  -webkit-animation-name: none;
-  animation-name: none;
+.textae-editor_relation-mode .textae-editor__type:hover .textae-editor__type-label{
+    box-shadow: none;
 }
 
 .textae-editor_relation-mode .textae-editor__span:hover {
