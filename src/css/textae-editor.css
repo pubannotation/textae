@@ -239,18 +239,6 @@
 }
 
 /* entity */
-@-webkit-keyframes textae-editor__entity-buzz {
-  50% {
-    -webkit-transform: translateX(2px) translateY(1px);
-    transform: translateX(2px) translateY(1px);
-  }
-
-  100% {
-    -webkit-transform: translateX(-2px) translateY(-1px);
-    transform: translateX(-2px) translateY(-1px);
-  }
-}
-
 .textae-editor__entity {
     background-color: #add8e6;
     border-radius: 6px;
