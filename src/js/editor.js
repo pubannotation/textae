@@ -1427,9 +1427,15 @@
                             });
                         };
 
+                        var getGrid = function(span) {
+                            if (span) {
+                                return view.domUtil.selector.grid.get(span.id);
+                            }
+                        };
+
                         var updateGridPositon = function(span, newPosition) {
                             if (newPosition) {
-                                view.domUtil.selector.grid.get(span.id).css(newPosition);
+                                getGrid(span).css(newPosition);
                                 gridPositionCache[span.id] = newPosition;
                                 arrangeRelationPosition(span);
                                 return span;
@@ -1438,11 +1444,10 @@
 
                         var getNewPosition = function(span) {
                             var stickGridOnSpan = function(span) {
-                                var spanPosition = positionUtils.getSpan(span.id),
-                                    grid = view.domUtil.selector.grid.get(span.id);
+                                var spanPosition = positionUtils.getSpan(span.id);
 
                                 return {
-                                    'top': spanPosition.top - view.viewModel.viewMode.marginBottomOfGrid - grid.outerHeight(),
+                                    'top': spanPosition.top - view.viewModel.viewMode.marginBottomOfGrid - getGrid(span).outerHeight(),
                                     'left': spanPosition.left
                                 };
                             };
@@ -1455,7 +1460,7 @@
                                             return getHeightIncludeDescendantGrids(childSpan);
                                         }));
 
-                                    return view.domUtil.selector.grid.get(span.id).outerHeight() + descendantsMaxHeight + view.viewModel.viewMode.marginBottomOfGrid;
+                                    return getGrid(span).outerHeight() + descendantsMaxHeight + view.viewModel.viewMode.marginBottomOfGrid;
                                 };
 
                                 var spanPosition = positionUtils.getSpan(span.id);
@@ -1474,13 +1479,21 @@
                             }
                         };
 
-                        var visibleGrid = function(span) {
-                            view.domUtil.selector.grid.get(span.id).removeClass('hidden');
+                        var filterVisibleGrid = function(grid) {
+                            if (grid && grid.hasClass('hidden')) {
+                                return grid;
+                            }
+                        };
+
+                        var visibleGrid = function(grid) {
+                            if (grid) {
+                                grid.removeClass('hidden');
+                            }
                         };
 
                         var arrangeGridPosition = function(span) {
                             var moveTheGridIfChange = _.compose(_.partial(updateGridPositon, span), _.partial(filterChanged, span));
-                            _.compose(visibleGrid, moveTheGridIfChange, getNewPosition)(span);
+                            _.compose(visibleGrid, filterVisibleGrid, getGrid, moveTheGridIfChange, getNewPosition)(span);
                         };
 
                         return {
