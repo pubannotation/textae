@@ -2969,6 +2969,14 @@
                             $(window).trigger('resize');
                         }, 300);
 
+                        var changeTypeGap = function(value) {
+                            editor.find('.textae-editor__type').css({
+                                height: 18 * value + 18 + 'px',
+                                'padding-top': 18 * value + 'px'
+                            });
+                            $(window).trigger('resize');
+                        };
+
                         return {
                             init: function() {
                                 controllerState.init();
@@ -3157,6 +3165,22 @@
                                                     }
                                                 });
                                         },
+                                        typeGap = function($content) {
+                                            return $content.append($('<div>')
+                                                .append('<label>Type Gap:')
+                                                .append($('<input>')
+                                                    .attr({
+                                                        type: 'number',
+                                                        step: 1,
+                                                        min: 0,
+                                                        max: 5,
+                                                        value: 1
+                                                    }).addClass('textae-editor__setting-dialog__type_gap')
+                                                )
+                                            ).on('change', '.textae-editor__setting-dialog__type_gap', function() {
+                                                changeTypeGap($(this).val());
+                                            });
+                                        },
                                         dialog = function($content) {
                                             return textAeUtil.getDialog(editor.editorId, 'textae.dialog.setting', 'Chage Settings', $content, true);
                                         },
@@ -3173,7 +3197,7 @@
                                             return $dialog.open();
                                         };
 
-                                    _.compose(open, updateViewMode, dialog, instanceRelationView, lineHeight, content)();
+                                    _.compose(open, updateViewMode, dialog, typeGap, instanceRelationView, lineHeight, content)();
                                 };
                             }(),
                             toggleRelationEditMode: function() {
