@@ -3124,6 +3124,8 @@
                                 }
                             },
                             showSettingDialog: function() {
+                                var typeGapValue;
+
                                 return function() {
                                     var content = function() {
                                             return $('<div>')
@@ -3173,12 +3175,12 @@
                                                         type: 'number',
                                                         step: 1,
                                                         min: 0,
-                                                        max: 5,
-                                                        value: 1
+                                                        max: 5
                                                     }).addClass('textae-editor__setting-dialog__type_gap')
                                                 )
                                             ).on('change', '.textae-editor__setting-dialog__type_gap', function() {
-                                                changeTypeGap($(this).val());
+                                                typeGapValue = $(this).val();
+                                                changeTypeGap(typeGapValue);
                                             });
                                         },
                                         dialog = function($content) {
@@ -3192,12 +3194,19 @@
                                                 })
                                                 .end();
                                         },
+                                        updateTypeGapValue = function($dialog) {
+                                            return $dialog.find('.textae-editor__setting-dialog__type_gap')
+                                                .prop({
+                                                    value: typeGapValue ? typeGapValue : view.viewModel.viewMode.isTerm() ? 0 : 1
+                                                })
+                                                .end();
+                                        },
                                         // Open the dialog.
                                         open = function($dialog) {
                                             return $dialog.open();
                                         };
 
-                                    _.compose(open, updateViewMode, dialog, typeGap, instanceRelationView, lineHeight, content)();
+                                    _.compose(open, updateTypeGapValue, updateViewMode, dialog, typeGap, instanceRelationView, lineHeight, content)();
                                 };
                             }(),
                             toggleRelationEditMode: function() {
