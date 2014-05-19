@@ -1107,6 +1107,12 @@
                                 editor.find('.textae-editor__body__text-box').css({
                                     'line-height': heightValue * 100 + '%'
                                 });
+                            },
+                            changeTypeGap: function(typeGapValue) {
+                                editor.find('.textae-editor__type').css({
+                                    height: 18 * typeGapValue + 18 + 'px',
+                                    'padding-top': 18 * typeGapValue + 'px'
+                                });
                             }
                         };
                     }(),
@@ -2962,20 +2968,18 @@
                             };
                         }();
 
-                        var changeLineHeight = _.debounce(function(heightValue) {
-                            view.renderer.helper.changeLineHeight(heightValue);
-
-                            // Redraw all editors in tha windows.
-                            $(window).trigger('resize');
-                        }, 300);
-
-                        var changeTypeGap = function(value) {
-                            editor.find('.textae-editor__type').css({
-                                height: 18 * value + 18 + 'px',
-                                'padding-top': 18 * value + 'px'
-                            });
+                        // Redraw all editors in tha windows.
+                        var redrawAllEditor = function() {
                             $(window).trigger('resize');
                         };
+
+                        var debounce300 = function(func) {
+                            return _.debounce(func, 300);
+                        };
+
+                        var changeLineHeight = debounce300(_.compose(redrawAllEditor, view.renderer.helper.changeLineHeight));
+
+                        var changeTypeGap = debounce300(_.compose(view.renderer.grid.arrangePositionAll, view.renderer.helper.changeTypeGap));
 
                         return {
                             init: function() {
