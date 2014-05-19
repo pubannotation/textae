@@ -3116,56 +3116,66 @@
                                 }
                             },
                             showSettingDialog: function() {
-                                var $content = $('<div>')
-                                    .addClass('textae-editor__setting-dialog');
+                                return function() {
+                                    var content = function() {
+                                            return $('<div>')
+                                                .addClass('textae-editor__setting-dialog');
+                                        },
+                                        lineHeight = function($content) {
+                                            return $content
+                                                .append($('<div>')
+                                                    .append('<label>Line Height:')
+                                                    .append($('<input>')
+                                                        .attr({
+                                                            'type': 'number',
+                                                            'step': 1,
+                                                            'min': 3,
+                                                            'max': 10,
+                                                            'value': 4,
+                                                        })
+                                                        .addClass('textae-editor__setting-dialog__line-height')
+                                                    ))
+                                                .on('change', '.textae-editor__setting-dialog__line-height', function() {
+                                                    changeLineHeight($(this).val());
+                                                });
+                                        },
+                                        instanceRelationView = function($content) {
+                                            return $content.append($('<div>')
+                                                    .append('<label>Instance/Relation View:')
+                                                    .append($('<input>')
+                                                        .attr({
+                                                            'type': 'checkbox'
+                                                        })
+                                                        .addClass('textae-editor__setting-dialog__term-centric-view')
+                                                    )
+                                                )
+                                                .on('click', '.textae-editor__setting-dialog__term-centric-view', function() {
+                                                    if ($(this).is(':checked')) {
+                                                        controllerState.onInstance();
+                                                    } else {
+                                                        controllerState.offInstance();
+                                                    }
+                                                });
+                                        },
+                                        dialog = function($content) {
+                                            return textAeUtil.getDialog(editor.editorId, 'textae.dialog.setting', 'Chage Settings', $content, true);
+                                        },
+                                        // Update the checkbox state, because it is updated by the button on control too.
+                                        updateViewMode = function($dialog) {
+                                            $dialog.find('.textae-editor__setting-dialog__term-centric-view')
+                                                .prop({
+                                                    'checked': view.viewModel.viewMode.isTerm() ? null : 'checked'
+                                                });
+                                            return $dialog;
+                                        },
+                                        // Open the dialog.
+                                        open = function($dialog) {
+                                            return $dialog.open();
+                                        };
 
-                                // Line Height
-                                $content
-                                    .append($('<div>')
-                                        .append('<label>Line Height:')
-                                        .append($('<input>')
-                                            .attr({
-                                                'type': 'number',
-                                                'step': 1,
-                                                'min': 3,
-                                                'max': 10,
-                                                'value': 4,
-                                            })
-                                            .addClass('textae-editor__setting-dialog__line-height')
-                                        ))
-                                    .on('change', '.textae-editor__setting-dialog__line-height', function() {
-                                        changeLineHeight($(this).val());
-                                    });
-
-                                // Instance/Relation View
-                                $content.append($('<div>')
-                                    .append('<label>Instance/Relation View:')
-                                    .append($('<input>')
-                                        .attr({
-                                            'type': 'checkbox'
-                                        })
-                                        .addClass('textae-editor__setting-dialog__term-centric-view')
-                                    )
-                                )
-                                    .on('click', '.textae-editor__setting-dialog__term-centric-view', function() {
-                                        if ($(this).is(':checked')) {
-                                            controllerState.onInstance();
-                                        } else {
-                                            controllerState.offInstance();
-                                        }
-                                    });
-
-                                // Open the dialog.
-                                var $dialog = textAeUtil.getDialog(editor.editorId, 'textae.dialog.setting', 'Chage Settings', $content, true);
-
-                                // Update the checkbox state, because it is updated by an other than users that is programing.
-                                $dialog.find('.textae-editor__setting-dialog__term-centric-view')
-                                    .prop({
-                                        'checked': view.viewModel.viewMode.isTerm() ? null : 'checked'
-                                    });
-
-                                $dialog.open();
-                            },
+                                    _.compose(open, updateViewMode, dialog, instanceRelationView, lineHeight, content)();
+                                };
+                            }(),
                             toggleRelationEditMode: function() {
                                 // ビューモードを切り替える
                                 if (view.viewModel.modeAccordingToButton['relation-edit-mode'].value()) {
