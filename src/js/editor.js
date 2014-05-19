@@ -1474,15 +1474,27 @@
                             }
                         };
 
-                        var visibleGrid = function(span) {
+                        var getGrid = function(span) {
                             if (span) {
-                                view.domUtil.selector.grid.get(span.id).removeClass('hidden');
+                                return view.domUtil.selector.grid.get(span.id);
+                            }
+                        };
+
+                        var filterVisibleGrid = function(grid) {
+                            if (grid && grid.hasClass('hidden')) {
+                                return grid;
+                            }
+                        };
+
+                        var visibleGrid = function(grid) {
+                            if (grid) {
+                                grid.removeClass('hidden');
                             }
                         };
 
                         var arrangeGridPosition = function(span) {
                             var moveTheGridIfChange = _.compose(_.partial(updateGridPositon, span), _.partial(filterChanged, span));
-                            _.compose(visibleGrid, moveTheGridIfChange, getNewPosition)(span);
+                            _.compose(visibleGrid, filterVisibleGrid, getGrid, moveTheGridIfChange, getNewPosition)(span);
                         };
 
                         return {
