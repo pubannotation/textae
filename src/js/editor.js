@@ -1411,16 +1411,12 @@
                         };
 
                         var arrangeRelationPosition = function(span) {
-                            var flatten = function(a, b) {
-                                return a.concat(b);
-                            };
-
                             _.compact(
                                 span.getTypes().map(function(type) {
                                     return type.entities;
-                                }).reduce(flatten, [])
+                                }).reduce(textAeUtil.flatten, [])
                                 .map(model.annotationData.getAssosicatedRelations)
-                                .reduce(flatten, [])
+                                .reduce(textAeUtil.flatten, [])
                                 .map(toConnector)
                             ).forEach(function(connector) {
                                 connector.arrangePosition();
@@ -2774,15 +2770,10 @@
                             copyEntities: function() {
                                 view.viewModel.clipBoard = function getEntitiesFromSelectedSpan() {
                                     return view.domUtil.selector.span.getSelecteds().map(function(spanId) {
-
                                         return model.annotationData.getSpan(spanId).getTypes().map(function(t) {
                                             return t.entities;
-                                        }).reduce(function(a, b) {
-                                            return a.concat(b);
-                                        });
-                                    }).reduce(function(a, b) {
-                                        return a.concat(b);
-                                    }, []);
+                                        }).reduce(textAeUtil.flatten);
+                                    }).reduce(textAeUtil.flatten, []);
                                 }().concat(
                                     view.domUtil.selector.entity.getSelecteds()
                                 ).reduce(function(a, b) {
@@ -2800,9 +2791,7 @@
                                     return view.viewModel.clipBoard.map(function(entityId) {
                                         return controller.command.factory.entityCreateCommand(spanId, model.annotationData.entities[entityId].type);
                                     });
-                                }).reduce(function(a, b) {
-                                    return a.concat(b);
-                                }, []);
+                                }).reduce(textAeUtil.flatten, []);
 
                                 controller.command.invoke(commands);
                             }
