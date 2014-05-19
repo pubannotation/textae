@@ -1107,6 +1107,12 @@
                                 editor.find('.textae-editor__body__text-box').css({
                                     'line-height': heightValue * 100 + '%'
                                 });
+                            },
+                            changeTypeGap: function(typeGapValue) {
+                                editor.find('.textae-editor__type').css({
+                                    height: 18 * typeGapValue + 18 + 'px',
+                                    'padding-top': 18 * typeGapValue + 'px'
+                                });
                             }
                         };
                     }(),
@@ -2962,12 +2968,18 @@
                             };
                         }();
 
-                        var changeLineHeight = _.debounce(function(heightValue) {
-                            view.renderer.helper.changeLineHeight(heightValue);
-
-                            // Redraw all editors in tha windows.
+                        // Redraw all editors in tha windows.
+                        var redrawAllEditor = function() {
                             $(window).trigger('resize');
-                        }, 300);
+                        };
+
+                        var debounce300 = function(func) {
+                            return _.debounce(func, 300);
+                        };
+
+                        var changeLineHeight = debounce300(_.compose(redrawAllEditor, view.renderer.helper.changeLineHeight));
+
+                        var changeTypeGap = debounce300(_.compose(view.renderer.grid.arrangePositionAll, view.renderer.helper.changeTypeGap));
 
                         return {
                             init: function() {
@@ -3116,56 +3128,91 @@
                                 }
                             },
                             showSettingDialog: function() {
-                                var $content = $('<div>')
-                                    .addClass('textae-editor__setting-dialog');
+                                var typeGapValue;
 
-                                // Line Height
-                                $content
-                                    .append($('<div>')
-                                        .append('<label>Line Height:')
-                                        .append($('<input>')
-                                            .attr({
-                                                'type': 'number',
-                                                'step': 1,
-                                                'min': 3,
-                                                'max': 10,
-                                                'value': 4,
-                                            })
-                                            .addClass('textae-editor__setting-dialog__line-height')
-                                        ))
-                                    .on('change', '.textae-editor__setting-dialog__line-height', function() {
-                                        changeLineHeight($(this).val());
-                                    });
+                                return function() {
+                                    var content = function() {
+                                            return $('<div>')
+                                                .addClass('textae-editor__setting-dialog');
+                                        },
+                                        lineHeight = function($content) {
+                                            return $content
+                                                .append($('<div>')
+                                                    .append('<label>Line Height:')
+                                                    .append($('<input>')
+                                                        .attr({
+                                                            'type': 'number',
+                                                            'step': 1,
+                                                            'min': 3,
+                                                            'max': 10,
+                                                            'value': 4,
+                                                        })
+                                                        .addClass('textae-editor__setting-dialog__line-height')
+                                                    ))
+                                                .on('change', '.textae-editor__setting-dialog__line-height', function() {
+                                                    changeLineHeight($(this).val());
+                                                });
+                                        },
+                                        instanceRelationView = function($content) {
+                                            return $content.append($('<div>')
+                                                    .append('<label>Instance/Relation View:')
+                                                    .append($('<input>')
+                                                        .attr({
+                                                            'type': 'checkbox'
+                                                        })
+                                                        .addClass('textae-editor__setting-dialog__term-centric-view')
+                                                    )
+                                                )
+                                                .on('click', '.textae-editor__setting-dialog__term-centric-view', function() {
+                                                    if ($(this).is(':checked')) {
+                                                        controllerState.onInstance();
+                                                    } else {
+                                                        controllerState.offInstance();
+                                                    }
+                                                });
+                                        },
+                                        typeGap = function($content) {
+                                            return $content.append($('<div>')
+                                                .append('<label>Type Gap:')
+                                                .append($('<input>')
+                                                    .attr({
+                                                        type: 'number',
+                                                        step: 1,
+                                                        min: 0,
+                                                        max: 5
+                                                    }).addClass('textae-editor__setting-dialog__type_gap')
+                                                )
+                                            ).on('change', '.textae-editor__setting-dialog__type_gap', function() {
+                                                typeGapValue = $(this).val();
+                                                changeTypeGap(typeGapValue);
+                                            });
+                                        },
+                                        dialog = function($content) {
+                                            return textAeUtil.getDialog(editor.editorId, 'textae.dialog.setting', 'Chage Settings', $content, true);
+                                        },
+                                        // Update the checkbox state, because it is updated by the button on control too.
+                                        updateViewMode = function($dialog) {
+                                            return $dialog.find('.textae-editor__setting-dialog__term-centric-view')
+                                                .prop({
+                                                    'checked': view.viewModel.viewMode.isTerm() ? null : 'checked'
+                                                })
+                                                .end();
+                                        },
+                                        updateTypeGapValue = function($dialog) {
+                                            return $dialog.find('.textae-editor__setting-dialog__type_gap')
+                                                .prop({
+                                                    value: typeGapValue ? typeGapValue : view.viewModel.viewMode.isTerm() ? 0 : 1
+                                                })
+                                                .end();
+                                        },
+                                        // Open the dialog.
+                                        open = function($dialog) {
+                                            return $dialog.open();
+                                        };
 
-                                // Instance/Relation View
-                                $content.append($('<div>')
-                                    .append('<label>Instance/Relation View:')
-                                    .append($('<input>')
-                                        .attr({
-                                            'type': 'checkbox'
-                                        })
-                                        .addClass('textae-editor__setting-dialog__term-centric-view')
-                                    )
-                                )
-                                    .on('click', '.textae-editor__setting-dialog__term-centric-view', function() {
-                                        if ($(this).is(':checked')) {
-                                            controllerState.onInstance();
-                                        } else {
-                                            controllerState.offInstance();
-                                        }
-                                    });
-
-                                // Open the dialog.
-                                var $dialog = textAeUtil.getDialog(editor.editorId, 'textae.dialog.setting', 'Chage Settings', $content, true);
-
-                                // Update the checkbox state, because it is updated by an other than users that is programing.
-                                $dialog.find('.textae-editor__setting-dialog__term-centric-view')
-                                    .prop({
-                                        'checked': view.viewModel.viewMode.isTerm() ? null : 'checked'
-                                    });
-
-                                $dialog.open();
-                            },
+                                    _.compose(open, updateTypeGapValue, updateViewMode, dialog, typeGap, instanceRelationView, lineHeight, content)();
+                                };
+                            }(),
                             toggleRelationEditMode: function() {
                                 // ビューモードを切り替える
                                 if (view.viewModel.modeAccordingToButton['relation-edit-mode'].value()) {
