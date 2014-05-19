@@ -3186,11 +3186,11 @@
                                         },
                                         // Update the checkbox state, because it is updated by the button on control too.
                                         updateViewMode = function($dialog) {
-                                            $dialog.find('.textae-editor__setting-dialog__term-centric-view')
+                                            return $dialog.find('.textae-editor__setting-dialog__term-centric-view')
                                                 .prop({
                                                     'checked': view.viewModel.viewMode.isTerm() ? null : 'checked'
-                                                });
-                                            return $dialog;
+                                                })
+                                                .end();
                                         },
                                         // Open the dialog.
                                         open = function($dialog) {
