@@ -60,7 +60,9 @@
                         contentType: "application/json",
                         data: data,
                         crossDomain: true,
-                        xhrFields: {withCredentials: true}
+                        xhrFields: {
+                            withCredentials: true
+                        }
                     })
                         .done(successHandler)
                         .fail(failHandler)
@@ -210,4 +212,9 @@
                 }
             };
         }(),
+
+        // A util function to fallent array with reduce. 
+        flatten: function(a, b) {
+            return a.concat(b);
+        }
     };
