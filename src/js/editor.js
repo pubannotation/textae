@@ -1559,6 +1559,12 @@
                             return curviness;
                         };
 
+                        var arrowStyle = {
+                            width: 7,
+                            length: 9,
+                            location: 1
+                        };
+
                         var arrangePosition = function(relationId) {
                             var conn = toConnector(relationId);
                             conn.endpoints[0].repaint();
@@ -1566,11 +1572,7 @@
                             conn.setConnector(['Bezier', {
                                 curviness: determineCurviness(relationId)
                             }]);
-                            conn.addOverlay(['Arrow', {
-                                width: 10,
-                                length: 12,
-                                location: 1
-                            }]);
+                            conn.addOverlay(['Arrow', arrowStyle]);
                         };
 
                         return {
@@ -1606,11 +1608,7 @@
                                     },
                                     cssClass: 'textae-editor__relation',
                                     overlays: [
-                                        ['Arrow', {
-                                            width: 10,
-                                            length: 12,
-                                            location: 1
-                                        }],
+                                        ['Arrow', arrowStyle],
                                         ['Label', {
                                             label: '[' + relationId + '] ' + model.annotationData.relations[relationId].pred,
                                             cssClass: 'textae-editor__relation__label'
