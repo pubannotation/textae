@@ -1116,117 +1116,129 @@
                             }
                         };
                     }(),
-                    span: {
-                        render: function(spanId) {
-                            var renderSingleSpan = function(currentSpan) {
-                                // Create the Range to a new span add 
-                                var createRange = function(textNode, textNodeStartPosition) {
-                                    var startPos = currentSpan.begin - textNodeStartPosition;
-                                    var endPos = currentSpan.end - textNodeStartPosition;
-                                    if (startPos < 0 || textNode.length < endPos) {
-                                        throw new Error('oh my god! I cannot render this span. ' + currentSpan.toStringOnlyThis() + ', textNode ' + textNode.textContent);
-                                    }
+                    span: function() {
+                        var renderSingleSpan = function(span) {
+                            // Create the Range to a new span add 
+                            var createRange = function(textNode, textNodeStartPosition) {
+                                var startPos = span.begin - textNodeStartPosition;
+                                var endPos = span.end - textNodeStartPosition;
+                                if (startPos < 0 || textNode.length < endPos) {
+                                    throw new Error('oh my god! I cannot render this span. ' + span.toStringOnlyThis() + ', textNode ' + textNode.textContent);
+                                }
 
-                                    var range = document.createRange();
-                                    range.setStart(textNode, startPos);
-                                    range.setEnd(textNode, endPos);
-                                    return range;
+                                var range = document.createRange();
+                                range.setStart(textNode, startPos);
+                                range.setEnd(textNode, endPos);
+                                return range;
+                            };
+
+                            // Get the Range to that new span tag insert.
+                            // This function works well when no child span is rendered. 
+                            var getRangeToInsertSpanTag = function(spanId) {
+                                var createRangeForFirstSpanInParagraph = function(span) {
+                                    var paragraph = view.renderer.paragraphs[span.paragraph.id];
+                                    textNodeInParagraph = paragraph.element.contents().filter(function() {
+                                        return this.nodeType === 3; //TEXT_NODE
+                                    }).get(0);
+                                    return createRange(textNodeInParagraph, paragraph.begin);
                                 };
 
-                                // Get the Range to that new span tag insert.
-                                // This function works well when no child span is rendered. 
-                                var getRangeToInsertSpanTag = function(spanId) {
-                                    var createRangeForFirstSpanInParagraph = function(currentSpan) {
-                                        var paragraph = view.renderer.paragraphs[currentSpan.paragraph.id];
-                                        textNodeInParagraph = paragraph.element.contents().filter(function() {
-                                            return this.nodeType === 3; //TEXT_NODE
+                                // The parent of the bigBrother is same with span, whitc is a span or the root of spanTree. 
+                                var bigBrother = span.getBigBrother();
+                                if (bigBrother) {
+                                    // The target text arrounded by span is in a textNode after the bigBrother if bigBrother exists.
+                                    return createRange(document.getElementById(bigBrother.id).nextSibling, bigBrother.end);
+                                } else {
+                                    // The target text arrounded by span is the first child of parent unless bigBrother exists.
+                                    if (span.parent) {
+                                        // The parent is span
+                                        var textNodeInPrevSpan = view.domUtil.selector.span.get(span.parent.id).contents().filter(function() {
+                                            return this.nodeType === 3;
                                         }).get(0);
-                                        return createRange(textNodeInParagraph, paragraph.begin);
-                                    };
-
-                                    // The parent of the bigBrother is same with currentSpan, whitc is a span or the root of spanTree. 
-                                    var bigBrother = currentSpan.getBigBrother();
-                                    if (bigBrother) {
-                                        // The target text arrounded by currentSpan is in a textNode after the bigBrother if bigBrother exists.
-                                        return createRange(document.getElementById(bigBrother.id).nextSibling, bigBrother.end);
+                                        return createRange(textNodeInPrevSpan, span.parent.begin);
                                     } else {
-                                        // The target text arrounded by currentSpan is the first child of parent unless bigBrother exists.
-                                        if (currentSpan.parent) {
-                                            // The parent is span
-                                            var textNodeInPrevSpan = view.domUtil.selector.span.get(currentSpan.parent.id).contents().filter(function() {
-                                                return this.nodeType === 3;
-                                            }).get(0);
-                                            return createRange(textNodeInPrevSpan, currentSpan.parent.begin);
-                                        } else {
-                                            // The parent is paragraph
-                                            return createRangeForFirstSpanInParagraph(currentSpan);
-                                        }
+                                        // The parent is paragraph
+                                        return createRangeForFirstSpanInParagraph(span);
                                     }
-                                };
-
-                                var element = document.createElement('span');
-                                element.setAttribute('id', currentSpan.id);
-                                element.setAttribute('title', currentSpan.id);
-                                element.setAttribute('class', 'textae-editor__span');
-                                getRangeToInsertSpanTag(currentSpan.id).surroundContents(element);
+                                }
                             };
 
-                            var renderEntitiesOfSpan = function(span) {
-                                span.getTypes().forEach(function(type) {
-                                    type.entities.forEach(function(entityId) {
-                                        view.renderer.entity.render(model.annotationData.entities[entityId]);
-                                    });
+                            var element = document.createElement('span');
+                            element.setAttribute('id', span.id);
+                            element.setAttribute('title', span.id);
+                            element.setAttribute('class', 'textae-editor__span');
+                            getRangeToInsertSpanTag(span.id).surroundContents(element);
+
+                            return span;
+                        };
+
+                        var getEntity = function(entityId) {
+                            return model.annotationData.entities[entityId];
+                        };
+
+                        var renderEntitiesOfType = function(type) {
+                            type.entities.forEach(_.compose(view.renderer.entity.render, getEntity));
+                        };
+
+                        var renderEntitiesOfSpan = function(span) {
+                            span.getTypes().forEach(renderEntitiesOfType);
+                            return span;
+                        };
+
+                        var exists = function(span) {
+                            return document.getElementById(span.id) !== null;
+                        };
+
+                        var not = function(value) {
+                            return !value;
+                        };
+
+                        var getId = function(span) {
+                            return span.id;
+                        };
+
+                        var destroyChildrenSpan = function(span) {
+                            // Destroy DOM elements of descendant spans.
+                            var destroySpanRecurcive = function(span) {
+                                span.children.forEach(function(span) {
+                                    destroySpanRecurcive(span);
                                 });
+                                _.compose(view.renderer.span.destroy, getId)(span);
                             };
 
-                            var destroyChildrenSpan = function(currentSpan) {
-                                // Destroy DOM elements of descendant spans.
-                                var destroySpanRecurcive = function(span) {
-                                    span.children.forEach(function(span) {
-                                        destroySpanRecurcive(span);
-                                    });
-                                    view.renderer.span.destroy(span.id);
-                                };
+                            // Destroy rendered children.
+                            span.children.filter(exists).forEach(destroySpanRecurcive);
 
-                                // Destroy rendered children.
-                                currentSpan.children.filter(function(childSpan) {
-                                    return document.getElementById(childSpan.id) !== null;
-                                }).forEach(function(childSpan) {
-                                    destroySpanRecurcive(childSpan);
-                                });
-                            };
+                            return span;
+                        };
 
-                            var currentSpan = model.annotationData.getSpan(spanId);
+                        var renderChildresnSpan = function(span) {
+                            span.children.filter(_.compose(not, exists))
+                                .forEach(_.compose(view.renderer.span.render, getId));
 
+                            return span;
+                        };
+
+                        return {
                             // Destroy children spans to wrap a TextNode with <span> tag when new span over exists spans.
-                            destroyChildrenSpan(currentSpan);
+                            render: _.compose(renderChildresnSpan, renderEntitiesOfSpan, renderSingleSpan, destroyChildrenSpan, model.annotationData.getSpan),
+                            destroy: function(spanId) {
+                                var spanElement = document.getElementById(spanId);
+                                var parent = spanElement.parentNode;
 
-                            renderSingleSpan(currentSpan);
-                            renderEntitiesOfSpan(currentSpan);
+                                // Move the textNode wrapped this span in front of this span.
+                                while (spanElement.firstChild) {
+                                    parent.insertBefore(spanElement.firstChild, spanElement);
+                                }
 
-                            // Render children spans.
-                            currentSpan.children.filter(function(childSpan) {
-                                return document.getElementById(childSpan.id) === null;
-                            }).forEach(function(childSpan) {
-                                view.renderer.span.render(childSpan.id);
-                            });
-                        },
-                        destroy: function(spanId) {
-                            var spanElement = document.getElementById(spanId);
-                            var parent = spanElement.parentNode;
+                                view.domUtil.manipulate.remove(spanElement);
+                                parent.normalize();
 
-                            // Move the textNode wrapped this span in front of this span.
-                            while (spanElement.firstChild) {
-                                parent.insertBefore(spanElement.firstChild, spanElement);
-                            }
-
-                            view.domUtil.manipulate.remove(spanElement);
-                            parent.normalize();
-
-                            // Destroy a grid of the span. 
-                            destroyGrid(spanId);
-                        },
-                    },
+                                // Destroy a grid of the span. 
+                                destroyGrid(spanId);
+                            },
+                        };
+                    }(),
                     entity: function() {
                         var getTypeDom = function(spanId, type) {
                             return $('#' + idFactory.makeTypeId(spanId, type));
