@@ -285,6 +285,7 @@
                 annotationData: function() {
                     var originalData;
                     var spanContainer;
+                    var entities;
                     var sortedSpanIds = null;
 
                     var updateSpanTree = function() {
@@ -355,7 +356,7 @@
                     };
 
                     var getNewEntityId = _.partial(getNewId, 'E', function() {
-                        return Object.keys(model.annotationData.entities);
+                        return Object.keys(entities);
                     });
 
                     var getRelationIds = function() {
@@ -402,7 +403,7 @@
                                 var spanId = this.id;
 
                                 // Return an array of type like { id : "editor2__S1741_1755-1", name: "Negative_regulation", entities: ["E16", "E17"] }.
-                                return Object.keys(model.annotationData.entities)
+                                return Object.keys(entities)
                                     .map(model.annotationData.getEntity)
                                     .filter(function(entity) {
                                         return spanId === entity.span;
@@ -453,7 +454,6 @@
                     return {
                         sourceDoc: "",
                         spansTopLevel: [],
-                        entities: null,
                         relations: {},
                         modifications: [],
                         reset: function(annotation) {
@@ -490,7 +490,7 @@
 
                                 // Init
                                 spanContainer = {};
-                                annotationData.entities = {};
+                                entities = {};
 
                                 if (!denotations) {
                                     return;
@@ -557,20 +557,20 @@
                         },
                         // Expected an entity like {id: "E21", span: "editor2__S50_54", type: "Protein"}.
                         addEntity: function(entity) {
-                            model.annotationData.entities[entity.id] = entity;
+                            entities[entity.id] = entity;
                         },
                         getEntity: function(entityId) {
-                            return model.annotationData.entities[entityId];
+                            return entities[entityId];
                         },
                         removeEnitity: function(entityId) {
                             var entity = model.annotationData.getEntity(entityId);
                             if (entity) {
-                                delete model.annotationData.entities[entityId];
+                                delete entities[entityId];
                             }
                             return entity;
                         },
                         getEntityTypes: function() {
-                            return Object.keys(model.annotationData.entities).map(function(key) {
+                            return Object.keys(entities).map(function(key) {
                                 return model.annotationData.getEntity(key).type;
                             });
                         },
@@ -589,7 +589,7 @@
                         getRelationIds: getRelationIds,
                         getNewRelationId: getNewRelationId,
                         toJson: function() {
-                            var denotations = Object.keys(model.annotationData.entities)
+                            var denotations = Object.keys(entities)
                                 .map(model.annotationData.getEntity)
                                 .map(function(entity) {
                                     var span = model.annotationData.getSpan(entity.span);
