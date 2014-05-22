@@ -1506,16 +1506,17 @@
                                         .forEach(function(span) {
                                             arrangePositionGridAndoDescendant(span);
                                         });
-                                    arrangeGridPosition(span);
+
+                                    // There is at least one type in span that has a grid.
+                                    if (span.getTypes().length > 0) {
+                                        arrangeGridPosition(span);
+                                    }
                                 };
 
                                 positionUtils.reset();
 
                                 model.annotationData.spansTopLevel
-                                    .filter(function(span) {
-                                        // There is at least one type in span that has a grid.
-                                        return span.getTypes().length > 0;
-                                    }).forEach(function(span) {
+                                    .forEach(function(span) {
                                         _.defer(_.partial(arrangePositionGridAndoDescendant, span));
                                     });
                             },
