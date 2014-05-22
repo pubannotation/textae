@@ -282,7 +282,7 @@
 
 /* relation edit mode */
 .textae-editor_relation-mode {
-    cursor: url("../images/relation_cur.png"), default;
+    cursor: pointer;
 }
 
 .textae-editor_relation-mode .textae-editor__type:hover .textae-editor__type-label{
