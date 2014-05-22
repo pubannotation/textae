@@ -232,7 +232,7 @@
 }
 
 .textae-editor__relation.hover path {
-    stroke-width: 4;
+    stroke-width: 3;
 }
 
 .textae-editor__relation.ui-selected {
@@ -240,7 +240,7 @@
 }
 
 .textae-editor__relation.ui-selected path {
-    stroke-width: 4;
+    stroke-width: 3;
 }
 
 .textae-editor__relation__label {
