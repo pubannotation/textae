@@ -403,9 +403,7 @@
 
                                 // Return an array of type like { id : "editor2__S1741_1755-1", name: "Negative_regulation", entities: ["E16", "E17"] }.
                                 return Object.keys(model.annotationData.entities)
-                                    .map(function(entityId) {
-                                        return model.annotationData.entities[entityId];
-                                    })
+                                    .map(model.annotationData.getEntity)
                                     .filter(function(entity) {
                                         return spanId === entity.span;
                                     })
@@ -561,8 +559,11 @@
                         addEntity: function(entity) {
                             model.annotationData.entities[entity.id] = entity;
                         },
+                        getEntity: function(entityId) {
+                            return model.annotationData.entities[entityId];
+                        },
                         removeEnitity: function(entityId) {
-                            var entity = model.annotationData.entities[entityId];
+                            var entity = model.annotationData.getEntity(entityId);
                             if (entity) {
                                 delete model.annotationData.entities[entityId];
                             }
@@ -570,7 +571,7 @@
                         },
                         getEntityTypes: function() {
                             return Object.keys(model.annotationData.entities).map(function(key) {
-                                return model.annotationData.entities[key].type;
+                                return model.annotationData.getEntity(key).type;
                             });
                         },
                         getRelationTypes: function() {
@@ -588,18 +589,19 @@
                         getRelationIds: getRelationIds,
                         getNewRelationId: getNewRelationId,
                         toJson: function() {
-                            var denotations = Object.keys(model.annotationData.entities).map(function(entityId) {
-                                var entity = model.annotationData.entities[entityId];
-                                var span = model.annotationData.getSpan(entity.span);
-                                return {
-                                    'id': entityId,
-                                    'span': {
-                                        'begin': span.begin,
-                                        'end': span.end
-                                    },
-                                    'obj': entity.type
-                                };
-                            });
+                            var denotations = Object.keys(model.annotationData.entities)
+                                .map(model.annotationData.getEntity)
+                                .map(function(entity) {
+                                    var span = model.annotationData.getSpan(entity.span);
+                                    return {
+                                        'id': entity.id,
+                                        'span': {
+                                            'begin': span.begin,
+                                            'end': span.end
+                                        },
+                                        'obj': entity.type
+                                    };
+                                });
 
                             var relations = Object.keys(model.annotationData.relations).map(function(relationId) {
                                 return model.annotationData.relations[relationId];
@@ -1002,7 +1004,7 @@
                         return view.domUtil.selector.grid.get(spanId).offset();
                     }),
                     getEntity: function(entityId) {
-                        var spanId = model.annotationData.entities[entityId].span;
+                        var spanId = model.annotationData.getEntity(entityId).span;
 
                         var $entity = view.domUtil.selector.entity.get(entityId);
                         if ($entity.length === 0) {
@@ -1172,12 +1174,8 @@
                             return span;
                         };
 
-                        var getEntity = function(entityId) {
-                            return model.annotationData.entities[entityId];
-                        };
-
                         var renderEntitiesOfType = function(type) {
-                            type.entities.forEach(_.compose(view.renderer.entity.render, getEntity));
+                            type.entities.forEach(_.compose(view.renderer.entity.render, model.annotationData.getEntity));
                         };
 
                         var renderEntitiesOfSpan = function(span) {
@@ -2580,7 +2578,7 @@
                                 // The spanId and typeName of exist entity are neccesary to revert.
                                 // The spanId and typeName are specified when this function is called from revert of createEntityCommand.
                                 // Because a new entity is not exist yet.
-                                var entity = model.annotationData.entities[entityId];
+                                var entity = model.annotationData.getEntity(entityId);
                                 return {
                                     execute: function() {
                                         // model
@@ -2605,7 +2603,7 @@
 
                                         debugLog('change type of a entity, spanId:' + changedEntity.span + ', type:' + oldType + ', entityId:' + entityId + ', newType:' + newType);
                                     },
-                                    revert: _.partial(controller.command.factory.entityChangeTypeCommand, entityId, model.annotationData.entities[entityId].type)
+                                    revert: _.partial(controller.command.factory.entityChangeTypeCommand, entityId, model.annotationData.getEntity(entityId).type)
                                 };
                             },
                             relationCreateCommand: function(relationId, subject, object, predicate) {
@@ -2800,7 +2798,7 @@
                                 var commands = view.domUtil.selector.span.getSelecteds().map(function(spanId) {
                                     // The view.viewModel.clipBoard has enitityIds.
                                     return view.viewModel.clipBoard.map(function(entityId) {
-                                        return controller.command.factory.entityCreateCommand(spanId, model.annotationData.entities[entityId].type);
+                                        return controller.command.factory.entityCreateCommand(spanId, model.annotationData.getEntity(entityId).type);
                                     });
                                 }).reduce(textAeUtil.flatten, []);
 
