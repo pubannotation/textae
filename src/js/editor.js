@@ -1506,16 +1506,17 @@
                                         .forEach(function(span) {
                                             arrangePositionGridAndoDescendant(span);
                                         });
-                                    arrangeGridPosition(span);
+
+                                    // There is at least one type in span that has a grid.
+                                    if (span.getTypes().length > 0) {
+                                        arrangeGridPosition(span);
+                                    }
                                 };
 
                                 positionUtils.reset();
 
                                 model.annotationData.spansTopLevel
-                                    .filter(function(span) {
-                                        // There is at least one type in span that has a grid.
-                                        return span.getTypes().length > 0;
-                                    }).forEach(function(span) {
+                                    .forEach(function(span) {
                                         _.defer(_.partial(arrangePositionGridAndoDescendant, span));
                                     });
                             },
@@ -2448,25 +2449,19 @@
                                 var id = idFactory.makeSpanId(newSpan.begin, newSpan.end);
                                 return {
                                     execute: function() {
-                                        try {
-                                            // model
-                                            model.annotationData.addSpan({
-                                                begin: newSpan.begin,
-                                                end: newSpan.end
-                                            });
+                                        // model
+                                        model.annotationData.addSpan({
+                                            begin: newSpan.begin,
+                                            end: newSpan.end
+                                        });
 
-                                            // rendering
-                                            view.renderer.span.render(id);
+                                        // rendering
+                                        view.renderer.span.render(id);
 
-                                            // select
-                                            view.domUtil.selector.span.select(id);
+                                        // select
+                                        view.domUtil.selector.span.select(id);
 
-                                            debugLog('create a new span, spanId:' + id);
-                                        } catch (e) {
-                                            // Rollback model data unless dom create.
-                                            model.annotationData.removeSpan(id);
-                                            throw e;
-                                        }
+                                        debugLog('create a new span, spanId:' + id);
                                     },
                                     revert: _.partial(controller.command.factory.spanRemoveCommand, id)
                                 };
