@@ -3048,6 +3048,10 @@
                                     });
                                 };
 
+                                if(palletConfig.typeContainer.getSortedNames().length ===0){
+                                    return;
+                                }
+
                                 // Return the pallet. It will be created unless exists.
                                 var $pallet = function getEmptyPallet(setTypeFunction) {
                                     var $pallet = $('.textae-editor__entity-pallet');
