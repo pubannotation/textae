@@ -2988,7 +2988,7 @@
                             init: function() {
                                 controllerState.init();
                             },
-                            showPallet: function(point) {
+                            showPallet: function() {
                                 var hideAndDo = function(doFunction) {
                                     return function() {
                                         controller.userEvent.viewHandler.hidePallet();
@@ -2996,48 +2996,64 @@
                                     };
                                 };
 
-                                // Create table contents per entity type.
-                                var makeTableRowOFEntityPallet = function(typeContainer) {
-                                    return typeContainer.getSortedNames().map(function(typeName) {
-                                        var $column1 = $('<td>').append(function() {
-                                            // The event handler is bound direct,because jQuery detects events of radio buttons directly only.
-                                            var $radioButton = $('<input>')
-                                                .addClass('textae-editor__entity-pallet__entity-type__radio')
-                                                .attr({
-                                                    'type': 'radio',
-                                                    'name': 'etype',
-                                                    'label': typeName
-                                                }).change(hideAndDo(function() {
-                                                    typeContainer.setDefaultType($(this).attr('label'));
-                                                    return false;
-                                                }));
+                                var makePalletRow = function(typeContainer) {
+                                    var makeRadioButton = function(typeName) {
+                                        // The event handler is bound direct,because jQuery detects events of radio buttons directly only.
+                                        var $radioButton = $('<input>')
+                                            .addClass('textae-editor__entity-pallet__entity-type__radio')
+                                            .attr({
+                                                'type': 'radio',
+                                                'name': 'etype',
+                                                'label': typeName
+                                            }).change(hideAndDo(function() {
+                                                typeContainer.setDefaultType($(this).attr('label'));
+                                                return false;
+                                            }));
 
-                                            // Select the radio button if it is default type.
-                                            if (typeName === typeContainer.getDefaultType()) {
-                                                $radioButton.attr({
-                                                    'title': 'default type',
-                                                    'checked': 'checked'
-                                                });
-                                            }
-                                            return $radioButton;
-                                        }());
+                                        // Select the radio button if it is default type.
+                                        if (typeName === typeContainer.getDefaultType()) {
+                                            $radioButton.attr({
+                                                'title': 'default type',
+                                                'checked': 'checked'
+                                            });
+                                        }
+                                        return $radioButton;
+                                    };
 
-                                        var $column2 = $('<td>')
-                                            .addClass('textae-editor__entity-pallet__entity-type__label')
-                                            .attr('label', typeName)
-                                            .text(typeName);
-
-                                        var $column3 = $('<td>');
-                                        var uri = typeContainer.getUri(typeName);
+                                    var makeLink = function(uri) {
                                         if (uri) {
-                                            $column3.append($('<a>')
+                                            return $('<a>')
                                                 .attr({
                                                     'href': uri,
                                                     'target': '_blank'
                                                 })
-                                                .append($('<span>').addClass('textae-editor__entity-pallet__link'))
-                                            );
+                                                .append($('<span>').addClass('textae-editor__entity-pallet__link'));
                                         }
+                                    };
+
+                                    var wrapTd = function($element) {
+                                        if ($element) {
+                                            return $('<td>').append($element);
+                                        } else {
+                                            return $('<td>');
+                                        }
+                                    };
+
+                                    var makeColumn1 = _.compose(wrapTd, makeRadioButton);
+
+                                    var makeColumn2 = function(typeName) {
+                                        return $('<td>')
+                                            .addClass('textae-editor__entity-pallet__entity-type__label')
+                                            .attr('label', typeName)
+                                            .text(typeName);
+                                    };
+
+                                    var makeColumn3 = _.compose(wrapTd, makeLink, typeContainer.getUri);
+
+                                    return typeContainer.getSortedNames().map(function(typeName) {
+                                        var $column1 = makeColumn1(typeName);
+                                        var $column2 = makeColumn2(typeName);
+                                        var $column3 = makeColumn3(typeName);
 
                                         return $('<tr>')
                                             .addClass('textae-editor__entity-pallet__entity-type')
@@ -3048,46 +3064,52 @@
                                     });
                                 };
 
-                                if(palletConfig.typeContainer.getSortedNames().length ===0){
-                                    return;
-                                }
+                                var createEmptyPallet = function(setTypeFunction) {
+                                    return $('<div>')
+                                        .addClass("textae-editor__entity-pallet")
+                                        .append($('<table>'))
+                                        .css('position', 'fixed')
+                                        .on('click', '.textae-editor__entity-pallet__entity-type__label', hideAndDo(setTypeFunction))
+                                        .hide();
+                                };
 
-                                // Return the pallet. It will be created unless exists.
-                                var $pallet = function getEmptyPallet(setTypeFunction) {
-                                    var $pallet = $('.textae-editor__entity-pallet');
-                                    if ($pallet.length === 0) {
-                                        //setup new pallet
-                                        $pallet = $('<div>')
-                                            .addClass("textae-editor__entity-pallet")
-                                            .append($('<table>'))
-                                            .css('position', 'fixed')
-                                            .on('click', '.textae-editor__entity-pallet__entity-type__label', hideAndDo(setTypeFunction))
-                                            .hide();
-
+                                var reuseOldPallet = function($pallet) {
+                                    var $oldPallet = $('.textae-editor__entity-pallet');
+                                    if ($oldPallet.length !== 0) {
+                                        return $oldPallet.find('table').empty().end().css('width', 'auto');
+                                    } else {
                                         // Append the pallet to body to show on top.
                                         $("body").append($pallet);
-                                    } else {
-                                        $pallet.find('table').empty();
-                                        $pallet.css('width', 'auto');
+                                        return $pallet;
                                     }
-                                    return $pallet;
-                                }(controller.userEvent.editHandler.setEntityType);
+                                };
 
-                                // Make all rows per show to show new entity type too.
-                                $pallet.find("table")
-                                    .append(makeTableRowOFEntityPallet(palletConfig.typeContainer));
+                                var appendRows = function($pallet) {
+                                    return $pallet.find("table")
+                                        .append(makePalletRow(palletConfig.typeContainer))
+                                        .end();
+                                };
 
-                                // Show the scrollbar-y if the height of the pallet is same witch max-height.
-                                if ($pallet.outerHeight() + 'px' === $pallet.css('max-height')) {
-                                    $pallet.css('overflow-y', 'scroll');
-                                } else {
-                                    $pallet.css('overflow-y', '');
-                                }
+                                var setMaxHeight = function($pallet) {
+                                    // Show the scrollbar-y if the height of the pallet is same witch max-height.
+                                    if ($pallet.outerHeight() + 'px' === $pallet.css('max-height')) {
+                                        return $pallet.css('overflow-y', 'scroll');
+                                    } else {
+                                        return $pallet.css('overflow-y', '');
+                                    }
+                                };
 
-                                // Move the pallet to mouse.
-                                $pallet.css(point);
-                                $pallet.show();
-                            },
+                                var makePallet = _.compose(setMaxHeight, appendRows, reuseOldPallet, createEmptyPallet);
+
+                                return function(point) {
+                                    if (palletConfig.typeContainer.getSortedNames().length > 0) {
+                                        // Move the pallet to mouse.
+                                        makePallet(controller.userEvent.editHandler.setEntityType)
+                                            .css(point)
+                                            .show();
+                                    }
+                                };
+                            }(),
                             hidePallet: function() {
                                 $('.textae-editor__entity-pallet').hide();
                             },
