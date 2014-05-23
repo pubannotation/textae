@@ -100,16 +100,8 @@
                 // Set apearance and eventHandler to button.
                 var button = buttonCache[buttonName];
                 var event = 'click';
-                var eventHandler = function(e) {
-                    // The buttonClick is an eventHandler appended by the tool.
-                    this.buttonClick({
-                        name: button.eventName,
-                        point: {
-                            top: e.clientY - this.get(0).offsetTop,
-                            left: e.clientX - this.get(0).offsetLeft
-                        }
-                    });
-                }.bind(this);
+                var eventHandler = this.trigger.bind(this, 'textae.control.button.click', button.eventName);
+
 
                 if (button) {
                     if (enable) {

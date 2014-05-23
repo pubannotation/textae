@@ -3,13 +3,13 @@
         // Components to be managed
         var components = function() {
             var helpDialog = textAeUtil.makeInformationModal({
-                className: 'textae-control__help',
-                addContentsFunc: function() {
-                    this
-                        .append($('<h3>').text('Help (Keyboard short-cuts)'))
-                        .append($('<div>').addClass('textae-tool__key-help'));
-                }
-            }),
+                    className: 'textae-control__help',
+                    addContentsFunc: function() {
+                        this
+                            .append($('<h3>').text('Help (Keyboard short-cuts)'))
+                            .append($('<div>').addClass('textae-tool__key-help'));
+                    }
+                }),
                 aboutDialog = textAeUtil.makeInformationModal({
                     className: 'textae-control__about',
                     addContentsFunc: function() {
@@ -51,6 +51,24 @@
             };
         }();
 
+        // Ovserve and record mouse position to return it.
+        var getMousePoint = function() {
+            var lastMousePoint = {},
+                recordMousePoint = function(e) {
+                    lastMousePoint = {
+                        top: e.clientY,
+                        left: e.clientX
+                    };
+                },
+                onMousemove = _.debounce(recordMousePoint, 30);
+
+            $('html').on('mousemove', onMousemove);
+
+            return function() {
+                return lastMousePoint;
+            };
+        }();
+
         // Decide "which component handles certain event.""
         var eventDispatcher = {
             handleKeyInput: function(key) {
@@ -58,15 +76,15 @@
                     components.infoModals.help.show();
                 } else {
                     if (components.editors.selected) {
-                        components.editors.selected.api.handleKeyInput(key);
+                        components.editors.selected.api.handleKeyInput(key, getMousePoint());
                     }
                     if (key === 'ESC') {
                         components.infoModals.hideAll();
                     }
                 }
             },
-            handleButtonClick: function(event) {
-                switch (event.name) {
+            handleButtonClick: function(name) {
+                switch (name) {
                     case 'textae.control.button.help.click':
                         components.infoModals.help.show();
                         break;
@@ -75,7 +93,7 @@
                         break;
                     default:
                         if (components.editors.selected) {
-                            components.editors.selected.api.handleButtonClick(event);
+                            components.editors.selected.api.handleButtonClick(name, getMousePoint());
                         }
                 }
             },
@@ -164,10 +182,8 @@
         return {
             // Register a control to tool.
             setControl: function(control) {
-                $.extend(control, {
-                    buttonClick: function(buttonEvent) {
-                        eventDispatcher.handleButtonClick(buttonEvent);
-                    },
+                control.on('textae.control.button.click', function() {
+                    eventDispatcher.handleButtonClick.apply(null, _.rest(arguments));
                 });
 
                 components.control = control;

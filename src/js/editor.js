@@ -3080,18 +3080,8 @@
                                     $pallet.css('overflow-y', '');
                                 }
 
-                                // Move the pallet to mouse if it is opened by mouseEvent.
-                                if (arguments.length === 1) {
-                                    $pallet.css({
-                                        'top': point.top,
-                                        'left': point.left
-                                    });
-                                } else {
-                                    $pallet.css({
-                                        'top': 10,
-                                        'left': 20
-                                    });
-                                }
+                                // Move the pallet to mouse.
+                                $pallet.css(point);
                                 $pallet.show();
                             },
                             hidePallet: function() {
@@ -3292,7 +3282,7 @@
                 view.init();
                 model.init();
             },
-            handleKeyInput: function(key) {
+            handleKeyInput: function(key, mousePoint) {
                 var keyApiMap = {
                     'A': dataAccessObject.showAccess,
                     'C': controller.userEvent.editHandler.copyEntities,
@@ -3312,10 +3302,10 @@
                     'RIGHT': controller.userEvent.viewHandler.selectRightSpan,
                 };
                 if (keyApiMap[key]) {
-                    keyApiMap[key]();
+                    keyApiMap[key](mousePoint);
                 }
             },
-            handleButtonClick: function(event) {
+            handleButtonClick: function(name, mousePoint) {
                 var buttonApiMap = {
                     'textae.control.button.read.click': dataAccessObject.showAccess,
                     'textae.control.button.write.click': dataAccessObject.showSave,
@@ -3326,15 +3316,13 @@
                     'textae.control.button.relation_edit_mode.click': controller.userEvent.viewHandler.toggleRelationEditMode,
                     'textae.control.button.entity.click': controller.userEvent.editHandler.createEntity,
                     'textae.control.button.change_label.click': controller.userEvent.editHandler.newLabel,
-                    'textae.control.button.pallet.click': function() {
-                        controller.userEvent.viewHandler.showPallet(event.point);
-                    },
+                    'textae.control.button.pallet.click': controller.userEvent.viewHandler.showPallet,
                     'textae.control.button.delete.click': controller.userEvent.editHandler.removeSelectedElements,
                     'textae.control.button.copy.click': controller.userEvent.editHandler.copyEntities,
                     'textae.control.button.paste.click': controller.userEvent.editHandler.pasteEntities,
                     'textae.control.button.setting.click': controller.userEvent.viewHandler.showSettingDialog,
                 };
-                buttonApiMap[event.name]();
+                buttonApiMap[name](mousePoint);
             },
             redraw: controller.userEvent.viewHandler.redraw,
         };
