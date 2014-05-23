@@ -3282,7 +3282,7 @@
                 view.init();
                 model.init();
             },
-            handleKeyInput: function(key, point) {
+            handleKeyInput: function(key, mousePoint) {
                 var keyApiMap = {
                     'A': dataAccessObject.showAccess,
                     'C': controller.userEvent.editHandler.copyEntities,
@@ -3302,10 +3302,10 @@
                     'RIGHT': controller.userEvent.viewHandler.selectRightSpan,
                 };
                 if (keyApiMap[key]) {
-                    keyApiMap[key](point);
+                    keyApiMap[key](mousePoint);
                 }
             },
-            handleButtonClick: function(name, point) {
+            handleButtonClick: function(name, mousePoint) {
                 var buttonApiMap = {
                     'textae.control.button.read.click': dataAccessObject.showAccess,
                     'textae.control.button.write.click': dataAccessObject.showSave,
@@ -3322,7 +3322,7 @@
                     'textae.control.button.paste.click': controller.userEvent.editHandler.pasteEntities,
                     'textae.control.button.setting.click': controller.userEvent.viewHandler.showSettingDialog,
                 };
-                buttonApiMap[name](point);
+                buttonApiMap[name](mousePoint);
             },
             redraw: controller.userEvent.viewHandler.redraw,
         };
