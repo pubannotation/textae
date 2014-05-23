@@ -75,8 +75,8 @@
                     }
                 }
             },
-            handleButtonClick: function(event) {
-                switch (event.name) {
+            handleButtonClick: function(name) {
+                switch (name) {
                     case 'textae.control.button.help.click':
                         components.infoModals.help.show();
                         break;
@@ -85,10 +85,7 @@
                         break;
                     default:
                         if (components.editors.selected) {
-                            event = _.extend({}, event, {
-                                point: point
-                            });
-                            components.editors.selected.api.handleButtonClick(event);
+                            components.editors.selected.api.handleButtonClick(name, point);
                         }
                 }
             },
