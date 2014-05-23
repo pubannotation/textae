@@ -182,10 +182,8 @@
         return {
             // Register a control to tool.
             setControl: function(control) {
-                $.extend(control, {
-                    buttonClick: function(buttonEvent) {
-                        eventDispatcher.handleButtonClick(buttonEvent);
-                    },
+                control.on('textae.control.button.click', function() {
+                    eventDispatcher.handleButtonClick.apply(null, _.rest(arguments));
                 });
 
                 components.control = control;
