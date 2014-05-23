@@ -3,13 +3,13 @@
         // Components to be managed
         var components = function() {
             var helpDialog = textAeUtil.makeInformationModal({
-                className: 'textae-control__help',
-                addContentsFunc: function() {
-                    this
-                        .append($('<h3>').text('Help (Keyboard short-cuts)'))
-                        .append($('<div>').addClass('textae-tool__key-help'));
-                }
-            }),
+                    className: 'textae-control__help',
+                    addContentsFunc: function() {
+                        this
+                            .append($('<h3>').text('Help (Keyboard short-cuts)'))
+                            .append($('<div>').addClass('textae-tool__key-help'));
+                    }
+                }),
                 aboutDialog = textAeUtil.makeInformationModal({
                     className: 'textae-control__about',
                     addContentsFunc: function() {
