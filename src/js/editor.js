@@ -3292,7 +3292,7 @@
                 view.init();
                 model.init();
             },
-            handleKeyInput: function(key) {
+            handleKeyInput: function(key, point) {
                 var keyApiMap = {
                     'A': dataAccessObject.showAccess,
                     'C': controller.userEvent.editHandler.copyEntities,
@@ -3312,7 +3312,7 @@
                     'RIGHT': controller.userEvent.viewHandler.selectRightSpan,
                 };
                 if (keyApiMap[key]) {
-                    keyApiMap[key]();
+                    keyApiMap[key](point);
                 }
             },
             handleButtonClick: function(event) {

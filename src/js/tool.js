@@ -51,6 +51,16 @@
             };
         }();
 
+        var point = {};
+        var hoge = _.debounce(function(e) {
+            point.top = e.clientY;
+            point.left = e.clientX;
+            console.log(point);
+        }, 30);
+        $('html').on('mousemove', hoge);
+
+
+
         // Decide "which component handles certain event.""
         var eventDispatcher = {
             handleKeyInput: function(key) {
@@ -58,7 +68,7 @@
                     components.infoModals.help.show();
                 } else {
                     if (components.editors.selected) {
-                        components.editors.selected.api.handleKeyInput(key);
+                        components.editors.selected.api.handleKeyInput(key, point);
                     }
                     if (key === 'ESC') {
                         components.infoModals.hideAll();
@@ -75,6 +85,9 @@
                         break;
                     default:
                         if (components.editors.selected) {
+                            event = _.extend({}, event, {
+                                point: point
+                            });
                             components.editors.selected.api.handleButtonClick(event);
                         }
                 }
