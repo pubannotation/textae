@@ -51,12 +51,23 @@
             };
         }();
 
-        var mousePoint = {};
-        var hoge = _.debounce(function(e) {
-            mousePoint.top = e.clientY;
-            mousePoint.left = e.clientX;
-        }, 30);
-        $('html').on('mousemove', hoge);
+        // Ovserve and record mouse position to return it.
+        var getMousePoint = function() {
+            var lastMousePoint = {},
+                recordMousePoint = function(e) {
+                    lastMousePoint = {
+                        top: e.clientY,
+                        left: e.clientX
+                    };
+                },
+                onMousemove = _.debounce(recordMousePoint, 30);
+
+            $('html').on('mousemove', onMousemove);
+
+            return function() {
+                return lastMousePoint;
+            };
+        }();
 
         // Decide "which component handles certain event.""
         var eventDispatcher = {
@@ -65,7 +76,7 @@
                     components.infoModals.help.show();
                 } else {
                     if (components.editors.selected) {
-                        components.editors.selected.api.handleKeyInput(key, mousePoint);
+                        components.editors.selected.api.handleKeyInput(key, getMousePoint());
                     }
                     if (key === 'ESC') {
                         components.infoModals.hideAll();
@@ -82,7 +93,7 @@
                         break;
                     default:
                         if (components.editors.selected) {
-                            components.editors.selected.api.handleButtonClick(name, mousePoint);
+                            components.editors.selected.api.handleButtonClick(name, getMousePoint());
                         }
                 }
             },
