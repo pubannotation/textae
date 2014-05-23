@@ -180,6 +180,7 @@
 
 .textae-editor__entity-pallet td.textae-editor__entity-pallet__entity-type__label {
     padding: 5px;
+    max-width: 800px;
 }
 
 .textae-editor__entity-pallet__entity-type {
