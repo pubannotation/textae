@@ -359,83 +359,101 @@
                     };
 
                     return {
-                        sourceDoc: "",
+                        sourceDoc: '',
                         spansTopLevel: [],
                         relations: {},
                         modifications: [],
-                        reset: function(annotation) {
+                        reset: function() {
+                            var setOriginalData = function(annotation) {
+                                    originalData = annotation;
 
-                            // SetNewData
-                            originalData = annotation;
-                            (function parseBaseText(sourceDoc) {
-                                // Validate
-                                if (sourceDoc === undefined) {
-                                    alert("read failed.");
-                                    return;
-                                }
+                                    return annotation;
+                                },
+                                parseBaseText = function(annotationData, annotation) {
+                                    var sourceDoc = annotation.text;
+                                    // Validate
 
-                                // Parse a souce document.
-                                this.sourceDoc = sourceDoc;
+                                    if (sourceDoc) {
+                                        // Parse a souce document.
+                                        annotationData.sourceDoc = sourceDoc;
 
-                                // Parse paragraphs
-                                var textLengthBeforeThisParagraph = 0;
-                                this.paragraphsArray = sourceDoc.split("\n").map(function(p, index) {
-                                    var ret = {
-                                        id: idFactory.makeParagraphId(index),
-                                        begin: textLengthBeforeThisParagraph,
-                                        end: textLengthBeforeThisParagraph + p.length,
-                                    };
+                                        // Parse paragraphs
+                                        var textLengthBeforeThisParagraph = 0;
+                                        annotationData.paragraphsArray = sourceDoc.split("\n").map(function(p, index) {
+                                            var ret = {
+                                                id: idFactory.makeParagraphId(index),
+                                                begin: textLengthBeforeThisParagraph,
+                                                end: textLengthBeforeThisParagraph + p.length,
+                                            };
 
-                                    textLengthBeforeThisParagraph += p.length + 1;
-                                    return ret;
-                                });
-                            }).call(this, annotation.text);
+                                            textLengthBeforeThisParagraph += p.length + 1;
+                                            return ret;
+                                        });
+                                    } else {
+                                        alert("read failed.");
+                                    }
 
-                            // Expected denotations is an Array of object like { "id": "T1", "span": { "begin": 19, "end": 49 }, "obj": "Cell" }.
-                            (function parseDenotations(denotations) {
-                                var annotationData = this;
+                                    return annotation;
+                                },
+                                // Expected denotations is an Array of object like { "id": "T1", "span": { "begin": 19, "end": 49 }, "obj": "Cell" }.
+                                parseDenotations = function(annotationData, annotation) {
+                                    var denotations = annotation.denotations;
 
-                                // Init
-                                spanContainer = {};
-                                entities = {};
+                                    if (denotations) {
+                                        // Init
+                                        spanContainer = {};
+                                        entities = {};
 
-                                if (!denotations) {
-                                    return;
-                                }
+                                        denotations.forEach(function(entity) {
+                                            innerAddSpan(entity.span);
+                                            annotationData.addEntity({
+                                                id: entity.id,
+                                                span: idFactory.makeSpanId(entity.span.begin, entity.span.end),
+                                                type: entity.obj,
+                                            });
+                                        });
 
-                                denotations.forEach(function(entity) {
-                                    innerAddSpan(entity.span);
-                                    annotationData.addEntity({
-                                        id: entity.id,
-                                        span: idFactory.makeSpanId(entity.span.begin, entity.span.end),
-                                        type: entity.obj,
-                                    });
-                                });
+                                        updateSpanTree();
+                                    }
 
-                                updateSpanTree();
-                            }).call(this, annotation.denotations);
+                                    return annotation;
+                                },
+                                // Expected relations is an Array of object like { "id": "R1", "pred": "locatedAt", "subj": "E1", "obj": "T1" }.
+                                parseRelations = function(annotationData, annotation) {
+                                    var relations = annotation.relations;
 
-                            // Expected relations is an Array of object like { "id": "R1", "pred": "locatedAt", "subj": "E1", "obj": "T1" }.
-                            (function parseRelations(relations) {
-                                if (!relations) {
-                                    return;
-                                }
+                                    if (relations) {
+                                        annotationData.relations = relations.reduce(function(a, b) {
+                                            a[b.id] = $.extend({}, b);
+                                            return a;
+                                        }, {});
+                                    }
 
-                                this.relations = relations.reduce(function(a, b) {
-                                    a[b.id] = $.extend({}, b);
-                                    return a;
-                                }, {});
-                            }).call(this, annotation.relations);
+                                    return annotation;
+                                },
+                                // Expected modifications is an Array of object like { "id": "M1", "pred": "Negation", "obj": "E1" }.
+                                parseModifications = function(annotationData, annotation) {
+                                    var modifications = annotation.modifications;
 
-                            // Expected modifications is an Array of object like { "id": "M1", "pred": "Negation", "obj": "E1" }.
-                            (function parseModifications(modifications) {
-                                if (!modifications) {
-                                    return;
-                                }
+                                    if (modifications) {
+                                        annotationData.modifications = modifications;
+                                    }
 
-                                this.modifications = modifications;
-                            }).call(this, annotation.modifications);
-                        },
+                                    return annotation;
+                                };
+
+                            return function(annotation) {
+                                // this 
+                                var setNewData = _.compose(
+                                    _.partial(parseModifications, this),
+                                    _.partial(parseRelations, this),
+                                    _.partial(parseDenotations, this),
+                                    _.partial(parseBaseText, this),
+                                    setOriginalData);
+
+                                setNewData(annotation);
+                            };
+                        }(),
                         //expected span is like { "begin": 19, "end": 49 }
                         addSpan: function(span) {
                             innerAddSpan(span);
