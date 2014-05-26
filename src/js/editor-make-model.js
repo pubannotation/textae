@@ -1,8 +1,8 @@
     var makeModel = function(idFactory) {
         var annotationData = function() {
             var originalData;
-            var spanContainer;
-            var entities;
+            var spanContainer = {};
+            var entities = {};
             var sortedSpanIds = null;
 
             var updateSpanTree = function() {
