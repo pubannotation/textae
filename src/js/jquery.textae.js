@@ -5,7 +5,7 @@
                     var e = $(this);
                     tool.pushEditor(e);
                     editor.apply(e);
-                    e.api.start();
+                    e.api.start(e);
                     return e;
                 });
                 tool.selectFirstEditor();

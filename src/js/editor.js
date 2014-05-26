@@ -187,7 +187,7 @@
         }(this);
 
         // model manages data objects.
-        var model = function(editor) {
+        var model = function() {
             // Configulation of span
             var spanConfig = {
                 delimiterCharacters: null,
@@ -245,7 +245,7 @@
                 }
             };
             return {
-                init: function() {
+                init: function(editor) {
                     var setTypeConfig = function(config) {
                         view.viewModel.typeContainer.setDefinedEntityTypes(config['entity types']);
                         view.viewModel.typeContainer.setDefinedRelationTypes(config['relation types']);
@@ -671,7 +671,7 @@
                     });
                 }
             };
-        }(this);
+        }();
 
         var view = function(editor) {
             // The cachedConnectors has jsPlumbConnectors to call jsPlumbConnector instance to edit an according dom object.
@@ -1534,7 +1534,7 @@
                             destroy: function(spanId) {
                                 delete gridPositionCache[spanId];
                             },
-                            reset : function(){
+                            reset: function() {
                                 gridPositionCache = {};
                             }
                         };
@@ -3307,10 +3307,10 @@
 
         // public funcitons of editor
         this.api = {
-            start: function startEdit() {
+            start: function startEdit(editor) {
                 controller.init();
                 view.init();
-                model.init();
+                model.init(editor);
             },
             handleKeyInput: function(key, mousePoint) {
                 var keyApiMap = {
