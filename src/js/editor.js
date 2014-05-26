@@ -188,100 +188,7 @@
 
         // model manages data objects.
         var model = function() {
-            // Configulation of span
-            var spanConfig = {
-                delimiterCharacters: null,
-                nonEdgeCharacters: null,
-                defaults: {
-                    "delimiter characters": [
-                        " ",
-                        ".",
-                        "!",
-                        "?",
-                        ",",
-                        ":",
-                        ";",
-                        "-",
-                        "/",
-                        "&",
-                        "(",
-                        ")",
-                        "{",
-                        "}",
-                        "[",
-                        "]",
-                        "+",
-                        "*",
-                        "\\",
-                        "\"",
-                        "'",
-                        "\n",
-                        "–"
-                    ],
-                    "non-edge characters": [
-                        " ",
-                        "\n"
-                    ]
-                },
-                set: function(config) {
-                    var settings = $.extend({}, this.defaults, config);
-
-                    if (settings['delimiter characters'] !== undefined) {
-                        this.delimiterCharacters = settings['delimiter characters'];
-                    }
-
-                    if (settings['non-edge characters'] !== undefined) {
-                        this.nonEdgeCharacters = settings['non-edge characters'];
-                    }
-                },
-                isNonEdgeCharacter: function(char) {
-                    return (this.nonEdgeCharacters.indexOf(char) >= 0);
-                },
-                isDelimiter: function(char) {
-                    if (this.delimiterCharacters.indexOf('ANY') >= 0) {
-                        return 1;
-                    }
-                    return (this.delimiterCharacters.indexOf(char) >= 0);
-                }
-            };
             return {
-                init: function(editor) {
-                    var setTypeConfig = function(config) {
-                        view.viewModel.typeContainer.setDefinedEntityTypes(config['entity types']);
-                        view.viewModel.typeContainer.setDefinedRelationTypes(config['relation types']);
-
-                        if (config.css !== undefined) {
-                            $('#css_area').html('<link rel="stylesheet" href="' + config.css + '"/>');
-                        }
-                    };
-
-                    // read default model.spanConfig
-                    model.spanConfig.set();
-
-                    // Read model parameters from url parameters and html attributes.
-                    // Html attributes preced url parameters.
-                    var params = $.extend(textAeUtil.getUrlParameters(location.search), {
-                        debug: editor.attr("debug"),
-                        config: editor.attr("config"),
-                        target: editor.attr("target")
-                    });
-
-                    if (params.config && params.config !== "") {
-                        // load sync, because load annotation after load config. 
-                        var data = textAeUtil.ajaxAccessor.getSync(params.config);
-                        if (data !== null) {
-                            model.spanConfig.set(data);
-                            setTypeConfig(data);
-                        } else {
-                            alert('could not read the span configuration from the location you specified.');
-                        }
-                    }
-
-                    if (params.target && params.target !== "") {
-                        dataAccessObject.getAnnotationFromServer(params.target);
-                    }
-                },
-                spanConfig: spanConfig,
                 annotationData: function() {
                     var originalData;
                     var spanContainer;
@@ -616,7 +523,7 @@
                         }
                     };
                 }(),
-                getReplicationSpans: function(originSpan) {
+                getReplicationSpans: function(originSpan, spanConfig) {
                     // Get spans their stirng is same with the originSpan from sourceDoc.
                     var getSpansTheirStringIsSameWith = function(originSpan) {
                         var getNextStringIndex = String.prototype.indexOf.bind(model.annotationData.sourceDoc, model.annotationData.sourceDoc.substring(originSpan.begin, originSpan.end));
@@ -647,7 +554,7 @@
                         var precedingChar = model.annotationData.sourceDoc.charAt(candidateSpan.begin - 1);
                         var followingChar = model.annotationData.sourceDoc.charAt(candidateSpan.end);
 
-                        return model.spanConfig.isDelimiter(precedingChar) && model.spanConfig.isDelimiter(followingChar);
+                        return spanConfig.isDelimiter(precedingChar) && spanConfig.isDelimiter(followingChar);
                     };
 
                     // Is the candidateSpan is spaned already?
@@ -1631,7 +1538,7 @@
                                     ]
                                 });
 
-                                // Notify to contoroller that a new jsPlumbConnection is added.
+                                // Notify to controller that a new jsPlumbConnection is added.
                                 editor.trigger('textae.editor.jsPlumbConnection.add', conn);
 
                                 // Set a function debounce to avoid over rendering.
@@ -1914,10 +1821,10 @@
             // adjust the beginning position of a span
             var adjustSpanBegin = function(beginPosition) {
                 var pos = beginPosition;
-                while (model.spanConfig.isNonEdgeCharacter(model.annotationData.sourceDoc.charAt(pos))) {
+                while (controller.spanConfig.isNonEdgeCharacter(model.annotationData.sourceDoc.charAt(pos))) {
                     pos++;
                 }
-                while (!model.spanConfig.isDelimiter(model.annotationData.sourceDoc.charAt(pos)) && pos > 0 && !model.spanConfig.isDelimiter(model.annotationData.sourceDoc.charAt(pos - 1))) {
+                while (!controller.spanConfig.isDelimiter(model.annotationData.sourceDoc.charAt(pos)) && pos > 0 && !controller.spanConfig.isDelimiter(model.annotationData.sourceDoc.charAt(pos - 1))) {
                     pos--;
                 }
                 return pos;
@@ -1926,10 +1833,10 @@
             // adjust the end position of a span
             var adjustSpanEnd = function(endPosition) {
                 var pos = endPosition;
-                while (model.spanConfig.isNonEdgeCharacter(model.annotationData.sourceDoc.charAt(pos - 1))) {
+                while (controller.spanConfig.isNonEdgeCharacter(model.annotationData.sourceDoc.charAt(pos - 1))) {
                     pos--;
                 }
-                while (!model.spanConfig.isDelimiter(model.annotationData.sourceDoc.charAt(pos)) && pos < model.annotationData.sourceDoc.length) {
+                while (!controller.spanConfig.isDelimiter(model.annotationData.sourceDoc.charAt(pos)) && pos < model.annotationData.sourceDoc.length) {
                     pos++;
                 }
                 return pos;
@@ -1938,7 +1845,7 @@
             // adjust the beginning position of a span for shortening
             var adjustSpanBegin2 = function(beginPosition) {
                 var pos = beginPosition;
-                while ((pos < model.annotationData.sourceDoc.length) && (model.spanConfig.isNonEdgeCharacter(model.annotationData.sourceDoc.charAt(pos)) || !model.spanConfig.isDelimiter(model.annotationData.sourceDoc.charAt(pos - 1)))) {
+                while ((pos < model.annotationData.sourceDoc.length) && (controller.spanConfig.isNonEdgeCharacter(model.annotationData.sourceDoc.charAt(pos)) || !controller.spanConfig.isDelimiter(model.annotationData.sourceDoc.charAt(pos - 1)))) {
                     pos++;
                 }
                 return pos;
@@ -1947,7 +1854,7 @@
             // adjust the end position of a span for shortening
             var adjustSpanEnd2 = function(endPosition) {
                 var pos = endPosition;
-                while ((pos > 0) && (model.spanConfig.isNonEdgeCharacter(model.annotationData.sourceDoc.charAt(pos - 1)) || !model.spanConfig.isDelimiter(model.annotationData.sourceDoc.charAt(pos)))) {
+                while ((pos > 0) && (controller.spanConfig.isNonEdgeCharacter(model.annotationData.sourceDoc.charAt(pos - 1)) || !controller.spanConfig.isDelimiter(model.annotationData.sourceDoc.charAt(pos)))) {
                     pos--;
                 }
                 return pos;
@@ -1973,7 +1880,7 @@
 
                 // A span cannot be created include nonEdgeCharacters only.
                 var stringWithoutNonEdgeCharacters = model.annotationData.sourceDoc.substring(anchorPosition, focusPosition);
-                model.spanConfig.nonEdgeCharacters.forEach(function(char) {
+                controller.spanConfig.nonEdgeCharacters.forEach(function(char) {
                     stringWithoutNonEdgeCharacters = stringWithoutNonEdgeCharacters.replace(char, '');
                 });
                 if (stringWithoutNonEdgeCharacters.length === 0) {
@@ -2528,7 +2435,7 @@
                                 };
                             },
                             spanReplicateCommand: function(span) {
-                                var commands = model.getReplicationSpans(span)
+                                var commands = model.getReplicationSpans(span, controller.spanConfig)
                                     .map(controller.command.factory.spanCreateCommand);
 
                                 return {
@@ -3249,6 +3156,63 @@
                 };
             }();
 
+            // Configulation of span
+            var spanConfig = {
+                delimiterCharacters: null,
+                nonEdgeCharacters: null,
+                defaults: {
+                    "delimiter characters": [
+                        " ",
+                        ".",
+                        "!",
+                        "?",
+                        ",",
+                        ":",
+                        ";",
+                        "-",
+                        "/",
+                        "&",
+                        "(",
+                        ")",
+                        "{",
+                        "}",
+                        "[",
+                        "]",
+                        "+",
+                        "*",
+                        "\\",
+                        "\"",
+                        "'",
+                        "\n",
+                        "–"
+                    ],
+                    "non-edge characters": [
+                        " ",
+                        "\n"
+                    ]
+                },
+                set: function(config) {
+                    var settings = $.extend({}, this.defaults, config);
+
+                    if (settings['delimiter characters'] !== undefined) {
+                        this.delimiterCharacters = settings['delimiter characters'];
+                    }
+
+                    if (settings['non-edge characters'] !== undefined) {
+                        this.nonEdgeCharacters = settings['non-edge characters'];
+                    }
+                },
+                isNonEdgeCharacter: function(char) {
+                    return (this.nonEdgeCharacters.indexOf(char) >= 0);
+                },
+                isDelimiter: function(char) {
+                    if (this.delimiterCharacters.indexOf('ANY') >= 0) {
+                        return 1;
+                    }
+                    return (this.delimiterCharacters.indexOf(char) >= 0);
+                }
+            };
+
             return {
                 init: function() {
                     // Prevent the default selection by the browser with shift keies.
@@ -3302,15 +3266,53 @@
                 },
                 command: command,
                 userEvent: userEvent,
+                spanConfig: spanConfig
             };
         }(this);
+
+        var readSettingFiles = function(editor) {
+            var setTypeConfig = function(config) {
+                view.viewModel.typeContainer.setDefinedEntityTypes(config['entity types']);
+                view.viewModel.typeContainer.setDefinedRelationTypes(config['relation types']);
+
+                if (config.css !== undefined) {
+                    $('#css_area').html('<link rel="stylesheet" href="' + config.css + '"/>');
+                }
+            };
+
+            // read default controller.spanConfig
+            controller.spanConfig.set();
+
+            // Read model parameters from url parameters and html attributes.
+            // Html attributes preced url parameters.
+            var params = $.extend(textAeUtil.getUrlParameters(location.search), {
+                config: editor.attr("config"),
+                target: editor.attr("target")
+            });
+
+            if (params.config && params.config !== "") {
+                // load sync, because load annotation after load config. 
+                var data = textAeUtil.ajaxAccessor.getSync(params.config);
+                if (data !== null) {
+                    controller.spanConfig.set(data);
+                    setTypeConfig(data);
+                } else {
+                    alert('could not read the span configuration from the location you specified.');
+                }
+            }
+
+            if (params.target && params.target !== "") {
+                dataAccessObject.getAnnotationFromServer(params.target);
+            }
+        };
 
         // public funcitons of editor
         this.api = {
             start: function startEdit(editor) {
                 controller.init();
                 view.init();
-                model.init(editor);
+
+                readSettingFiles(editor);
             },
             handleKeyInput: function(key, mousePoint) {
                 var keyApiMap = {
