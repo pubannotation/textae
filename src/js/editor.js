@@ -1942,6 +1942,7 @@
                     if (multiEntitiesSpans.length > 0) {
                         controller.userEvent.viewHandler.setViewMode('instance');
                     } else if (Object.keys(model.annotationData.relations).length) {
+                        view.renderer.helper.changeLineHeight(10);
                         controller.userEvent.viewHandler.setViewMode('relation');
                     } else {
                         controller.userEvent.viewHandler.setViewMode('term');
