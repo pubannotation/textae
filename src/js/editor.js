@@ -1929,6 +1929,25 @@
                     view.renderer.grid.arrangePositionAll();
                 };
 
+                var setDefautlViewMode = function() {
+                    var multiEntitiesSpans = model.annotationData.getAllSpan()
+                        .filter(function(span) {
+                            var multiEntitiesTypes = span.getTypes().filter(function(type) {
+                                return type.entities.length > 1;
+                            });
+
+                            return multiEntitiesTypes.length > 0;
+                        });
+
+                    if (multiEntitiesSpans.length > 0) {
+                        controller.userEvent.viewHandler.setViewMode('instance');
+                    } else if (Object.keys(model.annotationData.relations).length) {
+                        controller.userEvent.viewHandler.setViewMode('relation');
+                    } else {
+                        controller.userEvent.viewHandler.setViewMode('term');
+                    }
+                };
+
                 return {
                     init: function(onChange) {
                         history.init(onChange);
@@ -1938,6 +1957,7 @@
                         model.annotationData.reset(annotation);
                         history.reset();
                         view.renderer.reset();
+                        setDefautlViewMode();
                     },
                     updateSavePoint: function() {
                         history.saved();
@@ -2757,6 +2777,15 @@
                                 if (view.viewModel.modeAccordingToButton['relation-edit-mode'].value()) {
                                     controllerState.offRelation();
                                 } else {
+                                    controllerState.onRelation();
+                                }
+                            },
+                            setViewMode: function(mode) {
+                                if (mode === 'term' && controllerState.offInstance) {
+                                    controllerState.offInstance();
+                                } else if (mode === 'instance' && controllerState.onInstance) {
+                                    controllerState.onInstance();
+                                } else if (mode === 'relation' && controllerState.onRelation) {
                                     controllerState.onRelation();
                                 }
                             }
