@@ -200,7 +200,7 @@
                                     return ret;
                                 });
                             } else {
-                                alert("read failed.");
+                                throw "read failed.";
                             }
 
                             return annotation;
@@ -209,11 +209,11 @@
                         parseDenotations = function(annotationData, annotation) {
                             var denotations = annotation.denotations;
 
-                            if (denotations) {
-                                // Init
-                                spanContainer = {};
-                                entities = {};
+                            // Init
+                            spanContainer = {};
+                            entities = {};
 
+                            if (denotations) {
                                 denotations.forEach(function(entity) {
                                     innerAddSpan(entity.span);
                                     annotationData.addEntity({
@@ -222,9 +222,9 @@
                                         type: entity.obj,
                                     });
                                 });
-
-                                updateSpanTree();
                             }
+
+                            updateSpanTree();
 
                             return annotation;
                         },
@@ -232,12 +232,10 @@
                         parseRelations = function(annotationData, annotation) {
                             var relations = annotation.relations;
 
-                            if (relations) {
-                                annotationData.relations = relations.reduce(function(a, b) {
-                                    a[b.id] = $.extend({}, b);
-                                    return a;
-                                }, {});
-                            }
+                            annotationData.relations = relations ? relations.reduce(function(a, b) {
+                                a[b.id] = $.extend({}, b);
+                                return a;
+                            }, {}) : {};
 
                             return annotation;
                         },
@@ -245,15 +243,12 @@
                         parseModifications = function(annotationData, annotation) {
                             var modifications = annotation.modifications;
 
-                            if (modifications) {
-                                annotationData.modifications = modifications;
-                            }
+                            annotationData.modifications = modifications ? modifications : [];
 
                             return annotation;
                         };
 
                     return function(annotation) {
-                        // this 
                         var setNewData = _.compose(
                             _.partial(parseModifications, this),
                             _.partial(parseRelations, this),
@@ -261,7 +256,11 @@
                             _.partial(parseBaseText, this),
                             setOriginalData);
 
-                        setNewData(annotation);
+                        try {
+                            setNewData(annotation);
+                        } catch (error) {
+                            alert(error);
+                        }
                     };
                 }(),
                 //expected span is like { "begin": 19, "end": 49 }
