@@ -1072,6 +1072,7 @@
                         // Render annotations
                         getAnnotationArea().empty();
                         positionUtils.reset();
+                        view.renderer.grid.reset();
                         view.renderer.helper.renderAllSpan();
 
                         // Render relations
@@ -1532,6 +1533,9 @@
                             },
                             destroy: function(spanId) {
                                 delete gridPositionCache[spanId];
+                            },
+                            reset : function(){
+                                gridPositionCache = {};
                             }
                         };
                     }(),
