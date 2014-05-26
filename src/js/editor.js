@@ -627,6 +627,9 @@
                                     'line-height': heightValue * 100 + '%'
                                 });
                             },
+                            getLineHeight: function() {
+                                return parseInt(editor.find('.textae-editor__body__text-box').css('line-height')) / 16;
+                            },
                             changeTypeGap: function(typeGapValue) {
                                 editor.find('.textae-editor__type').css({
                                     height: 18 * typeGapValue + 18 + 'px',
@@ -2712,7 +2715,7 @@
                                                             'step': 1,
                                                             'min': 3,
                                                             'max': 10,
-                                                            'value': 4,
+                                                            'value': view.renderer.helper.getLineHeight(),
                                                         })
                                                         .addClass('textae-editor__setting-dialog__line-height')
                                                     ))
