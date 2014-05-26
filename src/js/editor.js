@@ -2485,21 +2485,28 @@
                                 }
                             };
 
+                            var doNothing = function() {};
                             var state = {
                                 termCentric: {
                                     name: 'Term Centric',
                                     onInstance: transition.toInstance,
-                                    onRelation: transition.toRelation
+                                    onRelation: transition.toRelation,
+                                    offInstance: doNothing,
+                                    offRelation: doNothing
                                 },
                                 instanceRelation: {
                                     name: 'Instance / Relation',
                                     onRelation: transition.toRelation,
-                                    offInstance: transition.toTerm
+                                    offInstance: transition.toTerm,
+                                    onInstance: doNothing,
+                                    offRelation: doNothing
                                 },
                                 relationEdit: {
                                     name: 'Relation Edit',
                                     offRelation: transition.toInstance,
-                                    offInstance: transition.toTerm
+                                    offInstance: transition.toTerm,
+                                    onInstance: transition.toInstance,
+                                    onRelation: doNothing
                                 }
                             };
 
@@ -2781,11 +2788,11 @@
                                 }
                             },
                             setViewMode: function(mode) {
-                                if (mode === 'term' && controllerState.offInstance) {
+                                if (mode === 'term') {
                                     controllerState.offInstance();
-                                } else if (mode === 'instance' && controllerState.onInstance) {
+                                } else if (mode === 'instance') {
                                     controllerState.onInstance();
-                                } else if (mode === 'relation' && controllerState.onRelation) {
+                                } else if (mode === 'relation') {
                                     controllerState.onRelation();
                                 }
                             }
