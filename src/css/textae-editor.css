@@ -137,6 +137,17 @@
     z-index: 1;
 }
 
+.textae-editor__load-dialog__label, .textae-editor__save-dialog__label {
+    display: inline-block;
+    padding-right: 2px;
+    text-align: right;
+    width: 73px;
+}
+
+.textae-editor__load-dialog__label::after, .textae-editor__save-dialog__label::after {
+    content: ":";
+}
+
 .textae-editor__load-dialog__file-name, .textae-editor__save-dialog__file-name {
     width: 345px;
 }

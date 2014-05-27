@@ -10,8 +10,8 @@
             var loadSaveDialog = function() {
                 var getLoadDialog = function() {
                     var $content = $('<div>')
-                        .append('<div>Server :<input type="text" class="textae-editor__load-dialog__file-name" /><input type="button" value="OK" /></div>')
-                        .append('<div>Local :<input type="file" /></div>')
+                        .append('<div><label class="textae-editor__load-dialog__label">Server</label><input type="text" class="textae-editor__load-dialog__file-name" /><input type="button" value="OK" /></div>')
+                        .append('<div><label class="textae-editor__load-dialog__label">Local</label><input type="file" /></div>')
                         .on('change', '[type="file"]',
                             function() {
                                 dataAccessObject.getAnnotationFromFile(this);
@@ -29,8 +29,8 @@
 
                 var getSaveDialog = function() {
                     var $content = $('<div>')
-                        .append('<div>Server :<input type="text" class="textae-editor__save-dialog__file-name" /><input type="button" value="OK" /></div>')
-                        .append('<div>Local :<span class="span_link_place"><a target="_blank"/></span></div>')
+                        .append('<div><label class="textae-editor__save-dialog__label">Server</label><input type="text" class="textae-editor__save-dialog__file-name" /><input type="button" value="OK" /></div>')
+                        .append('<div><label class="textae-editor__save-dialog__label">Local</label><span class="span_link_place"><a target="_blank"/></span></div>')
                         .on('click', 'a', function() {
                             controller.command.updateSavePoint();
                             $content.dialogClose();
