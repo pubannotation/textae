@@ -2710,7 +2710,7 @@
                                         lineHeight = function($content) {
                                             return $content
                                                 .append($('<div>')
-                                                    .append('<label>Line Height:')
+                                                    .append('<label class="textae-editor__setting-dialog__label">Line Height')
                                                     .append($('<input>')
                                                         .attr({
                                                             'type': 'number',
@@ -2727,7 +2727,7 @@
                                         },
                                         instanceRelationView = function($content) {
                                             return $content.append($('<div>')
-                                                    .append('<label>Instance/Relation View:')
+                                                    .append('<label class="textae-editor__setting-dialog__label">Instance/Relation View')
                                                     .append($('<input>')
                                                         .attr({
                                                             'type': 'checkbox'
@@ -2745,7 +2745,7 @@
                                         },
                                         typeGap = function($content) {
                                             return $content.append($('<div>')
-                                                .append('<label>Type Gap:')
+                                                .append('<label class="textae-editor__setting-dialog__label">Type Gap')
                                                 .append($('<input>')
                                                     .attr({
                                                         type: 'number',
