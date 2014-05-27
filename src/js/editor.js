@@ -10,8 +10,8 @@
             var loadSaveDialog = function() {
                 var getLoadDialog = function() {
                     var $content = $('<div>')
-                        .append('<div>Sever :<input type="text" class="textae-editor__load-dialog__file-name" /><input type="button" value="OK" /></div>')
-                        .append('<div>Local :<input type="file" /></div>')
+                        .append('<div><label class="textae-editor__load-dialog__label">Server</label><input type="text" class="textae-editor__load-dialog__file-name" /><input type="button" value="OK" /></div>')
+                        .append('<div><label class="textae-editor__load-dialog__label">Local</label><input type="file" /></div>')
                         .on('change', '[type="file"]',
                             function() {
                                 dataAccessObject.getAnnotationFromFile(this);
@@ -29,8 +29,8 @@
 
                 var getSaveDialog = function() {
                     var $content = $('<div>')
-                        .append('<div>Sever :<input type="text" class="textae-editor__save-dialog__file-name" /><input type="button" value="OK" /></div>')
-                        .append('<div>Local :<span class="span_link_place"><a target="_blank"/></span></div>')
+                        .append('<div><label class="textae-editor__save-dialog__label">Server</label><input type="text" class="textae-editor__save-dialog__file-name" /><input type="button" value="OK" /></div>')
+                        .append('<div><label class="textae-editor__save-dialog__label">Local</label><span class="span_link_place"><a target="_blank"/></span></div>')
                         .on('click', 'a', function() {
                             controller.command.updateSavePoint();
                             $content.dialogClose();
@@ -2710,7 +2710,7 @@
                                         lineHeight = function($content) {
                                             return $content
                                                 .append($('<div>')
-                                                    .append('<label>Line Height:')
+                                                    .append('<label class="textae-editor__setting-dialog__label">Line Height')
                                                     .append($('<input>')
                                                         .attr({
                                                             'type': 'number',
@@ -2727,7 +2727,7 @@
                                         },
                                         instanceRelationView = function($content) {
                                             return $content.append($('<div>')
-                                                    .append('<label>Instance/Relation View:')
+                                                    .append('<label class="textae-editor__setting-dialog__label">Instance/Relation View')
                                                     .append($('<input>')
                                                         .attr({
                                                             'type': 'checkbox'
@@ -2745,7 +2745,7 @@
                                         },
                                         typeGap = function($content) {
                                             return $content.append($('<div>')
-                                                .append('<label>Type Gap:')
+                                                .append('<label class="textae-editor__setting-dialog__label">Type Gap')
                                                 .append($('<input>')
                                                     .attr({
                                                         type: 'number',

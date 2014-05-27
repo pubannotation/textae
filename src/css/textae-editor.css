@@ -137,16 +137,30 @@
     z-index: 1;
 }
 
+/* dialog */
+.textae-editor__load-dialog__label, .textae-editor__save-dialog__label, .textae-editor__setting-dialog__label {
+    display: inline-block;
+    padding-right: 2px;
+    text-align: right;
+}
+
+.textae-editor__load-dialog__label::after, .textae-editor__save-dialog__label::after, .textae-editor__setting-dialog__label::after {
+    content: ":";
+}
+
+.textae-editor__load-dialog__label, .textae-editor__save-dialog__label {
+    width: 73px;
+}
+
+.textae-editor__setting-dialog__label{
+    width: 221px;
+}
+
 .textae-editor__load-dialog__file-name, .textae-editor__save-dialog__file-name {
     width: 345px;
 }
 
-.textae-editor__setting-dialog label{
-    display: inline-block;
-    width: 217px;
-    text-align: right;
-}
-
+/* pallet */
 .textae-editor__entity-pallet {
     background-color: rgba(200,255,255,0.9);
     border: solid 2px #333333;
