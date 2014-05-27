@@ -10,7 +10,7 @@
             var loadSaveDialog = function() {
                 var getLoadDialog = function() {
                     var $content = $('<div>')
-                        .append('<div>Sever :<input type="text" class="textae-editor__load-dialog__file-name" /><input type="button" value="OK" /></div>')
+                        .append('<div>Server :<input type="text" class="textae-editor__load-dialog__file-name" /><input type="button" value="OK" /></div>')
                         .append('<div>Local :<input type="file" /></div>')
                         .on('change', '[type="file"]',
                             function() {
@@ -29,7 +29,7 @@
 
                 var getSaveDialog = function() {
                     var $content = $('<div>')
-                        .append('<div>Sever :<input type="text" class="textae-editor__save-dialog__file-name" /><input type="button" value="OK" /></div>')
+                        .append('<div>Server :<input type="text" class="textae-editor__save-dialog__file-name" /><input type="button" value="OK" /></div>')
                         .append('<div>Local :<span class="span_link_place"><a target="_blank"/></span></div>')
                         .on('click', 'a', function() {
                             controller.command.updateSavePoint();
