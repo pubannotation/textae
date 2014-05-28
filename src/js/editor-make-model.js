@@ -163,8 +163,9 @@
                 }
             };
 
-            var extendBind = function(obj) {
-                var extend = function() {
+            // A mixin for the separeted presentation by the observer pattern.
+            var extendBinding = function(obj) {
+                var binding = function() {
                     var callbacks = {};
 
                     return {
@@ -179,7 +180,7 @@
                     };
                 }();
 
-                return _.extend({}, obj, extend);
+                return _.extend({}, obj, binding);
             };
 
             var relation = function() {
@@ -195,7 +196,7 @@
                             relation.id = getNewRelationId();
                         }
 
-                        var extendedRelation = extendBind(relation);
+                        var extendedRelation = extendBinding(relation);
                         relations[relation.id] = extendedRelation;
                         return extendedRelation;
                     },
