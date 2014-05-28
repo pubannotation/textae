@@ -618,7 +618,7 @@
                                 view.renderer.relation.reset();
 
                                 model.annotationData.relation.all().forEach(function(relation) {
-                                    _.defer(_.partial(view.renderer.relation.renderRelation, relation));
+                                    _.defer(_.partial(view.renderer.relation.render, relation));
                                 });
                             },
                             changeLineHeight: function(heightValue) {
@@ -1183,7 +1183,7 @@
                                 cachedConnectors = {};
                                 view.domUtil.selector.relation.emptyRelationIdsSelected();
                             },
-                            renderRelation: function(relation) {
+                            render: function(relation) {
                                 relation.bind('remove', removeJsPlumbConnection);
                                 relation.bind('change-predicate', changeJsPlubmOverlay);
 
@@ -2174,7 +2174,7 @@
                                     execute: function() {
 
                                         // Render
-                                        view.renderer.relation.renderRelation(newRelation);
+                                        view.renderer.relation.render(newRelation);
 
                                         // Selection
                                         // Set the css class lately, because jsPlumbConnector is no applyed that css class immediately after create.
