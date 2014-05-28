@@ -188,8 +188,24 @@
                 return _.extend({}, obj, extend);
             };
 
+            var relation = {
+                addRelation: function(relation) {
+                    var extendedRelation = extendBind(relation);
+                    annotationData.relations[relation.id] = extendedRelation;
+                    return extendedRelation;
+                },
+                remove: function(relationId) {
+                    annotationData.relations[relationId].trigger('remove');
+                    delete annotationData.relations[relationId];
+                },
+                changePredicate: function(relationId, predicate) {
+                    annotationData.relations[relationId].pred = predicate;
+                    annotationData.relations[relationId].trigger('change-predicate');
+                }
+            };
+
             return {
-                extendBind: extendBind,
+                relation: relation,
                 sourceDoc: '',
                 spansTopLevel: [],
                 relations: {},
@@ -253,10 +269,10 @@
                         parseRelations = function(annotationData, annotation) {
                             var relations = annotation.relations;
 
-                            annotationData.relations = relations ? relations.reduce(function(a, b) {
-                                a[b.id] = extendBind(b);
-                                return a;
-                            }, {}) : {};
+                            annotationData.relations = {};
+                            _.each(relations, function(relation) {
+                                annotationData.relation.addRelation(relation);
+                            });
 
                             return annotation;
                         },

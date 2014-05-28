@@ -2163,20 +2163,13 @@
                             relationCreateCommand: function(relationId, subject, object, predicate) {
                                 return {
                                     execute: function() {
-                                        var addRelation = function(relationId, subject, object, predicate) {
-                                            var newRelation = {
-                                                id: relationId,
-                                                pred: predicate,
-                                                subj: subject,
-                                                obj: object
-                                            };
-                                            newRelation = model.annotationData.extendBind(newRelation);
-                                            model.annotationData.relations[relationId] = newRelation;
-                                            return newRelation;
-                                        };
-
                                         // Add relation to model
-                                        var newRelation = addRelation(relationId, subject, object, predicate);
+                                        var newRelation = model.annotationData.relation.addRelation({
+                                            id: relationId,
+                                            pred: predicate,
+                                            subj: subject,
+                                            obj: object
+                                        });
 
                                         // Render
                                         view.renderer.relation.renderRelation(newRelation);
@@ -2198,9 +2191,7 @@
 
                                 return {
                                     execute: function() {
-                                        // model
-                                        model.annotationData.relations[relationId].trigger('remove');
-                                        delete model.annotationData.relations[relationId];
+                                        model.annotationData.relation.remove(relationId);
 
                                         debugLog('remove a relation relationId:' + relationId + ', subject:' + subject + ', object:' + object + ', predicate:' + predicate);
                                     },
@@ -2211,9 +2202,7 @@
                                 var oldPredicate = model.annotationData.relations[relationId].pred;
                                 return {
                                     execute: function() {
-                                        // model
-                                        model.annotationData.relations[relationId].pred = predicate;
-                                        model.annotationData.relations[relationId].trigger('change-predicate');
+                                        model.annotationData.relation.changePredicate(relationId, predicate);
 
                                         debugLog('change predicate of relation, relationId:' + relationId + ', subject:' + model.annotationData.relations[relationId].subj + ', object:' + model.annotationData.relations[relationId].obj + ', predicate:' + oldPredicate + ', newPredicate:' + predicate);
                                     },
