@@ -617,14 +617,9 @@
                             renderAllRelation: function() {
                                 view.renderer.relation.reset();
 
-                                _.each(model.annotationData.relations, function(relation){
+                                _.each(model.annotationData.relations, function(relation) {
                                     _.defer(_.partial(view.renderer.relation.renderRelation, relation));
                                 });
-
-                                // model.annotationData.getRelationIds()
-                                //     .forEach(function(relationId) {
-                                //         _.defer(_.partial(view.renderer.relation.render, relationId));
-                                //     });
                             },
                             changeLineHeight: function(heightValue) {
                                 editor.find('.textae-editor__body__text-box').css({
@@ -1113,6 +1108,63 @@
                             conn.addOverlay(['Arrow', arrowStyle]);
                         };
 
+                        var createJsPlumbConnection = function(relation) {
+                            // Make a connector by jsPlumb.
+                            var conn = jsPlumbInstance.connect({
+                                source: view.domUtil.selector.entity.get(relation.subj),
+                                target: view.domUtil.selector.entity.get(relation.obj),
+                                anchors: ['TopCenter', "TopCenter"],
+                                connector: ['Bezier', {
+                                    curviness: determineCurviness(relation.id)
+                                }],
+                                paintStyle: view.viewModel.getConnectorStrokeStyle(relation.id),
+                                parameters: {
+                                    'id': relation.id,
+                                },
+                                cssClass: 'textae-editor__relation',
+                                overlays: [
+                                    ['Arrow', arrowStyle],
+                                    ['Label', {
+                                        label: '[' + relation.id + '] ' + relation.pred,
+                                        cssClass: 'textae-editor__relation__label'
+                                    }]
+                                ]
+                            });
+
+                            // Notify to controller that a new jsPlumbConnection is added.
+                            editor.trigger('textae.editor.jsPlumbConnection.add', conn);
+
+                            // Set a function debounce to avoid over rendering.
+                            conn.arrangePosition = _.debounce(_.partial(arrangePosition, relation.id), 20);
+
+                            // Cache a connector instance.
+                            cachedConnectors[relation.id] = conn;
+                            return conn;
+                        };
+
+                        var removeJsPlumbConnection = function(relation) {
+                            jsPlumbInstance.detach(toConnector(relation.id));
+                            delete cachedConnectors[relation.id];
+                        };
+
+                        var changeJsPlubmOverlay = function(relation) {
+                            var connector = toConnector(relation.id);
+                            if (!connector) {
+                                throw 'no connector';
+                            }
+
+                            // Find the label overlay by self, because the function 'getLabelOverlays' returns no label overlay.
+                            var labelOverlay = connector.getOverlays().filter(function(overlay) {
+                                return overlay.type === 'Label';
+                            })[0];
+                            if (!labelOverlay) {
+                                throw 'no label overlay';
+                            }
+
+                            labelOverlay.setLabel('[' + relation.id + '] ' + relation.pred);
+                            connector.setPaintStyle(view.viewModel.getConnectorStrokeStyle(relation.id));
+                        };
+
                         return {
                             // Parameters to render relations.
                             settings: {
@@ -1132,75 +1184,10 @@
                                 view.domUtil.selector.relation.emptyRelationIdsSelected();
                             },
                             renderRelation: function(relation) {
-                                var removeFunc = function(relation) {
-                                    view.renderer.relation.destroy(relation.id);
-                                };
+                                relation.bind('remove', removeJsPlumbConnection);
+                                relation.bind('change-predicate', changeJsPlubmOverlay);
 
-                                var changePredFunc = function(relation) {
-                                    view.renderer.relation.changePredicate(relation.id, relation.pred);
-
-                                    // selection
-                                    view.domUtil.selector.relation.select(relation.id);
-                                };
-
-                                relation.bind('remove', removeFunc);
-                                relation.bind('change-predicate', changePredFunc);
-
-                                view.renderer.relation.render(relation.id);
-                            },
-                            render: function(relationId) {
-                                // Make a connector by jsPlumb.
-                                var conn = jsPlumbInstance.connect({
-                                    source: view.domUtil.selector.entity.get(model.annotationData.relations[relationId].subj),
-                                    target: view.domUtil.selector.entity.get(model.annotationData.relations[relationId].obj),
-                                    anchors: ['TopCenter', "TopCenter"],
-                                    connector: ['Bezier', {
-                                        curviness: determineCurviness(relationId)
-                                    }],
-                                    paintStyle: view.viewModel.getConnectorStrokeStyle(relationId),
-                                    parameters: {
-                                        'id': relationId,
-                                    },
-                                    cssClass: 'textae-editor__relation',
-                                    overlays: [
-                                        ['Arrow', arrowStyle],
-                                        ['Label', {
-                                            label: '[' + relationId + '] ' + model.annotationData.relations[relationId].pred,
-                                            cssClass: 'textae-editor__relation__label'
-                                        }]
-                                    ]
-                                });
-
-                                // Notify to controller that a new jsPlumbConnection is added.
-                                editor.trigger('textae.editor.jsPlumbConnection.add', conn);
-
-                                // Set a function debounce to avoid over rendering.
-                                conn.arrangePosition = _.debounce(_.partial(arrangePosition, relationId), 20);
-
-                                // Cache a connector instance.
-                                cachedConnectors[relationId] = conn;
-                                return conn;
-                            },
-                            destroy: function(relationId) {
-                                jsPlumbInstance.detach(toConnector(relationId));
-                                delete cachedConnectors[relationId];
-                            },
-                            changePredicate: function(relationId, predicate) {
-                                var connector = toConnector(relationId);
-                                if (!connector) {
-                                    throw 'no connector';
-                                }
-
-                                // Find the label overlay by self, because the function 'getLabelOverlays' returns no label overlay.
-                                var labelOverlay = connector.getOverlays().filter(function(overlay) {
-                                    return overlay.type === 'Label';
-                                })[0];
-                                if (!labelOverlay) {
-                                    throw 'no label overlay';
-                                }
-
-                                labelOverlay.setLabel('[' + relationId + '] ' + predicate);
-                                connector.setPaintStyle(view.viewModel.getConnectorStrokeStyle(relationId));
+                                createJsPlumbConnection(relation);
                             },
                             arrangePositionAll: function() {
                                 // Move entitis before a calculation the position of relations.
