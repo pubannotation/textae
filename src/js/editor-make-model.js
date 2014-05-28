@@ -402,12 +402,10 @@
                             };
                         });
 
-                    return JSON.stringify({
-                        annotations: $.extend(originalData, {
-                            'denotations': denotations,
-                            'relations': annotationData.relation.all()
-                        })
-                    });
+                    return JSON.stringify($.extend(originalData, {
+                        'denotations': denotations,
+                        'relations': annotationData.relation.all()
+                    }));
                 }
             };
         }();
