@@ -2,7 +2,6 @@
         var annotationData = function() {
             var originalData;
             var spanContainer = {};
-            var entities = {};
             var sortedSpanIds = null;
 
             var updateSpanTree = function() {
@@ -73,10 +72,6 @@
                 return prefix + (ids.length === 0 ? 1 : Math.max.apply(null, ids) + 1);
             };
 
-            var getNewEntityId = _.partial(getNewId, 'E', function() {
-                return Object.keys(entities);
-            });
-
             var innerAddSpan = function(span) {
                 var additionalPropertiesForSpan = {
                     isChildOf: function(maybeParent) {
@@ -115,8 +110,7 @@
                         var spanId = this.id;
 
                         // Return an array of type like { id : "editor2__S1741_1755-1", name: "Negative_regulation", entities: ["E16", "E17"] }.
-                        return Object.keys(entities)
-                            .map(annotationData.getEntity)
+                        return annotationData.entity.all()
                             .filter(function(entity) {
                                 return spanId === entity.span;
                             })
@@ -183,6 +177,61 @@
                 return _.extend({}, obj, binding);
             };
 
+            var entity = function() {
+                var entities = {},
+                    getIds = function() {
+                        return Object.keys(entities);
+                    },
+                    getNewEntityId = _.partial(getNewId, 'E', getIds);
+
+                return {
+                    // Expected an entity like {id: "E21", span: "editor2__S50_54", type: "Protein"}.
+                    add: function(entity) {
+                        // Overwrite to revert
+                        entity.id = entity.id || getNewEntityId();
+
+                        var extendedEntity = extendBinding(entity);
+                        entities[entity.id] = extendedEntity;
+                        return extendedEntity;
+                    },
+                    get: function(entityId) {
+                        return entities[entityId];
+                    },
+                    all: function() {
+                        return _.map(entities, _.identity);
+                    },
+                    types: function() {
+                        return annotationData.entity.all().map(function(entity) {
+                            return entity.type;
+                        });
+                    },
+                    assosicatedRelations: function(entityId) {
+                        return annotationData.relation.all().filter(function(r) {
+                            return r.obj === entityId || r.subj === entityId;
+                        }).map(function(r) {
+                            return r.id;
+                        });
+                    },
+                    changeType: function(entityId, newType) {
+                        var entity = annotationData.entity.get(entityId);
+                        entity.type = newType;
+                        entity.trigger('change-type');
+                        return entity;
+                    },
+                    remove: function(entityId) {
+                        var entity = annotationData.entity.get(entityId);
+                        if (entity) {
+                            delete entities[entityId];
+                            entity.trigger('remove');
+                        }
+                        return entity;
+                    },
+                    clear: function() {
+                        entities = {};
+                    }
+                };
+            }();
+
             var relation = function() {
                 var relations = {},
                     getIds = function() {
@@ -192,9 +241,7 @@
 
                 return {
                     add: function(relation) {
-                        if (!relation.id) {
-                            relation.id = getNewRelationId();
-                        }
+                        relation.id = relation.id || getNewRelationId();
 
                         var extendedRelation = extendBinding(relation);
                         relations[relation.id] = extendedRelation;
@@ -203,10 +250,8 @@
                     get: function(relationId) {
                         return relations[relationId];
                     },
-                    all: function(relationId) {
-                        return _.map(relations, function(value) {
-                            return value;
-                        });
+                    all: function() {
+                        return _.map(relations, _.identity);
                     },
                     some: function() {
                         return _.some(relations);
@@ -231,6 +276,7 @@
             }();
 
             return {
+                entity: entity,
                 relation: relation,
                 sourceDoc: '',
                 spansTopLevel: [],
@@ -273,12 +319,12 @@
 
                             // Init
                             spanContainer = {};
-                            entities = {};
+                            annotationData.entity.clear();
 
                             if (denotations) {
                                 denotations.forEach(function(entity) {
                                     innerAddSpan(entity.span);
-                                    annotationData.addEntity({
+                                    annotationData.entity.add({
                                         id: entity.id,
                                         span: idFactory.makeSpanId(entity.span.begin, entity.span.end),
                                         type: entity.obj,
@@ -351,45 +397,8 @@
                         return span;
                     });
                 },
-                // Expected an entity like {id: "E21", span: "editor2__S50_54", type: "Protein"}.
-                addEntity: function(entity) {
-                    var extendedEntity = extendBinding(entity);
-                    entities[entity.id] = extendedEntity;
-                    return extendedEntity;
-                },
-                getEntity: function(entityId) {
-                    return entities[entityId];
-                },
-                changeEntityType: function(entityId, newType) {
-                    var entity = annotationData.getEntity(entityId);
-                    entity.type = newType;
-                    entity.trigger('change-type');
-                    return entity;
-                },
-                removeEnitity: function(entityId) {
-                    var entity = annotationData.getEntity(entityId);
-                    if (entity) {
-                        delete entities[entityId];
-                        entity.trigger('remove');
-                    }
-                    return entity;
-                },
-                getEntityTypes: function() {
-                    return Object.keys(entities).map(function(key) {
-                        return annotationData.getEntity(key).type;
-                    });
-                },
-                getAssosicatedRelations: function(entityId) {
-                    return annotationData.relation.all().filter(function(r) {
-                        return r.obj === entityId || r.subj === entityId;
-                    }).map(function(r) {
-                        return r.id;
-                    });
-                },
-                getNewEntityId: getNewEntityId,
                 toJson: function() {
-                    var denotations = Object.keys(entities)
-                        .map(annotationData.getEntity)
+                    var denotations = annotationData.entity.all()
                         .map(function(entity) {
                             var span = annotationData.getSpan(entity.span);
                             return {

@@ -268,7 +268,7 @@
                     }
                 };
 
-                var entityContainer = createTypeContainer(model.annotationData.getEntityTypes, '#77DDDD');
+                var entityContainer = createTypeContainer(model.annotationData.entity.types, '#77DDDD');
                 var relationContaier = createTypeContainer(model.annotationData.relation.types, '#555555');
 
                 return {
@@ -520,7 +520,7 @@
                         return view.domUtil.selector.grid.get(spanId).offset();
                     }),
                     getEntity: function(entityId) {
-                        var spanId = model.annotationData.getEntity(entityId).span;
+                        var spanId = model.annotationData.entity.get(entityId).span;
 
                         var $entity = view.domUtil.selector.entity.get(entityId);
                         if ($entity.length === 0) {
@@ -694,7 +694,7 @@
                         };
 
                         var renderEntitiesOfType = function(type) {
-                            type.entities.forEach(_.compose(view.renderer.entity.render, model.annotationData.getEntity));
+                            type.entities.forEach(_.compose(view.renderer.entity.render, model.annotationData.entity.get));
                         };
 
                         var renderEntitiesOfSpan = function(span) {
@@ -955,7 +955,7 @@
                                 span.getTypes().map(function(type) {
                                     return type.entities;
                                 }).reduce(textAeUtil.flatten, [])
-                                .map(model.annotationData.getAssosicatedRelations)
+                                .map(model.annotationData.entity.assosicatedRelations)
                                 .reduce(textAeUtil.flatten, [])
                                 .map(toConnector)
                             ).forEach(function(connector) {
@@ -1377,7 +1377,7 @@
                 }(),
                 hover: function() {
                     var processAccosiatedRelation = function(func, entityId) {
-                        model.annotationData.getAssosicatedRelations(entityId)
+                        model.annotationData.entity.assosicatedRelations(entityId)
                             .map(toConnector)
                             .forEach(func);
                     };
@@ -2109,27 +2109,26 @@
                                 };
                             },
                             entityCreateCommand: function(spanId, typeName, entityId) {
+                                // model
+                                var newEntity = model.annotationData.entity.add({
+                                    id: entityId,
+                                    span: spanId,
+                                    type: typeName
+                                });
+
                                 return {
                                     execute: function() {
-                                        // Overwrite to revert
-                                        entityId = entityId || model.annotationData.getNewEntityId();
-                                        // model
-                                        var newEntity = model.annotationData.addEntity({
-                                            id: entityId,
-                                            span: spanId,
-                                            type: typeName
-                                        });
-
                                         // rendering
                                         view.renderer.entity.render(newEntity);
-                                        // select
-                                        view.domUtil.selector.entity.select(entityId);
 
-                                        debugLog('create a new entity, spanId:' + spanId + ', type:' + typeName + '  entityId:' + entityId);
+                                        // select
+                                        view.domUtil.selector.entity.select(newEntity.id);
+
+                                        debugLog('create a new entity, spanId:' + spanId + ', type:' + typeName + '  entityId:' + newEntity.id);
                                     },
                                     revert: function() {
                                         // This function cannot be bound, because a new entity id is created at execute.
-                                        return controller.command.factory.entityRemoveCommand(entityId, spanId, typeName);
+                                        return controller.command.factory.entityRemoveCommand(newEntity.id, spanId, typeName);
                                     }
                                 };
                             },
@@ -2137,11 +2136,11 @@
                                 // The spanId and typeName of exist entity are neccesary to revert.
                                 // The spanId and typeName are specified when this function is called from revert of createEntityCommand.
                                 // Because a new entity is not exist yet.
-                                var entity = model.annotationData.getEntity(entityId);
+                                var entity = model.annotationData.entity.get(entityId);
                                 return {
                                     execute: function() {
                                         // model
-                                        model.annotationData.removeEnitity(entityId);
+                                        model.annotationData.entity.remove(entityId);
 
                                         debugLog('remove a entity, spanId:' + entity.span + ', type:' + entity.type + ', entityId:' + entityId);
                                     },
@@ -2149,15 +2148,15 @@
                                 };
                             },
                             entityChangeTypeCommand: function(entityId, newType) {
-                                var oldType = model.annotationData.getEntity(entityId).type;
+                                var oldType = model.annotationData.entity.get(entityId).type;
 
                                 return {
                                     execute: function() {
-                                        var changedEntity = model.annotationData.changeEntityType(entityId, newType);
+                                        var changedEntity = model.annotationData.entity.changeType(entityId, newType);
 
                                         debugLog('change type of a entity, spanId:' + changedEntity.span + ', type:' + oldType + ', entityId:' + entityId + ', newType:' + newType);
                                     },
-                                    revert: _.partial(controller.command.factory.entityChangeTypeCommand, entityId, model.annotationData.getEntity(entityId).type)
+                                    revert: _.partial(controller.command.factory.entityChangeTypeCommand, entityId, model.annotationData.entity.get(entityId).type)
                                 };
                             },
                             // The relaitonId is optional set only when revert of the relationRemoveCommand.
@@ -2172,7 +2171,6 @@
 
                                 return {
                                     execute: function() {
-
                                         // Render
                                         view.renderer.relation.render(newRelation);
 
@@ -2296,7 +2294,7 @@
 
                                 var removeEnitity = function(entityId) {
                                     removeCommand.addEntityId(entityId);
-                                    removeCommand.addRelations(model.annotationData.getAssosicatedRelations(entityId));
+                                    removeCommand.addRelations(model.annotationData.entity.assosicatedRelations(entityId));
                                 };
 
                                 //remove spans
@@ -2344,7 +2342,7 @@
                                 var commands = view.domUtil.selector.span.getSelecteds().map(function(spanId) {
                                     // The view.viewModel.clipBoard has enitityIds.
                                     return view.viewModel.clipBoard.map(function(entityId) {
-                                        return controller.command.factory.entityCreateCommand(spanId, model.annotationData.getEntity(entityId).type);
+                                        return controller.command.factory.entityCreateCommand(spanId, model.annotationData.entity.get(entityId).type);
                                     });
                                 }).reduce(textAeUtil.flatten, []);
 
