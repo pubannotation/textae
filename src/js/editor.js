@@ -775,6 +775,10 @@
                             });
                         };
 
+                        var doesSpanHasNoEntity = function(spanId) {
+                            return model.annotationData.getSpan(spanId).getTypes().length === 0;
+                        };
+
                         var removeEntityElement = function(entity) {
                             var doesTypeHasNoEntity = function(typeName) {
                                 return model.annotationData.getSpan(entity.span).getTypes().filter(function(type) {
@@ -792,6 +796,24 @@
                                 // Arrage the position of TypePane, because number of entities decrease.
                                 arrangePositionOfPane(getTypeDom(entity.span, oldType).find('.textae-editor__entity-pane'));
                             }
+                        };
+
+                        var destroy = function(entity) {
+                            if (doesSpanHasNoEntity(entity.span)) {
+                                // Destroy a grid when all entities are remove. 
+                                destroyGrid(entity.span);
+                            } else {
+                                // Destroy an each entity.
+                                removeEntityElement(entity);
+                            }
+                        };
+
+                        var changeTypeOfExists = function(entity) {
+                            // Remove old entity.
+                            removeEntityElement(entity);
+
+                            // Show new entity.
+                            view.renderer.entity.render(entity);
                         };
 
                         return {
@@ -901,8 +923,8 @@
                                     return $entity;
                                 };
 
-                                entity.bind('remove', view.renderer.entity.destroy);
-                                entity.bind('change-type', view.renderer.entity.changeTypeOfExists);
+                                entity.bind('remove', destroy);
+                                entity.bind('change-type', changeTypeOfExists);
 
                                 // Replace null to 'null' if type is null and undefined too.
                                 entity.type = String(entity.type);
@@ -913,26 +935,6 @@
                                     .append(createEntityElement(entity));
 
                                 arrangePositionOfPane(pane);
-                            },
-                            destroy: function(entity) {
-                                var doesSpanHasNoEntity = function(spanId) {
-                                    return model.annotationData.getSpan(spanId).getTypes().length === 0;
-                                };
-
-                                if (doesSpanHasNoEntity(entity.span)) {
-                                    // Destroy a grid when all entities are remove. 
-                                    destroyGrid(entity.span);
-                                } else {
-                                    // Destroy an each entity.
-                                    removeEntityElement(entity);
-                                }
-                            },
-                            changeTypeOfExists: function(entity) {
-                                // Remove old entity.
-                                removeEntityElement(entity);
-
-                                // Show new entity.
-                                view.renderer.entity.render(entity);
                             },
                         };
                     }(),
