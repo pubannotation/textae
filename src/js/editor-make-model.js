@@ -189,18 +189,27 @@
             };
 
             var relation = {
-                addRelation: function(relation) {
+                add: function(relation) {
                     var extendedRelation = extendBind(relation);
                     annotationData.relations[relation.id] = extendedRelation;
                     return extendedRelation;
                 },
-                remove: function(relationId) {
-                    annotationData.relations[relationId].trigger('remove');
-                    delete annotationData.relations[relationId];
+                get: function(relationId) {
+                    return annotationData.relations[relationId];
+                },
+                all: function(relationId){
+                    return annotationData.relations;
+                },
+                some: function(){
+                    return _.some(annotationData.relations);
                 },
                 changePredicate: function(relationId, predicate) {
                     annotationData.relations[relationId].pred = predicate;
                     annotationData.relations[relationId].trigger('change-predicate');
+                },
+                remove: function(relationId) {
+                    annotationData.relations[relationId].trigger('remove');
+                    delete annotationData.relations[relationId];
                 }
             };
 
@@ -271,7 +280,7 @@
 
                             annotationData.relations = {};
                             _.each(relations, function(relation) {
-                                annotationData.relation.addRelation(relation);
+                                annotationData.relation.add(relation);
                             });
 
                             return annotation;

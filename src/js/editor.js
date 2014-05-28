@@ -465,7 +465,7 @@
 
                         // TODO configにrelationの設定がなくて、annotationにrelationがひとつも無いときにはcolorHexが取得できないため、relationが作れない。
                         // そもそもそのような状況を想定すべきか謎。何かしらの・・・configは必須ではないか？
-                        var pred = model.annotationData.relations[relationId].pred;
+                        var pred = model.annotationData.relation.get(relationId).pred;
                         var colorHex = view.viewModel.typeContainer.relation.getColor(pred);
 
                         return {
@@ -617,7 +617,7 @@
                             renderAllRelation: function() {
                                 view.renderer.relation.reset();
 
-                                _.each(model.annotationData.relations, function(relation) {
+                                _.each(model.annotationData.relation.all(), function(relation) {
                                     _.defer(_.partial(view.renderer.relation.renderRelation, relation));
                                 });
                             },
@@ -1072,8 +1072,8 @@
                         }();
 
                         var determineCurviness = function(relationId) {
-                            var sourceId = model.annotationData.relations[relationId].subj;
-                            var targetId = model.annotationData.relations[relationId].obj;
+                            var sourceId = model.annotationData.relation.get(relationId).subj;
+                            var targetId = model.annotationData.relation.get(relationId).obj;
 
                             var sourcePosition = positionUtils.getEntity(sourceId);
                             var targetPosition = positionUtils.getEntity(targetId);
@@ -1953,7 +1953,7 @@
                     if (multiEntitiesSpans.length > 0) {
                         view.renderer.helper.changeLineHeight(4);
                         controller.userEvent.viewHandler.setViewMode('instance');
-                    } else if (Object.keys(model.annotationData.relations).length) {
+                    } else if (model.annotationData.relation.some()) {
                         view.renderer.helper.changeLineHeight(10);
                         controller.userEvent.viewHandler.setViewMode('relation');
                     } else {
@@ -2164,7 +2164,7 @@
                                 return {
                                     execute: function() {
                                         // Add relation to model
-                                        var newRelation = model.annotationData.relation.addRelation({
+                                        var newRelation = model.annotationData.relation.add({
                                             id: relationId,
                                             pred: predicate,
                                             subj: subject,
@@ -2184,7 +2184,7 @@
                                 };
                             },
                             relationRemoveCommand: function(relationId) {
-                                var relation = model.annotationData.relations[relationId];
+                                var relation = model.annotationData.relation.get(relationId);
                                 var subject = relation.subj;
                                 var object = relation.obj;
                                 var predicate = relation.pred;
@@ -2199,12 +2199,12 @@
                                 };
                             },
                             relationChangePredicateCommand: function(relationId, predicate) {
-                                var oldPredicate = model.annotationData.relations[relationId].pred;
+                                var oldPredicate = model.annotationData.relation.get(relationId).pred;
                                 return {
                                     execute: function() {
                                         model.annotationData.relation.changePredicate(relationId, predicate);
 
-                                        debugLog('change predicate of relation, relationId:' + relationId + ', subject:' + model.annotationData.relations[relationId].subj + ', object:' + model.annotationData.relations[relationId].obj + ', predicate:' + oldPredicate + ', newPredicate:' + predicate);
+                                        debugLog('change predicate of relation, relationId:' + relationId + ', subject:' + model.annotationData.relation.get(relationId).subj + ', object:' + model.annotationData.relation.get(relationId).obj + ', predicate:' + oldPredicate + ', newPredicate:' + predicate);
                                     },
                                     revert: _.partial(controller.command.factory.relationChangePredicateCommand, relationId, oldPredicate)
                                 };
