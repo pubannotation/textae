@@ -269,7 +269,7 @@
                 };
 
                 var entityContainer = createTypeContainer(model.annotationData.getEntityTypes, '#77DDDD');
-                var relationContaier = createTypeContainer(model.annotationData.getRelationTypes, '#555555');
+                var relationContaier = createTypeContainer(model.annotationData.relation.types, '#555555');
 
                 return {
                     // view.viewModel.clipBoard has entity id only.
@@ -617,7 +617,7 @@
                             renderAllRelation: function() {
                                 view.renderer.relation.reset();
 
-                                _.each(model.annotationData.relation.all(), function(relation) {
+                                model.annotationData.relation.all().forEach(function(relation) {
                                     _.defer(_.partial(view.renderer.relation.renderRelation, relation));
                                 });
                             },
@@ -2160,27 +2160,29 @@
                                     revert: _.partial(controller.command.factory.entityChangeTypeCommand, entityId, model.annotationData.getEntity(entityId).type)
                                 };
                             },
-                            relationCreateCommand: function(relationId, subject, object, predicate) {
+                            // The relaitonId is optional set only when revert of the relationRemoveCommand.
+                            relationCreateCommand: function(subject, object, predicate, relationId) {
+                                // Add relation to model
+                                var newRelation = model.annotationData.relation.add({
+                                    id: relationId,
+                                    pred: predicate,
+                                    subj: subject,
+                                    obj: object
+                                });
+                                
                                 return {
                                     execute: function() {
-                                        // Add relation to model
-                                        var newRelation = model.annotationData.relation.add({
-                                            id: relationId,
-                                            pred: predicate,
-                                            subj: subject,
-                                            obj: object
-                                        });
 
                                         // Render
                                         view.renderer.relation.renderRelation(newRelation);
 
                                         // Selection
                                         // Set the css class lately, because jsPlumbConnector is no applyed that css class immediately after create.
-                                        _.delay(_.partial(view.domUtil.selector.relation.select, relationId), 100);
+                                        _.delay(_.partial(view.domUtil.selector.relation.select, newRelation.id), 100);
 
-                                        debugLog('create a new relation relationId:' + relationId + ', subject:' + subject + ', object:' + object + ', predicate:' + predicate);
+                                        debugLog('create a new relation relationId:' + newRelation.id + ', subject:' + subject + ', object:' + object + ', predicate:' + predicate);
                                     },
-                                    revert: _.partial(controller.command.factory.relationRemoveCommand, relationId)
+                                    revert: _.partial(controller.command.factory.relationRemoveCommand, newRelation.id)
                                 };
                             },
                             relationRemoveCommand: function(relationId) {
@@ -2195,7 +2197,7 @@
 
                                         debugLog('remove a relation relationId:' + relationId + ', subject:' + subject + ', object:' + object + ', predicate:' + predicate);
                                     },
-                                    revert: _.partial(controller.command.factory.relationCreateCommand, relationId, subject, object, predicate)
+                                    revert: _.partial(controller.command.factory.relationCreateCommand, subject, object, predicate, relationId)
                                 };
                             },
                             relationChangePredicateCommand: function(relationId, predicate) {
@@ -2384,7 +2386,6 @@
                                                 view.domUtil.selector.entity.select(objectEntityId);
                                                 _.defer(function() {
                                                     controller.command.invoke([controller.command.factory.relationCreateCommand(
-                                                        model.annotationData.getNewRelationId(),
                                                         subjectEntityId,
                                                         objectEntityId,
                                                         view.viewModel.typeContainer.relation.getDefaultType()

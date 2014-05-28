@@ -77,12 +77,6 @@
                 return Object.keys(entities);
             });
 
-            var getRelationIds = function() {
-                return Object.keys(annotationData.relations);
-            };
-
-            var getNewRelationId = _.partial(getNewId, 'R', getRelationIds);
-
             var innerAddSpan = function(span) {
                 var additionalPropertiesForSpan = {
                     isChildOf: function(maybeParent) {
@@ -188,36 +182,57 @@
                 return _.extend({}, obj, extend);
             };
 
-            var relation = {
-                add: function(relation) {
-                    var extendedRelation = extendBind(relation);
-                    annotationData.relations[relation.id] = extendedRelation;
-                    return extendedRelation;
-                },
-                get: function(relationId) {
-                    return annotationData.relations[relationId];
-                },
-                all: function(relationId){
-                    return annotationData.relations;
-                },
-                some: function(){
-                    return _.some(annotationData.relations);
-                },
-                changePredicate: function(relationId, predicate) {
-                    annotationData.relations[relationId].pred = predicate;
-                    annotationData.relations[relationId].trigger('change-predicate');
-                },
-                remove: function(relationId) {
-                    annotationData.relations[relationId].trigger('remove');
-                    delete annotationData.relations[relationId];
-                }
-            };
+            var relation = function() {
+                var relations = {},
+                    getIds = function() {
+                        return Object.keys(relations);
+                    },
+                    getNewRelationId = _.partial(getNewId, 'R', getIds);
+
+                return {
+                    add: function(relation) {
+                        if (!relation.id) {
+                            relation.id = getNewRelationId();
+                        }
+
+                        var extendedRelation = extendBind(relation);
+                        relations[relation.id] = extendedRelation;
+                        return extendedRelation;
+                    },
+                    get: function(relationId) {
+                        return relations[relationId];
+                    },
+                    all: function(relationId) {
+                        return _.map(relations, function(value) {
+                            return value;
+                        });
+                    },
+                    some: function() {
+                        return _.some(relations);
+                    },
+                    types: function() {
+                        return Object.keys(relations).map(function(key) {
+                            return relations[key].pred;
+                        });
+                    },
+                    changePredicate: function(relationId, predicate) {
+                        relations[relationId].pred = predicate;
+                        relations[relationId].trigger('change-predicate');
+                    },
+                    remove: function(relationId) {
+                        relations[relationId].trigger('remove');
+                        delete relations[relationId];
+                    },
+                    clear: function() {
+                        relations = {};
+                    }
+                };
+            }();
 
             return {
                 relation: relation,
                 sourceDoc: '',
                 spansTopLevel: [],
-                relations: {},
                 modifications: [],
                 reset: function() {
                     var setOriginalData = function(annotation) {
@@ -276,10 +291,10 @@
                         },
                         // Expected relations is an Array of object like { "id": "R1", "pred": "locatedAt", "subj": "E1", "obj": "T1" }.
                         parseRelations = function(annotationData, annotation) {
-                            var relations = annotation.relations;
+                            var newRelations = annotation.relations;
 
-                            annotationData.relations = {};
-                            _.each(relations, function(relation) {
+                            annotationData.relation.clear();
+                            _.each(newRelations, function(relation) {
                                 annotationData.relation.add(relation);
                             });
 
@@ -354,20 +369,14 @@
                         return annotationData.getEntity(key).type;
                     });
                 },
-                getRelationTypes: function() {
-                    return Object.keys(annotationData.relations).map(function(key) {
-                        return annotationData.relations[key].pred;
-                    });
-                },
                 getAssosicatedRelations: function(entityId) {
-                    return Object.keys(annotationData.relations).filter(function(key) {
-                        var r = annotationData.relations[key];
+                    return annotationData.relation.all().filter(function(r) {
                         return r.obj === entityId || r.subj === entityId;
+                    }).map(function(r) {
+                        return r.id;
                     });
                 },
                 getNewEntityId: getNewEntityId,
-                getRelationIds: getRelationIds,
-                getNewRelationId: getNewRelationId,
                 toJson: function() {
                     var denotations = Object.keys(entities)
                         .map(annotationData.getEntity)
@@ -383,14 +392,10 @@
                             };
                         });
 
-                    var relations = Object.keys(annotationData.relations).map(function(relationId) {
-                        return annotationData.relations[relationId];
-                    });
-
                     return JSON.stringify({
                         annotations: $.extend(originalData, {
                             'denotations': denotations,
-                            'relations': relations
+                            'relations': annotationData.relation.all()
                         })
                     });
                 }
