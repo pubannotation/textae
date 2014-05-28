@@ -369,8 +369,8 @@
                 removeEnitity: function(entityId) {
                     var entity = annotationData.getEntity(entityId);
                     if (entity) {
-                        entity.trigger('remove');
                         delete entities[entityId];
+                        entity.trigger('remove');
                     }
                     return entity;
                 },
