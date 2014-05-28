@@ -617,10 +617,14 @@
                             renderAllRelation: function() {
                                 view.renderer.relation.reset();
 
-                                model.annotationData.getRelationIds()
-                                    .forEach(function(relationId) {
-                                        _.defer(_.partial(view.renderer.relation.render, relationId));
-                                    });
+                                _.each(model.annotationData.relations, function(relation){
+                                    _.defer(_.partial(view.renderer.relation.renderRelation, relation));
+                                });
+
+                                // model.annotationData.getRelationIds()
+                                //     .forEach(function(relationId) {
+                                //         _.defer(_.partial(view.renderer.relation.render, relationId));
+                                //     });
                             },
                             changeLineHeight: function(heightValue) {
                                 editor.find('.textae-editor__body__text-box').css({
@@ -1126,6 +1130,23 @@
                                 jsPlumbInstance.reset();
                                 cachedConnectors = {};
                                 view.domUtil.selector.relation.emptyRelationIdsSelected();
+                            },
+                            renderRelation: function(relation) {
+                                var removeFunc = function(relation) {
+                                    view.renderer.relation.destroy(relation.id);
+                                };
+
+                                var changePredFunc = function(relation) {
+                                    view.renderer.relation.changePredicate(relation.id, relation.pred);
+
+                                    // selection
+                                    view.domUtil.selector.relation.select(relation.id);
+                                };
+
+                                relation.bind('remove', removeFunc);
+                                relation.bind('change-predicate', changePredFunc);
+
+                                view.renderer.relation.render(relation.id);
                             },
                             render: function(relationId) {
                                 // Make a connector by jsPlumb.
@@ -2155,15 +2176,23 @@
                             relationCreateCommand: function(relationId, subject, object, predicate) {
                                 return {
                                     execute: function() {
-                                        model.annotationData.relations[relationId] = {
-                                            id: relationId,
-                                            pred: predicate,
-                                            subj: subject,
-                                            obj: object
+                                        var addRelation = function(relationId, subject, object, predicate) {
+                                            var newRelation = {
+                                                id: relationId,
+                                                pred: predicate,
+                                                subj: subject,
+                                                obj: object
+                                            };
+                                            newRelation = model.annotationData.extendBind(newRelation);
+                                            model.annotationData.relations[relationId] = newRelation;
+                                            return newRelation;
                                         };
 
-                                        // Rendering
-                                        view.renderer.relation.render(relationId);
+                                        // Add relation to model
+                                        var newRelation = addRelation(relationId, subject, object, predicate);
+
+                                        // Render
+                                        view.renderer.relation.renderRelation(newRelation);
 
                                         // Selection
                                         // Set the css class lately, because jsPlumbConnector is no applyed that css class immediately after create.
@@ -2183,10 +2212,8 @@
                                 return {
                                     execute: function() {
                                         // model
+                                        model.annotationData.relations[relationId].trigger('remove');
                                         delete model.annotationData.relations[relationId];
-
-                                        // rendering
-                                        view.renderer.relation.destroy(relationId);
 
                                         debugLog('remove a relation relationId:' + relationId + ', subject:' + subject + ', object:' + object + ', predicate:' + predicate);
                                     },
@@ -2199,12 +2226,7 @@
                                     execute: function() {
                                         // model
                                         model.annotationData.relations[relationId].pred = predicate;
-
-                                        // rendering
-                                        view.renderer.relation.changePredicate(relationId, predicate);
-
-                                        // selection
-                                        view.domUtil.selector.relation.select(relationId);
+                                        model.annotationData.relations[relationId].trigger('change-predicate');
 
                                         debugLog('change predicate of relation, relationId:' + relationId + ', subject:' + model.annotationData.relations[relationId].subj + ', object:' + model.annotationData.relations[relationId].obj + ', predicate:' + oldPredicate + ', newPredicate:' + predicate);
                                     },

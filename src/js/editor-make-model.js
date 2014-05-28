@@ -169,7 +169,27 @@
                 }
             };
 
+            var extendBind = function(obj) {
+                var extend = function() {
+                    var callbacks = {};
+
+                    return {
+                        bind: function(event, callback) {
+                            callbacks[event] = callback;
+                        },
+                        trigger: function(event) {
+                            if (callbacks[event]) {
+                                callbacks[event](this);
+                            }
+                        }
+                    };
+                }();
+
+                return _.extend({}, obj, extend);
+            };
+
             return {
+                extendBind: extendBind,
                 sourceDoc: '',
                 spansTopLevel: [],
                 relations: {},
@@ -234,7 +254,7 @@
                             var relations = annotation.relations;
 
                             annotationData.relations = relations ? relations.reduce(function(a, b) {
-                                a[b.id] = $.extend({}, b);
+                                a[b.id] = extendBind(b);
                                 return a;
                             }, {}) : {};
 
