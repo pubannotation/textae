@@ -901,6 +901,9 @@
                                     return $entity;
                                 };
 
+                                entity.bind('remove', view.renderer.entity.destroy);
+                                entity.bind('change-type', view.renderer.entity.changeTypeOfExists);
+
                                 // Replace null to 'null' if type is null and undefined too.
                                 entity.type = String(entity.type);
 
@@ -2109,12 +2112,12 @@
                                         // Overwrite to revert
                                         entityId = entityId || model.annotationData.getNewEntityId();
                                         // model
-                                        var newEntity = {
+                                        var newEntity = model.annotationData.addEntity({
                                             id: entityId,
                                             span: spanId,
                                             type: typeName
-                                        };
-                                        model.annotationData.addEntity(newEntity);
+                                        });
+
                                         // rendering
                                         view.renderer.entity.render(newEntity);
                                         // select
@@ -2136,9 +2139,7 @@
                                 return {
                                     execute: function() {
                                         // model
-                                        var deleteEntity = model.annotationData.removeEnitity(entityId);
-                                        // rendering
-                                        view.renderer.entity.destroy(deleteEntity);
+                                        model.annotationData.removeEnitity(entityId);
 
                                         debugLog('remove a entity, spanId:' + entity.span + ', type:' + entity.type + ', entityId:' + entityId);
                                     },
@@ -2146,14 +2147,11 @@
                                 };
                             },
                             entityChangeTypeCommand: function(entityId, newType) {
+                                var oldType = model.annotationData.getEntity(entityId).type;
+
                                 return {
                                     execute: function() {
-                                        var changedEntity = model.annotationData.removeEnitity(entityId);
-                                        var oldType = changedEntity.type;
-                                        changedEntity.type = newType;
-                                        model.annotationData.addEntity(changedEntity);
-                                        // rendering
-                                        view.renderer.entity.changeTypeOfExists(changedEntity);
+                                        var changedEntity = model.annotationData.changeEntityType(entityId, newType);
 
                                         debugLog('change type of a entity, spanId:' + changedEntity.span + ', type:' + oldType + ', entityId:' + entityId + ', newType:' + newType);
                                     },
@@ -2169,7 +2167,7 @@
                                     subj: subject,
                                     obj: object
                                 });
-                                
+
                                 return {
                                     execute: function() {
 

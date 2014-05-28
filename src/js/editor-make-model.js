@@ -153,7 +153,7 @@
 
                 //add a span unless exists, because an annotations.json is defiend by entities so spans are added many times. 
                 if (!annotationData.getSpan(spanId)) {
-                    //a span is exteded nondestructively to render.
+                    //a span is extended nondestructively to render.
                     spanContainer[spanId] = $.extend({
                             id: spanId,
                             paragraph: findParagraph(span),
@@ -353,14 +353,23 @@
                 },
                 // Expected an entity like {id: "E21", span: "editor2__S50_54", type: "Protein"}.
                 addEntity: function(entity) {
-                    entities[entity.id] = entity;
+                    var extendedEntity = extendBinding(entity);
+                    entities[entity.id] = extendedEntity;
+                    return extendedEntity;
                 },
                 getEntity: function(entityId) {
                     return entities[entityId];
                 },
+                changeEntityType: function(entityId, newType) {
+                    var entity = annotationData.getEntity(entityId);
+                    entity.type = newType;
+                    entity.trigger('change-type');
+                    return entity;
+                },
                 removeEnitity: function(entityId) {
                     var entity = annotationData.getEntity(entityId);
                     if (entity) {
+                        entity.trigger('remove');
                         delete entities[entityId];
                     }
                     return entity;
