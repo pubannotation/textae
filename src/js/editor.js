@@ -554,6 +554,11 @@
                 };
 
                 return {
+                    init: function() {
+                        model.annotationData.relation.bind('add', function(list, element) {
+                            view.renderer.relation.render(element);
+                        });
+                    },
                     reset: function() {
                         // the Souce document has multi paragraphs that are splited by '\n'.
                         var getTaggedSourceDoc = function() {
@@ -1397,6 +1402,7 @@
             return {
                 init: function() {
                     view.viewModel.buttonStateHelper.init();
+                    view.renderer.init();
                 },
                 renderer: renderer,
                 domUtil: domUtil,
@@ -2173,10 +2179,6 @@
                                             subj: subject,
                                             obj: object
                                         });
-
-
-                                        // Render
-                                        view.renderer.relation.render(newRelation);
 
                                         // Selection
                                         // Set the css class lately, because jsPlumbConnector is no applyed that css class immediately after create.

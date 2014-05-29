@@ -28,6 +28,7 @@
                         if (callbacks[event]) {
                             callbacks[event](this, data);
                         }
+                        return data;
                     }
                 };
             };
@@ -305,47 +306,51 @@
 
                         var extendedRelation = extendBindable(relation);
                         relationContainer[relation.id] = extendedRelation;
-                        return extendedRelation;
-                    };
 
-                return {
-                    add: add,
-                    concat: function(relations) {
-                        if (relations) relations.forEach(add);
+                        return extendedRelation;
                     },
-                    get: function(relationId) {
-                        return relationContainer[relationId];
-                    },
-                    all: function() {
-                        return _.map(relationContainer, _.identity);
-                    },
-                    some: function() {
-                        return _.some(relationContainer);
-                    },
-                    types: function() {
-                        return Object.keys(relationContainer).map(function(key) {
-                            return relationContainer[key].pred;
-                        });
-                    },
-                    changePredicate: function(relationId, predicate) {
-                        relationContainer[relationId].pred = predicate;
-                        relationContainer[relationId].trigger('change-predicate');
-                    },
-                    remove: function(relationId) {
-                        relationContainer[relationId].trigger('remove');
-                        delete relationContainer[relationId];
-                    },
-                    clear: function() {
-                        relationContainer = {};
-                    }
-                };
+                    api = extendBindable({
+                        add: function(relation) {
+                            return api.trigger('add', add(relation));
+                        },
+                        concat: function(relations) {
+                            if (relations) relations.forEach(add);
+                        },
+                        get: function(relationId) {
+                            return relationContainer[relationId];
+                        },
+                        all: function() {
+                            return _.map(relationContainer, _.identity);
+                        },
+                        some: function() {
+                            return _.some(relationContainer);
+                        },
+                        types: function() {
+                            return Object.keys(relationContainer).map(function(key) {
+                                return relationContainer[key].pred;
+                            });
+                        },
+                        changePredicate: function(relationId, predicate) {
+                            relationContainer[relationId].pred = predicate;
+                            relationContainer[relationId].trigger('change-predicate');
+                        },
+                        remove: function(relationId) {
+                            relationContainer[relationId].trigger('remove');
+                            delete relationContainer[relationId];
+                        },
+                        clear: function() {
+                            relationContainer = {};
+                        }
+                    });
+
+                return api;
             }();
 
             var modification = function() {
                 var modificationContainer = [];
                 return {
                     concat: function(modifications) {
-                        if(modifications) modificationContainer = modificationContainer.concat(modifications);
+                        if (modifications) modificationContainer = modificationContainer.concat(modifications);
                     },
                     all: function() {
                         return modificationContainer;
@@ -360,7 +365,7 @@
                 span: span,
                 entity: entity,
                 relation: relation,
-                modification:modification,
+                modification: modification,
                 sourceDoc: '',
                 reset: function() {
                     var setOriginalData = function(annotation) {
