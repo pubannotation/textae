@@ -1,4 +1,26 @@
     var makeModel = function(idFactory) {
+        // A mixin for the separeted presentation by the observer pattern.
+        var bindable = function() {
+            var callbacks = {};
+
+            return {
+                bind: function(event, callback) {
+                    callbacks[event] = callback;
+                    return this;
+                },
+                trigger: function(event, data) {
+                    if (callbacks[event]) {
+                        callbacks[event](data);
+                    }
+                    return data;
+                }
+            };
+        };
+
+        var extendBindable = function(obj) {
+            return _.extend({}, obj, bindable());
+        };
+
         var annotationData = function() {
             var originalData;
 
@@ -13,28 +35,6 @@
 
                 // The Math.max retrun -Infinity when the second argument array is empty.
                 return prefix + (ids.length === 0 ? 1 : Math.max.apply(null, ids) + 1);
-            };
-
-            // A mixin for the separeted presentation by the observer pattern.
-            var bindable = function() {
-                var callbacks = {};
-
-                return {
-                    bind: function(event, callback) {
-                        callbacks[event] = callback;
-                        return this;
-                    },
-                    trigger: function(event, data) {
-                        if (callbacks[event]) {
-                            callbacks[event](data);
-                        }
-                        return data;
-                    }
-                };
-            };
-
-            var extendBindable = function(obj) {
-                return _.extend({}, obj, bindable());
             };
 
             var span = function() {
@@ -365,7 +365,7 @@
                 };
             }();
 
-            return {
+            var api = extendBindable({
                 span: span,
                 entity: entity,
                 relation: relation,
@@ -396,6 +396,11 @@
 
                                     textLengthBeforeThisParagraph += p.length + 1;
                                     return ret;
+                                });
+
+                                api.trigger('change-text', {
+                                    sourceDoc: sourceDoc,
+                                    paragraphsArray: annotationData.paragraphsArray
                                 });
                             } else {
                                 throw "read failed.";
@@ -480,7 +485,9 @@
                         'relations': annotationData.relation.all()
                     }));
                 }
-            };
+            });
+
+            return api;
         }();
 
         return {
