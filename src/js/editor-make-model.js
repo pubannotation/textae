@@ -1,63 +1,6 @@
     var makeModel = function(idFactory) {
         var annotationData = function() {
             var originalData;
-            var spanContainer = {};
-            var sortedSpanIds = null;
-
-            var updateSpanTree = function() {
-                // Sort id of spans by the position.
-                var sortedSpans = annotationData.getAllSpan().sort(function(a, b) {
-                    return a.begin - b.begin || b.end - a.end;
-                });
-
-                // the spanTree has parent-child structure.
-                var spanTree = [];
-                sortedSpans.map(function(span, index, array) {
-                    return $.extend(span, {
-                        // Reset children
-                        children: [],
-                        // Order by position
-                        left: index !== 0 ? array[index - 1] : null,
-                        right: index !== array.length - 1 ? array[index + 1] : null,
-                    });
-                })
-                .forEach(function(span) {
-                    // Find the parent of this span.
-                    var lastPushedSpan = spanTree[spanTree.length - 1];
-                    if (span.isChildOf(span.left)) {
-                        // The left span is the parent.
-                        // The left span may be the parent of a current span because span id is sorted.
-                        span.left.children.push(span);
-                        span.parent = span.left;
-                    } else if (span.left && span.isChildOf(span.left.parent)) {
-                        // The left span is the bigBrother.
-                        // The parent of the left span may be the parent of a current span.
-                        span.left.parent.children.push(span);
-                        span.parent = span.left.parent;
-                    } else if (span.isChildOf(lastPushedSpan)) {
-                        // The last pushed span is the parent.
-                        // This occur when prev node is also a child of last pushed span.
-                        lastPushedSpan.children.push(span);
-                        span.parent = lastPushedSpan;
-                    } else {
-                        // A current span has no parent.
-                        spanTree.push(span);
-                    }
-                });
-
-                //this for debug.
-                spanTree.toString = function() {
-                    return this.map(function(span) {
-                        return span.toString();
-                    }).join("\n");
-                };
-                // console.log(spanTree.toString());
-
-                sortedSpanIds = sortedSpans.map(function(span) {
-                    return span.id;
-                });
-                annotationData.spansTopLevel = spanTree;
-            };
 
             var getNewId = function(prefix, getIdsFunction) {
                 var ids = getIdsFunction()
@@ -88,114 +31,219 @@
                 };
             };
 
-            var innerAddSpan = function(span) {
-                var additionalPropertiesForSpan = {
-                    isChildOf: function(maybeParent) {
-                        return maybeParent && maybeParent.begin <= span.begin && span.end <= maybeParent.end;
-                    },
-                    //for debug. print myself only.
-                    toStringOnlyThis: function() {
-                        return "span " + this.begin + ":" + this.end + ":" + annotationData.sourceDoc.substring(this.begin, this.end);
-                    },
-                    //for debug. print with children.
-                    toString: function(depth) {
-                        depth = depth || 1; //default depth is 1
-
-                        var childrenString = this.children && this.children.length > 0 ?
-                            "\n" + this.children.map(function(child) {
-                                return new Array(depth + 1).join("\t") + child.toString(depth + 1);
-                            }).join("\n") : "";
-
-                        return this.toStringOnlyThis() + childrenString;
-                    },
-                    // A big brother is brother node on a structure at rendered.
-                    // There is no big brother if the span is first in a paragrpah.
-                    // Warning: parent is set at updateSpanTree, is not exists now.
-                    getBigBrother: function() {
-                        var index;
-                        if (this.parent) {
-                            index = this.parent.children.indexOf(this);
-                            return index === 0 ? null : this.parent.children[index - 1];
-                        } else {
-                            index = annotationData.spansTopLevel.indexOf(this);
-                            return index === 0 || annotationData.spansTopLevel[index - 1].paragraph !== this.paragraph ? null : annotationData.spansTopLevel[index - 1];
-                        }
-                    },
-                    // Get online for update is not grantieed.
-                    getTypes: function() {
-                        var spanId = this.id;
-
-                        // Return an array of type like { id : "editor2__S1741_1755-1", name: "Negative_regulation", entities: ["E16", "E17"] }.
-                        return annotationData.entity.all()
-                            .filter(function(entity) {
-                                return spanId === entity.span;
-                            })
-                            .reduce(function(a, b) {
-                                var typeId = idFactory.makeTypeId(b.span, b.type);
-
-                                var type = a.filter(function(type) {
-                                    return type.id === typeId;
-                                });
-
-                                if (type.length > 0) {
-                                    type[0].entities.push(b.id);
-                                } else {
-                                    a.push({
-                                        id: typeId,
-                                        name: b.type,
-                                        entities: [b.id]
-                                    });
-                                }
-                                return a;
-                            }, []);
-                    }
-                };
-
-                //get the paragraph that span is belong to.
-                var findParagraph = function(self) {
-                    var match = annotationData.paragraphsArray.filter(function(p) {
-                        return self.begin >= p.begin && self.end <= p.end;
-                    });
-                    return match.length > 0 ? match[0] : null;
-                };
-
-                var spanId = idFactory.makeSpanId(span.begin, span.end);
-
-                //add a span unless exists, because an annotations.json is defiend by entities so spans are added many times. 
-                if (!annotationData.getSpan(spanId)) {
-                    //a span is extended nondestructively to render.
-                    var newSpan = $.extend({
-                            id: spanId,
-                            paragraph: findParagraph(span),
-                        },
-                        span,
-                        additionalPropertiesForSpan,
-                        bindable());
-                    spanContainer[spanId] = newSpan;
-                    return newSpan;
-                }
-            };
-
             var extendBindable = function(obj) {
                 return _.extend({}, obj, bindable());
             };
+
+            var span = function() {
+                var spanContainer = {},
+                    spanTopLevel = [],
+                    innerAddSpan = function(span) {
+                        var additionalPropertiesForSpan = {
+                            isChildOf: function(maybeParent) {
+                                return maybeParent && maybeParent.begin <= span.begin && span.end <= maybeParent.end;
+                            },
+                            //for debug. print myself only.
+                            toStringOnlyThis: function() {
+                                return "span " + this.begin + ":" + this.end + ":" + annotationData.sourceDoc.substring(this.begin, this.end);
+                            },
+                            //for debug. print with children.
+                            toString: function(depth) {
+                                depth = depth || 1; //default depth is 1
+
+                                var childrenString = this.children && this.children.length > 0 ?
+                                    "\n" + this.children.map(function(child) {
+                                        return new Array(depth + 1).join("\t") + child.toString(depth + 1);
+                                    }).join("\n") : "";
+
+                                return this.toStringOnlyThis() + childrenString;
+                            },
+                            // A big brother is brother node on a structure at rendered.
+                            // There is no big brother if the span is first in a paragrpah.
+                            // Warning: parent is set at updateSpanTree, is not exists now.
+                            getBigBrother: function() {
+                                var index;
+                                if (this.parent) {
+                                    index = this.parent.children.indexOf(this);
+                                    return index === 0 ? null : this.parent.children[index - 1];
+                                } else {
+                                    index = annotationData.span.topLevel().indexOf(this);
+                                    return index === 0 || annotationData.span.topLevel()[index - 1].paragraph !== this.paragraph ? null : annotationData.span.topLevel()[index - 1];
+                                }
+                            },
+                            // Get online for update is not grantieed.
+                            getTypes: function() {
+                                var spanId = this.id;
+
+                                // Return an array of type like { id : "editor2__S1741_1755-1", name: "Negative_regulation", entities: ["E16", "E17"] }.
+                                return annotationData.entity.all()
+                                    .filter(function(entity) {
+                                        return spanId === entity.span;
+                                    })
+                                    .reduce(function(a, b) {
+                                        var typeId = idFactory.makeTypeId(b.span, b.type);
+
+                                        var type = a.filter(function(type) {
+                                            return type.id === typeId;
+                                        });
+
+                                        if (type.length > 0) {
+                                            type[0].entities.push(b.id);
+                                        } else {
+                                            a.push({
+                                                id: typeId,
+                                                name: b.type,
+                                                entities: [b.id]
+                                            });
+                                        }
+                                        return a;
+                                    }, []);
+                            }
+                        };
+
+                        //get the paragraph that span is belong to.
+                        var findParagraph = function(self) {
+                            var match = annotationData.paragraphsArray.filter(function(p) {
+                                return self.begin >= p.begin && self.end <= p.end;
+                            });
+                            return match.length > 0 ? match[0] : null;
+                        };
+
+                        var spanId = idFactory.makeSpanId(span.begin, span.end);
+
+                        //add a span unless exists, because an annotations.json is defiend by entities so spans are added many times. 
+                        if (!annotationData.span.get(spanId)) {
+                            //a span is extended nondestructively to render.
+                            var newSpan = $.extend({
+                                    id: spanId,
+                                    paragraph: findParagraph(span),
+                                },
+                                span,
+                                additionalPropertiesForSpan,
+                                bindable());
+                            spanContainer[spanId] = newSpan;
+                            return newSpan;
+                        }
+                    },
+                    updateSpanTree = function() {
+                        // Sort id of spans by the position.
+                        var sortedSpans = annotationData.span.all().sort(function(a, b) {
+                            return a.begin - b.begin || b.end - a.end;
+                        });
+
+                        // the spanTree has parent-child structure.
+                        var spanTree = [];
+                        sortedSpans.map(function(span, index, array) {
+                            return $.extend(span, {
+                                // Reset children
+                                children: [],
+                                // Order by position
+                                left: index !== 0 ? array[index - 1] : null,
+                                right: index !== array.length - 1 ? array[index + 1] : null,
+                            });
+                        })
+                            .forEach(function(span) {
+                                // Find the parent of this span.
+                                var lastPushedSpan = spanTree[spanTree.length - 1];
+                                if (span.isChildOf(span.left)) {
+                                    // The left span is the parent.
+                                    // The left span may be the parent of a current span because span id is sorted.
+                                    span.left.children.push(span);
+                                    span.parent = span.left;
+                                } else if (span.left && span.isChildOf(span.left.parent)) {
+                                    // The left span is the bigBrother.
+                                    // The parent of the left span may be the parent of a current span.
+                                    span.left.parent.children.push(span);
+                                    span.parent = span.left.parent;
+                                } else if (span.isChildOf(lastPushedSpan)) {
+                                    // The last pushed span is the parent.
+                                    // This occur when prev node is also a child of last pushed span.
+                                    lastPushedSpan.children.push(span);
+                                    span.parent = lastPushedSpan;
+                                } else {
+                                    // A current span has no parent.
+                                    spanTree.push(span);
+                                }
+                            });
+
+                        //this for debug.
+                        spanTree.toString = function() {
+                            return this.map(function(span) {
+                                return span.toString();
+                            }).join("\n");
+                        };
+                        // console.log(spanTree.toString());
+
+                        spanTopLevel = spanTree;
+                    };
+
+                return {
+                    //expected span is like { "begin": 19, "end": 49 }
+                    add: function(span) {
+                        var newSpan = innerAddSpan(span);
+                        updateSpanTree();
+                        return newSpan;
+                    },
+                    concat: function(spans) {
+                        if (spans) {
+                            spans.forEach(innerAddSpan);
+                            updateSpanTree();
+                        }
+                    },
+                    get: function(spanId) {
+                        return spanContainer[spanId];
+                    },
+                    all: function() {
+                        return $.map(spanContainer, function(span) {
+                            return span;
+                        });
+                    },
+                    range: function(firstId, secondId) {
+                        var first = spanContainer[firstId];
+                        var second = spanContainer[secondId];
+
+                        return Object.keys(spanContainer).filter(function(spanId) {
+                            var span = spanContainer[spanId];
+                            return first.begin <= span.begin && span.end <= second.end;
+                        });
+                    },
+                    topLevel: function() {
+                        return spanTopLevel;
+                    },
+                    remove: function(spanId) {
+                        var span = annotationData.span.get(spanId);
+                        delete spanContainer[spanId];
+                        updateSpanTree();
+
+                        span.trigger('remove');
+                    },
+                    clear: function() {
+                        spanContainer = {};
+                        spanTree = [];
+                    }
+                };
+            }();
 
             var entity = function() {
                 var entities = {},
                     getIds = function() {
                         return Object.keys(entities);
                     },
-                    getNewEntityId = _.partial(getNewId, 'E', getIds);
-
-                return {
+                    getNewEntityId = _.partial(getNewId, 'E', getIds),
                     // Expected an entity like {id: "E21", span: "editor2__S50_54", type: "Protein"}.
-                    add: function(entity) {
+                    add = function(entity) {
                         // Overwrite to revert
                         entity.id = entity.id || getNewEntityId();
 
                         var extendedEntity = extendBindable(entity);
                         entities[entity.id] = extendedEntity;
                         return extendedEntity;
+                    };
+
+                return {
+                    add: add,
+                    concat: function(entities) {
+                        if (entities) entities.forEach(add);
                     },
                     get: function(entityId) {
                         return entities[entityId];
@@ -240,15 +288,19 @@
                     getIds = function() {
                         return Object.keys(relations);
                     },
-                    getNewRelationId = _.partial(getNewId, 'R', getIds);
-
-                return {
-                    add: function(relation) {
+                    getNewRelationId = _.partial(getNewId, 'R', getIds),
+                    add = function(relation) {
                         relation.id = relation.id || getNewRelationId();
 
                         var extendedRelation = extendBindable(relation);
                         relations[relation.id] = extendedRelation;
                         return extendedRelation;
+                    };
+
+                return {
+                    add: add,
+                    concat: function(relations) {
+                        if (relations) relations.forEach(add);
                     },
                     get: function(relationId) {
                         return relations[relationId];
@@ -279,10 +331,10 @@
             }();
 
             return {
+                span: span,
                 entity: entity,
                 relation: relation,
                 sourceDoc: '',
-                spansTopLevel: [],
                 modifications: [],
                 reset: function() {
                     var setOriginalData = function(annotation) {
@@ -321,21 +373,22 @@
                             var denotations = annotation.denotations;
 
                             // Init
-                            spanContainer = {};
+                            annotationData.span.clear();
                             annotationData.entity.clear();
 
                             if (denotations) {
-                                denotations.forEach(function(entity) {
-                                    innerAddSpan(entity.span);
-                                    annotationData.entity.add({
+                                annotationData.span.concat(denotations.map(function(entity) {
+                                    return entity.span;
+                                }));
+
+                                annotationData.entity.concat(denotations.map(function(entity) {
+                                    return {
                                         id: entity.id,
                                         span: idFactory.makeSpanId(entity.span.begin, entity.span.end),
                                         type: entity.obj,
-                                    });
-                                });
+                                    };
+                                }));
                             }
-
-                            updateSpanTree();
 
                             return annotation;
                         },
@@ -344,9 +397,7 @@
                             var newRelations = annotation.relations;
 
                             annotationData.relation.clear();
-                            _.each(newRelations, function(relation) {
-                                annotationData.relation.add(relation);
-                            });
+                            annotationData.relation.concat(newRelations);
 
                             return annotation;
                         },
@@ -374,42 +425,10 @@
                         }
                     };
                 }(),
-                //expected span is like { "begin": 19, "end": 49 }
-                addSpan: function(span) {
-                    var newSpan = innerAddSpan(span);
-                    updateSpanTree();
-
-                    return newSpan;
-                },
-                removeSpan: function(spanId) {
-                    var span = annotationData.getSpan(spanId);
-                    
-                    delete spanContainer[spanId];
-                    updateSpanTree();
-
-                    span.trigger('remove');
-                },
-                getSpan: function(spanId) {
-                    return spanContainer[spanId];
-                },
-                getRangeOfSpan: function(firstId, secondId) {
-                    var first = spanContainer[firstId];
-                    var second = spanContainer[secondId];
-
-                    return Object.keys(spanContainer).filter(function(spanId) {
-                        var span = spanContainer[spanId];
-                        return first.begin <= span.begin && span.end <= second.end;
-                    });
-                },
-                getAllSpan: function() {
-                    return $.map(spanContainer, function(span) {
-                        return span;
-                    });
-                },
                 toJson: function() {
                     var denotations = annotationData.entity.all()
                         .map(function(entity) {
-                            var span = annotationData.getSpan(entity.span);
+                            var span = annotationData.span.get(entity.span);
                             return {
                                 'id': entity.id,
                                 'span': {
@@ -466,7 +485,7 @@
 
                 // Is the candidateSpan is spaned already?
                 var isAlreadySpaned = function(candidateSpan) {
-                    return annotationData.getAllSpan().filter(function(existSpan) {
+                    return annotationData.span.all().filter(function(existSpan) {
                         return existSpan.begin === candidateSpan.begin && existSpan.end === candidateSpan.end;
                     }).length > 0;
                 };
@@ -474,7 +493,7 @@
                 // A span its range is coross over with other spans are not able to rendered.
                 // Because spans are renderd with span tag. Html tags can not be cross over.
                 var isBoundaryCrossingWithOtherSpans = function(candidateSpan) {
-                    return annotationData.getAllSpan().filter(function(existSpan) {
+                    return annotationData.span.all().filter(function(existSpan) {
                         return (existSpan.begin < candidateSpan.begin && candidateSpan.begin < existSpan.end && existSpan.end < candidateSpan.end) ||
                             (candidateSpan.begin < existSpan.begin && existSpan.begin < candidateSpan.end && candidateSpan.end < existSpan.end);
                     }).length > 0;
