@@ -26,7 +26,7 @@
                     },
                     trigger: function(event, data) {
                         if (callbacks[event]) {
-                            callbacks[event](this, data);
+                            callbacks[event](data);
                         }
                         return data;
                     }
@@ -226,7 +226,7 @@
                             delete spanContainer[spanId];
                             updateSpanTree();
 
-                            span.trigger('remove');
+                            span.trigger('remove', span);
                         },
                         clear: function() {
                             spanContainer = {};
@@ -280,14 +280,14 @@
                         changeType: function(entityId, newType) {
                             var entity = annotationData.entity.get(entityId);
                             entity.type = newType;
-                            entity.trigger('change-type');
+                            entity.trigger('change-type', entity);
                             return entity;
                         },
                         remove: function(entityId) {
                             var entity = annotationData.entity.get(entityId);
                             if (entity) {
                                 delete entityContainer[entityId];
-                                entity.trigger('remove');
+                                entity.trigger('remove', entity);
                             }
                             return entity;
                         },
@@ -336,10 +336,10 @@
                         },
                         changePredicate: function(relationId, predicate) {
                             relationContainer[relationId].pred = predicate;
-                            relationContainer[relationId].trigger('change-predicate');
+                            relationContainer[relationId].trigger('change-predicate', relationContainer[relationId]);
                         },
                         remove: function(relationId) {
-                            relationContainer[relationId].trigger('remove');
+                            relationContainer[relationId].trigger('remove', relationContainer[relationId]);
                             delete relationContainer[relationId];
                         },
                         clear: function() {

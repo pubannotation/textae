@@ -555,15 +555,9 @@
 
                 return {
                     init: function() {
-                        model.annotationData.span.bind('add', function(list, element) {
-                            view.renderer.span.render(element);
-                        });
-                        model.annotationData.entity.bind('add', function(list, element) {
-                            view.renderer.entity.render(element);
-                        });
-                        model.annotationData.relation.bind('add', function(list, element) {
-                            view.renderer.relation.render(element);
-                        });
+                        model.annotationData.span.bind('add', view.renderer.span.render);
+                        model.annotationData.entity.bind('add', view.renderer.entity.render);
+                        model.annotationData.relation.bind('add', view.renderer.relation.render);
                     },
                     reset: function() {
                         // the Souce document has multi paragraphs that are splited by '\n'.
