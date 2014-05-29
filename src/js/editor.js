@@ -554,6 +554,17 @@
                 };
 
                 return {
+                    init: function() {
+                        model.annotationData.span.bind('add', function(list, element) {
+                            view.renderer.span.render(element);
+                        });
+                        model.annotationData.entity.bind('add', function(list, element) {
+                            view.renderer.entity.render(element);
+                        });
+                        model.annotationData.relation.bind('add', function(list, element) {
+                            view.renderer.relation.render(element);
+                        });
+                    },
                     reset: function() {
                         // the Souce document has multi paragraphs that are splited by '\n'.
                         var getTaggedSourceDoc = function() {
@@ -1397,6 +1408,7 @@
             return {
                 init: function() {
                     view.viewModel.buttonStateHelper.init();
+                    view.renderer.init();
                 },
                 renderer: renderer,
                 domUtil: domUtil,
@@ -2016,9 +2028,6 @@
                                             end: span.end
                                         });
 
-                                        // rendering
-                                        view.renderer.span.render(newSpan);
-
                                         // select
                                         view.domUtil.selector.span.select(newSpan.id);
 
@@ -2122,9 +2131,6 @@
                                             type: typeName
                                         });
 
-                                        // rendering
-                                        view.renderer.entity.render(newEntity);
-
                                         // select
                                         view.domUtil.selector.entity.select(newEntity.id);
 
@@ -2173,10 +2179,6 @@
                                             subj: subject,
                                             obj: object
                                         });
-
-
-                                        // Render
-                                        view.renderer.relation.render(newRelation);
 
                                         // Selection
                                         // Set the css class lately, because jsPlumbConnector is no applyed that css class immediately after create.
