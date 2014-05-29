@@ -164,8 +164,8 @@
                 parseSpanId: function(spanId) {
                     var beginEnd = spanId.replace(editor.editorId + '__S', '').split('_');
                     return {
-                        begin: beginEnd[0],
-                        end: beginEnd[1]
+                        begin: Number(beginEnd[0]),
+                        end: Number(beginEnd[1])
                     };
                 },
                 // The ID of type has number of type.
