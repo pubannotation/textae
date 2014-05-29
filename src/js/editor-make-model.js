@@ -13,15 +13,16 @@
 
                 // the spanTree has parent-child structure.
                 var spanTree = [];
-                sortedSpans.forEach(function(span, index, array) {
-                    $.extend(span, {
+                sortedSpans.map(function(span, index, array) {
+                    return $.extend(span, {
                         // Reset children
                         children: [],
                         // Order by position
                         left: index !== 0 ? array[index - 1] : null,
                         right: index !== array.length - 1 ? array[index + 1] : null,
                     });
-
+                })
+                .forEach(function(span) {
                     // Find the parent of this span.
                     var lastPushedSpan = spanTree[spanTree.length - 1];
                     if (span.isChildOf(span.left)) {
