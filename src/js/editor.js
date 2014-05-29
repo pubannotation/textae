@@ -2017,14 +2017,13 @@
 
                         return {
                             spanCreateCommand: function(span) {
-                                // model
-                                var newSpan = model.annotationData.addSpan({
-                                    begin: span.begin,
-                                    end: span.end
-                                });
-
                                 return {
                                     execute: function() {
+                                        // model
+                                        var newSpan = model.annotationData.addSpan({
+                                            begin: span.begin,
+                                            end: span.end
+                                        });
 
                                         // rendering
                                         view.renderer.span.render(newSpan);
@@ -2032,68 +2031,66 @@
                                         // select
                                         view.domUtil.selector.span.select(newSpan.id);
 
+                                        this.revert = _.partial(controller.command.factory.spanRemoveCommand, newSpan.id);
+
                                         debugLog('create a new span, spanId:' + newSpan.id);
-                                    },
-                                    revert: _.partial(controller.command.factory.spanRemoveCommand, newSpan.id)
+                                    }
                                 };
                             },
                             spanRemoveCommand: function(spanId) {
-                                var span = model.annotationData.getSpan(spanId);
                                 return {
                                     execute: function() {
+                                        var span = model.annotationData.getSpan(spanId);
+
                                         // model
                                         model.annotationData.removeSpan(spanId);
 
+                                        this.revert = _.partial(controller.command.factory.spanCreateCommand, {
+                                            begin: span.begin,
+                                            end: span.end
+                                        });
+
                                         debugLog('remove a span, spanId:' + spanId);
-                                    },
-                                    revert: _.partial(controller.command.factory.spanCreateCommand, {
-                                        begin: span.begin,
-                                        end: span.end
-                                    })
+                                    }
                                 };
                             },
                             spanMoveCommand: function(spanId, begin, end) {
-                                var commands = [];
-                                var newSpanId = idFactory.makeSpanId(begin, end);
-                                if (!model.annotationData.getSpan(newSpanId)) {
-                                    commands.push(controller.command.factory.spanRemoveCommand(spanId));
-                                    commands.push(controller.command.factory.spanCreateCommand({
-                                        begin: begin,
-                                        end: end
-                                    }));
-                                    model.annotationData.getSpan(spanId).getTypes().forEach(function(type) {
-                                        type.entities.forEach(function(entityId) {
-                                            commands.push(controller.command.factory.entityCreateCommand(newSpanId, type.name, entityId));
-                                        });
-                                    });
-                                }
-                                var oldBeginEnd = idFactory.parseSpanId(spanId);
-
                                 return {
                                     execute: function() {
+                                        var commands = [];
+                                        var newSpanId = idFactory.makeSpanId(begin, end);
+
+                                        if (!model.annotationData.getSpan(newSpanId)) {
+                                            commands.push(controller.command.factory.spanRemoveCommand(spanId));
+                                            commands.push(controller.command.factory.spanCreateCommand({
+                                                begin: begin,
+                                                end: end
+                                            }));
+                                            model.annotationData.getSpan(spanId).getTypes().forEach(function(type) {
+                                                type.entities.forEach(function(entityId) {
+                                                    commands.push(controller.command.factory.entityCreateCommand(newSpanId, type.name, entityId));
+                                                });
+                                            });
+                                        }
+
                                         commands.forEach(function(command) {
                                             command.execute();
                                         });
+
+                                        var oldBeginEnd = idFactory.parseSpanId(spanId);
+                                        this.revert = _.partial(controller.command.factory.spanMoveCommand, newSpanId, oldBeginEnd.begin, oldBeginEnd.end);
+
                                         debugLog('move a span, spanId:' + spanId + ', newBegin:' + begin + ', newEnd:' + end);
                                     },
-                                    revert: _.partial(controller.command.factory.spanMoveCommand, newSpanId, oldBeginEnd.begin, oldBeginEnd.end)
                                 };
                             },
                             spanReplicateCommand: function(span) {
-                                var commands = model.getReplicationSpans(span, controller.spanConfig)
-                                    .map(controller.command.factory.spanCreateCommand);
+                                var makeRevert = function(commands) {
+                                    var revertedCommands = commands.map(function(command) {
+                                        return command.revert();
+                                    });
 
-                                return {
-                                    execute: function() {
-                                        commands.forEach(function(command) {
-                                            command.execute();
-                                        });
-                                        debugLog('replicate a span, begin:' + span.begin + ', end:' + span.end);
-                                    },
-                                    revert: function() {
-                                        var revertedCommands = commands.map(function(command) {
-                                            return command.revert();
-                                        });
+                                    return function() {
                                         return {
                                             execute: function() {
                                                 revertedCommands.forEach(function(command) {
@@ -2102,6 +2099,25 @@
                                                 debugLog('revert replicate a span, begin:' + span.begin + ', end:' + span.end);
                                             }
                                         };
+                                    };
+                                };
+
+                                return {
+                                    execute: function() {
+                                        var commands = model.getReplicationSpans(span, controller.spanConfig)
+                                            .map(controller.command.factory.spanCreateCommand);
+
+                                        commands.forEach(function(command) {
+                                            command.execute();
+                                        });
+
+                                        var revertedCommands = commands.map(function(command) {
+                                            return command.revert();
+                                        });
+
+                                        this.revert = makeRevert(commands);
+
+                                        debugLog('replicate a span, begin:' + span.begin + ', end:' + span.end);
                                     }
                                 };
                             },
@@ -2132,12 +2148,12 @@
                                 return {
                                     execute: function() {
                                         var entity = model.annotationData.entity.get(entityId);
-        
+
                                         // model
                                         model.annotationData.entity.remove(entityId);
 
                                         this.revert = _.partial(controller.command.factory.entityCreateCommand, entity.span, entity.type, entityId);
-        
+
                                         debugLog('remove a entity, spanId:' + entity.span + ', type:' + entity.type + ', entityId:' + entityId);
                                     },
                                 };
@@ -2149,8 +2165,8 @@
 
                                         var changedEntity = model.annotationData.entity.changeType(entityId, newType);
 
-                                        this.revert= _.partial(controller.command.factory.entityChangeTypeCommand, entityId, oldType);
-                                        
+                                        this.revert = _.partial(controller.command.factory.entityChangeTypeCommand, entityId, oldType);
+
                                         debugLog('change type of a entity, spanId:' + changedEntity.span + ', type:' + oldType + ', entityId:' + entityId + ', newType:' + newType);
                                     }
                                 };
