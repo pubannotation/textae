@@ -96,7 +96,7 @@
                     toString: function(depth) {
                         depth = depth || 1; //default depth is 1
 
-                        var childrenString = this.children.length > 0 ?
+                        var childrenString = this.children && this.children.length > 0 ?
                             "\n" + this.children.map(function(child) {
                                 return new Array(depth + 1).join("\t") + child.toString(depth + 1);
                             }).join("\n") : "";
