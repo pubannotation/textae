@@ -250,49 +250,52 @@
                         var extendedEntity = extendBindable(entity);
                         entityContainer[entity.id] = extendedEntity;
                         return extendedEntity;
-                    };
-
-                return {
-                    add: add,
-                    concat: function(entities) {
-                        if (entities) entities.forEach(add);
                     },
-                    get: function(entityId) {
-                        return entityContainer[entityId];
-                    },
-                    all: function() {
-                        return _.map(entityContainer, _.identity);
-                    },
-                    types: function() {
-                        return annotationData.entity.all().map(function(entity) {
-                            return entity.type;
-                        });
-                    },
-                    assosicatedRelations: function(entityId) {
-                        return annotationData.relation.all().filter(function(r) {
-                            return r.obj === entityId || r.subj === entityId;
-                        }).map(function(r) {
-                            return r.id;
-                        });
-                    },
-                    changeType: function(entityId, newType) {
-                        var entity = annotationData.entity.get(entityId);
-                        entity.type = newType;
-                        entity.trigger('change-type');
-                        return entity;
-                    },
-                    remove: function(entityId) {
-                        var entity = annotationData.entity.get(entityId);
-                        if (entity) {
-                            delete entityContainer[entityId];
-                            entity.trigger('remove');
+                    api = extendBindable({
+                        add: function(entity) {
+                            return api.trigger('add', add(entity));
+                        },
+                        concat: function(entities) {
+                            if (entities) entities.forEach(add);
+                        },
+                        get: function(entityId) {
+                            return entityContainer[entityId];
+                        },
+                        all: function() {
+                            return _.map(entityContainer, _.identity);
+                        },
+                        types: function() {
+                            return annotationData.entity.all().map(function(entity) {
+                                return entity.type;
+                            });
+                        },
+                        assosicatedRelations: function(entityId) {
+                            return annotationData.relation.all().filter(function(r) {
+                                return r.obj === entityId || r.subj === entityId;
+                            }).map(function(r) {
+                                return r.id;
+                            });
+                        },
+                        changeType: function(entityId, newType) {
+                            var entity = annotationData.entity.get(entityId);
+                            entity.type = newType;
+                            entity.trigger('change-type');
+                            return entity;
+                        },
+                        remove: function(entityId) {
+                            var entity = annotationData.entity.get(entityId);
+                            if (entity) {
+                                delete entityContainer[entityId];
+                                entity.trigger('remove');
+                            }
+                            return entity;
+                        },
+                        clear: function() {
+                            entityContainer = {};
                         }
-                        return entity;
-                    },
-                    clear: function() {
-                        entityContainer = {};
-                    }
-                };
+                    });
+
+                return api;
             }();
 
             var relation = function() {

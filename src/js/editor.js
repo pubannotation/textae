@@ -555,6 +555,9 @@
 
                 return {
                     init: function() {
+                        model.annotationData.entity.bind('add', function(list, element) {
+                            view.renderer.entity.render(element);
+                        });
                         model.annotationData.relation.bind('add', function(list, element) {
                             view.renderer.relation.render(element);
                         });
@@ -2127,9 +2130,6 @@
                                             span: spanId,
                                             type: typeName
                                         });
-
-                                        // rendering
-                                        view.renderer.entity.render(newEntity);
 
                                         // select
                                         view.domUtil.selector.entity.select(newEntity.id);
