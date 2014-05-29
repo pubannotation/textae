@@ -555,44 +555,41 @@
 
                 return {
                     init: function() {
-                        var renderText = function(params) {
-                            // the Souce document has multi paragraphs that are splited by '\n'.
-                            var getTaggedSourceDoc = function(sourceDoc) {
-                                //set sroucedoc tagged <p> per line.
-                                return sourceDoc.split("\n").map(function(par) {
-                                    return '<p class="textae-editor__body__text-box__paragraph">' + par + '</p>';
-                                }).join("\n");
-                            };
-
-                            // Paragraphs is Object that has position of charactor at start and end of the statement in each paragraph.
-                            var makeParagraphs = function(paragraphsArray) {
-                                var paragraphs = {};
-
-                                //enchant id to paragraph element and chache it.
-                                view.renderer.helper.getSourceDocArea().find('p').each(function(index, element) {
-                                    var $element = $(element);
-                                    var paragraph = $.extend({}, paragraphsArray[index], {
-                                        element: $element,
-                                    });
-                                    $element.attr('id', paragraph.id);
-
-                                    console.log(paragraph);
-
-                                    paragraphs[paragraph.id] = paragraph;
-                                });
-
-                                return paragraphs;
-                            };
-
-                            // Render the source document
-                            view.renderer.helper.getSourceDocArea().html(getTaggedSourceDoc(params.sourceDoc));
-                            view.renderer.paragraphs = makeParagraphs(params.paragraphsArray);
-                        };
-
-                        model.annotationData.bind('change-text', renderText);
+                        model.annotationData.bind('change-text', view.renderer.renderText);
                         model.annotationData.span.bind('add', view.renderer.span.render);
                         model.annotationData.entity.bind('add', view.renderer.entity.render);
                         model.annotationData.relation.bind('add', view.renderer.relation.render);
+                    },
+                    renderText: function(params) {
+                        // the Souce document has multi paragraphs that are splited by '\n'.
+                        var getTaggedSourceDoc = function(sourceDoc) {
+                            //set sroucedoc tagged <p> per line.
+                            return sourceDoc.split("\n").map(function(par) {
+                                return '<p class="textae-editor__body__text-box__paragraph">' + par + '</p>';
+                            }).join("\n");
+                        };
+
+                        // Paragraphs is Object that has position of charactor at start and end of the statement in each paragraph.
+                        var makeParagraphs = function(paragraphsArray) {
+                            var paragraphs = {};
+
+                            //enchant id to paragraph element and chache it.
+                            view.renderer.helper.getSourceDocArea().find('p').each(function(index, element) {
+                                var $element = $(element);
+                                var paragraph = $.extend({}, paragraphsArray[index], {
+                                    element: $element,
+                                });
+                                $element.attr('id', paragraph.id);
+
+                                paragraphs[paragraph.id] = paragraph;
+                            });
+
+                            return paragraphs;
+                        };
+
+                        // Render the source document
+                        view.renderer.helper.getSourceDocArea().html(getTaggedSourceDoc(params.sourceDoc));
+                        view.renderer.paragraphs = makeParagraphs(params.paragraphsArray);
                     },
                     reset: function() {
                         // Render annotations
