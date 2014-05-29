@@ -914,7 +914,7 @@
                                         });
 
                                     // Set css classes for modifications.
-                                    model.annotationData.modifications.filter(function(m) {
+                                    model.annotationData.modification.all().filter(function(m) {
                                         return m.obj === entity.id;
                                     }).map(function(m) {
                                         return 'textae-editor__entity-' + m.pred.toLowerCase();

@@ -330,12 +330,27 @@
                 };
             }();
 
+            var modification = function() {
+                var modificationContainer = [];
+                return {
+                    concat: function(modifications) {
+                        if(modifications) modificationContainer = modificationContainer.concat(modifications);
+                    },
+                    all: function() {
+                        return modificationContainer;
+                    },
+                    clear: function() {
+                        modificationContainer = [];
+                    }
+                };
+            }();
+
             return {
                 span: span,
                 entity: entity,
                 relation: relation,
+                modification:modification,
                 sourceDoc: '',
-                modifications: [],
                 reset: function() {
                     var setOriginalData = function(annotation) {
                             originalData = annotation;
@@ -405,7 +420,8 @@
                         parseModifications = function(annotationData, annotation) {
                             var modifications = annotation.modifications;
 
-                            annotationData.modifications = modifications ? modifications : [];
+                            annotationData.modification.clear();
+                            annotationData.modification.concat(modifications);
 
                             return annotation;
                         };
