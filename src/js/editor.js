@@ -2109,68 +2109,68 @@
                                 };
                             },
                             entityCreateCommand: function(spanId, typeName, entityId) {
-                                // model
-                                var newEntity = model.annotationData.entity.add({
-                                    id: entityId,
-                                    span: spanId,
-                                    type: typeName
-                                });
-
                                 return {
                                     execute: function() {
+                                        // model
+                                        var newEntity = model.annotationData.entity.add({
+                                            id: entityId,
+                                            span: spanId,
+                                            type: typeName
+                                        });
+
                                         // rendering
                                         view.renderer.entity.render(newEntity);
 
                                         // select
                                         view.domUtil.selector.entity.select(newEntity.id);
 
+                                        // Set revert
+                                        this.revert = _.partial(controller.command.factory.entityRemoveCommand, newEntity.id, spanId, typeName);
+
                                         debugLog('create a new entity, spanId:' + spanId + ', type:' + typeName + '  entityId:' + newEntity.id);
-                                    },
-                                    revert: function() {
-                                        // This function cannot be bound, because a new entity id is created at execute.
-                                        return controller.command.factory.entityRemoveCommand(newEntity.id, spanId, typeName);
                                     }
                                 };
                             },
                             entityRemoveCommand: function(entityId, spanId, typeName) {
-                                // The spanId and typeName of exist entity are neccesary to revert.
-                                // The spanId and typeName are specified when this function is called from revert of createEntityCommand.
-                                // Because a new entity is not exist yet.
-                                var entity = model.annotationData.entity.get(entityId);
                                 return {
                                     execute: function() {
+                                        var entity = model.annotationData.entity.get(entityId);
+        
                                         // model
                                         model.annotationData.entity.remove(entityId);
 
+                                        this.revert = _.partial(controller.command.factory.entityCreateCommand, entity.span, entity.type, entityId);
+        
                                         debugLog('remove a entity, spanId:' + entity.span + ', type:' + entity.type + ', entityId:' + entityId);
                                     },
-                                    revert: _.partial(controller.command.factory.entityCreateCommand, spanId || entity.span, typeName || entity.type, entityId)
                                 };
                             },
                             entityChangeTypeCommand: function(entityId, newType) {
-                                var oldType = model.annotationData.entity.get(entityId).type;
-
                                 return {
                                     execute: function() {
+                                        var oldType = model.annotationData.entity.get(entityId).type;
+
                                         var changedEntity = model.annotationData.entity.changeType(entityId, newType);
 
+                                        this.revert= _.partial(controller.command.factory.entityChangeTypeCommand, entityId, oldType);
+                                        
                                         debugLog('change type of a entity, spanId:' + changedEntity.span + ', type:' + oldType + ', entityId:' + entityId + ', newType:' + newType);
-                                    },
-                                    revert: _.partial(controller.command.factory.entityChangeTypeCommand, entityId, model.annotationData.entity.get(entityId).type)
+                                    }
                                 };
                             },
                             // The relaitonId is optional set only when revert of the relationRemoveCommand.
                             relationCreateCommand: function(subject, object, predicate, relationId) {
-                                // Add relation to model
-                                var newRelation = model.annotationData.relation.add({
-                                    id: relationId,
-                                    pred: predicate,
-                                    subj: subject,
-                                    obj: object
-                                });
-
                                 return {
                                     execute: function() {
+                                        // Add relation to model
+                                        var newRelation = model.annotationData.relation.add({
+                                            id: relationId,
+                                            pred: predicate,
+                                            subj: subject,
+                                            obj: object
+                                        });
+
+
                                         // Render
                                         view.renderer.relation.render(newRelation);
 
@@ -2178,35 +2178,40 @@
                                         // Set the css class lately, because jsPlumbConnector is no applyed that css class immediately after create.
                                         _.delay(_.partial(view.domUtil.selector.relation.select, newRelation.id), 100);
 
+                                        // Set Revert
+                                        this.revert = _.partial(controller.command.factory.relationRemoveCommand, newRelation.id);
+
                                         debugLog('create a new relation relationId:' + newRelation.id + ', subject:' + subject + ', object:' + object + ', predicate:' + predicate);
-                                    },
-                                    revert: _.partial(controller.command.factory.relationRemoveCommand, newRelation.id)
+                                    }
                                 };
                             },
                             relationRemoveCommand: function(relationId) {
-                                var relation = model.annotationData.relation.get(relationId);
-                                var subject = relation.subj;
-                                var object = relation.obj;
-                                var predicate = relation.pred;
-
                                 return {
                                     execute: function() {
+                                        var relation = model.annotationData.relation.get(relationId);
+                                        var subject = relation.subj;
+                                        var object = relation.obj;
+                                        var predicate = relation.pred;
+
                                         model.annotationData.relation.remove(relationId);
 
+                                        this.revert = _.partial(controller.command.factory.relationCreateCommand, subject, object, predicate, relationId);
+
                                         debugLog('remove a relation relationId:' + relationId + ', subject:' + subject + ', object:' + object + ', predicate:' + predicate);
-                                    },
-                                    revert: _.partial(controller.command.factory.relationCreateCommand, subject, object, predicate, relationId)
+                                    }
                                 };
                             },
                             relationChangePredicateCommand: function(relationId, predicate) {
-                                var oldPredicate = model.annotationData.relation.get(relationId).pred;
                                 return {
                                     execute: function() {
+                                        var oldPredicate = model.annotationData.relation.get(relationId).pred;
+
                                         model.annotationData.relation.changePredicate(relationId, predicate);
 
+                                        this.revert = _.partial(controller.command.factory.relationChangePredicateCommand, relationId, oldPredicate);
+
                                         debugLog('change predicate of relation, relationId:' + relationId + ', subject:' + model.annotationData.relation.get(relationId).subj + ', object:' + model.annotationData.relation.get(relationId).obj + ', predicate:' + oldPredicate + ', newPredicate:' + predicate);
-                                    },
-                                    revert: _.partial(controller.command.factory.relationChangePredicateCommand, relationId, oldPredicate)
+                                    }
                                 };
                             }
                         };
