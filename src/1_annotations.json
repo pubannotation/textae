@@ -322,6 +322,13 @@
 			"end": 290
 		},
 		"obj": "Protein"
+	}, {
+		"id": "E30",
+		"span": {
+			"begin": 69,
+			"end": 77
+		},
+		"obj": "Gene_expression"
 	}],
 	"relations": [{
 		"id": "R1",

@@ -1948,21 +1948,12 @@
                 };
 
                 var setDefautlViewMode = function() {
-                    var multiEntitiesSpans = model.annotationData.span.all()
-                        .filter(function(span) {
-                            var multiEntitiesTypes = span.getTypes().filter(function(type) {
-                                return type.entities.length > 1;
-                            });
-
-                            return multiEntitiesTypes.length > 0;
-                        });
-
-                    if (multiEntitiesSpans.length > 0) {
-                        view.renderer.helper.changeLineHeight(4);
-                        controller.userEvent.viewHandler.setViewMode('instance');
-                    } else if (model.annotationData.relation.some()) {
+                    if (model.annotationData.relation.some()) {
                         view.renderer.helper.changeLineHeight(10);
                         controller.userEvent.viewHandler.setViewMode('relation');
+                    } else if (model.annotationData.span.multiEntities().length > 0) {
+                        view.renderer.helper.changeLineHeight(4);
+                        controller.userEvent.viewHandler.setViewMode('instance');
                     } else {
                         view.renderer.helper.changeLineHeight(4);
                         controller.userEvent.viewHandler.setViewMode('term');
