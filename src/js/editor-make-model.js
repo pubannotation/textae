@@ -225,9 +225,9 @@
             }();
 
             var entity = function() {
-                var entities = {},
+                var entityContainer = {},
                     getIds = function() {
-                        return Object.keys(entities);
+                        return Object.keys(entityContainer);
                     },
                     getNewEntityId = _.partial(getNewId, 'E', getIds),
                     // Expected an entity like {id: "E21", span: "editor2__S50_54", type: "Protein"}.
@@ -236,7 +236,7 @@
                         entity.id = entity.id || getNewEntityId();
 
                         var extendedEntity = extendBindable(entity);
-                        entities[entity.id] = extendedEntity;
+                        entityContainer[entity.id] = extendedEntity;
                         return extendedEntity;
                     };
 
@@ -246,10 +246,10 @@
                         if (entities) entities.forEach(add);
                     },
                     get: function(entityId) {
-                        return entities[entityId];
+                        return entityContainer[entityId];
                     },
                     all: function() {
-                        return _.map(entities, _.identity);
+                        return _.map(entityContainer, _.identity);
                     },
                     types: function() {
                         return annotationData.entity.all().map(function(entity) {
@@ -272,28 +272,28 @@
                     remove: function(entityId) {
                         var entity = annotationData.entity.get(entityId);
                         if (entity) {
-                            delete entities[entityId];
+                            delete entityContainer[entityId];
                             entity.trigger('remove');
                         }
                         return entity;
                     },
                     clear: function() {
-                        entities = {};
+                        entityContainer = {};
                     }
                 };
             }();
 
             var relation = function() {
-                var relations = {},
+                var relationContainer = {},
                     getIds = function() {
-                        return Object.keys(relations);
+                        return Object.keys(relationContainer);
                     },
                     getNewRelationId = _.partial(getNewId, 'R', getIds),
                     add = function(relation) {
                         relation.id = relation.id || getNewRelationId();
 
                         var extendedRelation = extendBindable(relation);
-                        relations[relation.id] = extendedRelation;
+                        relationContainer[relation.id] = extendedRelation;
                         return extendedRelation;
                     };
 
@@ -303,29 +303,29 @@
                         if (relations) relations.forEach(add);
                     },
                     get: function(relationId) {
-                        return relations[relationId];
+                        return relationContainer[relationId];
                     },
                     all: function() {
-                        return _.map(relations, _.identity);
+                        return _.map(relationContainer, _.identity);
                     },
                     some: function() {
-                        return _.some(relations);
+                        return _.some(relationContainer);
                     },
                     types: function() {
-                        return Object.keys(relations).map(function(key) {
-                            return relations[key].pred;
+                        return Object.keys(relationContainer).map(function(key) {
+                            return relationContainer[key].pred;
                         });
                     },
                     changePredicate: function(relationId, predicate) {
-                        relations[relationId].pred = predicate;
-                        relations[relationId].trigger('change-predicate');
+                        relationContainer[relationId].pred = predicate;
+                        relationContainer[relationId].trigger('change-predicate');
                     },
                     remove: function(relationId) {
-                        relations[relationId].trigger('remove');
-                        delete relations[relationId];
+                        relationContainer[relationId].trigger('remove');
+                        delete relationContainer[relationId];
                     },
                     clear: function() {
-                        relations = {};
+                        relationContainer = {};
                     }
                 };
             }();
