@@ -195,7 +195,7 @@
                 $.extend(editor, {
                     editorId: components.editors.getNewId(),
                     tool: $.extend({
-                        selectMe: eventDispatcher.handleEditor.select.bind(null, editor),
+                        selectMe: _.partial(eventDispatcher.handleEditor.select, editor),
                     }, eventDispatcher.handleEditor.public),
                 });
             },
