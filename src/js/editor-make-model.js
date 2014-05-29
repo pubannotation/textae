@@ -177,63 +177,64 @@
                         // console.log(spanTree.toString());
 
                         spanTopLevel = spanTree;
-                    };
-
-                return {
-                    //expected span is like { "begin": 19, "end": 49 }
-                    add: function(span) {
-                        var newSpan = innerAddSpan(span);
-                        updateSpanTree();
-                        return newSpan;
                     },
-                    concat: function(spans) {
-                        if (spans) {
-                            spans.forEach(innerAddSpan);
+                    api = extendBindable({
+                        //expected span is like { "begin": 19, "end": 49 }
+                        add: function(span) {
+                            var newSpan = innerAddSpan(span);
                             updateSpanTree();
-                        }
-                    },
-                    get: function(spanId) {
-                        return spanContainer[spanId];
-                    },
-                    all: function() {
-                        return $.map(spanContainer, function(span) {
-                            return span;
-                        });
-                    },
-                    range: function(firstId, secondId) {
-                        var first = spanContainer[firstId];
-                        var second = spanContainer[secondId];
-
-                        return Object.keys(spanContainer).filter(function(spanId) {
-                            var span = spanContainer[spanId];
-                            return first.begin <= span.begin && span.end <= second.end;
-                        });
-                    },
-                    topLevel: function() {
-                        return spanTopLevel;
-                    },
-                    multiEntities: function() {
-                        return annotationData.span.all()
-                            .filter(function(span) {
-                                var multiEntitiesTypes = span.getTypes().filter(function(type) {
-                                    return type.entities.length > 1;
-                                });
-
-                                return multiEntitiesTypes.length > 0;
+                            return api.trigger('add', newSpan);
+                        },
+                        concat: function(spans) {
+                            if (spans) {
+                                spans.forEach(innerAddSpan);
+                                updateSpanTree();
+                            }
+                        },
+                        get: function(spanId) {
+                            return spanContainer[spanId];
+                        },
+                        all: function() {
+                            return $.map(spanContainer, function(span) {
+                                return span;
                             });
-                    },
-                    remove: function(spanId) {
-                        var span = annotationData.span.get(spanId);
-                        delete spanContainer[spanId];
-                        updateSpanTree();
+                        },
+                        range: function(firstId, secondId) {
+                            var first = spanContainer[firstId];
+                            var second = spanContainer[secondId];
 
-                        span.trigger('remove');
-                    },
-                    clear: function() {
-                        spanContainer = {};
-                        spanTree = [];
-                    }
-                };
+                            return Object.keys(spanContainer).filter(function(spanId) {
+                                var span = spanContainer[spanId];
+                                return first.begin <= span.begin && span.end <= second.end;
+                            });
+                        },
+                        topLevel: function() {
+                            return spanTopLevel;
+                        },
+                        multiEntities: function() {
+                            return annotationData.span.all()
+                                .filter(function(span) {
+                                    var multiEntitiesTypes = span.getTypes().filter(function(type) {
+                                        return type.entities.length > 1;
+                                    });
+
+                                    return multiEntitiesTypes.length > 0;
+                                });
+                        },
+                        remove: function(spanId) {
+                            var span = annotationData.span.get(spanId);
+                            delete spanContainer[spanId];
+                            updateSpanTree();
+
+                            span.trigger('remove');
+                        },
+                        clear: function() {
+                            spanContainer = {};
+                            spanTree = [];
+                        }
+                    });
+
+                return api;
             }();
 
             var entity = function() {

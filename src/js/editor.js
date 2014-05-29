@@ -555,6 +555,9 @@
 
                 return {
                     init: function() {
+                        model.annotationData.span.bind('add', function(list, element) {
+                            view.renderer.span.render(element);
+                        });
                         model.annotationData.entity.bind('add', function(list, element) {
                             view.renderer.entity.render(element);
                         });
@@ -2024,9 +2027,6 @@
                                             begin: span.begin,
                                             end: span.end
                                         });
-
-                                        // rendering
-                                        view.renderer.span.render(newSpan);
 
                                         // select
                                         view.domUtil.selector.span.select(newSpan.id);
