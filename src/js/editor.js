@@ -589,7 +589,7 @@
 
                         // Render the source document
                         view.renderer.helper.getSourceDocArea().html(getTaggedSourceDoc(params.sourceDoc));
-                        view.renderer.paragraphs = makeParagraphs(params.paragraphsArray);
+                        view.renderer.paragraphs = makeParagraphs(params.paragraphs);
                     },
                     reset: function() {
                         // Render annotations

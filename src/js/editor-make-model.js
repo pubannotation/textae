@@ -61,7 +61,7 @@
                                 return this.toStringOnlyThis() + childrenString;
                             },
                             // A big brother is brother node on a structure at rendered.
-                            // There is no big brother if the span is first in a paragrpah.
+                            // There is no big brother if the span is first in a paragraph.
                             // Warning: parent is set at updateSpanTree, is not exists now.
                             getBigBrother: function() {
                                 var index;
@@ -103,14 +103,6 @@
                             }
                         };
 
-                        //get the paragraph that span is belong to.
-                        var findParagraph = function(self) {
-                            var match = annotationData.paragraphsArray.filter(function(p) {
-                                return self.begin >= p.begin && self.end <= p.end;
-                            });
-                            return match.length > 0 ? match[0] : null;
-                        };
-
                         var spanId = idFactory.makeSpanId(span.begin, span.end);
 
                         //add a span unless exists, because an annotations.json is defiend by entities so spans are added many times. 
@@ -118,7 +110,7 @@
                             //a span is extended nondestructively to render.
                             var newSpan = $.extend({
                                     id: spanId,
-                                    paragraph: findParagraph(span),
+                                    paragraph: paragraph.findParagraph(span),
                                 },
                                 span,
                                 additionalPropertiesForSpan,
@@ -365,6 +357,35 @@
                 };
             }();
 
+            var paragraph = function() {
+                var paragraphContainer;
+                return {
+                    set: function(sourceDoc) {
+                        var textLengthBeforeThisParagraph = 0;
+                        paragraphContainer = sourceDoc.split("\n").map(function(p, index) {
+                            var ret = {
+                                id: idFactory.makeParagraphId(index),
+                                begin: textLengthBeforeThisParagraph,
+                                end: textLengthBeforeThisParagraph + p.length,
+                            };
+
+                            textLengthBeforeThisParagraph += p.length + 1;
+                            return ret;
+                        });
+                    },
+                    get: function() {
+                        return paragraphContainer;
+                    },
+                    //get the paragraph that span is belong to.
+                    findParagraph: function(self) {
+                        var match = paragraphContainer.filter(function(p) {
+                            return self.begin >= p.begin && self.end <= p.end;
+                        });
+                        return match.length > 0 ? match[0] : null;
+                    }
+                };
+            }();
+
             var api = extendBindable({
                 span: span,
                 entity: entity,
@@ -386,21 +407,11 @@
                                 annotationData.sourceDoc = sourceDoc;
 
                                 // Parse paragraphs
-                                var textLengthBeforeThisParagraph = 0;
-                                annotationData.paragraphsArray = sourceDoc.split("\n").map(function(p, index) {
-                                    var ret = {
-                                        id: idFactory.makeParagraphId(index),
-                                        begin: textLengthBeforeThisParagraph,
-                                        end: textLengthBeforeThisParagraph + p.length,
-                                    };
-
-                                    textLengthBeforeThisParagraph += p.length + 1;
-                                    return ret;
-                                });
+                                paragraph.set(sourceDoc);
 
                                 api.trigger('change-text', {
                                     sourceDoc: sourceDoc,
-                                    paragraphsArray: annotationData.paragraphsArray
+                                    paragraphs: paragraph.get()
                                 });
                             } else {
                                 throw "read failed.";
