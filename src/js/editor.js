@@ -1957,12 +1957,12 @@
                             return multiEntitiesTypes.length > 0;
                         });
 
-                    if (multiEntitiesSpans.length > 0) {
-                        view.renderer.helper.changeLineHeight(4);
-                        controller.userEvent.viewHandler.setViewMode('instance');
-                    } else if (model.annotationData.relation.some()) {
+                    if (model.annotationData.relation.some()) {
                         view.renderer.helper.changeLineHeight(10);
                         controller.userEvent.viewHandler.setViewMode('relation');
+                    } else if (multiEntitiesSpans.length > 0) {
+                        view.renderer.helper.changeLineHeight(4);
+                        controller.userEvent.viewHandler.setViewMode('instance');
                     } else {
                         view.renderer.helper.changeLineHeight(4);
                         controller.userEvent.viewHandler.setViewMode('term');
