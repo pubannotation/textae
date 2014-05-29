@@ -605,7 +605,7 @@
                                 // var startTime = new Date();
 
                                 model.annotationData.spansTopLevel.forEach(function(span) {
-                                    view.renderer.span.render(span.id);
+                                    view.renderer.span.render(span);
                                 });
 
                                 view.renderer.grid.arrangePositionAll();
@@ -690,6 +690,8 @@
                             element.setAttribute('class', 'textae-editor__span');
                             getRangeToInsertSpanTag(span.id).surroundContents(element);
 
+                            span.bind('remove', view.renderer.span.destroy);
+
                             return span;
                         };
 
@@ -720,7 +722,7 @@
                                 span.children.forEach(function(span) {
                                     destroySpanRecurcive(span);
                                 });
-                                _.compose(view.renderer.span.destroy, getId)(span);
+                                view.renderer.span.destroy(span);
                             };
 
                             // Destroy rendered children.
@@ -731,16 +733,16 @@
 
                         var renderChildresnSpan = function(span) {
                             span.children.filter(_.compose(not, exists))
-                                .forEach(_.compose(view.renderer.span.render, getId));
+                                .forEach(view.renderer.span.render);
 
                             return span;
                         };
 
                         return {
                             // Destroy children spans to wrap a TextNode with <span> tag when new span over exists spans.
-                            render: _.compose(renderChildresnSpan, renderEntitiesOfSpan, renderSingleSpan, destroyChildrenSpan, model.annotationData.getSpan),
-                            destroy: function(spanId) {
-                                var spanElement = document.getElementById(spanId);
+                            render: _.compose(renderChildresnSpan, renderEntitiesOfSpan, renderSingleSpan, destroyChildrenSpan),
+                            destroy: function(span) {
+                                var spanElement = document.getElementById(span.id);
                                 var parent = spanElement.parentNode;
 
                                 // Move the textNode wrapped this span in front of this span.
@@ -752,7 +754,7 @@
                                 parent.normalize();
 
                                 // Destroy a grid of the span. 
-                                destroyGrid(spanId);
+                                destroyGrid(span.id);
                             },
                         };
                     }(),
@@ -2014,38 +2016,33 @@
                         };
 
                         return {
-                            spanCreateCommand: function(newSpan) {
-                                var id = idFactory.makeSpanId(newSpan.begin, newSpan.end);
+                            spanCreateCommand: function(span) {
+                                // model
+                                var newSpan = model.annotationData.addSpan({
+                                    begin: span.begin,
+                                    end: span.end
+                                });
+
                                 return {
                                     execute: function() {
-                                        // model
-                                        model.annotationData.addSpan({
-                                            begin: newSpan.begin,
-                                            end: newSpan.end
-                                        });
 
                                         // rendering
-                                        view.renderer.span.render(id);
+                                        view.renderer.span.render(newSpan);
 
                                         // select
-                                        view.domUtil.selector.span.select(id);
+                                        view.domUtil.selector.span.select(newSpan.id);
 
-                                        debugLog('create a new span, spanId:' + id);
+                                        debugLog('create a new span, spanId:' + newSpan.id);
                                     },
-                                    revert: _.partial(controller.command.factory.spanRemoveCommand, id)
+                                    revert: _.partial(controller.command.factory.spanRemoveCommand, newSpan.id)
                                 };
                             },
                             spanRemoveCommand: function(spanId) {
                                 var span = model.annotationData.getSpan(spanId);
                                 return {
                                     execute: function() {
-                                        // Save a span potision for undo
-                                        this.begin = span.begin;
-                                        this.end = span.end;
                                         // model
                                         model.annotationData.removeSpan(spanId);
-                                        // rendering
-                                        view.renderer.span.destroy(spanId);
 
                                         debugLog('remove a span, spanId:' + spanId);
                                     },

@@ -72,6 +72,22 @@
                 return prefix + (ids.length === 0 ? 1 : Math.max.apply(null, ids) + 1);
             };
 
+            // A mixin for the separeted presentation by the observer pattern.
+            var bindable = function() {
+                var callbacks = {};
+
+                return {
+                    bind: function(event, callback) {
+                        callbacks[event] = callback;
+                    },
+                    trigger: function(event) {
+                        if (callbacks[event]) {
+                            callbacks[event](this);
+                        }
+                    }
+                };
+            };
+
             var innerAddSpan = function(span) {
                 var additionalPropertiesForSpan = {
                     isChildOf: function(maybeParent) {
@@ -148,33 +164,20 @@
                 //add a span unless exists, because an annotations.json is defiend by entities so spans are added many times. 
                 if (!annotationData.getSpan(spanId)) {
                     //a span is extended nondestructively to render.
-                    spanContainer[spanId] = $.extend({
+                    var newSpan = $.extend({
                             id: spanId,
                             paragraph: findParagraph(span),
                         },
                         span,
-                        additionalPropertiesForSpan);
+                        additionalPropertiesForSpan,
+                        bindable());
+                    spanContainer[spanId] = newSpan;
+                    return newSpan;
                 }
             };
 
-            // A mixin for the separeted presentation by the observer pattern.
-            var extendBinding = function(obj) {
-                var binding = function() {
-                    var callbacks = {};
-
-                    return {
-                        bind: function(event, callback) {
-                            callbacks[event] = callback;
-                        },
-                        trigger: function(event) {
-                            if (callbacks[event]) {
-                                callbacks[event](this);
-                            }
-                        }
-                    };
-                }();
-
-                return _.extend({}, obj, binding);
+            var extendBindable = function(obj) {
+                return _.extend({}, obj, bindable());
             };
 
             var entity = function() {
@@ -190,7 +193,7 @@
                         // Overwrite to revert
                         entity.id = entity.id || getNewEntityId();
 
-                        var extendedEntity = extendBinding(entity);
+                        var extendedEntity = extendBindable(entity);
                         entities[entity.id] = extendedEntity;
                         return extendedEntity;
                     },
@@ -243,7 +246,7 @@
                     add: function(relation) {
                         relation.id = relation.id || getNewRelationId();
 
-                        var extendedRelation = extendBinding(relation);
+                        var extendedRelation = extendBindable(relation);
                         relations[relation.id] = extendedRelation;
                         return extendedRelation;
                     },
@@ -373,12 +376,18 @@
                 }(),
                 //expected span is like { "begin": 19, "end": 49 }
                 addSpan: function(span) {
-                    innerAddSpan(span);
+                    var newSpan = innerAddSpan(span);
                     updateSpanTree();
+
+                    return newSpan;
                 },
                 removeSpan: function(spanId) {
+                    var span = annotationData.getSpan(spanId);
+                    
                     delete spanContainer[spanId];
                     updateSpanTree();
+
+                    span.trigger('remove');
                 },
                 getSpan: function(spanId) {
                     return spanContainer[spanId];
