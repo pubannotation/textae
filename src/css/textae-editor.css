@@ -225,6 +225,7 @@
     display: inline-block;
     height: 12px;
     margin: 0 auto;
+    vertical-align: top;
     width: 12px;
 }
 
