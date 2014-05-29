@@ -22,10 +22,11 @@
                 return {
                     bind: function(event, callback) {
                         callbacks[event] = callback;
+                        return this;
                     },
-                    trigger: function(event) {
+                    trigger: function(event, data) {
                         if (callbacks[event]) {
-                            callbacks[event](this);
+                            callbacks[event](this, data);
                         }
                     }
                 };
