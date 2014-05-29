@@ -109,13 +109,13 @@
                         components.infoModals.hideAll();
                     },
                     changeButtonState: function(disableButtons) {
-                        components.control.updateAllButtonEnableState(disableButtons);
+                        if (components.control) components.control.updateAllButtonEnableState(disableButtons);
                     },
                     pushReplicateAuto: function(push) {
-                        components.control.updateReplicateAutoButtonPushState(push);
+                        if (components.control) components.control.updateReplicateAutoButtonPushState(push);
                     },
                     push: function(buttonName, push) {
-                        components.control.updateButtonPushState(buttonName, push);
+                        if (components.control) components.control.updateButtonPushState(buttonName, push);
                     }
                 }
             },
