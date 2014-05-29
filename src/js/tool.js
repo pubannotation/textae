@@ -109,13 +109,13 @@
                         components.infoModals.hideAll();
                     },
                     changeButtonState: function(disableButtons) {
-                        components.control.updateAllButtonEnableState(disableButtons);
+                        if (components.control) components.control.updateAllButtonEnableState(disableButtons);
                     },
                     pushReplicateAuto: function(push) {
-                        components.control.updateReplicateAutoButtonPushState(push);
+                        if (components.control) components.control.updateReplicateAutoButtonPushState(push);
                     },
                     push: function(buttonName, push) {
-                        components.control.updateButtonPushState(buttonName, push);
+                        if (components.control) components.control.updateButtonPushState(buttonName, push);
                     }
                 }
             },
@@ -195,7 +195,7 @@
                 $.extend(editor, {
                     editorId: components.editors.getNewId(),
                     tool: $.extend({
-                        selectMe: eventDispatcher.handleEditor.select.bind(null, editor),
+                        selectMe: _.partial(eventDispatcher.handleEditor.select, editor),
                     }, eventDispatcher.handleEditor.public),
                 });
             },
