@@ -210,6 +210,16 @@
                     topLevel: function() {
                         return spanTopLevel;
                     },
+                    multiEntities: function() {
+                        return annotationData.span.all()
+                            .filter(function(span) {
+                                var multiEntitiesTypes = span.getTypes().filter(function(type) {
+                                    return type.entities.length > 1;
+                                });
+
+                                return multiEntitiesTypes.length > 0;
+                            });
+                    },
                     remove: function(spanId) {
                         var span = annotationData.span.get(spanId);
                         delete spanContainer[spanId];
