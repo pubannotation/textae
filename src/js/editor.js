@@ -964,11 +964,18 @@
                             return curviness;
                         };
 
-                        var arrowStyle = {
+                        var normalArrow = {
                             width: 7,
                             length: 9,
                             location: 1,
                             id: 'normal-arrow'
+                        };
+
+                        var hoverArrow = {
+                            width: 14,
+                            length: 18,
+                            location: 1,
+                            id: 'hover-arrow',
                         };
 
                         var arrangePosition = function(relationId) {
@@ -981,7 +988,29 @@
                             conn.setConnector(['Bezier', {
                                 curviness: determineCurviness(relationId)
                             }]);
-                            conn.addOverlay(['Arrow', arrowStyle]);
+                            conn.addOverlay(['Arrow', normalArrow]);
+                        };
+
+                        // Show a big arrow when the connection is hoverd.
+                        // Remove a normal arrow and add a new big arrow.
+                        // Because an arrow is out of position if hideOverlay and showOverlay is used.
+                        var pointupable = function(getStrokeStyle) {
+                            return {
+                                pointup: function() {
+                                    this.removeOverlay('normal-arrow');
+                                    this.addOverlay(['Arrow', hoverArrow]);
+                                    this.setPaintStyle(_.extend(getStrokeStyle(), {
+                                        lineWidth: 3
+                                    }));
+                                },
+                                pointdown: function() {
+                                    this.removeOverlay('hover-arrow');
+                                    this.addOverlay(['Arrow', normalArrow]);
+                                    this.setPaintStyle(_.extend(getStrokeStyle(), {
+                                        lineWidth: 1
+                                    }));
+                                }
+                            };
                         };
 
                         var createJsPlumbConnection = function(relation) {
@@ -1001,7 +1030,7 @@
                                 },
                                 cssClass: 'textae-editor__relation',
                                 overlays: [
-                                    ['Arrow', arrowStyle],
+                                    ['Arrow', normalArrow],
                                     ['Label', {
                                         label: '[' + relation.id + '] ' + relation.pred,
                                         cssClass: 'textae-editor__relation__label'
@@ -1009,47 +1038,23 @@
                                 ]
                             });
 
-                            // Show a big arrow when the connection is hoverd.
-                            // Remove a normal arrow and add a new big arrow.
-                            // Because an arrow is out of position if hideOverlay and showOverlay is used.
-                            var pointup = {
-                                pointup: function() {
-                                    this.removeOverlay('normal-arrow');
-                                    this.addOverlay(['Arrow', {
-                                        width: 14,
-                                        length: 18,
-                                        location: 1,
-                                        id: 'hover-arrow',
-                                    }]);
-                                    this.setPaintStyle(_.extend(getStrokeStyle(), {
-                                        lineWidth: 3
-                                    }));
-                                },
-                                pointdown: function() {
-                                    this.removeOverlay('hover-arrow');
-                                    this.addOverlay(['Arrow', arrowStyle]);
-                                    this.setPaintStyle(_.extend(getStrokeStyle(), {
-                                        lineWidth: 1
-                                    }));
-                                }
-                            };
+                            // Set a function debounce to avoid over rendering.
+                            conn.arrangePosition = _.debounce(_.partial(arrangePosition, relation.id), 20);
 
-                            _.extend(conn, pointup);
-
+                            // Set hover action.
+                            _.extend(conn, pointupable(getStrokeStyle));
                             conn.bind('mouseenter', function(conn, event) {
                                 conn.pointup();
                             }).bind('mouseexit', function(conn, event) {
                                 conn.pointdown();
                             });
 
+                            // Cache a connector instance.
+                            cachedConnectors[relation.id] = conn;
+
                             // Notify to controller that a new jsPlumbConnection is added.
                             editor.trigger('textae.editor.jsPlumbConnection.add', conn);
 
-                            // Set a function debounce to avoid over rendering.
-                            conn.arrangePosition = _.debounce(_.partial(arrangePosition, relation.id), 20);
-
-                            // Cache a connector instance.
-                            cachedConnectors[relation.id] = conn;
                             return conn;
                         };
 
