@@ -6,6 +6,19 @@
 
         // A sub component to save and load data.
         var dataAccessObject = function(self) {
+            var cursorChanger = function() {
+                var wait = function() {
+                    self.addClass('textae-editor_wait');
+                };
+                var endWait = function() {
+                    self.removeClass('textae-editor_wait');
+                };
+                return {
+                    startWait: wait,
+                    endWait: endWait,
+                };
+            }();
+
             //load/saveDialog
             var loadSaveDialog = function() {
                 var getLoadDialog = function() {
@@ -90,7 +103,7 @@
                     setDataSourceUrl(dataSourceUrl);
                 });
                 controller.command.updateSavePoint();
-                view.domUtil.cursorChanger.endWait();
+                cursorChanger.endWait();
             };
 
             var showSaveError = function() {
@@ -98,7 +111,7 @@
                     $(this).html('').removeAttr('style');
                     setDataSourceUrl(dataSourceUrl);
                 });
-                view.domUtil.cursorChanger.endWait();
+                cursorChanger.endWait();
             };
 
             var setDataSourceUrl = function(url) {
@@ -113,12 +126,12 @@
 
             return {
                 getAnnotationFromServer: function(url) {
-                    view.domUtil.cursorChanger.startWait();
+                    cursorChanger.startWait();
                     textAeUtil.ajaxAccessor.getAsync(url, function getAnnotationFromServerSuccess(annotation) {
                         controller.command.reset(annotation);
                         setDataSourceUrl(url);
                     }, function() {
-                        view.domUtil.cursorChanger.endWait();
+                        cursorChanger.endWait();
                     });
                 },
                 getAnnotationFromFile: function(fileEvent) {
@@ -130,10 +143,10 @@
                     reader.readAsText(fileEvent.files[0]);
                 },
                 saveAnnotationToServer: function(url) {
-                    view.domUtil.cursorChanger.startWait();
+                    cursorChanger.startWait();
                     var postData = model.annotationData.toJson();
                     textAeUtil.ajaxAccessor.post(url, postData, showSaveSuccess, showSaveError, function() {
-                        view.domUtil.cursorChanger.endWait();
+                        cursorChanger.endWait();
                     });
                     controller.command.updateSavePoint();
                 },
@@ -1242,19 +1255,7 @@
                 };
             }();
 
-            var domUtil = { //view.domUtil.cursorChanger
-                cursorChanger: function() {
-                    var wait = function() {
-                        editor.addClass('textae-editor_wait');
-                    };
-                    var endWait = function() {
-                        editor.removeClass('textae-editor_wait');
-                    };
-                    return {
-                        startWait: wait,
-                        endWait: endWait,
-                    };
-                }(),
+            var domUtil = {
                 selector: {
                     getSelecteds: function() {
                         return editor.find('.ui-selected');
