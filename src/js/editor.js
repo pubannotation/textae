@@ -1267,6 +1267,7 @@
                                     height: 18 * typeGapValue + 18 + 'px',
                                     'padding-top': 18 * typeGapValue + 'px'
                                 });
+                                renderer.grid.arrangePositionAll();
                             },
                             redraw: function() {
                                 renderer.grid.arrangePositionAll();
@@ -2603,7 +2604,7 @@
 
                         var changeLineHeight = debounce300(_.compose(redrawAllEditor, view.renderer.helper.changeLineHeight));
 
-                        var changeTypeGap = debounce300(_.compose(view.renderer.helper.redraw, view.renderer.helper.changeTypeGap));
+                        var changeTypeGap = debounce300(view.renderer.helper.changeTypeGap);
 
                         return {
                             init: function() {
