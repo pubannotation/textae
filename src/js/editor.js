@@ -478,6 +478,9 @@
 
             // Render DOM elements conforming with the Model.
             var renderer = function() {
+                // The Reference to model. This set by init.
+                var model;
+
                 var destroyGrid = function(spanId) {
                     view.domUtil.manipulate.remove(view.domUtil.selector.grid.get(spanId));
                     view.renderer.grid.destroy(spanId);
@@ -1113,7 +1116,8 @@
                 };
 
                 return {
-                    init: function() {
+                    init: function(modelData) {
+                        model = modelData;
                         model.annotationData.bind('change-text', renderSourceDocument);
                         model.annotationData.bind('reset-annotation', reset);
                         model.annotationData.span.bind('add', renderer.span.render);
@@ -1459,7 +1463,7 @@
             return {
                 init: function() {
                     view.viewModel.buttonStateHelper.init();
-                    view.renderer.init();
+                    view.renderer.init(model);
                 },
                 renderer: renderer,
                 domUtil: domUtil,
@@ -3021,8 +3025,8 @@
         // public funcitons of editor
         this.api = {
             start: function startEdit(editor) {
-                controller.init();
                 view.init();
+                controller.init();
 
                 readSettingFiles(editor);
             },
