@@ -1442,10 +1442,10 @@
 
                     return {
                         on: _.partial(processAccosiatedRelation, function(connector) {
-                            connector.addClass('hover');
+                            connector.pointup();
                         }),
                         off: _.partial(processAccosiatedRelation, function(connector) {
-                            connector.removeClass('hover');
+                            connector.pointdown();
                         })
                     };
                 }()
