@@ -1893,6 +1893,7 @@
             var editorSelected = function() {
                 // Hide dialogs.
                 controller.userEvent.viewHandler.hidePallet();
+                editor.tool.cancel();
 
                 // Select this editor.
                 editor.tool.selectMe();
