@@ -432,18 +432,22 @@
                                 setRelationEditButtonPushed(false);
 
                                 view.viewModel.viewMode.marginBottomOfGrid = 0;
+                                view.renderer.helper.redraw();
+
                             },
                             setInstance: function() {
                                 changeCssClass('instance');
                                 setRelationEditButtonPushed(false);
 
                                 view.viewModel.viewMode.marginBottomOfGrid = 2;
+                                view.renderer.helper.redraw();
                             },
                             setRelation: function() {
                                 changeCssClass('relation');
                                 setRelationEditButtonPushed(true);
 
                                 view.viewModel.viewMode.marginBottomOfGrid = 2;
+                                view.renderer.helper.redraw();
                             }
                         };
                     }(),
@@ -2535,7 +2539,6 @@
                                     resetView();
                                     eventHandlerComposer.noRelationEdit();
                                     view.viewModel.viewMode.setTerm();
-                                    view.renderer.helper.redraw();
 
                                     controllerState = state.termCentric;
                                 },
@@ -2543,7 +2546,6 @@
                                     resetView();
                                     eventHandlerComposer.noRelationEdit();
                                     view.viewModel.viewMode.setInstance();
-                                    view.renderer.helper.redraw();
 
                                     controllerState = state.instanceRelation;
                                 },
@@ -2551,7 +2553,7 @@
                                     resetView();
                                     eventHandlerComposer.relationEdit();
                                     view.viewModel.viewMode.setRelation();
-                                    view.renderer.helper.redraw();
+
 
                                     controllerState = state.relationEdit;
                                 }
