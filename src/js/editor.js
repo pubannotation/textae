@@ -555,12 +555,12 @@
 
                 return {
                     init: function() {
-                        model.annotationData.bind('change-text', view.renderer.renderText);
+                        model.annotationData.bind('change-text', view.renderer.renderSourceDocument);
                         model.annotationData.span.bind('add', view.renderer.span.render);
                         model.annotationData.entity.bind('add', view.renderer.entity.render);
                         model.annotationData.relation.bind('add', view.renderer.relation.render);
                     },
-                    renderText: function(params) {
+                    renderSourceDocument: function(params) {
                         // the Souce document has multi paragraphs that are splited by '\n'.
                         var getTaggedSourceDoc = function(sourceDoc) {
                             //set sroucedoc tagged <p> per line.
