@@ -1891,9 +1891,7 @@
             };
 
             var editorSelected = function() {
-                // Hide dialogs.
-                controller.userEvent.viewHandler.hidePallet();
-                editor.tool.cancel();
+                controller.userEvent.viewHandler.hideDialogs();
 
                 // Select this editor.
                 editor.tool.selectMe();
@@ -2475,8 +2473,7 @@
 
                         var controllerState = function() {
                             var resetView = function() {
-                                controller.userEvent.viewHandler.hidePallet();
-                                editor.tool.cancel();
+                                controller.userEvent.viewHandler.hideDialogs();
                                 view.domUtil.manipulate.unselect();
                             };
 
@@ -2682,6 +2679,10 @@
                             hidePallet: function() {
                                 $('.textae-editor__entity-pallet').hide();
                             },
+                            hideDialogs: function() {
+                                controller.userEvent.viewHandler.hidePallet();
+                                editor.tool.cancel();
+                            },
                             redraw: function() {
                                 view.renderer.grid.arrangePositionAll();
                             },
@@ -2693,9 +2694,7 @@
                                 }
 
                                 view.domUtil.manipulate.unselect();
-                                controller.userEvent.viewHandler.hidePallet();
-
-                                editor.tool.cancel();
+                                controller.userEvent.viewHandler.hideDialogs();
                             },
                             selectLeftSpan: function() {
                                 if (view.domUtil.selector.span.isSelectOne()) {
