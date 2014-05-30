@@ -469,6 +469,7 @@
                         var colorHex = view.viewModel.typeContainer.relation.getColor(pred);
 
                         return {
+                            lineWidth: 1,
                             strokeStyle: converseHEXinotRGBA(colorHex, 1)
                         };
                     }
@@ -966,13 +967,15 @@
                         var arrowStyle = {
                             width: 7,
                             length: 9,
-                            location: 1
+                            location: 1,
+                            id: 'normal-arrow'
                         };
 
                         var arrangePosition = function(relationId) {
                             var conn = toConnector(relationId);
                             conn.endpoints[0].repaint();
                             conn.endpoints[1].repaint();
+                            conn.removeOverlay('normal-arrow');
                             conn.setConnector(['Bezier', {
                                 curviness: determineCurviness(relationId)
                             }]);
@@ -989,6 +992,9 @@
                                     curviness: determineCurviness(relation.id)
                                 }],
                                 paintStyle: view.viewModel.getConnectorStrokeStyle(relation.id),
+                                hoverPaintStyle: {
+                                    lineWidth: 4
+                                },
                                 parameters: {
                                     'id': relation.id,
                                 },
@@ -1000,6 +1006,20 @@
                                         cssClass: 'textae-editor__relation__label'
                                     }]
                                 ]
+                            });
+
+                            conn.bind('mouseenter', function(conn, event) {
+                                conn.removeOverlay('normal-arrow');
+                                conn.addOverlay(['Arrow', {
+                                    width: 14,
+                                    length: 18,
+                                    location: 1,
+                                    id: 'hover-arrow',
+
+                                }]);
+                            }).bind('mouseexit', function(conn, event) {
+                                conn.removeOverlay('hover-arrow');
+                                conn.addOverlay(['Arrow', arrowStyle]);
                             });
 
                             // Notify to controller that a new jsPlumbConnection is added.

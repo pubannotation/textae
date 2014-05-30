@@ -318,10 +318,6 @@
     z-index: 5;
 }
 
-.textae-editor_relation-mode .textae-editor__relation:hover path {
-    stroke-width: 4;
-}
-
 .textae-editor_relation-mode .textae-editor__relation__label {
     z-index: 1;
 }
