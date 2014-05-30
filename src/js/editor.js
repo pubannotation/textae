@@ -422,7 +422,7 @@
                             // This is base value to calculate the position of grids.
                             // Grids cannot be set positon by 'margin-bottom' style.
                             // Because grids is setted 'positin:absolute' style in the overlay over spans.
-                            // So we caluclate and set 'top' of grids in functions of 'view.renderer.grid'. 
+                            // So we caluclate and set 'top' of grids in functions of 'view.renderer.helper.redraw'. 
                             marginBottomOfGrid: 0,
                             isTerm: function() {
                                 return editor.hasClass('textae-editor_term-mode');
@@ -432,18 +432,22 @@
                                 setRelationEditButtonPushed(false);
 
                                 view.viewModel.viewMode.marginBottomOfGrid = 0;
+                                view.renderer.helper.redraw();
+
                             },
                             setInstance: function() {
                                 changeCssClass('instance');
                                 setRelationEditButtonPushed(false);
 
                                 view.viewModel.viewMode.marginBottomOfGrid = 2;
+                                view.renderer.helper.redraw();
                             },
                             setRelation: function() {
                                 changeCssClass('relation');
                                 setRelationEditButtonPushed(true);
 
                                 view.viewModel.viewMode.marginBottomOfGrid = 2;
+                                view.renderer.helper.redraw();
                             }
                         };
                     }(),
@@ -478,9 +482,12 @@
 
             // Render DOM elements conforming with the Model.
             var renderer = function() {
+                // The Reference to model. This set by init.
+                var model;
+
                 var destroyGrid = function(spanId) {
                     view.domUtil.manipulate.remove(view.domUtil.selector.grid.get(spanId));
-                    view.renderer.grid.destroy(spanId);
+                    renderer.grid.destroy(spanId);
                 };
 
                 // The cache for span positions.
@@ -555,74 +562,73 @@
                 };
 
                 var renderSourceDocument = function(params) {
-                    // the Souce document has multi paragraphs that are splited by '\n'.
-                    var getTaggedSourceDoc = function(sourceDoc) {
-                        //set sroucedoc tagged <p> per line.
-                        return sourceDoc.split("\n").map(function(par) {
-                            return '<p class="textae-editor__body__text-box__paragraph">' + par + '</p>';
-                        }).join("\n");
-                    };
+                    // Get the display area for text and spans.
+                    var getSourceDocArea = function() {
+                            return getElement(displayArea, 'div', 'textae-editor__body__text-box');
+                        },
 
-                    // Paragraphs is Object that has position of charactor at start and end of the statement in each paragraph.
-                    var makeParagraphs = function(paragraphsArray) {
-                        var paragraphs = {};
+                        // the Souce document has multi paragraphs that are splited by '\n'.
+                        getTaggedSourceDoc = function(sourceDoc) {
+                            //set sroucedoc tagged <p> per line.
+                            return sourceDoc.split("\n").map(function(par) {
+                                return '<p class="textae-editor__body__text-box__paragraph">' + par + '</p>';
+                            }).join("\n");
+                        },
 
-                        //enchant id to paragraph element and chache it.
-                        helper.getSourceDocArea().find('p').each(function(index, element) {
-                            var $element = $(element);
-                            var paragraph = $.extend({}, paragraphsArray[index], {
-                                element: $element,
+                        // Paragraphs is Object that has position of charactor at start and end of the statement in each paragraph.
+                        makeParagraphs = function(paragraphsArray) {
+                            var paragraphs = {};
+
+                            //enchant id to paragraph element and chache it.
+                            getSourceDocArea().find('p').each(function(index, element) {
+                                var $element = $(element);
+                                var paragraph = $.extend({}, paragraphsArray[index], {
+                                    element: $element,
+                                });
+                                $element.attr('id', paragraph.id);
+
+                                paragraphs[paragraph.id] = paragraph;
                             });
-                            $element.attr('id', paragraph.id);
 
-                            paragraphs[paragraph.id] = paragraph;
-                        });
-
-                        return paragraphs;
-                    };
+                            return paragraphs;
+                        };
 
                     // Render the source document
-                    helper.getSourceDocArea().html(getTaggedSourceDoc(params.sourceDoc));
+                    getSourceDocArea().html(getTaggedSourceDoc(params.sourceDoc));
                     view.renderer.paragraphs = makeParagraphs(params.paragraphs);
                 };
 
-                var helper = {
-                    // Get the display area for text and spans.
-                    getSourceDocArea: function() {
-                        return getElement(displayArea, 'div', 'textae-editor__body__text-box');
-                    },
-                    renderAllSpan: function() {
-                        // For tuning
-                        // var startTime = new Date();
+                var reset = function(annotationData) {
+                    var renderAllSpan = function(annotationData) {
+                            // For tuning
+                            // var startTime = new Date();
 
-                        model.annotationData.span.topLevel().forEach(function(span) {
-                            renderer.span.render(span);
-                        });
+                            annotationData.span.topLevel().forEach(function(span) {
+                                renderer.span.render(span);
+                            });
 
-                        view.renderer.grid.arrangePositionAll();
+                            renderer.grid.arrangePositionAll();
 
-                        // For tuning
-                        // var endTime = new Date();
-                        // console.log('render all span : ', endTime.getTime() - startTime.getTime() + 'ms');
-                    },
-                    renderAllRelation: function() {
-                        renderer.relation.reset();
+                            // For tuning
+                            // var endTime = new Date();
+                            // console.log('render all span : ', endTime.getTime() - startTime.getTime() + 'ms');
+                        },
+                        renderAllRelation = function(annotationData) {
+                            renderer.relation.reset();
 
-                        model.annotationData.relation.all().forEach(function(relation) {
-                            _.defer(_.partial(renderer.relation.render, relation));
-                        });
-                    }
-                };
+                            annotationData.relation.all().forEach(function(relation) {
+                                _.defer(_.partial(renderer.relation.render, relation));
+                            });
+                        };
 
-                var reset = function() {
                     // Render annotations
                     getAnnotationArea().empty();
                     positionUtils.reset();
-                    view.renderer.grid.reset();
-                    helper.renderAllSpan();
+                    renderer.grid.reset();
+                    renderAllSpan(annotationData);
 
                     // Render relations
-                    helper.renderAllRelation();
+                    renderAllRelation(annotationData);
                 };
 
                 var renderer = {
@@ -914,8 +920,8 @@
                                     return $entity;
                                 };
 
-                                entity.bind('remove', destroy);
-                                entity.bind('change-type', changeTypeOfExists);
+                                entity.bind('remove', _.compose(renderer.grid.arrangePositionAll, destroy));
+                                entity.bind('change-type', _.compose(renderer.grid.arrangePositionAll, changeTypeOfExists));
 
                                 // Replace null to 'null' if type is null and undefined too.
                                 entity.type = String(entity.type);
@@ -927,6 +933,130 @@
 
                                 arrangePositionOfPane(pane);
                             },
+                        };
+                    }(),
+                    grid: function() {
+                        var gridPositionCache = {};
+
+                        var filterChanged = function(span, newPosition) {
+                            var oldGridPosition = gridPositionCache[span.id];
+                            if (!oldGridPosition || oldGridPosition.top !== newPosition.top || oldGridPosition.left !== newPosition.left) {
+                                return newPosition;
+                            } else {
+                                return undefined;
+                            }
+                        };
+
+                        var arrangeRelationPosition = function(span) {
+                            _.compact(
+                                span.getTypes().map(function(type) {
+                                    return type.entities;
+                                }).reduce(textAeUtil.flatten, [])
+                                .map(model.annotationData.entity.assosicatedRelations)
+                                .reduce(textAeUtil.flatten, [])
+                                .map(toConnector)
+                            ).forEach(function(connector) {
+                                connector.arrangePosition();
+                            });
+                        };
+
+                        var getGrid = function(span) {
+                            if (span) {
+                                return view.domUtil.selector.grid.get(span.id);
+                            }
+                        };
+
+                        var updateGridPositon = function(span, newPosition) {
+                            if (newPosition) {
+                                getGrid(span).css(newPosition);
+                                gridPositionCache[span.id] = newPosition;
+                                arrangeRelationPosition(span);
+                                return span;
+                            }
+                        };
+
+                        var getNewPosition = function(span) {
+                            var stickGridOnSpan = function(span) {
+                                var spanPosition = positionUtils.getSpan(span.id);
+
+                                return {
+                                    'top': spanPosition.top - view.viewModel.viewMode.marginBottomOfGrid - getGrid(span).outerHeight(),
+                                    'left': spanPosition.left
+                                };
+                            };
+
+                            var pullUpGridOverDescendants = function(span) {
+                                // Culculate the height of the grid include descendant grids, because css style affects slowly.
+                                var getHeightIncludeDescendantGrids = function(span) {
+                                    var descendantsMaxHeight = span.children.length === 0 ? 0 :
+                                        Math.max.apply(null, span.children.map(function(childSpan) {
+                                            return getHeightIncludeDescendantGrids(childSpan);
+                                        }));
+
+                                    return getGrid(span).outerHeight() + descendantsMaxHeight + view.viewModel.viewMode.marginBottomOfGrid;
+                                };
+
+                                var spanPosition = positionUtils.getSpan(span.id);
+                                var descendantsMaxHeight = getHeightIncludeDescendantGrids(span);
+
+                                return {
+                                    'top': spanPosition.top - view.viewModel.viewMode.marginBottomOfGrid - descendantsMaxHeight,
+                                    'left': spanPosition.left
+                                };
+                            };
+
+                            if (span.children.length === 0) {
+                                return stickGridOnSpan(span);
+                            } else {
+                                return pullUpGridOverDescendants(span);
+                            }
+                        };
+
+                        var filterVisibleGrid = function(grid) {
+                            if (grid && grid.hasClass('hidden')) {
+                                return grid;
+                            }
+                        };
+
+                        var visibleGrid = function(grid) {
+                            if (grid) {
+                                grid.removeClass('hidden');
+                            }
+                        };
+
+                        var arrangeGridPosition = function(span) {
+                            var moveTheGridIfChange = _.compose(_.partial(updateGridPositon, span), _.partial(filterChanged, span));
+                            _.compose(visibleGrid, filterVisibleGrid, getGrid, moveTheGridIfChange, getNewPosition)(span);
+                        };
+
+                        return {
+                            arrangePositionAll: function() {
+                                var arrangePositionGridAndoDescendant = function(span) {
+                                    // Arrange position All descendants because a grandchild maybe have types when a child has no type. 
+                                    span.children
+                                        .forEach(function(span) {
+                                            arrangePositionGridAndoDescendant(span);
+                                        });
+
+                                    // There is at least one type in span that has a grid.
+                                    if (span.getTypes().length > 0) {
+                                        arrangeGridPosition(span);
+                                    }
+                                };
+
+                                positionUtils.reset();
+
+                                model.annotationData.span.topLevel()
+                                    .forEach(function(span) {
+                                        _.defer(_.partial(arrangePositionGridAndoDescendant, span));
+                                    });
+                            },
+                            destroy: function(spanId) {
+                                delete gridPositionCache[spanId];
+                            },
+                            reset: function() {
+                                gridPositionCache = {};
+                            }
                         };
                     }(),
                     relation: function() {
@@ -1114,11 +1244,12 @@
                 };
 
                 return {
-                    init: function() {
+                    init: function(modelData) {
+                        model = modelData;
                         model.annotationData.bind('change-text', renderSourceDocument);
                         model.annotationData.bind('reset-annotation', reset);
                         model.annotationData.span.bind('add', renderer.span.render);
-                        model.annotationData.entity.bind('add', renderer.entity.render);
+                        model.annotationData.entity.bind('add', _.compose(renderer.grid.arrangePositionAll, renderer.entity.render));
                         model.annotationData.relation.bind('add', renderer.relation.render);
                     },
                     helper: function() {
@@ -1136,131 +1267,9 @@
                                     height: 18 * typeGapValue + 18 + 'px',
                                     'padding-top': 18 * typeGapValue + 'px'
                                 });
-                            }
-                        };
-                    }(),
-                    grid: function() {
-                        var gridPositionCache = {};
-
-                        var filterChanged = function(span, newPosition) {
-                            var oldGridPosition = gridPositionCache[span.id];
-                            if (!oldGridPosition || oldGridPosition.top !== newPosition.top || oldGridPosition.left !== newPosition.left) {
-                                return newPosition;
-                            } else {
-                                return undefined;
-                            }
-                        };
-
-                        var arrangeRelationPosition = function(span) {
-                            _.compact(
-                                span.getTypes().map(function(type) {
-                                    return type.entities;
-                                }).reduce(textAeUtil.flatten, [])
-                                .map(model.annotationData.entity.assosicatedRelations)
-                                .reduce(textAeUtil.flatten, [])
-                                .map(toConnector)
-                            ).forEach(function(connector) {
-                                connector.arrangePosition();
-                            });
-                        };
-
-                        var getGrid = function(span) {
-                            if (span) {
-                                return view.domUtil.selector.grid.get(span.id);
-                            }
-                        };
-
-                        var updateGridPositon = function(span, newPosition) {
-                            if (newPosition) {
-                                getGrid(span).css(newPosition);
-                                gridPositionCache[span.id] = newPosition;
-                                arrangeRelationPosition(span);
-                                return span;
-                            }
-                        };
-
-                        var getNewPosition = function(span) {
-                            var stickGridOnSpan = function(span) {
-                                var spanPosition = positionUtils.getSpan(span.id);
-
-                                return {
-                                    'top': spanPosition.top - view.viewModel.viewMode.marginBottomOfGrid - getGrid(span).outerHeight(),
-                                    'left': spanPosition.left
-                                };
-                            };
-
-                            var pullUpGridOverDescendants = function(span) {
-                                // Culculate the height of the grid include descendant grids, because css style affects slowly.
-                                var getHeightIncludeDescendantGrids = function(span) {
-                                    var descendantsMaxHeight = span.children.length === 0 ? 0 :
-                                        Math.max.apply(null, span.children.map(function(childSpan) {
-                                            return getHeightIncludeDescendantGrids(childSpan);
-                                        }));
-
-                                    return getGrid(span).outerHeight() + descendantsMaxHeight + view.viewModel.viewMode.marginBottomOfGrid;
-                                };
-
-                                var spanPosition = positionUtils.getSpan(span.id);
-                                var descendantsMaxHeight = getHeightIncludeDescendantGrids(span);
-
-                                return {
-                                    'top': spanPosition.top - view.viewModel.viewMode.marginBottomOfGrid - descendantsMaxHeight,
-                                    'left': spanPosition.left
-                                };
-                            };
-
-                            if (span.children.length === 0) {
-                                return stickGridOnSpan(span);
-                            } else {
-                                return pullUpGridOverDescendants(span);
-                            }
-                        };
-
-                        var filterVisibleGrid = function(grid) {
-                            if (grid && grid.hasClass('hidden')) {
-                                return grid;
-                            }
-                        };
-
-                        var visibleGrid = function(grid) {
-                            if (grid) {
-                                grid.removeClass('hidden');
-                            }
-                        };
-
-                        var arrangeGridPosition = function(span) {
-                            var moveTheGridIfChange = _.compose(_.partial(updateGridPositon, span), _.partial(filterChanged, span));
-                            _.compose(visibleGrid, filterVisibleGrid, getGrid, moveTheGridIfChange, getNewPosition)(span);
-                        };
-
-                        return {
-                            arrangePositionAll: function() {
-                                var arrangePositionGridAndoDescendant = function(span) {
-                                    // Arrange position All descendants because a grandchild maybe have types when a child has no type. 
-                                    span.children
-                                        .forEach(function(span) {
-                                            arrangePositionGridAndoDescendant(span);
-                                        });
-
-                                    // There is at least one type in span that has a grid.
-                                    if (span.getTypes().length > 0) {
-                                        arrangeGridPosition(span);
-                                    }
-                                };
-
-                                positionUtils.reset();
-
-                                model.annotationData.span.topLevel()
-                                    .forEach(function(span) {
-                                        _.defer(_.partial(arrangePositionGridAndoDescendant, span));
-                                    });
+                                renderer.grid.arrangePositionAll();
                             },
-                            destroy: function(spanId) {
-                                delete gridPositionCache[spanId];
-                            },
-                            reset: function() {
-                                gridPositionCache = {};
-                            }
+                            redraw: renderer.grid.arrangePositionAll
                         };
                     }()
                 };
@@ -1460,7 +1469,7 @@
             return {
                 init: function() {
                     view.viewModel.buttonStateHelper.init();
-                    view.renderer.init();
+                    view.renderer.init(model);
                 },
                 renderer: renderer,
                 domUtil: domUtil,
@@ -2008,8 +2017,6 @@
                     commands.forEach(function(command) {
                         command.execute();
                     });
-
-                    view.renderer.grid.arrangePositionAll();
                 };
 
                 var setDefautlViewMode = function() {
@@ -2529,7 +2536,6 @@
                                     resetView();
                                     eventHandlerComposer.noRelationEdit();
                                     view.viewModel.viewMode.setTerm();
-                                    view.renderer.grid.arrangePositionAll();
 
                                     controllerState = state.termCentric;
                                 },
@@ -2537,7 +2543,6 @@
                                     resetView();
                                     eventHandlerComposer.noRelationEdit();
                                     view.viewModel.viewMode.setInstance();
-                                    view.renderer.grid.arrangePositionAll();
 
                                     controllerState = state.instanceRelation;
                                 },
@@ -2545,7 +2550,7 @@
                                     resetView();
                                     eventHandlerComposer.relationEdit();
                                     view.viewModel.viewMode.setRelation();
-                                    view.renderer.grid.arrangePositionAll();
+
 
                                     controllerState = state.relationEdit;
                                 }
@@ -2595,7 +2600,7 @@
 
                         var changeLineHeight = debounce300(_.compose(redrawAllEditor, view.renderer.helper.changeLineHeight));
 
-                        var changeTypeGap = debounce300(_.compose(view.renderer.grid.arrangePositionAll, view.renderer.helper.changeTypeGap));
+                        var changeTypeGap = debounce300(view.renderer.helper.changeTypeGap);
 
                         return {
                             init: function() {
@@ -2731,7 +2736,7 @@
                                 editor.tool.cancel();
                             },
                             redraw: function() {
-                                view.renderer.grid.arrangePositionAll();
+                                view.renderer.helper.redraw();
                             },
                             cancelSelect: function() {
                                 // if drag, bubble up
@@ -3022,8 +3027,8 @@
         // public funcitons of editor
         this.api = {
             start: function startEdit(editor) {
-                controller.init();
                 view.init();
+                controller.init();
 
                 readSettingFiles(editor);
             },

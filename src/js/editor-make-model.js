@@ -474,7 +474,7 @@
 
                         try {
                             setNewData(annotation);
-                            api.trigger('reset-annotation');
+                            api.trigger('reset-annotation', annotationData);
                         } catch (error) {
                             alert(error);
                             throw error;
