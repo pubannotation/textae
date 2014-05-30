@@ -1780,7 +1780,6 @@
             };
 
             var bodyClicked = function(e) {
-                controller.userEvent.viewHandler.hidePallet();
                 var selection = window.getSelection();
 
                 // No select
@@ -1795,7 +1794,6 @@
             };
 
             var spanClicked = function(e) {
-                controller.userEvent.viewHandler.hidePallet();
                 var selection = window.getSelection();
 
                 // No select
@@ -1893,6 +1891,10 @@
             };
 
             var editorSelected = function() {
+                // Hide dialogs.
+                controller.userEvent.viewHandler.hidePallet();
+
+                // Select this editor.
                 editor.tool.selectMe();
                 view.viewModel.buttonStateHelper.propagate();
             };
