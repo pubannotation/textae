@@ -422,7 +422,7 @@
                             // This is base value to calculate the position of grids.
                             // Grids cannot be set positon by 'margin-bottom' style.
                             // Because grids is setted 'positin:absolute' style in the overlay over spans.
-                            // So we caluclate and set 'top' of grids in functions of 'view.renderer.grid'. 
+                            // So we caluclate and set 'top' of grids in functions of 'view.renderer.helper.redraw'. 
                             marginBottomOfGrid: 0,
                             isTerm: function() {
                                 return editor.hasClass('textae-editor_term-mode');
@@ -483,7 +483,7 @@
 
                 var destroyGrid = function(spanId) {
                     view.domUtil.manipulate.remove(view.domUtil.selector.grid.get(spanId));
-                    view.renderer.grid.destroy(spanId);
+                    renderer.grid.destroy(spanId);
                 };
 
                 // The cache for span positions.
@@ -603,7 +603,7 @@
                                 renderer.span.render(span);
                             });
 
-                            view.renderer.grid.arrangePositionAll();
+                            renderer.grid.arrangePositionAll();
 
                             // For tuning
                             // var endTime = new Date();
@@ -620,7 +620,7 @@
                     // Render annotations
                     getAnnotationArea().empty();
                     positionUtils.reset();
-                    view.renderer.grid.reset();
+                    renderer.grid.reset();
                     renderAllSpan(annotationData);
 
                     // Render relations
@@ -931,6 +931,130 @@
                             },
                         };
                     }(),
+                    grid: function() {
+                        var gridPositionCache = {};
+
+                        var filterChanged = function(span, newPosition) {
+                            var oldGridPosition = gridPositionCache[span.id];
+                            if (!oldGridPosition || oldGridPosition.top !== newPosition.top || oldGridPosition.left !== newPosition.left) {
+                                return newPosition;
+                            } else {
+                                return undefined;
+                            }
+                        };
+
+                        var arrangeRelationPosition = function(span) {
+                            _.compact(
+                                span.getTypes().map(function(type) {
+                                    return type.entities;
+                                }).reduce(textAeUtil.flatten, [])
+                                .map(model.annotationData.entity.assosicatedRelations)
+                                .reduce(textAeUtil.flatten, [])
+                                .map(toConnector)
+                            ).forEach(function(connector) {
+                                connector.arrangePosition();
+                            });
+                        };
+
+                        var getGrid = function(span) {
+                            if (span) {
+                                return view.domUtil.selector.grid.get(span.id);
+                            }
+                        };
+
+                        var updateGridPositon = function(span, newPosition) {
+                            if (newPosition) {
+                                getGrid(span).css(newPosition);
+                                gridPositionCache[span.id] = newPosition;
+                                arrangeRelationPosition(span);
+                                return span;
+                            }
+                        };
+
+                        var getNewPosition = function(span) {
+                            var stickGridOnSpan = function(span) {
+                                var spanPosition = positionUtils.getSpan(span.id);
+
+                                return {
+                                    'top': spanPosition.top - view.viewModel.viewMode.marginBottomOfGrid - getGrid(span).outerHeight(),
+                                    'left': spanPosition.left
+                                };
+                            };
+
+                            var pullUpGridOverDescendants = function(span) {
+                                // Culculate the height of the grid include descendant grids, because css style affects slowly.
+                                var getHeightIncludeDescendantGrids = function(span) {
+                                    var descendantsMaxHeight = span.children.length === 0 ? 0 :
+                                        Math.max.apply(null, span.children.map(function(childSpan) {
+                                            return getHeightIncludeDescendantGrids(childSpan);
+                                        }));
+
+                                    return getGrid(span).outerHeight() + descendantsMaxHeight + view.viewModel.viewMode.marginBottomOfGrid;
+                                };
+
+                                var spanPosition = positionUtils.getSpan(span.id);
+                                var descendantsMaxHeight = getHeightIncludeDescendantGrids(span);
+
+                                return {
+                                    'top': spanPosition.top - view.viewModel.viewMode.marginBottomOfGrid - descendantsMaxHeight,
+                                    'left': spanPosition.left
+                                };
+                            };
+
+                            if (span.children.length === 0) {
+                                return stickGridOnSpan(span);
+                            } else {
+                                return pullUpGridOverDescendants(span);
+                            }
+                        };
+
+                        var filterVisibleGrid = function(grid) {
+                            if (grid && grid.hasClass('hidden')) {
+                                return grid;
+                            }
+                        };
+
+                        var visibleGrid = function(grid) {
+                            if (grid) {
+                                grid.removeClass('hidden');
+                            }
+                        };
+
+                        var arrangeGridPosition = function(span) {
+                            var moveTheGridIfChange = _.compose(_.partial(updateGridPositon, span), _.partial(filterChanged, span));
+                            _.compose(visibleGrid, filterVisibleGrid, getGrid, moveTheGridIfChange, getNewPosition)(span);
+                        };
+
+                        return {
+                            arrangePositionAll: function() {
+                                var arrangePositionGridAndoDescendant = function(span) {
+                                    // Arrange position All descendants because a grandchild maybe have types when a child has no type. 
+                                    span.children
+                                        .forEach(function(span) {
+                                            arrangePositionGridAndoDescendant(span);
+                                        });
+
+                                    // There is at least one type in span that has a grid.
+                                    if (span.getTypes().length > 0) {
+                                        arrangeGridPosition(span);
+                                    }
+                                };
+
+                                positionUtils.reset();
+
+                                model.annotationData.span.topLevel()
+                                    .forEach(function(span) {
+                                        _.defer(_.partial(arrangePositionGridAndoDescendant, span));
+                                    });
+                            },
+                            destroy: function(spanId) {
+                                delete gridPositionCache[spanId];
+                            },
+                            reset: function() {
+                                gridPositionCache = {};
+                            }
+                        };
+                    }(),
                     relation: function() {
                         // Init a jsPlumb instance.
                         var jsPlumbInstance = function() {
@@ -1139,130 +1263,9 @@
                                     height: 18 * typeGapValue + 18 + 'px',
                                     'padding-top': 18 * typeGapValue + 'px'
                                 });
-                            }
-                        };
-                    }(),
-                    grid: function() {
-                        var gridPositionCache = {};
-
-                        var filterChanged = function(span, newPosition) {
-                            var oldGridPosition = gridPositionCache[span.id];
-                            if (!oldGridPosition || oldGridPosition.top !== newPosition.top || oldGridPosition.left !== newPosition.left) {
-                                return newPosition;
-                            } else {
-                                return undefined;
-                            }
-                        };
-
-                        var arrangeRelationPosition = function(span) {
-                            _.compact(
-                                span.getTypes().map(function(type) {
-                                    return type.entities;
-                                }).reduce(textAeUtil.flatten, [])
-                                .map(model.annotationData.entity.assosicatedRelations)
-                                .reduce(textAeUtil.flatten, [])
-                                .map(toConnector)
-                            ).forEach(function(connector) {
-                                connector.arrangePosition();
-                            });
-                        };
-
-                        var getGrid = function(span) {
-                            if (span) {
-                                return view.domUtil.selector.grid.get(span.id);
-                            }
-                        };
-
-                        var updateGridPositon = function(span, newPosition) {
-                            if (newPosition) {
-                                getGrid(span).css(newPosition);
-                                gridPositionCache[span.id] = newPosition;
-                                arrangeRelationPosition(span);
-                                return span;
-                            }
-                        };
-
-                        var getNewPosition = function(span) {
-                            var stickGridOnSpan = function(span) {
-                                var spanPosition = positionUtils.getSpan(span.id);
-
-                                return {
-                                    'top': spanPosition.top - view.viewModel.viewMode.marginBottomOfGrid - getGrid(span).outerHeight(),
-                                    'left': spanPosition.left
-                                };
-                            };
-
-                            var pullUpGridOverDescendants = function(span) {
-                                // Culculate the height of the grid include descendant grids, because css style affects slowly.
-                                var getHeightIncludeDescendantGrids = function(span) {
-                                    var descendantsMaxHeight = span.children.length === 0 ? 0 :
-                                        Math.max.apply(null, span.children.map(function(childSpan) {
-                                            return getHeightIncludeDescendantGrids(childSpan);
-                                        }));
-
-                                    return getGrid(span).outerHeight() + descendantsMaxHeight + view.viewModel.viewMode.marginBottomOfGrid;
-                                };
-
-                                var spanPosition = positionUtils.getSpan(span.id);
-                                var descendantsMaxHeight = getHeightIncludeDescendantGrids(span);
-
-                                return {
-                                    'top': spanPosition.top - view.viewModel.viewMode.marginBottomOfGrid - descendantsMaxHeight,
-                                    'left': spanPosition.left
-                                };
-                            };
-
-                            if (span.children.length === 0) {
-                                return stickGridOnSpan(span);
-                            } else {
-                                return pullUpGridOverDescendants(span);
-                            }
-                        };
-
-                        var filterVisibleGrid = function(grid) {
-                            if (grid && grid.hasClass('hidden')) {
-                                return grid;
-                            }
-                        };
-
-                        var visibleGrid = function(grid) {
-                            if (grid) {
-                                grid.removeClass('hidden');
-                            }
-                        };
-
-                        var arrangeGridPosition = function(span) {
-                            var moveTheGridIfChange = _.compose(_.partial(updateGridPositon, span), _.partial(filterChanged, span));
-                            _.compose(visibleGrid, filterVisibleGrid, getGrid, moveTheGridIfChange, getNewPosition)(span);
-                        };
-
-                        return {
-                            arrangePositionAll: function() {
-                                var arrangePositionGridAndoDescendant = function(span) {
-                                    // Arrange position All descendants because a grandchild maybe have types when a child has no type. 
-                                    span.children
-                                        .forEach(function(span) {
-                                            arrangePositionGridAndoDescendant(span);
-                                        });
-
-                                    // There is at least one type in span that has a grid.
-                                    if (span.getTypes().length > 0) {
-                                        arrangeGridPosition(span);
-                                    }
-                                };
-
-                                positionUtils.reset();
-
-                                model.annotationData.span.topLevel()
-                                    .forEach(function(span) {
-                                        _.defer(_.partial(arrangePositionGridAndoDescendant, span));
-                                    });
                             },
-                            destroy: function(spanId) {
-                                delete gridPositionCache[spanId];
-                            },
-                            reset: function() {
-                                gridPositionCache = {};
+                            redraw: function() {
+                                renderer.grid.arrangePositionAll();
                             }
                         };
                     }()
@@ -2012,7 +2015,7 @@
                         command.execute();
                     });
 
-                    view.renderer.grid.arrangePositionAll();
+                    view.renderer.helper.redraw();
                 };
 
                 var setDefautlViewMode = function() {
@@ -2532,7 +2535,7 @@
                                     resetView();
                                     eventHandlerComposer.noRelationEdit();
                                     view.viewModel.viewMode.setTerm();
-                                    view.renderer.grid.arrangePositionAll();
+                                    view.renderer.helper.redraw();
 
                                     controllerState = state.termCentric;
                                 },
@@ -2540,7 +2543,7 @@
                                     resetView();
                                     eventHandlerComposer.noRelationEdit();
                                     view.viewModel.viewMode.setInstance();
-                                    view.renderer.grid.arrangePositionAll();
+                                    view.renderer.helper.redraw();
 
                                     controllerState = state.instanceRelation;
                                 },
@@ -2548,7 +2551,7 @@
                                     resetView();
                                     eventHandlerComposer.relationEdit();
                                     view.viewModel.viewMode.setRelation();
-                                    view.renderer.grid.arrangePositionAll();
+                                    view.renderer.helper.redraw();
 
                                     controllerState = state.relationEdit;
                                 }
@@ -2598,7 +2601,7 @@
 
                         var changeLineHeight = debounce300(_.compose(redrawAllEditor, view.renderer.helper.changeLineHeight));
 
-                        var changeTypeGap = debounce300(_.compose(view.renderer.grid.arrangePositionAll, view.renderer.helper.changeTypeGap));
+                        var changeTypeGap = debounce300(_.compose(view.renderer.helper.redraw, view.renderer.helper.changeTypeGap));
 
                         return {
                             init: function() {
@@ -2734,7 +2737,7 @@
                                 editor.tool.cancel();
                             },
                             redraw: function() {
-                                view.renderer.grid.arrangePositionAll();
+                                view.renderer.helper.redraw();
                             },
                             cancelSelect: function() {
                                 // if drag, bubble up
