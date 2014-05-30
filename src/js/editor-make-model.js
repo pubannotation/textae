@@ -5,6 +5,8 @@
 
             return {
                 bind: function(event, callback) {
+                    if (!_.isFunction(callback)) throw new Error('Only a function is bindable!');
+
                     callbacks[event] = callback;
                     return this;
                 },
