@@ -685,8 +685,6 @@
                             element.setAttribute('class', 'textae-editor__span');
                             getRangeToInsertSpanTag(span.id).surroundContents(element);
 
-                            span.bind('remove', renderer.span.destroy);
-
                             return span;
                         };
 
@@ -736,7 +734,7 @@
                         return {
                             // Destroy children spans to wrap a TextNode with <span> tag when new span over exists spans.
                             render: _.compose(renderChildresnSpan, renderEntitiesOfSpan, renderSingleSpan, destroyChildrenSpan),
-                            destroy: function(span) {
+                            remove: function(span) {
                                 var spanElement = document.getElementById(span.id);
                                 var parent = spanElement.parentNode;
 
@@ -795,6 +793,14 @@
                             }
                         };
 
+                        var changeTypeOfExists = function(entity) {
+                            // Remove old entity.
+                            removeEntityElement(entity);
+
+                            // Show new entity.
+                            renderer.entity.render(entity);
+                        };
+
                         var destroy = function(entity) {
                             if (doesSpanHasNoEntity(entity.span)) {
                                 // Destroy a grid when all entities are remove. 
@@ -803,14 +809,6 @@
                                 // Destroy an each entity.
                                 removeEntityElement(entity);
                             }
-                        };
-
-                        var changeTypeOfExists = function(entity) {
-                            // Remove old entity.
-                            removeEntityElement(entity);
-
-                            // Show new entity.
-                            renderer.entity.render(entity);
                         };
 
                         return {
@@ -920,9 +918,6 @@
                                     return $entity;
                                 };
 
-                                entity.bind('remove', _.compose(renderer.grid.arrangePositionAll, destroy));
-                                entity.bind('change-type', _.compose(renderer.grid.arrangePositionAll, changeTypeOfExists));
-
                                 // Replace null to 'null' if type is null and undefined too.
                                 entity.type = String(entity.type);
 
@@ -933,6 +928,8 @@
 
                                 arrangePositionOfPane(pane);
                             },
+                            change: changeTypeOfExists,
+                            remove: destroy
                         };
                     }(),
                     grid: function() {
@@ -1188,11 +1185,6 @@
                             return conn;
                         };
 
-                        var removeJsPlumbConnection = function(relation) {
-                            jsPlumbInstance.detach(toConnector(relation.id));
-                            delete cachedConnectors[relation.id];
-                        };
-
                         var changeJsPlubmOverlay = function(relation) {
                             var connector = toConnector(relation.id);
                             if (!connector) {
@@ -1209,6 +1201,11 @@
 
                             labelOverlay.setLabel('[' + relation.id + '] ' + relation.pred);
                             connector.setPaintStyle(view.viewModel.getConnectorStrokeStyle(relation.id));
+                        };
+
+                        var removeJsPlumbConnection = function(relation) {
+                            jsPlumbInstance.detach(toConnector(relation.id));
+                            delete cachedConnectors[relation.id];
                         };
 
                         return {
@@ -1229,16 +1226,9 @@
                                 cachedConnectors = {};
                                 view.domUtil.selector.relation.emptyRelationIdsSelected();
                             },
-                            render: function(relation) {
-                                relation.bind('remove', removeJsPlumbConnection);
-                                relation.bind('change-predicate', changeJsPlubmOverlay);
-
-                                createJsPlumbConnection(relation);
-                            },
-                            arrangePositionAll: function() {
-                                // Move entitis before a calculation the position of relations.
-                                _.invoke(_.values(cachedConnectors), 'arrangePosition');
-                            }
+                            render: createJsPlumbConnection,
+                            change: changeJsPlubmOverlay,
+                            remove: removeJsPlumbConnection
                         };
                     }()
                 };
@@ -1247,10 +1237,15 @@
                     init: function(modelData) {
                         model = modelData;
                         model.annotationData.bind('change-text', renderSourceDocument);
-                        model.annotationData.bind('reset-annotation', reset);
-                        model.annotationData.span.bind('add', renderer.span.render);
-                        model.annotationData.entity.bind('add', _.compose(renderer.grid.arrangePositionAll, renderer.entity.render));
-                        model.annotationData.relation.bind('add', renderer.relation.render);
+                        model.annotationData.bind('all.change', reset);
+                        model.annotationData.bind('span.add', renderer.span.render);
+                        model.annotationData.bind('span.remove', renderer.span.remove);
+                        model.annotationData.bind('entity.add', _.compose(renderer.grid.arrangePositionAll, renderer.entity.render));
+                        model.annotationData.bind('entity.change', _.compose(renderer.grid.arrangePositionAll, renderer.entity.change));
+                        model.annotationData.bind('entity.remove', _.compose(renderer.grid.arrangePositionAll, renderer.entity.remove));
+                        model.annotationData.bind('relation.add', renderer.relation.render);
+                        model.annotationData.bind('relation.change', renderer.relation.change);
+                        model.annotationData.bind('relation.remove', renderer.relation.remove);
                     },
                     helper: function() {
                         return {
