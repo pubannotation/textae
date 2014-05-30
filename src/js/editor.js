@@ -2476,6 +2476,7 @@
                         var controllerState = function() {
                             var resetView = function() {
                                 controller.userEvent.viewHandler.hidePallet();
+                                editor.tool.cancel();
                                 view.domUtil.manipulate.unselect();
                             };
 
