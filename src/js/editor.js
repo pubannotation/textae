@@ -591,12 +591,12 @@
                     view.renderer.paragraphs = makeParagraphs(params.paragraphs);
                 };
 
-                var reset = function() {
-                    var renderAllSpan = function() {
+                var reset = function(annotationData) {
+                    var renderAllSpan = function(annotationData) {
                             // For tuning
                             // var startTime = new Date();
 
-                            model.annotationData.span.topLevel().forEach(function(span) {
+                            annotationData.span.topLevel().forEach(function(span) {
                                 renderer.span.render(span);
                             });
 
@@ -606,10 +606,10 @@
                             // var endTime = new Date();
                             // console.log('render all span : ', endTime.getTime() - startTime.getTime() + 'ms');
                         },
-                        renderAllRelation = function() {
+                        renderAllRelation = function(annotationData) {
                             renderer.relation.reset();
 
-                            model.annotationData.relation.all().forEach(function(relation) {
+                            annotationData.relation.all().forEach(function(relation) {
                                 _.defer(_.partial(renderer.relation.render, relation));
                             });
                         };
@@ -618,10 +618,10 @@
                     getAnnotationArea().empty();
                     positionUtils.reset();
                     view.renderer.grid.reset();
-                    renderAllSpan();
+                    renderAllSpan(annotationData);
 
                     // Render relations
-                    renderAllRelation();
+                    renderAllRelation(annotationData);
                 };
 
                 var renderer = {
