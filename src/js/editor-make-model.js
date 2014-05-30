@@ -1,4 +1,28 @@
     var makeModel = function(idFactory) {
+        // A mixin for the separeted presentation by the observer pattern.
+        var bindable = function() {
+            var callbacks = {};
+
+            return {
+                bind: function(event, callback) {
+                    if (!_.isFunction(callback)) throw new Error('Only a function is bindable!');
+
+                    callbacks[event] = callback;
+                    return this;
+                },
+                trigger: function(event, data) {
+                    if (callbacks[event]) {
+                        callbacks[event](data);
+                    }
+                    return data;
+                }
+            };
+        };
+
+        var extendBindable = function(obj) {
+            return _.extend({}, obj, bindable());
+        };
+
         var annotationData = function() {
             var originalData;
 
@@ -13,28 +37,6 @@
 
                 // The Math.max retrun -Infinity when the second argument array is empty.
                 return prefix + (ids.length === 0 ? 1 : Math.max.apply(null, ids) + 1);
-            };
-
-            // A mixin for the separeted presentation by the observer pattern.
-            var bindable = function() {
-                var callbacks = {};
-
-                return {
-                    bind: function(event, callback) {
-                        callbacks[event] = callback;
-                        return this;
-                    },
-                    trigger: function(event, data) {
-                        if (callbacks[event]) {
-                            callbacks[event](this, data);
-                        }
-                        return data;
-                    }
-                };
-            };
-
-            var extendBindable = function(obj) {
-                return _.extend({}, obj, bindable());
             };
 
             var span = function() {
@@ -61,7 +63,7 @@
                                 return this.toStringOnlyThis() + childrenString;
                             },
                             // A big brother is brother node on a structure at rendered.
-                            // There is no big brother if the span is first in a paragrpah.
+                            // There is no big brother if the span is first in a paragraph.
                             // Warning: parent is set at updateSpanTree, is not exists now.
                             getBigBrother: function() {
                                 var index;
@@ -103,14 +105,6 @@
                             }
                         };
 
-                        //get the paragraph that span is belong to.
-                        var findParagraph = function(self) {
-                            var match = annotationData.paragraphsArray.filter(function(p) {
-                                return self.begin >= p.begin && self.end <= p.end;
-                            });
-                            return match.length > 0 ? match[0] : null;
-                        };
-
                         var spanId = idFactory.makeSpanId(span.begin, span.end);
 
                         //add a span unless exists, because an annotations.json is defiend by entities so spans are added many times. 
@@ -118,7 +112,7 @@
                             //a span is extended nondestructively to render.
                             var newSpan = $.extend({
                                     id: spanId,
-                                    paragraph: findParagraph(span),
+                                    paragraph: paragraph.findParagraph(span),
                                 },
                                 span,
                                 additionalPropertiesForSpan,
@@ -226,7 +220,7 @@
                             delete spanContainer[spanId];
                             updateSpanTree();
 
-                            span.trigger('remove');
+                            span.trigger('remove', span);
                         },
                         clear: function() {
                             spanContainer = {};
@@ -280,14 +274,14 @@
                         changeType: function(entityId, newType) {
                             var entity = annotationData.entity.get(entityId);
                             entity.type = newType;
-                            entity.trigger('change-type');
+                            entity.trigger('change-type', entity);
                             return entity;
                         },
                         remove: function(entityId) {
                             var entity = annotationData.entity.get(entityId);
                             if (entity) {
                                 delete entityContainer[entityId];
-                                entity.trigger('remove');
+                                entity.trigger('remove', entity);
                             }
                             return entity;
                         },
@@ -336,10 +330,10 @@
                         },
                         changePredicate: function(relationId, predicate) {
                             relationContainer[relationId].pred = predicate;
-                            relationContainer[relationId].trigger('change-predicate');
+                            relationContainer[relationId].trigger('change-predicate', relationContainer[relationId]);
                         },
                         remove: function(relationId) {
-                            relationContainer[relationId].trigger('remove');
+                            relationContainer[relationId].trigger('remove', relationContainer[relationId]);
                             delete relationContainer[relationId];
                         },
                         clear: function() {
@@ -365,7 +359,36 @@
                 };
             }();
 
-            return {
+            var paragraph = function() {
+                var paragraphContainer;
+                return {
+                    set: function(sourceDoc) {
+                        var textLengthBeforeThisParagraph = 0;
+                        paragraphContainer = sourceDoc.split("\n").map(function(p, index) {
+                            var ret = {
+                                id: idFactory.makeParagraphId(index),
+                                begin: textLengthBeforeThisParagraph,
+                                end: textLengthBeforeThisParagraph + p.length,
+                            };
+
+                            textLengthBeforeThisParagraph += p.length + 1;
+                            return ret;
+                        });
+                    },
+                    get: function() {
+                        return paragraphContainer;
+                    },
+                    //get the paragraph that span is belong to.
+                    findParagraph: function(self) {
+                        var match = paragraphContainer.filter(function(p) {
+                            return self.begin >= p.begin && self.end <= p.end;
+                        });
+                        return match.length > 0 ? match[0] : null;
+                    }
+                };
+            }();
+
+            var api = extendBindable({
                 span: span,
                 entity: entity,
                 relation: relation,
@@ -386,16 +409,11 @@
                                 annotationData.sourceDoc = sourceDoc;
 
                                 // Parse paragraphs
-                                var textLengthBeforeThisParagraph = 0;
-                                annotationData.paragraphsArray = sourceDoc.split("\n").map(function(p, index) {
-                                    var ret = {
-                                        id: idFactory.makeParagraphId(index),
-                                        begin: textLengthBeforeThisParagraph,
-                                        end: textLengthBeforeThisParagraph + p.length,
-                                    };
+                                paragraph.set(sourceDoc);
 
-                                    textLengthBeforeThisParagraph += p.length + 1;
-                                    return ret;
+                                api.trigger('change-text', {
+                                    sourceDoc: sourceDoc,
+                                    paragraphs: paragraph.get()
                                 });
                             } else {
                                 throw "read failed.";
@@ -456,8 +474,10 @@
 
                         try {
                             setNewData(annotation);
+                            api.trigger('reset-annotation');
                         } catch (error) {
                             alert(error);
+                            throw error;
                         }
                     };
                 }(),
@@ -480,7 +500,9 @@
                         'relations': annotationData.relation.all()
                     }));
                 }
-            };
+            });
+
+            return api;
         }();
 
         return {

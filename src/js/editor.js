@@ -553,101 +553,78 @@
                     return getElement(displayArea, 'div', 'textae-editor__body__annotation-box');
                 };
 
-                return {
-                    init: function() {
-                        model.annotationData.span.bind('add', function(list, element) {
-                            view.renderer.span.render(element);
-                        });
-                        model.annotationData.entity.bind('add', function(list, element) {
-                            view.renderer.entity.render(element);
-                        });
-                        model.annotationData.relation.bind('add', function(list, element) {
-                            view.renderer.relation.render(element);
-                        });
-                    },
-                    reset: function() {
-                        // the Souce document has multi paragraphs that are splited by '\n'.
-                        var getTaggedSourceDoc = function() {
-                            //set sroucedoc tagged <p> per line.
-                            return model.annotationData.sourceDoc.split("\n").map(function(par) {
-                                return '<p class="textae-editor__body__text-box__paragraph">' + par + '</p>';
-                            }).join("\n");
-                        };
+                var renderSourceDocument = function(params) {
+                    // the Souce document has multi paragraphs that are splited by '\n'.
+                    var getTaggedSourceDoc = function(sourceDoc) {
+                        //set sroucedoc tagged <p> per line.
+                        return sourceDoc.split("\n").map(function(par) {
+                            return '<p class="textae-editor__body__text-box__paragraph">' + par + '</p>';
+                        }).join("\n");
+                    };
 
-                        // Paragraphs is Object that has position of charactor at start and end of the statement in each paragraph.
-                        var makeParagraphs = function() {
-                            var paragraphs = {};
+                    // Paragraphs is Object that has position of charactor at start and end of the statement in each paragraph.
+                    var makeParagraphs = function(paragraphsArray) {
+                        var paragraphs = {};
 
-                            //enchant id to paragraph element and chache it.
-                            view.renderer.helper.getSourceDocArea().find('p').each(function(index, element) {
-                                var $element = $(element);
-                                var paragraph = $.extend(model.annotationData.paragraphsArray[index], {
-                                    element: $element,
-                                });
-                                $element.attr('id', paragraph.id);
-
-                                paragraphs[paragraph.id] = paragraph;
+                        //enchant id to paragraph element and chache it.
+                        helper.getSourceDocArea().find('p').each(function(index, element) {
+                            var $element = $(element);
+                            var paragraph = $.extend({}, paragraphsArray[index], {
+                                element: $element,
                             });
+                            $element.attr('id', paragraph.id);
 
-                            return paragraphs;
-                        };
+                            paragraphs[paragraph.id] = paragraph;
+                        });
 
-                        // Render the source document
-                        view.renderer.helper.getSourceDocArea().html(getTaggedSourceDoc());
-                        view.renderer.paragraphs = makeParagraphs();
+                        return paragraphs;
+                    };
 
-                        // Render annotations
-                        getAnnotationArea().empty();
-                        positionUtils.reset();
-                        view.renderer.grid.reset();
-                        view.renderer.helper.renderAllSpan();
+                    // Render the source document
+                    helper.getSourceDocArea().html(getTaggedSourceDoc(params.sourceDoc));
+                    view.renderer.paragraphs = makeParagraphs(params.paragraphs);
+                };
 
-                        // Render relations
-                        view.renderer.helper.renderAllRelation();
+                var helper = {
+                    // Get the display area for text and spans.
+                    getSourceDocArea: function() {
+                        return getElement(displayArea, 'div', 'textae-editor__body__text-box');
                     },
-                    helper: function() {
-                        return {
-                            // Get the display area for text and spans.
-                            getSourceDocArea: function() {
-                                return getElement(displayArea, 'div', 'textae-editor__body__text-box');
-                            },
-                            renderAllSpan: function() {
-                                // For tuning
-                                // var startTime = new Date();
+                    renderAllSpan: function() {
+                        // For tuning
+                        // var startTime = new Date();
 
-                                model.annotationData.span.topLevel().forEach(function(span) {
-                                    view.renderer.span.render(span);
-                                });
+                        model.annotationData.span.topLevel().forEach(function(span) {
+                            renderer.span.render(span);
+                        });
 
-                                view.renderer.grid.arrangePositionAll();
+                        view.renderer.grid.arrangePositionAll();
 
-                                // For tuning
-                                // var endTime = new Date();
-                                // console.log('render all span : ', endTime.getTime() - startTime.getTime() + 'ms');
-                            },
-                            renderAllRelation: function() {
-                                view.renderer.relation.reset();
+                        // For tuning
+                        // var endTime = new Date();
+                        // console.log('render all span : ', endTime.getTime() - startTime.getTime() + 'ms');
+                    },
+                    renderAllRelation: function() {
+                        renderer.relation.reset();
 
-                                model.annotationData.relation.all().forEach(function(relation) {
-                                    _.defer(_.partial(view.renderer.relation.render, relation));
-                                });
-                            },
-                            changeLineHeight: function(heightValue) {
-                                editor.find('.textae-editor__body__text-box').css({
-                                    'line-height': heightValue * 100 + '%'
-                                });
-                            },
-                            getLineHeight: function() {
-                                return parseInt(editor.find('.textae-editor__body__text-box').css('line-height')) / 16;
-                            },
-                            changeTypeGap: function(typeGapValue) {
-                                editor.find('.textae-editor__type').css({
-                                    height: 18 * typeGapValue + 18 + 'px',
-                                    'padding-top': 18 * typeGapValue + 'px'
-                                });
-                            }
-                        };
-                    }(),
+                        model.annotationData.relation.all().forEach(function(relation) {
+                            _.defer(_.partial(renderer.relation.render, relation));
+                        });
+                    }
+                };
+
+                var reset = function() {
+                    // Render annotations
+                    getAnnotationArea().empty();
+                    positionUtils.reset();
+                    view.renderer.grid.reset();
+                    helper.renderAllSpan();
+
+                    // Render relations
+                    helper.renderAllRelation();
+                };
+
+                var renderer = {
                     span: function() {
                         var renderSingleSpan = function(span) {
                             // Create the Range to a new span add 
@@ -701,13 +678,13 @@
                             element.setAttribute('class', 'textae-editor__span');
                             getRangeToInsertSpanTag(span.id).surroundContents(element);
 
-                            span.bind('remove', view.renderer.span.destroy);
+                            span.bind('remove', renderer.span.destroy);
 
                             return span;
                         };
 
                         var renderEntitiesOfType = function(type) {
-                            type.entities.forEach(_.compose(view.renderer.entity.render, model.annotationData.entity.get));
+                            type.entities.forEach(_.compose(renderer.entity.render, model.annotationData.entity.get));
                         };
 
                         var renderEntitiesOfSpan = function(span) {
@@ -733,7 +710,7 @@
                                 span.children.forEach(function(span) {
                                     destroySpanRecurcive(span);
                                 });
-                                view.renderer.span.destroy(span);
+                                renderer.span.destroy(span);
                             };
 
                             // Destroy rendered children.
@@ -744,7 +721,7 @@
 
                         var renderChildresnSpan = function(span) {
                             span.children.filter(_.compose(not, exists))
-                                .forEach(view.renderer.span.render);
+                                .forEach(renderer.span.render);
 
                             return span;
                         };
@@ -826,7 +803,7 @@
                             removeEntityElement(entity);
 
                             // Show new entity.
-                            view.renderer.entity.render(entity);
+                            renderer.entity.render(entity);
                         };
 
                         return {
@@ -949,6 +926,172 @@
 
                                 arrangePositionOfPane(pane);
                             },
+                        };
+                    }(),
+                    relation: function() {
+                        // Init a jsPlumb instance.
+                        var jsPlumbInstance = function() {
+                            var newInstance = jsPlumb.getInstance({
+                                ConnectionsDetachable: false,
+                                Endpoint: ['Dot', {
+                                    radius: 1
+                                }]
+                            });
+                            newInstance.setRenderMode(newInstance.SVG);
+                            newInstance.Defaults.Container = getAnnotationArea();
+                            return newInstance;
+                        }();
+
+                        var determineCurviness = function(relationId) {
+                            var sourceId = model.annotationData.relation.get(relationId).subj;
+                            var targetId = model.annotationData.relation.get(relationId).obj;
+
+                            var sourcePosition = positionUtils.getEntity(sourceId);
+                            var targetPosition = positionUtils.getEntity(targetId);
+
+                            var sourceX = sourcePosition.center;
+                            var targetX = targetPosition.center;
+
+                            var sourceY = sourcePosition.top;
+                            var targetY = targetPosition.top;
+
+                            var xdiff = Math.abs(sourceX - targetX);
+                            var ydiff = Math.abs(sourceY - targetY);
+                            var curviness = xdiff * renderer.relation.settings.xrate + ydiff * renderer.relation.settings.yrate + renderer.relation.settings.c_offset;
+                            curviness /= 2.4;
+
+                            return curviness;
+                        };
+
+                        var arrowStyle = {
+                            width: 7,
+                            length: 9,
+                            location: 1
+                        };
+
+                        var arrangePosition = function(relationId) {
+                            var conn = toConnector(relationId);
+                            conn.endpoints[0].repaint();
+                            conn.endpoints[1].repaint();
+                            conn.setConnector(['Bezier', {
+                                curviness: determineCurviness(relationId)
+                            }]);
+                            conn.addOverlay(['Arrow', arrowStyle]);
+                        };
+
+                        var createJsPlumbConnection = function(relation) {
+                            // Make a connector by jsPlumb.
+                            var conn = jsPlumbInstance.connect({
+                                source: view.domUtil.selector.entity.get(relation.subj),
+                                target: view.domUtil.selector.entity.get(relation.obj),
+                                anchors: ['TopCenter', "TopCenter"],
+                                connector: ['Bezier', {
+                                    curviness: determineCurviness(relation.id)
+                                }],
+                                paintStyle: view.viewModel.getConnectorStrokeStyle(relation.id),
+                                parameters: {
+                                    'id': relation.id,
+                                },
+                                cssClass: 'textae-editor__relation',
+                                overlays: [
+                                    ['Arrow', arrowStyle],
+                                    ['Label', {
+                                        label: '[' + relation.id + '] ' + relation.pred,
+                                        cssClass: 'textae-editor__relation__label'
+                                    }]
+                                ]
+                            });
+
+                            // Notify to controller that a new jsPlumbConnection is added.
+                            editor.trigger('textae.editor.jsPlumbConnection.add', conn);
+
+                            // Set a function debounce to avoid over rendering.
+                            conn.arrangePosition = _.debounce(_.partial(arrangePosition, relation.id), 20);
+
+                            // Cache a connector instance.
+                            cachedConnectors[relation.id] = conn;
+                            return conn;
+                        };
+
+                        var removeJsPlumbConnection = function(relation) {
+                            jsPlumbInstance.detach(toConnector(relation.id));
+                            delete cachedConnectors[relation.id];
+                        };
+
+                        var changeJsPlubmOverlay = function(relation) {
+                            var connector = toConnector(relation.id);
+                            if (!connector) {
+                                throw 'no connector';
+                            }
+
+                            // Find the label overlay by self, because the function 'getLabelOverlays' returns no label overlay.
+                            var labelOverlay = connector.getOverlays().filter(function(overlay) {
+                                return overlay.type === 'Label';
+                            })[0];
+                            if (!labelOverlay) {
+                                throw 'no label overlay';
+                            }
+
+                            labelOverlay.setLabel('[' + relation.id + '] ' + relation.pred);
+                            connector.setPaintStyle(view.viewModel.getConnectorStrokeStyle(relation.id));
+                        };
+
+                        return {
+                            // Parameters to render relations.
+                            settings: {
+                                // opacity of connectorsA
+                                connOpacity: 0.6,
+
+                                // curviness parameters
+                                xrate: 0.6,
+                                yrate: 0.05,
+
+                                // curviness offset
+                                c_offset: 20,
+                            },
+                            reset: function() {
+                                jsPlumbInstance.reset();
+                                cachedConnectors = {};
+                                view.domUtil.selector.relation.emptyRelationIdsSelected();
+                            },
+                            render: function(relation) {
+                                relation.bind('remove', removeJsPlumbConnection);
+                                relation.bind('change-predicate', changeJsPlubmOverlay);
+
+                                createJsPlumbConnection(relation);
+                            },
+                            arrangePositionAll: function() {
+                                // Move entitis before a calculation the position of relations.
+                                _.invoke(_.values(cachedConnectors), 'arrangePosition');
+                            }
+                        };
+                    }()
+                };
+
+                return {
+                    init: function() {
+                        model.annotationData.bind('change-text', renderSourceDocument);
+                        model.annotationData.bind('reset-annotation', reset);
+                        model.annotationData.span.bind('add', renderer.span.render);
+                        model.annotationData.entity.bind('add', renderer.entity.render);
+                        model.annotationData.relation.bind('add', renderer.relation.render);
+                    },
+                    helper: function() {
+                        return {
+                            changeLineHeight: function(heightValue) {
+                                editor.find('.textae-editor__body__text-box').css({
+                                    'line-height': heightValue * 100 + '%'
+                                });
+                            },
+                            getLineHeight: function() {
+                                return parseInt(editor.find('.textae-editor__body__text-box').css('line-height')) / 16;
+                            },
+                            changeTypeGap: function(typeGapValue) {
+                                editor.find('.textae-editor__type').css({
+                                    height: 18 * typeGapValue + 18 + 'px',
+                                    'padding-top': 18 * typeGapValue + 'px'
+                                });
+                            }
                         };
                     }(),
                     grid: function() {
@@ -1074,145 +1217,7 @@
                                 gridPositionCache = {};
                             }
                         };
-                    }(),
-                    relation: function() {
-                        // Init a jsPlumb instance.
-                        var jsPlumbInstance = function() {
-                            var newInstance = jsPlumb.getInstance({
-                                ConnectionsDetachable: false,
-                                Endpoint: ['Dot', {
-                                    radius: 1
-                                }]
-                            });
-                            newInstance.setRenderMode(newInstance.SVG);
-                            newInstance.Defaults.Container = getAnnotationArea();
-                            return newInstance;
-                        }();
-
-                        var determineCurviness = function(relationId) {
-                            var sourceId = model.annotationData.relation.get(relationId).subj;
-                            var targetId = model.annotationData.relation.get(relationId).obj;
-
-                            var sourcePosition = positionUtils.getEntity(sourceId);
-                            var targetPosition = positionUtils.getEntity(targetId);
-
-                            var sourceX = sourcePosition.center;
-                            var targetX = targetPosition.center;
-
-                            var sourceY = sourcePosition.top;
-                            var targetY = targetPosition.top;
-
-                            var xdiff = Math.abs(sourceX - targetX);
-                            var ydiff = Math.abs(sourceY - targetY);
-                            var curviness = xdiff * view.renderer.relation.settings.xrate + ydiff * view.renderer.relation.settings.yrate + view.renderer.relation.settings.c_offset;
-                            curviness /= 2.4;
-
-                            return curviness;
-                        };
-
-                        var arrowStyle = {
-                            width: 7,
-                            length: 9,
-                            location: 1
-                        };
-
-                        var arrangePosition = function(relationId) {
-                            var conn = toConnector(relationId);
-                            conn.endpoints[0].repaint();
-                            conn.endpoints[1].repaint();
-                            conn.setConnector(['Bezier', {
-                                curviness: determineCurviness(relationId)
-                            }]);
-                            conn.addOverlay(['Arrow', arrowStyle]);
-                        };
-
-                        var createJsPlumbConnection = function(relation) {
-                            // Make a connector by jsPlumb.
-                            var conn = jsPlumbInstance.connect({
-                                source: view.domUtil.selector.entity.get(relation.subj),
-                                target: view.domUtil.selector.entity.get(relation.obj),
-                                anchors: ['TopCenter', "TopCenter"],
-                                connector: ['Bezier', {
-                                    curviness: determineCurviness(relation.id)
-                                }],
-                                paintStyle: view.viewModel.getConnectorStrokeStyle(relation.id),
-                                parameters: {
-                                    'id': relation.id,
-                                },
-                                cssClass: 'textae-editor__relation',
-                                overlays: [
-                                    ['Arrow', arrowStyle],
-                                    ['Label', {
-                                        label: '[' + relation.id + '] ' + relation.pred,
-                                        cssClass: 'textae-editor__relation__label'
-                                    }]
-                                ]
-                            });
-
-                            // Notify to controller that a new jsPlumbConnection is added.
-                            editor.trigger('textae.editor.jsPlumbConnection.add', conn);
-
-                            // Set a function debounce to avoid over rendering.
-                            conn.arrangePosition = _.debounce(_.partial(arrangePosition, relation.id), 20);
-
-                            // Cache a connector instance.
-                            cachedConnectors[relation.id] = conn;
-                            return conn;
-                        };
-
-                        var removeJsPlumbConnection = function(relation) {
-                            jsPlumbInstance.detach(toConnector(relation.id));
-                            delete cachedConnectors[relation.id];
-                        };
-
-                        var changeJsPlubmOverlay = function(relation) {
-                            var connector = toConnector(relation.id);
-                            if (!connector) {
-                                throw 'no connector';
-                            }
-
-                            // Find the label overlay by self, because the function 'getLabelOverlays' returns no label overlay.
-                            var labelOverlay = connector.getOverlays().filter(function(overlay) {
-                                return overlay.type === 'Label';
-                            })[0];
-                            if (!labelOverlay) {
-                                throw 'no label overlay';
-                            }
-
-                            labelOverlay.setLabel('[' + relation.id + '] ' + relation.pred);
-                            connector.setPaintStyle(view.viewModel.getConnectorStrokeStyle(relation.id));
-                        };
-
-                        return {
-                            // Parameters to render relations.
-                            settings: {
-                                // opacity of connectorsA
-                                connOpacity: 0.6,
-
-                                // curviness parameters
-                                xrate: 0.6,
-                                yrate: 0.05,
-
-                                // curviness offset
-                                c_offset: 20,
-                            },
-                            reset: function() {
-                                jsPlumbInstance.reset();
-                                cachedConnectors = {};
-                                view.domUtil.selector.relation.emptyRelationIdsSelected();
-                            },
-                            render: function(relation) {
-                                relation.bind('remove', removeJsPlumbConnection);
-                                relation.bind('change-predicate', changeJsPlubmOverlay);
-
-                                createJsPlumbConnection(relation);
-                            },
-                            arrangePositionAll: function() {
-                                // Move entitis before a calculation the position of relations.
-                                _.invoke(_.values(cachedConnectors), 'arrangePosition');
-                            }
-                        };
-                    }(),
+                    }()
                 };
             }();
 
@@ -1980,7 +1985,6 @@
                     reset: function(annotation) {
                         model.annotationData.reset(annotation);
                         history.reset();
-                        view.renderer.reset();
                         setDefautlViewMode();
                     },
                     updateSavePoint: function() {
