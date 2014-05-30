@@ -1269,9 +1269,7 @@
                                 });
                                 renderer.grid.arrangePositionAll();
                             },
-                            redraw: function() {
-                                renderer.grid.arrangePositionAll();
-                            }
+                            redraw: renderer.grid.arrangePositionAll
                         };
                     }()
                 };
