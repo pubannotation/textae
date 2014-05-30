@@ -975,6 +975,8 @@
                             var conn = toConnector(relationId);
                             conn.endpoints[0].repaint();
                             conn.endpoints[1].repaint();
+
+                            // Re-set arrow disappered when setConnector is called.
                             conn.removeOverlay('normal-arrow');
                             conn.setConnector(['Bezier', {
                                 curviness: determineCurviness(relationId)
@@ -1008,6 +1010,9 @@
                                 ]
                             });
 
+                            // Show a big arrow when the connection is hoverd.
+                            // Remove a normal arrow and add a new big arrow.
+                            // Because an arrow is out of position if hideOverlay and showOverlay is used.  
                             conn.bind('mouseenter', function(conn, event) {
                                 conn.removeOverlay('normal-arrow');
                                 conn.addOverlay(['Arrow', {
