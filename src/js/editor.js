@@ -469,6 +469,7 @@
                         var colorHex = view.viewModel.typeContainer.relation.getColor(pred);
 
                         return {
+                            lineWidth: 1,
                             strokeStyle: converseHEXinotRGBA(colorHex, 1)
                         };
                     }
@@ -963,23 +964,58 @@
                             return curviness;
                         };
 
-                        var arrowStyle = {
+                        var normalArrow = {
                             width: 7,
                             length: 9,
-                            location: 1
+                            location: 1,
+                            id: 'normal-arrow'
+                        };
+
+                        var hoverArrow = {
+                            width: 14,
+                            length: 18,
+                            location: 1,
+                            id: 'hover-arrow',
                         };
 
                         var arrangePosition = function(relationId) {
                             var conn = toConnector(relationId);
                             conn.endpoints[0].repaint();
                             conn.endpoints[1].repaint();
+
+                            // Re-set arrow disappered when setConnector is called.
+                            conn.removeOverlay('normal-arrow');
                             conn.setConnector(['Bezier', {
                                 curviness: determineCurviness(relationId)
                             }]);
-                            conn.addOverlay(['Arrow', arrowStyle]);
+                            conn.addOverlay(['Arrow', normalArrow]);
+                        };
+
+                        // Show a big arrow when the connection is hoverd.
+                        // Remove a normal arrow and add a new big arrow.
+                        // Because an arrow is out of position if hideOverlay and showOverlay is used.
+                        var pointupable = function(getStrokeStyle) {
+                            return {
+                                pointup: function() {
+                                    this.removeOverlay('normal-arrow');
+                                    this.addOverlay(['Arrow', hoverArrow]);
+                                    this.setPaintStyle(_.extend(getStrokeStyle(), {
+                                        lineWidth: 3
+                                    }));
+                                },
+                                pointdown: function() {
+                                    this.removeOverlay('hover-arrow');
+                                    this.addOverlay(['Arrow', normalArrow]);
+                                    this.setPaintStyle(_.extend(getStrokeStyle(), {
+                                        lineWidth: 1
+                                    }));
+                                }
+                            };
                         };
 
                         var createJsPlumbConnection = function(relation) {
+                            var getStrokeStyle = _.partial(view.viewModel.getConnectorStrokeStyle, relation.id);
+
                             // Make a connector by jsPlumb.
                             var conn = jsPlumbInstance.connect({
                                 source: view.domUtil.selector.entity.get(relation.subj),
@@ -988,13 +1024,13 @@
                                 connector: ['Bezier', {
                                     curviness: determineCurviness(relation.id)
                                 }],
-                                paintStyle: view.viewModel.getConnectorStrokeStyle(relation.id),
+                                paintStyle: getStrokeStyle(),
                                 parameters: {
                                     'id': relation.id,
                                 },
                                 cssClass: 'textae-editor__relation',
                                 overlays: [
-                                    ['Arrow', arrowStyle],
+                                    ['Arrow', normalArrow],
                                     ['Label', {
                                         label: '[' + relation.id + '] ' + relation.pred,
                                         cssClass: 'textae-editor__relation__label'
@@ -1002,14 +1038,23 @@
                                 ]
                             });
 
-                            // Notify to controller that a new jsPlumbConnection is added.
-                            editor.trigger('textae.editor.jsPlumbConnection.add', conn);
-
                             // Set a function debounce to avoid over rendering.
                             conn.arrangePosition = _.debounce(_.partial(arrangePosition, relation.id), 20);
 
+                            // Set hover action.
+                            _.extend(conn, pointupable(getStrokeStyle));
+                            conn.bind('mouseenter', function(conn, event) {
+                                conn.pointup();
+                            }).bind('mouseexit', function(conn, event) {
+                                conn.pointdown();
+                            });
+
                             // Cache a connector instance.
                             cachedConnectors[relation.id] = conn;
+
+                            // Notify to controller that a new jsPlumbConnection is added.
+                            editor.trigger('textae.editor.jsPlumbConnection.add', conn);
+
                             return conn;
                         };
 
@@ -1287,9 +1332,11 @@
                             },
                             addUiSelectClass = function(connector) {
                                 connector.addClass('ui-selected');
+                                connector.pointup();
                             },
                             removeUiSelectClass = function(connector) {
                                 connector.removeClass('ui-selected');
+                                connector.pointdown();
                             },
                             selectRelation = _.compose(addUiSelectClass, toConnector),
                             deselectRelation = _.compose(removeUiSelectClass, toConnector);
@@ -1305,7 +1352,7 @@
                                 if (!isRelationSelected(relationId)) {
                                     relationIdsSelected.push(relationId);
                                     view.viewModel.buttonStateHelper.updateByRelation();
-                                    toConnector(relationId).addClass('ui-selected');
+                                    selectRelation(relationId);
                                 }
                             },
                             deselect: function(relationId) {
@@ -1402,10 +1449,10 @@
 
                     return {
                         on: _.partial(processAccosiatedRelation, function(connector) {
-                            connector.addClass('hover');
+                            connector.pointup();
                         }),
                         off: _.partial(processAccosiatedRelation, function(connector) {
-                            connector.removeClass('hover');
+                            connector.pointdown();
                         })
                     };
                 }()
