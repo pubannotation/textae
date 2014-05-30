@@ -920,8 +920,8 @@
                                     return $entity;
                                 };
 
-                                entity.bind('remove', destroy);
-                                entity.bind('change-type', changeTypeOfExists);
+                                entity.bind('remove', _.compose(renderer.grid.arrangePositionAll, destroy));
+                                entity.bind('change-type', _.compose(renderer.grid.arrangePositionAll, changeTypeOfExists));
 
                                 // Replace null to 'null' if type is null and undefined too.
                                 entity.type = String(entity.type);
@@ -1249,7 +1249,7 @@
                         model.annotationData.bind('change-text', renderSourceDocument);
                         model.annotationData.bind('reset-annotation', reset);
                         model.annotationData.span.bind('add', renderer.span.render);
-                        model.annotationData.entity.bind('add', renderer.entity.render);
+                        model.annotationData.entity.bind('add', _.compose(renderer.grid.arrangePositionAll, renderer.entity.render));
                         model.annotationData.relation.bind('add', renderer.relation.render);
                     },
                     helper: function() {
@@ -2019,8 +2019,6 @@
                     commands.forEach(function(command) {
                         command.execute();
                     });
-
-                    view.renderer.helper.redraw();
                 };
 
                 var setDefautlViewMode = function() {
