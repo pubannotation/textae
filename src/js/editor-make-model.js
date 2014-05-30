@@ -172,7 +172,7 @@
 
                         spanTopLevel = spanTree;
                     },
-                    api = extendBindable({
+                    api = {
                         //expected span is like { "begin": 19, "end": 49 }
                         add: function(span) {
                             var newSpan = innerAddSpan(span);
@@ -226,7 +226,7 @@
                             spanContainer = {};
                             spanTree = [];
                         }
-                    });
+                    };
 
                 return api;
             }();
@@ -246,7 +246,7 @@
                         entityContainer[entity.id] = extendedEntity;
                         return extendedEntity;
                     },
-                    api = extendBindable({
+                    api = {
                         add: function(entity) {
                             return annotationData.trigger('entity.add', add(entity));
                         },
@@ -288,7 +288,7 @@
                         clear: function() {
                             entityContainer = {};
                         }
-                    });
+                    };
 
                 return api;
             }();
@@ -307,7 +307,7 @@
 
                         return extendedRelation;
                     },
-                    api = extendBindable({
+                    api = {
                         add: function(relation) {
                             return annotationData.trigger('relation.add', add(relation));
                         },
@@ -339,7 +339,7 @@
                         clear: function() {
                             relationContainer = {};
                         }
-                    });
+                    };
 
                 return api;
             }();
