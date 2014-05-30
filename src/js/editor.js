@@ -1327,9 +1327,11 @@
                             },
                             addUiSelectClass = function(connector) {
                                 connector.addClass('ui-selected');
+                                connector.pointup();
                             },
                             removeUiSelectClass = function(connector) {
                                 connector.removeClass('ui-selected');
+                                connector.pointdown();
                             },
                             selectRelation = _.compose(addUiSelectClass, toConnector),
                             deselectRelation = _.compose(removeUiSelectClass, toConnector);
@@ -1345,7 +1347,7 @@
                                 if (!isRelationSelected(relationId)) {
                                     relationIdsSelected.push(relationId);
                                     view.viewModel.buttonStateHelper.updateByRelation();
-                                    toConnector(relationId).addClass('ui-selected');
+                                    selectRelation(relationId);
                                 }
                             },
                             deselect: function(relationId) {
