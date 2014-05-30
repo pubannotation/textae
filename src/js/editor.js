@@ -555,74 +555,73 @@
                 };
 
                 var renderSourceDocument = function(params) {
-                    // the Souce document has multi paragraphs that are splited by '\n'.
-                    var getTaggedSourceDoc = function(sourceDoc) {
-                        //set sroucedoc tagged <p> per line.
-                        return sourceDoc.split("\n").map(function(par) {
-                            return '<p class="textae-editor__body__text-box__paragraph">' + par + '</p>';
-                        }).join("\n");
-                    };
+                    // Get the display area for text and spans.
+                    var getSourceDocArea = function() {
+                            return getElement(displayArea, 'div', 'textae-editor__body__text-box');
+                        },
 
-                    // Paragraphs is Object that has position of charactor at start and end of the statement in each paragraph.
-                    var makeParagraphs = function(paragraphsArray) {
-                        var paragraphs = {};
+                        // the Souce document has multi paragraphs that are splited by '\n'.
+                        getTaggedSourceDoc = function(sourceDoc) {
+                            //set sroucedoc tagged <p> per line.
+                            return sourceDoc.split("\n").map(function(par) {
+                                return '<p class="textae-editor__body__text-box__paragraph">' + par + '</p>';
+                            }).join("\n");
+                        },
 
-                        //enchant id to paragraph element and chache it.
-                        helper.getSourceDocArea().find('p').each(function(index, element) {
-                            var $element = $(element);
-                            var paragraph = $.extend({}, paragraphsArray[index], {
-                                element: $element,
+                        // Paragraphs is Object that has position of charactor at start and end of the statement in each paragraph.
+                        makeParagraphs = function(paragraphsArray) {
+                            var paragraphs = {};
+
+                            //enchant id to paragraph element and chache it.
+                            getSourceDocArea().find('p').each(function(index, element) {
+                                var $element = $(element);
+                                var paragraph = $.extend({}, paragraphsArray[index], {
+                                    element: $element,
+                                });
+                                $element.attr('id', paragraph.id);
+
+                                paragraphs[paragraph.id] = paragraph;
                             });
-                            $element.attr('id', paragraph.id);
 
-                            paragraphs[paragraph.id] = paragraph;
-                        });
-
-                        return paragraphs;
-                    };
+                            return paragraphs;
+                        };
 
                     // Render the source document
-                    helper.getSourceDocArea().html(getTaggedSourceDoc(params.sourceDoc));
+                    getSourceDocArea().html(getTaggedSourceDoc(params.sourceDoc));
                     view.renderer.paragraphs = makeParagraphs(params.paragraphs);
                 };
 
-                var helper = {
-                    // Get the display area for text and spans.
-                    getSourceDocArea: function() {
-                        return getElement(displayArea, 'div', 'textae-editor__body__text-box');
-                    },
-                    renderAllSpan: function() {
-                        // For tuning
-                        // var startTime = new Date();
-
-                        model.annotationData.span.topLevel().forEach(function(span) {
-                            renderer.span.render(span);
-                        });
-
-                        view.renderer.grid.arrangePositionAll();
-
-                        // For tuning
-                        // var endTime = new Date();
-                        // console.log('render all span : ', endTime.getTime() - startTime.getTime() + 'ms');
-                    },
-                    renderAllRelation: function() {
-                        renderer.relation.reset();
-
-                        model.annotationData.relation.all().forEach(function(relation) {
-                            _.defer(_.partial(renderer.relation.render, relation));
-                        });
-                    }
-                };
-
                 var reset = function() {
+                    var renderAllSpan = function() {
+                            // For tuning
+                            // var startTime = new Date();
+
+                            model.annotationData.span.topLevel().forEach(function(span) {
+                                renderer.span.render(span);
+                            });
+
+                            view.renderer.grid.arrangePositionAll();
+
+                            // For tuning
+                            // var endTime = new Date();
+                            // console.log('render all span : ', endTime.getTime() - startTime.getTime() + 'ms');
+                        },
+                        renderAllRelation = function() {
+                            renderer.relation.reset();
+
+                            model.annotationData.relation.all().forEach(function(relation) {
+                                _.defer(_.partial(renderer.relation.render, relation));
+                            });
+                        };
+
                     // Render annotations
                     getAnnotationArea().empty();
                     positionUtils.reset();
                     view.renderer.grid.reset();
-                    helper.renderAllSpan();
+                    renderAllSpan();
 
                     // Render relations
-                    helper.renderAllRelation();
+                    renderAllRelation();
                 };
 
                 var renderer = {
