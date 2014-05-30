@@ -477,6 +477,7 @@
                             api.trigger('reset-annotation');
                         } catch (error) {
                             alert(error);
+                            throw error;
                         }
                     };
                 }(),
