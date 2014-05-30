@@ -985,6 +985,8 @@
                         };
 
                         var createJsPlumbConnection = function(relation) {
+                            var getStrokeStyle = _.partial(view.viewModel.getConnectorStrokeStyle, relation.id);
+
                             // Make a connector by jsPlumb.
                             var conn = jsPlumbInstance.connect({
                                 source: view.domUtil.selector.entity.get(relation.subj),
@@ -993,10 +995,7 @@
                                 connector: ['Bezier', {
                                     curviness: determineCurviness(relation.id)
                                 }],
-                                paintStyle: view.viewModel.getConnectorStrokeStyle(relation.id),
-                                hoverPaintStyle: {
-                                    lineWidth: 4
-                                },
+                                paintStyle: getStrokeStyle(),
                                 parameters: {
                                     'id': relation.id,
                                 },
@@ -1012,19 +1011,35 @@
 
                             // Show a big arrow when the connection is hoverd.
                             // Remove a normal arrow and add a new big arrow.
-                            // Because an arrow is out of position if hideOverlay and showOverlay is used.  
-                            conn.bind('mouseenter', function(conn, event) {
-                                conn.removeOverlay('normal-arrow');
-                                conn.addOverlay(['Arrow', {
-                                    width: 14,
-                                    length: 18,
-                                    location: 1,
-                                    id: 'hover-arrow',
+                            // Because an arrow is out of position if hideOverlay and showOverlay is used.
+                            var pointup = {
+                                pointup: function() {
+                                    this.removeOverlay('normal-arrow');
+                                    this.addOverlay(['Arrow', {
+                                        width: 14,
+                                        length: 18,
+                                        location: 1,
+                                        id: 'hover-arrow',
+                                    }]);
+                                    this.setPaintStyle(_.extend(getStrokeStyle(), {
+                                        lineWidth: 3
+                                    }));
+                                },
+                                pointdown: function() {
+                                    this.removeOverlay('hover-arrow');
+                                    this.addOverlay(['Arrow', arrowStyle]);
+                                    this.setPaintStyle(_.extend(getStrokeStyle(), {
+                                        lineWidth: 1
+                                    }));
+                                }
+                            };
 
-                                }]);
+                            _.extend(conn, pointup);
+
+                            conn.bind('mouseenter', function(conn, event) {
+                                conn.pointup();
                             }).bind('mouseexit', function(conn, event) {
-                                conn.removeOverlay('hover-arrow');
-                                conn.addOverlay(['Arrow', arrowStyle]);
+                                conn.pointdown();
                             });
 
                             // Notify to controller that a new jsPlumbConnection is added.
