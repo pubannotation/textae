@@ -472,6 +472,7 @@
 
                         try {
                             setNewData(annotation);
+                            api.trigger('reset-annotation');
                         } catch (error) {
                             alert(error);
                         }

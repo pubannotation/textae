@@ -556,6 +556,7 @@
                 return {
                     init: function() {
                         model.annotationData.bind('change-text', view.renderer.renderSourceDocument);
+                        model.annotationData.bind('reset-annotation', view.renderer.reset);
                         model.annotationData.span.bind('add', view.renderer.span.render);
                         model.annotationData.entity.bind('add', view.renderer.entity.render);
                         model.annotationData.relation.bind('add', view.renderer.relation.render);
@@ -1976,7 +1977,6 @@
                     reset: function(annotation) {
                         model.annotationData.reset(annotation);
                         history.reset();
-                        view.renderer.reset();
                         setDefautlViewMode();
                     },
                     updateSavePoint: function() {
