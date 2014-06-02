@@ -210,7 +210,7 @@
 }
 
 .textae-editor__entity-pallet__link {
-    background: url("../images/link.png");
+    background: url("./images/link.png");
     display: inline-block;
     height: 16px;
     width: 16px;
