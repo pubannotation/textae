@@ -24,8 +24,8 @@ module.exports = function(grunt) {
         dest: 'dist/lib/lib-<%= pkg.name %>-<%= pkg.version %>.js',
       },
       css: {
-        src: ['src/css/textae.css', 'src/css/textae-control.css', 'src/css/textae-editor.css'],
-        dest: 'dist/css/lib-<%= pkg.name %>-<%= pkg.version %>.css',
+        src: ['src/lib/css/textae.css', 'src/lib/css/textae-control.css', 'src/lib/css/textae-editor.css'],
+        dest: 'dist/lib/css/lib-<%= pkg.name %>-<%= pkg.version %>.css',
       }
     },
     uglify: {
@@ -41,9 +41,9 @@ module.exports = function(grunt) {
     cssmin: {
       minify: {
         expand: true,
-        cwd: 'dist/css/',
+        cwd: 'dist/lib/css/',
         src: ['lib-<%= pkg.name %>-<%= pkg.version %>.css'],
-        dest: 'dist/css/',
+        dest: 'dist/lib/css/',
         rename: rename.ext(".min.css")
       }
     },
@@ -76,7 +76,7 @@ module.exports = function(grunt) {
         tasks: ['jshint']
       },
       static_files: {
-        files: ['src/development.html', 'src/lib/*.js', 'src/css/*.css'],
+        files: ['src/development.html', 'src/lib/*.js', 'src/lib/css/*.css'],
         options: {
           livereload: true
         }
