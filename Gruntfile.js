@@ -20,7 +20,7 @@ module.exports = function(grunt) {
     // create dist files
     concat: {
       js: {
-        src: ['src/js/head.js', 'src/js/util.js', 'src/js/editor-make-model.js', 'src/js/editor.js', 'src/js/control.js', 'src/js/tool.js', 'src/js/jquery.textae.js', 'src/js/main.js', 'src/js/tail.js'],
+        src: ['src/js/head.js', 'src/js/util.js', 'src/js/editor-make-id-factory.js', 'src/js/editor-make-model.js', 'src/js/editor.js', 'src/js/control.js', 'src/js/tool.js', 'src/js/jquery.textae.js', 'src/js/main.js', 'src/js/tail.js'],
         dest: 'dist/js/lib-<%= pkg.name %>-<%= pkg.version %>.js',
       },
       css: {
@@ -104,7 +104,8 @@ module.exports = function(grunt) {
                   res.statusCode = 404;
                   res.end();
                 }
-              }];
+              }
+            ];
           },
         },
       }
