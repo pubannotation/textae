@@ -118,7 +118,7 @@ module.exports = function(grunt) {
         url: 'http://localhost:8000/src/development.html?config=1_config.json&target=1_annotations.json'
       },
       demo: {
-        url: 'http://localhost:8000/dist/demo/bionlp-st-ge/index.html'
+        url: 'http://localhost:8000/dist/demo/bionlp-st-ge/demo-cdn.html'
       }
     },
   });
