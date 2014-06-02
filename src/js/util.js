@@ -52,7 +52,7 @@
                         return;
                     }
 
-                    console.log("POST data");
+                    console.log("POST data", data);
 
                     $.ajax({
                         type: "post",
