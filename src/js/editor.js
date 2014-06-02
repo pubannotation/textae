@@ -685,8 +685,6 @@
                             element.setAttribute('class', 'textae-editor__span');
                             getRangeToInsertSpanTag(span.id).surroundContents(element);
 
-                            span.bind('remove', renderer.span.destroy);
-
                             return span;
                         };
 
@@ -736,7 +734,7 @@
                         return {
                             // Destroy children spans to wrap a TextNode with <span> tag when new span over exists spans.
                             render: _.compose(renderChildresnSpan, renderEntitiesOfSpan, renderSingleSpan, destroyChildrenSpan),
-                            destroy: function(span) {
+                            remove: function(span) {
                                 var spanElement = document.getElementById(span.id);
                                 var parent = spanElement.parentNode;
 
@@ -795,6 +793,115 @@
                             }
                         };
 
+                        var changeTypeOfExists = function(entity) {
+                            // Remove old entity.
+                            removeEntityElement(entity);
+
+                            // Show new entity.
+                            renderer.entity.render(entity);
+                        };
+
+                        // An entity is a circle on Type that is an endpoint of a relation.
+                        // A span have one grid and a grid can have multi types and a type can have multi entities.
+                        // A grid is only shown when at least one entity is owned by a correspond span.  
+                        var create = function(entity) {
+                            //render type unless exists.
+                            var getTypeElement = function(spanId, type) {
+                                // A Type element has an entity_pane elment that has a label and will have entities.
+                                var createEmptyTypeDomElement = function(spanId, type) {
+                                    var typeId = idFactory.makeTypeId(spanId, type);
+                                    // The EntityPane will have entities.
+                                    var $entityPane = $('<div>')
+                                        .attr('id', 'P-' + typeId)
+                                        .addClass('textae-editor__entity-pane');
+
+                                    // Display short name for URL(http or https);
+                                    var displayName = type;
+                                    // For tunning, search the scheme before execute a regular-expression.
+                                    if (String(type).indexOf('http') > -1) {
+                                        // The regular-expression to parse URL.
+                                        // See detail:
+                                        // http://someweblog.com/url-regular-expression-javascript-link-shortener/
+                                        var urlRegex = /\(?(?:(http|https|ftp):\/\/)?(?:((?:[^\W\s]|\.|-|[:]{1})+)@{1})?((?:www.)?(?:[^\W\s]|\.|-)+[\.][^\W\s]{2,4}|localhost(?=\/)|\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})(?::(\d*))?([\/]?[^\s\?]*[\/]{1})*(?:\/?([^\s\n\?\[\]\{\}\#]*(?:(?=\.)){1}|[^\s\n\?\[\]\{\}\.\#]*)?([\.]{1}[^\s\?\#]*)?)?(?:\?{1}([^\s\n\#\[\]]*))?([\#][^\s\n]*)?\)?/gi;
+                                        var matches = urlRegex.exec(type);
+                                        // Order to dispaly.
+                                        // 1. The file name with the extention.
+                                        // 2. The last directory name.
+                                        // 3. The domain name.
+                                        displayName = matches[6] ? matches[6] + (matches[7] || '') :
+                                            matches[5] ? matches[5].split('/').filter(function(s) {
+                                                return s !== '';
+                                            }).pop() :
+                                            matches[3];
+                                    }
+
+                                    // The label over the span.
+                                    var $typeLabel = $('<div>')
+                                        .addClass('textae-editor__type-label')
+                                        .text(displayName)
+                                        .css({
+                                            'background-color': view.viewModel.typeContainer.entity.getColor(type),
+                                        });
+
+                                    return $('<div>')
+                                        .attr('id', typeId)
+                                        .addClass('textae-editor__type')
+                                        .append($typeLabel)
+                                        .append($entityPane); // Set pane after label because pane is over label.
+                                };
+
+                                var getGrid = function(spanId) {
+                                    // Create a grid unless it exists.
+                                    var $grid = view.domUtil.selector.grid.get(spanId);
+                                    if ($grid.length === 0) {
+                                        return renderer.grid.render(spanId);
+                                    } else {
+                                        return $grid;
+                                    }
+                                };
+
+                                var $type = getTypeDom(spanId, type);
+                                if ($type.length === 0) {
+                                    $type = createEmptyTypeDomElement(spanId, type);
+                                    getGrid(spanId).append($type);
+                                }
+
+                                return $type;
+                            };
+
+                            var createEntityElement = function(entity) {
+                                var $entity = $('<div>')
+                                    .attr('id', idFactory.makeEntityDomId(entity.id))
+                                    .attr('title', entity.id)
+                                    .attr('type', entity.type)
+                                    .addClass('textae-editor__entity')
+                                    .css({
+                                        'border-color': view.viewModel.typeContainer.entity.getColor(entity.type)
+                                    });
+
+                                // Set css classes for modifications.
+                                model.annotationData.modification.all().filter(function(m) {
+                                    return m.obj === entity.id;
+                                }).map(function(m) {
+                                    return 'textae-editor__entity-' + m.pred.toLowerCase();
+                                }).forEach(function(className) {
+                                    $entity.addClass(className);
+                                });
+
+                                return $entity;
+                            };
+
+                            // Replace null to 'null' if type is null and undefined too.
+                            entity.type = String(entity.type);
+
+                            // Append a new entity to the type
+                            var pane = getTypeElement(entity.span, entity.type)
+                                .find('.textae-editor__entity-pane')
+                                .append(createEntityElement(entity));
+
+                            arrangePositionOfPane(pane);
+                        };
+
                         var destroy = function(entity) {
                             if (doesSpanHasNoEntity(entity.span)) {
                                 // Destroy a grid when all entities are remove. 
@@ -805,138 +912,30 @@
                             }
                         };
 
-                        var changeTypeOfExists = function(entity) {
-                            // Remove old entity.
-                            removeEntityElement(entity);
-
-                            // Show new entity.
-                            renderer.entity.render(entity);
-                        };
-
                         return {
-                            // An entity is a circle on Type that is an endpoint of a relation.
-                            // A span have one grid and a grid can have multi types and a type can have multi entities.
-                            // A grid is only shown when at least one entity is owned by a correspond span.  
-                            render: function(entity) {
-                                //render type unless exists.
-                                var getTypeElement = function(spanId, type) {
-                                    // A Type element has an entity_pane elment that has a label and will have entities.
-                                    var createEmptyTypeDomElement = function(spanId, type) {
-                                        var typeId = idFactory.makeTypeId(spanId, type);
-                                        // The EntityPane will have entities.
-                                        var $entityPane = $('<div>')
-                                            .attr('id', 'P-' + typeId)
-                                            .addClass('textae-editor__entity-pane');
-
-                                        // Display short name for URL(http or https);
-                                        var displayName = type;
-                                        // For tunning, search the scheme before execute a regular-expression.
-                                        if (String(type).indexOf('http') > -1) {
-                                            // The regular-expression to parse URL.
-                                            // See detail:
-                                            // http://someweblog.com/url-regular-expression-javascript-link-shortener/
-                                            var urlRegex = /\(?(?:(http|https|ftp):\/\/)?(?:((?:[^\W\s]|\.|-|[:]{1})+)@{1})?((?:www.)?(?:[^\W\s]|\.|-)+[\.][^\W\s]{2,4}|localhost(?=\/)|\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})(?::(\d*))?([\/]?[^\s\?]*[\/]{1})*(?:\/?([^\s\n\?\[\]\{\}\#]*(?:(?=\.)){1}|[^\s\n\?\[\]\{\}\.\#]*)?([\.]{1}[^\s\?\#]*)?)?(?:\?{1}([^\s\n\#\[\]]*))?([\#][^\s\n]*)?\)?/gi;
-                                            var matches = urlRegex.exec(type);
-                                            // Order to dispaly.
-                                            // 1. The file name with the extention.
-                                            // 2. The last directory name.
-                                            // 3. The domain name.
-                                            displayName = matches[6] ? matches[6] + (matches[7] || '') :
-                                                matches[5] ? matches[5].split('/').filter(function(s) {
-                                                    return s !== '';
-                                                }).pop() :
-                                                matches[3];
-                                        }
-
-                                        // The label over the span.
-                                        var $typeLabel = $('<div>')
-                                            .addClass('textae-editor__type-label')
-                                            .text(displayName)
-                                            .css({
-                                                'background-color': view.viewModel.typeContainer.entity.getColor(type),
-                                            });
-
-                                        return $('<div>')
-                                            .attr('id', typeId)
-                                            .addClass('textae-editor__type')
-                                            .append($typeLabel)
-                                            .append($entityPane); // Set pane after label because pane is over label.
-                                    };
-
-                                    var getGrid = function(spanId) {
-                                        var createGrid = function(spanId) {
-                                            var spanPosition = positionUtils.getSpan(spanId);
-                                            var $grid = $('<div>')
-                                                .attr('id', 'G' + spanId)
-                                                .addClass('textae-editor__grid')
-                                                .addClass('hidden')
-                                                .css({
-                                                    'width': spanPosition.width
-                                                });
-
-                                            //append to the annotation area.
-                                            getAnnotationArea().append($grid);
-
-                                            return $grid;
-                                        };
-
-                                        // Create a grid unless it exists.
-                                        var $grid = view.domUtil.selector.grid.get(spanId);
-                                        if ($grid.length === 0) {
-                                            return createGrid(spanId);
-                                        } else {
-                                            return $grid;
-                                        }
-                                    };
-
-                                    var $type = getTypeDom(spanId, type);
-                                    if ($type.length === 0) {
-                                        $type = createEmptyTypeDomElement(spanId, type);
-                                        getGrid(spanId).append($type);
-                                    }
-
-                                    return $type;
-                                };
-
-                                var createEntityElement = function(entity) {
-                                    var $entity = $('<div>')
-                                        .attr('id', idFactory.makeEntityDomId(entity.id))
-                                        .attr('title', entity.id)
-                                        .attr('type', entity.type)
-                                        .addClass('textae-editor__entity')
-                                        .css({
-                                            'border-color': view.viewModel.typeContainer.entity.getColor(entity.type)
-                                        });
-
-                                    // Set css classes for modifications.
-                                    model.annotationData.modification.all().filter(function(m) {
-                                        return m.obj === entity.id;
-                                    }).map(function(m) {
-                                        return 'textae-editor__entity-' + m.pred.toLowerCase();
-                                    }).forEach(function(className) {
-                                        $entity.addClass(className);
-                                    });
-
-                                    return $entity;
-                                };
-
-                                entity.bind('remove', _.compose(renderer.grid.arrangePositionAll, destroy));
-                                entity.bind('change-type', _.compose(renderer.grid.arrangePositionAll, changeTypeOfExists));
-
-                                // Replace null to 'null' if type is null and undefined too.
-                                entity.type = String(entity.type);
-
-                                // Append a new entity to the type
-                                var pane = getTypeElement(entity.span, entity.type)
-                                    .find('.textae-editor__entity-pane')
-                                    .append(createEntityElement(entity));
-
-                                arrangePositionOfPane(pane);
-                            },
+                            render: create,
+                            change: changeTypeOfExists,
+                            remove: destroy
                         };
                     }(),
                     grid: function() {
                         var gridPositionCache = {};
+
+                        var createGrid = function(spanId) {
+                            var spanPosition = positionUtils.getSpan(spanId);
+                            var $grid = $('<div>')
+                                .attr('id', 'G' + spanId)
+                                .addClass('textae-editor__grid')
+                                .addClass('hidden')
+                                .css({
+                                    'width': spanPosition.width
+                                });
+
+                            //append to the annotation area.
+                            getAnnotationArea().append($grid);
+
+                            return $grid;
+                        };
 
                         var filterChanged = function(span, newPosition) {
                             var oldGridPosition = gridPositionCache[span.id];
@@ -1030,6 +1029,10 @@
                         };
 
                         return {
+                            reset: function() {
+                                gridPositionCache = {};
+                            },
+                            render: createGrid,
                             arrangePositionAll: function() {
                                 var arrangePositionGridAndoDescendant = function(span) {
                                     // Arrange position All descendants because a grandchild maybe have types when a child has no type. 
@@ -1053,9 +1056,6 @@
                             },
                             destroy: function(spanId) {
                                 delete gridPositionCache[spanId];
-                            },
-                            reset: function() {
-                                gridPositionCache = {};
                             }
                         };
                     }(),
@@ -1188,11 +1188,6 @@
                             return conn;
                         };
 
-                        var removeJsPlumbConnection = function(relation) {
-                            jsPlumbInstance.detach(toConnector(relation.id));
-                            delete cachedConnectors[relation.id];
-                        };
-
                         var changeJsPlubmOverlay = function(relation) {
                             var connector = toConnector(relation.id);
                             if (!connector) {
@@ -1209,6 +1204,11 @@
 
                             labelOverlay.setLabel('[' + relation.id + '] ' + relation.pred);
                             connector.setPaintStyle(view.viewModel.getConnectorStrokeStyle(relation.id));
+                        };
+
+                        var removeJsPlumbConnection = function(relation) {
+                            jsPlumbInstance.detach(toConnector(relation.id));
+                            delete cachedConnectors[relation.id];
                         };
 
                         return {
@@ -1229,16 +1229,9 @@
                                 cachedConnectors = {};
                                 view.domUtil.selector.relation.emptyRelationIdsSelected();
                             },
-                            render: function(relation) {
-                                relation.bind('remove', removeJsPlumbConnection);
-                                relation.bind('change-predicate', changeJsPlubmOverlay);
-
-                                createJsPlumbConnection(relation);
-                            },
-                            arrangePositionAll: function() {
-                                // Move entitis before a calculation the position of relations.
-                                _.invoke(_.values(cachedConnectors), 'arrangePosition');
-                            }
+                            render: createJsPlumbConnection,
+                            change: changeJsPlubmOverlay,
+                            remove: removeJsPlumbConnection
                         };
                     }()
                 };
@@ -1247,10 +1240,15 @@
                     init: function(modelData) {
                         model = modelData;
                         model.annotationData.bind('change-text', renderSourceDocument);
-                        model.annotationData.bind('reset-annotation', reset);
-                        model.annotationData.span.bind('add', renderer.span.render);
-                        model.annotationData.entity.bind('add', _.compose(renderer.grid.arrangePositionAll, renderer.entity.render));
-                        model.annotationData.relation.bind('add', renderer.relation.render);
+                        model.annotationData.bind('all.change', reset);
+                        model.annotationData.bind('span.add', renderer.span.render);
+                        model.annotationData.bind('span.remove', renderer.span.remove);
+                        model.annotationData.bind('entity.add', _.compose(renderer.grid.arrangePositionAll, renderer.entity.render));
+                        model.annotationData.bind('entity.change', _.compose(renderer.grid.arrangePositionAll, renderer.entity.change));
+                        model.annotationData.bind('entity.remove', _.compose(renderer.grid.arrangePositionAll, renderer.entity.remove));
+                        model.annotationData.bind('relation.add', renderer.relation.render);
+                        model.annotationData.bind('relation.change', renderer.relation.change);
+                        model.annotationData.bind('relation.remove', renderer.relation.remove);
                     },
                     helper: function() {
                         return {

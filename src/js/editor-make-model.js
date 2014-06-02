@@ -172,12 +172,12 @@
 
                         spanTopLevel = spanTree;
                     },
-                    api = extendBindable({
+                    api = {
                         //expected span is like { "begin": 19, "end": 49 }
                         add: function(span) {
                             var newSpan = innerAddSpan(span);
                             updateSpanTree();
-                            return api.trigger('add', newSpan);
+                            return annotationData.trigger('span.add', newSpan);
                         },
                         concat: function(spans) {
                             if (spans) {
@@ -220,13 +220,13 @@
                             delete spanContainer[spanId];
                             updateSpanTree();
 
-                            span.trigger('remove', span);
+                            annotationData.trigger('span.remove', span);
                         },
                         clear: function() {
                             spanContainer = {};
                             spanTree = [];
                         }
-                    });
+                    };
 
                 return api;
             }();
@@ -246,9 +246,9 @@
                         entityContainer[entity.id] = extendedEntity;
                         return extendedEntity;
                     },
-                    api = extendBindable({
+                    api = {
                         add: function(entity) {
-                            return api.trigger('add', add(entity));
+                            return annotationData.trigger('entity.add', add(entity));
                         },
                         concat: function(entities) {
                             if (entities) entities.forEach(add);
@@ -274,21 +274,21 @@
                         changeType: function(entityId, newType) {
                             var entity = annotationData.entity.get(entityId);
                             entity.type = newType;
-                            entity.trigger('change-type', entity);
+                            annotationData.trigger('entity.change', entity);
                             return entity;
                         },
                         remove: function(entityId) {
                             var entity = annotationData.entity.get(entityId);
                             if (entity) {
                                 delete entityContainer[entityId];
-                                entity.trigger('remove', entity);
+                                annotationData.trigger('entity.remove', entity);
                             }
                             return entity;
                         },
                         clear: function() {
                             entityContainer = {};
                         }
-                    });
+                    };
 
                 return api;
             }();
@@ -307,9 +307,9 @@
 
                         return extendedRelation;
                     },
-                    api = extendBindable({
+                    api = {
                         add: function(relation) {
-                            return api.trigger('add', add(relation));
+                            return annotationData.trigger('relation.add', add(relation));
                         },
                         concat: function(relations) {
                             if (relations) relations.forEach(add);
@@ -330,16 +330,16 @@
                         },
                         changePredicate: function(relationId, predicate) {
                             relationContainer[relationId].pred = predicate;
-                            relationContainer[relationId].trigger('change-predicate', relationContainer[relationId]);
+                            annotationData.trigger('relation.change', relationContainer[relationId]);
                         },
                         remove: function(relationId) {
-                            relationContainer[relationId].trigger('remove', relationContainer[relationId]);
+                            annotationData.trigger('relation.remove', relationContainer[relationId]);
                             delete relationContainer[relationId];
                         },
                         clear: function() {
                             relationContainer = {};
                         }
-                    });
+                    };
 
                 return api;
             }();
@@ -474,7 +474,7 @@
 
                         try {
                             setNewData(annotation);
-                            api.trigger('reset-annotation', annotationData);
+                            api.trigger('all.change', annotationData);
                         } catch (error) {
                             alert(error);
                             throw error;
