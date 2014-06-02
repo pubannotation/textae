@@ -1122,6 +1122,8 @@
                                     }));
                                 },
                                 pointdown: function() {
+                                    if (this.hasClass('ui-selected')) return;
+
                                     this.removeOverlay('hover-arrow');
                                     this.addOverlay(['Arrow', normalArrow]);
                                     this.setPaintStyle(_.extend(getStrokeStyle(), {
@@ -1129,6 +1131,13 @@
                                     }));
                                 }
                             };
+                        };
+
+                        // Extend jsPlumb.Connection to add a method 'hasClass'.
+                        var hasClass = {
+                            hasClass: function(className) {
+                                return this.connector.canvas.classList.contains(className);
+                            }
                         };
 
                         var createJsPlumbConnection = function(relation) {
@@ -1159,8 +1168,10 @@
                             // Set a function debounce to avoid over rendering.
                             conn.arrangePosition = _.debounce(_.partial(arrangePosition, relation.id), 20);
 
+                            // Extend
+                            _.extend(conn, pointupable(getStrokeStyle), hasClass);
+
                             // Set hover action.
-                            _.extend(conn, pointupable(getStrokeStyle));
                             conn.bind('mouseenter', function(conn, event) {
                                 conn.pointup();
                             }).bind('mouseexit', function(conn, event) {
