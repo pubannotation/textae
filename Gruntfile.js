@@ -20,12 +20,12 @@ module.exports = function(grunt) {
     // create dist files
     concat: {
       js: {
-        src: ['src/js/head.js', 'src/js/util.js', 'src/js/editor-make-id-factory.js', 'src/js/editor-make-model.js', 'src/js/editor.js', 'src/js/control.js', 'src/js/tool.js', 'src/js/jquery.textae.js', 'src/js/main.js', 'src/js/tail.js'],
-        dest: 'dist/js/lib-<%= pkg.name %>-<%= pkg.version %>.js',
+        src: ['src/lib/head.js', 'src/lib/util.js', 'src/lib/editor-make-id-factory.js', 'src/lib/editor-make-model.js', 'src/lib/editor.js', 'src/lib/control.js', 'src/lib/tool.js', 'src/lib/jquery.textae.js', 'src/lib/main.js', 'src/lib/tail.js'],
+        dest: 'dist/lib/lib-<%= pkg.name %>-<%= pkg.version %>.js',
       },
       css: {
-        src: ['src/css/textae.css', 'src/css/textae-control.css', 'src/css/textae-editor.css'],
-        dest: 'dist/css/lib-<%= pkg.name %>-<%= pkg.version %>.css',
+        src: ['src/lib/css/textae.css', 'src/lib/css/textae-control.css', 'src/lib/css/textae-editor.css'],
+        dest: 'dist/lib/css/lib-<%= pkg.name %>-<%= pkg.version %>.css',
       }
     },
     uglify: {
@@ -34,16 +34,16 @@ module.exports = function(grunt) {
       },
       dist: {
         files: {
-          'dist/js/lib-<%= pkg.name %>-<%= pkg.version %>.min.js': ['<%= concat.js.dest %>']
+          'dist/lib/lib-<%= pkg.name %>-<%= pkg.version %>.min.js': ['<%= concat.js.dest %>']
         }
       }
     },
     cssmin: {
       minify: {
         expand: true,
-        cwd: 'dist/css/',
+        cwd: 'dist/lib/css/',
         src: ['lib-<%= pkg.name %>-<%= pkg.version %>.css'],
-        dest: 'dist/css/',
+        dest: 'dist/lib/css/',
         rename: rename.ext(".min.css")
       }
     },
@@ -52,7 +52,7 @@ module.exports = function(grunt) {
         files: [{
           expand: true,
           cwd: 'src/',
-          src: ['app/**', 'demo/**', 'images/**', 'vender/**'],
+          src: ['app/**', 'demo/**', 'lib/css/images/**', 'vender/**'],
           dest: 'dist/',
           filter: 'isFile'
         }, ]
@@ -60,10 +60,10 @@ module.exports = function(grunt) {
     },
     // for test
     jshint: {
-      files: ['Gruntfile.js', 'src/js/*.js'],
+      files: ['Gruntfile.js', 'src/lib/*.js'],
       options: {
         jshintrc: '.jshintrc',
-        ignores: ['src/js/head.js', 'src/js/tail.js']
+        ignores: ['src/lib/head.js', 'src/lib/tail.js']
       }
     },
     qunit: {
@@ -72,11 +72,11 @@ module.exports = function(grunt) {
     // for development
     watch: {
       javascript: {
-        files: ['Gruntfile.js', 'src/js/*.js'],
+        files: ['Gruntfile.js', 'src/lib/*.js'],
         tasks: ['jshint']
       },
       static_files: {
-        files: ['src/development.html', 'src/js/*.js', 'src/css/*.css'],
+        files: ['src/development.html', 'src/lib/*.js', 'src/lib/css/*.css'],
         options: {
           livereload: true
         }

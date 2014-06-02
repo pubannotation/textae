@@ -65,69 +65,69 @@
 }
 
 .textae-control__read-button {
-    background: url("../images/btn_read_16.png");
+    background: url("./images/btn_read_16.png");
 }
 
 .textae-control__write-button {
-    background: url("../images/btn_write_16.png");
+    background: url("./images/btn_write_16.png");
 }
 
 .textae-control__undo-button {
-    background: url("../images/btn_undo_16.png");
+    background: url("./images/btn_undo_16.png");
     text-align: right;
 }
 
 .textae-control__redo-button {
-    background: url("../images/btn_redo_16.png");
+    background: url("./images/btn_redo_16.png");
     text-align: left;
 }
 
 .textae-control__replicate-button {
-    background: url("../images/btn_replicate_16.png");
+    background: url("./images/btn_replicate_16.png");
 }
 
 .textae-control__replicate-auto-button {
-    background: url("../images/btn_replicate_auto_16.png");
+    background: url("./images/btn_replicate_auto_16.png");
 }
 
 .textae-control__relation-edit-mode-button {
-    background: url("../images/btn_relation_16.png");
+    background: url("./images/btn_relation_16.png");
 }
 
 .textae-control__entity-button {
-    background: url("../images/btn_denote_16.png");
+    background: url("./images/btn_denote_16.png");
 }
 
 .textae-control__pallet-button {
-    background: url("../images/btn_pallet_16.png");
+    background: url("./images/btn_pallet_16.png");
 }
 
 .textae-control__change-label-button {
-    background: url("../images/btn_change_label_16.png");
+    background: url("./images/btn_change_label_16.png");
 }
 
 .textae-control__delete-button {
-    background: url("../images/btn_delete_16.png");
+    background: url("./images/btn_delete_16.png");
 }
 
 .textae-control__copy-button {
-    background: url("../images/btn_copy_16.png");
+    background: url("./images/btn_copy_16.png");
 }
 
 .textae-control__paste-button {
-    background: url("../images/btn_paste_16.png");
+    background: url("./images/btn_paste_16.png");
 }
 
 .textae-control__help-button {
-    background: url("../images/btn_help_16.png");
+    background: url("./images/btn_help_16.png");
 }
 
 .textae-control__about-button {
-    background: url("../images/btn_about_16.png");
+    background: url("./images/btn_about_16.png");
 }
 
 .textae-control__setting-button {
-    background: url("../images/application_view_tile.png");
+    background: url("./images/btn_setting_16.png");
 }
 
 .textae-control__about {
