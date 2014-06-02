@@ -247,10 +247,6 @@
     z-index: 5;
 }
 
-.textae-editor__relation.hover path {
-    stroke-width: 3;
-}
-
 .textae-editor__relation.ui-selected {
     opacity: 1;
 }
