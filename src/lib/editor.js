@@ -1117,26 +1117,38 @@
                         // Remove a normal arrow and add a new big arrow.
                         // Because an arrow is out of position if hideOverlay and showOverlay is used.
                         var pointupable = function(getStrokeStyle) {
-                            return {
-                                pointup: function() {
+                            var pointupArrow = function() {
                                     this.removeOverlay(normalArrow.id);
                                     this.addOverlay(['Arrow', hoverArrow]);
                                     this.setPaintStyle(_.extend(getStrokeStyle(), {
                                         lineWidth: 3
                                     }));
-
-                                    this.getOverlay(label.id).addClass('hover');
                                 },
-                                pointdown: function() {
-                                    if (this.hasClass('ui-selected')) return;
-
+                                pointdownAllow = function() {
                                     this.removeOverlay(hoverArrow.id);
                                     this.addOverlay(['Arrow', normalArrow]);
                                     this.setPaintStyle(_.extend(getStrokeStyle(), {
                                         lineWidth: 1
                                     }));
+                                },
+                                pointupLable = function() {
+                                    this.getOverlay(label.id).addClass('hover');
 
+                                },
+                                pointdownLabel = function() {
                                     this.getOverlay(label.id).removeClass('hover');
+                                };
+
+                            return {
+                                pointup: function() {
+                                    pointupArrow.call(this);
+                                    pointupLable.call(this);
+                                },
+                                pointdown: function() {
+                                    if (this.hasClass('ui-selected')) return;
+
+                                    pointdownAllow.call(this);
+                                    pointdownLabel.call(this);
                                 }
                             };
                         };
