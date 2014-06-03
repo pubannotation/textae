@@ -1082,19 +1082,23 @@
                             return curviness;
                         };
 
+                        // Overlay styles for jsPlubm connections.
                         var normalArrow = {
-                            width: 7,
-                            length: 9,
-                            location: 1,
-                            id: 'normal-arrow'
-                        };
-
-                        var hoverArrow = {
-                            width: 14,
-                            length: 18,
-                            location: 1,
-                            id: 'hover-arrow',
-                        };
+                                width: 7,
+                                length: 9,
+                                location: 1,
+                                id: 'normal-arrow'
+                            },
+                            hoverArrow = {
+                                width: 14,
+                                length: 18,
+                                location: 1,
+                                id: 'hover-arrow',
+                            },
+                            label = {
+                                cssClass: 'textae-editor__relation__label',
+                                id: 'label'
+                            };
 
                         var arrangePosition = function(relationId) {
                             var conn = toConnector(relationId);
@@ -1115,24 +1119,24 @@
                         var pointupable = function(getStrokeStyle) {
                             return {
                                 pointup: function() {
-                                    this.removeOverlay('normal-arrow');
+                                    this.removeOverlay(normalArrow.id);
                                     this.addOverlay(['Arrow', hoverArrow]);
                                     this.setPaintStyle(_.extend(getStrokeStyle(), {
                                         lineWidth: 3
                                     }));
 
-                                    this.getOverlay('label').addClass('hover');
+                                    this.getOverlay(label.id).addClass('hover');
                                 },
                                 pointdown: function() {
                                     if (this.hasClass('ui-selected')) return;
 
-                                    this.removeOverlay('hover-arrow');
+                                    this.removeOverlay(hoverArrow.id);
                                     this.addOverlay(['Arrow', normalArrow]);
                                     this.setPaintStyle(_.extend(getStrokeStyle(), {
                                         lineWidth: 1
                                     }));
 
-                                    this.getOverlay('label').removeClass('hover');
+                                    this.getOverlay(label.id).removeClass('hover');
                                 }
                             };
                         };
@@ -1162,11 +1166,9 @@
                                 cssClass: 'textae-editor__relation',
                                 overlays: [
                                     ['Arrow', normalArrow],
-                                    ['Label', {
-                                        label: '[' + relation.id + '] ' + relation.pred,
-                                        cssClass: 'textae-editor__relation__label',
-                                        id: 'label'
-                                    }]
+                                    ['Label', _.extend(label, {
+                                        label: '[' + relation.id + '] ' + relation.pred
+                                    })]
                                 ]
                             });
 
