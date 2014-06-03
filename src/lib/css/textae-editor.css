@@ -256,7 +256,7 @@
     z-index: 0;
 }
 
-.textae-editor__relation__label:hover {
+.textae-editor__relation__label:hover, .textae-editor__relation__label.hover {
     opacity: 1;
     z-index: 2;
 }
@@ -310,8 +310,8 @@
     z-index: 1;
 }
 
-.textae-editor_relation-mode .textae-editor__relation__label:hover {
-    z-index: 2;
+.textae-editor_relation-mode .textae-editor__relation__label:hover, .textae-editor_relation-mode .textae-editor__relation__label.hover {
+    z-index: 6;
 }
 
 /* modification */

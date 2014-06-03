@@ -1120,6 +1120,8 @@
                                     this.setPaintStyle(_.extend(getStrokeStyle(), {
                                         lineWidth: 3
                                     }));
+
+                                    this.getOverlay('label').addClass('hover');
                                 },
                                 pointdown: function() {
                                     if (this.hasClass('ui-selected')) return;
@@ -1129,6 +1131,8 @@
                                     this.setPaintStyle(_.extend(getStrokeStyle(), {
                                         lineWidth: 1
                                     }));
+
+                                    this.getOverlay('label').removeClass('hover');
                                 }
                             };
                         };
@@ -1160,7 +1164,8 @@
                                     ['Arrow', normalArrow],
                                     ['Label', {
                                         label: '[' + relation.id + '] ' + relation.pred,
-                                        cssClass: 'textae-editor__relation__label'
+                                        cssClass: 'textae-editor__relation__label',
+                                        id: 'label'
                                     }]
                                 ]
                             });
