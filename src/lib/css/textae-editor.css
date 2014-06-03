@@ -243,10 +243,6 @@
     z-index: 0;
 }
 
-.textae-editor__relation.hover {
-    z-index: 5;
-}
-
 .textae-editor__relation.ui-selected {
     opacity: 1;
 }
