@@ -1191,9 +1191,9 @@
                             _.extend(connect, pointupable(getStrokeStyle), hasClass);
 
                             // Set hover action.
-                            connect.bind('mouseenter', function(connect, event) {
+                            connect.bind('mouseenter', function(connect) {
                                 connect.pointup();
-                            }).bind('mouseexit', function(connect, event) {
+                            }).bind('mouseexit', function(connect) {
                                 connect.pointdown();
                             });
 
