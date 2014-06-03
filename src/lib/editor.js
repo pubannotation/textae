@@ -1113,42 +1113,42 @@
                             conn.addOverlay(['Arrow', normalArrow]);
                         };
 
-                        // Show a big arrow when the connection is hoverd.
-                        // Remove a normal arrow and add a new big arrow.
-                        // Because an arrow is out of position if hideOverlay and showOverlay is used.
                         var pointupable = function(getStrokeStyle) {
-                            var pointupArrow = function() {
-                                    this.removeOverlay(normalArrow.id);
-                                    this.addOverlay(['Arrow', hoverArrow]);
-                                    this.setPaintStyle(_.extend(getStrokeStyle(), {
+                            // Show a big arrow when the connect is hoverd.
+                            // Remove a normal arrow and add a new big arrow.
+                            // Because an arrow is out of position if hideOverlay and showOverlay is used.
+                            var pointupArrow = function(connect) {
+                                    connect.removeOverlay(normalArrow.id);
+                                    connect.addOverlay(['Arrow', hoverArrow]);
+                                    connect.setPaintStyle(_.extend(getStrokeStyle(), {
                                         lineWidth: 3
                                     }));
                                 },
-                                pointdownAllow = function() {
-                                    this.removeOverlay(hoverArrow.id);
-                                    this.addOverlay(['Arrow', normalArrow]);
-                                    this.setPaintStyle(_.extend(getStrokeStyle(), {
+                                pointdownAllow = function(connect) {
+                                    connect.removeOverlay(hoverArrow.id);
+                                    connect.addOverlay(['Arrow', normalArrow]);
+                                    connect.setPaintStyle(_.extend(getStrokeStyle(), {
                                         lineWidth: 1
                                     }));
                                 },
-                                pointupLable = function() {
-                                    this.getOverlay(label.id).addClass('hover');
+                                pointupLable = function(connect) {
+                                    connect.getOverlay(label.id).addClass('hover');
 
                                 },
-                                pointdownLabel = function() {
-                                    this.getOverlay(label.id).removeClass('hover');
+                                pointdownLabel = function(connect) {
+                                    connect.getOverlay(label.id).removeClass('hover');
                                 };
 
                             return {
                                 pointup: function() {
-                                    pointupArrow.call(this);
-                                    pointupLable.call(this);
+                                    pointupArrow(this);
+                                    pointupLable(this);
                                 },
                                 pointdown: function() {
                                     if (this.hasClass('ui-selected')) return;
 
-                                    pointdownAllow.call(this);
-                                    pointdownLabel.call(this);
+                                    pointdownAllow(this);
+                                    pointdownLabel(this);
                                 }
                             };
                         };
