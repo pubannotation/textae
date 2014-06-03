@@ -1101,16 +1101,16 @@
                             };
 
                         var arrangePosition = function(relationId) {
-                            var conn = toConnector(relationId);
-                            conn.endpoints[0].repaint();
-                            conn.endpoints[1].repaint();
+                            var connect = toConnector(relationId);
+                            connect.endpoints[0].repaint();
+                            connect.endpoints[1].repaint();
 
                             // Re-set arrow disappered when setConnector is called.
-                            conn.removeOverlay('normal-arrow');
-                            conn.setConnector(['Bezier', {
+                            connect.removeOverlay('normal-arrow');
+                            connect.setConnector(['Bezier', {
                                 curviness: determineCurviness(relationId)
                             }]);
-                            conn.addOverlay(['Arrow', normalArrow]);
+                            connect.addOverlay(['Arrow', normalArrow]);
                         };
 
                         var pointupable = function(getStrokeStyle) {
@@ -1164,7 +1164,7 @@
                             var getStrokeStyle = _.partial(view.viewModel.getConnectorStrokeStyle, relation.id);
 
                             // Make a connector by jsPlumb.
-                            var conn = jsPlumbInstance.connect({
+                            var connect = jsPlumbInstance.connect({
                                 source: view.domUtil.selector.entity.get(relation.subj),
                                 target: view.domUtil.selector.entity.get(relation.obj),
                                 anchors: ['TopCenter', "TopCenter"],
@@ -1185,25 +1185,25 @@
                             });
 
                             // Set a function debounce to avoid over rendering.
-                            conn.arrangePosition = _.debounce(_.partial(arrangePosition, relation.id), 20);
+                            connect.arrangePosition = _.debounce(_.partial(arrangePosition, relation.id), 20);
 
                             // Extend
-                            _.extend(conn, pointupable(getStrokeStyle), hasClass);
+                            _.extend(connect, pointupable(getStrokeStyle), hasClass);
 
                             // Set hover action.
-                            conn.bind('mouseenter', function(conn, event) {
-                                conn.pointup();
-                            }).bind('mouseexit', function(conn, event) {
-                                conn.pointdown();
+                            connect.bind('mouseenter', function(connect, event) {
+                                connect.pointup();
+                            }).bind('mouseexit', function(connect, event) {
+                                connect.pointdown();
                             });
 
-                            // Cache a connector instance.
-                            cachedConnectors[relation.id] = conn;
+                            // Cache a connect instance.
+                            cachedConnectors[relation.id] = connect;
 
                             // Notify to controller that a new jsPlumbConnection is added.
-                            editor.trigger('textae.editor.jsPlumbConnection.add', conn);
+                            editor.trigger('textae.editor.jsPlumbConnection.add', connect);
 
-                            return conn;
+                            return connect;
                         };
 
                         var changeJsPlubmOverlay = function(relation) {
