@@ -2026,7 +2026,7 @@
                 var setDefautlViewMode = function() {
                     if (model.annotationData.relation.some()) {
                         view.renderer.helper.changeLineHeight(10);
-                        controller.userEvent.viewHandler.setViewMode('relation');
+                        controller.userEvent.viewHandler.setViewMode('instance');
                     } else if (model.annotationData.span.multiEntities().length > 0) {
                         view.renderer.helper.changeLineHeight(4);
                         controller.userEvent.viewHandler.setViewMode('instance');
