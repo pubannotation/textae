@@ -116,6 +116,5 @@
     }, {
         "name": "Negation",
         "color": "#222222"
-    }],
-    "css": "../../lib/css/lib-textae-4.0.1.min.css"
+    }]
 }
