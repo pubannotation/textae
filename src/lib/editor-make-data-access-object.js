@@ -88,9 +88,11 @@
                                 });
                                 cursorChanger.endWait();
                             },
-                            saveAnnotationToServer = function(url, postData) {
+                            saveAnnotationToServer = function(url, jsonData) {
                                 cursorChanger.startWait();
-                                textAeUtil.ajaxAccessor.post(url, postData, showSaveSuccess, showSaveError, function() {
+                                textAeUtil.ajaxAccessor.post(url, {
+                                    annotations: jsonData
+                                }, showSaveSuccess, showSaveError, function() {
                                     cursorChanger.endWait();
                                 });
                             },
