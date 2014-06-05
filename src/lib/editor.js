@@ -1858,13 +1858,13 @@
                 var setDefautlViewMode = function() {
                     if (model.annotationData.relation.some()) {
                         view.renderer.helper.changeLineHeight(10);
-                        controller.userEvent.viewHandler.setViewMode('instance');
+                        controller.userEvent.viewHandler.setViewModeInstance();
                     } else if (model.annotationData.span.multiEntities().length > 0) {
                         view.renderer.helper.changeLineHeight(4);
-                        controller.userEvent.viewHandler.setViewMode('instance');
+                        controller.userEvent.viewHandler.setViewModeInstance();
                     } else {
                         view.renderer.helper.changeLineHeight(4);
-                        controller.userEvent.viewHandler.setViewMode('term');
+                        controller.userEvent.viewHandler.setViewModeTerm();
                     }
                 };
 
@@ -2687,14 +2687,11 @@
                                     controllerState.toRelation();
                                 }
                             },
-                            setViewMode: function(mode) {
-                                if (mode === 'term') {
-                                    controllerState.toTerm();
-                                } else if (mode === 'instance') {
-                                    controllerState.toInstance();
-                                } else if (mode === 'relation') {
-                                    controllerState.toRelation();
-                                }
+                            setViewModeTerm: function() {
+                                controllerState.toTerm();
+                            },
+                            setViewModeInstance: function() {
+                                controllerState.toInstance();
                             }
                         };
                     }()
