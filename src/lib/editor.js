@@ -5,7 +5,7 @@
         };
 
         // A sub component to save and load data.
-        var dataAccessObject = function(self) {
+        var dataAccessObject = function(self, loaded, saved) {
             var cursorChanger = function(editor) {
                 var wait = function() {
                     this.addClass('textae-editor_wait');
@@ -45,7 +45,6 @@
                     textAeUtil.ajaxAccessor.post(url, postData, showSaveSuccess, showSaveError, function() {
                         cursorChanger.endWait();
                     });
-                    controller.command.updateSavePoint();
                 };
 
                 var setLocalLink = function($save_dialog, jsonData) {
@@ -80,7 +79,7 @@
                         .append('<div><label class="textae-editor__save-dialog__label">Server</label><input type="text" class="textae-editor__save-dialog__file-name" /><input type="button" value="OK" /></div>')
                         .append('<div><label class="textae-editor__save-dialog__label">Local</label><span class="span_link_place"><a target="_blank"/></span></div>')
                         .on('click', 'a', function() {
-                            controller.command.updateSavePoint();
+                            saved();
                             $content.dialogClose();
                         })
                         .on('click', '[type="button"]', function() {
@@ -124,7 +123,7 @@
                     $(this).html('').removeAttr('style');
                     setDataSourceUrl(dataSourceUrl);
                 });
-                controller.command.updateSavePoint();
+                saved();
                 cursorChanger.endWait();
             };
 
@@ -150,7 +149,7 @@
                 getAnnotationFromServer: function(url) {
                     cursorChanger.startWait();
                     textAeUtil.ajaxAccessor.getAsync(url, function getAnnotationFromServerSuccess(annotation) {
-                        controller.command.reset(annotation);
+                        loaded(annotation);
                         setDataSourceUrl(url);
                     }, function() {
                         cursorChanger.endWait();
@@ -160,7 +159,7 @@
                     var reader = new FileReader();
                     reader.onload = function() {
                         var annotation = JSON.parse(this.result);
-                        controller.command.reset(annotation);
+                        loaded(annotation);
                     };
                     reader.readAsText(fileEvent.files[0]);
                 },
@@ -172,7 +171,11 @@
                     loadSaveDialog.showSave(dataSourceUrl, jsonData);
                 },
             };
-        }(this);
+        }(this, function(annotation) {
+            controller.command.reset(annotation);
+        }, function() {
+            controller.command.updateSavePoint();
+        });
 
         var idFactory = makeIdFactory(this);
 
