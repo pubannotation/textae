@@ -224,7 +224,7 @@
                         },
                         clear: function() {
                             spanContainer = {};
-                            spanTree = [];
+                            spanTopLevel = [];
                         }
                     };
 
