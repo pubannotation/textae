@@ -6,21 +6,21 @@
 
         // A sub component to save and load data.
         var dataAccessObject = function(self) {
-            var cursorChanger = function() {
+            var cursorChanger = function(editor) {
                 var wait = function() {
-                    self.addClass('textae-editor_wait');
+                    this.addClass('textae-editor_wait');
                 };
                 var endWait = function() {
-                    self.removeClass('textae-editor_wait');
+                    this.removeClass('textae-editor_wait');
                 };
                 return {
-                    startWait: wait,
-                    endWait: endWait,
+                    startWait: wait.bind(editor),
+                    endWait: endWait.bind(editor),
                 };
-            }();
+            }(self);
 
             //load/saveDialog
-            var loadSaveDialog = function() {
+            var loadSaveDialog = function(editor) {
                 var getLoadDialog = function() {
                     var $content = $('<div>')
                         .append('<div><label class="textae-editor__load-dialog__label">Server</label><input type="text" class="textae-editor__load-dialog__file-name" /><input type="button" value="OK" /></div>')
@@ -37,7 +37,7 @@
                                 $content.dialogClose();
                             });
 
-                    return textAeUtil.getDialog(self.editorId, 'textae.dialog.load', 'Load document with annotation.', $content);
+                    return textAeUtil.getDialog(editor.editorId, 'textae.dialog.load', 'Load document with annotation.', $content);
                 };
 
                 var saveAnnotationToServer = function(url, postData) {
@@ -89,7 +89,7 @@
                             $content.dialogClose();
                         });
 
-                    var $dialog = textAeUtil.getDialog(self.editorId, 'textae.dialog.save', 'Save document with annotation.', $content);
+                    var $dialog = textAeUtil.getDialog(editor.editorId, 'textae.dialog.save', 'Save document with annotation.', $content);
 
                     return setLocalLink($dialog, jsonData);
                 };
@@ -102,20 +102,22 @@
                         getSaveDialog(jsonData).open(url);
                     }
                 };
-            }();
+            }(self);
 
-            var getMessageArea = function() {
-                $messageArea = self.find('.textae-editor__footer .textae-editor__footer__message');
-                if ($messageArea.length === 0) {
-                    $messageArea = $("<div>").addClass("textae-editor__footer__message");
-                    var $footer = $("<div>")
-                        .addClass("textae-editor__footer")
-                        .append($messageArea);
-                    self.append($footer);
-                }
+            var getMessageArea = function(editor) {
+                return function() {
+                    $messageArea = self.find('.textae-editor__footer .textae-editor__footer__message');
+                    if ($messageArea.length === 0) {
+                        $messageArea = $("<div>").addClass("textae-editor__footer__message");
+                        var $footer = $("<div>")
+                            .addClass("textae-editor__footer")
+                            .append($messageArea);
+                        self.append($footer);
+                    }
 
-                return $messageArea;
-            };
+                    return $messageArea;
+                };
+            }(self);
 
             var showSaveSuccess = function() {
                 getMessageArea().html("annotation saved").fadeIn().fadeOut(5000, function() {
