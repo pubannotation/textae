@@ -2394,27 +2394,18 @@
 
                             var doNothing = function() {};
                             var state = {
-                                termCentric: {
+                                termCentric: _.extend({}, transition, {
                                     name: 'Term Centric',
-                                    onInstance: transition.toInstance,
-                                    onRelation: transition.toRelation,
-                                    offInstance: doNothing,
-                                    offRelation: doNothing
-                                },
-                                instanceRelation: {
+                                    toTerm: doNothing
+                                }),
+                                instanceRelation: _.extend({}, transition, {
                                     name: 'Instance / Relation',
-                                    onRelation: transition.toRelation,
-                                    offInstance: transition.toTerm,
-                                    onInstance: doNothing,
-                                    offRelation: doNothing
-                                },
-                                relationEdit: {
+                                    toInstance: doNothing,
+                                }),
+                                relationEdit: _.extend({}, transition, {
                                     name: 'Relation Edit',
-                                    offRelation: transition.toInstance,
-                                    offInstance: transition.toTerm,
-                                    onInstance: transition.toInstance,
-                                    onRelation: doNothing
-                                }
+                                    toRelation: doNothing
+                                })
                             };
 
                             return {
@@ -2640,9 +2631,9 @@
                                                 )
                                                 .on('click', '.textae-editor__setting-dialog__term-centric-view', function() {
                                                     if ($(this).is(':checked')) {
-                                                        controllerState.onInstance();
+                                                        controllerState.toInstance();
                                                     } else {
-                                                        controllerState.offInstance();
+                                                        controllerState.toTerm();
                                                     }
                                                 });
                                         },
@@ -2691,18 +2682,18 @@
                             toggleRelationEditMode: function() {
                                 // ビューモードを切り替える
                                 if (view.viewModel.modeAccordingToButton['relation-edit-mode'].value()) {
-                                    controllerState.offRelation();
+                                    controllerState.toInstance();
                                 } else {
-                                    controllerState.onRelation();
+                                    controllerState.toRelation();
                                 }
                             },
                             setViewMode: function(mode) {
                                 if (mode === 'term') {
-                                    controllerState.offInstance();
+                                    controllerState.toTerm();
                                 } else if (mode === 'instance') {
-                                    controllerState.onInstance();
+                                    controllerState.toInstance();
                                 } else if (mode === 'relation') {
-                                    controllerState.onRelation();
+                                    controllerState.toRelation();
                                 }
                             }
                         };
