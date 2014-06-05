@@ -21,19 +21,28 @@
 
             //load/saveDialog
             var loadSaveDialog = function(editor) {
+                var getAnnotationFromFile = function(fileEvent) {
+                    var reader = new FileReader();
+                    reader.onload = function() {
+                        var annotation = JSON.parse(this.result);
+                        loaded(annotation);
+                    };
+                    reader.readAsText(fileEvent.files[0]);
+                };
+
                 var getLoadDialog = function() {
                     var $content = $('<div>')
                         .append('<div><label class="textae-editor__load-dialog__label">Server</label><input type="text" class="textae-editor__load-dialog__file-name" /><input type="button" value="OK" /></div>')
                         .append('<div><label class="textae-editor__load-dialog__label">Local</label><input type="file" /></div>')
                         .on('change', '[type="file"]',
                             function() {
-                                dataAccessObject.getAnnotationFromFile(this);
+                                getAnnotationFromFile(this);
                                 $content.dialogClose();
                             })
                         .on('click', '[type="button"]',
                             function() {
                                 var url = $content.find('.textae-editor__load-dialog__file-name').val();
-                                dataAccessObject.getAnnotationFromServer(url);
+                                getAnnotationFromServer(url);
                                 $content.dialogClose();
                             });
 
@@ -143,26 +152,20 @@
                 }
             };
 
+            var getAnnotationFromServer = function(url) {
+                cursorChanger.startWait();
+                textAeUtil.ajaxAccessor.getAsync(url, function getAnnotationFromServerSuccess(annotation) {
+                    loaded(annotation);
+                    setDataSourceUrl(url);
+                }, function() {
+                    cursorChanger.endWait();
+                });
+            };
+
             var dataSourceUrl = "";
 
             return {
-                getAnnotationFromServer: function(url) {
-                    cursorChanger.startWait();
-                    textAeUtil.ajaxAccessor.getAsync(url, function getAnnotationFromServerSuccess(annotation) {
-                        loaded(annotation);
-                        setDataSourceUrl(url);
-                    }, function() {
-                        cursorChanger.endWait();
-                    });
-                },
-                getAnnotationFromFile: function(fileEvent) {
-                    var reader = new FileReader();
-                    reader.onload = function() {
-                        var annotation = JSON.parse(this.result);
-                        loaded(annotation);
-                    };
-                    reader.readAsText(fileEvent.files[0]);
-                },
+                getAnnotationFromServer: getAnnotationFromServer,
                 showAccess: function() {
                     loadSaveDialog.showLoad(dataSourceUrl);
                 },
