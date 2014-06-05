@@ -4,182 +4,6 @@
             BLOCK_THRESHOLD: 100
         };
 
-        // A sub component to save and load data.
-        var dataAccessObject = function(self, loaded, saved) {
-            var cursorChanger = function(editor) {
-                var wait = function() {
-                    this.addClass('textae-editor_wait');
-                };
-                var endWait = function() {
-                    this.removeClass('textae-editor_wait');
-                };
-                return {
-                    startWait: wait.bind(editor),
-                    endWait: endWait.bind(editor),
-                };
-            }(self);
-
-            //load/saveDialog
-            var loadSaveDialog = function(editor) {
-                var getAnnotationFromFile = function(fileEvent) {
-                    var reader = new FileReader();
-                    reader.onload = function() {
-                        var annotation = JSON.parse(this.result);
-                        loaded(annotation);
-                    };
-                    reader.readAsText(fileEvent.files[0]);
-                };
-
-                var getLoadDialog = function() {
-                    var $content = $('<div>')
-                        .append('<div><label class="textae-editor__load-dialog__label">Server</label><input type="text" class="textae-editor__load-dialog__file-name" /><input type="button" value="OK" /></div>')
-                        .append('<div><label class="textae-editor__load-dialog__label">Local</label><input type="file" /></div>')
-                        .on('change', '[type="file"]',
-                            function() {
-                                getAnnotationFromFile(this);
-                                $content.dialogClose();
-                            })
-                        .on('click', '[type="button"]',
-                            function() {
-                                var url = $content.find('.textae-editor__load-dialog__file-name').val();
-                                getAnnotationFromServer(url);
-                                $content.dialogClose();
-                            });
-
-                    return textAeUtil.getDialog(editor.editorId, 'textae.dialog.load', 'Load document with annotation.', $content);
-                };
-
-                var saveAnnotationToServer = function(url, postData) {
-                    cursorChanger.startWait();
-                    textAeUtil.ajaxAccessor.post(url, postData, showSaveSuccess, showSaveError, function() {
-                        cursorChanger.endWait();
-                    });
-                };
-
-                var setLocalLink = function($save_dialog, jsonData) {
-                    var createDownloadPath = function(contents) {
-                        var blob = new Blob([contents], {
-                            type: 'application/json'
-                        });
-                        return URL.createObjectURL(blob);
-                    };
-
-                    var getFilename = function() {
-                        var $fileInput = getLoadDialog().find("input[type='file']"),
-                            file = $fileInput.prop('files')[0];
-                        return file ? file.name : 'annotations.json';
-                    };
-
-                    var setFileLink = function($save_dialog, downloadPath, name) {
-                        $save_dialog.find('a')
-                            .text(name)
-                            .attr('href', downloadPath)
-                            .attr('download', name);
-                    };
-
-                    var downloadPath = createDownloadPath(jsonData);
-                    var name = getFilename();
-                    setFileLink($save_dialog, downloadPath, name);
-                    return $save_dialog;
-                };
-
-                var getSaveDialog = function(jsonData) {
-                    var $content = $('<div>')
-                        .append('<div><label class="textae-editor__save-dialog__label">Server</label><input type="text" class="textae-editor__save-dialog__file-name" /><input type="button" value="OK" /></div>')
-                        .append('<div><label class="textae-editor__save-dialog__label">Local</label><span class="span_link_place"><a target="_blank"/></span></div>')
-                        .on('click', 'a', function() {
-                            saved();
-                            $content.dialogClose();
-                        })
-                        .on('click', '[type="button"]', function() {
-                            var url = $content.find('.textae-editor__save-dialog__file-name').val();
-                            saveAnnotationToServer(url, jsonData);
-                            $content.dialogClose();
-                        });
-
-                    var $dialog = textAeUtil.getDialog(editor.editorId, 'textae.dialog.save', 'Save document with annotation.', $content);
-
-                    return setLocalLink($dialog, jsonData);
-                };
-
-                return {
-                    showLoad: function(url) {
-                        getLoadDialog().open(url);
-                    },
-                    showSave: function(url, jsonData) {
-                        getSaveDialog(jsonData).open(url);
-                    }
-                };
-            }(self);
-
-            var getMessageArea = function(editor) {
-                return function() {
-                    $messageArea = self.find('.textae-editor__footer .textae-editor__footer__message');
-                    if ($messageArea.length === 0) {
-                        $messageArea = $("<div>").addClass("textae-editor__footer__message");
-                        var $footer = $("<div>")
-                            .addClass("textae-editor__footer")
-                            .append($messageArea);
-                        self.append($footer);
-                    }
-
-                    return $messageArea;
-                };
-            }(self);
-
-            var showSaveSuccess = function() {
-                getMessageArea().html("annotation saved").fadeIn().fadeOut(5000, function() {
-                    $(this).html('').removeAttr('style');
-                    setDataSourceUrl(dataSourceUrl);
-                });
-                saved();
-                cursorChanger.endWait();
-            };
-
-            var showSaveError = function() {
-                getMessageArea().html("could not save").fadeIn().fadeOut(5000, function() {
-                    $(this).html('').removeAttr('style');
-                    setDataSourceUrl(dataSourceUrl);
-                });
-                cursorChanger.endWait();
-            };
-
-            var setDataSourceUrl = function(url) {
-                if (url !== "") {
-                    var targetDoc = url.replace(/\/annotations\.json$/, '');
-                    getMessageArea().html("(Target: <a href='" + targetDoc + "'>" + targetDoc + "</a>)");
-                    dataSourceUrl = url;
-                }
-            };
-
-            var getAnnotationFromServer = function(url) {
-                cursorChanger.startWait();
-                textAeUtil.ajaxAccessor.getAsync(url, function getAnnotationFromServerSuccess(annotation) {
-                    loaded(annotation);
-                    setDataSourceUrl(url);
-                }, function() {
-                    cursorChanger.endWait();
-                });
-            };
-
-            var dataSourceUrl = "";
-
-            return {
-                getAnnotationFromServer: getAnnotationFromServer,
-                showAccess: function() {
-                    loadSaveDialog.showLoad(dataSourceUrl);
-                },
-                showSave: function() {
-                    var jsonData = model.annotationData.toJson();
-                    loadSaveDialog.showSave(dataSourceUrl, jsonData);
-                },
-            };
-        }(this, function(annotation) {
-            controller.command.reset(annotation);
-        }, function() {
-            controller.command.updateSavePoint();
-        });
-
         var idFactory = makeIdFactory(this);
 
         // model manages data objects.
@@ -3000,94 +2824,108 @@
             };
         }(this);
 
-        var readSettingFiles = function(editor) {
-            var setTypeConfig = function(config) {
-                view.viewModel.typeContainer.setDefinedEntityTypes(config['entity types']);
-                view.viewModel.typeContainer.setDefinedRelationTypes(config['relation types']);
-
-                if (config.css !== undefined) {
-                    $('#css_area').html('<link rel="stylesheet" href="' + config.css + '"/>');
-                }
-            };
-
-            // read default controller.spanConfig
-            controller.spanConfig.set();
-
-            // Read model parameters from url parameters and html attributes.
-            // Html attributes preced url parameters.
-            var params = $.extend(textAeUtil.getUrlParameters(location.search), {
-                config: editor.attr("config"),
-                target: editor.attr("target")
-            });
-
-            if (params.config && params.config !== "") {
-                // load sync, because load annotation after load config. 
-                var data = textAeUtil.ajaxAccessor.getSync(params.config);
-                if (data !== null) {
-                    controller.spanConfig.set(data);
-                    setTypeConfig(data);
-                } else {
-                    alert('could not read the span configuration from the location you specified.');
-                }
-            }
-
-            if (params.target && params.target !== "") {
-                dataAccessObject.getAnnotationFromServer(params.target);
-            }
-        };
-
         // public funcitons of editor
-        this.api = {
-            start: function startEdit(editor) {
-                view.init();
-                controller.init();
+        this.api = function(editor) {
+            var dataAccessObject = makeDataAccessObject(editor, function(annotation) {
+                    controller.command.reset(annotation);
+                }, function() {
+                    controller.command.updateSavePoint();
+                }),
+                start = function start(editor) {
+                    var readSettingFiles = function(editor, dataAccessObject) {
+                        var setTypeConfig = function(config) {
+                            view.viewModel.typeContainer.setDefinedEntityTypes(config['entity types']);
+                            view.viewModel.typeContainer.setDefinedRelationTypes(config['relation types']);
 
-                readSettingFiles(editor);
-            },
-            handleKeyInput: function(key, mousePoint) {
-                var keyApiMap = {
-                    'A': dataAccessObject.showAccess,
-                    'C': controller.userEvent.editHandler.copyEntities,
-                    'D': controller.userEvent.editHandler.removeSelectedElements,
-                    'DEL': controller.userEvent.editHandler.removeSelectedElements,
-                    'E': controller.userEvent.editHandler.createEntity,
-                    'Q': controller.userEvent.viewHandler.showPallet,
-                    'R': controller.userEvent.editHandler.replicate,
-                    'S': dataAccessObject.showSave,
-                    'V': controller.userEvent.editHandler.pasteEntities,
-                    'W': controller.userEvent.editHandler.newLabel,
-                    'X': controller.command.redo,
-                    'Y': controller.command.redo,
-                    'Z': controller.command.undo,
-                    'ESC': controller.userEvent.viewHandler.cancelSelect,
-                    'LEFT': controller.userEvent.viewHandler.selectLeftSpan,
-                    'RIGHT': controller.userEvent.viewHandler.selectRightSpan,
+                            if (config.css !== undefined) {
+                                $('#css_area').html('<link rel="stylesheet" href="' + config.css + '"/>');
+                            }
+                        };
+
+                        // read default controller.spanConfig
+                        controller.spanConfig.set();
+
+                        // Read model parameters from url parameters and html attributes.
+                        // Html attributes preced url parameters.
+                        var params = $.extend(textAeUtil.getUrlParameters(location.search), {
+                            config: editor.attr("config"),
+                            target: editor.attr("target")
+                        });
+
+                        if (params.config && params.config !== "") {
+                            // load sync, because load annotation after load config. 
+                            var data = textAeUtil.ajaxAccessor.getSync(params.config);
+                            if (data !== null) {
+                                controller.spanConfig.set(data);
+                                setTypeConfig(data);
+                            } else {
+                                alert('could not read the span configuration from the location you specified.');
+                            }
+                        }
+
+                        if (params.target && params.target !== "") {
+                            dataAccessObject.getAnnotationFromServer(params.target);
+                        }
+                    };
+
+                    view.init();
+                    controller.init();
+
+                    readSettingFiles(editor, dataAccessObject);
+                },
+                showSave = function() {
+                    dataAccessObject.showSave(model.annotationData.toJson());
+                },
+                handleKeyInput = function(key, mousePoint) {
+                    var keyApiMap = {
+                        'A': dataAccessObject.showAccess,
+                        'C': controller.userEvent.editHandler.copyEntities,
+                        'D': controller.userEvent.editHandler.removeSelectedElements,
+                        'DEL': controller.userEvent.editHandler.removeSelectedElements,
+                        'E': controller.userEvent.editHandler.createEntity,
+                        'Q': controller.userEvent.viewHandler.showPallet,
+                        'R': controller.userEvent.editHandler.replicate,
+                        'S': showSave,
+                        'V': controller.userEvent.editHandler.pasteEntities,
+                        'W': controller.userEvent.editHandler.newLabel,
+                        'X': controller.command.redo,
+                        'Y': controller.command.redo,
+                        'Z': controller.command.undo,
+                        'ESC': controller.userEvent.viewHandler.cancelSelect,
+                        'LEFT': controller.userEvent.viewHandler.selectLeftSpan,
+                        'RIGHT': controller.userEvent.viewHandler.selectRightSpan,
+                    };
+                    if (keyApiMap[key]) {
+                        keyApiMap[key](mousePoint);
+                    }
+                },
+                handleButtonClick = function(name, mousePoint) {
+                    var buttonApiMap = {
+                        'textae.control.button.read.click': dataAccessObject.showAccess,
+                        'textae.control.button.write.click': showSave,
+                        'textae.control.button.undo.click': controller.command.undo,
+                        'textae.control.button.redo.click': controller.command.redo,
+                        'textae.control.button.replicate.click': controller.userEvent.editHandler.replicate,
+                        'textae.control.button.replicate_auto.click': view.viewModel.modeAccordingToButton['replicate-auto'].toggle,
+                        'textae.control.button.relation_edit_mode.click': controller.userEvent.viewHandler.toggleRelationEditMode,
+                        'textae.control.button.entity.click': controller.userEvent.editHandler.createEntity,
+                        'textae.control.button.change_label.click': controller.userEvent.editHandler.newLabel,
+                        'textae.control.button.pallet.click': controller.userEvent.viewHandler.showPallet,
+                        'textae.control.button.delete.click': controller.userEvent.editHandler.removeSelectedElements,
+                        'textae.control.button.copy.click': controller.userEvent.editHandler.copyEntities,
+                        'textae.control.button.paste.click': controller.userEvent.editHandler.pasteEntities,
+                        'textae.control.button.setting.click': controller.userEvent.viewHandler.showSettingDialog,
+                    };
+                    buttonApiMap[name](mousePoint);
                 };
-                if (keyApiMap[key]) {
-                    keyApiMap[key](mousePoint);
-                }
-            },
-            handleButtonClick: function(name, mousePoint) {
-                var buttonApiMap = {
-                    'textae.control.button.read.click': dataAccessObject.showAccess,
-                    'textae.control.button.write.click': dataAccessObject.showSave,
-                    'textae.control.button.undo.click': controller.command.undo,
-                    'textae.control.button.redo.click': controller.command.redo,
-                    'textae.control.button.replicate.click': controller.userEvent.editHandler.replicate,
-                    'textae.control.button.replicate_auto.click': view.viewModel.modeAccordingToButton['replicate-auto'].toggle,
-                    'textae.control.button.relation_edit_mode.click': controller.userEvent.viewHandler.toggleRelationEditMode,
-                    'textae.control.button.entity.click': controller.userEvent.editHandler.createEntity,
-                    'textae.control.button.change_label.click': controller.userEvent.editHandler.newLabel,
-                    'textae.control.button.pallet.click': controller.userEvent.viewHandler.showPallet,
-                    'textae.control.button.delete.click': controller.userEvent.editHandler.removeSelectedElements,
-                    'textae.control.button.copy.click': controller.userEvent.editHandler.copyEntities,
-                    'textae.control.button.paste.click': controller.userEvent.editHandler.pasteEntities,
-                    'textae.control.button.setting.click': controller.userEvent.viewHandler.showSettingDialog,
-                };
-                buttonApiMap[name](mousePoint);
-            },
-            redraw: controller.userEvent.viewHandler.redraw,
-        };
+
+            return {
+                start: start,
+                handleKeyInput: handleKeyInput,
+                handleButtonClick: handleButtonClick,
+                redraw: controller.userEvent.viewHandler.redraw,
+            };
+        }(this);
 
         return this;
     };
