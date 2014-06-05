@@ -1858,13 +1858,13 @@
                 var setDefautlViewMode = function() {
                     if (model.annotationData.relation.some()) {
                         view.renderer.helper.changeLineHeight(10);
-                        controller.userEvent.viewHandler.setViewMode('instance');
+                        controller.userEvent.viewHandler.setViewModeInstance();
                     } else if (model.annotationData.span.multiEntities().length > 0) {
                         view.renderer.helper.changeLineHeight(4);
-                        controller.userEvent.viewHandler.setViewMode('instance');
+                        controller.userEvent.viewHandler.setViewModeInstance();
                     } else {
                         view.renderer.helper.changeLineHeight(4);
-                        controller.userEvent.viewHandler.setViewMode('term');
+                        controller.userEvent.viewHandler.setViewModeTerm();
                     }
                 };
 
@@ -1873,10 +1873,15 @@
                         history.init(onChange);
                         history.reset();
                     },
-                    reset: function(annotation) {
+                    reset: function(annotation, isViewOnly) {
                         model.annotationData.reset(annotation);
                         history.reset();
-                        setDefautlViewMode();
+                        if (isViewOnly) {
+                            console.log('view mode!');
+                            setDefautlViewMode();
+                        } else {
+                            setDefautlViewMode();
+                        }
                     },
                     updateSavePoint: function() {
                         history.saved();
@@ -2394,27 +2399,18 @@
 
                             var doNothing = function() {};
                             var state = {
-                                termCentric: {
+                                termCentric: _.extend({}, transition, {
                                     name: 'Term Centric',
-                                    onInstance: transition.toInstance,
-                                    onRelation: transition.toRelation,
-                                    offInstance: doNothing,
-                                    offRelation: doNothing
-                                },
-                                instanceRelation: {
+                                    toTerm: doNothing
+                                }),
+                                instanceRelation: _.extend({}, transition, {
                                     name: 'Instance / Relation',
-                                    onRelation: transition.toRelation,
-                                    offInstance: transition.toTerm,
-                                    onInstance: doNothing,
-                                    offRelation: doNothing
-                                },
-                                relationEdit: {
+                                    toInstance: doNothing,
+                                }),
+                                relationEdit: _.extend({}, transition, {
                                     name: 'Relation Edit',
-                                    offRelation: transition.toInstance,
-                                    offInstance: transition.toTerm,
-                                    onInstance: transition.toInstance,
-                                    onRelation: doNothing
-                                }
+                                    toRelation: doNothing
+                                })
                             };
 
                             return {
@@ -2640,9 +2636,9 @@
                                                 )
                                                 .on('click', '.textae-editor__setting-dialog__term-centric-view', function() {
                                                     if ($(this).is(':checked')) {
-                                                        controllerState.onInstance();
+                                                        controllerState.toInstance();
                                                     } else {
-                                                        controllerState.offInstance();
+                                                        controllerState.toTerm();
                                                     }
                                                 });
                                         },
@@ -2691,19 +2687,16 @@
                             toggleRelationEditMode: function() {
                                 // ビューモードを切り替える
                                 if (view.viewModel.modeAccordingToButton['relation-edit-mode'].value()) {
-                                    controllerState.offRelation();
+                                    controllerState.toInstance();
                                 } else {
-                                    controllerState.onRelation();
+                                    controllerState.toRelation();
                                 }
                             },
-                            setViewMode: function(mode) {
-                                if (mode === 'term') {
-                                    controllerState.offInstance();
-                                } else if (mode === 'instance') {
-                                    controllerState.onInstance();
-                                } else if (mode === 'relation') {
-                                    controllerState.onRelation();
-                                }
+                            setViewModeTerm: function() {
+                                controllerState.toTerm();
+                            },
+                            setViewModeInstance: function() {
+                                controllerState.toInstance();
                             }
                         };
                     }()
@@ -2826,13 +2819,9 @@
 
         // public funcitons of editor
         this.api = function(editor) {
-            var dataAccessObject = makeDataAccessObject(editor, function(annotation) {
-                    controller.command.reset(annotation);
-                }, function() {
-                    controller.command.updateSavePoint();
-                }),
+            var dataAccessObject,
                 start = function start(editor) {
-                    var readSettingFiles = function(editor, dataAccessObject) {
+                    var readSettingFiles = function(editor) {
                         var setTypeConfig = function(config) {
                             view.viewModel.typeContainer.setDefinedEntityTypes(config['entity types']);
                             view.viewModel.typeContainer.setDefinedRelationTypes(config['relation types']);
@@ -2848,11 +2837,12 @@
                         // Read model parameters from url parameters and html attributes.
                         // Html attributes preced url parameters.
                         var params = $.extend(textAeUtil.getUrlParameters(location.search), {
-                            config: editor.attr("config"),
-                            target: editor.attr("target")
+                            config: editor.attr('config'),
+                            target: editor.attr('target'),
+                            mode: editor.attr('mode')
                         });
 
-                        if (params.config && params.config !== "") {
+                        if (params.config && params.config !== '') {
                             // load sync, because load annotation after load config. 
                             var data = textAeUtil.ajaxAccessor.getSync(params.config);
                             if (data !== null) {
@@ -2863,22 +2853,33 @@
                             }
                         }
 
-                        if (params.target && params.target !== "") {
+                        var dataAccessObject = makeDataAccessObject(editor, function(annotation) {
+                            controller.command.reset(annotation, params.mode === 'view');
+                        }, function() {
+                            controller.command.updateSavePoint();
+                        });
+
+                        if (params.target && params.target !== '') {
                             dataAccessObject.getAnnotationFromServer(params.target);
                         }
+
+                        return dataAccessObject;
                     };
 
                     view.init();
                     controller.init();
 
-                    readSettingFiles(editor, dataAccessObject);
+                    dataAccessObject = readSettingFiles(editor);
+                },
+                showAccess = function() {
+                    dataAccessObject.showAccess();
                 },
                 showSave = function() {
                     dataAccessObject.showSave(model.annotationData.toJson());
                 },
                 handleKeyInput = function(key, mousePoint) {
                     var keyApiMap = {
-                        'A': dataAccessObject.showAccess,
+                        'A': showAccess,
                         'C': controller.userEvent.editHandler.copyEntities,
                         'D': controller.userEvent.editHandler.removeSelectedElements,
                         'DEL': controller.userEvent.editHandler.removeSelectedElements,
@@ -2901,7 +2902,7 @@
                 },
                 handleButtonClick = function(name, mousePoint) {
                     var buttonApiMap = {
-                        'textae.control.button.read.click': dataAccessObject.showAccess,
+                        'textae.control.button.read.click': showAccess,
                         'textae.control.button.write.click': showSave,
                         'textae.control.button.undo.click': controller.command.undo,
                         'textae.control.button.redo.click': controller.command.redo,
