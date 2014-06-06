@@ -1855,33 +1855,14 @@
                     });
                 };
 
-                var setDefautlViewMode = function() {
-                    if (model.annotationData.relation.some()) {
-                        view.renderer.helper.changeLineHeight(10);
-                        controller.userEvent.viewHandler.setViewModeInstance();
-                    } else if (model.annotationData.span.multiEntities().length > 0) {
-                        view.renderer.helper.changeLineHeight(4);
-                        controller.userEvent.viewHandler.setViewModeInstance();
-                    } else {
-                        view.renderer.helper.changeLineHeight(4);
-                        controller.userEvent.viewHandler.setViewModeTerm();
-                    }
-                };
-
                 return {
                     init: function(onChange) {
                         history.init(onChange);
                         history.reset();
                     },
-                    reset: function(annotation, isViewOnly) {
+                    reset: function(annotation) {
                         model.annotationData.reset(annotation);
                         history.reset();
-                        if (isViewOnly) {
-                            console.log('view mode!');
-                            setDefautlViewMode();
-                        } else {
-                            setDefautlViewMode();
-                        }
                     },
                     updateSavePoint: function() {
                         history.saved();
@@ -2819,63 +2800,90 @@
 
         // public funcitons of editor
         this.api = function(editor) {
-            var dataAccessObject,
-                start = function start(editor) {
-                    var readSettingFiles = function(editor) {
-                        var setTypeConfig = function(config) {
-                            view.viewModel.typeContainer.setDefinedEntityTypes(config['entity types']);
-                            view.viewModel.typeContainer.setDefinedRelationTypes(config['relation types']);
+            var getParams = function() {
+                    // Read model parameters from url parameters and html attributes.
+                    // Html attributes preced url parameters.
+                    return $.extend(textAeUtil.getUrlParameters(location.search), {
+                        config: editor.attr('config'),
+                        target: editor.attr('target'),
+                        mode: editor.attr('mode')
+                    });
+                },
+                setEditMode = function() {
+                    // Change view mode accoding to the annotation data.
+                    if (model.annotationData.relation.some()) {
+                        view.renderer.helper.changeLineHeight(10);
+                        controller.userEvent.viewHandler.setViewModeInstance();
+                    } else if (model.annotationData.span.multiEntities().length > 0) {
+                        view.renderer.helper.changeLineHeight(4);
+                        controller.userEvent.viewHandler.setViewModeInstance();
+                    } else {
+                        view.renderer.helper.changeLineHeight(4);
+                        controller.userEvent.viewHandler.setViewModeTerm();
+                    }
+                },
+                setViewMode = function() {
+                    // This is change point to view only mode.
+                    console.log('view mode!');
+                    setEditMode();
+                },
+                setConfigByParams = function(params, dataAccessObject) {
+                    var setConfig = function(params) {
+                            var setTypeConfig = function(config) {
+                                view.viewModel.typeContainer.setDefinedEntityTypes(config['entity types']);
+                                view.viewModel.typeContainer.setDefinedRelationTypes(config['relation types']);
 
-                            if (config.css !== undefined) {
-                                $('#css_area').html('<link rel="stylesheet" href="' + config.css + '"/>');
+                                if (config.css !== undefined) {
+                                    $('#css_area').html('<link rel="stylesheet" href="' + config.css + '"/>');
+                                }
+                            };
+
+                            // Read default controller.spanConfig
+                            controller.spanConfig.set();
+
+                            if (params.config !== '') {
+                                // Load sync, because load annotation after load config. 
+                                var configFromServer = textAeUtil.ajaxAccessor.getSync(params.config);
+                                if (configFromServer !== null) {
+                                    controller.spanConfig.set(configFromServer);
+                                    setTypeConfig(configFromServer);
+                                } else {
+                                    alert('could not read the span configuration from the location you specified.');
+                                }
+                            }
+                        },
+                        setView = function(params, dataAccessObject) {
+                            if (params.mode === 'view') {
+                                // Change the loaded handler of the dataAccessObject.
+                                dataAccessObject.setLoaded(_.compose(setViewMode, controller.command.reset));
+                            }
+                        },
+                        setTarget = function(params, dataAccessObject) {
+                            if (params.target !== '') {
+                                // Load an annotation data.
+                                dataAccessObject.getAnnotationFromServer(params.target);
                             }
                         };
 
-                        // read default controller.spanConfig
-                        controller.spanConfig.set();
-
-                        // Read model parameters from url parameters and html attributes.
-                        // Html attributes preced url parameters.
-                        var params = $.extend(textAeUtil.getUrlParameters(location.search), {
-                            config: editor.attr('config'),
-                            target: editor.attr('target'),
-                            mode: editor.attr('mode')
-                        });
-
-                        if (params.config && params.config !== '') {
-                            // load sync, because load annotation after load config. 
-                            var data = textAeUtil.ajaxAccessor.getSync(params.config);
-                            if (data !== null) {
-                                controller.spanConfig.set(data);
-                                setTypeConfig(data);
-                            } else {
-                                alert('could not read the span configuration from the location you specified.');
-                            }
-                        }
-
-                        var dataAccessObject = makeDataAccessObject(editor, function(annotation) {
-                            controller.command.reset(annotation, params.mode === 'view');
-                        }, function() {
-                            controller.command.updateSavePoint();
-                        });
-
-                        if (params.target && params.target !== '') {
-                            dataAccessObject.getAnnotationFromServer(params.target);
-                        }
-
-                        return dataAccessObject;
+                    setConfig(params);
+                    setView(params, dataAccessObject);
+                    setTarget(params, dataAccessObject);
+                },
+                // Functions will be called from handleKeyInput and handleButtonClick.
+                showAccess,
+                showSave,
+                initDao = function() {
+                    var dataAccessObject = makeDataAccessObject(editor);
+                    dataAccessObject.setLoaded(_.compose(setEditMode, controller.command.reset));
+                    dataAccessObject.setSaved(function() {
+                        controller.command.updateSavePoint();
+                    });
+                    showAccess = dataAccessObject.showAccess;
+                    showSave = function() {
+                        dataAccessObject.showSave(model.annotationData.toJson());
                     };
 
-                    view.init();
-                    controller.init();
-
-                    dataAccessObject = readSettingFiles(editor);
-                },
-                showAccess = function() {
-                    dataAccessObject.showAccess();
-                },
-                showSave = function() {
-                    dataAccessObject.showSave(model.annotationData.toJson());
+                    return dataAccessObject;
                 },
                 handleKeyInput = function(key, mousePoint) {
                     var keyApiMap = {
@@ -2918,6 +2926,14 @@
                         'textae.control.button.setting.click': controller.userEvent.viewHandler.showSettingDialog,
                     };
                     buttonApiMap[name](mousePoint);
+                },
+                start = function start(editor) {
+                    view.init();
+                    controller.init();
+
+                    var dataAccessObject = initDao();
+
+                    setConfigByParams(getParams(), dataAccessObject);
                 };
 
             return {

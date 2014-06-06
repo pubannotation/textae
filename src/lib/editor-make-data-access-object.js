@@ -1,6 +1,9 @@
     // A sub component to save and load data.
-    var makeDataAccessObject = function(editor, loaded, saved) {
-        var cursorChanger = function(editor) {
+    var makeDataAccessObject = function(editor) {
+        var dataSourceUrl = "",
+            loadedFunc,
+            savedFunc,
+            cursorChanger = function(editor) {
                 var wait = function() {
                     this.addClass('textae-editor_wait');
                 };
@@ -26,7 +29,6 @@
                     return $messageArea;
                 };
             }(editor),
-            dataSourceUrl = "",
             setDataSourceUrl = function(url) {
                 if (url !== "") {
                     var targetDoc = url.replace(/\/annotations\.json$/, '');
@@ -37,7 +39,7 @@
             getAnnotationFromServer = function(url) {
                 cursorChanger.startWait();
                 textAeUtil.ajaxAccessor.getAsync(url, function getAnnotationFromServerSuccess(annotation) {
-                    loaded(annotation);
+                    loadedFunc(annotation);
                     setDataSourceUrl(url);
                 }, function() {
                     cursorChanger.endWait();
@@ -50,7 +52,7 @@
                             var reader = new FileReader();
                             reader.onload = function() {
                                 var annotation = JSON.parse(this.result);
-                                loaded(annotation);
+                                loadedFunc(annotation);
                             };
                             reader.readAsText(fileEvent.files[0]);
                         };
@@ -78,7 +80,7 @@
                                     $(this).html('').removeAttr('style');
                                     setDataSourceUrl(dataSourceUrl);
                                 });
-                                saved();
+                                savedFunc();
                                 cursorChanger.endWait();
                             },
                             showSaveError = function() {
@@ -125,7 +127,7 @@
                             .append('<div><label class="textae-editor__save-dialog__label">Server</label><input type="text" class="textae-editor__save-dialog__file-name" /><input type="button" value="OK" /></div>')
                             .append('<div><label class="textae-editor__save-dialog__label">Local</label><span class="span_link_place"><a target="_blank"/></span></div>')
                             .on('click', 'a', function() {
-                                saved();
+                                savedFunc();
                                 $content.dialogClose();
                             })
                             .on('click', '[type="button"]', function() {
@@ -157,5 +159,11 @@
             showSave: function(jsonData) {
                 loadSaveDialog.showSave(editor.editorId, dataSourceUrl, jsonData);
             },
+            setLoaded: function(loaded) {
+                loadedFunc = loaded;
+            },
+            setSaved: function(saved) {
+                savedFunc = saved;
+            }
         };
     };
