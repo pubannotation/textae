@@ -108,11 +108,10 @@
                     cancel: function() {
                         components.infoModals.hideAll();
                     },
-                    changeButtonState: function(disableButtons) {
-                        if (components.control) components.control.updateAllButtonEnableState(disableButtons);
-                    },
-                    pushReplicateAuto: function(push) {
-                        if (components.control) components.control.updateReplicateAutoButtonPushState(push);
+                    changeButtonState: function(editor, disableButtons) {
+                        if (components.control && editor === components.editors.selected) {
+                            components.control.updateAllButtonEnableState(disableButtons);
+                        }
                     },
                     push: function(buttonName, push) {
                         if (components.control) components.control.updateButtonPushState(buttonName, push);

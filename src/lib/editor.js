@@ -182,7 +182,7 @@
                         };
                         return {
                             propagate: function() {
-                                editor.tool.changeButtonState(disableButtons);
+                                editor.tool.changeButtonState(editor, disableButtons);
                                 view.viewModel.modeAccordingToButton.propagate();
                             },
                             init: function() {
