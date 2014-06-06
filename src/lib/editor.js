@@ -2794,7 +2794,6 @@
                     editor
                         .on('mouseup', '.textae-editor__body,.textae-editor__span,.textae-editor__grid,.textae-editor__entity', editorSelected)
                         .on('selectChanged', '.textae-editor__span', spanSelectChanged)
-                        .on('selectChanged', '.textae-editor__entity', entitySelectChanged)
                         .on('mouseenter', '.textae-editor__entity', function(e) {
                             view.domUtil.hover.on($(this).attr('title'));
                         }).on('mouseleave', '.textae-editor__entity', function(e) {
