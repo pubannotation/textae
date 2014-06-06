@@ -2714,17 +2714,10 @@
                                     controllerState.toRelation();
                                 }
                             },
-                            setViewModeTerm: function() {
-                                controllerState.toTerm();
-                            },
-                            setViewModeInstance: function() {
-                                controllerState.toInstance();
-                            },
-                            setViewModeViewTerm: function() {
-                                controllerState.toViewTerm();
-                            },
-                            setViewModeViewInstance: function() {
-                                controllerState.toViewInstance();
+                            setViewMode: function(mode) {
+                                if (controllerState['to' + mode]) {
+                                    controllerState['to' + mode]();
+                                }
                             }
                         };
                     }()
@@ -2856,32 +2849,21 @@
                         mode: editor.attr('mode')
                     });
                 },
-                setEditMode = function() {
+                setEditMode = function(prefix) {
+                    prefix = prefix || '';
                     // Change view mode accoding to the annotation data.
                     if (model.annotationData.relation.some()) {
                         view.renderer.helper.changeLineHeight(10);
-                        controller.userEvent.viewHandler.setViewModeInstance();
+                        controller.userEvent.viewHandler.setViewMode(prefix + 'Instance');
                     } else if (model.annotationData.span.multiEntities().length > 0) {
                         view.renderer.helper.changeLineHeight(4);
-                        controller.userEvent.viewHandler.setViewModeInstance();
+                        controller.userEvent.viewHandler.setViewMode(prefix + 'Instance');
                     } else {
                         view.renderer.helper.changeLineHeight(4);
-                        controller.userEvent.viewHandler.setViewModeTerm();
+                        controller.userEvent.viewHandler.setViewMode(prefix + 'Term');
                     }
                 },
-                setViewMode = function() {
-                    // Change view mode accoding to the annotation data.
-                    if (model.annotationData.relation.some()) {
-                        view.renderer.helper.changeLineHeight(10);
-                        controller.userEvent.viewHandler.setViewModeViewInstance();
-                    } else if (model.annotationData.span.multiEntities().length > 0) {
-                        view.renderer.helper.changeLineHeight(4);
-                        controller.userEvent.viewHandler.setViewModeViewInstance();
-                    } else {
-                        view.renderer.helper.changeLineHeight(4);
-                        controller.userEvent.viewHandler.setViewModeViewTerm();
-                    }
-                },
+                setViewMode = _.partial(setEditMode, 'View'),
                 setConfigByParams = function(params, dataAccessObject) {
                     var setConfig = function(params) {
                             var setTypeConfig = function(config) {
