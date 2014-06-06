@@ -96,51 +96,50 @@
                     clipBoard: [],
                     // Modes accoding to buttons of control.
                     modeAccordingToButton: function() {
-                        // Functions to propagate to each buttons.
-                        var propagateFunctions = [];
-
-                        // The public object.
-                        var ret = {
-                            propagate: function() {
-                                propagateFunctions.forEach(function(func) {
-                                    func();
-                                });
-                            }
-                        };
-
-                        var setupButton = _.partial(function bindButton(ret, propagateFunctions, buttonName) {
+                        var makeButton = function(buttonName) {
                             // Button state is true when the button is pushed.
-                            var buttonState = false;
-
-                            // Propagate button state to the tool.
-                            var push = function() {
-                                editor.tool.push(buttonName, buttonState);
-                            };
-
-                            // Set property to public object.
-                            ret[buttonName] = {
-                                value: function(newValue) {
+                            var state = false,
+                                value = function(newValue) {
                                     if (newValue !== undefined) {
-                                        buttonState = newValue;
-                                        push();
+                                        state = newValue;
+                                        propagate();
                                     } else {
-                                        return buttonState;
+                                        return state;
                                     }
                                 },
-                                toggle: function toggleButton() {
-                                    buttonState = !buttonState;
-                                    push();
-                                }
+                                toggle = function toggleButton() {
+                                    state = !state;
+                                    propagate();
+                                },
+                                // Propagate button state to the tool.
+                                propagate = function() {
+                                    editor.tool.push(buttonName, state);
+                                };
+
+                            return {
+                                name: buttonName,
+                                value: value,
+                                toggle: toggle,
+                                propagate: propagate
                             };
+                        };
 
-                            // Set propagate functions. They will be called when the editor is switched.
-                            propagateFunctions.push(push);
-                        }, ret, propagateFunctions);
+                        // The public object.
+                        var ret = ['replicate-auto', 'relation-edit-mode']
+                            .map(makeButton)
+                            .reduce(function(container, button) {
+                                container[button.name] = button;
+                                return container;
+                            }, {});
 
-                        // Set up buttons value and function.
-                        ['replicate-auto', 'relation-edit-mode'].forEach(setupButton);
-
-                        return ret;
+                        return _.extend(ret, {
+                            // Propagete states of all buttons.
+                            propagate: function() {
+                                _.each(this, function(button) {
+                                    if (button.propagate) button.propagate();
+                                });
+                            }
+                        });
                     }(),
                     // Helper to update button state. 
                     buttonStateHelper: function() {
