@@ -2863,7 +2863,10 @@
                         controller.userEvent.viewHandler.setViewMode(prefix + 'Term');
                     }
                 },
-                setViewMode = _.partial(setEditMode, 'View'),
+                setViewMode = _.compose(function() {
+                    view.viewModel.buttonStateHelper.enabled('replicate-auto', false);
+                    view.viewModel.buttonStateHelper.enabled('relation-edit-mode', false);
+                }, _.partial(setEditMode, 'View')),
                 setConfigByParams = function(params, dataAccessObject) {
                     var setConfig = function(params) {
                             var setTypeConfig = function(config) {
