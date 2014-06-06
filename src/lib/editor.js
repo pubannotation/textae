@@ -96,51 +96,50 @@
                     clipBoard: [],
                     // Modes accoding to buttons of control.
                     modeAccordingToButton: function() {
-                        // Functions to propagate to each buttons.
-                        var propagateFunctions = [];
-
-                        // The public object.
-                        var ret = {
-                            propagate: function() {
-                                propagateFunctions.forEach(function(func) {
-                                    func();
-                                });
-                            }
-                        };
-
-                        var setupButton = _.partial(function bindButton(ret, propagateFunctions, buttonName) {
+                        var makeButton = function(buttonName) {
                             // Button state is true when the button is pushed.
-                            var buttonState = false;
-
-                            // Propagate button state to the tool.
-                            var push = function() {
-                                editor.tool.push(buttonName, buttonState);
-                            };
-
-                            // Set property to public object.
-                            ret[buttonName] = {
-                                value: function(newValue) {
+                            var state = false,
+                                value = function(newValue) {
                                     if (newValue !== undefined) {
-                                        buttonState = newValue;
-                                        push();
+                                        state = newValue;
+                                        propagate();
                                     } else {
-                                        return buttonState;
+                                        return state;
                                     }
                                 },
-                                toggle: function toggleButton() {
-                                    buttonState = !buttonState;
-                                    push();
-                                }
+                                toggle = function toggleButton() {
+                                    state = !state;
+                                    propagate();
+                                },
+                                // Propagate button state to the tool.
+                                propagate = function() {
+                                    editor.tool.push(buttonName, state);
+                                };
+
+                            return {
+                                name: buttonName,
+                                value: value,
+                                toggle: toggle,
+                                propagate: propagate
                             };
+                        };
 
-                            // Set propagate functions. They will be called when the editor is switched.
-                            propagateFunctions.push(push);
-                        }, ret, propagateFunctions);
+                        // The public object.
+                        var ret = ['replicate-auto', 'relation-edit-mode']
+                            .map(makeButton)
+                            .reduce(function(container, button) {
+                                container[button.name] = button;
+                                return container;
+                            }, {});
 
-                        // Set up buttons value and function.
-                        ['replicate-auto', 'relation-edit-mode'].forEach(setupButton);
-
-                        return ret;
+                        return _.extend(ret, {
+                            // Propagete states of all buttons.
+                            propagate: function() {
+                                _.each(this, function(button) {
+                                    if (button.propagate) button.propagate();
+                                });
+                            }
+                        });
                     }(),
                     // Helper to update button state. 
                     buttonStateHelper: function() {
@@ -182,7 +181,7 @@
                         };
                         return {
                             propagate: function() {
-                                editor.tool.changeButtonState(disableButtons);
+                                editor.tool.changeButtonState(editor, disableButtons);
                                 view.viewModel.modeAccordingToButton.propagate();
                             },
                             init: function() {
@@ -1855,33 +1854,14 @@
                     });
                 };
 
-                var setDefautlViewMode = function() {
-                    if (model.annotationData.relation.some()) {
-                        view.renderer.helper.changeLineHeight(10);
-                        controller.userEvent.viewHandler.setViewModeInstance();
-                    } else if (model.annotationData.span.multiEntities().length > 0) {
-                        view.renderer.helper.changeLineHeight(4);
-                        controller.userEvent.viewHandler.setViewModeInstance();
-                    } else {
-                        view.renderer.helper.changeLineHeight(4);
-                        controller.userEvent.viewHandler.setViewModeTerm();
-                    }
-                };
-
                 return {
                     init: function(onChange) {
                         history.init(onChange);
                         history.reset();
                     },
-                    reset: function(annotation, isViewOnly) {
+                    reset: function(annotation) {
                         model.annotationData.reset(annotation);
                         history.reset();
-                        if (isViewOnly) {
-                            console.log('view mode!');
-                            setDefautlViewMode();
-                        } else {
-                            setDefautlViewMode();
-                        }
                     },
                     updateSavePoint: function() {
                         history.saved();
@@ -2362,6 +2342,20 @@
                                     changeTypeOfSelected = _.partial(changeType, view.domUtil.selector.entity.getSelecteds, controller.command.factory.entityChangeTypeCommand);
 
                                     jsPlumbConnectionClickedImpl = null;
+                                },
+                                noEdit: function() {
+                                    editor
+                                        .off('mouseup', '.textae-editor__body')
+                                        .off('mouseup', '.textae-editor__span')
+                                        .off('mouseup', '.textae-editor__type-label')
+                                        .off('mouseup', '.textae-editor__entity-pane')
+                                        .off('selectChanged', '.textae-editor__entity')
+                                        .off('mouseup', '.textae-editor__entity');
+
+                                    palletConfig.typeContainer = view.viewModel.typeContainer.entity;
+                                    changeTypeOfSelected = _.partial(changeType, view.domUtil.selector.entity.getSelecteds, controller.command.factory.entityChangeTypeCommand);
+
+                                    jsPlumbConnectionClickedImpl = null;
                                 }
                             };
                         }();
@@ -2392,8 +2386,21 @@
                                     eventHandlerComposer.relationEdit();
                                     view.viewModel.viewMode.setRelation();
 
-
                                     controllerState = state.relationEdit;
+                                },
+                                toViewTerm: function() {
+                                    resetView();
+                                    eventHandlerComposer.noEdit();
+                                    view.viewModel.viewMode.setTerm();
+
+                                    controllerState = state.viewTerm;
+                                },
+                                toViewInstance: function() {
+                                    resetView();
+                                    eventHandlerComposer.noEdit();
+                                    view.viewModel.viewMode.setInstance();
+
+                                    controllerState = state.viewInstance;
                                 }
                             };
 
@@ -2410,6 +2417,20 @@
                                 relationEdit: _.extend({}, transition, {
                                     name: 'Relation Edit',
                                     toRelation: doNothing
+                                }),
+                                viewTerm: _.extend({}, transition, {
+                                    name: 'View Only',
+                                    toTerm: doNothing,
+                                    toInstance: transition.toViewInstance,
+                                    toRelation: doNothing,
+                                    toViewTerm: doNothing
+                                }),
+                                viewInstance: _.extend({}, transition, {
+                                    name: 'View Only',
+                                    toTerm: transition.toViewTerm,
+                                    toInstance: doNothing,
+                                    toRelation: doNothing,
+                                    toViewInstance: doNothing
                                 })
                             };
 
@@ -2692,11 +2713,10 @@
                                     controllerState.toRelation();
                                 }
                             },
-                            setViewModeTerm: function() {
-                                controllerState.toTerm();
-                            },
-                            setViewModeInstance: function() {
-                                controllerState.toInstance();
+                            setViewMode: function(mode) {
+                                if (controllerState['to' + mode]) {
+                                    controllerState['to' + mode]();
+                                }
                             }
                         };
                     }()
@@ -2773,7 +2793,6 @@
                     editor
                         .on('mouseup', '.textae-editor__body,.textae-editor__span,.textae-editor__grid,.textae-editor__entity', editorSelected)
                         .on('selectChanged', '.textae-editor__span', spanSelectChanged)
-                        .on('selectChanged', '.textae-editor__entity', entitySelectChanged)
                         .on('mouseenter', '.textae-editor__entity', function(e) {
                             view.domUtil.hover.on($(this).attr('title'));
                         }).on('mouseleave', '.textae-editor__entity', function(e) {
@@ -2819,63 +2838,90 @@
 
         // public funcitons of editor
         this.api = function(editor) {
-            var dataAccessObject,
-                start = function start(editor) {
-                    var readSettingFiles = function(editor) {
-                        var setTypeConfig = function(config) {
-                            view.viewModel.typeContainer.setDefinedEntityTypes(config['entity types']);
-                            view.viewModel.typeContainer.setDefinedRelationTypes(config['relation types']);
+            var getParams = function() {
+                    // Read model parameters from url parameters and html attributes.
+                    // Html attributes preced url parameters.
+                    return $.extend(textAeUtil.getUrlParameters(location.search), {
+                        config: editor.attr('config'),
+                        target: editor.attr('target'),
+                        mode: editor.attr('mode')
+                    });
+                },
+                setEditMode = function(prefix) {
+                    prefix = prefix || '';
+                    // Change view mode accoding to the annotation data.
+                    if (model.annotationData.relation.some()) {
+                        view.renderer.helper.changeLineHeight(10);
+                        controller.userEvent.viewHandler.setViewMode(prefix + 'Instance');
+                    } else if (model.annotationData.span.multiEntities().length > 0) {
+                        view.renderer.helper.changeLineHeight(4);
+                        controller.userEvent.viewHandler.setViewMode(prefix + 'Instance');
+                    } else {
+                        view.renderer.helper.changeLineHeight(4);
+                        controller.userEvent.viewHandler.setViewMode(prefix + 'Term');
+                    }
+                },
+                setViewMode = _.compose(function() {
+                    view.viewModel.buttonStateHelper.enabled('replicate-auto', false);
+                    view.viewModel.buttonStateHelper.enabled('relation-edit-mode', false);
+                }, _.partial(setEditMode, 'View')),
+                setConfigByParams = function(params, dataAccessObject) {
+                    var setConfig = function(params) {
+                            var setTypeConfig = function(config) {
+                                view.viewModel.typeContainer.setDefinedEntityTypes(config['entity types']);
+                                view.viewModel.typeContainer.setDefinedRelationTypes(config['relation types']);
 
-                            if (config.css !== undefined) {
-                                $('#css_area').html('<link rel="stylesheet" href="' + config.css + '"/>');
+                                if (config.css !== undefined) {
+                                    $('#css_area').html('<link rel="stylesheet" href="' + config.css + '"/>');
+                                }
+                            };
+
+                            // Read default controller.spanConfig
+                            controller.spanConfig.set();
+
+                            if (params.config !== '') {
+                                // Load sync, because load annotation after load config. 
+                                var configFromServer = textAeUtil.ajaxAccessor.getSync(params.config);
+                                if (configFromServer !== null) {
+                                    controller.spanConfig.set(configFromServer);
+                                    setTypeConfig(configFromServer);
+                                } else {
+                                    alert('could not read the span configuration from the location you specified.');
+                                }
+                            }
+                        },
+                        setView = function(params, dataAccessObject) {
+                            if (params.mode === 'view') {
+                                // Change the loaded handler of the dataAccessObject.
+                                dataAccessObject.setLoaded(_.compose(setViewMode, controller.command.reset));
+                            }
+                        },
+                        setTarget = function(params, dataAccessObject) {
+                            if (params.target !== '') {
+                                // Load an annotation data.
+                                dataAccessObject.getAnnotationFromServer(params.target);
                             }
                         };
 
-                        // read default controller.spanConfig
-                        controller.spanConfig.set();
-
-                        // Read model parameters from url parameters and html attributes.
-                        // Html attributes preced url parameters.
-                        var params = $.extend(textAeUtil.getUrlParameters(location.search), {
-                            config: editor.attr('config'),
-                            target: editor.attr('target'),
-                            mode: editor.attr('mode')
-                        });
-
-                        if (params.config && params.config !== '') {
-                            // load sync, because load annotation after load config. 
-                            var data = textAeUtil.ajaxAccessor.getSync(params.config);
-                            if (data !== null) {
-                                controller.spanConfig.set(data);
-                                setTypeConfig(data);
-                            } else {
-                                alert('could not read the span configuration from the location you specified.');
-                            }
-                        }
-
-                        var dataAccessObject = makeDataAccessObject(editor, function(annotation) {
-                            controller.command.reset(annotation, params.mode === 'view');
-                        }, function() {
-                            controller.command.updateSavePoint();
-                        });
-
-                        if (params.target && params.target !== '') {
-                            dataAccessObject.getAnnotationFromServer(params.target);
-                        }
-
-                        return dataAccessObject;
+                    setConfig(params);
+                    setView(params, dataAccessObject);
+                    setTarget(params, dataAccessObject);
+                },
+                // Functions will be called from handleKeyInput and handleButtonClick.
+                showAccess,
+                showSave,
+                initDao = function() {
+                    var dataAccessObject = makeDataAccessObject(editor);
+                    dataAccessObject.setLoaded(_.compose(setEditMode, controller.command.reset));
+                    dataAccessObject.setSaved(function() {
+                        controller.command.updateSavePoint();
+                    });
+                    showAccess = dataAccessObject.showAccess;
+                    showSave = function() {
+                        dataAccessObject.showSave(model.annotationData.toJson());
                     };
 
-                    view.init();
-                    controller.init();
-
-                    dataAccessObject = readSettingFiles(editor);
-                },
-                showAccess = function() {
-                    dataAccessObject.showAccess();
-                },
-                showSave = function() {
-                    dataAccessObject.showSave(model.annotationData.toJson());
+                    return dataAccessObject;
                 },
                 handleKeyInput = function(key, mousePoint) {
                     var keyApiMap = {
@@ -2918,6 +2964,14 @@
                         'textae.control.button.setting.click': controller.userEvent.viewHandler.showSettingDialog,
                     };
                     buttonApiMap[name](mousePoint);
+                },
+                start = function start(editor) {
+                    view.init();
+                    controller.init();
+
+                    var dataAccessObject = initDao();
+
+                    setConfigByParams(getParams(), dataAccessObject);
                 };
 
             return {
