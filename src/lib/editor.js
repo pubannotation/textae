@@ -2343,6 +2343,20 @@
                                     changeTypeOfSelected = _.partial(changeType, view.domUtil.selector.entity.getSelecteds, controller.command.factory.entityChangeTypeCommand);
 
                                     jsPlumbConnectionClickedImpl = null;
+                                },
+                                noEdit: function() {
+                                    editor
+                                        .off('mouseup', '.textae-editor__body')
+                                        .off('mouseup', '.textae-editor__span')
+                                        .off('mouseup', '.textae-editor__type-label')
+                                        .off('mouseup', '.textae-editor__entity-pane')
+                                        .off('selectChanged', '.textae-editor__entity')
+                                        .off('mouseup', '.textae-editor__entity');
+
+                                    palletConfig.typeContainer = view.viewModel.typeContainer.entity;
+                                    changeTypeOfSelected = _.partial(changeType, view.domUtil.selector.entity.getSelecteds, controller.command.factory.entityChangeTypeCommand);
+
+                                    jsPlumbConnectionClickedImpl = null;
                                 }
                             };
                         }();
@@ -2373,8 +2387,21 @@
                                     eventHandlerComposer.relationEdit();
                                     view.viewModel.viewMode.setRelation();
 
-
                                     controllerState = state.relationEdit;
+                                },
+                                toViewTerm: function() {
+                                    resetView();
+                                    eventHandlerComposer.noEdit();
+                                    view.viewModel.viewMode.setTerm();
+
+                                    controllerState = state.viewTerm;
+                                },
+                                toViewInstance: function() {
+                                    resetView();
+                                    eventHandlerComposer.noEdit();
+                                    view.viewModel.viewMode.setInstance();
+
+                                    controllerState = state.viewInstance;
                                 }
                             };
 
@@ -2391,6 +2418,20 @@
                                 relationEdit: _.extend({}, transition, {
                                     name: 'Relation Edit',
                                     toRelation: doNothing
+                                }),
+                                viewTerm: _.extend({}, transition, {
+                                    name: 'View Only',
+                                    toTerm: doNothing,
+                                    toInstance: transition.toViewInstance,
+                                    toRelation: doNothing,
+                                    toViewTerm: doNothing
+                                }),
+                                viewInstance: _.extend({}, transition, {
+                                    name: 'View Only',
+                                    toTerm: transition.toViewTerm,
+                                    toInstance: doNothing,
+                                    toRelation: doNothing,
+                                    toViewInstance: doNothing
                                 })
                             };
 
@@ -2678,6 +2719,12 @@
                             },
                             setViewModeInstance: function() {
                                 controllerState.toInstance();
+                            },
+                            setViewModeViewTerm: function() {
+                                controllerState.toViewTerm();
+                            },
+                            setViewModeViewInstance: function() {
+                                controllerState.toViewInstance();
                             }
                         };
                     }()
@@ -2823,9 +2870,17 @@
                     }
                 },
                 setViewMode = function() {
-                    // This is change point to view only mode.
-                    console.log('view mode!');
-                    setEditMode();
+                    // Change view mode accoding to the annotation data.
+                    if (model.annotationData.relation.some()) {
+                        view.renderer.helper.changeLineHeight(10);
+                        controller.userEvent.viewHandler.setViewModeViewInstance();
+                    } else if (model.annotationData.span.multiEntities().length > 0) {
+                        view.renderer.helper.changeLineHeight(4);
+                        controller.userEvent.viewHandler.setViewModeViewInstance();
+                    } else {
+                        view.renderer.helper.changeLineHeight(4);
+                        controller.userEvent.viewHandler.setViewModeViewTerm();
+                    }
                 },
                 setConfigByParams = function(params, dataAccessObject) {
                     var setConfig = function(params) {
