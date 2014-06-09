@@ -373,17 +373,17 @@
                 };
 
                 // Make the display area for text, spans, denotations, relations.
-                var displayArea = getElement(editor, 'div', 'textae-editor__body');
+                var displayArea = _.partial(getElement, editor, 'div', 'textae-editor__body');
 
                 // Get the display area for denotations and relations.
                 var getAnnotationArea = function() {
-                    return getElement(displayArea, 'div', 'textae-editor__body__annotation-box');
+                    return getElement(displayArea(), 'div', 'textae-editor__body__annotation-box');
                 };
 
                 var renderSourceDocument = function(params) {
                     // Get the display area for text and spans.
                     var getSourceDocArea = function() {
-                            return getElement(displayArea, 'div', 'textae-editor__body__text-box');
+                            return getElement(displayArea(), 'div', 'textae-editor__body__text-box');
                         },
 
                         // the Souce document has multi paragraphs that are splited by '\n'.
@@ -451,6 +451,10 @@
                 };
 
                 var renderer = {
+                    init: function(container) {
+                        renderer.grid.init(container);
+                        renderer.relation.init(container);
+                    },
                     span: function() {
                         var renderSingleSpan = function(span) {
                             // Create the Range to a new span add 
@@ -740,21 +744,24 @@
                     grid: function() {
                         var gridPositionCache = {};
 
-                        var createGrid = function(spanId) {
-                            var spanPosition = positionUtils.getSpan(spanId);
-                            var $grid = $('<div>')
-                                .attr('id', 'G' + spanId)
-                                .addClass('textae-editor__grid')
-                                .addClass('hidden')
-                                .css({
-                                    'width': spanPosition.width
-                                });
+                        var createGrid = function(container, spanId) {
+                                var spanPosition = positionUtils.getSpan(spanId);
+                                var $grid = $('<div>')
+                                    .attr('id', 'G' + spanId)
+                                    .addClass('textae-editor__grid')
+                                    .addClass('hidden')
+                                    .css({
+                                        'width': spanPosition.width
+                                    });
 
-                            //append to the annotation area.
-                            getAnnotationArea().append($grid);
+                                //append to the annotation area.
+                                container.append($grid);
 
-                            return $grid;
-                        };
+                                return $grid;
+                            },
+                            init = function(container) {
+                                createGrid = _.partial(createGrid, container);
+                            };
 
                         var filterChanged = function(span, newPosition) {
                             var oldGridPosition = gridPositionCache[span.id];
@@ -848,10 +855,13 @@
                         };
 
                         return {
+                            init: init,
                             reset: function() {
                                 gridPositionCache = {};
                             },
-                            render: createGrid,
+                            render: function(spanId) {
+                                return createGrid(spanId);
+                            },
                             arrangePositionAll: function() {
                                 var arrangePositionGridAndoDescendant = function(span) {
                                     // Arrange position All descendants because a grandchild maybe have types when a child has no type. 
@@ -880,17 +890,21 @@
                     }(),
                     relation: function() {
                         // Init a jsPlumb instance.
-                        var jsPlumbInstance = function() {
-                            var newInstance = jsPlumb.getInstance({
-                                ConnectionsDetachable: false,
-                                Endpoint: ['Dot', {
-                                    radius: 1
-                                }]
-                            });
-                            newInstance.setRenderMode(newInstance.SVG);
-                            newInstance.Defaults.Container = getAnnotationArea();
-                            return newInstance;
-                        }();
+                        var jsPlumbInstance,
+                            makeJsPlumbInstance = function(container) {
+                                var newInstance = jsPlumb.getInstance({
+                                    ConnectionsDetachable: false,
+                                    Endpoint: ['Dot', {
+                                        radius: 1
+                                    }]
+                                });
+                                newInstance.setRenderMode(newInstance.SVG);
+                                newInstance.Defaults.Container = container;
+                                return newInstance;
+                            },
+                            init = function(container) {
+                                jsPlumbInstance = makeJsPlumbInstance(container);
+                            };
 
                         var determineCurviness = function(relationId) {
                             var sourceId = model.annotationData.relation.get(relationId).subj;
@@ -1073,6 +1087,7 @@
                                 // curviness offset
                                 c_offset: 20,
                             },
+                            init: init,
                             reset: function() {
                                 jsPlumbInstance.reset();
                                 cachedConnectors = {};
@@ -1087,6 +1102,8 @@
 
                 return {
                     init: function(modelData) {
+                        renderer.init(getAnnotationArea());
+
                         model = modelData;
                         model.annotationData.bind('change-text', renderSourceDocument);
                         model.annotationData.bind('all.change', reset);
@@ -2838,14 +2855,27 @@
 
         // public funcitons of editor
         this.api = function(editor) {
-            var getParams = function() {
+            var getParams = function(editor) {
                     // Read model parameters from url parameters and html attributes.
-                    // Html attributes preced url parameters.
-                    return $.extend(textAeUtil.getUrlParameters(location.search), {
-                        config: editor.attr('config'),
-                        target: editor.attr('target'),
-                        mode: editor.attr('mode')
-                    });
+                    var params = $.extend(textAeUtil.getUrlParameters(location.search),
+                        // Html attributes preced url parameters.
+                        {
+                            config: editor.attr('config'),
+                            target: editor.attr('target'),
+                            mode: editor.attr('mode')
+                        });
+
+                    // Read Html text and clear it.  
+                    var inlineAnnotation = editor.text();
+                    editor.empty();
+
+                    // Set annotaiton parameters.
+                    params.annotation = {
+                        inlineAnnotation: inlineAnnotation,
+                        url: params.target
+                    };
+
+                    return params;
                 },
                 setEditMode = function(prefix) {
                     prefix = prefix || '';
@@ -2891,28 +2921,40 @@
                             }
                         },
                         setView = function(params, dataAccessObject) {
-                            if (params.mode === 'view') {
-                                // Change the loaded handler of the dataAccessObject.
-                                dataAccessObject.setLoaded(_.compose(setViewMode, controller.command.reset));
-                            }
+                            var setMode = params.mode === 'view' ? setViewMode : setEditMode;
+
+                            // Set a loaded handoler to the dataAccessObject.
+                            dataAccessObject.setLoaded(_.compose(setMode, controller.command.reset));
+
+                            return setMode;
                         },
-                        setTarget = function(params, dataAccessObject) {
-                            if (params.target !== '') {
-                                // Load an annotation data.
-                                dataAccessObject.getAnnotationFromServer(params.target);
+                        setAnnotation = function(params, dataAccessObject, setMode) {
+                            var annotation = params.annotation;
+
+                            if (annotation) {
+                                if (annotation.inlineAnnotation !== '') {
+                                    // Set an inline annotation.
+                                    controller.command.reset(JSON.parse(annotation.inlineAnnotation));
+                                    setMode();
+                                    _.defer(controller.userEvent.viewHandler.redraw);
+                                } else if (annotation.url !== '') {
+                                    // Load an annotation from server.
+                                    dataAccessObject.getAnnotationFromServer(annotation.url);
+                                }
                             }
                         };
 
                     setConfig(params);
-                    setView(params, dataAccessObject);
-                    setTarget(params, dataAccessObject);
+
+                    var setMode = setView(params, dataAccessObject);
+
+                    setAnnotation(params, dataAccessObject, setMode);
                 },
                 // Functions will be called from handleKeyInput and handleButtonClick.
                 showAccess,
                 showSave,
                 initDao = function() {
                     var dataAccessObject = makeDataAccessObject(editor);
-                    dataAccessObject.setLoaded(_.compose(setEditMode, controller.command.reset));
                     dataAccessObject.setSaved(function() {
                         controller.command.updateSavePoint();
                     });
@@ -2966,12 +3008,14 @@
                     buttonApiMap[name](mousePoint);
                 },
                 start = function start(editor) {
+                    var params = getParams(editor);
+
                     view.init();
                     controller.init();
 
                     var dataAccessObject = initDao();
 
-                    setConfigByParams(getParams(), dataAccessObject);
+                    setConfigByParams(params, dataAccessObject);
                 };
 
             return {
