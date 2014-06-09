@@ -451,6 +451,10 @@
                 };
 
                 var renderer = {
+                    init: function(container) {
+                        renderer.grid.init(container);
+                        renderer.relation.init(container);
+                    },
                     span: function() {
                         var renderSingleSpan = function(span) {
                             // Create the Range to a new span add 
@@ -740,21 +744,24 @@
                     grid: function() {
                         var gridPositionCache = {};
 
-                        var createGrid = function(spanId) {
-                            var spanPosition = positionUtils.getSpan(spanId);
-                            var $grid = $('<div>')
-                                .attr('id', 'G' + spanId)
-                                .addClass('textae-editor__grid')
-                                .addClass('hidden')
-                                .css({
-                                    'width': spanPosition.width
-                                });
+                        var createGrid = function(container, spanId) {
+                                var spanPosition = positionUtils.getSpan(spanId);
+                                var $grid = $('<div>')
+                                    .attr('id', 'G' + spanId)
+                                    .addClass('textae-editor__grid')
+                                    .addClass('hidden')
+                                    .css({
+                                        'width': spanPosition.width
+                                    });
 
-                            //append to the annotation area.
-                            getAnnotationArea().append($grid);
+                                //append to the annotation area.
+                                container.append($grid);
 
-                            return $grid;
-                        };
+                                return $grid;
+                            },
+                            init = function(container) {
+                                createGrid = _.partial(createGrid, container);
+                            };
 
                         var filterChanged = function(span, newPosition) {
                             var oldGridPosition = gridPositionCache[span.id];
@@ -848,10 +855,13 @@
                         };
 
                         return {
+                            init: init,
                             reset: function() {
                                 gridPositionCache = {};
                             },
-                            render: createGrid,
+                            render: function(spanId) {
+                                return createGrid(spanId);
+                            },
                             arrangePositionAll: function() {
                                 var arrangePositionGridAndoDescendant = function(span) {
                                     // Arrange position All descendants because a grandchild maybe have types when a child has no type. 
@@ -881,7 +891,7 @@
                     relation: function() {
                         // Init a jsPlumb instance.
                         var jsPlumbInstance,
-                            makeJsPlumbInstance = function() {
+                            makeJsPlumbInstance = function(container) {
                                 var newInstance = jsPlumb.getInstance({
                                     ConnectionsDetachable: false,
                                     Endpoint: ['Dot', {
@@ -889,11 +899,11 @@
                                     }]
                                 });
                                 newInstance.setRenderMode(newInstance.SVG);
-                                newInstance.Defaults.Container = getAnnotationArea();
+                                newInstance.Defaults.Container = container;
                                 return newInstance;
                             },
-                            init = function() {
-                                jsPlumbInstance = makeJsPlumbInstance();
+                            init = function(container) {
+                                jsPlumbInstance = makeJsPlumbInstance(container);
                             };
 
                         var determineCurviness = function(relationId) {
@@ -1092,7 +1102,7 @@
 
                 return {
                     init: function(modelData) {
-                        renderer.relation.init();
+                        renderer.init(getAnnotationArea());
 
                         model = modelData;
                         model.annotationData.bind('change-text', renderSourceDocument);
