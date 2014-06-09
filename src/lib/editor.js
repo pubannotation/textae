@@ -2921,19 +2921,21 @@
                             }
                         },
                         setView = function(params, dataAccessObject) {
-                            if (params.mode === 'view') {
-                                // Change the loaded handler of the dataAccessObject.
-                                dataAccessObject.setLoaded(_.compose(setViewMode, controller.command.reset));
-                            }
+                            var setMode = params.mode === 'view' ? setViewMode : setEditMode;
+
+                            // Set a loaded handoler to the dataAccessObject.
+                            dataAccessObject.setLoaded(_.compose(setMode, controller.command.reset));
+
+                            return setMode;
                         },
-                        setAnnotation = function(params, dataAccessObject) {
+                        setAnnotation = function(params, dataAccessObject, setMode) {
                             var annotation = params.annotation;
 
                             if (annotation) {
                                 if (annotation.inlineAnnotation !== '') {
                                     // Set an inline annotation.
                                     controller.command.reset(JSON.parse(annotation.inlineAnnotation));
-                                    setEditMode();
+                                    setMode();
                                     _.defer(controller.userEvent.viewHandler.redraw);
                                 } else if (annotation.url !== '') {
                                     // Load an annotation from server.
@@ -2943,15 +2945,16 @@
                         };
 
                     setConfig(params);
-                    setView(params, dataAccessObject);
-                    setAnnotation(params, dataAccessObject);
+
+                    var setMode = setView(params, dataAccessObject);
+
+                    setAnnotation(params, dataAccessObject, setMode);
                 },
                 // Functions will be called from handleKeyInput and handleButtonClick.
                 showAccess,
                 showSave,
                 initDao = function() {
                     var dataAccessObject = makeDataAccessObject(editor);
-                    dataAccessObject.setLoaded(_.compose(setEditMode, controller.command.reset));
                     dataAccessObject.setSaved(function() {
                         controller.command.updateSavePoint();
                     });
