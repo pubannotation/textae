@@ -2838,7 +2838,8 @@
 
         // public funcitons of editor
         this.api = function(editor) {
-            var getParams = function() {
+            var getParams = function(editor) {
+
                     // Read model parameters from url parameters and html attributes.
                     // Html attributes preced url parameters.
                     return $.extend(textAeUtil.getUrlParameters(location.search), {
@@ -2971,7 +2972,7 @@
 
                     var dataAccessObject = initDao();
 
-                    setConfigByParams(getParams(), dataAccessObject);
+                    setConfigByParams(getParams(editor), dataAccessObject);
                 };
 
             return {
