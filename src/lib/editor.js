@@ -373,17 +373,17 @@
                 };
 
                 // Make the display area for text, spans, denotations, relations.
-                var displayArea = getElement(editor, 'div', 'textae-editor__body');
+                var displayArea = _.partial(getElement, editor, 'div', 'textae-editor__body');
 
                 // Get the display area for denotations and relations.
                 var getAnnotationArea = function() {
-                    return getElement(displayArea, 'div', 'textae-editor__body__annotation-box');
+                    return getElement(displayArea(), 'div', 'textae-editor__body__annotation-box');
                 };
 
                 var renderSourceDocument = function(params) {
                     // Get the display area for text and spans.
                     var getSourceDocArea = function() {
-                            return getElement(displayArea, 'div', 'textae-editor__body__text-box');
+                            return getElement(displayArea(), 'div', 'textae-editor__body__text-box');
                         },
 
                         // the Souce document has multi paragraphs that are splited by '\n'.
@@ -880,17 +880,21 @@
                     }(),
                     relation: function() {
                         // Init a jsPlumb instance.
-                        var jsPlumbInstance = function() {
-                            var newInstance = jsPlumb.getInstance({
-                                ConnectionsDetachable: false,
-                                Endpoint: ['Dot', {
-                                    radius: 1
-                                }]
-                            });
-                            newInstance.setRenderMode(newInstance.SVG);
-                            newInstance.Defaults.Container = getAnnotationArea();
-                            return newInstance;
-                        }();
+                        var jsPlumbInstance,
+                            makeJsPlumbInstance = function() {
+                                var newInstance = jsPlumb.getInstance({
+                                    ConnectionsDetachable: false,
+                                    Endpoint: ['Dot', {
+                                        radius: 1
+                                    }]
+                                });
+                                newInstance.setRenderMode(newInstance.SVG);
+                                newInstance.Defaults.Container = getAnnotationArea();
+                                return newInstance;
+                            },
+                            init = function() {
+                                jsPlumbInstance = makeJsPlumbInstance();
+                            };
 
                         var determineCurviness = function(relationId) {
                             var sourceId = model.annotationData.relation.get(relationId).subj;
@@ -1073,6 +1077,7 @@
                                 // curviness offset
                                 c_offset: 20,
                             },
+                            init: init,
                             reset: function() {
                                 jsPlumbInstance.reset();
                                 cachedConnectors = {};
@@ -1087,6 +1092,8 @@
 
                 return {
                     init: function(modelData) {
+                        renderer.relation.init();
+
                         model = modelData;
                         model.annotationData.bind('change-text', renderSourceDocument);
                         model.annotationData.bind('all.change', reset);
@@ -2967,6 +2974,8 @@
                     buttonApiMap[name](mousePoint);
                 },
                 start = function start(editor) {
+                    editor.empty();
+
                     view.init();
                     controller.init();
 
