@@ -2856,22 +2856,26 @@
         // public funcitons of editor
         this.api = function(editor) {
             var getParams = function(editor) {
-                    // Read Html text and clear it.  
-                    var inlineAnnotation = editor.text();
-                    editor.empty();
-
                     // Read model parameters from url parameters and html attributes.
-                    return $.extend(textAeUtil.getUrlParameters(location.search),
+                    var params = $.extend(textAeUtil.getUrlParameters(location.search),
                         // Html attributes preced url parameters.
                         {
                             config: editor.attr('config'),
                             target: editor.attr('target'),
                             mode: editor.attr('mode')
-                        },
-                        // Inline annotation.
-                        {
-                            inlineAnnotation: inlineAnnotation
                         });
+
+                    // Read Html text and clear it.  
+                    var inlineAnnotation = editor.text();
+                    editor.empty();
+
+                    // Set annotaiton parameters.
+                    params.annotation = {
+                        inlineAnnotation: inlineAnnotation,
+                        url: params.target
+                    };
+
+                    return params;
                 },
                 setEditMode = function(prefix) {
                     prefix = prefix || '';
@@ -2922,20 +2926,25 @@
                                 dataAccessObject.setLoaded(_.compose(setViewMode, controller.command.reset));
                             }
                         },
-                        setTarget = function(params, dataAccessObject) {
-                            // Load an annotation data.
-                            if (params.inlineAnnotation !== '') {
-                                controller.command.reset(JSON.parse(params.inlineAnnotation));
-                                setEditMode();
-                                _.defer(controller.userEvent.viewHandler.redraw);
-                            } else if (params.target !== '') {
-                                dataAccessObject.getAnnotationFromServer(params.target);
+                        setAnnotation = function(params, dataAccessObject) {
+                            var annotation = params.annotation;
+
+                            if (annotation) {
+                                if (annotation.inlineAnnotation !== '') {
+                                    // Set an inline annotation.
+                                    controller.command.reset(JSON.parse(annotation.inlineAnnotation));
+                                    setEditMode();
+                                    _.defer(controller.userEvent.viewHandler.redraw);
+                                } else if (annotation.url !== '') {
+                                    // Load an annotation from server.
+                                    dataAccessObject.getAnnotationFromServer(annotation.url);
+                                }
                             }
                         };
 
                     setConfig(params);
                     setView(params, dataAccessObject);
-                    setTarget(params, dataAccessObject);
+                    setAnnotation(params, dataAccessObject);
                 },
                 // Functions will be called from handleKeyInput and handleButtonClick.
                 showAccess,
