@@ -2856,14 +2856,22 @@
         // public funcitons of editor
         this.api = function(editor) {
             var getParams = function(editor) {
+                    // Read Html text and clear it.  
+                    var inlineAnnotation = editor.text();
+                    editor.empty();
 
                     // Read model parameters from url parameters and html attributes.
-                    // Html attributes preced url parameters.
-                    return $.extend(textAeUtil.getUrlParameters(location.search), {
-                        config: editor.attr('config'),
-                        target: editor.attr('target'),
-                        mode: editor.attr('mode')
-                    });
+                    return $.extend(textAeUtil.getUrlParameters(location.search),
+                        // Html attributes preced url parameters.
+                        {
+                            config: editor.attr('config'),
+                            target: editor.attr('target'),
+                            mode: editor.attr('mode')
+                        },
+                        // Inline annotation.
+                        {
+                            inlineAnnotation: inlineAnnotation
+                        });
                 },
                 setEditMode = function(prefix) {
                     prefix = prefix || '';
@@ -2915,8 +2923,12 @@
                             }
                         },
                         setTarget = function(params, dataAccessObject) {
-                            if (params.target !== '') {
-                                // Load an annotation data.
+                            // Load an annotation data.
+                            if (params.inlineAnnotation !== '') {
+                                controller.command.reset(JSON.parse(params.inlineAnnotation));
+                                setEditMode();
+                                _.defer(controller.userEvent.viewHandler.redraw);
+                            } else if (params.target !== '') {
                                 dataAccessObject.getAnnotationFromServer(params.target);
                             }
                         };
@@ -2984,14 +2996,14 @@
                     buttonApiMap[name](mousePoint);
                 },
                 start = function start(editor) {
-                    editor.empty();
+                    var params = getParams(editor);
 
                     view.init();
                     controller.init();
 
                     var dataAccessObject = initDao();
 
-                    setConfigByParams(getParams(editor), dataAccessObject);
+                    setConfigByParams(params, dataAccessObject);
                 };
 
             return {
