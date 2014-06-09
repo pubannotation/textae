@@ -126,6 +126,7 @@
                         var $content = $('<div>')
                             .append('<div><label class="textae-editor__save-dialog__label">Server</label><input type="text" class="textae-editor__save-dialog__file-name" /><input type="button" value="OK" /></div>')
                             .append('<div><label class="textae-editor__save-dialog__label">Local</label><span class="span_link_place"><a target="_blank"/></span></div>')
+                            .append('<div><label class="textae-editor__save-dialog__label">Copy</label><span id="d_clip_button">Copy</span></div>')
                             .on('click', 'a', function() {
                                 savedFunc();
                                 $content.dialogClose();
@@ -137,6 +138,17 @@
                             });
 
                         var $dialog = textAeUtil.getDialog(editorId, 'textae.dialog.save', 'Save document with annotation.', $content);
+
+                        ZeroClipboard.config({
+                            swfPath: 'vender/ZeroClipboard.swf'
+                        });
+                        var client = new ZeroClipboard(document.getElementById('d_clip_button'));
+                        client.on("copy", function(event) {
+                            console.log('aaaa', jsonData);
+                            var clipboard = event.clipboardData;
+                            var hoge = JSON.parse(jsonData);
+                            clipboard.setData("text/plain", jsonData);
+                        });
 
                         return setLocalLink($dialog, jsonData);
                     };
