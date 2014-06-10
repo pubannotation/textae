@@ -304,11 +304,6 @@
                 // The Reference to model. This set by init.
                 var model;
 
-                var destroyGrid = function(spanId) {
-                    view.domUtil.manipulate.remove(view.domUtil.selector.grid.get(spanId));
-                    renderer.grid.destroy(spanId);
-                };
-
                 // The cache for span positions.
                 // Getting the postion of spans is too slow about 5-10 ms per a element in Chrome browser. For example offsetTop property.
                 // This cache is big effective for the initiation, and little effective for resize. 
@@ -449,660 +444,667 @@
                     renderAllRelation(annotationData);
                 };
 
-                var renderer = {
-                    init: function(container) {
-                        renderer.grid.init(container);
-                        renderer.relation.init(container);
-                    },
-                    span: function() {
-                        var renderSingleSpan = function(span) {
-                            // Create the Range to a new span add 
-                            var createRange = function(textNode, textNodeStartPosition) {
-                                var startPos = span.begin - textNodeStartPosition;
-                                var endPos = span.end - textNodeStartPosition;
-                                if (startPos < 0 || textNode.length < endPos) {
-                                    throw new Error('oh my god! I cannot render this span. ' + span.toStringOnlyThis() + ', textNode ' + textNode.textContent);
-                                }
+                var renderer = function() {
+                    var destroyGrid = function(spanId) {
+                            view.domUtil.manipulate.remove(view.domUtil.selector.grid.get(spanId));
+                            gridRenderer.destroy(spanId);
+                        },
+                        gridRenderer = function() {
+                            var gridPositionCache = {};
 
-                                var range = document.createRange();
-                                range.setStart(textNode, startPos);
-                                range.setEnd(textNode, endPos);
-                                return range;
-                            };
-
-                            // Get the Range to that new span tag insert.
-                            // This function works well when no child span is rendered. 
-                            var getRangeToInsertSpanTag = function(spanId) {
-                                var createRangeForFirstSpanInParagraph = function(span) {
-                                    var paragraph = view.renderer.paragraphs[span.paragraph.id];
-                                    textNodeInParagraph = paragraph.element.contents().filter(function() {
-                                        return this.nodeType === 3; //TEXT_NODE
-                                    }).get(0);
-                                    return createRange(textNodeInParagraph, paragraph.begin);
-                                };
-
-                                // The parent of the bigBrother is same with span, whitc is a span or the root of spanTree. 
-                                var bigBrother = span.getBigBrother();
-                                if (bigBrother) {
-                                    // The target text arrounded by span is in a textNode after the bigBrother if bigBrother exists.
-                                    return createRange(document.getElementById(bigBrother.id).nextSibling, bigBrother.end);
-                                } else {
-                                    // The target text arrounded by span is the first child of parent unless bigBrother exists.
-                                    if (span.parent) {
-                                        // The parent is span
-                                        var textNodeInPrevSpan = view.domUtil.selector.span.get(span.parent.id).contents().filter(function() {
-                                            return this.nodeType === 3;
-                                        }).get(0);
-                                        return createRange(textNodeInPrevSpan, span.parent.begin);
-                                    } else {
-                                        // The parent is paragraph
-                                        return createRangeForFirstSpanInParagraph(span);
-                                    }
-                                }
-                            };
-
-                            var element = document.createElement('span');
-                            element.setAttribute('id', span.id);
-                            element.setAttribute('title', span.id);
-                            element.setAttribute('class', 'textae-editor__span');
-                            getRangeToInsertSpanTag(span.id).surroundContents(element);
-
-                            return span;
-                        };
-
-                        var renderEntitiesOfType = function(type) {
-                            type.entities.forEach(_.compose(renderer.entity.render, model.annotationData.entity.get));
-                        };
-
-                        var renderEntitiesOfSpan = function(span) {
-                            span.getTypes().forEach(renderEntitiesOfType);
-                            return span;
-                        };
-
-                        var exists = function(span) {
-                            return document.getElementById(span.id) !== null;
-                        };
-
-                        var not = function(value) {
-                            return !value;
-                        };
-
-                        var getId = function(span) {
-                            return span.id;
-                        };
-
-                        var destroyChildrenSpan = function(span) {
-                            // Destroy DOM elements of descendant spans.
-                            var destroySpanRecurcive = function(span) {
-                                span.children.forEach(function(span) {
-                                    destroySpanRecurcive(span);
-                                });
-                                renderer.span.remove(span);
-                            };
-
-                            // Destroy rendered children.
-                            span.children.filter(exists).forEach(destroySpanRecurcive);
-
-                            return span;
-                        };
-
-                        var renderChildresnSpan = function(span) {
-                            span.children.filter(_.compose(not, exists))
-                                .forEach(renderer.span.render);
-
-                            return span;
-                        };
-
-                        var arrangePositionGrid = function(span) {
-                            renderer.grid.arrangePositionAll();
-                        };
-
-                        return {
-                            // Destroy children spans to wrap a TextNode with <span> tag when new span over exists spans.
-                            render: _.compose(arrangePositionGrid, renderChildresnSpan, renderEntitiesOfSpan, renderSingleSpan, destroyChildrenSpan),
-                            remove: function(span) {
-                                var spanElement = document.getElementById(span.id);
-                                var parent = spanElement.parentNode;
-
-                                // Move the textNode wrapped this span in front of this span.
-                                while (spanElement.firstChild) {
-                                    parent.insertBefore(spanElement.firstChild, spanElement);
-                                }
-
-                                view.domUtil.manipulate.remove(spanElement);
-                                parent.normalize();
-
-                                // Destroy a grid of the span. 
-                                destroyGrid(span.id);
-                            },
-                        };
-                    }(),
-                    entity: function() {
-                        var getTypeDom = function(spanId, type) {
-                            return $('#' + idFactory.makeTypeId(spanId, type));
-                        };
-
-                        // Arrange a position of the pane to center entities when entities width is longer than pane width.
-                        var arrangePositionOfPane = function(pane) {
-                            var paneWidth = pane.outerWidth();
-                            var entitiesWidth = pane.find('.textae-editor__entity').toArray().map(function(e) {
-                                return e.offsetWidth;
-                            }).reduce(function(pv, cv) {
-                                return pv + cv;
-                            }, 0);
-
-                            pane.css({
-                                'left': entitiesWidth > paneWidth ? (paneWidth - entitiesWidth) / 2 : 0
-                            });
-                        };
-
-                        var doesSpanHasNoEntity = function(spanId) {
-                            return model.annotationData.span.get(spanId).getTypes().length === 0;
-                        };
-
-                        var removeEntityElement = function(entity) {
-                            var doesTypeHasNoEntity = function(typeName) {
-                                return model.annotationData.span.get(entity.span).getTypes().filter(function(type) {
-                                    return type.name === typeName;
-                                }).length === 0;
-                            };
-
-                            // Get old type from Dom, Because the entity may have new type when changing type of the entity.
-                            var oldType = view.domUtil.manipulate.remove(view.domUtil.selector.entity.get(entity.id)).attr('type');
-
-                            // Delete type if no entity.
-                            if (doesTypeHasNoEntity(oldType)) {
-                                getTypeDom(entity.span, oldType).remove();
-                            } else {
-                                // Arrage the position of TypePane, because number of entities decrease.
-                                arrangePositionOfPane(getTypeDom(entity.span, oldType).find('.textae-editor__entity-pane'));
-                            }
-                        };
-
-                        var changeTypeOfExists = function(entity) {
-                            // Remove old entity.
-                            removeEntityElement(entity);
-
-                            // Show new entity.
-                            renderer.entity.render(entity);
-                        };
-
-                        // An entity is a circle on Type that is an endpoint of a relation.
-                        // A span have one grid and a grid can have multi types and a type can have multi entities.
-                        // A grid is only shown when at least one entity is owned by a correspond span.  
-                        var create = function(entity) {
-                            //render type unless exists.
-                            var getTypeElement = function(spanId, type) {
-                                // A Type element has an entity_pane elment that has a label and will have entities.
-                                var createEmptyTypeDomElement = function(spanId, type) {
-                                    var typeId = idFactory.makeTypeId(spanId, type);
-                                    // The EntityPane will have entities.
-                                    var $entityPane = $('<div>')
-                                        .attr('id', 'P-' + typeId)
-                                        .addClass('textae-editor__entity-pane');
-
-                                    // Display short name for URL(http or https);
-                                    var displayName = type;
-                                    // For tunning, search the scheme before execute a regular-expression.
-                                    if (String(type).indexOf('http') > -1) {
-                                        // The regular-expression to parse URL.
-                                        // See detail:
-                                        // http://someweblog.com/url-regular-expression-javascript-link-shortener/
-                                        var urlRegex = /\(?(?:(http|https|ftp):\/\/)?(?:((?:[^\W\s]|\.|-|[:]{1})+)@{1})?((?:www.)?(?:[^\W\s]|\.|-)+[\.][^\W\s]{2,4}|localhost(?=\/)|\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})(?::(\d*))?([\/]?[^\s\?]*[\/]{1})*(?:\/?([^\s\n\?\[\]\{\}\#]*(?:(?=\.)){1}|[^\s\n\?\[\]\{\}\.\#]*)?([\.]{1}[^\s\?\#]*)?)?(?:\?{1}([^\s\n\#\[\]]*))?([\#][^\s\n]*)?\)?/gi;
-                                        var matches = urlRegex.exec(type);
-                                        // Order to dispaly.
-                                        // 1. The file name with the extention.
-                                        // 2. The last directory name.
-                                        // 3. The domain name.
-                                        displayName = matches[6] ? matches[6] + (matches[7] || '') :
-                                            matches[5] ? matches[5].split('/').filter(function(s) {
-                                                return s !== '';
-                                            }).pop() :
-                                            matches[3];
-                                    }
-
-                                    // The label over the span.
-                                    var $typeLabel = $('<div>')
-                                        .addClass('textae-editor__type-label')
-                                        .text(displayName)
+                            var createGrid = function(container, spanId) {
+                                    var spanPosition = positionUtils.getSpan(spanId);
+                                    var $grid = $('<div>')
+                                        .attr('id', 'G' + spanId)
+                                        .addClass('textae-editor__grid')
+                                        .addClass('hidden')
                                         .css({
-                                            'background-color': view.viewModel.typeContainer.entity.getColor(type),
+                                            'width': spanPosition.width
                                         });
 
-                                    return $('<div>')
-                                        .attr('id', typeId)
-                                        .addClass('textae-editor__type')
-                                        .append($typeLabel)
-                                        .append($entityPane); // Set pane after label because pane is over label.
+                                    //append to the annotation area.
+                                    container.append($grid);
+
+                                    return $grid;
+                                },
+                                init = function(container) {
+                                    createGrid = _.partial(createGrid, container);
                                 };
 
-                                var getGrid = function(spanId) {
-                                    // Create a grid unless it exists.
-                                    var $grid = view.domUtil.selector.grid.get(spanId);
-                                    if ($grid.length === 0) {
-                                        return renderer.grid.render(spanId);
+                            var filterChanged = function(span, newPosition) {
+                                var oldGridPosition = gridPositionCache[span.id];
+                                if (!oldGridPosition || oldGridPosition.top !== newPosition.top || oldGridPosition.left !== newPosition.left) {
+                                    return newPosition;
+                                } else {
+                                    return undefined;
+                                }
+                            };
+
+                            var arrangeRelationPosition = function(span) {
+                                _.compact(
+                                    span.getTypes().map(function(type) {
+                                        return type.entities;
+                                    }).reduce(textAeUtil.flatten, [])
+                                    .map(model.annotationData.entity.assosicatedRelations)
+                                    .reduce(textAeUtil.flatten, [])
+                                    .map(toConnector)
+                                ).forEach(function(connector) {
+                                    connector.arrangePosition();
+                                });
+                            };
+
+                            var getGrid = function(span) {
+                                if (span) {
+                                    return view.domUtil.selector.grid.get(span.id);
+                                }
+                            };
+
+                            var updateGridPositon = function(span, newPosition) {
+                                if (newPosition) {
+                                    getGrid(span).css(newPosition);
+                                    gridPositionCache[span.id] = newPosition;
+                                    arrangeRelationPosition(span);
+                                    return span;
+                                }
+                            };
+
+                            var getNewPosition = function(span) {
+                                var stickGridOnSpan = function(span) {
+                                    var spanPosition = positionUtils.getSpan(span.id);
+
+                                    return {
+                                        'top': spanPosition.top - view.viewModel.viewMode.marginBottomOfGrid - getGrid(span).outerHeight(),
+                                        'left': spanPosition.left
+                                    };
+                                };
+
+                                var pullUpGridOverDescendants = function(span) {
+                                    // Culculate the height of the grid include descendant grids, because css style affects slowly.
+                                    var getHeightIncludeDescendantGrids = function(span) {
+                                        var descendantsMaxHeight = span.children.length === 0 ? 0 :
+                                            Math.max.apply(null, span.children.map(function(childSpan) {
+                                                return getHeightIncludeDescendantGrids(childSpan);
+                                            }));
+
+                                        return getGrid(span).outerHeight() + descendantsMaxHeight + view.viewModel.viewMode.marginBottomOfGrid;
+                                    };
+
+                                    var spanPosition = positionUtils.getSpan(span.id);
+                                    var descendantsMaxHeight = getHeightIncludeDescendantGrids(span);
+
+                                    return {
+                                        'top': spanPosition.top - view.viewModel.viewMode.marginBottomOfGrid - descendantsMaxHeight,
+                                        'left': spanPosition.left
+                                    };
+                                };
+
+                                if (span.children.length === 0) {
+                                    return stickGridOnSpan(span);
+                                } else {
+                                    return pullUpGridOverDescendants(span);
+                                }
+                            };
+
+                            var filterVisibleGrid = function(grid) {
+                                if (grid && grid.hasClass('hidden')) {
+                                    return grid;
+                                }
+                            };
+
+                            var visibleGrid = function(grid) {
+                                if (grid) {
+                                    grid.removeClass('hidden');
+                                }
+                            };
+
+                            var arrangeGridPosition = function(span) {
+                                var moveTheGridIfChange = _.compose(_.partial(updateGridPositon, span), _.partial(filterChanged, span));
+                                _.compose(visibleGrid, filterVisibleGrid, getGrid, moveTheGridIfChange, getNewPosition)(span);
+                            };
+
+                            var arrangePositionGridAndoDescendant = function(span) {
+                                // Arrange position All descendants because a grandchild maybe have types when a child has no type. 
+                                span.children
+                                    .forEach(function(span) {
+                                        arrangePositionGridAndoDescendant(span);
+                                    });
+
+                                // There is at least one type in span that has a grid.
+                                if (span.getTypes().length > 0) {
+                                    arrangeGridPosition(span);
+                                }
+                            };
+
+                            var arrangePositionAll = function() {
+                                positionUtils.reset();
+                                model.annotationData.span.topLevel()
+                                    .forEach(function(span) {
+                                        _.defer(_.partial(arrangePositionGridAndoDescendant, span));
+                                    });
+                            };
+
+                            return {
+                                init: init,
+                                reset: function() {
+                                    gridPositionCache = {};
+                                },
+                                render: function(spanId) {
+                                    return createGrid(spanId);
+                                },
+                                arrangePositionAll: _.debounce(arrangePositionAll, 10),
+                                destroy: function(spanId) {
+                                    delete gridPositionCache[spanId];
+                                }
+                            };
+                        }(),
+                        spanRenderer = function() {
+                            var renderSingleSpan = function(span) {
+                                // Create the Range to a new span add 
+                                var createRange = function(textNode, textNodeStartPosition) {
+                                    var startPos = span.begin - textNodeStartPosition;
+                                    var endPos = span.end - textNodeStartPosition;
+                                    if (startPos < 0 || textNode.length < endPos) {
+                                        throw new Error('oh my god! I cannot render this span. ' + span.toStringOnlyThis() + ', textNode ' + textNode.textContent);
+                                    }
+
+                                    var range = document.createRange();
+                                    range.setStart(textNode, startPos);
+                                    range.setEnd(textNode, endPos);
+                                    return range;
+                                };
+
+                                // Get the Range to that new span tag insert.
+                                // This function works well when no child span is rendered. 
+                                var getRangeToInsertSpanTag = function(spanId) {
+                                    var createRangeForFirstSpanInParagraph = function(span) {
+                                        var paragraph = view.renderer.paragraphs[span.paragraph.id];
+                                        textNodeInParagraph = paragraph.element.contents().filter(function() {
+                                            return this.nodeType === 3; //TEXT_NODE
+                                        }).get(0);
+                                        return createRange(textNodeInParagraph, paragraph.begin);
+                                    };
+
+                                    // The parent of the bigBrother is same with span, whitc is a span or the root of spanTree. 
+                                    var bigBrother = span.getBigBrother();
+                                    if (bigBrother) {
+                                        // The target text arrounded by span is in a textNode after the bigBrother if bigBrother exists.
+                                        return createRange(document.getElementById(bigBrother.id).nextSibling, bigBrother.end);
                                     } else {
-                                        return $grid;
+                                        // The target text arrounded by span is the first child of parent unless bigBrother exists.
+                                        if (span.parent) {
+                                            // The parent is span
+                                            var textNodeInPrevSpan = view.domUtil.selector.span.get(span.parent.id).contents().filter(function() {
+                                                return this.nodeType === 3;
+                                            }).get(0);
+                                            return createRange(textNodeInPrevSpan, span.parent.begin);
+                                        } else {
+                                            // The parent is paragraph
+                                            return createRangeForFirstSpanInParagraph(span);
+                                        }
                                     }
                                 };
 
-                                var $type = getTypeDom(spanId, type);
-                                if ($type.length === 0) {
-                                    $type = createEmptyTypeDomElement(spanId, type);
-                                    getGrid(spanId).append($type);
-                                }
+                                var element = document.createElement('span');
+                                element.setAttribute('id', span.id);
+                                element.setAttribute('title', span.id);
+                                element.setAttribute('class', 'textae-editor__span');
+                                getRangeToInsertSpanTag(span.id).surroundContents(element);
 
-                                return $type;
-                            };
-
-                            var createEntityElement = function(entity) {
-                                var $entity = $('<div>')
-                                    .attr('id', idFactory.makeEntityDomId(entity.id))
-                                    .attr('title', entity.id)
-                                    .attr('type', entity.type)
-                                    .addClass('textae-editor__entity')
-                                    .css({
-                                        'border-color': view.viewModel.typeContainer.entity.getColor(entity.type)
-                                    });
-
-                                // Set css classes for modifications.
-                                model.annotationData.modification.all().filter(function(m) {
-                                    return m.obj === entity.id;
-                                }).map(function(m) {
-                                    return 'textae-editor__entity-' + m.pred.toLowerCase();
-                                }).forEach(function(className) {
-                                    $entity.addClass(className);
-                                });
-
-                                return $entity;
-                            };
-
-                            // Replace null to 'null' if type is null and undefined too.
-                            entity.type = String(entity.type);
-
-                            // Append a new entity to the type
-                            var pane = getTypeElement(entity.span, entity.type)
-                                .find('.textae-editor__entity-pane')
-                                .append(createEntityElement(entity));
-
-                            arrangePositionOfPane(pane);
-                        };
-
-                        var destroy = function(entity) {
-                            if (doesSpanHasNoEntity(entity.span)) {
-                                // Destroy a grid when all entities are remove. 
-                                destroyGrid(entity.span);
-                            } else {
-                                // Destroy an each entity.
-                                removeEntityElement(entity);
-                            }
-                        };
-
-                        return {
-                            render: create,
-                            change: changeTypeOfExists,
-                            remove: destroy
-                        };
-                    }(),
-                    grid: function() {
-                        var gridPositionCache = {};
-
-                        var createGrid = function(container, spanId) {
-                                var spanPosition = positionUtils.getSpan(spanId);
-                                var $grid = $('<div>')
-                                    .attr('id', 'G' + spanId)
-                                    .addClass('textae-editor__grid')
-                                    .addClass('hidden')
-                                    .css({
-                                        'width': spanPosition.width
-                                    });
-
-                                //append to the annotation area.
-                                container.append($grid);
-
-                                return $grid;
-                            },
-                            init = function(container) {
-                                createGrid = _.partial(createGrid, container);
-                            };
-
-                        var filterChanged = function(span, newPosition) {
-                            var oldGridPosition = gridPositionCache[span.id];
-                            if (!oldGridPosition || oldGridPosition.top !== newPosition.top || oldGridPosition.left !== newPosition.left) {
-                                return newPosition;
-                            } else {
-                                return undefined;
-                            }
-                        };
-
-                        var arrangeRelationPosition = function(span) {
-                            _.compact(
-                                span.getTypes().map(function(type) {
-                                    return type.entities;
-                                }).reduce(textAeUtil.flatten, [])
-                                .map(model.annotationData.entity.assosicatedRelations)
-                                .reduce(textAeUtil.flatten, [])
-                                .map(toConnector)
-                            ).forEach(function(connector) {
-                                connector.arrangePosition();
-                            });
-                        };
-
-                        var getGrid = function(span) {
-                            if (span) {
-                                return view.domUtil.selector.grid.get(span.id);
-                            }
-                        };
-
-                        var updateGridPositon = function(span, newPosition) {
-                            if (newPosition) {
-                                getGrid(span).css(newPosition);
-                                gridPositionCache[span.id] = newPosition;
-                                arrangeRelationPosition(span);
                                 return span;
-                            }
-                        };
-
-                        var getNewPosition = function(span) {
-                            var stickGridOnSpan = function(span) {
-                                var spanPosition = positionUtils.getSpan(span.id);
-
-                                return {
-                                    'top': spanPosition.top - view.viewModel.viewMode.marginBottomOfGrid - getGrid(span).outerHeight(),
-                                    'left': spanPosition.left
-                                };
                             };
 
-                            var pullUpGridOverDescendants = function(span) {
-                                // Culculate the height of the grid include descendant grids, because css style affects slowly.
-                                var getHeightIncludeDescendantGrids = function(span) {
-                                    var descendantsMaxHeight = span.children.length === 0 ? 0 :
-                                        Math.max.apply(null, span.children.map(function(childSpan) {
-                                            return getHeightIncludeDescendantGrids(childSpan);
-                                        }));
-
-                                    return getGrid(span).outerHeight() + descendantsMaxHeight + view.viewModel.viewMode.marginBottomOfGrid;
-                                };
-
-                                var spanPosition = positionUtils.getSpan(span.id);
-                                var descendantsMaxHeight = getHeightIncludeDescendantGrids(span);
-
-                                return {
-                                    'top': spanPosition.top - view.viewModel.viewMode.marginBottomOfGrid - descendantsMaxHeight,
-                                    'left': spanPosition.left
-                                };
+                            var renderEntitiesOfType = function(type) {
+                                type.entities.forEach(_.compose(entityRenderer.render, model.annotationData.entity.get));
                             };
 
-                            if (span.children.length === 0) {
-                                return stickGridOnSpan(span);
-                            } else {
-                                return pullUpGridOverDescendants(span);
-                            }
-                        };
-
-                        var filterVisibleGrid = function(grid) {
-                            if (grid && grid.hasClass('hidden')) {
-                                return grid;
-                            }
-                        };
-
-                        var visibleGrid = function(grid) {
-                            if (grid) {
-                                grid.removeClass('hidden');
-                            }
-                        };
-
-                        var arrangeGridPosition = function(span) {
-                            var moveTheGridIfChange = _.compose(_.partial(updateGridPositon, span), _.partial(filterChanged, span));
-                            _.compose(visibleGrid, filterVisibleGrid, getGrid, moveTheGridIfChange, getNewPosition)(span);
-                        };
-
-                        var arrangePositionGridAndoDescendant = function(span) {
-                            // Arrange position All descendants because a grandchild maybe have types when a child has no type. 
-                            span.children
-                                .forEach(function(span) {
-                                    arrangePositionGridAndoDescendant(span);
-                                });
-
-                            // There is at least one type in span that has a grid.
-                            if (span.getTypes().length > 0) {
-                                arrangeGridPosition(span);
-                            }
-                        };
-
-                        var arrangePositionAll = function() {
-                            positionUtils.reset();
-                            model.annotationData.span.topLevel()
-                                .forEach(function(span) {
-                                    _.defer(_.partial(arrangePositionGridAndoDescendant, span));
-                                });
-                        };
-
-                        return {
-                            init: init,
-                            reset: function() {
-                                gridPositionCache = {};
-                            },
-                            render: function(spanId) {
-                                return createGrid(spanId);
-                            },
-                            arrangePositionAll: _.debounce(arrangePositionAll, 10),
-                            destroy: function(spanId) {
-                                delete gridPositionCache[spanId];
-                            }
-                        };
-                    }(),
-                    relation: function() {
-                        // Init a jsPlumb instance.
-                        var jsPlumbInstance,
-                            makeJsPlumbInstance = function(container) {
-                                var newInstance = jsPlumb.getInstance({
-                                    ConnectionsDetachable: false,
-                                    Endpoint: ['Dot', {
-                                        radius: 1
-                                    }]
-                                });
-                                newInstance.setRenderMode(newInstance.SVG);
-                                newInstance.Defaults.Container = container;
-                                return newInstance;
-                            },
-                            init = function(container) {
-                                jsPlumbInstance = makeJsPlumbInstance(container);
+                            var renderEntitiesOfSpan = function(span) {
+                                span.getTypes().forEach(renderEntitiesOfType);
+                                return span;
                             };
 
-                        var determineCurviness = function(relationId) {
-                            var sourceId = model.annotationData.relation.get(relationId).subj;
-                            var targetId = model.annotationData.relation.get(relationId).obj;
-
-                            var sourcePosition = positionUtils.getEntity(sourceId);
-                            var targetPosition = positionUtils.getEntity(targetId);
-
-                            var sourceX = sourcePosition.center;
-                            var targetX = targetPosition.center;
-
-                            var sourceY = sourcePosition.top;
-                            var targetY = targetPosition.top;
-
-                            var xdiff = Math.abs(sourceX - targetX);
-                            var ydiff = Math.abs(sourceY - targetY);
-                            var curviness = xdiff * renderer.relation.settings.xrate + ydiff * renderer.relation.settings.yrate + renderer.relation.settings.c_offset;
-                            curviness /= 2.4;
-
-                            return curviness;
-                        };
-
-                        // Overlay styles for jsPlubm connections.
-                        var normalArrow = {
-                                width: 7,
-                                length: 9,
-                                location: 1,
-                                id: 'normal-arrow'
-                            },
-                            hoverArrow = {
-                                width: 14,
-                                length: 18,
-                                location: 1,
-                                id: 'hover-arrow',
-                            },
-                            label = {
-                                cssClass: 'textae-editor__relation__label',
-                                id: 'label'
+                            var exists = function(span) {
+                                return document.getElementById(span.id) !== null;
                             };
 
-                        var arrangePosition = function(relationId) {
-                            var connect = toConnector(relationId);
-                            connect.endpoints[0].repaint();
-                            connect.endpoints[1].repaint();
+                            var not = function(value) {
+                                return !value;
+                            };
 
-                            // Re-set arrow disappered when setConnector is called.
-                            connect.removeOverlay('normal-arrow');
-                            connect.setConnector(['Bezier', {
-                                curviness: determineCurviness(relationId)
-                            }]);
-                            connect.addOverlay(['Arrow', normalArrow]);
-                        };
+                            var getId = function(span) {
+                                return span.id;
+                            };
 
-                        var pointupable = function(getStrokeStyle) {
-                            // Show a big arrow when the connect is hoverd.
-                            // Remove a normal arrow and add a new big arrow.
-                            // Because an arrow is out of position if hideOverlay and showOverlay is used.
-                            var pointupArrow = function(connect) {
-                                    connect.removeOverlay(normalArrow.id);
-                                    connect.addOverlay(['Arrow', hoverArrow]);
-                                    connect.setPaintStyle(_.extend(getStrokeStyle(), {
-                                        lineWidth: 3
-                                    }));
-                                },
-                                pointdownAllow = function(connect) {
-                                    connect.removeOverlay(hoverArrow.id);
-                                    connect.addOverlay(['Arrow', normalArrow]);
-                                    connect.setPaintStyle(_.extend(getStrokeStyle(), {
-                                        lineWidth: 1
-                                    }));
-                                },
-                                pointupLable = function(connect) {
-                                    connect.getOverlay(label.id).addClass('hover');
-
-                                },
-                                pointdownLabel = function(connect) {
-                                    connect.getOverlay(label.id).removeClass('hover');
+                            var destroyChildrenSpan = function(span) {
+                                // Destroy DOM elements of descendant spans.
+                                var destroySpanRecurcive = function(span) {
+                                    span.children.forEach(function(span) {
+                                        destroySpanRecurcive(span);
+                                    });
+                                    renderer.span.remove(span);
                                 };
+
+                                // Destroy rendered children.
+                                span.children.filter(exists).forEach(destroySpanRecurcive);
+
+                                return span;
+                            };
+
+                            var renderChildresnSpan = function(span) {
+                                span.children.filter(_.compose(not, exists))
+                                    .forEach(renderer.span.render);
+
+                                return span;
+                            };
 
                             return {
-                                pointup: function() {
-                                    pointupArrow(this);
-                                    pointupLable(this);
-                                },
-                                pointdown: function() {
-                                    if (this.hasClass('ui-selected')) return;
+                                // Destroy children spans to wrap a TextNode with <span> tag when new span over exists spans.
+                                render: _.compose(gridRenderer.arrangePositionAll, renderChildresnSpan, renderEntitiesOfSpan, renderSingleSpan, destroyChildrenSpan),
+                                remove: function(span) {
+                                    var spanElement = document.getElementById(span.id);
+                                    var parent = spanElement.parentNode;
 
-                                    pointdownAllow(this);
-                                    pointdownLabel(this);
+                                    // Move the textNode wrapped this span in front of this span.
+                                    while (spanElement.firstChild) {
+                                        parent.insertBefore(spanElement.firstChild, spanElement);
+                                    }
+
+                                    view.domUtil.manipulate.remove(spanElement);
+                                    parent.normalize();
+
+                                    // Destroy a grid of the span. 
+                                    destroyGrid(span.id);
+                                },
+                            };
+                        }(),
+                        entityRenderer = function() {
+                            var getTypeDom = function(spanId, type) {
+                                return $('#' + idFactory.makeTypeId(spanId, type));
+                            };
+
+                            // Arrange a position of the pane to center entities when entities width is longer than pane width.
+                            var arrangePositionOfPane = function(pane) {
+                                var paneWidth = pane.outerWidth();
+                                var entitiesWidth = pane.find('.textae-editor__entity').toArray().map(function(e) {
+                                    return e.offsetWidth;
+                                }).reduce(function(pv, cv) {
+                                    return pv + cv;
+                                }, 0);
+
+                                pane.css({
+                                    'left': entitiesWidth > paneWidth ? (paneWidth - entitiesWidth) / 2 : 0
+                                });
+                            };
+
+                            var doesSpanHasNoEntity = function(spanId) {
+                                return model.annotationData.span.get(spanId).getTypes().length === 0;
+                            };
+
+                            var removeEntityElement = function(entity) {
+                                var doesTypeHasNoEntity = function(typeName) {
+                                    return model.annotationData.span.get(entity.span).getTypes().filter(function(type) {
+                                        return type.name === typeName;
+                                    }).length === 0;
+                                };
+
+                                // Get old type from Dom, Because the entity may have new type when changing type of the entity.
+                                var oldType = view.domUtil.manipulate.remove(view.domUtil.selector.entity.get(entity.id)).attr('type');
+
+                                // Delete type if no entity.
+                                if (doesTypeHasNoEntity(oldType)) {
+                                    getTypeDom(entity.span, oldType).remove();
+                                } else {
+                                    // Arrage the position of TypePane, because number of entities decrease.
+                                    arrangePositionOfPane(getTypeDom(entity.span, oldType).find('.textae-editor__entity-pane'));
                                 }
                             };
-                        };
 
-                        // Extend jsPlumb.Connection to add a method 'hasClass'.
-                        var hasClass = {
-                            hasClass: function(className) {
-                                return this.connector.canvas.classList.contains(className);
-                            }
-                        };
+                            var changeTypeOfExists = function(entity) {
+                                // Remove old entity.
+                                removeEntityElement(entity);
 
-                        var createJsPlumbConnection = function(relation) {
-                            var getStrokeStyle = _.partial(view.viewModel.getConnectorStrokeStyle, relation.id);
+                                // Show new entity.
+                                create(entity);
+                            };
 
-                            // Make a connector by jsPlumb.
-                            var connect = jsPlumbInstance.connect({
-                                source: view.domUtil.selector.entity.get(relation.subj),
-                                target: view.domUtil.selector.entity.get(relation.obj),
-                                anchors: ['TopCenter', "TopCenter"],
-                                connector: ['Bezier', {
-                                    curviness: determineCurviness(relation.id)
-                                }],
-                                paintStyle: getStrokeStyle(),
-                                parameters: {
-                                    'id': relation.id,
+                            // An entity is a circle on Type that is an endpoint of a relation.
+                            // A span have one grid and a grid can have multi types and a type can have multi entities.
+                            // A grid is only shown when at least one entity is owned by a correspond span.  
+                            var create = function(entity) {
+                                //render type unless exists.
+                                var getTypeElement = function(spanId, type) {
+                                    // A Type element has an entity_pane elment that has a label and will have entities.
+                                    var createEmptyTypeDomElement = function(spanId, type) {
+                                        var typeId = idFactory.makeTypeId(spanId, type);
+                                        // The EntityPane will have entities.
+                                        var $entityPane = $('<div>')
+                                            .attr('id', 'P-' + typeId)
+                                            .addClass('textae-editor__entity-pane');
+
+                                        // Display short name for URL(http or https);
+                                        var displayName = type;
+                                        // For tunning, search the scheme before execute a regular-expression.
+                                        if (String(type).indexOf('http') > -1) {
+                                            // The regular-expression to parse URL.
+                                            // See detail:
+                                            // http://someweblog.com/url-regular-expression-javascript-link-shortener/
+                                            var urlRegex = /\(?(?:(http|https|ftp):\/\/)?(?:((?:[^\W\s]|\.|-|[:]{1})+)@{1})?((?:www.)?(?:[^\W\s]|\.|-)+[\.][^\W\s]{2,4}|localhost(?=\/)|\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})(?::(\d*))?([\/]?[^\s\?]*[\/]{1})*(?:\/?([^\s\n\?\[\]\{\}\#]*(?:(?=\.)){1}|[^\s\n\?\[\]\{\}\.\#]*)?([\.]{1}[^\s\?\#]*)?)?(?:\?{1}([^\s\n\#\[\]]*))?([\#][^\s\n]*)?\)?/gi;
+                                            var matches = urlRegex.exec(type);
+                                            // Order to dispaly.
+                                            // 1. The file name with the extention.
+                                            // 2. The last directory name.
+                                            // 3. The domain name.
+                                            displayName = matches[6] ? matches[6] + (matches[7] || '') :
+                                                matches[5] ? matches[5].split('/').filter(function(s) {
+                                                    return s !== '';
+                                                }).pop() :
+                                                matches[3];
+                                        }
+
+                                        // The label over the span.
+                                        var $typeLabel = $('<div>')
+                                            .addClass('textae-editor__type-label')
+                                            .text(displayName)
+                                            .css({
+                                                'background-color': view.viewModel.typeContainer.entity.getColor(type),
+                                            });
+
+                                        return $('<div>')
+                                            .attr('id', typeId)
+                                            .addClass('textae-editor__type')
+                                            .append($typeLabel)
+                                            .append($entityPane); // Set pane after label because pane is over label.
+                                    };
+
+                                    var getGrid = function(spanId) {
+                                        // Create a grid unless it exists.
+                                        var $grid = view.domUtil.selector.grid.get(spanId);
+                                        if ($grid.length === 0) {
+                                            return gridRenderer.render(spanId);
+                                        } else {
+                                            return $grid;
+                                        }
+                                    };
+
+                                    var $type = getTypeDom(spanId, type);
+                                    if ($type.length === 0) {
+                                        $type = createEmptyTypeDomElement(spanId, type);
+                                        getGrid(spanId).append($type);
+                                    }
+
+                                    return $type;
+                                };
+
+                                var createEntityElement = function(entity) {
+                                    var $entity = $('<div>')
+                                        .attr('id', idFactory.makeEntityDomId(entity.id))
+                                        .attr('title', entity.id)
+                                        .attr('type', entity.type)
+                                        .addClass('textae-editor__entity')
+                                        .css({
+                                            'border-color': view.viewModel.typeContainer.entity.getColor(entity.type)
+                                        });
+
+                                    // Set css classes for modifications.
+                                    model.annotationData.modification.all().filter(function(m) {
+                                        return m.obj === entity.id;
+                                    }).map(function(m) {
+                                        return 'textae-editor__entity-' + m.pred.toLowerCase();
+                                    }).forEach(function(className) {
+                                        $entity.addClass(className);
+                                    });
+
+                                    return $entity;
+                                };
+
+                                // Replace null to 'null' if type is null and undefined too.
+                                entity.type = String(entity.type);
+
+                                // Append a new entity to the type
+                                var pane = getTypeElement(entity.span, entity.type)
+                                    .find('.textae-editor__entity-pane')
+                                    .append(createEntityElement(entity));
+
+                                arrangePositionOfPane(pane);
+                            };
+
+                            var destroy = function(entity) {
+                                if (doesSpanHasNoEntity(entity.span)) {
+                                    // Destroy a grid when all entities are remove. 
+                                    destroyGrid(entity.span);
+                                } else {
+                                    // Destroy an each entity.
+                                    removeEntityElement(entity);
+                                }
+                            };
+
+                            return {
+                                render: create,
+                                change: changeTypeOfExists,
+                                remove: destroy
+                            };
+                        }(),
+                        relationRenderer = function() {
+                            // Init a jsPlumb instance.
+                            var jsPlumbInstance,
+                                makeJsPlumbInstance = function(container) {
+                                    var newInstance = jsPlumb.getInstance({
+                                        ConnectionsDetachable: false,
+                                        Endpoint: ['Dot', {
+                                            radius: 1
+                                        }]
+                                    });
+                                    newInstance.setRenderMode(newInstance.SVG);
+                                    newInstance.Defaults.Container = container;
+                                    return newInstance;
                                 },
-                                cssClass: 'textae-editor__relation',
-                                overlays: [
-                                    ['Arrow', normalArrow],
-                                    ['Label', _.extend(label, {
-                                        label: '[' + relation.id + '] ' + relation.pred
-                                    })]
-                                ]
-                            });
+                                init = function(container) {
+                                    jsPlumbInstance = makeJsPlumbInstance(container);
+                                };
 
-                            // Set a function debounce to avoid over rendering.
-                            connect.arrangePosition = _.debounce(_.partial(arrangePosition, relation.id), 20);
+                            var determineCurviness = function(relationId) {
+                                var sourceId = model.annotationData.relation.get(relationId).subj;
+                                var targetId = model.annotationData.relation.get(relationId).obj;
 
-                            // Extend
-                            _.extend(connect, pointupable(getStrokeStyle), hasClass);
+                                var sourcePosition = positionUtils.getEntity(sourceId);
+                                var targetPosition = positionUtils.getEntity(targetId);
 
-                            // Set hover action.
-                            connect.bind('mouseenter', function(connect) {
-                                connect.pointup();
-                            }).bind('mouseexit', function(connect) {
-                                connect.pointdown();
-                            });
+                                var sourceX = sourcePosition.center;
+                                var targetX = targetPosition.center;
 
-                            // Cache a connect instance.
-                            cachedConnectors[relation.id] = connect;
+                                var sourceY = sourcePosition.top;
+                                var targetY = targetPosition.top;
 
-                            // Notify to controller that a new jsPlumbConnection is added.
-                            editor.trigger('textae.editor.jsPlumbConnection.add', connect);
+                                var xdiff = Math.abs(sourceX - targetX);
+                                var ydiff = Math.abs(sourceY - targetY);
+                                var curviness = xdiff * relationRenderer.settings.xrate + ydiff * relationRenderer.settings.yrate + relationRenderer.settings.c_offset;
+                                curviness /= 2.4;
 
-                            return connect;
-                        };
+                                return curviness;
+                            };
 
-                        var changeJsPlubmOverlay = function(relation) {
-                            var connector = toConnector(relation.id);
-                            if (!connector) {
-                                throw 'no connector';
-                            }
+                            // Overlay styles for jsPlubm connections.
+                            var normalArrow = {
+                                    width: 7,
+                                    length: 9,
+                                    location: 1,
+                                    id: 'normal-arrow'
+                                },
+                                hoverArrow = {
+                                    width: 14,
+                                    length: 18,
+                                    location: 1,
+                                    id: 'hover-arrow',
+                                },
+                                label = {
+                                    cssClass: 'textae-editor__relation__label',
+                                    id: 'label'
+                                };
 
-                            // Find the label overlay by self, because the function 'getLabelOverlays' returns no label overlay.
-                            var labelOverlay = connector.getOverlays().filter(function(overlay) {
-                                return overlay.type === 'Label';
-                            })[0];
-                            if (!labelOverlay) {
-                                throw 'no label overlay';
-                            }
+                            var arrangePosition = function(relationId) {
+                                var connect = toConnector(relationId);
+                                connect.endpoints[0].repaint();
+                                connect.endpoints[1].repaint();
 
-                            labelOverlay.setLabel('[' + relation.id + '] ' + relation.pred);
-                            connector.setPaintStyle(view.viewModel.getConnectorStrokeStyle(relation.id));
-                        };
+                                // Re-set arrow disappered when setConnector is called.
+                                connect.removeOverlay('normal-arrow');
+                                connect.setConnector(['Bezier', {
+                                    curviness: determineCurviness(relationId)
+                                }]);
+                                connect.addOverlay(['Arrow', normalArrow]);
+                            };
 
-                        var removeJsPlumbConnection = function(relation) {
-                            jsPlumbInstance.detach(toConnector(relation.id));
-                            delete cachedConnectors[relation.id];
-                        };
+                            var pointupable = function(getStrokeStyle) {
+                                // Show a big arrow when the connect is hoverd.
+                                // Remove a normal arrow and add a new big arrow.
+                                // Because an arrow is out of position if hideOverlay and showOverlay is used.
+                                var pointupArrow = function(connect) {
+                                        connect.removeOverlay(normalArrow.id);
+                                        connect.addOverlay(['Arrow', hoverArrow]);
+                                        connect.setPaintStyle(_.extend(getStrokeStyle(), {
+                                            lineWidth: 3
+                                        }));
+                                    },
+                                    pointdownAllow = function(connect) {
+                                        connect.removeOverlay(hoverArrow.id);
+                                        connect.addOverlay(['Arrow', normalArrow]);
+                                        connect.setPaintStyle(_.extend(getStrokeStyle(), {
+                                            lineWidth: 1
+                                        }));
+                                    },
+                                    pointupLable = function(connect) {
+                                        connect.getOverlay(label.id).addClass('hover');
 
-                        return {
-                            // Parameters to render relations.
-                            settings: {
-                                // opacity of connectorsA
-                                connOpacity: 0.6,
+                                    },
+                                    pointdownLabel = function(connect) {
+                                        connect.getOverlay(label.id).removeClass('hover');
+                                    };
 
-                                // curviness parameters
-                                xrate: 0.6,
-                                yrate: 0.05,
+                                return {
+                                    pointup: function() {
+                                        pointupArrow(this);
+                                        pointupLable(this);
+                                    },
+                                    pointdown: function() {
+                                        if (this.hasClass('ui-selected')) return;
 
-                                // curviness offset
-                                c_offset: 20,
-                            },
-                            init: init,
-                            reset: function() {
-                                jsPlumbInstance.reset();
-                                cachedConnectors = {};
-                                view.domUtil.selector.relation.emptyRelationIdsSelected();
-                            },
-                            render: createJsPlumbConnection,
-                            change: changeJsPlubmOverlay,
-                            remove: removeJsPlumbConnection
-                        };
-                    }()
-                };
+                                        pointdownAllow(this);
+                                        pointdownLabel(this);
+                                    }
+                                };
+                            };
+
+                            // Extend jsPlumb.Connection to add a method 'hasClass'.
+                            var hasClass = {
+                                hasClass: function(className) {
+                                    return this.connector.canvas.classList.contains(className);
+                                }
+                            };
+
+                            var createJsPlumbConnection = function(relation) {
+                                var getStrokeStyle = _.partial(view.viewModel.getConnectorStrokeStyle, relation.id);
+
+                                // Make a connector by jsPlumb.
+                                var connect = jsPlumbInstance.connect({
+                                    source: view.domUtil.selector.entity.get(relation.subj),
+                                    target: view.domUtil.selector.entity.get(relation.obj),
+                                    anchors: ['TopCenter', "TopCenter"],
+                                    connector: ['Bezier', {
+                                        curviness: determineCurviness(relation.id)
+                                    }],
+                                    paintStyle: getStrokeStyle(),
+                                    parameters: {
+                                        'id': relation.id,
+                                    },
+                                    cssClass: 'textae-editor__relation',
+                                    overlays: [
+                                        ['Arrow', normalArrow],
+                                        ['Label', _.extend(label, {
+                                            label: '[' + relation.id + '] ' + relation.pred
+                                        })]
+                                    ]
+                                });
+
+                                // Set a function debounce to avoid over rendering.
+                                connect.arrangePosition = _.debounce(_.partial(arrangePosition, relation.id), 20);
+
+                                // Extend
+                                _.extend(connect, pointupable(getStrokeStyle), hasClass);
+
+                                // Set hover action.
+                                connect.bind('mouseenter', function(connect) {
+                                    connect.pointup();
+                                }).bind('mouseexit', function(connect) {
+                                    connect.pointdown();
+                                });
+
+                                // Cache a connect instance.
+                                cachedConnectors[relation.id] = connect;
+
+                                // Notify to controller that a new jsPlumbConnection is added.
+                                editor.trigger('textae.editor.jsPlumbConnection.add', connect);
+
+                                return connect;
+                            };
+
+                            var changeJsPlubmOverlay = function(relation) {
+                                var connector = toConnector(relation.id);
+                                if (!connector) {
+                                    throw 'no connector';
+                                }
+
+                                // Find the label overlay by self, because the function 'getLabelOverlays' returns no label overlay.
+                                var labelOverlay = connector.getOverlays().filter(function(overlay) {
+                                    return overlay.type === 'Label';
+                                })[0];
+                                if (!labelOverlay) {
+                                    throw 'no label overlay';
+                                }
+
+                                labelOverlay.setLabel('[' + relation.id + '] ' + relation.pred);
+                                connector.setPaintStyle(view.viewModel.getConnectorStrokeStyle(relation.id));
+                            };
+
+                            var removeJsPlumbConnection = function(relation) {
+                                jsPlumbInstance.detach(toConnector(relation.id));
+                                delete cachedConnectors[relation.id];
+                            };
+
+                            return {
+                                // Parameters to render relations.
+                                settings: {
+                                    // opacity of connectorsA
+                                    connOpacity: 0.6,
+
+                                    // curviness parameters
+                                    xrate: 0.6,
+                                    yrate: 0.05,
+
+                                    // curviness offset
+                                    c_offset: 20,
+                                },
+                                init: init,
+                                reset: function() {
+                                    jsPlumbInstance.reset();
+                                    cachedConnectors = {};
+                                    view.domUtil.selector.relation.emptyRelationIdsSelected();
+                                },
+                                render: createJsPlumbConnection,
+                                change: changeJsPlubmOverlay,
+                                remove: removeJsPlumbConnection
+                            };
+                        }();
+
+                    return {
+                        init: function(container) {
+                            gridRenderer.init(container);
+                            relationRenderer.init(container);
+                        },
+                        span: spanRenderer,
+                        entity: entityRenderer,
+                        grid: gridRenderer,
+                        relation: relationRenderer
+                    };
+                }();
 
                 return {
                     init: function(modelData) {
