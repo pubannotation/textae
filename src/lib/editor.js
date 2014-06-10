@@ -426,7 +426,6 @@
                                 renderer.span.render(span);
                             });
 
-                            renderer.grid.arrangePositionAll();
 
                             // For tuning
                             // var endTime = new Date();
@@ -554,9 +553,13 @@
                             return span;
                         };
 
+                        var arrangePositionGrid = function(span) {
+                            renderer.grid.arrangePositionAll();
+                        };
+
                         return {
                             // Destroy children spans to wrap a TextNode with <span> tag when new span over exists spans.
-                            render: _.compose(renderChildresnSpan, renderEntitiesOfSpan, renderSingleSpan, destroyChildrenSpan),
+                            render: _.compose(arrangePositionGrid, renderChildresnSpan, renderEntitiesOfSpan, renderSingleSpan, destroyChildrenSpan),
                             remove: function(span) {
                                 var spanElement = document.getElementById(span.id);
                                 var parent = spanElement.parentNode;
@@ -854,6 +857,27 @@
                             _.compose(visibleGrid, filterVisibleGrid, getGrid, moveTheGridIfChange, getNewPosition)(span);
                         };
 
+                        var arrangePositionGridAndoDescendant = function(span) {
+                            // Arrange position All descendants because a grandchild maybe have types when a child has no type. 
+                            span.children
+                                .forEach(function(span) {
+                                    arrangePositionGridAndoDescendant(span);
+                                });
+
+                            // There is at least one type in span that has a grid.
+                            if (span.getTypes().length > 0) {
+                                arrangeGridPosition(span);
+                            }
+                        };
+
+                        var arrangePositionAll = function() {
+                            positionUtils.reset();
+                            model.annotationData.span.topLevel()
+                                .forEach(function(span) {
+                                    _.defer(_.partial(arrangePositionGridAndoDescendant, span));
+                                });
+                        };
+
                         return {
                             init: init,
                             reset: function() {
@@ -862,27 +886,7 @@
                             render: function(spanId) {
                                 return createGrid(spanId);
                             },
-                            arrangePositionAll: function() {
-                                var arrangePositionGridAndoDescendant = function(span) {
-                                    // Arrange position All descendants because a grandchild maybe have types when a child has no type. 
-                                    span.children
-                                        .forEach(function(span) {
-                                            arrangePositionGridAndoDescendant(span);
-                                        });
-
-                                    // There is at least one type in span that has a grid.
-                                    if (span.getTypes().length > 0) {
-                                        arrangeGridPosition(span);
-                                    }
-                                };
-
-                                positionUtils.reset();
-
-                                model.annotationData.span.topLevel()
-                                    .forEach(function(span) {
-                                        _.defer(_.partial(arrangePositionGridAndoDescendant, span));
-                                    });
-                            },
+                            arrangePositionAll: _.debounce(arrangePositionAll, 10),
                             destroy: function(spanId) {
                                 delete gridPositionCache[spanId];
                             }
