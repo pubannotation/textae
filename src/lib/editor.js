@@ -538,7 +538,7 @@
                                 span.children.forEach(function(span) {
                                     destroySpanRecurcive(span);
                                 });
-                                renderer.span.destroy(span);
+                                renderer.span.remove(span);
                             };
 
                             // Destroy rendered children.
