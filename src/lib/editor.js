@@ -385,7 +385,7 @@
                         getTaggedSourceDoc = function(sourceDoc) {
                             //set sroucedoc tagged <p> per line.
                             return sourceDoc.split("\n").map(function(par) {
-                                return '<p class="textae-editor__body__text-box__paragraph">' + par + '</p>';
+                                return '<p class="textae-editor__body__text-box__paragraph-margin"><span class="textae-editor__body__text-box__paragraph">' + par + '</span></p>';
                             }).join("\n");
                         },
 
@@ -394,7 +394,7 @@
                             var paragraphs = {};
 
                             //enchant id to paragraph element and chache it.
-                            getSourceDocArea().find('p').each(function(index, element) {
+                            getSourceDocArea().find('.textae-editor__body__text-box__paragraph').each(function(index, element) {
                                 var $element = $(element);
                                 var paragraph = $.extend({}, paragraphsArray[index], {
                                     element: $element,
@@ -1650,6 +1650,7 @@
 
             var selectEndOfText = function(selection) {
                 // The Both node is not TextNode( nodeType == 3 ) either.
+                // This occurs by triple-clicks of a text.
                 if (selection.anchorNode.nodeType !== 3 || selection.focusNode.nodeType !== 3) {
                     // Blinking occurs if dissmiss here.
                     // Return true and the browser dissmiss the selection. 
@@ -1670,10 +1671,10 @@
 
             var selectEndOnSpan = function(selection) {
                 // The Both node is not TextNode( nodeType == 3 ) either.
+                // This occurs by triple-clicks of a span.
                 if (selection.anchorNode.nodeType !== 3 || selection.focusNode.nodeType !== 3) {
                     // Blinking occurs if dissmiss here.
                     // Return true and the browser dissmiss the selection. 
-                    // A span is clicked and come here when the selection over that span by triple-clicked. 
                     return true;
                 }
 
@@ -2807,8 +2808,11 @@
                             return false;
                         }
                     }).on('mousedown', '.textae-editor__type', function() {
-                        // Prevent a selection of type by the double-click.
+                        // Prevent a selection of a type by the double-click.
                         return false;
+                    }).on('mousedown', '.textae-editor__body__text-box__paragraph-margin', function(e) {
+                        // Prevent a selection of a margin of a paragraph by the double-click.
+                        if (e.target.className === 'textae-editor__body__text-box__paragraph-margin') return false;
                     });
 
                     // Bind user input event to handler
