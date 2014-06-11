@@ -2271,15 +2271,24 @@
 
                         var eventHandlerComposer = function() {
                             var changeType = function(getIdsFunction, createChangeTypeCommandFunction, newType) {
-                                var ids = getIdsFunction();
-                                if (ids.length > 0) {
-                                    var commands = ids.map(function(id) {
-                                        return createChangeTypeCommandFunction(id, newType);
-                                    });
+                                    var ids = getIdsFunction();
+                                    if (ids.length > 0) {
+                                        var commands = ids.map(function(id) {
+                                            return createChangeTypeCommandFunction(id, newType);
+                                        });
 
-                                    controller.command.invoke(commands);
-                                }
-                            };
+                                        controller.command.invoke(commands);
+                                    }
+                                },
+                                unbindAllEventhandler = function() {
+                                    return editor
+                                        .off('mouseup', '.textae-editor__body')
+                                        .off('mouseup', '.textae-editor__span')
+                                        .off('mouseup', '.textae-editor__type-label')
+                                        .off('mouseup', '.textae-editor__entity-pane')
+                                        .off('selectChanged', '.textae-editor__entity')
+                                        .off('mouseup', '.textae-editor__entity');
+                                };
 
                             return {
                                 relationEdit: function() {
@@ -2321,13 +2330,7 @@
                                     };
 
                                     // Control only entities and relations.
-                                    editor
-                                        .off('mouseup', '.textae-editor__body')
-                                        .off('mouseup', '.textae-editor__span')
-                                        .off('mouseup', '.textae-editor__type-label')
-                                        .off('mouseup', '.textae-editor__entity-pane')
-                                        .off('selectChanged', '.textae-editor__entity')
-                                        .off('mouseup', '.textae-editor__entity')
+                                    unbindAllEventhandler()
                                         .on('mouseup', '.textae-editor__entity', entityClickedAtRelationMode);
 
                                     palletConfig.typeContainer = view.viewModel.typeContainer.relation;
@@ -2352,13 +2355,12 @@
                                         return false;
                                     };
 
-                                    editor
+                                    unbindAllEventhandler()
                                         .on('mouseup', '.textae-editor__body', bodyClicked)
                                         .on('mouseup', '.textae-editor__span', spanClicked)
                                         .on('mouseup', '.textae-editor__type-label', typeLabelClicked)
                                         .on('mouseup', '.textae-editor__entity-pane', entityPaneClicked)
                                         .on('selectChanged', '.textae-editor__entity', entitySelectChanged)
-                                        .off('mouseup', '.textae-editor__entity')
                                         .on('mouseup', '.textae-editor__entity', entityClicked);
 
                                     palletConfig.typeContainer = view.viewModel.typeContainer.entity;
@@ -2367,13 +2369,7 @@
                                     jsPlumbConnectionClickedImpl = null;
                                 },
                                 noEdit: function() {
-                                    editor
-                                        .off('mouseup', '.textae-editor__body')
-                                        .off('mouseup', '.textae-editor__span')
-                                        .off('mouseup', '.textae-editor__type-label')
-                                        .off('mouseup', '.textae-editor__entity-pane')
-                                        .off('selectChanged', '.textae-editor__entity')
-                                        .off('mouseup', '.textae-editor__entity');
+                                    unbindAllEventhandler();
 
                                     palletConfig.typeContainer = view.viewModel.typeContainer.entity;
                                     changeTypeOfSelected = _.partial(changeType, view.domUtil.selector.entity.getSelecteds, controller.command.factory.entityChangeTypeCommand);
