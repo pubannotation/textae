@@ -2806,6 +2806,9 @@
                         if (e.shiftKey) {
                             return false;
                         }
+                    }).on('mousedown', '.textae-editor__type', function() {
+                        // Prevent a selection of type by the double-click.
+                        return false;
                     });
 
                     // Bind user input event to handler
