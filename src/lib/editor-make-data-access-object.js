@@ -48,13 +48,13 @@
             //load/saveDialog
             loadSaveDialog = function() {
                 var getLoadDialog = function(editorId) {
-                        var getAnnotationFromFile = function(fileEvent) {
+                        var getAnnotationFromFile = function(file) {
                             var reader = new FileReader();
                             reader.onload = function() {
                                 var annotation = JSON.parse(this.result);
                                 loadedFunc(annotation);
                             };
-                            reader.readAsText(fileEvent.files[0]);
+                            reader.readAsText(file.files[0]);
                         };
 
                         var $content = $('<div>')
@@ -62,10 +62,10 @@
                                 $('<div class="textae-editor__load-dialog__row">').append(
                                     $('<label class="textae-editor__load-dialog__label">Server</label>'),
                                     $('<input type="text" class="textae-editor__load-dialog__file-name" />'),
-                                    $('<input type="button" value="OK" />')
+                                    $('<input class="server" type="button" value="Open" />')
                                 )
                             )
-                            .on('click', '[type="button"]',
+                            .on('click', 'input.server',
                                 function() {
                                     var url = $content.find('.textae-editor__load-dialog__file-name').val();
                                     getAnnotationFromServer(url);
@@ -73,12 +73,13 @@
                                 }).append(
                                 $('<div class="textae-editor__load-dialog__row">').append(
                                     $('<label class="textae-editor__load-dialog__label">Local</label>'),
-                                    $('<input type="file" />')
+                                    $('<input class="textae-editor__load-dialog__file" type="file" />'),
+                                    $('<input class="local" type="button" value="Open" />')
                                 )
                             )
-                            .on('change', '[type="file"]',
+                            .on('click', 'input.local',
                                 function() {
-                                    getAnnotationFromFile(this);
+                                    getAnnotationFromFile($content.find('[type="file"]')[0]);
                                     $content.dialogClose();
                                 });
 
