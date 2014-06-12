@@ -72,7 +72,7 @@
                                     $content.dialogClose();
                                 });
 
-                        return textAeUtil.getDialog(editorId, 'textae.dialog.load', 'Load document with annotation.', $content);
+                        return textAeUtil.getDialog(editorId, 'textae.dialog.load', 'Load Annotations', $content);
                     },
                     getSaveDialog = function(editorId, jsonData) {
                         var showSaveSuccess = function() {
@@ -136,7 +136,7 @@
                                 $content.dialogClose();
                             });
 
-                        var $dialog = textAeUtil.getDialog(editorId, 'textae.dialog.save', 'Save document with annotation.', $content);
+                        var $dialog = textAeUtil.getDialog(editorId, 'textae.dialog.save', 'Save Annotations', $content);
 
                         return setLocalLink($dialog, jsonData);
                     };
