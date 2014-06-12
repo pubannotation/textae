@@ -49,34 +49,56 @@
             loadSaveDialog = function() {
                 var getLoadDialog = function(editorId) {
                         var getAnnotationFromFile = function(file) {
-                            var reader = new FileReader();
-                            reader.onload = function() {
-                                var annotation = JSON.parse(this.result);
-                                loadedFunc(annotation);
+                                var reader = new FileReader();
+                                reader.onload = function() {
+                                    var annotation = JSON.parse(this.result);
+                                    loadedFunc(annotation);
+                                };
+                                reader.readAsText(file.files[0]);
+                            },
+                            makeOpenButton = function(className) {
+                                return $('<input type="button" value="Open" disabled="disabled" />')
+                                    .addClass(className);
                             };
-                            reader.readAsText(file.files[0]);
-                        };
+
+                        var $inputServer = makeOpenButton('server');
+                        var $inputLocal = makeOpenButton('local');
 
                         var $content = $('<div>')
                             .append(
                                 $('<div class="textae-editor__load-dialog__row">').append(
                                     $('<label class="textae-editor__load-dialog__label">Server</label>'),
                                     $('<input type="text" class="textae-editor__load-dialog__file-name" />'),
-                                    $('<input class="server" type="button" value="Open" />')
+                                    $inputServer
                                 )
                             )
+                            .on('keyup', '[type="text"]', function() {
+                                if (this.value) {
+                                    $inputServer.removeAttr('disabled');
+                                } else {
+                                    $inputServer.attr('disabled', 'disabled');
+                                }
+                            })
                             .on('click', 'input.server',
                                 function() {
                                     var url = $content.find('.textae-editor__load-dialog__file-name').val();
                                     getAnnotationFromServer(url);
                                     $content.dialogClose();
-                                }).append(
+                                })
+                            .append(
                                 $('<div class="textae-editor__load-dialog__row">').append(
                                     $('<label class="textae-editor__load-dialog__label">Local</label>'),
                                     $('<input class="textae-editor__load-dialog__file" type="file" />'),
-                                    $('<input class="local" type="button" value="Open" />')
+                                    $inputLocal
                                 )
                             )
+                            .on('change', '[type="file"]', function() {
+                                if (this.files.length > 0) {
+                                    $inputLocal.removeAttr('disabled');
+                                } else {
+                                    $inputLocal.attr('disabled', 'disabled');
+                                }
+                            })
                             .on('click', 'input.local',
                                 function() {
                                     getAnnotationFromFile($content.find('[type="file"]')[0]);
