@@ -58,17 +58,27 @@
                         };
 
                         var $content = $('<div>')
-                            .append('<div><label class="textae-editor__load-dialog__label">Server</label><input type="text" class="textae-editor__load-dialog__file-name" /><input type="button" value="OK" /></div>')
-                            .append('<div><label class="textae-editor__load-dialog__label">Local</label><input type="file" /></div>')
-                            .on('change', '[type="file"]',
-                                function() {
-                                    getAnnotationFromFile(this);
-                                    $content.dialogClose();
-                                })
+                            .append(
+                                $('<div class="textae-editor__load-dialog__row">').append(
+                                    $('<label class="textae-editor__load-dialog__label">Server</label>'),
+                                    $('<input type="text" class="textae-editor__load-dialog__file-name" />'),
+                                    $('<input type="button" value="OK" />')
+                                )
+                            )
                             .on('click', '[type="button"]',
                                 function() {
                                     var url = $content.find('.textae-editor__load-dialog__file-name').val();
                                     getAnnotationFromServer(url);
+                                    $content.dialogClose();
+                                }).append(
+                                $('<div class="textae-editor__load-dialog__row">').append(
+                                    $('<label class="textae-editor__load-dialog__label">Local</label>'),
+                                    $('<input type="file" />')
+                                )
+                            )
+                            .on('change', '[type="file"]',
+                                function() {
+                                    getAnnotationFromFile(this);
                                     $content.dialogClose();
                                 });
 
@@ -122,30 +132,45 @@
                                 return $save_dialog;
                             };
 
-                        var $content = $('<div>')
-                            .append('<div><label class="textae-editor__save-dialog__label">Server</label><input type="text" class="textae-editor__save-dialog__file-name" /><input type="button" value="OK" /></div>')
-                            .append('<div><label class="textae-editor__save-dialog__label">Local</label><span class="span_link_place"><a class="download" target="_blank"/></span></div>')
-                            .append('<div><label class="textae-editor__save-dialog__label">Browser</label><span class="span_link_place"><a class="viewsource" target="_new" href="">Click to view souce on a new window.</a></span></div>')
-                            .on('click', 'a.download', function() {
-                                savedFunc();
-                                $content.dialogClose();
-                            })
-                            .on('click', 'a.viewsource', function(e) {
-                                console.log(e.target.href);
-                                window.open(e.target.href, '_blank');
-                                return false;
+                        var downloadPath = createDownloadPath(jsonData);
 
-                            })
+                        var $content = $('<div>')
+                            .append(
+                                $('<div class="textae-editor__save-dialog__row">').append(
+                                    $('<label class="textae-editor__save-dialog__label">Server</label>'),
+                                    $('<input type="text" class="textae-editor__save-dialog__file-name" />'),
+                                    $('<input type="button" value="OK" />')
+                                )
+                            )
                             .on('click', '[type="button"]', function() {
                                 var url = $content.find('.textae-editor__save-dialog__file-name').val();
                                 saveAnnotationToServer(url, jsonData);
                                 $content.dialogClose();
+                            })
+                            .append(
+                                $('<div class="textae-editor__save-dialog__row">').append(
+                                    $('<label class="textae-editor__save-dialog__label">Local</label>'),
+                                    $('<a class="download" target="_blank">')
+                                )
+                            )
+                            .on('click', 'a.download', function() {
+                                savedFunc();
+                                $content.dialogClose();
+                            })
+                            .append(
+                                $('<div class="textae-editor__save-dialog__row">').append(
+                                    $('<label class="textae-editor__save-dialog__label">Browser</label>'),
+                                    $('<a class="viewsource" href="#">Click to view source on a new window.</a>')
+                                )
+                            )
+                            .on('click', 'a.viewsource', function(e) {
+                                window.open(downloadPath, '_blank');
+                                savedFunc();
+                                $content.dialogClose();
+                                return false;
                             });
 
                         var $dialog = textAeUtil.getDialog(editorId, 'textae.dialog.save', 'Save Annotations', $content);
-
-                        var downloadPath = createDownloadPath(jsonData);
-                        $dialog.find('a.viewsource').attr('href', downloadPath);
 
                         return setLocalLink($dialog, downloadPath);
                     };

@@ -138,6 +138,10 @@
 }
 
 /* dialog */
+.textae-editor__load-dialog__row, .textae-editor__save-dialog__row{
+    margin-bottom: 4px;
+}
+
 .textae-editor__load-dialog__label, .textae-editor__save-dialog__label, .textae-editor__setting-dialog__label {
     display: inline-block;
     padding-right: 2px;
