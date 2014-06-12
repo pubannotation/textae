@@ -181,7 +181,8 @@
 
                             if (defautlValue) {
                                 this.find('[type="text"]')
-                                    .val(defautlValue);
+                                    .val(defautlValue)
+                                    .trigger('keyup');
                             }
                         },
                         close: function() {
