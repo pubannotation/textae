@@ -149,7 +149,8 @@
 }
 
 .textae-editor__load-dialog__label, .textae-editor__save-dialog__label {
-    width: 73px;
+    width: 82px;
+    line-height: 1.1em;
 }
 
 .textae-editor__setting-dialog__label{

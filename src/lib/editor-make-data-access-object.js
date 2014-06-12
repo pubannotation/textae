@@ -98,26 +98,25 @@
                                     cursorChanger.endWait();
                                 });
                             },
-                            setLocalLink = function($save_dialog, jsonData) {
-                                var createDownloadPath = function(contents) {
-                                        var blob = new Blob([contents], {
-                                            type: 'application/json'
-                                        });
-                                        return URL.createObjectURL(blob);
-                                    },
-                                    getFilename = function() {
+                            createDownloadPath = function(contents) {
+                                var blob = new Blob([contents], {
+                                    type: 'application/json'
+                                });
+                                return URL.createObjectURL(blob);
+                            },
+                            setLocalLink = function($save_dialog, downloadPath) {
+                                var getFilename = function() {
                                         var $fileInput = getLoadDialog().find("input[type='file']"),
                                             file = $fileInput.prop('files')[0];
                                         return file ? file.name : 'annotations.json';
                                     },
                                     setFileLink = function($save_dialog, downloadPath, name) {
-                                        $save_dialog.find('a')
+                                        $save_dialog.find('a.download')
                                             .text(name)
                                             .attr('href', downloadPath)
                                             .attr('download', name);
                                     };
 
-                                var downloadPath = createDownloadPath(jsonData);
                                 var name = getFilename();
                                 setFileLink($save_dialog, downloadPath, name);
                                 return $save_dialog;
@@ -125,10 +124,17 @@
 
                         var $content = $('<div>')
                             .append('<div><label class="textae-editor__save-dialog__label">Server</label><input type="text" class="textae-editor__save-dialog__file-name" /><input type="button" value="OK" /></div>')
-                            .append('<div><label class="textae-editor__save-dialog__label">Local</label><span class="span_link_place"><a target="_blank"/></span></div>')
-                            .on('click', 'a', function() {
+                            .append('<div><label class="textae-editor__save-dialog__label">Local</label><span class="span_link_place"><a class="download" target="_blank"/></span></div>')
+                            .append('<div><label class="textae-editor__save-dialog__label">Browser</label><span class="span_link_place"><a class="viewsource" target="_new" href="">Click to view souce on a new window.</a></span></div>')
+                            .on('click', 'a.download', function() {
                                 savedFunc();
                                 $content.dialogClose();
+                            })
+                            .on('click', 'a.viewsource', function(e) {
+                                console.log(e.target.href);
+                                window.open(e.target.href, '_blank');
+                                return false;
+
                             })
                             .on('click', '[type="button"]', function() {
                                 var url = $content.find('.textae-editor__save-dialog__file-name').val();
@@ -138,7 +144,10 @@
 
                         var $dialog = textAeUtil.getDialog(editorId, 'textae.dialog.save', 'Save Annotations', $content);
 
-                        return setLocalLink($dialog, jsonData);
+                        var downloadPath = createDownloadPath(jsonData);
+                        $dialog.find('a.viewsource').attr('href', downloadPath);
+
+                        return setLocalLink($dialog, downloadPath);
                     };
 
                 return {
