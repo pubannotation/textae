@@ -194,6 +194,13 @@
                             });
                         },
                         range: function(firstId, secondId) {
+                            //switch if seconfId before firstId
+                            if (secondId < firstId) {
+                                var tempId = firstId;
+                                firstId = secondId;
+                                secondId = tempId;
+                            }
+
                             var first = spanContainer[firstId];
                             var second = spanContainer[secondId];
 
