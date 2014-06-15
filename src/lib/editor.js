@@ -2372,8 +2372,8 @@
                                 noEdit: function() {
                                     unbindAllEventhandler();
 
-                                    palletConfig.typeContainer = view.viewModel.typeContainer.entity;
-                                    changeTypeOfSelected = _.partial(changeType, view.domUtil.selector.entity.getSelecteds, controller.command.factory.entityChangeTypeCommand);
+                                    palletConfig.typeContainer = null;
+                                    changeTypeOfSelected = null;
 
                                     jsPlumbConnectionClickedImpl = null;
                                 }
@@ -2593,7 +2593,7 @@
                                 var makePallet = _.compose(setMaxHeight, appendRows, reuseOldPallet, createEmptyPallet);
 
                                 return function(point) {
-                                    if (palletConfig.typeContainer.getSortedNames().length > 0) {
+                                    if (palletConfig.typeContainer && palletConfig.typeContainer.getSortedNames().length > 0) {
                                         // Move the pallet to mouse.
                                         makePallet(controller.userEvent.editHandler.setEntityType)
                                             .css(point)
