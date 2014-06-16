@@ -2,7 +2,7 @@
   "name": "textae",
   "version": "4.0.2",
   "description": "text annotation editor",
-  "main": "dist/js/lib-textae-4.0.2.min.js",
+  "main": "src/development.html",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -28,6 +28,7 @@
     "grunt-contrib-uglify": "~0.2.7",
     "grunt-contrib-cssmin": "~0.7.0",
     "grunt-open": "~0.2.2",
+    "grunt-text-replace": "^0.3.12",
     "load-grunt-tasks": "~0.2.1"
   }
 }

@@ -58,6 +58,16 @@ module.exports = function(grunt) {
         }, ]
       },
     },
+    replace: {
+      version: {
+        src: ['dist/app/textae.html', 'dist/demo/bionlp-st-ge/*.html'],
+        overwrite: true,
+        replacements: [{
+          from: '{{version}}',
+          to: '<%= pkg.version %>'
+        }]
+      }
+    },
     // for test
     jshint: {
       files: ['Gruntfile.js', 'src/lib/*.js'],
@@ -124,7 +134,7 @@ module.exports = function(grunt) {
   });
 
   grunt.registerTask('dev', ['connect', 'open:dev', 'watch']);
-  grunt.registerTask('dist', ['jshint', 'qunit', 'clean', 'concat', 'uglify', 'copy', 'cssmin']);
+  grunt.registerTask('dist', ['jshint', 'qunit', 'clean', 'concat', 'uglify', 'copy', 'replace:version', 'cssmin']);
   grunt.registerTask('demo', ['open:demo', 'connect:developmentServer:keepalive']);
   grunt.registerTask('app', ['open:app', 'connect:developmentServer:keepalive']);
 };
