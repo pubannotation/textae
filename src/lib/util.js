@@ -166,7 +166,7 @@
                         .append($content);
 
                     $.extend($dialog, {
-                        open: function(defautlValue) {
+                        open: function() {
                             this.dialog({
                                 resizable: false,
                                 width: 550,
@@ -178,12 +178,6 @@
                                     }
                                 }
                             });
-
-                            if (defautlValue) {
-                                this.find('[type="text"]')
-                                    .val(defautlValue)
-                                    .trigger('keyup');
-                            }
                         },
                         close: function() {
                             this.dialog('close');
