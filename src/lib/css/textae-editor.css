@@ -161,7 +161,10 @@
     width: 221px;
 }
 
-.textae-editor__load-dialog__file-name, .textae-editor__load-dialog__file, .textae-editor__save-dialog__file-name {
+.textae-editor__load-dialog__file-name,
+.textae-editor__load-dialog__file,
+.textae-editor__save-dialog__server-file-name,
+.textae-editor__save-dialog__local-file-name {
     width: 345px;
     line-height: 16px;
 }

@@ -180,7 +180,7 @@
                             });
 
                             if (defautlValue) {
-                                this.find('[type="text"]')
+                                this.find('[type="text"].url')
                                     .val(defautlValue)
                                     .trigger('keyup');
                             }

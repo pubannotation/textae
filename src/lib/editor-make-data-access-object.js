@@ -68,7 +68,7 @@
                             .append(
                                 $('<div class="textae-editor__load-dialog__row">').append(
                                     $('<label class="textae-editor__load-dialog__label">Server</label>'),
-                                    $('<input type="text" class="textae-editor__load-dialog__file-name" />'),
+                                    $('<input type="text" class="textae-editor__load-dialog__file-name url" />'),
                                     $inputServer
                                 )
                             )
@@ -139,15 +139,13 @@
                             },
                             setLocalLink = function($save_dialog, downloadPath) {
                                 var getFilename = function() {
-                                        var $fileInput = getLoadDialog().find("input[type='file']"),
+                                        var $fileInput = getLoadDialog(editorId).find("input[type='file']"),
                                             file = $fileInput.prop('files')[0];
                                         return file ? file.name : 'annotations.json';
                                     },
                                     setFileLink = function($save_dialog, downloadPath, name) {
-                                        $save_dialog.find('a.download')
-                                            .text(name)
-                                            .attr('href', downloadPath)
-                                            .attr('download', name);
+                                        $save_dialog.find('.textae-editor__save-dialog__local-file-name')
+                                            .val(name);
                                     };
 
                                 var name = getFilename();
@@ -155,28 +153,31 @@
                                 return $save_dialog;
                             };
 
-                        var downloadPath = createDownloadPath(jsonData);
-
                         var $content = $('<div>')
                             .append(
                                 $('<div class="textae-editor__save-dialog__row">').append(
                                     $('<label class="textae-editor__save-dialog__label">Server</label>'),
-                                    $('<input type="text" class="textae-editor__save-dialog__file-name" />'),
-                                    $('<input type="button" value="OK" />')
+                                    $('<input type="text" class="textae-editor__save-dialog__server-file-name url" />'),
+                                    $('<input type="button" class="textae-editor__save-dialog__save-server-button" value="Save" />')
                                 )
                             )
-                            .on('click', '[type="button"]', function() {
-                                var url = $content.find('.textae-editor__save-dialog__file-name').val();
+                            .on('click', '.textae-editor__save-dialog__save-server-button', function() {
+                                var url = $content.find('.textae-editor__save-dialog__server-file-name').val();
                                 saveAnnotationToServer(url, jsonData);
                                 $content.dialogClose();
                             })
                             .append(
                                 $('<div class="textae-editor__save-dialog__row">').append(
                                     $('<label class="textae-editor__save-dialog__label">Local</label>'),
-                                    $('<a class="download" target="_blank">')
+                                    $('<input type="text" class="textae-editor__save-dialog__local-file-name">'),
+                                    $('<a class="download" target="_blank">Save</a>')
                                 )
                             )
                             .on('click', 'a.download', function() {
+                                var downloadPath = createDownloadPath(jsonData);
+                                $(this)
+                                    .attr('href', downloadPath)
+                                    .attr('download', $content.find('.textae-editor__save-dialog__local-file-name').val());
                                 savedFunc();
                                 $content.dialogClose();
                             })
@@ -187,6 +188,7 @@
                                 )
                             )
                             .on('click', 'a.viewsource', function(e) {
+                                var downloadPath = createDownloadPath(jsonData);
                                 window.open(downloadPath, '_blank');
                                 savedFunc();
                                 $content.dialogClose();
