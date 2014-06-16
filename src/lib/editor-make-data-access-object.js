@@ -149,20 +149,11 @@
                                 });
                                 return URL.createObjectURL(blob);
                             },
-                            setLocalLink = function($save_dialog, downloadPath) {
-                                var getFilename = function() {
-                                        var $fileInput = getLoadDialog(editorId).find("input[type='file']"),
-                                            file = $fileInput.prop('files')[0];
-                                        return file ? file.name : 'annotations.json';
-                                    },
-                                    setFileLink = function($save_dialog, downloadPath, name) {
-                                        $save_dialog.find('.textae-editor__save-dialog__local-file-name')
-                                            .val(name);
-                                    };
+                            getFilename = function() {
+                                var $fileInput = getLoadDialog(editorId).find("input[type='file']"),
+                                    file = $fileInput.prop('files')[0];
 
-                                var name = getFilename();
-                                setFileLink($save_dialog, downloadPath, name);
-                                return $save_dialog;
+                                return file ? file.name : 'annotations.json';
                             };
 
                         var $content = $('<div>')
@@ -182,7 +173,7 @@
                                 $('<div class="textae-editor__save-dialog__row">').append(
                                     $('<label class="textae-editor__save-dialog__label">Local</label>'),
                                     $('<input type="text" class="textae-editor__save-dialog__local-file-name">'),
-                                    $('<a class="download" target="_blank">Save</a>')
+                                    $('<a class="download" href="#">Save</a>')
                                 )
                             )
                             .on('click', 'a.download', function() {
@@ -209,7 +200,18 @@
 
                         var $dialog = getDialog(editorId, 'textae.dialog.save', 'Save Annotations', $content);
 
-                        return setLocalLink($dialog, downloadPath);
+                        // Set the local file name when the dialog is opend.
+                        $dialog.open = _.compose($dialog.open.bind($dialog), function(url) {
+                            var filename = getFilename();
+
+                            $dialog
+                                .find('.textae-editor__save-dialog__local-file-name')
+                                .val(filename);
+
+                            return url;
+                        });
+
+                        return $dialog;
                     };
 
                 return {
