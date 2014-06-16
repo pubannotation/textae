@@ -47,6 +47,18 @@
             },
             //load/saveDialog
             loadSaveDialog = function() {
+                var extendOpenWithUrl = function($dialog) {
+                        $dialog.open = _.compose($dialog.open.bind($dialog), function(url) {
+                            if (url) {
+                                this.find('[type="text"].url')
+                                    .val(url)
+                                    .trigger('keyup');
+                            }
+                        });
+
+                        return $dialog;
+                    },
+                    getDialog = _.compose(extendOpenWithUrl, textAeUtil.getDialog);
                 var getLoadDialog = function(editorId) {
                         var getAnnotationFromFile = function(file) {
                                 var reader = new FileReader();
@@ -105,7 +117,7 @@
                                     $content.dialogClose();
                                 });
 
-                        return textAeUtil.getDialog(editorId, 'textae.dialog.load', 'Load Annotations', $content);
+                        return getDialog(editorId, 'textae.dialog.load', 'Load Annotations', $content);
                     },
                     getSaveDialog = function(editorId, jsonData) {
                         var showSaveSuccess = function() {
@@ -195,7 +207,7 @@
                                 return false;
                             });
 
-                        var $dialog = textAeUtil.getDialog(editorId, 'textae.dialog.save', 'Save Annotations', $content);
+                        var $dialog = getDialog(editorId, 'textae.dialog.save', 'Save Annotations', $content);
 
                         return setLocalLink($dialog, downloadPath);
                     };
