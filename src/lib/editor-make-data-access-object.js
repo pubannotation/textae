@@ -119,7 +119,7 @@
 
                         return getDialog(editorId, 'textae.dialog.load', 'Load Annotations', $content);
                     },
-                    getSaveDialog = function(editorId, jsonData) {
+                    getSaveDialog = function(editorId) {
                         var showSaveSuccess = function() {
                                 getMessageArea().html("annotation saved").fadeIn().fadeOut(5000, function() {
                                     $(this).html('').removeAttr('style');
@@ -166,7 +166,7 @@
                             )
                             .on('click', '.textae-editor__save-dialog__save-server-button', function() {
                                 var url = $content.find('.textae-editor__save-dialog__server-file-name').val();
-                                saveAnnotationToServer(url, jsonData);
+                                saveAnnotationToServer(url, $dialog.jsonData);
                                 $content.dialogClose();
                             })
                             .append(
@@ -177,7 +177,7 @@
                                 )
                             )
                             .on('click', 'a.download', function() {
-                                var downloadPath = createDownloadPath(jsonData);
+                                var downloadPath = createDownloadPath($dialog.jsonData);
                                 $(this)
                                     .attr('href', downloadPath)
                                     .attr('download', $content.find('.textae-editor__save-dialog__local-file-name').val());
@@ -191,7 +191,7 @@
                                 )
                             )
                             .on('click', 'a.viewsource', function(e) {
-                                var downloadPath = createDownloadPath(jsonData);
+                                var downloadPath = createDownloadPath($dialog.jsonData);
                                 window.open(downloadPath, '_blank');
                                 savedFunc();
                                 $content.dialogClose();
@@ -200,16 +200,22 @@
 
                         var $dialog = getDialog(editorId, 'textae.dialog.save', 'Save Annotations', $content);
 
-                        // Set the local file name when the dialog is opend.
-                        $dialog.open = _.compose($dialog.open.bind($dialog), function(url) {
-                            var filename = getFilename();
+                        // Do not set twice.
+                        if (!$dialog.openAndSetParam) {
+                            // Set the filename and json when the dialog is opend.
+                            $dialog.openAndSetParam = _.compose($dialog.open.bind($dialog), function(url, jsonData) {
+                                // Set the filename.
+                                var filename = getFilename();
+                                $dialog
+                                    .find('.textae-editor__save-dialog__local-file-name')
+                                    .val(filename);
 
-                            $dialog
-                                .find('.textae-editor__save-dialog__local-file-name')
-                                .val(filename);
+                                // Set the json.
+                                $dialog.jsonData = jsonData;
 
-                            return url;
-                        });
+                                return url;
+                            });
+                        }
 
                         return $dialog;
                     };
@@ -219,7 +225,7 @@
                         getLoadDialog(editorId).open(url);
                     },
                     showSave: function(editorId, url, jsonData) {
-                        getSaveDialog(editorId, jsonData).open(url);
+                        getSaveDialog(editorId).openAndSetParam(url, jsonData);
                     }
                 };
             }();
