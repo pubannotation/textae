@@ -158,6 +158,7 @@
                                     span.parent = lastPushedSpan;
                                 } else {
                                     // A current span has no parent.
+                                    span.parent = null;
                                     spanTree.push(span);
                                 }
                             });
