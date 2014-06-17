@@ -45,7 +45,12 @@
                     innerAddSpan = function(span) {
                         var additionalPropertiesForSpan = {
                             isChildOf: function(maybeParent) {
-                                return maybeParent && maybeParent.begin <= span.begin && span.end <= maybeParent.end;
+                                if (!maybeParent) return false;
+
+                                var id = idFactory.makeSpanId(maybeParent.begin, maybeParent.end);
+                                if (!spanContainer[id]) throw new Error('maybeParent is removed. ' + maybeParent.toStringOnlyThis());
+
+                                return maybeParent.begin <= span.begin && span.end <= maybeParent.end;
                             },
                             //for debug. print myself only.
                             toStringOnlyThis: function() {
