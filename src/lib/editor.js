@@ -1837,6 +1837,7 @@
                             lastSaveIndex = lastEditIndex;
                             trigger();
                         },
+                        hasAnythingToSave: hasAnythingToSave,
                         hasAnythingToUndo: hasAnythingToUndo,
                         hasAnythingToRedo: hasAnythingToRedo
                     };
@@ -1856,6 +1857,7 @@
                     updateSavePoint: function() {
                         history.saved();
                     },
+                    hasAnythingToSave: history.hasAnythingToSave,
                     invoke: function(commands) {
                         if (commands && commands.length > 0) {
                             invoke(commands);
@@ -2917,7 +2919,11 @@
                     dataAccessObject.setSaved(function() {
                         controller.command.updateSavePoint();
                     });
-                    showAccess = dataAccessObject.showAccess;
+
+                    showAccess = function() {
+                        dataAccessObject.showAccess(controller.command.hasAnythingToSave());
+                    };
+
                     showSave = function() {
                         dataAccessObject.showSave(model.annotationData.toJson());
                     };
