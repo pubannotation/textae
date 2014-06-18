@@ -2885,7 +2885,7 @@
                             var setMode = params.mode === 'view' ? setViewMode : setEditMode;
 
                             // Set a loaded handoler to the dataAccessObject.
-                            dataAccessObject.setLoaded(_.compose(setMode, controller.command.reset));
+                            dataAccessObject.bind('load', _.compose(setMode, controller.command.reset));
 
                             return setMode;
                         },
@@ -2916,9 +2916,7 @@
                 showSave,
                 initDao = function() {
                     var dataAccessObject = makeDataAccessObject(editor);
-                    dataAccessObject.setSaved(function() {
-                        controller.command.updateSavePoint();
-                    });
+                    dataAccessObject.bind('save', controller.command.updateSavePoint);
 
                     showAccess = function() {
                         dataAccessObject.showAccess(controller.command.hasAnythingToSave());
