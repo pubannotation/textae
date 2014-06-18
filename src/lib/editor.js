@@ -2799,13 +2799,9 @@
                         view.viewModel.buttonStateHelper.enabled("redo", state.hasAnythingToRedo);
 
                         //change leaveMessage show
-                        if (state.hasAnythingToSave) {
-                            window.onbeforeunload = function() {
-                                return "There is a change that has not been saved. If you leave now, you will lose it.";
-                            };
-                        } else {
-                            window.onbeforeunload = null;
-                        }
+                        window.onbeforeunload = state.hasAnythingToSave ? function() {
+                            return "There is a change that has not been saved. If you leave now, you will lose it.";
+                        } : null;
                     });
 
                     controller.userEvent.viewHandler.init();
