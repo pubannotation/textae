@@ -1433,19 +1433,19 @@
                         return;
                     }
 
-                    var commands = [controller.command.factory.spanCreateCommand({
+                    var commands = [command.factory.spanCreateCommand({
                         begin: beginPosition,
                         end: endPosition
                     })];
 
                     if (view.viewModel.modeAccordingToButton['replicate-auto'].value() && endPosition - beginPosition <= CONSTS.BLOCK_THRESHOLD) {
-                        commands.push(controller.command.factory.spanReplicateCommand({
+                        commands.push(command.factory.spanReplicateCommand({
                             begin: beginPosition,
                             end: endPosition
                         }));
                     }
 
-                    controller.command.invoke(commands);
+                    command.invoke(commands);
 
                 })(adjustSpanBegin(anchorPosition), adjustSpanEnd(focusPosition));
 
@@ -1458,7 +1458,7 @@
                     return;
                 }
 
-                return [controller.command.factory.spanMoveCommand(spanId, begin, end)];
+                return [command.factory.spanMoveCommand(spanId, begin, end)];
             };
 
             var expandSpan = function(spanId, selection) {
@@ -1480,7 +1480,7 @@
                     commands = moveSpan(spanId, model.annotationData.span.get(spanId).begin, newEnd);
                 }
 
-                controller.command.invoke(commands);
+                command.invoke(commands);
             };
 
             var shortenSpan = function(spanId, selection) {
@@ -1493,7 +1493,7 @@
                 focusRange.selectNode(selection.focusNode);
 
                 var removeSpan = function(spanId) {
-                    return [controller.command.factory.spanRemoveCommand(spanId)];
+                    return [command.factory.spanRemoveCommand(spanId)];
                 };
 
                 var new_sid, tid, eid, type;
@@ -1529,7 +1529,7 @@
                     }
                 }
 
-                controller.command.invoke(commands);
+                command.invoke(commands);
             };
 
             var isInSelectedSpan = function(position) {
@@ -1885,7 +1885,7 @@
                     factory: function() {
                         var debugLog = function(message) {
                             // For debug
-                            console.log('[controller.command.invoke]', message);
+                            console.log('[command.invoke]', message);
                         };
 
                         return {
@@ -1901,7 +1901,7 @@
                                         // select
                                         model.selectionModel.span.add(newSpan.id);
 
-                                        this.revert = _.partial(controller.command.factory.spanRemoveCommand, newSpan.id);
+                                        this.revert = _.partial(command.factory.spanRemoveCommand, newSpan.id);
 
                                         debugLog('create a new span, spanId:' + newSpan.id);
                                     }
@@ -1915,7 +1915,7 @@
                                         // model
                                         model.annotationData.span.remove(spanId);
 
-                                        this.revert = _.partial(controller.command.factory.spanCreateCommand, {
+                                        this.revert = _.partial(command.factory.spanCreateCommand, {
                                             begin: span.begin,
                                             end: span.end
                                         });
@@ -1931,14 +1931,14 @@
                                         var newSpanId = idFactory.makeSpanId(begin, end);
 
                                         if (!model.annotationData.span.get(newSpanId)) {
-                                            commands.push(controller.command.factory.spanRemoveCommand(spanId));
-                                            commands.push(controller.command.factory.spanCreateCommand({
+                                            commands.push(command.factory.spanRemoveCommand(spanId));
+                                            commands.push(command.factory.spanCreateCommand({
                                                 begin: begin,
                                                 end: end
                                             }));
                                             model.annotationData.span.get(spanId).getTypes().forEach(function(type) {
                                                 type.entities.forEach(function(entityId) {
-                                                    commands.push(controller.command.factory.entityCreateCommand(newSpanId, type.name, entityId));
+                                                    commands.push(command.factory.entityCreateCommand(newSpanId, type.name, entityId));
                                                 });
                                             });
                                         }
@@ -1948,7 +1948,7 @@
                                         });
 
                                         var oldBeginEnd = idFactory.parseSpanId(spanId);
-                                        this.revert = _.partial(controller.command.factory.spanMoveCommand, newSpanId, oldBeginEnd.begin, oldBeginEnd.end);
+                                        this.revert = _.partial(command.factory.spanMoveCommand, newSpanId, oldBeginEnd.begin, oldBeginEnd.end);
 
                                         debugLog('move a span, spanId:' + spanId + ', newBegin:' + begin + ', newEnd:' + end);
                                     },
@@ -1975,7 +1975,7 @@
                                 return {
                                     execute: function() {
                                         var commands = model.getReplicationSpans(span, controller.spanConfig)
-                                            .map(controller.command.factory.spanCreateCommand);
+                                            .map(command.factory.spanCreateCommand);
 
                                         commands.forEach(function(command) {
                                             command.execute();
@@ -2005,7 +2005,7 @@
                                         model.selectionModel.entity.add(newEntity.id);
 
                                         // Set revert
-                                        this.revert = _.partial(controller.command.factory.entityRemoveCommand, newEntity.id, spanId, typeName);
+                                        this.revert = _.partial(command.factory.entityRemoveCommand, newEntity.id, spanId, typeName);
 
                                         debugLog('create a new entity, spanId:' + spanId + ', type:' + typeName + '  entityId:' + newEntity.id);
                                     }
@@ -2019,7 +2019,7 @@
                                         // model
                                         model.annotationData.entity.remove(entityId);
 
-                                        this.revert = _.partial(controller.command.factory.entityCreateCommand, entity.span, entity.type, entityId);
+                                        this.revert = _.partial(command.factory.entityCreateCommand, entity.span, entity.type, entityId);
 
                                         debugLog('remove a entity, spanId:' + entity.span + ', type:' + entity.type + ', entityId:' + entityId);
                                     },
@@ -2032,7 +2032,7 @@
 
                                         var changedEntity = model.annotationData.entity.changeType(entityId, newType);
 
-                                        this.revert = _.partial(controller.command.factory.entityChangeTypeCommand, entityId, oldType);
+                                        this.revert = _.partial(command.factory.entityChangeTypeCommand, entityId, oldType);
 
                                         debugLog('change type of a entity, spanId:' + changedEntity.span + ', type:' + oldType + ', entityId:' + entityId + ', newType:' + newType);
                                     }
@@ -2055,7 +2055,7 @@
                                         _.delay(_.partial(model.selectionModel.relation.add, newRelation.id), 100);
 
                                         // Set Revert
-                                        this.revert = _.partial(controller.command.factory.relationRemoveCommand, newRelation.id);
+                                        this.revert = _.partial(command.factory.relationRemoveCommand, newRelation.id);
 
                                         debugLog('create a new relation relationId:' + newRelation.id + ', subject:' + subject + ', object:' + object + ', predicate:' + predicate);
                                     }
@@ -2071,7 +2071,7 @@
 
                                         model.annotationData.relation.remove(relationId);
 
-                                        this.revert = _.partial(controller.command.factory.relationCreateCommand, subject, object, predicate, relationId);
+                                        this.revert = _.partial(command.factory.relationCreateCommand, subject, object, predicate, relationId);
 
                                         debugLog('remove a relation relationId:' + relationId + ', subject:' + subject + ', object:' + object + ', predicate:' + predicate);
                                     }
@@ -2084,7 +2084,7 @@
 
                                         model.annotationData.relation.changePredicate(relationId, predicate);
 
-                                        this.revert = _.partial(controller.command.factory.relationChangePredicateCommand, relationId, oldPredicate);
+                                        this.revert = _.partial(command.factory.relationChangePredicateCommand, relationId, oldPredicate);
 
                                         debugLog('change predicate of relation, relationId:' + relationId + ', subject:' + model.annotationData.relation.get(relationId).subj + ', object:' + model.annotationData.relation.get(relationId).obj + ', predicate:' + oldPredicate + ', newPredicate:' + predicate);
                                     }
@@ -2106,8 +2106,8 @@
                             replicate: function() {
                                 var spanId = model.selectionModel.span.single();
                                 if (spanId) {
-                                    controller.command.invoke(
-                                        [controller.command.factory.spanReplicateCommand(
+                                    command.invoke(
+                                        [command.factory.spanReplicateCommand(
                                             model.annotationData.span.get(spanId)
                                         )]
                                     );
@@ -2117,10 +2117,10 @@
                             },
                             createEntity: function() {
                                 var commands = model.selectionModel.span.all().map(function(spanId) {
-                                    return controller.command.factory.entityCreateCommand(spanId, view.viewModel.typeContainer.entity.getDefaultType());
+                                    return command.factory.entityCreateCommand(spanId, view.viewModel.typeContainer.entity.getDefaultType());
                                 });
 
-                                controller.command.invoke(commands);
+                                command.invoke(commands);
                             },
                             // set the type of an entity
                             setEntityType: function() {
@@ -2161,13 +2161,13 @@
                                             relationIds = relationIds.concat(addedRelations);
                                         },
                                         getAll: function() {
-                                            return unique(relationIds).map(controller.command.factory.relationRemoveCommand)
+                                            return unique(relationIds).map(command.factory.relationRemoveCommand)
                                                 .concat(
                                                     unique(entityIds).map(function(entity) {
-                                                        // Wrap by a anonymous function, because controller.command.factory.entityRemoveCommand has two optional arguments.
-                                                        return controller.command.factory.entityRemoveCommand(entity);
+                                                        // Wrap by a anonymous function, because command.factory.entityRemoveCommand has two optional arguments.
+                                                        return command.factory.entityRemoveCommand(entity);
                                                     }),
-                                                    unique(spanIds).map(controller.command.factory.spanRemoveCommand));
+                                                    unique(spanIds).map(command.factory.spanRemoveCommand));
                                         },
                                     };
                                 }();
@@ -2197,7 +2197,7 @@
                                 //remove relations
                                 removeCommand.addRelations(model.selectionModel.relation.all());
 
-                                controller.command.invoke(removeCommand.getAll());
+                                command.invoke(removeCommand.getAll());
                             },
                             copyEntities: function() {
                                 view.viewModel.clipBoard = function getEntitiesFromSelectedSpan() {
@@ -2221,11 +2221,11 @@
                                 var commands = model.selectionModel.span.all().map(function(spanId) {
                                     // The view.viewModel.clipBoard has enitityIds.
                                     return view.viewModel.clipBoard.map(function(entityId) {
-                                        return controller.command.factory.entityCreateCommand(spanId, model.annotationData.entity.get(entityId).type);
+                                        return command.factory.entityCreateCommand(spanId, model.annotationData.entity.get(entityId).type);
                                     });
                                 }).reduce(textAeUtil.flatten, []);
 
-                                controller.command.invoke(commands);
+                                command.invoke(commands);
                             }
                         };
                     }(),
@@ -2242,7 +2242,7 @@
                                             return createChangeTypeCommandFunction(id, newType);
                                         });
 
-                                        controller.command.invoke(commands);
+                                        command.invoke(commands);
                                     }
                                 },
                                 unbindAllEventhandler = function() {
@@ -2271,7 +2271,7 @@
                                             } else {
                                                 model.selectionModel.entity.add(objectEntityId);
                                                 _.defer(function() {
-                                                    controller.command.invoke([controller.command.factory.relationCreateCommand(
+                                                    command.invoke([command.factory.relationCreateCommand(
                                                         subjectEntityId,
                                                         objectEntityId,
                                                         view.viewModel.typeContainer.relation.getDefaultType()
@@ -2299,7 +2299,7 @@
                                         .on('mouseup', '.textae-editor__entity', entityClickedAtRelationMode);
 
                                     palletConfig.typeContainer = view.viewModel.typeContainer.relation;
-                                    changeTypeOfSelected = _.partial(changeType, model.selectionModel.relation.all, controller.command.factory.relationChangePredicateCommand);
+                                    changeTypeOfSelected = _.partial(changeType, model.selectionModel.relation.all, command.factory.relationChangePredicateCommand);
 
                                     jsPlumbConnectionClickedImpl = selectRelation;
                                 },
@@ -2323,7 +2323,7 @@
                                         .on('mouseup', '.textae-editor__entity', entityClicked);
 
                                     palletConfig.typeContainer = view.viewModel.typeContainer.entity;
-                                    changeTypeOfSelected = _.partial(changeType, model.selectionModel.entity.all, controller.command.factory.entityChangeTypeCommand);
+                                    changeTypeOfSelected = _.partial(changeType, model.selectionModel.entity.all, command.factory.entityChangeTypeCommand);
 
                                     jsPlumbConnectionClickedImpl = null;
                                 },
