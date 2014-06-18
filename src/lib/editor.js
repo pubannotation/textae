@@ -1787,25 +1787,30 @@
 
             // A command is an operation by user that is saved as history, and can undo and redo.
             // Users can edit model only via commands. 
-            var command = function() {
+            var command = textAeUtil.extendBindable(function() {
                 // histories of edit to undo and redo.
                 var history = function() {
                     var lastSaveIndex = -1,
                         lastEditIndex = -1,
                         history = [],
-                        onChangeFunc,
+                        hasAnythingToUndo = function() {
+                            return lastEditIndex > -1;
+                        },
+                        hasAnythingToRedo = function() {
+                            return lastEditIndex < history.length - 1;
+                        },
+                        hasAnythingToSave = function() {
+                            return lastEditIndex != lastSaveIndex;
+                        },
                         trigger = function() {
-                            if (onChangeFunc) {
-                                onChangeFunc();
-                            }
+                            command.trigger('change', {
+                                hasAnythingToSave: hasAnythingToSave(),
+                                hasAnythingToUndo: hasAnythingToUndo(),
+                                hasAnythingToRedo: hasAnythingToRedo()
+                            });
                         };
 
                     return {
-                        init: function(onChange) {
-                            if (onChange !== undefined) {
-                                onChangeFunc = onChange.bind(this);
-                            }
-                        },
                         reset: function() {
                             lastSaveIndex = -1;
                             lastEditIndex = -1;
@@ -1832,15 +1837,8 @@
                             lastSaveIndex = lastEditIndex;
                             trigger();
                         },
-                        hasAnythingToUndo: function() {
-                            return lastEditIndex > -1;
-                        },
-                        hasAnythingToRedo: function() {
-                            return lastEditIndex < history.length - 1;
-                        },
-                        hasAnythingToSave: function() {
-                            return lastEditIndex != lastSaveIndex;
-                        }
+                        hasAnythingToUndo: hasAnythingToUndo,
+                        hasAnythingToRedo: hasAnythingToRedo
                     };
                 }();
 
@@ -1851,10 +1849,6 @@
                 };
 
                 return {
-                    init: function(onChange) {
-                        history.init(onChange);
-                        history.reset();
-                    },
                     reset: function(annotation) {
                         model.annotationData.reset(annotation);
                         history.reset();
@@ -2099,7 +2093,7 @@
                         };
                     }(),
                 };
-            }();
+            }());
 
             var userEvent = function() {
                 // changeEventHandler will init.
@@ -2798,26 +2792,21 @@
                             jsPlumbConnection.bind('click', jsPlumbConnectionClicked);
                         });
 
-                    // Init command
-                    controller.command.init(
-                        function commandChangedHandler() {
-                            // An event handler called when command state is changed.
+                    command.bind('change', function(state) {
+                        //change button state
+                        view.viewModel.buttonStateHelper.enabled("write", state.hasAnythingToSave);
+                        view.viewModel.buttonStateHelper.enabled("undo", state.hasAnythingToUndo);
+                        view.viewModel.buttonStateHelper.enabled("redo", state.hasAnythingToRedo);
 
-                            //change button state
-                            view.viewModel.buttonStateHelper.enabled("write", this.hasAnythingToSave());
-                            view.viewModel.buttonStateHelper.enabled("undo", this.hasAnythingToUndo());
-                            view.viewModel.buttonStateHelper.enabled("redo", this.hasAnythingToRedo());
-
-                            //change leaveMessage show
-                            if (this.hasAnythingToSave()) {
-                                window.onbeforeunload = function() {
-                                    return "There is a change that has not been saved. If you leave now, you will lose it.";
-                                };
-                            } else {
-                                window.onbeforeunload = null;
-                            }
+                        //change leaveMessage show
+                        if (state.hasAnythingToSave) {
+                            window.onbeforeunload = function() {
+                                return "There is a change that has not been saved. If you leave now, you will lose it.";
+                            };
+                        } else {
+                            window.onbeforeunload = null;
                         }
-                    );
+                    });
 
                     controller.userEvent.viewHandler.init();
                 },
