@@ -523,11 +523,9 @@
 
                             var arrangeRelationPosition = function(span) {
                                 _.compact(
-                                    span.getTypes().map(function(type) {
-                                        return type.entities;
-                                    }).reduce(textAeUtil.flatten, [])
-                                    .map(model.annotationData.entity.assosicatedRelations)
-                                    .reduce(textAeUtil.flatten, [])
+                                    _.flatten(
+                                        span.getEntities().map(model.annotationData.entity.assosicatedRelations)
+                                    )
                                     .map(toConnector)
                                 ).forEach(function(connector) {
                                     connector.arrangePosition();
@@ -2140,18 +2138,10 @@
                             },
                             removeSelectedElements: function() {
                                 var removeCommand = function() {
-                                    var unique = function(array) {
-                                        return array.reduce(function(a, b) {
-                                            if (a.indexOf(b) === -1) {
-                                                a.push(b);
-                                            }
-                                            return a;
-                                        }, []);
-                                    };
-
                                     var spanIds = [],
                                         entityIds = [],
                                         relationIds = [];
+
                                     return {
                                         addSpanId: function(spanId) {
                                             spanIds.push(spanId);
@@ -2163,13 +2153,13 @@
                                             relationIds = relationIds.concat(addedRelations);
                                         },
                                         getAll: function() {
-                                            return unique(relationIds).map(command.factory.relationRemoveCommand)
+                                            return _.uniq(relationIds).map(command.factory.relationRemoveCommand)
                                                 .concat(
-                                                    unique(entityIds).map(function(entity) {
+                                                    _.uniq(entityIds).map(function(entity) {
                                                         // Wrap by a anonymous function, because command.factory.entityRemoveCommand has two optional arguments.
                                                         return command.factory.entityRemoveCommand(entity);
                                                     }),
-                                                    unique(spanIds).map(command.factory.spanRemoveCommand));
+                                                    _.uniq(spanIds).map(command.factory.spanRemoveCommand));
                                         },
                                     };
                                 }();
@@ -2202,30 +2192,25 @@
                                 command.invoke(removeCommand.getAll());
                             },
                             copyEntities: function() {
-                                view.viewModel.clipBoard = function getEntitiesFromSelectedSpan() {
-                                    return model.selectionModel.span.all().map(function(spanId) {
-                                        return model.annotationData.span.get(spanId).getTypes().map(function(t) {
-                                            return t.entities;
-                                        }).reduce(textAeUtil.flatten);
-                                    }).reduce(textAeUtil.flatten, []);
-                                }().concat(
-                                    model.selectionModel.entity.all()
-                                ).reduce(function(a, b) {
-                                    // Unique Entities. Because a entity is deplicate When a span and thats entity is selected.
-                                    if (a.indexOf(b) < 0) {
-                                        a.push(b);
-                                    }
-                                    return a;
-                                }, []);
+                                // Unique Entities. Because a entity is deplicate When a span and thats entity is selected.
+                                view.viewModel.clipBoard = _.uniq(
+                                    function getEntitiesFromSelectedSpan() {
+                                        return _.flatten(model.selectionModel.span.all().map(function(spanId) {
+                                            return model.annotationData.span.get(spanId).getEntities();
+                                        }));
+                                    }().concat(
+                                        model.selectionModel.entity.all()
+                                    )
+                                );
                             },
                             pasteEntities: function() {
                                 // Make commands per selected spans from entities in clipBord. 
-                                var commands = model.selectionModel.span.all().map(function(spanId) {
+                                var commands = _.flatten(model.selectionModel.span.all().map(function(spanId) {
                                     // The view.viewModel.clipBoard has enitityIds.
                                     return view.viewModel.clipBoard.map(function(entityId) {
                                         return command.factory.entityCreateCommand(spanId, model.annotationData.entity.get(entityId).type);
                                     });
-                                }).reduce(textAeUtil.flatten, []);
+                                }));
 
                                 command.invoke(commands);
                             }

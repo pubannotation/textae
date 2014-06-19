@@ -83,6 +83,11 @@
                                             }
                                             return a;
                                         }, []);
+                                },
+                                getEntities: function() {
+                                    return _.flatten(this.getTypes().map(function(type) {
+                                        return type.entities;
+                                    }));
                                 }
                             };
 
