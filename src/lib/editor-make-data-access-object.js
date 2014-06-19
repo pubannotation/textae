@@ -1,5 +1,5 @@
     // A sub component to save and load data.
-    var makeDataAccessObject = function(editor) {
+    var makeDataAccessObject = function(editor, confirmDiscardChangeMessage) {
         var dataSourceUrl = '',
             cursorChanger = function(editor) {
                 var wait = function() {
@@ -75,7 +75,7 @@
                             },
                             isUserCancel = function() {
                                 // The params was set hasAnythingToSave.
-                                return $dialog.params && !window.confirm('There is a change that has not been saved. If you procceed now, you will lose it.');
+                                return $dialog.params && !window.confirm(confirmDiscardChangeMessage);
                             };
 
                         var $inputServer = makeOpenButton('server');

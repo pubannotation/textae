@@ -2763,7 +2763,7 @@
             };
 
             return {
-                init: function() {
+                init: function(confirmDiscardChangeMessage) {
                     // Prevent the default selection by the browser with shift keies.
                     editor.on('mousedown', function(e) {
                         if (e.shiftKey) {
@@ -2802,7 +2802,7 @@
 
                         //change leaveMessage show
                         window.onbeforeunload = state.hasAnythingToSave ? function() {
-                            return "There is a change that has not been saved. If you leave now, you will lose it.";
+                            return confirmDiscardChangeMessage;
                         } : null;
                     });
 
@@ -2914,8 +2914,8 @@
                 // Functions will be called from handleKeyInput and handleButtonClick.
                 showAccess,
                 showSave,
-                initDao = function() {
-                    var dataAccessObject = makeDataAccessObject(editor);
+                initDao = function(confirmDiscardChangeMessage) {
+                    var dataAccessObject = makeDataAccessObject(editor, confirmDiscardChangeMessage);
                     dataAccessObject.bind('save', controller.command.updateSavePoint);
 
                     showAccess = function() {
@@ -2971,12 +2971,13 @@
                     buttonApiMap[name](mousePoint);
                 },
                 start = function start(editor) {
+                    var CONFIRM_DISCARD_CHANGE_MESSAGE = 'There is a change that has not been saved. If you procceed now, you will lose it.';
                     var params = getParams(editor);
 
                     view.init();
-                    controller.init();
+                    controller.init(CONFIRM_DISCARD_CHANGE_MESSAGE);
 
-                    var dataAccessObject = initDao();
+                    var dataAccessObject = initDao(CONFIRM_DISCARD_CHANGE_MESSAGE);
 
                     setConfigByParams(params, dataAccessObject);
                 };
