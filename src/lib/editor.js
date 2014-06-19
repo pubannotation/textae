@@ -637,59 +637,95 @@
                             };
                         }(),
                         spanRenderer = function() {
-                            var renderSingleSpan = function(span) {
-                                // Create the Range to a new span add 
-                                var createRange = function(textNode, textNodeStartPosition) {
+                            // Get the Range to that new span tag insert.
+                            // This function works well when no child span is rendered. 
+                            var getRangeToInsertSpanTag = function(span) {
+                                var getPosition = function(span, textNodeStartPosition) {
                                     var startPos = span.begin - textNodeStartPosition;
                                     var endPos = span.end - textNodeStartPosition;
-                                    if (startPos < 0 || textNode.length < endPos) {
+                                    return {
+                                        start: startPos,
+                                        end: endPos
+                                    };
+                                };
+
+                                var validatePosition = function(position, textNode, span) {
+                                    if (position.start < 0 || textNode.length < position.end) {
                                         throw new Error('oh my god! I cannot render this span. ' + span.toStringOnlyThis() + ', textNode ' + textNode.textContent);
                                     }
+                                };
 
+                                var createRange = function(textNode, position) {
                                     var range = document.createRange();
-                                    range.setStart(textNode, startPos);
-                                    range.setEnd(textNode, endPos);
+                                    range.setStart(textNode, position.start);
+                                    range.setEnd(textNode, position.end);
                                     return range;
                                 };
 
-                                // Get the Range to that new span tag insert.
-                                // This function works well when no child span is rendered. 
-                                var getRangeToInsertSpanTag = function(spanId) {
-                                    var createRangeForFirstSpanInParagraph = function(span) {
-                                        var paragraph = view.renderer.paragraphs[span.paragraph.id];
-                                        textNodeInParagraph = paragraph.element.contents().filter(function() {
-                                            return this.nodeType === 3; //TEXT_NODE
-                                        }).get(0);
-                                        return createRange(textNodeInParagraph, paragraph.begin);
-                                    };
+                                // Create the Range to a new span add 
+                                var createSpanRange = function(span, textNodeStartPosition, textNode) {
+                                    var position = getPosition(span, textNodeStartPosition);
+                                    validatePosition(position, textNode, span);
 
-                                    // The parent of the bigBrother is same with span, whitc is a span or the root of spanTree. 
-                                    var bigBrother = span.getBigBrother();
-                                    if (bigBrother) {
-                                        // The target text arrounded by span is in a textNode after the bigBrother if bigBrother exists.
-                                        return createRange(document.getElementById(bigBrother.id).nextSibling, bigBrother.end);
-                                    } else {
-                                        // The target text arrounded by span is the first child of parent unless bigBrother exists.
-                                        if (span.parent) {
-                                            // The parent is span
-                                            var textNodeInPrevSpan = view.domUtil.selector.span.get(span.parent.id).contents().filter(function() {
-                                                return this.nodeType === 3;
-                                            }).get(0);
-                                            return createRange(textNodeInPrevSpan, span.parent.begin);
-                                        } else {
-                                            // The parent is paragraph
-                                            return createRangeForFirstSpanInParagraph(span);
-                                        }
-                                    }
+                                    return createRange(textNode, position);
                                 };
 
+                                var isTextNode = function() {
+                                    return this.nodeType === 3; //TEXT_NODE
+                                };
+
+                                var getFirstTextNode = function($element) {
+                                    return $element.contents().filter(isTextNode).get(0);
+                                };
+
+                                var getParagraphElement = function(paragraphId) {
+                                    // A jQuery object of paragrapsh is cached.
+                                    return view.renderer.paragraphs[paragraphId].element;
+                                };
+
+                                var createRangeForFirstSpan = function(getJqueryObjectFunc, span, textaeRange) {
+                                    var getTextNode = _.compose(getFirstTextNode, getJqueryObjectFunc);
+                                    var textNode = getTextNode(textaeRange.id);
+                                    return createSpanRange(span, textaeRange.begin, textNode);
+                                };
+
+                                var createRangeForFirstSpanInParent = _.partial(createRangeForFirstSpan, view.domUtil.selector.span.get);
+                                var createRangeForFirstSpanInParagraph = _.partial(createRangeForFirstSpan, getParagraphElement);
+
+                                // The parent of the bigBrother is same with span, which is a span or the root of spanTree. 
+                                var bigBrother = span.getBigBrother();
+                                if (bigBrother) {
+                                    // The target text arrounded by span is in a textNode after the bigBrother if bigBrother exists.
+                                    return createSpanRange(span, bigBrother.end, document.getElementById(bigBrother.id).nextSibling);
+                                } else {
+                                    // The target text arrounded by span is the first child of parent unless bigBrother exists.
+                                    if (span.parent) {
+                                        // The parent is span.
+                                        // This span is first child of span.
+                                        return createRangeForFirstSpanInParent(span, span.parent);
+                                    } else {
+                                        // The parent is paragraph
+                                        return createRangeForFirstSpanInParagraph(span, span.paragraph);
+                                    }
+                                }
+                            };
+
+                            var appendSpanElement = function(span, element) {
+                                getRangeToInsertSpanTag(span).surroundContents(element);
+
+                                return span;
+                            };
+
+                            var createSpanElement = function(span) {
                                 var element = document.createElement('span');
                                 element.setAttribute('id', span.id);
                                 element.setAttribute('title', span.id);
                                 element.setAttribute('class', 'textae-editor__span');
-                                getRangeToInsertSpanTag(span.id).surroundContents(element);
+                                return element;
+                            };
 
-                                return span;
+                            var renderSingleSpan = function(span) {
+                                return appendSpanElement(span, createSpanElement(span));
                             };
 
                             var renderEntitiesOfType = function(type) {
@@ -709,13 +745,29 @@
                                 return !value;
                             };
 
+                            var destroy = function(span) {
+                                var spanElement = document.getElementById(span.id);
+                                var parent = spanElement.parentNode;
+
+                                // Move the textNode wrapped this span in front of this span.
+                                while (spanElement.firstChild) {
+                                    parent.insertBefore(spanElement.firstChild, spanElement);
+                                }
+
+                                removeDom($(spanElement));
+                                parent.normalize();
+
+                                // Destroy a grid of the span. 
+                                destroyGrid(span.id);
+                            };
+
                             var destroyChildrenSpan = function(span) {
                                 // Destroy DOM elements of descendant spans.
                                 var destroySpanRecurcive = function(span) {
                                     span.children.forEach(function(span) {
                                         destroySpanRecurcive(span);
                                     });
-                                    renderer.span.remove(span);
+                                    destroy(span);
                                 };
 
                                 // Destroy rendered children.
@@ -726,29 +778,19 @@
 
                             var renderChildresnSpan = function(span) {
                                 span.children.filter(_.compose(not, exists))
-                                    .forEach(renderer.span.render);
+                                    .forEach(create);
 
                                 return span;
                             };
 
+                            // Destroy children spans to wrap a TextNode with <span> tag when new span over exists spans.
+                            var create = _.compose(renderChildresnSpan, renderEntitiesOfSpan, renderSingleSpan, destroyChildrenSpan);
+
+                            var andMoveGrid = _.partial(_.compose, gridRenderer.arrangePositionAll);
+
                             return {
-                                // Destroy children spans to wrap a TextNode with <span> tag when new span over exists spans.
-                                render: _.compose(gridRenderer.arrangePositionAll, renderChildresnSpan, renderEntitiesOfSpan, renderSingleSpan, destroyChildrenSpan),
-                                remove: function(span) {
-                                    var spanElement = document.getElementById(span.id);
-                                    var parent = spanElement.parentNode;
-
-                                    // Move the textNode wrapped this span in front of this span.
-                                    while (spanElement.firstChild) {
-                                        parent.insertBefore(spanElement.firstChild, spanElement);
-                                    }
-
-                                    removeDom($(spanElement));
-                                    parent.normalize();
-
-                                    // Destroy a grid of the span. 
-                                    destroyGrid(span.id);
-                                },
+                                render: andMoveGrid(create),
+                                remove: andMoveGrid(destroy)
                             };
                         }(),
                         entityRenderer = function() {
