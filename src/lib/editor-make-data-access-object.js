@@ -73,9 +73,9 @@
                                 return $('<input type="button" value="Open" disabled="disabled" />')
                                     .addClass(className);
                             },
-                            isUserCancel = function() {
+                            isUserComfirm = function() {
                                 // The params was set hasAnythingToSave.
-                                return $dialog.params && !window.confirm(confirmDiscardChangeMessage);
+                                return !$dialog.params || window.confirm(confirmDiscardChangeMessage);
                             };
 
                         var $inputServer = makeOpenButton('server');
@@ -97,7 +97,7 @@
                                 }
                             })
                             .on('click', 'input.server', function() {
-                                if (!isUserCancel()) {
+                                if (isUserComfirm()) {
                                     var url = $content.find('.textae-editor__load-dialog__file-name').val();
                                     getAnnotationFromServer(url);
                                 }
@@ -119,7 +119,7 @@
                                 }
                             })
                             .on('click', 'input.local', function() {
-                                if (!isUserCancel()) {
+                                if (isUserComfirm()) {
                                     getAnnotationFromFile($content.find('[type="file"]')[0]);
                                 }
 
