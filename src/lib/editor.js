@@ -2206,7 +2206,7 @@
                                     return model.selectionModel.span.all().map(function(spanId) {
                                         return model.annotationData.span.get(spanId).getTypes().map(function(t) {
                                             return t.entities;
-                                        }).reduce(textAeUtil.flatten);
+                                        }).reduce(textAeUtil.flatten, []);
                                     }).reduce(textAeUtil.flatten, []);
                                 }().concat(
                                     model.selectionModel.entity.all()
