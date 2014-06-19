@@ -731,24 +731,26 @@
                                 return span;
                             };
 
+                            var destroy = function(span) {
+                                var spanElement = document.getElementById(span.id);
+                                var parent = spanElement.parentNode;
+
+                                // Move the textNode wrapped this span in front of this span.
+                                while (spanElement.firstChild) {
+                                    parent.insertBefore(spanElement.firstChild, spanElement);
+                                }
+
+                                removeDom($(spanElement));
+                                parent.normalize();
+
+                                // Destroy a grid of the span. 
+                                destroyGrid(span.id);
+                            };
+
                             return {
                                 // Destroy children spans to wrap a TextNode with <span> tag when new span over exists spans.
                                 render: _.compose(gridRenderer.arrangePositionAll, renderChildresnSpan, renderEntitiesOfSpan, renderSingleSpan, destroyChildrenSpan),
-                                remove: function(span) {
-                                    var spanElement = document.getElementById(span.id);
-                                    var parent = spanElement.parentNode;
-
-                                    // Move the textNode wrapped this span in front of this span.
-                                    while (spanElement.firstChild) {
-                                        parent.insertBefore(spanElement.firstChild, spanElement);
-                                    }
-
-                                    removeDom($(spanElement));
-                                    parent.normalize();
-
-                                    // Destroy a grid of the span. 
-                                    destroyGrid(span.id);
-                                },
+                                remove: _.compose(gridRenderer.arrangePositionAll, destroy)
                             };
                         }(),
                         entityRenderer = function() {
