@@ -2870,6 +2870,24 @@
                     return params;
                 },
                 changeViewMode = function(prefix) {
+                    var maxHeight = _.max(model.annotationData.span.all().map(function(span) {
+                        var height = 23;
+                        var countHeight = function(span) {
+                            height += span.getTypes().length * 36 + 2;
+                            if (span.parent) {
+                                countHeight(span.parent);
+                            }
+                        };
+
+                        countHeight(span);
+
+                        return height;
+                    }).concat(23));
+
+                    console.log(maxHeight);
+
+
+
                     prefix = prefix || '';
                     // Change view mode accoding to the annotation data.
                     if (model.annotationData.relation.some()) {
