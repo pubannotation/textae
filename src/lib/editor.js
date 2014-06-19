@@ -2909,7 +2909,7 @@
                             }
                         },
                         setView = function(params, dataAccessObject) {
-                            var setMode = params.mode === 'view' ? setViewMode : setEditMode;
+                            var setMode = params.mode === 'edit' ? setEditMode : setViewMode;
 
                             // Set a loaded handoler to the dataAccessObject.
                             dataAccessObject.bind('load', _.compose(setMode, controller.command.reset));
