@@ -240,11 +240,6 @@
                 };
             }(),
 
-            // A util function to fallent array with reduce. 
-            flatten: function(a, b) {
-                return a.concat(b);
-            },
-
             // Append event emittion to the object.
             extendBindable: function(obj) {
                 return _.extend({}, obj, bindable());
