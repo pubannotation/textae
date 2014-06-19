@@ -482,8 +482,7 @@
                 };
 
                 var renderer = function() {
-                    var
-                        removeDom = function(target) {
+                    var removeDom = function(target) {
                             return target.remove();
                         },
                         destroyGrid = function(spanId) {
@@ -2865,7 +2864,7 @@
 
                     return params;
                 },
-                setEditMode = function(prefix) {
+                changeViewMode = function(prefix) {
                     prefix = prefix || '';
                     // Change view mode accoding to the annotation data.
                     if (model.annotationData.relation.some()) {
@@ -2879,10 +2878,11 @@
                         controller.userEvent.viewHandler.setViewMode(prefix + 'Term');
                     }
                 },
-                setViewMode = _.compose(function() {
+                changeViewModeWithEdit = _.partial(changeViewMode, ''),
+                changeViewModeWithoutEdit = _.compose(function() {
                     view.viewModel.buttonStateHelper.enabled('replicate-auto', false);
                     view.viewModel.buttonStateHelper.enabled('relation-edit-mode', false);
-                }, _.partial(setEditMode, 'View')),
+                }, _.partial(changeViewMode, 'View')),
                 setConfigByParams = function(params, dataAccessObject) {
                     var setConfig = function(params) {
                             var setTypeConfig = function(config) {
@@ -2908,24 +2908,20 @@
                                 }
                             }
                         },
-                        setView = function(params, dataAccessObject) {
-                            var setMode = params.mode === 'edit' ? setEditMode : setViewMode;
-
-                            // Set a loaded handoler to the dataAccessObject.
-                            dataAccessObject.bind('load', _.compose(setMode, controller.command.reset));
-
-                            return setMode;
+                        bindChangeViewMode = function(params) {
+                            var changeViewMode = params.mode === 'edit' ?
+                                changeViewModeWithEdit :
+                                changeViewModeWithoutEdit;
+                            model.annotationData.bind('all.change', changeViewMode);
                         },
-                        setAnnotation = function(params, dataAccessObject, setMode) {
+                        loadAnnotation = function(params) {
                             var annotation = params.annotation;
-
                             if (annotation) {
-                                if (annotation.inlineAnnotation !== '') {
+                                if (annotation.inlineAnnotation) {
                                     // Set an inline annotation.
                                     controller.command.reset(JSON.parse(annotation.inlineAnnotation));
-                                    setMode();
                                     _.defer(controller.userEvent.viewHandler.redraw);
-                                } else if (annotation.url !== '') {
+                                } else if (annotation.url) {
                                     // Load an annotation from server.
                                     dataAccessObject.getAnnotationFromServer(annotation.url);
                                 }
@@ -2933,10 +2929,8 @@
                         };
 
                     setConfig(params);
-
-                    var setMode = setView(params, dataAccessObject);
-
-                    setAnnotation(params, dataAccessObject, setMode);
+                    bindChangeViewMode(params);
+                    loadAnnotation(params);
                 },
                 // Functions will be called from handleKeyInput and handleButtonClick.
                 showAccess,
@@ -2944,6 +2938,7 @@
                 initDao = function(confirmDiscardChangeMessage) {
                     var dataAccessObject = makeDataAccessObject(editor, confirmDiscardChangeMessage);
                     dataAccessObject.bind('save', controller.command.updateSavePoint);
+                    dataAccessObject.bind('load', controller.command.reset);
 
                     showAccess = function() {
                         dataAccessObject.showAccess(controller.command.hasAnythingToSave());
