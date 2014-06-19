@@ -1,8 +1,6 @@
     // A sub component to save and load data.
-    var makeDataAccessObject = function(editor) {
-        var dataSourceUrl = "",
-            loadedFunc,
-            savedFunc,
+    var makeDataAccessObject = function(editor, confirmDiscardChangeMessage) {
+        var dataSourceUrl = '',
             cursorChanger = function(editor) {
                 var wait = function() {
                     this.addClass('textae-editor_wait');
@@ -19,9 +17,9 @@
                 return function() {
                     $messageArea = editor.find('.textae-editor__footer .textae-editor__footer__message');
                     if ($messageArea.length === 0) {
-                        $messageArea = $("<div>").addClass("textae-editor__footer__message");
-                        var $footer = $("<div>")
-                            .addClass("textae-editor__footer")
+                        $messageArea = $('<div>').addClass('textae-editor__footer__message');
+                        var $footer = $('<div>')
+                            .addClass('textae-editor__footer')
                             .append($messageArea);
                         editor.append($footer);
                     }
@@ -30,16 +28,15 @@
                 };
             }(editor),
             setDataSourceUrl = function(url) {
-                if (url !== "") {
-                    var targetDoc = url.replace(/\/annotations\.json$/, '');
-                    getMessageArea().html("(Target: <a href='" + targetDoc + "'>" + targetDoc + "</a>)");
+                if (url !== '') {
+                    getMessageArea().html('(Target: <a href="' + url + '">' + url + '</a>)');
                     dataSourceUrl = url;
                 }
             },
             getAnnotationFromServer = function(url) {
                 cursorChanger.startWait();
                 textAeUtil.ajaxAccessor.getAsync(url, function getAnnotationFromServerSuccess(annotation) {
-                    loadedFunc(annotation);
+                    api.trigger('load', annotation);
                     setDataSourceUrl(url);
                 }, function() {
                     cursorChanger.endWait();
@@ -48,13 +45,17 @@
             //load/saveDialog
             loadSaveDialog = function() {
                 var extendOpenWithUrl = function($dialog) {
-                        $dialog.open = _.compose($dialog.open.bind($dialog), function(url) {
-                            if (url) {
+                        // Do not set twice.
+                        if (!$dialog.openAndSetParam) {
+                            $dialog.openAndSetParam = _.compose($dialog.open.bind($dialog), function(params) {
+                                // Display dataSourceUrl.
                                 this.find('[type="text"].url')
-                                    .val(url)
+                                    .val(dataSourceUrl)
                                     .trigger('keyup');
-                            }
-                        });
+
+                                $dialog.params = params;
+                            });
+                        }
 
                         return $dialog;
                     },
@@ -64,13 +65,17 @@
                                 var reader = new FileReader();
                                 reader.onload = function() {
                                     var annotation = JSON.parse(this.result);
-                                    loadedFunc(annotation);
+                                    api.trigger('load', annotation);
                                 };
                                 reader.readAsText(file.files[0]);
                             },
                             makeOpenButton = function(className) {
                                 return $('<input type="button" value="Open" disabled="disabled" />')
                                     .addClass(className);
+                            },
+                            isUserComfirm = function() {
+                                // The params was set hasAnythingToSave.
+                                return !$dialog.params || window.confirm(confirmDiscardChangeMessage);
                             };
 
                         var $inputServer = makeOpenButton('server');
@@ -91,12 +96,14 @@
                                     $inputServer.attr('disabled', 'disabled');
                                 }
                             })
-                            .on('click', 'input.server',
-                                function() {
+                            .on('click', 'input.server', function() {
+                                if (isUserComfirm()) {
                                     var url = $content.find('.textae-editor__load-dialog__file-name').val();
                                     getAnnotationFromServer(url);
-                                    $content.dialogClose();
-                                })
+                                }
+
+                                $content.dialogClose();
+                            })
                             .append(
                                 $('<div class="textae-editor__load-dialog__row">').append(
                                     $('<label class="textae-editor__load-dialog__label">Local</label>'),
@@ -111,13 +118,18 @@
                                     $inputLocal.attr('disabled', 'disabled');
                                 }
                             })
-                            .on('click', 'input.local',
-                                function() {
+                            .on('click', 'input.local', function() {
+                                if (isUserComfirm()) {
                                     getAnnotationFromFile($content.find('[type="file"]')[0]);
-                                    $content.dialogClose();
-                                });
+                                }
 
-                        return getDialog(editorId, 'textae.dialog.load', 'Load Annotations', $content);
+                                $content.dialogClose();
+                            });
+
+                        // Capture the local variable by inner funcitons.
+                        var $dialog = getDialog(editorId, 'textae.dialog.load', 'Load Annotations', $content);
+
+                        return $dialog;
                     },
                     getSaveDialog = function(editorId) {
                         var showSaveSuccess = function() {
@@ -125,7 +137,7 @@
                                     $(this).html('').removeAttr('style');
                                     setDataSourceUrl(dataSourceUrl);
                                 });
-                                savedFunc();
+                                api.trigger('save');
                                 cursorChanger.endWait();
                             },
                             showSaveError = function() {
@@ -166,7 +178,7 @@
                             )
                             .on('click', '.textae-editor__save-dialog__save-server-button', function() {
                                 var url = $content.find('.textae-editor__save-dialog__server-file-name').val();
-                                saveAnnotationToServer(url, $dialog.jsonData);
+                                saveAnnotationToServer(url, $dialog.params);
                                 $content.dialogClose();
                             })
                             .append(
@@ -177,11 +189,11 @@
                                 )
                             )
                             .on('click', 'a.download', function() {
-                                var downloadPath = createDownloadPath($dialog.jsonData);
+                                var downloadPath = createDownloadPath($dialog.params);
                                 $(this)
                                     .attr('href', downloadPath)
                                     .attr('download', $content.find('.textae-editor__save-dialog__local-file-name').val());
-                                savedFunc();
+                                api.trigger('save');
                                 $content.dialogClose();
                             })
                             .append(
@@ -191,58 +203,41 @@
                                 )
                             )
                             .on('click', 'a.viewsource', function(e) {
-                                var downloadPath = createDownloadPath($dialog.jsonData);
+                                var downloadPath = createDownloadPath($dialog.params);
                                 window.open(downloadPath, '_blank');
-                                savedFunc();
+                                api.trigger('save');
                                 $content.dialogClose();
                                 return false;
                             });
 
                         var $dialog = getDialog(editorId, 'textae.dialog.save', 'Save Annotations', $content);
 
-                        // Do not set twice.
-                        if (!$dialog.openAndSetParam) {
-                            // Set the filename and json when the dialog is opend.
-                            $dialog.openAndSetParam = _.compose($dialog.open.bind($dialog), function(url, jsonData) {
-                                // Set the filename.
-                                var filename = getFilename();
-                                $dialog
-                                    .find('.textae-editor__save-dialog__local-file-name')
-                                    .val(filename);
-
-                                // Set the json.
-                                $dialog.jsonData = jsonData;
-
-                                return url;
-                            });
-                        }
+                        // Set the filename when the dialog is opened.
+                        $dialog.on('dialogopen', function() {
+                            var filename = getFilename();
+                            $dialog
+                                .find('.textae-editor__save-dialog__local-file-name')
+                                .val(filename);
+                        });
 
                         return $dialog;
                     };
 
                 return {
-                    showLoad: function(editorId, url) {
-                        getLoadDialog(editorId).open(url);
+                    showLoad: function(editorId, hasAnythingToSave) {
+                        getLoadDialog(editorId).openAndSetParam(hasAnythingToSave);
                     },
-                    showSave: function(editorId, url, jsonData) {
-                        getSaveDialog(editorId).openAndSetParam(url, jsonData);
+                    showSave: function(editorId, jsonData) {
+                        getSaveDialog(editorId).openAndSetParam(jsonData);
                     }
                 };
             }();
 
-        return {
+        var api = textAeUtil.extendBindable({
             getAnnotationFromServer: getAnnotationFromServer,
-            showAccess: function() {
-                loadSaveDialog.showLoad(editor.editorId, dataSourceUrl);
-            },
-            showSave: function(jsonData) {
-                loadSaveDialog.showSave(editor.editorId, dataSourceUrl, jsonData);
-            },
-            setLoaded: function(loaded) {
-                loadedFunc = loaded;
-            },
-            setSaved: function(saved) {
-                savedFunc = saved;
-            }
-        };
+            showAccess: _.partial(loadSaveDialog.showLoad, editor.editorId),
+            showSave: _.partial(loadSaveDialog.showSave, editor.editorId),
+        });
+
+        return api;
     };
