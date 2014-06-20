@@ -25,5 +25,11 @@
     "non-edge characters": [
         " ",
         "\n"
-    ]
+    ],
+    "entity types": [{
+        "color": "#0000FF",
+        "name": "Parent",
+        "uri": "http://dbpedia.org/ontology/parent",
+        "default": true
+    }]
 }

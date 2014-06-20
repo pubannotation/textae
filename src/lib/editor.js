@@ -864,6 +864,7 @@
                             var create = function(entity) {
                                 //render type unless exists.
                                 var getTypeElement = function(spanId, type) {
+
                                     // A Type element has an entity_pane elment that has a label and will have entities.
                                     var createEmptyTypeDomElement = function(spanId, type) {
                                         var typeId = idFactory.makeTypeId(spanId, type);
@@ -898,10 +899,18 @@
                                             .css({
                                                 'background-color': view.viewModel.typeContainer.entity.getColor(type),
                                             });
+
                                         if (String(type).indexOf('http') > -1) {
                                             $typeLabel.append(
                                                 $('<a target="_blank"/>')
                                                 .attr('href', type)
+                                                .text(displayName)
+                                            );
+                                        } else if (view.viewModel.typeContainer.entity.getUri(type)) {
+                                            console.log(view.viewModel.typeContainer.entity.getUri(type));
+                                            $typeLabel.append(
+                                                $('<a target="_blank"/>')
+                                                .attr('href', view.viewModel.typeContainer.entity.getUri(type))
                                                 .text(displayName)
                                             );
                                         } else {
