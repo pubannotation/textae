@@ -2891,15 +2891,12 @@
                 },
                 changeViewMode = function(prefix) {
                     // Change view mode accoding to the annotation data.
-                    if (model.annotationData.relation.some()) {
+                    if (model.annotationData.relation.some() || model.annotationData.span.multiEntities().length > 0) {
                         controller.userEvent.viewHandler.setViewMode(prefix + 'Instance');
-                    } else if (model.annotationData.span.multiEntities().length > 0) {
-                        controller.userEvent.viewHandler.setViewMode(prefix + 'Instance');
+                        setLineHeight();
                     } else {
                         controller.userEvent.viewHandler.setViewMode(prefix + 'Term');
                     }
-
-                    setLineHeight();
                 },
                 changeViewModeWithEdit = _.partial(changeViewMode, ''),
                 changeViewModeWithoutEdit = _.compose(function() {
