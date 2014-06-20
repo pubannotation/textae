@@ -635,14 +635,13 @@
                                     return $grid;
                                 },
                                 init = function(container) {
-                                    createGrid = _.partial(createGrid, container);
+                                    gridRenderer.render = _.partial(createGrid, container);
                                 };
 
                             return {
                                 init: init,
-                                render: function(spanId) {
-                                    return createGrid(spanId);
-                                }
+                                // The render is set at init.
+                                render: null
                             };
                         }(),
                         spanRenderer = function() {
@@ -1186,7 +1185,6 @@
                         },
                         span: spanRenderer,
                         entity: entityRenderer,
-                        grid: gridRenderer,
                         relation: relationRenderer
                     };
                 }();
