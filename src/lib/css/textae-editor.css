@@ -105,6 +105,12 @@
     z-index: 1;
 }
 
+.textae-editor_editable .textae-editor__type-label a{
+    color: black;
+    pointer-events: none;
+    text-decoration: none;
+}
+
 .textae-editor__type-label, .textae-editor__entity,
 .textae-editor_relation-mode .textae-editor__type:hover .textae-editor__entity,
 .textae-editor_relation-mode .textae-editor__type:hover .textae-editor__type-label

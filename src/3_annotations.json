@@ -14,6 +14,13 @@
 			"end": 38
 		},
 		"obj": "something"
+	}, {
+		"id": "E3",
+		"span": {
+			"begin": 39,
+			"end": 45
+		},
+		"obj": "Parent"
 	}],
 	"relations": []
 }

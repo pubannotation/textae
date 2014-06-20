@@ -305,6 +305,13 @@
                                     .unbind('entity.select', entitySelectChanged)
                                     .unbind('entity.deselect', entitySelectChanged)
                                     .unbind('entity.change', viewModel.buttonStateHelper.updateByEntity);
+                            },
+                            setEditable: function(isEditable) {
+                                if (isEditable) {
+                                    editor.addClass('textae-editor_editable');
+                                } else {
+                                    editor.removeClass('textae-editor_editable');
+                                }
                             }
                         };
                     }(),
@@ -857,48 +864,72 @@
                             var create = function(entity) {
                                 //render type unless exists.
                                 var getTypeElement = function(spanId, type) {
-                                    // A Type element has an entity_pane elment that has a label and will have entities.
-                                    var createEmptyTypeDomElement = function(spanId, type) {
-                                        var typeId = idFactory.makeTypeId(spanId, type);
-                                        // The EntityPane will have entities.
-                                        var $entityPane = $('<div>')
-                                            .attr('id', 'P-' + typeId)
-                                            .addClass('textae-editor__entity-pane');
-
+                                    var isUri = function(type) {
+                                            return String(type).indexOf('http') > -1;
+                                        },
                                         // Display short name for URL(http or https);
-                                        var displayName = type;
-                                        // For tunning, search the scheme before execute a regular-expression.
-                                        if (String(type).indexOf('http') > -1) {
-                                            // The regular-expression to parse URL.
-                                            // See detail:
-                                            // http://someweblog.com/url-regular-expression-javascript-link-shortener/
-                                            var urlRegex = /\(?(?:(http|https|ftp):\/\/)?(?:((?:[^\W\s]|\.|-|[:]{1})+)@{1})?((?:www.)?(?:[^\W\s]|\.|-)+[\.][^\W\s]{2,4}|localhost(?=\/)|\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})(?::(\d*))?([\/]?[^\s\?]*[\/]{1})*(?:\/?([^\s\n\?\[\]\{\}\#]*(?:(?=\.)){1}|[^\s\n\?\[\]\{\}\.\#]*)?([\.]{1}[^\s\?\#]*)?)?(?:\?{1}([^\s\n\#\[\]]*))?([\#][^\s\n]*)?\)?/gi;
-                                            var matches = urlRegex.exec(type);
-                                            // Order to dispaly.
-                                            // 1. The file name with the extention.
-                                            // 2. The last directory name.
-                                            // 3. The domain name.
-                                            displayName = matches[6] ? matches[6] + (matches[7] || '') :
-                                                matches[5] ? matches[5].split('/').filter(function(s) {
-                                                    return s !== '';
-                                                }).pop() :
-                                                matches[3];
-                                        }
+                                        getDisplayName = function(type) {
+                                            // For tunning, search the scheme before execute a regular-expression.
+                                            if (isUri(type)) {
+                                                // The regular-expression to parse URL.
+                                                // See detail:
+                                                // http://someweblog.com/url-regular-expression-javascript-link-shortener/
+                                                var urlRegex = /\(?(?:(http|https|ftp):\/\/)?(?:((?:[^\W\s]|\.|-|[:]{1})+)@{1})?((?:www.)?(?:[^\W\s]|\.|-)+[\.][^\W\s]{2,4}|localhost(?=\/)|\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})(?::(\d*))?([\/]?[^\s\?]*[\/]{1})*(?:\/?([^\s\n\?\[\]\{\}\#]*(?:(?=\.)){1}|[^\s\n\?\[\]\{\}\.\#]*)?([\.]{1}[^\s\?\#]*)?)?(?:\?{1}([^\s\n\#\[\]]*))?([\#][^\s\n]*)?\)?/gi;
+                                                var matches = urlRegex.exec(type);
+                                                // Order to dispaly.
+                                                // 1. The file name with the extention.
+                                                // 2. The last directory name.
+                                                // 3. The domain name.
+                                                return matches[6] ? matches[6] + (matches[7] || '') :
+                                                    matches[5] ? matches[5].split('/').filter(function(s) {
+                                                        return s !== '';
+                                                    }).pop() :
+                                                    matches[3];
+                                            } else {
+                                                return type;
+                                            }
+                                        },
+                                        getUri = function(type) {
+                                            if (isUri(type)) {
+                                                return type;
+                                            } else if (view.viewModel.typeContainer.entity.getUri(type)) {
+                                                return view.viewModel.typeContainer.entity.getUri(type);
+                                            }
+                                        },
+                                        // A Type element has an entity_pane elment that has a label and will have entities.
+                                        createEmptyTypeDomElement = function(spanId, type) {
+                                            var typeId = idFactory.makeTypeId(spanId, type);
 
-                                        // The label over the span.
-                                        var $typeLabel = $('<div>')
-                                            .addClass('textae-editor__type-label')
-                                            .text(displayName)
-                                            .css({
-                                                'background-color': view.viewModel.typeContainer.entity.getColor(type),
-                                            });
+                                            // The EntityPane will have entities.
+                                            var $entityPane = $('<div>')
+                                                .attr('id', 'P-' + typeId)
+                                                .addClass('textae-editor__entity-pane');
 
-                                        return $('<div>')
-                                            .attr('id', typeId)
-                                            .addClass('textae-editor__type')
-                                            .append($typeLabel)
-                                            .append($entityPane); // Set pane after label because pane is over label.
-                                    };
+                                            // The label over the span.
+                                            var $typeLabel = $('<div>')
+                                                .addClass('textae-editor__type-label')
+                                                .css({
+                                                    'background-color': view.viewModel.typeContainer.entity.getColor(type),
+                                                });
+
+                                            // Set the name of the label with uri of the type.
+                                            var uri = getUri(type);
+                                            if (uri) {
+                                                $typeLabel.append(
+                                                    $('<a target="_blank"/>')
+                                                    .attr('href', uri)
+                                                    .text(getDisplayName(type))
+                                                );
+                                            } else {
+                                                $typeLabel.text(getDisplayName(type));
+                                            }
+
+                                            return $('<div>')
+                                                .attr('id', typeId)
+                                                .addClass('textae-editor__type')
+                                                .append($typeLabel)
+                                                .append($entityPane); // Set pane after label because pane is over label.
+                                        };
 
                                     var getGrid = function(spanId) {
                                         // Create a grid unless it exists.
@@ -2386,6 +2417,7 @@
                                     resetView();
                                     eventHandlerComposer.noRelationEdit();
                                     view.viewModel.viewMode.setTerm();
+                                    view.viewModel.viewMode.setEditable(true);
 
                                     controllerState = state.termCentric;
                                 },
@@ -2393,6 +2425,7 @@
                                     resetView();
                                     eventHandlerComposer.noRelationEdit();
                                     view.viewModel.viewMode.setInstance();
+                                    view.viewModel.viewMode.setEditable(true);
 
                                     controllerState = state.instanceRelation;
                                 },
@@ -2400,6 +2433,7 @@
                                     resetView();
                                     eventHandlerComposer.relationEdit();
                                     view.viewModel.viewMode.setRelation();
+                                    view.viewModel.viewMode.setEditable(true);
 
                                     controllerState = state.relationEdit;
                                 },
@@ -2407,6 +2441,7 @@
                                     resetView();
                                     eventHandlerComposer.noEdit();
                                     view.viewModel.viewMode.setTerm();
+                                    view.viewModel.viewMode.setEditable(false);
 
                                     controllerState = state.viewTerm;
                                 },
@@ -2414,6 +2449,7 @@
                                     resetView();
                                     eventHandlerComposer.noEdit();
                                     view.viewModel.viewMode.setInstance();
+                                    view.viewModel.viewMode.setEditable(false);
 
                                     controllerState = state.viewInstance;
                                 }
