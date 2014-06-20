@@ -2869,37 +2869,37 @@
 
                     return params;
                 },
+                setLineHeight = function() {
+                    var TEXT_HEIGHT = 23;
+                    var maxHeight = _.max(model.annotationData.span.all()
+                        .map(function(span) {
+                            var height = TEXT_HEIGHT;
+                            var countHeight = function(span) {
+                                // Grid height is height of types and margin bottom of the grid.
+                                height += span.getTypes().length * 36 + view.viewModel.viewMode.marginBottomOfGrid;
+                                if (span.parent) {
+                                    countHeight(span.parent);
+                                }
+                            };
+
+                            countHeight(span);
+
+                            return height;
+                        })
+                    );
+                    view.renderer.helper.changeLineHeight(maxHeight);
+                },
                 changeViewMode = function(prefix) {
-                    var maxHeight = _.max(model.annotationData.span.all().map(function(span) {
-                        var height = 23;
-                        var countHeight = function(span) {
-                            height += span.getTypes().length * 36 + 2;
-                            if (span.parent) {
-                                countHeight(span.parent);
-                            }
-                        };
-
-                        countHeight(span);
-
-                        return height;
-                    }).concat(23));
-
-                    console.log(maxHeight);
-
-
-
-                    prefix = prefix || '';
                     // Change view mode accoding to the annotation data.
                     if (model.annotationData.relation.some()) {
-                        view.renderer.helper.changeLineHeight(10 * 16);
                         controller.userEvent.viewHandler.setViewMode(prefix + 'Instance');
                     } else if (model.annotationData.span.multiEntities().length > 0) {
-                        view.renderer.helper.changeLineHeight(4 * 16);
                         controller.userEvent.viewHandler.setViewMode(prefix + 'Instance');
                     } else {
-                        view.renderer.helper.changeLineHeight(4 * 16);
                         controller.userEvent.viewHandler.setViewMode(prefix + 'Term');
                     }
+
+                    setLineHeight();
                 },
                 changeViewModeWithEdit = _.partial(changeViewMode, ''),
                 changeViewModeWithoutEdit = _.compose(function() {
