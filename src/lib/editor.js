@@ -305,6 +305,13 @@
                                     .unbind('entity.select', entitySelectChanged)
                                     .unbind('entity.deselect', entitySelectChanged)
                                     .unbind('entity.change', viewModel.buttonStateHelper.updateByEntity);
+                            },
+                            setEditable: function(isEditable) {
+                                if (isEditable) {
+                                    editor.addClass('textae-editor_editable');
+                                } else {
+                                    editor.removeClass('textae-editor_editable');
+                                }
                             }
                         };
                     }(),
@@ -888,10 +895,19 @@
                                         // The label over the span.
                                         var $typeLabel = $('<div>')
                                             .addClass('textae-editor__type-label')
-                                            .text(displayName)
                                             .css({
                                                 'background-color': view.viewModel.typeContainer.entity.getColor(type),
                                             });
+                                        if (String(type).indexOf('http') > -1) {
+                                            $typeLabel.append(
+                                                $('<a target="_blank"/>')
+                                                .attr('href', type)
+                                                .text(displayName)
+                                            );
+                                        } else {
+                                            $typeLabel.text(displayName);
+                                        }
+
 
                                         return $('<div>')
                                             .attr('id', typeId)
@@ -2386,6 +2402,7 @@
                                     resetView();
                                     eventHandlerComposer.noRelationEdit();
                                     view.viewModel.viewMode.setTerm();
+                                    view.viewModel.viewMode.setEditable(true);
 
                                     controllerState = state.termCentric;
                                 },
@@ -2393,6 +2410,7 @@
                                     resetView();
                                     eventHandlerComposer.noRelationEdit();
                                     view.viewModel.viewMode.setInstance();
+                                    view.viewModel.viewMode.setEditable(true);
 
                                     controllerState = state.instanceRelation;
                                 },
@@ -2400,6 +2418,7 @@
                                     resetView();
                                     eventHandlerComposer.relationEdit();
                                     view.viewModel.viewMode.setRelation();
+                                    view.viewModel.viewMode.setEditable(true);
 
                                     controllerState = state.relationEdit;
                                 },
@@ -2407,6 +2426,7 @@
                                     resetView();
                                     eventHandlerComposer.noEdit();
                                     view.viewModel.viewMode.setTerm();
+                                    view.viewModel.viewMode.setEditable(false);
 
                                     controllerState = state.viewTerm;
                                 },
@@ -2414,6 +2434,7 @@
                                     resetView();
                                     eventHandlerComposer.noEdit();
                                     view.viewModel.viewMode.setInstance();
+                                    view.viewModel.viewMode.setEditable(false);
 
                                     controllerState = state.viewInstance;
                                 }
