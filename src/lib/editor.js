@@ -1264,7 +1264,8 @@
                         return {
                             changeLineHeight: function(heightValue) {
                                 editor.find('.textae-editor__body__text-box').css({
-                                    'line-height': heightValue * 100 + '%'
+                                    'line-height': heightValue + 'px',
+                                    'margin-top': heightValue / 2 + 'px'
                                 });
                             },
                             getLineHeight: function() {
@@ -2457,7 +2458,11 @@
                             return _.debounce(func, 300);
                         };
 
-                        var changeLineHeight = debounce300(_.compose(redrawAllEditor, view.renderer.helper.changeLineHeight));
+                        var sixteenTimes = function(val) {
+                            return val * 16;
+                        };
+
+                        var changeLineHeight = debounce300(_.compose(redrawAllEditor, view.renderer.helper.changeLineHeight, sixteenTimes));
 
                         var changeTypeGap = debounce300(view.renderer.helper.changeTypeGap);
 
@@ -2864,17 +2869,32 @@
 
                     return params;
                 },
+                setLineHeight = function() {
+                    var TEXT_HEIGHT = 23;
+                    var maxHeight = _.max(model.annotationData.span.all()
+                        .map(function(span) {
+                            var height = TEXT_HEIGHT;
+                            var countHeight = function(span) {
+                                // Grid height is height of types and margin bottom of the grid.
+                                height += span.getTypes().length * 36 + view.viewModel.viewMode.marginBottomOfGrid;
+                                if (span.parent) {
+                                    countHeight(span.parent);
+                                }
+                            };
+
+                            countHeight(span);
+
+                            return height;
+                        })
+                    );
+                    view.renderer.helper.changeLineHeight(maxHeight);
+                },
                 changeViewMode = function(prefix) {
-                    prefix = prefix || '';
                     // Change view mode accoding to the annotation data.
-                    if (model.annotationData.relation.some()) {
-                        view.renderer.helper.changeLineHeight(10);
+                    if (model.annotationData.relation.some() || model.annotationData.span.multiEntities().length > 0) {
                         controller.userEvent.viewHandler.setViewMode(prefix + 'Instance');
-                    } else if (model.annotationData.span.multiEntities().length > 0) {
-                        view.renderer.helper.changeLineHeight(4);
-                        controller.userEvent.viewHandler.setViewMode(prefix + 'Instance');
+                        setLineHeight();
                     } else {
-                        view.renderer.helper.changeLineHeight(4);
                         controller.userEvent.viewHandler.setViewMode(prefix + 'Term');
                     }
                 },
