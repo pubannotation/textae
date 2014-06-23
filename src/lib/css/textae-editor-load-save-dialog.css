@@ -14,7 +14,7 @@
 }
 
 .textae-editor__load-dialog__label, .textae-editor__save-dialog__label {
-    width: 82px;
+    width: 70px;
     line-height: 1.1em;
 }
 
@@ -26,7 +26,7 @@
 .textae-editor__load-dialog__file,
 .textae-editor__save-dialog__server-file-name,
 .textae-editor__save-dialog__local-file-name {
-    width: 345px;
+    width: 326px;
     line-height: 16px;
 }
 
