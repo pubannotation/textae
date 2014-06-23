@@ -185,7 +185,7 @@
                                 $('<div class="textae-editor__save-dialog__row">').append(
                                     $('<label class="textae-editor__save-dialog__label">Local</label>'),
                                     $('<input type="text" class="textae-editor__save-dialog__local-file-name">'),
-                                    $('<a class="download" href="#">Save</a>')
+                                    $('<a class="download" href="#">Download</a>')
                                 )
                             )
                             .on('click', 'a.download', function() {
@@ -198,8 +198,8 @@
                             })
                             .append(
                                 $('<div class="textae-editor__save-dialog__row">').append(
-                                    $('<label class="textae-editor__save-dialog__label">Browser</label>'),
-                                    $('<a class="viewsource" href="#">Click to view source on a new window.</a>')
+                                    $('<label class="textae-editor__save-dialog__label"></label>'),
+                                    $('<a class="viewsource" href="#">Click to see the json source in a new window.</a>')
                                 )
                             )
                             .on('click', 'a.viewsource', function(e) {
