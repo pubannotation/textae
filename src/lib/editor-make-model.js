@@ -106,11 +106,12 @@
                                 return newSpan;
                             }
                         },
+                        spanComparator = function(a, b) {
+                            return a.begin - b.begin || b.end - a.end;
+                        },
                         updateSpanTree = function() {
                             // Sort id of spans by the position.
-                            var sortedSpans = annotationData.span.all().sort(function(a, b) {
-                                return a.begin - b.begin || b.end - a.end;
-                            });
+                            var sortedSpans = annotationData.span.all().sort(spanComparator);
 
                             // the spanTree has parent-child structure.
                             var spanTree = [];
@@ -180,15 +181,15 @@
                                 });
                             },
                             range: function(firstId, secondId) {
-                                //switch if seconfId before firstId
-                                if (secondId < firstId) {
-                                    var tempId = firstId;
-                                    firstId = secondId;
-                                    secondId = tempId;
-                                }
-
                                 var first = spanContainer[firstId];
                                 var second = spanContainer[secondId];
+
+                                //switch if seconfId before firstId
+                                if (spanComparator(first, second) > 0) {
+                                    var temp = first;
+                                    first = second;
+                                    second = temp;
+                                }
 
                                 return Object.keys(spanContainer).filter(function(spanId) {
                                     var span = spanContainer[spanId];
