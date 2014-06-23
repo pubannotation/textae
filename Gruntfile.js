@@ -21,11 +21,11 @@ module.exports = function(grunt) {
     concat: {
       js: {
         src: ['src/lib/head.js', 'src/lib/util.js', 'src/lib/editor-make-id-factory.js', 'src/lib/editor-make-model.js', 'src/lib/editor-make-data-access-object.js', 'src/lib/editor.js', 'src/lib/control.js', 'src/lib/tool.js', 'src/lib/jquery.textae.js', 'src/lib/main.js', 'src/lib/tail.js'],
-        dest: 'dist/lib/lib-<%= pkg.name %>-<%= pkg.version %>.js',
+        dest: 'dist/lib/<%= pkg.name %>-<%= pkg.version %>.js',
       },
       css: {
         src: ['src/lib/css/textae.css', 'src/lib/css/textae-control.css', 'src/lib/css/textae-editor.css', 'src/lib/css/textae-editor-load-save-dialog.css'],
-        dest: 'dist/lib/css/lib-<%= pkg.name %>-<%= pkg.version %>.css',
+        dest: 'dist/lib/css/<%= pkg.name %>-<%= pkg.version %>.css',
       }
     },
     uglify: {
@@ -34,7 +34,7 @@ module.exports = function(grunt) {
       },
       dist: {
         files: {
-          'dist/lib/lib-<%= pkg.name %>-<%= pkg.version %>.min.js': ['<%= concat.js.dest %>']
+          'dist/lib/<%= pkg.name %>-<%= pkg.version %>.min.js': ['<%= concat.js.dest %>']
         }
       }
     },
@@ -42,7 +42,7 @@ module.exports = function(grunt) {
       minify: {
         expand: true,
         cwd: 'dist/lib/css/',
-        src: ['lib-<%= pkg.name %>-<%= pkg.version %>.css'],
+        src: ['<%= pkg.name %>-<%= pkg.version %>.css'],
         dest: 'dist/lib/css/',
         rename: rename.ext(".min.css")
       }
