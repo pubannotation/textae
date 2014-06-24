@@ -281,7 +281,15 @@
          };
      };
     var makeModel = function(idFactory) {
-        var annotationData = function() {
+        // A span its range is coross over with other spans are not able to rendered.
+        // Because spans are renderd with span tag. Html tags can not be cross over.
+        var isBoundaryCrossingWithOtherSpans = function(candidateSpan) {
+                return annotationData.span.all().filter(function(existSpan) {
+                    return (existSpan.begin < candidateSpan.begin && candidateSpan.begin < existSpan.end && existSpan.end < candidateSpan.end) ||
+                        (candidateSpan.begin < existSpan.begin && existSpan.begin < candidateSpan.end && candidateSpan.end < existSpan.end);
+                }).length > 0;
+            },
+            annotationData = function() {
                 var originalData;
 
                 var getNewId = function(prefix, getIdsFunction) {
@@ -372,6 +380,9 @@
                                     }));
                                 }
                             };
+
+                            // Ignore crossing spans.
+                            if (isBoundaryCrossingWithOtherSpans(span)) return;
 
                             var spanId = idFactory.makeSpanId(span.begin, span.end);
 
@@ -754,6 +765,10 @@
                     }(),
                     toJson: function() {
                         var denotations = annotationData.entity.all()
+                            .filter(function(entity) {
+                                // Span may be not exists, because crossing spans are not add to the annotationData.
+                                return annotationData.span.get(entity.span);
+                            })
                             .map(function(entity) {
                                 var span = annotationData.span.get(entity.span);
                                 return {
@@ -896,15 +911,6 @@
                 var isAlreadySpaned = function(candidateSpan) {
                     return annotationData.span.all().filter(function(existSpan) {
                         return existSpan.begin === candidateSpan.begin && existSpan.end === candidateSpan.end;
-                    }).length > 0;
-                };
-
-                // A span its range is coross over with other spans are not able to rendered.
-                // Because spans are renderd with span tag. Html tags can not be cross over.
-                var isBoundaryCrossingWithOtherSpans = function(candidateSpan) {
-                    return annotationData.span.all().filter(function(existSpan) {
-                        return (existSpan.begin < candidateSpan.begin && candidateSpan.begin < existSpan.end && existSpan.end < candidateSpan.end) ||
-                            (candidateSpan.begin < existSpan.begin && existSpan.begin < candidateSpan.end && candidateSpan.end < existSpan.end);
                     }).length > 0;
                 };
 
@@ -2036,10 +2042,13 @@
                                                 var urlRegex = /\(?(?:(http|https|ftp):\/\/)?(?:((?:[^\W\s]|\.|-|[:]{1})+)@{1})?((?:www.)?(?:[^\W\s]|\.|-)+[\.][^\W\s]{2,4}|localhost(?=\/)|\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})(?::(\d*))?([\/]?[^\s\?]*[\/]{1})*(?:\/?([^\s\n\?\[\]\{\}\#]*(?:(?=\.)){1}|[^\s\n\?\[\]\{\}\.\#]*)?([\.]{1}[^\s\?\#]*)?)?(?:\?{1}([^\s\n\#\[\]]*))?([\#][^\s\n]*)?\)?/gi;
                                                 var matches = urlRegex.exec(type);
                                                 // Order to dispaly.
-                                                // 1. The file name with the extention.
-                                                // 2. The last directory name.
-                                                // 3. The domain name.
-                                                return matches[6] ? matches[6] + (matches[7] || '') :
+                                                // 1. The anchor without #.
+                                                // 2. The file name with the extention.
+                                                // 3. The last directory name.
+                                                // 4. The domain name.
+
+                                                return matches[9] ? matches[9].slice(1) :
+                                                    matches[6] ? matches[6] + (matches[7] || '') :
                                                     matches[5] ? matches[5].split('/').filter(function(s) {
                                                         return s !== '';
                                                     }).pop() :
@@ -4072,14 +4081,16 @@
 
                     return params;
                 },
-                setLineHeight = function() {
-                    var TEXT_HEIGHT = 23;
+                setLineHeight = function(heightOfType) {
+                    var TEXT_HEIGHT = 23,
+                        MARGIN_TOP = 6,
+                        MINIMUM_HEIGHT = 16 * 4;
                     var maxHeight = _.max(model.annotationData.span.all()
                         .map(function(span) {
-                            var height = TEXT_HEIGHT;
+                            var height = TEXT_HEIGHT + MARGIN_TOP;
                             var countHeight = function(span) {
                                 // Grid height is height of types and margin bottom of the grid.
-                                height += span.getTypes().length * 36 + view.viewModel.viewMode.marginBottomOfGrid;
+                                height += span.getTypes().length * heightOfType + view.viewModel.viewMode.marginBottomOfGrid;
                                 if (span.parent) {
                                     countHeight(span.parent);
                                 }
@@ -4088,7 +4099,7 @@
                             countHeight(span);
 
                             return height;
-                        })
+                        }).concat(MINIMUM_HEIGHT)
                     );
                     view.renderer.helper.changeLineHeight(maxHeight);
                 },
@@ -4096,9 +4107,10 @@
                     // Change view mode accoding to the annotation data.
                     if (model.annotationData.relation.some() || model.annotationData.span.multiEntities().length > 0) {
                         controller.userEvent.viewHandler.setViewMode(prefix + 'Instance');
-                        setLineHeight();
+                        setLineHeight(36);
                     } else {
                         controller.userEvent.viewHandler.setViewMode(prefix + 'Term');
+                        setLineHeight(18);
                     }
                 },
                 changeViewModeWithEdit = _.partial(changeViewMode, ''),
@@ -4120,7 +4132,7 @@
                             // Read default controller.spanConfig
                             controller.spanConfig.set();
 
-                            if (params.config !== '') {
+                            if (params.config) {
                                 // Load sync, because load annotation after load config. 
                                 var configFromServer = textAeUtil.ajaxAccessor.getSync(params.config);
                                 if (configFromServer !== null) {
