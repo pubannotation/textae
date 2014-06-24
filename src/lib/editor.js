@@ -2918,10 +2918,11 @@
                 },
                 setLineHeight = function(heightOfType) {
                     var TEXT_HEIGHT = 23,
+                        MARGIN_TOP = 6,
                         MINIMUM_HEIGHT = 16 * 4;
                     var maxHeight = _.max(model.annotationData.span.all()
                         .map(function(span) {
-                            var height = TEXT_HEIGHT;
+                            var height = TEXT_HEIGHT + MARGIN_TOP;
                             var countHeight = function(span) {
                                 // Grid height is height of types and margin bottom of the grid.
                                 height += span.getTypes().length * heightOfType + view.viewModel.viewMode.marginBottomOfGrid;
