@@ -2966,7 +2966,7 @@
                             // Read default controller.spanConfig
                             controller.spanConfig.set();
 
-                            if (params.config !== '') {
+                            if (params.config) {
                                 // Load sync, because load annotation after load config. 
                                 var configFromServer = textAeUtil.ajaxAccessor.getSync(params.config);
                                 if (configFromServer !== null) {
