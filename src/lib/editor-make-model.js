@@ -1,5 +1,13 @@
     var makeModel = function(idFactory) {
-        var annotationData = function() {
+        // A span its range is coross over with other spans are not able to rendered.
+        // Because spans are renderd with span tag. Html tags can not be cross over.
+        var isBoundaryCrossingWithOtherSpans = function(candidateSpan) {
+                return annotationData.span.all().filter(function(existSpan) {
+                    return (existSpan.begin < candidateSpan.begin && candidateSpan.begin < existSpan.end && existSpan.end < candidateSpan.end) ||
+                        (candidateSpan.begin < existSpan.begin && existSpan.begin < candidateSpan.end && candidateSpan.end < existSpan.end);
+                }).length > 0;
+            },
+            annotationData = function() {
                 var originalData;
 
                 var getNewId = function(prefix, getIdsFunction) {
@@ -90,6 +98,9 @@
                                     }));
                                 }
                             };
+
+                            // Ignore crossing spans.
+                            if (isBoundaryCrossingWithOtherSpans(span)) return;
 
                             var spanId = idFactory.makeSpanId(span.begin, span.end);
 
@@ -472,6 +483,10 @@
                     }(),
                     toJson: function() {
                         var denotations = annotationData.entity.all()
+                            .filter(function(entity) {
+                                // Span may be not exists, because crossing spans are not add to the annotationData.
+                                return annotationData.span.get(entity.span);
+                            })
                             .map(function(entity) {
                                 var span = annotationData.span.get(entity.span);
                                 return {
@@ -614,15 +629,6 @@
                 var isAlreadySpaned = function(candidateSpan) {
                     return annotationData.span.all().filter(function(existSpan) {
                         return existSpan.begin === candidateSpan.begin && existSpan.end === candidateSpan.end;
-                    }).length > 0;
-                };
-
-                // A span its range is coross over with other spans are not able to rendered.
-                // Because spans are renderd with span tag. Html tags can not be cross over.
-                var isBoundaryCrossingWithOtherSpans = function(candidateSpan) {
-                    return annotationData.span.all().filter(function(existSpan) {
-                        return (existSpan.begin < candidateSpan.begin && candidateSpan.begin < existSpan.end && existSpan.end < candidateSpan.end) ||
-                            (candidateSpan.begin < existSpan.begin && existSpan.begin < candidateSpan.end && candidateSpan.end < existSpan.end);
                     }).length > 0;
                 };
 
