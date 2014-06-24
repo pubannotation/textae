@@ -2917,7 +2917,8 @@
                     return params;
                 },
                 setLineHeight = function(heightOfType) {
-                    var TEXT_HEIGHT = 23;
+                    var TEXT_HEIGHT = 23,
+                        MINIMUM_HEIGHT = 16 * 4;
                     var maxHeight = _.max(model.annotationData.span.all()
                         .map(function(span) {
                             var height = TEXT_HEIGHT;
@@ -2932,7 +2933,7 @@
                             countHeight(span);
 
                             return height;
-                        })
+                        }).concat(MINIMUM_HEIGHT)
                     );
                     view.renderer.helper.changeLineHeight(maxHeight);
                 },
