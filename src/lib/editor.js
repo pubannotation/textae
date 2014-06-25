@@ -801,11 +801,9 @@
                             // Destroy children spans to wrap a TextNode with <span> tag when new span over exists spans.
                             var create = _.compose(renderChildresnSpan, renderEntitiesOfSpan, renderSingleSpan, destroyChildrenSpan);
 
-                            var andMoveGrid = _.partial(_.compose, arrangePosition.arrangePositionAll);
-
                             return {
-                                render: andMoveGrid(create),
-                                remove: andMoveGrid(destroy)
+                                render: create,
+                                remove: destroy
                             };
                         }(),
                         entityRenderer = function() {
@@ -1280,6 +1278,8 @@
                         .bind('relation.change', viewModel.buttonStateHelper.updateByRelation);
                 };
 
+                var andMoveGrid = _.partial(_.compose, arrangePosition.arrangePositionAll);
+
                 return {
                     init: function(modelData) {
                         renderer.init(getAnnotationArea());
@@ -1288,12 +1288,12 @@
                         model.annotationData
                             .bind('change-text', renderSourceDocument)
                             .bind('all.change', _.compose(model.selectionModel.clear, reset))
-                            .bind('span.add', renderer.span.render)
-                            .bind('span.remove', renderer.span.remove)
+                            .bind('span.add', andMoveGrid(renderer.span.render))
+                            .bind('span.remove', andMoveGrid(renderer.span.remove))
                             .bind('span.remove', _.compose(model.selectionModel.span.remove, modelToId))
-                            .bind('entity.add', _.compose(arrangePosition.arrangePositionAll, renderer.entity.render))
-                            .bind('entity.change', _.compose(arrangePosition.arrangePositionAll, renderer.entity.change))
-                            .bind('entity.remove', _.compose(arrangePosition.arrangePositionAll, renderer.entity.remove))
+                            .bind('entity.add', andMoveGrid(renderer.entity.render))
+                            .bind('entity.change', andMoveGrid(renderer.entity.change))
+                            .bind('entity.remove', andMoveGrid(renderer.entity.remove))
                             .bind('entity.remove', _.compose(model.selectionModel.entity.remove, modelToId))
                             .bind('relation.add', renderer.relation.render)
                             .bind('relation.change', renderer.relation.change)
