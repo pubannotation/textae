@@ -257,7 +257,7 @@
                         return {
                             // This is base value to calculate the position of grids.
                             // Grids cannot be set positon by 'margin-bottom' style.
-                            // Because grids is setted 'positin:absolute' style in the overlay over spans.
+                            // Because grids is setted 'position:absolute' style in the overlay over spans.
                             // So we caluclate and set 'top' of grids in functions of 'view.renderer.helper.redraw'. 
                             marginBottomOfGrid: 0,
                             isTerm: function() {
@@ -361,9 +361,31 @@
                     return editor.find('.textae-editor__body__text-box').offset();
                 });
 
-                var getGrid = _.partial(useCache, 'G', function(spanId) {
-                    return view.domUtil.selector.grid.get(spanId).offset();
-                });
+                // The chache for position of grids.
+                // This is updated at arrange position of grids.
+                // This is referenced at create or move relations.
+                var gridPositionCache = function() {
+                    var cache = {},
+                        set = function(spanId, position) {
+                            cache[spanId] = position;
+                        },
+                        get = function(spanId) {
+                            return cache[spanId];
+                        },
+                        remove = function(spanId) {
+                            delete cache[spanId];
+                        },
+                        clear = function() {
+                            cache = {};
+                        };
+
+                    return {
+                        set: set,
+                        get: get,
+                        remove: remove,
+                        clear: clear
+                    };
+                }();
 
                 // Utility functions for get positions of elemnts.
                 var positionUtils = {
@@ -393,7 +415,7 @@
                             throw new Error("entity is not rendered : " + entityId);
                         }
 
-                        var gridPosition = getGrid(spanId);
+                        var gridPosition = gridPositionCache.get(spanId);
                         var entityElement = $entity.get(0);
                         return {
                             top: gridPosition.top + entityElement.offsetTop,
@@ -486,10 +508,8 @@
                 };
 
                 var arrangePosition = function() {
-                    var gridPositionCache = {};
-
                     var filterChanged = function(span, newPosition) {
-                        var oldGridPosition = gridPositionCache[span.id];
+                        var oldGridPosition = gridPositionCache.get(span.id);
                         if (!oldGridPosition || oldGridPosition.top !== newPosition.top || oldGridPosition.left !== newPosition.left) {
                             return newPosition;
                         } else {
@@ -517,7 +537,7 @@
                     var updateGridPositon = function(span, newPosition) {
                         if (newPosition) {
                             getGrid(span).css(newPosition);
-                            gridPositionCache[span.id] = newPosition;
+                            gridPositionCache.set(span.id, newPosition);
                             arrangeRelationPosition(span);
                             return span;
                         }
@@ -598,18 +618,10 @@
                             });
                     };
 
-                    var reset = function() {
-                        gridPositionCache = {};
-                    };
-
-                    var destroy = function(spanId) {
-                        delete gridPositionCache[spanId];
-                    };
-
                     return {
                         arrangePositionAll: _.debounce(arrangePositionAll, 10),
-                        reset: reset,
-                        destroy: destroy
+                        reset: gridPositionCache.clear,
+                        destroy: gridPositionCache.remove
                     };
                 }();
 
