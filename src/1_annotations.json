@@ -411,5 +411,13 @@
 		"id": "M5",
 		"pred": "Speculation",
 		"obj": "T2"
+	}, {
+		"id": "M6",
+		"pred": "Speculation",
+		"obj": "R1"
+	}, {
+		"id": "M",
+		"pred": "Negation",
+		"obj": "R1"
 	}]
 }
