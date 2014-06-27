@@ -1065,6 +1065,11 @@
                                     curviness: determineCurviness(relationId)
                                 }]);
                                 connect.addOverlay(['Arrow', normalArrow]);
+
+                                // Create as invisible to prevent flash at the initiation.
+                                if (!connect.isVisible()) {
+                                    connect.setVisible(true);
+                                }
                             };
 
                             var pointupable = function(getStrokeStyle) {
@@ -1114,7 +1119,7 @@
                                 }
                             };
 
-                            var createJsPlumbConnection = function(relation, defaultCurveFlag) {
+                            var createJsPlumbConnection = function(relation, quickFlag) {
                                 var getStrokeStyle = _.partial(view.viewModel.getConnectorStrokeStyle, relation.id);
 
                                 // Make a connector by jsPlumb.
@@ -1122,7 +1127,7 @@
                                     source: view.domUtil.selector.entity.get(relation.subj),
                                     target: view.domUtil.selector.entity.get(relation.obj),
                                     anchors: ['TopCenter', "TopCenter"],
-                                    connector: ['Bezier', defaultCurveFlag ? {} : {
+                                    connector: ['Bezier', quickFlag ? {} : {
                                         curviness: determineCurviness(relation.id)
                                     }],
                                     paintStyle: getStrokeStyle(),
@@ -1137,6 +1142,11 @@
                                         })]
                                     ]
                                 });
+
+                                // Create as invisible to prevent flash at the initiation.
+                                if (quickFlag) {
+                                    connect.setVisible(false);
+                                }
 
                                 // Set a function debounce to avoid over rendering.
                                 connect.arrangePosition = _.debounce(_.partial(arrangePosition, relation.id), 20);
