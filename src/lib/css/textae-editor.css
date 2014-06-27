@@ -302,14 +302,14 @@
 }
 
 /* modification */
-.textae-editor__entity-negation::before{
+.textae-editor__entity.textae-editor__negation::before{
     content: 'X';
     left: -4px;
     position: relative;
     top: -15px;
 }
 
-.textae-editor__entity-speculation::after {
+.textae-editor__entity.textae-editor__speculation::after {
     content: '?';
     left: -6px;
     position: relative;

@@ -670,7 +670,7 @@
                             return model.annotationData.modification.all().filter(function(m) {
                                 return m.obj === objectId;
                             }).map(function(m) {
-                                return 'textae-editor__entity-' + m.pred.toLowerCase();
+                                return 'textae-editor__' + m.pred.toLowerCase();
                             }).join(' ');
                         },
                         spanRenderer = function() {
