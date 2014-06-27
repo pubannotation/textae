@@ -359,6 +359,10 @@
                 // The posion of the text-box to calculate span postion; 
                 var textOffset;
 
+                var getGrid = _.partial(useCache, 'G', function(spanId) {
+                    return view.domUtil.selector.grid.get(spanId).offset();
+                });
+
                 // Utility functions for get positions of elemnts.
                 var positionUtils = {
                     reset: function() {
@@ -380,9 +384,6 @@
                             center: $span.get(0).offsetLeft + $span.outerWidth() / 2
                         };
                     }),
-                    getGrid: _.partial(useCache, 'G', function(spanId) {
-                        return view.domUtil.selector.grid.get(spanId).offset();
-                    }),
                     getEntity: function(entityId) {
                         var spanId = model.annotationData.entity.get(entityId).span;
 
@@ -391,7 +392,7 @@
                             throw new Error("entity is not rendered : " + entityId);
                         }
 
-                        var gridPosition = positionUtils.getGrid(spanId);
+                        var gridPosition = getGrid(spanId);
                         var entityElement = $entity.get(0);
                         return {
                             top: gridPosition.top + entityElement.offsetTop,
