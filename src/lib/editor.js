@@ -346,21 +346,6 @@
                 // The Reference to model. This set by init.
                 var model;
 
-                // The cache for span positions.
-                // Getting the postion of spans is too slow about 5-10 ms per a element in Chrome browser. For example offsetTop property.
-                // This cache is big effective for the initiation, and little effective for resize. 
-                var positionCache = {};
-
-                var useCache = function(prefix, getPositionFunciton, spanId) {
-                    var chacheId = prefix + spanId;
-                    return positionCache[chacheId] ? positionCache[chacheId] : positionCache[chacheId] = getPositionFunciton(spanId);
-                };
-
-                // The posion of the text-box to calculate span postion; 
-                var getTextOffset = _.partial(useCache, 'TEXT_NODE', function() {
-                    return editor.find('.textae-editor__body__text-box').offset();
-                });
-
                 // The chache for position of grids.
                 // This is updated at arrange position of grids.
                 // This is referenced at create or move relations.
@@ -388,11 +373,23 @@
                 }();
 
                 // Utility functions for get positions of elemnts.
-                var positionUtils = {
-                    reset: function() {
-                        positionCache = {};
-                    },
-                    getSpan: _.partial(useCache, 'S', function(spanId) {
+                var positionUtils = function() {
+                    // The cache for span positions.
+                    // Getting the postion of spans is too slow about 5-10 ms per a element in Chrome browser. For example offsetTop property.
+                    // This cache is big effective for the initiation, and little effective for resize. 
+                    var positionCache = {};
+
+                    var useCache = function(prefix, getPositionFunciton, spanId) {
+                        var chacheId = prefix + spanId;
+                        return positionCache[chacheId] ? positionCache[chacheId] : positionCache[chacheId] = getPositionFunciton(spanId);
+                    };
+
+                    // The posion of the text-box to calculate span postion; 
+                    var getTextOffset = _.partial(useCache, 'TEXT_NODE', function() {
+                        return editor.find('.textae-editor__body__text-box').offset();
+                    });
+
+                    var getSpan = function(spanId) {
                         var $span = view.domUtil.selector.span.get(spanId);
                         if ($span.length === 0) {
                             throw new Error("span is not renderd : " + spanId);
@@ -406,23 +403,30 @@
                             height: $span.outerHeight(),
                             center: $span.get(0).offsetLeft + $span.outerWidth() / 2
                         };
-                    }),
-                    getEntity: function(entityId) {
-                        var spanId = model.annotationData.entity.get(entityId).span;
+                    };
 
-                        var $entity = view.domUtil.selector.entity.get(entityId);
-                        if ($entity.length === 0) {
-                            throw new Error("entity is not rendered : " + entityId);
-                        }
+                    return {
+                        reset: function() {
+                            positionCache = {};
+                        },
+                        getSpan: _.partial(useCache, 'S', getSpan),
+                        getEntity: function(entityId) {
+                            var spanId = model.annotationData.entity.get(entityId).span;
 
-                        var gridPosition = gridPositionCache.get(spanId);
-                        var entityElement = $entity.get(0);
-                        return {
-                            top: gridPosition.top + entityElement.offsetTop,
-                            center: gridPosition.left + entityElement.offsetLeft + $entity.outerWidth() / 2,
-                        };
-                    },
-                };
+                            var $entity = view.domUtil.selector.entity.get(entityId);
+                            if ($entity.length === 0) {
+                                throw new Error("entity is not rendered : " + entityId);
+                            }
+
+                            var gridPosition = gridPositionCache.get(spanId);
+                            var entityElement = $entity.get(0);
+                            return {
+                                top: gridPosition.top + entityElement.offsetTop,
+                                center: gridPosition.left + entityElement.offsetLeft + $entity.outerWidth() / 2,
+                            };
+                        },
+                    };
+                }();
 
                 var getElement = function($parent, tagName, className) {
                     var $area = $parent.find('.' + className);
