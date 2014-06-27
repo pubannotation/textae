@@ -1156,8 +1156,9 @@
                                     cssClass: 'textae-editor__relation',
                                     overlays: [
                                         ['Arrow', normalArrow],
-                                        ['Label', _.extend(label, {
-                                            label: '[' + relation.id + '] ' + relation.pred
+                                        ['Label', _.extend({}, label, {
+                                            label: '[' + relation.id + '] ' + relation.pred,
+                                            cssClass: label.cssClass + ' ' + getModificationClasses(relation.id)
                                         })]
                                     ]
                                 });
