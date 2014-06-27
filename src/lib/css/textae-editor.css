@@ -214,10 +214,12 @@
 
 .textae-editor__entity:hover {
     box-shadow: 1px 1px 10px #600;
+    text-shadow: 1px 1px 1px #600;
 }
 
 .textae-editor__entity.ui-selected {
     background-color: yellow;
+    font-weight: 700;
 }
 
 /* relation */
