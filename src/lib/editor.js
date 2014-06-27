@@ -640,7 +640,6 @@
                             removeDom(view.domUtil.selector.grid.get(spanId));
                             arrangePosition.destroy(spanId);
                         },
-
                         gridRenderer = function() {
                             var createGrid = function(container, spanId) {
                                     var spanPosition = domPositionUtils.getSpan(spanId);
@@ -667,6 +666,13 @@
                                 render: null
                             };
                         }(),
+                        getModificationClasses = function(objectId) {
+                            return model.annotationData.modification.all().filter(function(m) {
+                                return m.obj === objectId;
+                            }).map(function(m) {
+                                return 'textae-editor__' + m.pred.toLowerCase();
+                            }).join(' ');
+                        },
                         spanRenderer = function() {
                             // Get the Range to that new span tag insert.
                             // This function works well when no child span is rendered. 
@@ -978,13 +984,7 @@
                                         });
 
                                     // Set css classes for modifications.
-                                    model.annotationData.modification.all().filter(function(m) {
-                                        return m.obj === entity.id;
-                                    }).map(function(m) {
-                                        return 'textae-editor__entity-' + m.pred.toLowerCase();
-                                    }).forEach(function(className) {
-                                        $entity.addClass(className);
-                                    });
+                                    $entity.addClass(getModificationClasses(entity.id));
 
                                     return $entity;
                                 };
@@ -1156,8 +1156,9 @@
                                     cssClass: 'textae-editor__relation',
                                     overlays: [
                                         ['Arrow', normalArrow],
-                                        ['Label', _.extend(label, {
-                                            label: '[' + relation.id + '] ' + relation.pred
+                                        ['Label', _.extend({}, label, {
+                                            label: '[' + relation.id + '] ' + relation.pred,
+                                            cssClass: label.cssClass + ' ' + getModificationClasses(relation.id)
                                         })]
                                     ]
                                 });

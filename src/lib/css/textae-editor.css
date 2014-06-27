@@ -302,16 +302,30 @@
 }
 
 /* modification */
-.textae-editor__entity-negation::before{
+.textae-editor__entity.textae-editor__negation::before{
     content: 'X';
     left: -4px;
     position: relative;
     top: -15px;
 }
 
-.textae-editor__entity-speculation::after {
+.textae-editor__entity.textae-editor__speculation::after {
     content: '?';
     left: -6px;
     position: relative;
     top: -15px;
+}
+
+.textae-editor__relation__label.textae-editor__negation::before{
+    content: 'X';
+    right: 0;
+    position: absolute;
+    top: -12px;
+}
+
+.textae-editor__relation__label.textae-editor__speculation::after {
+    content: '?';
+    right: -0.5em;
+    position: relative;
+    top: -12px;
 }
