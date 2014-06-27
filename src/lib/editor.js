@@ -257,7 +257,7 @@
                         return {
                             // This is base value to calculate the position of grids.
                             // Grids cannot be set positon by 'margin-bottom' style.
-                            // Because grids is setted 'positin:absolute' style in the overlay over spans.
+                            // Because grids is setted 'position:absolute' style in the overlay over spans.
                             // So we caluclate and set 'top' of grids in functions of 'view.renderer.helper.redraw'. 
                             marginBottomOfGrid: 0,
                             isTerm: function() {
@@ -346,26 +346,53 @@
                 // The Reference to model. This set by init.
                 var model;
 
-                // The cache for span positions.
-                // Getting the postion of spans is too slow about 5-10 ms per a element in Chrome browser. For example offsetTop property.
-                // This cache is big effective for the initiation, and little effective for resize. 
-                var positionCache = {};
+                var Cache = function() {
+                    var cache = {},
+                        set = function(key, value) {
+                            cache[key] = value;
+                            return value;
+                        },
+                        get = function(key) {
+                            return cache[key];
+                        },
+                        remove = function(key) {
+                            delete cache[key];
+                        },
+                        clear = function() {
+                            cache = {};
+                        };
 
-                var useCache = function(prefix, getPositionFunciton, spanId) {
-                    var chacheId = prefix + spanId;
-                    return positionCache[chacheId] ? positionCache[chacheId] : positionCache[chacheId] = getPositionFunciton(spanId);
+                    return {
+                        set: set,
+                        get: get,
+                        remove: remove,
+                        clear: clear
+                    };
                 };
 
-                // The posion of the text-box to calculate span postion; 
-                var textOffset;
+                // The chache for position of grids.
+                // This is updated at arrange position of grids.
+                // This is referenced at create or move relations.
+                var gridPositionCache = new Cache();
 
-                // Utility functions for get positions of elemnts.
-                var positionUtils = {
-                    reset: function() {
-                        positionCache = {};
-                        textOffset = editor.find('.textae-editor__body__text-box').offset();
-                    },
-                    getSpan: _.partial(useCache, 'S', function(spanId) {
+                // Utility functions for get positions of DOM elemnts.
+                var domPositionUtils = function() {
+                    // The cache for span positions.
+                    // Getting the postion of spans is too slow about 5-10 ms per a element in Chrome browser. For example offsetTop property.
+                    // This cache is big effective for the initiation, and little effective for resize. 
+                    var positionCache = new Cache();
+
+                    var useCache = function(prefix, getPositionFunciton, id) {
+                        var chacheId = prefix + id;
+                        return positionCache.get(chacheId) ? positionCache.get(chacheId) : positionCache.set(chacheId, getPositionFunciton(id));
+                    };
+
+                    // The posion of the text-box to calculate span postion; 
+                    var getTextOffset = _.partial(useCache, 'TEXT_NODE', function() {
+                        return editor.find('.textae-editor__body__text-box').offset();
+                    });
+
+                    var getSpan = function(spanId) {
                         var $span = view.domUtil.selector.span.get(spanId);
                         if ($span.length === 0) {
                             throw new Error("span is not renderd : " + spanId);
@@ -373,17 +400,15 @@
 
                         var offset = $span.offset();
                         return {
-                            top: offset.top - textOffset.top,
-                            left: offset.left - textOffset.left,
+                            top: offset.top - getTextOffset().top,
+                            left: offset.left - getTextOffset().left,
                             width: $span.outerWidth(),
                             height: $span.outerHeight(),
                             center: $span.get(0).offsetLeft + $span.outerWidth() / 2
                         };
-                    }),
-                    getGrid: _.partial(useCache, 'G', function(spanId) {
-                        return view.domUtil.selector.grid.get(spanId).offset();
-                    }),
-                    getEntity: function(entityId) {
+                    };
+
+                    var getEntity = function(entityId) {
                         var spanId = model.annotationData.entity.get(entityId).span;
 
                         var $entity = view.domUtil.selector.entity.get(entityId);
@@ -391,14 +416,20 @@
                             throw new Error("entity is not rendered : " + entityId);
                         }
 
-                        var gridPosition = positionUtils.getGrid(spanId);
+                        var gridPosition = gridPositionCache.get(spanId);
                         var entityElement = $entity.get(0);
                         return {
                             top: gridPosition.top + entityElement.offsetTop,
                             center: gridPosition.left + entityElement.offsetLeft + $entity.outerWidth() / 2,
                         };
-                    },
-                };
+                    };
+
+                    return {
+                        reset: positionCache.clear,
+                        getSpan: _.partial(useCache, 'S', getSpan),
+                        getEntity: _.partial(useCache, 'E', getEntity)
+                    };
+                }();
 
                 var getElement = function($parent, tagName, className) {
                     var $area = $parent.find('.' + className);
@@ -469,12 +500,13 @@
                         },
                         renderAllRelation = function(annotationData) {
                             renderer.relation.reset();
-                            annotationData.relation.all().forEach(renderer.relation.render);
+                            annotationData.relation.all().forEach(function(relationId) {
+                                renderer.relation.render(relationId, true);
+                            });
                         };
 
                     // Render annotations
                     getAnnotationArea().empty();
-                    positionUtils.reset();
                     arrangePosition.reset();
                     renderAllSpan(annotationData);
 
@@ -483,10 +515,8 @@
                 };
 
                 var arrangePosition = function() {
-                    var gridPositionCache = {};
-
                     var filterChanged = function(span, newPosition) {
-                        var oldGridPosition = gridPositionCache[span.id];
+                        var oldGridPosition = gridPositionCache.get(span.id);
                         if (!oldGridPosition || oldGridPosition.top !== newPosition.top || oldGridPosition.left !== newPosition.left) {
                             return newPosition;
                         } else {
@@ -514,7 +544,7 @@
                     var updateGridPositon = function(span, newPosition) {
                         if (newPosition) {
                             getGrid(span).css(newPosition);
-                            gridPositionCache[span.id] = newPosition;
+                            gridPositionCache.set(span.id, newPosition);
                             arrangeRelationPosition(span);
                             return span;
                         }
@@ -522,7 +552,7 @@
 
                     var getNewPosition = function(span) {
                         var stickGridOnSpan = function(span) {
-                            var spanPosition = positionUtils.getSpan(span.id);
+                            var spanPosition = domPositionUtils.getSpan(span.id);
 
                             return {
                                 'top': spanPosition.top - view.viewModel.viewMode.marginBottomOfGrid - getGrid(span).outerHeight(),
@@ -541,7 +571,7 @@
                                 return getGrid(span).outerHeight() + descendantsMaxHeight + view.viewModel.viewMode.marginBottomOfGrid;
                             };
 
-                            var spanPosition = positionUtils.getSpan(span.id);
+                            var spanPosition = domPositionUtils.getSpan(span.id);
                             var descendantsMaxHeight = getHeightIncludeDescendantGrids(span);
 
                             return {
@@ -588,25 +618,17 @@
                     };
 
                     var arrangePositionAll = function() {
-                        positionUtils.reset();
+                        domPositionUtils.reset();
                         model.annotationData.span.topLevel()
                             .forEach(function(span) {
                                 _.defer(_.partial(arrangePositionGridAndoDescendant, span));
                             });
                     };
 
-                    var reset = function() {
-                        gridPositionCache = {};
-                    };
-
-                    var destroy = function(spanId) {
-                        delete gridPositionCache[spanId];
-                    };
-
                     return {
                         arrangePositionAll: _.debounce(arrangePositionAll, 10),
-                        reset: reset,
-                        destroy: destroy
+                        reset: gridPositionCache.clear,
+                        destroy: gridPositionCache.remove
                     };
                 }();
 
@@ -621,7 +643,7 @@
 
                         gridRenderer = function() {
                             var createGrid = function(container, spanId) {
-                                    var spanPosition = positionUtils.getSpan(spanId);
+                                    var spanPosition = domPositionUtils.getSpan(spanId);
                                     var $grid = $('<div>')
                                         .attr('id', 'G' + spanId)
                                         .addClass('textae-editor__grid')
@@ -1016,8 +1038,8 @@
                                 var sourceId = model.annotationData.relation.get(relationId).subj;
                                 var targetId = model.annotationData.relation.get(relationId).obj;
 
-                                var sourcePosition = positionUtils.getEntity(sourceId);
-                                var targetPosition = positionUtils.getEntity(targetId);
+                                var sourcePosition = domPositionUtils.getEntity(sourceId);
+                                var targetPosition = domPositionUtils.getEntity(targetId);
 
                                 var sourceX = sourcePosition.center;
                                 var targetX = targetPosition.center;
@@ -1062,6 +1084,11 @@
                                     curviness: determineCurviness(relationId)
                                 }]);
                                 connect.addOverlay(['Arrow', normalArrow]);
+
+                                // Create as invisible to prevent flash at the initiation.
+                                if (!connect.isVisible()) {
+                                    connect.setVisible(true);
+                                }
                             };
 
                             var pointupable = function(getStrokeStyle) {
@@ -1111,7 +1138,7 @@
                                 }
                             };
 
-                            var createJsPlumbConnection = function(relation) {
+                            var createJsPlumbConnection = function(relation, quickFlag) {
                                 var getStrokeStyle = _.partial(view.viewModel.getConnectorStrokeStyle, relation.id);
 
                                 // Make a connector by jsPlumb.
@@ -1119,7 +1146,7 @@
                                     source: view.domUtil.selector.entity.get(relation.subj),
                                     target: view.domUtil.selector.entity.get(relation.obj),
                                     anchors: ['TopCenter', "TopCenter"],
-                                    connector: ['Bezier', {
+                                    connector: ['Bezier', quickFlag ? {} : {
                                         curviness: determineCurviness(relation.id)
                                     }],
                                     paintStyle: getStrokeStyle(),
@@ -1134,6 +1161,11 @@
                                         })]
                                     ]
                                 });
+
+                                // Create as invisible to prevent flash at the initiation.
+                                if (quickFlag) {
+                                    connect.setVisible(false);
+                                }
 
                                 // Set a function debounce to avoid over rendering.
                                 connect.arrangePosition = _.debounce(_.partial(arrangePosition, relation.id), 20);

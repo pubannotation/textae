@@ -244,6 +244,10 @@
     z-index: 2;
 }
 
+._jsPlumb_endpoint{
+    visibility: hidden;
+}
+
 /* term centric mode */
 .textae-editor_term-mode .textae-editor__type {
     height: 18px;
