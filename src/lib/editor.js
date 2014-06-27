@@ -375,16 +375,16 @@
                 // This is referenced at create or move relations.
                 var gridPositionCache = new Cache();
 
-                // Utility functions for get positions of elemnts.
-                var positionUtils = function() {
+                // Utility functions for get positions of DOM elemnts.
+                var domPositionUtils = function() {
                     // The cache for span positions.
                     // Getting the postion of spans is too slow about 5-10 ms per a element in Chrome browser. For example offsetTop property.
                     // This cache is big effective for the initiation, and little effective for resize. 
                     var positionCache = new Cache();
 
-                    var useCache = function(prefix, getPositionFunciton, spanId) {
-                        var chacheId = prefix + spanId;
-                        return positionCache.get(chacheId) ? positionCache.get(chacheId) : positionCache.set(chacheId, getPositionFunciton(spanId));
+                    var useCache = function(prefix, getPositionFunciton, id) {
+                        var chacheId = prefix + id;
+                        return positionCache.get(chacheId) ? positionCache.get(chacheId) : positionCache.set(chacheId, getPositionFunciton(id));
                     };
 
                     // The posion of the text-box to calculate span postion; 
@@ -408,24 +408,26 @@
                         };
                     };
 
+                    var getEntity = function(entityId) {
+                        var spanId = model.annotationData.entity.get(entityId).span;
+
+                        var $entity = view.domUtil.selector.entity.get(entityId);
+                        if ($entity.length === 0) {
+                            throw new Error("entity is not rendered : " + entityId);
+                        }
+
+                        var gridPosition = gridPositionCache.get(spanId);
+                        var entityElement = $entity.get(0);
+                        return {
+                            top: gridPosition.top + entityElement.offsetTop,
+                            center: gridPosition.left + entityElement.offsetLeft + $entity.outerWidth() / 2,
+                        };
+                    };
+
                     return {
                         reset: positionCache.clear,
                         getSpan: _.partial(useCache, 'S', getSpan),
-                        getEntity: function(entityId) {
-                            var spanId = model.annotationData.entity.get(entityId).span;
-
-                            var $entity = view.domUtil.selector.entity.get(entityId);
-                            if ($entity.length === 0) {
-                                throw new Error("entity is not rendered : " + entityId);
-                            }
-
-                            var gridPosition = gridPositionCache.get(spanId);
-                            var entityElement = $entity.get(0);
-                            return {
-                                top: gridPosition.top + entityElement.offsetTop,
-                                center: gridPosition.left + entityElement.offsetLeft + $entity.outerWidth() / 2,
-                            };
-                        },
+                        getEntity: _.partial(useCache, 'E', getEntity)
                     };
                 }();
 
@@ -550,7 +552,7 @@
 
                     var getNewPosition = function(span) {
                         var stickGridOnSpan = function(span) {
-                            var spanPosition = positionUtils.getSpan(span.id);
+                            var spanPosition = domPositionUtils.getSpan(span.id);
 
                             return {
                                 'top': spanPosition.top - view.viewModel.viewMode.marginBottomOfGrid - getGrid(span).outerHeight(),
@@ -569,7 +571,7 @@
                                 return getGrid(span).outerHeight() + descendantsMaxHeight + view.viewModel.viewMode.marginBottomOfGrid;
                             };
 
-                            var spanPosition = positionUtils.getSpan(span.id);
+                            var spanPosition = domPositionUtils.getSpan(span.id);
                             var descendantsMaxHeight = getHeightIncludeDescendantGrids(span);
 
                             return {
@@ -616,7 +618,7 @@
                     };
 
                     var arrangePositionAll = function() {
-                        positionUtils.reset();
+                        domPositionUtils.reset();
                         model.annotationData.span.topLevel()
                             .forEach(function(span) {
                                 _.defer(_.partial(arrangePositionGridAndoDescendant, span));
@@ -641,7 +643,7 @@
 
                         gridRenderer = function() {
                             var createGrid = function(container, spanId) {
-                                    var spanPosition = positionUtils.getSpan(spanId);
+                                    var spanPosition = domPositionUtils.getSpan(spanId);
                                     var $grid = $('<div>')
                                         .attr('id', 'G' + spanId)
                                         .addClass('textae-editor__grid')
@@ -1036,8 +1038,8 @@
                                 var sourceId = model.annotationData.relation.get(relationId).subj;
                                 var targetId = model.annotationData.relation.get(relationId).obj;
 
-                                var sourcePosition = positionUtils.getEntity(sourceId);
-                                var targetPosition = positionUtils.getEntity(targetId);
+                                var sourcePosition = domPositionUtils.getEntity(sourceId);
+                                var targetPosition = domPositionUtils.getEntity(targetId);
 
                                 var sourceX = sourcePosition.center;
                                 var targetX = targetPosition.center;
