@@ -244,6 +244,7 @@
 .textae-editor__relation__label:hover, .textae-editor__relation__label.hover {
     opacity: 1;
     z-index: 2;
+    text-shadow: 1px 1px 1px #800;
 }
 
 ._jsPlumb_endpoint{
@@ -299,8 +300,15 @@
     z-index: 1;
 }
 
-.textae-editor_relation-mode .textae-editor__relation__label:hover, .textae-editor_relation-mode .textae-editor__relation__label.hover {
+.textae-editor_relation-mode .textae-editor__relation__label:hover,
+.textae-editor_relation-mode .textae-editor__relation__label.hover,
+.textae-editor_relation-mode .textae-editor__relation__label.ui-selected {
     z-index: 6;
+}
+
+.textae-editor__relation__label.ui-selected {
+    opacity: 1;
+    font-weight: 700;
 }
 
 /* modification */
