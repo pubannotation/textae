@@ -346,19 +346,17 @@
                 // The Reference to model. This set by init.
                 var model;
 
-                // The chache for position of grids.
-                // This is updated at arrange position of grids.
-                // This is referenced at create or move relations.
-                var gridPositionCache = function() {
+                var Cache = function() {
                     var cache = {},
-                        set = function(spanId, position) {
-                            cache[spanId] = position;
+                        set = function(key, value) {
+                            cache[key] = value;
+                            return value;
                         },
-                        get = function(spanId) {
-                            return cache[spanId];
+                        get = function(key) {
+                            return cache[key];
                         },
-                        remove = function(spanId) {
-                            delete cache[spanId];
+                        remove = function(key) {
+                            delete cache[key];
                         },
                         clear = function() {
                             cache = {};
@@ -370,18 +368,23 @@
                         remove: remove,
                         clear: clear
                     };
-                }();
+                };
+
+                // The chache for position of grids.
+                // This is updated at arrange position of grids.
+                // This is referenced at create or move relations.
+                var gridPositionCache = new Cache();
 
                 // Utility functions for get positions of elemnts.
                 var positionUtils = function() {
                     // The cache for span positions.
                     // Getting the postion of spans is too slow about 5-10 ms per a element in Chrome browser. For example offsetTop property.
                     // This cache is big effective for the initiation, and little effective for resize. 
-                    var positionCache = {};
+                    var positionCache = new Cache();
 
                     var useCache = function(prefix, getPositionFunciton, spanId) {
                         var chacheId = prefix + spanId;
-                        return positionCache[chacheId] ? positionCache[chacheId] : positionCache[chacheId] = getPositionFunciton(spanId);
+                        return positionCache.get(chacheId) ? positionCache.get(chacheId) : positionCache.set(chacheId, getPositionFunciton(spanId));
                     };
 
                     // The posion of the text-box to calculate span postion; 
@@ -406,9 +409,7 @@
                     };
 
                     return {
-                        reset: function() {
-                            positionCache = {};
-                        },
+                        reset: positionCache.clear,
                         getSpan: _.partial(useCache, 'S', getSpan),
                         getEntity: function(entityId) {
                             var spanId = model.annotationData.entity.get(entityId).span;
