@@ -471,7 +471,9 @@
                         },
                         renderAllRelation = function(annotationData) {
                             renderer.relation.reset();
-                            annotationData.relation.all().forEach(renderer.relation.render);
+                            annotationData.relation.all().forEach(function(relationId) {
+                                renderer.relation.render(relationId, true);
+                            });
                         };
 
                     // Render annotations
@@ -1112,7 +1114,7 @@
                                 }
                             };
 
-                            var createJsPlumbConnection = function(relation) {
+                            var createJsPlumbConnection = function(relation, defaultCurveFlag) {
                                 var getStrokeStyle = _.partial(view.viewModel.getConnectorStrokeStyle, relation.id);
 
                                 // Make a connector by jsPlumb.
@@ -1120,7 +1122,7 @@
                                     source: view.domUtil.selector.entity.get(relation.subj),
                                     target: view.domUtil.selector.entity.get(relation.obj),
                                     anchors: ['TopCenter', "TopCenter"],
-                                    connector: ['Bezier', {
+                                    connector: ['Bezier', defaultCurveFlag ? {} : {
                                         curviness: determineCurviness(relation.id)
                                     }],
                                     paintStyle: getStrokeStyle(),
