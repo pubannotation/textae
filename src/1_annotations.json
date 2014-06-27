@@ -416,8 +416,24 @@
 		"pred": "Speculation",
 		"obj": "R1"
 	}, {
-		"id": "M",
+		"id": "M7",
 		"pred": "Negation",
 		"obj": "R1"
+	}, {
+		"id": "M8",
+		"pred": "Speculation",
+		"obj": "R2"
+	}, {
+		"id": "M9",
+		"pred": "Negation",
+		"obj": "R2"
+	}, {
+		"id": "M10",
+		"pred": "Speculation",
+		"obj": "R3"
+	}, {
+		"id": "M11",
+		"pred": "Negation",
+		"obj": "R4"
 	}]
 }
