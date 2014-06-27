@@ -357,7 +357,9 @@
                 };
 
                 // The posion of the text-box to calculate span postion; 
-                var textOffset;
+                var getTextOffset = _.partial(useCache, 'TEXT_NODE', function() {
+                    return editor.find('.textae-editor__body__text-box').offset();
+                });
 
                 var getGrid = _.partial(useCache, 'G', function(spanId) {
                     return view.domUtil.selector.grid.get(spanId).offset();
@@ -367,7 +369,6 @@
                 var positionUtils = {
                     reset: function() {
                         positionCache = {};
-                        textOffset = editor.find('.textae-editor__body__text-box').offset();
                     },
                     getSpan: _.partial(useCache, 'S', function(spanId) {
                         var $span = view.domUtil.selector.span.get(spanId);
@@ -377,8 +378,8 @@
 
                         var offset = $span.offset();
                         return {
-                            top: offset.top - textOffset.top,
-                            left: offset.left - textOffset.left,
+                            top: offset.top - getTextOffset().top,
+                            left: offset.left - getTextOffset().left,
                             width: $span.outerWidth(),
                             height: $span.outerHeight(),
                             center: $span.get(0).offsetLeft + $span.outerWidth() / 2
@@ -475,7 +476,6 @@
 
                     // Render annotations
                     getAnnotationArea().empty();
-                    positionUtils.reset();
                     arrangePosition.reset();
                     renderAllSpan(annotationData);
 
