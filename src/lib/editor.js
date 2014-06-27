@@ -268,7 +268,6 @@
                                 setRelationEditButtonPushed(false);
 
                                 view.viewModel.viewMode.marginBottomOfGrid = 0;
-                                view.renderer.helper.redraw();
 
                                 model.selectionModel
                                     .unbind('entity.select', entitySelectChanged)
@@ -284,7 +283,6 @@
                                 setRelationEditButtonPushed(false);
 
                                 view.viewModel.viewMode.marginBottomOfGrid = 2;
-                                view.renderer.helper.redraw();
 
                                 model.selectionModel
                                     .unbind('entity.select', entitySelectChanged)
@@ -299,7 +297,6 @@
                                 setRelationEditButtonPushed(true);
 
                                 view.viewModel.viewMode.marginBottomOfGrid = 2;
-                                view.renderer.helper.redraw();
 
                                 model.selectionModel
                                     .unbind('entity.select', entitySelectChanged)
@@ -472,10 +469,7 @@
                         },
                         renderAllRelation = function(annotationData) {
                             renderer.relation.reset();
-
-                            annotationData.relation.all().forEach(function(relation) {
-                                _.defer(_.partial(renderer.relation.render, relation));
-                            });
+                            annotationData.relation.all().forEach(renderer.relation.render);
                         };
 
                     // Render annotations
@@ -801,11 +795,9 @@
                             // Destroy children spans to wrap a TextNode with <span> tag when new span over exists spans.
                             var create = _.compose(renderChildresnSpan, renderEntitiesOfSpan, renderSingleSpan, destroyChildrenSpan);
 
-                            var andMoveGrid = _.partial(_.compose, arrangePosition.arrangePositionAll);
-
                             return {
-                                render: andMoveGrid(create),
-                                remove: andMoveGrid(destroy)
+                                render: create,
+                                remove: destroy
                             };
                         }(),
                         entityRenderer = function() {
@@ -1280,6 +1272,8 @@
                         .bind('relation.change', viewModel.buttonStateHelper.updateByRelation);
                 };
 
+                var andMoveGrid = _.partial(_.compose, arrangePosition.arrangePositionAll);
+
                 return {
                     init: function(modelData) {
                         renderer.init(getAnnotationArea());
@@ -1288,12 +1282,12 @@
                         model.annotationData
                             .bind('change-text', renderSourceDocument)
                             .bind('all.change', _.compose(model.selectionModel.clear, reset))
-                            .bind('span.add', renderer.span.render)
-                            .bind('span.remove', renderer.span.remove)
+                            .bind('span.add', andMoveGrid(renderer.span.render))
+                            .bind('span.remove', andMoveGrid(renderer.span.remove))
                             .bind('span.remove', _.compose(model.selectionModel.span.remove, modelToId))
-                            .bind('entity.add', _.compose(arrangePosition.arrangePositionAll, renderer.entity.render))
-                            .bind('entity.change', _.compose(arrangePosition.arrangePositionAll, renderer.entity.change))
-                            .bind('entity.remove', _.compose(arrangePosition.arrangePositionAll, renderer.entity.remove))
+                            .bind('entity.add', andMoveGrid(renderer.entity.render))
+                            .bind('entity.change', andMoveGrid(renderer.entity.change))
+                            .bind('entity.remove', andMoveGrid(renderer.entity.remove))
                             .bind('entity.remove', _.compose(model.selectionModel.entity.remove, modelToId))
                             .bind('relation.add', renderer.relation.render)
                             .bind('relation.change', renderer.relation.change)
@@ -2418,73 +2412,90 @@
                             var transition = {
                                 toTerm: function() {
                                     resetView();
+
                                     eventHandlerComposer.noRelationEdit();
                                     view.viewModel.viewMode.setTerm();
                                     view.viewModel.viewMode.setEditable(true);
+
+                                    view.renderer.helper.redraw();
 
                                     controllerState = state.termCentric;
                                 },
                                 toInstance: function() {
                                     resetView();
+
                                     eventHandlerComposer.noRelationEdit();
                                     view.viewModel.viewMode.setInstance();
                                     view.viewModel.viewMode.setEditable(true);
+
+                                    view.renderer.helper.redraw();
 
                                     controllerState = state.instanceRelation;
                                 },
                                 toRelation: function() {
                                     resetView();
+
                                     eventHandlerComposer.relationEdit();
                                     view.viewModel.viewMode.setRelation();
                                     view.viewModel.viewMode.setEditable(true);
+
+                                    view.renderer.helper.redraw();
 
                                     controllerState = state.relationEdit;
                                 },
                                 toViewTerm: function() {
                                     resetView();
+
                                     eventHandlerComposer.noEdit();
                                     view.viewModel.viewMode.setTerm();
                                     view.viewModel.viewMode.setEditable(false);
+
+                                    view.renderer.helper.redraw();
 
                                     controllerState = state.viewTerm;
                                 },
                                 toViewInstance: function() {
                                     resetView();
+
                                     eventHandlerComposer.noEdit();
                                     view.viewModel.viewMode.setInstance();
                                     view.viewModel.viewMode.setEditable(false);
+
+                                    view.renderer.helper.redraw();
 
                                     controllerState = state.viewInstance;
                                 }
                             };
 
-                            var doNothing = function() {};
+                            var notTransit = function() {
+                                view.renderer.helper.redraw();
+                            };
                             var state = {
                                 termCentric: _.extend({}, transition, {
                                     name: 'Term Centric',
-                                    toTerm: doNothing
+                                    toTerm: notTransit
                                 }),
                                 instanceRelation: _.extend({}, transition, {
                                     name: 'Instance / Relation',
-                                    toInstance: doNothing,
+                                    toInstance: notTransit,
                                 }),
                                 relationEdit: _.extend({}, transition, {
                                     name: 'Relation Edit',
-                                    toRelation: doNothing
+                                    toRelation: notTransit
                                 }),
                                 viewTerm: _.extend({}, transition, {
                                     name: 'View Only',
-                                    toTerm: doNothing,
+                                    toTerm: notTransit,
                                     toInstance: transition.toViewInstance,
-                                    toRelation: doNothing,
-                                    toViewTerm: doNothing
+                                    toRelation: notTransit,
+                                    toViewTerm: notTransit
                                 }),
                                 viewInstance: _.extend({}, transition, {
                                     name: 'View Only',
                                     toTerm: transition.toViewTerm,
-                                    toInstance: doNothing,
-                                    toRelation: doNothing,
-                                    toViewInstance: doNothing
+                                    toInstance: notTransit,
+                                    toRelation: notTransit,
+                                    toViewInstance: notTransit
                                 })
                             };
 
