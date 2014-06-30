@@ -1570,12 +1570,16 @@
 
                 model.selectionModel.clear();
                 (function doCreate(beginPosition, endPosition) {
+                    // The span cross exists spans.
+                    if (model.annotationData.isBoundaryCrossingWithOtherSpans({
+                        begin: beginPosition,
+                        end: endPosition
+                    })) return;
+
                     var spanId = idFactory.makeSpanId(beginPosition, endPosition);
 
                     // The span exists already.
-                    if (model.annotationData.span.get(spanId)) {
-                        return;
-                    }
+                    if (model.annotationData.span.get(spanId)) return;
 
                     var commands = [command.factory.spanCreateCommand({
                         begin: beginPosition,
