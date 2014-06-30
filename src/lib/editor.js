@@ -417,6 +417,12 @@
                         }
 
                         var gridPosition = gridPositionCache.get(spanId);
+
+                        if (!gridPosition) {
+                            return null;
+                        }
+
+
                         var entityElement = $entity.get(0);
                         return {
                             top: gridPosition.top + entityElement.offsetTop,
@@ -1038,6 +1044,12 @@
                                 var sourceId = model.annotationData.relation.get(relationId).subj;
                                 var targetId = model.annotationData.relation.get(relationId).obj;
 
+                                var source = domPositionUtils.getEntity(sourceId);
+                                if (!source) return null;
+                                var target = domPositionUtils.getEntity(targetId);
+                                if (!target) return null;
+
+
                                 var sourcePosition = domPositionUtils.getEntity(sourceId);
                                 var targetPosition = domPositionUtils.getEntity(targetId);
 
@@ -1164,6 +1176,11 @@
 
                             var createJsPlumbConnection = function(relation, quickFlag) {
                                 var getStrokeStyle = _.partial(view.viewModel.getConnectorStrokeStyle, relation.id);
+
+                                var curve = determineCurviness(relation.id);
+                                if (!curve) {
+                                    quickFlag = true;
+                                }
 
                                 // Make a connector by jsPlumb.
                                 var connect = jsPlumbInstance.connect({
