@@ -1109,24 +1109,48 @@
                                             lineWidth: 1
                                         }));
                                     },
-                                    pointupLable = function(connect) {
+                                    pointupLabel = function(connect) {
                                         connect.getOverlay(label.id).addClass('hover');
-
                                     },
                                     pointdownLabel = function(connect) {
                                         connect.getOverlay(label.id).removeClass('hover');
+                                    },
+                                    selectLabel = function(connect) {
+                                        connect.getOverlay('label').addClass('ui-selected');
+                                    },
+                                    deselectLabel = function(connect) {
+                                        connect.getOverlay('label').removeClass('ui-selected');
+                                    },
+                                    selectLine = function(connect) {
+                                        connect.addClass('ui-selected');
+                                    },
+                                    deselectLine = function(connect) {
+                                        connect.removeClass('ui-selected');
                                     };
 
                                 return {
                                     pointup: function() {
+                                        if (this.hasClass('ui-selected')) return;
+
                                         pointupArrow(this);
-                                        pointupLable(this);
+                                        pointupLabel(this);
                                     },
                                     pointdown: function() {
                                         if (this.hasClass('ui-selected')) return;
 
                                         pointdownAllow(this);
                                         pointdownLabel(this);
+                                    },
+                                    select: function() {
+                                        pointupArrow(this);
+                                        pointdownLabel(this);
+                                        selectLabel(this);
+                                        selectLine(this);
+                                    },
+                                    deselect: function() {
+                                        pointdownAllow(this);
+                                        deselectLabel(this);
+                                        deselectLine(this);
                                     }
                                 };
                             };
@@ -1271,10 +1295,7 @@
                         },
                         relationSelected = function(relationId) {
                             var addUiSelectClass = function(connector) {
-                                    if (!connector) return;
-
-                                    connector.addClass('ui-selected');
-                                    connector.pointup();
+                                    if (connector) connector.select();
                                 },
                                 selectRelation = _.compose(addUiSelectClass, toConnector);
 
@@ -1282,10 +1303,7 @@
                         },
                         relationDeselected = function(relationId) {
                             var removeUiSelectClass = function(connector) {
-                                    if (!connector) return;
-
-                                    connector.removeClass('ui-selected');
-                                    connector.pointdown();
+                                    if (connector) connector.deselect();
                                 },
                                 deselectRelation = _.compose(removeUiSelectClass, toConnector);
 
