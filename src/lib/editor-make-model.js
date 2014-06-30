@@ -1,8 +1,8 @@
     var makeModel = function(idFactory) {
         // A span its range is coross over with other spans are not able to rendered.
         // Because spans are renderd with span tag. Html tags can not be cross over.
-        var isBoundaryCrossingWithOtherSpans = function(candidateSpan) {
-                return annotationData.span.all().filter(function(existSpan) {
+        var isBoundaryCrossingWithOtherSpans = function(span, candidateSpan) {
+                return span.all().filter(function(existSpan) {
                     return (existSpan.begin < candidateSpan.begin && candidateSpan.begin < existSpan.end && existSpan.end < candidateSpan.end) ||
                         (candidateSpan.begin < existSpan.begin && existSpan.begin < candidateSpan.end && candidateSpan.end < existSpan.end);
                 }).length > 0;
@@ -100,7 +100,7 @@
                             };
 
                             // Ignore crossing spans.
-                            if (isBoundaryCrossingWithOtherSpans(span)) return;
+                            if (annotationData.isBoundaryCrossingWithOtherSpans(span)) return;
 
                             var spanId = idFactory.makeSpanId(span.begin, span.end);
 
@@ -503,7 +503,8 @@
                             'denotations': denotations,
                             'relations': annotationData.relation.all()
                         }));
-                    }
+                    },
+                    isBoundaryCrossingWithOtherSpans: _.partial(isBoundaryCrossingWithOtherSpans, span)
                 });
 
                 return api;
@@ -633,7 +634,7 @@
                 };
 
                 return getSpansTheirStringIsSameWith(originSpan).filter(function(span) {
-                    return !isOriginSpan(span) && isWord(span) && !isAlreadySpaned(span) && !isBoundaryCrossingWithOtherSpans(span);
+                    return !isOriginSpan(span) && isWord(span) && !isAlreadySpaned(span) && !annotationData.isBoundaryCrossingWithOtherSpans(span);
                 });
             }
         };
