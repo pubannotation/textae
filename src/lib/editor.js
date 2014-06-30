@@ -317,26 +317,6 @@
                         setDefinedEntityTypes: _.partial(setContainerDefinedTypes, entityContainer),
                         relation: relationContaier,
                         setDefinedRelationTypes: _.partial(setContainerDefinedTypes, relationContaier)
-                    },
-                    getConnectorStrokeStyle: function(relationId) {
-                        var converseHEXinotRGBA = function(color, opacity) {
-                            var c = color.slice(1);
-                            r = parseInt(c.substr(0, 2), 16);
-                            g = parseInt(c.substr(2, 2), 16);
-                            b = parseInt(c.substr(4, 2), 16);
-
-                            return 'rgba(' + r + ', ' + g + ', ' + b + ', 1)';
-                        };
-
-                        // TODO configにrelationの設定がなくて、annotationにrelationがひとつも無いときにはcolorHexが取得できないため、relationが作れない。
-                        // そもそもそのような状況を想定すべきか謎。何かしらの・・・configは必須ではないか？
-                        var pred = model.annotationData.relation.get(relationId).pred;
-                        var colorHex = view.viewModel.typeContainer.relation.getColor(pred);
-
-                        return {
-                            lineWidth: 1,
-                            strokeStyle: converseHEXinotRGBA(colorHex, 1)
-                        };
                     }
                 };
             }();
@@ -373,7 +353,12 @@
                 // The chache for position of grids.
                 // This is updated at arrange position of grids.
                 // This is referenced at create or move relations.
-                var gridPositionCache = new Cache();
+                var gridPositionCache = _.extend(new Cache(), {
+                    isGridPrepared: function(entityId) {
+                        var spanId = model.annotationData.entity.get(entityId).span;
+                        return gridPositionCache.get(spanId);
+                    }
+                });
 
                 // Utility functions for get positions of DOM elemnts.
                 var domPositionUtils = function() {
@@ -500,9 +485,7 @@
                         },
                         renderAllRelation = function(annotationData) {
                             renderer.relation.reset();
-                            annotationData.relation.all().forEach(function(relationId) {
-                                renderer.relation.render(relationId, true);
-                            });
+                            annotationData.relation.all().forEach(renderer.relation.render);
                         };
 
                     // Render annotations
@@ -1034,12 +1017,17 @@
                                     jsPlumbInstance = makeJsPlumbInstance(container);
                                 };
 
-                            var determineCurviness = function(relationId) {
-                                var sourceId = model.annotationData.relation.get(relationId).subj;
-                                var targetId = model.annotationData.relation.get(relationId).obj;
+                            var toAnchors = function(relationId) {
+                                return {
+                                    sourceId: model.annotationData.relation.get(relationId).subj,
+                                    targetId: model.annotationData.relation.get(relationId).obj
+                                };
+                            };
 
-                                var sourcePosition = domPositionUtils.getEntity(sourceId);
-                                var targetPosition = domPositionUtils.getEntity(targetId);
+                            var determineCurviness = function(relationId) {
+                                var anchors = toAnchors(relationId);
+                                var sourcePosition = domPositionUtils.getEntity(anchors.sourceId);
+                                var targetPosition = domPositionUtils.getEntity(anchors.targetId);
 
                                 var sourceX = sourcePosition.center;
                                 var targetX = targetPosition.center;
@@ -1105,9 +1093,7 @@
                                     pointdownAllow = function(connect) {
                                         connect.removeOverlay(hoverArrow.id);
                                         connect.addOverlay(['Arrow', normalArrow]);
-                                        connect.setPaintStyle(_.extend(getStrokeStyle(), {
-                                            lineWidth: 1
-                                        }));
+                                        connect.setPaintStyle(getStrokeStyle());
                                     },
                                     pointupLabel = function(connect) {
                                         connect.getOverlay(label.id).addClass('hover');
@@ -1156,24 +1142,42 @@
                             };
 
                             // Extend jsPlumb.Connection to add a method 'hasClass'.
-                            var hasClass = {
-                                hasClass: function(className) {
-                                    return this.connector.canvas.classList.contains(className);
-                                }
+                            var hasClass = function(className) {
+                                return this.connector.canvas.classList.contains(className);
                             };
 
-                            var createJsPlumbConnection = function(relation, quickFlag) {
-                                var getStrokeStyle = _.partial(view.viewModel.getConnectorStrokeStyle, relation.id);
+                            var isGridPrepared = function(relationId) {
+                                var anchors = toAnchors(relationId);
+                                return gridPositionCache.isGridPrepared(anchors.sourceId) && gridPositionCache.isGridPrepared(anchors.targetId);
+                            };
 
+                            var getConnectorStrokeStyle = function(relationId) {
+                                var converseHEXinotRGBA = function(color, opacity) {
+                                    var c = color.slice(1);
+                                    r = parseInt(c.substr(0, 2), 16);
+                                    g = parseInt(c.substr(2, 2), 16);
+                                    b = parseInt(c.substr(4, 2), 16);
+
+                                    return 'rgba(' + r + ', ' + g + ', ' + b + ', 1)';
+                                };
+
+                                var pred = model.annotationData.relation.get(relationId).pred;
+                                var colorHex = view.viewModel.typeContainer.relation.getColor(pred);
+
+                                return {
+                                    lineWidth: 1,
+                                    strokeStyle: converseHEXinotRGBA(colorHex, 1)
+                                };
+                            };
+
+                            var createJsPlumbConnect = function(relation, curviness) {
                                 // Make a connector by jsPlumb.
-                                var connect = jsPlumbInstance.connect({
+                                return jsPlumbInstance.connect({
                                     source: view.domUtil.selector.entity.get(relation.subj),
                                     target: view.domUtil.selector.entity.get(relation.obj),
                                     anchors: ['TopCenter', "TopCenter"],
-                                    connector: ['Bezier', quickFlag ? {} : {
-                                        curviness: determineCurviness(relation.id)
-                                    }],
-                                    paintStyle: getStrokeStyle(),
+                                    connector: ['Bezier', curviness],
+                                    paintStyle: getConnectorStrokeStyle(relation.id),
                                     parameters: {
                                         'id': relation.id,
                                     },
@@ -1186,17 +1190,30 @@
                                         })]
                                     ]
                                 });
+                            };
+
+                            var createRelation = function(relation) {
+                                // Create a relation as simlified version when before moving grids after creation grids.
+                                var beforeMoveGrid = !isGridPrepared(relation.id);
+                                var curviness = beforeMoveGrid ? {} : {
+                                    curviness: determineCurviness(relation.id)
+                                };
+
+                                // Make a connector by jsPlumb.
+                                var connect = createJsPlumbConnect(relation, curviness);
 
                                 // Create as invisible to prevent flash at the initiation.
-                                if (quickFlag) {
+                                if (beforeMoveGrid) {
                                     connect.setVisible(false);
                                 }
 
-                                // Set a function debounce to avoid over rendering.
-                                connect.arrangePosition = _.debounce(_.partial(arrangePosition, relation.id), 20);
-
                                 // Extend
-                                _.extend(connect, pointupable(getStrokeStyle), hasClass);
+                                var getStrokeStyle = _.partial(getConnectorStrokeStyle, relation.id);
+                                _.extend(connect, pointupable(getStrokeStyle), {
+                                    // Set a function debounce to avoid over rendering.
+                                    arrangePosition: _.debounce(_.partial(arrangePosition, relation.id), 20),
+                                    hasClass: hasClass
+                                });
 
                                 // Set hover action.
                                 connect.bind('mouseenter', function(connect) {
@@ -1255,7 +1272,7 @@
                                     jsPlumbInstance.reset();
                                     cachedConnectors = {};
                                 },
-                                render: createJsPlumbConnection,
+                                render: createRelation,
                                 change: changeJsPlubmOverlay,
                                 remove: removeJsPlumbConnection
                             };
@@ -2335,7 +2352,7 @@
                             pasteEntities: function() {
                                 // Make commands per selected spans from entities in clipBord. 
                                 var commands = _.flatten(model.selectionModel.span.all().map(function(spanId) {
-                                    // The view.viewModel.clipBoard has enitityIds.
+                                    // The view.viewModel.clipBoard has entityIds.
                                     return view.viewModel.clipBoard.map(function(entityId) {
                                         return command.factory.entityCreateCommand(spanId, model.annotationData.entity.get(entityId).type);
                                     });
