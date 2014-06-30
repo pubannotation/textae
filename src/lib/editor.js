@@ -1246,7 +1246,7 @@
                                 }
 
                                 labelOverlay.setLabel('[' + relation.id + '] ' + relation.pred);
-                                connector.setPaintStyle(view.viewModel.getConnectorStrokeStyle(relation.id));
+                                connector.setPaintStyle(getConnectorStrokeStyle(relation.id));
                             };
 
                             var removeJsPlumbConnection = function(relation) {
@@ -1810,7 +1810,8 @@
                 return {
                     createSpanIfOneParent: createSpanIfOneParent,
                     expandIfable: expandIfable,
-                    shrinkIfable: shrinkIfable
+                    shrinkIfable: shrinkIfable,
+                    overParagraph: overParagraph
                 };
             }();
 
@@ -1831,7 +1832,7 @@
                     return false;
                 }
 
-                overParagraph();
+                spanAdjuster.overParagraph();
                 return false;
             };
 
@@ -1856,7 +1857,7 @@
                     return false;
                 }
 
-                overParagraph();
+                spanAdjuster.overParagraph();
                 return false;
             };
 
