@@ -1539,6 +1539,40 @@
                 return pos;
             };
 
+            var doCreate = function(beginPosition, endPosition) {
+                // The span cross exists spans.
+                if (model.annotationData.isBoundaryCrossingWithOtherSpans({
+                    begin: beginPosition,
+                    end: endPosition
+                })) {
+                    view.domUtil.manipulate.dismissBrowserSelection();
+                    return;
+                }
+
+                // The span exists already.
+                var spanId = idFactory.makeSpanId(beginPosition, endPosition);
+                if (model.annotationData.span.get(spanId)) {
+                    view.domUtil.manipulate.dismissBrowserSelection();
+                    return;
+                }
+
+                var commands = [command.factory.spanCreateCommand({
+                    begin: beginPosition,
+                    end: endPosition
+                })];
+
+                if (view.viewModel.modeAccordingToButton['replicate-auto'].value() && endPosition - beginPosition <= CONSTS.BLOCK_THRESHOLD) {
+                    commands.push(command.factory.spanReplicateCommand({
+                        begin: beginPosition,
+                        end: endPosition
+                    }));
+                }
+
+
+                command.invoke(commands);
+                view.domUtil.manipulate.dismissBrowserSelection();
+            };
+
             var createSpanIfOneParent = function(selection) {
                 // A span can be created at the same parent node.
                 // The parentElement is expected as a paragraph or a span.
@@ -1569,33 +1603,7 @@
                 }
 
                 model.selectionModel.clear();
-                (function doCreate(beginPosition, endPosition) {
-                    // The span cross exists spans.
-                    if (model.annotationData.isBoundaryCrossingWithOtherSpans({
-                        begin: beginPosition,
-                        end: endPosition
-                    })) return;
-
-                    var spanId = idFactory.makeSpanId(beginPosition, endPosition);
-
-                    // The span exists already.
-                    if (model.annotationData.span.get(spanId)) return;
-
-                    var commands = [command.factory.spanCreateCommand({
-                        begin: beginPosition,
-                        end: endPosition
-                    })];
-
-                    if (view.viewModel.modeAccordingToButton['replicate-auto'].value() && endPosition - beginPosition <= CONSTS.BLOCK_THRESHOLD) {
-                        commands.push(command.factory.spanReplicateCommand({
-                            begin: beginPosition,
-                            end: endPosition
-                        }));
-                    }
-
-                    command.invoke(commands);
-
-                })(adjustSpanBegin(anchorPosition), adjustSpanEnd(focusPosition));
+                doCreate(adjustSpanBegin(anchorPosition), adjustSpanEnd(focusPosition));
 
                 return true;
             };
