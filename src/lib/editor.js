@@ -3064,65 +3064,64 @@
                     bindChangeViewMode(params);
                     loadAnnotation(params);
                 },
-                // Functions will be called from handleKeyInput and handleButtonClick.
-                showAccess,
-                showSave,
                 initDao = function(confirmDiscardChangeMessage) {
                     var dataAccessObject = makeDataAccessObject(editor, confirmDiscardChangeMessage);
                     dataAccessObject.bind('save', controller.command.updateSavePoint);
                     dataAccessObject.bind('load', controller.command.reset);
 
-                    showAccess = function() {
-                        dataAccessObject.showAccess(controller.command.hasAnythingToSave());
-                    };
-
-                    showSave = function() {
-                        dataAccessObject.showSave(model.annotationData.toJson());
-                    };
-
                     return dataAccessObject;
                 },
-                handleKeyInput = function(key, mousePoint) {
-                    var keyApiMap = {
-                        'A': showAccess,
-                        'C': controller.userEvent.editHandler.copyEntities,
-                        'D': controller.userEvent.editHandler.removeSelectedElements,
-                        'DEL': controller.userEvent.editHandler.removeSelectedElements,
-                        'E': controller.userEvent.editHandler.createEntity,
-                        'Q': controller.userEvent.viewHandler.showPallet,
-                        'R': controller.userEvent.editHandler.replicate,
-                        'S': showSave,
-                        'V': controller.userEvent.editHandler.pasteEntities,
-                        'W': controller.userEvent.editHandler.newLabel,
-                        'X': controller.command.redo,
-                        'Y': controller.command.redo,
-                        'Z': controller.command.undo,
-                        'ESC': controller.userEvent.viewHandler.cancelSelect,
-                        'LEFT': controller.userEvent.viewHandler.selectLeftSpan,
-                        'RIGHT': controller.userEvent.viewHandler.selectRightSpan,
-                    };
-                    if (keyApiMap[key]) {
-                        keyApiMap[key](mousePoint);
-                    }
+                handle = function(map, key, value) {
+                    if (map[key]) map[key](value);
                 },
-                handleButtonClick = function(name, mousePoint) {
-                    var buttonApiMap = {
-                        'textae.control.button.read.click': showAccess,
-                        'textae.control.button.write.click': showSave,
-                        'textae.control.button.undo.click': controller.command.undo,
-                        'textae.control.button.redo.click': controller.command.redo,
-                        'textae.control.button.replicate.click': controller.userEvent.editHandler.replicate,
-                        'textae.control.button.replicate_auto.click': view.viewModel.modeAccordingToButton['replicate-auto'].toggle,
-                        'textae.control.button.relation_edit_mode.click': controller.userEvent.viewHandler.toggleRelationEditMode,
-                        'textae.control.button.entity.click': controller.userEvent.editHandler.createEntity,
-                        'textae.control.button.change_label.click': controller.userEvent.editHandler.newLabel,
-                        'textae.control.button.pallet.click': controller.userEvent.viewHandler.showPallet,
-                        'textae.control.button.delete.click': controller.userEvent.editHandler.removeSelectedElements,
-                        'textae.control.button.copy.click': controller.userEvent.editHandler.copyEntities,
-                        'textae.control.button.paste.click': controller.userEvent.editHandler.pasteEntities,
-                        'textae.control.button.setting.click': controller.userEvent.viewHandler.showSettingDialog,
+                updateAPIs = function(dataAccessObject) {
+                    var showAccess = function() {
+                            dataAccessObject.showAccess(controller.command.hasAnythingToSave());
+                        },
+                        showSave = function() {
+                            dataAccessObject.showSave(model.annotationData.toJson());
+                        },
+                        keyApiMap = {
+                            'A': showAccess,
+                            'C': controller.userEvent.editHandler.copyEntities,
+                            'D': controller.userEvent.editHandler.removeSelectedElements,
+                            'DEL': controller.userEvent.editHandler.removeSelectedElements,
+                            'E': controller.userEvent.editHandler.createEntity,
+                            'Q': controller.userEvent.viewHandler.showPallet,
+                            'R': controller.userEvent.editHandler.replicate,
+                            'S': showSave,
+                            'V': controller.userEvent.editHandler.pasteEntities,
+                            'W': controller.userEvent.editHandler.newLabel,
+                            'X': controller.command.redo,
+                            'Y': controller.command.redo,
+                            'Z': controller.command.undo,
+                            'ESC': controller.userEvent.viewHandler.cancelSelect,
+                            'LEFT': controller.userEvent.viewHandler.selectLeftSpan,
+                            'RIGHT': controller.userEvent.viewHandler.selectRightSpan,
+                        },
+                        iconApiMap = {
+                            'textae.control.button.read.click': showAccess,
+                            'textae.control.button.write.click': showSave,
+                            'textae.control.button.undo.click': controller.command.undo,
+                            'textae.control.button.redo.click': controller.command.redo,
+                            'textae.control.button.replicate.click': controller.userEvent.editHandler.replicate,
+                            'textae.control.button.replicate_auto.click': view.viewModel.modeAccordingToButton['replicate-auto'].toggle,
+                            'textae.control.button.relation_edit_mode.click': controller.userEvent.viewHandler.toggleRelationEditMode,
+                            'textae.control.button.entity.click': controller.userEvent.editHandler.createEntity,
+                            'textae.control.button.change_label.click': controller.userEvent.editHandler.newLabel,
+                            'textae.control.button.pallet.click': controller.userEvent.viewHandler.showPallet,
+                            'textae.control.button.delete.click': controller.userEvent.editHandler.removeSelectedElements,
+                            'textae.control.button.copy.click': controller.userEvent.editHandler.copyEntities,
+                            'textae.control.button.paste.click': controller.userEvent.editHandler.pasteEntities,
+                            'textae.control.button.setting.click': controller.userEvent.viewHandler.showSettingDialog
+                        };
+
+                    // Update APIs
+                    editor.api = {
+                        handleKeyInput: _.partial(handle, keyApiMap),
+                        handleButtonClick: _.partial(handle, iconApiMap),
+                        redraw: controller.userEvent.viewHandler.redraw
                     };
-                    buttonApiMap[name](mousePoint);
                 },
                 start = function start(editor) {
                     var CONFIRM_DISCARD_CHANGE_MESSAGE = 'There is a change that has not been saved. If you procceed now, you will lose it.';
@@ -3134,13 +3133,12 @@
                     var dataAccessObject = initDao(CONFIRM_DISCARD_CHANGE_MESSAGE);
 
                     setConfigByParams(params, dataAccessObject);
+
+                    updateAPIs(dataAccessObject);
                 };
 
             return {
-                start: start,
-                handleKeyInput: handleKeyInput,
-                handleButtonClick: handleButtonClick,
-                redraw: controller.userEvent.viewHandler.redraw,
+                start: start
             };
         }(this);
 
