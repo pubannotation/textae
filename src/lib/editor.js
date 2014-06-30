@@ -1246,7 +1246,7 @@
                                 }
 
                                 labelOverlay.setLabel('[' + relation.id + '] ' + relation.pred);
-                                connector.setPaintStyle(view.viewModel.getConnectorStrokeStyle(relation.id));
+                                connector.setPaintStyle(getConnectorStrokeStyle(relation.id));
                             };
 
                             var removeJsPlumbConnection = function(relation) {
