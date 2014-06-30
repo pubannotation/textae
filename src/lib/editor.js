@@ -373,7 +373,12 @@
                 // The chache for position of grids.
                 // This is updated at arrange position of grids.
                 // This is referenced at create or move relations.
-                var gridPositionCache = new Cache();
+                var gridPositionCache = _.extend(new Cache(), {
+                    isGridPrepared: function(entityId) {
+                        var spanId = model.annotationData.entity.get(entityId).span;
+                        return gridPositionCache.get(spanId);
+                    }
+                });
 
                 // Utility functions for get positions of DOM elemnts.
                 var domPositionUtils = function() {
@@ -417,12 +422,6 @@
                         }
 
                         var gridPosition = gridPositionCache.get(spanId);
-
-                        if (!gridPosition) {
-                            return null;
-                        }
-
-
                         var entityElement = $entity.get(0);
                         return {
                             top: gridPosition.top + entityElement.offsetTop,
@@ -506,9 +505,7 @@
                         },
                         renderAllRelation = function(annotationData) {
                             renderer.relation.reset();
-                            annotationData.relation.all().forEach(function(relationId) {
-                                renderer.relation.render(relationId, true);
-                            });
+                            annotationData.relation.all().forEach(renderer.relation.render);
                         };
 
                     // Render annotations
@@ -1040,18 +1037,17 @@
                                     jsPlumbInstance = makeJsPlumbInstance(container);
                                 };
 
+                            var toAnchors = function(relationId) {
+                                return {
+                                    sourceId: model.annotationData.relation.get(relationId).subj,
+                                    targetId: model.annotationData.relation.get(relationId).obj
+                                };
+                            };
+
                             var determineCurviness = function(relationId) {
-                                var sourceId = model.annotationData.relation.get(relationId).subj;
-                                var targetId = model.annotationData.relation.get(relationId).obj;
-
-                                var source = domPositionUtils.getEntity(sourceId);
-                                if (!source) return null;
-                                var target = domPositionUtils.getEntity(targetId);
-                                if (!target) return null;
-
-
-                                var sourcePosition = domPositionUtils.getEntity(sourceId);
-                                var targetPosition = domPositionUtils.getEntity(targetId);
+                                var anchors = toAnchors(relationId);
+                                var sourcePosition = domPositionUtils.getEntity(anchors.sourceId);
+                                var targetPosition = domPositionUtils.getEntity(anchors.targetId);
 
                                 var sourceX = sourcePosition.center;
                                 var targetX = targetPosition.center;
@@ -1174,20 +1170,23 @@
                                 }
                             };
 
-                            var createJsPlumbConnection = function(relation, quickFlag) {
+                            var isGridPrepared = function(relationId) {
+                                var anchors = toAnchors(relationId);
+                                return gridPositionCache.isGridPrepared(anchors.sourceId) && gridPositionCache.isGridPrepared(anchors.targetId);
+                            };
+
+                            var createJsPlumbConnection = function(relation) {
                                 var getStrokeStyle = _.partial(view.viewModel.getConnectorStrokeStyle, relation.id);
 
-                                var curve = determineCurviness(relation.id);
-                                if (!curve) {
-                                    quickFlag = true;
-                                }
+                                // Create a relation as simlified version when before moving grids after creation grids.
+                                var beforeMoveGrid = !isGridPrepared(relation.id);
 
                                 // Make a connector by jsPlumb.
                                 var connect = jsPlumbInstance.connect({
                                     source: view.domUtil.selector.entity.get(relation.subj),
                                     target: view.domUtil.selector.entity.get(relation.obj),
                                     anchors: ['TopCenter', "TopCenter"],
-                                    connector: ['Bezier', quickFlag ? {} : {
+                                    connector: ['Bezier', beforeMoveGrid ? {} : {
                                         curviness: determineCurviness(relation.id)
                                     }],
                                     paintStyle: getStrokeStyle(),
@@ -1205,7 +1204,7 @@
                                 });
 
                                 // Create as invisible to prevent flash at the initiation.
-                                if (quickFlag) {
+                                if (beforeMoveGrid) {
                                     connect.setVisible(false);
                                 }
 
@@ -2352,7 +2351,7 @@
                             pasteEntities: function() {
                                 // Make commands per selected spans from entities in clipBord. 
                                 var commands = _.flatten(model.selectionModel.span.all().map(function(spanId) {
-                                    // The view.viewModel.clipBoard has enitityIds.
+                                    // The view.viewModel.clipBoard has entityIds.
                                     return view.viewModel.clipBoard.map(function(entityId) {
                                         return command.factory.entityCreateCommand(spanId, model.annotationData.entity.get(entityId).type);
                                     });
