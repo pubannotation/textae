@@ -130,6 +130,15 @@
     background: url("./images/btn_setting_16.png");
 }
 
+.textae-control__negation-button {
+    background: url("./images/delete.png");
+}
+
+.textae-control__speculation-button {
+    background: url("./images/exclamation.png");
+}
+
+/* information dialogs */
 .textae-control__about {
     border: solid 4px #aaaa88;
     background-color: rgba(255,255,225,1.0);
