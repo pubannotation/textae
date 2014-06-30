@@ -1810,7 +1810,8 @@
                 return {
                     createSpanIfOneParent: createSpanIfOneParent,
                     expandIfable: expandIfable,
-                    shrinkIfable: shrinkIfable
+                    shrinkIfable: shrinkIfable,
+                    overParagraph: overParagraph
                 };
             }();
 
@@ -1831,7 +1832,7 @@
                     return false;
                 }
 
-                overParagraph();
+                spanAdjuster.overParagraph();
                 return false;
             };
 
@@ -1856,7 +1857,7 @@
                     return false;
                 }
 
-                overParagraph();
+                spanAdjuster.overParagraph();
                 return false;
             };
 
