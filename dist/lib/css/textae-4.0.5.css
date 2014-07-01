@@ -376,10 +376,12 @@
 
 .textae-editor__entity:hover {
     box-shadow: 1px 1px 10px #600;
+    text-shadow: 1px 1px 1px #600;
 }
 
 .textae-editor__entity.ui-selected {
     background-color: yellow;
+    font-weight: 700;
 }
 
 /* relation */
@@ -404,6 +406,11 @@
 .textae-editor__relation__label:hover, .textae-editor__relation__label.hover {
     opacity: 1;
     z-index: 2;
+    text-shadow: 1px 1px 1px #800;
+}
+
+._jsPlumb_endpoint{
+    visibility: hidden;
 }
 
 /* term centric mode */
@@ -414,7 +421,7 @@
 }
 
 .textae-editor_term-mode .textae-editor__relation, .textae-editor_term-mode .textae-editor__relation__label{
-    display: none;
+    display: none !important;
 }
 
 .textae-editor_term-mode .textae-editor__entity-pane {
@@ -455,23 +462,44 @@
     z-index: 1;
 }
 
-.textae-editor_relation-mode .textae-editor__relation__label:hover, .textae-editor_relation-mode .textae-editor__relation__label.hover {
+.textae-editor_relation-mode .textae-editor__relation__label:hover,
+.textae-editor_relation-mode .textae-editor__relation__label.hover,
+.textae-editor_relation-mode .textae-editor__relation__label.ui-selected {
     z-index: 6;
 }
 
+.textae-editor__relation__label.ui-selected {
+    opacity: 1;
+    font-weight: 700;
+}
+
 /* modification */
-.textae-editor__entity-negation::before{
+.textae-editor__entity.textae-editor__negation::before{
     content: 'X';
     left: -4px;
     position: relative;
     top: -15px;
 }
 
-.textae-editor__entity-speculation::after {
+.textae-editor__entity.textae-editor__speculation::after {
     content: '?';
     left: -6px;
     position: relative;
     top: -15px;
+}
+
+.textae-editor__relation__label.textae-editor__negation::before{
+    content: 'X';
+    right: 0;
+    position: absolute;
+    top: -12px;
+}
+
+.textae-editor__relation__label.textae-editor__speculation::after {
+    content: '?';
+    right: -0.5em;
+    position: relative;
+    top: -12px;
 }
 
 /* dialog */

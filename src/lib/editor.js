@@ -879,21 +879,22 @@
                                                 // http://someweblog.com/url-regular-expression-javascript-link-shortener/
                                                 var urlRegex = /\(?(?:(http|https|ftp):\/\/)?(?:((?:[^\W\s]|\.|-|[:]{1})+)@{1})?((?:www.)?(?:[^\W\s]|\.|-)+[\.][^\W\s]{2,4}|localhost|\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})(?::(\d*))?([\/]?[^\s\?]*[\/]{1})*(?:\/?([^\s\n\?\[\]\{\}\#]*(?:(?=\.)){1}|[^\s\n\?\[\]\{\}\.\#]*)?([\.]{1}[^\s\?\#]*)?)?(?:\?{1}([^\s\n\#\[\]]*))?([\#][^\s\n]*)?\)?/gi;
                                                 var matches = urlRegex.exec(type);
-                                                // Order to dispaly.
-                                                // 1. The anchor without #.
-                                                // 2. The file name with the extention.
-                                                // 3. The last directory name.
-                                                // 4. The domain name.
 
-                                                return matches[9] ? matches[9].slice(1) :
-                                                    matches[6] ? matches[6] + (matches[7] || '') :
-                                                    matches[5] ? matches[5].split('/').filter(function(s) {
-                                                        return s !== '';
-                                                    }).pop() :
-                                                    matches[3];
-                                            } else {
-                                                return type;
+                                                if (matches) {
+                                                    // Order to dispaly.
+                                                    // 1. The anchor without #.
+                                                    // 2. The file name with the extention.
+                                                    // 3. The last directory name.
+                                                    // 4. The domain name.
+                                                    return matches[9] ? matches[9].slice(1) :
+                                                        matches[6] ? matches[6] + (matches[7] || '') :
+                                                        matches[5] ? matches[5].split('/').filter(function(s) {
+                                                            return s !== '';
+                                                        }).pop() :
+                                                        matches[3];
+                                                }
                                             }
+                                            return type;
                                         },
                                         getUri = function(type) {
                                             if (isUri(type)) {

@@ -259,7 +259,7 @@
 }
 
 .textae-editor_term-mode .textae-editor__relation, .textae-editor_term-mode .textae-editor__relation__label{
-    display: none;
+    display: none !important;
 }
 
 .textae-editor_term-mode .textae-editor__entity-pane {
