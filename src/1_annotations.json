@@ -76,7 +76,7 @@
 			"begin": 734,
 			"end": 739
 		},
-		"obj": "Protein"
+		"obj": "http://localhost:3000/docs/sourcedb/PubMed/sourceid/10022882/spans/105-107"
 	}, {
 		"id": "E5",
 		"span": {
