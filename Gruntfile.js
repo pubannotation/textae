@@ -52,15 +52,21 @@ module.exports = function(grunt) {
         files: [{
           expand: true,
           cwd: 'src/',
-          src: ['app/**', 'demo/**', 'lib/css/images/**', 'vender/**'],
+          src: ['demo/**', 'lib/css/images/**', 'vender/**'],
           dest: 'dist/',
           filter: 'isFile'
-        }, ]
+        }, {
+          expand: true,
+          cwd: 'src/app',
+          src: ['textae.*'],
+          dest: 'dist/',
+          filter: 'isFile'
+        }]
       },
     },
     replace: {
       version: {
-        src: ['dist/app/textae.html', 'dist/demo/bionlp-st-ge/*.html'],
+        src: ['dist/textae.html', 'dist/demo/bionlp-st-ge/*.html'],
         overwrite: true,
         replacements: [{
           from: '{{version}}',
@@ -122,7 +128,7 @@ module.exports = function(grunt) {
     },
     open: {
       app: {
-        url: 'http://localhost:8000/dist/app/textae.html?config=config.json&target=annotations.json'
+        url: 'http://localhost:8000/dist/textae.html'
       },
       dev: {
         url: 'http://localhost:8000/src/development.html?config=1_config.json&target=1_annotations.json'
