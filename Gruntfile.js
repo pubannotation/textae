@@ -20,7 +20,23 @@ module.exports = function(grunt) {
     // create dist files
     concat: {
       js: {
-        src: ['src/lib/head.js', 'src/lib/util.js', 'src/lib/editor-make-id-factory.js', 'src/lib/editor-make-model.js', 'src/lib/editor-make-data-access-object.js', 'src/lib/editor.js', 'src/lib/control.js', 'src/lib/tool.js', 'src/lib/jquery.textae.js', 'src/lib/main.js', 'src/lib/tail.js'],
+        src: [
+          'src/lib/head.js',
+          'src/lib/util.js',
+          'src/lib/editor-make-id-factory.js',
+          'src/lib/editor-make-model.js',
+          'src/lib/editor-history.js',
+          'src/lib/editor-command.js',
+          'src/lib/editor-view.js',
+          'src/lib/editor-presenter.js',
+          'src/lib/editor-make-data-access-object.js',
+          'src/lib/editor.js',
+          'src/lib/control.js',
+          'src/lib/tool.js',
+          'src/lib/jquery.textae.js',
+          'src/lib/main.js',
+          'src/lib/tail.js'
+        ],
         dest: 'dist/lib/<%= pkg.name %>-<%= pkg.version %>.js',
       },
       css: {
