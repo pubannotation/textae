@@ -1208,6 +1208,16 @@
                                     connect.setVisible(false);
                                 }
 
+                                var hoge = connect.getOverlay('label');
+                                console.log(hoge);
+
+                                hoge.bind('mouseenter', function(label) {
+                                    console.log(label.component);
+                                    label.component.pointup();
+                                }).bind('mouseexit', function(label) {
+                                    label.component.pointdown();
+                                });
+
                                 // Extend
                                 var getStrokeStyle = _.partial(getConnectorStrokeStyle, relation.id);
                                 _.extend(connect, pointupable(getStrokeStyle), {
