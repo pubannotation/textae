@@ -1,4 +1,4 @@
-     var makeIdFactory = function(editor) {
+     var IdFactory = function(editor) {
          var typeCounter = [];
          return {
              // The ID of spans has editorId and begin and end, like 'editor1__S0_15'.
