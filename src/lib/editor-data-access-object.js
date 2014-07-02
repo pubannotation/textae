@@ -1,5 +1,5 @@
     // A sub component to save and load data.
-    var makeDataAccessObject = function(editor, confirmDiscardChangeMessage) {
+    var DataAccessObject = function(editor, confirmDiscardChangeMessage) {
         var dataSourceUrl = '',
             cursorChanger = function(editor) {
                 var wait = function() {

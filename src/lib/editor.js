@@ -1,8 +1,8 @@
     var editor = function() {
-        var idFactory = makeIdFactory(this);
+        var idFactory = new IdFactory(this);
 
         // model manages data objects.
-        var model = makeModel(idFactory);
+        var model = new Model(idFactory);
 
         // The history of command that providing undo and redo.
         var history = new History();
@@ -236,7 +236,7 @@
                     loadAnnotation(params);
                 },
                 initDao = function(confirmDiscardChangeMessage) {
-                    var dataAccessObject = makeDataAccessObject(editor, confirmDiscardChangeMessage);
+                    var dataAccessObject = new DataAccessObject(editor, confirmDiscardChangeMessage);
                     dataAccessObject.bind('save', history.saved);
                     dataAccessObject.bind('load', resetData);
 

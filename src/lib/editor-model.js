@@ -1,4 +1,4 @@
-    var makeModel = function(idFactory) {
+    var Model = function(idFactory) {
         // A span its range is coross over with other spans are not able to rendered.
         // Because spans are renderd with span tag. Html tags can not be cross over.
         var isBoundaryCrossingWithOtherSpans = function(span, candidateSpan) {
