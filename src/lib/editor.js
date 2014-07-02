@@ -1018,140 +1018,6 @@
                                     jsPlumbInstance = makeJsPlumbInstance(container);
                                 };
 
-                            var toAnchors = function(relationId) {
-                                return {
-                                    sourceId: model.annotationData.relation.get(relationId).subj,
-                                    targetId: model.annotationData.relation.get(relationId).obj
-                                };
-                            };
-
-                            var determineCurviness = function(relationId) {
-                                var anchors = toAnchors(relationId);
-                                var sourcePosition = domPositionUtils.getEntity(anchors.sourceId);
-                                var targetPosition = domPositionUtils.getEntity(anchors.targetId);
-
-                                var sourceX = sourcePosition.center;
-                                var targetX = targetPosition.center;
-
-                                var sourceY = sourcePosition.top;
-                                var targetY = targetPosition.top;
-
-                                var xdiff = Math.abs(sourceX - targetX);
-                                var ydiff = Math.abs(sourceY - targetY);
-                                var curviness = xdiff * relationRenderer.settings.xrate + ydiff * relationRenderer.settings.yrate + relationRenderer.settings.c_offset;
-                                curviness /= 2.4;
-
-                                return curviness;
-                            };
-
-                            // Overlay styles for jsPlubm connections.
-                            var normalArrow = {
-                                    width: 7,
-                                    length: 9,
-                                    location: 1,
-                                    id: 'normal-arrow'
-                                },
-                                hoverArrow = {
-                                    width: 14,
-                                    length: 18,
-                                    location: 1,
-                                    id: 'hover-arrow',
-                                },
-                                label = {
-                                    cssClass: 'textae-editor__relation__label',
-                                    id: 'label'
-                                };
-
-                            var arrangePosition = function(relationId) {
-                                var connect = toConnector(relationId);
-                                connect.endpoints[0].repaint();
-                                connect.endpoints[1].repaint();
-
-                                // Re-set arrow disappered when setConnector is called.
-                                connect.removeOverlay('normal-arrow');
-                                connect.setConnector(['Bezier', {
-                                    curviness: determineCurviness(relationId)
-                                }]);
-                                connect.addOverlay(['Arrow', normalArrow]);
-
-                                // Create as invisible to prevent flash at the initiation.
-                                if (!connect.isVisible()) {
-                                    connect.setVisible(true);
-                                }
-                            };
-
-                            var pointupable = function(getStrokeStyle) {
-                                // Show a big arrow when the connect is hoverd.
-                                // Remove a normal arrow and add a new big arrow.
-                                // Because an arrow is out of position if hideOverlay and showOverlay is used.
-                                var pointupArrow = function(connect) {
-                                        connect.removeOverlay(normalArrow.id);
-                                        connect.addOverlay(['Arrow', hoverArrow]);
-                                        connect.setPaintStyle(_.extend(getStrokeStyle(), {
-                                            lineWidth: 3
-                                        }));
-                                    },
-                                    pointdownAllow = function(connect) {
-                                        connect.removeOverlay(hoverArrow.id);
-                                        connect.addOverlay(['Arrow', normalArrow]);
-                                        connect.setPaintStyle(getStrokeStyle());
-                                    },
-                                    pointupLabel = function(connect) {
-                                        connect.getOverlay(label.id).addClass('hover');
-                                    },
-                                    pointdownLabel = function(connect) {
-                                        connect.getOverlay(label.id).removeClass('hover');
-                                    },
-                                    selectLabel = function(connect) {
-                                        connect.getOverlay('label').addClass('ui-selected');
-                                    },
-                                    deselectLabel = function(connect) {
-                                        connect.getOverlay('label').removeClass('ui-selected');
-                                    },
-                                    selectLine = function(connect) {
-                                        connect.addClass('ui-selected');
-                                    },
-                                    deselectLine = function(connect) {
-                                        connect.removeClass('ui-selected');
-                                    };
-
-                                return {
-                                    pointup: function() {
-                                        if (this.hasClass('ui-selected')) return;
-
-                                        pointupArrow(this);
-                                        pointupLabel(this);
-                                    },
-                                    pointdown: function() {
-                                        if (this.hasClass('ui-selected')) return;
-
-                                        pointdownAllow(this);
-                                        pointdownLabel(this);
-                                    },
-                                    select: function() {
-                                        pointupArrow(this);
-                                        pointdownLabel(this);
-                                        selectLabel(this);
-                                        selectLine(this);
-                                    },
-                                    deselect: function() {
-                                        pointdownAllow(this);
-                                        deselectLabel(this);
-                                        deselectLine(this);
-                                    }
-                                };
-                            };
-
-                            // Extend jsPlumb.Connection to add a method 'hasClass'.
-                            var hasClass = function(className) {
-                                return this.connector.canvas.classList.contains(className);
-                            };
-
-                            var isGridPrepared = function(relationId) {
-                                var anchors = toAnchors(relationId);
-                                return gridPositionCache.isGridPrepared(anchors.sourceId) && gridPositionCache.isGridPrepared(anchors.targetId);
-                            };
-
                             var getConnectorStrokeStyle = function(relationId) {
                                 var converseHEXinotRGBA = function(color, opacity) {
                                     var c = color.slice(1);
@@ -1171,76 +1037,237 @@
                                 };
                             };
 
-                            var createJsPlumbConnect = function(relation, curviness) {
-                                // Make a connector by jsPlumb.
-                                return jsPlumbInstance.connect({
-                                    source: view.domUtil.selector.entity.get(relation.subj),
-                                    target: view.domUtil.selector.entity.get(relation.obj),
-                                    anchors: ['TopCenter', "TopCenter"],
-                                    connector: ['Bezier', curviness],
-                                    paintStyle: getConnectorStrokeStyle(relation.id),
-                                    parameters: {
-                                        'id': relation.id,
+                            var createRelation = function() {
+                                // Overlay styles for jsPlubm connections.
+                                var normalArrow = {
+                                        width: 7,
+                                        length: 9,
+                                        location: 1,
+                                        id: 'normal-arrow'
                                     },
-                                    cssClass: 'textae-editor__relation',
-                                    overlays: [
-                                        ['Arrow', normalArrow],
-                                        ['Label', _.extend({}, label, {
-                                            label: '[' + relation.id + '] ' + relation.pred,
-                                            cssClass: label.cssClass + ' ' + getModificationClasses(relation.id)
-                                        })]
-                                    ]
-                                });
-                            };
+                                    hoverArrow = {
+                                        width: 14,
+                                        length: 18,
+                                        location: 1,
+                                        id: 'hover-arrow',
+                                    },
+                                    label = {
+                                        cssClass: 'textae-editor__relation__label',
+                                        id: 'label'
+                                    };
 
-                            var createRelation = function(relation) {
-                                // Create a relation as simlified version when before moving grids after creation grids.
-                                var beforeMoveGrid = !isGridPrepared(relation.id);
-                                var curviness = beforeMoveGrid ? {} : {
-                                    curviness: determineCurviness(relation.id)
+                                var toAnchors = function(relationId) {
+                                    return {
+                                        sourceId: model.annotationData.relation.get(relationId).subj,
+                                        targetId: model.annotationData.relation.get(relationId).obj
+                                    };
                                 };
 
-                                // Make a connector by jsPlumb.
-                                var connect = createJsPlumbConnect(relation, curviness);
+                                var determineCurviness = function(relationId) {
+                                    var anchors = toAnchors(relationId);
+                                    var sourcePosition = domPositionUtils.getEntity(anchors.sourceId);
+                                    var targetPosition = domPositionUtils.getEntity(anchors.targetId);
 
-                                // Create as invisible to prevent flash at the initiation.
-                                if (beforeMoveGrid) {
-                                    connect.setVisible(false);
-                                }
+                                    var sourceX = sourcePosition.center;
+                                    var targetX = targetPosition.center;
 
-                                var hoge = connect.getOverlay('label');
-                                console.log(hoge);
+                                    var sourceY = sourcePosition.top;
+                                    var targetY = targetPosition.top;
 
-                                hoge.bind('mouseenter', function(label) {
-                                    console.log(label.component);
-                                    label.component.pointup();
-                                }).bind('mouseexit', function(label) {
-                                    label.component.pointdown();
-                                });
+                                    var xdiff = Math.abs(sourceX - targetX);
+                                    var ydiff = Math.abs(sourceY - targetY);
+                                    var curviness = xdiff * relationRenderer.settings.xrate + ydiff * relationRenderer.settings.yrate + relationRenderer.settings.c_offset;
+                                    curviness /= 2.4;
 
-                                // Extend
-                                var getStrokeStyle = _.partial(getConnectorStrokeStyle, relation.id);
-                                _.extend(connect, pointupable(getStrokeStyle), {
-                                    // Set a function debounce to avoid over rendering.
-                                    arrangePosition: _.debounce(_.partial(arrangePosition, relation.id), 20),
-                                    hasClass: hasClass
-                                });
+                                    return curviness;
+                                };
+
+                                var create = function() {
+                                    var isGridPrepared = function(relationId) {
+                                            var anchors = toAnchors(relationId);
+                                            return gridPositionCache.isGridPrepared(anchors.sourceId) && gridPositionCache.isGridPrepared(anchors.targetId);
+                                        },
+                                        createJsPlumbConnect = function(relation, curviness) {
+                                            // Make a connector by jsPlumb.
+                                            return jsPlumbInstance.connect({
+                                                source: view.domUtil.selector.entity.get(relation.subj),
+                                                target: view.domUtil.selector.entity.get(relation.obj),
+                                                anchors: ['TopCenter', "TopCenter"],
+                                                connector: ['Bezier', curviness],
+                                                paintStyle: getConnectorStrokeStyle(relation.id),
+                                                parameters: {
+                                                    'id': relation.id,
+                                                },
+                                                cssClass: 'textae-editor__relation',
+                                                overlays: [
+                                                    ['Arrow', normalArrow],
+                                                    ['Label', _.extend({}, label, {
+                                                        label: '[' + relation.id + '] ' + relation.pred,
+                                                        cssClass: label.cssClass + ' ' + getModificationClasses(relation.id)
+                                                    })]
+                                                ]
+                                            });
+                                        };
+
+                                    return function(relation) {
+                                        // Create a relation as simlified version when before moving grids after creation grids.
+                                        var beforeMoveGrid = !isGridPrepared(relation.id);
+                                        var curviness = beforeMoveGrid ? {} : {
+                                            curviness: determineCurviness(relation.id)
+                                        };
+
+                                        // Make a connector by jsPlumb.
+                                        var connect = createJsPlumbConnect(relation, curviness);
+
+                                        // Create as invisible to prevent flash at the initiation.
+                                        if (beforeMoveGrid) {
+                                            connect.setVisible(false);
+                                        }
+
+                                        return connect;
+                                    };
+                                }();
+
+                                var extend = function() {
+                                    // Extend module for jsPlumb.Connection.
+                                    var ExtendModule = function(relationId) {
+                                        var arrangePosition = function(relationId) {
+                                                var connect = toConnector(relationId);
+                                                connect.endpoints[0].repaint();
+                                                connect.endpoints[1].repaint();
+
+                                                // Re-set arrow disappered when setConnector is called.
+                                                connect.removeOverlay('normal-arrow');
+                                                connect.setConnector(['Bezier', {
+                                                    curviness: determineCurviness(relationId)
+                                                }]);
+                                                connect.addOverlay(['Arrow', normalArrow]);
+
+                                                // Create as invisible to prevent flash at the initiation.
+                                                if (!connect.isVisible()) {
+                                                    connect.setVisible(true);
+                                                }
+                                            },
+                                            Pointupable = function(getStrokeStyle) {
+                                                // Show a big arrow when the connect is hoverd.
+                                                // Remove a normal arrow and add a new big arrow.
+                                                // Because an arrow is out of position if hideOverlay and showOverlay is used.
+                                                var pointupArrow = function(connect) {
+                                                        connect.removeOverlay(normalArrow.id);
+                                                        connect.addOverlay(['Arrow', hoverArrow]);
+                                                        connect.setPaintStyle(_.extend(getStrokeStyle(), {
+                                                            lineWidth: 3
+                                                        }));
+                                                    },
+                                                    pointdownAllow = function(connect) {
+                                                        connect.removeOverlay(hoverArrow.id);
+                                                        connect.addOverlay(['Arrow', normalArrow]);
+                                                        connect.setPaintStyle(getStrokeStyle());
+                                                    },
+                                                    pointupLabel = function(connect) {
+                                                        connect.getOverlay(label.id).addClass('hover');
+                                                    },
+                                                    pointdownLabel = function(connect) {
+                                                        connect.getOverlay(label.id).removeClass('hover');
+                                                    },
+                                                    selectLabel = function(connect) {
+                                                        connect.getOverlay('label').addClass('ui-selected');
+                                                    },
+                                                    deselectLabel = function(connect) {
+                                                        connect.getOverlay('label').removeClass('ui-selected');
+                                                    },
+                                                    selectLine = function(connect) {
+                                                        connect.addClass('ui-selected');
+                                                    },
+                                                    deselectLine = function(connect) {
+                                                        connect.removeClass('ui-selected');
+                                                    };
+
+                                                return {
+                                                    pointup: function() {
+                                                        if (this.hasClass('ui-selected')) return;
+
+                                                        pointupArrow(this);
+                                                        pointupLabel(this);
+                                                    },
+                                                    pointdown: function() {
+                                                        if (this.hasClass('ui-selected')) return;
+
+                                                        pointdownAllow(this);
+                                                        pointdownLabel(this);
+                                                    },
+                                                    select: function() {
+                                                        pointupArrow(this);
+                                                        pointdownLabel(this);
+                                                        selectLabel(this);
+                                                        selectLine(this);
+                                                    },
+                                                    deselect: function() {
+                                                        pointdownAllow(this);
+                                                        deselectLabel(this);
+                                                        deselectLine(this);
+                                                    }
+                                                };
+                                            };
+
+                                        var getStrokeStyle = _.partial(getConnectorStrokeStyle, relationId);
+
+                                        return _.extend({
+                                            hasClass: function(className) {
+                                                return this.connector.canvas.classList.contains(className);
+                                            },
+                                            // Set a function debounce to avoid over rendering.
+                                            arrangePosition: _.debounce(_.partial(arrangePosition, relationId), 20)
+                                        }, new Pointupable(getStrokeStyle));
+                                    };
+
+                                    return function(connect) {
+                                        var relationId = connect.getParameter('id');
+                                        return _.extend(connect, new ExtendModule(relationId));
+                                    };
+                                }();
 
                                 // Set hover action.
-                                connect.bind('mouseenter', function(connect) {
-                                    connect.pointup();
-                                }).bind('mouseexit', function(connect) {
-                                    connect.pointdown();
-                                });
+                                var hoverize = function() {
+                                    var bindHoverAction = function(jsPlumbElement, onMouseOver, onMouseRemove) {
+                                            jsPlumbElement.bind('mouseenter', onMouseOver).bind('mouseexit', onMouseRemove);
+                                        },
+                                        pointup = function(connect) {
+                                            connect.pointup();
+                                        },
+                                        pointdown = function(connect) {
+                                            connect.pointdown();
+                                        },
+                                        toComponent = function(label) {
+                                            return label.component;
+                                        };
+
+                                    return function(connect) {
+                                        bindHoverAction(connect, pointup, pointdown);
+                                        bindHoverAction(
+                                            connect.getOverlay(label.id),
+                                            _.compose(pointup, toComponent),
+                                            _.compose(pointdown, toComponent)
+                                        );
+                                        return connect;
+                                    };
+                                }();
 
                                 // Cache a connect instance.
-                                cachedConnectors[relation.id] = connect;
+                                var cache = function(connect) {
+                                    var relationId = connect.getParameter('id');
+                                    cachedConnectors[relationId] = connect;
+                                    return connect;
+                                };
 
                                 // Notify to controller that a new jsPlumbConnection is added.
-                                editor.trigger('textae.editor.jsPlumbConnection.add', connect);
+                                var notify = function(connect) {
+                                    editor.trigger('textae.editor.jsPlumbConnection.add', connect);
+                                    return connect;
+                                };
 
-                                return connect;
-                            };
+                                return _.compose(notify, cache, hoverize, extend, create);
+                            }();
 
                             var changeJsPlubmOverlay = function(relation) {
                                 var connector = toConnector(relation.id);
