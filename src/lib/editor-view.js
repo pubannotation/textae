@@ -1184,6 +1184,12 @@
                                                     deselectLine(this);
                                                 }
                                             };
+                                        },
+                                        bindClickAction = function(onClick) {
+                                            this.bind('click', onClick);
+                                            this.getOverlay(label.id).bind('click', function(label, event) {
+                                                onClick(label.component, event);
+                                            });
                                         };
 
                                     var getStrokeStyle = _.partial(getConnectorStrokeStyle, relationId);
@@ -1193,7 +1199,8 @@
                                             return this.connector.canvas.classList.contains(className);
                                         },
                                         // Set a function debounce to avoid over rendering.
-                                        arrangePosition: _.debounce(_.partial(arrangePosition, relationId), 20)
+                                        arrangePosition: _.debounce(_.partial(arrangePosition, relationId), 20),
+                                        bindClickAction: bindClickAction
                                     }, new Pointupable(getStrokeStyle));
                                 };
 
