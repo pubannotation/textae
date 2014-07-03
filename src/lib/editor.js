@@ -101,7 +101,7 @@
                     // We can only bind the connection directory.
                     editor
                         .on('textae.editor.jsPlumbConnection.add', function(event, jsPlumbConnection) {
-                            jsPlumbConnection.bind('click', presenter.jsPlumbConnectionClicked);
+                            jsPlumbConnection.bindClickAction(presenter.jsPlumbConnectionClicked);
                         });
 
                     history.bind('change', function(state) {
