@@ -6,9 +6,24 @@
             return cachedConnectors[relationId];
         };
 
+        // Add or Remove class to indicate selected state.
+        var selectionClass = function() {
+            var addClass = function($target) {
+                    return $target.addClass('ui-selected');
+                },
+                removeClass = function($target) {
+                    return $target.removeClass('ui-selected');
+                };
+
+            return {
+                addClass: addClass,
+                removeClass: removeClass
+            };
+        }();
+
         // Data for view.
         var viewModel = function() {
-            var createTypeContainer = function(getActualTypesFunction, defaultColor) {
+            var TypeContainer = function(getActualTypesFunction, defaultColor) {
                 var definedTypes = {},
                     defaultType = 'something';
 
@@ -77,8 +92,8 @@
                 }
             };
 
-            var entityContainer = createTypeContainer(model.annotationData.entity.types, '#77DDDD');
-            var relationContaier = createTypeContainer(model.annotationData.relation.types, '#555555');
+            var entityContainer = new TypeContainer(model.annotationData.entity.types, '#77DDDD');
+            var relationContaier = new TypeContainer(model.annotationData.relation.types, '#555555');
 
             return {
                 // view.viewModel.clipBoard has entity id only.
@@ -132,77 +147,63 @@
                 }(),
                 // Helper to update button state. 
                 buttonStateHelper: function() {
-                    var isEntityOrRelationSelected = function() {
-                        return model.selectionModel.entity.some() || model.selectionModel.relation.some();
-                    };
-                    var disableButtons = {};
-                    var updateDisableButtons = function(button, enable) {
-                        if (enable) {
-                            delete disableButtons[button];
-                        } else {
-                            disableButtons[button] = false;
-                        }
-                    };
-                    var updateEntity = function() {
-                        updateDisableButtons("entity", model.selectionModel.span.some());
-                    };
-                    var updatePaste = function() {
-                        updateDisableButtons("paste", viewModel.clipBoard.length > 0 && model.selectionModel.span.some());
-                    };
-                    var updateReplicate = function() {
-                        updateDisableButtons("replicate", model.selectionModel.span.single());
-                    };
-                    var updatePallet = function() {
-                        updateDisableButtons("pallet", isEntityOrRelationSelected());
-                    };
-                    var updateNewLabel = function() {
-                        updateDisableButtons("change-label", isEntityOrRelationSelected());
-                    };
-                    var updateDelete = function() {
-                        // It works well on relation-edit-mode if relations are deselect brefore an entity is select.
-                        updateDisableButtons("delete", model.selectionModel.some());
-                    };
-                    var updateCopy = function() {
-                        updateDisableButtons("copy", model.selectionModel.span.some() || model.selectionModel.entity.some());
-                    };
-                    var updateBySpanAndEntityBoth = function() {
-                        updateDelete();
-                        updateCopy();
-                    };
-                    var propagate = function() {
-                        editor.tool.changeButtonState(editor, disableButtons);
-                        viewModel.modeAccordingToButton.propagate();
-                    };
+                    var buttonEnableStates = function() {
+                        var states = {},
+                            set = function(button, enable) {
+                                states[button] = enable;
+                            },
+                            propagate = function() {
+                                editor.tool.changeButtonState(editor, states);
+                                viewModel.modeAccordingToButton.propagate();
+                            };
+
+                        return {
+                            set: set,
+                            propagate: propagate
+                        };
+                    }();
+
+                    var updateButtonState = function() {
+                        var and = function(predicate1, predicate2) {
+                                return predicate1() && predicate2();
+                            },
+                            or = function(predicate1, predicate2) {
+                                return predicate1() || predicate2();
+                            },
+                            hasCopy = function() {
+                                return viewModel.clipBoard.length > 0;
+                            };
+
+                        // Short cut name 
+                        var s = model.selectionModel;
+
+                        // Check all associated anntation elements.
+                        // For exapmle, it should be that buttons associate with entitis is enable,
+                        // when deselect the span after select a span and an entity.
+                        var predicates = {
+                            replicate: s.span.single,
+                            entity: s.span.some,
+                            'delete': s.some, // It works well on relation-edit-mode if relations are deselect brefore an entity is select.
+                            copy: _.partial(or, s.span.some, s.entity.some),
+                            paste: _.partial(and, hasCopy, s.span.some),
+                            pallet: _.partial(or, s.entity.some, s.relation.some),
+                            'change-label': _.partial(or, s.entity.some, s.relation.some),
+                        };
+
+                        return function(buttons) {
+                            buttons.forEach(function(buttonName) {
+                                buttonEnableStates.set(buttonName, predicates[buttonName]());
+                            });
+                        };
+                    }();
+
+                    var propagateAfter = _.partial(_.compose, buttonEnableStates.propagate);
                     return {
-                        propagate: propagate,
-                        enabled: function(button, enable) {
-                            updateDisableButtons(button, enable);
-                            propagate();
-                        },
-                        updateBySpan: function() {
-                            updateBySpanAndEntityBoth();
-
-                            updateEntity();
-                            updatePaste();
-                            updateReplicate();
-
-                            propagate();
-                        },
-                        updateByEntity: function() {
-                            updateBySpanAndEntityBoth();
-
-                            updatePallet();
-                            updateNewLabel();
-
-                            propagate();
-                        },
-                        updateByRelation: function() {
-                            updateDelete();
-                            updatePallet();
-                            updateNewLabel();
-
-                            propagate();
-                        }
+                        propagate: buttonEnableStates.propagate,
+                        enabled: propagateAfter(buttonEnableStates.set),
+                        updateBySpan: propagateAfter(_.partial(updateButtonState, ['replicate', 'entity', 'delete', 'copy', 'paste'])),
+                        updateByEntity: propagateAfter(_.partial(updateButtonState, ['pallet', 'change-label', 'delete', 'copy'])),
+                        updateByRelation: propagateAfter(_.partial(updateButtonState, ['pallet', 'change-label', 'delete']))
                     };
                 }(),
                 viewMode: function() {
@@ -230,13 +231,20 @@
 
                             // This notify is off at relation-edit-mode.
                             viewModel.buttonStateHelper.updateByEntity();
+
+                            var getModification = function(objectId) {
+                                return model.annotationData.modification.all().filter(function(m) {
+                                    return m.obj === objectId;
+                                });
+                            };
+
                         };
 
                     return {
                         // This is base value to calculate the position of grids.
                         // Grids cannot be set positon by 'margin-bottom' style.
                         // Because grids is setted 'position:absolute' style in the overlay over spans.
-                        // So we caluclate and set 'top' of grids in functions of 'arrangePosition.arrangePositionAll'. 
+                        // So we caluclate and set 'top' of grids in functions of 'layoutManager.updateDisplay'. 
                         marginBottomOfGrid: 0,
                         isTerm: function() {
                             return editor.hasClass('textae-editor_term-mode');
@@ -254,7 +262,6 @@
                                 .bind('entity.select', entitySelectChanged)
                                 .bind('entity.deselect', entitySelectChanged)
                                 .bind('entity.change', viewModel.buttonStateHelper.updateByEntity);
-
                         },
                         setInstance: function() {
                             changeCssClass('instance');
@@ -286,6 +293,8 @@
                                 editor.addClass('textae-editor_editable');
                             } else {
                                 editor.removeClass('textae-editor_editable');
+                                viewModel.buttonStateHelper.enabled('replicate-auto', false);
+                                viewModel.buttonStateHelper.enabled('relation-edit-mode', false);
                             }
                         }
                     };
@@ -299,98 +308,217 @@
             };
         }();
 
-        // Render DOM elements conforming with the Model.
-        var renderer = function() {
-            var Cache = function() {
-                var cache = {},
-                    set = function(key, value) {
-                        cache[key] = value;
-                        return value;
-                    },
-                    get = function(key) {
-                        return cache[key];
-                    },
-                    remove = function(key) {
-                        delete cache[key];
-                    },
-                    clear = function() {
-                        cache = {};
-                    };
+        var Cache = function() {
+            var cache = {},
+                set = function(key, value) {
+                    cache[key] = value;
+                    return value;
+                },
+                get = function(key) {
+                    return cache[key];
+                },
+                remove = function(key) {
+                    delete cache[key];
+                },
+                clear = function() {
+                    cache = {};
+                };
 
+            return {
+                set: set,
+                get: get,
+                remove: remove,
+                clear: clear
+            };
+        };
+
+        // The chache for position of grids.
+        // This is updated at arrange position of grids.
+        // This is referenced at create or move relations.
+        var gridPositionCache = _.extend(new Cache(), {
+            isGridPrepared: function(entityId) {
+                var spanId = model.annotationData.entity.get(entityId).span;
+                return gridPositionCache.get(spanId);
+            }
+        });
+
+        // Utility functions for get positions of DOM elemnts.
+        var domPositionUtils = function() {
+            // The cache for span positions.
+            // Getting the postion of spans is too slow about 5-10 ms per a element in Chrome browser. For example offsetTop property.
+            // This cache is big effective for the initiation, and little effective for resize. 
+            var positionCache = new Cache();
+
+            var useCache = function(prefix, getPositionFunciton, id) {
+                var chacheId = prefix + id;
+                return positionCache.get(chacheId) ? positionCache.get(chacheId) : positionCache.set(chacheId, getPositionFunciton(id));
+            };
+
+            // The posion of the text-box to calculate span postion; 
+            var getTextOffset = _.partial(useCache, 'TEXT_NODE', function() {
+                return editor.find('.textae-editor__body__text-box').offset();
+            });
+
+            var getSpan = function(spanId) {
+                var $span = domUtil.selector.span.get(spanId);
+                if ($span.length === 0) {
+                    throw new Error("span is not renderd : " + spanId);
+                }
+
+                var offset = $span.offset();
                 return {
-                    set: set,
-                    get: get,
-                    remove: remove,
-                    clear: clear
+                    top: offset.top - getTextOffset().top,
+                    left: offset.left - getTextOffset().left,
+                    width: $span.outerWidth(),
+                    height: $span.outerHeight(),
+                    center: $span.get(0).offsetLeft + $span.outerWidth() / 2
                 };
             };
 
-            // The chache for position of grids.
-            // This is updated at arrange position of grids.
-            // This is referenced at create or move relations.
-            var gridPositionCache = _.extend(new Cache(), {
-                isGridPrepared: function(entityId) {
-                    var spanId = model.annotationData.entity.get(entityId).span;
-                    return gridPositionCache.get(spanId);
+            var getEntity = function(entityId) {
+                var spanId = model.annotationData.entity.get(entityId).span;
+
+                var $entity = domUtil.selector.entity.get(entityId);
+                if ($entity.length === 0) {
+                    throw new Error("entity is not rendered : " + entityId);
                 }
-            });
 
-            // Utility functions for get positions of DOM elemnts.
-            var domPositionUtils = function() {
-                // The cache for span positions.
-                // Getting the postion of spans is too slow about 5-10 ms per a element in Chrome browser. For example offsetTop property.
-                // This cache is big effective for the initiation, and little effective for resize. 
-                var positionCache = new Cache();
-
-                var useCache = function(prefix, getPositionFunciton, id) {
-                    var chacheId = prefix + id;
-                    return positionCache.get(chacheId) ? positionCache.get(chacheId) : positionCache.set(chacheId, getPositionFunciton(id));
-                };
-
-                // The posion of the text-box to calculate span postion; 
-                var getTextOffset = _.partial(useCache, 'TEXT_NODE', function() {
-                    return editor.find('.textae-editor__body__text-box').offset();
-                });
-
-                var getSpan = function(spanId) {
-                    var $span = domUtil.selector.span.get(spanId);
-                    if ($span.length === 0) {
-                        throw new Error("span is not renderd : " + spanId);
-                    }
-
-                    var offset = $span.offset();
-                    return {
-                        top: offset.top - getTextOffset().top,
-                        left: offset.left - getTextOffset().left,
-                        width: $span.outerWidth(),
-                        height: $span.outerHeight(),
-                        center: $span.get(0).offsetLeft + $span.outerWidth() / 2
-                    };
-                };
-
-                var getEntity = function(entityId) {
-                    var spanId = model.annotationData.entity.get(entityId).span;
-
-                    var $entity = domUtil.selector.entity.get(entityId);
-                    if ($entity.length === 0) {
-                        throw new Error("entity is not rendered : " + entityId);
-                    }
-
-                    var gridPosition = gridPositionCache.get(spanId);
-                    var entityElement = $entity.get(0);
-                    return {
-                        top: gridPosition.top + entityElement.offsetTop,
-                        center: gridPosition.left + entityElement.offsetLeft + $entity.outerWidth() / 2,
-                    };
-                };
-
+                var gridPosition = gridPositionCache.get(spanId);
+                var entityElement = $entity.get(0);
                 return {
-                    reset: positionCache.clear,
-                    getSpan: _.partial(useCache, 'S', getSpan),
-                    getEntity: _.partial(useCache, 'E', getEntity)
+                    top: gridPosition.top + entityElement.offsetTop,
+                    center: gridPosition.left + entityElement.offsetLeft + $entity.outerWidth() / 2,
                 };
-            }();
+            };
 
+            return {
+                reset: positionCache.clear,
+                getSpan: _.partial(useCache, 'S', getSpan),
+                getEntity: _.partial(useCache, 'E', getEntity)
+            };
+        }();
+
+        // Management position of annotation components.
+        var layoutManager = function() {
+            var filterChanged = function(span, newPosition) {
+                var oldGridPosition = gridPositionCache.get(span.id);
+                if (!oldGridPosition || oldGridPosition.top !== newPosition.top || oldGridPosition.left !== newPosition.left) {
+                    return newPosition;
+                } else {
+                    return undefined;
+                }
+            };
+
+            var arrangeRelationPosition = function(span) {
+                _.compact(
+                    _.flatten(
+                        span.getEntities().map(model.annotationData.entity.assosicatedRelations)
+                    )
+                    .map(toConnector)
+                ).forEach(function(connector) {
+                    connector.arrangePosition();
+                });
+            };
+
+            var getGrid = function(span) {
+                if (span) {
+                    return domUtil.selector.grid.get(span.id);
+                }
+            };
+
+            var updateGridPositon = function(span, newPosition) {
+                if (newPosition) {
+                    getGrid(span).css(newPosition);
+                    gridPositionCache.set(span.id, newPosition);
+                    arrangeRelationPosition(span);
+                    return span;
+                }
+            };
+
+            var getNewPosition = function(span) {
+                var stickGridOnSpan = function(span) {
+                    var spanPosition = domPositionUtils.getSpan(span.id);
+
+                    return {
+                        'top': spanPosition.top - viewModel.viewMode.marginBottomOfGrid - getGrid(span).outerHeight(),
+                        'left': spanPosition.left
+                    };
+                };
+
+                var pullUpGridOverDescendants = function(span) {
+                    // Culculate the height of the grid include descendant grids, because css style affects slowly.
+                    var getHeightIncludeDescendantGrids = function(span) {
+                        var descendantsMaxHeight = span.children.length === 0 ? 0 :
+                            Math.max.apply(null, span.children.map(function(childSpan) {
+                                return getHeightIncludeDescendantGrids(childSpan);
+                            }));
+
+                        return getGrid(span).outerHeight() + descendantsMaxHeight + viewModel.viewMode.marginBottomOfGrid;
+                    };
+
+                    var spanPosition = domPositionUtils.getSpan(span.id);
+                    var descendantsMaxHeight = getHeightIncludeDescendantGrids(span);
+
+                    return {
+                        'top': spanPosition.top - viewModel.viewMode.marginBottomOfGrid - descendantsMaxHeight,
+                        'left': spanPosition.left
+                    };
+                };
+
+                if (span.children.length === 0) {
+                    return stickGridOnSpan(span);
+                } else {
+                    return pullUpGridOverDescendants(span);
+                }
+            };
+
+            var filterVisibleGrid = function(grid) {
+                if (grid && grid.hasClass('hidden')) {
+                    return grid;
+                }
+            };
+
+            var visibleGrid = function(grid) {
+                if (grid) {
+                    grid.removeClass('hidden');
+                }
+            };
+
+            var arrangeGridPosition = function(span) {
+                var moveTheGridIfChange = _.compose(_.partial(updateGridPositon, span), _.partial(filterChanged, span));
+                _.compose(visibleGrid, filterVisibleGrid, getGrid, moveTheGridIfChange, getNewPosition)(span);
+            };
+
+            var arrangePositionGridAndoDescendant = function(span) {
+                // Arrange position All descendants because a grandchild maybe have types when a child has no type. 
+                span.children
+                    .forEach(function(span) {
+                        arrangePositionGridAndoDescendant(span);
+                    });
+
+                // There is at least one type in span that has a grid.
+                if (span.getTypes().length > 0) {
+                    arrangeGridPosition(span);
+                }
+            };
+
+            var arrangePositionAll = function() {
+                domPositionUtils.reset();
+                model.annotationData.span.topLevel()
+                    .forEach(function(span) {
+                        _.defer(_.partial(arrangePositionGridAndoDescendant, span));
+                    });
+            };
+
+            return {
+                reset: gridPositionCache.clear,
+                remove: gridPositionCache.remove,
+                updateDisplay: _.throttle(arrangePositionAll, 10)
+            };
+        }();
+
+        // Render DOM elements conforming with the Model.
+        var renderer = function() {
             var getElement = function($parent, tagName, className) {
                 var $area = $parent.find('.' + className);
                 if ($area.length === 0) {
@@ -466,130 +594,12 @@
 
                 // Render annotations
                 getAnnotationArea().empty();
-                arrangePosition.reset();
+                layoutManager.reset();
                 renderAllSpan(annotationData);
 
                 // Render relations
                 renderAllRelation(annotationData);
             };
-
-            var arrangePosition = function() {
-                var filterChanged = function(span, newPosition) {
-                    var oldGridPosition = gridPositionCache.get(span.id);
-                    if (!oldGridPosition || oldGridPosition.top !== newPosition.top || oldGridPosition.left !== newPosition.left) {
-                        return newPosition;
-                    } else {
-                        return undefined;
-                    }
-                };
-
-                var arrangeRelationPosition = function(span) {
-                    _.compact(
-                        _.flatten(
-                            span.getEntities().map(model.annotationData.entity.assosicatedRelations)
-                        )
-                        .map(toConnector)
-                    ).forEach(function(connector) {
-                        connector.arrangePosition();
-                    });
-                };
-
-                var getGrid = function(span) {
-                    if (span) {
-                        return domUtil.selector.grid.get(span.id);
-                    }
-                };
-
-                var updateGridPositon = function(span, newPosition) {
-                    if (newPosition) {
-                        getGrid(span).css(newPosition);
-                        gridPositionCache.set(span.id, newPosition);
-                        arrangeRelationPosition(span);
-                        return span;
-                    }
-                };
-
-                var getNewPosition = function(span) {
-                    var stickGridOnSpan = function(span) {
-                        var spanPosition = domPositionUtils.getSpan(span.id);
-
-                        return {
-                            'top': spanPosition.top - viewModel.viewMode.marginBottomOfGrid - getGrid(span).outerHeight(),
-                            'left': spanPosition.left
-                        };
-                    };
-
-                    var pullUpGridOverDescendants = function(span) {
-                        // Culculate the height of the grid include descendant grids, because css style affects slowly.
-                        var getHeightIncludeDescendantGrids = function(span) {
-                            var descendantsMaxHeight = span.children.length === 0 ? 0 :
-                                Math.max.apply(null, span.children.map(function(childSpan) {
-                                    return getHeightIncludeDescendantGrids(childSpan);
-                                }));
-
-                            return getGrid(span).outerHeight() + descendantsMaxHeight + viewModel.viewMode.marginBottomOfGrid;
-                        };
-
-                        var spanPosition = domPositionUtils.getSpan(span.id);
-                        var descendantsMaxHeight = getHeightIncludeDescendantGrids(span);
-
-                        return {
-                            'top': spanPosition.top - viewModel.viewMode.marginBottomOfGrid - descendantsMaxHeight,
-                            'left': spanPosition.left
-                        };
-                    };
-
-                    if (span.children.length === 0) {
-                        return stickGridOnSpan(span);
-                    } else {
-                        return pullUpGridOverDescendants(span);
-                    }
-                };
-
-                var filterVisibleGrid = function(grid) {
-                    if (grid && grid.hasClass('hidden')) {
-                        return grid;
-                    }
-                };
-
-                var visibleGrid = function(grid) {
-                    if (grid) {
-                        grid.removeClass('hidden');
-                    }
-                };
-
-                var arrangeGridPosition = function(span) {
-                    var moveTheGridIfChange = _.compose(_.partial(updateGridPositon, span), _.partial(filterChanged, span));
-                    _.compose(visibleGrid, filterVisibleGrid, getGrid, moveTheGridIfChange, getNewPosition)(span);
-                };
-
-                var arrangePositionGridAndoDescendant = function(span) {
-                    // Arrange position All descendants because a grandchild maybe have types when a child has no type. 
-                    span.children
-                        .forEach(function(span) {
-                            arrangePositionGridAndoDescendant(span);
-                        });
-
-                    // There is at least one type in span that has a grid.
-                    if (span.getTypes().length > 0) {
-                        arrangeGridPosition(span);
-                    }
-                };
-
-                var arrangePositionAll = function() {
-                    domPositionUtils.reset();
-                    model.annotationData.span.topLevel()
-                        .forEach(function(span) {
-                            _.defer(_.partial(arrangePositionGridAndoDescendant, span));
-                        });
-                };
-
-                return {
-                    arrangePositionAll: _.debounce(arrangePositionAll, 10),
-                    reset: gridPositionCache.clear,
-                    destroy: gridPositionCache.remove
-                };
-            }();
 
             var rendererImpl = function() {
                 var removeDom = function(target) {
@@ -597,7 +607,7 @@
                     },
                     destroyGrid = function(spanId) {
                         removeDom(domUtil.selector.grid.get(spanId));
-                        arrangePosition.destroy(spanId);
+                        layoutManager.remove(spanId);
                     },
                     gridRenderer = function() {
                         var createGrid = function(container, spanId) {
@@ -1314,112 +1324,27 @@
                 return modelElement.id;
             };
 
-            var setSelectionModelHandler = function() {
-                var spanSelected = function(spanId) {
-                        var $span = domUtil.selector.span.get(spanId);
-                        selectionClass.addClass($span);
-                    },
-                    spanDeselected = function(spanId) {
-                        var $span = domUtil.selector.span.get(spanId);
-                        selectionClass.removeClass($span);
-                    },
-                    entitySelected = function(entityId) {
-                        var $entity = domUtil.selector.entity.get(entityId);
-                        selectionClass.addClass($entity);
-                    },
-                    entityDeselected = function(entityId) {
-                        var $entity = domUtil.selector.entity.get(entityId);
-                        selectionClass.removeClass($entity);
-                    },
-                    relationSelected = function(relationId) {
-                        var addUiSelectClass = function(connector) {
-                                if (connector) connector.select();
-                            },
-                            selectRelation = _.compose(addUiSelectClass, toConnector);
-
-                        selectRelation(relationId);
-                    },
-                    relationDeselected = function(relationId) {
-                        var removeUiSelectClass = function(connector) {
-                                if (connector) connector.deselect();
-                            },
-                            deselectRelation = _.compose(removeUiSelectClass, toConnector);
-
-                        deselectRelation(relationId);
-                    };
-
-                // The viewModel.buttonStateHelper.updateByEntity is set at viewMode.
-                // Because entity.change is off at relation-edit-mode.
-                model.selectionModel
-                    .bind('span.select', spanSelected)
-                    .bind('span.deselect', spanDeselected)
-                    .bind('span.change', viewModel.buttonStateHelper.updateBySpan)
-                    .bind('entity.select', entitySelected)
-                    .bind('entity.deselect', entityDeselected)
-                    .bind('relation.select', relationSelected)
-                    .bind('relation.deselect', relationDeselected)
-                    .bind('relation.change', viewModel.buttonStateHelper.updateByRelation);
-            };
-
-            var andMoveGrid = _.partial(_.compose, arrangePosition.arrangePositionAll);
+            var updateDisplayAfter = _.partial(_.compose, layoutManager.updateDisplay);
 
             return {
-                init: function() {
+                setModelHandler: function() {
                     rendererImpl.init(getAnnotationArea());
 
                     model.annotationData
                         .bind('change-text', renderSourceDocument)
                         .bind('all.change', _.compose(model.selectionModel.clear, reset))
-                        .bind('span.add', andMoveGrid(rendererImpl.span.render))
-                        .bind('span.remove', andMoveGrid(rendererImpl.span.remove))
+                        .bind('span.add', updateDisplayAfter(rendererImpl.span.render))
+                        .bind('span.remove', updateDisplayAfter(rendererImpl.span.remove))
                         .bind('span.remove', _.compose(model.selectionModel.span.remove, modelToId))
-                        .bind('entity.add', andMoveGrid(rendererImpl.entity.render))
-                        .bind('entity.change', andMoveGrid(rendererImpl.entity.change))
-                        .bind('entity.remove', andMoveGrid(rendererImpl.entity.remove))
+                        .bind('entity.add', updateDisplayAfter(rendererImpl.entity.render))
+                        .bind('entity.change', updateDisplayAfter(rendererImpl.entity.change))
+                        .bind('entity.remove', updateDisplayAfter(rendererImpl.entity.remove))
                         .bind('entity.remove', _.compose(model.selectionModel.entity.remove, modelToId))
                         .bind('relation.add', rendererImpl.relation.render)
                         .bind('relation.change', rendererImpl.relation.change)
                         .bind('relation.remove', rendererImpl.relation.remove)
                         .bind('relation.remove', _.compose(model.selectionModel.relation.remove, modelToId));
-
-                    setSelectionModelHandler();
-                },
-                helper: function() {
-                    return {
-                        changeLineHeight: function(heightValue) {
-                            editor.find('.textae-editor__body__text-box').css({
-                                'line-height': heightValue + 'px',
-                                'margin-top': heightValue / 2 + 'px'
-                            });
-                        },
-                        getLineHeight: function() {
-                            return parseInt(editor.find('.textae-editor__body__text-box').css('line-height')) / 16;
-                        },
-                        changeTypeGap: function(typeGapValue) {
-                            editor.find('.textae-editor__type').css({
-                                height: 18 * typeGapValue + 18 + 'px',
-                                'padding-top': 18 * typeGapValue + 'px'
-                            });
-                            arrangePosition.arrangePositionAll();
-                        },
-                        redraw: arrangePosition.arrangePositionAll
-                    };
-                }()
-            };
-        }();
-
-        // Add or Remove class to indicate selected state.
-        var selectionClass = function() {
-            var addClass = function($target) {
-                    return $target.addClass('ui-selected');
-                },
-                removeClass = function($target) {
-                    return $target.removeClass('ui-selected');
-                };
-
-            return {
-                addClass: addClass,
-                removeClass: removeClass
+                }
             };
         }();
 
@@ -1466,11 +1391,106 @@
             };
         }();
 
+        var helper = function() {
+            var changeLineHeight = function(heightValue) {
+                    editor.find('.textae-editor__body__text-box').css({
+                        'line-height': heightValue + 'px',
+                        'margin-top': heightValue / 2 + 'px'
+                    });
+                },
+                calculateLineHeight = function(heightOfType) {
+                    var TEXT_HEIGHT = 23,
+                        MARGIN_TOP = 6,
+                        MINIMUM_HEIGHT = 16 * 4;
+                    var maxHeight = _.max(model.annotationData.span.all()
+                        .map(function(span) {
+                            var height = TEXT_HEIGHT + MARGIN_TOP;
+                            var countHeight = function(span) {
+                                // Grid height is height of types and margin bottom of the grid.
+                                height += span.getTypes().length * heightOfType + viewModel.viewMode.marginBottomOfGrid;
+                                if (span.parent) {
+                                    countHeight(span.parent);
+                                }
+                            };
+
+                            countHeight(span);
+
+                            return height;
+                        }).concat(MINIMUM_HEIGHT)
+                    );
+                    changeLineHeight(maxHeight);
+                };
+
+            return {
+                getLineHeight: function() {
+                    return parseInt(editor.find('.textae-editor__body__text-box').css('line-height')) / 16;
+                },
+                changeLineHeight: changeLineHeight,
+                calculateLineHeight: calculateLineHeight,
+                changeTypeGap: function(typeGapValue) {
+                    editor.find('.textae-editor__type').css({
+                        height: 18 * typeGapValue + 18 + 'px',
+                        'padding-top': 18 * typeGapValue + 'px'
+                    });
+                    layoutManager.updateDisplay();
+                },
+                redraw: layoutManager.updateDisplay
+            };
+        }();
+
+        var setSelectionModelHandler = function() {
+            var spanSelected = function(spanId) {
+                    var $span = domUtil.selector.span.get(spanId);
+                    selectionClass.addClass($span);
+                },
+                spanDeselected = function(spanId) {
+                    var $span = domUtil.selector.span.get(spanId);
+                    selectionClass.removeClass($span);
+                },
+                entitySelected = function(entityId) {
+                    var $entity = domUtil.selector.entity.get(entityId);
+                    selectionClass.addClass($entity);
+                },
+                entityDeselected = function(entityId) {
+                    var $entity = domUtil.selector.entity.get(entityId);
+                    selectionClass.removeClass($entity);
+                },
+                relationSelected = function(relationId) {
+                    var addUiSelectClass = function(connector) {
+                            if (connector) connector.select();
+                        },
+                        selectRelation = _.compose(addUiSelectClass, toConnector);
+
+                    selectRelation(relationId);
+                },
+                relationDeselected = function(relationId) {
+                    var removeUiSelectClass = function(connector) {
+                            if (connector) connector.deselect();
+                        },
+                        deselectRelation = _.compose(removeUiSelectClass, toConnector);
+
+                    deselectRelation(relationId);
+                };
+
+            // The viewModel.buttonStateHelper.updateByEntity is set at viewMode.
+            // Because entity.change is off at relation-edit-mode.
+            model.selectionModel
+                .bind('span.select', spanSelected)
+                .bind('span.deselect', spanDeselected)
+                .bind('span.change', viewModel.buttonStateHelper.updateBySpan)
+                .bind('entity.select', entitySelected)
+                .bind('entity.deselect', entityDeselected)
+                .bind('relation.select', relationSelected)
+                .bind('relation.deselect', relationDeselected)
+                .bind('relation.change', viewModel.buttonStateHelper.updateByRelation);
+        };
+
         return {
-            init: renderer.init,
+            init: _.compose(setSelectionModelHandler, renderer.setModelHandler),
             renderer: renderer,
             viewModel: viewModel,
             domUtil: domUtil,
-            hoverRelation: hover
+            hoverRelation: hover,
+            helper: helper
         };
     };

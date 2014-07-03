@@ -510,7 +510,7 @@
                 return api;
             }(), // A contaier of selection state.
             selectionModel = function() {
-                var idContainer = function(kindName) {
+                var IdContainer = function(kindName) {
                         var selected = {},
                             triggerChange = function() {
                                 bindableKinds.trigger(kindName + '.change');
@@ -575,7 +575,7 @@
 
                 var kindList = ['span', 'entity', 'relation']
                     .map(function(kind) {
-                        return idContainer(kind);
+                        return new IdContainer(kind);
                     });
 
                 var bindableKinds = textAeUtil.extendBindable(_.extend(kindList.reduce(function(a, b) {

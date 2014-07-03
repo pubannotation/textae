@@ -765,7 +765,7 @@
                                 view.viewModel.viewMode.setTerm();
                                 view.viewModel.viewMode.setEditable(true);
 
-                                view.renderer.helper.redraw();
+                                view.helper.redraw();
 
                                 controllerState = state.termCentric;
                             },
@@ -776,7 +776,7 @@
                                 view.viewModel.viewMode.setInstance();
                                 view.viewModel.viewMode.setEditable(true);
 
-                                view.renderer.helper.redraw();
+                                view.helper.redraw();
 
                                 controllerState = state.instanceRelation;
                             },
@@ -787,7 +787,7 @@
                                 view.viewModel.viewMode.setRelation();
                                 view.viewModel.viewMode.setEditable(true);
 
-                                view.renderer.helper.redraw();
+                                view.helper.redraw();
 
                                 controllerState = state.relationEdit;
                             },
@@ -798,7 +798,7 @@
                                 view.viewModel.viewMode.setTerm();
                                 view.viewModel.viewMode.setEditable(false);
 
-                                view.renderer.helper.redraw();
+                                view.helper.redraw();
 
                                 controllerState = state.viewTerm;
                             },
@@ -809,14 +809,14 @@
                                 view.viewModel.viewMode.setInstance();
                                 view.viewModel.viewMode.setEditable(false);
 
-                                view.renderer.helper.redraw();
+                                view.helper.redraw();
 
                                 controllerState = state.viewInstance;
                             }
                         };
 
                         var notTransit = function() {
-                            view.renderer.helper.redraw();
+                            view.helper.redraw();
                         };
                         var state = {
                             termCentric: _.extend({}, transition, {
@@ -868,9 +868,15 @@
                         return val * 16;
                     };
 
-                    var changeLineHeight = debounce300(_.compose(redrawAllEditor, view.renderer.helper.changeLineHeight, sixteenTimes));
+                    var changeLineHeight = debounce300(_.compose(redrawAllEditor, view.helper.changeLineHeight, sixteenTimes));
 
-                    var changeTypeGap = debounce300(view.renderer.helper.changeTypeGap);
+                    var changeTypeGap = debounce300(view.helper.changeTypeGap);
+
+                    var setViewMode = function(mode) {
+                        if (controllerState['to' + mode]) {
+                            controllerState['to' + mode]();
+                        }
+                    };
 
                     return {
                         init: function() {
@@ -1006,7 +1012,7 @@
                             editor.tool.cancel();
                         },
                         redraw: function() {
-                            view.renderer.helper.redraw();
+                            view.helper.redraw();
                         },
                         cancelSelect: function() {
                             // if drag, bubble up
@@ -1056,7 +1062,7 @@
                                                         'step': 1,
                                                         'min': 3,
                                                         'max': 10,
-                                                        'value': view.renderer.helper.getLineHeight(),
+                                                        'value': view.helper.getLineHeight(),
                                                     })
                                                     .addClass('textae-editor__setting-dialog__line-height')
                                                 ))
@@ -1132,11 +1138,24 @@
                                 controllerState.toRelation();
                             }
                         },
-                        setViewMode: function(mode) {
-                            if (controllerState['to' + mode]) {
-                                controllerState['to' + mode]();
-                            }
-                        }
+                        setViewMode: setViewMode,
+                        bindChangeViewMode: function() {
+                            var changeViewMode = function(prefix) {
+                                // Change view mode accoding to the annotation data.
+                                if (model.annotationData.relation.some() || model.annotationData.span.multiEntities().length > 0) {
+                                    setViewMode(prefix + 'Instance');
+                                    view.helper.calculateLineHeight(36);
+                                } else {
+                                    setViewMode(prefix + 'Term');
+                                    view.helper.calculateLineHeight(18);
+                                }
+                            };
+
+                            return function(mode) {
+                                var prefix = mode === 'edit' ? '' : 'View';
+                                model.annotationData.bind('all.change', _.partial(changeViewMode, prefix));
+                            };
+                        }()
                     };
                 }()
             };
