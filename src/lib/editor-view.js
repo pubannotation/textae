@@ -95,119 +95,160 @@
             var entityContainer = new TypeContainer(model.annotationData.entity.types, '#77DDDD');
             var relationContaier = new TypeContainer(model.annotationData.relation.types, '#555555');
 
+            // Save state of push control buttons.
+            var modeAccordingToButton = function() {
+                var makeButton = function(buttonName) {
+                    // Button state is true when the button is pushed.
+                    var state = false,
+                        value = function(newValue) {
+                            if (newValue !== undefined) {
+                                state = newValue;
+                                propagate();
+                            } else {
+                                return state;
+                            }
+                        },
+                        toggle = function toggleButton() {
+                            state = !state;
+                            propagate();
+                        },
+                        // Propagate button state to the tool.
+                        propagate = function() {
+                            editor.tool.push(buttonName, state);
+                        };
+
+                    return {
+                        name: buttonName,
+                        value: value,
+                        toggle: toggle,
+                        propagate: propagate
+                    };
+                };
+
+                // The public object.
+                var ret = ['replicate-auto', 'relation-edit-mode', 'negation', 'speculation']
+                    .map(makeButton)
+                    .reduce(function(container, button) {
+                        container[button.name] = button;
+                        return container;
+                    }, {});
+
+                return _.extend(ret, {
+                    // Propagete states of all buttons.
+                    propagate: function() {
+                        _.each(this, function(button) {
+                            if (button.propagate) button.propagate();
+                        });
+                    }
+                });
+            }();
+
+            // Save enable/disable state of contorol buttons.
+            var buttonEnableStates = function() {
+                var states = {},
+                    set = function(button, enable) {
+                        states[button] = enable;
+                    },
+                    propagate = function() {
+                        editor.tool.changeButtonState(editor, states);
+                    };
+
+                return {
+                    set: set,
+                    propagate: propagate
+                };
+            }();
+
+            var updateButtonState = function() {
+                // Short cut name 
+                var s = model.selectionModel,
+                    and = function(predicate1, predicate2) {
+                        return predicate1() && predicate2();
+                    },
+                    or = function(predicate1, predicate2) {
+                        return predicate1() || predicate2();
+                    },
+                    hasCopy = function() {
+                        return viewModel.clipBoard.length > 0;
+                    },
+                    sOrE = _.partial(or, s.span.some, s.entity.some),
+                    eOrR = _.partial(or, s.entity.some, s.relation.some);
+
+
+                // Check all associated anntation elements.
+                // For exapmle, it should be that buttons associate with entitis is enable,
+                // when deselect the span after select a span and an entity.
+                var predicates = {
+                    replicate: s.span.single,
+                    entity: s.span.some,
+                    'delete': s.some, // It works well on relation-edit-mode if relations are deselect brefore an entity is select.
+                    copy: sOrE,
+                    paste: _.partial(and, hasCopy, s.span.some),
+                    pallet: eOrR,
+                    'change-label': eOrR,
+                    negation: eOrR,
+                    speculation: eOrR
+                };
+
+                return function(buttons) {
+                    buttons.forEach(function(buttonName) {
+                        buttonEnableStates.set(buttonName, predicates[buttonName]());
+                    });
+                };
+            }();
+
+            // Change push/unpush of buttons of modifications.
+            var updateModificationButtons = function() {
+                var doesAllModificaionHasSpecified = function(specified, modificationsOfSelectedElement) {
+                        return modificationsOfSelectedElement.length > 0 && _.every(modificationsOfSelectedElement, function(m) {
+                            return _.contains(m, specified);
+                        });
+                    },
+                    updateModificationButton = function(specified, modificationsOfSelectedElement) {
+                        // All modification has specified modification if exits.
+                        modeAccordingToButton[specified.toLowerCase()]
+                            .value(doesAllModificaionHasSpecified(specified, modificationsOfSelectedElement));
+                    };
+
+                return function(selectionModel) {
+                    var modifications = selectionModel.all().map(function(e) {
+                        return model.annotationData.getModificationOf(e).map(function(m) {
+                            return m.pred;
+                        });
+                    });
+
+                    updateModificationButton('Negation', modifications);
+                    updateModificationButton('Speculation', modifications);
+                };
+            }();
+
             return {
                 // view.viewModel.clipBoard has entity id only.
                 clipBoard: [],
                 // Modes accoding to buttons of control.
-                modeAccordingToButton: function() {
-                    var makeButton = function(buttonName) {
-                        // Button state is true when the button is pushed.
-                        var state = false,
-                            value = function(newValue) {
-                                if (newValue !== undefined) {
-                                    state = newValue;
-                                    propagate();
-                                } else {
-                                    return state;
-                                }
-                            },
-                            toggle = function toggleButton() {
-                                state = !state;
-                                propagate();
-                            },
-                            // Propagate button state to the tool.
-                            propagate = function() {
-                                editor.tool.push(buttonName, state);
-                            };
-
-                        return {
-                            name: buttonName,
-                            value: value,
-                            toggle: toggle,
-                            propagate: propagate
-                        };
-                    };
-
-                    // The public object.
-                    var ret = ['replicate-auto', 'relation-edit-mode']
-                        .map(makeButton)
-                        .reduce(function(container, button) {
-                            container[button.name] = button;
-                            return container;
-                        }, {});
-
-                    return _.extend(ret, {
-                        // Propagete states of all buttons.
-                        propagate: function() {
-                            _.each(this, function(button) {
-                                if (button.propagate) button.propagate();
-                            });
-                        }
-                    });
-                }(),
+                modeAccordingToButton: modeAccordingToButton,
                 // Helper to update button state. 
                 buttonStateHelper: function() {
-                    var buttonEnableStates = function() {
-                        var states = {},
-                            set = function(button, enable) {
-                                states[button] = enable;
-                            },
-                            propagate = function() {
-                                editor.tool.changeButtonState(editor, states);
-                                viewModel.modeAccordingToButton.propagate();
-                            };
+                    var spanButtons = ['replicate', 'entity', 'delete', 'copy', 'paste'],
+                        entityButtons = ['pallet', 'change-label', 'delete', 'copy', 'negation', 'speculation'],
+                        relationButtons = ['pallet', 'change-label', 'delete', 'negation', 'speculation'],
+                        propagate = _.compose(modeAccordingToButton.propagate, buttonEnableStates.propagate),
+                        propagateAfter = _.partial(_.compose, propagate);
 
-                        return {
-                            set: set,
-                            propagate: propagate
-                        };
-                    }();
-
-                    var updateButtonState = function() {
-                        // Short cut name 
-                        var s = model.selectionModel,
-                            and = function(predicate1, predicate2) {
-                                return predicate1() && predicate2();
-                            },
-                            or = function(predicate1, predicate2) {
-                                return predicate1() || predicate2();
-                            },
-                            hasCopy = function() {
-                                return viewModel.clipBoard.length > 0;
-                            },
-                            sOrE = _.partial(or, s.span.some, s.entity.some),
-                            eOrR = _.partial(or, s.entity.some, s.relation.some);
-
-
-                        // Check all associated anntation elements.
-                        // For exapmle, it should be that buttons associate with entitis is enable,
-                        // when deselect the span after select a span and an entity.
-                        var predicates = {
-                            replicate: s.span.single,
-                            entity: s.span.some,
-                            'delete': s.some, // It works well on relation-edit-mode if relations are deselect brefore an entity is select.
-                            copy: sOrE,
-                            paste: _.partial(and, hasCopy, s.span.some),
-                            pallet: eOrR,
-                            'change-label': eOrR,
-                            negation: eOrR,
-                            speculation: eOrR
-                        };
-
-                        return function(buttons) {
-                            buttons.forEach(function(buttonName) {
-                                buttonEnableStates.set(buttonName, predicates[buttonName]());
-                            });
-                        };
-                    }();
-
-                    var propagateAfter = _.partial(_.compose, buttonEnableStates.propagate);
                     return {
-                        propagate: buttonEnableStates.propagate,
+                        propagate: propagate,
                         enabled: propagateAfter(buttonEnableStates.set),
-                        updateBySpan: propagateAfter(_.partial(updateButtonState, ['replicate', 'entity', 'delete', 'copy', 'paste'])),
-                        updateByEntity: propagateAfter(_.partial(updateButtonState, ['pallet', 'change-label', 'delete', 'copy', 'negation', 'speculation'])),
-                        updateByRelation: propagateAfter(_.partial(updateButtonState, ['pallet', 'change-label', 'delete', 'negation', 'speculation']))
+                        updateBySpan: propagateAfter(_.partial(updateButtonState, spanButtons)),
+                        updateByEntity: _.compose(
+                            propagate,
+                            _.partial(updateModificationButtons, model.selectionModel.entity),
+                            _.partial(updateButtonState, entityButtons)
+                        ),
+                        updateByRelation: _.compose(
+                            propagate,
+                            _.partial(updateModificationButtons, model.selectionModel.relation),
+                            _.partial(updateButtonState, relationButtons)
+                        )
                     };
                 }(),
                 viewMode: function() {
@@ -236,12 +277,7 @@
                             // This notify is off at relation-edit-mode.
                             viewModel.buttonStateHelper.updateByEntity();
 
-                            var getModification = function(objectId) {
-                                return model.annotationData.modification.all().filter(function(m) {
-                                    return m.obj === objectId;
-                                });
-                            };
-
+                            console.log(entityId);
                         };
 
                     return {
@@ -640,11 +676,10 @@
                         };
                     }(),
                     getModificationClasses = function(objectId) {
-                        return model.annotationData.modification.all().filter(function(m) {
-                            return m.obj === objectId;
-                        }).map(function(m) {
-                            return 'textae-editor__' + m.pred.toLowerCase();
-                        }).join(' ');
+                        return model.annotationData.getModificationOf(objectId)
+                            .map(function(m) {
+                                return 'textae-editor__' + m.pred.toLowerCase();
+                            }).join(' ');
                     },
                     spanRenderer = function() {
                         // Get the Range to that new span tag insert.

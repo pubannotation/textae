@@ -504,7 +504,13 @@
                             'relations': annotationData.relation.all()
                         }));
                     },
-                    isBoundaryCrossingWithOtherSpans: _.partial(isBoundaryCrossingWithOtherSpans, span)
+                    isBoundaryCrossingWithOtherSpans: _.partial(isBoundaryCrossingWithOtherSpans, span),
+                    getModificationOf: function(objectId) {
+                        return modification.all()
+                            .filter(function(m) {
+                                return m.obj === objectId;
+                            });
+                    }
                 });
 
                 return api;
