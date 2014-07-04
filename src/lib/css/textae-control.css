@@ -106,6 +106,14 @@
     background: url("./images/btn_change_label_16.png");
 }
 
+.textae-control__negation-button {
+    background: url("./images/btn_negation_16.png");
+}
+
+.textae-control__speculation-button {
+    background: url("./images/btn_speculation_16.png");
+}
+
 .textae-control__delete-button {
     background: url("./images/btn_delete_16.png");
 }
@@ -128,14 +136,6 @@
 
 .textae-control__setting-button {
     background: url("./images/btn_setting_16.png");
-}
-
-.textae-control__negation-button {
-    background: url("./images/delete.png");
-}
-
-.textae-control__speculation-button {
-    background: url("./images/exclamation.png");
 }
 
 /* information dialogs */

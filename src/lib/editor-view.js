@@ -230,8 +230,8 @@
                 // Helper to update button state. 
                 buttonStateHelper: function() {
                     var spanButtons = ['replicate', 'entity', 'delete', 'copy', 'paste'],
-                        entityButtons = ['pallet', 'change-label', 'delete', 'copy', 'negation', 'speculation'],
-                        relationButtons = ['pallet', 'change-label', 'delete', 'negation', 'speculation'],
+                        relationButtons = ['pallet', 'change-label', 'negation', 'speculation', 'delete'],
+                        entityButtons = relationButtons.concat(['copy']),
                         propagate = _.compose(modeAccordingToButton.propagate, buttonEnableStates.propagate),
                         propagateAfter = _.partial(_.compose, propagate);
 

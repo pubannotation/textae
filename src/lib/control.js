@@ -71,6 +71,9 @@
                         'pallet': 'Select label [Q]',
                         'change-label': 'Change label [W]'
                     }, {
+                        'negation': 'Negataion [X]',
+                        'speculation': 'Speculation [?]'
+                    }, {
                         'delete': 'Delete [D]',
                         'copy': 'Copy [C]',
                         'paste': 'Paste [V]'
@@ -79,9 +82,6 @@
                     }, {
                         'help': 'Help [H]',
                         'about': 'About'
-                    }, {
-                        'negation': 'Negataion [X]',
-                        'speculation': 'Speculation [?]'
                     }].map(btnGroup).reduce(function(x, y) {
                         // [[A, B],[C, D]] > [A, B, C, D]
                         return x.concat(y);
