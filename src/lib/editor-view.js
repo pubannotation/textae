@@ -164,7 +164,9 @@
                     }();
 
                     var updateButtonState = function() {
-                        var and = function(predicate1, predicate2) {
+                        // Short cut name 
+                        var s = model.selectionModel,
+                            and = function(predicate1, predicate2) {
                                 return predicate1() && predicate2();
                             },
                             or = function(predicate1, predicate2) {
@@ -172,10 +174,10 @@
                             },
                             hasCopy = function() {
                                 return viewModel.clipBoard.length > 0;
-                            };
+                            },
+                            sOrE = _.partial(or, s.span.some, s.entity.some),
+                            eOrR = _.partial(or, s.entity.some, s.relation.some);
 
-                        // Short cut name 
-                        var s = model.selectionModel;
 
                         // Check all associated anntation elements.
                         // For exapmle, it should be that buttons associate with entitis is enable,
@@ -184,10 +186,12 @@
                             replicate: s.span.single,
                             entity: s.span.some,
                             'delete': s.some, // It works well on relation-edit-mode if relations are deselect brefore an entity is select.
-                            copy: _.partial(or, s.span.some, s.entity.some),
+                            copy: sOrE,
                             paste: _.partial(and, hasCopy, s.span.some),
-                            pallet: _.partial(or, s.entity.some, s.relation.some),
-                            'change-label': _.partial(or, s.entity.some, s.relation.some),
+                            pallet: eOrR,
+                            'change-label': eOrR,
+                            negation: eOrR,
+                            speculation: eOrR
                         };
 
                         return function(buttons) {
@@ -202,8 +206,8 @@
                         propagate: buttonEnableStates.propagate,
                         enabled: propagateAfter(buttonEnableStates.set),
                         updateBySpan: propagateAfter(_.partial(updateButtonState, ['replicate', 'entity', 'delete', 'copy', 'paste'])),
-                        updateByEntity: propagateAfter(_.partial(updateButtonState, ['pallet', 'change-label', 'delete', 'copy'])),
-                        updateByRelation: propagateAfter(_.partial(updateButtonState, ['pallet', 'change-label', 'delete']))
+                        updateByEntity: propagateAfter(_.partial(updateButtonState, ['pallet', 'change-label', 'delete', 'copy', 'negation', 'speculation'])),
+                        updateByRelation: propagateAfter(_.partial(updateButtonState, ['pallet', 'change-label', 'delete', 'negation', 'speculation']))
                     };
                 }(),
                 viewMode: function() {
