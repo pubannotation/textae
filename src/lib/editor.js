@@ -145,43 +145,6 @@
 
                     return params;
                 },
-                setLineHeight = function(heightOfType) {
-                    var TEXT_HEIGHT = 23,
-                        MARGIN_TOP = 6,
-                        MINIMUM_HEIGHT = 16 * 4;
-                    var maxHeight = _.max(model.annotationData.span.all()
-                        .map(function(span) {
-                            var height = TEXT_HEIGHT + MARGIN_TOP;
-                            var countHeight = function(span) {
-                                // Grid height is height of types and margin bottom of the grid.
-                                height += span.getTypes().length * heightOfType + view.viewModel.viewMode.marginBottomOfGrid;
-                                if (span.parent) {
-                                    countHeight(span.parent);
-                                }
-                            };
-
-                            countHeight(span);
-
-                            return height;
-                        }).concat(MINIMUM_HEIGHT)
-                    );
-                    view.renderer.helper.changeLineHeight(maxHeight);
-                },
-                changeViewMode = function(prefix) {
-                    // Change view mode accoding to the annotation data.
-                    if (model.annotationData.relation.some() || model.annotationData.span.multiEntities().length > 0) {
-                        presenter.userEvent.viewHandler.setViewMode(prefix + 'Instance');
-                        setLineHeight(36);
-                    } else {
-                        presenter.userEvent.viewHandler.setViewMode(prefix + 'Term');
-                        setLineHeight(18);
-                    }
-                },
-                changeViewModeWithEdit = _.partial(changeViewMode, ''),
-                changeViewModeWithoutEdit = _.compose(function() {
-                    view.viewModel.buttonStateHelper.enabled('replicate-auto', false);
-                    view.viewModel.buttonStateHelper.enabled('relation-edit-mode', false);
-                }, _.partial(changeViewMode, 'View')),
                 resetData = function(annotation) {
                     model.annotationData.reset(annotation);
                     history.reset();
@@ -211,12 +174,6 @@
                                 }
                             }
                         },
-                        bindChangeViewMode = function(params) {
-                            var changeViewMode = params.mode === 'edit' ?
-                                changeViewModeWithEdit :
-                                changeViewModeWithoutEdit;
-                            model.annotationData.bind('all.change', changeViewMode);
-                        },
                         loadAnnotation = function(params) {
                             var annotation = params.annotation;
                             if (annotation) {
@@ -232,7 +189,7 @@
                         };
 
                     setConfig(params);
-                    bindChangeViewMode(params);
+                    presenter.userEvent.viewHandler.bindChangeViewMode(params.mode);
                     loadAnnotation(params);
                 },
                 initDao = function(confirmDiscardChangeMessage) {
