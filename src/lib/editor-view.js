@@ -1314,6 +1314,9 @@
                             }
 
                             labelOverlay.setLabel('[' + relation.id + '] ' + relation.type);
+                            labelOverlay.removeClass('textae-editor__negation textae-editor__speculation');
+                            labelOverlay.addClass(getModificationClasses(relation.id));
+
                             connector.setPaintStyle(getConnectorStrokeStyle(relation.id));
                         };
 
@@ -1363,6 +1366,16 @@
 
             var updateDisplayAfter = _.partial(_.compose, layoutManager.updateDisplay);
 
+            var renderModification = function(modelType, modification) {
+                var target = model.annotationData[modelType].get(modification.obj);
+                if (target) rendererImpl[modelType].change(target);
+
+                return modification;
+            };
+            var renderModificationOfEntity = _.partial(renderModification, 'entity');
+            var renderModificationOfRelation = _.partial(renderModification, 'relation');
+            var renderModificationEntityOrRelation = _.compose(renderModificationOfEntity, renderModificationOfRelation);
+
             return {
                 setModelHandler: function() {
                     rendererImpl.init(getAnnotationArea());
@@ -1380,7 +1393,9 @@
                         .bind('relation.add', rendererImpl.relation.render)
                         .bind('relation.change', rendererImpl.relation.change)
                         .bind('relation.remove', rendererImpl.relation.remove)
-                        .bind('relation.remove', _.compose(model.selectionModel.relation.remove, modelToId));
+                        .bind('relation.remove', _.compose(model.selectionModel.relation.remove, modelToId))
+                        .bind('modification.add', renderModificationEntityOrRelation)
+                        .bind('modification.remove', renderModificationEntityOrRelation);
                 }
             };
         }();
