@@ -555,6 +555,11 @@
             };
         }();
 
+        var entitySelected = function(entityId) {
+            var $entity = domUtil.selector.entity.get(entityId);
+            selectionClass.addClass($entity);
+        };
+
         // Render DOM elements conforming with the Model.
         var renderer = function() {
             var getElement = function($parent, tagName, className) {
@@ -877,11 +882,14 @@
                         };
 
                         var changeTypeOfExists = function(entity) {
-                            // Remove old entity.
+                            // Remove an old entity.
                             removeEntityElement(entity);
 
-                            // Show new entity.
+                            // Show a new entity.
                             create(entity);
+
+                            // Re-select a new entity.
+                            entitySelected(entity.id);
                         };
 
                         // An entity is a circle on Type that is an endpoint of a relation.
@@ -1505,10 +1513,6 @@
                 spanDeselected = function(spanId) {
                     var $span = domUtil.selector.span.get(spanId);
                     selectionClass.removeClass($span);
-                },
-                entitySelected = function(entityId) {
-                    var $entity = domUtil.selector.entity.get(entityId);
-                    selectionClass.addClass($entity);
                 },
                 entityDeselected = function(entityId) {
                     var $entity = domUtil.selector.entity.get(entityId);
