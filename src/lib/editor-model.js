@@ -460,7 +460,8 @@
 
                         return JSON.stringify($.extend(originalData, {
                             'denotations': denotations,
-                            'relations': annotationData.relation.all()
+                            'relations': annotationData.relation.all(),
+                            'modifications': annotationData.modification.all()
                         }));
                     },
                     isBoundaryCrossingWithOtherSpans: _.partial(isBoundaryCrossingWithOtherSpans, span),
