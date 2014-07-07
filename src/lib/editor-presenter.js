@@ -523,11 +523,47 @@
 
         var userEvent = function() {
             // changeEventHandler will init.
-            var changeTypeOfSelected;
+            var changeTypeOfSelected,
+                getSelectedAndEditableIds;
 
             return {
                 // User event to edit model
                 editHandler: function() {
+                    var toggleModification = function() {
+
+                        return function(modificationType) {
+                            var isModificationType = function(modification) {
+                                    return modification.pred === modificationType;
+                                },
+                                getSpecificModification = function(id) {
+                                    return model.annotationData
+                                        .getModificationOf(id)
+                                        .filter(isModificationType);
+                                };
+
+                            var commands,
+                                has = view.viewModel.modeAccordingToButton[modificationType.toLowerCase()].value();
+
+                            if (has) {
+                                commands = getSelectedIdEditable().map(function(id) {
+                                    var modification = getSpecificModification(id)[0];
+                                    return command.factory.modificationRemoveCommand(modification.id);
+                                });
+                            } else {
+                                commands = _.reject(getSelectedIdEditable(), function(id) {
+                                    return getSpecificModification(id).length > 0;
+                                }).map(function(id) {
+                                    return command.factory.modificationCreateCommand({
+                                        obj: id,
+                                        pred: modificationType
+                                    });
+                                });
+                            }
+
+                            command.invoke(commands);
+                        };
+                    }();
+
                     return {
                         replicate: function() {
                             var spanId = model.selectionModel.span.single();
@@ -565,31 +601,8 @@
                                 }
                             }
                         },
-                        negation: function() {
-                            // TODO ビューモードによってentityとrelationどちらを変更するか切り替える
-                            var selectedEntity = model.selectionModel.entity.all();
-                            var selectedRelation = model.selectionModel.relation.all();
-
-                            // TODO 選択したannotation element idからコマンドを作って実行する
-                            var hasNegation = view.viewModel.modeAccordingToButton.negation.value();
-                            if (hasNegation) {
-                                var commands = model.selectionModel.entity.all().map(function(entityId) {
-                                    var modification = model.annotationData
-                                        .getModificationOf(entityId)
-                                        .filter(function(modification) {
-                                            return modification.pred === 'Negation';
-                                        })[0];
-                                    return command.factory.modificationRemoveCommand(modification.id);
-                                });
-
-                                command.invoke(commands);
-                            } else {
-
-                            }
-                        },
-                        speculation: function() {
-                            console.log('speculation');
-                        },
+                        negation: _.partial(toggleModification, 'Negation'),
+                        speculation: _.partial(toggleModification, 'Speculation'),
                         removeSelectedElements: function() {
                             var removeCommand = function() {
                                 var spanIds = [],
@@ -676,8 +689,8 @@
                     var palletConfig = {};
 
                     var eventHandlerComposer = function() {
-                        var changeType = function(getIdsFunction, createChangeTypeCommandFunction, newType) {
-                                var ids = getIdsFunction();
+                        var changeType = function(getSelectedAndEditableIds, createChangeTypeCommandFunction, newType) {
+                                var ids = getSelectedAndEditableIds();
                                 if (ids.length > 0) {
                                     var commands = ids.map(function(id) {
                                         return createChangeTypeCommandFunction(id, newType);
@@ -740,7 +753,8 @@
                                     .on('mouseup', '.textae-editor__entity', entityClickedAtRelationMode);
 
                                 palletConfig.typeContainer = view.viewModel.typeContainer.relation;
-                                changeTypeOfSelected = _.partial(changeType, model.selectionModel.relation.all, command.factory.relationChangeTypeCommand);
+                                getSelectedIdEditable = model.selectionModel.relation.all;
+                                changeTypeOfSelected = _.partial(changeType, getSelectedIdEditable, command.factory.relationChangeTypeCommand);
 
                                 jsPlumbConnectionClickedImpl = selectRelation;
                             },
@@ -764,7 +778,8 @@
                                     .on('mouseup', '.textae-editor__entity', entityClicked);
 
                                 palletConfig.typeContainer = view.viewModel.typeContainer.entity;
-                                changeTypeOfSelected = _.partial(changeType, model.selectionModel.entity.all, command.factory.entityChangeTypeCommand);
+                                getSelectedIdEditable = model.selectionModel.entity.all;
+                                changeTypeOfSelected = _.partial(changeType, getSelectedIdEditable, command.factory.entityChangeTypeCommand);
 
                                 jsPlumbConnectionClickedImpl = null;
                             },
