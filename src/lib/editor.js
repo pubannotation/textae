@@ -238,6 +238,8 @@
                             'textae.control.button.entity.click': presenter.userEvent.editHandler.createEntity,
                             'textae.control.button.change_label.click': presenter.userEvent.editHandler.newLabel,
                             'textae.control.button.pallet.click': presenter.userEvent.viewHandler.showPallet,
+                            'textae.control.button.negation.click': presenter.userEvent.editHandler.negation,
+                            'textae.control.button.speculation.click': presenter.userEvent.editHandler.speculation,
                             'textae.control.button.delete.click': presenter.userEvent.editHandler.removeSelectedElements,
                             'textae.control.button.copy.click': presenter.userEvent.editHandler.copyEntities,
                             'textae.control.button.paste.click': presenter.userEvent.editHandler.pasteEntities,

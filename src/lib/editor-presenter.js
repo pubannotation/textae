@@ -562,6 +562,19 @@
                                 }
                             }
                         },
+                        negation: function() {
+                            var hasNegation = view.viewModel.modeAccordingToButton.negation.value();
+                            var selectedEntity = model.selectionModel.entity.all();
+                            var selectedRelation = model.selectionModel.relation.all();
+                            // TODO ビューモードによってentityとrelationどちらを変更するか切り替える
+
+                            console.log('negation', hasNegation, selectedEntity, selectedRelation);
+
+                            // TODO 選択したannotation element idからコマンドを作って実行する
+                        },
+                        speculation: function() {
+                            console.log('speculation');
+                        },
                         removeSelectedElements: function() {
                             var removeCommand = function() {
                                 var spanIds = [],
