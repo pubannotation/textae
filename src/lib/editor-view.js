@@ -1366,9 +1366,16 @@
 
             var updateDisplayAfter = _.partial(_.compose, layoutManager.updateDisplay);
 
+            var capitalize = function(str) {
+                return str.charAt(0).toUpperCase() + str.slice(1);
+            };
+
             var renderModification = function(modelType, modification) {
                 var target = model.annotationData[modelType].get(modification.obj);
-                if (target) rendererImpl[modelType].change(target);
+                if (target) {
+                    rendererImpl[modelType].change(target);
+                    viewModel.buttonStateHelper['updateBy' + capitalize(modelType)]();
+                }
 
                 return modification;
             };
