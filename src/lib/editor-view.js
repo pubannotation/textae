@@ -276,8 +276,6 @@
 
                             // This notify is off at relation-edit-mode.
                             viewModel.buttonStateHelper.updateByEntity();
-
-                            console.log(entityId);
                         };
 
                     return {
@@ -1053,8 +1051,8 @@
                                 return 'rgba(' + r + ', ' + g + ', ' + b + ', 1)';
                             };
 
-                            var pred = model.annotationData.relation.get(relationId).pred;
-                            var colorHex = viewModel.typeContainer.relation.getColor(pred);
+                            var type = model.annotationData.relation.get(relationId).type;
+                            var colorHex = viewModel.typeContainer.relation.getColor(type);
 
                             return {
                                 lineWidth: 1,
@@ -1127,7 +1125,7 @@
                                             overlays: [
                                                 ['Arrow', normalArrow],
                                                 ['Label', _.extend({}, label, {
-                                                    label: '[' + relation.id + '] ' + relation.pred,
+                                                    label: '[' + relation.id + '] ' + relation.type,
                                                     cssClass: label.cssClass + ' ' + getModificationClasses(relation.id)
                                                 })]
                                             ]
@@ -1315,7 +1313,7 @@
                                 throw 'no label overlay';
                             }
 
-                            labelOverlay.setLabel('[' + relation.id + '] ' + relation.pred);
+                            labelOverlay.setLabel('[' + relation.id + '] ' + relation.type);
                             connector.setPaintStyle(getConnectorStrokeStyle(relation.id));
                         };
 

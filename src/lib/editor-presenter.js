@@ -543,7 +543,10 @@
                         },
                         createEntity: function() {
                             var commands = model.selectionModel.span.all().map(function(spanId) {
-                                return command.factory.entityCreateCommand(spanId, view.viewModel.typeContainer.entity.getDefaultType());
+                                return command.factory.entityCreateCommand({
+                                    span: spanId,
+                                    type: view.viewModel.typeContainer.entity.getDefaultType()
+                                });
                             });
 
                             command.invoke(commands);
@@ -563,14 +566,26 @@
                             }
                         },
                         negation: function() {
-                            var hasNegation = view.viewModel.modeAccordingToButton.negation.value();
+                            // TODO ビューモードによってentityとrelationどちらを変更するか切り替える
                             var selectedEntity = model.selectionModel.entity.all();
                             var selectedRelation = model.selectionModel.relation.all();
-                            // TODO ビューモードによってentityとrelationどちらを変更するか切り替える
-
-                            console.log('negation', hasNegation, selectedEntity, selectedRelation);
 
                             // TODO 選択したannotation element idからコマンドを作って実行する
+                            var hasNegation = view.viewModel.modeAccordingToButton.negation.value();
+                            if (hasNegation) {
+                                var commands = model.selectionModel.entity.all().map(function(entityId) {
+                                    var modification = model.annotationData
+                                        .getModificationOf(entityId)
+                                        .filter(function(modification) {
+                                            return modification.pred === 'Negation';
+                                        })[0];
+                                    return command.factory.modificationRemoveCommand(modification.id);
+                                });
+
+                                command.invoke(commands);
+                            } else {
+
+                            }
                         },
                         speculation: function() {
                             console.log('speculation');
@@ -697,11 +712,11 @@
                                         } else {
                                             model.selectionModel.entity.add(objectEntityId);
                                             _.defer(function() {
-                                                command.invoke([command.factory.relationCreateCommand(
-                                                    subjectEntityId,
-                                                    objectEntityId,
-                                                    view.viewModel.typeContainer.relation.getDefaultType()
-                                                )]);
+                                                command.invoke([command.factory.relationCreateCommand({
+                                                    subj: subjectEntityId,
+                                                    obj: objectEntityId,
+                                                    type: view.viewModel.typeContainer.relation.getDefaultType()
+                                                })]);
 
                                                 if (e.ctrlKey || e.metaKey) {
                                                     // Remaining selection of the subject entity.
@@ -725,7 +740,7 @@
                                     .on('mouseup', '.textae-editor__entity', entityClickedAtRelationMode);
 
                                 palletConfig.typeContainer = view.viewModel.typeContainer.relation;
-                                changeTypeOfSelected = _.partial(changeType, model.selectionModel.relation.all, command.factory.relationChangePredicateCommand);
+                                changeTypeOfSelected = _.partial(changeType, model.selectionModel.relation.all, command.factory.relationChangeTypeCommand);
 
                                 jsPlumbConnectionClickedImpl = selectRelation;
                             },

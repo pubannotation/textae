@@ -23,7 +23,7 @@
                     return prefix + (ids.length === 0 ? 1 : Math.max.apply(null, ids) + 1);
                 };
 
-                var ModelContainer = function(prefix, typeName) {
+                var ModelContainer = function(prefix) {
                     var contaier = {},
                         getIds = function() {
                             return Object.keys(contaier);
@@ -42,9 +42,6 @@
                             return _.map(contaier, _.identity);
                         };
 
-                    // Overwrite is optional.
-                    typeName = typeName || 'type';
-
                     return {
                         add: function(model, doAfter) {
                             var newModel = add(model);
@@ -61,12 +58,12 @@
                         },
                         types: function() {
                             return all().map(function(model) {
-                                return model[typeName];
+                                return model.type;
                             });
                         },
                         changeType: function(id, newType) {
                             var model = get(id);
-                            model[typeName] = newType;
+                            model.type = newType;
                             annotationData.trigger(prefix + '.change', model);
                             return model;
                         },
@@ -307,16 +304,9 @@
                     return api;
                 }();
 
-                var relation = function() {
-                    var relationContainer = new ModelContainer('relation', 'pred'),
-                        api = _.extend(relationContainer, {
-                            changePredicate: relationContainer.changeType
-                        });
+                var relation = new ModelContainer('relation');
 
-                    return api;
-                }();
-
-                var modification = new ModelContainer();
+                var modification = new ModelContainer('modification');
 
                 var paragraph = function() {
                     var paragraphContainer;
@@ -409,8 +399,16 @@
                                 var newRelations = annotation.relations;
 
                                 annotationData.relation.clear();
-                                annotationData.relation.concat(newRelations);
-
+                                if (newRelations) {
+                                    annotationData.relation.concat(newRelations.map(function(r) {
+                                        return {
+                                            id: r.id,
+                                            type: r.pred,
+                                            subj: r.subj,
+                                            obj: r.obj
+                                        };
+                                    }));
+                                }
                                 return annotation;
                             },
                             // Expected modifications is an Array of object like { "id": "M1", "pred": "Negation", "obj": "E1" }.
@@ -460,7 +458,14 @@
 
                         return JSON.stringify($.extend(originalData, {
                             'denotations': denotations,
-                            'relations': annotationData.relation.all(),
+                            'relations': annotationData.relation.all().map(function(r) {
+                                return {
+                                    id: r.id,
+                                    pred: r.type,
+                                    subj: r.subj,
+                                    obj: r.obj
+                                };
+                            }),
                             'modifications': annotationData.modification.all()
                         }));
                     },
