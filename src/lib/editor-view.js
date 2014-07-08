@@ -276,8 +276,6 @@
 
                             // This notify is off at relation-edit-mode.
                             viewModel.buttonStateHelper.updateByEntity();
-
-                            console.log(entityId);
                         };
 
                     return {
@@ -556,6 +554,11 @@
                 updateDisplay: _.throttle(arrangePositionAll, 10)
             };
         }();
+
+        var entitySelected = function(entityId) {
+            var $entity = domUtil.selector.entity.get(entityId);
+            selectionClass.addClass($entity);
+        };
 
         // Render DOM elements conforming with the Model.
         var renderer = function() {
@@ -879,11 +882,14 @@
                         };
 
                         var changeTypeOfExists = function(entity) {
-                            // Remove old entity.
+                            // Remove an old entity.
                             removeEntityElement(entity);
 
-                            // Show new entity.
+                            // Show a new entity.
                             create(entity);
+
+                            // Re-select a new entity.
+                            entitySelected(entity.id);
                         };
 
                         // An entity is a circle on Type that is an endpoint of a relation.
@@ -1053,8 +1059,8 @@
                                 return 'rgba(' + r + ', ' + g + ', ' + b + ', 1)';
                             };
 
-                            var pred = model.annotationData.relation.get(relationId).pred;
-                            var colorHex = viewModel.typeContainer.relation.getColor(pred);
+                            var type = model.annotationData.relation.get(relationId).type;
+                            var colorHex = viewModel.typeContainer.relation.getColor(type);
 
                             return {
                                 lineWidth: 1,
@@ -1127,7 +1133,7 @@
                                             overlays: [
                                                 ['Arrow', normalArrow],
                                                 ['Label', _.extend({}, label, {
-                                                    label: '[' + relation.id + '] ' + relation.pred,
+                                                    label: '[' + relation.id + '] ' + relation.type,
                                                     cssClass: label.cssClass + ' ' + getModificationClasses(relation.id)
                                                 })]
                                             ]
@@ -1315,7 +1321,10 @@
                                 throw 'no label overlay';
                             }
 
-                            labelOverlay.setLabel('[' + relation.id + '] ' + relation.pred);
+                            labelOverlay.setLabel('[' + relation.id + '] ' + relation.type);
+                            labelOverlay.removeClass('textae-editor__negation textae-editor__speculation');
+                            labelOverlay.addClass(getModificationClasses(relation.id));
+
                             connector.setPaintStyle(getConnectorStrokeStyle(relation.id));
                         };
 
@@ -1365,6 +1374,23 @@
 
             var updateDisplayAfter = _.partial(_.compose, layoutManager.updateDisplay);
 
+            var capitalize = function(str) {
+                return str.charAt(0).toUpperCase() + str.slice(1);
+            };
+
+            var renderModification = function(modelType, modification) {
+                var target = model.annotationData[modelType].get(modification.obj);
+                if (target) {
+                    rendererImpl[modelType].change(target);
+                    viewModel.buttonStateHelper['updateBy' + capitalize(modelType)]();
+                }
+
+                return modification;
+            };
+            var renderModificationOfEntity = _.partial(renderModification, 'entity');
+            var renderModificationOfRelation = _.partial(renderModification, 'relation');
+            var renderModificationEntityOrRelation = _.compose(renderModificationOfEntity, renderModificationOfRelation);
+
             return {
                 setModelHandler: function() {
                     rendererImpl.init(getAnnotationArea());
@@ -1382,7 +1408,9 @@
                         .bind('relation.add', rendererImpl.relation.render)
                         .bind('relation.change', rendererImpl.relation.change)
                         .bind('relation.remove', rendererImpl.relation.remove)
-                        .bind('relation.remove', _.compose(model.selectionModel.relation.remove, modelToId));
+                        .bind('relation.remove', _.compose(model.selectionModel.relation.remove, modelToId))
+                        .bind('modification.add', renderModificationEntityOrRelation)
+                        .bind('modification.remove', renderModificationEntityOrRelation);
                 }
             };
         }();
@@ -1485,10 +1513,6 @@
                 spanDeselected = function(spanId) {
                     var $span = domUtil.selector.span.get(spanId);
                     selectionClass.removeClass($span);
-                },
-                entitySelected = function(entityId) {
-                    var $entity = domUtil.selector.entity.get(entityId);
-                    selectionClass.addClass($entity);
                 },
                 entityDeselected = function(entityId) {
                     var $entity = domUtil.selector.entity.get(entityId);

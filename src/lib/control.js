@@ -71,8 +71,8 @@
                         'pallet': 'Select label [Q]',
                         'change-label': 'Change label [W]'
                     }, {
-                        'negation': 'Negataion [X]',
-                        'speculation': 'Speculation [?]'
+                        'negation': 'Negataion',
+                        'speculation': 'Speculation'
                     }, {
                         'delete': 'Delete [D]',
                         'copy': 'Copy [C]',

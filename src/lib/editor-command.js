@@ -8,47 +8,71 @@
         };
 
         var factory = function() {
-            var debugLog = function(message) {
-                // For debug
-                console.log('[command.invoke]', message);
-            };
+            var debugLog = function(message, object) {
+                    // For debug
+                    if (object) {
+                        console.log('[command.invoke]', message, object);
+                    } else {
+                        console.log('[command.invoke]', message);
+                    }
+                },
+                createCommand = function(modelType, delaySelect, newModel) {
+                    return {
+                        execute: function() {
+                            // Update model
+                            newModel = model.annotationData[modelType].add(newModel);
+
+                            // Update Selection
+                            if (model.selectionModel[modelType]) {
+                                var select = _.partial(model.selectionModel[modelType].add, newModel.id);
+                                if (delaySelect) {
+                                    _.delay(select, delaySelect);
+                                } else {
+                                    select();
+                                }
+                            }
+
+                            // Set revert
+                            this.revert = _.partial(factory[modelType + 'RemoveCommand'], newModel.id);
+
+                            debugLog('create a new ' + modelType + ': ', newModel);
+                        }
+                    };
+                },
+                removeCommand = function(modelType, id) {
+                    return {
+                        execute: function() {
+                            var oloModel = model.annotationData[modelType].get(id);
+
+                            // Update model
+                            model.annotationData[modelType].remove(id);
+
+                            // Set revert
+                            this.revert = _.partial(factory[modelType + 'CreateCommand'], oloModel);
+
+                            debugLog('remove a ' + modelType + ': ', oloModel);
+                        },
+                    };
+                },
+                changeTypeCommand = function(modelType, id, newType) {
+                    return {
+                        execute: function() {
+                            var oldType = model.annotationData[modelType].get(id).type;
+
+                            // Update model
+                            var targetModel = model.annotationData[modelType].changeType(id, newType);
+
+                            // Set revert
+                            this.revert = _.partial(factory[modelType + 'ChangeTypeCommand'], id, oldType);
+
+                            debugLog('change type of a ' + modelType + '. oldtype:' + oldType + ' ' + modelType + ':', targetModel);
+                        }
+                    };
+                };
 
             return {
-                spanCreateCommand: function(span) {
-                    return {
-                        execute: function() {
-                            // model
-                            var newSpan = model.annotationData.span.add({
-                                begin: span.begin,
-                                end: span.end
-                            });
-
-                            // select
-                            model.selectionModel.span.add(newSpan.id);
-
-                            this.revert = _.partial(factory.spanRemoveCommand, newSpan.id);
-
-                            debugLog('create a new span, spanId:' + newSpan.id);
-                        }
-                    };
-                },
-                spanRemoveCommand: function(spanId) {
-                    return {
-                        execute: function() {
-                            var span = model.annotationData.span.get(spanId);
-
-                            // model
-                            model.annotationData.span.remove(spanId);
-
-                            this.revert = _.partial(factory.spanCreateCommand, {
-                                begin: span.begin,
-                                end: span.end
-                            });
-
-                            debugLog('remove a span, spanId:' + spanId);
-                        }
-                    };
-                },
+                spanCreateCommand: _.partial(createCommand, 'span', 0),
+                spanRemoveCommand: _.partial(removeCommand, 'span'),
                 spanMoveCommand: function(spanId, begin, end) {
                     return {
                         execute: function() {
@@ -63,7 +87,11 @@
                                 }));
                                 model.annotationData.span.get(spanId).getTypes().forEach(function(type) {
                                     type.entities.forEach(function(entityId) {
-                                        commands.push(factory.entityCreateCommand(newSpanId, type.name, entityId));
+                                        commands.push(factory.entityCreateCommand({
+                                            id: entityId,
+                                            span: newSpanId,
+                                            type: type.name
+                                        }));
                                     });
                                 });
                             }
@@ -116,105 +144,16 @@
                         }
                     };
                 },
-                entityCreateCommand: function(spanId, typeName, entityId) {
-                    return {
-                        execute: function() {
-                            // model
-                            var newEntity = model.annotationData.entity.add({
-                                id: entityId,
-                                span: spanId,
-                                type: typeName
-                            });
-
-                            // select
-                            model.selectionModel.entity.add(newEntity.id);
-
-                            // Set revert
-                            this.revert = _.partial(factory.entityRemoveCommand, newEntity.id, spanId, typeName);
-
-                            debugLog('create a new entity, spanId:' + spanId + ', type:' + typeName + '  entityId:' + newEntity.id);
-                        }
-                    };
-                },
-                entityRemoveCommand: function(entityId, spanId, typeName) {
-                    return {
-                        execute: function() {
-                            var entity = model.annotationData.entity.get(entityId);
-
-                            // model
-                            model.annotationData.entity.remove(entityId);
-
-                            this.revert = _.partial(factory.entityCreateCommand, entity.span, entity.type, entityId);
-
-                            debugLog('remove a entity, spanId:' + entity.span + ', type:' + entity.type + ', entityId:' + entityId);
-                        },
-                    };
-                },
-                entityChangeTypeCommand: function(entityId, newType) {
-                    return {
-                        execute: function() {
-                            var oldType = model.annotationData.entity.get(entityId).type;
-
-                            var changedEntity = model.annotationData.entity.changeType(entityId, newType);
-
-                            this.revert = _.partial(factory.entityChangeTypeCommand, entityId, oldType);
-
-                            debugLog('change type of a entity, spanId:' + changedEntity.span + ', type:' + oldType + ', entityId:' + entityId + ', newType:' + newType);
-                        }
-                    };
-                },
+                entityCreateCommand: _.partial(createCommand, 'entity', 0),
+                entityRemoveCommand: _.partial(removeCommand, 'entity'),
+                entityChangeTypeCommand: _.partial(changeTypeCommand, 'entity'),
                 // The relaitonId is optional set only when revert of the relationRemoveCommand.
-                relationCreateCommand: function(subject, object, predicate, relationId) {
-                    return {
-                        execute: function() {
-                            // Add relation to model
-                            var newRelation = model.annotationData.relation.add({
-                                id: relationId,
-                                pred: predicate,
-                                subj: subject,
-                                obj: object
-                            });
-
-                            // Selection
-                            // Set the css class lately, because jsPlumbConnector is no applyed that css class immediately after create.
-                            _.delay(_.partial(model.selectionModel.relation.add, newRelation.id), 100);
-
-                            // Set Revert
-                            this.revert = _.partial(factory.relationRemoveCommand, newRelation.id);
-
-                            debugLog('create a new relation relationId:' + newRelation.id + ', subject:' + subject + ', object:' + object + ', predicate:' + predicate);
-                        }
-                    };
-                },
-                relationRemoveCommand: function(relationId) {
-                    return {
-                        execute: function() {
-                            var relation = model.annotationData.relation.get(relationId);
-                            var subject = relation.subj;
-                            var object = relation.obj;
-                            var predicate = relation.pred;
-
-                            model.annotationData.relation.remove(relationId);
-
-                            this.revert = _.partial(factory.relationCreateCommand, subject, object, predicate, relationId);
-
-                            debugLog('remove a relation relationId:' + relationId + ', subject:' + subject + ', object:' + object + ', predicate:' + predicate);
-                        }
-                    };
-                },
-                relationChangePredicateCommand: function(relationId, predicate) {
-                    return {
-                        execute: function() {
-                            var oldPredicate = model.annotationData.relation.get(relationId).pred;
-
-                            model.annotationData.relation.changePredicate(relationId, predicate);
-
-                            this.revert = _.partial(factory.relationChangePredicateCommand, relationId, oldPredicate);
-
-                            debugLog('change predicate of relation, relationId:' + relationId + ', subject:' + model.annotationData.relation.get(relationId).subj + ', object:' + model.annotationData.relation.get(relationId).obj + ', predicate:' + oldPredicate + ', newPredicate:' + predicate);
-                        }
-                    };
-                }
+                // Set the css class lately, because jsPlumbConnector is no applyed that css class immediately after create.
+                relationCreateCommand: _.partial(createCommand, 'relation', 100),
+                relationRemoveCommand: _.partial(removeCommand, 'relation'),
+                relationChangeTypeCommand: _.partial(changeTypeCommand, 'relation'),
+                modificationCreateCommand: _.partial(createCommand, 'modification', 0),
+                modificationRemoveCommand: _.partial(removeCommand, 'modification')
             };
         }();
 

@@ -23,18 +23,76 @@
                     return prefix + (ids.length === 0 ? 1 : Math.max.apply(null, ids) + 1);
                 };
 
+                var ModelContainer = function(prefix) {
+                    var contaier = {},
+                        getIds = function() {
+                            return Object.keys(contaier);
+                        },
+                        getNewId1 = _.partial(getNewId, prefix ? prefix.charAt(0).toUpperCase() : '', getIds),
+                        add = function(model) {
+                            // Overwrite to revert
+                            model.id = model.id || getNewId1();
+                            contaier[model.id] = model;
+                            return model;
+                        },
+                        get = function(id) {
+                            return contaier[id];
+                        },
+                        all = function() {
+                            return _.map(contaier, _.identity);
+                        };
+
+                    return {
+                        add: function(model, doAfter) {
+                            var newModel = add(model);
+                            if (_.isFunction(doAfter)) doAfter();
+                            return annotationData.trigger(prefix + '.add', newModel);
+                        },
+                        concat: function(collection) {
+                            if (collection) collection.forEach(add);
+                        },
+                        get: get,
+                        all: all,
+                        some: function() {
+                            return _.some(contaier);
+                        },
+                        types: function() {
+                            return all().map(function(model) {
+                                return model.type;
+                            });
+                        },
+                        changeType: function(id, newType) {
+                            var model = get(id);
+                            model.type = newType;
+                            annotationData.trigger(prefix + '.change', model);
+                            return model;
+                        },
+                        remove: function(id) {
+                            var model = contaier[id];
+                            if (model) {
+                                delete contaier[id];
+                                annotationData.trigger(prefix + '.remove', model);
+                            }
+                            return model;
+                        },
+                        clear: function() {
+                            contaier = {};
+                        }
+                    };
+                };
+
                 var span = function() {
-                    var spanContainer = {},
+                    var spanContainer = new ModelContainer('span'),
                         spanTopLevel = [],
-                        innerAddSpan = function(span) {
-                            var additionalPropertiesForSpan = {
+                        toSpanModel = function() {
+                            var spanExtension = {
                                 isChildOf: function(maybeParent) {
                                     if (!maybeParent) return false;
 
                                     var id = idFactory.makeSpanId(maybeParent.begin, maybeParent.end);
-                                    if (!spanContainer[id]) throw new Error('maybeParent is removed. ' + maybeParent.toStringOnlyThis());
+                                    if (!spanContainer.get(id)) throw new Error('maybeParent is removed. ' + maybeParent.toStringOnlyThis());
 
-                                    return maybeParent.begin <= span.begin && span.end <= maybeParent.end;
+                                    return maybeParent.begin <= this.begin && this.end <= maybeParent.end;
                                 },
                                 //for debug. print myself only.
                                 toStringOnlyThis: function() {
@@ -60,8 +118,8 @@
                                         index = this.parent.children.indexOf(this);
                                         return index === 0 ? null : this.parent.children[index - 1];
                                     } else {
-                                        index = annotationData.span.topLevel().indexOf(this);
-                                        return index === 0 || annotationData.span.topLevel()[index - 1].paragraph !== this.paragraph ? null : annotationData.span.topLevel()[index - 1];
+                                        index = spanTopLevel.indexOf(this);
+                                        return index === 0 || spanTopLevel[index - 1].paragraph !== this.paragraph ? null : spanTopLevel[index - 1];
                                     }
                                 },
                                 // Get online for update is not grantieed.
@@ -99,30 +157,18 @@
                                 }
                             };
 
-                            // Ignore crossing spans.
-                            if (annotationData.isBoundaryCrossingWithOtherSpans(span)) return;
-
-                            var spanId = idFactory.makeSpanId(span.begin, span.end);
-
-                            //add a span unless exists, because an annotations.json is defiend by entities so spans are added many times. 
-                            if (!annotationData.span.get(spanId)) {
-                                //a span is extended nondestructively to render.
-                                var newSpan = $.extend({
-                                        id: spanId,
+                            return function(span) {
+                                return $.extend({},
+                                    span, {
+                                        id: idFactory.makeSpanId(span.begin, span.end),
                                         paragraph: paragraph.findParagraph(span),
                                     },
-                                    span,
-                                    additionalPropertiesForSpan);
-                                spanContainer[spanId] = newSpan;
-                                return newSpan;
-                            }
-                        },
-                        spanComparator = function(a, b) {
-                            return a.begin - b.begin || b.end - a.end;
-                        },
+                                    spanExtension);
+                            };
+                        }(),
                         updateSpanTree = function() {
                             // Sort id of spans by the position.
-                            var sortedSpans = annotationData.span.all().sort(spanComparator);
+                            var sortedSpans = spanContainer.all().sort(spanComparator);
 
                             // the spanTree has parent-child structure.
                             var spanTree = [];
@@ -170,30 +216,36 @@
 
                             spanTopLevel = spanTree;
                         },
+                        spanComparator = function(a, b) {
+                            return a.begin - b.begin || b.end - a.end;
+                        },
                         api = {
                             //expected span is like { "begin": 19, "end": 49 }
                             add: function(span) {
-                                var newSpan = innerAddSpan(span);
-                                updateSpanTree();
-                                return annotationData.trigger('span.add', newSpan);
+                                return spanContainer.add(toSpanModel(span), updateSpanTree);
                             },
                             concat: function(spans) {
                                 if (spans) {
-                                    spans.forEach(innerAddSpan);
+                                    spanContainer.concat(
+                                        spans
+                                        .map(toSpanModel)
+                                        .filter(function(span, index, array) {
+                                            return !isBoundaryCrossingWithOtherSpans({
+                                                all: function() {
+                                                    return array.slice(0, index - 1);
+                                                }
+                                            }, span);
+                                        }));
                                     updateSpanTree();
                                 }
                             },
                             get: function(spanId) {
-                                return spanContainer[spanId];
+                                return spanContainer.get(spanId);
                             },
-                            all: function() {
-                                return $.map(spanContainer, function(span) {
-                                    return span;
-                                });
-                            },
+                            all: spanContainer.all,
                             range: function(firstId, secondId) {
-                                var first = spanContainer[firstId];
-                                var second = spanContainer[secondId];
+                                var first = spanContainer.get(firstId);
+                                var second = spanContainer.get(secondId);
 
                                 //switch if seconfId before firstId
                                 if (spanComparator(first, second) > 0) {
@@ -202,16 +254,19 @@
                                     second = temp;
                                 }
 
-                                return Object.keys(spanContainer).filter(function(spanId) {
-                                    var span = spanContainer[spanId];
-                                    return first.begin <= span.begin && span.end <= second.end;
-                                });
+                                return spanContainer.all()
+                                    .filter(function(span) {
+                                        return first.begin <= span.begin && span.end <= second.end;
+                                    })
+                                    .map(function(span) {
+                                        return span.id;
+                                    });
                             },
                             topLevel: function() {
                                 return spanTopLevel;
                             },
                             multiEntities: function() {
-                                return annotationData.span.all()
+                                return spanContainer.all()
                                     .filter(function(span) {
                                         var multiEntitiesTypes = span.getTypes().filter(function(type) {
                                             return type.entities.length > 1;
@@ -221,143 +276,37 @@
                                     });
                             },
                             remove: function(spanId) {
-                                var span = annotationData.span.get(spanId);
-                                delete spanContainer[spanId];
-                                updateSpanTree();
-
-                                annotationData.trigger('span.remove', span);
+                                spanContainer.remove(spanId);
                             },
                             clear: function() {
-                                spanContainer = {};
+                                spanContainer.clear();
                                 spanTopLevel = [];
                             }
                         };
 
+
                     return api;
                 }();
 
+                // Expected an entity like {id: "E21", span: "editor2__S50_54", type: "Protein"}.
                 var entity = function() {
-                    var entityContainer = {},
-                        getIds = function() {
-                            return Object.keys(entityContainer);
-                        },
-                        getNewEntityId = _.partial(getNewId, 'E', getIds),
-                        // Expected an entity like {id: "E21", span: "editor2__S50_54", type: "Protein"}.
-                        add = function(entity) {
-                            // Overwrite to revert
-                            entity.id = entity.id || getNewEntityId();
-                            entityContainer[entity.id] = entity;
-                            return entity;
-                        },
-                        api = {
-                            add: function(entity) {
-                                return annotationData.trigger('entity.add', add(entity));
-                            },
-                            concat: function(entities) {
-                                if (entities) entities.forEach(add);
-                            },
-                            get: function(entityId) {
-                                return entityContainer[entityId];
-                            },
-                            all: function() {
-                                return _.map(entityContainer, _.identity);
-                            },
-                            types: function() {
-                                return annotationData.entity.all().map(function(entity) {
-                                    return entity.type;
-                                });
-                            },
+                    var entityContainer = new ModelContainer('entity'),
+                        api = _.extend(entityContainer, {
                             assosicatedRelations: function(entityId) {
                                 return annotationData.relation.all().filter(function(r) {
                                     return r.obj === entityId || r.subj === entityId;
                                 }).map(function(r) {
                                     return r.id;
                                 });
-                            },
-                            changeType: function(entityId, newType) {
-                                var entity = annotationData.entity.get(entityId);
-                                entity.type = newType;
-                                annotationData.trigger('entity.change', entity);
-                                return entity;
-                            },
-                            remove: function(entityId) {
-                                var entity = annotationData.entity.get(entityId);
-                                if (entity) {
-                                    delete entityContainer[entityId];
-                                    annotationData.trigger('entity.remove', entity);
-                                }
-                                return entity;
-                            },
-                            clear: function() {
-                                entityContainer = {};
                             }
-                        };
+                        });
 
                     return api;
                 }();
 
-                var relation = function() {
-                    var relationContainer = {},
-                        getIds = function() {
-                            return Object.keys(relationContainer);
-                        },
-                        getNewRelationId = _.partial(getNewId, 'R', getIds),
-                        add = function(relation) {
-                            relation.id = relation.id || getNewRelationId();
-                            relationContainer[relation.id] = relation;
-                            return relation;
-                        },
-                        api = {
-                            add: function(relation) {
-                                return annotationData.trigger('relation.add', add(relation));
-                            },
-                            concat: function(relations) {
-                                if (relations) relations.forEach(add);
-                            },
-                            get: function(relationId) {
-                                return relationContainer[relationId];
-                            },
-                            all: function() {
-                                return _.map(relationContainer, _.identity);
-                            },
-                            some: function() {
-                                return _.some(relationContainer);
-                            },
-                            types: function() {
-                                return Object.keys(relationContainer).map(function(key) {
-                                    return relationContainer[key].pred;
-                                });
-                            },
-                            changePredicate: function(relationId, predicate) {
-                                relationContainer[relationId].pred = predicate;
-                                annotationData.trigger('relation.change', relationContainer[relationId]);
-                            },
-                            remove: function(relationId) {
-                                annotationData.trigger('relation.remove', relationContainer[relationId]);
-                                delete relationContainer[relationId];
-                            },
-                            clear: function() {
-                                relationContainer = {};
-                            }
-                        };
+                var relation = new ModelContainer('relation');
 
-                    return api;
-                }();
-
-                var modification = function() {
-                    var modificationContainer = [];
-                    return {
-                        concat: function(modifications) {
-                            if (modifications) modificationContainer = modificationContainer.concat(modifications);
-                        },
-                        all: function() {
-                            return modificationContainer;
-                        },
-                        clear: function() {
-                            modificationContainer = [];
-                        }
-                    };
-                }();
+                var modification = new ModelContainer('modification');
 
                 var paragraph = function() {
                     var paragraphContainer;
@@ -450,8 +399,16 @@
                                 var newRelations = annotation.relations;
 
                                 annotationData.relation.clear();
-                                annotationData.relation.concat(newRelations);
-
+                                if (newRelations) {
+                                    annotationData.relation.concat(newRelations.map(function(r) {
+                                        return {
+                                            id: r.id,
+                                            type: r.pred,
+                                            subj: r.subj,
+                                            obj: r.obj
+                                        };
+                                    }));
+                                }
                                 return annotation;
                             },
                             // Expected modifications is an Array of object like { "id": "M1", "pred": "Negation", "obj": "E1" }.
@@ -501,7 +458,15 @@
 
                         return JSON.stringify($.extend(originalData, {
                             'denotations': denotations,
-                            'relations': annotationData.relation.all()
+                            'relations': annotationData.relation.all().map(function(r) {
+                                return {
+                                    id: r.id,
+                                    pred: r.type,
+                                    subj: r.subj,
+                                    obj: r.obj
+                                };
+                            }),
+                            'modifications': annotationData.modification.all()
                         }));
                     },
                     isBoundaryCrossingWithOtherSpans: _.partial(isBoundaryCrossingWithOtherSpans, span),

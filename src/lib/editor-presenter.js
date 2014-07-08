@@ -523,11 +523,47 @@
 
         var userEvent = function() {
             // changeEventHandler will init.
-            var changeTypeOfSelected;
+            var changeTypeOfSelected,
+                getSelectedAndEditableIds;
 
             return {
                 // User event to edit model
                 editHandler: function() {
+                    var toggleModification = function() {
+
+                        return function(modificationType) {
+                            var isModificationType = function(modification) {
+                                    return modification.pred === modificationType;
+                                },
+                                getSpecificModification = function(id) {
+                                    return model.annotationData
+                                        .getModificationOf(id)
+                                        .filter(isModificationType);
+                                };
+
+                            var commands,
+                                has = view.viewModel.modeAccordingToButton[modificationType.toLowerCase()].value();
+
+                            if (has) {
+                                commands = getSelectedIdEditable().map(function(id) {
+                                    var modification = getSpecificModification(id)[0];
+                                    return command.factory.modificationRemoveCommand(modification.id);
+                                });
+                            } else {
+                                commands = _.reject(getSelectedIdEditable(), function(id) {
+                                    return getSpecificModification(id).length > 0;
+                                }).map(function(id) {
+                                    return command.factory.modificationCreateCommand({
+                                        obj: id,
+                                        pred: modificationType
+                                    });
+                                });
+                            }
+
+                            command.invoke(commands);
+                        };
+                    }();
+
                     return {
                         replicate: function() {
                             var spanId = model.selectionModel.span.single();
@@ -543,7 +579,10 @@
                         },
                         createEntity: function() {
                             var commands = model.selectionModel.span.all().map(function(spanId) {
-                                return command.factory.entityCreateCommand(spanId, view.viewModel.typeContainer.entity.getDefaultType());
+                                return command.factory.entityCreateCommand({
+                                    span: spanId,
+                                    type: view.viewModel.typeContainer.entity.getDefaultType()
+                                });
                             });
 
                             command.invoke(commands);
@@ -562,6 +601,8 @@
                                 }
                             }
                         },
+                        negation: _.partial(toggleModification, 'Negation'),
+                        speculation: _.partial(toggleModification, 'Speculation'),
                         removeSelectedElements: function() {
                             var removeCommand = function() {
                                 var spanIds = [],
@@ -634,7 +675,10 @@
                             var commands = _.flatten(model.selectionModel.span.all().map(function(spanId) {
                                 // The view.viewModel.clipBoard has entityIds.
                                 return view.viewModel.clipBoard.map(function(entityId) {
-                                    return command.factory.entityCreateCommand(spanId, model.annotationData.entity.get(entityId).type);
+                                    return command.factory.entityCreateCommand({
+                                        span: spanId,
+                                        type: model.annotationData.entity.get(entityId).type
+                                    });
                                 });
                             }));
 
@@ -648,8 +692,8 @@
                     var palletConfig = {};
 
                     var eventHandlerComposer = function() {
-                        var changeType = function(getIdsFunction, createChangeTypeCommandFunction, newType) {
-                                var ids = getIdsFunction();
+                        var changeType = function(getSelectedAndEditableIds, createChangeTypeCommandFunction, newType) {
+                                var ids = getSelectedAndEditableIds();
                                 if (ids.length > 0) {
                                     var commands = ids.map(function(id) {
                                         return createChangeTypeCommandFunction(id, newType);
@@ -684,11 +728,11 @@
                                         } else {
                                             model.selectionModel.entity.add(objectEntityId);
                                             _.defer(function() {
-                                                command.invoke([command.factory.relationCreateCommand(
-                                                    subjectEntityId,
-                                                    objectEntityId,
-                                                    view.viewModel.typeContainer.relation.getDefaultType()
-                                                )]);
+                                                command.invoke([command.factory.relationCreateCommand({
+                                                    subj: subjectEntityId,
+                                                    obj: objectEntityId,
+                                                    type: view.viewModel.typeContainer.relation.getDefaultType()
+                                                })]);
 
                                                 if (e.ctrlKey || e.metaKey) {
                                                     // Remaining selection of the subject entity.
@@ -712,7 +756,8 @@
                                     .on('mouseup', '.textae-editor__entity', entityClickedAtRelationMode);
 
                                 palletConfig.typeContainer = view.viewModel.typeContainer.relation;
-                                changeTypeOfSelected = _.partial(changeType, model.selectionModel.relation.all, command.factory.relationChangePredicateCommand);
+                                getSelectedIdEditable = model.selectionModel.relation.all;
+                                changeTypeOfSelected = _.partial(changeType, getSelectedIdEditable, command.factory.relationChangeTypeCommand);
 
                                 jsPlumbConnectionClickedImpl = selectRelation;
                             },
@@ -736,7 +781,8 @@
                                     .on('mouseup', '.textae-editor__entity', entityClicked);
 
                                 palletConfig.typeContainer = view.viewModel.typeContainer.entity;
-                                changeTypeOfSelected = _.partial(changeType, model.selectionModel.entity.all, command.factory.entityChangeTypeCommand);
+                                getSelectedIdEditable = model.selectionModel.entity.all;
+                                changeTypeOfSelected = _.partial(changeType, getSelectedIdEditable, command.factory.entityChangeTypeCommand);
 
                                 jsPlumbConnectionClickedImpl = null;
                             },
