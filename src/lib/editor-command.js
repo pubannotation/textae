@@ -87,7 +87,11 @@
                                 }));
                                 model.annotationData.span.get(spanId).getTypes().forEach(function(type) {
                                     type.entities.forEach(function(entityId) {
-                                        commands.push(factory.entityCreateCommand(newSpanId, type.name, entityId));
+                                        commands.push(factory.entityCreateCommand({
+                                            id: entityId,
+                                            span: newSpanId,
+                                            type: type.name
+                                        }));
                                     });
                                 });
                             }
