@@ -675,7 +675,10 @@
                             var commands = _.flatten(model.selectionModel.span.all().map(function(spanId) {
                                 // The view.viewModel.clipBoard has entityIds.
                                 return view.viewModel.clipBoard.map(function(entityId) {
-                                    return command.factory.entityCreateCommand(spanId, model.annotationData.entity.get(entityId).type);
+                                    return command.factory.entityCreateCommand({
+                                        span: spanId,
+                                        type: model.annotationData.entity.get(entityId).type
+                                    });
                                 });
                             }));
 
