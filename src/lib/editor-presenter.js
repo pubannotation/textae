@@ -666,8 +666,6 @@
                                         // No select
                                         if (selection.isCollapsed) {
                                             userEvent.viewHandler.cancelSelect();
-                                            view.domUtil.manipulate.dismissBrowserSelection();
-
                                             return true;
                                         }
 
@@ -1058,14 +1056,9 @@
                             view.helper.redraw();
                         },
                         cancelSelect: function() {
-                            // if drag, bubble up
-                            if (!window.getSelection().isCollapsed) {
-                                view.domUtil.manipulate.dismissBrowserSelection();
-                                return true;
-                            }
-
-                            model.selectionModel.clear();
                             userEvent.viewHandler.hideDialogs();
+                            model.selectionModel.clear();
+                            view.domUtil.manipulate.dismissBrowserSelection();
                         },
                         selectLeftSpan: function() {
                             var spanId = model.selectionModel.span.single();
