@@ -1198,7 +1198,9 @@
         }();
 
         return {
-            jsPlumbConnectionClicked: jsPlumbConnectionClicked,
+            jsPlumbConnectionAdded: function(event, jsPlumbConnection) {
+                jsPlumbConnection.bindClickAction(jsPlumbConnectionClicked);
+            },
             editorSelected: editorSelected,
             userEvent: userEvent
         };
