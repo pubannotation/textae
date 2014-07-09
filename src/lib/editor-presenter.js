@@ -10,20 +10,15 @@
         // A relation is drawn by a jsPlumbConnection.
         // The EventHandlar for clieck event of jsPlumbConnection. 
         var jsPlumbConnectionClicked = function() {
-            var cancelBubble = function(e) {
-                e = e || window.event;
-                e.cancelBubble = true;
-                e.bubbles = false;
-                if (e.stopPropagation) e.stopPropagation();
-            };
-
             return function(jsPlumbConnection, event) {
-                if (jsPlumbConnectionClickedImpl) {
+                // Check the event is processed already.
+                // Because the jsPlumb will call the event handler twice
+                // when a label is clicked that of a relation added after the initiation.
+                if (jsPlumbConnectionClickedImpl && !event.processedByTextae) {
                     jsPlumbConnectionClickedImpl(jsPlumbConnection, event);
                 }
 
-                cancelBubble(event);
-                return false;
+                event.processedByTextae = true;
             };
         }();
 
