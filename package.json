@@ -1,6 +1,6 @@
 {
   "name": "textae",
-  "version": "4.0.5",
+  "version": "4.0.6",
   "description": "text annotation editor",
   "main": "src/development.html",
   "scripts": {

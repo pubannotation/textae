@@ -118,6 +118,14 @@
     background: url("./images/btn_change_label_16.png");
 }
 
+.textae-control__negation-button {
+    background: url("./images/btn_negation_16.png");
+}
+
+.textae-control__speculation-button {
+    background: url("./images/btn_speculation_16.png");
+}
+
 .textae-control__delete-button {
     background: url("./images/btn_delete_16.png");
 }
@@ -142,6 +150,7 @@
     background: url("./images/btn_setting_16.png");
 }
 
+/* information dialogs */
 .textae-control__about {
     border: solid 4px #aaaa88;
     background-color: rgba(255,255,225,1.0);
@@ -159,7 +168,6 @@
     z-index: 255;
     font-size: small;
 }
-
 .textae-controle {
     position: fixed;
 }
