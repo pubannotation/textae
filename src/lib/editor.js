@@ -127,9 +127,13 @@
                         // Html attributes preced url parameters.
                         {
                             config: editor.attr('config'),
-                            target: editor.attr('target'),
-                            mode: editor.attr('mode')
+                            target: editor.attr('target')
                         });
+
+                    // Mode is prior in the url parameter.
+                    if (!params.mode && editor.attr('mode')) {
+                        params.mode = editor.attr('mode');
+                    }
 
                     // Read Html text and clear it.  
                     var inlineAnnotation = editor.text();
