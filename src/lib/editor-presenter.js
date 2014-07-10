@@ -258,6 +258,7 @@
                                                 });
                                             }
                                         }
+                                        return false;
                                     },
                                     // Select or deselect relation.
                                     // This function is expected to be called when Relation-Edit-Mode.
@@ -271,12 +272,21 @@
                                             model.selectionModel.clear();
                                             model.selectionModel.relation.add(relationId);
                                         }
+                                    },
+                                    returnFalse = function() {
+                                        return false;
                                     };
 
                                 return function() {
                                     // Control only entities and relations.
+                                    // Cancel events of relations and theier label.
+                                    // Because a jQuery event and a jsPlumb event are both fired when a relation are clicked.
+                                    // And jQuery events are propergated to body click events and cancel select.
+                                    // So multi selection of relations with Ctrl-key is not work. 
                                     unbindAllEventhandler()
-                                        .on('mouseup', '.textae-editor__entity', entityClickedAtRelationMode);
+                                        .on('mouseup', '.textae-editor__entity', entityClickedAtRelationMode)
+                                        .on('mouseup', '.textae-editor__relation, .textae-editor__relation__label', returnFalse)
+                                        .on('mouseup', '.textae-editor__body', userEvent.viewHandler.cancelSelect);
 
                                     palletConfig.typeContainer = view.viewModel.typeContainer.relation;
                                     getSelectedIdEditable = model.selectionModel.relation.all;
