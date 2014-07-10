@@ -1,11 +1,4 @@
     var View = function(editor, idFactory, model) {
-        // The cachedConnectors has jsPlumbConnectors to call jsPlumbConnector instance to edit an according dom object.
-        // This is refered by render.relation and domUtil.selector.relation.
-        var cachedConnectors = {};
-        var toConnector = function(relationId) {
-            return cachedConnectors[relationId];
-        };
-
         // Add or Remove class to indicate selected state.
         var selectionClass = function() {
             var addClass = function($target) {
@@ -436,6 +429,13 @@
             };
         }();
 
+        // The connectCache has jsPlumbConnectors to call jsPlumbConnector instance to edit an according dom object.
+        // This is refered by render.relation and domUtil.selector.relation.
+        var connectCache = new Cache();
+        var toConnect = function(relationId) {
+            return connectCache.get(relationId);
+        };
+
         // Management position of annotation components.
         var layoutManager = function() {
             var filterChanged = function(span, newPosition) {
@@ -452,9 +452,9 @@
                     _.flatten(
                         span.getEntities().map(model.annotationData.entity.assosicatedRelations)
                     )
-                    .map(toConnector)
-                ).forEach(function(connector) {
-                    connector.arrangePosition();
+                    .map(toConnect)
+                ).forEach(function(connect) {
+                    connect.arrangePosition();
                 });
             };
 
@@ -555,7 +555,7 @@
             };
         }();
 
-        var entitySelected = function(entityId) {
+        var selectEntity = function(entityId) {
             var $entity = domUtil.selector.entity.get(entityId);
             selectionClass.addClass($entity);
         };
@@ -614,7 +614,7 @@
 
                 // Render the source document
                 getSourceDocArea().html(getTaggedSourceDoc(params.sourceDoc));
-                renderer.paragraphs = makeParagraphs(params.paragraphs);
+                viewModel.paragraphs = makeParagraphs(params.paragraphs);
             };
 
             var reset = function(annotationData) {
@@ -684,6 +684,14 @@
                                 return 'textae-editor__' + m.pred.toLowerCase();
                             }).join(' ');
                     },
+                    updateModification = function() {
+                        var allModificationClasses = 'textae-editor__negation textae-editor__speculation';
+
+                        return function(domElement, objectId) {
+                            domElement.removeClass(allModificationClasses);
+                            domElement.addClass(getModificationClasses(objectId));
+                        };
+                    }(),
                     spanRenderer = function() {
                         // Get the Range to that new span tag insert.
                         // This function works well when no child span is rendered. 
@@ -728,7 +736,7 @@
 
                             var getParagraphElement = function(paragraphId) {
                                 // A jQuery object of paragrapsh is cached.
-                                return renderer.paragraphs[paragraphId].element;
+                                return viewModel.paragraphs[paragraphId].element;
                             };
 
                             var createRangeForFirstSpan = function(getJqueryObjectFunc, span, textaeRange) {
@@ -881,17 +889,6 @@
                             }
                         };
 
-                        var changeTypeOfExists = function(entity) {
-                            // Remove an old entity.
-                            removeEntityElement(entity);
-
-                            // Show a new entity.
-                            create(entity);
-
-                            // Re-select a new entity.
-                            entitySelected(entity.id);
-                        };
-
                         // An entity is a circle on Type that is an endpoint of a relation.
                         // A span have one grid and a grid can have multi types and a type can have multi entities.
                         // A grid is only shown when at least one entity is owned by a correspond span.  
@@ -1015,6 +1012,24 @@
                             arrangePositionOfPane(pane);
                         };
 
+                        var changeTypeOfExists = function(entity) {
+                            // Remove an old entity.
+                            removeEntityElement(entity);
+
+                            // Show a new entity.
+                            create(entity);
+
+                            // Re-select a new entity instance.
+                            if (model.selectionModel.entity.has(entity.id)) {
+                                selectEntity(entity.id);
+                            }
+                        };
+
+                        var changeModificationOfExists = function(entity) {
+                            var $entity = domUtil.selector.entity.get(entity.id);
+                            updateModification($entity, entity.id);
+                        };
+
                         var destroy = function(entity) {
                             if (doesSpanHasNoEntity(entity.span)) {
                                 // Destroy a grid when all entities are remove. 
@@ -1028,6 +1043,7 @@
                         return {
                             render: create,
                             change: changeTypeOfExists,
+                            changeModification: changeModificationOfExists,
                             remove: destroy
                         };
                     }(),
@@ -1049,7 +1065,7 @@
                                 jsPlumbInstance = makeJsPlumbInstance(container);
                             };
 
-                        var getConnectorStrokeStyle = function(relationId) {
+                        var ConnectorStrokeStyle = function(relationId) {
                             var converseHEXinotRGBA = function(color, opacity) {
                                 var c = color.slice(1);
                                 r = parseInt(c.substr(0, 2), 16);
@@ -1068,6 +1084,21 @@
                             };
                         };
 
+                        var label = {
+                            cssClass: 'textae-editor__relation__label',
+                            id: 'label'
+                        };
+
+                        var LabelOverlay = function(connect) {
+                            // Find the label overlay by self, because the function 'getLabelOverlays' returns no label overlay.
+                            var labelOverlay = connect.getOverlay(label.id);
+                            if (!labelOverlay) {
+                                throw 'no label overlay';
+                            }
+
+                            return labelOverlay;
+                        };
+
                         var createRelation = function() {
                             // Overlay styles for jsPlubm connections.
                             var normalArrow = {
@@ -1081,10 +1112,6 @@
                                     length: 18,
                                     location: 1,
                                     id: 'hover-arrow',
-                                },
-                                label = {
-                                    cssClass: 'textae-editor__relation__label',
-                                    id: 'label'
                                 };
 
                             var toAnchors = function(relationId) {
@@ -1119,13 +1146,13 @@
                                         return gridPositionCache.isGridPrepared(anchors.sourceId) && gridPositionCache.isGridPrepared(anchors.targetId);
                                     },
                                     createJsPlumbConnect = function(relation, curviness) {
-                                        // Make a connector by jsPlumb.
+                                        // Make a connect by jsPlumb.
                                         return jsPlumbInstance.connect({
                                             source: domUtil.selector.entity.get(relation.subj),
                                             target: domUtil.selector.entity.get(relation.obj),
                                             anchors: ['TopCenter', "TopCenter"],
                                             connector: ['Bezier', curviness],
-                                            paintStyle: getConnectorStrokeStyle(relation.id),
+                                            paintStyle: new ConnectorStrokeStyle(relation.id),
                                             parameters: {
                                                 'id': relation.id,
                                             },
@@ -1147,7 +1174,7 @@
                                         curviness: determineCurviness(relation.id)
                                     };
 
-                                    // Make a connector by jsPlumb.
+                                    // Make a connect by jsPlumb.
                                     var connect = createJsPlumbConnect(relation, curviness);
 
                                     // Create as invisible to prevent flash at the initiation.
@@ -1163,7 +1190,7 @@
                                 // Extend module for jsPlumb.Connection.
                                 var ExtendModule = function(relationId) {
                                     var arrangePosition = function(relationId) {
-                                            var connect = toConnector(relationId);
+                                            var connect = toConnect(relationId);
                                             connect.endpoints[0].repaint();
                                             connect.endpoints[1].repaint();
 
@@ -1196,16 +1223,16 @@
                                                     connect.setPaintStyle(getStrokeStyle());
                                                 },
                                                 pointupLabel = function(connect) {
-                                                    connect.getOverlay(label.id).addClass('hover');
+                                                    new LabelOverlay(connect).addClass('hover');
                                                 },
                                                 pointdownLabel = function(connect) {
-                                                    connect.getOverlay(label.id).removeClass('hover');
+                                                    new LabelOverlay(connect).removeClass('hover');
                                                 },
                                                 selectLabel = function(connect) {
-                                                    connect.getOverlay('label').addClass('ui-selected');
+                                                    new LabelOverlay(connect).addClass('ui-selected');
                                                 },
                                                 deselectLabel = function(connect) {
-                                                    connect.getOverlay('label').removeClass('ui-selected');
+                                                    new LabelOverlay(connect).removeClass('ui-selected');
                                                 },
                                                 selectLine = function(connect) {
                                                     connect.addClass('ui-selected');
@@ -1247,7 +1274,7 @@
                                             });
                                         };
 
-                                    var getStrokeStyle = _.partial(getConnectorStrokeStyle, relationId);
+                                    var getStrokeStyle = _.partial(ConnectorStrokeStyle, relationId);
 
                                     return _.extend({
                                         hasClass: function(className) {
@@ -1283,7 +1310,7 @@
                                 return function(connect) {
                                     bindHoverAction(connect, pointup, pointdown);
                                     bindHoverAction(
-                                        connect.getOverlay(label.id),
+                                        new LabelOverlay(connect),
                                         _.compose(pointup, toComponent),
                                         _.compose(pointdown, toComponent)
                                     );
@@ -1294,7 +1321,7 @@
                             // Cache a connect instance.
                             var cache = function(connect) {
                                 var relationId = connect.getParameter('id');
-                                cachedConnectors[relationId] = connect;
+                                connectCache.set(relationId, connect);
                                 return connect;
                             };
 
@@ -1307,30 +1334,32 @@
                             return _.compose(notify, cache, hoverize, extend, create);
                         }();
 
-                        var changeJsPlubmOverlay = function(relation) {
-                            var connector = toConnector(relation.id);
-                            if (!connector) {
-                                throw 'no connector';
+                        var Connect = function(relationId) {
+                            var connect = toConnect(relationId);
+                            if (!connect) {
+                                throw 'no connect';
                             }
 
-                            // Find the label overlay by self, because the function 'getLabelOverlays' returns no label overlay.
-                            var labelOverlay = connector.getOverlays().filter(function(overlay) {
-                                return overlay.type === 'Label';
-                            })[0];
-                            if (!labelOverlay) {
-                                throw 'no label overlay';
-                            }
+                            return connect;
+                        };
+
+                        var changeJsPlubmOverlay = function(relation) {
+                            var connect = new Connect(relation.id);
+                            var labelOverlay = new LabelOverlay(connect);
 
                             labelOverlay.setLabel('[' + relation.id + '] ' + relation.type);
-                            labelOverlay.removeClass('textae-editor__negation textae-editor__speculation');
-                            labelOverlay.addClass(getModificationClasses(relation.id));
+                            connect.setPaintStyle(new ConnectorStrokeStyle(relation.id));
+                        };
 
-                            connector.setPaintStyle(getConnectorStrokeStyle(relation.id));
+                        var changeJsPlumbClass = function(relation) {
+                            var connect = new Connect(relation.id);
+                            var labelOverlay = new LabelOverlay(connect);
+                            updateModification(labelOverlay, relation.id);
                         };
 
                         var removeJsPlumbConnection = function(relation) {
-                            jsPlumbInstance.detach(toConnector(relation.id));
-                            delete cachedConnectors[relation.id];
+                            jsPlumbInstance.detach(toConnect(relation.id));
+                            connectCache.remove(relation.id);
                         };
 
                         return {
@@ -1349,10 +1378,11 @@
                             init: init,
                             reset: function() {
                                 jsPlumbInstance.reset();
-                                cachedConnectors = {};
+                                connectCache.clear();
                             },
                             render: createRelation,
                             change: changeJsPlubmOverlay,
+                            changeModification: changeJsPlumbClass,
                             remove: removeJsPlumbConnection
                         };
                     }();
@@ -1381,7 +1411,7 @@
             var renderModification = function(modelType, modification) {
                 var target = model.annotationData[modelType].get(modification.obj);
                 if (target) {
-                    rendererImpl[modelType].change(target);
+                    rendererImpl[modelType].changeModification(target);
                     viewModel.buttonStateHelper['updateBy' + capitalize(modelType)]();
                 }
 
@@ -1444,16 +1474,16 @@
         var hover = function() {
             var processAccosiatedRelation = function(func, entityId) {
                 model.annotationData.entity.assosicatedRelations(entityId)
-                    .map(toConnector)
+                    .map(toConnect)
                     .forEach(func);
             };
 
             return {
-                on: _.partial(processAccosiatedRelation, function(connector) {
-                    connector.pointup();
+                on: _.partial(processAccosiatedRelation, function(connect) {
+                    connect.pointup();
                 }),
-                off: _.partial(processAccosiatedRelation, function(connector) {
-                    connector.pointdown();
+                off: _.partial(processAccosiatedRelation, function(connect) {
+                    connect.pointdown();
                 })
             };
         }();
@@ -1506,31 +1536,31 @@
         }();
 
         var setSelectionModelHandler = function() {
-            var spanSelected = function(spanId) {
+            var selectSpan = function(spanId) {
                     var $span = domUtil.selector.span.get(spanId);
                     selectionClass.addClass($span);
                 },
-                spanDeselected = function(spanId) {
+                deselectSpan = function(spanId) {
                     var $span = domUtil.selector.span.get(spanId);
                     selectionClass.removeClass($span);
                 },
-                entityDeselected = function(entityId) {
+                deselectEntity = function(entityId) {
                     var $entity = domUtil.selector.entity.get(entityId);
                     selectionClass.removeClass($entity);
                 },
-                relationSelected = function(relationId) {
-                    var addUiSelectClass = function(connector) {
-                            if (connector) connector.select();
+                selectReration = function(relationId) {
+                    var addUiSelectClass = function(connect) {
+                            if (connect) connect.select();
                         },
-                        selectRelation = _.compose(addUiSelectClass, toConnector);
+                        selectRelation = _.compose(addUiSelectClass, toConnect);
 
                     selectRelation(relationId);
                 },
-                relationDeselected = function(relationId) {
-                    var removeUiSelectClass = function(connector) {
-                            if (connector) connector.deselect();
+                deselectRelation = function(relationId) {
+                    var removeUiSelectClass = function(connect) {
+                            if (connect) connect.deselect();
                         },
-                        deselectRelation = _.compose(removeUiSelectClass, toConnector);
+                        deselectRelation = _.compose(removeUiSelectClass, toConnect);
 
                     deselectRelation(relationId);
                 };
@@ -1538,19 +1568,18 @@
             // The viewModel.buttonStateHelper.updateByEntity is set at viewMode.
             // Because entity.change is off at relation-edit-mode.
             model.selectionModel
-                .bind('span.select', spanSelected)
-                .bind('span.deselect', spanDeselected)
+                .bind('span.select', selectSpan)
+                .bind('span.deselect', deselectSpan)
                 .bind('span.change', viewModel.buttonStateHelper.updateBySpan)
-                .bind('entity.select', entitySelected)
-                .bind('entity.deselect', entityDeselected)
-                .bind('relation.select', relationSelected)
-                .bind('relation.deselect', relationDeselected)
+                .bind('entity.select', selectEntity)
+                .bind('entity.deselect', deselectEntity)
+                .bind('relation.select', selectReration)
+                .bind('relation.deselect', deselectRelation)
                 .bind('relation.change', viewModel.buttonStateHelper.updateByRelation);
         };
 
         return {
             init: _.compose(setSelectionModelHandler, renderer.setModelHandler),
-            renderer: renderer,
             viewModel: viewModel,
             domUtil: domUtil,
             hoverRelation: hover,

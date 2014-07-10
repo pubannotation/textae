@@ -108,37 +108,39 @@
                     };
                 },
                 spanReplicateCommand: function(span) {
-                    var makeRevert = function(commands) {
-                        var revertedCommands = commands.map(function(command) {
-                            return command.revert();
-                        });
-
-                        return function() {
-                            return {
+                    var RevertFunction = function(commands) {
+                        var revert = function(command) {
+                                return command.revert();
+                            },
+                            execute = function(command) {
+                                command.execute();
+                            },
+                            command = {
                                 execute: function() {
-                                    revertedCommands.forEach(function(command) {
-                                        command.execute();
-                                    });
+                                    commands
+                                        .map(revert)
+                                        .forEach(execute);
+
                                     debugLog('revert replicate a span, begin:' + span.begin + ', end:' + span.end);
                                 }
                             };
+
+                        return function() {
+                            return command;
                         };
                     };
 
                     return {
                         execute: function() {
-                            var commands = model.getReplicationSpans(span, spanConfig)
+                            var commands = model
+                                .getReplicationSpans(span, spanConfig)
                                 .map(factory.spanCreateCommand);
 
                             commands.forEach(function(command) {
                                 command.execute();
                             });
 
-                            var revertedCommands = commands.map(function(command) {
-                                return command.revert();
-                            });
-
-                            this.revert = makeRevert(commands);
+                            this.revert = new RevertFunction(commands);
 
                             debugLog('replicate a span, begin:' + span.begin + ', end:' + span.end);
                         }
@@ -165,7 +167,7 @@
                 }
             },
             undo: function() {
-                var getRevertCommands = function(commands) {
+                var RevertCommands = function(commands) {
                     commands = Object.create(commands);
                     commands.reverse();
                     return commands.map(function(originCommand) {
@@ -173,11 +175,14 @@
                     });
                 };
 
-                if (history.hasAnythingToUndo()) {
-                    model.selectionModel.clear();
-                    invoke(getRevertCommands(history.prev()));
-                }
-            },
+                return function() {
+                    if (history.hasAnythingToUndo()) {
+                        model.selectionModel.clear();
+                        var revertCommands = new RevertCommands(history.prev());
+                        invoke(revertCommands);
+                    }
+                };
+            }(),
             redo: function() {
                 if (history.hasAnythingToRedo()) {
                     model.selectionModel.clear();

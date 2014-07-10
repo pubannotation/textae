@@ -303,7 +303,7 @@
 
                                             var pos;
                                             if ($parent.hasClass("textae-editor__body__text-box__paragraph")) {
-                                                pos = view.renderer.paragraphs[parentId].begin;
+                                                pos = view.viewModel.paragraphs[parentId].begin;
                                             } else if ($parent.hasClass("textae-editor__span")) {
                                                 pos = model.annotationData.span.get(parentId).begin;
                                             } else {
