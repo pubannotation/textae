@@ -16,21 +16,24 @@
                         console.log('[command.invoke]', message);
                     }
                 },
-                createCommand = function(modelType, delaySelect, newModel) {
+                updateSelection = function(modelType, selectOption, newModel) {
+                    if (model.selectionModel[modelType]) {
+                        var select = _.partial(model.selectionModel[modelType].add, newModel.id);
+                        if (selectOption.delaySelect) {
+                            _.delay(select, selectOption.delaySelect);
+                        } else {
+                            select();
+                        }
+                    }
+                },
+                createCommand = function(modelType, selectOption, newModel) {
                     return {
                         execute: function() {
                             // Update model
                             newModel = model.annotationData[modelType].add(newModel);
 
                             // Update Selection
-                            if (model.selectionModel[modelType]) {
-                                var select = _.partial(model.selectionModel[modelType].add, newModel.id);
-                                if (delaySelect) {
-                                    _.delay(select, delaySelect);
-                                } else {
-                                    select();
-                                }
-                            }
+                            if (selectOption) updateSelection(modelType, selectOption, newModel);
 
                             // Set revert
                             this.revert = _.partial(factory[modelType + 'RemoveCommand'], newModel.id);
@@ -48,7 +51,7 @@
                             model.annotationData[modelType].remove(id);
 
                             // Set revert
-                            this.revert = _.partial(factory[modelType + 'CreateCommand'], oloModel);
+                            this.revert = _.partial(createCommand, modelType, false, oloModel);
 
                             debugLog('remove a ' + modelType + ': ', oloModel);
                         },
@@ -71,7 +74,7 @@
                 };
 
             return {
-                spanCreateCommand: _.partial(createCommand, 'span', 0),
+                spanCreateCommand: _.partial(createCommand, 'span', true),
                 spanRemoveCommand: _.partial(removeCommand, 'span'),
                 spanMoveCommand: function(spanId, begin, end) {
                     return {
@@ -146,15 +149,17 @@
                         }
                     };
                 },
-                entityCreateCommand: _.partial(createCommand, 'entity', 0),
+                entityCreateCommand: _.partial(createCommand, 'entity', true),
                 entityRemoveCommand: _.partial(removeCommand, 'entity'),
                 entityChangeTypeCommand: _.partial(changeTypeCommand, 'entity'),
                 // The relaitonId is optional set only when revert of the relationRemoveCommand.
                 // Set the css class lately, because jsPlumbConnector is no applyed that css class immediately after create.
-                relationCreateCommand: _.partial(createCommand, 'relation', 100),
+                relationCreateCommand: _.partial(createCommand, 'relation', {
+                    delaySelect: 100
+                }),
                 relationRemoveCommand: _.partial(removeCommand, 'relation'),
                 relationChangeTypeCommand: _.partial(changeTypeCommand, 'relation'),
-                modificationCreateCommand: _.partial(createCommand, 'modification', 0),
+                modificationCreateCommand: _.partial(createCommand, 'modification', false),
                 modificationRemoveCommand: _.partial(removeCommand, 'modification')
             };
         }();
