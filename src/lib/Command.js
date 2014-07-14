@@ -1,6 +1,6 @@
     // A command is an operation by user that is saved as history, and can undo and redo.
     // Users can edit model only via commands. 
-    var Command = function(idFactory, model, history, spanConfig) {
+    module.exports = function(idFactory, model, history, spanConfig) {
         var invoke = function(commands) {
             commands.forEach(function(command) {
                 command.execute();

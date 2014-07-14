@@ -1,4 +1,4 @@
-    var View = function(editor, idFactory, model) {
+    module.exports = function(editor, idFactory, model) {
         // Add or Remove class to indicate selected state.
         var selectionClass = function() {
             var addClass = function($target) {

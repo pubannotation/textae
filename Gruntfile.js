@@ -8,6 +8,10 @@ var rename = {
   },
 };
 
+var browserifyFiles = {
+  'src/lib/bundle.js': ['src/lib/jquery.textae.js']
+};
+
 module.exports = function(grunt) {
   require('load-grunt-tasks')(grunt);
 
@@ -21,21 +25,8 @@ module.exports = function(grunt) {
     concat: {
       js: {
         src: [
-          'src/lib/head.js',
-          'src/lib/util.js',
-          'src/lib/editor-id-factory.js',
-          'src/lib/editor-model.js',
-          'src/lib/editor-history.js',
-          'src/lib/editor-command.js',
-          'src/lib/editor-view.js',
-          'src/lib/editor-presenter.js',
-          'src/lib/editor-data-access-object.js',
-          'src/lib/editor.js',
-          'src/lib/control.js',
-          'src/lib/tool.js',
-          'src/lib/jquery.textae.js',
+          'src/lib/bundle.js',
           'src/lib/main.js',
-          'src/lib/tail.js'
         ],
         dest: 'dist/lib/<%= pkg.name %>-<%= pkg.version %>.js',
       },
@@ -95,17 +86,33 @@ module.exports = function(grunt) {
       files: ['Gruntfile.js', 'src/lib/*.js'],
       options: {
         jshintrc: '.jshintrc',
-        ignores: ['src/lib/head.js', 'src/lib/tail.js']
+        ignores: ['src/lib/bundle.js']
       }
     },
     qunit: {
       all: 'test/src/util.html',
     },
+    jasmine_node: {
+      all: ['test/']
+    },
     // for development
+    browserify: {
+      dev: {
+        files: browserifyFiles,
+        options: {
+          bundleOptions: {
+            debug: true
+          }
+        }
+      },
+      dist: {
+        files: browserifyFiles
+      }
+    },
     watch: {
       javascript: {
-        files: ['Gruntfile.js', 'src/lib/*.js'],
-        tasks: ['jshint']
+        files: ['Gruntfile.js', 'src/lib/*.js', '!src/lib/bundle.js'],
+        tasks: ['jshint', 'browserify:dev']
       },
       static_files: {
         files: ['src/development.html', 'src/lib/*.js', 'src/lib/css/*.css'],
@@ -155,8 +162,8 @@ module.exports = function(grunt) {
     },
   });
 
-  grunt.registerTask('dev', ['connect', 'open:dev', 'watch']);
-  grunt.registerTask('dist', ['jshint', 'qunit', 'clean', 'concat', 'uglify', 'copy', 'replace:version', 'cssmin']);
+  grunt.registerTask('dev', ['browserify:dev', 'connect', 'open:dev', 'watch']);
+  grunt.registerTask('dist', ['jshint', 'jasmine_node', 'clean', 'browserify:dist', 'concat', 'uglify', 'copy', 'replace:version', 'cssmin']);
   grunt.registerTask('demo', ['open:demo', 'connect:developmentServer:keepalive']);
   grunt.registerTask('app', ['open:app', 'connect:developmentServer:keepalive']);
 };

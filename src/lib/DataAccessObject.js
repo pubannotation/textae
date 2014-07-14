@@ -1,6 +1,7 @@
     // A sub component to save and load data.
-    var DataAccessObject = function(editor, confirmDiscardChangeMessage) {
-        var dataSourceUrl = '',
+    module.exports = function(editor, confirmDiscardChangeMessage) {
+        var textAeUtil = require('./textAeUtil'),
+            dataSourceUrl = '',
             cursorChanger = function(editor) {
                 var wait = function() {
                     this.addClass('textae-editor_wait');

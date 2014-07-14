@@ -1,2 +1,3 @@
 node_modules/
 *.dev_data
+src/lib/bundle.js

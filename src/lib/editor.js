@@ -1,11 +1,11 @@
-    var editor = function() {
-        var idFactory = new IdFactory(this);
+    module.exports = function() {
+        var idFactory = require('./IdFactory')(this);
 
         // model manages data objects.
-        var model = new Model(idFactory);
+        var model = require('./Model')(idFactory);
 
         // The history of command that providing undo and redo.
-        var history = new History();
+        var history = require('./History')();
 
         // Configulation of span
         var spanConfig = {
@@ -65,11 +65,11 @@
         };
 
         // Users can edit model only via commands. 
-        var command = new Command(idFactory, model, history, spanConfig);
+        var command = require('./Command')(idFactory, model, history, spanConfig);
 
-        var view = new View(this, idFactory, model);
+        var view = require('./View')(this, idFactory, model);
 
-        var presenter = new Presenter(this, idFactory, model, view, command, spanConfig);
+        var presenter = require('./Presenter')(this, idFactory, model, view, command, spanConfig);
 
         //handle user input event.
         var controller = function(editor) {
@@ -121,7 +121,8 @@
 
         // public funcitons of editor
         this.api = function(editor) {
-            var getParams = function(editor) {
+            var textAeUtil = require('./textAeUtil'),
+                getParams = function(editor) {
                     // Read model parameters from url parameters and html attributes.
                     var params = $.extend(textAeUtil.getUrlParameters(location.search),
                         // Html attributes preced url parameters.
@@ -195,7 +196,7 @@
                     loadAnnotation(params);
                 },
                 initDao = function(confirmDiscardChangeMessage) {
-                    var dataAccessObject = new DataAccessObject(editor, confirmDiscardChangeMessage);
+                    var dataAccessObject = require('./DataAccessObject')(editor, confirmDiscardChangeMessage);
                     dataAccessObject.bind('save', history.saved);
                     dataAccessObject.bind('load', resetData);
 

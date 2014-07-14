@@ -1,3 +1,7 @@
+    var tool = require('./tool'),
+        control = require('./control'),
+        editor = require('./editor');
+
     jQuery.fn.textae = (function() {
         return function() {
             if (this.hasClass("textae-editor")) {

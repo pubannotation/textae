@@ -1,8 +1,9 @@
     // The tool manages interactions between components. 
-    var tool = function() {
+    module.exports = function() {
         // Components to be managed
         var components = function() {
-            var helpDialog = textAeUtil.makeInformationModal({
+            var textAeUtil = require('./textAeUtil'),
+                helpDialog = textAeUtil.makeInformationModal({
                     className: 'textae-control__help',
                     addContentsFunc: function() {
                         this

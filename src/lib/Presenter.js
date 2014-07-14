@@ -1,4 +1,4 @@
-    var Presenter = function(editor, idFactory, model, view, command, spanConfig) {
+    module.exports = function(editor, idFactory, model, view, command, spanConfig) {
         // constant values
         var CONSTS = {
             BLOCK_THRESHOLD: 100
@@ -1086,7 +1086,8 @@
                             }
                         },
                         showSettingDialog: function() {
-                            var typeGapValue;
+                            var textAeUtil = require('./textAeUtil'),
+                                typeGapValue;
 
                             return function() {
                                 var content = function() {

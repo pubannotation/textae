@@ -1,4 +1,4 @@
-     var IdFactory = function(editor) {
+     module.exports = function(editor) {
          var typeCounter = [];
          return {
              // The ID of spans has editorId and begin and end, like 'editor1__S0_15'.

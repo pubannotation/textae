@@ -1,6 +1,7 @@
     // histories of edit to undo and redo.
-    var History = function() {
-        var lastSaveIndex = -1,
+    module.exports = function() {
+        var textAeUtil = require('./textAeUtil'),
+            lastSaveIndex = -1,
             lastEditIndex = -1,
             history = [],
             hasAnythingToUndo = function() {

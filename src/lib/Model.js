@@ -1,4 +1,4 @@
-    var Model = function(idFactory) {
+    module.exports = function(idFactory) {
         // A span its range is coross over with other spans are not able to rendered.
         // Because spans are renderd with span tag. Html tags can not be cross over.
         var isBoundaryCrossingWithOtherSpans = function(span, candidateSpan) {
@@ -7,6 +7,7 @@
                         (candidateSpan.begin < existSpan.begin && existSpan.begin < candidateSpan.end && candidateSpan.end < existSpan.end);
                 }).length > 0;
             },
+            textAeUtil = require('./textAeUtil'),
             annotationData = function() {
                 var originalData;
 

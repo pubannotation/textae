@@ -1,6 +1,6 @@
     // The contorol is a contorl bar to edit.
     // This can controls mulitple instace of editor.
-    var control = function() {
+    module.exports = function() {
         // Utility functions to change appearance of bunttons.
         var buttonAppearanceUtil = {
             enable: function($button) {
