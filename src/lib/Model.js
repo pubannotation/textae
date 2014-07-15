@@ -293,6 +293,10 @@
                 var entity = function() {
                     var entityContainer = new ModelContainer('entity'),
                         api = _.extend(entityContainer, {
+                            add: _.compose(entityContainer.add, function(entity) {
+                                if (entity.span) return entity;
+                                throw new Error('entity has no span! ' + JSON.stringify(entity));
+                            }),
                             assosicatedRelations: function(entityId) {
                                 return annotationData.relation.all().filter(function(r) {
                                     return r.obj === entityId || r.subj === entityId;

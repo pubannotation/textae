@@ -39,6 +39,8 @@
                             this.revert = _.partial(factory[modelType + 'RemoveCommand'], newModel.id);
 
                             debugLog('create a new ' + modelType + ': ', newModel);
+
+                            return newModel;
                         }
                     };
                 },
@@ -71,10 +73,59 @@
                             debugLog('change type of a ' + modelType + '. oldtype:' + oldType + ' ' + modelType + ':', targetModel);
                         }
                     };
-                };
+                },
+                setRevertAndLog = function() {
+                    var RevertFunction = function(commandType, span, subCommands) {
+                            var toRevert = function(command) {
+                                    return command.revert();
+                                },
+                                execute = function(command) {
+                                    command.execute();
+                                },
+                                revertedCommand = {
+                                    execute: function() {
+                                        subCommands
+                                            .map(toRevert)
+                                            .forEach(execute);
+
+                                        debugLog('revert ' + commandType + ' a span, begin:' + span.begin + ', end:' + span.end);
+                                    }
+                                };
+
+                            return function() {
+                                return revertedCommand;
+                            };
+                        },
+                        setRevert = function(command, commandType, span, subCommands) {
+                            command.revert = new RevertFunction(commandType, span, subCommands);
+                            return {
+                                commandType: commandType,
+                                span: span
+                            };
+                        },
+                        log = function(param) {
+                            debugLog(param.commandType + ' a span, begin:' + param.span.begin + ', end:' + param.span.end);
+                        };
+
+                    return _.compose(log, setRevert);
+                }();
 
             return {
-                spanCreateCommand: _.partial(createCommand, 'span', true),
+                spanCreateCommand: function(type, span) {
+                    return {
+                        execute: function() {
+                            var spanCommand = createCommand('span', true, span);
+                            span = spanCommand.execute();
+                            var entityCommand = createCommand('entity', true, {
+                                span: span.id,
+                                type: type
+                            });
+                            entityCommand.execute();
+
+                            setRevertAndLog(this, 'create', span, [entityCommand, spanCommand]);
+                        }
+                    };
+                },
                 spanRemoveCommand: _.partial(removeCommand, 'span'),
                 spanMoveCommand: function(spanId, begin, end) {
                     return {
@@ -107,45 +158,22 @@
                             this.revert = _.partial(factory.spanMoveCommand, newSpanId, oldBeginEnd.begin, oldBeginEnd.end);
 
                             debugLog('move a span, spanId:' + spanId + ', newBegin:' + begin + ', newEnd:' + end);
-                        },
+                        }
                     };
                 },
-                spanReplicateCommand: function(span) {
-                    var RevertFunction = function(commands) {
-                        var revert = function(command) {
-                                return command.revert();
-                            },
-                            execute = function(command) {
-                                command.execute();
-                            },
-                            command = {
-                                execute: function() {
-                                    commands
-                                        .map(revert)
-                                        .forEach(execute);
-
-                                    debugLog('revert replicate a span, begin:' + span.begin + ', end:' + span.end);
-                                }
-                            };
-
-                        return function() {
-                            return command;
-                        };
-                    };
-
+                spanReplicateCommand: function(type, span) {
                     return {
                         execute: function() {
-                            var commands = model
+                            var createSpan = _.partial(factory.spanCreateCommand, type),
+                                subCommands = model
                                 .getReplicationSpans(span, spanConfig)
-                                .map(factory.spanCreateCommand);
+                                .map(createSpan);
 
-                            commands.forEach(function(command) {
+                            subCommands.forEach(function(command) {
                                 command.execute();
                             });
 
-                            this.revert = new RevertFunction(commands);
-
-                            debugLog('replicate a span, begin:' + span.begin + ', end:' + span.end);
+                            setRevertAndLog(this, 'replicate', span, subCommands);
                         }
                     };
                 },

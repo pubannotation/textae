@@ -79,6 +79,7 @@
                             if (spanId) {
                                 command.invoke(
                                     [command.factory.spanReplicateCommand(
+                                        view.viewModel.typeContainer.entity.getDefaultType(),
                                         model.annotationData.span.get(spanId)
                                     )]
                                 );
@@ -414,16 +415,19 @@
                                                 return;
                                             }
 
-                                            var commands = [command.factory.spanCreateCommand({
-                                                begin: beginPosition,
-                                                end: endPosition
-                                            })];
-
-                                            if (view.viewModel.modeAccordingToButton['replicate-auto'].value() && endPosition - beginPosition <= CONSTS.BLOCK_THRESHOLD) {
-                                                commands.push(command.factory.spanReplicateCommand({
+                                            var commands = [command.factory.spanCreateCommand(
+                                                view.viewModel.typeContainer.entity.getDefaultType(), {
                                                     begin: beginPosition,
                                                     end: endPosition
-                                                }));
+                                                }
+                                            )];
+
+                                            if (view.viewModel.modeAccordingToButton['replicate-auto'].value() && endPosition - beginPosition <= CONSTS.BLOCK_THRESHOLD) {
+                                                commands.push(command.factory.spanReplicateCommand(
+                                                    view.viewModel.typeContainer.entity.getDefaultType(), {
+                                                        begin: beginPosition,
+                                                        end: endPosition
+                                                    }));
                                             }
 
                                             command.invoke(commands);
