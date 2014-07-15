@@ -53,11 +53,14 @@
 }
 
 .textae-editor__span {
-    border-style: solid;
     border-color: #666;
+    border-style: solid;
     border-width: 1px 0px;
-    background-color: rgba(100,100,215,0.5);
     white-space: pre;
+}
+
+.textae-editor__span {
+    background-color: rgba(100,100,215,0.5);
 }
 
 .textae-editor__span:hover {

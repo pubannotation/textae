@@ -89,9 +89,6 @@ module.exports = function(grunt) {
         ignores: ['src/lib/bundle.js']
       }
     },
-    qunit: {
-      all: 'test/src/util.html',
-    },
     jasmine_node: {
       all: ['test/']
     },
@@ -111,7 +108,7 @@ module.exports = function(grunt) {
     },
     watch: {
       javascript: {
-        files: ['Gruntfile.js', 'src/lib/*.js', '!src/lib/bundle.js'],
+        files: ['Gruntfile.js', 'src/lib/**', '!src/lib/bundle.js'],
         tasks: ['jshint', 'browserify:dev']
       },
       static_files: {

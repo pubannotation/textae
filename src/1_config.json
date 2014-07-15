@@ -35,5 +35,8 @@
 	}, {
 		"color": "#666666",
 		"name": "New"
+	}, {
+		"color": "#0000FF",
+		"name": "Sentence"
 	}]
 }
