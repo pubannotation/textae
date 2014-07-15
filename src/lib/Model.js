@@ -223,7 +223,9 @@
                         api = {
                             //expected span is like { "begin": 19, "end": 49 }
                             add: function(span) {
-                                return spanContainer.add(toSpanModel(span), updateSpanTree);
+                                if (span)
+                                    return spanContainer.add(toSpanModel(span), updateSpanTree);
+                                throw new Error('span is undefined.');
                             },
                             concat: function(spans) {
                                 if (spans) {

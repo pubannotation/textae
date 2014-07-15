@@ -108,13 +108,14 @@
                         };
 
                     return _.compose(log, setRevert);
-                }();
+                }(),
+                spanCreateCommand = _.partial(createCommand, 'span', true);
 
             return {
                 spanCreateCommand: function(type, span) {
                     return {
                         execute: function() {
-                            var spanCommand = createCommand('span', true, span);
+                            var spanCommand = spanCreateCommand(span);
                             span = spanCommand.execute();
                             var entityCommand = createCommand('entity', true, {
                                 span: span.id,
@@ -135,7 +136,7 @@
 
                             if (!model.annotationData.span.get(newSpanId)) {
                                 commands.push(factory.spanRemoveCommand(spanId));
-                                commands.push(factory.spanCreateCommand({
+                                commands.push(spanCreateCommand({
                                     begin: begin,
                                     end: end
                                 }));
