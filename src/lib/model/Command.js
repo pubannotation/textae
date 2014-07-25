@@ -24,24 +24,19 @@ module.exports = function(idFactory, model, history, spanConfig) {
                     console.log('[command.invoke]', message);
                 }
             },
-            updateSelection = function(modelType, selectOption, newModel) {
+            updateSelection = function(modelType, newModel) {
                 if (model.selectionModel[modelType]) {
-                    var select = _.partial(model.selectionModel[modelType].add, newModel.id);
-                    if (selectOption.delaySelect) {
-                        _.delay(select, selectOption.delaySelect);
-                    } else {
-                        select();
-                    }
+                    model.selectionModel[modelType].add(newModel.id);
                 }
             },
-            createCommand = function(modelType, selectOption, newModel) {
+            createCommand = function(modelType, isSelectable, newModel) {
                 return {
                     execute: function() {
                         // Update model
                         newModel = model.annotationData[modelType].add(newModel);
 
                         // Update Selection
-                        if (selectOption) updateSelection(modelType, selectOption, newModel);
+                        if (isSelectable) updateSelection(modelType, newModel);
 
                         // Set revert
                         this.revert = _.partial(factory[modelType + 'RemoveCommand'], newModel.id);
@@ -229,9 +224,7 @@ module.exports = function(idFactory, model, history, spanConfig) {
             entityChangeTypeCommand: _.partial(changeTypeCommand, 'entity'),
             // The relaitonId is optional set only when revert of the relationRemoveCommand.
             // Set the css class lately, because jsPlumbConnector is no applyed that css class immediately after create.
-            relationCreateCommand: _.partial(createCommand, 'relation', {
-                delaySelect: 100
-            }),
+            relationCreateCommand: _.partial(createCommand, 'relation', true),
             relationRemoveCommand: _.partial(removeCommand, 'relation'),
             relationChangeTypeCommand: _.partial(changeTypeCommand, 'relation'),
             modificationCreateCommand: _.partial(createCommand, 'modification', false),

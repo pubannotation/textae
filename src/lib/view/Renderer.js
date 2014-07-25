@@ -619,107 +619,124 @@ module.exports = function(editor, model, viewModel) {
 
                     var extend = function() {
                         // Extend module for jsPlumb.Connection.
-                        var ExtendModule = function(relationId) {
-                            var arrangePosition = function(relationId) {
-                                    var connect = domPositionUtils.toConnect(relationId);
-                                    connect.endpoints[0].repaint();
-                                    connect.endpoints[1].repaint();
-
-                                    // Re-set arrow disappered when setConnector is called.
-                                    connect.removeOverlay('normal-arrow');
-                                    connect.setConnector(['Bezier', {
-                                        curviness: determineCurviness(relationId)
-                                    }]);
-                                    connect.addOverlay(['Arrow', normalArrow]);
-
-                                    // Create as invisible to prevent flash at the initiation.
-                                    if (!connect.isVisible()) {
-                                        connect.setVisible(true);
-                                    }
-                                },
-                                Pointupable = function(getStrokeStyle) {
+                        var Pointupable = function() {
+                                var hoverupLabel = function(connect) {
+                                        new LabelOverlay(connect).addClass('hover');
+                                        return connect;
+                                    },
+                                    hoverdownLabel = function(connect) {
+                                        new LabelOverlay(connect).removeClass('hover');
+                                        return connect;
+                                    },
+                                    selectLabel = function(connect) {
+                                        new LabelOverlay(connect).addClass('ui-selected');
+                                        return connect;
+                                    },
+                                    deselectLabel = function(connect) {
+                                        new LabelOverlay(connect).removeClass('ui-selected');
+                                        return connect;
+                                    },
+                                    selectLine = function(connect) {
+                                        connect.addClass('ui-selected');
+                                        return connect;
+                                    },
+                                    deselectLine = function(connect) {
+                                        connect.removeClass('ui-selected');
+                                        return connect;
+                                    },
+                                    hasClass = function(connect, className) {
+                                        return connect.connector.canvas.classList.contains(className);
+                                    },
+                                    unless = function(connect, predicate, func) {
+                                        // Evaluate lazily to use with _.delay.
+                                        return function() {
+                                            if (!predicate(connect)) func(connect);
+                                        };
+                                    },
                                     // Show a big arrow when the connect is hoverd.
                                     // Remove a normal arrow and add a new big arrow.
                                     // Because an arrow is out of position if hideOverlay and showOverlay is used.
-                                    var pointupArrow = function(connect) {
-                                            connect.removeOverlay(normalArrow.id);
-                                            connect.addOverlay(['Arrow', hoverArrow]);
-                                            connect.setPaintStyle(_.extend(getStrokeStyle(), {
-                                                lineWidth: 3
-                                            }));
-                                        },
-                                        pointdownAllow = function(connect) {
-                                            connect.removeOverlay(hoverArrow.id);
-                                            connect.addOverlay(['Arrow', normalArrow]);
-                                            connect.setPaintStyle(getStrokeStyle());
-                                        },
-                                        pointupLabel = function(connect) {
-                                            new LabelOverlay(connect).addClass('hover');
-                                        },
-                                        pointdownLabel = function(connect) {
-                                            new LabelOverlay(connect).removeClass('hover');
-                                        },
-                                        selectLabel = function(connect) {
-                                            new LabelOverlay(connect).addClass('ui-selected');
-                                        },
-                                        deselectLabel = function(connect) {
-                                            new LabelOverlay(connect).removeClass('ui-selected');
-                                        },
-                                        selectLine = function(connect) {
-                                            connect.addClass('ui-selected');
-                                        },
-                                        deselectLine = function(connect) {
-                                            connect.removeClass('ui-selected');
-                                        };
+                                    pointupArrow = function(getStrokeStyle, connect) {
+                                        connect.removeOverlay(normalArrow.id);
+                                        connect.addOverlay(['Arrow', hoverArrow]);
+                                        connect.setPaintStyle(_.extend(getStrokeStyle(), {
+                                            lineWidth: 3
+                                        }));
+                                        return connect;
+                                    },
+                                    pointdownAllow = function(getStrokeStyle, connect) {
+                                        connect.removeOverlay(hoverArrow.id);
+                                        connect.addOverlay(['Arrow', normalArrow]);
+                                        connect.setPaintStyle(getStrokeStyle());
+                                        return connect;
+                                    },
+                                    delay30 = function(func) {
+                                        return _.partial(_.delay, func, 30);
+                                    };
+
+                                return function(connect) {
+                                    var relationId = connect.getParameter('id'),
+                                        getStrokeStyle = _.partial(ConnectorStrokeStyle, relationId),
+                                        pointupArrowColor = _.partial(pointupArrow, getStrokeStyle),
+                                        pointdownAllowColor = _.partial(pointdownAllow, getStrokeStyle),
+                                        unlessSelect = _.partial(unless, connect, function(connect) {
+                                            return hasClass(connect, 'ui-selected');
+                                        }),
+                                        unlessDead = _.partial(unless, connect, function(connect) {
+                                            return connect.dead;
+                                        }),
+                                        hoverup = _.compose(hoverupLabel, pointupArrowColor),
+                                        hoverdown = _.compose(hoverdownLabel, pointdownAllowColor),
+                                        select = _.compose(selectLine, selectLabel, hoverdownLabel, pointupArrowColor),
+                                        deselect = _.compose(deselectLine, deselectLabel, pointdownAllowColor);
 
                                     return {
-                                        pointup: function() {
-                                            if (this.hasClass('ui-selected')) return;
-
-                                            pointupArrow(this);
-                                            pointupLabel(this);
-                                        },
-                                        pointdown: function() {
-                                            if (this.hasClass('ui-selected')) return;
-
-                                            pointdownAllow(this);
-                                            pointdownLabel(this);
-                                        },
-                                        select: function() {
-                                            pointupArrow(this);
-                                            pointdownLabel(this);
-                                            selectLabel(this);
-                                            selectLine(this);
-                                        },
-                                        deselect: function() {
-                                            pointdownAllow(this);
-                                            deselectLabel(this);
-                                            deselectLine(this);
-                                        }
+                                        pointup: unlessSelect(hoverup),
+                                        pointdown: unlessSelect(hoverdown),
+                                        select: delay30(unlessDead(select)),
+                                        deselect: delay30(unlessDead(deselect))
                                     };
-                                },
-                                bindClickAction = function(onClick) {
-                                    this.bind('click', onClick);
-                                    this.getOverlay(label.id).bind('click', function(label, event) {
-                                        onClick(label.component, event);
-                                    });
                                 };
+                            }(),
+                            ExtendModule = function(connect) {
+                                var relationId = connect.getParameter('id'),
+                                    arrangePosition = function(relationId) {
+                                        var connect = domPositionUtils.toConnect(relationId);
+                                        connect.endpoints[0].repaint();
+                                        connect.endpoints[1].repaint();
 
-                            var getStrokeStyle = _.partial(ConnectorStrokeStyle, relationId);
+                                        // Re-set arrow disappered when setConnector is called.
+                                        connect.removeOverlay('normal-arrow');
+                                        connect.setConnector(['Bezier', {
+                                            curviness: determineCurviness(relationId)
+                                        }]);
+                                        connect.addOverlay(['Arrow', normalArrow]);
 
-                            return _.extend({
-                                hasClass: function(className) {
-                                    return this.connector.canvas.classList.contains(className);
-                                },
-                                // Set a function debounce to avoid over rendering.
-                                arrangePosition: _.debounce(_.partial(arrangePosition, relationId), 20),
-                                bindClickAction: bindClickAction
-                            }, new Pointupable(getStrokeStyle));
-                        };
+                                        // Create as invisible to prevent flash at the initiation.
+                                        if (!connect.isVisible()) {
+                                            connect.setVisible(true);
+                                        }
+                                    },
+                                    bindClickAction = function(onClick) {
+                                        this.bind('click', onClick);
+                                        this.getOverlay(label.id).bind('click', function(label, event) {
+                                            onClick(label.component, event);
+                                        });
+                                    };
+
+                                return _.extend({
+                                    // Set a function debounce to avoid over rendering.
+                                    arrangePosition: _.debounce(_.partial(arrangePosition, relationId), 20),
+                                    bindClickAction: bindClickAction
+                                });
+                            };
 
                         return function(connect) {
-                            var relationId = connect.getParameter('id');
-                            return _.extend(connect, new ExtendModule(relationId));
+                            return _.extend(
+                                connect,
+                                new ExtendModule(connect),
+                                new Pointupable(connect)
+                            );
                         };
                     }();
 
@@ -790,8 +807,12 @@ module.exports = function(editor, model, viewModel) {
                 };
 
                 var removeJsPlumbConnection = function(relation) {
-                    jsPlumbInstance.detach(domPositionUtils.toConnect(relation.id));
+                    var connect = new Connect(relation.id);
+                    jsPlumbInstance.detach(connect);
                     domPositionUtils.connectCache.remove(relation.id);
+
+                    // Set the flag dead already to delay selection.
+                    connect.dead = true;
                 };
 
                 return {
