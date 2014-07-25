@@ -50,16 +50,20 @@ module.exports = function(editor, model) {
             };
         };
 
+        var reduce2hash = function(hash, element) {
+            hash[element.name] = element;
+            return hash;
+        };
+
         var setContainerDefinedTypes = function(container, newDefinedTypes) {
             // expected newDefinedTypes is an array of object. example of object is {"name": "Regulation","color": "#FFFF66","default": true}.
             if (newDefinedTypes !== undefined) {
                 container.setDefinedTypes(
-                    newDefinedTypes.map(function(type) {
+                    newDefinedTypes
+                    .map(function(type) {
                         return type;
-                    }).reduce(function(a, b) {
-                        a[b.name] = b;
-                        return a;
-                    }, {})
+                    })
+                    .reduce(reduce2hash, {})
                 );
 
                 container.setDefaultType(
@@ -76,8 +80,8 @@ module.exports = function(editor, model) {
         var relationContaier = new TypeContainer(model.annotationData.relation.types, '#555555');
 
         // Save state of push control buttons.
-        var modeAccordingToButton = function() {
-            var makeButton = function(buttonName) {
+        var modeAccordingToButton = function(editor) {
+            var Button = function(buttonName) {
                 // Button state is true when the button is pushed.
                 var state = false,
                     value = function(newValue) {
@@ -105,23 +109,29 @@ module.exports = function(editor, model) {
                 };
             };
 
-            // The public object.
-            var ret = ['replicate-auto', 'relation-edit-mode', 'negation', 'speculation']
-                .map(makeButton)
-                .reduce(function(container, button) {
-                    container[button.name] = button;
-                    return container;
-                }, {});
+            var buttons = [
+                    'replicate-auto',
+                    'relation-edit-mode',
+                    'negation',
+                    'speculation'
+                ].map(Button),
+                propagateStateOfAllButtons = function() {
+                    buttons
+                        .map(function(button) {
+                            return button.propagate
+                        })
+                        .forEach(function(propagate) {
+                            propagate();
+                        });
+                };
 
-            return _.extend(ret, {
-                // Propagete states of all buttons.
-                propagate: function() {
-                    _.each(this, function(button) {
-                        if (button.propagate) button.propagate();
-                    });
-                }
-            });
-        }();
+            // The public object.
+            var api = buttons.reduce(reduce2hash, {});
+
+            return _.extend(api, {
+                propagate: propagateStateOfAllButtons
+            });;
+        }(editor);
 
         // Save enable/disable state of contorol buttons.
         var buttonEnableStates = function() {
