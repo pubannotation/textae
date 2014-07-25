@@ -192,39 +192,45 @@ module.exports = function(idFactory) {
                         parent.children.push(span);
                         span.parent = parent;
                     },
+                    getParet = function(parent, span) {
+                        if (span.isChildOf(parent)) {
+                            return parent;
+                        } else {
+                            if (parent.parent) {
+                                return getParet(parent.parent, span);
+                            } else {
+                                return null;
+                            }
+                        }
+                    },
                     updateSpanTree = function() {
                         // Sort id of spans by the position.
                         var sortedSpans = spanContainer.all().sort(spanComparator);
 
                         // the spanTree has parent-child structure.
                         var spanTree = [];
-                        sortedSpans.map(function(span, index, array) {
-                            return $.extend(span, {
-                                // Reset children
-                                children: [],
-                                // Order by position
-                                left: index !== 0 ? array[index - 1] : null,
-                                right: index !== array.length - 1 ? array[index + 1] : null,
-                            });
-                        })
+
+                        sortedSpans
+                            .map(function(span, index, array) {
+                                return $.extend(span, {
+                                    // Reset parent
+                                    parent: null,
+                                    // Reset children
+                                    children: [],
+                                    // Order by position
+                                    left: index !== 0 ? array[index - 1] : null,
+                                    right: index !== array.length - 1 ? array[index + 1] : null,
+                                });
+                            })
                             .forEach(function(span) {
-                                // Find the parent of this span.
-                                var lastPushedSpan = spanTree[spanTree.length - 1];
-                                if (span.isChildOf(span.left)) {
-                                    // The left span is the parent.
-                                    // The left span may be the parent of a current span because span id is sorted.
-                                    adopt(span.left, span);
-                                } else if (span.left && span.isChildOf(span.left.parent)) {
-                                    // The left span is the bigBrother.
-                                    // The parent of the left span may be the parent of a current span.
-                                    adopt(span.left.parent, span);
-                                } else if (span.isChildOf(lastPushedSpan)) {
-                                    // The last pushed span is the parent.
-                                    // This occur when prev node is also a child of last pushed span.
-                                    adopt(lastPushedSpan, span);
+                                if (span.left) {
+                                    var parent = getParet(span.left, span);
+                                    if (parent) {
+                                        adopt(parent, span);
+                                    } else {
+                                        spanTree.push(span);
+                                    }
                                 } else {
-                                    // A current span has no parent.
-                                    span.parent = null;
                                     spanTree.push(span);
                                 }
                             });
