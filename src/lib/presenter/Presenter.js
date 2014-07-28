@@ -142,7 +142,7 @@ module.exports = function(editor, model, view, command, spanConfig) {
                         });
 
                         //remove relations
-                    removeCommand.addRelations(model.selectionModel.relation.all());
+                        removeCommand.addRelations(model.selectionModel.relation.all());
 
                         command.invoke(removeCommand.getAll());
                     },
@@ -250,8 +250,10 @@ module.exports = function(editor, model, view, command, spanConfig) {
                                         model.selectionModel.relation.toggle(relationId);
                                     } else {
                                         // Select only self
-                                        model.selectionModel.clear();
-                                        model.selectionModel.relation.add(relationId);
+                                        if (model.selectionModel.relation.single() !== relationId) {
+                                            model.selectionModel.clear();
+                                            model.selectionModel.relation.add(relationId);
+                                        }
                                     }
                                 },
                                 returnFalse = function() {
