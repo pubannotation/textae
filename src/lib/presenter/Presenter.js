@@ -303,17 +303,28 @@ module.exports = function(editor, model, view, command, spanConfig) {
                                             // The parentElement is expected as a paragraph or a span.
                                             return selection.anchorNode.parentElement.id === selection.focusNode.parentElement.id;
                                         },
-                                        isAnchrNodeInSpan = function(selection) {
-                                            var $parent = $(selection.anchorNode.parentNode);
-                                            return $parent.hasClass('textae-editor__span') || $parent.hasClass('textae-editor__span_block');
+                                        getAnchorNodeParent = function(selection) {
+                                            return $(selection.anchorNode.parentNode);
                                         },
-                                        isFocusNodeInSpan = function(selection) {
-                                            var $parent = $(selection.focusNode.parentNode);
-                                            return $parent.hasClass('textae-editor__span') || $parent.hasClass('textae-editor__span_block');
+                                        getFocusNodeParent = function(selection) {
+                                            return $(selection.focusNode.parentNode);
                                         },
+                                        hasSpan = function($node) {
+                                            return $node.hasClass('textae-editor__span');
+                                        },
+                                        hasParagraphs = function($node) {
+                                            return $node.hasClass('textae-editor__body__text-box__paragraph');
+                                        },
+                                        hasSpanOrParagraphs = function($node) {
+                                            return hasSpan($node) || hasParagraphs($node);
+                                        },
+                                        isAnchrNodeInSpan = _.compose(hasSpan, getAnchorNodeParent),
+                                        isFocusNodeInSpan = _.compose(hasSpan, getFocusNodeParent),
+                                        isFocusNodeInParagraph = _.compose(hasParagraphs, getFocusNodeParent),
+                                        isAnchrNodeInSpanOrParagraph = _.compose(hasSpanOrParagraphs, getAnchorNodeParent),
                                         isInSameParagraph = function() {
                                             var getParagraph = function($node) {
-                                                    if ($node.hasClass("textae-editor__body__text-box__paragraph")) {
+                                                    if (hasParagraphs($node)) {
                                                         return $node;
                                                     } else {
                                                         return getParagraph($node.parent());
@@ -361,7 +372,9 @@ module.exports = function(editor, model, view, command, spanConfig) {
                                         isEdgeCharactersOnly: isEdgeCharactersOnly,
                                         isInOneParent: isInOneParent,
                                         isAnchrNodeInSpan: isAnchrNodeInSpan,
+                                        isAnchrNodeInSpanOrParagraph: isAnchrNodeInSpanOrParagraph,
                                         isFocusNodeInSpan: isFocusNodeInSpan,
+                                        isFocusNodeInParagraph: isFocusNodeInParagraph,
                                         isInSameParagraph: isInSameParagraph,
                                         isAnchorOneDownUnderForcus: isAnchorOneDownUnderForcus,
                                         isForcusOneDownUnderAnchor: isForcusOneDownUnderAnchor,
@@ -448,6 +461,12 @@ module.exports = function(editor, model, view, command, spanConfig) {
                                                 return;
                                             }
 
+                                            if (!selectionValidator.isAnchrNodeInSpanOrParagraph(selection) ||
+                                                !selectionValidator.isFocusNodeInParagraph(selection)) {
+                                                dismissBrowserSelection();
+                                                return;
+                                            }
+
                                             if (!selectionValidator.isInSameParagraph(selection)) {
                                                 boundaryMiss();
                                                 return;
@@ -474,6 +493,12 @@ module.exports = function(editor, model, view, command, spanConfig) {
                                         },
                                         selectEndOnSpan = function(selection) {
                                             if (selectionValidator.isTripleClick(selection)) {
+                                                return;
+                                            }
+
+                                            if (!selectionValidator.isAnchrNodeInSpanOrParagraph(selection) ||
+                                                !selectionValidator.isFocusNodeInSpan(selection)) {
+                                                dismissBrowserSelection();
                                                 return;
                                             }
 
