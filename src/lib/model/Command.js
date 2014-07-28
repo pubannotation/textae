@@ -163,34 +163,37 @@ module.exports = function(idFactory, model, history, spanConfig) {
                 };
             },
             spanMoveCommand: function(spanId, begin, end) {
+                var subCommands = [],
+                    newSpanId = idFactory.makeSpanId(begin, end),
+                    d = model.annotationData;
+
+                if (!d.span.get(newSpanId)) {
+                    subCommands.push(factory.spanRemoveCommand(spanId));
+                    subCommands.push(spanCreateCommand({
+                        begin: begin,
+                        end: end
+                    }));
+                    d.span.get(spanId).getTypes().forEach(function(type) {
+                        type.entities.forEach(function(id) {
+                            subCommands.push(factory.entityCreateCommand({
+                                id: id,
+                                span: newSpanId,
+                                type: type.name
+                            }));
+
+                            subCommands = subCommands.concat(
+                                d.entity.assosicatedRelations(id)
+                                .map(d.relation.get)
+                                .map(factory.relationCreateCommand)
+                            );
+                        });
+                    });
+                }
+
                 return {
                     execute: function() {
-                        var subCommands = [];
-                        var newSpanId = idFactory.makeSpanId(begin, end);
-
-                        if (!model.annotationData.span.get(newSpanId)) {
-                            subCommands.push(factory.spanRemoveCommand(spanId));
-                            subCommands.push(spanCreateCommand({
-                                begin: begin,
-                                end: end
-                            }));
-                            model.annotationData.span.get(spanId).getTypes().forEach(function(type) {
-                                type.entities.forEach(function(entityId) {
-                                    subCommands.push(factory.entityCreateCommand({
-                                        id: entityId,
-                                        span: newSpanId,
-                                        type: type.name
-                                    }));
-                                });
-                            });
-                        }
-
                         executeSubCommands(subCommands);
-
-                        var oldBeginEnd = idFactory.parseSpanId(spanId);
-                        this.revert = _.partial(factory.spanMoveCommand, newSpanId, oldBeginEnd.begin, oldBeginEnd.end);
-
-                        debugLog('move a span, spanId:' + spanId + ', newBegin:' + begin + ', newEnd:' + end);
+                        setRevertAndLog('span', this, 'move', spanId, subCommands);
                     }
                 };
             },
