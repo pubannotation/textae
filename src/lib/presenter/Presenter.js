@@ -279,15 +279,10 @@ module.exports = function(editor, model, view, command, spanConfig) {
                             };
                         }(),
                         noRelationEdit: function() {
-                            var spanAdjuster = require('./SpanAdjuster')(spanConfig, model.annotationData),
-                                selectionValidator = function(model, spanConfig) {
-                                    var domUtil = require('../util/DomUtil')(editor),
-                                        isTripleClick = function(selection) {
-                                            // The Both node is not TextNode( nodeType == 3 ) either.
-                                            // This occurs by triple-clicks of a text.
-                                            return selection.anchorNode.nodeType !== 3 || selection.focusNode.nodeType !== 3;
-                                        },
-                                        isEdgeCharactersOnly = function(selection) {
+                            var selectionValidator = function(editor, model, spanConfig) {
+                                    var spanAdjuster = require('./SpanAdjuster')(spanConfig, model.annotationData),
+                                        domUtil = require('../util/DomUtil')(editor),
+                                        hasCharacters = function(selection) {
                                             var positions = spanAdjuster.toPositions(selection);
 
                                             // A span cannot be created include nonEdgeCharacters only.
@@ -296,7 +291,7 @@ module.exports = function(editor, model, view, command, spanConfig) {
                                                 stringWithoutNonEdgeCharacters = stringWithoutNonEdgeCharacters.replace(char, '');
                                             });
 
-                                            return stringWithoutNonEdgeCharacters.length === 0;
+                                            return stringWithoutNonEdgeCharacters.length > 0;
                                         },
                                         isInOneParent = function(selection) {
                                             // A span can be created at the same parent node.
@@ -362,14 +357,36 @@ module.exports = function(editor, model, view, command, spanConfig) {
                                         isFocusOnSelectedSpan = function(selection) {
                                             return selection.focusNode.parentNode.id === model.selectionModel.span.single();
                                         },
+                                        isFocusInSelectedSpan = function(selection) {
+                                            return isInSelectedSpan(spanAdjuster.getFocusPosition(selection));
+                                        },
                                         isSelectedSpanOneDownUnderFocus = function(selection) {
                                             var selectedSpanId = model.selectionModel.span.single();
                                             return domUtil.selector.span.get(selectedSpanId).parent().attr('id') === selection.focusNode.parentNode.id;
+                                        },
+                                        isLongerThanParentSpan = function(selection) {
+                                            var $getAnchorNodeParent = getAnchorNodeParent(selection),
+                                                focusPosition = spanAdjuster.getFocusPosition(selection);
+
+                                            if (hasSpan($getAnchorNodeParent) && $getAnchorNodeParent.parent() && hasSpan($getAnchorNodeParent.parent())) {
+                                                var span = model.annotationData.span.get($getAnchorNodeParent.parent().attr('id'));
+                                                if (focusPosition < span.begin || span.end < focusPosition)
+                                                    return true;
+                                            }
+                                        },
+                                        isShorterThanChildSpan = function(selection) {
+                                            var $getFocusNodeParent = getFocusNodeParent(selection),
+                                                anchorPosition = spanAdjuster.getAnchorPosition(selection);
+
+                                            if (hasSpan($getFocusNodeParent) && $getFocusNodeParent.parent() && hasSpan($getFocusNodeParent.parent())) {
+                                                var span = model.annotationData.span.get($getFocusNodeParent.parent().attr('id'));
+                                                if (anchorPosition < span.begin || span.end < anchorPosition)
+                                                    return true;
+                                            }
                                         };
 
                                     return {
-                                        isTripleClick: isTripleClick,
-                                        isEdgeCharactersOnly: isEdgeCharactersOnly,
+                                        hasCharacters: hasCharacters,
                                         isInOneParent: isInOneParent,
                                         isAnchrNodeInSpan: isAnchrNodeInSpan,
                                         isAnchrNodeInSpanOrParagraph: isAnchrNodeInSpanOrParagraph,
@@ -380,164 +397,216 @@ module.exports = function(editor, model, view, command, spanConfig) {
                                         isForcusOneDownUnderAnchor: isForcusOneDownUnderAnchor,
                                         isAnchorInSelectedSpan: isAnchorInSelectedSpan,
                                         isFocusOnSelectedSpan: isFocusOnSelectedSpan,
-                                        isSelectedSpanOneDownUnderFocus: isSelectedSpanOneDownUnderFocus
+                                        isFocusInSelectedSpan: isFocusInSelectedSpan,
+                                        isSelectedSpanOneDownUnderFocus: isSelectedSpanOneDownUnderFocus,
+                                        isLongerThanParentSpan: isLongerThanParentSpan,
+                                        isShorterThanChildSpan: isShorterThanChildSpan
                                     };
-                                }(model, spanConfig),
-                                spanManipulater = require('./SpanManipulater')(editor, spanConfig, model, command, view.viewModel),
+                                }(editor, model, spanConfig),
                                 selectEnd = function() {
-                                    var boundaryMiss = function() {
+                                    var spanManipulater = require('./SpanManipulater')(spanConfig, model),
+                                        boundaryMiss = function() {
                                             alert('It is ambiguous for which span you want to adjust the boundary. Select the span, and try again.');
                                             dismissBrowserSelection();
                                         },
-                                        expaneAnchorSpan = function(selection) {
-                                            // To expand the span , belows are needed:
-                                            // 1. The anchorNode is in the span.
-                                            // 2. The foucusNode is out of the span and in the parent of the span.
-                                            spanManipulater.expand(selection.anchorNode.parentNode.id, selection);
-                                        },
-                                        expandSelectedSpan = function(selection) {
-                                            // cf.
-                                            // 1. one side of a inner span  is same with one side of the outside span.
-                                            // 2. Select an outside span.
-                                            // 3. Begin Drug from an inner span to out of an outside span. 
-                                            // Expand the selected span.
-                                            var selectedSpanId = model.selectionModel.span.single();
-                                            spanManipulater.expand(selectedSpanId, selection);
-                                        },
-                                        doExpand = function(selection) {
-                                            if (selectionValidator.isAnchorOneDownUnderForcus(selection)) {
-                                                expaneAnchorSpan(selection);
+                                        idFactory = require('../util/IdFactory')(editor),
+                                        moveSpan = function(spanId, begin, end) {
+                                            // Do not need move.
+                                            if (spanId === idFactory.makeSpanId(begin, end)) {
                                                 return;
                                             }
 
-                                            // If a span is selected, it is able to begin drag a span in the span and expand the span.
-                                            if (selectionValidator.isAnchorInSelectedSpan(selection)) {
-                                                // The focus node should be at one level above the selected node.
-                                                if (selectionValidator.isSelectedSpanOneDownUnderFocus(selection)) {
-                                                    expandSelectedSpan(selection);
-                                                } else {
-                                                    // cf.
-                                                    // 1. Select an inner span.
-                                                    // 2. Begin Drug from an inner span to out of an outside span. 
-                                                    // To expand the selected span is disable.
+                                            return [command.factory.spanMoveCommand(spanId, begin, end)];
+                                        },
+                                        removeSpan = function(spanId) {
+                                            return [command.factory.spanRemoveCommand(spanId)];
+                                        },
+                                        doCreate = function(selection) {
+                                            var BLOCK_THRESHOLD = 100,
+                                                newSpan = spanManipulater.create(selection);
+
+                                            // The span cross exists spans.
+                                            if (model.annotationData.isBoundaryCrossingWithOtherSpans({
+                                                begin: newSpan.begin,
+                                                end: newSpan.end
+                                            })) {
+                                                dismissBrowserSelection();
+                                                return;
+                                            }
+
+                                            // The span exists already.
+                                            var spanId = idFactory.makeSpanId(newSpan.begin, newSpan.end);
+                                            if (model.annotationData.span.get(spanId)) {
+                                                dismissBrowserSelection();
+                                                return;
+                                            }
+
+                                            var commands = [command.factory.spanCreateCommand(
+                                                view.viewModel.typeContainer.entity.getDefaultType(), {
+                                                    begin: newSpan.begin,
+                                                    end: newSpan.end
+                                                }
+                                            )];
+
+                                            if (view.viewModel.modeAccordingToButton['replicate-auto'].value() && newSpan.end - newSpan.begin <= BLOCK_THRESHOLD) {
+                                                commands.push(command.factory.spanReplicateCommand(
+                                                    view.viewModel.typeContainer.entity.getDefaultType(), {
+                                                        begin: newSpan.begin,
+                                                        end: newSpan.end
+                                                    }));
+                                            }
+
+                                            command.invoke(commands);
+                                            dismissBrowserSelection();
+                                        },
+                                        doExpand = function() {
+                                            var expandSpanToSelection = function(spanId, selection) {
+                                                var newSpan = spanManipulater.expand(spanId, selection);
+
+                                                // The span cross exists spans.
+                                                if (model.annotationData.isBoundaryCrossingWithOtherSpans({
+                                                    begin: newSpan.begin,
+                                                    end: newSpan.end
+                                                })) {
                                                     alert('A span cannot be expanded to make a boundary crossing.');
                                                     dismissBrowserSelection();
+                                                    return;
                                                 }
-                                                return;
-                                            }
 
-                                            console.log('lllllllllll');
-                                            boundaryMiss();
-                                        },
-                                        shrinkFocusSpan = function(selection) {
-                                            // To shrink the span , belows are needed:
-                                            // 1. The anchorNode out of the span and in the parent of the span.
-                                            // 2. The foucusNode is in the span.
-                                            spanManipulater.shrink(selection.focusNode.parentNode.id, selection);
-                                        },
-                                        shrinkSelectedSpan = function(selection) {
-                                            // If a span is selected, it is able to begin drag out of an outer span of the span and shrink the span.
-                                            // The focus node should be at the selected node.
-                                            if (selectionValidator.isFocusOnSelectedSpan(selection)) {
-                                                // cf.
-                                                // 1. Select an inner span.
-                                                // 2. Begin Drug from out of an outside span to the selected span. 
-                                                // Shrink the selected span.
-                                                var selectedSpanId = model.selectionModel.span.single();
-                                                spanManipulater.shrink(selectedSpanId, selection);
-                                                return;
-                                            } else {
-                                                // cf.
-                                                // 1. Select an outside span.
-                                                // 2. Begin Drug from out of an outside span to an inner span. 
-                                                // To shrink the selected span is disable.
-                                                alert('A span cannot be shrinked to make a boundary crossing.');
+                                                var commands = moveSpan(spanId, newSpan.begin, newSpan.end);
+                                                command.invoke(commands);
                                                 dismissBrowserSelection();
-                                                return;
-                                            }
-                                        },
+                                            };
+
+                                            return function(selection) {
+                                                // If a span is selected, it is able to begin drag a span in the span and expand the span.
+                                                // The focus node should be at one level above the selected node.
+                                                if (selectionValidator.isAnchorInSelectedSpan(selection)) {
+                                                    // cf.
+                                                    // 1. one side of a inner span is same with one side of the outside span.
+                                                    // 2. Select an outside span.
+                                                    // 3. Begin Drug from an inner span to out of an outside span. 
+                                                    // Expand the selected span.
+                                                    expandSpanToSelection(model.selectionModel.span.single(), selection);
+                                                } else if (selectionValidator.isAnchorOneDownUnderForcus(selection)) {
+                                                    // To expand the span , belows are needed:
+                                                    // 1. The anchorNode is in the span.
+                                                    // 2. The foucusNode is out of the span and in the parent of the span.
+                                                    expandSpanToSelection(selection.anchorNode.parentNode.id, selection);
+                                                }
+                                                return selection;
+                                            };
+                                        }(),
+                                        doShrink = function() {
+                                            var shrinkSpanToSelection = function(spanId, selection) {
+                                                var newSpan = spanManipulater.shrink(spanId, selection);
+
+                                                // The span cross exists spans.
+                                                if (model.annotationData.isBoundaryCrossingWithOtherSpans({
+                                                    begin: newSpan.begin,
+                                                    end: newSpan.end
+                                                })) {
+                                                    alert('A span cannot be shrinked to make a boundary crossing.');
+                                                    dismissBrowserSelection();
+                                                    return;
+                                                }
+
+                                                var newSpanId = idFactory.makeSpanId(newSpan.begin, newSpan.end),
+                                                    sameSpan = model.annotationData.span.get(newSpanId),
+                                                    commands = newSpan.begin < newSpan.end && !sameSpan ?
+                                                    moveSpan(spanId, newSpan.begin, newSpan.end) :
+                                                    removeSpan(spanId);
+
+                                                command.invoke(commands);
+                                                dismissBrowserSelection();
+                                            };
+
+                                            return function(selection) {
+                                                if (selectionValidator.isFocusInSelectedSpan(selection)) {
+                                                    // If a span is selected, it is able to begin drag out of an outer span of the span and shrink the span.
+                                                    // The focus node should be at the selected node.
+                                                    // cf.
+                                                    // 1. Select an inner span.
+                                                    // 2. Begin Drug from out of an outside span to the selected span. 
+                                                    // Shrink the selected span.
+                                                    shrinkSpanToSelection(model.selectionModel.span.single(), selection);
+                                                } else if (selectionValidator.isForcusOneDownUnderAnchor(selection)) {
+                                                    // To shrink the span , belows are needed:
+                                                    // 1. The anchorNode out of the span and in the parent of the span.
+                                                    // 2. The foucusNode is in the span.
+                                                    shrinkSpanToSelection(selection.focusNode.parentNode.id, selection);
+                                                }
+                                                return selection;
+                                            };
+                                        }(),
+                                        validate = function() {
+                                            var doUnless = function(doFunc, predicate, selection) {
+                                                    if (selection && !predicate(selection)) {
+                                                        doFunc();
+                                                    } else {
+                                                        return selection;
+                                                    }
+                                                },
+                                                cancelSelectionUnless = _.partial(doUnless, dismissBrowserSelection),
+                                                validateAnchrNodeInSpanOrParagraph = _.partial(cancelSelectionUnless, selectionValidator.isAnchrNodeInSpanOrParagraph),
+                                                validateFocusNodeInParagraph = _.partial(cancelSelectionUnless, selectionValidator.isFocusNodeInParagraph),
+                                                validateFocusNodeInSpan = _.partial(cancelSelectionUnless, selectionValidator.isFocusNodeInSpan),
+                                                validateInSameParagrarh = _.partial(doUnless, boundaryMiss, selectionValidator.isInSameParagraph),
+                                                validateHasCharactor = _.partial(cancelSelectionUnless, selectionValidator.hasCharacters),
+                                                commonValidate = _.partial(
+                                                    _.compose,
+                                                    validateHasCharactor,
+                                                    validateInSameParagrarh,
+                                                    validateAnchrNodeInSpanOrParagraph
+                                                ),
+                                                validateOnText = commonValidate(
+                                                    validateFocusNodeInParagraph
+                                                ),
+                                                validateOnSpan = commonValidate(
+                                                    validateFocusNodeInSpan
+                                                );
+
+                                            return {
+                                                validateOnText: validateOnText,
+                                                validateOnSpan: validateOnSpan
+                                            };
+                                        }(),
                                         selectEndOfText = function(selection) {
-                                            if (selectionValidator.isTripleClick(selection)) {
-                                                // Cancel selection of a paragraph.
-                                                dismissBrowserSelection();
-                                                return;
-                                            }
-
-                                            if (!selectionValidator.isAnchrNodeInSpanOrParagraph(selection) ||
-                                                !selectionValidator.isFocusNodeInParagraph(selection)) {
-                                                dismissBrowserSelection();
-                                                return;
-                                            }
-
-                                            if (!selectionValidator.isInSameParagraph(selection)) {
-                                                boundaryMiss();
-                                                return;
-                                            }
-
-                                            if (selectionValidator.isEdgeCharactersOnly(selection)) {
-                                                dismissBrowserSelection();
-                                                return;
-                                            }
+                                            selection = validate.validateOnText(selection);
+                                            if (!selection) return;
 
                                             if (selectionValidator.isInOneParent(selection)) {
-                                                spanManipulater.create(selection);
-                                                return;
+                                                selection = doCreate(selection);
+                                                if (!selection) return;
                                             }
 
                                             if (selectionValidator.isAnchrNodeInSpan(selection)) {
-                                                doExpand(selection);
-                                                return;
+                                                selection = doExpand(selection);
+                                                if (!selection) return;
                                             }
 
-                                            console.log('aoeuaoeuaoeua');
-                                            boundaryMiss();
-                                            return;
+                                            if (selection) dismissBrowserSelection();
                                         },
                                         selectEndOnSpan = function(selection) {
-                                            if (selectionValidator.isTripleClick(selection)) {
-                                                return;
-                                            }
-
-                                            if (!selectionValidator.isAnchrNodeInSpanOrParagraph(selection) ||
-                                                !selectionValidator.isFocusNodeInSpan(selection)) {
-                                                dismissBrowserSelection();
-                                                return;
-                                            }
-
-                                            if (!selectionValidator.isInSameParagraph(selection)) {
-                                                boundaryMiss();
-                                                return;
-                                            }
-
-                                            if (selectionValidator.isEdgeCharactersOnly(selection)) {
-                                                dismissBrowserSelection();
-                                                return;
-                                            }
+                                            selection = validate.validateOnSpan(selection);
+                                            if (!selection) return;
 
                                             if (selectionValidator.isInOneParent(selection)) {
-                                                spanManipulater.create(selection);
-                                                return;
+                                                selection = doCreate(selection);
+                                                if (!selection) return;
                                             }
-
-                                            if (selectionValidator.isForcusOneDownUnderAnchor(selection)) {
-                                                shrinkFocusSpan(selection);
-                                                return;
-                                            }
-
-                                            if (selectionValidator.isFocusOnSelectedSpan(selection)) {
-                                                shrinkSelectedSpan(selection);
-                                                return;
-                                            }
-
-
 
                                             if (selectionValidator.isAnchrNodeInSpan(selection)) {
-                                                doExpand(selection);
-                                                return;
+                                                selection = doExpand(selection);
+                                                if (!selection) return;
                                             }
 
-                                            console.log('AAAAAAAA');
-                                            boundaryMiss();
+                                            if (selectionValidator.isFocusNodeInSpan(selection)) {
+                                                selection = doShrink(selection);
+                                                if (!selection) return;
+                                            }
+
+                                            if (selection) dismissBrowserSelection();
                                         };
                                     return {
                                         onText: selectEndOfText,
