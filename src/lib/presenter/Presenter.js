@@ -458,6 +458,8 @@ module.exports = function(editor, model, view, command, spanConfig) {
                                         },
                                         selectEndOfText = function(selection) {
                                             if (selectionValidator.isTripleClick(selection)) {
+                                                // Cancel selection of a paragraph.
+                                                dismissBrowserSelection();
                                                 return;
                                             }
 
@@ -542,7 +544,7 @@ module.exports = function(editor, model, view, command, spanConfig) {
                                         onSpan: selectEndOnSpan
                                     };
                                 }(),
-                                bodyClicked = function(e) {
+                                bodyClicked = function() {
                                     var selection = window.getSelection();
 
                                     // No select
@@ -551,7 +553,6 @@ module.exports = function(editor, model, view, command, spanConfig) {
                                     } else {
                                         selectEnd.onText(selection);
                                     }
-                                    return;
                                 },
                                 selectSpan = function(event) {
                                     var firstId = model.selectionModel.span.single();
@@ -576,12 +577,14 @@ module.exports = function(editor, model, view, command, spanConfig) {
                                     // No select
                                     if (selection.isCollapsed) {
                                         selectSpan(event);
+                                        return false;
                                     } else {
                                         selectEnd.onSpan(selection);
+                                        // Cancel selection of a paragraph.
+                                        // And do non propagate the parent span.
+                                        event.stopPropagation();
                                     }
-                                    return false;
                                 },
-                                wordSpanClicked = spanClicked,
                                 labelOrPaneClicked = function(ctrlKey, $typeLabel, $entities) {
                                     var selectEntities = function($entities) {
                                             $entities.each(function() {
@@ -628,7 +631,7 @@ module.exports = function(editor, model, view, command, spanConfig) {
                             return function() {
                                 unbindAllEventhandler()
                                     .on('mouseup', '.textae-editor__body', bodyClicked)
-                                    .on('mouseup', '.textae-editor__span', wordSpanClicked)
+                                    .on('mouseup', '.textae-editor__span', spanClicked)
                                     .on('mouseup', '.textae-editor__type-label', typeLabelClicked)
                                     .on('mouseup', '.textae-editor__entity-pane', entityPaneClicked)
                                     .on('mouseup', '.textae-editor__entity', entityClicked);
