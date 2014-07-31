@@ -263,8 +263,9 @@ module.exports = function(editor, model) {
                             .removeClass('textae-editor_relation-mode')
                             .addClass('textae-editor_' + mode + '-mode');
                     },
-                    setRelationEditButtonPushed = function(push) {
-                        viewModel.modeAccordingToButton['relation-edit-mode'].value(push);
+                    setControlButtonForRelation = function(isRelation) {
+                        viewModel.buttonStateHelper.enabled('replicate-auto', !isRelation);
+                        viewModel.modeAccordingToButton['relation-edit-mode'].value(isRelation);
                     },
                     // This notify is off at relation-edit-mode.
                     entitySelectChanged = _.compose(buttonStateHelper.updateByEntity, selector.entityLabel.update);
@@ -280,7 +281,7 @@ module.exports = function(editor, model) {
                     },
                     setTerm: function() {
                         changeCssClass('term');
-                        setRelationEditButtonPushed(false);
+                        setControlButtonForRelation(false);
 
                         viewModel.viewMode.marginBottomOfGrid = 0;
 
@@ -294,7 +295,7 @@ module.exports = function(editor, model) {
                     },
                     setInstance: function() {
                         changeCssClass('instance');
-                        setRelationEditButtonPushed(false);
+                        setControlButtonForRelation(false);
 
                         viewModel.viewMode.marginBottomOfGrid = 2;
 
@@ -308,7 +309,7 @@ module.exports = function(editor, model) {
                     },
                     setRelation: function() {
                         changeCssClass('relation');
-                        setRelationEditButtonPushed(true);
+                        setControlButtonForRelation(true);
 
                         viewModel.viewMode.marginBottomOfGrid = 2;
 
