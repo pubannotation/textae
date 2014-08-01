@@ -405,10 +405,10 @@ module.exports = function(editor, model, view, command, spanConfig) {
                                 // Change view mode accoding to the annotation data.
                                 if (model.annotationData.relation.some() || model.annotationData.span.multiEntities().length > 0) {
                                     setViewMode(prefix + 'Instance');
-                                    view.helper.calculateLineHeight(36);
+                                    view.helper.calculateLineHeight();
                                 } else {
                                     setViewMode(prefix + 'Term');
-                                    view.helper.calculateLineHeight(18);
+                                    view.helper.calculateLineHeight();
                                 }
                             };
 

@@ -363,6 +363,7 @@ module.exports = function(editor, model) {
             ).forEach(function(connect) {
                 connect.arrangePosition();
             });
+            return span;
         };
 
         var getGrid = function(span) {
@@ -375,7 +376,6 @@ module.exports = function(editor, model) {
             if (newPosition) {
                 getGrid(span).css(newPosition);
                 domPositionUtils.setGrid(span.id, newPosition);
-                arrangeRelationPosition(span);
                 return span;
             }
         };
@@ -398,7 +398,8 @@ module.exports = function(editor, model) {
                             return getHeightIncludeDescendantGrids(childSpan);
                         }));
 
-                    return getGrid(span).outerHeight() + descendantsMaxHeight + viewModel.viewMode.marginBottomOfGrid;
+                    var gridHeight = span.getTypes().length * (viewModel.viewMode.isTerm() ? 18 : 36);
+                    return gridHeight + descendantsMaxHeight + viewModel.viewMode.marginBottomOfGrid;
                 };
 
                 var spanPosition = domPositionUtils.getSpan(span.id);
@@ -423,39 +424,37 @@ module.exports = function(editor, model) {
             }
         };
 
-        var visibleGrid = function(grid) {
+        var showGrid = function(grid) {
             if (grid) {
                 grid.removeClass('hidden');
             }
         };
 
         var arrangeGridPosition = function(span) {
-            var moveTheGridIfChange = _.compose(_.partial(updateGridPositon, span), _.partial(filterChanged, span));
-            _.compose(visibleGrid, filterVisibleGrid, getGrid, moveTheGridIfChange, getNewPosition)(span);
-        };
+            var moveTheGridIfChange = _.compose(_.partial(updateGridPositon, span), _.partial(filterChanged, span), getNewPosition),
+                showInvisibleGrid = _.compose(showGrid, filterVisibleGrid, getGrid);
 
-        var arrangePositionGridAndoDescendant = function(span) {
-            // Arrange position All descendants because a grandchild maybe have types when a child has no type. 
-            span.children
-                .forEach(function(span) {
-                    arrangePositionGridAndoDescendant(span);
-                });
-
-            // There is at least one type in span that has a grid.
-            if (span.getTypes().length > 0) {
-                arrangeGridPosition(span);
+            // The span may be remeved because this functon is call asynchronously.
+            if (model.annotationData.span.get(span.id)) {
+                // Move all relations because entities are increased or decreased unless the grid is moved.  
+                _.compose(showInvisibleGrid, moveTheGridIfChange, arrangeRelationPosition)(span);
             }
         };
 
         var arrangePositionAll = function() {
             domPositionUtils.reset();
-            model.annotationData.span.topLevel()
+
+            model.annotationData.span.all()
+                .filter(function(span) {
+                    // There is at least one type in span that has a grid.
+                    return span.getTypes().length > 0;
+                })
                 .forEach(function(span) {
-                    _.defer(_.partial(arrangePositionGridAndoDescendant, span));
+                    _.defer(_.partial(arrangeGridPosition, span));
                 });
         };
 
-        var updateDisplay = _.throttle(arrangePositionAll, 10);
+        var updateDisplay = _.debounce(arrangePositionAll, 10);
 
         renderer.bind('change', updateDisplay);
 
@@ -492,27 +491,30 @@ module.exports = function(editor, model) {
                     'padding-top': heightValue / 2 + 'px'
                 });
             },
-            calculateLineHeight = function(heightOfType) {
+            calculateLineHeight = function() {
                 var TEXT_HEIGHT = 23,
                     MARGIN_TOP = 6,
-                    MINIMUM_HEIGHT = 16 * 4;
-                var maxHeight = _.max(model.annotationData.span.all()
-                    .map(function(span) {
-                        var height = TEXT_HEIGHT + MARGIN_TOP;
-                        var countHeight = function(span) {
-                            // Grid height is height of types and margin bottom of the grid.
-                            height += span.getTypes().length * heightOfType + viewModel.viewMode.marginBottomOfGrid;
-                            if (span.parent) {
-                                countHeight(span.parent);
-                            }
-                        };
+                    MINIMUM_HEIGHT = 16 * 4,
+                    heightOfType = viewModel.viewMode.isTerm() ? 18 : 36,
+                    maxHeight = _.max(model.annotationData.span.all()
+                        .map(function(span) {
+                            var height = TEXT_HEIGHT + MARGIN_TOP;
+                            var countHeight = function(span) {
+                                // Grid height is height of types and margin bottom of the grid.
+                                height += span.getTypes().length * heightOfType + viewModel.viewMode.marginBottomOfGrid;
+                                if (span.parent) {
+                                    countHeight(span.parent);
+                                }
+                            };
 
-                        countHeight(span);
+                            countHeight(span);
 
-                        return height;
-                    }).concat(MINIMUM_HEIGHT)
-                );
+                            return height;
+                        }).concat(MINIMUM_HEIGHT)
+                    );
+
                 changeLineHeight(maxHeight);
+                layoutManager.updateDisplay();
             };
 
         return {

@@ -79,6 +79,8 @@ module.exports = function(editor, model, domPositionUtils, domUtil, viewModel, m
 					};
 				},
 				isGridPrepared = function(relationId) {
+					if (!model.annotationData.relation.get(relationId)) return;
+
 					var anchors = toAnchors(relationId);
 					return domPositionUtils.gridPositionCache.isGridPrepared(anchors.sourceId) &&
 						domPositionUtils.gridPositionCache.isGridPrepared(anchors.targetId);
@@ -226,7 +228,7 @@ module.exports = function(editor, model, domPositionUtils, domUtil, viewModel, m
 						ExtendModule = function(connect) {
 							var relationId = connect.getParameter('id'),
 								arrangePosition = function(relationId) {
-									// The grid may be destroyed when the spas was moved repetitively by undo or redo.   
+									// The grid may be destroyed when the spans was moved repetitively by undo or redo.   
 									if (!isGridPrepared(relationId)) {
 										return;
 									}
