@@ -150,9 +150,7 @@ module.exports = function(editor, confirmDiscardChangeMessage) {
                         },
                         saveAnnotationToServer = function(url, jsonData) {
                             cursorChanger.startWait();
-                            ajaxAccessor.post(url, {
-                                annotations: jsonData
-                            }, showSaveSuccess, showSaveError, function() {
+                            ajaxAccessor.post(url, jsonData, showSaveSuccess, showSaveError, function() {
                                 cursorChanger.endWait();
                             });
                         },
