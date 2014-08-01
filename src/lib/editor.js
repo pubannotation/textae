@@ -90,17 +90,12 @@ module.exports = function() {
 
                 // Bind user input event to handler
                 editor
-                    .on('mouseup', '.textae-editor__body,.textae-editor__span,.textae-editor__grid,.textae-editor__entity', presenter.editorSelected)
+                    .on('mouseup', '.textae-editor__body,.textae-editor__span,.textae-editor__grid,.textae-editor__entity', presenter.event.editorSelected)
                     .on('mouseenter', '.textae-editor__entity', function(e) {
                         view.hoverRelation.on($(this).attr('title'));
                     }).on('mouseleave', '.textae-editor__entity', function(e) {
                         view.hoverRelation.off($(this).attr('title'));
                     });
-
-                // The jsPlumbConnetion has an original event mecanism.
-                // We can only bind the connection directory.
-                editor
-                    .on('textae.editor.jsPlumbConnection.add', presenter.jsPlumbConnectionAdded);
 
                 history.bind('change', function(state) {
                     //change button state
@@ -113,8 +108,6 @@ module.exports = function() {
                         return confirmDiscardChangeMessage;
                     } : null;
                 });
-
-                presenter.userEvent.viewHandler.init();
             }
         };
     }(this);
@@ -181,7 +174,7 @@ module.exports = function() {
                             if (annotation.inlineAnnotation) {
                                 // Set an inline annotation.
                                 resetData(JSON.parse(annotation.inlineAnnotation));
-                                _.defer(presenter.userEvent.viewHandler.redraw);
+                                _.defer(presenter.event.redraw);
                             } else if (annotation.url) {
                                 // Load an annotation from server.
                                 dataAccessObject.getAnnotationFromServer(annotation.url);
@@ -191,7 +184,7 @@ module.exports = function() {
 
                 return function(params, dataAccessObject) {
                     setConfig(params);
-                    presenter.userEvent.viewHandler.bindChangeViewMode(params.mode);
+                    presenter.bindChangeViewMode(params.mode);
                     loadAnnotation(params, dataAccessObject);
                 };
             }(),
@@ -214,46 +207,46 @@ module.exports = function() {
                     },
                     keyApiMap = {
                         'A': showAccess,
-                        'C': presenter.userEvent.editHandler.copyEntities,
-                        'D': presenter.userEvent.editHandler.removeSelectedElements,
-                        'DEL': presenter.userEvent.editHandler.removeSelectedElements,
-                        'E': presenter.userEvent.editHandler.createEntity,
-                        'Q': presenter.userEvent.viewHandler.showPallet,
-                        'R': presenter.userEvent.editHandler.replicate,
+                        'C': presenter.event.copyEntities,
+                        'D': presenter.event.removeSelectedElements,
+                        'DEL': presenter.event.removeSelectedElements,
+                        'E': presenter.event.createEntity,
+                        'Q': presenter.event.showPallet,
+                        'R': presenter.event.replicate,
                         'S': showSave,
-                        'V': presenter.userEvent.editHandler.pasteEntities,
-                        'W': presenter.userEvent.editHandler.newLabel,
+                        'V': presenter.event.pasteEntities,
+                        'W': presenter.event.newLabel,
                         'X': command.redo,
                         'Y': command.redo,
                         'Z': command.undo,
-                        'ESC': presenter.userEvent.viewHandler.cancelSelect,
-                        'LEFT': presenter.userEvent.viewHandler.selectLeftSpan,
-                        'RIGHT': presenter.userEvent.viewHandler.selectRightSpan,
+                        'ESC': presenter.event.cancelSelect,
+                        'LEFT': presenter.event.selectLeftSpan,
+                        'RIGHT': presenter.event.selectRightSpan,
                     },
                     iconApiMap = {
                         'textae.control.button.read.click': showAccess,
                         'textae.control.button.write.click': showSave,
                         'textae.control.button.undo.click': command.undo,
                         'textae.control.button.redo.click': command.redo,
-                        'textae.control.button.replicate.click': presenter.userEvent.editHandler.replicate,
+                        'textae.control.button.replicate.click': presenter.event.replicate,
                         'textae.control.button.replicate_auto.click': view.viewModel.modeAccordingToButton['replicate-auto'].toggle,
-                        'textae.control.button.relation_edit_mode.click': presenter.userEvent.viewHandler.toggleRelationEditMode,
-                        'textae.control.button.entity.click': presenter.userEvent.editHandler.createEntity,
-                        'textae.control.button.change_label.click': presenter.userEvent.editHandler.newLabel,
-                        'textae.control.button.pallet.click': presenter.userEvent.viewHandler.showPallet,
-                        'textae.control.button.negation.click': presenter.userEvent.editHandler.negation,
-                        'textae.control.button.speculation.click': presenter.userEvent.editHandler.speculation,
-                        'textae.control.button.delete.click': presenter.userEvent.editHandler.removeSelectedElements,
-                        'textae.control.button.copy.click': presenter.userEvent.editHandler.copyEntities,
-                        'textae.control.button.paste.click': presenter.userEvent.editHandler.pasteEntities,
-                        'textae.control.button.setting.click': presenter.userEvent.viewHandler.showSettingDialog
+                        'textae.control.button.relation_edit_mode.click': presenter.event.toggleRelationEditMode,
+                        'textae.control.button.entity.click': presenter.event.createEntity,
+                        'textae.control.button.change_label.click': presenter.event.newLabel,
+                        'textae.control.button.pallet.click': presenter.event.showPallet,
+                        'textae.control.button.negation.click': presenter.event.negation,
+                        'textae.control.button.speculation.click': presenter.event.speculation,
+                        'textae.control.button.delete.click': presenter.event.removeSelectedElements,
+                        'textae.control.button.copy.click': presenter.event.copyEntities,
+                        'textae.control.button.paste.click': presenter.event.pasteEntities,
+                        'textae.control.button.setting.click': presenter.event.showSettingDialog
                     };
 
                 // Update APIs
                 editor.api = {
                     handleKeyInput: _.partial(handle, keyApiMap),
                     handleButtonClick: _.partial(handle, iconApiMap),
-                    redraw: presenter.userEvent.viewHandler.redraw
+                    redraw: presenter.event.redraw
                 };
             },
             start = function start(editor) {
@@ -262,6 +255,7 @@ module.exports = function() {
 
                 view.init();
                 controller.init(CONFIRM_DISCARD_CHANGE_MESSAGE);
+                presenter.init();
 
                 var dataAccessObject = initDao(CONFIRM_DISCARD_CHANGE_MESSAGE);
 
