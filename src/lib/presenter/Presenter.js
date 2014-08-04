@@ -129,16 +129,18 @@ module.exports = function(editor, model, view, command, spanConfig) {
                                 }().concat(
                                     model.selectionModel.entity.all()
                                 )
-                            );
+                            ).map(function(entityId) {
+                                // Map entities to types, because entities may be delete.
+                                return model.annotationData.entity.get(entityId).type;
+                            });
                         },
                         pasteEntities: function() {
-                            // Make commands per selected spans from entities in clipBord. 
+                            // Make commands per selected spans from types in clipBord. 
                             var commands = _.flatten(model.selectionModel.span.all().map(function(spanId) {
-                                // The view.viewModel.clipBoard has entityIds.
-                                return view.viewModel.clipBoard.map(function(entityId) {
+                                return view.viewModel.clipBoard.map(function(type) {
                                     return command.factory.entityCreateCommand({
                                         span: spanId,
-                                        type: model.annotationData.entity.get(entityId).type
+                                        type: type
                                     });
                                 });
                             }));
