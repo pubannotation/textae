@@ -2,7 +2,7 @@ module.exports = function(editor, model) {
     var selector = require('./Selector')(editor, model);
 
     // Data for view.
-    var viewModel = function() {
+    var viewModel = function(editor, model, selector) {
         var TypeContainer = function(getActualTypesFunction, defaultColor) {
             var definedTypes = {},
                 defaultType = 'something';
@@ -58,14 +58,7 @@ module.exports = function(editor, model) {
         var setContainerDefinedTypes = function(container, newDefinedTypes) {
             // expected newDefinedTypes is an array of object. example of object is {"name": "Regulation","color": "#FFFF66","default": true}.
             if (newDefinedTypes !== undefined) {
-                container.setDefinedTypes(
-                    newDefinedTypes
-                    .map(function(type) {
-                        return type;
-                    })
-                    .reduce(reduce2hash, {})
-                );
-
+                container.setDefinedTypes(newDefinedTypes.reduce(reduce2hash, {}));
                 container.setDefaultType(
                     newDefinedTypes.filter(function(type) {
                         return type["default"] === true;
@@ -336,7 +329,7 @@ module.exports = function(editor, model) {
                 setDefinedRelationTypes: _.partial(setContainerDefinedTypes, relationContaier)
             }
         };
-    }();
+    }(editor, model, selector);
 
     // Render DOM elements conforming with the Model.
     var renderer = require('./Renderer')(editor, model, viewModel);

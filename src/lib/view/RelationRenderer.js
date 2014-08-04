@@ -23,9 +23,11 @@ var makeJsPlumbInstance = function(container) {
 		return labelOverlay;
 	};
 
-module.exports = function(editor, model, domPositionUtils, domUtil, viewModel, modification) {
+module.exports = function(editor, model, viewModel, modification) {
 	// Init a jsPlumb instance.
-	var jsPlumbInstance,
+	var domUtil = require('../util/DomUtil')(editor),
+		domPositionUtils = require('./DomPositionCache')(editor, model),
+		jsPlumbInstance,
 		init = function(container) {
 			jsPlumbInstance = makeJsPlumbInstance(container);
 		},
