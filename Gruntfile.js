@@ -132,8 +132,7 @@ module.exports = function(grunt) {
                   });
 
                   req.on('end', function() {
-                    var decodedBody = require('querystring').parse(fullBody); // decode to object.
-                    require("fs").writeFile(req.url.substr(1) + ".dev_data", decodedBody.annotations); // url as saved filename.
+                    require("fs").writeFile(req.url.substr(1) + ".dev_data", fullBody); // url as saved filename.
                     res.end();
                   });
                 } else {
