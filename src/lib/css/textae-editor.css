@@ -73,6 +73,16 @@
     color: #0000DD;
 }
 
+.textae-editor__span--block {
+    background-color: rgba(255,100,215,0.5);
+    white-space: normal;
+}
+
+.textae-editor__span--block.ui-selected {
+    background-color: rgba(255,100,100,0.9);
+    color: #0000DD;
+}
+
 .textae-editor__grid {
     border-color: #DDDDAA;
     border-style: solid;

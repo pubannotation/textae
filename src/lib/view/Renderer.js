@@ -126,7 +126,7 @@ module.exports = function(editor, model, viewModel) {
                     };
                 }(),
                 entityRenderer = require('./EntityRenderer')(editor, model, viewModel, gridRenderer, modificationRenderer),
-                spanRenderer = require('./SpanRenderer')(editor, model, entityRenderer, gridRenderer),
+                spanRenderer = require('./SpanRenderer')(editor, model, viewModel, entityRenderer, gridRenderer),
                 relationRenderer = require('./RelationRenderer')(editor, model, viewModel, modificationRenderer);
 
             return {
@@ -139,21 +139,32 @@ module.exports = function(editor, model, viewModel) {
                 relation: relationRenderer
             };
         }(),
-        updateDisplayAfter = _.partial(_.compose, function() {
+        triggerChange = function() {
             api.trigger('change');
-        }),
-        renderModification = function(modelType, modification) {
-            var target = model.annotationData[modelType].get(modification.obj);
-            if (target) {
-                rendererImpl[modelType].changeModification(target);
-                viewModel.buttonStateHelper['updateBy' + capitalize(modelType)]();
-            }
-
-            return modification;
         },
-        renderModificationOfEntity = _.partial(renderModification, 'entity'),
-        renderModificationOfRelation = _.partial(renderModification, 'relation'),
-        renderModificationEntityOrRelation = _.compose(renderModificationOfEntity, renderModificationOfRelation),
+        updateDisplayAfter = _.partial(_.compose, triggerChange),
+        updateSpanAfter = function() {
+            var entityToSpan = function(entity) {
+                return model.annotationData.span.get(entity.span);
+            };
+
+            return _.partial(_.compose, triggerChange, rendererImpl.span.change, entityToSpan);
+        }(),
+        renderModificationEntityOrRelation = function() {
+            var renderModification = function(modelType, modification) {
+                    var target = model.annotationData[modelType].get(modification.obj);
+                    if (target) {
+                        rendererImpl[modelType].changeModification(target);
+                        viewModel.buttonStateHelper['updateBy' + capitalize(modelType)]();
+                    }
+
+                    return modification;
+                },
+                renderModificationOfEntity = _.partial(renderModification, 'entity'),
+                renderModificationOfRelation = _.partial(renderModification, 'relation');
+
+            return _.compose(renderModificationOfEntity, renderModificationOfRelation);
+        }(),
         api = require('../util/extendBindable')({
             setModelHandler: function() {
                 rendererImpl.init(getAnnotationArea());
@@ -164,9 +175,9 @@ module.exports = function(editor, model, viewModel) {
                     .bind('span.add', updateDisplayAfter(rendererImpl.span.render))
                     .bind('span.remove', updateDisplayAfter(rendererImpl.span.remove))
                     .bind('span.remove', _.compose(model.selectionModel.span.remove, modelToId))
-                    .bind('entity.add', updateDisplayAfter(rendererImpl.entity.render))
-                    .bind('entity.change', updateDisplayAfter(rendererImpl.entity.change))
-                    .bind('entity.remove', updateDisplayAfter(rendererImpl.entity.remove))
+                    .bind('entity.add', updateSpanAfter(rendererImpl.entity.render))
+                    .bind('entity.change', updateSpanAfter(rendererImpl.entity.change))
+                    .bind('entity.remove', updateSpanAfter(rendererImpl.entity.remove))
                     .bind('entity.remove', _.compose(model.selectionModel.entity.remove, modelToId))
                     .bind('relation.add', rendererImpl.relation.render)
                     .bind('relation.change', rendererImpl.relation.change)

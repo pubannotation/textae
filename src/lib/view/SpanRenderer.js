@@ -53,7 +53,7 @@ var getPosition = function(span, textNodeStartPosition) {
 		return !value;
 	};
 
-module.exports = function(editor, model, entityRenderer, gridRenderer) {
+module.exports = function(editor, model, viewModel, entityRenderer, gridRenderer) {
 	var domUtil = require('../util/DomUtil')(editor),
 		// Get the Range to that new span tag insert.
 		// This function works well when no child span is rendered. 
@@ -85,11 +85,29 @@ module.exports = function(editor, model, entityRenderer, gridRenderer) {
 		renderSingleSpan = function(span) {
 			return appendSpanElement(span, createSpanElement(span));
 		},
+		isBlockSpan = function(span) {
+			return span.getTypes().filter(function(type) {
+				return viewModel.typeContainer.entity.isBlock(type.name);
+			}).length > 0;
+		},
+		renderBlockOfSpan = function(span) {
+			var $span = domUtil.selector.span.get(span.id);
+
+			if (isBlockSpan(span)) {
+				$span.addClass('textae-editor__span--block');
+			} else {
+				$span.removeClass('textae-editor__span--block');
+			}
+
+			return span;
+		},
 		renderEntitiesOfType = function(type) {
 			type.entities.forEach(_.compose(entityRenderer.render, model.annotationData.entity.get));
 		},
 		renderEntitiesOfSpan = function(span) {
-			span.getTypes().forEach(renderEntitiesOfType);
+			span.getTypes()
+				.forEach(renderEntitiesOfType);
+
 			return span;
 		},
 		destroy = function(span) {
@@ -128,10 +146,11 @@ module.exports = function(editor, model, entityRenderer, gridRenderer) {
 			return span;
 		},
 		// Destroy children spans to wrap a TextNode with <span> tag when new span over exists spans.
-		create = _.compose(renderChildresnSpan, renderEntitiesOfSpan, renderSingleSpan, destroyChildrenSpan);
+		create = _.compose(renderChildresnSpan, renderEntitiesOfSpan, renderBlockOfSpan, renderSingleSpan, destroyChildrenSpan);
 
 	return {
 		render: create,
-		remove: destroy
+		remove: destroy,
+		change: renderBlockOfSpan
 	};
 };

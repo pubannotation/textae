@@ -121,23 +121,48 @@ module.exports = function(editor, model, spanConfig, command, viewModel) {
 						selectEnd.onText(selection);
 					}
 				},
-				selectSpan = function(event) {
-					var firstId = model.selectionModel.span.single();
-					if (event.shiftKey && firstId) {
-						//select reange of spans.
-						var secondId = $(event.target).attr('id');
-						model.selectionModel.clear();
-						model.annotationData.span.range(firstId, secondId)
-							.forEach(function(spanId) {
-								model.selectionModel.span.add(spanId);
-							});
-					} else if (event.ctrlKey || event.metaKey) {
-						model.selectionModel.span.toggle(event.target.id);
-					} else {
-						model.selectionModel.clear();
-						model.selectionModel.span.add(event.target.id);
-					}
-				},
+				selectSpan = function() {
+					var getBlockEntities = function(spanId) {
+							return _.flatten(
+								model.annotationData.span.get(spanId)
+								.getTypes()
+								.filter(function(type) {
+									return viewModel.typeContainer.entity.isBlock(type.name);
+								})
+								.map(function(type) {
+									return type.entities;
+								})
+							);
+						},
+						operateSpanWithBlockEntities = function(method, spanId) {
+							model.selectionModel.span[method](spanId);
+							if (editor.find('#' + spanId).hasClass('textae-editor__span--block')) {
+								getBlockEntities(spanId).forEach(model.selectionModel.entity[method]);
+							}
+						},
+						selectSpanWithBlockEnities = _.partial(operateSpanWithBlockEntities, 'add'),
+						toggleSpanWithBlockEnities = _.partial(operateSpanWithBlockEntities, 'toggle');
+
+					return function(event) {
+						var firstId = model.selectionModel.span.single(),
+							target = event.target,
+							id = target.id;
+
+						if (event.shiftKey && firstId) {
+							//select reange of spans.
+							model.selectionModel.clear();
+							model.annotationData.span.range(firstId, id)
+								.forEach(function(spanId) {
+									selectSpanWithBlockEnities(spanId);
+								});
+						} else if (event.ctrlKey || event.metaKey) {
+							toggleSpanWithBlockEnities(id);
+						} else {
+							model.selectionModel.clear();
+							selectSpanWithBlockEnities(id);
+						}
+					};
+				}(),
 				spanClicked = function(event) {
 					var selection = window.getSelection();
 
@@ -193,6 +218,13 @@ module.exports = function(editor, model, spanConfig, command, viewModel) {
 				entityPaneClicked = function(e) {
 					var $typePane = $(e.target);
 					return labelOrPaneClicked(e.ctrlKey || e.metaKey, $typePane.prev(), $typePane.children());
+				},
+				createEntityChangeTypeCommand = function(id, newType) {
+					return command.factory.entityChangeTypeCommand(
+						id,
+						newType,
+						viewModel.typeContainer.entity.isBlock(newType)
+					);
 				};
 
 			return function() {
@@ -205,7 +237,11 @@ module.exports = function(editor, model, spanConfig, command, viewModel) {
 
 				palletConfig.typeContainer = viewModel.typeContainer.entity;
 				getSelectedIdEditable = model.selectionModel.entity.all;
-				changeTypeOfSelected = _.partial(changeType, getSelectedIdEditable, command.factory.entityChangeTypeCommand);
+				changeTypeOfSelected = _.partial(
+					changeType,
+					getSelectedIdEditable,
+					createEntityChangeTypeCommand
+				);
 
 				jsPlumbConnectionClickedImpl = null;
 			};

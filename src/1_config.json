@@ -37,6 +37,7 @@
 		"name": "New"
 	}, {
 		"color": "#0000FF",
-		"name": "Sentence"
+		"name": "Sentence",
+		"type": "block"
 	}]
 }

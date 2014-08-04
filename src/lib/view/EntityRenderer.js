@@ -165,18 +165,27 @@ module.exports = function(editor, model, viewModel, gridRenderer, modification) 
 				arrangePositionOfPane(pane);
 			};
 		}(),
+		createEntityUnlessBlock = function(entity) {
+			if (!viewModel.typeContainer.entity.isBlock(entity.type)) {
+				create(entity);
+			}
+
+			return entity;
+		},
 		selector = require('./Selector')(editor, model),
 		changeTypeOfExists = function(entity) {
 			// Remove an old entity.
 			removeEntityElement(entity);
 
 			// Show a new entity.
-			create(entity);
+			createEntityUnlessBlock(entity);
 
 			// Re-select a new entity instance.
 			if (model.selectionModel.entity.has(entity.id)) {
 				selector.entity.select(entity.id);
 			}
+
+			return entity;
 		},
 		changeModificationOfExists = function(entity) {
 			var $entity = domUtil.selector.entity.get(entity.id);
@@ -190,10 +199,12 @@ module.exports = function(editor, model, viewModel, gridRenderer, modification) 
 				// Destroy an each entity.
 				removeEntityElement(entity);
 			}
+
+			return entity;
 		};
 
 	return {
-		render: create,
+		render: createEntityUnlessBlock,
 		change: changeTypeOfExists,
 		changeModification: changeModificationOfExists,
 		remove: destroy

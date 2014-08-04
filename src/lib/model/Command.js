@@ -127,7 +127,9 @@ module.exports = function(idFactory, model, history, spanConfig) {
                     command.execute();
                 });
             },
-            spanCreateCommand = _.partial(createCommand, 'span', true);
+            spanCreateCommand = _.partial(createCommand, 'span', true),
+            entityChangeTypeCommand = _.partial(changeTypeCommand, 'entity'),
+            relationRemoveCommand = _.partial(removeCommand, 'relation');
 
         return {
             spanCreateCommand: function(type, span) {
@@ -224,11 +226,25 @@ module.exports = function(idFactory, model, history, spanConfig) {
                     }
                 };
             },
-            entityChangeTypeCommand: _.partial(changeTypeCommand, 'entity'),
+            entityChangeTypeCommand: function(id, newType, isRemoveRelations) {
+                var changeType = _.partial(changeTypeCommand, 'entity')(id, newType),
+                    subCommands = isRemoveRelations ?
+                    model.annotationData.entity.assosicatedRelations(id)
+                    .map(factory.relationRemoveCommand)
+                    .concat(changeType) :
+                    [changeType];
+
+                return {
+                    execute: function() {
+                        executeSubCommands(subCommands);
+                        setRevertAndLog('entity', this, 'change', id, subCommands);
+                    }
+                };
+            },
             // The relaitonId is optional set only when revert of the relationRemoveCommand.
             // Set the css class lately, because jsPlumbConnector is no applyed that css class immediately after create.
             relationCreateCommand: _.partial(createCommand, 'relation', true),
-            relationRemoveCommand: _.partial(removeCommand, 'relation'),
+            relationRemoveCommand: relationRemoveCommand,
             relationChangeTypeCommand: _.partial(changeTypeCommand, 'relation'),
             modificationCreateCommand: _.partial(createCommand, 'modification', false),
             modificationRemoveCommand: _.partial(removeCommand, 'modification')
