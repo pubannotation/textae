@@ -128,6 +128,19 @@ module.exports = function(idFactory, model, history, spanConfig) {
                 });
             },
             spanCreateCommand = _.partial(createCommand, 'span', true),
+            entityRemoveCommand = function(id) {
+                var removeEntity = _.partial(removeCommand, 'entity')(id),
+                    removeRelation = model.annotationData.entity.assosicatedRelations(id)
+                    .map(factory.relationRemoveCommand),
+                    subCommands = removeRelation.concat(removeEntity);
+
+                return {
+                    execute: function() {
+                        executeSubCommands(subCommands);
+                        setRevertAndLog('entity', this, 'remove', id, subCommands);
+                    }
+                };
+            },
             entityChangeTypeCommand = _.partial(changeTypeCommand, 'entity'),
             relationRemoveCommand = _.partial(removeCommand, 'relation');
 
@@ -152,7 +165,7 @@ module.exports = function(idFactory, model, history, spanConfig) {
                 var removeSpan = _.partial(removeCommand, 'span')(id),
                     removeEntity = _.flatten(model.annotationData.span.get(id).getTypes().map(function(type) {
                         return type.entities.map(function(entityId) {
-                            return factory.entityRemoveCommand(entityId);
+                            return entityRemoveCommand(entityId);
                         });
                     })),
                     subCommands = removeEntity.concat(removeSpan);
@@ -214,17 +227,22 @@ module.exports = function(idFactory, model, history, spanConfig) {
             },
             entityCreateCommand: _.partial(createCommand, 'entity', true),
             entityRemoveCommand: function(id) {
-                var removeEntity = _.partial(removeCommand, 'entity')(id),
-                    removeRelation = model.annotationData.entity.assosicatedRelations(id)
-                    .map(factory.relationRemoveCommand),
-                    subCommands = removeRelation.concat(removeEntity);
+                var span = model.annotationData.span.get(model.annotationData.entity.get(id).span),
+                    numberOfRestEntities = _.reject(
+                        _.flatten(
+                            span.getTypes()
+                            .map(function(type) {
+                                return type.entities;
+                            })
+                        ),
+                        function(entityId) {
+                            return entityId === id;
+                        }
+                    ).length;
 
-                return {
-                    execute: function() {
-                        executeSubCommands(subCommands);
-                        setRevertAndLog('entity', this, 'remove', id, subCommands);
-                    }
-                };
+                return numberOfRestEntities === 0 ?
+                    factory.spanRemoveCommand(span.id) :
+                    entityRemoveCommand(id);
             },
             entityChangeTypeCommand: function(id, newType, isRemoveRelations) {
                 var changeType = _.partial(changeTypeCommand, 'entity')(id, newType),
