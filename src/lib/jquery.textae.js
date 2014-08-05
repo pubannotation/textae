@@ -14,7 +14,7 @@ jQuery.fn.textae = (function() {
             });
             tool.selectFirstEditor();
         } else if (this.hasClass("textae-control")) {
-            var c = control.apply(this);
+            var c = control(this);
             tool.setControl(c);
             return c;
         }

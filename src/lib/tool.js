@@ -76,11 +76,9 @@ module.exports = function() {
             if (key === 'H') {
                 components.infoModals.help.show();
             } else {
+                components.infoModals.hideAll();
                 if (components.editors.selected) {
                     components.editors.selected.api.handleKeyInput(key, getMousePoint());
-                }
-                if (key === 'ESC') {
-                    components.infoModals.hideAll();
                 }
             }
         },
@@ -93,6 +91,7 @@ module.exports = function() {
                     components.infoModals.about.show();
                     break;
                 default:
+                    components.infoModals.hideAll();
                     if (components.editors.selected) {
                         components.editors.selected.api.handleButtonClick(name, getMousePoint());
                     }
@@ -182,9 +181,13 @@ module.exports = function() {
     return {
         // Register a control to tool.
         setControl: function(control) {
-            control.on('textae.control.button.click', function() {
-                eventDispatcher.handleButtonClick.apply(null, _.rest(arguments));
-            });
+            control
+                .on('textae.control.button.click', function() {
+                    eventDispatcher.handleButtonClick.apply(null, _.rest(arguments));
+                })
+                .on('textae.control.click', function() {
+                    components.infoModals.hideAll();
+                });
 
             components.control = control;
         },
