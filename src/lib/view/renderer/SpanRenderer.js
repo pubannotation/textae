@@ -54,7 +54,7 @@ var getPosition = function(span, textNodeStartPosition) {
 	};
 
 module.exports = function(editor, model, viewModel, entityRenderer, gridRenderer) {
-	var domUtil = require('../util/DomUtil')(editor),
+	var domUtil = require('../../util/DomUtil')(editor),
 		// Get the Range to that new span tag insert.
 		// This function works well when no child span is rendered. 
 		getRangeToInsertSpanTag = function(span) {

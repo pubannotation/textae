@@ -43,7 +43,7 @@ module.exports = function(editor, model, viewModel) {
                 getSourceDocArea().html(createTaggedSourceDoc(params));
             };
         }(),
-        domPositionUtils = require('./DomPositionCache')(editor, model),
+        domPositionUtils = require('../DomPositionCache')(editor, model),
         reset = function() {
             var renderAllSpan = function(annotationData) {
                     // For tuning
@@ -74,7 +74,7 @@ module.exports = function(editor, model, viewModel) {
         }(),
         rendererImpl = function() {
             var gridRenderer = function() {
-                    var domUtil = require('../util/DomUtil')(editor),
+                    var domUtil = require('../../util/DomUtil')(editor),
                         createGrid = function(container, spanId) {
                             var spanPosition = domPositionUtils.getSpan(spanId);
                             var $grid = $('<div>')
@@ -165,7 +165,7 @@ module.exports = function(editor, model, viewModel) {
 
             return _.compose(renderModificationOfEntity, renderModificationOfRelation);
         }(),
-        api = require('../util/extendBindable')({
+        api = require('../../util/extendBindable')({
             setModelHandler: function() {
                 rendererImpl.init(getAnnotationArea());
 

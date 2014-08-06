@@ -42,8 +42,8 @@ var // Arrange a position of the pane to center entities when entities width is 
 	};
 
 module.exports = function(editor, model, viewModel, gridRenderer, modification) {
-	var domUtil = require('../util/DomUtil')(editor),
-		idFactory = require('../util/IdFactory')(editor),
+	var domUtil = require('../../util/DomUtil')(editor),
+		idFactory = require('../../util/IdFactory')(editor),
 		getTypeDom = function(spanId, type) {
 			return $('#' + idFactory.makeTypeId(spanId, type));
 		},
@@ -172,7 +172,7 @@ module.exports = function(editor, model, viewModel, gridRenderer, modification) 
 
 			return entity;
 		},
-		selector = require('./Selector')(editor, model),
+		selector = require('../Selector')(editor, model),
 		changeTypeOfExists = function(entity) {
 			// Remove an old entity.
 			removeEntityElement(entity);

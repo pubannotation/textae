@@ -273,19 +273,12 @@ module.exports = function(editor, model) {
                     entitySelectChanged = _.compose(buttonStateHelper.updateByEntity, selector.entityLabel.update);
 
                 return {
-                    // This is base value to calculate the position of grids.
-                    // Grids cannot be set positon by 'margin-bottom' style.
-                    // Because grids is setted 'position:absolute' style in the overlay over spans.
-                    // So we caluclate and set 'top' of grids in functions of 'layoutManager.updateDisplay'. 
-                    marginBottomOfGrid: 0,
                     isTerm: function() {
                         return editor.hasClass('textae-editor_term-mode');
                     },
                     setTerm: function() {
                         changeCssClass('term');
                         setControlButtonForRelation(false);
-
-                        viewModel.viewMode.marginBottomOfGrid = 0;
 
                         model.selectionModel
                             .unbind('entity.select', entitySelectChanged)
@@ -299,8 +292,6 @@ module.exports = function(editor, model) {
                         changeCssClass('instance');
                         setControlButtonForRelation(false);
 
-                        viewModel.viewMode.marginBottomOfGrid = 2;
-
                         model.selectionModel
                             .unbind('entity.select', entitySelectChanged)
                             .unbind('entity.deselect', entitySelectChanged)
@@ -312,8 +303,6 @@ module.exports = function(editor, model) {
                     setRelation: function() {
                         changeCssClass('relation');
                         setControlButtonForRelation(true);
-
-                        viewModel.viewMode.marginBottomOfGrid = 2;
 
                         model.selectionModel
                             .unbind('entity.select', entitySelectChanged)
@@ -341,131 +330,8 @@ module.exports = function(editor, model) {
     }(editor, model, selector);
 
     // Render DOM elements conforming with the Model.
-    var renderer = require('./Renderer')(editor, model, viewModel);
-
-    // Management position of annotation components.
-    var layoutManager = function(renderer) {
-        var domPositionUtils = require('./DomPositionCache')(editor, model);
-
-        var filterChanged = function(span, newPosition) {
-            var oldGridPosition = domPositionUtils.getGrid(span.id);
-            if (!oldGridPosition || oldGridPosition.top !== newPosition.top || oldGridPosition.left !== newPosition.left) {
-                return newPosition;
-            } else {
-                return undefined;
-            }
-        };
-
-        var arrangeRelationPosition = function(span) {
-            _.compact(
-                _.flatten(
-                    span.getEntities().map(model.annotationData.entity.assosicatedRelations)
-                )
-                .map(domPositionUtils.toConnect)
-            ).forEach(function(connect) {
-                connect.arrangePosition();
-            });
-            return span;
-        };
-
-        var getGrid = function(span) {
-            if (span) {
-                return domUtil.selector.grid.get(span.id);
-            }
-        };
-
-        var updateGridPositon = function(span, newPosition) {
-            if (newPosition) {
-                getGrid(span).css(newPosition);
-                domPositionUtils.setGrid(span.id, newPosition);
-                return span;
-            }
-        };
-
-        var getNewPosition = function(span) {
-            var stickGridOnSpan = function(span) {
-                var spanPosition = domPositionUtils.getSpan(span.id);
-
-                return {
-                    'top': spanPosition.top - viewModel.viewMode.marginBottomOfGrid - getGrid(span).outerHeight(),
-                    'left': spanPosition.left
-                };
-            };
-
-            var pullUpGridOverDescendants = function(span) {
-                // Culculate the height of the grid include descendant grids, because css style affects slowly.
-                var getHeightIncludeDescendantGrids = function(span) {
-                    var descendantsMaxHeight = span.children.length === 0 ? 0 :
-                        Math.max.apply(null, span.children.map(function(childSpan) {
-                            return getHeightIncludeDescendantGrids(childSpan);
-                        }));
-
-                    var gridHeight = span.getTypes().length * (viewModel.viewMode.isTerm() ? 18 : 36);
-                    return gridHeight + descendantsMaxHeight + viewModel.viewMode.marginBottomOfGrid;
-                };
-
-                var spanPosition = domPositionUtils.getSpan(span.id);
-                var descendantsMaxHeight = getHeightIncludeDescendantGrids(span);
-
-                return {
-                    'top': spanPosition.top - viewModel.viewMode.marginBottomOfGrid - descendantsMaxHeight,
-                    'left': spanPosition.left
-                };
-            };
-
-            if (span.children.length === 0) {
-                return stickGridOnSpan(span);
-            } else {
-                return pullUpGridOverDescendants(span);
-            }
-        };
-
-        var filterVisibleGrid = function(grid) {
-            if (grid && grid.hasClass('hidden')) {
-                return grid;
-            }
-        };
-
-        var showGrid = function(grid) {
-            if (grid) {
-                grid.removeClass('hidden');
-            }
-        };
-
-        var arrangeGridPosition = function(span) {
-            var moveTheGridIfChange = _.compose(_.partial(updateGridPositon, span), _.partial(filterChanged, span), getNewPosition),
-                showInvisibleGrid = _.compose(showGrid, filterVisibleGrid, getGrid);
-
-            // The span may be remeved because this functon is call asynchronously.
-            if (model.annotationData.span.get(span.id)) {
-                // Move all relations because entities are increased or decreased unless the grid is moved.  
-                _.compose(showInvisibleGrid, moveTheGridIfChange, arrangeRelationPosition)(span);
-            }
-        };
-
-        var arrangePositionAll = function() {
-            domPositionUtils.reset();
-
-            model.annotationData.span.all()
-                .filter(function(span) {
-                    // There is at least one type in span that has a grid.
-                    return span.getTypes().length > 0;
-                })
-                .forEach(function(span) {
-                    _.defer(_.partial(arrangeGridPosition, span));
-                });
-        };
-
-        var updateDisplay = _.debounce(arrangePositionAll, 10);
-
-        renderer.bind('change', updateDisplay);
-
-        return {
-            updateDisplay: updateDisplay
-        };
-    }(renderer);
-
-    var domUtil = require('../util/DomUtil')(editor);
+    var renderer = require('./renderer/Renderer')(editor, model, viewModel),
+        layoutManager = require('./layoutManager')(editor, model, renderer, viewModel);
 
     var hover = function() {
         var domPositionUtils = require('./DomPositionCache')(editor, model);
@@ -503,7 +369,7 @@ module.exports = function(editor, model) {
                             var height = TEXT_HEIGHT + MARGIN_TOP;
                             var countHeight = function(span) {
                                 // Grid height is height of types and margin bottom of the grid.
-                                height += span.getTypes().length * heightOfType + viewModel.viewMode.marginBottomOfGrid;
+                                height += span.getTypes().length * heightOfType;
                                 if (span.parent) {
                                     countHeight(span.parent);
                                 }
@@ -553,7 +419,6 @@ module.exports = function(editor, model) {
     return {
         init: _.compose(setSelectionModelHandler, renderer.setModelHandler),
         viewModel: viewModel,
-        domUtil: domUtil,
         hoverRelation: hover,
         helper: helper
     };

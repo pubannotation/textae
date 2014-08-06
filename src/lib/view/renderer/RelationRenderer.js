@@ -25,8 +25,8 @@ var makeJsPlumbInstance = function(container) {
 
 module.exports = function(editor, model, viewModel, modification) {
 	// Init a jsPlumb instance.
-	var domUtil = require('../util/DomUtil')(editor),
-		domPositionUtils = require('./DomPositionCache')(editor, model),
+	var domUtil = require('../../util/DomUtil')(editor),
+		domPositionUtils = require('../DomPositionCache')(editor, model),
 		jsPlumbInstance,
 		init = function(container) {
 			jsPlumbInstance = makeJsPlumbInstance(container);
