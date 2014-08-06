@@ -53,7 +53,7 @@ var getPosition = function(span, textNodeStartPosition) {
 		return !value;
 	};
 
-module.exports = function(editor, model, viewModel, entityRenderer, gridRenderer) {
+module.exports = function(editor, model, typeContainer, entityRenderer, gridRenderer) {
 	var domUtil = require('../../util/DomUtil')(editor),
 		// Get the Range to that new span tag insert.
 		// This function works well when no child span is rendered. 
@@ -87,7 +87,7 @@ module.exports = function(editor, model, viewModel, entityRenderer, gridRenderer
 		},
 		isBlockSpan = function(span) {
 			return span.getTypes().filter(function(type) {
-				return viewModel.typeContainer.entity.isBlock(type.name);
+				return typeContainer.entity.isBlock(type.name);
 			}).length > 0;
 		},
 		renderBlockOfSpan = function(span) {

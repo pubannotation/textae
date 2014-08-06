@@ -23,7 +23,7 @@ var makeJsPlumbInstance = function(container) {
 		return labelOverlay;
 	};
 
-module.exports = function(editor, model, viewModel, modification) {
+module.exports = function(editor, model, typeContainer, modification) {
 	// Init a jsPlumb instance.
 	var domUtil = require('../../util/DomUtil')(editor),
 		domPositionUtils = require('../DomPositionCache')(editor, model),
@@ -43,7 +43,7 @@ module.exports = function(editor, model, viewModel, modification) {
 
 			return function(relationId) {
 				var type = model.annotationData.relation.get(relationId).type,
-					colorHex = viewModel.typeContainer.relation.getColor(type);
+					colorHex = typeContainer.relation.getColor(type);
 
 				return {
 					lineWidth: 1,

@@ -144,8 +144,8 @@ module.exports = function() {
             },
             setConfigByParams = function() {
                 var setTypeConfig = function(config) {
-                        view.viewModel.typeContainer.setDefinedEntityTypes(config['entity types']);
-                        view.viewModel.typeContainer.setDefinedRelationTypes(config['relation types']);
+                        view.typeContainer.setDefinedEntityTypes(config['entity types']);
+                        view.typeContainer.setDefinedRelationTypes(config['relation types']);
 
                         if (config.css !== undefined) {
                             $('#css_area').html('<link rel="stylesheet" href="' + config.css + '"/>');

@@ -1,4 +1,4 @@
-module.exports = function(editor, model, spanConfig, command, viewModel) {
+module.exports = function(editor, model, spanConfig, command, viewModel, typeContainer) {
 	var dismissBrowserSelection = require('./dismissBrowserSelection'),
 		// changeEventHandler will init.
 		changeTypeOfSelected,
@@ -52,7 +52,7 @@ module.exports = function(editor, model, spanConfig, command, viewModel) {
 								command.invoke([command.factory.relationCreateCommand({
 									subj: subjectEntityId,
 									obj: objectEntityId,
-									type: viewModel.typeContainer.relation.getDefaultType()
+									type: typeContainer.relation.getDefaultType()
 								})]);
 
 								if (e.ctrlKey || e.metaKey) {
@@ -102,7 +102,7 @@ module.exports = function(editor, model, spanConfig, command, viewModel) {
 					.on('mouseup', '.textae-editor__relation, .textae-editor__relation__label', returnFalse)
 					.on('mouseup', '.textae-editor__body', cancelSelect);
 
-				palletConfig.typeContainer = viewModel.typeContainer.relation;
+				palletConfig.typeContainer = typeContainer.relation;
 				getSelectedIdEditable = model.selectionModel.relation.all;
 				changeTypeOfSelected = _.partial(changeType, getSelectedIdEditable, command.factory.relationChangeTypeCommand);
 
@@ -110,7 +110,7 @@ module.exports = function(editor, model, spanConfig, command, viewModel) {
 			};
 		}(),
 		editEntity = function() {
-			var selectEnd = require('./SelectEnd')(editor, model, spanConfig, command, viewModel),
+			var selectEnd = require('./SelectEnd')(editor, model, spanConfig, command, viewModel, typeContainer),
 				bodyClicked = function() {
 					var selection = window.getSelection();
 
@@ -127,7 +127,7 @@ module.exports = function(editor, model, spanConfig, command, viewModel) {
 								model.annotationData.span.get(spanId)
 								.getTypes()
 								.filter(function(type) {
-									return viewModel.typeContainer.entity.isBlock(type.name);
+									return typeContainer.entity.isBlock(type.name);
 								})
 								.map(function(type) {
 									return type.entities;
@@ -223,7 +223,7 @@ module.exports = function(editor, model, spanConfig, command, viewModel) {
 					return command.factory.entityChangeTypeCommand(
 						id,
 						newType,
-						viewModel.typeContainer.entity.isBlock(newType)
+						typeContainer.entity.isBlock(newType)
 					);
 				};
 
@@ -235,7 +235,7 @@ module.exports = function(editor, model, spanConfig, command, viewModel) {
 					.on('mouseup', '.textae-editor__entity-pane', entityPaneClicked)
 					.on('mouseup', '.textae-editor__entity', entityClicked);
 
-				palletConfig.typeContainer = viewModel.typeContainer.entity;
+				palletConfig.typeContainer = typeContainer.entity;
 				getSelectedIdEditable = model.selectionModel.entity.all;
 				changeTypeOfSelected = _.partial(
 					changeType,

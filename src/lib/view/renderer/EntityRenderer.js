@@ -41,7 +41,7 @@ var // Arrange a position of the pane to center entities when entities width is 
 		return type;
 	};
 
-module.exports = function(editor, model, viewModel, gridRenderer, modification) {
+module.exports = function(editor, model, typeContainer, gridRenderer, modification) {
 	var domUtil = require('../../util/DomUtil')(editor),
 		idFactory = require('../../util/IdFactory')(editor),
 		getTypeDom = function(spanId, type) {
@@ -79,8 +79,8 @@ module.exports = function(editor, model, viewModel, gridRenderer, modification) 
 					var getUri = function(type) {
 							if (isUri(type)) {
 								return type;
-							} else if (viewModel.typeContainer.entity.getUri(type)) {
-								return viewModel.typeContainer.entity.getUri(type);
+							} else if (typeContainer.entity.getUri(type)) {
+								return typeContainer.entity.getUri(type);
 							}
 						},
 						// A Type element has an entity_pane elment that has a label and will have entities.
@@ -96,7 +96,7 @@ module.exports = function(editor, model, viewModel, gridRenderer, modification) 
 							var $typeLabel = $('<div>')
 								.addClass('textae-editor__type-label')
 								.css({
-									'background-color': viewModel.typeContainer.entity.getColor(type),
+									'background-color': typeContainer.entity.getColor(type),
 								});
 
 							// Set the name of the label with uri of the type.
@@ -144,7 +144,7 @@ module.exports = function(editor, model, viewModel, gridRenderer, modification) 
 						.attr('type', entity.type)
 						.addClass('textae-editor__entity')
 						.css({
-							'border-color': viewModel.typeContainer.entity.getColor(entity.type)
+							'border-color': typeContainer.entity.getColor(entity.type)
 						});
 
 					// Set css classes for modifications.
@@ -166,7 +166,7 @@ module.exports = function(editor, model, viewModel, gridRenderer, modification) 
 			};
 		}(),
 		createEntityUnlessBlock = function(entity) {
-			if (!viewModel.typeContainer.entity.isBlock(entity.type)) {
+			if (!typeContainer.entity.isBlock(entity.type)) {
 				create(entity);
 			}
 

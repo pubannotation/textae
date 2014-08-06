@@ -6,7 +6,7 @@ module.exports = function(editor, model, view, command, spanConfig) {
             editor.tool.selectMe();
             view.viewModel.buttonStateHelper.propagate();
         },
-        typeEditor = require('./TypeEditor')(editor, model, spanConfig, command, view.viewModel),
+        typeEditor = require('./TypeEditor')(editor, model, spanConfig, command, view.viewModel, view.typeContainer),
         userEvent = function() {
             var getSelectedAndEditableIds,
                 editHandler = function() {
@@ -48,7 +48,7 @@ module.exports = function(editor, model, view, command, spanConfig) {
                             if (spanId) {
                                 command.invoke(
                                     [command.factory.spanReplicateCommand(
-                                        view.viewModel.typeContainer.entity.getDefaultType(),
+                                        view.typeContainer.entity.getDefaultType(),
                                         model.annotationData.span.get(spanId)
                                     )]
                                 );
@@ -60,7 +60,7 @@ module.exports = function(editor, model, view, command, spanConfig) {
                             var commands = model.selectionModel.span.all().map(function(spanId) {
                                 return command.factory.entityCreateCommand({
                                     span: spanId,
-                                    type: view.viewModel.typeContainer.entity.getDefaultType()
+                                    type: view.typeContainer.entity.getDefaultType()
                                 });
                             });
 

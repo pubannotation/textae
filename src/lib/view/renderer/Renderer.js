@@ -13,7 +13,7 @@ var getElement = function($parent, tagName, className) {
         return str.charAt(0).toUpperCase() + str.slice(1);
     };
 
-module.exports = function(editor, model, viewModel) {
+module.exports = function(editor, model, viewModel, typeContainer) {
     var // Make the display area for text, spans, denotations, relations.
         displayArea = _.partial(getElement, editor, 'div', 'textae-editor__body'),
         // Get the display area for denotations and relations.
@@ -125,9 +125,9 @@ module.exports = function(editor, model, viewModel) {
                         }(),
                     };
                 }(),
-                entityRenderer = require('./EntityRenderer')(editor, model, viewModel, gridRenderer, modificationRenderer),
-                spanRenderer = require('./SpanRenderer')(editor, model, viewModel, entityRenderer, gridRenderer),
-                relationRenderer = require('./RelationRenderer')(editor, model, viewModel, modificationRenderer);
+                entityRenderer = require('./EntityRenderer')(editor, model, typeContainer, gridRenderer, modificationRenderer),
+                spanRenderer = require('./SpanRenderer')(editor, model, typeContainer, entityRenderer, gridRenderer),
+                relationRenderer = require('./RelationRenderer')(editor, model, typeContainer, modificationRenderer);
 
             return {
                 init: function(container) {

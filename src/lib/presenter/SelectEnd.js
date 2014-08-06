@@ -1,4 +1,4 @@
-module.exports = function(editor, model, spanConfig, command, viewModel) {
+module.exports = function(editor, model, spanConfig, command, viewModel, typeContainer) {
 	var selectionValidator = function(editor, model, spanConfig) {
 			var spanAdjuster = require('./SpanAdjuster')(spanConfig, model.annotationData),
 				domUtil = require('../util/DomUtil')(editor),
@@ -175,7 +175,7 @@ module.exports = function(editor, model, spanConfig, command, viewModel) {
 				validateOnSpan: validateOnSpan
 			};
 		}(selectionValidator),
-		process = function(editor, model, spanConfig, selectionValidator, command, viewModel) {
+		process = function(editor, model, spanConfig, selectionValidator, command, viewModel, typeContainer) {
 			var spanManipulater = require('./SpanManipulater')(spanConfig, model),
 				idFactory = require('../util/IdFactory')(editor),
 				moveSpan = function(spanId, begin, end) {
@@ -210,7 +210,7 @@ module.exports = function(editor, model, spanConfig, command, viewModel) {
 					}
 
 					var commands = [command.factory.spanCreateCommand(
-						viewModel.typeContainer.entity.getDefaultType(), {
+						typeContainer.entity.getDefaultType(), {
 							begin: newSpan.begin,
 							end: newSpan.end
 						}
@@ -218,7 +218,7 @@ module.exports = function(editor, model, spanConfig, command, viewModel) {
 
 					if (viewModel.modeAccordingToButton['replicate-auto'].value() && newSpan.end - newSpan.begin <= BLOCK_THRESHOLD) {
 						commands.push(command.factory.spanReplicateCommand(
-							viewModel.typeContainer.entity.getDefaultType(), {
+							typeContainer.entity.getDefaultType(), {
 								begin: newSpan.begin,
 								end: newSpan.end
 							}));
@@ -326,7 +326,7 @@ module.exports = function(editor, model, spanConfig, command, viewModel) {
 				selectEndOfText: selectEndOfText,
 				selectEndOnSpan: selectEndOnSpan
 			};
-		}(editor, model, spanConfig, selectionValidator, command, viewModel);
+		}(editor, model, spanConfig, selectionValidator, command, viewModel, typeContainer);
 
 	return {
 		onText: process.selectEndOfText,
