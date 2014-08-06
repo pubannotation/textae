@@ -128,22 +128,24 @@
 .textae-editor_relation-mode .textae-editor__type:hover .textae-editor__entity,
 .textae-editor_relation-mode .textae-editor__type:hover .textae-editor__type-label
 {
-    opacity: 0.8;
+    opacity: 0.9;
     /* TODO 透明度を上げるとentityとlabelの重なった部分だけ色が濃くて目立ちます。 */
 }
 
-.textae-editor__type:hover {
+.textae-editor__type:hover .textae-editor__entity-pane,
+.textae-editor__type:hover .textae-editor__type-label
+{
     z-index: 3;
 }
 
 .textae-editor__type:hover .textae-editor__entity,
-.textae-editor__type:hover .textae-editor__type-label {
-    overflow: visible;
-    opacity: 1;
+.textae-editor__type:hover .textae-editor__type-label
+{
+    box-shadow: 1px 1px 10px #600;
 }
 
-.textae-editor__type:hover .textae-editor__type-label{
-    box-shadow: 1px 1px 10px #600;
+.textae-editor__type:hover .textae-editor__type-label {
+    overflow: visible;
 }
 
 .textae-editor__type-label.ui-selected, .textae-editor__type:hover .textae-editor__type-label.ui-selected {
@@ -303,22 +305,25 @@
 }
 
 .textae-editor_relation-mode .textae-editor__relation {
-    z-index: 5;
+    z-index: 1;
 }
 
 .textae-editor_relation-mode .textae-editor__relation:hover,
 .textae-editor_relation-mode .textae-editor__relation.hover {
-    z-index: 5;
-}
-
-.textae-editor_relation-mode .textae-editor__relation__label {
     z-index: 1;
 }
 
 .textae-editor_relation-mode .textae-editor__relation__label:hover,
-.textae-editor_relation-mode .textae-editor__relation__label.hover,
+.textae-editor_relation -mode .textae-editor__relation__label.hover {
+    z-index: 2;
+}
+
+.textae-editor_relation-mode .textae-editor__relation.ui-selected {
+    z-index: 1;
+}
+
 .textae-editor_relation-mode .textae-editor__relation__label.ui-selected {
-    z-index: 6;
+    z-index: 2;
 }
 
 .textae-editor__relation__label.ui-selected {
