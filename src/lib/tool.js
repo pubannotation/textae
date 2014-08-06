@@ -26,7 +26,22 @@ module.exports = function() {
                             '<p>まだ開発中のサービスであり、実装すべき機能が残っています。' +
                             'ユーザの皆様の声を大事にして開発していきたいと考えておりますので、ご意見などございましたら教えていただければ幸いです。</p>');
                 }
-            });
+            }),
+            switchActiveClass = function(editors, selected) {
+                var activeClass = 'textae-editor--active';
+
+                // Remove activeClass from others than selected.
+                _.reject(editors, function(editor) {
+                    return editor === selected;
+                }).forEach(function(others) {
+                    others.removeClass(activeClass);
+                    console.log('deactive', others.editorId);
+                });
+
+                // Add activeClass to the selected.
+                selected.addClass(activeClass);
+                console.log('active', selected.editorId);
+            };
 
         return {
             control: null,
@@ -36,8 +51,8 @@ module.exports = function() {
                     return 'editor' + this.length;
                 },
                 select: function(editor) {
+                    switchActiveClass(this, editor);
                     this.selected = editor;
-                    console.log(editor.editorId);
                 },
                 selectFirst: function() {
                     this.select(this[0]);

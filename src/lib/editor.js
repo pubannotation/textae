@@ -65,11 +65,9 @@ module.exports = function() {
     };
 
     // Users can edit model only via commands. 
-    var command = require('./model/Command')(idFactory, model, history, spanConfig);
-
-    var view = require('./view/View')(this, model);
-
-    var presenter = require('./presenter/Presenter')(this, model, view, command, spanConfig);
+    var command = require('./model/Command')(idFactory, model, history, spanConfig),
+        view = require('./view/View')(this, model),
+        presenter = require('./presenter/Presenter')(this, model, view, command, spanConfig);
 
     //handle user input event.
     var controller = function(editor) {

@@ -6,6 +6,10 @@
     border: 1px solid black;
 }
 
+.textae-editor--active {
+    background-color: #ffe;
+}
+
 .textae-editor .hidden {
     visibility: hidden;
 }
