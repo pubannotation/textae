@@ -18,9 +18,8 @@ module.exports = function(editor, model, view, command, spanConfig) {
                                 return model.annotationData
                                     .getModificationOf(id)
                                     .filter(isModificationType);
-                            };
-
-                        var commands,
+                            },
+                            commands,
                             has = view.viewModel.modeAccordingToButton[modificationType.toLowerCase()].value();
 
                         if (has) {
@@ -150,136 +149,16 @@ module.exports = function(editor, model, view, command, spanConfig) {
                     };
                 }(),
                 viewHandler = function() {
-                    var controllerState = function() {
-                        var resetView = function() {
-                            userEvent.viewHandler.hideDialogs();
-                            model.selectionModel.clear();
-                        };
-
-                        var transition = {
-                            toTerm: function() {
-                                resetView();
-
-                                typeEditor.editEntity();
-                                view.viewModel.viewMode.setTerm();
-                                view.viewModel.viewMode.setEditable(true);
-
-                                view.helper.redraw();
-
-                                controllerState = state.termCentric;
-                            },
-                            toInstance: function() {
-                                resetView();
-
-                                typeEditor.editEntity();
-                                view.viewModel.viewMode.setInstance();
-                                view.viewModel.viewMode.setEditable(true);
-
-                                view.helper.redraw();
-
-                                controllerState = state.instanceRelation;
-                            },
-                            toRelation: function() {
-                                resetView();
-
-                                typeEditor.editRelation();
-                                view.viewModel.viewMode.setRelation();
-                                view.viewModel.viewMode.setEditable(true);
-
-                                view.helper.redraw();
-
-                                controllerState = state.relationEdit;
-                            },
-                            toViewTerm: function() {
-                                resetView();
-
-                                typeEditor.noEdit();
-                                view.viewModel.viewMode.setTerm();
-                                view.viewModel.viewMode.setEditable(false);
-
-                                view.helper.redraw();
-
-                                controllerState = state.viewTerm;
-                            },
-                            toViewInstance: function() {
-                                resetView();
-
-                                typeEditor.noEdit();
-                                view.viewModel.viewMode.setInstance();
-                                view.viewModel.viewMode.setEditable(false);
-
-                                view.helper.redraw();
-
-                                controllerState = state.viewInstance;
+                    var editMode = require('./EditMode')(model, view, typeEditor),
+                        setViewMode = function(mode) {
+                            if (editMode['to' + mode]) {
+                                editMode['to' + mode]();
                             }
                         };
-
-                        var notTransit = function() {
-                            view.helper.redraw();
-                        };
-                        var state = {
-                            termCentric: _.extend({}, transition, {
-                                name: 'Term Centric',
-                                toTerm: notTransit
-                            }),
-                            instanceRelation: _.extend({}, transition, {
-                                name: 'Instance / Relation',
-                                toInstance: notTransit,
-                            }),
-                            relationEdit: _.extend({}, transition, {
-                                name: 'Relation Edit',
-                                toRelation: notTransit
-                            }),
-                            viewTerm: _.extend({}, transition, {
-                                name: 'View Only',
-                                toTerm: notTransit,
-                                toInstance: transition.toViewInstance,
-                                toRelation: notTransit,
-                                toViewTerm: notTransit
-                            }),
-                            viewInstance: _.extend({}, transition, {
-                                name: 'View Only',
-                                toTerm: transition.toViewTerm,
-                                toInstance: notTransit,
-                                toRelation: notTransit,
-                                toViewInstance: notTransit
-                            })
-                        };
-
-                        return {
-                            // Init as TermCentricState
-                            init: function() {
-                                transition.toTerm();
-                            }
-                        };
-                    }();
-
-                    // Redraw all editors in tha windows.
-                    var redrawAllEditor = function() {
-                        $(window).trigger('resize');
-                    };
-
-                    var debounce300 = function(func) {
-                        return _.debounce(func, 300);
-                    };
-
-                    var sixteenTimes = function(val) {
-                        return val * 16;
-                    };
-
-                    var changeLineHeight = debounce300(_.compose(redrawAllEditor, view.helper.changeLineHeight, sixteenTimes));
-
-                    var changeTypeGap = debounce300(view.helper.changeTypeGap);
-
-                    var setViewMode = function(mode) {
-                        if (controllerState['to' + mode]) {
-                            controllerState['to' + mode]();
-                        }
-                    };
 
                     return {
                         init: function() {
-                            controllerState.init();
+                            editMode.init();
                         },
                         showPallet: typeEditor.showPallet,
                         hideDialogs: typeEditor.hideDialogs,
@@ -307,98 +186,13 @@ module.exports = function(editor, model, view, command, spanConfig) {
                                 }
                             }
                         },
-                        showSettingDialog: function() {
-                            var typeGapValue;
-
-                            return function() {
-                                var content = function() {
-                                        return $('<div>')
-                                            .addClass('textae-editor__setting-dialog');
-                                    },
-                                    lineHeight = function($content) {
-                                        return $content
-                                            .append($('<div>')
-                                                .append('<label class="textae-editor__setting-dialog__label">Line Height')
-                                                .append($('<input>')
-                                                    .attr({
-                                                        'type': 'number',
-                                                        'step': 1,
-                                                        'min': 3,
-                                                        'max': 10,
-                                                        'value': view.helper.getLineHeight(),
-                                                    })
-                                                    .addClass('textae-editor__setting-dialog__line-height')
-                                                ))
-                                            .on('change', '.textae-editor__setting-dialog__line-height', function() {
-                                                changeLineHeight($(this).val());
-                                            });
-                                    },
-                                    instanceRelationView = function($content) {
-                                        return $content.append($('<div>')
-                                                .append('<label class="textae-editor__setting-dialog__label">Instance/Relation View')
-                                                .append($('<input>')
-                                                    .attr({
-                                                        'type': 'checkbox'
-                                                    })
-                                                    .addClass('textae-editor__setting-dialog__term-centric-view')
-                                                )
-                                            )
-                                            .on('click', '.textae-editor__setting-dialog__term-centric-view', function() {
-                                                if ($(this).is(':checked')) {
-                                                    controllerState.toInstance();
-                                                } else {
-                                                    controllerState.toTerm();
-                                                }
-                                            });
-                                    },
-                                    typeGap = function($content) {
-                                        return $content.append($('<div>')
-                                            .append('<label class="textae-editor__setting-dialog__label">Type Gap')
-                                            .append($('<input>')
-                                                .attr({
-                                                    type: 'number',
-                                                    step: 1,
-                                                    min: 0,
-                                                    max: 5
-                                                }).addClass('textae-editor__setting-dialog__type_gap')
-                                            )
-                                        ).on('change', '.textae-editor__setting-dialog__type_gap', function() {
-                                            typeGapValue = $(this).val();
-                                            changeTypeGap(typeGapValue);
-                                        });
-                                    },
-                                    dialog = function($content) {
-                                        return require('../util/getDialog')(editor.editorId, 'textae.dialog.setting', 'Chage Settings', $content, true);
-                                    },
-                                    // Update the checkbox state, because it is updated by the button on control too.
-                                    updateViewMode = function($dialog) {
-                                        return $dialog.find('.textae-editor__setting-dialog__term-centric-view')
-                                            .prop({
-                                                'checked': view.viewModel.viewMode.isTerm() ? null : 'checked'
-                                            })
-                                            .end();
-                                    },
-                                    updateTypeGapValue = function($dialog) {
-                                        return $dialog.find('.textae-editor__setting-dialog__type_gap')
-                                            .prop({
-                                                value: typeGapValue ? typeGapValue : view.viewModel.viewMode.isTerm() ? 0 : 1
-                                            })
-                                            .end();
-                                    },
-                                    // Open the dialog.
-                                    open = function($dialog) {
-                                        return $dialog.open();
-                                    };
-
-                                _.compose(open, updateTypeGapValue, updateViewMode, dialog, typeGap, instanceRelationView, lineHeight, content)();
-                            };
-                        }(),
+                        showSettingDialog: require('./SettingDialog')(editor, editMode),
                         toggleRelationEditMode: function() {
                             // ビューモードを切り替える
                             if (view.viewModel.modeAccordingToButton['relation-edit-mode'].value()) {
-                                controllerState.toInstance();
+                                editMode.toInstance();
                             } else {
-                                controllerState.toRelation();
+                                editMode.toRelation();
                             }
                         },
                         setViewMode: setViewMode,

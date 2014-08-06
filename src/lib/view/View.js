@@ -197,9 +197,7 @@ module.exports = function(editor, model) {
                     entitySelectChanged = _.compose(buttonStateHelper.updateByEntity, selector.entityLabel.update);
 
                 return {
-                    isTerm: function() {
-                        return editor.hasClass('textae-editor_term-mode');
-                    },
+                    typeGapValue: 0,
                     setTerm: function() {
                         changeCssClass('term');
                         setControlButtonForRelation(false);
@@ -247,11 +245,6 @@ module.exports = function(editor, model) {
         };
     }(editor, model, selector);
 
-    var typeContainer = require('./TypeContainer')(model),
-        // Render DOM elements conforming with the Model.
-        renderer = require('./renderer/Renderer')(editor, model, viewModel, typeContainer),
-        layoutManager = require('./layoutManager')(editor, model, renderer, viewModel);
-
     var hover = function() {
         var domPositionUtils = require('./DomPositionCache')(editor, model);
 
@@ -271,6 +264,16 @@ module.exports = function(editor, model) {
         };
     }();
 
+    var typeContainer = require('./TypeContainer')(model),
+        // Render DOM elements conforming with the Model.
+        renderer = require('./renderer/Renderer')(editor, model, viewModel, typeContainer),
+        layoutManager = require('./layoutManager')(editor, model),
+        updateDisplay = function() {
+            layoutManager.updateDisplay(viewModel.viewMode.typeGapValue)
+        };
+
+    renderer.bind('change', updateDisplay);
+
     var helper = function() {
         var changeLineHeight = function(heightValue) {
                 editor.find('.textae-editor__body__text-box').css({
@@ -278,11 +281,11 @@ module.exports = function(editor, model) {
                     'padding-top': heightValue / 2 + 'px'
                 });
             },
-            calculateLineHeight = function() {
+            calculateLineHeight = function(typeGapValue) {
                 var TEXT_HEIGHT = 23,
                     MARGIN_TOP = 60,
                     MINIMUM_HEIGHT = 16 * 4,
-                    heightOfType = viewModel.viewMode.isTerm() ? 18 : 36,
+                    heightOfType = typeGapValue * 18 + 18,
                     maxHeight = _.max(model.annotationData.span.all()
                         .map(function(span) {
                             var height = TEXT_HEIGHT + MARGIN_TOP;
@@ -301,7 +304,7 @@ module.exports = function(editor, model) {
                     );
 
                 changeLineHeight(maxHeight);
-                layoutManager.updateDisplay();
+                layoutManager.updateDisplay(typeGapValue);
             };
 
         return {
@@ -309,15 +312,18 @@ module.exports = function(editor, model) {
                 return parseInt(editor.find('.textae-editor__body__text-box').css('line-height')) / 16;
             },
             changeLineHeight: changeLineHeight,
-            calculateLineHeight: calculateLineHeight,
+            calculateLineHeight: function() {
+                calculateLineHeight(viewModel.viewMode.typeGapValue);
+            },
             changeTypeGap: function(typeGapValue) {
                 editor.find('.textae-editor__type').css({
                     height: 18 * typeGapValue + 18 + 'px',
                     'padding-top': 18 * typeGapValue + 'px'
                 });
-                layoutManager.updateDisplay();
+                viewModel.viewMode.typeGapValue = typeGapValue;
+                calculateLineHeight(viewModel.viewMode.typeGapValue);
             },
-            redraw: layoutManager.updateDisplay
+            redraw: updateDisplay
         };
     }();
 
