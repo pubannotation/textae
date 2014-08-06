@@ -165,6 +165,14 @@ module.exports = function(editor, model, viewModel, modification) {
 									new LabelOverlay(connect).removeClass('ui-selected');
 									return connect;
 								},
+								hoverupLine = function(connect) {
+									connect.addClass('hover');
+									return connect;
+								},
+								hoverdownLine = function(connect) {
+									connect.removeClass('hover');
+									return connect;
+								},
 								selectLine = function(connect) {
 									connect.addClass('ui-selected');
 									return connect;
@@ -214,9 +222,9 @@ module.exports = function(editor, model, viewModel, modification) {
 									unlessDead = _.partial(unless, connect, function(connect) {
 										return connect.dead;
 									}),
-									hoverup = _.compose(hoverupLabel, pointupArrowColor),
-									hoverdown = _.compose(hoverdownLabel, pointdownAllowColor),
-									select = _.compose(selectLine, selectLabel, hoverdownLabel, pointupArrowColor),
+									hoverup = _.compose(hoverupLine, hoverupLabel, pointupArrowColor),
+									hoverdown = _.compose(hoverdownLine, hoverdownLabel, pointdownAllowColor),
+									select = _.compose(selectLine, selectLabel, hoverdownLine, hoverdownLabel, pointupArrowColor),
 									deselect = _.compose(deselectLine, deselectLabel, pointdownAllowColor);
 
 								return {
