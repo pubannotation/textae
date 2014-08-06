@@ -361,7 +361,7 @@ module.exports = function(editor, model) {
             },
             calculateLineHeight = function() {
                 var TEXT_HEIGHT = 23,
-                    MARGIN_TOP = 6,
+                    MARGIN_TOP = 60,
                     MINIMUM_HEIGHT = 16 * 4,
                     heightOfType = viewModel.viewMode.isTerm() ? 18 : 36,
                     maxHeight = _.max(model.annotationData.span.all()
