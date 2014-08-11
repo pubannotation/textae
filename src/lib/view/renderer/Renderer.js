@@ -57,7 +57,7 @@ module.exports = function(editor, model, viewModel, typeContainer) {
                 },
                 renderAllRelation = function(annotationData) {
                     rendererImpl.relation.reset();
-                    annotationData.relation.all().forEach(rendererImpl.relation.render);
+                    annotationData.relation.all().forEach(rendererImpl.relation.render0);
                 };
 
             return function(annotationData) {
