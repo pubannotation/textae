@@ -205,6 +205,10 @@ module.exports = function(editor, model, typeContainer, modification) {
 							// Remove a normal arrow and add a new big arrow.
 							// Because an arrow is out of position if hideOverlay and showOverlay is used.
 							pointupArrow = function(getStrokeStyle, connect) {
+								// Do not add a big arrow twice when a relation has been selected during hover.
+								if (connect.getOverlay(hoverArrow.id))
+									return connect;
+
 								connect.removeOverlay(normalArrow.id);
 								connect.addOverlay(['Arrow', hoverArrow]);
 								connect.setPaintStyle(_.extend(getStrokeStyle(), {
@@ -213,6 +217,10 @@ module.exports = function(editor, model, typeContainer, modification) {
 								return connect;
 							},
 							pointdownAllow = function(getStrokeStyle, connect) {
+								// Already affected
+								if (connect.getOverlay(normalArrow.id))
+									return connect;
+
 								connect.removeOverlay(hoverArrow.id);
 								connect.addOverlay(['Arrow', normalArrow]);
 								connect.setPaintStyle(getStrokeStyle());
