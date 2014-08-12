@@ -1,7 +1,7 @@
 var typeGap = function() {
 	var seed = {
 			instanceHide: 0,
-			instanceShow: 1
+			instanceShow: 2
 		},
 		set = function(mode, val) {
 			return typeGap[mode] = val;
