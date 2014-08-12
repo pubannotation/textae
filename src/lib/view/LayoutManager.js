@@ -105,10 +105,9 @@ module.exports = function(editor, model) {
             .forEach(function(span) {
                _.defer(_.partial(arrangeGridPosition, typeGapValue, span));
             });
-      },
-      updateDisplay = _.debounce(arrangePositionAll, 10);
+      };
 
    return {
-      updateDisplay: updateDisplay
+      updateDisplay: arrangePositionAll
    };
 };

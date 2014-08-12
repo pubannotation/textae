@@ -184,9 +184,10 @@ module.exports = function() {
             $(window).on('resize', _.debounce(function() {
                 // Redraw all editors per editor.
                 components.editors.forEach(function(editor) {
+                    console.log(editor.editorId, 'redraw');
                     _.defer(editor.api.redraw);
                 });
-            }, 20));
+            }, 500));
         };
 
         // Start observation at document ready, because this function may be called before body is loaded.

@@ -18,9 +18,8 @@ var typeGap = function() {
 
 module.exports = function(model, view, typeEditor) {
 	var api = {
-			// Init as TermCentricState
 			init: function() {
-				transition.toTerm();
+				_.extend(api, state.init);
 			},
 			get typeGap() {
 				return view.viewModel.viewMode.typeGapValue;
@@ -87,42 +86,50 @@ module.exports = function(model, view, typeEditor) {
 				_.extend(api, state.viewInstance);
 			}
 		},
-		notTransit = view.helper.redraw,
+		// Calculate the line-height when the view-mode set
+		failTransit = function() {
+			throw new Error('fail transition.');
+		},
+		changeTypeGapInstanceHide = _.compose(view.helper.changeTypeGap, typeGap.setInstanceHide),
+		changeTypeGapInstanceShow = _.compose(view.helper.changeTypeGap, typeGap.setInstanceShow),
 		state = {
+			init: _.extend({}, transition, {
+				name: 'Init'
+			}),
 			termCentric: _.extend({}, transition, {
 				name: 'Term Centric',
-				toTerm: notTransit,
-				changeTypeGap: _.compose(view.helper.changeTypeGap, typeGap.setInstanceHide),
+				toTerm: failTransit,
+				changeTypeGap: changeTypeGapInstanceHide,
 				showInstance: false
 			}),
 			instanceRelation: _.extend({}, transition, {
 				name: 'Instance / Relation',
-				toInstance: notTransit,
-				changeTypeGap: _.compose(view.helper.changeTypeGap, typeGap.setInstanceShow),
+				toInstance: failTransit,
+				changeTypeGap: changeTypeGapInstanceShow,
 				showInstance: true
 			}),
 			relationEdit: _.extend({}, transition, {
 				name: 'Relation Edit',
-				toRelation: notTransit,
-				changeTypeGap: _.compose(view.helper.changeTypeGap, typeGap.setInstanceShow),
+				toRelation: failTransit,
+				changeTypeGap: changeTypeGapInstanceShow,
 				showInstance: true
 			}),
 			viewTerm: _.extend({}, transition, {
 				name: 'View Only',
-				toTerm: notTransit,
+				toTerm: failTransit,
 				toInstance: transition.toViewInstance,
-				toRelation: notTransit,
-				toViewTerm: notTransit,
-				changeTypeGap: _.compose(view.helper.changeTypeGap, typeGap.setInstanceHide),
+				toRelation: failTransit,
+				toViewTerm: failTransit,
+				changeTypeGap: changeTypeGapInstanceHide,
 				showInstance: false
 			}),
 			viewInstance: _.extend({}, transition, {
 				name: 'View Only',
 				toTerm: transition.toViewTerm,
-				toInstance: notTransit,
-				toRelation: notTransit,
-				toViewInstance: notTransit,
-				changeTypeGap: _.compose(view.helper.changeTypeGap, typeGap.setInstanceShow),
+				toInstance: failTransit,
+				toRelation: failTransit,
+				toViewInstance: failTransit,
+				changeTypeGap: changeTypeGapInstanceShow,
 				showInstance: true
 			})
 		};

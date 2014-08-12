@@ -13,7 +13,7 @@ module.exports = function(editor, model) {
 		deselectEntity = _.partial(modify, 'entity', 'remove'),
 		selectRelation = function(relationId) {
 			var addUiSelectClass = function(connect) {
-					if (connect) connect.select();
+					if (connect && connect.select) connect.select();
 				},
 				selectRelation = _.compose(addUiSelectClass, domPositionUtils.toConnect);
 
@@ -21,7 +21,7 @@ module.exports = function(editor, model) {
 		},
 		deselectRelation = function(relationId) {
 			var removeUiSelectClass = function(connect) {
-					if (connect) connect.deselect();
+					if (connect && connect.deselect) connect.deselect();
 				},
 				deselectRelation = _.compose(removeUiSelectClass, domPositionUtils.toConnect);
 

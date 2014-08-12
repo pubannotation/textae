@@ -142,6 +142,8 @@ module.exports = function(idFactory, model, history, spanConfig) {
                 };
             },
             entityChangeTypeCommand = _.partial(changeTypeCommand, 'entity'),
+            relationCreateAndSelectCommand = _.partial(createCommand, 'relation', true),
+            relationCreateCommand = _.partial(createCommand, 'relation', false),
             relationRemoveCommand = _.partial(removeCommand, 'relation');
 
         return {
@@ -199,7 +201,7 @@ module.exports = function(idFactory, model, history, spanConfig) {
                             subCommands = subCommands.concat(
                                 d.entity.assosicatedRelations(id)
                                 .map(d.relation.get)
-                                .map(factory.relationCreateCommand)
+                                .map(relationCreateCommand)
                             );
                         });
                     });
@@ -261,7 +263,7 @@ module.exports = function(idFactory, model, history, spanConfig) {
             },
             // The relaitonId is optional set only when revert of the relationRemoveCommand.
             // Set the css class lately, because jsPlumbConnector is no applyed that css class immediately after create.
-            relationCreateCommand: _.partial(createCommand, 'relation', true),
+            relationCreateCommand: relationCreateAndSelectCommand,
             relationRemoveCommand: relationRemoveCommand,
             relationChangeTypeCommand: _.partial(changeTypeCommand, 'relation'),
             modificationCreateCommand: _.partial(createCommand, 'modification', false),

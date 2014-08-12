@@ -50,15 +50,20 @@ var Cache = function() {
         };
     }(),
     createNewCache = function(editor, model) {
-        var domUtil = require('../util/DomUtil')(editor),
+        var domUtil = require('../util/DomUtil')(editor);
 
-            // The chache for position of grids.
-            // This is updated at arrange position of grids.
-            // This is referenced at create or move relations.
-            gridPositionCache = new Cache(),
+        // The chache for position of grids.
+        // This is updated at arrange position of grids.
+        // This is referenced at create or move relations.
+        var gridPositionCache = _.extend(new Cache(), {
+            isGridPrepared: function(entityId) {
+                var spanId = model.annotationData.entity.get(entityId).span;
+                return gridPositionCache.get(spanId);
+            }
+        });
 
-            // The posion of the text-box to calculate span postion; 
-            getTextNodeFunc = function() {
+        // The posion of the text-box to calculate span postion; 
+        var getTextNodeFunc = function() {
                 return editor.find('.textae-editor__body__text-box').offset();
             },
             getTextNode = cacheMan.create(getTextNodeFunc),

@@ -1,3 +1,7 @@
+var delay150 = function(func) {
+    return _.partial(_.delay, func, 150);
+};
+
 module.exports = function(editor, model) {
     var selector = require('./Selector')(editor, model);
 
@@ -336,8 +340,8 @@ module.exports = function(editor, model) {
             .bind('span.change', viewModel.buttonStateHelper.updateBySpan)
             .bind('entity.select', selector.entity.select)
             .bind('entity.deselect', selector.entity.deselect)
-            .bind('relation.select', selector.relation.select)
-            .bind('relation.deselect', selector.relation.deselect)
+            .bind('relation.select', delay150(selector.relation.select))
+            .bind('relation.deselect', delay150(selector.relation.deselect))
             .bind('relation.change', viewModel.buttonStateHelper.updateByRelation);
     };
 

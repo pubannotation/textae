@@ -157,9 +157,6 @@ module.exports = function(editor, model, view, command, spanConfig) {
                         };
 
                     return {
-                        init: function() {
-                            editMode.init();
-                        },
                         showPallet: typeEditor.showPallet,
                         hideDialogs: typeEditor.hideDialogs,
                         redraw: function() {
@@ -198,13 +195,13 @@ module.exports = function(editor, model, view, command, spanConfig) {
                         setViewMode: setViewMode,
                         bindChangeViewMode: function() {
                             var changeViewMode = function(prefix) {
+                                editMode.init();
+
                                 // Change view mode accoding to the annotation data.
                                 if (model.annotationData.relation.some() || model.annotationData.span.multiEntities().length > 0) {
                                     setViewMode(prefix + 'Instance');
-                                    view.helper.calculateLineHeight();
                                 } else {
                                     setViewMode(prefix + 'Term');
-                                    view.helper.calculateLineHeight();
                                 }
                             };
 
@@ -232,8 +229,6 @@ module.exports = function(editor, model, view, command, spanConfig) {
                 .on('textae.editor.jsPlumbConnection.add', function(event, jsPlumbConnection) {
                     jsPlumbConnection.bindClickAction(typeEditor.jsPlumbConnectionClicked);
                 });
-
-            userEvent.viewHandler.init();
         },
         bindChangeViewMode: userEvent.viewHandler.bindChangeViewMode,
         event: {

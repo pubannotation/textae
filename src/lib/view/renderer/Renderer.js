@@ -57,7 +57,7 @@ module.exports = function(editor, model, viewModel, typeContainer) {
                 },
                 renderAllRelation = function(annotationData) {
                     rendererImpl.relation.reset();
-                    annotationData.relation.all().forEach(rendererImpl.relation.render0);
+                    annotationData.relation.all().forEach(rendererImpl.relation.render);
                 };
 
             return function(annotationData) {
@@ -137,9 +137,11 @@ module.exports = function(editor, model, viewModel, typeContainer) {
                 relation: relationRenderer
             };
         }(),
-        triggerChange = function() {
+        api = require('../../util/extendBindable')({}),
+        triggerChange = _.debounce(function() {
+            console.log('renderer.change');
             api.trigger('change');
-        },
+        }, 100),
         updateDisplayAfter = _.partial(_.compose, triggerChange),
         updateSpanAfter = function() {
             var entityToSpan = function(entity) {
@@ -162,29 +164,30 @@ module.exports = function(editor, model, viewModel, typeContainer) {
                 renderModificationOfRelation = _.partial(renderModification, 'relation');
 
             return _.compose(renderModificationOfEntity, renderModificationOfRelation);
-        }(),
-        api = require('../../util/extendBindable')({
-            setModelHandler: function() {
-                rendererImpl.init(getAnnotationArea());
+        }();
 
-                model.annotationData
-                    .bind('change-text', renderSourceDocument)
-                    .bind('all.change', _.compose(model.selectionModel.clear, reset))
-                    .bind('span.add', updateDisplayAfter(rendererImpl.span.render))
-                    .bind('span.remove', updateDisplayAfter(rendererImpl.span.remove))
-                    .bind('span.remove', _.compose(model.selectionModel.span.remove, modelToId))
-                    .bind('entity.add', updateSpanAfter(rendererImpl.entity.render))
-                    .bind('entity.change', updateSpanAfter(rendererImpl.entity.change))
-                    .bind('entity.remove', updateSpanAfter(rendererImpl.entity.remove))
-                    .bind('entity.remove', _.compose(model.selectionModel.entity.remove, modelToId))
-                    .bind('relation.add', rendererImpl.relation.render)
-                    .bind('relation.change', rendererImpl.relation.change)
-                    .bind('relation.remove', rendererImpl.relation.remove)
-                    .bind('relation.remove', _.compose(model.selectionModel.relation.remove, modelToId))
-                    .bind('modification.add', renderModificationEntityOrRelation)
-                    .bind('modification.remove', renderModificationEntityOrRelation);
-            }
-        });
+    _.extend(api, {
+        setModelHandler: function() {
+            rendererImpl.init(getAnnotationArea());
+
+            model.annotationData
+                .bind('change-text', renderSourceDocument)
+                .bind('all.change', _.compose(model.selectionModel.clear, reset))
+                .bind('span.add', updateDisplayAfter(rendererImpl.span.render))
+                .bind('span.remove', updateDisplayAfter(rendererImpl.span.remove))
+                .bind('span.remove', _.compose(model.selectionModel.span.remove, modelToId))
+                .bind('entity.add', updateSpanAfter(rendererImpl.entity.render))
+                .bind('entity.change', updateSpanAfter(rendererImpl.entity.change))
+                .bind('entity.remove', updateSpanAfter(rendererImpl.entity.remove))
+                .bind('entity.remove', _.compose(model.selectionModel.entity.remove, modelToId))
+                .bind('relation.add', updateDisplayAfter(rendererImpl.relation.render))
+                .bind('relation.change', rendererImpl.relation.change)
+                .bind('relation.remove', rendererImpl.relation.remove)
+                .bind('relation.remove', _.compose(model.selectionModel.relation.remove, modelToId))
+                .bind('modification.add', renderModificationEntityOrRelation)
+                .bind('modification.remove', renderModificationEntityOrRelation);
+        }
+    });
 
     return api;
 };

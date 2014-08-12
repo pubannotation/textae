@@ -1,4 +1,17 @@
-var makeJsPlumbInstance = function(container) {
+var POINTUP_LINE_WIDTH = 3,
+	LABEL = {
+		cssClass: 'textae-editor__relation__label',
+		id: 'label'
+	},
+	CURVINESS_PARAMETERS = {
+		// curviness parameters
+		xrate: 0.6,
+		yrate: 0.05,
+
+		// curviness offset
+		c_offset: 20,
+	},
+	makeJsPlumbInstance = function(container) {
 		var newInstance = jsPlumb.getInstance({
 			ConnectionsDetachable: false,
 			Endpoint: ['Dot', {
@@ -9,19 +22,20 @@ var makeJsPlumbInstance = function(container) {
 		newInstance.Defaults.Container = container;
 		return newInstance;
 	},
-	label = {
-		cssClass: 'textae-editor__relation__label',
-		id: 'label'
-	},
 	LabelOverlay = function(connect) {
 		// Find the label overlay by self, because the function 'getLabelOverlays' returns no label overlay.
-		var labelOverlay = connect.getOverlay(label.id);
+		var labelOverlay = connect.getOverlay(LABEL.id);
 		if (!labelOverlay) {
 			throw 'no label overlay';
 		}
 
 		return labelOverlay;
-	};
+	},
+	debounce20 = function(func) {
+		return _.debounce(func, 20);
+	},
+	// A Module to modify jsPlumb Arrow Overlays.
+	jsPlumbArrowOverlayUtil = require('./jsPlumbArrowOverlayUtil');
 
 module.exports = function(editor, model, typeContainer, modification) {
 	// Init a jsPlumb instance.
@@ -51,113 +65,95 @@ module.exports = function(editor, model, typeContainer, modification) {
 				};
 			};
 		}(),
-		// Parameters to render relations.
-		renderParameters = {
-			// curviness parameters
-			xrate: 0.6,
-			yrate: 0.05,
-
-			// curviness offset
-			c_offset: 20,
-		},
 		// Cache a connect instance.
 		cache = function(connect) {
 			var relationId = connect.relationId;
 			domPositionUtils.connectCache.set(relationId, connect);
 			return connect;
 		},
-		debounce20 = function(func) {
-			return _.debounce(func, 20);
+		toAnchors = function(relationId) {
+			return {
+				sourceId: model.annotationData.relation.get(relationId).subj,
+				targetId: model.annotationData.relation.get(relationId).obj
+			};
 		},
-		// Create a dummy relation when before moving grids after creation grids.
-		// Because a jsPlumb error occurs when a relation between same points.
-		// And entities of same length spans was same point before moving grids.
-		render0 = function() {
-			var extendRelationId = function(relation) {
-					return _.extend(relation, {
-						relationId: relation.id
-					})
-				},
-				extendDummyApiToCreateRlationWhenGridMoved = function(relation) {
-					return _.extend(relation, {
-						arrangePosition: debounce20(function() {
-							render(relation).arrangePosition(relation.relationId);
-						})
-					});
-				};
+		isGridPrepared = function(relationId) {
+			if (!model.annotationData.relation.get(relationId)) return;
 
-			return _.compose(cache, extendDummyApiToCreateRlationWhenGridMoved, extendRelationId);
-		}(),
+			var anchors = toAnchors(relationId);
+			return domPositionUtils.gridPositionCache.isGridPrepared(anchors.sourceId) &&
+				domPositionUtils.gridPositionCache.isGridPrepared(anchors.targetId);
+		},
+		filterGridExists = function(connect) {
+			// The grid may be destroyed when the spans was moved repetitively by undo or redo.   
+			if (!isGridPrepared(connect.relationId)) {
+				return;
+			}
+			return connect;
+		},
+		arrangePosition = function(func, connect) {
+			return debounce20(_.partial(_.compose(func, filterGridExists), connect));
+		},
+		determineCurviness = function(relationId) {
+			var anchors = toAnchors(relationId);
+			var sourcePosition = domPositionUtils.getEntity(anchors.sourceId);
+			var targetPosition = domPositionUtils.getEntity(anchors.targetId);
+
+			var sourceX = sourcePosition.center;
+			var targetX = targetPosition.center;
+
+			var sourceY = sourcePosition.top;
+			var targetY = targetPosition.top;
+
+			var xdiff = Math.abs(sourceX - targetX);
+			var ydiff = Math.abs(sourceY - targetY);
+			var curviness = xdiff * CURVINESS_PARAMETERS.xrate + ydiff * CURVINESS_PARAMETERS.yrate + CURVINESS_PARAMETERS.c_offset;
+			curviness /= 2.4;
+
+			return curviness;
+		},
+		moveConnect = function(connect) {
+			// The connect.endpoints may be null by timming.
+			if (connect && connect.endpoints) {
+				connect.endpoints[0].repaint();
+				connect.endpoints[1].repaint();
+				connect.setConnector(['Bezier', {
+					curviness: determineCurviness(connect.relationId)
+				}]);
+
+				// Re-set arrow because it is disappered when setConnector is called.
+				jsPlumbArrowOverlayUtil.resetArrows(connect);
+			}
+		},
 		render = function() {
-			// Overlay styles for jsPlubm connections.
-			var normalArrow = {
-					width: 7,
-					length: 9,
-					location: 1,
-					id: 'normal-arrow'
-				},
-				hoverArrow = {
-					width: 14,
-					length: 18,
-					location: 1,
-					id: 'hover-arrow',
-				},
-				toAnchors = function(relationId) {
-					return {
-						sourceId: model.annotationData.relation.get(relationId).subj,
-						targetId: model.annotationData.relation.get(relationId).obj
-					};
-				},
-				determineCurviness = function(relationId) {
-					var anchors = toAnchors(relationId);
-					var sourcePosition = domPositionUtils.getEntity(anchors.sourceId);
-					var targetPosition = domPositionUtils.getEntity(anchors.targetId);
-
-					var sourceX = sourcePosition.center;
-					var targetX = targetPosition.center;
-
-					var sourceY = sourcePosition.top;
-					var targetY = targetPosition.top;
-
-					var xdiff = Math.abs(sourceX - targetX);
-					var ydiff = Math.abs(sourceY - targetY);
-					var curviness = xdiff * renderParameters.xrate + ydiff * renderParameters.yrate + renderParameters.c_offset;
-					curviness /= 2.4;
-
-					return curviness;
-				},
-				create = function() {
-					var createJsPlumbConnect = function(relation) {
-							// Make a connect by jsPlumb.
-							return jsPlumbInstance.connect({
-								source: domUtil.selector.entity.get(relation.subj),
-								target: domUtil.selector.entity.get(relation.obj),
-								anchors: ['TopCenter', "TopCenter"],
-								connector: ['Bezier', {
-									curviness: determineCurviness(relation.id)
-								}],
-								paintStyle: new ConnectorStrokeStyle(relation.id),
-								parameters: {
-									'id': relation.id,
-								},
-								cssClass: 'textae-editor__relation',
-								overlays: [
-									['Arrow', normalArrow],
-									['Label', _.extend({}, label, {
-										label: '[' + relation.id + '] ' + relation.type,
-										cssClass: label.cssClass + ' ' + modification.getClasses(relation.id)
-									})]
-								]
-							});
+			var createJsPlumbConnect = function(relation) {
+					// Make a connect by jsPlumb.
+					return jsPlumbInstance.connect({
+						source: domUtil.selector.entity.get(relation.subj),
+						target: domUtil.selector.entity.get(relation.obj),
+						anchors: ['TopCenter', "TopCenter"],
+						connector: ['Bezier', {
+							curviness: determineCurviness(relation.id)
+						}],
+						paintStyle: new ConnectorStrokeStyle(relation.id),
+						parameters: {
+							'id': relation.id,
 						},
-						createJsPlumbConnectWithRelationId = function(relation) {
-							return _.extend(createJsPlumbConnect(relation), {
-								relationId: relation.id
-							});
-						};
-
-					return createJsPlumbConnectWithRelationId;
-				}(),
+						cssClass: 'textae-editor__relation',
+						overlays: [
+							['Arrow', jsPlumbArrowOverlayUtil.NORMAL_ARROW],
+							['Label', _.extend({}, LABEL, {
+								label: '[' + relation.id + '] ' + relation.type,
+								cssClass: LABEL.cssClass + ' ' + modification.getClasses(relation.id)
+							})]
+						]
+					});
+				},
+				create = function(relation) {
+					return _.extend(createJsPlumbConnect(relation), {
+						relationId: relation.id
+					});
+				},
 				extendPointup = function() {
 					var Pointupable = function() {
 						var hoverupLabel = function(connect) {
@@ -201,55 +197,59 @@ module.exports = function(editor, model, typeContainer, modification) {
 									if (!predicate(connect)) func(connect);
 								};
 							},
-							// Show a big arrow when the connect is hoverd.
-							// Remove a normal arrow and add a new big arrow.
-							// Because an arrow is out of position if hideOverlay and showOverlay is used.
-							pointupArrow = function(getStrokeStyle, connect) {
-								// Do not add a big arrow twice when a relation has been selected during hover.
-								if (connect.getOverlay(hoverArrow.id))
-									return connect;
-
-								connect.removeOverlay(normalArrow.id);
-								connect.addOverlay(['Arrow', hoverArrow]);
+							pointupLine = function(getStrokeStyle, connect) {
 								connect.setPaintStyle(_.extend(getStrokeStyle(), {
-									lineWidth: 3
+									lineWidth: POINTUP_LINE_WIDTH
 								}));
 								return connect;
 							},
-							pointdownAllow = function(getStrokeStyle, connect) {
-								// Already affected
-								if (connect.getOverlay(normalArrow.id))
-									return connect;
-
-								connect.removeOverlay(hoverArrow.id);
-								connect.addOverlay(['Arrow', normalArrow]);
+							pointdownLine = function(getStrokeStyle, connect) {
 								connect.setPaintStyle(getStrokeStyle());
 								return connect;
-							},
-							delay30 = function(func) {
-								return _.partial(_.delay, func, 30);
 							};
 
 						return function(relationId, connect) {
 							var getStrokeStyle = _.partial(ConnectorStrokeStyle, relationId),
-								pointupArrowColor = _.partial(pointupArrow, getStrokeStyle),
-								pointdownAllowColor = _.partial(pointdownAllow, getStrokeStyle),
+								pointupLineColor = _.partial(pointupLine, getStrokeStyle),
+								pointdownLineColor = _.partial(pointdownLine, getStrokeStyle),
 								unlessSelect = _.partial(unless, connect, function(connect) {
 									return hasClass(connect, 'ui-selected');
 								}),
 								unlessDead = _.partial(unless, connect, function(connect) {
 									return connect.dead;
 								}),
-								hoverup = _.compose(hoverupLine, hoverupLabel, pointupArrowColor),
-								hoverdown = _.compose(hoverdownLine, hoverdownLabel, pointdownAllowColor),
-								select = _.compose(selectLine, selectLabel, hoverdownLine, hoverdownLabel, pointupArrowColor),
-								deselect = _.compose(deselectLine, deselectLabel, pointdownAllowColor);
+								hoverup = _.compose(
+									hoverupLine,
+									hoverupLabel,
+									pointupLineColor,
+									jsPlumbArrowOverlayUtil.showBigArrow
+								),
+								hoverdown = _.compose(
+									hoverdownLine,
+									hoverdownLabel,
+									pointdownLineColor,
+									jsPlumbArrowOverlayUtil.hideBigArrow
+								),
+								select = _.compose(
+									selectLine,
+									selectLabel,
+									hoverdownLine,
+									hoverdownLabel,
+									pointupLineColor,
+									jsPlumbArrowOverlayUtil.showBigArrow
+								),
+								deselect = _.compose(
+									deselectLine,
+									deselectLabel,
+									pointdownLineColor,
+									jsPlumbArrowOverlayUtil.hideBigArrow
+								);
 
 							return {
 								pointup: unlessSelect(hoverup),
 								pointdown: unlessSelect(hoverdown),
-								select: delay30(unlessDead(select)),
-								deselect: delay30(unlessDead(deselect))
+								select: unlessDead(select),
+								deselect: unlessDead(deselect)
 							};
 						};
 					}();
@@ -294,27 +294,16 @@ module.exports = function(editor, model, typeContainer, modification) {
 				extendApi = function() {
 					// Extend module for jsPlumb.Connection.
 					var Api = function(connect) {
-						var arrangePosition = function() {
-								connect.endpoints[0].repaint();
-								connect.endpoints[1].repaint();
-
-								// Re-set arrow disappered when setConnector is called.
-								connect.removeOverlay('normal-arrow');
-								connect.setConnector(['Bezier', {
-									curviness: determineCurviness(connect.relationId)
-								}]);
-								connect.addOverlay(['Arrow', normalArrow]);
-							},
-							bindClickAction = function(onClick) {
-								this.bind('click', onClick);
-								this.getOverlay(label.id).bind('click', function(label, event) {
-									onClick(label.component, event);
-								});
-							};
+						var bindClickAction = function(onClick) {
+							this.bind('click', onClick);
+							this.getOverlay(LABEL.id).bind('click', function(label, event) {
+								onClick(label.component, event);
+							});
+						};
 
 						return _.extend({
 							// Set a function debounce to avoid over rendering.
-							arrangePosition: debounce20(arrangePosition),
+							arrangePosition: arrangePosition(moveConnect, connect),
 							bindClickAction: bindClickAction
 						});
 					};
@@ -334,6 +323,27 @@ module.exports = function(editor, model, typeContainer, modification) {
 
 			return _.compose(cache, notify, extendApi, hoverize, extendPointup, create);
 		}(),
+		// Create a dummy relation when before moving grids after creation grids.
+		// Because a jsPlumb error occurs when a relation between same points.
+		// And entities of same length spans was same point before moving grids.
+		renderLazy = function() {
+			var extendRelationId = function(relation) {
+					return _.extend(relation, {
+						relationId: relation.id
+					})
+				},
+				renderAndMove = function(relation) {
+					if (relation)
+						moveConnect(render(relation));
+				},
+				extendDummyApiToCreateRlationWhenGridMoved = function(relation) {
+					return _.extend(relation, {
+						arrangePosition: arrangePosition(renderAndMove, relation)
+					});
+				};
+
+			return _.compose(cache, extendDummyApiToCreateRlationWhenGridMoved, extendRelationId);
+		}(),
 		Connect = function(relationId) {
 			var connect = domPositionUtils.toConnect(relationId);
 			if (!connect) {
@@ -343,15 +353,19 @@ module.exports = function(editor, model, typeContainer, modification) {
 			return connect;
 		},
 		changeType = function(relation) {
-			var connect = new Connect(relation.id);
-			var labelOverlay = new LabelOverlay(connect);
+			var connect = new Connect(relation.id),
+				strokeStyle = new ConnectorStrokeStyle(relation.id);
 
-			labelOverlay.setLabel('[' + relation.id + '] ' + relation.type);
-			connect.setPaintStyle(new ConnectorStrokeStyle(relation.id));
+			// The connect may be an object for lazyRender instead of jsPlumb.Connection.
+			// This occurs when changing types and deletes was reverted.
+			if (connect instanceof jsPlumb.Connection) {
+				if (model.selectionModel.relation.has(relation.id)) {
+					// Re-set style of the line and arrow if selected.
+					strokeStyle.lineWidth = POINTUP_LINE_WIDTH;
+				}
+				connect.setPaintStyle(strokeStyle);
 
-			// Re-set style of the line and arrow if selected.
-			if (model.selectionModel.relation.has(relation.id)) {
-				connect.select();
+				new LabelOverlay(connect).setLabel('[' + relation.id + '] ' + relation.type);
 			}
 		},
 		changeJsModification = function(relation) {
@@ -374,8 +388,7 @@ module.exports = function(editor, model, typeContainer, modification) {
 			jsPlumbInstance.reset();
 			domPositionUtils.connectCache.clear();
 		},
-		render0: render0,
-		render: render,
+		render: renderLazy,
 		change: changeType,
 		changeModification: changeJsModification,
 		remove: remove
