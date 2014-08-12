@@ -2,13 +2,13 @@ module.exports = function() {
 	var emitter = require('../util/extendBindable')({}),
 		$pallet = function() {
 			return $('<div>')
-				.addClass("textae-editor__entity-pallet")
+				.addClass("textae-editor__type-pallet")
 				.append($('<table>'))
 				.css('position', 'fixed')
-				.on('click', '.textae-editor__entity-pallet__entity-type__label', function() {
+				.on('click', '.textae-editor__type-pallet__entity-type__label', function() {
 					emitter.trigger('type.select', $(this).attr('label'));
 				})
-				.on('change', '.textae-editor__entity-pallet__entity-type__radio', function() {
+				.on('change', '.textae-editor__type-pallet__entity-type__radio', function() {
 					emitter.trigger('default-type.select', $(this).attr('label'));
 				})
 				.hide();
@@ -18,7 +18,7 @@ module.exports = function() {
 					var makeRadioButton = function(typeName) {
 						// The event handler is bound direct,because jQuery detects events of radio buttons directly only.
 						var $radioButton = $('<input>')
-							.addClass('textae-editor__entity-pallet__entity-type__radio')
+							.addClass('textae-editor__type-pallet__entity-type__radio')
 							.attr({
 								'type': 'radio',
 								'name': 'etype',
@@ -42,7 +42,7 @@ module.exports = function() {
 									'href': uri,
 									'target': '_blank'
 								})
-								.append($('<span>').addClass('textae-editor__entity-pallet__link'));
+								.append($('<span>').addClass('textae-editor__type-pallet__link'));
 						}
 					};
 
@@ -58,7 +58,7 @@ module.exports = function() {
 
 					var makeColumn2 = function(typeName) {
 						return $('<td>')
-							.addClass('textae-editor__entity-pallet__entity-type__label')
+							.addClass('textae-editor__type-pallet__entity-type__label')
 							.attr('label', typeName)
 							.text(typeName);
 					};
@@ -71,7 +71,7 @@ module.exports = function() {
 						var $column3 = makeColumn3(typeName);
 
 						return $('<tr>')
-							.addClass('textae-editor__entity-pallet__entity-type')
+							.addClass('textae-editor__type-pallet__entity-type')
 							.css({
 								'background-color': typeContainer.getColor(typeName)
 							})
@@ -79,7 +79,7 @@ module.exports = function() {
 					});
 				},
 				reuseOldPallet = function($pallet) {
-					var $oldPallet = $('.textae-editor__entity-pallet');
+					var $oldPallet = $('.textae-editor__type-pallet');
 					if ($oldPallet.length !== 0) {
 						return $oldPallet.find('table').empty().end().css('width', 'auto');
 					} else {

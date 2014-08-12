@@ -31,7 +31,13 @@ module.exports = function(grunt) {
         dest: 'dist/lib/<%= pkg.name %>-<%= pkg.version %>.js',
       },
       css: {
-        src: ['src/lib/css/textae.css', 'src/lib/css/textae-control.css', 'src/lib/css/textae-editor.css', 'src/lib/css/textae-editor-load-save-dialog.css'],
+        src: [
+          'src/lib/css/textae.css',
+          'src/lib/css/textae-control.css',
+          'src/lib/css/textae-editor.css',
+          'src/lib/css/textae-editor-load-save-dialog.css',
+          'src/lib/css/textae-editor-type-pallet.css'
+        ],
         dest: 'dist/lib/css/<%= pkg.name %>-<%= pkg.version %>.css',
       }
     },
