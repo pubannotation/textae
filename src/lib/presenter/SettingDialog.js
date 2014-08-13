@@ -67,7 +67,7 @@ module.exports = function(editor, editMode) {
 							'type': 'number',
 							'step': 1,
 							'min': 3,
-							'max': 10
+							'max': 50
 						})
 						.addClass('textae-editor__setting-dialog__line-height')
 					))
