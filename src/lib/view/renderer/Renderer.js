@@ -41,7 +41,7 @@ module.exports = function(editor, model, viewModel, typeContainer) {
                 getSourceDocArea().html(createTaggedSourceDoc(params));
             };
         }(),
-        domPositionUtils = require('../DomPositionCache')(editor, model),
+        domPositionCaChe = require('../DomPositionCache')(editor, model),
         reset = function() {
             var renderAllSpan = function(annotationData) {
                     // For tuning
@@ -63,7 +63,7 @@ module.exports = function(editor, model, viewModel, typeContainer) {
             return function(annotationData) {
                 // Render annotations
                 getAnnotationArea().empty();
-                domPositionUtils.gridPositionCache.clear();
+                domPositionCaChe.gridPositionCache.clear();
                 renderAllSpan(annotationData);
 
                 // Render relations
@@ -74,7 +74,7 @@ module.exports = function(editor, model, viewModel, typeContainer) {
             var gridRenderer = function() {
                     var domUtil = require('../../util/DomUtil')(editor),
                         createGrid = function(container, spanId) {
-                            var spanPosition = domPositionUtils.getSpan(spanId);
+                            var spanPosition = domPositionCaChe.getSpan(spanId);
                             var $grid = $('<div>')
                                 .attr('id', 'G' + spanId)
                                 .addClass('textae-editor__grid')
@@ -90,7 +90,7 @@ module.exports = function(editor, model, viewModel, typeContainer) {
                         },
                         destroyGrid = function(spanId) {
                             domUtil.selector.grid.get(spanId).remove();
-                            domPositionUtils.gridPositionCache.remove(spanId);
+                            domPositionCaChe.gridPositionCache.remove(spanId);
                         },
                         init = function(container) {
                             gridRenderer.render = _.partial(createGrid, container);

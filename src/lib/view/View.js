@@ -250,11 +250,11 @@ module.exports = function(editor, model) {
     }(editor, model, selector);
 
     var hover = function() {
-        var domPositionUtils = require('./DomPositionCache')(editor, model);
+        var domPositionCaChe = require('./DomPositionCache')(editor, model);
 
         var processAccosiatedRelation = function(func, entityId) {
             model.annotationData.entity.assosicatedRelations(entityId)
-                .map(domPositionUtils.toConnect)
+                .map(domPositionCaChe.toConnect)
                 .forEach(func);
         };
 

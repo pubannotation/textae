@@ -1,7 +1,7 @@
 var selectionClass = require('./selectionClass');
 
 module.exports = function(editor, model) {
-	var domPositionUtils = require('./DomPositionCache')(editor, model),
+	var domPositionCaChe = require('./DomPositionCache')(editor, model),
 		domUtil = require('../util/DomUtil')(editor),
 		modify = function(type, handle, id) {
 			var $elment = domUtil.selector[type].get(id);
@@ -15,7 +15,7 @@ module.exports = function(editor, model) {
 			var addUiSelectClass = function(connect) {
 					if (connect && connect.select) connect.select();
 				},
-				selectRelation = _.compose(addUiSelectClass, domPositionUtils.toConnect);
+				selectRelation = _.compose(addUiSelectClass, domPositionCaChe.toConnect);
 
 			selectRelation(relationId);
 		},
@@ -23,7 +23,7 @@ module.exports = function(editor, model) {
 			var removeUiSelectClass = function(connect) {
 					if (connect && connect.deselect) connect.deselect();
 				},
-				deselectRelation = _.compose(removeUiSelectClass, domPositionUtils.toConnect);
+				deselectRelation = _.compose(removeUiSelectClass, domPositionCaChe.toConnect);
 
 			deselectRelation(relationId);
 		}, // Select the typeLabel if all entities is selected.

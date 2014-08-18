@@ -1,9 +1,9 @@
 // Management position of annotation components.
 module.exports = function(editor, model) {
-   var domPositionUtils = require('./DomPositionCache')(editor, model),
+   var domPositionCaChe = require('./DomPositionCache')(editor, model),
       domUtil = require('../util/DomUtil')(editor),
       filterChanged = function(span, newPosition) {
-         var oldGridPosition = domPositionUtils.getGrid(span.id);
+         var oldGridPosition = domPositionCaChe.getGrid(span.id);
          if (!oldGridPosition || oldGridPosition.top !== newPosition.top || oldGridPosition.left !== newPosition.left) {
             return newPosition;
          } else {
@@ -15,7 +15,7 @@ module.exports = function(editor, model) {
             _.flatten(
                span.getEntities().map(model.annotationData.entity.assosicatedRelations)
             )
-            .map(domPositionUtils.toConnect)
+            .map(domPositionCaChe.toConnect)
          ).forEach(function(connect) {
             connect.arrangePosition();
          });
@@ -29,13 +29,13 @@ module.exports = function(editor, model) {
       updateGridPositon = function(span, newPosition) {
          if (newPosition) {
             getGrid(span).css(newPosition);
-            domPositionUtils.setGrid(span.id, newPosition);
+            domPositionCaChe.setGrid(span.id, newPosition);
             return span;
          }
       },
       getNewPosition = function(typeGapValue, span) {
          var stickGridOnSpan = function(span) {
-            var spanPosition = domPositionUtils.getSpan(span.id);
+            var spanPosition = domPositionCaChe.getSpan(span.id);
 
             return {
                'top': spanPosition.top - getGrid(span).outerHeight(),
@@ -55,7 +55,7 @@ module.exports = function(editor, model) {
                return gridHeight + descendantsMaxHeight;
             };
 
-            var spanPosition = domPositionUtils.getSpan(span.id);
+            var spanPosition = domPositionCaChe.getSpan(span.id);
             var descendantsMaxHeight = getHeightIncludeDescendantGrids(span);
 
             return {
@@ -95,12 +95,17 @@ module.exports = function(editor, model) {
          }
       },
       arrangePositionAll = function(typeGapValue) {
-         domPositionUtils.reset();
+         domPositionCaChe.reset();
 
          model.annotationData.span.all()
             .filter(function(span) {
                // There is at least one type in span that has a grid.
                return span.getTypes().length > 0;
+            })
+            .map(function(span) {
+               // Cache all span position because alternating between getting offset and setting offset.
+               domPositionCaChe.getSpan(span.id);
+               return span;
             })
             .forEach(function(span) {
                _.defer(_.partial(arrangeGridPosition, typeGapValue, span));

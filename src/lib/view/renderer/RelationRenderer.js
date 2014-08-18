@@ -40,7 +40,7 @@ var POINTUP_LINE_WIDTH = 3,
 module.exports = function(editor, model, typeContainer, modification) {
 	// Init a jsPlumb instance.
 	var domUtil = require('../../util/DomUtil')(editor),
-		domPositionUtils = require('../DomPositionCache')(editor, model),
+		domPositionCaChe = require('../DomPositionCache')(editor, model),
 		jsPlumbInstance,
 		init = function(container) {
 			jsPlumbInstance = makeJsPlumbInstance(container);
@@ -68,7 +68,7 @@ module.exports = function(editor, model, typeContainer, modification) {
 		// Cache a connect instance.
 		cache = function(connect) {
 			var relationId = connect.relationId;
-			domPositionUtils.connectCache.set(relationId, connect);
+			domPositionCaChe.connectCache.set(relationId, connect);
 			return connect;
 		},
 		toAnchors = function(relationId) {
@@ -81,8 +81,8 @@ module.exports = function(editor, model, typeContainer, modification) {
 			if (!model.annotationData.relation.get(relationId)) return;
 
 			var anchors = toAnchors(relationId);
-			return domPositionUtils.gridPositionCache.isGridPrepared(anchors.sourceId) &&
-				domPositionUtils.gridPositionCache.isGridPrepared(anchors.targetId);
+			return domPositionCaChe.gridPositionCache.isGridPrepared(anchors.sourceId) &&
+				domPositionCaChe.gridPositionCache.isGridPrepared(anchors.targetId);
 		},
 		filterGridExists = function(connect) {
 			// The grid may be destroyed when the spans was moved repetitively by undo or redo.   
@@ -96,8 +96,8 @@ module.exports = function(editor, model, typeContainer, modification) {
 		},
 		determineCurviness = function(relationId) {
 			var anchors = toAnchors(relationId);
-			var sourcePosition = domPositionUtils.getEntity(anchors.sourceId);
-			var targetPosition = domPositionUtils.getEntity(anchors.targetId);
+			var sourcePosition = domPositionCaChe.getEntity(anchors.sourceId);
+			var targetPosition = domPositionCaChe.getEntity(anchors.targetId);
 
 			var sourceX = sourcePosition.center;
 			var targetX = targetPosition.center;
@@ -345,7 +345,7 @@ module.exports = function(editor, model, typeContainer, modification) {
 			return _.compose(cache, extendDummyApiToCreateRlationWhenGridMoved, extendRelationId);
 		}(),
 		Connect = function(relationId) {
-			var connect = domPositionUtils.toConnect(relationId);
+			var connect = domPositionCaChe.toConnect(relationId);
 			if (!connect) {
 				throw 'no connect';
 			}
@@ -376,7 +376,7 @@ module.exports = function(editor, model, typeContainer, modification) {
 		remove = function(relation) {
 			var connect = new Connect(relation.id);
 			jsPlumbInstance.detach(connect);
-			domPositionUtils.connectCache.remove(relation.id);
+			domPositionCaChe.connectCache.remove(relation.id);
 
 			// Set the flag dead already to delay selection.
 			connect.dead = true;
@@ -386,7 +386,7 @@ module.exports = function(editor, model, typeContainer, modification) {
 		init: init,
 		reset: function() {
 			jsPlumbInstance.reset();
-			domPositionUtils.connectCache.clear();
+			domPositionCaChe.connectCache.clear();
 		},
 		render: renderLazy,
 		change: changeType,
