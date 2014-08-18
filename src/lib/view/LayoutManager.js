@@ -1,5 +1,5 @@
 // Management position of annotation components.
-module.exports = function(editor, model) {
+module.exports = function(editor, model, renderer) {
    var domPositionCaChe = require('./DomPositionCache')(editor, model),
       domUtil = require('../util/DomUtil')(editor),
       filterChanged = function(span, newPosition) {
@@ -9,17 +9,6 @@ module.exports = function(editor, model) {
          } else {
             return undefined;
          }
-      },
-      arrangeRelationPosition = function(span) {
-         _.compact(
-            _.flatten(
-               span.getEntities().map(model.annotationData.entity.assosicatedRelations)
-            )
-            .map(domPositionCaChe.toConnect)
-         ).forEach(function(connect) {
-            connect.arrangePosition();
-         });
-         return span;
       },
       getGrid = function(span) {
          if (span) {
@@ -91,12 +80,10 @@ module.exports = function(editor, model) {
          // The span may be remeved because this functon is call asynchronously.
          if (model.annotationData.span.get(span.id)) {
             // Move all relations because entities are increased or decreased unless the grid is moved.  
-            _.compose(showInvisibleGrid, moveTheGridIfChange, arrangeRelationPosition)(span);
+            _.compose(showInvisibleGrid, moveTheGridIfChange)(span);
          }
       },
-      arrangePositionAll = function(typeGapValue) {
-         domPositionCaChe.reset();
-
+      arrangeGridPositionAll = function(typeGapValue) {
          model.annotationData.span.all()
             .filter(function(span) {
                // There is at least one type in span that has a grid.
@@ -107,9 +94,23 @@ module.exports = function(editor, model) {
                domPositionCaChe.getSpan(span.id);
                return span;
             })
-            .forEach(function(span) {
-               _.defer(_.partial(arrangeGridPosition, typeGapValue, span));
+            .forEach(_.partial(arrangeGridPosition, typeGapValue));
+      },
+      renderRelationAllLazy = function() {
+         // Render relations unless rendered.
+         model.annotationData.relation.all()
+            .filter(function(connect) {
+               return connect.render;
+            })
+            .forEach(function(connect) {
+               connect.render();
             });
+      },
+      arrangePositionAll = function(typeGapValue) {
+         domPositionCaChe.reset();
+         arrangeGridPositionAll(typeGapValue);
+         renderRelationAllLazy();
+         renderer.arrangeRelationPositionAll();
       };
 
    return {

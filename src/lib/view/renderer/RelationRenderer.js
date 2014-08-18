@@ -31,9 +31,6 @@ var POINTUP_LINE_WIDTH = 3,
 
 		return labelOverlay;
 	},
-	debounce20 = function(func) {
-		return _.debounce(func, 20);
-	},
 	// A Module to modify jsPlumb Arrow Overlays.
 	jsPlumbArrowOverlayUtil = require('./jsPlumbArrowOverlayUtil');
 
@@ -91,9 +88,6 @@ module.exports = function(editor, model, typeContainer, modification) {
 			}
 			return connect;
 		},
-		arrangePosition = function(func, connect) {
-			return debounce20(_.partial(_.compose(func, filterGridExists), connect));
-		},
 		determineCurviness = function(relationId) {
 			var anchors = toAnchors(relationId);
 			var sourcePosition = domPositionCaChe.getEntity(anchors.sourceId);
@@ -112,21 +106,12 @@ module.exports = function(editor, model, typeContainer, modification) {
 
 			return curviness;
 		},
-		moveConnect = function(connect) {
-			// The connect.endpoints may be null by timming.
-			if (connect && connect.endpoints) {
-				connect.endpoints[0].repaint();
-				connect.endpoints[1].repaint();
-				connect.setConnector(['Bezier', {
-					curviness: determineCurviness(connect.relationId)
-				}]);
-
-				// Re-set arrow because it is disappered when setConnector is called.
-				jsPlumbArrowOverlayUtil.resetArrows(connect);
-			}
-		},
 		render = function() {
-			var createJsPlumbConnect = function(relation) {
+			var deleteRender = function(relation) {
+					delete relation.render;
+					return relation;
+				},
+				createJsPlumbConnect = function(relation) {
 					// Make a connect by jsPlumb.
 					return jsPlumbInstance.connect({
 						source: domUtil.selector.entity.get(relation.subj),
@@ -302,8 +287,6 @@ module.exports = function(editor, model, typeContainer, modification) {
 						};
 
 						return _.extend({
-							// Set a function debounce to avoid over rendering.
-							arrangePosition: arrangePosition(moveConnect, connect),
 							bindClickAction: bindClickAction
 						});
 					};
@@ -321,7 +304,15 @@ module.exports = function(editor, model, typeContainer, modification) {
 					return connect;
 				};
 
-			return _.compose(cache, notify, extendApi, hoverize, extendPointup, create);
+			return _.compose(
+				cache,
+				notify,
+				extendApi,
+				hoverize,
+				extendPointup,
+				create,
+				deleteRender
+			);
 		}(),
 		// Create a dummy relation when before moving grids after creation grids.
 		// Because a jsPlumb error occurs when a relation between same points.
@@ -332,13 +323,15 @@ module.exports = function(editor, model, typeContainer, modification) {
 						relationId: relation.id
 					})
 				},
-				renderAndMove = function(relation) {
-					if (relation)
-						moveConnect(render(relation));
+				renderIfGridExists = function(relation) {
+					if (filterGridExists(relation)) render(relation);
 				},
 				extendDummyApiToCreateRlationWhenGridMoved = function(relation) {
 					return _.extend(relation, {
-						arrangePosition: arrangePosition(renderAndMove, relation)
+						render: _.debounce(
+							_.partial(renderIfGridExists, relation),
+							20
+						)
 					});
 				};
 
@@ -391,6 +384,9 @@ module.exports = function(editor, model, typeContainer, modification) {
 		render: renderLazy,
 		change: changeType,
 		changeModification: changeJsModification,
-		remove: remove
+		remove: remove,
+		arrangePositionAll: function() {
+			jsPlumbInstance.repaintEverything();
+		}
 	};
 };

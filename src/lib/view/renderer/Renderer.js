@@ -139,7 +139,6 @@ module.exports = function(editor, model, viewModel, typeContainer) {
         }(),
         api = require('../../util/extendBindable')({}),
         triggerChange = _.debounce(function() {
-            console.log('renderer.change');
             api.trigger('change');
         }, 100),
         updateDisplayAfter = _.partial(_.compose, triggerChange),
@@ -186,7 +185,8 @@ module.exports = function(editor, model, viewModel, typeContainer) {
                 .bind('relation.remove', _.compose(model.selectionModel.relation.remove, modelToId))
                 .bind('modification.add', renderModificationEntityOrRelation)
                 .bind('modification.remove', renderModificationEntityOrRelation);
-        }
+        },
+        arrangeRelationPositionAll: rendererImpl.relation.arrangePositionAll
     });
 
     return api;

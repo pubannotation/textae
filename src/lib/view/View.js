@@ -271,7 +271,7 @@ module.exports = function(editor, model) {
     var typeContainer = require('./TypeContainer')(model),
         // Render DOM elements conforming with the Model.
         renderer = require('./renderer/Renderer')(editor, model, viewModel, typeContainer),
-        layoutManager = require('./layoutManager')(editor, model),
+        layoutManager = require('./layoutManager')(editor, model, renderer),
         updateDisplay = function() {
             layoutManager.updateDisplay(viewModel.viewMode.typeGapValue)
         };
