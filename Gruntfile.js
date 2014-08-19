@@ -89,10 +89,10 @@ module.exports = function(grunt) {
     },
     // for test
     jshint: {
-      files: ['Gruntfile.js', 'src/lib/*.js'],
+      files: ['Gruntfile.js', 'src/lib/**'],
       options: {
         jshintrc: '.jshintrc',
-        ignores: ['src/lib/bundle.js']
+        ignores: ['src/lib/bundle.js', 'src/lib/css/**']
       }
     },
     jasmine_node: {

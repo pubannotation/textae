@@ -8,8 +8,7 @@ module.exports = function(editor, model, view, command, spanConfig) {
         },
         typeEditor = require('./TypeEditor')(editor, model, spanConfig, command, view.viewModel, view.typeContainer),
         userEvent = function() {
-            var getSelectedAndEditableIds,
-                editHandler = function() {
+            var editHandler = function() {
                     var toggleModification = function(modificationType) {
                         var isModificationType = function(modification) {
                                 return modification.pred === modificationType;
@@ -23,12 +22,12 @@ module.exports = function(editor, model, view, command, spanConfig) {
                             has = view.viewModel.modeAccordingToButton[modificationType.toLowerCase()].value();
 
                         if (has) {
-                            commands = getSelectedIdEditable().map(function(id) {
+                            commands = typeEditor.getSelectedIdEditable().map(function(id) {
                                 var modification = getSpecificModification(id)[0];
                                 return command.factory.modificationRemoveCommand(modification.id);
                             });
                         } else {
-                            commands = _.reject(getSelectedIdEditable(), function(id) {
+                            commands = _.reject(typeEditor.getSelectedIdEditable(), function(id) {
                                 return getSpecificModification(id).length > 0;
                             }).map(function(id) {
                                 return command.factory.modificationCreateCommand({
@@ -120,7 +119,7 @@ module.exports = function(editor, model, view, command, spanConfig) {
                         },
                         copyEntities: function() {
                             // Unique Entities. Because a entity is deplicate When a span and thats entity is selected.
-                            view.viewModel.clipBoard = _.uniq(
+                            view.clipBoard.clipBoard = _.uniq(
                                 function getEntitiesFromSelectedSpan() {
                                     return _.flatten(model.selectionModel.span.all().map(function(spanId) {
                                         return model.annotationData.span.get(spanId).getEntities();
@@ -134,9 +133,9 @@ module.exports = function(editor, model, view, command, spanConfig) {
                             });
                         },
                         pasteEntities: function() {
-                            // Make commands per selected spans from types in clipBord. 
+                            // Make commands per selected spans from types in clipBoard. 
                             var commands = _.flatten(model.selectionModel.span.all().map(function(spanId) {
-                                return view.viewModel.clipBoard.map(function(type) {
+                                return view.clipBoard.clipBoard.map(function(type) {
                                     return command.factory.entityCreateCommand({
                                         span: spanId,
                                         type: type
@@ -149,7 +148,7 @@ module.exports = function(editor, model, view, command, spanConfig) {
                     };
                 }(),
                 viewHandler = function() {
-                    var editMode = require('./EditMode')(model, view, typeEditor),
+                    var editMode = require('./EditMode')(model, view.viewMode, typeEditor, view.helper.redraw),
                         setViewMode = function(mode) {
                             if (editMode['to' + mode]) {
                                 editMode['to' + mode]();
@@ -183,7 +182,7 @@ module.exports = function(editor, model, view, command, spanConfig) {
                                 }
                             }
                         },
-                        showSettingDialog: require('./SettingDialog')(editor, editMode),
+                        showSettingDialog: require('./SettingDialog')(editor, editMode, view.helper.redraw),
                         toggleRelationEditMode: function() {
                             // ビューモードを切り替える
                             if (view.viewModel.modeAccordingToButton['relation-edit-mode'].value()) {

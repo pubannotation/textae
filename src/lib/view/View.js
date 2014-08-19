@@ -1,12 +1,7 @@
 var delay150 = function(func) {
-    return _.partial(_.delay, func, 150);
-};
-
-module.exports = function(editor, model) {
-    var selector = require('./Selector')(editor, model);
-
-    // Data for view.
-    var viewModel = function(editor, model, selector) {
+        return _.partial(_.delay, func, 150);
+    },
+    ButtonController = function(editor, model, clipBoard) {
         var reduce2hash = require('../util/reduce2hash');
 
         // Save state of push control buttons.
@@ -48,7 +43,7 @@ module.exports = function(editor, model) {
                 propagateStateOfAllButtons = function() {
                     buttons
                         .map(function(button) {
-                            return button.propagate
+                            return button.propagate;
                         })
                         .forEach(function(propagate) {
                             propagate();
@@ -60,7 +55,7 @@ module.exports = function(editor, model) {
 
             return _.extend(api, {
                 propagate: propagateStateOfAllButtons
-            });;
+            });
         }(editor);
 
         // Save enable/disable state of contorol buttons.
@@ -100,7 +95,7 @@ module.exports = function(editor, model) {
                     return false;
                 },
                 hasCopy = function() {
-                    return viewModel.clipBoard.length > 0;
+                    return clipBoard.clipBoard.length > 0;
                 },
                 sOrE = _.partial(or, 'span', 'entity'),
                 eOrR = _.partial(or, 'entity', 'relation');
@@ -180,106 +175,27 @@ module.exports = function(editor, model) {
         }();
 
         return {
-            // view.viewModel.clipBoard has entity id only.
-            clipBoard: [],
             // Modes accoding to buttons of control.
             modeAccordingToButton: modeAccordingToButton,
             buttonStateHelper: buttonStateHelper,
-            viewMode: function() {
-                var changeCssClass = function(mode) {
-                        editor
-                            .removeClass('textae-editor_term-mode')
-                            .removeClass('textae-editor_instance-mode')
-                            .removeClass('textae-editor_relation-mode')
-                            .addClass('textae-editor_' + mode + '-mode');
-                    },
-                    setControlButtonForRelation = function(isRelation) {
-                        viewModel.buttonStateHelper.enabled('replicate-auto', !isRelation);
-                        viewModel.modeAccordingToButton['relation-edit-mode'].value(isRelation);
-                    },
-                    // This notify is off at relation-edit-mode.
-                    entitySelectChanged = _.compose(buttonStateHelper.updateByEntity, selector.entityLabel.update);
-
-                return {
-                    typeGapValue: 0,
-                    setTerm: function() {
-                        changeCssClass('term');
-                        setControlButtonForRelation(false);
-
-                        model.selectionModel
-                            .unbind('entity.select', entitySelectChanged)
-                            .unbind('entity.deselect', entitySelectChanged)
-                            .unbind('entity.change', entitySelectChanged)
-                            .bind('entity.select', entitySelectChanged)
-                            .bind('entity.deselect', entitySelectChanged)
-                            .bind('entity.change', viewModel.buttonStateHelper.updateByEntity);
-                    },
-                    setInstance: function() {
-                        changeCssClass('instance');
-                        setControlButtonForRelation(false);
-
-                        model.selectionModel
-                            .unbind('entity.select', entitySelectChanged)
-                            .unbind('entity.deselect', entitySelectChanged)
-                            .unbind('entity.change', viewModel.buttonStateHelper.updateByEntity)
-                            .bind('entity.select', entitySelectChanged)
-                            .bind('entity.deselect', entitySelectChanged)
-                            .bind('entity.change', viewModel.buttonStateHelper.updateByEntity);
-                    },
-                    setRelation: function() {
-                        changeCssClass('relation');
-                        setControlButtonForRelation(true);
-
-                        model.selectionModel
-                            .unbind('entity.select', entitySelectChanged)
-                            .unbind('entity.deselect', entitySelectChanged)
-                            .unbind('entity.change', viewModel.buttonStateHelper.updateByEntity);
-                    },
-                    setEditable: function(isEditable) {
-                        if (isEditable) {
-                            editor.addClass('textae-editor_editable');
-                        } else {
-                            editor.removeClass('textae-editor_editable');
-                            viewModel.buttonStateHelper.enabled('replicate-auto', false);
-                            viewModel.buttonStateHelper.enabled('relation-edit-mode', false);
-                        }
-                    }
-                };
-            }()
         };
-    }(editor, model, selector);
-
-    var hover = function() {
-        var domPositionCaChe = require('./DomPositionCache')(editor, model);
-
-        var processAccosiatedRelation = function(func, entityId) {
-            model.annotationData.entity.assosicatedRelations(entityId)
-                .map(domPositionCaChe.toConnect)
-                .forEach(func);
-        };
-
-        return {
-            on: _.partial(processAccosiatedRelation, function(connect) {
-                connect.pointup();
-            }),
-            off: _.partial(processAccosiatedRelation, function(connect) {
-                connect.pointdown();
-            })
-        };
-    }();
-
-    var typeContainer = require('./TypeContainer')(model),
-        // Render DOM elements conforming with the Model.
-        renderer = require('./renderer/Renderer')(editor, model, viewModel, typeContainer),
-        layoutManager = require('./layoutManager')(editor, model, renderer),
-        updateDisplay = function() {
-            layoutManager.updateDisplay(viewModel.viewMode.typeGapValue)
-        };
-
-    renderer.bind('change', updateDisplay);
-
-    var helper = function() {
-        var changeLineHeight = function(heightValue) {
+    },
+    ViewMode = function(editor, model, buttonController) {
+        var selector = require('./Selector')(editor, model),
+            changeCssClass = function(mode) {
+                editor
+                    .removeClass('textae-editor_term-mode')
+                    .removeClass('textae-editor_instance-mode')
+                    .removeClass('textae-editor_relation-mode')
+                    .addClass('textae-editor_' + mode + '-mode');
+            },
+            setControlButtonForRelation = function(isRelation) {
+                buttonController.buttonStateHelper.enabled('replicate-auto', !isRelation);
+                buttonController.modeAccordingToButton['relation-edit-mode'].value(isRelation);
+            },
+            // This notify is off at relation-edit-mode.
+            entitySelectChanged = _.compose(buttonController.buttonStateHelper.updateByEntity, selector.entityLabel.update),
+            changeLineHeight = function(heightValue) {
                 editor.find('.textae-editor__body__text-box').css({
                     'line-height': heightValue + 'px',
                     'padding-top': heightValue / 2 + 'px'
@@ -308,48 +224,129 @@ module.exports = function(editor, model) {
                     );
 
                 changeLineHeight(maxHeight);
-                layoutManager.updateDisplay(typeGapValue);
-            };
+            },
+            typeGapValue = 0;
 
-        return {
+        var api = {
+            getTypeGapValue: function() {
+                return typeGapValue;
+            },
+            setTerm: function() {
+                changeCssClass('term');
+                setControlButtonForRelation(false);
+
+                model.selectionModel
+                    .unbind('entity.select', entitySelectChanged)
+                    .unbind('entity.deselect', entitySelectChanged)
+                    .unbind('entity.change', entitySelectChanged)
+                    .bind('entity.select', entitySelectChanged)
+                    .bind('entity.deselect', entitySelectChanged)
+                    .bind('entity.change', buttonController.buttonStateHelper.updateByEntity);
+            },
+            setInstance: function() {
+                changeCssClass('instance');
+                setControlButtonForRelation(false);
+
+                model.selectionModel
+                    .unbind('entity.select', entitySelectChanged)
+                    .unbind('entity.deselect', entitySelectChanged)
+                    .unbind('entity.change', buttonController.buttonStateHelper.updateByEntity)
+                    .bind('entity.select', entitySelectChanged)
+                    .bind('entity.deselect', entitySelectChanged)
+                    .bind('entity.change', buttonController.buttonStateHelper.updateByEntity);
+            },
+            setRelation: function() {
+                changeCssClass('relation');
+                setControlButtonForRelation(true);
+
+                model.selectionModel
+                    .unbind('entity.select', entitySelectChanged)
+                    .unbind('entity.deselect', entitySelectChanged)
+                    .unbind('entity.change', buttonController.buttonStateHelper.updateByEntity);
+            },
+            setEditable: function(isEditable) {
+                if (isEditable) {
+                    editor.addClass('textae-editor_editable');
+                } else {
+                    editor.removeClass('textae-editor_editable');
+                    buttonController.buttonStateHelper.enabled('replicate-auto', false);
+                    buttonController.buttonStateHelper.enabled('relation-edit-mode', false);
+                }
+            },
             getLineHeight: function() {
                 return parseInt(editor.find('.textae-editor__body__text-box').css('line-height')) / 16;
             },
             changeLineHeight: changeLineHeight,
-            calculateLineHeight: function() {
-                calculateLineHeight(viewModel.viewMode.typeGapValue);
-            },
-            changeTypeGap: function(typeGapValue) {
+            changeTypeGap: function(newValue) {
                 editor.find('.textae-editor__type').css({
-                    height: 18 * typeGapValue + 18 + 'px',
-                    'padding-top': 18 * typeGapValue + 'px'
+                    height: 18 * newValue + 18 + 'px',
+                    'padding-top': 18 * newValue + 'px'
                 });
-                viewModel.viewMode.typeGapValue = typeGapValue;
-                calculateLineHeight(viewModel.viewMode.typeGapValue);
-            },
-            redraw: updateDisplay
+                calculateLineHeight(newValue);
+                typeGapValue = newValue;
+            }
         };
-    }();
 
-    var setSelectionModelHandler = function() {
-        // The viewModel.buttonStateHelper.updateByEntity is set at viewMode.
-        // Because entity.change is off at relation-edit-mode.
-        model.selectionModel
-            .bind('span.select', selector.span.select)
-            .bind('span.deselect', selector.span.deselect)
-            .bind('span.change', viewModel.buttonStateHelper.updateBySpan)
-            .bind('entity.select', selector.entity.select)
-            .bind('entity.deselect', selector.entity.deselect)
-            .bind('relation.select', delay150(selector.relation.select))
-            .bind('relation.deselect', delay150(selector.relation.deselect))
-            .bind('relation.change', viewModel.buttonStateHelper.updateByRelation);
+        return api;
     };
+
+module.exports = function(editor, model) {
+    var selector = require('./Selector')(editor, model),
+        clipBoard = {
+            // clipBoard has entity type.
+            clipBoard: []
+        },
+        buttonController = new ButtonController(editor, model, clipBoard),
+        viewMode = new ViewMode(editor, model, buttonController),
+        typeContainer = require('./TypeContainer')(model),
+        // Render DOM elements conforming with the Model.
+        renderer = require('./renderer/Renderer')(editor, model, buttonController, typeContainer),
+        hover = function() {
+            var domPositionCaChe = require('./DomPositionCache')(editor, model),
+                processAccosiatedRelation = function(func, entityId) {
+                    model.annotationData.entity.assosicatedRelations(entityId)
+                        .map(domPositionCaChe.toConnect)
+                        .forEach(func);
+                };
+
+            return {
+                on: _.partial(processAccosiatedRelation, function(connect) {
+                    connect.pointup();
+                }),
+                off: _.partial(processAccosiatedRelation, function(connect) {
+                    connect.pointdown();
+                })
+            };
+        }(),
+        setSelectionModelHandler = function() {
+            // The buttonController.buttonStateHelper.updateByEntity is set at viewMode.
+            // Because entity.change is off at relation-edit-mode.
+            model.selectionModel
+                .bind('span.select', selector.span.select)
+                .bind('span.deselect', selector.span.deselect)
+                .bind('span.change', buttonController.buttonStateHelper.updateBySpan)
+                .bind('entity.select', selector.entity.select)
+                .bind('entity.deselect', selector.entity.deselect)
+                .bind('relation.select', delay150(selector.relation.select))
+                .bind('relation.deselect', delay150(selector.relation.deselect))
+                .bind('relation.change', buttonController.buttonStateHelper.updateByRelation);
+        },
+        updateDisplay = function() {
+            require('./layoutManager')(editor, model).updateDisplay(viewMode.getTypeGapValue());
+            renderer.arrangeRelationPositionAll();
+        };
+
+    renderer.bind('change', updateDisplay);
 
     return {
         init: _.compose(setSelectionModelHandler, renderer.setModelHandler),
-        viewModel: viewModel,
+        viewModel: buttonController,
+        clipBoard: clipBoard,
+        viewMode: viewMode,
         hoverRelation: hover,
-        helper: helper,
+        helper: {
+            redraw: updateDisplay
+        },
         typeContainer: typeContainer
     };
 };

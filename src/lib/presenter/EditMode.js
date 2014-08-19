@@ -4,7 +4,8 @@ var typeGap = function() {
 			instanceShow: 2
 		},
 		set = function(mode, val) {
-			return typeGap[mode] = val;
+			typeGap[mode] = val;
+			return val;
 		},
 		api = _.extend({}, seed),
 		capitalize = require('../util/capitalize');
@@ -16,19 +17,19 @@ var typeGap = function() {
 	return api;
 }();
 
-module.exports = function(model, view, typeEditor) {
+module.exports = function(model, viewMode, typeEditor, updateDisplay) {
 	var api = {
 			init: function() {
 				_.extend(api, state.init);
 			},
 			get typeGap() {
-				return view.viewModel.viewMode.typeGapValue;
+				return viewMode.getTypeGapValue();
 			},
-			changeTypeGap: view.helper.changeTypeGap,
+			changeTypeGap: viewMode.changeTypeGap,
 			get lineHeight() {
-				return Math.floor(view.helper.getLineHeight());
+				return Math.floor(viewMode.getLineHeight());
 			},
-			changeLineHeight: view.helper.changeLineHeight
+			changeLineHeight: viewMode.changeLineHeight
 		},
 		resetView = function() {
 			typeEditor.hideDialogs();
@@ -39,9 +40,11 @@ module.exports = function(model, view, typeEditor) {
 				resetView();
 
 				typeEditor.editEntity();
-				view.viewModel.viewMode.setTerm();
-				view.viewModel.viewMode.setEditable(true);
-				view.helper.changeTypeGap(typeGap.instanceHide);
+				viewMode.setTerm();
+				viewMode.setEditable(true);
+				viewMode.changeTypeGap(typeGap.instanceHide);
+
+				updateDisplay();
 
 				_.extend(api, state.termCentric);
 			},
@@ -49,9 +52,11 @@ module.exports = function(model, view, typeEditor) {
 				resetView();
 
 				typeEditor.editEntity();
-				view.viewModel.viewMode.setInstance();
-				view.viewModel.viewMode.setEditable(true);
-				view.helper.changeTypeGap(typeGap.instanceShow);
+				viewMode.setInstance();
+				viewMode.setEditable(true);
+				viewMode.changeTypeGap(typeGap.instanceShow);
+
+				updateDisplay();
 
 				_.extend(api, state.instanceRelation);
 			},
@@ -59,9 +64,11 @@ module.exports = function(model, view, typeEditor) {
 				resetView();
 
 				typeEditor.editRelation();
-				view.viewModel.viewMode.setRelation();
-				view.viewModel.viewMode.setEditable(true);
-				view.helper.changeTypeGap(typeGap.instanceShow);
+				viewMode.setRelation();
+				viewMode.setEditable(true);
+				viewMode.changeTypeGap(typeGap.instanceShow);
+
+				updateDisplay();
 
 				_.extend(api, state.relationEdit);
 			},
@@ -69,9 +76,11 @@ module.exports = function(model, view, typeEditor) {
 				resetView();
 
 				typeEditor.noEdit();
-				view.viewModel.viewMode.setTerm();
-				view.viewModel.viewMode.setEditable(false);
-				view.helper.changeTypeGap(typeGap.instanceHide);
+				viewMode.setTerm();
+				viewMode.setEditable(false);
+				viewMode.changeTypeGap(typeGap.instanceHide);
+
+				updateDisplay();
 
 				_.extend(api, state.viewTerm);
 			},
@@ -79,9 +88,11 @@ module.exports = function(model, view, typeEditor) {
 				resetView();
 
 				typeEditor.noEdit();
-				view.viewModel.viewMode.setInstance();
-				view.viewModel.viewMode.setEditable(false);
-				view.helper.changeTypeGap(typeGap.instanceShow);
+				viewMode.setInstance();
+				viewMode.setEditable(false);
+				viewMode.changeTypeGap(typeGap.instanceShow);
+
+				updateDisplay();
 
 				_.extend(api, state.viewInstance);
 			}
@@ -90,8 +101,8 @@ module.exports = function(model, view, typeEditor) {
 		failTransit = function() {
 			throw new Error('fail transition.');
 		},
-		changeTypeGapInstanceHide = _.compose(view.helper.changeTypeGap, typeGap.setInstanceHide),
-		changeTypeGapInstanceShow = _.compose(view.helper.changeTypeGap, typeGap.setInstanceShow),
+		changeTypeGapInstanceHide = _.compose(viewMode.changeTypeGap, typeGap.setInstanceHide),
+		changeTypeGapInstanceShow = _.compose(viewMode.changeTypeGap, typeGap.setInstanceShow),
 		state = {
 			init: _.extend({}, transition, {
 				name: 'Init'

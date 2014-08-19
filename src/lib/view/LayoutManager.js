@@ -1,5 +1,5 @@
 // Management position of annotation components.
-module.exports = function(editor, model, renderer) {
+module.exports = function(editor, model) {
    var domPositionCaChe = require('./DomPositionCache')(editor, model),
       domUtil = require('../util/DomUtil')(editor),
       filterChanged = function(span, newPosition) {
@@ -110,7 +110,6 @@ module.exports = function(editor, model, renderer) {
          domPositionCaChe.reset();
          arrangeGridPositionAll(typeGapValue);
          renderRelationAllLazy();
-         renderer.arrangeRelationPositionAll();
       };
 
    return {

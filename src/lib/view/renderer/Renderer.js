@@ -9,7 +9,7 @@ var getElement = function($parent, tagName, className) {
     modelToId = function(modelElement) {
         return modelElement.id;
     },
-    capitalize = capitalize = require('../../util/capitalize');
+    capitalize = require('../../util/capitalize');
 
 module.exports = function(editor, model, viewModel, typeContainer) {
     var // Make the display area for text, spans, denotations, relations.

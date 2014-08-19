@@ -321,7 +321,7 @@ module.exports = function(editor, model, typeContainer, modification) {
 			var extendRelationId = function(relation) {
 					return _.extend(relation, {
 						relationId: relation.id
-					})
+					});
 				},
 				renderIfGridExists = function(relation) {
 					if (filterGridExists(relation)) render(relation);

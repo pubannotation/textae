@@ -23,13 +23,13 @@ module.exports = function(spanConfig, model) {
                     return {
                         begin: spanAdjuster.adjustSpanBeginLong(focusPosition),
                         end: span.end
-                    }
+                    };
                 } else {
                     // expand to the right
                     return {
                         begin: span.begin,
                         end: spanAdjuster.adjustSpanEndLong(focusPosition)
-                    }
+                    };
                 }
             };
 
@@ -41,7 +41,7 @@ module.exports = function(spanConfig, model) {
                 anchorNodeRange.selectNode(selection.anchorNode);
                 var focusPosition = spanAdjuster.getFocusPosition(selection);
 
-                return getNewSpan(spanId, selectionRange, anchorNodeRange, focusPosition)
+                return getNewSpan(spanId, selectionRange, anchorNodeRange, focusPosition);
             };
         }(),
         shortenSpan = function() {
@@ -70,7 +70,7 @@ module.exports = function(spanConfig, model) {
                 focusNodeRange.selectNode(selection.focusNode);
                 var focusPosition = spanAdjuster.getFocusPosition(selection);
 
-                return getNewSpan(spanId, selectionRange, focusNodeRange, focusPosition)
+                return getNewSpan(spanId, selectionRange, focusNodeRange, focusPosition);
             };
         }();
 

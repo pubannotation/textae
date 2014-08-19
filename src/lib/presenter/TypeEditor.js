@@ -2,6 +2,7 @@ module.exports = function(editor, model, spanConfig, command, viewModel, typeCon
 	var dismissBrowserSelection = require('./dismissBrowserSelection'),
 		// changeEventHandler will init.
 		changeTypeOfSelected,
+		getSelectedIdEditable,
 		// The Reference to content to be shown in the pallet.
 		palletConfig = {},
 		pallet = require('../component/Pallet')(),
@@ -14,8 +15,8 @@ module.exports = function(editor, model, spanConfig, command, viewModel, typeCon
 			model.selectionModel.clear();
 			dismissBrowserSelection();
 		},
-		changeType = function(getSelectedAndEditableIds, createChangeTypeCommandFunction, newType) {
-			var ids = getSelectedAndEditableIds();
+		changeType = function(getSelectedAndEditable, createChangeTypeCommandFunction, newType) {
+			var ids = getSelectedAndEditable();
 			if (ids.length > 0) {
 				var commands = ids.map(function(id) {
 					return createChangeTypeCommandFunction(id, newType);
@@ -251,6 +252,7 @@ module.exports = function(editor, model, spanConfig, command, viewModel, typeCon
 
 			palletConfig.typeContainer = null;
 			changeTypeOfSelected = null;
+			getSelectedIdEditable = null;
 
 			jsPlumbConnectionClickedImpl = null;
 		};
@@ -295,6 +297,9 @@ module.exports = function(editor, model, spanConfig, command, viewModel, typeCon
 		},
 		hideDialogs: hideDialogs,
 		cancelSelect: cancelSelect,
-		jsPlumbConnectionClicked: jsPlumbConnectionClicked
+		jsPlumbConnectionClicked: jsPlumbConnectionClicked,
+		getSelectedIdEditable: function() {
+			return getSelectedIdEditable && getSelectedIdEditable();
+		}
 	};
 };

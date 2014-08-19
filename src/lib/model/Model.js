@@ -499,90 +499,12 @@ module.exports = function(idFactory) {
             });
 
             return api;
-        }(), // A contaier of selection state.
-        selectionModel = function() {
-            var IdContainer = function(kindName) {
-                    var selected = {},
-                        triggerChange = function() {
-                            bindableKinds.trigger(kindName + '.change');
-                        };
-
-                    var api = {
-                        name: kindName,
-                        add: function(id) {
-                            selected[id] = id;
-                            bindableKinds.trigger(kindName + '.select', id);
-                            triggerChange();
-                        },
-                        all: function() {
-                            return _.toArray(selected);
-                        },
-                        has: function(id) {
-                            return _.contains(selected, id);
-                        },
-                        some: function() {
-                            return _.some(selected);
-                        },
-                        single: function() {
-                            var array = api.all();
-                            return array.length === 1 ? array[0] : null;
-                        },
-                        toggle: function(id) {
-                            if (api.has(id)) {
-                                api.remove(id);
-                            } else {
-                                api.add(id);
-                            }
-                        },
-                        remove: function(id) {
-                            delete selected[id];
-                            bindableKinds.trigger(kindName + '.deselect', id);
-                            triggerChange();
-                        },
-                        clear: function() {
-                            _.each(api.all(), api.remove);
-                            selected = {};
-                            triggerChange();
-                        }
-                    };
-
-                    return api;
-                },
-                clearAll = function(kindList) {
-                    _.each(kindList, function(kind) {
-                        kind.clear();
-                    });
-                },
-                someAll = function(kindList) {
-                    return kindList
-                        .map(function(kind) {
-                            return kind.some();
-                        })
-                        .reduce(function(a, b) {
-                            return a || b;
-                        });
-
-                };
-
-            var kindList = ['span', 'entity', 'relation']
-                .map(function(kind) {
-                    return new IdContainer(kind);
-                });
-
-            var bindableKinds = extendBindable(_.extend(kindList.reduce(function(a, b) {
-                a[b.name] = b;
-                return a;
-            }, {}), {
-                clear: _.partial(clearAll, kindList),
-                some: _.partial(someAll, kindList)
-            }));
-
-            return bindableKinds;
         }();
 
     return {
         annotationData: annotationData,
-        selectionModel: selectionModel,
+        // A contaier of selection state.
+        selectionModel: require('./Selection')(['span', 'entity', 'relation']),
         getReplicationSpans: function(originSpan, spanConfig) {
             // Get spans their stirng is same with the originSpan from sourceDoc.
             var getSpansTheirStringIsSameWith = function(originSpan) {

@@ -5,8 +5,5 @@
   "newcap": true,
   "noarg": true,
   "regexp": true,
-  "trailing": true,
-  "globals": {
-    "textAeUtil": true
-  }
+  "trailing": true
 }
