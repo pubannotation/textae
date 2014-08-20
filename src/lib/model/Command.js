@@ -1,6 +1,6 @@
 // A command is an operation by user that is saved as history, and can undo and redo.
 // Users can edit model only via commands. 
-module.exports = function(idFactory, model, history, spanConfig) {
+module.exports = function(editor, model, history, spanConfig) {
     var invoke = function(commands) {
             commands.forEach(function(command) {
                 command.execute();
@@ -16,7 +16,8 @@ module.exports = function(idFactory, model, history, spanConfig) {
         invokeRevert = _.compose(invoke, RevertCommands);
 
     var factory = function() {
-        var debugLog = function(message, object) {
+        var idFactory = require('../util/IdFactory')(editor),
+            debugLog = function(message, object) {
                 // For debug
                 if (object) {
                     console.log('[command.invoke]', message, object);
@@ -148,7 +149,7 @@ module.exports = function(idFactory, model, history, spanConfig) {
 
         return {
             spanCreateCommand: function(type, span) {
-                var id = idFactory.makeSpanId(span.begin, span.end),
+                var id = idFactory.makeSpanId(span),
                     createSpan = spanCreateCommand(span),
                     createEntity = createCommand('entity', true, {
                         span: id,
@@ -179,16 +180,16 @@ module.exports = function(idFactory, model, history, spanConfig) {
                     }
                 };
             },
-            spanMoveCommand: function(spanId, begin, end) {
+            spanMoveCommand: function(spanId, newSpan) {
                 var subCommands = [],
-                    newSpanId = idFactory.makeSpanId(begin, end),
+                    newSpanId = idFactory.makeSpanId(newSpan),
                     d = model.annotationData;
 
                 if (!d.span.get(newSpanId)) {
                     subCommands.push(factory.spanRemoveCommand(spanId));
                     subCommands.push(spanCreateCommand({
-                        begin: begin,
-                        end: end
+                        begin: newSpan.begin,
+                        end: newSpan.end
                     }));
                     d.span.get(spanId).getTypes().forEach(function(type) {
                         type.entities.forEach(function(id) {

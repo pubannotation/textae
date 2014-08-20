@@ -1,4 +1,5 @@
-module.exports = function(idFactory) {
+module.exports = function(editor) {
+    var idFactory = require('../util/IdFactory')(editor);
     // A span its range is coross over with other spans are not able to rendered.
     // Because spans are renderd with span tag. Html tags can not be cross over.
     var isBoundaryCrossingWithOtherSpans = function(getAll, candidateSpan) {
@@ -97,7 +98,7 @@ module.exports = function(idFactory) {
                             isChildOf: function(maybeParent) {
                                 if (!maybeParent) return false;
 
-                                var id = idFactory.makeSpanId(maybeParent.begin, maybeParent.end);
+                                var id = idFactory.makeSpanId(maybeParent);
                                 if (!spanContainer.get(id)) throw new Error('maybeParent is removed. ' + maybeParent.toStringOnlyThis());
 
                                 return maybeParent.begin <= this.begin && this.end <= maybeParent.end;
@@ -168,7 +169,7 @@ module.exports = function(idFactory) {
                         return function(span) {
                             return $.extend({},
                                 span, {
-                                    id: idFactory.makeSpanId(span.begin, span.end),
+                                    id: idFactory.makeSpanId(span),
                                     paragraph: paragraph.getBelongingTo(span),
                                 },
                                 spanExtension);
@@ -314,7 +315,7 @@ module.exports = function(idFactory) {
                         return denotations.map(function(entity) {
                             return {
                                 id: entity.id,
-                                span: idFactory.makeSpanId(entity.span.begin, entity.span.end),
+                                span: idFactory.makeSpanId(entity.span),
                                 type: entity.obj,
                             };
                         });

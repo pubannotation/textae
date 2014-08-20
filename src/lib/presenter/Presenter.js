@@ -148,7 +148,7 @@ module.exports = function(editor, model, view, command, spanConfig) {
                     };
                 }(),
                 viewHandler = function() {
-                    var editMode = require('./EditMode')(model, view.viewMode, typeEditor, view.helper.redraw),
+                    var editMode = require('./EditMode')(model, view.viewMode, typeEditor, view.updateDisplay),
                         setViewMode = function(mode) {
                             if (editMode['to' + mode]) {
                                 editMode['to' + mode]();
@@ -158,9 +158,6 @@ module.exports = function(editor, model, view, command, spanConfig) {
                     return {
                         showPallet: typeEditor.showPallet,
                         hideDialogs: typeEditor.hideDialogs,
-                        redraw: function() {
-                            view.helper.redraw();
-                        },
                         cancelSelect: typeEditor.cancelSelect,
                         selectLeftSpan: function() {
                             var spanId = model.selectionModel.span.single();
@@ -182,7 +179,7 @@ module.exports = function(editor, model, view, command, spanConfig) {
                                 }
                             }
                         },
-                        showSettingDialog: require('./SettingDialog')(editor, editMode, view.helper.redraw),
+                        showSettingDialog: require('./SettingDialog')(editor, editMode, view.updateDisplay),
                         toggleRelationEditMode: function() {
                             // ビューモードを切り替える
                             if (view.viewModel.modeAccordingToButton['relation-edit-mode'].value()) {
@@ -229,10 +226,12 @@ module.exports = function(editor, model, view, command, spanConfig) {
                     jsPlumbConnection.bindClickAction(typeEditor.jsPlumbConnectionClicked);
                 });
         },
-        bindChangeViewMode: userEvent.viewHandler.bindChangeViewMode,
+        setMode: userEvent.viewHandler.bindChangeViewMode,
         event: {
             editorSelected: editorSelected,
-            redraw: userEvent.viewHandler.redraw,
+            redraw: function() {
+                view.updateDisplay();
+            },
             copyEntities: userEvent.editHandler.copyEntities,
             removeSelectedElements: userEvent.editHandler.removeSelectedElements,
             createEntity: userEvent.editHandler.createEntity,
@@ -247,7 +246,6 @@ module.exports = function(editor, model, view, command, spanConfig) {
             negation: userEvent.editHandler.negation,
             speculation: userEvent.editHandler.speculation,
             showSettingDialog: userEvent.viewHandler.showSettingDialog
-        },
-        userEvent: userEvent
+        }
     };
 };

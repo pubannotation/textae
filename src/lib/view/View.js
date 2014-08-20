@@ -344,9 +344,7 @@ module.exports = function(editor, model) {
         clipBoard: clipBoard,
         viewMode: viewMode,
         hoverRelation: hover,
-        helper: {
-            redraw: updateDisplay
-        },
+        updateDisplay: updateDisplay,
         typeContainer: typeContainer
     };
 };

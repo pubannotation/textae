@@ -1,13 +1,23 @@
+var typeCounter = [],
+    makeTypePrefix = function(editorId, prefix) {
+        return editorId + '__' + prefix;
+    },
+    makeId = function(editorId, prefix, id) {
+        return makeTypePrefix(editorId, prefix) + id;
+    },
+    spanDelimiter = '_';
+
 module.exports = function(editor) {
-    var typeCounter = [];
+    var spanPrefix = makeTypePrefix(editor.editorId, 'S');
+
     return {
         // The ID of spans has editorId and begin and end, like 'editor1__S0_15'.
-        makeSpanId: function(begin, end) {
-            return editor.editorId + '__S' + begin + '_' + end;
+        makeSpanId: function(span) {
+            return spanPrefix + span.begin + spanDelimiter + span.end;
         },
         // Get a span object from the spanId.
         parseSpanId: function(spanId) {
-            var beginEnd = spanId.replace(editor.editorId + '__S', '').split('_');
+            var beginEnd = spanId.replace(spanPrefix, '').split(spanDelimiter);
             return {
                 begin: Number(beginEnd[0]),
                 end: Number(beginEnd[1])
@@ -22,11 +32,7 @@ module.exports = function(editor) {
             }
             return spanId + '-' + typeCounter.indexOf(type);
         },
-        makeEntityDomId: function(entityId) {
-            return editor.editorId + '__E' + entityId;
-        },
-        makeParagraphId: function(index) {
-            return editor.editorId + '__P' + index;
-        }
+        makeEntityDomId: _.partial(makeId, editor.editorId, 'E'),
+        makeParagraphId: _.partial(makeId, editor.editorId, 'P')
     };
 };

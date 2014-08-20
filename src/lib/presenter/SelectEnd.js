@@ -178,13 +178,13 @@ module.exports = function(editor, model, spanConfig, command, viewModel, typeCon
 		process = function(editor, model, spanConfig, selectionValidator, command, viewModel, typeContainer) {
 			var spanManipulater = require('./SpanManipulater')(spanConfig, model),
 				idFactory = require('../util/IdFactory')(editor),
-				moveSpan = function(spanId, begin, end) {
+				moveSpan = function(spanId, newSpan) {
 					// Do not need move.
-					if (spanId === idFactory.makeSpanId(begin, end)) {
+					if (spanId === idFactory.makeSpanId(newSpan)) {
 						return;
 					}
 
-					return [command.factory.spanMoveCommand(spanId, begin, end)];
+					return [command.factory.spanMoveCommand(spanId, newSpan)];
 				},
 				removeSpan = function(spanId) {
 					return [command.factory.spanRemoveCommand(spanId)];
@@ -203,7 +203,7 @@ module.exports = function(editor, model, spanConfig, command, viewModel, typeCon
 					}
 
 					// The span exists already.
-					var spanId = idFactory.makeSpanId(newSpan.begin, newSpan.end);
+					var spanId = idFactory.makeSpanId(newSpan);
 					if (model.annotationData.span.get(spanId)) {
 						dismissBrowserSelection();
 						return;
@@ -241,8 +241,7 @@ module.exports = function(editor, model, spanConfig, command, viewModel, typeCon
 							return;
 						}
 
-						var commands = moveSpan(spanId, newSpan.begin, newSpan.end);
-						command.invoke(commands);
+						command.invoke(moveSpan(spanId, newSpan));
 						dismissBrowserSelection();
 					};
 
@@ -279,13 +278,14 @@ module.exports = function(editor, model, spanConfig, command, viewModel, typeCon
 							return;
 						}
 
-						var newSpanId = idFactory.makeSpanId(newSpan.begin, newSpan.end),
-							sameSpan = model.annotationData.span.get(newSpanId),
-							commands = newSpan.begin < newSpan.end && !sameSpan ?
-							moveSpan(spanId, newSpan.begin, newSpan.end) :
-							removeSpan(spanId);
+						var newSpanId = idFactory.makeSpanId(newSpan),
+							sameSpan = model.annotationData.span.get(newSpanId);
 
-						command.invoke(commands);
+						command.invoke(
+							newSpan.begin < newSpan.end && !sameSpan ?
+							moveSpan(spanId, newSpan) :
+							removeSpan(spanId)
+						);
 						dismissBrowserSelection();
 					};
 

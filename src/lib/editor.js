@@ -1,8 +1,6 @@
 module.exports = function() {
-    var idFactory = require('./util/IdFactory')(this);
-
     // model manages data objects.
-    var model = require('./model/Model')(idFactory);
+    var model = require('./model/Model')(this);
 
     // The history of command that providing undo and redo.
     var history = require('./model/History')();
@@ -64,8 +62,8 @@ module.exports = function() {
         }
     };
 
-    // Users can edit model only via commands. 
-    var command = require('./model/Command')(idFactory, model, history, spanConfig),
+    var // Users can edit model only via commands. 
+        command = require('./model/Command')(this, model, history, spanConfig),
         view = require('./view/View')(this, model),
         presenter = require('./presenter/Presenter')(this, model, view, command, spanConfig);
 
@@ -182,7 +180,7 @@ module.exports = function() {
 
                 return function(params, dataAccessObject) {
                     setConfig(params);
-                    presenter.bindChangeViewMode(params.mode);
+                    presenter.setMode(params.mode);
                     loadAnnotation(params, dataAccessObject);
                 };
             }(),
