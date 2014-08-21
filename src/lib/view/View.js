@@ -180,7 +180,7 @@ var delay150 = function(func) {
             buttonStateHelper: buttonStateHelper,
         };
     },
-    ViewMode = function(editor, model, buttonController) {
+    ViewMode = function(editor, model, buttonController, renderFunc) {
         var selector = require('./Selector')(editor, model),
             changeCssClass = function(mode) {
                 editor
@@ -278,12 +278,15 @@ var delay150 = function(func) {
             },
             changeLineHeight: changeLineHeight,
             changeTypeGap: function(newValue) {
+                if (typeGapValue === newValue) return;
+
                 editor.find('.textae-editor__type').css({
                     height: 18 * newValue + 18 + 'px',
                     'padding-top': 18 * newValue + 'px'
                 });
                 calculateLineHeight(newValue);
                 typeGapValue = newValue;
+                renderFunc(newValue);
             }
         };
 
@@ -297,12 +300,18 @@ module.exports = function(editor, model) {
             clipBoard: []
         },
         buttonController = new ButtonController(editor, model, clipBoard),
-        viewMode = new ViewMode(editor, model, buttonController),
         typeContainer = require('./TypeContainer')(model),
         // Render DOM elements conforming with the Model.
         renderer = require('./renderer/Renderer')(editor, model, buttonController, typeContainer),
+        gridLayout = require('./GridLayout')(editor, model.annotationData),
+        render = _.compose(
+            renderer.arrangeRelationPositionAll,
+            renderer.renderLazyRelationAll,
+            gridLayout.arrangePosition
+        ),
+        viewMode = new ViewMode(editor, model, buttonController, render),
         hover = function() {
-            var domPositionCaChe = require('./DomPositionCache')(editor, model),
+            var domPositionCaChe = require('./DomPositionCache')(editor, model.annotationData.entity),
                 processAccosiatedRelation = function(func, entityId) {
                     model.annotationData.entity.assosicatedRelations(entityId)
                         .map(domPositionCaChe.toConnect)
@@ -332,8 +341,7 @@ module.exports = function(editor, model) {
                 .bind('relation.change', buttonController.buttonStateHelper.updateByRelation);
         },
         updateDisplay = function() {
-            require('./layoutManager')(editor, model).updateDisplay(viewMode.getTypeGapValue());
-            renderer.arrangeRelationPositionAll();
+            render(viewMode.getTypeGapValue());
         };
 
     renderer.bind('change', updateDisplay);

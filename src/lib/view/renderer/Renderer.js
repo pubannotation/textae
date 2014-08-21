@@ -41,7 +41,7 @@ module.exports = function(editor, model, viewModel, typeContainer) {
                 getSourceDocArea().html(createTaggedSourceDoc(params));
             };
         }(),
-        domPositionCaChe = require('../DomPositionCache')(editor, model),
+        domPositionCaChe = require('../DomPositionCache')(editor, model.annotationData.entity),
         reset = function() {
             var renderAllSpan = function(annotationData) {
                     // For tuning
@@ -141,7 +141,7 @@ module.exports = function(editor, model, viewModel, typeContainer) {
         triggerChange = _.debounce(function() {
             api.trigger('change');
         }, 100),
-        updateDisplayAfter = _.partial(_.compose, triggerChange),
+        triggerChangeAfter = _.partial(_.compose, triggerChange),
         updateSpanAfter = function() {
             var entityToSpan = function(entity) {
                 return model.annotationData.span.get(entity.span);
@@ -172,21 +172,22 @@ module.exports = function(editor, model, viewModel, typeContainer) {
             model.annotationData
                 .bind('change-text', renderSourceDocument)
                 .bind('all.change', _.compose(model.selectionModel.clear, reset))
-                .bind('span.add', updateDisplayAfter(rendererImpl.span.render))
-                .bind('span.remove', updateDisplayAfter(rendererImpl.span.remove))
+                .bind('span.add', triggerChangeAfter(rendererImpl.span.render))
+                .bind('span.remove', triggerChangeAfter(rendererImpl.span.remove))
                 .bind('span.remove', _.compose(model.selectionModel.span.remove, modelToId))
                 .bind('entity.add', updateSpanAfter(rendererImpl.entity.render))
                 .bind('entity.change', updateSpanAfter(rendererImpl.entity.change))
                 .bind('entity.remove', updateSpanAfter(rendererImpl.entity.remove))
                 .bind('entity.remove', _.compose(model.selectionModel.entity.remove, modelToId))
-                .bind('relation.add', updateDisplayAfter(rendererImpl.relation.render))
+                .bind('relation.add', triggerChangeAfter(rendererImpl.relation.render))
                 .bind('relation.change', rendererImpl.relation.change)
                 .bind('relation.remove', rendererImpl.relation.remove)
                 .bind('relation.remove', _.compose(model.selectionModel.relation.remove, modelToId))
                 .bind('modification.add', renderModificationEntityOrRelation)
                 .bind('modification.remove', renderModificationEntityOrRelation);
         },
-        arrangeRelationPositionAll: rendererImpl.relation.arrangePositionAll
+        arrangeRelationPositionAll: rendererImpl.relation.arrangePositionAll,
+        renderLazyRelationAll: rendererImpl.relation.renderLazyRelationAll
     });
 
     return api;

@@ -17,15 +17,15 @@ var typeGap = function() {
 	return api;
 }();
 
-module.exports = function(model, viewMode, typeEditor, updateDisplay) {
+module.exports = function(model, viewMode, typeEditor) {
 	var api = {
 			init: function() {
+				viewMode.changeTypeGap(-1);
 				_.extend(api, state.init);
 			},
 			get typeGap() {
 				return viewMode.getTypeGapValue();
 			},
-			changeTypeGap: viewMode.changeTypeGap,
 			get lineHeight() {
 				return Math.floor(viewMode.getLineHeight());
 			},
@@ -44,8 +44,6 @@ module.exports = function(model, viewMode, typeEditor, updateDisplay) {
 				viewMode.setEditable(true);
 				viewMode.changeTypeGap(typeGap.instanceHide);
 
-				updateDisplay();
-
 				_.extend(api, state.termCentric);
 			},
 			toInstance: function() {
@@ -55,8 +53,6 @@ module.exports = function(model, viewMode, typeEditor, updateDisplay) {
 				viewMode.setInstance();
 				viewMode.setEditable(true);
 				viewMode.changeTypeGap(typeGap.instanceShow);
-
-				updateDisplay();
 
 				_.extend(api, state.instanceRelation);
 			},
@@ -68,8 +64,6 @@ module.exports = function(model, viewMode, typeEditor, updateDisplay) {
 				viewMode.setEditable(true);
 				viewMode.changeTypeGap(typeGap.instanceShow);
 
-				updateDisplay();
-
 				_.extend(api, state.relationEdit);
 			},
 			toViewTerm: function() {
@@ -80,8 +74,6 @@ module.exports = function(model, viewMode, typeEditor, updateDisplay) {
 				viewMode.setEditable(false);
 				viewMode.changeTypeGap(typeGap.instanceHide);
 
-				updateDisplay();
-
 				_.extend(api, state.viewTerm);
 			},
 			toViewInstance: function() {
@@ -91,8 +83,6 @@ module.exports = function(model, viewMode, typeEditor, updateDisplay) {
 				viewMode.setInstance();
 				viewMode.setEditable(false);
 				viewMode.changeTypeGap(typeGap.instanceShow);
-
-				updateDisplay();
 
 				_.extend(api, state.viewInstance);
 			}

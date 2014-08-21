@@ -49,7 +49,7 @@ var Cache = function() {
             clear: clear
         };
     }(),
-    createNewCache = function(editor, model) {
+    createNewCache = function(editor, entityModel) {
         var domUtil = require('../util/DomUtil')(editor);
 
         // The chache for position of grids.
@@ -57,7 +57,7 @@ var Cache = function() {
         // This is referenced at create or move relations.
         var gridPositionCache = _.extend(new Cache(), {
             isGridPrepared: function(entityId) {
-                var spanId = model.annotationData.entity.get(entityId).span;
+                var spanId = entityModel.get(entityId).span;
                 return gridPositionCache.get(spanId);
             }
         });
@@ -88,7 +88,7 @@ var Cache = function() {
                     throw new Error("entity is not rendered : " + entityId);
                 }
 
-                var spanId = model.annotationData.entity.get(entityId).span;
+                var spanId = entityModel.get(entityId).span;
                 var gridPosition = gridPositionCache.get(spanId);
                 var entityElement = $entity.get(0);
                 return {
@@ -123,8 +123,8 @@ var Cache = function() {
     };
 
 // Utility functions for get positions of DOM elemnts.
-module.exports = function(editor, model) {
+module.exports = function(editor, entityModel) {
     // The editor has onry one position cache.
-    editor.postionCache = editor.postionCache || createNewCache(editor, model);
+    editor.postionCache = editor.postionCache || createNewCache(editor, entityModel);
     return editor.postionCache;
 };

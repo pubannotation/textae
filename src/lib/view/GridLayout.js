@@ -1,6 +1,17 @@
+var filterVisibleGrid = function(grid) {
+      if (grid && grid.hasClass('hidden')) {
+         return grid;
+      }
+   },
+   showGrid = function(grid) {
+      if (grid) {
+         grid.removeClass('hidden');
+      }
+   };
+
 // Management position of annotation components.
-module.exports = function(editor, model) {
-   var domPositionCaChe = require('./DomPositionCache')(editor, model),
+module.exports = function(editor, annotationData) {
+   var domPositionCaChe = require('./DomPositionCache')(editor, annotationData.entity),
       domUtil = require('../util/DomUtil')(editor),
       filterChanged = function(span, newPosition) {
          var oldGridPosition = domPositionCaChe.getGrid(span.id);
@@ -59,16 +70,6 @@ module.exports = function(editor, model) {
             return pullUpGridOverDescendants(span);
          }
       },
-      filterVisibleGrid = function(grid) {
-         if (grid && grid.hasClass('hidden')) {
-            return grid;
-         }
-      },
-      showGrid = function(grid) {
-         if (grid) {
-            grid.removeClass('hidden');
-         }
-      },
       arrangeGridPosition = function(typeGapValue, span) {
          var moveTheGridIfChange = _.compose(
                _.partial(updateGridPositon, span),
@@ -78,13 +79,13 @@ module.exports = function(editor, model) {
             showInvisibleGrid = _.compose(showGrid, filterVisibleGrid, getGrid);
 
          // The span may be remeved because this functon is call asynchronously.
-         if (model.annotationData.span.get(span.id)) {
+         if (annotationData.span.get(span.id)) {
             // Move all relations because entities are increased or decreased unless the grid is moved.  
             _.compose(showInvisibleGrid, moveTheGridIfChange)(span);
          }
       },
       arrangeGridPositionAll = function(typeGapValue) {
-         model.annotationData.span.all()
+         annotationData.span.all()
             .filter(function(span) {
                // There is at least one type in span that has a grid.
                return span.getTypes().length > 0;
@@ -96,23 +97,12 @@ module.exports = function(editor, model) {
             })
             .forEach(_.partial(arrangeGridPosition, typeGapValue));
       },
-      renderRelationAllLazy = function() {
-         // Render relations unless rendered.
-         model.annotationData.relation.all()
-            .filter(function(connect) {
-               return connect.render;
-            })
-            .forEach(function(connect) {
-               connect.render();
-            });
-      },
       arrangePositionAll = function(typeGapValue) {
          domPositionCaChe.reset();
          arrangeGridPositionAll(typeGapValue);
-         renderRelationAllLazy();
       };
 
    return {
-      updateDisplay: arrangePositionAll
+      arrangePosition: arrangePositionAll
    };
 };

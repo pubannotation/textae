@@ -37,7 +37,7 @@ var POINTUP_LINE_WIDTH = 3,
 module.exports = function(editor, model, typeContainer, modification) {
 	// Init a jsPlumb instance.
 	var domUtil = require('../../util/DomUtil')(editor),
-		domPositionCaChe = require('../DomPositionCache')(editor, model),
+		domPositionCaChe = require('../DomPositionCache')(editor, model.annotationData.entity),
 		jsPlumbInstance,
 		init = function(container) {
 			jsPlumbInstance = makeJsPlumbInstance(container);
@@ -392,6 +392,27 @@ module.exports = function(editor, model, typeContainer, modification) {
 					// Re-set arrow because it is disappered when setConnector is called.
 					jsPlumbArrowOverlayUtil.resetArrows(connect);
 				});
+		},
+		renderLazyRelationAll = function() {
+			// Render relations unless rendered.
+			model.annotationData.relation.all()
+				.filter(function(connect) {
+					return connect.render;
+				})
+				.forEach(function(connect) {
+					connect.render();
+				});
+		},
+		arrangePositionAll = function() {
+			// For tuning
+			// var startTime = new Date();
+
+			resetAllCurviness();
+			jsPlumbInstance.repaintEverything();
+
+			// For tuning
+			// var endTime = new Date();
+			// console.log(editor.editorId, 'arrangePositionAll : ', endTime.getTime() - startTime.getTime() + 'ms');
 		};
 
 	return {
@@ -404,16 +425,7 @@ module.exports = function(editor, model, typeContainer, modification) {
 		change: changeType,
 		changeModification: changeJsModification,
 		remove: remove,
-		arrangePositionAll: function() {
-			// For tuning
-			// var startTime = new Date();
-
-			resetAllCurviness();
-			jsPlumbInstance.repaintEverything();
-
-			// For tuning
-			// var endTime = new Date();
-			// console.log(editor.editorId, 'arrangePositionAll : ', endTime.getTime() - startTime.getTime() + 'ms');
-		}
+		renderLazyRelationAll: renderLazyRelationAll,
+		arrangePositionAll: arrangePositionAll
 	};
 };

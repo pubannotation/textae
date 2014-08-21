@@ -148,7 +148,7 @@ module.exports = function(editor, model, view, command, spanConfig) {
                     };
                 }(),
                 viewHandler = function() {
-                    var editMode = require('./EditMode')(model, view.viewMode, typeEditor, view.updateDisplay),
+                    var editMode = require('./EditMode')(model, view.viewMode, typeEditor),
                         setViewMode = function(mode) {
                             if (editMode['to' + mode]) {
                                 editMode['to' + mode]();
@@ -179,7 +179,7 @@ module.exports = function(editor, model, view, command, spanConfig) {
                                 }
                             }
                         },
-                        showSettingDialog: require('./SettingDialog')(editor, editMode, view.updateDisplay),
+                        showSettingDialog: require('./SettingDialog')(editor, editMode),
                         toggleRelationEditMode: function() {
                             // ビューモードを切り替える
                             if (view.viewModel.modeAccordingToButton['relation-edit-mode'].value()) {
@@ -188,7 +188,6 @@ module.exports = function(editor, model, view, command, spanConfig) {
                                 editMode.toRelation();
                             }
                         },
-                        setViewMode: setViewMode,
                         bindChangeViewMode: function() {
                             var changeViewMode = function(prefix) {
                                 editMode.init();
@@ -229,9 +228,7 @@ module.exports = function(editor, model, view, command, spanConfig) {
         setMode: userEvent.viewHandler.bindChangeViewMode,
         event: {
             editorSelected: editorSelected,
-            redraw: function() {
-                view.updateDisplay();
-            },
+            redraw: view.updateDisplay,
             copyEntities: userEvent.editHandler.copyEntities,
             removeSelectedElements: userEvent.editHandler.removeSelectedElements,
             createEntity: userEvent.editHandler.createEntity,

@@ -17,7 +17,7 @@ var debounce300 = function(func) {
 		return $dialog.open();
 	};
 
-module.exports = function(editor, editMode, updateDisplay) {
+module.exports = function(editor, editMode) {
 	var typeGapValue,
 		changeLineHeight = debounce300(_.compose(redrawAllEditor, editMode.changeLineHeight, sixteenTimes)),
 		addInstanceRelationView = function($content) {
@@ -54,7 +54,6 @@ module.exports = function(editor, editMode, updateDisplay) {
 			).on('change', '.textae-editor__setting-dialog__type_gap', debounce300(
 				function(val) {
 					editMode.changeTypeGap($(this).val());
-					updateDisplay();
 					updateLineHeight($content);
 				}
 			));
