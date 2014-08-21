@@ -373,6 +373,25 @@ module.exports = function(editor, model, typeContainer, modification) {
 
 			// Set the flag dead already to delay selection.
 			connect.dead = true;
+		},
+		resetAllCurviness = function() {
+			model.annotationData.relation
+				.all()
+				.map(function(relation) {
+					return new Connect(relation.id);
+				})
+				.filter(function(connect) {
+					// Set changed values only.
+					return connect.setConnector &&
+						connect.connector.getCurviness() !== determineCurviness(connect.relationId);
+				})
+				.forEach(function(connect) {
+					connect.setConnector(['Bezier', {
+						curviness: determineCurviness(connect.relationId)
+					}]);
+					// Re-set arrow because it is disappered when setConnector is called.
+					jsPlumbArrowOverlayUtil.resetArrows(connect);
+				});
 		};
 
 	return {
@@ -386,7 +405,15 @@ module.exports = function(editor, model, typeContainer, modification) {
 		changeModification: changeJsModification,
 		remove: remove,
 		arrangePositionAll: function() {
+			// For tuning
+			// var startTime = new Date();
+
+			resetAllCurviness();
 			jsPlumbInstance.repaintEverything();
+
+			// For tuning
+			// var endTime = new Date();
+			// console.log(editor.editorId, 'arrangePositionAll : ', endTime.getTime() - startTime.getTime() + 'ms');
 		}
 	};
 };
