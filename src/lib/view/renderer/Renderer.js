@@ -139,6 +139,7 @@ module.exports = function(editor, model, viewModel, typeContainer) {
         }(),
         api = require('../../util/extendBindable')({}),
         triggerChange = _.debounce(function() {
+            console.log('triggerChange');
             api.trigger('change');
         }, 100),
         triggerChangeAfter = _.partial(_.compose, triggerChange),

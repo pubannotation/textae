@@ -187,7 +187,9 @@ module.exports = function() {
             initDao = function(confirmDiscardChangeMessage) {
                 var dataAccessObject = require('./component/DataAccessObject')(editor, confirmDiscardChangeMessage);
                 dataAccessObject.bind('save', history.saved);
-                dataAccessObject.bind('load', resetData);
+                dataAccessObject.bind('load', function(data) {
+                    resetData(data.annotation);
+                });
 
                 return dataAccessObject;
             },
@@ -242,7 +244,10 @@ module.exports = function() {
                 editor.api = {
                     handleKeyInput: _.partial(handle, keyApiMap),
                     handleButtonClick: _.partial(handle, iconApiMap),
-                    redraw: presenter.event.redraw
+                    redraw: function() {
+                        console.log(editor.editorId, 'redraw');
+                        presenter.event.redraw();
+                    }
                 };
             },
             start = function start(editor) {

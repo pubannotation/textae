@@ -224,6 +224,18 @@ module.exports = function(editor, model, view, command, spanConfig) {
                 .on('textae.editor.jsPlumbConnection.add', function(event, jsPlumbConnection) {
                     jsPlumbConnection.bindClickAction(typeEditor.jsPlumbConnectionClicked);
                 });
+
+            // Set cursor control by view rendering events.
+            var cursorChanger = require('../util/CursorChanger')(editor);
+            view
+                .bind('render.start', function(editor) {
+                    console.log(editor.editorId, 'render.start');
+                    cursorChanger.startWait();
+                })
+                .bind('render.end', function(editor) {
+                    console.log(editor.editorId, 'render.end');
+                    cursorChanger.endWait();
+                });
         },
         setMode: userEvent.viewHandler.bindChangeViewMode,
         event: {

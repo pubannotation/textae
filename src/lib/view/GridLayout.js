@@ -70,6 +70,7 @@ module.exports = function(editor, annotationData) {
             return pullUpGridOverDescendants(span);
          }
       },
+      Pormise = require('promise'),
       arrangeGridPosition = function(typeGapValue, span) {
          var moveTheGridIfChange = _.compose(
                _.partial(updateGridPositon, span),
@@ -84,8 +85,20 @@ module.exports = function(editor, annotationData) {
             _.compose(showInvisibleGrid, moveTheGridIfChange)(span);
          }
       },
+      arrangeGridPositionPromise = function(typeGapValue, span) {
+         return new Promise(function(resolve, reject) {
+            _.defer(function() {
+               try {
+                  arrangeGridPosition(typeGapValue, span);
+                  resolve();
+               } catch (error) {
+                  reject();
+               }
+            });
+         });
+      },
       arrangeGridPositionAll = function(typeGapValue) {
-         annotationData.span.all()
+         return annotationData.span.all()
             .filter(function(span) {
                // There is at least one type in span that has a grid.
                return span.getTypes().length > 0;
@@ -95,11 +108,11 @@ module.exports = function(editor, annotationData) {
                domPositionCaChe.getSpan(span.id);
                return span;
             })
-            .forEach(_.partial(arrangeGridPosition, typeGapValue));
+            .map(_.partial(arrangeGridPositionPromise, typeGapValue));
       },
       arrangePositionAll = function(typeGapValue) {
          domPositionCaChe.reset();
-         arrangeGridPositionAll(typeGapValue);
+         return Promise.all(arrangeGridPositionAll(typeGapValue));
       };
 
    return {

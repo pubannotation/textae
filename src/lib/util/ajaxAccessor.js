@@ -20,7 +20,7 @@ module.exports = function() {
 			return result;
 		},
 
-		getAsync: function(url, dataHandler, finishHandler) {
+		getAsync: function(url, dataHandler, failedHandler) {
 			if (isEmpty(url)) {
 				return;
 			}
@@ -36,12 +36,10 @@ module.exports = function() {
 					}
 				})
 				.fail(function(res, textStatus, errorThrown) {
-					alert("connection failed.");
-				})
-				.always(function(data) {
-					if (finishHandler !== undefined) {
-						finishHandler();
+					if (failedHandler !== undefined) {
+						failedHandler();
 					}
+					alert("connection failed.");
 				});
 		},
 

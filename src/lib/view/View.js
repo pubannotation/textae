@@ -280,13 +280,17 @@ var delay150 = function(func) {
             changeTypeGap: function(newValue) {
                 if (typeGapValue === newValue) return;
 
-                editor.find('.textae-editor__type').css({
-                    height: 18 * newValue + 18 + 'px',
-                    'padding-top': 18 * newValue + 'px'
-                });
-                calculateLineHeight(newValue);
+                // init
+                if (newValue !== -1) {
+                    editor.find('.textae-editor__type').css({
+                        height: 18 * newValue + 18 + 'px',
+                        'padding-top': 18 * newValue + 'px'
+                    });
+                    calculateLineHeight(newValue);
+                    renderFunc(newValue);
+                }
+
                 typeGapValue = newValue;
-                renderFunc(newValue);
             }
         };
 
@@ -304,11 +308,20 @@ module.exports = function(editor, model) {
         // Render DOM elements conforming with the Model.
         renderer = require('./renderer/Renderer')(editor, model, buttonController, typeContainer),
         gridLayout = require('./GridLayout')(editor, model.annotationData),
-        render = _.compose(
-            renderer.arrangeRelationPositionAll,
-            renderer.renderLazyRelationAll,
-            gridLayout.arrangePosition
-        ),
+        api = require('../util/extendBindable')({}),
+        render = function(typeGapValue) {
+            api.trigger('render.start', editor);
+            // Do asynchronous to change behavior of editor.
+            // For example a wait cursor or a disabled control.
+            _.defer(function() {
+                gridLayout.arrangePosition(typeGapValue)
+                    .then(renderer.arrangeRelationPositionAll)
+                    .then(renderer.renderLazyRelationAll)
+                    .then(function() {
+                        api.trigger('render.end', editor);
+                    });
+            });
+        },
         viewMode = new ViewMode(editor, model, buttonController, render),
         hover = function() {
             var domPositionCaChe = require('./DomPositionCache')(editor, model.annotationData.entity),
@@ -341,12 +354,13 @@ module.exports = function(editor, model) {
                 .bind('relation.change', buttonController.buttonStateHelper.updateByRelation);
         },
         updateDisplay = function() {
+            console.log('updateDisplay');
             render(viewMode.getTypeGapValue());
         };
 
     renderer.bind('change', updateDisplay);
 
-    return {
+    return _.extend(api, {
         init: _.compose(setSelectionModelHandler, renderer.setModelHandler),
         viewModel: buttonController,
         clipBoard: clipBoard,
@@ -354,5 +368,5 @@ module.exports = function(editor, model) {
         hoverRelation: hover,
         updateDisplay: updateDisplay,
         typeContainer: typeContainer
-    };
+    });
 };

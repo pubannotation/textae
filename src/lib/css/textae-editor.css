@@ -1,11 +1,17 @@
-.textae-controle {
-    position: fixed;
-}
-
 .textae-editor {
     border: 1px solid black;
 }
 
+.textae-editor--wait,
+.textae-editor--wait textae-editor__setting-dialog {
+    cursor: wait;
+}
+
+.textae-editor .hidden {
+    visibility: hidden;
+}
+
+/* active editer color */
 .textae-editor_term-mode.textae-editor--active,
 .textae-editor_instance-mode.textae-editor--active {
     background-color: #FFFFEE;
@@ -13,14 +19,6 @@
 
 .textae-editor_relation-mode.textae-editor--active {
     background-color: #FFEDEE;
-}
-
-.textae-editor .hidden {
-    visibility: hidden;
-}
-
-.textae-editor_wait {
-    cursor: wait;
 }
 
 .textae-editor__body {

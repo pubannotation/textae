@@ -2,18 +2,7 @@
 module.exports = function(editor, confirmDiscardChangeMessage) {
     var ajaxAccessor = require('../util/ajaxAccessor'),
         dataSourceUrl = '',
-        cursorChanger = function(editor) {
-            var wait = function() {
-                this.addClass('textae-editor_wait');
-            };
-            var endWait = function() {
-                this.removeClass('textae-editor_wait');
-            };
-            return {
-                startWait: wait.bind(editor),
-                endWait: endWait.bind(editor),
-            };
-        }(editor),
+        cursorChanger = require('../util/CursorChanger')(editor),
         getMessageArea = function(editor) {
             return function() {
                 $messageArea = editor.find('.textae-editor__footer .textae-editor__footer__message');
@@ -31,15 +20,19 @@ module.exports = function(editor, confirmDiscardChangeMessage) {
         setDataSourceUrl = function(url) {
             if (url !== '') {
                 getMessageArea().html('(Target: <a href="' + url + '">' + url + '</a>)');
-                dataSourceUrl = url;
             }
         },
         getAnnotationFromServer = function(url) {
+            console.log('getAnnotationFromServer1');
             cursorChanger.startWait();
             ajaxAccessor.getAsync(url, function getAnnotationFromServerSuccess(annotation) {
-                api.trigger('load', annotation);
+                api.trigger('load', {
+                    annotation: annotation
+                });
                 setDataSourceUrl(url);
+                dataSourceUrl = url;
             }, function() {
+                console.log('getAnnotationFromServer2');
                 cursorChanger.endWait();
             });
         },

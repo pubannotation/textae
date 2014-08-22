@@ -314,6 +314,7 @@ module.exports = function(editor, model, typeContainer, modification) {
 				deleteRender
 			);
 		}(),
+		promise = require('promise'),
 		// Create a dummy relation when before moving grids after creation grids.
 		// Because a jsPlumb error occurs when a relation between same points.
 		// And entities of same length spans was same point before moving grids.
@@ -327,11 +328,21 @@ module.exports = function(editor, model, typeContainer, modification) {
 					if (filterGridExists(relation)) render(relation);
 				},
 				extendDummyApiToCreateRlationWhenGridMoved = function(relation) {
+					var render = function() {
+						return new Promise(function(resolve, reject) {
+							_.defer(function() {
+								try {
+									renderIfGridExists(relation);
+									resolve(relation);
+								} catch (error) {
+									reject(error);
+								}
+							});
+						});
+					};
+
 					return _.extend(relation, {
-						render: _.debounce(
-							_.partial(renderIfGridExists, relation),
-							20
-						)
+						render: render
 					});
 				};
 
@@ -395,24 +406,37 @@ module.exports = function(editor, model, typeContainer, modification) {
 		},
 		renderLazyRelationAll = function() {
 			// Render relations unless rendered.
-			model.annotationData.relation.all()
+			return Promise.all(
+				model.annotationData.relation
+				.all()
 				.filter(function(connect) {
 					return connect.render;
 				})
-				.forEach(function(connect) {
-					connect.render();
-				});
+				.map(function(connect) {
+					return connect.render();
+				})
+			);
 		},
 		arrangePositionAll = function() {
-			// For tuning
-			// var startTime = new Date();
+			return new Promise(function(resolve, reject) {
+				_.defer(function() {
+					try {
+						// For tuning
+						// var startTime = new Date();
 
-			resetAllCurviness();
-			jsPlumbInstance.repaintEverything();
+						resetAllCurviness();
+						jsPlumbInstance.repaintEverything();
 
-			// For tuning
-			// var endTime = new Date();
-			// console.log(editor.editorId, 'arrangePositionAll : ', endTime.getTime() - startTime.getTime() + 'ms');
+						// For tuning
+						// var endTime = new Date();
+						// console.log(editor.editorId, 'arrangePositionAll : ', endTime.getTime() - startTime.getTime() + 'ms');
+
+						resolve();
+					} catch (error) {
+						reject(error);
+					}
+				});
+			});
 		};
 
 	return {

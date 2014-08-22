@@ -15,12 +15,45 @@ var debounce300 = function(func) {
 	// Open the dialog.
 	open = function($dialog) {
 		return $dialog.open();
+	},
+	// Update the checkbox state, because it is updated by the button on control too.
+	updateViewMode = function(editMode, $content) {
+		return $content.find('.textae-editor__setting-dialog__term-centric-view')
+			.prop({
+				'checked': editMode.showInstance ? 'checked' : null
+			})
+			.end();
+	},
+	updateLineHeight = function(editMode, $content) {
+		return $content.find('.textae-editor__setting-dialog__line-height')
+			.prop({
+				value: editMode.lineHeight
+			})
+			.end();
+	},
+	updateTypeGapValue = function(editMode, $content) {
+		return $content.find('.textae-editor__setting-dialog__type_gap')
+			.prop({
+				value: editMode.typeGap
+			})
+			.end();
+	},
+	changeMode = function(editMode, $content, checked) {
+		if (checked) {
+			editMode.toInstance();
+		} else {
+			editMode.toTerm();
+		}
+		updateTypeGapValue(editMode, $content);
+		updateLineHeight(editMode, $content);
 	};
 
 module.exports = function(editor, editMode) {
-	var typeGapValue,
-		changeLineHeight = debounce300(_.compose(redrawAllEditor, editMode.changeLineHeight, sixteenTimes)),
-		addInstanceRelationView = function($content) {
+	var addInstanceRelationView = function($content) {
+			var onModeChanged = debounce300(function() {
+				changeMode(editMode, $content, $(this).is(':checked'));
+			});
+
 			return $content.append($('<div>')
 					.append('<label class="textae-editor__setting-dialog__label">Instance/Relation View')
 					.append($('<input>')
@@ -30,17 +63,20 @@ module.exports = function(editor, editMode) {
 						.addClass('textae-editor__setting-dialog__term-centric-view')
 					)
 				)
-				.on('click', '.textae-editor__setting-dialog__term-centric-view', function() {
-					if ($(this).is(':checked')) {
-						editMode.toInstance();
-						updateTypeGapValue($content);
-					} else {
-						editMode.toTerm();
-						updateTypeGapValue($content);
-					}
-				});
+				.on(
+					'click',
+					'.textae-editor__setting-dialog__term-centric-view',
+					onModeChanged
+				);
 		},
 		addTypeGap = function($content) {
+			var onTypeGapChange = debounce300(
+				function() {
+					editMode.changeTypeGap($(this).val());
+					updateLineHeight(editMode, $content);
+				}
+			);
+
 			return $content.append($('<div>')
 				.append('<label class="textae-editor__setting-dialog__label">Type Gap')
 				.append($('<input>')
@@ -51,14 +87,20 @@ module.exports = function(editor, editMode) {
 						max: 5
 					}).addClass('textae-editor__setting-dialog__type_gap')
 				)
-			).on('change', '.textae-editor__setting-dialog__type_gap', debounce300(
-				function(val) {
-					editMode.changeTypeGap($(this).val());
-					updateLineHeight($content);
-				}
-			));
+			).on(
+				'change',
+				'.textae-editor__setting-dialog__type_gap',
+				onTypeGapChange
+			);
 		},
 		addLineHeight = function($content) {
+			var changeLineHeight = _.compose(redrawAllEditor, editMode.changeLineHeight, sixteenTimes),
+				onLineHeightChange = debounce300(
+					function() {
+						changeLineHeight($(this).val());
+					}
+				);
+
 			return $content
 				.append($('<div>')
 					.append('<label class="textae-editor__setting-dialog__label">Line Height')
@@ -71,46 +113,33 @@ module.exports = function(editor, editMode) {
 						})
 						.addClass('textae-editor__setting-dialog__line-height')
 					))
-				.on('change', '.textae-editor__setting-dialog__line-height', function() {
-					changeLineHeight($(this).val());
-				});
+				.on(
+					'change',
+					'.textae-editor__setting-dialog__line-height',
+					onLineHeightChange
+				);
 		},
-		appendDialog = function($content) {
-			return require('../util/getDialog')(editor.editorId, 'textae.dialog.setting', 'Chage Settings', $content, true);
+		appendToDialog = function($content) {
+			return require('../util/getDialog')(
+				editor.editorId,
+				'textae.dialog.setting',
+				'Chage Settings',
+				$content,
+				true
+			);
 		},
-		// Update the checkbox state, because it is updated by the button on control too.
-		updateViewMode = function($dialog) {
-			return $dialog.find('.textae-editor__setting-dialog__term-centric-view')
-				.prop({
-					'checked': editMode.showInstance ? 'checked' : null
-				})
-				.end();
-		},
-		updateTypeGapValue = function($dialog) {
-			updateLineHeight($dialog);
-
-			return $dialog.find('.textae-editor__setting-dialog__type_gap')
-				.prop({
-					value: editMode.typeGap
-				})
-				.end();
-		},
-		updateLineHeight = function($dialog) {
-			return $dialog.find('.textae-editor__setting-dialog__line-height')
-				.prop({
-					value: editMode.lineHeight
-				})
-				.end();
+		partialEditMode = function(func) {
+			return _.partial(func, editMode);
 		};
 
 	return _.compose(
 		open,
-		updateLineHeight,
-		updateTypeGapValue,
-		updateViewMode,
-		appendDialog,
+		appendToDialog,
+		partialEditMode(updateLineHeight),
 		addLineHeight,
+		partialEditMode(updateTypeGapValue),
 		addTypeGap,
+		partialEditMode(updateViewMode),
 		addInstanceRelationView,
 		createContent
 	);
