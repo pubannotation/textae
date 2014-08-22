@@ -6,8 +6,13 @@
     border: 1px solid black;
 }
 
-.textae-editor--active {
-    background-color: #ffe;
+.textae-editor_term-mode.textae-editor--active,
+.textae-editor_instance-mode.textae-editor--active {
+    background-color: #FFFFEE;
+}
+
+.textae-editor_relation-mode.textae-editor--active {
+    background-color: #FFEDEE;
 }
 
 .textae-editor .hidden {
