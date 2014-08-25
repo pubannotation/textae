@@ -1,74 +1,65 @@
-module.exports = function() {
-    // model manages data objects.
-    var model = require('./model/Model')(this);
+var SpanConfig = function() {
+        var defaults = {
+                "delimiter characters": [
+                    " ",
+                    ".",
+                    "!",
+                    "?",
+                    ",",
+                    ":",
+                    ";",
+                    "-",
+                    "/",
+                    "&",
+                    "(",
+                    ")",
+                    "{",
+                    "}",
+                    "[",
+                    "]",
+                    "+",
+                    "*",
+                    "\\",
+                    "\"",
+                    "'",
+                    "\n",
+                    "–"
+                ],
+                "non-edge characters": [
+                    " ",
+                    "\n"
+                ]
+            },
+            api = {
+                delimiterCharacters: null,
+                nonEdgeCharacters: null,
+                set: function(config) {
+                    var settings = $.extend({}, defaults, config);
 
-    // The history of command that providing undo and redo.
-    var history = require('./model/History')();
+                    if (settings['delimiter characters'] !== undefined) {
+                        api.delimiterCharacters = settings['delimiter characters'];
+                    }
 
-    // Configulation of span
-    var spanConfig = {
-        delimiterCharacters: null,
-        nonEdgeCharacters: null,
-        defaults: {
-            "delimiter characters": [
-                " ",
-                ".",
-                "!",
-                "?",
-                ",",
-                ":",
-                ";",
-                "-",
-                "/",
-                "&",
-                "(",
-                ")",
-                "{",
-                "}",
-                "[",
-                "]",
-                "+",
-                "*",
-                "\\",
-                "\"",
-                "'",
-                "\n",
-                "–"
-            ],
-            "non-edge characters": [
-                " ",
-                "\n"
-            ]
-        },
-        set: function(config) {
-            var settings = $.extend({}, this.defaults, config);
+                    if (settings['non-edge characters'] !== undefined) {
+                        api.nonEdgeCharacters = settings['non-edge characters'];
+                    }
 
-            if (settings['delimiter characters'] !== undefined) {
-                this.delimiterCharacters = settings['delimiter characters'];
-            }
+                    return config;
+                },
+                isNonEdgeCharacter: function(char) {
+                    return (api.nonEdgeCharacters.indexOf(char) >= 0);
+                },
+                isDelimiter: function(char) {
+                    if (api.delimiterCharacters.indexOf('ANY') >= 0) {
+                        return 1;
+                    }
+                    return (api.delimiterCharacters.indexOf(char) >= 0);
+                }
+            };
 
-            if (settings['non-edge characters'] !== undefined) {
-                this.nonEdgeCharacters = settings['non-edge characters'];
-            }
-        },
-        isNonEdgeCharacter: function(char) {
-            return (this.nonEdgeCharacters.indexOf(char) >= 0);
-        },
-        isDelimiter: function(char) {
-            if (this.delimiterCharacters.indexOf('ANY') >= 0) {
-                return 1;
-            }
-            return (this.delimiterCharacters.indexOf(char) >= 0);
-        }
-    };
-
-    var // Users can edit model only via commands. 
-        command = require('./model/Command')(this, model, history, spanConfig),
-        view = require('./view/View')(this, model),
-        presenter = require('./presenter/Presenter')(this, model, view, command, spanConfig);
-
-    //handle user input event.
-    var controller = function(editor) {
+        return api;
+    },
+    Controller = function(editor, history, presenter, view) {
         return {
             init: function(confirmDiscardChangeMessage) {
                 // Prevent the default selection by the browser with shift keies.
@@ -106,88 +97,132 @@ module.exports = function() {
                 });
             }
         };
-    }(this);
+    },
+    getParams = function(editor) {
+        // Read model parameters from url parameters and html attributes.
+        var params = $.extend(require('./util/getUrlParameters')(location.search),
+            // Html attributes preced url parameters.
+            {
+                config: editor.attr('config'),
+                target: editor.attr('target')
+            });
+
+        // Mode is prior in the url parameter.
+        if (!params.mode && editor.attr('mode')) {
+            params.mode = editor.attr('mode');
+        }
+
+        // Read Html text and clear it.  
+        var inlineAnnotation = editor.text();
+        editor.empty();
+
+        // Set annotaiton parameters.
+        params.annotation = {
+            inlineAnnotation: inlineAnnotation,
+            url: params.target
+        };
+
+        return params;
+    },
+    setTypeConfig = function(view, config) {
+        view.typeContainer.setDefinedEntityTypes(config ? config['entity types'] : []);
+        view.typeContainer.setDefinedRelationTypes(config ? config['relation types'] : []);
+
+        if (config && config.css !== undefined) {
+            $('#css_area').html('<link rel="stylesheet" href="' + config.css + '"/>');
+        }
+
+        return config;
+    };
+
+module.exports = function() {
+    // model manages data objects.
+    var model = require('./model/Model')(this),
+        // The history of command that providing undo and redo.
+        history = require('./model/History')(),
+        // Configulation of span
+        spanConfig = new SpanConfig(),
+        // Users can edit model only via commands. 
+        command = require('./model/Command')(this, model, history, spanConfig),
+        view = require('./view/View')(this, model),
+        presenter = require('./presenter/Presenter')(this, model, view, command, spanConfig),
+        //handle user input event.
+        controller = new Controller(this, history, presenter, view);
 
     // public funcitons of editor
     this.api = function(editor) {
-        var getParams = function(editor) {
-                // Read model parameters from url parameters and html attributes.
-                var params = $.extend(require('./util/getUrlParameters')(location.search),
-                    // Html attributes preced url parameters.
-                    {
-                        config: editor.attr('config'),
-                        target: editor.attr('target')
-                    });
+        var setTypeConfigToView = _.partial(setTypeConfig, view),
+            setSpanAndTypeConfig = function(config) {
+                spanConfig.set(config);
+                setTypeConfigToView(config);
+            },
+            setConfigFromServer = function(params) {
+                // Read default spanConfig
+                spanConfig.set();
 
-                // Mode is prior in the url parameter.
-                if (!params.mode && editor.attr('mode')) {
-                    params.mode = editor.attr('mode');
+                if (params.config) {
+                    // Load sync, because load annotation after load config. 
+                    var configFromServer = require('./util/ajaxAccessor').getSync(params.config);
+                    if (configFromServer === null) {
+                        alert('could not read the span configuration from the location you specified.');
+                    }
+
+                    setSpanAndTypeConfig(configFromServer);
                 }
+            },
+            setConfigInAnnotation = function(annotation) {
+                spanConfig.set();
+                setSpanAndTypeConfig(annotation.config);
 
-                // Read Html text and clear it.  
-                var inlineAnnotation = editor.text();
-                editor.empty();
-
-                // Set annotaiton parameters.
-                params.annotation = {
-                    inlineAnnotation: inlineAnnotation,
-                    url: params.target
-                };
-
-                return params;
+                if (!annotation.config) {
+                    return 'no config';
+                }
             },
             resetData = function(annotation) {
+                // console.log(editor.editorId, 'resetData', annotation.config);
+                // spanConfig.set();
+
+                // var ret;
+                // if (annotation.config) {
+                //     setSpanAndTypeConfig(annotation.config);
+                // } else {
+                //     ret = 'no config';
+                // }
+
                 model.annotationData.reset(annotation);
                 history.reset();
             },
-            setConfigByParams = function() {
-                var setTypeConfig = function(config) {
-                        view.typeContainer.setDefinedEntityTypes(config['entity types']);
-                        view.typeContainer.setDefinedRelationTypes(config['relation types']);
-
-                        if (config.css !== undefined) {
-                            $('#css_area').html('<link rel="stylesheet" href="' + config.css + '"/>');
-                        }
-                    },
-                    setConfig = function(params) {
-                        // Read default spanConfig
-                        spanConfig.set();
-
-                        if (params.config) {
-                            // Load sync, because load annotation after load config. 
-                            var configFromServer = require('./util/ajaxAccessor').getSync(params.config);
-                            if (configFromServer !== null) {
-                                spanConfig.set(configFromServer);
-                                setTypeConfig(configFromServer);
-                            } else {
-                                alert('could not read the span configuration from the location you specified.');
+            loadOuterFiles = function() {
+                var loadAnnotation = function(params, dataAccessObject) {
+                    var annotation = params.annotation;
+                    if (annotation) {
+                        if (annotation.inlineAnnotation) {
+                            // Set an inline annotation.
+                            var ret = setConfigInAnnotation(annotation.inlineAnnotation);
+                            if (ret === 'no config') {
+                                setConfigFromServer(params);
                             }
+                            return resetData(JSON.parse(annotation.inlineAnnotation));
+                        } else if (annotation.url) {
+                            // Load an annotation from server.
+                            dataAccessObject.getAnnotationFromServer(annotation.url);
                         }
-                    },
-                    loadAnnotation = function(params, dataAccessObject) {
-                        var annotation = params.annotation;
-                        if (annotation) {
-                            if (annotation.inlineAnnotation) {
-                                // Set an inline annotation.
-                                resetData(JSON.parse(annotation.inlineAnnotation));
-                                _.defer(presenter.event.redraw);
-                            } else if (annotation.url) {
-                                // Load an annotation from server.
-                                dataAccessObject.getAnnotationFromServer(annotation.url);
-                            }
-                        }
-                    };
+                    }
+                };
 
                 return function(params, dataAccessObject) {
-                    setConfig(params);
                     presenter.setMode(params.mode);
                     loadAnnotation(params, dataAccessObject);
                 };
             }(),
-            initDao = function(confirmDiscardChangeMessage) {
+            initDao = function(confirmDiscardChangeMessage, getConfigFunc) {
                 var dataAccessObject = require('./component/DataAccessObject')(editor, confirmDiscardChangeMessage);
                 dataAccessObject.bind('save', history.saved);
                 dataAccessObject.bind('load', function(data) {
+                    var ret = setConfigInAnnotation(data.annotation);
+                    if (ret === 'no config' && getConfigFunc) {
+                        getConfigFunc();
+                    }
                     resetData(data.annotation);
                 });
 
@@ -258,9 +293,12 @@ module.exports = function() {
                 controller.init(CONFIRM_DISCARD_CHANGE_MESSAGE);
                 presenter.init();
 
-                var dataAccessObject = initDao(CONFIRM_DISCARD_CHANGE_MESSAGE);
+                var dataAccessObject = initDao(
+                    CONFIRM_DISCARD_CHANGE_MESSAGE,
+                    _.partial(setConfigFromServer, params)
+                );
 
-                setConfigByParams(params, dataAccessObject);
+                loadOuterFiles(params, dataAccessObject);
 
                 updateAPIs(dataAccessObject);
             };
