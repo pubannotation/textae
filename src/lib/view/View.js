@@ -225,7 +225,13 @@ var delay150 = function(func) {
 
                 changeLineHeight(maxHeight);
             },
-            typeGapValue = 0;
+            typeGapValue = 0,
+            TypeStyle = function(newValue) {
+                return {
+                    height: 18 * newValue + 18 + 'px',
+                    'padding-top': 18 * newValue + 'px'
+                };
+            };
 
         var api = {
             getTypeGapValue: function() {
@@ -282,15 +288,16 @@ var delay150 = function(func) {
 
                 // init
                 if (newValue !== -1) {
-                    editor.find('.textae-editor__type').css({
-                        height: 18 * newValue + 18 + 'px',
-                        'padding-top': 18 * newValue + 'px'
-                    });
+                    editor.find('.textae-editor__type')
+                        .css(new TypeStyle(newValue));
                     calculateLineHeight(newValue);
                     renderFunc(newValue);
                 }
 
                 typeGapValue = newValue;
+            },
+            getTypeStyle: function() {
+                return new TypeStyle(typeGapValue);
             }
         };
 
@@ -354,11 +361,15 @@ module.exports = function(editor, model) {
                 .bind('relation.change', buttonController.buttonStateHelper.updateByRelation);
         },
         updateDisplay = function() {
-            console.log('updateDisplay');
             render(viewMode.getTypeGapValue());
         };
 
-    renderer.bind('change', updateDisplay);
+    renderer
+        .bind('change', updateDisplay)
+        .bind('entity.render', function(entity) {
+            // Set css accoridng to the typeGapValue. 
+            renderer.setEntityCss(entity, viewMode.getTypeStyle());
+        });
 
     return _.extend(api, {
         init: _.compose(setSelectionModelHandler, renderer.setModelHandler),

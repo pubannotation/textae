@@ -139,7 +139,6 @@ module.exports = function(editor, model, viewModel, typeContainer) {
         }(),
         api = require('../../util/extendBindable')({}),
         triggerChange = _.debounce(function() {
-            console.log('triggerChange');
             api.trigger('change');
         }, 100),
         triggerChangeAfter = _.partial(_.compose, triggerChange),
@@ -166,6 +165,11 @@ module.exports = function(editor, model, viewModel, typeContainer) {
             return _.compose(renderModificationOfEntity, renderModificationOfRelation);
         }();
 
+    rendererImpl.entity.bind('render', function(entity) {
+        api.trigger('entity.render', entity);
+        return entity;
+    });
+
     _.extend(api, {
         setModelHandler: function() {
             rendererImpl.init(getAnnotationArea());
@@ -188,7 +192,13 @@ module.exports = function(editor, model, viewModel, typeContainer) {
                 .bind('modification.remove', renderModificationEntityOrRelation);
         },
         arrangeRelationPositionAll: rendererImpl.relation.arrangePositionAll,
-        renderLazyRelationAll: rendererImpl.relation.renderLazyRelationAll
+        renderLazyRelationAll: rendererImpl.relation.renderLazyRelationAll,
+        setEntityCss: function(entity, css) {
+            rendererImpl
+                .entity
+                .getTypeDom(entity)
+                .css(css);
+        }
     });
 
     return api;

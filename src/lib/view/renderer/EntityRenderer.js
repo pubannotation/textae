@@ -165,10 +165,13 @@ module.exports = function(editor, model, typeContainer, gridRenderer, modificati
 				arrangePositionOfPane(pane);
 			};
 		}(),
+		api = require('../../util/extendBindable')({}),
 		createEntityUnlessBlock = function(entity) {
 			if (!typeContainer.entity.isBlock(entity.type)) {
 				create(entity);
 			}
+
+			api.trigger('render', entity);
 
 			return entity;
 		},
@@ -203,10 +206,13 @@ module.exports = function(editor, model, typeContainer, gridRenderer, modificati
 			return entity;
 		};
 
-	return {
+	return _.extend(api, {
 		render: createEntityUnlessBlock,
 		change: changeTypeOfExists,
 		changeModification: changeModificationOfExists,
-		remove: destroy
-	};
+		remove: destroy,
+		getTypeDom: function(entity) {
+			return getTypeDom(entity.span, entity.type);
+		}
+	});
 };
