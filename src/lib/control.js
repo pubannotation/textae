@@ -106,7 +106,7 @@ module.exports = function($control) {
             'pallet': 'Select label [Q]',
             'change-label': 'Change label [W]'
         }, {
-            'negation': 'Negataion',
+            'negation': 'Negation',
             'speculation': 'Speculation'
         }, {
             'delete': 'Delete [D]',
