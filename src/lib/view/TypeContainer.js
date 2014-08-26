@@ -13,7 +13,6 @@ module.exports = function(model) {
 					return _.extend({}, definedTypes);
 				},
 				setDefaultType: function(name) {
-					console.log('oeuaoeua', name);
 					defaultType = name;
 				},
 				getDefaultType: function() {

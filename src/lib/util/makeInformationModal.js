@@ -1,57 +1,48 @@
-module.exports = function() {
-	//this is bound object.
-	var showModal = function(className, obj) {
-		var getModal = function() {
-			var $modal = $('.' + this.className);
-			// add modal unless exists
-			if ($modal.length === 0) {
-				$modal = $('<div>')
-					.addClass('textae__information-modal')
-					.addClass(this.className)
-					.hide();
-				this.addContentsFunc.call($modal);
-				$('body').append($modal);
-			}
-			return $modal;
-		};
-
-		var setPositionCenter = function($modal) {
-			var $window = $(window);
-			$modal.css({
-				'position': 'absolute',
-				'top': ($window.height() - $modal.height()) / 2 + $window.scrollTop(),
-				'left': ($window.width() - $modal.width()) / 2 + $window.scrollLeft()
-			});
-		};
-
+var Modal = function(self) {
+		var $modal = $('.' + self.className);
+		// add modal unless exists
+		if ($modal.length === 0) {
+			$modal = $('<div>')
+				.addClass('textae__information-modal')
+				.addClass(self.className)
+				.hide();
+			self.addContentsFunc.call($modal);
+			$('body').append($modal);
+		}
+		return $modal;
+	},
+	setPositionCenter = function($modal) {
+		var $window = $(window);
+		$modal.css({
+			'position': 'absolute',
+			'top': ($window.height() - $modal.height()) / 2 + $window.scrollTop(),
+			'left': ($window.width() - $modal.width()) / 2 + $window.scrollLeft()
+		});
+	},
+	show = function(self) {
 		//close other dialogs
 		$('.textae__information-modal').hide();
 
 		//show at center
-		var $modal = getModal.call(this);
+		var $modal = new Modal(self);
 		setPositionCenter($modal);
 		$modal.show();
+	},
+	hide = function(className) {
+		$('.' + className).hide();
 	};
 
-	//this is bound object.
-	var hideModal = function(className) {
-		$('.' + this.className).hide();
-	};
-
-	//expected param has className and addContentsFunc.
-	var bindObject = function(param) {
-		return {
-			show: showModal.bind(param),
-			hide: hideModal.bind(param)
-		};
-	};
-
-	//close modal when modal clicked.
-	$(function() {
-		$('body').on('mouseup', '.textae__information-modal', function() {
-			$(this).hide();
-		});
+//close modal when modal clicked.
+$(function() {
+	$('body').on('mouseup', '.textae__information-modal', function() {
+		$(this).hide();
 	});
+});
 
-	return bindObject;
-}();
+//expected param has className and addContentsFunc.
+module.exports = function(param) {
+	return {
+		show: _.partial(show, param),
+		hide: _.partial(hide, param.className)
+	};
+};

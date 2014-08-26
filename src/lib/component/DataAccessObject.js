@@ -1,3 +1,13 @@
+var bindEvent = function($target, event, func) {
+        $target.on(event, func);
+    },
+    bindCloseEvent = function($dialog) {
+        bindEvent($dialog, 'dialog.close', function() {
+            $dialog.close();
+        });
+        return $dialog;
+    };
+
 // A sub component to save and load data.
 module.exports = function(editor, confirmDiscardChangeMessage) {
     var ajaxAccessor = require('../util/ajaxAccessor'),
@@ -53,7 +63,7 @@ module.exports = function(editor, confirmDiscardChangeMessage) {
 
                     return $dialog;
                 },
-                getDialog = _.compose(extendOpenWithUrl, require('../util/getDialog'));
+                getDialog = _.compose(extendOpenWithUrl, bindCloseEvent, require('../util/GetDialog')(editor));
             var getLoadDialog = function(editorId) {
                     var getAnnotationFromFile = function(file) {
                             var reader = new FileReader();
@@ -96,7 +106,7 @@ module.exports = function(editor, confirmDiscardChangeMessage) {
                                 getAnnotationFromServer(url);
                             }
 
-                            $content.dialogClose();
+                            $content.trigger('dialog.close');
                         })
                         .append(
                             $('<div class="textae-editor__load-dialog__row">').append(
@@ -117,11 +127,11 @@ module.exports = function(editor, confirmDiscardChangeMessage) {
                                 getAnnotationFromFile($content.find('[type="file"]')[0]);
                             }
 
-                            $content.dialogClose();
+                            $content.trigger('dialog.close');
                         });
 
                     // Capture the local variable by inner funcitons.
-                    var $dialog = getDialog(editorId, 'textae.dialog.load', 'Load Annotations', $content);
+                    var $dialog = getDialog('textae.dialog.load', 'Load Annotations', $content);
 
                     return $dialog;
                 },
@@ -171,7 +181,7 @@ module.exports = function(editor, confirmDiscardChangeMessage) {
                         .on('click', '.textae-editor__save-dialog__save-server-button', function() {
                             var url = $content.find('.textae-editor__save-dialog__server-file-name').val();
                             saveAnnotationToServer(url, $dialog.params);
-                            $content.dialogClose();
+                            $content.trigger('dialog.close');
                         })
                         .append(
                             $('<div class="textae-editor__save-dialog__row">').append(
@@ -186,7 +196,7 @@ module.exports = function(editor, confirmDiscardChangeMessage) {
                                 .attr('href', downloadPath)
                                 .attr('download', $content.find('.textae-editor__save-dialog__local-file-name').val());
                             api.trigger('save');
-                            $content.dialogClose();
+                            $content.trigger('dialog.close');
                         })
                         .append(
                             $('<div class="textae-editor__save-dialog__row">').append(
@@ -198,11 +208,11 @@ module.exports = function(editor, confirmDiscardChangeMessage) {
                             var downloadPath = createDownloadPath($dialog.params);
                             window.open(downloadPath, '_blank');
                             api.trigger('save');
-                            $content.dialogClose();
+                            $content.trigger('dialog.close');
                             return false;
                         });
 
-                    var $dialog = getDialog(editorId, 'textae.dialog.save', 'Save Annotations', $content);
+                    var $dialog = getDialog('textae.dialog.save', 'Save Annotations', $content);
 
                     // Set the filename when the dialog is opened.
                     $dialog.on('dialogopen', function() {
