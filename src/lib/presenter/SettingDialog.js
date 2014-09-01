@@ -120,7 +120,7 @@ module.exports = function(editor, editMode) {
 				);
 		},
 		appendToDialog = function($content) {
-			return require('../util/GetDialog')(editor)(
+			return require('../util/dialog/GetEditorDialog')(editor)(
 				'textae.dialog.setting',
 				'Chage Settings',
 				$content,

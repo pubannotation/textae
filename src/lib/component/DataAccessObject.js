@@ -63,7 +63,7 @@ module.exports = function(editor, confirmDiscardChangeMessage) {
 
                     return $dialog;
                 },
-                getDialog = _.compose(extendOpenWithUrl, bindCloseEvent, require('../util/GetDialog')(editor));
+                getDialog = _.compose(extendOpenWithUrl, bindCloseEvent, require('../util/dialog/GetEditorDialog')(editor));
             var getLoadDialog = function(editorId) {
                     var getAnnotationFromFile = function(file) {
                             var reader = new FileReader();

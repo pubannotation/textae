@@ -8,7 +8,6 @@ module.exports = function(editor, model, spanConfig, command, viewModel, typeCon
 		pallet = require('../component/Pallet')(),
 		hideDialogs = function() {
 			pallet.hide();
-			editor.tool.cancel();
 		},
 		cancelSelect = function() {
 			hideDialogs();

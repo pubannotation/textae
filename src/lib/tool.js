@@ -2,31 +2,30 @@
 module.exports = function() {
     // Components to be managed
     var components = function() {
-        var makeInformationModal = require('./util/makeInformationModal'),
-            helpDialog = makeInformationModal({
-                className: 'textae-control__help',
-                addContentsFunc: function() {
-                    this
-                        .append($('<h3>').text('Help (Keyboard short-cuts)'))
-                        .append($('<div>').addClass('textae-tool__key-help'));
-                }
-            }),
-            aboutDialog = makeInformationModal({
-                className: 'textae-control__about',
-                addContentsFunc: function() {
-                    this
-                        .html('<h3>About TextAE (Text Annotation Editor)</h3>' +
-                            '<p>今ご覧になっているTextAEはPubAnnotationで管理しているアノテーションのビューアもしくはエディタです。</p>' +
-                            '<p>PubAnnotationではPubMedのアブストラクトにアノテーションを付けることができます。</p>' +
-                            '<p>現在はEntrez Gene IDによる自動アノテーションおよびそのマニュアル修正作業が可能となっています。' +
-                            '今後は自動アノテーションの種類を増やす計画です。</p>' +
-                            '<p>間違ったアノテーションも目に付くと思いますが、それを簡単に直して自分のプロジェクトにセーブできるのがポイントです。</p>' +
-                            '<p>自分のアノテーションを作成するためにはPubAnnotation上で自分のプロジェクトを作る必要があります。' +
-                            '作成したアノテーションは後で纏めてダウンロードしたり共有することができます。</p>' +
-                            '<p>まだ開発中のサービスであり、実装すべき機能が残っています。' +
-                            'ユーザの皆様の声を大事にして開発していきたいと考えておりますので、ご意見などございましたら教えていただければ幸いです。</p>');
-                }
-            }),
+        var ToolDialog = require('./util/dialog/GetToolDialog'),
+            helpDialog = new ToolDialog(
+                'textae-control__help',
+                'Help (Keyboard short-cuts)', {
+                    height: 315,
+                    width: 438
+                },
+                $('<div>').addClass('textae-tool__key-help')),
+            aboutDialog = new ToolDialog(
+                'textae-control__about',
+                'About TextAE (Text Annotation Editor)', {
+                    height: 500,
+                    width: 600
+                },
+                $('<div>')
+                .html('<p>今ご覧になっているTextAEはPubAnnotationで管理しているアノテーションのビューアもしくはエディタです。</p>' +
+                    '<p>PubAnnotationではPubMedのアブストラクトにアノテーションを付けることができます。</p>' +
+                    '<p>現在はEntrez Gene IDによる自動アノテーションおよびそのマニュアル修正作業が可能となっています。' +
+                    '今後は自動アノテーションの種類を増やす計画です。</p>' +
+                    '<p>間違ったアノテーションも目に付くと思いますが、それを簡単に直して自分のプロジェクトにセーブできるのがポイントです。</p>' +
+                    '<p>自分のアノテーションを作成するためにはPubAnnotation上で自分のプロジェクトを作る必要があります。' +
+                    '作成したアノテーションは後で纏めてダウンロードしたり共有することができます。</p>' +
+                    '<p>まだ開発中のサービスであり、実装すべき機能が残っています。' +
+                    'ユーザの皆様の声を大事にして開発していきたいと考えておりますので、ご意見などございましたら教えていただければ幸いです。</p>')),
             switchActiveClass = function(editors, selected) {
                 var activeClass = 'textae-editor--active';
 
@@ -59,10 +58,9 @@ module.exports = function() {
                 },
                 selected: null,
             }),
-            infoModals: {
-                help: helpDialog,
-                about: aboutDialog,
-                hideAll: _.compose(helpDialog.hide, aboutDialog.hide)
+            openDialog: {
+                help: helpDialog.open,
+                about: aboutDialog.open
             }
         };
     }();
@@ -89,9 +87,8 @@ module.exports = function() {
     var eventDispatcher = {
         handleKeyInput: function(key) {
             if (key === 'H') {
-                components.infoModals.help.show();
+                components.openDialog.help();
             } else {
-                components.infoModals.hideAll();
                 if (components.editors.selected) {
                     components.editors.selected.api.handleKeyInput(key, getMousePoint());
                 }
@@ -100,13 +97,12 @@ module.exports = function() {
         handleButtonClick: function(name) {
             switch (name) {
                 case 'textae.control.button.help.click':
-                    components.infoModals.help.show();
+                    components.openDialog.help();
                     break;
                 case 'textae.control.button.about.click':
-                    components.infoModals.about.show();
+                    components.openDialog.about();
                     break;
                 default:
-                    components.infoModals.hideAll();
                     if (components.editors.selected) {
                         components.editors.selected.api.handleButtonClick(name, getMousePoint());
                     }
@@ -120,9 +116,6 @@ module.exports = function() {
             },
             // Methods to public as is.
             public: {
-                cancel: function() {
-                    components.infoModals.hideAll();
-                },
                 changeButtonState: function(editor, disableButtons) {
                     if (components.control && editor === components.editors.selected) {
                         components.control.updateAllButtonEnableState(disableButtons);
@@ -200,9 +193,6 @@ module.exports = function() {
             control
                 .on('textae.control.button.click', function() {
                     eventDispatcher.handleButtonClick.apply(null, _.rest(arguments));
-                })
-                .on('textae.control.click', function() {
-                    components.infoModals.hideAll();
                 });
 
             components.control = control;
