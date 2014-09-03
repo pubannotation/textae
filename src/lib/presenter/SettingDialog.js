@@ -131,14 +131,15 @@ module.exports = function(editor, editMode) {
 			return _.partial(func, editMode);
 		};
 
+	// Update values after creating a dialog because the dialog is re-used.
 	return _.compose(
 		open,
-		appendToDialog,
 		partialEditMode(updateLineHeight),
-		addLineHeight,
 		partialEditMode(updateTypeGapValue),
-		addTypeGap,
 		partialEditMode(updateViewMode),
+		appendToDialog,
+		addLineHeight,
+		addTypeGap,
 		addInstanceRelationView,
 		createContent
 	);
