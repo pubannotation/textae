@@ -88,8 +88,8 @@ module.exports = function(model, viewMode, typeEditor) {
 			}
 		},
 		// Calculate the line-height when the view-mode set
-		failTransit = function() {
-			throw new Error('fail transition.');
+		notTransit = function() {
+			console.log('no mode transition.', this.name);
 		},
 		changeTypeGapInstanceHide = _.compose(viewMode.changeTypeGap, typeGap.setInstanceHide),
 		changeTypeGapInstanceShow = _.compose(viewMode.changeTypeGap, typeGap.setInstanceShow),
@@ -99,37 +99,37 @@ module.exports = function(model, viewMode, typeEditor) {
 			}),
 			termCentric: _.extend({}, transition, {
 				name: 'Term Centric',
-				toTerm: failTransit,
+				toTerm: notTransit,
 				changeTypeGap: changeTypeGapInstanceHide,
 				showInstance: false
 			}),
 			instanceRelation: _.extend({}, transition, {
 				name: 'Instance / Relation',
-				toInstance: failTransit,
+				toInstance: notTransit,
 				changeTypeGap: changeTypeGapInstanceShow,
 				showInstance: true
 			}),
 			relationEdit: _.extend({}, transition, {
 				name: 'Relation Edit',
-				toRelation: failTransit,
+				toRelation: notTransit,
 				changeTypeGap: changeTypeGapInstanceShow,
 				showInstance: true
 			}),
 			viewTerm: _.extend({}, transition, {
 				name: 'View Only',
-				toTerm: failTransit,
+				toTerm: notTransit,
 				toInstance: transition.toViewInstance,
-				toRelation: failTransit,
-				toViewTerm: failTransit,
+				toRelation: notTransit,
+				toViewTerm: notTransit,
 				changeTypeGap: changeTypeGapInstanceHide,
 				showInstance: false
 			}),
 			viewInstance: _.extend({}, transition, {
 				name: 'View Only',
 				toTerm: transition.toViewTerm,
-				toInstance: failTransit,
-				toRelation: failTransit,
-				toViewInstance: failTransit,
+				toInstance: notTransit,
+				toRelation: notTransit,
+				toViewInstance: notTransit,
 				changeTypeGap: changeTypeGapInstanceShow,
 				showInstance: true
 			})
