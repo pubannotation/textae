@@ -322,8 +322,8 @@ module.exports = function(editor, model) {
             // For example a wait cursor or a disabled control.
             _.defer(function() {
                 gridLayout.arrangePosition(typeGapValue)
-                    .then(renderer.arrangeRelationPositionAll)
                     .then(renderer.renderLazyRelationAll)
+                    .then(renderer.arrangeRelationPositionAll)
                     .then(function() {
                         api.trigger('render.end', editor);
                     });
