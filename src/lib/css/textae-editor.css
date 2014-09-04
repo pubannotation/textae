@@ -303,15 +303,14 @@
 
 .textae-editor__entity.textae-editor__negation::before {
     content: 'X';
-    float: left;
-    left: -4px;
-    top: -15px;
+    left: -3px;
+    top: -35px;
 }
 
 .textae-editor__entity.textae-editor__speculation::after {
     content: '?';
-    left: -6px;
-    top: -15px;
+    left: -3px;
+    top: -70px;
 }
 
 .textae-editor__relation__label.textae-editor__negation::before {
