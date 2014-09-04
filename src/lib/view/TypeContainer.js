@@ -1,5 +1,6 @@
 module.exports = function(model) {
 	var reduce2hash = require('../util/reduce2hash'),
+		uri = require('../util/uri'),
 		DEFAULT_TYPE = 'something',
 		TypeContainer = function(getActualTypesFunction, defaultColor) {
 			var definedTypes = {},
@@ -22,7 +23,8 @@ module.exports = function(model) {
 					return definedTypes[name] && definedTypes[name].color || defaultColor;
 				},
 				getUri: function(name) {
-					return definedTypes[name] && definedTypes[name].uri || undefined;
+					return definedTypes[name] && definedTypes[name].uri ||
+						uri.getUrlMatches(name) ? name : undefined;
 				},
 				getSortedNames: function() {
 					if (getActualTypesFunction) {

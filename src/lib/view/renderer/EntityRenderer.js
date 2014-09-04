@@ -11,18 +11,12 @@ var // Arrange a position of the pane to center entities when entities width is 
 			'left': entitiesWidth > paneWidth ? (paneWidth - entitiesWidth) / 2 : 0
 		});
 	},
-	isUri = function(type) {
-		return String(type).indexOf('http') > -1;
-	},
+	uri = require('../../util/uri'),
 	// Display short name for URL(http or https);
 	getDisplayName = function(type) {
 		// For tunning, search the scheme before execute a regular-expression.
-		if (isUri(type)) {
-			// The regular-expression to parse URL.
-			// See detail:
-			// http://someweblog.com/url-regular-expression-javascript-link-shortener/
-			var urlRegex = /\(?(?:(http|https|ftp):\/\/)?(?:((?:[^\W\s]|\.|-|[:]{1})+)@{1})?((?:www.)?(?:[^\W\s]|\.|-)+[\.][^\W\s]{2,4}|localhost|\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})(?::(\d*))?([\/]?[^\s\?]*[\/]{1})*(?:\/?([^\s\n\?\[\]\{\}\#]*(?:(?=\.)){1}|[^\s\n\?\[\]\{\}\.\#]*)?([\.]{1}[^\s\?\#]*)?)?(?:\?{1}([^\s\n\#\[\]]*))?([\#][^\s\n]*)?\)?/gi;
-			var matches = urlRegex.exec(type);
+		if (uri.isUri(type)) {
+			var matches = uri.getUrlMatches(type);
 
 			if (matches) {
 				// Order to dispaly.
@@ -77,7 +71,7 @@ module.exports = function(editor, model, typeContainer, gridRenderer, modificati
 			//render type unless exists.
 			var getTypeElement = function() {
 					var getUri = function(type) {
-							if (isUri(type)) {
+							if (uri.isUri(type)) {
 								return type;
 							} else if (typeContainer.entity.getUri(type)) {
 								return typeContainer.entity.getUri(type);

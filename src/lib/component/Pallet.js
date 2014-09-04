@@ -1,84 +1,83 @@
+var Pallet = function(emitter) {
+		return $('<div>')
+			.addClass("textae-editor__type-pallet")
+			.append($('<table>'))
+			.css('position', 'fixed')
+			.on('click', '.textae-editor__type-pallet__entity-type__label', function() {
+				emitter.trigger('type.select', $(this).attr('label'));
+			})
+			.on('change', '.textae-editor__type-pallet__entity-type__radio', function() {
+				emitter.trigger('default-type.select', $(this).attr('label'));
+			})
+			.hide();
+	},
+	rowParts = {
+		RadioButton: function(typeContainer, typeName) {
+			// The event handler is bound direct,because jQuery detects events of radio buttons directly only.
+			var $radioButton = $('<input>')
+				.addClass('textae-editor__type-pallet__entity-type__radio')
+				.attr({
+					'type': 'radio',
+					'name': 'etype',
+					'label': typeName
+				});
+
+			// Select the radio button if it is default type.
+			if (typeName === typeContainer.getDefaultType()) {
+				$radioButton.attr({
+					'title': 'default type',
+					'checked': 'checked'
+				});
+			}
+			return $radioButton;
+		},
+		Link: function(uri) {
+			if (uri) {
+				return $('<a>')
+					.attr({
+						'href': uri,
+						'target': '_blank'
+					})
+					.append($('<span>').addClass('textae-editor__type-pallet__link'));
+			}
+		},
+		wrapTd: function($element) {
+			if ($element) {
+				return $('<td>').append($element);
+			} else {
+				return $('<td>');
+			}
+		}
+	},
+	PalletRow = function(typeContainer) {
+		var Column1 = _.compose(rowParts.wrapTd, _.partial(rowParts.RadioButton, typeContainer)),
+			Column2 = function(typeName) {
+				return $('<td>')
+					.addClass('textae-editor__type-pallet__entity-type__label')
+					.attr('label', typeName)
+					.text(typeName);
+			},
+			Column3 = _.compose(rowParts.wrapTd, rowParts.Link, typeContainer.getUri);
+
+		return typeContainer.getSortedNames().map(function(typeName) {
+			var $column1 = new Column1(typeName);
+			var $column2 = new Column2(typeName);
+			var $column3 = new Column3(typeName);
+
+			return $('<tr>')
+				.addClass('textae-editor__type-pallet__entity-type')
+				.css({
+					'background-color': typeContainer.getColor(typeName)
+				})
+				.append([$column1, $column2, $column3]);
+		});
+	};
+
 module.exports = function() {
 	var emitter = require('../util/extendBindable')({}),
-		$pallet = function() {
-			return $('<div>')
-				.addClass("textae-editor__type-pallet")
-				.append($('<table>'))
-				.css('position', 'fixed')
-				.on('click', '.textae-editor__type-pallet__entity-type__label', function() {
-					emitter.trigger('type.select', $(this).attr('label'));
-				})
-				.on('change', '.textae-editor__type-pallet__entity-type__radio', function() {
-					emitter.trigger('default-type.select', $(this).attr('label'));
-				})
-				.hide();
-		}(),
+		$pallet = new Pallet(emitter),
 		show = function() {
-			var makePalletRow = function(typeContainer) {
-					var makeRadioButton = function(typeName) {
-						// The event handler is bound direct,because jQuery detects events of radio buttons directly only.
-						var $radioButton = $('<input>')
-							.addClass('textae-editor__type-pallet__entity-type__radio')
-							.attr({
-								'type': 'radio',
-								'name': 'etype',
-								'label': typeName
-							});
-
-						// Select the radio button if it is default type.
-						if (typeName === typeContainer.getDefaultType()) {
-							$radioButton.attr({
-								'title': 'default type',
-								'checked': 'checked'
-							});
-						}
-						return $radioButton;
-					};
-
-					var makeLink = function(uri) {
-						if (uri) {
-							return $('<a>')
-								.attr({
-									'href': uri,
-									'target': '_blank'
-								})
-								.append($('<span>').addClass('textae-editor__type-pallet__link'));
-						}
-					};
-
-					var wrapTd = function($element) {
-						if ($element) {
-							return $('<td>').append($element);
-						} else {
-							return $('<td>');
-						}
-					};
-
-					var makeColumn1 = _.compose(wrapTd, makeRadioButton);
-
-					var makeColumn2 = function(typeName) {
-						return $('<td>')
-							.addClass('textae-editor__type-pallet__entity-type__label')
-							.attr('label', typeName)
-							.text(typeName);
-					};
-
-					var makeColumn3 = _.compose(wrapTd, makeLink, typeContainer.getUri);
-
-					return typeContainer.getSortedNames().map(function(typeName) {
-						var $column1 = makeColumn1(typeName);
-						var $column2 = makeColumn2(typeName);
-						var $column3 = makeColumn3(typeName);
-
-						return $('<tr>')
-							.addClass('textae-editor__type-pallet__entity-type')
-							.css({
-								'background-color': typeContainer.getColor(typeName)
-							})
-							.append([$column1, $column2, $column3]);
-					});
-				},
-				reuseOldPallet = function($pallet) {
+			var reuseOldPallet = function($pallet) {
 					var $oldPallet = $('.textae-editor__type-pallet');
 					if ($oldPallet.length !== 0) {
 						return $oldPallet.find('table').empty().end().css('width', 'auto');
@@ -90,7 +89,7 @@ module.exports = function() {
 				},
 				appendRows = function(palletConfig, $pallet) {
 					return $pallet.find("table")
-						.append(makePalletRow(palletConfig.typeContainer))
+						.append(new PalletRow(palletConfig.typeContainer))
 						.end();
 				},
 				setMaxHeight = function($pallet) {
