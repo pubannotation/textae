@@ -322,6 +322,7 @@
 
 .textae-editor__relation__label.textae-editor__speculation::after {
     content: '?';
+    display: inline-block;
     right: -0.5em;
     position: relative;
     top: -12px;
