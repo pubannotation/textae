@@ -417,6 +417,16 @@ module.exports = function(editor, model, typeContainer, modification) {
 				})
 			);
 		},
+		reselectAll = function() {
+			model.selectionModel.relation
+				.all()
+				.map(function(relationId) {
+					return new Connect(relationId);
+				})
+				.forEach(function(connect) {
+					connect.select();
+				});
+		},
 		arrangePositionAll = function() {
 			return new Promise(function(resolve, reject) {
 				_.defer(function() {
@@ -426,6 +436,7 @@ module.exports = function(editor, model, typeContainer, modification) {
 
 						resetAllCurviness();
 						jsPlumbInstance.repaintEverything();
+						reselectAll();
 
 						// For tuning
 						// var endTime = new Date();
@@ -434,6 +445,7 @@ module.exports = function(editor, model, typeContainer, modification) {
 						resolve();
 					} catch (error) {
 						reject(error);
+						throw error;
 					}
 				});
 			});
