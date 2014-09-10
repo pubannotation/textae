@@ -179,16 +179,6 @@ module.exports = function() {
                 }
             },
             resetData = function(annotation) {
-                // console.log(editor.editorId, 'resetData', annotation.config);
-                // spanConfig.set();
-
-                // var ret;
-                // if (annotation.config) {
-                //     setSpanAndTypeConfig(annotation.config);
-                // } else {
-                //     ret = 'no config';
-                // }
-
                 model.annotationData.reset(annotation);
                 history.reset();
             },
@@ -218,12 +208,12 @@ module.exports = function() {
             initDao = function(confirmDiscardChangeMessage, getConfigFunc) {
                 var dataAccessObject = require('./component/DataAccessObject')(editor, confirmDiscardChangeMessage);
                 dataAccessObject.bind('save', history.saved);
-                dataAccessObject.bind('load', function(data) {
-                    var ret = setConfigInAnnotation(data.annotation);
+                dataAccessObject.bind('load', function(annotation) {
+                    var ret = setConfigInAnnotation(annotation);
                     if (ret === 'no config' && getConfigFunc) {
                         getConfigFunc();
                     }
-                    resetData(data.annotation);
+                    resetData(annotation);
                 });
 
                 return dataAccessObject;

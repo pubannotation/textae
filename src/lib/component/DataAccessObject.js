@@ -33,16 +33,12 @@ module.exports = function(editor, confirmDiscardChangeMessage) {
             }
         },
         getAnnotationFromServer = function(url) {
-            console.log('getAnnotationFromServer1');
             cursorChanger.startWait();
             ajaxAccessor.getAsync(url, function getAnnotationFromServerSuccess(annotation) {
-                api.trigger('load', {
-                    annotation: annotation
-                });
+                api.trigger('load', annotation);
                 setDataSourceUrl(url);
                 dataSourceUrl = url;
             }, function() {
-                console.log('getAnnotationFromServer2');
                 cursorChanger.endWait();
             });
         },
