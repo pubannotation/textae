@@ -160,7 +160,7 @@ module.exports = function() {
                 // Read default spanConfig
                 spanConfig.set();
 
-                if (params.config) {
+                if (typeof params.config === 'string') {
                     // Load sync, because load annotation after load config. 
                     var configFromServer = require('./util/ajaxAccessor').getSync(params.config);
                     if (configFromServer === null) {
