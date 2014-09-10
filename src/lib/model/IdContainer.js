@@ -38,6 +38,8 @@ module.exports = function(kindName) {
 			triggerChange();
 		},
 		clear: function() {
+			if (!api.some()) return;
+
 			_.each(api.all(), api.remove);
 			selected = {};
 			triggerChange();

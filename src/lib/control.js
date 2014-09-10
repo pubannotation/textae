@@ -64,7 +64,7 @@ var TitleDom = function() {
         var event = 'click';
 
         // Set apearance and eventHandler to button.
-        if (enable) {
+        if (enable === true) {
             button
                 .off(event)
                 .on(event, eventHandler);
@@ -122,10 +122,17 @@ module.exports = function($control) {
         triggrButtonClickEvent = $control.trigger.bind($control, 'textae.control.button.click'),
         // A function to enable/disable button.
         enableButton = _.partial(updateButtons, buttonContainer, triggrButtonClickEvent),
+        // Buttons that always eanable.
+        alwaysEnables = {
+            'read': true,
+            'setting': true,
+            'help': true,
+            'about': true
+        },
         // Update all button state when an instance of textEditor is changed.
         updateAllButtonEnableState = function(disableButtons) {
             // Make buttons in a disableButtons disalbed, and other buttons in the buttonContainer enabled.
-            enableButton(_.extend({}, buttonContainer, disableButtons));
+            enableButton(_.extend({}, buttonContainer, alwaysEnables, disableButtons));
         },
         // Update button push state.
         updateButtonPushState = function(bottonName, isPushed) {
@@ -140,14 +147,6 @@ module.exports = function($control) {
 
     // To close information dialogs.
     $control.on('click', triggrControlClickEvent);
-
-    // Enable buttons that always eanable.
-    enableButton({
-        'read': true,
-        'replicate-auto': true,
-        'help': true,
-        'about': true
-    });
 
     // Public API
     $control.updateAllButtonEnableState = updateAllButtonEnableState;
