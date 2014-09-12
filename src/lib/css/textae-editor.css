@@ -296,21 +296,25 @@
 
 /* modification */
 .textae-editor__entity.textae-editor__negation::before,
-.textae-editor__entity.textae-editor__speculation::after {
+.textae-editor__entity.textae-editor__speculation::before {
     display: block;
+    left: -3px;
+    top: -35px;
     position: relative;
 }
 
 .textae-editor__entity.textae-editor__negation::before {
     content: 'X';
-    left: -3px;
-    top: -35px;
 }
 
-.textae-editor__entity.textae-editor__speculation::after {
+.textae-editor__entity.textae-editor__speculation::before {
     content: '?';
-    left: -3px;
-    top: -70px;
+}
+
+.textae-editor__entity.textae-editor__negation.textae-editor__entity.textae-editor__speculation::before {
+    content: '?\AX';
+    top: -51px;
+    white-space: pre;
 }
 
 .textae-editor__relation__label.textae-editor__negation::before {
