@@ -70,7 +70,7 @@ module.exports = function(editor, annotationData) {
             return pullUpGridOverDescendants(span);
          }
       },
-      Pormise = require('promise'),
+      Promise = require('Promise'),
       arrangeGridPosition = function(typeGapValue, span) {
          var moveTheGridIfChange = _.compose(
                _.partial(updateGridPositon, span),

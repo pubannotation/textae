@@ -314,7 +314,7 @@ module.exports = function(editor, model, typeContainer, modification) {
 				deleteRender
 			);
 		}(),
-		promise = require('promise'),
+		Promise = require('Promise'),
 		// Create a dummy relation when before moving grids after creation grids.
 		// Because a jsPlumb error occurs when a relation between same points.
 		// And entities of same length spans was same point before moving grids.

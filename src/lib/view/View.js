@@ -148,6 +148,9 @@ module.exports = function(editor, model) {
                     .then(renderer.arrangeRelationPositionAll)
                     .then(function() {
                         api.trigger('render.end', editor);
+                    })
+                    .catch(function(error) {
+                        console.error(error);
                     });
             });
         },
