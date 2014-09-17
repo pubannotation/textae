@@ -426,6 +426,9 @@ module.exports = function(editor, model, typeContainer, modification) {
 				.map(function(relationId) {
 					return new Connect(relationId);
 				})
+				.filter(function(connect) {
+					return connect instanceof jsPlumb.Connection;
+				})
 				.forEach(function(connect) {
 					connect.select();
 				});

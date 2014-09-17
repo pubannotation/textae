@@ -150,7 +150,7 @@ module.exports = function(editor, model) {
                         api.trigger('render.end', editor);
                     })
                     .catch(function(error) {
-                        console.error(error);
+                        console.error(error, error.stack);
                     });
             });
         },
