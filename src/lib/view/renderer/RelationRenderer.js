@@ -374,8 +374,11 @@ module.exports = function(editor, model, typeContainer, modification) {
 		},
 		changeJsModification = function(relation) {
 			var connect = new Connect(relation.id);
-			var labelOverlay = new LabelOverlay(connect);
-			modification.update(labelOverlay, relation.id);
+
+			// A connect may be an object before it rendered.
+			if (connect instanceof jsPlumb.Connection) {
+				modification.update(new LabelOverlay(connect), relation.id);
+			}
 		},
 		remove = function(relation) {
 			var connect = new Connect(relation.id);
