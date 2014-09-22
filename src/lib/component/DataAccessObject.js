@@ -40,6 +40,7 @@ module.exports = function(editor, confirmDiscardChangeMessage) {
                 dataSourceUrl = url;
             }, function() {
                 cursorChanger.endWait();
+                alert("connection failed.");
             });
         },
         //load/saveDialog

@@ -22,5 +22,10 @@
 		},
 		"obj": "Parent"
 	}],
-	"relations": []
+	"relations": [{
+		"id": "R1",
+		"pred": "equivalentTo",
+		"subj": "E1",
+		"obj": "E3"
+	}]
 }

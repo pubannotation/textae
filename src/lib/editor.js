@@ -33,8 +33,11 @@ var SpanConfig = function() {
             api = {
                 delimiterCharacters: null,
                 nonEdgeCharacters: null,
+                reset: function() {
+                    this.set(defaults);
+                },
                 set: function(config) {
-                    var settings = $.extend({}, defaults, config);
+                    var settings = _.extend({}, defaults, config);
 
                     if (settings['delimiter characters'] !== undefined) {
                         api.delimiterCharacters = settings['delimiter characters'];
@@ -133,6 +136,9 @@ var SpanConfig = function() {
         }
 
         return config;
+    },
+    handle = function(map, key, value) {
+        if (map[key]) map[key](value);
     };
 
 module.exports = function() {
@@ -147,79 +153,77 @@ module.exports = function() {
         view = require('./view/View')(this, model),
         presenter = require('./presenter/Presenter')(this, model, view, command, spanConfig),
         //handle user input event.
-        controller = new Controller(this, history, presenter, view);
+        controller = new Controller(this, history, presenter, view),
+        setTypeConfigToView = _.partial(setTypeConfig, view),
+        setSpanAndTypeConfig = function(config) {
+            spanConfig.set(config);
+            setTypeConfigToView(config);
+        },
+        setConfigInAnnotation = function(annotation) {
+            spanConfig.reset();
+            setSpanAndTypeConfig(annotation.config);
+
+            if (!annotation.config) {
+                return 'no config';
+            }
+        },
+        resetData = function(annotation) {
+            model.annotationData.reset(annotation);
+            history.reset();
+        },
+        setConfigFromServer = function(config, annotation) {
+            spanConfig.reset();
+
+            if (typeof config === 'string') {
+                require('./util/ajaxAccessor')
+                    .getAsync(config,
+                        function(configFromServer) {
+                            setSpanAndTypeConfig(configFromServer);
+                            resetData(annotation);
+                        },
+                        function() {
+                            alert('could not read the span configuration from the location you specified.');
+                        }
+                );
+            } else {
+                resetData(annotation);
+            }
+        },
+        setAnnotation = function(config, annotation) {
+            var ret = setConfigInAnnotation(annotation);
+            if (ret === 'no config') {
+                setConfigFromServer(config, annotation);
+            } else {
+                resetData(annotation);
+            }
+        },
+        loadAnnotation = function(params, dataAccessObject) {
+            var annotation = params.annotation;
+            if (annotation) {
+                if (annotation.inlineAnnotation) {
+                    // Set an inline annotation.
+                    setAnnotation(params.config, JSON.parse(annotation.inlineAnnotation));
+                } else if (annotation.url) {
+                    // Load an annotation from server.
+                    dataAccessObject.getAnnotationFromServer(annotation.url);
+                }
+            }
+        },
+        loadOuterFiles = function(params, dataAccessObject) {
+            presenter.setMode(params.mode);
+            loadAnnotation(params, dataAccessObject);
+        };
 
     // public funcitons of editor
     this.api = function(editor) {
-        var setTypeConfigToView = _.partial(setTypeConfig, view),
-            setSpanAndTypeConfig = function(config) {
-                spanConfig.set(config);
-                setTypeConfigToView(config);
-            },
-            setConfigFromServer = function(params) {
-                // Read default spanConfig
-                spanConfig.set();
-
-                if (typeof params.config === 'string') {
-                    // Load sync, because load annotation after load config. 
-                    var configFromServer = require('./util/ajaxAccessor').getSync(params.config);
-                    if (configFromServer === null) {
-                        alert('could not read the span configuration from the location you specified.');
-                    }
-
-                    setSpanAndTypeConfig(configFromServer);
-                }
-            },
-            setConfigInAnnotation = function(annotation) {
-                spanConfig.set();
-                setSpanAndTypeConfig(annotation.config);
-
-                if (!annotation.config) {
-                    return 'no config';
-                }
-            },
-            resetData = function(annotation) {
-                model.annotationData.reset(annotation);
-                history.reset();
-            },
-            loadOuterFiles = function() {
-                var loadAnnotation = function(params, dataAccessObject) {
-                    var annotation = params.annotation;
-                    if (annotation) {
-                        if (annotation.inlineAnnotation) {
-                            // Set an inline annotation.
-                            var ret = setConfigInAnnotation(annotation.inlineAnnotation);
-                            if (ret === 'no config') {
-                                setConfigFromServer(params);
-                            }
-                            return resetData(JSON.parse(annotation.inlineAnnotation));
-                        } else if (annotation.url) {
-                            // Load an annotation from server.
-                            dataAccessObject.getAnnotationFromServer(annotation.url);
-                        }
-                    }
-                };
-
-                return function(params, dataAccessObject) {
-                    presenter.setMode(params.mode);
-                    loadAnnotation(params, dataAccessObject);
-                };
-            }(),
-            initDao = function(confirmDiscardChangeMessage, getConfigFunc) {
+        var initDao = function(confirmDiscardChangeMessage, setAnnotationFunc) {
                 var dataAccessObject = require('./component/DataAccessObject')(editor, confirmDiscardChangeMessage);
                 dataAccessObject.bind('save', history.saved);
                 dataAccessObject.bind('load', function(annotation) {
-                    var ret = setConfigInAnnotation(annotation);
-                    if (ret === 'no config' && getConfigFunc) {
-                        getConfigFunc();
-                    }
-                    resetData(annotation);
+                    setAnnotationFunc(annotation);
                 });
 
                 return dataAccessObject;
-            },
-            handle = function(map, key, value) {
-                if (map[key]) map[key](value);
             },
             updateAPIs = function(dataAccessObject) {
                 var showAccess = function() {
@@ -285,7 +289,7 @@ module.exports = function() {
 
                 var dataAccessObject = initDao(
                     CONFIRM_DISCARD_CHANGE_MESSAGE,
-                    _.partial(setConfigFromServer, params)
+                    _.partial(setAnnotation, params.config)
                 );
 
                 loadOuterFiles(params, dataAccessObject);
