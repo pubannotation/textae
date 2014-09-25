@@ -160,6 +160,9 @@ module.exports = function(editor, model) {
                 processAccosiatedRelation = function(func, entityId) {
                     model.annotationData.entity.assosicatedRelations(entityId)
                         .map(domPositionCaChe.toConnect)
+                        .filter(function(connect) {
+                            return connect.pointup && connect.pointdown;
+                        })
                         .forEach(func);
                 };
 
