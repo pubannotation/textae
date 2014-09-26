@@ -10,15 +10,19 @@ var bindEvent = function($target, event, func) {
 
 // A sub component to save and load data.
 module.exports = function(editor, confirmDiscardChangeMessage) {
-    var ajaxAccessor = require('../util/ajaxAccessor'),
-        dataSourceUrl = '',
+    var dataSourceUrl = '',
+        ajaxAccessor = require('../util/ajaxAccessor'),
         cursorChanger = require('../util/CursorChanger')(editor),
+        url = require('url'),
+        toLink = function(pathToJson) {
+            return '<a href="' + pathToJson + '">' + url.resolve(location.href, pathToJson) + '</a>';
+        },
         getAnnotationFromServer = function(url) {
             cursorChanger.startWait();
             ajaxAccessor.getAsync(url, function getAnnotationFromServerSuccess(annotation) {
                 api.trigger('load', {
                     annotation: annotation,
-                    source: '<a href="' + url + '">' + url + '</a>'
+                    source: toLink(url)
                 });
                 dataSourceUrl = url;
             }, function() {
@@ -43,8 +47,12 @@ module.exports = function(editor, confirmDiscardChangeMessage) {
 
                     return $dialog;
                 },
-                getDialog = _.compose(extendOpenWithUrl, bindCloseEvent, require('../util/dialog/GetEditorDialog')(editor));
-            var getLoadDialog = function(editorId) {
+                getDialog = _.compose(extendOpenWithUrl, bindCloseEvent, require('../util/dialog/GetEditorDialog')(editor)),
+                label = {
+                    URL: 'URL',
+                    LOCAL: 'Local'
+                },
+                getLoadDialog = function(editorId) {
                     var getAnnotationFromFile = function(file) {
                             var firstFile = file.files[0],
                                 reader = new FileReader();
@@ -71,7 +79,7 @@ module.exports = function(editor, confirmDiscardChangeMessage) {
                         $content = $('<div>')
                         .append(
                             $('<div class="textae-editor__load-dialog__row">').append(
-                                $('<label class="textae-editor__load-dialog__label">Server</label>'),
+                                $('<label class="textae-editor__load-dialog__label">').text(label.URL),
                                 $('<input type="text" class="textae-editor__load-dialog__file-name url" />'),
                                 $inputServer
                             )
@@ -93,7 +101,7 @@ module.exports = function(editor, confirmDiscardChangeMessage) {
                         })
                         .append(
                             $('<div class="textae-editor__load-dialog__row">').append(
-                                $('<label class="textae-editor__load-dialog__label">Local</label>'),
+                                $('<label class="textae-editor__load-dialog__label">').text(label.LOCAL),
                                 $('<input class="textae-editor__load-dialog__file" type="file" />'),
                                 $inputLocal
                             )
@@ -148,7 +156,7 @@ module.exports = function(editor, confirmDiscardChangeMessage) {
                         $content = $('<div>')
                         .append(
                             $('<div class="textae-editor__save-dialog__row">').append(
-                                $('<label class="textae-editor__save-dialog__label">Server</label>'),
+                                $('<label class="textae-editor__save-dialog__label">').text(label.URL),
                                 $('<input type="text" class="textae-editor__save-dialog__server-file-name url" />'),
                                 $('<input type="button" class="textae-editor__save-dialog__save-server-button" value="Save" />')
                             )
@@ -160,7 +168,7 @@ module.exports = function(editor, confirmDiscardChangeMessage) {
                         })
                         .append(
                             $('<div class="textae-editor__save-dialog__row">').append(
-                                $('<label class="textae-editor__save-dialog__label">Local</label>'),
+                                $('<label class="textae-editor__save-dialog__label">').text(label.LOCAL),
                                 $('<input type="text" class="textae-editor__save-dialog__local-file-name">'),
                                 $('<a class="download" href="#">Download</a>')
                             )
