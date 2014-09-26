@@ -13,30 +13,13 @@ module.exports = function(editor, confirmDiscardChangeMessage) {
     var ajaxAccessor = require('../util/ajaxAccessor'),
         dataSourceUrl = '',
         cursorChanger = require('../util/CursorChanger')(editor),
-        getMessageArea = function(editor) {
-            return function() {
-                $messageArea = editor.find('.textae-editor__footer .textae-editor__footer__message');
-                if ($messageArea.length === 0) {
-                    $messageArea = $('<div>').addClass('textae-editor__footer__message');
-                    var $footer = $('<div>')
-                        .addClass('textae-editor__footer')
-                        .append($messageArea);
-                    editor.append($footer);
-                }
-
-                return $messageArea;
-            };
-        }(editor),
-        setDataSourceUrl = function(url) {
-            if (url !== '') {
-                getMessageArea().html('(Target: <a href="' + url + '">' + url + '</a>)');
-            }
-        },
         getAnnotationFromServer = function(url) {
             cursorChanger.startWait();
             ajaxAccessor.getAsync(url, function getAnnotationFromServerSuccess(annotation) {
-                api.trigger('load', annotation);
-                setDataSourceUrl(url);
+                api.trigger('load', {
+                    annotation: annotation,
+                    source: '<a href="' + url + '">' + url + '</a>'
+                });
                 dataSourceUrl = url;
             }, function() {
                 cursorChanger.endWait();
@@ -63,12 +46,17 @@ module.exports = function(editor, confirmDiscardChangeMessage) {
                 getDialog = _.compose(extendOpenWithUrl, bindCloseEvent, require('../util/dialog/GetEditorDialog')(editor));
             var getLoadDialog = function(editorId) {
                     var getAnnotationFromFile = function(file) {
-                            var reader = new FileReader();
+                            var firstFile = file.files[0],
+                                reader = new FileReader();
+
                             reader.onload = function() {
                                 var annotation = JSON.parse(this.result);
-                                api.trigger('load', annotation);
+                                api.trigger('load', {
+                                    annotation: annotation,
+                                    source: firstFile.name + '(local file)'
+                                });
                             };
-                            reader.readAsText(file.files[0]);
+                            reader.readAsText(firstFile);
                         },
                         makeOpenButton = function(className) {
                             return $('<input type="button" value="Open" disabled="disabled" />')
@@ -77,12 +65,10 @@ module.exports = function(editor, confirmDiscardChangeMessage) {
                         isUserComfirm = function() {
                             // The params was set hasAnythingToSave.
                             return !$dialog.params || window.confirm(confirmDiscardChangeMessage);
-                        };
-
-                    var $inputServer = makeOpenButton('server');
-                    var $inputLocal = makeOpenButton('local');
-
-                    var $content = $('<div>')
+                        },
+                        $inputServer = makeOpenButton('server'),
+                        $inputLocal = makeOpenButton('local'),
+                        $content = $('<div>')
                         .append(
                             $('<div class="textae-editor__load-dialog__row">').append(
                                 $('<label class="textae-editor__load-dialog__label">Server</label>'),
@@ -134,18 +120,11 @@ module.exports = function(editor, confirmDiscardChangeMessage) {
                 },
                 getSaveDialog = function(editorId) {
                     var showSaveSuccess = function() {
-                            getMessageArea().html("annotation saved").fadeIn().fadeOut(5000, function() {
-                                $(this).html('').removeAttr('style');
-                                setDataSourceUrl(dataSourceUrl);
-                            });
                             api.trigger('save');
                             cursorChanger.endWait();
                         },
                         showSaveError = function() {
-                            getMessageArea().html("could not save").fadeIn().fadeOut(5000, function() {
-                                $(this).html('').removeAttr('style');
-                                setDataSourceUrl(dataSourceUrl);
-                            });
+                            api.trigger('save error');
                             cursorChanger.endWait();
                         },
                         saveAnnotationToServer = function(url, jsonData) {
@@ -165,9 +144,8 @@ module.exports = function(editor, confirmDiscardChangeMessage) {
                                 file = $fileInput.prop('files')[0];
 
                             return file ? file.name : 'annotations.json';
-                        };
-
-                    var $content = $('<div>')
+                        },
+                        $content = $('<div>')
                         .append(
                             $('<div class="textae-editor__save-dialog__row">').append(
                                 $('<label class="textae-editor__save-dialog__label">Server</label>'),

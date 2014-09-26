@@ -139,6 +139,20 @@ var SpanConfig = function() {
     },
     handle = function(map, key, value) {
         if (map[key]) map[key](value);
+    },
+    createDaoForEditor = function(editor, confirmDiscardChangeMessage, history, statusBar, setAnnotationFunc) {
+        return require('./component/DataAccessObject')(editor, confirmDiscardChangeMessage)
+            .bind('save', function() {
+                history.saved();
+                statusBar.showFlashMessage("annotation saved");
+            })
+            .bind('save error', function() {
+                statusBar.showFlashMessage("could not save");
+            })
+            .bind('load', function(data) {
+                setAnnotationFunc(data.annotation);
+                statusBar.updateSoruceInfo(data.source);
+            });
     };
 
 module.exports = function() {
@@ -197,12 +211,14 @@ module.exports = function() {
                 resetData(annotation);
             }
         },
+        statusBar = require('./component/StatusBar')(this),
         loadAnnotation = function(params, dataAccessObject) {
             var annotation = params.annotation;
             if (annotation) {
                 if (annotation.inlineAnnotation) {
                     // Set an inline annotation.
                     setAnnotation(params.config, JSON.parse(annotation.inlineAnnotation));
+                    statusBar.updateSoruceInfo('inline');
                 } else if (annotation.url) {
                     // Load an annotation from server.
                     dataAccessObject.getAnnotationFromServer(annotation.url);
@@ -216,16 +232,7 @@ module.exports = function() {
 
     // public funcitons of editor
     this.api = function(editor) {
-        var initDao = function(confirmDiscardChangeMessage, setAnnotationFunc) {
-                var dataAccessObject = require('./component/DataAccessObject')(editor, confirmDiscardChangeMessage);
-                dataAccessObject.bind('save', history.saved);
-                dataAccessObject.bind('load', function(annotation) {
-                    setAnnotationFunc(annotation);
-                });
-
-                return dataAccessObject;
-            },
-            updateAPIs = function(dataAccessObject) {
+        var updateAPIs = function(dataAccessObject) {
                 var showAccess = function() {
                         dataAccessObject.showAccess(history.hasAnythingToSave());
                     },
@@ -287,8 +294,11 @@ module.exports = function() {
                 controller.init(CONFIRM_DISCARD_CHANGE_MESSAGE);
                 presenter.init();
 
-                var dataAccessObject = initDao(
+                var dataAccessObject = createDaoForEditor(
+                    editor,
                     CONFIRM_DISCARD_CHANGE_MESSAGE,
+                    history,
+                    statusBar,
                     _.partial(setAnnotation, params.config)
                 );
 
