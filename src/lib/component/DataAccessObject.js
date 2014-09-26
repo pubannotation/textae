@@ -6,23 +6,43 @@ var bindEvent = function($target, event, func) {
             $dialog.close();
         });
         return $dialog;
+    },
+    ajaxAccessor = require('../util/ajaxAccessor'),
+    url = require('url'),
+    jQuerySugar = {
+        enabled: jQueryEnabled = require('../util/jQueryEnabled'),
+        Div: function(className) {
+            return $('<div>')
+                .addClass(className);
+        },
+        Label: function(className, text) {
+            return $('<label>')
+                .addClass(className)
+                .text(text);
+        },
+        Button: function(label, className) {
+            return $('<input type="button" disabled="disabled" />')
+                .addClass(className)
+                .val(label);
+        },
+        toLink: function(pathToJson) {
+            return '<a href="' + pathToJson + '">' + url.resolve(location.href, pathToJson) + '</a>';
+        },
+        getValueFromText: function($target, className) {
+            return $target.find('[type="text"].' + className).val();
+        }
     };
 
 // A sub component to save and load data.
 module.exports = function(editor, confirmDiscardChangeMessage) {
     var dataSourceUrl = '',
-        ajaxAccessor = require('../util/ajaxAccessor'),
         cursorChanger = require('../util/CursorChanger')(editor),
-        url = require('url'),
-        toLink = function(pathToJson) {
-            return '<a href="' + pathToJson + '">' + url.resolve(location.href, pathToJson) + '</a>';
-        },
         getAnnotationFromServer = function(url) {
             cursorChanger.startWait();
             ajaxAccessor.getAsync(url, function getAnnotationFromServerSuccess(annotation) {
                 api.trigger('load', {
                     annotation: annotation,
-                    source: toLink(url)
+                    source: jQuerySugar.toLink(url)
                 });
                 dataSourceUrl = url;
             }, function() {
@@ -39,7 +59,7 @@ module.exports = function(editor, confirmDiscardChangeMessage) {
                             // Display dataSourceUrl.
                             this.find('[type="text"].url')
                                 .val(dataSourceUrl)
-                                .trigger('keyup');
+                                .trigger('input');
 
                             $dialog.params = params;
                         });
@@ -66,54 +86,44 @@ module.exports = function(editor, confirmDiscardChangeMessage) {
                             };
                             reader.readAsText(firstFile);
                         },
-                        makeOpenButton = function(className) {
-                            return $('<input type="button" value="Open" disabled="disabled" />')
-                                .addClass(className);
-                        },
+                        RowDiv = _.partial(jQuerySugar.Div, 'textae-editor__load-dialog__row'),
+                        RowLabel = _.partial(jQuerySugar.Label, 'textae-editor__load-dialog__label'),
+                        OpenButton = _.partial(jQuerySugar.Button, 'Open'),
                         isUserComfirm = function() {
                             // The params was set hasAnythingToSave.
                             return !$dialog.params || window.confirm(confirmDiscardChangeMessage);
                         },
-                        $inputServer = makeOpenButton('server'),
-                        $inputLocal = makeOpenButton('local'),
+                        $buttonUrl = new OpenButton('url'),
+                        $buttonLocal = new OpenButton('local'),
                         $content = $('<div>')
                         .append(
-                            $('<div class="textae-editor__load-dialog__row">').append(
-                                $('<label class="textae-editor__load-dialog__label">').text(label.URL),
+                            new RowDiv().append(
+                                new RowLabel(label.URL),
                                 $('<input type="text" class="textae-editor__load-dialog__file-name url" />'),
-                                $inputServer
+                                $buttonUrl
                             )
                         )
-                        .on('keyup', '[type="text"]', function() {
-                            if (this.value) {
-                                $inputServer.removeAttr('disabled');
-                            } else {
-                                $inputServer.attr('disabled', 'disabled');
-                            }
+                        .on('input', '[type="text"].url', function() {
+                            jQuerySugar.enabled($buttonUrl, this.value);
                         })
-                        .on('click', 'input.server', function() {
+                        .on('click', '[type="button"].url', function() {
                             if (isUserComfirm()) {
-                                var url = $content.find('.textae-editor__load-dialog__file-name').val();
-                                getAnnotationFromServer(url);
+                                getAnnotationFromServer(jQuerySugar.getValueFromText($content, 'url'));
                             }
 
                             $content.trigger('dialog.close');
                         })
                         .append(
-                            $('<div class="textae-editor__load-dialog__row">').append(
-                                $('<label class="textae-editor__load-dialog__label">').text(label.LOCAL),
+                            new RowDiv().append(
+                                new RowLabel(label.LOCAL),
                                 $('<input class="textae-editor__load-dialog__file" type="file" />'),
-                                $inputLocal
+                                $buttonLocal
                             )
                         )
                         .on('change', '[type="file"]', function() {
-                            if (this.files.length > 0) {
-                                $inputLocal.removeAttr('disabled');
-                            } else {
-                                $inputLocal.attr('disabled', 'disabled');
-                            }
+                            jQuerySugar.enabled($buttonLocal, this.files.length > 0);
                         })
-                        .on('click', 'input.local', function() {
+                        .on('click', '[type="button"].local', function() {
                             if (isUserComfirm()) {
                                 getAnnotationFromFile($content.find('[type="file"]')[0]);
                             }
@@ -153,23 +163,28 @@ module.exports = function(editor, confirmDiscardChangeMessage) {
 
                             return file ? file.name : 'annotations.json';
                         },
+                        RowDiv = _.partial(jQuerySugar.Div, 'textae-editor__save-dialog__row'),
+                        RowLabel = _.partial(jQuerySugar.Label, 'textae-editor__save-dialog__label'),
+                        $saveButton = new jQuerySugar.Button('Save', 'url'),
                         $content = $('<div>')
                         .append(
-                            $('<div class="textae-editor__save-dialog__row">').append(
-                                $('<label class="textae-editor__save-dialog__label">').text(label.URL),
+                            new RowDiv().append(
+                                new RowLabel(label.URL),
                                 $('<input type="text" class="textae-editor__save-dialog__server-file-name url" />'),
-                                $('<input type="button" class="textae-editor__save-dialog__save-server-button" value="Save" />')
+                                $saveButton
                             )
                         )
-                        .on('click', '.textae-editor__save-dialog__save-server-button', function() {
-                            var url = $content.find('.textae-editor__save-dialog__server-file-name').val();
-                            saveAnnotationToServer(url, $dialog.params);
+                        .on('input', 'input.url', function() {
+                            jQuerySugar.enabled($saveButton, this.value);
+                        })
+                        .on('click', '[type="button"].url', function() {
+                            saveAnnotationToServer(jQuerySugar.getValueFromText($content, 'url'), $dialog.params);
                             $content.trigger('dialog.close');
                         })
                         .append(
-                            $('<div class="textae-editor__save-dialog__row">').append(
-                                $('<label class="textae-editor__save-dialog__label">').text(label.LOCAL),
-                                $('<input type="text" class="textae-editor__save-dialog__local-file-name">'),
+                            new RowDiv().append(
+                                new RowLabel(label.LOCAL),
+                                $('<input type="text" class="textae-editor__save-dialog__local-file-name local">'),
                                 $('<a class="download" href="#">Download</a>')
                             )
                         )
@@ -177,13 +192,13 @@ module.exports = function(editor, confirmDiscardChangeMessage) {
                             var downloadPath = createDownloadPath($dialog.params);
                             $(this)
                                 .attr('href', downloadPath)
-                                .attr('download', $content.find('.textae-editor__save-dialog__local-file-name').val());
+                                .attr('download', jQuerySugar.getValueFromText($content, 'local'));
                             api.trigger('save');
                             $content.trigger('dialog.close');
                         })
                         .append(
-                            $('<div class="textae-editor__save-dialog__row">').append(
-                                $('<label class="textae-editor__save-dialog__label"></label>'),
+                            new RowDiv().append(
+                                new RowLabel(),
                                 $('<a class="viewsource" href="#">Click to see the json source in a new window.</a>')
                             )
                         )
@@ -201,7 +216,7 @@ module.exports = function(editor, confirmDiscardChangeMessage) {
                     $dialog.on('dialogopen', function() {
                         var filename = getFilename();
                         $dialog
-                            .find('.textae-editor__save-dialog__local-file-name')
+                            .find('[type="text"].local')
                             .val(filename);
                     });
 

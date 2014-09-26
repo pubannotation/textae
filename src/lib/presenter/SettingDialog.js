@@ -31,12 +31,20 @@ var debounce300 = function(func) {
 			})
 			.end();
 	},
+	toTypeGap = function($content) {
+		return $content.find('.textae-editor__setting-dialog__type_gap');
+	},
 	updateTypeGapValue = function(editMode, $content) {
-		return $content.find('.textae-editor__setting-dialog__type_gap')
+		return toTypeGap($content)
 			.prop({
 				value: editMode.typeGap
 			})
 			.end();
+	},
+	jQueryEnabled = require('../util/jQueryEnabled'),
+	updateTypeGapEnable = function(editMode, $content) {
+		jQueryEnabled(toTypeGap($content), editMode.showInstance);
+		return $content;
 	},
 	changeMode = function(editMode, $content, checked) {
 		if (checked) {
@@ -44,6 +52,7 @@ var debounce300 = function(func) {
 		} else {
 			editMode.toTerm();
 		}
+		updateTypeGapEnable(editMode, $content);
 		updateTypeGapValue(editMode, $content);
 		updateLineHeight(editMode, $content);
 	};
@@ -136,6 +145,7 @@ module.exports = function(editor, editMode) {
 		open,
 		partialEditMode(updateLineHeight),
 		partialEditMode(updateTypeGapValue),
+		partialEditMode(updateTypeGapEnable),
 		partialEditMode(updateViewMode),
 		appendToDialog,
 		addLineHeight,
