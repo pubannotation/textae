@@ -52,9 +52,10 @@
             "color": "#EEEE55"
         }
     ],
-    "instance types": [{
-        "name": "instanceOf",
-        "color": "#BBBBBB"
+    "entity types": [{
+        "color": "#0000FF",
+        "name": "Sentence",
+        "type": "block"
     }],
     "modification types": [{
         "name": "Speculation",
