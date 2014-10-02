@@ -8,43 +8,21 @@ var bindEvent = function($target, event, func) {
         return $dialog;
     },
     ajaxAccessor = require('../util/ajaxAccessor'),
-    url = require('url'),
-    jQuerySugar = {
-        enabled: jQueryEnabled = require('../util/jQueryEnabled'),
-        Div: function(className) {
-            return $('<div>')
-                .addClass(className);
-        },
-        Label: function(className, text) {
-            return $('<label>')
-                .addClass(className)
-                .text(text);
-        },
-        Button: function(label, className) {
-            return $('<input type="button" disabled="disabled" />')
-                .addClass(className)
-                .val(label);
-        },
-        toLink: function(pathToJson) {
-            return '<a href="' + pathToJson + '">' + url.resolve(location.href, pathToJson) + '</a>';
-        },
-        getValueFromText: function($target, className) {
-            return $target.find('[type="text"].' + className).val();
-        }
-    };
+    jQuerySugar = require('../util/jQuerySugar'),
+    url = require('url');
 
 // A sub component to save and load data.
 module.exports = function(editor, confirmDiscardChangeMessage) {
     var dataSourceUrl = '',
         cursorChanger = require('../util/CursorChanger')(editor),
-        getAnnotationFromServer = function(url) {
+        getAnnotationFromServer = function(urlToJson) {
             cursorChanger.startWait();
-            ajaxAccessor.getAsync(url, function getAnnotationFromServerSuccess(annotation) {
+            ajaxAccessor.getAsync(urlToJson, function getAnnotationFromServerSuccess(annotation) {
                 api.trigger('load', {
                     annotation: annotation,
-                    source: jQuerySugar.toLink(url)
+                    source: jQuerySugar.toLink(url.resolve(location.href, urlToJson))
                 });
-                dataSourceUrl = url;
+                dataSourceUrl = urlToJson;
             }, function() {
                 cursorChanger.endWait();
                 alert("connection failed.");

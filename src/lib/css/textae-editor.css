@@ -2,8 +2,7 @@
     border: 1px solid black;
 }
 
-.textae-editor--wait,
-.textae-editor--wait textae-editor__setting-dialog {
+.textae-editor--wait{
     cursor: wait;
 }
 

@@ -9,41 +9,40 @@ var debounce300 = function(func) {
 		$(window).trigger('resize');
 	},
 	createContent = function() {
-		return $('<div>')
-			.addClass('textae-editor__setting-dialog');
+		return jQuerySugar.Div('textae-editor__setting-dialog');
 	},
 	// Open the dialog.
 	open = function($dialog) {
 		return $dialog.open();
 	},
+	jQuerySugar = require('../util/jQuerySugar'),
 	// Update the checkbox state, because it is updated by the button on control too.
 	updateViewMode = function(editMode, $content) {
-		return $content.find('.textae-editor__setting-dialog__term-centric-view')
-			.prop({
-				'checked': editMode.showInstance ? 'checked' : null
-			})
-			.end();
+		return jQuerySugar.setChecked(
+			$content,
+			'.mode',
+			editMode.showInstance ? 'checked' : null
+		);
 	},
 	updateLineHeight = function(editMode, $content) {
-		return $content.find('.textae-editor__setting-dialog__line-height')
-			.prop({
-				value: editMode.lineHeight
-			})
-			.end();
-	},
-	toTypeGap = function($content) {
-		return $content.find('.textae-editor__setting-dialog__type_gap');
+		return jQuerySugar.setValue(
+			$content,
+			'.line-height',
+			editMode.lineHeight
+		);
 	},
 	updateTypeGapValue = function(editMode, $content) {
-		return toTypeGap($content)
-			.prop({
-				value: editMode.typeGap
-			})
-			.end();
+		return jQuerySugar.setValue(
+			$content,
+			'.type-gap',
+			editMode.typeGap
+		);
 	},
-	jQueryEnabled = require('../util/jQueryEnabled'),
+	toTypeGap = function($content) {
+		return $content.find('.type-gap');
+	},
 	updateTypeGapEnable = function(editMode, $content) {
-		jQueryEnabled(toTypeGap($content), editMode.showInstance);
+		jQuerySugar.enabled(toTypeGap($content), editMode.showInstance);
 		return $content;
 	},
 	changeMode = function(editMode, $content, checked) {
@@ -55,7 +54,8 @@ var debounce300 = function(func) {
 		updateTypeGapEnable(editMode, $content);
 		updateTypeGapValue(editMode, $content);
 		updateLineHeight(editMode, $content);
-	};
+	},
+	SettingDialogLabel = _.partial(jQuerySugar.Label, 'textae-editor__setting-dialog__label');
 
 module.exports = function(editor, editMode) {
 	var addInstanceRelationView = function($content) {
@@ -63,18 +63,18 @@ module.exports = function(editor, editMode) {
 				changeMode(editMode, $content, $(this).is(':checked'));
 			});
 
-			return $content.append($('<div>')
-					.append('<label class="textae-editor__setting-dialog__label">Instance/Relation View')
-					.append($('<input>')
-						.attr({
-							'type': 'checkbox'
-						})
-						.addClass('textae-editor__setting-dialog__term-centric-view')
+			return $content
+				.append(jQuerySugar.Div()
+					.append(
+						new SettingDialogLabel('Instance/Relation View')
+					)
+					.append(
+						jQuerySugar.Checkbox('textae-editor__setting-dialog__term-centric-view mode')
 					)
 				)
 				.on(
 					'click',
-					'.textae-editor__setting-dialog__term-centric-view',
+					'.mode',
 					onModeChanged
 				);
 		},
@@ -86,21 +86,24 @@ module.exports = function(editor, editMode) {
 				}
 			);
 
-			return $content.append($('<div>')
-				.append('<label class="textae-editor__setting-dialog__label">Type Gap')
-				.append($('<input>')
-					.attr({
-						type: 'number',
-						step: 1,
-						min: 0,
-						max: 5
-					}).addClass('textae-editor__setting-dialog__type_gap')
-				)
-			).on(
-				'change',
-				'.textae-editor__setting-dialog__type_gap',
-				onTypeGapChange
-			);
+			return $content
+				.append(jQuerySugar.Div()
+					.append(
+						new SettingDialogLabel('Type Gap')
+					)
+					.append(
+						jQuerySugar.Number('textae-editor__setting-dialog__type-gap type-gap')
+						.attr({
+							step: 1,
+							min: 0,
+							max: 5
+						})
+					)
+				).on(
+					'change',
+					'.type-gap',
+					onTypeGapChange
+				);
 		},
 		addLineHeight = function($content) {
 			var changeLineHeight = _.compose(redrawAllEditor, editMode.changeLineHeight, sixteenTimes),
@@ -111,20 +114,21 @@ module.exports = function(editor, editMode) {
 				);
 
 			return $content
-				.append($('<div>')
-					.append('<label class="textae-editor__setting-dialog__label">Line Height')
-					.append($('<input>')
+				.append(jQuerySugar.Div()
+					.append(
+						new SettingDialogLabel('Line Height')
+					)
+					.append(
+						jQuerySugar.Number('textae-editor__setting-dialog__line-height line-height')
 						.attr({
-							'type': 'number',
 							'step': 1,
 							'min': 3,
 							'max': 50
 						})
-						.addClass('textae-editor__setting-dialog__line-height')
 					))
 				.on(
 					'change',
-					'.textae-editor__setting-dialog__line-height',
+					'.line-height',
 					onLineHeightChange
 				);
 		},
