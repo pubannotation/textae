@@ -172,8 +172,7 @@
     border: 1px solid black;
 }
 
-.textae-editor--wait,
-.textae-editor--wait textae-editor__setting-dialog {
+.textae-editor--wait{
     cursor: wait;
 }
 
@@ -503,21 +502,27 @@
 }
 
 /* dialog */
-.textae-editor__load-dialog__row, .textae-editor__save-dialog__row{
+.textae-editor__load-dialog__row,
+.textae-editor__save-dialog__row {
     margin-bottom: 4px;
 }
 
-.textae-editor__load-dialog__label, .textae-editor__save-dialog__label, .textae-editor__setting-dialog__label {
+.textae-editor__load-dialog__label,
+.textae-editor__save-dialog__label,
+.textae-editor__setting-dialog__label {
     display: inline-block;
     padding-right: 2px;
     text-align: right;
 }
 
-.textae-editor__load-dialog__label::after, .textae-editor__save-dialog__label::after, .textae-editor__setting-dialog__label::after {
+.textae-editor__load-dialog__label::after,
+.textae-editor__save-dialog__label::after,
+.textae-editor__setting-dialog__label::after {
     content: ":";
 }
 
-.textae-editor__load-dialog__label, .textae-editor__save-dialog__label {
+.textae-editor__load-dialog__label,
+.textae-editor__save-dialog__label {
     line-height: 1.1em;
     width: 57px;
 }
@@ -535,7 +540,9 @@
     width: 340px;
 }
 
-
+.textae-editor__setting-dialog__type-gap[disabled="disabled"]{
+    background-color: #999;
+}
 /* pallet */
 .textae-editor__type-pallet {
     background-color: rgba(200,255,255,0.9);

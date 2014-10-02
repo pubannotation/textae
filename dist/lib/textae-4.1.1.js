@@ -1879,43 +1879,21 @@ var bindEvent = function($target, event, func) {
         return $dialog;
     },
     ajaxAccessor = require('../util/ajaxAccessor'),
-    url = require('url'),
-    jQuerySugar = {
-        enabled: jQueryEnabled = require('../util/jQueryEnabled'),
-        Div: function(className) {
-            return $('<div>')
-                .addClass(className);
-        },
-        Label: function(className, text) {
-            return $('<label>')
-                .addClass(className)
-                .text(text);
-        },
-        Button: function(label, className) {
-            return $('<input type="button" disabled="disabled" />')
-                .addClass(className)
-                .val(label);
-        },
-        toLink: function(pathToJson) {
-            return '<a href="' + pathToJson + '">' + url.resolve(location.href, pathToJson) + '</a>';
-        },
-        getValueFromText: function($target, className) {
-            return $target.find('[type="text"].' + className).val();
-        }
-    };
+    jQuerySugar = require('../util/jQuerySugar'),
+    url = require('url');
 
 // A sub component to save and load data.
 module.exports = function(editor, confirmDiscardChangeMessage) {
     var dataSourceUrl = '',
         cursorChanger = require('../util/CursorChanger')(editor),
-        getAnnotationFromServer = function(url) {
+        getAnnotationFromServer = function(urlToJson) {
             cursorChanger.startWait();
-            ajaxAccessor.getAsync(url, function getAnnotationFromServerSuccess(annotation) {
+            ajaxAccessor.getAsync(urlToJson, function getAnnotationFromServerSuccess(annotation) {
                 api.trigger('load', {
                     annotation: annotation,
-                    source: jQuerySugar.toLink(url)
+                    source: jQuerySugar.toLink(url.resolve(location.href, urlToJson))
                 });
-                dataSourceUrl = url;
+                dataSourceUrl = urlToJson;
             }, function() {
                 cursorChanger.endWait();
                 alert("connection failed.");
@@ -2112,7 +2090,7 @@ module.exports = function(editor, confirmDiscardChangeMessage) {
 
     return api;
 };
-},{"../util/CursorChanger":34,"../util/ajaxAccessor":37,"../util/dialog/GetEditorDialog":42,"../util/extendBindable":45,"../util/jQueryEnabled":47,"url":9}],11:[function(require,module,exports){
+},{"../util/CursorChanger":34,"../util/ajaxAccessor":37,"../util/dialog/GetEditorDialog":42,"../util/extendBindable":45,"../util/jQuerySugar":48,"url":9}],11:[function(require,module,exports){
 var Pallet = function(emitter) {
 		return $('<div>')
 			.addClass("textae-editor__type-pallet")
@@ -2744,7 +2722,7 @@ module.exports = function() {
 
     return this;
 };
-},{"./component/DataAccessObject":10,"./component/StatusBar":12,"./model/Command":16,"./model/History":17,"./model/Model":19,"./presenter/Presenter":26,"./util/ajaxAccessor":37,"./util/getUrlParameters":46,"./view/View":55}],15:[function(require,module,exports){
+},{"./component/DataAccessObject":10,"./component/StatusBar":12,"./model/Command":16,"./model/History":17,"./model/Model":19,"./presenter/Presenter":26,"./util/ajaxAccessor":37,"./util/getUrlParameters":46,"./view/View":56}],15:[function(require,module,exports){
 var tool = require('./tool'),
     control = require('./control'),
     editor = require('./editor');
@@ -2768,46 +2746,88 @@ jQuery.fn.textae = (function() {
     };
 })();
 },{"./control":13,"./editor":14,"./tool":33}],16:[function(require,module,exports){
+var invoke = function(commands) {
+        commands.forEach(function(command) {
+            command.execute();
+        });
+    },
+    executeSubCommands = function(subCommands) {
+        subCommands.forEach(function(command) {
+            command.execute();
+        });
+    },
+    RevertCommands = function(commands) {
+        commands = Object.create(commands);
+        commands.reverse();
+        return commands.map(function(originCommand) {
+            return originCommand.revert();
+        });
+    },
+    invokeRevert = _.compose(invoke, RevertCommands),
+    debugLog = function(message, object) {
+        // For debug
+        if (object) {
+            console.log('[command.invoke]', message, object);
+        } else {
+            console.log('[command.invoke]', message);
+        }
+    },
+    setRevertAndLog = function() {
+        var log = function(prefix, param) {
+                debugLog(prefix + param.commandType + ' a ' + param.modelType + ': ' + param.id);
+            },
+            doneLog = _.partial(log, ''),
+            revertLog = _.partial(log, 'revert '),
+            RevertFunction = function(subCommands, logParam) {
+                var toRevert = function(command) {
+                        return command.revert();
+                    },
+                    execute = function(command) {
+                        command.execute();
+                    },
+                    revertedCommand = {
+                        execute: function() {
+                            invokeRevert(subCommands);
+                            revertLog(logParam);
+                        }
+                    };
+
+                return function() {
+                    return revertedCommand;
+                };
+            },
+            setRevert = function(modelType, command, commandType, id, subCommands) {
+                var logParam = {
+                    modelType: modelType,
+                    commandType: commandType,
+                    id: id
+                };
+
+                command.revert = new RevertFunction(subCommands, logParam);
+                return logParam;
+            };
+
+        return _.compose(doneLog, setRevert);
+    }(),
+    updateSelection = function(model, modelType, newModel) {
+        if (model.selectionModel[modelType]) {
+            model.selectionModel[modelType].add(newModel.id);
+        }
+    };
+
 // A command is an operation by user that is saved as history, and can undo and redo.
 // Users can edit model only via commands. 
 module.exports = function(editor, model, history, spanConfig) {
-    var invoke = function(commands) {
-            commands.forEach(function(command) {
-                command.execute();
-            });
-        },
-        RevertCommands = function(commands) {
-            commands = Object.create(commands);
-            commands.reverse();
-            return commands.map(function(originCommand) {
-                return originCommand.revert();
-            });
-        },
-        invokeRevert = _.compose(invoke, RevertCommands);
-
     var factory = function() {
         var idFactory = require('../util/IdFactory')(editor),
-            debugLog = function(message, object) {
-                // For debug
-                if (object) {
-                    console.log('[command.invoke]', message, object);
-                } else {
-                    console.log('[command.invoke]', message);
-                }
-            },
-            updateSelection = function(modelType, newModel) {
-                if (model.selectionModel[modelType]) {
-                    model.selectionModel[modelType].add(newModel.id);
-                }
-            },
-            createCommand = function(modelType, isSelectable, newModel) {
+            createCommand = function(model, modelType, isSelectable, newModel) {
                 return {
                     execute: function() {
                         // Update model
                         newModel = model.annotationData[modelType].add(newModel);
 
                         // Update Selection
-                        if (isSelectable) updateSelection(modelType, newModel);
+                        if (isSelectable) updateSelection(model, modelType, newModel);
 
                         // Set revert
                         this.revert = _.partial(factory[modelType + 'RemoveCommand'], newModel.id);
@@ -2818,6 +2838,7 @@ module.exports = function(editor, model, history, spanConfig) {
                     }
                 };
             },
+            createCommandForModel = _.partial(createCommand, model),
             removeCommand = function(modelType, id) {
                 return {
                     execute: function() {
@@ -2826,7 +2847,7 @@ module.exports = function(editor, model, history, spanConfig) {
 
                         if (oloModel) {
                             // Set revert
-                            this.revert = _.partial(createCommand, modelType, false, oloModel);
+                            this.revert = _.partial(createCommandForModel, modelType, false, oloModel);
                             debugLog('remove a ' + modelType + ': ', oloModel);
                         } else {
                             // Do not revert unless an object was removed.
@@ -2855,73 +2876,13 @@ module.exports = function(editor, model, history, spanConfig) {
                     }
                 };
             },
-            setRevertAndLog = function() {
-                var log = function(prefix, param) {
-                        debugLog(prefix + param.commandType + ' a ' + param.modelType + ': ' + param.id);
-                    },
-                    doneLog = _.partial(log, ''),
-                    revertLog = _.partial(log, 'revert '),
-                    RevertFunction = function(subCommands, logParam) {
-                        var toRevert = function(command) {
-                                return command.revert();
-                            },
-                            execute = function(command) {
-                                command.execute();
-                            },
-                            revertedCommand = {
-                                execute: function() {
-                                    invokeRevert(subCommands);
-                                    revertLog(logParam);
-                                }
-                            };
-
-                        return function() {
-                            return revertedCommand;
-                        };
-                    },
-                    setRevert = function(modelType, command, commandType, id, subCommands) {
-                        var logParam = {
-                            modelType: modelType,
-                            commandType: commandType,
-                            id: id
-                        };
-
-                        command.revert = new RevertFunction(subCommands, logParam);
-                        return logParam;
-                    };
-
-                return _.compose(doneLog, setRevert);
-            }(),
             setRevertAndLogSpan = _.partial(setRevertAndLog, 'span'),
-            executeSubCommands = function(subCommands) {
-                subCommands.forEach(function(command) {
-                    command.execute();
-                });
-            },
-            spanCreateCommand = _.partial(createCommand, 'span', true),
-            entityRemoveCommand = function(id) {
-                var removeEntity = _.partial(removeCommand, 'entity')(id),
-                    removeRelation = model.annotationData.entity.assosicatedRelations(id)
-                    .map(factory.relationRemoveCommand),
-                    subCommands = removeRelation.concat(removeEntity);
-
-                return {
-                    execute: function() {
-                        executeSubCommands(subCommands);
-                        setRevertAndLog('entity', this, 'remove', id, subCommands);
-                    }
-                };
-            },
-            entityChangeTypeCommand = _.partial(changeTypeCommand, 'entity'),
-            relationCreateAndSelectCommand = _.partial(createCommand, 'relation', true),
-            relationCreateCommand = _.partial(createCommand, 'relation', false),
-            relationRemoveCommand = _.partial(removeCommand, 'relation');
-
-        return {
-            spanCreateCommand: function(type, span) {
+            spanCreateCommand = _.partial(createCommandForModel, 'span', true),
+            entityCreateCommand = _.partial(createCommandForModel, 'entity', true),
+            spanAndDefaultEntryCreateCommand = function(type, span) {
                 var id = idFactory.makeSpanId(span),
                     createSpan = spanCreateCommand(span),
-                    createEntity = createCommand('entity', true, {
+                    createEntity = entityCreateCommand({
                         span: id,
                         type: type
                     }),
@@ -2934,11 +2895,66 @@ module.exports = function(editor, model, history, spanConfig) {
                     }
                 };
             },
-            spanRemoveCommand: function(id) {
+            spanReplicateCommand = function(type, span) {
+                var createSpan = _.partial(spanAndDefaultEntryCreateCommand, type),
+                    subCommands = model
+                    .getReplicationSpans(span, spanConfig)
+                    .map(createSpan);
+
+                return {
+                    execute: function() {
+                        executeSubCommands(subCommands);
+                        setRevertAndLogSpan(this, 'replicate', span.id, subCommands);
+                    }
+                };
+            },
+            // The relaitonId is optional set only when revert of the relationRemoveCommand.
+            // Set the css class lately, because jsPlumbConnector is no applyed that css class immediately after create.
+            relationCreateCommand = _.partial(createCommandForModel, 'relation', false),
+            relationCreateAndSelectCommand = _.partial(createCommandForModel, 'relation', true),
+            modificationRemoveCommand = _.partial(removeCommand, 'modification'),
+            relationRemoveCommand = _.partial(removeCommand, 'relation'),
+            relationAndAssociatesRemoveCommand = function(id) {
+                var removeRelation = relationRemoveCommand(id),
+                    removeModification = model.annotationData.getModificationOf(id)
+                    .map(function(modification) {
+                        return modification.id;
+                    })
+                    .map(modificationRemoveCommand),
+                    subCommands = removeModification.concat(removeRelation);
+
+                return {
+                    execute: function() {
+                        executeSubCommands(subCommands);
+                        setRevertAndLog('relation', this, 'remove', id, subCommands);
+                    }
+                };
+
+            },
+            entityRemoveCommand = _.partial(removeCommand, 'entity'),
+            entityAndAssociatesRemoveCommand = function(id) {
+                var removeEntity = entityRemoveCommand(id),
+                    removeRelation = model.annotationData.entity.assosicatedRelations(id)
+                    .map(relationRemoveCommand),
+                    removeModification = model.annotationData.getModificationOf(id)
+                    .map(function(modification) {
+                        return modification.id;
+                    })
+                    .map(modificationRemoveCommand),
+                    subCommands = removeRelation.concat(removeModification).concat(removeEntity);
+
+                return {
+                    execute: function() {
+                        executeSubCommands(subCommands);
+                        setRevertAndLog('entity', this, 'remove', id, subCommands);
+                    }
+                };
+            },
+            spanRemoveCommand = function(id) {
                 var removeSpan = _.partial(removeCommand, 'span')(id),
                     removeEntity = _.flatten(model.annotationData.span.get(id).getTypes().map(function(type) {
                         return type.entities.map(function(entityId) {
-                            return entityRemoveCommand(entityId);
+                            return entityAndAssociatesRemoveCommand(entityId);
                         });
                     })),
                     subCommands = removeEntity.concat(removeSpan);
@@ -2950,20 +2966,54 @@ module.exports = function(editor, model, history, spanConfig) {
                     }
                 };
             },
-            spanMoveCommand: function(spanId, newSpan) {
+            entityRemoveAndSpanRemeveIfNoEntityRestCommand = function(id) {
+                var span = model.annotationData.span.get(model.annotationData.entity.get(id).span),
+                    numberOfRestEntities = _.reject(
+                        _.flatten(
+                            span.getTypes()
+                            .map(function(type) {
+                                return type.entities;
+                            })
+                        ),
+                        function(entityId) {
+                            return entityId === id;
+                        }
+                    ).length;
+
+                return numberOfRestEntities === 0 ?
+                    spanRemoveCommand(span.id) :
+                    entityAndAssociatesRemoveCommand(id);
+            },
+            entityChangeTypeCommand = _.partial(changeTypeCommand, 'entity'),
+            entityChangeTypeRemoveRelationCommand = function(id, newType, isRemoveRelations) {
+                var changeType = _.partial(changeTypeCommand, 'entity')(id, newType),
+                    subCommands = isRemoveRelations ?
+                    model.annotationData.entity.assosicatedRelations(id)
+                    .map(relationRemoveCommand)
+                    .concat(changeType) :
+                    [changeType];
+
+                return {
+                    execute: function() {
+                        executeSubCommands(subCommands);
+                        setRevertAndLog('entity', this, 'change', id, subCommands);
+                    }
+                };
+            },
+            spanMoveCommand = function(spanId, newSpan) {
                 var subCommands = [],
                     newSpanId = idFactory.makeSpanId(newSpan),
                     d = model.annotationData;
 
                 if (!d.span.get(newSpanId)) {
-                    subCommands.push(factory.spanRemoveCommand(spanId));
+                    subCommands.push(spanRemoveCommand(spanId));
                     subCommands.push(spanCreateCommand({
                         begin: newSpan.begin,
                         end: newSpan.end
                     }));
                     d.span.get(spanId).getTypes().forEach(function(type) {
                         type.entities.forEach(function(id) {
-                            subCommands.push(factory.entityCreateCommand({
+                            subCommands.push(entityCreateCommand({
                                 id: id,
                                 span: newSpanId,
                                 type: type.name
@@ -2984,61 +3034,21 @@ module.exports = function(editor, model, history, spanConfig) {
                         setRevertAndLog('span', this, 'move', spanId, subCommands);
                     }
                 };
-            },
-            spanReplicateCommand: function(type, span) {
-                var createSpan = _.partial(factory.spanCreateCommand, type),
-                    subCommands = model
-                    .getReplicationSpans(span, spanConfig)
-                    .map(createSpan);
+            };
 
-                return {
-                    execute: function() {
-                        executeSubCommands(subCommands);
-                        setRevertAndLogSpan(this, 'replicate', span.id, subCommands);
-                    }
-                };
-            },
-            entityCreateCommand: _.partial(createCommand, 'entity', true),
-            entityRemoveCommand: function(id) {
-                var span = model.annotationData.span.get(model.annotationData.entity.get(id).span),
-                    numberOfRestEntities = _.reject(
-                        _.flatten(
-                            span.getTypes()
-                            .map(function(type) {
-                                return type.entities;
-                            })
-                        ),
-                        function(entityId) {
-                            return entityId === id;
-                        }
-                    ).length;
-
-                return numberOfRestEntities === 0 ?
-                    factory.spanRemoveCommand(span.id) :
-                    entityRemoveCommand(id);
-            },
-            entityChangeTypeCommand: function(id, newType, isRemoveRelations) {
-                var changeType = _.partial(changeTypeCommand, 'entity')(id, newType),
-                    subCommands = isRemoveRelations ?
-                    model.annotationData.entity.assosicatedRelations(id)
-                    .map(factory.relationRemoveCommand)
-                    .concat(changeType) :
-                    [changeType];
-
-                return {
-                    execute: function() {
-                        executeSubCommands(subCommands);
-                        setRevertAndLog('entity', this, 'change', id, subCommands);
-                    }
-                };
-            },
-            // The relaitonId is optional set only when revert of the relationRemoveCommand.
-            // Set the css class lately, because jsPlumbConnector is no applyed that css class immediately after create.
+        return {
+            spanCreateCommand: spanAndDefaultEntryCreateCommand,
+            spanRemoveCommand: spanRemoveCommand,
+            spanMoveCommand: spanMoveCommand,
+            spanReplicateCommand: spanReplicateCommand,
+            entityCreateCommand: entityCreateCommand,
+            entityRemoveCommand: entityRemoveAndSpanRemeveIfNoEntityRestCommand,
+            entityChangeTypeCommand: entityChangeTypeRemoveRelationCommand,
             relationCreateCommand: relationCreateAndSelectCommand,
-            relationRemoveCommand: relationRemoveCommand,
+            relationRemoveCommand: relationAndAssociatesRemoveCommand,
             relationChangeTypeCommand: _.partial(changeTypeCommand, 'relation'),
-            modificationCreateCommand: _.partial(createCommand, 'modification', false),
-            modificationRemoveCommand: _.partial(removeCommand, 'modification')
+            modificationCreateCommand: _.partial(createCommandForModel, 'modification', false),
+            modificationRemoveCommand: modificationRemoveCommand
         };
     }();
 
@@ -4544,41 +4554,40 @@ var debounce300 = function(func) {
 		$(window).trigger('resize');
 	},
 	createContent = function() {
-		return $('<div>')
-			.addClass('textae-editor__setting-dialog');
+		return jQuerySugar.Div('textae-editor__setting-dialog');
 	},
 	// Open the dialog.
 	open = function($dialog) {
 		return $dialog.open();
 	},
+	jQuerySugar = require('../util/jQuerySugar'),
 	// Update the checkbox state, because it is updated by the button on control too.
 	updateViewMode = function(editMode, $content) {
-		return $content.find('.textae-editor__setting-dialog__term-centric-view')
-			.prop({
-				'checked': editMode.showInstance ? 'checked' : null
-			})
-			.end();
+		return jQuerySugar.setChecked(
+			$content,
+			'.mode',
+			editMode.showInstance ? 'checked' : null
+		);
 	},
 	updateLineHeight = function(editMode, $content) {
-		return $content.find('.textae-editor__setting-dialog__line-height')
-			.prop({
-				value: editMode.lineHeight
-			})
-			.end();
-	},
-	toTypeGap = function($content) {
-		return $content.find('.textae-editor__setting-dialog__type_gap');
+		return jQuerySugar.setValue(
+			$content,
+			'.line-height',
+			editMode.lineHeight
+		);
 	},
 	updateTypeGapValue = function(editMode, $content) {
-		return toTypeGap($content)
-			.prop({
-				value: editMode.typeGap
-			})
-			.end();
+		return jQuerySugar.setValue(
+			$content,
+			'.type-gap',
+			editMode.typeGap
+		);
 	},
-	jQueryEnabled = require('../util/jQueryEnabled'),
+	toTypeGap = function($content) {
+		return $content.find('.type-gap');
+	},
 	updateTypeGapEnable = function(editMode, $content) {
-		jQueryEnabled(toTypeGap($content), editMode.showInstance);
+		jQuerySugar.enabled(toTypeGap($content), editMode.showInstance);
 		return $content;
 	},
 	changeMode = function(editMode, $content, checked) {
@@ -4590,7 +4599,8 @@ var debounce300 = function(func) {
 		updateTypeGapEnable(editMode, $content);
 		updateTypeGapValue(editMode, $content);
 		updateLineHeight(editMode, $content);
-	};
+	},
+	SettingDialogLabel = _.partial(jQuerySugar.Label, 'textae-editor__setting-dialog__label');
 
 module.exports = function(editor, editMode) {
 	var addInstanceRelationView = function($content) {
@@ -4598,18 +4608,18 @@ module.exports = function(editor, editMode) {
 				changeMode(editMode, $content, $(this).is(':checked'));
 			});
 
-			return $content.append($('<div>')
-					.append('<label class="textae-editor__setting-dialog__label">Instance/Relation View')
-					.append($('<input>')
-						.attr({
-							'type': 'checkbox'
-						})
-						.addClass('textae-editor__setting-dialog__term-centric-view')
+			return $content
+				.append(jQuerySugar.Div()
+					.append(
+						new SettingDialogLabel('Instance/Relation View')
+					)
+					.append(
+						jQuerySugar.Checkbox('textae-editor__setting-dialog__term-centric-view mode')
 					)
 				)
 				.on(
 					'click',
-					'.textae-editor__setting-dialog__term-centric-view',
+					'.mode',
 					onModeChanged
 				);
 		},
@@ -4621,21 +4631,24 @@ module.exports = function(editor, editMode) {
 				}
 			);
 
-			return $content.append($('<div>')
-				.append('<label class="textae-editor__setting-dialog__label">Type Gap')
-				.append($('<input>')
-					.attr({
-						type: 'number',
-						step: 1,
-						min: 0,
-						max: 5
-					}).addClass('textae-editor__setting-dialog__type_gap')
-				)
-			).on(
-				'change',
-				'.textae-editor__setting-dialog__type_gap',
-				onTypeGapChange
-			);
+			return $content
+				.append(jQuerySugar.Div()
+					.append(
+						new SettingDialogLabel('Type Gap')
+					)
+					.append(
+						jQuerySugar.Number('textae-editor__setting-dialog__type-gap type-gap')
+						.attr({
+							step: 1,
+							min: 0,
+							max: 5
+						})
+					)
+				).on(
+					'change',
+					'.type-gap',
+					onTypeGapChange
+				);
 		},
 		addLineHeight = function($content) {
 			var changeLineHeight = _.compose(redrawAllEditor, editMode.changeLineHeight, sixteenTimes),
@@ -4646,20 +4659,21 @@ module.exports = function(editor, editMode) {
 				);
 
 			return $content
-				.append($('<div>')
-					.append('<label class="textae-editor__setting-dialog__label">Line Height')
-					.append($('<input>')
+				.append(jQuerySugar.Div()
+					.append(
+						new SettingDialogLabel('Line Height')
+					)
+					.append(
+						jQuerySugar.Number('textae-editor__setting-dialog__line-height line-height')
 						.attr({
-							'type': 'number',
 							'step': 1,
 							'min': 3,
 							'max': 50
 						})
-						.addClass('textae-editor__setting-dialog__line-height')
 					))
 				.on(
 					'change',
-					'.textae-editor__setting-dialog__line-height',
+					'.line-height',
 					onLineHeightChange
 				);
 		},
@@ -4689,7 +4703,7 @@ module.exports = function(editor, editMode) {
 		createContent
 	);
 };
-},{"../util/dialog/GetEditorDialog":42,"../util/jQueryEnabled":47}],29:[function(require,module,exports){
+},{"../util/dialog/GetEditorDialog":42,"../util/jQuerySugar":48}],29:[function(require,module,exports){
 module.exports = function(spanConfig, annotationData) {
     var getPosition = function(node) {
         var $parent = $(node).parent();
@@ -5757,11 +5771,54 @@ module.exports = function($target, enable) {
 	}
 };
 },{}],48:[function(require,module,exports){
+var setProp = function(key, $target, className, value) {
+	var valueObject = {};
+
+	valueObject[key] = value;
+	return $target.find(className)
+		.prop(valueObject)
+		.end();
+};
+
+module.exports = {
+	enabled: jQueryEnabled = require('./jQueryEnabled'),
+	Div: function(className) {
+		return $('<div>')
+			.addClass(className);
+	},
+	Label: function(className, text) {
+		return $('<label>')
+			.addClass(className)
+			.text(text);
+	},
+	Button: function(label, className) {
+		return $('<input type="button" disabled="disabled" />')
+			.addClass(className)
+			.val(label);
+	},
+	Checkbox: function(className) {
+		return $('<input type="checkbox"/>')
+			.addClass(className);
+	},
+	Number: function(className) {
+		return $('<input type="number"/>')
+			.addClass(className);
+	},
+	toLink: function(url) {
+		return '<a href="' + url + '">' + url + '</a>';
+	},
+	getValueFromText: function($target, className) {
+		return $target.find('[type="text"].' + className).val();
+	},
+	setChecked: _.partial(setProp, 'checked'),
+	setValue: _.partial(setProp, 'value')
+};
+},{"./jQueryEnabled":47}],49:[function(require,module,exports){
 module.exports = function(hash, element) {
 	hash[element.name] = element;
 	return hash;
 };
-},{}],49:[function(require,module,exports){
+},{}],50:[function(require,module,exports){
 module.exports = {
 	isUri: function(type) {
 		return String(type).indexOf('http') > -1;
@@ -5774,7 +5831,7 @@ module.exports = {
 		return urlRegex.exec(type);
 	}
 };
-},{}],50:[function(require,module,exports){
+},{}],51:[function(require,module,exports){
 var ModeAccordingToButton = function(editor) {
 		var reduce2hash = require('../util/reduce2hash'),
 			Button = function(buttonName) {
@@ -5963,7 +6020,7 @@ module.exports = function(editor, model, clipBoard) {
 		buttonStateHelper: buttonStateHelper,
 	};
 };
-},{"../util/reduce2hash":48}],51:[function(require,module,exports){
+},{"../util/reduce2hash":49}],52:[function(require,module,exports){
 var Cache = function() {
         var cache = {},
             set = function(key, value) {
@@ -6094,7 +6151,7 @@ module.exports = function(editor, entityModel) {
     editor.postionCache = editor.postionCache || createNewCache(editor, entityModel);
     return editor.postionCache;
 };
-},{"../util/DomUtil":35}],52:[function(require,module,exports){
+},{"../util/DomUtil":35}],53:[function(require,module,exports){
 var filterVisibleGrid = function(grid) {
       if (grid && grid.hasClass('hidden')) {
          return grid;
@@ -6216,7 +6273,7 @@ module.exports = function(editor, annotationData) {
       arrangePosition: arrangePositionAll
    };
 };
-},{"../util/DomUtil":35,"./DomPositionCache":51,"Promise":2}],53:[function(require,module,exports){
+},{"../util/DomUtil":35,"./DomPositionCache":52,"Promise":2}],54:[function(require,module,exports){
 var selectionClass = require('./selectionClass');
 
 module.exports = function(editor, model) {
@@ -6276,7 +6333,7 @@ module.exports = function(editor, model) {
 		}
 	};
 };
-},{"../util/DomUtil":35,"./DomPositionCache":51,"./selectionClass":61}],54:[function(require,module,exports){
+},{"../util/DomUtil":35,"./DomPositionCache":52,"./selectionClass":62}],55:[function(require,module,exports){
 module.exports = function(model) {
 	var reduce2hash = require('../util/reduce2hash'),
 		uri = require('../util/uri'),
@@ -6360,7 +6417,7 @@ module.exports = function(model) {
 		setDefinedRelationTypes: _.partial(setContainerDefinedTypes, relationContaier)
 	};
 };
-},{"../util/reduce2hash":48,"../util/uri":49}],55:[function(require,module,exports){
+},{"../util/reduce2hash":49,"../util/uri":50}],56:[function(require,module,exports){
 var delay150 = function(func) {
         return _.partial(_.delay, func, 150);
     },
@@ -6572,7 +6629,7 @@ module.exports = function(editor, model) {
         typeContainer: typeContainer
     });
 };
-},{"../util/extendBindable":45,"./ButtonController":50,"./DomPositionCache":51,"./GridLayout":52,"./Selector":53,"./TypeContainer":54,"./renderer/Renderer":58}],56:[function(require,module,exports){
+},{"../util/extendBindable":45,"./ButtonController":51,"./DomPositionCache":52,"./GridLayout":53,"./Selector":54,"./TypeContainer":55,"./renderer/Renderer":59}],57:[function(require,module,exports){
 var // Arrange a position of the pane to center entities when entities width is longer than pane width.
 	arrangePositionOfPane = function(pane) {
 		var paneWidth = pane.outerWidth();
@@ -6785,7 +6842,7 @@ module.exports = function(editor, model, typeContainer, gridRenderer, modificati
 		}
 	});
 };
-},{"../../util/DomUtil":35,"../../util/IdFactory":36,"../../util/extendBindable":45,"../../util/uri":49,"../Selector":53}],57:[function(require,module,exports){
+},{"../../util/DomUtil":35,"../../util/IdFactory":36,"../../util/extendBindable":45,"../../util/uri":50,"../Selector":54}],58:[function(require,module,exports){
 var POINTUP_LINE_WIDTH = 3,
 	LABEL = {
 		cssClass: 'textae-editor__relation__label',
@@ -7259,7 +7316,7 @@ module.exports = function(editor, model, typeContainer, modification) {
 		arrangePositionAll: arrangePositionAll
 	};
 };
-},{"../../util/DomUtil":35,"../DomPositionCache":51,"./jsPlumbArrowOverlayUtil":60,"Promise":2}],58:[function(require,module,exports){
+},{"../../util/DomUtil":35,"../DomPositionCache":52,"./jsPlumbArrowOverlayUtil":61,"Promise":2}],59:[function(require,module,exports){
 var getElement = function($parent, tagName, className) {
         var $area = $parent.find('.' + className);
         if ($area.length === 0) {
@@ -7465,7 +7522,7 @@ module.exports = function(editor, model, viewModel, typeContainer) {
 
     return api;
 };
-},{"../../util/DomUtil":35,"../../util/capitalize":38,"../../util/extendBindable":45,"../DomPositionCache":51,"./EntityRenderer":56,"./RelationRenderer":57,"./SpanRenderer":59}],59:[function(require,module,exports){
+},{"../../util/DomUtil":35,"../../util/capitalize":38,"../../util/extendBindable":45,"../DomPositionCache":52,"./EntityRenderer":57,"./RelationRenderer":58,"./SpanRenderer":60}],60:[function(require,module,exports){
 var getPosition = function(span, textNodeStartPosition) {
 		var startPos = span.begin - textNodeStartPosition;
 		var endPos = span.end - textNodeStartPosition;
@@ -7622,7 +7679,7 @@ module.exports = function(editor, model, typeContainer, entityRenderer, gridRend
 		change: renderBlockOfSpan
 	};
 };
-},{"../../util/DomUtil":35}],60:[function(require,module,exports){
+},{"../../util/DomUtil":35}],61:[function(require,module,exports){
 var // Overlay styles for jsPlubm connections.
 	NORMAL_ARROW = {
 		width: 7,
@@ -7716,7 +7773,7 @@ module.exports = {
 		return switchNormalArrow(connect);
 	}
 };
-},{}],61:[function(require,module,exports){
+},{}],62:[function(require,module,exports){
 // Add or Remove class to indicate selected state.
 module.exports = function() {
     var addClass = function($target) {
