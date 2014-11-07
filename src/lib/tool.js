@@ -130,7 +130,9 @@ module.exports = function() {
                     this.selected = editor;
                 },
                 selectFirst: function() {
-                    this.select(this[0]);
+                    var first = this[0];
+                    this.select(first);
+                    eventDispatcher.handleEditor.public.changeButtonState(first);
                 },
                 selected: null,
             })
