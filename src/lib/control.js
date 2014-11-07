@@ -118,7 +118,6 @@ module.exports = function($control) {
             'help': 'Help [H]',
             'about': 'About'
         }]),
-        triggrControlClickEvent = $control.trigger.bind($control, 'textae.control.click'),
         triggrButtonClickEvent = $control.trigger.bind($control, 'textae.control.button.click'),
         // A function to enable/disable button.
         enableButton = _.partial(updateButtons, buttonContainer, triggrButtonClickEvent),
@@ -144,9 +143,6 @@ module.exports = function($control) {
                 cssUtil.unpush(button);
             }
         };
-
-    // To close information dialogs.
-    $control.on('click', triggrControlClickEvent);
 
     // Public API
     $control.updateAllButtonEnableState = updateAllButtonEnableState;
