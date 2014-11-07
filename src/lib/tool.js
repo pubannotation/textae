@@ -1,7 +1,72 @@
-// The tool manages interactions between components. 
-module.exports = function() {
-    // Components to be managed
-    var components = function() {
+// Ovserve and record mouse position to return it.
+var getMousePoint = function() {
+        var lastMousePoint = {},
+            recordMousePoint = function(e) {
+                lastMousePoint = {
+                    top: e.clientY,
+                    left: e.clientX
+                };
+            },
+            onMousemove = _.debounce(recordMousePoint, 30);
+
+        $('html').on('mousemove', onMousemove);
+
+        return function() {
+            return lastMousePoint;
+        };
+    }(),
+    // Observe key-input events and convert events to readable code.
+    observeKeybordInput = function(keyInputHandler) {
+        // Declare keyApiMap of control keys 
+        var controlKeyEventMap = {
+            27: 'ESC',
+            46: 'DEL',
+            37: 'LEFT',
+            39: 'RIGHT'
+        };
+
+        var convertKeyEvent = function(keyCode) {
+            if (65 <= keyCode && keyCode <= 90) {
+                // From a to z, convert 'A' to 'Z'
+                return String.fromCharCode(keyCode);
+            } else if (controlKeyEventMap[keyCode]) {
+                // Control keys, like ESC, DEL ...
+                return controlKeyEventMap[keyCode];
+            }
+        };
+
+        var getKeyCode = function(e) {
+            return e.keyCode;
+        };
+
+        // EventHandlers for key-input.
+        var eventHandler = _.compose(keyInputHandler, convertKeyEvent, getKeyCode);
+
+        // Observe key-input
+        var onKeyup = eventHandler;
+        $(document).on('keyup', function(event) {
+            onKeyup(event);
+        });
+
+        // Disable/Enable key-input When a jquery-ui dialog is opened/closeed
+        $('body').on('dialogopen', '.ui-dialog', function() {
+            onKeyup = function() {};
+        }).on('dialogclose', '.ui-dialog', function() {
+            onKeyup = eventHandler;
+        });
+    },
+    // Observe window-resize event and redraw all editors. 
+    observeWindowResize = function(editors) {
+        // Bind resize event
+        $(window).on('resize', _.debounce(function() {
+            // Redraw all editors per editor.
+            editors.forEach(function(editor) {
+                console.log(editor.editorId, 'redraw');
+                _.defer(editor.api.redraw);
+            });
+        }, 500));
+    },
+    openDialog = function() {
         var ToolDialog = require('./util/dialog/GetToolDialog'),
             helpDialog = new ToolDialog(
                 'textae-control__help',
@@ -25,22 +90,33 @@ module.exports = function() {
                     '<p>自分のアノテーションを作成するためにはPubAnnotation上で自分のプロジェクトを作る必要があります。' +
                     '作成したアノテーションは後で纏めてダウンロードしたり共有することができます。</p>' +
                     '<p>まだ開発中のサービスであり、実装すべき機能が残っています。' +
-                    'ユーザの皆様の声を大事にして開発していきたいと考えておりますので、ご意見などございましたら教えていただければ幸いです。</p>')),
-            switchActiveClass = function(editors, selected) {
-                var activeClass = 'textae-editor--active';
+                    'ユーザの皆様の声を大事にして開発していきたいと考えておりますので、ご意見などございましたら教えていただければ幸いです。</p>'));
 
-                // Remove activeClass from others than selected.
-                _.reject(editors, function(editor) {
-                    return editor === selected;
-                }).forEach(function(others) {
-                    others.removeClass(activeClass);
-                    console.log('deactive', others.editorId);
-                });
+        return {
+            help: helpDialog.open,
+            about: aboutDialog.open
+        };
+    }();
 
-                // Add activeClass to the selected.
-                selected.addClass(activeClass);
-                console.log('active', selected.editorId);
-            };
+// The tool manages interactions between components. 
+module.exports = function() {
+    // Components to be managed
+    var components = function() {
+        var switchActiveClass = function(editors, selected) {
+            var activeClass = 'textae-editor--active';
+
+            // Remove activeClass from others than selected.
+            _.reject(editors, function(editor) {
+                return editor === selected;
+            }).forEach(function(others) {
+                others.removeClass(activeClass);
+                console.log('deactive', others.editorId);
+            });
+
+            // Add activeClass to the selected.
+            selected.addClass(activeClass);
+            console.log('active', selected.editorId);
+        };
 
         return {
             control: null,
@@ -57,29 +133,7 @@ module.exports = function() {
                     this.select(this[0]);
                 },
                 selected: null,
-            }),
-            openDialog: {
-                help: helpDialog.open,
-                about: aboutDialog.open
-            }
-        };
-    }();
-
-    // Ovserve and record mouse position to return it.
-    var getMousePoint = function() {
-        var lastMousePoint = {},
-            recordMousePoint = function(e) {
-                lastMousePoint = {
-                    top: e.clientY,
-                    left: e.clientX
-                };
-            },
-            onMousemove = _.debounce(recordMousePoint, 30);
-
-        $('html').on('mousemove', onMousemove);
-
-        return function() {
-            return lastMousePoint;
+            })
         };
     }();
 
@@ -87,7 +141,7 @@ module.exports = function() {
     var eventDispatcher = {
         handleKeyInput: function(key) {
             if (key === 'H') {
-                components.openDialog.help();
+                openDialog.help();
             } else {
                 if (components.editors.selected) {
                     components.editors.selected.api.handleKeyInput(key, getMousePoint());
@@ -97,10 +151,10 @@ module.exports = function() {
         handleButtonClick: function(name) {
             switch (name) {
                 case 'textae.control.button.help.click':
-                    components.openDialog.help();
+                    openDialog.help();
                     break;
                 case 'textae.control.button.about.click':
-                    components.openDialog.about();
+                    openDialog.about();
                     break;
                 default:
                     if (components.editors.selected) {
@@ -130,61 +184,9 @@ module.exports = function() {
 
     // The controller observes user inputs.
     var controller = function() {
-        // Observe key-input events and convert events to readable code.
-        var observeKeybordInput = function() {
-            // Declare keyApiMap of control keys 
-            var controlKeyEventMap = {
-                27: 'ESC',
-                46: 'DEL',
-                37: 'LEFT',
-                39: 'RIGHT'
-            };
-
-            var convertKeyEvent = function(keyCode) {
-                if (65 <= keyCode && keyCode <= 90) {
-                    // From a to z, convert 'A' to 'Z'
-                    return String.fromCharCode(keyCode);
-                } else if (controlKeyEventMap[keyCode]) {
-                    // Control keys, like ESC, DEL ...
-                    return controlKeyEventMap[keyCode];
-                }
-            };
-
-            var getKeyCode = function(e) {
-                return e.keyCode;
-            };
-
-            // EventHandlers for key-input.
-            var eventHandler = _.compose(eventDispatcher.handleKeyInput, convertKeyEvent, getKeyCode);
-
-            // Observe key-input
-            var onKeyup = eventHandler;
-            $(document).on('keyup', function(event) {
-                onKeyup(event);
-            });
-
-            // Disable/Enable key-input When a jquery-ui dialog is opened/closeed
-            $('body').on('dialogopen', '.ui-dialog', function() {
-                onKeyup = function() {};
-            }).on('dialogclose', '.ui-dialog', function() {
-                onKeyup = eventHandler;
-            });
-        };
-
-        // Observe window-resize event and redraw all editors. 
-        var observeWindowResize = function() {
-            // Bind resize event
-            $(window).on('resize', _.debounce(function() {
-                // Redraw all editors per editor.
-                components.editors.forEach(function(editor) {
-                    console.log(editor.editorId, 'redraw');
-                    _.defer(editor.api.redraw);
-                });
-            }, 500));
-        };
-
         // Start observation at document ready, because this function may be called before body is loaded.
-        $(_.compose(observeWindowResize, observeKeybordInput));
+        observeWindowResize(components.editors);
+        observeKeybordInput(eventDispatcher.handleKeyInput);
     }();
 
     return {
