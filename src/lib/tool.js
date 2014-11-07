@@ -96,61 +96,79 @@ var getMousePoint = function() {
             help: helpDialog.open,
             about: aboutDialog.open
         };
-    }();
-
-// The tool manages interactions between components. 
-module.exports = function() {
-    // Components to be managed
-    var components = function() {
-        var switchActiveClass = function(editors, selected) {
-            var activeClass = 'textae-editor--active';
-
-            // Remove activeClass from others than selected.
-            _.reject(editors, function(editor) {
-                return editor === selected;
-            }).forEach(function(others) {
-                others.removeClass(activeClass);
-                console.log('deactive', others.editorId);
-            });
-
-            // Add activeClass to the selected.
-            selected.addClass(activeClass);
-            console.log('active', selected.editorId);
-        };
-
+    }(),
+    ControlBar = function() {
+        var control = null;
         return {
-            control: null,
-            // A container of editors that is extended from Array. 
-            editors: $.extend([], {
-                getNewId: function() {
-                    return 'editor' + this.length;
-                },
-                select: function(editor) {
-                    switchActiveClass(this, editor);
-                    this.selected = editor;
-                },
-                selectFirst: function() {
-                    var first = this[0];
-                    this.select(first);
-                    eventDispatcher.handleEditor.public.changeButtonState(first);
-                },
-                selected: null,
-            })
+            setInstance: function(instance) {
+                control = instance;
+            },
+            changeButtonState: function(disableButtons) {
+                if (control) {
+                    control.updateAllButtonEnableState(disableButtons);
+                }
+            },
+            push: function(buttonName, push) {
+                if (control) control.updateButtonPushState(buttonName, push);
+            }
         };
-    }();
+    },
+    EditorContainer = function(controlBar) {
+        var switchActiveClass = function(editors, selected) {
+                var activeClass = 'textae-editor--active';
 
-    // Decide "which component handles certain event.""
-    var eventDispatcher = {
-        handleKeyInput: function(key) {
+                // Remove activeClass from others than selected.
+                _.reject(editors, function(editor) {
+                    return editor === selected;
+                }).forEach(function(others) {
+                    others.removeClass(activeClass);
+                    console.log('deactive', others.editorId);
+                });
+
+                // Add activeClass to the selected.
+                selected.addClass(activeClass);
+                console.log('active', selected.editorId);
+            },
+            editorList = [],
+            selected = null,
+            select = function(editor) {
+                switchActiveClass(editorList, editor);
+                selected = editor;
+            },
+            // A container of editors that is extended from Array. 
+            editors = {
+                push: function(editor) {
+                    editorList.push(editor);
+                },
+                getNewId: function() {
+                    return 'editor' + editorList.length;
+                },
+                getSelected: function() {
+                    return selected;
+                },
+                select: select,
+                selectFirst: function() {
+                    select(editorList[0]);
+                    controlBar.changeButtonState();
+                },
+                forEach: editorList.forEach.bind(editorList)
+            };
+
+        return editors;
+    },
+    KeyInputHandler = function(openDialog, editors) {
+        return function(key) {
             if (key === 'H') {
                 openDialog.help();
             } else {
-                if (components.editors.selected) {
-                    components.editors.selected.api.handleKeyInput(key, getMousePoint());
+                if (editors.getSelected()) {
+                    editors.getSelected().api.handleKeyInput(key, getMousePoint());
                 }
             }
-        },
-        handleButtonClick: function(name) {
+        };
+    },
+    ControlButtonHandler = function(openDialog, editors) {
+        return function(name) {
             switch (name) {
                 case 'textae.control.button.help.click':
                     openDialog.help();
@@ -159,62 +177,64 @@ module.exports = function() {
                     openDialog.about();
                     break;
                 default:
-                    if (components.editors.selected) {
-                        components.editors.selected.api.handleButtonClick(name, getMousePoint());
+                    if (editors.getSelected()) {
+                        editors.getSelected().api.handleButtonClick(name, getMousePoint());
                     }
             }
-        },
-        // Methods for editor to call tool.
-        handleEditor: {
+        };
+    };
+
+// The tool manages interactions between components. 
+module.exports = function() {
+    var controlBar = new ControlBar(),
+        editors = new EditorContainer(controlBar),
+        handleKeyInput = new KeyInputHandler(openDialog, editors),
+        handleControlButtonClick = new ControlButtonHandler(openDialog, editors),
+        editorCallbacks = {
             // A method to public bind an editor instance.
             select: function(editor) {
-                components.editors.select(editor);
+                editors.select(editor);
             },
             // Methods to public as is.
             public: {
                 changeButtonState: function(editor, disableButtons) {
-                    if (components.control && editor === components.editors.selected) {
-                        components.control.updateAllButtonEnableState(disableButtons);
-                    }
+                    if (editor === editors.getSelected()) controlBar.changeButtonState(disableButtons);
                 },
-                push: function(buttonName, push) {
-                    if (components.control) components.control.updateButtonPushState(buttonName, push);
-                }
+                push: controlBar.push
             }
-        },
-    };
 
-    // The controller observes user inputs.
-    var controller = function() {
-        // Start observation at document ready, because this function may be called before body is loaded.
-        observeWindowResize(components.editors);
-        observeKeybordInput(eventDispatcher.handleKeyInput);
-    }();
+        };
+
+    // Start observation at document ready, because this function may be called before body is loaded.
+    $(function() {
+        observeWindowResize(editors);
+        observeKeybordInput(handleKeyInput);
+    });
 
     return {
         // Register a control to tool.
-        setControl: function(control) {
-            control
+        setControl: function(instance) {
+            instance
                 .on('textae.control.button.click', function() {
-                    eventDispatcher.handleButtonClick.apply(null, _.rest(arguments));
+                    handleControlButtonClick.apply(null, _.rest(arguments));
                 });
 
-            components.control = control;
+            controlBar.setInstance(instance);
         },
         // Register editors to tool
         pushEditor: function(editor) {
-            components.editors.push(editor);
+            editors.push(editor);
 
             $.extend(editor, {
-                editorId: components.editors.getNewId(),
+                editorId: editors.getNewId(),
                 tool: $.extend({
-                    selectMe: _.partial(eventDispatcher.handleEditor.select, editor),
-                }, eventDispatcher.handleEditor.public),
+                    selectMe: _.partial(editorCallbacks.select, editor),
+                }, editorCallbacks.public),
             });
         },
         // Select the first editor
         selectFirstEditor: function() {
-            components.editors.selectFirst();
+            editors.selectFirst();
         },
     };
 }();
