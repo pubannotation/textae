@@ -3,7 +3,7 @@ module.exports = function(editor, model, view, command, spanConfig) {
             userEvent.viewHandler.hideDialogs();
 
             // Select this editor.
-            editor.tool.selectMe();
+            editor.eventEmitter.trigger('textae.editor.select');
             view.viewModel.buttonStateHelper.propagate();
         },
         typeEditor = require('./TypeEditor')(editor, model, spanConfig, command, view.viewModel, view.typeContainer),

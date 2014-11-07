@@ -17,7 +17,10 @@ var ModeAccordingToButton = function(editor) {
 					},
 					// Propagate button state to the tool.
 					propagate = function() {
-						editor.tool.push(buttonName, state);
+						editor.eventEmitter.trigger('textae.control.button.push', {
+							buttonName: buttonName,
+							state: state
+						});
 					};
 
 				return {
@@ -57,7 +60,7 @@ var ModeAccordingToButton = function(editor) {
 				states[button] = enable;
 			},
 			propagate = function() {
-				editor.tool.changeButtonState(editor, states);
+				editor.eventEmitter.trigger('textae.control.buttons.change', states);
 			};
 
 		return {

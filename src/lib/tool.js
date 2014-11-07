@@ -189,21 +189,7 @@ module.exports = function() {
     var controlBar = new ControlBar(),
         editors = new EditorContainer(controlBar),
         handleKeyInput = new KeyInputHandler(openDialog, editors),
-        handleControlButtonClick = new ControlButtonHandler(openDialog, editors),
-        editorCallbacks = {
-            // A method to public bind an editor instance.
-            select: function(editor) {
-                editors.select(editor);
-            },
-            // Methods to public as is.
-            public: {
-                changeButtonState: function(editor, disableButtons) {
-                    if (editor === editors.getSelected()) controlBar.changeButtonState(disableButtons);
-                },
-                push: controlBar.push
-            }
-
-        };
+        handleControlButtonClick = new ControlButtonHandler(openDialog, editors);
 
     // Start observation at document ready, because this function may be called before body is loaded.
     $(function() {
@@ -225,11 +211,19 @@ module.exports = function() {
         pushEditor: function(editor) {
             editors.push(editor);
 
+            // Add an event emitter to the editer.
+            var eventEmitter = require('./util/extendBindable')({})
+                .bind('textae.editor.select', _.partial(editors.select, editor))
+                .bind('textae.control.button.push', function(data) {
+                    controlBar.push(data.buttonName, data.state);
+                })
+                .bind('textae.control.buttons.change', function(disableButtons) {
+                    if (editor === editors.getSelected()) controlBar.changeButtonState(disableButtons);
+                });
+
             $.extend(editor, {
                 editorId: editors.getNewId(),
-                tool: $.extend({
-                    selectMe: _.partial(editorCallbacks.select, editor),
-                }, editorCallbacks.public),
+                eventEmitter: eventEmitter
             });
         },
         // Select the first editor
