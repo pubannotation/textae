@@ -10,6 +10,7 @@ var delay150 = function(func) {
                     .removeClass('textae-editor_relation-mode')
                     .addClass('textae-editor_' + mode + '-mode');
             },
+            setSettingButtonEnable = _.partial(buttonController.buttonStateHelper.enabled, 'setting', true),
             setControlButtonForRelation = function(isRelation) {
                 buttonController.buttonStateHelper.enabled('replicate-auto', !isRelation);
                 buttonController.modeAccordingToButton['relation-edit-mode'].value(isRelation);
@@ -60,6 +61,7 @@ var delay150 = function(func) {
             },
             setTerm: function() {
                 changeCssClass('term');
+                setSettingButtonEnable();
                 setControlButtonForRelation(false);
 
                 model.selectionModel
@@ -72,6 +74,7 @@ var delay150 = function(func) {
             },
             setInstance: function() {
                 changeCssClass('instance');
+                setSettingButtonEnable();
                 setControlButtonForRelation(false);
 
                 model.selectionModel
@@ -84,6 +87,7 @@ var delay150 = function(func) {
             },
             setRelation: function() {
                 changeCssClass('relation');
+                setSettingButtonEnable();
                 setControlButtonForRelation(true);
 
                 model.selectionModel

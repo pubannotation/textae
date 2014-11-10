@@ -124,7 +124,6 @@ module.exports = function($control) {
         // Buttons that always eanable.
         alwaysEnables = {
             'read': true,
-            'setting': true,
             'help': true,
             'about': true
         },
