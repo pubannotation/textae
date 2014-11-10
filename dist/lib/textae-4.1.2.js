@@ -2369,14 +2369,12 @@ module.exports = function($control) {
             'help': 'Help [H]',
             'about': 'About'
         }]),
-        triggrControlClickEvent = $control.trigger.bind($control, 'textae.control.click'),
         triggrButtonClickEvent = $control.trigger.bind($control, 'textae.control.button.click'),
         // A function to enable/disable button.
         enableButton = _.partial(updateButtons, buttonContainer, triggrButtonClickEvent),
         // Buttons that always eanable.
         alwaysEnables = {
             'read': true,
-            'setting': true,
             'help': true,
             'about': true
         },
@@ -2395,9 +2393,6 @@ module.exports = function($control) {
                 cssUtil.unpush(button);
             }
         };
-
-    // To close information dialogs.
-    $control.on('click', triggrControlClickEvent);
 
     // Public API
     $control.updateAllButtonEnableState = updateAllButtonEnableState;
@@ -3951,7 +3946,7 @@ module.exports = function(editor, model, view, command, spanConfig) {
             userEvent.viewHandler.hideDialogs();
 
             // Select this editor.
-            editor.tool.selectMe();
+            editor.eventEmitter.trigger('textae.editor.select');
             view.viewModel.buttonStateHelper.propagate();
         },
         typeEditor = require('./TypeEditor')(editor, model, spanConfig, command, view.viewModel, view.typeContainer),
@@ -5225,10 +5220,75 @@ module.exports = function() {
 	selection.collapse(document.body, 0);
 };
 },{}],33:[function(require,module,exports){
-// The tool manages interactions between components. 
-module.exports = function() {
-    // Components to be managed
-    var components = function() {
+// Ovserve and record mouse position to return it.
+var getMousePoint = function() {
+        var lastMousePoint = {},
+            recordMousePoint = function(e) {
+                lastMousePoint = {
+                    top: e.clientY,
+                    left: e.clientX
+                };
+            },
+            onMousemove = _.debounce(recordMousePoint, 30);
+
+        $('html').on('mousemove', onMousemove);
+
+        return function() {
+            return lastMousePoint;
+        };
+    }(),
+    // Observe key-input events and convert events to readable code.
+    observeKeybordInput = function(keyInputHandler) {
+        // Declare keyApiMap of control keys 
+        var controlKeyEventMap = {
+            27: 'ESC',
+            46: 'DEL',
+            37: 'LEFT',
+            39: 'RIGHT'
+        };
+
+        var convertKeyEvent = function(keyCode) {
+            if (65 <= keyCode && keyCode <= 90) {
+                // From a to z, convert 'A' to 'Z'
+                return String.fromCharCode(keyCode);
+            } else if (controlKeyEventMap[keyCode]) {
+                // Control keys, like ESC, DEL ...
+                return controlKeyEventMap[keyCode];
+            }
+        };
+
+        var getKeyCode = function(e) {
+            return e.keyCode;
+        };
+
+        // EventHandlers for key-input.
+        var eventHandler = _.compose(keyInputHandler, convertKeyEvent, getKeyCode);
+
+        // Observe key-input
+        var onKeyup = eventHandler;
+        $(document).on('keyup', function(event) {
+            onKeyup(event);
+        });
+
+        // Disable/Enable key-input When a jquery-ui dialog is opened/closeed
+        $('body').on('dialogopen', '.ui-dialog', function() {
+            onKeyup = function() {};
+        }).on('dialogclose', '.ui-dialog', function() {
+            onKeyup = eventHandler;
+        });
+    },
+    // Observe window-resize event and redraw all editors. 
+    observeWindowResize = function(editors) {
+        // Bind resize event
+        $(window).on('resize', _.debounce(function() {
+            // Redraw all editors per editor.
+            editors.forEach(function(editor) {
+                console.log(editor.editorId, 'redraw');
+                _.defer(editor.api.redraw);
+            });
+        }, 500));
+    },
+    openDialog = function() {
         var ToolDialog = require('./util/dialog/GetToolDialog'),
             helpDialog = new ToolDialog(
                 'textae-control__help',
@@ -5252,8 +5312,31 @@ module.exports = function() {
                     '<p>自分のアノテーションを作成するためにはPubAnnotation上で自分のプロジェクトを作る必要があります。' +
                     '作成したアノテーションは後で纏めてダウンロードしたり共有することができます。</p>' +
                     '<p>まだ開発中のサービスであり、実装すべき機能が残っています。' +
-                    'ユーザの皆様の声を大事にして開発していきたいと考えておりますので、ご意見などございましたら教えていただければ幸いです。</p>')),
-            switchActiveClass = function(editors, selected) {
+                    'ユーザの皆様の声を大事にして開発していきたいと考えておりますので、ご意見などございましたら教えていただければ幸いです。</p>'));
+
+        return {
+            help: helpDialog.open,
+            about: aboutDialog.open
+        };
+    }(),
+    ControlBar = function() {
+        var control = null;
+        return {
+            setInstance: function(instance) {
+                control = instance;
+            },
+            changeButtonState: function(disableButtons) {
+                if (control) {
+                    control.updateAllButtonEnableState(disableButtons);
+                }
+            },
+            push: function(buttonName, push) {
+                if (control) control.updateButtonPushState(buttonName, push);
+            }
+        };
+    },
+    EditorContainer = function(controlBar) {
+        var switchActiveClass = function(editors, selected) {
                 var activeClass = 'textae-editor--active';
 
                 // Remove activeClass from others than selected.
@@ -5267,181 +5350,111 @@ module.exports = function() {
                 // Add activeClass to the selected.
                 selected.addClass(activeClass);
                 console.log('active', selected.editorId);
+            },
+            editorList = [],
+            selected = null,
+            select = function(editor) {
+                switchActiveClass(editorList, editor);
+                selected = editor;
+            },
+            // A container of editors that is extended from Array. 
+            editors = {
+                push: function(editor) {
+                    editorList.push(editor);
+                },
+                getNewId: function() {
+                    return 'editor' + editorList.length;
+                },
+                getSelected: function() {
+                    return selected;
+                },
+                select: select,
+                selectFirst: function() {
+                    select(editorList[0]);
+                    controlBar.changeButtonState();
+                },
+                forEach: editorList.forEach.bind(editorList)
             };
 
-        return {
-            control: null,
-            // A container of editors that is extended from Array. 
-            editors: $.extend([], {
-                getNewId: function() {
-                    return 'editor' + this.length;
-                },
-                select: function(editor) {
-                    switchActiveClass(this, editor);
-                    this.selected = editor;
-                },
-                selectFirst: function() {
-                    this.select(this[0]);
-                },
-                selected: null,
-            }),
-            openDialog: {
-                help: helpDialog.open,
-                about: aboutDialog.open
-            }
-        };
-    }();
-
-    // Ovserve and record mouse position to return it.
-    var getMousePoint = function() {
-        var lastMousePoint = {},
-            recordMousePoint = function(e) {
-                lastMousePoint = {
-                    top: e.clientY,
-                    left: e.clientX
-                };
-            },
-            onMousemove = _.debounce(recordMousePoint, 30);
-
-        $('html').on('mousemove', onMousemove);
-
-        return function() {
-            return lastMousePoint;
-        };
-    }();
-
-    // Decide "which component handles certain event.""
-    var eventDispatcher = {
-        handleKeyInput: function(key) {
+        return editors;
+    },
+    KeyInputHandler = function(openDialog, editors) {
+        return function(key) {
             if (key === 'H') {
-                components.openDialog.help();
+                openDialog.help();
             } else {
-                if (components.editors.selected) {
-                    components.editors.selected.api.handleKeyInput(key, getMousePoint());
+                if (editors.getSelected()) {
+                    editors.getSelected().api.handleKeyInput(key, getMousePoint());
                 }
             }
-        },
-        handleButtonClick: function(name) {
+        };
+    },
+    ControlButtonHandler = function(openDialog, editors) {
+        return function(name) {
             switch (name) {
                 case 'textae.control.button.help.click':
-                    components.openDialog.help();
+                    openDialog.help();
                     break;
                 case 'textae.control.button.about.click':
-                    components.openDialog.about();
+                    openDialog.about();
                     break;
                 default:
-                    if (components.editors.selected) {
-                        components.editors.selected.api.handleButtonClick(name, getMousePoint());
+                    if (editors.getSelected()) {
+                        editors.getSelected().api.handleButtonClick(name, getMousePoint());
                     }
             }
-        },
-        // Methods for editor to call tool.
-        handleEditor: {
-            // A method to public bind an editor instance.
-            select: function(editor) {
-                components.editors.select(editor);
-            },
-            // Methods to public as is.
-            public: {
-                changeButtonState: function(editor, disableButtons) {
-                    if (components.control && editor === components.editors.selected) {
-                        components.control.updateAllButtonEnableState(disableButtons);
-                    }
-                },
-                push: function(buttonName, push) {
-                    if (components.control) components.control.updateButtonPushState(buttonName, push);
-                }
-            }
-        },
+        };
     };
 
-    // The controller observes user inputs.
-    var controller = function() {
-        // Observe key-input events and convert events to readable code.
-        var observeKeybordInput = function() {
-            // Declare keyApiMap of control keys 
-            var controlKeyEventMap = {
-                27: 'ESC',
-                46: 'DEL',
-                37: 'LEFT',
-                39: 'RIGHT'
-            };
+// The tool manages interactions between components. 
+module.exports = function() {
+    var controlBar = new ControlBar(),
+        editors = new EditorContainer(controlBar),
+        handleKeyInput = new KeyInputHandler(openDialog, editors),
+        handleControlButtonClick = new ControlButtonHandler(openDialog, editors);
 
-            var convertKeyEvent = function(keyCode) {
-                if (65 <= keyCode && keyCode <= 90) {
-                    // From a to z, convert 'A' to 'Z'
-                    return String.fromCharCode(keyCode);
-                } else if (controlKeyEventMap[keyCode]) {
-                    // Control keys, like ESC, DEL ...
-                    return controlKeyEventMap[keyCode];
-                }
-            };
-
-            var getKeyCode = function(e) {
-                return e.keyCode;
-            };
-
-            // EventHandlers for key-input.
-            var eventHandler = _.compose(eventDispatcher.handleKeyInput, convertKeyEvent, getKeyCode);
-
-            // Observe key-input
-            var onKeyup = eventHandler;
-            $(document).on('keyup', function(event) {
-                onKeyup(event);
-            });
-
-            // Disable/Enable key-input When a jquery-ui dialog is opened/closeed
-            $('body').on('dialogopen', '.ui-dialog', function() {
-                onKeyup = function() {};
-            }).on('dialogclose', '.ui-dialog', function() {
-                onKeyup = eventHandler;
-            });
-        };
-
-        // Observe window-resize event and redraw all editors. 
-        var observeWindowResize = function() {
-            // Bind resize event
-            $(window).on('resize', _.debounce(function() {
-                // Redraw all editors per editor.
-                components.editors.forEach(function(editor) {
-                    console.log(editor.editorId, 'redraw');
-                    _.defer(editor.api.redraw);
-                });
-            }, 500));
-        };
-
-        // Start observation at document ready, because this function may be called before body is loaded.
-        $(_.compose(observeWindowResize, observeKeybordInput));
-    }();
+    // Start observation at document ready, because this function may be called before body is loaded.
+    $(function() {
+        observeWindowResize(editors);
+        observeKeybordInput(handleKeyInput);
+    });
 
     return {
         // Register a control to tool.
-        setControl: function(control) {
-            control
+        setControl: function(instance) {
+            instance
                 .on('textae.control.button.click', function() {
-                    eventDispatcher.handleButtonClick.apply(null, _.rest(arguments));
+                    handleControlButtonClick.apply(null, _.rest(arguments));
                 });
 
-            components.control = control;
+            controlBar.setInstance(instance);
         },
         // Register editors to tool
         pushEditor: function(editor) {
-            components.editors.push(editor);
+            editors.push(editor);
+
+            // Add an event emitter to the editer.
+            var eventEmitter = require('./util/extendBindable')({})
+                .bind('textae.editor.select', _.partial(editors.select, editor))
+                .bind('textae.control.button.push', function(data) {
+                    controlBar.push(data.buttonName, data.state);
+                })
+                .bind('textae.control.buttons.change', function(disableButtons) {
+                    if (editor === editors.getSelected()) controlBar.changeButtonState(disableButtons);
+                });
 
             $.extend(editor, {
-                editorId: components.editors.getNewId(),
-                tool: $.extend({
-                    selectMe: _.partial(eventDispatcher.handleEditor.select, editor),
-                }, eventDispatcher.handleEditor.public),
+                editorId: editors.getNewId(),
+                eventEmitter: eventEmitter
             });
         },
         // Select the first editor
         selectFirstEditor: function() {
-            components.editors.selectFirst();
+            editors.selectFirst();
         },
     };
 }();
-},{"./util/dialog/GetToolDialog":43}],34:[function(require,module,exports){
+},{"./util/dialog/GetToolDialog":43,"./util/extendBindable":45}],34:[function(require,module,exports){
 var changeCursor = function(editor, action) {
 	// Add jQuery Ui dialogs to targets because they are not in the editor.
 	editor = editor.add('.ui-dialog, .ui-widget-overlay');
@@ -5851,7 +5864,10 @@ var ModeAccordingToButton = function(editor) {
 					},
 					// Propagate button state to the tool.
 					propagate = function() {
-						editor.tool.push(buttonName, state);
+						editor.eventEmitter.trigger('textae.control.button.push', {
+							buttonName: buttonName,
+							state: state
+						});
 					};
 
 				return {
@@ -5891,7 +5907,7 @@ var ModeAccordingToButton = function(editor) {
 				states[button] = enable;
 			},
 			propagate = function() {
-				editor.tool.changeButtonState(editor, states);
+				editor.eventEmitter.trigger('textae.control.buttons.change', states);
 			};
 
 		return {
@@ -6430,6 +6446,7 @@ var delay150 = function(func) {
                     .removeClass('textae-editor_relation-mode')
                     .addClass('textae-editor_' + mode + '-mode');
             },
+            setSettingButtonEnable = _.partial(buttonController.buttonStateHelper.enabled, 'setting', true),
             setControlButtonForRelation = function(isRelation) {
                 buttonController.buttonStateHelper.enabled('replicate-auto', !isRelation);
                 buttonController.modeAccordingToButton['relation-edit-mode'].value(isRelation);
@@ -6480,6 +6497,7 @@ var delay150 = function(func) {
             },
             setTerm: function() {
                 changeCssClass('term');
+                setSettingButtonEnable();
                 setControlButtonForRelation(false);
 
                 model.selectionModel
@@ -6492,6 +6510,7 @@ var delay150 = function(func) {
             },
             setInstance: function() {
                 changeCssClass('instance');
+                setSettingButtonEnable();
                 setControlButtonForRelation(false);
 
                 model.selectionModel
@@ -6504,6 +6523,7 @@ var delay150 = function(func) {
             },
             setRelation: function() {
                 changeCssClass('relation');
+                setSettingButtonEnable();
                 setControlButtonForRelation(true);
 
                 model.selectionModel
