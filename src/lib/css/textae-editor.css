@@ -40,6 +40,11 @@
     line-height: 400%;
 }
 
+/* prefer calculated line height */
+.textae-editor__body__text-box p {
+    line-height: inherit;
+}
+
 .textae-editor__body__annotation-box {
     left: 0px;
     position: absolute;
