@@ -1,15 +1,16 @@
 var createId = function(prefix, getIdsFunction) {
-	var ids = getIdsFunction()
-		.filter(function(id) {
-			return id[0] === prefix;
-		})
-		.map(function(id) {
-			return id.slice(1);
-		});
+		var ids = getIdsFunction()
+			.filter(function(id) {
+				return id[0] === prefix;
+			})
+			.map(function(id) {
+				return id.slice(1);
+			});
 
-	// The Math.max retrun -Infinity when the second argument array is empty.
-	return prefix + (ids.length === 0 ? 1 : Math.max.apply(null, ids) + 1);
-};
+		// The Math.max retrun -Infinity when the second argument array is empty.
+		return prefix + (ids.length === 0 ? 1 : Math.max.apply(null, ids) + 1);
+	},
+	ERROR_MESSAGE = 'Set the mappingFunction by the constructor to use the method "ModelContainer.setSource".';
 
 module.exports = function(eventEmitter, prefix, mappingFunction) {
 	var contaier = {},
@@ -40,10 +41,17 @@ module.exports = function(eventEmitter, prefix, mappingFunction) {
 		name: prefix,
 		setSource: function(source) {
 			if (!_.isFunction(mappingFunction)) {
-				throw new Error('Set the mappingFunction by the constructor to use the method "ModelContainer.setSource".');
+				throw new Error(ERROR_MESSAGE);
 			}
 
 			clear();
+			concat(mappingFunction(source));
+		},
+		concat: function(source) {
+			if (!_.isFunction(mappingFunction)) {
+				throw new Error(ERROR_MESSAGE);
+			}
+
 			concat(mappingFunction(source));
 		},
 		add: function(model, doAfter) {

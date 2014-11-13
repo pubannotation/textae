@@ -169,6 +169,10 @@ module.exports = function(editor, annotationDataApi, paragraph) {
 				spanContainer.setSource(spans);
 				updateSpanTree();
 			},
+			concat: function(spans) {
+				spanContainer.concat(spans);
+				updateSpanTree();
+			},
 			get: function(spanId) {
 				return spanContainer.get(spanId);
 			},

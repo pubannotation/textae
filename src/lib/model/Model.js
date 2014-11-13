@@ -84,10 +84,22 @@ var EntityContainer = function(editor, annotationDataApi) {
                     },
                     // Expected denotations is an Array of object like { "id": "T1", "span": { "begin": 19, "end": 49 }, "obj": "Cell" }.
                     parseDenotations = function(annotationData, annotation) {
-                        var denotations = annotation.denotations;
-                        annotationData.span.setSource(denotations);
-                        annotationData.entity.setSource(denotations);
+                        if (annotation.tracks) {
+                            var first = _.first(annotation.tracks).denotations;
+                            annotationData.span.setSource(first);
+                            annotationData.entity.setSource(first);
 
+                            _.rest(annotation.tracks)
+                                .map(function(tracks) {
+                                    return tracks.denotations;
+                                }).forEach(function(denotations) {
+                                    annotationData.span.concat(denotations);
+                                    annotationData.entity.concat(denotations);
+                                });
+                        } else {
+                            annotationData.span.setSource(annotation.denotations);
+                            annotationData.entity.setSource(annotation.denotations);
+                        }
                         return annotation;
                     },
                     // Expected relations is an Array of object like { "id": "R1", "pred": "locatedAt", "subj": "E1", "obj": "T1" }.
