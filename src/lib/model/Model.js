@@ -82,8 +82,7 @@ var EntityContainer = function(editor, annotationDataApi) {
 
                         return annotation;
                     },
-                    // Expected denotations is an Array of object like { "id": "T1", "span": { "begin": 19, "end": 49 }, "obj": "Cell" }.
-                    parseDenotations = function(annotationData, annotation) {
+                    parseTracks = function(annotationData, annotation) {
                         if (annotation.tracks) {
                             var first = _.first(annotation.tracks).denotations;
                             annotationData.span.setSource(first);
@@ -100,7 +99,12 @@ var EntityContainer = function(editor, annotationDataApi) {
                             _.defer(function() {
                                 alert('Annotations in multiple tracks have been merged.');
                             });
-                        } else {
+                        }
+                        return annotation;
+                    },
+                    // Expected denotations is an Array of object like { "id": "T1", "span": { "begin": 19, "end": 49 }, "obj": "Cell" }.
+                    parseDenotations = function(annotationData, annotation) {
+                        if (annotation.denotations) {
                             annotationData.span.setSource(annotation.denotations);
                             annotationData.entity.setSource(annotation.denotations);
                         }
@@ -130,6 +134,7 @@ var EntityContainer = function(editor, annotationDataApi) {
                         _.partial(parseModifications, this),
                         _.partial(parseRelations, this),
                         _.partial(parseDenotations, this),
+                        _.partial(parseTracks, this),
                         _.partial(parseBaseText, this),
                         setOriginalData);
 
