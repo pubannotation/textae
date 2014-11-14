@@ -196,9 +196,9 @@ module.exports = function() {
                             resetData(annotation);
                         },
                         function() {
-                            alert('could not read the span configuration from the location you specified.');
+                            alert('could not read the span configuration from the location you specified.: ' + config);
                         }
-                );
+                    );
             } else {
                 resetData(annotation);
             }
