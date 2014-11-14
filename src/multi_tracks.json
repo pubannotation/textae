@@ -1,0 +1,58 @@
+{
+  "target": "http://pubannotation.org/docs/sourcedb/PMC/sourceid/1315279/divs/10",
+  "text": " Briefly, embryonic mice were removed from t",
+  "tracks": [{
+    "project": "http://pubannotation.org/projects/craft",
+    "denotations": [{
+      "id": "T1",
+      "span": {
+        "begin": 20,
+        "end": 24
+      },
+      "obj": "organism_Instance_46040"
+    }, {
+      "id": "T2",
+      "span": {
+        "begin": 25,
+        "end": 29
+      },
+      "obj": "organism_Instance_46040"
+    }],
+    "modifications": [{
+      "id": "M1",
+      "pred": "Negation",
+      "obj": "T1"
+    }, {
+      "id": "M2",
+      "pred": "Speculation",
+      "obj": "T2"
+    }]
+  }, {
+    "project": "http://pubannotation.org/projects/CRAFT-treebank",
+    "denotations": [{
+      "id": "T51",
+      "span": {
+        "begin": 20,
+        "end": 24
+      },
+      "obj": "NNS"
+    }, {
+      "id": "T52",
+      "span": {
+        "begin": 30,
+        "end": 37
+      },
+      "obj": "NNS"
+    }],
+    "relations": [{
+      "id": "R1",
+      "pred": "locatedAt",
+      "subj": "T51",
+      "obj": "T52"
+    }]
+  }],
+  "focus": {
+    "begin": 20,
+    "end": 24
+  }
+}
