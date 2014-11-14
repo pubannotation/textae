@@ -2599,9 +2599,9 @@ module.exports = function() {
                             resetData(annotation);
                         },
                         function() {
-                            alert('could not read the span configuration from the location you specified.');
+                            alert('could not read the span configuration from the location you specified.: ' + config);
                         }
-                );
+                    );
             } else {
                 resetData(annotation);
             }
@@ -3181,7 +3181,7 @@ module.exports = function(kindName) {
 };
 },{"../util/extendBindable":45}],19:[function(require,module,exports){
 // Expected an entity like {id: "E21", span: "editor2__S50_54", type: "Protein"}.
-var EntityContainer = function(editor, annotationDataApi) {
+var EntityContainer = function(editor, eventEmitter, relation) {
         var idFactory = require('../util/IdFactory')(editor),
             mappingFunction = function(denotations) {
                 denotations = denotations || [];
@@ -3193,14 +3193,14 @@ var EntityContainer = function(editor, annotationDataApi) {
                     };
                 });
             },
-            entityContainer = require('./ModelContainer')(annotationDataApi, 'entity', mappingFunction),
+            entityContainer = require('./ModelContainer')(eventEmitter, 'entity', mappingFunction),
             api = _.extend(entityContainer, {
                 add: _.compose(entityContainer.add, function(entity) {
                     if (entity.span) return entity;
                     throw new Error('entity has no span! ' + JSON.stringify(entity));
                 }),
                 assosicatedRelations: function(entityId) {
-                    return annotationDataApi.relation.all().filter(function(r) {
+                    return relation.all().filter(function(r) {
                         return r.obj === entityId || r.subj === entityId;
                     }).map(function(r) {
                         return r.id;
@@ -3213,11 +3213,10 @@ var EntityContainer = function(editor, annotationDataApi) {
     AnntationData = function(editor) {
         var originalData,
             extendBindable = require('../util/extendBindable'),
-            annotationDataApi = extendBindable({}),
-            ModelContainerForAnnotationData = _.partial(require('./ModelContainer'), annotationDataApi),
-            paragraph = require('./ParagraphContainer')(editor, annotationDataApi),
-            span = require('./SpanContainer')(editor, annotationDataApi, paragraph),
-            entity = new EntityContainer(editor, annotationDataApi),
+            eventEmitter = extendBindable({}),
+            ModelContainerForAnnotationData = _.partial(require('./ModelContainer'), eventEmitter),
+            paragraph = require('./ParagraphContainer')(editor, eventEmitter),
+            span = require('./SpanContainer')(editor, eventEmitter, paragraph),
             relation = new ModelContainerForAnnotationData('relation', function(relations) {
                 relations = relations || [];
                 return relations.map(function(r) {
@@ -3229,32 +3228,42 @@ var EntityContainer = function(editor, annotationDataApi) {
                     };
                 });
             }),
-            modification = new ModelContainerForAnnotationData('modification', _.identity);
+            entity = new EntityContainer(editor, eventEmitter, relation),
+            modification = new ModelContainerForAnnotationData('modification', _.identity),
+            dataStore = _.extend(eventEmitter, {
+                span: span,
+                entity: entity,
+                relation: relation,
+                modification: modification,
+                paragraph: paragraph,
+                sourceDoc: ''
+            }),
+            clearAnnotationData = _.compose(
+                dataStore.span.clear,
+                dataStore.entity.clear,
+                dataStore.relation.clear,
+                dataStore.modification.clear,
+                dataStore.paragraph.clear
+            );
 
-        return _.extend(annotationDataApi, {
-            span: span,
-            entity: entity,
-            relation: relation,
-            modification: modification,
-            paragraph: paragraph,
-            sourceDoc: '',
+        return _.extend(dataStore, {
             reset: function() {
                 var setOriginalData = function(annotation) {
                         originalData = annotation;
 
                         return annotation;
                     },
-                    parseBaseText = function(annotationData, annotation) {
+                    parseBaseText = function(dataStore, annotation) {
                         var sourceDoc = annotation.text;
 
                         if (sourceDoc) {
                             // Parse a source document.
-                            annotationData.sourceDoc = sourceDoc;
+                            dataStore.sourceDoc = sourceDoc;
 
                             // Parse paragraphs
-                            paragraph.setSource(sourceDoc);
+                            paragraph.addSource(sourceDoc);
 
-                            annotationDataApi.trigger('change-text', {
+                            eventEmitter.trigger('change-text', {
                                 sourceDoc: sourceDoc,
                                 paragraphs: paragraph.all()
                             });
@@ -3264,54 +3273,97 @@ var EntityContainer = function(editor, annotationDataApi) {
 
                         return annotation;
                     },
+                    translateDenotation = function(prefix, src) {
+                        return _.extend({}, src, {
+                            id: prefix + src.id
+                        });
+                    },
+                    translateRelation = function(prefix, src) {
+                        return _.extend({}, src, {
+                            id: prefix + src.id,
+                            subj: prefix + src.subj,
+                            obj: prefix + src.obj
+                        });
+                    },
+                    translateModification = function(prefix, src) {
+                        return _.extend({}, src, {
+                            id: prefix + src.id,
+                            obj: prefix + src.obj
+                        });
+                    },
+                    doPrefix = function(origin, translater, prefix) {
+                        return origin && translater ?
+                            origin.map(_.partial(translater, prefix)) :
+                            origin;
+                    },
                     // Expected denotations is an Array of object like { "id": "T1", "span": { "begin": 19, "end": 49 }, "obj": "Cell" }.
-                    parseDenotations = function(annotationData, annotation) {
-                        var denotations = annotation.denotations;
-                        annotationData.span.setSource(denotations);
-                        annotationData.entity.setSource(denotations);
-
+                    parseDenotations = function(dataStore, annotation, prefix) {
+                        var denotations = doPrefix(annotation.denotations, translateDenotation, prefix);
+                        dataStore.span.addSource(denotations);
+                        dataStore.entity.addSource(denotations);
                         return annotation;
                     },
                     // Expected relations is an Array of object like { "id": "R1", "pred": "locatedAt", "subj": "E1", "obj": "T1" }.
-                    parseRelations = function(annotationData, annotation) {
-                        annotationData.relation.setSource(annotation.relations);
-
+                    parseRelations = function(dataStore, annotation, prefix) {
+                        var relations = doPrefix(annotation.relations, translateRelation, prefix);
+                        dataStore.relation.addSource(relations);
                         return annotation;
                     },
                     // Expected modifications is an Array of object like { "id": "M1", "pred": "Negation", "obj": "E1" }.
-                    parseModifications = function(annotationData, annotation) {
-                        annotationData.modification.setSource(annotation.modifications);
-
+                    parseModifications = function(dataStore, annotation, prefix) {
+                        var modifications = doPrefix(annotation.modifications, translateModification, prefix);
+                        dataStore.modification.addSource(modifications);
                         return annotation;
                     },
-                    parseConfig = function(annotationData, annotation) {
-                        annotationData.config = annotation.config;
+                    parseAnnotations = function(dataStore, annotation, prefix) {
+                        parseDenotations(dataStore, annotation, prefix);
+                        parseRelations(dataStore, annotation, prefix);
+                        parseModifications(dataStore, annotation, prefix);
+                        return annotation;
+                    },
+                    parseTracks = function(dataStore, annotation) {
+                        if (annotation.tracks) {
+                            annotation.tracks
+                                .forEach(function(track, i) {
+                                    var prefix = 'track' + (i + 1) + '_';
+                                    parseAnnotations(dataStore, track, prefix);
+                                });
+
+                            delete annotation.tracks;
+
+                            _.defer(function() {
+                                alert('Annotations in multiple tracks have been merged.');
+                            });
+                        }
+                        return annotation;
+                    },
+                    parseConfig = function(dataStore, annotation) {
+                        dataStore.config = annotation.config;
 
                         return annotation;
                     };
 
                 return function(annotation) {
                     var setNewData = _.compose(
-                        _.partial(parseConfig, this),
-                        _.partial(parseModifications, this),
-                        _.partial(parseRelations, this),
-                        _.partial(parseDenotations, this),
-                        _.partial(parseBaseText, this),
+                        _.partial(parseConfig, dataStore),
+                        _.partial(parseAnnotations, dataStore),
+                        _.partial(parseTracks, dataStore),
+                        _.partial(parseBaseText, dataStore),
                         setOriginalData);
 
                     try {
+                        clearAnnotationData();
                         setNewData(annotation);
-                        annotationDataApi.trigger('all.change', annotationDataApi);
+                        eventEmitter.trigger('all.change', eventEmitter);
                     } catch (error) {
-                        alert(error);
-                        throw error;
+                        console.error(error, error.stack);
                     }
                 };
             }(),
             toJson: function() {
                 var denotations = entity.all()
                     .filter(function(entity) {
-                        // Span may be not exists, because crossing spans are not add to the annotationData.
+                        // Span may be not exists, because crossing spans are not add to the dataStore.
                         return span.get(entity.span);
                     })
                     .map(function(entity) {
@@ -3351,10 +3403,10 @@ var EntityContainer = function(editor, annotationDataApi) {
 
 module.exports = function(editor) {
     var annotationData = new AnntationData(editor),
-        getReplicationSpans = function(annotationData, originSpan, spanConfig) {
+        getReplicationSpans = function(dataStore, originSpan, spanConfig) {
             // Get spans their stirng is same with the originSpan from sourceDoc.
             var getSpansTheirStringIsSameWith = function(originSpan) {
-                var getNextStringIndex = String.prototype.indexOf.bind(annotationData.sourceDoc, annotationData.sourceDoc.substring(originSpan.begin, originSpan.end));
+                var getNextStringIndex = String.prototype.indexOf.bind(dataStore.sourceDoc, dataStore.sourceDoc.substring(originSpan.begin, originSpan.end));
                 var length = originSpan.end - originSpan.begin;
 
                 var findStrings = [];
@@ -3379,21 +3431,21 @@ module.exports = function(editor) {
             // The preceding charactor and the following of a word charactor are delimiter.
             // For example, 't' ,a part of 'that', is not same with an origin span when it is 't'. 
             var isWord = function(candidateSpan) {
-                var precedingChar = annotationData.sourceDoc.charAt(candidateSpan.begin - 1);
-                var followingChar = annotationData.sourceDoc.charAt(candidateSpan.end);
+                var precedingChar = dataStore.sourceDoc.charAt(candidateSpan.begin - 1);
+                var followingChar = dataStore.sourceDoc.charAt(candidateSpan.end);
 
                 return spanConfig.isDelimiter(precedingChar) && spanConfig.isDelimiter(followingChar);
             };
 
             // Is the candidateSpan is spaned already?
             var isAlreadySpaned = function(candidateSpan) {
-                return annotationData.span.all().filter(function(existSpan) {
+                return dataStore.span.all().filter(function(existSpan) {
                     return existSpan.begin === candidateSpan.begin && existSpan.end === candidateSpan.end;
                 }).length > 0;
             };
 
             return getSpansTheirStringIsSameWith(originSpan).filter(function(span) {
-                return !isOriginSpan(span) && isWord(span) && !isAlreadySpaned(span) && !annotationData.isBoundaryCrossingWithOtherSpans(span);
+                return !isOriginSpan(span) && isWord(span) && !isAlreadySpaned(span) && !dataStore.isBoundaryCrossingWithOtherSpans(span);
             });
         };
 
@@ -3406,17 +3458,18 @@ module.exports = function(editor) {
 };
 },{"../util/IdFactory":36,"../util/extendBindable":45,"./ModelContainer":20,"./ParagraphContainer":21,"./Selection":22,"./SpanContainer":23,"./isBoundaryCrossingWithOtherSpans":24}],20:[function(require,module,exports){
 var createId = function(prefix, getIdsFunction) {
-	var ids = getIdsFunction()
-		.filter(function(id) {
-			return id[0] === prefix;
-		})
-		.map(function(id) {
-			return id.slice(1);
-		});
+		var ids = getIdsFunction()
+			.filter(function(id) {
+				return id[0] === prefix;
+			})
+			.map(function(id) {
+				return id.slice(1);
+			});
 
-	// The Math.max retrun -Infinity when the second argument array is empty.
-	return prefix + (ids.length === 0 ? 1 : Math.max.apply(null, ids) + 1);
-};
+		// The Math.max retrun -Infinity when the second argument array is empty.
+		return prefix + (ids.length === 0 ? 1 : Math.max.apply(null, ids) + 1);
+	},
+	ERROR_MESSAGE = 'Set the mappingFunction by the constructor to use the method "ModelContainer.setSource".';
 
 module.exports = function(eventEmitter, prefix, mappingFunction) {
 	var contaier = {},
@@ -3445,12 +3498,11 @@ module.exports = function(eventEmitter, prefix, mappingFunction) {
 
 	return {
 		name: prefix,
-		setSource: function(source) {
+		addSource: function(source) {
 			if (!_.isFunction(mappingFunction)) {
-				throw new Error('Set the mappingFunction by the constructor to use the method "ModelContainer.setSource".');
+				throw new Error(ERROR_MESSAGE);
 			}
 
-			clear();
 			concat(mappingFunction(source));
 		},
 		add: function(model, doAfter) {
@@ -3742,8 +3794,8 @@ module.exports = function(editor, annotationDataApi, paragraph) {
 					return spanContainer.add(toSpanModel(span), updateSpanTree);
 				throw new Error('span is undefined.');
 			},
-			setSource: function(spans) {
-				spanContainer.setSource(spans);
+			addSource: function(spans) {
+				spanContainer.addSource(spans);
 				updateSpanTree();
 			},
 			get: function(spanId) {
