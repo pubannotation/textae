@@ -92,31 +92,63 @@ var EntityContainer = function(editor, annotationDataApi) {
                         return annotation;
                     },
                     // Expected denotations is an Array of object like { "id": "T1", "span": { "begin": 19, "end": 49 }, "obj": "Cell" }.
-                    parseDenotations = function(annotationData, annotation) {
-                        annotationData.span.addSource(annotation.denotations);
-                        annotationData.entity.addSource(annotation.denotations);
+                    parseDenotations = function(annotationData, annotation, prefix) {
+                        if (annotation.denotations) {
+                            var denotations = prefix ?
+                                annotation.denotations.map(function(d) {
+                                    return _.extend({}, d, {
+                                        id: prefix + d.id
+                                    });
+                                }) : annotation.denotations;
+
+                            annotationData.span.addSource(denotations);
+                            annotationData.entity.addSource(denotations);
+                        }
                         return annotation;
                     },
                     // Expected relations is an Array of object like { "id": "R1", "pred": "locatedAt", "subj": "E1", "obj": "T1" }.
-                    parseRelations = function(annotationData, annotation) {
-                        annotationData.relation.addSource(annotation.relations);
+                    parseRelations = function(annotationData, annotation, prefix) {
+                        if (annotation.relations) {
+                            var relations = prefix ?
+                                annotation.relations.map(function(r) {
+                                    return _.extend({}, r, {
+                                        id: prefix + r.id,
+                                        subj: prefix + r.subj,
+                                        obj: prefix + r.obj
+                                    });
+                                }) : annotation.relations;
+
+                            annotationData.relation.addSource(relations);
+                        }
                         return annotation;
                     },
                     // Expected modifications is an Array of object like { "id": "M1", "pred": "Negation", "obj": "E1" }.
-                    parseModifications = function(annotationData, annotation) {
-                        annotationData.modification.addSource(annotation.modifications);
+                    parseModifications = function(annotationData, annotation, prefix) {
+                        if (annotation.modifications) {
+                            var modifications = prefix ?
+                                annotation.modifications.map(function(r) {
+                                    return _.extend({}, r, {
+                                        id: prefix + r.id,
+                                        obj: prefix + r.obj
+                                    });
+                                }) : annotation.modifications;
+
+                            annotationData.modification.addSource(modifications);
+                        }
                         return annotation;
                     },
-                    parseAnnotations = _.compose(
-                        _.partial(parseModifications, annotationData),
-                        _.partial(parseRelations, annotationData),
-                        _.partial(parseDenotations, annotationData)
-                    ),
+                    parseAnnotations = function(annotationData, annotation, prefix) {
+                        parseDenotations(annotationData, annotation, prefix);
+                        parseRelations(annotationData, annotation, prefix);
+                        parseModifications(annotationData, annotation, prefix);
+                        return annotation;
+                    },
                     parseTracks = function(annotationData, annotation) {
                         if (annotation.tracks) {
                             annotation.tracks
-                                .forEach(function(track) {
-                                    parseAnnotations(track);
+                                .forEach(function(track, i) {
+                                    var prefix = 'track' + (i + 1) + '_';
+                                    parseAnnotations(annotationData, track, prefix);
                                 });
 
                             delete annotation.tracks;
@@ -136,7 +168,7 @@ var EntityContainer = function(editor, annotationDataApi) {
                 return function(annotation) {
                     var setNewData = _.compose(
                         _.partial(parseConfig, annotationData),
-                        parseAnnotations,
+                        _.partial(parseAnnotations, annotationData),
                         _.partial(parseTracks, annotationData),
                         _.partial(parseBaseText, annotationData),
                         setOriginalData);

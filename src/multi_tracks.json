@@ -30,14 +30,14 @@
   }, {
     "project": "http://pubannotation.org/projects/CRAFT-treebank",
     "denotations": [{
-      "id": "T51",
+      "id": "T1",
       "span": {
         "begin": 20,
         "end": 24
       },
       "obj": "NNS"
     }, {
-      "id": "T52",
+      "id": "T2",
       "span": {
         "begin": 30,
         "end": 37
@@ -47,8 +47,8 @@
     "relations": [{
       "id": "R1",
       "pred": "locatedAt",
-      "subj": "T51",
-      "obj": "T52"
+      "subj": "T1",
+      "obj": "T2"
     }]
   }],
   "focus": {
