@@ -96,6 +96,8 @@ var EntityContainer = function(editor, annotationDataApi) {
                                     annotationData.entity.concat(denotations);
                                 });
 
+                            delete annotation.tracks;
+
                             _.defer(function() {
                                 alert('Annotations in multiple tracks have been merged.');
                             });
