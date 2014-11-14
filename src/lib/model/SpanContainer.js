@@ -165,12 +165,8 @@ module.exports = function(editor, annotationDataApi, paragraph) {
 					return spanContainer.add(toSpanModel(span), updateSpanTree);
 				throw new Error('span is undefined.');
 			},
-			setSource: function(spans) {
-				spanContainer.setSource(spans);
-				updateSpanTree();
-			},
-			concat: function(spans) {
-				spanContainer.concat(spans);
+			addSource: function(spans) {
+				spanContainer.addSource(spans);
 				updateSpanTree();
 			},
 			get: function(spanId) {

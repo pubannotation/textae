@@ -39,15 +39,7 @@ module.exports = function(eventEmitter, prefix, mappingFunction) {
 
 	return {
 		name: prefix,
-		setSource: function(source) {
-			if (!_.isFunction(mappingFunction)) {
-				throw new Error(ERROR_MESSAGE);
-			}
-
-			clear();
-			concat(mappingFunction(source));
-		},
-		concat: function(source) {
+		addSource: function(source) {
 			if (!_.isFunction(mappingFunction)) {
 				throw new Error(ERROR_MESSAGE);
 			}
