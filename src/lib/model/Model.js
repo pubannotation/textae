@@ -96,6 +96,10 @@ var EntityContainer = function(editor, annotationDataApi) {
                                     annotationData.span.concat(denotations);
                                     annotationData.entity.concat(denotations);
                                 });
+
+                            _.defer(function() {
+                                alert('Annotations in multiple tracks have been merged.');
+                            });
                         } else {
                             annotationData.span.setSource(annotation.denotations);
                             annotationData.entity.setSource(annotation.denotations);
@@ -133,8 +137,7 @@ var EntityContainer = function(editor, annotationDataApi) {
                         setNewData(annotation);
                         annotationDataApi.trigger('all.change', annotationDataApi);
                     } catch (error) {
-                        alert(error);
-                        throw error;
+                        console.error(error, error.stack);
                     }
                 };
             }(),
