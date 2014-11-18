@@ -148,10 +148,6 @@ var EntityContainer = function(editor, eventEmitter, relation) {
                                 });
 
                             delete annotation.tracks;
-
-                            _.defer(function() {
-                                alert('Annotations in multiple tracks have been merged.');
-                            });
                         }
                         return annotation;
                     },
