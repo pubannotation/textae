@@ -71,8 +71,8 @@ var getMousePoint = function() {
             helpDialog = new ToolDialog(
                 'textae-control__help',
                 'Help (Keyboard short-cuts)', {
-                    height: 315,
-                    width: 438
+                    height: 313,
+                    width: 523
                 },
                 $('<div>').addClass('textae-tool__key-help')),
             aboutDialog = new ToolDialog(
