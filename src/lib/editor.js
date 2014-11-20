@@ -103,12 +103,14 @@ var SpanConfig = function() {
     },
     getParams = function(editor) {
         // Read model parameters from url parameters and html attributes.
-        var params = $.extend(require('./util/getUrlParameters')(location.search),
+        var params = _.extend(require('./util/getUrlParameters')(location.search),
             // Html attributes preced url parameters.
             {
-                config: editor.attr('config'),
-                target: editor.attr('target')
+                config: editor.attr('config')
             });
+
+        // 'source' prefer to 'target'
+        params.target = editor.attr('source') || editor.attr('target') || params.source || params.target;
 
         // Mode is prior in the url parameter.
         if (!params.mode && editor.attr('mode')) {
