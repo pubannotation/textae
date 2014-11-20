@@ -92,22 +92,22 @@ var TitleDom = function() {
 module.exports = function($control) {
     // This contains buttons and event definitions like as {'buttonName' : { instance: $button, eventValue : 'textae.control.button.read.click' }}
     var buttonContainer = makeButtons($control, [{
-            'read': 'Access [A]',
-            'write': 'Save [S]'
+            'read': 'Import [I]',
+            'write': 'Upload [U]'
         }, {
             'undo': 'Undo [Z]',
-            'redo': 'Redo [X]'
+            'redo': 'Redo [A]'
         }, {
             'replicate': 'Replicate span annotation [R]',
             'replicate-auto': 'Auto replicate (Toggle)',
-            'relation-edit-mode': 'Edit Relation'
+            'relation-edit-mode': 'Edit Relation [F]'
         }, {
             'entity': 'New entity [E]',
             'pallet': 'Select label [Q]',
             'change-label': 'Change label [W]'
         }, {
-            'negation': 'Negation',
-            'speculation': 'Speculation'
+            'negation': 'Negation [X]',
+            'speculation': 'Speculation [S]'
         }, {
             'delete': 'Delete [D]',
             'copy': 'Copy [C]',
