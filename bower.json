@@ -1,0 +1,29 @@
+{
+  "name": "textae",
+  "version": "4.1.5",
+  "homepage": "https://github.com/pubannotation/textae",
+  "authors": [
+    "shigeru.nakajima <shigeru.nakajima@luxiar.com>"
+  ],
+  "description": "An embeddable visual editor of text annotation.",
+  "main": "dist/lib/textae-4.1.5.js",
+  "keywords": [
+    "editor",
+    "text",
+    "annotation"
+  ],
+  "license": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "src/vender",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "underscore": "~1.7.0",
+    "jquery": "~2.1.1"
+  }
+}
