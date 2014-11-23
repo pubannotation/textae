@@ -110,6 +110,7 @@ var EntityContainer = function(editor, eventEmitter, relation) {
                         });
                     },
                     doPrefix = function(origin, translater, prefix) {
+                        prefix = prefix || '';
                         return origin && translater ?
                             origin.map(_.partial(translater, prefix)) :
                             origin;
