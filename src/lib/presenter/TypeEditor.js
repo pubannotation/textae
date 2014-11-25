@@ -118,7 +118,10 @@ module.exports = function(editor, model, spanConfig, command, viewModel, typeCon
 					if (selection.isCollapsed) {
 						cancelSelect();
 					} else {
-						selectEnd.onText(selection);
+						selectEnd.onText({
+							spanConfig: spanConfig,
+							selection: selection
+						});
 					}
 				},
 				selectSpan = function() {
@@ -171,7 +174,10 @@ module.exports = function(editor, model, spanConfig, command, viewModel, typeCon
 						selectSpan(event);
 						return false;
 					} else {
-						selectEnd.onSpan(selection);
+						selectEnd.onSpan({
+							spanConfig: spanConfig,
+							selection: selection
+						});
 						// Cancel selection of a paragraph.
 						// And do non propagate the parent span.
 						event.stopPropagation();

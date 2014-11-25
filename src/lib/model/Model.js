@@ -206,7 +206,6 @@ var EntityContainer = function(editor, eventEmitter, relation) {
                     'modifications': modification.all()
                 }));
             },
-            isBoundaryCrossingWithOtherSpans: _.partial(require('./isBoundaryCrossingWithOtherSpans'), span.all),
             getModificationOf: function(objectId) {
                 return modification.all()
                     .filter(function(m) {
@@ -217,57 +216,9 @@ var EntityContainer = function(editor, eventEmitter, relation) {
     };
 
 module.exports = function(editor) {
-    var annotationData = new AnntationData(editor),
-        getReplicationSpans = function(dataStore, originSpan, spanConfig) {
-            // Get spans their stirng is same with the originSpan from sourceDoc.
-            var getSpansTheirStringIsSameWith = function(originSpan) {
-                var getNextStringIndex = String.prototype.indexOf.bind(dataStore.sourceDoc, dataStore.sourceDoc.substring(originSpan.begin, originSpan.end));
-                var length = originSpan.end - originSpan.begin;
-
-                var findStrings = [];
-                var offset = 0;
-                for (var index = getNextStringIndex(offset); index !== -1; index = getNextStringIndex(offset)) {
-                    findStrings.push({
-                        begin: index,
-                        end: index + length
-                    });
-
-                    offset = index + length;
-                }
-                return findStrings;
-            };
-
-            // The candidateSpan is a same span when begin is same.
-            // Because string of each others are same. End of them are same too.
-            var isOriginSpan = function(candidateSpan) {
-                return candidateSpan.begin === originSpan.begin;
-            };
-
-            // The preceding charactor and the following of a word charactor are delimiter.
-            // For example, 't' ,a part of 'that', is not same with an origin span when it is 't'. 
-            var isWord = function(candidateSpan) {
-                var precedingChar = dataStore.sourceDoc.charAt(candidateSpan.begin - 1);
-                var followingChar = dataStore.sourceDoc.charAt(candidateSpan.end);
-
-                return spanConfig.isDelimiter(precedingChar) && spanConfig.isDelimiter(followingChar);
-            };
-
-            // Is the candidateSpan is spaned already?
-            var isAlreadySpaned = function(candidateSpan) {
-                return dataStore.span.all().filter(function(existSpan) {
-                    return existSpan.begin === candidateSpan.begin && existSpan.end === candidateSpan.end;
-                }).length > 0;
-            };
-
-            return getSpansTheirStringIsSameWith(originSpan).filter(function(span) {
-                return !isOriginSpan(span) && isWord(span) && !isAlreadySpaned(span) && !dataStore.isBoundaryCrossingWithOtherSpans(span);
-            });
-        };
-
     return {
-        annotationData: annotationData,
+        annotationData: new AnntationData(editor),
         // A contaier of selection state.
-        selectionModel: require('./Selection')(['span', 'entity', 'relation']),
-        getReplicationSpans: _.partial(getReplicationSpans, annotationData)
+        selectionModel: require('./Selection')(['span', 'entity', 'relation'])
     };
 };

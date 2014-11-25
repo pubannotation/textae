@@ -90,9 +90,9 @@ module.exports = function(editor, annotationDataApi, paragraph) {
 				}).map(toSpanModel)
 				.filter(function(span, index, array) {
 					return !isBoundaryCrossingWithOtherSpans(
-						function() {
-							return array.slice(0, index - 1);
-						}, span);
+						array.slice(0, index - 1),
+						span
+					);
 				});
 		},
 		spanContainer = require('./ModelContainer')(annotationDataApi, 'span', mappingFunction),
