@@ -1,11 +1,12 @@
 module.exports = function(spanConfig, model) {
-    var spanAdjuster = require('./SpanAdjuster')(spanConfig, model.annotationData),
+    var spanAdjuster = require('./SpanAdjuster'),
+        selectPosition = require('./selectPosition'),
         createSpan = function() {
             var toSpanPosition = function(selection) {
-                var positions = spanAdjuster.toPositions(selection);
+                var positions = selectPosition.toPositions(model.annotationData, selection);
                 return {
-                    begin: spanAdjuster.adjustSpanBeginLong(positions.anchorPosition),
-                    end: spanAdjuster.adjustSpanEndLong(positions.focusPosition)
+                    begin: spanAdjuster.adjustSpanBeginLong(spanConfig, model.annotationData.sourceDoc, positions.anchorPosition),
+                    end: spanAdjuster.adjustSpanEndLong(spanConfig, model.annotationData.sourceDoc, positions.focusPosition)
                 };
             };
 
@@ -21,14 +22,14 @@ module.exports = function(spanConfig, model) {
                 if (selectionRange.compareBoundaryPoints(Range.START_TO_START, anchorNodeRange) < 0) {
                     // expand to the left
                     return {
-                        begin: spanAdjuster.adjustSpanBeginLong(focusPosition),
+                        begin: spanAdjuster.adjustSpanBeginLong(spanConfig, model.annotationData.sourceDoc, focusPosition),
                         end: span.end
                     };
                 } else {
                     // expand to the right
                     return {
                         begin: span.begin,
-                        end: spanAdjuster.adjustSpanEndLong(focusPosition)
+                        end: spanAdjuster.adjustSpanEndLong(spanConfig, model.annotationData.sourceDoc, focusPosition)
                     };
                 }
             };
@@ -39,7 +40,7 @@ module.exports = function(spanConfig, model) {
                 var selectionRange = selection.getRangeAt(0);
                 var anchorNodeRange = document.createRange();
                 anchorNodeRange.selectNode(selection.anchorNode);
-                var focusPosition = spanAdjuster.getFocusPosition(selection);
+                var focusPosition = selectPosition.getFocusPosition(model.annotationData, selection);
 
                 return getNewSpan(spanId, selectionRange, anchorNodeRange, focusPosition);
             };
@@ -51,12 +52,12 @@ module.exports = function(spanConfig, model) {
                     // shorten the right boundary
                     return {
                         begin: span.begin,
-                        end: spanAdjuster.adjustSpanEndShort(focusPosition)
+                        end: spanAdjuster.adjustSpanEndShort(spanConfig, model.annotationData.sourceDoc, focusPosition)
                     };
                 } else {
                     // shorten the left boundary
                     return {
-                        begin: spanAdjuster.adjustSpanBeginShort(focusPosition),
+                        begin: spanAdjuster.adjustSpanBeginShort(spanConfig, model.annotationData.sourceDoc, focusPosition),
                         end: span.end
                     };
                 }
@@ -68,7 +69,7 @@ module.exports = function(spanConfig, model) {
                 var selectionRange = selection.getRangeAt(0);
                 var focusNodeRange = document.createRange();
                 focusNodeRange.selectNode(selection.focusNode);
-                var focusPosition = spanAdjuster.getFocusPosition(selection);
+                var focusPosition = selectPosition.getFocusPosition(model.annotationData, selection);
 
                 return getNewSpan(spanId, selectionRange, focusNodeRange, focusPosition);
             };

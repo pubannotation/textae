@@ -1,9 +1,9 @@
 module.exports = function(editor, model, spanConfig, command, viewModel, typeContainer) {
 	var selectionValidator = function(editor, model, spanConfig) {
-			var spanAdjuster = require('./SpanAdjuster')(spanConfig, model.annotationData),
+			var selectPosition = require('./selectPosition'),
 				domUtil = require('../util/DomUtil')(editor),
 				hasCharacters = function(selection) {
-					var positions = spanAdjuster.toPositions(selection);
+					var positions = selectPosition.toPositions(model.annotationData, selection);
 
 					// A span cannot be created include nonEdgeCharacters only.
 					var stringWithoutNonEdgeCharacters = model.annotationData.sourceDoc.substring(positions.anchorPosition, positions.focusPosition);
@@ -72,13 +72,13 @@ module.exports = function(editor, model, spanConfig, command, viewModel, typeCon
 					return false;
 				},
 				isAnchorInSelectedSpan = function(selection) {
-					return isInSelectedSpan(spanAdjuster.getAnchorPosition(selection));
+					return isInSelectedSpan(selectPosition.getAnchorPosition(model.annotationData, selection));
 				},
 				isFocusOnSelectedSpan = function(selection) {
 					return selection.focusNode.parentNode.id === model.selectionModel.span.single();
 				},
 				isFocusInSelectedSpan = function(selection) {
-					return isInSelectedSpan(spanAdjuster.getFocusPosition(selection));
+					return isInSelectedSpan(selectPosition.getFocusPosition(model.annotationData, selection));
 				},
 				isSelectedSpanOneDownUnderFocus = function(selection) {
 					var selectedSpanId = model.selectionModel.span.single();
@@ -86,7 +86,7 @@ module.exports = function(editor, model, spanConfig, command, viewModel, typeCon
 				},
 				isLongerThanParentSpan = function(selection) {
 					var $getAnchorNodeParent = getAnchorNodeParent(selection),
-						focusPosition = spanAdjuster.getFocusPosition(selection);
+						focusPosition = selectPosition.getFocusPosition(model.annotationData, selection);
 
 					if (hasSpan($getAnchorNodeParent) && $getAnchorNodeParent.parent() && hasSpan($getAnchorNodeParent.parent())) {
 						var span = model.annotationData.span.get($getAnchorNodeParent.parent().attr('id'));
@@ -96,7 +96,7 @@ module.exports = function(editor, model, spanConfig, command, viewModel, typeCon
 				},
 				isShorterThanChildSpan = function(selection) {
 					var $getFocusNodeParent = getFocusNodeParent(selection),
-						anchorPosition = spanAdjuster.getAnchorPosition(selection);
+						anchorPosition = selectPosition.getAnchorPosition(model.annotationData, selection);
 
 					if (hasSpan($getFocusNodeParent) && $getFocusNodeParent.parent() && hasSpan($getFocusNodeParent.parent())) {
 						var span = model.annotationData.span.get($getFocusNodeParent.parent().attr('id'));
@@ -195,9 +195,9 @@ module.exports = function(editor, model, spanConfig, command, viewModel, typeCon
 
 					// The span cross exists spans.
 					if (model.annotationData.isBoundaryCrossingWithOtherSpans({
-						begin: newSpan.begin,
-						end: newSpan.end
-					})) {
+							begin: newSpan.begin,
+							end: newSpan.end
+						})) {
 						dismissBrowserSelection();
 						return;
 					}
@@ -233,9 +233,9 @@ module.exports = function(editor, model, spanConfig, command, viewModel, typeCon
 
 						// The span cross exists spans.
 						if (model.annotationData.isBoundaryCrossingWithOtherSpans({
-							begin: newSpan.begin,
-							end: newSpan.end
-						})) {
+								begin: newSpan.begin,
+								end: newSpan.end
+							})) {
 							alert('A span cannot be expanded to make a boundary crossing.');
 							dismissBrowserSelection();
 							return;
@@ -270,9 +270,9 @@ module.exports = function(editor, model, spanConfig, command, viewModel, typeCon
 
 						// The span cross exists spans.
 						if (model.annotationData.isBoundaryCrossingWithOtherSpans({
-							begin: newSpan.begin,
-							end: newSpan.end
-						})) {
+								begin: newSpan.begin,
+								end: newSpan.end
+							})) {
 							alert('A span cannot be shrinked to make a boundary crossing.');
 							dismissBrowserSelection();
 							return;
