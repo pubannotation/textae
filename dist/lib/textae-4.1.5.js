@@ -1869,6 +1869,71 @@ function isNullOrUndefined(arg) {
 }
 
 },{"punycode":5,"querystring":8}],10:[function(require,module,exports){
+module.exports = function() {
+	var defaults = {
+			"delimiter characters": [
+				" ",
+				".",
+				"!",
+				"?",
+				",",
+				":",
+				";",
+				"-",
+				"/",
+				"&",
+				"(",
+				")",
+				"{",
+				"}",
+				"[",
+				"]",
+				"+",
+				"*",
+				"\\",
+				"\"",
+				"'",
+				"\n",
+				"–"
+			],
+			"non-edge characters": [
+				" ",
+				"\n"
+			]
+		},
+		api = {
+			delimiterCharacters: null,
+			nonEdgeCharacters: null,
+			reset: function() {
+				this.set(defaults);
+			},
+			set: function(config) {
+				var settings = _.extend({}, defaults, config);
+
+				if (settings['delimiter characters'] !== undefined) {
+					api.delimiterCharacters = settings['delimiter characters'];
+				}
+
+				if (settings['non-edge characters'] !== undefined) {
+					api.nonEdgeCharacters = settings['non-edge characters'];
+				}
+
+				return config;
+			},
+			isNonEdgeCharacter: function(char) {
+				return (api.nonEdgeCharacters.indexOf(char) >= 0);
+			},
+			isDelimiter: function(char) {
+				if (api.delimiterCharacters.indexOf('ANY') >= 0) {
+					return 1;
+				}
+				return (api.delimiterCharacters.indexOf(char) >= 0);
+			}
+		};
+
+	return api;
+};
+},{}],11:[function(require,module,exports){
 var bindEvent = function($target, event, func) {
         $target.on(event, func);
     },
@@ -2090,7 +2155,7 @@ module.exports = function(editor, confirmDiscardChangeMessage) {
 
     return api;
 };
-},{"../util/CursorChanger":34,"../util/ajaxAccessor":37,"../util/dialog/GetEditorDialog":42,"../util/extendBindable":45,"../util/jQuerySugar":48,"url":9}],11:[function(require,module,exports){
+},{"../util/CursorChanger":36,"../util/ajaxAccessor":39,"../util/dialog/GetEditorDialog":44,"../util/extendBindable":47,"../util/jQuerySugar":50,"url":9}],12:[function(require,module,exports){
 var Pallet = function(emitter) {
 		return $('<div>')
 			.addClass("textae-editor__type-pallet")
@@ -2212,7 +2277,7 @@ module.exports = function() {
 		hide: $pallet.hide.bind($pallet)
 	});
 };
-},{"../util/extendBindable":45}],12:[function(require,module,exports){
+},{"../util/extendBindable":47}],13:[function(require,module,exports){
 var getMessageAreaFrom = function($parent) {
 	var $messageArea = $parent.find('.textae-editor__footer .textae-editor__footer__message');
 	if ($messageArea.length === 0) {
@@ -2248,7 +2313,7 @@ module.exports = function(editor) {
 		showFlashMessage: showFlashMessage
 	};
 };
-},{}],13:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 var TitleDom = function() {
         return $('<span>')
             .addClass('textae-control__title')
@@ -2343,22 +2408,22 @@ var TitleDom = function() {
 module.exports = function($control) {
     // This contains buttons and event definitions like as {'buttonName' : { instance: $button, eventValue : 'textae.control.button.read.click' }}
     var buttonContainer = makeButtons($control, [{
-            'read': 'Access [A]',
-            'write': 'Save [S]'
+            'read': 'Import [I]',
+            'write': 'Upload [U]'
         }, {
             'undo': 'Undo [Z]',
-            'redo': 'Redo [X]'
+            'redo': 'Redo [A]'
         }, {
             'replicate': 'Replicate span annotation [R]',
             'replicate-auto': 'Auto replicate (Toggle)',
-            'relation-edit-mode': 'Edit Relation'
+            'relation-edit-mode': 'Edit Relation [F]'
         }, {
             'entity': 'New entity [E]',
             'pallet': 'Select label [Q]',
             'change-label': 'Change label [W]'
         }, {
-            'negation': 'Negation',
-            'speculation': 'Speculation'
+            'negation': 'Negation [X]',
+            'speculation': 'Speculation [S]'
         }, {
             'delete': 'Delete [D]',
             'copy': 'Copy [C]',
@@ -2400,72 +2465,8 @@ module.exports = function($control) {
 
     return $control;
 };
-},{}],14:[function(require,module,exports){
-var SpanConfig = function() {
-        var defaults = {
-                "delimiter characters": [
-                    " ",
-                    ".",
-                    "!",
-                    "?",
-                    ",",
-                    ":",
-                    ";",
-                    "-",
-                    "/",
-                    "&",
-                    "(",
-                    ")",
-                    "{",
-                    "}",
-                    "[",
-                    "]",
-                    "+",
-                    "*",
-                    "\\",
-                    "\"",
-                    "'",
-                    "\n",
-                    "–"
-                ],
-                "non-edge characters": [
-                    " ",
-                    "\n"
-                ]
-            },
-            api = {
-                delimiterCharacters: null,
-                nonEdgeCharacters: null,
-                reset: function() {
-                    this.set(defaults);
-                },
-                set: function(config) {
-                    var settings = _.extend({}, defaults, config);
-
-                    if (settings['delimiter characters'] !== undefined) {
-                        api.delimiterCharacters = settings['delimiter characters'];
-                    }
-
-                    if (settings['non-edge characters'] !== undefined) {
-                        api.nonEdgeCharacters = settings['non-edge characters'];
-                    }
-
-                    return config;
-                },
-                isNonEdgeCharacter: function(char) {
-                    return (api.nonEdgeCharacters.indexOf(char) >= 0);
-                },
-                isDelimiter: function(char) {
-                    if (api.delimiterCharacters.indexOf('ANY') >= 0) {
-                        return 1;
-                    }
-                    return (api.delimiterCharacters.indexOf(char) >= 0);
-                }
-            };
-
-        return api;
-    },
-    Controller = function(editor, history, presenter, view) {
+},{}],15:[function(require,module,exports){
+var Controller = function(editor, history, presenter, view) {
         return {
             init: function(confirmDiscardChangeMessage) {
                 // Prevent the default selection by the browser with shift keies.
@@ -2506,12 +2507,14 @@ var SpanConfig = function() {
     },
     getParams = function(editor) {
         // Read model parameters from url parameters and html attributes.
-        var params = $.extend(require('./util/getUrlParameters')(location.search),
+        var params = _.extend(require('./util/getUrlParameters')(location.search),
             // Html attributes preced url parameters.
             {
-                config: editor.attr('config'),
-                target: editor.attr('target')
+                config: editor.attr('config')
             });
+
+        // 'source' prefer to 'target'
+        params.target = editor.attr('source') || editor.attr('target') || params.source || params.target;
 
         // Mode is prior in the url parameter.
         if (!params.mode && editor.attr('mode')) {
@@ -2564,7 +2567,7 @@ module.exports = function() {
         // The history of command that providing undo and redo.
         history = require('./model/History')(),
         // Configulation of span
-        spanConfig = new SpanConfig(),
+        spanConfig = require('./SpanConfig')(),
         // Users can edit model only via commands. 
         command = require('./model/Command')(this, model, history, spanConfig),
         view = require('./view/View')(this, model),
@@ -2643,17 +2646,21 @@ module.exports = function() {
                         dataAccessObject.showSave(model.annotationData.toJson());
                     },
                     keyApiMap = {
-                        'A': showAccess,
+                        'A': command.redo,
                         'C': presenter.event.copyEntities,
                         'D': presenter.event.removeSelectedElements,
                         'DEL': presenter.event.removeSelectedElements,
                         'E': presenter.event.createEntity,
+                        'F': presenter.event.toggleRelationEditMode,
+                        'I': showAccess,
+                        'M': presenter.event.toggleRelationEditMode,
                         'Q': presenter.event.showPallet,
                         'R': presenter.event.replicate,
-                        'S': showSave,
+                        'S': presenter.event.speculation,
+                        'U': showSave,
                         'V': presenter.event.pasteEntities,
                         'W': presenter.event.newLabel,
-                        'X': command.redo,
+                        'X': presenter.event.negation,
                         'Y': command.redo,
                         'Z': command.undo,
                         'ESC': presenter.event.cancelSelect,
@@ -2717,7 +2724,7 @@ module.exports = function() {
 
     return this;
 };
-},{"./component/DataAccessObject":10,"./component/StatusBar":12,"./model/Command":16,"./model/History":17,"./model/Model":19,"./presenter/Presenter":26,"./util/ajaxAccessor":37,"./util/getUrlParameters":46,"./view/View":56}],15:[function(require,module,exports){
+},{"./SpanConfig":10,"./component/DataAccessObject":11,"./component/StatusBar":13,"./model/Command":17,"./model/History":18,"./model/Model":20,"./presenter/Presenter":27,"./util/ajaxAccessor":39,"./util/getUrlParameters":48,"./view/View":58}],16:[function(require,module,exports){
 var tool = require('./tool'),
     control = require('./control'),
     editor = require('./editor');
@@ -2740,7 +2747,7 @@ jQuery.fn.textae = (function() {
         }
     };
 })();
-},{"./control":13,"./editor":14,"./tool":33}],16:[function(require,module,exports){
+},{"./control":14,"./editor":15,"./tool":35}],17:[function(require,module,exports){
 var invoke = function(commands) {
         commands.forEach(function(command) {
             command.execute();
@@ -3071,7 +3078,7 @@ module.exports = function(editor, model, history, spanConfig) {
         factory: factory
     };
 };
-},{"../util/IdFactory":36}],17:[function(require,module,exports){
+},{"../util/IdFactory":38}],18:[function(require,module,exports){
 // histories of edit to undo and redo.
 module.exports = function() {
     var lastSaveIndex = -1,
@@ -3128,7 +3135,7 @@ module.exports = function() {
 
     return api;
 };
-},{"../util/extendBindable":45}],18:[function(require,module,exports){
+},{"../util/extendBindable":47}],19:[function(require,module,exports){
 module.exports = function(kindName) {
 	var extendBindable = require('../util/extendBindable'),
 		selected = {},
@@ -3179,7 +3186,7 @@ module.exports = function(kindName) {
 
 	return api;
 };
-},{"../util/extendBindable":45}],19:[function(require,module,exports){
+},{"../util/extendBindable":47}],20:[function(require,module,exports){
 // Expected an entity like {id: "E21", span: "editor2__S50_54", type: "Protein"}.
 var EntityContainer = function(editor, eventEmitter, relation) {
         var idFactory = require('../util/IdFactory')(editor),
@@ -3292,6 +3299,7 @@ var EntityContainer = function(editor, eventEmitter, relation) {
                         });
                     },
                     doPrefix = function(origin, translater, prefix) {
+                        prefix = prefix || '';
                         return origin && translater ?
                             origin.map(_.partial(translater, prefix)) :
                             origin;
@@ -3330,10 +3338,6 @@ var EntityContainer = function(editor, eventEmitter, relation) {
                                 });
 
                             delete annotation.tracks;
-
-                            _.defer(function() {
-                                alert('Annotations in multiple tracks have been merged.');
-                            });
                         }
                         return annotation;
                     },
@@ -3456,7 +3460,7 @@ module.exports = function(editor) {
         getReplicationSpans: _.partial(getReplicationSpans, annotationData)
     };
 };
-},{"../util/IdFactory":36,"../util/extendBindable":45,"./ModelContainer":20,"./ParagraphContainer":21,"./Selection":22,"./SpanContainer":23,"./isBoundaryCrossingWithOtherSpans":24}],20:[function(require,module,exports){
+},{"../util/IdFactory":38,"../util/extendBindable":47,"./ModelContainer":21,"./ParagraphContainer":22,"./Selection":23,"./SpanContainer":24,"./isBoundaryCrossingWithOtherSpans":25}],21:[function(require,module,exports){
 var createId = function(prefix, getIdsFunction) {
 		var ids = getIdsFunction()
 			.filter(function(id) {
@@ -3538,7 +3542,7 @@ module.exports = function(eventEmitter, prefix, mappingFunction) {
 		clear: clear
 	};
 };
-},{}],21:[function(require,module,exports){
+},{}],22:[function(require,module,exports){
 module.exports = function(editor, annotationDataApi) {
 	var idFactory = require('../util/IdFactory')(editor),
 		mappingFunction = function(sourceDoc) {
@@ -3575,7 +3579,7 @@ module.exports = function(editor, annotationDataApi) {
 
 	return api;
 };
-},{"../util/IdFactory":36,"./ModelContainer":20}],22:[function(require,module,exports){
+},{"../util/IdFactory":38,"./ModelContainer":21}],23:[function(require,module,exports){
 var clearAll = function(containerList) {
 		_.each(containerList, function(container) {
 			container.clear();
@@ -3626,7 +3630,7 @@ module.exports = function(kinds) {
 
 	return extendUtilFunctions(containerList, api);
 };
-},{"../util/extendBindable":45,"./IdContainer":18}],23:[function(require,module,exports){
+},{"../util/extendBindable":47,"./IdContainer":19}],24:[function(require,module,exports){
 module.exports = function(editor, annotationDataApi, paragraph) {
 	var idFactory = require('../util/IdFactory')(editor),
 		toSpanModel = function() {
@@ -3843,7 +3847,7 @@ module.exports = function(editor, annotationDataApi, paragraph) {
 
 	return api;
 };
-},{"../util/IdFactory":36,"./ModelContainer":20,"./isBoundaryCrossingWithOtherSpans":24}],24:[function(require,module,exports){
+},{"../util/IdFactory":38,"./ModelContainer":21,"./isBoundaryCrossingWithOtherSpans":25}],25:[function(require,module,exports){
 // A span its range is coross over with other spans are not able to rendered.
 // Because spans are renderd with span tag. Html tags can not be cross over.
 module.exports = function(getAll, candidateSpan) {
@@ -3852,7 +3856,7 @@ module.exports = function(getAll, candidateSpan) {
 			(candidateSpan.begin < existSpan.begin && existSpan.begin < candidateSpan.end && candidateSpan.end < existSpan.end);
 	}).length > 0;
 };
-},{}],25:[function(require,module,exports){
+},{}],26:[function(require,module,exports){
 var typeGap = function() {
 	var seed = {
 			instanceHide: 0,
@@ -3992,7 +3996,7 @@ module.exports = function(model, viewMode, typeEditor) {
 
 	return api;
 };
-},{"../util/capitalize":38}],26:[function(require,module,exports){
+},{"../util/capitalize":40}],27:[function(require,module,exports){
 module.exports = function(editor, model, view, command, spanConfig) {
     var editorSelected = function() {
             userEvent.viewHandler.hideDialogs();
@@ -4253,13 +4257,13 @@ module.exports = function(editor, model, view, command, spanConfig) {
         }
     };
 };
-},{"../util/CursorChanger":34,"./EditMode":25,"./SettingDialog":28,"./TypeEditor":31}],27:[function(require,module,exports){
+},{"../util/CursorChanger":36,"./EditMode":26,"./SettingDialog":29,"./TypeEditor":32}],28:[function(require,module,exports){
 module.exports = function(editor, model, spanConfig, command, viewModel, typeContainer) {
 	var selectionValidator = function(editor, model, spanConfig) {
-			var spanAdjuster = require('./SpanAdjuster')(spanConfig, model.annotationData),
+			var selectPosition = require('./selectPosition'),
 				domUtil = require('../util/DomUtil')(editor),
 				hasCharacters = function(selection) {
-					var positions = spanAdjuster.toPositions(selection);
+					var positions = selectPosition.toPositions(model.annotationData, selection);
 
 					// A span cannot be created include nonEdgeCharacters only.
 					var stringWithoutNonEdgeCharacters = model.annotationData.sourceDoc.substring(positions.anchorPosition, positions.focusPosition);
@@ -4328,13 +4332,13 @@ module.exports = function(editor, model, spanConfig, command, viewModel, typeCon
 					return false;
 				},
 				isAnchorInSelectedSpan = function(selection) {
-					return isInSelectedSpan(spanAdjuster.getAnchorPosition(selection));
+					return isInSelectedSpan(selectPosition.getAnchorPosition(model.annotationData, selection));
 				},
 				isFocusOnSelectedSpan = function(selection) {
 					return selection.focusNode.parentNode.id === model.selectionModel.span.single();
 				},
 				isFocusInSelectedSpan = function(selection) {
-					return isInSelectedSpan(spanAdjuster.getFocusPosition(selection));
+					return isInSelectedSpan(selectPosition.getFocusPosition(model.annotationData, selection));
 				},
 				isSelectedSpanOneDownUnderFocus = function(selection) {
 					var selectedSpanId = model.selectionModel.span.single();
@@ -4342,7 +4346,7 @@ module.exports = function(editor, model, spanConfig, command, viewModel, typeCon
 				},
 				isLongerThanParentSpan = function(selection) {
 					var $getAnchorNodeParent = getAnchorNodeParent(selection),
-						focusPosition = spanAdjuster.getFocusPosition(selection);
+						focusPosition = selectPosition.getFocusPosition(model.annotationData, selection);
 
 					if (hasSpan($getAnchorNodeParent) && $getAnchorNodeParent.parent() && hasSpan($getAnchorNodeParent.parent())) {
 						var span = model.annotationData.span.get($getAnchorNodeParent.parent().attr('id'));
@@ -4352,7 +4356,7 @@ module.exports = function(editor, model, spanConfig, command, viewModel, typeCon
 				},
 				isShorterThanChildSpan = function(selection) {
 					var $getFocusNodeParent = getFocusNodeParent(selection),
-						anchorPosition = spanAdjuster.getAnchorPosition(selection);
+						anchorPosition = selectPosition.getAnchorPosition(model.annotationData, selection);
 
 					if (hasSpan($getFocusNodeParent) && $getFocusNodeParent.parent() && hasSpan($getFocusNodeParent.parent())) {
 						var span = model.annotationData.span.get($getFocusNodeParent.parent().attr('id'));
@@ -4451,9 +4455,9 @@ module.exports = function(editor, model, spanConfig, command, viewModel, typeCon
 
 					// The span cross exists spans.
 					if (model.annotationData.isBoundaryCrossingWithOtherSpans({
-						begin: newSpan.begin,
-						end: newSpan.end
-					})) {
+							begin: newSpan.begin,
+							end: newSpan.end
+						})) {
 						dismissBrowserSelection();
 						return;
 					}
@@ -4489,9 +4493,9 @@ module.exports = function(editor, model, spanConfig, command, viewModel, typeCon
 
 						// The span cross exists spans.
 						if (model.annotationData.isBoundaryCrossingWithOtherSpans({
-							begin: newSpan.begin,
-							end: newSpan.end
-						})) {
+								begin: newSpan.begin,
+								end: newSpan.end
+							})) {
 							alert('A span cannot be expanded to make a boundary crossing.');
 							dismissBrowserSelection();
 							return;
@@ -4526,9 +4530,9 @@ module.exports = function(editor, model, spanConfig, command, viewModel, typeCon
 
 						// The span cross exists spans.
 						if (model.annotationData.isBoundaryCrossingWithOtherSpans({
-							begin: newSpan.begin,
-							end: newSpan.end
-						})) {
+								begin: newSpan.begin,
+								end: newSpan.end
+							})) {
 							alert('A span cannot be shrinked to make a boundary crossing.');
 							dismissBrowserSelection();
 							return;
@@ -4589,7 +4593,7 @@ module.exports = function(editor, model, spanConfig, command, viewModel, typeCon
 		onSpan: process.selectEndOnSpan
 	};
 };
-},{"../util/DomUtil":35,"../util/IdFactory":36,"./SpanAdjuster":29,"./SpanManipulater":30,"./dismissBrowserSelection":32}],28:[function(require,module,exports){
+},{"../util/DomUtil":37,"../util/IdFactory":38,"./SpanManipulater":31,"./dismissBrowserSelection":33,"./selectPosition":34}],29:[function(require,module,exports){
 var debounce300 = function(func) {
 		return _.debounce(func, 300);
 	},
@@ -4750,143 +4754,89 @@ module.exports = function(editor, editMode) {
 		createContent
 	);
 };
-},{"../util/dialog/GetEditorDialog":42,"../util/jQuerySugar":48}],29:[function(require,module,exports){
-module.exports = function(spanConfig, annotationData) {
-    var getPosition = function(node) {
-        var $parent = $(node).parent();
-        var parentId = $parent.attr("id");
-
-        var pos;
-        if ($parent.hasClass("textae-editor__body__text-box__paragraph")) {
-            pos = annotationData.paragraph.get(parentId).begin;
-        } else if ($parent.hasClass("textae-editor__span")) {
-            pos = annotationData.span.get(parentId).begin;
-        } else {
-            throw new Error('Can not get position of a node : ' + node);
-        }
-
-        var childNodes = node.parentElement.childNodes;
-        for (var i = 0; childNodes[i] != node; i++) { // until the focus node
-            pos += (childNodes[i].nodeName == "#text") ? childNodes[i].nodeValue.length : $('#' + childNodes[i].id).text().length;
-        }
-
-        return pos;
-    };
-
-    var getFocusPosition = function(selection) {
-        var pos = getPosition(selection.focusNode);
-        return pos += selection.focusOffset;
-    };
-
-    var getAnchorPosition = function(selection) {
-        var pos = getPosition(selection.anchorNode);
-        return pos + selection.anchorOffset;
-    };
-
-    // adjust the beginning position of a span
-    var adjustSpanBeginLong = function(beginPosition) {
+},{"../util/dialog/GetEditorDialog":44,"../util/jQuerySugar":50}],30:[function(require,module,exports){
+// adjust the beginning position of a span
+var adjustSpanBeginLong = function(spanConfig, sourceDoc, beginPosition) {
         var pos = beginPosition;
 
         while (
-            spanConfig.isNonEdgeCharacter(annotationData.sourceDoc.charAt(pos))
+            spanConfig.isNonEdgeCharacter(sourceDoc.charAt(pos))
         ) {
             pos++;
         }
 
         while (
             pos > 0 &&
-            !spanConfig.isDelimiter(annotationData.sourceDoc.charAt(pos)) &&
-            !spanConfig.isDelimiter(annotationData.sourceDoc.charAt(pos - 1))
+            !spanConfig.isDelimiter(sourceDoc.charAt(pos)) &&
+            !spanConfig.isDelimiter(sourceDoc.charAt(pos - 1))
         ) {
             pos--;
         }
         return pos;
-    };
-
+    },
     // adjust the end position of a span
-    var adjustSpanEndLong = function(endPosition) {
+    adjustSpanEndLong = function(spanConfig, sourceDoc, endPosition) {
         var pos = endPosition;
 
         while (
-            spanConfig.isNonEdgeCharacter(annotationData.sourceDoc.charAt(pos - 1))
+            spanConfig.isNonEdgeCharacter(sourceDoc.charAt(pos - 1))
         ) {
             pos--;
         }
 
-        while (!spanConfig.isDelimiter(annotationData.sourceDoc.charAt(pos)) &&
-            pos < annotationData.sourceDoc.length
+        while (!spanConfig.isDelimiter(sourceDoc.charAt(pos)) &&
+            pos < sourceDoc.length
         ) {
             pos++;
         }
         return pos;
-    };
-
+    },
     // adjust the beginning position of a span for shortening
-    var adjustSpanBeginShort = function(beginPosition) {
+    adjustSpanBeginShort = function(spanConfig, sourceDoc, beginPosition) {
         var pos = beginPosition;
         while (
-            pos < annotationData.sourceDoc.length &&
+            pos < sourceDoc.length &&
             (
-                spanConfig.isNonEdgeCharacter(annotationData.sourceDoc.charAt(pos)) ||
-                !spanConfig.isDelimiter(annotationData.sourceDoc.charAt(pos - 1))
+                spanConfig.isNonEdgeCharacter(sourceDoc.charAt(pos)) ||
+                !spanConfig.isDelimiter(sourceDoc.charAt(pos - 1))
             )
         ) {
             pos++;
         }
         return pos;
-    };
-
+    },
     // adjust the end position of a span for shortening
-    var adjustSpanEndShort = function(endPosition) {
+    adjustSpanEndShort = function(spanConfig, sourceDoc, endPosition) {
         var pos = endPosition;
         while (
             pos > 0 &&
             (
-                spanConfig.isNonEdgeCharacter(annotationData.sourceDoc.charAt(pos - 1)) ||
-                !spanConfig.isDelimiter(annotationData.sourceDoc.charAt(pos))
+                spanConfig.isNonEdgeCharacter(sourceDoc.charAt(pos - 1)) ||
+                !spanConfig.isDelimiter(sourceDoc.charAt(pos))
             )
         ) {
             pos--;
         }
         return pos;
-    };
-
-    var toPositions = function(selection) {
-        var anchorPosition = getAnchorPosition(selection);
-        var focusPosition = getFocusPosition(selection);
-
-        // switch the position when the selection is made from right to left
-        if (anchorPosition > focusPosition) {
-            var tmpPos = anchorPosition;
-            anchorPosition = focusPosition;
-            focusPosition = tmpPos;
-        }
-
-        return {
-            anchorPosition: anchorPosition,
-            focusPosition: focusPosition
-        };
-    };
-
-    return {
-        toPositions: toPositions,
-        getAnchorPosition: getAnchorPosition,
-        getFocusPosition: getFocusPosition,
+    },
+    spanAdjuster = {
         adjustSpanBeginLong: adjustSpanBeginLong,
         adjustSpanEndLong: adjustSpanEndLong,
         adjustSpanBeginShort: adjustSpanBeginShort,
         adjustSpanEndShort: adjustSpanEndShort
     };
-};
-},{}],30:[function(require,module,exports){
+
+module.exports = spanAdjuster;
+},{}],31:[function(require,module,exports){
 module.exports = function(spanConfig, model) {
-    var spanAdjuster = require('./SpanAdjuster')(spanConfig, model.annotationData),
+    var spanAdjuster = require('./SpanAdjuster'),
+        selectPosition = require('./selectPosition'),
         createSpan = function() {
             var toSpanPosition = function(selection) {
-                var positions = spanAdjuster.toPositions(selection);
+                var positions = selectPosition.toPositions(model.annotationData, selection);
                 return {
-                    begin: spanAdjuster.adjustSpanBeginLong(positions.anchorPosition),
-                    end: spanAdjuster.adjustSpanEndLong(positions.focusPosition)
+                    begin: spanAdjuster.adjustSpanBeginLong(spanConfig, model.annotationData.sourceDoc, positions.anchorPosition),
+                    end: spanAdjuster.adjustSpanEndLong(spanConfig, model.annotationData.sourceDoc, positions.focusPosition)
                 };
             };
 
@@ -4902,14 +4852,14 @@ module.exports = function(spanConfig, model) {
                 if (selectionRange.compareBoundaryPoints(Range.START_TO_START, anchorNodeRange) < 0) {
                     // expand to the left
                     return {
-                        begin: spanAdjuster.adjustSpanBeginLong(focusPosition),
+                        begin: spanAdjuster.adjustSpanBeginLong(spanConfig, model.annotationData.sourceDoc, focusPosition),
                         end: span.end
                     };
                 } else {
                     // expand to the right
                     return {
                         begin: span.begin,
-                        end: spanAdjuster.adjustSpanEndLong(focusPosition)
+                        end: spanAdjuster.adjustSpanEndLong(spanConfig, model.annotationData.sourceDoc, focusPosition)
                     };
                 }
             };
@@ -4920,7 +4870,7 @@ module.exports = function(spanConfig, model) {
                 var selectionRange = selection.getRangeAt(0);
                 var anchorNodeRange = document.createRange();
                 anchorNodeRange.selectNode(selection.anchorNode);
-                var focusPosition = spanAdjuster.getFocusPosition(selection);
+                var focusPosition = selectPosition.getFocusPosition(model.annotationData, selection);
 
                 return getNewSpan(spanId, selectionRange, anchorNodeRange, focusPosition);
             };
@@ -4932,12 +4882,12 @@ module.exports = function(spanConfig, model) {
                     // shorten the right boundary
                     return {
                         begin: span.begin,
-                        end: spanAdjuster.adjustSpanEndShort(focusPosition)
+                        end: spanAdjuster.adjustSpanEndShort(spanConfig, model.annotationData.sourceDoc, focusPosition)
                     };
                 } else {
                     // shorten the left boundary
                     return {
-                        begin: spanAdjuster.adjustSpanBeginShort(focusPosition),
+                        begin: spanAdjuster.adjustSpanBeginShort(spanConfig, model.annotationData.sourceDoc, focusPosition),
                         end: span.end
                     };
                 }
@@ -4949,7 +4899,7 @@ module.exports = function(spanConfig, model) {
                 var selectionRange = selection.getRangeAt(0);
                 var focusNodeRange = document.createRange();
                 focusNodeRange.selectNode(selection.focusNode);
-                var focusPosition = spanAdjuster.getFocusPosition(selection);
+                var focusPosition = selectPosition.getFocusPosition(model.annotationData, selection);
 
                 return getNewSpan(spanId, selectionRange, focusNodeRange, focusPosition);
             };
@@ -4961,7 +4911,7 @@ module.exports = function(spanConfig, model) {
         shrink: shortenSpan
     };
 };
-},{"./SpanAdjuster":29}],31:[function(require,module,exports){
+},{"./SpanAdjuster":30,"./selectPosition":34}],32:[function(require,module,exports){
 module.exports = function(editor, model, spanConfig, command, viewModel, typeContainer) {
 	var dismissBrowserSelection = require('./dismissBrowserSelection'),
 		// changeEventHandler will init.
@@ -5266,12 +5216,63 @@ module.exports = function(editor, model, spanConfig, command, viewModel, typeCon
 		}
 	};
 };
-},{"../component/Pallet":11,"./SelectEnd":27,"./dismissBrowserSelection":32}],32:[function(require,module,exports){
+},{"../component/Pallet":12,"./SelectEnd":28,"./dismissBrowserSelection":33}],33:[function(require,module,exports){
 module.exports = function() {
 	var selection = window.getSelection();
 	selection.collapse(document.body, 0);
 };
-},{}],33:[function(require,module,exports){
+},{}],34:[function(require,module,exports){
+var getPosition = function(paragraph, span, node) {
+		var $parent = $(node).parent();
+		var parentId = $parent.attr("id");
+
+		var pos;
+		if ($parent.hasClass("textae-editor__body__text-box__paragraph")) {
+			pos = paragraph.get(parentId).begin;
+		} else if ($parent.hasClass("textae-editor__span")) {
+			pos = span.get(parentId).begin;
+		} else {
+			throw new Error('Can not get position of a node : ' + node + ' ' + node.data);
+		}
+
+		var childNodes = node.parentElement.childNodes;
+		for (var i = 0; childNodes[i] != node; i++) { // until the focus node
+			pos += (childNodes[i].nodeName == "#text") ? childNodes[i].nodeValue.length : $('#' + childNodes[i].id).text().length;
+		}
+
+		return pos;
+	},
+	getFocusPosition = function(annotationData, selection) {
+		var pos = getPosition(annotationData.paragraph, annotationData.span, selection.focusNode);
+		return pos += selection.focusOffset;
+	},
+	getAnchorPosition = function(annotationData, selection) {
+		var pos = getPosition(annotationData.paragraph, annotationData.span, selection.anchorNode);
+		return pos + selection.anchorOffset;
+	},
+	toPositions = function(annotationData, selection) {
+		var anchorPosition = getAnchorPosition(annotationData, selection),
+			focusPosition = getFocusPosition(annotationData, selection);
+
+		// switch the position when the selection is made from right to left
+		if (anchorPosition > focusPosition) {
+			var tmpPos = anchorPosition;
+			anchorPosition = focusPosition;
+			focusPosition = tmpPos;
+		}
+
+		return {
+			anchorPosition: anchorPosition,
+			focusPosition: focusPosition
+		};
+	};
+
+module.exports = {
+	toPositions: toPositions,
+	getAnchorPosition: getAnchorPosition,
+	getFocusPosition: getFocusPosition,
+};
+},{}],35:[function(require,module,exports){
 // Ovserve and record mouse position to return it.
 var getMousePoint = function() {
         var lastMousePoint = {},
@@ -5345,8 +5346,8 @@ var getMousePoint = function() {
             helpDialog = new ToolDialog(
                 'textae-control__help',
                 'Help (Keyboard short-cuts)', {
-                    height: 315,
-                    width: 438
+                    height: 313,
+                    width: 523
                 },
                 $('<div>').addClass('textae-tool__key-help')),
             aboutDialog = new ToolDialog(
@@ -5506,7 +5507,7 @@ module.exports = function() {
         },
     };
 }();
-},{"./util/dialog/GetToolDialog":43,"./util/extendBindable":45}],34:[function(require,module,exports){
+},{"./util/dialog/GetToolDialog":45,"./util/extendBindable":47}],36:[function(require,module,exports){
 var changeCursor = function(editor, action) {
 	// Add jQuery Ui dialogs to targets because they are not in the editor.
 	editor = editor.add('.ui-dialog, .ui-widget-overlay');
@@ -5522,7 +5523,7 @@ module.exports = function(editor) {
 		endWait: endWait,
 	};
 };
-},{}],35:[function(require,module,exports){
+},{}],37:[function(require,module,exports){
 module.exports = function(editor) {
 	var idFactory = require('../util/IdFactory')(editor);
 
@@ -5546,7 +5547,7 @@ module.exports = function(editor) {
 		}
 	};
 };
-},{"../util/IdFactory":36}],36:[function(require,module,exports){
+},{"../util/IdFactory":38}],38:[function(require,module,exports){
 var typeCounter = [],
     makeTypePrefix = function(editorId, prefix) {
         return editorId + '__' + prefix;
@@ -5585,7 +5586,7 @@ module.exports = function(editor) {
         makeParagraphId: _.partial(makeId, editor.editorId, 'P')
     };
 };
-},{}],37:[function(require,module,exports){
+},{}],39:[function(require,module,exports){
 var isEmpty = function(str) {
 		return !str || str === "";
 	},
@@ -5638,11 +5639,11 @@ module.exports = function() {
 		post: post
 	};
 }();
-},{}],38:[function(require,module,exports){
+},{}],40:[function(require,module,exports){
 module.exports = function(str) {
 	return str.charAt(0).toUpperCase() + str.slice(1);
 };
-},{}],39:[function(require,module,exports){
+},{}],41:[function(require,module,exports){
 var Dialog = function(id, title, $content) {
 		return $('<div>')
 			.attr('id', id)
@@ -5686,7 +5687,7 @@ module.exports = function(openOption, id, title, $content) {
 
 	return createAndAppendDialog(id, title, $content);
 };
-},{}],40:[function(require,module,exports){
+},{}],42:[function(require,module,exports){
 var Dialog = require('./Dialog'),
 	getDialogId = function(editorId, id) {
 		return editorId + '.' + id;
@@ -5713,7 +5714,7 @@ module.exports = function(editorId, id, title, $content, noCancelButton) {
 		id: id
 	});
 };
-},{"./Dialog":39}],41:[function(require,module,exports){
+},{"./Dialog":41}],43:[function(require,module,exports){
 var getFromContainer = function(container, id) {
 		return container[id];
 	},
@@ -5739,7 +5740,7 @@ module.exports = function(createFunction) {
 			createAndCache(createFunction, arguments);
 	};
 };
-},{}],42:[function(require,module,exports){
+},{}],44:[function(require,module,exports){
 var EditorDialog = require('./EditorDialog'),
 	FunctionUseCache = require('./FunctionUseCache');
 
@@ -5748,12 +5749,12 @@ module.exports = function(editor) {
 	editor.getDialog = editor.getDialog || new FunctionUseCache(_.partial(EditorDialog, editor.editorId));
 	return editor.getDialog;
 };
-},{"./EditorDialog":40,"./FunctionUseCache":41}],43:[function(require,module,exports){
+},{"./EditorDialog":42,"./FunctionUseCache":43}],45:[function(require,module,exports){
 var ToolDialog = require('./ToolDialog'),
 	FunctionUseCache = require('./FunctionUseCache');
 
 module.exports = new FunctionUseCache(ToolDialog);
-},{"./FunctionUseCache":41,"./ToolDialog":44}],44:[function(require,module,exports){
+},{"./FunctionUseCache":43,"./ToolDialog":46}],46:[function(require,module,exports){
 var Dialog = require('./Dialog');
 
 module.exports = function(id, title, size, $content) {
@@ -5768,7 +5769,7 @@ module.exports = function(id, title, size, $content) {
 		id: id
 	});
 };
-},{"./Dialog":39}],45:[function(require,module,exports){
+},{"./Dialog":41}],47:[function(require,module,exports){
 // A mixin for the separeted presentation by the observer pattern.
 var bindable = function() {
     var callbacks = {};
@@ -5803,7 +5804,7 @@ var bindable = function() {
 module.exports = function(obj) {
     return _.extend({}, obj, bindable());
 };
-},{}],46:[function(require,module,exports){
+},{}],48:[function(require,module,exports){
 // Usage sample: getUrlParameters(location.search). 
 module.exports = function(urlQuery) {
 	// Remove ? at top.
@@ -5827,7 +5828,7 @@ module.exports = function(urlQuery) {
 			return a;
 		}, {});
 };
-},{}],47:[function(require,module,exports){
+},{}],49:[function(require,module,exports){
 module.exports = function($target, enable) {
 	if (enable) {
 		$target.removeAttr('disabled');
@@ -5835,7 +5836,7 @@ module.exports = function($target, enable) {
 		$target.attr('disabled', 'disabled');
 	}
 };
-},{}],48:[function(require,module,exports){
+},{}],50:[function(require,module,exports){
 var setProp = function(key, $target, className, value) {
 	var valueObject = {};
 
@@ -5878,12 +5879,12 @@ module.exports = {
 	setChecked: _.partial(setProp, 'checked'),
 	setValue: _.partial(setProp, 'value')
 };
-},{"./jQueryEnabled":47}],49:[function(require,module,exports){
+},{"./jQueryEnabled":49}],51:[function(require,module,exports){
 module.exports = function(hash, element) {
 	hash[element.name] = element;
 	return hash;
 };
-},{}],50:[function(require,module,exports){
+},{}],52:[function(require,module,exports){
 module.exports = {
 	isUri: function(type) {
 		return String(type).indexOf('http') > -1;
@@ -5896,7 +5897,7 @@ module.exports = {
 		return urlRegex.exec(type);
 	}
 };
-},{}],51:[function(require,module,exports){
+},{}],53:[function(require,module,exports){
 var ModeAccordingToButton = function(editor) {
 		var reduce2hash = require('../util/reduce2hash'),
 			Button = function(buttonName) {
@@ -6088,7 +6089,7 @@ module.exports = function(editor, model, clipBoard) {
 		buttonStateHelper: buttonStateHelper,
 	};
 };
-},{"../util/reduce2hash":49}],52:[function(require,module,exports){
+},{"../util/reduce2hash":51}],54:[function(require,module,exports){
 var Cache = function() {
         var cache = {},
             set = function(key, value) {
@@ -6219,7 +6220,7 @@ module.exports = function(editor, entityModel) {
     editor.postionCache = editor.postionCache || createNewCache(editor, entityModel);
     return editor.postionCache;
 };
-},{"../util/DomUtil":35}],53:[function(require,module,exports){
+},{"../util/DomUtil":37}],55:[function(require,module,exports){
 var filterVisibleGrid = function(grid) {
       if (grid && grid.hasClass('hidden')) {
          return grid;
@@ -6341,7 +6342,7 @@ module.exports = function(editor, annotationData) {
       arrangePosition: arrangePositionAll
    };
 };
-},{"../util/DomUtil":35,"./DomPositionCache":52,"Promise":2}],54:[function(require,module,exports){
+},{"../util/DomUtil":37,"./DomPositionCache":54,"Promise":2}],56:[function(require,module,exports){
 var selectionClass = require('./selectionClass');
 
 module.exports = function(editor, model) {
@@ -6401,7 +6402,7 @@ module.exports = function(editor, model) {
 		}
 	};
 };
-},{"../util/DomUtil":35,"./DomPositionCache":52,"./selectionClass":62}],55:[function(require,module,exports){
+},{"../util/DomUtil":37,"./DomPositionCache":54,"./selectionClass":64}],57:[function(require,module,exports){
 module.exports = function(model) {
 	var reduce2hash = require('../util/reduce2hash'),
 		uri = require('../util/uri'),
@@ -6485,7 +6486,7 @@ module.exports = function(model) {
 		setDefinedRelationTypes: _.partial(setContainerDefinedTypes, relationContaier)
 	};
 };
-},{"../util/reduce2hash":49,"../util/uri":50}],56:[function(require,module,exports){
+},{"../util/reduce2hash":51,"../util/uri":52}],58:[function(require,module,exports){
 var delay150 = function(func) {
         return _.partial(_.delay, func, 150);
     },
@@ -6701,7 +6702,7 @@ module.exports = function(editor, model) {
         typeContainer: typeContainer
     });
 };
-},{"../util/extendBindable":45,"./ButtonController":51,"./DomPositionCache":52,"./GridLayout":53,"./Selector":54,"./TypeContainer":55,"./renderer/Renderer":59}],57:[function(require,module,exports){
+},{"../util/extendBindable":47,"./ButtonController":53,"./DomPositionCache":54,"./GridLayout":55,"./Selector":56,"./TypeContainer":57,"./renderer/Renderer":61}],59:[function(require,module,exports){
 var // Arrange a position of the pane to center entities when entities width is longer than pane width.
 	arrangePositionOfPane = function(pane) {
 		var paneWidth = pane.outerWidth();
@@ -6914,7 +6915,7 @@ module.exports = function(editor, model, typeContainer, gridRenderer, modificati
 		}
 	});
 };
-},{"../../util/DomUtil":35,"../../util/IdFactory":36,"../../util/extendBindable":45,"../../util/uri":50,"../Selector":54}],58:[function(require,module,exports){
+},{"../../util/DomUtil":37,"../../util/IdFactory":38,"../../util/extendBindable":47,"../../util/uri":52,"../Selector":56}],60:[function(require,module,exports){
 var POINTUP_LINE_WIDTH = 3,
 	LABEL = {
 		cssClass: 'textae-editor__relation__label',
@@ -7388,7 +7389,7 @@ module.exports = function(editor, model, typeContainer, modification) {
 		arrangePositionAll: arrangePositionAll
 	};
 };
-},{"../../util/DomUtil":35,"../DomPositionCache":52,"./jsPlumbArrowOverlayUtil":61,"Promise":2}],59:[function(require,module,exports){
+},{"../../util/DomUtil":37,"../DomPositionCache":54,"./jsPlumbArrowOverlayUtil":63,"Promise":2}],61:[function(require,module,exports){
 var getElement = function($parent, tagName, className) {
         var $area = $parent.find('.' + className);
         if ($area.length === 0) {
@@ -7594,7 +7595,7 @@ module.exports = function(editor, model, viewModel, typeContainer) {
 
     return api;
 };
-},{"../../util/DomUtil":35,"../../util/capitalize":38,"../../util/extendBindable":45,"../DomPositionCache":52,"./EntityRenderer":57,"./RelationRenderer":58,"./SpanRenderer":60}],60:[function(require,module,exports){
+},{"../../util/DomUtil":37,"../../util/capitalize":40,"../../util/extendBindable":47,"../DomPositionCache":54,"./EntityRenderer":59,"./RelationRenderer":60,"./SpanRenderer":62}],62:[function(require,module,exports){
 var getPosition = function(span, textNodeStartPosition) {
 		var startPos = span.begin - textNodeStartPosition;
 		var endPos = span.end - textNodeStartPosition;
@@ -7751,7 +7752,7 @@ module.exports = function(editor, model, typeContainer, entityRenderer, gridRend
 		change: renderBlockOfSpan
 	};
 };
-},{"../../util/DomUtil":35}],61:[function(require,module,exports){
+},{"../../util/DomUtil":37}],63:[function(require,module,exports){
 var // Overlay styles for jsPlubm connections.
 	NORMAL_ARROW = {
 		width: 7,
@@ -7845,7 +7846,7 @@ module.exports = {
 		return switchNormalArrow(connect);
 	}
 };
-},{}],62:[function(require,module,exports){
+},{}],64:[function(require,module,exports){
 // Add or Remove class to indicate selected state.
 module.exports = function() {
     var addClass = function($target) {
@@ -7860,7 +7861,7 @@ module.exports = function() {
         removeClass: removeClass
     };
 }();
-},{}]},{},[15]);
+},{}]},{},[16]);
 //for module pattern with tail.js
 (function(jQuery) { // Application main
 	$(function() {
