@@ -8,7 +8,7 @@ var getPosition = function(paragraph, span, node) {
 		} else if ($parent.hasClass("textae-editor__span")) {
 			pos = span.get(parentId).begin;
 		} else {
-			throw new Error('Can not get position of a node : ' + node);
+			throw new Error('Can not get position of a node : ' + node + ' ' + node.data);
 		}
 
 		var childNodes = node.parentElement.childNodes;
