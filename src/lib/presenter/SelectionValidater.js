@@ -16,12 +16,12 @@ module.exports = function(parser) {
 				parser.hasCharacters(spanConfig, selection);
 		},
 		validateOnText = function(spanConfig, selection) {
-			return commonValidate(spanConfig, selection) &&
-				parser.isFocusNodeInParagraph(selection);
+			return parser.isFocusNodeInParagraph(selection) &&
+				commonValidate(spanConfig, selection);
 		},
 		validateOnSpan = function(spanConfig, selection) {
-			return commonValidate(spanConfig, selection) &&
-				parser.isFocusNodeInSpan(selection);
+			return parser.isFocusNodeInSpan(selection) &&
+				commonValidate(spanConfig, selection);
 		};
 
 	return {
