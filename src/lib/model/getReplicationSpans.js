@@ -27,16 +27,10 @@ var getSpansTheirStringIsSameWith = function(sourceDoc, originSpan) {
 
 		return spanConfig.isDelimiter(precedingChar) && spanConfig.isDelimiter(followingChar);
 	},
-	// Is the candidateSpan is spaned already?
-	isAlreadySpaned = function(allSpans, candidateSpan) {
-		return allSpans.filter(function(existSpan) {
-			return existSpan.begin === candidateSpan.begin &&
-				existSpan.end === candidateSpan.end;
-		}).length > 0;
-	},
 	not = function(val) {
 		return !val;
 	},
+	isAlreadySpaned = require('./isAlreadySpaned'),
 	isBoundaryCrossingWithOtherSpans = require('./isBoundaryCrossingWithOtherSpans');
 
 module.exports = function(dataStore, originSpan, spanConfig) {

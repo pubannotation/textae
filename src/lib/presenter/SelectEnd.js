@@ -10,8 +10,8 @@ var dismissBrowserSelection = require('./dismissBrowserSelection'),
 	removeSpan = function(command, spanId) {
 		return [command.factory.spanRemoveCommand(spanId)];
 	},
-	deferAlert = require('./deferAlert'),
 	isBoundaryCrossingWithOtherSpans = require('../model/isBoundaryCrossingWithOtherSpans'),
+	isAlreadySpaned = require('../model/isAlreadySpaned'),
 	DoCreate = function(model, command, viewModel, typeContainer, spanManipulater, idFactory, selection) {
 		var BLOCK_THRESHOLD = 100,
 			newSpan = spanManipulater.create(selection);
@@ -25,8 +25,7 @@ var dismissBrowserSelection = require('./dismissBrowserSelection'),
 		}
 
 		// The span exists already.
-		var spanId = idFactory.makeSpanId(newSpan);
-		if (model.annotationData.span.get(spanId)) {
+		if (isAlreadySpaned(model.annotationData.span.all(), newSpan)) {
 			return;
 		}
 
@@ -47,6 +46,7 @@ var dismissBrowserSelection = require('./dismissBrowserSelection'),
 
 		command.invoke(commands);
 	},
+	deferAlert = require('./deferAlert'),
 	expandSpanToSelection = function(model, command, spanManipulater, idFactory, spanId, selection) {
 		var newSpan = spanManipulater.expand(spanId, selection);
 
