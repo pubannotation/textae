@@ -110,16 +110,19 @@ module.exports = function(editor, model, spanConfig, command, viewModel, typeCon
 			};
 		}(),
 		getSelectionSnapShot = function() {
-			var selection = window.getSelection();
+			var selection = window.getSelection(),
+				snapShot = {
+					anchorNode: selection.anchorNode,
+					anchorOffset: selection.anchorOffset,
+					focusNode: selection.focusNode,
+					focusOffset: selection.focusOffset,
+					range: selection.getRangeAt(0)
+				};
+
+			dismissBrowserSelection();
 
 			// Return the snap shot of the selection.
-			return {
-				anchorNode: selection.anchorNode,
-				anchorOffset: selection.anchorOffset,
-				focusNode: selection.focusNode,
-				focusOffset: selection.focusOffset,
-				range: selection.getRangeAt(0)
-			};
+			return snapShot;
 		},
 		editEntity = function() {
 			var selectEnd = require('./SelectEnd')(editor, model, spanConfig, command, viewModel, typeContainer),
@@ -207,6 +210,8 @@ module.exports = function(editor, model, spanConfig, command, viewModel, typeCon
 							});
 						};
 
+					dismissBrowserSelection();
+
 					if (ctrlKey) {
 						if ($typeLabel.hasClass('ui-selected')) {
 							deselectEntities($entities);
@@ -224,6 +229,8 @@ module.exports = function(editor, model, spanConfig, command, viewModel, typeCon
 					return labelOrPaneClicked(e.ctrlKey || e.metaKey, $typeLabel, $typeLabel.next().children());
 				},
 				entityClicked = function(e) {
+					dismissBrowserSelection();
+
 					var $target = $(e.target);
 					if (e.ctrlKey || e.metaKey) {
 						model.selectionModel.entity.toggle($target.attr('title'));

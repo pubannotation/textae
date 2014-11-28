@@ -1,5 +1,4 @@
-var dismissBrowserSelection = require('./dismissBrowserSelection'),
-	moveSpan = function(idFactory, command, spanId, newSpan) {
+var moveSpan = function(idFactory, command, spanId, newSpan) {
 		// Do not need move.
 		if (spanId === idFactory.makeSpanId(newSpan)) {
 			return;
@@ -143,7 +142,6 @@ module.exports = function(editor, model, spanConfig, command, viewModel, typeCon
 			if (isValid) {
 				_.compose(expand, create)(data.selection);
 			}
-			dismissBrowserSelection();
 		},
 		selectEndOnSpan = function(data) {
 			var isValid = selectionValidater.validateOnSpan(data.spanConfig, data.selection);
@@ -151,7 +149,6 @@ module.exports = function(editor, model, spanConfig, command, viewModel, typeCon
 			if (isValid) {
 				_.compose(shrink, expand, create)(data.selection);
 			}
-			dismissBrowserSelection();
 		};
 
 	return {
