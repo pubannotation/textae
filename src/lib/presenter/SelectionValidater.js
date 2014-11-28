@@ -10,16 +10,18 @@ module.exports = function(parser) {
 			return false;
 		},
 		commonValidate = function(spanConfig, selection) {
-			// The order is not important.
+			// This order is not important.
 			return showAlertIfOtherSpan(selection) &&
 				parser.isAnchrNodeInSpanOrParagraph(selection) &&
 				parser.hasCharacters(spanConfig, selection);
 		},
 		validateOnText = function(spanConfig, selection) {
+			// This order is important, because showAlertIfOtherSpan is show alert.
 			return parser.isFocusNodeInParagraph(selection) &&
 				commonValidate(spanConfig, selection);
 		},
 		validateOnSpan = function(spanConfig, selection) {
+			// This order is important, because showAlertIfOtherSpan is show alert.
 			return parser.isFocusNodeInSpan(selection) &&
 				commonValidate(spanConfig, selection);
 		};
