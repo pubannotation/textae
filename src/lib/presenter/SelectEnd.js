@@ -36,11 +36,15 @@ var moveSpan = function(idFactory, command, spanId, newSpan) {
 		)];
 
 		if (viewModel.modeAccordingToButton['replicate-auto'].value() && newSpan.end - newSpan.begin <= BLOCK_THRESHOLD) {
-			commands.push(command.factory.spanReplicateCommand(
-				typeContainer.entity.getDefaultType(), {
-					begin: newSpan.begin,
-					end: newSpan.end
-				}));
+			commands.push(
+				command.factory.spanReplicateCommand(
+					typeContainer.entity.getDefaultType(), {
+						begin: newSpan.begin,
+						end: newSpan.end
+					},
+					data.spanConfig
+				)
+			);
 		}
 
 		command.invoke(commands);

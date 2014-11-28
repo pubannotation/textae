@@ -101,7 +101,7 @@ module.exports = function() {
         // Configulation of span
         spanConfig = require('./SpanConfig')(),
         // Users can edit model only via commands. 
-        command = require('./model/Command')(this, model, history, spanConfig),
+        command = require('./model/Command')(this, model, history),
         view = require('./view/View')(this, model),
         presenter = require('./presenter/Presenter')(this, model, view, command, spanConfig),
         //handle user input event.

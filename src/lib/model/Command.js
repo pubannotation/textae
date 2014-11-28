@@ -70,7 +70,7 @@ var invoke = function(commands) {
 
 // A command is an operation by user that is saved as history, and can undo and redo.
 // Users can edit model only via commands. 
-module.exports = function(editor, model, history, spanConfig) {
+module.exports = function(editor, model, history) {
     var factory = function() {
         var idFactory = require('../util/IdFactory')(editor),
             createCommand = function(model, modelType, isSelectable, newModel) {
@@ -148,7 +148,7 @@ module.exports = function(editor, model, history, spanConfig) {
                     }
                 };
             },
-            spanReplicateCommand = function(type, span) {
+            spanReplicateCommand = function(type, span, spanConfig) {
                 var createSpan = _.partial(spanAndDefaultEntryCreateCommand, type),
                     subCommands = getReplicationSpans(model.annotationData, span, spanConfig)
                     .map(createSpan);

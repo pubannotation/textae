@@ -47,7 +47,8 @@ module.exports = function(editor, model, view, command, spanConfig) {
                                 command.invoke(
                                     [command.factory.spanReplicateCommand(
                                         view.typeContainer.entity.getDefaultType(),
-                                        model.annotationData.span.get(spanId)
+                                        model.annotationData.span.get(spanId),
+                                        spanConfig
                                     )]
                                 );
                             } else {
