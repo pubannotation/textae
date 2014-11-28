@@ -33,8 +33,12 @@ var getSpansTheirStringIsSameWith = function(sourceDoc, originSpan) {
 	isAlreadySpaned = require('./isAlreadySpaned'),
 	isBoundaryCrossingWithOtherSpans = require('./isBoundaryCrossingWithOtherSpans');
 
+// Check replications are word or not if spanConfig is set.
 module.exports = function(dataStore, originSpan, spanConfig) {
-	var allSpans = dataStore.span.all();
+	var allSpans = dataStore.span.all(),
+		wordFilter = spanConfig ?
+		_.partial(isWord, dataStore.sourceDoc, spanConfig) :
+		_.identity;
 
 	return getSpansTheirStringIsSameWith(dataStore.sourceDoc, originSpan)
 		.filter(function(span) {
@@ -42,7 +46,7 @@ module.exports = function(dataStore, originSpan, spanConfig) {
 			// Because string of each others are same. End of them are same too.
 			return span.begin !== originSpan.begin;
 		})
-		.filter(_.partial(isWord, dataStore.sourceDoc, spanConfig))
+		.filter(wordFilter)
 		.filter(
 			_.compose(
 				not,
