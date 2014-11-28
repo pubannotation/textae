@@ -11,9 +11,9 @@ var moveSpan = function(idFactory, command, spanId, newSpan) {
 	},
 	isBoundaryCrossingWithOtherSpans = require('../model/isBoundaryCrossingWithOtherSpans'),
 	isAlreadySpaned = require('../model/isAlreadySpaned'),
-	DoCreate = function(model, command, viewModel, typeContainer, spanManipulater, idFactory, selection) {
+	DoCreate = function(model, command, viewModel, typeContainer, spanManipulater, idFactory, data) {
 		var BLOCK_THRESHOLD = 100,
-			newSpan = spanManipulater.create(selection);
+			newSpan = spanManipulater.create(data.selection);
 
 		// The span cross exists spans.
 		if (isBoundaryCrossingWithOtherSpans(
@@ -60,23 +60,23 @@ var moveSpan = function(idFactory, command, spanId, newSpan) {
 
 		command.invoke(moveSpan(idFactory, command, spanId, newSpan));
 	},
-	DoExpand = function(model, selectionParser, expandSpanToSelection, selection) {
+	DoExpand = function(model, selectionParser, expandSpanToSelection, data) {
 		// If a span is selected, it is able to begin drag a span in the span and expand the span.
 		// The focus node should be at one level above the selected node.
-		if (selectionParser.isAnchorInSelectedSpan(selection)) {
+		if (selectionParser.isAnchorInSelectedSpan(data.selection)) {
 			// cf.
 			// 1. one side of a inner span is same with one side of the outside span.
 			// 2. Select an outside span.
 			// 3. Begin Drug from an inner span to out of an outside span. 
 			// Expand the selected span.
-			expandSpanToSelection(model.selectionModel.span.single(), selection);
-		} else if (selectionParser.isAnchorOneDownUnderForcus(selection)) {
+			expandSpanToSelection(model.selectionModel.span.single(), data.selection);
+		} else if (selectionParser.isAnchorOneDownUnderForcus(data.selection)) {
 			// To expand the span , belows are needed:
 			// 1. The anchorNode is in the span.
 			// 2. The foucusNode is out of the span and in the parent of the span.
-			expandSpanToSelection(selection.anchorNode.parentNode.id, selection);
+			expandSpanToSelection(data.selection.anchorNode.parentNode.id, data.selection);
 		} else {
-			return selection;
+			return data;
 		}
 	},
 	shrinkSpanToSelection = function(model, command, spanManipulater, idFactory, spanId, selection) {
@@ -100,20 +100,20 @@ var moveSpan = function(idFactory, command, spanId, newSpan) {
 			removeSpan(command, spanId)
 		);
 	},
-	DoShrink = function(model, selectionParser, doShrinkSpanToSelection, selection) {
-		if (selectionParser.isFocusInSelectedSpan(selection)) {
+	DoShrink = function(model, selectionParser, doShrinkSpanToSelection, data) {
+		if (selectionParser.isFocusInSelectedSpan(data.selection)) {
 			// If a span is selected, it is able to begin drag out of an outer span of the span and shrink the span.
 			// The focus node should be at the selected node.
 			// cf.
 			// 1. Select an inner span.
 			// 2. Begin Drug from out of an outside span to the selected span. 
 			// Shrink the selected span.
-			doShrinkSpanToSelection(model.selectionModel.span.single(), selection);
-		} else if (selectionParser.isForcusOneDownUnderAnchor(selection)) {
+			doShrinkSpanToSelection(model.selectionModel.span.single(), data.selection);
+		} else if (selectionParser.isForcusOneDownUnderAnchor(data.selection)) {
 			// To shrink the span , belows are needed:
 			// 1. The anchorNode out of the span and in the parent of the span.
 			// 2. The foucusNode is in the span.
-			doShrinkSpanToSelection(selection.focusNode.parentNode.id, selection);
+			doShrinkSpanToSelection(data.selection.focusNode.parentNode.id, data.selection);
 		}
 	};
 
@@ -127,11 +127,11 @@ module.exports = function(editor, model, spanConfig, command, viewModel, typeCon
 		doExpand = _.partial(DoExpand, model, selectionParser, doExpandSpanToSelection),
 		doShrinkSpanToSelection = _.partial(shrinkSpanToSelection, model, command, spanManipulater, idFactory),
 		doShrink = _.partial(DoShrink, model, selectionParser, doShrinkSpanToSelection),
-		processSelectionIf = function(doFunc, predicate, selection) {
-			if (selection && predicate(selection)) {
-				return doFunc(selection);
+		processSelectionIf = function(doFunc, predicate, data) {
+			if (data && predicate(data.selection)) {
+				return doFunc(data);
 			}
-			return selection;
+			return data;
 		},
 		create = _.partial(processSelectionIf, doCreate, selectionParser.isInOneParent),
 		expand = _.partial(processSelectionIf, doExpand, selectionParser.isAnchrNodeInSpan),
@@ -140,14 +140,14 @@ module.exports = function(editor, model, spanConfig, command, viewModel, typeCon
 			var isValid = selectionValidater.validateOnText(data.spanConfig, data.selection);
 
 			if (isValid) {
-				_.compose(expand, create)(data.selection);
+				_.compose(expand, create)(data);
 			}
 		},
 		selectEndOnSpan = function(data) {
 			var isValid = selectionValidater.validateOnSpan(data.spanConfig, data.selection);
 
 			if (isValid) {
-				_.compose(shrink, expand, create)(data.selection);
+				_.compose(shrink, expand, create)(data);
 			}
 		};
 
