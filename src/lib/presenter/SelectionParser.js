@@ -42,13 +42,16 @@ module.exports = function(editor, model) {
 			var getParagraph = function($node) {
 					if (hasParagraphs($node)) {
 						return $node;
-					} else {
+					} else if (hasSpan($node)) {
 						return getParagraph($node.parent());
+					} else {
+						return null;
 					}
 				},
 				getParagraphId = function(selection, position) {
-					var $parent = $(selection[position + 'Node'].parentNode);
-					return getParagraph($parent).attr('id');
+					var $parent = $(selection[position + 'Node'].parentNode),
+						$paragraph = getParagraph($parent);
+					return $paragraph && $paragraph.attr('id');
 				};
 
 			return function(selection) {
