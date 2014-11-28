@@ -109,6 +109,18 @@ module.exports = function(editor, model, spanConfig, command, viewModel, typeCon
 				jsPlumbConnectionClickedImpl = selectRelation;
 			};
 		}(),
+		getSelectionSnapShot = function() {
+			var selection = window.getSelection();
+
+			// Return the snap shot of the selection.
+			return {
+				anchorNode: selection.anchorNode,
+				anchorOffset: selection.anchorOffset,
+				focusNode: selection.focusNode,
+				focusOffset: selection.focusOffset,
+				range: selection.getRangeAt(0)
+			};
+		},
 		editEntity = function() {
 			var selectEnd = require('./SelectEnd')(editor, model, spanConfig, command, viewModel, typeContainer),
 				bodyClicked = function() {
@@ -120,7 +132,7 @@ module.exports = function(editor, model, spanConfig, command, viewModel, typeCon
 					} else {
 						selectEnd.onText({
 							spanConfig: spanConfig,
-							selection: selection
+							selection: getSelectionSnapShot()
 						});
 					}
 				},
@@ -176,7 +188,7 @@ module.exports = function(editor, model, spanConfig, command, viewModel, typeCon
 					} else {
 						selectEnd.onSpan({
 							spanConfig: spanConfig,
-							selection: selection
+							selection: getSelectionSnapShot()
 						});
 						// Cancel selection of a paragraph.
 						// And do non propagate the parent span.

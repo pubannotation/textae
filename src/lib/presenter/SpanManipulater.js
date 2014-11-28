@@ -37,12 +37,11 @@ module.exports = function(spanConfig, model) {
             return function(spanId, selection) {
                 model.selectionModel.clear();
 
-                var selectionRange = selection.getRangeAt(0);
                 var anchorNodeRange = document.createRange();
                 anchorNodeRange.selectNode(selection.anchorNode);
                 var focusPosition = selectPosition.getFocusPosition(model.annotationData, selection);
 
-                return getNewSpan(spanId, selectionRange, anchorNodeRange, focusPosition);
+                return getNewSpan(spanId, selection.range, anchorNodeRange, focusPosition);
             };
         }(),
         shortenSpan = function() {
@@ -66,12 +65,11 @@ module.exports = function(spanConfig, model) {
             return function(spanId, selection) {
                 model.selectionModel.clear();
 
-                var selectionRange = selection.getRangeAt(0);
                 var focusNodeRange = document.createRange();
                 focusNodeRange.selectNode(selection.focusNode);
                 var focusPosition = selectPosition.getFocusPosition(model.annotationData, selection);
 
-                return getNewSpan(spanId, selectionRange, focusNodeRange, focusPosition);
+                return getNewSpan(spanId, selection.range, focusNodeRange, focusPosition);
             };
         }();
 
