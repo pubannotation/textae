@@ -13,7 +13,7 @@ var moveSpan = function(idFactory, command, spanId, newSpan) {
 	isAlreadySpaned = require('../model/isAlreadySpaned'),
 	DoCreate = function(model, command, viewModel, typeContainer, spanManipulater, idFactory, data) {
 		var BLOCK_THRESHOLD = 100,
-			newSpan = spanManipulater.create(data.selection);
+			newSpan = spanManipulater.create(data.selection, data.spanConfig);
 
 		// The span cross exists spans.
 		if (isBoundaryCrossingWithOtherSpans(
@@ -50,8 +50,8 @@ var moveSpan = function(idFactory, command, spanId, newSpan) {
 		command.invoke(commands);
 	},
 	deferAlert = require('./deferAlert'),
-	expandSpanToSelection = function(model, command, spanManipulater, idFactory, spanId, selection) {
-		var newSpan = spanManipulater.expand(spanId, selection);
+	expandSpanToSelection = function(model, command, spanManipulater, idFactory, spanId, data) {
+		var newSpan = spanManipulater.expand(spanId, data.selection, data.spanConfig);
 
 		// The span cross exists spans.
 		if (isBoundaryCrossingWithOtherSpans(
@@ -73,18 +73,18 @@ var moveSpan = function(idFactory, command, spanId, newSpan) {
 			// 2. Select an outside span.
 			// 3. Begin Drug from an inner span to out of an outside span. 
 			// Expand the selected span.
-			expandSpanToSelection(model.selectionModel.span.single(), data.selection);
+			expandSpanToSelection(model.selectionModel.span.single(), data);
 		} else if (selectionParser.isAnchorOneDownUnderForcus(data.selection)) {
 			// To expand the span , belows are needed:
 			// 1. The anchorNode is in the span.
 			// 2. The foucusNode is out of the span and in the parent of the span.
-			expandSpanToSelection(data.selection.anchorNode.parentNode.id, data.selection);
+			expandSpanToSelection(data.selection.anchorNode.parentNode.id, data);
 		} else {
 			return data;
 		}
 	},
-	shrinkSpanToSelection = function(model, command, spanManipulater, idFactory, spanId, selection) {
-		var newSpan = spanManipulater.shrink(spanId, selection);
+	shrinkSpanToSelection = function(model, command, spanManipulater, idFactory, spanId, data) {
+		var newSpan = spanManipulater.shrink(spanId, data.selection, data.spanConfig);
 
 		// The span cross exists spans.
 		if (isBoundaryCrossingWithOtherSpans(
@@ -112,19 +112,19 @@ var moveSpan = function(idFactory, command, spanId, newSpan) {
 			// 1. Select an inner span.
 			// 2. Begin Drug from out of an outside span to the selected span. 
 			// Shrink the selected span.
-			doShrinkSpanToSelection(model.selectionModel.span.single(), data.selection);
+			doShrinkSpanToSelection(model.selectionModel.span.single(), data);
 		} else if (selectionParser.isForcusOneDownUnderAnchor(data.selection)) {
 			// To shrink the span , belows are needed:
 			// 1. The anchorNode out of the span and in the parent of the span.
 			// 2. The foucusNode is in the span.
-			doShrinkSpanToSelection(data.selection.focusNode.parentNode.id, data.selection);
+			doShrinkSpanToSelection(data.selection.focusNode.parentNode.id, data);
 		}
 	};
 
-module.exports = function(editor, model, spanConfig, command, viewModel, typeContainer) {
+module.exports = function(editor, model, command, viewModel, typeContainer) {
 	var selectionParser = require('./selectionParser')(editor, model),
 		selectionValidater = require('./SelectionValidater')(selectionParser),
-		spanManipulater = require('./SpanManipulater')(spanConfig, model),
+		spanManipulater = require('./SpanManipulater')(model),
 		idFactory = require('../util/IdFactory')(editor),
 		doCreate = _.partial(DoCreate, model, command, viewModel, typeContainer, spanManipulater, idFactory),
 		doExpandSpanToSelection = _.partial(expandSpanToSelection, model, command, spanManipulater, idFactory),

@@ -125,7 +125,7 @@ module.exports = function(editor, model, spanConfig, command, viewModel, typeCon
 			return snapShot;
 		},
 		editEntity = function() {
-			var selectEnd = require('./SelectEnd')(editor, model, spanConfig, command, viewModel, typeContainer),
+			var selectEnd = require('./SelectEnd')(editor, model, command, viewModel, typeContainer),
 				bodyClicked = function() {
 					var selection = window.getSelection();
 
