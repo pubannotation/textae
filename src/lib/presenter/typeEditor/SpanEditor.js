@@ -11,7 +11,7 @@ var moveSpan = function(idFactory, command, spanId, newSpan) {
 	},
 	isBoundaryCrossingWithOtherSpans = require('../../model/isBoundaryCrossingWithOtherSpans'),
 	isAlreadySpaned = require('../../model/isAlreadySpaned'),
-	DoCreate = function(model, command, viewModel, typeContainer, spanManipulater, idFactory, data) {
+	DoCreate = function(model, command, viewModel, typeContainer, spanManipulater, idFactory, isDetectDelimiterEnable, data) {
 		var BLOCK_THRESHOLD = 100,
 			newSpan = spanManipulater.create(data.selection, data.spanConfig);
 
@@ -42,7 +42,7 @@ var moveSpan = function(idFactory, command, spanId, newSpan) {
 						begin: newSpan.begin,
 						end: newSpan.end
 					},
-					data.spanConfig
+					isDetectDelimiterEnable ? data.spanConfig : null
 				)
 			);
 		}
@@ -120,11 +120,14 @@ var moveSpan = function(idFactory, command, spanId, newSpan) {
 			doShrinkSpanToSelection(data.selection.focusNode.parentNode.id, data);
 		}
 	},
-	SpanEditor = function(editor, model, command, viewModel, typeContainer, spanAdjuster) {
-		var spanManipulater = require('./SpanManipulater')(model, spanAdjuster),
+	SpanEditor = function(editor, model, command, viewModel, typeContainer, isDetectDelimiterEnable) {
+		var delimiterDetectAdjuster = require('../spanAdjuster/delimiterDetectAdjuster'),
+			blankSkipAdjuster = require('../spanAdjuster/blankSkipAdjuster'),
+			spanAdjuster = isDetectDelimiterEnable ? delimiterDetectAdjuster : blankSkipAdjuster,
+			spanManipulater = require('./SpanManipulater')(model, spanAdjuster),
 			selectionParser = require('./selectionParser')(editor, model),
 			idFactory = require('../../util/IdFactory')(editor),
-			doCreate = _.partial(DoCreate, model, command, viewModel, typeContainer, spanManipulater, idFactory),
+			doCreate = _.partial(DoCreate, model, command, viewModel, typeContainer, spanManipulater, idFactory, isDetectDelimiterEnable),
 			doExpandSpanToSelection = _.partial(expandSpanToSelection, model, command, spanManipulater, idFactory),
 			doExpand = _.partial(DoExpand, model, selectionParser, doExpandSpanToSelection),
 			doShrinkSpanToSelection = _.partial(shrinkSpanToSelection, model, command, spanManipulater, idFactory),

@@ -1,10 +1,7 @@
-module.exports = function(editor, model, command, viewModel, typeContainer) {
-	var selectionParser = require('./selectionParser')(editor, model),
+module.exports = function(editor, model) {
+	var spanEditor = null,
+		selectionParser = require('./selectionParser')(editor, model),
 		selectionValidater = require('./SelectionValidater')(selectionParser),
-		delimiterDetectAdjuster = require('../spanAdjuster/delimiterDetectAdjuster'),
-		blankSkipAdjuster = require('../spanAdjuster/blankSkipAdjuster'),
-		spanAdjuster = delimiterDetectAdjuster,
-		spanEditor = require('./SpanEditor')(editor, model, command, viewModel, typeContainer, spanAdjuster),
 		selectEndOfText = function(data) {
 			var isValid = selectionValidater.validateOnText(data.spanConfig, data.selection);
 
@@ -21,6 +18,9 @@ module.exports = function(editor, model, command, viewModel, typeContainer) {
 		};
 
 	return {
+		init: function(command, viewModel, typeContainer, isDetectDelimiterEnable) {
+			spanEditor = require('./SpanEditor')(editor, model, command, viewModel, typeContainer, isDetectDelimiterEnable);
+		},
 		onText: selectEndOfText,
 		onSpan: selectEndOnSpan
 	};

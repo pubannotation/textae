@@ -125,7 +125,7 @@ module.exports = function(editor, model, spanConfig, command, viewModel, typeCon
 			return snapShot;
 		},
 		editEntity = function() {
-			var selectEnd = require('./SelectEnd')(editor, model, command, viewModel, typeContainer),
+			var selectEnd = require('./SelectEnd')(editor, model),
 				bodyClicked = function() {
 					var selection = window.getSelection();
 
@@ -251,6 +251,8 @@ module.exports = function(editor, model, spanConfig, command, viewModel, typeCon
 						typeContainer.entity.isBlock(newType)
 					);
 				};
+
+			selectEnd.init(command, viewModel, typeContainer, true);
 
 			return function() {
 				unbindAllEventhandler()
