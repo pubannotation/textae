@@ -1,12 +1,12 @@
 module.exports = function(model) {
-    var spanAdjuster = require('./SpanAdjuster'),
+    var delimiterDetector = require('./SpanAdjuster'),
         selectPosition = require('./selectPosition'),
         createSpan = function() {
             var toSpanPosition = function(selection, spanConfig) {
                 var positions = selectPosition.toPositions(model.annotationData, selection);
                 return {
-                    begin: spanAdjuster.adjustSpanBeginLong(spanConfig, model.annotationData.sourceDoc, positions.anchorPosition),
-                    end: spanAdjuster.adjustSpanEndLong(spanConfig, model.annotationData.sourceDoc, positions.focusPosition)
+                    begin: delimiterDetector.backFromBegin(spanConfig, model.annotationData.sourceDoc, positions.anchorPosition),
+                    end: delimiterDetector.forwardFromEnd(spanConfig, model.annotationData.sourceDoc, positions.focusPosition)
                 };
             };
 
@@ -22,14 +22,14 @@ module.exports = function(model) {
                 if (selectionRange.compareBoundaryPoints(Range.START_TO_START, anchorNodeRange) < 0) {
                     // expand to the left
                     return {
-                        begin: spanAdjuster.adjustSpanBeginLong(spanConfig, model.annotationData.sourceDoc, focusPosition),
+                        begin: delimiterDetector.backFromBegin(spanConfig, model.annotationData.sourceDoc, focusPosition),
                         end: span.end
                     };
                 } else {
                     // expand to the right
                     return {
                         begin: span.begin,
-                        end: spanAdjuster.adjustSpanEndLong(spanConfig, model.annotationData.sourceDoc, focusPosition)
+                        end: delimiterDetector.forwardFromEnd(spanConfig, model.annotationData.sourceDoc, focusPosition)
                     };
                 }
             };
@@ -51,12 +51,12 @@ module.exports = function(model) {
                     // shorten the right boundary
                     return {
                         begin: span.begin,
-                        end: spanAdjuster.adjustSpanEndShort(spanConfig, model.annotationData.sourceDoc, focusPosition)
+                        end: delimiterDetector.backFromEnd(spanConfig, model.annotationData.sourceDoc, focusPosition)
                     };
                 } else {
                     // shorten the left boundary
                     return {
-                        begin: spanAdjuster.adjustSpanBeginShort(spanConfig, model.annotationData.sourceDoc, focusPosition),
+                        begin: delimiterDetector.forwardFromBegin(spanConfig, model.annotationData.sourceDoc, focusPosition),
                         end: span.end
                     };
                 }

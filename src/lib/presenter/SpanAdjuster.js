@@ -1,84 +1,111 @@
 // adjust the beginning position of a span
-var skipCharacters = function(position, predicate, step) {
-        while (predicate(position)) {
+var skipCharacters = function(toChars, step, str, position, predicate) {
+        while (predicate(toChars(str, position)))
             position += step;
-        }
+
         return position;
     },
-    IsOffsetChar = function(str, offset, predicate) {
-        return function(position) {
-            var c = str.charAt(position + offset);
-            return predicate(c);
-        };
+    getNow = function(str, position) {
+        return str.charAt(position);
     },
-    IsPosPreNonDelimChar = function(spanConfig, sourceDoc) {
-        return function(pos) {
-            return !spanConfig.isDelimiter(sourceDoc.charAt(pos)) &&
-                !spanConfig.isDelimiter(sourceDoc.charAt(pos - 1));
-        };
+    getPrev = function(str, position) {
+        return [str.charAt(position), str.charAt(position - 1)];
     },
-    skipForwadBlank = function(spanConfig, sourceDoc, beginPosition) {
-        var isPosCharBlankChar = new IsOffsetChar(sourceDoc, 0, spanConfig.isBlankCharacter);
-
-        return skipCharacters(beginPosition, isPosCharBlankChar, 1);
+    getNext = function(str, position) {
+        return [str.charAt(position), str.charAt(position + 1)];
     },
-    skipBackBlank = function(spanConfig, sourceDoc, endPosition) {
-        var isPreCharBlankChar = new IsOffsetChar(sourceDoc, -1, spanConfig.isBlankCharacter);
-
-        return skipCharacters(endPosition, isPreCharBlankChar, -1);
+    skipForwadBlank = function(str, position, isBlankCharacter) {
+        return skipCharacters(
+            getNow, 1,
+            str,
+            position,
+            isBlankCharacter
+        );
     },
-    adjustSpanBeginLong = function(spanConfig, sourceDoc, beginPosition) {
-        var isPosPreNonDelimChar = new IsPosPreNonDelimChar(spanConfig, sourceDoc),
-            nonEdgePos = skipForwadBlank(spanConfig, sourceDoc, beginPosition),
-            nonDelimPos = skipCharacters(nonEdgePos, isPosPreNonDelimChar, -1);
-
-        return nonDelimPos;
+    skipBackBlank = function(str, position, isBlankCharacter) {
+        return skipCharacters(
+            getNow, -1,
+            str,
+            position,
+            isBlankCharacter
+        );
     },
-    // adjust the end position of a span
-    adjustSpanEndLong = function(spanConfig, sourceDoc, endPosition) {
-        var isPosCharNonDelimiChar = function(pos) {
-                console.log(sourceDoc.charAt(pos), sourceDoc.charAt(pos + 1));
+    backToDelimiter = function(str, position, isDelimiter) {
+        return skipCharacters(
+            getPrev, -1,
+            str,
+            position,
+            function(chars) {
+                // Proceed the position between two characters as (!delimiter delimiter) || (delimiter !delimiter) || (!delimiter !delimiter).       
+                return !isDelimiter(chars[0]) &&
+                    !isDelimiter(chars[1]);
+            }
+        );
+    },
+    skipToDelimiter = function(str, position, isDelimiter) {
+        return skipCharacters(
+            getNext, 1,
+            str,
+            position,
+            function(chars) {
+                // Proceed the position between two characters as (!delimiter delimiter) || (delimiter !delimiter) || (!delimiter !delimiter).       
                 // Return false to stop an infinite loop when the character undefined.
-                return sourceDoc.charAt(pos) &&
-                    !(spanConfig.isDelimiter(sourceDoc.charAt(pos - 1)) ||
-                        spanConfig.isDelimiter(sourceDoc.charAt(pos)));
-            },
-            nonEdgePos = skipBackBlank(spanConfig, sourceDoc, endPosition),
-            nonDelimPos = skipCharacters(nonEdgePos, isPosCharNonDelimiChar, 1);
+                return str.charAt(chars[1]) &&
+                    !isDelimiter(chars[0]) &&
+                    !isDelimiter(chars[1]);
+            }
+        );
+    },
+    // Proceed the position between two characters as (blank || delimiter)(!delimiter). 
+    isWord = function(isBlankCharacter, isDelimiter, chars) {
+        return !isBlankCharacter(chars[1]) &&
+            !isDelimiter(chars[1]) ||
+            isDelimiter(chars[0]);
+    },
+    skipToWord = function(str, position, isWordEdge) {
+        return skipCharacters(
+            getPrev, 1,
+            str,
+            position,
+            isWordEdge
+        );
+    },
+    backToWord = function(str, position, isWordEdge) {
+        return skipCharacters(
+            getNext, -1,
+            str,
+            position,
+            isWordEdge
+        );
+    },
+    backFromBegin = function(spanConfig, str, beginPosition) {
+        var nonEdgePos = skipForwadBlank(str, beginPosition, spanConfig.isBlankCharacter),
+            nonDelimPos = backToDelimiter(str, nonEdgePos, spanConfig.isDelimiter);
 
         return nonDelimPos;
+    },
+    forwardFromEnd = function(spanConfig, str, nextPosition) {
+        var endPosition = nextPosition - 1,
+            nonEdgePos = skipBackBlank(str, endPosition, spanConfig.isBlankCharacter),
+            nonDelimPos = skipToDelimiter(str, nonEdgePos, spanConfig.isDelimiter);
+
+        return nonDelimPos + 1;
     },
     // adjust the beginning position of a span for shortening
-    adjustSpanBeginShort = function(spanConfig, sourceDoc, beginPosition) {
-        var pos = beginPosition;
-
-        // Proceed the position between two characters as (blank || delimiter)(!delimiter). 
-        while (!spanConfig.isBlankCharacter(sourceDoc.charAt(pos - 1)) &&
-            !spanConfig.isDelimiter(sourceDoc.charAt(pos - 1)) ||
-            spanConfig.isDelimiter(sourceDoc.charAt(pos))
-        ) {
-            pos++;
-        }
-        return pos;
+    forwardFromBegin = function(spanConfig, str, beginPosition) {
+        var isWordEdge = _.partial(isWord, spanConfig.isBlankCharacter, spanConfig.isDelimiter);
+        return skipToWord(str, beginPosition, isWordEdge);
     },
     // adjust the end position of a span for shortening
-    adjustSpanEndShort = function(spanConfig, sourceDoc, endPosition) {
-        var pos = endPosition;
-
-        // Proceed the position between two characters as (blank || delimiter)(!delimiter). 
-        while (!spanConfig.isBlankCharacter(sourceDoc.charAt(pos)) &&
-            !spanConfig.isDelimiter(sourceDoc.charAt(pos)) ||
-            spanConfig.isDelimiter(sourceDoc.charAt(pos - 1))
-        ) {
-            pos--;
-        }
-        return pos;
+    backFromEnd = function(spanConfig, str, nextPosition) {
+        var isWordEdge = _.partial(isWord, spanConfig.isBlankCharacter, spanConfig.isDelimiter);
+        return backToWord(str, nextPosition - 1, isWordEdge) + 1;
     },
-    spanAdjuster = {
-        adjustSpanBeginLong: adjustSpanBeginLong,
-        adjustSpanEndLong: adjustSpanEndLong,
-        adjustSpanBeginShort: adjustSpanBeginShort,
-        adjustSpanEndShort: adjustSpanEndShort
+    delimiterDetector = {
+        backFromBegin: backFromBegin,
+        forwardFromEnd: forwardFromEnd,
+        forwardFromBegin: forwardFromBegin,
+        backFromEnd: backFromEnd
     };
 
-module.exports = spanAdjuster;
+module.exports = delimiterDetector;
