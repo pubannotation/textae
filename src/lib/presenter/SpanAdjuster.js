@@ -37,9 +37,11 @@ var skipCharacters = function(position, predicate, step) {
     // adjust the end position of a span
     adjustSpanEndLong = function(spanConfig, sourceDoc, endPosition) {
         var isPosCharNonDelimiChar = function(pos) {
+                console.log(sourceDoc.charAt(pos), sourceDoc.charAt(pos + 1));
                 // Return false to stop an infinite loop when the character undefined.
                 return sourceDoc.charAt(pos) &&
-                    !spanConfig.isDelimiter(sourceDoc.charAt(pos));
+                    !(spanConfig.isDelimiter(sourceDoc.charAt(pos - 1)) ||
+                        spanConfig.isDelimiter(sourceDoc.charAt(pos)));
             },
             nonEdgePos = skipBackBlank(spanConfig, sourceDoc, endPosition),
             nonDelimPos = skipCharacters(nonEdgePos, isPosCharNonDelimiChar, 1);
@@ -50,7 +52,7 @@ var skipCharacters = function(position, predicate, step) {
     adjustSpanBeginShort = function(spanConfig, sourceDoc, beginPosition) {
         var pos = beginPosition;
 
-        // Proceed the position between two characters as (nonEdge || delimiter)(!delimiter). 
+        // Proceed the position between two characters as (blank || delimiter)(!delimiter). 
         while (!spanConfig.isBlankCharacter(sourceDoc.charAt(pos - 1)) &&
             !spanConfig.isDelimiter(sourceDoc.charAt(pos - 1)) ||
             spanConfig.isDelimiter(sourceDoc.charAt(pos))
@@ -63,7 +65,7 @@ var skipCharacters = function(position, predicate, step) {
     adjustSpanEndShort = function(spanConfig, sourceDoc, endPosition) {
         var pos = endPosition;
 
-        // Proceed the position between two characters as (nonEdge || delimiter)(!delimiter). 
+        // Proceed the position between two characters as (blank || delimiter)(!delimiter). 
         while (!spanConfig.isBlankCharacter(sourceDoc.charAt(pos)) &&
             !spanConfig.isDelimiter(sourceDoc.charAt(pos)) ||
             spanConfig.isDelimiter(sourceDoc.charAt(pos - 1))
