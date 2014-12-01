@@ -34,7 +34,9 @@ var getChar = function(sourceDoc, offset, pos) {
         var isNonEdgeCharacter = bind(spanConfig, 'isNonEdgeCharacter'),
             isPreCharNonEdgeChar = new IsCharNonEdgeChar(spanConfig, sourceDoc, -1),
             isPosCharNonDelimiChar = function(pos) {
-                return !spanConfig.isDelimiter(sourceDoc.charAt(pos));
+                // Return false to stop an infinite loop when the character undefined.
+                return sourceDoc.charAt(pos) &&
+                    !spanConfig.isDelimiter(sourceDoc.charAt(pos));
             },
             nonEdgePos = skipCharacters(isPreCharNonEdgeChar, endPosition, -1),
             nonDelimPos = skipCharacters(isPosCharNonDelimiChar, nonEdgePos, 1);
