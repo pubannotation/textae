@@ -5,7 +5,7 @@ module.exports = function(editor, model, spanConfig, command, viewModel, typeCon
 		getSelectedIdEditable,
 		// The Reference to content to be shown in the pallet.
 		palletConfig = {},
-		pallet = require('../component/Pallet')(),
+		pallet = require('../../component/Pallet')(),
 		hideDialogs = function() {
 			pallet.hide();
 		},

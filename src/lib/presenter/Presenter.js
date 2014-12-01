@@ -6,7 +6,7 @@ module.exports = function(editor, model, view, command, spanConfig) {
             editor.eventEmitter.trigger('textae.editor.select');
             view.viewModel.buttonStateHelper.propagate();
         },
-        typeEditor = require('./TypeEditor')(editor, model, spanConfig, command, view.viewModel, view.typeContainer),
+        typeEditor = require('./typeEditor/TypeEditor')(editor, model, spanConfig, command, view.viewModel, view.typeContainer),
         userEvent = function() {
             var editHandler = function() {
                     var toggleModification = function(modificationType) {

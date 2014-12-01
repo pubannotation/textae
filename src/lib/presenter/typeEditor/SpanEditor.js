@@ -9,8 +9,8 @@ var moveSpan = function(idFactory, command, spanId, newSpan) {
 	removeSpan = function(command, spanId) {
 		return [command.factory.spanRemoveCommand(spanId)];
 	},
-	isBoundaryCrossingWithOtherSpans = require('../model/isBoundaryCrossingWithOtherSpans'),
-	isAlreadySpaned = require('../model/isAlreadySpaned'),
+	isBoundaryCrossingWithOtherSpans = require('../../model/isBoundaryCrossingWithOtherSpans'),
+	isAlreadySpaned = require('../../model/isAlreadySpaned'),
 	DoCreate = function(model, command, viewModel, typeContainer, spanManipulater, idFactory, data) {
 		var BLOCK_THRESHOLD = 100,
 			newSpan = spanManipulater.create(data.selection, data.spanConfig);
@@ -119,44 +119,28 @@ var moveSpan = function(idFactory, command, spanId, newSpan) {
 			// 2. The foucusNode is in the span.
 			doShrinkSpanToSelection(data.selection.focusNode.parentNode.id, data);
 		}
-	};
+	},
+	SpanEditor = function(editor, model, command, viewModel, typeContainer, spanAdjuster) {
+		var spanManipulater = require('./SpanManipulater')(model, spanAdjuster),
+			selectionParser = require('./selectionParser')(editor, model),
+			idFactory = require('../../util/IdFactory')(editor),
+			doCreate = _.partial(DoCreate, model, command, viewModel, typeContainer, spanManipulater, idFactory),
+			doExpandSpanToSelection = _.partial(expandSpanToSelection, model, command, spanManipulater, idFactory),
+			doExpand = _.partial(DoExpand, model, selectionParser, doExpandSpanToSelection),
+			doShrinkSpanToSelection = _.partial(shrinkSpanToSelection, model, command, spanManipulater, idFactory),
+			doShrink = _.partial(DoShrink, model, selectionParser, doShrinkSpanToSelection),
+			processSelectionIf = function(doFunc, predicate, data) {
+				if (data && predicate(data.selection)) {
+					return doFunc(data);
+				}
+				return data;
+			};
 
-module.exports = function(editor, model, command, viewModel, typeContainer) {
-	var selectionParser = require('./selectionParser')(editor, model),
-		selectionValidater = require('./SelectionValidater')(selectionParser),
-		spanManipulater = require('./SpanManipulater')(model),
-		idFactory = require('../util/IdFactory')(editor),
-		doCreate = _.partial(DoCreate, model, command, viewModel, typeContainer, spanManipulater, idFactory),
-		doExpandSpanToSelection = _.partial(expandSpanToSelection, model, command, spanManipulater, idFactory),
-		doExpand = _.partial(DoExpand, model, selectionParser, doExpandSpanToSelection),
-		doShrinkSpanToSelection = _.partial(shrinkSpanToSelection, model, command, spanManipulater, idFactory),
-		doShrink = _.partial(DoShrink, model, selectionParser, doShrinkSpanToSelection),
-		processSelectionIf = function(doFunc, predicate, data) {
-			if (data && predicate(data.selection)) {
-				return doFunc(data);
-			}
-			return data;
-		},
-		create = _.partial(processSelectionIf, doCreate, selectionParser.isInOneParent),
-		expand = _.partial(processSelectionIf, doExpand, selectionParser.isAnchrNodeInSpan),
-		shrink = _.partial(processSelectionIf, doShrink, selectionParser.isFocusNodeInSpan),
-		selectEndOfText = function(data) {
-			var isValid = selectionValidater.validateOnText(data.spanConfig, data.selection);
-
-			if (isValid) {
-				_.compose(expand, create)(data);
-			}
-		},
-		selectEndOnSpan = function(data) {
-			var isValid = selectionValidater.validateOnSpan(data.spanConfig, data.selection);
-
-			if (isValid) {
-				_.compose(shrink, expand, create)(data);
-			}
+		return {
+			create: _.partial(processSelectionIf, doCreate, selectionParser.isInOneParent),
+			expand: _.partial(processSelectionIf, doExpand, selectionParser.isAnchrNodeInSpan),
+			shrink: _.partial(processSelectionIf, doShrink, selectionParser.isFocusNodeInSpan),
 		};
-
-	return {
-		onText: selectEndOfText,
-		onSpan: selectEndOnSpan
 	};
-};
+
+module.exports = SpanEditor;
