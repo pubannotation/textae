@@ -1,18 +1,15 @@
 module.exports = function(editor, model) {
 	var selectPosition = require('./selectPosition'),
 		domUtil = require('../util/DomUtil')(editor),
+		// A span cannot be created include nonEdgeCharacters only.
 		hasCharacters = function(spanConfig, selection) {
 			if (!selection) return false;
 
-			var positions = selectPosition.toPositions(model.annotationData, selection);
+			var positions = selectPosition.toPositions(model.annotationData, selection),
+				selectedString = model.annotationData.sourceDoc.substring(positions.anchorPosition, positions.focusPosition),
+				stringWithoutBlankCharacters = spanConfig.removeBlankChractors(selectedString);
 
-			// A span cannot be created include nonEdgeCharacters only.
-			var stringWithoutNonEdgeCharacters = model.annotationData.sourceDoc.substring(positions.anchorPosition, positions.focusPosition);
-			spanConfig.nonEdgeCharacters.forEach(function(char) {
-				stringWithoutNonEdgeCharacters = stringWithoutNonEdgeCharacters.replace(char, '');
-			});
-
-			return stringWithoutNonEdgeCharacters.length > 0;
+			return stringWithoutBlankCharacters.length > 0;
 		},
 		isInOneParent = function(selection) {
 			// A span can be created at the same parent node.

@@ -1,64 +1,67 @@
+var defaults = {
+	"delimiter characters": [
+		" ",
+		".",
+		"!",
+		"?",
+		",",
+		":",
+		";",
+		"-",
+		"/",
+		"&",
+		"(",
+		")",
+		"{",
+		"}",
+		"[",
+		"]",
+		"+",
+		"*",
+		"\\",
+		"\"",
+		"'",
+		"\n",
+		"–"
+	],
+	"non-edge characters": [
+		" ",
+		"\n"
+	]
+};
+
 module.exports = function() {
-	var defaults = {
-			"delimiter characters": [
-				" ",
-				".",
-				"!",
-				"?",
-				",",
-				":",
-				";",
-				"-",
-				"/",
-				"&",
-				"(",
-				")",
-				"{",
-				"}",
-				"[",
-				"]",
-				"+",
-				"*",
-				"\\",
-				"\"",
-				"'",
-				"\n",
-				"–"
-			],
-			"non-edge characters": [
-				" ",
-				"\n"
-			]
+	var delimiterCharacters = [],
+		blankCharacters = [],
+		set = function(config) {
+			var settings = _.extend({}, defaults, config);
+
+			delimiterCharacters = settings['delimiter characters'];
+			blankCharacters = settings['non-edge characters'];
+			return config;
 		},
-		api = {
-			delimiterCharacters: null,
-			nonEdgeCharacters: null,
-			reset: function() {
-				this.set(defaults);
-			},
-			set: function(config) {
-				var settings = _.extend({}, defaults, config);
-
-				if (settings['delimiter characters'] !== undefined) {
-					api.delimiterCharacters = settings['delimiter characters'];
-				}
-
-				if (settings['non-edge characters'] !== undefined) {
-					api.nonEdgeCharacters = settings['non-edge characters'];
-				}
-
-				return config;
-			},
-			isNonEdgeCharacter: function(char) {
-				return (api.nonEdgeCharacters.indexOf(char) >= 0);
-			},
-			isDelimiter: function(char) {
-				if (api.delimiterCharacters.indexOf('ANY') >= 0) {
-					return 1;
-				}
-				return (api.delimiterCharacters.indexOf(char) >= 0);
+		reset = _.partial(set, defaults),
+		isDelimiter = function(char) {
+			if (delimiterCharacters.indexOf('ANY') >= 0) {
+				return 1;
 			}
+			return delimiterCharacters.indexOf(char) >= 0;
+		},
+		isBlankCharacter = function(char) {
+			return blankCharacters.indexOf(char) >= 0;
+		},
+		removeBlankChractors = function(str) {
+			blankCharacters.forEach(function(char) {
+				str = str.replace(char, '');
+			});
+			return str;
 		};
 
-	return api;
+	return {
+		reset: reset,
+		set: set,
+		isDelimiter: isDelimiter,
+		isBlankCharacter: isBlankCharacter,
+		removeBlankChractors: removeBlankChractors
+	};
 };

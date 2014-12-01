@@ -15,7 +15,7 @@ var getChar = function(sourceDoc, offset, pos) {
         var getOffsetChar = _.partial(getChar, sourceDoc, offset);
 
         return function(position) {
-            return spanConfig.isNonEdgeCharacter(getOffsetChar(position));
+            return spanConfig.isBlankCharacter(getOffsetChar(position));
         };
     },
     adjustSpanBeginLong = function(spanConfig, sourceDoc, beginPosition) {
@@ -31,7 +31,7 @@ var getChar = function(sourceDoc, offset, pos) {
     },
     // adjust the end position of a span
     adjustSpanEndLong = function(spanConfig, sourceDoc, endPosition) {
-        var isNonEdgeCharacter = bind(spanConfig, 'isNonEdgeCharacter'),
+        var isBlankCharacter = bind(spanConfig, 'isBlankCharacter'),
             isPreCharNonEdgeChar = new IsCharNonEdgeChar(spanConfig, sourceDoc, -1),
             isPosCharNonDelimiChar = function(pos) {
                 // Return false to stop an infinite loop when the character undefined.
@@ -48,7 +48,7 @@ var getChar = function(sourceDoc, offset, pos) {
         var pos = beginPosition;
 
         // Proceed the position between two characters as (nonEdge || delimiter)(!delimiter). 
-        while (!spanConfig.isNonEdgeCharacter(sourceDoc.charAt(pos - 1)) &&
+        while (!spanConfig.isBlankCharacter(sourceDoc.charAt(pos - 1)) &&
             !spanConfig.isDelimiter(sourceDoc.charAt(pos - 1)) ||
             spanConfig.isDelimiter(sourceDoc.charAt(pos))
         ) {
@@ -61,7 +61,7 @@ var getChar = function(sourceDoc, offset, pos) {
         var pos = endPosition;
 
         // Proceed the position between two characters as (nonEdge || delimiter)(!delimiter). 
-        while (!spanConfig.isNonEdgeCharacter(sourceDoc.charAt(pos)) &&
+        while (!spanConfig.isBlankCharacter(sourceDoc.charAt(pos)) &&
             !spanConfig.isDelimiter(sourceDoc.charAt(pos)) ||
             spanConfig.isDelimiter(sourceDoc.charAt(pos - 1))
         ) {
