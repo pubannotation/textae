@@ -122,12 +122,12 @@ var getMousePoint = function() {
                     return editor === selected;
                 }).forEach(function(others) {
                     others.removeClass(activeClass);
-                    console.log('deactive', others.editorId);
+                    // console.log('deactive', others.editorId);
                 });
 
                 // Add activeClass to the selected.
                 selected.addClass(activeClass);
-                console.log('active', selected.editorId);
+                // console.log('active', selected.editorId);
             },
             editorList = [],
             selected = null,
