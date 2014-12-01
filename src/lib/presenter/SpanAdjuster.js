@@ -1,45 +1,48 @@
 // adjust the beginning position of a span
-var getChar = function(sourceDoc, offset, pos) {
-        return sourceDoc.charAt(pos + offset);
-    },
-    skipCharacters = function(predicate, startPositios, step) {
-        while (predicate(startPositios)) {
-            startPositios += step;
+var skipCharacters = function(position, predicate, step) {
+        while (predicate(position)) {
+            position += step;
         }
-        return startPositios;
+        return position;
     },
-    bind = function(obj, functionName) {
-        return obj[functionName].bind(obj);
-    },
-    IsCharNonEdgeChar = function(spanConfig, sourceDoc, offset) {
-        var getOffsetChar = _.partial(getChar, sourceDoc, offset);
-
+    IsOffsetChar = function(str, offset, predicate) {
         return function(position) {
-            return spanConfig.isBlankCharacter(getOffsetChar(position));
+            var c = str.charAt(position + offset);
+            return predicate(c);
         };
     },
+    IsPosPreNonDelimChar = function(spanConfig, sourceDoc) {
+        return function(pos) {
+            return !spanConfig.isDelimiter(sourceDoc.charAt(pos)) &&
+                !spanConfig.isDelimiter(sourceDoc.charAt(pos - 1));
+        };
+    },
+    skipForwadBlank = function(spanConfig, sourceDoc, beginPosition) {
+        var isPosCharBlankChar = new IsOffsetChar(sourceDoc, 0, spanConfig.isBlankCharacter);
+
+        return skipCharacters(beginPosition, isPosCharBlankChar, 1);
+    },
+    skipBackBlank = function(spanConfig, sourceDoc, endPosition) {
+        var isPreCharBlankChar = new IsOffsetChar(sourceDoc, -1, spanConfig.isBlankCharacter);
+
+        return skipCharacters(endPosition, isPreCharBlankChar, -1);
+    },
     adjustSpanBeginLong = function(spanConfig, sourceDoc, beginPosition) {
-        var isPosCharNonEdgeChar = new IsCharNonEdgeChar(spanConfig, sourceDoc, 0),
-            isPosPreNonDelimChar = function(pos) {
-                return !spanConfig.isDelimiter(getChar(sourceDoc, 0, pos)) &&
-                    !spanConfig.isDelimiter(getChar(sourceDoc, -1, pos));
-            },
-            nonEdgePos = skipCharacters(isPosCharNonEdgeChar, beginPosition, 1),
-            nonDelimPos = skipCharacters(isPosPreNonDelimChar, nonEdgePos, -1);
+        var isPosPreNonDelimChar = new IsPosPreNonDelimChar(spanConfig, sourceDoc),
+            nonEdgePos = skipForwadBlank(spanConfig, sourceDoc, beginPosition),
+            nonDelimPos = skipCharacters(nonEdgePos, isPosPreNonDelimChar, -1);
 
         return nonDelimPos;
     },
     // adjust the end position of a span
     adjustSpanEndLong = function(spanConfig, sourceDoc, endPosition) {
-        var isBlankCharacter = bind(spanConfig, 'isBlankCharacter'),
-            isPreCharNonEdgeChar = new IsCharNonEdgeChar(spanConfig, sourceDoc, -1),
-            isPosCharNonDelimiChar = function(pos) {
+        var isPosCharNonDelimiChar = function(pos) {
                 // Return false to stop an infinite loop when the character undefined.
                 return sourceDoc.charAt(pos) &&
                     !spanConfig.isDelimiter(sourceDoc.charAt(pos));
             },
-            nonEdgePos = skipCharacters(isPreCharNonEdgeChar, endPosition, -1),
-            nonDelimPos = skipCharacters(isPosCharNonDelimiChar, nonEdgePos, 1);
+            nonEdgePos = skipBackBlank(spanConfig, sourceDoc, endPosition),
+            nonDelimPos = skipCharacters(nonEdgePos, isPosCharNonDelimiChar, 1);
 
         return nonDelimPos;
     },
