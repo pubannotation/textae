@@ -14,7 +14,7 @@ var skipCharacters = function(toChars, step, str, position, predicate) {
     getNext = function(str, position) {
         return [str.charAt(position), str.charAt(position + 1)];
     },
-    skipForwadBlank = function(str, position, isBlankCharacter) {
+    skipForwardBlank = function(str, position, isBlankCharacter) {
         return skipCharacters(
             getNow, 1,
             str,
@@ -78,34 +78,47 @@ var skipCharacters = function(toChars, step, str, position, predicate) {
             isWordEdge
         );
     },
-    backFromBegin = function(spanConfig, str, beginPosition) {
-        var nonEdgePos = skipForwadBlank(str, beginPosition, spanConfig.isBlankCharacter),
+    backFromBegin = function(str, beginPosition, spanConfig) {
+        var nonEdgePos = skipForwardBlank(str, beginPosition, spanConfig.isBlankCharacter),
             nonDelimPos = backToDelimiter(str, nonEdgePos, spanConfig.isDelimiter);
 
         return nonDelimPos;
     },
-    forwardFromEnd = function(spanConfig, str, nextPosition) {
-        var endPosition = nextPosition - 1,
-            nonEdgePos = skipBackBlank(str, endPosition, spanConfig.isBlankCharacter),
+    forwardFromEnd = function(str, endPosition, spanConfig) {
+        var nonEdgePos = skipBackBlank(str, endPosition, spanConfig.isBlankCharacter),
             nonDelimPos = skipToDelimiter(str, nonEdgePos, spanConfig.isDelimiter);
 
-        return nonDelimPos + 1;
+        return nonDelimPos;
     },
     // adjust the beginning position of a span for shortening
-    forwardFromBegin = function(spanConfig, str, beginPosition) {
+    forwardFromBegin = function(str, beginPosition, spanConfig) {
         var isWordEdge = _.partial(isWord, spanConfig.isBlankCharacter, spanConfig.isDelimiter);
         return skipToWord(str, beginPosition, isWordEdge);
     },
     // adjust the end position of a span for shortening
-    backFromEnd = function(spanConfig, str, nextPosition) {
+    backFromEnd = function(str, endPosition, spanConfig) {
         var isWordEdge = _.partial(isWord, spanConfig.isBlankCharacter, spanConfig.isDelimiter);
-        return backToWord(str, nextPosition - 1, isWordEdge) + 1;
+        return backToWord(str, endPosition, isWordEdge);
     },
     delimiterDetector = {
         backFromBegin: backFromBegin,
         forwardFromEnd: forwardFromEnd,
         forwardFromBegin: forwardFromBegin,
-        backFromEnd: backFromEnd
+        backFromEnd: backFromEnd,
+        blankSkipper: {
+            backFromBegin: function(str, position, spanConfig) {
+                return skipForwardBlank(str, position, spanConfig.isBlankCharacter);
+            },
+            forwardFromEnd: function(str, position, spanConfig) {
+                return skipBackBlank(str, position, spanConfig.isBlankCharacter);
+            },
+            forwardFromBegin: function(str, position, spanConfig) {
+                return skipForwardBlank(str, position, spanConfig.isBlankCharacter);
+            },
+            backFromEnd: function(str, position, spanConfig) {
+                return skipBackBlank(str, position, spanConfig.isBlankCharacter);
+            }
+        }
     };
 
 module.exports = delimiterDetector;
