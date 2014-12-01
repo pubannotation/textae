@@ -75,26 +75,11 @@ var skipCharacters = require('./skipCharacters'),
     backFromEnd = function(str, endPosition, spanConfig) {
         var isWordEdge = _.partial(isWord, spanConfig.isBlankCharacter, spanConfig.isDelimiter);
         return backToWord(str, endPosition, isWordEdge);
-    },
-    delimiterDetector = {
-        backFromBegin: backFromBegin,
-        forwardFromEnd: forwardFromEnd,
-        forwardFromBegin: forwardFromBegin,
-        backFromEnd: backFromEnd,
-        blankSkipper: {
-            backFromBegin: function(str, position, spanConfig) {
-                return skipBlank.forward(str, position, spanConfig.isBlankCharacter);
-            },
-            forwardFromEnd: function(str, position, spanConfig) {
-                return skipBlank.back(str, position, spanConfig.isBlankCharacter);
-            },
-            forwardFromBegin: function(str, position, spanConfig) {
-                return skipBlank.forward(str, position, spanConfig.isBlankCharacter);
-            },
-            backFromEnd: function(str, position, spanConfig) {
-                return skipBlank.back(str, position, spanConfig.isBlankCharacter);
-            }
-        }
     };
 
-module.exports = delimiterDetector;
+module.exports = {
+    backFromBegin: backFromBegin,
+    forwardFromEnd: forwardFromEnd,
+    forwardFromBegin: forwardFromBegin,
+    backFromEnd: backFromEnd
+};

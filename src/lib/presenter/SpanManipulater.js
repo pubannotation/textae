@@ -1,6 +1,7 @@
 module.exports = function(model) {
-    var delimiterDetector = require('./delimiterDetector'),
-        spanAdjuster = delimiterDetector,
+    var delimiterDetectAdjuster = require('./spanAdjuster/delimiterDetectAdjuster'),
+        blankSkipAdjuster = require('./spanAdjuster/blankSkipAdjuster'),
+        spanAdjuster = delimiterDetectAdjuster,
         selectPosition = require('./selectPosition'),
         createSpan = function() {
             var toSpanPosition = function(selection, spanConfig) {
