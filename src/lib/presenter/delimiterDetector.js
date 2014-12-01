@@ -1,34 +1,10 @@
-// adjust the beginning position of a span
-var skipCharacters = function(toChars, step, str, position, predicate) {
-        while (predicate(toChars(str, position)))
-            position += step;
-
-        return position;
-    },
-    getNow = function(str, position) {
-        return str.charAt(position);
-    },
+var skipCharacters = require('./skipCharacters'),
+    skipBlank = require('./skipBlank'),
     getPrev = function(str, position) {
         return [str.charAt(position), str.charAt(position - 1)];
     },
     getNext = function(str, position) {
         return [str.charAt(position), str.charAt(position + 1)];
-    },
-    skipForwardBlank = function(str, position, isBlankCharacter) {
-        return skipCharacters(
-            getNow, 1,
-            str,
-            position,
-            isBlankCharacter
-        );
-    },
-    skipBackBlank = function(str, position, isBlankCharacter) {
-        return skipCharacters(
-            getNow, -1,
-            str,
-            position,
-            isBlankCharacter
-        );
     },
     backToDelimiter = function(str, position, isDelimiter) {
         return skipCharacters(
@@ -79,13 +55,13 @@ var skipCharacters = function(toChars, step, str, position, predicate) {
         );
     },
     backFromBegin = function(str, beginPosition, spanConfig) {
-        var nonEdgePos = skipForwardBlank(str, beginPosition, spanConfig.isBlankCharacter),
+        var nonEdgePos = skipBlank.forward(str, beginPosition, spanConfig.isBlankCharacter),
             nonDelimPos = backToDelimiter(str, nonEdgePos, spanConfig.isDelimiter);
 
         return nonDelimPos;
     },
     forwardFromEnd = function(str, endPosition, spanConfig) {
-        var nonEdgePos = skipBackBlank(str, endPosition, spanConfig.isBlankCharacter),
+        var nonEdgePos = skipBlank.back(str, endPosition, spanConfig.isBlankCharacter),
             nonDelimPos = skipToDelimiter(str, nonEdgePos, spanConfig.isDelimiter);
 
         return nonDelimPos;
@@ -107,16 +83,16 @@ var skipCharacters = function(toChars, step, str, position, predicate) {
         backFromEnd: backFromEnd,
         blankSkipper: {
             backFromBegin: function(str, position, spanConfig) {
-                return skipForwardBlank(str, position, spanConfig.isBlankCharacter);
+                return skipBlank.forward(str, position, spanConfig.isBlankCharacter);
             },
             forwardFromEnd: function(str, position, spanConfig) {
-                return skipBackBlank(str, position, spanConfig.isBlankCharacter);
+                return skipBlank.back(str, position, spanConfig.isBlankCharacter);
             },
             forwardFromBegin: function(str, position, spanConfig) {
-                return skipForwardBlank(str, position, spanConfig.isBlankCharacter);
+                return skipBlank.forward(str, position, spanConfig.isBlankCharacter);
             },
             backFromEnd: function(str, position, spanConfig) {
-                return skipBackBlank(str, position, spanConfig.isBlankCharacter);
+                return skipBlank.back(str, position, spanConfig.isBlankCharacter);
             }
         }
     };
