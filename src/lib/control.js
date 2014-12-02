@@ -100,6 +100,7 @@ module.exports = function($control) {
         }, {
             'replicate': 'Replicate span annotation [R]',
             'replicate-auto': 'Auto replicate (Toggle)',
+            'detect-boundary-mode': 'Detect Boundary [B]',
             'relation-edit-mode': 'Edit Relation [F]'
         }, {
             'entity': 'New entity [E]',

@@ -31,9 +31,10 @@ var reduce2hash = require('../util/reduce2hash'),
 		};
 	},
 	buttonList = [
+		'detect-boundary-mode',
+		'negation',
 		'replicate-auto',
 		'relation-edit-mode',
-		'negation',
 		'speculation'
 	],
 	propagateStateOf = function(buttons) {
@@ -52,6 +53,9 @@ module.exports = function() {
 		buttons = buttonList.map(toButton),
 		propagateStateOfAllButtons = _.partial(propagateStateOf, buttons),
 		buttonHash = buttons.reduce(reduce2hash, {});
+
+	// default pushed;
+	buttonHash['detect-boundary-mode'].value(true);
 
 	return _.extend(
 		buttonHash,

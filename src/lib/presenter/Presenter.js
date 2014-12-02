@@ -181,8 +181,18 @@ module.exports = function(editor, model, view, command, spanConfig) {
                             }
                         },
                         showSettingDialog: require('./SettingDialog')(editor, editMode),
+                        toggleDetectBoundaryMode: function() {
+                            // TODO
+                            // 1. update typeEdit
+                            // 2. change replicate parameter 
+                            view.viewModel.modeAccordingToButton['detect-boundary-mode'].toggle();
+                            if (view.viewModel.modeAccordingToButton['detect-boundary-mode'].value()) {
+                                console.log('detect-boundary-mode off');
+                            } else {
+                                console.log('detect-boundary-mode on');
+                            }
+                        },
                         toggleRelationEditMode: function() {
-                            // ビューモードを切り替える
                             if (view.viewModel.modeAccordingToButton['relation-edit-mode'].value()) {
                                 editMode.toInstance();
                             } else {
@@ -252,6 +262,7 @@ module.exports = function(editor, model, view, command, spanConfig) {
             cancelSelect: userEvent.viewHandler.cancelSelect,
             selectLeftSpan: userEvent.viewHandler.selectLeftSpan,
             selectRightSpan: userEvent.viewHandler.selectRightSpan,
+            toggleDetectBoundaryMode: userEvent.viewHandler.toggleDetectBoundaryMode,
             toggleRelationEditMode: userEvent.viewHandler.toggleRelationEditMode,
             negation: userEvent.editHandler.negation,
             speculation: userEvent.editHandler.speculation,
