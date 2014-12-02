@@ -11,7 +11,7 @@ var moveSpan = function(idFactory, command, spanId, newSpan) {
 	},
 	isBoundaryCrossingWithOtherSpans = require('../../model/isBoundaryCrossingWithOtherSpans'),
 	isAlreadySpaned = require('../../model/isAlreadySpaned'),
-	DoCreate = function(model, command, viewModel, typeContainer, spanManipulater, idFactory, isDetectDelimiterEnable, data) {
+	DoCreate = function(model, command, typeContainer, spanManipulater, idFactory, isDetectDelimiterEnable, isReplicateAuto, data) {
 		var BLOCK_THRESHOLD = 100,
 			newSpan = spanManipulater.create(data.selection, data.spanConfig);
 
@@ -35,14 +35,14 @@ var moveSpan = function(idFactory, command, spanId, newSpan) {
 			}
 		)];
 
-		if (viewModel.modeAccordingToButton['replicate-auto'].value() && newSpan.end - newSpan.begin <= BLOCK_THRESHOLD) {
+		if (isReplicateAuto && newSpan.end - newSpan.begin <= BLOCK_THRESHOLD) {
 			commands.push(
 				command.factory.spanReplicateCommand(
 					typeContainer.entity.getDefaultType(), {
 						begin: newSpan.begin,
 						end: newSpan.end
 					},
-					isDetectDelimiterEnable ? data.spanConfig : null
+					isDetectDelimiterEnable ? data.spanConfig.isDelimiter : null
 				)
 			);
 		}
@@ -120,14 +120,14 @@ var moveSpan = function(idFactory, command, spanId, newSpan) {
 			doShrinkSpanToSelection(data.selection.focusNode.parentNode.id, data);
 		}
 	},
-	SpanEditor = function(editor, model, command, viewModel, typeContainer, isDetectDelimiterEnable) {
+	SpanEditor = function(editor, model, command, typeContainer, isDetectDelimiterEnable, isReplicateAuto) {
 		var delimiterDetectAdjuster = require('../spanAdjuster/delimiterDetectAdjuster'),
 			blankSkipAdjuster = require('../spanAdjuster/blankSkipAdjuster'),
 			spanAdjuster = isDetectDelimiterEnable ? delimiterDetectAdjuster : blankSkipAdjuster,
 			spanManipulater = require('./SpanManipulater')(model, spanAdjuster),
 			selectionParser = require('./selectionParser')(editor, model),
 			idFactory = require('../../util/IdFactory')(editor),
-			doCreate = _.partial(DoCreate, model, command, viewModel, typeContainer, spanManipulater, idFactory, isDetectDelimiterEnable),
+			doCreate = _.partial(DoCreate, model, command, typeContainer, spanManipulater, idFactory, isDetectDelimiterEnable, isReplicateAuto),
 			doExpandSpanToSelection = _.partial(expandSpanToSelection, model, command, spanManipulater, idFactory),
 			doExpand = _.partial(DoExpand, model, selectionParser, doExpandSpanToSelection),
 			doShrinkSpanToSelection = _.partial(shrinkSpanToSelection, model, command, spanManipulater, idFactory),

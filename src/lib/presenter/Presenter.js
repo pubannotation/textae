@@ -10,45 +10,53 @@ module.exports = function(editor, model, view, command, spanConfig) {
         userEvent = function() {
             var editHandler = function() {
                     var toggleModification = function(modificationType) {
-                        var isModificationType = function(modification) {
-                                return modification.pred === modificationType;
-                            },
-                            getSpecificModification = function(id) {
-                                return model.annotationData
-                                    .getModificationOf(id)
-                                    .filter(isModificationType);
-                            },
-                            commands,
-                            has = view.viewModel.modeAccordingToButton[modificationType.toLowerCase()].value();
+                            var isModificationType = function(modification) {
+                                    return modification.pred === modificationType;
+                                },
+                                getSpecificModification = function(id) {
+                                    return model.annotationData
+                                        .getModificationOf(id)
+                                        .filter(isModificationType);
+                                },
+                                commands,
+                                has = view.viewModel.modeAccordingToButton[modificationType.toLowerCase()].value();
 
-                        if (has) {
-                            commands = typeEditor.getSelectedIdEditable().map(function(id) {
-                                var modification = getSpecificModification(id)[0];
-                                return command.factory.modificationRemoveCommand(modification.id);
-                            });
-                        } else {
-                            commands = _.reject(typeEditor.getSelectedIdEditable(), function(id) {
-                                return getSpecificModification(id).length > 0;
-                            }).map(function(id) {
-                                return command.factory.modificationCreateCommand({
-                                    obj: id,
-                                    pred: modificationType
+                            if (has) {
+                                commands = typeEditor.getSelectedIdEditable().map(function(id) {
+                                    var modification = getSpecificModification(id)[0];
+                                    return command.factory.modificationRemoveCommand(modification.id);
                                 });
-                            });
-                        }
+                            } else {
+                                commands = _.reject(typeEditor.getSelectedIdEditable(), function(id) {
+                                    return getSpecificModification(id).length > 0;
+                                }).map(function(id) {
+                                    return command.factory.modificationCreateCommand({
+                                        obj: id,
+                                        pred: modificationType
+                                    });
+                                });
+                            }
 
-                        command.invoke(commands);
-                    };
+                            command.invoke(commands);
+                        },
+                        getDetectBoundaryFunc = function() {
+                            if (view.viewModel.modeAccordingToButton['detect-boundary-mode'].value())
+                                return spanConfig.isDelimiter;
+                            else
+                                return null;
+                        };
 
                     return {
                         replicate: function() {
-                            var spanId = model.selectionModel.span.single();
+                            var spanId = model.selectionModel.span.single(),
+                                detectBoundaryFunc = getDetectBoundaryFunc();
+
                             if (spanId) {
                                 command.invoke(
                                     [command.factory.spanReplicateCommand(
                                         view.typeContainer.entity.getDefaultType(),
                                         model.annotationData.span.get(spanId),
-                                        spanConfig
+                                        detectBoundaryFunc
                                     )]
                                 );
                             } else {
@@ -182,15 +190,7 @@ module.exports = function(editor, model, view, command, spanConfig) {
                         },
                         showSettingDialog: require('./SettingDialog')(editor, editMode),
                         toggleDetectBoundaryMode: function() {
-                            // TODO
-                            // 1. update typeEdit
-                            // 2. change replicate parameter 
                             view.viewModel.modeAccordingToButton['detect-boundary-mode'].toggle();
-                            if (view.viewModel.modeAccordingToButton['detect-boundary-mode'].value()) {
-                                console.log('detect-boundary-mode off');
-                            } else {
-                                console.log('detect-boundary-mode on');
-                            }
                         },
                         toggleRelationEditMode: function() {
                             if (view.viewModel.modeAccordingToButton['relation-edit-mode'].value()) {

@@ -148,9 +148,9 @@ module.exports = function(editor, model, history) {
                     }
                 };
             },
-            spanReplicateCommand = function(type, span, spanConfig) {
+            spanReplicateCommand = function(type, span, detectBoundaryFunc) {
                 var createSpan = _.partial(spanAndDefaultEntryCreateCommand, type),
-                    subCommands = getReplicationSpans(model.annotationData, span, spanConfig)
+                    subCommands = getReplicationSpans(model.annotationData, span, detectBoundaryFunc)
                     .map(createSpan);
 
                 return {

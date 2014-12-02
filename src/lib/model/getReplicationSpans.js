@@ -21,11 +21,11 @@ var getSpansTheirStringIsSameWith = function(sourceDoc, originSpan) {
 	},
 	// The preceding charactor and the following of a word charactor are delimiter.
 	// For example, 't' ,a part of 'that', is not same with an origin span when it is 't'. 
-	isWord = function(sourceDoc, spanConfig, candidateSpan) {
+	isWord = function(sourceDoc, detectBoundaryFunc, candidateSpan) {
 		var precedingChar = sourceDoc.charAt(candidateSpan.begin - 1);
 		var followingChar = sourceDoc.charAt(candidateSpan.end);
 
-		return spanConfig.isDelimiter(precedingChar) && spanConfig.isDelimiter(followingChar);
+		return detectBoundaryFunc(precedingChar) && detectBoundaryFunc(followingChar);
 	},
 	not = function(val) {
 		return !val;
@@ -34,10 +34,10 @@ var getSpansTheirStringIsSameWith = function(sourceDoc, originSpan) {
 	isBoundaryCrossingWithOtherSpans = require('./isBoundaryCrossingWithOtherSpans');
 
 // Check replications are word or not if spanConfig is set.
-module.exports = function(dataStore, originSpan, spanConfig) {
+module.exports = function(dataStore, originSpan, detectBoundaryFunc) {
 	var allSpans = dataStore.span.all(),
-		wordFilter = spanConfig ?
-		_.partial(isWord, dataStore.sourceDoc, spanConfig) :
+		wordFilter = detectBoundaryFunc ?
+		_.partial(isWord, dataStore.sourceDoc, detectBoundaryFunc) :
 		_.identity;
 
 	return getSpansTheirStringIsSameWith(dataStore.sourceDoc, originSpan)

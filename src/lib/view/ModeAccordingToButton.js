@@ -1,8 +1,9 @@
 var reduce2hash = require('../util/reduce2hash'),
 	extendBindable = require('../util/extendBindable'),
-	Button = function(eventEmitter, buttonName) {
+	Button = function(buttonName) {
 		// Button state is true when the button is pushed.
-		var state = false,
+		var emitter = extendBindable({}),
+			state = false,
 			value = function(newValue) {
 				if (newValue !== undefined) {
 					state = newValue;
@@ -17,18 +18,18 @@ var reduce2hash = require('../util/reduce2hash'),
 			},
 			// Propagate button state to the tool.
 			propagate = function() {
-				eventEmitter.trigger('textae.control.button.push', {
+				emitter.trigger('change', {
 					buttonName: buttonName,
 					state: state
 				});
 			};
 
-		return {
+		return _.extend({
 			name: buttonName,
 			value: value,
 			toggle: toggle,
 			propagate: propagate
-		};
+		}, emitter);
 	},
 	buttonList = [
 		'detect-boundary-mode',
@@ -37,29 +38,38 @@ var reduce2hash = require('../util/reduce2hash'),
 		'relation-edit-mode',
 		'speculation'
 	],
-	propagateStateOf = function(buttons) {
+	propagateStateOf = function(emitter, buttons) {
 		buttons
 			.map(function(button) {
-				return button.propagate;
+				return {
+					buttonName: button.name,
+					state: button.value()
+				};
 			})
-			.forEach(function(propagate) {
-				propagate();
+			.forEach(function(data) {
+				emitter.trigger('change', data);
 			});
 	};
 
 module.exports = function() {
-	var eventEmitter = extendBindable({}),
-		toButton = _.partial(Button, eventEmitter),
-		buttons = buttonList.map(toButton),
-		propagateStateOfAllButtons = _.partial(propagateStateOf, buttons),
+	var emitter = extendBindable({}),
+		buttons = buttonList.map(Button),
+		propagateStateOfAllButtons = _.partial(propagateStateOf, emitter, buttons),
 		buttonHash = buttons.reduce(reduce2hash, {});
 
 	// default pushed;
 	buttonHash['detect-boundary-mode'].value(true);
 
+	// Bind events.
+	buttons.forEach(function(button) {
+		button.bind('change', function(data) {
+			emitter.trigger('change', data);
+		});
+	});
+
 	return _.extend(
 		buttonHash,
-		eventEmitter, {
+		emitter, {
 			propagate: propagateStateOfAllButtons
 		}
 	);

@@ -179,6 +179,7 @@ module.exports = function() {
                     },
                     keyApiMap = {
                         'A': command.redo,
+                        'B': presenter.event.toggleDetectBoundaryMode,
                         'C': presenter.event.copyEntities,
                         'D': presenter.event.removeSelectedElements,
                         'DEL': presenter.event.removeSelectedElements,

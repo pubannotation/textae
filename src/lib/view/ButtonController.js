@@ -6,7 +6,7 @@ var extendBindable = require('../util/extendBindable'),
 			},
 			eventEmitter = extendBindable({}),
 			propagate = function() {
-				eventEmitter.trigger('textae.control.buttons.change', states);
+				eventEmitter.trigger('change', states);
 			};
 
 		return _.extend(eventEmitter, {
@@ -130,11 +130,11 @@ module.exports = function(editor, model, clipBoard) {
 		);
 
 	// Proragate events.
-	modeAccordingToButton.bind('textae.control.button.push', function(data) {
+	modeAccordingToButton.bind('change', function(data) {
 		editor.eventEmitter.trigger('textae.control.button.push', data);
 	});
 
-	buttonEnableStates.bind('textae.control.buttons.change', function(data) {
+	buttonEnableStates.bind('change', function(data) {
 		editor.eventEmitter.trigger('textae.control.buttons.change', data);
 	});
 

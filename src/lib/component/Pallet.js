@@ -87,9 +87,9 @@ module.exports = function() {
 						return $pallet;
 					}
 				},
-				appendRows = function(palletConfig, $pallet) {
+				appendRows = function(typeContainer, $pallet) {
 					return $pallet.find("table")
-						.append(new PalletRow(palletConfig.typeContainer))
+						.append(new PalletRow(typeContainer))
 						.end();
 				},
 				setMaxHeight = function($pallet) {
@@ -100,9 +100,9 @@ module.exports = function() {
 						return $pallet.css('overflow-y', '');
 					}
 				},
-				show = function($pallet, palletConfig, point) {
-					if (palletConfig.typeContainer && palletConfig.typeContainer.getSortedNames().length > 0) {
-						var fillPallet = _.compose(setMaxHeight, _.partial(appendRows, palletConfig), reuseOldPallet);
+				show = function($pallet, typeContainer, point) {
+					if (typeContainer && typeContainer.getSortedNames().length > 0) {
+						var fillPallet = _.compose(setMaxHeight, _.partial(appendRows, typeContainer), reuseOldPallet);
 
 						// Move the pallet to mouse.
 						fillPallet($pallet)
