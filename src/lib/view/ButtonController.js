@@ -1,72 +1,18 @@
-var ModeAccordingToButton = function(editor) {
-		var reduce2hash = require('../util/reduce2hash'),
-			Button = function(buttonName) {
-				// Button state is true when the button is pushed.
-				var state = false,
-					value = function(newValue) {
-						if (newValue !== undefined) {
-							state = newValue;
-							propagate();
-						} else {
-							return state;
-						}
-					},
-					toggle = function toggleButton() {
-						state = !state;
-						propagate();
-					},
-					// Propagate button state to the tool.
-					propagate = function() {
-						editor.eventEmitter.trigger('textae.control.button.push', {
-							buttonName: buttonName,
-							state: state
-						});
-					};
-
-				return {
-					name: buttonName,
-					value: value,
-					toggle: toggle,
-					propagate: propagate
-				};
-			};
-
-		var buttons = [
-				'replicate-auto',
-				'relation-edit-mode',
-				'negation',
-				'speculation'
-			].map(Button),
-			propagateStateOfAllButtons = function() {
-				buttons
-					.map(function(button) {
-						return button.propagate;
-					})
-					.forEach(function(propagate) {
-						propagate();
-					});
-			};
-
-		// The public object.
-		var api = buttons.reduce(reduce2hash, {});
-
-		return _.extend(api, {
-			propagate: propagateStateOfAllButtons
-		});
-	},
-	ButtonEnableStates = function(editor) {
+var extendBindable = require('../util/extendBindable'),
+	ButtonEnableStates = function() {
 		var states = {},
 			set = function(button, enable) {
 				states[button] = enable;
 			},
+			eventEmitter = extendBindable({}),
 			propagate = function() {
-				editor.eventEmitter.trigger('textae.control.buttons.change', states);
+				eventEmitter.trigger('textae.control.buttons.change', states);
 			};
 
-		return {
+		return _.extend(eventEmitter, {
 			set: set,
 			propagate: propagate
-		};
+		});
 	},
 	UpdateButtonState = function(model, buttonEnableStates, clipBoard) {
 		// Short cut name 
@@ -168,9 +114,9 @@ var ModeAccordingToButton = function(editor) {
 
 module.exports = function(editor, model, clipBoard) {
 	// Save state of push control buttons.
-	var modeAccordingToButton = new ModeAccordingToButton(editor),
+	var modeAccordingToButton = require('./ModeAccordingToButton')(),
 		// Save enable/disable state of contorol buttons.
-		buttonEnableStates = new ButtonEnableStates(editor),
+		buttonEnableStates = new ButtonEnableStates(),
 		updateButtonState = new UpdateButtonState(model, buttonEnableStates, clipBoard),
 		// Change push/unpush of buttons of modifications.
 		updateModificationButtons = new UpdateModificationButtons(model, modeAccordingToButton),
@@ -182,6 +128,15 @@ module.exports = function(editor, model, clipBoard) {
 			updateButtonState,
 			updateModificationButtons
 		);
+
+	// Proragate events.
+	modeAccordingToButton.bind('textae.control.button.push', function(data) {
+		editor.eventEmitter.trigger('textae.control.button.push', data);
+	});
+
+	buttonEnableStates.bind('textae.control.buttons.change', function(data) {
+		editor.eventEmitter.trigger('textae.control.buttons.change', data);
+	});
 
 	return {
 		// Modes accoding to buttons of control.
