@@ -82,10 +82,10 @@ var Controller = function(editor, history, presenter, view) {
         return require('./component/DataAccessObject')(editor, confirmDiscardChangeMessage)
             .bind('save', function() {
                 history.saved();
-                statusBar.showFlashMessage("annotation saved");
+                toastr.success("annotation saved");
             })
             .bind('save error', function() {
-                statusBar.showFlashMessage("could not save");
+                toastr.error("could not save");
             })
             .bind('load', function(data) {
                 setAnnotationFunc(data.annotation);

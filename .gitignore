@@ -2,4 +2,5 @@ node_modules/
 *.dev_data
 src/lib/bundle.js
 src/vender/jquery/
+src/vender/toastr/
 src/vender/underscore/

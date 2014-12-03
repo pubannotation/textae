@@ -15,21 +15,9 @@ module.exports = function(editor) {
 	var getMessageAreaFromEditor = _.partial(getMessageAreaFrom, editor),
 		updateSoruceInfo = function(inlineElement) {
 			if (inlineElement !== '') getMessageAreaFromEditor().html('Source: ' + inlineElement);
-		},
-		showFlashMessage = function(message) {
-			var origin = getMessageAreaFromEditor().html();
-			getMessageAreaFromEditor()
-				.html(message)
-				.fadeIn()
-				.fadeOut(5000, function() {
-					getMessageAreaFromEditor()
-						.html(origin)
-						.removeAttr('style');
-				});
 		};
 
 	return {
-		updateSoruceInfo: updateSoruceInfo,
-		showFlashMessage: showFlashMessage
+		updateSoruceInfo: updateSoruceInfo
 	};
 };
