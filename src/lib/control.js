@@ -99,8 +99,8 @@ module.exports = function($control) {
             'redo': 'Redo [A]'
         }, {
             'replicate': 'Replicate span annotation [R]',
-            'replicate-auto': 'Auto replicate (Toggle)',
-            'detect-boundary-mode': 'Detect Boundary [B]',
+            'replicate-auto': 'Auto replicate',
+            'boundary-detection': 'Boundary Detection [B]',
             'relation-edit-mode': 'Edit Relation [F]'
         }, {
             'entity': 'New entity [E]',

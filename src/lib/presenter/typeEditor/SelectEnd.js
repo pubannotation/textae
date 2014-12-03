@@ -21,7 +21,7 @@ module.exports = function(editor, model, command, viewModel, typeContainer) {
 		selectEndOnTextImpl = null,
 		selectEndOnSpanImpl = null,
 		changeSpanEditorAccordingToButtons = function() {
-			var isDetectDelimiterEnable = viewModel.modeAccordingToButton['detect-boundary-mode'].value(),
+			var isDetectDelimiterEnable = viewModel.modeAccordingToButton['boundary-detection'].value(),
 				isReplicateAuto = viewModel.modeAccordingToButton['replicate-auto'].value(),
 				spanEditor = new SpanEditor(editor, model, command, typeContainer, isDetectDelimiterEnable, isReplicateAuto);
 
@@ -32,7 +32,7 @@ module.exports = function(editor, model, command, viewModel, typeContainer) {
 	// Change spanEditor according to the  buttons state.
 	changeSpanEditorAccordingToButtons();
 
-	viewModel.modeAccordingToButton['detect-boundary-mode']
+	viewModel.modeAccordingToButton['boundary-detection']
 		.bind('change', changeSpanEditorAccordingToButtons);
 
 	viewModel.modeAccordingToButton['replicate-auto']

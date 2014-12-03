@@ -32,7 +32,7 @@ var reduce2hash = require('../util/reduce2hash'),
 		}, emitter);
 	},
 	buttonList = [
-		'detect-boundary-mode',
+		'boundary-detection',
 		'negation',
 		'replicate-auto',
 		'relation-edit-mode',
@@ -58,7 +58,7 @@ module.exports = function() {
 		buttonHash = buttons.reduce(reduce2hash, {});
 
 	// default pushed;
-	buttonHash['detect-boundary-mode'].value(true);
+	buttonHash['boundary-detection'].value(true);
 
 	// Bind events.
 	buttons.forEach(function(button) {

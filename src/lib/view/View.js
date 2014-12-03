@@ -13,7 +13,7 @@ var delay150 = function(func) {
             setSettingButtonEnable = _.partial(buttonController.buttonStateHelper.enabled, 'setting', true),
             setControlButtonForRelation = function(isRelation) {
                 buttonController.buttonStateHelper.enabled('replicate-auto', !isRelation);
-                buttonController.buttonStateHelper.enabled('detect-boundary-mode', !isRelation);
+                buttonController.buttonStateHelper.enabled('boundary-detection', !isRelation);
                 buttonController.modeAccordingToButton['relation-edit-mode'].value(isRelation);
             },
             // This notify is off at relation-edit-mode.

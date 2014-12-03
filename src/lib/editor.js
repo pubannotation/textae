@@ -207,7 +207,7 @@ module.exports = function() {
                         'textae.control.button.redo.click': command.redo,
                         'textae.control.button.replicate.click': presenter.event.replicate,
                         'textae.control.button.replicate_auto.click': view.viewModel.modeAccordingToButton['replicate-auto'].toggle,
-                        'textae.control.button.detect_boundary_mode.click': presenter.event.toggleDetectBoundaryMode,
+                        'textae.control.button.boundary_detection.click': presenter.event.toggleDetectBoundaryMode,
                         'textae.control.button.relation_edit_mode.click': presenter.event.toggleRelationEditMode,
                         'textae.control.button.entity.click': presenter.event.createEntity,
                         'textae.control.button.change_label.click': presenter.event.newLabel,

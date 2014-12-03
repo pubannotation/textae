@@ -90,8 +90,8 @@
     background: url("./images/btn_replicate_auto_16.png");
 }
 
-.textae-control__detect-boundary-mode-button {
-    background: url("./images/btn_detect_boundary_16.png");
+.textae-control__boundary-detection-button {
+    background: url("./images/btn_boundary_detection_16.png");
 }
 
 .textae-control__relation-edit-mode-button {

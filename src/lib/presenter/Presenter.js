@@ -40,7 +40,7 @@ module.exports = function(editor, model, view, command, spanConfig) {
                             command.invoke(commands);
                         },
                         getDetectBoundaryFunc = function() {
-                            if (view.viewModel.modeAccordingToButton['detect-boundary-mode'].value())
+                            if (view.viewModel.modeAccordingToButton['boundary-detection'].value())
                                 return spanConfig.isDelimiter;
                             else
                                 return null;
@@ -190,11 +190,11 @@ module.exports = function(editor, model, view, command, spanConfig) {
                         },
                         showSettingDialog: require('./SettingDialog')(editor, editMode),
                         toggleDetectBoundaryMode: function() {
-                            view.viewModel.modeAccordingToButton['detect-boundary-mode'].toggle();
+                            view.viewModel.modeAccordingToButton['boundary-detection'].toggle();
                         },
                         toggleRelationEditMode: function() {
                             if (view.viewModel.modeAccordingToButton['relation-edit-mode'].value()) {
-                                editMode.toInstance();
+                        editMode.toInstance();
                             } else {
                                 editMode.toRelation();
                             }
