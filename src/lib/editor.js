@@ -1,42 +1,5 @@
-var Controller = function(editor, history, presenter, view) {
-        return {
-            init: function(confirmDiscardChangeMessage) {
-                // Prevent the default selection by the browser with shift keies.
-                editor.on('mousedown', function(e) {
-                    if (e.shiftKey) {
-                        return false;
-                    }
-                }).on('mousedown', '.textae-editor__type', function() {
-                    // Prevent a selection of a type by the double-click.
-                    return false;
-                }).on('mousedown', '.textae-editor__body__text-box__paragraph-margin', function(e) {
-                    // Prevent a selection of a margin of a paragraph by the double-click.
-                    if (e.target.className === 'textae-editor__body__text-box__paragraph-margin') return false;
-                });
-
-                // Bind user input event to handler
-                editor
-                    .on('mouseup', '.textae-editor__body,.textae-editor__span,.textae-editor__grid,.textae-editor__entity', presenter.event.editorSelected)
-                    .on('mouseenter', '.textae-editor__entity', function(e) {
-                        view.hoverRelation.on($(this).attr('title'));
-                    }).on('mouseleave', '.textae-editor__entity', function(e) {
-                        view.hoverRelation.off($(this).attr('title'));
-                    });
-
-                history.bind('change', function(state) {
-                    //change button state
-                    view.viewModel.buttonStateHelper.enabled("write", state.hasAnythingToSave);
-                    view.viewModel.buttonStateHelper.enabled("undo", state.hasAnythingToUndo);
-                    view.viewModel.buttonStateHelper.enabled("redo", state.hasAnythingToRedo);
-
-                    //change leaveMessage show
-                    window.onbeforeunload = state.hasAnythingToSave ? function() {
-                        return confirmDiscardChangeMessage;
-                    } : null;
-                });
-            }
-        };
-    },
+var Controller = require('./Controller'),
+    createDaoForEditor = require('./createDaoForEditor'),
     getParams = function(editor) {
         // Read model parameters from url parameters and html attributes.
         var params = _.extend(require('./util/getUrlParameters')(location.search),
@@ -78,19 +41,8 @@ var Controller = function(editor, history, presenter, view) {
     handle = function(map, key, value) {
         if (map[key]) map[key](value);
     },
-    createDaoForEditor = function(editor, confirmDiscardChangeMessage, history, statusBar, setAnnotationFunc) {
-        return require('./component/DataAccessObject')(editor, confirmDiscardChangeMessage)
-            .bind('save', function() {
-                history.saved();
-                toastr.success("annotation saved");
-            })
-            .bind('save error', function() {
-                toastr.error("could not save");
-            })
-            .bind('load', function(data) {
-                setAnnotationFunc(data.annotation);
-                statusBar.updateSoruceInfo(data.source);
-            });
+    getStatusBar = function(editor, satus_bar) {
+        return require('./component/StatusBar')(editor);
     };
 
 module.exports = function() {
@@ -149,8 +101,7 @@ module.exports = function() {
                 resetData(annotation);
             }
         },
-        statusBar = require('./component/StatusBar')(this),
-        loadAnnotation = function(params, dataAccessObject) {
+        loadAnnotation = function(statusBar, params, dataAccessObject) {
             var annotation = params.annotation;
             if (annotation) {
                 if (annotation.inlineAnnotation) {
@@ -162,10 +113,6 @@ module.exports = function() {
                     dataAccessObject.getAnnotationFromServer(annotation.url);
                 }
             }
-        },
-        loadOuterFiles = function(params, dataAccessObject) {
-            presenter.setMode(params.mode);
-            loadAnnotation(params, dataAccessObject);
         };
 
     // public funcitons of editor
@@ -238,15 +185,17 @@ module.exports = function() {
                 controller.init(CONFIRM_DISCARD_CHANGE_MESSAGE);
                 presenter.init();
 
-                var dataAccessObject = createDaoForEditor(
-                    editor,
-                    CONFIRM_DISCARD_CHANGE_MESSAGE,
-                    history,
-                    statusBar,
-                    _.partial(setAnnotation, params.config)
-                );
+                var statusBar = getStatusBar(editor, params.satus_bar),
+                    dataAccessObject = createDaoForEditor(
+                        editor,
+                        CONFIRM_DISCARD_CHANGE_MESSAGE,
+                        history,
+                        statusBar,
+                        _.partial(setAnnotation, params.config)
+                    );
 
-                loadOuterFiles(params, dataAccessObject);
+                presenter.setMode(params.mode);
+                loadAnnotation(statusBar, params, dataAccessObject);
 
                 updateAPIs(dataAccessObject);
             };
