@@ -9,6 +9,6 @@ module.exports = function(editor, confirmDiscardChangeMessage, history, statusBa
 		})
 		.bind('load', function(data) {
 			setAnnotationFunc(data.annotation);
-			statusBar.updateSoruceInfo(data.source);
+			statusBar.status(data.source);
 		});
 };

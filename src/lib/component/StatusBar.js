@@ -1,23 +1,23 @@
-var getMessageAreaFrom = function($parent) {
-	var $messageArea = $parent.find('.textae-editor__footer .textae-editor__footer__message');
-	if ($messageArea.length === 0) {
-		$messageArea = $('<div>').addClass('textae-editor__footer__message');
+var getAreaIn = function($parent) {
+	var $area = $parent.find('.textae-editor__footer .textae-editor__footer__message');
+	if ($area.length === 0) {
+		$area = $('<div>').addClass('textae-editor__footer__message');
 		var $footer = $('<div>')
 			.addClass('textae-editor__footer')
-			.append($messageArea);
+			.append($area);
 		$parent.append($footer);
 	}
 
-	return $messageArea;
+	return $area;
 };
 
 module.exports = function(editor) {
-	var getMessageAreaFromEditor = _.partial(getMessageAreaFrom, editor),
-		updateSoruceInfo = function(inlineElement) {
-			if (inlineElement !== '') getMessageAreaFromEditor().html('Source: ' + inlineElement);
+	var getAreaInEditor = _.partial(getAreaIn, editor),
+		status = function(message) {
+			if (message !== '') getAreaInEditor().html('Source: ' + message);
 		};
 
 	return {
-		updateSoruceInfo: updateSoruceInfo
+		status: status
 	};
 };

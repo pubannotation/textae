@@ -1,33 +1,6 @@
 var Controller = require('./Controller'),
     createDaoForEditor = require('./createDaoForEditor'),
-    getParams = function(editor) {
-        // Read model parameters from url parameters and html attributes.
-        var params = _.extend(require('./util/getUrlParameters')(location.search),
-            // Html attributes preced url parameters.
-            {
-                config: editor.attr('config')
-            });
-
-        // 'source' prefer to 'target'
-        params.target = editor.attr('source') || editor.attr('target') || params.source || params.target;
-
-        // Mode is prior in the url parameter.
-        if (!params.mode && editor.attr('mode')) {
-            params.mode = editor.attr('mode');
-        }
-
-        // Read Html text and clear it.  
-        var inlineAnnotation = editor.text();
-        editor.empty();
-
-        // Set annotaiton parameters.
-        params.annotation = {
-            inlineAnnotation: inlineAnnotation,
-            url: params.target
-        };
-
-        return params;
-    },
+    getParams = require('./getParams'),
     setTypeConfig = function(view, config) {
         view.typeContainer.setDefinedEntityTypes(config ? config['entity types'] : []);
         view.typeContainer.setDefinedRelationTypes(config ? config['relation types'] : []);
@@ -41,8 +14,12 @@ var Controller = require('./Controller'),
     handle = function(map, key, value) {
         if (map[key]) map[key](value);
     },
-    getStatusBar = function(editor, satus_bar) {
-        return require('./component/StatusBar')(editor);
+    getStatusBar = function(editor, status_bar) {
+        if (status_bar === 'on')
+            return require('./component/StatusBar')(editor);
+        return {
+            status: function() {}
+        };
     };
 
 module.exports = function() {
@@ -107,7 +84,7 @@ module.exports = function() {
                 if (annotation.inlineAnnotation) {
                     // Set an inline annotation.
                     setAnnotation(params.config, JSON.parse(annotation.inlineAnnotation));
-                    statusBar.updateSoruceInfo('inline');
+                    statusBar.status('inline');
                 } else if (annotation.url) {
                     // Load an annotation from server.
                     dataAccessObject.getAnnotationFromServer(annotation.url);
@@ -185,7 +162,7 @@ module.exports = function() {
                 controller.init(CONFIRM_DISCARD_CHANGE_MESSAGE);
                 presenter.init();
 
-                var statusBar = getStatusBar(editor, params.satus_bar),
+                var statusBar = getStatusBar(editor, params.status_bar),
                     dataAccessObject = createDaoForEditor(
                         editor,
                         CONFIRM_DISCARD_CHANGE_MESSAGE,
