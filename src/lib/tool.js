@@ -15,46 +15,7 @@ var getMousePoint = function() {
             return lastMousePoint;
         };
     }(),
-    // Observe key-input events and convert events to readable code.
-    observeKeybordInput = function(keyInputHandler) {
-        // Declare keyApiMap of control keys 
-        var controlKeyEventMap = {
-            27: 'ESC',
-            46: 'DEL',
-            37: 'LEFT',
-            39: 'RIGHT'
-        };
-
-        var convertKeyEvent = function(keyCode) {
-            if (65 <= keyCode && keyCode <= 90) {
-                // From a to z, convert 'A' to 'Z'
-                return String.fromCharCode(keyCode);
-            } else if (controlKeyEventMap[keyCode]) {
-                // Control keys, like ESC, DEL ...
-                return controlKeyEventMap[keyCode];
-            }
-        };
-
-        var getKeyCode = function(e) {
-            return e.keyCode;
-        };
-
-        // EventHandlers for key-input.
-        var eventHandler = _.compose(keyInputHandler, convertKeyEvent, getKeyCode);
-
-        // Observe key-input
-        var onKeyup = eventHandler;
-        $(document).on('keyup', function(event) {
-            onKeyup(event);
-        });
-
-        // Disable/Enable key-input When a jquery-ui dialog is opened/closeed
-        $('body').on('dialogopen', '.ui-dialog', function() {
-            onKeyup = function() {};
-        }).on('dialogclose', '.ui-dialog', function() {
-            onKeyup = eventHandler;
-        });
-    },
+    KeybordInputConverter = require('./tool/KeybordInputConverter'),
     // Observe window-resize event and redraw all editors. 
     observeWindowResize = function(editors) {
         // Bind resize event
@@ -66,29 +27,16 @@ var getMousePoint = function() {
             });
         }, 500));
     },
-    openDialog = function() {
-        var ToolDialog = require('./util/dialog/GetToolDialog'),
-            helpDialog = new ToolDialog(
-                'textae-control__help',
-                'Help (Keyboard short-cuts)', {
-                    height: 313,
-                    width: 523
-                },
-                $('<div>').addClass('textae-tool__key-help'));
-
-        return {
-            help: helpDialog.open
-        };
-    }(),
+    helpDialog = require('./component/HelpDialog')(),
     ControlBar = function() {
         var control = null;
         return {
             setInstance: function(instance) {
                 control = instance;
             },
-            changeButtonState: function(disableButtons) {
+            changeButtonState: function(enableButtons) {
                 if (control) {
-                    control.updateAllButtonEnableState(disableButtons);
+                    control.updateAllButtonEnableState(enableButtons);
                 }
             },
             push: function(buttonName, push) {
@@ -96,53 +44,10 @@ var getMousePoint = function() {
             }
         };
     },
-    EditorContainer = function(controlBar) {
-        var switchActiveClass = function(editors, selected) {
-                var activeClass = 'textae-editor--active';
-
-                // Remove activeClass from others than selected.
-                _.reject(editors, function(editor) {
-                    return editor === selected;
-                }).forEach(function(others) {
-                    others.removeClass(activeClass);
-                    // console.log('deactive', others.editorId);
-                });
-
-                // Add activeClass to the selected.
-                selected.addClass(activeClass);
-                // console.log('active', selected.editorId);
-            },
-            editorList = [],
-            selected = null,
-            select = function(editor) {
-                switchActiveClass(editorList, editor);
-                selected = editor;
-            },
-            // A container of editors that is extended from Array. 
-            editors = {
-                push: function(editor) {
-                    editorList.push(editor);
-                },
-                getNewId: function() {
-                    return 'editor' + editorList.length;
-                },
-                getSelected: function() {
-                    return selected;
-                },
-                select: select,
-                selectFirst: function() {
-                    select(editorList[0]);
-                    controlBar.changeButtonState();
-                },
-                forEach: editorList.forEach.bind(editorList)
-            };
-
-        return editors;
-    },
-    KeyInputHandler = function(openDialog, editors) {
+    KeyInputHandler = function(helpDialog, editors) {
         return function(key) {
             if (key === 'H') {
-                openDialog.help();
+                helpDialog();
             } else {
                 if (editors.getSelected()) {
                     editors.getSelected().api.handleKeyInput(key, getMousePoint());
@@ -150,11 +55,11 @@ var getMousePoint = function() {
             }
         };
     },
-    ControlButtonHandler = function(openDialog, editors) {
+    ControlButtonHandler = function(helpDialog, editors) {
         return function(name) {
             switch (name) {
                 case 'textae.control.button.help.click':
-                    openDialog.help();
+                    helpDialog();
                     break;
                 default:
                     if (editors.getSelected()) {
@@ -167,14 +72,15 @@ var getMousePoint = function() {
 // The tool manages interactions between components. 
 module.exports = function() {
     var controlBar = new ControlBar(),
-        editors = new EditorContainer(controlBar),
-        handleKeyInput = new KeyInputHandler(openDialog, editors),
-        handleControlButtonClick = new ControlButtonHandler(openDialog, editors);
+        editors = require('./tool/EditorContainer')(),
+        handleControlButtonClick = new ControlButtonHandler(helpDialog, editors);
 
     // Start observation at document ready, because this function may be called before body is loaded.
     $(function() {
+        var handleKeyInput = new KeyInputHandler(helpDialog, editors);
+
+        new KeybordInputConverter().on('input', handleKeyInput);
         observeWindowResize(editors);
-        observeKeybordInput(handleKeyInput);
     });
 
     return {
@@ -197,8 +103,8 @@ module.exports = function() {
                 .bind('textae.control.button.push', function(data) {
                     controlBar.push(data.buttonName, data.state);
                 })
-                .bind('textae.control.buttons.change', function(disableButtons) {
-                    if (editor === editors.getSelected()) controlBar.changeButtonState(disableButtons);
+                .bind('textae.control.buttons.change', function(enableButtons) {
+                    if (editor === editors.getSelected()) controlBar.changeButtonState(enableButtons);
                 });
 
             $.extend(editor, {
@@ -208,6 +114,9 @@ module.exports = function() {
         },
         // Select the first editor
         selectFirstEditor: function() {
+            // Disable all buttons.
+            controlBar.changeButtonState();
+
             editors.selectFirst();
         },
     };

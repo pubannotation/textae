@@ -130,9 +130,9 @@ module.exports = function($control) {
             'help': true
         },
         // Update all button state when an instance of textEditor is changed.
-        updateAllButtonEnableState = function(disableButtons) {
-            // Make buttons in a disableButtons disalbed, and other buttons in the buttonContainer enabled.
-            enableButton(_.extend({}, buttonContainer, alwaysEnables, disableButtons));
+        updateAllButtonEnableState = function(enableButtons) {
+            // Make buttons in a enableButtons enabled, and other buttons in the buttonContainer disabled.
+            enableButton(_.extend({}, buttonContainer, alwaysEnables, enableButtons));
         },
         // Update button push state.
         updateButtonPushState = function(bottonName, isPushed) {
