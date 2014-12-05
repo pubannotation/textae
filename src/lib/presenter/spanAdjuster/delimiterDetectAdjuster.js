@@ -13,7 +13,8 @@ var skipCharacters = require('./skipCharacters'),
             position,
             function(chars) {
                 // Proceed the position between two characters as (!delimiter delimiter) || (delimiter !delimiter) || (!delimiter !delimiter).       
-                return !isDelimiter(chars[0]) &&
+                return chars[1] &&
+                    !isDelimiter(chars[0]) &&
                     !isDelimiter(chars[1]);
             }
         );
@@ -26,7 +27,7 @@ var skipCharacters = require('./skipCharacters'),
             function(chars) {
                 // Proceed the position between two characters as (!delimiter delimiter) || (delimiter !delimiter) || (!delimiter !delimiter).       
                 // Return false to stop an infinite loop when the character undefined.
-                return str.charAt(chars[1]) &&
+                return chars[1] &&
                     !isDelimiter(chars[0]) &&
                     !isDelimiter(chars[1]);
             }
