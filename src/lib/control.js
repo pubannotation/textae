@@ -2,7 +2,10 @@ var TitleDom = function() {
         return $('<span>')
             .addClass('textae-control__title')
             .append($('<a>')
-                .attr('href', 'http://bionlp.dbcls.jp/textae/')
+                .attr({
+                    href: 'http://textae.pubannotation.org/',
+                    target: '_blank'
+                })
                 .text('TextAE'));
     },
     ButtonDom = function(buttonType, title) {
