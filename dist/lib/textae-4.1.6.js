@@ -404,7 +404,310 @@ module.exports = asap;
 
 
 }).call(this,require("JkpR2F"))
-},{"JkpR2F":4}],4:[function(require,module,exports){
+},{"JkpR2F":5}],4:[function(require,module,exports){
+// Copyright Joyent, Inc. and other Node contributors.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a
+// copy of this software and associated documentation files (the
+// "Software"), to deal in the Software without restriction, including
+// without limitation the rights to use, copy, modify, merge, publish,
+// distribute, sublicense, and/or sell copies of the Software, and to permit
+// persons to whom the Software is furnished to do so, subject to the
+// following conditions:
+//
+// The above copyright notice and this permission notice shall be included
+// in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+// USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+function EventEmitter() {
+  this._events = this._events || {};
+  this._maxListeners = this._maxListeners || undefined;
+}
+module.exports = EventEmitter;
+
+// Backwards-compat with node 0.10.x
+EventEmitter.EventEmitter = EventEmitter;
+
+EventEmitter.prototype._events = undefined;
+EventEmitter.prototype._maxListeners = undefined;
+
+// By default EventEmitters will print a warning if more than 10 listeners are
+// added to it. This is a useful default which helps finding memory leaks.
+EventEmitter.defaultMaxListeners = 10;
+
+// Obviously not all Emitters should be limited to 10. This function allows
+// that to be increased. Set to zero for unlimited.
+EventEmitter.prototype.setMaxListeners = function(n) {
+  if (!isNumber(n) || n < 0 || isNaN(n))
+    throw TypeError('n must be a positive number');
+  this._maxListeners = n;
+  return this;
+};
+
+EventEmitter.prototype.emit = function(type) {
+  var er, handler, len, args, i, listeners;
+
+  if (!this._events)
+    this._events = {};
+
+  // If there is no 'error' event listener then throw.
+  if (type === 'error') {
+    if (!this._events.error ||
+        (isObject(this._events.error) && !this._events.error.length)) {
+      er = arguments[1];
+      if (er instanceof Error) {
+        throw er; // Unhandled 'error' event
+      }
+      throw TypeError('Uncaught, unspecified "error" event.');
+    }
+  }
+
+  handler = this._events[type];
+
+  if (isUndefined(handler))
+    return false;
+
+  if (isFunction(handler)) {
+    switch (arguments.length) {
+      // fast cases
+      case 1:
+        handler.call(this);
+        break;
+      case 2:
+        handler.call(this, arguments[1]);
+        break;
+      case 3:
+        handler.call(this, arguments[1], arguments[2]);
+        break;
+      // slower
+      default:
+        len = arguments.length;
+        args = new Array(len - 1);
+        for (i = 1; i < len; i++)
+          args[i - 1] = arguments[i];
+        handler.apply(this, args);
+    }
+  } else if (isObject(handler)) {
+    len = arguments.length;
+    args = new Array(len - 1);
+    for (i = 1; i < len; i++)
+      args[i - 1] = arguments[i];
+
+    listeners = handler.slice();
+    len = listeners.length;
+    for (i = 0; i < len; i++)
+      listeners[i].apply(this, args);
+  }
+
+  return true;
+};
+
+EventEmitter.prototype.addListener = function(type, listener) {
+  var m;
+
+  if (!isFunction(listener))
+    throw TypeError('listener must be a function');
+
+  if (!this._events)
+    this._events = {};
+
+  // To avoid recursion in the case that type === "newListener"! Before
+  // adding it to the listeners, first emit "newListener".
+  if (this._events.newListener)
+    this.emit('newListener', type,
+              isFunction(listener.listener) ?
+              listener.listener : listener);
+
+  if (!this._events[type])
+    // Optimize the case of one listener. Don't need the extra array object.
+    this._events[type] = listener;
+  else if (isObject(this._events[type]))
+    // If we've already got an array, just append.
+    this._events[type].push(listener);
+  else
+    // Adding the second element, need to change to array.
+    this._events[type] = [this._events[type], listener];
+
+  // Check for listener leak
+  if (isObject(this._events[type]) && !this._events[type].warned) {
+    var m;
+    if (!isUndefined(this._maxListeners)) {
+      m = this._maxListeners;
+    } else {
+      m = EventEmitter.defaultMaxListeners;
+    }
+
+    if (m && m > 0 && this._events[type].length > m) {
+      this._events[type].warned = true;
+      console.error('(node) warning: possible EventEmitter memory ' +
+                    'leak detected. %d listeners added. ' +
+                    'Use emitter.setMaxListeners() to increase limit.',
+                    this._events[type].length);
+      if (typeof console.trace === 'function') {
+        // not supported in IE 10
+        console.trace();
+      }
+    }
+  }
+
+  return this;
+};
+
+EventEmitter.prototype.on = EventEmitter.prototype.addListener;
+
+EventEmitter.prototype.once = function(type, listener) {
+  if (!isFunction(listener))
+    throw TypeError('listener must be a function');
+
+  var fired = false;
+
+  function g() {
+    this.removeListener(type, g);
+
+    if (!fired) {
+      fired = true;
+      listener.apply(this, arguments);
+    }
+  }
+
+  g.listener = listener;
+  this.on(type, g);
+
+  return this;
+};
+
+// emits a 'removeListener' event iff the listener was removed
+EventEmitter.prototype.removeListener = function(type, listener) {
+  var list, position, length, i;
+
+  if (!isFunction(listener))
+    throw TypeError('listener must be a function');
+
+  if (!this._events || !this._events[type])
+    return this;
+
+  list = this._events[type];
+  length = list.length;
+  position = -1;
+
+  if (list === listener ||
+      (isFunction(list.listener) && list.listener === listener)) {
+    delete this._events[type];
+    if (this._events.removeListener)
+      this.emit('removeListener', type, listener);
+
+  } else if (isObject(list)) {
+    for (i = length; i-- > 0;) {
+      if (list[i] === listener ||
+          (list[i].listener && list[i].listener === listener)) {
+        position = i;
+        break;
+      }
+    }
+
+    if (position < 0)
+      return this;
+
+    if (list.length === 1) {
+      list.length = 0;
+      delete this._events[type];
+    } else {
+      list.splice(position, 1);
+    }
+
+    if (this._events.removeListener)
+      this.emit('removeListener', type, listener);
+  }
+
+  return this;
+};
+
+EventEmitter.prototype.removeAllListeners = function(type) {
+  var key, listeners;
+
+  if (!this._events)
+    return this;
+
+  // not listening for removeListener, no need to emit
+  if (!this._events.removeListener) {
+    if (arguments.length === 0)
+      this._events = {};
+    else if (this._events[type])
+      delete this._events[type];
+    return this;
+  }
+
+  // emit removeListener for all listeners on all events
+  if (arguments.length === 0) {
+    for (key in this._events) {
+      if (key === 'removeListener') continue;
+      this.removeAllListeners(key);
+    }
+    this.removeAllListeners('removeListener');
+    this._events = {};
+    return this;
+  }
+
+  listeners = this._events[type];
+
+  if (isFunction(listeners)) {
+    this.removeListener(type, listeners);
+  } else {
+    // LIFO order
+    while (listeners.length)
+      this.removeListener(type, listeners[listeners.length - 1]);
+  }
+  delete this._events[type];
+
+  return this;
+};
+
+EventEmitter.prototype.listeners = function(type) {
+  var ret;
+  if (!this._events || !this._events[type])
+    ret = [];
+  else if (isFunction(this._events[type]))
+    ret = [this._events[type]];
+  else
+    ret = this._events[type].slice();
+  return ret;
+};
+
+EventEmitter.listenerCount = function(emitter, type) {
+  var ret;
+  if (!emitter._events || !emitter._events[type])
+    ret = 0;
+  else if (isFunction(emitter._events[type]))
+    ret = 1;
+  else
+    ret = emitter._events[type].length;
+  return ret;
+};
+
+function isFunction(arg) {
+  return typeof arg === 'function';
+}
+
+function isNumber(arg) {
+  return typeof arg === 'number';
+}
+
+function isObject(arg) {
+  return typeof arg === 'object' && arg !== null;
+}
+
+function isUndefined(arg) {
+  return arg === void 0;
+}
+
+},{}],5:[function(require,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};
@@ -469,7 +772,7 @@ process.chdir = function (dir) {
     throw new Error('process.chdir is not supported');
 };
 
-},{}],5:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 (function (global){
 /*! http://mths.be/punycode v1.2.4 by @mathias */
 ;(function(root) {
@@ -980,7 +1283,7 @@ process.chdir = function (dir) {
 }(this));
 
 }).call(this,typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],6:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -1066,7 +1369,7 @@ var isArray = Array.isArray || function (xs) {
   return Object.prototype.toString.call(xs) === '[object Array]';
 };
 
-},{}],7:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -1153,13 +1456,13 @@ var objectKeys = Object.keys || function (obj) {
   return res;
 };
 
-},{}],8:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 'use strict';
 
 exports.decode = exports.parse = require('./decode');
 exports.encode = exports.stringify = require('./encode');
 
-},{"./decode":6,"./encode":7}],9:[function(require,module,exports){
+},{"./decode":7,"./encode":8}],10:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -1868,72 +2171,115 @@ function isNullOrUndefined(arg) {
   return  arg == null;
 }
 
-},{"punycode":5,"querystring":8}],10:[function(require,module,exports){
+},{"punycode":6,"querystring":9}],11:[function(require,module,exports){
+module.exports = function(editor, history, presenter, view) {
+	return {
+		init: function(confirmDiscardChangeMessage) {
+			// Prevent the default selection by the browser with shift keies.
+			editor.on('mousedown', function(e) {
+				if (e.shiftKey) {
+					return false;
+				}
+			}).on('mousedown', '.textae-editor__type', function() {
+				// Prevent a selection of a type by the double-click.
+				return false;
+			}).on('mousedown', '.textae-editor__body__text-box__paragraph-margin', function(e) {
+				// Prevent a selection of a margin of a paragraph by the double-click.
+				if (e.target.className === 'textae-editor__body__text-box__paragraph-margin') return false;
+			});
+
+			// Bind user input event to handler
+			editor
+				.on('mouseup', '.textae-editor__body,.textae-editor__span,.textae-editor__grid,.textae-editor__entity', presenter.event.editorSelected)
+				.on('mouseenter', '.textae-editor__entity', function(e) {
+					view.hoverRelation.on($(this).attr('title'));
+				}).on('mouseleave', '.textae-editor__entity', function(e) {
+					view.hoverRelation.off($(this).attr('title'));
+				});
+
+			history.bind('change', function(state) {
+				//change button state
+				view.viewModel.buttonStateHelper.enabled("write", state.hasAnythingToSave);
+				view.viewModel.buttonStateHelper.enabled("undo", state.hasAnythingToUndo);
+				view.viewModel.buttonStateHelper.enabled("redo", state.hasAnythingToRedo);
+
+				//change leaveMessage show
+				window.onbeforeunload = state.hasAnythingToSave ? function() {
+					return confirmDiscardChangeMessage;
+				} : null;
+			});
+		}
+	};
+};
+},{}],12:[function(require,module,exports){
+var defaults = {
+	"delimiter characters": [
+		" ",
+		".",
+		"!",
+		"?",
+		",",
+		":",
+		";",
+		"-",
+		"/",
+		"&",
+		"(",
+		")",
+		"{",
+		"}",
+		"[",
+		"]",
+		"+",
+		"*",
+		"\\",
+		"\"",
+		"'",
+		"\n",
+		"–"
+	],
+	"non-edge characters": [
+		" ",
+		"\n"
+	]
+};
+
 module.exports = function() {
-	var defaults = {
-			"delimiter characters": [
-				" ",
-				".",
-				"!",
-				"?",
-				",",
-				":",
-				";",
-				"-",
-				"/",
-				"&",
-				"(",
-				")",
-				"{",
-				"}",
-				"[",
-				"]",
-				"+",
-				"*",
-				"\\",
-				"\"",
-				"'",
-				"\n",
-				"–"
-			],
-			"non-edge characters": [
-				" ",
-				"\n"
-			]
+	var delimiterCharacters = [],
+		blankCharacters = [],
+		set = function(config) {
+			var settings = _.extend({}, defaults, config);
+
+			delimiterCharacters = settings['delimiter characters'];
+			blankCharacters = settings['non-edge characters'];
+			return config;
 		},
-		api = {
-			delimiterCharacters: null,
-			nonEdgeCharacters: null,
-			reset: function() {
-				this.set(defaults);
-			},
-			set: function(config) {
-				var settings = _.extend({}, defaults, config);
-
-				if (settings['delimiter characters'] !== undefined) {
-					api.delimiterCharacters = settings['delimiter characters'];
-				}
-
-				if (settings['non-edge characters'] !== undefined) {
-					api.nonEdgeCharacters = settings['non-edge characters'];
-				}
-
-				return config;
-			},
-			isNonEdgeCharacter: function(char) {
-				return (api.nonEdgeCharacters.indexOf(char) >= 0);
-			},
-			isDelimiter: function(char) {
-				if (api.delimiterCharacters.indexOf('ANY') >= 0) {
-					return 1;
-				}
-				return (api.delimiterCharacters.indexOf(char) >= 0);
+		reset = _.partial(set, defaults),
+		isDelimiter = function(char) {
+			if (delimiterCharacters.indexOf('ANY') >= 0) {
+				return 1;
 			}
+			return delimiterCharacters.indexOf(char) >= 0;
+		},
+		isBlankCharacter = function(char) {
+			return blankCharacters.indexOf(char) >= 0;
+		},
+		removeBlankChractors = function(str) {
+			blankCharacters.forEach(function(char) {
+				str = str.replace(char, '');
+			});
+			return str;
 		};
 
-	return api;
+	return {
+		reset: reset,
+		set: set,
+		isDelimiter: isDelimiter,
+		isBlankCharacter: isBlankCharacter,
+		removeBlankChractors: removeBlankChractors
+	};
 };
-},{}],11:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 var bindEvent = function($target, event, func) {
         $target.on(event, func);
     },
@@ -2155,7 +2501,21 @@ module.exports = function(editor, confirmDiscardChangeMessage) {
 
     return api;
 };
-},{"../util/CursorChanger":36,"../util/ajaxAccessor":39,"../util/dialog/GetEditorDialog":44,"../util/extendBindable":47,"../util/jQuerySugar":50,"url":9}],12:[function(require,module,exports){
+},{"../util/CursorChanger":53,"../util/ajaxAccessor":56,"../util/dialog/GetEditorDialog":61,"../util/extendBindable":64,"../util/jQuerySugar":67,"url":10}],14:[function(require,module,exports){
+var ToolDialog = require('../util/dialog/GetToolDialog');
+
+module.exports = function() {
+	var helpDialog = new ToolDialog(
+		'textae-control__help',
+		'Help (Keyboard short-cuts)', {
+			height: 313,
+			width: 523
+		},
+		$('<div>').addClass('textae-tool__key-help'));
+
+	return helpDialog.open;
+};
+},{"../util/dialog/GetToolDialog":62}],15:[function(require,module,exports){
 var Pallet = function(emitter) {
 		return $('<div>')
 			.addClass("textae-editor__type-pallet")
@@ -2245,9 +2605,9 @@ module.exports = function() {
 						return $pallet;
 					}
 				},
-				appendRows = function(palletConfig, $pallet) {
+				appendRows = function(typeContainer, $pallet) {
 					return $pallet.find("table")
-						.append(new PalletRow(palletConfig.typeContainer))
+						.append(new PalletRow(typeContainer))
 						.end();
 				},
 				setMaxHeight = function($pallet) {
@@ -2258,9 +2618,9 @@ module.exports = function() {
 						return $pallet.css('overflow-y', '');
 					}
 				},
-				show = function($pallet, palletConfig, point) {
-					if (palletConfig.typeContainer && palletConfig.typeContainer.getSortedNames().length > 0) {
-						var fillPallet = _.compose(setMaxHeight, _.partial(appendRows, palletConfig), reuseOldPallet);
+				show = function($pallet, typeContainer, point) {
+					if (typeContainer && typeContainer.getSortedNames().length > 0) {
+						var fillPallet = _.compose(setMaxHeight, _.partial(appendRows, typeContainer), reuseOldPallet);
 
 						// Move the pallet to mouse.
 						fillPallet($pallet)
@@ -2277,48 +2637,39 @@ module.exports = function() {
 		hide: $pallet.hide.bind($pallet)
 	});
 };
-},{"../util/extendBindable":47}],13:[function(require,module,exports){
-var getMessageAreaFrom = function($parent) {
-	var $messageArea = $parent.find('.textae-editor__footer .textae-editor__footer__message');
-	if ($messageArea.length === 0) {
-		$messageArea = $('<div>').addClass('textae-editor__footer__message');
+},{"../util/extendBindable":64}],16:[function(require,module,exports){
+var getAreaIn = function($parent) {
+	var $area = $parent.find('.textae-editor__footer .textae-editor__footer__message');
+	if ($area.length === 0) {
+		$area = $('<div>').addClass('textae-editor__footer__message');
 		var $footer = $('<div>')
 			.addClass('textae-editor__footer')
-			.append($messageArea);
+			.append($area);
 		$parent.append($footer);
 	}
 
-	return $messageArea;
+	return $area;
 };
 
 module.exports = function(editor) {
-	var getMessageAreaFromEditor = _.partial(getMessageAreaFrom, editor),
-		updateSoruceInfo = function(inlineElement) {
-			if (inlineElement !== '') getMessageAreaFromEditor().html('Source: ' + inlineElement);
-		},
-		showFlashMessage = function(message) {
-			var origin = getMessageAreaFromEditor().html();
-			getMessageAreaFromEditor()
-				.html(message)
-				.fadeIn()
-				.fadeOut(5000, function() {
-					getMessageAreaFromEditor()
-						.html(origin)
-						.removeAttr('style');
-				});
+	var getAreaInEditor = _.partial(getAreaIn, editor),
+		status = function(message) {
+			if (message !== '') getAreaInEditor().html('Source: ' + message);
 		};
 
 	return {
-		updateSoruceInfo: updateSoruceInfo,
-		showFlashMessage: showFlashMessage
+		status: status
 	};
 };
-},{}],14:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 var TitleDom = function() {
         return $('<span>')
             .addClass('textae-control__title')
             .append($('<a>')
-                .attr('href', 'http://bionlp.dbcls.jp/textae/')
+                .attr({
+                    href: 'http://textae.pubannotation.org/',
+                    target: '_blank'
+                })
                 .text('TextAE'));
     },
     ButtonDom = function(buttonType, title) {
@@ -2415,7 +2766,8 @@ module.exports = function($control) {
             'redo': 'Redo [A]'
         }, {
             'replicate': 'Replicate span annotation [R]',
-            'replicate-auto': 'Auto replicate (Toggle)',
+            'replicate-auto': 'Auto replicate',
+            'boundary-detection': 'Boundary Detection [B]',
             'relation-edit-mode': 'Edit Relation [F]'
         }, {
             'entity': 'New entity [E]',
@@ -2431,8 +2783,7 @@ module.exports = function($control) {
         }, {
             'setting': 'Setting'
         }, {
-            'help': 'Help [H]',
-            'about': 'About'
+            'help': 'Help [H]'
         }]),
         triggrButtonClickEvent = $control.trigger.bind($control, 'textae.control.button.click'),
         // A function to enable/disable button.
@@ -2440,13 +2791,12 @@ module.exports = function($control) {
         // Buttons that always eanable.
         alwaysEnables = {
             'read': true,
-            'help': true,
-            'about': true
+            'help': true
         },
         // Update all button state when an instance of textEditor is changed.
-        updateAllButtonEnableState = function(disableButtons) {
-            // Make buttons in a disableButtons disalbed, and other buttons in the buttonContainer enabled.
-            enableButton(_.extend({}, buttonContainer, alwaysEnables, disableButtons));
+        updateAllButtonEnableState = function(enableButtons) {
+            // Make buttons in a enableButtons enabled, and other buttons in the buttonContainer disabled.
+            enableButton(_.extend({}, buttonContainer, alwaysEnables, enableButtons));
         },
         // Update button push state.
         updateButtonPushState = function(bottonName, isPushed) {
@@ -2465,74 +2815,25 @@ module.exports = function($control) {
 
     return $control;
 };
-},{}],15:[function(require,module,exports){
-var Controller = function(editor, history, presenter, view) {
-        return {
-            init: function(confirmDiscardChangeMessage) {
-                // Prevent the default selection by the browser with shift keies.
-                editor.on('mousedown', function(e) {
-                    if (e.shiftKey) {
-                        return false;
-                    }
-                }).on('mousedown', '.textae-editor__type', function() {
-                    // Prevent a selection of a type by the double-click.
-                    return false;
-                }).on('mousedown', '.textae-editor__body__text-box__paragraph-margin', function(e) {
-                    // Prevent a selection of a margin of a paragraph by the double-click.
-                    if (e.target.className === 'textae-editor__body__text-box__paragraph-margin') return false;
-                });
-
-                // Bind user input event to handler
-                editor
-                    .on('mouseup', '.textae-editor__body,.textae-editor__span,.textae-editor__grid,.textae-editor__entity', presenter.event.editorSelected)
-                    .on('mouseenter', '.textae-editor__entity', function(e) {
-                        view.hoverRelation.on($(this).attr('title'));
-                    }).on('mouseleave', '.textae-editor__entity', function(e) {
-                        view.hoverRelation.off($(this).attr('title'));
-                    });
-
-                history.bind('change', function(state) {
-                    //change button state
-                    view.viewModel.buttonStateHelper.enabled("write", state.hasAnythingToSave);
-                    view.viewModel.buttonStateHelper.enabled("undo", state.hasAnythingToUndo);
-                    view.viewModel.buttonStateHelper.enabled("redo", state.hasAnythingToRedo);
-
-                    //change leaveMessage show
-                    window.onbeforeunload = state.hasAnythingToSave ? function() {
-                        return confirmDiscardChangeMessage;
-                    } : null;
-                });
-            }
-        };
-    },
-    getParams = function(editor) {
-        // Read model parameters from url parameters and html attributes.
-        var params = _.extend(require('./util/getUrlParameters')(location.search),
-            // Html attributes preced url parameters.
-            {
-                config: editor.attr('config')
-            });
-
-        // 'source' prefer to 'target'
-        params.target = editor.attr('source') || editor.attr('target') || params.source || params.target;
-
-        // Mode is prior in the url parameter.
-        if (!params.mode && editor.attr('mode')) {
-            params.mode = editor.attr('mode');
-        }
-
-        // Read Html text and clear it.  
-        var inlineAnnotation = editor.text();
-        editor.empty();
-
-        // Set annotaiton parameters.
-        params.annotation = {
-            inlineAnnotation: inlineAnnotation,
-            url: params.target
-        };
-
-        return params;
-    },
+},{}],18:[function(require,module,exports){
+module.exports = function(editor, confirmDiscardChangeMessage, history, statusBar, setAnnotationFunc) {
+	return require('./component/DataAccessObject')(editor, confirmDiscardChangeMessage)
+		.bind('save', function() {
+			history.saved();
+			toastr.success("annotation saved");
+		})
+		.bind('save error', function() {
+			toastr.error("could not save");
+		})
+		.bind('load', function(data) {
+			setAnnotationFunc(data.annotation);
+			statusBar.status(data.source);
+		});
+};
+},{"./component/DataAccessObject":13}],19:[function(require,module,exports){
+var Controller = require('./Controller'),
+    createDaoForEditor = require('./createDaoForEditor'),
+    getParams = require('./getParams'),
     setTypeConfig = function(view, config) {
         view.typeContainer.setDefinedEntityTypes(config ? config['entity types'] : []);
         view.typeContainer.setDefinedRelationTypes(config ? config['relation types'] : []);
@@ -2546,19 +2847,12 @@ var Controller = function(editor, history, presenter, view) {
     handle = function(map, key, value) {
         if (map[key]) map[key](value);
     },
-    createDaoForEditor = function(editor, confirmDiscardChangeMessage, history, statusBar, setAnnotationFunc) {
-        return require('./component/DataAccessObject')(editor, confirmDiscardChangeMessage)
-            .bind('save', function() {
-                history.saved();
-                statusBar.showFlashMessage("annotation saved");
-            })
-            .bind('save error', function() {
-                statusBar.showFlashMessage("could not save");
-            })
-            .bind('load', function(data) {
-                setAnnotationFunc(data.annotation);
-                statusBar.updateSoruceInfo(data.source);
-            });
+    getStatusBar = function(editor, status_bar) {
+        if (status_bar === 'on')
+            return require('./component/StatusBar')(editor);
+        return {
+            status: function() {}
+        };
     };
 
 module.exports = function() {
@@ -2569,7 +2863,7 @@ module.exports = function() {
         // Configulation of span
         spanConfig = require('./SpanConfig')(),
         // Users can edit model only via commands. 
-        command = require('./model/Command')(this, model, history, spanConfig),
+        command = require('./model/Command')(this, model, history),
         view = require('./view/View')(this, model),
         presenter = require('./presenter/Presenter')(this, model, view, command, spanConfig),
         //handle user input event.
@@ -2617,23 +2911,18 @@ module.exports = function() {
                 resetData(annotation);
             }
         },
-        statusBar = require('./component/StatusBar')(this),
-        loadAnnotation = function(params, dataAccessObject) {
+        loadAnnotation = function(statusBar, params, dataAccessObject) {
             var annotation = params.annotation;
             if (annotation) {
                 if (annotation.inlineAnnotation) {
                     // Set an inline annotation.
                     setAnnotation(params.config, JSON.parse(annotation.inlineAnnotation));
-                    statusBar.updateSoruceInfo('inline');
+                    statusBar.status('inline');
                 } else if (annotation.url) {
                     // Load an annotation from server.
                     dataAccessObject.getAnnotationFromServer(annotation.url);
                 }
             }
-        },
-        loadOuterFiles = function(params, dataAccessObject) {
-            presenter.setMode(params.mode);
-            loadAnnotation(params, dataAccessObject);
         };
 
     // public funcitons of editor
@@ -2647,6 +2936,7 @@ module.exports = function() {
                     },
                     keyApiMap = {
                         'A': command.redo,
+                        'B': presenter.event.toggleDetectBoundaryMode,
                         'C': presenter.event.copyEntities,
                         'D': presenter.event.removeSelectedElements,
                         'DEL': presenter.event.removeSelectedElements,
@@ -2674,6 +2964,7 @@ module.exports = function() {
                         'textae.control.button.redo.click': command.redo,
                         'textae.control.button.replicate.click': presenter.event.replicate,
                         'textae.control.button.replicate_auto.click': view.viewModel.modeAccordingToButton['replicate-auto'].toggle,
+                        'textae.control.button.boundary_detection.click': presenter.event.toggleDetectBoundaryMode,
                         'textae.control.button.relation_edit_mode.click': presenter.event.toggleRelationEditMode,
                         'textae.control.button.entity.click': presenter.event.createEntity,
                         'textae.control.button.change_label.click': presenter.event.newLabel,
@@ -2704,15 +2995,17 @@ module.exports = function() {
                 controller.init(CONFIRM_DISCARD_CHANGE_MESSAGE);
                 presenter.init();
 
-                var dataAccessObject = createDaoForEditor(
-                    editor,
-                    CONFIRM_DISCARD_CHANGE_MESSAGE,
-                    history,
-                    statusBar,
-                    _.partial(setAnnotation, params.config)
-                );
+                var statusBar = getStatusBar(editor, params.status_bar),
+                    dataAccessObject = createDaoForEditor(
+                        editor,
+                        CONFIRM_DISCARD_CHANGE_MESSAGE,
+                        history,
+                        statusBar,
+                        _.partial(setAnnotation, params.config)
+                    );
 
-                loadOuterFiles(params, dataAccessObject);
+                presenter.setMode(params.mode);
+                loadAnnotation(statusBar, params, dataAccessObject);
 
                 updateAPIs(dataAccessObject);
             };
@@ -2724,7 +3017,45 @@ module.exports = function() {
 
     return this;
 };
-},{"./SpanConfig":10,"./component/DataAccessObject":11,"./component/StatusBar":13,"./model/Command":17,"./model/History":18,"./model/Model":20,"./presenter/Presenter":27,"./util/ajaxAccessor":39,"./util/getUrlParameters":48,"./view/View":58}],16:[function(require,module,exports){
+},{"./Controller":11,"./SpanConfig":12,"./component/StatusBar":16,"./createDaoForEditor":18,"./getParams":20,"./model/Command":22,"./model/History":23,"./model/Model":25,"./presenter/Presenter":34,"./util/ajaxAccessor":56,"./view/View":76}],20:[function(require,module,exports){
+var getUrlParameters = require('./util/getUrlParameters'),
+	priorUrl = function(params, editor, name) {
+		if (!params[name] && editor.attr(name))
+			params[name] = editor.attr(name);
+	},
+	priorAttr = function(params, editor, name) {
+		if (editor.attr(name))
+			params[name] = editor.attr(name);
+	};
+
+module.exports = function(editor) {
+	// Read model parameters from url parameters and html attributes.
+	var params = getUrlParameters(location.search);
+
+	// 'source' prefer to 'target'
+	params.target = editor.attr('source') || editor.attr('target') || params.source || params.target;
+
+	priorAttr(params, editor, 'config');
+	priorAttr(params, editor, 'status_bar');
+
+	// Mode is prior in the url parameter.
+	priorUrl(params, editor, 'mode');
+
+	// Read Html text and clear it.  
+	var inlineAnnotation = editor.text();
+	editor.empty();
+
+	// Set annotaiton parameters.
+	params.annotation = {
+		inlineAnnotation: inlineAnnotation,
+		url: params.target
+	};
+
+	// console.log(params);
+
+	return params;
+};
+},{"./util/getUrlParameters":65}],21:[function(require,module,exports){
 var tool = require('./tool'),
     control = require('./control'),
     editor = require('./editor');
@@ -2747,7 +3078,7 @@ jQuery.fn.textae = (function() {
         }
     };
 })();
-},{"./control":14,"./editor":15,"./tool":35}],17:[function(require,module,exports){
+},{"./control":17,"./editor":19,"./tool":50}],22:[function(require,module,exports){
 var invoke = function(commands) {
         commands.forEach(function(command) {
             command.execute();
@@ -2815,11 +3146,12 @@ var invoke = function(commands) {
         if (model.selectionModel[modelType]) {
             model.selectionModel[modelType].add(newModel.id);
         }
-    };
+    },
+    getReplicationSpans = require('./getReplicationSpans');
 
 // A command is an operation by user that is saved as history, and can undo and redo.
 // Users can edit model only via commands. 
-module.exports = function(editor, model, history, spanConfig) {
+module.exports = function(editor, model, history) {
     var factory = function() {
         var idFactory = require('../util/IdFactory')(editor),
             createCommand = function(model, modelType, isSelectable, newModel) {
@@ -2897,10 +3229,9 @@ module.exports = function(editor, model, history, spanConfig) {
                     }
                 };
             },
-            spanReplicateCommand = function(type, span) {
+            spanReplicateCommand = function(type, span, detectBoundaryFunc) {
                 var createSpan = _.partial(spanAndDefaultEntryCreateCommand, type),
-                    subCommands = model
-                    .getReplicationSpans(span, spanConfig)
+                    subCommands = getReplicationSpans(model.annotationData, span, detectBoundaryFunc)
                     .map(createSpan);
 
                 return {
@@ -3078,7 +3409,7 @@ module.exports = function(editor, model, history, spanConfig) {
         factory: factory
     };
 };
-},{"../util/IdFactory":38}],18:[function(require,module,exports){
+},{"../util/IdFactory":55,"./getReplicationSpans":30}],23:[function(require,module,exports){
 // histories of edit to undo and redo.
 module.exports = function() {
     var lastSaveIndex = -1,
@@ -3135,7 +3466,7 @@ module.exports = function() {
 
     return api;
 };
-},{"../util/extendBindable":47}],19:[function(require,module,exports){
+},{"../util/extendBindable":64}],24:[function(require,module,exports){
 module.exports = function(kindName) {
 	var extendBindable = require('../util/extendBindable'),
 		selected = {},
@@ -3186,7 +3517,7 @@ module.exports = function(kindName) {
 
 	return api;
 };
-},{"../util/extendBindable":47}],20:[function(require,module,exports){
+},{"../util/extendBindable":64}],25:[function(require,module,exports){
 // Expected an entity like {id: "E21", span: "editor2__S50_54", type: "Protein"}.
 var EntityContainer = function(editor, eventEmitter, relation) {
         var idFactory = require('../util/IdFactory')(editor),
@@ -3395,7 +3726,6 @@ var EntityContainer = function(editor, eventEmitter, relation) {
                     'modifications': modification.all()
                 }));
             },
-            isBoundaryCrossingWithOtherSpans: _.partial(require('./isBoundaryCrossingWithOtherSpans'), span.all),
             getModificationOf: function(objectId) {
                 return modification.all()
                     .filter(function(m) {
@@ -3406,61 +3736,13 @@ var EntityContainer = function(editor, eventEmitter, relation) {
     };
 
 module.exports = function(editor) {
-    var annotationData = new AnntationData(editor),
-        getReplicationSpans = function(dataStore, originSpan, spanConfig) {
-            // Get spans their stirng is same with the originSpan from sourceDoc.
-            var getSpansTheirStringIsSameWith = function(originSpan) {
-                var getNextStringIndex = String.prototype.indexOf.bind(dataStore.sourceDoc, dataStore.sourceDoc.substring(originSpan.begin, originSpan.end));
-                var length = originSpan.end - originSpan.begin;
-
-                var findStrings = [];
-                var offset = 0;
-                for (var index = getNextStringIndex(offset); index !== -1; index = getNextStringIndex(offset)) {
-                    findStrings.push({
-                        begin: index,
-                        end: index + length
-                    });
-
-                    offset = index + length;
-                }
-                return findStrings;
-            };
-
-            // The candidateSpan is a same span when begin is same.
-            // Because string of each others are same. End of them are same too.
-            var isOriginSpan = function(candidateSpan) {
-                return candidateSpan.begin === originSpan.begin;
-            };
-
-            // The preceding charactor and the following of a word charactor are delimiter.
-            // For example, 't' ,a part of 'that', is not same with an origin span when it is 't'. 
-            var isWord = function(candidateSpan) {
-                var precedingChar = dataStore.sourceDoc.charAt(candidateSpan.begin - 1);
-                var followingChar = dataStore.sourceDoc.charAt(candidateSpan.end);
-
-                return spanConfig.isDelimiter(precedingChar) && spanConfig.isDelimiter(followingChar);
-            };
-
-            // Is the candidateSpan is spaned already?
-            var isAlreadySpaned = function(candidateSpan) {
-                return dataStore.span.all().filter(function(existSpan) {
-                    return existSpan.begin === candidateSpan.begin && existSpan.end === candidateSpan.end;
-                }).length > 0;
-            };
-
-            return getSpansTheirStringIsSameWith(originSpan).filter(function(span) {
-                return !isOriginSpan(span) && isWord(span) && !isAlreadySpaned(span) && !dataStore.isBoundaryCrossingWithOtherSpans(span);
-            });
-        };
-
     return {
-        annotationData: annotationData,
+        annotationData: new AnntationData(editor),
         // A contaier of selection state.
-        selectionModel: require('./Selection')(['span', 'entity', 'relation']),
-        getReplicationSpans: _.partial(getReplicationSpans, annotationData)
+        selectionModel: require('./Selection')(['span', 'entity', 'relation'])
     };
 };
-},{"../util/IdFactory":38,"../util/extendBindable":47,"./ModelContainer":21,"./ParagraphContainer":22,"./Selection":23,"./SpanContainer":24,"./isBoundaryCrossingWithOtherSpans":25}],21:[function(require,module,exports){
+},{"../util/IdFactory":55,"../util/extendBindable":64,"./ModelContainer":26,"./ParagraphContainer":27,"./Selection":28,"./SpanContainer":29}],26:[function(require,module,exports){
 var createId = function(prefix, getIdsFunction) {
 		var ids = getIdsFunction()
 			.filter(function(id) {
@@ -3542,7 +3824,7 @@ module.exports = function(eventEmitter, prefix, mappingFunction) {
 		clear: clear
 	};
 };
-},{}],22:[function(require,module,exports){
+},{}],27:[function(require,module,exports){
 module.exports = function(editor, annotationDataApi) {
 	var idFactory = require('../util/IdFactory')(editor),
 		mappingFunction = function(sourceDoc) {
@@ -3579,7 +3861,7 @@ module.exports = function(editor, annotationDataApi) {
 
 	return api;
 };
-},{"../util/IdFactory":38,"./ModelContainer":21}],23:[function(require,module,exports){
+},{"../util/IdFactory":55,"./ModelContainer":26}],28:[function(require,module,exports){
 var clearAll = function(containerList) {
 		_.each(containerList, function(container) {
 			container.clear();
@@ -3630,7 +3912,7 @@ module.exports = function(kinds) {
 
 	return extendUtilFunctions(containerList, api);
 };
-},{"../util/extendBindable":47,"./IdContainer":19}],24:[function(require,module,exports){
+},{"../util/extendBindable":64,"./IdContainer":24}],29:[function(require,module,exports){
 module.exports = function(editor, annotationDataApi, paragraph) {
 	var idFactory = require('../util/IdFactory')(editor),
 		toSpanModel = function() {
@@ -3723,9 +4005,9 @@ module.exports = function(editor, annotationDataApi, paragraph) {
 				}).map(toSpanModel)
 				.filter(function(span, index, array) {
 					return !isBoundaryCrossingWithOtherSpans(
-						function() {
-							return array.slice(0, index - 1);
-						}, span);
+						array.slice(0, index - 1),
+						span
+					);
 				});
 		},
 		spanContainer = require('./ModelContainer')(annotationDataApi, 'span', mappingFunction),
@@ -3847,16 +4129,94 @@ module.exports = function(editor, annotationDataApi, paragraph) {
 
 	return api;
 };
-},{"../util/IdFactory":38,"./ModelContainer":21,"./isBoundaryCrossingWithOtherSpans":25}],25:[function(require,module,exports){
-// A span its range is coross over with other spans are not able to rendered.
-// Because spans are renderd with span tag. Html tags can not be cross over.
-module.exports = function(getAll, candidateSpan) {
-	return getAll().filter(function(existSpan) {
-		return (existSpan.begin < candidateSpan.begin && candidateSpan.begin < existSpan.end && existSpan.end < candidateSpan.end) ||
-			(candidateSpan.begin < existSpan.begin && existSpan.begin < candidateSpan.end && candidateSpan.end < existSpan.end);
+},{"../util/IdFactory":55,"./ModelContainer":26,"./isBoundaryCrossingWithOtherSpans":32}],30:[function(require,module,exports){
+// Get spans their stirng is same with the originSpan from sourceDoc.
+var getSpansTheirStringIsSameWith = function(sourceDoc, originSpan) {
+		var getNextStringIndex = String.prototype.indexOf.bind(
+				sourceDoc,
+				sourceDoc.substring(originSpan.begin, originSpan.end)
+			),
+			length = originSpan.end - originSpan.begin,
+			findStrings = [],
+			offset = 0;
+
+		for (var index = getNextStringIndex(offset); index !== -1; index = getNextStringIndex(offset)) {
+			findStrings.push({
+				begin: index,
+				end: index + length
+			});
+
+			offset = index + length;
+		}
+
+		return findStrings;
+	},
+	// The preceding charactor and the following of a word charactor are delimiter.
+	// For example, 't' ,a part of 'that', is not same with an origin span when it is 't'. 
+	isWord = function(sourceDoc, detectBoundaryFunc, candidateSpan) {
+		var precedingChar = sourceDoc.charAt(candidateSpan.begin - 1);
+		var followingChar = sourceDoc.charAt(candidateSpan.end);
+
+		return detectBoundaryFunc(precedingChar) && detectBoundaryFunc(followingChar);
+	},
+	not = function(val) {
+		return !val;
+	},
+	isAlreadySpaned = require('./isAlreadySpaned'),
+	isBoundaryCrossingWithOtherSpans = require('./isBoundaryCrossingWithOtherSpans');
+
+// Check replications are word or not if spanConfig is set.
+module.exports = function(dataStore, originSpan, detectBoundaryFunc) {
+	var allSpans = dataStore.span.all(),
+		wordFilter = detectBoundaryFunc ?
+		_.partial(isWord, dataStore.sourceDoc, detectBoundaryFunc) :
+		_.identity;
+
+	return getSpansTheirStringIsSameWith(dataStore.sourceDoc, originSpan)
+		.filter(function(span) {
+			// The candidateSpan is a same span when begin is same.
+			// Because string of each others are same. End of them are same too.
+			return span.begin !== originSpan.begin;
+		})
+		.filter(wordFilter)
+		.filter(
+			_.compose(
+				not,
+				_.partial(isAlreadySpaned, allSpans)
+			)
+		)
+		.filter(
+			_.compose(
+				not,
+				_.partial(isBoundaryCrossingWithOtherSpans, allSpans)
+			)
+		);
+};
+},{"./isAlreadySpaned":31,"./isBoundaryCrossingWithOtherSpans":32}],31:[function(require,module,exports){
+module.exports = function(allSpans, candidateSpan) {
+	return allSpans.filter(function(existSpan) {
+		return existSpan.begin === candidateSpan.begin &&
+			existSpan.end === candidateSpan.end;
 	}).length > 0;
 };
-},{}],26:[function(require,module,exports){
+},{}],32:[function(require,module,exports){
+// A span its range is coross over with other spans are not able to rendered.
+// Because spans are renderd with span tag. Html tags can not be cross over.
+module.exports = function(spans, candidateSpan) {
+	return spans.filter(function(existSpan) {
+		return (
+				existSpan.begin < candidateSpan.begin &&
+				candidateSpan.begin < existSpan.end &&
+				existSpan.end < candidateSpan.end
+			) ||
+			(
+				candidateSpan.begin < existSpan.begin &&
+				existSpan.begin < candidateSpan.end &&
+				candidateSpan.end < existSpan.end
+			);
+	}).length > 0;
+};
+},{}],33:[function(require,module,exports){
 var typeGap = function() {
 	var seed = {
 			instanceHide: 0,
@@ -3996,7 +4356,7 @@ module.exports = function(model, viewMode, typeEditor) {
 
 	return api;
 };
-},{"../util/capitalize":40}],27:[function(require,module,exports){
+},{"../util/capitalize":57}],34:[function(require,module,exports){
 module.exports = function(editor, model, view, command, spanConfig) {
     var editorSelected = function() {
             userEvent.viewHandler.hideDialogs();
@@ -4005,48 +4365,57 @@ module.exports = function(editor, model, view, command, spanConfig) {
             editor.eventEmitter.trigger('textae.editor.select');
             view.viewModel.buttonStateHelper.propagate();
         },
-        typeEditor = require('./TypeEditor')(editor, model, spanConfig, command, view.viewModel, view.typeContainer),
+        typeEditor = require('./typeEditor/TypeEditor')(editor, model, spanConfig, command, view.viewModel, view.typeContainer),
         userEvent = function() {
             var editHandler = function() {
                     var toggleModification = function(modificationType) {
-                        var isModificationType = function(modification) {
-                                return modification.pred === modificationType;
-                            },
-                            getSpecificModification = function(id) {
-                                return model.annotationData
-                                    .getModificationOf(id)
-                                    .filter(isModificationType);
-                            },
-                            commands,
-                            has = view.viewModel.modeAccordingToButton[modificationType.toLowerCase()].value();
+                            var isModificationType = function(modification) {
+                                    return modification.pred === modificationType;
+                                },
+                                getSpecificModification = function(id) {
+                                    return model.annotationData
+                                        .getModificationOf(id)
+                                        .filter(isModificationType);
+                                },
+                                commands,
+                                has = view.viewModel.modeAccordingToButton[modificationType.toLowerCase()].value();
 
-                        if (has) {
-                            commands = typeEditor.getSelectedIdEditable().map(function(id) {
-                                var modification = getSpecificModification(id)[0];
-                                return command.factory.modificationRemoveCommand(modification.id);
-                            });
-                        } else {
-                            commands = _.reject(typeEditor.getSelectedIdEditable(), function(id) {
-                                return getSpecificModification(id).length > 0;
-                            }).map(function(id) {
-                                return command.factory.modificationCreateCommand({
-                                    obj: id,
-                                    pred: modificationType
+                            if (has) {
+                                commands = typeEditor.getSelectedIdEditable().map(function(id) {
+                                    var modification = getSpecificModification(id)[0];
+                                    return command.factory.modificationRemoveCommand(modification.id);
                                 });
-                            });
-                        }
+                            } else {
+                                commands = _.reject(typeEditor.getSelectedIdEditable(), function(id) {
+                                    return getSpecificModification(id).length > 0;
+                                }).map(function(id) {
+                                    return command.factory.modificationCreateCommand({
+                                        obj: id,
+                                        pred: modificationType
+                                    });
+                                });
+                            }
 
-                        command.invoke(commands);
-                    };
+                            command.invoke(commands);
+                        },
+                        getDetectBoundaryFunc = function() {
+                            if (view.viewModel.modeAccordingToButton['boundary-detection'].value())
+                                return spanConfig.isDelimiter;
+                            else
+                                return null;
+                        };
 
                     return {
                         replicate: function() {
-                            var spanId = model.selectionModel.span.single();
+                            var spanId = model.selectionModel.span.single(),
+                                detectBoundaryFunc = getDetectBoundaryFunc();
+
                             if (spanId) {
                                 command.invoke(
                                     [command.factory.spanReplicateCommand(
                                         view.typeContainer.entity.getDefaultType(),
-                                        model.annotationData.span.get(spanId)
+                                        model.annotationData.span.get(spanId),
+                                        detectBoundaryFunc
                                     )]
                                 );
                             } else {
@@ -4179,10 +4548,12 @@ module.exports = function(editor, model, view, command, spanConfig) {
                             }
                         },
                         showSettingDialog: require('./SettingDialog')(editor, editMode),
+                        toggleDetectBoundaryMode: function() {
+                            view.viewModel.modeAccordingToButton['boundary-detection'].toggle();
+                        },
                         toggleRelationEditMode: function() {
-                            // ビューモードを切り替える
                             if (view.viewModel.modeAccordingToButton['relation-edit-mode'].value()) {
-                                editMode.toInstance();
+                        editMode.toInstance();
                             } else {
                                 editMode.toRelation();
                             }
@@ -4228,11 +4599,11 @@ module.exports = function(editor, model, view, command, spanConfig) {
             var cursorChanger = require('../util/CursorChanger')(editor);
             view
                 .bind('render.start', function(editor) {
-                    console.log(editor.editorId, 'render.start');
+                    // console.log(editor.editorId, 'render.start');
                     cursorChanger.startWait();
                 })
                 .bind('render.end', function(editor) {
-                    console.log(editor.editorId, 'render.end');
+                    // console.log(editor.editorId, 'render.end');
                     cursorChanger.endWait();
                 });
         },
@@ -4250,6 +4621,7 @@ module.exports = function(editor, model, view, command, spanConfig) {
             cancelSelect: userEvent.viewHandler.cancelSelect,
             selectLeftSpan: userEvent.viewHandler.selectLeftSpan,
             selectRightSpan: userEvent.viewHandler.selectRightSpan,
+            toggleDetectBoundaryMode: userEvent.viewHandler.toggleDetectBoundaryMode,
             toggleRelationEditMode: userEvent.viewHandler.toggleRelationEditMode,
             negation: userEvent.editHandler.negation,
             speculation: userEvent.editHandler.speculation,
@@ -4257,343 +4629,7 @@ module.exports = function(editor, model, view, command, spanConfig) {
         }
     };
 };
-},{"../util/CursorChanger":36,"./EditMode":26,"./SettingDialog":29,"./TypeEditor":32}],28:[function(require,module,exports){
-module.exports = function(editor, model, spanConfig, command, viewModel, typeContainer) {
-	var selectionValidator = function(editor, model, spanConfig) {
-			var selectPosition = require('./selectPosition'),
-				domUtil = require('../util/DomUtil')(editor),
-				hasCharacters = function(selection) {
-					var positions = selectPosition.toPositions(model.annotationData, selection);
-
-					// A span cannot be created include nonEdgeCharacters only.
-					var stringWithoutNonEdgeCharacters = model.annotationData.sourceDoc.substring(positions.anchorPosition, positions.focusPosition);
-					spanConfig.nonEdgeCharacters.forEach(function(char) {
-						stringWithoutNonEdgeCharacters = stringWithoutNonEdgeCharacters.replace(char, '');
-					});
-
-					return stringWithoutNonEdgeCharacters.length > 0;
-				},
-				isInOneParent = function(selection) {
-					// A span can be created at the same parent node.
-					// The parentElement is expected as a paragraph or a span.
-					return selection.anchorNode.parentElement.id === selection.focusNode.parentElement.id;
-				},
-				getAnchorNodeParent = function(selection) {
-					return $(selection.anchorNode.parentNode);
-				},
-				getFocusNodeParent = function(selection) {
-					return $(selection.focusNode.parentNode);
-				},
-				hasSpan = function($node) {
-					return $node.hasClass('textae-editor__span');
-				},
-				hasParagraphs = function($node) {
-					return $node.hasClass('textae-editor__body__text-box__paragraph');
-				},
-				hasSpanOrParagraphs = function($node) {
-					return hasSpan($node) || hasParagraphs($node);
-				},
-				isAnchrNodeInSpan = _.compose(hasSpan, getAnchorNodeParent),
-				isFocusNodeInSpan = _.compose(hasSpan, getFocusNodeParent),
-				isFocusNodeInParagraph = _.compose(hasParagraphs, getFocusNodeParent),
-				isAnchrNodeInSpanOrParagraph = _.compose(hasSpanOrParagraphs, getAnchorNodeParent),
-				isInSameParagraph = function() {
-					var getParagraph = function($node) {
-							if (hasParagraphs($node)) {
-								return $node;
-							} else {
-								return getParagraph($node.parent());
-							}
-						},
-						getParagraphId = function(selection, position) {
-							var $parent = $(selection[position + 'Node'].parentNode);
-							return getParagraph($parent).attr('id');
-						};
-
-					return function(selection) {
-						var anchorParagraphId = getParagraphId(selection, 'anchor'),
-							focusParagraphId = getParagraphId(selection, 'focus');
-
-						return anchorParagraphId === focusParagraphId;
-					};
-				}(),
-				isAnchorOneDownUnderForcus = function(selection) {
-					return selection.anchorNode.parentNode.parentNode === selection.focusNode.parentNode;
-				},
-				isForcusOneDownUnderAnchor = function(selection) {
-					return selection.anchorNode.parentNode === selection.focusNode.parentNode.parentNode;
-				},
-				isInSelectedSpan = function(position) {
-					var spanId = model.selectionModel.span.single();
-					if (spanId) {
-						var selectedSpan = model.annotationData.span.get(spanId);
-						return selectedSpan.begin < position && position < selectedSpan.end;
-					}
-					return false;
-				},
-				isAnchorInSelectedSpan = function(selection) {
-					return isInSelectedSpan(selectPosition.getAnchorPosition(model.annotationData, selection));
-				},
-				isFocusOnSelectedSpan = function(selection) {
-					return selection.focusNode.parentNode.id === model.selectionModel.span.single();
-				},
-				isFocusInSelectedSpan = function(selection) {
-					return isInSelectedSpan(selectPosition.getFocusPosition(model.annotationData, selection));
-				},
-				isSelectedSpanOneDownUnderFocus = function(selection) {
-					var selectedSpanId = model.selectionModel.span.single();
-					return domUtil.selector.span.get(selectedSpanId).parent().attr('id') === selection.focusNode.parentNode.id;
-				},
-				isLongerThanParentSpan = function(selection) {
-					var $getAnchorNodeParent = getAnchorNodeParent(selection),
-						focusPosition = selectPosition.getFocusPosition(model.annotationData, selection);
-
-					if (hasSpan($getAnchorNodeParent) && $getAnchorNodeParent.parent() && hasSpan($getAnchorNodeParent.parent())) {
-						var span = model.annotationData.span.get($getAnchorNodeParent.parent().attr('id'));
-						if (focusPosition < span.begin || span.end < focusPosition)
-							return true;
-					}
-				},
-				isShorterThanChildSpan = function(selection) {
-					var $getFocusNodeParent = getFocusNodeParent(selection),
-						anchorPosition = selectPosition.getAnchorPosition(model.annotationData, selection);
-
-					if (hasSpan($getFocusNodeParent) && $getFocusNodeParent.parent() && hasSpan($getFocusNodeParent.parent())) {
-						var span = model.annotationData.span.get($getFocusNodeParent.parent().attr('id'));
-						if (anchorPosition < span.begin || span.end < anchorPosition)
-							return true;
-					}
-				};
-
-			return {
-				hasCharacters: hasCharacters,
-				isInOneParent: isInOneParent,
-				isAnchrNodeInSpan: isAnchrNodeInSpan,
-				isAnchrNodeInSpanOrParagraph: isAnchrNodeInSpanOrParagraph,
-				isFocusNodeInSpan: isFocusNodeInSpan,
-				isFocusNodeInParagraph: isFocusNodeInParagraph,
-				isInSameParagraph: isInSameParagraph,
-				isAnchorOneDownUnderForcus: isAnchorOneDownUnderForcus,
-				isForcusOneDownUnderAnchor: isForcusOneDownUnderAnchor,
-				isAnchorInSelectedSpan: isAnchorInSelectedSpan,
-				isFocusOnSelectedSpan: isFocusOnSelectedSpan,
-				isFocusInSelectedSpan: isFocusInSelectedSpan,
-				isSelectedSpanOneDownUnderFocus: isSelectedSpanOneDownUnderFocus,
-				isLongerThanParentSpan: isLongerThanParentSpan,
-				isShorterThanChildSpan: isShorterThanChildSpan
-			};
-		}(editor, model, spanConfig),
-		dismissBrowserSelection = require('./dismissBrowserSelection'),
-		validate = function(selectionValidator) {
-			var boundaryMiss = function() {
-					alert('It is ambiguous for which span you want to adjust the boundary. Select the span, and try again.');
-					dismissBrowserSelection();
-				},
-				doUnless = function(doFunc, predicate, selection) {
-					if (selection && !predicate(selection)) {
-						return doFunc();
-					}
-					return selection;
-				},
-				cancelSelectionUnless = _.partial(doUnless, dismissBrowserSelection),
-				validateAnchrNodeInSpanOrParagraph = _.partial(
-					cancelSelectionUnless,
-					selectionValidator.isAnchrNodeInSpanOrParagraph
-				),
-				validateFocusNodeInParagraph = _.partial(
-					cancelSelectionUnless,
-					selectionValidator.isFocusNodeInParagraph
-				),
-				validateFocusNodeInSpan = _.partial(
-					cancelSelectionUnless,
-					selectionValidator.isFocusNodeInSpan
-				),
-				validateInSameParagrarh = _.partial(
-					doUnless,
-					boundaryMiss,
-					selectionValidator.isInSameParagraph
-				),
-				validateHasCharactor = _.partial(
-					cancelSelectionUnless,
-					selectionValidator.hasCharacters
-				),
-				commonValidate = _.partial(
-					_.compose,
-					validateHasCharactor,
-					validateInSameParagrarh,
-					validateAnchrNodeInSpanOrParagraph
-				),
-				validateOnText = commonValidate(
-					validateFocusNodeInParagraph
-				),
-				validateOnSpan = commonValidate(
-					validateFocusNodeInSpan
-				);
-
-			return {
-				validateOnText: validateOnText,
-				validateOnSpan: validateOnSpan
-			};
-		}(selectionValidator),
-		process = function(editor, model, spanConfig, selectionValidator, command, viewModel, typeContainer) {
-			var spanManipulater = require('./SpanManipulater')(spanConfig, model),
-				idFactory = require('../util/IdFactory')(editor),
-				moveSpan = function(spanId, newSpan) {
-					// Do not need move.
-					if (spanId === idFactory.makeSpanId(newSpan)) {
-						return;
-					}
-
-					return [command.factory.spanMoveCommand(spanId, newSpan)];
-				},
-				removeSpan = function(spanId) {
-					return [command.factory.spanRemoveCommand(spanId)];
-				},
-				doCreate = function(selection) {
-					var BLOCK_THRESHOLD = 100,
-						newSpan = spanManipulater.create(selection);
-
-					// The span cross exists spans.
-					if (model.annotationData.isBoundaryCrossingWithOtherSpans({
-							begin: newSpan.begin,
-							end: newSpan.end
-						})) {
-						dismissBrowserSelection();
-						return;
-					}
-
-					// The span exists already.
-					var spanId = idFactory.makeSpanId(newSpan);
-					if (model.annotationData.span.get(spanId)) {
-						dismissBrowserSelection();
-						return;
-					}
-
-					var commands = [command.factory.spanCreateCommand(
-						typeContainer.entity.getDefaultType(), {
-							begin: newSpan.begin,
-							end: newSpan.end
-						}
-					)];
-
-					if (viewModel.modeAccordingToButton['replicate-auto'].value() && newSpan.end - newSpan.begin <= BLOCK_THRESHOLD) {
-						commands.push(command.factory.spanReplicateCommand(
-							typeContainer.entity.getDefaultType(), {
-								begin: newSpan.begin,
-								end: newSpan.end
-							}));
-					}
-
-					command.invoke(commands);
-					dismissBrowserSelection();
-				},
-				doExpand = function() {
-					var expandSpanToSelection = function(spanId, selection) {
-						var newSpan = spanManipulater.expand(spanId, selection);
-
-						// The span cross exists spans.
-						if (model.annotationData.isBoundaryCrossingWithOtherSpans({
-								begin: newSpan.begin,
-								end: newSpan.end
-							})) {
-							alert('A span cannot be expanded to make a boundary crossing.');
-							dismissBrowserSelection();
-							return;
-						}
-
-						command.invoke(moveSpan(spanId, newSpan));
-						dismissBrowserSelection();
-					};
-
-					return function(selection) {
-						// If a span is selected, it is able to begin drag a span in the span and expand the span.
-						// The focus node should be at one level above the selected node.
-						if (selectionValidator.isAnchorInSelectedSpan(selection)) {
-							// cf.
-							// 1. one side of a inner span is same with one side of the outside span.
-							// 2. Select an outside span.
-							// 3. Begin Drug from an inner span to out of an outside span. 
-							// Expand the selected span.
-							expandSpanToSelection(model.selectionModel.span.single(), selection);
-						} else if (selectionValidator.isAnchorOneDownUnderForcus(selection)) {
-							// To expand the span , belows are needed:
-							// 1. The anchorNode is in the span.
-							// 2. The foucusNode is out of the span and in the parent of the span.
-							expandSpanToSelection(selection.anchorNode.parentNode.id, selection);
-						}
-						return selection;
-					};
-				}(),
-				doShrink = function() {
-					var shrinkSpanToSelection = function(spanId, selection) {
-						var newSpan = spanManipulater.shrink(spanId, selection);
-
-						// The span cross exists spans.
-						if (model.annotationData.isBoundaryCrossingWithOtherSpans({
-								begin: newSpan.begin,
-								end: newSpan.end
-							})) {
-							alert('A span cannot be shrinked to make a boundary crossing.');
-							dismissBrowserSelection();
-							return;
-						}
-
-						var newSpanId = idFactory.makeSpanId(newSpan),
-							sameSpan = model.annotationData.span.get(newSpanId);
-
-						command.invoke(
-							newSpan.begin < newSpan.end && !sameSpan ?
-							moveSpan(spanId, newSpan) :
-							removeSpan(spanId)
-						);
-						dismissBrowserSelection();
-					};
-
-					return function(selection) {
-						if (selectionValidator.isFocusInSelectedSpan(selection)) {
-							// If a span is selected, it is able to begin drag out of an outer span of the span and shrink the span.
-							// The focus node should be at the selected node.
-							// cf.
-							// 1. Select an inner span.
-							// 2. Begin Drug from out of an outside span to the selected span. 
-							// Shrink the selected span.
-							shrinkSpanToSelection(model.selectionModel.span.single(), selection);
-						} else if (selectionValidator.isForcusOneDownUnderAnchor(selection)) {
-							// To shrink the span , belows are needed:
-							// 1. The anchorNode out of the span and in the parent of the span.
-							// 2. The foucusNode is in the span.
-							shrinkSpanToSelection(selection.focusNode.parentNode.id, selection);
-						}
-						return selection;
-					};
-				}(),
-				processSelectionIf = function(doFunc, predicate, selection) {
-					if (selection && predicate(selection)) {
-						return doFunc(selection);
-					}
-					return selection;
-				},
-				create = _.partial(processSelectionIf, doCreate, selectionValidator.isInOneParent),
-				expand = _.partial(processSelectionIf, doExpand, selectionValidator.isAnchrNodeInSpan),
-				shrink = _.partial(processSelectionIf, doShrink, selectionValidator.isFocusNodeInSpan),
-				dismissUnlessProcess = _.partial(processSelectionIf, dismissBrowserSelection, function() {
-					return true;
-				}),
-				selectEndOfText = _.compose(dismissUnlessProcess, expand, create, validate.validateOnText),
-				selectEndOnSpan = _.compose(dismissUnlessProcess, shrink, expand, create, validate.validateOnSpan);
-
-			return {
-				selectEndOfText: selectEndOfText,
-				selectEndOnSpan: selectEndOnSpan
-			};
-		}(editor, model, spanConfig, selectionValidator, command, viewModel, typeContainer);
-
-	return {
-		onText: process.selectEndOfText,
-		onSpan: process.selectEndOnSpan
-	};
-};
-},{"../util/DomUtil":37,"../util/IdFactory":38,"./SpanManipulater":31,"./dismissBrowserSelection":33,"./selectPosition":34}],29:[function(require,module,exports){
+},{"../util/CursorChanger":53,"./EditMode":33,"./SettingDialog":35,"./typeEditor/TypeEditor":45}],35:[function(require,module,exports){
 var debounce300 = function(func) {
 		return _.debounce(func, 300);
 	},
@@ -4754,179 +4790,164 @@ module.exports = function(editor, editMode) {
 		createContent
 	);
 };
-},{"../util/dialog/GetEditorDialog":44,"../util/jQuerySugar":50}],30:[function(require,module,exports){
-// adjust the beginning position of a span
-var adjustSpanBeginLong = function(spanConfig, sourceDoc, beginPosition) {
-        var pos = beginPosition;
+},{"../util/dialog/GetEditorDialog":61,"../util/jQuerySugar":67}],36:[function(require,module,exports){
+var skipBlank = require('./skipBlank');
 
-        while (
-            spanConfig.isNonEdgeCharacter(sourceDoc.charAt(pos))
-        ) {
-            pos++;
-        }
-
-        while (
-            pos > 0 &&
-            !spanConfig.isDelimiter(sourceDoc.charAt(pos)) &&
-            !spanConfig.isDelimiter(sourceDoc.charAt(pos - 1))
-        ) {
-            pos--;
-        }
-        return pos;
+module.exports = {
+	backFromBegin: function(str, position, spanConfig) {
+		return skipBlank.forward(str, position, spanConfig.isBlankCharacter);
+	},
+	forwardFromEnd: function(str, position, spanConfig) {
+		return skipBlank.back(str, position, spanConfig.isBlankCharacter);
+	},
+	forwardFromBegin: function(str, position, spanConfig) {
+		return skipBlank.forward(str, position, spanConfig.isBlankCharacter);
+	},
+	backFromEnd: function(str, position, spanConfig) {
+		return skipBlank.back(str, position, spanConfig.isBlankCharacter);
+	}
+};
+},{"./skipBlank":38}],37:[function(require,module,exports){
+var skipCharacters = require('./skipCharacters'),
+    skipBlank = require('./skipBlank'),
+    getPrev = function(str, position) {
+        return [str.charAt(position), str.charAt(position - 1)];
     },
-    // adjust the end position of a span
-    adjustSpanEndLong = function(spanConfig, sourceDoc, endPosition) {
-        var pos = endPosition;
+    getNext = function(str, position) {
+        return [str.charAt(position), str.charAt(position + 1)];
+    },
+    backToDelimiter = function(str, position, isDelimiter) {
+        return skipCharacters(
+            getPrev, -1,
+            str,
+            position,
+            function(chars) {
+                // Proceed the position between two characters as (!delimiter delimiter) || (delimiter !delimiter) || (!delimiter !delimiter).       
+                return chars[1] &&
+                    !isDelimiter(chars[0]) &&
+                    !isDelimiter(chars[1]);
+            }
+        );
+    },
+    skipToDelimiter = function(str, position, isDelimiter) {
+        return skipCharacters(
+            getNext, 1,
+            str,
+            position,
+            function(chars) {
+                // Proceed the position between two characters as (!delimiter delimiter) || (delimiter !delimiter) || (!delimiter !delimiter).       
+                // Return false to stop an infinite loop when the character undefined.
+                return chars[1] &&
+                    !isDelimiter(chars[0]) &&
+                    !isDelimiter(chars[1]);
+            }
+        );
+    },
+    // Proceed the position between two characters as (blank || delimiter)(!delimiter). 
+    isWord = function(isBlankCharacter, isDelimiter, chars) {
+        return !isBlankCharacter(chars[1]) &&
+            !isDelimiter(chars[1]) ||
+            isDelimiter(chars[0]);
+    },
+    skipToWord = function(str, position, isWordEdge) {
+        return skipCharacters(
+            getPrev, 1,
+            str,
+            position,
+            isWordEdge
+        );
+    },
+    backToWord = function(str, position, isWordEdge) {
+        return skipCharacters(
+            getNext, -1,
+            str,
+            position,
+            isWordEdge
+        );
+    },
+    backFromBegin = function(str, beginPosition, spanConfig) {
+        var nonEdgePos = skipBlank.forward(str, beginPosition, spanConfig.isBlankCharacter),
+            nonDelimPos = backToDelimiter(str, nonEdgePos, spanConfig.isDelimiter);
 
-        while (
-            spanConfig.isNonEdgeCharacter(sourceDoc.charAt(pos - 1))
-        ) {
-            pos--;
-        }
+        return nonDelimPos;
+    },
+    forwardFromEnd = function(str, endPosition, spanConfig) {
+        var nonEdgePos = skipBlank.back(str, endPosition, spanConfig.isBlankCharacter),
+            nonDelimPos = skipToDelimiter(str, nonEdgePos, spanConfig.isDelimiter);
 
-        while (!spanConfig.isDelimiter(sourceDoc.charAt(pos)) &&
-            pos < sourceDoc.length
-        ) {
-            pos++;
-        }
-        return pos;
+        return nonDelimPos;
     },
     // adjust the beginning position of a span for shortening
-    adjustSpanBeginShort = function(spanConfig, sourceDoc, beginPosition) {
-        var pos = beginPosition;
-        while (
-            pos < sourceDoc.length &&
-            (
-                spanConfig.isNonEdgeCharacter(sourceDoc.charAt(pos)) ||
-                !spanConfig.isDelimiter(sourceDoc.charAt(pos - 1))
-            )
-        ) {
-            pos++;
-        }
-        return pos;
+    forwardFromBegin = function(str, beginPosition, spanConfig) {
+        var isWordEdge = _.partial(isWord, spanConfig.isBlankCharacter, spanConfig.isDelimiter);
+        return skipToWord(str, beginPosition, isWordEdge);
     },
     // adjust the end position of a span for shortening
-    adjustSpanEndShort = function(spanConfig, sourceDoc, endPosition) {
-        var pos = endPosition;
-        while (
-            pos > 0 &&
-            (
-                spanConfig.isNonEdgeCharacter(sourceDoc.charAt(pos - 1)) ||
-                !spanConfig.isDelimiter(sourceDoc.charAt(pos))
-            )
-        ) {
-            pos--;
-        }
-        return pos;
-    },
-    spanAdjuster = {
-        adjustSpanBeginLong: adjustSpanBeginLong,
-        adjustSpanEndLong: adjustSpanEndLong,
-        adjustSpanBeginShort: adjustSpanBeginShort,
-        adjustSpanEndShort: adjustSpanEndShort
+    backFromEnd = function(str, endPosition, spanConfig) {
+        var isWordEdge = _.partial(isWord, spanConfig.isBlankCharacter, spanConfig.isDelimiter);
+        return backToWord(str, endPosition, isWordEdge);
     };
 
-module.exports = spanAdjuster;
-},{}],31:[function(require,module,exports){
-module.exports = function(spanConfig, model) {
-    var spanAdjuster = require('./SpanAdjuster'),
-        selectPosition = require('./selectPosition'),
-        createSpan = function() {
-            var toSpanPosition = function(selection) {
-                var positions = selectPosition.toPositions(model.annotationData, selection);
-                return {
-                    begin: spanAdjuster.adjustSpanBeginLong(spanConfig, model.annotationData.sourceDoc, positions.anchorPosition),
-                    end: spanAdjuster.adjustSpanEndLong(spanConfig, model.annotationData.sourceDoc, positions.focusPosition)
-                };
-            };
-
-            return function(selection) {
-                model.selectionModel.clear();
-                return toSpanPosition(selection);
-            };
-        }(),
-        expandSpan = function() {
-            var getNewSpan = function(spanId, selectionRange, anchorNodeRange, focusPosition) {
-                var span = model.annotationData.span.get(spanId);
-
-                if (selectionRange.compareBoundaryPoints(Range.START_TO_START, anchorNodeRange) < 0) {
-                    // expand to the left
-                    return {
-                        begin: spanAdjuster.adjustSpanBeginLong(spanConfig, model.annotationData.sourceDoc, focusPosition),
-                        end: span.end
-                    };
-                } else {
-                    // expand to the right
-                    return {
-                        begin: span.begin,
-                        end: spanAdjuster.adjustSpanEndLong(spanConfig, model.annotationData.sourceDoc, focusPosition)
-                    };
-                }
-            };
-
-            return function(spanId, selection) {
-                model.selectionModel.clear();
-
-                var selectionRange = selection.getRangeAt(0);
-                var anchorNodeRange = document.createRange();
-                anchorNodeRange.selectNode(selection.anchorNode);
-                var focusPosition = selectPosition.getFocusPosition(model.annotationData, selection);
-
-                return getNewSpan(spanId, selectionRange, anchorNodeRange, focusPosition);
-            };
-        }(),
-        shortenSpan = function() {
-            var getNewSpan = function(spanId, selectionRange, focusNodeRange, focusPosition) {
-                var span = model.annotationData.span.get(spanId);
-                if (selectionRange.compareBoundaryPoints(Range.START_TO_START, focusNodeRange) > 0) {
-                    // shorten the right boundary
-                    return {
-                        begin: span.begin,
-                        end: spanAdjuster.adjustSpanEndShort(spanConfig, model.annotationData.sourceDoc, focusPosition)
-                    };
-                } else {
-                    // shorten the left boundary
-                    return {
-                        begin: spanAdjuster.adjustSpanBeginShort(spanConfig, model.annotationData.sourceDoc, focusPosition),
-                        end: span.end
-                    };
-                }
-            };
-
-            return function(spanId, selection) {
-                model.selectionModel.clear();
-
-                var selectionRange = selection.getRangeAt(0);
-                var focusNodeRange = document.createRange();
-                focusNodeRange.selectNode(selection.focusNode);
-                var focusPosition = selectPosition.getFocusPosition(model.annotationData, selection);
-
-                return getNewSpan(spanId, selectionRange, focusNodeRange, focusPosition);
-            };
-        }();
-
-    return {
-        create: createSpan,
-        expand: expandSpan,
-        shrink: shortenSpan
-    };
+module.exports = {
+    backFromBegin: backFromBegin,
+    forwardFromEnd: forwardFromEnd,
+    forwardFromBegin: forwardFromBegin,
+    backFromEnd: backFromEnd
 };
-},{"./SpanAdjuster":30,"./selectPosition":34}],32:[function(require,module,exports){
+},{"./skipBlank":38,"./skipCharacters":39}],38:[function(require,module,exports){
+var skipCharacters = require('./skipCharacters'),
+	getNow = function(str, position) {
+		return str.charAt(position);
+	},
+	skipForwardBlank = function(str, position, isBlankCharacter) {
+		return skipCharacters(
+			getNow, 1,
+			str,
+			position,
+			isBlankCharacter
+		);
+	},
+	skipBackBlank = function(str, position, isBlankCharacter) {
+		return skipCharacters(
+			getNow, -1,
+			str,
+			position,
+			isBlankCharacter
+		);
+	};
+
+module.exports = {
+	forward: skipForwardBlank,
+	back: skipBackBlank
+};
+},{"./skipCharacters":39}],39:[function(require,module,exports){
+module.exports = function(getChars, step, str, position, predicate) {
+	while (predicate(getChars(str, position)))
+		position += step;
+
+	return position;
+};
+},{}],40:[function(require,module,exports){
+var dismissBrowserSelection = require('./dismissBrowserSelection');
+
 module.exports = function(editor, model, spanConfig, command, viewModel, typeContainer) {
-	var dismissBrowserSelection = require('./dismissBrowserSelection'),
-		// changeEventHandler will init.
-		changeTypeOfSelected,
-		getSelectedIdEditable,
-		// The Reference to content to be shown in the pallet.
-		palletConfig = {},
-		pallet = require('../component/Pallet')(),
-		hideDialogs = function() {
-			pallet.hide();
+	var handler = {
+			changeTypeOfSelected: null,
+			getSelectedIdEditable: null,
+			// The Reference to content to be shown in the pallet.
+			typeContainer: null,
+			// A Swithing point to change a behavior when relation is clicked.
+			jsPlumbConnectionClicked: null
 		},
-		cancelSelect = function() {
-			hideDialogs();
-			model.selectionModel.clear();
-			dismissBrowserSelection();
+		emitter = require('../../util/extendBindable')({}),
+		unbindAllEventhandler = function() {
+			return editor
+				.off('mouseup', '.textae-editor__body')
+				.off('mouseup', '.textae-editor__span')
+				.off('mouseup', '.textae-editor__span_block')
+				.off('mouseup', '.textae-editor__type-label')
+				.off('mouseup', '.textae-editor__entity-pane')
+				.off('mouseup', '.textae-editor__entity');
 		},
 		changeType = function(getSelectedAndEditable, createChangeTypeCommandFunction, newType) {
 			var ids = getSelectedAndEditable();
@@ -4938,14 +4959,31 @@ module.exports = function(editor, model, spanConfig, command, viewModel, typeCon
 				command.invoke(commands);
 			}
 		},
-		unbindAllEventhandler = function() {
-			return editor
-				.off('mouseup', '.textae-editor__body')
-				.off('mouseup', '.textae-editor__span')
-				.off('mouseup', '.textae-editor__span_block')
-				.off('mouseup', '.textae-editor__type-label')
-				.off('mouseup', '.textae-editor__entity-pane')
-				.off('mouseup', '.textae-editor__entity');
+		getSelectionSnapShot = function() {
+			var selection = window.getSelection(),
+				snapShot = {
+					anchorNode: selection.anchorNode,
+					anchorOffset: selection.anchorOffset,
+					focusNode: selection.focusNode,
+					focusOffset: selection.focusOffset,
+					range: selection.getRangeAt(0)
+				};
+
+			dismissBrowserSelection();
+
+			// Return the snap shot of the selection.
+			return snapShot;
+		},
+		cancelSelect = function() {
+			emitter.trigger('cancel.select');
+		},
+		noEdit = function() {
+			unbindAllEventhandler();
+
+			handler.typeContainer = null;
+			handler.changeTypeOfSelected = null;
+			handler.getSelectedIdEditable = null;
+			handler.jsPlumbConnectionClicked = null;
 		},
 		editRelation = function() {
 			var entityClickedAtRelationMode = function(e) {
@@ -5016,15 +5054,15 @@ module.exports = function(editor, model, spanConfig, command, viewModel, typeCon
 					.on('mouseup', '.textae-editor__relation, .textae-editor__relation__label', returnFalse)
 					.on('mouseup', '.textae-editor__body', cancelSelect);
 
-				palletConfig.typeContainer = typeContainer.relation;
-				getSelectedIdEditable = model.selectionModel.relation.all;
-				changeTypeOfSelected = _.partial(changeType, getSelectedIdEditable, command.factory.relationChangeTypeCommand);
+				handler.typeContainer = typeContainer.relation;
+				handler.getSelectedIdEditable = model.selectionModel.relation.all;
+				handler.changeTypeOfSelected = _.partial(changeType, handler.getSelectedIdEditable, command.factory.relationChangeTypeCommand);
 
-				jsPlumbConnectionClickedImpl = selectRelation;
+				handler.jsPlumbConnectionClicked = selectRelation;
 			};
 		}(),
 		editEntity = function() {
-			var selectEnd = require('./SelectEnd')(editor, model, spanConfig, command, viewModel, typeContainer),
+			var selectEnd = require('./SelectEnd')(editor, model, command, viewModel, typeContainer),
 				bodyClicked = function() {
 					var selection = window.getSelection();
 
@@ -5032,7 +5070,10 @@ module.exports = function(editor, model, spanConfig, command, viewModel, typeCon
 					if (selection.isCollapsed) {
 						cancelSelect();
 					} else {
-						selectEnd.onText(selection);
+						selectEnd.onText({
+							spanConfig: spanConfig,
+							selection: getSelectionSnapShot()
+						});
 					}
 				},
 				selectSpan = function() {
@@ -5085,7 +5126,10 @@ module.exports = function(editor, model, spanConfig, command, viewModel, typeCon
 						selectSpan(event);
 						return false;
 					} else {
-						selectEnd.onSpan(selection);
+						selectEnd.onSpan({
+							spanConfig: spanConfig,
+							selection: getSelectionSnapShot()
+						});
 						// Cancel selection of a paragraph.
 						// And do non propagate the parent span.
 						event.stopPropagation();
@@ -5102,6 +5146,8 @@ module.exports = function(editor, model, spanConfig, command, viewModel, typeCon
 								model.selectionModel.entity.remove($(this).attr('title'));
 							});
 						};
+
+					dismissBrowserSelection();
 
 					if (ctrlKey) {
 						if ($typeLabel.hasClass('ui-selected')) {
@@ -5120,6 +5166,8 @@ module.exports = function(editor, model, spanConfig, command, viewModel, typeCon
 					return labelOrPaneClicked(e.ctrlKey || e.metaKey, $typeLabel, $typeLabel.next().children());
 				},
 				entityClicked = function(e) {
+					dismissBrowserSelection();
+
 					var $target = $(e.target);
 					if (e.ctrlKey || e.metaKey) {
 						model.selectionModel.entity.toggle($target.attr('title'));
@@ -5149,79 +5197,413 @@ module.exports = function(editor, model, spanConfig, command, viewModel, typeCon
 					.on('mouseup', '.textae-editor__entity-pane', entityPaneClicked)
 					.on('mouseup', '.textae-editor__entity', entityClicked);
 
-				palletConfig.typeContainer = typeContainer.entity;
-				getSelectedIdEditable = model.selectionModel.entity.all;
-				changeTypeOfSelected = _.partial(
+				handler.typeContainer = typeContainer.entity;
+				handler.getSelectedIdEditable = model.selectionModel.entity.all;
+				handler.changeTypeOfSelected = _.partial(
 					changeType,
-					getSelectedIdEditable,
+					handler.getSelectedIdEditable,
 					createEntityChangeTypeCommand
 				);
 
-				jsPlumbConnectionClickedImpl = null;
+				handler.jsPlumbConnectionClicked = null;
 			};
-		}(),
-		noEdit = function() {
-			unbindAllEventhandler();
+		}();
 
-			palletConfig.typeContainer = null;
-			changeTypeOfSelected = null;
-			getSelectedIdEditable = null;
+	return _.extend({
+		handler: handler,
+		start: {
+			noEdit: noEdit,
+			editRelation: editRelation,
+			editEntity: editEntity
+		}
+	}, emitter);
+};
+},{"../../util/extendBindable":64,"./SelectEnd":41,"./dismissBrowserSelection":47}],41:[function(require,module,exports){
+var SpanEditor = require('./SpanEditor'),
+	selectEndOnText = function(selectionValidater, spanEditor, data) {
+		var isValid = selectionValidater.validateOnText(data.spanConfig, data.selection);
 
-			jsPlumbConnectionClickedImpl = null;
+		if (isValid) {
+			_.compose(spanEditor.expand, spanEditor.create)(data);
+		}
+	},
+	selectEndOnSpan = function(selectionValidater, spanEditor, data) {
+		var isValid = selectionValidater.validateOnSpan(data.spanConfig, data.selection);
+
+		if (isValid) {
+			_.compose(spanEditor.shrink, spanEditor.expand, spanEditor.create)(data);
+		}
+	};
+
+module.exports = function(editor, model, command, viewModel, typeContainer) {
+	var selectionParser = require('./selectionParser')(editor, model),
+		selectionValidater = require('./SelectionValidater')(selectionParser),
+		// Initiated by events.
+		selectEndOnTextImpl = null,
+		selectEndOnSpanImpl = null,
+		changeSpanEditorAccordingToButtons = function() {
+			var isDetectDelimiterEnable = viewModel.modeAccordingToButton['boundary-detection'].value(),
+				isReplicateAuto = viewModel.modeAccordingToButton['replicate-auto'].value(),
+				spanEditor = new SpanEditor(editor, model, command, typeContainer, isDetectDelimiterEnable, isReplicateAuto);
+
+			selectEndOnTextImpl = _.partial(selectEndOnText, selectionValidater, spanEditor);
+			selectEndOnSpanImpl = _.partial(selectEndOnSpan, selectionValidater, spanEditor);
 		};
 
-	pallet
-		.bind('type.select', function(label) {
-			pallet.hide();
-			changeTypeOfSelected(label);
-		})
-		.bind('default-type.select', function(label) {
-			pallet.hide();
-			palletConfig.typeContainer.setDefaultType(label);
-		});
+	// Change spanEditor according to the  buttons state.
+	changeSpanEditorAccordingToButtons();
 
-	// A Swithing point to change a behavior when relation is clicked.
-	var jsPlumbConnectionClickedImpl = null;
+	viewModel.modeAccordingToButton['boundary-detection']
+		.bind('change', changeSpanEditorAccordingToButtons);
 
-	// A relation is drawn by a jsPlumbConnection.
-	// The EventHandlar for clieck event of jsPlumbConnection. 
-	var jsPlumbConnectionClicked = function() {
-		return function(jsPlumbConnection, event) {
+	viewModel.modeAccordingToButton['replicate-auto']
+		.bind('change', changeSpanEditorAccordingToButtons);
+
+	return {
+		onText: function(data) {
+			if (selectEndOnTextImpl) selectEndOnTextImpl(data);
+		},
+		onSpan: function(data) {
+			if (selectEndOnSpanImpl) selectEndOnSpanImpl(data);
+		}
+	};
+};
+},{"./SelectionValidater":42,"./SpanEditor":43,"./selectionParser":49}],42:[function(require,module,exports){
+var deferAlert = require('./deferAlert');
+
+module.exports = function(parser) {
+	var showAlertIfOtherSpan = function(selection) {
+			if (parser.isInSameParagraph(selection)) {
+				return true;
+			}
+
+			deferAlert('It is ambiguous for which span you want to adjust the boundary. Select the span, and try again.');
+			return false;
+		},
+		commonValidate = function(spanConfig, selection) {
+			// This order is not important.
+			return showAlertIfOtherSpan(selection) &&
+				parser.isAnchrNodeInSpanOrParagraph(selection) &&
+				parser.hasCharacters(spanConfig, selection);
+		},
+		validateOnText = function(spanConfig, selection) {
+			// This order is important, because showAlertIfOtherSpan is show alert.
+			return parser.isFocusNodeInParagraph(selection) &&
+				commonValidate(spanConfig, selection);
+		},
+		validateOnSpan = function(spanConfig, selection) {
+			// This order is important, because showAlertIfOtherSpan is show alert.
+			return parser.isFocusNodeInSpan(selection) &&
+				commonValidate(spanConfig, selection);
+		};
+
+	return {
+		validateOnText: validateOnText,
+		validateOnSpan: validateOnSpan
+	};
+};
+},{"./deferAlert":46}],43:[function(require,module,exports){
+var moveSpan = function(idFactory, command, spanId, newSpan) {
+		// Do not need move.
+		if (spanId === idFactory.makeSpanId(newSpan)) {
+			return;
+		}
+
+		return [command.factory.spanMoveCommand(spanId, newSpan)];
+	},
+	removeSpan = function(command, spanId) {
+		return [command.factory.spanRemoveCommand(spanId)];
+	},
+	isBoundaryCrossingWithOtherSpans = require('../../model/isBoundaryCrossingWithOtherSpans'),
+	isAlreadySpaned = require('../../model/isAlreadySpaned'),
+	DoCreate = function(model, command, typeContainer, spanManipulater, idFactory, isDetectDelimiterEnable, isReplicateAuto, data) {
+		var BLOCK_THRESHOLD = 100,
+			newSpan = spanManipulater.create(data.selection, data.spanConfig);
+
+		// The span cross exists spans.
+		if (isBoundaryCrossingWithOtherSpans(
+				model.annotationData.span.all(),
+				newSpan
+			)) {
+			return;
+		}
+
+		// The span exists already.
+		if (isAlreadySpaned(model.annotationData.span.all(), newSpan)) {
+			return;
+		}
+
+		var commands = [command.factory.spanCreateCommand(
+			typeContainer.entity.getDefaultType(), {
+				begin: newSpan.begin,
+				end: newSpan.end
+			}
+		)];
+
+		if (isReplicateAuto && newSpan.end - newSpan.begin <= BLOCK_THRESHOLD) {
+			commands.push(
+				command.factory.spanReplicateCommand(
+					typeContainer.entity.getDefaultType(), {
+						begin: newSpan.begin,
+						end: newSpan.end
+					},
+					isDetectDelimiterEnable ? data.spanConfig.isDelimiter : null
+				)
+			);
+		}
+
+		command.invoke(commands);
+	},
+	deferAlert = require('./deferAlert'),
+	expandSpanToSelection = function(model, command, spanManipulater, idFactory, spanId, data) {
+		var newSpan = spanManipulater.expand(spanId, data.selection, data.spanConfig);
+
+		// The span cross exists spans.
+		if (isBoundaryCrossingWithOtherSpans(
+				model.annotationData.span.all(),
+				newSpan
+			)) {
+			deferAlert('A span cannot be expanded to make a boundary crossing.');
+			return;
+		}
+
+		command.invoke(moveSpan(idFactory, command, spanId, newSpan));
+	},
+	DoExpand = function(model, selectionParser, expandSpanToSelection, data) {
+		// If a span is selected, it is able to begin drag a span in the span and expand the span.
+		// The focus node should be at one level above the selected node.
+		if (selectionParser.isAnchorInSelectedSpan(data.selection)) {
+			// cf.
+			// 1. one side of a inner span is same with one side of the outside span.
+			// 2. Select an outside span.
+			// 3. Begin Drug from an inner span to out of an outside span. 
+			// Expand the selected span.
+			expandSpanToSelection(model.selectionModel.span.single(), data);
+		} else if (selectionParser.isAnchorOneDownUnderForcus(data.selection)) {
+			// To expand the span , belows are needed:
+			// 1. The anchorNode is in the span.
+			// 2. The foucusNode is out of the span and in the parent of the span.
+			expandSpanToSelection(data.selection.anchorNode.parentNode.id, data);
+		} else {
+			return data;
+		}
+	},
+	shrinkSpanToSelection = function(model, command, spanManipulater, idFactory, spanId, data) {
+		var newSpan = spanManipulater.shrink(spanId, data.selection, data.spanConfig);
+
+		// The span cross exists spans.
+		if (isBoundaryCrossingWithOtherSpans(
+				model.annotationData.span.all(),
+				newSpan
+			)) {
+			deferAlert('A span cannot be shrinked to make a boundary crossing.');
+			return;
+		}
+
+		var newSpanId = idFactory.makeSpanId(newSpan),
+			sameSpan = model.annotationData.span.get(newSpanId);
+
+		command.invoke(
+			newSpan.begin < newSpan.end && !sameSpan ?
+			moveSpan(idFactory, command, spanId, newSpan) :
+			removeSpan(command, spanId)
+		);
+	},
+	DoShrink = function(model, selectionParser, doShrinkSpanToSelection, data) {
+		if (selectionParser.isFocusInSelectedSpan(data.selection)) {
+			// If a span is selected, it is able to begin drag out of an outer span of the span and shrink the span.
+			// The focus node should be at the selected node.
+			// cf.
+			// 1. Select an inner span.
+			// 2. Begin Drug from out of an outside span to the selected span. 
+			// Shrink the selected span.
+			doShrinkSpanToSelection(model.selectionModel.span.single(), data);
+		} else if (selectionParser.isForcusOneDownUnderAnchor(data.selection)) {
+			// To shrink the span , belows are needed:
+			// 1. The anchorNode out of the span and in the parent of the span.
+			// 2. The foucusNode is in the span.
+			doShrinkSpanToSelection(data.selection.focusNode.parentNode.id, data);
+		}
+	},
+	SpanEditor = function(editor, model, command, typeContainer, isDetectDelimiterEnable, isReplicateAuto) {
+		var delimiterDetectAdjuster = require('../spanAdjuster/delimiterDetectAdjuster'),
+			blankSkipAdjuster = require('../spanAdjuster/blankSkipAdjuster'),
+			spanAdjuster = isDetectDelimiterEnable ? delimiterDetectAdjuster : blankSkipAdjuster,
+			spanManipulater = require('./SpanManipulater')(model, spanAdjuster),
+			selectionParser = require('./selectionParser')(editor, model),
+			idFactory = require('../../util/IdFactory')(editor),
+			doCreate = _.partial(DoCreate, model, command, typeContainer, spanManipulater, idFactory, isDetectDelimiterEnable, isReplicateAuto),
+			doExpandSpanToSelection = _.partial(expandSpanToSelection, model, command, spanManipulater, idFactory),
+			doExpand = _.partial(DoExpand, model, selectionParser, doExpandSpanToSelection),
+			doShrinkSpanToSelection = _.partial(shrinkSpanToSelection, model, command, spanManipulater, idFactory),
+			doShrink = _.partial(DoShrink, model, selectionParser, doShrinkSpanToSelection),
+			processSelectionIf = function(doFunc, predicate, data) {
+				if (data && predicate(data.selection)) {
+					return doFunc(data);
+				}
+				return data;
+			};
+
+		return {
+			create: _.partial(processSelectionIf, doCreate, selectionParser.isInOneParent),
+			expand: _.partial(processSelectionIf, doExpand, selectionParser.isAnchrNodeInSpan),
+			shrink: _.partial(processSelectionIf, doShrink, selectionParser.isFocusNodeInSpan),
+		};
+	};
+
+module.exports = SpanEditor;
+},{"../../model/isAlreadySpaned":31,"../../model/isBoundaryCrossingWithOtherSpans":32,"../../util/IdFactory":55,"../spanAdjuster/blankSkipAdjuster":36,"../spanAdjuster/delimiterDetectAdjuster":37,"./SpanManipulater":44,"./deferAlert":46,"./selectionParser":49}],44:[function(require,module,exports){
+module.exports = function(model, spanAdjuster) {
+    var selectPosition = require('./selectPosition'),
+        createSpan = function() {
+            var toSpanPosition = function(selection, spanConfig) {
+                var positions = selectPosition.toPositions(model.annotationData, selection);
+                return {
+                    begin: spanAdjuster.backFromBegin(model.annotationData.sourceDoc, positions.anchorPosition, spanConfig),
+                    end: spanAdjuster.forwardFromEnd(model.annotationData.sourceDoc, positions.focusPosition - 1, spanConfig) + 1
+                };
+            };
+
+            return function(selection, spanConfig) {
+                model.selectionModel.clear();
+                return toSpanPosition(selection, spanConfig);
+            };
+        }(),
+        expandSpan = function() {
+            var getNewSpan = function(spanId, selectionRange, anchorNodeRange, focusPosition, spanConfig) {
+                var span = model.annotationData.span.get(spanId);
+
+                if (selectionRange.compareBoundaryPoints(Range.START_TO_START, anchorNodeRange) < 0) {
+                    // expand to the left
+                    return {
+                        begin: spanAdjuster.backFromBegin(model.annotationData.sourceDoc, focusPosition, spanConfig),
+                        end: span.end
+                    };
+                } else {
+                    // expand to the right
+                    return {
+                        begin: span.begin,
+                        end: spanAdjuster.forwardFromEnd(model.annotationData.sourceDoc, focusPosition - 1, spanConfig) + 1
+                    };
+                }
+            };
+
+            return function(spanId, selection, spanConfig) {
+                model.selectionModel.clear();
+
+                var anchorNodeRange = document.createRange();
+                anchorNodeRange.selectNode(selection.anchorNode);
+                var focusPosition = selectPosition.getFocusPosition(model.annotationData, selection);
+
+                return getNewSpan(spanId, selection.range, anchorNodeRange, focusPosition, spanConfig);
+            };
+        }(),
+        shortenSpan = function() {
+            var getNewSpan = function(spanId, selectionRange, focusNodeRange, focusPosition, spanConfig) {
+                var span = model.annotationData.span.get(spanId);
+                if (selectionRange.compareBoundaryPoints(Range.START_TO_START, focusNodeRange) > 0) {
+                    // shorten the right boundary
+                    return {
+                        begin: span.begin,
+                        end: spanAdjuster.backFromEnd(model.annotationData.sourceDoc, focusPosition - 1, spanConfig) + 1
+                    };
+                } else {
+                    // shorten the left boundary
+                    return {
+                        begin: spanAdjuster.forwardFromBegin(model.annotationData.sourceDoc, focusPosition, spanConfig),
+                        end: span.end
+                    };
+                }
+            };
+
+            return function(spanId, selection, spanConfig) {
+                model.selectionModel.clear();
+
+                var focusNodeRange = document.createRange();
+                focusNodeRange.selectNode(selection.focusNode);
+                var focusPosition = selectPosition.getFocusPosition(model.annotationData, selection);
+
+                return getNewSpan(spanId, selection.range, focusNodeRange, focusPosition, spanConfig);
+            };
+        }();
+
+    return {
+        create: createSpan,
+        expand: expandSpan,
+        shrink: shortenSpan
+    };
+};
+},{"./selectPosition":48}],45:[function(require,module,exports){
+var dismissBrowserSelection = require('./dismissBrowserSelection');
+
+module.exports = function(editor, model, spanConfig, command, viewModel, typeContainer) {
+	// will init.
+	var elementEditor = require('./ElementEditor')(editor, model, spanConfig, command, viewModel, typeContainer),
+		pallet = require('../../component/Pallet')(),
+		cancelSelect = function() {
+			pallet.hide();
+			model.selectionModel.clear();
+			dismissBrowserSelection();
+		},
+		// A relation is drawn by a jsPlumbConnection.
+		// The EventHandlar for clieck event of jsPlumbConnection. 
+		jsPlumbConnectionClicked = function(jsPlumbConnection, event) {
 			// Check the event is processed already.
 			// Because the jsPlumb will call the event handler twice
 			// when a label is clicked that of a relation added after the initiation.
-			if (jsPlumbConnectionClickedImpl && !event.processedByTextae) {
-				jsPlumbConnectionClickedImpl(jsPlumbConnection, event);
+			if (elementEditor.handler.jsPlumbConnectionClicked && !event.processedByTextae) {
+				elementEditor.handler.jsPlumbConnectionClicked(jsPlumbConnection, event);
 			}
 
 			event.processedByTextae = true;
 		};
-	}();
+
+	// Bind events.
+	elementEditor.bind('cancel.select', cancelSelect);
+
+	pallet
+		.bind('type.select', function(label) {
+			pallet.hide();
+			elementEditor.handler.changeTypeOfSelected(label);
+		})
+		.bind('default-type.select', function(label) {
+			pallet.hide();
+			elementEditor.handler.typeContainer.setDefaultType(label);
+		});
+
 
 	return {
-		editRelation: editRelation,
-		editEntity: editEntity,
-		noEdit: noEdit,
+		editRelation: elementEditor.start.editRelation,
+		editEntity: elementEditor.start.editEntity,
+		noEdit: elementEditor.start.noEdit,
 		showPallet: function(point) {
-			pallet.show(palletConfig, point);
+			pallet.show(elementEditor.handler.typeContainer, point);
 		},
 		setNewType: function(newTypeName) {
-			changeTypeOfSelected(newTypeName);
+			elementEditor.handler.changeTypeOfSelected(newTypeName);
 		},
-		hideDialogs: hideDialogs,
+		hideDialogs: pallet.hide,
 		cancelSelect: cancelSelect,
 		jsPlumbConnectionClicked: jsPlumbConnectionClicked,
 		getSelectedIdEditable: function() {
-			return getSelectedIdEditable && getSelectedIdEditable();
+			return elementEditor.handler.getSelectedIdEditable && elementEditor.handler.getSelectedIdEditable();
 		}
 	};
 };
-},{"../component/Pallet":12,"./SelectEnd":28,"./dismissBrowserSelection":33}],33:[function(require,module,exports){
+},{"../../component/Pallet":15,"./ElementEditor":40,"./dismissBrowserSelection":47}],46:[function(require,module,exports){
+module.exports = function(message) {
+	// Show synchronous to smooth cancelation of selecton.
+	_.defer(_.partial(
+		alert,
+		message
+	));
+};
+},{}],47:[function(require,module,exports){
 module.exports = function() {
 	var selection = window.getSelection();
 	selection.collapse(document.body, 0);
 };
-},{}],34:[function(require,module,exports){
+},{}],48:[function(require,module,exports){
 var getPosition = function(paragraph, span, node) {
 		var $parent = $(node).parent();
 		var parentId = $parent.attr("id");
@@ -5272,7 +5654,134 @@ module.exports = {
 	getAnchorPosition: getAnchorPosition,
 	getFocusPosition: getFocusPosition,
 };
-},{}],35:[function(require,module,exports){
+},{}],49:[function(require,module,exports){
+module.exports = function(editor, model) {
+	var selectPosition = require('./selectPosition'),
+		domUtil = require('../../util/DomUtil')(editor),
+		// A span cannot be created include nonEdgeCharacters only.
+		hasCharacters = function(spanConfig, selection) {
+			if (!selection) return false;
+
+			var positions = selectPosition.toPositions(model.annotationData, selection),
+				selectedString = model.annotationData.sourceDoc.substring(positions.anchorPosition, positions.focusPosition),
+				stringWithoutBlankCharacters = spanConfig.removeBlankChractors(selectedString);
+
+			return stringWithoutBlankCharacters.length > 0;
+		},
+		isInOneParent = function(selection) {
+			// A span can be created at the same parent node.
+			// The parentElement is expected as a paragraph or a span.
+			return selection.anchorNode.parentElement.id === selection.focusNode.parentElement.id;
+		},
+		getAnchorNodeParent = function(selection) {
+			return $(selection.anchorNode.parentNode);
+		},
+		getFocusNodeParent = function(selection) {
+			return $(selection.focusNode.parentNode);
+		},
+		hasSpan = function($node) {
+			return $node.hasClass('textae-editor__span');
+		},
+		hasParagraphs = function($node) {
+			return $node.hasClass('textae-editor__body__text-box__paragraph');
+		},
+		hasSpanOrParagraphs = function($node) {
+			return hasSpan($node) || hasParagraphs($node);
+		},
+		isAnchrNodeInSpan = _.compose(hasSpan, getAnchorNodeParent),
+		isFocusNodeInSpan = _.compose(hasSpan, getFocusNodeParent),
+		isFocusNodeInParagraph = _.compose(hasParagraphs, getFocusNodeParent),
+		isAnchrNodeInSpanOrParagraph = _.compose(hasSpanOrParagraphs, getAnchorNodeParent),
+		isInSameParagraph = function() {
+			var getParagraph = function($node) {
+					if (hasParagraphs($node)) {
+						return $node;
+					} else if (hasSpan($node)) {
+						return getParagraph($node.parent());
+					} else {
+						return null;
+					}
+				},
+				getParagraphId = function(selection, position) {
+					var $parent = $(selection[position + 'Node'].parentNode),
+						$paragraph = getParagraph($parent);
+					return $paragraph && $paragraph.attr('id');
+				};
+
+			return function(selection) {
+				var anchorParagraphId = getParagraphId(selection, 'anchor'),
+					focusParagraphId = getParagraphId(selection, 'focus');
+
+				return anchorParagraphId === focusParagraphId;
+			};
+		}(),
+		isAnchorOneDownUnderForcus = function(selection) {
+			return selection.anchorNode.parentNode.parentNode === selection.focusNode.parentNode;
+		},
+		isForcusOneDownUnderAnchor = function(selection) {
+			return selection.anchorNode.parentNode === selection.focusNode.parentNode.parentNode;
+		},
+		isInSelectedSpan = function(position) {
+			var spanId = model.selectionModel.span.single();
+			if (spanId) {
+				var selectedSpan = model.annotationData.span.get(spanId);
+				return selectedSpan.begin < position && position < selectedSpan.end;
+			}
+			return false;
+		},
+		isAnchorInSelectedSpan = function(selection) {
+			return isInSelectedSpan(selectPosition.getAnchorPosition(model.annotationData, selection));
+		},
+		isFocusOnSelectedSpan = function(selection) {
+			return selection.focusNode.parentNode.id === model.selectionModel.span.single();
+		},
+		isFocusInSelectedSpan = function(selection) {
+			return isInSelectedSpan(selectPosition.getFocusPosition(model.annotationData, selection));
+		},
+		isSelectedSpanOneDownUnderFocus = function(selection) {
+			var selectedSpanId = model.selectionModel.span.single();
+			return domUtil.selector.span.get(selectedSpanId).parent().attr('id') === selection.focusNode.parentNode.id;
+		},
+		isLongerThanParentSpan = function(selection) {
+			var $getAnchorNodeParent = getAnchorNodeParent(selection),
+				focusPosition = selectPosition.getFocusPosition(model.annotationData, selection);
+
+			if (hasSpan($getAnchorNodeParent) && $getAnchorNodeParent.parent() && hasSpan($getAnchorNodeParent.parent())) {
+				var span = model.annotationData.span.get($getAnchorNodeParent.parent().attr('id'));
+				if (focusPosition < span.begin || span.end < focusPosition)
+					return true;
+			}
+		},
+		isShorterThanChildSpan = function(selection) {
+			var $getFocusNodeParent = getFocusNodeParent(selection),
+				anchorPosition = selectPosition.getAnchorPosition(model.annotationData, selection);
+
+			if (hasSpan($getFocusNodeParent) && $getFocusNodeParent.parent() && hasSpan($getFocusNodeParent.parent())) {
+				var span = model.annotationData.span.get($getFocusNodeParent.parent().attr('id'));
+				if (anchorPosition < span.begin || span.end < anchorPosition)
+					return true;
+			}
+		};
+
+	return {
+		hasCharacters: hasCharacters,
+		isInOneParent: isInOneParent,
+		isAnchrNodeInSpan: isAnchrNodeInSpan,
+		isAnchrNodeInSpanOrParagraph: isAnchrNodeInSpanOrParagraph,
+		isFocusNodeInSpan: isFocusNodeInSpan,
+		isFocusNodeInParagraph: isFocusNodeInParagraph,
+		isInSameParagraph: isInSameParagraph,
+		isAnchorOneDownUnderForcus: isAnchorOneDownUnderForcus,
+		isForcusOneDownUnderAnchor: isForcusOneDownUnderAnchor,
+		isAnchorInSelectedSpan: isAnchorInSelectedSpan,
+		isFocusOnSelectedSpan: isFocusOnSelectedSpan,
+		isFocusInSelectedSpan: isFocusInSelectedSpan,
+		isSelectedSpanOneDownUnderFocus: isSelectedSpanOneDownUnderFocus,
+		isLongerThanParentSpan: isLongerThanParentSpan,
+		isShorterThanChildSpan: isShorterThanChildSpan
+	};
+};
+},{"../../util/DomUtil":54,"./selectPosition":48}],50:[function(require,module,exports){
 // Ovserve and record mouse position to return it.
 var getMousePoint = function() {
         var lastMousePoint = {},
@@ -5290,46 +5799,7 @@ var getMousePoint = function() {
             return lastMousePoint;
         };
     }(),
-    // Observe key-input events and convert events to readable code.
-    observeKeybordInput = function(keyInputHandler) {
-        // Declare keyApiMap of control keys 
-        var controlKeyEventMap = {
-            27: 'ESC',
-            46: 'DEL',
-            37: 'LEFT',
-            39: 'RIGHT'
-        };
-
-        var convertKeyEvent = function(keyCode) {
-            if (65 <= keyCode && keyCode <= 90) {
-                // From a to z, convert 'A' to 'Z'
-                return String.fromCharCode(keyCode);
-            } else if (controlKeyEventMap[keyCode]) {
-                // Control keys, like ESC, DEL ...
-                return controlKeyEventMap[keyCode];
-            }
-        };
-
-        var getKeyCode = function(e) {
-            return e.keyCode;
-        };
-
-        // EventHandlers for key-input.
-        var eventHandler = _.compose(keyInputHandler, convertKeyEvent, getKeyCode);
-
-        // Observe key-input
-        var onKeyup = eventHandler;
-        $(document).on('keyup', function(event) {
-            onKeyup(event);
-        });
-
-        // Disable/Enable key-input When a jquery-ui dialog is opened/closeed
-        $('body').on('dialogopen', '.ui-dialog', function() {
-            onKeyup = function() {};
-        }).on('dialogclose', '.ui-dialog', function() {
-            onKeyup = eventHandler;
-        });
-    },
+    KeybordInputConverter = require('./tool/KeybordInputConverter'),
     // Observe window-resize event and redraw all editors. 
     observeWindowResize = function(editors) {
         // Bind resize event
@@ -5341,46 +5811,16 @@ var getMousePoint = function() {
             });
         }, 500));
     },
-    openDialog = function() {
-        var ToolDialog = require('./util/dialog/GetToolDialog'),
-            helpDialog = new ToolDialog(
-                'textae-control__help',
-                'Help (Keyboard short-cuts)', {
-                    height: 313,
-                    width: 523
-                },
-                $('<div>').addClass('textae-tool__key-help')),
-            aboutDialog = new ToolDialog(
-                'textae-control__about',
-                'About TextAE (Text Annotation Editor)', {
-                    height: 500,
-                    width: 600
-                },
-                $('<div>')
-                .html('<p>今ご覧になっているTextAEはPubAnnotationで管理しているアノテーションのビューアもしくはエディタです。</p>' +
-                    '<p>PubAnnotationではPubMedのアブストラクトにアノテーションを付けることができます。</p>' +
-                    '<p>現在はEntrez Gene IDによる自動アノテーションおよびそのマニュアル修正作業が可能となっています。' +
-                    '今後は自動アノテーションの種類を増やす計画です。</p>' +
-                    '<p>間違ったアノテーションも目に付くと思いますが、それを簡単に直して自分のプロジェクトにセーブできるのがポイントです。</p>' +
-                    '<p>自分のアノテーションを作成するためにはPubAnnotation上で自分のプロジェクトを作る必要があります。' +
-                    '作成したアノテーションは後で纏めてダウンロードしたり共有することができます。</p>' +
-                    '<p>まだ開発中のサービスであり、実装すべき機能が残っています。' +
-                    'ユーザの皆様の声を大事にして開発していきたいと考えておりますので、ご意見などございましたら教えていただければ幸いです。</p>'));
-
-        return {
-            help: helpDialog.open,
-            about: aboutDialog.open
-        };
-    }(),
+    helpDialog = require('./component/HelpDialog')(),
     ControlBar = function() {
         var control = null;
         return {
             setInstance: function(instance) {
                 control = instance;
             },
-            changeButtonState: function(disableButtons) {
+            changeButtonState: function(enableButtons) {
                 if (control) {
-                    control.updateAllButtonEnableState(disableButtons);
+                    control.updateAllButtonEnableState(enableButtons);
                 }
             },
             push: function(buttonName, push) {
@@ -5388,53 +5828,10 @@ var getMousePoint = function() {
             }
         };
     },
-    EditorContainer = function(controlBar) {
-        var switchActiveClass = function(editors, selected) {
-                var activeClass = 'textae-editor--active';
-
-                // Remove activeClass from others than selected.
-                _.reject(editors, function(editor) {
-                    return editor === selected;
-                }).forEach(function(others) {
-                    others.removeClass(activeClass);
-                    console.log('deactive', others.editorId);
-                });
-
-                // Add activeClass to the selected.
-                selected.addClass(activeClass);
-                console.log('active', selected.editorId);
-            },
-            editorList = [],
-            selected = null,
-            select = function(editor) {
-                switchActiveClass(editorList, editor);
-                selected = editor;
-            },
-            // A container of editors that is extended from Array. 
-            editors = {
-                push: function(editor) {
-                    editorList.push(editor);
-                },
-                getNewId: function() {
-                    return 'editor' + editorList.length;
-                },
-                getSelected: function() {
-                    return selected;
-                },
-                select: select,
-                selectFirst: function() {
-                    select(editorList[0]);
-                    controlBar.changeButtonState();
-                },
-                forEach: editorList.forEach.bind(editorList)
-            };
-
-        return editors;
-    },
-    KeyInputHandler = function(openDialog, editors) {
+    KeyInputHandler = function(helpDialog, editors) {
         return function(key) {
             if (key === 'H') {
-                openDialog.help();
+                helpDialog();
             } else {
                 if (editors.getSelected()) {
                     editors.getSelected().api.handleKeyInput(key, getMousePoint());
@@ -5442,14 +5839,11 @@ var getMousePoint = function() {
             }
         };
     },
-    ControlButtonHandler = function(openDialog, editors) {
+    ControlButtonHandler = function(helpDialog, editors) {
         return function(name) {
             switch (name) {
                 case 'textae.control.button.help.click':
-                    openDialog.help();
-                    break;
-                case 'textae.control.button.about.click':
-                    openDialog.about();
+                    helpDialog();
                     break;
                 default:
                     if (editors.getSelected()) {
@@ -5462,14 +5856,15 @@ var getMousePoint = function() {
 // The tool manages interactions between components. 
 module.exports = function() {
     var controlBar = new ControlBar(),
-        editors = new EditorContainer(controlBar),
-        handleKeyInput = new KeyInputHandler(openDialog, editors),
-        handleControlButtonClick = new ControlButtonHandler(openDialog, editors);
+        editors = require('./tool/EditorContainer')(),
+        handleControlButtonClick = new ControlButtonHandler(helpDialog, editors);
 
     // Start observation at document ready, because this function may be called before body is loaded.
     $(function() {
+        var handleKeyInput = new KeyInputHandler(helpDialog, editors);
+
+        new KeybordInputConverter().on('input', handleKeyInput);
         observeWindowResize(editors);
-        observeKeybordInput(handleKeyInput);
     });
 
     return {
@@ -5492,8 +5887,8 @@ module.exports = function() {
                 .bind('textae.control.button.push', function(data) {
                     controlBar.push(data.buttonName, data.state);
                 })
-                .bind('textae.control.buttons.change', function(disableButtons) {
-                    if (editor === editors.getSelected()) controlBar.changeButtonState(disableButtons);
+                .bind('textae.control.buttons.change', function(enableButtons) {
+                    if (editor === editors.getSelected()) controlBar.changeButtonState(enableButtons);
                 });
 
             $.extend(editor, {
@@ -5503,11 +5898,103 @@ module.exports = function() {
         },
         // Select the first editor
         selectFirstEditor: function() {
+            // Disable all buttons.
+            controlBar.changeButtonState();
+
             editors.selectFirst();
         },
     };
 }();
-},{"./util/dialog/GetToolDialog":45,"./util/extendBindable":47}],36:[function(require,module,exports){
+},{"./component/HelpDialog":14,"./tool/EditorContainer":51,"./tool/KeybordInputConverter":52,"./util/extendBindable":64}],51:[function(require,module,exports){
+var switchActiveClass = function(editors, selected) {
+	var activeClass = 'textae-editor--active';
+
+	// Remove activeClass from others than selected.
+	_.reject(editors, function(editor) {
+		return editor === selected;
+	}).forEach(function(others) {
+		others.removeClass(activeClass);
+		// console.log('deactive', others.editorId);
+	});
+
+	// Add activeClass to the selected.
+	selected.addClass(activeClass);
+	// console.log('active', selected.editorId);
+};
+
+module.exports = function() {
+	var editorList = [],
+		selected = null,
+		select = function(editor) {
+			switchActiveClass(editorList, editor);
+			selected = editor;
+		},
+		// A container of editors that is extended from Array. 
+		editors = {
+			push: function(editor) {
+				editorList.push(editor);
+			},
+			getNewId: function() {
+				return 'editor' + editorList.length;
+			},
+			getSelected: function() {
+				return selected;
+			},
+			select: select,
+			selectFirst: function() {
+				select(editorList[0]);
+			},
+			forEach: editorList.forEach.bind(editorList)
+		};
+
+	return editors;
+};
+},{}],52:[function(require,module,exports){
+var EventEmitter = require('events').EventEmitter,
+	// Declare keyApiMap of control keys 
+	controlKeyEventMap = {
+		27: 'ESC',
+		46: 'DEL',
+		37: 'LEFT',
+		39: 'RIGHT'
+	},
+	convertKeyEvent = function(keyCode) {
+		if (65 <= keyCode && keyCode <= 90) {
+			// From a to z, convert 'A' to 'Z'
+			return String.fromCharCode(keyCode);
+		} else if (controlKeyEventMap[keyCode]) {
+			// Control keys, like ESC, DEL ...
+			return controlKeyEventMap[keyCode];
+		}
+	},
+	getKeyCode = function(e) {
+		return e.keyCode;
+	};
+
+// Observe key-input events and convert events to readable code.
+module.exports = function(keyInputHandler) {
+	var emitter = new EventEmitter(),
+		eventHandler = function(e) {
+			var key = convertKeyEvent(getKeyCode(e));
+			emitter.emit('input', key);
+		},
+		onKeyup = eventHandler;
+
+	// Observe key-input
+	$(document).on('keyup', function(event) {
+		onKeyup(event);
+	});
+
+	// Disable/Enable key-input When a jquery-ui dialog is opened/closeed
+	$('body').on('dialogopen', '.ui-dialog', function() {
+		onKeyup = function() {};
+	}).on('dialogclose', '.ui-dialog', function() {
+		onKeyup = eventHandler;
+	});
+
+	return emitter;
+};
+},{"events":4}],53:[function(require,module,exports){
 var changeCursor = function(editor, action) {
 	// Add jQuery Ui dialogs to targets because they are not in the editor.
 	editor = editor.add('.ui-dialog, .ui-widget-overlay');
@@ -5523,7 +6010,7 @@ module.exports = function(editor) {
 		endWait: endWait,
 	};
 };
-},{}],37:[function(require,module,exports){
+},{}],54:[function(require,module,exports){
 module.exports = function(editor) {
 	var idFactory = require('../util/IdFactory')(editor);
 
@@ -5547,7 +6034,7 @@ module.exports = function(editor) {
 		}
 	};
 };
-},{"../util/IdFactory":38}],38:[function(require,module,exports){
+},{"../util/IdFactory":55}],55:[function(require,module,exports){
 var typeCounter = [],
     makeTypePrefix = function(editorId, prefix) {
         return editorId + '__' + prefix;
@@ -5586,7 +6073,7 @@ module.exports = function(editor) {
         makeParagraphId: _.partial(makeId, editor.editorId, 'P')
     };
 };
-},{}],39:[function(require,module,exports){
+},{}],56:[function(require,module,exports){
 var isEmpty = function(str) {
 		return !str || str === "";
 	},
@@ -5639,11 +6126,11 @@ module.exports = function() {
 		post: post
 	};
 }();
-},{}],40:[function(require,module,exports){
+},{}],57:[function(require,module,exports){
 module.exports = function(str) {
 	return str.charAt(0).toUpperCase() + str.slice(1);
 };
-},{}],41:[function(require,module,exports){
+},{}],58:[function(require,module,exports){
 var Dialog = function(id, title, $content) {
 		return $('<div>')
 			.attr('id', id)
@@ -5687,7 +6174,7 @@ module.exports = function(openOption, id, title, $content) {
 
 	return createAndAppendDialog(id, title, $content);
 };
-},{}],42:[function(require,module,exports){
+},{}],59:[function(require,module,exports){
 var Dialog = require('./Dialog'),
 	getDialogId = function(editorId, id) {
 		return editorId + '.' + id;
@@ -5714,7 +6201,7 @@ module.exports = function(editorId, id, title, $content, noCancelButton) {
 		id: id
 	});
 };
-},{"./Dialog":41}],43:[function(require,module,exports){
+},{"./Dialog":58}],60:[function(require,module,exports){
 var getFromContainer = function(container, id) {
 		return container[id];
 	},
@@ -5740,7 +6227,7 @@ module.exports = function(createFunction) {
 			createAndCache(createFunction, arguments);
 	};
 };
-},{}],44:[function(require,module,exports){
+},{}],61:[function(require,module,exports){
 var EditorDialog = require('./EditorDialog'),
 	FunctionUseCache = require('./FunctionUseCache');
 
@@ -5749,12 +6236,12 @@ module.exports = function(editor) {
 	editor.getDialog = editor.getDialog || new FunctionUseCache(_.partial(EditorDialog, editor.editorId));
 	return editor.getDialog;
 };
-},{"./EditorDialog":42,"./FunctionUseCache":43}],45:[function(require,module,exports){
+},{"./EditorDialog":59,"./FunctionUseCache":60}],62:[function(require,module,exports){
 var ToolDialog = require('./ToolDialog'),
 	FunctionUseCache = require('./FunctionUseCache');
 
 module.exports = new FunctionUseCache(ToolDialog);
-},{"./FunctionUseCache":43,"./ToolDialog":46}],46:[function(require,module,exports){
+},{"./FunctionUseCache":60,"./ToolDialog":63}],63:[function(require,module,exports){
 var Dialog = require('./Dialog');
 
 module.exports = function(id, title, size, $content) {
@@ -5769,7 +6256,7 @@ module.exports = function(id, title, size, $content) {
 		id: id
 	});
 };
-},{"./Dialog":41}],47:[function(require,module,exports){
+},{"./Dialog":58}],64:[function(require,module,exports){
 // A mixin for the separeted presentation by the observer pattern.
 var bindable = function() {
     var callbacks = {};
@@ -5804,7 +6291,7 @@ var bindable = function() {
 module.exports = function(obj) {
     return _.extend({}, obj, bindable());
 };
-},{}],48:[function(require,module,exports){
+},{}],65:[function(require,module,exports){
 // Usage sample: getUrlParameters(location.search). 
 module.exports = function(urlQuery) {
 	// Remove ? at top.
@@ -5828,7 +6315,7 @@ module.exports = function(urlQuery) {
 			return a;
 		}, {});
 };
-},{}],49:[function(require,module,exports){
+},{}],66:[function(require,module,exports){
 module.exports = function($target, enable) {
 	if (enable) {
 		$target.removeAttr('disabled');
@@ -5836,7 +6323,7 @@ module.exports = function($target, enable) {
 		$target.attr('disabled', 'disabled');
 	}
 };
-},{}],50:[function(require,module,exports){
+},{}],67:[function(require,module,exports){
 var setProp = function(key, $target, className, value) {
 	var valueObject = {};
 
@@ -5879,12 +6366,12 @@ module.exports = {
 	setChecked: _.partial(setProp, 'checked'),
 	setValue: _.partial(setProp, 'value')
 };
-},{"./jQueryEnabled":49}],51:[function(require,module,exports){
+},{"./jQueryEnabled":66}],68:[function(require,module,exports){
 module.exports = function(hash, element) {
 	hash[element.name] = element;
 	return hash;
 };
-},{}],52:[function(require,module,exports){
+},{}],69:[function(require,module,exports){
 module.exports = {
 	isUri: function(type) {
 		return String(type).indexOf('http') > -1;
@@ -5897,76 +6384,22 @@ module.exports = {
 		return urlRegex.exec(type);
 	}
 };
-},{}],53:[function(require,module,exports){
-var ModeAccordingToButton = function(editor) {
-		var reduce2hash = require('../util/reduce2hash'),
-			Button = function(buttonName) {
-				// Button state is true when the button is pushed.
-				var state = false,
-					value = function(newValue) {
-						if (newValue !== undefined) {
-							state = newValue;
-							propagate();
-						} else {
-							return state;
-						}
-					},
-					toggle = function toggleButton() {
-						state = !state;
-						propagate();
-					},
-					// Propagate button state to the tool.
-					propagate = function() {
-						editor.eventEmitter.trigger('textae.control.button.push', {
-							buttonName: buttonName,
-							state: state
-						});
-					};
-
-				return {
-					name: buttonName,
-					value: value,
-					toggle: toggle,
-					propagate: propagate
-				};
-			};
-
-		var buttons = [
-				'replicate-auto',
-				'relation-edit-mode',
-				'negation',
-				'speculation'
-			].map(Button),
-			propagateStateOfAllButtons = function() {
-				buttons
-					.map(function(button) {
-						return button.propagate;
-					})
-					.forEach(function(propagate) {
-						propagate();
-					});
-			};
-
-		// The public object.
-		var api = buttons.reduce(reduce2hash, {});
-
-		return _.extend(api, {
-			propagate: propagateStateOfAllButtons
-		});
-	},
-	ButtonEnableStates = function(editor) {
+},{}],70:[function(require,module,exports){
+var extendBindable = require('../util/extendBindable'),
+	ButtonEnableStates = function() {
 		var states = {},
 			set = function(button, enable) {
 				states[button] = enable;
 			},
+			eventEmitter = extendBindable({}),
 			propagate = function() {
-				editor.eventEmitter.trigger('textae.control.buttons.change', states);
+				eventEmitter.trigger('change', states);
 			};
 
-		return {
+		return _.extend(eventEmitter, {
 			set: set,
 			propagate: propagate
-		};
+		});
 	},
 	UpdateButtonState = function(model, buttonEnableStates, clipBoard) {
 		// Short cut name 
@@ -6068,9 +6501,9 @@ var ModeAccordingToButton = function(editor) {
 
 module.exports = function(editor, model, clipBoard) {
 	// Save state of push control buttons.
-	var modeAccordingToButton = new ModeAccordingToButton(editor),
+	var modeAccordingToButton = require('./ModeAccordingToButton')(),
 		// Save enable/disable state of contorol buttons.
-		buttonEnableStates = new ButtonEnableStates(editor),
+		buttonEnableStates = new ButtonEnableStates(),
 		updateButtonState = new UpdateButtonState(model, buttonEnableStates, clipBoard),
 		// Change push/unpush of buttons of modifications.
 		updateModificationButtons = new UpdateModificationButtons(model, modeAccordingToButton),
@@ -6083,13 +6516,22 @@ module.exports = function(editor, model, clipBoard) {
 			updateModificationButtons
 		);
 
+	// Proragate events.
+	modeAccordingToButton.bind('change', function(data) {
+		editor.eventEmitter.trigger('textae.control.button.push', data);
+	});
+
+	buttonEnableStates.bind('change', function(data) {
+		editor.eventEmitter.trigger('textae.control.buttons.change', data);
+	});
+
 	return {
 		// Modes accoding to buttons of control.
 		modeAccordingToButton: modeAccordingToButton,
 		buttonStateHelper: buttonStateHelper,
 	};
 };
-},{"../util/reduce2hash":51}],54:[function(require,module,exports){
+},{"../util/extendBindable":64,"./ModeAccordingToButton":73}],71:[function(require,module,exports){
 var Cache = function() {
         var cache = {},
             set = function(key, value) {
@@ -6220,7 +6662,7 @@ module.exports = function(editor, entityModel) {
     editor.postionCache = editor.postionCache || createNewCache(editor, entityModel);
     return editor.postionCache;
 };
-},{"../util/DomUtil":37}],55:[function(require,module,exports){
+},{"../util/DomUtil":54}],72:[function(require,module,exports){
 var filterVisibleGrid = function(grid) {
       if (grid && grid.hasClass('hidden')) {
          return grid;
@@ -6342,7 +6784,84 @@ module.exports = function(editor, annotationData) {
       arrangePosition: arrangePositionAll
    };
 };
-},{"../util/DomUtil":37,"./DomPositionCache":54,"Promise":2}],56:[function(require,module,exports){
+},{"../util/DomUtil":54,"./DomPositionCache":71,"Promise":2}],73:[function(require,module,exports){
+var reduce2hash = require('../util/reduce2hash'),
+	extendBindable = require('../util/extendBindable'),
+	Button = function(buttonName) {
+		// Button state is true when the button is pushed.
+		var emitter = extendBindable({}),
+			state = false,
+			value = function(newValue) {
+				if (newValue !== undefined) {
+					state = newValue;
+					propagate();
+				} else {
+					return state;
+				}
+			},
+			toggle = function toggleButton() {
+				state = !state;
+				propagate();
+			},
+			// Propagate button state to the tool.
+			propagate = function() {
+				emitter.trigger('change', {
+					buttonName: buttonName,
+					state: state
+				});
+			};
+
+		return _.extend({
+			name: buttonName,
+			value: value,
+			toggle: toggle,
+			propagate: propagate
+		}, emitter);
+	},
+	buttonList = [
+		'boundary-detection',
+		'negation',
+		'replicate-auto',
+		'relation-edit-mode',
+		'speculation'
+	],
+	propagateStateOf = function(emitter, buttons) {
+		buttons
+			.map(function(button) {
+				return {
+					buttonName: button.name,
+					state: button.value()
+				};
+			})
+			.forEach(function(data) {
+				emitter.trigger('change', data);
+			});
+	};
+
+module.exports = function() {
+	var emitter = extendBindable({}),
+		buttons = buttonList.map(Button),
+		propagateStateOfAllButtons = _.partial(propagateStateOf, emitter, buttons),
+		buttonHash = buttons.reduce(reduce2hash, {});
+
+	// default pushed;
+	buttonHash['boundary-detection'].value(true);
+
+	// Bind events.
+	buttons.forEach(function(button) {
+		button.bind('change', function(data) {
+			emitter.trigger('change', data);
+		});
+	});
+
+	return _.extend(
+		buttonHash,
+		emitter, {
+			propagate: propagateStateOfAllButtons
+		}
+	);
+};
+},{"../util/extendBindable":64,"../util/reduce2hash":68}],74:[function(require,module,exports){
 var selectionClass = require('./selectionClass');
 
 module.exports = function(editor, model) {
@@ -6402,7 +6921,7 @@ module.exports = function(editor, model) {
 		}
 	};
 };
-},{"../util/DomUtil":37,"./DomPositionCache":54,"./selectionClass":64}],57:[function(require,module,exports){
+},{"../util/DomUtil":54,"./DomPositionCache":71,"./selectionClass":82}],75:[function(require,module,exports){
 module.exports = function(model) {
 	var reduce2hash = require('../util/reduce2hash'),
 		uri = require('../util/uri'),
@@ -6486,7 +7005,7 @@ module.exports = function(model) {
 		setDefinedRelationTypes: _.partial(setContainerDefinedTypes, relationContaier)
 	};
 };
-},{"../util/reduce2hash":51,"../util/uri":52}],58:[function(require,module,exports){
+},{"../util/reduce2hash":68,"../util/uri":69}],76:[function(require,module,exports){
 var delay150 = function(func) {
         return _.partial(_.delay, func, 150);
     },
@@ -6502,6 +7021,7 @@ var delay150 = function(func) {
             setSettingButtonEnable = _.partial(buttonController.buttonStateHelper.enabled, 'setting', true),
             setControlButtonForRelation = function(isRelation) {
                 buttonController.buttonStateHelper.enabled('replicate-auto', !isRelation);
+                buttonController.buttonStateHelper.enabled('boundary-detection', !isRelation);
                 buttonController.modeAccordingToButton['relation-edit-mode'].value(isRelation);
             },
             // This notify is off at relation-edit-mode.
@@ -6702,7 +7222,7 @@ module.exports = function(editor, model) {
         typeContainer: typeContainer
     });
 };
-},{"../util/extendBindable":47,"./ButtonController":53,"./DomPositionCache":54,"./GridLayout":55,"./Selector":56,"./TypeContainer":57,"./renderer/Renderer":61}],59:[function(require,module,exports){
+},{"../util/extendBindable":64,"./ButtonController":70,"./DomPositionCache":71,"./GridLayout":72,"./Selector":74,"./TypeContainer":75,"./renderer/Renderer":79}],77:[function(require,module,exports){
 var // Arrange a position of the pane to center entities when entities width is longer than pane width.
 	arrangePositionOfPane = function(pane) {
 		var paneWidth = pane.outerWidth();
@@ -6915,7 +7435,7 @@ module.exports = function(editor, model, typeContainer, gridRenderer, modificati
 		}
 	});
 };
-},{"../../util/DomUtil":37,"../../util/IdFactory":38,"../../util/extendBindable":47,"../../util/uri":52,"../Selector":56}],60:[function(require,module,exports){
+},{"../../util/DomUtil":54,"../../util/IdFactory":55,"../../util/extendBindable":64,"../../util/uri":69,"../Selector":74}],78:[function(require,module,exports){
 var POINTUP_LINE_WIDTH = 3,
 	LABEL = {
 		cssClass: 'textae-editor__relation__label',
@@ -7389,7 +7909,7 @@ module.exports = function(editor, model, typeContainer, modification) {
 		arrangePositionAll: arrangePositionAll
 	};
 };
-},{"../../util/DomUtil":37,"../DomPositionCache":54,"./jsPlumbArrowOverlayUtil":63,"Promise":2}],61:[function(require,module,exports){
+},{"../../util/DomUtil":54,"../DomPositionCache":71,"./jsPlumbArrowOverlayUtil":81,"Promise":2}],79:[function(require,module,exports){
 var getElement = function($parent, tagName, className) {
         var $area = $parent.find('.' + className);
         if ($area.length === 0) {
@@ -7595,7 +8115,7 @@ module.exports = function(editor, model, viewModel, typeContainer) {
 
     return api;
 };
-},{"../../util/DomUtil":37,"../../util/capitalize":40,"../../util/extendBindable":47,"../DomPositionCache":54,"./EntityRenderer":59,"./RelationRenderer":60,"./SpanRenderer":62}],62:[function(require,module,exports){
+},{"../../util/DomUtil":54,"../../util/capitalize":57,"../../util/extendBindable":64,"../DomPositionCache":71,"./EntityRenderer":77,"./RelationRenderer":78,"./SpanRenderer":80}],80:[function(require,module,exports){
 var getPosition = function(span, textNodeStartPosition) {
 		var startPos = span.begin - textNodeStartPosition;
 		var endPos = span.end - textNodeStartPosition;
@@ -7752,7 +8272,7 @@ module.exports = function(editor, model, typeContainer, entityRenderer, gridRend
 		change: renderBlockOfSpan
 	};
 };
-},{"../../util/DomUtil":37}],63:[function(require,module,exports){
+},{"../../util/DomUtil":54}],81:[function(require,module,exports){
 var // Overlay styles for jsPlubm connections.
 	NORMAL_ARROW = {
 		width: 7,
@@ -7846,7 +8366,7 @@ module.exports = {
 		return switchNormalArrow(connect);
 	}
 };
-},{}],64:[function(require,module,exports){
+},{}],82:[function(require,module,exports){
 // Add or Remove class to indicate selected state.
 module.exports = function() {
     var addClass = function($target) {
@@ -7861,7 +8381,7 @@ module.exports = function() {
         removeClass: removeClass
     };
 }();
-},{}]},{},[16]);
+},{}]},{},[21]);
 //for module pattern with tail.js
 (function(jQuery) { // Application main
 	$(function() {
