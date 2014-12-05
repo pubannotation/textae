@@ -74,27 +74,10 @@ var getMousePoint = function() {
                     height: 313,
                     width: 523
                 },
-                $('<div>').addClass('textae-tool__key-help')),
-            aboutDialog = new ToolDialog(
-                'textae-control__about',
-                'About TextAE (Text Annotation Editor)', {
-                    height: 500,
-                    width: 600
-                },
-                $('<div>')
-                .html('<p>今ご覧になっているTextAEはPubAnnotationで管理しているアノテーションのビューアもしくはエディタです。</p>' +
-                    '<p>PubAnnotationではPubMedのアブストラクトにアノテーションを付けることができます。</p>' +
-                    '<p>現在はEntrez Gene IDによる自動アノテーションおよびそのマニュアル修正作業が可能となっています。' +
-                    '今後は自動アノテーションの種類を増やす計画です。</p>' +
-                    '<p>間違ったアノテーションも目に付くと思いますが、それを簡単に直して自分のプロジェクトにセーブできるのがポイントです。</p>' +
-                    '<p>自分のアノテーションを作成するためにはPubAnnotation上で自分のプロジェクトを作る必要があります。' +
-                    '作成したアノテーションは後で纏めてダウンロードしたり共有することができます。</p>' +
-                    '<p>まだ開発中のサービスであり、実装すべき機能が残っています。' +
-                    'ユーザの皆様の声を大事にして開発していきたいと考えておりますので、ご意見などございましたら教えていただければ幸いです。</p>'));
+                $('<div>').addClass('textae-tool__key-help'));
 
         return {
-            help: helpDialog.open,
-            about: aboutDialog.open
+            help: helpDialog.open
         };
     }(),
     ControlBar = function() {
@@ -172,9 +155,6 @@ var getMousePoint = function() {
             switch (name) {
                 case 'textae.control.button.help.click':
                     openDialog.help();
-                    break;
-                case 'textae.control.button.about.click':
-                    openDialog.about();
                     break;
                 default:
                     if (editors.getSelected()) {

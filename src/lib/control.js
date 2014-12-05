@@ -119,8 +119,7 @@ module.exports = function($control) {
         }, {
             'setting': 'Setting'
         }, {
-            'help': 'Help [H]',
-            'about': 'About'
+            'help': 'Help [H]'
         }]),
         triggrButtonClickEvent = $control.trigger.bind($control, 'textae.control.button.click'),
         // A function to enable/disable button.
@@ -128,8 +127,7 @@ module.exports = function($control) {
         // Buttons that always eanable.
         alwaysEnables = {
             'read': true,
-            'help': true,
-            'about': true
+            'help': true
         },
         // Update all button state when an instance of textEditor is changed.
         updateAllButtonEnableState = function(disableButtons) {
