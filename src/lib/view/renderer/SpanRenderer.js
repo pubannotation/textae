@@ -20,8 +20,10 @@ module.exports = function(editor, model, typeContainer, entityRenderer, gridRend
       var $span = domUtil.selector.span.get(span.id);
 
       if (hasType(span, typeContainer.entity.isBlock)) {
+        $span.addClass('textae-editor__span--wrap');
         $span.addClass('textae-editor__span--block');
       } else {
+        $span.removeClass('textae-editor__span--wrap');
         $span.removeClass('textae-editor__span--block');
       }
 
