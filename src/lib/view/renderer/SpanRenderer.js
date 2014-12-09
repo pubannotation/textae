@@ -16,15 +16,23 @@ var exists = function(span) {
 module.exports = function(editor, model, typeContainer, entityRenderer, gridRenderer) {
   var domUtil = require('../../util/DomUtil')(editor),
     renderSingleSpan = require('./RenderSingleSpan')(editor),
-    renderBlockOfSpan = function(span) {
+    renderBlockOfSpan = function(span, clearCache) {
       var $span = domUtil.selector.span.get(span.id);
 
       if (hasType(span, typeContainer.entity.isBlock)) {
-        $span.addClass('textae-editor__span--wrap');
         $span.addClass('textae-editor__span--block');
       } else {
-        $span.removeClass('textae-editor__span--wrap');
         $span.removeClass('textae-editor__span--block');
+      }
+
+      if (hasType(span, _.compose(not, typeContainer.entity.isBlock))) {
+        if ($span.hasClass('textae-editor__span--wrap')) {
+          // The span maybe move.
+          $span.removeClass('textae-editor__span--wrap');
+          if (clearCache) clearCache();
+        }
+      } else {
+        $span.addClass('textae-editor__span--wrap');
       }
 
       return span;

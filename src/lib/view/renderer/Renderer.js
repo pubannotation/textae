@@ -112,10 +112,10 @@ module.exports = function(editor, model, buttonStateHelper, typeContainer) {
       api.trigger('change');
     }, 100),
     triggerChangeAfter = _.partial(_.compose, triggerChange),
+    entityToSpan = function(entity) {
+      return model.annotationData.span.get(entity.span);
+    },
     updateSpanAfter = function() {
-      var entityToSpan = function(entity) {
-        return model.annotationData.span.get(entity.span);
-      };
 
       return _.partial(_.compose, triggerChange, rendererImpl.span.change, entityToSpan);
     }(),
@@ -150,7 +150,12 @@ module.exports = function(editor, model, buttonStateHelper, typeContainer) {
         .bind('span.add', triggerChangeAfter(rendererImpl.span.render))
         .bind('span.remove', triggerChangeAfter(rendererImpl.span.remove))
         .bind('span.remove', _.compose(model.selectionModel.span.remove, modelToId))
-        .bind('entity.add', updateSpanAfter(rendererImpl.entity.render))
+        .bind('entity.add', function(entity) {
+          // Add a now entity with a new grid after the span moved.
+          rendererImpl.span.change(entityToSpan(entity), domPositionCaChe.reset);
+          rendererImpl.entity.render(entity);
+          triggerChange();
+        })
         .bind('entity.change', updateSpanAfter(rendererImpl.entity.change))
         .bind('entity.remove', updateSpanAfter(rendererImpl.entity.remove))
         .bind('entity.remove', _.compose(model.selectionModel.entity.remove, modelToId))
