@@ -38,7 +38,7 @@ module.exports = function() {
         },
         buttonController = require('./view/ButtonController')(this, model, clipBoard),
         viewMode = new ViewMode(this, model, buttonController),
-        view = require('./view/View')(this, model, buttonController, viewMode.getTypeStyle),
+        view = require('./view/View')(this, model, buttonController, viewMode.getTypeGapValue),
         presenter = require('./presenter/Presenter')(this, model, view, command, spanConfig, clipBoard, buttonController, viewMode),
         //handle user input event.
         controller = new Controller(this, history, presenter, view, buttonController.buttonStateHelper),
@@ -99,7 +99,7 @@ module.exports = function() {
             }
         };
 
-        viewMode.on('change.typeGap', view.updateDisplay);
+        viewMode.on('change.typeGap', view.setTypeGap);
 
     // public funcitons of editor
     this.api = function(editor) {

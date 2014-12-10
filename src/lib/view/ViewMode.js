@@ -35,12 +35,6 @@ var changeCssClass = function(editor, mode) {
 
     changeLineHeight(editor, maxHeight);
   },
-  TypeStyle = function(newValue) {
-    return {
-      height: 18 * newValue + 18 + 'px',
-      'padding-top': 18 * newValue + 'px'
-    };
-  },
   EventEmitter = require('events').EventEmitter;
 
 module.exports = function(editor, model, buttonController) {
@@ -115,16 +109,11 @@ module.exports = function(editor, model, buttonController) {
 
       // init
       if (newValue !== -1) {
-        editor.find('.textae-editor__type')
-          .css(new TypeStyle(newValue));
         calculateLineHeight(editor, model, newValue);
         emitter.emit('change.typeGap', newValue);
       }
 
       typeGapValue = newValue;
-    },
-    getTypeStyle: function() {
-      return new TypeStyle(typeGapValue);
     }
   };
 

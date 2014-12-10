@@ -1,8 +1,14 @@
 var delay150 = function(func) {
         return _.partial(_.delay, func, 150);
+    },
+    TypeStyle = function(newValue) {
+        return {
+            height: 18 * newValue + 18 + 'px',
+            'padding-top': 18 * newValue + 'px'
+        };
     };
 
-module.exports = function(editor, model, buttonController, getTypeStyle) {
+module.exports = function(editor, model, buttonController, getTypeGapValue) {
     var selector = require('./Selector')(editor, model),
         typeContainer = require('./TypeContainer')(model),
         // Render DOM elements conforming with the Model.
@@ -63,13 +69,18 @@ module.exports = function(editor, model, buttonController, getTypeStyle) {
         .bind('change', updateDisplay)
         .bind('entity.render', function(entity) {
             // Set css accoridng to the typeGapValue.
-            renderer.setEntityCss(entity, getTypeStyle());
+            renderer.setEntityCss(entity, new TypeStyle(getTypeGapValue()));
         });
 
     return _.extend(api, {
         init: _.compose(setSelectionModelHandler, renderer.setModelHandler),
         hoverRelation: hover,
         updateDisplay: updateDisplay,
-        typeContainer: typeContainer
+        typeContainer: typeContainer,
+        setTypeGap : function (newValue) {
+            editor.find('.textae-editor__type')
+                .css(new TypeStyle(newValue));
+            render(newValue);
+        }
     });
 };
