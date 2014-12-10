@@ -9,7 +9,8 @@ var getElement = function($parent, tagName, className) {
     modelToId = function(modelElement) {
         return modelElement.id;
     },
-    capitalize = require('../../util/capitalize');
+    capitalize = require('../../util/capitalize'),
+    GridRenderer = require('./GridRenderer');
 
 module.exports = function(editor, model, buttonStateHelper, typeContainer) {
     var // Make the display area for text, spans, denotations, relations.
@@ -71,38 +72,7 @@ module.exports = function(editor, model, buttonStateHelper, typeContainer) {
             };
         }(),
         rendererImpl = function() {
-            var gridRenderer = function() {
-                    var domUtil = require('../../util/DomUtil')(editor),
-                        createGrid = function(container, spanId) {
-                            var spanPosition = domPositionCaChe.getSpan(spanId);
-                            var $grid = $('<div>')
-                                .attr('id', 'G' + spanId)
-                                .addClass('textae-editor__grid')
-                                .addClass('hidden')
-                                .css({
-                                    'width': spanPosition.width
-                                });
-
-                            //append to the annotation area.
-                            container.append($grid);
-
-                            return $grid;
-                        },
-                        destroyGrid = function(spanId) {
-                            domUtil.selector.grid.get(spanId).remove();
-                            domPositionCaChe.gridPositionCache.remove(spanId);
-                        },
-                        init = function(container) {
-                            gridRenderer.render = _.partial(createGrid, container);
-                        };
-
-                    return {
-                        init: init,
-                        // The render is set at init.
-                        render: null,
-                        remove: destroyGrid
-                    };
-                }(),
+            var gridRenderer = new GridRenderer(editor, domPositionCaChe),
                 modificationRenderer = function() {
                     var getClasses = function(objectId) {
                         return model.annotationData.getModificationOf(objectId)
