@@ -3,12 +3,8 @@ var delay150 = function(func) {
     },
     ViewMode = require('./ViewMode');
 
-module.exports = function(editor, model) {
+module.exports = function(editor, model, clipBoard) {
     var selector = require('./Selector')(editor, model),
-        clipBoard = {
-            // clipBoard has entity type.
-            clipBoard: []
-        },
         buttonController = require('./ButtonController')(editor, model, clipBoard),
         viewMode = new ViewMode(editor, model, buttonController),
         typeContainer = require('./TypeContainer')(model),
@@ -65,9 +61,7 @@ module.exports = function(editor, model) {
                 .bind('relation.deselect', delay150(selector.relation.deselect))
                 .bind('relation.change', buttonController.buttonStateHelper.updateByRelation);
         },
-        updateDisplay = function() {
-            render(viewMode.getTypeGapValue());
-        };
+        updateDisplay = render;
 
     viewMode.on('change.typeGap', render);
 
@@ -81,7 +75,6 @@ module.exports = function(editor, model) {
     return _.extend(api, {
         init: _.compose(setSelectionModelHandler, renderer.setModelHandler),
         viewModel: buttonController,
-        clipBoard: clipBoard,
         viewMode: viewMode,
         hoverRelation: hover,
         updateDisplay: updateDisplay,

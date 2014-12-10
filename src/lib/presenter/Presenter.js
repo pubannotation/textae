@@ -1,4 +1,4 @@
-module.exports = function(editor, model, view, command, spanConfig) {
+module.exports = function(editor, model, view, command, spanConfig, clipBoard) {
     var editorSelected = function() {
             userEvent.viewHandler.hideDialogs();
 
@@ -128,7 +128,7 @@ module.exports = function(editor, model, view, command, spanConfig) {
                         },
                         copyEntities: function() {
                             // Unique Entities. Because a entity is deplicate When a span and thats entity is selected.
-                            view.clipBoard.clipBoard = _.uniq(
+                            clipBoard.clipBoard = _.uniq(
                                 function getEntitiesFromSelectedSpan() {
                                     return _.flatten(model.selectionModel.span.all().map(function(spanId) {
                                         return model.annotationData.span.get(spanId).getEntities();
@@ -142,9 +142,9 @@ module.exports = function(editor, model, view, command, spanConfig) {
                             });
                         },
                         pasteEntities: function() {
-                            // Make commands per selected spans from types in clipBoard. 
+                            // Make commands per selected spans from types in clipBoard.
                             var commands = _.flatten(model.selectionModel.span.all().map(function(spanId) {
-                                return view.clipBoard.clipBoard.map(function(type) {
+                                return clipBoard.clipBoard.map(function(type) {
                                     return command.factory.entityCreateCommand({
                                         span: spanId,
                                         type: type
@@ -251,7 +251,6 @@ module.exports = function(editor, model, view, command, spanConfig) {
         setMode: userEvent.viewHandler.bindChangeViewMode,
         event: {
             editorSelected: editorSelected,
-            redraw: view.updateDisplay,
             copyEntities: userEvent.editHandler.copyEntities,
             removeSelectedElements: userEvent.editHandler.removeSelectedElements,
             createEntity: userEvent.editHandler.createEntity,

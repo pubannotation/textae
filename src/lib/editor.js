@@ -29,10 +29,14 @@ module.exports = function() {
         history = require('./model/History')(),
         // Configulation of span
         spanConfig = require('./SpanConfig')(),
-        // Users can edit model only via commands. 
+        // Users can edit model only via commands.
         command = require('./model/Command')(this, model, history),
-        view = require('./view/View')(this, model),
-        presenter = require('./presenter/Presenter')(this, model, view, command, spanConfig),
+        clipBoard = {
+            // clipBoard has entity type.
+            clipBoard: []
+        },
+        view = require('./view/View')(this, model, clipBoard),
+        presenter = require('./presenter/Presenter')(this, model, view, command, spanConfig, clipBoard),
         //handle user input event.
         controller = new Controller(this, history, presenter, view),
         setTypeConfigToView = _.partial(setTypeConfig, view),
@@ -150,7 +154,7 @@ module.exports = function() {
                     handleButtonClick: _.partial(handle, iconApiMap),
                     redraw: function() {
                         console.log(editor.editorId, 'redraw');
-                        presenter.event.redraw();
+                        view.updateDisplay(view.viewMode.getTypeGapValue());
                     }
                 };
             },
@@ -183,4 +187,4 @@ module.exports = function() {
     }(this);
 
     return this;
-};
+};
