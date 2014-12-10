@@ -1,4 +1,4 @@
-module.exports = function(editor, model, view, command, spanConfig, clipBoard, buttonController) {
+module.exports = function(editor, model, view, command, spanConfig, clipBoard, buttonController, viewMode) {
     var editorSelected = function() {
             userEvent.viewHandler.hideDialogs();
 
@@ -157,7 +157,7 @@ module.exports = function(editor, model, view, command, spanConfig, clipBoard, b
                     };
                 }(),
                 viewHandler = function() {
-                    var editMode = require('./EditMode')(model, view.viewMode, typeEditor),
+                    var editMode = require('./EditMode')(model, viewMode, typeEditor),
                         setViewMode = function(mode) {
                             if (editMode['to' + mode]) {
                                 editMode['to' + mode]();

@@ -1,11 +1,9 @@
 var delay150 = function(func) {
         return _.partial(_.delay, func, 150);
-    },
-    ViewMode = require('./ViewMode');
+    };
 
-module.exports = function(editor, model, buttonController) {
+module.exports = function(editor, model, buttonController, getTypeStyle) {
     var selector = require('./Selector')(editor, model),
-        viewMode = new ViewMode(editor, model, buttonController),
         typeContainer = require('./TypeContainer')(model),
         // Render DOM elements conforming with the Model.
         renderer = require('./renderer/Renderer')(editor, model, buttonController.buttonStateHelper, typeContainer),
@@ -48,7 +46,6 @@ module.exports = function(editor, model, buttonController) {
             };
         }(),
         setSelectionModelHandler = function() {
-            // The buttonController.buttonStateHelper.updateByEntity is set at viewMode.
             // Because entity.change is off at relation-edit-mode.
             model.selectionModel
                 .bind('span.select', selector.span.select)
@@ -62,18 +59,15 @@ module.exports = function(editor, model, buttonController) {
         },
         updateDisplay = render;
 
-    viewMode.on('change.typeGap', render);
-
     renderer
         .bind('change', updateDisplay)
         .bind('entity.render', function(entity) {
             // Set css accoridng to the typeGapValue.
-            renderer.setEntityCss(entity, viewMode.getTypeStyle());
+            renderer.setEntityCss(entity, getTypeStyle());
         });
 
     return _.extend(api, {
         init: _.compose(setSelectionModelHandler, renderer.setModelHandler),
-        viewMode: viewMode,
         hoverRelation: hover,
         updateDisplay: updateDisplay,
         typeContainer: typeContainer
