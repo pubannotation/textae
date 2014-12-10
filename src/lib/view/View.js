@@ -3,13 +3,12 @@ var delay150 = function(func) {
     },
     ViewMode = require('./ViewMode');
 
-module.exports = function(editor, model, clipBoard) {
+module.exports = function(editor, model, buttonController) {
     var selector = require('./Selector')(editor, model),
-        buttonController = require('./ButtonController')(editor, model, clipBoard),
         viewMode = new ViewMode(editor, model, buttonController),
         typeContainer = require('./TypeContainer')(model),
         // Render DOM elements conforming with the Model.
-        renderer = require('./renderer/Renderer')(editor, model, buttonController, typeContainer),
+        renderer = require('./renderer/Renderer')(editor, model, buttonController.buttonStateHelper, typeContainer),
         gridLayout = require('./GridLayout')(editor, model.annotationData),
         api = require('../util/extendBindable')({}),
         render = function(typeGapValue) {
@@ -74,7 +73,6 @@ module.exports = function(editor, model, clipBoard) {
 
     return _.extend(api, {
         init: _.compose(setSelectionModelHandler, renderer.setModelHandler),
-        viewModel: buttonController,
         viewMode: viewMode,
         hoverRelation: hover,
         updateDisplay: updateDisplay,

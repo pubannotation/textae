@@ -14,15 +14,15 @@ var SpanEditor = require('./SpanEditor'),
 		}
 	};
 
-module.exports = function(editor, model, command, viewModel, typeContainer) {
+module.exports = function(editor, model, command, modeAccordingToButton, typeContainer) {
 	var selectionParser = require('./selectionParser')(editor, model),
 		selectionValidater = require('./SelectionValidater')(selectionParser),
 		// Initiated by events.
 		selectEndOnTextImpl = null,
 		selectEndOnSpanImpl = null,
 		changeSpanEditorAccordingToButtons = function() {
-			var isDetectDelimiterEnable = viewModel.modeAccordingToButton['boundary-detection'].value(),
-				isReplicateAuto = viewModel.modeAccordingToButton['replicate-auto'].value(),
+			var isDetectDelimiterEnable = modeAccordingToButton['boundary-detection'].value(),
+				isReplicateAuto = modeAccordingToButton['replicate-auto'].value(),
 				spanEditor = new SpanEditor(editor, model, command, typeContainer, isDetectDelimiterEnable, isReplicateAuto);
 
 			selectEndOnTextImpl = _.partial(selectEndOnText, selectionValidater, spanEditor);
@@ -32,10 +32,10 @@ module.exports = function(editor, model, command, viewModel, typeContainer) {
 	// Change spanEditor according to the  buttons state.
 	changeSpanEditorAccordingToButtons();
 
-	viewModel.modeAccordingToButton['boundary-detection']
+	modeAccordingToButton['boundary-detection']
 		.bind('change', changeSpanEditorAccordingToButtons);
 
-	viewModel.modeAccordingToButton['replicate-auto']
+	modeAccordingToButton['replicate-auto']
 		.bind('change', changeSpanEditorAccordingToButtons);
 
 	return {

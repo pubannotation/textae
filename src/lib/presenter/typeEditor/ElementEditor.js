@@ -1,6 +1,6 @@
 var dismissBrowserSelection = require('./dismissBrowserSelection');
 
-module.exports = function(editor, model, spanConfig, command, viewModel, typeContainer) {
+module.exports = function(editor, model, spanConfig, command, modeAccordingToButton, typeContainer) {
 	var handler = {
 			changeTypeOfSelected: null,
 			getSelectedIdEditable: null,
@@ -118,7 +118,7 @@ module.exports = function(editor, model, spanConfig, command, viewModel, typeCon
 				// Cancel events of relations and theier label.
 				// Because a jQuery event and a jsPlumb event are both fired when a relation are clicked.
 				// And jQuery events are propergated to body click events and cancel select.
-				// So multi selection of relations with Ctrl-key is not work. 
+				// So multi selection of relations with Ctrl-key is not work.
 				unbindAllEventhandler()
 					.on('mouseup', '.textae-editor__entity', entityClickedAtRelationMode)
 					.on('mouseup', '.textae-editor__relation, .textae-editor__relation__label', returnFalse)
@@ -132,7 +132,7 @@ module.exports = function(editor, model, spanConfig, command, viewModel, typeCon
 			};
 		}(),
 		editEntity = function() {
-			var selectEnd = require('./SelectEnd')(editor, model, command, viewModel, typeContainer),
+			var selectEnd = require('./SelectEnd')(editor, model, command, modeAccordingToButton, typeContainer),
 				bodyClicked = function() {
 					var selection = window.getSelection();
 

@@ -11,7 +11,7 @@ var getElement = function($parent, tagName, className) {
     },
     capitalize = require('../../util/capitalize');
 
-module.exports = function(editor, model, viewModel, typeContainer) {
+module.exports = function(editor, model, buttonStateHelper, typeContainer) {
     var // Make the display area for text, spans, denotations, relations.
         displayArea = _.partial(getElement, editor, 'div', 'textae-editor__body'),
         // Get the display area for denotations and relations.
@@ -154,7 +154,7 @@ module.exports = function(editor, model, viewModel, typeContainer) {
                     var target = model.annotationData[modelType].get(modification.obj);
                     if (target) {
                         rendererImpl[modelType].changeModification(target);
-                        viewModel.buttonStateHelper['updateBy' + capitalize(modelType)]();
+                        buttonStateHelper['updateBy' + capitalize(modelType)]();
                     }
 
                     return modification;

@@ -35,10 +35,11 @@ module.exports = function() {
             // clipBoard has entity type.
             clipBoard: []
         },
-        view = require('./view/View')(this, model, clipBoard),
-        presenter = require('./presenter/Presenter')(this, model, view, command, spanConfig, clipBoard),
+        buttonController = require('./view/ButtonController')(this, model, clipBoard),
+        view = require('./view/View')(this, model, buttonController),
+        presenter = require('./presenter/Presenter')(this, model, view, command, spanConfig, clipBoard, buttonController),
         //handle user input event.
-        controller = new Controller(this, history, presenter, view),
+        controller = new Controller(this, history, presenter, view, buttonController.buttonStateHelper),
         setTypeConfigToView = _.partial(setTypeConfig, view),
         setSpanAndTypeConfig = function(config) {
             spanConfig.set(config);
@@ -134,7 +135,7 @@ module.exports = function() {
                         'textae.control.button.undo.click': command.undo,
                         'textae.control.button.redo.click': command.redo,
                         'textae.control.button.replicate.click': presenter.event.replicate,
-                        'textae.control.button.replicate_auto.click': view.viewModel.modeAccordingToButton['replicate-auto'].toggle,
+                        'textae.control.button.replicate_auto.click': buttonController.modeAccordingToButton['replicate-auto'].toggle,
                         'textae.control.button.boundary_detection.click': presenter.event.toggleDetectBoundaryMode,
                         'textae.control.button.relation_edit_mode.click': presenter.event.toggleRelationEditMode,
                         'textae.control.button.entity.click': presenter.event.createEntity,

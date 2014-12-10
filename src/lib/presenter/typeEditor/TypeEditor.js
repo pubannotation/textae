@@ -1,8 +1,8 @@
 var dismissBrowserSelection = require('./dismissBrowserSelection');
 
-module.exports = function(editor, model, spanConfig, command, viewModel, typeContainer) {
+module.exports = function(editor, model, spanConfig, command, modeAccordingToButton, typeContainer) {
 	// will init.
-	var elementEditor = require('./ElementEditor')(editor, model, spanConfig, command, viewModel, typeContainer),
+	var elementEditor = require('./ElementEditor')(editor, model, spanConfig, command, modeAccordingToButton, typeContainer),
 		pallet = require('../../component/Pallet')(),
 		cancelSelect = function() {
 			pallet.hide();
@@ -10,7 +10,7 @@ module.exports = function(editor, model, spanConfig, command, viewModel, typeCon
 			dismissBrowserSelection();
 		},
 		// A relation is drawn by a jsPlumbConnection.
-		// The EventHandlar for clieck event of jsPlumbConnection. 
+		// The EventHandlar for clieck event of jsPlumbConnection.
 		jsPlumbConnectionClicked = function(jsPlumbConnection, event) {
 			// Check the event is processed already.
 			// Because the jsPlumb will call the event handler twice

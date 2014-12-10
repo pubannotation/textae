@@ -1,4 +1,4 @@
-module.exports = function(editor, history, presenter, view) {
+module.exports = function(editor, history, presenter, view, buttonStateHelper) {
 	return {
 		init: function(confirmDiscardChangeMessage) {
 			// Prevent the default selection by the browser with shift keies.
@@ -25,9 +25,9 @@ module.exports = function(editor, history, presenter, view) {
 
 			history.bind('change', function(state) {
 				//change button state
-				view.viewModel.buttonStateHelper.enabled("write", state.hasAnythingToSave);
-				view.viewModel.buttonStateHelper.enabled("undo", state.hasAnythingToUndo);
-				view.viewModel.buttonStateHelper.enabled("redo", state.hasAnythingToRedo);
+				buttonStateHelper.enabled("write", state.hasAnythingToSave);
+				buttonStateHelper.enabled("undo", state.hasAnythingToUndo);
+				buttonStateHelper.enabled("redo", state.hasAnythingToRedo);
 
 				//change leaveMessage show
 				window.onbeforeunload = state.hasAnythingToSave ? function() {

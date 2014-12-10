@@ -1,12 +1,12 @@
-module.exports = function(editor, model, view, command, spanConfig, clipBoard) {
+module.exports = function(editor, model, view, command, spanConfig, clipBoard, buttonController) {
     var editorSelected = function() {
             userEvent.viewHandler.hideDialogs();
 
             // Select this editor.
             editor.eventEmitter.trigger('textae.editor.select');
-            view.viewModel.buttonStateHelper.propagate();
+            buttonController.buttonStateHelper.propagate();
         },
-        typeEditor = require('./typeEditor/TypeEditor')(editor, model, spanConfig, command, view.viewModel, view.typeContainer),
+        typeEditor = require('./typeEditor/TypeEditor')(editor, model, spanConfig, command, buttonController.modeAccordingToButton, view.typeContainer),
         userEvent = function() {
             var editHandler = function() {
                     var toggleModification = function(modificationType) {
@@ -19,7 +19,7 @@ module.exports = function(editor, model, view, command, spanConfig, clipBoard) {
                                         .filter(isModificationType);
                                 },
                                 commands,
-                                has = view.viewModel.modeAccordingToButton[modificationType.toLowerCase()].value();
+                                has = buttonController.modeAccordingToButton[modificationType.toLowerCase()].value();
 
                             if (has) {
                                 commands = typeEditor.getSelectedIdEditable().map(function(id) {
@@ -40,7 +40,7 @@ module.exports = function(editor, model, view, command, spanConfig, clipBoard) {
                             command.invoke(commands);
                         },
                         getDetectBoundaryFunc = function() {
-                            if (view.viewModel.modeAccordingToButton['boundary-detection'].value())
+                            if (buttonController.modeAccordingToButton['boundary-detection'].value())
                                 return spanConfig.isDelimiter;
                             else
                                 return null;
@@ -190,10 +190,10 @@ module.exports = function(editor, model, view, command, spanConfig, clipBoard) {
                         },
                         showSettingDialog: require('./SettingDialog')(editor, editMode),
                         toggleDetectBoundaryMode: function() {
-                            view.viewModel.modeAccordingToButton['boundary-detection'].toggle();
+                            buttonController.modeAccordingToButton['boundary-detection'].toggle();
                         },
                         toggleRelationEditMode: function() {
-                            if (view.viewModel.modeAccordingToButton['relation-edit-mode'].value()) {
+                            if (buttonController.modeAccordingToButton['relation-edit-mode'].value()) {
                         editMode.toInstance();
                             } else {
                                 editMode.toRelation();
