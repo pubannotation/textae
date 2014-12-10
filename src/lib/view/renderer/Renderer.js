@@ -176,7 +176,7 @@ module.exports = function(editor, model, buttonStateHelper, typeContainer) {
 
             model.annotationData
                 .bind('change-text', renderSourceDocument)
-                .bind('all.change', _.compose(model.selectionModel.clear, reset))
+                .bind('all.change', triggerChangeAfter(model.selectionModel.clear, reset))
                 .bind('span.add', triggerChangeAfter(rendererImpl.span.render))
                 .bind('span.remove', triggerChangeAfter(rendererImpl.span.remove))
                 .bind('span.remove', _.compose(model.selectionModel.span.remove, modelToId))

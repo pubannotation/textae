@@ -1,10 +1,10 @@
-var typeGap = function() {
+var typeGapCache = function() {
 	var seed = {
 			instanceHide: 0,
 			instanceShow: 2
 		},
 		set = function(mode, val) {
-			typeGap[mode] = val;
+			typeGapCache[mode] = val;
 			return val;
 		},
 		api = _.extend({}, seed),
@@ -17,14 +17,10 @@ var typeGap = function() {
 	return api;
 }();
 
-module.exports = function(model, viewMode, typeEditor) {
+module.exports = function(model, viewMode, typeEditor, typeGap) {
 	var api = {
 			init: function() {
-				viewMode.changeTypeGap(-1);
 				_.extend(api, state.init);
-			},
-			get typeGap() {
-				return viewMode.getTypeGapValue();
 			},
 			get lineHeight() {
 				return Math.floor(viewMode.getLineHeight());
@@ -42,7 +38,7 @@ module.exports = function(model, viewMode, typeEditor) {
 				typeEditor.editEntity();
 				viewMode.setTerm();
 				viewMode.setEditable(true);
-				viewMode.changeTypeGap(typeGap.instanceHide);
+				typeGap.set(typeGapCache.instanceHide);
 
 				_.extend(api, state.termCentric);
 			},
@@ -52,7 +48,7 @@ module.exports = function(model, viewMode, typeEditor) {
 				typeEditor.editEntity();
 				viewMode.setInstance();
 				viewMode.setEditable(true);
-				viewMode.changeTypeGap(typeGap.instanceShow);
+				typeGap.set(typeGapCache.instanceShow);
 
 				_.extend(api, state.instanceRelation);
 			},
@@ -62,7 +58,7 @@ module.exports = function(model, viewMode, typeEditor) {
 				typeEditor.editRelation();
 				viewMode.setRelation();
 				viewMode.setEditable(true);
-				viewMode.changeTypeGap(typeGap.instanceShow);
+				typeGap.set(typeGapCache.instanceShow);
 
 				_.extend(api, state.relationEdit);
 			},
@@ -72,7 +68,7 @@ module.exports = function(model, viewMode, typeEditor) {
 				typeEditor.noEdit();
 				viewMode.setTerm();
 				viewMode.setEditable(false);
-				viewMode.changeTypeGap(typeGap.instanceHide);
+				typeGap.set(typeGapCache.instanceHide);
 
 				_.extend(api, state.viewTerm);
 			},
@@ -82,7 +78,7 @@ module.exports = function(model, viewMode, typeEditor) {
 				typeEditor.noEdit();
 				viewMode.setInstance();
 				viewMode.setEditable(false);
-				viewMode.changeTypeGap(typeGap.instanceShow);
+				typeGap.set(typeGapCache.instanceShow);
 
 				_.extend(api, state.viewInstance);
 			}
@@ -91,8 +87,8 @@ module.exports = function(model, viewMode, typeEditor) {
 		notTransit = function() {
 			console.log('no mode transition.', this.name);
 		},
-		changeTypeGapInstanceHide = _.compose(viewMode.changeTypeGap, typeGap.setInstanceHide),
-		changeTypeGapInstanceShow = _.compose(viewMode.changeTypeGap, typeGap.setInstanceShow),
+		changeTypeGapInstanceHide = _.compose(typeGap.set, typeGapCache.setInstanceHide),
+		changeTypeGapInstanceShow = _.compose(typeGap.set, typeGapCache.setInstanceShow),
 		state = {
 			init: _.extend({}, transition, {
 				name: 'Init'

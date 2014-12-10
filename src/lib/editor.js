@@ -21,7 +21,8 @@ var Controller = require('./Controller'),
             status: function() {}
         };
     },
-    ViewMode = require('./view/ViewMode');
+    ViewMode = require('./view/ViewMode'),
+    ObservableValue = require('./util/ObservableValue');
 
 module.exports = function() {
     // model manages data objects.
@@ -37,9 +38,10 @@ module.exports = function() {
             clipBoard: []
         },
         buttonController = require('./view/ButtonController')(this, model, clipBoard),
-        viewMode = new ViewMode(this, model, buttonController),
-        view = require('./view/View')(this, model, buttonController, viewMode.getTypeGapValue),
-        presenter = require('./presenter/Presenter')(this, model, view, command, spanConfig, clipBoard, buttonController, viewMode),
+        typeGap = new ObservableValue(-1),
+        viewMode = new ViewMode(this, model, buttonController, typeGap),
+        view = require('./view/View')(this, model, buttonController, typeGap.get),
+        presenter = require('./presenter/Presenter')(this, model, view, command, spanConfig, clipBoard, buttonController, viewMode, typeGap),
         //handle user input event.
         controller = new Controller(this, history, presenter, view, buttonController.buttonStateHelper),
         setTypeConfigToView = _.partial(setTypeConfig, view),
@@ -99,7 +101,7 @@ module.exports = function() {
             }
         };
 
-        viewMode.on('change', view.setTypeGap);
+        typeGap.on('change', view.setTypeGap);
 
     // public funcitons of editor
     this.api = function(editor) {
@@ -159,7 +161,7 @@ module.exports = function() {
                     handleButtonClick: _.partial(handle, iconApiMap),
                     redraw: function() {
                         console.log(editor.editorId, 'redraw');
-                        view.updateDisplay(viewMode.getTypeGapValue());
+                        view.updateDisplay(typeGap.get());
                     }
                 };
             },

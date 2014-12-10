@@ -1,7 +1,7 @@
 var EventEmitter = require('events').EventEmitter;
 
-module.exports = function() {
-  var value = 0,
+module.exports = function(initial) {
+  var value = initial,
     emitter = new EventEmitter(),
     get = function() {
       return value;

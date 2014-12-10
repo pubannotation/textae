@@ -34,10 +34,9 @@ var changeCssClass = function(editor, mode) {
       );
 
     changeLineHeight(editor, maxHeight);
-  },
-  ObservableValue = require('../util/ObservableValue');
+  };
 
-module.exports = function(editor, model, buttonController) {
+module.exports = function(editor, model, buttonController, typeGap) {
   var selector = require('./Selector')(editor, model),
     setSettingButtonEnable = _.partial(buttonController.buttonStateHelper.enabled, 'setting', true),
     setControlButtonForRelation = function(isRelation) {
@@ -46,13 +45,9 @@ module.exports = function(editor, model, buttonController) {
       buttonController.modeAccordingToButton['relation-edit-mode'].value(isRelation);
     },
     // This notify is off at relation-edit-mode.
-    entitySelectChanged = _.compose(buttonController.buttonStateHelper.updateByEntity, selector.entityLabel.update),
-    typeGap = new ObservableValue();
+    entitySelectChanged = _.compose(buttonController.buttonStateHelper.updateByEntity, selector.entityLabel.update);
 
   var api = {
-    getTypeGapValue: function() {
-      return typeGap.get();
-    },
     setTerm: function() {
       changeCssClass(editor, 'term');
       setSettingButtonEnable();
@@ -102,17 +97,12 @@ module.exports = function(editor, model, buttonController) {
     getLineHeight: function() {
       return parseInt(editor.find('.textae-editor__body__text-box').css('line-height')) / 16;
     },
-    changeLineHeight: _.partial(changeLineHeight, editor),
-    changeTypeGap: function(newValue) {
-      typeGap.set(newValue);
-    }
+    changeLineHeight: _.partial(changeLineHeight, editor)
   };
 
   typeGap.on('change', function(newValue) {
-    if (newValue !== -1) {
-      calculateLineHeight(editor, model, newValue);
-    }
+    calculateLineHeight(editor, model, newValue);
   });
 
-  return _.extend(typeGap, api);
+  return api;
 };

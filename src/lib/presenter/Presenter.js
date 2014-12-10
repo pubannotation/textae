@@ -1,4 +1,4 @@
-module.exports = function(editor, model, view, command, spanConfig, clipBoard, buttonController, viewMode) {
+module.exports = function(editor, model, view, command, spanConfig, clipBoard, buttonController, viewMode, typeGap) {
     var editorSelected = function() {
             userEvent.viewHandler.hideDialogs();
 
@@ -157,7 +157,7 @@ module.exports = function(editor, model, view, command, spanConfig, clipBoard, b
                     };
                 }(),
                 viewHandler = function() {
-                    var editMode = require('./EditMode')(model, viewMode, typeEditor),
+                    var editMode = require('./EditMode')(model, viewMode, typeEditor, typeGap),
                         setViewMode = function(mode) {
                             if (editMode['to' + mode]) {
                                 editMode['to' + mode]();
@@ -188,7 +188,7 @@ module.exports = function(editor, model, view, command, spanConfig, clipBoard, b
                                 }
                             }
                         },
-                        showSettingDialog: require('./SettingDialog')(editor, editMode),
+                        showSettingDialog: require('./SettingDialog')(editor, editMode, typeGap),
                         toggleDetectBoundaryMode: function() {
                             buttonController.modeAccordingToButton['boundary-detection'].toggle();
                         },

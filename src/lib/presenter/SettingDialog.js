@@ -31,11 +31,11 @@ var debounce300 = function(func) {
 			editMode.lineHeight
 		);
 	},
-	updateTypeGapValue = function(editMode, $content) {
+	updateTypeGapValue = function(typeGap, $content) {
 		return jQuerySugar.setValue(
 			$content,
 			'.type-gap',
-			editMode.typeGap
+			typeGap.get
 		);
 	},
 	toTypeGap = function($content) {
@@ -45,22 +45,22 @@ var debounce300 = function(func) {
 		jQuerySugar.enabled(toTypeGap($content), editMode.showInstance);
 		return $content;
 	},
-	changeMode = function(editMode, $content, checked) {
+	changeMode = function(editMode, typeGap, $content, checked) {
 		if (checked) {
 			editMode.toInstance();
 		} else {
 			editMode.toTerm();
 		}
 		updateTypeGapEnable(editMode, $content);
-		updateTypeGapValue(editMode, $content);
+		updateTypeGapValue(typeGap, $content);
 		updateLineHeight(editMode, $content);
 	},
 	SettingDialogLabel = _.partial(jQuerySugar.Label, 'textae-editor__setting-dialog__label');
 
-module.exports = function(editor, editMode) {
+module.exports = function(editor, editMode, typeGap) {
 	var addInstanceRelationView = function($content) {
 			var onModeChanged = debounce300(function() {
-				changeMode(editMode, $content, $(this).is(':checked'));
+				changeMode(editMode, typeGap, $content, $(this).is(':checked'));
 			});
 
 			return $content
@@ -81,7 +81,7 @@ module.exports = function(editor, editMode) {
 		addTypeGap = function($content) {
 			var onTypeGapChange = debounce300(
 				function() {
-					editMode.changeTypeGap($(this).val());
+					typeGap.set($(this).val());
 					updateLineHeight(editMode, $content);
 				}
 			);
@@ -148,7 +148,7 @@ module.exports = function(editor, editMode) {
 	return _.compose(
 		open,
 		partialEditMode(updateLineHeight),
-		partialEditMode(updateTypeGapValue),
+		_.partial(updateTypeGapValue, typeGap),
 		partialEditMode(updateTypeGapEnable),
 		partialEditMode(updateViewMode),
 		appendToDialog,
