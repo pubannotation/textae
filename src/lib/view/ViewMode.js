@@ -35,11 +35,10 @@ var changeCssClass = function(editor, mode) {
 
     changeLineHeight(editor, maxHeight);
   },
-  EventEmitter = require('events').EventEmitter;
+  ObservableValue = require('../util/ObservableValue');
 
 module.exports = function(editor, model, buttonController) {
-  var emitter = new EventEmitter(),
-    selector = require('./Selector')(editor, model),
+  var selector = require('./Selector')(editor, model),
     setSettingButtonEnable = _.partial(buttonController.buttonStateHelper.enabled, 'setting', true),
     setControlButtonForRelation = function(isRelation) {
       buttonController.buttonStateHelper.enabled('replicate-auto', !isRelation);
@@ -48,11 +47,11 @@ module.exports = function(editor, model, buttonController) {
     },
     // This notify is off at relation-edit-mode.
     entitySelectChanged = _.compose(buttonController.buttonStateHelper.updateByEntity, selector.entityLabel.update),
-    typeGapValue = 0;
+    typeGap = new ObservableValue();
 
   var api = {
     getTypeGapValue: function() {
-      return typeGapValue;
+      return typeGap.get();
     },
     setTerm: function() {
       changeCssClass(editor, 'term');
@@ -105,17 +104,15 @@ module.exports = function(editor, model, buttonController) {
     },
     changeLineHeight: _.partial(changeLineHeight, editor),
     changeTypeGap: function(newValue) {
-      if (typeGapValue === newValue) return;
-
-      // init
-      if (newValue !== -1) {
-        calculateLineHeight(editor, model, newValue);
-        emitter.emit('change.typeGap', newValue);
-      }
-
-      typeGapValue = newValue;
+      typeGap.set(newValue);
     }
   };
 
-  return _.extend(emitter, api);
+  typeGap.on('change', function(newValue) {
+    if (newValue !== -1) {
+      calculateLineHeight(editor, model, newValue);
+    }
+  });
+
+  return _.extend(typeGap, api);
 };

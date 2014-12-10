@@ -99,7 +99,7 @@ module.exports = function() {
             }
         };
 
-        viewMode.on('change.typeGap', view.setTypeGap);
+        viewMode.on('change', view.setTypeGap);
 
     // public funcitons of editor
     this.api = function(editor) {
