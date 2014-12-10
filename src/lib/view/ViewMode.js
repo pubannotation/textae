@@ -91,6 +91,7 @@ module.exports = function(editor, model, buttonController, typeGap) {
       } else {
         editor.removeClass('textae-editor_editable');
         buttonController.buttonStateHelper.enabled('replicate-auto', false);
+        buttonController.buttonStateHelper.enabled('boundary-detection', false);
         buttonController.buttonStateHelper.enabled('relation-edit-mode', false);
       }
     },
