@@ -13,7 +13,7 @@ module.exports = function(editor, model, buttonController, getTypeGapValue) {
     typeContainer = require('./TypeContainer')(model),
     // Render DOM elements conforming with the Model.
     renderer = require('./renderer/Renderer')(editor, model, buttonController.buttonStateHelper, typeContainer),
-    gridLayout = require('./GridLayout')(editor, model.annotationData),
+    gridLayout = require('./GridLayout')(editor, model.annotationData, typeContainer),
     api = require('../util/extendBindable')({}),
     render = function(typeGapValue) {
       api.trigger('render.start', editor);

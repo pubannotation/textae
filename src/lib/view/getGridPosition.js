@@ -6,7 +6,7 @@ var stickGridOnSpan = function(getSpan, getGridOfSpan, span) {
       'left': spanPosition.left
     };
   },
-  pullUpGridOverDescendants = function(getSpan, typeGapValue, span) {
+  pullUpGridOverDescendants = function(getSpan, typeContainer, typeGapValue, span) {
     // Culculate the height of the grid include descendant grids, because css style affects slowly.
     var getHeightIncludeDescendantGrids = function(span) {
       var descendantsMaxHeight = span.children.length === 0 ? 0 :
@@ -15,8 +15,7 @@ var stickGridOnSpan = function(getSpan, getGridOfSpan, span) {
         }));
 
       var gridHeight = span.getTypes().filter(function(type) {
-        //    console.log(type);
-        return type.name !== 'Sentence';
+        return !typeContainer.entity.isBlock(type.name);
       }).length * (typeGapValue * 18 + 18);
       return gridHeight + descendantsMaxHeight;
     };
@@ -30,10 +29,10 @@ var stickGridOnSpan = function(getSpan, getGridOfSpan, span) {
     };
   };
 
-module.exports = function(getSpan, getGridOfSpan, typeGapValue, span) {
+module.exports = function(getSpan, getGridOfSpan, typeContainer, typeGapValue, span) {
   if (span.children.length === 0) {
     return stickGridOnSpan(getSpan, getGridOfSpan, span);
   } else {
-    return pullUpGridOverDescendants(getSpan, typeGapValue, span);
+    return pullUpGridOverDescendants(getSpan, typeContainer, typeGapValue, span);
   }
 };

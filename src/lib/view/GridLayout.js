@@ -24,7 +24,7 @@ var filterVisibleGrid = function(grid) {
   getGridPosition = require('./getGridPosition');
 
 // Management position of annotation components.
-module.exports = function(editor, annotationData) {
+module.exports = function(editor, annotationData, typeContainer) {
   var domPositionCaChe = require('./DomPositionCache')(editor, annotationData.entity),
     getGridOfSpan = require('../util/DomUtil')(editor).selector.grid.get,
     getGrid = _.partial(doIfSpan, getGridOfSpan),
@@ -41,7 +41,7 @@ module.exports = function(editor, annotationData) {
       }
     },
     arrangeGridPosition = function(typeGapValue, span) {
-      var getNewPosition = _.partial(getGridPosition, domPositionCaChe.getSpan, getGridOfSpan, typeGapValue),
+      var getNewPosition = _.partial(getGridPosition, domPositionCaChe.getSpan, getGridOfSpan, typeContainer, typeGapValue),
         moveTheGridIfChange = _.compose(
           _.partial(updatePositionCache, span),
           _.partial(updateGridPositon, span),
