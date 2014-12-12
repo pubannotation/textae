@@ -2172,7 +2172,7 @@ function isNullOrUndefined(arg) {
 }
 
 },{"punycode":6,"querystring":9}],11:[function(require,module,exports){
-module.exports = function(editor, history, presenter, view) {
+module.exports = function(editor, history, presenter, view, buttonStateHelper) {
 	return {
 		init: function(confirmDiscardChangeMessage) {
 			// Prevent the default selection by the browser with shift keies.
@@ -2199,9 +2199,9 @@ module.exports = function(editor, history, presenter, view) {
 
 			history.bind('change', function(state) {
 				//change button state
-				view.viewModel.buttonStateHelper.enabled("write", state.hasAnythingToSave);
-				view.viewModel.buttonStateHelper.enabled("undo", state.hasAnythingToUndo);
-				view.viewModel.buttonStateHelper.enabled("redo", state.hasAnythingToRedo);
+				buttonStateHelper.enabled("write", state.hasAnythingToSave);
+				buttonStateHelper.enabled("undo", state.hasAnythingToUndo);
+				buttonStateHelper.enabled("redo", state.hasAnythingToRedo);
 
 				//change leaveMessage show
 				window.onbeforeunload = state.hasAnythingToSave ? function() {
@@ -2211,6 +2211,7 @@ module.exports = function(editor, history, presenter, view) {
 		}
 	};
 };
+
 },{}],12:[function(require,module,exports){
 var defaults = {
 	"delimiter characters": [
@@ -2501,7 +2502,7 @@ module.exports = function(editor, confirmDiscardChangeMessage) {
 
     return api;
 };
-},{"../util/CursorChanger":53,"../util/ajaxAccessor":56,"../util/dialog/GetEditorDialog":61,"../util/extendBindable":64,"../util/jQuerySugar":67,"url":10}],14:[function(require,module,exports){
+},{"../util/CursorChanger":53,"../util/ajaxAccessor":57,"../util/dialog/GetEditorDialog":62,"../util/extendBindable":65,"../util/jQuerySugar":68,"url":10}],14:[function(require,module,exports){
 var ToolDialog = require('../util/dialog/GetToolDialog');
 
 module.exports = function() {
@@ -2515,7 +2516,7 @@ module.exports = function() {
 
 	return helpDialog.open;
 };
-},{"../util/dialog/GetToolDialog":62}],15:[function(require,module,exports){
+},{"../util/dialog/GetToolDialog":63}],15:[function(require,module,exports){
 var Pallet = function(emitter) {
 		return $('<div>')
 			.addClass("textae-editor__type-pallet")
@@ -2637,7 +2638,7 @@ module.exports = function() {
 		hide: $pallet.hide.bind($pallet)
 	});
 };
-},{"../util/extendBindable":64}],16:[function(require,module,exports){
+},{"../util/extendBindable":65}],16:[function(require,module,exports){
 var getAreaIn = function($parent) {
 	var $area = $parent.find('.textae-editor__footer .textae-editor__footer__message');
 	if ($area.length === 0) {
@@ -2853,7 +2854,9 @@ var Controller = require('./Controller'),
         return {
             status: function() {}
         };
-    };
+    },
+    ViewMode = require('./view/ViewMode'),
+    ObservableValue = require('./util/ObservableValue');
 
 module.exports = function() {
     // model manages data objects.
@@ -2862,12 +2865,19 @@ module.exports = function() {
         history = require('./model/History')(),
         // Configulation of span
         spanConfig = require('./SpanConfig')(),
-        // Users can edit model only via commands. 
+        // Users can edit model only via commands.
         command = require('./model/Command')(this, model, history),
-        view = require('./view/View')(this, model),
-        presenter = require('./presenter/Presenter')(this, model, view, command, spanConfig),
+        clipBoard = {
+            // clipBoard has entity type.
+            clipBoard: []
+        },
+        buttonController = require('./view/ButtonController')(this, model, clipBoard),
+        typeGap = new ObservableValue(-1),
+        viewMode = new ViewMode(this, model, buttonController, typeGap),
+        view = require('./view/View')(this, model, buttonController, typeGap.get),
+        presenter = require('./presenter/Presenter')(this, model, view, command, spanConfig, clipBoard, buttonController, viewMode, typeGap),
         //handle user input event.
-        controller = new Controller(this, history, presenter, view),
+        controller = new Controller(this, history, presenter, view, buttonController.buttonStateHelper),
         setTypeConfigToView = _.partial(setTypeConfig, view),
         setSpanAndTypeConfig = function(config) {
             spanConfig.set(config);
@@ -2925,6 +2935,8 @@ module.exports = function() {
             }
         };
 
+        typeGap.on('change', view.setTypeGap);
+
     // public funcitons of editor
     this.api = function(editor) {
         var updateAPIs = function(dataAccessObject) {
@@ -2963,7 +2975,7 @@ module.exports = function() {
                         'textae.control.button.undo.click': command.undo,
                         'textae.control.button.redo.click': command.redo,
                         'textae.control.button.replicate.click': presenter.event.replicate,
-                        'textae.control.button.replicate_auto.click': view.viewModel.modeAccordingToButton['replicate-auto'].toggle,
+                        'textae.control.button.replicate_auto.click': buttonController.modeAccordingToButton['replicate-auto'].toggle,
                         'textae.control.button.boundary_detection.click': presenter.event.toggleDetectBoundaryMode,
                         'textae.control.button.relation_edit_mode.click': presenter.event.toggleRelationEditMode,
                         'textae.control.button.entity.click': presenter.event.createEntity,
@@ -2983,7 +2995,7 @@ module.exports = function() {
                     handleButtonClick: _.partial(handle, iconApiMap),
                     redraw: function() {
                         console.log(editor.editorId, 'redraw');
-                        presenter.event.redraw();
+                        view.updateDisplay(typeGap.get());
                     }
                 };
             },
@@ -3017,7 +3029,7 @@ module.exports = function() {
 
     return this;
 };
-},{"./Controller":11,"./SpanConfig":12,"./component/StatusBar":16,"./createDaoForEditor":18,"./getParams":20,"./model/Command":22,"./model/History":23,"./model/Model":25,"./presenter/Presenter":34,"./util/ajaxAccessor":56,"./view/View":76}],20:[function(require,module,exports){
+},{"./Controller":11,"./SpanConfig":12,"./component/StatusBar":16,"./createDaoForEditor":18,"./getParams":20,"./model/Command":22,"./model/History":23,"./model/Model":25,"./presenter/Presenter":34,"./util/ObservableValue":56,"./util/ajaxAccessor":57,"./view/ButtonController":71,"./view/View":77,"./view/ViewMode":78}],20:[function(require,module,exports){
 var getUrlParameters = require('./util/getUrlParameters'),
 	priorUrl = function(params, editor, name) {
 		if (!params[name] && editor.attr(name))
@@ -3055,7 +3067,7 @@ module.exports = function(editor) {
 
 	return params;
 };
-},{"./util/getUrlParameters":65}],21:[function(require,module,exports){
+},{"./util/getUrlParameters":66}],21:[function(require,module,exports){
 var tool = require('./tool'),
     control = require('./control'),
     editor = require('./editor');
@@ -3466,7 +3478,7 @@ module.exports = function() {
 
     return api;
 };
-},{"../util/extendBindable":64}],24:[function(require,module,exports){
+},{"../util/extendBindable":65}],24:[function(require,module,exports){
 module.exports = function(kindName) {
 	var extendBindable = require('../util/extendBindable'),
 		selected = {},
@@ -3517,7 +3529,7 @@ module.exports = function(kindName) {
 
 	return api;
 };
-},{"../util/extendBindable":64}],25:[function(require,module,exports){
+},{"../util/extendBindable":65}],25:[function(require,module,exports){
 // Expected an entity like {id: "E21", span: "editor2__S50_54", type: "Protein"}.
 var EntityContainer = function(editor, eventEmitter, relation) {
         var idFactory = require('../util/IdFactory')(editor),
@@ -3742,7 +3754,7 @@ module.exports = function(editor) {
         selectionModel: require('./Selection')(['span', 'entity', 'relation'])
     };
 };
-},{"../util/IdFactory":55,"../util/extendBindable":64,"./ModelContainer":26,"./ParagraphContainer":27,"./Selection":28,"./SpanContainer":29}],26:[function(require,module,exports){
+},{"../util/IdFactory":55,"../util/extendBindable":65,"./ModelContainer":26,"./ParagraphContainer":27,"./Selection":28,"./SpanContainer":29}],26:[function(require,module,exports){
 var createId = function(prefix, getIdsFunction) {
 		var ids = getIdsFunction()
 			.filter(function(id) {
@@ -3912,7 +3924,7 @@ module.exports = function(kinds) {
 
 	return extendUtilFunctions(containerList, api);
 };
-},{"../util/extendBindable":64,"./IdContainer":24}],29:[function(require,module,exports){
+},{"../util/extendBindable":65,"./IdContainer":24}],29:[function(require,module,exports){
 module.exports = function(editor, annotationDataApi, paragraph) {
 	var idFactory = require('../util/IdFactory')(editor),
 		toSpanModel = function() {
@@ -4217,13 +4229,13 @@ module.exports = function(spans, candidateSpan) {
 	}).length > 0;
 };
 },{}],33:[function(require,module,exports){
-var typeGap = function() {
+var typeGapCache = function() {
 	var seed = {
 			instanceHide: 0,
 			instanceShow: 2
 		},
 		set = function(mode, val) {
-			typeGap[mode] = val;
+			typeGapCache[mode] = val;
 			return val;
 		},
 		api = _.extend({}, seed),
@@ -4236,14 +4248,10 @@ var typeGap = function() {
 	return api;
 }();
 
-module.exports = function(model, viewMode, typeEditor) {
+module.exports = function(model, viewMode, typeEditor, typeGap) {
 	var api = {
 			init: function() {
-				viewMode.changeTypeGap(-1);
 				_.extend(api, state.init);
-			},
-			get typeGap() {
-				return viewMode.getTypeGapValue();
 			},
 			get lineHeight() {
 				return Math.floor(viewMode.getLineHeight());
@@ -4261,7 +4269,7 @@ module.exports = function(model, viewMode, typeEditor) {
 				typeEditor.editEntity();
 				viewMode.setTerm();
 				viewMode.setEditable(true);
-				viewMode.changeTypeGap(typeGap.instanceHide);
+				typeGap.set(typeGapCache.instanceHide);
 
 				_.extend(api, state.termCentric);
 			},
@@ -4271,7 +4279,7 @@ module.exports = function(model, viewMode, typeEditor) {
 				typeEditor.editEntity();
 				viewMode.setInstance();
 				viewMode.setEditable(true);
-				viewMode.changeTypeGap(typeGap.instanceShow);
+				typeGap.set(typeGapCache.instanceShow);
 
 				_.extend(api, state.instanceRelation);
 			},
@@ -4281,7 +4289,7 @@ module.exports = function(model, viewMode, typeEditor) {
 				typeEditor.editRelation();
 				viewMode.setRelation();
 				viewMode.setEditable(true);
-				viewMode.changeTypeGap(typeGap.instanceShow);
+				typeGap.set(typeGapCache.instanceShow);
 
 				_.extend(api, state.relationEdit);
 			},
@@ -4291,7 +4299,7 @@ module.exports = function(model, viewMode, typeEditor) {
 				typeEditor.noEdit();
 				viewMode.setTerm();
 				viewMode.setEditable(false);
-				viewMode.changeTypeGap(typeGap.instanceHide);
+				typeGap.set(typeGapCache.instanceHide);
 
 				_.extend(api, state.viewTerm);
 			},
@@ -4301,7 +4309,7 @@ module.exports = function(model, viewMode, typeEditor) {
 				typeEditor.noEdit();
 				viewMode.setInstance();
 				viewMode.setEditable(false);
-				viewMode.changeTypeGap(typeGap.instanceShow);
+				typeGap.set(typeGapCache.instanceShow);
 
 				_.extend(api, state.viewInstance);
 			}
@@ -4310,8 +4318,8 @@ module.exports = function(model, viewMode, typeEditor) {
 		notTransit = function() {
 			console.log('no mode transition.', this.name);
 		},
-		changeTypeGapInstanceHide = _.compose(viewMode.changeTypeGap, typeGap.setInstanceHide),
-		changeTypeGapInstanceShow = _.compose(viewMode.changeTypeGap, typeGap.setInstanceShow),
+		changeTypeGapInstanceHide = _.compose(typeGap.set, typeGapCache.setInstanceHide),
+		changeTypeGapInstanceShow = _.compose(typeGap.set, typeGapCache.setInstanceShow),
 		state = {
 			init: _.extend({}, transition, {
 				name: 'Init'
@@ -4356,279 +4364,280 @@ module.exports = function(model, viewMode, typeEditor) {
 
 	return api;
 };
-},{"../util/capitalize":57}],34:[function(require,module,exports){
-module.exports = function(editor, model, view, command, spanConfig) {
-    var editorSelected = function() {
-            userEvent.viewHandler.hideDialogs();
 
-            // Select this editor.
-            editor.eventEmitter.trigger('textae.editor.select');
-            view.viewModel.buttonStateHelper.propagate();
-        },
-        typeEditor = require('./typeEditor/TypeEditor')(editor, model, spanConfig, command, view.viewModel, view.typeContainer),
-        userEvent = function() {
-            var editHandler = function() {
-                    var toggleModification = function(modificationType) {
-                            var isModificationType = function(modification) {
-                                    return modification.pred === modificationType;
-                                },
-                                getSpecificModification = function(id) {
-                                    return model.annotationData
-                                        .getModificationOf(id)
-                                        .filter(isModificationType);
-                                },
-                                commands,
-                                has = view.viewModel.modeAccordingToButton[modificationType.toLowerCase()].value();
+},{"../util/capitalize":58}],34:[function(require,module,exports){
+module.exports = function(editor, model, view, command, spanConfig, clipBoard, buttonController, viewMode, typeGap) {
+  var editorSelected = function() {
+      userEvent.viewHandler.hideDialogs();
 
-                            if (has) {
-                                commands = typeEditor.getSelectedIdEditable().map(function(id) {
-                                    var modification = getSpecificModification(id)[0];
-                                    return command.factory.modificationRemoveCommand(modification.id);
-                                });
-                            } else {
-                                commands = _.reject(typeEditor.getSelectedIdEditable(), function(id) {
-                                    return getSpecificModification(id).length > 0;
-                                }).map(function(id) {
-                                    return command.factory.modificationCreateCommand({
-                                        obj: id,
-                                        pred: modificationType
-                                    });
-                                });
-                            }
+      // Select this editor.
+      editor.eventEmitter.trigger('textae.editor.select');
+      buttonController.buttonStateHelper.propagate();
+    },
+    typeEditor = require('./typeEditor/TypeEditor')(editor, model, spanConfig, command, buttonController.modeAccordingToButton, view.typeContainer),
+    userEvent = function() {
+      var editHandler = function() {
+          var toggleModification = function(modificationType) {
+              var isModificationType = function(modification) {
+                  return modification.pred === modificationType;
+                },
+                getSpecificModification = function(id) {
+                  return model.annotationData
+                    .getModificationOf(id)
+                    .filter(isModificationType);
+                },
+                commands,
+                has = buttonController.modeAccordingToButton[modificationType.toLowerCase()].value();
 
-                            command.invoke(commands);
-                        },
-                        getDetectBoundaryFunc = function() {
-                            if (view.viewModel.modeAccordingToButton['boundary-detection'].value())
-                                return spanConfig.isDelimiter;
-                            else
-                                return null;
-                        };
+              if (has) {
+                commands = typeEditor.getSelectedIdEditable().map(function(id) {
+                  var modification = getSpecificModification(id)[0];
+                  return command.factory.modificationRemoveCommand(modification.id);
+                });
+              } else {
+                commands = _.reject(typeEditor.getSelectedIdEditable(), function(id) {
+                  return getSpecificModification(id).length > 0;
+                }).map(function(id) {
+                  return command.factory.modificationCreateCommand({
+                    obj: id,
+                    pred: modificationType
+                  });
+                });
+              }
 
-                    return {
-                        replicate: function() {
-                            var spanId = model.selectionModel.span.single(),
-                                detectBoundaryFunc = getDetectBoundaryFunc();
-
-                            if (spanId) {
-                                command.invoke(
-                                    [command.factory.spanReplicateCommand(
-                                        view.typeContainer.entity.getDefaultType(),
-                                        model.annotationData.span.get(spanId),
-                                        detectBoundaryFunc
-                                    )]
-                                );
-                            } else {
-                                alert('You can replicate span annotation when there is only span selected.');
-                            }
-                        },
-                        createEntity: function() {
-                            var commands = model.selectionModel.span.all().map(function(spanId) {
-                                return command.factory.entityCreateCommand({
-                                    span: spanId,
-                                    type: view.typeContainer.entity.getDefaultType()
-                                });
-                            });
-
-                            command.invoke(commands);
-                        },
-                        newLabel: function() {
-                            if (model.selectionModel.entity.some() || model.selectionModel.relation.some()) {
-                                var newTypeLabel = prompt("Please enter a new label", "");
-                                if (newTypeLabel) {
-                                    typeEditor.setNewType(newTypeLabel);
-                                }
-                            }
-                        },
-                        negation: _.partial(toggleModification, 'Negation'),
-                        speculation: _.partial(toggleModification, 'Speculation'),
-                        removeSelectedElements: function() {
-                            var removeCommand = function() {
-                                var spanIds = [],
-                                    entityIds = [],
-                                    relationIds = [];
-
-                                return {
-                                    addSpanId: function(spanId) {
-                                        spanIds.push(spanId);
-                                    },
-                                    addEntityId: function(entityId) {
-                                        entityIds.push(entityId);
-                                    },
-                                    addRelations: function(addedRelations) {
-                                        relationIds = relationIds.concat(addedRelations);
-                                    },
-                                    getAll: function() {
-                                        return _.uniq(relationIds).map(command.factory.relationRemoveCommand)
-                                            .concat(
-                                                _.uniq(entityIds).map(function(entity) {
-                                                    // Wrap by a anonymous function, because command.factory.entityRemoveCommand has two optional arguments.
-                                                    return command.factory.entityRemoveCommand(entity);
-                                                }),
-                                                _.uniq(spanIds).map(command.factory.spanRemoveCommand));
-                                    },
-                                };
-                            }();
-
-                            //remove spans
-                            model.selectionModel.span.all().forEach(function(spanId) {
-                                removeCommand.addSpanId(spanId);
-                            });
-
-                            //remove entities
-                            model.selectionModel.entity.all().forEach(function(entityId) {
-                                removeCommand.addEntityId(entityId);
-                            });
-
-                            //remove relations
-                            removeCommand.addRelations(model.selectionModel.relation.all());
-
-                            command.invoke(removeCommand.getAll());
-                        },
-                        copyEntities: function() {
-                            // Unique Entities. Because a entity is deplicate When a span and thats entity is selected.
-                            view.clipBoard.clipBoard = _.uniq(
-                                function getEntitiesFromSelectedSpan() {
-                                    return _.flatten(model.selectionModel.span.all().map(function(spanId) {
-                                        return model.annotationData.span.get(spanId).getEntities();
-                                    }));
-                                }().concat(
-                                    model.selectionModel.entity.all()
-                                )
-                            ).map(function(entityId) {
-                                // Map entities to types, because entities may be delete.
-                                return model.annotationData.entity.get(entityId).type;
-                            });
-                        },
-                        pasteEntities: function() {
-                            // Make commands per selected spans from types in clipBoard. 
-                            var commands = _.flatten(model.selectionModel.span.all().map(function(spanId) {
-                                return view.clipBoard.clipBoard.map(function(type) {
-                                    return command.factory.entityCreateCommand({
-                                        span: spanId,
-                                        type: type
-                                    });
-                                });
-                            }));
-
-                            command.invoke(commands);
-                        }
-                    };
-                }(),
-                viewHandler = function() {
-                    var editMode = require('./EditMode')(model, view.viewMode, typeEditor),
-                        setViewMode = function(mode) {
-                            if (editMode['to' + mode]) {
-                                editMode['to' + mode]();
-                            }
-                        };
-
-                    return {
-                        showPallet: typeEditor.showPallet,
-                        hideDialogs: typeEditor.hideDialogs,
-                        cancelSelect: typeEditor.cancelSelect,
-                        selectLeftSpan: function() {
-                            var spanId = model.selectionModel.span.single();
-                            if (spanId) {
-                                var span = model.annotationData.span.get(spanId);
-                                model.selectionModel.clear();
-                                if (span.left) {
-                                    model.selectionModel.span.add(span.left.id);
-                                }
-                            }
-                        },
-                        selectRightSpan: function() {
-                            var spanId = model.selectionModel.span.single();
-                            if (spanId) {
-                                var span = model.annotationData.span.get(spanId);
-                                model.selectionModel.clear();
-                                if (span.right) {
-                                    model.selectionModel.span.add(span.right.id);
-                                }
-                            }
-                        },
-                        showSettingDialog: require('./SettingDialog')(editor, editMode),
-                        toggleDetectBoundaryMode: function() {
-                            view.viewModel.modeAccordingToButton['boundary-detection'].toggle();
-                        },
-                        toggleRelationEditMode: function() {
-                            if (view.viewModel.modeAccordingToButton['relation-edit-mode'].value()) {
-                        editMode.toInstance();
-                            } else {
-                                editMode.toRelation();
-                            }
-                        },
-                        bindChangeViewMode: function() {
-                            var changeViewMode = function(prefix) {
-                                editMode.init();
-
-                                // Change view mode accoding to the annotation data.
-                                if (model.annotationData.relation.some() || model.annotationData.span.multiEntities().length > 0) {
-                                    setViewMode(prefix + 'Instance');
-                                } else {
-                                    setViewMode(prefix + 'Term');
-                                }
-                            };
-
-                            return function(mode) {
-                                var prefix = mode === 'edit' ? '' : 'View';
-                                model.annotationData.bind('all.change', _.partial(changeViewMode, prefix));
-                            };
-                        }()
-                    };
-                }();
-
-            return {
-                // User event to edit model
-                editHandler: editHandler,
-                // User event that does not change data.
-                viewHandler: viewHandler
+              command.invoke(commands);
+            },
+            getDetectBoundaryFunc = function() {
+              if (buttonController.modeAccordingToButton['boundary-detection'].value())
+                return spanConfig.isDelimiter;
+              else
+                return null;
             };
+
+          return {
+            replicate: function() {
+              var spanId = model.selectionModel.span.single(),
+                detectBoundaryFunc = getDetectBoundaryFunc();
+
+              if (spanId) {
+                command.invoke(
+                  [command.factory.spanReplicateCommand(
+                    view.typeContainer.entity.getDefaultType(),
+                    model.annotationData.span.get(spanId),
+                    detectBoundaryFunc
+                  )]
+                );
+              } else {
+                alert('You can replicate span annotation when there is only span selected.');
+              }
+            },
+            createEntity: function() {
+              var commands = model.selectionModel.span.all().map(function(spanId) {
+                return command.factory.entityCreateCommand({
+                  span: spanId,
+                  type: view.typeContainer.entity.getDefaultType()
+                });
+              });
+
+              command.invoke(commands);
+            },
+            newLabel: function() {
+              if (model.selectionModel.entity.some() || model.selectionModel.relation.some()) {
+                var newTypeLabel = prompt("Please enter a new label", "");
+                if (newTypeLabel) {
+                  typeEditor.setNewType(newTypeLabel);
+                }
+              }
+            },
+            negation: _.partial(toggleModification, 'Negation'),
+            speculation: _.partial(toggleModification, 'Speculation'),
+            removeSelectedElements: function() {
+              var removeCommand = function() {
+                var spanIds = [],
+                  entityIds = [],
+                  relationIds = [];
+
+                return {
+                  addSpanId: function(spanId) {
+                    spanIds.push(spanId);
+                  },
+                  addEntityId: function(entityId) {
+                    entityIds.push(entityId);
+                  },
+                  addRelations: function(addedRelations) {
+                    relationIds = relationIds.concat(addedRelations);
+                  },
+                  getAll: function() {
+                    return _.uniq(relationIds).map(command.factory.relationRemoveCommand)
+                      .concat(
+                        _.uniq(entityIds).map(function(entity) {
+                          // Wrap by a anonymous function, because command.factory.entityRemoveCommand has two optional arguments.
+                          return command.factory.entityRemoveCommand(entity);
+                        }),
+                        _.uniq(spanIds).map(command.factory.spanRemoveCommand));
+                  },
+                };
+              }();
+
+              //remove spans
+              model.selectionModel.span.all().forEach(function(spanId) {
+                removeCommand.addSpanId(spanId);
+              });
+
+              //remove entities
+              model.selectionModel.entity.all().forEach(function(entityId) {
+                removeCommand.addEntityId(entityId);
+              });
+
+              //remove relations
+              removeCommand.addRelations(model.selectionModel.relation.all());
+
+              command.invoke(removeCommand.getAll());
+            },
+            copyEntities: function() {
+              // Unique Entities. Because a entity is deplicate When a span and thats entity is selected.
+              clipBoard.clipBoard = _.uniq(
+                function getEntitiesFromSelectedSpan() {
+                  return _.flatten(model.selectionModel.span.all().map(function(spanId) {
+                    return model.annotationData.span.get(spanId).getEntities();
+                  }));
+                }().concat(
+                  model.selectionModel.entity.all()
+                )
+              ).map(function(entityId) {
+                // Map entities to types, because entities may be delete.
+                return model.annotationData.entity.get(entityId).type;
+              });
+            },
+            pasteEntities: function() {
+              // Make commands per selected spans from types in clipBoard.
+              var commands = _.flatten(model.selectionModel.span.all().map(function(spanId) {
+                return clipBoard.clipBoard.map(function(type) {
+                  return command.factory.entityCreateCommand({
+                    span: spanId,
+                    type: type
+                  });
+                });
+              }));
+
+              command.invoke(commands);
+            }
+          };
+        }(),
+        viewHandler = function() {
+          var editMode = require('./EditMode')(model, viewMode, typeEditor, typeGap),
+            setViewMode = function(mode) {
+              if (editMode['to' + mode]) {
+                editMode['to' + mode]();
+              }
+            };
+
+          return {
+            showPallet: typeEditor.showPallet,
+            hideDialogs: typeEditor.hideDialogs,
+            cancelSelect: typeEditor.cancelSelect,
+            selectLeftSpan: function() {
+              var spanId = model.selectionModel.span.single();
+              if (spanId) {
+                var span = model.annotationData.span.get(spanId);
+                model.selectionModel.clear();
+                if (span.left) {
+                  model.selectionModel.span.add(span.left.id);
+                }
+              }
+            },
+            selectRightSpan: function() {
+              var spanId = model.selectionModel.span.single();
+              if (spanId) {
+                var span = model.annotationData.span.get(spanId);
+                model.selectionModel.clear();
+                if (span.right) {
+                  model.selectionModel.span.add(span.right.id);
+                }
+              }
+            },
+            showSettingDialog: require('./SettingDialog')(editor, editMode, typeGap),
+            toggleDetectBoundaryMode: function() {
+              buttonController.modeAccordingToButton['boundary-detection'].toggle();
+            },
+            toggleRelationEditMode: function() {
+              if (buttonController.modeAccordingToButton['relation-edit-mode'].value()) {
+                editMode.toInstance();
+              } else {
+                editMode.toRelation();
+              }
+            },
+            bindChangeViewMode: function() {
+              var changeViewMode = function(prefix) {
+                editMode.init();
+
+                // Change view mode accoding to the annotation data.
+                if (model.annotationData.relation.some() || model.annotationData.span.multiEntities().length > 0) {
+                  setViewMode(prefix + 'Instance');
+                } else {
+                  setViewMode(prefix + 'Term');
+                }
+              };
+
+              return function(mode) {
+                var prefix = mode === 'edit' ? '' : 'View';
+                model.annotationData.bind('all.change', _.partial(changeViewMode, prefix));
+              };
+            }()
+          };
         }();
 
-    return {
-        init: function() {
-            // The jsPlumbConnetion has an original event mecanism.
-            // We can only bind the connection directory.
-            editor
-                .on('textae.editor.jsPlumbConnection.add', function(event, jsPlumbConnection) {
-                    jsPlumbConnection.bindClickAction(typeEditor.jsPlumbConnectionClicked);
-                });
+      return {
+        // User event to edit model
+        editHandler: editHandler,
+        // User event that does not change data.
+        viewHandler: viewHandler
+      };
+    }();
 
-            // Set cursor control by view rendering events.
-            var cursorChanger = require('../util/CursorChanger')(editor);
-            view
-                .bind('render.start', function(editor) {
-                    // console.log(editor.editorId, 'render.start');
-                    cursorChanger.startWait();
-                })
-                .bind('render.end', function(editor) {
-                    // console.log(editor.editorId, 'render.end');
-                    cursorChanger.endWait();
-                });
-        },
-        setMode: userEvent.viewHandler.bindChangeViewMode,
-        event: {
-            editorSelected: editorSelected,
-            redraw: view.updateDisplay,
-            copyEntities: userEvent.editHandler.copyEntities,
-            removeSelectedElements: userEvent.editHandler.removeSelectedElements,
-            createEntity: userEvent.editHandler.createEntity,
-            showPallet: userEvent.viewHandler.showPallet,
-            replicate: userEvent.editHandler.replicate,
-            pasteEntities: userEvent.editHandler.pasteEntities,
-            newLabel: userEvent.editHandler.newLabel,
-            cancelSelect: userEvent.viewHandler.cancelSelect,
-            selectLeftSpan: userEvent.viewHandler.selectLeftSpan,
-            selectRightSpan: userEvent.viewHandler.selectRightSpan,
-            toggleDetectBoundaryMode: userEvent.viewHandler.toggleDetectBoundaryMode,
-            toggleRelationEditMode: userEvent.viewHandler.toggleRelationEditMode,
-            negation: userEvent.editHandler.negation,
-            speculation: userEvent.editHandler.speculation,
-            showSettingDialog: userEvent.viewHandler.showSettingDialog
-        }
-    };
+  return {
+    init: function() {
+      // The jsPlumbConnetion has an original event mecanism.
+      // We can only bind the connection directory.
+      editor
+        .on('textae.editor.jsPlumbConnection.add', function(event, jsPlumbConnection) {
+          jsPlumbConnection.bindClickAction(typeEditor.jsPlumbConnectionClicked);
+        });
+
+      // Set cursor control by view rendering events.
+      var cursorChanger = require('../util/CursorChanger')(editor);
+      view
+        .bind('render.start', function(editor) {
+          // console.log(editor.editorId, 'render.start');
+          cursorChanger.startWait();
+        })
+        .bind('render.end', function(editor) {
+          // console.log(editor.editorId, 'render.end');
+          cursorChanger.endWait();
+        });
+    },
+    setMode: userEvent.viewHandler.bindChangeViewMode,
+    event: {
+      editorSelected: editorSelected,
+      copyEntities: userEvent.editHandler.copyEntities,
+      removeSelectedElements: userEvent.editHandler.removeSelectedElements,
+      createEntity: userEvent.editHandler.createEntity,
+      showPallet: userEvent.viewHandler.showPallet,
+      replicate: userEvent.editHandler.replicate,
+      pasteEntities: userEvent.editHandler.pasteEntities,
+      newLabel: userEvent.editHandler.newLabel,
+      cancelSelect: userEvent.viewHandler.cancelSelect,
+      selectLeftSpan: userEvent.viewHandler.selectLeftSpan,
+      selectRightSpan: userEvent.viewHandler.selectRightSpan,
+      toggleDetectBoundaryMode: userEvent.viewHandler.toggleDetectBoundaryMode,
+      toggleRelationEditMode: userEvent.viewHandler.toggleRelationEditMode,
+      negation: userEvent.editHandler.negation,
+      speculation: userEvent.editHandler.speculation,
+      showSettingDialog: userEvent.viewHandler.showSettingDialog
+    }
+  };
 };
+
 },{"../util/CursorChanger":53,"./EditMode":33,"./SettingDialog":35,"./typeEditor/TypeEditor":45}],35:[function(require,module,exports){
 var debounce300 = function(func) {
 		return _.debounce(func, 300);
@@ -4663,11 +4672,11 @@ var debounce300 = function(func) {
 			editMode.lineHeight
 		);
 	},
-	updateTypeGapValue = function(editMode, $content) {
+	updateTypeGapValue = function(typeGap, $content) {
 		return jQuerySugar.setValue(
 			$content,
 			'.type-gap',
-			editMode.typeGap
+			typeGap.get
 		);
 	},
 	toTypeGap = function($content) {
@@ -4677,22 +4686,22 @@ var debounce300 = function(func) {
 		jQuerySugar.enabled(toTypeGap($content), editMode.showInstance);
 		return $content;
 	},
-	changeMode = function(editMode, $content, checked) {
+	changeMode = function(editMode, typeGap, $content, checked) {
 		if (checked) {
 			editMode.toInstance();
 		} else {
 			editMode.toTerm();
 		}
 		updateTypeGapEnable(editMode, $content);
-		updateTypeGapValue(editMode, $content);
+		updateTypeGapValue(typeGap, $content);
 		updateLineHeight(editMode, $content);
 	},
 	SettingDialogLabel = _.partial(jQuerySugar.Label, 'textae-editor__setting-dialog__label');
 
-module.exports = function(editor, editMode) {
+module.exports = function(editor, editMode, typeGap) {
 	var addInstanceRelationView = function($content) {
 			var onModeChanged = debounce300(function() {
-				changeMode(editMode, $content, $(this).is(':checked'));
+				changeMode(editMode, typeGap, $content, $(this).is(':checked'));
 			});
 
 			return $content
@@ -4713,7 +4722,7 @@ module.exports = function(editor, editMode) {
 		addTypeGap = function($content) {
 			var onTypeGapChange = debounce300(
 				function() {
-					editMode.changeTypeGap($(this).val());
+					typeGap.set($(this).val());
 					updateLineHeight(editMode, $content);
 				}
 			);
@@ -4780,7 +4789,7 @@ module.exports = function(editor, editMode) {
 	return _.compose(
 		open,
 		partialEditMode(updateLineHeight),
-		partialEditMode(updateTypeGapValue),
+		_.partial(updateTypeGapValue, typeGap),
 		partialEditMode(updateTypeGapEnable),
 		partialEditMode(updateViewMode),
 		appendToDialog,
@@ -4790,7 +4799,8 @@ module.exports = function(editor, editMode) {
 		createContent
 	);
 };
-},{"../util/dialog/GetEditorDialog":61,"../util/jQuerySugar":67}],36:[function(require,module,exports){
+
+},{"../util/dialog/GetEditorDialog":62,"../util/jQuerySugar":68}],36:[function(require,module,exports){
 var skipBlank = require('./skipBlank');
 
 module.exports = {
@@ -4930,7 +4940,7 @@ module.exports = function(getChars, step, str, position, predicate) {
 },{}],40:[function(require,module,exports){
 var dismissBrowserSelection = require('./dismissBrowserSelection');
 
-module.exports = function(editor, model, spanConfig, command, viewModel, typeContainer) {
+module.exports = function(editor, model, spanConfig, command, modeAccordingToButton, typeContainer) {
 	var handler = {
 			changeTypeOfSelected: null,
 			getSelectedIdEditable: null,
@@ -5048,7 +5058,7 @@ module.exports = function(editor, model, spanConfig, command, viewModel, typeCon
 				// Cancel events of relations and theier label.
 				// Because a jQuery event and a jsPlumb event are both fired when a relation are clicked.
 				// And jQuery events are propergated to body click events and cancel select.
-				// So multi selection of relations with Ctrl-key is not work. 
+				// So multi selection of relations with Ctrl-key is not work.
 				unbindAllEventhandler()
 					.on('mouseup', '.textae-editor__entity', entityClickedAtRelationMode)
 					.on('mouseup', '.textae-editor__relation, .textae-editor__relation__label', returnFalse)
@@ -5062,7 +5072,7 @@ module.exports = function(editor, model, spanConfig, command, viewModel, typeCon
 			};
 		}(),
 		editEntity = function() {
-			var selectEnd = require('./SelectEnd')(editor, model, command, viewModel, typeContainer),
+			var selectEnd = require('./SelectEnd')(editor, model, command, modeAccordingToButton, typeContainer),
 				bodyClicked = function() {
 					var selection = window.getSelection();
 
@@ -5218,7 +5228,8 @@ module.exports = function(editor, model, spanConfig, command, viewModel, typeCon
 		}
 	}, emitter);
 };
-},{"../../util/extendBindable":64,"./SelectEnd":41,"./dismissBrowserSelection":47}],41:[function(require,module,exports){
+
+},{"../../util/extendBindable":65,"./SelectEnd":41,"./dismissBrowserSelection":47}],41:[function(require,module,exports){
 var SpanEditor = require('./SpanEditor'),
 	selectEndOnText = function(selectionValidater, spanEditor, data) {
 		var isValid = selectionValidater.validateOnText(data.spanConfig, data.selection);
@@ -5235,15 +5246,15 @@ var SpanEditor = require('./SpanEditor'),
 		}
 	};
 
-module.exports = function(editor, model, command, viewModel, typeContainer) {
+module.exports = function(editor, model, command, modeAccordingToButton, typeContainer) {
 	var selectionParser = require('./selectionParser')(editor, model),
 		selectionValidater = require('./SelectionValidater')(selectionParser),
 		// Initiated by events.
 		selectEndOnTextImpl = null,
 		selectEndOnSpanImpl = null,
 		changeSpanEditorAccordingToButtons = function() {
-			var isDetectDelimiterEnable = viewModel.modeAccordingToButton['boundary-detection'].value(),
-				isReplicateAuto = viewModel.modeAccordingToButton['replicate-auto'].value(),
+			var isDetectDelimiterEnable = modeAccordingToButton['boundary-detection'].value(),
+				isReplicateAuto = modeAccordingToButton['replicate-auto'].value(),
 				spanEditor = new SpanEditor(editor, model, command, typeContainer, isDetectDelimiterEnable, isReplicateAuto);
 
 			selectEndOnTextImpl = _.partial(selectEndOnText, selectionValidater, spanEditor);
@@ -5253,10 +5264,10 @@ module.exports = function(editor, model, command, viewModel, typeContainer) {
 	// Change spanEditor according to the  buttons state.
 	changeSpanEditorAccordingToButtons();
 
-	viewModel.modeAccordingToButton['boundary-detection']
+	modeAccordingToButton['boundary-detection']
 		.bind('change', changeSpanEditorAccordingToButtons);
 
-	viewModel.modeAccordingToButton['replicate-auto']
+	modeAccordingToButton['replicate-auto']
 		.bind('change', changeSpanEditorAccordingToButtons);
 
 	return {
@@ -5268,6 +5279,7 @@ module.exports = function(editor, model, command, viewModel, typeContainer) {
 		}
 	};
 };
+
 },{"./SelectionValidater":42,"./SpanEditor":43,"./selectionParser":49}],42:[function(require,module,exports){
 var deferAlert = require('./deferAlert');
 
@@ -5536,9 +5548,9 @@ module.exports = function(model, spanAdjuster) {
 },{"./selectPosition":48}],45:[function(require,module,exports){
 var dismissBrowserSelection = require('./dismissBrowserSelection');
 
-module.exports = function(editor, model, spanConfig, command, viewModel, typeContainer) {
+module.exports = function(editor, model, spanConfig, command, modeAccordingToButton, typeContainer) {
 	// will init.
-	var elementEditor = require('./ElementEditor')(editor, model, spanConfig, command, viewModel, typeContainer),
+	var elementEditor = require('./ElementEditor')(editor, model, spanConfig, command, modeAccordingToButton, typeContainer),
 		pallet = require('../../component/Pallet')(),
 		cancelSelect = function() {
 			pallet.hide();
@@ -5546,7 +5558,7 @@ module.exports = function(editor, model, spanConfig, command, viewModel, typeCon
 			dismissBrowserSelection();
 		},
 		// A relation is drawn by a jsPlumbConnection.
-		// The EventHandlar for clieck event of jsPlumbConnection. 
+		// The EventHandlar for clieck event of jsPlumbConnection.
 		jsPlumbConnectionClicked = function(jsPlumbConnection, event) {
 			// Check the event is processed already.
 			// Because the jsPlumb will call the event handler twice
@@ -5590,6 +5602,7 @@ module.exports = function(editor, model, spanConfig, command, viewModel, typeCon
 		}
 	};
 };
+
 },{"../../component/Pallet":15,"./ElementEditor":40,"./dismissBrowserSelection":47}],46:[function(require,module,exports){
 module.exports = function(message) {
 	// Show synchronous to smooth cancelation of selecton.
@@ -5905,7 +5918,7 @@ module.exports = function() {
         },
     };
 }();
-},{"./component/HelpDialog":14,"./tool/EditorContainer":51,"./tool/KeybordInputConverter":52,"./util/extendBindable":64}],51:[function(require,module,exports){
+},{"./component/HelpDialog":14,"./tool/EditorContainer":51,"./tool/KeybordInputConverter":52,"./util/extendBindable":65}],51:[function(require,module,exports){
 var switchActiveClass = function(editors, selected) {
 	var activeClass = 'textae-editor--active';
 
@@ -6074,6 +6087,28 @@ module.exports = function(editor) {
     };
 };
 },{}],56:[function(require,module,exports){
+var EventEmitter = require('events').EventEmitter;
+
+module.exports = function(initial) {
+  var value = initial,
+    emitter = new EventEmitter(),
+    get = function() {
+      return value;
+    },
+    set = function(newValue) {
+      if (value === newValue) return;
+
+      value = newValue;
+      emitter.emit('change', newValue);
+    };
+
+  return _.extend(emitter, {
+    get: get,
+    set: set
+  });
+};
+
+},{"events":4}],57:[function(require,module,exports){
 var isEmpty = function(str) {
 		return !str || str === "";
 	},
@@ -6126,11 +6161,11 @@ module.exports = function() {
 		post: post
 	};
 }();
-},{}],57:[function(require,module,exports){
+},{}],58:[function(require,module,exports){
 module.exports = function(str) {
 	return str.charAt(0).toUpperCase() + str.slice(1);
 };
-},{}],58:[function(require,module,exports){
+},{}],59:[function(require,module,exports){
 var Dialog = function(id, title, $content) {
 		return $('<div>')
 			.attr('id', id)
@@ -6174,7 +6209,7 @@ module.exports = function(openOption, id, title, $content) {
 
 	return createAndAppendDialog(id, title, $content);
 };
-},{}],59:[function(require,module,exports){
+},{}],60:[function(require,module,exports){
 var Dialog = require('./Dialog'),
 	getDialogId = function(editorId, id) {
 		return editorId + '.' + id;
@@ -6201,7 +6236,7 @@ module.exports = function(editorId, id, title, $content, noCancelButton) {
 		id: id
 	});
 };
-},{"./Dialog":58}],60:[function(require,module,exports){
+},{"./Dialog":59}],61:[function(require,module,exports){
 var getFromContainer = function(container, id) {
 		return container[id];
 	},
@@ -6227,7 +6262,7 @@ module.exports = function(createFunction) {
 			createAndCache(createFunction, arguments);
 	};
 };
-},{}],61:[function(require,module,exports){
+},{}],62:[function(require,module,exports){
 var EditorDialog = require('./EditorDialog'),
 	FunctionUseCache = require('./FunctionUseCache');
 
@@ -6236,12 +6271,12 @@ module.exports = function(editor) {
 	editor.getDialog = editor.getDialog || new FunctionUseCache(_.partial(EditorDialog, editor.editorId));
 	return editor.getDialog;
 };
-},{"./EditorDialog":59,"./FunctionUseCache":60}],62:[function(require,module,exports){
+},{"./EditorDialog":60,"./FunctionUseCache":61}],63:[function(require,module,exports){
 var ToolDialog = require('./ToolDialog'),
 	FunctionUseCache = require('./FunctionUseCache');
 
 module.exports = new FunctionUseCache(ToolDialog);
-},{"./FunctionUseCache":60,"./ToolDialog":63}],63:[function(require,module,exports){
+},{"./FunctionUseCache":61,"./ToolDialog":64}],64:[function(require,module,exports){
 var Dialog = require('./Dialog');
 
 module.exports = function(id, title, size, $content) {
@@ -6256,7 +6291,7 @@ module.exports = function(id, title, size, $content) {
 		id: id
 	});
 };
-},{"./Dialog":58}],64:[function(require,module,exports){
+},{"./Dialog":59}],65:[function(require,module,exports){
 // A mixin for the separeted presentation by the observer pattern.
 var bindable = function() {
     var callbacks = {};
@@ -6291,7 +6326,7 @@ var bindable = function() {
 module.exports = function(obj) {
     return _.extend({}, obj, bindable());
 };
-},{}],65:[function(require,module,exports){
+},{}],66:[function(require,module,exports){
 // Usage sample: getUrlParameters(location.search). 
 module.exports = function(urlQuery) {
 	// Remove ? at top.
@@ -6315,7 +6350,7 @@ module.exports = function(urlQuery) {
 			return a;
 		}, {});
 };
-},{}],66:[function(require,module,exports){
+},{}],67:[function(require,module,exports){
 module.exports = function($target, enable) {
 	if (enable) {
 		$target.removeAttr('disabled');
@@ -6323,7 +6358,7 @@ module.exports = function($target, enable) {
 		$target.attr('disabled', 'disabled');
 	}
 };
-},{}],67:[function(require,module,exports){
+},{}],68:[function(require,module,exports){
 var setProp = function(key, $target, className, value) {
 	var valueObject = {};
 
@@ -6366,12 +6401,12 @@ module.exports = {
 	setChecked: _.partial(setProp, 'checked'),
 	setValue: _.partial(setProp, 'value')
 };
-},{"./jQueryEnabled":66}],68:[function(require,module,exports){
+},{"./jQueryEnabled":67}],69:[function(require,module,exports){
 module.exports = function(hash, element) {
 	hash[element.name] = element;
 	return hash;
 };
-},{}],69:[function(require,module,exports){
+},{}],70:[function(require,module,exports){
 module.exports = {
 	isUri: function(type) {
 		return String(type).indexOf('http') > -1;
@@ -6384,7 +6419,7 @@ module.exports = {
 		return urlRegex.exec(type);
 	}
 };
-},{}],70:[function(require,module,exports){
+},{}],71:[function(require,module,exports){
 var extendBindable = require('../util/extendBindable'),
 	ButtonEnableStates = function() {
 		var states = {},
@@ -6531,7 +6566,7 @@ module.exports = function(editor, model, clipBoard) {
 		buttonStateHelper: buttonStateHelper,
 	};
 };
-},{"../util/extendBindable":64,"./ModeAccordingToButton":73}],71:[function(require,module,exports){
+},{"../util/extendBindable":65,"./ModeAccordingToButton":74}],72:[function(require,module,exports){
 var Cache = function() {
         var cache = {},
             set = function(key, value) {
@@ -6662,129 +6697,102 @@ module.exports = function(editor, entityModel) {
     editor.postionCache = editor.postionCache || createNewCache(editor, entityModel);
     return editor.postionCache;
 };
-},{"../util/DomUtil":54}],72:[function(require,module,exports){
+},{"../util/DomUtil":54}],73:[function(require,module,exports){
 var filterVisibleGrid = function(grid) {
-      if (grid && grid.hasClass('hidden')) {
-         return grid;
-      }
-   },
-   showGrid = function(grid) {
-      if (grid) {
-         grid.removeClass('hidden');
-      }
-   };
+    if (grid && grid.hasClass('hidden')) {
+      return grid;
+    }
+  },
+  showGrid = function(grid) {
+    if (grid) {
+      grid.removeClass('hidden');
+    }
+  },
+  filterMoved = function(oldPosition, newPosition) {
+    if (!oldPosition || oldPosition.top !== newPosition.top || oldPosition.left !== newPosition.left) {
+      return newPosition;
+    } else {
+      return null;
+    }
+  },
+  doIfSpan = function(func, span) {
+    if (span) {
+      return func(span.id);
+    }
+  },
+  Promise = require('Promise'),
+  getGridPosition = require('./getGridPosition');
 
 // Management position of annotation components.
-module.exports = function(editor, annotationData) {
-   var domPositionCaChe = require('./DomPositionCache')(editor, annotationData.entity),
-      domUtil = require('../util/DomUtil')(editor),
-      filterChanged = function(span, newPosition) {
-         var oldGridPosition = domPositionCaChe.getGrid(span.id);
-         if (!oldGridPosition || oldGridPosition.top !== newPosition.top || oldGridPosition.left !== newPosition.left) {
-            return newPosition;
-         } else {
-            return undefined;
-         }
-      },
-      getGrid = function(span) {
-         if (span) {
-            return domUtil.selector.grid.get(span.id);
-         }
-      },
-      updateGridPositon = function(span, newPosition) {
-         if (newPosition) {
-            getGrid(span).css(newPosition);
-            domPositionCaChe.setGrid(span.id, newPosition);
-            return span;
-         }
-      },
-      getNewPosition = function(typeGapValue, span) {
-         var stickGridOnSpan = function(span) {
-            var spanPosition = domPositionCaChe.getSpan(span.id);
+module.exports = function(editor, annotationData, typeContainer) {
+  var domPositionCaChe = require('./DomPositionCache')(editor, annotationData.entity),
+    getGridOfSpan = require('../util/DomUtil')(editor).selector.grid.get,
+    getGrid = _.partial(doIfSpan, getGridOfSpan),
+    updatePositionCache = function(span, newPosition) {
+      if (newPosition) {
+        domPositionCaChe.setGrid(span.id, newPosition);
+        return span;
+      }
+    },
+    updateGridPositon = function(span, newPosition) {
+      if (newPosition) {
+        getGrid(span).css(newPosition);
+        return newPosition;
+      }
+    },
+    arrangeGridPosition = function(typeGapValue, span) {
+      var getNewPosition = _.partial(getGridPosition, domPositionCaChe.getSpan, getGridOfSpan, typeContainer, typeGapValue),
+        moveTheGridIfChange = _.compose(
+          _.partial(updatePositionCache, span),
+          _.partial(updateGridPositon, span),
+          _.partial(filterMoved, domPositionCaChe.getGrid(span.id)),
+          _.partial(getNewPosition)
+        ),
+        showInvisibleGrid = _.compose(showGrid, filterVisibleGrid, getGrid);
 
-            return {
-               'top': spanPosition.top - getGrid(span).outerHeight(),
-               'left': spanPosition.left
-            };
-         };
+      // The span may be remeved because this functon is call asynchronously.
+      if (annotationData.span.get(span.id)) {
+        // Move all relations because entities are increased or decreased unless the grid is moved.
+        _.compose(showInvisibleGrid, moveTheGridIfChange)(span);
+      }
+    },
+    arrangeGridPositionPromise = function(typeGapValue, span) {
+      return new Promise(function(resolve, reject) {
+        _.defer(function() {
+          try {
+            arrangeGridPosition(typeGapValue, span);
+            resolve();
+          } catch (error) {
+            console.error(error, error.stack);
+            reject();
+          }
+        });
+      });
+    },
+    arrangeGridPositionAll = function(typeGapValue) {
+      return annotationData.span.all()
+        .filter(function(span) {
+          // There is at least one type in span that has a grid.
+          return span.getTypes().length > 0;
+        })
+        .map(function(span) {
+          // Cache all span position because alternating between getting offset and setting offset.
+          domPositionCaChe.getSpan(span.id);
+          return span;
+        })
+        .map(_.partial(arrangeGridPositionPromise, typeGapValue));
+    },
+    arrangePositionAll = function(typeGapValue) {
+      domPositionCaChe.reset();
+      return Promise.all(arrangeGridPositionAll(typeGapValue));
+    };
 
-         var pullUpGridOverDescendants = function(span) {
-            // Culculate the height of the grid include descendant grids, because css style affects slowly.
-            var getHeightIncludeDescendantGrids = function(span) {
-               var descendantsMaxHeight = span.children.length === 0 ? 0 :
-                  Math.max.apply(null, span.children.map(function(childSpan) {
-                     return getHeightIncludeDescendantGrids(childSpan);
-                  }));
-
-               var gridHeight = span.getTypes().length * (typeGapValue * 18 + 18);
-               return gridHeight + descendantsMaxHeight;
-            };
-
-            var spanPosition = domPositionCaChe.getSpan(span.id);
-            var descendantsMaxHeight = getHeightIncludeDescendantGrids(span);
-
-            return {
-               'top': spanPosition.top - descendantsMaxHeight,
-               'left': spanPosition.left
-            };
-         };
-
-         if (span.children.length === 0) {
-            return stickGridOnSpan(span);
-         } else {
-            return pullUpGridOverDescendants(span);
-         }
-      },
-      Promise = require('Promise'),
-      arrangeGridPosition = function(typeGapValue, span) {
-         var moveTheGridIfChange = _.compose(
-               _.partial(updateGridPositon, span),
-               _.partial(filterChanged, span),
-               _.partial(getNewPosition, typeGapValue)
-            ),
-            showInvisibleGrid = _.compose(showGrid, filterVisibleGrid, getGrid);
-
-         // The span may be remeved because this functon is call asynchronously.
-         if (annotationData.span.get(span.id)) {
-            // Move all relations because entities are increased or decreased unless the grid is moved.  
-            _.compose(showInvisibleGrid, moveTheGridIfChange)(span);
-         }
-      },
-      arrangeGridPositionPromise = function(typeGapValue, span) {
-         return new Promise(function(resolve, reject) {
-            _.defer(function() {
-               try {
-                  arrangeGridPosition(typeGapValue, span);
-                  resolve();
-               } catch (error) {
-                  reject();
-               }
-            });
-         });
-      },
-      arrangeGridPositionAll = function(typeGapValue) {
-         return annotationData.span.all()
-            .filter(function(span) {
-               // There is at least one type in span that has a grid.
-               return span.getTypes().length > 0;
-            })
-            .map(function(span) {
-               // Cache all span position because alternating between getting offset and setting offset.
-               domPositionCaChe.getSpan(span.id);
-               return span;
-            })
-            .map(_.partial(arrangeGridPositionPromise, typeGapValue));
-      },
-      arrangePositionAll = function(typeGapValue) {
-         domPositionCaChe.reset();
-         return Promise.all(arrangeGridPositionAll(typeGapValue));
-      };
-
-   return {
-      arrangePosition: arrangePositionAll
-   };
+  return {
+    arrangePosition: arrangePositionAll
+  };
 };
-},{"../util/DomUtil":54,"./DomPositionCache":71,"Promise":2}],73:[function(require,module,exports){
+
+},{"../util/DomUtil":54,"./DomPositionCache":72,"./getGridPosition":79,"Promise":2}],74:[function(require,module,exports){
 var reduce2hash = require('../util/reduce2hash'),
 	extendBindable = require('../util/extendBindable'),
 	Button = function(buttonName) {
@@ -6861,7 +6869,7 @@ module.exports = function() {
 		}
 	);
 };
-},{"../util/extendBindable":64,"../util/reduce2hash":68}],74:[function(require,module,exports){
+},{"../util/extendBindable":65,"../util/reduce2hash":69}],75:[function(require,module,exports){
 var selectionClass = require('./selectionClass');
 
 module.exports = function(editor, model) {
@@ -6921,7 +6929,7 @@ module.exports = function(editor, model) {
 		}
 	};
 };
-},{"../util/DomUtil":54,"./DomPositionCache":71,"./selectionClass":82}],75:[function(require,module,exports){
+},{"../util/DomUtil":54,"./DomPositionCache":72,"./selectionClass":89}],76:[function(require,module,exports){
 module.exports = function(model) {
 	var reduce2hash = require('../util/reduce2hash'),
 		uri = require('../util/uri'),
@@ -7005,224 +7013,248 @@ module.exports = function(model) {
 		setDefinedRelationTypes: _.partial(setContainerDefinedTypes, relationContaier)
 	};
 };
-},{"../util/reduce2hash":68,"../util/uri":69}],76:[function(require,module,exports){
+},{"../util/reduce2hash":69,"../util/uri":70}],77:[function(require,module,exports){
 var delay150 = function(func) {
-        return _.partial(_.delay, func, 150);
+    return _.partial(_.delay, func, 150);
+  },
+  TypeStyle = function(newValue) {
+    return {
+      height: 18 * newValue + 18 + 'px',
+      'padding-top': 18 * newValue + 'px'
+    };
+  };
+
+module.exports = function(editor, model, buttonController, getTypeGapValue) {
+  var selector = require('./Selector')(editor, model),
+    typeContainer = require('./TypeContainer')(model),
+    // Render DOM elements conforming with the Model.
+    renderer = require('./renderer/Renderer')(editor, model, buttonController.buttonStateHelper, typeContainer),
+    gridLayout = require('./GridLayout')(editor, model.annotationData, typeContainer),
+    api = require('../util/extendBindable')({}),
+    render = function(typeGapValue) {
+      api.trigger('render.start', editor);
+      // Do asynchronous to change behavior of editor.
+      // For example a wait cursor or a disabled control.
+      _.defer(function() {
+        gridLayout.arrangePosition(typeGapValue)
+          .then(renderer.renderLazyRelationAll)
+          .then(renderer.arrangeRelationPositionAll)
+          .then(function() {
+            api.trigger('render.end', editor);
+          })
+          .catch(function(error) {
+            console.error(error, error.stack);
+          });
+      });
     },
-    ViewMode = function(editor, model, buttonController, renderFunc) {
-        var selector = require('./Selector')(editor, model),
-            changeCssClass = function(mode) {
-                editor
-                    .removeClass('textae-editor_term-mode')
-                    .removeClass('textae-editor_instance-mode')
-                    .removeClass('textae-editor_relation-mode')
-                    .addClass('textae-editor_' + mode + '-mode');
-            },
-            setSettingButtonEnable = _.partial(buttonController.buttonStateHelper.enabled, 'setting', true),
-            setControlButtonForRelation = function(isRelation) {
-                buttonController.buttonStateHelper.enabled('replicate-auto', !isRelation);
-                buttonController.buttonStateHelper.enabled('boundary-detection', !isRelation);
-                buttonController.modeAccordingToButton['relation-edit-mode'].value(isRelation);
-            },
-            // This notify is off at relation-edit-mode.
-            entitySelectChanged = _.compose(buttonController.buttonStateHelper.updateByEntity, selector.entityLabel.update),
-            changeLineHeight = function(heightValue) {
-                editor.find('.textae-editor__body__text-box').css({
-                    'line-height': heightValue + 'px',
-                    'padding-top': heightValue / 2 + 'px'
-                });
-            },
-            calculateLineHeight = function(typeGapValue) {
-                var TEXT_HEIGHT = 23,
-                    MARGIN_TOP = 60,
-                    MINIMUM_HEIGHT = 16 * 4,
-                    heightOfType = typeGapValue * 18 + 18,
-                    maxHeight = _.max(model.annotationData.span.all()
-                        .map(function(span) {
-                            var height = TEXT_HEIGHT + MARGIN_TOP;
-                            var countHeight = function(span) {
-                                // Grid height is height of types and margin bottom of the grid.
-                                height += span.getTypes().length * heightOfType;
-                                if (span.parent) {
-                                    countHeight(span.parent);
-                                }
-                            };
-
-                            countHeight(span);
-
-                            return height;
-                        }).concat(MINIMUM_HEIGHT)
-                    );
-
-                changeLineHeight(maxHeight);
-            },
-            typeGapValue = 0,
-            TypeStyle = function(newValue) {
-                return {
-                    height: 18 * newValue + 18 + 'px',
-                    'padding-top': 18 * newValue + 'px'
-                };
-            };
-
-        var api = {
-            getTypeGapValue: function() {
-                return typeGapValue;
-            },
-            setTerm: function() {
-                changeCssClass('term');
-                setSettingButtonEnable();
-                setControlButtonForRelation(false);
-
-                model.selectionModel
-                    .unbind('entity.select', entitySelectChanged)
-                    .unbind('entity.deselect', entitySelectChanged)
-                    .unbind('entity.change', entitySelectChanged)
-                    .bind('entity.select', entitySelectChanged)
-                    .bind('entity.deselect', entitySelectChanged)
-                    .bind('entity.change', buttonController.buttonStateHelper.updateByEntity);
-            },
-            setInstance: function() {
-                changeCssClass('instance');
-                setSettingButtonEnable();
-                setControlButtonForRelation(false);
-
-                model.selectionModel
-                    .unbind('entity.select', entitySelectChanged)
-                    .unbind('entity.deselect', entitySelectChanged)
-                    .unbind('entity.change', buttonController.buttonStateHelper.updateByEntity)
-                    .bind('entity.select', entitySelectChanged)
-                    .bind('entity.deselect', entitySelectChanged)
-                    .bind('entity.change', buttonController.buttonStateHelper.updateByEntity);
-            },
-            setRelation: function() {
-                changeCssClass('relation');
-                setSettingButtonEnable();
-                setControlButtonForRelation(true);
-
-                model.selectionModel
-                    .unbind('entity.select', entitySelectChanged)
-                    .unbind('entity.deselect', entitySelectChanged)
-                    .unbind('entity.change', buttonController.buttonStateHelper.updateByEntity);
-            },
-            setEditable: function(isEditable) {
-                if (isEditable) {
-                    editor.addClass('textae-editor_editable');
-                    buttonController.buttonStateHelper.enabled('relation-edit-mode', true);
-                } else {
-                    editor.removeClass('textae-editor_editable');
-                    buttonController.buttonStateHelper.enabled('replicate-auto', false);
-                    buttonController.buttonStateHelper.enabled('relation-edit-mode', false);
-                }
-            },
-            getLineHeight: function() {
-                return parseInt(editor.find('.textae-editor__body__text-box').css('line-height')) / 16;
-            },
-            changeLineHeight: changeLineHeight,
-            changeTypeGap: function(newValue) {
-                if (typeGapValue === newValue) return;
-
-                // init
-                if (newValue !== -1) {
-                    editor.find('.textae-editor__type')
-                        .css(new TypeStyle(newValue));
-                    calculateLineHeight(newValue);
-                    renderFunc(newValue);
-                }
-
-                typeGapValue = newValue;
-            },
-            getTypeStyle: function() {
-                return new TypeStyle(typeGapValue);
-            }
+    hover = function() {
+      var domPositionCaChe = require('./DomPositionCache')(editor, model.annotationData.entity),
+        processAccosiatedRelation = function(func, entityId) {
+          model.annotationData.entity.assosicatedRelations(entityId)
+            .map(domPositionCaChe.toConnect)
+            .filter(function(connect) {
+              return connect.pointup && connect.pointdown;
+            })
+            .forEach(func);
         };
 
-        return api;
+      return {
+        on: _.partial(processAccosiatedRelation, function(connect) {
+          connect.pointup();
+        }),
+        off: _.partial(processAccosiatedRelation, function(connect) {
+          connect.pointdown();
+        })
+      };
+    }(),
+    setSelectionModelHandler = function() {
+      // Because entity.change is off at relation-edit-mode.
+      model.selectionModel
+        .bind('span.select', selector.span.select)
+        .bind('span.deselect', selector.span.deselect)
+        .bind('span.change', buttonController.buttonStateHelper.updateBySpan)
+        .bind('entity.select', selector.entity.select)
+        .bind('entity.deselect', selector.entity.deselect)
+        .bind('relation.select', delay150(selector.relation.select))
+        .bind('relation.deselect', delay150(selector.relation.deselect))
+        .bind('relation.change', buttonController.buttonStateHelper.updateByRelation);
+    },
+    updateDisplay = render;
+
+  renderer
+    .bind('change', function() {
+      updateDisplay(getTypeGapValue());
+    })
+    .bind('entity.render', function(entity) {
+      // Set css accoridng to the typeGapValue.
+      renderer.setEntityCss(entity, new TypeStyle(getTypeGapValue()));
+    });
+
+  return _.extend(api, {
+    init: _.compose(setSelectionModelHandler, renderer.setModelHandler),
+    hoverRelation: hover,
+    updateDisplay: updateDisplay,
+    typeContainer: typeContainer,
+    setTypeGap: function(newValue) {
+      editor.find('.textae-editor__type')
+        .css(new TypeStyle(newValue));
+      render(newValue);
+    }
+  });
+};
+
+},{"../util/extendBindable":65,"./DomPositionCache":72,"./GridLayout":73,"./Selector":75,"./TypeContainer":76,"./renderer/Renderer":84}],78:[function(require,module,exports){
+var changeCssClass = function(editor, mode) {
+    editor
+      .removeClass('textae-editor_term-mode')
+      .removeClass('textae-editor_instance-mode')
+      .removeClass('textae-editor_relation-mode')
+      .addClass('textae-editor_' + mode + '-mode');
+  },
+  changeLineHeight = function(editor, heightValue) {
+    editor.find('.textae-editor__body__text-box').css({
+      'line-height': heightValue + 'px',
+      'padding-top': heightValue / 2 + 'px'
+    });
+  },
+  calculateLineHeight = function(editor, model, typeGapValue) {
+    var TEXT_HEIGHT = 23,
+      MARGIN_TOP = 60,
+      MINIMUM_HEIGHT = 16 * 4,
+      heightOfType = typeGapValue * 18 + 18,
+      maxHeight = _.max(model.annotationData.span.all()
+        .map(function(span) {
+          var height = TEXT_HEIGHT + MARGIN_TOP;
+          var countHeight = function(span) {
+            // Grid height is height of types and margin bottom of the grid.
+            height += span.getTypes().length * heightOfType;
+            if (span.parent) {
+              countHeight(span.parent);
+            }
+          };
+
+          countHeight(span);
+
+          return height;
+        }).concat(MINIMUM_HEIGHT)
+      );
+
+    changeLineHeight(editor, maxHeight);
+  };
+
+module.exports = function(editor, model, buttonController, typeGap) {
+  var selector = require('./Selector')(editor, model),
+    setSettingButtonEnable = _.partial(buttonController.buttonStateHelper.enabled, 'setting', true),
+    setControlButtonForRelation = function(isRelation) {
+      buttonController.buttonStateHelper.enabled('replicate-auto', !isRelation);
+      buttonController.buttonStateHelper.enabled('boundary-detection', !isRelation);
+      buttonController.modeAccordingToButton['relation-edit-mode'].value(isRelation);
+    },
+    // This notify is off at relation-edit-mode.
+    entitySelectChanged = _.compose(buttonController.buttonStateHelper.updateByEntity, selector.entityLabel.update);
+
+  var api = {
+    setTerm: function() {
+      changeCssClass(editor, 'term');
+      setSettingButtonEnable();
+      setControlButtonForRelation(false);
+
+      model.selectionModel
+        .unbind('entity.select', entitySelectChanged)
+        .unbind('entity.deselect', entitySelectChanged)
+        .unbind('entity.change', entitySelectChanged)
+        .bind('entity.select', entitySelectChanged)
+        .bind('entity.deselect', entitySelectChanged)
+        .bind('entity.change', buttonController.buttonStateHelper.updateByEntity);
+    },
+    setInstance: function() {
+      changeCssClass(editor, 'instance');
+      setSettingButtonEnable();
+      setControlButtonForRelation(false);
+
+      model.selectionModel
+        .unbind('entity.select', entitySelectChanged)
+        .unbind('entity.deselect', entitySelectChanged)
+        .unbind('entity.change', buttonController.buttonStateHelper.updateByEntity)
+        .bind('entity.select', entitySelectChanged)
+        .bind('entity.deselect', entitySelectChanged)
+        .bind('entity.change', buttonController.buttonStateHelper.updateByEntity);
+    },
+    setRelation: function() {
+      changeCssClass(editor, 'relation');
+      setSettingButtonEnable();
+      setControlButtonForRelation(true);
+
+      model.selectionModel
+        .unbind('entity.select', entitySelectChanged)
+        .unbind('entity.deselect', entitySelectChanged)
+        .unbind('entity.change', buttonController.buttonStateHelper.updateByEntity);
+    },
+    setEditable: function(isEditable) {
+      if (isEditable) {
+        editor.addClass('textae-editor_editable');
+        buttonController.buttonStateHelper.enabled('relation-edit-mode', true);
+      } else {
+        editor.removeClass('textae-editor_editable');
+        buttonController.buttonStateHelper.enabled('replicate-auto', false);
+        buttonController.buttonStateHelper.enabled('boundary-detection', false);
+        buttonController.buttonStateHelper.enabled('relation-edit-mode', false);
+      }
+    },
+    getLineHeight: function() {
+      return parseInt(editor.find('.textae-editor__body__text-box').css('line-height')) / 16;
+    },
+    changeLineHeight: _.partial(changeLineHeight, editor)
+  };
+
+  typeGap.on('change', function(newValue) {
+    calculateLineHeight(editor, model, newValue);
+  });
+
+  return api;
+};
+
+},{"./Selector":75}],79:[function(require,module,exports){
+var stickGridOnSpan = function(getSpan, getGridOfSpan, span) {
+    var spanPosition = getSpan(span.id);
+
+    return {
+      'top': spanPosition.top - getGridOfSpan(span.id).outerHeight(),
+      'left': spanPosition.left
+    };
+  },
+  pullUpGridOverDescendants = function(getSpan, typeContainer, typeGapValue, span) {
+    // Culculate the height of the grid include descendant grids, because css style affects slowly.
+    var getHeightIncludeDescendantGrids = function(span) {
+      var descendantsMaxHeight = span.children.length === 0 ? 0 :
+        Math.max.apply(null, span.children.map(function(childSpan) {
+          return getHeightIncludeDescendantGrids(childSpan);
+        }));
+
+      var gridHeight = span.getTypes().filter(function(type) {
+        return !typeContainer.entity.isBlock(type.name);
+      }).length * (typeGapValue * 18 + 18);
+      return gridHeight + descendantsMaxHeight;
     };
 
-module.exports = function(editor, model) {
-    var selector = require('./Selector')(editor, model),
-        clipBoard = {
-            // clipBoard has entity type.
-            clipBoard: []
-        },
-        buttonController = require('./ButtonController')(editor, model, clipBoard),
-        typeContainer = require('./TypeContainer')(model),
-        // Render DOM elements conforming with the Model.
-        renderer = require('./renderer/Renderer')(editor, model, buttonController, typeContainer),
-        gridLayout = require('./GridLayout')(editor, model.annotationData),
-        api = require('../util/extendBindable')({}),
-        render = function(typeGapValue) {
-            api.trigger('render.start', editor);
-            // Do asynchronous to change behavior of editor.
-            // For example a wait cursor or a disabled control.
-            _.defer(function() {
-                gridLayout.arrangePosition(typeGapValue)
-                    .then(renderer.renderLazyRelationAll)
-                    .then(renderer.arrangeRelationPositionAll)
-                    .then(function() {
-                        api.trigger('render.end', editor);
-                    })
-                    .catch(function(error) {
-                        console.error(error, error.stack);
-                    });
-            });
-        },
-        viewMode = new ViewMode(editor, model, buttonController, render),
-        hover = function() {
-            var domPositionCaChe = require('./DomPositionCache')(editor, model.annotationData.entity),
-                processAccosiatedRelation = function(func, entityId) {
-                    model.annotationData.entity.assosicatedRelations(entityId)
-                        .map(domPositionCaChe.toConnect)
-                        .filter(function(connect) {
-                            return connect.pointup && connect.pointdown;
-                        })
-                        .forEach(func);
-                };
+    var spanPosition = getSpan(span.id);
+    var descendantsMaxHeight = getHeightIncludeDescendantGrids(span);
 
-            return {
-                on: _.partial(processAccosiatedRelation, function(connect) {
-                    connect.pointup();
-                }),
-                off: _.partial(processAccosiatedRelation, function(connect) {
-                    connect.pointdown();
-                })
-            };
-        }(),
-        setSelectionModelHandler = function() {
-            // The buttonController.buttonStateHelper.updateByEntity is set at viewMode.
-            // Because entity.change is off at relation-edit-mode.
-            model.selectionModel
-                .bind('span.select', selector.span.select)
-                .bind('span.deselect', selector.span.deselect)
-                .bind('span.change', buttonController.buttonStateHelper.updateBySpan)
-                .bind('entity.select', selector.entity.select)
-                .bind('entity.deselect', selector.entity.deselect)
-                .bind('relation.select', delay150(selector.relation.select))
-                .bind('relation.deselect', delay150(selector.relation.deselect))
-                .bind('relation.change', buttonController.buttonStateHelper.updateByRelation);
-        },
-        updateDisplay = function() {
-            render(viewMode.getTypeGapValue());
-        };
+    return {
+      'top': spanPosition.top - descendantsMaxHeight,
+      'left': spanPosition.left
+    };
+  };
 
-    renderer
-        .bind('change', updateDisplay)
-        .bind('entity.render', function(entity) {
-            // Set css accoridng to the typeGapValue. 
-            renderer.setEntityCss(entity, viewMode.getTypeStyle());
-        });
-
-    return _.extend(api, {
-        init: _.compose(setSelectionModelHandler, renderer.setModelHandler),
-        viewModel: buttonController,
-        clipBoard: clipBoard,
-        viewMode: viewMode,
-        hoverRelation: hover,
-        updateDisplay: updateDisplay,
-        typeContainer: typeContainer
-    });
+module.exports = function(getSpan, getGridOfSpan, typeContainer, typeGapValue, span) {
+  if (span.children.length === 0) {
+    return stickGridOnSpan(getSpan, getGridOfSpan, span);
+  } else {
+    return pullUpGridOverDescendants(getSpan, typeContainer, typeGapValue, span);
+  }
 };
-},{"../util/extendBindable":64,"./ButtonController":70,"./DomPositionCache":71,"./GridLayout":72,"./Selector":74,"./TypeContainer":75,"./renderer/Renderer":79}],77:[function(require,module,exports){
+
+},{}],80:[function(require,module,exports){
 var // Arrange a position of the pane to center entities when entities width is longer than pane width.
 	arrangePositionOfPane = function(pane) {
 		var paneWidth = pane.outerWidth();
@@ -7435,7 +7467,43 @@ module.exports = function(editor, model, typeContainer, gridRenderer, modificati
 		}
 	});
 };
-},{"../../util/DomUtil":54,"../../util/IdFactory":55,"../../util/extendBindable":64,"../../util/uri":69,"../Selector":74}],78:[function(require,module,exports){
+},{"../../util/DomUtil":54,"../../util/IdFactory":55,"../../util/extendBindable":65,"../../util/uri":70,"../Selector":75}],81:[function(require,module,exports){
+var createGrid = function(domPositionCache, container, spanId) {
+    var spanPosition = domPositionCache.getSpan(spanId),
+    $grid = $('<div>')
+    .attr('id', 'G' + spanId)
+    .addClass('textae-editor__grid')
+    .addClass('hidden')
+    .css({
+        'width': spanPosition.width
+    });
+
+    //append to the annotation area.
+    container.append($grid);
+
+    return $grid;
+};
+
+module.exports = function(editor, domPositionCache) {
+    var domUtil = require('../../util/DomUtil')(editor),
+    init = function(container) {
+        api.render = _.partial(createGrid, domPositionCache, container);
+    },
+    destroyGrid = function(spanId) {
+        domUtil.selector.grid.get(spanId).remove();
+        domPositionCache.gridPositionCache.remove(spanId);
+    },
+    api = {
+        init: init,
+        // The render is set at init.
+        render: null,
+        remove: destroyGrid
+    };
+
+    return api;
+};
+
+},{"../../util/DomUtil":54}],82:[function(require,module,exports){
 var POINTUP_LINE_WIDTH = 3,
 	LABEL = {
 		cssClass: 'textae-editor__relation__label',
@@ -7909,370 +7977,375 @@ module.exports = function(editor, model, typeContainer, modification) {
 		arrangePositionAll: arrangePositionAll
 	};
 };
-},{"../../util/DomUtil":54,"../DomPositionCache":71,"./jsPlumbArrowOverlayUtil":81,"Promise":2}],79:[function(require,module,exports){
+},{"../../util/DomUtil":54,"../DomPositionCache":72,"./jsPlumbArrowOverlayUtil":88,"Promise":2}],83:[function(require,module,exports){
+var createSpanRange = require('./createSpanRange'),
+  getFirstTextNode = require('./getFirstTextNode'),
+  createSpanElement = function(span) {
+    var element = document.createElement('span');
+    element.setAttribute('id', span.id);
+    element.setAttribute('title', span.id);
+    element.setAttribute('class', 'textae-editor__span');
+    return element;
+  },
+  RenderSingleSpan = function(editor) {
+    var domUtil = require('../../util/DomUtil')(editor),
+      getFirstTextNodeFromSpan = _.compose(getFirstTextNode, domUtil.selector.span.get),
+      getFirstTextNodeFromParagraph = _.compose(getFirstTextNode, function(id) {
+        return $('#' + id);
+      }),
+      // Get the Range to that new span tag insert.
+      // This function works well when no child span is rendered.
+      getRangeToInsertSpanTag = function(span) {
+        // The parent of the bigBrother is same with span, which is a span or the root of spanTree.
+        var bigBrother = span.getBigBrother();
+        if (bigBrother) {
+          // The target text arrounded by span is in a textNode after the bigBrother if bigBrother exists.
+          return createSpanRange(document.getElementById(bigBrother.id).nextSibling, bigBrother.end, span);
+        } else {
+          // The target text arrounded by span is the first child of parent unless bigBrother exists.
+          if (span.parent) {
+            // The parent is span.
+            // This span is first child of span.
+            return createSpanRange(getFirstTextNodeFromSpan(span.parent.id), span.parent.begin, span);
+          } else {
+            // The parent is paragraph
+            return createSpanRange(getFirstTextNodeFromParagraph(span.paragraph.id), span.paragraph.begin, span);
+          }
+        }
+      },
+      appendSpanElement = function(span, element) {
+        getRangeToInsertSpanTag(span).surroundContents(element);
+
+        return span;
+      },
+      renderSingleSpan = function(span) {
+        return appendSpanElement(span, createSpanElement(span));
+      };
+
+    return renderSingleSpan;
+  };
+
+module.exports = RenderSingleSpan;
+
+},{"../../util/DomUtil":54,"./createSpanRange":86,"./getFirstTextNode":87}],84:[function(require,module,exports){
 var getElement = function($parent, tagName, className) {
-        var $area = $parent.find('.' + className);
-        if ($area.length === 0) {
-            $area = $('<' + tagName + '>').addClass(className);
-            $parent.append($area);
-        }
-        return $area;
+    var $area = $parent.find('.' + className);
+    if ($area.length === 0) {
+      $area = $('<' + tagName + '>').addClass(className);
+      $parent.append($area);
+    }
+    return $area;
+  },
+  modelToId = function(modelElement) {
+    return modelElement.id;
+  },
+  capitalize = require('../../util/capitalize'),
+  GridRenderer = require('./GridRenderer');
+
+module.exports = function(editor, model, buttonStateHelper, typeContainer) {
+  var // Make the display area for text, spans, denotations, relations.
+    displayArea = _.partial(getElement, editor, 'div', 'textae-editor__body'),
+    // Get the display area for denotations and relations.
+    getAnnotationArea = function() {
+      return getElement(displayArea(), 'div', 'textae-editor__body__annotation-box');
     },
-    modelToId = function(modelElement) {
-        return modelElement.id;
+    renderSourceDocument = function() {
+      // Get the display area for text and spans.
+      var getSourceDocArea = function() {
+          return getElement(displayArea(), 'div', 'textae-editor__body__text-box');
+        },
+        // the Souce document has multi paragraphs that are splited by '\n'.
+        createTaggedSourceDoc = function(params) {
+          //set sroucedoc tagged <p> per line.
+          return params.sourceDoc.split("\n").map(function(content, index) {
+            return '<p class="textae-editor__body__text-box__paragraph-margin">' +
+              '<span class="textae-editor__body__text-box__paragraph" id="' +
+              params.paragraphs[index].id +
+              '" >' +
+              content +
+              '</span></p>';
+          }).join("\n");
+        };
+
+      return function(params) {
+        // Render the source document
+        getSourceDocArea().html(createTaggedSourceDoc(params));
+      };
+    }(),
+    domPositionCaChe = require('../DomPositionCache')(editor, model.annotationData.entity),
+    reset = function() {
+      var renderAllSpan = function(annotationData) {
+          // For tuning
+          // var startTime = new Date();
+
+          annotationData.span.topLevel().forEach(function(span) {
+            rendererImpl.span.render(span);
+          });
+
+          // For tuning
+          // var endTime = new Date();
+          // console.log('render all span : ', endTime.getTime() - startTime.getTime() + 'ms');
+        },
+        renderAllRelation = function(annotationData) {
+          rendererImpl.relation.reset();
+          annotationData.relation.all().forEach(rendererImpl.relation.render);
+        };
+
+      return function(annotationData) {
+        // Render annotations
+        getAnnotationArea().empty();
+        domPositionCaChe.gridPositionCache.clear();
+        renderAllSpan(annotationData);
+
+        // Render relations
+        renderAllRelation(annotationData);
+      };
+    }(),
+    rendererImpl = function() {
+      var gridRenderer = new GridRenderer(editor, domPositionCaChe),
+        modificationRenderer = function() {
+          var getClasses = function(objectId) {
+            return model.annotationData.getModificationOf(objectId)
+              .map(function(m) {
+                return 'textae-editor__' + m.pred.toLowerCase();
+              }).join(' ');
+          };
+
+          return {
+            getClasses: getClasses,
+            update: function() {
+              var allModificationClasses = 'textae-editor__negation textae-editor__speculation';
+
+              return function(domElement, objectId) {
+                domElement.removeClass(allModificationClasses);
+                domElement.addClass(getClasses(objectId));
+              };
+            }(),
+          };
+        }(),
+        entityRenderer = require('./EntityRenderer')(editor, model, typeContainer, gridRenderer, modificationRenderer),
+        spanRenderer = require('./SpanRenderer')(editor, model, typeContainer, entityRenderer, gridRenderer),
+        relationRenderer = require('./RelationRenderer')(editor, model, typeContainer, modificationRenderer);
+
+      return {
+        init: function(container) {
+          gridRenderer.init(container);
+          relationRenderer.init(container);
+        },
+        span: spanRenderer,
+        entity: entityRenderer,
+        relation: relationRenderer
+      };
+    }(),
+    api = require('../../util/extendBindable')({}),
+    triggerChange = _.debounce(function() {
+      api.trigger('change');
+    }, 100),
+    triggerChangeAfter = _.partial(_.compose, triggerChange),
+    entityToSpan = function(entity) {
+      return model.annotationData.span.get(entity.span);
     },
-    capitalize = require('../../util/capitalize');
+    updateSpanAfter = function() {
 
-module.exports = function(editor, model, viewModel, typeContainer) {
-    var // Make the display area for text, spans, denotations, relations.
-        displayArea = _.partial(getElement, editor, 'div', 'textae-editor__body'),
-        // Get the display area for denotations and relations.
-        getAnnotationArea = function() {
-            return getElement(displayArea(), 'div', 'textae-editor__body__annotation-box');
+      return _.partial(_.compose, triggerChange, rendererImpl.span.change, entityToSpan);
+    }(),
+    renderModificationEntityOrRelation = function() {
+      var renderModification = function(modelType, modification) {
+          var target = model.annotationData[modelType].get(modification.obj);
+          if (target) {
+            rendererImpl[modelType].changeModification(target);
+            buttonStateHelper['updateBy' + capitalize(modelType)]();
+          }
+
+          return modification;
         },
-        renderSourceDocument = function() {
-            // Get the display area for text and spans.
-            var getSourceDocArea = function() {
-                    return getElement(displayArea(), 'div', 'textae-editor__body__text-box');
-                },
-                // the Souce document has multi paragraphs that are splited by '\n'.
-                createTaggedSourceDoc = function(params) {
-                    //set sroucedoc tagged <p> per line.
-                    return params.sourceDoc.split("\n").map(function(content, index) {
-                        return '<p class="textae-editor__body__text-box__paragraph-margin">' +
-                            '<span class="textae-editor__body__text-box__paragraph" id="' +
-                            params.paragraphs[index].id +
-                            '" >' +
-                            content +
-                            '</span></p>';
-                    }).join("\n");
-                };
+        renderModificationOfEntity = _.partial(renderModification, 'entity'),
+        renderModificationOfRelation = _.partial(renderModification, 'relation');
 
-            return function(params) {
-                // Render the source document
-                getSourceDocArea().html(createTaggedSourceDoc(params));
-            };
-        }(),
-        domPositionCaChe = require('../DomPositionCache')(editor, model.annotationData.entity),
-        reset = function() {
-            var renderAllSpan = function(annotationData) {
-                    // For tuning
-                    // var startTime = new Date();
+      return _.compose(renderModificationOfEntity, renderModificationOfRelation);
+    }();
 
-                    annotationData.span.topLevel().forEach(function(span) {
-                        rendererImpl.span.render(span);
-                    });
+  rendererImpl.entity.bind('render', function(entity) {
+    api.trigger('entity.render', entity);
+    return entity;
+  });
 
-                    // For tuning
-                    // var endTime = new Date();
-                    // console.log('render all span : ', endTime.getTime() - startTime.getTime() + 'ms');
-                },
-                renderAllRelation = function(annotationData) {
-                    rendererImpl.relation.reset();
-                    annotationData.relation.all().forEach(rendererImpl.relation.render);
-                };
+  _.extend(api, {
+    setModelHandler: function() {
+      rendererImpl.init(getAnnotationArea());
 
-            return function(annotationData) {
-                // Render annotations
-                getAnnotationArea().empty();
-                domPositionCaChe.gridPositionCache.clear();
-                renderAllSpan(annotationData);
+      model.annotationData
+        .bind('change-text', renderSourceDocument)
+        .bind('all.change', triggerChangeAfter(model.selectionModel.clear, reset))
+        .bind('span.add', triggerChangeAfter(rendererImpl.span.render))
+        .bind('span.remove', triggerChangeAfter(rendererImpl.span.remove))
+        .bind('span.remove', _.compose(model.selectionModel.span.remove, modelToId))
+        .bind('entity.add', function(entity) {
+          // Add a now entity with a new grid after the span moved.
+          rendererImpl.span.change(entityToSpan(entity), domPositionCaChe.reset);
+          rendererImpl.entity.render(entity);
+          triggerChange();
+        })
+        .bind('entity.change', updateSpanAfter(rendererImpl.entity.change))
+        .bind('entity.remove', updateSpanAfter(rendererImpl.entity.remove))
+        .bind('entity.remove', _.compose(model.selectionModel.entity.remove, modelToId))
+        .bind('relation.add', triggerChangeAfter(rendererImpl.relation.render))
+        .bind('relation.change', rendererImpl.relation.change)
+        .bind('relation.remove', rendererImpl.relation.remove)
+        .bind('relation.remove', _.compose(model.selectionModel.relation.remove, modelToId))
+        .bind('modification.add', renderModificationEntityOrRelation)
+        .bind('modification.remove', renderModificationEntityOrRelation);
+    },
+    arrangeRelationPositionAll: rendererImpl.relation.arrangePositionAll,
+    renderLazyRelationAll: rendererImpl.relation.renderLazyRelationAll,
+    setEntityCss: function(entity, css) {
+      rendererImpl
+        .entity
+        .getTypeDom(entity)
+        .css(css);
+    }
+  });
 
-                // Render relations
-                renderAllRelation(annotationData);
-            };
-        }(),
-        rendererImpl = function() {
-            var gridRenderer = function() {
-                    var domUtil = require('../../util/DomUtil')(editor),
-                        createGrid = function(container, spanId) {
-                            var spanPosition = domPositionCaChe.getSpan(spanId);
-                            var $grid = $('<div>')
-                                .attr('id', 'G' + spanId)
-                                .addClass('textae-editor__grid')
-                                .addClass('hidden')
-                                .css({
-                                    'width': spanPosition.width
-                                });
-
-                            //append to the annotation area.
-                            container.append($grid);
-
-                            return $grid;
-                        },
-                        destroyGrid = function(spanId) {
-                            domUtil.selector.grid.get(spanId).remove();
-                            domPositionCaChe.gridPositionCache.remove(spanId);
-                        },
-                        init = function(container) {
-                            gridRenderer.render = _.partial(createGrid, container);
-                        };
-
-                    return {
-                        init: init,
-                        // The render is set at init.
-                        render: null,
-                        remove: destroyGrid
-                    };
-                }(),
-                modificationRenderer = function() {
-                    var getClasses = function(objectId) {
-                        return model.annotationData.getModificationOf(objectId)
-                            .map(function(m) {
-                                return 'textae-editor__' + m.pred.toLowerCase();
-                            }).join(' ');
-                    };
-
-                    return {
-                        getClasses: getClasses,
-                        update: function() {
-                            var allModificationClasses = 'textae-editor__negation textae-editor__speculation';
-
-                            return function(domElement, objectId) {
-                                domElement.removeClass(allModificationClasses);
-                                domElement.addClass(getClasses(objectId));
-                            };
-                        }(),
-                    };
-                }(),
-                entityRenderer = require('./EntityRenderer')(editor, model, typeContainer, gridRenderer, modificationRenderer),
-                spanRenderer = require('./SpanRenderer')(editor, model, typeContainer, entityRenderer, gridRenderer),
-                relationRenderer = require('./RelationRenderer')(editor, model, typeContainer, modificationRenderer);
-
-            return {
-                init: function(container) {
-                    gridRenderer.init(container);
-                    relationRenderer.init(container);
-                },
-                span: spanRenderer,
-                entity: entityRenderer,
-                relation: relationRenderer
-            };
-        }(),
-        api = require('../../util/extendBindable')({}),
-        triggerChange = _.debounce(function() {
-            api.trigger('change');
-        }, 100),
-        triggerChangeAfter = _.partial(_.compose, triggerChange),
-        updateSpanAfter = function() {
-            var entityToSpan = function(entity) {
-                return model.annotationData.span.get(entity.span);
-            };
-
-            return _.partial(_.compose, triggerChange, rendererImpl.span.change, entityToSpan);
-        }(),
-        renderModificationEntityOrRelation = function() {
-            var renderModification = function(modelType, modification) {
-                    var target = model.annotationData[modelType].get(modification.obj);
-                    if (target) {
-                        rendererImpl[modelType].changeModification(target);
-                        viewModel.buttonStateHelper['updateBy' + capitalize(modelType)]();
-                    }
-
-                    return modification;
-                },
-                renderModificationOfEntity = _.partial(renderModification, 'entity'),
-                renderModificationOfRelation = _.partial(renderModification, 'relation');
-
-            return _.compose(renderModificationOfEntity, renderModificationOfRelation);
-        }();
-
-    rendererImpl.entity.bind('render', function(entity) {
-        api.trigger('entity.render', entity);
-        return entity;
-    });
-
-    _.extend(api, {
-        setModelHandler: function() {
-            rendererImpl.init(getAnnotationArea());
-
-            model.annotationData
-                .bind('change-text', renderSourceDocument)
-                .bind('all.change', _.compose(model.selectionModel.clear, reset))
-                .bind('span.add', triggerChangeAfter(rendererImpl.span.render))
-                .bind('span.remove', triggerChangeAfter(rendererImpl.span.remove))
-                .bind('span.remove', _.compose(model.selectionModel.span.remove, modelToId))
-                .bind('entity.add', updateSpanAfter(rendererImpl.entity.render))
-                .bind('entity.change', updateSpanAfter(rendererImpl.entity.change))
-                .bind('entity.remove', updateSpanAfter(rendererImpl.entity.remove))
-                .bind('entity.remove', _.compose(model.selectionModel.entity.remove, modelToId))
-                .bind('relation.add', triggerChangeAfter(rendererImpl.relation.render))
-                .bind('relation.change', rendererImpl.relation.change)
-                .bind('relation.remove', rendererImpl.relation.remove)
-                .bind('relation.remove', _.compose(model.selectionModel.relation.remove, modelToId))
-                .bind('modification.add', renderModificationEntityOrRelation)
-                .bind('modification.remove', renderModificationEntityOrRelation);
-        },
-        arrangeRelationPositionAll: rendererImpl.relation.arrangePositionAll,
-        renderLazyRelationAll: rendererImpl.relation.renderLazyRelationAll,
-        setEntityCss: function(entity, css) {
-            rendererImpl
-                .entity
-                .getTypeDom(entity)
-                .css(css);
-        }
-    });
-
-    return api;
+  return api;
 };
-},{"../../util/DomUtil":54,"../../util/capitalize":57,"../../util/extendBindable":64,"../DomPositionCache":71,"./EntityRenderer":77,"./RelationRenderer":78,"./SpanRenderer":80}],80:[function(require,module,exports){
-var getPosition = function(span, textNodeStartPosition) {
-		var startPos = span.begin - textNodeStartPosition;
-		var endPos = span.end - textNodeStartPosition;
-		return {
-			start: startPos,
-			end: endPos
-		};
-	},
-	validatePosition = function(position, textNode, span) {
-		if (position.start < 0 || textNode.length < position.end) {
-			throw new Error('oh my god! I cannot render this span. ' + span.toStringOnlyThis() + ', textNode ' + textNode.textContent);
-		}
-	},
-	createRange = function(textNode, position) {
-		var range = document.createRange();
-		range.setStart(textNode, position.start);
-		range.setEnd(textNode, position.end);
-		return range;
-	},
-	// Create the Range to a new span add 
-	createSpanRange = function(span, textNodeStartPosition, textNode) {
-		var position = getPosition(span, textNodeStartPosition);
-		validatePosition(position, textNode, span);
 
-		return createRange(textNode, position);
-	},
-	isTextNode = function() {
-		return this.nodeType === 3; //TEXT_NODE
-	},
-	getFirstTextNode = function($element) {
-		return $element.contents().filter(isTextNode).get(0);
-	},
-	getParagraphElement = function(paragraphId) {
-		return $('#' + paragraphId);
-	},
-	createRangeForFirstSpan = function(getJqueryObjectFunc, span, textaeRange) {
-		var getTextNode = _.compose(getFirstTextNode, getJqueryObjectFunc);
-		var textNode = getTextNode(textaeRange.id);
-		return createSpanRange(span, textaeRange.begin, textNode);
-	},
-	createRangeForFirstSpanInParagraph = _.partial(createRangeForFirstSpan, getParagraphElement),
-	createSpanElement = function(span) {
-		var element = document.createElement('span');
-		element.setAttribute('id', span.id);
-		element.setAttribute('title', span.id);
-		element.setAttribute('class', 'textae-editor__span');
-		return element;
-	},
-	exists = function(span) {
-		return document.getElementById(span.id) !== null;
-	},
-	not = function(value) {
-		return !value;
-	};
+},{"../../util/capitalize":58,"../../util/extendBindable":65,"../DomPositionCache":72,"./EntityRenderer":80,"./GridRenderer":81,"./RelationRenderer":82,"./SpanRenderer":85}],85:[function(require,module,exports){
+var exists = function(span) {
+    return document.getElementById(span.id) !== null;
+  },
+  not = function(value) {
+    return !value;
+  },
+  hasType = function(span, isBlock) {
+    return span.getTypes()
+      .map(function(type) {
+        return type.name;
+      })
+      .filter(isBlock)
+      .length > 0;
+  };
 
 module.exports = function(editor, model, typeContainer, entityRenderer, gridRenderer) {
-	var domUtil = require('../../util/DomUtil')(editor),
-		// Get the Range to that new span tag insert.
-		// This function works well when no child span is rendered. 
-		getRangeToInsertSpanTag = function(span) {
-			var createRangeForFirstSpanInParent = _.partial(createRangeForFirstSpan, domUtil.selector.span.get);
+  var domUtil = require('../../util/DomUtil')(editor),
+    renderSingleSpan = require('./RenderSingleSpan')(editor),
+    renderBlockOfSpan = function(span, clearCache) {
+      var $span = domUtil.selector.span.get(span.id);
 
-			// The parent of the bigBrother is same with span, which is a span or the root of spanTree. 
-			var bigBrother = span.getBigBrother();
-			if (bigBrother) {
-				// The target text arrounded by span is in a textNode after the bigBrother if bigBrother exists.
-				return createSpanRange(span, bigBrother.end, document.getElementById(bigBrother.id).nextSibling);
-			} else {
-				// The target text arrounded by span is the first child of parent unless bigBrother exists.
-				if (span.parent) {
-					// The parent is span.
-					// This span is first child of span.
-					return createRangeForFirstSpanInParent(span, span.parent);
-				} else {
-					// The parent is paragraph
-					return createRangeForFirstSpanInParagraph(span, span.paragraph);
-				}
-			}
-		},
-		appendSpanElement = function(span, element) {
-			getRangeToInsertSpanTag(span).surroundContents(element);
+      if (hasType(span, typeContainer.entity.isBlock)) {
+        $span.addClass('textae-editor__span--block');
+      } else {
+        $span.removeClass('textae-editor__span--block');
+      }
 
-			return span;
-		},
-		renderSingleSpan = function(span) {
-			return appendSpanElement(span, createSpanElement(span));
-		},
-		isBlockSpan = function(span) {
-			return span.getTypes().filter(function(type) {
-				return typeContainer.entity.isBlock(type.name);
-			}).length > 0;
-		},
-		renderBlockOfSpan = function(span) {
-			var $span = domUtil.selector.span.get(span.id);
+      if (hasType(span, _.compose(not, typeContainer.entity.isBlock))) {
+        if ($span.hasClass('textae-editor__span--wrap')) {
+          // The span maybe move.
+          $span.removeClass('textae-editor__span--wrap');
+          if (clearCache) clearCache();
+        }
+      } else {
+        $span.addClass('textae-editor__span--wrap');
+      }
 
-			if (isBlockSpan(span)) {
-				$span.addClass('textae-editor__span--block');
-			} else {
-				$span.removeClass('textae-editor__span--block');
-			}
+      return span;
+    },
+    renderEntitiesOfType = function(type) {
+      type.entities.forEach(_.compose(entityRenderer.render, model.annotationData.entity.get));
+    },
+    renderEntitiesOfSpan = function(span) {
+      span.getTypes()
+        .forEach(renderEntitiesOfType);
 
-			return span;
-		},
-		renderEntitiesOfType = function(type) {
-			type.entities.forEach(_.compose(entityRenderer.render, model.annotationData.entity.get));
-		},
-		renderEntitiesOfSpan = function(span) {
-			span.getTypes()
-				.forEach(renderEntitiesOfType);
+      return span;
+    },
+    destroy = function(span) {
+      var spanElement = document.getElementById(span.id),
+        parent = spanElement.parentNode;
 
-			return span;
-		},
-		destroy = function(span) {
-			var spanElement = document.getElementById(span.id);
-			var parent = spanElement.parentNode;
+      // Move the textNode wrapped this span in front of this span.
+      while (spanElement.firstChild) {
+        parent.insertBefore(spanElement.firstChild, spanElement);
+      }
 
-			// Move the textNode wrapped this span in front of this span.
-			while (spanElement.firstChild) {
-				parent.insertBefore(spanElement.firstChild, spanElement);
-			}
+      $(spanElement).remove();
+      parent.normalize();
 
-			$(spanElement).remove();
-			parent.normalize();
+      // Destroy a grid of the span.
+      gridRenderer.remove(span.id);
+    },
+    destroyChildrenSpan = function(span) {
+      // Destroy DOM elements of descendant spans.
+      var destroySpanRecurcive = function(span) {
+        span.children.forEach(function(span) {
+          destroySpanRecurcive(span);
+        });
+        destroy(span);
+      };
 
-			// Destroy a grid of the span. 
-			gridRenderer.remove(span.id);
-		},
-		destroyChildrenSpan = function(span) {
-			// Destroy DOM elements of descendant spans.
-			var destroySpanRecurcive = function(span) {
-				span.children.forEach(function(span) {
-					destroySpanRecurcive(span);
-				});
-				destroy(span);
-			};
+      // Destroy rendered children.
+      span.children.filter(exists).forEach(destroySpanRecurcive);
 
-			// Destroy rendered children.
-			span.children.filter(exists).forEach(destroySpanRecurcive);
+      return span;
+    },
+    renderChildresnSpan = function(span) {
+      span.children.filter(_.compose(not, exists))
+        .forEach(create);
 
-			return span;
-		},
-		renderChildresnSpan = function(span) {
-			span.children.filter(_.compose(not, exists))
-				.forEach(create);
+      return span;
+    },
+    // Destroy children spans to wrap a TextNode with <span> tag when new span over exists spans.
+    create = _.compose(renderChildresnSpan, renderEntitiesOfSpan, renderBlockOfSpan, renderSingleSpan, destroyChildrenSpan);
 
-			return span;
-		},
-		// Destroy children spans to wrap a TextNode with <span> tag when new span over exists spans.
-		create = _.compose(renderChildresnSpan, renderEntitiesOfSpan, renderBlockOfSpan, renderSingleSpan, destroyChildrenSpan);
-
-	return {
-		render: create,
-		remove: destroy,
-		change: renderBlockOfSpan
-	};
+  return {
+    render: create,
+    remove: destroy,
+    change: renderBlockOfSpan
+  };
 };
-},{"../../util/DomUtil":54}],81:[function(require,module,exports){
+
+},{"../../util/DomUtil":54,"./RenderSingleSpan":83}],86:[function(require,module,exports){
+var getPosition = function(span, startOfTextNodeAddSpan) {
+    var startPos = span.begin - startOfTextNodeAddSpan,
+      endPos = span.end - startOfTextNodeAddSpan;
+
+    return {
+      start: startPos,
+      end: endPos
+    };
+  },
+  validatePosition = function(textNode, start, end) {
+    return 0 <= start && end <= textNode.length;
+  },
+  createRange = function(textNode, start, end) {
+    var range = document.createRange();
+    range.setStart(textNode, start);
+    range.setEnd(textNode, end);
+    return range;
+  },
+  createSpanRange = function(textNode, startOfTextNodeAddSpan, span) {
+    var position = getPosition(span, startOfTextNodeAddSpan);
+
+    if (!validatePosition(textNode, position.start, position.end)) {
+      throw new Error('oh my god! I cannot render this span. ' + span.toStringOnlyThis() + ', textNode ' + textNode.textContent);
+    }
+
+    return createRange(textNode, position.start, position.end);
+  };
+
+// Create the Range to a new span add
+module.exports = createSpanRange;
+
+},{}],87:[function(require,module,exports){
+var isTextNode = function() {
+    return this.nodeType === 3; //TEXT_NODE
+  },
+  getFirstTextNode = function($element) {
+    return $element.contents().filter(isTextNode).get(0);
+  };
+
+module.exports = getFirstTextNode;
+
+},{}],88:[function(require,module,exports){
 var // Overlay styles for jsPlubm connections.
 	NORMAL_ARROW = {
 		width: 7,
@@ -8366,7 +8439,7 @@ module.exports = {
 		return switchNormalArrow(connect);
 	}
 };
-},{}],82:[function(require,module,exports){
+},{}],89:[function(require,module,exports){
 // Add or Remove class to indicate selected state.
 module.exports = function() {
     var addClass = function($target) {
