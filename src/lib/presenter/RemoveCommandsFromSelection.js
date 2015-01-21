@@ -2,10 +2,7 @@ var toRomeveSpanCommands = function(spanIds, command) {
         return spanIds.map(command.factory.spanRemoveCommand);
     },
     toRemoveEntityCommands = function(entityIds, command) {
-        return entityIds.map(function(entity) {
-            // Wrap by a anonymous function, because command.factory.entityRemoveCommand has two optional arguments.
-            return command.factory.entityRemoveCommand(entity);
-        });
+        return command.factory.entityRemoveCommand(entityIds);
     },
     toRemoveRelationCommands = function(relationIds, command) {
         return relationIds.map(command.factory.relationRemoveCommand);
