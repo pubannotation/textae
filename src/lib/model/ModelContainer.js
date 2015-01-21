@@ -25,7 +25,19 @@ module.exports = function(eventEmitter, prefix, mappingFunction) {
             return model;
         },
         concat = function(collection) {
-            if (collection) collection.forEach(add);
+            if (!collection) return;
+
+            // Move medols without id behind others, to prevet id duplication generated and exists.
+            collection.sort(function(a, b) {
+                if (!a.id) return 1;
+                if (!b.id) return -1;
+                if (a.id < b.id) return -1;
+                if (a.id > b.id) return 1;
+
+                return 0;
+            });
+
+            collection.forEach(add);
         },
         get = function(id) {
             return contaier[id];

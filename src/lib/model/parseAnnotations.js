@@ -1,6 +1,7 @@
 var translateDenotation = function(prefix, src) {
         return _.extend({}, src, {
-            id: prefix + src.id
+            // Do not convert  string unless id.
+            id: src.id ? prefix + src.id : null
         });
     },
     translateRelation = function(prefix, src) {
