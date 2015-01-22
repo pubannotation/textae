@@ -1,357 +1,227 @@
-var invoke = function(commands) {
-        commands.forEach(function(command) {
-            command.execute();
-        });
-    },
-    executeSubCommands = function(subCommands) {
-        subCommands.forEach(function(command) {
-            command.execute();
-        });
-    },
-    RevertCommands = function(commands) {
-        commands = Object.create(commands);
-        commands.reverse();
-        return commands.map(function(originCommand) {
-            return originCommand.revert();
-        });
-    },
-    invokeRevert = _.compose(invoke, RevertCommands),
-    debugLog = function(message, object) {
-        // For debug
-        if (object) {
-            console.log('[command.invoke]', message, object);
-        } else {
-            console.log('[command.invoke]', message);
-        }
-    },
-    setRevertAndLog = function() {
-        var log = function(prefix, param) {
-                debugLog(prefix + param.commandType + ' a ' + param.modelType + ': ' + param.id);
-            },
-            doneLog = _.partial(log, ''),
-            revertLog = _.partial(log, 'revert '),
-            RevertFunction = function(subCommands, logParam) {
-                var toRevert = function(command) {
-                        return command.revert();
-                    },
-                    execute = function(command) {
-                        command.execute();
-                    },
-                    revertedCommand = {
-                        execute: function() {
-                            invokeRevert(subCommands);
-                            revertLog(logParam);
-                        }
-                    };
-
-                return function() {
-                    return revertedCommand;
-                };
-            },
-            setRevert = function(modelType, command, commandType, id, subCommands) {
-                var logParam = {
-                    modelType: modelType,
-                    commandType: commandType,
-                    id: id
-                };
-
-                command.revert = new RevertFunction(subCommands, logParam);
-                return logParam;
-            };
-
-        return _.compose(doneLog, setRevert);
-    }(),
-    updateSelection = function(model, modelType, newModel) {
-        if (model.selectionModel[modelType]) {
-            model.selectionModel[modelType].add(newModel.id);
-        }
-    },
-    getReplicationSpans = require('./getReplicationSpans'),
-    createCommand = function(removeCommand, model, modelType, isSelectable, newModel) {
-        return {
-            execute: function() {
-                // Update model
-                newModel = model.annotationData[modelType].add(newModel);
-
-                // Update Selection
-                if (isSelectable) updateSelection(model, modelType, newModel);
-
-                // Set revert
-                this.revert = _.partial(removeCommand, _.noop, model, modelType, newModel.id);
-
-                debugLog('create a new ' + modelType + ': ', newModel);
-
-                return newModel;
-            }
-        };
-    },
-    removeCommand = function(createCommand, model, modelType, id) {
-        return {
-            execute: function() {
-                // Update model
-                var oloModel = model.annotationData[modelType].remove(id);
-
-                if (oloModel) {
-                    // Set revert
-                    this.revert = _.partial(createCommand, _.noop, model, modelType, false, oloModel);
-                    debugLog('remove a ' + modelType + ': ', oloModel);
-                } else {
-                    // Do not revert unless an object was removed.
-                    this.revert = function() {
-                        return {
-                            execute: function() {}
-                        };
-                    };
-                    debugLog('already removed ' + modelType + ': ', id);
-                }
-            },
-        };
-    },
-    changeTypeCommand = function(model, modelType, id, newType) {
-        return {
-            execute: function() {
-                var oldType = model.annotationData[modelType].get(id).type;
-
-                // Update model
-                var targetModel = model.annotationData[modelType].changeType(id, newType);
-
-                // Set revert
-                this.revert = _.partial(changeTypeCommand, model, modelType, id, oldType);
-
-                debugLog('change type of a ' + modelType + '. oldtype:' + oldType + ' ' + modelType + ':', targetModel);
-            }
-        };
-    };
+var invokeCommand = require('./invokeCommand'),
+    commandTemplate = require('./commandTemplate'),
+    executeCompositCommand = require('./executeCompositCommand'),
+    getReplicationSpans = require('./getReplicationSpans');
 
 // A command is an operation by user that is saved as history, and can undo and redo.
 // Users can edit model only via commands.
 module.exports = function(editor, model, history) {
-    var factory = function() {
-        var idFactory = require('../util/IdFactory')(editor),
-            setRevertAndLogSpan = _.partial(setRevertAndLog, 'span'),
-            spanCreateCommand = _.partial(createCommand, removeCommand, model, 'span', true),
-            entityCreateCommand = _.partial(createCommand, removeCommand, model, 'entity', true),
-            spanAndDefaultEntryCreateCommand = function(type, span) {
-                var id = idFactory.makeSpanId(span),
-                    createSpan = spanCreateCommand(span),
-                    createEntity = entityCreateCommand({
-                        span: id,
-                        type: type
-                    }),
-                    subCommands = [createSpan, createEntity];
+    var idFactory = require('../util/IdFactory')(editor),
+        spanCreateCommand = _.partial(commandTemplate.create, model, 'span', true),
+        entityCreateCommand = _.partial(commandTemplate.create, model, 'entity', true),
+        spanAndDefaultEntryCreateCommand = function(type, span) {
+            var id = idFactory.makeSpanId(span),
+                createSpan = spanCreateCommand(span),
+                createEntity = entityCreateCommand({
+                    span: id,
+                    type: type
+                }),
+                subCommands = [createSpan, createEntity];
 
-                return {
-                    execute: function() {
-                        executeSubCommands(subCommands);
-                        setRevertAndLogSpan(this, 'create', id, subCommands);
-                    }
-                };
-            },
-            spanReplicateCommand = function(type, span, detectBoundaryFunc) {
-                var createSpan = _.partial(spanAndDefaultEntryCreateCommand, type),
-                    subCommands = getReplicationSpans(model.annotationData, span, detectBoundaryFunc)
-                    .map(createSpan);
-
-                return {
-                    execute: function() {
-                        executeSubCommands(subCommands);
-                        setRevertAndLogSpan(this, 'replicate', span.id, subCommands);
-                    }
-                };
-            },
-            // The relaitonId is optional set only when revert of the relationRemoveCommand.
-            // Set the css class lately, because jsPlumbConnector is no applyed that css class immediately after create.
-            relationCreateCommand = _.partial(createCommand, removeCommand, model, 'relation', false),
-            relationCreateAndSelectCommand = _.partial(createCommand, removeCommand, model, 'relation', true),
-            modificationRemoveCommand = _.partial(removeCommand, createCommand, model, 'modification'),
-            relationRemoveCommand = _.partial(removeCommand, createCommand, model, 'relation'),
-            relationAndAssociatesRemoveCommand = function(id) {
-                var removeRelation = relationRemoveCommand(id),
-                    removeModification = model.annotationData.getModificationOf(id)
-                    .map(function(modification) {
-                        return modification.id;
-                    })
-                    .map(function(id) {
-                        return modificationRemoveCommand(id);
-                    }),
-                    subCommands = removeModification.concat(removeRelation);
-
-                return {
-                    execute: function() {
-                        executeSubCommands(subCommands);
-                        setRevertAndLog('relation', this, 'remove', id, subCommands);
-                    }
-                };
-
-            },
-            entityRemoveCommand = _.partial(removeCommand, createCommand, model, 'entity'),
-            entityAndAssociatesRemoveCommand = function(id) {
-                var removeEntity = entityRemoveCommand(id),
-                    removeRelation = model.annotationData.entity.assosicatedRelations(id)
-                    .map(function(id) {
-                        return relationRemoveCommand(id);
-                    }),
-                    removeModification = model.annotationData.getModificationOf(id)
-                    .map(function(modification) {
-                        return modification.id;
-                    })
-                    .map(function(id) {
-                        return modificationRemoveCommand(id);
-                    }),
-                    subCommands = removeRelation.concat(removeModification).concat(removeEntity);
-
-                return {
-                    execute: function() {
-                        executeSubCommands(subCommands);
-                        setRevertAndLog('entity', this, 'remove', id, subCommands);
-                    }
-                };
-            },
-            spanRemoveCommand = function(id) {
-                var removeSpan = removeCommand(createCommand, model, 'span', id),
-                    removeEntity = _.flatten(model.annotationData.span.get(id).getTypes().map(function(type) {
-                        return type.entities.map(function(entityId) {
-                            return entityAndAssociatesRemoveCommand(entityId);
-                        });
-                    })),
-                    subCommands = removeEntity.concat(removeSpan);
-
-                return {
-                    execute: function() {
-                        executeSubCommands(subCommands);
-                        setRevertAndLogSpan(this, 'remove', id, subCommands);
-                    }
-                };
-            },
-            toEntityPerSpan = function(ids) {
-                return ids
-                    .map(function(id) {
-                        var span = model.annotationData.entity.get(id).span;
-                        return {
-                            id: id,
-                            span: span
-                        };
-                    })
-                    .reduce(function(ret, entity) {
-                        var hoge = ret[entity.span] ? ret[entity.span] : [];
-                        hoge.push(entity.id);
-                        ret[entity.span] = hoge;
-                        return ret;
-                    }, {});
-            },
-            entityRemoveAndSpanRemeveIfNoEntityRestCommand = function(ids) {
-                var entityPerSpan = toEntityPerSpan(ids);
-
-                return _.flatten(
-                    Object
-                    .keys(entityPerSpan)
-                    .map(function(spanId) {
-                        var span = model.annotationData.span.get(spanId),
-                            targetIds = entityPerSpan[spanId],
-                            allEntitiesOfSpan = _.flatten(
-                                span
-                                .getTypes()
-                                .map(function(type) {
-                                    return type.entities;
-                                })
-                            ),
-                            restEntities = _.reject(
-                                allEntitiesOfSpan,
-                                function(entityId) {
-                                    return _.contains(targetIds, entityId);
-                                }
-                            );
-
-                        return {
-                            entities: targetIds,
-                            spasId: spanId,
-                            noRestEntities: restEntities.length === 0
-                        };
-                    })
-                    .map(function(data) {
-                        if (data.noRestEntities)
-                            return spanRemoveCommand(data.spasId);
-                        else
-                            return data.entities.map(function(id) {
-                                return entityAndAssociatesRemoveCommand(id);
-                            });
-                    })
-                );
-            },
-            entityChangeTypeRemoveRelationCommand = function(id, newType, isRemoveRelations) {
-                var changeType = changeTypeCommand(model, 'entity', id, newType),
-                    subCommands = isRemoveRelations ?
-                    model.annotationData.entity.assosicatedRelations(id)
-                    .map(function(id) {
-                        return relationRemoveCommand(id);
-                    })
-                    .concat(changeType) : [changeType];
-
-                return {
-                    execute: function() {
-                        executeSubCommands(subCommands);
-                        setRevertAndLog('entity', this, 'change', id, subCommands);
-                    }
-                };
-            },
-            spanMoveCommand = function(spanId, newSpan) {
-                var subCommands = [],
-                    newSpanId = idFactory.makeSpanId(newSpan),
-                    d = model.annotationData;
-
-                if (!d.span.get(newSpanId)) {
-                    subCommands.push(spanRemoveCommand(spanId));
-                    subCommands.push(spanCreateCommand({
-                        begin: newSpan.begin,
-                        end: newSpan.end
-                    }));
-                    d.span.get(spanId).getTypes().forEach(function(type) {
-                        type.entities.forEach(function(id) {
-                            subCommands.push(entityCreateCommand({
-                                id: id,
-                                span: newSpanId,
-                                type: type.name
-                            }));
-
-                            subCommands = subCommands.concat(
-                                d.entity.assosicatedRelations(id)
-                                .map(d.relation.get)
-                                .map(function(id) {
-                                    return relationCreateCommand(id);
-                                })
-                            );
-                        });
-                    });
+            return {
+                execute: function() {
+                    executeCompositCommand('span', this, 'create', id, subCommands);
                 }
+            };
+        },
+        spanReplicateCommand = function(type, span, detectBoundaryFunc) {
+            var createSpan = _.partial(spanAndDefaultEntryCreateCommand, type),
+                subCommands = getReplicationSpans(model.annotationData, span, detectBoundaryFunc)
+                .map(createSpan);
 
-                return {
-                    execute: function() {
-                        executeSubCommands(subCommands);
-                        setRevertAndLog('span', this, 'move', spanId, subCommands);
-                    }
-                };
+            return {
+                execute: function() {
+                    executeCompositCommand('span', this, 'replicate', span.id, subCommands);
+                }
+            };
+        },
+        // The relaitonId is optional set only when revert of the relationRemoveCommand.
+        // Set the css class lately, because jsPlumbConnector is no applyed that css class immediately after create.
+        relationCreateCommand = _.partial(commandTemplate.create, model, 'relation', false),
+        relationCreateAndSelectCommand = _.partial(commandTemplate.create, model, 'relation', true),
+        modificationRemoveCommand = _.partial(commandTemplate.remove, model, 'modification'),
+        relationRemoveCommand = _.partial(commandTemplate.remove, model, 'relation'),
+        relationAndAssociatesRemoveCommand = function(id) {
+            var removeRelation = relationRemoveCommand(id),
+                removeModification = model.annotationData.getModificationOf(id)
+                .map(function(modification) {
+                    return modification.id;
+                })
+                .map(function(id) {
+                    return modificationRemoveCommand(id);
+                }),
+                subCommands = removeModification.concat(removeRelation);
+
+            return {
+                execute: function() {
+                    executeCompositCommand('relation', this, 'remove', id, subCommands);
+                }
             };
 
-        return {
-            spanCreateCommand: spanAndDefaultEntryCreateCommand,
-            spanRemoveCommand: spanRemoveCommand,
-            spanMoveCommand: spanMoveCommand,
-            spanReplicateCommand: spanReplicateCommand,
-            entityCreateCommand: entityCreateCommand,
-            entityRemoveCommand: entityRemoveAndSpanRemeveIfNoEntityRestCommand,
-            entityChangeTypeCommand: entityChangeTypeRemoveRelationCommand,
-            relationCreateCommand: relationCreateAndSelectCommand,
-            relationRemoveCommand: relationAndAssociatesRemoveCommand,
-            relationChangeTypeCommand: _.partial(changeTypeCommand, model, 'relation'),
-            modificationCreateCommand: _.partial(createCommand, removeCommand, model, 'modification', false),
-            modificationRemoveCommand: modificationRemoveCommand
+        },
+        entityRemoveCommand = _.partial(commandTemplate.remove, model, 'entity'),
+        entityAndAssociatesRemoveCommand = function(id) {
+            var removeEntity = entityRemoveCommand(id),
+                removeRelation = model.annotationData.entity.assosicatedRelations(id)
+                .map(function(id) {
+                    return relationRemoveCommand(id);
+                }),
+                removeModification = model.annotationData.getModificationOf(id)
+                .map(function(modification) {
+                    return modification.id;
+                })
+                .map(function(id) {
+                    return modificationRemoveCommand(id);
+                }),
+                subCommands = removeRelation.concat(removeModification).concat(removeEntity);
+
+            return {
+                execute: function() {
+                    executeCompositCommand('entity', this, 'remove', id, subCommands);
+                }
+            };
+        },
+        spanRemoveCommand = function(id) {
+            var removeSpan = commandTemplate.remove(model, 'span', id),
+                removeEntity = _.flatten(model.annotationData.span.get(id).getTypes().map(function(type) {
+                    return type.entities.map(function(entityId) {
+                        return entityAndAssociatesRemoveCommand(entityId);
+                    });
+                })),
+                subCommands = removeEntity.concat(removeSpan);
+
+            return {
+                execute: function() {
+                    executeCompositCommand('span', this, 'remove', id, subCommands);
+                }
+            };
+        },
+        toEntityPerSpan = function(ids) {
+            return ids
+                .map(function(id) {
+                    var span = model.annotationData.entity.get(id).span;
+                    return {
+                        id: id,
+                        span: span
+                    };
+                })
+                .reduce(function(ret, entity) {
+                    var hoge = ret[entity.span] ? ret[entity.span] : [];
+                    hoge.push(entity.id);
+                    ret[entity.span] = hoge;
+                    return ret;
+                }, {});
+        },
+        entityRemoveAndSpanRemeveIfNoEntityRestCommand = function(ids) {
+            var entityPerSpan = toEntityPerSpan(ids);
+
+            return _.flatten(
+                Object
+                .keys(entityPerSpan)
+                .map(function(spanId) {
+                    var span = model.annotationData.span.get(spanId),
+                        targetIds = entityPerSpan[spanId],
+                        allEntitiesOfSpan = _.flatten(
+                            span
+                            .getTypes()
+                            .map(function(type) {
+                                return type.entities;
+                            })
+                        ),
+                        restEntities = _.reject(
+                            allEntitiesOfSpan,
+                            function(entityId) {
+                                return _.contains(targetIds, entityId);
+                            }
+                        );
+
+                    return {
+                        entities: targetIds,
+                        spasId: spanId,
+                        noRestEntities: restEntities.length === 0
+                    };
+                })
+                .map(function(data) {
+                    if (data.noRestEntities)
+                        return spanRemoveCommand(data.spasId);
+                    else
+                        return data.entities.map(function(id) {
+                            return entityAndAssociatesRemoveCommand(id);
+                        });
+                })
+            );
+        },
+        entityChangeTypeRemoveRelationCommand = function(id, newType, isRemoveRelations) {
+            var changeType = commandTemplate.changeType(model, 'entity', id, newType),
+                subCommands = isRemoveRelations ?
+                model.annotationData.entity.assosicatedRelations(id)
+                .map(function(id) {
+                    return relationRemoveCommand(id);
+                })
+                .concat(changeType) : [changeType];
+
+            return {
+                execute: function() {
+                    executeCompositCommand('entity', this, 'change', id, subCommands);
+                }
+            };
+        },
+        spanMoveCommand = function(spanId, newSpan) {
+            var subCommands = [],
+                newSpanId = idFactory.makeSpanId(newSpan),
+                d = model.annotationData;
+
+            if (!d.span.get(newSpanId)) {
+                subCommands.push(spanRemoveCommand(spanId));
+                subCommands.push(spanCreateCommand({
+                    begin: newSpan.begin,
+                    end: newSpan.end
+                }));
+                d.span.get(spanId).getTypes().forEach(function(type) {
+                    type.entities.forEach(function(id) {
+                        subCommands.push(entityCreateCommand({
+                            id: id,
+                            span: newSpanId,
+                            type: type.name
+                        }));
+
+                        subCommands = subCommands.concat(
+                            d.entity.assosicatedRelations(id)
+                            .map(d.relation.get)
+                            .map(function(id) {
+                                return relationCreateCommand(id);
+                            })
+                        );
+                    });
+                });
+            }
+
+            return {
+                execute: function() {
+                    executeCompositCommand('span', this, 'move', spanId, subCommands);
+                }
+            };
         };
-    }();
+
+    var factory = {
+        spanCreateCommand: spanAndDefaultEntryCreateCommand,
+        spanRemoveCommand: spanRemoveCommand,
+        spanMoveCommand: spanMoveCommand,
+        spanReplicateCommand: spanReplicateCommand,
+        entityCreateCommand: entityCreateCommand,
+        entityRemoveCommand: entityRemoveAndSpanRemeveIfNoEntityRestCommand,
+        entityChangeTypeCommand: entityChangeTypeRemoveRelationCommand,
+        relationCreateCommand: relationCreateAndSelectCommand,
+        relationRemoveCommand: relationAndAssociatesRemoveCommand,
+        relationChangeTypeCommand: _.partial(commandTemplate.changeType, model, 'relation'),
+        modificationCreateCommand: _.partial(commandTemplate.create, model, 'modification', false),
+        modificationRemoveCommand: modificationRemoveCommand
+    };
 
     return {
         invoke: function(commands) {
             if (commands && commands.length > 0) {
-                invoke(commands);
+                invokeCommand.invoke(commands);
                 history.push(commands);
             }
         },
@@ -359,7 +229,7 @@ module.exports = function(editor, model, history) {
             return function() {
                 if (history.hasAnythingToUndo()) {
                     model.selectionModel.clear();
-                    invokeRevert(history.prev());
+                    invokeCommand.invokeRevert(history.prev());
                 }
             };
         }(),
