@@ -44,9 +44,9 @@ module.exports = function(editor, model, typeContainer, modification) {
 		},
 		ConnectorStrokeStyle = function() {
 			var converseHEXinotRGBA = function(color, opacity) {
-				var c = color.slice(1);
-				r = parseInt(c.substr(0, 2), 16);
-				g = parseInt(c.substr(2, 2), 16);
+				var c = color.slice(1),
+				r = parseInt(c.substr(0, 2), 16),
+				g = parseInt(c.substr(2, 2), 16),
 				b = parseInt(c.substr(4, 2), 16);
 
 				return 'rgba(' + r + ', ' + g + ', ' + b + ', 1)';

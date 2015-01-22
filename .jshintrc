@@ -6,5 +6,6 @@
   "noarg": true,
   "regexp": true,
   "trailing": true,
-  "predef": [ "-Promise" ]
+  "predef": [ "-Promise" ],
+  "esnext": true
 }

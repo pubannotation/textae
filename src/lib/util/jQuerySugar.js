@@ -8,7 +8,7 @@ var setProp = function(key, $target, className, value) {
 };
 
 module.exports = {
-	enabled: jQueryEnabled = require('./jQueryEnabled'),
+	enabled: require('./jQueryEnabled'),
 	Div: function(className) {
 		return $('<div>')
 			.addClass(className);

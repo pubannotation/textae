@@ -14,6 +14,7 @@ var browserifyFiles = {
 
 module.exports = function(grunt) {
   require('load-grunt-tasks')(grunt);
+  var to5 = require('6to5ify');
 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
@@ -109,8 +110,9 @@ module.exports = function(grunt) {
       dev: {
         files: browserifyFiles,
         options: {
-          browserifyOptions: {
-            debug: true
+            browserifyOptions: {
+            debug: true,
+            transform: [to5]
           }
         }
       },
