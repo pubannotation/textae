@@ -21,7 +21,6 @@ var Controller = require('./Controller'),
             status: function() {}
         };
     },
-    ViewMode = require('./view/ViewMode'),
     ObservableValue = require('./util/ObservableValue');
 
 module.exports = function() {
@@ -39,9 +38,8 @@ module.exports = function() {
         },
         buttonController = require('./view/ButtonController')(this, model, clipBoard),
         typeGap = new ObservableValue(-1),
-        viewMode = new ViewMode(this, model, buttonController, typeGap),
         view = require('./view/View')(this, model, buttonController, typeGap.get),
-        presenter = require('./presenter/Presenter')(this, model, view, command, spanConfig, clipBoard, buttonController, viewMode, typeGap),
+        presenter = require('./presenter/Presenter')(this, model, view, command, spanConfig, clipBoard, buttonController, typeGap),
         //handle user input event.
         controller = new Controller(this, history, presenter, view, buttonController.buttonStateHelper),
         setTypeConfigToView = _.partial(setTypeConfig, view),

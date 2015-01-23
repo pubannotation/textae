@@ -1,4 +1,5 @@
-var typeGapCache = function() {
+var ViewMode = require('./ViewMode'),
+    typeGapCache = function() {
     var seed = {
             instanceHide: 0,
             instanceShow: 2
@@ -17,8 +18,9 @@ var typeGapCache = function() {
     return api;
 }();
 
-module.exports = function(model, viewMode, typeEditor, typeGap) {
-    var api = {
+module.exports = function(editor, model, typeEditor, typeGap, buttonStateHelper, modeAccordingToButton) {
+    var viewMode = new ViewMode(editor, model, buttonStateHelper, modeAccordingToButton),
+        api = {
             init: function() {
                 _.extend(api, state.init);
             }

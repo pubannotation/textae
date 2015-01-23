@@ -8,9 +8,10 @@ var TypeEditor = require('./typeEditor/TypeEditor'),
     SelectSpanHandler = require('./SelectSpanHandler'),
     SetEditableHandler = require('./SetEditableHandler'),
     SettingDialog = require('./SettingDialog'),
-    CursorChanger =  require('../util/CursorChanger');
+    CursorChanger = require('../util/CursorChanger'),
+    lineHeight = require('../view/lineHeight');
 
-module.exports = function(editor, model, view, command, spanConfig, clipBoard, buttonController, viewMode, typeGap) {
+module.exports = function(editor, model, view, command, spanConfig, clipBoard, buttonController, typeGap) {
     var typeEditor = new TypeEditor(
             editor,
             model,
@@ -19,10 +20,13 @@ module.exports = function(editor, model, view, command, spanConfig, clipBoard, b
             buttonController.modeAccordingToButton,
             view.typeContainer
         ),
-        editMode = new EditMode(model,
-            viewMode,
+        editMode = new EditMode(
+            editor,
+            model,
             typeEditor,
-            typeGap
+            typeGap,
+            buttonController.buttonStateHelper,
+            buttonController.modeAccordingToButton
         ),
         defaultEntityHandler = new DefaultEntityHandler(
             command,
@@ -64,8 +68,7 @@ module.exports = function(editor, model, view, command, spanConfig, clipBoard, b
         showSettingDialog = new SettingDialog(
             editor,
             editMode,
-            typeGap,
-            viewMode
+            typeGap
         ),
         editorSelected = function() {
             typeEditor.hideDialogs();
@@ -85,7 +88,7 @@ module.exports = function(editor, model, view, command, spanConfig, clipBoard, b
                 });
 
             // Set cursor control by view rendering events.
-            var cursorChanger =new CursorChanger(editor);
+            var cursorChanger = new CursorChanger(editor);
             view
                 .bind('render.start', function(editor) {
                     // console.log(editor.editorId, 'render.start');
@@ -95,6 +98,11 @@ module.exports = function(editor, model, view, command, spanConfig, clipBoard, b
                     // console.log(editor.editorId, 'render.end');
                     cursorChanger.endWait();
                 });
+
+            // Set bind the lineHeight to the typeGap.
+            typeGap.on('change', function(newValue) {
+                lineHeight.setToTypeGap(editor, model, newValue);
+            });
         },
         setMode: setEditableHandler.bindSetDefaultEditMode,
         event: {

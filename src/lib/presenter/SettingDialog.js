@@ -1,4 +1,5 @@
-var debounce300 = function(func) {
+var lineHeight = require('../view/lineHeight'),
+    debounce300 = function(func) {
         return _.debounce(func, 300);
     },
     sixteenTimes = function(val) {
@@ -17,18 +18,18 @@ var debounce300 = function(func) {
     },
     jQuerySugar = require('../util/jQuerySugar'),
     // Update the checkbox state, because it is updated by the button on control too.
-    updateViewMode = function(editMode, $content) {
+    updateEditMode = function(editMode, $content) {
         return jQuerySugar.setChecked(
             $content,
             '.mode',
             editMode.showInstance ? 'checked' : null
         );
     },
-    updateLineHeight = function(viewMode, $content) {
+    updateLineHeight = function(editor, $content) {
         return jQuerySugar.setValue(
             $content,
             '.line-height',
-            Math.floor(viewMode.getLineHeight())
+            lineHeight.get(editor)
         );
     },
     updateTypeGapValue = function(typeGap, $content) {
@@ -45,7 +46,7 @@ var debounce300 = function(func) {
         jQuerySugar.enabled(toTypeGap($content), editMode.showInstance);
         return $content;
     },
-    changeMode = function(editMode, typeGap, $content, checked, viewMode) {
+    changeMode = function(editor, editMode, typeGap, $content, checked) {
         if (checked) {
             editMode.toInstance();
         } else {
@@ -53,14 +54,14 @@ var debounce300 = function(func) {
         }
         updateTypeGapEnable(editMode, $content);
         updateTypeGapValue(typeGap, $content);
-        updateLineHeight(viewMode, $content);
+        updateLineHeight(editor, $content);
     },
     SettingDialogLabel = _.partial(jQuerySugar.Label, 'textae-editor__setting-dialog__label');
 
-module.exports = function(editor, editMode, typeGap, viewMode) {
+module.exports = function(editor, editMode, typeGap) {
     var addInstanceRelationView = function($content) {
             var onModeChanged = debounce300(function() {
-                changeMode(editMode, typeGap, $content, $(this).is(':checked'), viewMode);
+                changeMode(editor, editMode, typeGap, $content, $(this).is(':checked'));
             });
 
             return $content
@@ -82,7 +83,7 @@ module.exports = function(editor, editMode, typeGap, viewMode) {
             var onTypeGapChange = debounce300(
                 function() {
                     editMode.changeTypeGap($(this).val());
-                    updateLineHeight(viewMode, $content);
+                    updateLineHeight(editor, $content);
                 }
             );
 
@@ -106,10 +107,11 @@ module.exports = function(editor, editMode, typeGap, viewMode) {
                 );
         },
         addLineHeight = function($content) {
-            var changeLineHeight = _.compose(redrawAllEditor, viewMode.changeLineHeight, sixteenTimes),
+            var changeLineHeight = _.compose(_.partial(lineHeight.set, editor), sixteenTimes),
                 onLineHeightChange = debounce300(
                     function() {
                         changeLineHeight($(this).val());
+                        redrawAllEditor();
                     }
                 );
 
@@ -147,10 +149,10 @@ module.exports = function(editor, editMode, typeGap, viewMode) {
     // Update values after creating a dialog because the dialog is re-used.
     return _.compose(
         open,
-        _.partial(updateLineHeight, viewMode),
+        _.partial(updateLineHeight, editor),
         _.partial(updateTypeGapValue, typeGap),
         partialEditMode(updateTypeGapEnable),
-        partialEditMode(updateViewMode),
+        partialEditMode(updateEditMode),
         appendToDialog,
         addLineHeight,
         addTypeGap,
