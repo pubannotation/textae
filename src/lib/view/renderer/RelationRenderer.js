@@ -82,7 +82,7 @@ module.exports = function(editor, model, typeContainer, modification) {
 				domPositionCaChe.gridPositionCache.isGridPrepared(anchors.targetId);
 		},
 		filterGridExists = function(connect) {
-			// The grid may be destroyed when the spans was moved repetitively by undo or redo.   
+			// The grid may be destroyed when the spans was moved repetitively by undo or redo.
 			if (!isGridPrepared(connect.relationId)) {
 				return;
 			}
@@ -314,7 +314,7 @@ module.exports = function(editor, model, typeContainer, modification) {
 				deleteRender
 			);
 		}(),
-		Promise = require('Promise'),
+		Promise = require('bluebird'),
 		// Create a dummy relation when before moving grids after creation grids.
 		// Because a jsPlumb error occurs when a relation between same points.
 		// And entities of same length spans was same point before moving grids.

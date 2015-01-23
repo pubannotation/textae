@@ -20,7 +20,7 @@ var filterVisibleGrid = function(grid) {
       return func(span.id);
     }
   },
-  Promise = require('Promise'),
+  Promise = require('bluebird'),
   getGridPosition = require('./getGridPosition');
 
 // Management position of annotation components.
