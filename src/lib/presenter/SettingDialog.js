@@ -81,7 +81,7 @@ module.exports = function(editor, editMode, typeGap) {
 		addTypeGap = function($content) {
 			var onTypeGapChange = debounce300(
 				function() {
-					typeGap.set($(this).val());
+					editMode.changeTypeGap($(this).val());
 					updateLineHeight(editMode, $content);
 				}
 			);
