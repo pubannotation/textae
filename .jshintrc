@@ -5,5 +5,6 @@
   "newcap": true,
   "noarg": true,
   "regexp": true,
-  "trailing": true
+  "trailing": true,
+  "predef": [ "-Promise" ]
 }

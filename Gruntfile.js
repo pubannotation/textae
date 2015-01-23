@@ -109,7 +109,7 @@ module.exports = function(grunt) {
       dev: {
         files: browserifyFiles,
         options: {
-          bundleOptions: {
+          browserifyOptions: {
             debug: true
           }
         }
@@ -134,7 +134,7 @@ module.exports = function(grunt) {
       developmentServer: {
         options: {
           middleware: function(connect, options) {
-            return [connect.static(options.base),
+            return [connect.static(options.base[0]),
               function(req, res) {
                 if (req.method === "POST") {
                   // concat recieved data.
