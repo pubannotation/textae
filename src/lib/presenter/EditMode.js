@@ -21,11 +21,7 @@ module.exports = function(model, viewMode, typeEditor, typeGap) {
     var api = {
             init: function() {
                 _.extend(api, state.init);
-            },
-            get lineHeight() {
-                return Math.floor(viewMode.getLineHeight());
-            },
-            changeLineHeight: viewMode.changeLineHeight
+            }
         },
         resetView = function() {
             typeEditor.hideDialogs();

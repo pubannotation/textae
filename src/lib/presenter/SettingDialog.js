@@ -24,11 +24,11 @@ var debounce300 = function(func) {
             editMode.showInstance ? 'checked' : null
         );
     },
-    updateLineHeight = function(editMode, $content) {
+    updateLineHeight = function(viewMode, $content) {
         return jQuerySugar.setValue(
             $content,
             '.line-height',
-            editMode.lineHeight
+            Math.floor(viewMode.getLineHeight())
         );
     },
     updateTypeGapValue = function(typeGap, $content) {
@@ -45,7 +45,7 @@ var debounce300 = function(func) {
         jQuerySugar.enabled(toTypeGap($content), editMode.showInstance);
         return $content;
     },
-    changeMode = function(editMode, typeGap, $content, checked) {
+    changeMode = function(editMode, typeGap, $content, checked, viewMode) {
         if (checked) {
             editMode.toInstance();
         } else {
@@ -53,14 +53,14 @@ var debounce300 = function(func) {
         }
         updateTypeGapEnable(editMode, $content);
         updateTypeGapValue(typeGap, $content);
-        updateLineHeight(editMode, $content);
+        updateLineHeight(viewMode, $content);
     },
     SettingDialogLabel = _.partial(jQuerySugar.Label, 'textae-editor__setting-dialog__label');
 
-module.exports = function(editor, editMode, typeGap) {
+module.exports = function(editor, editMode, typeGap, viewMode) {
     var addInstanceRelationView = function($content) {
             var onModeChanged = debounce300(function() {
-                changeMode(editMode, typeGap, $content, $(this).is(':checked'));
+                changeMode(editMode, typeGap, $content, $(this).is(':checked'), viewMode);
             });
 
             return $content
@@ -82,7 +82,7 @@ module.exports = function(editor, editMode, typeGap) {
             var onTypeGapChange = debounce300(
                 function() {
                     editMode.changeTypeGap($(this).val());
-                    updateLineHeight(editMode, $content);
+                    updateLineHeight(viewMode, $content);
                 }
             );
 
@@ -106,7 +106,7 @@ module.exports = function(editor, editMode, typeGap) {
                 );
         },
         addLineHeight = function($content) {
-            var changeLineHeight = _.compose(redrawAllEditor, editMode.changeLineHeight, sixteenTimes),
+            var changeLineHeight = _.compose(redrawAllEditor, viewMode.changeLineHeight, sixteenTimes),
                 onLineHeightChange = debounce300(
                     function() {
                         changeLineHeight($(this).val());
@@ -147,7 +147,7 @@ module.exports = function(editor, editMode, typeGap) {
     // Update values after creating a dialog because the dialog is re-used.
     return _.compose(
         open,
-        partialEditMode(updateLineHeight),
+        _.partial(updateLineHeight, viewMode),
         _.partial(updateTypeGapValue, typeGap),
         partialEditMode(updateTypeGapEnable),
         partialEditMode(updateViewMode),

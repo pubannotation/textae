@@ -64,7 +64,8 @@ module.exports = function(editor, model, view, command, spanConfig, clipBoard, b
         showSettingDialog = new SettingDialog(
             editor,
             editMode,
-            typeGap
+            typeGap,
+            viewMode
         ),
         editorSelected = function() {
             typeEditor.hideDialogs();
