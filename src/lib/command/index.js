@@ -236,7 +236,7 @@ module.exports = function(editor, model, history) {
         redo: function() {
             if (history.hasAnythingToRedo()) {
                 model.selectionModel.clear();
-                invoke(history.next());
+                invokeCommand.invoke(history.next());
             }
         },
         factory: factory
