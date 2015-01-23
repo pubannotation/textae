@@ -1,23 +1,11 @@
 {
   "name": "textae",
-  "version": "4.1.7",
   "description": "text annotation editor",
-  "main": "src/development.html",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "postinstall": "node_modules/bower/bin/bower install"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/jdkim/textae.git"
-  },
-  "keywords": [
-    "javascript",
-    "annotation",
-    "DBCLS"
-  ],
+  "version": "4.1.7",
   "author": "jdkim",
-  "license": "",
+  "dependencies": {
+    "promise": "^5.0.0"
+  },
   "devDependencies": {
     "bower": "^1.3.12",
     "grunt-browserify": "^2.1.4",
@@ -37,7 +25,19 @@
     "jsdom": "^0.11.1",
     "load-grunt-tasks": "~0.2.1"
   },
-  "dependencies": {
-    "promise": "^5.0.0"
+  "keywords": [
+    "javascript",
+    "annotation",
+    "DBCLS"
+  ],
+  "license": "",
+  "main": "src/development.html",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jdkim/textae.git"
+  },
+  "scripts": {
+    "postinstall": "node_modules/bower/bin/bower install",
+    "test": "echo \"Error: no test specified\" && exit 1"
   }
 }
