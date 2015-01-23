@@ -1,194 +1,78 @@
-var RemoveCommandsFromSelection = require('./RemoveCommandsFromSelection');
+var TypeEditor = require('./typeEditor/TypeEditor'),
+    EditMode = require('./EditMode'),
+    DefaultEntityHandler = require('./DefaultEntityHandler'),
+    ClipBoardHandler = require('./ClipBoardHandler'),
+    ModificationHandler = require('./ModificationHandler'),
+    EditHandler = require('./EditHandler'),
+    ToggleButtonHandler = require('./ToggleButtonHandler'),
+    SelectSpanHandler = require('./SelectSpanHandler'),
+    SetEditableHandler = require('./SetEditableHandler'),
+    SettingDialog = require('./SettingDialog'),
+    CursorChanger =  require('../util/CursorChanger');
 
 module.exports = function(editor, model, view, command, spanConfig, clipBoard, buttonController, viewMode, typeGap) {
-    var editorSelected = function() {
-            userEvent.viewHandler.hideDialogs();
+    var typeEditor = new TypeEditor(
+            editor,
+            model,
+            spanConfig,
+            command,
+            buttonController.modeAccordingToButton,
+            view.typeContainer
+        ),
+        editMode = new EditMode(model,
+            viewMode,
+            typeEditor,
+            typeGap
+        ),
+        defaultEntityHandler = new DefaultEntityHandler(
+            command,
+            model.annotationData,
+            model.selectionModel,
+            buttonController.modeAccordingToButton,
+            spanConfig,
+            view.typeContainer.entity
+        ),
+        clipBoardHandler = new ClipBoardHandler(
+            command,
+            model.annotationData,
+            model.selectionModel,
+            clipBoard
+        ),
+        modificationHandler = new ModificationHandler(
+            command,
+            model.annotationData,
+            buttonController.modeAccordingToButton,
+            typeEditor
+        ),
+        editHandler = new EditHandler(
+            command,
+            model.selectionModel,
+            typeEditor
+        ),
+        toggleButtonHandler = new ToggleButtonHandler(
+            buttonController.modeAccordingToButton,
+            editMode
+        ),
+        selectSpanHandler = new SelectSpanHandler(
+            model.annotationData,
+            model.selectionModel
+        ),
+        setEditableHandler = new SetEditableHandler(
+            model.annotationData,
+            editMode
+        ),
+        showSettingDialog = new SettingDialog(
+            editor,
+            editMode,
+            typeGap
+        ),
+        editorSelected = function() {
+            typeEditor.hideDialogs();
 
             // Select this editor.
             editor.eventEmitter.trigger('textae.editor.select');
             buttonController.buttonStateHelper.propagate();
-        },
-        typeEditor = require('./typeEditor/TypeEditor')(editor, model, spanConfig, command, buttonController.modeAccordingToButton, view.typeContainer),
-        userEvent = function() {
-            var editHandler = function() {
-                    var toggleModification = function(modificationType) {
-                            var isModificationType = function(modification) {
-                                    return modification.pred === modificationType;
-                                },
-                                getSpecificModification = function(id) {
-                                    return model.annotationData
-                                        .getModificationOf(id)
-                                        .filter(isModificationType);
-                                },
-                                commands,
-                                has = buttonController.modeAccordingToButton[modificationType.toLowerCase()].value();
-
-                            if (has) {
-                                commands = typeEditor.getSelectedIdEditable().map(function(id) {
-                                    var modification = getSpecificModification(id)[0];
-                                    return command.factory.modificationRemoveCommand(modification.id);
-                                });
-                            } else {
-                                commands = _.reject(typeEditor.getSelectedIdEditable(), function(id) {
-                                    return getSpecificModification(id).length > 0;
-                                }).map(function(id) {
-                                    return command.factory.modificationCreateCommand({
-                                        obj: id,
-                                        pred: modificationType
-                                    });
-                                });
-                            }
-
-                            command.invoke(commands);
-                        },
-                        getDetectBoundaryFunc = function() {
-                            if (buttonController.modeAccordingToButton['boundary-detection'].value())
-                                return spanConfig.isDelimiter;
-                            else
-                                return null;
-                        };
-
-                    return {
-                        replicate: function() {
-                            var spanId = model.selectionModel.span.single(),
-                                detectBoundaryFunc = getDetectBoundaryFunc();
-
-                            if (spanId) {
-                                command.invoke(
-                                    [command.factory.spanReplicateCommand(
-                                        view.typeContainer.entity.getDefaultType(),
-                                        model.annotationData.span.get(spanId),
-                                        detectBoundaryFunc
-                                    )]
-                                );
-                            } else {
-                                alert('You can replicate span annotation when there is only span selected.');
-                            }
-                        },
-                        createEntity: function() {
-                            var commands = model.selectionModel.span.all().map(function(spanId) {
-                                return command.factory.entityCreateCommand({
-                                    span: spanId,
-                                    type: view.typeContainer.entity.getDefaultType()
-                                });
-                            });
-
-                            command.invoke(commands);
-                        },
-                        newLabel: function() {
-                            if (model.selectionModel.entity.some() || model.selectionModel.relation.some()) {
-                                var newTypeLabel = prompt("Please enter a new label", "");
-                                if (newTypeLabel) {
-                                    typeEditor.setNewType(newTypeLabel);
-                                }
-                            }
-                        },
-                        negation: _.partial(toggleModification, 'Negation'),
-                        speculation: _.partial(toggleModification, 'Speculation'),
-                        removeSelectedElements: function() {
-                            var commands = new RemoveCommandsFromSelection(command, model.selectionModel);
-                            command.invoke(commands);
-                        },
-                        copyEntities: function() {
-                            // Unique Entities. Because a entity is deplicate When a span and thats entity is selected.
-                            clipBoard.clipBoard = _.uniq(
-                                function getEntitiesFromSelectedSpan() {
-                                    return _.flatten(model.selectionModel.span.all().map(function(spanId) {
-                                        return model.annotationData.span.get(spanId).getEntities();
-                                    }));
-                                }().concat(
-                                    model.selectionModel.entity.all()
-                                )
-                            ).map(function(entityId) {
-                                // Map entities to types, because entities may be delete.
-                                return model.annotationData.entity.get(entityId).type;
-                            });
-                        },
-                        pasteEntities: function() {
-                            // Make commands per selected spans from types in clipBoard.
-                            var commands = _.flatten(model.selectionModel.span.all().map(function(spanId) {
-                                return clipBoard.clipBoard.map(function(type) {
-                                    return command.factory.entityCreateCommand({
-                                        span: spanId,
-                                        type: type
-                                    });
-                                });
-                            }));
-
-                            command.invoke(commands);
-                        }
-                    };
-                }(),
-                viewHandler = function() {
-                    var editMode = require('./EditMode')(model, viewMode, typeEditor, typeGap),
-                        setViewMode = function(mode) {
-                            if (editMode['to' + mode]) {
-                                editMode['to' + mode]();
-                            }
-                        };
-
-                    return {
-                        showPallet: typeEditor.showPallet,
-                        hideDialogs: typeEditor.hideDialogs,
-                        cancelSelect: typeEditor.cancelSelect,
-                        selectLeftSpan: function() {
-                            var spanId = model.selectionModel.span.single();
-                            if (spanId) {
-                                var span = model.annotationData.span.get(spanId);
-                                model.selectionModel.clear();
-                                if (span.left) {
-                                    model.selectionModel.span.add(span.left.id);
-                                }
-                            }
-                        },
-                        selectRightSpan: function() {
-                            var spanId = model.selectionModel.span.single();
-                            if (spanId) {
-                                var span = model.annotationData.span.get(spanId);
-                                model.selectionModel.clear();
-                                if (span.right) {
-                                    model.selectionModel.span.add(span.right.id);
-                                }
-                            }
-                        },
-                        showSettingDialog: require('./SettingDialog')(editor, editMode, typeGap),
-                        toggleDetectBoundaryMode: function() {
-                            buttonController.modeAccordingToButton['boundary-detection'].toggle();
-                        },
-                        toggleRelationEditMode: function() {
-                            if (buttonController.modeAccordingToButton['relation-edit-mode'].value()) {
-                                editMode.toInstance();
-                            } else {
-                                editMode.toRelation();
-                            }
-                        },
-                        bindChangeViewMode: function() {
-                            var changeViewMode = function(prefix) {
-                                editMode.init();
-
-                                // Change view mode accoding to the annotation data.
-                                if (model.annotationData.relation.some() || model.annotationData.span.multiEntities().length > 0) {
-                                    setViewMode(prefix + 'Instance');
-                                } else {
-                                    setViewMode(prefix + 'Term');
-                                }
-                            };
-
-                            return function(mode) {
-                                var prefix = mode === 'edit' ? '' : 'View';
-                                model.annotationData.bind('all.change', _.partial(changeViewMode, prefix));
-                            };
-                        }()
-                    };
-                }();
-
-            return {
-                // User event to edit model
-                editHandler: editHandler,
-                // User event that does not change data.
-                viewHandler: viewHandler
-            };
-        }();
+        };
 
     return {
         init: function() {
@@ -200,7 +84,7 @@ module.exports = function(editor, model, view, command, spanConfig, clipBoard, b
                 });
 
             // Set cursor control by view rendering events.
-            var cursorChanger = require('../util/CursorChanger')(editor);
+            var cursorChanger =new CursorChanger(editor);
             view
                 .bind('render.start', function(editor) {
                     // console.log(editor.editorId, 'render.start');
@@ -211,24 +95,24 @@ module.exports = function(editor, model, view, command, spanConfig, clipBoard, b
                     cursorChanger.endWait();
                 });
         },
-        setMode: userEvent.viewHandler.bindChangeViewMode,
+        setMode: setEditableHandler.bindSetDefaultEditMode,
         event: {
             editorSelected: editorSelected,
-            copyEntities: userEvent.editHandler.copyEntities,
-            removeSelectedElements: userEvent.editHandler.removeSelectedElements,
-            createEntity: userEvent.editHandler.createEntity,
-            showPallet: userEvent.viewHandler.showPallet,
-            replicate: userEvent.editHandler.replicate,
-            pasteEntities: userEvent.editHandler.pasteEntities,
-            newLabel: userEvent.editHandler.newLabel,
-            cancelSelect: userEvent.viewHandler.cancelSelect,
-            selectLeftSpan: userEvent.viewHandler.selectLeftSpan,
-            selectRightSpan: userEvent.viewHandler.selectRightSpan,
-            toggleDetectBoundaryMode: userEvent.viewHandler.toggleDetectBoundaryMode,
-            toggleRelationEditMode: userEvent.viewHandler.toggleRelationEditMode,
-            negation: userEvent.editHandler.negation,
-            speculation: userEvent.editHandler.speculation,
-            showSettingDialog: userEvent.viewHandler.showSettingDialog
+            copyEntities: clipBoardHandler.copyEntities,
+            removeSelectedElements: editHandler.removeSelectedElements,
+            createEntity: defaultEntityHandler.createEntity,
+            showPallet: typeEditor.showPallet,
+            replicate: defaultEntityHandler.replicate,
+            pasteEntities: clipBoardHandler.pasteEntities,
+            newLabel: editHandler.newLabel,
+            cancelSelect: typeEditor.cancelSelect,
+            selectLeftSpan: selectSpanHandler.selectLeftSpan,
+            selectRightSpan: selectSpanHandler.selectRightSpan,
+            toggleDetectBoundaryMode: toggleButtonHandler.toggleDetectBoundaryMode,
+            toggleRelationEditMode: toggleButtonHandler.toggleRelationEditMode,
+            negation: modificationHandler.negation,
+            speculation: modificationHandler.speculation,
+            showSettingDialog: showSettingDialog
         }
     };
 };
