@@ -1,8 +1,3 @@
-// Run test with jQuery.
-global.window = require("jsdom")
-	.jsdom()
-	.createWindow();
-global.$ = require("jquery");
 var getUrlParameters = require('../../src/lib/util/getUrlParameters');
 
 describe("util getUrlParameters default", function() {
