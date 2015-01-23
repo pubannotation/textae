@@ -32,7 +32,7 @@ module.exports = function() {
         // Configulation of span
         spanConfig = require('./SpanConfig')(),
         // Users can edit model only via commands.
-        command = require('./model/Command')(this, model, history),
+        command = require('./command')(this, model, history),
         clipBoard = {
             // clipBoard has entity type.
             clipBoard: []
