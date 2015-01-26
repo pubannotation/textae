@@ -107,6 +107,8 @@ module.exports = function(editor, model, view, command, spanConfig, clipBoard, b
             typeGap.on('change', function(newValue) {
                 lineHeight.setToTypeGap(editor, model, newValue);
             });
+
+            defaultEntityHandler.on('createEntity', displayInstance.notifyNewInstance);
         },
         setMode: setEditableHandler.bindSetDefaultEditMode,
         event: {

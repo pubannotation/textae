@@ -54,6 +54,9 @@ var TypeGapCache = function() {
             },
             getTypeGap:function () {
                 return typeGap.get();
+            },
+            notifyNewInstance: function() {
+                if (!showInstance) toastr.success("an instance is created behind.");
             }
         };
     };
