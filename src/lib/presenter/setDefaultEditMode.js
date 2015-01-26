@@ -1,18 +1,11 @@
-var setViewMode = function(editMode, mode) {
-        if (editMode['to' + mode]) {
-            editMode['to' + mode]();
-        }
-    },
-    setDefaultEditMode = function(editMode, isEditable, annotationData) {
-        var prefix = isEditable ? '' : 'View';
-
-        editMode.init();
+var setDefaultEditMode = function(editMode, isEditable, annotationData) {
+        editMode.init(isEditable);
 
         // Change view mode accoding to the annotation data.
         if (annotationData.relation.some() || annotationData.span.multiEntities().length > 0) {
-            setViewMode(editMode, prefix + 'Instance');
+            editMode.toInstance();
         } else {
-            setViewMode(editMode, prefix + 'Term');
+            editMode.toTerm();
         }
     };
 

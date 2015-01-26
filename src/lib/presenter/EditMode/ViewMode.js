@@ -1,4 +1,5 @@
-var changeCssClass = function(editor, mode) {
+var Selector = require('../../view/Selector'),
+    changeCssClass = function(editor, mode) {
         editor
             .removeClass('textae-editor_term-mode')
             .removeClass('textae-editor_instance-mode')
@@ -7,7 +8,7 @@ var changeCssClass = function(editor, mode) {
     };
 
 module.exports = function(editor, model, buttonStateHelper, modeAccordingToButton) {
-    var selector = require('../view/Selector')(editor, model),
+    var selector = new Selector(editor, model),
         setSettingButtonEnable = _.partial(buttonStateHelper.enabled, 'setting', true),
         setControlButtonForRelation = function(isRelation) {
             buttonStateHelper.enabled('replicate-auto', !isRelation);

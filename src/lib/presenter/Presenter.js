@@ -1,5 +1,6 @@
 var TypeEditor = require('./typeEditor/TypeEditor'),
     EditMode = require('./EditMode'),
+    DisplayInstance = require('./DisplayInstance'),
     DefaultEntityHandler = require('./DefaultEntityHandler'),
     ClipBoardHandler = require('./ClipBoardHandler'),
     ModificationHandler = require('./ModificationHandler'),
@@ -24,10 +25,13 @@ module.exports = function(editor, model, view, command, spanConfig, clipBoard, b
             editor,
             model,
             typeEditor,
-            typeGap,
             buttonController.buttonStateHelper,
             buttonController.modeAccordingToButton
         ),
+        displayInstance = new DisplayInstance(
+            typeGap,
+            editMode
+            ),
         defaultEntityHandler = new DefaultEntityHandler(
             command,
             model.annotationData,
@@ -68,7 +72,7 @@ module.exports = function(editor, model, view, command, spanConfig, clipBoard, b
         showSettingDialog = new SettingDialog(
             editor,
             editMode,
-            typeGap
+            displayInstance
         ),
         editorSelected = function() {
             typeEditor.hideDialogs();
