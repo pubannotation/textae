@@ -19,7 +19,7 @@ var TitleDom = function() {
     },
     makeButtons = function($control, buttonMap) {
         var buttonContainer = {},
-            // Make a group of buttons that is headed by the separator. 
+            // Make a group of buttons that is headed by the separator.
             icons = _.flatten(buttonMap.map(function(params) {
                 var buttons = _.map(params, function(title, buttonType) {
                     var button = new ButtonDom(buttonType, title);
@@ -104,7 +104,7 @@ module.exports = function($control) {
             'replicate': 'Replicate span annotation [R]',
             'replicate-auto': 'Auto replicate',
             'boundary-detection': 'Boundary Detection [B]',
-            'relation-edit-mode': 'Edit Relation [F]'
+            'relation-edit-mode': 'Relation Edit Mode [F]'
         }, {
             'entity': 'New entity [E]',
             'pallet': 'Select label [Q]',
