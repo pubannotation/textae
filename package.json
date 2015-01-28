@@ -10,6 +10,7 @@
   "devDependencies": {
     "bower": "^1.3.12",
     "grunt-browserify": "^3.3.0",
+    "grunt-cli": "^0.1.13",
     "grunt-contrib-clean": "^0.6.0",
     "grunt-contrib-concat": "^0.5.0",
     "grunt-contrib-connect": "^0.9.0",
@@ -36,6 +37,7 @@
     "url": "https://github.com/jdkim/textae.git"
   },
   "scripts": {
+    "watch": "grunt dev",
     "postinstall": "node_modules/bower/bin/bower install",
     "test": "grunt jasmine_node"
   }
