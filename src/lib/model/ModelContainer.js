@@ -1,15 +1,4 @@
-var createId = function(prefix, getIdsFunction) {
-        var ids = getIdsFunction()
-            .filter(function(id) {
-                return id[0] === prefix;
-            })
-            .map(function(id) {
-                return id.slice(1);
-            });
-
-        // The Math.max retrun -Infinity when the second argument array is empty.
-        return prefix + (ids.length === 0 ? 1 : Math.max.apply(null, ids) + 1);
-    },
+var getNextId = require('./getNextId'),
     ERROR_MESSAGE = 'Set the mappingFunction by the constructor to use the method "ModelContainer.setSource".';
 
 module.exports = function(eventEmitter, prefix, mappingFunction) {
@@ -17,10 +6,10 @@ module.exports = function(eventEmitter, prefix, mappingFunction) {
         getIds = function() {
             return Object.keys(contaier);
         },
-        getNewId = _.partial(createId, prefix ? prefix.charAt(0).toUpperCase() : '', getIds),
+        getNewId = _.partial(getNextId, prefix.charAt(0).toUpperCase()),
         add = function(model) {
             // Overwrite to revert
-            model.id = model.id || getNewId();
+            model.id = model.id || getNewId(getIds());
             contaier[model.id] = model;
             return model;
         },
