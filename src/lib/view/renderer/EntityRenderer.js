@@ -34,8 +34,8 @@ var // Arrange a position of the pane to center entities when entities width is 
 		}
 		return type;
 	},
-	idFactory = require('../../util/IdFactory'),
-	domUtil = require('../../util/DomUtil');
+	idFactory = require('../../util/idFactory'),
+	domUtil = require('../../util/domUtil');
 
 module.exports = function(editor, model, typeContainer, gridRenderer, modification) {
 	var getTypeDom = function(spanId, type) {

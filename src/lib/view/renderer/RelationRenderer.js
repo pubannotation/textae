@@ -33,7 +33,7 @@ var POINTUP_LINE_WIDTH = 3,
 	},
 	// A Module to modify jsPlumb Arrow Overlays.
 	jsPlumbArrowOverlayUtil = require('./jsPlumbArrowOverlayUtil'),
-	domUtil = require('../../util/DomUtil');
+	domUtil = require('../../util/domUtil');
 
 module.exports = function(editor, model, typeContainer, modification) {
 	// Init a jsPlumb instance.

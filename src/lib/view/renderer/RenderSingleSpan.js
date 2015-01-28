@@ -7,7 +7,7 @@ var createSpanRange = require('./createSpanRange'),
     element.setAttribute('class', 'textae-editor__span');
     return element;
   },
-  domUtil = require('../../util/DomUtil'),
+  domUtil = require('../../util/domUtil'),
   RenderSingleSpan = function(editor) {
     var getFirstTextNodeFromSpan = _.compose(getFirstTextNode, domUtil.selector.span.get),
       getFirstTextNodeFromParagraph = _.compose(getFirstTextNode, function(id) {

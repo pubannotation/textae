@@ -13,7 +13,7 @@ var createGrid = function(domPositionCache, container, spanId) {
 
     return $grid;
 },
-domUtil = require('../../util/DomUtil');
+domUtil = require('../../util/domUtil');
 
 module.exports = function(editor, domPositionCache) {
     var init = function(container) {

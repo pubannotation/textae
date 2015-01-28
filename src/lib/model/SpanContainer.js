@@ -1,4 +1,4 @@
-var idFactory = require('../util/IdFactory');
+var idFactory = require('../util/idFactory');
 
 module.exports = function(editor, annotationDataApi, paragraph) {
 	var toSpanModel = function() {

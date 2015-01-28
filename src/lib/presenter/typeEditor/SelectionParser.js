@@ -1,4 +1,4 @@
-var domUtil = require('../../util/DomUtil');
+var domUtil = require('../../util/domUtil');
 
 module.exports = function(editor, model) {
 	var selectPosition = require('./selectPosition'),

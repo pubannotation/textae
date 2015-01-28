@@ -1,4 +1,4 @@
-var idFactory = require('../../util/IdFactory'),
+var idFactory = require('../../util/idFactory'),
 	moveSpan = function(editor, command, spanId, newSpan) {
         // Do not need move.
         if (spanId === idFactory.makeSpanId(editor, newSpan)) {
