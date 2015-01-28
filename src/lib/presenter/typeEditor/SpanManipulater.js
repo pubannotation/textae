@@ -48,12 +48,22 @@ module.exports = function(model, spanAdjuster) {
                 var span = model.annotationData.span.get(spanId);
                 if (selectionRange.compareBoundaryPoints(Range.START_TO_START, focusNodeRange) > 0) {
                     // shorten the right boundary
+                    if (span.begin === focusPosition) return {
+                        begin: span.begin,
+                        end: span.begin
+                    };
+
                     return {
                         begin: span.begin,
                         end: spanAdjuster.backFromEnd(model.annotationData.sourceDoc, focusPosition - 1, spanConfig) + 1
                     };
                 } else {
                     // shorten the left boundary
+                    if (span.end === focusPosition) return {
+                        begin: span.end,
+                        end: span.end
+                    };
+
                     return {
                         begin: spanAdjuster.forwardFromBegin(model.annotationData.sourceDoc, focusPosition, spanConfig),
                         end: span.end

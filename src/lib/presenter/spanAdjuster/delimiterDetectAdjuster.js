@@ -33,9 +33,10 @@ var skipCharacters = require('./skipCharacters'),
             }
         );
     },
-    // Proceed the position between two characters as (blank || delimiter)(!delimiter). 
-    isWord = function(isBlankCharacter, isDelimiter, chars) {
-        return !isBlankCharacter(chars[1]) &&
+    isNotWord = function(isBlankCharacter, isDelimiter, chars) {
+        // The word is (no charactor || blank || delimiter)(!delimiter).
+        return chars[0] !== '' &&
+            !isBlankCharacter(chars[1]) &&
             !isDelimiter(chars[1]) ||
             isDelimiter(chars[0]);
     },
@@ -69,12 +70,12 @@ var skipCharacters = require('./skipCharacters'),
     },
     // adjust the beginning position of a span for shortening
     forwardFromBegin = function(str, beginPosition, spanConfig) {
-        var isWordEdge = _.partial(isWord, spanConfig.isBlankCharacter, spanConfig.isDelimiter);
+        var isWordEdge = _.partial(isNotWord, spanConfig.isBlankCharacter, spanConfig.isDelimiter);
         return skipToWord(str, beginPosition, isWordEdge);
     },
     // adjust the end position of a span for shortening
     backFromEnd = function(str, endPosition, spanConfig) {
-        var isWordEdge = _.partial(isWord, spanConfig.isBlankCharacter, spanConfig.isDelimiter);
+        var isWordEdge = _.partial(isNotWord, spanConfig.isBlankCharacter, spanConfig.isDelimiter);
         return backToWord(str, endPosition, isWordEdge);
     };
 
