@@ -1,16 +1,16 @@
 var invokeCommand = require('./invokeCommand'),
     commandTemplate = require('./commandTemplate'),
     executeCompositCommand = require('./executeCompositCommand'),
-    getReplicationSpans = require('./getReplicationSpans');
+    getReplicationSpans = require('./getReplicationSpans'),
+    idFactory = require('../util/IdFactory');
 
 // A command is an operation by user that is saved as history, and can undo and redo.
 // Users can edit model only via commands.
 module.exports = function(editor, model, history) {
-    var idFactory = require('../util/IdFactory')(editor),
-        spanCreateCommand = _.partial(commandTemplate.create, model, 'span', true),
+    var spanCreateCommand = _.partial(commandTemplate.create, model, 'span', true),
         entityCreateCommand = _.partial(commandTemplate.create, model, 'entity', true),
         spanAndDefaultEntryCreateCommand = function(type, span) {
-            var id = idFactory.makeSpanId(span),
+            var id = idFactory.makeSpanId(editor, span),
                 createSpan = spanCreateCommand(span),
                 createEntity = entityCreateCommand({
                     span: id,
@@ -168,7 +168,7 @@ module.exports = function(editor, model, history) {
         },
         spanMoveCommand = function(spanId, newSpan) {
             var subCommands = [],
-                newSpanId = idFactory.makeSpanId(newSpan),
+                newSpanId = idFactory.makeSpanId(editor, newSpan),
                 d = model.annotationData;
 
             if (!d.span.get(newSpanId)) {

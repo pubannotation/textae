@@ -1,11 +1,12 @@
+var idFactory = require('../util/IdFactory');
+
 module.exports = function(editor, annotationDataApi, paragraph) {
-	var idFactory = require('../util/IdFactory')(editor),
-		toSpanModel = function() {
+	var toSpanModel = function() {
 			var spanExtension = {
 				isChildOf: function(maybeParent) {
 					if (!maybeParent) return false;
 
-					var id = idFactory.makeSpanId(maybeParent);
+					var id = idFactory.makeSpanId(editor, maybeParent);
 					if (!spanContainer.get(id)) throw new Error('maybeParent is removed. ' + maybeParent.toStringOnlyThis());
 
 					return maybeParent.begin <= this.begin && this.end <= maybeParent.end;
@@ -76,7 +77,7 @@ module.exports = function(editor, annotationDataApi, paragraph) {
 			return function(span) {
 				return $.extend({},
 					span, {
-						id: idFactory.makeSpanId(span),
+						id: idFactory.makeSpanId(editor, span),
 						paragraph: paragraph.getBelongingTo(span),
 					},
 					spanExtension);

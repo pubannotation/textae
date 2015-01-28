@@ -1,13 +1,14 @@
+var idFactory = require('../util/IdFactory');
+
 module.exports = function(editor, annotationDataApi) {
-	var idFactory = require('../util/IdFactory')(editor),
-		mappingFunction = function(sourceDoc) {
+	var mappingFunction = function(sourceDoc) {
 			sourceDoc = sourceDoc || [];
 			var textLengthBeforeThisParagraph = 0;
 
 			return sourceDoc.split("\n")
 				.map(function(p, index) {
 					var ret = {
-						id: idFactory.makeParagraphId(index),
+						id: idFactory.makeParagraphId(editor, index),
 						begin: textLengthBeforeThisParagraph,
 						end: textLengthBeforeThisParagraph + p.length,
 					};

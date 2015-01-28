@@ -33,11 +33,11 @@ var // Arrange a position of the pane to center entities when entities width is 
 			}
 		}
 		return type;
-	};
+	},
+	idFactory = require('../../util/IdFactory');
 
 module.exports = function(editor, model, typeContainer, gridRenderer, modification) {
 	var domUtil = require('../../util/DomUtil')(editor),
-		idFactory = require('../../util/IdFactory')(editor),
 		getTypeDom = function(spanId, type) {
 			return $('#' + idFactory.makeTypeId(spanId, type));
 		},
@@ -66,7 +66,7 @@ module.exports = function(editor, model, typeContainer, gridRenderer, modificati
 		}(),
 		// An entity is a circle on Type that is an endpoint of a relation.
 		// A span have one grid and a grid can have multi types and a type can have multi entities.
-		// A grid is only shown when at least one entity is owned by a correspond span.  
+		// A grid is only shown when at least one entity is owned by a correspond span.
 		create = function() {
 			//render type unless exists.
 			var getTypeElement = function() {
@@ -133,7 +133,7 @@ module.exports = function(editor, model, typeContainer, gridRenderer, modificati
 				}(),
 				createEntityElement = function(entity) {
 					var $entity = $('<div>')
-						.attr('id', idFactory.makeEntityDomId(entity.id))
+						.attr('id', idFactory.makeEntityDomId(editor, entity.id))
 						.attr('title', entity.id)
 						.attr('type', entity.type)
 						.addClass('textae-editor__entity')
@@ -190,7 +190,7 @@ module.exports = function(editor, model, typeContainer, gridRenderer, modificati
 		},
 		destroy = function(entity) {
 			if (doesSpanHasNoEntity(entity.span)) {
-				// Destroy a grid when all entities are remove. 
+				// Destroy a grid when all entities are remove.
 				gridRenderer.remove(entity.span);
 			} else {
 				// Destroy an each entity.

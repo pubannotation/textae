@@ -1,6 +1,6 @@
-module.exports = function(editor) {
-	var idFactory = require('../util/IdFactory')(editor);
+var idFactory = require('../util/IdFactory');
 
+module.exports = function(editor) {
 	return {
 		selector: {
 			span: {
@@ -10,7 +10,7 @@ module.exports = function(editor) {
 			},
 			entity: {
 				get: function(entityId) {
-					return editor.find('#' + idFactory.makeEntityDomId(entityId));
+					return editor.find('#' + idFactory.makeEntityDomId(editor, entityId));
 				}
 			},
 			grid: {
