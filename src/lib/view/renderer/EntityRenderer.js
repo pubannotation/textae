@@ -34,11 +34,11 @@ var // Arrange a position of the pane to center entities when entities width is 
 		}
 		return type;
 	},
-	idFactory = require('../../util/IdFactory');
+	idFactory = require('../../util/IdFactory'),
+	domUtil = require('../../util/DomUtil');
 
 module.exports = function(editor, model, typeContainer, gridRenderer, modification) {
-	var domUtil = require('../../util/DomUtil')(editor),
-		getTypeDom = function(spanId, type) {
+	var getTypeDom = function(spanId, type) {
 			return $('#' + idFactory.makeTypeId(spanId, type));
 		},
 		doesSpanHasNoEntity = function(spanId) {
@@ -53,7 +53,7 @@ module.exports = function(editor, model, typeContainer, gridRenderer, modificati
 
 			return function(entity) {
 				// Get old type from Dom, Because the entity may have new type when changing type of the entity.
-				var oldType = domUtil.selector.entity.get(entity.id).remove().attr('type');
+				var oldType = domUtil.selector.entity.get(entity.id, editor).remove().attr('type');
 
 				// Delete type if no entity.
 				if (doesTypeHasNoEntity(entity, oldType)) {
@@ -185,7 +185,7 @@ module.exports = function(editor, model, typeContainer, gridRenderer, modificati
 			return entity;
 		},
 		changeModificationOfExists = function(entity) {
-			var $entity = domUtil.selector.entity.get(entity.id);
+			var $entity = domUtil.selector.entity.get(entity.id, editor);
 			modification.update($entity, entity.id);
 		},
 		destroy = function(entity) {

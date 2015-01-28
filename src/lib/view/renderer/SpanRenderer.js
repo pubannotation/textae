@@ -11,11 +11,11 @@ var exists = function(span) {
       })
       .filter(isBlock)
       .length > 0;
-  };
+  },
+  domUtil = require('../../util/DomUtil');
 
 module.exports = function(editor, model, typeContainer, entityRenderer, gridRenderer) {
-  var domUtil = require('../../util/DomUtil')(editor),
-    renderSingleSpan = require('./RenderSingleSpan')(editor),
+  var renderSingleSpan = require('./RenderSingleSpan')(editor),
     renderBlockOfSpan = function(span, clearCache) {
       var $span = domUtil.selector.span.get(span.id);
 

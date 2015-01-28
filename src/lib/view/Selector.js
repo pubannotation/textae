@@ -1,10 +1,10 @@
-var selectionClass = require('./selectionClass');
+var selectionClass = require('./selectionClass'),
+    domUtil = require('../util/DomUtil');
 
 module.exports = function(editor, model) {
 	var domPositionCaChe = require('./DomPositionCache')(editor, model.annotationData.entity),
-		domUtil = require('../util/DomUtil')(editor),
 		modify = function(type, handle, id) {
-			var $elment = domUtil.selector[type].get(id);
+			var $elment = domUtil.selector[type].get(id, editor);
 			selectionClass[handle + 'Class']($elment);
 		},
 		selectSpan = _.partial(modify, 'span', 'add'),
@@ -28,7 +28,7 @@ module.exports = function(editor, model) {
 			deselectRelation(relationId);
 		}, // Select the typeLabel if all entities is selected.
 		updateEntityLabel = function(entityId) {
-			var $entity = domUtil.selector.entity.get(entityId),
+			var $entity = domUtil.selector.entity.get(entityId, editor),
 				$typePane = $entity.parent(),
 				$typeLabel = $typePane.prev();
 

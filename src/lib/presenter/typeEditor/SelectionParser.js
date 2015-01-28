@@ -1,6 +1,7 @@
+var domUtil = require('../../util/DomUtil');
+
 module.exports = function(editor, model) {
 	var selectPosition = require('./selectPosition'),
-		domUtil = require('../../util/DomUtil')(editor),
 		// A span cannot be created include nonEdgeCharacters only.
 		hasCharacters = function(spanConfig, selection) {
 			if (!selection) return false;

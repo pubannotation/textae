@@ -12,11 +12,11 @@ var createGrid = function(domPositionCache, container, spanId) {
     container.append($grid);
 
     return $grid;
-};
+},
+domUtil = require('../../util/DomUtil');
 
 module.exports = function(editor, domPositionCache) {
-    var domUtil = require('../../util/DomUtil')(editor),
-    init = function(container) {
+    var init = function(container) {
         api.render = _.partial(createGrid, domPositionCache, container);
     },
     destroyGrid = function(spanId) {

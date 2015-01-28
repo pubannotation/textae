@@ -49,9 +49,8 @@ var Cache = function() {
             clear: clear
         };
     }(),
+    domUtil = require('../util/DomUtil'),
     createNewCache = function(editor, entityModel) {
-        var domUtil = require('../util/DomUtil')(editor);
-
         // The chache for position of grids.
         // This is updated at arrange position of grids.
         // This is referenced at create or move relations.
@@ -62,7 +61,7 @@ var Cache = function() {
             }
         });
 
-        // The posion of the text-box to calculate span postion; 
+        // The posion of the text-box to calculate span postion;
         var getTextNodeFunc = function() {
                 return editor.find('.textae-editor__body__text-box').offset();
             },
@@ -83,7 +82,7 @@ var Cache = function() {
                 };
             },
             getEntityFunc = function(entityId) {
-                var $entity = domUtil.selector.entity.get(entityId);
+                var $entity = domUtil.selector.entity.get(entityId, editor);
                 if ($entity.length === 0) {
                     throw new Error("entity is not rendered : " + entityId);
                 }
@@ -106,7 +105,7 @@ var Cache = function() {
 
         // The cache for span positions.
         // Getting the postion of spans is too slow about 5-10 ms per a element in Chrome browser. For example offsetTop property.
-        // This cache is big effective for the initiation, and little effective for resize. 
+        // This cache is big effective for the initiation, and little effective for resize.
         var getSpan = cacheMan.create(getSpanFunc);
         var getEntity = cacheMan.create(getEntityFunc);
 

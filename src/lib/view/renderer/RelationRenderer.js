@@ -32,12 +32,12 @@ var POINTUP_LINE_WIDTH = 3,
 		return labelOverlay;
 	},
 	// A Module to modify jsPlumb Arrow Overlays.
-	jsPlumbArrowOverlayUtil = require('./jsPlumbArrowOverlayUtil');
+	jsPlumbArrowOverlayUtil = require('./jsPlumbArrowOverlayUtil'),
+	domUtil = require('../../util/DomUtil');
 
 module.exports = function(editor, model, typeContainer, modification) {
 	// Init a jsPlumb instance.
-	var domUtil = require('../../util/DomUtil')(editor),
-		domPositionCaChe = require('../DomPositionCache')(editor, model.annotationData.entity),
+	var domPositionCaChe = require('../DomPositionCache')(editor, model.annotationData.entity),
 		jsPlumbInstance,
 		init = function(container) {
 			jsPlumbInstance = makeJsPlumbInstance(container);
@@ -114,8 +114,8 @@ module.exports = function(editor, model, typeContainer, modification) {
 				createJsPlumbConnect = function(relation) {
 					// Make a connect by jsPlumb.
 					return jsPlumbInstance.connect({
-						source: domUtil.selector.entity.get(relation.subj),
-						target: domUtil.selector.entity.get(relation.obj),
+						source: domUtil.selector.entity.get(relation.subj, editor),
+						target: domUtil.selector.entity.get(relation.obj, editor),
 						anchors: ['TopCenter', "TopCenter"],
 						connector: ['Bezier', {
 							curviness: determineCurviness(relation.id)
