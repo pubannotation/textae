@@ -1,12 +1,12 @@
 var getNextId = require('./getNextId'),
     ERROR_MESSAGE = 'Set the mappingFunction by the constructor to use the method "ModelContainer.setSource".';
 
-module.exports = function(eventEmitter, prefix, mappingFunction) {
+module.exports = function(eventEmitter, prefix, mappingFunction, idPrefix) {
     var contaier = {},
         getIds = function() {
             return Object.keys(contaier);
         },
-        getNewId = _.partial(getNextId, prefix.charAt(0).toUpperCase()),
+        getNewId = _.partial(getNextId, idPrefix ? idPrefix : prefix.charAt(0).toUpperCase()),
         add = function(model) {
             // Overwrite to revert
             model.id = model.id || getNewId(getIds());
