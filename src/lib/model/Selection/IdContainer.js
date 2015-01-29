@@ -1,5 +1,5 @@
 module.exports = function(kindName) {
-	var extendBindable = require('../util/extendBindable'),
+	var extendBindable = require('../../util/extendBindable'),
 		selected = {},
 		triggerChange = function() {
 			api.trigger(kindName + '.change');

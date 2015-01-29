@@ -36,7 +36,7 @@ var clearAll = function(containerList) {
 
 module.exports = function(kinds) {
 	var containerList = kinds.map(require('./IdContainer')),
-		api = require('../util/extendBindable')(
+		api = require('../../util/extendBindable')(
 			containerList
 			.reduce(function(a, b) {
 				a[b.name] = b;
