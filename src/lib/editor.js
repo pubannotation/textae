@@ -1,4 +1,13 @@
-var Controller = require('./Controller'),
+// model manages data objects.
+var Model = require('./model/Model'),
+    // The history of command that providing undo and redo.
+    History = require('./model/History'),
+    SpanConfig = require('./SpanConfig'),
+    Command = require('./command'),
+    ButtonController = require('./view/ButtonController'),
+    View = require('./view/View'),
+    Presenter = require('./presenter/Presenter'),
+    Controller = require('./Controller'),
     createDaoForEditor = require('./createDaoForEditor'),
     getParams = require('./getParams'),
     setTypeConfig = function(view, config) {
@@ -14,32 +23,31 @@ var Controller = require('./Controller'),
     handle = function(map, key, value) {
         if (map[key]) map[key](value);
     },
+    StatusBar = require('./component/StatusBar'),
     getStatusBar = function(editor, status_bar) {
         if (status_bar === 'on')
-            return require('./component/StatusBar')(editor);
+            return new StatusBar(editor);
         return {
             status: function() {}
         };
     },
-    ObservableValue = require('./util/ObservableValue');
+    ObservableValue = require('./util/ObservableValue'),
+    ajaxAccessor = require('./util/ajaxAccessor');
 
 module.exports = function() {
-    // model manages data objects.
-    var model = require('./model/Model')(this),
-        // The history of command that providing undo and redo.
-        history = require('./model/History')(),
-        // Configulation of span
-        spanConfig = require('./SpanConfig')(),
+    var model = new Model(this),
+        history = new History(),
+        spanConfig = new SpanConfig(),
         // Users can edit model only via commands.
-        command = require('./command')(this, model, history),
+        command = new Command(this, model, history),
         clipBoard = {
             // clipBoard has entity type.
             clipBoard: []
         },
-        buttonController = require('./view/ButtonController')(this, model, clipBoard),
+        buttonController = new ButtonController(this, model, clipBoard),
         typeGap = new ObservableValue(-1),
-        view = require('./view/View')(this, model, buttonController, typeGap.get),
-        presenter = require('./presenter/Presenter')(this, model, view, command, spanConfig, clipBoard, buttonController, typeGap),
+        view = new View(this, model, buttonController, typeGap.get),
+        presenter = new Presenter(this, model, view, command, spanConfig, clipBoard, buttonController, typeGap),
         //handle user input event.
         controller = new Controller(this, history, presenter, view, buttonController.buttonStateHelper),
         setTypeConfigToView = _.partial(setTypeConfig, view),
@@ -63,7 +71,7 @@ module.exports = function() {
             spanConfig.reset();
 
             if (typeof config === 'string') {
-                require('./util/ajaxAccessor')
+                ajaxAccessor
                     .getAsync(config,
                         function(configFromServer) {
                             setSpanAndTypeConfig(configFromServer);
