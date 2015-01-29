@@ -99,7 +99,7 @@ module.exports = function() {
             }
         };
 
-        typeGap.on('change', view.setTypeGap);
+    typeGap.on('change', view.setTypeGap);
 
     // public funcitons of editor
     this.api = function(editor) {
@@ -192,4 +192,4 @@ module.exports = function() {
     }(this);
 
     return this;
-};
+};
