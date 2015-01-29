@@ -1,5 +1,5 @@
 var EntityContainer = require('./EntityContainer'),
-    extendBindable = require('../util/extendBindable'),
+    extendBindable = require('../../util/extendBindable'),
     parseBaseText = function(dataStore, paragraph, eventEmitter, sourceDoc) {
         if (sourceDoc) {
             // Parse paragraphs

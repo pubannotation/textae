@@ -1,4 +1,4 @@
-var idFactory = require('../util/idFactory');
+var idFactory = require('../../util/idFactory');
 
 module.exports = function(editor, annotationDataApi, paragraph) {
 	var toSpanModel = function() {
@@ -83,7 +83,7 @@ module.exports = function(editor, annotationDataApi, paragraph) {
 					spanExtension);
 			};
 		}(),
-		isBoundaryCrossingWithOtherSpans = require('./isBoundaryCrossingWithOtherSpans'),
+		isBoundaryCrossingWithOtherSpans = require('../isBoundaryCrossingWithOtherSpans'),
 		mappingFunction = function(denotations) {
 			denotations = denotations || [];
 			return denotations.map(function(entity) {

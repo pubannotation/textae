@@ -1,8 +1,8 @@
-var AnntationData = require('./AnntationData');
+var AnnotationData = require('./AnnotationData');
 
 module.exports = function(editor) {
     return {
-        annotationData: new AnntationData(editor),
+        annotationData: new AnnotationData(editor),
         // A contaier of selection state.
         selectionModel: require('./Selection')(['span', 'entity', 'relation'])
     };

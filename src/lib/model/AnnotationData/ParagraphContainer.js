@@ -1,4 +1,4 @@
-var idFactory = require('../util/idFactory');
+var idFactory = require('../../util/idFactory');
 
 module.exports = function(editor, annotationDataApi) {
 	var mappingFunction = function(sourceDoc) {
