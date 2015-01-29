@@ -1,11 +1,15 @@
-var EntityContainer = require('./EntityContainer'),
+var EventEmitter = require('events').EventEmitter,
+    ModelContainer = require('./ModelContainer'),
+    ParagraphContainer = require('./ParagraphContainer'),
+    SpanContainer = require('./SpanContainer'),
+    EntityContainer = require('./EntityContainer'),
     extendBindable = require('../../util/extendBindable'),
-    parseBaseText = function(dataStore, paragraph, eventEmitter, sourceDoc) {
+    parseBaseText = function(dataStore, paragraph, emitter, sourceDoc) {
         if (sourceDoc) {
             // Parse paragraphs
             paragraph.addSource(sourceDoc);
 
-            eventEmitter.trigger('change-text', {
+            emitter.emit('change-text', {
                 sourceDoc: sourceDoc,
                 paragraphs: paragraph.all()
             });
@@ -28,10 +32,10 @@ var EntityContainer = require('./EntityContainer'),
     },
     AnntationData = function(editor) {
         var originalData,
-            eventEmitter = extendBindable({}),
-            ModelContainerForAnnotationData = _.partial(require('./ModelContainer'), eventEmitter),
-            paragraph = require('./ParagraphContainer')(editor, eventEmitter),
-            span = require('./SpanContainer')(editor, eventEmitter, paragraph),
+            emitter = new EventEmitter(),
+            ModelContainerForAnnotationData = _.partial(ModelContainer, emitter),
+            paragraph = new ParagraphContainer(editor, emitter),
+            span = new SpanContainer(editor, emitter, paragraph),
             relation = new ModelContainerForAnnotationData('relation', function(relations) {
                 relations = relations || [];
                 return relations.map(function(r) {
@@ -43,9 +47,9 @@ var EntityContainer = require('./EntityContainer'),
                     };
                 });
             }),
-            entity = new EntityContainer(editor, eventEmitter, relation),
+            entity = new EntityContainer(editor, emitter, relation),
             modification = new ModelContainerForAnnotationData('modification', _.identity),
-            dataStore = _.extend(eventEmitter, {
+            dataStore = _.extend(emitter, {
                 span: span,
                 entity: entity,
                 relation: relation,
@@ -61,7 +65,7 @@ var EntityContainer = require('./EntityContainer'),
                 dataStore.paragraph.clear
             ),
             setNewData = function(annotation) {
-                parseBaseText(dataStore, paragraph, eventEmitter, annotation.text);
+                parseBaseText(dataStore, paragraph, emitter, annotation.text);
                 parseTracks(span, entity, relation, modification, annotation);
                 parseAnnotations(span, entity, relation, modification, annotation);
 
@@ -112,7 +116,7 @@ var EntityContainer = require('./EntityContainer'),
                 try {
                     clearAnnotationData();
                     setNewData(annotation);
-                    eventEmitter.trigger('all.change', eventEmitter);
+                    emitter.emit('all.change', emitter);
                 } catch (error) {
                     console.error(error, error.stack);
                 }

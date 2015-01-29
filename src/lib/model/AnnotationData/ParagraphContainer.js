@@ -1,6 +1,7 @@
-var idFactory = require('../../util/idFactory');
+var idFactory = require('../../util/idFactory'),
+    ModelContainer = require('./ModelContainer');
 
-module.exports = function(editor, annotationDataApi) {
+module.exports = function(editor, emitter) {
     var mappingFunction = function(sourceDoc) {
             sourceDoc = sourceDoc || [];
             var textLengthBeforeThisParagraph = 0;
@@ -17,7 +18,7 @@ module.exports = function(editor, annotationDataApi) {
                     return ret;
                 });
         },
-        contaier = require('./ModelContainer')(annotationDataApi, 'paragraph', mappingFunction),
+        contaier = new ModelContainer(emitter, 'paragraph', mappingFunction),
         api = _.extend(contaier, {
             //get the paragraph that span is belong to.
             getBelongingTo: function(span) {

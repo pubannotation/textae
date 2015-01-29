@@ -1,6 +1,7 @@
-var idFactory = require('../../util/idFactory');
+var idFactory = require('../../util/idFactory'),
+    ModelContainer = require('./ModelContainer');
 
-module.exports = function(editor, annotationDataApi, paragraph) {
+module.exports = function(editor, emitter, paragraph) {
     var toSpanModel = function() {
             var spanExtension = {
                 isChildOf: function(maybeParent) {
@@ -13,7 +14,7 @@ module.exports = function(editor, annotationDataApi, paragraph) {
                 },
                 //for debug. print myself only.
                 toStringOnlyThis: function() {
-                    return "span " + this.begin + ":" + this.end + ":" + annotationDataApi.sourceDoc.substring(this.begin, this.end);
+                    return "span " + this.begin + ":" + this.end + ":" + emitter.sourceDoc.substring(this.begin, this.end);
                 },
                 //for debug. print with children.
                 toString: function(depth) {
@@ -44,7 +45,7 @@ module.exports = function(editor, annotationDataApi, paragraph) {
                     var spanId = this.id;
 
                     // Return an array of type like { id : "editor2__S1741_1755-1", name: "Negative_regulation", entities: ["E16", "E17"] }.
-                    return annotationDataApi.entity.all()
+                    return emitter.entity.all()
                         .filter(function(entity) {
                             return spanId === entity.span;
                         })
@@ -96,7 +97,7 @@ module.exports = function(editor, annotationDataApi, paragraph) {
                     );
                 });
         },
-        spanContainer = require('./ModelContainer')(annotationDataApi, 'span', mappingFunction),
+        spanContainer = new ModelContainer(emitter, 'span', mappingFunction),
         spanTopLevel = [],
         adopt = function(parent, span) {
             parent.children.push(span);

@@ -145,26 +145,26 @@ module.exports = function(editor, model, buttonStateHelper, typeContainer) {
       rendererImpl.init(getAnnotationArea());
 
       model.annotationData
-        .bind('change-text', renderSourceDocument)
-        .bind('all.change', triggerChangeAfter(model.selectionModel.clear, reset))
-        .bind('span.add', triggerChangeAfter(rendererImpl.span.render))
-        .bind('span.remove', triggerChangeAfter(rendererImpl.span.remove))
-        .bind('span.remove', _.compose(model.selectionModel.span.remove, modelToId))
-        .bind('entity.add', function(entity) {
+        .on('change-text', renderSourceDocument)
+        .on('all.change', triggerChangeAfter(model.selectionModel.clear, reset))
+        .on('span.add', triggerChangeAfter(rendererImpl.span.render))
+        .on('span.remove', triggerChangeAfter(rendererImpl.span.remove))
+        .on('span.remove', _.compose(model.selectionModel.span.remove, modelToId))
+        .on('entity.add', function(entity) {
           // Add a now entity with a new grid after the span moved.
           rendererImpl.span.change(entityToSpan(entity), domPositionCaChe.reset);
           rendererImpl.entity.render(entity);
           triggerChange();
         })
-        .bind('entity.change', updateSpanAfter(rendererImpl.entity.change))
-        .bind('entity.remove', updateSpanAfter(rendererImpl.entity.remove))
-        .bind('entity.remove', _.compose(model.selectionModel.entity.remove, modelToId))
-        .bind('relation.add', triggerChangeAfter(rendererImpl.relation.render))
-        .bind('relation.change', rendererImpl.relation.change)
-        .bind('relation.remove', rendererImpl.relation.remove)
-        .bind('relation.remove', _.compose(model.selectionModel.relation.remove, modelToId))
-        .bind('modification.add', renderModificationEntityOrRelation)
-        .bind('modification.remove', renderModificationEntityOrRelation);
+        .on('entity.change', updateSpanAfter(rendererImpl.entity.change))
+        .on('entity.remove', updateSpanAfter(rendererImpl.entity.remove))
+        .on('entity.remove', _.compose(model.selectionModel.entity.remove, modelToId))
+        .on('relation.add', triggerChangeAfter(rendererImpl.relation.render))
+        .on('relation.change', rendererImpl.relation.change)
+        .on('relation.remove', rendererImpl.relation.remove)
+        .on('relation.remove', _.compose(model.selectionModel.relation.remove, modelToId))
+        .on('modification.add', renderModificationEntityOrRelation)
+        .on('modification.remove', renderModificationEntityOrRelation);
     },
     arrangeRelationPositionAll: rendererImpl.relation.arrangePositionAll,
     renderLazyRelationAll: rendererImpl.relation.renderLazyRelationAll,

@@ -5,7 +5,7 @@ module.exports = function(annotationData, editMode) {
         bindSetDefaultEditMode: function(mode) {
             var isEditable = mode === 'edit';
 
-            annotationData.bind('all.change', function(annotationData) {
+            annotationData.on('all.change', function(annotationData) {
                 setDefaultEditMode(editMode, isEditable, annotationData);
             });
         }

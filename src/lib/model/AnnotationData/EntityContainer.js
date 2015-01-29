@@ -12,9 +12,9 @@ var idFactory = require('../../util/idFactory'),
         denotations = denotations || [];
         return denotations.map(_.partial(toModel, editor));
     },
-    EntityContainer = function(editor, eventEmitter, relation) {
+    EntityContainer = function(editor, emitter, relation) {
         var entityContainer = new ModelContainer(
-                eventEmitter,
+                emitter,
                 'entity',
                 _.partial(mappingFunction, editor),
                 'T'

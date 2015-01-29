@@ -1,7 +1,7 @@
 var getNextId = require('./getNextId'),
     ERROR_MESSAGE = 'Set the mappingFunction by the constructor to use the method "ModelContainer.setSource".';
 
-module.exports = function(eventEmitter, prefix, mappingFunction, idPrefix) {
+module.exports = function(emitter, prefix, mappingFunction, idPrefix) {
     var contaier = {},
         getIds = function() {
             return Object.keys(contaier);
@@ -51,7 +51,8 @@ module.exports = function(eventEmitter, prefix, mappingFunction, idPrefix) {
             var newModel = add(model);
             if (_.isFunction(doAfter)) doAfter();
 
-            return eventEmitter.trigger(prefix + '.add', newModel);
+            emitter.emit(prefix + '.add', newModel);
+            return newModel;
         },
         get: get,
         all: all,
@@ -66,14 +67,14 @@ module.exports = function(eventEmitter, prefix, mappingFunction, idPrefix) {
         changeType: function(id, newType) {
             var model = get(id);
             model.type = newType;
-            eventEmitter.trigger(prefix + '.change', model);
+            emitter.emit(prefix + '.change', model);
             return model;
         },
         remove: function(id) {
             var model = contaier[id];
             if (model) {
                 delete contaier[id];
-                eventEmitter.trigger(prefix + '.remove', model);
+                emitter.emit(prefix + '.remove', model);
             }
             return model;
         },
