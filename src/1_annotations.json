@@ -381,7 +381,6 @@
 		"obj": "Gene_expression"
 	}],
 	"relations": [{
-		"id": "R1",
 		"pred": "locatedAt",
 		"subj": "E1",
 		"obj": "T1"
@@ -442,7 +441,6 @@
 		"obj": "E3"
 	}],
 	"modifications": [{
-		"id": "M1",
 		"pred": "Negation",
 		"obj": "E1"
 	}, {

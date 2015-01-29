@@ -1,19 +1,24 @@
-var translateDenotation = function(prefix, src) {
+var setIdPrefixIfExist = function(src, prefix) {
+        // An id will be generated if id is null.
+        // But an undefined is convert to string as 'undefined' when it add to any string.
+        return src.id ? prefix + src.id : null;
+    },
+    translateDenotation = function(prefix, src) {
         return _.extend({}, src, {
             // Do not convert  string unless id.
-            id: src.id ? prefix + src.id : null
+            id: setIdPrefixIfExist(src, prefix)
         });
     },
     translateRelation = function(prefix, src) {
         return _.extend({}, src, {
-            id: prefix + src.id,
+            id: setIdPrefixIfExist(src, prefix),
             subj: prefix + src.subj,
             obj: prefix + src.obj
         });
     },
     translateModification = function(prefix, src) {
         return _.extend({}, src, {
-            id: prefix + src.id,
+            id: setIdPrefixIfExist(src, prefix),
             obj: prefix + src.obj
         });
     },

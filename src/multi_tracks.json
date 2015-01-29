@@ -8,7 +8,7 @@
                 "begin": 10,
                 "end": 19
             },
-            "obj": "no id in track1"
+            "obj": "no id t1"
         }, {
             "id": "T1",
             "span": {
@@ -25,7 +25,6 @@
             "obj": "organism_Instance_46040"
         }],
         "modifications": [{
-            "id": "M1",
             "pred": "Negation",
             "obj": "T1"
         }, {
@@ -40,7 +39,7 @@
                 "begin": 1,
                 "end": 8
             },
-            "obj": "no id in track2"
+            "obj": "no id t2"
         }, {
             "id": "T1",
             "span": {
@@ -57,7 +56,6 @@
             "obj": "NNS"
         }],
         "relations": [{
-            "id": "R1",
             "pred": "locatedAt",
             "subj": "T1",
             "obj": "T2"
