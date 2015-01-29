@@ -54,14 +54,14 @@ module.exports = function(editor, model, buttonController, getTypeGapValue) {
     setSelectionModelHandler = function() {
       // Because entity.change is off at relation-edit-mode.
       model.selectionModel
-        .bind('span.select', selector.span.select)
-        .bind('span.deselect', selector.span.deselect)
-        .bind('span.change', buttonController.buttonStateHelper.updateBySpan)
-        .bind('entity.select', selector.entity.select)
-        .bind('entity.deselect', selector.entity.deselect)
-        .bind('relation.select', delay150(selector.relation.select))
-        .bind('relation.deselect', delay150(selector.relation.deselect))
-        .bind('relation.change', buttonController.buttonStateHelper.updateByRelation);
+        .on('span.select', selector.span.select)
+        .on('span.deselect', selector.span.deselect)
+        .on('span.change', buttonController.buttonStateHelper.updateBySpan)
+        .on('entity.select', selector.entity.select)
+        .on('entity.deselect', selector.entity.deselect)
+        .on('relation.select', delay150(selector.relation.select))
+        .on('relation.deselect', delay150(selector.relation.deselect))
+        .on('relation.change', buttonController.buttonStateHelper.updateByRelation);
     },
     updateDisplay = render;
 

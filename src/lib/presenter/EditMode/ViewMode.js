@@ -25,12 +25,12 @@ module.exports = function(editor, model, buttonStateHelper, modeAccordingToButto
             setControlButtonForRelation(false);
 
             model.selectionModel
-                .unbind('entity.select', entitySelectChanged)
-                .unbind('entity.deselect', entitySelectChanged)
-                .unbind('entity.change', entitySelectChanged)
-                .bind('entity.select', entitySelectChanged)
-                .bind('entity.deselect', entitySelectChanged)
-                .bind('entity.change', buttonStateHelper.updateByEntity);
+                .removeListener('entity.select', entitySelectChanged)
+                .removeListener('entity.deselect', entitySelectChanged)
+                .removeListener('entity.change', entitySelectChanged)
+                .on('entity.select', entitySelectChanged)
+                .on('entity.deselect', entitySelectChanged)
+                .on('entity.change', buttonStateHelper.updateByEntity);
         },
         setInstance: function() {
             changeCssClass(editor, 'instance');
@@ -38,12 +38,12 @@ module.exports = function(editor, model, buttonStateHelper, modeAccordingToButto
             setControlButtonForRelation(false);
 
             model.selectionModel
-                .unbind('entity.select', entitySelectChanged)
-                .unbind('entity.deselect', entitySelectChanged)
-                .unbind('entity.change', buttonStateHelper.updateByEntity)
-                .bind('entity.select', entitySelectChanged)
-                .bind('entity.deselect', entitySelectChanged)
-                .bind('entity.change', buttonStateHelper.updateByEntity);
+                .removeListener('entity.select', entitySelectChanged)
+                .removeListener('entity.deselect', entitySelectChanged)
+                .removeListener('entity.change', buttonStateHelper.updateByEntity)
+                .on('entity.select', entitySelectChanged)
+                .on('entity.deselect', entitySelectChanged)
+                .on('entity.change', buttonStateHelper.updateByEntity);
         },
         setRelation: function() {
             changeCssClass(editor, 'relation');
@@ -51,9 +51,9 @@ module.exports = function(editor, model, buttonStateHelper, modeAccordingToButto
             setControlButtonForRelation(true);
 
             model.selectionModel
-                .unbind('entity.select', entitySelectChanged)
-                .unbind('entity.deselect', entitySelectChanged)
-                .unbind('entity.change', buttonStateHelper.updateByEntity);
+                .removeListener('entity.select', entitySelectChanged)
+                .removeListener('entity.deselect', entitySelectChanged)
+                .removeListener('entity.change', buttonStateHelper.updateByEntity);
         },
         setEditable: function(isEditable) {
             if (isEditable) {

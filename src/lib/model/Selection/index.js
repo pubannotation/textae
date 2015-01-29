@@ -1,5 +1,5 @@
-var IdContainer = require('./IdContainer'),
-    extendBindable = require('../../util/extendBindable'),
+var EventEmitter = require('events').EventEmitter,
+    IdContainer = require('./IdContainer'),
     clearAll = function(containerList) {
         _.each(containerList, function(container) {
             container.clear();
@@ -15,21 +15,21 @@ var IdContainer = require('./IdContainer'),
             });
 
     },
-    relayEventsOfEachContainer = function(api, containerList) {
+    relayEventsOfEachContainer = function(emitter, containerList) {
         _.each(containerList, function(container) {
             container
                 .on(container.name + '.change', function() {
-                    api.trigger(container.name + '.change');
+                    emitter.emit(container.name + '.change');
                 })
                 .on(container.name + '.add', function(id) {
-                    api.trigger(container.name + '.select', id);
+                    emitter.emit(container.name + '.select', id);
                 })
                 .on(container.name + '.remove', function(id) {
-                    api.trigger(container.name + '.deselect', id);
+                    emitter.emit(container.name + '.deselect', id);
                 });
         });
     },
-    extendUtilFunctions = function(containerList, api) {
+    extendUtilFunctions = function(api, containerList) {
         return _.extend(api, {
             clear: _.partial(clearAll, containerList),
             some: _.partial(someAll, containerList)
@@ -37,15 +37,16 @@ var IdContainer = require('./IdContainer'),
     };
 
 module.exports = function(kinds) {
-    var containerList = kinds.map(IdContainer),
+    var emitter = new EventEmitter(),
+        containerList = kinds.map(IdContainer),
         hash = containerList
         .reduce(function(a, b) {
             a[b.name] = b;
             return a;
         }, {}),
-        api = extendBindable(hash);
+        api = _.extend(emitter, hash);
 
-    relayEventsOfEachContainer(api, containerList);
+    relayEventsOfEachContainer(emitter, containerList);
 
-    return extendUtilFunctions(containerList, api);
+    return extendUtilFunctions(api, containerList);
 };
