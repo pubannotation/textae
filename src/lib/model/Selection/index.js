@@ -1,4 +1,6 @@
-var clearAll = function(containerList) {
+var IdContainer = require('./IdContainer'),
+    extendBindable = require('../../util/extendBindable'),
+    clearAll = function(containerList) {
         _.each(containerList, function(container) {
             container.clear();
         });
@@ -13,16 +15,16 @@ var clearAll = function(containerList) {
             });
 
     },
-    relayEventsOfEachContainer = function(api) {
-        _.each(api, function(container) {
+    relayEventsOfEachContainer = function(api, containerList) {
+        _.each(containerList, function(container) {
             container
-                .bind(container.name + '.change', function() {
+                .on(container.name + '.change', function() {
                     api.trigger(container.name + '.change');
                 })
-                .bind(container.name + '.add', function(id) {
+                .on(container.name + '.add', function(id) {
                     api.trigger(container.name + '.select', id);
                 })
-                .bind(container.name + '.remove', function(id) {
+                .on(container.name + '.remove', function(id) {
                     api.trigger(container.name + '.deselect', id);
                 });
         });
@@ -35,16 +37,15 @@ var clearAll = function(containerList) {
     };
 
 module.exports = function(kinds) {
-    var containerList = kinds.map(require('./IdContainer')),
-        api = require('../../util/extendBindable')(
-            containerList
-            .reduce(function(a, b) {
-                a[b.name] = b;
-                return a;
-            }, {})
-        );
+    var containerList = kinds.map(IdContainer),
+        hash = containerList
+        .reduce(function(a, b) {
+            a[b.name] = b;
+            return a;
+        }, {}),
+        api = extendBindable(hash);
 
-    relayEventsOfEachContainer(api);
+    relayEventsOfEachContainer(api, containerList);
 
     return extendUtilFunctions(containerList, api);
 };
