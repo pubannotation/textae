@@ -387,13 +387,13 @@
 	}, {
 		"id": "R2",
 		"pred": "themeOf",
-		"subj": "E2",
+		"subj": "F2",
 		"obj": "T2"
 	}, {
 		"id": "R3",
 		"pred": "equivalentTo",
 		"subj": "E3",
-		"obj": "T3"
+		"obj": "F3"
 	}, {
 		"id": "R4",
 		"pred": "equivalentTo",
@@ -446,7 +446,7 @@
 	}, {
 		"id": "M2",
 		"pred": "Negation",
-		"obj": "E2"
+		"obj": "F2"
 	}, {
 		"id": "M3",
 		"pred": "Speculation",

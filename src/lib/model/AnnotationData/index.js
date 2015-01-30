@@ -3,7 +3,7 @@ var EventEmitter = require('events').EventEmitter,
     ParagraphContainer = require('./ParagraphContainer'),
     SpanContainer = require('./SpanContainer'),
     EntityContainer = require('./EntityContainer'),
-    importAnnotation = require('./importAnnotation'),
+    parseAnnotation = require('./parseAnnotation'),
     parseBaseText = function(dataStore, paragraph, emitter, sourceDoc) {
         if (sourceDoc) {
             // Parse paragraphs
@@ -19,23 +19,17 @@ var EventEmitter = require('events').EventEmitter,
         }
     },
     parseTracks = function(span, entity, relation, modification, annotation) {
-        if (annotation.tracks) {
-            annotation.tracks
-                .forEach(function(track, i) {
-                    var prefix = 'track' + (i + 1) + '_';
-                    importAnnotation(span,
-                        entity,
-                        relation,
-                        modification,
-                        track.denotations,
-                        track.relations,
-                        track.modifications,
-                        prefix
-                    );
-                });
+        if (!annotation.tracks) return [];
 
-            delete annotation.tracks;
-        }
+        var tracks = annotation.tracks;
+        delete annotation.tracks;
+
+        return tracks
+            .map(function(track, i) {
+                var prefix = 'track' + (i + 1) + '_';
+
+                return parseAnnotation(span, entity, relation, modification, track, prefix);
+            });
     },
     AnntationData = function(editor) {
         var originalData,
@@ -73,22 +67,19 @@ var EventEmitter = require('events').EventEmitter,
             ),
             setNewData = function(annotation) {
                 parseBaseText(dataStore, paragraph, emitter, annotation.text);
-                parseTracks(span, entity, relation, modification, annotation);
-                importAnnotation(
-                    span,
-                    entity,
-                    relation,
-                    modification,
-                    annotation.denotations,
-                    annotation.relations,
-                    annotation.modifications
-                );
+
+                var reject = {
+                    tracks: parseTracks(span, entity, relation, modification, annotation),
+                    annotation: parseAnnotation(span, entity, relation, modification, annotation)
+                };
 
                 originalData = annotation;
 
                 // Expose values public.
                 dataStore.sourceDoc = annotation.text;
                 dataStore.config = annotation.config;
+
+                return reject;
             },
             toDenotation = function() {
                 return entity.all()
@@ -130,8 +121,10 @@ var EventEmitter = require('events').EventEmitter,
             reset: function(annotation) {
                 try {
                     clearAnnotationData();
-                    setNewData(annotation);
+                    var reject = setNewData(annotation);
                     emitter.emit('all.change', emitter);
+
+                    return reject;
                 } catch (error) {
                     console.error(error, error.stack);
                 }

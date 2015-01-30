@@ -64,8 +64,11 @@ module.exports = function() {
             }
         },
         resetData = function(annotation) {
-            model.annotationData.reset(annotation);
+            var reject = model.annotationData.reset(annotation);
             history.reset();
+
+            // TODO show by dialog.
+            console.log(reject);
         },
         setConfigFromServer = function(config, annotation) {
             spanConfig.reset();
