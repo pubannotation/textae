@@ -3,7 +3,7 @@ var EventEmitter = require('events').EventEmitter,
     ParagraphContainer = require('./ParagraphContainer'),
     SpanContainer = require('./SpanContainer'),
     EntityContainer = require('./EntityContainer'),
-    parseAnnotations = require('./parseAnnotations'),
+    importAnnotation = require('./importAnnotation'),
     parseBaseText = function(dataStore, paragraph, emitter, sourceDoc) {
         if (sourceDoc) {
             // Parse paragraphs
@@ -23,7 +23,7 @@ var EventEmitter = require('events').EventEmitter,
             annotation.tracks
                 .forEach(function(track, i) {
                     var prefix = 'track' + (i + 1) + '_';
-                    parseAnnotations(span,
+                    importAnnotation(span,
                         entity,
                         relation,
                         modification,
@@ -74,7 +74,7 @@ var EventEmitter = require('events').EventEmitter,
             setNewData = function(annotation) {
                 parseBaseText(dataStore, paragraph, emitter, annotation.text);
                 parseTracks(span, entity, relation, modification, annotation);
-                parseAnnotations(
+                importAnnotation(
                     span,
                     entity,
                     relation,
