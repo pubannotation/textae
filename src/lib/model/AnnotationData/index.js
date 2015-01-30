@@ -3,7 +3,6 @@ var EventEmitter = require('events').EventEmitter,
     ParagraphContainer = require('./ParagraphContainer'),
     SpanContainer = require('./SpanContainer'),
     EntityContainer = require('./EntityContainer'),
-    extendBindable = require('../../util/extendBindable'),
     parseBaseText = function(dataStore, paragraph, emitter, sourceDoc) {
         if (sourceDoc) {
             // Parse paragraphs
