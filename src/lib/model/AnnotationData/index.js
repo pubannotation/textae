@@ -23,7 +23,15 @@ var EventEmitter = require('events').EventEmitter,
             annotation.tracks
                 .forEach(function(track, i) {
                     var prefix = 'track' + (i + 1) + '_';
-                    parseAnnotations(span, entity, relation, modification, track, prefix);
+                    parseAnnotations(span,
+                        entity,
+                        relation,
+                        modification,
+                        track.denotations,
+                        track.relations,
+                        track.modifications,
+                        prefix
+                    );
                 });
 
             delete annotation.tracks;
@@ -66,7 +74,15 @@ var EventEmitter = require('events').EventEmitter,
             setNewData = function(annotation) {
                 parseBaseText(dataStore, paragraph, emitter, annotation.text);
                 parseTracks(span, entity, relation, modification, annotation);
-                parseAnnotations(span, entity, relation, modification, annotation);
+                parseAnnotations(
+                    span,
+                    entity,
+                    relation,
+                    modification,
+                    annotation.denotations,
+                    annotation.relations,
+                    annotation.modifications
+                );
 
                 originalData = annotation;
 
