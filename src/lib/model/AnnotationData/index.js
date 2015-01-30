@@ -3,6 +3,7 @@ var EventEmitter = require('events').EventEmitter,
     ParagraphContainer = require('./ParagraphContainer'),
     SpanContainer = require('./SpanContainer'),
     EntityContainer = require('./EntityContainer'),
+    parseAnnotations = require('./parseAnnotations'),
     parseBaseText = function(dataStore, paragraph, emitter, sourceDoc) {
         if (sourceDoc) {
             // Parse paragraphs
@@ -17,7 +18,6 @@ var EventEmitter = require('events').EventEmitter,
             throw "read failed.";
         }
     },
-    parseAnnotations = require('./parseAnnotations'),
     parseTracks = function(span, entity, relation, modification, annotation) {
         if (annotation.tracks) {
             annotation.tracks
