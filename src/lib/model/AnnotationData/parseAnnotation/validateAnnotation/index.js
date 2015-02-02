@@ -17,6 +17,27 @@ var Result = function(reject) {
 
         return result;
     },
+    isInText = function(boundary, text) {
+        return 0 <= boundary && boundary <= text.length;
+    },
+    validateDenotations = function(denotations, text) {
+        if (!denotations) return new Result();
+
+        var result = new Result();
+        denotations.forEach(function(denotation) {
+            if (
+                isInText(denotation.span.begin, text) &&
+                isInText(denotation.span.end, text)
+            ) {
+                result.accept.push(denotation);
+            } else {
+                result.reject.push(denotation);
+            }
+
+        });
+
+        return result;
+    },
     validateRelationsObj = function(relations, denotations) {
         if (!relations) return new Result();
 
@@ -50,28 +71,32 @@ var Result = function(reject) {
             );
     },
     validateAnnotation = function(annotation) {
-        var resultRelationObj = validateRelationsObj(
+        var resultDenotation = validateDenotations(
+                annotation.denotations,
+                annotation.text
+            ),
+            resultRelationObj = validateRelationsObj(
                 annotation.relations,
-                annotation.denotations
+                resultDenotation.accept
             ),
             resultRelationSubj = validateRelationsSubj(
                 resultRelationObj.accept,
-                annotation.denotations
+                resultDenotation.accept
             ),
             resultModification = validateModifications(
                 annotation.modifications,
-                annotation.denotations,
+                resultDenotation.accept,
                 resultRelationSubj.accept
             );
 
         return {
             accept: {
-                denotation: annotation.denotations,
+                denotation: resultDenotation.accept,
                 relation: resultRelationSubj.accept,
                 modification: resultModification.accept
             },
             reject: {
-                denotation: [],
+                denotation: resultDenotation.reject,
                 relationObj: resultRelationObj.reject,
                 relationSubj: resultRelationSubj.reject,
                 modification: resultModification.reject

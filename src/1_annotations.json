@@ -46,7 +46,7 @@
 	"denotations": [
 		{
 			"span": {
-				"begin": 0,
+				"begin": -2,
 				"end": 15
 			},
 			"obj": "no id"
@@ -54,20 +54,20 @@
 		"id": "E1",
 		"span": {
 			"begin": 0,
-			"end": 15
+			"end": 1786
 		},
 		"obj": null
 	}, {
 		"id": "T1",
 		"span": {
 			"begin": 19,
-			"end": 49
+			"end": -2
 		},
 		"obj": "http://dbpedia.org/ontology/parent"
 	}, {
 		"id": "E2",
 		"span": {
-			"begin": 55,
+			"begin": 1789,
 			"end": 65
 		},
 		"obj": "http://www.w3.org/TR/CSS2/selector.html#pseudo-class-selectors"
