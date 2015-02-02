@@ -20,7 +20,23 @@ var Result = function(reject) {
     isInText = function(boundary, text) {
         return 0 <= boundary && boundary <= text.length;
     },
-    validateDenotations = function(denotations, text) {
+    hasLength = function(result, denotation) {
+        if (
+            denotation.span.end - denotation.span.begin > 0
+        ) {
+            result.accept.push(denotation);
+        } else {
+            result.reject.push(denotation);
+        }
+
+        return result;
+    },
+    validateDenotationsHasLength = function(denotations) {
+        if (!denotations) return new Result();
+
+        return denotations.reduce(hasLength, new Result());
+    },
+    validateDenotationsInText = function(denotations, text) {
         if (!denotations) return new Result();
 
         var result = new Result();
@@ -71,32 +87,34 @@ var Result = function(reject) {
             );
     },
     validateAnnotation = function(annotation) {
-        var resultDenotation = validateDenotations(
-                annotation.denotations,
+        var resultDenotationHasLength = validateDenotationsHasLength(annotation.denotations),
+            resultDenotationInText = validateDenotationsInText(
+                resultDenotationHasLength.accept,
                 annotation.text
             ),
             resultRelationObj = validateRelationsObj(
                 annotation.relations,
-                resultDenotation.accept
+                resultDenotationInText.accept
             ),
             resultRelationSubj = validateRelationsSubj(
                 resultRelationObj.accept,
-                resultDenotation.accept
+                resultDenotationInText.accept
             ),
             resultModification = validateModifications(
                 annotation.modifications,
-                resultDenotation.accept,
+                resultDenotationInText.accept,
                 resultRelationSubj.accept
             );
 
         return {
             accept: {
-                denotation: resultDenotation.accept,
+                denotation: resultDenotationInText.accept,
                 relation: resultRelationSubj.accept,
                 modification: resultModification.accept
             },
             reject: {
-                denotation: resultDenotation.reject,
+                denotationHasLength: resultDenotationHasLength.reject,
+                denotationInText: resultDenotationInText.reject,
                 relationObj: resultRelationObj.reject,
                 relationSubj: resultRelationSubj.reject,
                 modification: resultModification.reject
