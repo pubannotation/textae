@@ -8,7 +8,7 @@ var TypeEditor = require('./typeEditor/TypeEditor'),
     ToggleButtonHandler = require('./ToggleButtonHandler'),
     SelectSpanHandler = require('./SelectSpanHandler'),
     SetEditableHandler = require('./SetEditableHandler'),
-    SettingDialog = require('./SettingDialog'),
+    SettingDialog = require('../component/SettingDialog'),
     CursorChanger = require('../util/CursorChanger'),
     lineHeight = require('../view/lineHeight');
 
