@@ -1,4 +1,6 @@
 var lineHeight = require('../view/lineHeight'),
+    jQuerySugar = require('../util/jQuerySugar'),
+    GetEditorDialog = require('../util/dialog/GetEditorDialog'),
     debounce300 = function(func) {
         return _.debounce(func, 300);
     },
@@ -16,7 +18,6 @@ var lineHeight = require('../view/lineHeight'),
     open = function($dialog) {
         return $dialog.open();
     },
-    jQuerySugar = require('../util/jQuerySugar'),
     // Update the checkbox state, because it is updated by the button on control too.
     updateEditMode = function(displayInstance, $content) {
         return jQuerySugar.setChecked(
@@ -135,7 +136,7 @@ module.exports = function(editor, editMode, displayInstance) {
                 );
         },
         appendToDialog = function($content) {
-            return require('../util/dialog/GetEditorDialog')(editor)(
+            return new GetEditorDialog(editor)(
                 'textae.dialog.setting',
                 'Setting',
                 $content,
