@@ -9,7 +9,7 @@ var validate = require('./validate'),
         return isInText(denotation.span.begin, text) &&
             isInText(denotation.span.end, text);
     },
-    isContains = function(property,dictionary,  data) {
+    isContains = function(property, dictionary, data) {
         if (!dictionary) return false;
 
         return dictionary
@@ -17,7 +17,7 @@ var validate = require('./validate'),
                 return entry.id === data[property];
             }).length === 1;
     },
-    validateAnnotation = function(annotation) {
+    validateAnnotation = function(text, annotation) {
         var resultDenotationHasLength = validate(
                 annotation.denotations,
                 hasLength
@@ -25,7 +25,7 @@ var validate = require('./validate'),
             resultDenotationInText = validate(
                 resultDenotationHasLength.accept,
                 isBeginAndEndIn,
-                annotation.text
+                text
             ),
             resultRelationObj = validate(
                 annotation.relations,

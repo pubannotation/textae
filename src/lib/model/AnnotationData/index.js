@@ -18,7 +18,7 @@ var EventEmitter = require('events').EventEmitter,
             throw "read failed.";
         }
     },
-    parseTracks = function(span, entity, relation, modification, annotation) {
+    parseTracks = function(span, entity, relation, modification, text, annotation) {
         if (!annotation.tracks) return [];
 
         var tracks = annotation.tracks;
@@ -28,7 +28,7 @@ var EventEmitter = require('events').EventEmitter,
             .map(function(track, i) {
                 var prefix = 'track' + (i + 1) + '_';
 
-                return parseAnnotation(span, entity, relation, modification, track, prefix);
+                return parseAnnotation(span, entity, relation, modification, text, track, prefix);
             });
     },
     AnntationData = function(editor) {
@@ -69,8 +69,8 @@ var EventEmitter = require('events').EventEmitter,
                 parseBaseText(dataStore, paragraph, emitter, annotation.text);
 
                 var reject = {
-                    tracks: parseTracks(span, entity, relation, modification, annotation),
-                    annotation: parseAnnotation(span, entity, relation, modification, annotation)
+                    tracks: parseTracks(span, entity, relation, modification, annotation.text, annotation),
+                    annotation: parseAnnotation(span, entity, relation, modification, annotation.text, annotation)
                 };
 
                 originalData = annotation;
