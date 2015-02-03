@@ -15,12 +15,12 @@ var validate = require('./validate'),
                 return p.begin <= denotation.span.begin && denotation.span.end <= p.end;
             }).length === 1;
     },
-    isContains = function(property, dictionary, data) {
-        if (!dictionary) return false;
+    isContains = function(opt, data) {
+        if (!opt.dictionary) return false;
 
-        return dictionary
+        return opt.dictionary
             .filter(function(entry) {
-                return entry.id === data[property];
+                return entry.id === data[opt.property];
             }).length === 1;
     },
     validateAnnotation = function(text, paragraph, annotation) {
@@ -40,22 +40,22 @@ var validate = require('./validate'),
             ),
             resultRelationObj = validate(
                 annotation.relations,
-                isContains,
-                'obj',
-                resultDenotationInParagraph.accept
-            ),
+                isContains, {
+                    property: 'obj',
+                    dictionary: resultDenotationInParagraph.accept
+                }),
             resultRelationSubj = validate(
                 resultRelationObj.accept,
-                isContains,
-                'subj',
-                resultDenotationInParagraph.accept
-            ),
+                isContains, {
+                    property: 'subj',
+                    dictionary: resultDenotationInParagraph.accept
+                }),
             resultModification = validate(
                 annotation.modifications,
-                isContains,
-                'obj',
-                _.union(resultDenotationInParagraph.accept, resultRelationSubj.accept)
-            );
+                isContains, {
+                    property: 'obj',
+                    dictionary: _.union(resultDenotationInParagraph.accept, resultRelationSubj.accept)
+                });
 
         return {
             accept: {

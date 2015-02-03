@@ -4,12 +4,12 @@ var Result = function(reject) {
             reject: reject ? reject : []
         };
     },
-    partial = function(func, args) {
-        if (args.length === 0) return func;
-        if (args.length === 1) return _.partial(func, args[0]);
-        if (args.length === 2) return _.partial(func, args[0], args[1]);
+    partial = function(func, opt) {
+        if (!opt) return func;
+
+        return _.partial(func, opt);
     },
-    accept = function(predicate, result, target) {
+    acceptIf = function(predicate, result, target) {
         if (
             predicate(target)
         ) {
@@ -20,14 +20,14 @@ var Result = function(reject) {
 
         return result;
     },
-    validate = function(values, predicate) {
+    validate = function(values, predicate, predicateOption) {
         if (!values) return new Result();
 
-        predicate = partial(predicate, _.rest(arguments, 2));
+        predicate = partial(predicate, predicateOption);
 
         return values
             .reduce(
-                _.partial(accept, predicate),
+                _.partial(acceptIf, predicate),
                 new Result()
             );
     };
