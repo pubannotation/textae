@@ -68,9 +68,6 @@ module.exports = function() {
         resetData = function(annotation) {
             var reject = model.annotationData.reset(annotation);
             history.reset();
-
-            // TODO show by dialog.
-            console.log(reject);
             showVilidationDialog(self, reject);
         },
         setConfigFromServer = function(config, annotation) {

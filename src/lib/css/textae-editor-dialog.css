@@ -40,3 +40,25 @@
 .textae-editor__setting-dialog__type-gap[disabled="disabled"]{
     background-color: #999;
 }
+
+.textae-editor__valiondate-dialog__content {
+    top: -5px;
+    position: relative;
+}
+
+.textae-editor__valiondate-dialog__content h2{
+    margin-top: 5px;
+    font-size: 0.9em;
+}
+
+.textae-editor__valiondate-dialog__content h2::before{
+    color: red;
+    content: '!!! '
+}
+
+
+.textae-editor__valiondate-dialog__content ul{
+    color: #333;
+    font-size: 0.8em;
+    padding-left: 10px;
+}
