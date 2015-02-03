@@ -10,6 +10,7 @@ var Model = require('./model/Model'),
     Controller = require('./Controller'),
     createDaoForEditor = require('./createDaoForEditor'),
     getParams = require('./getParams'),
+    showVilidationDialog = require('./component/showVilidationDialog'),
     setTypeConfig = function(view, config) {
         view.typeContainer.setDefinedEntityTypes(config ? config['entity types'] : []);
         view.typeContainer.setDefinedRelationTypes(config ? config['relation types'] : []);
@@ -35,7 +36,8 @@ var Model = require('./model/Model'),
     ajaxAccessor = require('./util/ajaxAccessor');
 
 module.exports = function() {
-    var model = new Model(this),
+    var self = this,
+        model = new Model(this),
         history = new History(),
         spanConfig = new SpanConfig(),
         // Users can edit model only via commands.
@@ -69,6 +71,7 @@ module.exports = function() {
 
             // TODO show by dialog.
             console.log(reject);
+            showVilidationDialog(self, reject);
         },
         setConfigFromServer = function(config, annotation) {
             spanConfig.reset();
