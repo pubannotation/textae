@@ -1,17 +1,17 @@
-var idFactory = require('../../util/idFactory'),
-    ModelContainer = require('./ModelContainer');
+var idFactory = require('../../../util/idFactory'),
+    ModelContainer = require('./ModelContainer'),
+    isChildOf = function(editor, spanContainer, span, maybeParent) {
+        if (!maybeParent) return false;
+
+        var id = idFactory.makeSpanId(editor, maybeParent);
+        if (!spanContainer.get(id)) throw new Error('maybeParent is removed. ' + maybeParent.toStringOnlyThis());
+
+        return maybeParent.begin <= span.begin && span.end <= maybeParent.end;
+    };
 
 module.exports = function(editor, emitter, paragraph) {
     var toSpanModel = function() {
             var spanExtension = {
-                isChildOf: function(maybeParent) {
-                    if (!maybeParent) return false;
-
-                    var id = idFactory.makeSpanId(editor, maybeParent);
-                    if (!spanContainer.get(id)) throw new Error('maybeParent is removed. ' + maybeParent.toStringOnlyThis());
-
-                    return maybeParent.begin <= this.begin && this.end <= maybeParent.end;
-                },
                 //for debug. print myself only.
                 toStringOnlyThis: function() {
                     return "span " + this.begin + ":" + this.end + ":" + emitter.sourceDoc.substring(this.begin, this.end);
@@ -84,7 +84,7 @@ module.exports = function(editor, emitter, paragraph) {
                     spanExtension);
             };
         }(),
-        isBoundaryCrossingWithOtherSpans = require('../isBoundaryCrossingWithOtherSpans'),
+        isBoundaryCrossingWithOtherSpans = require('../../isBoundaryCrossingWithOtherSpans'),
         mappingFunction = function(denotations) {
             denotations = denotations || [];
             return denotations.map(function(entity) {
@@ -104,7 +104,7 @@ module.exports = function(editor, emitter, paragraph) {
             span.parent = parent;
         },
         getParet = function(parent, span) {
-            if (span.isChildOf(parent)) {
+            if (isChildOf(editor, spanContainer, span, parent)) {
                 return parent;
             } else {
                 if (parent.parent) {
