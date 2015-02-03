@@ -69,7 +69,13 @@ var validate = require('./validate'),
                 denotationInParagraph: resultDenotationInParagraph.reject,
                 relationObj: resultRelationObj.reject,
                 relationSubj: resultRelationSubj.reject,
-                modification: resultModification.reject
+                modification: resultModification.reject,
+                hasError: (resultDenotationHasLength.reject.length +
+                    resultDenotationInText.reject.length +
+                    resultDenotationInParagraph.reject.length +
+                    resultRelationObj.reject.length +
+                    resultRelationSubj.reject.length +
+                    resultModification.reject.length) !== 0
             }
         };
     };

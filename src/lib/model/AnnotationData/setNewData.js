@@ -16,8 +16,7 @@ var parseAnnotation = require('./parseAnnotation'),
             });
     },
     parseDennotation = function(dataStore, annotation) {
-        return {
-            tracks: parseTracks(
+        var tracksReject = parseTracks(
                 dataStore.span,
                 dataStore.entity,
                 dataStore.relation,
@@ -26,14 +25,23 @@ var parseAnnotation = require('./parseAnnotation'),
                 annotation.text,
                 annotation
             ),
-            annotation: parseAnnotation(
+            annotationReject = parseAnnotation(
                 dataStore.span,
                 dataStore.entity,
                 dataStore.relation,
                 dataStore.modification,
                 dataStore.paragraph,
                 annotation.text,
-                annotation)
+                annotation),
+            hasError = tracksReject
+            .reduce(function(result, track) {
+                return result || track.hasError;
+            }, false) || annotationReject.hasError;
+
+        return {
+            tracks: tracksReject,
+            annotation: annotationReject,
+            hasError: hasError
         };
     },
     setNewData = function(dataStore, annotation) {
