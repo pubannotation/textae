@@ -2,7 +2,7 @@ var parseAnnotation = require('./parseAnnotation'),
     parseBaseText = function(paragraph, sourceDoc) {
         paragraph.addSource(sourceDoc);
     },
-    parseTracks = function(span, entity, relation, modification, text, annotation) {
+    parseTracks = function(span, entity, relation, modification, paragraph, text, annotation) {
         if (!annotation.tracks) return [];
 
         var tracks = annotation.tracks;
@@ -12,7 +12,7 @@ var parseAnnotation = require('./parseAnnotation'),
             .map(function(track, i) {
                 var prefix = 'track' + (i + 1) + '_';
 
-                return parseAnnotation(span, entity, relation, modification, text, track, prefix);
+                return parseAnnotation(span, entity, relation, modification, paragraph, text, track, prefix);
             });
     },
     parseDennotation = function(dataStore, annotation) {
@@ -22,6 +22,7 @@ var parseAnnotation = require('./parseAnnotation'),
                 dataStore.entity,
                 dataStore.relation,
                 dataStore.modification,
+                dataStore.paragraph,
                 annotation.text,
                 annotation
             ),
@@ -30,6 +31,7 @@ var parseAnnotation = require('./parseAnnotation'),
                 dataStore.entity,
                 dataStore.relation,
                 dataStore.modification,
+                dataStore.paragraph,
                 annotation.text,
                 annotation)
         };

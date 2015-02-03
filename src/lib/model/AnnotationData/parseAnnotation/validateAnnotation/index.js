@@ -9,6 +9,12 @@ var validate = require('./validate'),
         return isInText(denotation.span.begin, text) &&
             isInText(denotation.span.end, text);
     },
+    isInParagraph = function(paragraph, denotation) {
+        return paragraph.all()
+            .filter(function(p) {
+                return p.begin <= denotation.span.begin && denotation.span.end <= p.end;
+            }).length === 1;
+    },
     isContains = function(property, dictionary, data) {
         if (!dictionary) return false;
 
@@ -17,7 +23,7 @@ var validate = require('./validate'),
                 return entry.id === data[property];
             }).length === 1;
     },
-    validateAnnotation = function(text, annotation) {
+    validateAnnotation = function(text, paragraph, annotation) {
         var resultDenotationHasLength = validate(
                 annotation.denotations,
                 hasLength
@@ -27,34 +33,40 @@ var validate = require('./validate'),
                 isBeginAndEndIn,
                 text
             ),
+            resultDenotationInParagraph = validate(
+                resultDenotationInText.accept,
+                isInParagraph,
+                paragraph
+            ),
             resultRelationObj = validate(
                 annotation.relations,
                 isContains,
                 'obj',
-                resultDenotationInText.accept
+                resultDenotationInParagraph.accept
             ),
             resultRelationSubj = validate(
                 resultRelationObj.accept,
                 isContains,
                 'subj',
-                resultDenotationInText.accept
+                resultDenotationInParagraph.accept
             ),
             resultModification = validate(
                 annotation.modifications,
                 isContains,
                 'obj',
-                _.union(resultDenotationInText.accept, resultRelationSubj.accept)
+                _.union(resultDenotationInParagraph.accept, resultRelationSubj.accept)
             );
 
         return {
             accept: {
-                denotation: resultDenotationInText.accept,
+                denotation: resultDenotationInParagraph.accept,
                 relation: resultRelationSubj.accept,
                 modification: resultModification.accept
             },
             reject: {
                 denotationHasLength: resultDenotationHasLength.reject,
                 denotationInText: resultDenotationInText.reject,
+                denotationInParagraph: resultDenotationInParagraph.reject,
                 relationObj: resultRelationObj.reject,
                 relationSubj: resultRelationSubj.reject,
                 modification: resultModification.reject

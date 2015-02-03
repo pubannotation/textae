@@ -1,7 +1,7 @@
 var validateAnnotation = require('./validateAnnotation'),
     importAnnotation = require('./importAnnotation'),
-    parseAnnotation = function(span, entity, relation, modification, text, annotation, prefix) {
-        var result = validateAnnotation(text, annotation);
+    parseAnnotation = function(span, entity, relation, modification, paragraph, text, annotation, prefix) {
+        var result = validateAnnotation(text, paragraph, annotation);
 
         importAnnotation(span,
             entity,
