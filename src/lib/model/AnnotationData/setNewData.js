@@ -10,9 +10,12 @@ var parseAnnotation = require('./parseAnnotation'),
 
         return tracks
             .map(function(track, i) {
-                var prefix = 'track' + (i + 1) + '_';
+                var number = i + 1,
+                    prefix = `track${ number }_`,
+                    reject = parseAnnotation(span, entity, relation, modification, paragraph, text, track, prefix);
 
-                return parseAnnotation(span, entity, relation, modification, paragraph, text, track, prefix);
+                reject.name = `Track ${ number } annotaiton.`;
+                return reject;
             });
     },
     parseDennotation = function(dataStore, annotation) {
@@ -32,17 +35,11 @@ var parseAnnotation = require('./parseAnnotation'),
                 dataStore.modification,
                 dataStore.paragraph,
                 annotation.text,
-                annotation),
-            hasError = tracksReject
-            .reduce(function(result, track) {
-                return result || track.hasError;
-            }, false) || annotationReject.hasError;
+                annotation);
 
-        return {
-            tracks: tracksReject,
-            annotation: annotationReject,
-            hasError: hasError
-        };
+        annotationReject.name = 'Root annotation.';
+
+        return [annotationReject].concat(tracksReject);
     },
     setNewData = function(dataStore, annotation) {
         parseBaseText(dataStore.paragraph, annotation.text);

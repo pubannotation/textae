@@ -439,5 +439,25 @@
         "id": "M11",
         "pred": "Negation",
         "obj": "R4"
+    }],
+    "tracks": [{
+        "denotations": [{
+            "span": {
+                "begin": -2,
+                "end": 15
+            },
+            "obj": "no id"
+        }]
+    }, {
+        "modifications": [{
+            "pred": "Negation",
+            "obj": "E1"
+        }]
+    }, {
+        "relations": [{
+            "pred": "locatedAt",
+            "subj": "E1",
+            "obj": "T1"
+        }]
     }]
 }
