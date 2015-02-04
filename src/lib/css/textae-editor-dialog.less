@@ -27,6 +27,11 @@
     width: 340px;
 
 }
+.cell() {
+    border: 1px solid #b9b9b9;
+    padding: 3px;
+
+}
 /* dialog */
 .textae-editor {
     &__load-dialog {
@@ -61,15 +66,32 @@
 
     }
     &__valiondate-dialog__content {
-        top: -5px;
-        position: relative;
-
+        font-size: 0.8em;
         h2 {
-            margin-top: 5px;
-            font-size: 0.9em;
+            line-height: 1em;
+            margin-bottom: 3px;
             &::before {
                 color: red;
                 content: '!!! ';
+            }
+
+        }
+        table {
+            border-collapse: collapse;
+            font-size: 0.8em;
+            margin-bottom: 20px;
+            width: 100%;
+            th {
+                .cell;
+                background-color: #ddd;
+                color: #333;
+            }
+            td {
+                .cell;
+                background-color: #fff;
+                &.alert{
+                    color: red;
+                }
             }
 
         }

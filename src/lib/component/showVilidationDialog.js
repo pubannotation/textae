@@ -3,20 +3,51 @@ var GetEditorDialog = require('../util/dialog/GetEditorDialog'),
     source = `
     <div class="textae-editor__valiondate-dialog__content">
         {{#if annotation.relationSubj}}
-            <h2>subjects of relations are not exists. </h2>
-            <ul>
-                {{#annotation.relationSubj}}
-                <li>id: {{id}} obj: {{obj}} pred: {{pred}}</liv>
-                {{/annotation.relationSubj}}
-            </ul>
+            <div>
+                <h2>subjects of relations are not exists. </h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>id</th>
+                            <th>pred</th>
+                            <th>subj</th>
+                            <th>obj</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#annotation.relationSubj}}
+                        <tr>
+                            <td>{{id}}</td>
+                            <td>{{pred}}</td>
+                            <td class="alert">{{subj}}</td>
+                            <td>{{obj}}</td>
+                        </tr>
+                        {{/annotation.relationSubj}}
+                    </thead>
+                </table>
+            </div>
         {{/if}}
         {{#if annotation.modification}}
-            <h2>objects of modifications are not exists. </h2>
-            <ul>
-                {{#annotation.modification}}
-                <li>id: {{id}} obj: {{obj}} pred: {{pred}}</liv>
-                {{/annotation.modification}}
-            </ul>
+            <div>
+                <h2>objects of modifications are not exists. </h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>id</th>
+                            <th>obj</th>
+                            <th>pred</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#annotation.modification}}
+                        <tr>
+                            <td>{{id}}</td>
+                            <td class="alert">{{obj}}</td>
+                            <td>{{pred}}</td>
+                        </tr>
+                        {{/annotation.modification}}
+                    </tbody>
+            </div>
         {{/if}}
     </div>`,
     tepmlate = Handlebars.compile(source);
