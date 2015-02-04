@@ -139,9 +139,9 @@ module.exports = function(editor, editMode, displayInstance) {
             return new GetEditorDialog(editor)(
                 'textae.dialog.setting',
                 'Setting',
-                $content,
-                true
-            );
+                $content, {
+                    noCancelButton: true
+                });
         };
 
     // Update values after creating a dialog because the dialog is re-used.
