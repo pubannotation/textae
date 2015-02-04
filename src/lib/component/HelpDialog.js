@@ -1,4 +1,4 @@
-var ToolDialog = require('../util/dialog/GetToolDialog');
+var ToolDialog = require('./dialog/GetToolDialog');
 
 module.exports = function() {
 	var helpDialog = new ToolDialog(

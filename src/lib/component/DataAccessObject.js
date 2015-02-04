@@ -45,7 +45,7 @@ module.exports = function(editor, confirmDiscardChangeMessage) {
 
                     return $dialog;
                 },
-                getDialog = _.compose(extendOpenWithUrl, bindCloseEvent, require('../util/dialog/GetEditorDialog')(editor)),
+                getDialog = _.compose(extendOpenWithUrl, bindCloseEvent, require('./dialog/GetEditorDialog')(editor)),
                 label = {
                     URL: 'URL',
                     LOCAL: 'Local'

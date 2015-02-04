@@ -1,4 +1,4 @@
-var GetEditorDialog = require('../util/dialog/GetEditorDialog'),
+var GetEditorDialog = require('./dialog/GetEditorDialog'),
     Handlebars = require('handlebars'),
     source = `
     <div class="textae-editor__valiondate-dialog__content">
