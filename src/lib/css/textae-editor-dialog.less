@@ -1,0 +1,82 @@
+// Rules
+
+.common() {
+    &__label {
+        display: inline-block;
+        padding-right: 2px;
+        text-align: right;
+        &::after {
+            content: ":";
+        }
+    }
+
+}
+.save_load() {
+    &__label {
+        line-height: 1.1em;
+        width: 57px;
+    }
+    &__row {
+        margin-bottom: 4px;
+    }
+
+}
+.file() {
+    line-height: 16px;
+    height: 25px;
+    width: 340px;
+
+}
+/* dialog */
+.textae-editor {
+    &__load-dialog {
+        .common;
+        .save_load;
+        &__file-name {
+            .file;
+        }
+        &__file {
+            .file;
+        }
+
+    }
+    &__save-dialog {
+        .common;
+        .save_load;
+        &__server-file-name {
+            .file
+        }
+        &__local-file-name {
+            .file
+        }
+    }
+    &__setting-dialog {
+        .common;
+        &__label {
+            width: 221px;
+        }
+        &__type-gap[disabled="disabled"] {
+            background-color: #999;
+        }
+
+    }
+    &__valiondate-dialog__content {
+        top: -5px;
+        position: relative;
+
+        h2 {
+            margin-top: 5px;
+            font-size: 0.9em;
+            &::before {
+                color: red;
+                content: '!!! ';
+            }
+
+        }
+        ul {
+            color: #333;
+            font-size: 0.8em;
+            padding-left: 10px;
+        }
+    }
+}

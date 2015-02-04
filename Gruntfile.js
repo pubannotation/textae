@@ -120,17 +120,28 @@ module.exports = function(grunt) {
         files: browserifyFiles
       }
     },
+    less: {
+      all: {
+        files: {
+          'src/lib/css/textae-editor-dialog.css': 'src/lib/css/textae-editor-dialog.less'
+        }
+      }
+    },
     watch: {
       javascript: {
-        files: ['Gruntfile.js', 'src/lib/**', '!src/lib/bundle.js'],
+        files: ['Gruntfile.js', 'src/lib/**/*.js', '!src/lib/bundle.js'],
         tasks: ['jshint', 'browserify:dev']
       },
       static_files: {
-        files: ['src/development.html', 'src/lib/*.js', 'src/lib/css/*.css'],
+        files: ['src/development.html', 'src/lib/*.js', 'src/lib/css/*.css', 'src/*.json'],
         options: {
           livereload: true
         }
       },
+      less: {
+        files: ['src/lib/css/*.less'],
+        tasks: ['less']
+      }
     },
     connect: {
       developmentServer: {
@@ -172,8 +183,8 @@ module.exports = function(grunt) {
     },
   });
 
-  grunt.registerTask('dev', ['browserify:dev', 'connect', 'open:dev', 'watch']);
-  grunt.registerTask('dist', ['jshint', 'jasmine_node', 'clean', 'browserify:dist', 'concat', 'uglify', 'copy', 'replace:version', 'cssmin']);
+  grunt.registerTask('dev', ['browserify:dev', 'less', 'connect', 'open:dev', 'watch']);
+  grunt.registerTask('dist', ['jshint', 'jasmine_node', 'clean', 'browserify:dist', 'less', 'concat', 'uglify', 'copy', 'replace:version', 'cssmin']);
   grunt.registerTask('demo', ['open:demo', 'connect:developmentServer:keepalive']);
   grunt.registerTask('app', ['open:app', 'connect:developmentServer:keepalive']);
 };
