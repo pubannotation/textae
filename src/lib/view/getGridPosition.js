@@ -6,22 +6,22 @@ var stickGridOnSpan = function(getSpan, getGridOfSpan, span) {
       'left': spanPosition.left
     };
   },
+  getHeightIncludeDescendantGrids = function(span, typeContainer, typeGapValue) {
+    var descendantsMaxHeight = span.children.length === 0 ? 0 :
+      Math.max.apply(null, span.children.map(function(childSpan) {
+        return getHeightIncludeDescendantGrids(childSpan, typeContainer, typeGapValue);
+      }));
+
+    var gridHeight = span.getTypes().filter(function(type) {
+      return !typeContainer.entity.isBlock(type.name);
+    }).length * (typeGapValue * 18 + 18);
+    return gridHeight + descendantsMaxHeight;
+  },
   pullUpGridOverDescendants = function(getSpan, typeContainer, typeGapValue, span) {
     // Culculate the height of the grid include descendant grids, because css style affects slowly.
-    var getHeightIncludeDescendantGrids = function(span) {
-      var descendantsMaxHeight = span.children.length === 0 ? 0 :
-        Math.max.apply(null, span.children.map(function(childSpan) {
-          return getHeightIncludeDescendantGrids(childSpan);
-        }));
-
-      var gridHeight = span.getTypes().filter(function(type) {
-        return !typeContainer.entity.isBlock(type.name);
-      }).length * (typeGapValue * 18 + 18);
-      return gridHeight + descendantsMaxHeight;
-    };
 
     var spanPosition = getSpan(span.id);
-    var descendantsMaxHeight = getHeightIncludeDescendantGrids(span);
+    var descendantsMaxHeight = getHeightIncludeDescendantGrids(span, typeContainer, typeGapValue);
 
     return {
       'top': spanPosition.top - descendantsMaxHeight,
