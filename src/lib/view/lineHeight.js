@@ -4,9 +4,17 @@ var get = function(editor) {
         );
     },
     set = function(editor, heightValue) {
-        editor.find('.textae-editor__body__text-box').css({
+        var $textBox = editor.find('.textae-editor__body__text-box');
+
+        $textBox.css({
             'line-height': heightValue + 'px',
-            'padding-top': heightValue / 2 + 'px'
+            'padding-top': heightValue / 2 + 'px',
+            'height': 'auto'
+        });
+
+        // Reduce the space under the .textae-editor__body__text-box same as padding-top.
+        $textBox.css({
+            'height': $textBox.height() + 20
         });
     },
     setToTypeGap = function(editor, model, typeGapValue) {
