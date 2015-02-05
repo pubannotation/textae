@@ -135,11 +135,24 @@ module.exports = function(grunt) {
         },
         watch: {
             javascript: {
-                files: ['Gruntfile.js', 'src/lib/**/*.js', '!src/lib/bundle.js'],
-                tasks: ['jshint', 'clean:bundle', 'browserify:dev']
+                files: [
+                    'Gruntfile.js',
+                    'src/lib/**/*.js',
+                    '!src/lib/bundle.js'
+                ],
+                tasks: [
+                    'jshint',
+                    'clean:bundle',
+                    'browserify:dev'
+                ]
             },
             static_files: {
-                files: ['src/development.html', 'src/lib/*.js', 'src/lib/css/*.css', 'src/*.json'],
+                files: [
+                    'src/development.html',
+                    'src/lib/bundle.js',
+                    'src/lib/css/*.css',
+                    'src/*.json'
+                ],
                 options: {
                     livereload: true
                 }
