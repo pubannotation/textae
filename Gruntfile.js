@@ -20,7 +20,8 @@ module.exports = function(grunt) {
     pkg: grunt.file.readJSON('package.json'),
     // clean dist directory
     clean: {
-      copy: "dist/*"
+      dist: "dist/*",
+      bundle: "src/lib/bundle.js"
     },
     // create dist files
     concat: {
@@ -110,14 +111,19 @@ module.exports = function(grunt) {
       dev: {
         files: browserifyFiles,
         options: {
-            browserifyOptions: {
-            debug: true,
-            transform: [to5]
+          browserifyOptions: {
+            transform:[to5],
+            debug: true
           }
         }
       },
       dist: {
-        files: browserifyFiles
+        files: browserifyFiles,
+        options:{
+           browserifyOptions:{
+             transform:[to5]
+           }
+        }
       }
     },
     less: {
@@ -130,7 +136,7 @@ module.exports = function(grunt) {
     watch: {
       javascript: {
         files: ['Gruntfile.js', 'src/lib/**/*.js', '!src/lib/bundle.js'],
-        tasks: ['jshint', 'browserify:dev']
+        tasks: ['jshint', 'clean:bundle', 'browserify:dev']
       },
       static_files: {
         files: ['src/development.html', 'src/lib/*.js', 'src/lib/css/*.css', 'src/*.json'],
