@@ -5,15 +5,16 @@ var Model = require('./model/Model'),
     SpanConfig = require('./SpanConfig'),
     Command = require('./command'),
     ButtonController = require('./view/ButtonController'),
+    TypeContainer = require('./view/TypeContainer'),
     View = require('./view/View'),
     Presenter = require('./presenter/Presenter'),
     Controller = require('./Controller'),
     createDaoForEditor = require('./createDaoForEditor'),
     getParams = require('./getParams'),
     showVilidationDialog = require('./component/showVilidationDialog'),
-    setTypeConfig = function(view, config) {
-        view.typeContainer.setDefinedEntityTypes(config ? config['entity types'] : []);
-        view.typeContainer.setDefinedRelationTypes(config ? config['relation types'] : []);
+    setTypeConfig = function(typeContainer, config) {
+        typeContainer.setDefinedEntityTypes(config ? config['entity types'] : []);
+        typeContainer.setDefinedRelationTypes(config ? config['relation types'] : []);
 
         if (config && config.css !== undefined) {
             $('#css_area').html('<link rel="stylesheet" href="' + config.css + '"/>');
@@ -48,14 +49,24 @@ module.exports = function() {
         },
         buttonController = new ButtonController(this, model, clipBoard),
         typeGap = new ObservableValue(-1),
-        view = new View(this, model, buttonController, typeGap.get),
-        presenter = new Presenter(this, model, view, command, spanConfig, clipBoard, buttonController, typeGap),
+        typeContainer = new TypeContainer(model),
+        view = new View(this, model, buttonController, typeGap.get, typeContainer),
+        presenter = new Presenter(
+            this,
+            model,
+            view,
+            command,
+            spanConfig,
+            clipBoard,
+            buttonController,
+            typeGap,
+            typeContainer
+        ),
         //handle user input event.
         controller = new Controller(this, history, presenter, view, buttonController.buttonStateHelper),
-        setTypeConfigToView = _.partial(setTypeConfig, view),
         setSpanAndTypeConfig = function(config) {
             spanConfig.set(config);
-            setTypeConfigToView(config);
+            setTypeConfig(typeContainer, config);
         },
         setConfigInAnnotation = function(annotation) {
             spanConfig.reset();

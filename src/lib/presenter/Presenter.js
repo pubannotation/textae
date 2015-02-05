@@ -12,14 +12,14 @@ var TypeEditor = require('./typeEditor/TypeEditor'),
     CursorChanger = require('../util/CursorChanger'),
     lineHeight = require('../view/lineHeight');
 
-module.exports = function(editor, model, view, command, spanConfig, clipBoard, buttonController, typeGap) {
+module.exports = function(editor, model, view, command, spanConfig, clipBoard, buttonController, typeGap, typeContainer) {
     var typeEditor = new TypeEditor(
             editor,
             model,
             spanConfig,
             command,
             buttonController.modeAccordingToButton,
-            view.typeContainer
+            typeContainer
         ),
         editMode = new EditMode(
             editor,
@@ -38,7 +38,7 @@ module.exports = function(editor, model, view, command, spanConfig, clipBoard, b
             model.selectionModel,
             buttonController.modeAccordingToButton,
             spanConfig,
-            view.typeContainer.entity
+            typeContainer.entity
         ),
         clipBoardHandler = new ClipBoardHandler(
             command,

@@ -8,9 +8,8 @@ var delay150 = function(func) {
     };
   };
 
-module.exports = function(editor, model, buttonController, getTypeGapValue) {
+module.exports = function(editor, model, buttonController, getTypeGapValue, typeContainer) {
   var selector = require('./Selector')(editor, model),
-    typeContainer = require('./TypeContainer')(model),
     // Render DOM elements conforming with the Model.
     renderer = require('./renderer/Renderer')(editor, model, buttonController.buttonStateHelper, typeContainer),
     gridLayout = require('./GridLayout')(editor, model.annotationData, typeContainer),
@@ -78,7 +77,6 @@ module.exports = function(editor, model, buttonController, getTypeGapValue) {
     init: _.compose(setSelectionModelHandler, renderer.setModelHandler),
     hoverRelation: hover,
     updateDisplay: updateDisplay,
-    typeContainer: typeContainer,
     setTypeGap: function(newValue) {
       editor.find('.textae-editor__type')
         .css(new TypeStyle(newValue));
