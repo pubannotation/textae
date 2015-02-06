@@ -65,10 +65,10 @@ module.exports = function(editor, model, buttonController, getTypeGapValue, type
     updateDisplay = render;
 
   renderer
-    .bind('change', function() {
+    .on('change', function() {
       updateDisplay(getTypeGapValue());
     })
-    .bind('entity.render', function(entity) {
+    .on('entity.render', function(entity) {
       // Set css accoridng to the typeGapValue.
       renderer.setEntityCss(entity, new TypeStyle(getTypeGapValue()));
     });
