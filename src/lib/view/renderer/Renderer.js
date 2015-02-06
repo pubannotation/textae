@@ -1,180 +1,180 @@
 var getElement = function($parent, tagName, className) {
-    var $area = $parent.find('.' + className);
-    if ($area.length === 0) {
-      $area = $('<' + tagName + '>').addClass(className);
-      $parent.append($area);
-    }
-    return $area;
-  },
-  modelToId = function(modelElement) {
-    return modelElement.id;
-  },
-  capitalize = require('../../util/capitalize'),
-  GridRenderer = require('./GridRenderer');
+        var $area = $parent.find('.' + className);
+        if ($area.length === 0) {
+            $area = $('<' + tagName + '>').addClass(className);
+            $parent.append($area);
+        }
+        return $area;
+    },
+    modelToId = function(modelElement) {
+        return modelElement.id;
+    },
+    capitalize = require('../../util/capitalize'),
+    GridRenderer = require('./GridRenderer');
 
 module.exports = function(editor, model, buttonStateHelper, typeContainer) {
-  var // Make the display area for text, spans, denotations, relations.
-    displayArea = _.partial(getElement, editor, 'div', 'textae-editor__body'),
-    // Get the display area for denotations and relations.
-    getAnnotationArea = function() {
-      return getElement(displayArea(), 'div', 'textae-editor__body__annotation-box');
-    },
-    renderSourceDocument = function() {
-      // Get the display area for text and spans.
-      var getSourceDocArea = function() {
-          return getElement(displayArea(), 'div', 'textae-editor__body__text-box');
+    var // Make the display area for text, spans, denotations, relations.
+        displayArea = _.partial(getElement, editor, 'div', 'textae-editor__body'),
+        // Get the display area for denotations and relations.
+        getAnnotationArea = function() {
+            return getElement(displayArea(), 'div', 'textae-editor__body__annotation-box');
         },
-        // the Souce document has multi paragraphs that are splited by '\n'.
-        createTaggedSourceDoc = function(params) {
-          //set sroucedoc tagged <p> per line.
-          return params.sourceDoc.split("\n").map(function(content, index) {
-            return '<p class="textae-editor__body__text-box__paragraph-margin">' +
-              '<span class="textae-editor__body__text-box__paragraph" id="' +
-              params.paragraphs[index].id +
-              '" >' +
-              content +
-              '</span></p>';
-          }).join("\n");
-        };
+        renderSourceDocument = function() {
+            // Get the display area for text and spans.
+            var getSourceDocArea = function() {
+                    return getElement(displayArea(), 'div', 'textae-editor__body__text-box');
+                },
+                // the Souce document has multi paragraphs that are splited by '\n'.
+                createTaggedSourceDoc = function(params) {
+                    //set sroucedoc tagged <p> per line.
+                    return params.sourceDoc.split("\n").map(function(content, index) {
+                        return '<p class="textae-editor__body__text-box__paragraph-margin">' +
+                            '<span class="textae-editor__body__text-box__paragraph" id="' +
+                            params.paragraphs[index].id +
+                            '" >' +
+                            content +
+                            '</span></p>';
+                    }).join("\n");
+                };
 
-      return function(params) {
-        // Render the source document
-        getSourceDocArea().html(createTaggedSourceDoc(params));
-      };
-    }(),
-    domPositionCaChe = require('../DomPositionCache')(editor, model.annotationData.entity),
-    reset = function() {
-      var renderAllSpan = function(annotationData) {
-          // For tuning
-          // var startTime = new Date();
-
-          annotationData.span.topLevel().forEach(function(span) {
-            rendererImpl.span.render(span);
-          });
-
-          // For tuning
-          // var endTime = new Date();
-          // console.log('render all span : ', endTime.getTime() - startTime.getTime() + 'ms');
-        },
-        renderAllRelation = function(annotationData) {
-          rendererImpl.relation.reset();
-          annotationData.relation.all().forEach(rendererImpl.relation.render);
-        };
-
-      return function(annotationData) {
-        // Render annotations
-        getAnnotationArea().empty();
-        domPositionCaChe.gridPositionCache.clear();
-        renderAllSpan(annotationData);
-
-        // Render relations
-        renderAllRelation(annotationData);
-      };
-    }(),
-    rendererImpl = function() {
-      var gridRenderer = new GridRenderer(editor, domPositionCaChe),
-        modificationRenderer = function() {
-          var getClasses = function(objectId) {
-            return model.annotationData.getModificationOf(objectId)
-              .map(function(m) {
-                return 'textae-editor__' + m.pred.toLowerCase();
-              }).join(' ');
-          };
-
-          return {
-            getClasses: getClasses,
-            update: function() {
-              var allModificationClasses = 'textae-editor__negation textae-editor__speculation';
-
-              return function(domElement, objectId) {
-                domElement.removeClass(allModificationClasses);
-                domElement.addClass(getClasses(objectId));
-              };
-            }(),
-          };
+            return function(params) {
+                // Render the source document
+                getSourceDocArea().html(createTaggedSourceDoc(params));
+            };
         }(),
-        entityRenderer = require('./EntityRenderer')(editor, model, typeContainer, gridRenderer, modificationRenderer),
-        spanRenderer = require('./SpanRenderer')(editor, model, typeContainer, entityRenderer, gridRenderer),
-        relationRenderer = require('./RelationRenderer')(editor, model, typeContainer, modificationRenderer);
+        domPositionCaChe = require('../DomPositionCache')(editor, model.annotationData.entity),
+        reset = function() {
+            var renderAllSpan = function(annotationData) {
+                    // For tuning
+                    // var startTime = new Date();
 
-      return {
-        init: function(container) {
-          gridRenderer.init(container);
-          relationRenderer.init(container);
+                    annotationData.span.topLevel().forEach(function(span) {
+                        rendererImpl.span.render(span);
+                    });
+
+                    // For tuning
+                    // var endTime = new Date();
+                    // console.log('render all span : ', endTime.getTime() - startTime.getTime() + 'ms');
+                },
+                renderAllRelation = function(annotationData) {
+                    rendererImpl.relation.reset();
+                    annotationData.relation.all().forEach(rendererImpl.relation.render);
+                };
+
+            return function(annotationData) {
+                // Render annotations
+                getAnnotationArea().empty();
+                domPositionCaChe.gridPositionCache.clear();
+                renderAllSpan(annotationData);
+
+                // Render relations
+                renderAllRelation(annotationData);
+            };
+        }(),
+        rendererImpl = function() {
+            var gridRenderer = new GridRenderer(editor, domPositionCaChe),
+                modificationRenderer = function() {
+                    var getClasses = function(objectId) {
+                        return model.annotationData.getModificationOf(objectId)
+                            .map(function(m) {
+                                return 'textae-editor__' + m.pred.toLowerCase();
+                            }).join(' ');
+                    };
+
+                    return {
+                        getClasses: getClasses,
+                        update: function() {
+                            var allModificationClasses = 'textae-editor__negation textae-editor__speculation';
+
+                            return function(domElement, objectId) {
+                                domElement.removeClass(allModificationClasses);
+                                domElement.addClass(getClasses(objectId));
+                            };
+                        }(),
+                    };
+                }(),
+                entityRenderer = require('./EntityRenderer')(editor, model, typeContainer, gridRenderer, modificationRenderer),
+                spanRenderer = require('./SpanRenderer')(editor, model, typeContainer, entityRenderer, gridRenderer),
+                relationRenderer = require('./RelationRenderer')(editor, model, typeContainer, modificationRenderer);
+
+            return {
+                init: function(container) {
+                    gridRenderer.init(container);
+                    relationRenderer.init(container);
+                },
+                span: spanRenderer,
+                entity: entityRenderer,
+                relation: relationRenderer
+            };
+        }(),
+        api = require('../../util/extendBindable')({}),
+        triggerChange = _.debounce(function() {
+            api.trigger('change');
+        }, 100),
+        triggerChangeAfter = _.partial(_.compose, triggerChange),
+        entityToSpan = function(entity) {
+            return model.annotationData.span.get(entity.span);
         },
-        span: spanRenderer,
-        entity: entityRenderer,
-        relation: relationRenderer
-      };
-    }(),
-    api = require('../../util/extendBindable')({}),
-    triggerChange = _.debounce(function() {
-      api.trigger('change');
-    }, 100),
-    triggerChangeAfter = _.partial(_.compose, triggerChange),
-    entityToSpan = function(entity) {
-      return model.annotationData.span.get(entity.span);
-    },
-    updateSpanAfter = function() {
+        updateSpanAfter = function() {
 
-      return _.partial(_.compose, triggerChange, rendererImpl.span.change, entityToSpan);
-    }(),
-    renderModificationEntityOrRelation = function() {
-      var renderModification = function(modelType, modification) {
-          var target = model.annotationData[modelType].get(modification.obj);
-          if (target) {
-            rendererImpl[modelType].changeModification(target);
-            buttonStateHelper['updateBy' + capitalize(modelType)]();
-          }
+            return _.partial(_.compose, triggerChange, rendererImpl.span.change, entityToSpan);
+        }(),
+        renderModificationEntityOrRelation = function() {
+            var renderModification = function(modelType, modification) {
+                    var target = model.annotationData[modelType].get(modification.obj);
+                    if (target) {
+                        rendererImpl[modelType].changeModification(target);
+                        buttonStateHelper['updateBy' + capitalize(modelType)]();
+                    }
 
-          return modification;
+                    return modification;
+                },
+                renderModificationOfEntity = _.partial(renderModification, 'entity'),
+                renderModificationOfRelation = _.partial(renderModification, 'relation');
+
+            return _.compose(renderModificationOfEntity, renderModificationOfRelation);
+        }();
+
+    rendererImpl.entity.bind('render', function(entity) {
+        api.trigger('entity.render', entity);
+        return entity;
+    });
+
+    _.extend(api, {
+        setModelHandler: function() {
+            rendererImpl.init(getAnnotationArea());
+
+            model.annotationData
+                .on('change-text', renderSourceDocument)
+                .on('all.change', triggerChangeAfter(model.selectionModel.clear, reset))
+                .on('span.add', triggerChangeAfter(rendererImpl.span.render))
+                .on('span.remove', triggerChangeAfter(rendererImpl.span.remove))
+                .on('span.remove', _.compose(model.selectionModel.span.remove, modelToId))
+                .on('entity.add', function(entity) {
+                    // Add a now entity with a new grid after the span moved.
+                    rendererImpl.span.change(entityToSpan(entity), domPositionCaChe.reset);
+                    rendererImpl.entity.render(entity);
+                    triggerChange();
+                })
+                .on('entity.change', updateSpanAfter(rendererImpl.entity.change))
+                .on('entity.remove', updateSpanAfter(rendererImpl.entity.remove))
+                .on('entity.remove', _.compose(model.selectionModel.entity.remove, modelToId))
+                .on('relation.add', triggerChangeAfter(rendererImpl.relation.render))
+                .on('relation.change', rendererImpl.relation.change)
+                .on('relation.remove', rendererImpl.relation.remove)
+                .on('relation.remove', _.compose(model.selectionModel.relation.remove, modelToId))
+                .on('modification.add', renderModificationEntityOrRelation)
+                .on('modification.remove', renderModificationEntityOrRelation);
         },
-        renderModificationOfEntity = _.partial(renderModification, 'entity'),
-        renderModificationOfRelation = _.partial(renderModification, 'relation');
+        arrangeRelationPositionAll: rendererImpl.relation.arrangePositionAll,
+        renderLazyRelationAll: rendererImpl.relation.renderLazyRelationAll,
+        setEntityCss: function(entity, css) {
+            rendererImpl
+                .entity
+                .getTypeDom(entity)
+                .css(css);
+        }
+    });
 
-      return _.compose(renderModificationOfEntity, renderModificationOfRelation);
-    }();
-
-  rendererImpl.entity.bind('render', function(entity) {
-    api.trigger('entity.render', entity);
-    return entity;
-  });
-
-  _.extend(api, {
-    setModelHandler: function() {
-      rendererImpl.init(getAnnotationArea());
-
-      model.annotationData
-        .on('change-text', renderSourceDocument)
-        .on('all.change', triggerChangeAfter(model.selectionModel.clear, reset))
-        .on('span.add', triggerChangeAfter(rendererImpl.span.render))
-        .on('span.remove', triggerChangeAfter(rendererImpl.span.remove))
-        .on('span.remove', _.compose(model.selectionModel.span.remove, modelToId))
-        .on('entity.add', function(entity) {
-          // Add a now entity with a new grid after the span moved.
-          rendererImpl.span.change(entityToSpan(entity), domPositionCaChe.reset);
-          rendererImpl.entity.render(entity);
-          triggerChange();
-        })
-        .on('entity.change', updateSpanAfter(rendererImpl.entity.change))
-        .on('entity.remove', updateSpanAfter(rendererImpl.entity.remove))
-        .on('entity.remove', _.compose(model.selectionModel.entity.remove, modelToId))
-        .on('relation.add', triggerChangeAfter(rendererImpl.relation.render))
-        .on('relation.change', rendererImpl.relation.change)
-        .on('relation.remove', rendererImpl.relation.remove)
-        .on('relation.remove', _.compose(model.selectionModel.relation.remove, modelToId))
-        .on('modification.add', renderModificationEntityOrRelation)
-        .on('modification.remove', renderModificationEntityOrRelation);
-    },
-    arrangeRelationPositionAll: rendererImpl.relation.arrangePositionAll,
-    renderLazyRelationAll: rendererImpl.relation.renderLazyRelationAll,
-    setEntityCss: function(entity, css) {
-      rendererImpl
-        .entity
-        .getTypeDom(entity)
-        .css(css);
-    }
-  });
-
-  return api;
+    return api;
 };
