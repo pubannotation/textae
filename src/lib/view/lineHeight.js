@@ -3,19 +3,28 @@ var get = function(editor) {
             parseInt(editor.find('.textae-editor__body__text-box').css('line-height')) / 16
         );
     },
+    // Reduce the space under the .textae-editor__body__text-box same as padding-top.
+    reduceBottomSpace = function(editor) {
+        var $textBox = editor.find('.textae-editor__body__text-box');
+
+        // The height calculated by auto is exclude the value of the padding top.
+        // Rest small space.
+        $textBox
+            .css({
+                'height': 'auto'
+            }).css({
+                'height': $textBox.height() + 20
+            });
+    },
     set = function(editor, heightValue) {
         var $textBox = editor.find('.textae-editor__body__text-box');
 
         $textBox.css({
             'line-height': heightValue + 'px',
-            'padding-top': heightValue / 2 + 'px',
-            'height': 'auto'
+            'padding-top': heightValue / 2 + 'px'
         });
 
-        // Reduce the space under the .textae-editor__body__text-box same as padding-top.
-        $textBox.css({
-            'height': $textBox.height() + 20
-        });
+        reduceBottomSpace(editor);
     },
     setToTypeGap = function(editor, model, typeGapValue) {
         var TEXT_HEIGHT = 23,
