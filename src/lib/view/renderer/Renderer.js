@@ -65,6 +65,7 @@ module.exports = function(editor, model, buttonStateHelper, typeContainer) {
             model.annotationData
                 .on('change-text', function(params) {
                     renderSourceDocument(editor, params.sourceDoc, params.paragraphs);
+                    api.emit('text.change');
                 })
                 .on('all.change', triggerChangeAfter(model.selectionModel.clear, renderAll))
                 .on('span.add', triggerChangeAfter(spanRenderer.render))

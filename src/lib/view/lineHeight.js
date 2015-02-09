@@ -54,5 +54,6 @@ var get = function(editor) {
 module.exports = {
     get: get,
     set: set,
-    setToTypeGap: setToTypeGap
+    setToTypeGap: setToTypeGap,
+    reduceBottomSpace: reduceBottomSpace
 };

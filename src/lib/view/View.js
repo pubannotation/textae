@@ -1,3 +1,5 @@
+import lineHeight from './lineHeight';
+
 var delay150 = function(func) {
     return _.partial(_.delay, func, 150);
   },
@@ -71,6 +73,9 @@ module.exports = function(editor, model, buttonController, getTypeGapValue, type
     .on('entity.render', function(entity) {
       // Set css accoridng to the typeGapValue.
       renderer.setEntityCss(entity, new TypeStyle(getTypeGapValue()));
+    })
+    .on('text.change', function() {
+      lineHeight.reduceBottomSpace(editor);
     });
 
   return _.extend(api, {
