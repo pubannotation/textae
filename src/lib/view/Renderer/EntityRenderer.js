@@ -1,3 +1,5 @@
+import ModificationRenderer from './ModificationRenderer';
+
 var // Arrange a position of the pane to center entities when entities width is longer than pane width.
     arrangePositionOfPane = function(pane) {
         var paneWidth = pane.outerWidth();
@@ -37,8 +39,9 @@ var // Arrange a position of the pane to center entities when entities width is 
     idFactory = require('../../util/idFactory'),
     domUtil = require('../../util/domUtil');
 
-module.exports = function(editor, model, typeContainer, gridRenderer, modification) {
-    var getTypeDom = function(spanId, type) {
+module.exports = function(editor, model, typeContainer, gridRenderer) {
+    var modification = new ModificationRenderer(model.annotationData),
+        getTypeDom = function(spanId, type) {
             return $('#' + idFactory.makeTypeId(spanId, type));
         },
         doesSpanHasNoEntity = function(spanId) {

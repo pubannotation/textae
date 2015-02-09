@@ -1,3 +1,5 @@
+import ModificationRenderer from './ModificationRenderer';
+
 var POINTUP_LINE_WIDTH = 3,
     LABEL = {
         cssClass: 'textae-editor__relation__label',
@@ -35,9 +37,10 @@ var POINTUP_LINE_WIDTH = 3,
     jsPlumbArrowOverlayUtil = require('./jsPlumbArrowOverlayUtil'),
     domUtil = require('../../util/domUtil');
 
-module.exports = function(editor, model, typeContainer, modification) {
+module.exports = function(editor, model, typeContainer) {
     // Init a jsPlumb instance.
-    var domPositionCaChe = require('../DomPositionCache')(editor, model.annotationData.entity),
+    var modification = new ModificationRenderer(model.annotationData),
+        domPositionCaChe = require('../DomPositionCache')(editor, model.annotationData.entity),
         jsPlumbInstance,
         init = function(container) {
             jsPlumbInstance = makeJsPlumbInstance(container);
