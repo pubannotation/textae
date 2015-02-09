@@ -293,7 +293,7 @@
             "begin": 69,
             "end": 77
         },
-        "obj": "Gene_expression"
+        "obj": "http://pubmed.org/"
     }, {
         "id": "E19",
         "span": {

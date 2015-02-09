@@ -1,4 +1,5 @@
 import ModificationRenderer from './ModificationRenderer';
+import getDisplayName from './getDisplayName';
 
 var // Arrange a position of the pane to center entities when entities width is longer than pane width.
     arrangePositionOfPane = function(pane) {
@@ -14,28 +15,6 @@ var // Arrange a position of the pane to center entities when entities width is 
         });
     },
     uri = require('../../util/uri'),
-    // Display short name for URL(http or https);
-    getDisplayName = function(type) {
-        // For tunning, search the scheme before execute a regular-expression.
-        if (uri.isUri(type)) {
-            var matches = uri.getUrlMatches(type);
-
-            if (matches) {
-                // Order to dispaly.
-                // 1. The anchor without #.
-                // 2. The file name with the extention.
-                // 3. The last directory name.
-                // 4. The domain name.
-                return matches[9] ? matches[9].slice(1) :
-                    matches[6] ? matches[6] + (matches[7] || '') :
-                    matches[5] ? matches[5].split('/').filter(function(s) {
-                        return s !== '';
-                    }).pop() :
-                    matches[3];
-            }
-        }
-        return type;
-    },
     idFactory = require('../../util/idFactory'),
     domUtil = require('../../util/domUtil');
 
