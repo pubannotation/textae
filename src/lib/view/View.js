@@ -2,52 +2,20 @@ import Selector from './Selector';
 import Renderer from './Renderer';
 import GridLayout from './GridLayout';
 import lineHeight from './lineHeight';
-import extendBindable from '../util/extendBindable';
-import DomPositionCache from './DomPositionCache';
+import Hover from './Hover';
 import CursorChanger from '../util/CursorChanger';
+import {
+    EventEmitter as EventEmitter
+}
+from 'events';
 
 export default function(editor, model, buttonController, getTypeGapValue, typeContainer) {
     var selector = new Selector(editor, model),
         // Render DOM elements conforming with the Model.
         renderer = new Renderer(editor, model, buttonController.buttonStateHelper, typeContainer),
         gridLayout = new GridLayout(editor, model.annotationData, typeContainer),
-        api = extendBindable({}),
-        render = function(typeGapValue) {
-            api.trigger('render.start', editor);
-            // Do asynchronous to change behavior of editor.
-            // For example a wait cursor or a disabled control.
-            _.defer(function() {
-                gridLayout.arrangePosition(typeGapValue)
-                    .then(renderer.renderLazyRelationAll)
-                    .then(renderer.arrangeRelationPositionAll)
-                    .then(function() {
-                        api.trigger('render.end', editor);
-                    })
-                    .catch(function(error) {
-                        console.error(error, error.stack);
-                    });
-            });
-        },
-        hover = function() {
-            var domPositionCaChe = new DomPositionCache(editor, model.annotationData.entity),
-                processAccosiatedRelation = function(func, entityId) {
-                    model.annotationData.entity.assosicatedRelations(entityId)
-                        .map(domPositionCaChe.toConnect)
-                        .filter(function(connect) {
-                            return connect.pointup && connect.pointdown;
-                        })
-                        .forEach(func);
-                };
-
-            return {
-                on: _.partial(processAccosiatedRelation, function(connect) {
-                    connect.pointup();
-                }),
-                off: _.partial(processAccosiatedRelation, function(connect) {
-                    connect.pointdown();
-                })
-            };
-        }(),
+        emitter = new EventEmitter(),
+        hover = new Hover(editor, model.annotationData.entity),
         setSelectionModelHandler = function() {
             // Because entity.change is off at relation-edit-mode.
             model.selectionModel
@@ -60,7 +28,7 @@ export default function(editor, model, buttonController, getTypeGapValue, typeCo
                 .on('relation.deselect', delay150(selector.relation.deselect))
                 .on('relation.change', buttonController.buttonStateHelper.updateByRelation);
         },
-        updateDisplay = render;
+        updateDisplay = _.partial(render, editor, emitter, gridLayout, renderer);
 
     return {
         init: () => {
@@ -78,12 +46,12 @@ export default function(editor, model, buttonController, getTypeGapValue, typeCo
 
             // Set cursor control by view rendering events.
             var cursorChanger = new CursorChanger(editor);
-            api
-                .bind('render.start', function(editor) {
+            emitter
+                .on('render.start', function(editor) {
                     // console.log(editor.editorId, 'render.start');
                     cursorChanger.startWait();
                 })
-                .bind('render.end', function(editor) {
+                .on('render.end', function(editor) {
                     // console.log(editor.editorId, 'render.end');
                     cursorChanger.endWait();
                 });
@@ -95,7 +63,7 @@ export default function(editor, model, buttonController, getTypeGapValue, typeCo
         setTypeGap: function(newValue) {
             editor.find('.textae-editor__type')
                 .css(new TypeStyle(newValue));
-            render(newValue);
+            render(editor, emitter, gridLayout, renderer, newValue);
         }
     };
 }
@@ -109,4 +77,21 @@ function TypeStyle(newValue) {
         height: 18 * newValue + 18 + 'px',
         'padding-top': 18 * newValue + 'px'
     };
+}
+
+function render(editor, emitter, gridLayout, renderer, typeGapValue) {
+    emitter.emit('render.start', editor);
+    // Do asynchronous to change behavior of editor.
+    // For example a wait cursor or a disabled control.
+    _.defer(function() {
+        gridLayout.arrangePosition(typeGapValue)
+            .then(renderer.renderLazyRelationAll)
+            .then(renderer.arrangeRelationPositionAll)
+            .then(function() {
+                emitter.emit('render.end', editor);
+            })
+            .catch(function(error) {
+                console.error(error, error.stack);
+            });
+    });
 }
