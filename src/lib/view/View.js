@@ -4,6 +4,7 @@ import GridLayout from './GridLayout';
 import lineHeight from './lineHeight';
 import extendBindable from '../util/extendBindable';
 import DomPositionCache from './DomPositionCache';
+import CursorChanger from '../util/CursorChanger';
 
 export default function(editor, model, buttonController, getTypeGapValue, typeContainer) {
     var selector = new Selector(editor, model),
@@ -61,7 +62,7 @@ export default function(editor, model, buttonController, getTypeGapValue, typeCo
         },
         updateDisplay = render;
 
-    return _.extend(api, {
+    return {
         init: () => {
             renderer.init(editor, model)
                 .on('change', function() {
@@ -75,6 +76,18 @@ export default function(editor, model, buttonController, getTypeGapValue, typeCo
                     lineHeight.reduceBottomSpace(editor);
                 });
 
+            // Set cursor control by view rendering events.
+            var cursorChanger = new CursorChanger(editor);
+            api
+                .bind('render.start', function(editor) {
+                    // console.log(editor.editorId, 'render.start');
+                    cursorChanger.startWait();
+                })
+                .bind('render.end', function(editor) {
+                    // console.log(editor.editorId, 'render.end');
+                    cursorChanger.endWait();
+                });
+
             setSelectionModelHandler();
         },
         hoverRelation: hover,
@@ -84,7 +97,7 @@ export default function(editor, model, buttonController, getTypeGapValue, typeCo
                 .css(new TypeStyle(newValue));
             render(newValue);
         }
-    });
+    };
 }
 
 function delay150(func) {

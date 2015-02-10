@@ -9,7 +9,6 @@ var TypeEditor = require('./typeEditor/TypeEditor'),
     SelectSpanHandler = require('./SelectSpanHandler'),
     SetEditableHandler = require('./SetEditableHandler'),
     SettingDialog = require('../component/SettingDialog'),
-    CursorChanger = require('../util/CursorChanger'),
     lineHeight = require('../view/lineHeight');
 
 module.exports = function(editor, model, view, command, spanConfig, clipBoard, buttonController, typeGap, typeContainer) {
@@ -89,18 +88,6 @@ module.exports = function(editor, model, view, command, spanConfig, clipBoard, b
             editor
                 .on('textae.editor.jsPlumbConnection.add', function(event, jsPlumbConnection) {
                     jsPlumbConnection.bindClickAction(typeEditor.jsPlumbConnectionClicked);
-                });
-
-            // Set cursor control by view rendering events.
-            var cursorChanger = new CursorChanger(editor);
-            view
-                .bind('render.start', function(editor) {
-                    // console.log(editor.editorId, 'render.start');
-                    cursorChanger.startWait();
-                })
-                .bind('render.end', function(editor) {
-                    // console.log(editor.editorId, 'render.end');
-                    cursorChanger.endWait();
                 });
 
             // Set bind the lineHeight to the typeGap.
