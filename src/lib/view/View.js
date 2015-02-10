@@ -5,11 +5,17 @@ import Display from './Display';
 import CursorChanger from '../util/CursorChanger';
 import setSelectionModelHandler from './setSelectionModelHandler';
 
-export default function(editor, model, buttonController, getTypeGapValue, typeContainer) {
+export default function(editor, model, buttonController, typeGap, typeContainer) {
     // Render DOM elements conforming with the Model.
     var renderer = new Renderer(editor, model, buttonController.buttonStateHelper, typeContainer),
         hover = new Hover(editor, model.annotationData.entity),
-        display = new Display(editor, model.annotationData, typeContainer, renderer);
+        display = new Display(editor, model.annotationData, typeContainer, renderer),
+        setTypeStyle = newValue => editor.find('.textae-editor__type').css(new TypeStyle(newValue));
+
+    typeGap
+        .on('change', setTypeStyle)
+        .on('change', newValue => lineHeight.setToTypeGap(editor, model, typeContainer, newValue))
+        .on('change', display.update);
 
     setDisplayHandler(editor, display);
     setSelectionModelHandler(editor, model, buttonController);
@@ -21,15 +27,10 @@ export default function(editor, model, buttonController, getTypeGapValue, typeCo
             model,
             renderer,
             display.update,
-            getTypeGapValue
+            typeGap.get
         ),
         hoverRelation: hover,
-        updateDisplay: display.update,
-        setTypeGap: newValue => {
-            editor.find('.textae-editor__type')
-                .css(new TypeStyle(newValue));
-            display.update(newValue);
-        }
+        updateDisplay: () => display.update(typeGap.get)
     };
 }
 

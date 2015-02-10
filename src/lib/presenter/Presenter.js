@@ -8,8 +8,7 @@ var TypeEditor = require('./typeEditor/TypeEditor'),
     ToggleButtonHandler = require('./ToggleButtonHandler'),
     SelectSpanHandler = require('./SelectSpanHandler'),
     SetEditableHandler = require('./SetEditableHandler'),
-    SettingDialog = require('../component/SettingDialog'),
-    lineHeight = require('../view/lineHeight');
+    SettingDialog = require('../component/SettingDialog');
 
 module.exports = function(editor, model, view, command, spanConfig, clipBoard, buttonController, typeGap, typeContainer) {
     var typeEditor = new TypeEditor(
@@ -89,11 +88,6 @@ module.exports = function(editor, model, view, command, spanConfig, clipBoard, b
                 .on('textae.editor.jsPlumbConnection.add', function(event, jsPlumbConnection) {
                     jsPlumbConnection.bindClickAction(typeEditor.jsPlumbConnectionClicked);
                 });
-
-            // Set bind the lineHeight to the typeGap.
-            typeGap.on('change', function(newValue) {
-                lineHeight.setToTypeGap(editor, model, typeContainer, newValue);
-            });
 
             defaultEntityHandler.on('createEntity', displayInstance.notifyNewInstance);
         },

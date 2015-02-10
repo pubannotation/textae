@@ -50,7 +50,7 @@ module.exports = function() {
         buttonController = new ButtonController(this, model, clipBoard),
         typeGap = new ObservableValue(-1),
         typeContainer = new TypeContainer(model),
-        view = new View(this, model, buttonController, typeGap.get, typeContainer),
+        view = new View(this, model, buttonController, typeGap, typeContainer),
         presenter = new Presenter(
             this,
             model,
@@ -121,8 +121,6 @@ module.exports = function() {
             }
         };
 
-    typeGap.on('change', view.setTypeGap);
-
     // public funcitons of editor
     this.api = function(editor) {
         var updateAPIs = function(dataAccessObject) {
@@ -181,7 +179,7 @@ module.exports = function() {
                     handleButtonClick: _.partial(handle, iconApiMap),
                     redraw: function() {
                         console.log(editor.editorId, 'redraw');
-                        view.updateDisplay(typeGap.get());
+                        view.updateDisplay();
                     }
                 };
             },
