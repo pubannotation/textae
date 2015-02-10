@@ -1,4 +1,3 @@
-import Selector from './Selector';
 import Renderer from './Renderer';
 import GridLayout from './GridLayout';
 import lineHeight from './lineHeight';
@@ -8,41 +7,19 @@ import {
     EventEmitter as EventEmitter
 }
 from 'events';
+import setSelectionModelHandler from './setSelectionModelHandler';
 
 export default function(editor, model, buttonController, getTypeGapValue, typeContainer) {
-    var selector = new Selector(editor, model),
-        // Render DOM elements conforming with the Model.
-        renderer = new Renderer(editor, model, buttonController.buttonStateHelper, typeContainer),
+    // Render DOM elements conforming with the Model.
+    var renderer = new Renderer(editor, model, buttonController.buttonStateHelper, typeContainer),
         gridLayout = new GridLayout(editor, model.annotationData, typeContainer),
         emitter = new EventEmitter(),
         hover = new Hover(editor, model.annotationData.entity),
-        setSelectionModelHandler = function() {
-            // Because entity.change is off at relation-edit-mode.
-            model.selectionModel
-                .on('span.select', selector.span.select)
-                .on('span.deselect', selector.span.deselect)
-                .on('span.change', buttonController.buttonStateHelper.updateBySpan)
-                .on('entity.select', selector.entity.select)
-                .on('entity.deselect', selector.entity.deselect)
-                .on('relation.select', delay150(selector.relation.select))
-                .on('relation.deselect', delay150(selector.relation.deselect))
-                .on('relation.change', buttonController.buttonStateHelper.updateByRelation);
-        },
         updateDisplay = _.partial(render, editor, emitter, gridLayout, renderer);
 
     return {
         init: () => {
-            renderer.init(editor, model)
-                .on('change', function() {
-                    updateDisplay(getTypeGapValue());
-                })
-                .on('entity.render', function(entity) {
-                    // Set css accoridng to the typeGapValue.
-                    renderer.setEntityCss(entity, new TypeStyle(getTypeGapValue()));
-                })
-                .on('text.change', function() {
-                    lineHeight.reduceBottomSpace(editor);
-                });
+            initRenderer(editor, model, renderer, updateDisplay, getTypeGapValue);
 
             // Set cursor control by view rendering events.
             var cursorChanger = new CursorChanger(editor);
@@ -56,7 +33,7 @@ export default function(editor, model, buttonController, getTypeGapValue, typeCo
                     cursorChanger.endWait();
                 });
 
-            setSelectionModelHandler();
+            setSelectionModelHandler(editor, model, buttonController);
         },
         hoverRelation: hover,
         updateDisplay: updateDisplay,
@@ -66,10 +43,6 @@ export default function(editor, model, buttonController, getTypeGapValue, typeCo
             render(editor, emitter, gridLayout, renderer, newValue);
         }
     };
-}
-
-function delay150(func) {
-    return _.partial(_.delay, func, 150);
 }
 
 function TypeStyle(newValue) {
@@ -94,4 +67,18 @@ function render(editor, emitter, gridLayout, renderer, typeGapValue) {
                 console.error(error, error.stack);
             });
     });
+}
+
+function initRenderer(editor, model, renderer, updateDisplay, getTypeGapValue) {
+    renderer.init(editor, model)
+        .on('change', function() {
+            updateDisplay(getTypeGapValue());
+        })
+        .on('entity.render', function(entity) {
+            // Set css accoridng to the typeGapValue.
+            renderer.setEntityCss(entity, new TypeStyle(getTypeGapValue()));
+        })
+        .on('text.change', function() {
+            lineHeight.reduceBottomSpace(editor);
+        });
 }
