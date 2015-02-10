@@ -35,6 +35,7 @@ var resetView = function(typeEditor, selectionModel) {
                     resetView(typeEditor, selectionModel);
 
                     viewMode.setTerm();
+                    viewMode.setEditable(false);
 
                     instanceEvent.emit('hide');
                 },
@@ -42,6 +43,7 @@ var resetView = function(typeEditor, selectionModel) {
                     resetView(typeEditor, selectionModel);
 
                     viewMode.setInstance();
+                    viewMode.setEditable(false);
 
                     instanceEvent.emit('show');
                 }
