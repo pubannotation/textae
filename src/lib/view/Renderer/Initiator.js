@@ -9,51 +9,65 @@ from 'events';
 import TypeStyle from '../TypeStyle';
 
 export default function(domPositionCaChe, spanRenderer, gridRenderer, entityRenderer, relationRenderer, buttonStateHelper, typeGap) {
-    var emitter = new EventEmitter(),
-        triggerChange = _.debounce(function() {
-            emitter.emit('change');
-        }, 100),
-        triggerChangeAfter = _.partial(_.compose, triggerChange);
+    var emitter = new EventEmitter();
 
     entityRenderer.on('render', entity => entityRenderer.getTypeDom(entity).css(new TypeStyle(typeGap())));
 
     return (editor, annotationData, selectionModel) => {
         var renderAll = new RenderAll(editor, domPositionCaChe, spanRenderer, relationRenderer),
-            entityToSpan = function(entity) {
-                return annotationData.span.get(entity.span);
-            },
-            updateSpanAfter = _.partial(_.compose, triggerChange, spanRenderer.change, entityToSpan),
-            renderModificationEntityOrRelation = (modification) => {
+            renderSpanOfEntity = _.compose(
+                spanRenderer.change,
+                entity => annotationData.span.get(entity.span)
+            ),
+            renderModificationEntityOrRelation = modification => {
                 renderModification(annotationData, 'relation', modification, relationRenderer, buttonStateHelper);
                 renderModification(annotationData, 'entity', modification, entityRenderer, buttonStateHelper);
             };
 
         initChildren(editor, gridRenderer, relationRenderer);
 
-        annotationData
-            .on('change-text', function(params) {
-                renderSourceDocument(editor, params.sourceDoc, params.paragraphs);
-                emitter.emit('text.change');
-            })
-            .on('all.change', triggerChangeAfter(selectionModel.clear, renderAll))
-            .on('span.add', triggerChangeAfter(spanRenderer.render))
-            .on('span.remove', triggerChangeAfter(spanRenderer.remove))
-            .on('span.remove', _.compose(selectionModel.span.remove, modelToId))
-            .on('entity.add', function(entity) {
+        var eventHandlers = [
+            ['text.change', params => renderSourceDocument(editor, params.sourceDoc, params.paragraphs)],
+            ['all.change', annotationData => {
+                renderAll(annotationData);
+                selectionModel.clear();
+            }],
+            ['span.add', span => spanRenderer.render(span)],
+            ['span.remove', span => {
+                spanRenderer.remove(span);
+                selectionModel.span.remove(modelToId(span));
+            }],
+            ['entity.add', entity => {
                 // Add a now entity with a new grid after the span moved.
-                spanRenderer.change(entityToSpan(entity), domPositionCaChe.reset);
+                spanRenderer.change(
+                    annotationData.span.get(entity.span),
+                    domPositionCaChe.reset
+                );
                 entityRenderer.render(entity);
-                triggerChange();
-            })
-            .on('entity.change', updateSpanAfter(entityRenderer.change))
-            .on('entity.remove', updateSpanAfter(entityRenderer.remove))
-            .on('entity.remove', _.compose(selectionModel.entity.remove, modelToId))
-            .on('relation.add', triggerChangeAfter(relationRenderer.render))
-            .on('relation.change', relationRenderer.change)
-            .on('relation.remove', relationRenderer.remove)
-            .on('relation.remove', _.compose(selectionModel.relation.remove, modelToId))
-            .on('modification.add', renderModificationEntityOrRelation)
-            .on('modification.remove', renderModificationEntityOrRelation);
+            }],
+            ['entity.change', entity => {
+                entityRenderer.change(entity);
+                renderSpanOfEntity(entity);
+            }],
+            ['entity.remove', entity => {
+                entityRenderer.remove(entity);
+                renderSpanOfEntity(entity);
+                selectionModel.entity.remove(modelToId(entity));
+            }],
+            ['relation.add', relation => {
+                relationRenderer.render(relation);
+                emitter.emit('relation.add', relation);
+            }],
+            ['relation.change', relationRenderer.change],
+            ['relation.remove', relation => {
+                relationRenderer.remove(relation);
+                selectionModel.relation.remove(modelToId(relation));
+            }],
+            ['modification.add', renderModificationEntityOrRelation],
+            ['modification.remove', renderModificationEntityOrRelation]
+        ];
+
+        eventHandlers.forEach(eventHandler => bindeToModelEvent(emitter, annotationData, eventHandler[0], eventHandler[1]));
 
         return emitter;
     };
@@ -67,4 +81,11 @@ function initChildren(editor, gridRenderer, relationRenderer) {
 
 function modelToId(modelElement) {
     return modelElement.id;
+}
+
+function bindeToModelEvent(emitter, annotationData, eventName, handler) {
+    annotationData.on(eventName, param => {
+        handler(param);
+        emitter.emit(eventName);
+    });
 }

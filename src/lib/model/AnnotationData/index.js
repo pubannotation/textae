@@ -23,7 +23,7 @@ var setNewData = require('./setNewData'),
 
                     originalData = annotation;
 
-                    dataStore.emit('change-text', {
+                    dataStore.emit('text.change', {
                         sourceDoc: dataStore.sourceDoc,
                         paragraphs: dataStore.paragraph.all()
                     });

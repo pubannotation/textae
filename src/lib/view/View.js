@@ -34,10 +34,19 @@ export default function(editor, model, buttonController, typeGap, typeContainer)
     };
 }
 
-function initRenderer(editor, model, renderer, updateDisplay, getTypeGapValue) {
+function initRenderer(editor, model, renderer, updateDisplay, typeGap) {
+    var debouncedUpdateDisplay = _.debounce(() => updateDisplay(typeGap()), 100);
+
     renderer.init(editor, model.annotationData, model.selectionModel)
-        .on('change', () => updateDisplay(getTypeGapValue()))
-        .on('text.change', () => lineHeight.reduceBottomSpace(editor));
+        .on('change', debouncedUpdateDisplay)
+        .on('all.change', debouncedUpdateDisplay)
+        .on('text.change', () => lineHeight.reduceBottomSpace(editor))
+        .on('span.add', debouncedUpdateDisplay)
+        .on('span.remove', debouncedUpdateDisplay)
+        .on('entity.add', debouncedUpdateDisplay)
+        .on('entity.change', debouncedUpdateDisplay)
+        .on('entity.remove', debouncedUpdateDisplay)
+        .on('relation.add', debouncedUpdateDisplay);
 }
 
 function setDisplayHandler(editor, display) {
