@@ -6,41 +6,39 @@ import {
     EventEmitter as EventEmitter
 }
 from 'events';
+import TypeStyle from '../TypeStyle';
 
-export default function(domPositionCaChe, spanRenderer, gridRenderer, entityRenderer, relationRenderer, buttonStateHelper) {
+export default function(domPositionCaChe, spanRenderer, gridRenderer, entityRenderer, relationRenderer, buttonStateHelper, typeGap) {
     var emitter = new EventEmitter(),
         triggerChange = _.debounce(function() {
             emitter.emit('change');
         }, 100),
         triggerChangeAfter = _.partial(_.compose, triggerChange);
 
-    entityRenderer.on('render', function(entity) {
-        emitter.emit('entity.render', entity);
-        return entity;
-    });
+    entityRenderer.on('render', entity => entityRenderer.getTypeDom(entity).css(new TypeStyle(typeGap())));
 
-    return (editor, model) => {
+    return (editor, annotationData, selectionModel) => {
         var renderAll = new RenderAll(editor, domPositionCaChe, spanRenderer, relationRenderer),
             entityToSpan = function(entity) {
-                return model.annotationData.span.get(entity.span);
+                return annotationData.span.get(entity.span);
             },
             updateSpanAfter = _.partial(_.compose, triggerChange, spanRenderer.change, entityToSpan),
             renderModificationEntityOrRelation = (modification) => {
-                renderModification(model.annotationData, 'relation', modification, relationRenderer, buttonStateHelper);
-                renderModification(model.annotationData, 'entity', modification, entityRenderer, buttonStateHelper);
+                renderModification(annotationData, 'relation', modification, relationRenderer, buttonStateHelper);
+                renderModification(annotationData, 'entity', modification, entityRenderer, buttonStateHelper);
             };
 
         initChildren(editor, gridRenderer, relationRenderer);
 
-        model.annotationData
+        annotationData
             .on('change-text', function(params) {
                 renderSourceDocument(editor, params.sourceDoc, params.paragraphs);
                 emitter.emit('text.change');
             })
-            .on('all.change', triggerChangeAfter(model.selectionModel.clear, renderAll))
+            .on('all.change', triggerChangeAfter(selectionModel.clear, renderAll))
             .on('span.add', triggerChangeAfter(spanRenderer.render))
             .on('span.remove', triggerChangeAfter(spanRenderer.remove))
-            .on('span.remove', _.compose(model.selectionModel.span.remove, modelToId))
+            .on('span.remove', _.compose(selectionModel.span.remove, modelToId))
             .on('entity.add', function(entity) {
                 // Add a now entity with a new grid after the span moved.
                 spanRenderer.change(entityToSpan(entity), domPositionCaChe.reset);
@@ -49,11 +47,11 @@ export default function(domPositionCaChe, spanRenderer, gridRenderer, entityRend
             })
             .on('entity.change', updateSpanAfter(entityRenderer.change))
             .on('entity.remove', updateSpanAfter(entityRenderer.remove))
-            .on('entity.remove', _.compose(model.selectionModel.entity.remove, modelToId))
+            .on('entity.remove', _.compose(selectionModel.entity.remove, modelToId))
             .on('relation.add', triggerChangeAfter(relationRenderer.render))
             .on('relation.change', relationRenderer.change)
             .on('relation.remove', relationRenderer.remove)
-            .on('relation.remove', _.compose(model.selectionModel.relation.remove, modelToId))
+            .on('relation.remove', _.compose(selectionModel.relation.remove, modelToId))
             .on('modification.add', renderModificationEntityOrRelation)
             .on('modification.remove', renderModificationEntityOrRelation);
 
@@ -61,7 +59,7 @@ export default function(domPositionCaChe, spanRenderer, gridRenderer, entityRend
     };
 }
 
-function initChildren (editor, gridRenderer, relationRenderer) {
+function initChildren(editor, gridRenderer, relationRenderer) {
     var container = getAnnotationBox(editor);
     gridRenderer.init(container);
     relationRenderer.init(container);

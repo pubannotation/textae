@@ -5,7 +5,7 @@ import RelationRenderer from './RelationRenderer';
 import DomPositionCache from '../DomPositionCache';
 import Initiator from './Initiator';
 
-module.exports = function(editor, model, buttonStateHelper, typeContainer) {
+module.exports = function(editor, model, buttonStateHelper, typeContainer, typeGap) {
     var domPositionCaChe = new DomPositionCache(editor, model.annotationData.entity),
         gridRenderer = new GridRenderer(editor, domPositionCaChe),
         entityRenderer = new EntityRenderer(editor, model, typeContainer, gridRenderer),
@@ -19,15 +19,11 @@ module.exports = function(editor, model, buttonStateHelper, typeContainer) {
             gridRenderer,
             entityRenderer,
             relationRenderer,
-            buttonStateHelper
+            buttonStateHelper,
+            typeGap
         ),
         arrangeRelationPositionAll: relationRenderer.arrangePositionAll,
-        renderLazyRelationAll: relationRenderer.renderLazyRelationAll,
-        setEntityCss: function(entity, css) {
-            entityRenderer
-                .getTypeDom(entity)
-                .css(css);
-        }
+        renderLazyRelationAll: relationRenderer.renderLazyRelationAll
     };
 
     return api;

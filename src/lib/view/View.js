@@ -4,10 +4,11 @@ import Hover from './Hover';
 import Display from './Display';
 import CursorChanger from '../util/CursorChanger';
 import setSelectionModelHandler from './setSelectionModelHandler';
+import TypeStyle from './TypeStyle';
 
 export default function(editor, model, buttonController, typeGap, typeContainer) {
     // Render DOM elements conforming with the Model.
-    var renderer = new Renderer(editor, model, buttonController.buttonStateHelper, typeContainer),
+    var renderer = new Renderer(editor, model, buttonController.buttonStateHelper, typeContainer, typeGap),
         hover = new Hover(editor, model.annotationData.entity),
         display = new Display(editor, model.annotationData, typeContainer, renderer),
         setTypeStyle = newValue => editor.find('.textae-editor__type').css(new TypeStyle(newValue));
@@ -33,20 +34,9 @@ export default function(editor, model, buttonController, typeGap, typeContainer)
     };
 }
 
-function TypeStyle(newValue) {
-    return {
-        height: 18 * newValue + 18 + 'px',
-        'padding-top': 18 * newValue + 'px'
-    };
-}
-
 function initRenderer(editor, model, renderer, updateDisplay, getTypeGapValue) {
-    renderer.init(editor, model)
+    renderer.init(editor, model.annotationData, model.selectionModel)
         .on('change', () => updateDisplay(getTypeGapValue()))
-        .on('entity.render', entity => {
-            // Set css accoridng to the typeGapValue.
-            renderer.setEntityCss(entity, new TypeStyle(getTypeGapValue()));
-        })
         .on('text.change', () => lineHeight.reduceBottomSpace(editor));
 }
 
