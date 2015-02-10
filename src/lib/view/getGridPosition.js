@@ -1,38 +1,29 @@
-var stickGridOnSpan = function(getSpan, getGridOfSpan, span) {
+import getHeightIncludeDescendantGrids from './getHeightIncludeDescendantGrids';
+
+export default function(getSpan, getGridOfSpan, typeContainer, typeGapValue, span) {
+    if (span.children.length === 0) {
+        return stickGridOnSpan(getSpan, getGridOfSpan, span);
+    } else {
+        return pullUpGridOverDescendants(getSpan, typeContainer, typeGapValue, span);
+    }
+}
+
+function stickGridOnSpan(getSpan, getGridOfSpan, span) {
     var spanPosition = getSpan(span.id);
 
     return {
-      'top': spanPosition.top - getGridOfSpan(span.id).outerHeight(),
-      'left': spanPosition.left
+        'top': spanPosition.top - getGridOfSpan(span.id).outerHeight(),
+        'left': spanPosition.left
     };
-  },
-  getHeightIncludeDescendantGrids = function(span, typeContainer, typeGapValue) {
-    var descendantsMaxHeight = span.children.length === 0 ? 0 :
-      Math.max.apply(null, span.children.map(function(childSpan) {
-        return getHeightIncludeDescendantGrids(childSpan, typeContainer, typeGapValue);
-      }));
+}
 
-    var gridHeight = span.getTypes().filter(function(type) {
-      return !typeContainer.entity.isBlock(type.name);
-    }).length * (typeGapValue * 18 + 18);
-    return gridHeight + descendantsMaxHeight;
-  },
-  pullUpGridOverDescendants = function(getSpan, typeContainer, typeGapValue, span) {
+function pullUpGridOverDescendants(getSpan, typeContainer, typeGapValue, span) {
     // Culculate the height of the grid include descendant grids, because css style affects slowly.
-
-    var spanPosition = getSpan(span.id);
-    var descendantsMaxHeight = getHeightIncludeDescendantGrids(span, typeContainer, typeGapValue);
+    var spanPosition = getSpan(span.id),
+        descendantsMaxHeight = getHeightIncludeDescendantGrids(span, typeContainer, typeGapValue);
 
     return {
-      'top': spanPosition.top - descendantsMaxHeight,
-      'left': spanPosition.left
+        'top': spanPosition.top - descendantsMaxHeight,
+        'left': spanPosition.left
     };
-  };
-
-module.exports = function(getSpan, getGridOfSpan, typeContainer, typeGapValue, span) {
-  if (span.children.length === 0) {
-    return stickGridOnSpan(getSpan, getGridOfSpan, span);
-  } else {
-    return pullUpGridOverDescendants(getSpan, typeContainer, typeGapValue, span);
-  }
-};
+}

@@ -1,59 +1,54 @@
-var get = function(editor) {
-        return Math.floor(
-            parseInt(editor.find('.textae-editor__body__text-box').css('line-height')) / 16
-        );
-    },
-    // Reduce the space under the .textae-editor__body__text-box same as padding-top.
-    reduceBottomSpace = function(editor) {
-        var $textBox = editor.find('.textae-editor__body__text-box');
+const TEXT_HEIGHT = 23;
+const MARGIN_TOP = 60;
+const MINIMUM_HEIGHT = 16 * 4;
 
-        // The height calculated by auto is exclude the value of the padding top.
-        // Rest small space.
-        $textBox
-            .css({
-                'height': 'auto'
-            }).css({
-                'height': $textBox.height() + 20
-            });
-    },
-    set = function(editor, heightValue) {
-        var $textBox = editor.find('.textae-editor__body__text-box');
+import getHeightIncludeDescendantGrids from './getHeightIncludeDescendantGrids';
 
-        $textBox.css({
-            'line-height': heightValue + 'px',
-            'padding-top': heightValue / 2 + 'px'
+export function get(editor) {
+    return Math.floor(
+        parseInt(editor.find('.textae-editor__body__text-box').css('line-height')) / 16
+    );
+}
+
+// Reduce the space under the .textae-editor__body__text-box same as padding-top.
+export function reduceBottomSpace(editor) {
+    var $textBox = editor.find('.textae-editor__body__text-box');
+
+    // The height calculated by auto is exclude the value of the padding top.
+    // Rest small space.
+    $textBox
+        .css({
+            'height': 'auto'
+        }).css({
+            'height': $textBox.height() + 20
         });
+}
 
-        reduceBottomSpace(editor);
-    },
-    setToTypeGap = function(editor, model, typeGapValue) {
-        var TEXT_HEIGHT = 23,
-            MARGIN_TOP = 60,
-            MINIMUM_HEIGHT = 16 * 4,
-            heightOfType = typeGapValue * 18 + 18,
-            maxHeight = _.max(model.annotationData.span.all()
-                .map(function(span) {
-                    var height = TEXT_HEIGHT + MARGIN_TOP;
-                    var countHeight = function(span) {
-                        // Grid height is height of types and margin bottom of the grid.
-                        height += span.getTypes().length * heightOfType;
-                        if (span.parent) {
-                            countHeight(span.parent);
-                        }
-                    };
+export function set(editor, heightValue) {
+    var $textBox = editor.find('.textae-editor__body__text-box');
 
-                    countHeight(span);
+    $textBox.css({
+        'line-height': heightValue + 'px',
+        'padding-top': heightValue / 2 + 'px'
+    });
 
-                    return height;
-                }).concat(MINIMUM_HEIGHT)
-            );
+    reduceBottomSpace(editor);
+}
 
-        set(editor, maxHeight);
-    };
+export function setToTypeGap(editor, model, typeContainer, typeGapValue) {
+    var heightOfType = typeGapValue * 18 + 18,
+        maxHeight;
 
-module.exports = {
-    get: get,
-    set: set,
-    setToTypeGap: setToTypeGap,
-    reduceBottomSpace: reduceBottomSpace
-};
+    if (model.annotationData.span.all().length === 0) {
+        maxHeight = MINIMUM_HEIGHT;
+    } else {
+        maxHeight = _.max(
+            model.annotationData.span.all()
+            .map(span => getHeightIncludeDescendantGrids(span, typeContainer, typeGapValue))
+        );
+
+        maxHeight += TEXT_HEIGHT + MARGIN_TOP;
+    }
+
+    set(editor, maxHeight);
+}

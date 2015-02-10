@@ -92,7 +92,7 @@ module.exports = function(editor, model, view, command, spanConfig, clipBoard, b
 
             // Set bind the lineHeight to the typeGap.
             typeGap.on('change', function(newValue) {
-                lineHeight.setToTypeGap(editor, model, newValue);
+                lineHeight.setToTypeGap(editor, model, typeContainer, newValue);
             });
 
             defaultEntityHandler.on('createEntity', displayInstance.notifyNewInstance);
