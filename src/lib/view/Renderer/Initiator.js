@@ -14,7 +14,7 @@ export default function(domPositionCaChe, spanRenderer, gridRenderer, entityRend
         }, 100),
         triggerChangeAfter = _.partial(_.compose, triggerChange);
 
-    entityRenderer.bind('render', function(entity) {
+    entityRenderer.on('render', function(entity) {
         emitter.emit('entity.render', entity);
         return entity;
     });

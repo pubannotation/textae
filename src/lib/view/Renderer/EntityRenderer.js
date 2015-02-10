@@ -1,5 +1,9 @@
 import ModificationRenderer from './ModificationRenderer';
 import getDisplayName from './getDisplayName';
+import {
+    EventEmitter as EventEmitter
+}
+from 'events';
 
 var // Arrange a position of the pane to center entities when entities width is longer than pane width.
     arrangePositionOfPane = function(pane) {
@@ -141,13 +145,13 @@ module.exports = function(editor, model, typeContainer, gridRenderer) {
                 arrangePositionOfPane(pane);
             };
         }(),
-        api = require('../../util/extendBindable')({}),
+        emitter = new EventEmitter(),
         createEntityUnlessBlock = function(entity) {
             if (!typeContainer.entity.isBlock(entity.type)) {
                 create(entity);
             }
 
-            api.trigger('render', entity);
+            emitter.emit('render', entity);
 
             return entity;
         },
@@ -182,7 +186,7 @@ module.exports = function(editor, model, typeContainer, gridRenderer) {
             return entity;
         };
 
-    return _.extend(api, {
+    return _.extend(emitter, {
         render: createEntityUnlessBlock,
         change: changeTypeOfExists,
         changeModification: changeModificationOfExists,
