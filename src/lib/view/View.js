@@ -1,21 +1,16 @@
+import Selector from './Selector';
+import Renderer from './Renderer';
+import GridLayout from './GridLayout';
 import lineHeight from './lineHeight';
+import extendBindable from '../util/extendBindable';
+import DomPositionCache from './DomPositionCache';
 
-var delay150 = function(func) {
-        return _.partial(_.delay, func, 150);
-    },
-    TypeStyle = function(newValue) {
-        return {
-            height: 18 * newValue + 18 + 'px',
-            'padding-top': 18 * newValue + 'px'
-        };
-    };
-
-module.exports = function(editor, model, buttonController, getTypeGapValue, typeContainer) {
-    var selector = require('./Selector')(editor, model),
+export default function(editor, model, buttonController, getTypeGapValue, typeContainer) {
+    var selector = new Selector(editor, model),
         // Render DOM elements conforming with the Model.
-        renderer = require('./Renderer')(editor, model, buttonController.buttonStateHelper, typeContainer),
-        gridLayout = require('./GridLayout')(editor, model.annotationData, typeContainer),
-        api = require('../util/extendBindable')({}),
+        renderer = new Renderer(editor, model, buttonController.buttonStateHelper, typeContainer),
+        gridLayout = new GridLayout(editor, model.annotationData, typeContainer),
+        api = extendBindable({}),
         render = function(typeGapValue) {
             api.trigger('render.start', editor);
             // Do asynchronous to change behavior of editor.
@@ -33,7 +28,7 @@ module.exports = function(editor, model, buttonController, getTypeGapValue, type
             });
         },
         hover = function() {
-            var domPositionCaChe = require('./DomPositionCache')(editor, model.annotationData.entity),
+            var domPositionCaChe = new DomPositionCache(editor, model.annotationData.entity),
                 processAccosiatedRelation = function(func, entityId) {
                     model.annotationData.entity.assosicatedRelations(entityId)
                         .map(domPositionCaChe.toConnect)
@@ -90,4 +85,15 @@ module.exports = function(editor, model, buttonController, getTypeGapValue, type
             render(newValue);
         }
     });
-};
+}
+
+function delay150(func) {
+    return _.partial(_.delay, func, 150);
+}
+
+function TypeStyle(newValue) {
+    return {
+        height: 18 * newValue + 18 + 'px',
+        'padding-top': 18 * newValue + 'px'
+    };
+}
