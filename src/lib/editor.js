@@ -33,7 +33,7 @@ var Model = require('./model/Model'),
             status: function() {}
         };
     },
-    ObservableValue = require('./util/ObservableValue'),
+    Observable = require("observ"),
     ajaxAccessor = require('./util/ajaxAccessor');
 
 module.exports = function() {
@@ -48,7 +48,7 @@ module.exports = function() {
             clipBoard: []
         },
         buttonController = new ButtonController(this, model, clipBoard),
-        typeGap = new ObservableValue(-1),
+        typeGap = new Observable(-1),
         typeContainer = new TypeContainer(model),
         view = new View(this, model, buttonController, typeGap, typeContainer),
         presenter = new Presenter(

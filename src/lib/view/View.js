@@ -12,10 +12,9 @@ export default function(editor, model, buttonController, typeGap, typeContainer)
         display = new Display(editor, model.annotationData, typeContainer, renderer),
         setTypeStyle = newValue => editor.find('.textae-editor__type').css(new TypeStyle(newValue));
 
-    typeGap
-        .on('change', setTypeStyle)
-        .on('change', newValue => lineHeight.setToTypeGap(editor, model, typeContainer, newValue))
-        .on('change', display.update);
+    typeGap(setTypeStyle);
+    typeGap(newValue => lineHeight.setToTypeGap(editor, model, typeContainer, newValue));
+    typeGap(display.update);
 
     setDisplayHandler(editor, display);
     setSelectionModelHandler(editor, model, buttonController);
@@ -27,10 +26,10 @@ export default function(editor, model, buttonController, typeGap, typeContainer)
             model,
             renderer,
             display.update,
-            typeGap.get
+            typeGap
         ),
         hoverRelation: hover,
-        updateDisplay: () => display.update(typeGap.get)
+        updateDisplay: () => display.update(typeGap())
     };
 }
 

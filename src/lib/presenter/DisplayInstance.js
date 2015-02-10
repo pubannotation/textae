@@ -53,7 +53,7 @@ var TypeGapCache = function() {
                 updateTypeGap();
             },
             getTypeGap:function () {
-                return typeGap.get();
+                return typeGap();
             },
             notifyNewInstance: function() {
                 if (!showInstance) toastr.success("an instance is created behind.");
