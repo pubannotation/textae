@@ -1,4 +1,3 @@
-import capitalize from '../../util/capitalize';
 import GridRenderer from './GridRenderer';
 import EntityRenderer from './EntityRenderer';
 import SpanRenderer from './SpanRenderer';
@@ -19,7 +18,8 @@ module.exports = function(editor, model, buttonStateHelper, typeContainer) {
             spanRenderer,
             gridRenderer,
             entityRenderer,
-            relationRenderer
+            relationRenderer,
+            buttonStateHelper
         ),
         arrangeRelationPositionAll: relationRenderer.arrangePositionAll,
         renderLazyRelationAll: relationRenderer.renderLazyRelationAll,

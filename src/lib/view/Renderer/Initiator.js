@@ -7,7 +7,7 @@ import {
 }
 from 'events';
 
-export default function(domPositionCaChe, spanRenderer, gridRenderer, entityRenderer, relationRenderer) {
+export default function(domPositionCaChe, spanRenderer, gridRenderer, entityRenderer, relationRenderer, buttonStateHelper) {
     var emitter = new EventEmitter(),
         triggerChange = _.debounce(function() {
             emitter.emit('change');
@@ -26,8 +26,8 @@ export default function(domPositionCaChe, spanRenderer, gridRenderer, entityRend
             },
             updateSpanAfter = _.partial(_.compose, triggerChange, spanRenderer.change, entityToSpan),
             renderModificationEntityOrRelation = (modification) => {
-                renderModification(model.annotationData, 'relation', modification, relationRenderer);
-                renderModification(model.annotationData, 'entity', modification, entityRenderer);
+                renderModification(model.annotationData, 'relation', modification, relationRenderer, buttonStateHelper);
+                renderModification(model.annotationData, 'entity', modification, entityRenderer, buttonStateHelper);
             };
 
         initChildren(editor, gridRenderer, relationRenderer);
