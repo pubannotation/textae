@@ -460,47 +460,91 @@
 }
 
 /* dialog */
-.textae-editor__load-dialog__row,
-.textae-editor__save-dialog__row {
-    margin-bottom: 4px;
+.textae-editor__load-dialog__label {
+  display: inline-block;
+  padding-right: 2px;
+  text-align: right;
 }
-
-.textae-editor__load-dialog__label,
-.textae-editor__save-dialog__label,
-.textae-editor__setting-dialog__label {
-    display: inline-block;
-    padding-right: 2px;
-    text-align: right;
+.textae-editor__load-dialog__label::after {
+  content: ":";
 }
-
-.textae-editor__load-dialog__label::after,
-.textae-editor__save-dialog__label::after,
-.textae-editor__setting-dialog__label::after {
-    content: ":";
+.textae-editor__load-dialog__label {
+  line-height: 1.1em;
+  width: 57px;
 }
-
-.textae-editor__load-dialog__label,
+.textae-editor__load-dialog__row {
+  margin-bottom: 4px;
+}
+.textae-editor__load-dialog__file-name {
+  line-height: 16px;
+  height: 25px;
+  width: 340px;
+}
+.textae-editor__load-dialog__file {
+  line-height: 16px;
+  height: 25px;
+  width: 340px;
+}
 .textae-editor__save-dialog__label {
-    line-height: 1.1em;
-    width: 57px;
+  display: inline-block;
+  padding-right: 2px;
+  text-align: right;
 }
-
-.textae-editor__setting-dialog__label{
-    width: 221px;
+.textae-editor__save-dialog__label::after {
+  content: ":";
 }
-
-.textae-editor__load-dialog__file-name,
-.textae-editor__load-dialog__file,
-.textae-editor__save-dialog__server-file-name,
+.textae-editor__save-dialog__label {
+  line-height: 1.1em;
+  width: 57px;
+}
+.textae-editor__save-dialog__row {
+  margin-bottom: 4px;
+}
+.textae-editor__save-dialog__server-file-name {
+  line-height: 16px;
+  height: 25px;
+  width: 340px;
+}
 .textae-editor__save-dialog__local-file-name {
-    line-height: 16px;
-    height: 25px;
-    width: 340px;
+  line-height: 16px;
+  height: 25px;
+  width: 340px;
+}
+.textae-editor__setting-dialog__label {
+  display: inline-block;
+  padding-right: 2px;
+  text-align: right;
+}
+.textae-editor__setting-dialog__label::after {
+  content: ":";
+}
+.textae-editor__setting-dialog__label {
+  width: 221px;
+}
+.textae-editor__setting-dialog__type-gap[disabled="disabled"] {
+  background-color: #999;
+}
+.textae-editor__valiondate-dialog__content table {
+  border-collapse: collapse;
+  font-size: 0.65em;
+  margin-bottom: 20px;
+  width: 100%;
+}
+.textae-editor__valiondate-dialog__content table th {
+  border: 1px solid #b9b9b9;
+  padding: 3px;
+  background-color: #ddd;
+  color: #333;
+}
+.textae-editor__valiondate-dialog__content table td {
+  border: 1px solid #b9b9b9;
+  padding: 3px;
+  background-color: #fff;
+}
+.textae-editor__valiondate-dialog__content table td.alert {
+  color: red;
 }
 
-.textae-editor__setting-dialog__type-gap[disabled="disabled"]{
-    background-color: #999;
-}
 /* pallet */
 .textae-editor__type-pallet {
     background-color: rgba(200,255,255,0.9);
