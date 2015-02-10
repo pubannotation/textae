@@ -1,22 +1,27 @@
 import DomPositionCache from './DomPositionCache';
 
 export default function(editor, entity) {
-    var domPositionCaChe = new DomPositionCache(editor, entity),
-        processAccosiatedRelation = function(func, entityId) {
-            entity.assosicatedRelations(entityId)
-                .map(domPositionCaChe.toConnect)
-                .filter(function(connect) {
-                    return connect.pointup && connect.pointdown;
-                })
-                .forEach(func);
-        };
+    var domPositionCaChe = new DomPositionCache(editor, entity);
 
     return {
-        on: _.partial(processAccosiatedRelation, function(connect) {
-            connect.pointup();
-        }),
-        off: _.partial(processAccosiatedRelation, function(connect) {
-            connect.pointdown();
-        })
+        on: _.partial(
+            processAccosiatedRelation,
+            entity,
+            domPositionCaChe,
+            connect => connect.pointup()
+        ),
+        off: _.partial(
+            processAccosiatedRelation,
+            entity,
+            domPositionCaChe,
+            connect => connect.pointdown()
+        )
     };
+}
+
+function processAccosiatedRelation(entity, domPositionCaChe, func, entityId) {
+    entity.assosicatedRelations(entityId)
+        .map(domPositionCaChe.toConnect)
+        .filter(connect => connect.pointup && connect.pointdown)
+        .forEach(func);
 }
