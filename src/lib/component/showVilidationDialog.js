@@ -8,9 +8,9 @@ var GetEditorDialog = require('./dialog/GetEditorDialog'),
                 <caption>Wrong range.</caption>
                 <thead>
                     <tr>
-                        <th>id</th>
-                        <th>begin</th>
-                        <th>end</th>
+                        <th class="id">id</th>
+                        <th class="range">begin</th>
+                        <th class="range">end</th>
                         <th>obj</th>
                     </tr>
                 </thead>
@@ -31,9 +31,9 @@ var GetEditorDialog = require('./dialog/GetEditorDialog'),
                 <caption>Out of text.</caption>
                 <thead>
                     <tr>
-                        <th>id</th>
-                        <th>begin</th>
-                        <th>end</th>
+                        <th class="id">id</th>
+                        <th class="range">begin</th>
+                        <th class="range">end</th>
                         <th>obj</th>
                     </tr>
                 </thead>
@@ -54,9 +54,9 @@ var GetEditorDialog = require('./dialog/GetEditorDialog'),
                 <caption>Spans across paragraphs (newline-delimited).</caption>
                 <thead>
                     <tr>
-                        <th>id</th>
-                        <th>begin</th>
-                        <th>end</th>
+                        <th class="id">id</th>
+                        <th class="range">begin</th>
+                        <th class="range">end</th>
                         <th>obj</th>
                     </tr>
                 </thead>
@@ -77,10 +77,10 @@ var GetEditorDialog = require('./dialog/GetEditorDialog'),
                 <caption>Referenced items do not exist.</caption>
                 <thead>
                     <tr>
-                        <th>id</th>
-                        <th>subj</th>
+                        <th class="id">id</th>
+                        <th class="referencedItem">subj</th>
                         <th>pred</th>
-                        <th>obj</th>
+                        <th class="referencedItem">obj</th>
                     </tr>
                 </thead>
                 <tbody>

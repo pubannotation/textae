@@ -1,5 +1,4 @@
 // Rules
-
 .common() {
     &__label {
         display: inline-block;
@@ -9,7 +8,6 @@
             content: ":";
         }
     }
-
 }
 .save_load() {
     &__label {
@@ -19,18 +17,15 @@
     &__row {
         margin-bottom: 4px;
     }
-
 }
 .file() {
     line-height: 16px;
     height: 25px;
     width: 340px;
-
 }
 .cell() {
     border: 1px solid #b9b9b9;
     padding: 3px;
-
 }
 /* dialog */
 .textae-editor {
@@ -43,7 +38,6 @@
         &__file {
             .file;
         }
-
     }
     &__save-dialog {
         .common;
@@ -63,7 +57,6 @@
         &__type-gap[disabled="disabled"] {
             background-color: #999;
         }
-
     }
     &__valiondate-dialog__content {
         table {
@@ -75,6 +68,15 @@
                 .cell;
                 background-color: #ddd;
                 color: #333;
+                &.id {
+                    width: 32px;
+                }
+                &.range {
+                    width: 50px;
+                }
+                &.referencedItem {
+                    width: 100px;
+                }
             }
             td {
                 .cell;
