@@ -2,7 +2,7 @@ var GetEditorDialog = require('./dialog/GetEditorDialog'),
     Handlebars = require('handlebars'),
     source = `
     <div class="textae-editor__valiondate-dialog__content">
-        <h1>{{name}}</h1>
+        <h2>{{name}}</h2>
         {{#if denotationHasLength}}
             <table>
                 <caption>Wrong range.</caption>
@@ -142,7 +142,12 @@ module.exports = function(editor, rejects) {
             .map(function(reject) {
                 return tepmlate(reject);
             })
-            .forEach(function(html) {
+            .forEach(function(html, index) {
+                if (index === 1) {
+                    let mergeMessage = '<h1>Track annatations will be merged to the root anntations.</h1>';
+                    $content[0]
+                        .insertAdjacentHTML('beforeend', mergeMessage);
+                }
                 $content[0]
                     .insertAdjacentHTML('beforeend', html);
             });
