@@ -72,70 +72,26 @@ var GetEditorDialog = require('./dialog/GetEditorDialog'),
                 </tbody>
             </table>
         {{/if}}
-        {{#if relationObj}}
+        {{#if referencedItems}}
             <table>
-                <caption>Objects of relations are not exists.</caption>
+                <caption>Referenced items do not exist.</caption>
                 <thead>
                     <tr>
                         <th>id</th>
-                        <th>pred</th>
                         <th>subj</th>
-                        <th>obj</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {{#relationObj}}
-                    <tr>
-                        <td>{{id}}</td>
-                        <td>{{pred}}</td>
-                        <td>{{subj}}</td>
-                        <td class="alert">{{obj}}</td>
-                    </tr>
-                    {{/relationObj}}
-                </tbody>
-            </table>
-        {{/if}}
-        {{#if relationSubj}}
-            <table>
-                <caption>Subjects of relations are not exists.</caption>
-                <thead>
-                    <tr>
-                        <th>id</th>
                         <th>pred</th>
-                        <th>subj</th>
                         <th>obj</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {{#relationSubj}}
+                    {{#referencedItems}}
                     <tr>
                         <td>{{id}}</td>
+                        <td{{#if alertSubj}} class="alert"{{/if}}>{{subj}}</td>
                         <td>{{pred}}</td>
-                        <td class="alert">{{subj}}</td>
-                        <td>{{obj}}</td>
+                        <td{{#if alertObj}} class="alert"{{/if}}>{{obj}}</td>
                     </tr>
-                    {{/relationSubj}}
-                </tbody>
-            </table>
-        {{/if}}
-        {{#if modification}}
-            <table>
-                <caption>Objects of modifications are not exists.</caption>
-                <thead>
-                    <tr>
-                        <th>id</th>
-                        <th>obj</th>
-                        <th>pred</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {{#modification}}
-                    <tr>
-                        <td>{{id}}</td>
-                        <td class="alert">{{obj}}</td>
-                        <td>{{pred}}</td>
-                    </tr>
-                    {{/modification}}
+                    {{/referencedItems}}
                 </tbody>
             </table>
         {{/if}}
@@ -160,6 +116,29 @@ module.exports = function(editor, rejects) {
             );
 
         rejects
+            .map(reject => {
+                // Combine rejects for referenced object errer.
+                reject.referencedItems = reject.relationObj
+                    .map(relation => {
+                        relation.alertObj = true;
+                        return relation;
+                    })
+                    .concat(reject.relationSubj
+                        .map(relation => {
+                            relation.alertSubj = true;
+                            return relation;
+                        })
+                    )
+                    .concat(reject.modification
+                        .map(modification => {
+                            modification.subj = '-';
+                            modification.alertObj = true;
+                            return modification;
+                        })
+                    );
+
+                return reject;
+            })
             .map(function(reject) {
                 return tepmlate(reject);
             })
