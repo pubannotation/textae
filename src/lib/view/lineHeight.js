@@ -1,5 +1,5 @@
 const TEXT_HEIGHT = 23;
-const MARGIN_TOP = 60;
+const MARGIN_TOP = 30;
 const MINIMUM_HEIGHT = 16 * 4;
 
 import getHeightIncludeDescendantGrids from './getHeightIncludeDescendantGrids';
