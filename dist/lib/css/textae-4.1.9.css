@@ -524,6 +524,14 @@
 .textae-editor__setting-dialog__type-gap[disabled="disabled"] {
   background-color: #999;
 }
+.textae-editor__valiondate-dialog__content h1 {
+  font-size: 1em;
+  font-weight: normal;
+}
+.textae-editor__valiondate-dialog__content h2 {
+  font-size: 1em;
+  font-weight: normal;
+}
 .textae-editor__valiondate-dialog__content table {
   border-collapse: collapse;
   font-size: 0.65em;
@@ -535,6 +543,15 @@
   padding: 3px;
   background-color: #ddd;
   color: #333;
+}
+.textae-editor__valiondate-dialog__content table th.id {
+  width: 32px;
+}
+.textae-editor__valiondate-dialog__content table th.range {
+  width: 50px;
+}
+.textae-editor__valiondate-dialog__content table th.referencedItem {
+  width: 100px;
 }
 .textae-editor__valiondate-dialog__content table td {
   border: 1px solid #b9b9b9;

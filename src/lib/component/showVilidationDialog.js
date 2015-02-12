@@ -144,7 +144,11 @@ module.exports = function(editor, rejects) {
             })
             .forEach(function(html, index) {
                 if (index === 1) {
-                    let mergeMessage = '<h1>Track annatations will be merged to the root anntations.</h1>';
+                    let mergeMessage = `
+                    <div class="textae-editor__valiondate-dialog__content">
+                        <h1>Track annatations will be merged to the root anntations.</h1>
+                    </div>`;
+
                     $content[0]
                         .insertAdjacentHTML('beforeend', mergeMessage);
                 }

@@ -10610,7 +10610,7 @@ module.exports = function (editor, editMode, displayInstance) {
 };
 
 
-},{"../util/jQuerySugar":155,"../view/lineHeight":184,"./dialog/GetEditorDialog":76}],72:[function(require,module,exports){
+},{"../util/jQuerySugar":155,"../view/lineHeight":187,"./dialog/GetEditorDialog":76}],72:[function(require,module,exports){
 "use strict";
 
 var getAreaIn = function ($parent) {
@@ -10775,7 +10775,7 @@ module.exports = function (id, title, size, $content) {
 
 var GetEditorDialog = require("./dialog/GetEditorDialog"),
     Handlebars = require("handlebars"),
-    source = "\n    <div class=\"textae-editor__valiondate-dialog__content\">\n        <h1>{{name}}</h1>\n        {{#if denotationHasLength}}\n            <table>\n                <caption>Spans are broken.</caption>\n                <thead>\n                    <tr>\n                        <th>id</th>\n                        <th>begin</th>\n                        <th>end</th>\n                        <th>obj</th>\n                    </tr>\n                </thead>\n                <tbody>\n                    {{#denotationHasLength}}\n                    <tr>\n                        <td>{{id}}</td>\n                        <td class=\"alert\">{{span.begin}}</td>\n                        <td class=\"alert\">{{span.end}}</td>\n                        <td>{{obj}}</td>\n                    </tr>\n                    {{/denotationHasLength}}\n                </tbody>\n            </table>\n        {{/if}}\n        {{#if denotationInText}}\n            <table>\n                <caption>Spans are out of text.</caption>\n                <thead>\n                    <tr>\n                        <th>id</th>\n                        <th>begin</th>\n                        <th>end</th>\n                        <th>obj</th>\n                    </tr>\n                </thead>\n                <tbody>\n                    {{#denotationInText}}\n                    <tr>\n                        <td>{{id}}</td>\n                        <td class=\"alert\">{{span.begin}}</td>\n                        <td class=\"alert\">{{span.end}}</td>\n                        <td>{{obj}}</td>\n                    </tr>\n                    {{/denotationInText}}\n                </tbody>\n            </table>\n        {{/if}}\n        {{#if denotationInParagraph}}\n            <table>\n                <caption>Spans are out of paragraphs.</caption>\n                <thead>\n                    <tr>\n                        <th>id</th>\n                        <th>begin</th>\n                        <th>end</th>\n                        <th>obj</th>\n                    </tr>\n                </thead>\n                <tbody>\n                    {{#denotationInParagraph}}\n                    <tr>\n                        <td>{{id}}</td>\n                        <td class=\"alert\">{{span.begin}}</td>\n                        <td class=\"alert\">{{span.end}}</td>\n                        <td>{{obj}}</td>\n                    </tr>\n                    {{/denotationInParagraph}}\n                </tbody>\n            </table>\n        {{/if}}\n        {{#if relationObj}}\n            <table>\n                <caption>Objects of relations are not exists.</caption>\n                <thead>\n                    <tr>\n                        <th>id</th>\n                        <th>pred</th>\n                        <th>subj</th>\n                        <th>obj</th>\n                    </tr>\n                </thead>\n                <tbody>\n                    {{#relationObj}}\n                    <tr>\n                        <td>{{id}}</td>\n                        <td>{{pred}}</td>\n                        <td>{{subj}}</td>\n                        <td class=\"alert\">{{obj}}</td>\n                    </tr>\n                    {{/relationObj}}\n                </tbody>\n            </table>\n        {{/if}}\n        {{#if relationSubj}}\n            <table>\n                <caption>Subjects of relations are not exists.</caption>\n                <thead>\n                    <tr>\n                        <th>id</th>\n                        <th>pred</th>\n                        <th>subj</th>\n                        <th>obj</th>\n                    </tr>\n                </thead>\n                <tbody>\n                    {{#relationSubj}}\n                    <tr>\n                        <td>{{id}}</td>\n                        <td>{{pred}}</td>\n                        <td class=\"alert\">{{subj}}</td>\n                        <td>{{obj}}</td>\n                    </tr>\n                    {{/relationSubj}}\n                </tbody>\n            </table>\n        {{/if}}\n        {{#if modification}}\n            <table>\n                <caption>Objects of modifications are not exists.</caption>\n                <thead>\n                    <tr>\n                        <th>id</th>\n                        <th>obj</th>\n                        <th>pred</th>\n                    </tr>\n                </thead>\n                <tbody>\n                    {{#modification}}\n                    <tr>\n                        <td>{{id}}</td>\n                        <td class=\"alert\">{{obj}}</td>\n                        <td>{{pred}}</td>\n                    </tr>\n                    {{/modification}}\n                </tbody>\n            </table>\n        {{/if}}\n    </div>",
+    source = "\n    <div class=\"textae-editor__valiondate-dialog__content\">\n        <h2>{{name}}</h2>\n        {{#if denotationHasLength}}\n            <table>\n                <caption>Wrong range.</caption>\n                <thead>\n                    <tr>\n                        <th class=\"id\">id</th>\n                        <th class=\"range\">begin</th>\n                        <th class=\"range\">end</th>\n                        <th>obj</th>\n                    </tr>\n                </thead>\n                <tbody>\n                    {{#denotationHasLength}}\n                    <tr>\n                        <td>{{id}}</td>\n                        <td class=\"alert\">{{span.begin}}</td>\n                        <td class=\"alert\">{{span.end}}</td>\n                        <td>{{obj}}</td>\n                    </tr>\n                    {{/denotationHasLength}}\n                </tbody>\n            </table>\n        {{/if}}\n        {{#if denotationInText}}\n            <table>\n                <caption>Out of text.</caption>\n                <thead>\n                    <tr>\n                        <th class=\"id\">id</th>\n                        <th class=\"range\">begin</th>\n                        <th class=\"range\">end</th>\n                        <th>obj</th>\n                    </tr>\n                </thead>\n                <tbody>\n                    {{#denotationInText}}\n                    <tr>\n                        <td>{{id}}</td>\n                        <td class=\"alert\">{{span.begin}}</td>\n                        <td class=\"alert\">{{span.end}}</td>\n                        <td>{{obj}}</td>\n                    </tr>\n                    {{/denotationInText}}\n                </tbody>\n            </table>\n        {{/if}}\n        {{#if denotationInParagraph}}\n            <table>\n                <caption>Spans across paragraphs (newline-delimited).</caption>\n                <thead>\n                    <tr>\n                        <th class=\"id\">id</th>\n                        <th class=\"range\">begin</th>\n                        <th class=\"range\">end</th>\n                        <th>obj</th>\n                    </tr>\n                </thead>\n                <tbody>\n                    {{#denotationInParagraph}}\n                    <tr>\n                        <td>{{id}}</td>\n                        <td class=\"alert\">{{span.begin}}</td>\n                        <td class=\"alert\">{{span.end}}</td>\n                        <td>{{obj}}</td>\n                    </tr>\n                    {{/denotationInParagraph}}\n                </tbody>\n            </table>\n        {{/if}}\n        {{#if referencedItems}}\n            <table>\n                <caption>Referenced items do not exist.</caption>\n                <thead>\n                    <tr>\n                        <th class=\"id\">id</th>\n                        <th class=\"referencedItem\">subj</th>\n                        <th>pred</th>\n                        <th class=\"referencedItem\">obj</th>\n                    </tr>\n                </thead>\n                <tbody>\n                    {{#referencedItems}}\n                    <tr>\n                        <td>{{id}}</td>\n                        <td{{#if alertSubj}} class=\"alert\"{{/if}}>{{subj}}</td>\n                        <td>{{pred}}</td>\n                        <td{{#if alertObj}} class=\"alert\"{{/if}}>{{obj}}</td>\n                    </tr>\n                    {{/referencedItems}}\n                </tbody>\n            </table>\n        {{/if}}\n    </div>",
     tepmlate = Handlebars.compile(source),
     hasError = function (rejects) {
   return rejects.reduce(function (result, reject) {
@@ -10792,8 +10792,28 @@ module.exports = function (editor, rejects) {
     });
 
     rejects.map(function (reject) {
+      // Combine rejects for referenced object errer.
+      reject.referencedItems = reject.relationObj.map(function (relation) {
+        relation.alertObj = true;
+        return relation;
+      }).concat(reject.relationSubj.map(function (relation) {
+        relation.alertSubj = true;
+        return relation;
+      })).concat(reject.modification.map(function (modification) {
+        modification.subj = "-";
+        modification.alertObj = true;
+        return modification;
+      }));
+
+      return reject;
+    }).map(function (reject) {
       return tepmlate(reject);
-    }).forEach(function (html) {
+    }).forEach(function (html, index) {
+      if (index === 1) {
+        var mergeMessage = "\n                    <div class=\"textae-editor__valiondate-dialog__content\">\n                        <h1>Track annatations will be merged to the root anntations.</h1>\n                    </div>";
+
+        $content[0].insertAdjacentHTML("beforeend", mergeMessage);
+      }
       $content[0].insertAdjacentHTML("beforeend", html);
     });
 
@@ -11184,7 +11204,7 @@ module.exports = function () {
 };
 
 
-},{"./Controller":60,"./SpanConfig":61,"./command":66,"./component/StatusBar":72,"./component/showVilidationDialog":79,"./createDaoForEditor":81,"./getParams":83,"./model/History":103,"./model/Model":104,"./presenter/Presenter":120,"./util/ObservableValue":147,"./util/ajaxAccessor":148,"./view/ButtonController":158,"./view/TypeContainer":181,"./view/View":182}],83:[function(require,module,exports){
+},{"./Controller":60,"./SpanConfig":61,"./command":66,"./component/StatusBar":72,"./component/showVilidationDialog":79,"./createDaoForEditor":81,"./getParams":83,"./model/History":103,"./model/Model":104,"./presenter/Presenter":120,"./util/ObservableValue":147,"./util/ajaxAccessor":148,"./view/ButtonController":158,"./view/TypeContainer":183,"./view/View":184}],83:[function(require,module,exports){
 "use strict";
 
 var getUrlParameters = require("./util/getUrlParameters"),
@@ -11960,7 +11980,7 @@ var parseAnnotation = require("./parseAnnotation"),
         prefix = "track" + number + "_",
         reject = parseAnnotation(span, entity, relation, modification, paragraph, text, track, prefix);
 
-    reject.name = "Track " + number + " annotaiton.";
+    reject.name = "Track " + number + " annotations.";
     return reject;
   });
 },
@@ -11968,7 +11988,7 @@ var parseAnnotation = require("./parseAnnotation"),
   var tracksReject = parseTracks(dataStore.span, dataStore.entity, dataStore.relation, dataStore.modification, dataStore.paragraph, annotation.text, annotation),
       annotationReject = parseAnnotation(dataStore.span, dataStore.entity, dataStore.relation, dataStore.modification, dataStore.paragraph, annotation.text, annotation);
 
-  annotationReject.name = "Root annotation.";
+  annotationReject.name = "Root annotations.";
 
   return [annotationReject].concat(tracksReject);
 },
@@ -12553,7 +12573,7 @@ module.exports = function (editor, model, buttonStateHelper, modeAccordingToButt
 };
 
 
-},{"../../view/Selector":180}],117:[function(require,module,exports){
+},{"../../view/Selector":182}],117:[function(require,module,exports){
 "use strict";
 
 module.exports = function (stateMachine) {
@@ -12641,7 +12661,6 @@ var TypeEditor = require("./typeEditor/TypeEditor"),
     SelectSpanHandler = require("./SelectSpanHandler"),
     SetEditableHandler = require("./SetEditableHandler"),
     SettingDialog = require("../component/SettingDialog"),
-    CursorChanger = require("../util/CursorChanger"),
     lineHeight = require("../view/lineHeight");
 
 module.exports = function (editor, model, view, command, spanConfig, clipBoard, buttonController, typeGap, typeContainer) {
@@ -12672,19 +12691,9 @@ module.exports = function (editor, model, view, command, spanConfig, clipBoard, 
         jsPlumbConnection.bindClickAction(typeEditor.jsPlumbConnectionClicked);
       });
 
-      // Set cursor control by view rendering events.
-      var cursorChanger = new CursorChanger(editor);
-      view.bind("render.start", function (editor) {
-        // console.log(editor.editorId, 'render.start');
-        cursorChanger.startWait();
-      }).bind("render.end", function (editor) {
-        // console.log(editor.editorId, 'render.end');
-        cursorChanger.endWait();
-      });
-
       // Set bind the lineHeight to the typeGap.
       typeGap.on("change", function (newValue) {
-        lineHeight.setToTypeGap(editor, model, newValue);
+        lineHeight.setToTypeGap(editor, model, typeContainer, newValue);
       });
 
       defaultEntityHandler.on("createEntity", displayInstance.notifyNewInstance);
@@ -12712,7 +12721,7 @@ module.exports = function (editor, model, view, command, spanConfig, clipBoard, 
 };
 
 
-},{"../component/SettingDialog":71,"../util/CursorChanger":146,"../view/lineHeight":184,"./ClipBoardHandler":109,"./DefaultEntityHandler":110,"./DisplayInstance":111,"./EditHandler":112,"./EditMode":118,"./ModificationHandler":119,"./SelectSpanHandler":122,"./SetEditableHandler":123,"./ToggleButtonHandler":124,"./typeEditor/TypeEditor":138}],121:[function(require,module,exports){
+},{"../component/SettingDialog":71,"../view/lineHeight":187,"./ClipBoardHandler":109,"./DefaultEntityHandler":110,"./DisplayInstance":111,"./EditHandler":112,"./EditMode":118,"./ModificationHandler":119,"./SelectSpanHandler":122,"./SetEditableHandler":123,"./ToggleButtonHandler":124,"./typeEditor/TypeEditor":138}],121:[function(require,module,exports){
 "use strict";
 
 var toRomeveSpanCommands = function (spanIds, command) {
@@ -14544,7 +14553,40 @@ module.exports = function (editor, model, clipBoard) {
 };
 
 
-},{"../util/extendBindable":151,"./ModeAccordingToButton":161}],159:[function(require,module,exports){
+},{"../util/extendBindable":151,"./ModeAccordingToButton":163}],159:[function(require,module,exports){
+"use strict";
+
+var _interopRequire = function (obj) {
+  return obj && (obj["default"] || obj);
+};
+
+var GridLayout = _interopRequire(require("./GridLayout"));
+
+var EventEmitter = require("events").EventEmitter;
+module.exports = function (editor, annotationData, typeContainer, renderer) {
+  var emitter = new EventEmitter(),
+      gridLayout = new GridLayout(editor, annotationData, typeContainer),
+      update = function (typeGapValue) {
+    emitter.emit("render.start", editor);
+
+    // Do asynchronous to change behavior of editor.
+    // For example a wait cursor or a disabled control.
+    _.defer(function () {
+      gridLayout.arrangePosition(typeGapValue).then(renderer.renderLazyRelationAll).then(renderer.arrangeRelationPositionAll).then(function () {
+        emitter.emit("render.end", editor);
+      })["catch"](function (error) {
+        console.error(error, error.stack);
+      });
+    });
+  };
+
+  return _.extend(emitter, {
+    update: update
+  });
+};
+
+
+},{"./GridLayout":161,"events":37}],160:[function(require,module,exports){
 "use strict";
 
 var Cache = function () {
@@ -14677,7 +14719,7 @@ module.exports = function (editor, entityModel) {
 };
 
 
-},{"../util/domUtil":150}],160:[function(require,module,exports){
+},{"../util/domUtil":150}],161:[function(require,module,exports){
 "use strict";
 
 var filterVisibleGrid = function (grid) {
@@ -14768,7 +14810,36 @@ module.exports = function (editor, annotationData, typeContainer) {
 };
 
 
-},{"../util/domUtil":150,"./DomPositionCache":159,"./getGridPosition":183,"bluebird":3}],161:[function(require,module,exports){
+},{"../util/domUtil":150,"./DomPositionCache":160,"./getGridPosition":185,"bluebird":3}],162:[function(require,module,exports){
+"use strict";
+
+var _interopRequire = function (obj) {
+  return obj && (obj["default"] || obj);
+};
+
+var DomPositionCache = _interopRequire(require("./DomPositionCache"));
+
+module.exports = function (editor, entity) {
+  var domPositionCaChe = new DomPositionCache(editor, entity);
+
+  return {
+    on: _.partial(processAccosiatedRelation, entity, domPositionCaChe, function (connect) {
+      return connect.pointup();
+    }),
+    off: _.partial(processAccosiatedRelation, entity, domPositionCaChe, function (connect) {
+      return connect.pointdown();
+    })
+  };
+};
+
+function processAccosiatedRelation(entity, domPositionCaChe, func, entityId) {
+  entity.assosicatedRelations(entityId).map(domPositionCaChe.toConnect).filter(function (connect) {
+    return connect.pointup && connect.pointdown;
+  }).forEach(func);
+}
+
+
+},{"./DomPositionCache":160}],163:[function(require,module,exports){
 "use strict";
 
 var reduce2hash = require("../util/reduce2hash"),
@@ -14840,7 +14911,7 @@ module.exports = function () {
 };
 
 
-},{"../util/extendBindable":151,"../util/reduce2hash":156}],162:[function(require,module,exports){
+},{"../util/extendBindable":151,"../util/reduce2hash":156}],164:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
@@ -14850,6 +14921,9 @@ var _interopRequire = function (obj) {
 var ModificationRenderer = _interopRequire(require("./ModificationRenderer"));
 
 var getDisplayName = _interopRequire(require("./getDisplayName"));
+
+var EventEmitter = require("events").EventEmitter;
+
 
 var // Arrange a position of the pane to center entities when entities width is longer than pane width.
 arrangePositionOfPane = function (pane) {
@@ -14975,13 +15049,13 @@ module.exports = function (editor, model, typeContainer, gridRenderer) {
       arrangePositionOfPane(pane);
     };
   })(),
-      api = require("../../util/extendBindable")({}),
+      emitter = new EventEmitter(),
       createEntityUnlessBlock = function (entity) {
     if (!typeContainer.entity.isBlock(entity.type)) {
       create(entity);
     }
 
-    api.trigger("render", entity);
+    emitter.emit("render", entity);
 
     return entity;
   },
@@ -15016,7 +15090,7 @@ module.exports = function (editor, model, typeContainer, gridRenderer) {
     return entity;
   };
 
-  return _.extend(api, {
+  return _.extend(emitter, {
     render: createEntityUnlessBlock,
     change: changeTypeOfExists,
     changeModification: changeModificationOfExists,
@@ -15028,7 +15102,7 @@ module.exports = function (editor, model, typeContainer, gridRenderer) {
 };
 
 
-},{"../../util/domUtil":150,"../../util/extendBindable":151,"../../util/idFactory":153,"../../util/uri":157,"../Selector":180,"./ModificationRenderer":165,"./getDisplayName":172}],163:[function(require,module,exports){
+},{"../../util/domUtil":150,"../../util/idFactory":153,"../../util/uri":157,"../Selector":182,"./ModificationRenderer":167,"./getDisplayName":174,"events":37}],165:[function(require,module,exports){
 "use strict";
 
 var createGrid = function (domPositionCache, container, spanId) {
@@ -15063,7 +15137,7 @@ module.exports = function (editor, domPositionCache) {
 };
 
 
-},{"../../util/domUtil":150}],164:[function(require,module,exports){
+},{"../../util/domUtil":150}],166:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
@@ -15086,7 +15160,7 @@ module.exports = function (domPositionCaChe, spanRenderer, gridRenderer, entityR
   }, 100),
       triggerChangeAfter = _.partial(_.compose, triggerChange);
 
-  entityRenderer.bind("render", function (entity) {
+  entityRenderer.on("render", function (entity) {
     emitter.emit("entity.render", entity);
     return entity;
   });
@@ -15129,7 +15203,7 @@ function modelToId(modelElement) {
 }
 
 
-},{"./RenderAll":167,"./getAnnotationBox":171,"./renderModification":178,"./renderSourceDocument":179,"events":37}],165:[function(require,module,exports){
+},{"./RenderAll":169,"./getAnnotationBox":173,"./renderModification":180,"./renderSourceDocument":181,"events":37}],167:[function(require,module,exports){
 "use strict";
 
 var allModificationClasses = "textae-editor__negation textae-editor__speculation";
@@ -15153,7 +15227,7 @@ function update(annotationData, domElement, objectId) {
 }
 
 
-},{}],166:[function(require,module,exports){
+},{}],168:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
@@ -15588,7 +15662,7 @@ module.exports = function (editor, model, typeContainer) {
 };
 
 
-},{"../../util/domUtil":150,"../DomPositionCache":159,"./ModificationRenderer":165,"./jsPlumbArrowOverlayUtil":177,"bluebird":3}],167:[function(require,module,exports){
+},{"../../util/domUtil":150,"../DomPositionCache":160,"./ModificationRenderer":167,"./jsPlumbArrowOverlayUtil":179,"bluebird":3}],169:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
@@ -15628,7 +15702,7 @@ function renderAllRelation(annotationData, relationRenderer) {
 }
 
 
-},{"./getAnnotationBox":171}],168:[function(require,module,exports){
+},{"./getAnnotationBox":173}],170:[function(require,module,exports){
 "use strict";
 
 var createSpanRange = require("./createSpanRange"),
@@ -15683,7 +15757,7 @@ var createSpanRange = require("./createSpanRange"),
 module.exports = RenderSingleSpan;
 
 
-},{"../../util/domUtil":150,"./createSpanRange":170,"./getFirstTextNode":175}],169:[function(require,module,exports){
+},{"../../util/domUtil":150,"./createSpanRange":172,"./getFirstTextNode":177}],171:[function(require,module,exports){
 "use strict";
 
 var exists = function (span) {
@@ -15777,7 +15851,7 @@ module.exports = function (editor, model, typeContainer, entityRenderer, gridRen
 };
 
 
-},{"../../util/domUtil":150,"./RenderSingleSpan":168}],170:[function(require,module,exports){
+},{"../../util/domUtil":150,"./RenderSingleSpan":170}],172:[function(require,module,exports){
 "use strict";
 
 var getPosition = function (span, startOfTextNodeAddSpan) {
@@ -15812,7 +15886,7 @@ var getPosition = function (span, startOfTextNodeAddSpan) {
 module.exports = createSpanRange;
 
 
-},{}],171:[function(require,module,exports){
+},{}],173:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
@@ -15827,7 +15901,7 @@ var getEditorBody = _interopRequire(require("./getEditorBody"));
 module.exports = _.compose(_.partial(getElement, "div", "textae-editor__body__annotation-box"), getEditorBody);
 
 
-},{"./getEditorBody":173,"./getElement":174}],172:[function(require,module,exports){
+},{"./getEditorBody":175,"./getElement":176}],174:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
@@ -15864,7 +15938,7 @@ module.exports = function (type) {
 };
 
 
-},{"../../util/uri":157}],173:[function(require,module,exports){
+},{"../../util/uri":157}],175:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
@@ -15877,7 +15951,7 @@ var getElement = _interopRequire(require("./getElement"));
 module.exports = _.partial(getElement, "div", "textae-editor__body");
 
 
-},{"./getElement":174}],174:[function(require,module,exports){
+},{"./getElement":176}],176:[function(require,module,exports){
 "use strict";
 
 module.exports = function (tagName, className, $parent) {
@@ -15890,7 +15964,7 @@ module.exports = function (tagName, className, $parent) {
 };
 
 
-},{}],175:[function(require,module,exports){
+},{}],177:[function(require,module,exports){
 "use strict";
 
 var isTextNode = function () {
@@ -15903,7 +15977,7 @@ var isTextNode = function () {
 module.exports = getFirstTextNode;
 
 
-},{}],176:[function(require,module,exports){
+},{}],178:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
@@ -15942,7 +16016,7 @@ module.exports = function (editor, model, buttonStateHelper, typeContainer) {
 };
 
 
-},{"../DomPositionCache":159,"./EntityRenderer":162,"./GridRenderer":163,"./Initiator":164,"./RelationRenderer":166,"./SpanRenderer":169}],177:[function(require,module,exports){
+},{"../DomPositionCache":160,"./EntityRenderer":164,"./GridRenderer":165,"./Initiator":166,"./RelationRenderer":168,"./SpanRenderer":171}],179:[function(require,module,exports){
 "use strict";
 
 var // Overlay styles for jsPlubm connections.
@@ -16028,7 +16102,7 @@ module.exports = {
 };
 
 
-},{}],178:[function(require,module,exports){
+},{}],180:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
@@ -16047,7 +16121,7 @@ module.exports = function (annotationData, modelType, modification, renderer, bu
 };
 
 
-},{"../../util/capitalize":149}],179:[function(require,module,exports){
+},{"../../util/capitalize":149}],181:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
@@ -16076,7 +16150,7 @@ createTaggedSourceDoc = function (sourceDoc, paragraphs) {
 module.exports = renderSourceDocument;
 
 
-},{"./getEditorBody":173,"./getElement":174}],180:[function(require,module,exports){
+},{"./getEditorBody":175,"./getElement":176}],182:[function(require,module,exports){
 "use strict";
 
 var selectionClass = require("./selectionClass"),
@@ -16142,7 +16216,7 @@ module.exports = function (editor, model) {
 };
 
 
-},{"../util/domUtil":150,"./DomPositionCache":159,"./selectionClass":185}],181:[function(require,module,exports){
+},{"../util/domUtil":150,"./DomPositionCache":160,"./selectionClass":188}],183:[function(require,module,exports){
 "use strict";
 
 var reduce2hash = require("../util/reduce2hash"),
@@ -16223,123 +16297,85 @@ module.exports = function (model) {
 };
 
 
-},{"../util/reduce2hash":156,"../util/uri":157}],182:[function(require,module,exports){
+},{"../util/reduce2hash":156,"../util/uri":157}],184:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
   return obj && (obj["default"] || obj);
 };
 
+var Renderer = _interopRequire(require("./Renderer"));
+
 var lineHeight = _interopRequire(require("./lineHeight"));
 
-var delay150 = function (func) {
-  return _.partial(_.delay, func, 150);
-},
-    TypeStyle = function (newValue) {
+var Hover = _interopRequire(require("./Hover"));
+
+var Display = _interopRequire(require("./Display"));
+
+var CursorChanger = _interopRequire(require("../util/CursorChanger"));
+
+var setSelectionModelHandler = _interopRequire(require("./setSelectionModelHandler"));
+
+module.exports = function (editor, model, buttonController, getTypeGapValue, typeContainer) {
+  // Render DOM elements conforming with the Model.
+  var renderer = new Renderer(editor, model, buttonController.buttonStateHelper, typeContainer),
+      hover = new Hover(editor, model.annotationData.entity),
+      display = new Display(editor, model.annotationData, typeContainer, renderer);
+
+  setDisplayHandler(editor, display);
+  setSelectionModelHandler(editor, model, buttonController);
+
+  return {
+    init: _.partial(initRenderer, editor, model, renderer, display.update, getTypeGapValue),
+    hoverRelation: hover,
+    updateDisplay: display.update,
+    setTypeGap: function (newValue) {
+      editor.find(".textae-editor__type").css(new TypeStyle(newValue));
+      display.update(newValue);
+    }
+  };
+};
+
+function TypeStyle(newValue) {
   return {
     height: 18 * newValue + 18 + "px",
     "padding-top": 18 * newValue + "px"
   };
-};
+}
 
-module.exports = function (editor, model, buttonController, getTypeGapValue, typeContainer) {
-  var selector = require("./Selector")(editor, model),
-
-
-  // Render DOM elements conforming with the Model.
-  renderer = require("./Renderer")(editor, model, buttonController.buttonStateHelper, typeContainer),
-      gridLayout = require("./GridLayout")(editor, model.annotationData, typeContainer),
-      api = require("../util/extendBindable")({}),
-      render = function (typeGapValue) {
-    api.trigger("render.start", editor);
-    // Do asynchronous to change behavior of editor.
-    // For example a wait cursor or a disabled control.
-    _.defer(function () {
-      gridLayout.arrangePosition(typeGapValue).then(renderer.renderLazyRelationAll).then(renderer.arrangeRelationPositionAll).then(function () {
-        api.trigger("render.end", editor);
-      })["catch"](function (error) {
-        console.error(error, error.stack);
-      });
-    });
-  },
-      hover = (function () {
-    var domPositionCaChe = require("./DomPositionCache")(editor, model.annotationData.entity),
-        processAccosiatedRelation = function (func, entityId) {
-      model.annotationData.entity.assosicatedRelations(entityId).map(domPositionCaChe.toConnect).filter(function (connect) {
-        return connect.pointup && connect.pointdown;
-      }).forEach(func);
-    };
-
-    return {
-      on: _.partial(processAccosiatedRelation, function (connect) {
-        connect.pointup();
-      }),
-      off: _.partial(processAccosiatedRelation, function (connect) {
-        connect.pointdown();
-      })
-    };
-  })(),
-      setSelectionModelHandler = function () {
-    // Because entity.change is off at relation-edit-mode.
-    model.selectionModel.on("span.select", selector.span.select).on("span.deselect", selector.span.deselect).on("span.change", buttonController.buttonStateHelper.updateBySpan).on("entity.select", selector.entity.select).on("entity.deselect", selector.entity.deselect).on("relation.select", delay150(selector.relation.select)).on("relation.deselect", delay150(selector.relation.deselect)).on("relation.change", buttonController.buttonStateHelper.updateByRelation);
-  },
-      updateDisplay = render;
-
-  return _.extend(api, {
-    init: function () {
-      renderer.init(editor, model).on("change", function () {
-        updateDisplay(getTypeGapValue());
-      }).on("entity.render", function (entity) {
-        // Set css accoridng to the typeGapValue.
-        renderer.setEntityCss(entity, new TypeStyle(getTypeGapValue()));
-      }).on("text.change", function () {
-        lineHeight.reduceBottomSpace(editor);
-      });
-
-      setSelectionModelHandler();
-    },
-    hoverRelation: hover,
-    updateDisplay: updateDisplay,
-    setTypeGap: function (newValue) {
-      editor.find(".textae-editor__type").css(new TypeStyle(newValue));
-      render(newValue);
-    }
+function initRenderer(editor, model, renderer, updateDisplay, getTypeGapValue) {
+  renderer.init(editor, model).on("change", function () {
+    return updateDisplay(getTypeGapValue());
+  }).on("entity.render", function (entity) {
+    // Set css accoridng to the typeGapValue.
+    renderer.setEntityCss(entity, new TypeStyle(getTypeGapValue()));
+  }).on("text.change", function () {
+    return lineHeight.reduceBottomSpace(editor);
   });
-};
+}
+
+function setDisplayHandler(editor, display) {
+  // Set cursor control by view rendering events.
+  var cursorChanger = new CursorChanger(editor);
+
+  display.on("render.start", function (editor) {
+    // console.log(editor.editorId, 'render.start');
+    cursorChanger.startWait();
+  }).on("render.end", function (editor) {
+    // console.log(editor.editorId, 'render.end');
+    cursorChanger.endWait();
+  });
+}
 
 
-},{"../util/extendBindable":151,"./DomPositionCache":159,"./GridLayout":160,"./Renderer":176,"./Selector":180,"./lineHeight":184}],183:[function(require,module,exports){
+},{"../util/CursorChanger":146,"./Display":159,"./Hover":162,"./Renderer":178,"./lineHeight":187,"./setSelectionModelHandler":189}],185:[function(require,module,exports){
 "use strict";
 
-var stickGridOnSpan = function (getSpan, getGridOfSpan, span) {
-  var spanPosition = getSpan(span.id);
-
-  return {
-    top: spanPosition.top - getGridOfSpan(span.id).outerHeight(),
-    left: spanPosition.left
-  };
-},
-    getHeightIncludeDescendantGrids = function (span, typeContainer, typeGapValue) {
-  var descendantsMaxHeight = span.children.length === 0 ? 0 : Math.max.apply(null, span.children.map(function (childSpan) {
-    return getHeightIncludeDescendantGrids(childSpan, typeContainer, typeGapValue);
-  }));
-
-  var gridHeight = span.getTypes().filter(function (type) {
-    return !typeContainer.entity.isBlock(type.name);
-  }).length * (typeGapValue * 18 + 18);
-  return gridHeight + descendantsMaxHeight;
-},
-    pullUpGridOverDescendants = function (getSpan, typeContainer, typeGapValue, span) {
-  // Culculate the height of the grid include descendant grids, because css style affects slowly.
-
-  var spanPosition = getSpan(span.id);
-  var descendantsMaxHeight = getHeightIncludeDescendantGrids(span, typeContainer, typeGapValue);
-
-  return {
-    top: spanPosition.top - descendantsMaxHeight,
-    left: spanPosition.left
-  };
+var _interopRequire = function (obj) {
+  return obj && (obj["default"] || obj);
 };
+
+var getHeightIncludeDescendantGrids = _interopRequire(require("./getHeightIncludeDescendantGrids"));
 
 module.exports = function (getSpan, getGridOfSpan, typeContainer, typeGapValue, span) {
   if (span.children.length === 0) {
@@ -16349,17 +16385,66 @@ module.exports = function (getSpan, getGridOfSpan, typeContainer, typeGapValue, 
   }
 };
 
+function stickGridOnSpan(getSpan, getGridOfSpan, span) {
+  var spanPosition = getSpan(span.id);
 
-},{}],184:[function(require,module,exports){
+  return {
+    top: spanPosition.top - getGridOfSpan(span.id).outerHeight(),
+    left: spanPosition.left
+  };
+}
+
+function pullUpGridOverDescendants(getSpan, typeContainer, typeGapValue, span) {
+  // Culculate the height of the grid include descendant grids, because css style affects slowly.
+  var spanPosition = getSpan(span.id),
+      descendantsMaxHeight = getHeightIncludeDescendantGrids(span, typeContainer, typeGapValue);
+
+  return {
+    top: spanPosition.top - descendantsMaxHeight,
+    left: spanPosition.left
+  };
+}
+
+
+},{"./getHeightIncludeDescendantGrids":186}],186:[function(require,module,exports){
 "use strict";
 
-var get = function (editor) {
-  return Math.floor(parseInt(editor.find(".textae-editor__body__text-box").css("line-height")) / 16);
-},
+module.exports = getHeightIncludeDescendantGrids;
+function getHeightIncludeDescendantGrids(span, typeContainer, typeGapValue) {
+  var descendantsMaxHeight = span.children.length === 0 ? 0 : _.max(span.children.map(function (childSpan) {
+    return getHeightIncludeDescendantGrids(childSpan, typeContainer, typeGapValue);
+  })),
+      gridHeight = span.getTypes().filter(function (type) {
+    return !typeContainer.entity.isBlock(type.name);
+  }).length * (typeGapValue * 18 + 18);
 
+  return gridHeight + descendantsMaxHeight;
+}
+
+
+},{}],187:[function(require,module,exports){
+"use strict";
+
+var _interopRequire = function (obj) {
+  return obj && (obj["default"] || obj);
+};
+
+exports.get = get;
+exports.reduceBottomSpace = reduceBottomSpace;
+exports.set = set;
+exports.setToTypeGap = setToTypeGap;
+var TEXT_HEIGHT = 23;
+var MARGIN_TOP = 30;
+var MINIMUM_HEIGHT = 16 * 4;
+
+var getHeightIncludeDescendantGrids = _interopRequire(require("./getHeightIncludeDescendantGrids"));
+
+function get(editor) {
+  return Math.floor(parseInt(editor.find(".textae-editor__body__text-box").css("line-height")) / 16);
+}
 
 // Reduce the space under the .textae-editor__body__text-box same as padding-top.
-reduceBottomSpace = function (editor) {
+function reduceBottomSpace(editor) {
   var $textBox = editor.find(".textae-editor__body__text-box");
 
   // The height calculated by auto is exclude the value of the padding top.
@@ -16369,8 +16454,9 @@ reduceBottomSpace = function (editor) {
   }).css({
     height: $textBox.height() + 20
   });
-},
-    set = function (editor, heightValue) {
+}
+
+function set(editor, heightValue) {
   var $textBox = editor.find(".textae-editor__body__text-box");
 
   $textBox.css({
@@ -16379,39 +16465,27 @@ reduceBottomSpace = function (editor) {
   });
 
   reduceBottomSpace(editor);
-},
-    setToTypeGap = function (editor, model, typeGapValue) {
-  var TEXT_HEIGHT = 23,
-      MARGIN_TOP = 60,
-      MINIMUM_HEIGHT = 16 * 4,
-      heightOfType = typeGapValue * 18 + 18,
-      maxHeight = _.max(model.annotationData.span.all().map(function (span) {
-    var height = TEXT_HEIGHT + MARGIN_TOP;
-    var countHeight = function (span) {
-      // Grid height is height of types and margin bottom of the grid.
-      height += span.getTypes().length * heightOfType;
-      if (span.parent) {
-        countHeight(span.parent);
-      }
-    };
+}
 
-    countHeight(span);
+function setToTypeGap(editor, model, typeContainer, typeGapValue) {
+  var heightOfType = typeGapValue * 18 + 18,
+      maxHeight;
 
-    return height;
-  }).concat(MINIMUM_HEIGHT));
+  if (model.annotationData.span.all().length === 0) {
+    maxHeight = MINIMUM_HEIGHT;
+  } else {
+    maxHeight = _.max(model.annotationData.span.all().map(function (span) {
+      return getHeightIncludeDescendantGrids(span, typeContainer, typeGapValue);
+    }));
+
+    maxHeight += TEXT_HEIGHT + MARGIN_TOP;
+  }
 
   set(editor, maxHeight);
-};
-
-module.exports = {
-  get: get,
-  set: set,
-  setToTypeGap: setToTypeGap,
-  reduceBottomSpace: reduceBottomSpace
-};
+}
 
 
-},{}],185:[function(require,module,exports){
+},{"./getHeightIncludeDescendantGrids":186}],188:[function(require,module,exports){
 "use strict";
 
 // Add or Remove class to indicate selected state.
@@ -16430,7 +16504,28 @@ module.exports = (function () {
 })();
 
 
-},{}]},{},[84]);
+},{}],189:[function(require,module,exports){
+"use strict";
+
+var _interopRequire = function (obj) {
+  return obj && (obj["default"] || obj);
+};
+
+var Selector = _interopRequire(require("./Selector"));
+
+module.exports = function (editor, model, buttonController) {
+  var selector = new Selector(editor, model);
+
+  // Because entity.change is off at relation-edit-mode.
+  model.selectionModel.on("span.select", selector.span.select).on("span.deselect", selector.span.deselect).on("span.change", buttonController.buttonStateHelper.updateBySpan).on("entity.select", selector.entity.select).on("entity.deselect", selector.entity.deselect).on("relation.select", delay150(selector.relation.select)).on("relation.deselect", delay150(selector.relation.deselect)).on("relation.change", buttonController.buttonStateHelper.updateByRelation);
+};
+
+function delay150(func) {
+  return _.partial(_.delay, func, 150);
+}
+
+
+},{"./Selector":182}]},{},[84]);
 
 //for module pattern with tail.js
 (function(jQuery) { // Application main
