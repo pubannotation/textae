@@ -5,7 +5,7 @@ var GetEditorDialog = require('./dialog/GetEditorDialog'),
         <h1>{{name}}</h1>
         {{#if denotationHasLength}}
             <table>
-                <caption>Spans are broken.</caption>
+                <caption>Wrong range.</caption>
                 <thead>
                     <tr>
                         <th>id</th>
@@ -28,7 +28,7 @@ var GetEditorDialog = require('./dialog/GetEditorDialog'),
         {{/if}}
         {{#if denotationInText}}
             <table>
-                <caption>Spans are out of text.</caption>
+                <caption>Out of text.</caption>
                 <thead>
                     <tr>
                         <th>id</th>
@@ -51,7 +51,7 @@ var GetEditorDialog = require('./dialog/GetEditorDialog'),
         {{/if}}
         {{#if denotationInParagraph}}
             <table>
-                <caption>Spans are out of paragraphs.</caption>
+                <caption>Spans across paragraphs (newline-delimited).</caption>
                 <thead>
                     <tr>
                         <th>id</th>

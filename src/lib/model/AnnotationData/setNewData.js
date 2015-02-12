@@ -14,7 +14,7 @@ var parseAnnotation = require('./parseAnnotation'),
                     prefix = `track${ number }_`,
                     reject = parseAnnotation(span, entity, relation, modification, paragraph, text, track, prefix);
 
-                reject.name = `Track ${ number } annotaiton.`;
+                reject.name = `Track ${ number } annotations.`;
                 return reject;
             });
     },
@@ -37,7 +37,7 @@ var parseAnnotation = require('./parseAnnotation'),
                 annotation.text,
                 annotation);
 
-        annotationReject.name = 'Root annotation.';
+        annotationReject.name = 'Root annotations.';
 
         return [annotationReject].concat(tracksReject);
     },
