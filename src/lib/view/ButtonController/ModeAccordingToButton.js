@@ -1,5 +1,5 @@
-var reduce2hash = require('../util/reduce2hash'),
-	extendBindable = require('../util/extendBindable'),
+var reduce2hash = require('../../util/reduce2hash'),
+	extendBindable = require('../../util/extendBindable'),
 	Button = function(buttonName) {
 		// Button state is true when the button is pushed.
 		var emitter = extendBindable({}),
