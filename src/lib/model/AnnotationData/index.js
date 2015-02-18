@@ -19,7 +19,7 @@ var setNewData = require('./setNewData'),
 
                     if (!annotation.text) throw "read failed.";
 
-                    var reject = setNewData(dataStore, annotation);
+                    var result = setNewData(dataStore, annotation);
 
                     originalData = annotation;
 
@@ -30,7 +30,7 @@ var setNewData = require('./setNewData'),
 
                     dataStore.emit('all.change', dataStore);
 
-                    return reject;
+                    return result.rejects;
                 } catch (error) {
                     console.error(error, error.stack);
                 }

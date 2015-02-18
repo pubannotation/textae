@@ -3,12 +3,12 @@ var parseAnnotation = require('./parseAnnotation'),
         paragraph.addSource(sourceDoc);
     },
     parseTracks = function(span, entity, relation, modification, paragraph, text, annotation) {
-        if (!annotation.tracks) return [];
+        if (!annotation.tracks) return [false, []];
 
         var tracks = annotation.tracks;
         delete annotation.tracks;
 
-        return tracks
+        var rejects = tracks
             .map(function(track, i) {
                 var number = i + 1,
                     prefix = `track${ number }_`,
@@ -17,9 +17,11 @@ var parseAnnotation = require('./parseAnnotation'),
                 reject.name = `Track ${ number } annotations.`;
                 return reject;
             });
+
+        return [true, rejects];
     },
     parseDennotation = function(dataStore, annotation) {
-        var tracksReject = parseTracks(
+        var tracks = parseTracks(
                 dataStore.span,
                 dataStore.entity,
                 dataStore.relation,
@@ -39,7 +41,10 @@ var parseAnnotation = require('./parseAnnotation'),
 
         annotationReject.name = 'Root annotations.';
 
-        return [annotationReject].concat(tracksReject);
+        return {
+            multitrack: tracks[0],
+            rejects: [annotationReject].concat(tracks[1])
+        };
     },
     setNewData = function(dataStore, annotation) {
         parseBaseText(dataStore.paragraph, annotation.text);
