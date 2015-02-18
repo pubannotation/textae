@@ -28,7 +28,7 @@ var setNewData = require('./setNewData'),
                         paragraphs: dataStore.paragraph.all()
                     });
 
-                    dataStore.emit('all.change', dataStore);
+                    dataStore.emit('all.change', dataStore, result.multitrack, result.rejects);
 
                     return result.rejects;
                 } catch (error) {

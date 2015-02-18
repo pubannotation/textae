@@ -76,11 +76,7 @@ module.exports = function() {
                 return 'no config';
             }
         },
-        resetData = function(annotation) {
-            var reject = model.annotationData.reset(annotation);
-            history.reset();
-            showVilidationDialog(self, reject);
-        },
+        resetData = model.annotationData.reset,
         setConfigFromServer = function(config, annotation) {
             spanConfig.reset();
 
@@ -120,6 +116,11 @@ module.exports = function() {
                 }
             }
         };
+
+    model.annotationData.on('all.change', (annotationData, multitrack, reject) => {
+        history.reset();
+        showVilidationDialog(self, reject);
+    });
 
     // public funcitons of editor
     this.api = function(editor) {
