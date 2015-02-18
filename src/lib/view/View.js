@@ -5,37 +5,44 @@ import Display from './Display';
 import CursorChanger from '../util/CursorChanger';
 import setSelectionModelHandler from './setSelectionModelHandler';
 import TypeStyle from './TypeStyle';
+import RelationRenderer from './Renderer/RelationRenderer';
 
 export default function(editor, model, buttonController, typeGap, typeContainer) {
     // Render DOM elements conforming with the Model.
-    var renderer = new Renderer(editor, model, buttonController.buttonStateHelper, typeContainer, typeGap),
-        hover = new Hover(editor, model.annotationData.entity),
-        display = new Display(editor, model.annotationData, typeContainer, renderer),
-        setTypeStyle = newValue => editor.find('.textae-editor__type').css(new TypeStyle(newValue));
+    var relationRenderer = new RelationRenderer(editor, model, typeContainer),
+        hover = new Hover(editor, model.annotationData.entity);
 
-    typeGap(setTypeStyle);
-    typeGap(newValue => lineHeight.setToTypeGap(editor, model, typeContainer, newValue));
-    typeGap(display.update);
-
-    setDisplayHandler(editor, display);
     setSelectionModelHandler(editor, model, buttonController);
 
-    return {
-        init: _.partial(
-            initRenderer,
-            editor,
-            model,
-            renderer,
-            display.update,
-            typeGap
-        ),
-        hoverRelation: hover,
-        updateDisplay: () => display.update(typeGap())
+    var api = {
+        init: () => {
+            var arrangePositionAllRelation = relationRenderer.init(editor),
+                display = new Display(editor, model.annotationData, typeContainer, arrangePositionAllRelation);
+
+            setHandlerOnTyapGapEvent(editor, model, typeGap, typeContainer, display);
+            setHandlerOnDisplayEvent(editor, display);
+
+            initRenderer(
+                editor,
+                model,
+                display.update,
+                typeGap,
+                typeContainer,
+                buttonController.buttonStateHelper,
+                relationRenderer
+            );
+
+            api.updateDisplay = () => display.update(typeGap());
+        },
+        hoverRelation: hover
     };
+
+    return api;
 }
 
-function initRenderer(editor, model, renderer, updateDisplay, typeGap) {
-    var debouncedUpdateDisplay = _.debounce(() => updateDisplay(typeGap()), 100);
+function initRenderer(editor, model, updateDisplay, typeGap, typeContainer, buttonStateHelper, relationRenderer) {
+    var renderer = new Renderer(editor, model, buttonStateHelper, typeContainer, typeGap, relationRenderer),
+        debouncedUpdateDisplay = _.debounce(() => updateDisplay(typeGap()), 100);
 
     renderer.init(editor, model.annotationData, model.selectionModel)
         .on('change', debouncedUpdateDisplay)
@@ -49,7 +56,15 @@ function initRenderer(editor, model, renderer, updateDisplay, typeGap) {
         .on('relation.add', debouncedUpdateDisplay);
 }
 
-function setDisplayHandler(editor, display) {
+function setHandlerOnTyapGapEvent(editor, model, typeGap, typeContainer, display) {
+    var setTypeStyle = newValue => editor.find('.textae-editor__type').css(new TypeStyle(newValue));
+
+    typeGap(setTypeStyle);
+    typeGap(newValue => lineHeight.setToTypeGap(editor, model, typeContainer, newValue));
+    typeGap(display.update);
+}
+
+function setHandlerOnDisplayEvent(editor, display) {
     // Set cursor control by view rendering events.
     var cursorChanger = new CursorChanger(editor);
 

@@ -7,9 +7,15 @@ import {
 }
 from 'events';
 import TypeStyle from '../TypeStyle';
+import SpanRenderer from './SpanRenderer';
+import GridRenderer from './GridRenderer';
+import EntityRenderer from './EntityRenderer';
 
-export default function(domPositionCaChe, spanRenderer, gridRenderer, entityRenderer, relationRenderer, buttonStateHelper, typeGap) {
-    var emitter = new EventEmitter();
+export default function(domPositionCaChe, relationRenderer, buttonStateHelper, typeGap, editor, model, typeContainer) {
+    var emitter = new EventEmitter(),
+        gridRenderer = new GridRenderer(editor, domPositionCaChe),
+        entityRenderer = new EntityRenderer(editor, model, typeContainer, gridRenderer),
+        spanRenderer = new SpanRenderer(editor, model, typeContainer, entityRenderer, gridRenderer);
 
     entityRenderer.on('render', entity => entityRenderer.getTypeDom(entity).css(new TypeStyle(typeGap())));
 
@@ -23,8 +29,6 @@ export default function(domPositionCaChe, spanRenderer, gridRenderer, entityRend
                 renderModification(annotationData, 'relation', modification, relationRenderer, buttonStateHelper);
                 renderModification(annotationData, 'entity', modification, entityRenderer, buttonStateHelper);
             };
-
-        initChildren(editor, gridRenderer, relationRenderer);
 
         var eventHandlers = [
             ['text.change', params => renderSourceDocument(editor, params.sourceDoc, params.paragraphs)],
@@ -71,12 +75,6 @@ export default function(domPositionCaChe, spanRenderer, gridRenderer, entityRend
 
         return emitter;
     };
-}
-
-function initChildren(editor, gridRenderer, relationRenderer) {
-    var container = getAnnotationBox(editor);
-    gridRenderer.init(container);
-    relationRenderer.init(container);
 }
 
 function modelToId(modelElement) {

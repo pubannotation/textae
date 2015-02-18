@@ -4,28 +4,33 @@ import {
 }
 from 'events';
 
-export default function(editor, annotationData, typeContainer, renderer) {
+export default function(editor, annotationData, typeContainer, arrangePositionAllRelation) {
     var emitter = new EventEmitter(),
         gridLayout = new GridLayout(editor, annotationData, typeContainer),
-        update = function(typeGapValue) {
+        update = typeGapValue => {
             emitter.emit('render.start', editor);
 
             // Do asynchronous to change behavior of editor.
             // For example a wait cursor or a disabled control.
-            _.defer(function() {
+            _.defer(() =>
                 gridLayout.arrangePosition(typeGapValue)
-                    .then(renderer.renderLazyRelationAll)
-                    .then(renderer.arrangeRelationPositionAll)
-                    .then(function() {
-                        emitter.emit('render.end', editor);
-                    })
-                    .catch(function(error) {
-                        console.error(error, error.stack);
-                    });
-            });
+                .then(() => renderLazyRelationAll(annotationData.relation.all()))
+                .then(arrangePositionAllRelation)
+                .then(() => emitter.emit('render.end', editor))
+                .catch(error => console.error(error, error.stack))
+            );
         };
 
     return _.extend(emitter, {
         update: update
     });
+}
+
+function renderLazyRelationAll(relations) {
+    // Render relations unless rendered.
+    return Promise.all(
+        relations
+        .filter(connect => connect.render)
+        .map(connect => connect.render())
+    );
 }

@@ -1,17 +1,16 @@
-import ModificationRenderer from './ModificationRenderer';
+import ModificationRenderer from '../ModificationRenderer';
+import getAnnotationBox from '../getAnnotationBox';
+import DomPositionCache from '../../DomPositionCache';
+import Connect from './Connect';
+import arrangePositionAll from './arrangePositionAll';
+import determineCurviness from './determineCurviness';
+import jsPlumbArrowOverlayUtil from './jsPlumbArrowOverlayUtil';
+import domUtil from '../../../util/domUtil';
 
 var POINTUP_LINE_WIDTH = 3,
     LABEL = {
         cssClass: 'textae-editor__relation__label',
         id: 'label'
-    },
-    CURVINESS_PARAMETERS = {
-        // curviness parameters
-        xrate: 0.6,
-        yrate: 0.05,
-
-        // curviness offset
-        c_offset: 20,
     },
     makeJsPlumbInstance = function(container) {
         var newInstance = jsPlumb.getInstance({
@@ -32,19 +31,13 @@ var POINTUP_LINE_WIDTH = 3,
         }
 
         return labelOverlay;
-    },
-    // A Module to modify jsPlumb Arrow Overlays.
-    jsPlumbArrowOverlayUtil = require('./jsPlumbArrowOverlayUtil'),
-    domUtil = require('../../util/domUtil');
+    };
 
 module.exports = function(editor, model, typeContainer) {
     // Init a jsPlumb instance.
     var modification = new ModificationRenderer(model.annotationData),
-        domPositionCaChe = require('../DomPositionCache')(editor, model.annotationData.entity),
+        domPositionCaChe = new DomPositionCache(editor, model.annotationData.entity),
         jsPlumbInstance,
-        init = function(container) {
-            jsPlumbInstance = makeJsPlumbInstance(container);
-        },
         ConnectorStrokeStyle = function() {
             var converseHEXinotRGBA = function(color, opacity) {
                 var c = color.slice(1),
@@ -68,21 +61,20 @@ module.exports = function(editor, model, typeContainer) {
         // Cache a connect instance.
         cache = function(connect) {
             var relationId = connect.relationId;
+            var domPositionCaChe = new DomPositionCache(editor, model.annotationData.entity);
             domPositionCaChe.connectCache.set(relationId, connect);
+
             return connect;
         },
-        toAnchors = function(relationId) {
-            return {
-                sourceId: model.annotationData.relation.get(relationId).subj,
-                targetId: model.annotationData.relation.get(relationId).obj
-            };
-        },
         isGridPrepared = function(relationId) {
-            if (!model.annotationData.relation.get(relationId)) return;
+            if (!model.annotationData.relation.get(relationId))
+                return;
 
-            var anchors = toAnchors(relationId);
-            return domPositionCaChe.gridPositionCache.isGridPrepared(anchors.sourceId) &&
-                domPositionCaChe.gridPositionCache.isGridPrepared(anchors.targetId);
+            var domPositionCaChe = new DomPositionCache(editor, model.annotationData.entity),
+                relation = model.annotationData.relation.get(relationId);
+
+            return domPositionCaChe.gridPositionCache.isGridPrepared(relation.subj) &&
+                domPositionCaChe.gridPositionCache.isGridPrepared(relation.obj);
         },
         filterGridExists = function(connect) {
             // The grid may be destroyed when the spans was moved repetitively by undo or redo.
@@ -90,24 +82,6 @@ module.exports = function(editor, model, typeContainer) {
                 return;
             }
             return connect;
-        },
-        determineCurviness = function(relationId) {
-            var anchors = toAnchors(relationId);
-            var sourcePosition = domPositionCaChe.getEntity(anchors.sourceId);
-            var targetPosition = domPositionCaChe.getEntity(anchors.targetId);
-
-            var sourceX = sourcePosition.center;
-            var targetX = targetPosition.center;
-
-            var sourceY = sourcePosition.top;
-            var targetY = targetPosition.top;
-
-            var xdiff = Math.abs(sourceX - targetX);
-            var ydiff = Math.abs(sourceY - targetY);
-            var curviness = xdiff * CURVINESS_PARAMETERS.xrate + ydiff * CURVINESS_PARAMETERS.yrate + CURVINESS_PARAMETERS.c_offset;
-            curviness /= 2.4;
-
-            return curviness;
         },
         render = function() {
             var deleteRender = function(relation) {
@@ -121,7 +95,7 @@ module.exports = function(editor, model, typeContainer) {
                         target: domUtil.selector.entity.get(relation.obj, editor),
                         anchors: ['TopCenter', "TopCenter"],
                         connector: ['Bezier', {
-                            curviness: determineCurviness(relation.id)
+                            curviness: determineCurviness(editor, model.annotationData, relation)
                         }],
                         paintStyle: new ConnectorStrokeStyle(relation.id),
                         parameters: {
@@ -351,16 +325,8 @@ module.exports = function(editor, model, typeContainer) {
 
             return _.compose(cache, extendDummyApiToCreateRlationWhenGridMoved, extendRelationId);
         }(),
-        Connect = function(relationId) {
-            var connect = domPositionCaChe.toConnect(relationId);
-            if (!connect) {
-                throw 'no connect';
-            }
-
-            return connect;
-        },
         changeType = function(relation) {
-            var connect = new Connect(relation.id),
+            var connect = new Connect(editor, model.annotationData, relation.id),
                 strokeStyle = new ConnectorStrokeStyle(relation.id);
 
             // The connect may be an object for lazyRender instead of jsPlumb.Connection.
@@ -376,7 +342,7 @@ module.exports = function(editor, model, typeContainer) {
             }
         },
         changeJsModification = function(relation) {
-            var connect = new Connect(relation.id);
+            var connect = new Connect(editor, model.annotationData, relation.id);
 
             // A connect may be an object before it rendered.
             if (connect instanceof jsPlumb.Connection) {
@@ -384,80 +350,18 @@ module.exports = function(editor, model, typeContainer) {
             }
         },
         remove = function(relation) {
-            var connect = new Connect(relation.id);
+            var connect = new Connect(editor, model.annotationData, relation.id);
             jsPlumbInstance.detach(connect);
             domPositionCaChe.connectCache.remove(relation.id);
 
             // Set the flag dead already to delay selection.
             connect.dead = true;
         },
-        resetAllCurviness = function() {
-            model.annotationData.relation
-                .all()
-                .map(function(relation) {
-                    return new Connect(relation.id);
-                })
-                .filter(function(connect) {
-                    // Set changed values only.
-                    return connect.setConnector &&
-                        connect.connector.getCurviness() !== determineCurviness(connect.relationId);
-                })
-                .forEach(function(connect) {
-                    connect.setConnector(['Bezier', {
-                        curviness: determineCurviness(connect.relationId)
-                    }]);
-                    // Re-set arrow because it is disappered when setConnector is called.
-                    jsPlumbArrowOverlayUtil.resetArrows(connect);
-                });
-        },
-        renderLazyRelationAll = function() {
-            // Render relations unless rendered.
-            return Promise.all(
-                model.annotationData.relation
-                .all()
-                .filter(function(connect) {
-                    return connect.render;
-                })
-                .map(function(connect) {
-                    return connect.render();
-                })
-            );
-        },
-        reselectAll = function() {
-            model.selectionModel.relation
-                .all()
-                .map(function(relationId) {
-                    return new Connect(relationId);
-                })
-                .filter(function(connect) {
-                    return connect instanceof jsPlumb.Connection;
-                })
-                .forEach(function(connect) {
-                    connect.select();
-                });
-        },
-        arrangePositionAll = function() {
-            return new Promise(function(resolve, reject) {
-                _.defer(function() {
-                    try {
-                        // For tuning
-                        // var startTime = new Date();
+        init = function(editor) {
+            var container = getAnnotationBox(editor);
+            jsPlumbInstance = makeJsPlumbInstance(container);
 
-                        resetAllCurviness();
-                        jsPlumbInstance.repaintEverything();
-                        reselectAll();
-
-                        // For tuning
-                        // var endTime = new Date();
-                        // console.log(editor.editorId, 'arrangePositionAll : ', endTime.getTime() - startTime.getTime() + 'ms');
-
-                        resolve();
-                    } catch (error) {
-                        reject(error);
-                        throw error;
-                    }
-                });
-            });
+            return () => arrangePositionAll(editor, model, jsPlumbInstance);
         };
 
     return {
@@ -469,8 +373,6 @@ module.exports = function(editor, model, typeContainer) {
         render: renderLazy,
         change: changeType,
         changeModification: changeJsModification,
-        remove: remove,
-        renderLazyRelationAll: renderLazyRelationAll,
-        arrangePositionAll: arrangePositionAll
+        remove: remove
     };
 };
