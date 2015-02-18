@@ -1,3 +1,8 @@
+import {
+    EventEmitter as EventEmitter
+}
+from 'events';
+
 var bindEvent = function($target, event, func) {
         $target.on(event, func);
     },
@@ -18,7 +23,7 @@ module.exports = function(editor, confirmDiscardChangeMessage) {
         getAnnotationFromServer = function(urlToJson) {
             cursorChanger.startWait();
             ajaxAccessor.getAsync(urlToJson, function getAnnotationFromServerSuccess(annotation) {
-                api.trigger('load', {
+                api.emit('load', {
                     annotation: annotation,
                     source: jQuerySugar.toLink(url.resolve(location.href, urlToJson))
                 });
@@ -57,7 +62,7 @@ module.exports = function(editor, confirmDiscardChangeMessage) {
 
                             reader.onload = function() {
                                 var annotation = JSON.parse(this.result);
-                                api.trigger('load', {
+                                api.emit('load', {
                                     annotation: annotation,
                                     source: firstFile.name + '(local file)'
                                 });
@@ -116,11 +121,11 @@ module.exports = function(editor, confirmDiscardChangeMessage) {
                 },
                 getSaveDialog = function(editorId) {
                     var showSaveSuccess = function() {
-                            api.trigger('save');
+                            api.emit('save');
                             cursorChanger.endWait();
                         },
                         showSaveError = function() {
-                            api.trigger('save error');
+                            api.emit('save error');
                             cursorChanger.endWait();
                         },
                         saveAnnotationToServer = function(url, jsonData) {
@@ -171,7 +176,7 @@ module.exports = function(editor, confirmDiscardChangeMessage) {
                             $(this)
                                 .attr('href', downloadPath)
                                 .attr('download', jQuerySugar.getValueFromText($content, 'local'));
-                            api.trigger('save');
+                            api.emit('save');
                             $content.trigger('dialog.close');
                         })
                         .append(
@@ -183,7 +188,7 @@ module.exports = function(editor, confirmDiscardChangeMessage) {
                         .on('click', 'a.viewsource', function(e) {
                             var downloadPath = createDownloadPath($dialog.params);
                             window.open(downloadPath, '_blank');
-                            api.trigger('save');
+                            api.emit('save');
                             $content.trigger('dialog.close');
                             return false;
                         });
@@ -211,7 +216,7 @@ module.exports = function(editor, confirmDiscardChangeMessage) {
             };
         }();
 
-    var api = require('../util/extendBindable')({
+    var api = _.extend(new EventEmitter(), {
         getAnnotationFromServer: getAnnotationFromServer,
         showAccess: _.partial(loadSaveDialog.showLoad, editor.editorId),
         showSave: _.partial(loadSaveDialog.showSave, editor.editorId),

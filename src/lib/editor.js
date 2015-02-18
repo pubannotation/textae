@@ -1,5 +1,8 @@
 const CONFIRM_DISCARD_CHANGE_MESSAGE = 'There is a change that has not been saved. If you procceed now, you will lose it.';
 
+import DataAccessObject from './component/DataAccessObject';
+import editingState from './editingState';
+
 // model manages data objects.
 var Model = require('./model/Model'),
     // The history of command that providing undo and redo.
@@ -11,9 +14,7 @@ var Model = require('./model/Model'),
     View = require('./view/View'),
     Presenter = require('./presenter/Presenter'),
     Controller = require('./Controller'),
-    createDaoForEditor = require('./createDaoForEditor'),
     getParams = require('./getParams'),
-    showVilidationDialog = require('./component/showVilidationDialog'),
     setTypeConfig = function(typeContainer, config) {
         typeContainer.setDefinedEntityTypes(config ? config['entity types'] : []);
         typeContainer.setDefinedRelationTypes(config ? config['relation types'] : []);
@@ -117,9 +118,16 @@ module.exports = function() {
                     dataAccessObject.getAnnotationFromServer(annotation.url);
                 }
             }
-        };
+        },
+        dataAccessObject = new DataAccessObject(self, CONFIRM_DISCARD_CHANGE_MESSAGE);
 
-    bindAnothorView(model, history, buttonController.buttonStateHelper, CONFIRM_DISCARD_CHANGE_MESSAGE);
+    editingState(
+        model.annotationData,
+        history,
+        buttonController.buttonStateHelper,
+        CONFIRM_DISCARD_CHANGE_MESSAGE,
+        dataAccessObject
+    );
 
     // public funcitons of editor
     this.api = function(editor) {
@@ -190,16 +198,16 @@ module.exports = function() {
                 controller.init();
                 presenter.init();
 
-                var statusBar = getStatusBar(editor, params.status_bar),
-                    dataAccessObject = createDaoForEditor(
-                        editor,
-                        CONFIRM_DISCARD_CHANGE_MESSAGE,
-                        history,
-                        statusBar,
-                        _.partial(setAnnotation, params.config)
-                    );
+                var statusBar = getStatusBar(editor, params.status_bar);
+
+                dataAccessObject
+                    .on('load', function(data) {
+                        setAnnotation(params.config, data.annotation);
+                        statusBar.status(data.source);
+                    });
 
                 presenter.setMode(params.mode);
+
                 loadAnnotation(statusBar, params, dataAccessObject);
 
                 updateAPIs(dataAccessObject);
@@ -212,22 +220,3 @@ module.exports = function() {
 
     return this;
 };
-
-function bindAnothorView(model, history, buttonStateHelper, confirmDiscardChangeMessage) {
-    model.annotationData.on('all.change', (annotationData, multitrack, reject) => {
-        history.reset();
-        showVilidationDialog(self, reject);
-    });
-
-    history.bind('change', function(state) {
-        //change button state
-        buttonStateHelper.enabled("write", state.hasAnythingToSave);
-        buttonStateHelper.enabled("undo", state.hasAnythingToUndo);
-        buttonStateHelper.enabled("redo", state.hasAnythingToRedo);
-
-        //change leaveMessage show
-        window.onbeforeunload = state.hasAnythingToSave ? function() {
-            return confirmDiscardChangeMessage;
-        } : null;
-    });
-}
