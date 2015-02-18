@@ -1,3 +1,5 @@
+const CONFIRM_DISCARD_CHANGE_MESSAGE = 'There is a change that has not been saved. If you procceed now, you will lose it.';
+
 // model manages data objects.
 var Model = require('./model/Model'),
     // The history of command that providing undo and redo.
@@ -63,7 +65,7 @@ module.exports = function() {
             typeContainer
         ),
         //handle user input event.
-        controller = new Controller(this, history, presenter, view, buttonController.buttonStateHelper),
+        controller = new Controller(this, presenter, view),
         setSpanAndTypeConfig = function(config) {
             spanConfig.set(config);
             setTypeConfig(typeContainer, config);
@@ -117,10 +119,7 @@ module.exports = function() {
             }
         };
 
-    model.annotationData.on('all.change', (annotationData, multitrack, reject) => {
-        history.reset();
-        showVilidationDialog(self, reject);
-    });
+    bindAnothorView(model, history, buttonController.buttonStateHelper, CONFIRM_DISCARD_CHANGE_MESSAGE);
 
     // public funcitons of editor
     this.api = function(editor) {
@@ -185,11 +184,10 @@ module.exports = function() {
                 };
             },
             start = function start(editor) {
-                var CONFIRM_DISCARD_CHANGE_MESSAGE = 'There is a change that has not been saved. If you procceed now, you will lose it.';
                 var params = getParams(editor);
 
                 view.init();
-                controller.init(CONFIRM_DISCARD_CHANGE_MESSAGE);
+                controller.init();
                 presenter.init();
 
                 var statusBar = getStatusBar(editor, params.status_bar),
@@ -214,3 +212,22 @@ module.exports = function() {
 
     return this;
 };
+
+function bindAnothorView(model, history, buttonStateHelper, confirmDiscardChangeMessage) {
+    model.annotationData.on('all.change', (annotationData, multitrack, reject) => {
+        history.reset();
+        showVilidationDialog(self, reject);
+    });
+
+    history.bind('change', function(state) {
+        //change button state
+        buttonStateHelper.enabled("write", state.hasAnythingToSave);
+        buttonStateHelper.enabled("undo", state.hasAnythingToUndo);
+        buttonStateHelper.enabled("redo", state.hasAnythingToRedo);
+
+        //change leaveMessage show
+        window.onbeforeunload = state.hasAnythingToSave ? function() {
+            return confirmDiscardChangeMessage;
+        } : null;
+    });
+}

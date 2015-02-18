@@ -1,6 +1,6 @@
-module.exports = function(editor, history, presenter, view, buttonStateHelper) {
+module.exports = function(editor, presenter, view) {
     return {
-        init: function(confirmDiscardChangeMessage) {
+        init: function() {
             // Prevent the default selection by the browser with shift keies.
             editor.on('mousedown', function(e) {
                 if (e.shiftKey) {
@@ -22,18 +22,6 @@ module.exports = function(editor, history, presenter, view, buttonStateHelper) {
                 }).on('mouseleave', '.textae-editor__entity', function(e) {
                     view.hoverRelation.off($(this).attr('title'));
                 });
-
-            history.bind('change', function(state) {
-                //change button state
-                buttonStateHelper.enabled("write", state.hasAnythingToSave);
-                buttonStateHelper.enabled("undo", state.hasAnythingToUndo);
-                buttonStateHelper.enabled("redo", state.hasAnythingToRedo);
-
-                //change leaveMessage show
-                window.onbeforeunload = state.hasAnythingToSave ? function() {
-                    return confirmDiscardChangeMessage;
-                } : null;
-            });
         }
     };
 };
