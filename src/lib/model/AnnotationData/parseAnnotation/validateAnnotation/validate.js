@@ -1,31 +1,31 @@
 import Reject from '../../../../Reject';
 
-var partial = function(func, opt) {
-        if (!opt) return func;
+export default function(values, predicate, predicateOption) {
+    if (!values) return new Reject();
 
-        return _.partial(func, opt);
-    },
-    acceptIf = function(predicate, result, target) {
-        if (
-            predicate(target)
-        ) {
-            result.accept.push(target);
-        } else {
-            result.reject.push(target);
-        }
+    predicate = partial(predicate, predicateOption);
 
-        return result;
-    },
-    validate = function(values, predicate, predicateOption) {
-        if (!values) return new Reject();
+    return values
+        .reduce(
+            _.partial(acceptIf, predicate),
+            new Reject()
+        );
+}
 
-        predicate = partial(predicate, predicateOption);
+function partial(func, opt) {
+    if (!opt) return func;
 
-        return values
-            .reduce(
-                _.partial(acceptIf, predicate),
-                new Reject()
-            );
-    };
+    return _.partial(func, opt);
+}
 
-module.exports = validate;
+function acceptIf(predicate, result, target) {
+    if (
+        predicate(target)
+    ) {
+        result.accept.push(target);
+    } else {
+        result.reject.push(target);
+    }
+
+    return result;
+}
