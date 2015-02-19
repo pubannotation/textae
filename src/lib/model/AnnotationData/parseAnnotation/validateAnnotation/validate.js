@@ -1,10 +1,6 @@
-var Result = function(reject) {
-        return {
-            accept: [],
-            reject: reject ? reject : []
-        };
-    },
-    partial = function(func, opt) {
+import Reject from '../../../../Reject';
+
+var partial = function(func, opt) {
         if (!opt) return func;
 
         return _.partial(func, opt);
@@ -21,14 +17,14 @@ var Result = function(reject) {
         return result;
     },
     validate = function(values, predicate, predicateOption) {
-        if (!values) return new Result();
+        if (!values) return new Reject();
 
         predicate = partial(predicate, predicateOption);
 
         return values
             .reduce(
                 _.partial(acceptIf, predicate),
-                new Result()
+                new Reject()
             );
     };
 
