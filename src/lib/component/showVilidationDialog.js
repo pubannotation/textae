@@ -109,34 +109,34 @@ export default function(editor, rejects) {
     if (!hasError(rejects))
         return;
 
-    new GetEditorDialog(editor)(
-            'textae.dialog.validation',
-            'The following erronious annotations ignored',
-            createContent(rejects), {
-                noCancelButton: true,
-                height: 450
-            }
-        )
-        .open();
+    let $dialog = new GetEditorDialog(editor)(
+        'textae.dialog.validation',
+        'The following erronious annotations ignored',
+        $('<div>'), {
+            noCancelButton: true,
+            height: 450
+        }
+    );
+
+    updateContent($dialog[0].firstChild, rejects);
+    $dialog.open();
 }
 
-function createContent(rejects) {
-    let $content = $('<div>');
+function updateContent(content, rejects) {
+    content.innerHTML = '';
 
     rejects
         .map(transformToReferenceObjectError)
         .map(tepmlate)
         .forEach((html, index) => {
             if (index === 1) {
-                $content[0]
-                    .insertAdjacentHTML('beforeend', mergeMessage);
+                content.insertAdjacentHTML('beforeend', mergeMessage);
             }
 
-            $content[0]
-                .insertAdjacentHTML('beforeend', html);
+            content.insertAdjacentHTML('beforeend', html);
         });
 
-    return $content;
+    return content;
 }
 
 function transformToReferenceObjectError(reject) {
