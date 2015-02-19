@@ -1,8 +1,8 @@
+import Handlebars from 'handlebars';
 import hasError from '../Reject/hasError';
+import GetEditorDialog from './dialog/GetEditorDialog';
 
-var GetEditorDialog = require('./dialog/GetEditorDialog'),
-    Handlebars = require('handlebars'),
-    source = `
+const source = `
     <div class="textae-editor__valiondate-dialog__content">
         <h2>{{name}}</h2>
         {{#if denotationHasLength}}
@@ -98,61 +98,67 @@ var GetEditorDialog = require('./dialog/GetEditorDialog'),
             </table>
         {{/if}}
     </div>`,
-    tepmlate = Handlebars.compile(source);
+    mergeMessage = `
+        <div class="textae-editor__valiondate-dialog__content">
+            <h1>Track annatations will be merged to the root anntations.</h1>
+        </div>`;
 
-module.exports = function(editor, rejects) {
-    if (hasError(rejects)) {
-        var $content = $('<div>'),
-            $dialog = new GetEditorDialog(editor)(
-                'textae.dialog.validation',
-                'The following erronious annotations ignored',
-                $content, {
-                    noCancelButton: true,
-                    height: 450
-                }
-            );
+let tepmlate = Handlebars.compile(source);
 
-        rejects
-            .map(reject => {
-                // Combine rejects for referenced object errer.
-                reject.referencedItems = reject.relationObj
-                    .map(relation => {
-                        relation.alertObj = true;
-                        return relation;
-                    })
-                    .concat(reject.relationSubj
-                        .map(relation => {
-                            relation.alertSubj = true;
-                            return relation;
-                        })
-                    )
-                    .concat(reject.modification
-                        .map(modification => {
-                            modification.subj = '-';
-                            modification.alertObj = true;
-                            return modification;
-                        })
-                    );
+export default function(editor, rejects) {
+    if (!hasError(rejects))
+        return;
 
-                return reject;
-            })
-            .map(function(reject) {
-                return tepmlate(reject);
-            })
-            .forEach(function(html, index) {
-                if (index === 1) {
-                    let mergeMessage = `
-                    <div class="textae-editor__valiondate-dialog__content">
-                        <h1>Track annatations will be merged to the root anntations.</h1>
-                    </div>`;
+    new GetEditorDialog(editor)(
+            'textae.dialog.validation',
+            'The following erronious annotations ignored',
+            createContent(rejects), {
+                noCancelButton: true,
+                height: 450
+            }
+        )
+        .open();
+}
 
-                    $content[0]
-                        .insertAdjacentHTML('beforeend', mergeMessage);
-                }
+function createContent(rejects) {
+    let $content = $('<div>');
+
+    rejects
+        .map(transformToReferenceObjectError)
+        .map(tepmlate)
+        .forEach((html, index) => {
+            if (index === 1) {
                 $content[0]
-                    .insertAdjacentHTML('beforeend', html);
-            });
+                    .insertAdjacentHTML('beforeend', mergeMessage);
+            }
 
-        $dialog.open();
-    }
-};
+            $content[0]
+                .insertAdjacentHTML('beforeend', html);
+        });
+
+    return $content;
+}
+
+function transformToReferenceObjectError(reject) {
+    // Combine rejects for referenced object errer.
+    reject.referencedItems = reject.relationObj
+        .map(relation => {
+            relation.alertObj = true;
+            return relation;
+        })
+        .concat(reject.relationSubj
+            .map(relation => {
+                relation.alertSubj = true;
+                return relation;
+            })
+        )
+        .concat(reject.modification
+            .map(modification => {
+                modification.subj = '-';
+                modification.alertObj = true;
+                return modification;
+            })
+        );
+
+    return reject;
+}
