@@ -217,6 +217,55 @@
         },
         "obj": "Negative_regulation"
     }, {
+        "id": "T16",
+        "span": {
+            "begin": 1687,
+            "end": 1692
+        },
+        "obj": "Protein"
+    }, {
+        "id": "E16",
+        "span": {
+            "begin": 1741,
+            "end": 1755
+        },
+        "obj": "Negative_regulation"
+    }, {
+        "id": "T17",
+        "span": {
+            "begin": 1756,
+            "end": 1761
+        },
+        "obj": "Protein"
+    }, {
+        "id": "E17",
+        "span": {
+            "begin": 1762,
+            "end": 1772
+        },
+        "obj": "Gene_expression"
+    }, {
+        "id": "E18",
+        "span": {
+            "begin": 69,
+            "end": 77
+        },
+        "obj": "Gene_expression"
+    }, {
+        "id": "E19",
+        "span": {
+            "begin": 91,
+            "end": 107
+        },
+        "obj": "Protein"
+    }, {
+        "id": "E20",
+        "span": {
+            "begin": 91,
+            "end": 107
+        },
+        "obj": "Gene_expression"
+    }, {
         "id": "E21",
         "span": {
             "begin": 50,
@@ -231,10 +280,31 @@
         },
         "obj": "Protein"
     }, {
+        "id": "E23",
+        "span": {
+            "begin": 201,
+            "end": 210
+        },
+        "obj": "Protein"
+    }, {
         "id": "E24",
         "span": {
             "begin": 201,
             "end": 202
+        },
+        "obj": "Protein"
+    }, {
+        "id": "E25",
+        "span": {
+            "begin": 202,
+            "end": 210
+        },
+        "obj": "Protein"
+    }, {
+        "id": "E26",
+        "span": {
+            "begin": 203,
+            "end": 210
         },
         "obj": "Protein"
     }, {
@@ -244,6 +314,27 @@
             "end": 210
         },
         "obj": "Protein"
+    }, {
+        "id": "E28",
+        "span": {
+            "begin": 215,
+            "end": 300
+        },
+        "obj": "Protein"
+    }, {
+        "id": "E29",
+        "span": {
+            "begin": 225,
+            "end": 290
+        },
+        "obj": "Protein"
+    }, {
+        "id": "E30",
+        "span": {
+            "begin": 69,
+            "end": 77
+        },
+        "obj": "Gene_expression"
     }],
     "relations": [{
         "pred": "locatedAt",
@@ -260,10 +351,50 @@
         "subj": "E3",
         "obj": "F3"
     }, {
+        "id": "R4",
+        "pred": "equivalentTo",
+        "subj": "E23",
+        "obj": "E25"
+    }, {
         "id": "R5",
         "pred": "equivalentTo",
         "subj": "F25",
         "obj": "E26"
+    }, {
+        "id": "R6",
+        "pred": "equivalentTo",
+        "subj": "E26",
+        "obj": "E27"
+    }, {
+        "id": "R7",
+        "pred": "equivalentTo",
+        "subj": "E27",
+        "obj": "E24"
+    }, {
+        "id": "R8",
+        "pred": "equivalentTo",
+        "subj": "E24",
+        "obj": "E22"
+    }, {
+        "id": "R9",
+        "pred": "equivalentTo",
+        "subj": "E22",
+        "obj": "E28"
+    }, {
+        "id": "R10",
+        "pred": "equivalentTo",
+        "subj": "E28",
+        "obj": "E29"
+    }, {
+        "id": "R11",
+        "pred": "equivalentTo",
+        "subj": "E29",
+        "obj": "T4"
+    }, {
+        "id": "R12",
+        "pred": "equivalentTo",
+        "subj": "T4",
+        "obj": "E3"
     }],
     "modifications": [{
         "pred": "Negation",
@@ -304,5 +435,29 @@
         "id": "M10",
         "pred": "Speculation",
         "obj": "R3"
+    }, {
+        "id": "M11",
+        "pred": "Negation",
+        "obj": "R4"
+    }],
+    "tracks": [{
+        "denotations": [{
+            "span": {
+                "begin": -2,
+                "end": 15
+            },
+            "obj": "no id"
+        }]
+    }, {
+        "modifications": [{
+            "pred": "Negation",
+            "obj": "E1"
+        }]
+    }, {
+        "relations": [{
+            "pred": "locatedAt",
+            "subj": "E1",
+            "obj": "T1"
+        }]
     }]
 }

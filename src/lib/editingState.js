@@ -1,5 +1,6 @@
 import Observable from "observ";
 import showVilidationDialog from './component/showVilidationDialog';
+import hasError from './Reject/hasError';
 
 export default function(annotationData, history, buttonStateHelper, leaveMessage, dataAccessObject) {
     var writable = new Writable();
@@ -34,9 +35,10 @@ function bindResetEvent(annotationData, history, writable) {
 
         showVilidationDialog(self, reject);
 
-        if (multitrack) {
+        if(multitrack)
             toastr.success("track annotations have been merged to root annotations.");
 
+        if (multitrack || hasError(reject)) {
             writable.forceModified(true);
         } else {
             writable.forceModified(false);
