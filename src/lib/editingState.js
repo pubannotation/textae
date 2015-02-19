@@ -35,6 +35,8 @@ function bindResetEvent(annotationData, history, writable) {
         showVilidationDialog(self, reject);
 
         if (multitrack) {
+            toastr.success("track annotations have been merged to root annotations.");
+
             writable.forceModified(true);
         } else {
             writable.forceModified(false);
