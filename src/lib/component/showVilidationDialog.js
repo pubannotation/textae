@@ -1,3 +1,5 @@
+import hasError from '../Reject/hasError';
+
 var GetEditorDialog = require('./dialog/GetEditorDialog'),
     Handlebars = require('handlebars'),
     source = `
@@ -96,12 +98,7 @@ var GetEditorDialog = require('./dialog/GetEditorDialog'),
             </table>
         {{/if}}
     </div>`,
-    tepmlate = Handlebars.compile(source),
-    hasError = function(rejects) {
-        return rejects.reduce(function(result, reject) {
-            return result || reject.hasError;
-        }, false);
-    };
+    tepmlate = Handlebars.compile(source);
 
 module.exports = function(editor, rejects) {
     if (hasError(rejects)) {
