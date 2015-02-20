@@ -9689,11 +9689,40 @@ if (typeof require !== 'undefined' && require.extensions) {
 }
 
 },{"../dist/cjs/handlebars":44,"../dist/cjs/handlebars/compiler/printer":53,"../dist/cjs/handlebars/compiler/visitor":54,"fs":36}],60:[function(require,module,exports){
+module.exports = Observable
+
+function Observable(value) {
+    var listeners = []
+    value = value === undefined ? null : value
+
+    observable.set = function (v) {
+        value = v
+        listeners.forEach(function (f) {
+            f(v)
+        })
+    }
+
+    return observable
+
+    function observable(listener) {
+        if (!listener) {
+            return value
+        }
+
+        listeners.push(listener)
+
+        return function remove() {
+            listeners.splice(listeners.indexOf(listener), 1)
+        }
+    }
+}
+
+},{}],61:[function(require,module,exports){
 "use strict";
 
-module.exports = function (editor, history, presenter, view, buttonStateHelper) {
+module.exports = function (editor, presenter, view) {
   return {
-    init: function (confirmDiscardChangeMessage) {
+    init: function () {
       // Prevent the default selection by the browser with shift keies.
       editor.on("mousedown", function (e) {
         if (e.shiftKey) {
@@ -9713,24 +9742,33 @@ module.exports = function (editor, history, presenter, view, buttonStateHelper) 
       }).on("mouseleave", ".textae-editor__entity", function (e) {
         view.hoverRelation.off($(this).attr("title"));
       });
-
-      history.bind("change", function (state) {
-        //change button state
-        buttonStateHelper.enabled("write", state.hasAnythingToSave);
-        buttonStateHelper.enabled("undo", state.hasAnythingToUndo);
-        buttonStateHelper.enabled("redo", state.hasAnythingToRedo);
-
-        //change leaveMessage show
-        window.onbeforeunload = state.hasAnythingToSave ? function () {
-          return confirmDiscardChangeMessage;
-        } : null;
-      });
     }
   };
 };
 
 
-},{}],61:[function(require,module,exports){
+},{}],62:[function(require,module,exports){
+"use strict";
+
+module.exports = function (rejects) {
+  return rejects.reduce(function (result, reject) {
+    return result || reject.hasError;
+  }, false);
+};
+
+
+},{}],63:[function(require,module,exports){
+"use strict";
+
+module.exports = function (reject) {
+  return {
+    accept: [],
+    reject: reject ? reject : []
+  };
+};
+
+
+},{}],64:[function(require,module,exports){
 "use strict";
 
 var defaults = {
@@ -9775,7 +9813,7 @@ module.exports = function () {
 };
 
 
-},{}],62:[function(require,module,exports){
+},{}],65:[function(require,module,exports){
 "use strict";
 
 module.exports = function (message, object) {
@@ -9788,7 +9826,7 @@ module.exports = function (message, object) {
 };
 
 
-},{}],63:[function(require,module,exports){
+},{}],66:[function(require,module,exports){
 "use strict";
 
 var updateSelection = function (model, modelType, newModel) {
@@ -9863,7 +9901,7 @@ var updateSelection = function (model, modelType, newModel) {
 module.exports = commandTemplate;
 
 
-},{"./commandLog":62}],64:[function(require,module,exports){
+},{"./commandLog":65}],67:[function(require,module,exports){
 "use strict";
 
 var invokeCommand = require("./invokeCommand"),
@@ -9914,7 +9952,7 @@ var invokeCommand = require("./invokeCommand"),
 module.exports = executeCompositCommand;
 
 
-},{"./commandLog":62,"./commandTemplate":63,"./invokeCommand":67}],65:[function(require,module,exports){
+},{"./commandLog":65,"./commandTemplate":66,"./invokeCommand":70}],68:[function(require,module,exports){
 "use strict";
 
 // Get spans their stirng is same with the originSpan from sourceDoc.
@@ -9964,7 +10002,7 @@ module.exports = function (dataStore, originSpan, detectBoundaryFunc) {
 };
 
 
-},{"../model/isAlreadySpaned":107,"../model/isBoundaryCrossingWithOtherSpans":108}],66:[function(require,module,exports){
+},{"../model/isAlreadySpaned":110,"../model/isBoundaryCrossingWithOtherSpans":111}],69:[function(require,module,exports){
 "use strict";
 
 var invokeCommand = require("./invokeCommand"),
@@ -10184,7 +10222,7 @@ module.exports = function (editor, model, history) {
 };
 
 
-},{"../util/idFactory":153,"./commandTemplate":63,"./executeCompositCommand":64,"./getReplicationSpans":65,"./invokeCommand":67}],67:[function(require,module,exports){
+},{"../util/idFactory":155,"./commandTemplate":66,"./executeCompositCommand":67,"./getReplicationSpans":68,"./invokeCommand":70}],70:[function(require,module,exports){
 "use strict";
 
 var invoke = function (commands) {
@@ -10208,8 +10246,11 @@ var invoke = function (commands) {
 module.exports = invokeCommand;
 
 
-},{}],68:[function(require,module,exports){
+},{}],71:[function(require,module,exports){
 "use strict";
+
+var EventEmitter = require("events").EventEmitter;
+
 
 var bindEvent = function ($target, event, func) {
   $target.on(event, func);
@@ -10231,7 +10272,7 @@ module.exports = function (editor, confirmDiscardChangeMessage) {
       getAnnotationFromServer = function (urlToJson) {
     cursorChanger.startWait();
     ajaxAccessor.getAsync(urlToJson, function getAnnotationFromServerSuccess(annotation) {
-      api.trigger("load", {
+      api.emit("load", {
         annotation: annotation,
         source: jQuerySugar.toLink(url.resolve(location.href, urlToJson))
       });
@@ -10270,7 +10311,7 @@ module.exports = function (editor, confirmDiscardChangeMessage) {
 
         reader.onload = function () {
           var annotation = JSON.parse(this.result);
-          api.trigger("load", {
+          api.emit("load", {
             annotation: annotation,
             source: firstFile.name + "(local file)"
           });
@@ -10311,11 +10352,11 @@ module.exports = function (editor, confirmDiscardChangeMessage) {
     },
         getSaveDialog = function (editorId) {
       var showSaveSuccess = function () {
-        api.trigger("save");
+        api.emit("save");
         cursorChanger.endWait();
       },
           showSaveError = function () {
-        api.trigger("save error");
+        api.emit("save error");
         cursorChanger.endWait();
       },
           saveAnnotationToServer = function (url, jsonData) {
@@ -10347,12 +10388,12 @@ module.exports = function (editor, confirmDiscardChangeMessage) {
       }).append(new RowDiv().append(new RowLabel(label.LOCAL), $("<input type=\"text\" class=\"textae-editor__save-dialog__local-file-name local\">"), $("<a class=\"download\" href=\"#\">Download</a>"))).on("click", "a.download", function () {
         var downloadPath = createDownloadPath($dialog.params);
         $(this).attr("href", downloadPath).attr("download", jQuerySugar.getValueFromText($content, "local"));
-        api.trigger("save");
+        api.emit("save");
         $content.trigger("dialog.close");
       }).append(new RowDiv().append(new RowLabel(), $("<a class=\"viewsource\" href=\"#\">Click to see the json source in a new window.</a>"))).on("click", "a.viewsource", function (e) {
         var downloadPath = createDownloadPath($dialog.params);
         window.open(downloadPath, "_blank");
-        api.trigger("save");
+        api.emit("save");
         $content.trigger("dialog.close");
         return false;
       });
@@ -10378,7 +10419,7 @@ module.exports = function (editor, confirmDiscardChangeMessage) {
     };
   })();
 
-  var api = require("../util/extendBindable")({
+  var api = _.extend(new EventEmitter(), {
     getAnnotationFromServer: getAnnotationFromServer,
     showAccess: _.partial(loadSaveDialog.showLoad, editor.editorId),
     showSave: _.partial(loadSaveDialog.showSave, editor.editorId) });
@@ -10387,7 +10428,7 @@ module.exports = function (editor, confirmDiscardChangeMessage) {
 };
 
 
-},{"../util/CursorChanger":146,"../util/ajaxAccessor":148,"../util/extendBindable":151,"../util/jQuerySugar":155,"./dialog/GetEditorDialog":76,"url":43}],69:[function(require,module,exports){
+},{"../util/CursorChanger":149,"../util/ajaxAccessor":150,"../util/jQuerySugar":157,"./dialog/GetEditorDialog":79,"events":37,"url":43}],72:[function(require,module,exports){
 "use strict";
 
 var ToolDialog = require("./dialog/GetToolDialog");
@@ -10402,7 +10443,7 @@ module.exports = function () {
 };
 
 
-},{"./dialog/GetToolDialog":77}],70:[function(require,module,exports){
+},{"./dialog/GetToolDialog":80}],73:[function(require,module,exports){
 "use strict";
 
 var Pallet = function (emitter) {
@@ -10508,7 +10549,7 @@ module.exports = function () {
 };
 
 
-},{"../util/extendBindable":151}],71:[function(require,module,exports){
+},{"../util/extendBindable":153}],74:[function(require,module,exports){
 "use strict";
 
 var lineHeight = require("../view/lineHeight"),
@@ -10610,7 +10651,7 @@ module.exports = function (editor, editMode, displayInstance) {
 };
 
 
-},{"../util/jQuerySugar":155,"../view/lineHeight":187,"./dialog/GetEditorDialog":76}],72:[function(require,module,exports){
+},{"../util/jQuerySugar":157,"../view/lineHeight":193,"./dialog/GetEditorDialog":79}],75:[function(require,module,exports){
 "use strict";
 
 var getAreaIn = function ($parent) {
@@ -10636,7 +10677,7 @@ module.exports = function (editor) {
 };
 
 
-},{}],73:[function(require,module,exports){
+},{}],76:[function(require,module,exports){
 "use strict";
 
 var Dialog = function (id, title, $content) {
@@ -10672,7 +10713,7 @@ module.exports = function (openOption, id, title, $content) {
 };
 
 
-},{}],74:[function(require,module,exports){
+},{}],77:[function(require,module,exports){
 "use strict";
 
 var Dialog = require("./Dialog"),
@@ -10705,7 +10746,7 @@ module.exports = function (editorId, id, title, $content, option) {
 };
 
 
-},{"./Dialog":73}],75:[function(require,module,exports){
+},{"./Dialog":76}],78:[function(require,module,exports){
 "use strict";
 
 var getFromContainer = function (container, id) {
@@ -10734,7 +10775,7 @@ module.exports = function (createFunction) {
 };
 
 
-},{}],76:[function(require,module,exports){
+},{}],79:[function(require,module,exports){
 "use strict";
 
 var EditorDialog = require("./EditorDialog"),
@@ -10747,7 +10788,7 @@ module.exports = function (editor) {
 };
 
 
-},{"./EditorDialog":74,"./FunctionUseCache":75}],77:[function(require,module,exports){
+},{"./EditorDialog":77,"./FunctionUseCache":78}],80:[function(require,module,exports){
 "use strict";
 
 var ToolDialog = require("./ToolDialog"),
@@ -10756,7 +10797,7 @@ var ToolDialog = require("./ToolDialog"),
 module.exports = new FunctionUseCache(ToolDialog);
 
 
-},{"./FunctionUseCache":75,"./ToolDialog":78}],78:[function(require,module,exports){
+},{"./FunctionUseCache":78,"./ToolDialog":81}],81:[function(require,module,exports){
 "use strict";
 
 var Dialog = require("./Dialog");
@@ -10770,59 +10811,69 @@ module.exports = function (id, title, size, $content) {
 };
 
 
-},{"./Dialog":73}],79:[function(require,module,exports){
+},{"./Dialog":76}],82:[function(require,module,exports){
 "use strict";
 
-var GetEditorDialog = require("./dialog/GetEditorDialog"),
-    Handlebars = require("handlebars"),
-    source = "\n    <div class=\"textae-editor__valiondate-dialog__content\">\n        <h2>{{name}}</h2>\n        {{#if denotationHasLength}}\n            <table>\n                <caption>Wrong range.</caption>\n                <thead>\n                    <tr>\n                        <th class=\"id\">id</th>\n                        <th class=\"range\">begin</th>\n                        <th class=\"range\">end</th>\n                        <th>obj</th>\n                    </tr>\n                </thead>\n                <tbody>\n                    {{#denotationHasLength}}\n                    <tr>\n                        <td>{{id}}</td>\n                        <td class=\"alert\">{{span.begin}}</td>\n                        <td class=\"alert\">{{span.end}}</td>\n                        <td>{{obj}}</td>\n                    </tr>\n                    {{/denotationHasLength}}\n                </tbody>\n            </table>\n        {{/if}}\n        {{#if denotationInText}}\n            <table>\n                <caption>Out of text.</caption>\n                <thead>\n                    <tr>\n                        <th class=\"id\">id</th>\n                        <th class=\"range\">begin</th>\n                        <th class=\"range\">end</th>\n                        <th>obj</th>\n                    </tr>\n                </thead>\n                <tbody>\n                    {{#denotationInText}}\n                    <tr>\n                        <td>{{id}}</td>\n                        <td class=\"alert\">{{span.begin}}</td>\n                        <td class=\"alert\">{{span.end}}</td>\n                        <td>{{obj}}</td>\n                    </tr>\n                    {{/denotationInText}}\n                </tbody>\n            </table>\n        {{/if}}\n        {{#if denotationInParagraph}}\n            <table>\n                <caption>Spans across paragraphs (newline-delimited).</caption>\n                <thead>\n                    <tr>\n                        <th class=\"id\">id</th>\n                        <th class=\"range\">begin</th>\n                        <th class=\"range\">end</th>\n                        <th>obj</th>\n                    </tr>\n                </thead>\n                <tbody>\n                    {{#denotationInParagraph}}\n                    <tr>\n                        <td>{{id}}</td>\n                        <td class=\"alert\">{{span.begin}}</td>\n                        <td class=\"alert\">{{span.end}}</td>\n                        <td>{{obj}}</td>\n                    </tr>\n                    {{/denotationInParagraph}}\n                </tbody>\n            </table>\n        {{/if}}\n        {{#if referencedItems}}\n            <table>\n                <caption>Referenced items do not exist.</caption>\n                <thead>\n                    <tr>\n                        <th class=\"id\">id</th>\n                        <th class=\"referencedItem\">subj</th>\n                        <th>pred</th>\n                        <th class=\"referencedItem\">obj</th>\n                    </tr>\n                </thead>\n                <tbody>\n                    {{#referencedItems}}\n                    <tr>\n                        <td>{{id}}</td>\n                        <td{{#if alertSubj}} class=\"alert\"{{/if}}>{{subj}}</td>\n                        <td>{{pred}}</td>\n                        <td{{#if alertObj}} class=\"alert\"{{/if}}>{{obj}}</td>\n                    </tr>\n                    {{/referencedItems}}\n                </tbody>\n            </table>\n        {{/if}}\n    </div>",
-    tepmlate = Handlebars.compile(source),
-    hasError = function (rejects) {
-  return rejects.reduce(function (result, reject) {
-    return result || reject.hasError;
-  }, false);
+var _interopRequire = function (obj) {
+  return obj && (obj["default"] || obj);
 };
+
+var Handlebars = _interopRequire(require("handlebars"));
+
+var hasError = _interopRequire(require("../Reject/hasError"));
+
+var GetEditorDialog = _interopRequire(require("./dialog/GetEditorDialog"));
+
+var source = "\n    <div class=\"textae-editor__valiondate-dialog__content\">\n        <h2>{{name}}</h2>\n        {{#if denotationHasLength}}\n            <table>\n                <caption>Wrong range.</caption>\n                <thead>\n                    <tr>\n                        <th class=\"id\">id</th>\n                        <th class=\"range\">begin</th>\n                        <th class=\"range\">end</th>\n                        <th>obj</th>\n                    </tr>\n                </thead>\n                <tbody>\n                    {{#denotationHasLength}}\n                    <tr>\n                        <td>{{id}}</td>\n                        <td class=\"alert\">{{span.begin}}</td>\n                        <td class=\"alert\">{{span.end}}</td>\n                        <td>{{obj}}</td>\n                    </tr>\n                    {{/denotationHasLength}}\n                </tbody>\n            </table>\n        {{/if}}\n        {{#if denotationInText}}\n            <table>\n                <caption>Out of text.</caption>\n                <thead>\n                    <tr>\n                        <th class=\"id\">id</th>\n                        <th class=\"range\">begin</th>\n                        <th class=\"range\">end</th>\n                        <th>obj</th>\n                    </tr>\n                </thead>\n                <tbody>\n                    {{#denotationInText}}\n                    <tr>\n                        <td>{{id}}</td>\n                        <td class=\"alert\">{{span.begin}}</td>\n                        <td class=\"alert\">{{span.end}}</td>\n                        <td>{{obj}}</td>\n                    </tr>\n                    {{/denotationInText}}\n                </tbody>\n            </table>\n        {{/if}}\n        {{#if denotationInParagraph}}\n            <table>\n                <caption>Spans across paragraphs (newline-delimited).</caption>\n                <thead>\n                    <tr>\n                        <th class=\"id\">id</th>\n                        <th class=\"range\">begin</th>\n                        <th class=\"range\">end</th>\n                        <th>obj</th>\n                    </tr>\n                </thead>\n                <tbody>\n                    {{#denotationInParagraph}}\n                    <tr>\n                        <td>{{id}}</td>\n                        <td class=\"alert\">{{span.begin}}</td>\n                        <td class=\"alert\">{{span.end}}</td>\n                        <td>{{obj}}</td>\n                    </tr>\n                    {{/denotationInParagraph}}\n                </tbody>\n            </table>\n        {{/if}}\n        {{#if referencedItems}}\n            <table>\n                <caption>Referenced items do not exist.</caption>\n                <thead>\n                    <tr>\n                        <th class=\"id\">id</th>\n                        <th class=\"referencedItem\">subj</th>\n                        <th>pred</th>\n                        <th class=\"referencedItem\">obj</th>\n                    </tr>\n                </thead>\n                <tbody>\n                    {{#referencedItems}}\n                    <tr>\n                        <td>{{id}}</td>\n                        <td{{#if alertSubj}} class=\"alert\"{{/if}}>{{subj}}</td>\n                        <td>{{pred}}</td>\n                        <td{{#if alertObj}} class=\"alert\"{{/if}}>{{obj}}</td>\n                    </tr>\n                    {{/referencedItems}}\n                </tbody>\n            </table>\n        {{/if}}\n    </div>",
+    mergeMessage = "\n        <div class=\"textae-editor__valiondate-dialog__content\">\n            <h1>Track annatations will be merged to the root anntations.</h1>\n        </div>";
+
+var tepmlate = Handlebars.compile(source);
 
 module.exports = function (editor, rejects) {
-  if (hasError(rejects)) {
-    var $content = $("<div>"),
-        $dialog = new GetEditorDialog(editor)("textae.dialog.validation", "The following erronious annotations ignored", $content, {
-      noCancelButton: true,
-      height: 450
-    });
+  if (!hasError(rejects)) return;
 
-    rejects.map(function (reject) {
-      // Combine rejects for referenced object errer.
-      reject.referencedItems = reject.relationObj.map(function (relation) {
-        relation.alertObj = true;
-        return relation;
-      }).concat(reject.relationSubj.map(function (relation) {
-        relation.alertSubj = true;
-        return relation;
-      })).concat(reject.modification.map(function (modification) {
-        modification.subj = "-";
-        modification.alertObj = true;
-        return modification;
-      }));
+  var $dialog = new GetEditorDialog(editor)("textae.dialog.validation", "The following erronious annotations ignored", $("<div>"), {
+    noCancelButton: true,
+    height: 450
+  });
 
-      return reject;
-    }).map(function (reject) {
-      return tepmlate(reject);
-    }).forEach(function (html, index) {
-      if (index === 1) {
-        var mergeMessage = "\n                    <div class=\"textae-editor__valiondate-dialog__content\">\n                        <h1>Track annatations will be merged to the root anntations.</h1>\n                    </div>";
-
-        $content[0].insertAdjacentHTML("beforeend", mergeMessage);
-      }
-      $content[0].insertAdjacentHTML("beforeend", html);
-    });
-
-    $dialog.open();
-  }
+  updateContent($dialog[0].firstChild, rejects);
+  $dialog.open();
 };
 
+function updateContent(content, rejects) {
+  content.innerHTML = "";
 
-},{"./dialog/GetEditorDialog":76,"handlebars":59}],80:[function(require,module,exports){
+  rejects.map(transformToReferenceObjectError).map(tepmlate).forEach(function (html, index) {
+    if (index === 1) {
+      content.insertAdjacentHTML("beforeend", mergeMessage);
+    }
+
+    content.insertAdjacentHTML("beforeend", html);
+  });
+
+  return content;
+}
+
+function transformToReferenceObjectError(reject) {
+  // Combine rejects for referenced object errer.
+  reject.referencedItems = reject.relationObj.map(function (relation) {
+    relation.alertObj = true;
+    return relation;
+  }).concat(reject.relationSubj.map(function (relation) {
+    relation.alertSubj = true;
+    return relation;
+  })).concat(reject.modification.map(function (modification) {
+    modification.subj = "-";
+    modification.alertObj = true;
+    return modification;
+  }));
+
+  return reject;
+}
+
+
+},{"../Reject/hasError":62,"./dialog/GetEditorDialog":79,"handlebars":59}],83:[function(require,module,exports){
 "use strict";
 
 var TitleDom = function () {
@@ -10982,24 +11033,101 @@ module.exports = function ($control) {
 };
 
 
-},{}],81:[function(require,module,exports){
+},{}],84:[function(require,module,exports){
 "use strict";
 
-module.exports = function (editor, confirmDiscardChangeMessage, history, statusBar, setAnnotationFunc) {
-  return require("./component/DataAccessObject")(editor, confirmDiscardChangeMessage).bind("save", function () {
-    history.saved();
-    toastr.success("annotation saved");
-  }).bind("save error", function () {
-    toastr.error("could not save");
-  }).bind("load", function (data) {
-    setAnnotationFunc(data.annotation);
-    statusBar.status(data.source);
+var _interopRequire = function (obj) {
+  return obj && (obj["default"] || obj);
+};
+
+var Observable = _interopRequire(require("observ"));
+
+var showVilidationDialog = _interopRequire(require("./component/showVilidationDialog"));
+
+var hasError = _interopRequire(require("./Reject/hasError"));
+
+module.exports = function (annotationData, history, buttonStateHelper, leaveMessage, dataAccessObject) {
+  var writable = new Writable();
+
+  bindResetEvent(annotationData, history, writable);
+  bindChangeEvent(history, buttonStateHelper, leaveMessage, writable);
+  bindEndEvent(dataAccessObject, history, writable);
+
+  writable(function (val) {
+    return buttonStateHelper.enabled("write", val);
   });
 };
 
+function Writable() {
+  var isDataModified = false,
+      o = new Observable(false);
 
-},{"./component/DataAccessObject":68}],82:[function(require,module,exports){
+  o.forceModified = function (val) {
+    o.set(val);
+    isDataModified = val;
+  };
+
+  o.update = function (val) {
+    o.set(isDataModified || val);
+  };
+
+  return o;
+}
+
+function bindResetEvent(annotationData, history, writable) {
+  annotationData.on("all.change", function (annotationData, multitrack, reject) {
+    history.reset();
+
+    showVilidationDialog(self, reject);
+
+    if (multitrack) toastr.success("track annotations have been merged to root annotations.");
+
+    if (multitrack || hasError(reject)) {
+      writable.forceModified(true);
+    } else {
+      writable.forceModified(false);
+    }
+  });
+}
+
+function bindChangeEvent(history, buttonStateHelper, leaveMessage, writable) {
+  history.bind("change", function (state) {
+    //change button state
+    buttonStateHelper.enabled("undo", state.hasAnythingToUndo);
+    buttonStateHelper.enabled("redo", state.hasAnythingToRedo);
+
+    //change leaveMessage show
+    window.onbeforeunload = state.hasAnythingToSave ? function () {
+      return leaveMessage;
+    } : null;
+
+    writable.update(state.hasAnythingToSave);
+  });
+}
+
+function bindEndEvent(dataAccessObject, history, writable) {
+  dataAccessObject.on("save", function () {
+    history.saved();
+    writable.forceModified(false);
+    toastr.success("annotation saved");
+  }).on("save error", function () {
+    toastr.error("could not save");
+  });
+}
+
+
+},{"./Reject/hasError":62,"./component/showVilidationDialog":82,"observ":60}],85:[function(require,module,exports){
 "use strict";
+
+var _interopRequire = function (obj) {
+  return obj && (obj["default"] || obj);
+};
+
+var CONFIRM_DISCARD_CHANGE_MESSAGE = "There is a change that has not been saved. If you procceed now, you will lose it.";
+
+var DataAccessObject = _interopRequire(require("./component/DataAccessObject"));
+
+var editingState = _interopRequire(require("./editingState"));
 
 // model manages data objects.
 var Model = require("./model/Model"),
@@ -11014,9 +11142,7 @@ History = require("./model/History"),
     View = require("./view/View"),
     Presenter = require("./presenter/Presenter"),
     Controller = require("./Controller"),
-    createDaoForEditor = require("./createDaoForEditor"),
     getParams = require("./getParams"),
-    showVilidationDialog = require("./component/showVilidationDialog"),
     setTypeConfig = function (typeContainer, config) {
   typeContainer.setDefinedEntityTypes(config ? config["entity types"] : []);
   typeContainer.setDefinedRelationTypes(config ? config["relation types"] : []);
@@ -11037,7 +11163,7 @@ History = require("./model/History"),
     status: function () {}
   };
 },
-    ObservableValue = require("./util/ObservableValue"),
+    Observable = require("observ"),
     ajaxAccessor = require("./util/ajaxAccessor");
 
 module.exports = function () {
@@ -11054,14 +11180,14 @@ module.exports = function () {
     clipBoard: []
   },
       buttonController = new ButtonController(this, model, clipBoard),
-      typeGap = new ObservableValue(-1),
+      typeGap = new Observable(-1),
       typeContainer = new TypeContainer(model),
-      view = new View(this, model, buttonController, typeGap.get, typeContainer),
+      view = new View(this, model, buttonController, typeGap, typeContainer),
       presenter = new Presenter(this, model, view, command, spanConfig, clipBoard, buttonController, typeGap, typeContainer),
 
 
   //handle user input event.
-  controller = new Controller(this, history, presenter, view, buttonController.buttonStateHelper),
+  controller = new Controller(this, presenter, view),
       setSpanAndTypeConfig = function (config) {
     spanConfig.set(config);
     setTypeConfig(typeContainer, config);
@@ -11074,11 +11200,7 @@ module.exports = function () {
       return "no config";
     }
   },
-      resetData = function (annotation) {
-    var reject = model.annotationData.reset(annotation);
-    history.reset();
-    showVilidationDialog(self, reject);
-  },
+      resetData = model.annotationData.reset,
       setConfigFromServer = function (config, annotation) {
     spanConfig.reset();
 
@@ -11113,9 +11235,10 @@ module.exports = function () {
         dataAccessObject.getAnnotationFromServer(annotation.url);
       }
     }
-  };
+  },
+      dataAccessObject = new DataAccessObject(self, CONFIRM_DISCARD_CHANGE_MESSAGE);
 
-  typeGap.on("change", view.setTypeGap);
+  editingState(model.annotationData, history, buttonController.buttonStateHelper, CONFIRM_DISCARD_CHANGE_MESSAGE, dataAccessObject);
 
   // public funcitons of editor
   this.api = (function (editor) {
@@ -11174,22 +11297,26 @@ module.exports = function () {
         handleButtonClick: _.partial(handle, iconApiMap),
         redraw: function () {
           console.log(editor.editorId, "redraw");
-          view.updateDisplay(typeGap.get());
+          view.updateDisplay();
         }
       };
     },
         start = function start(editor) {
-      var CONFIRM_DISCARD_CHANGE_MESSAGE = "There is a change that has not been saved. If you procceed now, you will lose it.";
       var params = getParams(editor);
 
       view.init();
-      controller.init(CONFIRM_DISCARD_CHANGE_MESSAGE);
+      controller.init();
       presenter.init();
 
-      var statusBar = getStatusBar(editor, params.status_bar),
-          dataAccessObject = createDaoForEditor(editor, CONFIRM_DISCARD_CHANGE_MESSAGE, history, statusBar, _.partial(setAnnotation, params.config));
+      var statusBar = getStatusBar(editor, params.status_bar);
+
+      dataAccessObject.on("load", function (data) {
+        setAnnotation(params.config, data.annotation);
+        statusBar.status(data.source);
+      });
 
       presenter.setMode(params.mode);
+
       loadAnnotation(statusBar, params, dataAccessObject);
 
       updateAPIs(dataAccessObject);
@@ -11204,7 +11331,7 @@ module.exports = function () {
 };
 
 
-},{"./Controller":60,"./SpanConfig":61,"./command":66,"./component/StatusBar":72,"./component/showVilidationDialog":79,"./createDaoForEditor":81,"./getParams":83,"./model/History":103,"./model/Model":104,"./presenter/Presenter":120,"./util/ObservableValue":147,"./util/ajaxAccessor":148,"./view/ButtonController":158,"./view/TypeContainer":183,"./view/View":184}],83:[function(require,module,exports){
+},{"./Controller":61,"./SpanConfig":64,"./command":69,"./component/DataAccessObject":71,"./component/StatusBar":75,"./editingState":84,"./getParams":86,"./model/History":106,"./model/Model":107,"./presenter/Presenter":123,"./util/ajaxAccessor":150,"./view/ButtonController":161,"./view/TypeContainer":188,"./view/View":190,"observ":60}],86:[function(require,module,exports){
 "use strict";
 
 var getUrlParameters = require("./util/getUrlParameters"),
@@ -11244,7 +11371,7 @@ module.exports = function (editor) {
 };
 
 
-},{"./util/getUrlParameters":152}],84:[function(require,module,exports){
+},{"./util/getUrlParameters":154}],87:[function(require,module,exports){
 "use strict";
 
 var tool = require("./tool"),
@@ -11271,7 +11398,7 @@ jQuery.fn.textae = (function () {
 })();
 
 
-},{"./control":80,"./editor":82,"./tool":143}],85:[function(require,module,exports){
+},{"./control":83,"./editor":85,"./tool":146}],88:[function(require,module,exports){
 "use strict";
 
 // Expected an entity like {id: "E21", span: "editor2__S50_54", type: "Protein"}.
@@ -11311,7 +11438,7 @@ var idFactory = require("../../../util/idFactory"),
 module.exports = EntityContainer;
 
 
-},{"../../../util/idFactory":153,"./ModelContainer":86}],86:[function(require,module,exports){
+},{"../../../util/idFactory":155,"./ModelContainer":89}],89:[function(require,module,exports){
 "use strict";
 
 var getNextId = require("./getNextId"),
@@ -11399,7 +11526,7 @@ module.exports = function (emitter, prefix, mappingFunction, idPrefix) {
 };
 
 
-},{"./getNextId":89}],87:[function(require,module,exports){
+},{"./getNextId":92}],90:[function(require,module,exports){
 "use strict";
 
 var idFactory = require("../../../util/idFactory"),
@@ -11440,7 +11567,7 @@ module.exports = function (editor, emitter) {
 };
 
 
-},{"../../../util/idFactory":153,"./ModelContainer":86}],88:[function(require,module,exports){
+},{"../../../util/idFactory":155,"./ModelContainer":89}],91:[function(require,module,exports){
 "use strict";
 
 var idFactory = require("../../../util/idFactory"),
@@ -11646,7 +11773,7 @@ module.exports = function (editor, emitter, paragraph) {
 };
 
 
-},{"../../../util/idFactory":153,"../../isBoundaryCrossingWithOtherSpans":108,"./ModelContainer":86}],89:[function(require,module,exports){
+},{"../../../util/idFactory":155,"../../isBoundaryCrossingWithOtherSpans":111,"./ModelContainer":89}],92:[function(require,module,exports){
 "use strict";
 
 var hasPrefix = function (prefix, id) {
@@ -11669,7 +11796,7 @@ var hasPrefix = function (prefix, id) {
 module.exports = getNextId;
 
 
-},{}],90:[function(require,module,exports){
+},{}],93:[function(require,module,exports){
 "use strict";
 
 var EventEmitter = require("events").EventEmitter,
@@ -11709,7 +11836,7 @@ var EventEmitter = require("events").EventEmitter,
 module.exports = Container;
 
 
-},{"./EntityContainer":85,"./ModelContainer":86,"./ParagraphContainer":87,"./SpanContainer":88,"events":37}],91:[function(require,module,exports){
+},{"./EntityContainer":88,"./ModelContainer":89,"./ParagraphContainer":90,"./SpanContainer":91,"events":37}],94:[function(require,module,exports){
 "use strict";
 
 var setNewData = require("./setNewData"),
@@ -11733,18 +11860,18 @@ var setNewData = require("./setNewData"),
 
         if (!annotation.text) throw "read failed.";
 
-        var reject = setNewData(dataStore, annotation);
+        var result = setNewData(dataStore, annotation);
 
         originalData = annotation;
 
-        dataStore.emit("change-text", {
+        dataStore.emit("text.change", {
           sourceDoc: dataStore.sourceDoc,
           paragraphs: dataStore.paragraph.all()
         });
 
-        dataStore.emit("all.change", dataStore);
+        dataStore.emit("all.change", dataStore, result.multitrack, result.rejects);
 
-        return reject;
+        return result.rejects;
       } catch (error) {
         console.error(error, error.stack);
       }
@@ -11763,7 +11890,7 @@ var setNewData = require("./setNewData"),
 module.exports = AnntationData;
 
 
-},{"./Container":90,"./setNewData":101,"./toJson":102}],92:[function(require,module,exports){
+},{"./Container":93,"./setNewData":104,"./toJson":105}],95:[function(require,module,exports){
 "use strict";
 
 module.exports = function (targets, translater, source) {
@@ -11777,7 +11904,7 @@ module.exports = function (targets, translater, source) {
 };
 
 
-},{}],93:[function(require,module,exports){
+},{}],96:[function(require,module,exports){
 "use strict";
 
 var importSource = require("./importSource"),
@@ -11793,7 +11920,7 @@ var importSource = require("./importSource"),
 module.exports = importAnnotations;
 
 
-},{"./importSource":92,"./translateDenotation":95,"./translateModification":96,"./translateRelation":97}],94:[function(require,module,exports){
+},{"./importSource":95,"./translateDenotation":98,"./translateModification":99,"./translateRelation":100}],97:[function(require,module,exports){
 "use strict";
 
 module.exports = function (src, prefix) {
@@ -11803,7 +11930,7 @@ module.exports = function (src, prefix) {
 };
 
 
-},{}],95:[function(require,module,exports){
+},{}],98:[function(require,module,exports){
 "use strict";
 
 var setIdPrefixIfExist = require("./setIdPrefixIfExist");
@@ -11818,7 +11945,7 @@ module.exports = function (prefix, src) {
 };
 
 
-},{"./setIdPrefixIfExist":94}],96:[function(require,module,exports){
+},{"./setIdPrefixIfExist":97}],99:[function(require,module,exports){
 "use strict";
 
 var setIdPrefixIfExist = require("./setIdPrefixIfExist");
@@ -11833,7 +11960,7 @@ module.exports = function (prefix, src) {
 };
 
 
-},{"./setIdPrefixIfExist":94}],97:[function(require,module,exports){
+},{"./setIdPrefixIfExist":97}],100:[function(require,module,exports){
 "use strict";
 
 var setIdPrefixIfExist = require("./setIdPrefixIfExist");
@@ -11849,7 +11976,7 @@ module.exports = function (prefix, src) {
 };
 
 
-},{"./setIdPrefixIfExist":94}],98:[function(require,module,exports){
+},{"./setIdPrefixIfExist":97}],101:[function(require,module,exports){
 "use strict";
 
 var validateAnnotation = require("./validateAnnotation"),
@@ -11865,7 +11992,7 @@ var validateAnnotation = require("./validateAnnotation"),
 module.exports = parseAnnotation;
 
 
-},{"./importAnnotation":93,"./validateAnnotation":99}],99:[function(require,module,exports){
+},{"./importAnnotation":96,"./validateAnnotation":102}],102:[function(require,module,exports){
 "use strict";
 
 var validate = require("./validate"),
@@ -11928,21 +12055,30 @@ var validate = require("./validate"),
 module.exports = validateAnnotation;
 
 
-},{"./validate":100}],100:[function(require,module,exports){
+},{"./validate":103}],103:[function(require,module,exports){
 "use strict";
 
-var Result = function (reject) {
-  return {
-    accept: [],
-    reject: reject ? reject : []
-  };
-},
-    partial = function (func, opt) {
+var _interopRequire = function (obj) {
+  return obj && (obj["default"] || obj);
+};
+
+var Reject = _interopRequire(require("../../../../Reject"));
+
+module.exports = function (values, predicate, predicateOption) {
+  if (!values) return new Reject();
+
+  predicate = partial(predicate, predicateOption);
+
+  return values.reduce(_.partial(acceptIf, predicate), new Reject());
+};
+
+function partial(func, opt) {
   if (!opt) return func;
 
   return _.partial(func, opt);
-},
-    acceptIf = function (predicate, result, target) {
+}
+
+function acceptIf(predicate, result, target) {
   if (predicate(target)) {
     result.accept.push(target);
   } else {
@@ -11950,19 +12086,10 @@ var Result = function (reject) {
   }
 
   return result;
-},
-    validate = function (values, predicate, predicateOption) {
-  if (!values) return new Result();
-
-  predicate = partial(predicate, predicateOption);
-
-  return values.reduce(_.partial(acceptIf, predicate), new Result());
-};
-
-module.exports = validate;
+}
 
 
-},{}],101:[function(require,module,exports){
+},{"../../../../Reject":63}],104:[function(require,module,exports){
 "use strict";
 
 var parseAnnotation = require("./parseAnnotation"),
@@ -11970,12 +12097,12 @@ var parseAnnotation = require("./parseAnnotation"),
   paragraph.addSource(sourceDoc);
 },
     parseTracks = function (span, entity, relation, modification, paragraph, text, annotation) {
-  if (!annotation.tracks) return [];
+  if (!annotation.tracks) return [false, []];
 
   var tracks = annotation.tracks;
   delete annotation.tracks;
 
-  return tracks.map(function (track, i) {
+  var rejects = tracks.map(function (track, i) {
     var number = i + 1,
         prefix = "track" + number + "_",
         reject = parseAnnotation(span, entity, relation, modification, paragraph, text, track, prefix);
@@ -11983,14 +12110,19 @@ var parseAnnotation = require("./parseAnnotation"),
     reject.name = "Track " + number + " annotations.";
     return reject;
   });
+
+  return [true, rejects];
 },
     parseDennotation = function (dataStore, annotation) {
-  var tracksReject = parseTracks(dataStore.span, dataStore.entity, dataStore.relation, dataStore.modification, dataStore.paragraph, annotation.text, annotation),
+  var tracks = parseTracks(dataStore.span, dataStore.entity, dataStore.relation, dataStore.modification, dataStore.paragraph, annotation.text, annotation),
       annotationReject = parseAnnotation(dataStore.span, dataStore.entity, dataStore.relation, dataStore.modification, dataStore.paragraph, annotation.text, annotation);
 
   annotationReject.name = "Root annotations.";
 
-  return [annotationReject].concat(tracksReject);
+  return {
+    multitrack: tracks[0],
+    rejects: [annotationReject].concat(tracks[1])
+  };
 },
     setNewData = function (dataStore, annotation) {
   parseBaseText(dataStore.paragraph, annotation.text);
@@ -12004,7 +12136,7 @@ var parseAnnotation = require("./parseAnnotation"),
 module.exports = setNewData;
 
 
-},{"./parseAnnotation":98}],102:[function(require,module,exports){
+},{"./parseAnnotation":101}],105:[function(require,module,exports){
 "use strict";
 
 var toDenotation = function (dataStore) {
@@ -12044,7 +12176,7 @@ var toDenotation = function (dataStore) {
 module.exports = toJson;
 
 
-},{}],103:[function(require,module,exports){
+},{}],106:[function(require,module,exports){
 "use strict";
 
 // histories of edit to undo and redo.
@@ -12105,7 +12237,7 @@ module.exports = function () {
 };
 
 
-},{"../util/extendBindable":151}],104:[function(require,module,exports){
+},{"../util/extendBindable":153}],107:[function(require,module,exports){
 "use strict";
 
 var AnnotationData = require("./AnnotationData");
@@ -12119,7 +12251,7 @@ module.exports = function (editor) {
 };
 
 
-},{"./AnnotationData":91,"./Selection":106}],105:[function(require,module,exports){
+},{"./AnnotationData":94,"./Selection":109}],108:[function(require,module,exports){
 "use strict";
 
 var EventEmitter = require("events").EventEmitter;
@@ -12184,7 +12316,7 @@ module.exports = function (kindName) {
 };
 
 
-},{"events":37}],106:[function(require,module,exports){
+},{"events":37}],109:[function(require,module,exports){
 "use strict";
 
 var EventEmitter = require("events").EventEmitter,
@@ -12234,7 +12366,7 @@ module.exports = function (kinds) {
 };
 
 
-},{"./IdContainer":105,"events":37}],107:[function(require,module,exports){
+},{"./IdContainer":108,"events":37}],110:[function(require,module,exports){
 "use strict";
 
 module.exports = function (allSpans, candidateSpan) {
@@ -12244,7 +12376,7 @@ module.exports = function (allSpans, candidateSpan) {
 };
 
 
-},{}],108:[function(require,module,exports){
+},{}],111:[function(require,module,exports){
 "use strict";
 
 // A span its range is coross over with other spans are not able to rendered.
@@ -12256,7 +12388,7 @@ module.exports = function (spans, candidateSpan) {
 };
 
 
-},{}],109:[function(require,module,exports){
+},{}],112:[function(require,module,exports){
 "use strict";
 
 module.exports = function (command, annotationData, selectionModel, clipBoard) {
@@ -12292,7 +12424,7 @@ module.exports = function (command, annotationData, selectionModel, clipBoard) {
 };
 
 
-},{}],110:[function(require,module,exports){
+},{}],113:[function(require,module,exports){
 "use strict";
 
 var EventEmitter = require("events").EventEmitter,
@@ -12318,7 +12450,7 @@ var EventEmitter = require("events").EventEmitter,
 module.exports = DefaultEntityHandler;
 
 
-},{"./createEntityToSelectedSpan":125,"./replicate":126,"events":37}],111:[function(require,module,exports){
+},{"./createEntityToSelectedSpan":128,"./replicate":129,"events":37}],114:[function(require,module,exports){
 "use strict";
 
 var TypeGapCache = function () {
@@ -12374,7 +12506,7 @@ var TypeGapCache = function () {
       updateTypeGap();
     },
     getTypeGap: function () {
-      return typeGap.get();
+      return typeGap();
     },
     notifyNewInstance: function () {
       if (!showInstance) toastr.success("an instance is created behind.");
@@ -12385,7 +12517,7 @@ var TypeGapCache = function () {
 module.exports = DisplayInstance;
 
 
-},{"../util/capitalize":149}],112:[function(require,module,exports){
+},{"../util/capitalize":151}],115:[function(require,module,exports){
 "use strict";
 
 var RemoveCommandsFromSelection = require("./RemoveCommandsFromSelection");
@@ -12408,7 +12540,7 @@ module.exports = function (command, selectionModel, typeEditor) {
 };
 
 
-},{"./RemoveCommandsFromSelection":121}],113:[function(require,module,exports){
+},{"./RemoveCommandsFromSelection":124}],116:[function(require,module,exports){
 "use strict";
 
 module.exports = function (stateMachine) {
@@ -12426,7 +12558,7 @@ module.exports = function (stateMachine) {
 };
 
 
-},{}],114:[function(require,module,exports){
+},{}],117:[function(require,module,exports){
 "use strict";
 
 var Machine = require("emitter-fsm"),
@@ -12453,7 +12585,7 @@ var Machine = require("emitter-fsm"),
 module.exports = StateMachine;
 
 
-},{"emitter-fsm":35}],115:[function(require,module,exports){
+},{"emitter-fsm":35}],118:[function(require,module,exports){
 "use strict";
 
 var resetView = function (typeEditor, selectionModel) {
@@ -12513,7 +12645,7 @@ var resetView = function (typeEditor, selectionModel) {
 module.exports = Transition;
 
 
-},{}],116:[function(require,module,exports){
+},{}],119:[function(require,module,exports){
 "use strict";
 
 var Selector = require("../../view/Selector"),
@@ -12573,7 +12705,7 @@ module.exports = function (editor, model, buttonStateHelper, modeAccordingToButt
 };
 
 
-},{"../../view/Selector":182}],117:[function(require,module,exports){
+},{"../../view/Selector":187}],120:[function(require,module,exports){
 "use strict";
 
 module.exports = function (stateMachine) {
@@ -12589,7 +12721,7 @@ module.exports = function (stateMachine) {
 };
 
 
-},{}],118:[function(require,module,exports){
+},{}],121:[function(require,module,exports){
 "use strict";
 
 var EventEmitter = require("events").EventEmitter,
@@ -12630,7 +12762,7 @@ module.exports = function (editor, model, typeEditor, buttonStateHelper, modeAcc
 // console.log(editor.editorId, 'from:', e.from, ' to:', e.to);
 
 
-},{"./EditModeApi":113,"./StateMachine":114,"./Transition":115,"./ViewMode":116,"./ViewModeApi":117,"emitter-fsm":35,"events":37}],119:[function(require,module,exports){
+},{"./EditModeApi":116,"./StateMachine":117,"./Transition":118,"./ViewMode":119,"./ViewModeApi":120,"emitter-fsm":35,"events":37}],122:[function(require,module,exports){
 "use strict";
 
 var toggleModification = require("./toggleModification");
@@ -12647,7 +12779,7 @@ module.exports = function (command, annotationData, modeAccordingToButton, typeE
 };
 
 
-},{"./toggleModification":132}],120:[function(require,module,exports){
+},{"./toggleModification":135}],123:[function(require,module,exports){
 "use strict";
 
 var TypeEditor = require("./typeEditor/TypeEditor"),
@@ -12660,8 +12792,7 @@ var TypeEditor = require("./typeEditor/TypeEditor"),
     ToggleButtonHandler = require("./ToggleButtonHandler"),
     SelectSpanHandler = require("./SelectSpanHandler"),
     SetEditableHandler = require("./SetEditableHandler"),
-    SettingDialog = require("../component/SettingDialog"),
-    lineHeight = require("../view/lineHeight");
+    SettingDialog = require("../component/SettingDialog");
 
 module.exports = function (editor, model, view, command, spanConfig, clipBoard, buttonController, typeGap, typeContainer) {
   var typeEditor = new TypeEditor(editor, model, spanConfig, command, buttonController.modeAccordingToButton, typeContainer),
@@ -12691,11 +12822,6 @@ module.exports = function (editor, model, view, command, spanConfig, clipBoard, 
         jsPlumbConnection.bindClickAction(typeEditor.jsPlumbConnectionClicked);
       });
 
-      // Set bind the lineHeight to the typeGap.
-      typeGap.on("change", function (newValue) {
-        lineHeight.setToTypeGap(editor, model, typeContainer, newValue);
-      });
-
       defaultEntityHandler.on("createEntity", displayInstance.notifyNewInstance);
     },
     setMode: setEditableHandler.bindSetDefaultEditMode,
@@ -12721,7 +12847,7 @@ module.exports = function (editor, model, view, command, spanConfig, clipBoard, 
 };
 
 
-},{"../component/SettingDialog":71,"../view/lineHeight":187,"./ClipBoardHandler":109,"./DefaultEntityHandler":110,"./DisplayInstance":111,"./EditHandler":112,"./EditMode":118,"./ModificationHandler":119,"./SelectSpanHandler":122,"./SetEditableHandler":123,"./ToggleButtonHandler":124,"./typeEditor/TypeEditor":138}],121:[function(require,module,exports){
+},{"../component/SettingDialog":74,"./ClipBoardHandler":112,"./DefaultEntityHandler":113,"./DisplayInstance":114,"./EditHandler":115,"./EditMode":121,"./ModificationHandler":122,"./SelectSpanHandler":125,"./SetEditableHandler":126,"./ToggleButtonHandler":127,"./typeEditor/TypeEditor":141}],124:[function(require,module,exports){
 "use strict";
 
 var toRomeveSpanCommands = function (spanIds, command) {
@@ -12748,7 +12874,7 @@ var toRomeveSpanCommands = function (spanIds, command) {
 module.exports = RemoveCommandsFromSelection;
 
 
-},{}],122:[function(require,module,exports){
+},{}],125:[function(require,module,exports){
 "use strict";
 
 module.exports = function (annotationData, selectionModel) {
@@ -12777,7 +12903,7 @@ module.exports = function (annotationData, selectionModel) {
 };
 
 
-},{}],123:[function(require,module,exports){
+},{}],126:[function(require,module,exports){
 "use strict";
 
 var setDefaultEditMode = require("./setDefaultEditMode");
@@ -12795,7 +12921,7 @@ module.exports = function (annotationData, editMode) {
 };
 
 
-},{"./setDefaultEditMode":127}],124:[function(require,module,exports){
+},{"./setDefaultEditMode":130}],127:[function(require,module,exports){
 "use strict";
 
 module.exports = function (modeAccordingToButton, editMode) {
@@ -12814,7 +12940,7 @@ module.exports = function (modeAccordingToButton, editMode) {
 };
 
 
-},{}],125:[function(require,module,exports){
+},{}],128:[function(require,module,exports){
 "use strict";
 
 module.exports = function (command, spans, entity) {
@@ -12829,7 +12955,7 @@ module.exports = function (command, spans, entity) {
 };
 
 
-},{}],126:[function(require,module,exports){
+},{}],129:[function(require,module,exports){
 "use strict";
 
 var getDetectBoundaryFunc = function (modeAccordingToButton, spanConfig) {
@@ -12848,7 +12974,7 @@ var getDetectBoundaryFunc = function (modeAccordingToButton, spanConfig) {
 module.exports = replicate;
 
 
-},{}],127:[function(require,module,exports){
+},{}],130:[function(require,module,exports){
 "use strict";
 
 var setDefaultEditMode = function (editMode, isEditable, annotationData) {
@@ -12865,7 +12991,7 @@ var setDefaultEditMode = function (editMode, isEditable, annotationData) {
 module.exports = setDefaultEditMode;
 
 
-},{}],128:[function(require,module,exports){
+},{}],131:[function(require,module,exports){
 "use strict";
 
 var skipBlank = require("./skipBlank");
@@ -12886,7 +13012,7 @@ module.exports = {
 };
 
 
-},{"./skipBlank":130}],129:[function(require,module,exports){
+},{"./skipBlank":133}],132:[function(require,module,exports){
 "use strict";
 
 var skipCharacters = require("./skipCharacters"),
@@ -12955,7 +13081,7 @@ module.exports = {
 };
 
 
-},{"./skipBlank":130,"./skipCharacters":131}],130:[function(require,module,exports){
+},{"./skipBlank":133,"./skipCharacters":134}],133:[function(require,module,exports){
 "use strict";
 
 var skipCharacters = require("./skipCharacters"),
@@ -12975,7 +13101,7 @@ module.exports = {
 };
 
 
-},{"./skipCharacters":131}],131:[function(require,module,exports){
+},{"./skipCharacters":134}],134:[function(require,module,exports){
 "use strict";
 
 module.exports = function (getChars, step, str, position, predicate) {
@@ -12985,7 +13111,7 @@ module.exports = function (getChars, step, str, position, predicate) {
 };
 
 
-},{}],132:[function(require,module,exports){
+},{}],135:[function(require,module,exports){
 "use strict";
 
 var isModificationType = function (modification, modificationType) {
@@ -13028,7 +13154,7 @@ var isModificationType = function (modification, modificationType) {
 module.exports = toggleModification;
 
 
-},{}],133:[function(require,module,exports){
+},{}],136:[function(require,module,exports){
 "use strict";
 
 var dismissBrowserSelection = require("./dismissBrowserSelection");
@@ -13297,7 +13423,7 @@ module.exports = function (editor, model, spanConfig, command, modeAccordingToBu
 };
 
 
-},{"../../util/extendBindable":151,"./SelectEnd":134,"./dismissBrowserSelection":140}],134:[function(require,module,exports){
+},{"../../util/extendBindable":153,"./SelectEnd":137,"./dismissBrowserSelection":143}],137:[function(require,module,exports){
 "use strict";
 
 var SpanEditor = require("./SpanEditor"),
@@ -13351,7 +13477,7 @@ module.exports = function (editor, model, command, modeAccordingToButton, typeCo
 };
 
 
-},{"./SelectionValidater":135,"./SpanEditor":136,"./selectionParser":142}],135:[function(require,module,exports){
+},{"./SelectionValidater":138,"./SpanEditor":139,"./selectionParser":145}],138:[function(require,module,exports){
 "use strict";
 
 var deferAlert = require("./deferAlert");
@@ -13385,7 +13511,7 @@ module.exports = function (parser) {
 };
 
 
-},{"./deferAlert":139}],136:[function(require,module,exports){
+},{"./deferAlert":142}],139:[function(require,module,exports){
 "use strict";
 
 var idFactory = require("../../util/idFactory"),
@@ -13518,7 +13644,7 @@ var idFactory = require("../../util/idFactory"),
 module.exports = SpanEditor;
 
 
-},{"../../model/isAlreadySpaned":107,"../../model/isBoundaryCrossingWithOtherSpans":108,"../../util/idFactory":153,"../spanAdjuster/blankSkipAdjuster":128,"../spanAdjuster/delimiterDetectAdjuster":129,"./SpanManipulater":137,"./deferAlert":139,"./selectionParser":142}],137:[function(require,module,exports){
+},{"../../model/isAlreadySpaned":110,"../../model/isBoundaryCrossingWithOtherSpans":111,"../../util/idFactory":155,"../spanAdjuster/blankSkipAdjuster":131,"../spanAdjuster/delimiterDetectAdjuster":132,"./SpanManipulater":140,"./deferAlert":142,"./selectionParser":145}],140:[function(require,module,exports){
 "use strict";
 
 module.exports = function (model, spanAdjuster) {
@@ -13613,7 +13739,7 @@ module.exports = function (model, spanAdjuster) {
 };
 
 
-},{"./selectPosition":141}],138:[function(require,module,exports){
+},{"./selectPosition":144}],141:[function(require,module,exports){
 "use strict";
 
 var dismissBrowserSelection = require("./dismissBrowserSelection");
@@ -13674,7 +13800,7 @@ module.exports = function (editor, model, spanConfig, command, modeAccordingToBu
 };
 
 
-},{"../../component/Pallet":70,"./ElementEditor":133,"./dismissBrowserSelection":140}],139:[function(require,module,exports){
+},{"../../component/Pallet":73,"./ElementEditor":136,"./dismissBrowserSelection":143}],142:[function(require,module,exports){
 "use strict";
 
 module.exports = function (message) {
@@ -13683,7 +13809,7 @@ module.exports = function (message) {
 };
 
 
-},{}],140:[function(require,module,exports){
+},{}],143:[function(require,module,exports){
 "use strict";
 
 module.exports = function () {
@@ -13692,7 +13818,7 @@ module.exports = function () {
 };
 
 
-},{}],141:[function(require,module,exports){
+},{}],144:[function(require,module,exports){
 "use strict";
 
 var getPosition = function (paragraph, span, node) {
@@ -13747,7 +13873,7 @@ module.exports = {
   getFocusPosition: getFocusPosition };
 
 
-},{}],142:[function(require,module,exports){
+},{}],145:[function(require,module,exports){
 "use strict";
 
 var domUtil = require("../../util/domUtil");
@@ -13879,7 +14005,7 @@ module.exports = function (editor, model) {
 };
 
 
-},{"../../util/domUtil":150,"./selectPosition":141}],143:[function(require,module,exports){
+},{"../../util/domUtil":152,"./selectPosition":144}],146:[function(require,module,exports){
 "use strict";
 
 // Ovserve and record mouse position to return it.
@@ -14004,7 +14130,7 @@ module.exports = (function () {
 })();
 
 
-},{"./component/HelpDialog":69,"./tool/EditorContainer":144,"./tool/KeybordInputConverter":145,"./util/extendBindable":151}],144:[function(require,module,exports){
+},{"./component/HelpDialog":72,"./tool/EditorContainer":147,"./tool/KeybordInputConverter":148,"./util/extendBindable":153}],147:[function(require,module,exports){
 "use strict";
 
 var switchActiveClass = function (editors, selected) {
@@ -14054,7 +14180,7 @@ module.exports = function () {
 };
 
 
-},{}],145:[function(require,module,exports){
+},{}],148:[function(require,module,exports){
 "use strict";
 
 var EventEmitter = require("events").EventEmitter,
@@ -14105,7 +14231,7 @@ module.exports = function (keyInputHandler) {
 };
 
 
-},{"events":37}],146:[function(require,module,exports){
+},{"events":37}],149:[function(require,module,exports){
 "use strict";
 
 var changeCursor = function (editor, action) {
@@ -14124,32 +14250,7 @@ module.exports = function (editor) {
 };
 
 
-},{}],147:[function(require,module,exports){
-"use strict";
-
-var EventEmitter = require("events").EventEmitter;
-
-module.exports = function (initial) {
-  var value = initial,
-      emitter = new EventEmitter(),
-      get = function () {
-    return value;
-  },
-      set = function (newValue) {
-    if (value === newValue) return;
-
-    value = newValue;
-    emitter.emit("change", newValue);
-  };
-
-  return _.extend(emitter, {
-    get: get,
-    set: set
-  });
-};
-
-
-},{"events":37}],148:[function(require,module,exports){
+},{}],150:[function(require,module,exports){
 "use strict";
 
 var isEmpty = function (str) {
@@ -14201,7 +14302,7 @@ module.exports = (function () {
 })();
 
 
-},{}],149:[function(require,module,exports){
+},{}],151:[function(require,module,exports){
 "use strict";
 
 module.exports = function (str) {
@@ -14209,7 +14310,7 @@ module.exports = function (str) {
 };
 
 
-},{}],150:[function(require,module,exports){
+},{}],152:[function(require,module,exports){
 "use strict";
 
 var idFactory = require("../util/idFactory");
@@ -14234,7 +14335,7 @@ module.exports = {
 };
 
 
-},{"../util/idFactory":153}],151:[function(require,module,exports){
+},{"../util/idFactory":155}],153:[function(require,module,exports){
 "use strict";
 
 // A mixin for the separeted presentation by the observer pattern.
@@ -14273,7 +14374,7 @@ module.exports = function (obj) {
 };
 
 
-},{}],152:[function(require,module,exports){
+},{}],154:[function(require,module,exports){
 "use strict";
 
 // Usage sample: getUrlParameters(location.search).
@@ -14300,7 +14401,7 @@ module.exports = function (urlQuery) {
 };
 
 
-},{}],153:[function(require,module,exports){
+},{}],155:[function(require,module,exports){
 "use strict";
 
 var typeCounter = [],
@@ -14336,7 +14437,7 @@ module.exports = {
 };
 
 
-},{}],154:[function(require,module,exports){
+},{}],156:[function(require,module,exports){
 "use strict";
 
 module.exports = function ($target, enable) {
@@ -14348,7 +14449,7 @@ module.exports = function ($target, enable) {
 };
 
 
-},{}],155:[function(require,module,exports){
+},{}],157:[function(require,module,exports){
 "use strict";
 
 var setProp = function (key, $target, className, value) {
@@ -14386,7 +14487,7 @@ module.exports = {
 };
 
 
-},{"./jQueryEnabled":154}],156:[function(require,module,exports){
+},{"./jQueryEnabled":156}],158:[function(require,module,exports){
 "use strict";
 
 module.exports = function (hash, element) {
@@ -14395,7 +14496,7 @@ module.exports = function (hash, element) {
 };
 
 
-},{}],157:[function(require,module,exports){
+},{}],159:[function(require,module,exports){
 "use strict";
 
 module.exports = {
@@ -14412,18 +14513,92 @@ module.exports = {
 };
 
 
-},{}],158:[function(require,module,exports){
+},{}],160:[function(require,module,exports){
 "use strict";
 
-var extendBindable = require("../util/extendBindable"),
-    ButtonEnableStates = function () {
+var reduce2hash = require("../../util/reduce2hash"),
+    extendBindable = require("../../util/extendBindable"),
+    Button = function (buttonName) {
+  // Button state is true when the button is pushed.
+  var emitter = extendBindable({}),
+      state = false,
+      value = function (newValue) {
+    if (newValue !== undefined) {
+      state = newValue;
+      propagate();
+    } else {
+      return state;
+    }
+  },
+      toggle = function toggleButton() {
+    state = !state;
+    propagate();
+  },
+
+
+  // Propagate button state to the tool.
+  propagate = function () {
+    emitter.trigger("change", {
+      buttonName: buttonName,
+      state: state
+    });
+  };
+
+  return _.extend({
+    name: buttonName,
+    value: value,
+    toggle: toggle,
+    propagate: propagate
+  }, emitter);
+},
+    buttonList = ["boundary-detection", "negation", "replicate-auto", "relation-edit-mode", "speculation"],
+    propagateStateOf = function (emitter, buttons) {
+  buttons.map(function (button) {
+    return {
+      buttonName: button.name,
+      state: button.value()
+    };
+  }).forEach(function (data) {
+    emitter.trigger("change", data);
+  });
+};
+
+module.exports = function () {
+  var emitter = extendBindable({}),
+      buttons = buttonList.map(Button),
+      propagateStateOfAllButtons = _.partial(propagateStateOf, emitter, buttons),
+      buttonHash = buttons.reduce(reduce2hash, {});
+
+  // default pushed;
+  buttonHash["boundary-detection"].value(true);
+
+  // Bind events.
+  buttons.forEach(function (button) {
+    button.bind("change", function (data) {
+      emitter.trigger("change", data);
+    });
+  });
+
+  return _.extend(buttonHash, emitter, {
+    propagate: propagateStateOfAllButtons
+  });
+};
+
+
+},{"../../util/extendBindable":153,"../../util/reduce2hash":158}],161:[function(require,module,exports){
+"use strict";
+
+var EventEmitter = require("events").EventEmitter;
+
+
+var ButtonEnableStates = function () {
   var states = {},
       set = function (button, enable) {
     states[button] = enable;
   },
-      eventEmitter = extendBindable({}),
+      eventEmitter = new EventEmitter(),
       propagate = function () {
-    eventEmitter.trigger("change", states);
+    eventEmitter.emit("change", states);
   };
 
   return _.extend(eventEmitter, {
@@ -14542,7 +14717,7 @@ module.exports = function (editor, model, clipBoard) {
     editor.eventEmitter.trigger("textae.control.button.push", data);
   });
 
-  buttonEnableStates.bind("change", function (data) {
+  buttonEnableStates.on("change", function (data) {
     editor.eventEmitter.trigger("textae.control.buttons.change", data);
   });
 
@@ -14553,7 +14728,7 @@ module.exports = function (editor, model, clipBoard) {
 };
 
 
-},{"../util/extendBindable":151,"./ModeAccordingToButton":163}],159:[function(require,module,exports){
+},{"./ModeAccordingToButton":160,"events":37}],162:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
@@ -14563,7 +14738,7 @@ var _interopRequire = function (obj) {
 var GridLayout = _interopRequire(require("./GridLayout"));
 
 var EventEmitter = require("events").EventEmitter;
-module.exports = function (editor, annotationData, typeContainer, renderer) {
+module.exports = function (editor, annotationData, typeContainer, arrangePositionAllRelation) {
   var emitter = new EventEmitter(),
       gridLayout = new GridLayout(editor, annotationData, typeContainer),
       update = function (typeGapValue) {
@@ -14572,10 +14747,12 @@ module.exports = function (editor, annotationData, typeContainer, renderer) {
     // Do asynchronous to change behavior of editor.
     // For example a wait cursor or a disabled control.
     _.defer(function () {
-      gridLayout.arrangePosition(typeGapValue).then(renderer.renderLazyRelationAll).then(renderer.arrangeRelationPositionAll).then(function () {
-        emitter.emit("render.end", editor);
+      return gridLayout.arrangePosition(typeGapValue).then(function () {
+        return renderLazyRelationAll(annotationData.relation.all());
+      }).then(arrangePositionAllRelation).then(function () {
+        return emitter.emit("render.end", editor);
       })["catch"](function (error) {
-        console.error(error, error.stack);
+        return console.error(error, error.stack);
       });
     });
   };
@@ -14585,8 +14762,17 @@ module.exports = function (editor, annotationData, typeContainer, renderer) {
   });
 };
 
+function renderLazyRelationAll(relations) {
+  // Render relations unless rendered.
+  return Promise.all(relations.filter(function (connect) {
+    return connect.render;
+  }).map(function (connect) {
+    return connect.render();
+  }));
+}
 
-},{"./GridLayout":161,"events":37}],160:[function(require,module,exports){
+
+},{"./GridLayout":164,"events":37}],163:[function(require,module,exports){
 "use strict";
 
 var Cache = function () {
@@ -14719,7 +14905,7 @@ module.exports = function (editor, entityModel) {
 };
 
 
-},{"../util/domUtil":150}],161:[function(require,module,exports){
+},{"../util/domUtil":152}],164:[function(require,module,exports){
 "use strict";
 
 var filterVisibleGrid = function (grid) {
@@ -14810,7 +14996,7 @@ module.exports = function (editor, annotationData, typeContainer) {
 };
 
 
-},{"../util/domUtil":150,"./DomPositionCache":160,"./getGridPosition":185,"bluebird":3}],162:[function(require,module,exports){
+},{"../util/domUtil":152,"./DomPositionCache":163,"./getGridPosition":191,"bluebird":3}],165:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
@@ -14839,79 +15025,7 @@ function processAccosiatedRelation(entity, domPositionCaChe, func, entityId) {
 }
 
 
-},{"./DomPositionCache":160}],163:[function(require,module,exports){
-"use strict";
-
-var reduce2hash = require("../util/reduce2hash"),
-    extendBindable = require("../util/extendBindable"),
-    Button = function (buttonName) {
-  // Button state is true when the button is pushed.
-  var emitter = extendBindable({}),
-      state = false,
-      value = function (newValue) {
-    if (newValue !== undefined) {
-      state = newValue;
-      propagate();
-    } else {
-      return state;
-    }
-  },
-      toggle = function toggleButton() {
-    state = !state;
-    propagate();
-  },
-
-
-  // Propagate button state to the tool.
-  propagate = function () {
-    emitter.trigger("change", {
-      buttonName: buttonName,
-      state: state
-    });
-  };
-
-  return _.extend({
-    name: buttonName,
-    value: value,
-    toggle: toggle,
-    propagate: propagate
-  }, emitter);
-},
-    buttonList = ["boundary-detection", "negation", "replicate-auto", "relation-edit-mode", "speculation"],
-    propagateStateOf = function (emitter, buttons) {
-  buttons.map(function (button) {
-    return {
-      buttonName: button.name,
-      state: button.value()
-    };
-  }).forEach(function (data) {
-    emitter.trigger("change", data);
-  });
-};
-
-module.exports = function () {
-  var emitter = extendBindable({}),
-      buttons = buttonList.map(Button),
-      propagateStateOfAllButtons = _.partial(propagateStateOf, emitter, buttons),
-      buttonHash = buttons.reduce(reduce2hash, {});
-
-  // default pushed;
-  buttonHash["boundary-detection"].value(true);
-
-  // Bind events.
-  buttons.forEach(function (button) {
-    button.bind("change", function (data) {
-      emitter.trigger("change", data);
-    });
-  });
-
-  return _.extend(buttonHash, emitter, {
-    propagate: propagateStateOfAllButtons
-  });
-};
-
-
-},{"../util/extendBindable":151,"../util/reduce2hash":156}],164:[function(require,module,exports){
+},{"./DomPositionCache":163}],166:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
@@ -15102,10 +15216,32 @@ module.exports = function (editor, model, typeContainer, gridRenderer) {
 };
 
 
-},{"../../util/domUtil":150,"../../util/idFactory":153,"../../util/uri":157,"../Selector":182,"./ModificationRenderer":167,"./getDisplayName":174,"events":37}],165:[function(require,module,exports){
+},{"../../util/domUtil":152,"../../util/idFactory":155,"../../util/uri":159,"../Selector":187,"./ModificationRenderer":169,"./getDisplayName":180,"events":37}],167:[function(require,module,exports){
 "use strict";
 
-var createGrid = function (domPositionCache, container, spanId) {
+var _interopRequire = function (obj) {
+  return obj && (obj["default"] || obj);
+};
+
+var getAnnotationBox = _interopRequire(require("./getAnnotationBox"));
+
+var domUtil = _interopRequire(require("../../util/domUtil"));
+
+module.exports = function (editor, domPositionCache) {
+  var container = getAnnotationBox(editor),
+      render = _.partial(createGrid, domPositionCache, container),
+      destroyGrid = function (spanId) {
+    domUtil.selector.grid.get(spanId).remove();
+    domPositionCache.gridPositionCache.remove(spanId);
+  };
+
+  return {
+    render: render,
+    remove: destroyGrid
+  };
+};
+
+function createGrid(domPositionCache, container, spanId) {
   var spanPosition = domPositionCache.getSpan(spanId),
       $grid = $("<div>").attr("id", "G" + spanId).addClass("textae-editor__grid").addClass("hidden").css({
     width: spanPosition.width
@@ -15115,29 +15251,10 @@ var createGrid = function (domPositionCache, container, spanId) {
   container.append($grid);
 
   return $grid;
-},
-    domUtil = require("../../util/domUtil");
-
-module.exports = function (editor, domPositionCache) {
-  var init = function (container) {
-    api.render = _.partial(createGrid, domPositionCache, container);
-  },
-      destroyGrid = function (spanId) {
-    domUtil.selector.grid.get(spanId).remove();
-    domPositionCache.gridPositionCache.remove(spanId);
-  },
-      api = {
-    init: init,
-    // The render is set at init.
-    render: null,
-    remove: destroyGrid
-  };
-
-  return api;
-};
+}
 
 
-},{"../../util/domUtil":150}],166:[function(require,module,exports){
+},{"../../util/domUtil":152,"./getAnnotationBox":179}],168:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
@@ -15153,57 +15270,84 @@ var RenderAll = _interopRequire(require("./RenderAll"));
 var renderModification = _interopRequire(require("./renderModification"));
 
 var EventEmitter = require("events").EventEmitter;
-module.exports = function (domPositionCaChe, spanRenderer, gridRenderer, entityRenderer, relationRenderer, buttonStateHelper) {
+var TypeStyle = _interopRequire(require("../TypeStyle"));
+
+var SpanRenderer = _interopRequire(require("./SpanRenderer"));
+
+var GridRenderer = _interopRequire(require("./GridRenderer"));
+
+var EntityRenderer = _interopRequire(require("./EntityRenderer"));
+
+module.exports = function (domPositionCaChe, relationRenderer, buttonStateHelper, typeGap, editor, model, typeContainer) {
   var emitter = new EventEmitter(),
-      triggerChange = _.debounce(function () {
-    emitter.emit("change");
-  }, 100),
-      triggerChangeAfter = _.partial(_.compose, triggerChange);
+      gridRenderer = new GridRenderer(editor, domPositionCaChe),
+      entityRenderer = new EntityRenderer(editor, model, typeContainer, gridRenderer),
+      spanRenderer = new SpanRenderer(editor, model, typeContainer, entityRenderer, gridRenderer);
 
   entityRenderer.on("render", function (entity) {
-    emitter.emit("entity.render", entity);
-    return entity;
+    return entityRenderer.getTypeDom(entity).css(new TypeStyle(typeGap()));
   });
 
-  return function (editor, model) {
+  return function (editor, annotationData, selectionModel) {
     var renderAll = new RenderAll(editor, domPositionCaChe, spanRenderer, relationRenderer),
-        entityToSpan = function (entity) {
-      return model.annotationData.span.get(entity.span);
-    },
-        updateSpanAfter = _.partial(_.compose, triggerChange, spanRenderer.change, entityToSpan),
+        renderSpanOfEntity = _.compose(spanRenderer.change, function (entity) {
+      return annotationData.span.get(entity.span);
+    }),
         renderModificationEntityOrRelation = function (modification) {
-      renderModification(model.annotationData, "relation", modification, relationRenderer, buttonStateHelper);
-      renderModification(model.annotationData, "entity", modification, entityRenderer, buttonStateHelper);
+      renderModification(annotationData, "relation", modification, relationRenderer, buttonStateHelper);
+      renderModification(annotationData, "entity", modification, entityRenderer, buttonStateHelper);
     };
 
-    initChildren(editor, gridRenderer, relationRenderer);
-
-    model.annotationData.on("change-text", function (params) {
-      renderSourceDocument(editor, params.sourceDoc, params.paragraphs);
-      emitter.emit("text.change");
-    }).on("all.change", triggerChangeAfter(model.selectionModel.clear, renderAll)).on("span.add", triggerChangeAfter(spanRenderer.render)).on("span.remove", triggerChangeAfter(spanRenderer.remove)).on("span.remove", _.compose(model.selectionModel.span.remove, modelToId)).on("entity.add", function (entity) {
+    var eventHandlers = [["text.change", function (params) {
+      return renderSourceDocument(editor, params.sourceDoc, params.paragraphs);
+    }], ["all.change", function (annotationData) {
+      renderAll(annotationData);
+      selectionModel.clear();
+    }], ["span.add", function (span) {
+      return spanRenderer.render(span);
+    }], ["span.remove", function (span) {
+      spanRenderer.remove(span);
+      selectionModel.span.remove(modelToId(span));
+    }], ["entity.add", function (entity) {
       // Add a now entity with a new grid after the span moved.
-      spanRenderer.change(entityToSpan(entity), domPositionCaChe.reset);
+      spanRenderer.change(annotationData.span.get(entity.span), domPositionCaChe.reset);
       entityRenderer.render(entity);
-      triggerChange();
-    }).on("entity.change", updateSpanAfter(entityRenderer.change)).on("entity.remove", updateSpanAfter(entityRenderer.remove)).on("entity.remove", _.compose(model.selectionModel.entity.remove, modelToId)).on("relation.add", triggerChangeAfter(relationRenderer.render)).on("relation.change", relationRenderer.change).on("relation.remove", relationRenderer.remove).on("relation.remove", _.compose(model.selectionModel.relation.remove, modelToId)).on("modification.add", renderModificationEntityOrRelation).on("modification.remove", renderModificationEntityOrRelation);
+    }], ["entity.change", function (entity) {
+      entityRenderer.change(entity);
+      renderSpanOfEntity(entity);
+    }], ["entity.remove", function (entity) {
+      entityRenderer.remove(entity);
+      renderSpanOfEntity(entity);
+      selectionModel.entity.remove(modelToId(entity));
+    }], ["relation.add", function (relation) {
+      relationRenderer.render(relation);
+      emitter.emit("relation.add", relation);
+    }], ["relation.change", relationRenderer.change], ["relation.remove", function (relation) {
+      relationRenderer.remove(relation);
+      selectionModel.relation.remove(modelToId(relation));
+    }], ["modification.add", renderModificationEntityOrRelation], ["modification.remove", renderModificationEntityOrRelation]];
+
+    eventHandlers.forEach(function (eventHandler) {
+      return bindeToModelEvent(emitter, annotationData, eventHandler[0], eventHandler[1]);
+    });
 
     return emitter;
   };
 };
 
-function initChildren(editor, gridRenderer, relationRenderer) {
-  var container = getAnnotationBox(editor);
-  gridRenderer.init(container);
-  relationRenderer.init(container);
-}
-
 function modelToId(modelElement) {
   return modelElement.id;
 }
 
+function bindeToModelEvent(emitter, annotationData, eventName, handler) {
+  annotationData.on(eventName, function (param) {
+    handler(param);
+    emitter.emit(eventName);
+  });
+}
 
-},{"./RenderAll":169,"./getAnnotationBox":173,"./renderModification":180,"./renderSourceDocument":181,"events":37}],167:[function(require,module,exports){
+
+},{"../TypeStyle":189,"./EntityRenderer":166,"./GridRenderer":167,"./RenderAll":175,"./SpanRenderer":177,"./getAnnotationBox":179,"./renderModification":185,"./renderSourceDocument":186,"events":37}],169:[function(require,module,exports){
 "use strict";
 
 var allModificationClasses = "textae-editor__negation textae-editor__speculation";
@@ -15227,27 +15371,171 @@ function update(annotationData, domElement, objectId) {
 }
 
 
-},{}],168:[function(require,module,exports){
+},{}],170:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
   return obj && (obj["default"] || obj);
 };
 
-var ModificationRenderer = _interopRequire(require("./ModificationRenderer"));
+var DomPositionCache = _interopRequire(require("../../DomPositionCache"));
+
+module.exports = function (editor, annotationData, relationId) {
+  var domPositionCaChe = new DomPositionCache(editor, annotationData.entity);
+  var connect = domPositionCaChe.toConnect(relationId);
+
+  if (!connect) {
+    throw "no connect";
+  }
+
+  return connect;
+};
+
+
+},{"../../DomPositionCache":163}],171:[function(require,module,exports){
+"use strict";
+
+var _interopRequire = function (obj) {
+  return obj && (obj["default"] || obj);
+};
+
+var Promise = _interopRequire(require("bluebird"));
+
+var Connect = _interopRequire(require("./Connect"));
+
+var determineCurviness = _interopRequire(require("./determineCurviness"));
+
+var jsPlumbArrowOverlayUtil = _interopRequire(require("./jsPlumbArrowOverlayUtil"));
+
+module.exports = function (editor, model, jsPlumbInstance) {
+  return new Promise(function (resolve, reject) {
+    _.defer(function () {
+      try {
+        // For tuning
+        // var startTime = new Date();
+
+        resetAllCurviness(editor, model.annotationData, model.annotationData.relation.all());
+        jsPlumbInstance.repaintEverything();
+        reselectAll(editor, model.annotationData, model.selectionModel.relation.all());
+
+        // For tuning
+        // var endTime = new Date();
+        // console.log(editor.editorId, 'arrangePositionAll : ', endTime.getTime() - startTime.getTime() + 'ms');
+
+        resolve();
+      } catch (error) {
+        reject(error);
+        throw error;
+      }
+    });
+  });
+};
+
+function reselectAll(editor, annotationData, relationIds) {
+  relationIds.map(function (relationId) {
+    return new Connect(editor, annotationData, relationId);
+  }).filter(function (connect) {
+    return connect instanceof jsPlumb.Connection;
+  }).forEach(function (connect) {
+    return connect.select();
+  });
+}
+
+function resetAllCurviness(editor, annotationData, relations) {
+  relations.map(function (relation) {
+    return {
+      connect: new Connect(editor, annotationData, relation.id),
+      curviness: determineCurviness(editor, annotationData, relation)
+    };
+  })
+  // Set changed values only.
+  .filter(function (data) {
+    return data.connect.setConnector && data.connect.connector.getCurviness() !== data.curviness;
+  }).forEach(function (data) {
+    data.connect.setConnector(["Bezier", {
+      curviness: data.curviness
+    }]);
+
+    // Re-set arrow because it is disappered when setConnector is called.
+    jsPlumbArrowOverlayUtil.resetArrows(data.connect);
+  });
+}
+
+
+},{"./Connect":170,"./determineCurviness":172,"./jsPlumbArrowOverlayUtil":174,"bluebird":3}],172:[function(require,module,exports){
+"use strict";
+
+var _interopRequire = function (obj) {
+  return obj && (obj["default"] || obj);
+};
+
+var DomPositionCache = _interopRequire(require("../../DomPositionCache"));
+
+var CURVINESS_PARAMETERS = {
+  // curviness parameters
+  xrate: 0.6,
+  yrate: 0.05,
+
+  // curviness offset
+  c_offset: 20 };
+
+module.exports = function (editor, annotationData, relation) {
+  var domPositionCaChe = new DomPositionCache(editor, annotationData.entity);
+
+  var anchors = toAnchors(relation);
+  var sourcePosition = domPositionCaChe.getEntity(anchors.sourceId);
+  var targetPosition = domPositionCaChe.getEntity(anchors.targetId);
+
+  var sourceX = sourcePosition.center;
+  var targetX = targetPosition.center;
+
+  var sourceY = sourcePosition.top;
+  var targetY = targetPosition.top;
+
+  var xdiff = Math.abs(sourceX - targetX);
+  var ydiff = Math.abs(sourceY - targetY);
+  var curviness = xdiff * CURVINESS_PARAMETERS.xrate + ydiff * CURVINESS_PARAMETERS.yrate + CURVINESS_PARAMETERS.c_offset;
+  curviness /= 2.4;
+
+  return curviness;
+};
+
+function toAnchors(relation) {
+  return {
+    sourceId: relation.subj,
+    targetId: relation.obj
+  };
+}
+
+
+},{"../../DomPositionCache":163}],173:[function(require,module,exports){
+"use strict";
+
+var _interopRequire = function (obj) {
+  return obj && (obj["default"] || obj);
+};
+
+var ModificationRenderer = _interopRequire(require("../ModificationRenderer"));
+
+var getAnnotationBox = _interopRequire(require("../getAnnotationBox"));
+
+var DomPositionCache = _interopRequire(require("../../DomPositionCache"));
+
+var Connect = _interopRequire(require("./Connect"));
+
+var arrangePositionAll = _interopRequire(require("./arrangePositionAll"));
+
+var determineCurviness = _interopRequire(require("./determineCurviness"));
+
+var jsPlumbArrowOverlayUtil = _interopRequire(require("./jsPlumbArrowOverlayUtil"));
+
+var domUtil = _interopRequire(require("../../../util/domUtil"));
 
 var POINTUP_LINE_WIDTH = 3,
     LABEL = {
   cssClass: "textae-editor__relation__label",
   id: "label"
 },
-    CURVINESS_PARAMETERS = {
-  // curviness parameters
-  xrate: 0.6,
-  yrate: 0.05,
-
-  // curviness offset
-  c_offset: 20 },
     makeJsPlumbInstance = function (container) {
   var newInstance = jsPlumb.getInstance({
     ConnectionsDetachable: false,
@@ -15267,21 +15555,13 @@ var POINTUP_LINE_WIDTH = 3,
   }
 
   return labelOverlay;
-},
-
-
-// A Module to modify jsPlumb Arrow Overlays.
-jsPlumbArrowOverlayUtil = require("./jsPlumbArrowOverlayUtil"),
-    domUtil = require("../../util/domUtil");
+};
 
 module.exports = function (editor, model, typeContainer) {
   // Init a jsPlumb instance.
   var modification = new ModificationRenderer(model.annotationData),
-      domPositionCaChe = require("../DomPositionCache")(editor, model.annotationData.entity),
+      domPositionCaChe = new DomPositionCache(editor, model.annotationData.entity),
       jsPlumbInstance,
-      init = function (container) {
-    jsPlumbInstance = makeJsPlumbInstance(container);
-  },
       ConnectorStrokeStyle = (function () {
     var converseHEXinotRGBA = function (color, opacity) {
       var c = color.slice(1),
@@ -15307,20 +15587,18 @@ module.exports = function (editor, model, typeContainer) {
   // Cache a connect instance.
   cache = function (connect) {
     var relationId = connect.relationId;
+    var domPositionCaChe = new DomPositionCache(editor, model.annotationData.entity);
     domPositionCaChe.connectCache.set(relationId, connect);
+
     return connect;
-  },
-      toAnchors = function (relationId) {
-    return {
-      sourceId: model.annotationData.relation.get(relationId).subj,
-      targetId: model.annotationData.relation.get(relationId).obj
-    };
   },
       isGridPrepared = function (relationId) {
     if (!model.annotationData.relation.get(relationId)) return;
 
-    var anchors = toAnchors(relationId);
-    return domPositionCaChe.gridPositionCache.isGridPrepared(anchors.sourceId) && domPositionCaChe.gridPositionCache.isGridPrepared(anchors.targetId);
+    var domPositionCaChe = new DomPositionCache(editor, model.annotationData.entity),
+        relation = model.annotationData.relation.get(relationId);
+
+    return domPositionCaChe.gridPositionCache.isGridPrepared(relation.subj) && domPositionCaChe.gridPositionCache.isGridPrepared(relation.obj);
   },
       filterGridExists = function (connect) {
     // The grid may be destroyed when the spans was moved repetitively by undo or redo.
@@ -15328,24 +15606,6 @@ module.exports = function (editor, model, typeContainer) {
       return;
     }
     return connect;
-  },
-      determineCurviness = function (relationId) {
-    var anchors = toAnchors(relationId);
-    var sourcePosition = domPositionCaChe.getEntity(anchors.sourceId);
-    var targetPosition = domPositionCaChe.getEntity(anchors.targetId);
-
-    var sourceX = sourcePosition.center;
-    var targetX = targetPosition.center;
-
-    var sourceY = sourcePosition.top;
-    var targetY = targetPosition.top;
-
-    var xdiff = Math.abs(sourceX - targetX);
-    var ydiff = Math.abs(sourceY - targetY);
-    var curviness = xdiff * CURVINESS_PARAMETERS.xrate + ydiff * CURVINESS_PARAMETERS.yrate + CURVINESS_PARAMETERS.c_offset;
-    curviness /= 2.4;
-
-    return curviness;
   },
       render = (function () {
     var deleteRender = function (relation) {
@@ -15359,7 +15619,7 @@ module.exports = function (editor, model, typeContainer) {
         target: domUtil.selector.entity.get(relation.obj, editor),
         anchors: ["TopCenter", "TopCenter"],
         connector: ["Bezier", {
-          curviness: determineCurviness(relation.id)
+          curviness: determineCurviness(editor, model.annotationData, relation)
         }],
         paintStyle: new ConnectorStrokeStyle(relation.id),
         parameters: {
@@ -15551,16 +15811,8 @@ module.exports = function (editor, model, typeContainer) {
 
     return _.compose(cache, extendDummyApiToCreateRlationWhenGridMoved, extendRelationId);
   })(),
-      Connect = function (relationId) {
-    var connect = domPositionCaChe.toConnect(relationId);
-    if (!connect) {
-      throw "no connect";
-    }
-
-    return connect;
-  },
       changeType = function (relation) {
-    var connect = new Connect(relation.id),
+    var connect = new Connect(editor, model.annotationData, relation.id),
         strokeStyle = new ConnectorStrokeStyle(relation.id);
 
     // The connect may be an object for lazyRender instead of jsPlumb.Connection.
@@ -15576,7 +15828,7 @@ module.exports = function (editor, model, typeContainer) {
     }
   },
       changeJsModification = function (relation) {
-    var connect = new Connect(relation.id);
+    var connect = new Connect(editor, model.annotationData, relation.id);
 
     // A connect may be an object before it rendered.
     if (connect instanceof jsPlumb.Connection) {
@@ -15584,66 +15836,20 @@ module.exports = function (editor, model, typeContainer) {
     }
   },
       remove = function (relation) {
-    var connect = new Connect(relation.id);
+    var connect = new Connect(editor, model.annotationData, relation.id);
     jsPlumbInstance.detach(connect);
     domPositionCaChe.connectCache.remove(relation.id);
 
     // Set the flag dead already to delay selection.
     connect.dead = true;
   },
-      resetAllCurviness = function () {
-    model.annotationData.relation.all().map(function (relation) {
-      return new Connect(relation.id);
-    }).filter(function (connect) {
-      // Set changed values only.
-      return connect.setConnector && connect.connector.getCurviness() !== determineCurviness(connect.relationId);
-    }).forEach(function (connect) {
-      connect.setConnector(["Bezier", {
-        curviness: determineCurviness(connect.relationId)
-      }]);
-      // Re-set arrow because it is disappered when setConnector is called.
-      jsPlumbArrowOverlayUtil.resetArrows(connect);
-    });
-  },
-      renderLazyRelationAll = function () {
-    // Render relations unless rendered.
-    return Promise.all(model.annotationData.relation.all().filter(function (connect) {
-      return connect.render;
-    }).map(function (connect) {
-      return connect.render();
-    }));
-  },
-      reselectAll = function () {
-    model.selectionModel.relation.all().map(function (relationId) {
-      return new Connect(relationId);
-    }).filter(function (connect) {
-      return connect instanceof jsPlumb.Connection;
-    }).forEach(function (connect) {
-      connect.select();
-    });
-  },
-      arrangePositionAll = function () {
-    return new Promise(function (resolve, reject) {
-      _.defer(function () {
-        try {
-          // For tuning
-          // var startTime = new Date();
+      init = function (editor) {
+    var container = getAnnotationBox(editor);
+    jsPlumbInstance = makeJsPlumbInstance(container);
 
-          resetAllCurviness();
-          jsPlumbInstance.repaintEverything();
-          reselectAll();
-
-          // For tuning
-          // var endTime = new Date();
-          // console.log(editor.editorId, 'arrangePositionAll : ', endTime.getTime() - startTime.getTime() + 'ms');
-
-          resolve();
-        } catch (error) {
-          reject(error);
-          throw error;
-        }
-      });
-    });
+    return function () {
+      return arrangePositionAll(editor, model, jsPlumbInstance);
+    };
   };
 
   return {
@@ -15655,14 +15861,98 @@ module.exports = function (editor, model, typeContainer) {
     render: renderLazy,
     change: changeType,
     changeModification: changeJsModification,
-    remove: remove,
-    renderLazyRelationAll: renderLazyRelationAll,
-    arrangePositionAll: arrangePositionAll
+    remove: remove
   };
 };
 
 
-},{"../../util/domUtil":150,"../DomPositionCache":160,"./ModificationRenderer":167,"./jsPlumbArrowOverlayUtil":179,"bluebird":3}],169:[function(require,module,exports){
+},{"../../../util/domUtil":152,"../../DomPositionCache":163,"../ModificationRenderer":169,"../getAnnotationBox":179,"./Connect":170,"./arrangePositionAll":171,"./determineCurviness":172,"./jsPlumbArrowOverlayUtil":174,"bluebird":3}],174:[function(require,module,exports){
+"use strict";
+
+var // Overlay styles for jsPlubm connections.
+NORMAL_ARROW = {
+  width: 7,
+  length: 9,
+  location: 1,
+  id: "normal-arrow"
+},
+    HOVER_ARROW = {
+  width: 14,
+  length: 18,
+  location: 1,
+  id: "hover-arrow" },
+    addArrow = function (id, connect) {
+  if (id === NORMAL_ARROW.id) {
+    connect.addOverlay(["Arrow", NORMAL_ARROW]);
+  } else if (id === HOVER_ARROW.id) {
+    connect.addOverlay(["Arrow", HOVER_ARROW]);
+  }
+  return connect;
+},
+    addArrows = function (connect, arrows) {
+  arrows.forEach(function (id) {
+    addArrow(id, connect);
+  });
+  return arrows;
+},
+    getArrowIds = function (connect) {
+  return connect.getOverlays().filter(function (overlay) {
+    return overlay.type === "Arrow";
+  }).map(function (arrow) {
+    return arrow.id;
+  });
+},
+    hasNormalArrow = function (connect) {
+  return connect.getOverlay(NORMAL_ARROW.id);
+},
+    hasHoverArrow = function (connect) {
+  return connect.getOverlay(HOVER_ARROW.id);
+},
+    removeArrow = function (id, connect) {
+  connect.removeOverlay(id);
+  return connect;
+},
+    removeArrows = function (connect, arrows) {
+  arrows.forEach(function (id) {
+    removeArrow(id, connect);
+  });
+  return arrows;
+},
+    resetArrows = function (connect) {
+  _.compose(_.partial(addArrows, connect), _.partial(removeArrows, connect), getArrowIds)(connect);
+},
+    addNormalArrow = _.partial(addArrow, NORMAL_ARROW.id),
+    addHoverArrow = _.partial(addArrow, HOVER_ARROW.id),
+    removeNormalArrow = _.partial(removeArrow, NORMAL_ARROW.id),
+    removeHoverArrow = _.partial(removeArrow, HOVER_ARROW.id),
+
+
+// Remove a normal arrow and add a new big arrow.
+// Because an arrow is out of position if hideOverlay and showOverlay is used.
+switchHoverArrow = _.compose(addHoverArrow, removeNormalArrow),
+    switchNormalArrow = _.compose(addNormalArrow, removeHoverArrow);
+
+module.exports = {
+  NORMAL_ARROW: NORMAL_ARROW,
+  resetArrows: resetArrows,
+  showBigArrow: function (connect) {
+    // Do not add a big arrow twice when a relation has been selected during hover.
+    if (hasHoverArrow(connect)) {
+      return connect;
+    }
+
+    return switchHoverArrow(connect);
+  },
+  hideBigArrow: function (connect) {
+    // Already affected
+    if (hasNormalArrow(connect)) return connect;
+
+    return switchNormalArrow(connect);
+  }
+};
+
+
+},{}],175:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
@@ -15702,7 +15992,7 @@ function renderAllRelation(annotationData, relationRenderer) {
 }
 
 
-},{"./getAnnotationBox":173}],170:[function(require,module,exports){
+},{"./getAnnotationBox":179}],176:[function(require,module,exports){
 "use strict";
 
 var createSpanRange = require("./createSpanRange"),
@@ -15757,7 +16047,7 @@ var createSpanRange = require("./createSpanRange"),
 module.exports = RenderSingleSpan;
 
 
-},{"../../util/domUtil":150,"./createSpanRange":172,"./getFirstTextNode":177}],171:[function(require,module,exports){
+},{"../../util/domUtil":152,"./createSpanRange":178,"./getFirstTextNode":183}],177:[function(require,module,exports){
 "use strict";
 
 var exists = function (span) {
@@ -15851,7 +16141,7 @@ module.exports = function (editor, model, typeContainer, entityRenderer, gridRen
 };
 
 
-},{"../../util/domUtil":150,"./RenderSingleSpan":170}],172:[function(require,module,exports){
+},{"../../util/domUtil":152,"./RenderSingleSpan":176}],178:[function(require,module,exports){
 "use strict";
 
 var getPosition = function (span, startOfTextNodeAddSpan) {
@@ -15886,7 +16176,7 @@ var getPosition = function (span, startOfTextNodeAddSpan) {
 module.exports = createSpanRange;
 
 
-},{}],173:[function(require,module,exports){
+},{}],179:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
@@ -15901,7 +16191,7 @@ var getEditorBody = _interopRequire(require("./getEditorBody"));
 module.exports = _.compose(_.partial(getElement, "div", "textae-editor__body__annotation-box"), getEditorBody);
 
 
-},{"./getEditorBody":175,"./getElement":176}],174:[function(require,module,exports){
+},{"./getEditorBody":181,"./getElement":182}],180:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
@@ -15938,7 +16228,7 @@ module.exports = function (type) {
 };
 
 
-},{"../../util/uri":157}],175:[function(require,module,exports){
+},{"../../util/uri":159}],181:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
@@ -15951,7 +16241,7 @@ var getElement = _interopRequire(require("./getElement"));
 module.exports = _.partial(getElement, "div", "textae-editor__body");
 
 
-},{"./getElement":176}],176:[function(require,module,exports){
+},{"./getElement":182}],182:[function(require,module,exports){
 "use strict";
 
 module.exports = function (tagName, className, $parent) {
@@ -15964,7 +16254,7 @@ module.exports = function (tagName, className, $parent) {
 };
 
 
-},{}],177:[function(require,module,exports){
+},{}],183:[function(require,module,exports){
 "use strict";
 
 var isTextNode = function () {
@@ -15977,132 +16267,31 @@ var isTextNode = function () {
 module.exports = getFirstTextNode;
 
 
-},{}],178:[function(require,module,exports){
+},{}],184:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
   return obj && (obj["default"] || obj);
 };
 
-var GridRenderer = _interopRequire(require("./GridRenderer"));
-
-var EntityRenderer = _interopRequire(require("./EntityRenderer"));
-
-var SpanRenderer = _interopRequire(require("./SpanRenderer"));
-
-var RelationRenderer = _interopRequire(require("./RelationRenderer"));
-
 var DomPositionCache = _interopRequire(require("../DomPositionCache"));
 
 var Initiator = _interopRequire(require("./Initiator"));
 
-module.exports = function (editor, model, buttonStateHelper, typeContainer) {
-  var domPositionCaChe = new DomPositionCache(editor, model.annotationData.entity),
-      gridRenderer = new GridRenderer(editor, domPositionCaChe),
-      entityRenderer = new EntityRenderer(editor, model, typeContainer, gridRenderer),
-      spanRenderer = new SpanRenderer(editor, model, typeContainer, entityRenderer, gridRenderer),
-      relationRenderer = new RelationRenderer(editor, model, typeContainer);
+module.exports = function (editor, model, buttonStateHelper, typeContainer, typeGap, relationRenderer) {
+  var domPositionCaChe = new DomPositionCache(editor, model.annotationData.entity);
 
   var api = {
-    init: new Initiator(domPositionCaChe, spanRenderer, gridRenderer, entityRenderer, relationRenderer, buttonStateHelper),
+    init: new Initiator(domPositionCaChe, relationRenderer, buttonStateHelper, typeGap, editor, model, typeContainer),
     arrangeRelationPositionAll: relationRenderer.arrangePositionAll,
-    renderLazyRelationAll: relationRenderer.renderLazyRelationAll,
-    setEntityCss: function (entity, css) {
-      entityRenderer.getTypeDom(entity).css(css);
-    }
+    renderLazyRelationAll: relationRenderer.renderLazyRelationAll
   };
 
   return api;
 };
 
 
-},{"../DomPositionCache":160,"./EntityRenderer":164,"./GridRenderer":165,"./Initiator":166,"./RelationRenderer":168,"./SpanRenderer":171}],179:[function(require,module,exports){
-"use strict";
-
-var // Overlay styles for jsPlubm connections.
-NORMAL_ARROW = {
-  width: 7,
-  length: 9,
-  location: 1,
-  id: "normal-arrow"
-},
-    HOVER_ARROW = {
-  width: 14,
-  length: 18,
-  location: 1,
-  id: "hover-arrow" },
-    addArrow = function (id, connect) {
-  if (id === NORMAL_ARROW.id) {
-    connect.addOverlay(["Arrow", NORMAL_ARROW]);
-  } else if (id === HOVER_ARROW.id) {
-    connect.addOverlay(["Arrow", HOVER_ARROW]);
-  }
-  return connect;
-},
-    addArrows = function (connect, arrows) {
-  arrows.forEach(function (id) {
-    addArrow(id, connect);
-  });
-  return arrows;
-},
-    getArrowIds = function (connect) {
-  return connect.getOverlays().filter(function (overlay) {
-    return overlay.type === "Arrow";
-  }).map(function (arrow) {
-    return arrow.id;
-  });
-},
-    hasNormalArrow = function (connect) {
-  return connect.getOverlay(NORMAL_ARROW.id);
-},
-    hasHoverArrow = function (connect) {
-  return connect.getOverlay(HOVER_ARROW.id);
-},
-    removeArrow = function (id, connect) {
-  connect.removeOverlay(id);
-  return connect;
-},
-    removeArrows = function (connect, arrows) {
-  arrows.forEach(function (id) {
-    removeArrow(id, connect);
-  });
-  return arrows;
-},
-    resetArrows = function (connect) {
-  _.compose(_.partial(addArrows, connect), _.partial(removeArrows, connect), getArrowIds)(connect);
-},
-    addNormalArrow = _.partial(addArrow, NORMAL_ARROW.id),
-    addHoverArrow = _.partial(addArrow, HOVER_ARROW.id),
-    removeNormalArrow = _.partial(removeArrow, NORMAL_ARROW.id),
-    removeHoverArrow = _.partial(removeArrow, HOVER_ARROW.id),
-
-
-// Remove a normal arrow and add a new big arrow.
-// Because an arrow is out of position if hideOverlay and showOverlay is used.
-switchHoverArrow = _.compose(addHoverArrow, removeNormalArrow),
-    switchNormalArrow = _.compose(addNormalArrow, removeHoverArrow);
-
-module.exports = {
-  NORMAL_ARROW: NORMAL_ARROW,
-  resetArrows: resetArrows,
-  showBigArrow: function (connect) {
-    // Do not add a big arrow twice when a relation has been selected during hover.
-    if (hasHoverArrow(connect)) {
-      return connect;
-    }
-
-    return switchHoverArrow(connect);
-  },
-  hideBigArrow: function (connect) {
-    // Already affected
-    if (hasNormalArrow(connect)) return connect;
-
-    return switchNormalArrow(connect);
-  }
-};
-
-
-},{}],180:[function(require,module,exports){
+},{"../DomPositionCache":163,"./Initiator":168}],185:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
@@ -16121,7 +16310,7 @@ module.exports = function (annotationData, modelType, modification, renderer, bu
 };
 
 
-},{"../../util/capitalize":149}],181:[function(require,module,exports){
+},{"../../util/capitalize":151}],186:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
@@ -16150,7 +16339,7 @@ createTaggedSourceDoc = function (sourceDoc, paragraphs) {
 module.exports = renderSourceDocument;
 
 
-},{"./getEditorBody":175,"./getElement":176}],182:[function(require,module,exports){
+},{"./getEditorBody":181,"./getElement":182}],187:[function(require,module,exports){
 "use strict";
 
 var selectionClass = require("./selectionClass"),
@@ -16216,7 +16405,7 @@ module.exports = function (editor, model) {
 };
 
 
-},{"../util/domUtil":150,"./DomPositionCache":160,"./selectionClass":188}],183:[function(require,module,exports){
+},{"../util/domUtil":152,"./DomPositionCache":163,"./selectionClass":194}],188:[function(require,module,exports){
 "use strict";
 
 var reduce2hash = require("../util/reduce2hash"),
@@ -16297,7 +16486,18 @@ module.exports = function (model) {
 };
 
 
-},{"../util/reduce2hash":156,"../util/uri":157}],184:[function(require,module,exports){
+},{"../util/reduce2hash":158,"../util/uri":159}],189:[function(require,module,exports){
+"use strict";
+
+module.exports = function (newValue) {
+  return {
+    height: 18 * newValue + 18 + "px",
+    "padding-top": 18 * newValue + "px"
+  };
+};
+
+
+},{}],190:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
@@ -16316,45 +16516,61 @@ var CursorChanger = _interopRequire(require("../util/CursorChanger"));
 
 var setSelectionModelHandler = _interopRequire(require("./setSelectionModelHandler"));
 
-module.exports = function (editor, model, buttonController, getTypeGapValue, typeContainer) {
-  // Render DOM elements conforming with the Model.
-  var renderer = new Renderer(editor, model, buttonController.buttonStateHelper, typeContainer),
-      hover = new Hover(editor, model.annotationData.entity),
-      display = new Display(editor, model.annotationData, typeContainer, renderer);
+var TypeStyle = _interopRequire(require("./TypeStyle"));
 
-  setDisplayHandler(editor, display);
+var RelationRenderer = _interopRequire(require("./Renderer/RelationRenderer"));
+
+module.exports = function (editor, model, buttonController, typeGap, typeContainer) {
+  // Render DOM elements conforming with the Model.
+  var relationRenderer = new RelationRenderer(editor, model, typeContainer),
+      hover = new Hover(editor, model.annotationData.entity);
+
   setSelectionModelHandler(editor, model, buttonController);
 
-  return {
-    init: _.partial(initRenderer, editor, model, renderer, display.update, getTypeGapValue),
-    hoverRelation: hover,
-    updateDisplay: display.update,
-    setTypeGap: function (newValue) {
-      editor.find(".textae-editor__type").css(new TypeStyle(newValue));
-      display.update(newValue);
-    }
+  var api = {
+    init: function () {
+      var arrangePositionAllRelation = relationRenderer.init(editor),
+          display = new Display(editor, model.annotationData, typeContainer, arrangePositionAllRelation);
+
+      setHandlerOnTyapGapEvent(editor, model, typeGap, typeContainer, display);
+      setHandlerOnDisplayEvent(editor, display);
+
+      initRenderer(editor, model, display.update, typeGap, typeContainer, buttonController.buttonStateHelper, relationRenderer);
+
+      api.updateDisplay = function () {
+        return display.update(typeGap());
+      };
+    },
+    hoverRelation: hover
   };
+
+  return api;
 };
 
-function TypeStyle(newValue) {
-  return {
-    height: 18 * newValue + 18 + "px",
-    "padding-top": 18 * newValue + "px"
-  };
-}
+function initRenderer(editor, model, updateDisplay, typeGap, typeContainer, buttonStateHelper, relationRenderer) {
+  var renderer = new Renderer(editor, model, buttonStateHelper, typeContainer, typeGap, relationRenderer),
+      debouncedUpdateDisplay = _.debounce(function () {
+    return updateDisplay(typeGap());
+  }, 100);
 
-function initRenderer(editor, model, renderer, updateDisplay, getTypeGapValue) {
-  renderer.init(editor, model).on("change", function () {
-    return updateDisplay(getTypeGapValue());
-  }).on("entity.render", function (entity) {
-    // Set css accoridng to the typeGapValue.
-    renderer.setEntityCss(entity, new TypeStyle(getTypeGapValue()));
-  }).on("text.change", function () {
+  renderer.init(editor, model.annotationData, model.selectionModel).on("change", debouncedUpdateDisplay).on("all.change", debouncedUpdateDisplay).on("text.change", function () {
     return lineHeight.reduceBottomSpace(editor);
-  });
+  }).on("span.add", debouncedUpdateDisplay).on("span.remove", debouncedUpdateDisplay).on("entity.add", debouncedUpdateDisplay).on("entity.change", debouncedUpdateDisplay).on("entity.remove", debouncedUpdateDisplay).on("relation.add", debouncedUpdateDisplay);
 }
 
-function setDisplayHandler(editor, display) {
+function setHandlerOnTyapGapEvent(editor, model, typeGap, typeContainer, display) {
+  var setTypeStyle = function (newValue) {
+    return editor.find(".textae-editor__type").css(new TypeStyle(newValue));
+  };
+
+  typeGap(setTypeStyle);
+  typeGap(function (newValue) {
+    return lineHeight.setToTypeGap(editor, model, typeContainer, newValue);
+  });
+  typeGap(display.update);
+}
+
+function setHandlerOnDisplayEvent(editor, display) {
   // Set cursor control by view rendering events.
   var cursorChanger = new CursorChanger(editor);
 
@@ -16368,7 +16584,7 @@ function setDisplayHandler(editor, display) {
 }
 
 
-},{"../util/CursorChanger":146,"./Display":159,"./Hover":162,"./Renderer":178,"./lineHeight":187,"./setSelectionModelHandler":189}],185:[function(require,module,exports){
+},{"../util/CursorChanger":149,"./Display":162,"./Hover":165,"./Renderer":184,"./Renderer/RelationRenderer":173,"./TypeStyle":189,"./lineHeight":193,"./setSelectionModelHandler":195}],191:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
@@ -16406,7 +16622,7 @@ function pullUpGridOverDescendants(getSpan, typeContainer, typeGapValue, span) {
 }
 
 
-},{"./getHeightIncludeDescendantGrids":186}],186:[function(require,module,exports){
+},{"./getHeightIncludeDescendantGrids":192}],192:[function(require,module,exports){
 "use strict";
 
 module.exports = getHeightIncludeDescendantGrids;
@@ -16422,7 +16638,7 @@ function getHeightIncludeDescendantGrids(span, typeContainer, typeGapValue) {
 }
 
 
-},{}],187:[function(require,module,exports){
+},{}],193:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
@@ -16485,7 +16701,7 @@ function setToTypeGap(editor, model, typeContainer, typeGapValue) {
 }
 
 
-},{"./getHeightIncludeDescendantGrids":186}],188:[function(require,module,exports){
+},{"./getHeightIncludeDescendantGrids":192}],194:[function(require,module,exports){
 "use strict";
 
 // Add or Remove class to indicate selected state.
@@ -16504,7 +16720,7 @@ module.exports = (function () {
 })();
 
 
-},{}],189:[function(require,module,exports){
+},{}],195:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
@@ -16525,7 +16741,7 @@ function delay150(func) {
 }
 
 
-},{"./Selector":182}]},{},[84]);
+},{"./Selector":187}]},{},[87]);
 
 //for module pattern with tail.js
 (function(jQuery) { // Application main
