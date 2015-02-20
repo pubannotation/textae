@@ -1,19 +1,29 @@
-var validateAnnotation = require('./validateAnnotation'),
-    importAnnotation = require('./importAnnotation'),
-    parseAnnotation = function(span, entity, relation, modification, paragraph, text, annotation, prefix) {
-        var result = validateAnnotation(text, paragraph, annotation);
+import validateAnnotation from './validateAnnotation';
+import importDenotation from './importAnnotation/denotation';
+import importRelation from './importAnnotation/relation';
+import importModification from './importAnnotation/modification';
 
-        importAnnotation(span,
-            entity,
-            relation,
-            modification,
-            result.accept.denotation,
-            result.accept.relation,
-            result.accept.modification,
-            prefix
-        );
+export default function(span, entity, relation, modification, paragraph, text, annotation, prefix) {
+    var result = validateAnnotation(text, paragraph, annotation);
 
-        return result.reject;
-    };
+    importDenotation(
+        span,
+        entity,
+        result.accept.denotation,
+        prefix
+    );
 
-module.exports = parseAnnotation;
+    importRelation(
+        relation,
+        result.accept.relation,
+        prefix
+    );
+
+    importModification(
+        modification,
+        result.accept.modification,
+        prefix
+    );
+
+    return result.reject;
+}
