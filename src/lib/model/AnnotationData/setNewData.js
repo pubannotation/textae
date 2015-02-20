@@ -1,4 +1,5 @@
 import parseAnnotation from './parseAnnotation';
+import importNamespace from './parseAnnotation/importAnnotation/namespace';
 
 export default function(dataStore, annotation) {
     parseBaseText(dataStore.paragraph, annotation.text);
@@ -61,6 +62,11 @@ function parseDennotation(dataStore, annotation) {
             annotation);
 
     annotationReject.name = 'Root annotations.';
+
+    importNamespace(
+        dataStore.namespace,
+        annotation.namespaces
+    );
 
     return {
         multitrack: tracks[0],
