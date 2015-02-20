@@ -1,35 +1,37 @@
-var EventEmitter = require('events').EventEmitter,
-    ModelContainer = require('./ModelContainer'),
-    ParagraphContainer = require('./ParagraphContainer'),
-    SpanContainer = require('./SpanContainer'),
-    EntityContainer = require('./EntityContainer'),
-    Container = function(editor) {
-        var emitter = new EventEmitter(),
-            ModelContainerForAnnotationData = _.partial(ModelContainer, emitter),
-            paragraph = new ParagraphContainer(editor, emitter),
-            span = new SpanContainer(editor, emitter, paragraph),
-            relation = new ModelContainerForAnnotationData('relation', function(relations) {
-                relations = relations || [];
-                return relations.map(function(r) {
-                    return {
-                        id: r.id,
-                        type: r.pred,
-                        subj: r.subj,
-                        obj: r.obj
-                    };
-                });
-            }),
-            entity = new EntityContainer(editor, emitter, relation),
-            modification = new ModelContainerForAnnotationData('modification', _.identity);
+import {
+    EventEmitter as EventEmitter
+}
+from 'events';
+import ModelContainer from './ModelContainer';
+import ParagraphContainer from './ParagraphContainer';
+import SpanContainer from './SpanContainer';
+import EntityContainer from './EntityContainer';
 
-        return _.extend(emitter, {
-            span: span,
-            entity: entity,
-            relation: relation,
-            modification: modification,
-            paragraph: paragraph,
-            sourceDoc: ''
-        });
-    };
+export default function(editor) {
+    var emitter = new EventEmitter(),
+        paragraph = new ParagraphContainer(editor, emitter),
+        span = new SpanContainer(editor, emitter, paragraph),
+        relation = new ModelContainer(emitter, 'relation', mapRelation),
+        entity = new EntityContainer(editor, emitter, relation),
+        modification = new ModelContainer(emitter, 'modification', _.identity);
 
-module.exports = Container;
+    return _.extend(emitter, {
+        sourceDoc: '',
+        paragraph: paragraph,
+        span: span,
+        entity: entity,
+        relation: relation,
+        modification: modification
+    });
+}
+
+function mapRelation(relations) {
+    return relations.map((r) => {
+        return {
+            id: r.id,
+            type: r.pred,
+            subj: r.subj,
+            obj: r.obj
+        };
+    });
+}
