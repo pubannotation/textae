@@ -32,7 +32,10 @@ export default function(editor, model, buttonController, typeGap, typeContainer)
                 relationRenderer
             );
 
-            api.updateDisplay = () => display.update(typeGap());
+            api.updateDisplay = () => {
+                display.update(typeGap());
+                lineHeight.reduceBottomSpace(editor);
+            };
         },
         hoverRelation: hover
     };
