@@ -10002,7 +10002,7 @@ module.exports = function (dataStore, originSpan, detectBoundaryFunc) {
 };
 
 
-},{"../model/isAlreadySpaned":110,"../model/isBoundaryCrossingWithOtherSpans":111}],69:[function(require,module,exports){
+},{"../model/isAlreadySpaned":113,"../model/isBoundaryCrossingWithOtherSpans":114}],69:[function(require,module,exports){
 "use strict";
 
 var invokeCommand = require("./invokeCommand"),
@@ -10222,7 +10222,7 @@ module.exports = function (editor, model, history) {
 };
 
 
-},{"../util/idFactory":155,"./commandTemplate":66,"./executeCompositCommand":67,"./getReplicationSpans":68,"./invokeCommand":70}],70:[function(require,module,exports){
+},{"../util/idFactory":158,"./commandTemplate":66,"./executeCompositCommand":67,"./getReplicationSpans":68,"./invokeCommand":70}],70:[function(require,module,exports){
 "use strict";
 
 var invoke = function (commands) {
@@ -10428,7 +10428,7 @@ module.exports = function (editor, confirmDiscardChangeMessage) {
 };
 
 
-},{"../util/CursorChanger":149,"../util/ajaxAccessor":150,"../util/jQuerySugar":157,"./dialog/GetEditorDialog":79,"events":37,"url":43}],72:[function(require,module,exports){
+},{"../util/CursorChanger":152,"../util/ajaxAccessor":153,"../util/jQuerySugar":160,"./dialog/GetEditorDialog":79,"events":37,"url":43}],72:[function(require,module,exports){
 "use strict";
 
 var ToolDialog = require("./dialog/GetToolDialog");
@@ -10549,7 +10549,7 @@ module.exports = function () {
 };
 
 
-},{"../util/extendBindable":153}],74:[function(require,module,exports){
+},{"../util/extendBindable":156}],74:[function(require,module,exports){
 "use strict";
 
 var lineHeight = require("../view/lineHeight"),
@@ -10651,7 +10651,7 @@ module.exports = function (editor, editMode, displayInstance) {
 };
 
 
-},{"../util/jQuerySugar":157,"../view/lineHeight":193,"./dialog/GetEditorDialog":79}],75:[function(require,module,exports){
+},{"../util/jQuerySugar":160,"../view/lineHeight":203,"./dialog/GetEditorDialog":79}],75:[function(require,module,exports){
 "use strict";
 
 var getAreaIn = function ($parent) {
@@ -11331,7 +11331,7 @@ module.exports = function () {
 };
 
 
-},{"./Controller":61,"./SpanConfig":64,"./command":69,"./component/DataAccessObject":71,"./component/StatusBar":75,"./editingState":84,"./getParams":86,"./model/History":106,"./model/Model":107,"./presenter/Presenter":123,"./util/ajaxAccessor":150,"./view/ButtonController":161,"./view/TypeContainer":188,"./view/View":190,"observ":60}],86:[function(require,module,exports){
+},{"./Controller":61,"./SpanConfig":64,"./command":69,"./component/DataAccessObject":71,"./component/StatusBar":75,"./editingState":84,"./getParams":86,"./model/History":109,"./model/Model":110,"./presenter/Presenter":126,"./util/ajaxAccessor":153,"./view/ButtonController":164,"./view/TypeContainer":198,"./view/View":200,"observ":60}],86:[function(require,module,exports){
 "use strict";
 
 var getUrlParameters = require("./util/getUrlParameters"),
@@ -11371,7 +11371,7 @@ module.exports = function (editor) {
 };
 
 
-},{"./util/getUrlParameters":154}],87:[function(require,module,exports){
+},{"./util/getUrlParameters":157}],87:[function(require,module,exports){
 "use strict";
 
 var tool = require("./tool"),
@@ -11398,7 +11398,7 @@ jQuery.fn.textae = (function () {
 })();
 
 
-},{"./control":83,"./editor":85,"./tool":146}],88:[function(require,module,exports){
+},{"./control":83,"./editor":85,"./tool":149}],88:[function(require,module,exports){
 "use strict";
 
 // Expected an entity like {id: "E21", span: "editor2__S50_54", type: "Protein"}.
@@ -11438,7 +11438,7 @@ var idFactory = require("../../../util/idFactory"),
 module.exports = EntityContainer;
 
 
-},{"../../../util/idFactory":155,"./ModelContainer":89}],89:[function(require,module,exports){
+},{"../../../util/idFactory":158,"./ModelContainer":89}],89:[function(require,module,exports){
 "use strict";
 
 var getNextId = require("./getNextId"),
@@ -11567,7 +11567,7 @@ module.exports = function (editor, emitter) {
 };
 
 
-},{"../../../util/idFactory":155,"./ModelContainer":89}],91:[function(require,module,exports){
+},{"../../../util/idFactory":158,"./ModelContainer":89}],91:[function(require,module,exports){
 "use strict";
 
 var idFactory = require("../../../util/idFactory"),
@@ -11773,7 +11773,7 @@ module.exports = function (editor, emitter, paragraph) {
 };
 
 
-},{"../../../util/idFactory":155,"../../isBoundaryCrossingWithOtherSpans":111,"./ModelContainer":89}],92:[function(require,module,exports){
+},{"../../../util/idFactory":158,"../../isBoundaryCrossingWithOtherSpans":114,"./ModelContainer":89}],92:[function(require,module,exports){
 "use strict";
 
 var hasPrefix = function (prefix, id) {
@@ -11799,41 +11799,48 @@ module.exports = getNextId;
 },{}],93:[function(require,module,exports){
 "use strict";
 
-var EventEmitter = require("events").EventEmitter,
-    ModelContainer = require("./ModelContainer"),
-    ParagraphContainer = require("./ParagraphContainer"),
-    SpanContainer = require("./SpanContainer"),
-    EntityContainer = require("./EntityContainer"),
-    Container = function (editor) {
+var _interopRequire = function (obj) {
+  return obj && (obj["default"] || obj);
+};
+
+var EventEmitter = require("events").EventEmitter;
+var ModelContainer = _interopRequire(require("./ModelContainer"));
+
+var ParagraphContainer = _interopRequire(require("./ParagraphContainer"));
+
+var SpanContainer = _interopRequire(require("./SpanContainer"));
+
+var EntityContainer = _interopRequire(require("./EntityContainer"));
+
+module.exports = function (editor) {
   var emitter = new EventEmitter(),
-      ModelContainerForAnnotationData = _.partial(ModelContainer, emitter),
+      namespace = new ModelContainer(emitter, "namespace", _.identity),
       paragraph = new ParagraphContainer(editor, emitter),
       span = new SpanContainer(editor, emitter, paragraph),
-      relation = new ModelContainerForAnnotationData("relation", function (relations) {
-    relations = relations || [];
-    return relations.map(function (r) {
-      return {
-        id: r.id,
-        type: r.pred,
-        subj: r.subj,
-        obj: r.obj
-      };
-    });
-  }),
+      relation = new ModelContainer(emitter, "relation", mapRelations),
       entity = new EntityContainer(editor, emitter, relation),
-      modification = new ModelContainerForAnnotationData("modification", _.identity);
+      modification = new ModelContainer(emitter, "modification", _.identity);
 
   return _.extend(emitter, {
+    namespace: namespace,
+    sourceDoc: "",
+    paragraph: paragraph,
     span: span,
     entity: entity,
     relation: relation,
-    modification: modification,
-    paragraph: paragraph,
-    sourceDoc: ""
-  });
+    modification: modification });
 };
 
-module.exports = Container;
+function mapRelations(relations) {
+  return relations.map(function (r) {
+    return {
+      id: r.id,
+      type: r.pred,
+      subj: r.subj,
+      obj: r.obj
+    };
+  });
+}
 
 
 },{"./EntityContainer":88,"./ModelContainer":89,"./ParagraphContainer":90,"./SpanContainer":91,"events":37}],94:[function(require,module,exports){
@@ -11890,7 +11897,25 @@ var setNewData = require("./setNewData"),
 module.exports = AnntationData;
 
 
-},{"./Container":93,"./setNewData":104,"./toJson":105}],95:[function(require,module,exports){
+},{"./Container":93,"./setNewData":107,"./toJson":108}],95:[function(require,module,exports){
+"use strict";
+
+var _interopRequire = function (obj) {
+  return obj && (obj["default"] || obj);
+};
+
+var importSource = _interopRequire(require("./importSource"));
+
+var translateDenotation = _interopRequire(require("./translateDenotation"));
+
+module.exports = function (span, entity, denotations, prefix) {
+  importSource([span, entity], function (denotation) {
+    return translateDenotation(prefix, denotation);
+  }, denotations);
+};
+
+
+},{"./importSource":96,"./translateDenotation":101}],96:[function(require,module,exports){
 "use strict";
 
 module.exports = function (targets, translater, source) {
@@ -11904,23 +11929,60 @@ module.exports = function (targets, translater, source) {
 };
 
 
-},{}],96:[function(require,module,exports){
+},{}],97:[function(require,module,exports){
 "use strict";
 
-var importSource = require("./importSource"),
-    translateDenotation = require("./translateDenotation"),
-    translateRelation = require("./translateRelation"),
-    translateModification = require("./translateModification"),
-    importAnnotations = function (span, entity, relation, modification, denotations, relations, modifications, prefix) {
-  importSource([span, entity], _.partial(translateDenotation, prefix), denotations);
-  importSource([relation], _.partial(translateRelation, prefix), relations);
-  importSource([modification], _.partial(translateModification, prefix), modifications);
+var _interopRequire = function (obj) {
+  return obj && (obj["default"] || obj);
 };
 
-module.exports = importAnnotations;
+var importSource = _interopRequire(require("./importSource"));
+
+var translateModification = _interopRequire(require("./translateModification"));
+
+module.exports = function (modification, modifications, prefix) {
+  importSource([modification], function (modification) {
+    return translateModification(prefix, modification);
+  }, modifications);
+};
 
 
-},{"./importSource":95,"./translateDenotation":98,"./translateModification":99,"./translateRelation":100}],97:[function(require,module,exports){
+},{"./importSource":96,"./translateModification":102}],98:[function(require,module,exports){
+"use strict";
+
+var _interopRequire = function (obj) {
+  return obj && (obj["default"] || obj);
+};
+
+var importSource = _interopRequire(require("./importSource"));
+
+module.exports = function (destination, source) {
+  // Clone source to prevet changing orignal data.
+  importSource([destination], function (namespace) {
+    return _.extend({}, namespace);
+  }, source);
+};
+
+
+},{"./importSource":96}],99:[function(require,module,exports){
+"use strict";
+
+var _interopRequire = function (obj) {
+  return obj && (obj["default"] || obj);
+};
+
+var importSource = _interopRequire(require("./importSource"));
+
+var translateRelation = _interopRequire(require("./translateRelation"));
+
+module.exports = function (relation, relations, prefix) {
+  importSource([relation], function (relation) {
+    return translateRelation(prefix, relation);
+  }, relations);
+};
+
+
+},{"./importSource":96,"./translateRelation":103}],100:[function(require,module,exports){
 "use strict";
 
 module.exports = function (src, prefix) {
@@ -11930,7 +11992,7 @@ module.exports = function (src, prefix) {
 };
 
 
-},{}],98:[function(require,module,exports){
+},{}],101:[function(require,module,exports){
 "use strict";
 
 var setIdPrefixIfExist = require("./setIdPrefixIfExist");
@@ -11945,7 +12007,7 @@ module.exports = function (prefix, src) {
 };
 
 
-},{"./setIdPrefixIfExist":97}],99:[function(require,module,exports){
+},{"./setIdPrefixIfExist":100}],102:[function(require,module,exports){
 "use strict";
 
 var setIdPrefixIfExist = require("./setIdPrefixIfExist");
@@ -11960,7 +12022,7 @@ module.exports = function (prefix, src) {
 };
 
 
-},{"./setIdPrefixIfExist":97}],100:[function(require,module,exports){
+},{"./setIdPrefixIfExist":100}],103:[function(require,module,exports){
 "use strict";
 
 var setIdPrefixIfExist = require("./setIdPrefixIfExist");
@@ -11976,23 +12038,35 @@ module.exports = function (prefix, src) {
 };
 
 
-},{"./setIdPrefixIfExist":97}],101:[function(require,module,exports){
+},{"./setIdPrefixIfExist":100}],104:[function(require,module,exports){
 "use strict";
 
-var validateAnnotation = require("./validateAnnotation"),
-    importAnnotation = require("./importAnnotation"),
-    parseAnnotation = function (span, entity, relation, modification, paragraph, text, annotation, prefix) {
+var _interopRequire = function (obj) {
+  return obj && (obj["default"] || obj);
+};
+
+var validateAnnotation = _interopRequire(require("./validateAnnotation"));
+
+var importDenotation = _interopRequire(require("./importAnnotation/denotation"));
+
+var importRelation = _interopRequire(require("./importAnnotation/relation"));
+
+var importModification = _interopRequire(require("./importAnnotation/modification"));
+
+module.exports = function (span, entity, relation, modification, paragraph, text, annotation, prefix) {
   var result = validateAnnotation(text, paragraph, annotation);
 
-  importAnnotation(span, entity, relation, modification, result.accept.denotation, result.accept.relation, result.accept.modification, prefix);
+  importDenotation(span, entity, result.accept.denotation, prefix);
+
+  importRelation(relation, result.accept.relation, prefix);
+
+  importModification(modification, result.accept.modification, prefix);
 
   return result.reject;
 };
 
-module.exports = parseAnnotation;
 
-
-},{"./importAnnotation":96,"./validateAnnotation":102}],102:[function(require,module,exports){
+},{"./importAnnotation/denotation":95,"./importAnnotation/modification":97,"./importAnnotation/relation":99,"./validateAnnotation":105}],105:[function(require,module,exports){
 "use strict";
 
 var validate = require("./validate"),
@@ -12055,7 +12129,7 @@ var validate = require("./validate"),
 module.exports = validateAnnotation;
 
 
-},{"./validate":103}],103:[function(require,module,exports){
+},{"./validate":106}],106:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
@@ -12089,14 +12163,31 @@ function acceptIf(predicate, result, target) {
 }
 
 
-},{"../../../../Reject":63}],104:[function(require,module,exports){
+},{"../../../../Reject":63}],107:[function(require,module,exports){
 "use strict";
 
-var parseAnnotation = require("./parseAnnotation"),
-    parseBaseText = function (paragraph, sourceDoc) {
+var _interopRequire = function (obj) {
+  return obj && (obj["default"] || obj);
+};
+
+var parseAnnotation = _interopRequire(require("./parseAnnotation"));
+
+var importNamespace = _interopRequire(require("./parseAnnotation/importAnnotation/namespace"));
+
+module.exports = function (dataStore, annotation) {
+  parseBaseText(dataStore.paragraph, annotation.text);
+
+  dataStore.sourceDoc = annotation.text;
+  dataStore.config = annotation.config;
+
+  return parseDennotation(dataStore, annotation);
+};
+
+function parseBaseText(paragraph, sourceDoc) {
   paragraph.addSource(sourceDoc);
-},
-    parseTracks = function (span, entity, relation, modification, paragraph, text, annotation) {
+}
+
+function parseTracks(span, entity, relation, modification, paragraph, text, annotation) {
   if (!annotation.tracks) return [false, []];
 
   var tracks = annotation.tracks;
@@ -12112,31 +12203,24 @@ var parseAnnotation = require("./parseAnnotation"),
   });
 
   return [true, rejects];
-},
-    parseDennotation = function (dataStore, annotation) {
+}
+
+function parseDennotation(dataStore, annotation) {
   var tracks = parseTracks(dataStore.span, dataStore.entity, dataStore.relation, dataStore.modification, dataStore.paragraph, annotation.text, annotation),
       annotationReject = parseAnnotation(dataStore.span, dataStore.entity, dataStore.relation, dataStore.modification, dataStore.paragraph, annotation.text, annotation);
 
   annotationReject.name = "Root annotations.";
 
+  importNamespace(dataStore.namespace, annotation.namespaces);
+
   return {
     multitrack: tracks[0],
     rejects: [annotationReject].concat(tracks[1])
   };
-},
-    setNewData = function (dataStore, annotation) {
-  parseBaseText(dataStore.paragraph, annotation.text);
-
-  dataStore.sourceDoc = annotation.text;
-  dataStore.config = annotation.config;
-
-  return parseDennotation(dataStore, annotation);
-};
-
-module.exports = setNewData;
+}
 
 
-},{"./parseAnnotation":101}],105:[function(require,module,exports){
+},{"./parseAnnotation":104,"./parseAnnotation/importAnnotation/namespace":98}],108:[function(require,module,exports){
 "use strict";
 
 var toDenotation = function (dataStore) {
@@ -12176,7 +12260,7 @@ var toDenotation = function (dataStore) {
 module.exports = toJson;
 
 
-},{}],106:[function(require,module,exports){
+},{}],109:[function(require,module,exports){
 "use strict";
 
 // histories of edit to undo and redo.
@@ -12237,7 +12321,7 @@ module.exports = function () {
 };
 
 
-},{"../util/extendBindable":153}],107:[function(require,module,exports){
+},{"../util/extendBindable":156}],110:[function(require,module,exports){
 "use strict";
 
 var AnnotationData = require("./AnnotationData");
@@ -12251,7 +12335,7 @@ module.exports = function (editor) {
 };
 
 
-},{"./AnnotationData":94,"./Selection":109}],108:[function(require,module,exports){
+},{"./AnnotationData":94,"./Selection":112}],111:[function(require,module,exports){
 "use strict";
 
 var EventEmitter = require("events").EventEmitter;
@@ -12316,7 +12400,7 @@ module.exports = function (kindName) {
 };
 
 
-},{"events":37}],109:[function(require,module,exports){
+},{"events":37}],112:[function(require,module,exports){
 "use strict";
 
 var EventEmitter = require("events").EventEmitter,
@@ -12366,7 +12450,7 @@ module.exports = function (kinds) {
 };
 
 
-},{"./IdContainer":108,"events":37}],110:[function(require,module,exports){
+},{"./IdContainer":111,"events":37}],113:[function(require,module,exports){
 "use strict";
 
 module.exports = function (allSpans, candidateSpan) {
@@ -12376,7 +12460,7 @@ module.exports = function (allSpans, candidateSpan) {
 };
 
 
-},{}],111:[function(require,module,exports){
+},{}],114:[function(require,module,exports){
 "use strict";
 
 // A span its range is coross over with other spans are not able to rendered.
@@ -12388,7 +12472,7 @@ module.exports = function (spans, candidateSpan) {
 };
 
 
-},{}],112:[function(require,module,exports){
+},{}],115:[function(require,module,exports){
 "use strict";
 
 module.exports = function (command, annotationData, selectionModel, clipBoard) {
@@ -12424,7 +12508,7 @@ module.exports = function (command, annotationData, selectionModel, clipBoard) {
 };
 
 
-},{}],113:[function(require,module,exports){
+},{}],116:[function(require,module,exports){
 "use strict";
 
 var EventEmitter = require("events").EventEmitter,
@@ -12450,7 +12534,7 @@ var EventEmitter = require("events").EventEmitter,
 module.exports = DefaultEntityHandler;
 
 
-},{"./createEntityToSelectedSpan":128,"./replicate":129,"events":37}],114:[function(require,module,exports){
+},{"./createEntityToSelectedSpan":131,"./replicate":132,"events":37}],117:[function(require,module,exports){
 "use strict";
 
 var TypeGapCache = function () {
@@ -12517,7 +12601,7 @@ var TypeGapCache = function () {
 module.exports = DisplayInstance;
 
 
-},{"../util/capitalize":151}],115:[function(require,module,exports){
+},{"../util/capitalize":154}],118:[function(require,module,exports){
 "use strict";
 
 var RemoveCommandsFromSelection = require("./RemoveCommandsFromSelection");
@@ -12540,7 +12624,7 @@ module.exports = function (command, selectionModel, typeEditor) {
 };
 
 
-},{"./RemoveCommandsFromSelection":124}],116:[function(require,module,exports){
+},{"./RemoveCommandsFromSelection":127}],119:[function(require,module,exports){
 "use strict";
 
 module.exports = function (stateMachine) {
@@ -12558,7 +12642,7 @@ module.exports = function (stateMachine) {
 };
 
 
-},{}],117:[function(require,module,exports){
+},{}],120:[function(require,module,exports){
 "use strict";
 
 var Machine = require("emitter-fsm"),
@@ -12585,7 +12669,7 @@ var Machine = require("emitter-fsm"),
 module.exports = StateMachine;
 
 
-},{"emitter-fsm":35}],118:[function(require,module,exports){
+},{"emitter-fsm":35}],121:[function(require,module,exports){
 "use strict";
 
 var resetView = function (typeEditor, selectionModel) {
@@ -12645,7 +12729,7 @@ var resetView = function (typeEditor, selectionModel) {
 module.exports = Transition;
 
 
-},{}],119:[function(require,module,exports){
+},{}],122:[function(require,module,exports){
 "use strict";
 
 var Selector = require("../../view/Selector"),
@@ -12705,7 +12789,7 @@ module.exports = function (editor, model, buttonStateHelper, modeAccordingToButt
 };
 
 
-},{"../../view/Selector":187}],120:[function(require,module,exports){
+},{"../../view/Selector":197}],123:[function(require,module,exports){
 "use strict";
 
 module.exports = function (stateMachine) {
@@ -12721,7 +12805,7 @@ module.exports = function (stateMachine) {
 };
 
 
-},{}],121:[function(require,module,exports){
+},{}],124:[function(require,module,exports){
 "use strict";
 
 var EventEmitter = require("events").EventEmitter,
@@ -12762,7 +12846,7 @@ module.exports = function (editor, model, typeEditor, buttonStateHelper, modeAcc
 // console.log(editor.editorId, 'from:', e.from, ' to:', e.to);
 
 
-},{"./EditModeApi":116,"./StateMachine":117,"./Transition":118,"./ViewMode":119,"./ViewModeApi":120,"emitter-fsm":35,"events":37}],122:[function(require,module,exports){
+},{"./EditModeApi":119,"./StateMachine":120,"./Transition":121,"./ViewMode":122,"./ViewModeApi":123,"emitter-fsm":35,"events":37}],125:[function(require,module,exports){
 "use strict";
 
 var toggleModification = require("./toggleModification");
@@ -12779,7 +12863,7 @@ module.exports = function (command, annotationData, modeAccordingToButton, typeE
 };
 
 
-},{"./toggleModification":135}],123:[function(require,module,exports){
+},{"./toggleModification":138}],126:[function(require,module,exports){
 "use strict";
 
 var TypeEditor = require("./typeEditor/TypeEditor"),
@@ -12847,7 +12931,7 @@ module.exports = function (editor, model, view, command, spanConfig, clipBoard, 
 };
 
 
-},{"../component/SettingDialog":74,"./ClipBoardHandler":112,"./DefaultEntityHandler":113,"./DisplayInstance":114,"./EditHandler":115,"./EditMode":121,"./ModificationHandler":122,"./SelectSpanHandler":125,"./SetEditableHandler":126,"./ToggleButtonHandler":127,"./typeEditor/TypeEditor":141}],124:[function(require,module,exports){
+},{"../component/SettingDialog":74,"./ClipBoardHandler":115,"./DefaultEntityHandler":116,"./DisplayInstance":117,"./EditHandler":118,"./EditMode":124,"./ModificationHandler":125,"./SelectSpanHandler":128,"./SetEditableHandler":129,"./ToggleButtonHandler":130,"./typeEditor/TypeEditor":144}],127:[function(require,module,exports){
 "use strict";
 
 var toRomeveSpanCommands = function (spanIds, command) {
@@ -12874,7 +12958,7 @@ var toRomeveSpanCommands = function (spanIds, command) {
 module.exports = RemoveCommandsFromSelection;
 
 
-},{}],125:[function(require,module,exports){
+},{}],128:[function(require,module,exports){
 "use strict";
 
 module.exports = function (annotationData, selectionModel) {
@@ -12903,7 +12987,7 @@ module.exports = function (annotationData, selectionModel) {
 };
 
 
-},{}],126:[function(require,module,exports){
+},{}],129:[function(require,module,exports){
 "use strict";
 
 var setDefaultEditMode = require("./setDefaultEditMode");
@@ -12921,7 +13005,7 @@ module.exports = function (annotationData, editMode) {
 };
 
 
-},{"./setDefaultEditMode":130}],127:[function(require,module,exports){
+},{"./setDefaultEditMode":133}],130:[function(require,module,exports){
 "use strict";
 
 module.exports = function (modeAccordingToButton, editMode) {
@@ -12940,7 +13024,7 @@ module.exports = function (modeAccordingToButton, editMode) {
 };
 
 
-},{}],128:[function(require,module,exports){
+},{}],131:[function(require,module,exports){
 "use strict";
 
 module.exports = function (command, spans, entity) {
@@ -12955,7 +13039,7 @@ module.exports = function (command, spans, entity) {
 };
 
 
-},{}],129:[function(require,module,exports){
+},{}],132:[function(require,module,exports){
 "use strict";
 
 var getDetectBoundaryFunc = function (modeAccordingToButton, spanConfig) {
@@ -12974,7 +13058,7 @@ var getDetectBoundaryFunc = function (modeAccordingToButton, spanConfig) {
 module.exports = replicate;
 
 
-},{}],130:[function(require,module,exports){
+},{}],133:[function(require,module,exports){
 "use strict";
 
 var setDefaultEditMode = function (editMode, isEditable, annotationData) {
@@ -12991,7 +13075,7 @@ var setDefaultEditMode = function (editMode, isEditable, annotationData) {
 module.exports = setDefaultEditMode;
 
 
-},{}],131:[function(require,module,exports){
+},{}],134:[function(require,module,exports){
 "use strict";
 
 var skipBlank = require("./skipBlank");
@@ -13012,7 +13096,7 @@ module.exports = {
 };
 
 
-},{"./skipBlank":133}],132:[function(require,module,exports){
+},{"./skipBlank":136}],135:[function(require,module,exports){
 "use strict";
 
 var skipCharacters = require("./skipCharacters"),
@@ -13081,7 +13165,7 @@ module.exports = {
 };
 
 
-},{"./skipBlank":133,"./skipCharacters":134}],133:[function(require,module,exports){
+},{"./skipBlank":136,"./skipCharacters":137}],136:[function(require,module,exports){
 "use strict";
 
 var skipCharacters = require("./skipCharacters"),
@@ -13101,7 +13185,7 @@ module.exports = {
 };
 
 
-},{"./skipCharacters":134}],134:[function(require,module,exports){
+},{"./skipCharacters":137}],137:[function(require,module,exports){
 "use strict";
 
 module.exports = function (getChars, step, str, position, predicate) {
@@ -13111,7 +13195,7 @@ module.exports = function (getChars, step, str, position, predicate) {
 };
 
 
-},{}],135:[function(require,module,exports){
+},{}],138:[function(require,module,exports){
 "use strict";
 
 var isModificationType = function (modification, modificationType) {
@@ -13154,7 +13238,7 @@ var isModificationType = function (modification, modificationType) {
 module.exports = toggleModification;
 
 
-},{}],136:[function(require,module,exports){
+},{}],139:[function(require,module,exports){
 "use strict";
 
 var dismissBrowserSelection = require("./dismissBrowserSelection");
@@ -13423,7 +13507,7 @@ module.exports = function (editor, model, spanConfig, command, modeAccordingToBu
 };
 
 
-},{"../../util/extendBindable":153,"./SelectEnd":137,"./dismissBrowserSelection":143}],137:[function(require,module,exports){
+},{"../../util/extendBindable":156,"./SelectEnd":140,"./dismissBrowserSelection":146}],140:[function(require,module,exports){
 "use strict";
 
 var SpanEditor = require("./SpanEditor"),
@@ -13477,7 +13561,7 @@ module.exports = function (editor, model, command, modeAccordingToButton, typeCo
 };
 
 
-},{"./SelectionValidater":138,"./SpanEditor":139,"./selectionParser":145}],138:[function(require,module,exports){
+},{"./SelectionValidater":141,"./SpanEditor":142,"./selectionParser":148}],141:[function(require,module,exports){
 "use strict";
 
 var deferAlert = require("./deferAlert");
@@ -13511,7 +13595,7 @@ module.exports = function (parser) {
 };
 
 
-},{"./deferAlert":142}],139:[function(require,module,exports){
+},{"./deferAlert":145}],142:[function(require,module,exports){
 "use strict";
 
 var idFactory = require("../../util/idFactory"),
@@ -13644,7 +13728,7 @@ var idFactory = require("../../util/idFactory"),
 module.exports = SpanEditor;
 
 
-},{"../../model/isAlreadySpaned":110,"../../model/isBoundaryCrossingWithOtherSpans":111,"../../util/idFactory":155,"../spanAdjuster/blankSkipAdjuster":131,"../spanAdjuster/delimiterDetectAdjuster":132,"./SpanManipulater":140,"./deferAlert":142,"./selectionParser":145}],140:[function(require,module,exports){
+},{"../../model/isAlreadySpaned":113,"../../model/isBoundaryCrossingWithOtherSpans":114,"../../util/idFactory":158,"../spanAdjuster/blankSkipAdjuster":134,"../spanAdjuster/delimiterDetectAdjuster":135,"./SpanManipulater":143,"./deferAlert":145,"./selectionParser":148}],143:[function(require,module,exports){
 "use strict";
 
 module.exports = function (model, spanAdjuster) {
@@ -13739,7 +13823,7 @@ module.exports = function (model, spanAdjuster) {
 };
 
 
-},{"./selectPosition":144}],141:[function(require,module,exports){
+},{"./selectPosition":147}],144:[function(require,module,exports){
 "use strict";
 
 var dismissBrowserSelection = require("./dismissBrowserSelection");
@@ -13800,7 +13884,7 @@ module.exports = function (editor, model, spanConfig, command, modeAccordingToBu
 };
 
 
-},{"../../component/Pallet":73,"./ElementEditor":136,"./dismissBrowserSelection":143}],142:[function(require,module,exports){
+},{"../../component/Pallet":73,"./ElementEditor":139,"./dismissBrowserSelection":146}],145:[function(require,module,exports){
 "use strict";
 
 module.exports = function (message) {
@@ -13809,7 +13893,7 @@ module.exports = function (message) {
 };
 
 
-},{}],143:[function(require,module,exports){
+},{}],146:[function(require,module,exports){
 "use strict";
 
 module.exports = function () {
@@ -13818,7 +13902,7 @@ module.exports = function () {
 };
 
 
-},{}],144:[function(require,module,exports){
+},{}],147:[function(require,module,exports){
 "use strict";
 
 var getPosition = function (paragraph, span, node) {
@@ -13873,7 +13957,7 @@ module.exports = {
   getFocusPosition: getFocusPosition };
 
 
-},{}],145:[function(require,module,exports){
+},{}],148:[function(require,module,exports){
 "use strict";
 
 var domUtil = require("../../util/domUtil");
@@ -14005,7 +14089,7 @@ module.exports = function (editor, model) {
 };
 
 
-},{"../../util/domUtil":152,"./selectPosition":144}],146:[function(require,module,exports){
+},{"../../util/domUtil":155,"./selectPosition":147}],149:[function(require,module,exports){
 "use strict";
 
 // Ovserve and record mouse position to return it.
@@ -14130,7 +14214,7 @@ module.exports = (function () {
 })();
 
 
-},{"./component/HelpDialog":72,"./tool/EditorContainer":147,"./tool/KeybordInputConverter":148,"./util/extendBindable":153}],147:[function(require,module,exports){
+},{"./component/HelpDialog":72,"./tool/EditorContainer":150,"./tool/KeybordInputConverter":151,"./util/extendBindable":156}],150:[function(require,module,exports){
 "use strict";
 
 var switchActiveClass = function (editors, selected) {
@@ -14180,7 +14264,7 @@ module.exports = function () {
 };
 
 
-},{}],148:[function(require,module,exports){
+},{}],151:[function(require,module,exports){
 "use strict";
 
 var EventEmitter = require("events").EventEmitter,
@@ -14231,7 +14315,7 @@ module.exports = function (keyInputHandler) {
 };
 
 
-},{"events":37}],149:[function(require,module,exports){
+},{"events":37}],152:[function(require,module,exports){
 "use strict";
 
 var changeCursor = function (editor, action) {
@@ -14250,7 +14334,7 @@ module.exports = function (editor) {
 };
 
 
-},{}],150:[function(require,module,exports){
+},{}],153:[function(require,module,exports){
 "use strict";
 
 var isEmpty = function (str) {
@@ -14302,7 +14386,7 @@ module.exports = (function () {
 })();
 
 
-},{}],151:[function(require,module,exports){
+},{}],154:[function(require,module,exports){
 "use strict";
 
 module.exports = function (str) {
@@ -14310,7 +14394,7 @@ module.exports = function (str) {
 };
 
 
-},{}],152:[function(require,module,exports){
+},{}],155:[function(require,module,exports){
 "use strict";
 
 var idFactory = require("../util/idFactory");
@@ -14335,7 +14419,7 @@ module.exports = {
 };
 
 
-},{"../util/idFactory":155}],153:[function(require,module,exports){
+},{"../util/idFactory":158}],156:[function(require,module,exports){
 "use strict";
 
 // A mixin for the separeted presentation by the observer pattern.
@@ -14374,7 +14458,7 @@ module.exports = function (obj) {
 };
 
 
-},{}],154:[function(require,module,exports){
+},{}],157:[function(require,module,exports){
 "use strict";
 
 // Usage sample: getUrlParameters(location.search).
@@ -14401,7 +14485,7 @@ module.exports = function (urlQuery) {
 };
 
 
-},{}],155:[function(require,module,exports){
+},{}],158:[function(require,module,exports){
 "use strict";
 
 var typeCounter = [],
@@ -14437,7 +14521,7 @@ module.exports = {
 };
 
 
-},{}],156:[function(require,module,exports){
+},{}],159:[function(require,module,exports){
 "use strict";
 
 module.exports = function ($target, enable) {
@@ -14449,7 +14533,7 @@ module.exports = function ($target, enable) {
 };
 
 
-},{}],157:[function(require,module,exports){
+},{}],160:[function(require,module,exports){
 "use strict";
 
 var setProp = function (key, $target, className, value) {
@@ -14487,7 +14571,7 @@ module.exports = {
 };
 
 
-},{"./jQueryEnabled":156}],158:[function(require,module,exports){
+},{"./jQueryEnabled":159}],161:[function(require,module,exports){
 "use strict";
 
 module.exports = function (hash, element) {
@@ -14496,7 +14580,7 @@ module.exports = function (hash, element) {
 };
 
 
-},{}],159:[function(require,module,exports){
+},{}],162:[function(require,module,exports){
 "use strict";
 
 module.exports = {
@@ -14513,7 +14597,7 @@ module.exports = {
 };
 
 
-},{}],160:[function(require,module,exports){
+},{}],163:[function(require,module,exports){
 "use strict";
 
 var reduce2hash = require("../../util/reduce2hash"),
@@ -14585,7 +14669,7 @@ module.exports = function () {
 };
 
 
-},{"../../util/extendBindable":153,"../../util/reduce2hash":158}],161:[function(require,module,exports){
+},{"../../util/extendBindable":156,"../../util/reduce2hash":161}],164:[function(require,module,exports){
 "use strict";
 
 var EventEmitter = require("events").EventEmitter;
@@ -14728,7 +14812,7 @@ module.exports = function (editor, model, clipBoard) {
 };
 
 
-},{"./ModeAccordingToButton":160,"events":37}],162:[function(require,module,exports){
+},{"./ModeAccordingToButton":163,"events":37}],165:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
@@ -14772,7 +14856,7 @@ function renderLazyRelationAll(relations) {
 }
 
 
-},{"./GridLayout":164,"events":37}],163:[function(require,module,exports){
+},{"./GridLayout":167,"events":37}],166:[function(require,module,exports){
 "use strict";
 
 var Cache = function () {
@@ -14905,7 +14989,7 @@ module.exports = function (editor, entityModel) {
 };
 
 
-},{"../util/domUtil":152}],164:[function(require,module,exports){
+},{"../util/domUtil":155}],167:[function(require,module,exports){
 "use strict";
 
 var filterVisibleGrid = function (grid) {
@@ -14996,7 +15080,7 @@ module.exports = function (editor, annotationData, typeContainer) {
 };
 
 
-},{"../util/domUtil":152,"./DomPositionCache":163,"./getGridPosition":191,"bluebird":3}],165:[function(require,module,exports){
+},{"../util/domUtil":155,"./DomPositionCache":166,"./getGridPosition":201,"bluebird":3}],168:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
@@ -15025,22 +15109,11 @@ function processAccosiatedRelation(entity, domPositionCaChe, func, entityId) {
 }
 
 
-},{"./DomPositionCache":163}],166:[function(require,module,exports){
+},{"./DomPositionCache":166}],169:[function(require,module,exports){
 "use strict";
 
-var _interopRequire = function (obj) {
-  return obj && (obj["default"] || obj);
-};
-
-var ModificationRenderer = _interopRequire(require("./ModificationRenderer"));
-
-var getDisplayName = _interopRequire(require("./getDisplayName"));
-
-var EventEmitter = require("events").EventEmitter;
-
-
-var // Arrange a position of the pane to center entities when entities width is longer than pane width.
-arrangePositionOfPane = function (pane) {
+// Arrange a position of the pane to center entities when entities width is longer than pane width.
+module.exports = function (pane) {
   var paneWidth = pane.outerWidth();
   var entitiesWidth = pane.find(".textae-editor__entity").toArray().map(function (e) {
     return e.offsetWidth;
@@ -15051,172 +15124,371 @@ arrangePositionOfPane = function (pane) {
   pane.css({
     left: entitiesWidth > paneWidth ? (paneWidth - entitiesWidth) / 2 : 0
   });
-},
-    uri = require("../../util/uri"),
-    idFactory = require("../../util/idFactory"),
-    domUtil = require("../../util/domUtil");
+};
+
+
+},{}],170:[function(require,module,exports){
+"use strict";
+
+var _interopRequire = function (obj) {
+  return obj && (obj["default"] || obj);
+};
+
+var Selector = _interopRequire(require("../../Selector"));
+
+var createEntityUnlessBlock = _interopRequire(require("./createEntityUnlessBlock"));
+
+var removeEntityElement = _interopRequire(require("./removeEntityElement"));
+
+module.exports = function (editor, model, typeContainer, gridRenderer, modification, emitter, entity) {
+  var selector = new Selector(editor, model);
+
+  // Remove an old entity.
+  removeEntityElement(editor, model.annotationData, entity);
+
+  // Show a new entity.
+  createEntityUnlessBlock(editor, model.annotationData.namespace, typeContainer, gridRenderer, modification, emitter, entity);
+
+  // Re-select a new entity instance.
+  if (model.selectionModel.entity.has(entity.id)) {
+    selector.entity.select(entity.id);
+  }
+
+  return entity;
+};
+
+
+},{"../../Selector":197,"./createEntityUnlessBlock":172,"./removeEntityElement":177}],171:[function(require,module,exports){
+"use strict";
+
+var _interopRequire = function (obj) {
+  return obj && (obj["default"] || obj);
+};
+
+var idFactory = _interopRequire(require("../../../util/idFactory"));
+
+var getTypeElement = _interopRequire(require("./getTypeElement"));
+
+var arrangePositionOfPane = _interopRequire(require("./arrangePositionOfPane"));
+
+// An entity is a circle on Type that is an endpoint of a relation.
+// A span have one grid and a grid can have multi types and a type can have multi entities.
+// A grid is only shown when at least one entity is owned by a correspond span.
+module.exports = function (editor, namspace, typeContainer, gridRenderer, modification, entity) {
+  // Replace null to 'null' if type is null and undefined too.
+  entity.type = String(entity.type);
+
+  // Append a new entity to the type
+  var pane = getTypeElement(namspace, typeContainer, gridRenderer, entity.span, entity.type).find(".textae-editor__entity-pane").append(createEntityElement(editor, typeContainer, modification, entity));
+
+  arrangePositionOfPane(pane);
+};
+
+function createEntityElement(editor, typeContainer, modification, entity) {
+  var $entity = $("<div>").attr("id", idFactory.makeEntityDomId(editor, entity.id)).attr("title", entity.id).attr("type", entity.type).addClass("textae-editor__entity").css({
+    "border-color": typeContainer.entity.getColor(entity.type)
+  });
+
+  // Set css classes for modifications.
+  $entity.addClass(modification.getClasses(entity.id));
+
+  return $entity;
+}
+
+
+},{"../../../util/idFactory":158,"./arrangePositionOfPane":169,"./getTypeElement":175}],172:[function(require,module,exports){
+"use strict";
+
+var _interopRequire = function (obj) {
+  return obj && (obj["default"] || obj);
+};
+
+var create = _interopRequire(require("./create"));
+
+module.exports = function (editor, namespace, typeContainer, gridRenderer, modification, emitter, entity) {
+  if (!typeContainer.entity.isBlock(entity.type)) {
+    create(editor, namespace, typeContainer, gridRenderer, modification, entity);
+  }
+
+  emitter.emit("render", entity);
+
+  return entity;
+};
+
+
+},{"./create":171}],173:[function(require,module,exports){
+"use strict";
+
+var _interopRequire = function (obj) {
+  return obj && (obj["default"] || obj);
+};
+
+var uri = _interopRequire(require("../../../util/uri"));
+
+// Display short name for URL(http or https);
+module.exports = function (type) {
+  // For tunning, search the scheme before execute a regular-expression.
+  if (uri.isUri(type)) {
+    var matches = uri.getUrlMatches(type);
+
+    if (matches) {
+      // Order to dispaly.
+      // 1. The anchor without #.
+      if (matches[9]) return matches[9].slice(1);
+
+      // 2. The file name with the extention.
+      if (matches[6]) return matches[6] + (matches[7] || "");
+
+      // 3. The last directory name.
+      // Exclude slash only. cf. http://hoge.com/
+      if (matches[5] && matches[5].length > 1) return matches[5].split("/").filter(function (s) {
+        return s !== "";
+      }).pop();
+
+      // 4. The domain name.
+      return matches[3];
+    }
+  }
+  return type;
+};
+
+
+},{"../../../util/uri":162}],174:[function(require,module,exports){
+"use strict";
+
+var _interopRequire = function (obj) {
+  return obj && (obj["default"] || obj);
+};
+
+var idFactory = _interopRequire(require("../../../util/idFactory"));
+
+module.exports = function (spanId, type) {
+  return $("#" + idFactory.makeTypeId(spanId, type));
+};
+
+
+},{"../../../util/idFactory":158}],175:[function(require,module,exports){
+"use strict";
+
+var _interopRequire = function (obj) {
+  return obj && (obj["default"] || obj);
+};
+
+var domUtil = _interopRequire(require("../../../util/domUtil"));
+
+var idFactory = _interopRequire(require("../../../util/idFactory"));
+
+var uri = _interopRequire(require("../../../util/uri"));
+
+var getDisplayName = _interopRequire(require("./getDisplayName"));
+
+var getTypeDom = _interopRequire(require("./getTypeDom"));
+
+//render type unless exists.
+module.exports = function (namespace, typeContainer, gridRenderer, spanId, type) {
+  var $type = getTypeDom(spanId, type);
+  if ($type.length === 0) {
+    $type = createEmptyTypeDomElement(namespace, typeContainer, spanId, type);
+    getGrid(gridRenderer, spanId).append($type);
+  }
+
+  return $type;
+};
+
+function getMatchPrefix(namespace, type) {
+  var namespaces = namespace.all(),
+      matchs = namespaces.filter(function (namespace) {
+    return namespace.prefix !== "_base";
+  }).filter(function (namespace) {
+    return type.indexOf(namespace.prefix + ":") === 0;
+  });
+
+  if (matchs.length === 1) return matchs[0];
+
+  return null;
+}
+
+function getUri(namespace, typeContainer, type) {
+  if (uri.isUri(type)) {
+    return type;
+  } else if (typeContainer.entity.getUri(type)) {
+    return typeContainer.entity.getUri(type);
+  } else if (namespace.some()) {
+    var match = getMatchPrefix(namespace, type);
+    if (match) {
+      return match.uri + type.replace(match.prefix + ":", "");
+    }
+
+    var base = namespace.all().filter(function (namespace) {
+      return namespace.prefix === "_base";
+    });
+    if (base.length === 1) {
+      return base[0].uri + type;
+    }
+  }
+
+  return null;
+}
+
+function setLabelName(typeLabel, namespace, typeContainer, type) {
+  var displayName = undefined,
+      match = getMatchPrefix(namespace, type);
+
+  if (uri.isUri(type)) {
+    displayName = getDisplayName(type);
+  } else if (match) {
+    displayName = type.replace(match.prefix + ":", "");
+  } else {
+    displayName = type;
+  }
+
+  var child = undefined,
+      href = getUri(namespace, typeContainer, type);
+  if (href) {
+    child = "<a target=\"_blank\"/ href=\"" + href + "\">" + displayName + "</a>";
+  } else {
+    child = displayName;
+  }
+
+  typeLabel.innerHTML = child;
+}
+
+// A Type element has an entity_pane elment that has a label and will have entities.
+function createEmptyTypeDomElement(namespace, typeContainer, spanId, type) {
+  var typeId = idFactory.makeTypeId(spanId, type);
+
+  // The EntityPane will have entities.
+  var $entityPane = $("<div>").attr("id", "P-" + typeId).addClass("textae-editor__entity-pane");
+
+  // The label over the span.
+  var $typeLabel = $("<div>").addClass("textae-editor__type-label").css({
+    "background-color": typeContainer.entity.getColor(type) });
+
+  setLabelName($typeLabel[0], namespace, typeContainer, type);
+
+  return $("<div>").attr("id", typeId).addClass("textae-editor__type").append($typeLabel).append($entityPane); // Set pane after label because pane is over label.
+}
+
+function getGrid(gridRenderer, spanId) {
+  // Create a grid unless it exists.
+  var $grid = domUtil.selector.grid.get(spanId);
+  if ($grid.length === 0) {
+    return gridRenderer.render(spanId);
+  } else {
+    return $grid;
+  }
+}
+
+
+},{"../../../util/domUtil":155,"../../../util/idFactory":158,"../../../util/uri":162,"./getDisplayName":173,"./getTypeDom":174}],176:[function(require,module,exports){
+"use strict";
+
+var _interopRequire = function (obj) {
+  return obj && (obj["default"] || obj);
+};
+
+var ModificationRenderer = _interopRequire(require("../ModificationRenderer"));
+
+var getDisplayName = _interopRequire(require("./getDisplayName"));
+
+var EventEmitter = require("events").EventEmitter;
+var uri = _interopRequire(require("../../../util/uri"));
+
+var idFactory = _interopRequire(require("../../../util/idFactory"));
+
+var domUtil = _interopRequire(require("../../../util/domUtil"));
+
+var Selector = _interopRequire(require("../../Selector"));
+
+var getTypeDom = _interopRequire(require("./getTypeDom"));
+
+var create = _interopRequire(require("./create"));
+
+var createEntityUnlessBlock = _interopRequire(require("./createEntityUnlessBlock"));
+
+var changeTypeOfExists = _interopRequire(require("./changeTypeOfExists"));
+
+var removeEntityElement = _interopRequire(require("./removeEntityElement"));
 
 module.exports = function (editor, model, typeContainer, gridRenderer) {
   var modification = new ModificationRenderer(model.annotationData),
-      getTypeDom = function (spanId, type) {
-    return $("#" + idFactory.makeTypeId(spanId, type));
-  },
-      doesSpanHasNoEntity = function (spanId) {
-    return model.annotationData.span.get(spanId).getTypes().length === 0;
-  },
-      removeEntityElement = (function () {
-    var doesTypeHasNoEntity = function (entity, typeName) {
-      return model.annotationData.span.get(entity.span).getTypes().filter(function (type) {
-        return type.name === typeName;
-      }).length === 0;
-    };
-
-    return function (entity) {
-      // Get old type from Dom, Because the entity may have new type when changing type of the entity.
-      var oldType = domUtil.selector.entity.get(entity.id, editor).remove().attr("type");
-
-      // Delete type if no entity.
-      if (doesTypeHasNoEntity(entity, oldType)) {
-        getTypeDom(entity.span, oldType).remove();
-      } else {
-        // Arrage the position of TypePane, because number of entities decrease.
-        arrangePositionOfPane(getTypeDom(entity.span, oldType).find(".textae-editor__entity-pane"));
-      }
-    };
-  })(),
-
-
-  // An entity is a circle on Type that is an endpoint of a relation.
-  // A span have one grid and a grid can have multi types and a type can have multi entities.
-  // A grid is only shown when at least one entity is owned by a correspond span.
-  create = (function () {
-    //render type unless exists.
-    var getTypeElement = (function () {
-      var getUri = function (type) {
-        if (uri.isUri(type)) {
-          return type;
-        } else if (typeContainer.entity.getUri(type)) {
-          return typeContainer.entity.getUri(type);
-        }
-      },
-
-
-      // A Type element has an entity_pane elment that has a label and will have entities.
-      createEmptyTypeDomElement = function (spanId, type) {
-        var typeId = idFactory.makeTypeId(spanId, type);
-
-        // The EntityPane will have entities.
-        var $entityPane = $("<div>").attr("id", "P-" + typeId).addClass("textae-editor__entity-pane");
-
-        // The label over the span.
-        var $typeLabel = $("<div>").addClass("textae-editor__type-label").css({
-          "background-color": typeContainer.entity.getColor(type) });
-
-        // Set the name of the label with uri of the type.
-        var uri = getUri(type);
-        if (uri) {
-          $typeLabel.append($("<a target=\"_blank\"/>").attr("href", uri).text(getDisplayName(type)));
-        } else {
-          $typeLabel.text(getDisplayName(type));
-        }
-
-        return $("<div>").attr("id", typeId).addClass("textae-editor__type").append($typeLabel).append($entityPane); // Set pane after label because pane is over label.
-      },
-          getGrid = function (spanId) {
-        // Create a grid unless it exists.
-        var $grid = domUtil.selector.grid.get(spanId);
-        if ($grid.length === 0) {
-          return gridRenderer.render(spanId);
-        } else {
-          return $grid;
-        }
-      };
-
-      return function (spanId, type) {
-        var $type = getTypeDom(spanId, type);
-        if ($type.length === 0) {
-          $type = createEmptyTypeDomElement(spanId, type);
-          getGrid(spanId).append($type);
-        }
-
-        return $type;
-      };
-    })(),
-        createEntityElement = function (entity) {
-      var $entity = $("<div>").attr("id", idFactory.makeEntityDomId(editor, entity.id)).attr("title", entity.id).attr("type", entity.type).addClass("textae-editor__entity").css({
-        "border-color": typeContainer.entity.getColor(entity.type)
-      });
-
-      // Set css classes for modifications.
-      $entity.addClass(modification.getClasses(entity.id));
-
-      return $entity;
-    };
-
-    return function (entity) {
-      // Replace null to 'null' if type is null and undefined too.
-      entity.type = String(entity.type);
-
-      // Append a new entity to the type
-      var pane = getTypeElement(entity.span, entity.type).find(".textae-editor__entity-pane").append(createEntityElement(entity));
-
-      arrangePositionOfPane(pane);
-    };
-  })(),
-      emitter = new EventEmitter(),
-      createEntityUnlessBlock = function (entity) {
-    if (!typeContainer.entity.isBlock(entity.type)) {
-      create(entity);
-    }
-
-    emitter.emit("render", entity);
-
-    return entity;
-  },
-      selector = require("../Selector")(editor, model),
-      changeTypeOfExists = function (entity) {
-    // Remove an old entity.
-    removeEntityElement(entity);
-
-    // Show a new entity.
-    createEntityUnlessBlock(entity);
-
-    // Re-select a new entity instance.
-    if (model.selectionModel.entity.has(entity.id)) {
-      selector.entity.select(entity.id);
-    }
-
-    return entity;
-  },
-      changeModificationOfExists = function (entity) {
-    var $entity = domUtil.selector.entity.get(entity.id, editor);
-    modification.update($entity, entity.id);
-  },
-      destroy = function (entity) {
-    if (doesSpanHasNoEntity(entity.span)) {
-      // Destroy a grid when all entities are remove.
-      gridRenderer.remove(entity.span);
-    } else {
-      // Destroy an each entity.
-      removeEntityElement(entity);
-    }
-
-    return entity;
-  };
+      emitter = new EventEmitter();
 
   return _.extend(emitter, {
-    render: createEntityUnlessBlock,
-    change: changeTypeOfExists,
-    changeModification: changeModificationOfExists,
-    remove: destroy,
+    render: function (entity) {
+      return createEntityUnlessBlock(editor, model.annotationData.namespace, typeContainer, gridRenderer, modification, emitter, entity);
+    },
+    change: function (entity) {
+      return changeTypeOfExists(editor, model, typeContainer, gridRenderer, modification, emitter, entity);
+    },
+    changeModification: function (entity) {
+      return changeModificationOfExists(editor, modification, entity);
+    },
+    remove: function (entity) {
+      return destroy(editor, model, gridRenderer, entity);
+    },
     getTypeDom: function (entity) {
       return getTypeDom(entity.span, entity.type);
     }
   });
 };
 
+function destroy(editor, model, gridRenderer, entity) {
+  if (doesSpanHasNoEntity(model.annotationData, entity.span)) {
+    // Destroy a grid when all entities are remove.
+    gridRenderer.remove(entity.span);
+  } else {
+    // Destroy an each entity.
+    removeEntityElement(editor, model.annotationData, entity);
+  }
 
-},{"../../util/domUtil":152,"../../util/idFactory":155,"../../util/uri":159,"../Selector":187,"./ModificationRenderer":169,"./getDisplayName":180,"events":37}],167:[function(require,module,exports){
+  return entity;
+}
+
+function changeModificationOfExists(editor, modification, entity) {
+  var $entity = domUtil.selector.entity.get(entity.id, editor);
+  modification.update($entity, entity.id);
+}
+
+function doesSpanHasNoEntity(annotationData, spanId) {
+  return annotationData.span.get(spanId).getTypes().length === 0;
+}
+
+
+},{"../../../util/domUtil":155,"../../../util/idFactory":158,"../../../util/uri":162,"../../Selector":197,"../ModificationRenderer":180,"./changeTypeOfExists":170,"./create":171,"./createEntityUnlessBlock":172,"./getDisplayName":173,"./getTypeDom":174,"./removeEntityElement":177,"events":37}],177:[function(require,module,exports){
+"use strict";
+
+var _interopRequire = function (obj) {
+  return obj && (obj["default"] || obj);
+};
+
+var domUtil = _interopRequire(require("../../../util/domUtil"));
+
+var getTypeDom = _interopRequire(require("./getTypeDom"));
+
+var arrangePositionOfPane = _interopRequire(require("./arrangePositionOfPane"));
+
+module.exports = function (editor, annotationData, entity) {
+  // Get old type from Dom, Because the entity may have new type when changing type of the entity.
+  var oldType = domUtil.selector.entity.get(entity.id, editor).remove().attr("type");
+
+  // Delete type if no entity.
+  if (doesTypeHasNoEntity(annotationData, entity, oldType)) {
+    getTypeDom(entity.span, oldType).remove();
+  } else {
+    // Arrage the position of TypePane, because number of entities decrease.
+    arrangePositionOfPane(getTypeDom(entity.span, oldType).find(".textae-editor__entity-pane"));
+  }
+};
+
+function doesTypeHasNoEntity(annotationData, entity, typeName) {
+  return annotationData.span.get(entity.span).getTypes().filter(function (type) {
+    return type.name === typeName;
+  }).length === 0;
+}
+
+
+},{"../../../util/domUtil":155,"./arrangePositionOfPane":169,"./getTypeDom":174}],178:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
@@ -15254,7 +15526,7 @@ function createGrid(domPositionCache, container, spanId) {
 }
 
 
-},{"../../util/domUtil":152,"./getAnnotationBox":179}],168:[function(require,module,exports){
+},{"../../util/domUtil":155,"./getAnnotationBox":190}],179:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
@@ -15347,7 +15619,7 @@ function bindeToModelEvent(emitter, annotationData, eventName, handler) {
 }
 
 
-},{"../TypeStyle":189,"./EntityRenderer":166,"./GridRenderer":167,"./RenderAll":175,"./SpanRenderer":177,"./getAnnotationBox":179,"./renderModification":185,"./renderSourceDocument":186,"events":37}],169:[function(require,module,exports){
+},{"../TypeStyle":199,"./EntityRenderer":176,"./GridRenderer":178,"./RenderAll":186,"./SpanRenderer":188,"./getAnnotationBox":190,"./renderModification":195,"./renderSourceDocument":196,"events":37}],180:[function(require,module,exports){
 "use strict";
 
 var allModificationClasses = "textae-editor__negation textae-editor__speculation";
@@ -15371,7 +15643,7 @@ function update(annotationData, domElement, objectId) {
 }
 
 
-},{}],170:[function(require,module,exports){
+},{}],181:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
@@ -15392,7 +15664,7 @@ module.exports = function (editor, annotationData, relationId) {
 };
 
 
-},{"../../DomPositionCache":163}],171:[function(require,module,exports){
+},{"../../DomPositionCache":166}],182:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
@@ -15462,7 +15734,7 @@ function resetAllCurviness(editor, annotationData, relations) {
 }
 
 
-},{"./Connect":170,"./determineCurviness":172,"./jsPlumbArrowOverlayUtil":174,"bluebird":3}],172:[function(require,module,exports){
+},{"./Connect":181,"./determineCurviness":183,"./jsPlumbArrowOverlayUtil":185,"bluebird":3}],183:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
@@ -15508,7 +15780,7 @@ function toAnchors(relation) {
 }
 
 
-},{"../../DomPositionCache":163}],173:[function(require,module,exports){
+},{"../../DomPositionCache":166}],184:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
@@ -15866,7 +16138,7 @@ module.exports = function (editor, model, typeContainer) {
 };
 
 
-},{"../../../util/domUtil":152,"../../DomPositionCache":163,"../ModificationRenderer":169,"../getAnnotationBox":179,"./Connect":170,"./arrangePositionAll":171,"./determineCurviness":172,"./jsPlumbArrowOverlayUtil":174,"bluebird":3}],174:[function(require,module,exports){
+},{"../../../util/domUtil":155,"../../DomPositionCache":166,"../ModificationRenderer":180,"../getAnnotationBox":190,"./Connect":181,"./arrangePositionAll":182,"./determineCurviness":183,"./jsPlumbArrowOverlayUtil":185,"bluebird":3}],185:[function(require,module,exports){
 "use strict";
 
 var // Overlay styles for jsPlubm connections.
@@ -15952,7 +16224,7 @@ module.exports = {
 };
 
 
-},{}],175:[function(require,module,exports){
+},{}],186:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
@@ -15992,7 +16264,7 @@ function renderAllRelation(annotationData, relationRenderer) {
 }
 
 
-},{"./getAnnotationBox":179}],176:[function(require,module,exports){
+},{"./getAnnotationBox":190}],187:[function(require,module,exports){
 "use strict";
 
 var createSpanRange = require("./createSpanRange"),
@@ -16047,7 +16319,7 @@ var createSpanRange = require("./createSpanRange"),
 module.exports = RenderSingleSpan;
 
 
-},{"../../util/domUtil":152,"./createSpanRange":178,"./getFirstTextNode":183}],177:[function(require,module,exports){
+},{"../../util/domUtil":155,"./createSpanRange":189,"./getFirstTextNode":193}],188:[function(require,module,exports){
 "use strict";
 
 var exists = function (span) {
@@ -16141,7 +16413,7 @@ module.exports = function (editor, model, typeContainer, entityRenderer, gridRen
 };
 
 
-},{"../../util/domUtil":152,"./RenderSingleSpan":176}],178:[function(require,module,exports){
+},{"../../util/domUtil":155,"./RenderSingleSpan":187}],189:[function(require,module,exports){
 "use strict";
 
 var getPosition = function (span, startOfTextNodeAddSpan) {
@@ -16176,7 +16448,7 @@ var getPosition = function (span, startOfTextNodeAddSpan) {
 module.exports = createSpanRange;
 
 
-},{}],179:[function(require,module,exports){
+},{}],190:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
@@ -16191,44 +16463,7 @@ var getEditorBody = _interopRequire(require("./getEditorBody"));
 module.exports = _.compose(_.partial(getElement, "div", "textae-editor__body__annotation-box"), getEditorBody);
 
 
-},{"./getEditorBody":181,"./getElement":182}],180:[function(require,module,exports){
-"use strict";
-
-var _interopRequire = function (obj) {
-  return obj && (obj["default"] || obj);
-};
-
-var uri = _interopRequire(require("../../util/uri"));
-
-// Display short name for URL(http or https);
-module.exports = function (type) {
-  // For tunning, search the scheme before execute a regular-expression.
-  if (uri.isUri(type)) {
-    var matches = uri.getUrlMatches(type);
-
-    if (matches) {
-      // Order to dispaly.
-      // 1. The anchor without #.
-      if (matches[9]) return matches[9].slice(1);
-
-      // 2. The file name with the extention.
-      if (matches[6]) return matches[6] + (matches[7] || "");
-
-      // 3. The last directory name.
-      // Exclude slash only. cf. http://hoge.com/
-      if (matches[5] && matches[5].length > 1) return matches[5].split("/").filter(function (s) {
-        return s !== "";
-      }).pop();
-
-      // 4. The domain name.
-      return matches[3];
-    }
-  }
-  return type;
-};
-
-
-},{"../../util/uri":159}],181:[function(require,module,exports){
+},{"./getEditorBody":191,"./getElement":192}],191:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
@@ -16241,7 +16476,7 @@ var getElement = _interopRequire(require("./getElement"));
 module.exports = _.partial(getElement, "div", "textae-editor__body");
 
 
-},{"./getElement":182}],182:[function(require,module,exports){
+},{"./getElement":192}],192:[function(require,module,exports){
 "use strict";
 
 module.exports = function (tagName, className, $parent) {
@@ -16254,7 +16489,7 @@ module.exports = function (tagName, className, $parent) {
 };
 
 
-},{}],183:[function(require,module,exports){
+},{}],193:[function(require,module,exports){
 "use strict";
 
 var isTextNode = function () {
@@ -16267,7 +16502,7 @@ var isTextNode = function () {
 module.exports = getFirstTextNode;
 
 
-},{}],184:[function(require,module,exports){
+},{}],194:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
@@ -16291,7 +16526,7 @@ module.exports = function (editor, model, buttonStateHelper, typeContainer, type
 };
 
 
-},{"../DomPositionCache":163,"./Initiator":168}],185:[function(require,module,exports){
+},{"../DomPositionCache":166,"./Initiator":179}],195:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
@@ -16310,7 +16545,7 @@ module.exports = function (annotationData, modelType, modification, renderer, bu
 };
 
 
-},{"../../util/capitalize":151}],186:[function(require,module,exports){
+},{"../../util/capitalize":154}],196:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
@@ -16339,7 +16574,7 @@ createTaggedSourceDoc = function (sourceDoc, paragraphs) {
 module.exports = renderSourceDocument;
 
 
-},{"./getEditorBody":181,"./getElement":182}],187:[function(require,module,exports){
+},{"./getEditorBody":191,"./getElement":192}],197:[function(require,module,exports){
 "use strict";
 
 var selectionClass = require("./selectionClass"),
@@ -16405,7 +16640,7 @@ module.exports = function (editor, model) {
 };
 
 
-},{"../util/domUtil":152,"./DomPositionCache":163,"./selectionClass":194}],188:[function(require,module,exports){
+},{"../util/domUtil":155,"./DomPositionCache":166,"./selectionClass":204}],198:[function(require,module,exports){
 "use strict";
 
 var reduce2hash = require("../util/reduce2hash"),
@@ -16486,7 +16721,7 @@ module.exports = function (model) {
 };
 
 
-},{"../util/reduce2hash":158,"../util/uri":159}],189:[function(require,module,exports){
+},{"../util/reduce2hash":161,"../util/uri":162}],199:[function(require,module,exports){
 "use strict";
 
 module.exports = function (newValue) {
@@ -16497,7 +16732,7 @@ module.exports = function (newValue) {
 };
 
 
-},{}],190:[function(require,module,exports){
+},{}],200:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
@@ -16538,7 +16773,8 @@ module.exports = function (editor, model, buttonController, typeGap, typeContain
       initRenderer(editor, model, display.update, typeGap, typeContainer, buttonController.buttonStateHelper, relationRenderer);
 
       api.updateDisplay = function () {
-        return display.update(typeGap());
+        display.update(typeGap());
+        lineHeight.reduceBottomSpace(editor);
       };
     },
     hoverRelation: hover
@@ -16584,7 +16820,7 @@ function setHandlerOnDisplayEvent(editor, display) {
 }
 
 
-},{"../util/CursorChanger":149,"./Display":162,"./Hover":165,"./Renderer":184,"./Renderer/RelationRenderer":173,"./TypeStyle":189,"./lineHeight":193,"./setSelectionModelHandler":195}],191:[function(require,module,exports){
+},{"../util/CursorChanger":152,"./Display":165,"./Hover":168,"./Renderer":194,"./Renderer/RelationRenderer":184,"./TypeStyle":199,"./lineHeight":203,"./setSelectionModelHandler":205}],201:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
@@ -16622,7 +16858,7 @@ function pullUpGridOverDescendants(getSpan, typeContainer, typeGapValue, span) {
 }
 
 
-},{"./getHeightIncludeDescendantGrids":192}],192:[function(require,module,exports){
+},{"./getHeightIncludeDescendantGrids":202}],202:[function(require,module,exports){
 "use strict";
 
 module.exports = getHeightIncludeDescendantGrids;
@@ -16638,7 +16874,7 @@ function getHeightIncludeDescendantGrids(span, typeContainer, typeGapValue) {
 }
 
 
-},{}],193:[function(require,module,exports){
+},{}],203:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
@@ -16701,7 +16937,7 @@ function setToTypeGap(editor, model, typeContainer, typeGapValue) {
 }
 
 
-},{"./getHeightIncludeDescendantGrids":192}],194:[function(require,module,exports){
+},{"./getHeightIncludeDescendantGrids":202}],204:[function(require,module,exports){
 "use strict";
 
 // Add or Remove class to indicate selected state.
@@ -16720,7 +16956,7 @@ module.exports = (function () {
 })();
 
 
-},{}],195:[function(require,module,exports){
+},{}],205:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
@@ -16741,7 +16977,7 @@ function delay150(func) {
 }
 
 
-},{"./Selector":187}]},{},[87]);
+},{"./Selector":197}]},{},[87]);
 
 //for module pattern with tail.js
 (function(jQuery) { // Application main
