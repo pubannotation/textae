@@ -11,6 +11,9 @@
     }, {
         "prefix": "abc",
         "uri": "https://www.google.co.jp/search?q="
+    }, {
+        "prefix": "http",
+        "uri": "this is ignored"
     }],
     "denotations": [{
         "id": "T1",
@@ -26,6 +29,13 @@
             "end": 172
         },
         "obj": "abc:Protein"
+    }, {
+        "id": "T3",
+        "span": {
+            "begin": 225,
+            "end": 233
+        },
+        "obj": "http://abc.com"
     }],
     "relations": [],
     "modifications": []

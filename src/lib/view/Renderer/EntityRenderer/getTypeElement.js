@@ -6,7 +6,7 @@ import getTypeDom from './getTypeDom';
 
 //render type unless exists.
 export default function(namespace, typeContainer, gridRenderer, spanId, type) {
-    var $type = getTypeDom(spanId, type);
+    let $type = getTypeDom(spanId, type);
     if ($type.length === 0) {
         $type = createEmptyTypeDomElement(namespace, typeContainer, spanId, type);
         getGrid(gridRenderer, spanId).append($type);
@@ -15,21 +15,29 @@ export default function(namespace, typeContainer, gridRenderer, spanId, type) {
     return $type;
 }
 
+function getMatchPrefix(namespace, type) {
+    let namespaces = namespace.all(),
+        matchs = namespaces
+        .filter(namespace => namespace.prefix !== '_base')
+        .filter(namespace => {
+            return type.indexOf(namespace.prefix + ':') === 0;
+        });
+
+    if (matchs.length === 1)
+        return matchs[0];
+
+    return null;
+}
+
 function getUri(namespace, typeContainer, type) {
     if (uri.isUri(type)) {
         return type;
     } else if (typeContainer.entity.getUri(type)) {
         return typeContainer.entity.getUri(type);
     } else if (namespace.some()) {
-        let namespaces = namespace.all();
-
-        let matchs = namespaces
-            .filter(namespace => namespace.prefix !== '_base')
-            .filter(namespace => {
-                return type.indexOf(namespace.prefix + ':') === 0;
-            });
-        if (matchs.length === 1) {
-            return matchs[0].uri + type.replace(matchs[0].prefix + ':', '');
+        let match = getMatchPrefix(namespace, type);
+        if (match) {
+            return match.uri + type.replace(match.prefix + ':', '');
         }
 
         let base = namespace.all().filter(namespace => namespace.prefix === '_base');
@@ -41,33 +49,46 @@ function getUri(namespace, typeContainer, type) {
     return null;
 }
 
+function setLabelName(typeLabel, namespace, typeContainer, type) {
+    let displayName,
+        match = getMatchPrefix(namespace, type);
+
+    if (uri.isUri(type)) {
+        displayName = getDisplayName(type);
+    } else if (match) {
+        displayName = type.replace(match.prefix + ':', '');
+    } else {
+        displayName = type;
+    }
+
+    let child,
+        href = getUri(namespace, typeContainer, type);
+    if (href) {
+        child = `<a target="_blank"/ href="${href}">${displayName}</a>`;
+    } else {
+        child = displayName;
+    }
+
+    typeLabel.innerHTML = child;
+}
+
 // A Type element has an entity_pane elment that has a label and will have entities.
 function createEmptyTypeDomElement(namespace, typeContainer, spanId, type) {
-    var typeId = idFactory.makeTypeId(spanId, type);
+    let typeId = idFactory.makeTypeId(spanId, type);
 
     // The EntityPane will have entities.
-    var $entityPane = $('<div>')
+    let $entityPane = $('<div>')
         .attr('id', 'P-' + typeId)
         .addClass('textae-editor__entity-pane');
 
     // The label over the span.
-    var $typeLabel = $('<div>')
+    let $typeLabel = $('<div>')
         .addClass('textae-editor__type-label')
         .css({
             'background-color': typeContainer.entity.getColor(type),
         });
 
-    // Set the name of the label with uri of the type.
-    var uri = getUri(namespace, typeContainer, type);
-    if (uri) {
-        $typeLabel.append(
-            $('<a target="_blank"/>')
-            .attr('href', uri)
-            .text(getDisplayName(type))
-        );
-    } else {
-        $typeLabel.text(getDisplayName(type));
-    }
+    setLabelName($typeLabel[0], namespace, typeContainer, type);
 
     return $('<div>')
         .attr('id', typeId)
@@ -78,7 +99,7 @@ function createEmptyTypeDomElement(namespace, typeContainer, spanId, type) {
 
 function getGrid(gridRenderer, spanId) {
     // Create a grid unless it exists.
-    var $grid = domUtil.selector.grid.get(spanId);
+    let $grid = domUtil.selector.grid.get(spanId);
     if ($grid.length === 0) {
         return gridRenderer.render(spanId);
     } else {
