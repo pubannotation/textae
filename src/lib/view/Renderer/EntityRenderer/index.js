@@ -21,6 +21,7 @@ export default function(editor, model, typeContainer, gridRenderer) {
     return _.extend(emitter, {
         render: (entity) => createEntityUnlessBlock(
             editor,
+            model.annotationData.namespace,
             typeContainer,
             gridRenderer,
             modification,

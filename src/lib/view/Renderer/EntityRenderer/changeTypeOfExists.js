@@ -15,6 +15,7 @@ export default function(editor, model, typeContainer, gridRenderer, modification
     // Show a new entity.
     createEntityUnlessBlock(
         editor,
+        model.annotationData.namespace,
         typeContainer,
         gridRenderer,
         modification,
