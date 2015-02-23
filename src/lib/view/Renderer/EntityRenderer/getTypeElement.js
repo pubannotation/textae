@@ -63,8 +63,8 @@ function setLabelName(typeLabel, namespace, typeContainer, type) {
 
     let child,
         href = getUri(namespace, typeContainer, type);
+
     if (href) {
-        console.log(href);
         child = `<a target="_blank"/ href="${href}">${displayName}</a>`;
     } else {
         child = displayName;
