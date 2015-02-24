@@ -30,7 +30,7 @@ module.exports = function(editor, confirmDiscardChangeMessage) {
                 dataSourceUrl = urlToJson;
             }, function() {
                 cursorChanger.endWait();
-                alert("connection failed.");
+                toastr.error("Could not load the target.");
             });
         },
         //load/saveDialog
