@@ -1,85 +1,39 @@
-import validate from './validate';
+import validateDenotation from './validateDenotation';
+import validateRelation from './validateRelation';
+import validateModificatian from './validateModificatian';
 
 export default function(text, paragraph, annotation) {
-    const resultDenotationHasLength = validate(
-            annotation.denotations,
-            hasLength
+    const resultDenotation = validateDenotation(
+            text,
+            paragraph,
+            annotation.denotations
         ),
-        resultDenotationInText = validate(
-            resultDenotationHasLength.accept,
-            isBeginAndEndIn,
-            text
+        resultRelation = validateRelation(
+            resultDenotation.accept,
+            annotation.relations
         ),
-        resultDenotationInParagraph = validate(
-            resultDenotationInText.accept,
-            isInParagraph,
-            paragraph
-        ),
-        resultRelationObj = validate(
-            annotation.relations,
-            isContains, {
-                property: 'obj',
-                dictionary: resultDenotationInParagraph.accept
-            }),
-        resultRelationSubj = validate(
-            resultRelationObj.accept,
-            isContains, {
-                property: 'subj',
-                dictionary: resultDenotationInParagraph.accept
-            }),
-        resultModification = validate(
-            annotation.modifications,
-            isContains, {
-                property: 'obj',
-                dictionary: _.union(resultDenotationInParagraph.accept, resultRelationSubj.accept)
-            });
+        resultModification = validateModificatian(
+            resultDenotation.accept,
+            resultRelation.accept,
+            annotation.modifications
+        );
 
     return {
         accept: {
-            denotation: resultDenotationInParagraph.accept,
-            relation: resultRelationSubj.accept,
+            denotation: resultDenotation.accept,
+            relation: resultRelation.accept,
             modification: resultModification.accept
         },
         reject: {
-            denotationHasLength: resultDenotationHasLength.reject,
-            denotationInText: resultDenotationInText.reject,
-            denotationInParagraph: resultDenotationInParagraph.reject,
-            relationObj: resultRelationObj.reject,
-            relationSubj: resultRelationSubj.reject,
-            modification: resultModification.reject,
-            hasError: (resultDenotationHasLength.reject.length +
-                resultDenotationInText.reject.length +
-                resultDenotationInParagraph.reject.length +
-                resultRelationObj.reject.length +
-                resultRelationSubj.reject.length +
-                resultModification.reject.length) !== 0
+            denotationHasLength: resultDenotation.reject.hasLength,
+            denotationInText: resultDenotation.reject.inText,
+            denotationInParagraph: resultDenotation.reject.inParagraph,
+            relationObj: resultRelation.reject.obj,
+            relationSubj: resultRelation.reject.subj,
+            modification: resultModification.reject.modification,
+            hasError: resultDenotation.hasError ||
+                resultRelation.hasError ||
+                resultModification.hasError
         }
     };
-}
-
-function hasLength(denotation) {
-    return denotation.span.end - denotation.span.begin > 0;
-}
-
-function isInText(boundary, text) {
-    return 0 <= boundary && boundary <= text.length;
-}
-
-function isBeginAndEndIn(denotation, text) {
-    return isInText(denotation.span.begin, text) &&
-        isInText(denotation.span.end, text);
-}
-
-function isInParagraph(denotation, paragraph) {
-    return paragraph.all()
-        .filter(p => p.begin <= denotation.span.begin && denotation.span.end <= p.end)
-        .length === 1;
-}
-
-function isContains(data, opt) {
-    if (!opt.dictionary) return false;
-
-    return opt.dictionary
-        .filter(entry => entry.id === data[opt.property])
-        .length === 1;
 }
