@@ -30,20 +30,20 @@ function Writable() {
 
 function bindResetEvent(annotationData, history, writable) {
     annotationData
-    .on('all.change', (annotationData, multitrack, reject) => {
-        history.reset();
+        .on('all.change', (annotationData, multitrack, reject) => {
+            history.reset();
 
-        showVilidationDialog(self, reject);
+            showVilidationDialog(self, reject);
 
-        if(multitrack)
-            toastr.success("track annotations have been merged to root annotations.");
+            if (multitrack)
+                toastr.success("track annotations have been merged to root annotations.");
 
-        if (multitrack || hasError(reject)) {
-            writable.forceModified(true);
-        } else {
-            writable.forceModified(false);
-        }
-    });
+            if (multitrack || hasError(reject)) {
+                writable.forceModified(true);
+            } else {
+                writable.forceModified(false);
+            }
+        });
 }
 
 function bindChangeEvent(history, buttonStateHelper, leaveMessage, writable) {
