@@ -1,4 +1,4 @@
-import Reject from '../../../../Reject';
+import Reject from './Reject';
 
 export default function(values, predicate, predicateOption) {
     if (!values) return new Reject();

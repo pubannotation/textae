@@ -1,6 +1,9 @@
 import Observable from "observ";
 import showVilidationDialog from './component/showVilidationDialog';
-import hasError from './Reject/hasError';
+import {
+    hasError as hasError
+}
+from './model/AnnotationData/parseAnnotation/validateAnnotation';
 
 export default function(annotationData, history, buttonStateHelper, leaveMessage, dataAccessObject) {
     var writable = new Writable();

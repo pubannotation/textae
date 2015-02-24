@@ -1,5 +1,8 @@
 import Handlebars from 'handlebars';
-import hasError from '../Reject/hasError';
+import {
+    hasError as hasError
+}
+from '../model/AnnotationData/parseAnnotation/validateAnnotation';
 import GetEditorDialog from './dialog/GetEditorDialog';
 
 const source = `
