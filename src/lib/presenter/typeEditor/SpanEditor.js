@@ -10,7 +10,7 @@ var idFactory = require('../../util/idFactory'),
     removeSpan = function(command, spanId) {
         return [command.factory.spanRemoveCommand(spanId)];
     },
-    isBoundaryCrossingWithOtherSpans = require('../../model/isBoundaryCrossingWithOtherSpans'),
+    isBoundaryCrossingWithOtherSpans = require('../../model/AnnotationData/parseAnnotation/validateAnnotation').isBoundaryCrossingWithOtherSpans,
     isAlreadySpaned = require('../../model/isAlreadySpaned'),
     DoCreate = function(model, command, typeContainer, spanManipulater, isDetectDelimiterEnable, isReplicateAuto, data) {
         var BLOCK_THRESHOLD = 100,

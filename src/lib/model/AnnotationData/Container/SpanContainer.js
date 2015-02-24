@@ -84,7 +84,7 @@ module.exports = function(editor, emitter, paragraph) {
                     spanExtension);
             };
         }(),
-        isBoundaryCrossingWithOtherSpans = require('../../isBoundaryCrossingWithOtherSpans'),
+        isBoundaryCrossingWithOtherSpans = require('../parseAnnotation/validateAnnotation').isBoundaryCrossingWithOtherSpans,
         mappingFunction = function(denotations) {
             denotations = denotations || [];
             return denotations.map(function(entity) {

@@ -31,7 +31,7 @@ var getSpansTheirStringIsSameWith = function(sourceDoc, originSpan) {
         return !val;
     },
     isAlreadySpaned = require('../model/isAlreadySpaned'),
-    isBoundaryCrossingWithOtherSpans = require('../model/isBoundaryCrossingWithOtherSpans');
+	isBoundaryCrossingWithOtherSpans = require('../model/AnnotationData/parseAnnotation/validateAnnotation').isBoundaryCrossingWithOtherSpans;
 
 // Check replications are word or not if spanConfig is set.
 module.exports = function(dataStore, originSpan, detectBoundaryFunc) {
