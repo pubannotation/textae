@@ -27,19 +27,6 @@ module.exports = function(editor, emitter, paragraph) {
 
                     return this.toStringOnlyThis() + childrenString;
                 },
-                // A big brother is brother node on a structure at rendered.
-                // There is no big brother if the span is first in a paragraph.
-                // Warning: parent is set at updateSpanTree, is not exists now.
-                getBigBrother: function() {
-                    var index;
-                    if (this.parent) {
-                        index = this.parent.children.indexOf(this);
-                        return index === 0 ? null : this.parent.children[index - 1];
-                    } else {
-                        index = spanTopLevel.indexOf(this);
-                        return index === 0 || spanTopLevel[index - 1].paragraph !== this.paragraph ? null : spanTopLevel[index - 1];
-                    }
-                },
                 // Get online for update is not grantieed.
                 getTypes: function() {
                     var spanId = this.id;
@@ -174,6 +161,7 @@ module.exports = function(editor, emitter, paragraph) {
             get: function(spanId) {
                 return spanContainer.get(spanId);
             },
+            getBigBrother: getBigBrother,
             all: spanContainer.all,
             range: function(firstId, secondId) {
                 var first = spanContainer.get(firstId);
@@ -216,3 +204,17 @@ module.exports = function(editor, emitter, paragraph) {
 
     return api;
 };
+
+// A big brother is brother node on a structure at rendered.
+// There is no big brother if the span is first in a paragraph.
+// Warning: parent is set at updateSpanTree, is not exists now.
+function getBigBrother(span, spanTopLevel) {
+    let index;
+    if (span.parent) {
+        index = span.parent.children.indexOf(span);
+        return index === 0 ? null : span.parent.children[index - 1];
+    } else {
+        index = spanTopLevel.indexOf(span);
+        return index === 0 || spanTopLevel[index - 1].paragraph !== span.paragraph ? null : spanTopLevel[index - 1];
+    }
+}

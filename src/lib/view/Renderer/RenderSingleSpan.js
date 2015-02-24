@@ -8,7 +8,7 @@ var createSpanRange = require('./createSpanRange'),
     return element;
   },
   domUtil = require('../../util/domUtil'),
-  RenderSingleSpan = function(editor) {
+  RenderSingleSpan = function(editor, spanContainer) {
     var getFirstTextNodeFromSpan = _.compose(getFirstTextNode, domUtil.selector.span.get),
       getFirstTextNodeFromParagraph = _.compose(getFirstTextNode, function(id) {
         return $('#' + id);
@@ -17,7 +17,7 @@ var createSpanRange = require('./createSpanRange'),
       // This function works well when no child span is rendered.
       getRangeToInsertSpanTag = function(span) {
         // The parent of the bigBrother is same with span, which is a span or the root of spanTree.
-        var bigBrother = span.getBigBrother();
+        var bigBrother = spanContainer.getBigBrother(span, spanContainer.topLevel());
         if (bigBrother) {
           // The target text arrounded by span is in a textNode after the bigBrother if bigBrother exists.
           return createSpanRange(document.getElementById(bigBrother.id).nextSibling, bigBrother.end, span);

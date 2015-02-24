@@ -15,7 +15,7 @@ var exists = function(span) {
   domUtil = require('../../util/domUtil');
 
 module.exports = function(editor, model, typeContainer, entityRenderer, gridRenderer) {
-  var renderSingleSpan = require('./RenderSingleSpan')(editor),
+  var renderSingleSpan = require('./RenderSingleSpan')(editor, model.annotationData.span),
     renderBlockOfSpan = function(span, clearCache) {
       var $span = domUtil.selector.span.get(span.id);
 
