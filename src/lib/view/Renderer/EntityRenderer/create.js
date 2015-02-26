@@ -10,15 +10,24 @@ export default function(editor, namspace, typeContainer, gridRenderer, modificat
     entity.type = String(entity.type);
 
     // Append a new entity to the type
-    var pane = getTypeElement(namspace, typeContainer, gridRenderer, entity.span, entity.type)
-        .find('.textae-editor__entity-pane')
-        .append(createEntityElement(editor, typeContainer, modification, entity));
+    let $pane = getTypeElement(
+            namspace,
+            typeContainer,
+            gridRenderer,
+            entity.span,
+            entity.type
+        )
+        .find('.textae-editor__entity-pane'),
+        entityDomId = idFactory.makeEntityDomId(editor, entity.id);
 
-    arrangePositionOfPane(pane);
+    if ($pane.find('#' + entityDomId).length === 0) {
+        $pane.append(createEntityElement(editor, typeContainer, modification, entity));
+        arrangePositionOfPane($pane);
+    }
 }
 
 function createEntityElement(editor, typeContainer, modification, entity) {
-    var $entity = $('<div>')
+    let $entity = $('<div>')
         .attr('id', idFactory.makeEntityDomId(editor, entity.id))
         .attr('title', entity.id)
         .attr('type', entity.type)

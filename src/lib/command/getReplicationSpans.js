@@ -3,6 +3,7 @@ import {
     isBoundaryCrossingWithOtherSpans as isBoundaryCrossingWithOtherSpans
 }
 from '../model/AnnotationData/parseAnnotation/validateAnnotation';
+import not from '../util/not';
 
 // Check replications are word or not if spanConfig is set.
 export default function(dataStore, originSpan, detectBoundaryFunc) {
@@ -61,8 +62,4 @@ function isWord(sourceDoc, detectBoundaryFunc, candidateSpan) {
         followingChar = sourceDoc.charAt(candidateSpan.end);
 
     return detectBoundaryFunc(precedingChar) && detectBoundaryFunc(followingChar);
-}
-
-function not(val) {
-    return !val;
 }

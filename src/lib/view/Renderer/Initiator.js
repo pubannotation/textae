@@ -15,7 +15,11 @@ export default function(domPositionCaChe, relationRenderer, buttonStateHelper, t
     var emitter = new EventEmitter(),
         gridRenderer = new GridRenderer(editor, domPositionCaChe),
         entityRenderer = new EntityRenderer(editor, model, typeContainer, gridRenderer),
-        spanRenderer = new SpanRenderer(editor, model, typeContainer, entityRenderer, gridRenderer);
+        spanRenderer = new SpanRenderer(
+            model,
+            typeContainer.entity.isBlock,
+            entityRenderer.render
+        );
 
     entityRenderer.on('render', entity => entityRenderer.getTypeDom(entity).css(new TypeStyle(typeGap())));
 
@@ -36,9 +40,10 @@ export default function(domPositionCaChe, relationRenderer, buttonStateHelper, t
                 renderAll(annotationData);
                 selectionModel.clear();
             }],
-            ['span.add', span => spanRenderer.render(span)],
+            ['span.add', spanRenderer.render],
             ['span.remove', span => {
                 spanRenderer.remove(span);
+                gridRenderer.remove(span.id);
                 selectionModel.span.remove(modelToId(span));
             }],
             ['entity.add', entity => {
