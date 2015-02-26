@@ -1,5 +1,3 @@
-var domUtil = require('../../util/domUtil');
-
 module.exports = function(editor, model) {
 	var selectPosition = require('./selectPosition'),
 		// A span cannot be created include nonEdgeCharacters only.
@@ -82,10 +80,6 @@ module.exports = function(editor, model) {
 		isFocusInSelectedSpan = function(selection) {
 			return isInSelectedSpan(selectPosition.getFocusPosition(model.annotationData, selection));
 		},
-		isSelectedSpanOneDownUnderFocus = function(selection) {
-			var selectedSpanId = model.selectionModel.span.single();
-			return domUtil.selector.span.get(selectedSpanId).parent().attr('id') === selection.focusNode.parentNode.id;
-		},
 		isLongerThanParentSpan = function(selection) {
 			var $getAnchorNodeParent = getAnchorNodeParent(selection),
 				focusPosition = selectPosition.getFocusPosition(model.annotationData, selection);
@@ -120,7 +114,6 @@ module.exports = function(editor, model) {
 		isAnchorInSelectedSpan: isAnchorInSelectedSpan,
 		isFocusOnSelectedSpan: isFocusOnSelectedSpan,
 		isFocusInSelectedSpan: isFocusInSelectedSpan,
-		isSelectedSpanOneDownUnderFocus: isSelectedSpanOneDownUnderFocus,
 		isLongerThanParentSpan: isLongerThanParentSpan,
 		isShorterThanChildSpan: isShorterThanChildSpan
 	};
