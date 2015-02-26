@@ -2,11 +2,11 @@ import create from './create';
 import destroy from './destroy';
 import renderClassOfSpan from './renderClassOfSpan';
 
-export default function(model, isBlockFunc, renderEntityFunc) {
+export default function(annotationData, isBlockFunc, renderEntityFunc) {
     return {
         render: span => create(
             span,
-            model.annotationData,
+            annotationData,
             isBlockFunc,
             renderEntityFunc
         ),
