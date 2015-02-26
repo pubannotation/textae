@@ -10,10 +10,13 @@ export default function(editor, model, jsPlumbInstance) {
                 // For tuning
                 // var startTime = new Date();
 
+                // Extract relations removed, because relation dom is not synchro with the model.
+                let relations = model.annotationData.relation.all().filter(r => !r.removed);
+
                 resetAllCurviness(
                     editor,
                     model.annotationData,
-                    model.annotationData.relation.all()
+                    relations
                 );
                 jsPlumbInstance.repaintEverything();
                 reselectAll(

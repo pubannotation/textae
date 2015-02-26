@@ -356,6 +356,9 @@ module.exports = function(editor, model, typeContainer) {
 
             // Set the flag dead already to delay selection.
             connect.dead = true;
+
+            // Set a flag to extract relations from target to move relations asynchronously.
+            relation.removed = true;
         },
         init = function(editor) {
             var container = getAnnotationBox(editor);
