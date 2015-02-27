@@ -28,7 +28,7 @@ export default function(editor) {
 }
 
 function mapRelations(relations) {
-    return relations.map((r) => {
+    return relations.map(r => {
         return {
             id: r.id,
             type: r.pred,
