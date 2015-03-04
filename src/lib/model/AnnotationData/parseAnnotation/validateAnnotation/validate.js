@@ -5,18 +5,20 @@ export default function(values, predicate, predicateOption) {
 
     return values
         .reduce(
-            (result, target) => acceptIf(
+            (result, target, index, array) => acceptIf(
                 predicate,
                 predicateOption,
                 result,
-                target
+                target,
+                index,
+                array
             ),
             new Reject()
         );
 }
 
-function acceptIf(predicate, predicateOption, result, target) {
-    if (predicate(target, predicateOption)) {
+function acceptIf(predicate, predicateOption, result, target, index, array) {
+    if (predicate(target, predicateOption, index, array)) {
         result.accept.push(target);
     } else {
         result.reject.push(target);

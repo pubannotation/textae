@@ -1,4 +1,5 @@
 import validate from './validate';
+import isBoundaryCrossingWithOtherSpans from './isBoundaryCrossingWithOtherSpans';
 
 export default function(text, paragraph, denotations) {
     const resultHasLength = validate(
@@ -14,19 +15,29 @@ export default function(text, paragraph, denotations) {
             resultInText.accept,
             isInParagraph,
             paragraph
+        ),
+        resultIsNotCrossing = validate(
+            resultInParagraph.accept, (denotation, opt, index, array) => {
+                let others = array.slice(0, index).map(d => d.span),
+                    isInvalid = isBoundaryCrossingWithOtherSpans(others, denotation.span);
+
+                return !isInvalid;
+            }
         );
 
     return {
-        accept: resultInParagraph.accept,
+        accept: resultIsNotCrossing.accept,
         reject: {
             hasLength: resultHasLength.reject,
             inText: resultInText.reject,
-            inParagraph: resultInParagraph.reject
+            inParagraph: resultInParagraph.reject,
+            isNotCrossing: resultIsNotCrossing.reject
         },
         hasError: (
             resultHasLength.reject.length +
             resultInText.reject.length +
-            resultInParagraph.reject.length
+            resultInParagraph.reject.length +
+            resultIsNotCrossing.reject.length
         ) !== 0
     };
 }

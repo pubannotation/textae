@@ -54,6 +54,29 @@ const source = `
                 </tbody>
             </table>
         {{/if}}
+        {{#if denotationIsNotCrossing}}
+            <table>
+                <caption>Spans with boundary-cross.</caption>
+                <thead>
+                    <tr>
+                        <th class="id">id</th>
+                        <th class="range">begin</th>
+                        <th class="range">end</th>
+                        <th>obj</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#denotationIsNotCrossing}}
+                    <tr>
+                        <td>{{id}}</td>
+                        <td class="alert">{{span.begin}}</td>
+                        <td class="alert">{{span.end}}</td>
+                        <td>{{obj}}</td>
+                    </tr>
+                    {{/denotationIsNotCrossing}}
+                </tbody>
+            </table>
+        {{/if}}
         {{#if denotationInParagraph}}
             <table>
                 <caption>Spans across paragraphs (newline-delimited).</caption>
