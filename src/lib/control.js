@@ -38,22 +38,20 @@ const BUTTON_MAP = [{
 // This can controls mulitple instance of editor.
 export default function($control) {
     // This contains buttons and event definitions like as {'buttonType' : { instance: $button, eventValue : 'textae.control.button.read.click' }}
-    let buttonContainer = makeButtons($control, BUTTON_MAP),
+    let buttonList = makeButtons($control, BUTTON_MAP),
         updateAllButtonEnableState = enableButtons => {
-            // Make buttons in a enableButtons enabled, and other buttons in the buttonContainer disabled.
-            let enables = _.extend({}, buttonContainer, ALWAYS_ENABLES, enableButtons);
+            // Make buttons in a enableButtons enabled, and other buttons in the buttonList disabled.
+            let enables = _.extend({}, buttonList, ALWAYS_ENABLES, enableButtons);
 
             // A function to enable/disable button.
-            updateButtons($control, buttonContainer, enables);
+            updateButtons($control, buttonList, enables);
         },
         // Update button push state.
-        updateButtonPushState = (bottonType, isPushed) => {
-            let button = buttonContainer[bottonType];
-
+        updateButtonPushState = (buttonType, isPushed) => {
             if (isPushed) {
-                cssUtil.push(button);
+                cssUtil.push($control, buttonType);
             } else {
-                cssUtil.unpush(button);
+                cssUtil.unpush($control, buttonType);
             }
         };
 
@@ -99,19 +97,19 @@ function makeButtons($control, buttonMap) {
             .concat([new SeparatorDom()])
             .concat(buttons.map(button => button[1])), []
         ),
-        buttonContainer = buttonGroups.reduce((buttonContainer, buttons) => {
-            return buttons.reduce((buttonContainer, button) => {
-                buttonContainer[button[0]] = button[1];
+        buttonList = buttonGroups.reduce((buttonList, buttons) => {
+            return buttons.reduce((buttonList, button) => {
+                buttonList[button[0]] = 1;
 
-                return buttonContainer;
-            }, buttonContainer);
+                return buttonList;
+            }, buttonList);
         }, {});
 
     $control
         .append(new TitleDom())
         .append($('<span>').append(icons));
 
-    return buttonContainer;
+    return buttonList;
 }
 
 function enableButton($control, buttonType) {
@@ -147,9 +145,9 @@ function setButtonApearanceAndEventHandler($control, buttonType, enable) {
 }
 
 // A parameter can be spesified by object like { 'buttonType1': true, 'buttonType2': false }.
-function updateButtons($control, buttonContainer, buttonEnables) {
+function updateButtons($control, buttonList, buttonEnables) {
     Object.keys(buttonEnables)
-        .filter(buttonType => buttonContainer[buttonType])
+        .filter(buttonType => buttonList[buttonType])
         .forEach(buttonType => setButtonApearanceAndEventHandler(
             $control,
             buttonType,
