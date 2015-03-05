@@ -23,7 +23,7 @@ module.exports = function(editor, model, spanConfig, command, modeAccordingToBut
         };
 
     // Bind events.
-    elementEditor.bind('cancel.select', cancelSelect);
+    elementEditor.on('cancel.select', cancelSelect);
 
     pallet
         .bind('type.select', function(label) {

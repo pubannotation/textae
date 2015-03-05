@@ -1,4 +1,8 @@
-var dismissBrowserSelection = require('./dismissBrowserSelection');
+import {
+    EventEmitter as EventEmitter
+}
+from 'events';
+import dismissBrowserSelection from './dismissBrowserSelection';
 
 module.exports = function(editor, model, spanConfig, command, modeAccordingToButton, typeContainer) {
     var handler = {
@@ -9,7 +13,7 @@ module.exports = function(editor, model, spanConfig, command, modeAccordingToBut
             // A Swithing point to change a behavior when relation is clicked.
             jsPlumbConnectionClicked: null
         },
-        emitter = require('../../util/extendBindable')({}),
+        emitter = new EventEmitter(),
         unbindAllEventhandler = function() {
             return editor
                 .off('mouseup', '.textae-editor__body')
@@ -45,7 +49,7 @@ module.exports = function(editor, model, spanConfig, command, modeAccordingToBut
             return snapShot;
         },
         cancelSelect = function() {
-            emitter.trigger('cancel.select');
+            emitter.emit('cancel.select');
         },
         noEdit = function() {
             unbindAllEventhandler();
@@ -279,12 +283,14 @@ module.exports = function(editor, model, spanConfig, command, modeAccordingToBut
             };
         }();
 
-    return _.extend({
-        handler: handler,
-        start: {
-            noEdit: noEdit,
-            editRelation: editRelation,
-            editEntity: editEntity
+    return _.extend(
+        emitter, {
+            handler: handler,
+            start: {
+                noEdit: noEdit,
+                editRelation: editRelation,
+                editEntity: editEntity
+            }
         }
-    }, emitter);
+    );
 };
