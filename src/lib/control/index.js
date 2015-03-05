@@ -4,9 +4,9 @@ import updateButtons from './updateButtons';
 
 // Buttons that always eanable.
 const ALWAYS_ENABLES = {
-        'read': true,
-        'help': true
-    };
+    'read': true,
+    'help': true
+};
 
 // The control is a control bar to edit.
 // This can controls mulitple instance of editor.
@@ -46,34 +46,34 @@ function TitleDom() {
     return $(TITLE);
 }
 
-function ButtonDom(buttonType, title) {
-    const BUTTON = `
+function toButtonHTML(buttonType, title) {
+    let html = `
     <span class="textae-control__icon textae-control__${buttonType}-button ${buttonType}" title="${title}">
     `;
 
-    return $(BUTTON);
+    return html;
 }
 
-function SeparatorDom() {
-    return $('<span class="textae-control__separator">');
+function toSeparatorHTML() {
+    return '<span class="textae-control__separator">';
 }
 
 function makeButtons($control, buttonMap) {
-    let buttonGroups = buttonMap.map(params => Object.keys(params)
-            .map(buttonType => [
-                buttonType,
-                new ButtonDom(buttonType, params[buttonType])
-            ])
+    let buttonGroups = buttonMap.map(group => Object.keys(group)
+            .map(buttonType => $(toButtonHTML(buttonType, group[buttonType])))
         ),
         // Make a group of buttons that is headed by the separator.
         icons = buttonGroups.reduce(
             (ary, buttons) => ary
-            .concat([new SeparatorDom()])
-            .concat(buttons.map(button => button[1])), []
+            .concat([$(toSeparatorHTML())])
+            .concat(buttons), []
         ),
-        buttonList = buttonGroups.reduce((buttonList, buttons) => {
+        buttonList = buttonMap
+        .map(group => Object.keys(group))
+        .reduce((buttonList, buttons) => {
             return buttons.reduce((buttonList, button) => {
-                buttonList[button[0]] = 1;
+                // Trick for merge outer parametr to enable or disable buttons
+                buttonList[button] = 1;
 
                 return buttonList;
             }, buttonList);
