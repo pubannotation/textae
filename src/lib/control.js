@@ -1,142 +1,54 @@
-var TitleDom = function() {
-        return $('<span>')
-            .addClass('textae-control__title')
-            .append($('<a>')
-                .attr({
-                    href: 'http://textae.pubannotation.org/',
-                    target: '_blank'
-                })
-                .text('TextAE'));
+import cssUtil from './iconCssUtil';
+
+const BUTTON_MAP = [{
+        'read': 'Import [I]',
+        'write': 'Upload [U]'
+    }, {
+        'undo': 'Undo [Z]',
+        'redo': 'Redo [A]'
+    }, {
+        'replicate': 'Replicate span annotation [R]',
+        'replicate-auto': 'Auto replicate',
+        'boundary-detection': 'Boundary Detection [B]',
+        'relation-edit-mode': 'Relation Edit Mode [F]'
+    }, {
+        'entity': 'New entity [E]',
+        'pallet': 'Select label [Q]',
+        'change-label': 'Change label [W]'
+    }, {
+        'negation': 'Negation [X]',
+        'speculation': 'Speculation [S]'
+    }, {
+        'delete': 'Delete [D]',
+        'copy': 'Copy [C]',
+        'paste': 'Paste [V]'
+    }, {
+        'setting': 'Setting'
+    }, {
+        'help': 'Help [H]'
+    }],
+    // Buttons that always eanable.
+    ALWAYS_ENABLES = {
+        'read': true,
+        'help': true
     },
-    ButtonDom = function(buttonType, title) {
-        return $('<span>')
-            .addClass('textae-control__icon')
-            .addClass('textae-control__' + buttonType + '-button')
-            .attr('title', title);
-    },
-    SeparatorDom = function() {
-        return $('<span>').addClass('textae-control__separator');
-    },
-    makeButtons = function($control, buttonMap) {
-        var buttonContainer = {},
-            // Make a group of buttons that is headed by the separator.
-            icons = _.flatten(buttonMap.map(function(params) {
-                var buttons = _.map(params, function(title, buttonType) {
-                    var button = new ButtonDom(buttonType, title);
-
-                    buttonContainer[buttonType] = {
-                        instance: button,
-                        eventValue: 'textae.control.button.' + buttonType.replace(/-/g, '_') + '.click'
-                    };
-
-                    return button;
-                });
-
-                return [new SeparatorDom()]
-                    .concat(buttons);
-            }));
-
-        $control
-            .append(new TitleDom())
-            .append($('<span>').append(icons));
-
-        return buttonContainer;
-    },
-    // Utility functions to change appearance of bunttons.
-    cssUtil = {
-        enable: function($button) {
-            $button.removeClass('textae-control__icon--disabled');
-        },
-        disable: function($button) {
-            $button.addClass('textae-control__icon--disabled');
-        },
-        isDisable: function($button) {
-            return $button.hasClass('textae-control__icon--disabled');
-        },
-        push: function($button) {
-            $button.addClass('textae-control__icon--pushed');
-        },
-        unpush: function($button) {
-            $button.removeClass('textae-control__icon--pushed');
-        },
-        isPushed: function($button) {
-            return $button.hasClass('textae-control__icon--pushed');
-        }
-    },
-    setButtonApearanceAndEventHandler = function(button, enable, eventHandler) {
-        var event = 'click';
-
-        // Set apearance and eventHandler to button.
-        if (enable === true) {
-            button
-                .off(event)
-                .on(event, eventHandler);
-            cssUtil.enable(button);
-        } else {
-            button.off(event);
-            cssUtil.disable(button);
-        }
-    },
-    // A parameter can be spesified by object like { 'buttonName1': true, 'buttonName2': false }.
-    updateButtons = function(buttonContainer, clickEventHandler, buttonEnables) {
-        _.each(buttonEnables, function(enable, buttonName) {
-            var button = buttonContainer[buttonName],
-                eventHandler = function() {
-                    clickEventHandler(button.eventValue);
-                    return false;
-                };
-
-            if (button) setButtonApearanceAndEventHandler(button.instance, enable, eventHandler);
-        });
-    };
+    EVENT = 'click';
 
 // The control is a control bar to edit.
 // This can controls mulitple instance of editor.
-module.exports = function($control) {
+export default function($control) {
     // This contains buttons and event definitions like as {'buttonName' : { instance: $button, eventValue : 'textae.control.button.read.click' }}
-    var buttonContainer = makeButtons($control, [{
-            'read': 'Import [I]',
-            'write': 'Upload [U]'
-        }, {
-            'undo': 'Undo [Z]',
-            'redo': 'Redo [A]'
-        }, {
-            'replicate': 'Replicate span annotation [R]',
-            'replicate-auto': 'Auto replicate',
-            'boundary-detection': 'Boundary Detection [B]',
-            'relation-edit-mode': 'Relation Edit Mode [F]'
-        }, {
-            'entity': 'New entity [E]',
-            'pallet': 'Select label [Q]',
-            'change-label': 'Change label [W]'
-        }, {
-            'negation': 'Negation [X]',
-            'speculation': 'Speculation [S]'
-        }, {
-            'delete': 'Delete [D]',
-            'copy': 'Copy [C]',
-            'paste': 'Paste [V]'
-        }, {
-            'setting': 'Setting'
-        }, {
-            'help': 'Help [H]'
-        }]),
-        triggrButtonClickEvent = $control.trigger.bind($control, 'textae.control.button.click'),
-        // A function to enable/disable button.
-        enableButton = _.partial(updateButtons, buttonContainer, triggrButtonClickEvent),
-        // Buttons that always eanable.
-        alwaysEnables = {
-            'read': true,
-            'help': true
-        },
-        // Update all button state when an instance of textEditor is changed.
-        updateAllButtonEnableState = function(enableButtons) {
+    let buttonContainer = makeButtons($control, BUTTON_MAP),
+        updateAllButtonEnableState = enableButtons => {
             // Make buttons in a enableButtons enabled, and other buttons in the buttonContainer disabled.
-            enableButton(_.extend({}, buttonContainer, alwaysEnables, enableButtons));
+            let enables = _.extend({}, buttonContainer, ALWAYS_ENABLES, enableButtons);
+
+            // A function to enable/disable button.
+            updateButtons($control, buttonContainer, enables);
         },
         // Update button push state.
-        updateButtonPushState = function(bottonName, isPushed) {
-            var button = buttonContainer[bottonName].instance;
+        updateButtonPushState = (bottonName, isPushed) => {
+            let button = buttonContainer[bottonName].instance;
 
             if (isPushed) {
                 cssUtil.push(button);
@@ -150,4 +62,95 @@ module.exports = function($control) {
     $control.updateButtonPushState = updateButtonPushState;
 
     return $control;
-};
+}
+
+function TitleDom() {
+    const TITLE = `
+    <span class="textae-control__title">
+        <a href="http://textae.pubannotation.org/" target="_blank">TextAE</a>
+    </span>
+    `;
+
+    return $(TITLE);
+}
+
+function ButtonDom(buttonType, title) {
+    const BUTTON = `
+    <span class="textae-control__icon textae-control__${buttonType}-button" title="${title}">
+    `;
+
+    return $(BUTTON);
+}
+
+function SeparatorDom() {
+    return $('<span class="textae-control__separator">');
+}
+
+function makeButtons($control, buttonMap) {
+    let buttonContainer = {},
+        // Make a group of buttons that is headed by the separator.
+        icons = _.flatten(
+            buttonMap.map(function(params) {
+                let buttons = _.map(params, function(title, buttonType) {
+                    let button = new ButtonDom(buttonType, title);
+
+                    buttonContainer[buttonType] = {
+                        instance: button,
+                        eventValue: `textae.control.button.${buttonType.replace(/-/g, '_')}.click`
+                    };
+
+                    return button;
+                });
+
+                return [new SeparatorDom()]
+                    .concat(buttons);
+            })
+        );
+
+    $control
+        .append(new TitleDom())
+        .append($('<span>').append(icons));
+
+    return buttonContainer;
+}
+
+function enableButton(button, eventHandler) {
+    button
+        .off(EVENT)
+        .on(EVENT, eventHandler);
+    cssUtil.enable(button);
+}
+
+function disableButton(button) {
+    button.off(EVENT);
+    cssUtil.disable(button);
+}
+
+function setButtonApearanceAndEventHandler(button, enable, eventHandler) {
+    // Set apearance and eventHandler to button.
+    if (enable === true) {
+        enableButton(button, eventHandler);
+    } else {
+        disableButton(button);
+    }
+}
+
+// A parameter can be spesified by object like { 'buttonName1': true, 'buttonName2': false }.
+function updateButtons($control, buttonContainer, buttonEnables) {
+    Object.keys(buttonEnables)
+        .filter(buttonName => buttonContainer[buttonName])
+        .map(buttonName => {
+            let button = buttonContainer[buttonName];
+
+            return [
+                button.instance,
+                buttonEnables[buttonName], () => {
+                    $control.trigger('textae.control.button.click', button.eventValue);
+                    return false;
+                }
+            ];
+        })
+        .forEach(button => setButtonApearanceAndEventHandler(
+            button[0], button[1], button[2]
+        ));
+}
