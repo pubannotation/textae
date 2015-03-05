@@ -1,38 +1,12 @@
+import BUTTON_MAP from './buttonMap';
 import cssUtil from './iconCssUtil';
+import updateButtons from './updateButtons';
 
-const BUTTON_MAP = [{
-        'read': 'Import [I]',
-        'write': 'Upload [U]'
-    }, {
-        'undo': 'Undo [Z]',
-        'redo': 'Redo [A]'
-    }, {
-        'replicate': 'Replicate span annotation [R]',
-        'replicate-auto': 'Auto replicate',
-        'boundary-detection': 'Boundary Detection [B]',
-        'relation-edit-mode': 'Relation Edit Mode [F]'
-    }, {
-        'entity': 'New entity [E]',
-        'pallet': 'Select label [Q]',
-        'change-label': 'Change label [W]'
-    }, {
-        'negation': 'Negation [X]',
-        'speculation': 'Speculation [S]'
-    }, {
-        'delete': 'Delete [D]',
-        'copy': 'Copy [C]',
-        'paste': 'Paste [V]'
-    }, {
-        'setting': 'Setting'
-    }, {
-        'help': 'Help [H]'
-    }],
-    // Buttons that always eanable.
-    ALWAYS_ENABLES = {
+// Buttons that always eanable.
+const ALWAYS_ENABLES = {
         'read': true,
         'help': true
-    },
-    EVENT = 'click';
+    };
 
 // The control is a control bar to edit.
 // This can controls mulitple instance of editor.
@@ -110,47 +84,4 @@ function makeButtons($control, buttonMap) {
         .append($('<span>').append(icons));
 
     return buttonList;
-}
-
-function enableButton($control, buttonType) {
-    let eventHandler = () => {
-        $control.trigger(
-            'textae.control.button.click',
-            `textae.control.button.${buttonType.replace(/-/g, '_')}.click`
-        );
-        return false;
-    };
-
-    $control
-        .off(EVENT, '.' + buttonType)
-        .on(EVENT, '.' + buttonType, eventHandler);
-
-    cssUtil.enable($control, buttonType);
-}
-
-function disableButton($control, buttonType) {
-    $control
-        .off(EVENT, '.' + buttonType);
-
-    cssUtil.disable($control, buttonType);
-}
-
-function setButtonApearanceAndEventHandler($control, buttonType, enable) {
-    // Set apearance and eventHandler to button.
-    if (enable === true) {
-        enableButton($control, buttonType);
-    } else {
-        disableButton($control, buttonType);
-    }
-}
-
-// A parameter can be spesified by object like { 'buttonType1': true, 'buttonType2': false }.
-function updateButtons($control, buttonList, buttonEnables) {
-    Object.keys(buttonEnables)
-        .filter(buttonType => buttonList[buttonType])
-        .forEach(buttonType => setButtonApearanceAndEventHandler(
-            $control,
-            buttonType,
-            buttonEnables[buttonType]
-        ));
 }

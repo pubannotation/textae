@@ -1,0 +1,27 @@
+[{
+    "read": "Import [I]",
+    "write": "Upload [U]"
+}, {
+    "undo": "Undo [Z]",
+    "redo": "Redo [A]"
+}, {
+    "replicate": "Replicate span annotation [R]",
+    "replicate-auto": "Auto replicate",
+    "boundary-detection": "Boundary Detection [B]",
+    "relation-edit-mode": "Relation Edit Mode [F]"
+}, {
+    "entity": "New entity [E]",
+    "pallet": "Select label [Q]",
+    "change-label": "Change label [W]"
+}, {
+    "negation": "Negation [X]",
+    "speculation": "Speculation [S]"
+}, {
+    "delete": "Delete [D]",
+    "copy": "Copy [C]",
+    "paste": "Paste [V]"
+}, {
+    "setting": "Setting"
+}, {
+    "help": "Help [H]"
+}]
