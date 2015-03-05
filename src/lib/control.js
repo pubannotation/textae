@@ -37,7 +37,7 @@ const BUTTON_MAP = [{
 // The control is a control bar to edit.
 // This can controls mulitple instance of editor.
 export default function($control) {
-    // This contains buttons and event definitions like as {'buttonName' : { instance: $button, eventValue : 'textae.control.button.read.click' }}
+    // This contains buttons and event definitions like as {'buttonType' : { instance: $button, eventValue : 'textae.control.button.read.click' }}
     let buttonContainer = makeButtons($control, BUTTON_MAP),
         updateAllButtonEnableState = enableButtons => {
             // Make buttons in a enableButtons enabled, and other buttons in the buttonContainer disabled.
@@ -48,7 +48,7 @@ export default function($control) {
         },
         // Update button push state.
         updateButtonPushState = (bottonName, isPushed) => {
-            let button = buttonContainer[bottonName].instance;
+            let button = buttonContainer[bottonName];
 
             if (isPushed) {
                 cssUtil.push(button);
@@ -76,7 +76,7 @@ function TitleDom() {
 
 function ButtonDom(buttonType, title) {
     const BUTTON = `
-    <span class="textae-control__icon textae-control__${buttonType}-button" title="${title}">
+    <span class="textae-control__icon textae-control__${buttonType}-button ${buttonType}" title="${title}">
     `;
 
     return $(BUTTON);
@@ -87,25 +87,25 @@ function SeparatorDom() {
 }
 
 function makeButtons($control, buttonMap) {
-    let buttonContainer = {},
+    let buttonGroups = buttonMap.map(params => Object.keys(params)
+            .map(buttonType => [
+                buttonType,
+                new ButtonDom(buttonType, params[buttonType])
+            ])
+        ),
         // Make a group of buttons that is headed by the separator.
-        icons = _.flatten(
-            buttonMap.map(function(params) {
-                let buttons = _.map(params, function(title, buttonType) {
-                    let button = new ButtonDom(buttonType, title);
+        icons = buttonGroups.reduce(
+            (ary, buttons) => ary
+            .concat([new SeparatorDom()])
+            .concat(buttons.map(button => button[1])), []
+        ),
+        buttonContainer = buttonGroups.reduce((buttonContainer, buttons) => {
+            return buttons.reduce((buttonContainer, button) => {
+                buttonContainer[button[0]] = button[1];
 
-                    buttonContainer[buttonType] = {
-                        instance: button,
-                        eventValue: `textae.control.button.${buttonType.replace(/-/g, '_')}.click`
-                    };
-
-                    return button;
-                });
-
-                return [new SeparatorDom()]
-                    .concat(buttons);
-            })
-        );
+                return buttonContainer;
+            }, buttonContainer);
+        }, {});
 
     $control
         .append(new TitleDom())
@@ -114,43 +114,45 @@ function makeButtons($control, buttonMap) {
     return buttonContainer;
 }
 
-function enableButton(button, eventHandler) {
+function enableButton($control, buttonType, button) {
+    let eventHandler = () => {
+        $control.trigger(
+            'textae.control.button.click',
+            `textae.control.button.${buttonType.replace(/-/g, '_')}.click`
+        );
+        return false;
+    };
+
     button
         .off(EVENT)
         .on(EVENT, eventHandler);
     cssUtil.enable(button);
 }
 
-function disableButton(button) {
+function disableButton($control, buttonType, button) {
     button.off(EVENT);
     cssUtil.disable(button);
 }
 
-function setButtonApearanceAndEventHandler(button, enable, eventHandler) {
+function setButtonApearanceAndEventHandler($control, buttonContainer, buttonType, enable) {
+    let button = buttonContainer[buttonType];
+
     // Set apearance and eventHandler to button.
     if (enable === true) {
-        enableButton(button, eventHandler);
+        enableButton($control, buttonType, button);
     } else {
-        disableButton(button);
+        disableButton($control, buttonType, button);
     }
 }
 
-// A parameter can be spesified by object like { 'buttonName1': true, 'buttonName2': false }.
+// A parameter can be spesified by object like { 'buttonType1': true, 'buttonType2': false }.
 function updateButtons($control, buttonContainer, buttonEnables) {
     Object.keys(buttonEnables)
-        .filter(buttonName => buttonContainer[buttonName])
-        .map(buttonName => {
-            let button = buttonContainer[buttonName];
-
-            return [
-                button.instance,
-                buttonEnables[buttonName], () => {
-                    $control.trigger('textae.control.button.click', button.eventValue);
-                    return false;
-                }
-            ];
-        })
-        .forEach(button => setButtonApearanceAndEventHandler(
-            button[0], button[1], button[2]
+        .filter(buttonType => buttonContainer[buttonType])
+        .forEach(buttonType => setButtonApearanceAndEventHandler(
+            $control,
+            buttonContainer,
+            buttonType,
+            buttonEnables[buttonType]
         ));
 }
