@@ -47,8 +47,8 @@ export default function($control) {
             updateButtons($control, buttonContainer, enables);
         },
         // Update button push state.
-        updateButtonPushState = (bottonName, isPushed) => {
-            let button = buttonContainer[bottonName];
+        updateButtonPushState = (bottonType, isPushed) => {
+            let button = buttonContainer[bottonType];
 
             if (isPushed) {
                 cssUtil.push(button);
@@ -114,7 +114,7 @@ function makeButtons($control, buttonMap) {
     return buttonContainer;
 }
 
-function enableButton($control, buttonType, button) {
+function enableButton($control, buttonType) {
     let eventHandler = () => {
         $control.trigger(
             'textae.control.button.click',
@@ -123,25 +123,26 @@ function enableButton($control, buttonType, button) {
         return false;
     };
 
-    button
-        .off(EVENT)
-        .on(EVENT, eventHandler);
-    cssUtil.enable(button);
+    $control
+        .off(EVENT, '.' + buttonType)
+        .on(EVENT, '.' + buttonType, eventHandler);
+
+    cssUtil.enable($control, buttonType);
 }
 
-function disableButton($control, buttonType, button) {
-    button.off(EVENT);
-    cssUtil.disable(button);
+function disableButton($control, buttonType) {
+    $control
+        .off(EVENT, '.' + buttonType);
+
+    cssUtil.disable($control, buttonType);
 }
 
-function setButtonApearanceAndEventHandler($control, buttonContainer, buttonType, enable) {
-    let button = buttonContainer[buttonType];
-
+function setButtonApearanceAndEventHandler($control, buttonType, enable) {
     // Set apearance and eventHandler to button.
     if (enable === true) {
-        enableButton($control, buttonType, button);
+        enableButton($control, buttonType);
     } else {
-        disableButton($control, buttonType, button);
+        disableButton($control, buttonType);
     }
 }
 
@@ -151,7 +152,6 @@ function updateButtons($control, buttonContainer, buttonEnables) {
         .filter(buttonType => buttonContainer[buttonType])
         .forEach(buttonType => setButtonApearanceAndEventHandler(
             $control,
-            buttonContainer,
             buttonType,
             buttonEnables[buttonType]
         ));

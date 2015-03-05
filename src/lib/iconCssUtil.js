@@ -1,14 +1,14 @@
 // Utility functions to change appearance of bunttons.
-export function enable($button) {
-    $button.removeClass('textae-control__icon--disabled');
+export function enable($control, buttonType) {
+    $control
+        .find('.' + buttonType)
+        .removeClass('textae-control__icon--disabled');
 }
 
-export function disable($button) {
-    $button.addClass('textae-control__icon--disabled');
-}
-
-export function isDisable($button) {
-    return $button.hasClass('textae-control__icon--disabled');
+export function disable($control, buttonType) {
+    $control
+        .find('.' + buttonType)
+        .addClass('textae-control__icon--disabled');
 }
 
 export function push($button) {
