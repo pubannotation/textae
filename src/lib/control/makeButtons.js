@@ -1,5 +1,4 @@
 import Handlebars from 'handlebars';
-import BUTTON_MAP from './buttonMap';
 
 // Make a group of buttons that is headed by the separator.
 const source = `
@@ -16,17 +15,6 @@ const source = `
 
 let tepmlate = Handlebars.compile(source);
 
-export default function($control) {
-    $control[0].innerHTML = tepmlate(BUTTON_MAP);
-
-    // Return {read: 1, write: 1, undo: 1, redo: 1, replicate: 1…}
-    return BUTTON_MAP.buttonGroup
-        .reduce((hash, group) => {
-            return group.buttonList
-                .reduce((hash, button) => {
-                    // Trick for merge outer parametr to enable or disable buttons
-                    hash[button.buttonType] = 1;
-                    return hash;
-                }, hash);
-        }, {});
+export default function($control, buttonMap) {
+    $control[0].innerHTML = tepmlate(buttonMap);
 }
