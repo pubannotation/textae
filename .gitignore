@@ -4,4 +4,5 @@ src/lib/bundle.js
 src/vender/jquery/
 src/vender/toastr/
 src/vender/underscore/
+src/lib/css/textae-control.css
 src/lib/css/textae-editor-dialog.css

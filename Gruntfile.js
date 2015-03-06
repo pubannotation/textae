@@ -129,6 +129,7 @@ module.exports = function(grunt) {
         less: {
             all: {
                 files: {
+                    'src/lib/css/textae-control.css': 'src/lib/css/textae-control.less',
                     'src/lib/css/textae-editor-dialog.css': 'src/lib/css/textae-editor-dialog.less'
                 }
             }
