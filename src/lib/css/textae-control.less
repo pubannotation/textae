@@ -1,3 +1,9 @@
+// Rules
+.left() {
+    display: inline-block;
+    float: left;
+}
+/* control */
 .textae-control {
     background-color: #bbe;
     /* fallback (Opera) */
@@ -20,7 +26,8 @@
     z-index: 2;
     /*== Elements inside the textae_control ==*/
     &__title {
-        margin: 0 10px 0 0;
+        .left;
+        margin-right: 10px;
         font-weight: bold;
         text-shadow: 2px 2px 5px #555;
         font-size: 20px;
@@ -30,19 +37,20 @@
         }
     }
     &__separator {
-        margin: 0 2px;
-        height: 10px;
+        .left;
+        margin: 6px 2px 0 2px;
+        height: 16px;
         border: 2px solid #aad;
     }
     &__icon {
+        .left;
         cursor: pointer;
-        display: inline-block;
         height: 16px;
         width: 16px;
         background-repeat: no-repeat;
         background-position: bottom;
         background-size: 16px 16px;
-        margin: 0 4px;
+        margin: 6px 4px 0 4px;
         &--disabled {
             cursor: auto;
             opacity: 0.3;

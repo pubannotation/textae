@@ -1,27 +1,73 @@
-[{
-    "read": "Import [I]",
-    "write": "Upload [U]"
-}, {
-    "undo": "Undo [Z]",
-    "redo": "Redo [A]"
-}, {
-    "replicate": "Replicate span annotation [R]",
-    "replicate-auto": "Auto replicate",
-    "boundary-detection": "Boundary Detection [B]",
-    "relation-edit-mode": "Relation Edit Mode [F]"
-}, {
-    "entity": "New entity [E]",
-    "pallet": "Select label [Q]",
-    "change-label": "Change label [W]"
-}, {
-    "negation": "Negation [X]",
-    "speculation": "Speculation [S]"
-}, {
-    "delete": "Delete [D]",
-    "copy": "Copy [C]",
-    "paste": "Paste [V]"
-}, {
-    "setting": "Setting"
-}, {
-    "help": "Help [H]"
-}]
+{
+    "buttonGroup": [{
+        "buttonList": [{
+            "buttonType": "read",
+            "title": "Import [I]"
+        }, {
+            "buttonType": "write",
+            "title": "Upload [U]"
+        }]
+    }, {
+        "buttonList": [{
+            "buttonType": "undo",
+            "title": "Undo [Z]"
+        }, {
+            "buttonType": "redo",
+            "title": "Redo [A]"
+        }]
+    }, {
+        "buttonList": [{
+            "buttonType": "replicate",
+            "title": "Replicate span annotation [R]"
+        }, {
+            "buttonType": "replicate-auto",
+            "title": "Auto replicate"
+        }, {
+            "buttonType": "boundary-detection",
+            "title": "Boundary Detection [B]"
+        }, {
+            "buttonType": "relation-edit-mode",
+            "title": "Relation Edit Mode [F]"
+        }]
+    }, {
+        "buttonList": [{
+            "buttonType": "entity",
+            "title": "New entity [E]"
+        }, {
+            "buttonType": "pallet",
+            "title": "Select label [Q]"
+        }, {
+            "buttonType": "change-label",
+            "title": "Change label [W]"
+        }]
+    }, {
+        "buttonList": [{
+            "buttonType": "negation",
+            "title": "Negation [X]"
+        }, {
+            "buttonType": "speculation",
+            "title": "Speculation [S]"
+        }]
+    }, {
+        "buttonList": [{
+            "buttonType": "delete",
+            "title": "Delete [D]"
+        }, {
+            "buttonType": "copy",
+            "title": "Copy [C]"
+        }, {
+            "buttonType": "paste",
+            "title": "Paste [V]"
+        }]
+    }, {
+        "buttonList": [{
+            "buttonType": "setting",
+            "title": "Setting"
+        }]
+    }, {
+        "buttonList": [{
+            "buttonType": "help",
+            "title": "Help [H]"
+        }]
+    }]
+}
