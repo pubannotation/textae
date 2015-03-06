@@ -22,7 +22,6 @@ var getMousePoint = function() {
         $(window).on('resize', _.debounce(function() {
             // Redraw all editors per editor.
             editors.forEach(function(editor) {
-                console.log(editor.editorId, 'redraw');
                 _.defer(editor.api.redraw);
             });
         }, 500));

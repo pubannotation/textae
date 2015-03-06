@@ -186,7 +186,6 @@ module.exports = function() {
                     handleKeyInput: _.partial(handle, keyApiMap),
                     handleButtonClick: _.partial(handle, iconApiMap),
                     redraw: function() {
-                        console.log(editor.editorId, 'redraw');
                         view.updateDisplay();
                     }
                 };
