@@ -1,3 +1,5 @@
+import toButtonClass from './toButtonClass';
+
 // Utility functions to change appearance of bunttons.
 export function enable($control, buttonType) {
     find($control, buttonType)
@@ -21,5 +23,5 @@ export function unpush($control, buttonType) {
 
 function find($control, buttonType) {
     return $control
-        .find('.' + buttonType);
+        .find(toButtonClass(buttonType));
 }

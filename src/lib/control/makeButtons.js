@@ -8,7 +8,7 @@ const source = `
     {{#buttonGroup}}
     <span class="textae-control__separator"></span>
         {{#buttonList}}
-    <span class="textae-control__icon textae-control__{{buttonType}}-button {{buttonType}}" title="{{title}}"></span>
+    <span class="textae-control__icon textae-control__{{buttonType}}-button" title="{{title}}"></span>
         {{/buttonList}}
     {{/buttonGroup}}
     `;

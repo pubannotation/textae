@@ -1,4 +1,5 @@
 import cssUtil from './iconCssUtil';
+import toButtonClass from './toButtonClass';
 
 const EVENT = 'click';
 
@@ -23,15 +24,15 @@ function enableButton($control, buttonType) {
     };
 
     $control
-        .off(EVENT, '.' + buttonType)
-        .on(EVENT, '.' + buttonType, eventHandler);
+        .off(EVENT, toButtonClass(buttonType))
+        .on(EVENT, toButtonClass(buttonType), eventHandler);
 
     cssUtil.enable($control, buttonType);
 }
 
 function disableButton($control, buttonType) {
     $control
-        .off(EVENT, '.' + buttonType);
+        .off(EVENT, toButtonClass(buttonType));
 
     cssUtil.disable($control, buttonType);
 }
