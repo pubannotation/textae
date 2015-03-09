@@ -2,7 +2,7 @@ import Handlebars from 'handlebars';
 import {
     hasError as hasError
 }
-from '../model/AnnotationData/parseAnnotation/validateAnnotation';
+from '../editor/model/AnnotationData/parseAnnotation/validateAnnotation';
 import GetEditorDialog from './dialog/GetEditorDialog';
 
 const source = `
