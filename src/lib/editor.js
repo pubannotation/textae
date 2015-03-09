@@ -6,7 +6,7 @@ import editingState from './editingState';
 // model manages data objects.
 var Model = require('./Model'),
     // The history of command that providing undo and redo.
-    History = require('./model/History'),
+    History = require('./History'),
     SpanConfig = require('./SpanConfig'),
     Command = require('./command'),
     ButtonController = require('./view/ButtonController'),
