@@ -76,7 +76,7 @@ module.exports = function(editor, model, view, command, spanConfig, clipBoard, b
             typeEditor.hideDialogs();
 
             // Select this editor.
-            editor.eventEmitter.trigger('textae.editor.select');
+            editor.eventEmitter.emit('textae.editor.select');
             buttonController.buttonStateHelper.propagate();
         };
 

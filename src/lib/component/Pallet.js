@@ -1,13 +1,18 @@
+import {
+    EventEmitter as EventEmitter
+}
+from 'events';
+
 var Pallet = function(emitter) {
         return $('<div>')
             .addClass("textae-editor__type-pallet")
             .append($('<table>'))
             .css('position', 'fixed')
             .on('click', '.textae-editor__type-pallet__entity-type__label', function() {
-                emitter.trigger('type.select', $(this).attr('label'));
+                emitter.emit('type.select', $(this).attr('label'));
             })
             .on('change', '.textae-editor__type-pallet__entity-type__radio', function() {
-                emitter.trigger('default-type.select', $(this).attr('label'));
+                emitter.emit('default-type.select', $(this).attr('label'));
             })
             .hide();
     },
@@ -74,7 +79,7 @@ var Pallet = function(emitter) {
     };
 
 module.exports = function() {
-    var emitter = require('../util/extendBindable')({}),
+    var emitter = new EventEmitter(),
         $pallet = new Pallet(emitter),
         show = function() {
             var reuseOldPallet = function($pallet) {

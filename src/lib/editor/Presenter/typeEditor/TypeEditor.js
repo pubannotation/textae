@@ -26,11 +26,11 @@ module.exports = function(editor, model, spanConfig, command, modeAccordingToBut
     elementEditor.on('cancel.select', cancelSelect);
 
     pallet
-        .bind('type.select', function(label) {
+        .on('type.select', function(label) {
             pallet.hide();
             elementEditor.handler.changeTypeOfSelected(label);
         })
-        .bind('default-type.select', function(label) {
+        .on('default-type.select', function(label) {
             pallet.hide();
             elementEditor.handler.typeContainer.setDefaultType(label);
         });

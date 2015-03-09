@@ -1,3 +1,8 @@
+import {
+    EventEmitter as EventEmitter
+}
+from 'events';
+
 // Ovserve and record mouse position to return it.
 var getMousePoint = function() {
         var lastMousePoint = {},
@@ -97,18 +102,18 @@ module.exports = function() {
             editors.push(editor);
 
             // Add an event emitter to the editer.
-            var eventEmitter = require('./util/extendBindable')({})
-                .bind('textae.editor.select', _.partial(editors.select, editor))
-                .bind('textae.control.button.push', function(data) {
+            var emitter = new EventEmitter()
+                .on('textae.editor.select', _.partial(editors.select, editor))
+                .on('textae.control.button.push', function(data) {
                     controlBar.push(data.buttonName, data.state);
                 })
-                .bind('textae.control.buttons.change', function(enableButtons) {
+                .on('textae.control.buttons.change', function(enableButtons) {
                     if (editor === editors.getSelected()) controlBar.changeButtonState(enableButtons);
                 });
 
             $.extend(editor, {
                 editorId: editors.getNewId(),
-                eventEmitter: eventEmitter
+                eventEmitter: emitter
             });
         },
         // Select the first editor
