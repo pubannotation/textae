@@ -35,15 +35,15 @@ export function set(editor, heightValue) {
     reduceBottomSpace(editor);
 }
 
-export function setToTypeGap(editor, model, typeContainer, typeGapValue) {
+export function setToTypeGap(editor, annotationData, typeContainer, typeGapValue) {
     var heightOfType = typeGapValue * 18 + 18,
         maxHeight;
 
-    if (model.annotationData.span.all().length === 0) {
+    if (annotationData.span.all().length === 0) {
         maxHeight = MINIMUM_HEIGHT;
     } else {
         maxHeight = _.max(
-            model.annotationData.span.all()
+            annotationData.span.all()
             .map(span => getHeightIncludeDescendantGrids(span, typeContainer, typeGapValue))
         );
 

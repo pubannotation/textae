@@ -63,7 +63,7 @@ function setHandlerOnTyapGapEvent(editor, model, typeGap, typeContainer, display
     var setTypeStyle = newValue => editor.find('.textae-editor__type').css(new TypeStyle(newValue));
 
     typeGap(setTypeStyle);
-    typeGap(newValue => lineHeight.setToTypeGap(editor, model, typeContainer, newValue));
+    typeGap(newValue => lineHeight.setToTypeGap(editor, model.annotationData, typeContainer, newValue));
     typeGap(display.update);
 }
 
