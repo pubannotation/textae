@@ -5,7 +5,7 @@ import Connect from './Connect';
 import arrangePositionAll from './arrangePositionAll';
 import determineCurviness from './determineCurviness';
 import jsPlumbArrowOverlayUtil from './jsPlumbArrowOverlayUtil';
-import domUtil from '../../../../util/domUtil';
+import domUtil from '../../domUtil';
 
 var POINTUP_LINE_WIDTH = 3,
     LABEL = {

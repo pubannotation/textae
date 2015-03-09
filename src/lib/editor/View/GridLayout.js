@@ -22,7 +22,7 @@ var filterVisibleGrid = function(grid) {
   },
   Promise = require('bluebird'),
   getGridPosition = require('./getGridPosition'),
-  domUtil = require('../../util/domUtil');
+  domUtil = require('./domUtil');
 
 // Management position of annotation components.
 module.exports = function(editor, annotationData, typeContainer) {

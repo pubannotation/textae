@@ -1,5 +1,5 @@
 import getAnnotationBox from './getAnnotationBox';
-import domUtil from '../../../util/domUtil';
+import domUtil from '../domUtil';
 
 export default function(editor, domPositionCache) {
     var container = getAnnotationBox(editor),

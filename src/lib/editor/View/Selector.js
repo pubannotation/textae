@@ -1,5 +1,5 @@
 var selectionClass = require('./selectionClass'),
-    domUtil = require('../../util/domUtil');
+    domUtil = require('./domUtil');
 
 module.exports = function(editor, model) {
 	var domPositionCaChe = require('./DomPositionCache')(editor, model.annotationData.entity),

@@ -1,4 +1,4 @@
-import domUtil from '../../../../util/domUtil';
+import domUtil from '../../domUtil';
 import idFactory from '../../../../util/idFactory';
 import uri from '../../../../util/uri';
 import getDisplayName from './getDisplayName';

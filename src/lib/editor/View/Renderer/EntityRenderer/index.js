@@ -6,7 +6,7 @@ import {
 from 'events';
 import uri from '../../../../util/uri';
 import idFactory from '../../../../util/idFactory';
-import domUtil from '../../../../util/domUtil';
+import domUtil from '../../domUtil';
 import Selector from '../../Selector';
 import getTypeDom from './getTypeDom';
 import create from './create';

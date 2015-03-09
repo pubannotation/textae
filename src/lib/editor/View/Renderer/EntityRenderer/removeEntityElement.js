@@ -1,4 +1,4 @@
-import domUtil from '../../../../util/domUtil';
+import domUtil from '../../domUtil';
 import getTypeDom from './getTypeDom';
 import arrangePositionOfPane from './arrangePositionOfPane';
 

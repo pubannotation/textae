@@ -49,7 +49,7 @@ var Cache = function() {
             clear: clear
         };
     }(),
-    domUtil = require('../../util/domUtil'),
+    domUtil = require('./domUtil'),
     createNewCache = function(editor, entityModel) {
         // The chache for position of grids.
         // This is updated at arrange position of grids.
