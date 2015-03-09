@@ -13,7 +13,7 @@ var bindEvent = function($target, event, func) {
         return $dialog;
     },
     ajaxAccessor = require('../util/ajaxAccessor'),
-    jQuerySugar = require('../util/jQuerySugar'),
+    jQuerySugar = require('./jQuerySugar'),
     url = require('url');
 
 // A sub component to save and load data.

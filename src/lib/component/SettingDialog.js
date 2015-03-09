@@ -1,5 +1,5 @@
 var lineHeight = require('../editor/View/lineHeight'),
-    jQuerySugar = require('../util/jQuerySugar'),
+    jQuerySugar = require('./jQuerySugar'),
     GetEditorDialog = require('./dialog/GetEditorDialog'),
     debounce300 = function(func) {
         return _.debounce(func, 300);
