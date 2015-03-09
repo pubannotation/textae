@@ -1,4 +1,4 @@
-var idFactory = require('../../util/idFactory');
+var idFactory = require('../idFactory');
 
 module.exports = {
     selector: {

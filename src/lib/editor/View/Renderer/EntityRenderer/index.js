@@ -5,7 +5,7 @@ import {
 }
 from 'events';
 import uri from '../../../../util/uri';
-import idFactory from '../../../../util/idFactory';
+import idFactory from '../../../idFactory';
 import domUtil from '../../domUtil';
 import Selector from '../../Selector';
 import getTypeDom from './getTypeDom';

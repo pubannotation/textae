@@ -1,4 +1,4 @@
-var idFactory = require('../../../../util/idFactory'),
+var idFactory = require('../../../idFactory'),
     ModelContainer = require('./ModelContainer'),
     isChildOf = function(editor, spanContainer, span, maybeParent) {
         if (!maybeParent) return false;

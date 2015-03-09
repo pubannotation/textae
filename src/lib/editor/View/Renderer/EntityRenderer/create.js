@@ -1,4 +1,4 @@
-import idFactory from '../../../../util/idFactory';
+import idFactory from '../../../idFactory';
 import getTypeElement from './getTypeElement';
 import arrangePositionOfPane from './arrangePositionOfPane';
 

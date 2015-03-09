@@ -1,5 +1,5 @@
 // Expected an entity like {id: "E21", span: "editor2__S50_54", type: "Protein"}.
-var idFactory = require('../../../../util/idFactory'),
+var idFactory = require('../../../idFactory'),
     ModelContainer = require('./ModelContainer'),
     toModel = function(editor, entity) {
         return {

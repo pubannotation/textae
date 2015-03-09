@@ -2,7 +2,7 @@ var invokeCommand = require('./invokeCommand'),
     commandTemplate = require('./commandTemplate'),
     executeCompositCommand = require('./executeCompositCommand'),
     getReplicationSpans = require('./getReplicationSpans'),
-    idFactory = require('../../util/idFactory');
+    idFactory = require('../idFactory');
 
 // A command is an operation by user that is saved as history, and can undo and redo.
 // Users can edit model only via commands.

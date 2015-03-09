@@ -1,5 +1,5 @@
 import domUtil from '../../domUtil';
-import idFactory from '../../../../util/idFactory';
+import idFactory from '../../../idFactory';
 import uri from '../../../../util/uri';
 import getDisplayName from './getDisplayName';
 import getTypeDom from './getTypeDom';

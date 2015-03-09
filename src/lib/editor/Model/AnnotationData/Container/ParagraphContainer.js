@@ -1,4 +1,4 @@
-var idFactory = require('../../../../util/idFactory'),
+var idFactory = require('../../../idFactory'),
     ModelContainer = require('./ModelContainer');
 
 module.exports = function(editor, emitter) {
