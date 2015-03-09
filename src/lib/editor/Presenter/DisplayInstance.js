@@ -8,7 +8,7 @@ var TypeGapCache = function() {
                 api[mode] = val;
                 return val;
             },
-            capitalize = require('../../util/capitalize');
+            capitalize = require('capitalize');
 
         _.each(seed, function(val, key) {
             api['set' + capitalize(key)] = _.partial(set, key);
