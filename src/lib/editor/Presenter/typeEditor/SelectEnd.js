@@ -33,10 +33,10 @@ module.exports = function(editor, model, command, modeAccordingToButton, typeCon
     changeSpanEditorAccordingToButtons();
 
     modeAccordingToButton['boundary-detection']
-        .bind('change', changeSpanEditorAccordingToButtons);
+        .on('change', changeSpanEditorAccordingToButtons);
 
     modeAccordingToButton['replicate-auto']
-        .bind('change', changeSpanEditorAccordingToButtons);
+        .on('change', changeSpanEditorAccordingToButtons);
 
     return {
         onText: function(data) {

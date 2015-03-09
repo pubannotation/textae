@@ -134,7 +134,7 @@ module.exports = function(editor, model, clipBoard) {
         );
 
     // Proragate events.
-    modeAccordingToButton.bind('change', function(data) {
+    modeAccordingToButton.on('change', function(data) {
         editor.eventEmitter.trigger('textae.control.button.push', data);
     });
 

@@ -1,60 +1,21 @@
-var reduce2hash = require('../reduce2hash'),
-    extendBindable = require('../../util/extendBindable'),
-    Button = function(buttonName) {
-        // Button state is true when the button is pushed.
-        var emitter = extendBindable({}),
-            state = false,
-            value = function(newValue) {
-                if (newValue !== undefined) {
-                    state = newValue;
-                    propagate();
-                } else {
-                    return state;
-                }
-            },
-            toggle = function toggleButton() {
-                state = !state;
-                propagate();
-            },
-            // Propagate button state to the tool.
-            propagate = function() {
-                emitter.trigger('change', {
-                    buttonName: buttonName,
-                    state: state
-                });
-            };
+import {
+    EventEmitter as EventEmitter
+}
+from 'events';
+import reduce2hash from '../reduce2hash';
 
-        return _.extend({
-            name: buttonName,
-            value: value,
-            toggle: toggle,
-            propagate: propagate
-        }, emitter);
-    },
-    buttonList = [
-        'boundary-detection',
-        'negation',
-        'replicate-auto',
-        'relation-edit-mode',
-        'speculation'
-    ],
-    propagateStateOf = function(emitter, buttons) {
-        buttons
-            .map(function(button) {
-                return {
-                    buttonName: button.name,
-                    state: button.value()
-                };
-            })
-            .forEach(function(data) {
-                emitter.trigger('change', data);
-            });
-    };
+const buttonList = [
+    'boundary-detection',
+    'negation',
+    'replicate-auto',
+    'relation-edit-mode',
+    'speculation'
+];
 
-module.exports = function() {
-    var emitter = extendBindable({}),
+export default function() {
+    var emitter = new EventEmitter(),
         buttons = buttonList.map(Button),
-        propagateStateOfAllButtons = _.partial(propagateStateOf, emitter, buttons),
+        propagateStateOfAllButtons = () => propagateStateOf(emitter, buttons),
         buttonHash = buttons.reduce(reduce2hash, {});
 
     // default pushed;
@@ -62,15 +23,56 @@ module.exports = function() {
 
     // Bind events.
     buttons.forEach(function(button) {
-        button.bind('change', function(data) {
-            emitter.trigger('change', data);
-        });
+        button.on('change', (data) => emitter.emit('change', data));
     });
 
     return _.extend(
-        buttonHash,
-        emitter, {
+        emitter,
+        buttonHash, {
             propagate: propagateStateOfAllButtons
         }
     );
-};
+}
+
+function Button(buttonName) {
+    // Button state is true when the button is pushed.
+    var emitter = new EventEmitter(),
+        state = false,
+        value = (newValue) => {
+            if (newValue !== undefined) {
+                state = newValue;
+                propagate();
+            } else {
+                return state;
+            }
+        },
+        toggle = function toggleButton() {
+            state = !state;
+            propagate();
+        },
+        // Propagate button state to the tool.
+        propagate = () => emitter.emit('change', {
+            buttonName: buttonName,
+            state: state
+        });
+
+    return _.extend(emitter, {
+        name: buttonName,
+        value: value,
+        toggle: toggle,
+        propagate: propagate
+    });
+}
+
+function propagateStateOf(emitter, buttons) {
+    buttons
+        .map(toData)
+        .forEach((data) => emitter.emit('change', data));
+}
+
+function toData(button) {
+    return {
+        buttonName: button.name,
+        state: button.value()
+    };
+}
