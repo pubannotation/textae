@@ -1,6 +1,6 @@
-export default function(command, presenter, dataAccessObject, history, annotationData, buttonController, view) {
+export default function(command, presenter, dataAccessObject, history, annotationData, buttonController, view, updateLineHeight) {
     let keyApiMap = new KeyApiMap(command, presenter, dataAccessObject, history, annotationData),
-        iconApiMap = new IconApiMap(command, presenter, dataAccessObject, history, annotationData, buttonController);
+        iconApiMap = new IconApiMap(command, presenter, dataAccessObject, history, annotationData, buttonController, updateLineHeight);
 
     // Update APIs
     return {
@@ -16,7 +16,7 @@ function handle(map, key, value) {
 
 function KeyApiMap(command, presenter, dataAccessObject, history, annotationData) {
     let showAccess = () => dataAccessObject.showAccess(history.hasAnythingToSave()),
-        showSave = () => dataAccessObject.showSave(model.annotationData.toJson()),
+        showSave = () => dataAccessObject.showSave(annotationData.toJson()),
         keyApiMap = {
             'A': command.redo,
             'B': presenter.event.toggleDetectBoundaryMode,
@@ -44,9 +44,9 @@ function KeyApiMap(command, presenter, dataAccessObject, history, annotationData
     return keyApiMap;
 }
 
-function IconApiMap(command, presenter, dataAccessObject, history, annotationData, buttonController) {
+function IconApiMap(command, presenter, dataAccessObject, history, annotationData, buttonController, updateLineHeight) {
     let showAccess = () => dataAccessObject.showAccess(history.hasAnythingToSave()),
-        showSave = () => dataAccessObject.showSave(model.annotationData.toJson()),
+        showSave = () => dataAccessObject.showSave(annotationData.toJson()),
         iconApiMap = {
             'textae.control.button.read.click': showAccess,
             'textae.control.button.write.click': showSave,
@@ -64,7 +64,8 @@ function IconApiMap(command, presenter, dataAccessObject, history, annotationDat
             'textae.control.button.delete.click': presenter.event.removeSelectedElements,
             'textae.control.button.copy.click': presenter.event.copyEntities,
             'textae.control.button.paste.click': presenter.event.pasteEntities,
-            'textae.control.button.setting.click': presenter.event.showSettingDialog
+            'textae.control.button.setting.click': presenter.event.showSettingDialog,
+            'textae.control.button.line_height.click': updateLineHeight
         };
 
     return iconApiMap;

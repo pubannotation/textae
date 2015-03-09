@@ -9,6 +9,7 @@ import View from './View';
 import Presenter from './Presenter';
 import Controller from './Controller';
 import APIs from './APIs';
+import calculateLineHeight from './calculateLineHeight';
 
 export default function(editor, dataAccessObject, history, buttonController, model, clipBoard) {
     let params = getParams(editor),
@@ -48,7 +49,18 @@ export default function(editor, dataAccessObject, history, buttonController, mod
 
     loadAnnotation(spanConfig, typeContainer, model.annotationData, statusBar, params, dataAccessObject);
 
-    editor.api = new APIs(command, presenter, dataAccessObject, history, model.annotationData, buttonController, view);
+    let updateLineHeight = () => calculateLineHeight(editor, model.annotationData, typeContainer, typeGap, view);
+
+    editor.api = new APIs(
+        command,
+        presenter,
+        dataAccessObject,
+        history,
+        model.annotationData,
+        buttonController,
+        view,
+        updateLineHeight
+    );
 }
 
 function loadAnnotation(spanConfig, typeContainer, annotationData, statusBar, params, dataAccessObject) {
