@@ -1,4 +1,4 @@
-var reduce2hash = require('../../util/reduce2hash'),
+var reduce2hash = require('../reduce2hash'),
     uri = require('../../util/uri'),
     DEFAULT_TYPE = 'something',
     TypeContainer = function(getActualTypesFunction, defaultColor) {
