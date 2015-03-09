@@ -1,4 +1,4 @@
-import not from '../../../../util/not';
+import not from 'not';
 
 const BLOCK = 'textae-editor__span--block',
     WRAP = 'textae-editor__span--wrap';
@@ -12,7 +12,7 @@ export default function(span, isBlockFunc) {
         spanElement.classList.remove(BLOCK);
     }
 
-    if (hasType(span, _.compose(not, isBlockFunc))) {
+    if (hasType(span, not(isBlockFunc))) {
         if (spanElement.classList.contains(WRAP)) {
             spanElement.classList.remove(WRAP);
         }

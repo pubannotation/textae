@@ -1,9 +1,9 @@
+import not from 'not';
 import isAlreadySpaned from '../model/isAlreadySpaned';
 import {
     isBoundaryCrossingWithOtherSpans as isBoundaryCrossingWithOtherSpans
 }
 from '../model/AnnotationData/parseAnnotation/validateAnnotation';
-import not from '../../util/not';
 
 // Check replications are word or not if spanConfig is set.
 export default function(dataStore, originSpan, detectBoundaryFunc) {
@@ -20,14 +20,12 @@ export default function(dataStore, originSpan, detectBoundaryFunc) {
         )
         .filter(wordFilter)
         .filter(
-            _.compose(
-                not,
+            not(
                 _.partial(isAlreadySpaned, allSpans)
             )
         )
         .filter(
-            _.compose(
-                not,
+            not(
                 _.partial(isBoundaryCrossingWithOtherSpans, allSpans)
             )
         );
