@@ -4,7 +4,7 @@ import DataAccessObject from './component/DataAccessObject';
 import editingState from './editingState';
 
 // model manages data objects.
-var Model = require('./model/Model'),
+var Model = require('./Model'),
     // The history of command that providing undo and redo.
     History = require('./model/History'),
     SpanConfig = require('./SpanConfig'),
