@@ -4,7 +4,7 @@ import {
     EventEmitter as EventEmitter
 }
 from 'events';
-import uri from '../../../../util/uri';
+import uri from '../../../uri';
 import idFactory from '../../../idFactory';
 import domUtil from '../../domUtil';
 import Selector from '../../Selector';

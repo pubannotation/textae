@@ -1,6 +1,6 @@
 import domUtil from '../../domUtil';
 import idFactory from '../../../idFactory';
-import uri from '../../../../util/uri';
+import uri from '../../../uri';
 import getDisplayName from './getDisplayName';
 import getTypeDom from './getTypeDom';
 
