@@ -1,4 +1,4 @@
-var getUrlParameters = require('../util/getUrlParameters'),
+var getUrlParameters = require('./getUrlParameters'),
 	priorUrl = function(params, editor, name) {
 		if (!params[name] && editor.attr(name))
 			params[name] = editor.attr(name);
