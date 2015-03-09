@@ -16,7 +16,7 @@ var getMousePoint = function() {
         };
     }(),
     KeybordInputConverter = require('./tool/KeybordInputConverter'),
-    // Observe window-resize event and redraw all editors. 
+    // Observe window-resize event and redraw all editors.
     observeWindowResize = function(editors) {
         // Bind resize event
         $(window).on('resize', _.debounce(function() {
@@ -68,7 +68,7 @@ var getMousePoint = function() {
         };
     };
 
-// The tool manages interactions between components. 
+// The tool manages interactions between components.
 module.exports = function() {
     var controlBar = new ControlBar(),
         editors = require('./tool/EditorContainer')(),
