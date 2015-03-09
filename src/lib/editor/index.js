@@ -1,46 +1,25 @@
 const CONFIRM_DISCARD_CHANGE_MESSAGE = 'There is a change that has not been saved. If you procceed now, you will lose it.';
 
+import Observable from 'observ';
 import DataAccessObject from '../component/DataAccessObject';
+import StatusBar from '../component/StatusBar';
+import ajaxAccessor from '../util/ajaxAccessor';
 import editingState from './editingState';
-
 // model manages data objects.
-var Model = require('./Model'),
-    // The history of command that providing undo and redo.
-    History = require('./History'),
-    SpanConfig = require('./SpanConfig'),
-    Command = require('./Command'),
-    ButtonController = require('./ButtonController'),
-    TypeContainer = require('./TypeContainer'),
-    View = require('./View'),
-    Presenter = require('./Presenter'),
-    Controller = require('./Controller'),
-    getParams = require('./getParams'),
-    setTypeConfig = function(typeContainer, config) {
-        typeContainer.setDefinedEntityTypes(config ? config['entity types'] : []);
-        typeContainer.setDefinedRelationTypes(config ? config['relation types'] : []);
+import Model from './Model';
+// The history of command that providing undo and redo.
+import History from './History';
+import SpanConfig from './SpanConfig';
+import Command from './Command';
+import ButtonController from './ButtonController';
+import TypeContainer from './TypeContainer';
+import View from './View';
+import Presenter from './Presenter';
+import Controller from './Controller';
+import getParams from './getParams';
 
-        if (config && config.css !== undefined) {
-            $('#css_area').html('<link rel="stylesheet" href="' + config.css + '"/>');
-        }
-
-        return config;
-    },
-    handle = function(map, key, value) {
-        if (map[key]) map[key](value);
-    },
-    StatusBar = require('../component/StatusBar'),
-    getStatusBar = function(editor, status_bar) {
-        if (status_bar === 'on')
-            return new StatusBar(editor);
-        return {
-            status: function() {}
-        };
-    },
-    Observable = require("observ"),
-    ajaxAccessor = require('../util/ajaxAccessor');
-
-module.exports = function() {
-    var self = this,
+export default function() {
+    let self = this,
         model = new Model(this),
         history = new History(),
         spanConfig = new SpanConfig(),
@@ -67,11 +46,11 @@ module.exports = function() {
         ),
         //handle user input event.
         controller = new Controller(this, presenter, view),
-        setSpanAndTypeConfig = function(config) {
+        setSpanAndTypeConfig = config => {
             spanConfig.set(config);
             setTypeConfig(typeContainer, config);
         },
-        setConfigInAnnotation = function(annotation) {
+        setConfigInAnnotation = annotation => {
             spanConfig.reset();
             setSpanAndTypeConfig(annotation.config);
 
@@ -80,34 +59,33 @@ module.exports = function() {
             }
         },
         resetData = model.annotationData.reset,
-        setConfigFromServer = function(config, annotation) {
+        setConfigFromServer = (config, annotation) => {
             spanConfig.reset();
 
             if (typeof config === 'string') {
                 ajaxAccessor
                     .getAsync(config,
-                        function(configFromServer) {
+                        configFromServer => {
                             setSpanAndTypeConfig(configFromServer);
                             resetData(annotation);
-                        },
-                        function() {
-                            alert('could not read the span configuration from the location you specified.: ' + config);
-                        }
+                        }, () => alert('could not read the span configuration from the location you specified.: ' + config)
                     );
             } else {
                 resetData(annotation);
             }
         },
-        setAnnotation = function(config, annotation) {
-            var ret = setConfigInAnnotation(annotation);
+        setAnnotation = (config, annotation) => {
+            let ret = setConfigInAnnotation(annotation);
+
             if (ret === 'no config') {
                 setConfigFromServer(config, annotation);
             } else {
                 resetData(annotation);
             }
         },
-        loadAnnotation = function(statusBar, params, dataAccessObject) {
-            var annotation = params.annotation;
+        loadAnnotation = (statusBar, params, dataAccessObject) => {
+            let annotation = params.annotation;
+
             if (annotation) {
                 if (annotation.inlineAnnotation) {
                     // Set an inline annotation.
@@ -130,14 +108,10 @@ module.exports = function() {
     );
 
     // public funcitons of editor
-    this.api = function(editor) {
-        var updateAPIs = function(dataAccessObject) {
-                var showAccess = function() {
-                        dataAccessObject.showAccess(history.hasAnythingToSave());
-                    },
-                    showSave = function() {
-                        dataAccessObject.showSave(model.annotationData.toJson());
-                    },
+    this.api = (editor) => {
+        let updateAPIs = (dataAccessObject) => {
+                let showAccess = () => dataAccessObject.showAccess(history.hasAnythingToSave()),
+                    showSave = () => dataAccessObject.showSave(model.annotationData.toJson()),
                     keyApiMap = {
                         'A': command.redo,
                         'B': presenter.event.toggleDetectBoundaryMode,
@@ -185,22 +159,20 @@ module.exports = function() {
                 editor.api = {
                     handleKeyInput: _.partial(handle, keyApiMap),
                     handleButtonClick: _.partial(handle, iconApiMap),
-                    redraw: function() {
-                        view.updateDisplay();
-                    }
+                    redraw: () => view.updateDisplay()
                 };
             },
             start = function start(editor) {
-                var params = getParams(editor);
+                let params = getParams(editor);
 
                 view.init();
                 controller.init();
                 presenter.init();
 
-                var statusBar = getStatusBar(editor, params.status_bar);
+                let statusBar = getStatusBar(editor, params.status_bar);
 
                 dataAccessObject
-                    .on('load', function(data) {
+                    .on('load', data => {
                         setAnnotation(params.config, data.annotation);
                         statusBar.status(data.source);
                     });
@@ -218,4 +190,27 @@ module.exports = function() {
     }(this);
 
     return this;
-};
+}
+
+function setTypeConfig(typeContainer, config) {
+    typeContainer.setDefinedEntityTypes(config ? config['entity types'] : []);
+    typeContainer.setDefinedRelationTypes(config ? config['relation types'] : []);
+
+    if (config && config.css !== undefined) {
+        $('#css_area').html('<link rel="stylesheet" href="' + config.css + '"/>');
+    }
+
+    return config;
+}
+
+function handle(map, key, value) {
+    if (map[key]) map[key](value);
+}
+
+function getStatusBar(editor, status_bar) {
+    if (status_bar === 'on')
+        return new StatusBar(editor);
+    return {
+        status: function() {}
+    };
+}
