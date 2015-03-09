@@ -50,7 +50,7 @@ function bindResetEvent(annotationData, history, writable) {
 }
 
 function bindChangeEvent(history, buttonStateHelper, leaveMessage, writable) {
-    history.bind('change', function(state) {
+    history.on('change', function(state) {
         //change button state
         buttonStateHelper.enabled("undo", state.hasAnythingToUndo);
         buttonStateHelper.enabled("redo", state.hasAnythingToRedo);
