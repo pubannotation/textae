@@ -8,7 +8,7 @@ var Model = require('./Model'),
     // The history of command that providing undo and redo.
     History = require('./History'),
     SpanConfig = require('./SpanConfig'),
-    Command = require('./command'),
+    Command = require('./Command'),
     ButtonController = require('./view/ButtonController'),
     TypeContainer = require('./view/TypeContainer'),
     View = require('./view/View'),
