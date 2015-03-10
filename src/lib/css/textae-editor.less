@@ -1,0 +1,298 @@
+.active() {
+    background-color: #ffe;
+}
+.textae-editor {
+    border: 1px solid black;
+    &--wait {
+        cursor: wait;
+    }
+    &--wait::before {
+        content: '';
+        display: block;
+        height: 100%;
+        left: 0;
+        opacity: 0;
+        position: fixed;
+        top: 0;
+        width: 100%;
+        z-index: 200;
+    }
+    .hidden {
+        visibility: hidden;
+    }
+    /* active editer color */
+    &_term-mode.textae-editor--active {
+        .active;
+    }
+    &_instance-mode.textae-editor--active {
+        .active;
+    }
+    &_relation-mode.textae-editor--active {
+        background-color: #ffedee;
+    }
+    &__body {
+        position: relative;
+        &__text-box {
+            /* prefer calculated line height */
+            p {
+                line-height: inherit;
+            }
+        }
+        &__annotation-box {
+            left: 0;
+            position: absolute;
+            top: 0;
+        }
+    }
+    &__footer {
+        background-color: #ddf;
+        /* fallback (Opera) */
+        background: #ddf;
+        /* Mozilla: */
+        background: -moz-linear-gradient(left, #DDDDFF, #FFFFFF);
+        /* Chrome, Safari:*/
+        background: -webkit-gradient(linear, left top, right top, from(#DDDDFF), to(#FFFFFF));
+        /* MSIE */
+        // filter: progid: DXImageTransform.Microsoft.Gradient(StartColorStr='#DDDDFF', EndColorStr='#FFFFFF', GradientType=1);
+        bottom: 0;
+        height: 20px;
+        opacity: 0.9;
+        overflow-y: hidden;
+        position: relative;
+        width: 90%;
+        &__message {
+            color: gray;
+            font-style: italic;
+            margin-left: 10px;
+        }
+    }
+    &__span {
+        background-color: rgba(100, 100, 215, 0.5);
+        border-color: #666;
+        border-style: solid;
+        border-width: 1px 0;
+        white-space: pre;
+        &:hover {
+            text-shadow: 1px 1px 1px #00d;
+            padding: 1px 0;
+        }
+        &.ui-selected {
+            background-color: rgba(255, 200, 100, 0.9);
+            color: #00d;
+        }
+        &--wrap {
+            white-space: normal;
+        }
+        &--block {
+            background-color: rgba(255, 100, 215, 0.5);
+            &.ui-selected {
+                background-color: rgba(255, 100, 100, 0.9);
+                color: #00d;
+            }
+        }
+    }
+    &__grid {
+        border-color: #dda;
+        border-style: solid;
+        border-width: 0 1px;
+        overflow: visible;
+        padding: 0;
+        position: absolute;
+    }
+    &__type {
+        font-size: small;
+        height: 36px;
+        padding-top: 18px;
+        position: relative;
+        text-align: center;
+        white-space: nowrap;
+        &-label {
+            border-color: #a9a9a9;
+            border-radius: 4px;
+            border-style: solid;
+            border-width: 1px;
+            line-height: 16px;
+            overflow: hidden;
+            position: relative;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            -webkit-touch-callout: none;
+            z-index: 1;
+        }
+    }
+    &_editable &__type-label a {
+        color: black;
+        pointer-events: none;
+        text-decoration: none;
+    }
+    &__type-label,
+    &__entity,
+    &_relation-mode &__type:hover &__entity,
+    &_relation-mode &__type:hover &__type-label {
+        opacity: 0.9;
+        /* TODO 透明度を上げるとentityとlabelの重なった部分だけ色が濃くて目立ちます。 */
+    }
+    &__type:hover &__entity-pane,
+    &__type:hover &__type-label {
+        z-index: 3;
+    }
+    &__type:hover &__entity,
+    &__type:hover &__type-label {
+        box-shadow: 1px 1px 10px #600;
+    }
+    &__type:hover &__type-label {
+        overflow: visible;
+    }
+    &__type-label.ui-selected,
+    &__type:hover &__type-label.ui-selected {
+        box-shadow: 1px 1px 15px #f00;
+    }
+    &__entity-pane {
+        position: relative;
+        top: -28px;
+        z-index: 1;
+    }
+    /* entity */
+    &__entity {
+        background-color: #add8e6;
+        border-radius: 6px;
+        border-style: solid;
+        border-width: 3px;
+        display: inline-block;
+        height: 12px;
+        margin: 0 auto;
+        vertical-align: top;
+        width: 12px;
+        &:hover {
+            box-shadow: 1px 1px 10px #600;
+            text-shadow: 1px 1px 1px #600;
+        }
+        &.ui-selected {
+            background-color: yellow;
+            font-weight: 700;
+        }
+        /* modification */
+        &.textae-editor__negation::before,
+        &.textae-editor__speculation::before {
+            display: block;
+            left: -3px;
+            top: -35px;
+            position: relative;
+        }
+        &.textae-editor__negation::before {
+            content: 'X';
+        }
+        &.textae-editor__speculation::before {
+            content: '?';
+        }
+        &.textae-editor__negation.textae-editor__entity.textae-editor__speculation::before {
+            content: '?\AX';
+            top: -51px;
+            white-space: pre;
+        }
+    }
+    /* relation */
+    &__relation__label {
+        background-color: yellow;
+        display: block;
+        font-size: x-small;
+        opacity: 0.6;
+        white-space: nowrap;
+        &:hover,
+        &.hover {
+            opacity: 1;
+            text-shadow: 1px 1px 1px #800;
+        }
+        &.ui-selected {
+            opacity: 1;
+            font-weight: 700;
+        }
+        /* modification */
+        &.textae-editor__negation::before {
+            content: 'X';
+            right: 0;
+            position: absolute;
+            top: -12px;
+        }
+        &.textae-editor__speculation::after {
+            content: '?';
+            display: inline-block;
+            right: -0.5em;
+            position: relative;
+            top: -12px;
+        }
+    }
+    /* term centric mode */
+    &_term-mode {
+        .textae-editor {
+            &__type {
+                height: 18px;
+                margin-bottom: 0;
+                padding-top: 0;
+            }
+            &__relation,
+            &__relation__label {
+                display: none !important;
+            }
+            &__entity-pane {
+                /*Set visibility style to hide entities, because size of entities are necesarry to render relation.*/
+                visibility: hidden;
+            }
+        }
+        path,
+        circle {
+            fill: none;
+            height: 0;
+            stroke-width: 0;
+            width: 0;
+        }
+    }
+    /* instance edit mode */
+    &_instance-mode {
+        .text-editor {
+            &__relation:hover,
+            &__relation.hover {
+                z-index: 5;
+            }
+            &__relation__label:hover,
+            &__relation__label.hover {
+                z-index: 6;
+            }
+        }
+    }
+    /* relation edit mode */
+    &_relation-mode {
+        cursor: pointer;
+        .textae-editor__type:hover .textae-editor__type-label {
+            box-shadow: none;
+        }
+        .textae-editor__span:hover {
+            text-shadow: none;
+            padding: 0;
+        }
+        .textae-editor__relation {
+            z-index: 1;
+        }
+        .textae-editor__relation:hover,
+        .textae-editor__relation.hover {
+            z-index: 1;
+        }
+        .textae-editor__relation__label:hover,
+        .textae-editor__relation__label.hover {
+            z-index: 2;
+        }
+        .textae-editor__relation.ui-selected {
+            z-index: 1;
+        }
+        .textae-editor__relation__label.ui-selected {
+            z-index: 2;
+        }
+    }
+}
+/* relation */
+._jsPlumb_endpoint {
+    visibility: hidden;
+}
