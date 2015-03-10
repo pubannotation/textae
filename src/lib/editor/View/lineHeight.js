@@ -12,7 +12,7 @@ export function get(editor) {
 
 // Reduce the space under the .textae-editor__body__text-box same as padding-top.
 export function reduceBottomSpace(editor) {
-    var $textBox = editor.find('.textae-editor__body__text-box');
+    let $textBox = editor.find('.textae-editor__body__text-box');
 
     // The height calculated by auto is exclude the value of the padding top.
     // Rest small space.
@@ -25,7 +25,7 @@ export function reduceBottomSpace(editor) {
 }
 
 export function set(editor, heightValue) {
-    var $textBox = editor.find('.textae-editor__body__text-box');
+    let $textBox = editor.find('.textae-editor__body__text-box');
 
     $textBox.css({
         'line-height': heightValue + 'px',
@@ -36,7 +36,7 @@ export function set(editor, heightValue) {
 }
 
 export function setToTypeGap(editor, annotationData, typeContainer, typeGapValue) {
-    var heightOfType = typeGapValue * 18 + 18,
+    let heightOfType = typeGapValue * 18 + 18,
         maxHeight;
 
     if (annotationData.span.all().length === 0) {
