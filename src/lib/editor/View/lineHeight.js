@@ -1,6 +1,6 @@
 const TEXT_HEIGHT = 23;
 const MARGIN_TOP = 30;
-const MINIMUM_HEIGHT = 16 * 4;
+const MINIMUM_HEIGHT = 41;
 
 import getHeightIncludeDescendantGrids from './getHeightIncludeDescendantGrids';
 
@@ -42,7 +42,14 @@ export function setToTypeGap(editor, annotationData, typeContainer, typeGapValue
         maxHeight;
 
     if (annotationData.span.all().length === 0) {
-        maxHeight = MINIMUM_HEIGHT;
+        let style = window.getComputedStyle(editor[0])['line-height'],
+            n = parseInt(style.substring(0, style.length - 2));
+
+        if (style === 'normal') {
+            maxHeight = MINIMUM_HEIGHT;
+        } else {
+            maxHeight = n;
+        }
     } else {
         maxHeight = _.max(
             annotationData.span.all()
