@@ -32,6 +32,8 @@ export function set(editor, heightValue) {
         'padding-top': heightValue / 2 + 'px'
     });
 
+    suppressScrollJump($textBox[0], heightValue);
+
     reduceBottomSpace(editor);
 }
 
@@ -51,4 +53,13 @@ export function setToTypeGap(editor, annotationData, typeContainer, typeGapValue
     }
 
     set(editor, maxHeight);
+}
+
+function suppressScrollJump(textBox, heightValue) {
+    let beforeLineHeight = textBox.style['line-height'],
+        b = beforeLineHeight.substring(0, beforeLineHeight.length - 2);
+
+    if (b) {
+        window.scroll(window.scrollX, window.scrollY * heightValue / b);
+    }
 }
