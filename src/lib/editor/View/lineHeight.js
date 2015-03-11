@@ -5,34 +5,32 @@ const MINIMUM_HEIGHT = 41;
 import getHeightIncludeDescendantGrids from './getHeightIncludeDescendantGrids';
 
 export function get(editor) {
+    let textBox = getTextBox(editor),
+        style = window.getComputedStyle(textBox);
+
     return Math.floor(
-        parseInt(editor.find('.textae-editor__body__text-box').css('line-height')) / 16
+        pixelToInt(style.lineHeight) / 16
     );
 }
 
 // Reduce the space under the .textae-editor__body__text-box same as padding-top.
 export function reduceBottomSpace(editor) {
-    let $textBox = editor.find('.textae-editor__body__text-box');
+    let textBox = getTextBox(editor),
+        style = window.getComputedStyle(textBox);
 
     // The height calculated by auto is exclude the value of the padding top.
     // Rest small space.
-    $textBox
-        .css({
-            'height': 'auto'
-        }).css({
-            'height': $textBox.height() + 20
-        });
+    textBox.style.height = 'auto';
+    textBox.style.height = textBox.offsetHeight - pixelToInt(style.paddingTop) + 20 + 'px';
 }
 
 export function set(editor, heightValue) {
-    let $textBox = editor.find('.textae-editor__body__text-box');
+    let textBox = getTextBox(editor);
 
-    $textBox.css({
-        'line-height': heightValue + 'px',
-        'padding-top': heightValue / 2 + 'px'
-    });
+    textBox.style.lineHeight = heightValue + 'px';
+    textBox.style.paddingTop = heightValue / 2 + 'px';
 
-    suppressScrollJump($textBox[0], heightValue);
+    suppressScrollJump(textBox, heightValue);
 
     reduceBottomSpace(editor);
 }
@@ -42,10 +40,10 @@ export function setToTypeGap(editor, annotationData, typeContainer, typeGapValue
         maxHeight;
 
     if (annotationData.span.all().length === 0) {
-        let style = window.getComputedStyle(editor[0])['line-height'],
-            n = parseInt(style.substring(0, style.length - 2));
+        let style = window.getComputedStyle(editor),
+            n = pixelToInt(style.lineHeight);
 
-        if (style === 'normal') {
+        if (style.lineHeight === 'normal') {
             maxHeight = MINIMUM_HEIGHT;
         } else {
             maxHeight = n;
@@ -62,11 +60,19 @@ export function setToTypeGap(editor, annotationData, typeContainer, typeGapValue
     set(editor, maxHeight);
 }
 
+function getTextBox(editor) {
+    return editor.querySelector('.textae-editor__body__text-box');
+}
+
 function suppressScrollJump(textBox, heightValue) {
-    let beforeLineHeight = textBox.style['line-height'],
-        b = beforeLineHeight.substring(0, beforeLineHeight.length - 2);
+    let beforeLineHeight = textBox.style.lineHeight,
+        b = pixelToInt(beforeLineHeight);
 
     if (b) {
         window.scroll(window.scrollX, window.scrollY * heightValue / b);
     }
+}
+
+function pixelToInt(str) {
+    return str === '' ? 0 : parseInt(str);
 }

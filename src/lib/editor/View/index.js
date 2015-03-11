@@ -34,7 +34,7 @@ export default function(editor, model, buttonController, typeGap, typeContainer)
 
             api.updateDisplay = () => {
                 display.update(typeGap());
-                lineHeight.reduceBottomSpace(editor);
+                lineHeight.reduceBottomSpace(editor[0]);
             };
         },
         hoverRelation: hover
@@ -50,7 +50,7 @@ function initRenderer(editor, model, updateDisplay, typeGap, typeContainer, butt
     renderer.init(editor, model.annotationData, model.selectionModel)
         .on('change', debouncedUpdateDisplay)
         .on('all.change', debouncedUpdateDisplay)
-        .on('text.change', () => lineHeight.reduceBottomSpace(editor))
+        .on('text.change', () => lineHeight.reduceBottomSpace(editor[0]))
         .on('span.add', debouncedUpdateDisplay)
         .on('span.remove', debouncedUpdateDisplay)
         .on('entity.add', debouncedUpdateDisplay)
@@ -63,7 +63,7 @@ function setHandlerOnTyapGapEvent(editor, model, typeGap, typeContainer, display
     var setTypeStyle = newValue => editor.find('.textae-editor__type').css(new TypeStyle(newValue));
 
     typeGap(setTypeStyle);
-    typeGap(newValue => lineHeight.setToTypeGap(editor, model.annotationData, typeContainer, newValue));
+    typeGap(newValue => lineHeight.setToTypeGap(editor[0], model.annotationData, typeContainer, newValue));
     typeGap(display.update);
 }
 
