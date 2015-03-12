@@ -7,6 +7,13 @@ import setSelectionModelHandler from './setSelectionModelHandler';
 import TypeStyle from './TypeStyle';
 import RelationRenderer from './Renderer/RelationRenderer';
 
+const BODY = `
+<div class="textae-editor__body">
+    <div class="textae-editor__body__annotation-box"></div>
+    <div class="textae-editor__body__text-box"></div>
+</div>
+`;
+
 export default function(editor, model, buttonController, typeGap, typeContainer) {
     // Render DOM elements conforming with the Model.
     var relationRenderer = new RelationRenderer(editor, model, typeContainer),
@@ -16,6 +23,8 @@ export default function(editor, model, buttonController, typeGap, typeContainer)
 
     var api = {
         init: () => {
+            editor[0].innerHTML = BODY;
+
             var arrangePositionAllRelation = relationRenderer.init(editor),
                 display = new Display(editor, model.annotationData, typeContainer, arrangePositionAllRelation);
 
