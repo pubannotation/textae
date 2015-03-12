@@ -70,7 +70,7 @@
             "title": "Help [H]"
         }, {
             "buttonType": "line-height",
-            "title": "Adapt LineHeight"
+            "title": "Auto Adjust LineHeight"
         }]
     }]
 }
