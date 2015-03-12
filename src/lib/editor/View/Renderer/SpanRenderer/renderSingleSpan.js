@@ -23,6 +23,9 @@ function cerateRangeToSpan(span, bigBrother) {
         [targetTextNode, startOfTextNode] = getTextNodeFromParent(span);
     }
 
+    if (!targetTextNode)
+        throw new Error('The textNode on to create a span is not found. ' + span.toStringOnlyThis());
+
     return createSpanRange(targetTextNode, startOfTextNode, span);
 }
 
