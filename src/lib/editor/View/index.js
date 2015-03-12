@@ -50,7 +50,7 @@ function initRenderer(editor, model, updateDisplay, typeGap, typeContainer, butt
     renderer.init(editor, model.annotationData, model.selectionModel)
         .on('change', debouncedUpdateDisplay)
         .on('all.change', debouncedUpdateDisplay)
-        .on('text.change', () => lineHeight.reduceBottomSpace(editor[0]))
+        .on('paragraph.change', () => lineHeight.reduceBottomSpace(editor[0]))
         .on('span.add', debouncedUpdateDisplay)
         .on('span.remove', debouncedUpdateDisplay)
         .on('entity.add', debouncedUpdateDisplay)

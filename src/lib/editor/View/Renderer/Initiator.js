@@ -1,4 +1,4 @@
-import renderSourceDocument from './renderSourceDocument';
+import renderParagraph from './renderParagraph';
 import getAnnotationBox from './getAnnotationBox';
 import RenderAll from './RenderAll';
 import renderModification from './renderModification';
@@ -35,11 +35,11 @@ export default function(domPositionCaChe, relationRenderer, buttonStateHelper, t
             };
 
         let eventHandlers = [
-            ['text.change', params => renderSourceDocument(editor, params.sourceDoc, params.paragraphs)],
             ['all.change', annotationData => {
                 renderAll(annotationData);
                 selectionModel.clear();
             }],
+            ['paragraph.change', paragraphs => renderParagraph(editor, paragraphs)],
             ['span.add', spanRenderer.render],
             ['span.remove', span => {
                 spanRenderer.remove(span);

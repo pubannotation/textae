@@ -12,6 +12,7 @@ module.exports = function(editor, emitter) {
                         id: idFactory.makeParagraphId(editor, index),
                         begin: textLengthBeforeThisParagraph,
                         end: textLengthBeforeThisParagraph + p.length,
+                        text: p,
                         order: index
                     };
 
