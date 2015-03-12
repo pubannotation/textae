@@ -1,7 +1,7 @@
 import DomPositionCache from './DomPositionCache';
 
 export default function(editor, entity) {
-    var domPositionCaChe = new DomPositionCache(editor, entity);
+    let domPositionCaChe = new DomPositionCache(editor, entity);
 
     return {
         on: _.partial(

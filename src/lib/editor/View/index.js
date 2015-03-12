@@ -16,16 +16,16 @@ const BODY = `
 
 export default function(editor, model, buttonController, typeGap, typeContainer) {
     // Render DOM elements conforming with the Model.
-    var relationRenderer = new RelationRenderer(editor, model, typeContainer),
+    let relationRenderer = new RelationRenderer(editor, model, typeContainer),
         hover = new Hover(editor, model.annotationData.entity);
 
     setSelectionModelHandler(editor, model, buttonController);
 
-    var api = {
+    let api = {
         init: () => {
             editor[0].innerHTML = BODY;
 
-            var arrangePositionAllRelation = relationRenderer.init(editor),
+            let arrangePositionAllRelation = relationRenderer.init(editor),
                 display = new Display(editor, model.annotationData, typeContainer, arrangePositionAllRelation);
 
             setHandlerOnTyapGapEvent(editor, model, typeGap, typeContainer, display);
@@ -53,7 +53,7 @@ export default function(editor, model, buttonController, typeGap, typeContainer)
 }
 
 function initRenderer(editor, model, updateDisplay, typeGap, typeContainer, buttonStateHelper, relationRenderer) {
-    var renderer = new Renderer(editor, model, buttonStateHelper, typeContainer, typeGap, relationRenderer),
+    let renderer = new Renderer(editor, model, buttonStateHelper, typeContainer, typeGap, relationRenderer),
         debouncedUpdateDisplay = _.debounce(() => updateDisplay(typeGap()), 100);
 
     renderer.init(editor, model.annotationData, model.selectionModel)
@@ -69,7 +69,7 @@ function initRenderer(editor, model, updateDisplay, typeGap, typeContainer, butt
 }
 
 function setHandlerOnTyapGapEvent(editor, model, typeGap, typeContainer, display) {
-    var setTypeStyle = newValue => editor.find('.textae-editor__type').css(new TypeStyle(newValue));
+    let setTypeStyle = newValue => editor.find('.textae-editor__type').css(new TypeStyle(newValue));
 
     typeGap(setTypeStyle);
     typeGap(newValue => lineHeight.setToTypeGap(editor[0], model.annotationData, typeContainer, newValue));
@@ -78,7 +78,7 @@ function setHandlerOnTyapGapEvent(editor, model, typeGap, typeContainer, display
 
 function setHandlerOnDisplayEvent(editor, display) {
     // Set cursor control by view rendering events.
-    var cursorChanger = new CursorChanger(editor);
+    let cursorChanger = new CursorChanger(editor);
 
     display
         .on('render.start', editor => {
