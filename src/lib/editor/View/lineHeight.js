@@ -8,9 +8,7 @@ export function get(editor) {
     let textBox = getTextBox(editor),
         style = window.getComputedStyle(textBox);
 
-    return Math.floor(
-        pixelToInt(style.lineHeight) / 16
-    );
+    return pixelToInt(style.lineHeight);
 }
 
 // Reduce the space under the .textae-editor__body__text-box same as padding-top.

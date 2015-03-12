@@ -15,7 +15,8 @@ const CONTENT = `
         </div>
         <div>
             <label class="textae-editor__setting-dialog__label">Line Height</label>
-            <input type="number" class="textae-editor__setting-dialog__line-height line-height" step="1" min="3" max="50">
+            <input type="number" class="textae-editor__setting-dialog__line-height line-height" step="1" min="50" max="500">
+            px
         </div>
     </div>
 `;
@@ -88,16 +89,12 @@ function bindChangeTypeGap($content, editor, displayInstance) {
 }
 
 function bindChangeLineHeight($content, editor) {
-    let changeLineHeight = _.compose(
-            (val) => lineHeight.set(editor[0], val),
-            sixteenTimes
-        ),
-        onLineHeightChange = debounce300(
-            (e) => {
-                changeLineHeight(e.target.value);
-                redrawAllEditor();
-            }
-        );
+    let onLineHeightChange = debounce300(
+        (e) => {
+            lineHeight.set(editor[0], e.target.value);
+            redrawAllEditor();
+        }
+    );
 
     return $content
         .on(
