@@ -12,6 +12,7 @@ module.exports = function(editor, emitter) {
                         id: idFactory.makeParagraphId(editor, index),
                         begin: textLengthBeforeThisParagraph,
                         end: textLengthBeforeThisParagraph + p.length,
+                        order: index
                     };
 
                     textLengthBeforeThisParagraph += p.length + 1;
@@ -19,6 +20,7 @@ module.exports = function(editor, emitter) {
                 });
         },
         contaier = new ModelContainer(emitter, 'paragraph', mappingFunction),
+        originAll = contaier.all,
         api = _.extend(contaier, {
             //get the paragraph that span is belong to.
             getBelongingTo: function(span) {
@@ -31,6 +33,24 @@ module.exports = function(editor, emitter) {
                 } else {
                     return match[0];
                 }
+            },
+            all: function() {
+                let paragraphs = originAll();
+
+                // The order is important to render.
+                paragraphs.sort((a, b) => {
+                    if (a.order < b.order) {
+                        return -1;
+                    }
+
+                    if (a.order > b.order) {
+                        return 1;
+                    }
+
+                    return 0;
+                });
+
+                return paragraphs;
             }
         });
 
