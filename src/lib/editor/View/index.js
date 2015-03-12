@@ -14,17 +14,16 @@ const BODY = `
 </div>
 `;
 
-export default function(editor, model, buttonController, typeGap, typeContainer) {
-    // Render DOM elements conforming with the Model.
-    let relationRenderer = new RelationRenderer(editor, model, typeContainer),
-        hover = new Hover(editor, model.annotationData.entity);
-
-    setSelectionModelHandler(editor, model, buttonController);
+export default function(editor, model) {
+    let hover = new Hover(editor, model.annotationData.entity);
 
     let api = {
-        init: () => {
+        init: (editor, buttonController, typeGap, typeContainer) => {
+            setSelectionModelHandler(editor, model, buttonController);
+
             editor[0].innerHTML = BODY;
 
+            let relationRenderer = new RelationRenderer(editor, model, typeContainer);
             let arrangePositionAllRelation = relationRenderer.init(editor),
                 display = new Display(editor, model.annotationData, typeContainer, arrangePositionAllRelation);
 

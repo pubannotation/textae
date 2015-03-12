@@ -18,7 +18,7 @@ export default function(editor, dataAccessObject, history, buttonController, mod
         command = new Command(editor, model, history),
         typeGap = new Observable(-1),
         typeContainer = new TypeContainer(model),
-        view = new View(editor, model, buttonController, typeGap, typeContainer),
+        view = new View(editor, model),
         presenter = new Presenter(
             editor,
             model,
@@ -33,7 +33,7 @@ export default function(editor, dataAccessObject, history, buttonController, mod
         //handle user input event.
         controller = new Controller(editor, presenter, view);
 
-    view.init();
+    view.init(editor, buttonController, typeGap, typeContainer);
     controller.init();
     presenter.init();
 
