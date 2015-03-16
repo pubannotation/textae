@@ -134,7 +134,7 @@ module.exports = new Async();
 module.exports.firstLineError = firstLineError;
 
 }).call(this,require('_process'))
-},{"./queue.js":24,"./schedule.js":27,"_process":38}],3:[function(require,module,exports){
+},{"./queue.js":24,"./schedule.js":27,"_process":39}],3:[function(require,module,exports){
 "use strict";
 var old;
 if (typeof Promise !== "undefined") old = Promise;
@@ -798,7 +798,7 @@ return CapturedTrace;
 };
 
 }).call(this,require('_process'))
-},{"./async.js":2,"./util.js":34,"_process":38}],7:[function(require,module,exports){
+},{"./async.js":2,"./util.js":34,"_process":39}],7:[function(require,module,exports){
 "use strict";
 module.exports = function(NEXT_FILTER) {
 var util = require("./util.js");
@@ -2720,7 +2720,7 @@ return Promise;
 };
 
 }).call(this,require('_process'))
-},{"./any.js":1,"./async.js":2,"./call_get.js":4,"./cancel.js":5,"./captured_trace.js":6,"./catch_filter.js":7,"./direct_resolve.js":8,"./each.js":9,"./errors.js":10,"./filter.js":12,"./finally.js":13,"./generators.js":14,"./join.js":15,"./map.js":16,"./nodeify.js":17,"./progress.js":18,"./promise_array.js":20,"./promise_resolver.js":21,"./promisify.js":22,"./props.js":23,"./race.js":25,"./reduce.js":26,"./settle.js":28,"./some.js":29,"./synchronous_inspection.js":30,"./thenables.js":31,"./timers.js":32,"./using.js":33,"./util.js":34,"_process":38}],20:[function(require,module,exports){
+},{"./any.js":1,"./async.js":2,"./call_get.js":4,"./cancel.js":5,"./captured_trace.js":6,"./catch_filter.js":7,"./direct_resolve.js":8,"./each.js":9,"./errors.js":10,"./filter.js":12,"./finally.js":13,"./generators.js":14,"./join.js":15,"./map.js":16,"./nodeify.js":17,"./progress.js":18,"./promise_array.js":20,"./promise_resolver.js":21,"./promisify.js":22,"./props.js":23,"./race.js":25,"./reduce.js":26,"./settle.js":28,"./some.js":29,"./synchronous_inspection.js":30,"./thenables.js":31,"./timers.js":32,"./using.js":33,"./util.js":34,"_process":39}],20:[function(require,module,exports){
 "use strict";
 module.exports = function(Promise, INTERNAL, tryConvertToPromise,
     apiRejection) {
@@ -3720,7 +3720,7 @@ else {
 module.exports = schedule;
 
 }).call(this,require('_process'))
-},{"_process":38}],28:[function(require,module,exports){
+},{"_process":39}],28:[function(require,module,exports){
 "use strict";
 module.exports =
     function(Promise, PromiseArray) {
@@ -4618,6 +4618,17 @@ try {throw new Error(); } catch (e) {ret.lastLineError = e;}
 module.exports = ret;
 
 },{"./es5.js":11}],35:[function(require,module,exports){
+module.exports = function (string) {
+  return string.charAt(0).toUpperCase() + string.substring(1);
+}
+
+module.exports.words = function (string) {
+  return string.replace(/(^|\W)(\w)/g, function (m) {
+    return m.toUpperCase()
+  })
+}
+
+},{}],36:[function(require,module,exports){
 var Emitter = require('events').EventEmitter
 
 function StateMachine (opts) {
@@ -4766,9 +4777,9 @@ StateMachine.prototype._validate = function (from, to) {
 }
 
 module.exports = StateMachine
-},{"events":37}],36:[function(require,module,exports){
+},{"events":38}],37:[function(require,module,exports){
 
-},{}],37:[function(require,module,exports){
+},{}],38:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -5071,7 +5082,7 @@ function isUndefined(arg) {
   return arg === void 0;
 }
 
-},{}],38:[function(require,module,exports){
+},{}],39:[function(require,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};
@@ -5130,7 +5141,7 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}],39:[function(require,module,exports){
+},{}],40:[function(require,module,exports){
 (function (global){
 /*! http://mths.be/punycode v1.2.4 by @mathias */
 ;(function(root) {
@@ -5641,7 +5652,7 @@ process.umask = function() { return 0; };
 }(this));
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],40:[function(require,module,exports){
+},{}],41:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -5727,7 +5738,7 @@ var isArray = Array.isArray || function (xs) {
   return Object.prototype.toString.call(xs) === '[object Array]';
 };
 
-},{}],41:[function(require,module,exports){
+},{}],42:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -5814,13 +5825,13 @@ var objectKeys = Object.keys || function (obj) {
   return res;
 };
 
-},{}],42:[function(require,module,exports){
+},{}],43:[function(require,module,exports){
 'use strict';
 
 exports.decode = exports.parse = require('./decode');
 exports.encode = exports.stringify = require('./encode');
 
-},{"./decode":40,"./encode":41}],43:[function(require,module,exports){
+},{"./decode":41,"./encode":42}],44:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -6529,7 +6540,7 @@ function isNullOrUndefined(arg) {
   return  arg == null;
 }
 
-},{"punycode":39,"querystring":42}],44:[function(require,module,exports){
+},{"punycode":40,"querystring":43}],45:[function(require,module,exports){
 "use strict";
 /*globals Handlebars: true */
 var Handlebars = require("./handlebars.runtime")["default"];
@@ -6569,7 +6580,7 @@ Handlebars.create = create;
 Handlebars['default'] = Handlebars;
 
 exports["default"] = Handlebars;
-},{"./handlebars.runtime":45,"./handlebars/compiler/ast":47,"./handlebars/compiler/base":48,"./handlebars/compiler/compiler":49,"./handlebars/compiler/javascript-compiler":51}],45:[function(require,module,exports){
+},{"./handlebars.runtime":46,"./handlebars/compiler/ast":48,"./handlebars/compiler/base":49,"./handlebars/compiler/compiler":50,"./handlebars/compiler/javascript-compiler":52}],46:[function(require,module,exports){
 "use strict";
 /*globals Handlebars: true */
 var base = require("./handlebars/base");
@@ -6605,7 +6616,7 @@ Handlebars.create = create;
 Handlebars['default'] = Handlebars;
 
 exports["default"] = Handlebars;
-},{"./handlebars/base":46,"./handlebars/exception":55,"./handlebars/runtime":56,"./handlebars/safe-string":57,"./handlebars/utils":58}],46:[function(require,module,exports){
+},{"./handlebars/base":47,"./handlebars/exception":56,"./handlebars/runtime":57,"./handlebars/safe-string":58,"./handlebars/utils":59}],47:[function(require,module,exports){
 "use strict";
 var Utils = require("./utils");
 var Exception = require("./exception")["default"];
@@ -6837,7 +6848,7 @@ var createFrame = function(object) {
   return frame;
 };
 exports.createFrame = createFrame;
-},{"./exception":55,"./utils":58}],47:[function(require,module,exports){
+},{"./exception":56,"./utils":59}],48:[function(require,module,exports){
 "use strict";
 var Exception = require("../exception")["default"];
 
@@ -7052,7 +7063,7 @@ var AST = {
 // Must be exported as an object rather than the root of the module as the jison lexer
 // most modify the object to operate properly.
 exports["default"] = AST;
-},{"../exception":55}],48:[function(require,module,exports){
+},{"../exception":56}],49:[function(require,module,exports){
 "use strict";
 var parser = require("./parser")["default"];
 var AST = require("./ast")["default"];
@@ -7074,7 +7085,7 @@ function parse(input) {
 }
 
 exports.parse = parse;
-},{"../utils":58,"./ast":47,"./helpers":50,"./parser":52}],49:[function(require,module,exports){
+},{"../utils":59,"./ast":48,"./helpers":51,"./parser":53}],50:[function(require,module,exports){
 "use strict";
 var Exception = require("../exception")["default"];
 var isArray = require("../utils").isArray;
@@ -7527,7 +7538,7 @@ exports.compile = compile;function argEquals(a, b) {
     return true;
   }
 }
-},{"../exception":55,"../utils":58}],50:[function(require,module,exports){
+},{"../exception":56,"../utils":59}],51:[function(require,module,exports){
 "use strict";
 var Exception = require("../exception")["default"];
 
@@ -7715,7 +7726,7 @@ function omitLeft(statements, i, multiple) {
   current.leftStripped = current.string !== original;
   return current.leftStripped;
 }
-},{"../exception":55}],51:[function(require,module,exports){
+},{"../exception":56}],52:[function(require,module,exports){
 "use strict";
 var COMPILER_REVISION = require("../base").COMPILER_REVISION;
 var REVISION_CHANGES = require("../base").REVISION_CHANGES;
@@ -8680,7 +8691,7 @@ JavaScriptCompiler.isValidJavaScriptVariableName = function(name) {
 };
 
 exports["default"] = JavaScriptCompiler;
-},{"../base":46,"../exception":55}],52:[function(require,module,exports){
+},{"../base":47,"../exception":56}],53:[function(require,module,exports){
 "use strict";
 /* jshint ignore:start */
 /* istanbul ignore next */
@@ -9181,7 +9192,7 @@ function Parser () { this.yy = {}; }Parser.prototype = parser;parser.Parser = Pa
 return new Parser;
 })();exports["default"] = handlebars;
 /* jshint ignore:end */
-},{}],53:[function(require,module,exports){
+},{}],54:[function(require,module,exports){
 "use strict";
 var Visitor = require("./visitor")["default"];
 
@@ -9323,7 +9334,7 @@ PrintVisitor.prototype.content = function(content) {
 PrintVisitor.prototype.comment = function(comment) {
   return this.pad("{{! '" + comment.comment + "' }}");
 };
-},{"./visitor":54}],54:[function(require,module,exports){
+},{"./visitor":55}],55:[function(require,module,exports){
 "use strict";
 function Visitor() {}
 
@@ -9336,7 +9347,7 @@ Visitor.prototype = {
 };
 
 exports["default"] = Visitor;
-},{}],55:[function(require,module,exports){
+},{}],56:[function(require,module,exports){
 "use strict";
 
 var errorProps = ['description', 'fileName', 'lineNumber', 'message', 'name', 'number', 'stack'];
@@ -9365,7 +9376,7 @@ function Exception(message, node) {
 Exception.prototype = new Error();
 
 exports["default"] = Exception;
-},{}],56:[function(require,module,exports){
+},{}],57:[function(require,module,exports){
 "use strict";
 var Utils = require("./utils");
 var Exception = require("./exception")["default"];
@@ -9559,7 +9570,7 @@ exports.noop = noop;function initData(context, data) {
   }
   return data;
 }
-},{"./base":46,"./exception":55,"./utils":58}],57:[function(require,module,exports){
+},{"./base":47,"./exception":56,"./utils":59}],58:[function(require,module,exports){
 "use strict";
 // Build out our basic SafeString type
 function SafeString(string) {
@@ -9571,7 +9582,7 @@ SafeString.prototype.toString = function() {
 };
 
 exports["default"] = SafeString;
-},{}],58:[function(require,module,exports){
+},{}],59:[function(require,module,exports){
 "use strict";
 /*jshint -W004 */
 var SafeString = require("./safe-string")["default"];
@@ -9660,7 +9671,7 @@ exports.isEmpty = isEmpty;function appendContextPath(contextPath, id) {
 }
 
 exports.appendContextPath = appendContextPath;
-},{"./safe-string":57}],59:[function(require,module,exports){
+},{"./safe-string":58}],60:[function(require,module,exports){
 // USAGE:
 // var handlebars = require('handlebars');
 
@@ -9688,7 +9699,18 @@ if (typeof require !== 'undefined' && require.extensions) {
   require.extensions[".hbs"] = extension;
 }
 
-},{"../dist/cjs/handlebars":44,"../dist/cjs/handlebars/compiler/printer":53,"../dist/cjs/handlebars/compiler/visitor":54,"fs":36}],60:[function(require,module,exports){
+},{"../dist/cjs/handlebars":45,"../dist/cjs/handlebars/compiler/printer":54,"../dist/cjs/handlebars/compiler/visitor":55,"fs":37}],61:[function(require,module,exports){
+module.exports = not
+
+function not(f) {
+    return negation
+
+    function negation() {
+        return !f.apply(this, arguments)
+    }
+}
+
+},{}],62:[function(require,module,exports){
 module.exports = Observable
 
 function Observable(value) {
@@ -9717,103 +9739,1355 @@ function Observable(value) {
     }
 }
 
-},{}],61:[function(require,module,exports){
-"use strict";
-
-module.exports = function (editor, presenter, view) {
-  return {
-    init: function () {
-      // Prevent the default selection by the browser with shift keies.
-      editor.on("mousedown", function (e) {
-        if (e.shiftKey) {
-          return false;
-        }
-      }).on("mousedown", ".textae-editor__type", function () {
-        // Prevent a selection of a type by the double-click.
-        return false;
-      }).on("mousedown", ".textae-editor__body__text-box__paragraph-margin", function (e) {
-        // Prevent a selection of a margin of a paragraph by the double-click.
-        if (e.target.className === "textae-editor__body__text-box__paragraph-margin") return false;
-      });
-
-      // Bind user input event to handler
-      editor.on("mouseup", ".textae-editor__body,.textae-editor__span,.textae-editor__grid,.textae-editor__entity", presenter.event.editorSelected).on("mouseenter", ".textae-editor__entity", function (e) {
-        view.hoverRelation.on($(this).attr("title"));
-      }).on("mouseleave", ".textae-editor__entity", function (e) {
-        view.hoverRelation.off($(this).attr("title"));
-      });
-    }
-  };
-};
-
-
-},{}],62:[function(require,module,exports){
-"use strict";
-
-module.exports = function (rejects) {
-  return rejects.reduce(function (result, reject) {
-    return result || reject.hasError;
-  }, false);
-};
-
-
 },{}],63:[function(require,module,exports){
 "use strict";
 
-module.exports = function (reject) {
-  return {
-    accept: [],
-    reject: reject ? reject : []
-  };
+var EventEmitter = require("events").EventEmitter;
+
+
+var bindEvent = function ($target, event, func) {
+  $target.on(event, func);
+},
+    bindCloseEvent = function ($dialog) {
+  bindEvent($dialog, "dialog.close", function () {
+    $dialog.close();
+  });
+  return $dialog;
+},
+    ajaxAccessor = require("../util/ajaxAccessor"),
+    jQuerySugar = require("./jQuerySugar"),
+    url = require("url");
+
+// A sub component to save and load data.
+module.exports = function (editor, confirmDiscardChangeMessage) {
+  var dataSourceUrl = "",
+      cursorChanger = require("../util/CursorChanger")(editor),
+      getAnnotationFromServer = function (urlToJson) {
+    cursorChanger.startWait();
+    ajaxAccessor.getAsync(urlToJson, function getAnnotationFromServerSuccess(annotation) {
+      api.emit("load", {
+        annotation: annotation,
+        source: jQuerySugar.toLink(url.resolve(location.href, urlToJson))
+      });
+      dataSourceUrl = urlToJson;
+    }, function () {
+      cursorChanger.endWait();
+      toastr.error("Could not load the target.");
+    });
+  },
+
+
+  //load/saveDialog
+  loadSaveDialog = (function () {
+    var extendOpenWithUrl = function ($dialog) {
+      // Do not set twice.
+      if (!$dialog.openAndSetParam) {
+        $dialog.openAndSetParam = _.compose($dialog.open.bind($dialog), function (params) {
+          // Display dataSourceUrl.
+          this.find("[type=\"text\"].url").val(dataSourceUrl).trigger("input");
+
+          $dialog.params = params;
+        });
+      }
+
+      return $dialog;
+    },
+        getDialog = _.compose(extendOpenWithUrl, bindCloseEvent, require("./dialog/GetEditorDialog")(editor)),
+        label = {
+      URL: "URL",
+      LOCAL: "Local"
+    },
+        getLoadDialog = function (editorId) {
+      var getAnnotationFromFile = function (file) {
+        var firstFile = file.files[0],
+            reader = new FileReader();
+
+        reader.onload = function () {
+          var annotation = JSON.parse(this.result);
+          api.emit("load", {
+            annotation: annotation,
+            source: firstFile.name + "(local file)"
+          });
+        };
+        reader.readAsText(firstFile);
+      },
+          RowDiv = _.partial(jQuerySugar.Div, "textae-editor__load-dialog__row"),
+          RowLabel = _.partial(jQuerySugar.Label, "textae-editor__load-dialog__label"),
+          OpenButton = _.partial(jQuerySugar.Button, "Open"),
+          isUserComfirm = function () {
+        // The params was set hasAnythingToSave.
+        return !$dialog.params || window.confirm(confirmDiscardChangeMessage);
+      },
+          $buttonUrl = new OpenButton("url"),
+          $buttonLocal = new OpenButton("local"),
+          $content = $("<div>").append(new RowDiv().append(new RowLabel(label.URL), $("<input type=\"text\" class=\"textae-editor__load-dialog__file-name url\" />"), $buttonUrl)).on("input", "[type=\"text\"].url", function () {
+        jQuerySugar.enabled($buttonUrl, this.value);
+      }).on("click", "[type=\"button\"].url", function () {
+        if (isUserComfirm()) {
+          getAnnotationFromServer(jQuerySugar.getValueFromText($content, "url"));
+        }
+
+        $content.trigger("dialog.close");
+      }).append(new RowDiv().append(new RowLabel(label.LOCAL), $("<input class=\"textae-editor__load-dialog__file\" type=\"file\" />"), $buttonLocal)).on("change", "[type=\"file\"]", function () {
+        jQuerySugar.enabled($buttonLocal, this.files.length > 0);
+      }).on("click", "[type=\"button\"].local", function () {
+        if (isUserComfirm()) {
+          getAnnotationFromFile($content.find("[type=\"file\"]")[0]);
+        }
+
+        $content.trigger("dialog.close");
+      });
+
+      // Capture the local variable by inner funcitons.
+      var $dialog = getDialog("textae.dialog.load", "Load Annotations", $content);
+
+      return $dialog;
+    },
+        getSaveDialog = function (editorId) {
+      var showSaveSuccess = function () {
+        api.emit("save");
+        cursorChanger.endWait();
+      },
+          showSaveError = function () {
+        api.emit("save error");
+        cursorChanger.endWait();
+      },
+          saveAnnotationToServer = function (url, jsonData) {
+        cursorChanger.startWait();
+        ajaxAccessor.post(url, jsonData, showSaveSuccess, showSaveError, function () {
+          cursorChanger.endWait();
+        });
+      },
+          createDownloadPath = function (contents) {
+        var blob = new Blob([contents], {
+          type: "application/json"
+        });
+        return URL.createObjectURL(blob);
+      },
+          getFilename = function () {
+        var $fileInput = getLoadDialog(editorId).find("input[type='file']"),
+            file = $fileInput.prop("files")[0];
+
+        return file ? file.name : "annotations.json";
+      },
+          RowDiv = _.partial(jQuerySugar.Div, "textae-editor__save-dialog__row"),
+          RowLabel = _.partial(jQuerySugar.Label, "textae-editor__save-dialog__label"),
+          $saveButton = new jQuerySugar.Button("Save", "url"),
+          $content = $("<div>").append(new RowDiv().append(new RowLabel(label.URL), $("<input type=\"text\" class=\"textae-editor__save-dialog__server-file-name url\" />"), $saveButton)).on("input", "input.url", function () {
+        jQuerySugar.enabled($saveButton, this.value);
+      }).on("click", "[type=\"button\"].url", function () {
+        saveAnnotationToServer(jQuerySugar.getValueFromText($content, "url"), $dialog.params);
+        $content.trigger("dialog.close");
+      }).append(new RowDiv().append(new RowLabel(label.LOCAL), $("<input type=\"text\" class=\"textae-editor__save-dialog__local-file-name local\">"), $("<a class=\"download\" href=\"#\">Download</a>"))).on("click", "a.download", function () {
+        var downloadPath = createDownloadPath($dialog.params);
+        $(this).attr("href", downloadPath).attr("download", jQuerySugar.getValueFromText($content, "local"));
+        api.emit("save");
+        $content.trigger("dialog.close");
+      }).append(new RowDiv().append(new RowLabel(), $("<a class=\"viewsource\" href=\"#\">Click to see the json source in a new window.</a>"))).on("click", "a.viewsource", function (e) {
+        var downloadPath = createDownloadPath($dialog.params);
+        window.open(downloadPath, "_blank");
+        api.emit("save");
+        $content.trigger("dialog.close");
+        return false;
+      });
+
+      var $dialog = getDialog("textae.dialog.save", "Save Annotations", $content);
+
+      // Set the filename when the dialog is opened.
+      $dialog.on("dialogopen", function () {
+        var filename = getFilename();
+        $dialog.find("[type=\"text\"].local").val(filename);
+      });
+
+      return $dialog;
+    };
+
+    return {
+      showLoad: function (editorId, hasAnythingToSave) {
+        getLoadDialog(editorId).openAndSetParam(hasAnythingToSave);
+      },
+      showSave: function (editorId, jsonData) {
+        getSaveDialog(editorId).openAndSetParam(jsonData);
+      }
+    };
+  })();
+
+  var api = _.extend(new EventEmitter(), {
+    getAnnotationFromServer: getAnnotationFromServer,
+    showAccess: _.partial(loadSaveDialog.showLoad, editor.editorId),
+    showSave: _.partial(loadSaveDialog.showSave, editor.editorId) });
+
+  return api;
 };
 
 
-},{}],64:[function(require,module,exports){
+},{"../util/CursorChanger":247,"../util/ajaxAccessor":248,"./dialog/GetEditorDialog":76,"./jQuerySugar":80,"events":38,"url":44}],64:[function(require,module,exports){
 "use strict";
 
-var defaults = {
-  "delimiter characters": [" ", ".", "!", "?", ",", ":", ";", "-", "/", "&", "(", ")", "{", "}", "[", "]", "+", "*", "\\", "\"", "'", "\n", "–"],
-  "non-edge characters": [" ", "\n"]
+var ToolDialog = require("./dialog/GetToolDialog");
+
+module.exports = function () {
+  var helpDialog = new ToolDialog("textae-control__help", "Help (Keyboard short-cuts)", {
+    height: 313,
+    width: 523
+  }, $("<div>").addClass("textae-tool__key-help"));
+
+  return helpDialog.open;
+};
+
+
+},{"./dialog/GetToolDialog":77}],65:[function(require,module,exports){
+"use strict";
+
+var EventEmitter = require("events").EventEmitter;
+
+
+var Pallet = function (emitter) {
+  return $("<div>").addClass("textae-editor__type-pallet").append($("<table>")).css("position", "fixed").on("click", ".textae-editor__type-pallet__entity-type__label", function () {
+    emitter.emit("type.select", $(this).attr("label"));
+  }).on("change", ".textae-editor__type-pallet__entity-type__radio", function () {
+    emitter.emit("default-type.select", $(this).attr("label"));
+  }).hide();
+},
+    rowParts = {
+  RadioButton: function (typeContainer, typeName) {
+    // The event handler is bound direct,because jQuery detects events of radio buttons directly only.
+    var $radioButton = $("<input>").addClass("textae-editor__type-pallet__entity-type__radio").attr({
+      type: "radio",
+      name: "etype",
+      label: typeName
+    });
+
+    // Select the radio button if it is default type.
+    if (typeName === typeContainer.getDefaultType()) {
+      $radioButton.attr({
+        title: "default type",
+        checked: "checked"
+      });
+    }
+    return $radioButton;
+  },
+  Link: function (uri) {
+    if (uri) {
+      return $("<a>").attr({
+        href: uri,
+        target: "_blank"
+      }).append($("<span>").addClass("textae-editor__type-pallet__link"));
+    }
+  },
+  wrapTd: function ($element) {
+    if ($element) {
+      return $("<td>").append($element);
+    } else {
+      return $("<td>");
+    }
+  }
+},
+    PalletRow = function (typeContainer) {
+  var Column1 = _.compose(rowParts.wrapTd, _.partial(rowParts.RadioButton, typeContainer)),
+      Column2 = function (typeName) {
+    return $("<td>").addClass("textae-editor__type-pallet__entity-type__label").attr("label", typeName).text(typeName);
+  },
+      Column3 = _.compose(rowParts.wrapTd, rowParts.Link, typeContainer.getUri);
+
+  return typeContainer.getSortedNames().map(function (typeName) {
+    var $column1 = new Column1(typeName);
+    var $column2 = new Column2(typeName);
+    var $column3 = new Column3(typeName);
+
+    return $("<tr>").addClass("textae-editor__type-pallet__entity-type").css({
+      "background-color": typeContainer.getColor(typeName)
+    }).append([$column1, $column2, $column3]);
+  });
 };
 
 module.exports = function () {
-  var delimiterCharacters = [],
-      blankCharacters = [],
-      set = function (config) {
-    var settings = _.extend({}, defaults, config);
+  var emitter = new EventEmitter(),
+      $pallet = new Pallet(emitter),
+      show = (function () {
+    var reuseOldPallet = function ($pallet) {
+      var $oldPallet = $(".textae-editor__type-pallet");
+      if ($oldPallet.length !== 0) {
+        return $oldPallet.find("table").empty().end().css("width", "auto");
+      } else {
+        // Append the pallet to body to show on top.
+        $("body").append($pallet);
+        return $pallet;
+      }
+    },
+        appendRows = function (typeContainer, $pallet) {
+      return $pallet.find("table").append(new PalletRow(typeContainer)).end();
+    },
+        setMaxHeight = function ($pallet) {
+      // Show the scrollbar-y if the height of the pallet is same witch max-height.
+      if ($pallet.outerHeight() + "px" === $pallet.css("max-height")) {
+        return $pallet.css("overflow-y", "scroll");
+      } else {
+        return $pallet.css("overflow-y", "");
+      }
+    },
+        show = function ($pallet, typeContainer, point) {
+      if (typeContainer && typeContainer.getSortedNames().length > 0) {
+        var fillPallet = _.compose(setMaxHeight, _.partial(appendRows, typeContainer), reuseOldPallet);
 
-    delimiterCharacters = settings["delimiter characters"];
-    blankCharacters = settings["non-edge characters"];
-    return config;
-  },
-      reset = _.partial(set, defaults),
-      isDelimiter = function (char) {
-    if (delimiterCharacters.indexOf("ANY") >= 0) {
-      return 1;
-    }
-    return delimiterCharacters.indexOf(char) >= 0;
-  },
-      isBlankCharacter = function (char) {
-    return blankCharacters.indexOf(char) >= 0;
-  },
-      removeBlankChractors = function (str) {
-    blankCharacters.forEach(function (char) {
-      str = str.replace(char, "");
-    });
-    return str;
+        // Move the pallet to mouse.
+        fillPallet($pallet).css(point).show();
+      }
+    };
+
+    return show;
+  })();
+
+  return _.extend(emitter, {
+    show: _.partial(show, $pallet),
+    hide: $pallet.hide.bind($pallet)
+  });
+};
+
+
+},{"events":38}],66:[function(require,module,exports){
+"use strict";
+
+var _interopRequire = function (obj) {
+  return obj && (obj["default"] || obj);
+};
+
+module.exports = create;
+var lineHeight = _interopRequire(require("../../editor/View/lineHeight"));
+
+var updateLineHeight = _interopRequire(require("./updateLineHeight"));
+
+var updateTypeGapEnable = _interopRequire(require("./updateTypeGapEnable"));
+
+var updateTypeGapValue = _interopRequire(require("./updateTypeGapValue"));
+
+var CONTENT = "\n    <div class=\"textae-editor__setting-dialog\">\n        <div>\n            <label class=\"textae-editor__setting-dialog__label\">Instance/Relation View</label>\n            <input type=\"checkbox\" class=\"textae-editor__setting-dialog__term-centric-view mode\">\n        </div>\n        <div>\n            <label class=\"textae-editor__setting-dialog__label\">Type Gap</label>\n            <input type=\"number\" class=\"textae-editor__setting-dialog__type-gap type-gap\" step=\"1\" min=\"0\" max=\"5\">\n        </div>\n        <div>\n            <label class=\"textae-editor__setting-dialog__label\">Line Height</label>\n            <input type=\"number\" class=\"textae-editor__setting-dialog__line-height line-height\" step=\"1\" min=\"50\" max=\"500\">\n            px\n        </div>\n    </div>\n";
+
+function create(editor, editMode, displayInstance) {
+  var $content = $(CONTENT);
+
+  bind($content, editor, editMode, displayInstance);
+
+  return $content;
+}
+
+function bind($content, editor, editMode, displayInstance) {
+  bindChangeMode($content, editor, editMode, displayInstance);
+
+  bindChangeTypeGap($content, editor, displayInstance);
+
+  bindChangeLineHeight($content, editor);
+}
+
+function bindChangeMode($content, editor, editMode, displayInstance) {
+  var onModeChanged = debounce300(function (e) {
+    return changeMode(editor, editMode, displayInstance, $content, e.target.checked);
+  });
+
+  $content.on("click", ".mode", onModeChanged);
+}
+
+function changeMode(editor, editMode, displayInstance, $content, checked) {
+  if (checked) {
+    editMode.toInstance();
+  } else {
+    editMode.toTerm();
+  }
+  updateTypeGapEnable(displayInstance, $content);
+  updateTypeGapValue(displayInstance, $content);
+  updateLineHeight(editor, $content);
+}
+
+function bindChangeTypeGap($content, editor, displayInstance) {
+  var onTypeGapChange = debounce300(function (e) {
+    displayInstance.changeTypeGap(e.target.value);
+    updateLineHeight(editor, $content);
+  });
+
+  return $content.on("change", ".type-gap", onTypeGapChange);
+}
+
+function bindChangeLineHeight($content, editor) {
+  var onLineHeightChange = debounce300(function (e) {
+    lineHeight.set(editor[0], e.target.value);
+    redrawAllEditor();
+  });
+
+  return $content.on("change", ".line-height", onLineHeightChange);
+}
+
+// Redraw all editors in tha windows.
+function redrawAllEditor() {
+  $(window).trigger("resize");
+}
+
+function debounce300(func) {
+  return _.debounce(func, 300);
+}
+
+function sixteenTimes(val) {
+  return val * 16;
+}
+
+
+},{"../../editor/View/lineHeight":214,"./updateLineHeight":69,"./updateTypeGapEnable":70,"./updateTypeGapValue":71}],67:[function(require,module,exports){
+"use strict";
+
+var _interopRequire = function (obj) {
+  return obj && (obj["default"] || obj);
+};
+
+var GetEditorDialog = _interopRequire(require("../dialog/GetEditorDialog"));
+
+var create = _interopRequire(require("./create"));
+
+var update = _interopRequire(require("./update"));
+
+module.exports = function (editor, editMode, displayInstance) {
+  // Update values after creating a dialog because the dialog is re-used.
+  var $content = create(editor, editMode, displayInstance),
+      $dialog = appendToDialog($content, editor);
+
+  return function () {
+    update($dialog, editor, displayInstance);
+    return $dialog.open();
+  };
+};
+
+function appendToDialog($content, editor) {
+  return new GetEditorDialog(editor)("textae.dialog.setting", "Setting", $content, {
+    noCancelButton: true
+  });
+}
+
+
+},{"../dialog/GetEditorDialog":76,"./create":66,"./update":68}],68:[function(require,module,exports){
+"use strict";
+
+var _interopRequire = function (obj) {
+  return obj && (obj["default"] || obj);
+};
+
+var jQuerySugar = _interopRequire(require("../jQuerySugar"));
+
+var updateLineHeight = _interopRequire(require("./updateLineHeight"));
+
+var updateTypeGapEnable = _interopRequire(require("./updateTypeGapEnable"));
+
+var updateTypeGapValue = _interopRequire(require("./updateTypeGapValue"));
+
+module.exports = function ($dialog, editor, displayInstance) {
+  updateEditMode(displayInstance, $dialog);
+  updateTypeGapEnable(displayInstance, $dialog);
+  updateTypeGapValue(displayInstance, $dialog);
+  updateLineHeight(editor, $dialog);
+};
+
+// Update the checkbox state, because it is updated by the button on control too.
+function updateEditMode(displayInstance, $dialog) {
+  return jQuerySugar.setChecked($dialog, ".mode", displayInstance.showInstance() ? "checked" : null);
+}
+
+
+},{"../jQuerySugar":80,"./updateLineHeight":69,"./updateTypeGapEnable":70,"./updateTypeGapValue":71}],69:[function(require,module,exports){
+"use strict";
+
+var _interopRequire = function (obj) {
+  return obj && (obj["default"] || obj);
+};
+
+var lineHeight = _interopRequire(require("../../editor/View/lineHeight"));
+
+var jQuerySugar = _interopRequire(require("../jQuerySugar"));
+
+module.exports = function (editor, $dialog) {
+  return jQuerySugar.setValue($dialog, ".line-height", lineHeight.get(editor[0]));
+};
+
+
+},{"../../editor/View/lineHeight":214,"../jQuerySugar":80}],70:[function(require,module,exports){
+"use strict";
+
+var _interopRequire = function (obj) {
+  return obj && (obj["default"] || obj);
+};
+
+var jQuerySugar = _interopRequire(require("../jQuerySugar"));
+
+module.exports = function (displayInstance, $dialog) {
+  jQuerySugar.enabled(toTypeGap($dialog), displayInstance.showInstance());
+  return $dialog;
+};
+
+function toTypeGap($content) {
+  return $content.find(".type-gap");
+}
+
+
+},{"../jQuerySugar":80}],71:[function(require,module,exports){
+"use strict";
+
+var _interopRequire = function (obj) {
+  return obj && (obj["default"] || obj);
+};
+
+var jQuerySugar = _interopRequire(require("../jQuerySugar"));
+
+module.exports = function (displayInstance, $dialog) {
+  return jQuerySugar.setValue($dialog, ".type-gap", displayInstance.getTypeGap);
+};
+
+
+},{"../jQuerySugar":80}],72:[function(require,module,exports){
+"use strict";
+
+var getAreaIn = function ($parent) {
+  var $area = $parent.find(".textae-editor__footer .textae-editor__footer__message");
+  if ($area.length === 0) {
+    $area = $("<div>").addClass("textae-editor__footer__message");
+    var $footer = $("<div>").addClass("textae-editor__footer").append($area);
+    $parent.append($footer);
+  }
+
+  return $area;
+};
+
+module.exports = function (editor) {
+  var getAreaInEditor = _.partial(getAreaIn, editor),
+      status = function (message) {
+    if (message !== "") getAreaInEditor().html("Source: " + message);
   };
 
   return {
-    reset: reset,
-    set: set,
-    isDelimiter: isDelimiter,
-    isBlankCharacter: isBlankCharacter,
-    removeBlankChractors: removeBlankChractors
+    status: status
   };
 };
 
 
-},{}],65:[function(require,module,exports){
+},{}],73:[function(require,module,exports){
+"use strict";
+
+var Dialog = function (id, title, $content) {
+  return $("<div>").attr("id", id).attr("title", title).hide().append($content);
+},
+    OpenCloseMixin = function ($dialog, openOption) {
+  return {
+    open: function () {
+      $dialog.dialog(openOption);
+    },
+    close: function () {
+      $dialog.dialog("close");
+    } };
+},
+    extendDialog = function (openOption, $dialog) {
+  return _.extend($dialog, new OpenCloseMixin($dialog, openOption));
+},
+    appendDialog = function ($dialog) {
+  $("body").append($dialog);
+  return $dialog;
+};
+
+module.exports = function (openOption, id, title, $content) {
+  openOption = _.extend({
+    resizable: false,
+    modal: true
+  }, openOption);
+
+  var extendDialogWithOpenOption = _.partial(extendDialog, openOption),
+      createAndAppendDialog = _.compose(appendDialog, extendDialogWithOpenOption, Dialog);
+
+  return createAndAppendDialog(id, title, $content);
+};
+
+
+},{}],74:[function(require,module,exports){
+"use strict";
+
+var Dialog = require("./Dialog"),
+    getDialogId = function (editorId, id) {
+  return editorId + "." + id;
+},
+    defaultOption = {
+  width: 550,
+  height: 220
+};
+
+module.exports = function (editorId, id, title, $content, option) {
+  var openOption = _.extend({}, defaultOption, option);
+
+  if (option && option.noCancelButton) {
+    openOption.buttons = {};
+  } else {
+    openOption.buttons = {
+      Cancel: function () {
+        $(this).dialog("close");
+      }
+    };
+  }
+
+  var $dialog = new Dialog(openOption, getDialogId(editorId, id), title, $content);
+
+  return _.extend($dialog, {
+    id: id
+  });
+};
+
+
+},{"./Dialog":73}],75:[function(require,module,exports){
+"use strict";
+
+var getFromContainer = function (container, id) {
+  return container[id];
+},
+    addToContainer = function (container, id, object) {
+  container[id] = object;
+  return object;
+};
+
+// Cash a div for dialog by self, because $('#dialog_id') cannot find exists div element.
+// The first parameter of an createFunction must be id.
+// A createFunction must return an object having a parameter 'id'.
+module.exports = function (createFunction) {
+  var cache = {},
+      serachCache = _.partial(getFromContainer, cache),
+      addCache = _.partial(addToContainer, cache),
+      createAndCache = function (createFunction, params) {
+    var object = createFunction.apply(null, params);
+    return addCache(object.id, object);
+  };
+
+  return function (id, title, $content, options) {
+    return serachCache(id) || createAndCache(createFunction, arguments);
+  };
+};
+
+
+},{}],76:[function(require,module,exports){
+"use strict";
+
+var EditorDialog = require("./EditorDialog"),
+    FunctionUseCache = require("./FunctionUseCache");
+
+// Cache instances per editor.
+module.exports = function (editor) {
+  editor.getDialog = editor.getDialog || new FunctionUseCache(_.partial(EditorDialog, editor.editorId));
+  return editor.getDialog;
+};
+
+
+},{"./EditorDialog":74,"./FunctionUseCache":75}],77:[function(require,module,exports){
+"use strict";
+
+var ToolDialog = require("./ToolDialog"),
+    FunctionUseCache = require("./FunctionUseCache");
+
+module.exports = new FunctionUseCache(ToolDialog);
+
+
+},{"./FunctionUseCache":75,"./ToolDialog":78}],78:[function(require,module,exports){
+"use strict";
+
+var Dialog = require("./Dialog");
+
+module.exports = function (id, title, size, $content) {
+  var $dialog = new Dialog(size, id, title, $content);
+
+  return _.extend($dialog, {
+    id: id
+  });
+};
+
+
+},{"./Dialog":73}],79:[function(require,module,exports){
+"use strict";
+
+module.exports = function ($target, enable) {
+  if (enable) {
+    $target.removeAttr("disabled");
+  } else {
+    $target.attr("disabled", "disabled");
+  }
+};
+
+
+},{}],80:[function(require,module,exports){
+"use strict";
+
+var setProp = function (key, $target, className, value) {
+  var valueObject = {};
+
+  valueObject[key] = value;
+  return $target.find(className).prop(valueObject).end();
+};
+
+module.exports = {
+  enabled: require("./jQueryEnabled"),
+  Div: function (className) {
+    return $("<div>").addClass(className);
+  },
+  Label: function (className, text) {
+    return $("<label>").addClass(className).text(text);
+  },
+  Button: function (label, className) {
+    return $("<input type=\"button\" disabled=\"disabled\" />").addClass(className).val(label);
+  },
+  Checkbox: function (className) {
+    return $("<input type=\"checkbox\"/>").addClass(className);
+  },
+  Number: function (className) {
+    return $("<input type=\"number\"/>").addClass(className);
+  },
+  toLink: function (url) {
+    return "<a href=\"" + url + "\">" + url + "</a>";
+  },
+  getValueFromText: function ($target, className) {
+    return $target.find("[type=\"text\"]." + className).val();
+  },
+  setChecked: _.partial(setProp, "checked"),
+  setValue: _.partial(setProp, "value")
+};
+
+
+},{"./jQueryEnabled":79}],81:[function(require,module,exports){
+"use strict";
+
+var _interopRequire = function (obj) {
+  return obj && (obj["default"] || obj);
+};
+
+var Handlebars = _interopRequire(require("handlebars"));
+
+var hasError = require("../editor/model/AnnotationData/parseAnnotation/validateAnnotation").hasError;
+var GetEditorDialog = _interopRequire(require("./dialog/GetEditorDialog"));
+
+var source = "\n    <div class=\"textae-editor__valiondate-dialog__content\">\n        <h2>{{name}}</h2>\n        {{#if denotationHasLength}}\n            <table>\n                <caption>Wrong range.</caption>\n                <thead>\n                    <tr>\n                        <th class=\"id\">id</th>\n                        <th class=\"range\">begin</th>\n                        <th class=\"range\">end</th>\n                        <th>obj</th>\n                    </tr>\n                </thead>\n                <tbody>\n                    {{#denotationHasLength}}\n                    <tr>\n                        <td>{{id}}</td>\n                        <td class=\"alert\">{{span.begin}}</td>\n                        <td class=\"alert\">{{span.end}}</td>\n                        <td>{{obj}}</td>\n                    </tr>\n                    {{/denotationHasLength}}\n                </tbody>\n            </table>\n        {{/if}}\n        {{#if denotationInText}}\n            <table>\n                <caption>Out of text.</caption>\n                <thead>\n                    <tr>\n                        <th class=\"id\">id</th>\n                        <th class=\"range\">begin</th>\n                        <th class=\"range\">end</th>\n                        <th>obj</th>\n                    </tr>\n                </thead>\n                <tbody>\n                    {{#denotationInText}}\n                    <tr>\n                        <td>{{id}}</td>\n                        <td class=\"alert\">{{span.begin}}</td>\n                        <td class=\"alert\">{{span.end}}</td>\n                        <td>{{obj}}</td>\n                    </tr>\n                    {{/denotationInText}}\n                </tbody>\n            </table>\n        {{/if}}\n        {{#if denotationIsNotCrossing}}\n            <table>\n                <caption>Spans with boundary-cross.</caption>\n                <thead>\n                    <tr>\n                        <th class=\"id\">id</th>\n                        <th class=\"range\">begin</th>\n                        <th class=\"range\">end</th>\n                        <th>obj</th>\n                    </tr>\n                </thead>\n                <tbody>\n                    {{#denotationIsNotCrossing}}\n                    <tr>\n                        <td>{{id}}</td>\n                        <td class=\"alert\">{{span.begin}}</td>\n                        <td class=\"alert\">{{span.end}}</td>\n                        <td>{{obj}}</td>\n                    </tr>\n                    {{/denotationIsNotCrossing}}\n                </tbody>\n            </table>\n        {{/if}}\n        {{#if denotationInParagraph}}\n            <table>\n                <caption>Spans across paragraphs (newline-delimited).</caption>\n                <thead>\n                    <tr>\n                        <th class=\"id\">id</th>\n                        <th class=\"range\">begin</th>\n                        <th class=\"range\">end</th>\n                        <th>obj</th>\n                    </tr>\n                </thead>\n                <tbody>\n                    {{#denotationInParagraph}}\n                    <tr>\n                        <td>{{id}}</td>\n                        <td class=\"alert\">{{span.begin}}</td>\n                        <td class=\"alert\">{{span.end}}</td>\n                        <td>{{obj}}</td>\n                    </tr>\n                    {{/denotationInParagraph}}\n                </tbody>\n            </table>\n        {{/if}}\n        {{#if referencedItems}}\n            <table>\n                <caption>Referenced items do not exist.</caption>\n                <thead>\n                    <tr>\n                        <th class=\"id\">id</th>\n                        <th class=\"referencedItem\">subj</th>\n                        <th>pred</th>\n                        <th class=\"referencedItem\">obj</th>\n                    </tr>\n                </thead>\n                <tbody>\n                    {{#referencedItems}}\n                    <tr>\n                        <td>{{id}}</td>\n                        <td{{#if alertSubj}} class=\"alert\"{{/if}}>{{subj}}</td>\n                        <td>{{pred}}</td>\n                        <td{{#if alertObj}} class=\"alert\"{{/if}}>{{obj}}</td>\n                    </tr>\n                    {{/referencedItems}}\n                </tbody>\n            </table>\n        {{/if}}\n    </div>",
+    mergeMessage = "\n        <div class=\"textae-editor__valiondate-dialog__content\">\n            <h1>Track annatations will be merged to the root anntations.</h1>\n        </div>";
+
+var tepmlate = Handlebars.compile(source);
+
+module.exports = function (editor, rejects) {
+  if (!hasError(rejects)) return;
+
+  var $dialog = new GetEditorDialog(editor)("textae.dialog.validation", "The following erronious annotations ignored", $("<div>"), {
+    noCancelButton: true,
+    height: 450
+  });
+
+  updateContent($dialog[0].firstChild, rejects);
+  $dialog.open();
+};
+
+function updateContent(content, rejects) {
+  content.innerHTML = "";
+
+  rejects.map(transformToReferenceObjectError).map(tepmlate).forEach(function (html, index) {
+    if (index === 1) {
+      content.insertAdjacentHTML("beforeend", mergeMessage);
+    }
+
+    content.insertAdjacentHTML("beforeend", html);
+  });
+
+  return content;
+}
+
+function transformToReferenceObjectError(reject) {
+  // Combine rejects for referenced object errer.
+  reject.referencedItems = reject.relationObj.map(function (relation) {
+    relation.alertObj = true;
+    return relation;
+  }).concat(reject.relationSubj.map(function (relation) {
+    relation.alertSubj = true;
+    return relation;
+  })).concat(reject.modification.map(function (modification) {
+    modification.subj = "-";
+    modification.alertObj = true;
+    return modification;
+  }));
+
+  return reject;
+}
+
+
+},{"../editor/model/AnnotationData/parseAnnotation/validateAnnotation":225,"./dialog/GetEditorDialog":76,"handlebars":60}],82:[function(require,module,exports){
+module.exports={
+    "buttonGroup": [{
+        "buttonList": [{
+            "buttonType": "read",
+            "title": "Import [I]"
+        }, {
+            "buttonType": "write",
+            "title": "Upload [U]"
+        }]
+    }, {
+        "buttonList": [{
+            "buttonType": "undo",
+            "title": "Undo [Z]"
+        }, {
+            "buttonType": "redo",
+            "title": "Redo [A]"
+        }]
+    }, {
+        "buttonList": [{
+            "buttonType": "replicate",
+            "title": "Replicate span annotation [R]"
+        }, {
+            "buttonType": "replicate-auto",
+            "title": "Auto replicate"
+        }, {
+            "buttonType": "boundary-detection",
+            "title": "Boundary Detection [B]"
+        }, {
+            "buttonType": "relation-edit-mode",
+            "title": "Relation Edit Mode [F]"
+        }]
+    }, {
+        "buttonList": [{
+            "buttonType": "entity",
+            "title": "New entity [E]"
+        }, {
+            "buttonType": "pallet",
+            "title": "Select label [Q]"
+        }, {
+            "buttonType": "change-label",
+            "title": "Change label [W]"
+        }]
+    }, {
+        "buttonList": [{
+            "buttonType": "negation",
+            "title": "Negation [X]"
+        }, {
+            "buttonType": "speculation",
+            "title": "Speculation [S]"
+        }]
+    }, {
+        "buttonList": [{
+            "buttonType": "delete",
+            "title": "Delete [D]"
+        }, {
+            "buttonType": "copy",
+            "title": "Copy [C]"
+        }, {
+            "buttonType": "paste",
+            "title": "Paste [V]"
+        }]
+    }, {
+        "buttonList": [{
+            "buttonType": "setting",
+            "title": "Setting"
+        }]
+    }, {
+        "buttonList": [{
+            "buttonType": "help",
+            "title": "Help [H]"
+        }, {
+            "buttonType": "line-height",
+            "title": "Auto Adjust LineHeight"
+        }]
+    }]
+}
+
+},{}],83:[function(require,module,exports){
+"use strict";
+
+var _interopRequire = function (obj) {
+  return obj && (obj["default"] || obj);
+};
+
+exports.enable = enable;
+exports.disable = disable;
+exports.push = push;
+exports.unpush = unpush;
+var toButtonClass = _interopRequire(require("./toButtonClass"));
+
+// Utility functions to change appearance of bunttons.
+function enable($control, buttonType) {
+  find($control, buttonType).removeClass("textae-control__icon--disabled");
+}
+
+function disable($control, buttonType) {
+  find($control, buttonType).addClass("textae-control__icon--disabled");
+}
+
+function push($control, buttonType) {
+  find($control, buttonType).addClass("textae-control__icon--pushed");
+}
+
+function unpush($control, buttonType) {
+  find($control, buttonType).removeClass("textae-control__icon--pushed");
+}
+
+function find($control, buttonType) {
+  return $control.find(toButtonClass(buttonType));
+}
+
+
+},{"./toButtonClass":86}],84:[function(require,module,exports){
+"use strict";
+
+var _interopRequire = function (obj) {
+  return obj && (obj["default"] || obj);
+};
+
+var BUTTON_MAP = _interopRequire(require("./buttonMap"));
+
+var makeButtons = _interopRequire(require("./makeButtons"));
+
+var toButtonList = _interopRequire(require("./toButtonList"));
+
+var cssUtil = _interopRequire(require("./iconCssUtil"));
+
+var updateButtons = _interopRequire(require("./updateButtons"));
+
+// Buttons that always eanable.
+var ALWAYS_ENABLES = {
+  read: true,
+  help: true
+};
+
+// The control is a control bar to edit.
+// This can controls mulitple instance of editor.
+module.exports = function ($control) {
+  var buttonList = toButtonList(BUTTON_MAP);
+
+  makeButtons($control, BUTTON_MAP);
+
+  // Public API
+  $control.updateAllButtonEnableState = function (enableButtons) {
+    return updateAllButtonEnableState($control, buttonList, enableButtons);
+  };
+  $control.updateButtonPushState = function (buttonType, isPushed) {
+    return updateButtonPushState($control, buttonType, isPushed);
+  };
+
+  return $control;
+};
+
+function updateAllButtonEnableState($control, buttonList, enableButtons) {
+  // Make buttons in a enableButtons enabled, and other buttons in the buttonList disabled.
+  var enables = _.extend({}, buttonList, ALWAYS_ENABLES, enableButtons);
+
+  // A function to enable/disable button.
+  updateButtons($control, buttonList, enables);
+}
+
+function updateButtonPushState($control, buttonType, isPushed) {
+  if (isPushed) {
+    cssUtil.push($control, buttonType);
+  } else {
+    cssUtil.unpush($control, buttonType);
+  }
+}
+
+
+},{"./buttonMap":82,"./iconCssUtil":83,"./makeButtons":85,"./toButtonList":87,"./updateButtons":88}],85:[function(require,module,exports){
+"use strict";
+
+var _interopRequire = function (obj) {
+  return obj && (obj["default"] || obj);
+};
+
+var Handlebars = _interopRequire(require("handlebars"));
+
+// Make a group of buttons that is headed by the separator.
+var source = "\n    <span class=\"textae-control__title\">\n        <a href=\"http://textae.pubannotation.org/\" target=\"_blank\">TextAE</a>\n    </span>\n    {{#buttonGroup}}\n    <span class=\"textae-control__separator\"></span>\n        {{#buttonList}}\n    <span class=\"textae-control__icon textae-control__{{buttonType}}-button\" title=\"{{title}}\"></span>\n        {{/buttonList}}\n    {{/buttonGroup}}\n    ";
+
+var tepmlate = Handlebars.compile(source);
+
+module.exports = function ($control, buttonMap) {
+  $control[0].innerHTML = tepmlate(buttonMap);
+};
+
+
+},{"handlebars":60}],86:[function(require,module,exports){
+"use strict";
+
+module.exports = function (buttonType) {
+  return ".textae-control__" + buttonType + "-button";
+};
+
+
+},{}],87:[function(require,module,exports){
+"use strict";
+
+// Return {read: 1, write: 1, undo: 1, redo: 1, replicate: 1…}
+module.exports = function (buttonMap) {
+  return buttonMap.buttonGroup.reduce(function (hash, group) {
+    return group.buttonList.reduce(function (hash, button) {
+      // Trick for merge outer parametr to enable or disable buttons
+      hash[button.buttonType] = 1;
+      return hash;
+    }, hash);
+  }, {});
+};
+
+
+},{}],88:[function(require,module,exports){
+"use strict";
+
+var _interopRequire = function (obj) {
+  return obj && (obj["default"] || obj);
+};
+
+var cssUtil = _interopRequire(require("./iconCssUtil"));
+
+var toButtonClass = _interopRequire(require("./toButtonClass"));
+
+var EVENT = "click";
+
+// A parameter can be spesified by object like { 'buttonType1': true, 'buttonType2': false }.
+module.exports = function ($control, buttonList, buttonEnables) {
+  Object.keys(buttonEnables).filter(function (buttonType) {
+    return buttonList[buttonType];
+  }).forEach(function (buttonType) {
+    return setButtonApearanceAndEventHandler($control, buttonType, buttonEnables[buttonType]);
+  });
+};
+
+function enableButton($control, buttonType) {
+  var eventHandler = function () {
+    $control.trigger("textae.control.button.click", "textae.control.button." + buttonType.replace(/-/g, "_") + ".click");
+    return false;
+  };
+
+  $control.off(EVENT, toButtonClass(buttonType)).on(EVENT, toButtonClass(buttonType), eventHandler);
+
+  cssUtil.enable($control, buttonType);
+}
+
+function disableButton($control, buttonType) {
+  $control.off(EVENT, toButtonClass(buttonType));
+
+  cssUtil.disable($control, buttonType);
+}
+
+function setButtonApearanceAndEventHandler($control, buttonType, enable) {
+  // Set apearance and eventHandler to button.
+  if (enable === true) {
+    enableButton($control, buttonType);
+  } else {
+    disableButton($control, buttonType);
+  }
+}
+
+
+},{"./iconCssUtil":83,"./toButtonClass":86}],89:[function(require,module,exports){
+"use strict";
+
+module.exports = function (command, presenter, dataAccessObject, history, annotationData, buttonController, view, updateLineHeight) {
+  var keyApiMap = new KeyApiMap(command, presenter, dataAccessObject, history, annotationData),
+      iconApiMap = new IconApiMap(command, presenter, dataAccessObject, history, annotationData, buttonController, updateLineHeight);
+
+  // Update APIs
+  return {
+    handleKeyInput: function (key, value) {
+      return handle(keyApiMap, key, value);
+    },
+    handleButtonClick: function (key, value) {
+      return handle(iconApiMap, key, value);
+    },
+    redraw: function () {
+      return view.updateDisplay();
+    }
+  };
+};
+
+function handle(map, key, value) {
+  if (map[key]) map[key](value);
+}
+
+function KeyApiMap(command, presenter, dataAccessObject, history, annotationData) {
+  var showAccess = function () {
+    return dataAccessObject.showAccess(history.hasAnythingToSave());
+  },
+      showSave = function () {
+    return dataAccessObject.showSave(annotationData.toJson());
+  },
+      keyApiMap = {
+    A: command.redo,
+    B: presenter.event.toggleDetectBoundaryMode,
+    C: presenter.event.copyEntities,
+    D: presenter.event.removeSelectedElements,
+    DEL: presenter.event.removeSelectedElements,
+    E: presenter.event.createEntity,
+    F: presenter.event.toggleRelationEditMode,
+    I: showAccess,
+    M: presenter.event.toggleRelationEditMode,
+    Q: presenter.event.showPallet,
+    R: presenter.event.replicate,
+    S: presenter.event.speculation,
+    U: showSave,
+    V: presenter.event.pasteEntities,
+    W: presenter.event.newLabel,
+    X: presenter.event.negation,
+    Y: command.redo,
+    Z: command.undo,
+    ESC: presenter.event.cancelSelect,
+    LEFT: presenter.event.selectLeftSpan,
+    RIGHT: presenter.event.selectRightSpan };
+
+  return keyApiMap;
+}
+
+function IconApiMap(command, presenter, dataAccessObject, history, annotationData, buttonController, updateLineHeight) {
+  var showAccess = function () {
+    return dataAccessObject.showAccess(history.hasAnythingToSave());
+  },
+      showSave = function () {
+    return dataAccessObject.showSave(annotationData.toJson());
+  },
+      iconApiMap = {
+    "textae.control.button.read.click": showAccess,
+    "textae.control.button.write.click": showSave,
+    "textae.control.button.undo.click": command.undo,
+    "textae.control.button.redo.click": command.redo,
+    "textae.control.button.replicate.click": presenter.event.replicate,
+    "textae.control.button.replicate_auto.click": buttonController.modeAccordingToButton["replicate-auto"].toggle,
+    "textae.control.button.boundary_detection.click": presenter.event.toggleDetectBoundaryMode,
+    "textae.control.button.relation_edit_mode.click": presenter.event.toggleRelationEditMode,
+    "textae.control.button.entity.click": presenter.event.createEntity,
+    "textae.control.button.change_label.click": presenter.event.newLabel,
+    "textae.control.button.pallet.click": presenter.event.showPallet,
+    "textae.control.button.negation.click": presenter.event.negation,
+    "textae.control.button.speculation.click": presenter.event.speculation,
+    "textae.control.button.delete.click": presenter.event.removeSelectedElements,
+    "textae.control.button.copy.click": presenter.event.copyEntities,
+    "textae.control.button.paste.click": presenter.event.pasteEntities,
+    "textae.control.button.setting.click": presenter.event.showSettingDialog,
+    "textae.control.button.line_height.click": updateLineHeight
+  };
+
+  return iconApiMap;
+}
+
+
+},{}],90:[function(require,module,exports){
+"use strict";
+
+var _interopRequire = function (obj) {
+  return obj && (obj["default"] || obj);
+};
+
+var EventEmitter = require("events").EventEmitter;
+var reduce2hash = _interopRequire(require("../reduce2hash"));
+
+var buttonList = ["boundary-detection", "negation", "replicate-auto", "relation-edit-mode", "speculation"];
+
+module.exports = function () {
+  var emitter = new EventEmitter(),
+      buttons = buttonList.map(Button),
+      propagateStateOfAllButtons = function () {
+    return propagateStateOf(emitter, buttons);
+  },
+      buttonHash = buttons.reduce(reduce2hash, {});
+
+  // default pushed;
+  buttonHash["boundary-detection"].value(true);
+
+  // Bind events.
+  buttons.forEach(function (button) {
+    button.on("change", function (data) {
+      return emitter.emit("change", data);
+    });
+  });
+
+  return _.extend(emitter, buttonHash, {
+    propagate: propagateStateOfAllButtons
+  });
+};
+
+function Button(buttonName) {
+  // Button state is true when the button is pushed.
+  var emitter = new EventEmitter(),
+      state = false,
+      value = function (newValue) {
+    if (newValue !== undefined) {
+      state = newValue;
+      propagate();
+    } else {
+      return state;
+    }
+  },
+      toggle = function toggleButton() {
+    state = !state;
+    propagate();
+  },
+
+
+  // Propagate button state to the tool.
+  propagate = function () {
+    return emitter.emit("change", {
+      buttonName: buttonName,
+      state: state
+    });
+  };
+
+  return _.extend(emitter, {
+    name: buttonName,
+    value: value,
+    toggle: toggle,
+    propagate: propagate
+  });
+}
+
+function propagateStateOf(emitter, buttons) {
+  buttons.map(toData).forEach(function (data) {
+    return emitter.emit("change", data);
+  });
+}
+
+function toData(button) {
+  return {
+    buttonName: button.name,
+    state: button.value()
+  };
+}
+
+
+},{"../reduce2hash":234,"events":38}],91:[function(require,module,exports){
+"use strict";
+
+var EventEmitter = require("events").EventEmitter;
+
+
+var ButtonEnableStates = function () {
+  var states = {},
+      set = function (button, enable) {
+    states[button] = enable;
+  },
+      eventEmitter = new EventEmitter(),
+      propagate = function () {
+    eventEmitter.emit("change", states);
+  };
+
+  return _.extend(eventEmitter, {
+    set: set,
+    propagate: propagate
+  });
+},
+    UpdateButtonState = function (model, buttonEnableStates, clipBoard) {
+  // Short cut name
+  var s = model.selectionModel,
+      doPredicate = function (name) {
+    return _.isFunction(name) ? name() : s[name].some();
+  },
+      and = function () {
+    for (var i = 0; i < arguments.length; i++) {
+      if (!doPredicate(arguments[i])) return false;
+    }
+
+    return true;
+  },
+      or = function () {
+    for (var i = 0; i < arguments.length; i++) {
+      if (doPredicate(arguments[i])) return true;
+    }
+
+    return false;
+  },
+      hasCopy = function () {
+    return clipBoard.clipBoard.length > 0;
+  },
+      sOrE = _.partial(or, "span", "entity"),
+      eOrR = _.partial(or, "entity", "relation");
+
+
+  // Check all associated anntation elements.
+  // For exapmle, it should be that buttons associate with entitis is enable,
+  // when deselect the span after select a span and an entity.
+  var predicates = {
+    replicate: function () {
+      return !!s.span.single();
+    },
+    entity: s.span.some,
+    "delete": s.some, // It works well on relation-edit-mode if relations are deselect brefore an entity is select.
+    copy: sOrE,
+    paste: _.partial(and, hasCopy, "span"),
+    pallet: eOrR,
+    "change-label": eOrR,
+    negation: eOrR,
+    speculation: eOrR
+  };
+
+  return function (buttons) {
+    buttons.forEach(function (buttonName) {
+      buttonEnableStates.set(buttonName, predicates[buttonName]());
+    });
+  };
+},
+    UpdateModificationButtons = function (model, modeAccordingToButton) {
+  var doesAllModificaionHasSpecified = function (specified, modificationsOfSelectedElement) {
+    return modificationsOfSelectedElement.length > 0 && _.every(modificationsOfSelectedElement, function (m) {
+      return _.contains(m, specified);
+    });
+  },
+      updateModificationButton = function (specified, modificationsOfSelectedElement) {
+    // All modification has specified modification if exits.
+    modeAccordingToButton[specified.toLowerCase()].value(doesAllModificaionHasSpecified(specified, modificationsOfSelectedElement));
+  };
+
+  return function (selectionModel) {
+    var modifications = selectionModel.all().map(function (e) {
+      return model.annotationData.getModificationOf(e).map(function (m) {
+        return m.pred;
+      });
+    });
+
+    updateModificationButton("Negation", modifications);
+    updateModificationButton("Speculation", modifications);
+  };
+},
+    ButtonStateHelper = function (model, modeAccordingToButton, buttonEnableStates, updateButtonState, updateModificationButtons) {
+  var allButtons = ["delete"],
+      spanButtons = allButtons.concat(["replicate", "entity", "copy", "paste"]),
+      relationButtons = allButtons.concat(["pallet", "change-label", "negation", "speculation"]),
+      entityButtons = relationButtons.concat(["copy"]),
+      propagate = _.compose(modeAccordingToButton.propagate, buttonEnableStates.propagate),
+      propagateAfter = _.partial(_.compose, propagate);
+
+  return {
+    propagate: propagate,
+    enabled: propagateAfter(buttonEnableStates.set),
+    updateBySpan: propagateAfter(_.partial(updateButtonState, spanButtons)),
+    updateByEntity: _.compose(propagate, _.partial(updateModificationButtons, model.selectionModel.entity), _.partial(updateButtonState, entityButtons)),
+    updateByRelation: _.compose(propagate, _.partial(updateModificationButtons, model.selectionModel.relation), _.partial(updateButtonState, relationButtons))
+  };
+};
+
+module.exports = function (editor, model, clipBoard) {
+  // Save state of push control buttons.
+  var modeAccordingToButton = require("./ModeAccordingToButton")(),
+
+
+  // Save enable/disable state of contorol buttons.
+  buttonEnableStates = new ButtonEnableStates(),
+      updateButtonState = new UpdateButtonState(model, buttonEnableStates, clipBoard),
+
+
+  // Change push/unpush of buttons of modifications.
+  updateModificationButtons = new UpdateModificationButtons(model, modeAccordingToButton),
+
+
+  // Helper to update button state.
+  buttonStateHelper = new ButtonStateHelper(model, modeAccordingToButton, buttonEnableStates, updateButtonState, updateModificationButtons);
+
+  // Proragate events.
+  modeAccordingToButton.on("change", function (data) {
+    editor.eventEmitter.emit("textae.control.button.push", data);
+  });
+
+  buttonEnableStates.on("change", function (data) {
+    editor.eventEmitter.emit("textae.control.buttons.change", data);
+  });
+
+  return {
+    // Modes accoding to buttons of control.
+    modeAccordingToButton: modeAccordingToButton,
+    buttonStateHelper: buttonStateHelper };
+};
+
+
+},{"./ModeAccordingToButton":90,"events":38}],92:[function(require,module,exports){
 "use strict";
 
 module.exports = function (message, object) {
@@ -9826,7 +11100,7 @@ module.exports = function (message, object) {
 };
 
 
-},{}],66:[function(require,module,exports){
+},{}],93:[function(require,module,exports){
 "use strict";
 
 var updateSelection = function (model, modelType, newModel) {
@@ -9901,7 +11175,7 @@ var updateSelection = function (model, modelType, newModel) {
 module.exports = commandTemplate;
 
 
-},{"./commandLog":65}],67:[function(require,module,exports){
+},{"./commandLog":92}],94:[function(require,module,exports){
 "use strict";
 
 var invokeCommand = require("./invokeCommand"),
@@ -9952,11 +11226,36 @@ var invokeCommand = require("./invokeCommand"),
 module.exports = executeCompositCommand;
 
 
-},{"./commandLog":65,"./commandTemplate":66,"./invokeCommand":70}],68:[function(require,module,exports){
+},{"./commandLog":92,"./commandTemplate":93,"./invokeCommand":97}],95:[function(require,module,exports){
 "use strict";
 
+var _interopRequire = function (obj) {
+  return obj && (obj["default"] || obj);
+};
+
+var not = _interopRequire(require("not"));
+
+var isAlreadySpaned = _interopRequire(require("../model/isAlreadySpaned"));
+
+var isBoundaryCrossingWithOtherSpans = require("../model/AnnotationData/parseAnnotation/validateAnnotation").isBoundaryCrossingWithOtherSpans;
+
+
+// Check replications are word or not if spanConfig is set.
+module.exports = function (dataStore, originSpan, detectBoundaryFunc) {
+  var allSpans = dataStore.span.all(),
+      wordFilter = detectBoundaryFunc ? _.partial(isWord, dataStore.sourceDoc, detectBoundaryFunc) : _.identity;
+
+  return getSpansTheirStringIsSameWith(dataStore.sourceDoc, originSpan).filter(function (span) {
+    return (
+      // The candidateSpan is a same span when begin is same.
+      // Because string of each others are same. End of them are same too.
+      span.begin !== originSpan.begin
+    );
+  }).filter(wordFilter).filter(not(_.partial(isAlreadySpaned, allSpans))).filter(not(_.partial(isBoundaryCrossingWithOtherSpans, allSpans)));
+};
+
 // Get spans their stirng is same with the originSpan from sourceDoc.
-var getSpansTheirStringIsSameWith = function (sourceDoc, originSpan) {
+function getSpansTheirStringIsSameWith(sourceDoc, originSpan) {
   var getNextStringIndex = String.prototype.indexOf.bind(sourceDoc, sourceDoc.substring(originSpan.begin, originSpan.end)),
       length = originSpan.end - originSpan.begin,
       findStrings = [],
@@ -9972,44 +11271,26 @@ var getSpansTheirStringIsSameWith = function (sourceDoc, originSpan) {
   }
 
   return findStrings;
-},
-
+}
 
 // The preceding charactor and the following of a word charactor are delimiter.
 // For example, 't' ,a part of 'that', is not same with an origin span when it is 't'.
-isWord = function (sourceDoc, detectBoundaryFunc, candidateSpan) {
-  var precedingChar = sourceDoc.charAt(candidateSpan.begin - 1);
-  var followingChar = sourceDoc.charAt(candidateSpan.end);
+function isWord(sourceDoc, detectBoundaryFunc, candidateSpan) {
+  var precedingChar = sourceDoc.charAt(candidateSpan.begin - 1),
+      followingChar = sourceDoc.charAt(candidateSpan.end);
 
   return detectBoundaryFunc(precedingChar) && detectBoundaryFunc(followingChar);
-},
-    not = function (val) {
-  return !val;
-},
-    isAlreadySpaned = require("../model/isAlreadySpaned"),
-    isBoundaryCrossingWithOtherSpans = require("../model/isBoundaryCrossingWithOtherSpans");
-
-// Check replications are word or not if spanConfig is set.
-module.exports = function (dataStore, originSpan, detectBoundaryFunc) {
-  var allSpans = dataStore.span.all(),
-      wordFilter = detectBoundaryFunc ? _.partial(isWord, dataStore.sourceDoc, detectBoundaryFunc) : _.identity;
-
-  return getSpansTheirStringIsSameWith(dataStore.sourceDoc, originSpan).filter(function (span) {
-    // The candidateSpan is a same span when begin is same.
-    // Because string of each others are same. End of them are same too.
-    return span.begin !== originSpan.begin;
-  }).filter(wordFilter).filter(_.compose(not, _.partial(isAlreadySpaned, allSpans))).filter(_.compose(not, _.partial(isBoundaryCrossingWithOtherSpans, allSpans)));
-};
+}
 
 
-},{"../model/isAlreadySpaned":113,"../model/isBoundaryCrossingWithOtherSpans":114}],69:[function(require,module,exports){
+},{"../model/AnnotationData/parseAnnotation/validateAnnotation":225,"../model/isAlreadySpaned":233,"not":61}],96:[function(require,module,exports){
 "use strict";
 
 var invokeCommand = require("./invokeCommand"),
     commandTemplate = require("./commandTemplate"),
     executeCompositCommand = require("./executeCompositCommand"),
     getReplicationSpans = require("./getReplicationSpans"),
-    idFactory = require("../util/idFactory");
+    idFactory = require("../idFactory");
 
 // A command is an operation by user that is saved as history, and can undo and redo.
 // Users can edit model only via commands.
@@ -10222,7 +11503,7 @@ module.exports = function (editor, model, history) {
 };
 
 
-},{"../util/idFactory":158,"./commandTemplate":66,"./executeCompositCommand":67,"./getReplicationSpans":68,"./invokeCommand":70}],70:[function(require,module,exports){
+},{"../idFactory":221,"./commandTemplate":93,"./executeCompositCommand":94,"./getReplicationSpans":95,"./invokeCommand":97}],97:[function(require,module,exports){
 "use strict";
 
 var invoke = function (commands) {
@@ -10246,1163 +11527,104 @@ var invoke = function (commands) {
 module.exports = invokeCommand;
 
 
-},{}],71:[function(require,module,exports){
+},{}],98:[function(require,module,exports){
+"use strict";
+
+module.exports = function (editor, presenter, view) {
+  return {
+    init: function () {
+      // Prevent the default selection by the browser with shift keies.
+      editor.on("mousedown", function (e) {
+        if (e.shiftKey) {
+          return false;
+        }
+      }).on("mousedown", ".textae-editor__type", function () {
+        // Prevent a selection of a type by the double-click.
+        return false;
+      }).on("mousedown", ".textae-editor__body__text-box__paragraph-margin", function (e) {
+        // Prevent a selection of a margin of a paragraph by the double-click.
+        if (e.target.className === "textae-editor__body__text-box__paragraph-margin") return false;
+      });
+
+      // Bind user input event to handler
+      editor.on("mouseup", ".textae-editor__body,.textae-editor__span,.textae-editor__grid,.textae-editor__entity", presenter.event.editorSelected).on("mouseenter", ".textae-editor__entity", function (e) {
+        view.hoverRelation.on($(this).attr("title"));
+      }).on("mouseleave", ".textae-editor__entity", function (e) {
+        view.hoverRelation.off($(this).attr("title"));
+      });
+    }
+  };
+};
+
+
+},{}],99:[function(require,module,exports){
 "use strict";
 
 var EventEmitter = require("events").EventEmitter;
 
 
-var bindEvent = function ($target, event, func) {
-  $target.on(event, func);
-},
-    bindCloseEvent = function ($dialog) {
-  bindEvent($dialog, "dialog.close", function () {
-    $dialog.close();
-  });
-  return $dialog;
-},
-    ajaxAccessor = require("../util/ajaxAccessor"),
-    jQuerySugar = require("../util/jQuerySugar"),
-    url = require("url");
-
-// A sub component to save and load data.
-module.exports = function (editor, confirmDiscardChangeMessage) {
-  var dataSourceUrl = "",
-      cursorChanger = require("../util/CursorChanger")(editor),
-      getAnnotationFromServer = function (urlToJson) {
-    cursorChanger.startWait();
-    ajaxAccessor.getAsync(urlToJson, function getAnnotationFromServerSuccess(annotation) {
-      api.emit("load", {
-        annotation: annotation,
-        source: jQuerySugar.toLink(url.resolve(location.href, urlToJson))
-      });
-      dataSourceUrl = urlToJson;
-    }, function () {
-      cursorChanger.endWait();
-      alert("connection failed.");
-    });
-  },
-
-
-  //load/saveDialog
-  loadSaveDialog = (function () {
-    var extendOpenWithUrl = function ($dialog) {
-      // Do not set twice.
-      if (!$dialog.openAndSetParam) {
-        $dialog.openAndSetParam = _.compose($dialog.open.bind($dialog), function (params) {
-          // Display dataSourceUrl.
-          this.find("[type=\"text\"].url").val(dataSourceUrl).trigger("input");
-
-          $dialog.params = params;
-        });
-      }
-
-      return $dialog;
-    },
-        getDialog = _.compose(extendOpenWithUrl, bindCloseEvent, require("./dialog/GetEditorDialog")(editor)),
-        label = {
-      URL: "URL",
-      LOCAL: "Local"
-    },
-        getLoadDialog = function (editorId) {
-      var getAnnotationFromFile = function (file) {
-        var firstFile = file.files[0],
-            reader = new FileReader();
-
-        reader.onload = function () {
-          var annotation = JSON.parse(this.result);
-          api.emit("load", {
-            annotation: annotation,
-            source: firstFile.name + "(local file)"
-          });
-        };
-        reader.readAsText(firstFile);
-      },
-          RowDiv = _.partial(jQuerySugar.Div, "textae-editor__load-dialog__row"),
-          RowLabel = _.partial(jQuerySugar.Label, "textae-editor__load-dialog__label"),
-          OpenButton = _.partial(jQuerySugar.Button, "Open"),
-          isUserComfirm = function () {
-        // The params was set hasAnythingToSave.
-        return !$dialog.params || window.confirm(confirmDiscardChangeMessage);
-      },
-          $buttonUrl = new OpenButton("url"),
-          $buttonLocal = new OpenButton("local"),
-          $content = $("<div>").append(new RowDiv().append(new RowLabel(label.URL), $("<input type=\"text\" class=\"textae-editor__load-dialog__file-name url\" />"), $buttonUrl)).on("input", "[type=\"text\"].url", function () {
-        jQuerySugar.enabled($buttonUrl, this.value);
-      }).on("click", "[type=\"button\"].url", function () {
-        if (isUserComfirm()) {
-          getAnnotationFromServer(jQuerySugar.getValueFromText($content, "url"));
-        }
-
-        $content.trigger("dialog.close");
-      }).append(new RowDiv().append(new RowLabel(label.LOCAL), $("<input class=\"textae-editor__load-dialog__file\" type=\"file\" />"), $buttonLocal)).on("change", "[type=\"file\"]", function () {
-        jQuerySugar.enabled($buttonLocal, this.files.length > 0);
-      }).on("click", "[type=\"button\"].local", function () {
-        if (isUserComfirm()) {
-          getAnnotationFromFile($content.find("[type=\"file\"]")[0]);
-        }
-
-        $content.trigger("dialog.close");
-      });
-
-      // Capture the local variable by inner funcitons.
-      var $dialog = getDialog("textae.dialog.load", "Load Annotations", $content);
-
-      return $dialog;
-    },
-        getSaveDialog = function (editorId) {
-      var showSaveSuccess = function () {
-        api.emit("save");
-        cursorChanger.endWait();
-      },
-          showSaveError = function () {
-        api.emit("save error");
-        cursorChanger.endWait();
-      },
-          saveAnnotationToServer = function (url, jsonData) {
-        cursorChanger.startWait();
-        ajaxAccessor.post(url, jsonData, showSaveSuccess, showSaveError, function () {
-          cursorChanger.endWait();
-        });
-      },
-          createDownloadPath = function (contents) {
-        var blob = new Blob([contents], {
-          type: "application/json"
-        });
-        return URL.createObjectURL(blob);
-      },
-          getFilename = function () {
-        var $fileInput = getLoadDialog(editorId).find("input[type='file']"),
-            file = $fileInput.prop("files")[0];
-
-        return file ? file.name : "annotations.json";
-      },
-          RowDiv = _.partial(jQuerySugar.Div, "textae-editor__save-dialog__row"),
-          RowLabel = _.partial(jQuerySugar.Label, "textae-editor__save-dialog__label"),
-          $saveButton = new jQuerySugar.Button("Save", "url"),
-          $content = $("<div>").append(new RowDiv().append(new RowLabel(label.URL), $("<input type=\"text\" class=\"textae-editor__save-dialog__server-file-name url\" />"), $saveButton)).on("input", "input.url", function () {
-        jQuerySugar.enabled($saveButton, this.value);
-      }).on("click", "[type=\"button\"].url", function () {
-        saveAnnotationToServer(jQuerySugar.getValueFromText($content, "url"), $dialog.params);
-        $content.trigger("dialog.close");
-      }).append(new RowDiv().append(new RowLabel(label.LOCAL), $("<input type=\"text\" class=\"textae-editor__save-dialog__local-file-name local\">"), $("<a class=\"download\" href=\"#\">Download</a>"))).on("click", "a.download", function () {
-        var downloadPath = createDownloadPath($dialog.params);
-        $(this).attr("href", downloadPath).attr("download", jQuerySugar.getValueFromText($content, "local"));
-        api.emit("save");
-        $content.trigger("dialog.close");
-      }).append(new RowDiv().append(new RowLabel(), $("<a class=\"viewsource\" href=\"#\">Click to see the json source in a new window.</a>"))).on("click", "a.viewsource", function (e) {
-        var downloadPath = createDownloadPath($dialog.params);
-        window.open(downloadPath, "_blank");
-        api.emit("save");
-        $content.trigger("dialog.close");
-        return false;
-      });
-
-      var $dialog = getDialog("textae.dialog.save", "Save Annotations", $content);
-
-      // Set the filename when the dialog is opened.
-      $dialog.on("dialogopen", function () {
-        var filename = getFilename();
-        $dialog.find("[type=\"text\"].local").val(filename);
-      });
-
-      return $dialog;
-    };
-
-    return {
-      showLoad: function (editorId, hasAnythingToSave) {
-        getLoadDialog(editorId).openAndSetParam(hasAnythingToSave);
-      },
-      showSave: function (editorId, jsonData) {
-        getSaveDialog(editorId).openAndSetParam(jsonData);
-      }
-    };
-  })();
-
-  var api = _.extend(new EventEmitter(), {
-    getAnnotationFromServer: getAnnotationFromServer,
-    showAccess: _.partial(loadSaveDialog.showLoad, editor.editorId),
-    showSave: _.partial(loadSaveDialog.showSave, editor.editorId) });
-
-  return api;
-};
-
-
-},{"../util/CursorChanger":152,"../util/ajaxAccessor":153,"../util/jQuerySugar":160,"./dialog/GetEditorDialog":79,"events":37,"url":43}],72:[function(require,module,exports){
-"use strict";
-
-var ToolDialog = require("./dialog/GetToolDialog");
-
+// histories of edit to undo and redo.
 module.exports = function () {
-  var helpDialog = new ToolDialog("textae-control__help", "Help (Keyboard short-cuts)", {
-    height: 313,
-    width: 523
-  }, $("<div>").addClass("textae-tool__key-help"));
-
-  return helpDialog.open;
-};
-
-
-},{"./dialog/GetToolDialog":80}],73:[function(require,module,exports){
-"use strict";
-
-var Pallet = function (emitter) {
-  return $("<div>").addClass("textae-editor__type-pallet").append($("<table>")).css("position", "fixed").on("click", ".textae-editor__type-pallet__entity-type__label", function () {
-    emitter.trigger("type.select", $(this).attr("label"));
-  }).on("change", ".textae-editor__type-pallet__entity-type__radio", function () {
-    emitter.trigger("default-type.select", $(this).attr("label"));
-  }).hide();
-},
-    rowParts = {
-  RadioButton: function (typeContainer, typeName) {
-    // The event handler is bound direct,because jQuery detects events of radio buttons directly only.
-    var $radioButton = $("<input>").addClass("textae-editor__type-pallet__entity-type__radio").attr({
-      type: "radio",
-      name: "etype",
-      label: typeName
+  var lastSaveIndex = -1,
+      lastEditIndex = -1,
+      history = [],
+      hasAnythingToUndo = function () {
+    return lastEditIndex > -1;
+  },
+      hasAnythingToRedo = function () {
+    return lastEditIndex < history.length - 1;
+  },
+      hasAnythingToSave = function () {
+    return lastEditIndex != lastSaveIndex;
+  },
+      emitter = new EventEmitter(),
+      trigger = function () {
+    emitter.emit("change", {
+      hasAnythingToSave: hasAnythingToSave(),
+      hasAnythingToUndo: hasAnythingToUndo(),
+      hasAnythingToRedo: hasAnythingToRedo()
     });
-
-    // Select the radio button if it is default type.
-    if (typeName === typeContainer.getDefaultType()) {
-      $radioButton.attr({
-        title: "default type",
-        checked: "checked"
-      });
-    }
-    return $radioButton;
-  },
-  Link: function (uri) {
-    if (uri) {
-      return $("<a>").attr({
-        href: uri,
-        target: "_blank"
-      }).append($("<span>").addClass("textae-editor__type-pallet__link"));
-    }
-  },
-  wrapTd: function ($element) {
-    if ($element) {
-      return $("<td>").append($element);
-    } else {
-      return $("<td>");
-    }
-  }
-},
-    PalletRow = function (typeContainer) {
-  var Column1 = _.compose(rowParts.wrapTd, _.partial(rowParts.RadioButton, typeContainer)),
-      Column2 = function (typeName) {
-    return $("<td>").addClass("textae-editor__type-pallet__entity-type__label").attr("label", typeName).text(typeName);
-  },
-      Column3 = _.compose(rowParts.wrapTd, rowParts.Link, typeContainer.getUri);
-
-  return typeContainer.getSortedNames().map(function (typeName) {
-    var $column1 = new Column1(typeName);
-    var $column2 = new Column2(typeName);
-    var $column3 = new Column3(typeName);
-
-    return $("<tr>").addClass("textae-editor__type-pallet__entity-type").css({
-      "background-color": typeContainer.getColor(typeName)
-    }).append([$column1, $column2, $column3]);
-  });
-};
-
-module.exports = function () {
-  var emitter = require("../util/extendBindable")({}),
-      $pallet = new Pallet(emitter),
-      show = (function () {
-    var reuseOldPallet = function ($pallet) {
-      var $oldPallet = $(".textae-editor__type-pallet");
-      if ($oldPallet.length !== 0) {
-        return $oldPallet.find("table").empty().end().css("width", "auto");
-      } else {
-        // Append the pallet to body to show on top.
-        $("body").append($pallet);
-        return $pallet;
-      }
-    },
-        appendRows = function (typeContainer, $pallet) {
-      return $pallet.find("table").append(new PalletRow(typeContainer)).end();
-    },
-        setMaxHeight = function ($pallet) {
-      // Show the scrollbar-y if the height of the pallet is same witch max-height.
-      if ($pallet.outerHeight() + "px" === $pallet.css("max-height")) {
-        return $pallet.css("overflow-y", "scroll");
-      } else {
-        return $pallet.css("overflow-y", "");
-      }
-    },
-        show = function ($pallet, typeContainer, point) {
-      if (typeContainer && typeContainer.getSortedNames().length > 0) {
-        var fillPallet = _.compose(setMaxHeight, _.partial(appendRows, typeContainer), reuseOldPallet);
-
-        // Move the pallet to mouse.
-        fillPallet($pallet).css(point).show();
-      }
-    };
-
-    return show;
-  })();
+  };
 
   return _.extend(emitter, {
-    show: _.partial(show, $pallet),
-    hide: $pallet.hide.bind($pallet)
-  });
-};
-
-
-},{"../util/extendBindable":156}],74:[function(require,module,exports){
-"use strict";
-
-var lineHeight = require("../view/lineHeight"),
-    jQuerySugar = require("../util/jQuerySugar"),
-    GetEditorDialog = require("./dialog/GetEditorDialog"),
-    debounce300 = function (func) {
-  return _.debounce(func, 300);
-},
-    sixteenTimes = function (val) {
-  return val * 16;
-},
-
-
-// Redraw all editors in tha windows.
-redrawAllEditor = function () {
-  $(window).trigger("resize");
-},
-    createContent = function () {
-  return jQuerySugar.Div("textae-editor__setting-dialog");
-},
-
-
-// Open the dialog.
-open = function ($dialog) {
-  return $dialog.open();
-},
-
-
-// Update the checkbox state, because it is updated by the button on control too.
-updateEditMode = function (displayInstance, $content) {
-  return jQuerySugar.setChecked($content, ".mode", displayInstance.showInstance() ? "checked" : null);
-},
-    updateLineHeight = function (editor, $content) {
-  return jQuerySugar.setValue($content, ".line-height", lineHeight.get(editor));
-},
-    updateTypeGapValue = function (displayInstance, $content) {
-  return jQuerySugar.setValue($content, ".type-gap", displayInstance.getTypeGap);
-},
-    toTypeGap = function ($content) {
-  return $content.find(".type-gap");
-},
-    updateTypeGapEnable = function (displayInstance, $content) {
-  jQuerySugar.enabled(toTypeGap($content), displayInstance.showInstance());
-  return $content;
-},
-    changeMode = function (editor, editMode, displayInstance, $content, checked) {
-  if (checked) {
-    editMode.toInstance();
-  } else {
-    editMode.toTerm();
-  }
-  updateTypeGapEnable(displayInstance, $content);
-  updateTypeGapValue(displayInstance, $content);
-  updateLineHeight(editor, $content);
-},
-    SettingDialogLabel = _.partial(jQuerySugar.Label, "textae-editor__setting-dialog__label");
-
-module.exports = function (editor, editMode, displayInstance) {
-  var addInstanceRelationView = function ($content) {
-    var onModeChanged = debounce300(function () {
-      changeMode(editor, editMode, displayInstance, $content, $(this).is(":checked"));
-    });
-
-    return $content.append(jQuerySugar.Div().append(new SettingDialogLabel("Instance/Relation View")).append(jQuerySugar.Checkbox("textae-editor__setting-dialog__term-centric-view mode"))).on("click", ".mode", onModeChanged);
-  },
-      addTypeGap = function ($content) {
-    var onTypeGapChange = debounce300(function () {
-      displayInstance.changeTypeGap($(this).val());
-      updateLineHeight(editor, $content);
-    });
-
-    return $content.append(jQuerySugar.Div().append(new SettingDialogLabel("Type Gap")).append(jQuerySugar.Number("textae-editor__setting-dialog__type-gap type-gap").attr({
-      step: 1,
-      min: 0,
-      max: 5
-    }))).on("change", ".type-gap", onTypeGapChange);
-  },
-      addLineHeight = function ($content) {
-    var changeLineHeight = _.compose(_.partial(lineHeight.set, editor), sixteenTimes),
-        onLineHeightChange = debounce300(function () {
-      changeLineHeight($(this).val());
-      redrawAllEditor();
-    });
-
-    return $content.append(jQuerySugar.Div().append(new SettingDialogLabel("Line Height")).append(jQuerySugar.Number("textae-editor__setting-dialog__line-height line-height").attr({
-      step: 1,
-      min: 3,
-      max: 50
-    }))).on("change", ".line-height", onLineHeightChange);
-  },
-      appendToDialog = function ($content) {
-    return new GetEditorDialog(editor)("textae.dialog.setting", "Setting", $content, {
-      noCancelButton: true
-    });
-  };
-
-  // Update values after creating a dialog because the dialog is re-used.
-  return _.compose(open, _.partial(updateLineHeight, editor), _.partial(updateTypeGapValue, displayInstance), _.partial(updateTypeGapEnable, displayInstance), _.partial(updateEditMode, displayInstance), appendToDialog, addLineHeight, addTypeGap, addInstanceRelationView, createContent);
-};
-
-
-},{"../util/jQuerySugar":160,"../view/lineHeight":203,"./dialog/GetEditorDialog":79}],75:[function(require,module,exports){
-"use strict";
-
-var getAreaIn = function ($parent) {
-  var $area = $parent.find(".textae-editor__footer .textae-editor__footer__message");
-  if ($area.length === 0) {
-    $area = $("<div>").addClass("textae-editor__footer__message");
-    var $footer = $("<div>").addClass("textae-editor__footer").append($area);
-    $parent.append($footer);
-  }
-
-  return $area;
-};
-
-module.exports = function (editor) {
-  var getAreaInEditor = _.partial(getAreaIn, editor),
-      status = function (message) {
-    if (message !== "") getAreaInEditor().html("Source: " + message);
-  };
-
-  return {
-    status: status
-  };
-};
-
-
-},{}],76:[function(require,module,exports){
-"use strict";
-
-var Dialog = function (id, title, $content) {
-  return $("<div>").attr("id", id).attr("title", title).hide().append($content);
-},
-    OpenCloseMixin = function ($dialog, openOption) {
-  return {
-    open: function () {
-      $dialog.dialog(openOption);
+    reset: function () {
+      lastSaveIndex = -1;
+      lastEditIndex = -1;
+      history = [];
+      trigger();
     },
-    close: function () {
-      $dialog.dialog("close");
-    } };
-},
-    extendDialog = function (openOption, $dialog) {
-  return _.extend($dialog, new OpenCloseMixin($dialog, openOption));
-},
-    appendDialog = function ($dialog) {
-  $("body").append($dialog);
-  return $dialog;
-};
-
-module.exports = function (openOption, id, title, $content) {
-  openOption = _.extend({
-    resizable: false,
-    modal: true
-  }, openOption);
-
-  var extendDialogWithOpenOption = _.partial(extendDialog, openOption),
-      createAndAppendDialog = _.compose(appendDialog, extendDialogWithOpenOption, Dialog);
-
-  return createAndAppendDialog(id, title, $content);
-};
-
-
-},{}],77:[function(require,module,exports){
-"use strict";
-
-var Dialog = require("./Dialog"),
-    getDialogId = function (editorId, id) {
-  return editorId + "." + id;
-},
-    defaultOption = {
-  width: 550,
-  height: 220
-};
-
-module.exports = function (editorId, id, title, $content, option) {
-  var openOption = _.extend({}, defaultOption, option);
-
-  if (option && option.noCancelButton) {
-    openOption.buttons = {};
-  } else {
-    openOption.buttons = {
-      Cancel: function () {
-        $(this).dialog("close");
-      }
-    };
-  }
-
-  var $dialog = new Dialog(openOption, getDialogId(editorId, id), title, $content);
-
-  return _.extend($dialog, {
-    id: id
-  });
-};
-
-
-},{"./Dialog":76}],78:[function(require,module,exports){
-"use strict";
-
-var getFromContainer = function (container, id) {
-  return container[id];
-},
-    addToContainer = function (container, id, object) {
-  container[id] = object;
-  return object;
-};
-
-// Cash a div for dialog by self, because $('#dialog_id') cannot find exists div element.
-// The first parameter of an createFunction must be id.
-// A createFunction must return an object having a parameter 'id'.
-module.exports = function (createFunction) {
-  var cache = {},
-      serachCache = _.partial(getFromContainer, cache),
-      addCache = _.partial(addToContainer, cache),
-      createAndCache = function (createFunction, params) {
-    var object = createFunction.apply(null, params);
-    return addCache(object.id, object);
-  };
-
-  return function (id, title, $content, options) {
-    return serachCache(id) || createAndCache(createFunction, arguments);
-  };
-};
-
-
-},{}],79:[function(require,module,exports){
-"use strict";
-
-var EditorDialog = require("./EditorDialog"),
-    FunctionUseCache = require("./FunctionUseCache");
-
-// Cache instances per editor.
-module.exports = function (editor) {
-  editor.getDialog = editor.getDialog || new FunctionUseCache(_.partial(EditorDialog, editor.editorId));
-  return editor.getDialog;
-};
-
-
-},{"./EditorDialog":77,"./FunctionUseCache":78}],80:[function(require,module,exports){
-"use strict";
-
-var ToolDialog = require("./ToolDialog"),
-    FunctionUseCache = require("./FunctionUseCache");
-
-module.exports = new FunctionUseCache(ToolDialog);
-
-
-},{"./FunctionUseCache":78,"./ToolDialog":81}],81:[function(require,module,exports){
-"use strict";
-
-var Dialog = require("./Dialog");
-
-module.exports = function (id, title, size, $content) {
-  var $dialog = new Dialog(size, id, title, $content);
-
-  return _.extend($dialog, {
-    id: id
-  });
-};
-
-
-},{"./Dialog":76}],82:[function(require,module,exports){
-"use strict";
-
-var _interopRequire = function (obj) {
-  return obj && (obj["default"] || obj);
-};
-
-var Handlebars = _interopRequire(require("handlebars"));
-
-var hasError = _interopRequire(require("../Reject/hasError"));
-
-var GetEditorDialog = _interopRequire(require("./dialog/GetEditorDialog"));
-
-var source = "\n    <div class=\"textae-editor__valiondate-dialog__content\">\n        <h2>{{name}}</h2>\n        {{#if denotationHasLength}}\n            <table>\n                <caption>Wrong range.</caption>\n                <thead>\n                    <tr>\n                        <th class=\"id\">id</th>\n                        <th class=\"range\">begin</th>\n                        <th class=\"range\">end</th>\n                        <th>obj</th>\n                    </tr>\n                </thead>\n                <tbody>\n                    {{#denotationHasLength}}\n                    <tr>\n                        <td>{{id}}</td>\n                        <td class=\"alert\">{{span.begin}}</td>\n                        <td class=\"alert\">{{span.end}}</td>\n                        <td>{{obj}}</td>\n                    </tr>\n                    {{/denotationHasLength}}\n                </tbody>\n            </table>\n        {{/if}}\n        {{#if denotationInText}}\n            <table>\n                <caption>Out of text.</caption>\n                <thead>\n                    <tr>\n                        <th class=\"id\">id</th>\n                        <th class=\"range\">begin</th>\n                        <th class=\"range\">end</th>\n                        <th>obj</th>\n                    </tr>\n                </thead>\n                <tbody>\n                    {{#denotationInText}}\n                    <tr>\n                        <td>{{id}}</td>\n                        <td class=\"alert\">{{span.begin}}</td>\n                        <td class=\"alert\">{{span.end}}</td>\n                        <td>{{obj}}</td>\n                    </tr>\n                    {{/denotationInText}}\n                </tbody>\n            </table>\n        {{/if}}\n        {{#if denotationInParagraph}}\n            <table>\n                <caption>Spans across paragraphs (newline-delimited).</caption>\n                <thead>\n                    <tr>\n                        <th class=\"id\">id</th>\n                        <th class=\"range\">begin</th>\n                        <th class=\"range\">end</th>\n                        <th>obj</th>\n                    </tr>\n                </thead>\n                <tbody>\n                    {{#denotationInParagraph}}\n                    <tr>\n                        <td>{{id}}</td>\n                        <td class=\"alert\">{{span.begin}}</td>\n                        <td class=\"alert\">{{span.end}}</td>\n                        <td>{{obj}}</td>\n                    </tr>\n                    {{/denotationInParagraph}}\n                </tbody>\n            </table>\n        {{/if}}\n        {{#if referencedItems}}\n            <table>\n                <caption>Referenced items do not exist.</caption>\n                <thead>\n                    <tr>\n                        <th class=\"id\">id</th>\n                        <th class=\"referencedItem\">subj</th>\n                        <th>pred</th>\n                        <th class=\"referencedItem\">obj</th>\n                    </tr>\n                </thead>\n                <tbody>\n                    {{#referencedItems}}\n                    <tr>\n                        <td>{{id}}</td>\n                        <td{{#if alertSubj}} class=\"alert\"{{/if}}>{{subj}}</td>\n                        <td>{{pred}}</td>\n                        <td{{#if alertObj}} class=\"alert\"{{/if}}>{{obj}}</td>\n                    </tr>\n                    {{/referencedItems}}\n                </tbody>\n            </table>\n        {{/if}}\n    </div>",
-    mergeMessage = "\n        <div class=\"textae-editor__valiondate-dialog__content\">\n            <h1>Track annatations will be merged to the root anntations.</h1>\n        </div>";
-
-var tepmlate = Handlebars.compile(source);
-
-module.exports = function (editor, rejects) {
-  if (!hasError(rejects)) return;
-
-  var $dialog = new GetEditorDialog(editor)("textae.dialog.validation", "The following erronious annotations ignored", $("<div>"), {
-    noCancelButton: true,
-    height: 450
-  });
-
-  updateContent($dialog[0].firstChild, rejects);
-  $dialog.open();
-};
-
-function updateContent(content, rejects) {
-  content.innerHTML = "";
-
-  rejects.map(transformToReferenceObjectError).map(tepmlate).forEach(function (html, index) {
-    if (index === 1) {
-      content.insertAdjacentHTML("beforeend", mergeMessage);
-    }
-
-    content.insertAdjacentHTML("beforeend", html);
-  });
-
-  return content;
-}
-
-function transformToReferenceObjectError(reject) {
-  // Combine rejects for referenced object errer.
-  reject.referencedItems = reject.relationObj.map(function (relation) {
-    relation.alertObj = true;
-    return relation;
-  }).concat(reject.relationSubj.map(function (relation) {
-    relation.alertSubj = true;
-    return relation;
-  })).concat(reject.modification.map(function (modification) {
-    modification.subj = "-";
-    modification.alertObj = true;
-    return modification;
-  }));
-
-  return reject;
-}
-
-
-},{"../Reject/hasError":62,"./dialog/GetEditorDialog":79,"handlebars":59}],83:[function(require,module,exports){
-"use strict";
-
-var TitleDom = function () {
-  return $("<span>").addClass("textae-control__title").append($("<a>").attr({
-    href: "http://textae.pubannotation.org/",
-    target: "_blank"
-  }).text("TextAE"));
-},
-    ButtonDom = function (buttonType, title) {
-  return $("<span>").addClass("textae-control__icon").addClass("textae-control__" + buttonType + "-button").attr("title", title);
-},
-    SeparatorDom = function () {
-  return $("<span>").addClass("textae-control__separator");
-},
-    makeButtons = function ($control, buttonMap) {
-  var buttonContainer = {},
-
-
-  // Make a group of buttons that is headed by the separator.
-  icons = _.flatten(buttonMap.map(function (params) {
-    var buttons = _.map(params, function (title, buttonType) {
-      var button = new ButtonDom(buttonType, title);
-
-      buttonContainer[buttonType] = {
-        instance: button,
-        eventValue: "textae.control.button." + buttonType.replace(/-/g, "_") + ".click"
-      };
-
-      return button;
-    });
-
-    return [new SeparatorDom()].concat(buttons);
-  }));
-
-  $control.append(new TitleDom()).append($("<span>").append(icons));
-
-  return buttonContainer;
-},
-
-
-// Utility functions to change appearance of bunttons.
-cssUtil = {
-  enable: function ($button) {
-    $button.removeClass("textae-control__icon--disabled");
-  },
-  disable: function ($button) {
-    $button.addClass("textae-control__icon--disabled");
-  },
-  isDisable: function ($button) {
-    return $button.hasClass("textae-control__icon--disabled");
-  },
-  push: function ($button) {
-    $button.addClass("textae-control__icon--pushed");
-  },
-  unpush: function ($button) {
-    $button.removeClass("textae-control__icon--pushed");
-  },
-  isPushed: function ($button) {
-    return $button.hasClass("textae-control__icon--pushed");
-  }
-},
-    setButtonApearanceAndEventHandler = function (button, enable, eventHandler) {
-  var event = "click";
-
-  // Set apearance and eventHandler to button.
-  if (enable === true) {
-    button.off(event).on(event, eventHandler);
-    cssUtil.enable(button);
-  } else {
-    button.off(event);
-    cssUtil.disable(button);
-  }
-},
-
-
-// A parameter can be spesified by object like { 'buttonName1': true, 'buttonName2': false }.
-updateButtons = function (buttonContainer, clickEventHandler, buttonEnables) {
-  _.each(buttonEnables, function (enable, buttonName) {
-    var button = buttonContainer[buttonName],
-        eventHandler = function () {
-      clickEventHandler(button.eventValue);
-      return false;
-    };
-
-    if (button) setButtonApearanceAndEventHandler(button.instance, enable, eventHandler);
-  });
-};
-
-// The control is a control bar to edit.
-// This can controls mulitple instance of editor.
-module.exports = function ($control) {
-  // This contains buttons and event definitions like as {'buttonName' : { instance: $button, eventValue : 'textae.control.button.read.click' }}
-  var buttonContainer = makeButtons($control, [{
-    read: "Import [I]",
-    write: "Upload [U]"
-  }, {
-    undo: "Undo [Z]",
-    redo: "Redo [A]"
-  }, {
-    replicate: "Replicate span annotation [R]",
-    "replicate-auto": "Auto replicate",
-    "boundary-detection": "Boundary Detection [B]",
-    "relation-edit-mode": "Relation Edit Mode [F]"
-  }, {
-    entity: "New entity [E]",
-    pallet: "Select label [Q]",
-    "change-label": "Change label [W]"
-  }, {
-    negation: "Negation [X]",
-    speculation: "Speculation [S]"
-  }, {
-    "delete": "Delete [D]",
-    copy: "Copy [C]",
-    paste: "Paste [V]"
-  }, {
-    setting: "Setting"
-  }, {
-    help: "Help [H]"
-  }]),
-      triggrButtonClickEvent = $control.trigger.bind($control, "textae.control.button.click"),
-
-
-  // A function to enable/disable button.
-  enableButton = _.partial(updateButtons, buttonContainer, triggrButtonClickEvent),
-
-
-  // Buttons that always eanable.
-  alwaysEnables = {
-    read: true,
-    help: true
-  },
-
-
-  // Update all button state when an instance of textEditor is changed.
-  updateAllButtonEnableState = function (enableButtons) {
-    // Make buttons in a enableButtons enabled, and other buttons in the buttonContainer disabled.
-    enableButton(_.extend({}, buttonContainer, alwaysEnables, enableButtons));
-  },
-
-
-  // Update button push state.
-  updateButtonPushState = function (bottonName, isPushed) {
-    var button = buttonContainer[bottonName].instance;
-
-    if (isPushed) {
-      cssUtil.push(button);
-    } else {
-      cssUtil.unpush(button);
-    }
-  };
-
-  // Public API
-  $control.updateAllButtonEnableState = updateAllButtonEnableState;
-  $control.updateButtonPushState = updateButtonPushState;
-
-  return $control;
-};
-
-
-},{}],84:[function(require,module,exports){
-"use strict";
-
-var _interopRequire = function (obj) {
-  return obj && (obj["default"] || obj);
-};
-
-var Observable = _interopRequire(require("observ"));
-
-var showVilidationDialog = _interopRequire(require("./component/showVilidationDialog"));
-
-var hasError = _interopRequire(require("./Reject/hasError"));
-
-module.exports = function (annotationData, history, buttonStateHelper, leaveMessage, dataAccessObject) {
-  var writable = new Writable();
-
-  bindResetEvent(annotationData, history, writable);
-  bindChangeEvent(history, buttonStateHelper, leaveMessage, writable);
-  bindEndEvent(dataAccessObject, history, writable);
-
-  writable(function (val) {
-    return buttonStateHelper.enabled("write", val);
-  });
-};
-
-function Writable() {
-  var isDataModified = false,
-      o = new Observable(false);
-
-  o.forceModified = function (val) {
-    o.set(val);
-    isDataModified = val;
-  };
-
-  o.update = function (val) {
-    o.set(isDataModified || val);
-  };
-
-  return o;
-}
-
-function bindResetEvent(annotationData, history, writable) {
-  annotationData.on("all.change", function (annotationData, multitrack, reject) {
-    history.reset();
-
-    showVilidationDialog(self, reject);
-
-    if (multitrack) toastr.success("track annotations have been merged to root annotations.");
-
-    if (multitrack || hasError(reject)) {
-      writable.forceModified(true);
-    } else {
-      writable.forceModified(false);
-    }
-  });
-}
-
-function bindChangeEvent(history, buttonStateHelper, leaveMessage, writable) {
-  history.bind("change", function (state) {
-    //change button state
-    buttonStateHelper.enabled("undo", state.hasAnythingToUndo);
-    buttonStateHelper.enabled("redo", state.hasAnythingToRedo);
-
-    //change leaveMessage show
-    window.onbeforeunload = state.hasAnythingToSave ? function () {
-      return leaveMessage;
-    } : null;
-
-    writable.update(state.hasAnythingToSave);
-  });
-}
-
-function bindEndEvent(dataAccessObject, history, writable) {
-  dataAccessObject.on("save", function () {
-    history.saved();
-    writable.forceModified(false);
-    toastr.success("annotation saved");
-  }).on("save error", function () {
-    toastr.error("could not save");
-  });
-}
-
-
-},{"./Reject/hasError":62,"./component/showVilidationDialog":82,"observ":60}],85:[function(require,module,exports){
-"use strict";
-
-var _interopRequire = function (obj) {
-  return obj && (obj["default"] || obj);
-};
-
-var CONFIRM_DISCARD_CHANGE_MESSAGE = "There is a change that has not been saved. If you procceed now, you will lose it.";
-
-var DataAccessObject = _interopRequire(require("./component/DataAccessObject"));
-
-var editingState = _interopRequire(require("./editingState"));
-
-// model manages data objects.
-var Model = require("./model/Model"),
-
-
-// The history of command that providing undo and redo.
-History = require("./model/History"),
-    SpanConfig = require("./SpanConfig"),
-    Command = require("./command"),
-    ButtonController = require("./view/ButtonController"),
-    TypeContainer = require("./view/TypeContainer"),
-    View = require("./view/View"),
-    Presenter = require("./presenter/Presenter"),
-    Controller = require("./Controller"),
-    getParams = require("./getParams"),
-    setTypeConfig = function (typeContainer, config) {
-  typeContainer.setDefinedEntityTypes(config ? config["entity types"] : []);
-  typeContainer.setDefinedRelationTypes(config ? config["relation types"] : []);
-
-  if (config && config.css !== undefined) {
-    $("#css_area").html("<link rel=\"stylesheet\" href=\"" + config.css + "\"/>");
-  }
-
-  return config;
-},
-    handle = function (map, key, value) {
-  if (map[key]) map[key](value);
-},
-    StatusBar = require("./component/StatusBar"),
-    getStatusBar = function (editor, status_bar) {
-  if (status_bar === "on") return new StatusBar(editor);
-  return {
-    status: function () {}
-  };
-},
-    Observable = require("observ"),
-    ajaxAccessor = require("./util/ajaxAccessor");
-
-module.exports = function () {
-  var self = this,
-      model = new Model(this),
-      history = new History(),
-      spanConfig = new SpanConfig(),
-
-
-  // Users can edit model only via commands.
-  command = new Command(this, model, history),
-      clipBoard = {
-    // clipBoard has entity type.
-    clipBoard: []
-  },
-      buttonController = new ButtonController(this, model, clipBoard),
-      typeGap = new Observable(-1),
-      typeContainer = new TypeContainer(model),
-      view = new View(this, model, buttonController, typeGap, typeContainer),
-      presenter = new Presenter(this, model, view, command, spanConfig, clipBoard, buttonController, typeGap, typeContainer),
-
-
-  //handle user input event.
-  controller = new Controller(this, presenter, view),
-      setSpanAndTypeConfig = function (config) {
-    spanConfig.set(config);
-    setTypeConfig(typeContainer, config);
-  },
-      setConfigInAnnotation = function (annotation) {
-    spanConfig.reset();
-    setSpanAndTypeConfig(annotation.config);
-
-    if (!annotation.config) {
-      return "no config";
-    }
-  },
-      resetData = model.annotationData.reset,
-      setConfigFromServer = function (config, annotation) {
-    spanConfig.reset();
-
-    if (typeof config === "string") {
-      ajaxAccessor.getAsync(config, function (configFromServer) {
-        setSpanAndTypeConfig(configFromServer);
-        resetData(annotation);
-      }, function () {
-        alert("could not read the span configuration from the location you specified.: " + config);
-      });
-    } else {
-      resetData(annotation);
-    }
-  },
-      setAnnotation = function (config, annotation) {
-    var ret = setConfigInAnnotation(annotation);
-    if (ret === "no config") {
-      setConfigFromServer(config, annotation);
-    } else {
-      resetData(annotation);
-    }
-  },
-      loadAnnotation = function (statusBar, params, dataAccessObject) {
-    var annotation = params.annotation;
-    if (annotation) {
-      if (annotation.inlineAnnotation) {
-        // Set an inline annotation.
-        setAnnotation(params.config, JSON.parse(annotation.inlineAnnotation));
-        statusBar.status("inline");
-      } else if (annotation.url) {
-        // Load an annotation from server.
-        dataAccessObject.getAnnotationFromServer(annotation.url);
-      }
-    }
-  },
-      dataAccessObject = new DataAccessObject(self, CONFIRM_DISCARD_CHANGE_MESSAGE);
-
-  editingState(model.annotationData, history, buttonController.buttonStateHelper, CONFIRM_DISCARD_CHANGE_MESSAGE, dataAccessObject);
-
-  // public funcitons of editor
-  this.api = (function (editor) {
-    var updateAPIs = function (dataAccessObject) {
-      var showAccess = function () {
-        dataAccessObject.showAccess(history.hasAnythingToSave());
-      },
-          showSave = function () {
-        dataAccessObject.showSave(model.annotationData.toJson());
-      },
-          keyApiMap = {
-        A: command.redo,
-        B: presenter.event.toggleDetectBoundaryMode,
-        C: presenter.event.copyEntities,
-        D: presenter.event.removeSelectedElements,
-        DEL: presenter.event.removeSelectedElements,
-        E: presenter.event.createEntity,
-        F: presenter.event.toggleRelationEditMode,
-        I: showAccess,
-        M: presenter.event.toggleRelationEditMode,
-        Q: presenter.event.showPallet,
-        R: presenter.event.replicate,
-        S: presenter.event.speculation,
-        U: showSave,
-        V: presenter.event.pasteEntities,
-        W: presenter.event.newLabel,
-        X: presenter.event.negation,
-        Y: command.redo,
-        Z: command.undo,
-        ESC: presenter.event.cancelSelect,
-        LEFT: presenter.event.selectLeftSpan,
-        RIGHT: presenter.event.selectRightSpan },
-          iconApiMap = {
-        "textae.control.button.read.click": showAccess,
-        "textae.control.button.write.click": showSave,
-        "textae.control.button.undo.click": command.undo,
-        "textae.control.button.redo.click": command.redo,
-        "textae.control.button.replicate.click": presenter.event.replicate,
-        "textae.control.button.replicate_auto.click": buttonController.modeAccordingToButton["replicate-auto"].toggle,
-        "textae.control.button.boundary_detection.click": presenter.event.toggleDetectBoundaryMode,
-        "textae.control.button.relation_edit_mode.click": presenter.event.toggleRelationEditMode,
-        "textae.control.button.entity.click": presenter.event.createEntity,
-        "textae.control.button.change_label.click": presenter.event.newLabel,
-        "textae.control.button.pallet.click": presenter.event.showPallet,
-        "textae.control.button.negation.click": presenter.event.negation,
-        "textae.control.button.speculation.click": presenter.event.speculation,
-        "textae.control.button.delete.click": presenter.event.removeSelectedElements,
-        "textae.control.button.copy.click": presenter.event.copyEntities,
-        "textae.control.button.paste.click": presenter.event.pasteEntities,
-        "textae.control.button.setting.click": presenter.event.showSettingDialog
-      };
-
-      // Update APIs
-      editor.api = {
-        handleKeyInput: _.partial(handle, keyApiMap),
-        handleButtonClick: _.partial(handle, iconApiMap),
-        redraw: function () {
-          console.log(editor.editorId, "redraw");
-          view.updateDisplay();
-        }
-      };
+    push: function (commands) {
+      history.splice(lastEditIndex + 1, history.length - lastEditIndex, commands);
+      lastEditIndex++;
+      trigger();
     },
-        start = function start(editor) {
-      var params = getParams(editor);
-
-      view.init();
-      controller.init();
-      presenter.init();
-
-      var statusBar = getStatusBar(editor, params.status_bar);
-
-      dataAccessObject.on("load", function (data) {
-        setAnnotation(params.config, data.annotation);
-        statusBar.status(data.source);
-      });
-
-      presenter.setMode(params.mode);
-
-      loadAnnotation(statusBar, params, dataAccessObject);
-
-      updateAPIs(dataAccessObject);
-    };
-
-    return {
-      start: start
-    };
-  })(this);
-
-  return this;
+    next: function () {
+      lastEditIndex++;
+      trigger();
+      return history[lastEditIndex];
+    },
+    prev: function () {
+      var lastEdit = history[lastEditIndex];
+      lastEditIndex--;
+      trigger();
+      return lastEdit;
+    },
+    saved: function () {
+      lastSaveIndex = lastEditIndex;
+      trigger();
+    },
+    hasAnythingToSave: hasAnythingToSave,
+    hasAnythingToUndo: hasAnythingToUndo,
+    hasAnythingToRedo: hasAnythingToRedo
+  });
 };
 
 
-},{"./Controller":61,"./SpanConfig":64,"./command":69,"./component/DataAccessObject":71,"./component/StatusBar":75,"./editingState":84,"./getParams":86,"./model/History":109,"./model/Model":110,"./presenter/Presenter":126,"./util/ajaxAccessor":153,"./view/ButtonController":164,"./view/TypeContainer":198,"./view/View":200,"observ":60}],86:[function(require,module,exports){
-"use strict";
-
-var getUrlParameters = require("./util/getUrlParameters"),
-    priorUrl = function (params, editor, name) {
-  if (!params[name] && editor.attr(name)) params[name] = editor.attr(name);
-},
-    priorAttr = function (params, editor, name) {
-  if (editor.attr(name)) params[name] = editor.attr(name);
-};
-
-module.exports = function (editor) {
-  // Read model parameters from url parameters and html attributes.
-  var params = getUrlParameters(location.search);
-
-  // 'source' prefer to 'target'
-  params.target = editor.attr("source") || editor.attr("target") || params.source || params.target;
-
-  priorAttr(params, editor, "config");
-  priorAttr(params, editor, "status_bar");
-
-  // Mode is prior in the url parameter.
-  priorUrl(params, editor, "mode");
-
-  // Read Html text and clear it.
-  var inlineAnnotation = editor.text();
-  editor.empty();
-
-  // Set annotaiton parameters.
-  params.annotation = {
-    inlineAnnotation: inlineAnnotation,
-    url: params.target
-  };
-
-  // console.log(params);
-
-  return params;
-};
-
-
-},{"./util/getUrlParameters":157}],87:[function(require,module,exports){
-"use strict";
-
-var tool = require("./tool"),
-    control = require("./control"),
-    editor = require("./editor");
-
-jQuery.fn.textae = (function () {
-  return function () {
-    if (this.hasClass("textae-editor")) {
-      this.each(function () {
-        var e = $(this);
-        tool.pushEditor(e);
-        editor.apply(e);
-        e.api.start(e);
-        return e;
-      });
-      tool.selectFirstEditor();
-    } else if (this.hasClass("textae-control")) {
-      var c = control(this);
-      tool.setControl(c);
-      return c;
-    }
-  };
-})();
-
-
-},{"./control":83,"./editor":85,"./tool":149}],88:[function(require,module,exports){
+},{"events":38}],100:[function(require,module,exports){
 "use strict";
 
 // Expected an entity like {id: "E21", span: "editor2__S50_54", type: "Protein"}.
-var idFactory = require("../../../util/idFactory"),
+var idFactory = require("../../../idFactory"),
     ModelContainer = require("./ModelContainer"),
     toModel = function (editor, entity) {
   return {
@@ -11438,7 +11660,7 @@ var idFactory = require("../../../util/idFactory"),
 module.exports = EntityContainer;
 
 
-},{"../../../util/idFactory":158,"./ModelContainer":89}],89:[function(require,module,exports){
+},{"../../../idFactory":221,"./ModelContainer":101}],101:[function(require,module,exports){
 "use strict";
 
 var getNextId = require("./getNextId"),
@@ -11526,10 +11748,10 @@ module.exports = function (emitter, prefix, mappingFunction, idPrefix) {
 };
 
 
-},{"./getNextId":92}],90:[function(require,module,exports){
+},{"./getNextId":104}],102:[function(require,module,exports){
 "use strict";
 
-var idFactory = require("../../../util/idFactory"),
+var idFactory = require("../../../idFactory"),
     ModelContainer = require("./ModelContainer");
 
 module.exports = function (editor, emitter) {
@@ -11541,13 +11763,17 @@ module.exports = function (editor, emitter) {
       var ret = {
         id: idFactory.makeParagraphId(editor, index),
         begin: textLengthBeforeThisParagraph,
-        end: textLengthBeforeThisParagraph + p.length };
+        end: textLengthBeforeThisParagraph + p.length,
+        text: p,
+        order: index
+      };
 
       textLengthBeforeThisParagraph += p.length + 1;
       return ret;
     });
   },
       contaier = new ModelContainer(emitter, "paragraph", mappingFunction),
+      originAll = contaier.all,
       api = _.extend(contaier, {
     //get the paragraph that span is belong to.
     getBelongingTo: function (span) {
@@ -11560,6 +11786,24 @@ module.exports = function (editor, emitter) {
       } else {
         return match[0];
       }
+    },
+    all: function () {
+      var paragraphs = originAll();
+
+      // The order is important to render.
+      paragraphs.sort(function (a, b) {
+        if (a.order < b.order) {
+          return -1;
+        }
+
+        if (a.order > b.order) {
+          return 1;
+        }
+
+        return 0;
+      });
+
+      return paragraphs;
     }
   });
 
@@ -11567,10 +11811,10 @@ module.exports = function (editor, emitter) {
 };
 
 
-},{"../../../util/idFactory":158,"./ModelContainer":89}],91:[function(require,module,exports){
+},{"../../../idFactory":221,"./ModelContainer":101}],103:[function(require,module,exports){
 "use strict";
 
-var idFactory = require("../../../util/idFactory"),
+var idFactory = require("../../../idFactory"),
     ModelContainer = require("./ModelContainer"),
     isChildOf = function (editor, spanContainer, span, maybeParent) {
   if (!maybeParent) return false;
@@ -11597,19 +11841,6 @@ module.exports = function (editor, emitter, paragraph) {
         }).join("\n") : "";
 
         return this.toStringOnlyThis() + childrenString;
-      },
-      // A big brother is brother node on a structure at rendered.
-      // There is no big brother if the span is first in a paragraph.
-      // Warning: parent is set at updateSpanTree, is not exists now.
-      getBigBrother: function () {
-        var index;
-        if (this.parent) {
-          index = this.parent.children.indexOf(this);
-          return index === 0 ? null : this.parent.children[index - 1];
-        } else {
-          index = spanTopLevel.indexOf(this);
-          return index === 0 || spanTopLevel[index - 1].paragraph !== this.paragraph ? null : spanTopLevel[index - 1];
-        }
       },
       // Get online for update is not grantieed.
       getTypes: function () {
@@ -11650,7 +11881,7 @@ module.exports = function (editor, emitter, paragraph) {
         paragraph: paragraph.getBelongingTo(span) }, spanExtension);
     };
   })(),
-      isBoundaryCrossingWithOtherSpans = require("../../isBoundaryCrossingWithOtherSpans"),
+      isBoundaryCrossingWithOtherSpans = require("../parseAnnotation/validateAnnotation").isBoundaryCrossingWithOtherSpans,
       mappingFunction = function (denotations) {
     denotations = denotations || [];
     return denotations.map(function (entity) {
@@ -11773,7 +12004,7 @@ module.exports = function (editor, emitter, paragraph) {
 };
 
 
-},{"../../../util/idFactory":158,"../../isBoundaryCrossingWithOtherSpans":114,"./ModelContainer":89}],92:[function(require,module,exports){
+},{"../../../idFactory":221,"../parseAnnotation/validateAnnotation":119,"./ModelContainer":101}],104:[function(require,module,exports){
 "use strict";
 
 var hasPrefix = function (prefix, id) {
@@ -11796,7 +12027,7 @@ var hasPrefix = function (prefix, id) {
 module.exports = getNextId;
 
 
-},{}],93:[function(require,module,exports){
+},{}],105:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
@@ -11843,7 +12074,7 @@ function mapRelations(relations) {
 }
 
 
-},{"./EntityContainer":88,"./ModelContainer":89,"./ParagraphContainer":90,"./SpanContainer":91,"events":37}],94:[function(require,module,exports){
+},{"./EntityContainer":100,"./ModelContainer":101,"./ParagraphContainer":102,"./SpanContainer":103,"events":38}],106:[function(require,module,exports){
 "use strict";
 
 var setNewData = require("./setNewData"),
@@ -11871,10 +12102,7 @@ var setNewData = require("./setNewData"),
 
         originalData = annotation;
 
-        dataStore.emit("text.change", {
-          sourceDoc: dataStore.sourceDoc,
-          paragraphs: dataStore.paragraph.all()
-        });
+        dataStore.emit("paragraph.change", dataStore.paragraph.all());
 
         dataStore.emit("all.change", dataStore, result.multitrack, result.rejects);
 
@@ -11897,7 +12125,7 @@ var setNewData = require("./setNewData"),
 module.exports = AnntationData;
 
 
-},{"./Container":93,"./setNewData":107,"./toJson":108}],95:[function(require,module,exports){
+},{"./Container":105,"./setNewData":127,"./toJson":128}],107:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
@@ -11915,7 +12143,7 @@ module.exports = function (span, entity, denotations, prefix) {
 };
 
 
-},{"./importSource":96,"./translateDenotation":101}],96:[function(require,module,exports){
+},{"./importSource":108,"./translateDenotation":113}],108:[function(require,module,exports){
 "use strict";
 
 module.exports = function (targets, translater, source) {
@@ -11929,7 +12157,7 @@ module.exports = function (targets, translater, source) {
 };
 
 
-},{}],97:[function(require,module,exports){
+},{}],109:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
@@ -11947,7 +12175,7 @@ module.exports = function (modification, modifications, prefix) {
 };
 
 
-},{"./importSource":96,"./translateModification":102}],98:[function(require,module,exports){
+},{"./importSource":108,"./translateModification":114}],110:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
@@ -11964,7 +12192,7 @@ module.exports = function (destination, source) {
 };
 
 
-},{"./importSource":96}],99:[function(require,module,exports){
+},{"./importSource":108}],111:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
@@ -11982,7 +12210,7 @@ module.exports = function (relation, relations, prefix) {
 };
 
 
-},{"./importSource":96,"./translateRelation":103}],100:[function(require,module,exports){
+},{"./importSource":108,"./translateRelation":115}],112:[function(require,module,exports){
 "use strict";
 
 module.exports = function (src, prefix) {
@@ -11992,7 +12220,7 @@ module.exports = function (src, prefix) {
 };
 
 
-},{}],101:[function(require,module,exports){
+},{}],113:[function(require,module,exports){
 "use strict";
 
 var setIdPrefixIfExist = require("./setIdPrefixIfExist");
@@ -12007,7 +12235,7 @@ module.exports = function (prefix, src) {
 };
 
 
-},{"./setIdPrefixIfExist":100}],102:[function(require,module,exports){
+},{"./setIdPrefixIfExist":112}],114:[function(require,module,exports){
 "use strict";
 
 var setIdPrefixIfExist = require("./setIdPrefixIfExist");
@@ -12022,7 +12250,7 @@ module.exports = function (prefix, src) {
 };
 
 
-},{"./setIdPrefixIfExist":100}],103:[function(require,module,exports){
+},{"./setIdPrefixIfExist":112}],115:[function(require,module,exports){
 "use strict";
 
 var setIdPrefixIfExist = require("./setIdPrefixIfExist");
@@ -12038,7 +12266,7 @@ module.exports = function (prefix, src) {
 };
 
 
-},{"./setIdPrefixIfExist":100}],104:[function(require,module,exports){
+},{"./setIdPrefixIfExist":112}],116:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
@@ -12066,94 +12294,142 @@ module.exports = function (span, entity, relation, modification, paragraph, text
 };
 
 
-},{"./importAnnotation/denotation":95,"./importAnnotation/modification":97,"./importAnnotation/relation":99,"./validateAnnotation":105}],105:[function(require,module,exports){
+},{"./importAnnotation/denotation":107,"./importAnnotation/modification":109,"./importAnnotation/relation":111,"./validateAnnotation":119}],117:[function(require,module,exports){
 "use strict";
 
-var validate = require("./validate"),
-    hasLength = function (denotation) {
-  return denotation.span.end - denotation.span.begin > 0;
-},
-    isInText = function (boundary, text) {
-  return 0 <= boundary && boundary <= text.length;
-},
-    isBeginAndEndIn = function (text, denotation) {
-  return isInText(denotation.span.begin, text) && isInText(denotation.span.end, text);
-},
-    isInParagraph = function (paragraph, denotation) {
-  return paragraph.all().filter(function (p) {
-    return p.begin <= denotation.span.begin && denotation.span.end <= p.end;
-  }).length === 1;
-},
-    isContains = function (opt, data) {
+module.exports = function (rejects) {
+  return rejects.reduce(function (result, reject) {
+    return result || reject.hasError;
+  }, false);
+};
+
+
+},{}],118:[function(require,module,exports){
+"use strict";
+
+module.exports = function (reject) {
+  return {
+    accept: [],
+    reject: reject ? reject : []
+  };
+};
+
+
+},{}],119:[function(require,module,exports){
+"use strict";
+
+var _extends = function (target) {
+  for (var i = 1; i < arguments.length; i++) {
+    var source = arguments[i];
+    for (var key in source) {
+      target[key] = source[key];
+    }
+  }
+
+  return target;
+};
+
+var _interopRequire = function (obj) {
+  return obj && (obj["default"] || obj);
+};
+
+var main = _interopRequire(require("./main"));
+
+var hasError = _interopRequire(require("./Reject/hasError"));
+
+var isBoundaryCrossingWithOtherSpans = _interopRequire(require("./isBoundaryCrossingWithOtherSpans"));
+
+exports["default"] = main;
+exports.hasError = hasError;
+exports.isBoundaryCrossingWithOtherSpans = isBoundaryCrossingWithOtherSpans;
+module.exports = _extends(exports["default"], exports);
+
+
+},{"./Reject/hasError":117,"./isBoundaryCrossingWithOtherSpans":120,"./main":122}],120:[function(require,module,exports){
+"use strict";
+
+// A span its range is coross over with other spans are not able to rendered.
+// Because spans are renderd with span tag. Html tags can not be cross over.
+module.exports = function (spans, candidateSpan) {
+  return spans.filter(function (existSpan) {
+    return isBoundaryCrossing(candidateSpan, existSpan);
+  }).length > 0;
+};
+
+function isBoundaryCrossing(candidateSpan, existSpan) {
+  return existSpan.begin < candidateSpan.begin && candidateSpan.begin < existSpan.end && existSpan.end < candidateSpan.end || candidateSpan.begin < existSpan.begin && existSpan.begin < candidateSpan.end && candidateSpan.end < existSpan.end;
+}
+
+
+},{}],121:[function(require,module,exports){
+"use strict";
+
+module.exports = function (data, opt) {
   if (!opt.dictionary) return false;
 
   return opt.dictionary.filter(function (entry) {
     return entry.id === data[opt.property];
   }).length === 1;
-},
-    validateAnnotation = function (text, paragraph, annotation) {
-  var resultDenotationHasLength = validate(annotation.denotations, hasLength),
-      resultDenotationInText = validate(resultDenotationHasLength.accept, isBeginAndEndIn, text),
-      resultDenotationInParagraph = validate(resultDenotationInText.accept, isInParagraph, paragraph),
-      resultRelationObj = validate(annotation.relations, isContains, {
-    property: "obj",
-    dictionary: resultDenotationInParagraph.accept
-  }),
-      resultRelationSubj = validate(resultRelationObj.accept, isContains, {
-    property: "subj",
-    dictionary: resultDenotationInParagraph.accept
-  }),
-      resultModification = validate(annotation.modifications, isContains, {
-    property: "obj",
-    dictionary: _.union(resultDenotationInParagraph.accept, resultRelationSubj.accept)
-  });
-
-  return {
-    accept: {
-      denotation: resultDenotationInParagraph.accept,
-      relation: resultRelationSubj.accept,
-      modification: resultModification.accept
-    },
-    reject: {
-      denotationHasLength: resultDenotationHasLength.reject,
-      denotationInText: resultDenotationInText.reject,
-      denotationInParagraph: resultDenotationInParagraph.reject,
-      relationObj: resultRelationObj.reject,
-      relationSubj: resultRelationSubj.reject,
-      modification: resultModification.reject,
-      hasError: resultDenotationHasLength.reject.length + resultDenotationInText.reject.length + resultDenotationInParagraph.reject.length + resultRelationObj.reject.length + resultRelationSubj.reject.length + resultModification.reject.length !== 0
-    }
-  };
 };
 
-module.exports = validateAnnotation;
 
-
-},{"./validate":106}],106:[function(require,module,exports){
+},{}],122:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
   return obj && (obj["default"] || obj);
 };
 
-var Reject = _interopRequire(require("../../../../Reject"));
+var validateDenotation = _interopRequire(require("./validateDenotation"));
+
+var validateRelation = _interopRequire(require("./validateRelation"));
+
+var validateModificatian = _interopRequire(require("./validateModificatian"));
+
+module.exports = function (text, paragraph, annotation) {
+  var resultDenotation = validateDenotation(text, paragraph, annotation.denotations),
+      resultRelation = validateRelation(resultDenotation.accept, annotation.relations),
+      resultModification = validateModificatian(resultDenotation.accept, resultRelation.accept, annotation.modifications);
+
+  return {
+    accept: {
+      denotation: resultDenotation.accept,
+      relation: resultRelation.accept,
+      modification: resultModification.accept
+    },
+    reject: {
+      denotationHasLength: resultDenotation.reject.hasLength,
+      denotationInText: resultDenotation.reject.inText,
+      denotationInParagraph: resultDenotation.reject.inParagraph,
+      denotationIsNotCrossing: resultDenotation.reject.isNotCrossing,
+      relationObj: resultRelation.reject.obj,
+      relationSubj: resultRelation.reject.subj,
+      modification: resultModification.reject.modification,
+      hasError: resultDenotation.hasError || resultRelation.hasError || resultModification.hasError
+    }
+  };
+};
+
+
+},{"./validateDenotation":124,"./validateModificatian":125,"./validateRelation":126}],123:[function(require,module,exports){
+"use strict";
+
+var _interopRequire = function (obj) {
+  return obj && (obj["default"] || obj);
+};
+
+var Reject = _interopRequire(require("./Reject"));
 
 module.exports = function (values, predicate, predicateOption) {
   if (!values) return new Reject();
 
-  predicate = partial(predicate, predicateOption);
-
-  return values.reduce(_.partial(acceptIf, predicate), new Reject());
+  return values.reduce(function (result, target, index, array) {
+    return acceptIf(predicate, predicateOption, result, target, index, array);
+  }, new Reject());
 };
 
-function partial(func, opt) {
-  if (!opt) return func;
-
-  return _.partial(func, opt);
-}
-
-function acceptIf(predicate, result, target) {
-  if (predicate(target)) {
+function acceptIf(predicate, predicateOption, result, target, index, array) {
+  if (predicate(target, predicateOption, index, array)) {
     result.accept.push(target);
   } else {
     result.reject.push(target);
@@ -12163,7 +12439,121 @@ function acceptIf(predicate, result, target) {
 }
 
 
-},{"../../../../Reject":63}],107:[function(require,module,exports){
+},{"./Reject":118}],124:[function(require,module,exports){
+"use strict";
+
+var _interopRequire = function (obj) {
+  return obj && (obj["default"] || obj);
+};
+
+var validate = _interopRequire(require("./validate"));
+
+var isBoundaryCrossingWithOtherSpans = _interopRequire(require("./isBoundaryCrossingWithOtherSpans"));
+
+module.exports = function (text, paragraph, denotations) {
+  var resultHasLength = validate(denotations, hasLength),
+      resultInText = validate(resultHasLength.accept, isBeginAndEndIn, text),
+      resultInParagraph = validate(resultInText.accept, isInParagraph, paragraph),
+      resultIsNotCrossing = validate(resultInParagraph.accept, function (denotation, opt, index, array) {
+    var others = array.slice(0, index).map(function (d) {
+      return d.span;
+    }),
+        isInvalid = isBoundaryCrossingWithOtherSpans(others, denotation.span);
+
+    return !isInvalid;
+  });
+
+  return {
+    accept: resultIsNotCrossing.accept,
+    reject: {
+      hasLength: resultHasLength.reject,
+      inText: resultInText.reject,
+      inParagraph: resultInParagraph.reject,
+      isNotCrossing: resultIsNotCrossing.reject
+    },
+    hasError: resultHasLength.reject.length + resultInText.reject.length + resultInParagraph.reject.length + resultIsNotCrossing.reject.length !== 0
+  };
+};
+
+function hasLength(denotation) {
+  return denotation.span.end - denotation.span.begin > 0;
+}
+
+function isInText(boundary, text) {
+  return 0 <= boundary && boundary <= text.length;
+}
+
+function isBeginAndEndIn(denotation, text) {
+  return isInText(denotation.span.begin, text) && isInText(denotation.span.end, text);
+}
+
+function isInParagraph(denotation, paragraph) {
+  return paragraph.all().filter(function (p) {
+    return p.begin <= denotation.span.begin && denotation.span.end <= p.end;
+  }).length === 1;
+}
+
+
+},{"./isBoundaryCrossingWithOtherSpans":120,"./validate":123}],125:[function(require,module,exports){
+"use strict";
+
+var _interopRequire = function (obj) {
+  return obj && (obj["default"] || obj);
+};
+
+var validate = _interopRequire(require("./validate"));
+
+var isContains = _interopRequire(require("./isContains"));
+
+module.exports = function (denotations, relations, modifications) {
+  var resultModification = validate(modifications, isContains, {
+    property: "obj",
+    dictionary: _.union(denotations, relations)
+  });
+
+  return {
+    accept: resultModification.accept,
+    reject: {
+      modification: resultModification.reject,
+      hasError: resultModification.reject.length !== 0
+    }
+  };
+};
+
+
+},{"./isContains":121,"./validate":123}],126:[function(require,module,exports){
+"use strict";
+
+var _interopRequire = function (obj) {
+  return obj && (obj["default"] || obj);
+};
+
+var validate = _interopRequire(require("./validate"));
+
+var isContains = _interopRequire(require("./isContains"));
+
+module.exports = function (denotations, relations) {
+  var resultRelationObj = validate(relations, isContains, {
+    property: "obj",
+    dictionary: denotations
+  }),
+      resultRelationSubj = validate(resultRelationObj.accept, isContains, {
+    property: "subj",
+    dictionary: denotations
+  });
+
+  return {
+    accept: resultRelationSubj.accept,
+    reject: {
+      obj: resultRelationObj.reject,
+      subj: resultRelationSubj.reject,
+      hasError: resultRelationObj.reject.length + resultRelationSubj.reject.length !== 0
+    }
+  };
+};
+
+
+},{"./isContains":121,"./validate":123}],127:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
@@ -12220,7 +12610,7 @@ function parseDennotation(dataStore, annotation) {
 }
 
 
-},{"./parseAnnotation":104,"./parseAnnotation/importAnnotation/namespace":98}],108:[function(require,module,exports){
+},{"./parseAnnotation":116,"./parseAnnotation/importAnnotation/namespace":110}],128:[function(require,module,exports){
 "use strict";
 
 var toDenotation = function (dataStore) {
@@ -12260,82 +12650,7 @@ var toDenotation = function (dataStore) {
 module.exports = toJson;
 
 
-},{}],109:[function(require,module,exports){
-"use strict";
-
-// histories of edit to undo and redo.
-module.exports = function () {
-  var lastSaveIndex = -1,
-      lastEditIndex = -1,
-      history = [],
-      hasAnythingToUndo = function () {
-    return lastEditIndex > -1;
-  },
-      hasAnythingToRedo = function () {
-    return lastEditIndex < history.length - 1;
-  },
-      hasAnythingToSave = function () {
-    return lastEditIndex != lastSaveIndex;
-  },
-      trigger = function () {
-    api.trigger("change", {
-      hasAnythingToSave: hasAnythingToSave(),
-      hasAnythingToUndo: hasAnythingToUndo(),
-      hasAnythingToRedo: hasAnythingToRedo()
-    });
-  };
-
-  var api = require("../util/extendBindable")({
-    reset: function () {
-      lastSaveIndex = -1;
-      lastEditIndex = -1;
-      history = [];
-      trigger();
-    },
-    push: function (commands) {
-      history.splice(lastEditIndex + 1, history.length - lastEditIndex, commands);
-      lastEditIndex++;
-      trigger();
-    },
-    next: function () {
-      lastEditIndex++;
-      trigger();
-      return history[lastEditIndex];
-    },
-    prev: function () {
-      var lastEdit = history[lastEditIndex];
-      lastEditIndex--;
-      trigger();
-      return lastEdit;
-    },
-    saved: function () {
-      lastSaveIndex = lastEditIndex;
-      trigger();
-    },
-    hasAnythingToSave: hasAnythingToSave,
-    hasAnythingToUndo: hasAnythingToUndo,
-    hasAnythingToRedo: hasAnythingToRedo
-  });
-
-  return api;
-};
-
-
-},{"../util/extendBindable":156}],110:[function(require,module,exports){
-"use strict";
-
-var AnnotationData = require("./AnnotationData");
-
-module.exports = function (editor) {
-  return {
-    annotationData: new AnnotationData(editor),
-    // A contaier of selection state.
-    selectionModel: require("./Selection")(["span", "entity", "relation"])
-  };
-};
-
-
-},{"./AnnotationData":94,"./Selection":112}],111:[function(require,module,exports){
+},{}],129:[function(require,module,exports){
 "use strict";
 
 var EventEmitter = require("events").EventEmitter;
@@ -12400,7 +12715,7 @@ module.exports = function (kindName) {
 };
 
 
-},{"events":37}],112:[function(require,module,exports){
+},{"events":38}],130:[function(require,module,exports){
 "use strict";
 
 var EventEmitter = require("events").EventEmitter,
@@ -12450,29 +12765,21 @@ module.exports = function (kinds) {
 };
 
 
-},{"./IdContainer":111,"events":37}],113:[function(require,module,exports){
+},{"./IdContainer":129,"events":38}],131:[function(require,module,exports){
 "use strict";
 
-module.exports = function (allSpans, candidateSpan) {
-  return allSpans.filter(function (existSpan) {
-    return existSpan.begin === candidateSpan.begin && existSpan.end === candidateSpan.end;
-  }).length > 0;
+var AnnotationData = require("./AnnotationData");
+
+module.exports = function (editor) {
+  return {
+    annotationData: new AnnotationData(editor),
+    // A contaier of selection state.
+    selectionModel: require("./Selection")(["span", "entity", "relation"])
+  };
 };
 
 
-},{}],114:[function(require,module,exports){
-"use strict";
-
-// A span its range is coross over with other spans are not able to rendered.
-// Because spans are renderd with span tag. Html tags can not be cross over.
-module.exports = function (spans, candidateSpan) {
-  return spans.filter(function (existSpan) {
-    return existSpan.begin < candidateSpan.begin && candidateSpan.begin < existSpan.end && existSpan.end < candidateSpan.end || candidateSpan.begin < existSpan.begin && existSpan.begin < candidateSpan.end && candidateSpan.end < existSpan.end;
-  }).length > 0;
-};
-
-
-},{}],115:[function(require,module,exports){
+},{"./AnnotationData":106,"./Selection":130}],132:[function(require,module,exports){
 "use strict";
 
 module.exports = function (command, annotationData, selectionModel, clipBoard) {
@@ -12508,7 +12815,7 @@ module.exports = function (command, annotationData, selectionModel, clipBoard) {
 };
 
 
-},{}],116:[function(require,module,exports){
+},{}],133:[function(require,module,exports){
 "use strict";
 
 var EventEmitter = require("events").EventEmitter,
@@ -12534,7 +12841,7 @@ var EventEmitter = require("events").EventEmitter,
 module.exports = DefaultEntityHandler;
 
 
-},{"./createEntityToSelectedSpan":131,"./replicate":132,"events":37}],117:[function(require,module,exports){
+},{"./createEntityToSelectedSpan":147,"./replicate":149,"events":38}],134:[function(require,module,exports){
 "use strict";
 
 var TypeGapCache = function () {
@@ -12547,7 +12854,7 @@ var TypeGapCache = function () {
     api[mode] = val;
     return val;
   },
-      capitalize = require("../util/capitalize");
+      capitalize = require("capitalize");
 
   _.each(seed, function (val, key) {
     api["set" + capitalize(key)] = _.partial(set, key);
@@ -12601,7 +12908,7 @@ var TypeGapCache = function () {
 module.exports = DisplayInstance;
 
 
-},{"../util/capitalize":154}],118:[function(require,module,exports){
+},{"capitalize":35}],135:[function(require,module,exports){
 "use strict";
 
 var RemoveCommandsFromSelection = require("./RemoveCommandsFromSelection");
@@ -12624,7 +12931,7 @@ module.exports = function (command, selectionModel, typeEditor) {
 };
 
 
-},{"./RemoveCommandsFromSelection":127}],119:[function(require,module,exports){
+},{"./RemoveCommandsFromSelection":143}],136:[function(require,module,exports){
 "use strict";
 
 module.exports = function (stateMachine) {
@@ -12642,7 +12949,7 @@ module.exports = function (stateMachine) {
 };
 
 
-},{}],120:[function(require,module,exports){
+},{}],137:[function(require,module,exports){
 "use strict";
 
 var Machine = require("emitter-fsm"),
@@ -12669,7 +12976,7 @@ var Machine = require("emitter-fsm"),
 module.exports = StateMachine;
 
 
-},{"emitter-fsm":35}],121:[function(require,module,exports){
+},{"emitter-fsm":36}],138:[function(require,module,exports){
 "use strict";
 
 var resetView = function (typeEditor, selectionModel) {
@@ -12729,7 +13036,7 @@ var resetView = function (typeEditor, selectionModel) {
 module.exports = Transition;
 
 
-},{}],122:[function(require,module,exports){
+},{}],139:[function(require,module,exports){
 "use strict";
 
 var Selector = require("../../view/Selector"),
@@ -12776,6 +13083,7 @@ module.exports = function (editor, model, buttonStateHelper, modeAccordingToButt
       if (isEditable) {
         editor.addClass("textae-editor_editable");
         buttonStateHelper.enabled("relation-edit-mode", true);
+        buttonStateHelper.enabled("line-height", true);
       } else {
         editor.removeClass("textae-editor_editable");
         buttonStateHelper.enabled("replicate-auto", false);
@@ -12789,7 +13097,7 @@ module.exports = function (editor, model, buttonStateHelper, modeAccordingToButt
 };
 
 
-},{"../../view/Selector":197}],123:[function(require,module,exports){
+},{"../../view/Selector":238}],140:[function(require,module,exports){
 "use strict";
 
 module.exports = function (stateMachine) {
@@ -12805,7 +13113,7 @@ module.exports = function (stateMachine) {
 };
 
 
-},{}],124:[function(require,module,exports){
+},{}],141:[function(require,module,exports){
 "use strict";
 
 var EventEmitter = require("events").EventEmitter,
@@ -12846,7 +13154,7 @@ module.exports = function (editor, model, typeEditor, buttonStateHelper, modeAcc
 // console.log(editor.editorId, 'from:', e.from, ' to:', e.to);
 
 
-},{"./EditModeApi":119,"./StateMachine":120,"./Transition":121,"./ViewMode":122,"./ViewModeApi":123,"emitter-fsm":35,"events":37}],125:[function(require,module,exports){
+},{"./EditModeApi":136,"./StateMachine":137,"./Transition":138,"./ViewMode":139,"./ViewModeApi":140,"emitter-fsm":36,"events":38}],142:[function(require,module,exports){
 "use strict";
 
 var toggleModification = require("./toggleModification");
@@ -12863,7 +13171,115 @@ module.exports = function (command, annotationData, modeAccordingToButton, typeE
 };
 
 
-},{"./toggleModification":138}],126:[function(require,module,exports){
+},{"./toggleModification":155}],143:[function(require,module,exports){
+"use strict";
+
+var toRomeveSpanCommands = function (spanIds, command) {
+  return spanIds.map(command.factory.spanRemoveCommand);
+},
+    toRemoveEntityCommands = function (entityIds, command) {
+  return command.factory.entityRemoveCommand(entityIds);
+},
+    toRemoveRelationCommands = function (relationIds, command) {
+  return relationIds.map(command.factory.relationRemoveCommand);
+},
+    getAll = function (command, spanIds, entityIds, relationIds) {
+  return [].concat(toRemoveRelationCommands(relationIds, command), toRemoveEntityCommands(entityIds, command), toRomeveSpanCommands(spanIds, command));
+},
+    RemoveCommandsFromSelection = function (command, selectionModel) {
+  var spanIds = _.uniq(selectionModel.span.all()),
+      entityIds = _.uniq(selectionModel.entity.all()),
+      relationIds = _.uniq(selectionModel.relation.all());
+
+  return getAll(command, spanIds, entityIds, relationIds);
+};
+
+
+module.exports = RemoveCommandsFromSelection;
+
+
+},{}],144:[function(require,module,exports){
+"use strict";
+
+module.exports = function (annotationData, selectionModel) {
+  return {
+    selectLeftSpan: function () {
+      var spanId = selectionModel.span.single();
+      if (spanId) {
+        var span = annotationData.span.get(spanId);
+        selectionModel.clear();
+        if (span.left) {
+          selectionModel.span.add(span.left.id);
+        }
+      }
+    },
+    selectRightSpan: function () {
+      var spanId = selectionModel.span.single();
+      if (spanId) {
+        var span = annotationData.span.get(spanId);
+        selectionModel.clear();
+        if (span.right) {
+          selectionModel.span.add(span.right.id);
+        }
+      }
+    }
+  };
+};
+
+
+},{}],145:[function(require,module,exports){
+"use strict";
+
+var setDefaultEditMode = require("./setDefaultEditMode");
+
+module.exports = function (annotationData, editMode) {
+  return {
+    bindSetDefaultEditMode: function (mode) {
+      var isEditable = mode === "edit";
+
+      annotationData.on("all.change", function (annotationData) {
+        setDefaultEditMode(editMode, isEditable, annotationData);
+      });
+    }
+  };
+};
+
+
+},{"./setDefaultEditMode":150}],146:[function(require,module,exports){
+"use strict";
+
+module.exports = function (modeAccordingToButton, editMode) {
+  return {
+    toggleDetectBoundaryMode: function () {
+      modeAccordingToButton["boundary-detection"].toggle();
+    },
+    toggleRelationEditMode: function () {
+      if (modeAccordingToButton["relation-edit-mode"].value()) {
+        editMode.toInstance();
+      } else {
+        editMode.toRelation();
+      }
+    }
+  };
+};
+
+
+},{}],147:[function(require,module,exports){
+"use strict";
+
+module.exports = function (command, spans, entity) {
+  var commands = spans.map(function (spanId) {
+    return command.factory.entityCreateCommand({
+      span: spanId,
+      type: entity.getDefaultType()
+    });
+  });
+
+  command.invoke(commands);
+};
+
+
+},{}],148:[function(require,module,exports){
 "use strict";
 
 var TypeEditor = require("./typeEditor/TypeEditor"),
@@ -12876,7 +13292,7 @@ var TypeEditor = require("./typeEditor/TypeEditor"),
     ToggleButtonHandler = require("./ToggleButtonHandler"),
     SelectSpanHandler = require("./SelectSpanHandler"),
     SetEditableHandler = require("./SetEditableHandler"),
-    SettingDialog = require("../component/SettingDialog");
+    SettingDialog = require("../../component/SettingDialog");
 
 module.exports = function (editor, model, view, command, spanConfig, clipBoard, buttonController, typeGap, typeContainer) {
   var typeEditor = new TypeEditor(editor, model, spanConfig, command, buttonController.modeAccordingToButton, typeContainer),
@@ -12894,7 +13310,7 @@ module.exports = function (editor, model, view, command, spanConfig, clipBoard, 
     typeEditor.hideDialogs();
 
     // Select this editor.
-    editor.eventEmitter.trigger("textae.editor.select");
+    editor.eventEmitter.emit("textae.editor.select");
     buttonController.buttonStateHelper.propagate();
   };
 
@@ -12931,115 +13347,7 @@ module.exports = function (editor, model, view, command, spanConfig, clipBoard, 
 };
 
 
-},{"../component/SettingDialog":74,"./ClipBoardHandler":115,"./DefaultEntityHandler":116,"./DisplayInstance":117,"./EditHandler":118,"./EditMode":124,"./ModificationHandler":125,"./SelectSpanHandler":128,"./SetEditableHandler":129,"./ToggleButtonHandler":130,"./typeEditor/TypeEditor":144}],127:[function(require,module,exports){
-"use strict";
-
-var toRomeveSpanCommands = function (spanIds, command) {
-  return spanIds.map(command.factory.spanRemoveCommand);
-},
-    toRemoveEntityCommands = function (entityIds, command) {
-  return command.factory.entityRemoveCommand(entityIds);
-},
-    toRemoveRelationCommands = function (relationIds, command) {
-  return relationIds.map(command.factory.relationRemoveCommand);
-},
-    getAll = function (command, spanIds, entityIds, relationIds) {
-  return [].concat(toRemoveRelationCommands(relationIds, command), toRemoveEntityCommands(entityIds, command), toRomeveSpanCommands(spanIds, command));
-},
-    RemoveCommandsFromSelection = function (command, selectionModel) {
-  var spanIds = _.uniq(selectionModel.span.all()),
-      entityIds = _.uniq(selectionModel.entity.all()),
-      relationIds = _.uniq(selectionModel.relation.all());
-
-  return getAll(command, spanIds, entityIds, relationIds);
-};
-
-
-module.exports = RemoveCommandsFromSelection;
-
-
-},{}],128:[function(require,module,exports){
-"use strict";
-
-module.exports = function (annotationData, selectionModel) {
-  return {
-    selectLeftSpan: function () {
-      var spanId = selectionModel.span.single();
-      if (spanId) {
-        var span = annotationData.span.get(spanId);
-        selectionModel.clear();
-        if (span.left) {
-          selectionModel.span.add(span.left.id);
-        }
-      }
-    },
-    selectRightSpan: function () {
-      var spanId = selectionModel.span.single();
-      if (spanId) {
-        var span = annotationData.span.get(spanId);
-        selectionModel.clear();
-        if (span.right) {
-          selectionModel.span.add(span.right.id);
-        }
-      }
-    }
-  };
-};
-
-
-},{}],129:[function(require,module,exports){
-"use strict";
-
-var setDefaultEditMode = require("./setDefaultEditMode");
-
-module.exports = function (annotationData, editMode) {
-  return {
-    bindSetDefaultEditMode: function (mode) {
-      var isEditable = mode === "edit";
-
-      annotationData.on("all.change", function (annotationData) {
-        setDefaultEditMode(editMode, isEditable, annotationData);
-      });
-    }
-  };
-};
-
-
-},{"./setDefaultEditMode":133}],130:[function(require,module,exports){
-"use strict";
-
-module.exports = function (modeAccordingToButton, editMode) {
-  return {
-    toggleDetectBoundaryMode: function () {
-      modeAccordingToButton["boundary-detection"].toggle();
-    },
-    toggleRelationEditMode: function () {
-      if (modeAccordingToButton["relation-edit-mode"].value()) {
-        editMode.toInstance();
-      } else {
-        editMode.toRelation();
-      }
-    }
-  };
-};
-
-
-},{}],131:[function(require,module,exports){
-"use strict";
-
-module.exports = function (command, spans, entity) {
-  var commands = spans.map(function (spanId) {
-    return command.factory.entityCreateCommand({
-      span: spanId,
-      type: entity.getDefaultType()
-    });
-  });
-
-  command.invoke(commands);
-};
-
-
-},{}],132:[function(require,module,exports){
+},{"../../component/SettingDialog":67,"./ClipBoardHandler":132,"./DefaultEntityHandler":133,"./DisplayInstance":134,"./EditHandler":135,"./EditMode":141,"./ModificationHandler":142,"./SelectSpanHandler":144,"./SetEditableHandler":145,"./ToggleButtonHandler":146,"./typeEditor/TypeEditor":162}],149:[function(require,module,exports){
 "use strict";
 
 var getDetectBoundaryFunc = function (modeAccordingToButton, spanConfig) {
@@ -13058,7 +13366,7 @@ var getDetectBoundaryFunc = function (modeAccordingToButton, spanConfig) {
 module.exports = replicate;
 
 
-},{}],133:[function(require,module,exports){
+},{}],150:[function(require,module,exports){
 "use strict";
 
 var setDefaultEditMode = function (editMode, isEditable, annotationData) {
@@ -13075,7 +13383,7 @@ var setDefaultEditMode = function (editMode, isEditable, annotationData) {
 module.exports = setDefaultEditMode;
 
 
-},{}],134:[function(require,module,exports){
+},{}],151:[function(require,module,exports){
 "use strict";
 
 var skipBlank = require("./skipBlank");
@@ -13096,7 +13404,7 @@ module.exports = {
 };
 
 
-},{"./skipBlank":136}],135:[function(require,module,exports){
+},{"./skipBlank":153}],152:[function(require,module,exports){
 "use strict";
 
 var skipCharacters = require("./skipCharacters"),
@@ -13165,7 +13473,7 @@ module.exports = {
 };
 
 
-},{"./skipBlank":136,"./skipCharacters":137}],136:[function(require,module,exports){
+},{"./skipBlank":153,"./skipCharacters":154}],153:[function(require,module,exports){
 "use strict";
 
 var skipCharacters = require("./skipCharacters"),
@@ -13185,7 +13493,7 @@ module.exports = {
 };
 
 
-},{"./skipCharacters":137}],137:[function(require,module,exports){
+},{"./skipCharacters":154}],154:[function(require,module,exports){
 "use strict";
 
 module.exports = function (getChars, step, str, position, predicate) {
@@ -13195,7 +13503,7 @@ module.exports = function (getChars, step, str, position, predicate) {
 };
 
 
-},{}],138:[function(require,module,exports){
+},{}],155:[function(require,module,exports){
 "use strict";
 
 var isModificationType = function (modification, modificationType) {
@@ -13238,10 +13546,15 @@ var isModificationType = function (modification, modificationType) {
 module.exports = toggleModification;
 
 
-},{}],139:[function(require,module,exports){
+},{}],156:[function(require,module,exports){
 "use strict";
 
-var dismissBrowserSelection = require("./dismissBrowserSelection");
+var _interopRequire = function (obj) {
+  return obj && (obj["default"] || obj);
+};
+
+var EventEmitter = require("events").EventEmitter;
+var dismissBrowserSelection = _interopRequire(require("./dismissBrowserSelection"));
 
 module.exports = function (editor, model, spanConfig, command, modeAccordingToButton, typeContainer) {
   var handler = {
@@ -13252,7 +13565,7 @@ module.exports = function (editor, model, spanConfig, command, modeAccordingToBu
     // A Swithing point to change a behavior when relation is clicked.
     jsPlumbConnectionClicked: null
   },
-      emitter = require("../../util/extendBindable")({}),
+      emitter = new EventEmitter(),
       unbindAllEventhandler = function () {
     return editor.off("mouseup", ".textae-editor__body").off("mouseup", ".textae-editor__span").off("mouseup", ".textae-editor__span_block").off("mouseup", ".textae-editor__type-label").off("mouseup", ".textae-editor__entity-pane").off("mouseup", ".textae-editor__entity");
   },
@@ -13282,7 +13595,7 @@ module.exports = function (editor, model, spanConfig, command, modeAccordingToBu
     return snapShot;
   },
       cancelSelect = function () {
-    emitter.trigger("cancel.select");
+    emitter.emit("cancel.select");
   },
       noEdit = function () {
     unbindAllEventhandler();
@@ -13496,18 +13809,18 @@ module.exports = function (editor, model, spanConfig, command, modeAccordingToBu
     };
   })();
 
-  return _.extend({
+  return _.extend(emitter, {
     handler: handler,
     start: {
       noEdit: noEdit,
       editRelation: editRelation,
       editEntity: editEntity
     }
-  }, emitter);
+  });
 };
 
 
-},{"../../util/extendBindable":156,"./SelectEnd":140,"./dismissBrowserSelection":146}],140:[function(require,module,exports){
+},{"./SelectEnd":157,"./dismissBrowserSelection":164,"events":38}],157:[function(require,module,exports){
 "use strict";
 
 var SpanEditor = require("./SpanEditor"),
@@ -13546,9 +13859,9 @@ module.exports = function (editor, model, command, modeAccordingToButton, typeCo
   // Change spanEditor according to the  buttons state.
   changeSpanEditorAccordingToButtons();
 
-  modeAccordingToButton["boundary-detection"].bind("change", changeSpanEditorAccordingToButtons);
+  modeAccordingToButton["boundary-detection"].on("change", changeSpanEditorAccordingToButtons);
 
-  modeAccordingToButton["replicate-auto"].bind("change", changeSpanEditorAccordingToButtons);
+  modeAccordingToButton["replicate-auto"].on("change", changeSpanEditorAccordingToButtons);
 
   return {
     onText: function (data) {
@@ -13561,7 +13874,132 @@ module.exports = function (editor, model, command, modeAccordingToButton, typeCo
 };
 
 
-},{"./SelectionValidater":141,"./SpanEditor":142,"./selectionParser":148}],141:[function(require,module,exports){
+},{"./SelectionValidater":159,"./SpanEditor":160,"./selectionParser":166}],158:[function(require,module,exports){
+"use strict";
+
+module.exports = function (editor, model) {
+  var selectPosition = require("./selectPosition"),
+
+
+  // A span cannot be created include nonEdgeCharacters only.
+  hasCharacters = function (spanConfig, selection) {
+    if (!selection) return false;
+
+    var positions = selectPosition.toPositions(model.annotationData, selection),
+        selectedString = model.annotationData.sourceDoc.substring(positions.anchorPosition, positions.focusPosition),
+        stringWithoutBlankCharacters = spanConfig.removeBlankChractors(selectedString);
+
+    return stringWithoutBlankCharacters.length > 0;
+  },
+      isInOneParent = function (selection) {
+    // A span can be created at the same parent node.
+    // The parentElement is expected as a paragraph or a span.
+    return selection.anchorNode.parentElement.id === selection.focusNode.parentElement.id;
+  },
+      getAnchorNodeParent = function (selection) {
+    return $(selection.anchorNode.parentNode);
+  },
+      getFocusNodeParent = function (selection) {
+    return $(selection.focusNode.parentNode);
+  },
+      hasSpan = function ($node) {
+    return $node.hasClass("textae-editor__span");
+  },
+      hasParagraphs = function ($node) {
+    return $node.hasClass("textae-editor__body__text-box__paragraph");
+  },
+      hasSpanOrParagraphs = function ($node) {
+    return hasSpan($node) || hasParagraphs($node);
+  },
+      isAnchrNodeInSpan = _.compose(hasSpan, getAnchorNodeParent),
+      isFocusNodeInSpan = _.compose(hasSpan, getFocusNodeParent),
+      isFocusNodeInParagraph = _.compose(hasParagraphs, getFocusNodeParent),
+      isAnchrNodeInSpanOrParagraph = _.compose(hasSpanOrParagraphs, getAnchorNodeParent),
+      isInSameParagraph = (function () {
+    var getParagraph = function ($node) {
+      if (hasParagraphs($node)) {
+        return $node;
+      } else if (hasSpan($node)) {
+        return getParagraph($node.parent());
+      } else {
+        return null;
+      }
+    },
+        getParagraphId = function (selection, position) {
+      var $parent = $(selection[position + "Node"].parentNode),
+          $paragraph = getParagraph($parent);
+      return $paragraph && $paragraph.attr("id");
+    };
+
+    return function (selection) {
+      var anchorParagraphId = getParagraphId(selection, "anchor"),
+          focusParagraphId = getParagraphId(selection, "focus");
+
+      return anchorParagraphId === focusParagraphId;
+    };
+  })(),
+      isAnchorOneDownUnderForcus = function (selection) {
+    return selection.anchorNode.parentNode.parentNode === selection.focusNode.parentNode;
+  },
+      isForcusOneDownUnderAnchor = function (selection) {
+    return selection.anchorNode.parentNode === selection.focusNode.parentNode.parentNode;
+  },
+      isInSelectedSpan = function (position) {
+    var spanId = model.selectionModel.span.single();
+    if (spanId) {
+      var selectedSpan = model.annotationData.span.get(spanId);
+      return selectedSpan.begin < position && position < selectedSpan.end;
+    }
+    return false;
+  },
+      isAnchorInSelectedSpan = function (selection) {
+    return isInSelectedSpan(selectPosition.getAnchorPosition(model.annotationData, selection));
+  },
+      isFocusOnSelectedSpan = function (selection) {
+    return selection.focusNode.parentNode.id === model.selectionModel.span.single();
+  },
+      isFocusInSelectedSpan = function (selection) {
+    return isInSelectedSpan(selectPosition.getFocusPosition(model.annotationData, selection));
+  },
+      isLongerThanParentSpan = function (selection) {
+    var $getAnchorNodeParent = getAnchorNodeParent(selection),
+        focusPosition = selectPosition.getFocusPosition(model.annotationData, selection);
+
+    if (hasSpan($getAnchorNodeParent) && $getAnchorNodeParent.parent() && hasSpan($getAnchorNodeParent.parent())) {
+      var span = model.annotationData.span.get($getAnchorNodeParent.parent().attr("id"));
+      if (focusPosition < span.begin || span.end < focusPosition) return true;
+    }
+  },
+      isShorterThanChildSpan = function (selection) {
+    var $getFocusNodeParent = getFocusNodeParent(selection),
+        anchorPosition = selectPosition.getAnchorPosition(model.annotationData, selection);
+
+    if (hasSpan($getFocusNodeParent) && $getFocusNodeParent.parent() && hasSpan($getFocusNodeParent.parent())) {
+      var span = model.annotationData.span.get($getFocusNodeParent.parent().attr("id"));
+      if (anchorPosition < span.begin || span.end < anchorPosition) return true;
+    }
+  };
+
+  return {
+    hasCharacters: hasCharacters,
+    isInOneParent: isInOneParent,
+    isAnchrNodeInSpan: isAnchrNodeInSpan,
+    isAnchrNodeInSpanOrParagraph: isAnchrNodeInSpanOrParagraph,
+    isFocusNodeInSpan: isFocusNodeInSpan,
+    isFocusNodeInParagraph: isFocusNodeInParagraph,
+    isInSameParagraph: isInSameParagraph,
+    isAnchorOneDownUnderForcus: isAnchorOneDownUnderForcus,
+    isForcusOneDownUnderAnchor: isForcusOneDownUnderAnchor,
+    isAnchorInSelectedSpan: isAnchorInSelectedSpan,
+    isFocusOnSelectedSpan: isFocusOnSelectedSpan,
+    isFocusInSelectedSpan: isFocusInSelectedSpan,
+    isLongerThanParentSpan: isLongerThanParentSpan,
+    isShorterThanChildSpan: isShorterThanChildSpan
+  };
+};
+
+
+},{"./selectPosition":165}],159:[function(require,module,exports){
 "use strict";
 
 var deferAlert = require("./deferAlert");
@@ -13595,24 +14033,65 @@ module.exports = function (parser) {
 };
 
 
-},{"./deferAlert":145}],142:[function(require,module,exports){
+},{"./deferAlert":163}],160:[function(require,module,exports){
 "use strict";
 
-var idFactory = require("../../util/idFactory"),
-    moveSpan = function (editor, command, spanId, newSpan) {
+var _interopRequire = function (obj) {
+  return obj && (obj["default"] || obj);
+};
+
+var idFactory = _interopRequire(require("../../idFactory"));
+
+var isBoundaryCrossingWithOtherSpans = require("../../model/AnnotationData/parseAnnotation/validateAnnotation").isBoundaryCrossingWithOtherSpans;
+var isAlreadySpaned = _interopRequire(require("../../model/isAlreadySpaned"));
+
+var deferAlert = _interopRequire(require("./deferAlert"));
+
+var delimiterDetectAdjuster = _interopRequire(require("../spanAdjuster/delimiterDetectAdjuster"));
+
+var blankSkipAdjuster = _interopRequire(require("../spanAdjuster/blankSkipAdjuster"));
+
+var SpanManipulater = _interopRequire(require("./SpanManipulater"));
+
+var SelectionParser = _interopRequire(require("./SelectionParser"));
+
+module.exports = function (editor, model, command, typeContainer, isDetectDelimiterEnable, isReplicateAuto) {
+  var spanAdjuster = isDetectDelimiterEnable ? delimiterDetectAdjuster : blankSkipAdjuster,
+      spanManipulater = new SpanManipulater(model, spanAdjuster),
+      selectionParser = new SelectionParser(editor, model),
+      doCreate = _.partial(DoCreate, model, command, typeContainer, spanManipulater, isDetectDelimiterEnable, isReplicateAuto),
+      doExpandSpanToSelection = _.partial(expandSpanToSelection, editor, model, command, spanManipulater),
+      doExpand = _.partial(DoExpand, model, selectionParser, doExpandSpanToSelection),
+      doShrinkSpanToSelection = _.partial(shrinkSpanToSelection, editor, model, command, spanManipulater),
+      doShrink = _.partial(DoShrink, model, selectionParser, doShrinkSpanToSelection);
+
+  return {
+    create: _.partial(processSelectionIf, doCreate, selectionParser.isInOneParent),
+    expand: _.partial(processSelectionIf, doExpand, selectionParser.isAnchrNodeInSpan),
+    shrink: _.partial(processSelectionIf, doShrink, selectionParser.isFocusNodeInSpan) };
+};
+
+function processSelectionIf(doFunc, predicate, data) {
+  if (data && predicate(data.selection)) {
+    return doFunc(data);
+  }
+  return data;
+}
+
+function moveSpan(editor, command, spanId, newSpan) {
   // Do not need move.
   if (spanId === idFactory.makeSpanId(editor, newSpan)) {
     return;
   }
 
   return [command.factory.spanMoveCommand(spanId, newSpan)];
-},
-    removeSpan = function (command, spanId) {
+}
+
+function removeSpan(command, spanId) {
   return [command.factory.spanRemoveCommand(spanId)];
-},
-    isBoundaryCrossingWithOtherSpans = require("../../model/isBoundaryCrossingWithOtherSpans"),
-    isAlreadySpaned = require("../../model/isAlreadySpaned"),
-    DoCreate = function (model, command, typeContainer, spanManipulater, isDetectDelimiterEnable, isReplicateAuto, data) {
+}
+
+function DoCreate(model, command, typeContainer, spanManipulater, isDetectDelimiterEnable, isReplicateAuto, data) {
   var BLOCK_THRESHOLD = 100,
       newSpan = spanManipulater.create(data.selection, data.spanConfig);
 
@@ -13639,9 +14118,9 @@ var idFactory = require("../../util/idFactory"),
   }
 
   command.invoke(commands);
-},
-    deferAlert = require("./deferAlert"),
-    expandSpanToSelection = function (editor, model, command, spanManipulater, spanId, data) {
+}
+
+function expandSpanToSelection(editor, model, command, spanManipulater, spanId, data) {
   var newSpan = spanManipulater.expand(spanId, data.selection, data.spanConfig);
 
   // The span cross exists spans.
@@ -13651,8 +14130,9 @@ var idFactory = require("../../util/idFactory"),
   }
 
   command.invoke(moveSpan(editor, command, spanId, newSpan));
-},
-    DoExpand = function (model, selectionParser, expandSpanToSelection, data) {
+}
+
+function DoExpand(model, selectionParser, expandSpanToSelection, data) {
   // If a span is selected, it is able to begin drag a span in the span and expand the span.
   // The focus node should be at one level above the selected node.
   if (selectionParser.isAnchorInSelectedSpan(data.selection)) {
@@ -13670,8 +14150,9 @@ var idFactory = require("../../util/idFactory"),
   } else {
     return data;
   }
-},
-    shrinkSpanToSelection = function (editor, model, command, spanManipulater, spanId, data) {
+}
+
+function shrinkSpanToSelection(editor, model, command, spanManipulater, spanId, data) {
   var newSpan = spanManipulater.shrink(spanId, data.selection, data.spanConfig);
 
   // The span cross exists spans.
@@ -13684,8 +14165,9 @@ var idFactory = require("../../util/idFactory"),
       sameSpan = model.annotationData.span.get(newSpanId);
 
   command.invoke(newSpan.begin < newSpan.end && !sameSpan ? moveSpan(editor, command, spanId, newSpan) : removeSpan(command, spanId));
-},
-    DoShrink = function (model, selectionParser, doShrinkSpanToSelection, data) {
+}
+
+function DoShrink(model, selectionParser, doShrinkSpanToSelection, data) {
   if (selectionParser.isFocusInSelectedSpan(data.selection)) {
     // If a span is selected, it is able to begin drag out of an outer span of the span and shrink the span.
     // The focus node should be at the selected node.
@@ -13700,35 +14182,10 @@ var idFactory = require("../../util/idFactory"),
     // 2. The foucusNode is in the span.
     doShrinkSpanToSelection(data.selection.focusNode.parentNode.id, data);
   }
-},
-    SpanEditor = function (editor, model, command, typeContainer, isDetectDelimiterEnable, isReplicateAuto) {
-  var delimiterDetectAdjuster = require("../spanAdjuster/delimiterDetectAdjuster"),
-      blankSkipAdjuster = require("../spanAdjuster/blankSkipAdjuster"),
-      spanAdjuster = isDetectDelimiterEnable ? delimiterDetectAdjuster : blankSkipAdjuster,
-      spanManipulater = require("./SpanManipulater")(model, spanAdjuster),
-      selectionParser = require("./selectionParser")(editor, model),
-      doCreate = _.partial(DoCreate, model, command, typeContainer, spanManipulater, isDetectDelimiterEnable, isReplicateAuto),
-      doExpandSpanToSelection = _.partial(expandSpanToSelection, editor, model, command, spanManipulater),
-      doExpand = _.partial(DoExpand, model, selectionParser, doExpandSpanToSelection),
-      doShrinkSpanToSelection = _.partial(shrinkSpanToSelection, editor, model, command, spanManipulater),
-      doShrink = _.partial(DoShrink, model, selectionParser, doShrinkSpanToSelection),
-      processSelectionIf = function (doFunc, predicate, data) {
-    if (data && predicate(data.selection)) {
-      return doFunc(data);
-    }
-    return data;
-  };
-
-  return {
-    create: _.partial(processSelectionIf, doCreate, selectionParser.isInOneParent),
-    expand: _.partial(processSelectionIf, doExpand, selectionParser.isAnchrNodeInSpan),
-    shrink: _.partial(processSelectionIf, doShrink, selectionParser.isFocusNodeInSpan) };
-};
-
-module.exports = SpanEditor;
+}
 
 
-},{"../../model/isAlreadySpaned":113,"../../model/isBoundaryCrossingWithOtherSpans":114,"../../util/idFactory":158,"../spanAdjuster/blankSkipAdjuster":134,"../spanAdjuster/delimiterDetectAdjuster":135,"./SpanManipulater":143,"./deferAlert":145,"./selectionParser":148}],143:[function(require,module,exports){
+},{"../../idFactory":221,"../../model/AnnotationData/parseAnnotation/validateAnnotation":225,"../../model/isAlreadySpaned":233,"../spanAdjuster/blankSkipAdjuster":151,"../spanAdjuster/delimiterDetectAdjuster":152,"./SelectionParser":158,"./SpanManipulater":161,"./deferAlert":163}],161:[function(require,module,exports){
 "use strict";
 
 module.exports = function (model, spanAdjuster) {
@@ -13823,7 +14280,7 @@ module.exports = function (model, spanAdjuster) {
 };
 
 
-},{"./selectPosition":147}],144:[function(require,module,exports){
+},{"./selectPosition":165}],162:[function(require,module,exports){
 "use strict";
 
 var dismissBrowserSelection = require("./dismissBrowserSelection");
@@ -13831,7 +14288,7 @@ var dismissBrowserSelection = require("./dismissBrowserSelection");
 module.exports = function (editor, model, spanConfig, command, modeAccordingToButton, typeContainer) {
   // will init.
   var elementEditor = require("./ElementEditor")(editor, model, spanConfig, command, modeAccordingToButton, typeContainer),
-      pallet = require("../../component/Pallet")(),
+      pallet = require("../../../component/Pallet")(),
       cancelSelect = function () {
     pallet.hide();
     model.selectionModel.clear();
@@ -13853,12 +14310,12 @@ module.exports = function (editor, model, spanConfig, command, modeAccordingToBu
   };
 
   // Bind events.
-  elementEditor.bind("cancel.select", cancelSelect);
+  elementEditor.on("cancel.select", cancelSelect);
 
-  pallet.bind("type.select", function (label) {
+  pallet.on("type.select", function (label) {
     pallet.hide();
     elementEditor.handler.changeTypeOfSelected(label);
-  }).bind("default-type.select", function (label) {
+  }).on("default-type.select", function (label) {
     pallet.hide();
     elementEditor.handler.typeContainer.setDefaultType(label);
   });
@@ -13884,7 +14341,7 @@ module.exports = function (editor, model, spanConfig, command, modeAccordingToBu
 };
 
 
-},{"../../component/Pallet":73,"./ElementEditor":139,"./dismissBrowserSelection":146}],145:[function(require,module,exports){
+},{"../../../component/Pallet":65,"./ElementEditor":156,"./dismissBrowserSelection":164}],163:[function(require,module,exports){
 "use strict";
 
 module.exports = function (message) {
@@ -13893,7 +14350,7 @@ module.exports = function (message) {
 };
 
 
-},{}],146:[function(require,module,exports){
+},{}],164:[function(require,module,exports){
 "use strict";
 
 module.exports = function () {
@@ -13902,7 +14359,7 @@ module.exports = function () {
 };
 
 
-},{}],147:[function(require,module,exports){
+},{}],165:[function(require,module,exports){
 "use strict";
 
 var getPosition = function (paragraph, span, node) {
@@ -13957,10 +14414,8 @@ module.exports = {
   getFocusPosition: getFocusPosition };
 
 
-},{}],148:[function(require,module,exports){
+},{}],166:[function(require,module,exports){
 "use strict";
-
-var domUtil = require("../../util/domUtil");
 
 module.exports = function (editor, model) {
   var selectPosition = require("./selectPosition"),
@@ -14046,10 +14501,6 @@ module.exports = function (editor, model) {
       isFocusInSelectedSpan = function (selection) {
     return isInSelectedSpan(selectPosition.getFocusPosition(model.annotationData, selection));
   },
-      isSelectedSpanOneDownUnderFocus = function (selection) {
-    var selectedSpanId = model.selectionModel.span.single();
-    return domUtil.selector.span.get(selectedSpanId).parent().attr("id") === selection.focusNode.parentNode.id;
-  },
       isLongerThanParentSpan = function (selection) {
     var $getAnchorNodeParent = getAnchorNodeParent(selection),
         focusPosition = selectPosition.getFocusPosition(model.annotationData, selection);
@@ -14082,737 +14533,139 @@ module.exports = function (editor, model) {
     isAnchorInSelectedSpan: isAnchorInSelectedSpan,
     isFocusOnSelectedSpan: isFocusOnSelectedSpan,
     isFocusInSelectedSpan: isFocusInSelectedSpan,
-    isSelectedSpanOneDownUnderFocus: isSelectedSpanOneDownUnderFocus,
     isLongerThanParentSpan: isLongerThanParentSpan,
     isShorterThanChildSpan: isShorterThanChildSpan
   };
 };
 
 
-},{"../../util/domUtil":155,"./selectPosition":147}],149:[function(require,module,exports){
+},{"./selectPosition":165}],167:[function(require,module,exports){
 "use strict";
 
-// Ovserve and record mouse position to return it.
-var getMousePoint = (function () {
-  var lastMousePoint = {},
-      recordMousePoint = function (e) {
-    lastMousePoint = {
-      top: e.clientY,
-      left: e.clientX
-    };
-  },
-      onMousemove = _.debounce(recordMousePoint, 30);
-
-  $("html").on("mousemove", onMousemove);
-
-  return function () {
-    return lastMousePoint;
-  };
-})(),
-    KeybordInputConverter = require("./tool/KeybordInputConverter"),
-
-
-// Observe window-resize event and redraw all editors.
-observeWindowResize = function (editors) {
-  // Bind resize event
-  $(window).on("resize", _.debounce(function () {
-    // Redraw all editors per editor.
-    editors.forEach(function (editor) {
-      console.log(editor.editorId, "redraw");
-      _.defer(editor.api.redraw);
-    });
-  }, 500));
-},
-    helpDialog = require("./component/HelpDialog")(),
-    ControlBar = function () {
-  var control = null;
-  return {
-    setInstance: function (instance) {
-      control = instance;
-    },
-    changeButtonState: function (enableButtons) {
-      if (control) {
-        control.updateAllButtonEnableState(enableButtons);
-      }
-    },
-    push: function (buttonName, push) {
-      if (control) control.updateButtonPushState(buttonName, push);
-    }
-  };
-},
-    KeyInputHandler = function (helpDialog, editors) {
-  return function (key) {
-    if (key === "H") {
-      helpDialog();
-    } else {
-      if (editors.getSelected()) {
-        editors.getSelected().api.handleKeyInput(key, getMousePoint());
-      }
-    }
-  };
-},
-    ControlButtonHandler = function (helpDialog, editors) {
-  return function (name) {
-    switch (name) {
-      case "textae.control.button.help.click":
-        helpDialog();
-        break;
-      default:
-        if (editors.getSelected()) {
-          editors.getSelected().api.handleButtonClick(name, getMousePoint());
-        }
-    }
-  };
-};
-
-// The tool manages interactions between components.
-module.exports = (function () {
-  var controlBar = new ControlBar(),
-      editors = require("./tool/EditorContainer")(),
-      handleControlButtonClick = new ControlButtonHandler(helpDialog, editors);
-
-  // Start observation at document ready, because this function may be called before body is loaded.
-  $(function () {
-    var handleKeyInput = new KeyInputHandler(helpDialog, editors);
-
-    new KeybordInputConverter().on("input", handleKeyInput);
-    observeWindowResize(editors);
-  });
-
-  return {
-    // Register a control to tool.
-    setControl: function (instance) {
-      instance.on("textae.control.button.click", function () {
-        handleControlButtonClick.apply(null, _.rest(arguments));
-      });
-
-      controlBar.setInstance(instance);
-    },
-    // Register editors to tool
-    pushEditor: function (editor) {
-      editors.push(editor);
-
-      // Add an event emitter to the editer.
-      var eventEmitter = require("./util/extendBindable")({}).bind("textae.editor.select", _.partial(editors.select, editor)).bind("textae.control.button.push", function (data) {
-        controlBar.push(data.buttonName, data.state);
-      }).bind("textae.control.buttons.change", function (enableButtons) {
-        if (editor === editors.getSelected()) controlBar.changeButtonState(enableButtons);
-      });
-
-      $.extend(editor, {
-        editorId: editors.getNewId(),
-        eventEmitter: eventEmitter
-      });
-    },
-    // Select the first editor
-    selectFirstEditor: function () {
-      // Disable all buttons.
-      controlBar.changeButtonState();
-
-      editors.selectFirst();
-    } };
-})();
-
-
-},{"./component/HelpDialog":72,"./tool/EditorContainer":150,"./tool/KeybordInputConverter":151,"./util/extendBindable":156}],150:[function(require,module,exports){
-"use strict";
-
-var switchActiveClass = function (editors, selected) {
-  var activeClass = "textae-editor--active";
-
-  // Remove activeClass from others than selected.
-  _.reject(editors, function (editor) {
-    return editor === selected;
-  }).forEach(function (others) {
-    others.removeClass(activeClass);
-    // console.log('deactive', others.editorId);
-  });
-
-  // Add activeClass to the selected.
-  selected.addClass(activeClass);
-  // console.log('active', selected.editorId);
+var defaults = {
+  "delimiter characters": [" ", ".", "!", "?", ",", ":", ";", "-", "/", "&", "(", ")", "{", "}", "[", "]", "+", "*", "\\", "\"", "'", "\n", "–"],
+  "non-edge characters": [" ", "\n"]
 };
 
 module.exports = function () {
-  var editorList = [],
-      selected = null,
-      select = function (editor) {
-    switchActiveClass(editorList, editor);
-    selected = editor;
+  var delimiterCharacters = [],
+      blankCharacters = [],
+      set = function (config) {
+    var settings = _.extend({}, defaults, config);
+
+    delimiterCharacters = settings["delimiter characters"];
+    blankCharacters = settings["non-edge characters"];
+    return config;
   },
-
-
-  // A container of editors that is extended from Array.
-  editors = {
-    push: function (editor) {
-      editorList.push(editor);
-    },
-    getNewId: function () {
-      return "editor" + editorList.length;
-    },
-    getSelected: function () {
-      return selected;
-    },
-    select: select,
-    selectFirst: function () {
-      select(editorList[0]);
-    },
-    forEach: editorList.forEach.bind(editorList)
-  };
-
-  return editors;
-};
-
-
-},{}],151:[function(require,module,exports){
-"use strict";
-
-var EventEmitter = require("events").EventEmitter,
-
-
-// Declare keyApiMap of control keys
-controlKeyEventMap = {
-  27: "ESC",
-  46: "DEL",
-  37: "LEFT",
-  39: "RIGHT"
-},
-    convertKeyEvent = function (keyCode) {
-  if (65 <= keyCode && keyCode <= 90) {
-    // From a to z, convert 'A' to 'Z'
-    return String.fromCharCode(keyCode);
-  } else if (controlKeyEventMap[keyCode]) {
-    // Control keys, like ESC, DEL ...
-    return controlKeyEventMap[keyCode];
-  }
-},
-    getKeyCode = function (e) {
-  return e.keyCode;
-};
-
-// Observe key-input events and convert events to readable code.
-module.exports = function (keyInputHandler) {
-  var emitter = new EventEmitter(),
-      eventHandler = function (e) {
-    var key = convertKeyEvent(getKeyCode(e));
-    emitter.emit("input", key);
-  },
-      onKeyup = eventHandler;
-
-  // Observe key-input
-  $(document).on("keyup", function (event) {
-    onKeyup(event);
-  });
-
-  // Disable/Enable key-input When a jquery-ui dialog is opened/closeed
-  $("body").on("dialogopen", ".ui-dialog", function () {
-    onKeyup = function () {};
-  }).on("dialogclose", ".ui-dialog", function () {
-    onKeyup = eventHandler;
-  });
-
-  return emitter;
-};
-
-
-},{"events":37}],152:[function(require,module,exports){
-"use strict";
-
-var changeCursor = function (editor, action) {
-  // Add jQuery Ui dialogs to targets because they are not in the editor.
-  editor = editor.add(".ui-dialog, .ui-widget-overlay");
-  editor[action + "Class"]("textae-editor--wait");
-};
-
-module.exports = function (editor) {
-  var wait = _.partial(changeCursor, editor, "add"),
-      endWait = _.partial(changeCursor, editor, "remove");
-
-  return {
-    startWait: wait,
-    endWait: endWait };
-};
-
-
-},{}],153:[function(require,module,exports){
-"use strict";
-
-var isEmpty = function (str) {
-  return !str || str === "";
-},
-    getAsync = function (url, dataHandler, failedHandler) {
-  if (isEmpty(url)) {
-    return;
-  }
-
-  $.ajax({
-    type: "GET",
-    url: url,
-    cache: false
-  }).done(function (data) {
-    if (dataHandler !== undefined) {
-      dataHandler(data);
+      reset = _.partial(set, defaults),
+      isDelimiter = function (char) {
+    if (delimiterCharacters.indexOf("ANY") >= 0) {
+      return 1;
     }
-  }).fail(function (res, textStatus, errorThrown) {
-    if (failedHandler !== undefined) {
-      failedHandler();
-    }
-  });
-},
-    post = function (url, data, successHandler, failHandler, finishHandler) {
-  if (isEmpty(url)) {
-    return;
-  }
-
-  console.log("POST data", data);
-
-  $.ajax({
-    type: "post",
-    url: url,
-    contentType: "application/json",
-    data: data,
-    crossDomain: true,
-    xhrFields: {
-      withCredentials: true
-    }
-  }).done(successHandler).fail(failHandler).always(finishHandler);
-};
-
-module.exports = (function () {
-  return {
-    getAsync: getAsync,
-    post: post
-  };
-})();
-
-
-},{}],154:[function(require,module,exports){
-"use strict";
-
-module.exports = function (str) {
-  return str.charAt(0).toUpperCase() + str.slice(1);
-};
-
-
-},{}],155:[function(require,module,exports){
-"use strict";
-
-var idFactory = require("../util/idFactory");
-
-module.exports = {
-  selector: {
-    span: {
-      get: function (spanId) {
-        return $("#" + spanId);
-      }
-    },
-    entity: {
-      get: function (entityId, editor) {
-        return $("#" + idFactory.makeEntityDomId(editor, entityId));
-      }
-    },
-    grid: {
-      get: function (spanId) {
-        return $("#G" + spanId);
-      }
-    } }
-};
-
-
-},{"../util/idFactory":158}],156:[function(require,module,exports){
-"use strict";
-
-// A mixin for the separeted presentation by the observer pattern.
-var bindable = function () {
-  var callbacks = {};
-
-  return {
-    bind: function (event, callback) {
-      if (!_.isFunction(callback)) throw new Error("Only a function is bindable!");
-
-      callbacks[event] = callbacks[event] || [];
-      callbacks[event].push(callback);
-      return this;
-    },
-    unbind: function (event, callback) {
-      if (!callbacks[event]) return this;
-
-      callbacks[event] = _.reject(callbacks[event], function (existsCallback) {
-        return existsCallback === callback;
-      });
-      return this;
-    },
-    trigger: function (event, data) {
-      if (callbacks[event]) {
-        callbacks[event].forEach(function (callback) {
-          callback(data);
-        });
-      }
-      return data;
-    }
-  };
-};
-
-module.exports = function (obj) {
-  return _.extend({}, obj, bindable());
-};
-
-
-},{}],157:[function(require,module,exports){
-"use strict";
-
-// Usage sample: getUrlParameters(location.search).
-module.exports = function (urlQuery) {
-  // Remove ? at top.
-  var queryString = urlQuery ? String(urlQuery).replace(/^\?(.*)/, "$1") : "";
-
-  // Convert to array if exists
-  var querys = queryString.length > 0 ? queryString.split("&") : [];
-
-  return querys.map(function (param) {
-    // Convert string "key=value" to object.
-    var vals = param.split("=");
-    return {
-      key: vals[0],
-      val: vals[1]
-    };
-  }).reduce(function (a, b) {
-    // Convert [{key: 'abc', val: '123'},...] to { abc: 123 ,...}
-    // Set value true if val is not set.
-    a[b.key] = b.val ? b.val : true;
-    return a;
-  }, {});
-};
-
-
-},{}],158:[function(require,module,exports){
-"use strict";
-
-var typeCounter = [],
-    makeTypePrefix = function (editorId, prefix) {
-  return editorId + "__" + prefix;
-},
-    makeId = function (editorId, prefix, id) {
-  return makeTypePrefix(editorId, prefix) + id;
-},
-    spanDelimiter = "_";
-
-module.exports = {
-  // The ID of spans has editorId and begin and end, like 'editor1__S0_15'.
-  makeSpanId: function (editor, span) {
-    var spanPrefix = makeTypePrefix(editor.editorId, "S");
-    return spanPrefix + span.begin + spanDelimiter + span.end;
+    return delimiterCharacters.indexOf(char) >= 0;
   },
-  // The ID of type has number of type.
-  // This IDs are used for id of DOM element and css selector for jQuery.
-  // But types are inputed by users and may have `!"#$%&'()*+,./:;<=>?@[\]^`{|}~` which can not be used for css selecor.
-  makeTypeId: function (spanId, type) {
-    if (typeCounter.indexOf(type) === -1) {
-      typeCounter.push(type);
-    }
-    return spanId + "-" + typeCounter.indexOf(type);
+      isBlankCharacter = function (char) {
+    return blankCharacters.indexOf(char) >= 0;
   },
-  makeEntityDomId: function (editor, id) {
-    return makeId(editor.editorId, "E", id);
-  },
-  makeParagraphId: function (editor, id) {
-    return makeId(editor.editorId, "P", id);
-  }
-};
-
-
-},{}],159:[function(require,module,exports){
-"use strict";
-
-module.exports = function ($target, enable) {
-  if (enable) {
-    $target.removeAttr("disabled");
-  } else {
-    $target.attr("disabled", "disabled");
-  }
-};
-
-
-},{}],160:[function(require,module,exports){
-"use strict";
-
-var setProp = function (key, $target, className, value) {
-  var valueObject = {};
-
-  valueObject[key] = value;
-  return $target.find(className).prop(valueObject).end();
-};
-
-module.exports = {
-  enabled: require("./jQueryEnabled"),
-  Div: function (className) {
-    return $("<div>").addClass(className);
-  },
-  Label: function (className, text) {
-    return $("<label>").addClass(className).text(text);
-  },
-  Button: function (label, className) {
-    return $("<input type=\"button\" disabled=\"disabled\" />").addClass(className).val(label);
-  },
-  Checkbox: function (className) {
-    return $("<input type=\"checkbox\"/>").addClass(className);
-  },
-  Number: function (className) {
-    return $("<input type=\"number\"/>").addClass(className);
-  },
-  toLink: function (url) {
-    return "<a href=\"" + url + "\">" + url + "</a>";
-  },
-  getValueFromText: function ($target, className) {
-    return $target.find("[type=\"text\"]." + className).val();
-  },
-  setChecked: _.partial(setProp, "checked"),
-  setValue: _.partial(setProp, "value")
-};
-
-
-},{"./jQueryEnabled":159}],161:[function(require,module,exports){
-"use strict";
-
-module.exports = function (hash, element) {
-  hash[element.name] = element;
-  return hash;
-};
-
-
-},{}],162:[function(require,module,exports){
-"use strict";
-
-module.exports = {
-  isUri: function (type) {
-    return String(type).indexOf("http") > -1;
-  },
-  getUrlMatches: function (type) {
-    // The regular-expression to parse URL.
-    // See detail:
-    // http://someweblog.com/url-regular-expression-javascript-link-shortener/
-    var urlRegex = /\(?(?:(http|https|ftp):\/\/)?(?:((?:[^\W\s]|\.|-|[:]{1})+)@{1})?((?:www.)?(?:[^\W\s]|\.|-)+[\.][^\W\s]{2,4}|localhost|\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})(?::(\d*))?([\/]?[^\s\?]*[\/]{1})*(?:\/?([^\s\n\?\[\]\{\}\#]*(?:(?=\.)){1}|[^\s\n\?\[\]\{\}\.\#]*)?([\.]{1}[^\s\?\#]*)?)?(?:\?{1}([^\s\n\#\[\]]*))?([\#][^\s\n]*)?\)?/gi;
-    return urlRegex.exec(type);
-  }
-};
-
-
-},{}],163:[function(require,module,exports){
-"use strict";
-
-var reduce2hash = require("../../util/reduce2hash"),
-    extendBindable = require("../../util/extendBindable"),
-    Button = function (buttonName) {
-  // Button state is true when the button is pushed.
-  var emitter = extendBindable({}),
-      state = false,
-      value = function (newValue) {
-    if (newValue !== undefined) {
-      state = newValue;
-      propagate();
-    } else {
-      return state;
-    }
-  },
-      toggle = function toggleButton() {
-    state = !state;
-    propagate();
-  },
-
-
-  // Propagate button state to the tool.
-  propagate = function () {
-    emitter.trigger("change", {
-      buttonName: buttonName,
-      state: state
+      removeBlankChractors = function (str) {
+    blankCharacters.forEach(function (char) {
+      str = str.replace(char, "");
     });
+    return str;
   };
 
-  return _.extend({
-    name: buttonName,
-    value: value,
-    toggle: toggle,
-    propagate: propagate
-  }, emitter);
-},
-    buttonList = ["boundary-detection", "negation", "replicate-auto", "relation-edit-mode", "speculation"],
-    propagateStateOf = function (emitter, buttons) {
-  buttons.map(function (button) {
-    return {
-      buttonName: button.name,
-      state: button.value()
-    };
-  }).forEach(function (data) {
-    emitter.trigger("change", data);
-  });
-};
-
-module.exports = function () {
-  var emitter = extendBindable({}),
-      buttons = buttonList.map(Button),
-      propagateStateOfAllButtons = _.partial(propagateStateOf, emitter, buttons),
-      buttonHash = buttons.reduce(reduce2hash, {});
-
-  // default pushed;
-  buttonHash["boundary-detection"].value(true);
-
-  // Bind events.
-  buttons.forEach(function (button) {
-    button.bind("change", function (data) {
-      emitter.trigger("change", data);
-    });
-  });
-
-  return _.extend(buttonHash, emitter, {
-    propagate: propagateStateOfAllButtons
-  });
-};
-
-
-},{"../../util/extendBindable":156,"../../util/reduce2hash":161}],164:[function(require,module,exports){
-"use strict";
-
-var EventEmitter = require("events").EventEmitter;
-
-
-var ButtonEnableStates = function () {
-  var states = {},
-      set = function (button, enable) {
-    states[button] = enable;
-  },
-      eventEmitter = new EventEmitter(),
-      propagate = function () {
-    eventEmitter.emit("change", states);
-  };
-
-  return _.extend(eventEmitter, {
+  return {
+    reset: reset,
     set: set,
-    propagate: propagate
-  });
-},
-    UpdateButtonState = function (model, buttonEnableStates, clipBoard) {
-  // Short cut name
-  var s = model.selectionModel,
-      doPredicate = function (name) {
-    return _.isFunction(name) ? name() : s[name].some();
-  },
-      and = function () {
-    for (var i = 0; i < arguments.length; i++) {
-      if (!doPredicate(arguments[i])) return false;
-    }
-
-    return true;
-  },
-      or = function () {
-    for (var i = 0; i < arguments.length; i++) {
-      if (doPredicate(arguments[i])) return true;
-    }
-
-    return false;
-  },
-      hasCopy = function () {
-    return clipBoard.clipBoard.length > 0;
-  },
-      sOrE = _.partial(or, "span", "entity"),
-      eOrR = _.partial(or, "entity", "relation");
+    isDelimiter: isDelimiter,
+    isBlankCharacter: isBlankCharacter,
+    removeBlankChractors: removeBlankChractors
+  };
+};
 
 
-  // Check all associated anntation elements.
-  // For exapmle, it should be that buttons associate with entitis is enable,
-  // when deselect the span after select a span and an entity.
-  var predicates = {
-    replicate: function () {
-      return !!s.span.single();
+},{}],168:[function(require,module,exports){
+"use strict";
+
+var reduce2hash = require("../reduce2hash"),
+    uri = require("../uri"),
+    DEFAULT_TYPE = "something",
+    TypeContainer = function (getActualTypesFunction, defaultColor) {
+  var definedTypes = {},
+      defaultType = DEFAULT_TYPE;
+
+  return {
+    setDefinedTypes: function (newDefinedTypes) {
+      definedTypes = newDefinedTypes;
     },
-    entity: s.span.some,
-    "delete": s.some, // It works well on relation-edit-mode if relations are deselect brefore an entity is select.
-    copy: sOrE,
-    paste: _.partial(and, hasCopy, "span"),
-    pallet: eOrR,
-    "change-label": eOrR,
-    negation: eOrR,
-    speculation: eOrR
-  };
+    getDeinedTypes: function () {
+      return _.extend({}, definedTypes);
+    },
+    setDefaultType: function (name) {
+      defaultType = name;
+    },
+    getDefaultType: function () {
+      return defaultType || this.getSortedNames()[0];
+    },
+    getColor: function (name) {
+      return definedTypes[name] && definedTypes[name].color || defaultColor;
+    },
+    getUri: function (name) {
+      return definedTypes[name] && definedTypes[name].uri || uri.getUrlMatches(name) ? name : undefined;
+    },
+    getSortedNames: function () {
+      if (getActualTypesFunction) {
+        var typeCount = getActualTypesFunction().concat(Object.keys(definedTypes)).reduce(function (a, b) {
+          a[b] = a[b] ? a[b] + 1 : 1;
+          return a;
+        }, {});
 
-  return function (buttons) {
-    buttons.forEach(function (buttonName) {
-      buttonEnableStates.set(buttonName, predicates[buttonName]());
-    });
+        // Sort by number of types, and by name if numbers are same.
+        var typeNames = Object.keys(typeCount);
+        typeNames.sort(function (a, b) {
+          var diff = typeCount[b] - typeCount[a];
+          return diff !== 0 ? diff : a > b ? 1 : b < a ? -1 : 0;
+        });
+
+        return typeNames;
+      } else {
+        return [];
+      }
+    }
   };
 },
-    UpdateModificationButtons = function (model, modeAccordingToButton) {
-  var doesAllModificaionHasSpecified = function (specified, modificationsOfSelectedElement) {
-    return modificationsOfSelectedElement.length > 0 && _.every(modificationsOfSelectedElement, function (m) {
-      return _.contains(m, specified);
-    });
-  },
-      updateModificationButton = function (specified, modificationsOfSelectedElement) {
-    // All modification has specified modification if exits.
-    modeAccordingToButton[specified.toLowerCase()].value(doesAllModificaionHasSpecified(specified, modificationsOfSelectedElement));
-  };
+    setContainerDefinedTypes = function (container, newDefinedTypes) {
+  // expected newDefinedTypes is an array of object. example of object is {"name": "Regulation","color": "#FFFF66","default": true}.
+  if (newDefinedTypes !== undefined) {
+    container.setDefinedTypes(newDefinedTypes.reduce(reduce2hash, {}));
+    container.setDefaultType(newDefinedTypes.filter(function (type) {
+      return type["default"] === true;
+    }).map(function (type) {
+      return type.name;
+    }).shift() || DEFAULT_TYPE);
+  }
+};
 
-  return function (selectionModel) {
-    var modifications = selectionModel.all().map(function (e) {
-      return model.annotationData.getModificationOf(e).map(function (m) {
-        return m.pred;
-      });
-    });
-
-    updateModificationButton("Negation", modifications);
-    updateModificationButton("Speculation", modifications);
-  };
-},
-    ButtonStateHelper = function (model, modeAccordingToButton, buttonEnableStates, updateButtonState, updateModificationButtons) {
-  var allButtons = ["delete"],
-      spanButtons = allButtons.concat(["replicate", "entity", "copy", "paste"]),
-      relationButtons = allButtons.concat(["pallet", "change-label", "negation", "speculation"]),
-      entityButtons = relationButtons.concat(["copy"]),
-      propagate = _.compose(modeAccordingToButton.propagate, buttonEnableStates.propagate),
-      propagateAfter = _.partial(_.compose, propagate);
+module.exports = function (model) {
+  var entityContainer = _.extend(new TypeContainer(model.annotationData.entity.types, "#77DDDD"), {
+    isBlock: function (type) {
+      // console.log(type, entityContainer.getDeinedTypes(), entityContainer.getDeinedTypes()[type]);
+      var definition = entityContainer.getDeinedTypes()[type];
+      return definition && definition.type && definition.type === "block";
+    }
+  }),
+      relationContaier = new TypeContainer(model.annotationData.relation.types, "#555555");
 
   return {
-    propagate: propagate,
-    enabled: propagateAfter(buttonEnableStates.set),
-    updateBySpan: propagateAfter(_.partial(updateButtonState, spanButtons)),
-    updateByEntity: _.compose(propagate, _.partial(updateModificationButtons, model.selectionModel.entity), _.partial(updateButtonState, entityButtons)),
-    updateByRelation: _.compose(propagate, _.partial(updateModificationButtons, model.selectionModel.relation), _.partial(updateButtonState, relationButtons))
+    entity: entityContainer,
+    setDefinedEntityTypes: _.partial(setContainerDefinedTypes, entityContainer),
+    relation: relationContaier,
+    setDefinedRelationTypes: _.partial(setContainerDefinedTypes, relationContaier)
   };
 };
 
-module.exports = function (editor, model, clipBoard) {
-  // Save state of push control buttons.
-  var modeAccordingToButton = require("./ModeAccordingToButton")(),
 
-
-  // Save enable/disable state of contorol buttons.
-  buttonEnableStates = new ButtonEnableStates(),
-      updateButtonState = new UpdateButtonState(model, buttonEnableStates, clipBoard),
-
-
-  // Change push/unpush of buttons of modifications.
-  updateModificationButtons = new UpdateModificationButtons(model, modeAccordingToButton),
-
-
-  // Helper to update button state.
-  buttonStateHelper = new ButtonStateHelper(model, modeAccordingToButton, buttonEnableStates, updateButtonState, updateModificationButtons);
-
-  // Proragate events.
-  modeAccordingToButton.bind("change", function (data) {
-    editor.eventEmitter.trigger("textae.control.button.push", data);
-  });
-
-  buttonEnableStates.on("change", function (data) {
-    editor.eventEmitter.trigger("textae.control.buttons.change", data);
-  });
-
-  return {
-    // Modes accoding to buttons of control.
-    modeAccordingToButton: modeAccordingToButton,
-    buttonStateHelper: buttonStateHelper };
-};
-
-
-},{"./ModeAccordingToButton":163,"events":37}],165:[function(require,module,exports){
+},{"../reduce2hash":234,"../uri":236}],169:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
@@ -14856,7 +14709,7 @@ function renderLazyRelationAll(relations) {
 }
 
 
-},{"./GridLayout":167,"events":37}],166:[function(require,module,exports){
+},{"./GridLayout":171,"events":38}],170:[function(require,module,exports){
 "use strict";
 
 var Cache = function () {
@@ -14910,7 +14763,7 @@ var Cache = function () {
     clear: clear
   };
 })(),
-    domUtil = require("../util/domUtil"),
+    domUtil = require("./domUtil"),
     createNewCache = function (editor, entityModel) {
   // The chache for position of grids.
   // This is updated at arrange position of grids.
@@ -14989,7 +14842,7 @@ module.exports = function (editor, entityModel) {
 };
 
 
-},{"../util/domUtil":155}],167:[function(require,module,exports){
+},{"./domUtil":210}],171:[function(require,module,exports){
 "use strict";
 
 var filterVisibleGrid = function (grid) {
@@ -15016,7 +14869,7 @@ var filterVisibleGrid = function (grid) {
 },
     Promise = require("bluebird"),
     getGridPosition = require("./getGridPosition"),
-    domUtil = require("../util/domUtil");
+    domUtil = require("./domUtil");
 
 // Management position of annotation components.
 module.exports = function (editor, annotationData, typeContainer) {
@@ -15080,7 +14933,7 @@ module.exports = function (editor, annotationData, typeContainer) {
 };
 
 
-},{"../util/domUtil":155,"./DomPositionCache":166,"./getGridPosition":201,"bluebird":3}],168:[function(require,module,exports){
+},{"./DomPositionCache":170,"./domUtil":210,"./getGridPosition":211,"bluebird":3}],172:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
@@ -15109,7 +14962,7 @@ function processAccosiatedRelation(entity, domPositionCaChe, func, entityId) {
 }
 
 
-},{"./DomPositionCache":166}],169:[function(require,module,exports){
+},{"./DomPositionCache":170}],173:[function(require,module,exports){
 "use strict";
 
 // Arrange a position of the pane to center entities when entities width is longer than pane width.
@@ -15127,7 +14980,7 @@ module.exports = function (pane) {
 };
 
 
-},{}],170:[function(require,module,exports){
+},{}],174:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
@@ -15158,14 +15011,14 @@ module.exports = function (editor, model, typeContainer, gridRenderer, modificat
 };
 
 
-},{"../../Selector":197,"./createEntityUnlessBlock":172,"./removeEntityElement":177}],171:[function(require,module,exports){
+},{"../../Selector":208,"./createEntityUnlessBlock":176,"./removeEntityElement":181}],175:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
   return obj && (obj["default"] || obj);
 };
 
-var idFactory = _interopRequire(require("../../../util/idFactory"));
+var idFactory = _interopRequire(require("../../../idFactory"));
 
 var getTypeElement = _interopRequire(require("./getTypeElement"));
 
@@ -15179,9 +15032,13 @@ module.exports = function (editor, namspace, typeContainer, gridRenderer, modifi
   entity.type = String(entity.type);
 
   // Append a new entity to the type
-  var pane = getTypeElement(namspace, typeContainer, gridRenderer, entity.span, entity.type).find(".textae-editor__entity-pane").append(createEntityElement(editor, typeContainer, modification, entity));
+  var $pane = getTypeElement(namspace, typeContainer, gridRenderer, entity.span, entity.type).find(".textae-editor__entity-pane"),
+      entityDomId = idFactory.makeEntityDomId(editor, entity.id);
 
-  arrangePositionOfPane(pane);
+  if ($pane.find("#" + entityDomId).length === 0) {
+    $pane.append(createEntityElement(editor, typeContainer, modification, entity));
+    arrangePositionOfPane($pane);
+  }
 };
 
 function createEntityElement(editor, typeContainer, modification, entity) {
@@ -15196,7 +15053,7 @@ function createEntityElement(editor, typeContainer, modification, entity) {
 }
 
 
-},{"../../../util/idFactory":158,"./arrangePositionOfPane":169,"./getTypeElement":175}],172:[function(require,module,exports){
+},{"../../../idFactory":221,"./arrangePositionOfPane":173,"./getTypeElement":179}],176:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
@@ -15216,14 +15073,14 @@ module.exports = function (editor, namespace, typeContainer, gridRenderer, modif
 };
 
 
-},{"./create":171}],173:[function(require,module,exports){
+},{"./create":175}],177:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
   return obj && (obj["default"] || obj);
 };
 
-var uri = _interopRequire(require("../../../util/uri"));
+var uri = _interopRequire(require("../../../uri"));
 
 // Display short name for URL(http or https);
 module.exports = function (type) {
@@ -15253,32 +15110,32 @@ module.exports = function (type) {
 };
 
 
-},{"../../../util/uri":162}],174:[function(require,module,exports){
+},{"../../../uri":236}],178:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
   return obj && (obj["default"] || obj);
 };
 
-var idFactory = _interopRequire(require("../../../util/idFactory"));
+var idFactory = _interopRequire(require("../../../idFactory"));
 
 module.exports = function (spanId, type) {
   return $("#" + idFactory.makeTypeId(spanId, type));
 };
 
 
-},{"../../../util/idFactory":158}],175:[function(require,module,exports){
+},{"../../../idFactory":221}],179:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
   return obj && (obj["default"] || obj);
 };
 
-var domUtil = _interopRequire(require("../../../util/domUtil"));
+var domUtil = _interopRequire(require("../../domUtil"));
 
-var idFactory = _interopRequire(require("../../../util/idFactory"));
+var idFactory = _interopRequire(require("../../../idFactory"));
 
-var uri = _interopRequire(require("../../../util/uri"));
+var uri = _interopRequire(require("../../../uri"));
 
 var getDisplayName = _interopRequire(require("./getDisplayName"));
 
@@ -15344,6 +15201,7 @@ function setLabelName(typeLabel, namespace, typeContainer, type) {
 
   var child = undefined,
       href = getUri(namespace, typeContainer, type);
+
   if (href) {
     child = "<a target=\"_blank\"/ href=\"" + href + "\">" + displayName + "</a>";
   } else {
@@ -15380,7 +15238,7 @@ function getGrid(gridRenderer, spanId) {
 }
 
 
-},{"../../../util/domUtil":155,"../../../util/idFactory":158,"../../../util/uri":162,"./getDisplayName":173,"./getTypeDom":174}],176:[function(require,module,exports){
+},{"../../../idFactory":221,"../../../uri":236,"../../domUtil":210,"./getDisplayName":177,"./getTypeDom":178}],180:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
@@ -15392,11 +15250,11 @@ var ModificationRenderer = _interopRequire(require("../ModificationRenderer"));
 var getDisplayName = _interopRequire(require("./getDisplayName"));
 
 var EventEmitter = require("events").EventEmitter;
-var uri = _interopRequire(require("../../../util/uri"));
+var uri = _interopRequire(require("../../../uri"));
 
-var idFactory = _interopRequire(require("../../../util/idFactory"));
+var idFactory = _interopRequire(require("../../../idFactory"));
 
-var domUtil = _interopRequire(require("../../../util/domUtil"));
+var domUtil = _interopRequire(require("../../domUtil"));
 
 var Selector = _interopRequire(require("../../Selector"));
 
@@ -15455,14 +15313,14 @@ function doesSpanHasNoEntity(annotationData, spanId) {
 }
 
 
-},{"../../../util/domUtil":155,"../../../util/idFactory":158,"../../../util/uri":162,"../../Selector":197,"../ModificationRenderer":180,"./changeTypeOfExists":170,"./create":171,"./createEntityUnlessBlock":172,"./getDisplayName":173,"./getTypeDom":174,"./removeEntityElement":177,"events":37}],177:[function(require,module,exports){
+},{"../../../idFactory":221,"../../../uri":236,"../../Selector":208,"../../domUtil":210,"../ModificationRenderer":184,"./changeTypeOfExists":174,"./create":175,"./createEntityUnlessBlock":176,"./getDisplayName":177,"./getTypeDom":178,"./removeEntityElement":181,"events":38}],181:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
   return obj && (obj["default"] || obj);
 };
 
-var domUtil = _interopRequire(require("../../../util/domUtil"));
+var domUtil = _interopRequire(require("../../domUtil"));
 
 var getTypeDom = _interopRequire(require("./getTypeDom"));
 
@@ -15488,7 +15346,7 @@ function doesTypeHasNoEntity(annotationData, entity, typeName) {
 }
 
 
-},{"../../../util/domUtil":155,"./arrangePositionOfPane":169,"./getTypeDom":174}],178:[function(require,module,exports){
+},{"../../domUtil":210,"./arrangePositionOfPane":173,"./getTypeDom":178}],182:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
@@ -15497,7 +15355,7 @@ var _interopRequire = function (obj) {
 
 var getAnnotationBox = _interopRequire(require("./getAnnotationBox"));
 
-var domUtil = _interopRequire(require("../../util/domUtil"));
+var domUtil = _interopRequire(require("../domUtil"));
 
 module.exports = function (editor, domPositionCache) {
   var container = getAnnotationBox(editor),
@@ -15526,14 +15384,14 @@ function createGrid(domPositionCache, container, spanId) {
 }
 
 
-},{"../../util/domUtil":155,"./getAnnotationBox":190}],179:[function(require,module,exports){
+},{"../domUtil":210,"./getAnnotationBox":202}],183:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
   return obj && (obj["default"] || obj);
 };
 
-var renderSourceDocument = _interopRequire(require("./renderSourceDocument"));
+var renderParagraph = _interopRequire(require("./renderParagraph"));
 
 var getAnnotationBox = _interopRequire(require("./getAnnotationBox"));
 
@@ -15554,7 +15412,7 @@ module.exports = function (domPositionCaChe, relationRenderer, buttonStateHelper
   var emitter = new EventEmitter(),
       gridRenderer = new GridRenderer(editor, domPositionCaChe),
       entityRenderer = new EntityRenderer(editor, model, typeContainer, gridRenderer),
-      spanRenderer = new SpanRenderer(editor, model, typeContainer, entityRenderer, gridRenderer);
+      spanRenderer = new SpanRenderer(model.annotationData, typeContainer.entity.isBlock, entityRenderer.render);
 
   entityRenderer.on("render", function (entity) {
     return entityRenderer.getTypeDom(entity).css(new TypeStyle(typeGap()));
@@ -15562,7 +15420,7 @@ module.exports = function (domPositionCaChe, relationRenderer, buttonStateHelper
 
   return function (editor, annotationData, selectionModel) {
     var renderAll = new RenderAll(editor, domPositionCaChe, spanRenderer, relationRenderer),
-        renderSpanOfEntity = _.compose(spanRenderer.change, function (entity) {
+        chongeSpanOfEntity = _.compose(spanRenderer.change, function (entity) {
       return annotationData.span.get(entity.span);
     }),
         renderModificationEntityOrRelation = function (modification) {
@@ -15570,26 +15428,25 @@ module.exports = function (domPositionCaChe, relationRenderer, buttonStateHelper
       renderModification(annotationData, "entity", modification, entityRenderer, buttonStateHelper);
     };
 
-    var eventHandlers = [["text.change", function (params) {
-      return renderSourceDocument(editor, params.sourceDoc, params.paragraphs);
-    }], ["all.change", function (annotationData) {
+    var eventHandlers = [["all.change", function (annotationData) {
       renderAll(annotationData);
       selectionModel.clear();
-    }], ["span.add", function (span) {
-      return spanRenderer.render(span);
-    }], ["span.remove", function (span) {
+    }], ["paragraph.change", function (paragraphs) {
+      return renderParagraph(editor, paragraphs);
+    }], ["span.add", spanRenderer.render], ["span.remove", function (span) {
       spanRenderer.remove(span);
+      gridRenderer.remove(span.id);
       selectionModel.span.remove(modelToId(span));
     }], ["entity.add", function (entity) {
       // Add a now entity with a new grid after the span moved.
-      spanRenderer.change(annotationData.span.get(entity.span), domPositionCaChe.reset);
+      chongeSpanOfEntity(entity);
       entityRenderer.render(entity);
     }], ["entity.change", function (entity) {
       entityRenderer.change(entity);
-      renderSpanOfEntity(entity);
+      chongeSpanOfEntity(entity);
     }], ["entity.remove", function (entity) {
       entityRenderer.remove(entity);
-      renderSpanOfEntity(entity);
+      chongeSpanOfEntity(entity);
       selectionModel.entity.remove(modelToId(entity));
     }], ["relation.add", function (relation) {
       relationRenderer.render(relation);
@@ -15619,7 +15476,7 @@ function bindeToModelEvent(emitter, annotationData, eventName, handler) {
 }
 
 
-},{"../TypeStyle":199,"./EntityRenderer":176,"./GridRenderer":178,"./RenderAll":186,"./SpanRenderer":188,"./getAnnotationBox":190,"./renderModification":195,"./renderSourceDocument":196,"events":37}],180:[function(require,module,exports){
+},{"../TypeStyle":209,"./EntityRenderer":180,"./GridRenderer":182,"./RenderAll":190,"./SpanRenderer":198,"./getAnnotationBox":202,"./renderModification":206,"./renderParagraph":207,"events":38}],184:[function(require,module,exports){
 "use strict";
 
 var allModificationClasses = "textae-editor__negation textae-editor__speculation";
@@ -15643,7 +15500,7 @@ function update(annotationData, domElement, objectId) {
 }
 
 
-},{}],181:[function(require,module,exports){
+},{}],185:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
@@ -15664,7 +15521,7 @@ module.exports = function (editor, annotationData, relationId) {
 };
 
 
-},{"../../DomPositionCache":166}],182:[function(require,module,exports){
+},{"../../DomPositionCache":170}],186:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
@@ -15686,7 +15543,12 @@ module.exports = function (editor, model, jsPlumbInstance) {
         // For tuning
         // var startTime = new Date();
 
-        resetAllCurviness(editor, model.annotationData, model.annotationData.relation.all());
+        // Extract relations removed, because relation dom is not synchro with the model.
+        var relations = model.annotationData.relation.all().filter(function (r) {
+          return !r.removed;
+        });
+
+        resetAllCurviness(editor, model.annotationData, relations);
         jsPlumbInstance.repaintEverything();
         reselectAll(editor, model.annotationData, model.selectionModel.relation.all());
 
@@ -15734,7 +15596,7 @@ function resetAllCurviness(editor, annotationData, relations) {
 }
 
 
-},{"./Connect":181,"./determineCurviness":183,"./jsPlumbArrowOverlayUtil":185,"bluebird":3}],183:[function(require,module,exports){
+},{"./Connect":185,"./determineCurviness":187,"./jsPlumbArrowOverlayUtil":189,"bluebird":3}],187:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
@@ -15780,7 +15642,7 @@ function toAnchors(relation) {
 }
 
 
-},{"../../DomPositionCache":166}],184:[function(require,module,exports){
+},{"../../DomPositionCache":170}],188:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
@@ -15801,7 +15663,7 @@ var determineCurviness = _interopRequire(require("./determineCurviness"));
 
 var jsPlumbArrowOverlayUtil = _interopRequire(require("./jsPlumbArrowOverlayUtil"));
 
-var domUtil = _interopRequire(require("../../../util/domUtil"));
+var domUtil = _interopRequire(require("../../domUtil"));
 
 var POINTUP_LINE_WIDTH = 3,
     LABEL = {
@@ -16114,6 +15976,9 @@ module.exports = function (editor, model, typeContainer) {
 
     // Set the flag dead already to delay selection.
     connect.dead = true;
+
+    // Set a flag to extract relations from target to move relations asynchronously.
+    relation.removed = true;
   },
       init = function (editor) {
     var container = getAnnotationBox(editor);
@@ -16138,7 +16003,7 @@ module.exports = function (editor, model, typeContainer) {
 };
 
 
-},{"../../../util/domUtil":155,"../../DomPositionCache":166,"../ModificationRenderer":180,"../getAnnotationBox":190,"./Connect":181,"./arrangePositionAll":182,"./determineCurviness":183,"./jsPlumbArrowOverlayUtil":185,"bluebird":3}],185:[function(require,module,exports){
+},{"../../DomPositionCache":170,"../../domUtil":210,"../ModificationRenderer":184,"../getAnnotationBox":202,"./Connect":185,"./arrangePositionAll":186,"./determineCurviness":187,"./jsPlumbArrowOverlayUtil":189,"bluebird":3}],189:[function(require,module,exports){
 "use strict";
 
 var // Overlay styles for jsPlubm connections.
@@ -16224,7 +16089,7 @@ module.exports = {
 };
 
 
-},{}],186:[function(require,module,exports){
+},{}],190:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
@@ -16264,191 +16129,335 @@ function renderAllRelation(annotationData, relationRenderer) {
 }
 
 
-},{"./getAnnotationBox":190}],187:[function(require,module,exports){
+},{"./getAnnotationBox":202}],191:[function(require,module,exports){
 "use strict";
 
-var createSpanRange = require("./createSpanRange"),
-    getFirstTextNode = require("./getFirstTextNode"),
-    createSpanElement = function (span) {
+var _interopRequire = function (obj) {
+  return obj && (obj["default"] || obj);
+};
+
+var getBigBrother = _interopRequire(require("./getBigBrother"));
+
+var renderSingleSpan = _interopRequire(require("./renderSingleSpan"));
+
+var renderClassOfSpan = _interopRequire(require("./renderClassOfSpan"));
+
+var renderEntitiesOfSpan = _interopRequire(require("./renderEntitiesOfSpan"));
+
+var destroyChildrenSpan = _interopRequire(require("./destroyChildrenSpan"));
+
+module.exports = create;
+
+
+// Destroy children spans to wrap a TextNode with <span> tag when new span over exists spans.
+function create(span, annotationData, isBlockFunc, renderEntityFunc) {
+  destroyChildrenSpan(span);
+
+  var bigBrother = getBigBrother(span, annotationData.span.topLevel());
+  renderSingleSpan(span, bigBrother);
+
+  renderClassOfSpan(span, isBlockFunc);
+
+  renderEntitiesOfSpan(span, annotationData.entity.get, renderEntityFunc);
+
+  renderChildresnSpan(span, function (span) {
+    return create(span, annotationData, isBlockFunc, renderEntityFunc);
+  });
+}
+
+function renderChildresnSpan(span, create) {
+  span.children.forEach(create);
+
+  return span;
+}
+
+
+},{"./destroyChildrenSpan":196,"./getBigBrother":197,"./renderClassOfSpan":199,"./renderEntitiesOfSpan":200,"./renderSingleSpan":201}],192:[function(require,module,exports){
+"use strict";
+
+module.exports = function (textNode, offset) {
+  var range = document.createRange();
+  range.setStart(textNode, offset.start);
+  range.setEnd(textNode, offset.end);
+  return range;
+};
+
+
+},{}],193:[function(require,module,exports){
+"use strict";
+
+module.exports = function (span) {
   var element = document.createElement("span");
   element.setAttribute("id", span.id);
   element.setAttribute("title", span.id);
   element.setAttribute("class", "textae-editor__span");
   return element;
-},
-    domUtil = require("../../util/domUtil"),
-    RenderSingleSpan = function (editor) {
-  var getFirstTextNodeFromSpan = _.compose(getFirstTextNode, domUtil.selector.span.get),
-      getFirstTextNodeFromParagraph = _.compose(getFirstTextNode, function (id) {
-    return $("#" + id);
-  }),
-
-
-  // Get the Range to that new span tag insert.
-  // This function works well when no child span is rendered.
-  getRangeToInsertSpanTag = function (span) {
-    // The parent of the bigBrother is same with span, which is a span or the root of spanTree.
-    var bigBrother = span.getBigBrother();
-    if (bigBrother) {
-      // The target text arrounded by span is in a textNode after the bigBrother if bigBrother exists.
-      return createSpanRange(document.getElementById(bigBrother.id).nextSibling, bigBrother.end, span);
-    } else {
-      // The target text arrounded by span is the first child of parent unless bigBrother exists.
-      if (span.parent) {
-        // The parent is span.
-        // This span is first child of span.
-        return createSpanRange(getFirstTextNodeFromSpan(span.parent.id), span.parent.begin, span);
-      } else {
-        // The parent is paragraph
-        return createSpanRange(getFirstTextNodeFromParagraph(span.paragraph.id), span.paragraph.begin, span);
-      }
-    }
-  },
-      appendSpanElement = function (span, element) {
-    getRangeToInsertSpanTag(span).surroundContents(element);
-
-    return span;
-  },
-      renderSingleSpan = function (span) {
-    return appendSpanElement(span, createSpanElement(span));
-  };
-
-  return renderSingleSpan;
-};
-
-module.exports = RenderSingleSpan;
-
-
-},{"../../util/domUtil":155,"./createSpanRange":189,"./getFirstTextNode":193}],188:[function(require,module,exports){
-"use strict";
-
-var exists = function (span) {
-  return document.getElementById(span.id) !== null;
-},
-    not = function (value) {
-  return !value;
-},
-    hasType = function (span, isBlock) {
-  return span.getTypes().map(function (type) {
-    return type.name;
-  }).filter(isBlock).length > 0;
-},
-    domUtil = require("../../util/domUtil");
-
-module.exports = function (editor, model, typeContainer, entityRenderer, gridRenderer) {
-  var renderSingleSpan = require("./RenderSingleSpan")(editor),
-      renderBlockOfSpan = function (span, clearCache) {
-    var $span = domUtil.selector.span.get(span.id);
-
-    if (hasType(span, typeContainer.entity.isBlock)) {
-      $span.addClass("textae-editor__span--block");
-    } else {
-      $span.removeClass("textae-editor__span--block");
-    }
-
-    if (hasType(span, _.compose(not, typeContainer.entity.isBlock))) {
-      if ($span.hasClass("textae-editor__span--wrap")) {
-        // The span maybe move.
-        $span.removeClass("textae-editor__span--wrap");
-        if (clearCache) clearCache();
-      }
-    } else {
-      $span.addClass("textae-editor__span--wrap");
-    }
-
-    return span;
-  },
-      renderEntitiesOfType = function (type) {
-    type.entities.forEach(_.compose(entityRenderer.render, model.annotationData.entity.get));
-  },
-      renderEntitiesOfSpan = function (span) {
-    span.getTypes().forEach(renderEntitiesOfType);
-
-    return span;
-  },
-      destroy = function (span) {
-    var spanElement = document.getElementById(span.id),
-        parent = spanElement.parentNode;
-
-    // Move the textNode wrapped this span in front of this span.
-    while (spanElement.firstChild) {
-      parent.insertBefore(spanElement.firstChild, spanElement);
-    }
-
-    $(spanElement).remove();
-    parent.normalize();
-
-    // Destroy a grid of the span.
-    gridRenderer.remove(span.id);
-  },
-      destroyChildrenSpan = function (span) {
-    // Destroy DOM elements of descendant spans.
-    var destroySpanRecurcive = function (span) {
-      span.children.forEach(function (span) {
-        destroySpanRecurcive(span);
-      });
-      destroy(span);
-    };
-
-    // Destroy rendered children.
-    span.children.filter(exists).forEach(destroySpanRecurcive);
-
-    return span;
-  },
-      renderChildresnSpan = function (span) {
-    span.children.filter(_.compose(not, exists)).forEach(create);
-
-    return span;
-  },
-
-
-  // Destroy children spans to wrap a TextNode with <span> tag when new span over exists spans.
-  create = _.compose(renderChildresnSpan, renderEntitiesOfSpan, renderBlockOfSpan, renderSingleSpan, destroyChildrenSpan);
-
-  return {
-    render: create,
-    remove: destroy,
-    change: renderBlockOfSpan
-  };
 };
 
 
-},{"../../util/domUtil":155,"./RenderSingleSpan":187}],189:[function(require,module,exports){
+},{}],194:[function(require,module,exports){
 "use strict";
 
-var getPosition = function (span, startOfTextNodeAddSpan) {
-  var startPos = span.begin - startOfTextNodeAddSpan,
-      endPos = span.end - startOfTextNodeAddSpan;
+var _interopRequire = function (obj) {
+  return obj && (obj["default"] || obj);
+};
 
-  return {
-    start: startPos,
-    end: endPos
-  };
-},
-    validatePosition = function (textNode, start, end) {
-  return 0 <= start && end <= textNode.length;
-},
-    createRange = function (textNode, start, end) {
-  var range = document.createRange();
-  range.setStart(textNode, start);
-  range.setEnd(textNode, end);
-  return range;
-},
-    createSpanRange = function (textNode, startOfTextNodeAddSpan, span) {
-  var position = getPosition(span, startOfTextNodeAddSpan);
+var createRange = _interopRequire(require("./createRange"));
 
-  if (!validatePosition(textNode, position.start, position.end)) {
+module.exports = function (textNode, startOfTextNode, span) {
+  var offset = getOffset(span, startOfTextNode);
+
+  if (!validateOffset(textNode, offset)) {
     throw new Error("oh my god! I cannot render this span. " + span.toStringOnlyThis() + ", textNode " + textNode.textContent);
   }
 
-  return createRange(textNode, position.start, position.end);
+  return createRange(textNode, offset);
 };
 
-// Create the Range to a new span add
-module.exports = createSpanRange;
+function getOffset(span, startOfTextNode) {
+  var startOffset = span.begin - startOfTextNode,
+      endOffset = span.end - startOfTextNode;
+
+  return {
+    start: startOffset,
+    end: endOffset
+  };
+}
+
+function validateOffset(textNode, offset) {
+  return 0 <= offset.start && offset.end <= textNode.length;
+}
 
 
-},{}],190:[function(require,module,exports){
+},{"./createRange":192}],195:[function(require,module,exports){
+"use strict";
+
+module.exports = function (spanId) {
+  var spanElement = document.querySelector("#" + spanId),
+      parent = spanElement.parentNode;
+
+  // Move the textNode wrapped this span in front of this span.
+  while (spanElement.firstChild) {
+    parent.insertBefore(spanElement.firstChild, spanElement);
+  }
+
+  parent.removeChild(spanElement);
+  parent.normalize();
+};
+
+
+},{}],196:[function(require,module,exports){
+"use strict";
+
+var _interopRequire = function (obj) {
+  return obj && (obj["default"] || obj);
+};
+
+var destroy = _interopRequire(require("./destroy"));
+
+module.exports = function (span) {
+  // Destroy rendered children.
+  span.children.filter(exists).forEach(destroySpanRecurcive);
+
+  return span;
+};
+
+function exists(span) {
+  return document.querySelector("#" + span.id) !== null;
+}
+
+// Destroy DOM elements of descendant spans.
+function destroySpanRecurcive(span) {
+  span.children.forEach(function (span) {
+    destroySpanRecurcive(span);
+  });
+  destroy(span.id);
+}
+
+
+},{"./destroy":195}],197:[function(require,module,exports){
+"use strict";
+
+// A big brother is brother node on a structure at rendered.
+// There is no big brother if the span is first in a paragraph.
+// Warning: parent is set at updateSpanTree, is not exists now.
+module.exports = function (span, topLevelSpans) {
+  var index = undefined;
+  if (span.parent) {
+    index = span.parent.children.indexOf(span);
+    return index === 0 ? null : span.parent.children[index - 1];
+  } else {
+    index = topLevelSpans.indexOf(span);
+    return index === 0 || topLevelSpans[index - 1].paragraph !== span.paragraph ? null : topLevelSpans[index - 1];
+  }
+};
+
+
+},{}],198:[function(require,module,exports){
+"use strict";
+
+var _interopRequire = function (obj) {
+  return obj && (obj["default"] || obj);
+};
+
+var create = _interopRequire(require("./create"));
+
+var destroy = _interopRequire(require("./destroy"));
+
+var renderClassOfSpan = _interopRequire(require("./renderClassOfSpan"));
+
+module.exports = function (annotationData, isBlockFunc, renderEntityFunc) {
+  return {
+    render: function (span) {
+      return create(span, annotationData, isBlockFunc, renderEntityFunc);
+    },
+    remove: function (span) {
+      return destroy(span.id);
+    },
+    change: function (span) {
+      return renderClassOfSpan(span, isBlockFunc);
+    }
+  };
+};
+
+
+},{"./create":191,"./destroy":195,"./renderClassOfSpan":199}],199:[function(require,module,exports){
+"use strict";
+
+var _interopRequire = function (obj) {
+  return obj && (obj["default"] || obj);
+};
+
+var not = _interopRequire(require("not"));
+
+var BLOCK = "textae-editor__span--block",
+    WRAP = "textae-editor__span--wrap";
+
+module.exports = function (span, isBlockFunc) {
+  var spanElement = document.querySelector("#" + span.id);
+
+  if (hasType(span, isBlockFunc)) {
+    spanElement.classList.add(BLOCK);
+  } else {
+    spanElement.classList.remove(BLOCK);
+  }
+
+  if (hasType(span, not(isBlockFunc))) {
+    if (spanElement.classList.contains(WRAP)) {
+      spanElement.classList.remove(WRAP);
+    }
+  } else {
+    spanElement.classList.add(WRAP);
+  }
+};
+
+function hasType(span, isBlockFunc) {
+  return span.getTypes().map(function (type) {
+    return type.name;
+  }).filter(isBlockFunc).length > 0;
+}
+
+
+},{"not":61}],200:[function(require,module,exports){
+"use strict";
+
+module.exports = function (span, entityIdToModelFunc, renderEntityFunc) {
+  span.getTypes().forEach(function (type) {
+    return renderEntitiesOfType(type, entityIdToModelFunc, renderEntityFunc);
+  });
+};
+
+function renderEntitiesOfType(type, entityIdToModelFunc, renderEntityFunc) {
+  type.entities.map(entityIdToModelFunc).forEach(renderEntityFunc);
+}
+
+
+},{}],201:[function(require,module,exports){
+"use strict";
+
+var _slicedToArray = function (arr, i) {
+  if (Array.isArray(arr)) {
+    return arr;
+  } else {
+    var _arr = [];
+
+    for (var _iterator = arr[Symbol.iterator](), _step; !(_step = _iterator.next()).done;) {
+      _arr.push(_step.value);
+
+      if (i && _arr.length === i) break;
+    }
+
+    return _arr;
+  }
+};
+
+var _interopRequire = function (obj) {
+  return obj && (obj["default"] || obj);
+};
+
+var createSpanElement = _interopRequire(require("./createSpanElement"));
+
+var createSpanRange = _interopRequire(require("./createSpanRange"));
+
+module.exports = function (span, bigBrother) {
+  var targetRange = cerateRangeToSpan(span, bigBrother),
+      spanElement = createSpanElement(span);
+
+  targetRange.surroundContents(spanElement);
+};
+
+// Get the Range to that new span tag insert.
+// This function works well when no child span is rendered.
+function cerateRangeToSpan(span, bigBrother) {
+  var targetTextNode = undefined,
+      startOfTextNode = undefined;
+
+  // The parent of the bigBrother is same with of span, which is a span or the root of spanTree.
+  if (bigBrother) {
+    // The target text arrounded by span is in a textNode after the bigBrother if bigBrother exists.
+    var _ref = getTextNodeFromBigBrother(bigBrother);
+
+    var _ref2 = _slicedToArray(_ref, 2);
+
+    targetTextNode = _ref2[0];
+    startOfTextNode = _ref2[1];
+  } else {
+    // The target text arrounded by span is the first child of parent unless bigBrother exists.
+    var _ref3 = getTextNodeFromParent(span);
+
+    var _ref32 = _slicedToArray(_ref3, 2);
+
+    targetTextNode = _ref32[0];
+    startOfTextNode = _ref32[1];
+  }
+
+  if (!targetTextNode) throw new Error("The textNode on to create a span is not found. " + span.toStringOnlyThis());
+
+  return createSpanRange(targetTextNode, startOfTextNode, span);
+}
+
+function getTextNodeFromBigBrother(bigBrother) {
+  return [document.querySelector("#" + bigBrother.id).nextSibling, bigBrother.end];
+}
+
+function getTextNodeFromParent(span) {
+  var parentModel = getParentModel(span);
+
+  return [document.querySelector("#" + parentModel.id).firstChild, parentModel.begin];
+}
+
+function getParentModel(span) {
+  if (span.parent) {
+    // This span is first child of parent span.
+    return span.parent;
+  } else {
+    // The parentElement is paragraph unless parent.
+    return span.paragraph;
+  }
+}
+
+
+},{"./createSpanElement":193,"./createSpanRange":194}],202:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
@@ -16463,7 +16472,7 @@ var getEditorBody = _interopRequire(require("./getEditorBody"));
 module.exports = _.compose(_.partial(getElement, "div", "textae-editor__body__annotation-box"), getEditorBody);
 
 
-},{"./getEditorBody":191,"./getElement":192}],191:[function(require,module,exports){
+},{"./getEditorBody":203,"./getElement":204}],203:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
@@ -16476,7 +16485,7 @@ var getElement = _interopRequire(require("./getElement"));
 module.exports = _.partial(getElement, "div", "textae-editor__body");
 
 
-},{"./getElement":192}],192:[function(require,module,exports){
+},{"./getElement":204}],204:[function(require,module,exports){
 "use strict";
 
 module.exports = function (tagName, className, $parent) {
@@ -16489,20 +16498,7 @@ module.exports = function (tagName, className, $parent) {
 };
 
 
-},{}],193:[function(require,module,exports){
-"use strict";
-
-var isTextNode = function () {
-  return this.nodeType === 3; //TEXT_NODE
-},
-    getFirstTextNode = function ($element) {
-  return $element.contents().filter(isTextNode).get(0);
-};
-
-module.exports = getFirstTextNode;
-
-
-},{}],194:[function(require,module,exports){
+},{}],205:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
@@ -16526,14 +16522,14 @@ module.exports = function (editor, model, buttonStateHelper, typeContainer, type
 };
 
 
-},{"../DomPositionCache":166,"./Initiator":179}],195:[function(require,module,exports){
+},{"../DomPositionCache":170,"./Initiator":183}],206:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
   return obj && (obj["default"] || obj);
 };
 
-var capitalize = _interopRequire(require("../../util/capitalize"));
+var capitalize = _interopRequire(require("capitalize"));
 
 module.exports = function (annotationData, modelType, modification, renderer, buttonStateHelper) {
   var target = annotationData[modelType].get(modification.obj);
@@ -16545,40 +16541,43 @@ module.exports = function (annotationData, modelType, modification, renderer, bu
 };
 
 
-},{"../../util/capitalize":154}],196:[function(require,module,exports){
+},{"capitalize":35}],207:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
   return obj && (obj["default"] || obj);
 };
 
+var Handlebars = _interopRequire(require("handlebars"));
+
 var getElement = _interopRequire(require("./getElement"));
 
 var getEditorBody = _interopRequire(require("./getEditorBody"));
 
-var // Get the display area for text and spans.
-getTextBox = _.compose(_.partial(getElement, "div", "textae-editor__body__text-box"), getEditorBody),
+var source = "\n{{#paragraphs}}\n<p class=\"textae-editor__body__text-box__paragraph-margin\">\n    <span class=\"textae-editor__body__text-box__paragraph\" id=\"{{id}}\">{{text}}</span>\n</p>\n{{/paragraphs}}\n";
 
+var tepmlate = Handlebars.compile(source);
 
-// the Souce document has multi paragraphs that are splited by '\n'.
-createTaggedSourceDoc = function (sourceDoc, paragraphs) {
-  //set sroucedoc tagged <p> per line.
-  return sourceDoc.split("\n").map(function (content, index) {
-    return "<p class=\"textae-editor__body__text-box__paragraph-margin\">" + "<span class=\"textae-editor__body__text-box__paragraph\" id=\"" + paragraphs[index].id + "\" >" + content + "</span></p>";
-  }).join("\n");
-},
-    renderSourceDocument = function (editor, sourceDoc, paragraphs) {
-  getTextBox(editor)[0].innerHTML = createTaggedSourceDoc(sourceDoc, paragraphs);
+// Get the display area for text and spans.
+var getTextBox = _.compose(_.partial(getElement, "div", "textae-editor__body__text-box"), getEditorBody);
+
+module.exports = function (editor, paragraphs) {
+  getTextBox(editor)[0].innerHTML = createTaggedSourceDoc(paragraphs);
 };
 
-module.exports = renderSourceDocument;
+// the Souce document has multi paragraphs that are splited by '\n'.
+function createTaggedSourceDoc(paragraphs) {
+  return tepmlate({
+    paragraphs: paragraphs
+  });
+}
 
 
-},{"./getEditorBody":191,"./getElement":192}],197:[function(require,module,exports){
+},{"./getEditorBody":203,"./getElement":204,"handlebars":60}],208:[function(require,module,exports){
 "use strict";
 
 var selectionClass = require("./selectionClass"),
-    domUtil = require("../util/domUtil");
+    domUtil = require("./domUtil");
 
 module.exports = function (editor, model) {
   var domPositionCaChe = require("./DomPositionCache")(editor, model.annotationData.entity),
@@ -16640,88 +16639,7 @@ module.exports = function (editor, model) {
 };
 
 
-},{"../util/domUtil":155,"./DomPositionCache":166,"./selectionClass":204}],198:[function(require,module,exports){
-"use strict";
-
-var reduce2hash = require("../util/reduce2hash"),
-    uri = require("../util/uri"),
-    DEFAULT_TYPE = "something",
-    TypeContainer = function (getActualTypesFunction, defaultColor) {
-  var definedTypes = {},
-      defaultType = DEFAULT_TYPE;
-
-  return {
-    setDefinedTypes: function (newDefinedTypes) {
-      definedTypes = newDefinedTypes;
-    },
-    getDeinedTypes: function () {
-      return _.extend({}, definedTypes);
-    },
-    setDefaultType: function (name) {
-      defaultType = name;
-    },
-    getDefaultType: function () {
-      return defaultType || this.getSortedNames()[0];
-    },
-    getColor: function (name) {
-      return definedTypes[name] && definedTypes[name].color || defaultColor;
-    },
-    getUri: function (name) {
-      return definedTypes[name] && definedTypes[name].uri || uri.getUrlMatches(name) ? name : undefined;
-    },
-    getSortedNames: function () {
-      if (getActualTypesFunction) {
-        var typeCount = getActualTypesFunction().concat(Object.keys(definedTypes)).reduce(function (a, b) {
-          a[b] = a[b] ? a[b] + 1 : 1;
-          return a;
-        }, {});
-
-        // Sort by number of types, and by name if numbers are same.
-        var typeNames = Object.keys(typeCount);
-        typeNames.sort(function (a, b) {
-          var diff = typeCount[b] - typeCount[a];
-          return diff !== 0 ? diff : a > b ? 1 : b < a ? -1 : 0;
-        });
-
-        return typeNames;
-      } else {
-        return [];
-      }
-    }
-  };
-},
-    setContainerDefinedTypes = function (container, newDefinedTypes) {
-  // expected newDefinedTypes is an array of object. example of object is {"name": "Regulation","color": "#FFFF66","default": true}.
-  if (newDefinedTypes !== undefined) {
-    container.setDefinedTypes(newDefinedTypes.reduce(reduce2hash, {}));
-    container.setDefaultType(newDefinedTypes.filter(function (type) {
-      return type["default"] === true;
-    }).map(function (type) {
-      return type.name;
-    }).shift() || DEFAULT_TYPE);
-  }
-};
-
-module.exports = function (model) {
-  var entityContainer = _.extend(new TypeContainer(model.annotationData.entity.types, "#77DDDD"), {
-    isBlock: function (type) {
-      // console.log(type, entityContainer.getDeinedTypes(), entityContainer.getDeinedTypes()[type]);
-      var definition = entityContainer.getDeinedTypes()[type];
-      return definition && definition.type && definition.type === "block";
-    }
-  }),
-      relationContaier = new TypeContainer(model.annotationData.relation.types, "#555555");
-
-  return {
-    entity: entityContainer,
-    setDefinedEntityTypes: _.partial(setContainerDefinedTypes, entityContainer),
-    relation: relationContaier,
-    setDefinedRelationTypes: _.partial(setContainerDefinedTypes, relationContaier)
-  };
-};
-
-
-},{"../util/reduce2hash":161,"../util/uri":162}],199:[function(require,module,exports){
+},{"./DomPositionCache":170,"./domUtil":210,"./selectionClass":215}],209:[function(require,module,exports){
 "use strict";
 
 module.exports = function (newValue) {
@@ -16732,95 +16650,32 @@ module.exports = function (newValue) {
 };
 
 
-},{}],200:[function(require,module,exports){
+},{}],210:[function(require,module,exports){
 "use strict";
 
-var _interopRequire = function (obj) {
-  return obj && (obj["default"] || obj);
-};
+var idFactory = require("../idFactory");
 
-var Renderer = _interopRequire(require("./Renderer"));
-
-var lineHeight = _interopRequire(require("./lineHeight"));
-
-var Hover = _interopRequire(require("./Hover"));
-
-var Display = _interopRequire(require("./Display"));
-
-var CursorChanger = _interopRequire(require("../util/CursorChanger"));
-
-var setSelectionModelHandler = _interopRequire(require("./setSelectionModelHandler"));
-
-var TypeStyle = _interopRequire(require("./TypeStyle"));
-
-var RelationRenderer = _interopRequire(require("./Renderer/RelationRenderer"));
-
-module.exports = function (editor, model, buttonController, typeGap, typeContainer) {
-  // Render DOM elements conforming with the Model.
-  var relationRenderer = new RelationRenderer(editor, model, typeContainer),
-      hover = new Hover(editor, model.annotationData.entity);
-
-  setSelectionModelHandler(editor, model, buttonController);
-
-  var api = {
-    init: function () {
-      var arrangePositionAllRelation = relationRenderer.init(editor),
-          display = new Display(editor, model.annotationData, typeContainer, arrangePositionAllRelation);
-
-      setHandlerOnTyapGapEvent(editor, model, typeGap, typeContainer, display);
-      setHandlerOnDisplayEvent(editor, display);
-
-      initRenderer(editor, model, display.update, typeGap, typeContainer, buttonController.buttonStateHelper, relationRenderer);
-
-      api.updateDisplay = function () {
-        display.update(typeGap());
-        lineHeight.reduceBottomSpace(editor);
-      };
+module.exports = {
+  selector: {
+    span: {
+      get: function (spanId) {
+        return $("#" + spanId);
+      }
     },
-    hoverRelation: hover
-  };
-
-  return api;
+    entity: {
+      get: function (entityId, editor) {
+        return $("#" + idFactory.makeEntityDomId(editor, entityId));
+      }
+    },
+    grid: {
+      get: function (spanId) {
+        return $("#G" + spanId);
+      }
+    } }
 };
 
-function initRenderer(editor, model, updateDisplay, typeGap, typeContainer, buttonStateHelper, relationRenderer) {
-  var renderer = new Renderer(editor, model, buttonStateHelper, typeContainer, typeGap, relationRenderer),
-      debouncedUpdateDisplay = _.debounce(function () {
-    return updateDisplay(typeGap());
-  }, 100);
 
-  renderer.init(editor, model.annotationData, model.selectionModel).on("change", debouncedUpdateDisplay).on("all.change", debouncedUpdateDisplay).on("text.change", function () {
-    return lineHeight.reduceBottomSpace(editor);
-  }).on("span.add", debouncedUpdateDisplay).on("span.remove", debouncedUpdateDisplay).on("entity.add", debouncedUpdateDisplay).on("entity.change", debouncedUpdateDisplay).on("entity.remove", debouncedUpdateDisplay).on("relation.add", debouncedUpdateDisplay);
-}
-
-function setHandlerOnTyapGapEvent(editor, model, typeGap, typeContainer, display) {
-  var setTypeStyle = function (newValue) {
-    return editor.find(".textae-editor__type").css(new TypeStyle(newValue));
-  };
-
-  typeGap(setTypeStyle);
-  typeGap(function (newValue) {
-    return lineHeight.setToTypeGap(editor, model, typeContainer, newValue);
-  });
-  typeGap(display.update);
-}
-
-function setHandlerOnDisplayEvent(editor, display) {
-  // Set cursor control by view rendering events.
-  var cursorChanger = new CursorChanger(editor);
-
-  display.on("render.start", function (editor) {
-    // console.log(editor.editorId, 'render.start');
-    cursorChanger.startWait();
-  }).on("render.end", function (editor) {
-    // console.log(editor.editorId, 'render.end');
-    cursorChanger.endWait();
-  });
-}
-
-
-},{"../util/CursorChanger":152,"./Display":165,"./Hover":168,"./Renderer":194,"./Renderer/RelationRenderer":184,"./TypeStyle":199,"./lineHeight":203,"./setSelectionModelHandler":205}],201:[function(require,module,exports){
+},{"../idFactory":221}],211:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
@@ -16858,7 +16713,7 @@ function pullUpGridOverDescendants(getSpan, typeContainer, typeGapValue, span) {
 }
 
 
-},{"./getHeightIncludeDescendantGrids":202}],202:[function(require,module,exports){
+},{"./getHeightIncludeDescendantGrids":212}],212:[function(require,module,exports){
 "use strict";
 
 module.exports = getHeightIncludeDescendantGrids;
@@ -16874,7 +16729,98 @@ function getHeightIncludeDescendantGrids(span, typeContainer, typeGapValue) {
 }
 
 
-},{}],203:[function(require,module,exports){
+},{}],213:[function(require,module,exports){
+"use strict";
+
+var _interopRequire = function (obj) {
+  return obj && (obj["default"] || obj);
+};
+
+var Renderer = _interopRequire(require("./Renderer"));
+
+var lineHeight = _interopRequire(require("./lineHeight"));
+
+var Hover = _interopRequire(require("./Hover"));
+
+var Display = _interopRequire(require("./Display"));
+
+var CursorChanger = _interopRequire(require("../../util/CursorChanger"));
+
+var setSelectionModelHandler = _interopRequire(require("./setSelectionModelHandler"));
+
+var TypeStyle = _interopRequire(require("./TypeStyle"));
+
+var RelationRenderer = _interopRequire(require("./Renderer/RelationRenderer"));
+
+var BODY = "\n<div class=\"textae-editor__body\">\n    <div class=\"textae-editor__body__annotation-box\"></div>\n    <div class=\"textae-editor__body__text-box\"></div>\n</div>\n";
+
+module.exports = function (editor, model) {
+  var hover = new Hover(editor, model.annotationData.entity);
+
+  var api = {
+    init: function (editor, buttonController, typeGap, typeContainer) {
+      setSelectionModelHandler(editor, model, buttonController);
+
+      editor[0].innerHTML = BODY;
+
+      var relationRenderer = new RelationRenderer(editor, model, typeContainer);
+      var arrangePositionAllRelation = relationRenderer.init(editor),
+          display = new Display(editor, model.annotationData, typeContainer, arrangePositionAllRelation);
+
+      setHandlerOnTyapGapEvent(editor, model, typeGap, typeContainer, display);
+      setHandlerOnDisplayEvent(editor, display);
+
+      initRenderer(editor, model, display.update, typeGap, typeContainer, buttonController.buttonStateHelper, relationRenderer);
+
+      api.updateDisplay = function () {
+        display.update(typeGap());
+        lineHeight.reduceBottomSpace(editor[0]);
+      };
+    },
+    hoverRelation: hover
+  };
+
+  return api;
+};
+
+function initRenderer(editor, model, updateDisplay, typeGap, typeContainer, buttonStateHelper, relationRenderer) {
+  var renderer = new Renderer(editor, model, buttonStateHelper, typeContainer, typeGap, relationRenderer),
+      debouncedUpdateDisplay = _.debounce(function () {
+    return updateDisplay(typeGap());
+  }, 100);
+
+  renderer.init(editor, model.annotationData, model.selectionModel).on("change", debouncedUpdateDisplay).on("all.change", debouncedUpdateDisplay).on("paragraph.change", function () {
+    return lineHeight.reduceBottomSpace(editor[0]);
+  }).on("span.add", debouncedUpdateDisplay).on("span.remove", debouncedUpdateDisplay).on("entity.add", debouncedUpdateDisplay).on("entity.change", debouncedUpdateDisplay).on("entity.remove", debouncedUpdateDisplay).on("relation.add", debouncedUpdateDisplay);
+}
+
+function setHandlerOnTyapGapEvent(editor, model, typeGap, typeContainer, display) {
+  var setTypeStyle = function (newValue) {
+    return editor.find(".textae-editor__type").css(new TypeStyle(newValue));
+  };
+
+  typeGap(setTypeStyle);
+  typeGap(function (newValue) {
+    return lineHeight.setToTypeGap(editor[0], model.annotationData, typeContainer, newValue);
+  });
+  typeGap(display.update);
+}
+
+function setHandlerOnDisplayEvent(editor, display) {
+  // Set cursor control by view rendering events.
+  var cursorChanger = new CursorChanger(editor);
+
+  display.on("render.start", function (editor) {
+    // console.log(editor.editorId, 'render.start');
+    cursorChanger.startWait();
+  }).on("render.end", function (editor) {
+    // console.log(editor.editorId, 'render.end');
+    cursorChanger.endWait();
+  });
+}
+
+
+},{"../../util/CursorChanger":247,"./Display":169,"./Hover":172,"./Renderer":205,"./Renderer/RelationRenderer":188,"./TypeStyle":209,"./lineHeight":214,"./setSelectionModelHandler":216}],214:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
@@ -16887,46 +16833,54 @@ exports.set = set;
 exports.setToTypeGap = setToTypeGap;
 var TEXT_HEIGHT = 23;
 var MARGIN_TOP = 30;
-var MINIMUM_HEIGHT = 16 * 4;
+var MINIMUM_HEIGHT = 41;
 
 var getHeightIncludeDescendantGrids = _interopRequire(require("./getHeightIncludeDescendantGrids"));
 
 function get(editor) {
-  return Math.floor(parseInt(editor.find(".textae-editor__body__text-box").css("line-height")) / 16);
+  var textBox = getTextBox(editor),
+      style = window.getComputedStyle(textBox);
+
+  return pixelToInt(style.lineHeight);
 }
 
 // Reduce the space under the .textae-editor__body__text-box same as padding-top.
 function reduceBottomSpace(editor) {
-  var $textBox = editor.find(".textae-editor__body__text-box");
+  var textBox = getTextBox(editor),
+      style = window.getComputedStyle(textBox);
 
   // The height calculated by auto is exclude the value of the padding top.
   // Rest small space.
-  $textBox.css({
-    height: "auto"
-  }).css({
-    height: $textBox.height() + 20
-  });
+  textBox.style.height = "auto";
+  textBox.style.height = textBox.offsetHeight - pixelToInt(style.paddingTop) + 20 + "px";
 }
 
 function set(editor, heightValue) {
-  var $textBox = editor.find(".textae-editor__body__text-box");
+  var textBox = getTextBox(editor);
 
-  $textBox.css({
-    "line-height": heightValue + "px",
-    "padding-top": heightValue / 2 + "px"
-  });
+  textBox.style.lineHeight = heightValue + "px";
+  textBox.style.paddingTop = heightValue / 2 + "px";
+
+  suppressScrollJump(textBox, heightValue);
 
   reduceBottomSpace(editor);
 }
 
-function setToTypeGap(editor, model, typeContainer, typeGapValue) {
+function setToTypeGap(editor, annotationData, typeContainer, typeGapValue) {
   var heightOfType = typeGapValue * 18 + 18,
-      maxHeight;
+      maxHeight = undefined;
 
-  if (model.annotationData.span.all().length === 0) {
-    maxHeight = MINIMUM_HEIGHT;
+  if (annotationData.span.all().length === 0) {
+    var style = window.getComputedStyle(editor),
+        n = pixelToInt(style.lineHeight);
+
+    if (style.lineHeight === "normal") {
+      maxHeight = MINIMUM_HEIGHT;
+    } else {
+      maxHeight = n;
+    }
   } else {
-    maxHeight = _.max(model.annotationData.span.all().map(function (span) {
+    maxHeight = _.max(annotationData.span.all().map(function (span) {
       return getHeightIncludeDescendantGrids(span, typeContainer, typeGapValue);
     }));
 
@@ -16936,8 +16890,25 @@ function setToTypeGap(editor, model, typeContainer, typeGapValue) {
   set(editor, maxHeight);
 }
 
+function getTextBox(editor) {
+  return editor.querySelector(".textae-editor__body__text-box");
+}
 
-},{"./getHeightIncludeDescendantGrids":202}],204:[function(require,module,exports){
+function suppressScrollJump(textBox, heightValue) {
+  var beforeLineHeight = textBox.style.lineHeight,
+      b = pixelToInt(beforeLineHeight);
+
+  if (b) {
+    window.scroll(window.scrollX, window.scrollY * heightValue / b);
+  }
+}
+
+function pixelToInt(str) {
+  return str === "" ? 0 : parseInt(str);
+}
+
+
+},{"./getHeightIncludeDescendantGrids":212}],215:[function(require,module,exports){
 "use strict";
 
 // Add or Remove class to indicate selected state.
@@ -16956,7 +16927,7 @@ module.exports = (function () {
 })();
 
 
-},{}],205:[function(require,module,exports){
+},{}],216:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
@@ -16977,7 +16948,1366 @@ function delay150(func) {
 }
 
 
-},{"./Selector":197}]},{},[87]);
+},{"./Selector":208}],217:[function(require,module,exports){
+"use strict";
+
+var _interopRequire = function (obj) {
+  return obj && (obj["default"] || obj);
+};
+
+var lineHeight = _interopRequire(require("./view/lineHeight"));
+
+module.exports = function (editor, annotationData, typeContainer, typeGap, view) {
+  lineHeight.setToTypeGap(editor[0], annotationData, typeContainer, typeGap());
+  view.updateDisplay();
+};
+
+
+},{"./view/lineHeight":241}],218:[function(require,module,exports){
+"use strict";
+
+var _interopRequire = function (obj) {
+  return obj && (obj["default"] || obj);
+};
+
+var Observable = _interopRequire(require("observ"));
+
+var showVilidationDialog = _interopRequire(require("../component/showVilidationDialog"));
+
+var hasError = require("./model/AnnotationData/parseAnnotation/validateAnnotation").hasError;
+module.exports = function (annotationData, history, buttonStateHelper, leaveMessage, dataAccessObject) {
+  var writable = new Writable();
+
+  bindResetEvent(annotationData, history, writable);
+  bindChangeEvent(history, buttonStateHelper, leaveMessage, writable);
+  bindEndEvent(dataAccessObject, history, writable);
+
+  writable(function (val) {
+    return buttonStateHelper.enabled("write", val);
+  });
+};
+
+function Writable() {
+  var isDataModified = false,
+      o = new Observable(false);
+
+  o.forceModified = function (val) {
+    o.set(val);
+    isDataModified = val;
+  };
+
+  o.update = function (val) {
+    o.set(isDataModified || val);
+  };
+
+  return o;
+}
+
+function bindResetEvent(annotationData, history, writable) {
+  annotationData.on("all.change", function (annotationData, multitrack, reject) {
+    history.reset();
+
+    showVilidationDialog(self, reject);
+
+    if (multitrack) toastr.success("track annotations have been merged to root annotations.");
+
+    if (multitrack || hasError(reject)) {
+      writable.forceModified(true);
+    } else {
+      writable.forceModified(false);
+    }
+  });
+}
+
+function bindChangeEvent(history, buttonStateHelper, leaveMessage, writable) {
+  history.on("change", function (state) {
+    //change button state
+    buttonStateHelper.enabled("undo", state.hasAnythingToUndo);
+    buttonStateHelper.enabled("redo", state.hasAnythingToRedo);
+
+    //change leaveMessage show
+    window.onbeforeunload = state.hasAnythingToSave ? function () {
+      return leaveMessage;
+    } : null;
+
+    writable.update(state.hasAnythingToSave);
+  });
+}
+
+function bindEndEvent(dataAccessObject, history, writable) {
+  dataAccessObject.on("save", function () {
+    history.saved();
+    writable.forceModified(false);
+    toastr.success("annotation saved");
+  }).on("save error", function () {
+    toastr.error("could not save");
+  });
+}
+
+
+},{"../component/showVilidationDialog":81,"./model/AnnotationData/parseAnnotation/validateAnnotation":225,"observ":62}],219:[function(require,module,exports){
+"use strict";
+
+var getUrlParameters = require("./getUrlParameters"),
+    priorUrl = function (params, editor, name) {
+  if (!params[name] && editor.attr(name)) params[name] = editor.attr(name);
+},
+    priorAttr = function (params, editor, name) {
+  if (editor.attr(name)) params[name] = editor.attr(name);
+};
+
+module.exports = function (editor) {
+  // Read model parameters from url parameters and html attributes.
+  var params = getUrlParameters(location.search);
+
+  // 'source' prefer to 'target'
+  params.target = editor.attr("source") || editor.attr("target") || params.source || params.target;
+
+  priorAttr(params, editor, "config");
+  priorAttr(params, editor, "status_bar");
+
+  // Mode is prior in the url parameter.
+  priorUrl(params, editor, "mode");
+
+  // Read Html text and clear it.
+  var inlineAnnotation = editor.text();
+  editor.empty();
+
+  // Set annotaiton parameters.
+  params.annotation = {
+    inlineAnnotation: inlineAnnotation,
+    url: params.target
+  };
+
+  // console.log(params);
+
+  return params;
+};
+
+
+},{"./getUrlParameters":220}],220:[function(require,module,exports){
+"use strict";
+
+// Usage sample: getUrlParameters(location.search).
+module.exports = function (urlQuery) {
+  // Remove ? at top.
+  var queryString = urlQuery ? String(urlQuery).replace(/^\?(.*)/, "$1") : "";
+
+  // Convert to array if exists
+  var querys = queryString.length > 0 ? queryString.split("&") : [];
+
+  return querys.map(function (param) {
+    // Convert string "key=value" to object.
+    var vals = param.split("=");
+    return {
+      key: vals[0],
+      val: vals[1]
+    };
+  }).reduce(function (a, b) {
+    // Convert [{key: 'abc', val: '123'},...] to { abc: 123 ,...}
+    // Set value true if val is not set.
+    a[b.key] = b.val ? b.val : true;
+    return a;
+  }, {});
+};
+
+
+},{}],221:[function(require,module,exports){
+"use strict";
+
+var typeCounter = [],
+    makeTypePrefix = function (editorId, prefix) {
+  return editorId + "__" + prefix;
+},
+    makeId = function (editorId, prefix, id) {
+  return makeTypePrefix(editorId, prefix) + id;
+},
+    spanDelimiter = "_";
+
+module.exports = {
+  // The ID of spans has editorId and begin and end, like 'editor1__S0_15'.
+  makeSpanId: function (editor, span) {
+    var spanPrefix = makeTypePrefix(editor.editorId, "S");
+    return spanPrefix + span.begin + spanDelimiter + span.end;
+  },
+  // The ID of type has number of type.
+  // This IDs are used for id of DOM element and css selector for jQuery.
+  // But types are inputed by users and may have `!"#$%&'()*+,./:;<=>?@[\]^`{|}~` which can not be used for css selecor.
+  makeTypeId: function (spanId, type) {
+    if (typeCounter.indexOf(type) === -1) {
+      typeCounter.push(type);
+    }
+    return spanId + "-" + typeCounter.indexOf(type);
+  },
+  makeEntityDomId: function (editor, id) {
+    return makeId(editor.editorId, "E", id);
+  },
+  makeParagraphId: function (editor, id) {
+    return makeId(editor.editorId, "P", id);
+  }
+};
+
+
+},{}],222:[function(require,module,exports){
+"use strict";
+
+var _interopRequire = function (obj) {
+  return obj && (obj["default"] || obj);
+};
+
+var CONFIRM_DISCARD_CHANGE_MESSAGE = "There is a change that has not been saved. If you procceed now, you will lose it.";
+
+var Observable = _interopRequire(require("observ"));
+
+var DataAccessObject = _interopRequire(require("../component/DataAccessObject"));
+
+var editingState = _interopRequire(require("./editingState"));
+
+// model manages data objects.
+var Model = _interopRequire(require("./Model"));
+
+// The history of command that providing undo and redo.
+var History = _interopRequire(require("./History"));
+
+var ButtonController = _interopRequire(require("./ButtonController"));
+
+var start = _interopRequire(require("./start"));
+
+module.exports = function () {
+  var self = this,
+      model = new Model(this),
+      history = new History(),
+      clipBoard = {
+    // clipBoard has entity type.
+    clipBoard: []
+  },
+      buttonController = new ButtonController(this, model, clipBoard),
+      dataAccessObject = new DataAccessObject(self, CONFIRM_DISCARD_CHANGE_MESSAGE);
+
+  editingState(model.annotationData, history, buttonController.buttonStateHelper, CONFIRM_DISCARD_CHANGE_MESSAGE, dataAccessObject);
+
+  // public funcitons of editor
+  this.api = {
+    start: function (editor) {
+      return start(editor, dataAccessObject, history, buttonController, model, clipBoard);
+    }
+  };
+
+  return this;
+};
+
+
+},{"../component/DataAccessObject":63,"./ButtonController":91,"./History":99,"./Model":131,"./editingState":218,"./start":235,"observ":62}],223:[function(require,module,exports){
+"use strict";
+
+module.exports = function (rejects) {
+  return rejects.reduce(function (result, reject) {
+    return result || reject.hasError;
+  }, false);
+};
+
+
+},{}],224:[function(require,module,exports){
+"use strict";
+
+module.exports = function (reject) {
+  return {
+    accept: [],
+    reject: reject ? reject : []
+  };
+};
+
+
+},{}],225:[function(require,module,exports){
+"use strict";
+
+var _extends = function (target) {
+  for (var i = 1; i < arguments.length; i++) {
+    var source = arguments[i];
+    for (var key in source) {
+      target[key] = source[key];
+    }
+  }
+
+  return target;
+};
+
+var _interopRequire = function (obj) {
+  return obj && (obj["default"] || obj);
+};
+
+var main = _interopRequire(require("./main"));
+
+var hasError = _interopRequire(require("./Reject/hasError"));
+
+var isBoundaryCrossingWithOtherSpans = _interopRequire(require("./isBoundaryCrossingWithOtherSpans"));
+
+exports["default"] = main;
+exports.hasError = hasError;
+exports.isBoundaryCrossingWithOtherSpans = isBoundaryCrossingWithOtherSpans;
+module.exports = _extends(exports["default"], exports);
+
+
+},{"./Reject/hasError":223,"./isBoundaryCrossingWithOtherSpans":226,"./main":228}],226:[function(require,module,exports){
+"use strict";
+
+// A span its range is coross over with other spans are not able to rendered.
+// Because spans are renderd with span tag. Html tags can not be cross over.
+module.exports = function (spans, candidateSpan) {
+  return spans.filter(function (existSpan) {
+    return isBoundaryCrossing(candidateSpan, existSpan);
+  }).length > 0;
+};
+
+function isBoundaryCrossing(candidateSpan, existSpan) {
+  return existSpan.begin < candidateSpan.begin && candidateSpan.begin < existSpan.end && existSpan.end < candidateSpan.end || candidateSpan.begin < existSpan.begin && existSpan.begin < candidateSpan.end && candidateSpan.end < existSpan.end;
+}
+
+
+},{}],227:[function(require,module,exports){
+"use strict";
+
+module.exports = function (data, opt) {
+  if (!opt.dictionary) return false;
+
+  return opt.dictionary.filter(function (entry) {
+    return entry.id === data[opt.property];
+  }).length === 1;
+};
+
+
+},{}],228:[function(require,module,exports){
+"use strict";
+
+var _interopRequire = function (obj) {
+  return obj && (obj["default"] || obj);
+};
+
+var validateDenotation = _interopRequire(require("./validateDenotation"));
+
+var validateRelation = _interopRequire(require("./validateRelation"));
+
+var validateModificatian = _interopRequire(require("./validateModificatian"));
+
+module.exports = function (text, paragraph, annotation) {
+  var resultDenotation = validateDenotation(text, paragraph, annotation.denotations),
+      resultRelation = validateRelation(resultDenotation.accept, annotation.relations),
+      resultModification = validateModificatian(resultDenotation.accept, resultRelation.accept, annotation.modifications);
+
+  return {
+    accept: {
+      denotation: resultDenotation.accept,
+      relation: resultRelation.accept,
+      modification: resultModification.accept
+    },
+    reject: {
+      denotationHasLength: resultDenotation.reject.hasLength,
+      denotationInText: resultDenotation.reject.inText,
+      denotationInParagraph: resultDenotation.reject.inParagraph,
+      denotationIsNotCrossing: resultDenotation.reject.isNotCrossing,
+      relationObj: resultRelation.reject.obj,
+      relationSubj: resultRelation.reject.subj,
+      modification: resultModification.reject.modification,
+      hasError: resultDenotation.hasError || resultRelation.hasError || resultModification.hasError
+    }
+  };
+};
+
+
+},{"./validateDenotation":230,"./validateModificatian":231,"./validateRelation":232}],229:[function(require,module,exports){
+"use strict";
+
+var _interopRequire = function (obj) {
+  return obj && (obj["default"] || obj);
+};
+
+var Reject = _interopRequire(require("./Reject"));
+
+module.exports = function (values, predicate, predicateOption) {
+  if (!values) return new Reject();
+
+  return values.reduce(function (result, target, index, array) {
+    return acceptIf(predicate, predicateOption, result, target, index, array);
+  }, new Reject());
+};
+
+function acceptIf(predicate, predicateOption, result, target, index, array) {
+  if (predicate(target, predicateOption, index, array)) {
+    result.accept.push(target);
+  } else {
+    result.reject.push(target);
+  }
+
+  return result;
+}
+
+
+},{"./Reject":224}],230:[function(require,module,exports){
+"use strict";
+
+var _interopRequire = function (obj) {
+  return obj && (obj["default"] || obj);
+};
+
+var validate = _interopRequire(require("./validate"));
+
+var isBoundaryCrossingWithOtherSpans = _interopRequire(require("./isBoundaryCrossingWithOtherSpans"));
+
+module.exports = function (text, paragraph, denotations) {
+  var resultHasLength = validate(denotations, hasLength),
+      resultInText = validate(resultHasLength.accept, isBeginAndEndIn, text),
+      resultInParagraph = validate(resultInText.accept, isInParagraph, paragraph),
+      resultIsNotCrossing = validate(resultInParagraph.accept, function (denotation, opt, index, array) {
+    var others = array.slice(0, index).map(function (d) {
+      return d.span;
+    }),
+        isInvalid = isBoundaryCrossingWithOtherSpans(others, denotation.span);
+
+    return !isInvalid;
+  });
+
+  return {
+    accept: resultIsNotCrossing.accept,
+    reject: {
+      hasLength: resultHasLength.reject,
+      inText: resultInText.reject,
+      inParagraph: resultInParagraph.reject,
+      isNotCrossing: resultIsNotCrossing.reject
+    },
+    hasError: resultHasLength.reject.length + resultInText.reject.length + resultInParagraph.reject.length + resultIsNotCrossing.reject.length !== 0
+  };
+};
+
+function hasLength(denotation) {
+  return denotation.span.end - denotation.span.begin > 0;
+}
+
+function isInText(boundary, text) {
+  return 0 <= boundary && boundary <= text.length;
+}
+
+function isBeginAndEndIn(denotation, text) {
+  return isInText(denotation.span.begin, text) && isInText(denotation.span.end, text);
+}
+
+function isInParagraph(denotation, paragraph) {
+  return paragraph.all().filter(function (p) {
+    return p.begin <= denotation.span.begin && denotation.span.end <= p.end;
+  }).length === 1;
+}
+
+
+},{"./isBoundaryCrossingWithOtherSpans":226,"./validate":229}],231:[function(require,module,exports){
+"use strict";
+
+var _interopRequire = function (obj) {
+  return obj && (obj["default"] || obj);
+};
+
+var validate = _interopRequire(require("./validate"));
+
+var isContains = _interopRequire(require("./isContains"));
+
+module.exports = function (denotations, relations, modifications) {
+  var resultModification = validate(modifications, isContains, {
+    property: "obj",
+    dictionary: _.union(denotations, relations)
+  });
+
+  return {
+    accept: resultModification.accept,
+    reject: {
+      modification: resultModification.reject,
+      hasError: resultModification.reject.length !== 0
+    }
+  };
+};
+
+
+},{"./isContains":227,"./validate":229}],232:[function(require,module,exports){
+"use strict";
+
+var _interopRequire = function (obj) {
+  return obj && (obj["default"] || obj);
+};
+
+var validate = _interopRequire(require("./validate"));
+
+var isContains = _interopRequire(require("./isContains"));
+
+module.exports = function (denotations, relations) {
+  var resultRelationObj = validate(relations, isContains, {
+    property: "obj",
+    dictionary: denotations
+  }),
+      resultRelationSubj = validate(resultRelationObj.accept, isContains, {
+    property: "subj",
+    dictionary: denotations
+  });
+
+  return {
+    accept: resultRelationSubj.accept,
+    reject: {
+      obj: resultRelationObj.reject,
+      subj: resultRelationSubj.reject,
+      hasError: resultRelationObj.reject.length + resultRelationSubj.reject.length !== 0
+    }
+  };
+};
+
+
+},{"./isContains":227,"./validate":229}],233:[function(require,module,exports){
+"use strict";
+
+module.exports = function (allSpans, candidateSpan) {
+  return allSpans.filter(function (existSpan) {
+    return existSpan.begin === candidateSpan.begin && existSpan.end === candidateSpan.end;
+  }).length > 0;
+};
+
+
+},{}],234:[function(require,module,exports){
+"use strict";
+
+module.exports = function (hash, element) {
+  hash[element.name] = element;
+  return hash;
+};
+
+
+},{}],235:[function(require,module,exports){
+"use strict";
+
+var _interopRequire = function (obj) {
+  return obj && (obj["default"] || obj);
+};
+
+var Observable = _interopRequire(require("observ"));
+
+var ajaxAccessor = _interopRequire(require("../util/ajaxAccessor"));
+
+var StatusBar = _interopRequire(require("../component/StatusBar"));
+
+var getParams = _interopRequire(require("./getParams"));
+
+var SpanConfig = _interopRequire(require("./SpanConfig"));
+
+var Command = _interopRequire(require("./Command"));
+
+var TypeContainer = _interopRequire(require("./TypeContainer"));
+
+var View = _interopRequire(require("./View"));
+
+var Presenter = _interopRequire(require("./Presenter"));
+
+var Controller = _interopRequire(require("./Controller"));
+
+var APIs = _interopRequire(require("./APIs"));
+
+var calculateLineHeight = _interopRequire(require("./calculateLineHeight"));
+
+module.exports = function (editor, dataAccessObject, history, buttonController, model, clipBoard) {
+  var params = getParams(editor),
+      spanConfig = new SpanConfig(),
+
+
+  // Users can edit model only via commands.
+  command = new Command(editor, model, history),
+      typeGap = new Observable(-1),
+      typeContainer = new TypeContainer(model),
+      view = new View(editor, model),
+      presenter = new Presenter(editor, model, view, command, spanConfig, clipBoard, buttonController, typeGap, typeContainer),
+
+
+  //handle user input event.
+  controller = new Controller(editor, presenter, view);
+
+  view.init(editor, buttonController, typeGap, typeContainer);
+  controller.init();
+  presenter.init();
+
+  var statusBar = getStatusBar(editor, params.status_bar);
+
+  dataAccessObject.on("load", function (data) {
+    setAnnotation(spanConfig, typeContainer, model.annotationData, params.config, data.annotation);
+    statusBar.status(data.source);
+  });
+
+  presenter.setMode(params.mode);
+
+  loadAnnotation(spanConfig, typeContainer, model.annotationData, statusBar, params, dataAccessObject);
+
+  var updateLineHeight = function () {
+    return calculateLineHeight(editor, model.annotationData, typeContainer, typeGap, view);
+  };
+
+  editor.api = new APIs(command, presenter, dataAccessObject, history, model.annotationData, buttonController, view, updateLineHeight);
+};
+
+function loadAnnotation(spanConfig, typeContainer, annotationData, statusBar, params, dataAccessObject) {
+  var annotation = params.annotation;
+
+  if (annotation) {
+    if (annotation.inlineAnnotation) {
+      // Set an inline annotation.
+      setAnnotation(spanConfig, typeContainer, annotationData, params.config, JSON.parse(annotation.inlineAnnotation));
+      statusBar.status("inline");
+    } else if (annotation.url) {
+      // Load an annotation from server.
+      dataAccessObject.getAnnotationFromServer(annotation.url);
+    }
+  }
+}
+
+function setAnnotation(spanConfig, typeContainer, annotationData, config, annotation) {
+  var ret = setConfigInAnnotation(spanConfig, typeContainer, annotation);
+
+  if (ret === "no config") {
+    setConfigFromServer(spanConfig, typeContainer, annotationData, config, annotation);
+  } else {
+    annotationData.reset(annotation);
+  }
+}
+
+function setConfigInAnnotation(spanConfig, typeContainer, annotation) {
+  spanConfig.reset();
+  setSpanAndTypeConfig(spanConfig, typeContainer, annotation.config);
+
+  if (!annotation.config) {
+    return "no config";
+  }
+}
+
+function setConfigFromServer(spanConfig, typeContainer, annotationData, config, annotation) {
+  spanConfig.reset();
+
+  if (typeof config === "string") {
+    ajaxAccessor.getAsync(config, function (configFromServer) {
+      setSpanAndTypeConfig(spanConfig, typeContainer, configFromServer);
+      annotationData.reset(annotation);
+    }, function () {
+      return alert("could not read the span configuration from the location you specified.: " + config);
+    });
+  } else {
+    annotationData.reset(annotation);
+  }
+}
+
+function setSpanAndTypeConfig(spanConfig, typeContainer, config) {
+  spanConfig.set(config);
+  setTypeConfig(typeContainer, config);
+}
+
+function setTypeConfig(typeContainer, config) {
+  typeContainer.setDefinedEntityTypes(config ? config["entity types"] : []);
+  typeContainer.setDefinedRelationTypes(config ? config["relation types"] : []);
+
+  if (config && config.css !== undefined) {
+    $("#css_area").html("<link rel=\"stylesheet\" href=\"" + config.css + "\"/>");
+  }
+
+  return config;
+}
+
+function getStatusBar(editor, status_bar) {
+  if (status_bar === "on") return new StatusBar(editor);
+  return {
+    status: function () {}
+  };
+}
+
+
+},{"../component/StatusBar":72,"../util/ajaxAccessor":248,"./APIs":89,"./Command":96,"./Controller":98,"./Presenter":148,"./SpanConfig":167,"./TypeContainer":168,"./View":213,"./calculateLineHeight":217,"./getParams":219,"observ":62}],236:[function(require,module,exports){
+"use strict";
+
+module.exports = {
+  isUri: function (type) {
+    return String(type).indexOf("http") > -1;
+  },
+  getUrlMatches: function (type) {
+    // The regular-expression to parse URL.
+    // See detail:
+    // http://someweblog.com/url-regular-expression-javascript-link-shortener/
+    var urlRegex = /\(?(?:(http|https|ftp):\/\/)?(?:((?:[^\W\s]|\.|-|[:]{1})+)@{1})?((?:www.)?(?:[^\W\s]|\.|-)+[\.][^\W\s]{2,4}|localhost|\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})(?::(\d*))?([\/]?[^\s\?]*[\/]{1})*(?:\/?([^\s\n\?\[\]\{\}\#]*(?:(?=\.)){1}|[^\s\n\?\[\]\{\}\.\#]*)?([\.]{1}[^\s\?\#]*)?)?(?:\?{1}([^\s\n\#\[\]]*))?([\#][^\s\n]*)?\)?/gi;
+    return urlRegex.exec(type);
+  }
+};
+
+
+},{}],237:[function(require,module,exports){
+"use strict";
+
+var Cache = function () {
+  var cache = {},
+      set = function (key, value) {
+    cache[key] = value;
+    return value;
+  },
+      get = function (key) {
+    return cache[key];
+  },
+      remove = function (key) {
+    delete cache[key];
+  },
+      clear = function () {
+    cache = {};
+  };
+
+  return {
+    set: set,
+    get: get,
+    remove: remove,
+    clear: clear,
+    // To debug.
+    keys: function () {
+      return Object.keys(cache);
+    }
+  };
+},
+    cacheMan = (function () {
+  var caches = [],
+      add = function (cache) {
+    caches.push(cache);
+  },
+      getFromCache = function (cache, getPositionFunciton, id) {
+    return cache.get(id) ? cache.get(id) : cache.set(id, getPositionFunciton(id));
+  },
+      create = function (func) {
+    var cache = new Cache();
+    add(cache);
+    return _.partial(getFromCache, cache, func);
+  },
+      clear = function () {
+    caches.forEach(function (cache) {
+      cache.clear();
+    });
+  };
+
+  return {
+    create: create,
+    clear: clear
+  };
+})(),
+    domUtil = require("./domUtil"),
+    createNewCache = function (editor, entityModel) {
+  // The chache for position of grids.
+  // This is updated at arrange position of grids.
+  // This is referenced at create or move relations.
+  var gridPositionCache = _.extend(new Cache(), {
+    isGridPrepared: function (entityId) {
+      var spanId = entityModel.get(entityId).span;
+      return gridPositionCache.get(spanId);
+    }
+  });
+
+  // The posion of the text-box to calculate span postion;
+  var getTextNodeFunc = function () {
+    return editor.find(".textae-editor__body__text-box").offset();
+  },
+      getTextNode = cacheMan.create(getTextNodeFunc),
+      getSpanFunc = function (spanId) {
+    var $span = domUtil.selector.span.get(spanId);
+    if ($span.length === 0) {
+      throw new Error("span is not renderd : " + spanId);
+    }
+
+    var offset = $span.offset();
+    return {
+      top: offset.top - getTextNode().top,
+      left: offset.left - getTextNode().left,
+      width: $span.outerWidth(),
+      height: $span.outerHeight(),
+      center: $span.get(0).offsetLeft + $span.outerWidth() / 2
+    };
+  },
+      getEntityFunc = function (entityId) {
+    var $entity = domUtil.selector.entity.get(entityId, editor);
+    if ($entity.length === 0) {
+      throw new Error("entity is not rendered : " + entityId);
+    }
+
+    var spanId = entityModel.get(entityId).span;
+    var gridPosition = gridPositionCache.get(spanId);
+    var entityElement = $entity.get(0);
+    return {
+      top: gridPosition.top + entityElement.offsetTop,
+      center: gridPosition.left + entityElement.offsetLeft + $entity.outerWidth() / 2 };
+  };
+
+  // The connectCache has jsPlumbConnectors to call jsPlumbConnector instance to edit an according dom object.
+  // This is refered by render.relation and domUtil.selector.relation.
+  var connectCache = new Cache();
+  var toConnect = function (relationId) {
+    return connectCache.get(relationId);
+  };
+
+  // The cache for span positions.
+  // Getting the postion of spans is too slow about 5-10 ms per a element in Chrome browser. For example offsetTop property.
+  // This cache is big effective for the initiation, and little effective for resize.
+  var getSpan = cacheMan.create(getSpanFunc);
+  var getEntity = cacheMan.create(getEntityFunc);
+
+  return {
+    reset: cacheMan.clear,
+    getSpan: getSpan,
+    getEntity: getEntity,
+    gridPositionCache: gridPositionCache,
+    getGrid: gridPositionCache.get,
+    setGrid: gridPositionCache.set,
+    toConnect: toConnect,
+    connectCache: connectCache
+  };
+};
+
+// Utility functions for get positions of DOM elemnts.
+module.exports = function (editor, entityModel) {
+  // The editor has onry one position cache.
+  editor.postionCache = editor.postionCache || createNewCache(editor, entityModel);
+  return editor.postionCache;
+};
+
+
+},{"./domUtil":239}],238:[function(require,module,exports){
+"use strict";
+
+var selectionClass = require("./selectionClass"),
+    domUtil = require("./domUtil");
+
+module.exports = function (editor, model) {
+  var domPositionCaChe = require("./DomPositionCache")(editor, model.annotationData.entity),
+      modify = function (type, handle, id) {
+    var $elment = domUtil.selector[type].get(id, editor);
+    selectionClass[handle + "Class"]($elment);
+  },
+      selectSpan = _.partial(modify, "span", "add"),
+      deselectSpan = _.partial(modify, "span", "remove"),
+      selectEntity = _.partial(modify, "entity", "add"),
+      deselectEntity = _.partial(modify, "entity", "remove"),
+      selectRelation = function (relationId) {
+    var addUiSelectClass = function (connect) {
+      if (connect && connect.select) connect.select();
+    },
+        selectRelation = _.compose(addUiSelectClass, domPositionCaChe.toConnect);
+
+    selectRelation(relationId);
+  },
+      deselectRelation = function (relationId) {
+    var removeUiSelectClass = function (connect) {
+      if (connect && connect.deselect) connect.deselect();
+    },
+        deselectRelation = _.compose(removeUiSelectClass, domPositionCaChe.toConnect);
+
+    deselectRelation(relationId);
+  },
+
+  // Select the typeLabel if all entities is selected.
+  updateEntityLabel = function (entityId) {
+    var $entity = domUtil.selector.entity.get(entityId, editor),
+        $typePane = $entity.parent(),
+        $typeLabel = $typePane.prev();
+
+    if ($typePane.children().length === $typePane.find(".ui-selected").length) {
+      selectionClass.addClass($typeLabel);
+    } else {
+      selectionClass.removeClass($typeLabel);
+    }
+  };
+
+  return {
+    span: {
+      select: selectSpan,
+      deselect: deselectSpan
+    },
+    entity: {
+      select: selectEntity,
+      deselect: deselectEntity
+    },
+    relation: {
+      select: selectRelation,
+      deselect: deselectRelation
+    },
+    entityLabel: {
+      update: updateEntityLabel
+    }
+  };
+};
+
+
+},{"./DomPositionCache":237,"./domUtil":239,"./selectionClass":242}],239:[function(require,module,exports){
+"use strict";
+
+var idFactory = require("../idFactory");
+
+module.exports = {
+  selector: {
+    span: {
+      get: function (spanId) {
+        return $("#" + spanId);
+      }
+    },
+    entity: {
+      get: function (entityId, editor) {
+        return $("#" + idFactory.makeEntityDomId(editor, entityId));
+      }
+    },
+    grid: {
+      get: function (spanId) {
+        return $("#G" + spanId);
+      }
+    } }
+};
+
+
+},{"../idFactory":221}],240:[function(require,module,exports){
+"use strict";
+
+module.exports = getHeightIncludeDescendantGrids;
+function getHeightIncludeDescendantGrids(span, typeContainer, typeGapValue) {
+  var descendantsMaxHeight = span.children.length === 0 ? 0 : _.max(span.children.map(function (childSpan) {
+    return getHeightIncludeDescendantGrids(childSpan, typeContainer, typeGapValue);
+  })),
+      gridHeight = span.getTypes().filter(function (type) {
+    return !typeContainer.entity.isBlock(type.name);
+  }).length * (typeGapValue * 18 + 18);
+
+  return gridHeight + descendantsMaxHeight;
+}
+
+
+},{}],241:[function(require,module,exports){
+"use strict";
+
+var _interopRequire = function (obj) {
+  return obj && (obj["default"] || obj);
+};
+
+exports.get = get;
+exports.reduceBottomSpace = reduceBottomSpace;
+exports.set = set;
+exports.setToTypeGap = setToTypeGap;
+var TEXT_HEIGHT = 23;
+var MARGIN_TOP = 30;
+var MINIMUM_HEIGHT = 41;
+
+var getHeightIncludeDescendantGrids = _interopRequire(require("./getHeightIncludeDescendantGrids"));
+
+function get(editor) {
+  var textBox = getTextBox(editor),
+      style = window.getComputedStyle(textBox);
+
+  return pixelToInt(style.lineHeight);
+}
+
+// Reduce the space under the .textae-editor__body__text-box same as padding-top.
+function reduceBottomSpace(editor) {
+  var textBox = getTextBox(editor),
+      style = window.getComputedStyle(textBox);
+
+  // The height calculated by auto is exclude the value of the padding top.
+  // Rest small space.
+  textBox.style.height = "auto";
+  textBox.style.height = textBox.offsetHeight - pixelToInt(style.paddingTop) + 20 + "px";
+}
+
+function set(editor, heightValue) {
+  var textBox = getTextBox(editor);
+
+  textBox.style.lineHeight = heightValue + "px";
+  textBox.style.paddingTop = heightValue / 2 + "px";
+
+  suppressScrollJump(textBox, heightValue);
+
+  reduceBottomSpace(editor);
+}
+
+function setToTypeGap(editor, annotationData, typeContainer, typeGapValue) {
+  var heightOfType = typeGapValue * 18 + 18,
+      maxHeight = undefined;
+
+  if (annotationData.span.all().length === 0) {
+    var style = window.getComputedStyle(editor),
+        n = pixelToInt(style.lineHeight);
+
+    if (style.lineHeight === "normal") {
+      maxHeight = MINIMUM_HEIGHT;
+    } else {
+      maxHeight = n;
+    }
+  } else {
+    maxHeight = _.max(annotationData.span.all().map(function (span) {
+      return getHeightIncludeDescendantGrids(span, typeContainer, typeGapValue);
+    }));
+
+    maxHeight += TEXT_HEIGHT + MARGIN_TOP;
+  }
+
+  set(editor, maxHeight);
+}
+
+function getTextBox(editor) {
+  return editor.querySelector(".textae-editor__body__text-box");
+}
+
+function suppressScrollJump(textBox, heightValue) {
+  var beforeLineHeight = textBox.style.lineHeight,
+      b = pixelToInt(beforeLineHeight);
+
+  if (b) {
+    window.scroll(window.scrollX, window.scrollY * heightValue / b);
+  }
+}
+
+function pixelToInt(str) {
+  return str === "" ? 0 : parseInt(str);
+}
+
+
+},{"./getHeightIncludeDescendantGrids":240}],242:[function(require,module,exports){
+"use strict";
+
+// Add or Remove class to indicate selected state.
+module.exports = (function () {
+  var addClass = function ($target) {
+    return $target.addClass("ui-selected");
+  },
+      removeClass = function ($target) {
+    return $target.removeClass("ui-selected");
+  };
+
+  return {
+    addClass: addClass,
+    removeClass: removeClass
+  };
+})();
+
+
+},{}],243:[function(require,module,exports){
+"use strict";
+
+var tool = require("./tool"),
+    control = require("./control"),
+    editor = require("./editor");
+
+jQuery.fn.textae = (function () {
+  return function () {
+    if (this.hasClass("textae-editor")) {
+      this.each(function () {
+        var e = $(this);
+        tool.pushEditor(e);
+        editor.apply(e);
+        e.api.start(e);
+        return e;
+      });
+      tool.selectFirstEditor();
+    } else if (this.hasClass("textae-control")) {
+      var c = control(this);
+      tool.setControl(c);
+      return c;
+    }
+  };
+})();
+
+
+},{"./control":84,"./editor":222,"./tool":244}],244:[function(require,module,exports){
+"use strict";
+
+var EventEmitter = require("events").EventEmitter;
+
+
+// Ovserve and record mouse position to return it.
+var getMousePoint = (function () {
+  var lastMousePoint = {},
+      recordMousePoint = function (e) {
+    lastMousePoint = {
+      top: e.clientY,
+      left: e.clientX
+    };
+  },
+      onMousemove = _.debounce(recordMousePoint, 30);
+
+  $("html").on("mousemove", onMousemove);
+
+  return function () {
+    return lastMousePoint;
+  };
+})(),
+    KeybordInputConverter = require("./tool/KeybordInputConverter"),
+
+
+// Observe window-resize event and redraw all editors.
+observeWindowResize = function (editors) {
+  // Bind resize event
+  $(window).on("resize", _.debounce(function () {
+    // Redraw all editors per editor.
+    editors.forEach(function (editor) {
+      _.defer(editor.api.redraw);
+    });
+  }, 500));
+},
+    helpDialog = require("./component/HelpDialog")(),
+    ControlBar = function () {
+  var control = null;
+  return {
+    setInstance: function (instance) {
+      control = instance;
+    },
+    changeButtonState: function (enableButtons) {
+      if (control) {
+        control.updateAllButtonEnableState(enableButtons);
+      }
+    },
+    push: function (buttonName, push) {
+      if (control) control.updateButtonPushState(buttonName, push);
+    }
+  };
+},
+    KeyInputHandler = function (helpDialog, editors) {
+  return function (key) {
+    if (key === "H") {
+      helpDialog();
+    } else {
+      if (editors.getSelected()) {
+        editors.getSelected().api.handleKeyInput(key, getMousePoint());
+      }
+    }
+  };
+},
+    ControlButtonHandler = function (helpDialog, editors) {
+  return function (name) {
+    switch (name) {
+      case "textae.control.button.help.click":
+        helpDialog();
+        break;
+      default:
+        if (editors.getSelected()) {
+          editors.getSelected().api.handleButtonClick(name, getMousePoint());
+        }
+    }
+  };
+};
+
+// The tool manages interactions between components.
+module.exports = (function () {
+  var controlBar = new ControlBar(),
+      editors = require("./tool/EditorContainer")(),
+      handleControlButtonClick = new ControlButtonHandler(helpDialog, editors);
+
+  // Start observation at document ready, because this function may be called before body is loaded.
+  $(function () {
+    var handleKeyInput = new KeyInputHandler(helpDialog, editors);
+
+    new KeybordInputConverter().on("input", handleKeyInput);
+    observeWindowResize(editors);
+  });
+
+  return {
+    // Register a control to tool.
+    setControl: function (instance) {
+      instance.on("textae.control.button.click", function () {
+        handleControlButtonClick.apply(null, _.rest(arguments));
+      });
+
+      controlBar.setInstance(instance);
+    },
+    // Register editors to tool
+    pushEditor: function (editor) {
+      editors.push(editor);
+
+      // Add an event emitter to the editer.
+      var emitter = new EventEmitter().on("textae.editor.select", _.partial(editors.select, editor)).on("textae.control.button.push", function (data) {
+        controlBar.push(data.buttonName, data.state);
+      }).on("textae.control.buttons.change", function (enableButtons) {
+        if (editor === editors.getSelected()) controlBar.changeButtonState(enableButtons);
+      });
+
+      $.extend(editor, {
+        editorId: editors.getNewId(),
+        eventEmitter: emitter
+      });
+    },
+    // Select the first editor
+    selectFirstEditor: function () {
+      // Disable all buttons.
+      controlBar.changeButtonState();
+
+      editors.selectFirst();
+    } };
+})();
+
+
+},{"./component/HelpDialog":64,"./tool/EditorContainer":245,"./tool/KeybordInputConverter":246,"events":38}],245:[function(require,module,exports){
+"use strict";
+
+var switchActiveClass = function (editors, selected) {
+  var activeClass = "textae-editor--active";
+
+  // Remove activeClass from others than selected.
+  _.reject(editors, function (editor) {
+    return editor === selected;
+  }).forEach(function (others) {
+    others.removeClass(activeClass);
+    // console.log('deactive', others.editorId);
+  });
+
+  // Add activeClass to the selected.
+  selected.addClass(activeClass);
+  // console.log('active', selected.editorId);
+};
+
+module.exports = function () {
+  var editorList = [],
+      selected = null,
+      select = function (editor) {
+    switchActiveClass(editorList, editor);
+    selected = editor;
+  },
+
+
+  // A container of editors that is extended from Array.
+  editors = {
+    push: function (editor) {
+      editorList.push(editor);
+    },
+    getNewId: function () {
+      return "editor" + editorList.length;
+    },
+    getSelected: function () {
+      return selected;
+    },
+    select: select,
+    selectFirst: function () {
+      select(editorList[0]);
+    },
+    forEach: editorList.forEach.bind(editorList)
+  };
+
+  return editors;
+};
+
+
+},{}],246:[function(require,module,exports){
+"use strict";
+
+var EventEmitter = require("events").EventEmitter,
+
+
+// Declare keyApiMap of control keys
+controlKeyEventMap = {
+  27: "ESC",
+  46: "DEL",
+  37: "LEFT",
+  39: "RIGHT"
+},
+    convertKeyEvent = function (keyCode) {
+  if (65 <= keyCode && keyCode <= 90) {
+    // From a to z, convert 'A' to 'Z'
+    return String.fromCharCode(keyCode);
+  } else if (controlKeyEventMap[keyCode]) {
+    // Control keys, like ESC, DEL ...
+    return controlKeyEventMap[keyCode];
+  }
+},
+    getKeyCode = function (e) {
+  return e.keyCode;
+};
+
+// Observe key-input events and convert events to readable code.
+module.exports = function (keyInputHandler) {
+  var emitter = new EventEmitter(),
+      eventHandler = function (e) {
+    var key = convertKeyEvent(getKeyCode(e));
+    emitter.emit("input", key);
+  },
+      onKeyup = eventHandler;
+
+  // Observe key-input
+  $(document).on("keyup", function (event) {
+    onKeyup(event);
+  });
+
+  // Disable/Enable key-input When a jquery-ui dialog is opened/closeed
+  $("body").on("dialogopen", ".ui-dialog", function () {
+    onKeyup = function () {};
+  }).on("dialogclose", ".ui-dialog", function () {
+    onKeyup = eventHandler;
+  });
+
+  return emitter;
+};
+
+
+},{"events":38}],247:[function(require,module,exports){
+"use strict";
+
+var changeCursor = function (editor, action) {
+  // Add jQuery Ui dialogs to targets because they are not in the editor.
+  editor = editor.add(".ui-dialog, .ui-widget-overlay");
+  editor[action + "Class"]("textae-editor--wait");
+};
+
+module.exports = function (editor) {
+  var wait = _.partial(changeCursor, editor, "add"),
+      endWait = _.partial(changeCursor, editor, "remove");
+
+  return {
+    startWait: wait,
+    endWait: endWait };
+};
+
+
+},{}],248:[function(require,module,exports){
+"use strict";
+
+var isEmpty = function (str) {
+  return !str || str === "";
+},
+    getAsync = function (url, dataHandler, failedHandler) {
+  if (isEmpty(url)) {
+    return;
+  }
+
+  $.ajax({
+    type: "GET",
+    url: url,
+    cache: false
+  }).done(function (data) {
+    if (dataHandler !== undefined) {
+      dataHandler(data);
+    }
+  }).fail(function (res, textStatus, errorThrown) {
+    if (failedHandler !== undefined) {
+      failedHandler();
+    }
+  });
+},
+    post = function (url, data, successHandler, failHandler, finishHandler) {
+  if (isEmpty(url)) {
+    return;
+  }
+
+  console.log("POST data", data);
+
+  $.ajax({
+    type: "post",
+    url: url,
+    contentType: "application/json",
+    data: data,
+    crossDomain: true,
+    xhrFields: {
+      withCredentials: true
+    }
+  }).done(successHandler).fail(failHandler).always(finishHandler);
+};
+
+module.exports = (function () {
+  return {
+    getAsync: getAsync,
+    post: post
+  };
+})();
+
+
+},{}]},{},[243]);
 
 //for module pattern with tail.js
 (function(jQuery) { // Application main
