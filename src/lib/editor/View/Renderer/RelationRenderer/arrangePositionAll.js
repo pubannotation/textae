@@ -32,7 +32,6 @@ export default function(editor, model, jsPlumbInstance) {
                 resolve();
             } catch (error) {
                 reject(error);
-                throw error;
             }
         });
     });

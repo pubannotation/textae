@@ -5,7 +5,7 @@ export default function(editor, annotationData, relationId) {
     var connect = domPositionCaChe.toConnect(relationId);
 
     if (!connect) {
-        throw 'no connect';
+        throw new Error('no connect for id: ' + relationId);
     }
 
     return connect;
