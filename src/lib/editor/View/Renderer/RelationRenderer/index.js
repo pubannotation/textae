@@ -352,7 +352,7 @@ module.exports = function(editor, model, typeContainer) {
         remove = function(relation) {
             var connect = new Connect(editor, model.annotationData, relation.id);
             jsPlumbInstance.detach(connect);
-            domPositionCaChe.connectCache.remove(relation.id);
+            domPositionCaChe.connectCache.delete(relation.id);
 
             // Set the flag dead already to delay selection.
             connect.dead = true;

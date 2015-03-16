@@ -6,7 +6,7 @@ export default function(editor, domPositionCache) {
         render = _.partial(createGrid, domPositionCache, container),
         destroyGrid = function(spanId) {
             domUtil.selector.grid.get(spanId).remove();
-            domPositionCache.gridPositionCache.remove(spanId);
+            domPositionCache.gridPositionCache.delete(spanId);
         };
 
     return {
