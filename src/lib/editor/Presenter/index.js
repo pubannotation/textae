@@ -1,13 +1,15 @@
+import ClipBoardHandler from './handlers/ClipBoardHandler';
+import DefaultEntityHandler from './handlers/DefaultEntityHandler';
+import newLabelHandler from './handlers/newLabelHandler';
+import removeSelectedElements from './handlers/removeSelectedElements';
+import ModificationHandler from './handlers/ModificationHandler';
+import SelectSpanHandler from './handlers/SelectSpanHandler';
+import SetEditableHandler from './handlers/SetEditableHandler';
+import ToggleButtonHandler from './handlers/ToggleButtonHandler';
+
 var TypeEditor = require('./typeEditor/TypeEditor'),
     EditMode = require('./EditMode'),
     DisplayInstance = require('./DisplayInstance'),
-    DefaultEntityHandler = require('./DefaultEntityHandler'),
-    ClipBoardHandler = require('./ClipBoardHandler'),
-    ModificationHandler = require('./ModificationHandler'),
-    EditHandler = require('./EditHandler'),
-    ToggleButtonHandler = require('./ToggleButtonHandler'),
-    SelectSpanHandler = require('./SelectSpanHandler'),
-    SetEditableHandler = require('./SetEditableHandler'),
     SettingDialog = require('../../component/SettingDialog');
 
 module.exports = function(editor, model, view, command, spanConfig, clipBoard, buttonController, typeGap, typeContainer) {
@@ -29,7 +31,7 @@ module.exports = function(editor, model, view, command, spanConfig, clipBoard, b
         displayInstance = new DisplayInstance(
             typeGap,
             editMode
-            ),
+        ),
         defaultEntityHandler = new DefaultEntityHandler(
             command,
             model.annotationData,
@@ -48,11 +50,6 @@ module.exports = function(editor, model, view, command, spanConfig, clipBoard, b
             command,
             model.annotationData,
             buttonController.modeAccordingToButton,
-            typeEditor
-        ),
-        editHandler = new EditHandler(
-            command,
-            model.selectionModel,
             typeEditor
         ),
         toggleButtonHandler = new ToggleButtonHandler(
@@ -95,12 +92,18 @@ module.exports = function(editor, model, view, command, spanConfig, clipBoard, b
         event: {
             editorSelected: editorSelected,
             copyEntities: clipBoardHandler.copyEntities,
-            removeSelectedElements: editHandler.removeSelectedElements,
+            removeSelectedElements: () => removeSelectedElements(
+                command,
+                model.selectionModel
+            ),
             createEntity: defaultEntityHandler.createEntity,
             showPallet: typeEditor.showPallet,
             replicate: defaultEntityHandler.replicate,
             pasteEntities: clipBoardHandler.pasteEntities,
-            newLabel: editHandler.newLabel,
+            newLabel: () => newLabelHandler(
+                model.selectionModel,
+                typeEditor
+            ),
             cancelSelect: typeEditor.cancelSelect,
             selectLeftSpan: selectSpanHandler.selectLeftSpan,
             selectRightSpan: selectSpanHandler.selectRightSpan,
