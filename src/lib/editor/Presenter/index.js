@@ -1,19 +1,18 @@
+import SettingDialog from '../../component/SettingDialog';
+import TypeEditor from './TypeEditor';
+import EditMode from './EditMode';
+import DisplayInstance from './DisplayInstance';
+import changeLabelHandler from './handlers/changeLabelHandler';
 import ClipBoardHandler from './handlers/ClipBoardHandler';
 import DefaultEntityHandler from './handlers/DefaultEntityHandler';
-import newLabelHandler from './handlers/newLabelHandler';
 import removeSelectedElements from './handlers/removeSelectedElements';
 import ModificationHandler from './handlers/ModificationHandler';
 import SelectSpanHandler from './handlers/SelectSpanHandler';
 import SetEditableHandler from './handlers/SetEditableHandler';
 import ToggleButtonHandler from './handlers/ToggleButtonHandler';
 
-var TypeEditor = require('./typeEditor/TypeEditor'),
-    EditMode = require('./EditMode'),
-    DisplayInstance = require('./DisplayInstance'),
-    SettingDialog = require('../../component/SettingDialog');
-
-module.exports = function(editor, model, view, command, spanConfig, clipBoard, buttonController, typeGap, typeContainer) {
-    var typeEditor = new TypeEditor(
+export default function(editor, model, view, command, spanConfig, clipBoard, buttonController, typeGap, typeContainer) {
+    let typeEditor = new TypeEditor(
             editor,
             model,
             spanConfig,
@@ -69,7 +68,7 @@ module.exports = function(editor, model, view, command, spanConfig, clipBoard, b
             editMode,
             displayInstance
         ),
-        editorSelected = function() {
+        editorSelected = () => {
             typeEditor.hideDialogs();
 
             // Select this editor.
@@ -82,7 +81,7 @@ module.exports = function(editor, model, view, command, spanConfig, clipBoard, b
             // The jsPlumbConnetion has an original event mecanism.
             // We can only bind the connection directory.
             editor
-                .on('textae.editor.jsPlumbConnection.add', function(event, jsPlumbConnection) {
+                .on('textae.editor.jsPlumbConnection.add', (event, jsPlumbConnection) => {
                     jsPlumbConnection.bindClickAction(typeEditor.jsPlumbConnectionClicked);
                 });
 
@@ -100,10 +99,7 @@ module.exports = function(editor, model, view, command, spanConfig, clipBoard, b
             showPallet: typeEditor.showPallet,
             replicate: defaultEntityHandler.replicate,
             pasteEntities: clipBoardHandler.pasteEntities,
-            newLabel: () => newLabelHandler(
-                model.selectionModel,
-                typeEditor
-            ),
+            changeLabel: () => changeLabelHandler(typeEditor),
             cancelSelect: typeEditor.cancelSelect,
             selectLeftSpan: selectSpanHandler.selectLeftSpan,
             selectRightSpan: selectSpanHandler.selectRightSpan,
@@ -114,4 +110,4 @@ module.exports = function(editor, model, view, command, spanConfig, clipBoard, b
             showSettingDialog: showSettingDialog
         }
     };
-};
+}
