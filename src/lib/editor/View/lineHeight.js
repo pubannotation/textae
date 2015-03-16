@@ -1,8 +1,9 @@
+import getHeightIncludeDescendantGrids from './getHeightIncludeDescendantGrids';
+import getTextBox from './getTextBox';
+
 const TEXT_HEIGHT = 23;
 const MARGIN_TOP = 30;
 const MINIMUM_HEIGHT = 41;
-
-import getHeightIncludeDescendantGrids from './getHeightIncludeDescendantGrids';
 
 export function get(editor) {
     let textBox = getTextBox(editor),
@@ -56,10 +57,6 @@ export function setToTypeGap(editor, annotationData, typeContainer, typeGapValue
     }
 
     set(editor, maxHeight);
-}
-
-function getTextBox(editor) {
-    return editor.querySelector('.textae-editor__body__text-box');
 }
 
 function suppressScrollJump(textBox, heightValue) {
