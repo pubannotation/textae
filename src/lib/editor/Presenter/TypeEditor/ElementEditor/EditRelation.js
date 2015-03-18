@@ -2,7 +2,7 @@ import dismissBrowserSelection from '../dismissBrowserSelection';
 import changeType from './changeType';
 import unbindAllEventhandler from './unbindAllEventhandler';
 
-export default function(editor, selectionModel, command, typeContainer, cancelSelect) {
+export default function(editor, selectionModel, annotationData, command, typeContainer, cancelSelect) {
     // Control only entities and relations.
     // Cancel events of relations and theier label.
     // Because a jQuery event and a jsPlumb event are both fired when a relation are clicked.
@@ -28,6 +28,14 @@ export default function(editor, selectionModel, command, typeContainer, cancelSe
                 newType
             ),
             getSelectedIdEditable: selectionModel.relation.all,
+            getSelectedType: () => {
+                let id = selectionModel.relation.single();
+
+                if (id)
+                    return annotationData.relation.get(id).type;
+                else
+                    return '';
+            },
             typeContainer: typeContainer.relation,
             jsPlumbConnectionClicked: (jsPlumbConnection, event) => selectRelation(
                 selectionModel,

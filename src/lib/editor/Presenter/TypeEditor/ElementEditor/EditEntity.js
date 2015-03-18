@@ -27,6 +27,14 @@ export default function(editor, model, command, modeAccordingToButton, typeConta
                 newType
             ),
             getSelectedIdEditable: getSelectedIdEditable,
+            getSelectedType: () => {
+                let id = selectionModel.entity.single();
+
+                if (id)
+                    return model.annotationData.entity.get(id).type;
+                else
+                    return '';
+            },
             typeContainer: typeContainer.entity,
             jsPlumbConnectionClicked: null
         };

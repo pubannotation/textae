@@ -9,6 +9,7 @@ import unbindAllEventhandler from './unbindAllEventhandler';
 const DEFAULT_HANDLER = {
     changeTypeOfSelected: null,
     getSelectedIdEditable: returnEmptyArray,
+    getSelectedType: null,
     // The Reference to content to be shown in the pallet.
     typeContainer: null,
     // A Swithing point to change a behavior when relation is clicked.
@@ -24,7 +25,7 @@ module.exports = function(editor, model, spanConfig, command, modeAccordingToBut
         noEdit = function() {
             return [() => {}, DEFAULT_HANDLER];
         },
-        editRelation = new EditRelation(editor, model.selectionModel, command, typeContainer, cancelSelect),
+        editRelation = new EditRelation(editor, model.selectionModel, model.annotationData, command, typeContainer, cancelSelect),
         editEntity = new EditEntity(editor, model, command, modeAccordingToButton, typeContainer, spanConfig, cancelSelect);
 
     return _.extend(
