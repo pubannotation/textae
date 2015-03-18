@@ -21,14 +21,14 @@ export default function(editor, selectionModel, command, typeContainer, cancelSe
         },
         getSelectedIdEditable = selectionModel.relation.all,
         handler = {
-            typeContainer: typeContainer.relation,
-            getSelectedIdEditable: selectionModel.relation.all,
             changeTypeOfSelected: (newType) => changeType(
                 command,
                 getSelectedIdEditable,
                 command.factory.relationChangeTypeCommand,
                 newType
             ),
+            getSelectedIdEditable: selectionModel.relation.all,
+            typeContainer: typeContainer.relation,
             jsPlumbConnectionClicked: (jsPlumbConnection, event) => selectRelation(
                 selectionModel,
                 jsPlumbConnection,

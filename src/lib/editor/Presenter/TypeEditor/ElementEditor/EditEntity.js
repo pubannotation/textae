@@ -17,8 +17,6 @@ export default function(editor, model, command, modeAccordingToButton, typeConta
         },
         getSelectedIdEditable = selectionModel.entity.all,
         handler = {
-            typeContainer: typeContainer.entity,
-            getSelectedIdEditable: getSelectedIdEditable,
             changeTypeOfSelected: (newType) => changeType(
                 command,
                 getSelectedIdEditable, (id, newType) => command.factory.entityChangeTypeCommand(
@@ -28,6 +26,8 @@ export default function(editor, model, command, modeAccordingToButton, typeConta
                 ),
                 newType
             ),
+            getSelectedIdEditable: getSelectedIdEditable,
+            typeContainer: typeContainer.entity,
             jsPlumbConnectionClicked: null
         };
 
