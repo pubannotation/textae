@@ -4,13 +4,7 @@ import {
 }
 from './model/AnnotationData/parseAnnotation/validateAnnotation';
 
-export default function(annotationData, history, buttonStateHelper, leaveMessage, dataAccessObject, writable) {
-    bindResetEvent(annotationData, history, writable);
-    bindChangeEvent(history, buttonStateHelper, leaveMessage, writable);
-    bindEndEvent(dataAccessObject, history, writable);
-}
-
-function bindResetEvent(annotationData, history, writable) {
+export function observeModelChange(annotationData, history, writable) {
     annotationData
         .on('all.change', (annotationData, multitrack, reject) => {
             history.reset();
@@ -28,7 +22,7 @@ function bindResetEvent(annotationData, history, writable) {
         });
 }
 
-function bindChangeEvent(history, buttonStateHelper, leaveMessage, writable) {
+export function observeHistorfChange(history, buttonStateHelper, leaveMessage, writable) {
     history.on('change', function(state) {
         //change button state
         buttonStateHelper.enabled("undo", state.hasAnythingToUndo);
@@ -43,7 +37,7 @@ function bindChangeEvent(history, buttonStateHelper, leaveMessage, writable) {
     });
 }
 
-function bindEndEvent(dataAccessObject, history, writable) {
+export function observeDataSave(dataAccessObject, history, writable) {
     dataAccessObject
         .on('save', function() {
             history.saved();

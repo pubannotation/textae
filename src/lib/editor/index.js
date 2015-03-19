@@ -2,14 +2,14 @@ const CONFIRM_DISCARD_CHANGE_MESSAGE = 'There is a change that has not been save
 
 import Observable from 'observ';
 import DataAccessObject from '../component/DataAccessObject';
-import editingState from './editingState';
+import ButtonController from '../buttonModel/ButtonController';
+import Writable from '../buttonModel/Writable';
 // model manages data objects.
 import Model from './Model';
 // The history of command that providing undo and redo.
 import History from './History';
-import ButtonController from './ButtonController';
+import * as observe from './observe';
 import start from './start';
-import Writable from './Writable';
 
 export default function() {
     let self = this,
@@ -25,14 +25,14 @@ export default function() {
     let writable = new Writable();
     writable(val => buttonController.buttonStateHelper.enabled("write", val));
 
-    editingState(
-        model.annotationData,
+    observe.observeModelChange(model.annotationData, history, writable);
+    observe.observeHistorfChange(
         history,
         buttonController.buttonStateHelper,
         CONFIRM_DISCARD_CHANGE_MESSAGE,
-        dataAccessObject,
         writable
     );
+    observe.observeDataSave(dataAccessObject, history, writable);
 
     // public funcitons of editor
     this.api = {
