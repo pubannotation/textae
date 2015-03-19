@@ -2,13 +2,13 @@ import SettingDialog from '../../component/SettingDialog';
 import TypeEditor from './TypeEditor';
 import EditMode from './EditMode';
 import DisplayInstance from './DisplayInstance';
+import setMode from './setMode';
 import changeLabelHandler from './handlers/changeLabelHandler';
 import ClipBoardHandler from './handlers/ClipBoardHandler';
 import DefaultEntityHandler from './handlers/DefaultEntityHandler';
 import removeSelectedElements from './handlers/removeSelectedElements';
 import ModificationHandler from './handlers/ModificationHandler';
 import SelectSpanHandler from './handlers/SelectSpanHandler';
-import SetEditableHandler from './handlers/SetEditableHandler';
 import ToggleButtonHandler from './handlers/ToggleButtonHandler';
 
 export default function(editor, model, view, command, spanConfig, clipBoard, buttonController, typeGap, typeContainer) {
@@ -59,10 +59,6 @@ export default function(editor, model, view, command, spanConfig, clipBoard, but
             model.annotationData,
             model.selectionModel
         ),
-        setEditableHandler = new SetEditableHandler(
-            model.annotationData,
-            editMode
-        ),
         showSettingDialog = new SettingDialog(
             editor,
             editMode,
@@ -77,7 +73,7 @@ export default function(editor, model, view, command, spanConfig, clipBoard, but
         };
 
     return {
-        init: function() {
+        init: function(mode) {
             // The jsPlumbConnetion has an original event mecanism.
             // We can only bind the connection directory.
             editor
@@ -86,8 +82,8 @@ export default function(editor, model, view, command, spanConfig, clipBoard, but
                 });
 
             defaultEntityHandler.on('createEntity', displayInstance.notifyNewInstance);
+            setMode(model.annotationData, editMode, mode);
         },
-        setMode: setEditableHandler.bindSetDefaultEditMode,
         event: {
             editorSelected: editorSelected,
             copyEntities: clipBoardHandler.copyEntities,

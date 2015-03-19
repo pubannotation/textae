@@ -35,7 +35,7 @@ export default function(editor, dataAccessObject, history, buttonController, mod
 
     view.init(editor, buttonController, typeGap, typeContainer);
     controller.init();
-    presenter.init();
+    presenter.init(params.mode);
 
     let statusBar = getStatusBar(editor, params.status_bar);
 
@@ -44,8 +44,6 @@ export default function(editor, dataAccessObject, history, buttonController, mod
             setAnnotation(spanConfig, typeContainer, model.annotationData, params.config, data.annotation);
             statusBar.status(data.source);
         });
-
-    presenter.setMode(params.mode);
 
     loadAnnotation(spanConfig, typeContainer, model.annotationData, statusBar, params, dataAccessObject);
 
