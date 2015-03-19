@@ -1,24 +1,10 @@
 import showVilidationDialog from '../component/showVilidationDialog';
-import {
-    hasError as hasError
-}
-from './model/AnnotationData/parseAnnotation/validateAnnotation';
 
 export function observeModelChange(annotationData, history, writable) {
     annotationData
         .on('all.change', (annotationData, multitrack, reject) => {
             history.reset();
-
             showVilidationDialog(self, reject);
-
-            if (multitrack)
-                toastr.success("track annotations have been merged to root annotations.");
-
-            if (multitrack || hasError(reject)) {
-                writable.forceModified(true);
-            } else {
-                writable.forceModified(false);
-            }
         });
 }
 

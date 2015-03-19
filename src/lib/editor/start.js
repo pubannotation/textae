@@ -11,7 +11,7 @@ import Controller from './Controller';
 import APIs from './APIs';
 import calculateLineHeight from './calculateLineHeight';
 
-export default function(editor, dataAccessObject, history, buttonController, model, clipBoard) {
+export default function(editor, dataAccessObject, history, buttonController, model, clipBoard, writable) {
     let params = getParams(editor),
         spanConfig = new SpanConfig(),
         // Users can edit model only via commands.
@@ -33,9 +33,9 @@ export default function(editor, dataAccessObject, history, buttonController, mod
         //handle user input event.
         controller = new Controller(editor, presenter, view);
 
-    view.init(editor, buttonController, typeGap, typeContainer);
+    view.init(editor, buttonController, typeGap, typeContainer, writable);
     controller.init();
-    presenter.init(params.mode);
+    presenter.init(params.mode, writable);
 
     let statusBar = getStatusBar(editor, params.status_bar);
 

@@ -73,7 +73,7 @@ export default function(editor, model, view, command, spanConfig, clipBoard, but
         };
 
     return {
-        init: function(mode) {
+        init: function(mode, writable) {
             // The jsPlumbConnetion has an original event mecanism.
             // We can only bind the connection directory.
             editor
@@ -82,7 +82,7 @@ export default function(editor, model, view, command, spanConfig, clipBoard, but
                 });
 
             defaultEntityHandler.on('createEntity', displayInstance.notifyNewInstance);
-            setMode(model.annotationData, editMode, mode);
+            setMode(model.annotationData, editMode, mode, writable);
         },
         event: {
             editorSelected: editorSelected,

@@ -42,7 +42,8 @@ export default function() {
             history,
             buttonController,
             model,
-            clipBoard
+            clipBoard,
+            writable
         )
     };
 
