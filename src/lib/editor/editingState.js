@@ -1,34 +1,13 @@
-import Observable from "observ";
 import showVilidationDialog from '../component/showVilidationDialog';
 import {
     hasError as hasError
 }
 from './model/AnnotationData/parseAnnotation/validateAnnotation';
 
-export default function(annotationData, history, buttonStateHelper, leaveMessage, dataAccessObject) {
-    var writable = new Writable();
-
+export default function(annotationData, history, buttonStateHelper, leaveMessage, dataAccessObject, writable) {
     bindResetEvent(annotationData, history, writable);
     bindChangeEvent(history, buttonStateHelper, leaveMessage, writable);
     bindEndEvent(dataAccessObject, history, writable);
-
-    writable(val => buttonStateHelper.enabled("write", val));
-}
-
-function Writable() {
-    var isDataModified = false,
-        o = new Observable(false);
-
-    o.forceModified = function(val) {
-        o.set(val);
-        isDataModified = val;
-    };
-
-    o.update = function(val) {
-        o.set(isDataModified || val);
-    };
-
-    return o;
 }
 
 function bindResetEvent(annotationData, history, writable) {

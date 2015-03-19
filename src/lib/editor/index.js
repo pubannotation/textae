@@ -9,6 +9,7 @@ import Model from './Model';
 import History from './History';
 import ButtonController from './ButtonController';
 import start from './start';
+import Writable from './Writable';
 
 export default function() {
     let self = this,
@@ -21,12 +22,16 @@ export default function() {
         buttonController = new ButtonController(this, model, clipBoard),
         dataAccessObject = new DataAccessObject(self, CONFIRM_DISCARD_CHANGE_MESSAGE);
 
+    let writable = new Writable();
+    writable(val => buttonController.buttonStateHelper.enabled("write", val));
+
     editingState(
         model.annotationData,
         history,
         buttonController.buttonStateHelper,
         CONFIRM_DISCARD_CHANGE_MESSAGE,
-        dataAccessObject
+        dataAccessObject,
+        writable
     );
 
     // public funcitons of editor
