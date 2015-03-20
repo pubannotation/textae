@@ -11,7 +11,7 @@ export default function(editor, annotationData, entity) {
         getTypeDom(entity.span, oldType).remove();
     } else {
         // Arrage the position of TypePane, because number of entities decrease.
-        arrangePositionOfPane(getTypeDom(entity.span, oldType).find('.textae-editor__entity-pane'));
+        arrangePositionOfPane(getTypeDom(entity.span, oldType).find('.textae-editor__entity-pane')[0]);
     }
 }
 

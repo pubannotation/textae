@@ -22,7 +22,7 @@ export default function(editor, namspace, typeContainer, gridRenderer, modificat
 
     if ($pane.find('#' + entityDomId).length === 0) {
         $pane.append(createEntityElement(editor, typeContainer, modification, entity));
-        arrangePositionOfPane($pane);
+        arrangePositionOfPane($pane[0]);
     }
 }
 

@@ -1,13 +1,15 @@
 // Arrange a position of the pane to center entities when entities width is longer than pane width.
 export default function(pane) {
-    var paneWidth = pane.outerWidth();
-    var entitiesWidth = pane.find('.textae-editor__entity').toArray().map(function(e) {
-        return e.offsetWidth;
-    }).reduce(function(pv, cv) {
-        return pv + cv;
-    }, 0);
+    let paneWidth = pane.offsetWidth,
+        widthOfentities = Array.prototype.map.call(
+            pane.children,
+            e => e.offsetWidth
+        )
+        .reduce((sum, width) => sum + width, 0);
 
-    pane.css({
-        'left': entitiesWidth > paneWidth ? (paneWidth - entitiesWidth) / 2 : 0
-    });
+    if (widthOfentities > paneWidth) {
+        pane.style.left = (paneWidth - widthOfentities) / 2 + 'px';
+    } else {
+        pane.style.left = null;
+    }
 }
