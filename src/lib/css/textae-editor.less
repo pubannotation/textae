@@ -133,7 +133,6 @@
     &_relation-mode &__type:hover &__entity,
     &_relation-mode &__type:hover &__type-label {
         opacity: 0.9;
-        /* TODO 透明度を上げるとentityとlabelの重なった部分だけ色が濃くて目立ちます。 */
     }
     &__type:hover &__entity-pane,
     &__type:hover &__type-label {
@@ -160,10 +159,8 @@
         background-color: #add8e6;
         border-radius: 6px;
         border-style: solid;
-        border-width: 3px;
         display: inline-block;
         height: 12px;
-        margin: 0 auto;
         vertical-align: top;
         width: 12px;
         &:hover {
@@ -172,7 +169,6 @@
         }
         &.ui-selected {
             background-color: yellow;
-            font-weight: 700;
         }
         /* modification */
         &.textae-editor__negation::before,
