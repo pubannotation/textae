@@ -9742,6 +9742,258 @@ function Observable(value) {
 },{}],63:[function(require,module,exports){
 "use strict";
 
+var _interopRequire = function (obj) {
+  return obj && (obj["default"] || obj);
+};
+
+var EventEmitter = require("events").EventEmitter;
+var reduce2hash = _interopRequire(require("../../util/reduce2hash"));
+
+var buttonList = ["boundary-detection", "negation", "replicate-auto", "relation-edit-mode", "speculation"];
+
+module.exports = function () {
+  var emitter = new EventEmitter(),
+      buttons = buttonList.map(Button),
+      propagateStateOfAllButtons = function () {
+    return propagateStateOf(emitter, buttons);
+  },
+      buttonHash = buttons.reduce(reduce2hash, {});
+
+  // default pushed;
+  buttonHash["boundary-detection"].value(true);
+
+  // Bind events.
+  buttons.forEach(function (button) {
+    button.on("change", function (data) {
+      return emitter.emit("change", data);
+    });
+  });
+
+  return _.extend(emitter, buttonHash, {
+    propagate: propagateStateOfAllButtons
+  });
+};
+
+function Button(buttonName) {
+  // Button state is true when the button is pushed.
+  var emitter = new EventEmitter(),
+      state = false,
+      value = function (newValue) {
+    if (newValue !== undefined) {
+      state = newValue;
+      propagate();
+    } else {
+      return state;
+    }
+  },
+      toggle = function toggleButton() {
+    state = !state;
+    propagate();
+  },
+
+
+  // Propagate button state to the tool.
+  propagate = function () {
+    return emitter.emit("change", {
+      buttonName: buttonName,
+      state: state
+    });
+  };
+
+  return _.extend(emitter, {
+    name: buttonName,
+    value: value,
+    toggle: toggle,
+    propagate: propagate
+  });
+}
+
+function propagateStateOf(emitter, buttons) {
+  buttons.map(toData).forEach(function (data) {
+    return emitter.emit("change", data);
+  });
+}
+
+function toData(button) {
+  return {
+    buttonName: button.name,
+    state: button.value()
+  };
+}
+
+
+},{"../../util/reduce2hash":264,"events":38}],64:[function(require,module,exports){
+"use strict";
+
+var EventEmitter = require("events").EventEmitter;
+
+
+var ButtonEnableStates = function () {
+  var states = {},
+      set = function (button, enable) {
+    states[button] = enable;
+  },
+      eventEmitter = new EventEmitter(),
+      propagate = function () {
+    eventEmitter.emit("change", states);
+  };
+
+  return _.extend(eventEmitter, {
+    set: set,
+    propagate: propagate
+  });
+},
+    UpdateButtonState = function (model, buttonEnableStates, clipBoard) {
+  // Short cut name
+  var s = model.selectionModel,
+      doPredicate = function (name) {
+    return _.isFunction(name) ? name() : s[name].some();
+  },
+      and = function () {
+    for (var i = 0; i < arguments.length; i++) {
+      if (!doPredicate(arguments[i])) return false;
+    }
+
+    return true;
+  },
+      or = function () {
+    for (var i = 0; i < arguments.length; i++) {
+      if (doPredicate(arguments[i])) return true;
+    }
+
+    return false;
+  },
+      hasCopy = function () {
+    return clipBoard.clipBoard.length > 0;
+  },
+      sOrE = _.partial(or, "span", "entity"),
+      eOrR = _.partial(or, "entity", "relation");
+
+
+  // Check all associated anntation elements.
+  // For exapmle, it should be that buttons associate with entitis is enable,
+  // when deselect the span after select a span and an entity.
+  var predicates = {
+    replicate: function () {
+      return !!s.span.single();
+    },
+    entity: s.span.some,
+    "delete": s.some, // It works well on relation-edit-mode if relations are deselect brefore an entity is select.
+    copy: sOrE,
+    paste: _.partial(and, hasCopy, "span"),
+    pallet: eOrR,
+    "change-label": eOrR,
+    negation: eOrR,
+    speculation: eOrR
+  };
+
+  return function (buttons) {
+    buttons.forEach(function (buttonName) {
+      buttonEnableStates.set(buttonName, predicates[buttonName]());
+    });
+  };
+},
+    UpdateModificationButtons = function (model, modeAccordingToButton) {
+  var doesAllModificaionHasSpecified = function (specified, modificationsOfSelectedElement) {
+    return modificationsOfSelectedElement.length > 0 && _.every(modificationsOfSelectedElement, function (m) {
+      return _.contains(m, specified);
+    });
+  },
+      updateModificationButton = function (specified, modificationsOfSelectedElement) {
+    // All modification has specified modification if exits.
+    modeAccordingToButton[specified.toLowerCase()].value(doesAllModificaionHasSpecified(specified, modificationsOfSelectedElement));
+  };
+
+  return function (selectionModel) {
+    var modifications = selectionModel.all().map(function (e) {
+      return model.annotationData.getModificationOf(e).map(function (m) {
+        return m.pred;
+      });
+    });
+
+    updateModificationButton("Negation", modifications);
+    updateModificationButton("Speculation", modifications);
+  };
+},
+    ButtonStateHelper = function (model, modeAccordingToButton, buttonEnableStates, updateButtonState, updateModificationButtons) {
+  var allButtons = ["delete"],
+      spanButtons = allButtons.concat(["replicate", "entity", "copy", "paste"]),
+      relationButtons = allButtons.concat(["pallet", "change-label", "negation", "speculation"]),
+      entityButtons = relationButtons.concat(["copy"]),
+      propagate = _.compose(modeAccordingToButton.propagate, buttonEnableStates.propagate),
+      propagateAfter = _.partial(_.compose, propagate);
+
+  return {
+    propagate: propagate,
+    enabled: propagateAfter(buttonEnableStates.set),
+    updateBySpan: propagateAfter(_.partial(updateButtonState, spanButtons)),
+    updateByEntity: _.compose(propagate, _.partial(updateModificationButtons, model.selectionModel.entity), _.partial(updateButtonState, entityButtons)),
+    updateByRelation: _.compose(propagate, _.partial(updateModificationButtons, model.selectionModel.relation), _.partial(updateButtonState, relationButtons))
+  };
+};
+
+module.exports = function (editor, model, clipBoard) {
+  // Save state of push control buttons.
+  var modeAccordingToButton = require("./ModeAccordingToButton")(),
+
+
+  // Save enable/disable state of contorol buttons.
+  buttonEnableStates = new ButtonEnableStates(),
+      updateButtonState = new UpdateButtonState(model, buttonEnableStates, clipBoard),
+
+
+  // Change push/unpush of buttons of modifications.
+  updateModificationButtons = new UpdateModificationButtons(model, modeAccordingToButton),
+
+
+  // Helper to update button state.
+  buttonStateHelper = new ButtonStateHelper(model, modeAccordingToButton, buttonEnableStates, updateButtonState, updateModificationButtons);
+
+  // Proragate events.
+  modeAccordingToButton.on("change", function (data) {
+    editor.eventEmitter.emit("textae.control.button.push", data);
+  });
+
+  buttonEnableStates.on("change", function (data) {
+    editor.eventEmitter.emit("textae.control.buttons.change", data);
+  });
+
+  return {
+    // Modes accoding to buttons of control.
+    modeAccordingToButton: modeAccordingToButton,
+    buttonStateHelper: buttonStateHelper };
+};
+
+
+},{"./ModeAccordingToButton":63,"events":38}],65:[function(require,module,exports){
+"use strict";
+
+var _interopRequire = function (obj) {
+  return obj && (obj["default"] || obj);
+};
+
+var Observable = _interopRequire(require("observ"));
+
+module.exports = function () {
+  var isDataModified = false,
+      o = new Observable(false);
+
+  o.forceModified = function (val) {
+    o.set(val);
+    isDataModified = val;
+  };
+
+  o.update = function (val) {
+    o.set(isDataModified || val);
+  };
+
+  return o;
+};
+
+
+},{"observ":62}],66:[function(require,module,exports){
+"use strict";
+
 var EventEmitter = require("events").EventEmitter;
 
 
@@ -9921,7 +10173,7 @@ module.exports = function (editor, confirmDiscardChangeMessage) {
 };
 
 
-},{"../util/CursorChanger":247,"../util/ajaxAccessor":248,"./dialog/GetEditorDialog":76,"./jQuerySugar":80,"events":38,"url":44}],64:[function(require,module,exports){
+},{"../util/CursorChanger":262,"../util/ajaxAccessor":263,"./dialog/GetEditorDialog":79,"./jQuerySugar":83,"events":38,"url":44}],67:[function(require,module,exports){
 "use strict";
 
 var ToolDialog = require("./dialog/GetToolDialog");
@@ -9936,7 +10188,7 @@ module.exports = function () {
 };
 
 
-},{"./dialog/GetToolDialog":77}],65:[function(require,module,exports){
+},{"./dialog/GetToolDialog":80}],68:[function(require,module,exports){
 "use strict";
 
 var EventEmitter = require("events").EventEmitter;
@@ -10045,7 +10297,7 @@ module.exports = function () {
 };
 
 
-},{"events":38}],66:[function(require,module,exports){
+},{"events":38}],69:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
@@ -10130,7 +10382,7 @@ function sixteenTimes(val) {
 }
 
 
-},{"../../editor/View/lineHeight":214,"./updateLineHeight":69,"./updateTypeGapEnable":70,"./updateTypeGapValue":71}],67:[function(require,module,exports){
+},{"../../editor/View/lineHeight":225,"./updateLineHeight":72,"./updateTypeGapEnable":73,"./updateTypeGapValue":74}],70:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
@@ -10161,7 +10413,7 @@ function appendToDialog($content, editor) {
 }
 
 
-},{"../dialog/GetEditorDialog":76,"./create":66,"./update":68}],68:[function(require,module,exports){
+},{"../dialog/GetEditorDialog":79,"./create":69,"./update":71}],71:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
@@ -10189,7 +10441,7 @@ function updateEditMode(displayInstance, $dialog) {
 }
 
 
-},{"../jQuerySugar":80,"./updateLineHeight":69,"./updateTypeGapEnable":70,"./updateTypeGapValue":71}],69:[function(require,module,exports){
+},{"../jQuerySugar":83,"./updateLineHeight":72,"./updateTypeGapEnable":73,"./updateTypeGapValue":74}],72:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
@@ -10205,7 +10457,7 @@ module.exports = function (editor, $dialog) {
 };
 
 
-},{"../../editor/View/lineHeight":214,"../jQuerySugar":80}],70:[function(require,module,exports){
+},{"../../editor/View/lineHeight":225,"../jQuerySugar":83}],73:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
@@ -10224,7 +10476,7 @@ function toTypeGap($content) {
 }
 
 
-},{"../jQuerySugar":80}],71:[function(require,module,exports){
+},{"../jQuerySugar":83}],74:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
@@ -10238,7 +10490,7 @@ module.exports = function (displayInstance, $dialog) {
 };
 
 
-},{"../jQuerySugar":80}],72:[function(require,module,exports){
+},{"../jQuerySugar":83}],75:[function(require,module,exports){
 "use strict";
 
 var getAreaIn = function ($parent) {
@@ -10264,7 +10516,7 @@ module.exports = function (editor) {
 };
 
 
-},{}],73:[function(require,module,exports){
+},{}],76:[function(require,module,exports){
 "use strict";
 
 var Dialog = function (id, title, $content) {
@@ -10300,7 +10552,7 @@ module.exports = function (openOption, id, title, $content) {
 };
 
 
-},{}],74:[function(require,module,exports){
+},{}],77:[function(require,module,exports){
 "use strict";
 
 var Dialog = require("./Dialog"),
@@ -10333,7 +10585,7 @@ module.exports = function (editorId, id, title, $content, option) {
 };
 
 
-},{"./Dialog":73}],75:[function(require,module,exports){
+},{"./Dialog":76}],78:[function(require,module,exports){
 "use strict";
 
 var getFromContainer = function (container, id) {
@@ -10362,7 +10614,7 @@ module.exports = function (createFunction) {
 };
 
 
-},{}],76:[function(require,module,exports){
+},{}],79:[function(require,module,exports){
 "use strict";
 
 var EditorDialog = require("./EditorDialog"),
@@ -10375,7 +10627,7 @@ module.exports = function (editor) {
 };
 
 
-},{"./EditorDialog":74,"./FunctionUseCache":75}],77:[function(require,module,exports){
+},{"./EditorDialog":77,"./FunctionUseCache":78}],80:[function(require,module,exports){
 "use strict";
 
 var ToolDialog = require("./ToolDialog"),
@@ -10384,7 +10636,7 @@ var ToolDialog = require("./ToolDialog"),
 module.exports = new FunctionUseCache(ToolDialog);
 
 
-},{"./FunctionUseCache":75,"./ToolDialog":78}],78:[function(require,module,exports){
+},{"./FunctionUseCache":78,"./ToolDialog":81}],81:[function(require,module,exports){
 "use strict";
 
 var Dialog = require("./Dialog");
@@ -10398,7 +10650,7 @@ module.exports = function (id, title, size, $content) {
 };
 
 
-},{"./Dialog":73}],79:[function(require,module,exports){
+},{"./Dialog":76}],82:[function(require,module,exports){
 "use strict";
 
 module.exports = function ($target, enable) {
@@ -10410,7 +10662,7 @@ module.exports = function ($target, enable) {
 };
 
 
-},{}],80:[function(require,module,exports){
+},{}],83:[function(require,module,exports){
 "use strict";
 
 var setProp = function (key, $target, className, value) {
@@ -10448,7 +10700,7 @@ module.exports = {
 };
 
 
-},{"./jQueryEnabled":79}],81:[function(require,module,exports){
+},{"./jQueryEnabled":82}],84:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
@@ -10509,7 +10761,7 @@ function transformToReferenceObjectError(reject) {
 }
 
 
-},{"../editor/model/AnnotationData/parseAnnotation/validateAnnotation":225,"./dialog/GetEditorDialog":76,"handlebars":60}],82:[function(require,module,exports){
+},{"../editor/model/AnnotationData/parseAnnotation/validateAnnotation":235,"./dialog/GetEditorDialog":79,"handlebars":60}],85:[function(require,module,exports){
 module.exports={
     "buttonGroup": [{
         "buttonList": [{
@@ -10587,7 +10839,7 @@ module.exports={
     }]
 }
 
-},{}],83:[function(require,module,exports){
+},{}],86:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
@@ -10622,7 +10874,7 @@ function find($control, buttonType) {
 }
 
 
-},{"./toButtonClass":86}],84:[function(require,module,exports){
+},{"./toButtonClass":89}],87:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
@@ -10680,7 +10932,7 @@ function updateButtonPushState($control, buttonType, isPushed) {
 }
 
 
-},{"./buttonMap":82,"./iconCssUtil":83,"./makeButtons":85,"./toButtonList":87,"./updateButtons":88}],85:[function(require,module,exports){
+},{"./buttonMap":85,"./iconCssUtil":86,"./makeButtons":88,"./toButtonList":90,"./updateButtons":91}],88:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
@@ -10699,7 +10951,7 @@ module.exports = function ($control, buttonMap) {
 };
 
 
-},{"handlebars":60}],86:[function(require,module,exports){
+},{"handlebars":60}],89:[function(require,module,exports){
 "use strict";
 
 module.exports = function (buttonType) {
@@ -10707,7 +10959,7 @@ module.exports = function (buttonType) {
 };
 
 
-},{}],87:[function(require,module,exports){
+},{}],90:[function(require,module,exports){
 "use strict";
 
 // Return {read: 1, write: 1, undo: 1, redo: 1, replicate: 1…}
@@ -10722,7 +10974,7 @@ module.exports = function (buttonMap) {
 };
 
 
-},{}],88:[function(require,module,exports){
+},{}],91:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
@@ -10771,7 +11023,7 @@ function setButtonApearanceAndEventHandler($control, buttonType, enable) {
 }
 
 
-},{"./iconCssUtil":83,"./toButtonClass":86}],89:[function(require,module,exports){
+},{"./iconCssUtil":86,"./toButtonClass":89}],92:[function(require,module,exports){
 "use strict";
 
 module.exports = function (command, presenter, dataAccessObject, history, annotationData, buttonController, view, updateLineHeight) {
@@ -10818,7 +11070,7 @@ function KeyApiMap(command, presenter, dataAccessObject, history, annotationData
     S: presenter.event.speculation,
     U: showSave,
     V: presenter.event.pasteEntities,
-    W: presenter.event.newLabel,
+    W: presenter.event.changeLabel,
     X: presenter.event.negation,
     Y: command.redo,
     Z: command.undo,
@@ -10846,7 +11098,7 @@ function IconApiMap(command, presenter, dataAccessObject, history, annotationDat
     "textae.control.button.boundary_detection.click": presenter.event.toggleDetectBoundaryMode,
     "textae.control.button.relation_edit_mode.click": presenter.event.toggleRelationEditMode,
     "textae.control.button.entity.click": presenter.event.createEntity,
-    "textae.control.button.change_label.click": presenter.event.newLabel,
+    "textae.control.button.change_label.click": presenter.event.changeLabel,
     "textae.control.button.pallet.click": presenter.event.showPallet,
     "textae.control.button.negation.click": presenter.event.negation,
     "textae.control.button.speculation.click": presenter.event.speculation,
@@ -10861,233 +11113,7 @@ function IconApiMap(command, presenter, dataAccessObject, history, annotationDat
 }
 
 
-},{}],90:[function(require,module,exports){
-"use strict";
-
-var _interopRequire = function (obj) {
-  return obj && (obj["default"] || obj);
-};
-
-var EventEmitter = require("events").EventEmitter;
-var reduce2hash = _interopRequire(require("../reduce2hash"));
-
-var buttonList = ["boundary-detection", "negation", "replicate-auto", "relation-edit-mode", "speculation"];
-
-module.exports = function () {
-  var emitter = new EventEmitter(),
-      buttons = buttonList.map(Button),
-      propagateStateOfAllButtons = function () {
-    return propagateStateOf(emitter, buttons);
-  },
-      buttonHash = buttons.reduce(reduce2hash, {});
-
-  // default pushed;
-  buttonHash["boundary-detection"].value(true);
-
-  // Bind events.
-  buttons.forEach(function (button) {
-    button.on("change", function (data) {
-      return emitter.emit("change", data);
-    });
-  });
-
-  return _.extend(emitter, buttonHash, {
-    propagate: propagateStateOfAllButtons
-  });
-};
-
-function Button(buttonName) {
-  // Button state is true when the button is pushed.
-  var emitter = new EventEmitter(),
-      state = false,
-      value = function (newValue) {
-    if (newValue !== undefined) {
-      state = newValue;
-      propagate();
-    } else {
-      return state;
-    }
-  },
-      toggle = function toggleButton() {
-    state = !state;
-    propagate();
-  },
-
-
-  // Propagate button state to the tool.
-  propagate = function () {
-    return emitter.emit("change", {
-      buttonName: buttonName,
-      state: state
-    });
-  };
-
-  return _.extend(emitter, {
-    name: buttonName,
-    value: value,
-    toggle: toggle,
-    propagate: propagate
-  });
-}
-
-function propagateStateOf(emitter, buttons) {
-  buttons.map(toData).forEach(function (data) {
-    return emitter.emit("change", data);
-  });
-}
-
-function toData(button) {
-  return {
-    buttonName: button.name,
-    state: button.value()
-  };
-}
-
-
-},{"../reduce2hash":234,"events":38}],91:[function(require,module,exports){
-"use strict";
-
-var EventEmitter = require("events").EventEmitter;
-
-
-var ButtonEnableStates = function () {
-  var states = {},
-      set = function (button, enable) {
-    states[button] = enable;
-  },
-      eventEmitter = new EventEmitter(),
-      propagate = function () {
-    eventEmitter.emit("change", states);
-  };
-
-  return _.extend(eventEmitter, {
-    set: set,
-    propagate: propagate
-  });
-},
-    UpdateButtonState = function (model, buttonEnableStates, clipBoard) {
-  // Short cut name
-  var s = model.selectionModel,
-      doPredicate = function (name) {
-    return _.isFunction(name) ? name() : s[name].some();
-  },
-      and = function () {
-    for (var i = 0; i < arguments.length; i++) {
-      if (!doPredicate(arguments[i])) return false;
-    }
-
-    return true;
-  },
-      or = function () {
-    for (var i = 0; i < arguments.length; i++) {
-      if (doPredicate(arguments[i])) return true;
-    }
-
-    return false;
-  },
-      hasCopy = function () {
-    return clipBoard.clipBoard.length > 0;
-  },
-      sOrE = _.partial(or, "span", "entity"),
-      eOrR = _.partial(or, "entity", "relation");
-
-
-  // Check all associated anntation elements.
-  // For exapmle, it should be that buttons associate with entitis is enable,
-  // when deselect the span after select a span and an entity.
-  var predicates = {
-    replicate: function () {
-      return !!s.span.single();
-    },
-    entity: s.span.some,
-    "delete": s.some, // It works well on relation-edit-mode if relations are deselect brefore an entity is select.
-    copy: sOrE,
-    paste: _.partial(and, hasCopy, "span"),
-    pallet: eOrR,
-    "change-label": eOrR,
-    negation: eOrR,
-    speculation: eOrR
-  };
-
-  return function (buttons) {
-    buttons.forEach(function (buttonName) {
-      buttonEnableStates.set(buttonName, predicates[buttonName]());
-    });
-  };
-},
-    UpdateModificationButtons = function (model, modeAccordingToButton) {
-  var doesAllModificaionHasSpecified = function (specified, modificationsOfSelectedElement) {
-    return modificationsOfSelectedElement.length > 0 && _.every(modificationsOfSelectedElement, function (m) {
-      return _.contains(m, specified);
-    });
-  },
-      updateModificationButton = function (specified, modificationsOfSelectedElement) {
-    // All modification has specified modification if exits.
-    modeAccordingToButton[specified.toLowerCase()].value(doesAllModificaionHasSpecified(specified, modificationsOfSelectedElement));
-  };
-
-  return function (selectionModel) {
-    var modifications = selectionModel.all().map(function (e) {
-      return model.annotationData.getModificationOf(e).map(function (m) {
-        return m.pred;
-      });
-    });
-
-    updateModificationButton("Negation", modifications);
-    updateModificationButton("Speculation", modifications);
-  };
-},
-    ButtonStateHelper = function (model, modeAccordingToButton, buttonEnableStates, updateButtonState, updateModificationButtons) {
-  var allButtons = ["delete"],
-      spanButtons = allButtons.concat(["replicate", "entity", "copy", "paste"]),
-      relationButtons = allButtons.concat(["pallet", "change-label", "negation", "speculation"]),
-      entityButtons = relationButtons.concat(["copy"]),
-      propagate = _.compose(modeAccordingToButton.propagate, buttonEnableStates.propagate),
-      propagateAfter = _.partial(_.compose, propagate);
-
-  return {
-    propagate: propagate,
-    enabled: propagateAfter(buttonEnableStates.set),
-    updateBySpan: propagateAfter(_.partial(updateButtonState, spanButtons)),
-    updateByEntity: _.compose(propagate, _.partial(updateModificationButtons, model.selectionModel.entity), _.partial(updateButtonState, entityButtons)),
-    updateByRelation: _.compose(propagate, _.partial(updateModificationButtons, model.selectionModel.relation), _.partial(updateButtonState, relationButtons))
-  };
-};
-
-module.exports = function (editor, model, clipBoard) {
-  // Save state of push control buttons.
-  var modeAccordingToButton = require("./ModeAccordingToButton")(),
-
-
-  // Save enable/disable state of contorol buttons.
-  buttonEnableStates = new ButtonEnableStates(),
-      updateButtonState = new UpdateButtonState(model, buttonEnableStates, clipBoard),
-
-
-  // Change push/unpush of buttons of modifications.
-  updateModificationButtons = new UpdateModificationButtons(model, modeAccordingToButton),
-
-
-  // Helper to update button state.
-  buttonStateHelper = new ButtonStateHelper(model, modeAccordingToButton, buttonEnableStates, updateButtonState, updateModificationButtons);
-
-  // Proragate events.
-  modeAccordingToButton.on("change", function (data) {
-    editor.eventEmitter.emit("textae.control.button.push", data);
-  });
-
-  buttonEnableStates.on("change", function (data) {
-    editor.eventEmitter.emit("textae.control.buttons.change", data);
-  });
-
-  return {
-    // Modes accoding to buttons of control.
-    modeAccordingToButton: modeAccordingToButton,
-    buttonStateHelper: buttonStateHelper };
-};
-
-
-},{"./ModeAccordingToButton":90,"events":38}],92:[function(require,module,exports){
+},{}],93:[function(require,module,exports){
 "use strict";
 
 module.exports = function (message, object) {
@@ -11100,7 +11126,7 @@ module.exports = function (message, object) {
 };
 
 
-},{}],93:[function(require,module,exports){
+},{}],94:[function(require,module,exports){
 "use strict";
 
 var updateSelection = function (model, modelType, newModel) {
@@ -11175,7 +11201,7 @@ var updateSelection = function (model, modelType, newModel) {
 module.exports = commandTemplate;
 
 
-},{"./commandLog":92}],94:[function(require,module,exports){
+},{"./commandLog":93}],95:[function(require,module,exports){
 "use strict";
 
 var invokeCommand = require("./invokeCommand"),
@@ -11226,7 +11252,7 @@ var invokeCommand = require("./invokeCommand"),
 module.exports = executeCompositCommand;
 
 
-},{"./commandLog":92,"./commandTemplate":93,"./invokeCommand":97}],95:[function(require,module,exports){
+},{"./commandLog":93,"./commandTemplate":94,"./invokeCommand":98}],96:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
@@ -11283,7 +11309,7 @@ function isWord(sourceDoc, detectBoundaryFunc, candidateSpan) {
 }
 
 
-},{"../model/AnnotationData/parseAnnotation/validateAnnotation":225,"../model/isAlreadySpaned":233,"not":61}],96:[function(require,module,exports){
+},{"../model/AnnotationData/parseAnnotation/validateAnnotation":235,"../model/isAlreadySpaned":243,"not":61}],97:[function(require,module,exports){
 "use strict";
 
 var invokeCommand = require("./invokeCommand"),
@@ -11503,7 +11529,7 @@ module.exports = function (editor, model, history) {
 };
 
 
-},{"../idFactory":221,"./commandTemplate":93,"./executeCompositCommand":94,"./getReplicationSpans":95,"./invokeCommand":97}],97:[function(require,module,exports){
+},{"../idFactory":231,"./commandTemplate":94,"./executeCompositCommand":95,"./getReplicationSpans":96,"./invokeCommand":98}],98:[function(require,module,exports){
 "use strict";
 
 var invoke = function (commands) {
@@ -11527,7 +11553,7 @@ var invoke = function (commands) {
 module.exports = invokeCommand;
 
 
-},{}],98:[function(require,module,exports){
+},{}],99:[function(require,module,exports){
 "use strict";
 
 module.exports = function (editor, presenter, view) {
@@ -11557,7 +11583,7 @@ module.exports = function (editor, presenter, view) {
 };
 
 
-},{}],99:[function(require,module,exports){
+},{}],100:[function(require,module,exports){
 "use strict";
 
 var EventEmitter = require("events").EventEmitter;
@@ -11620,7 +11646,7 @@ module.exports = function () {
 };
 
 
-},{"events":38}],100:[function(require,module,exports){
+},{"events":38}],101:[function(require,module,exports){
 "use strict";
 
 // Expected an entity like {id: "E21", span: "editor2__S50_54", type: "Protein"}.
@@ -11660,7 +11686,7 @@ var idFactory = require("../../../idFactory"),
 module.exports = EntityContainer;
 
 
-},{"../../../idFactory":221,"./ModelContainer":101}],101:[function(require,module,exports){
+},{"../../../idFactory":231,"./ModelContainer":102}],102:[function(require,module,exports){
 "use strict";
 
 var getNextId = require("./getNextId"),
@@ -11748,7 +11774,7 @@ module.exports = function (emitter, prefix, mappingFunction, idPrefix) {
 };
 
 
-},{"./getNextId":104}],102:[function(require,module,exports){
+},{"./getNextId":105}],103:[function(require,module,exports){
 "use strict";
 
 var idFactory = require("../../../idFactory"),
@@ -11811,7 +11837,7 @@ module.exports = function (editor, emitter) {
 };
 
 
-},{"../../../idFactory":221,"./ModelContainer":101}],103:[function(require,module,exports){
+},{"../../../idFactory":231,"./ModelContainer":102}],104:[function(require,module,exports){
 "use strict";
 
 var idFactory = require("../../../idFactory"),
@@ -12004,7 +12030,7 @@ module.exports = function (editor, emitter, paragraph) {
 };
 
 
-},{"../../../idFactory":221,"../parseAnnotation/validateAnnotation":119,"./ModelContainer":101}],104:[function(require,module,exports){
+},{"../../../idFactory":231,"../parseAnnotation/validateAnnotation":120,"./ModelContainer":102}],105:[function(require,module,exports){
 "use strict";
 
 var hasPrefix = function (prefix, id) {
@@ -12027,7 +12053,7 @@ var hasPrefix = function (prefix, id) {
 module.exports = getNextId;
 
 
-},{}],105:[function(require,module,exports){
+},{}],106:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
@@ -12074,7 +12100,7 @@ function mapRelations(relations) {
 }
 
 
-},{"./EntityContainer":100,"./ModelContainer":101,"./ParagraphContainer":102,"./SpanContainer":103,"events":38}],106:[function(require,module,exports){
+},{"./EntityContainer":101,"./ModelContainer":102,"./ParagraphContainer":103,"./SpanContainer":104,"events":38}],107:[function(require,module,exports){
 "use strict";
 
 var setNewData = require("./setNewData"),
@@ -12125,7 +12151,7 @@ var setNewData = require("./setNewData"),
 module.exports = AnntationData;
 
 
-},{"./Container":105,"./setNewData":127,"./toJson":128}],107:[function(require,module,exports){
+},{"./Container":106,"./setNewData":128,"./toJson":129}],108:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
@@ -12143,7 +12169,7 @@ module.exports = function (span, entity, denotations, prefix) {
 };
 
 
-},{"./importSource":108,"./translateDenotation":113}],108:[function(require,module,exports){
+},{"./importSource":109,"./translateDenotation":114}],109:[function(require,module,exports){
 "use strict";
 
 module.exports = function (targets, translater, source) {
@@ -12157,7 +12183,7 @@ module.exports = function (targets, translater, source) {
 };
 
 
-},{}],109:[function(require,module,exports){
+},{}],110:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
@@ -12175,7 +12201,7 @@ module.exports = function (modification, modifications, prefix) {
 };
 
 
-},{"./importSource":108,"./translateModification":114}],110:[function(require,module,exports){
+},{"./importSource":109,"./translateModification":115}],111:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
@@ -12192,7 +12218,7 @@ module.exports = function (destination, source) {
 };
 
 
-},{"./importSource":108}],111:[function(require,module,exports){
+},{"./importSource":109}],112:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
@@ -12210,7 +12236,7 @@ module.exports = function (relation, relations, prefix) {
 };
 
 
-},{"./importSource":108,"./translateRelation":115}],112:[function(require,module,exports){
+},{"./importSource":109,"./translateRelation":116}],113:[function(require,module,exports){
 "use strict";
 
 module.exports = function (src, prefix) {
@@ -12220,7 +12246,7 @@ module.exports = function (src, prefix) {
 };
 
 
-},{}],113:[function(require,module,exports){
+},{}],114:[function(require,module,exports){
 "use strict";
 
 var setIdPrefixIfExist = require("./setIdPrefixIfExist");
@@ -12235,7 +12261,7 @@ module.exports = function (prefix, src) {
 };
 
 
-},{"./setIdPrefixIfExist":112}],114:[function(require,module,exports){
+},{"./setIdPrefixIfExist":113}],115:[function(require,module,exports){
 "use strict";
 
 var setIdPrefixIfExist = require("./setIdPrefixIfExist");
@@ -12250,7 +12276,7 @@ module.exports = function (prefix, src) {
 };
 
 
-},{"./setIdPrefixIfExist":112}],115:[function(require,module,exports){
+},{"./setIdPrefixIfExist":113}],116:[function(require,module,exports){
 "use strict";
 
 var setIdPrefixIfExist = require("./setIdPrefixIfExist");
@@ -12266,7 +12292,7 @@ module.exports = function (prefix, src) {
 };
 
 
-},{"./setIdPrefixIfExist":112}],116:[function(require,module,exports){
+},{"./setIdPrefixIfExist":113}],117:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
@@ -12294,7 +12320,7 @@ module.exports = function (span, entity, relation, modification, paragraph, text
 };
 
 
-},{"./importAnnotation/denotation":107,"./importAnnotation/modification":109,"./importAnnotation/relation":111,"./validateAnnotation":119}],117:[function(require,module,exports){
+},{"./importAnnotation/denotation":108,"./importAnnotation/modification":110,"./importAnnotation/relation":112,"./validateAnnotation":120}],118:[function(require,module,exports){
 "use strict";
 
 module.exports = function (rejects) {
@@ -12304,7 +12330,7 @@ module.exports = function (rejects) {
 };
 
 
-},{}],118:[function(require,module,exports){
+},{}],119:[function(require,module,exports){
 "use strict";
 
 module.exports = function (reject) {
@@ -12315,7 +12341,7 @@ module.exports = function (reject) {
 };
 
 
-},{}],119:[function(require,module,exports){
+},{}],120:[function(require,module,exports){
 "use strict";
 
 var _extends = function (target) {
@@ -12345,7 +12371,7 @@ exports.isBoundaryCrossingWithOtherSpans = isBoundaryCrossingWithOtherSpans;
 module.exports = _extends(exports["default"], exports);
 
 
-},{"./Reject/hasError":117,"./isBoundaryCrossingWithOtherSpans":120,"./main":122}],120:[function(require,module,exports){
+},{"./Reject/hasError":118,"./isBoundaryCrossingWithOtherSpans":121,"./main":123}],121:[function(require,module,exports){
 "use strict";
 
 // A span its range is coross over with other spans are not able to rendered.
@@ -12361,7 +12387,7 @@ function isBoundaryCrossing(candidateSpan, existSpan) {
 }
 
 
-},{}],121:[function(require,module,exports){
+},{}],122:[function(require,module,exports){
 "use strict";
 
 module.exports = function (data, opt) {
@@ -12373,7 +12399,7 @@ module.exports = function (data, opt) {
 };
 
 
-},{}],122:[function(require,module,exports){
+},{}],123:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
@@ -12411,7 +12437,7 @@ module.exports = function (text, paragraph, annotation) {
 };
 
 
-},{"./validateDenotation":124,"./validateModificatian":125,"./validateRelation":126}],123:[function(require,module,exports){
+},{"./validateDenotation":125,"./validateModificatian":126,"./validateRelation":127}],124:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
@@ -12439,7 +12465,7 @@ function acceptIf(predicate, predicateOption, result, target, index, array) {
 }
 
 
-},{"./Reject":118}],124:[function(require,module,exports){
+},{"./Reject":119}],125:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
@@ -12494,7 +12520,7 @@ function isInParagraph(denotation, paragraph) {
 }
 
 
-},{"./isBoundaryCrossingWithOtherSpans":120,"./validate":123}],125:[function(require,module,exports){
+},{"./isBoundaryCrossingWithOtherSpans":121,"./validate":124}],126:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
@@ -12521,7 +12547,7 @@ module.exports = function (denotations, relations, modifications) {
 };
 
 
-},{"./isContains":121,"./validate":123}],126:[function(require,module,exports){
+},{"./isContains":122,"./validate":124}],127:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
@@ -12553,7 +12579,7 @@ module.exports = function (denotations, relations) {
 };
 
 
-},{"./isContains":121,"./validate":123}],127:[function(require,module,exports){
+},{"./isContains":122,"./validate":124}],128:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
@@ -12610,7 +12636,7 @@ function parseDennotation(dataStore, annotation) {
 }
 
 
-},{"./parseAnnotation":116,"./parseAnnotation/importAnnotation/namespace":110}],128:[function(require,module,exports){
+},{"./parseAnnotation":117,"./parseAnnotation/importAnnotation/namespace":111}],129:[function(require,module,exports){
 "use strict";
 
 var toDenotation = function (dataStore) {
@@ -12650,7 +12676,7 @@ var toDenotation = function (dataStore) {
 module.exports = toJson;
 
 
-},{}],129:[function(require,module,exports){
+},{}],130:[function(require,module,exports){
 "use strict";
 
 var EventEmitter = require("events").EventEmitter;
@@ -12715,7 +12741,7 @@ module.exports = function (kindName) {
 };
 
 
-},{"events":38}],130:[function(require,module,exports){
+},{"events":38}],131:[function(require,module,exports){
 "use strict";
 
 var EventEmitter = require("events").EventEmitter,
@@ -12765,7 +12791,7 @@ module.exports = function (kinds) {
 };
 
 
-},{"./IdContainer":129,"events":38}],131:[function(require,module,exports){
+},{"./IdContainer":130,"events":38}],132:[function(require,module,exports){
 "use strict";
 
 var AnnotationData = require("./AnnotationData");
@@ -12779,69 +12805,7 @@ module.exports = function (editor) {
 };
 
 
-},{"./AnnotationData":106,"./Selection":130}],132:[function(require,module,exports){
-"use strict";
-
-module.exports = function (command, annotationData, selectionModel, clipBoard) {
-  var copyEntities = function () {
-    // Unique Entities. Because a entity is deplicate When a span and thats entity is selected.
-    clipBoard.clipBoard = _.uniq((function getEntitiesFromSelectedSpan() {
-      return _.flatten(selectionModel.span.all().map(function (spanId) {
-        return annotationData.span.get(spanId).getEntities();
-      }));
-    })().concat(selectionModel.entity.all())).map(function (entityId) {
-      // Map entities to types, because entities may be delete.
-      return annotationData.entity.get(entityId).type;
-    });
-  },
-      pasteEntities = function () {
-    // Make commands per selected spans from types in clipBoard.
-    var commands = _.flatten(selectionModel.span.all().map(function (spanId) {
-      return clipBoard.clipBoard.map(function (type) {
-        return command.factory.entityCreateCommand({
-          span: spanId,
-          type: type
-        });
-      });
-    }));
-
-    command.invoke(commands);
-  };
-
-  return {
-    copyEntities: copyEntities,
-    pasteEntities: pasteEntities
-  };
-};
-
-
-},{}],133:[function(require,module,exports){
-"use strict";
-
-var EventEmitter = require("events").EventEmitter,
-    replicate = require("./replicate"),
-    createEntityToSelectedSpan = require("./createEntityToSelectedSpan"),
-    DefaultEntityHandler = function (command, annotationData, selectionModel, modeAccordingToButton, spanConfig, entity) {
-  var emitter = new EventEmitter(),
-      replicateImple = function () {
-    replicate(command, annotationData, modeAccordingToButton, spanConfig, selectionModel.span.single(), entity);
-  },
-      createEntityImple = function () {
-    createEntityToSelectedSpan(command, selectionModel.span.all(), entity);
-
-    emitter.emit("createEntity");
-  };
-
-  return _.extend(emitter, {
-    replicate: replicateImple,
-    createEntity: createEntityImple
-  });
-};
-
-module.exports = DefaultEntityHandler;
-
-
-},{"./createEntityToSelectedSpan":147,"./replicate":149,"events":38}],134:[function(require,module,exports){
+},{"./AnnotationData":107,"./Selection":131}],133:[function(require,module,exports){
 "use strict";
 
 var TypeGapCache = function () {
@@ -12908,30 +12872,7 @@ var TypeGapCache = function () {
 module.exports = DisplayInstance;
 
 
-},{"capitalize":35}],135:[function(require,module,exports){
-"use strict";
-
-var RemoveCommandsFromSelection = require("./RemoveCommandsFromSelection");
-
-module.exports = function (command, selectionModel, typeEditor) {
-  return {
-    newLabel: function () {
-      if (selectionModel.entity.some() || selectionModel.relation.some()) {
-        var newTypeLabel = prompt("Please enter a new label", "");
-        if (newTypeLabel) {
-          typeEditor.setNewType(newTypeLabel);
-        }
-      }
-    },
-    removeSelectedElements: function () {
-      var commands = new RemoveCommandsFromSelection(command, selectionModel);
-      command.invoke(commands);
-    }
-  };
-};
-
-
-},{"./RemoveCommandsFromSelection":143}],136:[function(require,module,exports){
+},{"capitalize":35}],134:[function(require,module,exports){
 "use strict";
 
 module.exports = function (stateMachine) {
@@ -12949,7 +12890,7 @@ module.exports = function (stateMachine) {
 };
 
 
-},{}],137:[function(require,module,exports){
+},{}],135:[function(require,module,exports){
 "use strict";
 
 var Machine = require("emitter-fsm"),
@@ -12976,7 +12917,7 @@ var Machine = require("emitter-fsm"),
 module.exports = StateMachine;
 
 
-},{"emitter-fsm":36}],138:[function(require,module,exports){
+},{"emitter-fsm":36}],136:[function(require,module,exports){
 "use strict";
 
 var resetView = function (typeEditor, selectionModel) {
@@ -13036,7 +12977,7 @@ var resetView = function (typeEditor, selectionModel) {
 module.exports = Transition;
 
 
-},{}],139:[function(require,module,exports){
+},{}],137:[function(require,module,exports){
 "use strict";
 
 var Selector = require("../../view/Selector"),
@@ -13097,7 +13038,7 @@ module.exports = function (editor, model, buttonStateHelper, modeAccordingToButt
 };
 
 
-},{"../../view/Selector":238}],140:[function(require,module,exports){
+},{"../../view/Selector":252}],138:[function(require,module,exports){
 "use strict";
 
 module.exports = function (stateMachine) {
@@ -13113,7 +13054,7 @@ module.exports = function (stateMachine) {
 };
 
 
-},{}],141:[function(require,module,exports){
+},{}],139:[function(require,module,exports){
 "use strict";
 
 var EventEmitter = require("events").EventEmitter,
@@ -13154,399 +13095,326 @@ module.exports = function (editor, model, typeEditor, buttonStateHelper, modeAcc
 // console.log(editor.editorId, 'from:', e.from, ' to:', e.to);
 
 
-},{"./EditModeApi":136,"./StateMachine":137,"./Transition":138,"./ViewMode":139,"./ViewModeApi":140,"emitter-fsm":36,"events":38}],142:[function(require,module,exports){
+},{"./EditModeApi":134,"./StateMachine":135,"./Transition":136,"./ViewMode":137,"./ViewModeApi":138,"emitter-fsm":36,"events":38}],140:[function(require,module,exports){
 "use strict";
 
-var toggleModification = require("./toggleModification");
+var _interopRequire = function (obj) {
+  return obj && (obj["default"] || obj);
+};
 
-module.exports = function (command, annotationData, modeAccordingToButton, typeEditor) {
-  return {
-    negation: function () {
-      toggleModification(command, annotationData, modeAccordingToButton, "Negation", typeEditor);
+var SelectEnd = _interopRequire(require("../SelectEnd"));
+
+var dismissBrowserSelection = _interopRequire(require("../dismissBrowserSelection"));
+
+var unbindAllEventhandler = _interopRequire(require("./unbindAllEventhandler"));
+
+var changeType = _interopRequire(require("./changeType"));
+
+module.exports = function (editor, model, command, modeAccordingToButton, typeContainer, spanConfig, cancelSelect) {
+  var selectEnd = new SelectEnd(editor, model, command, modeAccordingToButton, typeContainer),
+      selectSpan = new SelectSpan(editor, model.annotationData, model.selectionModel, typeContainer),
+      selectionModel = model.selectionModel,
+      bind = function () {
+    editor.on("mouseup", ".textae-editor__body", function () {
+      return bodyClicked(cancelSelect, selectEnd, spanConfig);
+    }).on("mouseup", ".textae-editor__span", function (e) {
+      return spanClicked(spanConfig, selectEnd, selectSpan, e);
+    }).on("mouseup", ".textae-editor__type-label", function (e) {
+      return typeLabelClicked(selectionModel, e);
+    }).on("mouseup", ".textae-editor__entity-pane", function (e) {
+      return entityPaneClicked(selectionModel, e);
+    }).on("mouseup", ".textae-editor__entity", function (e) {
+      return entityClicked(selectionModel, e);
+    });
+  },
+      getSelectedIdEditable = selectionModel.entity.all,
+      handler = {
+    changeTypeOfSelected: function (newType) {
+      return changeType(command, getSelectedIdEditable, function (id, newType) {
+        return command.factory.entityChangeTypeCommand(id, newType, typeContainer.entity.isBlock(newType));
+      }, newType);
     },
-    speculation: function () {
-      toggleModification(command, annotationData, modeAccordingToButton, "Speculation", typeEditor);
-    }
+    getSelectedIdEditable: getSelectedIdEditable,
+    getSelectedType: function () {
+      var id = selectionModel.entity.single();
+
+      if (id) return model.annotationData.entity.get(id).type;else return "";
+    },
+    typeContainer: typeContainer.entity,
+    jsPlumbConnectionClicked: null
+  };
+
+  return function () {
+    return [bind, handler];
   };
 };
 
+function spanClicked(spanConfig, selectEnd, selectSpan, event) {
+  var selection = window.getSelection();
 
-},{"./toggleModification":155}],143:[function(require,module,exports){
-"use strict";
+  // No select
+  if (selection.isCollapsed) {
+    selectSpan(event);
+    return false;
+  } else {
+    selectEnd.onSpan({
+      spanConfig: spanConfig,
+      selection: getSelectionSnapShot()
+    });
+    // Cancel selection of a paragraph.
+    // And do non propagate the parent span.
+    event.stopPropagation();
+  }
+}
 
-var toRomeveSpanCommands = function (spanIds, command) {
-  return spanIds.map(command.factory.spanRemoveCommand);
-},
-    toRemoveEntityCommands = function (entityIds, command) {
-  return command.factory.entityRemoveCommand(entityIds);
-},
-    toRemoveRelationCommands = function (relationIds, command) {
-  return relationIds.map(command.factory.relationRemoveCommand);
-},
-    getAll = function (command, spanIds, entityIds, relationIds) {
-  return [].concat(toRemoveRelationCommands(relationIds, command), toRemoveEntityCommands(entityIds, command), toRomeveSpanCommands(spanIds, command));
-},
-    RemoveCommandsFromSelection = function (command, selectionModel) {
-  var spanIds = _.uniq(selectionModel.span.all()),
-      entityIds = _.uniq(selectionModel.entity.all()),
-      relationIds = _.uniq(selectionModel.relation.all());
+function typeLabelClicked(selectionModel, e) {
+  var typeLabel = e.target,
+      entities = e.target.nextElementSibling.children;
 
-  return getAll(command, spanIds, entityIds, relationIds);
-};
+  return selectEntities(selectionModel, e.ctrlKey || e.metaKey, typeLabel, entities);
+}
 
+function entityPaneClicked(selectionModel, e) {
+  var typeLabel = e.target.previousElementSibling,
+      entities = e.target.children;
 
-module.exports = RemoveCommandsFromSelection;
+  return selectEntities(selectionModel, e.ctrlKey || e.metaKey, typeLabel, entities);
+}
 
+function entityClicked(selectionModel, e) {
+  dismissBrowserSelection();
 
-},{}],144:[function(require,module,exports){
-"use strict";
+  if (e.ctrlKey || e.metaKey) {
+    selectionModel.entity.toggle(e.target.title);
+  } else {
+    selectionModel.clear();
+    selectionModel.entity.add(e.target.title);
+  }
+  return false;
+}
 
-module.exports = function (annotationData, selectionModel) {
-  return {
-    selectLeftSpan: function () {
-      var spanId = selectionModel.span.single();
-      if (spanId) {
-        var span = annotationData.span.get(spanId);
-        selectionModel.clear();
-        if (span.left) {
-          selectionModel.span.add(span.left.id);
-        }
-      }
-    },
-    selectRightSpan: function () {
-      var spanId = selectionModel.span.single();
-      if (spanId) {
-        var span = annotationData.span.get(spanId);
-        selectionModel.clear();
-        if (span.right) {
-          selectionModel.span.add(span.right.id);
-        }
-      }
-    }
+function selectEntities(selectionModel, ctrlKey, typeLabel, entities) {
+  var select = function (selectionModel, entities) {
+    Array.prototype.forEach.call(entities, function (entity) {
+      return selectionModel.entity.add(entity.title);
+    });
   };
-};
 
+  var deselect = function (selectionModel, entities) {
+    Array.prototype.forEach.call(entities, function (entity) {
+      return selectionModel.entity.remove(entity.title);
+    });
+  };
 
-},{}],145:[function(require,module,exports){
-"use strict";
+  dismissBrowserSelection();
 
-var setDefaultEditMode = require("./setDefaultEditMode");
+  if (ctrlKey) {
+    if (typeLabel.classList.contains("ui-selected")) {
+      deselect(selectionModel, entities);
+    } else {
+      select(selectionModel, entities);
+    }
+  } else {
+    selectionModel.clear();
+    select(selectionModel, entities);
+  }
+  return false;
+}
 
-module.exports = function (annotationData, editMode) {
-  return {
-    bindSetDefaultEditMode: function (mode) {
-      var isEditable = mode === "edit";
+function getSelectionSnapShot() {
+  var selection = window.getSelection(),
+      snapShot = {
+    anchorNode: selection.anchorNode,
+    anchorOffset: selection.anchorOffset,
+    focusNode: selection.focusNode,
+    focusOffset: selection.focusOffset,
+    range: selection.getRangeAt(0)
+  };
 
-      annotationData.on("all.change", function (annotationData) {
-        setDefaultEditMode(editMode, isEditable, annotationData);
+  dismissBrowserSelection();
+
+  // Return the snap shot of the selection.
+  return snapShot;
+}
+
+function bodyClicked(cancelSelect, selectEnd, spanConfig) {
+  var selection = window.getSelection();
+
+  // No select
+  if (selection.isCollapsed) {
+    cancelSelect();
+  } else {
+    selectEnd.onText({
+      spanConfig: spanConfig,
+      selection: getSelectionSnapShot()
+    });
+  }
+}
+
+function SelectSpan(editor, annotationData, selectionModel, typeContainer) {
+  var getBlockEntities = function (spanId) {
+    return _.flatten(annotationData.span.get(spanId).getTypes().filter(function (type) {
+      return typeContainer.entity.isBlock(type.name);
+    }).map(function (type) {
+      return type.entities;
+    }));
+  },
+      operateSpanWithBlockEntities = function (method, spanId) {
+    selectionModel.span[method](spanId);
+    if (editor.find("#" + spanId).hasClass("textae-editor__span--block")) {
+      getBlockEntities(spanId).forEach(selectionModel.entity[method]);
+    }
+  },
+      selectSpanWithBlockEnities = _.partial(operateSpanWithBlockEntities, "add"),
+      toggleSpanWithBlockEnities = _.partial(operateSpanWithBlockEntities, "toggle");
+
+  return function (event) {
+    var firstId = selectionModel.span.single(),
+        target = event.target,
+        id = target.id;
+
+    if (event.shiftKey && firstId) {
+      //select reange of spans.
+      selectionModel.clear();
+      annotationData.span.range(firstId, id).forEach(function (spanId) {
+        selectSpanWithBlockEnities(spanId);
       });
+    } else if (event.ctrlKey || event.metaKey) {
+      toggleSpanWithBlockEnities(id);
+    } else {
+      selectionModel.clear();
+      selectSpanWithBlockEnities(id);
     }
+  };
+}
+
+
+},{"../SelectEnd":145,"../dismissBrowserSelection":151,"./changeType":142,"./unbindAllEventhandler":144}],141:[function(require,module,exports){
+"use strict";
+
+var _interopRequire = function (obj) {
+  return obj && (obj["default"] || obj);
+};
+
+var dismissBrowserSelection = _interopRequire(require("../dismissBrowserSelection"));
+
+var changeType = _interopRequire(require("./changeType"));
+
+var unbindAllEventhandler = _interopRequire(require("./unbindAllEventhandler"));
+
+module.exports = function (editor, selectionModel, annotationData, command, typeContainer, cancelSelect) {
+  // Control only entities and relations.
+  // Cancel events of relations and theier label.
+  // Because a jQuery event and a jsPlumb event are both fired when a relation are clicked.
+  // And jQuery events are propergated to body click events and cancel select.
+  // So multi selection of relations with Ctrl-key is not work.
+  var bind = function () {
+    editor.on("mouseup", ".textae-editor__entity", function (e) {
+      return entityClickedAtRelationMode(selectionModel, command, typeContainer, e);
+    }).on("mouseup", ".textae-editor__relation, .textae-editor__relation__label", returnFalse).on("mouseup", ".textae-editor__body", cancelSelect);
+  },
+      getSelectedIdEditable = selectionModel.relation.all,
+      handler = {
+    changeTypeOfSelected: function (newType) {
+      return changeType(command, getSelectedIdEditable, command.factory.relationChangeTypeCommand, newType);
+    },
+    getSelectedIdEditable: selectionModel.relation.all,
+    getSelectedType: function () {
+      var id = selectionModel.relation.single();
+
+      if (id) return annotationData.relation.get(id).type;else return "";
+    },
+    typeContainer: typeContainer.relation,
+    jsPlumbConnectionClicked: function (jsPlumbConnection, event) {
+      return selectRelation(selectionModel, jsPlumbConnection, event);
+    }
+  };
+
+  return function () {
+    return [bind, handler];
   };
 };
 
+function entityClickedAtRelationMode(selectionModel, command, typeContainer, e) {
+  if (!selectionModel.entity.some()) {
+    selectionModel.clear();
+    selectionModel.entity.add($(e.target).attr("title"));
+  } else {
+    selectObjectEntity(selectionModel, command, typeContainer, e);
+  }
+  return false;
+}
 
-},{"./setDefaultEditMode":150}],146:[function(require,module,exports){
-"use strict";
+function returnFalse() {
+  return false;
+}
 
-module.exports = function (modeAccordingToButton, editMode) {
-  return {
-    toggleDetectBoundaryMode: function () {
-      modeAccordingToButton["boundary-detection"].toggle();
-    },
-    toggleRelationEditMode: function () {
-      if (modeAccordingToButton["relation-edit-mode"].value()) {
-        editMode.toInstance();
+// Select or deselect relation.
+// This function is expected to be called when Relation-Edit-Mode.
+function selectRelation(selectionModel, jsPlumbConnection, event) {
+  var relationId = jsPlumbConnection.getParameter("id");
+
+  if (event.ctrlKey || event.metaKey) {
+    selectionModel.relation.toggle(relationId);
+  } else {
+    // Select only self
+    if (selectionModel.relation.single() !== relationId) {
+      selectionModel.clear();
+      selectionModel.relation.add(relationId);
+    }
+  }
+}
+
+function selectObjectEntity(selectionModel, command, typeContainer, e) {
+  // Cannot make a self reference relation.
+  var subjectEntityId = selectionModel.entity.all()[0],
+      objectEntityId = $(e.target).attr("title");
+
+  if (subjectEntityId === objectEntityId) {
+    // Deslect already selected entity.
+    selectionModel.entity.remove(subjectEntityId);
+  } else {
+    selectionModel.entity.add(objectEntityId);
+    _.defer(function () {
+      command.invoke([command.factory.relationCreateCommand({
+        subj: subjectEntityId,
+        obj: objectEntityId,
+        type: typeContainer.relation.getDefaultType()
+      })]);
+
+      if (e.ctrlKey || e.metaKey) {
+        // Remaining selection of the subject entity.
+        selectionModel.entity.remove(objectEntityId);
+      } else if (e.shiftKey) {
+        dismissBrowserSelection();
+        selectionModel.entity.remove(subjectEntityId);
+        selectionModel.entity.add(objectEntityId);
+        return false;
       } else {
-        editMode.toRelation();
+        selectionModel.entity.remove(subjectEntityId);
+        selectionModel.entity.remove(objectEntityId);
       }
-    }
-  };
-};
-
-
-},{}],147:[function(require,module,exports){
-"use strict";
-
-module.exports = function (command, spans, entity) {
-  var commands = spans.map(function (spanId) {
-    return command.factory.entityCreateCommand({
-      span: spanId,
-      type: entity.getDefaultType()
     });
-  });
-
-  command.invoke(commands);
-};
-
-
-},{}],148:[function(require,module,exports){
-"use strict";
-
-var TypeEditor = require("./typeEditor/TypeEditor"),
-    EditMode = require("./EditMode"),
-    DisplayInstance = require("./DisplayInstance"),
-    DefaultEntityHandler = require("./DefaultEntityHandler"),
-    ClipBoardHandler = require("./ClipBoardHandler"),
-    ModificationHandler = require("./ModificationHandler"),
-    EditHandler = require("./EditHandler"),
-    ToggleButtonHandler = require("./ToggleButtonHandler"),
-    SelectSpanHandler = require("./SelectSpanHandler"),
-    SetEditableHandler = require("./SetEditableHandler"),
-    SettingDialog = require("../../component/SettingDialog");
-
-module.exports = function (editor, model, view, command, spanConfig, clipBoard, buttonController, typeGap, typeContainer) {
-  var typeEditor = new TypeEditor(editor, model, spanConfig, command, buttonController.modeAccordingToButton, typeContainer),
-      editMode = new EditMode(editor, model, typeEditor, buttonController.buttonStateHelper, buttonController.modeAccordingToButton),
-      displayInstance = new DisplayInstance(typeGap, editMode),
-      defaultEntityHandler = new DefaultEntityHandler(command, model.annotationData, model.selectionModel, buttonController.modeAccordingToButton, spanConfig, typeContainer.entity),
-      clipBoardHandler = new ClipBoardHandler(command, model.annotationData, model.selectionModel, clipBoard),
-      modificationHandler = new ModificationHandler(command, model.annotationData, buttonController.modeAccordingToButton, typeEditor),
-      editHandler = new EditHandler(command, model.selectionModel, typeEditor),
-      toggleButtonHandler = new ToggleButtonHandler(buttonController.modeAccordingToButton, editMode),
-      selectSpanHandler = new SelectSpanHandler(model.annotationData, model.selectionModel),
-      setEditableHandler = new SetEditableHandler(model.annotationData, editMode),
-      showSettingDialog = new SettingDialog(editor, editMode, displayInstance),
-      editorSelected = function () {
-    typeEditor.hideDialogs();
-
-    // Select this editor.
-    editor.eventEmitter.emit("textae.editor.select");
-    buttonController.buttonStateHelper.propagate();
-  };
-
-  return {
-    init: function () {
-      // The jsPlumbConnetion has an original event mecanism.
-      // We can only bind the connection directory.
-      editor.on("textae.editor.jsPlumbConnection.add", function (event, jsPlumbConnection) {
-        jsPlumbConnection.bindClickAction(typeEditor.jsPlumbConnectionClicked);
-      });
-
-      defaultEntityHandler.on("createEntity", displayInstance.notifyNewInstance);
-    },
-    setMode: setEditableHandler.bindSetDefaultEditMode,
-    event: {
-      editorSelected: editorSelected,
-      copyEntities: clipBoardHandler.copyEntities,
-      removeSelectedElements: editHandler.removeSelectedElements,
-      createEntity: defaultEntityHandler.createEntity,
-      showPallet: typeEditor.showPallet,
-      replicate: defaultEntityHandler.replicate,
-      pasteEntities: clipBoardHandler.pasteEntities,
-      newLabel: editHandler.newLabel,
-      cancelSelect: typeEditor.cancelSelect,
-      selectLeftSpan: selectSpanHandler.selectLeftSpan,
-      selectRightSpan: selectSpanHandler.selectRightSpan,
-      toggleDetectBoundaryMode: toggleButtonHandler.toggleDetectBoundaryMode,
-      toggleRelationEditMode: toggleButtonHandler.toggleRelationEditMode,
-      negation: modificationHandler.negation,
-      speculation: modificationHandler.speculation,
-      showSettingDialog: showSettingDialog
-    }
-  };
-};
-
-
-},{"../../component/SettingDialog":67,"./ClipBoardHandler":132,"./DefaultEntityHandler":133,"./DisplayInstance":134,"./EditHandler":135,"./EditMode":141,"./ModificationHandler":142,"./SelectSpanHandler":144,"./SetEditableHandler":145,"./ToggleButtonHandler":146,"./typeEditor/TypeEditor":162}],149:[function(require,module,exports){
-"use strict";
-
-var getDetectBoundaryFunc = function (modeAccordingToButton, spanConfig) {
-  if (modeAccordingToButton["boundary-detection"].value()) return spanConfig.isDelimiter;else return null;
-},
-    replicate = function (command, annotationData, modeAccordingToButton, spanConfig, spanId, entity) {
-  var detectBoundaryFunc = getDetectBoundaryFunc(modeAccordingToButton, spanConfig);
-
-  if (spanId) {
-    command.invoke([command.factory.spanReplicateCommand(entity.getDefaultType(), annotationData.span.get(spanId), detectBoundaryFunc)]);
-  } else {
-    alert("You can replicate span annotation when there is only span selected.");
   }
-};
-
-module.exports = replicate;
+}
 
 
-},{}],150:[function(require,module,exports){
+},{"../dismissBrowserSelection":151,"./changeType":142,"./unbindAllEventhandler":144}],142:[function(require,module,exports){
 "use strict";
 
-var setDefaultEditMode = function (editMode, isEditable, annotationData) {
-  editMode.init(isEditable);
-
-  // Change view mode accoding to the annotation data.
-  if (annotationData.relation.some() || annotationData.span.multiEntities().length > 0) {
-    editMode.toInstance();
-  } else {
-    editMode.toTerm();
-  }
-};
-
-module.exports = setDefaultEditMode;
-
-
-},{}],151:[function(require,module,exports){
-"use strict";
-
-var skipBlank = require("./skipBlank");
-
-module.exports = {
-  backFromBegin: function (str, position, spanConfig) {
-    return skipBlank.forward(str, position, spanConfig.isBlankCharacter);
-  },
-  forwardFromEnd: function (str, position, spanConfig) {
-    return skipBlank.back(str, position, spanConfig.isBlankCharacter);
-  },
-  forwardFromBegin: function (str, position, spanConfig) {
-    return skipBlank.forward(str, position, spanConfig.isBlankCharacter);
-  },
-  backFromEnd: function (str, position, spanConfig) {
-    return skipBlank.back(str, position, spanConfig.isBlankCharacter);
-  }
-};
-
-
-},{"./skipBlank":153}],152:[function(require,module,exports){
-"use strict";
-
-var skipCharacters = require("./skipCharacters"),
-    skipBlank = require("./skipBlank"),
-    getPrev = function (str, position) {
-  return [str.charAt(position), str.charAt(position - 1)];
-},
-    getNext = function (str, position) {
-  return [str.charAt(position), str.charAt(position + 1)];
-},
-    backToDelimiter = function (str, position, isDelimiter) {
-  return skipCharacters(getPrev, -1, str, position, function (chars) {
-    // Proceed the position between two characters as (!delimiter delimiter) || (delimiter !delimiter) || (!delimiter !delimiter).     
-    return chars[1] && !isDelimiter(chars[0]) && !isDelimiter(chars[1]);
-  });
-},
-    skipToDelimiter = function (str, position, isDelimiter) {
-  return skipCharacters(getNext, 1, str, position, function (chars) {
-    // Proceed the position between two characters as (!delimiter delimiter) || (delimiter !delimiter) || (!delimiter !delimiter).     
-    // Return false to stop an infinite loop when the character undefined.
-    return chars[1] && !isDelimiter(chars[0]) && !isDelimiter(chars[1]);
-  });
-},
-    isNotWord = function (isBlankCharacter, isDelimiter, chars) {
-  // The word is (no charactor || blank || delimiter)(!delimiter).
-  return chars[0] !== "" && !isBlankCharacter(chars[1]) && !isDelimiter(chars[1]) || isDelimiter(chars[0]);
-},
-    skipToWord = function (str, position, isWordEdge) {
-  return skipCharacters(getPrev, 1, str, position, isWordEdge);
-},
-    backToWord = function (str, position, isWordEdge) {
-  return skipCharacters(getNext, -1, str, position, isWordEdge);
-},
-    backFromBegin = function (str, beginPosition, spanConfig) {
-  var nonEdgePos = skipBlank.forward(str, beginPosition, spanConfig.isBlankCharacter),
-      nonDelimPos = backToDelimiter(str, nonEdgePos, spanConfig.isDelimiter);
-
-  return nonDelimPos;
-},
-    forwardFromEnd = function (str, endPosition, spanConfig) {
-  var nonEdgePos = skipBlank.back(str, endPosition, spanConfig.isBlankCharacter),
-      nonDelimPos = skipToDelimiter(str, nonEdgePos, spanConfig.isDelimiter);
-
-  return nonDelimPos;
-},
-
-
-// adjust the beginning position of a span for shortening
-forwardFromBegin = function (str, beginPosition, spanConfig) {
-  var isWordEdge = _.partial(isNotWord, spanConfig.isBlankCharacter, spanConfig.isDelimiter);
-  return skipToWord(str, beginPosition, isWordEdge);
-},
-
-
-// adjust the end position of a span for shortening
-backFromEnd = function (str, endPosition, spanConfig) {
-  var isWordEdge = _.partial(isNotWord, spanConfig.isBlankCharacter, spanConfig.isDelimiter);
-  return backToWord(str, endPosition, isWordEdge);
-};
-
-module.exports = {
-  backFromBegin: backFromBegin,
-  forwardFromEnd: forwardFromEnd,
-  forwardFromBegin: forwardFromBegin,
-  backFromEnd: backFromEnd
-};
-
-
-},{"./skipBlank":153,"./skipCharacters":154}],153:[function(require,module,exports){
-"use strict";
-
-var skipCharacters = require("./skipCharacters"),
-    getNow = function (str, position) {
-  return str.charAt(position);
-},
-    skipForwardBlank = function (str, position, isBlankCharacter) {
-  return skipCharacters(getNow, 1, str, position, isBlankCharacter);
-},
-    skipBackBlank = function (str, position, isBlankCharacter) {
-  return skipCharacters(getNow, -1, str, position, isBlankCharacter);
-};
-
-module.exports = {
-  forward: skipForwardBlank,
-  back: skipBackBlank
-};
-
-
-},{"./skipCharacters":154}],154:[function(require,module,exports){
-"use strict";
-
-module.exports = function (getChars, step, str, position, predicate) {
-  while (predicate(getChars(str, position))) position += step;
-
-  return position;
-};
-
-
-},{}],155:[function(require,module,exports){
-"use strict";
-
-var isModificationType = function (modification, modificationType) {
-  return modification.pred === modificationType;
-},
-    getSpecificModification = function (annotationData, id, modificationType) {
-  return annotationData.getModificationOf(id).filter(function (modification) {
-    return isModificationType(modification, modificationType);
-  });
-},
-    removeModification = function (command, annotationData, modificationType, typeEditor) {
-  return typeEditor.getSelectedIdEditable().map(function (id) {
-    var modification = getSpecificModification(annotationData, id, modificationType)[0];
-    return command.factory.modificationRemoveCommand(modification.id);
-  });
-},
-    createModification = function (command, annotationData, modificationType, typeEditor) {
-  return _.reject(typeEditor.getSelectedIdEditable(), function (id) {
-    return getSpecificModification(annotationData, id, modificationType).length > 0;
-  }).map(function (id) {
-    return command.factory.modificationCreateCommand({
-      obj: id,
-      pred: modificationType
+module.exports = function (command, getSelectedAndEditable, createChangeTypeCommandFunction, newType) {
+  var ids = getSelectedAndEditable();
+  if (ids.length > 0) {
+    var commands = ids.map(function (id) {
+      return createChangeTypeCommandFunction(id, newType);
     });
-  });
-},
-    createCommand = function (command, annotationData, modificationType, typeEditor, has) {
-  if (has) {
-    return removeModification(command, annotationData, modificationType, typeEditor);
-  } else {
-    return createModification(command, annotationData, modificationType, typeEditor);
+
+    command.invoke(commands);
   }
-},
-    toggleModification = function (command, annotationData, modeAccordingToButton, modificationType, typeEditor) {
-  var has = modeAccordingToButton[modificationType.toLowerCase()].value(),
-      commands = createCommand(command, annotationData, modificationType, typeEditor, has);
-  command.invoke(commands);
 };
 
-module.exports = toggleModification;
 
-
-},{}],156:[function(require,module,exports){
+},{}],143:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
@@ -13554,273 +13422,73 @@ var _interopRequire = function (obj) {
 };
 
 var EventEmitter = require("events").EventEmitter;
-var dismissBrowserSelection = _interopRequire(require("./dismissBrowserSelection"));
+var EditRelation = _interopRequire(require("./EditRelation"));
+
+var EditEntity = _interopRequire(require("./EditEntity"));
+
+var unbindAllEventhandler = _interopRequire(require("./unbindAllEventhandler"));
+
+var DEFAULT_HANDLER = {
+  changeTypeOfSelected: null,
+  getSelectedIdEditable: returnEmptyArray,
+  getSelectedType: null,
+  // The Reference to content to be shown in the pallet.
+  typeContainer: null,
+  // A Swithing point to change a behavior when relation is clicked.
+  jsPlumbConnectionClicked: null
+};
 
 module.exports = function (editor, model, spanConfig, command, modeAccordingToButton, typeContainer) {
-  var handler = {
-    changeTypeOfSelected: null,
-    getSelectedIdEditable: null,
-    // The Reference to content to be shown in the pallet.
-    typeContainer: null,
-    // A Swithing point to change a behavior when relation is clicked.
-    jsPlumbConnectionClicked: null
-  },
+  var handler = _.extend({}, DEFAULT_HANDLER),
       emitter = new EventEmitter(),
-      unbindAllEventhandler = function () {
-    return editor.off("mouseup", ".textae-editor__body").off("mouseup", ".textae-editor__span").off("mouseup", ".textae-editor__span_block").off("mouseup", ".textae-editor__type-label").off("mouseup", ".textae-editor__entity-pane").off("mouseup", ".textae-editor__entity");
-  },
-      changeType = function (getSelectedAndEditable, createChangeTypeCommandFunction, newType) {
-    var ids = getSelectedAndEditable();
-    if (ids.length > 0) {
-      var commands = ids.map(function (id) {
-        return createChangeTypeCommandFunction(id, newType);
-      });
-
-      command.invoke(commands);
-    }
-  },
-      getSelectionSnapShot = function () {
-    var selection = window.getSelection(),
-        snapShot = {
-      anchorNode: selection.anchorNode,
-      anchorOffset: selection.anchorOffset,
-      focusNode: selection.focusNode,
-      focusOffset: selection.focusOffset,
-      range: selection.getRangeAt(0)
-    };
-
-    dismissBrowserSelection();
-
-    // Return the snap shot of the selection.
-    return snapShot;
-  },
       cancelSelect = function () {
     emitter.emit("cancel.select");
   },
       noEdit = function () {
-    unbindAllEventhandler();
-
-    handler.typeContainer = null;
-    handler.changeTypeOfSelected = null;
-    handler.getSelectedIdEditable = null;
-    handler.jsPlumbConnectionClicked = null;
+    return [function () {}, DEFAULT_HANDLER];
   },
-      editRelation = (function () {
-    var entityClickedAtRelationMode = function (e) {
-      if (!model.selectionModel.entity.some()) {
-        model.selectionModel.clear();
-        model.selectionModel.entity.add($(e.target).attr("title"));
-      } else {
-        // Cannot make a self reference relation.
-        var subjectEntityId = model.selectionModel.entity.all()[0];
-        var objectEntityId = $(e.target).attr("title");
-
-        if (subjectEntityId === objectEntityId) {
-          // Deslect already selected entity.
-          model.selectionModel.entity.remove(subjectEntityId);
-        } else {
-          model.selectionModel.entity.add(objectEntityId);
-          _.defer(function () {
-            command.invoke([command.factory.relationCreateCommand({
-              subj: subjectEntityId,
-              obj: objectEntityId,
-              type: typeContainer.relation.getDefaultType()
-            })]);
-
-            if (e.ctrlKey || e.metaKey) {
-              // Remaining selection of the subject entity.
-              model.selectionModel.entity.remove(objectEntityId);
-            } else if (e.shiftKey) {
-              dismissBrowserSelection();
-              model.selectionModel.entity.remove(subjectEntityId);
-              model.selectionModel.entity.add(objectEntityId);
-              return false;
-            } else {
-              model.selectionModel.entity.remove(subjectEntityId);
-              model.selectionModel.entity.remove(objectEntityId);
-            }
-          });
-        }
-      }
-      return false;
-    },
-
-
-    // Select or deselect relation.
-    // This function is expected to be called when Relation-Edit-Mode.
-    selectRelation = function (jsPlumbConnection, event) {
-      var relationId = jsPlumbConnection.getParameter("id");
-
-      if (event.ctrlKey || event.metaKey) {
-        model.selectionModel.relation.toggle(relationId);
-      } else {
-        // Select only self
-        if (model.selectionModel.relation.single() !== relationId) {
-          model.selectionModel.clear();
-          model.selectionModel.relation.add(relationId);
-        }
-      }
-    },
-        returnFalse = function () {
-      return false;
-    };
-
-    return function () {
-      // Control only entities and relations.
-      // Cancel events of relations and theier label.
-      // Because a jQuery event and a jsPlumb event are both fired when a relation are clicked.
-      // And jQuery events are propergated to body click events and cancel select.
-      // So multi selection of relations with Ctrl-key is not work.
-      unbindAllEventhandler().on("mouseup", ".textae-editor__entity", entityClickedAtRelationMode).on("mouseup", ".textae-editor__relation, .textae-editor__relation__label", returnFalse).on("mouseup", ".textae-editor__body", cancelSelect);
-
-      handler.typeContainer = typeContainer.relation;
-      handler.getSelectedIdEditable = model.selectionModel.relation.all;
-      handler.changeTypeOfSelected = _.partial(changeType, handler.getSelectedIdEditable, command.factory.relationChangeTypeCommand);
-
-      handler.jsPlumbConnectionClicked = selectRelation;
-    };
-  })(),
-      editEntity = (function () {
-    var selectEnd = require("./SelectEnd")(editor, model, command, modeAccordingToButton, typeContainer),
-        bodyClicked = function () {
-      var selection = window.getSelection();
-
-      // No select
-      if (selection.isCollapsed) {
-        cancelSelect();
-      } else {
-        selectEnd.onText({
-          spanConfig: spanConfig,
-          selection: getSelectionSnapShot()
-        });
-      }
-    },
-        selectSpan = (function () {
-      var getBlockEntities = function (spanId) {
-        return _.flatten(model.annotationData.span.get(spanId).getTypes().filter(function (type) {
-          return typeContainer.entity.isBlock(type.name);
-        }).map(function (type) {
-          return type.entities;
-        }));
-      },
-          operateSpanWithBlockEntities = function (method, spanId) {
-        model.selectionModel.span[method](spanId);
-        if (editor.find("#" + spanId).hasClass("textae-editor__span--block")) {
-          getBlockEntities(spanId).forEach(model.selectionModel.entity[method]);
-        }
-      },
-          selectSpanWithBlockEnities = _.partial(operateSpanWithBlockEntities, "add"),
-          toggleSpanWithBlockEnities = _.partial(operateSpanWithBlockEntities, "toggle");
-
-      return function (event) {
-        var firstId = model.selectionModel.span.single(),
-            target = event.target,
-            id = target.id;
-
-        if (event.shiftKey && firstId) {
-          //select reange of spans.
-          model.selectionModel.clear();
-          model.annotationData.span.range(firstId, id).forEach(function (spanId) {
-            selectSpanWithBlockEnities(spanId);
-          });
-        } else if (event.ctrlKey || event.metaKey) {
-          toggleSpanWithBlockEnities(id);
-        } else {
-          model.selectionModel.clear();
-          selectSpanWithBlockEnities(id);
-        }
-      };
-    })(),
-        spanClicked = function (event) {
-      var selection = window.getSelection();
-
-      // No select
-      if (selection.isCollapsed) {
-        selectSpan(event);
-        return false;
-      } else {
-        selectEnd.onSpan({
-          spanConfig: spanConfig,
-          selection: getSelectionSnapShot()
-        });
-        // Cancel selection of a paragraph.
-        // And do non propagate the parent span.
-        event.stopPropagation();
-      }
-    },
-        labelOrPaneClicked = function (ctrlKey, $typeLabel, $entities) {
-      var selectEntities = function ($entities) {
-        $entities.each(function () {
-          model.selectionModel.entity.add($(this).attr("title"));
-        });
-      },
-          deselectEntities = function ($entities) {
-        $entities.each(function () {
-          model.selectionModel.entity.remove($(this).attr("title"));
-        });
-      };
-
-      dismissBrowserSelection();
-
-      if (ctrlKey) {
-        if ($typeLabel.hasClass("ui-selected")) {
-          deselectEntities($entities);
-        } else {
-          selectEntities($entities);
-        }
-      } else {
-        model.selectionModel.clear();
-        selectEntities($entities);
-      }
-      return false;
-    },
-        typeLabelClicked = function (e) {
-      var $typeLabel = $(e.target);
-      return labelOrPaneClicked(e.ctrlKey || e.metaKey, $typeLabel, $typeLabel.next().children());
-    },
-        entityClicked = function (e) {
-      dismissBrowserSelection();
-
-      var $target = $(e.target);
-      if (e.ctrlKey || e.metaKey) {
-        model.selectionModel.entity.toggle($target.attr("title"));
-      } else {
-        model.selectionModel.clear();
-        model.selectionModel.entity.add($target.attr("title"));
-      }
-      return false;
-    },
-        entityPaneClicked = function (e) {
-      var $typePane = $(e.target);
-      return labelOrPaneClicked(e.ctrlKey || e.metaKey, $typePane.prev(), $typePane.children());
-    },
-        createEntityChangeTypeCommand = function (id, newType) {
-      return command.factory.entityChangeTypeCommand(id, newType, typeContainer.entity.isBlock(newType));
-    };
-
-    return function () {
-      unbindAllEventhandler().on("mouseup", ".textae-editor__body", bodyClicked).on("mouseup", ".textae-editor__span", spanClicked).on("mouseup", ".textae-editor__type-label", typeLabelClicked).on("mouseup", ".textae-editor__entity-pane", entityPaneClicked).on("mouseup", ".textae-editor__entity", entityClicked);
-
-      handler.typeContainer = typeContainer.entity;
-      handler.getSelectedIdEditable = model.selectionModel.entity.all;
-      handler.changeTypeOfSelected = _.partial(changeType, handler.getSelectedIdEditable, createEntityChangeTypeCommand);
-
-      handler.jsPlumbConnectionClicked = null;
-    };
-  })();
+      editRelation = new EditRelation(editor, model.selectionModel, model.annotationData, command, typeContainer, cancelSelect),
+      editEntity = new EditEntity(editor, model, command, modeAccordingToButton, typeContainer, spanConfig, cancelSelect);
 
   return _.extend(emitter, {
     handler: handler,
     start: {
-      noEdit: noEdit,
-      editRelation: editRelation,
-      editEntity: editEntity
+      noEdit: function () {
+        var newState = noEdit();
+        transit(editor, handler, newState);
+      },
+      editRelation: function () {
+        var newState = editRelation();
+        transit(editor, handler, newState);
+      },
+      editEntity: function () {
+        var newState = editEntity();
+        transit(editor, handler, newState);
+      }
     }
   });
 };
 
+function transit(editor, handler, newState) {
+  unbindAllEventhandler(editor);
+  newState[0]();
+  _.extend(handler, newState[1]);
+}
 
-},{"./SelectEnd":157,"./dismissBrowserSelection":164,"events":38}],157:[function(require,module,exports){
+function returnEmptyArray() {
+  return [];
+}
+
+
+},{"./EditEntity":140,"./EditRelation":141,"./unbindAllEventhandler":144,"events":38}],144:[function(require,module,exports){
+"use strict";
+
+module.exports = function (editor) {
+  return editor.off("mouseup", ".textae-editor__body").off("mouseup", ".textae-editor__span").off("mouseup", ".textae-editor__span_block").off("mouseup", ".textae-editor__type-label").off("mouseup", ".textae-editor__entity-pane").off("mouseup", ".textae-editor__entity");
+};
+
+
+},{}],145:[function(require,module,exports){
 "use strict";
 
 var SpanEditor = require("./SpanEditor"),
@@ -13874,7 +13542,7 @@ module.exports = function (editor, model, command, modeAccordingToButton, typeCo
 };
 
 
-},{"./SelectionValidater":159,"./SpanEditor":160,"./selectionParser":166}],158:[function(require,module,exports){
+},{"./SelectionValidater":147,"./SpanEditor":148,"./selectionParser":154}],146:[function(require,module,exports){
 "use strict";
 
 module.exports = function (editor, model) {
@@ -13999,7 +13667,7 @@ module.exports = function (editor, model) {
 };
 
 
-},{"./selectPosition":165}],159:[function(require,module,exports){
+},{"./selectPosition":153}],147:[function(require,module,exports){
 "use strict";
 
 var deferAlert = require("./deferAlert");
@@ -14033,7 +13701,7 @@ module.exports = function (parser) {
 };
 
 
-},{"./deferAlert":163}],160:[function(require,module,exports){
+},{"./deferAlert":150}],148:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
@@ -14185,7 +13853,7 @@ function DoShrink(model, selectionParser, doShrinkSpanToSelection, data) {
 }
 
 
-},{"../../idFactory":221,"../../model/AnnotationData/parseAnnotation/validateAnnotation":225,"../../model/isAlreadySpaned":233,"../spanAdjuster/blankSkipAdjuster":151,"../spanAdjuster/delimiterDetectAdjuster":152,"./SelectionParser":158,"./SpanManipulater":161,"./deferAlert":163}],161:[function(require,module,exports){
+},{"../../idFactory":231,"../../model/AnnotationData/parseAnnotation/validateAnnotation":235,"../../model/isAlreadySpaned":243,"../spanAdjuster/blankSkipAdjuster":169,"../spanAdjuster/delimiterDetectAdjuster":170,"./SelectionParser":146,"./SpanManipulater":149,"./deferAlert":150}],149:[function(require,module,exports){
 "use strict";
 
 module.exports = function (model, spanAdjuster) {
@@ -14280,37 +13948,46 @@ module.exports = function (model, spanAdjuster) {
 };
 
 
-},{"./selectPosition":165}],162:[function(require,module,exports){
+},{"./selectPosition":153}],150:[function(require,module,exports){
 "use strict";
 
-var dismissBrowserSelection = require("./dismissBrowserSelection");
+module.exports = function (message) {
+  // Show synchronous to smooth cancelation of selecton.
+  _.defer(_.partial(alert, message));
+};
+
+
+},{}],151:[function(require,module,exports){
+"use strict";
+
+module.exports = function () {
+  var selection = window.getSelection();
+  selection.collapse(document.body, 0);
+};
+
+
+},{}],152:[function(require,module,exports){
+"use strict";
+
+var _interopRequire = function (obj) {
+  return obj && (obj["default"] || obj);
+};
+
+var Pallet = _interopRequire(require("../../../component/Pallet"));
+
+var dismissBrowserSelection = _interopRequire(require("./dismissBrowserSelection"));
+
+var ElementEditor = _interopRequire(require("./ElementEditor"));
 
 module.exports = function (editor, model, spanConfig, command, modeAccordingToButton, typeContainer) {
   // will init.
-  var elementEditor = require("./ElementEditor")(editor, model, spanConfig, command, modeAccordingToButton, typeContainer),
-      pallet = require("../../../component/Pallet")(),
-      cancelSelect = function () {
-    pallet.hide();
-    model.selectionModel.clear();
-    dismissBrowserSelection();
-  },
-
-
-  // A relation is drawn by a jsPlumbConnection.
-  // The EventHandlar for clieck event of jsPlumbConnection.
-  jsPlumbConnectionClicked = function (jsPlumbConnection, event) {
-    // Check the event is processed already.
-    // Because the jsPlumb will call the event handler twice
-    // when a label is clicked that of a relation added after the initiation.
-    if (elementEditor.handler.jsPlumbConnectionClicked && !event.processedByTextae) {
-      elementEditor.handler.jsPlumbConnectionClicked(jsPlumbConnection, event);
-    }
-
-    event.processedByTextae = true;
-  };
+  var elementEditor = new ElementEditor(editor, model, spanConfig, command, modeAccordingToButton, typeContainer),
+      pallet = new Pallet();
 
   // Bind events.
-  elementEditor.on("cancel.select", cancelSelect);
+  elementEditor.on("cancel.select", function () {
+    return cancelSelect(pallet, model.selectionModel);
+  });
 
   pallet.on("type.select", function (label) {
     pallet.hide();
@@ -14326,40 +14003,48 @@ module.exports = function (editor, model, spanConfig, command, modeAccordingToBu
     editEntity: elementEditor.start.editEntity,
     noEdit: elementEditor.start.noEdit,
     showPallet: function (point) {
-      pallet.show(elementEditor.handler.typeContainer, point);
+      return pallet.show(elementEditor.handler.typeContainer, point);
     },
-    setNewType: function (newTypeName) {
-      elementEditor.handler.changeTypeOfSelected(newTypeName);
+    getTypeOfSelected: function () {
+      return elementEditor.handler.getSelectedType();
+    },
+    changeTypeOfSelected: function (newType) {
+      return elementEditor.handler.changeTypeOfSelected(newType);
     },
     hideDialogs: pallet.hide,
-    cancelSelect: cancelSelect,
-    jsPlumbConnectionClicked: jsPlumbConnectionClicked,
+    cancelSelect: function () {
+      return cancelSelect(pallet, model.selectionModel);
+    },
+    jsPlumbConnectionClicked: function (jsPlumbConnection, event) {
+      return jsPlumbConnectionClicked(elementEditor, jsPlumbConnection, event);
+    },
     getSelectedIdEditable: function () {
-      return elementEditor.handler.getSelectedIdEditable && elementEditor.handler.getSelectedIdEditable();
+      return elementEditor.handler.getSelectedIdEditable();
     }
   };
 };
 
+function cancelSelect(pallet, selectionModel) {
+  pallet.hide();
+  selectionModel.clear();
+  dismissBrowserSelection();
+}
 
-},{"../../../component/Pallet":65,"./ElementEditor":156,"./dismissBrowserSelection":164}],163:[function(require,module,exports){
-"use strict";
+// A relation is drawn by a jsPlumbConnection.
+// The EventHandlar for clieck event of jsPlumbConnection.
+function jsPlumbConnectionClicked(elementEditor, jsPlumbConnection, event) {
+  // Check the event is processed already.
+  // Because the jsPlumb will call the event handler twice
+  // when a label is clicked that of a relation added after the initiation.
+  if (elementEditor.handler.jsPlumbConnectionClicked && !event.processedByTextae) {
+    elementEditor.handler.jsPlumbConnectionClicked(jsPlumbConnection, event);
+  }
 
-module.exports = function (message) {
-  // Show synchronous to smooth cancelation of selecton.
-  _.defer(_.partial(alert, message));
-};
-
-
-},{}],164:[function(require,module,exports){
-"use strict";
-
-module.exports = function () {
-  var selection = window.getSelection();
-  selection.collapse(document.body, 0);
-};
+  event.processedByTextae = true;
+}
 
 
-},{}],165:[function(require,module,exports){
+},{"../../../component/Pallet":68,"./ElementEditor":143,"./dismissBrowserSelection":151}],153:[function(require,module,exports){
 "use strict";
 
 var getPosition = function (paragraph, span, node) {
@@ -14414,7 +14099,7 @@ module.exports = {
   getFocusPosition: getFocusPosition };
 
 
-},{}],166:[function(require,module,exports){
+},{}],154:[function(require,module,exports){
 "use strict";
 
 module.exports = function (editor, model) {
@@ -14539,7 +14224,522 @@ module.exports = function (editor, model) {
 };
 
 
-},{"./selectPosition":165}],167:[function(require,module,exports){
+},{"./selectPosition":153}],155:[function(require,module,exports){
+"use strict";
+
+module.exports = function (command, annotationData, selectionModel, clipBoard) {
+  var copyEntities = function () {
+    // Unique Entities. Because a entity is deplicate When a span and thats entity is selected.
+    clipBoard.clipBoard = _.uniq((function getEntitiesFromSelectedSpan() {
+      return _.flatten(selectionModel.span.all().map(function (spanId) {
+        return annotationData.span.get(spanId).getEntities();
+      }));
+    })().concat(selectionModel.entity.all())).map(function (entityId) {
+      // Map entities to types, because entities may be delete.
+      return annotationData.entity.get(entityId).type;
+    });
+  },
+      pasteEntities = function () {
+    // Make commands per selected spans from types in clipBoard.
+    var commands = _.flatten(selectionModel.span.all().map(function (spanId) {
+      return clipBoard.clipBoard.map(function (type) {
+        return command.factory.entityCreateCommand({
+          span: spanId,
+          type: type
+        });
+      });
+    }));
+
+    command.invoke(commands);
+  };
+
+  return {
+    copyEntities: copyEntities,
+    pasteEntities: pasteEntities
+  };
+};
+
+
+},{}],156:[function(require,module,exports){
+"use strict";
+
+var EventEmitter = require("events").EventEmitter,
+    replicate = require("./replicate"),
+    createEntityToSelectedSpan = require("./createEntityToSelectedSpan"),
+    DefaultEntityHandler = function (command, annotationData, selectionModel, modeAccordingToButton, spanConfig, entity) {
+  var emitter = new EventEmitter(),
+      replicateImple = function () {
+    replicate(command, annotationData, modeAccordingToButton, spanConfig, selectionModel.span.single(), entity);
+  },
+      createEntityImple = function () {
+    createEntityToSelectedSpan(command, selectionModel.span.all(), entity);
+
+    emitter.emit("createEntity");
+  };
+
+  return _.extend(emitter, {
+    replicate: replicateImple,
+    createEntity: createEntityImple
+  });
+};
+
+module.exports = DefaultEntityHandler;
+
+
+},{"./createEntityToSelectedSpan":162,"./replicate":164,"events":38}],157:[function(require,module,exports){
+"use strict";
+
+var toggleModification = require("./toggleModification");
+
+module.exports = function (command, annotationData, modeAccordingToButton, typeEditor) {
+  return {
+    negation: function () {
+      toggleModification(command, annotationData, modeAccordingToButton, "Negation", typeEditor);
+    },
+    speculation: function () {
+      toggleModification(command, annotationData, modeAccordingToButton, "Speculation", typeEditor);
+    }
+  };
+};
+
+
+},{"./toggleModification":165}],158:[function(require,module,exports){
+"use strict";
+
+var toRomeveSpanCommands = function (spanIds, command) {
+  return spanIds.map(command.factory.spanRemoveCommand);
+},
+    toRemoveEntityCommands = function (entityIds, command) {
+  return command.factory.entityRemoveCommand(entityIds);
+},
+    toRemoveRelationCommands = function (relationIds, command) {
+  return relationIds.map(command.factory.relationRemoveCommand);
+},
+    getAll = function (command, spanIds, entityIds, relationIds) {
+  return [].concat(toRemoveRelationCommands(relationIds, command), toRemoveEntityCommands(entityIds, command), toRomeveSpanCommands(spanIds, command));
+},
+    RemoveCommandsFromSelection = function (command, selectionModel) {
+  var spanIds = _.uniq(selectionModel.span.all()),
+      entityIds = _.uniq(selectionModel.entity.all()),
+      relationIds = _.uniq(selectionModel.relation.all());
+
+  return getAll(command, spanIds, entityIds, relationIds);
+};
+
+
+module.exports = RemoveCommandsFromSelection;
+
+
+},{}],159:[function(require,module,exports){
+"use strict";
+
+module.exports = function (annotationData, selectionModel) {
+  return {
+    selectLeftSpan: function () {
+      var spanId = selectionModel.span.single();
+      if (spanId) {
+        var span = annotationData.span.get(spanId);
+        selectionModel.clear();
+        if (span.left) {
+          selectionModel.span.add(span.left.id);
+        }
+      }
+    },
+    selectRightSpan: function () {
+      var spanId = selectionModel.span.single();
+      if (spanId) {
+        var span = annotationData.span.get(spanId);
+        selectionModel.clear();
+        if (span.right) {
+          selectionModel.span.add(span.right.id);
+        }
+      }
+    }
+  };
+};
+
+
+},{}],160:[function(require,module,exports){
+"use strict";
+
+module.exports = function (modeAccordingToButton, editMode) {
+  return {
+    toggleDetectBoundaryMode: function () {
+      modeAccordingToButton["boundary-detection"].toggle();
+    },
+    toggleRelationEditMode: function () {
+      if (modeAccordingToButton["relation-edit-mode"].value()) {
+        editMode.toInstance();
+      } else {
+        editMode.toRelation();
+      }
+    }
+  };
+};
+
+
+},{}],161:[function(require,module,exports){
+"use strict";
+
+module.exports = function (typeEditor) {
+  if (typeEditor.getSelectedIdEditable().length > 0) {
+    var currentType = typeEditor.getTypeOfSelected();
+
+    var newType = prompt("Please enter a new label", currentType);
+    if (newType) {
+      typeEditor.changeTypeOfSelected(newType);
+    }
+  }
+};
+
+
+},{}],162:[function(require,module,exports){
+"use strict";
+
+module.exports = function (command, spans, entity) {
+  var commands = spans.map(function (spanId) {
+    return command.factory.entityCreateCommand({
+      span: spanId,
+      type: entity.getDefaultType()
+    });
+  });
+
+  command.invoke(commands);
+};
+
+
+},{}],163:[function(require,module,exports){
+"use strict";
+
+var _interopRequire = function (obj) {
+  return obj && (obj["default"] || obj);
+};
+
+var RemoveCommandsFromSelection = _interopRequire(require("./RemoveCommandsFromSelection"));
+
+module.exports = function (command, selectionModel) {
+  var commands = new RemoveCommandsFromSelection(command, selectionModel);
+  command.invoke(commands);
+};
+
+
+},{"./RemoveCommandsFromSelection":158}],164:[function(require,module,exports){
+"use strict";
+
+var getDetectBoundaryFunc = function (modeAccordingToButton, spanConfig) {
+  if (modeAccordingToButton["boundary-detection"].value()) return spanConfig.isDelimiter;else return null;
+},
+    replicate = function (command, annotationData, modeAccordingToButton, spanConfig, spanId, entity) {
+  var detectBoundaryFunc = getDetectBoundaryFunc(modeAccordingToButton, spanConfig);
+
+  if (spanId) {
+    command.invoke([command.factory.spanReplicateCommand(entity.getDefaultType(), annotationData.span.get(spanId), detectBoundaryFunc)]);
+  } else {
+    alert("You can replicate span annotation when there is only span selected.");
+  }
+};
+
+module.exports = replicate;
+
+
+},{}],165:[function(require,module,exports){
+"use strict";
+
+var isModificationType = function (modification, modificationType) {
+  return modification.pred === modificationType;
+},
+    getSpecificModification = function (annotationData, id, modificationType) {
+  return annotationData.getModificationOf(id).filter(function (modification) {
+    return isModificationType(modification, modificationType);
+  });
+},
+    removeModification = function (command, annotationData, modificationType, typeEditor) {
+  return typeEditor.getSelectedIdEditable().map(function (id) {
+    var modification = getSpecificModification(annotationData, id, modificationType)[0];
+    return command.factory.modificationRemoveCommand(modification.id);
+  });
+},
+    createModification = function (command, annotationData, modificationType, typeEditor) {
+  return _.reject(typeEditor.getSelectedIdEditable(), function (id) {
+    return getSpecificModification(annotationData, id, modificationType).length > 0;
+  }).map(function (id) {
+    return command.factory.modificationCreateCommand({
+      obj: id,
+      pred: modificationType
+    });
+  });
+},
+    createCommand = function (command, annotationData, modificationType, typeEditor, has) {
+  if (has) {
+    return removeModification(command, annotationData, modificationType, typeEditor);
+  } else {
+    return createModification(command, annotationData, modificationType, typeEditor);
+  }
+},
+    toggleModification = function (command, annotationData, modeAccordingToButton, modificationType, typeEditor) {
+  var has = modeAccordingToButton[modificationType.toLowerCase()].value(),
+      commands = createCommand(command, annotationData, modificationType, typeEditor, has);
+  command.invoke(commands);
+};
+
+module.exports = toggleModification;
+
+
+},{}],166:[function(require,module,exports){
+"use strict";
+
+var _interopRequire = function (obj) {
+  return obj && (obj["default"] || obj);
+};
+
+var SettingDialog = _interopRequire(require("../../component/SettingDialog"));
+
+var TypeEditor = _interopRequire(require("./TypeEditor"));
+
+var EditMode = _interopRequire(require("./EditMode"));
+
+var DisplayInstance = _interopRequire(require("./DisplayInstance"));
+
+var setMode = _interopRequire(require("./setMode"));
+
+var changeLabelHandler = _interopRequire(require("./handlers/changeLabelHandler"));
+
+var ClipBoardHandler = _interopRequire(require("./handlers/ClipBoardHandler"));
+
+var DefaultEntityHandler = _interopRequire(require("./handlers/DefaultEntityHandler"));
+
+var removeSelectedElements = _interopRequire(require("./handlers/removeSelectedElements"));
+
+var ModificationHandler = _interopRequire(require("./handlers/ModificationHandler"));
+
+var SelectSpanHandler = _interopRequire(require("./handlers/SelectSpanHandler"));
+
+var ToggleButtonHandler = _interopRequire(require("./handlers/ToggleButtonHandler"));
+
+module.exports = function (editor, model, view, command, spanConfig, clipBoard, buttonController, typeGap, typeContainer) {
+  var typeEditor = new TypeEditor(editor, model, spanConfig, command, buttonController.modeAccordingToButton, typeContainer),
+      editMode = new EditMode(editor, model, typeEditor, buttonController.buttonStateHelper, buttonController.modeAccordingToButton),
+      displayInstance = new DisplayInstance(typeGap, editMode),
+      defaultEntityHandler = new DefaultEntityHandler(command, model.annotationData, model.selectionModel, buttonController.modeAccordingToButton, spanConfig, typeContainer.entity),
+      clipBoardHandler = new ClipBoardHandler(command, model.annotationData, model.selectionModel, clipBoard),
+      modificationHandler = new ModificationHandler(command, model.annotationData, buttonController.modeAccordingToButton, typeEditor),
+      toggleButtonHandler = new ToggleButtonHandler(buttonController.modeAccordingToButton, editMode),
+      selectSpanHandler = new SelectSpanHandler(model.annotationData, model.selectionModel),
+      showSettingDialog = new SettingDialog(editor, editMode, displayInstance),
+      editorSelected = function () {
+    typeEditor.hideDialogs();
+
+    // Select this editor.
+    editor.eventEmitter.emit("textae.editor.select");
+    buttonController.buttonStateHelper.propagate();
+  };
+
+  return {
+    init: function (mode, writable) {
+      // The jsPlumbConnetion has an original event mecanism.
+      // We can only bind the connection directory.
+      editor.on("textae.editor.jsPlumbConnection.add", function (event, jsPlumbConnection) {
+        jsPlumbConnection.bindClickAction(typeEditor.jsPlumbConnectionClicked);
+      });
+
+      defaultEntityHandler.on("createEntity", displayInstance.notifyNewInstance);
+      setMode(model.annotationData, editMode, mode, writable);
+    },
+    event: {
+      editorSelected: editorSelected,
+      copyEntities: clipBoardHandler.copyEntities,
+      removeSelectedElements: function () {
+        return removeSelectedElements(command, model.selectionModel);
+      },
+      createEntity: defaultEntityHandler.createEntity,
+      showPallet: typeEditor.showPallet,
+      replicate: defaultEntityHandler.replicate,
+      pasteEntities: clipBoardHandler.pasteEntities,
+      changeLabel: function () {
+        return changeLabelHandler(typeEditor);
+      },
+      cancelSelect: typeEditor.cancelSelect,
+      selectLeftSpan: selectSpanHandler.selectLeftSpan,
+      selectRightSpan: selectSpanHandler.selectRightSpan,
+      toggleDetectBoundaryMode: toggleButtonHandler.toggleDetectBoundaryMode,
+      toggleRelationEditMode: toggleButtonHandler.toggleRelationEditMode,
+      negation: modificationHandler.negation,
+      speculation: modificationHandler.speculation,
+      showSettingDialog: showSettingDialog
+    }
+  };
+};
+
+
+},{"../../component/SettingDialog":70,"./DisplayInstance":133,"./EditMode":139,"./TypeEditor":152,"./handlers/ClipBoardHandler":155,"./handlers/DefaultEntityHandler":156,"./handlers/ModificationHandler":157,"./handlers/SelectSpanHandler":159,"./handlers/ToggleButtonHandler":160,"./handlers/changeLabelHandler":161,"./handlers/removeSelectedElements":163,"./setMode":167}],167:[function(require,module,exports){
+"use strict";
+
+var _interopRequire = function (obj) {
+  return obj && (obj["default"] || obj);
+};
+
+var setDefaultView = _interopRequire(require("./setDefaultView"));
+
+var hasError = require("../../model/AnnotationData/parseAnnotation/validateAnnotation").hasError;
+module.exports = function (annotationData, editMode, mode, writable) {
+  var isEditable = mode === "edit";
+
+  editMode.init(isEditable);
+  annotationData.on("all.change", function (annotationData) {
+    return setDefaultView(editMode, annotationData);
+  });
+
+  if (isEditable) {
+    annotationData.on("all.change", function (annotationData, multitrack, reject) {
+      writable.forceModified(false);
+
+      if (multitrack) {
+        toastr.success("track annotations have been merged to root annotations.");
+        writable.forceModified(true);
+      }
+
+      if (hasError(reject)) {
+        writable.forceModified(true);
+      }
+    });
+  }
+};
+
+
+},{"../../model/AnnotationData/parseAnnotation/validateAnnotation":235,"./setDefaultView":168}],168:[function(require,module,exports){
+"use strict";
+
+module.exports = function (editMode, annotationData) {
+  // Change view mode accoding to the annotation data.
+  if (annotationData.relation.some() || annotationData.span.multiEntities().length > 0) {
+    editMode.toInstance();
+  } else {
+    editMode.toTerm();
+  }
+};
+
+
+},{}],169:[function(require,module,exports){
+"use strict";
+
+var skipBlank = require("./skipBlank");
+
+module.exports = {
+  backFromBegin: function (str, position, spanConfig) {
+    return skipBlank.forward(str, position, spanConfig.isBlankCharacter);
+  },
+  forwardFromEnd: function (str, position, spanConfig) {
+    return skipBlank.back(str, position, spanConfig.isBlankCharacter);
+  },
+  forwardFromBegin: function (str, position, spanConfig) {
+    return skipBlank.forward(str, position, spanConfig.isBlankCharacter);
+  },
+  backFromEnd: function (str, position, spanConfig) {
+    return skipBlank.back(str, position, spanConfig.isBlankCharacter);
+  }
+};
+
+
+},{"./skipBlank":171}],170:[function(require,module,exports){
+"use strict";
+
+var skipCharacters = require("./skipCharacters"),
+    skipBlank = require("./skipBlank"),
+    getPrev = function (str, position) {
+  return [str.charAt(position), str.charAt(position - 1)];
+},
+    getNext = function (str, position) {
+  return [str.charAt(position), str.charAt(position + 1)];
+},
+    backToDelimiter = function (str, position, isDelimiter) {
+  return skipCharacters(getPrev, -1, str, position, function (chars) {
+    // Proceed the position between two characters as (!delimiter delimiter) || (delimiter !delimiter) || (!delimiter !delimiter).     
+    return chars[1] && !isDelimiter(chars[0]) && !isDelimiter(chars[1]);
+  });
+},
+    skipToDelimiter = function (str, position, isDelimiter) {
+  return skipCharacters(getNext, 1, str, position, function (chars) {
+    // Proceed the position between two characters as (!delimiter delimiter) || (delimiter !delimiter) || (!delimiter !delimiter).     
+    // Return false to stop an infinite loop when the character undefined.
+    return chars[1] && !isDelimiter(chars[0]) && !isDelimiter(chars[1]);
+  });
+},
+    isNotWord = function (isBlankCharacter, isDelimiter, chars) {
+  // The word is (no charactor || blank || delimiter)(!delimiter).
+  return chars[0] !== "" && !isBlankCharacter(chars[1]) && !isDelimiter(chars[1]) || isDelimiter(chars[0]);
+},
+    skipToWord = function (str, position, isWordEdge) {
+  return skipCharacters(getPrev, 1, str, position, isWordEdge);
+},
+    backToWord = function (str, position, isWordEdge) {
+  return skipCharacters(getNext, -1, str, position, isWordEdge);
+},
+    backFromBegin = function (str, beginPosition, spanConfig) {
+  var nonEdgePos = skipBlank.forward(str, beginPosition, spanConfig.isBlankCharacter),
+      nonDelimPos = backToDelimiter(str, nonEdgePos, spanConfig.isDelimiter);
+
+  return nonDelimPos;
+},
+    forwardFromEnd = function (str, endPosition, spanConfig) {
+  var nonEdgePos = skipBlank.back(str, endPosition, spanConfig.isBlankCharacter),
+      nonDelimPos = skipToDelimiter(str, nonEdgePos, spanConfig.isDelimiter);
+
+  return nonDelimPos;
+},
+
+
+// adjust the beginning position of a span for shortening
+forwardFromBegin = function (str, beginPosition, spanConfig) {
+  var isWordEdge = _.partial(isNotWord, spanConfig.isBlankCharacter, spanConfig.isDelimiter);
+  return skipToWord(str, beginPosition, isWordEdge);
+},
+
+
+// adjust the end position of a span for shortening
+backFromEnd = function (str, endPosition, spanConfig) {
+  var isWordEdge = _.partial(isNotWord, spanConfig.isBlankCharacter, spanConfig.isDelimiter);
+  return backToWord(str, endPosition, isWordEdge);
+};
+
+module.exports = {
+  backFromBegin: backFromBegin,
+  forwardFromEnd: forwardFromEnd,
+  forwardFromBegin: forwardFromBegin,
+  backFromEnd: backFromEnd
+};
+
+
+},{"./skipBlank":171,"./skipCharacters":172}],171:[function(require,module,exports){
+"use strict";
+
+var skipCharacters = require("./skipCharacters"),
+    getNow = function (str, position) {
+  return str.charAt(position);
+},
+    skipForwardBlank = function (str, position, isBlankCharacter) {
+  return skipCharacters(getNow, 1, str, position, isBlankCharacter);
+},
+    skipBackBlank = function (str, position, isBlankCharacter) {
+  return skipCharacters(getNow, -1, str, position, isBlankCharacter);
+};
+
+module.exports = {
+  forward: skipForwardBlank,
+  back: skipBackBlank
+};
+
+
+},{"./skipCharacters":172}],172:[function(require,module,exports){
+"use strict";
+
+module.exports = function (getChars, step, str, position, predicate) {
+  while (predicate(getChars(str, position))) position += step;
+
+  return position;
+};
+
+
+},{}],173:[function(require,module,exports){
 "use strict";
 
 var defaults = {
@@ -14584,10 +14784,10 @@ module.exports = function () {
 };
 
 
-},{}],168:[function(require,module,exports){
+},{}],174:[function(require,module,exports){
 "use strict";
 
-var reduce2hash = require("../reduce2hash"),
+var reduce2hash = require("../../util/reduce2hash"),
     uri = require("../uri"),
     DEFAULT_TYPE = "something",
     TypeContainer = function (getActualTypesFunction, defaultColor) {
@@ -14665,7 +14865,7 @@ module.exports = function (model) {
 };
 
 
-},{"../reduce2hash":234,"../uri":236}],169:[function(require,module,exports){
+},{"../../util/reduce2hash":264,"../uri":246}],175:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
@@ -14709,140 +14909,219 @@ function renderLazyRelationAll(relations) {
 }
 
 
-},{"./GridLayout":171,"events":38}],170:[function(require,module,exports){
+},{"./GridLayout":181,"events":38}],176:[function(require,module,exports){
 "use strict";
 
-var Cache = function () {
-  var cache = {},
-      set = function (key, value) {
-    cache[key] = value;
-    return value;
-  },
-      get = function (key) {
-    return cache[key];
-  },
-      remove = function (key) {
-    delete cache[key];
-  },
-      clear = function () {
-    cache = {};
-  };
+var _interopRequire = function (obj) {
+  return obj && (obj["default"] || obj);
+};
 
-  return {
-    set: set,
-    get: get,
-    remove: remove,
-    clear: clear,
-    // To debug.
-    keys: function () {
-      return Object.keys(cache);
-    }
-  };
-},
-    cacheMan = (function () {
+var LesserMap = _interopRequire(require("./LesserMap"));
+
+module.exports = function () {
   var caches = [],
-      add = function (cache) {
-    caches.push(cache);
-  },
-      getFromCache = function (cache, getPositionFunciton, id) {
-    return cache.get(id) ? cache.get(id) : cache.set(id, getPositionFunciton(id));
-  },
-      create = function (func) {
-    var cache = new Cache();
-    add(cache);
-    return _.partial(getFromCache, cache, func);
-  },
-      clear = function () {
-    caches.forEach(function (cache) {
-      cache.clear();
-    });
+      factory = function (getter) {
+    return create(caches, getter);
   };
 
-  return {
-    create: create,
-    clear: clear
+  factory.clearAllCache = function () {
+    return clearAll(caches);
   };
-})(),
-    domUtil = require("./domUtil"),
-    createNewCache = function (editor, entityModel) {
+  return factory;
+};
+
+function create(caches, getter) {
+  var map = new LesserMap();
+
+  add(caches, map);
+  return function (id) {
+    return getFromCache(map, getter, id);
+  };
+}
+
+function add(caches, cache) {
+  caches.push(cache);
+}
+
+function getFromCache(cache, getter, id) {
+  if (!cache.has(id)) {
+    cache.set(id, getter(id));
+  }
+
+  return cache.get(id);
+}
+
+function clearAll(caches) {
+  caches.forEach(function (cache) {
+    return cache.clear();
+  });
+}
+
+
+},{"./LesserMap":178}],177:[function(require,module,exports){
+"use strict";
+
+var _interopRequire = function (obj) {
+  return obj && (obj["default"] || obj);
+};
+
+var LesserMap = _interopRequire(require("./LesserMap"));
+
+module.exports = function (entityModel) {
   // The chache for position of grids.
   // This is updated at arrange position of grids.
   // This is referenced at create or move relations.
-  var gridPositionCache = _.extend(new Cache(), {
+  var map = new LesserMap();
+
+  return _.extend(map, {
     isGridPrepared: function (entityId) {
-      var spanId = entityModel.get(entityId).span;
-      return gridPositionCache.get(spanId);
+      return isGridPrepared(entityModel, map, entityId);
     }
   });
+};
 
-  // The posion of the text-box to calculate span postion;
-  var getTextNodeFunc = function () {
-    return editor.find(".textae-editor__body__text-box").offset();
-  },
-      getTextNode = cacheMan.create(getTextNodeFunc),
-      getSpanFunc = function (spanId) {
-    var $span = domUtil.selector.span.get(spanId);
-    if ($span.length === 0) {
-      throw new Error("span is not renderd : " + spanId);
-    }
+function isGridPrepared(entityModel, map, entityId) {
+  var spanId = entityModel.get(entityId).span;
+  return map.get(spanId);
+}
 
-    var offset = $span.offset();
-    return {
-      top: offset.top - getTextNode().top,
-      left: offset.left - getTextNode().left,
-      width: $span.outerWidth(),
-      height: $span.outerHeight(),
-      center: $span.get(0).offsetLeft + $span.outerWidth() / 2
-    };
-  },
-      getEntityFunc = function (entityId) {
-    var $entity = domUtil.selector.entity.get(entityId, editor);
-    if ($entity.length === 0) {
-      throw new Error("entity is not rendered : " + entityId);
-    }
 
-    var spanId = entityModel.get(entityId).span;
-    var gridPosition = gridPositionCache.get(spanId);
-    var entityElement = $entity.get(0);
-    return {
-      top: gridPosition.top + entityElement.offsetTop,
-      center: gridPosition.left + entityElement.offsetLeft + $entity.outerWidth() / 2 };
-  };
+},{"./LesserMap":178}],178:[function(require,module,exports){
+"use strict";
 
-  // The connectCache has jsPlumbConnectors to call jsPlumbConnector instance to edit an according dom object.
-  // This is refered by render.relation and domUtil.selector.relation.
-  var connectCache = new Cache();
-  var toConnect = function (relationId) {
-    return connectCache.get(relationId);
-  };
+var publicApis = ["set", "get", "has", "keys", "delete", "clear"];
 
+module.exports = function () {
+  var m = new Map(),
+      api = publicApis.reduce(function (api, name) {
+    api[name] = Map.prototype[name].bind(m);
+    return api;
+  }, {});
+
+  return api;
+};
+
+
+},{}],179:[function(require,module,exports){
+"use strict";
+
+var _interopRequire = function (obj) {
+  return obj && (obj["default"] || obj);
+};
+
+var idFactory = _interopRequire(require("../../idFactory"));
+
+var CachedGetterFactory = _interopRequire(require("./CachedGetterFactory"));
+
+var factory = new CachedGetterFactory();
+
+module.exports = function (editor, entityModel, gridPositionCache) {
   // The cache for span positions.
   // Getting the postion of spans is too slow about 5-10 ms per a element in Chrome browser. For example offsetTop property.
   // This cache is big effective for the initiation, and little effective for resize.
-  var getSpan = cacheMan.create(getSpanFunc);
-  var getEntity = cacheMan.create(getEntityFunc);
+  var cachedGetSpan = factory(function (spanId) {
+    return getSpan(editor, spanId);
+  }),
+      cachedGetEntity = factory(function (entityId) {
+    return getEntity(editor, entityModel, gridPositionCache, entityId);
+  });
 
   return {
-    reset: cacheMan.clear,
-    getSpan: getSpan,
-    getEntity: getEntity,
-    gridPositionCache: gridPositionCache,
-    getGrid: gridPositionCache.get,
-    setGrid: gridPositionCache.set,
-    toConnect: toConnect,
-    connectCache: connectCache
+    reset: factory.clearAllCache,
+    getSpan: cachedGetSpan,
+    getEntity: cachedGetEntity
   };
 };
+
+function getSpan(editor, spanId) {
+  var span = editor[0].querySelector("#" + spanId);
+  if (!span) {
+    throw new Error("span is not renderd : " + spanId);
+  }
+
+  // An element.offsetTop and element.offsetLeft does not work in the Firefox,
+  // when much spans are loaded like http://pubannotation.org/docs/sourcedb/PMC/sourceid/1315279/divs/10/annotations.json.
+  var spanBox = span.getBoundingClientRect(),
+      textBox = span.offsetParent.getBoundingClientRect();
+
+  return {
+    top: spanBox.top - textBox.top,
+    left: spanBox.left - textBox.left,
+    width: span.offsetWidth,
+    height: span.offsetHeight,
+    center: span.offsetLeft + span.offsetWidth / 2
+  };
+}
+
+function getEntity(editor, entityModel, gridPositionCache, entityId) {
+  var entity = editor[0].querySelector("#" + idFactory.makeEntityDomId(editor, entityId));
+  if (!entity) {
+    throw new Error("entity is not rendered : " + entityId);
+  }
+
+  var spanId = entityModel.get(entityId).span,
+      gridPosition = gridPositionCache.get(spanId);
+
+  return {
+    top: gridPosition.top + entity.offsetTop,
+    center: gridPosition.left + entity.offsetLeft + entity.offsetWidth / 2 };
+}
+
+
+},{"../../idFactory":231,"./CachedGetterFactory":176}],180:[function(require,module,exports){
+"use strict";
+
+var _interopRequire = function (obj) {
+  return obj && (obj["default"] || obj);
+};
+
+var GridPosition = _interopRequire(require("./GridPosition"));
+
+var SpanAndEntityPosition = _interopRequire(require("./SpanAndEntityPosition"));
+
+var LesserMap = _interopRequire(require("./LesserMap"));
 
 // Utility functions for get positions of DOM elemnts.
 module.exports = function (editor, entityModel) {
   // The editor has onry one position cache.
-  editor.postionCache = editor.postionCache || createNewCache(editor, entityModel);
+  editor.postionCache = editor.postionCache || create(editor, entityModel);
   return editor.postionCache;
 };
 
+function create(editor, entityModel) {
+  var gridPosition = new GridPosition(entityModel),
+      spanAndEntityPosition = new SpanAndEntityPosition(editor, entityModel, gridPosition),
+      grid = new GridApi(gridPosition),
+      relation = new RelationApi();
 
-},{"./domUtil":210}],171:[function(require,module,exports){
+  return _.extend(spanAndEntityPosition, grid, relation);
+}
+
+function GridApi(gridPosition) {
+  return {
+    gridPositionCache: gridPosition,
+    getGrid: gridPosition.get,
+    setGrid: gridPosition.set };
+}
+
+function RelationApi() {
+  var newCache = new LesserMap(),
+
+
+  // The connectCache has jsPlumbConnectors to call jsPlumbConnector instance to edit an according dom object.
+  // This is refered by render.relation and domUtil.selector.relation.
+  api = {
+    connectCache: newCache,
+    toConnect: function (relationId) {
+      return newCache.get(relationId);
+    }
+  };
+
+  return api;
+}
+
+
+},{"./GridPosition":177,"./LesserMap":178,"./SpanAndEntityPosition":179}],181:[function(require,module,exports){
 "use strict";
 
 var filterVisibleGrid = function (grid) {
@@ -14933,7 +15212,7 @@ module.exports = function (editor, annotationData, typeContainer) {
 };
 
 
-},{"./DomPositionCache":170,"./domUtil":210,"./getGridPosition":211,"bluebird":3}],172:[function(require,module,exports){
+},{"./DomPositionCache":180,"./domUtil":220,"./getGridPosition":221,"bluebird":3}],182:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
@@ -14962,25 +15241,27 @@ function processAccosiatedRelation(entity, domPositionCaChe, func, entityId) {
 }
 
 
-},{"./DomPositionCache":170}],173:[function(require,module,exports){
+},{"./DomPositionCache":180}],183:[function(require,module,exports){
 "use strict";
 
 // Arrange a position of the pane to center entities when entities width is longer than pane width.
 module.exports = function (pane) {
-  var paneWidth = pane.outerWidth();
-  var entitiesWidth = pane.find(".textae-editor__entity").toArray().map(function (e) {
+  var paneWidth = pane.offsetWidth,
+      widthOfentities = Array.prototype.map.call(pane.children, function (e) {
     return e.offsetWidth;
-  }).reduce(function (pv, cv) {
-    return pv + cv;
+  }).reduce(function (sum, width) {
+    return sum + width;
   }, 0);
 
-  pane.css({
-    left: entitiesWidth > paneWidth ? (paneWidth - entitiesWidth) / 2 : 0
-  });
+  if (widthOfentities > paneWidth) {
+    pane.style.left = (paneWidth - widthOfentities) / 2 + "px";
+  } else {
+    pane.style.left = null;
+  }
 };
 
 
-},{}],174:[function(require,module,exports){
+},{}],184:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
@@ -15011,7 +15292,7 @@ module.exports = function (editor, model, typeContainer, gridRenderer, modificat
 };
 
 
-},{"../../Selector":208,"./createEntityUnlessBlock":176,"./removeEntityElement":181}],175:[function(require,module,exports){
+},{"../../Selector":218,"./createEntityUnlessBlock":186,"./removeEntityElement":191}],185:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
@@ -15037,7 +15318,7 @@ module.exports = function (editor, namspace, typeContainer, gridRenderer, modifi
 
   if ($pane.find("#" + entityDomId).length === 0) {
     $pane.append(createEntityElement(editor, typeContainer, modification, entity));
-    arrangePositionOfPane($pane);
+    arrangePositionOfPane($pane[0]);
   }
 };
 
@@ -15053,7 +15334,7 @@ function createEntityElement(editor, typeContainer, modification, entity) {
 }
 
 
-},{"../../../idFactory":221,"./arrangePositionOfPane":173,"./getTypeElement":179}],176:[function(require,module,exports){
+},{"../../../idFactory":231,"./arrangePositionOfPane":183,"./getTypeElement":189}],186:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
@@ -15073,7 +15354,7 @@ module.exports = function (editor, namespace, typeContainer, gridRenderer, modif
 };
 
 
-},{"./create":175}],177:[function(require,module,exports){
+},{"./create":185}],187:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
@@ -15110,7 +15391,7 @@ module.exports = function (type) {
 };
 
 
-},{"../../../uri":236}],178:[function(require,module,exports){
+},{"../../../uri":246}],188:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
@@ -15124,7 +15405,7 @@ module.exports = function (spanId, type) {
 };
 
 
-},{"../../../idFactory":221}],179:[function(require,module,exports){
+},{"../../../idFactory":231}],189:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
@@ -15238,7 +15519,7 @@ function getGrid(gridRenderer, spanId) {
 }
 
 
-},{"../../../idFactory":221,"../../../uri":236,"../../domUtil":210,"./getDisplayName":177,"./getTypeDom":178}],180:[function(require,module,exports){
+},{"../../../idFactory":231,"../../../uri":246,"../../domUtil":220,"./getDisplayName":187,"./getTypeDom":188}],190:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
@@ -15313,7 +15594,7 @@ function doesSpanHasNoEntity(annotationData, spanId) {
 }
 
 
-},{"../../../idFactory":221,"../../../uri":236,"../../Selector":208,"../../domUtil":210,"../ModificationRenderer":184,"./changeTypeOfExists":174,"./create":175,"./createEntityUnlessBlock":176,"./getDisplayName":177,"./getTypeDom":178,"./removeEntityElement":181,"events":38}],181:[function(require,module,exports){
+},{"../../../idFactory":231,"../../../uri":246,"../../Selector":218,"../../domUtil":220,"../ModificationRenderer":194,"./changeTypeOfExists":184,"./create":185,"./createEntityUnlessBlock":186,"./getDisplayName":187,"./getTypeDom":188,"./removeEntityElement":191,"events":38}],191:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
@@ -15335,7 +15616,7 @@ module.exports = function (editor, annotationData, entity) {
     getTypeDom(entity.span, oldType).remove();
   } else {
     // Arrage the position of TypePane, because number of entities decrease.
-    arrangePositionOfPane(getTypeDom(entity.span, oldType).find(".textae-editor__entity-pane"));
+    arrangePositionOfPane(getTypeDom(entity.span, oldType).find(".textae-editor__entity-pane")[0]);
   }
 };
 
@@ -15346,7 +15627,7 @@ function doesTypeHasNoEntity(annotationData, entity, typeName) {
 }
 
 
-},{"../../domUtil":210,"./arrangePositionOfPane":173,"./getTypeDom":178}],182:[function(require,module,exports){
+},{"../../domUtil":220,"./arrangePositionOfPane":183,"./getTypeDom":188}],192:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
@@ -15362,7 +15643,7 @@ module.exports = function (editor, domPositionCache) {
       render = _.partial(createGrid, domPositionCache, container),
       destroyGrid = function (spanId) {
     domUtil.selector.grid.get(spanId).remove();
-    domPositionCache.gridPositionCache.remove(spanId);
+    domPositionCache.gridPositionCache["delete"](spanId);
   };
 
   return {
@@ -15384,7 +15665,7 @@ function createGrid(domPositionCache, container, spanId) {
 }
 
 
-},{"../domUtil":210,"./getAnnotationBox":202}],183:[function(require,module,exports){
+},{"../domUtil":220,"./getAnnotationBox":212}],193:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
@@ -15476,7 +15757,7 @@ function bindeToModelEvent(emitter, annotationData, eventName, handler) {
 }
 
 
-},{"../TypeStyle":209,"./EntityRenderer":180,"./GridRenderer":182,"./RenderAll":190,"./SpanRenderer":198,"./getAnnotationBox":202,"./renderModification":206,"./renderParagraph":207,"events":38}],184:[function(require,module,exports){
+},{"../TypeStyle":219,"./EntityRenderer":190,"./GridRenderer":192,"./RenderAll":200,"./SpanRenderer":208,"./getAnnotationBox":212,"./renderModification":216,"./renderParagraph":217,"events":38}],194:[function(require,module,exports){
 "use strict";
 
 var allModificationClasses = "textae-editor__negation textae-editor__speculation";
@@ -15500,7 +15781,7 @@ function update(annotationData, domElement, objectId) {
 }
 
 
-},{}],185:[function(require,module,exports){
+},{}],195:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
@@ -15514,14 +15795,14 @@ module.exports = function (editor, annotationData, relationId) {
   var connect = domPositionCaChe.toConnect(relationId);
 
   if (!connect) {
-    throw "no connect";
+    throw new Error("no connect for id: " + relationId);
   }
 
   return connect;
 };
 
 
-},{"../../DomPositionCache":170}],186:[function(require,module,exports){
+},{"../../DomPositionCache":180}],196:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
@@ -15559,7 +15840,6 @@ module.exports = function (editor, model, jsPlumbInstance) {
         resolve();
       } catch (error) {
         reject(error);
-        throw error;
       }
     });
   });
@@ -15596,7 +15876,7 @@ function resetAllCurviness(editor, annotationData, relations) {
 }
 
 
-},{"./Connect":185,"./determineCurviness":187,"./jsPlumbArrowOverlayUtil":189,"bluebird":3}],187:[function(require,module,exports){
+},{"./Connect":195,"./determineCurviness":197,"./jsPlumbArrowOverlayUtil":199,"bluebird":3}],197:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
@@ -15642,7 +15922,7 @@ function toAnchors(relation) {
 }
 
 
-},{"../../DomPositionCache":170}],188:[function(require,module,exports){
+},{"../../DomPositionCache":180}],198:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
@@ -15972,7 +16252,7 @@ module.exports = function (editor, model, typeContainer) {
       remove = function (relation) {
     var connect = new Connect(editor, model.annotationData, relation.id);
     jsPlumbInstance.detach(connect);
-    domPositionCaChe.connectCache.remove(relation.id);
+    domPositionCaChe.connectCache["delete"](relation.id);
 
     // Set the flag dead already to delay selection.
     connect.dead = true;
@@ -16003,7 +16283,7 @@ module.exports = function (editor, model, typeContainer) {
 };
 
 
-},{"../../DomPositionCache":170,"../../domUtil":210,"../ModificationRenderer":184,"../getAnnotationBox":202,"./Connect":185,"./arrangePositionAll":186,"./determineCurviness":187,"./jsPlumbArrowOverlayUtil":189,"bluebird":3}],189:[function(require,module,exports){
+},{"../../DomPositionCache":180,"../../domUtil":220,"../ModificationRenderer":194,"../getAnnotationBox":212,"./Connect":195,"./arrangePositionAll":196,"./determineCurviness":197,"./jsPlumbArrowOverlayUtil":199,"bluebird":3}],199:[function(require,module,exports){
 "use strict";
 
 var // Overlay styles for jsPlubm connections.
@@ -16089,7 +16369,7 @@ module.exports = {
 };
 
 
-},{}],190:[function(require,module,exports){
+},{}],200:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
@@ -16129,7 +16409,7 @@ function renderAllRelation(annotationData, relationRenderer) {
 }
 
 
-},{"./getAnnotationBox":202}],191:[function(require,module,exports){
+},{"./getAnnotationBox":212}],201:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
@@ -16172,7 +16452,7 @@ function renderChildresnSpan(span, create) {
 }
 
 
-},{"./destroyChildrenSpan":196,"./getBigBrother":197,"./renderClassOfSpan":199,"./renderEntitiesOfSpan":200,"./renderSingleSpan":201}],192:[function(require,module,exports){
+},{"./destroyChildrenSpan":206,"./getBigBrother":207,"./renderClassOfSpan":209,"./renderEntitiesOfSpan":210,"./renderSingleSpan":211}],202:[function(require,module,exports){
 "use strict";
 
 module.exports = function (textNode, offset) {
@@ -16183,7 +16463,7 @@ module.exports = function (textNode, offset) {
 };
 
 
-},{}],193:[function(require,module,exports){
+},{}],203:[function(require,module,exports){
 "use strict";
 
 module.exports = function (span) {
@@ -16195,7 +16475,7 @@ module.exports = function (span) {
 };
 
 
-},{}],194:[function(require,module,exports){
+},{}],204:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
@@ -16229,7 +16509,7 @@ function validateOffset(textNode, offset) {
 }
 
 
-},{"./createRange":192}],195:[function(require,module,exports){
+},{"./createRange":202}],205:[function(require,module,exports){
 "use strict";
 
 module.exports = function (spanId) {
@@ -16246,7 +16526,7 @@ module.exports = function (spanId) {
 };
 
 
-},{}],196:[function(require,module,exports){
+},{}],206:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
@@ -16275,7 +16555,7 @@ function destroySpanRecurcive(span) {
 }
 
 
-},{"./destroy":195}],197:[function(require,module,exports){
+},{"./destroy":205}],207:[function(require,module,exports){
 "use strict";
 
 // A big brother is brother node on a structure at rendered.
@@ -16293,7 +16573,7 @@ module.exports = function (span, topLevelSpans) {
 };
 
 
-},{}],198:[function(require,module,exports){
+},{}],208:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
@@ -16321,7 +16601,7 @@ module.exports = function (annotationData, isBlockFunc, renderEntityFunc) {
 };
 
 
-},{"./create":191,"./destroy":195,"./renderClassOfSpan":199}],199:[function(require,module,exports){
+},{"./create":201,"./destroy":205,"./renderClassOfSpan":209}],209:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
@@ -16358,7 +16638,7 @@ function hasType(span, isBlockFunc) {
 }
 
 
-},{"not":61}],200:[function(require,module,exports){
+},{"not":61}],210:[function(require,module,exports){
 "use strict";
 
 module.exports = function (span, entityIdToModelFunc, renderEntityFunc) {
@@ -16372,7 +16652,7 @@ function renderEntitiesOfType(type, entityIdToModelFunc, renderEntityFunc) {
 }
 
 
-},{}],201:[function(require,module,exports){
+},{}],211:[function(require,module,exports){
 "use strict";
 
 var _slicedToArray = function (arr, i) {
@@ -16457,7 +16737,7 @@ function getParentModel(span) {
 }
 
 
-},{"./createSpanElement":193,"./createSpanRange":194}],202:[function(require,module,exports){
+},{"./createSpanElement":203,"./createSpanRange":204}],212:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
@@ -16472,7 +16752,7 @@ var getEditorBody = _interopRequire(require("./getEditorBody"));
 module.exports = _.compose(_.partial(getElement, "div", "textae-editor__body__annotation-box"), getEditorBody);
 
 
-},{"./getEditorBody":203,"./getElement":204}],203:[function(require,module,exports){
+},{"./getEditorBody":213,"./getElement":214}],213:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
@@ -16485,7 +16765,7 @@ var getElement = _interopRequire(require("./getElement"));
 module.exports = _.partial(getElement, "div", "textae-editor__body");
 
 
-},{"./getElement":204}],204:[function(require,module,exports){
+},{"./getElement":214}],214:[function(require,module,exports){
 "use strict";
 
 module.exports = function (tagName, className, $parent) {
@@ -16498,7 +16778,7 @@ module.exports = function (tagName, className, $parent) {
 };
 
 
-},{}],205:[function(require,module,exports){
+},{}],215:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
@@ -16522,7 +16802,7 @@ module.exports = function (editor, model, buttonStateHelper, typeContainer, type
 };
 
 
-},{"../DomPositionCache":170,"./Initiator":183}],206:[function(require,module,exports){
+},{"../DomPositionCache":180,"./Initiator":193}],216:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
@@ -16541,7 +16821,7 @@ module.exports = function (annotationData, modelType, modification, renderer, bu
 };
 
 
-},{"capitalize":35}],207:[function(require,module,exports){
+},{"capitalize":35}],217:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
@@ -16549,6 +16829,8 @@ var _interopRequire = function (obj) {
 };
 
 var Handlebars = _interopRequire(require("handlebars"));
+
+var getTextBox = _interopRequire(require("../getTextBox"));
 
 var getElement = _interopRequire(require("./getElement"));
 
@@ -16558,11 +16840,8 @@ var source = "\n{{#paragraphs}}\n<p class=\"textae-editor__body__text-box__parag
 
 var tepmlate = Handlebars.compile(source);
 
-// Get the display area for text and spans.
-var getTextBox = _.compose(_.partial(getElement, "div", "textae-editor__body__text-box"), getEditorBody);
-
 module.exports = function (editor, paragraphs) {
-  getTextBox(editor)[0].innerHTML = createTaggedSourceDoc(paragraphs);
+  getTextBox(editor[0]).innerHTML = createTaggedSourceDoc(paragraphs);
 };
 
 // the Souce document has multi paragraphs that are splited by '\n'.
@@ -16573,7 +16852,7 @@ function createTaggedSourceDoc(paragraphs) {
 }
 
 
-},{"./getEditorBody":203,"./getElement":204,"handlebars":60}],208:[function(require,module,exports){
+},{"../getTextBox":223,"./getEditorBody":213,"./getElement":214,"handlebars":60}],218:[function(require,module,exports){
 "use strict";
 
 var selectionClass = require("./selectionClass"),
@@ -16639,7 +16918,7 @@ module.exports = function (editor, model) {
 };
 
 
-},{"./DomPositionCache":170,"./domUtil":210,"./selectionClass":215}],209:[function(require,module,exports){
+},{"./DomPositionCache":180,"./domUtil":220,"./selectionClass":226}],219:[function(require,module,exports){
 "use strict";
 
 module.exports = function (newValue) {
@@ -16650,7 +16929,7 @@ module.exports = function (newValue) {
 };
 
 
-},{}],210:[function(require,module,exports){
+},{}],220:[function(require,module,exports){
 "use strict";
 
 var idFactory = require("../idFactory");
@@ -16675,7 +16954,7 @@ module.exports = {
 };
 
 
-},{"../idFactory":221}],211:[function(require,module,exports){
+},{"../idFactory":231}],221:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
@@ -16713,7 +16992,7 @@ function pullUpGridOverDescendants(getSpan, typeContainer, typeGapValue, span) {
 }
 
 
-},{"./getHeightIncludeDescendantGrids":212}],212:[function(require,module,exports){
+},{"./getHeightIncludeDescendantGrids":222}],222:[function(require,module,exports){
 "use strict";
 
 module.exports = getHeightIncludeDescendantGrids;
@@ -16729,7 +17008,16 @@ function getHeightIncludeDescendantGrids(span, typeContainer, typeGapValue) {
 }
 
 
-},{}],213:[function(require,module,exports){
+},{}],223:[function(require,module,exports){
+"use strict";
+
+module.exports = getTextBox;
+function getTextBox(editor) {
+  return editor.querySelector(".textae-editor__body__text-box");
+}
+
+
+},{}],224:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
@@ -16820,7 +17108,7 @@ function setHandlerOnDisplayEvent(editor, display) {
 }
 
 
-},{"../../util/CursorChanger":247,"./Display":169,"./Hover":172,"./Renderer":205,"./Renderer/RelationRenderer":188,"./TypeStyle":209,"./lineHeight":214,"./setSelectionModelHandler":216}],214:[function(require,module,exports){
+},{"../../util/CursorChanger":262,"./Display":175,"./Hover":182,"./Renderer":215,"./Renderer/RelationRenderer":198,"./TypeStyle":219,"./lineHeight":225,"./setSelectionModelHandler":227}],225:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
@@ -16831,11 +17119,13 @@ exports.get = get;
 exports.reduceBottomSpace = reduceBottomSpace;
 exports.set = set;
 exports.setToTypeGap = setToTypeGap;
+var getHeightIncludeDescendantGrids = _interopRequire(require("./getHeightIncludeDescendantGrids"));
+
+var getTextBox = _interopRequire(require("./getTextBox"));
+
 var TEXT_HEIGHT = 23;
 var MARGIN_TOP = 30;
 var MINIMUM_HEIGHT = 41;
-
-var getHeightIncludeDescendantGrids = _interopRequire(require("./getHeightIncludeDescendantGrids"));
 
 function get(editor) {
   var textBox = getTextBox(editor),
@@ -16890,10 +17180,6 @@ function setToTypeGap(editor, annotationData, typeContainer, typeGapValue) {
   set(editor, maxHeight);
 }
 
-function getTextBox(editor) {
-  return editor.querySelector(".textae-editor__body__text-box");
-}
-
 function suppressScrollJump(textBox, heightValue) {
   var beforeLineHeight = textBox.style.lineHeight,
       b = pixelToInt(beforeLineHeight);
@@ -16908,7 +17194,7 @@ function pixelToInt(str) {
 }
 
 
-},{"./getHeightIncludeDescendantGrids":212}],215:[function(require,module,exports){
+},{"./getHeightIncludeDescendantGrids":222,"./getTextBox":223}],226:[function(require,module,exports){
 "use strict";
 
 // Add or Remove class to indicate selected state.
@@ -16927,7 +17213,7 @@ module.exports = (function () {
 })();
 
 
-},{}],216:[function(require,module,exports){
+},{}],227:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
@@ -16948,7 +17234,7 @@ function delay150(func) {
 }
 
 
-},{"./Selector":208}],217:[function(require,module,exports){
+},{"./Selector":218}],228:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
@@ -16963,89 +17249,7 @@ module.exports = function (editor, annotationData, typeContainer, typeGap, view)
 };
 
 
-},{"./view/lineHeight":241}],218:[function(require,module,exports){
-"use strict";
-
-var _interopRequire = function (obj) {
-  return obj && (obj["default"] || obj);
-};
-
-var Observable = _interopRequire(require("observ"));
-
-var showVilidationDialog = _interopRequire(require("../component/showVilidationDialog"));
-
-var hasError = require("./model/AnnotationData/parseAnnotation/validateAnnotation").hasError;
-module.exports = function (annotationData, history, buttonStateHelper, leaveMessage, dataAccessObject) {
-  var writable = new Writable();
-
-  bindResetEvent(annotationData, history, writable);
-  bindChangeEvent(history, buttonStateHelper, leaveMessage, writable);
-  bindEndEvent(dataAccessObject, history, writable);
-
-  writable(function (val) {
-    return buttonStateHelper.enabled("write", val);
-  });
-};
-
-function Writable() {
-  var isDataModified = false,
-      o = new Observable(false);
-
-  o.forceModified = function (val) {
-    o.set(val);
-    isDataModified = val;
-  };
-
-  o.update = function (val) {
-    o.set(isDataModified || val);
-  };
-
-  return o;
-}
-
-function bindResetEvent(annotationData, history, writable) {
-  annotationData.on("all.change", function (annotationData, multitrack, reject) {
-    history.reset();
-
-    showVilidationDialog(self, reject);
-
-    if (multitrack) toastr.success("track annotations have been merged to root annotations.");
-
-    if (multitrack || hasError(reject)) {
-      writable.forceModified(true);
-    } else {
-      writable.forceModified(false);
-    }
-  });
-}
-
-function bindChangeEvent(history, buttonStateHelper, leaveMessage, writable) {
-  history.on("change", function (state) {
-    //change button state
-    buttonStateHelper.enabled("undo", state.hasAnythingToUndo);
-    buttonStateHelper.enabled("redo", state.hasAnythingToRedo);
-
-    //change leaveMessage show
-    window.onbeforeunload = state.hasAnythingToSave ? function () {
-      return leaveMessage;
-    } : null;
-
-    writable.update(state.hasAnythingToSave);
-  });
-}
-
-function bindEndEvent(dataAccessObject, history, writable) {
-  dataAccessObject.on("save", function () {
-    history.saved();
-    writable.forceModified(false);
-    toastr.success("annotation saved");
-  }).on("save error", function () {
-    toastr.error("could not save");
-  });
-}
-
-
-},{"../component/showVilidationDialog":81,"./model/AnnotationData/parseAnnotation/validateAnnotation":225,"observ":62}],219:[function(require,module,exports){
+},{"./view/lineHeight":256}],229:[function(require,module,exports){
 "use strict";
 
 var getUrlParameters = require("./getUrlParameters"),
@@ -17085,7 +17289,7 @@ module.exports = function (editor) {
 };
 
 
-},{"./getUrlParameters":220}],220:[function(require,module,exports){
+},{"./getUrlParameters":230}],230:[function(require,module,exports){
 "use strict";
 
 // Usage sample: getUrlParameters(location.search).
@@ -17112,7 +17316,7 @@ module.exports = function (urlQuery) {
 };
 
 
-},{}],221:[function(require,module,exports){
+},{}],231:[function(require,module,exports){
 "use strict";
 
 var typeCounter = [],
@@ -17148,8 +17352,14 @@ module.exports = {
 };
 
 
-},{}],222:[function(require,module,exports){
+},{}],232:[function(require,module,exports){
 "use strict";
+
+var _interopRequireWildcard = function (obj) {
+  return obj && obj.constructor === Object ? obj : {
+    "default": obj
+  };
+};
 
 var _interopRequire = function (obj) {
   return obj && (obj["default"] || obj);
@@ -17161,7 +17371,9 @@ var Observable = _interopRequire(require("observ"));
 
 var DataAccessObject = _interopRequire(require("../component/DataAccessObject"));
 
-var editingState = _interopRequire(require("./editingState"));
+var ButtonController = _interopRequire(require("../buttonModel/ButtonController"));
+
+var Writable = _interopRequire(require("../buttonModel/Writable"));
 
 // model manages data objects.
 var Model = _interopRequire(require("./Model"));
@@ -17169,7 +17381,7 @@ var Model = _interopRequire(require("./Model"));
 // The history of command that providing undo and redo.
 var History = _interopRequire(require("./History"));
 
-var ButtonController = _interopRequire(require("./ButtonController"));
+var observe = _interopRequireWildcard(require("./observe"));
 
 var start = _interopRequire(require("./start"));
 
@@ -17184,12 +17396,19 @@ module.exports = function () {
       buttonController = new ButtonController(this, model, clipBoard),
       dataAccessObject = new DataAccessObject(self, CONFIRM_DISCARD_CHANGE_MESSAGE);
 
-  editingState(model.annotationData, history, buttonController.buttonStateHelper, CONFIRM_DISCARD_CHANGE_MESSAGE, dataAccessObject);
+  var writable = new Writable();
+  writable(function (val) {
+    return buttonController.buttonStateHelper.enabled("write", val);
+  });
+
+  observe.observeModelChange(model.annotationData, history, writable);
+  observe.observeHistorfChange(history, buttonController.buttonStateHelper, CONFIRM_DISCARD_CHANGE_MESSAGE, writable);
+  observe.observeDataSave(dataAccessObject, history, writable);
 
   // public funcitons of editor
   this.api = {
     start: function (editor) {
-      return start(editor, dataAccessObject, history, buttonController, model, clipBoard);
+      return start(editor, dataAccessObject, history, buttonController, model, clipBoard, writable);
     }
   };
 
@@ -17197,7 +17416,7 @@ module.exports = function () {
 };
 
 
-},{"../component/DataAccessObject":63,"./ButtonController":91,"./History":99,"./Model":131,"./editingState":218,"./start":235,"observ":62}],223:[function(require,module,exports){
+},{"../buttonModel/ButtonController":64,"../buttonModel/Writable":65,"../component/DataAccessObject":66,"./History":100,"./Model":132,"./observe":244,"./start":245,"observ":62}],233:[function(require,module,exports){
 "use strict";
 
 module.exports = function (rejects) {
@@ -17207,7 +17426,7 @@ module.exports = function (rejects) {
 };
 
 
-},{}],224:[function(require,module,exports){
+},{}],234:[function(require,module,exports){
 "use strict";
 
 module.exports = function (reject) {
@@ -17218,7 +17437,7 @@ module.exports = function (reject) {
 };
 
 
-},{}],225:[function(require,module,exports){
+},{}],235:[function(require,module,exports){
 "use strict";
 
 var _extends = function (target) {
@@ -17248,7 +17467,7 @@ exports.isBoundaryCrossingWithOtherSpans = isBoundaryCrossingWithOtherSpans;
 module.exports = _extends(exports["default"], exports);
 
 
-},{"./Reject/hasError":223,"./isBoundaryCrossingWithOtherSpans":226,"./main":228}],226:[function(require,module,exports){
+},{"./Reject/hasError":233,"./isBoundaryCrossingWithOtherSpans":236,"./main":238}],236:[function(require,module,exports){
 "use strict";
 
 // A span its range is coross over with other spans are not able to rendered.
@@ -17264,7 +17483,7 @@ function isBoundaryCrossing(candidateSpan, existSpan) {
 }
 
 
-},{}],227:[function(require,module,exports){
+},{}],237:[function(require,module,exports){
 "use strict";
 
 module.exports = function (data, opt) {
@@ -17276,7 +17495,7 @@ module.exports = function (data, opt) {
 };
 
 
-},{}],228:[function(require,module,exports){
+},{}],238:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
@@ -17314,7 +17533,7 @@ module.exports = function (text, paragraph, annotation) {
 };
 
 
-},{"./validateDenotation":230,"./validateModificatian":231,"./validateRelation":232}],229:[function(require,module,exports){
+},{"./validateDenotation":240,"./validateModificatian":241,"./validateRelation":242}],239:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
@@ -17342,7 +17561,7 @@ function acceptIf(predicate, predicateOption, result, target, index, array) {
 }
 
 
-},{"./Reject":224}],230:[function(require,module,exports){
+},{"./Reject":234}],240:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
@@ -17397,7 +17616,7 @@ function isInParagraph(denotation, paragraph) {
 }
 
 
-},{"./isBoundaryCrossingWithOtherSpans":226,"./validate":229}],231:[function(require,module,exports){
+},{"./isBoundaryCrossingWithOtherSpans":236,"./validate":239}],241:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
@@ -17424,7 +17643,7 @@ module.exports = function (denotations, relations, modifications) {
 };
 
 
-},{"./isContains":227,"./validate":229}],232:[function(require,module,exports){
+},{"./isContains":237,"./validate":239}],242:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
@@ -17456,7 +17675,7 @@ module.exports = function (denotations, relations) {
 };
 
 
-},{"./isContains":227,"./validate":229}],233:[function(require,module,exports){
+},{"./isContains":237,"./validate":239}],243:[function(require,module,exports){
 "use strict";
 
 module.exports = function (allSpans, candidateSpan) {
@@ -17466,16 +17685,52 @@ module.exports = function (allSpans, candidateSpan) {
 };
 
 
-},{}],234:[function(require,module,exports){
+},{}],244:[function(require,module,exports){
 "use strict";
 
-module.exports = function (hash, element) {
-  hash[element.name] = element;
-  return hash;
+var _interopRequire = function (obj) {
+  return obj && (obj["default"] || obj);
 };
 
+exports.observeModelChange = observeModelChange;
+exports.observeHistorfChange = observeHistorfChange;
+exports.observeDataSave = observeDataSave;
+var showVilidationDialog = _interopRequire(require("../component/showVilidationDialog"));
 
-},{}],235:[function(require,module,exports){
+function observeModelChange(annotationData, history, writable) {
+  annotationData.on("all.change", function (annotationData, multitrack, reject) {
+    history.reset();
+    showVilidationDialog(self, reject);
+  });
+}
+
+function observeHistorfChange(history, buttonStateHelper, leaveMessage, writable) {
+  history.on("change", function (state) {
+    //change button state
+    buttonStateHelper.enabled("undo", state.hasAnythingToUndo);
+    buttonStateHelper.enabled("redo", state.hasAnythingToRedo);
+
+    //change leaveMessage show
+    window.onbeforeunload = state.hasAnythingToSave ? function () {
+      return leaveMessage;
+    } : null;
+
+    writable.update(state.hasAnythingToSave);
+  });
+}
+
+function observeDataSave(dataAccessObject, history, writable) {
+  dataAccessObject.on("save", function () {
+    history.saved();
+    writable.forceModified(false);
+    toastr.success("annotation saved");
+  }).on("save error", function () {
+    toastr.error("could not save");
+  });
+}
+
+
+},{"../component/showVilidationDialog":84}],245:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
@@ -17506,7 +17761,7 @@ var APIs = _interopRequire(require("./APIs"));
 
 var calculateLineHeight = _interopRequire(require("./calculateLineHeight"));
 
-module.exports = function (editor, dataAccessObject, history, buttonController, model, clipBoard) {
+module.exports = function (editor, dataAccessObject, history, buttonController, model, clipBoard, writable) {
   var params = getParams(editor),
       spanConfig = new SpanConfig(),
 
@@ -17522,9 +17777,9 @@ module.exports = function (editor, dataAccessObject, history, buttonController, 
   //handle user input event.
   controller = new Controller(editor, presenter, view);
 
-  view.init(editor, buttonController, typeGap, typeContainer);
+  view.init(editor, buttonController, typeGap, typeContainer, writable);
   controller.init();
-  presenter.init();
+  presenter.init(params.mode, writable);
 
   var statusBar = getStatusBar(editor, params.status_bar);
 
@@ -17532,8 +17787,6 @@ module.exports = function (editor, dataAccessObject, history, buttonController, 
     setAnnotation(spanConfig, typeContainer, model.annotationData, params.config, data.annotation);
     statusBar.status(data.source);
   });
-
-  presenter.setMode(params.mode);
 
   loadAnnotation(spanConfig, typeContainer, model.annotationData, statusBar, params, dataAccessObject);
 
@@ -17617,7 +17870,7 @@ function getStatusBar(editor, status_bar) {
 }
 
 
-},{"../component/StatusBar":72,"../util/ajaxAccessor":248,"./APIs":89,"./Command":96,"./Controller":98,"./Presenter":148,"./SpanConfig":167,"./TypeContainer":168,"./View":213,"./calculateLineHeight":217,"./getParams":219,"observ":62}],236:[function(require,module,exports){
+},{"../component/StatusBar":75,"../util/ajaxAccessor":263,"./APIs":92,"./Command":97,"./Controller":99,"./Presenter":166,"./SpanConfig":173,"./TypeContainer":174,"./View":224,"./calculateLineHeight":228,"./getParams":229,"observ":62}],246:[function(require,module,exports){
 "use strict";
 
 module.exports = {
@@ -17634,140 +17887,219 @@ module.exports = {
 };
 
 
-},{}],237:[function(require,module,exports){
+},{}],247:[function(require,module,exports){
 "use strict";
 
-var Cache = function () {
-  var cache = {},
-      set = function (key, value) {
-    cache[key] = value;
-    return value;
-  },
-      get = function (key) {
-    return cache[key];
-  },
-      remove = function (key) {
-    delete cache[key];
-  },
-      clear = function () {
-    cache = {};
-  };
+var _interopRequire = function (obj) {
+  return obj && (obj["default"] || obj);
+};
 
-  return {
-    set: set,
-    get: get,
-    remove: remove,
-    clear: clear,
-    // To debug.
-    keys: function () {
-      return Object.keys(cache);
-    }
-  };
-},
-    cacheMan = (function () {
+var LesserMap = _interopRequire(require("./LesserMap"));
+
+module.exports = function () {
   var caches = [],
-      add = function (cache) {
-    caches.push(cache);
-  },
-      getFromCache = function (cache, getPositionFunciton, id) {
-    return cache.get(id) ? cache.get(id) : cache.set(id, getPositionFunciton(id));
-  },
-      create = function (func) {
-    var cache = new Cache();
-    add(cache);
-    return _.partial(getFromCache, cache, func);
-  },
-      clear = function () {
-    caches.forEach(function (cache) {
-      cache.clear();
-    });
+      factory = function (getter) {
+    return create(caches, getter);
   };
 
-  return {
-    create: create,
-    clear: clear
+  factory.clearAllCache = function () {
+    return clearAll(caches);
   };
-})(),
-    domUtil = require("./domUtil"),
-    createNewCache = function (editor, entityModel) {
+  return factory;
+};
+
+function create(caches, getter) {
+  var map = new LesserMap();
+
+  add(caches, map);
+  return function (id) {
+    return getFromCache(map, getter, id);
+  };
+}
+
+function add(caches, cache) {
+  caches.push(cache);
+}
+
+function getFromCache(cache, getter, id) {
+  if (!cache.has(id)) {
+    cache.set(id, getter(id));
+  }
+
+  return cache.get(id);
+}
+
+function clearAll(caches) {
+  caches.forEach(function (cache) {
+    return cache.clear();
+  });
+}
+
+
+},{"./LesserMap":249}],248:[function(require,module,exports){
+"use strict";
+
+var _interopRequire = function (obj) {
+  return obj && (obj["default"] || obj);
+};
+
+var LesserMap = _interopRequire(require("./LesserMap"));
+
+module.exports = function (entityModel) {
   // The chache for position of grids.
   // This is updated at arrange position of grids.
   // This is referenced at create or move relations.
-  var gridPositionCache = _.extend(new Cache(), {
+  var map = new LesserMap();
+
+  return _.extend(map, {
     isGridPrepared: function (entityId) {
-      var spanId = entityModel.get(entityId).span;
-      return gridPositionCache.get(spanId);
+      return isGridPrepared(entityModel, map, entityId);
     }
   });
+};
 
-  // The posion of the text-box to calculate span postion;
-  var getTextNodeFunc = function () {
-    return editor.find(".textae-editor__body__text-box").offset();
-  },
-      getTextNode = cacheMan.create(getTextNodeFunc),
-      getSpanFunc = function (spanId) {
-    var $span = domUtil.selector.span.get(spanId);
-    if ($span.length === 0) {
-      throw new Error("span is not renderd : " + spanId);
-    }
+function isGridPrepared(entityModel, map, entityId) {
+  var spanId = entityModel.get(entityId).span;
+  return map.get(spanId);
+}
 
-    var offset = $span.offset();
-    return {
-      top: offset.top - getTextNode().top,
-      left: offset.left - getTextNode().left,
-      width: $span.outerWidth(),
-      height: $span.outerHeight(),
-      center: $span.get(0).offsetLeft + $span.outerWidth() / 2
-    };
-  },
-      getEntityFunc = function (entityId) {
-    var $entity = domUtil.selector.entity.get(entityId, editor);
-    if ($entity.length === 0) {
-      throw new Error("entity is not rendered : " + entityId);
-    }
 
-    var spanId = entityModel.get(entityId).span;
-    var gridPosition = gridPositionCache.get(spanId);
-    var entityElement = $entity.get(0);
-    return {
-      top: gridPosition.top + entityElement.offsetTop,
-      center: gridPosition.left + entityElement.offsetLeft + $entity.outerWidth() / 2 };
-  };
+},{"./LesserMap":249}],249:[function(require,module,exports){
+"use strict";
 
-  // The connectCache has jsPlumbConnectors to call jsPlumbConnector instance to edit an according dom object.
-  // This is refered by render.relation and domUtil.selector.relation.
-  var connectCache = new Cache();
-  var toConnect = function (relationId) {
-    return connectCache.get(relationId);
-  };
+var publicApis = ["set", "get", "has", "keys", "delete", "clear"];
 
+module.exports = function () {
+  var m = new Map(),
+      api = publicApis.reduce(function (api, name) {
+    api[name] = Map.prototype[name].bind(m);
+    return api;
+  }, {});
+
+  return api;
+};
+
+
+},{}],250:[function(require,module,exports){
+"use strict";
+
+var _interopRequire = function (obj) {
+  return obj && (obj["default"] || obj);
+};
+
+var idFactory = _interopRequire(require("../../idFactory"));
+
+var CachedGetterFactory = _interopRequire(require("./CachedGetterFactory"));
+
+var factory = new CachedGetterFactory();
+
+module.exports = function (editor, entityModel, gridPositionCache) {
   // The cache for span positions.
   // Getting the postion of spans is too slow about 5-10 ms per a element in Chrome browser. For example offsetTop property.
   // This cache is big effective for the initiation, and little effective for resize.
-  var getSpan = cacheMan.create(getSpanFunc);
-  var getEntity = cacheMan.create(getEntityFunc);
+  var cachedGetSpan = factory(function (spanId) {
+    return getSpan(editor, spanId);
+  }),
+      cachedGetEntity = factory(function (entityId) {
+    return getEntity(editor, entityModel, gridPositionCache, entityId);
+  });
 
   return {
-    reset: cacheMan.clear,
-    getSpan: getSpan,
-    getEntity: getEntity,
-    gridPositionCache: gridPositionCache,
-    getGrid: gridPositionCache.get,
-    setGrid: gridPositionCache.set,
-    toConnect: toConnect,
-    connectCache: connectCache
+    reset: factory.clearAllCache,
+    getSpan: cachedGetSpan,
+    getEntity: cachedGetEntity
   };
 };
+
+function getSpan(editor, spanId) {
+  var span = editor[0].querySelector("#" + spanId);
+  if (!span) {
+    throw new Error("span is not renderd : " + spanId);
+  }
+
+  // An element.offsetTop and element.offsetLeft does not work in the Firefox,
+  // when much spans are loaded like http://pubannotation.org/docs/sourcedb/PMC/sourceid/1315279/divs/10/annotations.json.
+  var spanBox = span.getBoundingClientRect(),
+      textBox = span.offsetParent.getBoundingClientRect();
+
+  return {
+    top: spanBox.top - textBox.top,
+    left: spanBox.left - textBox.left,
+    width: span.offsetWidth,
+    height: span.offsetHeight,
+    center: span.offsetLeft + span.offsetWidth / 2
+  };
+}
+
+function getEntity(editor, entityModel, gridPositionCache, entityId) {
+  var entity = editor[0].querySelector("#" + idFactory.makeEntityDomId(editor, entityId));
+  if (!entity) {
+    throw new Error("entity is not rendered : " + entityId);
+  }
+
+  var spanId = entityModel.get(entityId).span,
+      gridPosition = gridPositionCache.get(spanId);
+
+  return {
+    top: gridPosition.top + entity.offsetTop,
+    center: gridPosition.left + entity.offsetLeft + entity.offsetWidth / 2 };
+}
+
+
+},{"../../idFactory":231,"./CachedGetterFactory":247}],251:[function(require,module,exports){
+"use strict";
+
+var _interopRequire = function (obj) {
+  return obj && (obj["default"] || obj);
+};
+
+var GridPosition = _interopRequire(require("./GridPosition"));
+
+var SpanAndEntityPosition = _interopRequire(require("./SpanAndEntityPosition"));
+
+var LesserMap = _interopRequire(require("./LesserMap"));
 
 // Utility functions for get positions of DOM elemnts.
 module.exports = function (editor, entityModel) {
   // The editor has onry one position cache.
-  editor.postionCache = editor.postionCache || createNewCache(editor, entityModel);
+  editor.postionCache = editor.postionCache || create(editor, entityModel);
   return editor.postionCache;
 };
 
+function create(editor, entityModel) {
+  var gridPosition = new GridPosition(entityModel),
+      spanAndEntityPosition = new SpanAndEntityPosition(editor, entityModel, gridPosition),
+      grid = new GridApi(gridPosition),
+      relation = new RelationApi();
 
-},{"./domUtil":239}],238:[function(require,module,exports){
+  return _.extend(spanAndEntityPosition, grid, relation);
+}
+
+function GridApi(gridPosition) {
+  return {
+    gridPositionCache: gridPosition,
+    getGrid: gridPosition.get,
+    setGrid: gridPosition.set };
+}
+
+function RelationApi() {
+  var newCache = new LesserMap(),
+
+
+  // The connectCache has jsPlumbConnectors to call jsPlumbConnector instance to edit an according dom object.
+  // This is refered by render.relation and domUtil.selector.relation.
+  api = {
+    connectCache: newCache,
+    toConnect: function (relationId) {
+      return newCache.get(relationId);
+    }
+  };
+
+  return api;
+}
+
+
+},{"./GridPosition":248,"./LesserMap":249,"./SpanAndEntityPosition":250}],252:[function(require,module,exports){
 "use strict";
 
 var selectionClass = require("./selectionClass"),
@@ -17833,7 +18165,7 @@ module.exports = function (editor, model) {
 };
 
 
-},{"./DomPositionCache":237,"./domUtil":239,"./selectionClass":242}],239:[function(require,module,exports){
+},{"./DomPositionCache":251,"./domUtil":253,"./selectionClass":257}],253:[function(require,module,exports){
 "use strict";
 
 var idFactory = require("../idFactory");
@@ -17858,7 +18190,7 @@ module.exports = {
 };
 
 
-},{"../idFactory":221}],240:[function(require,module,exports){
+},{"../idFactory":231}],254:[function(require,module,exports){
 "use strict";
 
 module.exports = getHeightIncludeDescendantGrids;
@@ -17874,7 +18206,16 @@ function getHeightIncludeDescendantGrids(span, typeContainer, typeGapValue) {
 }
 
 
-},{}],241:[function(require,module,exports){
+},{}],255:[function(require,module,exports){
+"use strict";
+
+module.exports = getTextBox;
+function getTextBox(editor) {
+  return editor.querySelector(".textae-editor__body__text-box");
+}
+
+
+},{}],256:[function(require,module,exports){
 "use strict";
 
 var _interopRequire = function (obj) {
@@ -17885,11 +18226,13 @@ exports.get = get;
 exports.reduceBottomSpace = reduceBottomSpace;
 exports.set = set;
 exports.setToTypeGap = setToTypeGap;
+var getHeightIncludeDescendantGrids = _interopRequire(require("./getHeightIncludeDescendantGrids"));
+
+var getTextBox = _interopRequire(require("./getTextBox"));
+
 var TEXT_HEIGHT = 23;
 var MARGIN_TOP = 30;
 var MINIMUM_HEIGHT = 41;
-
-var getHeightIncludeDescendantGrids = _interopRequire(require("./getHeightIncludeDescendantGrids"));
 
 function get(editor) {
   var textBox = getTextBox(editor),
@@ -17944,10 +18287,6 @@ function setToTypeGap(editor, annotationData, typeContainer, typeGapValue) {
   set(editor, maxHeight);
 }
 
-function getTextBox(editor) {
-  return editor.querySelector(".textae-editor__body__text-box");
-}
-
 function suppressScrollJump(textBox, heightValue) {
   var beforeLineHeight = textBox.style.lineHeight,
       b = pixelToInt(beforeLineHeight);
@@ -17962,7 +18301,7 @@ function pixelToInt(str) {
 }
 
 
-},{"./getHeightIncludeDescendantGrids":240}],242:[function(require,module,exports){
+},{"./getHeightIncludeDescendantGrids":254,"./getTextBox":255}],257:[function(require,module,exports){
 "use strict";
 
 // Add or Remove class to indicate selected state.
@@ -17981,7 +18320,7 @@ module.exports = (function () {
 })();
 
 
-},{}],243:[function(require,module,exports){
+},{}],258:[function(require,module,exports){
 "use strict";
 
 var tool = require("./tool"),
@@ -18008,7 +18347,7 @@ jQuery.fn.textae = (function () {
 })();
 
 
-},{"./control":84,"./editor":222,"./tool":244}],244:[function(require,module,exports){
+},{"./control":87,"./editor":232,"./tool":259}],259:[function(require,module,exports){
 "use strict";
 
 var EventEmitter = require("events").EventEmitter;
@@ -18135,7 +18474,7 @@ module.exports = (function () {
 })();
 
 
-},{"./component/HelpDialog":64,"./tool/EditorContainer":245,"./tool/KeybordInputConverter":246,"events":38}],245:[function(require,module,exports){
+},{"./component/HelpDialog":67,"./tool/EditorContainer":260,"./tool/KeybordInputConverter":261,"events":38}],260:[function(require,module,exports){
 "use strict";
 
 var switchActiveClass = function (editors, selected) {
@@ -18185,7 +18524,7 @@ module.exports = function () {
 };
 
 
-},{}],246:[function(require,module,exports){
+},{}],261:[function(require,module,exports){
 "use strict";
 
 var EventEmitter = require("events").EventEmitter,
@@ -18236,7 +18575,7 @@ module.exports = function (keyInputHandler) {
 };
 
 
-},{"events":38}],247:[function(require,module,exports){
+},{"events":38}],262:[function(require,module,exports){
 "use strict";
 
 var changeCursor = function (editor, action) {
@@ -18255,7 +18594,7 @@ module.exports = function (editor) {
 };
 
 
-},{}],248:[function(require,module,exports){
+},{}],263:[function(require,module,exports){
 "use strict";
 
 var isEmpty = function (str) {
@@ -18307,7 +18646,16 @@ module.exports = (function () {
 })();
 
 
-},{}]},{},[243]);
+},{}],264:[function(require,module,exports){
+"use strict";
+
+module.exports = function (hash, element) {
+  hash[element.name] = element;
+  return hash;
+};
+
+
+},{}]},{},[258]);
 
 //for module pattern with tail.js
 (function(jQuery) { // Application main

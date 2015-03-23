@@ -1,7 +1,7 @@
 {
   "name": "textae",
   "description": "text annotation editor",
-  "version": "4.1.12",
+  "version": "4.1.13",
   "author": "jdkim",
   "dependencies": {
     "bluebird": "^2.8.2",

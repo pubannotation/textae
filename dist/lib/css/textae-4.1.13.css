@@ -58,9 +58,6 @@
   cursor: pointer;
   height: 16px;
   width: 16px;
-  background-repeat: no-repeat;
-  background-position: bottom;
-  background-size: 16px 16px;
   margin: 6px 4px 0 4px;
 }
 .textae-control__icon--disabled {
@@ -270,7 +267,6 @@
 .textae-editor_relation-mode .textae-editor__type:hover .textae-editor__entity,
 .textae-editor_relation-mode .textae-editor__type:hover .textae-editor__type-label {
   opacity: 0.9;
-  /* TODO 透明度を上げるとentityとlabelの重なった部分だけ色が濃くて目立ちます。 */
 }
 .textae-editor__type:hover .textae-editor__entity-pane,
 .textae-editor__type:hover .textae-editor__type-label {
@@ -288,6 +284,7 @@
   box-shadow: 1px 1px 15px #f00;
 }
 .textae-editor__entity-pane {
+  line-height: normal;
   position: relative;
   top: -28px;
   z-index: 1;
@@ -296,10 +293,8 @@
   background-color: #add8e6;
   border-radius: 6px;
   border-style: solid;
-  border-width: 3px;
   display: inline-block;
   height: 12px;
-  margin: 0 auto;
   vertical-align: top;
   width: 12px;
   /* modification */
@@ -310,7 +305,6 @@
 }
 .textae-editor__entity.ui-selected {
   background-color: yellow;
-  font-weight: 700;
 }
 .textae-editor__entity.textae-editor__negation::before,
 .textae-editor__entity.textae-editor__speculation::before {
