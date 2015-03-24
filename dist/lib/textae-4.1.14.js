@@ -12033,14 +12033,10 @@ module.exports = function (editor, emitter, paragraph) {
 },{"../../../idFactory":231,"../parseAnnotation/validateAnnotation":120,"./ModelContainer":102}],105:[function(require,module,exports){
 "use strict";
 
-var hasPrefix = function (prefix, id) {
-  return id[0] === prefix;
-},
-    withoutPrefix = function (id) {
-  return id.slice(1);
-},
-    getNextId = function (prefix, existsIds) {
-  var numbers = existsIds.filter(_.partial(hasPrefix, prefix)).map(withoutPrefix),
+module.exports = function (prefix, existsIds) {
+  var numbers = existsIds.filter(function (id) {
+    return hasPrefix(prefix, id);
+  }).map(withoutPrefix),
 
 
   // The Math.max retrun -Infinity when the second argument array is empty.
@@ -12050,7 +12046,16 @@ var hasPrefix = function (prefix, id) {
   return prefix + nextNumber;
 };
 
-module.exports = getNextId;
+function hasPrefix(prefix, id) {
+  // Exclude an id have other than prefix and number, for example 'T1a'.
+  var reg = new RegExp("" + prefix + "\\d+$");
+
+  return reg.test(id);
+}
+
+function withoutPrefix(id) {
+  return id.slice(1);
+}
 
 
 },{}],106:[function(require,module,exports){
@@ -17344,7 +17349,8 @@ module.exports = {
     return spanId + "-" + typeCounter.indexOf(type);
   },
   makeEntityDomId: function (editor, id) {
-    return makeId(editor.editorId, "E", id);
+    // Exclude : and . from a dom id to use for ID selector.
+    return makeId(editor.editorId, "E", id.replace(/[:¥.]/g, ""));
   },
   makeParagraphId: function (editor, id) {
     return makeId(editor.editorId, "P", id);
