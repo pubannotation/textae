@@ -50,14 +50,14 @@
         },
         "obj": "no id"
     }, {
-        "id": "E1",
+        "id": "E1:a:b",
         "span": {
             "begin": 0,
             "end": 15
         },
         "obj": null
     }, {
-        "id": "T1",
+        "id": "T1.a.b",
         "span": {
             "begin": 19,
             "end": 49

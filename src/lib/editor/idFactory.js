@@ -23,7 +23,8 @@ module.exports = {
         return spanId + '-' + typeCounter.indexOf(type);
     },
     makeEntityDomId: function(editor, id) {
-        return makeId(editor.editorId, 'E', id);
+        // Exclude : and . from a dom id to use for ID selector.
+        return makeId(editor.editorId, 'E', id.replace(/[:¥.]/g, ''));
     },
     makeParagraphId: function(editor, id) {
         return makeId(editor.editorId, 'P', id);
