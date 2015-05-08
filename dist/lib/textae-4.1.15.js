@@ -10720,7 +10720,7 @@ var tepmlate = Handlebars.compile(source);
 module.exports = function (editor, rejects) {
   if (!hasError(rejects)) return;
 
-  var $dialog = new GetEditorDialog(editor)("textae.dialog.validation", "The following erronious annotations ignored", $("<div>"), {
+  var $dialog = new GetEditorDialog(editor)("textae.dialog.validation", "The following erroneous annotations ignored", $("<div>"), {
     noCancelButton: true,
     height: 450
   });
