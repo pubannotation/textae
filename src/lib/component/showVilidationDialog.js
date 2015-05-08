@@ -137,7 +137,7 @@ export default function(editor, rejects) {
 
     let $dialog = new GetEditorDialog(editor)(
         'textae.dialog.validation',
-        'The following erronious annotations ignored',
+        'The following erroneous annotations ignored',
         $('<div>'), {
             noCancelButton: true,
             height: 450
