@@ -1,4 +1,4 @@
-import cssUtil from './iconCssUtil';
+import * as cssUtil from './iconCssUtil';
 import toButtonClass from './toButtonClass';
 
 const EVENT = 'click';

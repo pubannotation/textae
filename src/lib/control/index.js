@@ -1,7 +1,7 @@
 import BUTTON_MAP from './buttonMap';
 import makeButtons from './makeButtons';
 import toButtonList from './toButtonList';
-import cssUtil from './iconCssUtil';
+import * as cssUtil from './iconCssUtil';
 import updateButtons from './updateButtons';
 
 // Buttons that always eanable.

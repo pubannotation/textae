@@ -1,5 +1,5 @@
 import Renderer from './Renderer';
-import lineHeight from './lineHeight';
+import * as lineHeight from './lineHeight';
 import Hover from './Hover';
 import Display from './Display';
 import CursorChanger from '../../util/CursorChanger';
