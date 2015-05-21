@@ -43,8 +43,8 @@
     "url": "https://github.com/jdkim/textae.git"
   },
   "scripts": {
-    "watch": "grunt dev",
     "postinstall": "node_modules/bower/bin/bower install",
-    "test": "grunt jasmine_node"
+    "test": "grunt jasmine_node",
+    "watch": "grunt dev"
   }
 }
