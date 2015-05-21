@@ -1,3 +1,5 @@
+// Maintainance a state of which the save button is able to be push.
+
 import Observable from "observ";
 
 export default function() {
