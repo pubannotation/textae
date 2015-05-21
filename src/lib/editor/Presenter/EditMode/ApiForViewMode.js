@@ -1,11 +1,11 @@
-module.exports = function(stateMachine) {
+export default function(stateMachine) {
     return {
-        toInstance: function() {
-            stateMachine.setState('View Instance');
-        },
         toTerm: function() {
             stateMachine.setState('View Term');
         },
+        toInstance: function() {
+            stateMachine.setState('View Instance');
+        },
         toRelation: function() {}
     };
-};
+}

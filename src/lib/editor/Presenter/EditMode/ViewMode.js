@@ -1,14 +1,8 @@
-var Selector = require('../../view/Selector'),
-    changeCssClass = function(editor, mode) {
-        editor
-            .removeClass('textae-editor_term-mode')
-            .removeClass('textae-editor_instance-mode')
-            .removeClass('textae-editor_relation-mode')
-            .addClass('textae-editor_' + mode + '-mode');
-    };
+import Selector from '../../view/Selector';
+import setEditable from './setEditableStyle';
 
-module.exports = function(editor, model, buttonStateHelper, modeAccordingToButton) {
-    var selector = new Selector(editor, model),
+export default function(editor, model, buttonStateHelper, modeAccordingToButton) {
+    let selector = new Selector(editor, model),
         setSettingButtonEnable = _.partial(buttonStateHelper.enabled, 'setting', true),
         setControlButtonForRelation = function(isRelation) {
             buttonStateHelper.enabled('replicate-auto', !isRelation);
@@ -18,7 +12,7 @@ module.exports = function(editor, model, buttonStateHelper, modeAccordingToButto
         // This notify is off at relation-edit-mode.
         entitySelectChanged = _.compose(buttonStateHelper.updateByEntity, selector.entityLabel.update);
 
-    var api = {
+    let api = {
         setTerm: function() {
             changeCssClass(editor, 'term');
             setSettingButtonEnable();
@@ -55,19 +49,16 @@ module.exports = function(editor, model, buttonStateHelper, modeAccordingToButto
                 .removeListener('entity.deselect', entitySelectChanged)
                 .removeListener('entity.change', buttonStateHelper.updateByEntity);
         },
-        setEditable: function(isEditable) {
-            if (isEditable) {
-                editor.addClass('textae-editor_editable');
-                buttonStateHelper.enabled('relation-edit-mode', true);
-                buttonStateHelper.enabled('line-height', true);
-            } else {
-                editor.removeClass('textae-editor_editable');
-                buttonStateHelper.enabled('replicate-auto', false);
-                buttonStateHelper.enabled('boundary-detection', false);
-                buttonStateHelper.enabled('relation-edit-mode', false);
-            }
-        }
+        setEditable: isEditable => setEditable(editor, buttonStateHelper, isEditable)
     };
 
     return api;
-};
+}
+
+function changeCssClass(editor, mode) {
+    editor
+        .removeClass('textae-editor_term-mode')
+        .removeClass('textae-editor_instance-mode')
+        .removeClass('textae-editor_relation-mode')
+        .addClass('textae-editor_' + mode + '-mode');
+}

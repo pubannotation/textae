@@ -7,7 +7,7 @@ from '../../model/AnnotationData/parseAnnotation/validateAnnotation';
 export default function(annotationData, editMode, mode, writable) {
     let isEditable = mode === 'edit';
 
-    editMode.init(isEditable);
+    editMode.setModeApi(isEditable);
     annotationData.on('all.change', annotationData => setDefaultView(
         editMode,
         annotationData

@@ -1,42 +1,25 @@
-var EventEmitter = require('events').EventEmitter,
-    Machine = require('emitter-fsm'),
-    ViewMode = require('./ViewMode'),
-    StateMachine = require('./StateMachine'),
-    Transition = require('./Transition'),
-    ViewModeApi = require('./ViewModeApi'),
-    EditModeApi = require('./EditModeApi'),
-    setModeApi = function(typeEditor, viewMode, transition, editModeApi, viewModeApi, isEditable) {
-        if (isEditable) {
-            viewMode.setEditable(true);
+import {
+    EventEmitter
+}
+from 'events';
+import Transition from './Transition';
+import setModeApi from './setModeApi';
+import resetView from './resetView';
+import toStateMachine from './toStateMachine';
 
-            _.extend(transition, editModeApi);
-        } else {
-            typeEditor.noEdit();
-            viewMode.setEditable(false);
+export default function(editor, model, typeEditor, buttonStateHelper, modeAccordingToButton) {
+    let emitter = new EventEmitter(),
+        transition = new Transition(editor, model, typeEditor, buttonStateHelper, modeAccordingToButton),
+        stateMachine = toStateMachine(transition);
 
-            _.extend(transition, viewModeApi);
-        }
-    };
+    transition
+        .on('show', () => emitter.emit('show'))
+        .on('hide', () => emitter.emit('hide'))
+        .on('change', () => resetView(typeEditor, model.selectionModel));
 
-module.exports = function(editor, model, typeEditor, buttonStateHelper, modeAccordingToButton) {
-    var viewMode = new ViewMode(editor, model, buttonStateHelper, modeAccordingToButton),
-        m = new StateMachine(),
-        instanceEvent = new EventEmitter(),
-        transition = new Transition(typeEditor, model.selectionModel, viewMode, instanceEvent),
-        viewModeApi = new ViewModeApi(m),
-        editModeApi = new EditModeApi(m);
+    _.extend(emitter, {
+        setModeApi: (isEditable) => setModeApi(emitter, stateMachine, isEditable)
+    });
 
-    m.on('transition', function(e) {
-            // For debug.
-            // console.log(editor.editorId, 'from:', e.from, ' to:', e.to);
-        })
-        .on('enter:Term Contric', transition.toTerm)
-        .on('enter:Instance / Relation', transition.toInstance)
-        .on('enter:Relation Edit', transition.toRelation)
-        .on('enter:View Term', transition.toViewTerm)
-        .on('enter:View Instance', transition.toViewInstance);
-
-    instanceEvent.init = _.partial(setModeApi, typeEditor, viewMode, instanceEvent, editModeApi, viewModeApi);
-
-    return instanceEvent;
-};
+    return emitter;
+}

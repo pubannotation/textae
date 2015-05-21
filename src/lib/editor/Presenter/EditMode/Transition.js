@@ -1,55 +1,56 @@
-var resetView = function(typeEditor, selectionModel) {
-        typeEditor.hideDialogs();
-        selectionModel.clear();
-    },
-    Transition = function(typeEditor, selectionModel, viewMode, instanceEvent) {
-        var api = {
-                toTerm: function() {
-                    resetView(typeEditor, selectionModel);
+import {
+    EventEmitter
+}
+from 'events';
+import setEditableStyle from './setEditableStyle';
+import ViewMode from './ViewMode';
+import resetView from './resetView';
 
-                    typeEditor.editEntity();
-                    viewMode.setTerm();
-                    viewMode.setEditable(true);
+export default function(editor, model, typeEditor, buttonStateHelper, modeAccordingToButton) {
+    let viewMode = new ViewMode(editor, model, buttonStateHelper, modeAccordingToButton),
+        emitter = new EventEmitter(),
+        api = {
+            toTerm: function() {
+                typeEditor.editEntity();
+                viewMode.setTerm();
+                setEditableStyle(editor, buttonStateHelper, true);
 
-                    instanceEvent.emit('hide');
-                },
-                toInstance: function() {
-                    resetView(typeEditor, selectionModel);
+                emitter.emit('hide');
+                emitter.emit('change');
+            },
+            toInstance: function() {
+                typeEditor.editEntity();
+                viewMode.setInstance();
+                setEditableStyle(editor, buttonStateHelper, true);
 
-                    typeEditor.editEntity();
-                    viewMode.setInstance();
-                    viewMode.setEditable(true);
+                emitter.emit('show');
+                emitter.emit('change');
+            },
+            toRelation: function() {
+                typeEditor.editRelation();
+                viewMode.setRelation();
+                setEditableStyle(editor, buttonStateHelper, true);
 
-                    instanceEvent.emit('show');
-                },
-                toRelation: function() {
-                    resetView(typeEditor, selectionModel);
+                emitter.emit('show');
+                emitter.emit('change');
+            },
+            toViewTerm: function() {
+                typeEditor.noEdit();
+                viewMode.setTerm();
+                setEditableStyle(editor, buttonStateHelper, false);
 
-                    typeEditor.editRelation();
-                    viewMode.setRelation();
-                    viewMode.setEditable(true);
+                emitter.emit('hide');
+                emitter.emit('change');
+            },
+            toViewInstance: function() {
+                typeEditor.noEdit();
+                viewMode.setInstance();
+                setEditableStyle(editor, buttonStateHelper, false);
 
-                    instanceEvent.emit('show');
-                },
-                toViewTerm: function() {
-                    resetView(typeEditor, selectionModel);
+                emitter.emit('show');
+                emitter.emit('change');
+            }
+        };
 
-                    viewMode.setTerm();
-                    viewMode.setEditable(false);
-
-                    instanceEvent.emit('hide');
-                },
-                toViewInstance: function() {
-                    resetView(typeEditor, selectionModel);
-
-                    viewMode.setInstance();
-                    viewMode.setEditable(false);
-
-                    instanceEvent.emit('show');
-                }
-            };
-
-        return api;
-    };
-
-module.exports = Transition;
+    return _.extend(emitter, api);
+}

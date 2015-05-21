@@ -1,4 +1,4 @@
-module.exports = function(stateMachine) {
+export default function(stateMachine) {
     return {
         toTerm: function() {
             stateMachine.setState('Term Contric');
@@ -10,4 +10,4 @@ module.exports = function(stateMachine) {
             stateMachine.setState('Relation Edit');
         }
     };
-};
+}
