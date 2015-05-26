@@ -28,14 +28,15 @@ export default function(editor, dataAccessObject, history, buttonController, mod
             clipBoard,
             buttonController,
             typeGap,
-            typeContainer
+            typeContainer,
+            writable
         ),
         //handle user input event.
         controller = new Controller(editor, presenter, view);
 
     view.init(editor, buttonController, typeGap, typeContainer, writable);
     controller.init();
-    presenter.init(writable);
+    presenter.init();
     presenter.event.setMode(params.mode);
 
     let statusBar = getStatusBar(editor, params.status_bar);

@@ -12,7 +12,18 @@ import ModificationHandler from './handlers/ModificationHandler';
 import SelectSpanHandler from './handlers/SelectSpanHandler';
 import ToggleButtonHandler from './handlers/ToggleButtonHandler';
 
-export default function(editor, model, view, command, spanConfig, clipBoard, buttonController, typeGap, typeContainer) {
+export default function(
+    editor,
+    model,
+    view,
+    command,
+    spanConfig,
+    clipBoard,
+    buttonController,
+    typeGap,
+    typeContainer,
+    writable
+) {
     let typeEditor = new TypeEditor(
             editor,
             model,
@@ -72,6 +83,7 @@ export default function(editor, model, view, command, spanConfig, clipBoard, but
             editor.eventEmitter.emit('textae.editor.select');
             buttonController.buttonStateHelper.propagate();
         },
+        setMode = new SetMode(model.annotationData, editMode, writable),
         event = {
             editorSelected: editorSelected,
             copyEntities: clipBoardHandler.copyEntities,
@@ -91,11 +103,12 @@ export default function(editor, model, view, command, spanConfig, clipBoard, but
             toggleRelationEditMode: toggleButtonHandler.toggleRelationEditMode,
             negation: modificationHandler.negation,
             speculation: modificationHandler.speculation,
-            showSettingDialog: showSettingDialog
+            showSettingDialog: showSettingDialog,
+            setMode: setMode
         };
 
     return {
-        init: function(writable) {
+        init: function() {
             // The jsPlumbConnetion has an original event mecanism.
             // We can only bind the connection directory.
             editor
@@ -109,8 +122,6 @@ export default function(editor, model, view, command, spanConfig, clipBoard, but
                 editMode,
                 annotationData
             ));
-
-            event.setMode = new SetMode(model.annotationData, editMode, writable);
         },
         event: event
     };
