@@ -14,11 +14,11 @@ export default function(annotationData, editMode, writable) {
 function setModeToEditable(annotationData, editMode, showForEdit, mode) {
     let isEditable = mode === 'edit';
 
-    editMode.setModeApi(isEditable);
-
     if (isEditable) {
+        editMode.setEditModeApi();
         annotationData.on('all.change', showForEdit);
     } else {
+        editMode.setViewModeApi();
         annotationData.removeListener('all.change', showForEdit);
     }
 }

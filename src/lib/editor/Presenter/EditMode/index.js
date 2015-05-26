@@ -3,7 +3,8 @@ import {
 }
 from 'events';
 import Transition from './Transition';
-import setModeApi from './setModeApi';
+import setEditModeApi from './setEditModeApi';
+import setViewModeApi from './setViewModeApi';
 import resetView from './resetView';
 import toStateMachine from './toStateMachine';
 
@@ -18,7 +19,8 @@ export default function(editor, model, typeEditor, buttonStateHelper, modeAccord
         .on('change', () => resetView(typeEditor, model.selectionModel));
 
     _.extend(emitter, {
-        setModeApi: (isEditable) => setModeApi(emitter, stateMachine, isEditable)
+        setEditModeApi: () => setEditModeApi(emitter, stateMachine),
+        setViewModeApi: () => setViewModeApi(emitter, stateMachine)
     });
 
     return emitter;
