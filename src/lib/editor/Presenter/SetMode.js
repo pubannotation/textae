@@ -1,17 +1,20 @@
 import {
     hasError
 }
-from '../../model/AnnotationData/parseAnnotation/validateAnnotation';
+from '../model/AnnotationData/parseAnnotation/validateAnnotation';
 
 let showForEdit;
 
-export default function(annotationData, editMode, mode, writable) {
+export default function(annotationData, editMode, writable) {
+    let showForEdit = (annotationData, multitrack, reject) => showMessageForEditMode(annotationData, multitrack, reject, writable);
+
+    return (mode) => setModeToEditable(annotationData, editMode, showForEdit, mode);
+}
+
+function setModeToEditable(annotationData, editMode, showForEdit, mode) {
     let isEditable = mode === 'edit';
 
     editMode.setModeApi(isEditable);
-
-    if (!showForEdit)
-        showForEdit = (annotationData, multitrack, reject) => showMessageForEditMode(annotationData, multitrack, reject, writable);
 
     if (isEditable) {
         annotationData.on('all.change', showForEdit);
