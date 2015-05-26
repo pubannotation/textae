@@ -71,30 +71,8 @@ export default function(editor, model, view, command, spanConfig, clipBoard, but
             // Select this editor.
             editor.eventEmitter.emit('textae.editor.select');
             buttonController.buttonStateHelper.propagate();
-        };
-
-    return {
-        init: function(mode, writable) {
-            // The jsPlumbConnetion has an original event mecanism.
-            // We can only bind the connection directory.
-            editor
-                .on('textae.editor.jsPlumbConnection.add', (event, jsPlumbConnection) => {
-                    jsPlumbConnection.bindClickAction(typeEditor.jsPlumbConnectionClicked);
-                });
-
-            defaultEntityHandler.on('createEntity', displayInstance.notifyNewInstance);
-
-            model.annotationData.on('all.change', annotationData => setDefaultView(
-                editMode,
-                annotationData
-            ));
-
-
-            let setMode = new SetMode(model.annotationData, editMode, writable);
-
-            setMode(mode);
         },
-        event: {
+        event = {
             editorSelected: editorSelected,
             copyEntities: clipBoardHandler.copyEntities,
             removeSelectedElements: () => removeSelectedElements(
@@ -114,6 +92,26 @@ export default function(editor, model, view, command, spanConfig, clipBoard, but
             negation: modificationHandler.negation,
             speculation: modificationHandler.speculation,
             showSettingDialog: showSettingDialog
-        }
+        };
+
+    return {
+        init: function(writable) {
+            // The jsPlumbConnetion has an original event mecanism.
+            // We can only bind the connection directory.
+            editor
+                .on('textae.editor.jsPlumbConnection.add', (event, jsPlumbConnection) => {
+                    jsPlumbConnection.bindClickAction(typeEditor.jsPlumbConnectionClicked);
+                });
+
+            defaultEntityHandler.on('createEntity', displayInstance.notifyNewInstance);
+
+            model.annotationData.on('all.change', annotationData => setDefaultView(
+                editMode,
+                annotationData
+            ));
+
+            event.setMode = new SetMode(model.annotationData, editMode, writable);
+        },
+        event: event
     };
 }

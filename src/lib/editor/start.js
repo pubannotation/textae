@@ -35,7 +35,8 @@ export default function(editor, dataAccessObject, history, buttonController, mod
 
     view.init(editor, buttonController, typeGap, typeContainer, writable);
     controller.init();
-    presenter.init(params.mode, writable);
+    presenter.init(writable);
+    presenter.event.setMode(params.mode);
 
     let statusBar = getStatusBar(editor, params.status_bar);
 
