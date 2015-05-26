@@ -1,4 +1,3 @@
-import setDefaultView from './setDefaultView';
 import {
     hasError
 }
@@ -8,10 +7,6 @@ export default function(annotationData, editMode, mode, writable) {
     let isEditable = mode === 'edit';
 
     editMode.setModeApi(isEditable);
-    annotationData.on('all.change', annotationData => setDefaultView(
-        editMode,
-        annotationData
-    ));
 
     if (isEditable) {
         annotationData

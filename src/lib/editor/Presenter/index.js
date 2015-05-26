@@ -2,6 +2,7 @@ import SettingDialog from '../../component/SettingDialog';
 import TypeEditor from './TypeEditor';
 import EditMode from './EditMode';
 import DisplayInstance from './DisplayInstance';
+import setDefaultView from './setDefaultView';
 import setMode from './setMode';
 import changeLabelHandler from './handlers/changeLabelHandler';
 import ClipBoardHandler from './handlers/ClipBoardHandler';
@@ -82,6 +83,12 @@ export default function(editor, model, view, command, spanConfig, clipBoard, but
                 });
 
             defaultEntityHandler.on('createEntity', displayInstance.notifyNewInstance);
+
+            model.annotationData.on('all.change', annotationData => setDefaultView(
+                editMode,
+                annotationData
+            ));
+
             setMode(model.annotationData, editMode, mode, writable);
         },
         event: {
