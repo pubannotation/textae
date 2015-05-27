@@ -142,6 +142,7 @@ module.exports = function(grunt) {
                 files: [
                     'Gruntfile.js',
                     'src/lib/**/*.js',
+                    'src/lib/**/*.json',
                     '!src/lib/bundle.js'
                 ],
                 tasks: [
