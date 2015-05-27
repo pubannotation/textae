@@ -5,11 +5,11 @@ export default function(typeGap, editMode) {
         typeGapCache = new TypeGapCache();
 
     editMode
-        .on('show', function(argument) {
+        .on('showInstance', function(argument) {
             showInstance = true;
             updateTypeGap(showInstance, typeGap, typeGapCache);
         })
-        .on('hide', function(argument) {
+        .on('hideInstance', function(argument) {
             showInstance = false;
             updateTypeGap(showInstance, typeGap, typeGapCache);
         });
