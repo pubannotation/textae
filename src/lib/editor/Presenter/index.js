@@ -107,6 +107,8 @@ export default function(
             setMode: setMode
         };
 
+    editMode.on('change', (...rest) => console.log(rest));
+
     return {
         init: function() {
             // The jsPlumbConnetion has an original event mecanism.
