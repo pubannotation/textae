@@ -5,9 +5,6 @@ export default function(editor, model, buttonStateHelper, modeAccordingToButton)
     let selector = new Selector(editor, model),
         setSettingButtonEnable = _.partial(buttonStateHelper.enabled, 'setting', true),
         setControlButtonForRelation = function(isRelation) {
-            buttonStateHelper.enabled('replicate-auto', !isRelation);
-            buttonStateHelper.enabled('boundary-detection', !isRelation);
-            modeAccordingToButton['relation-edit-mode'].value(isRelation);
         },
         // This notify is off at relation-edit-mode.
         entitySelectChanged = _.compose(buttonStateHelper.updateByEntity, selector.entityLabel.update);

@@ -107,7 +107,20 @@ export default function(
             setMode: setMode
         };
 
-    editMode.on('change', (...rest) => console.log(rest));
+    editMode.on('change', (editable, mode) => {
+        let setControlButtonForRelation = function(isRelation) {
+            buttonController.buttonStateHelper.enabled('replicate-auto', !isRelation);
+            buttonController.buttonStateHelper.enabled('boundary-detection', !isRelation);
+            buttonController.modeAccordingToButton['relation-edit-mode'].value(isRelation);
+        };
+
+        console.log(editable, mode);
+        if (mode === 'relation') {
+            setControlButtonForRelation(true);
+        } else {
+            setControlButtonForRelation(false);
+        }
+    });
 
     return {
         init: function() {
