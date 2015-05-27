@@ -16,7 +16,8 @@ export default function(editor, model, typeEditor, buttonStateHelper, modeAccord
     transition
         .on('show', () => emitter.emit('showInstance'))
         .on('hide', () => emitter.emit('hideInstance'))
-        .on('change', () => resetView(typeEditor, model.selectionModel));
+        .on('change', () => resetView(typeEditor, model.selectionModel))
+        .on('change', (...rest) => console.log(rest));
 
     _.extend(emitter, {
         setEditModeApi: () => setEditModeApi(emitter, stateMachine),

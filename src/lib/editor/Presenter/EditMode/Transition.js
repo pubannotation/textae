@@ -16,7 +16,7 @@ export default function(editor, model, typeEditor, buttonStateHelper, modeAccord
                 setEditableStyle(editor, buttonStateHelper, true);
 
                 emitter.emit('hide');
-                emitter.emit('change');
+                emitter.emit('change', true, 'term');
             },
             toInstance: function() {
                 typeEditor.editEntity();
@@ -24,7 +24,7 @@ export default function(editor, model, typeEditor, buttonStateHelper, modeAccord
                 setEditableStyle(editor, buttonStateHelper, true);
 
                 emitter.emit('show');
-                emitter.emit('change');
+                emitter.emit('change', true, 'instance');
             },
             toRelation: function() {
                 typeEditor.editRelation();
@@ -32,7 +32,7 @@ export default function(editor, model, typeEditor, buttonStateHelper, modeAccord
                 setEditableStyle(editor, buttonStateHelper, true);
 
                 emitter.emit('show');
-                emitter.emit('change');
+                emitter.emit('change', true, 'relation');
             },
             toViewTerm: function() {
                 typeEditor.noEdit();
@@ -40,7 +40,7 @@ export default function(editor, model, typeEditor, buttonStateHelper, modeAccord
                 setEditableStyle(editor, buttonStateHelper, false);
 
                 emitter.emit('hide');
-                emitter.emit('change');
+                emitter.emit('change', false, 'term');
             },
             toViewInstance: function() {
                 typeEditor.noEdit();
@@ -48,7 +48,7 @@ export default function(editor, model, typeEditor, buttonStateHelper, modeAccord
                 setEditableStyle(editor, buttonStateHelper, false);
 
                 emitter.emit('show');
-                emitter.emit('change');
+                emitter.emit('change', false, 'instance');
             }
         };
 
