@@ -1,75 +1,75 @@
 {
     "buttonGroup": [{
-        "buttonList": [{
-            "buttonType": "read",
+        "list": [{
+            "type": "read",
             "title": "Import [I]"
         }, {
-            "buttonType": "write",
+            "type": "write",
             "title": "Upload [U]"
         }]
     }, {
-        "buttonList": [{
-            "buttonType": "undo",
+        "list": [{
+            "type": "undo",
             "title": "Undo [Z]"
         }, {
-            "buttonType": "redo",
+            "type": "redo",
             "title": "Redo [A]"
         }]
     }, {
-        "buttonList": [{
-            "buttonType": "replicate",
+        "list": [{
+            "type": "replicate",
             "title": "Replicate span annotation [R]"
         }, {
-            "buttonType": "replicate-auto",
+            "type": "replicate-auto",
             "title": "Auto replicate"
         }, {
-            "buttonType": "boundary-detection",
+            "type": "boundary-detection",
             "title": "Boundary Detection [B]"
         }, {
-            "buttonType": "relation-edit-mode",
+            "type": "relation-edit-mode",
             "title": "Relation Edit Mode [F]"
         }]
     }, {
-        "buttonList": [{
-            "buttonType": "entity",
+        "list": [{
+            "type": "entity",
             "title": "New entity [E]"
         }, {
-            "buttonType": "pallet",
+            "type": "pallet",
             "title": "Select label [Q]"
         }, {
-            "buttonType": "change-label",
+            "type": "change-label",
             "title": "Change label [W]"
         }]
     }, {
-        "buttonList": [{
-            "buttonType": "negation",
+        "list": [{
+            "type": "negation",
             "title": "Negation [X]"
         }, {
-            "buttonType": "speculation",
+            "type": "speculation",
             "title": "Speculation [S]"
         }]
     }, {
-        "buttonList": [{
-            "buttonType": "delete",
+        "list": [{
+            "type": "delete",
             "title": "Delete [D]"
         }, {
-            "buttonType": "copy",
+            "type": "copy",
             "title": "Copy [C]"
         }, {
-            "buttonType": "paste",
+            "type": "paste",
             "title": "Paste [V]"
         }]
     }, {
-        "buttonList": [{
-            "buttonType": "setting",
+        "list": [{
+            "type": "setting",
             "title": "Setting"
         }]
     }, {
-        "buttonList": [{
-            "buttonType": "help",
+        "list": [{
+            "type": "help",
             "title": "Help [H]"
         }, {
-            "buttonType": "line-height",
+            "type": "line-height",
             "title": "Auto Adjust LineHeight"
         }]
     }]

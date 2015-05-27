@@ -2,10 +2,10 @@
 export default function(buttonMap) {
     return buttonMap.buttonGroup
         .reduce((hash, group) => {
-            return group.buttonList
+            return group.list
                 .reduce((hash, button) => {
                     // Trick for merge outer parametr to enable or disable buttons
-                    hash[button.buttonType] = 1;
+                    hash[button.type] = 1;
                     return hash;
                 }, hash);
         }, {});
