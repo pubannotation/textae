@@ -1,6 +1,6 @@
 module.exports = function(editor, presenter, view) {
     return {
-        init: function() {
+        init: function(editor, presenter, view) {
             // Prevent the default selection by the browser with shift keies.
             editor.on('mousedown', function(e) {
                 if (e.shiftKey) {

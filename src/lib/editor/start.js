@@ -31,11 +31,10 @@ export default function(editor, dataAccessObject, history, buttonController, mod
             typeContainer,
             writable
         ),
-        //handle user input event.
         controller = new Controller(editor, presenter, view);
 
     view.init(editor, buttonController, typeGap, typeContainer, writable);
-    controller.init();
+    controller.init(editor, presenter, view);
     presenter.init();
     presenter.event.setMode(params.mode);
 
