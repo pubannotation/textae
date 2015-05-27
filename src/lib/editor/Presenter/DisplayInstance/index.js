@@ -1,9 +1,4 @@
-import capitalize from 'capitalize';
-
-const SEED = {
-    instanceHide: 0,
-    instanceShow: 2
-};
+import TypeGapCache from './TypeGapCache';
 
 export default function(typeGap, instanceMode) {
     let showInstance = true,
@@ -45,20 +40,4 @@ function updateTypeGap (showInstance, typeGap, typeGapCache) {
     } else {
         typeGap.set(typeGapCache.instanceHide);
     }
-}
-
-function TypeGapCache() {
-    let api = _.extend({}, SEED),
-        set = (mode, val) => updateHash(api, mode, val);
-
-    _.each(SEED, (val, key) => {
-        api['set' + capitalize(key)] = (val) => set(key, val);
-    });
-
-    return api;
-}
-
-function updateHash(hash, key, val) {
-    hash[key] = val;
-    return val;
 }
