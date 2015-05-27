@@ -102,8 +102,7 @@ export default function(
             toggleRelationEditMode: toggleButtonHandler.toggleRelationEditMode,
             negation: modificationHandler.negation,
             speculation: modificationHandler.speculation,
-            showSettingDialog: showSettingDialog,
-            setMode: setMode
+            showSettingDialog: showSettingDialog
         };
 
     editMode.on('change', (editable, mode) => {
@@ -126,7 +125,7 @@ export default function(
     });
 
     return {
-        init: function() {
+        init: function(editable) {
             // The jsPlumbConnetion has an original event mecanism.
             // We can only bind the connection directory.
             editor
@@ -138,8 +137,11 @@ export default function(
 
             model.annotationData.on('all.change', annotationData => setDefaultView(
                 editMode,
-                annotationData
+                annotationData,
+                editable
             ));
+
+            setMode(editable);
         },
         event: event
     };

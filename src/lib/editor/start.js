@@ -34,8 +34,7 @@ export default function(editor, dataAccessObject, history, buttonController, mod
 
     view.init(editor, buttonController, typeGap, typeContainer, writable);
     bindMouseEvent(editor, presenter, view);
-    presenter.init();
-    presenter.event.setMode(params.mode);
+    presenter.init(params.mode);
 
     let statusBar = getStatusBar(editor, params.status_bar);
 
