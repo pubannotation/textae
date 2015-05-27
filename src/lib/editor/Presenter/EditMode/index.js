@@ -9,9 +9,9 @@ import setEditModeApi from './setEditModeApi';
 import setViewModeApi from './setViewModeApi';
 import event from './event';
 
-export default function(editor, model, typeEditor, buttonStateHelper, modeAccordingToButton) {
+export default function(editor, model, typeEditor, buttonStateHelper) {
     let emitter = new EventEmitter(),
-        transition = new Transition(editor, model, typeEditor, buttonStateHelper, modeAccordingToButton),
+        transition = new Transition(editor, model, typeEditor, buttonStateHelper),
         stateMachine = toStateMachine(transition);
 
     transition

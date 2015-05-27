@@ -1,11 +1,9 @@
 import Selector from '../../view/Selector';
 import setEditable from './setEditableStyle';
 
-export default function(editor, model, buttonStateHelper, modeAccordingToButton) {
+export default function(editor, model, buttonStateHelper) {
     let selector = new Selector(editor, model),
         setSettingButtonEnable = _.partial(buttonStateHelper.enabled, 'setting', true),
-        setControlButtonForRelation = function(isRelation) {
-        },
         // This notify is off at relation-edit-mode.
         entitySelectChanged = _.compose(buttonStateHelper.updateByEntity, selector.entityLabel.update);
 
@@ -13,7 +11,6 @@ export default function(editor, model, buttonStateHelper, modeAccordingToButton)
         setTerm: function() {
             changeCssClass(editor, 'term');
             setSettingButtonEnable();
-            setControlButtonForRelation(false);
 
             model.selectionModel
                 .removeListener('entity.select', entitySelectChanged)
@@ -26,7 +23,6 @@ export default function(editor, model, buttonStateHelper, modeAccordingToButton)
         setInstance: function() {
             changeCssClass(editor, 'instance');
             setSettingButtonEnable();
-            setControlButtonForRelation(false);
 
             model.selectionModel
                 .removeListener('entity.select', entitySelectChanged)
@@ -39,7 +35,6 @@ export default function(editor, model, buttonStateHelper, modeAccordingToButton)
         setRelation: function() {
             changeCssClass(editor, 'relation');
             setSettingButtonEnable();
-            setControlButtonForRelation(true);
 
             model.selectionModel
                 .removeListener('entity.select', entitySelectChanged)

@@ -12,8 +12,8 @@ const TERM = 'term',
     INSTANCE = 'instance',
     RELATION = 'relation';
 
-export default function(editor, model, typeEditor, buttonStateHelper, modeAccordingToButton) {
-    let viewMode = new ViewMode(editor, model, buttonStateHelper, modeAccordingToButton),
+export default function(editor, model, typeEditor, buttonStateHelper) {
+    let viewMode = new ViewMode(editor, model, buttonStateHelper),
         emitter = new EventEmitter(),
         api = {
             toTerm: function() {

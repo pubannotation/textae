@@ -36,8 +36,7 @@ export default function(
             editor,
             model,
             typeEditor,
-            buttonController.buttonStateHelper,
-            buttonController.modeAccordingToButton
+            buttonController.buttonStateHelper
         ),
         displayInstance = new DisplayInstance(
             typeGap,
@@ -114,7 +113,6 @@ export default function(
             buttonController.modeAccordingToButton['relation-edit-mode'].value(isRelation);
         };
 
-        console.log(editable, mode);
         if (mode === 'relation') {
             setControlButtonForRelation(true);
         } else {
