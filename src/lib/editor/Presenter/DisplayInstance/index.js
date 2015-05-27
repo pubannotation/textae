@@ -1,32 +1,22 @@
 import TypeGapCache from './TypeGapCache';
 
-export default function(typeGap, instanceMode) {
+export default function(typeGap, editMode) {
     let showInstance = true,
-        typeGapCache = new TypeGapCache(),
-        setShowInstance = function(val) {
-            showInstance = val;
-            updateTypeGap(showInstance, typeGap, typeGapCache);
-        };
+        typeGapCache = new TypeGapCache();
 
-    instanceMode
+    editMode
         .on('show', function(argument) {
-            setShowInstance(true);
+            showInstance = true;
+            updateTypeGap(showInstance, typeGap, typeGapCache);
         })
         .on('hide', function(argument) {
-            setShowInstance(false);
+            showInstance = false;
+            updateTypeGap(showInstance, typeGap, typeGapCache);
         });
 
     return {
         showInstance: () => showInstance,
-        changeTypeGap: (val) => {
-            if (showInstance) {
-                typeGapCache.setInstanceShow(val);
-            } else {
-                typeGapCache.setInstanceHide(val);
-            }
-
-            updateTypeGap();
-        },
+        changeTypeGap: (val) => changeTypeGap(showInstance, typeGap, typeGapCache, val),
         getTypeGap: () => typeGap(),
         notifyNewInstance: () => {
             if (!showInstance) toastr.success("an instance is created behind.");
@@ -34,7 +24,17 @@ export default function(typeGap, instanceMode) {
     };
 }
 
-function updateTypeGap (showInstance, typeGap, typeGapCache) {
+function changeTypeGap(showInstance, typeGap, typeGapCache, value) {
+    if (showInstance) {
+        typeGapCache.setInstanceShow(val);
+    } else {
+        typeGapCache.setInstanceHide(val);
+    }
+
+    updateTypeGap(showInstance, typeGap, typeGapCache);
+}
+
+function updateTypeGap(showInstance, typeGap, typeGapCache) {
     if (showInstance) {
         typeGap.set(typeGapCache.instanceShow);
     } else {
