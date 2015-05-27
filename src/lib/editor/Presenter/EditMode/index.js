@@ -21,8 +21,24 @@ export default function(editor, model, typeEditor, buttonStateHelper) {
         .on(event.CHANGE, (editable, mode) => emitter.emit(event.CHANGE, editable, mode));
 
     _.extend(emitter, {
-        setEditModeApi: () => setEditModeApi(emitter, stateMachine),
-        setViewModeApi: () => setViewModeApi(emitter, stateMachine)
+        toTerm: function() {
+            stateMachine.setState('Term Contric');
+        },
+        toInstance: function() {
+            stateMachine.setState('Instance / Relation');
+        },
+        toRelation: function() {
+            stateMachine.setState('Relation Edit');
+        },
+        toViewTerm: function() {
+            stateMachine.setState('View Term');
+        },
+        toViewInstance: function() {
+            stateMachine.setState('View Instance');
+        }
+    }, {
+        setEditModeApi: () => setEditModeApi(emitter),
+        setViewModeApi: () => setViewModeApi(emitter)
     });
 
     return emitter;

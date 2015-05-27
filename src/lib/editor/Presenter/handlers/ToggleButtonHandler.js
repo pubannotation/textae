@@ -5,7 +5,11 @@ module.exports = function(modeAccordingToButton, editMode) {
         },
         toggleRelationEditMode: function() {
             if (modeAccordingToButton['relation-edit-mode'].value()) {
-                editMode.toInstance();
+                if (editMode.editable) {
+                    editMode.toInstance();
+                } else {
+                    editMode.toViewInstance();
+                }
             } else {
                 editMode.toRelation();
             }

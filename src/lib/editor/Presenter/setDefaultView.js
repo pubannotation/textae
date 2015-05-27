@@ -1,8 +1,16 @@
 export default function(editMode, annotationData) {
     // Change view mode accoding to the annotation data.
     if (annotationData.relation.some() || annotationData.span.multiEntities().length > 0) {
-        editMode.toInstance();
+        if (editMode.editable) {
+            editMode.toInstance();
+        } else {
+            editMode.toViewInstance();
+        }
     } else {
-        editMode.toTerm();
+        if (editMode.editable) {
+            editMode.toTerm();
+        } else {
+            editMode.toViewTerm();
+        }
     }
 }

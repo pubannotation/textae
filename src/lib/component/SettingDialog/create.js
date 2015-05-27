@@ -63,9 +63,17 @@ function bindChangeMode($content, editor, editMode, displayInstance) {
 
 function changeMode(editor, editMode, displayInstance, $content, checked) {
     if (checked) {
-        editMode.toInstance();
+        if (editMode.editable) {
+            editMode.toInstance();
+        } else {
+            editMode.toViewInstance();
+        }
     } else {
-        editMode.toTerm();
+        if (editMode.editable) {
+            editMode.toTerm();
+        } else {
+            editMode.toViewTerm();
+        }
     }
     updateTypeGapEnable(displayInstance, $content);
     updateTypeGapValue(displayInstance, $content);
