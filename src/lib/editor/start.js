@@ -7,7 +7,7 @@ import Command from './Command';
 import TypeContainer from './TypeContainer';
 import View from './View';
 import Presenter from './Presenter';
-import controller from './Controller';
+import bindMouseEvent from './bindMouseEvent';
 import APIs from './APIs';
 import calculateLineHeight from './calculateLineHeight';
 
@@ -33,7 +33,7 @@ export default function(editor, dataAccessObject, history, buttonController, mod
         );
 
     view.init(editor, buttonController, typeGap, typeContainer, writable);
-    controller(editor, presenter, view);
+    bindMouseEvent(editor, presenter, view);
     presenter.init();
     presenter.event.setMode(params.mode);
 
