@@ -7,7 +7,7 @@ import Command from './Command';
 import TypeContainer from './TypeContainer';
 import View from './View';
 import Presenter from './Presenter';
-import Controller from './Controller';
+import controller from './Controller';
 import APIs from './APIs';
 import calculateLineHeight from './calculateLineHeight';
 
@@ -30,11 +30,10 @@ export default function(editor, dataAccessObject, history, buttonController, mod
             typeGap,
             typeContainer,
             writable
-        ),
-        controller = new Controller(editor, presenter, view);
+        );
 
     view.init(editor, buttonController, typeGap, typeContainer, writable);
-    controller.init(editor, presenter, view);
+    controller(editor, presenter, view);
     presenter.init();
     presenter.event.setMode(params.mode);
 
