@@ -5,6 +5,12 @@ from 'events';
 import setEditableStyle from './setEditableStyle';
 import ViewMode from './ViewMode';
 import resetView from './resetView';
+import event from './event';
+
+
+const TERM = 'term',
+    INSTANCE = 'instance',
+    RELATION = 'relation';
 
 export default function(editor, model, typeEditor, buttonStateHelper, modeAccordingToButton) {
     let viewMode = new ViewMode(editor, model, buttonStateHelper, modeAccordingToButton),
@@ -15,40 +21,40 @@ export default function(editor, model, typeEditor, buttonStateHelper, modeAccord
                 viewMode.setTerm();
                 setEditableStyle(editor, buttonStateHelper, true);
 
-                emitter.emit('hide');
-                emitter.emit('change', true, 'term');
+                emitter.emit(event.HIDE);
+                emitter.emit(event.CHANGE, true, TERM);
             },
             toInstance: function() {
                 typeEditor.editEntity();
                 viewMode.setInstance();
                 setEditableStyle(editor, buttonStateHelper, true);
 
-                emitter.emit('show');
-                emitter.emit('change', true, 'instance');
+                emitter.emit(event.SHOW);
+                emitter.emit(event.CHANGE, true, INSTANCE);
             },
             toRelation: function() {
                 typeEditor.editRelation();
                 viewMode.setRelation();
                 setEditableStyle(editor, buttonStateHelper, true);
 
-                emitter.emit('show');
-                emitter.emit('change', true, 'relation');
+                emitter.emit(event.SHOW);
+                emitter.emit(event.CHANGE, true, RELATION);
             },
             toViewTerm: function() {
                 typeEditor.noEdit();
                 viewMode.setTerm();
                 setEditableStyle(editor, buttonStateHelper, false);
 
-                emitter.emit('hide');
-                emitter.emit('change', false, 'term');
+                emitter.emit(event.HIDE);
+                emitter.emit(event.CHANGE, false, TERM);
             },
             toViewInstance: function() {
                 typeEditor.noEdit();
                 viewMode.setInstance();
                 setEditableStyle(editor, buttonStateHelper, false);
 
-                emitter.emit('show');
-                emitter.emit('change', false, 'instance');
+                emitter.emit(event.SHOW);
+                emitter.emit(event.CHANGE, false, INSTANCE);
             }
         };
 

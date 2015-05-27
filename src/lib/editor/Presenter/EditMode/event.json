@@ -1,0 +1,5 @@
+{
+    "SHOW": "showInstance",
+    "HIDE": "hideInstance",
+    "CHANGE": "change"
+}

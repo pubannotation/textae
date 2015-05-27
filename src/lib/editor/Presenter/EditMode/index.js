@@ -14,8 +14,8 @@ export default function(editor, model, typeEditor, buttonStateHelper, modeAccord
         stateMachine = toStateMachine(transition);
 
     transition
-        .on('show', () => emitter.emit('showInstance'))
-        .on('hide', () => emitter.emit('hideInstance'))
+        .on('showInstance', () => emitter.emit('showInstance'))
+        .on('hideInstance', () => emitter.emit('hideInstance'))
         .on('change', () => resetView(typeEditor, model.selectionModel))
         .on('change', (...rest) => console.log(rest));
 
