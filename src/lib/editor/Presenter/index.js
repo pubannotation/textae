@@ -118,6 +118,11 @@ export default function(
         } else {
             setControlButtonForRelation(false);
         }
+
+        if(!editable){
+            buttonController.buttonStateHelper.enabled('replicate-auto', false);
+            buttonController.buttonStateHelper.enabled('boundary-detection', false);
+        }
     });
 
     return {
