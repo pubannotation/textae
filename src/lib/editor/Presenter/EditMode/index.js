@@ -7,6 +7,7 @@ import toStateMachine from './toStateMachine';
 import resetView from './resetView';
 import setEditModeApi from './setEditModeApi';
 import setViewModeApi from './setViewModeApi';
+import event from './event';
 
 export default function(editor, model, typeEditor, buttonStateHelper, modeAccordingToButton) {
     let emitter = new EventEmitter(),
@@ -14,10 +15,10 @@ export default function(editor, model, typeEditor, buttonStateHelper, modeAccord
         stateMachine = toStateMachine(transition);
 
     transition
-        .on('showInstance', () => emitter.emit('showInstance'))
-        .on('hideInstance', () => emitter.emit('hideInstance'))
-        .on('change', () => resetView(typeEditor, model.selectionModel))
-        .on('change', (...rest) => console.log(rest));
+        .on(event.SHOW, () => emitter.emit(event.SHOW))
+        .on(event.HIDE, () => emitter.emit(event.HIDE))
+        .on(event.CHANGE, () => resetView(typeEditor, model.selectionModel))
+        .on(event.CHANGE, (...rest) => console.log(rest));
 
     _.extend(emitter, {
         setEditModeApi: () => setEditModeApi(emitter, stateMachine),

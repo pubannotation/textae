@@ -1,15 +1,16 @@
 import TypeGapCache from './TypeGapCache';
+import event from '../EditMode/event';
 
 export default function(typeGap, editMode) {
     let showInstance = true,
         typeGapCache = new TypeGapCache();
 
     editMode
-        .on('showInstance', function(argument) {
+        .on(event.SHOW, function(argument) {
             showInstance = true;
             updateTypeGap(showInstance, typeGap, typeGapCache);
         })
-        .on('hideInstance', function(argument) {
+        .on(event.HIDE, function(argument) {
             showInstance = false;
             updateTypeGap(showInstance, typeGap, typeGapCache);
         });
