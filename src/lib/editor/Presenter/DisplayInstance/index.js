@@ -27,9 +27,9 @@ export default function(typeGap, editMode) {
 
 function changeTypeGap(showInstance, typeGap, typeGapCache, value) {
     if (showInstance) {
-        typeGapCache.setInstanceShow(val);
+        typeGapCache.setInstanceShow(value);
     } else {
-        typeGapCache.setInstanceHide(val);
+        typeGapCache.setInstanceHide(value);
     }
 
     updateTypeGap(showInstance, typeGap, typeGapCache);
