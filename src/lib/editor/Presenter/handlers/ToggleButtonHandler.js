@@ -1,14 +1,18 @@
-module.exports = function(modeAccordingToButton, editMode) {
+export default function(modeAccordingToButton, editMode) {
     return {
-        toggleDetectBoundaryMode: function() {
-            modeAccordingToButton['boundary-detection'].toggle();
-        },
-        toggleRelationEditMode: function() {
-            if (modeAccordingToButton['relation-edit-mode'].value()) {
-                editMode.upRelation();
-            } else {
-                editMode.pushRelation();
-            }
-        }
+        toggleDetectBoundaryMode: () => toggleDetectBoundaryMode(modeAccordingToButton),
+        toggleRelationEditMode: () => toggleRelationEditMode(modeAccordingToButton, editMode)
     };
-};
+}
+
+function toggleDetectBoundaryMode(modeAccordingToButton) {
+    modeAccordingToButton['boundary-detection'].toggle();
+}
+
+function toggleRelationEditMode(modeAccordingToButton, editMode) {
+    if (modeAccordingToButton['relation-edit-mode'].value()) {
+        editMode.upRelation();
+    } else {
+        editMode.pushRelation();
+    }
+}
