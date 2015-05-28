@@ -3,7 +3,7 @@ import {
 }
 from 'events';
 import Transition from './Transition';
-import toStateMachine from './toStateMachine';
+import bindTransition from './bindTransition';
 import resetView from './resetView';
 import setEditModeApi from './setEditModeApi';
 import setViewModeApi from './setViewModeApi';
@@ -13,7 +13,7 @@ import Trigger from './Trigger';
 export default function(editor, model, typeEditor, buttonStateHelper) {
     let emitter = new EventEmitter(),
         transition = new Transition(editor, model, typeEditor, buttonStateHelper),
-        stateMachine = toStateMachine(transition),
+        stateMachine = bindTransition(transition),
         trigger = new Trigger(stateMachine);
 
     transition
