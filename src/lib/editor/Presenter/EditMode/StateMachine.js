@@ -1,22 +1,21 @@
-var Machine = require('emitter-fsm'),
-    StateMachine = function() {
-        var m = new Machine({
-            states: ['Init', 'Term Contric', 'Instance / Relation', 'Relation Edit', 'View Term', 'View Instance']
-        });
+import Machine from 'emitter-fsm';
 
-        m.config('View Term', {
-            to: {
-                only: ['View Instance']
-            }
-        });
+export default function() {
+    let m = new Machine({
+        states: ['Init', 'Term Contric', 'Instance / Relation', 'Relation Edit', 'View Term', 'View Instance']
+    });
 
-        m.config('View Instance', {
-            to: {
-                only: ['View Term']
-            }
-        });
+    m.config('View Term', {
+        to: {
+            only: ['View Instance']
+        }
+    });
 
-        return m;
-    };
+    m.config('View Instance', {
+        to: {
+            only: ['View Term']
+        }
+    });
 
-module.exports = StateMachine;
+    return m;
+}
