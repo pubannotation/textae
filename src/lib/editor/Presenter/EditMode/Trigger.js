@@ -8,9 +8,6 @@ export default function(stateMachine) {
         toInstance: function() {
             stateMachine.setState(state.INSTANCE);
         },
-        toRelation: function() {
-            stateMachine.setState(state.RELATION);
-        },
         toViewTerm: function() {
             stateMachine.setState(state.VIEW_TERM);
         },
