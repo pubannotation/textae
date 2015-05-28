@@ -8,12 +8,13 @@ import resetView from './resetView';
 import setEditModeApi from './setEditModeApi';
 import setViewModeApi from './setViewModeApi';
 import event from './event';
-import state from './state';
+import Trigger from './Trigger';
 
 export default function(editor, model, typeEditor, buttonStateHelper) {
     let emitter = new EventEmitter(),
         transition = new Transition(editor, model, typeEditor, buttonStateHelper),
-        stateMachine = toStateMachine(transition);
+        stateMachine = toStateMachine(transition),
+        trigger = new Trigger(stateMachine);
 
     transition
         .on(event.SHOW, () => emitter.emit(event.SHOW))
@@ -21,23 +22,7 @@ export default function(editor, model, typeEditor, buttonStateHelper) {
         .on(event.CHANGE, () => resetView(typeEditor, model.selectionModel))
         .on(event.CHANGE, (editable, mode) => emitter.emit(event.CHANGE, editable, mode));
 
-    _.extend(emitter, {
-        toTerm: function() {
-            stateMachine.setState(state.TERM);
-        },
-        toInstance: function() {
-            stateMachine.setState(state.INSTANCE);
-        },
-        toRelation: function() {
-            stateMachine.setState(state.RELATION);
-        },
-        toViewTerm: function() {
-            stateMachine.setState(state.VIEW_TERM);
-        },
-        toViewInstance: function() {
-            stateMachine.setState(state.VIEW_INSTANCE);
-        }
-    }, {
+    _.extend(emitter, trigger, {
         setEditModeApi: () => setEditModeApi(emitter),
         setViewModeApi: () => setViewModeApi(emitter)
     });
