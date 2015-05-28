@@ -13,15 +13,78 @@ export default function() {
         ]
     });
 
-    m.config(state.VIEW_TERM, {
+    m.config(state.INIT, {
         to: {
-            only: [state.VIEW_INSTANCE]
+            only: [
+                state.TERM,
+                state.INSTANCE,
+                state.VIEW_INSTANCE
+            ]
+        }
+    });
+
+    m.config(state.TERM, {
+        from: {
+            exclude: [state.VIEW_INSTANCE]
+        },
+        to: {
+            exclude: [
+                state.INIT,
+                state.VIEW_INSTANCE
+            ]
+        }
+    });
+
+    m.config(state.INSTANCE, {
+        from: {
+            exclude: [state.VIEW_TERM]
+        },
+        to: {
+            exclude: [
+                state.INIT,
+                state.VIEW_TERM
+            ]
+        }
+    });
+
+    m.config(state.RELATION, {
+        from: {
+            exclude: [state.INIT]
+        },
+        to: {
+            exclude: [
+                state.INIT,
+                state.VIEW_TERM
+            ]
+        }
+    });
+
+    m.config(state.VIEW_TERM, {
+        from: {
+            exclude: [
+                state.INSTANCE,
+                state.RELATION
+            ]
+        },
+        to: {
+            exclude: [
+                state.INIT,
+                state.INSTANCE
+            ]
         }
     });
 
     m.config(state.VIEW_INSTANCE, {
+        from: {
+            exclude: [
+                state.TERM
+            ]
+        },
         to: {
-            only: [state.VIEW_TERM]
+            exclude: [
+                state.INIT,
+                state.TERM
+            ]
         }
     });
 
