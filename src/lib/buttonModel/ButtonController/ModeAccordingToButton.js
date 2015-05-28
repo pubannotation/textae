@@ -5,6 +5,9 @@ from 'events';
 import reduce2hash from '../../util/reduce2hash';
 
 const buttonList = [
+    'view',
+    'relation',
+    'simple',
     'boundary-detection',
     'negation',
     'replicate-auto',

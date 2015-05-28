@@ -1,6 +1,17 @@
 {
     "buttonGroup": [{
         "list": [{
+            "type": "view",
+            "title": "View Mode"
+        },{
+            "type": "relation",
+            "title": "Relation Edit Mode [F]"
+        },{
+            "type": "simple",
+            "title": "Simple Mode"
+        }]
+    },{
+        "list": [{
             "type": "read",
             "title": "Import [I]"
         }, {

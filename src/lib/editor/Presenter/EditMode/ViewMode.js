@@ -3,7 +3,12 @@ import setEditable from './setEditableStyle';
 
 export default function(editor, model, buttonStateHelper) {
     let selector = new Selector(editor, model),
-        setSettingButtonEnable = _.partial(buttonStateHelper.enabled, 'setting', true),
+        setSettingButtonEnable = () => {
+            buttonStateHelper.enabled('view', true);
+            buttonStateHelper.enabled('relation', true);
+            buttonStateHelper.enabled('simple', true);
+            buttonStateHelper.enabled('setting', true);
+        },
         // This notify is off at relation-edit-mode.
         entitySelectChanged = _.compose(buttonStateHelper.updateByEntity, selector.entityLabel.update);
 

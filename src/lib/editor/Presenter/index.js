@@ -1,3 +1,4 @@
+import extend from 'xtend';
 import SettingDialog from '../../component/SettingDialog';
 import TypeEditor from './TypeEditor';
 import EditMode from './EditMode';
@@ -11,6 +12,7 @@ import removeSelectedElements from './handlers/removeSelectedElements';
 import ModificationHandler from './handlers/ModificationHandler';
 import SelectSpanHandler from './handlers/SelectSpanHandler';
 import ToggleButtonHandler from './handlers/ToggleButtonHandler';
+import setButtonState from './setButtonState';
 
 export default function(
     editor,
@@ -98,31 +100,14 @@ export default function(
             cancelSelect: typeEditor.cancelSelect,
             selectLeftSpan: selectSpanHandler.selectLeftSpan,
             selectRightSpan: selectSpanHandler.selectRightSpan,
-            toggleDetectBoundaryMode: toggleButtonHandler.toggleDetectBoundaryMode,
-            toggleRelationEditMode: toggleButtonHandler.toggleRelationEditMode,
             negation: modificationHandler.negation,
             speculation: modificationHandler.speculation,
             showSettingDialog: showSettingDialog
         };
 
-    editMode.on('change', (editable, mode) => {
-        let setControlButtonForRelation = function(isRelation) {
-            buttonController.buttonStateHelper.enabled('replicate-auto', !isRelation);
-            buttonController.buttonStateHelper.enabled('boundary-detection', !isRelation);
-            buttonController.modeAccordingToButton['relation-edit-mode'].value(isRelation);
-        };
+    event = extend(event, toggleButtonHandler);
 
-        if (mode === 'relation') {
-            setControlButtonForRelation(true);
-        } else {
-            setControlButtonForRelation(false);
-        }
-
-        if(!editable){
-            buttonController.buttonStateHelper.enabled('replicate-auto', false);
-            buttonController.buttonStateHelper.enabled('boundary-detection', false);
-        }
-    });
+    editMode.on('change', (editable, mode) => setButtonState(buttonController, editable, mode));
 
     return {
         init: function(editable) {
