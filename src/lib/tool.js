@@ -105,7 +105,7 @@ module.exports = function() {
             var emitter = new EventEmitter()
                 .on('textae.editor.select', _.partial(editors.select, editor))
                 .on('textae.control.button.push', function(data) {
-                    controlBar.push(data.buttonName, data.state);
+                    if (editor === editors.getSelected()) controlBar.push(data.buttonName, data.state);
                 })
                 .on('textae.control.buttons.change', function(enableButtons) {
                     if (editor === editors.getSelected()) controlBar.changeButtonState(enableButtons);
