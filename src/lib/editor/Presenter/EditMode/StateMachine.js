@@ -1,19 +1,27 @@
 import Machine from 'emitter-fsm';
+import state from './state';
 
 export default function() {
     let m = new Machine({
-        states: ['Init', 'Term Contric', 'Instance / Relation', 'Relation Edit', 'View Term', 'View Instance']
+        states: [
+            state.INIT,
+            state.TERM,
+            state.INSTANCE,
+            state.RELATION,
+            state.VIEW_TERM,
+            state.VIEW_INSTANCE
+        ]
     });
 
-    m.config('View Term', {
+    m.config(state.VIEW_TERM, {
         to: {
-            only: ['View Instance']
+            only: [state.VIEW_INSTANCE]
         }
     });
 
-    m.config('View Instance', {
+    m.config(state.VIEW_INSTANCE, {
         to: {
-            only: ['View Term']
+            only: [state.VIEW_TERM]
         }
     });
 

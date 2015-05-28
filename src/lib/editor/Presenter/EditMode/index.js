@@ -8,6 +8,7 @@ import resetView from './resetView';
 import setEditModeApi from './setEditModeApi';
 import setViewModeApi from './setViewModeApi';
 import event from './event';
+import state from './state';
 
 export default function(editor, model, typeEditor, buttonStateHelper) {
     let emitter = new EventEmitter(),
@@ -22,19 +23,19 @@ export default function(editor, model, typeEditor, buttonStateHelper) {
 
     _.extend(emitter, {
         toTerm: function() {
-            stateMachine.setState('Term Contric');
+            stateMachine.setState(state.TERM);
         },
         toInstance: function() {
-            stateMachine.setState('Instance / Relation');
+            stateMachine.setState(state.INSTANCE);
         },
         toRelation: function() {
-            stateMachine.setState('Relation Edit');
+            stateMachine.setState(state.RELATION);
         },
         toViewTerm: function() {
-            stateMachine.setState('View Term');
+            stateMachine.setState(state.VIEW_TERM);
         },
         toViewInstance: function() {
-            stateMachine.setState('View Instance');
+            stateMachine.setState(state.VIEW_INSTANCE);
         }
     }, {
         setEditModeApi: () => setEditModeApi(emitter),
