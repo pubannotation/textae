@@ -23,7 +23,6 @@ export default function() {
         dataAccessObject = new DataAccessObject(self, CONFIRM_DISCARD_CHANGE_MESSAGE);
 
     let writable = new Writable();
-    writable(val => buttonController.buttonStateHelper.enabled("write", val));
 
     observe.observeModelChange(model.annotationData, history, writable);
     observe.observeHistorfChange(

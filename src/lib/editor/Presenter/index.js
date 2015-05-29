@@ -105,14 +105,22 @@ export default function(
 
     event = extend(event, toggleButtonHandler);
 
+    let fuga = false;
+    writable(val => {
+        fuga = val;
+        buttonController.buttonStateHelper.enabled("write", val && editMode.editable);
+    });
+
     editMode
         .on('change', (editable, mode) => setButtonState(buttonController, editable, mode))
         .on('change', (editable, mode) => {
             // For the setting dialog.
             if (editable) {
                 editMode.setEditModeApi();
+                buttonController.buttonStateHelper.enabled("write", fuga);
             } else {
                 editMode.setViewModeApi();
+                buttonController.buttonStateHelper.enabled("write", false);
             }
         });
 
