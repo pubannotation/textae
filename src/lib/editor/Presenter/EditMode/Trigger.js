@@ -2,19 +2,11 @@ import state from './state';
 
 export default function(stateMachine) {
     return {
-        toTerm: function() {
-            stateMachine.setState(state.TERM);
-        },
-        toInstance: function() {
-            stateMachine.setState(state.INSTANCE);
-        },
-        toViewTerm: function() {
-            stateMachine.setState(state.VIEW_TERM);
-        },
-        toViewInstance: function() {
-            stateMachine.setState(state.VIEW_INSTANCE);
-        },
-        pushView: function() {
+        toTerm: () => stateMachine.setState(state.TERM),
+        toInstance: () => stateMachine.setState(state.INSTANCE),
+        toViewTerm: () => stateMachine.setState(state.VIEW_TERM),
+        toViewInstance: () => stateMachine.setState(state.VIEW_INSTANCE),
+        pushView: () => {
             switch (stateMachine.currentState) {
                 case state.TERM:
                     stateMachine.setState(state.VIEW_TERM);
@@ -27,7 +19,7 @@ export default function(stateMachine) {
                     throw new Error(`Invalid state: ${stateMachine.currentState}`);
             }
         },
-        upView: function() {
+        upView: () => {
             switch (stateMachine.currentState) {
                 case state.VIEW_TERM:
                     stateMachine.setState(state.TERM);
@@ -39,13 +31,9 @@ export default function(stateMachine) {
                     throw new Error(`Invalid state: ${stateMachine.currentState}`);
             }
         },
-        pushRelation: function() {
-            stateMachine.setState(state.RELATION);
-        },
-        upRelation: function() {
-            stateMachine.setState(state.INSTANCE);
-        },
-        pushSimple: function() {
+        pushRelation: () => stateMachine.setState(state.RELATION),
+        upRelation: () => stateMachine.setState(state.INSTANCE),
+        pushSimple: () => {
             switch (stateMachine.currentState) {
                 case state.INSTANCE:
                 case state.RELATION:
@@ -58,7 +46,7 @@ export default function(stateMachine) {
                     throw new Error(`Invalid state: ${stateMachine.currentState}`);
             }
         },
-        upSimple: function() {
+        upSimple: () => {
             switch (stateMachine.currentState) {
                 case state.TERM:
                     stateMachine.setState(state.INSTANCE);
