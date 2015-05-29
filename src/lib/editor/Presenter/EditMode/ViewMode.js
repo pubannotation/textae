@@ -1,21 +1,17 @@
 import Selector from '../../view/Selector';
 import setEditable from './setEditableStyle';
+import enableButtonHasAnnotation from './enableButtonHasAnnotation';
 
 export default function(editor, model, buttonStateHelper) {
     let selector = new Selector(editor, model),
-        setSettingButtonEnable = () => {
-            buttonStateHelper.enabled('view', true);
-            buttonStateHelper.enabled('relation', true);
-            buttonStateHelper.enabled('simple', true);
-            buttonStateHelper.enabled('setting', true);
-        },
+        aaa = () => enableButtonHasAnnotation(buttonStateHelper),
         // This notify is off at relation-edit-mode.
         entitySelectChanged = _.compose(buttonStateHelper.updateByEntity, selector.entityLabel.update);
 
     let api = {
         setTerm: function() {
             changeCssClass(editor, 'term');
-            setSettingButtonEnable();
+            aaa();
 
             model.selectionModel
                 .removeListener('entity.select', entitySelectChanged)
@@ -27,7 +23,7 @@ export default function(editor, model, buttonStateHelper) {
         },
         setInstance: function() {
             changeCssClass(editor, 'instance');
-            setSettingButtonEnable();
+            aaa();
 
             model.selectionModel
                 .removeListener('entity.select', entitySelectChanged)
@@ -39,7 +35,7 @@ export default function(editor, model, buttonStateHelper) {
         },
         setRelation: function() {
             changeCssClass(editor, 'relation');
-            setSettingButtonEnable();
+            aaa();
 
             model.selectionModel
                 .removeListener('entity.select', entitySelectChanged)
