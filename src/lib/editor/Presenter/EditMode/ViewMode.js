@@ -1,5 +1,4 @@
 import Selector from '../../view/Selector';
-import setEditable from './setEditableStyle';
 
 export default function(editor, model, buttonStateHelper) {
     let selector = new Selector(editor, model),
@@ -36,8 +35,7 @@ export default function(editor, model, buttonStateHelper) {
                 .removeListener('entity.select', entitySelectChanged)
                 .removeListener('entity.deselect', entitySelectChanged)
                 .removeListener('entity.change', buttonStateHelper.updateByEntity);
-        },
-        setEditable: isEditable => setEditable(editor, buttonStateHelper, isEditable)
+        }
     };
 
     return api;
