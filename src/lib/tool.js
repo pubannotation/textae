@@ -103,11 +103,11 @@ module.exports = function() {
 
             // Add an event emitter to the editer.
             var emitter = new EventEmitter()
-                .on('textae.editor.select', _.partial(editors.select, editor))
-                .on('textae.control.button.push', function(data) {
+                .on('textae.editor.select', () => editors.select(editor))
+                .on('textae.control.button.push', (data) => {
                     if (editor === editors.getSelected()) controlBar.push(data.buttonName, data.state);
                 })
-                .on('textae.control.buttons.change', function(enableButtons) {
+                .on('textae.control.buttons.change', (enableButtons) => {
                     if (editor === editors.getSelected()) controlBar.changeButtonState(enableButtons);
                 });
 
