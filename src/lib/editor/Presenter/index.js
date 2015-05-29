@@ -3,8 +3,7 @@ import SettingDialog from '../../component/SettingDialog';
 import TypeEditor from './TypeEditor';
 import EditMode from './EditMode';
 import DisplayInstance from './DisplayInstance';
-import setDefaultView from './setDefaultView';
-import SetMode from './SetMode';
+import setDefaultEditability from './setDefaultEditability';
 import changeLabelHandler from './handlers/changeLabelHandler';
 import ClipBoardHandler from './handlers/ClipBoardHandler';
 import DefaultEntityHandler from './handlers/DefaultEntityHandler';
@@ -127,14 +126,7 @@ export default function(
 
             defaultEntityHandler.on('createEntity', displayInstance.notifyNewInstance);
 
-            let editable = mode !== 'view';
-            model.annotationData.on('all.change', annotationData => setDefaultView(
-                editMode,
-                annotationData,
-                editable
-            ));
-
-            new SetMode(model.annotationData, editMode, writable, editable);
+            setDefaultEditability(model.annotationData, editMode, writable, mode);
         },
         event: event
     };
