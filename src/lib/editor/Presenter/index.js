@@ -84,7 +84,6 @@ export default function(
             editor.eventEmitter.emit('textae.editor.select');
             buttonController.buttonStateHelper.propagate();
         },
-        setMode = new SetMode(model.annotationData, editMode, writable),
         event = {
             editorSelected: editorSelected,
             copyEntities: clipBoardHandler.copyEntities,
@@ -108,7 +107,14 @@ export default function(
     event = extend(event, toggleButtonHandler);
 
     editMode
-        .on('change', (editable, mode) => setButtonState(buttonController, editable, mode));
+        .on('change', (editable, mode) => setButtonState(buttonController, editable, mode))
+        .on('change', (editable, mode) => {
+            if (editable) {
+                editMode.setEditModeApi();
+            } else {
+                editMode.setViewModeApi();
+            }
+        });
 
     return {
         init: function(mode) {
@@ -128,7 +134,7 @@ export default function(
                 editable
             ));
 
-            setMode(editable);
+            new SetMode(model.annotationData, editMode, writable, editable);
         },
         event: event
     };
