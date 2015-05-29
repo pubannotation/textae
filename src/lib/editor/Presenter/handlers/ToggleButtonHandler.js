@@ -4,7 +4,6 @@ export default function(modeAccordingToButton, editMode) {
         toggleRelationMode: () => toggleRelationMode(modeAccordingToButton, editMode),
         toggleSimpleMode: () => toggleSimpleMode(modeAccordingToButton, editMode),
         toggleDetectBoundaryMode: () => toggleDetectBoundaryMode(modeAccordingToButton),
-        toggleRelationEditMode: () => toggleRelationEditMode(modeAccordingToButton, editMode),
         toggleInstaceRelation: () => toggleInstaceRelation(editMode)
     };
 }
@@ -35,14 +34,6 @@ function toggleSimpleMode(modeAccordingToButton, editMode) {
 
 function toggleDetectBoundaryMode(modeAccordingToButton) {
     modeAccordingToButton['boundary-detection'].toggle();
-}
-
-function toggleRelationEditMode(modeAccordingToButton, editMode) {
-    if (modeAccordingToButton['relation-edit-mode'].value()) {
-        editMode.upRelation();
-    } else {
-        editMode.pushRelation();
-    }
 }
 
 function toggleInstaceRelation(editMode) {

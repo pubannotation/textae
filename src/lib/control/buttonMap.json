@@ -36,9 +36,6 @@
         }, {
             "type": "boundary-detection",
             "title": "Boundary Detection [B]"
-        }, {
-            "type": "relation-edit-mode",
-            "title": "Relation Edit Mode [F]"
         }]
     }, {
         "list": [{

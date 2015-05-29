@@ -11,7 +11,6 @@ const buttonList = [
     'boundary-detection',
     'negation',
     'replicate-auto',
-    'relation-edit-mode',
     'speculation'
 ];
 
