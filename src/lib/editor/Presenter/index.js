@@ -105,9 +105,9 @@ export default function(
 
     event = extend(event, toggleButtonHandler);
 
-    let fuga = false;
+    let latestWritableState = false;
     writable(val => {
-        fuga = val;
+        latestWritableState = val;
         buttonController.buttonStateHelper.enabled("write", val && editMode.editable);
     });
 
@@ -117,9 +117,15 @@ export default function(
             // For the setting dialog.
             if (editable) {
                 editMode.setEditModeApi();
-                buttonController.buttonStateHelper.enabled("write", fuga);
             } else {
                 editMode.setViewModeApi();
+            }
+        })
+        .on('change', (editable, mode) => {
+            // Enable the save button only at edit mode.
+            if (editable) {
+                buttonController.buttonStateHelper.enabled("write", latestWritableState);
+            } else {
                 buttonController.buttonStateHelper.enabled("write", false);
             }
         });
