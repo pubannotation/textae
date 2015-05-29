@@ -4,7 +4,8 @@ export default function(modeAccordingToButton, editMode) {
         toggleRelationMode: () => toggleRelationMode(modeAccordingToButton, editMode),
         toggleSimpleMode: () => toggleSimpleMode(modeAccordingToButton, editMode),
         toggleDetectBoundaryMode: () => toggleDetectBoundaryMode(modeAccordingToButton),
-        toggleRelationEditMode: () => toggleRelationEditMode(modeAccordingToButton, editMode)
+        toggleRelationEditMode: () => toggleRelationEditMode(modeAccordingToButton, editMode),
+        toggleInstaceRelation: () => toggleInstaceRelation(editMode)
     };
 }
 
@@ -42,4 +43,8 @@ function toggleRelationEditMode(modeAccordingToButton, editMode) {
     } else {
         editMode.pushRelation();
     }
+}
+
+function toggleInstaceRelation(editMode) {
+    editMode.toggleInstaceRelation();
 }

@@ -57,6 +57,18 @@ export default function(stateMachine) {
                 default:
                     throw new Error(`Invalid state: ${stateMachine.currentState}`);
             }
+        },
+        toggleInstaceRelation: () => {
+            switch (stateMachine.currentState) {
+                case state.INSTANCE:
+                    stateMachine.setState(state.RELATION);
+                    break;
+                case state.RELATION:
+                    stateMachine.setState(state.INSTANCE);
+                    break;
+                default:
+                    // Do nothig.
+            }
         }
     };
 }
