@@ -15,11 +15,7 @@ export default function() {
 
     m.config(state.INIT, {
         to: {
-            only: [
-                state.TERM,
-                state.INSTANCE,
-                state.VIEW_INSTANCE
-            ]
+            exclude: [state.RELATION]
         }
     });
 
