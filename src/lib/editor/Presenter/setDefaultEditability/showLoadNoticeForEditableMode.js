@@ -1,4 +1,4 @@
-export default function(annotationData, multitrack, reject, writable) {
+export default function(multitrack) {
     if (multitrack) {
         toastr.success("track annotations have been merged to root annotations.");
     }
