@@ -8,13 +8,11 @@ let showForEdit;
 export default function(annotationData, editMode, writable) {
     let showForEdit = (annotationData, multitrack, reject) => showMessageForEditMode(annotationData, multitrack, reject, writable);
 
-    return (mode) => setModeToEditable(annotationData, editMode, showForEdit, mode);
+    return (editable) => setModeToEditable(annotationData, editMode, showForEdit, editable);
 }
 
-function setModeToEditable(annotationData, editMode, showForEdit, mode) {
-    let isEditable = mode === 'edit';
-
-    if (isEditable) {
+function setModeToEditable(annotationData, editMode, showForEdit, editable) {
+    if (editable) {
         editMode.setEditModeApi();
         annotationData.on('all.change', showForEdit);
     } else {

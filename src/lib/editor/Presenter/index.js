@@ -107,10 +107,11 @@ export default function(
 
     event = extend(event, toggleButtonHandler);
 
-    editMode.on('change', (editable, mode) => setButtonState(buttonController, editable, mode));
+    editMode
+        .on('change', (editable, mode) => setButtonState(buttonController, editable, mode));
 
     return {
-        init: function(editable) {
+        init: function(mode) {
             // The jsPlumbConnetion has an original event mecanism.
             // We can only bind the connection directory.
             editor
@@ -120,6 +121,7 @@ export default function(
 
             defaultEntityHandler.on('createEntity', displayInstance.notifyNewInstance);
 
+            let editable = mode !== 'view';
             model.annotationData.on('all.change', annotationData => setDefaultView(
                 editMode,
                 annotationData,
