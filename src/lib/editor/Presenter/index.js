@@ -11,7 +11,7 @@ import removeSelectedElements from './handlers/removeSelectedElements';
 import ModificationHandler from './handlers/ModificationHandler';
 import SelectSpanHandler from './handlers/SelectSpanHandler';
 import ToggleButtonHandler from './handlers/ToggleButtonHandler';
-import setButtonState from './setButtonState';
+import enableSaveButtorAtEditable from './enableSaveButtorAtEditable';
 
 export default function(
     editor,
@@ -104,26 +104,7 @@ export default function(
 
     event = extend(event, toggleButtonHandler);
 
-    let latestWritableState = false,
-        editModeEditable = false;
-
-    writable(val => {
-        latestWritableState = val;
-        buttonController.buttonStateHelper.enabled("write", val && editModeEditable);
-    });
-
-    editMode
-        .on('change', (editable, mode) => setButtonState(buttonController, editable, mode))
-        .on('change', (editable, mode) => {
-            // Enable the save button only at edit mode.
-            editModeEditable = editable;
-
-            if (editable) {
-                buttonController.buttonStateHelper.enabled("write", latestWritableState);
-            } else {
-                buttonController.buttonStateHelper.enabled("write", false);
-            }
-        });
+    enableSaveButtorAtEditable(writable, editMode, buttonController);
 
     return {
         init: function(mode) {
