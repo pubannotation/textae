@@ -5,7 +5,7 @@ export default function(transition) {
     let stateMachine = new StateMachine();
 
     stateMachine
-        .on('transition', function(e) {
+        .on('transition', (e) => {
             // For debug.
             // console.log(editor.editorId, 'from:', e.from, ' to:', e.to);
         })

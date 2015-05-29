@@ -9,12 +9,15 @@ import setEditModeApi from './setEditModeApi';
 import setViewModeApi from './setViewModeApi';
 import event from './event';
 import Trigger from './Trigger';
+import enableButtonHasAnnotation from './enableButtonHasAnnotation';
 
 export default function(editor, model, typeEditor, buttonStateHelper) {
     let emitter = new EventEmitter(),
         transition = new Transition(editor, model, typeEditor, buttonStateHelper),
         stateMachine = bindTransition(transition),
         trigger = new Trigger(stateMachine);
+
+    stateMachine.once('transition', () => enableButtonHasAnnotation(buttonStateHelper));
 
     transition
         .on(event.SHOW, () => emitter.emit(event.SHOW))

@@ -7,7 +7,6 @@ import ViewMode from './ViewMode';
 import resetView from './resetView';
 import event from './event';
 
-
 const TERM = 'term',
     INSTANCE = 'instance',
     RELATION = 'relation';
