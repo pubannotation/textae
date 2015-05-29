@@ -31,6 +31,31 @@ export default function(stateMachine) {
                     throw new Error(`Invalid state: ${stateMachine.currentState}`);
             }
         },
+        pushTerm: () => {
+            switch (stateMachine.currentState) {
+                case state.TERM:
+                case state.RELATION:
+                    stateMachine.setState(state.INSTANCE);
+                    break;
+                case state.VIEW_TERM:
+                    stateMachine.setState(state.VIEW_INSTANCE);
+                    break;
+                default:
+                    throw new Error(`Invalid state: ${stateMachine.currentState}`);
+            }
+        },
+        upTerm: () => {
+            switch (stateMachine.currentState) {
+                case state.INSTANCE:
+                    stateMachine.setState(state.TERM);
+                    break;
+                case state.VIEW_INSTANCE:
+                    stateMachine.setState(state.VIEW_TERM);
+                    break;
+                default:
+                    throw new Error(`Invalid state: ${stateMachine.currentState}`);
+            }
+        },
         pushRelation: () => stateMachine.setState(state.RELATION),
         upRelation: () => stateMachine.setState(state.INSTANCE),
         pushSimple: () => {

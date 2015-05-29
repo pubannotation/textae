@@ -49,6 +49,7 @@ function IconApiMap(command, presenter, dataAccessObject, history, annotationDat
         showSave = () => dataAccessObject.showSave(annotationData.toJson()),
         iconApiMap = {
             'textae.control.button.view.click': presenter.event.toggleViewMode,
+            'textae.control.button.term.click': presenter.event.toggleTermMode,
             'textae.control.button.relation.click': presenter.event.toggleRelationMode,
             'textae.control.button.simple.click': presenter.event.toggleSimpleMode,
             'textae.control.button.read.click': showAccess,

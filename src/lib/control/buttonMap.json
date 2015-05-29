@@ -4,8 +4,11 @@
             "type": "view",
             "title": "View Mode"
         },{
+            "type": "term",
+            "title": "Term Edit Mode"
+        },{
             "type": "relation",
-            "title": "Relation Edit Mode [F]"
+            "title": "Relation Edit Mode"
         },{
             "type": "simple",
             "title": "Simple Mode"

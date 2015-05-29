@@ -1,6 +1,7 @@
 export default function(modeAccordingToButton, editMode) {
     return {
         toggleViewMode: () => toggleViewMode(modeAccordingToButton, editMode),
+        toggleTermMode: () => toggleTermMode(modeAccordingToButton, editMode),
         toggleRelationMode: () => toggleRelationMode(modeAccordingToButton, editMode),
         toggleSimpleMode: () => toggleSimpleMode(modeAccordingToButton, editMode),
         toggleDetectBoundaryMode: () => toggleDetectBoundaryMode(modeAccordingToButton),
@@ -13,6 +14,14 @@ function toggleViewMode(modeAccordingToButton, editMode) {
         editMode.upView();
     } else {
         editMode.pushView();
+    }
+}
+
+function toggleTermMode(modeAccordingToButton, editMode) {
+    if (modeAccordingToButton.term.value()) {
+        editMode.upTerm();
+    } else {
+        editMode.pushTerm();
     }
 }
 

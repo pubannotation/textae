@@ -6,6 +6,7 @@ import reduce2hash from '../../util/reduce2hash';
 
 const buttonList = [
     'view',
+    'term',
     'relation',
     'simple',
     'boundary-detection',
