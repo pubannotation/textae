@@ -108,6 +108,7 @@ export default function(
     editMode
         .on('change', (editable, mode) => setButtonState(buttonController, editable, mode))
         .on('change', (editable, mode) => {
+            // For the setting dialog.
             if (editable) {
                 editMode.setEditModeApi();
             } else {
@@ -125,7 +126,6 @@ export default function(
                 });
 
             defaultEntityHandler.on('createEntity', displayInstance.notifyNewInstance);
-
             setDefaultEditability(model.annotationData, editMode, writable, mode);
         },
         event: event
