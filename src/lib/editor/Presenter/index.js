@@ -104,24 +104,20 @@ export default function(
 
     event = extend(event, toggleButtonHandler);
 
-    let latestWritableState = false;
+    let latestWritableState = false,
+        editModeEditable = false;
+
     writable(val => {
         latestWritableState = val;
-        buttonController.buttonStateHelper.enabled("write", val && editMode.editable);
+        buttonController.buttonStateHelper.enabled("write", val && editModeEditable);
     });
 
     editMode
         .on('change', (editable, mode) => setButtonState(buttonController, editable, mode))
         .on('change', (editable, mode) => {
-            // For the setting dialog.
-            if (editable) {
-                editMode.setEditModeApi();
-            } else {
-                editMode.setViewModeApi();
-            }
-        })
-        .on('change', (editable, mode) => {
             // Enable the save button only at edit mode.
+            editModeEditable = editable;
+
             if (editable) {
                 buttonController.buttonStateHelper.enabled("write", latestWritableState);
             } else {

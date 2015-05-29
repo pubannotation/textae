@@ -5,8 +5,6 @@ from 'events';
 import Transition from './Transition';
 import bindTransition from './bindTransition';
 import resetView from './resetView';
-import setEditModeApi from './setEditModeApi';
-import setViewModeApi from './setViewModeApi';
 import event from './event';
 import Trigger from './Trigger';
 import enableButtonHasAnnotation from './enableButtonHasAnnotation';
@@ -25,10 +23,7 @@ export default function(editor, model, typeEditor, buttonStateHelper) {
         .on(event.CHANGE, () => resetView(typeEditor, model.selectionModel))
         .on(event.CHANGE, (editable, mode) => emitter.emit(event.CHANGE, editable, mode));
 
-    _.extend(emitter, trigger, {
-        setEditModeApi: () => setEditModeApi(emitter),
-        setViewModeApi: () => setViewModeApi(emitter)
-    });
+    _.extend(emitter, trigger);
 
     return emitter;
 }
