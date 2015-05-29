@@ -1,12 +1,9 @@
-import {
-    hasError
-}
-from '../model/AnnotationData/parseAnnotation/validateAnnotation';
+import showLoadNoticeForEditableMode from './showLoadNoticeForEditableMode';
 
 let showForEdit;
 
 export default function(annotationData, editMode, writable) {
-    let showForEdit = (annotationData, multitrack, reject) => showMessageForEditMode(annotationData, multitrack, reject, writable);
+    let showForEdit = (annotationData, multitrack, reject) => showLoadNoticeForEditableMode(annotationData, multitrack, reject, writable);
 
     return (editable) => setModeToEditable(annotationData, editMode, showForEdit, editable);
 }
@@ -18,18 +15,5 @@ function setModeToEditable(annotationData, editMode, showForEdit, editable) {
     } else {
         editMode.setViewModeApi();
         annotationData.removeListener('all.change', showForEdit);
-    }
-}
-
-function showMessageForEditMode(annotationData, multitrack, reject, writable) {
-    writable.forceModified(false);
-
-    if (multitrack) {
-        toastr.success("track annotations have been merged to root annotations.");
-        writable.forceModified(true);
-    }
-
-    if (hasError(reject)) {
-        writable.forceModified(true);
     }
 }
