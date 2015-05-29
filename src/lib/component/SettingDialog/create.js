@@ -6,10 +6,6 @@ import updateTypeGapValue from './updateTypeGapValue';
 const CONTENT = `
     <div class="textae-editor__setting-dialog">
         <div>
-            <label class="textae-editor__setting-dialog__label">Instance/Relation View</label>
-            <input type="checkbox" class="textae-editor__setting-dialog__term-centric-view mode">
-        </div>
-        <div>
             <label class="textae-editor__setting-dialog__label">Type Gap</label>
             <input type="number" class="textae-editor__setting-dialog__type-gap type-gap" step="1" min="0" max="5">
         </div>
@@ -21,22 +17,15 @@ const CONTENT = `
     </div>
 `;
 
-export default function create(editor, editMode, displayInstance) {
+export default function(editor, displayInstance) {
     let $content = $(CONTENT);
 
-    bind($content, editor, editMode, displayInstance);
+    bind($content, editor, displayInstance);
 
     return $content;
 }
 
-function bind($content, editor, editMode, displayInstance) {
-    bindChangeMode(
-        $content,
-        editor,
-        editMode,
-        displayInstance
-    );
-
+function bind($content, editor, displayInstance) {
     bindChangeTypeGap(
         $content,
         editor,
@@ -47,37 +36,6 @@ function bind($content, editor, editMode, displayInstance) {
         $content,
         editor
     );
-}
-
-function bindChangeMode($content, editor, editMode, displayInstance) {
-    let onModeChanged = debounce300(
-        (e) => changeMode(editor, editMode, displayInstance, $content, e.target.checked)
-    );
-
-    $content.on(
-        'click',
-        '.mode',
-        onModeChanged
-    );
-}
-
-function changeMode(editor, editMode, displayInstance, $content, checked) {
-    if (checked) {
-        if (editMode.editable) {
-            editMode.toInstance();
-        } else {
-            editMode.toViewInstance();
-        }
-    } else {
-        if (editMode.editable) {
-            editMode.toTerm();
-        } else {
-            editMode.toViewTerm();
-        }
-    }
-    updateTypeGapEnable(displayInstance, $content);
-    updateTypeGapValue(displayInstance, $content);
-    updateLineHeight(editor, $content);
 }
 
 function bindChangeTypeGap($content, editor, displayInstance) {

@@ -4,9 +4,6 @@ import updateTypeGapEnable from './updateTypeGapEnable';
 import updateTypeGapValue from './updateTypeGapValue';
 
 export default function($dialog, editor, displayInstance) {
-    updateEditMode(
-        displayInstance,
-        $dialog);
     updateTypeGapEnable(
         displayInstance,
         $dialog
@@ -18,14 +15,5 @@ export default function($dialog, editor, displayInstance) {
     updateLineHeight(
         editor,
         $dialog
-    );
-}
-
-// Update the checkbox state, because it is updated by the button on control too.
-function updateEditMode(displayInstance, $dialog) {
-    return jQuerySugar.setChecked(
-        $dialog,
-        '.mode',
-        displayInstance.showInstance() ? 'checked' : null
     );
 }

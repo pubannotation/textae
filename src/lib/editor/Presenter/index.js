@@ -73,7 +73,6 @@ export default function(
         ),
         showSettingDialog = new SettingDialog(
             editor,
-            editMode,
             displayInstance
         ),
         editorSelected = () => {
