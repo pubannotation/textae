@@ -11,6 +11,7 @@ import removeSelectedElements from './handlers/removeSelectedElements';
 import ModificationHandler from './handlers/ModificationHandler';
 import SelectSpanHandler from './handlers/SelectSpanHandler';
 import ToggleButtonHandler from './handlers/ToggleButtonHandler';
+import ModeButtonHandlers from './handlers/ModeButtonHandlers';
 import enableSaveButtorAtEditable from './enableSaveButtorAtEditable';
 
 export default function(
@@ -67,6 +68,10 @@ export default function(
             buttonController.modeAccordingToButton,
             editMode
         ),
+        modeButtonHandlers = new ModeButtonHandlers(
+            buttonController.modeAccordingToButton,
+            editMode
+        ),
         selectSpanHandler = new SelectSpanHandler(
             model.annotationData,
             model.selectionModel
@@ -103,6 +108,7 @@ export default function(
         };
 
     event = extend(event, toggleButtonHandler);
+    event = extend(event, modeButtonHandlers);
 
     enableSaveButtorAtEditable(writable, editMode, buttonController);
 
