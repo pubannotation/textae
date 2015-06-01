@@ -1,9 +1,9 @@
 export default function(modeAccordingToButton, editMode) {
     return {
         toggleViewMode: () => toggleViewMode(modeAccordingToButton, editMode),
-        toggleTermMode: () => toggleTermMode(modeAccordingToButton, editMode),
-        toggleRelationMode: () => toggleRelationMode(modeAccordingToButton, editMode),
-        toggleSimpleMode: () => toggleSimpleMode(modeAccordingToButton, editMode),
+        toTermMode: () => toTermMode(modeAccordingToButton, editMode),
+        toRelationMode: () => toRelationMode(modeAccordingToButton, editMode),
+        toSimpleMode: () => toSimpleMode(modeAccordingToButton, editMode),
         toggleDetectBoundaryMode: () => toggleDetectBoundaryMode(modeAccordingToButton),
         toggleInstaceRelation: () => toggleInstaceRelation(editMode)
     };
@@ -17,26 +17,20 @@ function toggleViewMode(modeAccordingToButton, editMode) {
     }
 }
 
-function toggleTermMode(modeAccordingToButton, editMode) {
-    if (modeAccordingToButton.term.value()) {
-        editMode.upTerm();
-    } else {
+function toTermMode(modeAccordingToButton, editMode) {
+    if (!modeAccordingToButton.term.value()) {
         editMode.pushTerm();
     }
 }
 
-function toggleRelationMode(modeAccordingToButton, editMode) {
-    if (modeAccordingToButton.relation.value()) {
-        editMode.upRelation();
-    } else {
+function toRelationMode(modeAccordingToButton, editMode) {
+    if (!modeAccordingToButton.relation.value()) {
         editMode.pushRelation();
     }
 }
 
-function toggleSimpleMode(modeAccordingToButton, editMode) {
-    if (modeAccordingToButton.simple.value()) {
-        editMode.upSimple();
-    } else {
+function toSimpleMode(modeAccordingToButton, editMode) {
+    if (!modeAccordingToButton.simple.value()) {
         editMode.pushSimple();
     }
 }
