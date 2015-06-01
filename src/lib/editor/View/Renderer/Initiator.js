@@ -25,10 +25,11 @@ export default function(domPositionCaChe, relationRenderer, buttonStateHelper, t
 
     return (editor, annotationData, selectionModel) => {
         let renderAll = new RenderAll(editor, domPositionCaChe, spanRenderer, relationRenderer),
-            chongeSpanOfEntity = _.compose(
-                spanRenderer.change,
-                entity => annotationData.span.get(entity.span)
-            ),
+            chongeSpanOfEntity = (entity) => {
+                // Change css class of the span according to the type is block or not.
+                let span = annotationData.span.get(entity.span);
+                return spanRenderer.change(span);
+            },
             renderModificationEntityOrRelation = modification => {
                 renderModification(annotationData, 'relation', modification, relationRenderer, buttonStateHelper);
                 renderModification(annotationData, 'entity', modification, entityRenderer, buttonStateHelper);
