@@ -26,6 +26,7 @@ export default function(editor, model, typeContainer, gridRenderer, modification
     // Re-select a new entity instance.
     if (model.selectionModel.entity.has(entity.id)) {
         selector.entity.select(entity.id);
+        selector.entityLabel.update(entity.id);
     }
 
     return entity;
