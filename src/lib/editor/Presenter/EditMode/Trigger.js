@@ -41,23 +41,10 @@ export default function(stateMachine) {
                     stateMachine.setState(state.VIEW_INSTANCE);
                     break;
                 default:
-                    throw new Error(`Invalid state: ${stateMachine.currentState}`);
-            }
-        },
-        upTerm: () => {
-            switch (stateMachine.currentState) {
-                case state.INSTANCE:
-                    stateMachine.setState(state.TERM);
-                    break;
-                case state.VIEW_INSTANCE:
-                    stateMachine.setState(state.VIEW_TERM);
-                    break;
-                default:
-                    throw new Error(`Invalid state: ${stateMachine.currentState}`);
+                    // Do nothig.
             }
         },
         pushRelation: () => stateMachine.setState(state.RELATION),
-        upRelation: () => stateMachine.setState(state.INSTANCE),
         pushSimple: () => {
             switch (stateMachine.currentState) {
                 case state.INSTANCE:
@@ -68,19 +55,7 @@ export default function(stateMachine) {
                     stateMachine.setState(state.VIEW_TERM);
                     break;
                 default:
-                    throw new Error(`Invalid state: ${stateMachine.currentState}`);
-            }
-        },
-        upSimple: () => {
-            switch (stateMachine.currentState) {
-                case state.TERM:
-                    stateMachine.setState(state.INSTANCE);
-                    break;
-                case state.VIEW_TERM:
-                    stateMachine.setState(state.VIEW_INSTANCE);
-                    break;
-                default:
-                    throw new Error(`Invalid state: ${stateMachine.currentState}`);
+                    // Do nothig.
             }
         },
         toggleInstaceRelation: () => {

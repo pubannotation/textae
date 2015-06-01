@@ -1,25 +1,7 @@
-export default function(modeAccordingToButton, editMode) {
+export default function(editMode) {
     return {
-        toTermMode: () => toTermMode(modeAccordingToButton, editMode),
-        toRelationMode: () => toRelationMode(modeAccordingToButton, editMode),
-        toSimpleMode: () => toSimpleMode(modeAccordingToButton, editMode)
+        toTermMode: editMode.pushTerm,
+        toRelationMode: editMode.pushRelation,
+        toSimpleMode: editMode.pushSimple
     };
-}
-
-function toTermMode(modeAccordingToButton, editMode) {
-    if (!modeAccordingToButton.term.value()) {
-        editMode.pushTerm();
-    }
-}
-
-function toRelationMode(modeAccordingToButton, editMode) {
-    if (!modeAccordingToButton.relation.value()) {
-        editMode.pushRelation();
-    }
-}
-
-function toSimpleMode(modeAccordingToButton, editMode) {
-    if (!modeAccordingToButton.simple.value()) {
-        editMode.pushSimple();
-    }
 }

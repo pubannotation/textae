@@ -69,7 +69,6 @@ export default function(
             editMode
         ),
         modeButtonHandlers = new ModeButtonHandlers(
-            buttonController.modeAccordingToButton,
             editMode
         ),
         selectSpanHandler = new SelectSpanHandler(
