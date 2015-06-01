@@ -16,44 +16,44 @@ export default function(editor, model, typeEditor, buttonStateHelper) {
         emitter = new EventEmitter(),
         api = {
             toTerm: function() {
+                emitter.emit(event.HIDE);
+                emitter.emit(event.CHANGE, true, TERM);
+
                 typeEditor.editEntity();
                 viewMode.setTerm();
                 setEditableStyle(editor, buttonStateHelper, true);
-
-                emitter.emit(event.HIDE);
-                emitter.emit(event.CHANGE, true, TERM);
             },
             toInstance: function() {
+                emitter.emit(event.SHOW);
+                emitter.emit(event.CHANGE, true, INSTANCE);
+
                 typeEditor.editEntity();
                 viewMode.setInstance();
                 setEditableStyle(editor, buttonStateHelper, true);
-
-                emitter.emit(event.SHOW);
-                emitter.emit(event.CHANGE, true, INSTANCE);
             },
             toRelation: function() {
+                emitter.emit(event.SHOW);
+                emitter.emit(event.CHANGE, true, RELATION);
+
                 typeEditor.editRelation();
                 viewMode.setRelation();
                 setEditableStyle(editor, buttonStateHelper, true);
-
-                emitter.emit(event.SHOW);
-                emitter.emit(event.CHANGE, true, RELATION);
             },
             toViewTerm: function() {
+                emitter.emit(event.HIDE);
+                emitter.emit(event.CHANGE, false, TERM);
+
                 typeEditor.noEdit();
                 viewMode.setTerm();
                 setEditableStyle(editor, buttonStateHelper, false);
-
-                emitter.emit(event.HIDE);
-                emitter.emit(event.CHANGE, false, TERM);
             },
             toViewInstance: function() {
+                emitter.emit(event.SHOW);
+                emitter.emit(event.CHANGE, false, INSTANCE);
+
                 typeEditor.noEdit();
                 viewMode.setInstance();
                 setEditableStyle(editor, buttonStateHelper, false);
-
-                emitter.emit(event.SHOW);
-                emitter.emit(event.CHANGE, false, INSTANCE);
             }
         };
 
