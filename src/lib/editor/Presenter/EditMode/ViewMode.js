@@ -8,33 +8,25 @@ export default function(editor, model, buttonStateHelper) {
     let api = {
         setTerm: function() {
             changeCssClass(editor, 'term');
+            removeListeners(model.selectionModel, entitySelectChanged, buttonStateHelper);
 
             model.selectionModel
-                .removeListener('entity.select', entitySelectChanged)
-                .removeListener('entity.deselect', entitySelectChanged)
-                .removeListener('entity.change', entitySelectChanged)
                 .on('entity.select', entitySelectChanged)
                 .on('entity.deselect', entitySelectChanged)
                 .on('entity.change', buttonStateHelper.updateByEntity);
         },
         setInstance: function() {
             changeCssClass(editor, 'instance');
+            removeListeners(model.selectionModel, entitySelectChanged, buttonStateHelper);
 
             model.selectionModel
-                .removeListener('entity.select', entitySelectChanged)
-                .removeListener('entity.deselect', entitySelectChanged)
-                .removeListener('entity.change', buttonStateHelper.updateByEntity)
                 .on('entity.select', entitySelectChanged)
                 .on('entity.deselect', entitySelectChanged)
                 .on('entity.change', buttonStateHelper.updateByEntity);
         },
         setRelation: function() {
             changeCssClass(editor, 'relation');
-
-            model.selectionModel
-                .removeListener('entity.select', entitySelectChanged)
-                .removeListener('entity.deselect', entitySelectChanged)
-                .removeListener('entity.change', buttonStateHelper.updateByEntity);
+            removeListeners(model.selectionModel, entitySelectChanged, buttonStateHelper);
         }
     };
 
@@ -47,4 +39,12 @@ function changeCssClass(editor, mode) {
         .removeClass('textae-editor_instance-mode')
         .removeClass('textae-editor_relation-mode')
         .addClass('textae-editor_' + mode + '-mode');
+}
+
+function removeListeners(selectionModel, entitySelectChanged, buttonStateHelper) {
+    selectionModel
+        .removeListener('entity.select', entitySelectChanged)
+        .removeListener('entity.deselect', entitySelectChanged)
+        .removeListener('entity.change', entitySelectChanged)
+        .removeListener('entity.change', buttonStateHelper.updateByEntity);
 }
