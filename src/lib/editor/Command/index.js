@@ -152,6 +152,7 @@ module.exports = function(editor, model, history) {
             );
         },
         entityChangeTypeRemoveRelationCommand = function(id, newType, isRemoveRelations) {
+            // isRemoveRelations is set true when newType is block.
             var changeType = commandTemplate.changeType(model, 'entity', id, newType),
                 subCommands = isRemoveRelations ?
                 model.annotationData.entity.assosicatedRelations(id)

@@ -1,7 +1,7 @@
 import SelectEnd from '../SelectEnd';
 import dismissBrowserSelection from '../dismissBrowserSelection';
 import unbindAllEventhandler from './unbindAllEventhandler';
-import changeType from './changeType';
+import changeTypeIfSelected from './changeTypeIfSelected';
 
 export default function(editor, model, command, modeAccordingToButton, typeContainer, spanConfig, cancelSelect) {
     let selectEnd = new SelectEnd(editor, model, command, modeAccordingToButton, typeContainer),
@@ -17,7 +17,7 @@ export default function(editor, model, command, modeAccordingToButton, typeConta
         },
         getSelectedIdEditable = selectionModel.entity.all,
         handler = {
-            changeTypeOfSelected: (newType) => changeType(
+            changeTypeOfSelected: (newType) => changeTypeIfSelected(
                 command,
                 getSelectedIdEditable, (id, newType) => command.factory.entityChangeTypeCommand(
                     id,

@@ -1,5 +1,5 @@
 import dismissBrowserSelection from '../dismissBrowserSelection';
-import changeType from './changeType';
+import changeTypeIfSelected from './changeTypeIfSelected';
 import unbindAllEventhandler from './unbindAllEventhandler';
 
 export default function(editor, selectionModel, annotationData, command, typeContainer, cancelSelect) {
@@ -21,7 +21,7 @@ export default function(editor, selectionModel, annotationData, command, typeCon
         },
         getSelectedIdEditable = selectionModel.relation.all,
         handler = {
-            changeTypeOfSelected: (newType) => changeType(
+            changeTypeOfSelected: (newType) => changeTypeIfSelected(
                 command,
                 getSelectedIdEditable,
                 command.factory.relationChangeTypeCommand,
