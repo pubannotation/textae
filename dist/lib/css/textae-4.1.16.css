@@ -70,6 +70,19 @@
   -webkit-box-shadow: inset 1px 1px 3px #000;
   box-shadow: inset 1px 1px 3px #000;
 }
+.textae-control__view-button {
+  background: url("images/btn_view_16.png");
+  background-size: cover;
+}
+.textae-control__term-button {
+  background: url("images/btn_term_16.png");
+}
+.textae-control__relation-button {
+  background: url("images/btn_relation_16.png");
+}
+.textae-control__simple-button {
+  background: url("images/btn_simple_16.png");
+}
 .textae-control__read-button {
   background: url("images/btn_read_16.png");
 }
@@ -92,9 +105,6 @@
 }
 .textae-control__boundary-detection-button {
   background: url("images/btn_boundary_detection_16.png");
-}
-.textae-control__relation-edit-mode-button {
-  background: url("images/btn_relation_16.png");
 }
 .textae-control__entity-button {
   background: url("images/btn_denote_16.png");
@@ -475,7 +485,7 @@
   content: ":";
 }
 .textae-editor__setting-dialog__label {
-  width: 221px;
+  width: 114px;
 }
 .textae-editor__setting-dialog__type-gap[disabled="disabled"] {
   background-color: #999;
