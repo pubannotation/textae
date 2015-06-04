@@ -11250,10 +11250,10 @@ function IconApiMap(command, presenter, dataAccessObject, history, annotationDat
         return dataAccessObject.showSave(annotationData.toJson());
     },
         iconApiMap = {
-        'textae.control.button.view.click': presenter.event.toggleViewMode,
+        'textae.control.button.view.click': presenter.event.toViewMode,
         'textae.control.button.term.click': presenter.event.toTermMode,
         'textae.control.button.relation.click': presenter.event.toRelationMode,
-        'textae.control.button.simple.click': presenter.event.toSimpleMode,
+        'textae.control.button.simple.click': presenter.event.toggleSimpleMode,
         'textae.control.button.read.click': showAccess,
         'textae.control.button.write.click': showSave,
         'textae.control.button.undo.click': command.undo,
@@ -13239,7 +13239,7 @@ exports['default'] = function () {
             exclude: [_state2['default'].INIT]
         },
         to: {
-            exclude: [_state2['default'].INIT, _state2['default'].VIEW_TERM]
+            exclude: [_state2['default'].INIT, _state2['default'].TERM, _state2['default'].VIEW_TERM]
         }
     });
 
@@ -13367,6 +13367,7 @@ var _state2 = _interopRequireDefault(_state);
 
 exports['default'] = function (stateMachine) {
     return {
+        // For an intiation transition on an annotations data loaded.
         toTerm: function toTerm() {
             return stateMachine.setState(_state2['default'].TERM);
         },
@@ -13379,6 +13380,7 @@ exports['default'] = function (stateMachine) {
         toViewInstance: function toViewInstance() {
             return stateMachine.setState(_state2['default'].VIEW_INSTANCE);
         },
+        // For buttan actions.
         pushView: function pushView() {
             switch (stateMachine.currentState) {
                 case _state2['default'].TERM:
@@ -13389,29 +13391,17 @@ exports['default'] = function (stateMachine) {
                     stateMachine.setState(_state2['default'].VIEW_INSTANCE);
                     break;
                 default:
-                    throw new Error('Invalid state: ' + stateMachine.currentState);
-            }
-        },
-        upView: function upView() {
-            switch (stateMachine.currentState) {
-                case _state2['default'].VIEW_TERM:
-                    stateMachine.setState(_state2['default'].TERM);
-                    break;
-                case _state2['default'].VIEW_INSTANCE:
-                    stateMachine.setState(_state2['default'].INSTANCE);
-                    break;
-                default:
-                    throw new Error('Invalid state: ' + stateMachine.currentState);
+                // Do nothig.
             }
         },
         pushTerm: function pushTerm() {
             switch (stateMachine.currentState) {
-                case _state2['default'].TERM:
                 case _state2['default'].RELATION:
+                case _state2['default'].VIEW_INSTANCE:
                     stateMachine.setState(_state2['default'].INSTANCE);
                     break;
                 case _state2['default'].VIEW_TERM:
-                    stateMachine.setState(_state2['default'].VIEW_INSTANCE);
+                    stateMachine.setState(_state2['default'].TERM);
                     break;
                 default:
                 // Do nothig.
@@ -13423,16 +13413,28 @@ exports['default'] = function (stateMachine) {
         pushSimple: function pushSimple() {
             switch (stateMachine.currentState) {
                 case _state2['default'].INSTANCE:
-                case _state2['default'].RELATION:
                     stateMachine.setState(_state2['default'].TERM);
                     break;
                 case _state2['default'].VIEW_INSTANCE:
                     stateMachine.setState(_state2['default'].VIEW_TERM);
                     break;
                 default:
-                // Do nothig.
+                    throw new Error('Invalid state: ' + stateMachine.currentState);
             }
         },
+        upSimple: function upSimple() {
+            switch (stateMachine.currentState) {
+                case _state2['default'].TERM:
+                    stateMachine.setState(_state2['default'].INSTANCE);
+                    break;
+                case _state2['default'].VIEW_TERM:
+                    stateMachine.setState(_state2['default'].VIEW_INSTANCE);
+                    break;
+                default:
+                    throw new Error('Invalid state: ' + stateMachine.currentState);
+            }
+        },
+        // For key input of F or M.
         toggleInstaceRelation: function toggleInstaceRelation() {
             switch (stateMachine.currentState) {
                 case _state2['default'].INSTANCE:
@@ -14979,9 +14981,9 @@ Object.defineProperty(exports, "__esModule", {
 
 exports["default"] = function (editMode) {
     return {
+        toViewMode: editMode.pushView,
         toTermMode: editMode.pushTerm,
-        toRelationMode: editMode.pushRelation,
-        toSimpleMode: editMode.pushSimple
+        toRelationMode: editMode.pushRelation
     };
 };
 
@@ -15065,8 +15067,8 @@ Object.defineProperty(exports, '__esModule', {
 
 exports['default'] = function (modeAccordingToButton, editMode) {
     return {
-        toggleViewMode: function toggleViewMode() {
-            return _toggleViewMode(modeAccordingToButton, editMode);
+        toggleSimpleMode: function toggleSimpleMode() {
+            return _toggleSimpleMode(modeAccordingToButton, editMode);
         },
         toggleDetectBoundaryMode: function toggleDetectBoundaryMode() {
             return _toggleDetectBoundaryMode(modeAccordingToButton);
@@ -15077,11 +15079,11 @@ exports['default'] = function (modeAccordingToButton, editMode) {
     };
 };
 
-function _toggleViewMode(modeAccordingToButton, editMode) {
-    if (modeAccordingToButton.view.value()) {
-        editMode.upView();
+function _toggleSimpleMode(modeAccordingToButton, editMode) {
+    if (modeAccordingToButton.simple.value()) {
+        editMode.upSimple();
     } else {
-        editMode.pushView();
+        editMode.pushSimple();
     }
 }
 
@@ -15351,21 +15353,34 @@ Object.defineProperty(exports, '__esModule', {
 exports['default'] = setButtonState;
 
 function setButtonState(buttonController, editable, mode) {
-    buttonController.modeAccordingToButton.view.value(!editable);
-    buttonController.modeAccordingToButton.term.value(mode === 'instance');
+    buttonController.modeAccordingToButton.view.value(isView(editable));
+    buttonController.modeAccordingToButton.term.value(isTerm(editable, mode));
     buttonController.modeAccordingToButton.relation.value(isRelation(mode));
-    buttonController.modeAccordingToButton.simple.value(mode === 'term');
+    buttonController.modeAccordingToButton.simple.value(isSimple(mode));
+    buttonController.buttonStateHelper.enabled('simple', !isRelation(mode));
     buttonController.buttonStateHelper.enabled('replicate-auto', isSpanEdit(editable, mode));
     buttonController.buttonStateHelper.enabled('boundary-detection', isSpanEdit(editable, mode));
     buttonController.buttonStateHelper.enabled('line-height', editable);
 }
 
-function isSpanEdit(editable, mode) {
-    return editable && mode !== 'relation';
+function isView(editable) {
+    return !editable;
+}
+
+function isTerm(editable, mode) {
+    return editable && (mode === 'term' || mode === 'instance');
 }
 
 function isRelation(mode) {
     return mode === 'relation';
+}
+
+function isSimple(mode) {
+    return mode === 'term';
+}
+
+function isSpanEdit(editable, mode) {
+    return editable && mode !== 'relation';
 }
 module.exports = exports['default'];
 
