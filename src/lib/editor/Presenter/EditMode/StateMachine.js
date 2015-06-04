@@ -50,6 +50,7 @@ export default function() {
         to: {
             exclude: [
                 state.INIT,
+                state.TERM,
                 state.VIEW_TERM
             ]
         }

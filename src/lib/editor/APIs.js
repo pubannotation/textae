@@ -48,10 +48,10 @@ function IconApiMap(command, presenter, dataAccessObject, history, annotationDat
     let showAccess = () => dataAccessObject.showAccess(history.hasAnythingToSave()),
         showSave = () => dataAccessObject.showSave(annotationData.toJson()),
         iconApiMap = {
-            'textae.control.button.view.click': presenter.event.toggleViewMode,
+            'textae.control.button.view.click': presenter.event.toViewMode,
             'textae.control.button.term.click': presenter.event.toTermMode,
             'textae.control.button.relation.click': presenter.event.toRelationMode,
-            'textae.control.button.simple.click': presenter.event.toSimpleMode,
+            'textae.control.button.simple.click': presenter.event.toggleSimpleMode,
             'textae.control.button.read.click': showAccess,
             'textae.control.button.write.click': showSave,
             'textae.control.button.undo.click': command.undo,
