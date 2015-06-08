@@ -1,25 +1,30 @@
 {
     "buttonGroup": [{
         "list": [{
-            "type": "view",
-            "title": "View Mode"
-        },{
-            "type": "term",
-            "title": "Term Edit Mode"
-        },{
-            "type": "relation",
-            "title": "Relation Edit Mode"
-        },{
-            "type": "simple",
-            "title": "Simple View"
-        }]
-    },{
-        "list": [{
             "type": "read",
             "title": "Import [I]"
         }, {
             "type": "write",
             "title": "Upload [U]"
+        }]
+    }, {
+        "list": [{
+            "type": "view",
+            "title": "View Mode"
+        }, {
+            "type": "term",
+            "title": "Term Edit Mode"
+        }, {
+            "type": "relation",
+            "title": "Relation Edit Mode"
+        }]
+    }, {
+        "list": [{
+            "type": "simple",
+            "title": "Simple View"
+        }, {
+            "type": "line-height",
+            "title": "Adjust LineHeight"
         }]
     }, {
         "list": [{
@@ -79,9 +84,6 @@
         "list": [{
             "type": "help",
             "title": "Help [H]"
-        }, {
-            "type": "line-height",
-            "title": "Adjust LineHeight"
         }]
     }]
 }
