@@ -1,7 +1,7 @@
-import SelectEnd from '../SelectEnd';
-import dismissBrowserSelection from '../dismissBrowserSelection';
-import unbindAllEventhandler from './unbindAllEventhandler';
-import changeTypeIfSelected from './changeTypeIfSelected';
+import SelectEnd from '../../SelectEnd';
+import dismissBrowserSelection from '../../dismissBrowserSelection';
+import unbindAllEventhandler from '../unbindAllEventhandler';
+import changeTypeIfSelected from '../changeTypeIfSelected';
 
 export default function(editor, model, command, modeAccordingToButton, typeContainer, spanConfig, cancelSelect) {
     let selectEnd = new SelectEnd(editor, model, command, modeAccordingToButton, typeContainer),
