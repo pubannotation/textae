@@ -9847,7 +9847,7 @@ function toData(button) {
 }
 module.exports = exports['default'];
 
-},{"../../util/reduce2hash":280,"events":38}],65:[function(require,module,exports){
+},{"../../util/reduce2hash":288,"events":38}],65:[function(require,module,exports){
 'use strict';
 
 var _events = require('events');
@@ -10198,7 +10198,7 @@ module.exports = function (editor, confirmDiscardChangeMessage) {
     return api;
 };
 
-},{"../util/CursorChanger":278,"../util/ajaxAccessor":279,"./dialog/GetEditorDialog":80,"./jQuerySugar":84,"events":38,"url":44}],68:[function(require,module,exports){
+},{"../util/CursorChanger":286,"../util/ajaxAccessor":287,"./dialog/GetEditorDialog":80,"./jQuerySugar":84,"events":38,"url":44}],68:[function(require,module,exports){
 'use strict';
 
 var ToolDialog = require('./dialog/GetToolDialog');
@@ -10406,7 +10406,7 @@ function sixteenTimes(val) {
 }
 module.exports = exports['default'];
 
-},{"../../editor/View/lineHeight":239,"./updateLineHeight":73,"./updateTypeGapEnable":74,"./updateTypeGapValue":75}],71:[function(require,module,exports){
+},{"../../editor/View/lineHeight":247,"./updateLineHeight":73,"./updateTypeGapEnable":74,"./updateTypeGapValue":75}],71:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -10519,7 +10519,7 @@ exports['default'] = function (editor, $dialog) {
 
 module.exports = exports['default'];
 
-},{"../../editor/View/lineHeight":239,"../jQuerySugar":84}],74:[function(require,module,exports){
+},{"../../editor/View/lineHeight":247,"../jQuerySugar":84}],74:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -10836,29 +10836,34 @@ function transformToReferenceObjectError(reject) {
 }
 module.exports = exports['default'];
 
-},{"../editor/model/AnnotationData/parseAnnotation/validateAnnotation":249,"./dialog/GetEditorDialog":80,"handlebars":60}],86:[function(require,module,exports){
+},{"../editor/model/AnnotationData/parseAnnotation/validateAnnotation":257,"./dialog/GetEditorDialog":80,"handlebars":60}],86:[function(require,module,exports){
 module.exports={
     "buttonGroup": [{
-        "list": [{
-            "type": "view",
-            "title": "View Mode"
-        },{
-            "type": "term",
-            "title": "Term Edit Mode"
-        },{
-            "type": "relation",
-            "title": "Relation Edit Mode"
-        },{
-            "type": "simple",
-            "title": "Simple Mode"
-        }]
-    },{
         "list": [{
             "type": "read",
             "title": "Import [I]"
         }, {
             "type": "write",
             "title": "Upload [U]"
+        }]
+    }, {
+        "list": [{
+            "type": "view",
+            "title": "View Mode"
+        }, {
+            "type": "term",
+            "title": "Term Edit Mode"
+        }, {
+            "type": "relation",
+            "title": "Relation Edit Mode"
+        }]
+    }, {
+        "list": [{
+            "type": "simple",
+            "title": "Simple View"
+        }, {
+            "type": "line-height",
+            "title": "Adjust LineHeight"
         }]
     }, {
         "list": [{
@@ -10918,9 +10923,6 @@ module.exports={
         "list": [{
             "type": "help",
             "title": "Help [H]"
-        }, {
-            "type": "line-height",
-            "title": "Auto Adjust LineHeight"
         }]
     }]
 }
@@ -11478,7 +11480,7 @@ function isWord(sourceDoc, detectBoundaryFunc, candidateSpan) {
 }
 module.exports = exports['default'];
 
-},{"../model/AnnotationData/parseAnnotation/validateAnnotation":249,"../model/isAlreadySpaned":257,"not":61}],98:[function(require,module,exports){
+},{"../model/AnnotationData/parseAnnotation/validateAnnotation":257,"../model/isAlreadySpaned":265,"not":61}],98:[function(require,module,exports){
 'use strict';
 
 var invokeCommand = require('./invokeCommand'),
@@ -11697,7 +11699,7 @@ module.exports = function (editor, model, history) {
     };
 };
 
-},{"../idFactory":245,"./commandTemplate":95,"./executeCompositCommand":96,"./getReplicationSpans":97,"./invokeCommand":99}],99:[function(require,module,exports){
+},{"../idFactory":253,"./commandTemplate":95,"./executeCompositCommand":96,"./getReplicationSpans":97,"./invokeCommand":99}],99:[function(require,module,exports){
 "use strict";
 
 var invoke = function invoke(commands) {
@@ -11827,7 +11829,7 @@ var idFactory = require('../../../idFactory'),
 
 module.exports = EntityContainer;
 
-},{"../../../idFactory":245,"./ModelContainer":102}],102:[function(require,module,exports){
+},{"../../../idFactory":253,"./ModelContainer":102}],102:[function(require,module,exports){
 'use strict';
 
 var getNextId = require('./getNextId'),
@@ -11976,7 +11978,7 @@ module.exports = function (editor, emitter) {
     return api;
 };
 
-},{"../../../idFactory":245,"./ModelContainer":102}],104:[function(require,module,exports){
+},{"../../../idFactory":253,"./ModelContainer":102}],104:[function(require,module,exports){
 'use strict';
 
 var idFactory = require('../../../idFactory'),
@@ -12179,7 +12181,7 @@ module.exports = function (editor, emitter, paragraph) {
     return api;
 };
 
-},{"../../../idFactory":245,"../parseAnnotation/validateAnnotation":120,"./ModelContainer":102}],105:[function(require,module,exports){
+},{"../../../idFactory":253,"../parseAnnotation/validateAnnotation":120,"./ModelContainer":102}],105:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -13504,7 +13506,7 @@ function removeListeners(selectionModel, entitySelectChanged, buttonStateHelper)
 }
 module.exports = exports['default'];
 
-},{"../../view/Selector":267}],139:[function(require,module,exports){
+},{"../../view/Selector":275}],139:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -13675,168 +13677,7 @@ Object.defineProperty(exports, '__esModule', {
     value: true
 });
 
-function _interopRequireDefault(obj) {
-    return obj && obj.__esModule ? obj : { 'default': obj };
-}
-
-var _SelectEnd = require('../SelectEnd');
-
-var _SelectEnd2 = _interopRequireDefault(_SelectEnd);
-
-var _dismissBrowserSelection = require('../dismissBrowserSelection');
-
-var _dismissBrowserSelection2 = _interopRequireDefault(_dismissBrowserSelection);
-
-var _unbindAllEventhandler = require('./unbindAllEventhandler');
-
-var _unbindAllEventhandler2 = _interopRequireDefault(_unbindAllEventhandler);
-
-var _changeTypeIfSelected = require('./changeTypeIfSelected');
-
-var _changeTypeIfSelected2 = _interopRequireDefault(_changeTypeIfSelected);
-
-exports['default'] = function (editor, model, command, modeAccordingToButton, typeContainer, spanConfig, cancelSelect) {
-    var selectEnd = new _SelectEnd2['default'](editor, model, command, modeAccordingToButton, typeContainer),
-        selectSpan = new SelectSpan(editor, model.annotationData, model.selectionModel, typeContainer),
-        selectionModel = model.selectionModel,
-        bind = function bind() {
-        editor.on('mouseup', '.textae-editor__body', function () {
-            return bodyClicked(cancelSelect, selectEnd, spanConfig);
-        }).on('mouseup', '.textae-editor__span', function (e) {
-            return spanClicked(spanConfig, selectEnd, selectSpan, e);
-        }).on('mouseup', '.textae-editor__type-label', function (e) {
-            return typeLabelClicked(selectionModel, e);
-        }).on('mouseup', '.textae-editor__entity-pane', function (e) {
-            return entityPaneClicked(selectionModel, e);
-        }).on('mouseup', '.textae-editor__entity', function (e) {
-            return entityClicked(selectionModel, e);
-        });
-    },
-        getSelectedIdEditable = selectionModel.entity.all,
-        handler = {
-        changeTypeOfSelected: function changeTypeOfSelected(newType) {
-            return (0, _changeTypeIfSelected2['default'])(command, getSelectedIdEditable, function (id, newType) {
-                return command.factory.entityChangeTypeCommand(id, newType, typeContainer.entity.isBlock(newType));
-            }, newType);
-        },
-        getSelectedIdEditable: getSelectedIdEditable,
-        getSelectedType: function getSelectedType() {
-            var id = selectionModel.entity.single();
-
-            if (id) return model.annotationData.entity.get(id).type;else return '';
-        },
-        typeContainer: typeContainer.entity,
-        jsPlumbConnectionClicked: null
-    };
-
-    return function () {
-        return [bind, handler];
-    };
-};
-
-function spanClicked(spanConfig, selectEnd, selectSpan, event) {
-    var selection = window.getSelection();
-
-    // No select
-    if (selection.isCollapsed) {
-        selectSpan(event);
-        return false;
-    } else {
-        selectEnd.onSpan({
-            spanConfig: spanConfig,
-            selection: getSelectionSnapShot()
-        });
-        // Cancel selection of a paragraph.
-        // And do non propagate the parent span.
-        event.stopPropagation();
-    }
-}
-
-function typeLabelClicked(selectionModel, e) {
-    var typeLabel = e.target,
-        entities = e.target.nextElementSibling.children;
-
-    return selectEntities(selectionModel, e.ctrlKey || e.metaKey, typeLabel, entities);
-}
-
-function entityPaneClicked(selectionModel, e) {
-    var typeLabel = e.target.previousElementSibling,
-        entities = e.target.children;
-
-    return selectEntities(selectionModel, e.ctrlKey || e.metaKey, typeLabel, entities);
-}
-
-function entityClicked(selectionModel, e) {
-    (0, _dismissBrowserSelection2['default'])();
-
-    if (e.ctrlKey || e.metaKey) {
-        selectionModel.entity.toggle(e.target.title);
-    } else {
-        selectionModel.clear();
-        selectionModel.entity.add(e.target.title);
-    }
-    return false;
-}
-
-function selectEntities(selectionModel, ctrlKey, typeLabel, entities) {
-    (0, _dismissBrowserSelection2['default'])();
-
-    if (ctrlKey) {
-        if (typeLabel.classList.contains('ui-selected')) {
-            deselect(selectionModel, entities);
-        } else {
-            select(selectionModel, entities);
-        }
-    } else {
-        selectionModel.clear();
-        select(selectionModel, entities);
-    }
-    return false;
-
-    function select(selectionModel, entities) {
-        Array.prototype.forEach.call(entities, function (entity) {
-            return selectionModel.entity.add(entity.title);
-        });
-    }
-
-    function deselect(selectionModel, entities) {
-        Array.prototype.forEach.call(entities, function (entity) {
-            return selectionModel.entity.remove(entity.title);
-        });
-    }
-}
-
-function getSelectionSnapShot() {
-    var selection = window.getSelection(),
-        snapShot = {
-        anchorNode: selection.anchorNode,
-        anchorOffset: selection.anchorOffset,
-        focusNode: selection.focusNode,
-        focusOffset: selection.focusOffset,
-        range: selection.getRangeAt(0)
-    };
-
-    (0, _dismissBrowserSelection2['default'])();
-
-    // Return the snap shot of the selection.
-    return snapShot;
-}
-
-function bodyClicked(cancelSelect, selectEnd, spanConfig) {
-    var selection = window.getSelection();
-
-    // No select
-    if (selection.isCollapsed) {
-        cancelSelect();
-    } else {
-        selectEnd.onText({
-            spanConfig: spanConfig,
-            selection: getSelectionSnapShot()
-        });
-    }
-}
-
-function SelectSpan(editor, annotationData, selectionModel, typeContainer) {
+exports['default'] = function (editor, annotationData, selectionModel, typeContainer) {
     var getBlockEntities = function getBlockEntities(spanId) {
         return _.flatten(annotationData.span.get(spanId).getTypes().filter(function (type) {
             return typeContainer.entity.isBlock(type.name);
@@ -13871,10 +13712,324 @@ function SelectSpan(editor, annotationData, selectionModel, typeContainer) {
             selectSpanWithBlockEnities(id);
         }
     };
-}
+};
+
 module.exports = exports['default'];
 
-},{"../SelectEnd":151,"../dismissBrowserSelection":157,"./changeTypeIfSelected":148,"./unbindAllEventhandler":150}],147:[function(require,module,exports){
+},{}],147:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, '__esModule', {
+    value: true
+});
+
+function _interopRequireDefault(obj) {
+    return obj && obj.__esModule ? obj : { 'default': obj };
+}
+
+var _getSelectionSnapShot = require('./getSelectionSnapShot');
+
+var _getSelectionSnapShot2 = _interopRequireDefault(_getSelectionSnapShot);
+
+exports['default'] = function (cancelSelect, selectEnd, spanConfig) {
+    var selection = window.getSelection();
+
+    // No select
+    if (selection.isCollapsed) {
+        cancelSelect();
+    } else {
+        selectEnd.onText({
+            spanConfig: spanConfig,
+            selection: (0, _getSelectionSnapShot2['default'])()
+        });
+    }
+};
+
+module.exports = exports['default'];
+
+},{"./getSelectionSnapShot":150}],148:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, '__esModule', {
+    value: true
+});
+
+function _interopRequireDefault(obj) {
+    return obj && obj.__esModule ? obj : { 'default': obj };
+}
+
+var _dismissBrowserSelection = require('../../dismissBrowserSelection');
+
+var _dismissBrowserSelection2 = _interopRequireDefault(_dismissBrowserSelection);
+
+exports['default'] = function (selectionModel, e) {
+    (0, _dismissBrowserSelection2['default'])();
+
+    if (e.ctrlKey || e.metaKey) {
+        selectionModel.entity.toggle(e.target.title);
+    } else {
+        selectionModel.clear();
+        selectionModel.entity.add(e.target.title);
+    }
+    return false;
+};
+
+module.exports = exports['default'];
+
+},{"../../dismissBrowserSelection":165}],149:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, '__esModule', {
+    value: true
+});
+
+function _interopRequireDefault(obj) {
+    return obj && obj.__esModule ? obj : { 'default': obj };
+}
+
+var _selectEntities = require('./selectEntities');
+
+var _selectEntities2 = _interopRequireDefault(_selectEntities);
+
+exports['default'] = function (selectionModel, e) {
+    var typeLabel = e.target.previousElementSibling,
+        entities = e.target.children;
+
+    return (0, _selectEntities2['default'])(selectionModel, e.ctrlKey || e.metaKey, typeLabel, entities);
+};
+
+module.exports = exports['default'];
+
+},{"./selectEntities":152}],150:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, '__esModule', {
+    value: true
+});
+
+function _interopRequireDefault(obj) {
+    return obj && obj.__esModule ? obj : { 'default': obj };
+}
+
+var _dismissBrowserSelection = require('../../dismissBrowserSelection');
+
+var _dismissBrowserSelection2 = _interopRequireDefault(_dismissBrowserSelection);
+
+exports['default'] = function () {
+    var selection = window.getSelection(),
+        snapShot = {
+        anchorNode: selection.anchorNode,
+        anchorOffset: selection.anchorOffset,
+        focusNode: selection.focusNode,
+        focusOffset: selection.focusOffset,
+        range: selection.getRangeAt(0)
+    };
+
+    (0, _dismissBrowserSelection2['default'])();
+
+    // Return the snap shot of the selection.
+    return snapShot;
+};
+
+module.exports = exports['default'];
+
+},{"../../dismissBrowserSelection":165}],151:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, '__esModule', {
+    value: true
+});
+
+function _interopRequireDefault(obj) {
+    return obj && obj.__esModule ? obj : { 'default': obj };
+}
+
+var _SelectEnd = require('../../SelectEnd');
+
+var _SelectEnd2 = _interopRequireDefault(_SelectEnd);
+
+var _unbindAllEventhandler = require('../unbindAllEventhandler');
+
+var _unbindAllEventhandler2 = _interopRequireDefault(_unbindAllEventhandler);
+
+var _changeTypeIfSelected = require('../changeTypeIfSelected');
+
+var _changeTypeIfSelected2 = _interopRequireDefault(_changeTypeIfSelected);
+
+var _spanClicked = require('./spanClicked');
+
+var _spanClicked2 = _interopRequireDefault(_spanClicked);
+
+var _SelectSpan = require('./SelectSpan');
+
+var _SelectSpan2 = _interopRequireDefault(_SelectSpan);
+
+var _bodyClicked = require('./bodyClicked');
+
+var _bodyClicked2 = _interopRequireDefault(_bodyClicked);
+
+var _typeLabelClicked = require('./typeLabelClicked');
+
+var _typeLabelClicked2 = _interopRequireDefault(_typeLabelClicked);
+
+var _entityClicked = require('./entityClicked');
+
+var _entityClicked2 = _interopRequireDefault(_entityClicked);
+
+var _entityPaneClicked = require('./entityPaneClicked');
+
+var _entityPaneClicked2 = _interopRequireDefault(_entityPaneClicked);
+
+exports['default'] = function (editor, model, command, modeAccordingToButton, typeContainer, spanConfig, cancelSelect) {
+    var selectEnd = new _SelectEnd2['default'](editor, model, command, modeAccordingToButton, typeContainer),
+        selectSpan = new _SelectSpan2['default'](editor, model.annotationData, model.selectionModel, typeContainer),
+        selectionModel = model.selectionModel,
+        bind = function bind() {
+        editor.on('mouseup', '.textae-editor__body', function () {
+            return (0, _bodyClicked2['default'])(cancelSelect, selectEnd, spanConfig);
+        }).on('mouseup', '.textae-editor__span', function (e) {
+            return (0, _spanClicked2['default'])(spanConfig, selectEnd, selectSpan, e);
+        }).on('mouseup', '.textae-editor__type-label', function (e) {
+            return (0, _typeLabelClicked2['default'])(selectionModel, e);
+        }).on('mouseup', '.textae-editor__entity-pane', function (e) {
+            return (0, _entityPaneClicked2['default'])(selectionModel, e);
+        }).on('mouseup', '.textae-editor__entity', function (e) {
+            return (0, _entityClicked2['default'])(selectionModel, e);
+        });
+    },
+        getSelectedIdEditable = selectionModel.entity.all,
+        handler = {
+        changeTypeOfSelected: function changeTypeOfSelected(newType) {
+            return (0, _changeTypeIfSelected2['default'])(command, getSelectedIdEditable, function (id, newType) {
+                return command.factory.entityChangeTypeCommand(id, newType, typeContainer.entity.isBlock(newType));
+            }, newType);
+        },
+        getSelectedIdEditable: getSelectedIdEditable,
+        getSelectedType: function getSelectedType() {
+            var id = selectionModel.entity.single();
+
+            if (id) return model.annotationData.entity.get(id).type;else return '';
+        },
+        typeContainer: typeContainer.entity,
+        jsPlumbConnectionClicked: null
+    };
+
+    return function () {
+        return [bind, handler];
+    };
+};
+
+module.exports = exports['default'];
+
+},{"../../SelectEnd":159,"../changeTypeIfSelected":156,"../unbindAllEventhandler":158,"./SelectSpan":146,"./bodyClicked":147,"./entityClicked":148,"./entityPaneClicked":149,"./spanClicked":153,"./typeLabelClicked":154}],152:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, '__esModule', {
+    value: true
+});
+
+function _interopRequireDefault(obj) {
+    return obj && obj.__esModule ? obj : { 'default': obj };
+}
+
+var _dismissBrowserSelection = require('../../dismissBrowserSelection');
+
+var _dismissBrowserSelection2 = _interopRequireDefault(_dismissBrowserSelection);
+
+exports['default'] = function (selectionModel, ctrlKey, typeLabel, entities) {
+    (0, _dismissBrowserSelection2['default'])();
+
+    if (ctrlKey) {
+        if (typeLabel.classList.contains('ui-selected')) {
+            deselect(selectionModel, entities);
+        } else {
+            select(selectionModel, entities);
+        }
+    } else {
+        selectionModel.clear();
+        select(selectionModel, entities);
+    }
+    return false;
+
+    function select(selectionModel, entities) {
+        Array.prototype.forEach.call(entities, function (entity) {
+            return selectionModel.entity.add(entity.title);
+        });
+    }
+
+    function deselect(selectionModel, entities) {
+        Array.prototype.forEach.call(entities, function (entity) {
+            return selectionModel.entity.remove(entity.title);
+        });
+    }
+};
+
+module.exports = exports['default'];
+
+},{"../../dismissBrowserSelection":165}],153:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, '__esModule', {
+    value: true
+});
+
+function _interopRequireDefault(obj) {
+    return obj && obj.__esModule ? obj : { 'default': obj };
+}
+
+var _getSelectionSnapShot = require('./getSelectionSnapShot');
+
+var _getSelectionSnapShot2 = _interopRequireDefault(_getSelectionSnapShot);
+
+exports['default'] = function (spanConfig, selectEnd, selectSpan, event) {
+    var selection = window.getSelection();
+
+    // No select
+    if (selection.isCollapsed) {
+        selectSpan(event);
+        return false;
+    } else {
+        selectEnd.onSpan({
+            spanConfig: spanConfig,
+            selection: (0, _getSelectionSnapShot2['default'])()
+        });
+        // Cancel selection of a paragraph.
+        // And do non propagate the parent span.
+        event.stopPropagation();
+    }
+};
+
+module.exports = exports['default'];
+
+},{"./getSelectionSnapShot":150}],154:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, '__esModule', {
+    value: true
+});
+
+function _interopRequireDefault(obj) {
+    return obj && obj.__esModule ? obj : { 'default': obj };
+}
+
+var _dismissBrowserSelection = require('../../dismissBrowserSelection');
+
+var _dismissBrowserSelection2 = _interopRequireDefault(_dismissBrowserSelection);
+
+var _selectEntities = require('./selectEntities');
+
+var _selectEntities2 = _interopRequireDefault(_selectEntities);
+
+exports['default'] = function (selectionModel, e) {
+    var typeLabel = e.target,
+        entities = e.target.nextElementSibling.children;
+
+    return (0, _selectEntities2['default'])(selectionModel, e.ctrlKey || e.metaKey, typeLabel, entities);
+};
+
+module.exports = exports['default'];
+
+},{"../../dismissBrowserSelection":165,"./selectEntities":152}],155:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -13994,7 +14149,7 @@ function selectObjectEntity(selectionModel, command, typeContainer, e) {
 }
 module.exports = exports['default'];
 
-},{"../dismissBrowserSelection":157,"./changeTypeIfSelected":148,"./unbindAllEventhandler":150}],148:[function(require,module,exports){
+},{"../dismissBrowserSelection":165,"./changeTypeIfSelected":156,"./unbindAllEventhandler":158}],156:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -14014,7 +14169,7 @@ exports["default"] = function (command, getSelectedAndEditable, createChangeType
 
 module.exports = exports["default"];
 
-},{}],149:[function(require,module,exports){
+},{}],157:[function(require,module,exports){
 'use strict';
 
 function _interopRequireDefault(obj) {
@@ -14086,7 +14241,7 @@ function returnEmptyArray() {
     return [];
 }
 
-},{"./EditEntity":146,"./EditRelation":147,"./unbindAllEventhandler":150,"events":38}],150:[function(require,module,exports){
+},{"./EditEntity":151,"./EditRelation":155,"./unbindAllEventhandler":158,"events":38}],158:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -14099,7 +14254,7 @@ exports['default'] = function (editor) {
 
 module.exports = exports['default'];
 
-},{}],151:[function(require,module,exports){
+},{}],159:[function(require,module,exports){
 'use strict';
 
 var SpanEditor = require('./SpanEditor'),
@@ -14151,7 +14306,7 @@ module.exports = function (editor, model, command, modeAccordingToButton, typeCo
     };
 };
 
-},{"./SelectionValidater":153,"./SpanEditor":154,"./selectionParser":160}],152:[function(require,module,exports){
+},{"./SelectionValidater":161,"./SpanEditor":162,"./selectionParser":168}],160:[function(require,module,exports){
 'use strict';
 
 module.exports = function (editor, model) {
@@ -14284,7 +14439,7 @@ module.exports = function (editor, model) {
 	};
 };
 
-},{"./selectPosition":159}],153:[function(require,module,exports){
+},{"./selectPosition":167}],161:[function(require,module,exports){
 'use strict';
 
 var deferAlert = require('./deferAlert');
@@ -14317,7 +14472,7 @@ module.exports = function (parser) {
 	};
 };
 
-},{"./deferAlert":156}],154:[function(require,module,exports){
+},{"./deferAlert":164}],162:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -14488,7 +14643,7 @@ function DoShrink(model, selectionParser, doShrinkSpanToSelection, data) {
 }
 module.exports = exports['default'];
 
-},{"../../idFactory":245,"../../model/AnnotationData/parseAnnotation/validateAnnotation":249,"../../model/isAlreadySpaned":257,"../spanAdjuster/blankSkipAdjuster":180,"../spanAdjuster/delimiterDetectAdjuster":181,"./SelectionParser":152,"./SpanManipulater":155,"./deferAlert":156}],155:[function(require,module,exports){
+},{"../../idFactory":253,"../../model/AnnotationData/parseAnnotation/validateAnnotation":257,"../../model/isAlreadySpaned":265,"../spanAdjuster/blankSkipAdjuster":188,"../spanAdjuster/delimiterDetectAdjuster":189,"./SelectionParser":160,"./SpanManipulater":163,"./deferAlert":164}],163:[function(require,module,exports){
 'use strict';
 
 module.exports = function (model, spanAdjuster) {
@@ -14582,7 +14737,7 @@ module.exports = function (model, spanAdjuster) {
     };
 };
 
-},{"./selectPosition":159}],156:[function(require,module,exports){
+},{"./selectPosition":167}],164:[function(require,module,exports){
 "use strict";
 
 module.exports = function (message) {
@@ -14590,7 +14745,7 @@ module.exports = function (message) {
 	_.defer(_.partial(alert, message));
 };
 
-},{}],157:[function(require,module,exports){
+},{}],165:[function(require,module,exports){
 "use strict";
 
 module.exports = function () {
@@ -14598,7 +14753,7 @@ module.exports = function () {
 	selection.collapse(document.body, 0);
 };
 
-},{}],158:[function(require,module,exports){
+},{}],166:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -14685,7 +14840,7 @@ function _jsPlumbConnectionClicked(elementEditor, jsPlumbConnection, event) {
 }
 module.exports = exports['default'];
 
-},{"../../../component/Pallet":69,"./ElementEditor":149,"./dismissBrowserSelection":157}],159:[function(require,module,exports){
+},{"../../../component/Pallet":69,"./ElementEditor":157,"./dismissBrowserSelection":165}],167:[function(require,module,exports){
 "use strict";
 
 var getPosition = function getPosition(paragraph, span, node) {
@@ -14739,7 +14894,7 @@ module.exports = {
 	getAnchorPosition: getAnchorPosition,
 	getFocusPosition: getFocusPosition };
 
-},{}],160:[function(require,module,exports){
+},{}],168:[function(require,module,exports){
 'use strict';
 
 module.exports = function (editor, model) {
@@ -14872,7 +15027,7 @@ module.exports = function (editor, model) {
 	};
 };
 
-},{"./selectPosition":159}],161:[function(require,module,exports){
+},{"./selectPosition":167}],169:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -14912,7 +15067,7 @@ exports['default'] = function (writable, editMode, buttonController) {
 
 module.exports = exports['default'];
 
-},{"./setButtonState":175}],162:[function(require,module,exports){
+},{"./setButtonState":183}],170:[function(require,module,exports){
 "use strict";
 
 module.exports = function (command, annotationData, selectionModel, clipBoard) {
@@ -14947,7 +15102,7 @@ module.exports = function (command, annotationData, selectionModel, clipBoard) {
     };
 };
 
-},{}],163:[function(require,module,exports){
+},{}],171:[function(require,module,exports){
 'use strict';
 
 var EventEmitter = require('events').EventEmitter,
@@ -14972,7 +15127,7 @@ var EventEmitter = require('events').EventEmitter,
 
 module.exports = DefaultEntityHandler;
 
-},{"./createEntityToSelectedSpan":170,"./replicate":172,"events":38}],164:[function(require,module,exports){
+},{"./createEntityToSelectedSpan":178,"./replicate":180,"events":38}],172:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -14989,7 +15144,7 @@ exports["default"] = function (editMode) {
 
 module.exports = exports["default"];
 
-},{}],165:[function(require,module,exports){
+},{}],173:[function(require,module,exports){
 'use strict';
 
 var toggleModification = require('./toggleModification');
@@ -15005,7 +15160,7 @@ module.exports = function (command, annotationData, modeAccordingToButton, typeE
     };
 };
 
-},{"./toggleModification":173}],166:[function(require,module,exports){
+},{"./toggleModification":181}],174:[function(require,module,exports){
 "use strict";
 
 var toRomeveSpanCommands = function toRomeveSpanCommands(spanIds, command) {
@@ -15030,7 +15185,7 @@ var toRomeveSpanCommands = function toRomeveSpanCommands(spanIds, command) {
 
 module.exports = RemoveCommandsFromSelection;
 
-},{}],167:[function(require,module,exports){
+},{}],175:[function(require,module,exports){
 "use strict";
 
 module.exports = function (annotationData, selectionModel) {
@@ -15058,7 +15213,7 @@ module.exports = function (annotationData, selectionModel) {
     };
 };
 
-},{}],168:[function(require,module,exports){
+},{}],176:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -15096,7 +15251,7 @@ function _toggleInstaceRelation(editMode) {
 }
 module.exports = exports['default'];
 
-},{}],169:[function(require,module,exports){
+},{}],177:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -15116,7 +15271,7 @@ exports['default'] = function (typeEditor) {
 
 module.exports = exports['default'];
 
-},{}],170:[function(require,module,exports){
+},{}],178:[function(require,module,exports){
 "use strict";
 
 module.exports = function (command, spans, entity) {
@@ -15130,7 +15285,7 @@ module.exports = function (command, spans, entity) {
     command.invoke(commands);
 };
 
-},{}],171:[function(require,module,exports){
+},{}],179:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -15152,7 +15307,7 @@ exports['default'] = function (command, selectionModel) {
 
 module.exports = exports['default'];
 
-},{"./RemoveCommandsFromSelection":166}],172:[function(require,module,exports){
+},{"./RemoveCommandsFromSelection":174}],180:[function(require,module,exports){
 'use strict';
 
 var getDetectBoundaryFunc = function getDetectBoundaryFunc(modeAccordingToButton, spanConfig) {
@@ -15170,7 +15325,7 @@ var getDetectBoundaryFunc = function getDetectBoundaryFunc(modeAccordingToButton
 
 module.exports = replicate;
 
-},{}],173:[function(require,module,exports){
+},{}],181:[function(require,module,exports){
 "use strict";
 
 var isModificationType = function isModificationType(modification, modificationType) {
@@ -15212,7 +15367,7 @@ var isModificationType = function isModificationType(modification, modificationT
 
 module.exports = toggleModification;
 
-},{}],174:[function(require,module,exports){
+},{}],182:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -15344,7 +15499,7 @@ exports['default'] = function (editor, model, view, command, spanConfig, clipBoa
 
 module.exports = exports['default'];
 
-},{"../../component/SettingDialog":71,"./DisplayInstance":134,"./EditMode":142,"./TypeEditor":158,"./enableSaveButtorAtEditable":161,"./handlers/ClipBoardHandler":162,"./handlers/DefaultEntityHandler":163,"./handlers/ModeButtonHandlers":164,"./handlers/ModificationHandler":165,"./handlers/SelectSpanHandler":167,"./handlers/ToggleButtonHandler":168,"./handlers/changeLabelHandler":169,"./handlers/removeSelectedElements":171,"./setDefaultEditability":177,"xtend":63}],175:[function(require,module,exports){
+},{"../../component/SettingDialog":71,"./DisplayInstance":134,"./EditMode":142,"./TypeEditor":166,"./enableSaveButtorAtEditable":169,"./handlers/ClipBoardHandler":170,"./handlers/DefaultEntityHandler":171,"./handlers/ModeButtonHandlers":172,"./handlers/ModificationHandler":173,"./handlers/SelectSpanHandler":175,"./handlers/ToggleButtonHandler":176,"./handlers/changeLabelHandler":177,"./handlers/removeSelectedElements":179,"./setDefaultEditability":185,"xtend":63}],183:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -15384,7 +15539,7 @@ function isSpanEdit(editable, mode) {
 }
 module.exports = exports['default'];
 
-},{}],176:[function(require,module,exports){
+},{}],184:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -15414,7 +15569,7 @@ function isSimple(annotationData) {
     return !annotationData.relation.some() && annotationData.span.multiEntities().length === 0;
 }
 
-},{}],177:[function(require,module,exports){
+},{}],185:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -15472,7 +15627,7 @@ exports['default'] = function (annotationData, editMode, writable, mode) {
 
 module.exports = exports['default'];
 
-},{"./changeView":176,"./showLoadNoticeForEditableMode":178,"./updateWritable":179}],178:[function(require,module,exports){
+},{"./changeView":184,"./showLoadNoticeForEditableMode":186,"./updateWritable":187}],186:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -15487,7 +15642,7 @@ exports["default"] = function (multitrack) {
 
 module.exports = exports["default"];
 
-},{}],179:[function(require,module,exports){
+},{}],187:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -15510,7 +15665,7 @@ exports['default'] = function (multitrack, reject, writable) {
 
 module.exports = exports['default'];
 
-},{"../../model/AnnotationData/parseAnnotation/validateAnnotation":249}],180:[function(require,module,exports){
+},{"../../model/AnnotationData/parseAnnotation/validateAnnotation":257}],188:[function(require,module,exports){
 'use strict';
 
 var skipBlank = require('./skipBlank');
@@ -15530,7 +15685,7 @@ module.exports = {
 	}
 };
 
-},{"./skipBlank":182}],181:[function(require,module,exports){
+},{"./skipBlank":190}],189:[function(require,module,exports){
 'use strict';
 
 var skipCharacters = require('./skipCharacters'),
@@ -15596,7 +15751,7 @@ module.exports = {
     backFromEnd: backFromEnd
 };
 
-},{"./skipBlank":182,"./skipCharacters":183}],182:[function(require,module,exports){
+},{"./skipBlank":190,"./skipCharacters":191}],190:[function(require,module,exports){
 'use strict';
 
 var skipCharacters = require('./skipCharacters'),
@@ -15615,7 +15770,7 @@ module.exports = {
 				back: skipBackBlank
 };
 
-},{"./skipCharacters":183}],183:[function(require,module,exports){
+},{"./skipCharacters":191}],191:[function(require,module,exports){
 "use strict";
 
 module.exports = function (getChars, step, str, position, predicate) {
@@ -15624,7 +15779,7 @@ module.exports = function (getChars, step, str, position, predicate) {
 	return position;
 };
 
-},{}],184:[function(require,module,exports){
+},{}],192:[function(require,module,exports){
 "use strict";
 
 var defaults = {
@@ -15668,7 +15823,7 @@ module.exports = function () {
 	};
 };
 
-},{}],185:[function(require,module,exports){
+},{}],193:[function(require,module,exports){
 'use strict';
 
 var reduce2hash = require('../../util/reduce2hash'),
@@ -15748,7 +15903,7 @@ module.exports = function (model) {
     };
 };
 
-},{"../../util/reduce2hash":280,"../uri":260}],186:[function(require,module,exports){
+},{"../../util/reduce2hash":288,"../uri":268}],194:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -15799,7 +15954,7 @@ function renderLazyRelationAll(relations) {
 }
 module.exports = exports['default'];
 
-},{"./GridLayout":192,"events":38}],187:[function(require,module,exports){
+},{"./GridLayout":200,"events":38}],195:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -15854,7 +16009,7 @@ function clearAll(caches) {
 }
 module.exports = exports['default'];
 
-},{"./LesserMap":189}],188:[function(require,module,exports){
+},{"./LesserMap":197}],196:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -15888,7 +16043,7 @@ function _isGridPrepared(entityModel, map, entityId) {
 }
 module.exports = exports['default'];
 
-},{"./LesserMap":189}],189:[function(require,module,exports){
+},{"./LesserMap":197}],197:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -15908,7 +16063,7 @@ exports['default'] = function () {
 
 module.exports = exports['default'];
 
-},{}],190:[function(require,module,exports){
+},{}],198:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -15956,7 +16111,7 @@ function getSpan(editor, spanId) {
     // An element.offsetTop and element.offsetLeft does not work in the Firefox,
     // when much spans are loaded like http://pubannotation.org/docs/sourcedb/PMC/sourceid/1315279/divs/10/annotations.json.
     var spanBox = span.getBoundingClientRect(),
-        textBox = span.offsetParent.getBoundingClientRect();
+        textBox = span.offsetParent.offsetParent.getBoundingClientRect();
 
     return {
         top: spanBox.top - textBox.top,
@@ -15982,7 +16137,7 @@ function getEntity(editor, entityModel, gridPositionCache, entityId) {
 }
 module.exports = exports['default'];
 
-},{"../../idFactory":245,"./CachedGetterFactory":187}],191:[function(require,module,exports){
+},{"../../idFactory":253,"./CachedGetterFactory":195}],199:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -16045,7 +16200,7 @@ function RelationApi() {
 }
 module.exports = exports['default'];
 
-},{"./GridPosition":188,"./LesserMap":189,"./SpanAndEntityPosition":190}],192:[function(require,module,exports){
+},{"./GridPosition":196,"./LesserMap":197,"./SpanAndEntityPosition":198}],200:[function(require,module,exports){
 'use strict';
 
 var filterVisibleGrid = function filterVisibleGrid(grid) {
@@ -16135,7 +16290,7 @@ module.exports = function (editor, annotationData, typeContainer) {
   };
 };
 
-},{"./DomPositionCache":191,"./domUtil":234,"./getGridPosition":235,"bluebird":3}],193:[function(require,module,exports){
+},{"./DomPositionCache":199,"./domUtil":242,"./getGridPosition":243,"bluebird":3}],201:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -16170,7 +16325,7 @@ function processAccosiatedRelation(entity, domPositionCaChe, func, entityId) {
 }
 module.exports = exports['default'];
 
-},{"./DomPositionCache":191}],194:[function(require,module,exports){
+},{"./DomPositionCache":199}],202:[function(require,module,exports){
 // Arrange a position of the pane to center entities when entities width is longer than pane width.
 'use strict';
 
@@ -16195,7 +16350,7 @@ exports['default'] = function (pane) {
 
 module.exports = exports['default'];
 
-},{}],195:[function(require,module,exports){
+},{}],203:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -16238,7 +16393,7 @@ exports['default'] = function (editor, model, typeContainer, gridRenderer, modif
 
 module.exports = exports['default'];
 
-},{"../../Selector":230,"./createEntityUnlessBlock":197,"./removeEntityElement":202}],196:[function(require,module,exports){
+},{"../../Selector":238,"./createEntityUnlessBlock":205,"./removeEntityElement":210}],204:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -16291,7 +16446,7 @@ function createEntityElement(editor, typeContainer, modification, entity) {
 }
 module.exports = exports['default'];
 
-},{"../../../idFactory":245,"./arrangePositionOfPane":194,"./getTypeElement":200}],197:[function(require,module,exports){
+},{"../../../idFactory":253,"./arrangePositionOfPane":202,"./getTypeElement":208}],205:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -16318,7 +16473,7 @@ exports['default'] = function (editor, namespace, typeContainer, gridRenderer, m
 
 module.exports = exports['default'];
 
-},{"./create":196}],198:[function(require,module,exports){
+},{"./create":204}],206:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -16363,7 +16518,7 @@ exports['default'] = function (type) {
 
 module.exports = exports['default'];
 
-},{"../../../uri":260}],199:[function(require,module,exports){
+},{"../../../uri":268}],207:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -16384,7 +16539,7 @@ exports['default'] = function (spanId, type) {
 
 module.exports = exports['default'];
 
-},{"../../../idFactory":245}],200:[function(require,module,exports){
+},{"../../../idFactory":253}],208:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -16513,7 +16668,7 @@ function getGrid(gridRenderer, spanId) {
 }
 module.exports = exports['default'];
 
-},{"../../../idFactory":245,"../../../uri":260,"../../domUtil":234,"./getDisplayName":198,"./getTypeDom":199}],201:[function(require,module,exports){
+},{"../../../idFactory":253,"../../../uri":268,"../../domUtil":242,"./getDisplayName":206,"./getTypeDom":207}],209:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -16615,7 +16770,7 @@ function doesSpanHasNoEntity(annotationData, spanId) {
 }
 module.exports = exports['default'];
 
-},{"../../../idFactory":245,"../../../uri":260,"../../Selector":230,"../../domUtil":234,"../ModificationRenderer":205,"./changeTypeOfExists":195,"./create":196,"./createEntityUnlessBlock":197,"./getDisplayName":198,"./getTypeDom":199,"./removeEntityElement":202,"events":38}],202:[function(require,module,exports){
+},{"../../../idFactory":253,"../../../uri":268,"../../Selector":238,"../../domUtil":242,"../ModificationRenderer":213,"./changeTypeOfExists":203,"./create":204,"./createEntityUnlessBlock":205,"./getDisplayName":206,"./getTypeDom":207,"./removeEntityElement":210,"events":38}],210:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -16658,7 +16813,7 @@ function doesTypeHasNoEntity(annotationData, entity, typeName) {
 }
 module.exports = exports['default'];
 
-},{"../../domUtil":234,"./arrangePositionOfPane":194,"./getTypeDom":199}],203:[function(require,module,exports){
+},{"../../domUtil":242,"./arrangePositionOfPane":202,"./getTypeDom":207}],211:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -16704,7 +16859,7 @@ function createGrid(domPositionCache, container, spanId) {
 }
 module.exports = exports['default'];
 
-},{"../domUtil":234,"./getAnnotationBox":223}],204:[function(require,module,exports){
+},{"../domUtil":242,"./getAnnotationBox":231}],212:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -16819,7 +16974,7 @@ function bindeToModelEvent(emitter, annotationData, eventName, handler) {
 }
 module.exports = exports['default'];
 
-},{"../TypeStyle":233,"./EntityRenderer":201,"./GridRenderer":203,"./RenderAll":211,"./SpanRenderer":219,"./getAnnotationBox":223,"./renderModification":227,"./renderParagraph":228,"events":38}],205:[function(require,module,exports){
+},{"../TypeStyle":241,"./EntityRenderer":209,"./GridRenderer":211,"./RenderAll":219,"./SpanRenderer":227,"./getAnnotationBox":231,"./renderModification":235,"./renderParagraph":236,"events":38}],213:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -16846,7 +17001,7 @@ function update(annotationData, domElement, objectId) {
 }
 module.exports = exports['default'];
 
-},{}],206:[function(require,module,exports){
+},{}],214:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -16874,7 +17029,7 @@ exports['default'] = function (editor, annotationData, relationId) {
 
 module.exports = exports['default'];
 
-},{"../../DomPositionCache":191}],207:[function(require,module,exports){
+},{"../../DomPositionCache":199}],215:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -16960,7 +17115,7 @@ function resetAllCurviness(editor, annotationData, relations) {
 }
 module.exports = exports['default'];
 
-},{"./Connect":206,"./determineCurviness":208,"./jsPlumbArrowOverlayUtil":210,"bluebird":3}],208:[function(require,module,exports){
+},{"./Connect":214,"./determineCurviness":216,"./jsPlumbArrowOverlayUtil":218,"bluebird":3}],216:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -17012,7 +17167,7 @@ function toAnchors(relation) {
 }
 module.exports = exports['default'];
 
-},{"../../DomPositionCache":191}],209:[function(require,module,exports){
+},{"../../DomPositionCache":199}],217:[function(require,module,exports){
 'use strict';
 
 function _interopRequireDefault(obj) {
@@ -17384,7 +17539,7 @@ module.exports = function (editor, model, typeContainer) {
     };
 };
 
-},{"../../DomPositionCache":191,"../../domUtil":234,"../ModificationRenderer":205,"../getAnnotationBox":223,"./Connect":206,"./arrangePositionAll":207,"./determineCurviness":208,"./jsPlumbArrowOverlayUtil":210,"bluebird":3}],210:[function(require,module,exports){
+},{"../../DomPositionCache":199,"../../domUtil":242,"../ModificationRenderer":213,"../getAnnotationBox":231,"./Connect":214,"./arrangePositionAll":215,"./determineCurviness":216,"./jsPlumbArrowOverlayUtil":218,"bluebird":3}],218:[function(require,module,exports){
 'use strict';
 
 var // Overlay styles for jsPlubm connections.
@@ -17468,7 +17623,7 @@ module.exports = {
     }
 };
 
-},{}],211:[function(require,module,exports){
+},{}],219:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -17514,7 +17669,7 @@ function renderAllRelation(annotationData, relationRenderer) {
 }
 module.exports = exports['default'];
 
-},{"./getAnnotationBox":223}],212:[function(require,module,exports){
+},{"./getAnnotationBox":231}],220:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -17570,7 +17725,7 @@ function renderChildresnSpan(span, create) {
 }
 module.exports = exports['default'];
 
-},{"./destroyChildrenSpan":217,"./getBigBrother":218,"./renderClassOfSpan":220,"./renderEntitiesOfSpan":221,"./renderSingleSpan":222}],213:[function(require,module,exports){
+},{"./destroyChildrenSpan":225,"./getBigBrother":226,"./renderClassOfSpan":228,"./renderEntitiesOfSpan":229,"./renderSingleSpan":230}],221:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -17586,7 +17741,7 @@ exports["default"] = function (textNode, offset) {
 
 module.exports = exports["default"];
 
-},{}],214:[function(require,module,exports){
+},{}],222:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -17603,7 +17758,7 @@ exports['default'] = function (span) {
 
 module.exports = exports['default'];
 
-},{}],215:[function(require,module,exports){
+},{}],223:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -17643,7 +17798,7 @@ function validateOffset(textNode, offset) {
 }
 module.exports = exports['default'];
 
-},{"./createRange":213}],216:[function(require,module,exports){
+},{"./createRange":221}],224:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -17665,7 +17820,7 @@ exports['default'] = function (spanId) {
 
 module.exports = exports['default'];
 
-},{}],217:[function(require,module,exports){
+},{}],225:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -17700,7 +17855,7 @@ function destroySpanRecurcive(span) {
 }
 module.exports = exports['default'];
 
-},{"./destroy":216}],218:[function(require,module,exports){
+},{"./destroy":224}],226:[function(require,module,exports){
 // A big brother is brother node on a structure at rendered.
 // There is no big brother if the span is first in a paragraph.
 // Warning: parent is set at updateSpanTree, is not exists now.
@@ -17723,7 +17878,7 @@ exports["default"] = function (span, topLevelSpans) {
 
 module.exports = exports["default"];
 
-},{}],219:[function(require,module,exports){
+},{}],227:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -17762,7 +17917,7 @@ exports['default'] = function (annotationData, isBlockFunc, renderEntityFunc) {
 
 module.exports = exports['default'];
 
-},{"./create":212,"./destroy":216,"./renderClassOfSpan":220}],220:[function(require,module,exports){
+},{"./create":220,"./destroy":224,"./renderClassOfSpan":228}],228:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -17805,7 +17960,7 @@ function hasType(span, isBlockFunc) {
 }
 module.exports = exports['default'];
 
-},{"not":61}],221:[function(require,module,exports){
+},{"not":61}],229:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -17823,7 +17978,7 @@ function renderEntitiesOfType(type, entityIdToModelFunc, renderEntityFunc) {
 }
 module.exports = exports["default"];
 
-},{}],222:[function(require,module,exports){
+},{}],230:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -17924,7 +18079,7 @@ function getParentModel(span) {
 }
 module.exports = exports['default'];
 
-},{"./createSpanElement":214,"./createSpanRange":215}],223:[function(require,module,exports){
+},{"./createSpanElement":222,"./createSpanRange":223}],231:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -17947,7 +18102,7 @@ var _getEditorBody2 = _interopRequireDefault(_getEditorBody);
 exports['default'] = _.compose(_.partial(_getElement2['default'], 'div', 'textae-editor__body__annotation-box'), _getEditorBody2['default']);
 module.exports = exports['default'];
 
-},{"./getEditorBody":224,"./getElement":225}],224:[function(require,module,exports){
+},{"./getEditorBody":232,"./getElement":233}],232:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -17966,7 +18121,7 @@ var _getElement2 = _interopRequireDefault(_getElement);
 exports['default'] = _.partial(_getElement2['default'], 'div', 'textae-editor__body');
 module.exports = exports['default'];
 
-},{"./getElement":225}],225:[function(require,module,exports){
+},{"./getElement":233}],233:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -17984,7 +18139,7 @@ exports['default'] = function (tagName, className, $parent) {
 
 module.exports = exports['default'];
 
-},{}],226:[function(require,module,exports){
+},{}],234:[function(require,module,exports){
 'use strict';
 
 function _interopRequireDefault(obj) {
@@ -18011,7 +18166,7 @@ module.exports = function (editor, model, buttonStateHelper, typeContainer, type
     return api;
 };
 
-},{"../DomPositionCache":191,"./Initiator":204}],227:[function(require,module,exports){
+},{"../DomPositionCache":199,"./Initiator":212}],235:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -18037,7 +18192,7 @@ exports['default'] = function (annotationData, modelType, modification, renderer
 
 module.exports = exports['default'];
 
-},{"capitalize":35}],228:[function(require,module,exports){
+},{"capitalize":35}],236:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -18080,7 +18235,7 @@ function createTaggedSourceDoc(paragraphs) {
 }
 module.exports = exports['default'];
 
-},{"../getTextBox":237,"./getEditorBody":224,"./getElement":225,"handlebars":60}],229:[function(require,module,exports){
+},{"../getTextBox":245,"./getEditorBody":232,"./getElement":233,"handlebars":60}],237:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -18098,7 +18253,7 @@ function removeUiSelectClass(connect) {
 }
 module.exports = exports["default"];
 
-},{}],230:[function(require,module,exports){
+},{}],238:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -18184,7 +18339,7 @@ function updateEntityLabel(editor, entityId) {
 }
 module.exports = exports['default'];
 
-},{"../DomPositionCache":191,"../domUtil":234,"./deselectRelation":229,"./selectRelation":231,"./selectionClass":232}],231:[function(require,module,exports){
+},{"../DomPositionCache":199,"../domUtil":242,"./deselectRelation":237,"./selectRelation":239,"./selectionClass":240}],239:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -18202,7 +18357,7 @@ function addUiSelectClass(connect) {
 }
 module.exports = exports["default"];
 
-},{}],232:[function(require,module,exports){
+},{}],240:[function(require,module,exports){
 // Add or Remove class to indicate selected state.
 'use strict';
 
@@ -18220,7 +18375,7 @@ module.exports = (function () {
     };
 })();
 
-},{}],233:[function(require,module,exports){
+},{}],241:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -18236,7 +18391,7 @@ exports['default'] = function (newValue) {
 
 module.exports = exports['default'];
 
-},{}],234:[function(require,module,exports){
+},{}],242:[function(require,module,exports){
 'use strict';
 
 var idFactory = require('../idFactory');
@@ -18260,7 +18415,7 @@ module.exports = {
         } }
 };
 
-},{"../idFactory":245}],235:[function(require,module,exports){
+},{"../idFactory":253}],243:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -18304,7 +18459,7 @@ function pullUpGridOverDescendants(getSpan, typeContainer, typeGapValue, span) {
 }
 module.exports = exports['default'];
 
-},{"./getHeightIncludeDescendantGrids":236}],236:[function(require,module,exports){
+},{"./getHeightIncludeDescendantGrids":244}],244:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -18325,7 +18480,7 @@ function getHeightIncludeDescendantGrids(span, typeContainer, typeGapValue) {
 
 module.exports = exports["default"];
 
-},{}],237:[function(require,module,exports){
+},{}],245:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -18339,7 +18494,7 @@ function getTextBox(editor) {
 
 module.exports = exports['default'];
 
-},{}],238:[function(require,module,exports){
+},{}],246:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -18462,7 +18617,7 @@ function setHandlerOnDisplayEvent(editor, display) {
 }
 module.exports = exports['default'];
 
-},{"../../util/CursorChanger":278,"./Display":186,"./Hover":193,"./Renderer":226,"./Renderer/RelationRenderer":209,"./TypeStyle":233,"./lineHeight":239,"./setSelectionModelHandler":240}],239:[function(require,module,exports){
+},{"../../util/CursorChanger":286,"./Display":194,"./Hover":201,"./Renderer":234,"./Renderer/RelationRenderer":217,"./TypeStyle":241,"./lineHeight":247,"./setSelectionModelHandler":248}],247:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -18556,7 +18711,7 @@ function pixelToInt(str) {
     return str === '' ? 0 : parseInt(str);
 }
 
-},{"./getHeightIncludeDescendantGrids":236,"./getTextBox":237}],240:[function(require,module,exports){
+},{"./getHeightIncludeDescendantGrids":244,"./getTextBox":245}],248:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -18583,7 +18738,7 @@ function delay150(func) {
 }
 module.exports = exports['default'];
 
-},{"./Selector":230}],241:[function(require,module,exports){
+},{"./Selector":238}],249:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -18611,7 +18766,7 @@ exports['default'] = function (editor, presenter, view) {
 
 module.exports = exports['default'];
 
-},{}],242:[function(require,module,exports){
+},{}],250:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -18641,7 +18796,7 @@ exports['default'] = function (editor, annotationData, typeContainer, typeGap, v
 
 module.exports = exports['default'];
 
-},{"./view/lineHeight":273}],243:[function(require,module,exports){
+},{"./view/lineHeight":281}],251:[function(require,module,exports){
 'use strict';
 
 var getUrlParameters = require('./getUrlParameters'),
@@ -18680,7 +18835,7 @@ module.exports = function (editor) {
 	return params;
 };
 
-},{"./getUrlParameters":244}],244:[function(require,module,exports){
+},{"./getUrlParameters":252}],252:[function(require,module,exports){
 // Usage sample: getUrlParameters(location.search).
 'use strict';
 
@@ -18706,7 +18861,7 @@ module.exports = function (urlQuery) {
 	}, {});
 };
 
-},{}],245:[function(require,module,exports){
+},{}],253:[function(require,module,exports){
 'use strict';
 
 var typeCounter = [],
@@ -18742,7 +18897,7 @@ module.exports = {
     }
 };
 
-},{}],246:[function(require,module,exports){
+},{}],254:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -18832,7 +18987,7 @@ exports['default'] = function () {
 
 module.exports = exports['default'];
 
-},{"../buttonModel/ButtonController":65,"../buttonModel/Writable":66,"../component/DataAccessObject":67,"./History":100,"./Model":132,"./observe":258,"./start":259,"observ":62}],247:[function(require,module,exports){
+},{"../buttonModel/ButtonController":65,"../buttonModel/Writable":66,"../component/DataAccessObject":67,"./History":100,"./Model":132,"./observe":266,"./start":267,"observ":62}],255:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -18847,7 +19002,7 @@ exports["default"] = function (rejects) {
 
 module.exports = exports["default"];
 
-},{}],248:[function(require,module,exports){
+},{}],256:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -18863,7 +19018,7 @@ exports["default"] = function (reject) {
 
 module.exports = exports["default"];
 
-},{}],249:[function(require,module,exports){
+},{}],257:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -18890,7 +19045,7 @@ exports['default'] = _main2['default'];
 exports.hasError = _RejectHasError2['default'];
 exports.isBoundaryCrossingWithOtherSpans = _isBoundaryCrossingWithOtherSpans2['default'];
 
-},{"./Reject/hasError":247,"./isBoundaryCrossingWithOtherSpans":250,"./main":252}],250:[function(require,module,exports){
+},{"./Reject/hasError":255,"./isBoundaryCrossingWithOtherSpans":258,"./main":260}],258:[function(require,module,exports){
 // A span its range is coross over with other spans are not able to rendered.
 // Because spans are renderd with span tag. Html tags can not be cross over.
 "use strict";
@@ -18910,7 +19065,7 @@ function isBoundaryCrossing(candidateSpan, existSpan) {
 }
 module.exports = exports["default"];
 
-},{}],251:[function(require,module,exports){
+},{}],259:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -18927,7 +19082,7 @@ exports["default"] = function (data, opt) {
 
 module.exports = exports["default"];
 
-},{}],252:[function(require,module,exports){
+},{}],260:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -18976,7 +19131,7 @@ exports['default'] = function (text, paragraph, annotation) {
 
 module.exports = exports['default'];
 
-},{"./validateDenotation":254,"./validateModificatian":255,"./validateRelation":256}],253:[function(require,module,exports){
+},{"./validateDenotation":262,"./validateModificatian":263,"./validateRelation":264}],261:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -19010,7 +19165,7 @@ function acceptIf(predicate, predicateOption, result, target, index, array) {
 }
 module.exports = exports['default'];
 
-},{"./Reject":248}],254:[function(require,module,exports){
+},{"./Reject":256}],262:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -19073,7 +19228,7 @@ function isInParagraph(denotation, paragraph) {
 }
 module.exports = exports['default'];
 
-},{"./isBoundaryCrossingWithOtherSpans":250,"./validate":253}],255:[function(require,module,exports){
+},{"./isBoundaryCrossingWithOtherSpans":258,"./validate":261}],263:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -19109,7 +19264,7 @@ exports['default'] = function (denotations, relations, modifications) {
 
 module.exports = exports['default'];
 
-},{"./isContains":251,"./validate":253}],256:[function(require,module,exports){
+},{"./isContains":259,"./validate":261}],264:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -19150,7 +19305,7 @@ exports['default'] = function (denotations, relations) {
 
 module.exports = exports['default'];
 
-},{"./isContains":251,"./validate":253}],257:[function(require,module,exports){
+},{"./isContains":259,"./validate":261}],265:[function(require,module,exports){
 "use strict";
 
 module.exports = function (allSpans, candidateSpan) {
@@ -19159,7 +19314,7 @@ module.exports = function (allSpans, candidateSpan) {
 	}).length > 0;
 };
 
-},{}],258:[function(require,module,exports){
+},{}],266:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -19209,7 +19364,7 @@ function observeDataSave(dataAccessObject, history, writable) {
     });
 }
 
-},{"../component/showVilidationDialog":85}],259:[function(require,module,exports){
+},{"../component/showVilidationDialog":85}],267:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -19372,7 +19527,7 @@ function getStatusBar(editor, status_bar) {
 }
 module.exports = exports['default'];
 
-},{"../component/StatusBar":76,"../util/ajaxAccessor":279,"./APIs":93,"./Command":98,"./Presenter":174,"./SpanConfig":184,"./TypeContainer":185,"./View":238,"./bindMouseEvent":241,"./calculateLineHeight":242,"./getParams":243,"observ":62}],260:[function(require,module,exports){
+},{"../component/StatusBar":76,"../util/ajaxAccessor":287,"./APIs":93,"./Command":98,"./Presenter":182,"./SpanConfig":192,"./TypeContainer":193,"./View":246,"./bindMouseEvent":249,"./calculateLineHeight":250,"./getParams":251,"observ":62}],268:[function(require,module,exports){
 'use strict';
 
 module.exports = {
@@ -19388,7 +19543,7 @@ module.exports = {
 	}
 };
 
-},{}],261:[function(require,module,exports){
+},{}],269:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -19443,7 +19598,7 @@ function clearAll(caches) {
 }
 module.exports = exports['default'];
 
-},{"./LesserMap":263}],262:[function(require,module,exports){
+},{"./LesserMap":271}],270:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -19477,7 +19632,7 @@ function _isGridPrepared(entityModel, map, entityId) {
 }
 module.exports = exports['default'];
 
-},{"./LesserMap":263}],263:[function(require,module,exports){
+},{"./LesserMap":271}],271:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -19497,7 +19652,7 @@ exports['default'] = function () {
 
 module.exports = exports['default'];
 
-},{}],264:[function(require,module,exports){
+},{}],272:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -19545,7 +19700,7 @@ function getSpan(editor, spanId) {
     // An element.offsetTop and element.offsetLeft does not work in the Firefox,
     // when much spans are loaded like http://pubannotation.org/docs/sourcedb/PMC/sourceid/1315279/divs/10/annotations.json.
     var spanBox = span.getBoundingClientRect(),
-        textBox = span.offsetParent.getBoundingClientRect();
+        textBox = span.offsetParent.offsetParent.getBoundingClientRect();
 
     return {
         top: spanBox.top - textBox.top,
@@ -19571,7 +19726,7 @@ function getEntity(editor, entityModel, gridPositionCache, entityId) {
 }
 module.exports = exports['default'];
 
-},{"../../idFactory":245,"./CachedGetterFactory":261}],265:[function(require,module,exports){
+},{"../../idFactory":253,"./CachedGetterFactory":269}],273:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -19634,7 +19789,7 @@ function RelationApi() {
 }
 module.exports = exports['default'];
 
-},{"./GridPosition":262,"./LesserMap":263,"./SpanAndEntityPosition":264}],266:[function(require,module,exports){
+},{"./GridPosition":270,"./LesserMap":271,"./SpanAndEntityPosition":272}],274:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -19652,7 +19807,7 @@ function removeUiSelectClass(connect) {
 }
 module.exports = exports["default"];
 
-},{}],267:[function(require,module,exports){
+},{}],275:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -19738,7 +19893,7 @@ function updateEntityLabel(editor, entityId) {
 }
 module.exports = exports['default'];
 
-},{"../DomPositionCache":265,"../domUtil":270,"./deselectRelation":266,"./selectRelation":268,"./selectionClass":269}],268:[function(require,module,exports){
+},{"../DomPositionCache":273,"../domUtil":278,"./deselectRelation":274,"./selectRelation":276,"./selectionClass":277}],276:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -19756,7 +19911,7 @@ function addUiSelectClass(connect) {
 }
 module.exports = exports["default"];
 
-},{}],269:[function(require,module,exports){
+},{}],277:[function(require,module,exports){
 // Add or Remove class to indicate selected state.
 'use strict';
 
@@ -19774,7 +19929,7 @@ module.exports = (function () {
     };
 })();
 
-},{}],270:[function(require,module,exports){
+},{}],278:[function(require,module,exports){
 'use strict';
 
 var idFactory = require('../idFactory');
@@ -19798,7 +19953,7 @@ module.exports = {
         } }
 };
 
-},{"../idFactory":245}],271:[function(require,module,exports){
+},{"../idFactory":253}],279:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -19819,7 +19974,7 @@ function getHeightIncludeDescendantGrids(span, typeContainer, typeGapValue) {
 
 module.exports = exports["default"];
 
-},{}],272:[function(require,module,exports){
+},{}],280:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -19833,7 +19988,7 @@ function getTextBox(editor) {
 
 module.exports = exports['default'];
 
-},{}],273:[function(require,module,exports){
+},{}],281:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -19927,7 +20082,7 @@ function pixelToInt(str) {
     return str === '' ? 0 : parseInt(str);
 }
 
-},{"./getHeightIncludeDescendantGrids":271,"./getTextBox":272}],274:[function(require,module,exports){
+},{"./getHeightIncludeDescendantGrids":279,"./getTextBox":280}],282:[function(require,module,exports){
 'use strict';
 
 var tool = require('./tool'),
@@ -19953,7 +20108,7 @@ jQuery.fn.textae = (function () {
     };
 })();
 
-},{"./control":88,"./editor":246,"./tool":275}],275:[function(require,module,exports){
+},{"./control":88,"./editor":254,"./tool":283}],283:[function(require,module,exports){
 'use strict';
 
 var _events = require('events');
@@ -20079,7 +20234,7 @@ module.exports = (function () {
         } };
 })();
 
-},{"./component/HelpDialog":68,"./tool/EditorContainer":276,"./tool/KeybordInputConverter":277,"events":38}],276:[function(require,module,exports){
+},{"./component/HelpDialog":68,"./tool/EditorContainer":284,"./tool/KeybordInputConverter":285,"events":38}],284:[function(require,module,exports){
 'use strict';
 
 var switchActiveClass = function switchActiveClass(editors, selected) {
@@ -20128,7 +20283,7 @@ module.exports = function () {
 	return editors;
 };
 
-},{}],277:[function(require,module,exports){
+},{}],285:[function(require,module,exports){
 'use strict';
 
 var EventEmitter = require('events').EventEmitter,
@@ -20177,7 +20332,7 @@ module.exports = function (keyInputHandler) {
 	return emitter;
 };
 
-},{"events":38}],278:[function(require,module,exports){
+},{"events":38}],286:[function(require,module,exports){
 'use strict';
 
 var changeCursor = function changeCursor(editor, action) {
@@ -20195,7 +20350,7 @@ module.exports = function (editor) {
 		endWait: endWait };
 };
 
-},{}],279:[function(require,module,exports){
+},{}],287:[function(require,module,exports){
 "use strict";
 
 var isEmpty = function isEmpty(str) {
@@ -20246,7 +20401,7 @@ module.exports = (function () {
 	};
 })();
 
-},{}],280:[function(require,module,exports){
+},{}],288:[function(require,module,exports){
 "use strict";
 
 module.exports = function (hash, element) {
@@ -20254,7 +20409,7 @@ module.exports = function (hash, element) {
 	return hash;
 };
 
-},{}]},{},[274]);
+},{}]},{},[282]);
 
 //for module pattern with tail.js
 (function(jQuery) { // Application main
