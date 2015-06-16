@@ -1,7 +1,7 @@
 import {
     hasError
 }
-from '../../model/AnnotationData/parseAnnotation/validateAnnotation';
+from '../../Model/AnnotationData/parseAnnotation/validateAnnotation';
 
 export default function(multitrack, reject, writable) {
     writable.forceModified(false);

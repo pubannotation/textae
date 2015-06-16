@@ -1,4 +1,4 @@
-import Selector from '../../view/Selector';
+import Selector from '../../View/Selector';
 
 export default function(editor, model, buttonStateHelper) {
     let selector = new Selector(editor, model),

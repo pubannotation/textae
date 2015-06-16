@@ -15,7 +15,7 @@ var SpanEditor = require('./SpanEditor'),
     };
 
 module.exports = function(editor, model, command, modeAccordingToButton, typeContainer) {
-    var selectionParser = require('./selectionParser')(editor, model),
+    var selectionParser = require('./SelectionParser')(editor, model),
         selectionValidater = require('./SelectionValidater')(selectionParser),
         // Initiated by events.
         selectEndOnTextImpl = null,

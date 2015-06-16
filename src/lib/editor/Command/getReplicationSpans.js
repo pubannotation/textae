@@ -1,9 +1,9 @@
 import not from 'not';
-import isAlreadySpaned from '../model/isAlreadySpaned';
+import isAlreadySpaned from '../Model/isAlreadySpaned';
 import {
     isBoundaryCrossingWithOtherSpans as isBoundaryCrossingWithOtherSpans
 }
-from '../model/AnnotationData/parseAnnotation/validateAnnotation';
+from '../Model/AnnotationData/parseAnnotation/validateAnnotation';
 
 // Check replications are word or not if spanConfig is set.
 export default function(dataStore, originSpan, detectBoundaryFunc) {

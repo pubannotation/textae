@@ -2,8 +2,8 @@ import idFactory from '../../idFactory';
 import {
     isBoundaryCrossingWithOtherSpans as isBoundaryCrossingWithOtherSpans
 }
-from '../../model/AnnotationData/parseAnnotation/validateAnnotation';
-import isAlreadySpaned from '../../model/isAlreadySpaned';
+from '../../Model/AnnotationData/parseAnnotation/validateAnnotation';
+import isAlreadySpaned from '../../Model/isAlreadySpaned';
 import deferAlert from './deferAlert';
 import delimiterDetectAdjuster from '../spanAdjuster/delimiterDetectAdjuster';
 import blankSkipAdjuster from '../spanAdjuster/blankSkipAdjuster';
