@@ -1,5 +1,8 @@
 'use strict';
 
+var fs = require('fs'),
+    http = require('http');
+
 var rename = {
     ext: function(ext) {
         return function(dest, src) {
@@ -171,23 +174,60 @@ module.exports = function(grunt) {
             developmentServer: {
                 options: {
                     middleware: function(connect, options) {
-                        return [connect.static(options.base[0]),
-                            function(req, res) {
-                                if (req.method === "POST") {
-                                    // concat recieved data.
-                                    var fullBody = '';
-                                    req.on('data', function(chunk) {
-                                        fullBody += chunk.toString();
-                                    });
+                        return [
+                            function(req, res, next) {
+                                // Require authorization if query has private.
+                                var query = req._parsedUrl.query;
+                                if(!query || query.indexOf('private') === -1)
+                                    return next();
 
-                                    req.on('end', function() {
-                                        require("fs").writeFile(req.url.substr(1) + ".dev_data", fullBody); // url as saved filename.
-                                        res.end();
-                                    });
-                                } else {
-                                    res.statusCode = 404;
-                                    res.end();
+                                var authorization = req.headers.authorization;
+                                if (!authorization) {
+                                    return unauthorized(res);
                                 }
+
+                                var parts = authorization.split(' ');
+                                if (parts.length !== 2)
+                                    return next(error(400));
+
+                                var scheme = parts[0],
+                                    credentials = new Buffer(parts[1], 'base64').toString(),
+                                    index = credentials.indexOf(':');
+                                if ('Basic' != scheme || index < 0)
+                                    return next(error(400));
+
+                                var user = credentials.slice(0, index),
+                                    pass = credentials.slice(index + 1);
+
+                                if (user !== 'Jin-Dong Kim' || pass !== 'passpass') {
+                                    return unauthorized(res);
+                                } else {
+                                    next();
+                                }
+
+                                function unauthorized(res) {
+                                    res.statusCode = 401;
+                                    res.setHeader('WWW-Authenticate', 'Basic realm="textae development server."');
+                                    res.end('Unauthorized');
+                                }
+
+                                function error(code, msg) {
+                                    var err = new Error(msg || http.STATUS_CODES[code]);
+                                    err.status = code;
+                                    return err;
+                                }
+                            },
+                            connect.static(options.base[0]),
+                            function(req, res, next) {
+                                // Stub to upload json.
+                                if (req.method !== "POST")
+                                    return next();
+
+                                var filename = req.url.substr(1) + ".dev_data.json";
+                                req.pipe(fs.createWriteStream(filename));
+                                req.on('end', function(){
+                                    res.end();
+                                });
                             }
                         ];
                     },
