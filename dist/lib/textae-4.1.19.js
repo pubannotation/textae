@@ -9847,7 +9847,7 @@ function toData(button) {
 }
 module.exports = exports['default'];
 
-},{"../../util/reduce2hash":288,"events":38}],65:[function(require,module,exports){
+},{"../../util/reduce2hash":264,"events":38}],65:[function(require,module,exports){
 'use strict';
 
 var _events = require('events');
@@ -10022,7 +10022,23 @@ module.exports = exports["default"];
 },{"observ":62}],67:[function(require,module,exports){
 'use strict';
 
+function _interopRequireWildcard(obj) {
+    if (obj && obj.__esModule) {
+        return obj;
+    } else {
+        var newObj = {};if (obj != null) {
+            for (var key in obj) {
+                if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+            }
+        }newObj['default'] = obj;return newObj;
+    }
+}
+
 var _events = require('events');
+
+var _utilAjaxAccessor = require('../util/ajaxAccessor');
+
+var ajaxAccessor = _interopRequireWildcard(_utilAjaxAccessor);
 
 var bindEvent = function bindEvent($target, event, func) {
     $target.on(event, func);
@@ -10033,7 +10049,6 @@ var bindEvent = function bindEvent($target, event, func) {
     });
     return $dialog;
 },
-    ajaxAccessor = require('../util/ajaxAccessor'),
     jQuerySugar = require('./jQuerySugar'),
     url = require('url');
 
@@ -10198,7 +10213,7 @@ module.exports = function (editor, confirmDiscardChangeMessage) {
     return api;
 };
 
-},{"../util/CursorChanger":286,"../util/ajaxAccessor":287,"./dialog/GetEditorDialog":80,"./jQuerySugar":84,"events":38,"url":44}],68:[function(require,module,exports){
+},{"../util/CursorChanger":262,"../util/ajaxAccessor":263,"./dialog/GetEditorDialog":80,"./jQuerySugar":84,"events":38,"url":44}],68:[function(require,module,exports){
 'use strict';
 
 var ToolDialog = require('./dialog/GetToolDialog');
@@ -10781,7 +10796,7 @@ var _handlebars = require('handlebars');
 
 var _handlebars2 = _interopRequireDefault(_handlebars);
 
-var _editorModelAnnotationDataParseAnnotationValidateAnnotation = require('../editor/model/AnnotationData/parseAnnotation/validateAnnotation');
+var _editorModelAnnotationDataParseAnnotationValidateAnnotation = require('../editor/Model/AnnotationData/parseAnnotation/validateAnnotation');
 
 var _dialogGetEditorDialog = require('./dialog/GetEditorDialog');
 
@@ -10836,7 +10851,7 @@ function transformToReferenceObjectError(reject) {
 }
 module.exports = exports['default'];
 
-},{"../editor/model/AnnotationData/parseAnnotation/validateAnnotation":257,"./dialog/GetEditorDialog":80,"handlebars":60}],86:[function(require,module,exports){
+},{"../editor/Model/AnnotationData/parseAnnotation/validateAnnotation":120,"./dialog/GetEditorDialog":80,"handlebars":60}],86:[function(require,module,exports){
 module.exports={
     "buttonGroup": [{
         "list": [{
@@ -11430,11 +11445,11 @@ var _not = require('not');
 
 var _not2 = _interopRequireDefault(_not);
 
-var _modelIsAlreadySpaned = require('../model/isAlreadySpaned');
+var _ModelIsAlreadySpaned = require('../Model/isAlreadySpaned');
 
-var _modelIsAlreadySpaned2 = _interopRequireDefault(_modelIsAlreadySpaned);
+var _ModelIsAlreadySpaned2 = _interopRequireDefault(_ModelIsAlreadySpaned);
 
-var _modelAnnotationDataParseAnnotationValidateAnnotation = require('../model/AnnotationData/parseAnnotation/validateAnnotation');
+var _ModelAnnotationDataParseAnnotationValidateAnnotation = require('../Model/AnnotationData/parseAnnotation/validateAnnotation');
 
 // Check replications are word or not if spanConfig is set.
 
@@ -11448,7 +11463,7 @@ exports['default'] = function (dataStore, originSpan, detectBoundaryFunc) {
             // Because string of each others are same. End of them are same too.
             span.begin !== originSpan.begin
         );
-    }).filter(wordFilter).filter((0, _not2['default'])(_.partial(_modelIsAlreadySpaned2['default'], allSpans))).filter((0, _not2['default'])(_.partial(_modelAnnotationDataParseAnnotationValidateAnnotation.isBoundaryCrossingWithOtherSpans, allSpans)));
+    }).filter(wordFilter).filter((0, _not2['default'])(_.partial(_ModelIsAlreadySpaned2['default'], allSpans))).filter((0, _not2['default'])(_.partial(_ModelAnnotationDataParseAnnotationValidateAnnotation.isBoundaryCrossingWithOtherSpans, allSpans)));
 };
 
 // Get spans their stirng is same with the originSpan from sourceDoc.
@@ -11480,7 +11495,7 @@ function isWord(sourceDoc, detectBoundaryFunc, candidateSpan) {
 }
 module.exports = exports['default'];
 
-},{"../model/AnnotationData/parseAnnotation/validateAnnotation":257,"../model/isAlreadySpaned":265,"not":61}],98:[function(require,module,exports){
+},{"../Model/AnnotationData/parseAnnotation/validateAnnotation":120,"../Model/isAlreadySpaned":133,"not":61}],98:[function(require,module,exports){
 'use strict';
 
 var invokeCommand = require('./invokeCommand'),
@@ -13082,6 +13097,15 @@ module.exports = function (editor) {
 };
 
 },{"./AnnotationData":107,"./Selection":131}],133:[function(require,module,exports){
+"use strict";
+
+module.exports = function (allSpans, candidateSpan) {
+	return allSpans.filter(function (existSpan) {
+		return existSpan.begin === candidateSpan.begin && existSpan.end === candidateSpan.end;
+	}).length > 0;
+};
+
+},{}],134:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -13122,7 +13146,7 @@ function updateHash(hash, key, val) {
 }
 module.exports = exports['default'];
 
-},{"capitalize":35}],134:[function(require,module,exports){
+},{"capitalize":35}],135:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -13188,7 +13212,7 @@ function updateTypeGap(showInstance, typeGap, typeGapCache) {
 }
 module.exports = exports['default'];
 
-},{"../EditMode/event":141,"./TypeGapCache":133}],135:[function(require,module,exports){
+},{"../EditMode/event":142,"./TypeGapCache":134}],136:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -13268,7 +13292,7 @@ exports['default'] = function () {
 
 module.exports = exports['default'];
 
-},{"./state":145,"emitter-fsm":36}],136:[function(require,module,exports){
+},{"./state":146,"emitter-fsm":36}],137:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -13352,7 +13376,7 @@ exports['default'] = function (editor, model, typeEditor, buttonStateHelper) {
 
 module.exports = exports['default'];
 
-},{"./ViewMode":138,"./event":141,"./resetView":143,"./setEditableStyle":144,"events":38}],137:[function(require,module,exports){
+},{"./ViewMode":139,"./event":142,"./resetView":144,"./setEditableStyle":145,"events":38}],138:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -13454,7 +13478,7 @@ exports['default'] = function (stateMachine) {
 
 module.exports = exports['default'];
 
-},{"./state":145}],138:[function(require,module,exports){
+},{"./state":146}],139:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -13465,12 +13489,12 @@ function _interopRequireDefault(obj) {
     return obj && obj.__esModule ? obj : { 'default': obj };
 }
 
-var _viewSelector = require('../../view/Selector');
+var _ViewSelector = require('../../View/Selector');
 
-var _viewSelector2 = _interopRequireDefault(_viewSelector);
+var _ViewSelector2 = _interopRequireDefault(_ViewSelector);
 
 exports['default'] = function (editor, model, buttonStateHelper) {
-    var selector = new _viewSelector2['default'](editor, model),
+    var selector = new _ViewSelector2['default'](editor, model),
 
     // This notify is off at relation-edit-mode.
     entitySelectChanged = _.compose(buttonStateHelper.updateByEntity, selector.entityLabel.update);
@@ -13506,7 +13530,7 @@ function removeListeners(selectionModel, entitySelectChanged, buttonStateHelper)
 }
 module.exports = exports['default'];
 
-},{"../../view/Selector":275}],139:[function(require,module,exports){
+},{"../../View/Selector":238}],140:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -13541,7 +13565,7 @@ module.exports = exports['default'];
 // For debug.
 // console.log(editor.editorId, 'from:', e.from, ' to:', e.to);
 
-},{"./StateMachine":135,"./state":145}],140:[function(require,module,exports){
+},{"./StateMachine":136,"./state":146}],141:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -13558,14 +13582,14 @@ exports['default'] = function (buttonStateHelper) {
 
 module.exports = exports['default'];
 
-},{}],141:[function(require,module,exports){
+},{}],142:[function(require,module,exports){
 module.exports={
     "SHOW": "showInstance",
     "HIDE": "hideInstance",
     "CHANGE": "change"
 }
 
-},{}],142:[function(require,module,exports){
+},{}],143:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -13629,7 +13653,7 @@ exports['default'] = function (editor, model, typeEditor, buttonStateHelper) {
 
 module.exports = exports['default'];
 
-},{"./Transition":136,"./Trigger":137,"./bindTransition":139,"./enableButtonHasAnnotation":140,"./event":141,"./resetView":143,"events":38}],143:[function(require,module,exports){
+},{"./Transition":137,"./Trigger":138,"./bindTransition":140,"./enableButtonHasAnnotation":141,"./event":142,"./resetView":144,"events":38}],144:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -13643,7 +13667,7 @@ exports["default"] = function (typeEditor, selectionModel) {
 
 module.exports = exports["default"];
 
-},{}],144:[function(require,module,exports){
+},{}],145:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -13660,7 +13684,7 @@ exports['default'] = function (editor, buttonStateHelper, isEditable) {
 
 module.exports = exports['default'];
 
-},{}],145:[function(require,module,exports){
+},{}],146:[function(require,module,exports){
 module.exports={
     "INIT": "Init",
     "TERM": "Term Centric",
@@ -13670,7 +13694,7 @@ module.exports={
     "VIEW_INSTANCE": "View Instance"
 }
 
-},{}],146:[function(require,module,exports){
+},{}],147:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -13716,7 +13740,7 @@ exports['default'] = function (editor, annotationData, selectionModel, typeConta
 
 module.exports = exports['default'];
 
-},{}],147:[function(require,module,exports){
+},{}],148:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -13747,7 +13771,7 @@ exports['default'] = function (cancelSelect, selectEnd, spanConfig) {
 
 module.exports = exports['default'];
 
-},{"./getSelectionSnapShot":150}],148:[function(require,module,exports){
+},{"./getSelectionSnapShot":151}],149:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -13776,7 +13800,7 @@ exports['default'] = function (selectionModel, e) {
 
 module.exports = exports['default'];
 
-},{"../../dismissBrowserSelection":165}],149:[function(require,module,exports){
+},{"../../dismissBrowserSelection":166}],150:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -13800,7 +13824,7 @@ exports['default'] = function (selectionModel, e) {
 
 module.exports = exports['default'];
 
-},{"./selectEntities":152}],150:[function(require,module,exports){
+},{"./selectEntities":153}],151:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -13833,7 +13857,7 @@ exports['default'] = function () {
 
 module.exports = exports['default'];
 
-},{"../../dismissBrowserSelection":165}],151:[function(require,module,exports){
+},{"../../dismissBrowserSelection":166}],152:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -13921,7 +13945,7 @@ exports['default'] = function (editor, model, command, modeAccordingToButton, ty
 
 module.exports = exports['default'];
 
-},{"../../SelectEnd":159,"../changeTypeIfSelected":156,"../unbindAllEventhandler":158,"./SelectSpan":146,"./bodyClicked":147,"./entityClicked":148,"./entityPaneClicked":149,"./spanClicked":153,"./typeLabelClicked":154}],152:[function(require,module,exports){
+},{"../../SelectEnd":160,"../changeTypeIfSelected":157,"../unbindAllEventhandler":159,"./SelectSpan":147,"./bodyClicked":148,"./entityClicked":149,"./entityPaneClicked":150,"./spanClicked":154,"./typeLabelClicked":155}],153:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -13966,7 +13990,7 @@ exports['default'] = function (selectionModel, ctrlKey, typeLabel, entities) {
 
 module.exports = exports['default'];
 
-},{"../../dismissBrowserSelection":165}],153:[function(require,module,exports){
+},{"../../dismissBrowserSelection":166}],154:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -14001,7 +14025,7 @@ exports['default'] = function (spanConfig, selectEnd, selectSpan, event) {
 
 module.exports = exports['default'];
 
-},{"./getSelectionSnapShot":150}],154:[function(require,module,exports){
+},{"./getSelectionSnapShot":151}],155:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -14029,7 +14053,7 @@ exports['default'] = function (selectionModel, e) {
 
 module.exports = exports['default'];
 
-},{"../../dismissBrowserSelection":165,"./selectEntities":152}],155:[function(require,module,exports){
+},{"../../dismissBrowserSelection":166,"./selectEntities":153}],156:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -14149,7 +14173,7 @@ function selectObjectEntity(selectionModel, command, typeContainer, e) {
 }
 module.exports = exports['default'];
 
-},{"../dismissBrowserSelection":165,"./changeTypeIfSelected":156,"./unbindAllEventhandler":158}],156:[function(require,module,exports){
+},{"../dismissBrowserSelection":166,"./changeTypeIfSelected":157,"./unbindAllEventhandler":159}],157:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -14169,7 +14193,7 @@ exports["default"] = function (command, getSelectedAndEditable, createChangeType
 
 module.exports = exports["default"];
 
-},{}],157:[function(require,module,exports){
+},{}],158:[function(require,module,exports){
 'use strict';
 
 function _interopRequireDefault(obj) {
@@ -14241,7 +14265,7 @@ function returnEmptyArray() {
     return [];
 }
 
-},{"./EditEntity":151,"./EditRelation":155,"./unbindAllEventhandler":158,"events":38}],158:[function(require,module,exports){
+},{"./EditEntity":152,"./EditRelation":156,"./unbindAllEventhandler":159,"events":38}],159:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -14254,7 +14278,7 @@ exports['default'] = function (editor) {
 
 module.exports = exports['default'];
 
-},{}],159:[function(require,module,exports){
+},{}],160:[function(require,module,exports){
 'use strict';
 
 var SpanEditor = require('./SpanEditor'),
@@ -14274,7 +14298,7 @@ var SpanEditor = require('./SpanEditor'),
 };
 
 module.exports = function (editor, model, command, modeAccordingToButton, typeContainer) {
-    var selectionParser = require('./selectionParser')(editor, model),
+    var selectionParser = require('./SelectionParser')(editor, model),
         selectionValidater = require('./SelectionValidater')(selectionParser),
 
     // Initiated by events.
@@ -14306,7 +14330,7 @@ module.exports = function (editor, model, command, modeAccordingToButton, typeCo
     };
 };
 
-},{"./SelectionValidater":161,"./SpanEditor":162,"./selectionParser":168}],160:[function(require,module,exports){
+},{"./SelectionParser":161,"./SelectionValidater":162,"./SpanEditor":163}],161:[function(require,module,exports){
 'use strict';
 
 module.exports = function (editor, model) {
@@ -14439,7 +14463,7 @@ module.exports = function (editor, model) {
 	};
 };
 
-},{"./selectPosition":167}],161:[function(require,module,exports){
+},{"./selectPosition":168}],162:[function(require,module,exports){
 'use strict';
 
 var deferAlert = require('./deferAlert');
@@ -14472,7 +14496,7 @@ module.exports = function (parser) {
 	};
 };
 
-},{"./deferAlert":164}],162:[function(require,module,exports){
+},{"./deferAlert":165}],163:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -14487,11 +14511,11 @@ var _idFactory = require('../../idFactory');
 
 var _idFactory2 = _interopRequireDefault(_idFactory);
 
-var _modelAnnotationDataParseAnnotationValidateAnnotation = require('../../model/AnnotationData/parseAnnotation/validateAnnotation');
+var _ModelAnnotationDataParseAnnotationValidateAnnotation = require('../../Model/AnnotationData/parseAnnotation/validateAnnotation');
 
-var _modelIsAlreadySpaned = require('../../model/isAlreadySpaned');
+var _ModelIsAlreadySpaned = require('../../Model/isAlreadySpaned');
 
-var _modelIsAlreadySpaned2 = _interopRequireDefault(_modelIsAlreadySpaned);
+var _ModelIsAlreadySpaned2 = _interopRequireDefault(_ModelIsAlreadySpaned);
 
 var _deferAlert = require('./deferAlert');
 
@@ -14554,12 +14578,12 @@ function DoCreate(model, command, typeContainer, spanManipulater, isDetectDelimi
         newSpan = spanManipulater.create(data.selection, data.spanConfig);
 
     // The span cross exists spans.
-    if ((0, _modelAnnotationDataParseAnnotationValidateAnnotation.isBoundaryCrossingWithOtherSpans)(model.annotationData.span.all(), newSpan)) {
+    if ((0, _ModelAnnotationDataParseAnnotationValidateAnnotation.isBoundaryCrossingWithOtherSpans)(model.annotationData.span.all(), newSpan)) {
         return;
     }
 
     // The span exists already.
-    if ((0, _modelIsAlreadySpaned2['default'])(model.annotationData.span.all(), newSpan)) {
+    if ((0, _ModelIsAlreadySpaned2['default'])(model.annotationData.span.all(), newSpan)) {
         return;
     }
 
@@ -14582,7 +14606,7 @@ function expandSpanToSelection(editor, model, command, spanManipulater, spanId, 
     var newSpan = spanManipulater.expand(spanId, data.selection, data.spanConfig);
 
     // The span cross exists spans.
-    if ((0, _modelAnnotationDataParseAnnotationValidateAnnotation.isBoundaryCrossingWithOtherSpans)(model.annotationData.span.all(), newSpan)) {
+    if ((0, _ModelAnnotationDataParseAnnotationValidateAnnotation.isBoundaryCrossingWithOtherSpans)(model.annotationData.span.all(), newSpan)) {
         (0, _deferAlert2['default'])('A span cannot be expanded to make a boundary crossing.');
         return;
     }
@@ -14614,7 +14638,7 @@ function shrinkSpanToSelection(editor, model, command, spanManipulater, spanId, 
     var newSpan = spanManipulater.shrink(spanId, data.selection, data.spanConfig);
 
     // The span cross exists spans.
-    if ((0, _modelAnnotationDataParseAnnotationValidateAnnotation.isBoundaryCrossingWithOtherSpans)(model.annotationData.span.all(), newSpan)) {
+    if ((0, _ModelAnnotationDataParseAnnotationValidateAnnotation.isBoundaryCrossingWithOtherSpans)(model.annotationData.span.all(), newSpan)) {
         (0, _deferAlert2['default'])('A span cannot be shrinked to make a boundary crossing.');
         return;
     }
@@ -14643,7 +14667,7 @@ function DoShrink(model, selectionParser, doShrinkSpanToSelection, data) {
 }
 module.exports = exports['default'];
 
-},{"../../idFactory":253,"../../model/AnnotationData/parseAnnotation/validateAnnotation":257,"../../model/isAlreadySpaned":265,"../spanAdjuster/blankSkipAdjuster":188,"../spanAdjuster/delimiterDetectAdjuster":189,"./SelectionParser":160,"./SpanManipulater":163,"./deferAlert":164}],163:[function(require,module,exports){
+},{"../../Model/AnnotationData/parseAnnotation/validateAnnotation":120,"../../Model/isAlreadySpaned":133,"../../idFactory":253,"../spanAdjuster/blankSkipAdjuster":188,"../spanAdjuster/delimiterDetectAdjuster":189,"./SelectionParser":161,"./SpanManipulater":164,"./deferAlert":165}],164:[function(require,module,exports){
 'use strict';
 
 module.exports = function (model, spanAdjuster) {
@@ -14737,7 +14761,7 @@ module.exports = function (model, spanAdjuster) {
     };
 };
 
-},{"./selectPosition":167}],164:[function(require,module,exports){
+},{"./selectPosition":168}],165:[function(require,module,exports){
 "use strict";
 
 module.exports = function (message) {
@@ -14745,7 +14769,7 @@ module.exports = function (message) {
 	_.defer(_.partial(alert, message));
 };
 
-},{}],165:[function(require,module,exports){
+},{}],166:[function(require,module,exports){
 "use strict";
 
 module.exports = function () {
@@ -14753,7 +14777,7 @@ module.exports = function () {
 	selection.collapse(document.body, 0);
 };
 
-},{}],166:[function(require,module,exports){
+},{}],167:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -14840,7 +14864,7 @@ function _jsPlumbConnectionClicked(elementEditor, jsPlumbConnection, event) {
 }
 module.exports = exports['default'];
 
-},{"../../../component/Pallet":69,"./ElementEditor":157,"./dismissBrowserSelection":165}],167:[function(require,module,exports){
+},{"../../../component/Pallet":69,"./ElementEditor":158,"./dismissBrowserSelection":166}],168:[function(require,module,exports){
 "use strict";
 
 var getPosition = function getPosition(paragraph, span, node) {
@@ -14894,140 +14918,7 @@ module.exports = {
 	getAnchorPosition: getAnchorPosition,
 	getFocusPosition: getFocusPosition };
 
-},{}],168:[function(require,module,exports){
-'use strict';
-
-module.exports = function (editor, model) {
-	var selectPosition = require('./selectPosition'),
-	   
-
-	// A span cannot be created include nonEdgeCharacters only.
-	hasCharacters = function hasCharacters(spanConfig, selection) {
-		if (!selection) return false;
-
-		var positions = selectPosition.toPositions(model.annotationData, selection),
-		    selectedString = model.annotationData.sourceDoc.substring(positions.anchorPosition, positions.focusPosition),
-		    stringWithoutBlankCharacters = spanConfig.removeBlankChractors(selectedString);
-
-		return stringWithoutBlankCharacters.length > 0;
-	},
-	    isInOneParent = function isInOneParent(selection) {
-		// A span can be created at the same parent node.
-		// The parentElement is expected as a paragraph or a span.
-		return selection.anchorNode.parentElement.id === selection.focusNode.parentElement.id;
-	},
-	    getAnchorNodeParent = function getAnchorNodeParent(selection) {
-		return $(selection.anchorNode.parentNode);
-	},
-	    getFocusNodeParent = function getFocusNodeParent(selection) {
-		return $(selection.focusNode.parentNode);
-	},
-	    hasSpan = function hasSpan($node) {
-		return $node.hasClass('textae-editor__span');
-	},
-	    hasParagraphs = function hasParagraphs($node) {
-		return $node.hasClass('textae-editor__body__text-box__paragraph');
-	},
-	    hasSpanOrParagraphs = function hasSpanOrParagraphs($node) {
-		return hasSpan($node) || hasParagraphs($node);
-	},
-	    isAnchrNodeInSpan = _.compose(hasSpan, getAnchorNodeParent),
-	    isFocusNodeInSpan = _.compose(hasSpan, getFocusNodeParent),
-	    isFocusNodeInParagraph = _.compose(hasParagraphs, getFocusNodeParent),
-	    isAnchrNodeInSpanOrParagraph = _.compose(hasSpanOrParagraphs, getAnchorNodeParent),
-	    isInSameParagraph = (function () {
-		var getParagraph = function getParagraph(_x) {
-			var _again = true;
-
-			_function: while (_again) {
-				var $node = _x;
-				_again = false;
-
-				if (hasParagraphs($node)) {
-					return $node;
-				} else if (hasSpan($node)) {
-					_x = $node.parent();
-					_again = true;
-					continue _function;
-				} else {
-					return null;
-				}
-			}
-		},
-		    getParagraphId = function getParagraphId(selection, position) {
-			var $parent = $(selection[position + 'Node'].parentNode),
-			    $paragraph = getParagraph($parent);
-			return $paragraph && $paragraph.attr('id');
-		};
-
-		return function (selection) {
-			var anchorParagraphId = getParagraphId(selection, 'anchor'),
-			    focusParagraphId = getParagraphId(selection, 'focus');
-
-			return anchorParagraphId === focusParagraphId;
-		};
-	})(),
-	    isAnchorOneDownUnderForcus = function isAnchorOneDownUnderForcus(selection) {
-		return selection.anchorNode.parentNode.parentNode === selection.focusNode.parentNode;
-	},
-	    isForcusOneDownUnderAnchor = function isForcusOneDownUnderAnchor(selection) {
-		return selection.anchorNode.parentNode === selection.focusNode.parentNode.parentNode;
-	},
-	    isInSelectedSpan = function isInSelectedSpan(position) {
-		var spanId = model.selectionModel.span.single();
-		if (spanId) {
-			var selectedSpan = model.annotationData.span.get(spanId);
-			return selectedSpan.begin < position && position < selectedSpan.end;
-		}
-		return false;
-	},
-	    isAnchorInSelectedSpan = function isAnchorInSelectedSpan(selection) {
-		return isInSelectedSpan(selectPosition.getAnchorPosition(model.annotationData, selection));
-	},
-	    isFocusOnSelectedSpan = function isFocusOnSelectedSpan(selection) {
-		return selection.focusNode.parentNode.id === model.selectionModel.span.single();
-	},
-	    isFocusInSelectedSpan = function isFocusInSelectedSpan(selection) {
-		return isInSelectedSpan(selectPosition.getFocusPosition(model.annotationData, selection));
-	},
-	    isLongerThanParentSpan = function isLongerThanParentSpan(selection) {
-		var $getAnchorNodeParent = getAnchorNodeParent(selection),
-		    focusPosition = selectPosition.getFocusPosition(model.annotationData, selection);
-
-		if (hasSpan($getAnchorNodeParent) && $getAnchorNodeParent.parent() && hasSpan($getAnchorNodeParent.parent())) {
-			var span = model.annotationData.span.get($getAnchorNodeParent.parent().attr('id'));
-			if (focusPosition < span.begin || span.end < focusPosition) return true;
-		}
-	},
-	    isShorterThanChildSpan = function isShorterThanChildSpan(selection) {
-		var $getFocusNodeParent = getFocusNodeParent(selection),
-		    anchorPosition = selectPosition.getAnchorPosition(model.annotationData, selection);
-
-		if (hasSpan($getFocusNodeParent) && $getFocusNodeParent.parent() && hasSpan($getFocusNodeParent.parent())) {
-			var span = model.annotationData.span.get($getFocusNodeParent.parent().attr('id'));
-			if (anchorPosition < span.begin || span.end < anchorPosition) return true;
-		}
-	};
-
-	return {
-		hasCharacters: hasCharacters,
-		isInOneParent: isInOneParent,
-		isAnchrNodeInSpan: isAnchrNodeInSpan,
-		isAnchrNodeInSpanOrParagraph: isAnchrNodeInSpanOrParagraph,
-		isFocusNodeInSpan: isFocusNodeInSpan,
-		isFocusNodeInParagraph: isFocusNodeInParagraph,
-		isInSameParagraph: isInSameParagraph,
-		isAnchorOneDownUnderForcus: isAnchorOneDownUnderForcus,
-		isForcusOneDownUnderAnchor: isForcusOneDownUnderAnchor,
-		isAnchorInSelectedSpan: isAnchorInSelectedSpan,
-		isFocusOnSelectedSpan: isFocusOnSelectedSpan,
-		isFocusInSelectedSpan: isFocusInSelectedSpan,
-		isLongerThanParentSpan: isLongerThanParentSpan,
-		isShorterThanChildSpan: isShorterThanChildSpan
-	};
-};
-
-},{"./selectPosition":167}],169:[function(require,module,exports){
+},{}],169:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -15499,7 +15390,7 @@ exports['default'] = function (editor, model, view, command, spanConfig, clipBoa
 
 module.exports = exports['default'];
 
-},{"../../component/SettingDialog":71,"./DisplayInstance":134,"./EditMode":142,"./TypeEditor":166,"./enableSaveButtorAtEditable":169,"./handlers/ClipBoardHandler":170,"./handlers/DefaultEntityHandler":171,"./handlers/ModeButtonHandlers":172,"./handlers/ModificationHandler":173,"./handlers/SelectSpanHandler":175,"./handlers/ToggleButtonHandler":176,"./handlers/changeLabelHandler":177,"./handlers/removeSelectedElements":179,"./setDefaultEditability":185,"xtend":63}],183:[function(require,module,exports){
+},{"../../component/SettingDialog":71,"./DisplayInstance":135,"./EditMode":143,"./TypeEditor":167,"./enableSaveButtorAtEditable":169,"./handlers/ClipBoardHandler":170,"./handlers/DefaultEntityHandler":171,"./handlers/ModeButtonHandlers":172,"./handlers/ModificationHandler":173,"./handlers/SelectSpanHandler":175,"./handlers/ToggleButtonHandler":176,"./handlers/changeLabelHandler":177,"./handlers/removeSelectedElements":179,"./setDefaultEditability":185,"xtend":63}],183:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -15649,7 +15540,7 @@ Object.defineProperty(exports, '__esModule', {
     value: true
 });
 
-var _modelAnnotationDataParseAnnotationValidateAnnotation = require('../../model/AnnotationData/parseAnnotation/validateAnnotation');
+var _ModelAnnotationDataParseAnnotationValidateAnnotation = require('../../Model/AnnotationData/parseAnnotation/validateAnnotation');
 
 exports['default'] = function (multitrack, reject, writable) {
     writable.forceModified(false);
@@ -15658,14 +15549,14 @@ exports['default'] = function (multitrack, reject, writable) {
         writable.forceModified(true);
     }
 
-    if ((0, _modelAnnotationDataParseAnnotationValidateAnnotation.hasError)(reject)) {
+    if ((0, _ModelAnnotationDataParseAnnotationValidateAnnotation.hasError)(reject)) {
         writable.forceModified(true);
     }
 };
 
 module.exports = exports['default'];
 
-},{"../../model/AnnotationData/parseAnnotation/validateAnnotation":257}],188:[function(require,module,exports){
+},{"../../Model/AnnotationData/parseAnnotation/validateAnnotation":120}],188:[function(require,module,exports){
 'use strict';
 
 var skipBlank = require('./skipBlank');
@@ -15903,7 +15794,7 @@ module.exports = function (model) {
     };
 };
 
-},{"../../util/reduce2hash":288,"../uri":268}],194:[function(require,module,exports){
+},{"../../util/reduce2hash":264,"../uri":257}],194:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -16518,7 +16409,7 @@ exports['default'] = function (type) {
 
 module.exports = exports['default'];
 
-},{"../../../uri":268}],207:[function(require,module,exports){
+},{"../../../uri":257}],207:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -16668,7 +16559,7 @@ function getGrid(gridRenderer, spanId) {
 }
 module.exports = exports['default'];
 
-},{"../../../idFactory":253,"../../../uri":268,"../../domUtil":242,"./getDisplayName":206,"./getTypeDom":207}],209:[function(require,module,exports){
+},{"../../../idFactory":253,"../../../uri":257,"../../domUtil":242,"./getDisplayName":206,"./getTypeDom":207}],209:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -16770,7 +16661,7 @@ function doesSpanHasNoEntity(annotationData, spanId) {
 }
 module.exports = exports['default'];
 
-},{"../../../idFactory":253,"../../../uri":268,"../../Selector":238,"../../domUtil":242,"../ModificationRenderer":213,"./changeTypeOfExists":203,"./create":204,"./createEntityUnlessBlock":205,"./getDisplayName":206,"./getTypeDom":207,"./removeEntityElement":210,"events":38}],210:[function(require,module,exports){
+},{"../../../idFactory":253,"../../../uri":257,"../../Selector":238,"../../domUtil":242,"../ModificationRenderer":213,"./changeTypeOfExists":203,"./create":204,"./createEntityUnlessBlock":205,"./getDisplayName":206,"./getTypeDom":207,"./removeEntityElement":210,"events":38}],210:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -18617,7 +18508,7 @@ function setHandlerOnDisplayEvent(editor, display) {
 }
 module.exports = exports['default'];
 
-},{"../../util/CursorChanger":286,"./Display":194,"./Hover":201,"./Renderer":234,"./Renderer/RelationRenderer":217,"./TypeStyle":241,"./lineHeight":247,"./setSelectionModelHandler":248}],247:[function(require,module,exports){
+},{"../../util/CursorChanger":262,"./Display":194,"./Hover":201,"./Renderer":234,"./Renderer/RelationRenderer":217,"./TypeStyle":241,"./lineHeight":247,"./setSelectionModelHandler":248}],247:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -18785,9 +18676,9 @@ function _interopRequireWildcard(obj) {
     }
 }
 
-var _viewLineHeight = require('./view/lineHeight');
+var _ViewLineHeight = require('./View/lineHeight');
 
-var lineHeight = _interopRequireWildcard(_viewLineHeight);
+var lineHeight = _interopRequireWildcard(_ViewLineHeight);
 
 exports['default'] = function (editor, annotationData, typeContainer, typeGap, view) {
     lineHeight.setToTypeGap(editor[0], annotationData, typeContainer, typeGap());
@@ -18796,7 +18687,7 @@ exports['default'] = function (editor, annotationData, typeContainer, typeGap, v
 
 module.exports = exports['default'];
 
-},{"./view/lineHeight":281}],251:[function(require,module,exports){
+},{"./View/lineHeight":247}],251:[function(require,module,exports){
 'use strict';
 
 var getUrlParameters = require('./getUrlParameters'),
@@ -18987,334 +18878,7 @@ exports['default'] = function () {
 
 module.exports = exports['default'];
 
-},{"../buttonModel/ButtonController":65,"../buttonModel/Writable":66,"../component/DataAccessObject":67,"./History":100,"./Model":132,"./observe":266,"./start":267,"observ":62}],255:[function(require,module,exports){
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-exports["default"] = function (rejects) {
-    return rejects.reduce(function (result, reject) {
-        return result || reject.hasError;
-    }, false);
-};
-
-module.exports = exports["default"];
-
-},{}],256:[function(require,module,exports){
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-exports["default"] = function (reject) {
-    return {
-        accept: [],
-        reject: reject ? reject : []
-    };
-};
-
-module.exports = exports["default"];
-
-},{}],257:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, '__esModule', {
-    value: true
-});
-
-function _interopRequireDefault(obj) {
-    return obj && obj.__esModule ? obj : { 'default': obj };
-}
-
-var _main = require('./main');
-
-var _main2 = _interopRequireDefault(_main);
-
-var _RejectHasError = require('./Reject/hasError');
-
-var _RejectHasError2 = _interopRequireDefault(_RejectHasError);
-
-var _isBoundaryCrossingWithOtherSpans = require('./isBoundaryCrossingWithOtherSpans');
-
-var _isBoundaryCrossingWithOtherSpans2 = _interopRequireDefault(_isBoundaryCrossingWithOtherSpans);
-
-exports['default'] = _main2['default'];
-exports.hasError = _RejectHasError2['default'];
-exports.isBoundaryCrossingWithOtherSpans = _isBoundaryCrossingWithOtherSpans2['default'];
-
-},{"./Reject/hasError":255,"./isBoundaryCrossingWithOtherSpans":258,"./main":260}],258:[function(require,module,exports){
-// A span its range is coross over with other spans are not able to rendered.
-// Because spans are renderd with span tag. Html tags can not be cross over.
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-exports["default"] = function (spans, candidateSpan) {
-    return spans.filter(function (existSpan) {
-        return isBoundaryCrossing(candidateSpan, existSpan);
-    }).length > 0;
-};
-
-function isBoundaryCrossing(candidateSpan, existSpan) {
-    return existSpan.begin < candidateSpan.begin && candidateSpan.begin < existSpan.end && existSpan.end < candidateSpan.end || candidateSpan.begin < existSpan.begin && existSpan.begin < candidateSpan.end && candidateSpan.end < existSpan.end;
-}
-module.exports = exports["default"];
-
-},{}],259:[function(require,module,exports){
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-exports["default"] = function (data, opt) {
-    if (!opt.dictionary) return false;
-
-    return opt.dictionary.filter(function (entry) {
-        return entry.id === data[opt.property];
-    }).length === 1;
-};
-
-module.exports = exports["default"];
-
-},{}],260:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, '__esModule', {
-    value: true
-});
-
-function _interopRequireDefault(obj) {
-    return obj && obj.__esModule ? obj : { 'default': obj };
-}
-
-var _validateDenotation = require('./validateDenotation');
-
-var _validateDenotation2 = _interopRequireDefault(_validateDenotation);
-
-var _validateRelation = require('./validateRelation');
-
-var _validateRelation2 = _interopRequireDefault(_validateRelation);
-
-var _validateModificatian = require('./validateModificatian');
-
-var _validateModificatian2 = _interopRequireDefault(_validateModificatian);
-
-exports['default'] = function (text, paragraph, annotation) {
-    var resultDenotation = (0, _validateDenotation2['default'])(text, paragraph, annotation.denotations),
-        resultRelation = (0, _validateRelation2['default'])(resultDenotation.accept, annotation.relations),
-        resultModification = (0, _validateModificatian2['default'])(resultDenotation.accept, resultRelation.accept, annotation.modifications);
-
-    return {
-        accept: {
-            denotation: resultDenotation.accept,
-            relation: resultRelation.accept,
-            modification: resultModification.accept
-        },
-        reject: {
-            denotationHasLength: resultDenotation.reject.hasLength,
-            denotationInText: resultDenotation.reject.inText,
-            denotationInParagraph: resultDenotation.reject.inParagraph,
-            denotationIsNotCrossing: resultDenotation.reject.isNotCrossing,
-            relationObj: resultRelation.reject.obj,
-            relationSubj: resultRelation.reject.subj,
-            modification: resultModification.reject.modification,
-            hasError: resultDenotation.hasError || resultRelation.hasError || resultModification.hasError
-        }
-    };
-};
-
-module.exports = exports['default'];
-
-},{"./validateDenotation":262,"./validateModificatian":263,"./validateRelation":264}],261:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, '__esModule', {
-    value: true
-});
-
-function _interopRequireDefault(obj) {
-    return obj && obj.__esModule ? obj : { 'default': obj };
-}
-
-var _Reject = require('./Reject');
-
-var _Reject2 = _interopRequireDefault(_Reject);
-
-exports['default'] = function (values, predicate, predicateOption) {
-    if (!values) return new _Reject2['default']();
-
-    return values.reduce(function (result, target, index, array) {
-        return acceptIf(predicate, predicateOption, result, target, index, array);
-    }, new _Reject2['default']());
-};
-
-function acceptIf(predicate, predicateOption, result, target, index, array) {
-    if (predicate(target, predicateOption, index, array)) {
-        result.accept.push(target);
-    } else {
-        result.reject.push(target);
-    }
-
-    return result;
-}
-module.exports = exports['default'];
-
-},{"./Reject":256}],262:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, '__esModule', {
-    value: true
-});
-
-function _interopRequireDefault(obj) {
-    return obj && obj.__esModule ? obj : { 'default': obj };
-}
-
-var _validate = require('./validate');
-
-var _validate2 = _interopRequireDefault(_validate);
-
-var _isBoundaryCrossingWithOtherSpans = require('./isBoundaryCrossingWithOtherSpans');
-
-var _isBoundaryCrossingWithOtherSpans2 = _interopRequireDefault(_isBoundaryCrossingWithOtherSpans);
-
-exports['default'] = function (text, paragraph, denotations) {
-    var resultHasLength = (0, _validate2['default'])(denotations, hasLength),
-        resultInText = (0, _validate2['default'])(resultHasLength.accept, isBeginAndEndIn, text),
-        resultInParagraph = (0, _validate2['default'])(resultInText.accept, isInParagraph, paragraph),
-        resultIsNotCrossing = (0, _validate2['default'])(resultInParagraph.accept, function (denotation, opt, index, array) {
-        var others = array.slice(0, index).map(function (d) {
-            return d.span;
-        }),
-            isInvalid = (0, _isBoundaryCrossingWithOtherSpans2['default'])(others, denotation.span);
-
-        return !isInvalid;
-    });
-
-    return {
-        accept: resultIsNotCrossing.accept,
-        reject: {
-            hasLength: resultHasLength.reject,
-            inText: resultInText.reject,
-            inParagraph: resultInParagraph.reject,
-            isNotCrossing: resultIsNotCrossing.reject
-        },
-        hasError: resultHasLength.reject.length + resultInText.reject.length + resultInParagraph.reject.length + resultIsNotCrossing.reject.length !== 0
-    };
-};
-
-function hasLength(denotation) {
-    return denotation.span.end - denotation.span.begin > 0;
-}
-
-function isInText(boundary, text) {
-    return 0 <= boundary && boundary <= text.length;
-}
-
-function isBeginAndEndIn(denotation, text) {
-    return isInText(denotation.span.begin, text) && isInText(denotation.span.end, text);
-}
-
-function isInParagraph(denotation, paragraph) {
-    return paragraph.all().filter(function (p) {
-        return p.begin <= denotation.span.begin && denotation.span.end <= p.end;
-    }).length === 1;
-}
-module.exports = exports['default'];
-
-},{"./isBoundaryCrossingWithOtherSpans":258,"./validate":261}],263:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, '__esModule', {
-    value: true
-});
-
-function _interopRequireDefault(obj) {
-    return obj && obj.__esModule ? obj : { 'default': obj };
-}
-
-var _validate = require('./validate');
-
-var _validate2 = _interopRequireDefault(_validate);
-
-var _isContains = require('./isContains');
-
-var _isContains2 = _interopRequireDefault(_isContains);
-
-exports['default'] = function (denotations, relations, modifications) {
-    var resultModification = (0, _validate2['default'])(modifications, _isContains2['default'], {
-        property: 'obj',
-        dictionary: _.union(denotations, relations)
-    });
-
-    return {
-        accept: resultModification.accept,
-        reject: {
-            modification: resultModification.reject,
-            hasError: resultModification.reject.length !== 0
-        }
-    };
-};
-
-module.exports = exports['default'];
-
-},{"./isContains":259,"./validate":261}],264:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, '__esModule', {
-    value: true
-});
-
-function _interopRequireDefault(obj) {
-    return obj && obj.__esModule ? obj : { 'default': obj };
-}
-
-var _validate = require('./validate');
-
-var _validate2 = _interopRequireDefault(_validate);
-
-var _isContains = require('./isContains');
-
-var _isContains2 = _interopRequireDefault(_isContains);
-
-exports['default'] = function (denotations, relations) {
-    var resultRelationObj = (0, _validate2['default'])(relations, _isContains2['default'], {
-        property: 'obj',
-        dictionary: denotations
-    }),
-        resultRelationSubj = (0, _validate2['default'])(resultRelationObj.accept, _isContains2['default'], {
-        property: 'subj',
-        dictionary: denotations
-    });
-
-    return {
-        accept: resultRelationSubj.accept,
-        reject: {
-            obj: resultRelationObj.reject,
-            subj: resultRelationSubj.reject,
-            hasError: resultRelationObj.reject.length + resultRelationSubj.reject.length !== 0
-        }
-    };
-};
-
-module.exports = exports['default'];
-
-},{"./isContains":259,"./validate":261}],265:[function(require,module,exports){
-"use strict";
-
-module.exports = function (allSpans, candidateSpan) {
-	return allSpans.filter(function (existSpan) {
-		return existSpan.begin === candidateSpan.begin && existSpan.end === candidateSpan.end;
-	}).length > 0;
-};
-
-},{}],266:[function(require,module,exports){
+},{"../buttonModel/ButtonController":65,"../buttonModel/Writable":66,"../component/DataAccessObject":67,"./History":100,"./Model":132,"./observe":255,"./start":256,"observ":62}],255:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -19364,12 +18928,24 @@ function observeDataSave(dataAccessObject, history, writable) {
     });
 }
 
-},{"../component/showVilidationDialog":85}],267:[function(require,module,exports){
+},{"../component/showVilidationDialog":85}],256:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
     value: true
 });
+
+function _interopRequireWildcard(obj) {
+    if (obj && obj.__esModule) {
+        return obj;
+    } else {
+        var newObj = {};if (obj != null) {
+            for (var key in obj) {
+                if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+            }
+        }newObj['default'] = obj;return newObj;
+    }
+}
 
 function _interopRequireDefault(obj) {
     return obj && obj.__esModule ? obj : { 'default': obj };
@@ -19381,7 +18957,7 @@ var _observ2 = _interopRequireDefault(_observ);
 
 var _utilAjaxAccessor = require('../util/ajaxAccessor');
 
-var _utilAjaxAccessor2 = _interopRequireDefault(_utilAjaxAccessor);
+var ajaxAccessor = _interopRequireWildcard(_utilAjaxAccessor);
 
 var _componentStatusBar = require('../component/StatusBar');
 
@@ -19492,7 +19068,7 @@ function setConfigFromServer(spanConfig, typeContainer, annotationData, config, 
     spanConfig.reset();
 
     if (typeof config === 'string') {
-        _utilAjaxAccessor2['default'].getAsync(config, function (configFromServer) {
+        ajaxAccessor.getAsync(config, function (configFromServer) {
             setSpanAndTypeConfig(spanConfig, typeContainer, configFromServer);
             annotationData.reset(annotation);
         }, function () {
@@ -19527,7 +19103,7 @@ function getStatusBar(editor, status_bar) {
 }
 module.exports = exports['default'];
 
-},{"../component/StatusBar":76,"../util/ajaxAccessor":287,"./APIs":93,"./Command":98,"./Presenter":182,"./SpanConfig":192,"./TypeContainer":193,"./View":246,"./bindMouseEvent":249,"./calculateLineHeight":250,"./getParams":251,"observ":62}],268:[function(require,module,exports){
+},{"../component/StatusBar":76,"../util/ajaxAccessor":263,"./APIs":93,"./Command":98,"./Presenter":182,"./SpanConfig":192,"./TypeContainer":193,"./View":246,"./bindMouseEvent":249,"./calculateLineHeight":250,"./getParams":251,"observ":62}],257:[function(require,module,exports){
 'use strict';
 
 module.exports = {
@@ -19543,546 +19119,7 @@ module.exports = {
 	}
 };
 
-},{}],269:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, '__esModule', {
-    value: true
-});
-
-function _interopRequireDefault(obj) {
-    return obj && obj.__esModule ? obj : { 'default': obj };
-}
-
-var _LesserMap = require('./LesserMap');
-
-var _LesserMap2 = _interopRequireDefault(_LesserMap);
-
-exports['default'] = function () {
-    var caches = [],
-        factory = function factory(getter) {
-        return create(caches, getter);
-    };
-
-    factory.clearAllCache = function () {
-        return clearAll(caches);
-    };
-    return factory;
-};
-
-function create(caches, getter) {
-    var map = new _LesserMap2['default']();
-
-    add(caches, map);
-    return function (id) {
-        return getFromCache(map, getter, id);
-    };
-}
-
-function add(caches, cache) {
-    caches.push(cache);
-}
-
-function getFromCache(cache, getter, id) {
-    if (!cache.has(id)) {
-        cache.set(id, getter(id));
-    }
-
-    return cache.get(id);
-}
-
-function clearAll(caches) {
-    caches.forEach(function (cache) {
-        return cache.clear();
-    });
-}
-module.exports = exports['default'];
-
-},{"./LesserMap":271}],270:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, '__esModule', {
-    value: true
-});
-
-function _interopRequireDefault(obj) {
-    return obj && obj.__esModule ? obj : { 'default': obj };
-}
-
-var _LesserMap = require('./LesserMap');
-
-var _LesserMap2 = _interopRequireDefault(_LesserMap);
-
-exports['default'] = function (entityModel) {
-    // The chache for position of grids.
-    // This is updated at arrange position of grids.
-    // This is referenced at create or move relations.
-    var map = new _LesserMap2['default']();
-
-    return _.extend(map, {
-        isGridPrepared: function isGridPrepared(entityId) {
-            return _isGridPrepared(entityModel, map, entityId);
-        }
-    });
-};
-
-function _isGridPrepared(entityModel, map, entityId) {
-    var spanId = entityModel.get(entityId).span;
-    return map.get(spanId);
-}
-module.exports = exports['default'];
-
-},{"./LesserMap":271}],271:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, '__esModule', {
-    value: true
-});
-var publicApis = ['set', 'get', 'has', 'keys', 'delete', 'clear'];
-
-exports['default'] = function () {
-    var m = new Map(),
-        api = publicApis.reduce(function (api, name) {
-        api[name] = Map.prototype[name].bind(m);
-        return api;
-    }, {});
-
-    return api;
-};
-
-module.exports = exports['default'];
-
-},{}],272:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, '__esModule', {
-    value: true
-});
-
-function _interopRequireDefault(obj) {
-    return obj && obj.__esModule ? obj : { 'default': obj };
-}
-
-var _idFactory = require('../../idFactory');
-
-var _idFactory2 = _interopRequireDefault(_idFactory);
-
-var _CachedGetterFactory = require('./CachedGetterFactory');
-
-var _CachedGetterFactory2 = _interopRequireDefault(_CachedGetterFactory);
-
-var factory = new _CachedGetterFactory2['default']();
-
-exports['default'] = function (editor, entityModel, gridPositionCache) {
-    // The cache for span positions.
-    // Getting the postion of spans is too slow about 5-10 ms per a element in Chrome browser. For example offsetTop property.
-    // This cache is big effective for the initiation, and little effective for resize.
-    var cachedGetSpan = factory(function (spanId) {
-        return getSpan(editor, spanId);
-    }),
-        cachedGetEntity = factory(function (entityId) {
-        return getEntity(editor, entityModel, gridPositionCache, entityId);
-    });
-
-    return {
-        reset: factory.clearAllCache,
-        getSpan: cachedGetSpan,
-        getEntity: cachedGetEntity
-    };
-};
-
-function getSpan(editor, spanId) {
-    var span = editor[0].querySelector('#' + spanId);
-    if (!span) {
-        throw new Error('span is not renderd : ' + spanId);
-    }
-
-    // An element.offsetTop and element.offsetLeft does not work in the Firefox,
-    // when much spans are loaded like http://pubannotation.org/docs/sourcedb/PMC/sourceid/1315279/divs/10/annotations.json.
-    var spanBox = span.getBoundingClientRect(),
-        textBox = span.offsetParent.offsetParent.getBoundingClientRect();
-
-    return {
-        top: spanBox.top - textBox.top,
-        left: spanBox.left - textBox.left,
-        width: span.offsetWidth,
-        height: span.offsetHeight,
-        center: span.offsetLeft + span.offsetWidth / 2
-    };
-}
-
-function getEntity(editor, entityModel, gridPositionCache, entityId) {
-    var entity = editor[0].querySelector('#' + _idFactory2['default'].makeEntityDomId(editor, entityId));
-    if (!entity) {
-        throw new Error('entity is not rendered : ' + entityId);
-    }
-
-    var spanId = entityModel.get(entityId).span,
-        gridPosition = gridPositionCache.get(spanId);
-
-    return {
-        top: gridPosition.top + entity.offsetTop,
-        center: gridPosition.left + entity.offsetLeft + entity.offsetWidth / 2 };
-}
-module.exports = exports['default'];
-
-},{"../../idFactory":253,"./CachedGetterFactory":269}],273:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, '__esModule', {
-    value: true
-});
-
-function _interopRequireDefault(obj) {
-    return obj && obj.__esModule ? obj : { 'default': obj };
-}
-
-var _GridPosition = require('./GridPosition');
-
-var _GridPosition2 = _interopRequireDefault(_GridPosition);
-
-var _SpanAndEntityPosition = require('./SpanAndEntityPosition');
-
-var _SpanAndEntityPosition2 = _interopRequireDefault(_SpanAndEntityPosition);
-
-var _LesserMap = require('./LesserMap');
-
-var _LesserMap2 = _interopRequireDefault(_LesserMap);
-
-// Utility functions for get positions of DOM elemnts.
-
-exports['default'] = function (editor, entityModel) {
-    // The editor has onry one position cache.
-    editor.postionCache = editor.postionCache || create(editor, entityModel);
-    return editor.postionCache;
-};
-
-function create(editor, entityModel) {
-    var gridPosition = new _GridPosition2['default'](entityModel),
-        spanAndEntityPosition = new _SpanAndEntityPosition2['default'](editor, entityModel, gridPosition),
-        grid = new GridApi(gridPosition),
-        relation = new RelationApi();
-
-    return _.extend(spanAndEntityPosition, grid, relation);
-}
-
-function GridApi(gridPosition) {
-    return {
-        gridPositionCache: gridPosition,
-        getGrid: gridPosition.get,
-        setGrid: gridPosition.set };
-}
-
-function RelationApi() {
-    var newCache = new _LesserMap2['default'](),
-
-    // The connectCache has jsPlumbConnectors to call jsPlumbConnector instance to edit an according dom object.
-    // This is refered by render.relation and domUtil.selector.relation.
-    api = {
-        connectCache: newCache,
-        toConnect: function toConnect(relationId) {
-            return newCache.get(relationId);
-        }
-    };
-
-    return api;
-}
-module.exports = exports['default'];
-
-},{"./GridPosition":270,"./LesserMap":271,"./SpanAndEntityPosition":272}],274:[function(require,module,exports){
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-exports["default"] = function (domPositionCache, relationId) {
-    var connect = domPositionCache.toConnect(relationId);
-
-    removeUiSelectClass(connect);
-};
-
-function removeUiSelectClass(connect) {
-    if (connect && connect.deselect) connect.deselect();
-}
-module.exports = exports["default"];
-
-},{}],275:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, '__esModule', {
-    value: true
-});
-
-function _interopRequireDefault(obj) {
-    return obj && obj.__esModule ? obj : { 'default': obj };
-}
-
-var _domUtil = require('../domUtil');
-
-var _domUtil2 = _interopRequireDefault(_domUtil);
-
-var _DomPositionCache = require('../DomPositionCache');
-
-var _DomPositionCache2 = _interopRequireDefault(_DomPositionCache);
-
-var _selectionClass = require('./selectionClass');
-
-var _selectionClass2 = _interopRequireDefault(_selectionClass);
-
-var _selectRelation = require('./selectRelation');
-
-var _selectRelation2 = _interopRequireDefault(_selectRelation);
-
-var _deselectRelation = require('./deselectRelation');
-
-var _deselectRelation2 = _interopRequireDefault(_deselectRelation);
-
-exports['default'] = function (editor, model) {
-    var domPositionCache = new _DomPositionCache2['default'](editor, model.annotationData.entity);
-
-    return {
-        span: {
-            select: function select(id) {
-                return modifyStyle(editor, 'span', 'add', id);
-            },
-            deselect: function deselect(id) {
-                return modifyStyle(editor, 'span', 'remove', id);
-            }
-        },
-        entity: {
-            select: function select(id) {
-                return modifyStyle(editor, 'entity', 'add', id);
-            },
-            deselect: function deselect(id) {
-                return modifyStyle(editor, 'entity', 'remove', id);
-            }
-        },
-        relation: {
-            select: function select(id) {
-                return (0, _selectRelation2['default'])(domPositionCache, id);
-            },
-            deselect: function deselect(id) {
-                return (0, _deselectRelation2['default'])(domPositionCache, id);
-            }
-        },
-        entityLabel: {
-            update: function update(id) {
-                return updateEntityLabel(editor, id);
-            }
-        }
-    };
-};
-
-function modifyStyle(editor, type, handle, id) {
-    var $elment = _domUtil2['default'].selector[type].get(id, editor);
-    _selectionClass2['default'][handle + 'Class']($elment);
-}
-
-// Select the typeLabel if all entities is selected.
-function updateEntityLabel(editor, entityId) {
-    var $entity = _domUtil2['default'].selector.entity.get(entityId, editor),
-        $typePane = $entity.parent(),
-        $typeLabel = $typePane.prev();
-
-    if ($typePane.children().length === $typePane.find('.ui-selected').length) {
-        _selectionClass2['default'].addClass($typeLabel);
-    } else {
-        _selectionClass2['default'].removeClass($typeLabel);
-    }
-}
-module.exports = exports['default'];
-
-},{"../DomPositionCache":273,"../domUtil":278,"./deselectRelation":274,"./selectRelation":276,"./selectionClass":277}],276:[function(require,module,exports){
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-exports["default"] = function (domPositionCache, relationId) {
-    var connect = domPositionCache.toConnect(relationId);
-
-    addUiSelectClass(connect);
-};
-
-function addUiSelectClass(connect) {
-    if (connect && connect.select) connect.select();
-}
-module.exports = exports["default"];
-
-},{}],277:[function(require,module,exports){
-// Add or Remove class to indicate selected state.
-'use strict';
-
-module.exports = (function () {
-    var addClass = function addClass($target) {
-        return $target.addClass('ui-selected');
-    },
-        removeClass = function removeClass($target) {
-        return $target.removeClass('ui-selected');
-    };
-
-    return {
-        addClass: addClass,
-        removeClass: removeClass
-    };
-})();
-
-},{}],278:[function(require,module,exports){
-'use strict';
-
-var idFactory = require('../idFactory');
-
-module.exports = {
-    selector: {
-        span: {
-            get: function get(spanId) {
-                return $('#' + spanId);
-            }
-        },
-        entity: {
-            get: function get(entityId, editor) {
-                return $('#' + idFactory.makeEntityDomId(editor, entityId));
-            }
-        },
-        grid: {
-            get: function get(spanId) {
-                return $('#G' + spanId);
-            }
-        } }
-};
-
-},{"../idFactory":253}],279:[function(require,module,exports){
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-exports["default"] = getHeightIncludeDescendantGrids;
-
-function getHeightIncludeDescendantGrids(span, typeContainer, typeGapValue) {
-    var descendantsMaxHeight = span.children.length === 0 ? 0 : _.max(span.children.map(function (childSpan) {
-        return getHeightIncludeDescendantGrids(childSpan, typeContainer, typeGapValue);
-    })),
-        gridHeight = span.getTypes().filter(function (type) {
-        return !typeContainer.entity.isBlock(type.name);
-    }).length * (typeGapValue * 18 + 18);
-
-    return gridHeight + descendantsMaxHeight;
-}
-
-module.exports = exports["default"];
-
-},{}],280:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, '__esModule', {
-    value: true
-});
-exports['default'] = getTextBox;
-
-function getTextBox(editor) {
-    return editor.querySelector('.textae-editor__body__text-box');
-}
-
-module.exports = exports['default'];
-
-},{}],281:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, '__esModule', {
-    value: true
-});
-exports.get = get;
-exports.reduceBottomSpace = reduceBottomSpace;
-exports.set = set;
-exports.setToTypeGap = setToTypeGap;
-
-function _interopRequireDefault(obj) {
-    return obj && obj.__esModule ? obj : { 'default': obj };
-}
-
-var _getHeightIncludeDescendantGrids = require('./getHeightIncludeDescendantGrids');
-
-var _getHeightIncludeDescendantGrids2 = _interopRequireDefault(_getHeightIncludeDescendantGrids);
-
-var _getTextBox = require('./getTextBox');
-
-var _getTextBox2 = _interopRequireDefault(_getTextBox);
-
-var TEXT_HEIGHT = 23;
-var MARGIN_TOP = 30;
-var MINIMUM_HEIGHT = 41;
-
-function get(editor) {
-    var textBox = (0, _getTextBox2['default'])(editor),
-        style = window.getComputedStyle(textBox);
-
-    return pixelToInt(style.lineHeight);
-}
-
-// Reduce the space under the .textae-editor__body__text-box same as padding-top.
-
-function reduceBottomSpace(editor) {
-    var textBox = (0, _getTextBox2['default'])(editor),
-        style = window.getComputedStyle(textBox);
-
-    // The height calculated by auto is exclude the value of the padding top.
-    // Rest small space.
-    textBox.style.height = 'auto';
-    textBox.style.height = textBox.offsetHeight - pixelToInt(style.paddingTop) + 20 + 'px';
-}
-
-function set(editor, heightValue) {
-    var textBox = (0, _getTextBox2['default'])(editor);
-
-    textBox.style.lineHeight = heightValue + 'px';
-    textBox.style.paddingTop = heightValue / 2 + 'px';
-
-    suppressScrollJump(textBox, heightValue);
-
-    reduceBottomSpace(editor);
-}
-
-function setToTypeGap(editor, annotationData, typeContainer, typeGapValue) {
-    var heightOfType = typeGapValue * 18 + 18,
-        maxHeight = undefined;
-
-    if (annotationData.span.all().length === 0) {
-        var style = window.getComputedStyle(editor),
-            n = pixelToInt(style.lineHeight);
-
-        if (style.lineHeight === 'normal') {
-            maxHeight = MINIMUM_HEIGHT;
-        } else {
-            maxHeight = n;
-        }
-    } else {
-        maxHeight = _.max(annotationData.span.all().map(function (span) {
-            return (0, _getHeightIncludeDescendantGrids2['default'])(span, typeContainer, typeGapValue);
-        }));
-
-        maxHeight += TEXT_HEIGHT + MARGIN_TOP;
-    }
-
-    set(editor, maxHeight);
-}
-
-function suppressScrollJump(textBox, heightValue) {
-    var beforeLineHeight = textBox.style.lineHeight,
-        b = pixelToInt(beforeLineHeight);
-
-    if (b) {
-        window.scroll(window.scrollX, window.scrollY * heightValue / b);
-    }
-}
-
-function pixelToInt(str) {
-    return str === '' ? 0 : parseInt(str);
-}
-
-},{"./getHeightIncludeDescendantGrids":279,"./getTextBox":280}],282:[function(require,module,exports){
+},{}],258:[function(require,module,exports){
 'use strict';
 
 var tool = require('./tool'),
@@ -20108,7 +19145,7 @@ jQuery.fn.textae = (function () {
     };
 })();
 
-},{"./control":88,"./editor":254,"./tool":283}],283:[function(require,module,exports){
+},{"./control":88,"./editor":254,"./tool":259}],259:[function(require,module,exports){
 'use strict';
 
 var _events = require('events');
@@ -20234,7 +19271,7 @@ module.exports = (function () {
         } };
 })();
 
-},{"./component/HelpDialog":68,"./tool/EditorContainer":284,"./tool/KeybordInputConverter":285,"events":38}],284:[function(require,module,exports){
+},{"./component/HelpDialog":68,"./tool/EditorContainer":260,"./tool/KeybordInputConverter":261,"events":38}],260:[function(require,module,exports){
 'use strict';
 
 var switchActiveClass = function switchActiveClass(editors, selected) {
@@ -20283,7 +19320,7 @@ module.exports = function () {
 	return editors;
 };
 
-},{}],285:[function(require,module,exports){
+},{}],261:[function(require,module,exports){
 'use strict';
 
 var EventEmitter = require('events').EventEmitter,
@@ -20332,7 +19369,7 @@ module.exports = function (keyInputHandler) {
 	return emitter;
 };
 
-},{"events":38}],286:[function(require,module,exports){
+},{"events":38}],262:[function(require,module,exports){
 'use strict';
 
 var changeCursor = function changeCursor(editor, action) {
@@ -20350,58 +19387,62 @@ module.exports = function (editor) {
 		endWait: endWait };
 };
 
-},{}],287:[function(require,module,exports){
+},{}],263:[function(require,module,exports){
 "use strict";
 
-var isEmpty = function isEmpty(str) {
-	return !str || str === "";
-},
-    getAsync = function getAsync(url, dataHandler, failedHandler) {
-	if (isEmpty(url)) {
-		return;
-	}
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.getAsync = getAsync;
+exports.post = post;
 
-	$.ajax({
-		type: "GET",
-		url: url,
-		cache: false
-	}).done(function (data) {
-		if (dataHandler !== undefined) {
-			dataHandler(data);
-		}
-	}).fail(function (res, textStatus, errorThrown) {
-		if (failedHandler !== undefined) {
-			failedHandler();
-		}
-	});
-},
-    post = function post(url, data, successHandler, failHandler, finishHandler) {
-	if (isEmpty(url)) {
-		return;
-	}
+function getAsync(url, dataHandler, failedHandler) {
+    if (isEmpty(url)) {
+        return;
+    }
 
-	console.log("POST data", data);
+    $.ajax({
+        type: "GET",
+        url: url,
+        cache: false,
+        xhrFields: {
+            withCredentials: true
+        }
+    }).done(function (data) {
+        if (dataHandler !== undefined) {
+            dataHandler(data);
+        }
+    }).fail(function (res, textStatus, errorThrown) {
+        if (failedHandler !== undefined) {
+            failedHandler();
+        }
+    });
+}
 
-	$.ajax({
-		type: "post",
-		url: url,
-		contentType: "application/json",
-		data: data,
-		crossDomain: true,
-		xhrFields: {
-			withCredentials: true
-		}
-	}).done(successHandler).fail(failHandler).always(finishHandler);
-};
+function post(url, data, successHandler, failHandler, finishHandler) {
+    if (isEmpty(url)) {
+        return;
+    }
 
-module.exports = (function () {
-	return {
-		getAsync: getAsync,
-		post: post
-	};
-})();
+    console.log("POST data", data);
 
-},{}],288:[function(require,module,exports){
+    $.ajax({
+        type: "post",
+        url: url,
+        contentType: "application/json",
+        data: data,
+        crossDomain: true,
+        xhrFields: {
+            withCredentials: true
+        }
+    }).done(successHandler).fail(failHandler).always(finishHandler);
+}
+
+function isEmpty(str) {
+    return !str || str === "";
+}
+
+},{}],264:[function(require,module,exports){
 "use strict";
 
 module.exports = function (hash, element) {
@@ -20409,7 +19450,7 @@ module.exports = function (hash, element) {
 	return hash;
 };
 
-},{}]},{},[282]);
+},{}]},{},[258]);
 
 //for module pattern with tail.js
 (function(jQuery) { // Application main
