@@ -2,6 +2,7 @@ import {
     EventEmitter as EventEmitter
 }
 from 'events';
+import * as ajaxAccessor from '../util/ajaxAccessor';
 
 var bindEvent = function($target, event, func) {
         $target.on(event, func);
@@ -12,7 +13,6 @@ var bindEvent = function($target, event, func) {
         });
         return $dialog;
     },
-    ajaxAccessor = require('../util/ajaxAccessor'),
     jQuerySugar = require('./jQuerySugar'),
     url = require('url');
 

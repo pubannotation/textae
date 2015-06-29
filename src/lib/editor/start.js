@@ -1,5 +1,5 @@
 import Observable from 'observ';
-import ajaxAccessor from '../util/ajaxAccessor';
+import * as ajaxAccessor from '../util/ajaxAccessor';
 import StatusBar from '../component/StatusBar';
 import getParams from './getParams';
 import SpanConfig from './SpanConfig';

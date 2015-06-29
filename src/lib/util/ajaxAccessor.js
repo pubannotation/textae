@@ -1,55 +1,55 @@
-var isEmpty = function(str) {
-		return !str || str === "";
-	},
-	getAsync = function(url, dataHandler, failedHandler) {
-		if (isEmpty(url)) {
-			return;
-		}
+export {
+    getAsync,
+    post
+};
 
-		$.ajax({
-			type: "GET",
-			url: url,
-			cache: false,
-			xhrFields: {
-				withCredentials: true
-			}
-		})
-			.done(function(data) {
-				if (dataHandler !== undefined) {
-					dataHandler(data);
-				}
-			})
-			.fail(function(res, textStatus, errorThrown) {
-				if (failedHandler !== undefined) {
-					failedHandler();
-				}
-			});
-	},
-	post = function(url, data, successHandler, failHandler, finishHandler) {
-		if (isEmpty(url)) {
-			return;
-		}
+function getAsync(url, dataHandler, failedHandler) {
+    if (isEmpty(url)) {
+        return;
+    }
 
-		console.log("POST data", data);
+    $.ajax({
+            type: "GET",
+            url: url,
+            cache: false,
+            xhrFields: {
+                withCredentials: true
+            }
+        })
+        .done((data) => {
+            if (dataHandler !== undefined) {
+                dataHandler(data);
+            }
+        })
+        .fail((res, textStatus, errorThrown) => {
+            if (failedHandler !== undefined) {
+                failedHandler();
+            }
+        });
+}
 
-		$.ajax({
-			type: "post",
-			url: url,
-			contentType: "application/json",
-			data: data,
-			crossDomain: true,
-			xhrFields: {
-				withCredentials: true
-			}
-		})
-			.done(successHandler)
-			.fail(failHandler)
-			.always(finishHandler);
-	};
+function post(url, data, successHandler, failHandler, finishHandler) {
+    if (isEmpty(url)) {
+        return;
+    }
 
-module.exports = function() {
-	return {
-		getAsync: getAsync,
-		post: post
-	};
-}();
+    console.log("POST data", data);
+
+    $.ajax({
+            type: "post",
+            url: url,
+            contentType: "application/json",
+            data: data,
+            crossDomain: true,
+            xhrFields: {
+                withCredentials: true
+            }
+        })
+        .done(successHandler)
+        .fail(failHandler)
+        .always(finishHandler);
+}
+
+function isEmpty(str) {
+    return !str || str === "";
+}
