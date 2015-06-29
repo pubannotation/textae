@@ -176,9 +176,9 @@ module.exports = function(grunt) {
                     middleware: function(connect, options) {
                         return [
                             function(req, res, next) {
-                                // Require authorization if query has private.
-                                var query = req._parsedUrl.query;
-                                if(!query || query.indexOf('private') === -1)
+                                // Require authorization if file is 'private.json'.
+                                var pathname = req._parsedUrl.pathname;
+                                if(pathname !== '/src/private.json')
                                     return next();
 
                                 var authorization = req.headers.authorization;
@@ -202,6 +202,8 @@ module.exports = function(grunt) {
                                 if (user !== 'Jin-Dong Kim' || pass !== 'passpass') {
                                     return unauthorized(res);
                                 } else {
+                                    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:8000');
+                                    res.setHeader('Access-Control-Allow-Credentials', 'true');
                                     next();
                                 }
 

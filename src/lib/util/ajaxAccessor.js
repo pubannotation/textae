@@ -9,7 +9,10 @@ var isEmpty = function(str) {
 		$.ajax({
 			type: "GET",
 			url: url,
-			cache: false
+			cache: false,
+			xhrFields: {
+				withCredentials: true
+			}
 		})
 			.done(function(data) {
 				if (dataHandler !== undefined) {
