@@ -194,7 +194,11 @@ module.exports = function(editor, emitter, paragraph) {
                         return multiEntitiesTypes.length > 0;
                     });
             },
-            remove: spanContainer.remove,
+            remove: (id) => {
+              let span = spanContainer.remove(id)
+              updateSpanTree()
+              return span
+            },
             clear: function() {
                 spanContainer.clear();
                 spanTopLevel = [];
