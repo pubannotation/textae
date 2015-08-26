@@ -7,5 +7,6 @@
   "regexp": true,
   "trailing": true,
   "predef": [ "-Promise" ],
-  "esnext": true
+  "esnext": true,
+  "asi": true
 }
