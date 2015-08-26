@@ -9,8 +9,19 @@ export default function(editor, model) {
 
     return {
         span: {
-            select: (id) => modifyStyle(editor, 'span', 'add', id),
-            deselect: (id) => modifyStyle(editor, 'span', 'remove', id)
+            select: (id) => {
+              modifyStyle(editor, 'span', 'add', id)
+              document.querySelector(`#${id}`).focus()
+            },
+            deselect: (id) => {
+              modifyStyle(editor, 'span', 'remove', id)
+              let dom = document.querySelector(`#${id}`)
+
+              // A dom does not exist when it is deleted.
+              if(dom){
+                dom.blur()
+              }
+            }
         },
         entity: {
             select: (id) => modifyStyle(editor, 'entity', 'add', id),
