@@ -4,8 +4,8 @@ module.exports = function(annotationData, selectionModel) {
             var spanId = selectionModel.span.single();
             if (spanId) {
                 var span = annotationData.span.get(spanId);
-                selectionModel.clear();
                 if (span.left) {
+                    selectionModel.clear();
                     selectionModel.span.add(span.left.id);
                 }
             }
@@ -14,8 +14,8 @@ module.exports = function(annotationData, selectionModel) {
             var spanId = selectionModel.span.single();
             if (spanId) {
                 var span = annotationData.span.get(spanId);
-                selectionModel.clear();
                 if (span.right) {
+                    selectionModel.clear();
                     selectionModel.span.add(span.right.id);
                 }
             }
