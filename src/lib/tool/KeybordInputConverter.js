@@ -1,44 +1,46 @@
-var EventEmitter = require('events').EventEmitter,
-	// Declare keyApiMap of control keys 
-	controlKeyEventMap = {
-		27: 'ESC',
-		46: 'DEL',
-		37: 'LEFT',
-		39: 'RIGHT'
-	},
-	convertKeyEvent = function(keyCode) {
-		if (65 <= keyCode && keyCode <= 90) {
-			// From a to z, convert 'A' to 'Z'
-			return String.fromCharCode(keyCode);
-		} else if (controlKeyEventMap[keyCode]) {
-			// Control keys, like ESC, DEL ...
-			return controlKeyEventMap[keyCode];
-		}
-	},
-	getKeyCode = function(e) {
-		return e.keyCode;
-	};
+import {
+  EventEmitter
+}
+from 'events'
+
+let controlKeyEventMap = {
+  27: 'ESC',
+  46: 'DEL',
+  37: 'LEFT',
+  39: 'RIGHT'
+}
 
 // Observe key-input events and convert events to readable code.
-module.exports = function(keyInputHandler) {
-	var emitter = new EventEmitter(),
-		eventHandler = function(e) {
-			var key = convertKeyEvent(getKeyCode(e));
-			emitter.emit('input', key);
-		},
-		onKeyup = eventHandler;
+export default function(keyInputHandler) {
+  let emitter = new EventEmitter(),
+    eventHandler = (e) => emitter.emit('input', convertKeyEvent(getKeyCode(e))),
+    onKeyup = eventHandler // Overwrite by the noop when daialogs are opened. 
 
-	// Observe key-input
-	$(document).on('keyup', function(event) {
-		onKeyup(event);
-	});
+  // Observe key-input
+  $(document).on('keyup', function(event) {
+    onKeyup(event)
+  })
 
-	// Disable/Enable key-input When a jquery-ui dialog is opened/closeed
-	$('body').on('dialogopen', '.ui-dialog', function() {
-		onKeyup = function() {};
-	}).on('dialogclose', '.ui-dialog', function() {
-		onKeyup = eventHandler;
-	});
+  // Disable/Enable key-input When a jquery-ui dialog is opened/closeed
+  $('body').on('dialogopen', '.ui-dialog', function() {
+    onKeyup = () => {}
+  }).on('dialogclose', '.ui-dialog', function() {
+    onKeyup = eventHandler
+  })
 
-	return emitter;
-};
+  return emitter
+}
+
+function convertKeyEvent(keyCode) {
+  if (65 <= keyCode && keyCode <= 90) {
+    // From a to z, convert 'A' to 'Z'
+    return String.fromCharCode(keyCode)
+  } else if (controlKeyEventMap[keyCode]) {
+    // Control keys, like ESC, DEL ...
+    return controlKeyEventMap[keyCode]
+  }
+}
+
+function getKeyCode(e) {
+  return e.keyCode
+}
