@@ -1,24 +1,19 @@
-module.exports = function(annotationData, selectionModel) {
-    return {
-        selectLeftSpan: function() {
-            var spanId = selectionModel.span.single();
-            if (spanId) {
-                var span = annotationData.span.get(spanId);
-                if (span.left) {
-                    selectionModel.clear();
-                    selectionModel.span.add(span.left.id);
-                }
-            }
-        },
-        selectRightSpan: function() {
-            var spanId = selectionModel.span.single();
-            if (spanId) {
-                var span = annotationData.span.get(spanId);
-                if (span.right) {
-                    selectionModel.clear();
-                    selectionModel.span.add(span.right.id);
-                }
-            }
-        }
-    };
-};
+export default function(annotationData, selectionModel) {
+  return {
+    selectLeftSpan: () => selectNextSpan(annotationData, selectionModel, 'left'),
+    selectRightSpan: () => selectNextSpan(annotationData, selectionModel, 'right')
+  }
+}
+
+function selectNextSpan(annotationData, selectionModel, direction) {
+  let spanId = selectionModel.span.single()
+
+  if (spanId) {
+    let span = annotationData.span.get(spanId)
+
+    if (span[direction]) {
+      selectionModel.clear()
+      selectionModel.span.add(span[direction].id)
+    }
+  }
+}
