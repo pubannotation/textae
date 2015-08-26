@@ -47,6 +47,7 @@ module.exports = function(emitter, prefix, mappingFunction, idPrefix) {
 
             concat(mappingFunction(source));
         },
+        // The doAfter is avoked before a event emitted.
         add: function(model, doAfter) {
             var newModel = add(model);
             if (_.isFunction(doAfter)) doAfter();
