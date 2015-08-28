@@ -11,10 +11,10 @@ function getClasses(annotationData, objectId) {
     return annotationData.getModificationOf(objectId)
         .map(function(m) {
             return 'textae-editor__' + m.pred.toLowerCase();
-        }).join(' ');
+        });
 }
 
 function update(annotationData, domElement, objectId) {
     domElement.removeClass(allModificationClasses);
-    domElement.addClass(getClasses(annotationData, objectId));
+    domElement.addClass(getClasses(annotationData, objectId).join(" "));
 }

@@ -14,8 +14,6 @@ export default function createEntityElement(editor, typeContainer, modification,
 
   // Set css classes for modifications.
   modification.getClasses(entity.id)
-    .split(' ')
-    .filter(c => c)
     .forEach(c => {
       element.classList.add(c)
     })

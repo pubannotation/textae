@@ -106,7 +106,7 @@ module.exports = function(editor, model, typeContainer) {
                             ['Arrow', jsPlumbArrowOverlayUtil.NORMAL_ARROW],
                             ['Label', _.extend({}, LABEL, {
                                 label: '[' + relation.id + '] ' + relation.type,
-                                cssClass: LABEL.cssClass + ' ' + modification.getClasses(relation.id)
+                                cssClass: LABEL.cssClass + ' ' + modification.getClasses(relation.id).join(' ')
                             })]
                         ]
                     });
