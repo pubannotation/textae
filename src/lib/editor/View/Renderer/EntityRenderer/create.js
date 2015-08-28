@@ -36,6 +36,8 @@ function createEntityElement(editor, typeContainer, modification, entity) {
             'border-color': typeContainer.entity.getColor(entity.type)
         });
 
+    $entity[0].setAttribute('tabindex', 0)
+
     // Set css classes for modifications.
     $entity.addClass(modification.getClasses(entity.id));
 

@@ -11,21 +11,22 @@ export default function(editor, model) {
     span: {
       select: (id) => {
         modifyStyle(editor, 'span', 'add', id)
-        document.querySelector(`#${id}`).focus()
+        focus(editor, 'span', id)
       },
       deselect: (id) => {
         modifyStyle(editor, 'span', 'remove', id)
-        let dom = document.querySelector(`#${id}`)
-
-        // A dom does not exist when it is deleted.
-        if (dom) {
-          dom.blur()
-        }
+        blur(editor, 'span', id)
       }
     },
     entity: {
-      select: (id) => modifyStyle(editor, 'entity', 'add', id),
-      deselect: (id) => modifyStyle(editor, 'entity', 'remove', id)
+      select: (id) => {
+        modifyStyle(editor, 'entity', 'add', id)
+        focus(editor, 'entity', id)
+      },
+      deselect: (id) => {
+        modifyStyle(editor, 'entity', 'remove', id)
+        blur(editor, 'entity', id)
+      }
     },
     relation: {
       select: (id) => selectRelation(domPositionCache, id),
@@ -35,6 +36,19 @@ export default function(editor, model) {
       update: (id) => updateEntityLabel(editor, id)
     }
   };
+}
+
+function focus(editor, type, id) {
+  domUtil.selector[type].get(id, editor).focus()
+}
+
+function blur(editor, type, id) {
+  let dom = domUtil.selector[type].get(id, editor)
+
+  // A dom does not exist when it is deleted.
+  if (dom) {
+    dom.blur()
+  }
 }
 
 function modifyStyle(editor, type, handle, id) {
