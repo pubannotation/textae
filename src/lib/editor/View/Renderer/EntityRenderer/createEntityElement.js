@@ -1,20 +1,24 @@
-import idFactory from '../../../idFactory';
-import getTypeElement from './getTypeElement';
+import idFactory from '../../../idFactory'
+import getTypeElement from './getTypeElement'
 
 export default function createEntityElement(editor, typeContainer, modification, entity) {
-    let $entity = $('<div>')
-        .attr('id', idFactory.makeEntityDomId(editor, entity.id))
-        .attr('title', entity.id)
-        .attr('type', entity.type)
-        .addClass('textae-editor__entity')
-        .css({
-            'border-color': typeContainer.entity.getColor(entity.type)
-        });
+  let element = document.createElement('div')
 
-    $entity[0].setAttribute('tabindex', 0)
+  element.setAttribute('id', idFactory.makeEntityDomId(editor, entity.id))
+  element.setAttribute('title', entity.id)
+  element.setAttribute('type', entity.type)
+  element.setAttribute('tabindex', 0)
+  element.classList.add('textae-editor__entity')
 
-    // Set css classes for modifications.
-    $entity.addClass(modification.getClasses(entity.id));
+  element.style.borderColor = typeContainer.entity.getColor(entity.type)
 
-    return $entity;
+  // Set css classes for modifications.
+  modification.getClasses(entity.id)
+    .split(' ')
+    .filter(c => c)
+    .forEach(c => {
+      element.classList.add(c)
+    })
+
+  return element
 }
