@@ -1,6 +1,7 @@
-import idFactory from '../../../idFactory';
-import getTypeElement from './getTypeElement';
-import arrangePositionOfPane from './arrangePositionOfPane';
+import idFactory from '../../../idFactory'
+import getTypeElement from './getTypeElement'
+import arrangePositionOfPane from './arrangePositionOfPane'
+import createEntityElement from './createEntityElement'
 
 // An entity is a circle on Type that is an endpoint of a relation.
 // A span have one grid and a grid can have multi types and a type can have multi entities.
@@ -24,22 +25,4 @@ export default function(editor, namspace, typeContainer, gridRenderer, modificat
         $pane.append(createEntityElement(editor, typeContainer, modification, entity));
         arrangePositionOfPane($pane[0]);
     }
-}
-
-function createEntityElement(editor, typeContainer, modification, entity) {
-    let $entity = $('<div>')
-        .attr('id', idFactory.makeEntityDomId(editor, entity.id))
-        .attr('title', entity.id)
-        .attr('type', entity.type)
-        .addClass('textae-editor__entity')
-        .css({
-            'border-color': typeContainer.entity.getColor(entity.type)
-        });
-
-    $entity[0].setAttribute('tabindex', 0)
-
-    // Set css classes for modifications.
-    $entity.addClass(modification.getClasses(entity.id));
-
-    return $entity;
 }
