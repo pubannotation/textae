@@ -9,7 +9,7 @@ import ClipBoardHandler from './handlers/ClipBoardHandler';
 import DefaultEntityHandler from './handlers/DefaultEntityHandler';
 import removeSelectedElements from './handlers/removeSelectedElements';
 import ModificationHandler from './handlers/ModificationHandler';
-import SelectSpanHandler from './handlers/SelectSpanHandler';
+import SelectHandler from './handlers/SelectHandler';
 import ToggleButtonHandler from './handlers/ToggleButtonHandler';
 import ModeButtonHandlers from './handlers/ModeButtonHandlers';
 import enableSaveButtorAtEditable from './enableSaveButtorAtEditable';
@@ -71,7 +71,7 @@ export default function(
         modeButtonHandlers = new ModeButtonHandlers(
             editMode
         ),
-        selectSpanHandler = new SelectSpanHandler(
+        selectHandler = new SelectHandler(
             model.annotationData,
             model.selectionModel
         ),
@@ -99,8 +99,8 @@ export default function(
             pasteEntities: clipBoardHandler.pasteEntities,
             changeLabel: () => changeLabelHandler(typeEditor),
             cancelSelect: typeEditor.cancelSelect,
-            selectLeftSpan: selectSpanHandler.selectLeftSpan,
-            selectRightSpan: selectSpanHandler.selectRightSpan,
+            selectLeftSpan: selectHandler.selectLeft,
+            selectRightSpan: selectHandler.selectRight,
             negation: modificationHandler.negation,
             speculation: modificationHandler.speculation,
             showSettingDialog: showSettingDialog

@@ -1,8 +1,13 @@
 export default function(annotationData, selectionModel) {
   return {
-    selectLeftSpan: () => selectNextSpan(annotationData, selectionModel, 'left'),
-    selectRightSpan: () => selectNextSpan(annotationData, selectionModel, 'right')
+    selectLeft: () => selectNext(annotationData, selectionModel, 'left'),
+    selectRight: () => selectNext(annotationData, selectionModel, 'right')
   }
+}
+
+function selectNext(annotationData, selectionModel, direction) {
+  selectNextSpan(annotationData, selectionModel, direction)
+  selectNextEntity(annotationData, selectionModel, direction)
 }
 
 function selectNextSpan(annotationData, selectionModel, direction) {
@@ -15,8 +20,6 @@ function selectNextSpan(annotationData, selectionModel, direction) {
       selectionModel.clear()
       selectionModel.span.add(span[direction].id)
     }
-  } else {
-    selectNextEntity(annotationData, selectionModel, direction)
   }
 }
 
