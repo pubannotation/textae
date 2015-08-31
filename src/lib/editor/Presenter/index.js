@@ -73,7 +73,8 @@ export default function(
         ),
         selectHandler = new SelectHandler(
             model.annotationData,
-            model.selectionModel
+            model.selectionModel,
+            typeContainer
         ),
         showSettingDialog = new SettingDialog(
             editor,
