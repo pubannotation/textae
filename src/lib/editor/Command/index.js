@@ -1,5 +1,9 @@
+import {
+  CreateCommand, RemoveCommand, ChangeTypeCommand
+}
+from './commandTemplate'
+
 var invokeCommand = require('./invokeCommand'),
-  commandTemplate = require('./commandTemplate'),
   executeCompositCommand = require('./executeCompositCommand'),
   getReplicationSpans = require('./getReplicationSpans'),
   idFactory = require('../idFactory');
@@ -7,8 +11,8 @@ var invokeCommand = require('./invokeCommand'),
 // A command is an operation by user that is saved as history, and can undo and redo.
 // Users can edit model only via commands.
 module.exports = function(editor, model, history) {
-  var spanCreateCommand = _.partial(commandTemplate.create, model, 'span', true),
-    entityCreateCommand = _.partial(commandTemplate.create, model, 'entity', true),
+  var spanCreateCommand = (span) => new CreateCommand(model, 'span', true, span),
+    entityCreateCommand = (entity) => new CreateCommand(model, 'entity', true, entity),
     spanAndDefaultEntryCreateCommand = function(type, span) {
       var id = idFactory.makeSpanId(editor, span),
         createSpan = spanCreateCommand(span),
@@ -37,10 +41,10 @@ module.exports = function(editor, model, history) {
     },
     // The relaitonId is optional set only when revert of the relationRemoveCommand.
     // Set the css class lately, because jsPlumbConnector is no applyed that css class immediately after create.
-    relationCreateCommand = _.partial(commandTemplate.create, model, 'relation', false),
-    relationCreateAndSelectCommand = _.partial(commandTemplate.create, model, 'relation', true),
-    modificationRemoveCommand = _.partial(commandTemplate.remove, model, 'modification'),
-    relationRemoveCommand = _.partial(commandTemplate.remove, model, 'relation'),
+    relationCreateCommand = (relation) => new CreateCommand(model, 'relation', false, relation),
+    relationCreateAndSelectCommand = (relation) => new CreateCommand(model, 'relation', true, relation),
+    modificationRemoveCommand = (modification) => new RemoveCommand(model, 'modification', modification),
+    relationRemoveCommand = (relation) => new RemoveCommand(model, 'relation', relation),
     relationAndAssociatesRemoveCommand = function(id) {
       var removeRelation = relationRemoveCommand(id),
         removeModification = model.annotationData.getModificationOf(id)
@@ -59,7 +63,7 @@ module.exports = function(editor, model, history) {
       };
 
     },
-    entityRemoveCommand = _.partial(commandTemplate.remove, model, 'entity'),
+    entityRemoveCommand = (entity) => new RemoveCommand(model, 'entity', entity),
     entityAndAssociatesRemoveCommand = function(id) {
       var removeEntity = entityRemoveCommand(id),
         removeRelation = model.annotationData.entity.assosicatedRelations(id)
@@ -82,7 +86,7 @@ module.exports = function(editor, model, history) {
       };
     },
     spanRemoveCommand = function(id) {
-      var removeSpan = commandTemplate.remove(model, 'span', id),
+      var removeSpan = new RemoveCommand(model, 'span', id),
         removeEntity = _.flatten(model.annotationData.span.get(id).getTypes().map(function(type) {
           return type.entities.map(function(entityId) {
             return entityAndAssociatesRemoveCommand(entityId);
@@ -153,7 +157,7 @@ module.exports = function(editor, model, history) {
     },
     entityChangeTypeRemoveRelationCommand = function(id, newType, isRemoveRelations) {
       // isRemoveRelations is set true when newType is block.
-      var changeType = commandTemplate.changeType(model, 'entity', id, newType),
+      var changeType = new ChangeTypeCommand(model, 'entity', id, newType),
         subCommands = isRemoveRelations ?
         model.annotationData.entity.assosicatedRelations(id)
         .map(function(id) {
@@ -189,8 +193,8 @@ module.exports = function(editor, model, history) {
             subCommands = subCommands.concat(
               d.entity.assosicatedRelations(id)
               .map(d.relation.get)
-              .map(function(id) {
-                return relationCreateCommand(id);
+              .map(function(relation) {
+                return relationCreateCommand(relation);
               })
             );
           });
@@ -214,8 +218,8 @@ module.exports = function(editor, model, history) {
     entityChangeTypeCommand: entityChangeTypeRemoveRelationCommand,
     relationCreateCommand: relationCreateAndSelectCommand,
     relationRemoveCommand: relationAndAssociatesRemoveCommand,
-    relationChangeTypeCommand: _.partial(commandTemplate.changeType, model, 'relation'),
-    modificationCreateCommand: _.partial(commandTemplate.create, model, 'modification', false),
+    relationChangeTypeCommand: (id, newType) => new ChangeTypeCommand(model, 'relation', id, newType),
+    modificationCreateCommand: (modification) => new CreateCommand(model, 'modification', false, modification),
     modificationRemoveCommand: modificationRemoveCommand
   };
 
