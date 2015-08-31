@@ -1,5 +1,4 @@
 var invokeCommand = require('./invokeCommand'),
-    commandTemplate = require('./commandTemplate'),
     commandLog = require('./commandLog'),
     setRevertAndLog = function() {
         var log = function(prefix, param) {
