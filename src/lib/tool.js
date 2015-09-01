@@ -2,7 +2,7 @@ import {
     EventEmitter as EventEmitter
 }
 from 'events';
-import KeyboardInputConverter from './tool/KeyboardInputConverter'
+import observeKeyWithoutDialog from './tool/observeKeyWithoutDialog'
 import convertKeyEvent from './tool/convertKeyEvent'
 
 // Ovserve and record mouse position to return it.
@@ -84,7 +84,7 @@ module.exports = function() {
     $(function() {
         var handleKeyInput = new KeyInputHandler(helpDialog, editors);
 
-        new KeyboardInputConverter(keyCode => handleKeyInput(convertKeyEvent(keyCode)));
+        observeKeyWithoutDialog(keyCode => handleKeyInput(convertKeyEvent(keyCode)));
         observeWindowResize(editors);
     });
 
