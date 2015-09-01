@@ -1,8 +1,10 @@
 const controlKeyEventMap = new Map([
   [27, 'ESC'],
-  [46, 'DEL'],
   [37, 'LEFT'],
-  [39, 'RIGHT']
+  [38, 'UP'],
+  [39, 'RIGHT'],
+  [40, 'DOWN'],
+  [46, 'DEL']
 ])
 
 export default function convertKeyEvent(keyCode) {
