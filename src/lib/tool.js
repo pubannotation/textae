@@ -3,6 +3,7 @@ import {
 }
 from 'events';
 import KeyboardInputConverter from './tool/KeyboardInputConverter'
+import convertKeyEvent from './tool/convertKeyEvent'
 
 // Ovserve and record mouse position to return it.
 var getMousePoint = function() {
@@ -83,7 +84,7 @@ module.exports = function() {
     $(function() {
         var handleKeyInput = new KeyInputHandler(helpDialog, editors);
 
-        new KeyboardInputConverter(handleKeyInput);
+        new KeyboardInputConverter(keyCode => handleKeyInput(convertKeyEvent(keyCode)));
         observeWindowResize(editors);
     });
 
