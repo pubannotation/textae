@@ -1,8 +1,3 @@
-import {
-  EventEmitter
-}
-from 'events'
-
 const controlKeyEventMap = new Map([
   [27, 'ESC'],
   [46, 'DEL'],
@@ -10,11 +5,9 @@ const controlKeyEventMap = new Map([
   [39, 'RIGHT']
 ])
 
-
 // Observe key-input events and convert events to readable code.
 export default function(keyInputHandler) {
-  let emitter = new EventEmitter(),
-    eventHandler = (e) => emitter.emit('input', convertKeyEvent(getKeyCode(e))),
+  let eventHandler = (e) => keyInputHandler(convertKeyEvent(getKeyCode(e))),
     noop = () => {},
     onKeyup = eventHandler // Overwrite by the noop when daialogs are opened.
 
@@ -25,8 +18,6 @@ export default function(keyInputHandler) {
   $('body')
     .on('dialogopen', '.ui-dialog', () => onKeyup = noop)
     .on('dialogclose', '.ui-dialog', () => onKeyup = eventHandler)
-
-  return emitter
 }
 
 function convertKeyEvent(keyCode) {

@@ -2,6 +2,7 @@ import {
     EventEmitter as EventEmitter
 }
 from 'events';
+import KeyboardInputConverter from './tool/KeyboardInputConverter'
 
 // Ovserve and record mouse position to return it.
 var getMousePoint = function() {
@@ -20,7 +21,6 @@ var getMousePoint = function() {
             return lastMousePoint;
         };
     }(),
-    KeybordInputConverter = require('./tool/KeybordInputConverter'),
     // Observe window-resize event and redraw all editors.
     observeWindowResize = function(editors) {
         // Bind resize event
@@ -83,7 +83,7 @@ module.exports = function() {
     $(function() {
         var handleKeyInput = new KeyInputHandler(helpDialog, editors);
 
-        new KeybordInputConverter().on('input', handleKeyInput);
+        new KeyboardInputConverter(handleKeyInput);
         observeWindowResize(editors);
     });
 
