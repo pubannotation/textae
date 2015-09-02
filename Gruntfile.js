@@ -1,7 +1,8 @@
 'use strict';
 
 var fs = require('fs'),
-    http = require('http');
+    http = require('http'),
+    connectStatic = require('serve-static');
 
 var rename = {
     ext: function(ext) {
@@ -219,7 +220,7 @@ module.exports = function(grunt) {
                                     return err;
                                 }
                             },
-                            connect.static(options.base[0]),
+                            connectStatic(options.base[0]),
                             function(req, res, next) {
                                 // Stub to upload json.
                                 if (req.method !== "POST")
