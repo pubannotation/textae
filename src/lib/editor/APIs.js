@@ -38,8 +38,10 @@ function KeyApiMap(command, presenter, dataAccessObject, history, annotationData
     ['Y', command.redo],
     ['Z', command.undo],
     ['ESC', presenter.event.cancelSelect],
-    ['LEFT', presenter.event.selectLeftSpan],
-    ['RIGHT', presenter.event.selectRightSpan]
+    ['LEFT', presenter.event.selectLeft],
+    ['RIGHT', presenter.event.selectRight],
+    ['UP', presenter.event.selectUp],
+    ['DOWN', presenter.event.selectDown]
   ])
 }
 

@@ -99,13 +99,12 @@ export default function(
       pasteEntities: clipBoardHandler.pasteEntities,
       changeLabel: () => changeLabelHandler(typeEditor),
       cancelSelect: typeEditor.cancelSelect,
-      selectLeftSpan: selectHandler.selectLeft,
-      selectRightSpan: selectHandler.selectRight,
       negation: modificationHandler.negation,
       speculation: modificationHandler.speculation,
       showSettingDialog: showSettingDialog
     }
 
+  Object.assign(event, selectHandler)
   Object.assign(event, toggleButtonHandler)
   Object.assign(event, modeButtonHandlers)
 
