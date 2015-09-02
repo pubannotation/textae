@@ -3,6 +3,9 @@
   "description": "text annotation editor",
   "version": "4.1.19",
   "author": "jdkim",
+  "bugs": {
+    "url": "https://github.com/pubannotation/textae/issues"
+  },
   "dependencies": {
     "bluebird": "^2.9.34",
     "capitalize": "^1.0.0",
@@ -32,16 +35,17 @@
     "grunt-text-replace": "^0.4.0",
     "load-grunt-tasks": "~3.2.0"
   },
+  "homepage": "https://github.com/pubannotation/textae",
   "keywords": [
     "javascript",
     "annotation",
     "DBCLS"
   ],
-  "license": "",
+  "license": "MIT",
   "main": "src/development.html",
   "repository": {
     "type": "git",
-    "url": "https://github.com/jdkim/textae.git"
+    "url": "https://github.com/pubannotation/textae.git"
   },
   "scripts": {
     "postinstall": "node_modules/bower/bin/bower install",
