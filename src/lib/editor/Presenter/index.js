@@ -1,18 +1,18 @@
-import extend from 'xtend';
-import SettingDialog from '../../component/SettingDialog';
-import TypeEditor from './TypeEditor';
-import EditMode from './EditMode';
-import DisplayInstance from './DisplayInstance';
-import setDefaultEditability from './setDefaultEditability';
-import changeLabelHandler from './handlers/changeLabelHandler';
-import ClipBoardHandler from './handlers/ClipBoardHandler';
-import DefaultEntityHandler from './handlers/DefaultEntityHandler';
-import removeSelectedElements from './handlers/removeSelectedElements';
-import ModificationHandler from './handlers/ModificationHandler';
-import SelectHandler from './handlers/SelectHandler';
-import ToggleButtonHandler from './handlers/ToggleButtonHandler';
-import ModeButtonHandlers from './handlers/ModeButtonHandlers';
-import enableSaveButtorAtEditable from './enableSaveButtorAtEditable';
+import extend from 'xtend'
+import SettingDialog from '../../component/SettingDialog'
+import TypeEditor from './TypeEditor'
+import EditMode from './EditMode'
+import DisplayInstance from './DisplayInstance'
+import setDefaultEditability from './setDefaultEditability'
+import changeLabelHandler from './handlers/changeLabelHandler'
+import ClipBoardHandler from './handlers/ClipBoardHandler'
+import DefaultEntityHandler from './handlers/DefaultEntityHandler'
+import removeSelectedElements from './handlers/removeSelectedElements'
+import ModificationHandler from './handlers/ModificationHandler'
+import SelectHandler from './handlers/SelectHandler'
+import ToggleButtonHandler from './handlers/ToggleButtonHandler'
+import ModeButtonHandlers from './handlers/ModeButtonHandlers'
+import enableSaveButtorAtEditable from './enableSaveButtorAtEditable'
 
 export default function(
   editor,
@@ -81,11 +81,11 @@ export default function(
       displayInstance
     ),
     editorSelected = () => {
-      typeEditor.hideDialogs();
+      typeEditor.hideDialogs()
 
       // Select this editor.
-      editor.eventEmitter.emit('textae.editor.select');
-      buttonController.buttonStateHelper.propagate();
+      editor.eventEmitter.emit('textae.editor.select')
+      buttonController.buttonStateHelper.propagate()
     },
     event = {
       editorSelected: editorSelected,
@@ -105,12 +105,12 @@ export default function(
       negation: modificationHandler.negation,
       speculation: modificationHandler.speculation,
       showSettingDialog: showSettingDialog
-    };
+    }
 
-  event = extend(event, toggleButtonHandler);
-  event = extend(event, modeButtonHandlers);
+  event = extend(event, toggleButtonHandler)
+  event = extend(event, modeButtonHandlers)
 
-  enableSaveButtorAtEditable(writable, editMode, buttonController);
+  enableSaveButtorAtEditable(writable, editMode, buttonController)
 
   return {
     init: function(mode) {
@@ -118,12 +118,12 @@ export default function(
       // We can only bind the connection directory.
       editor
         .on('textae.editor.jsPlumbConnection.add', (event, jsPlumbConnection) => {
-          jsPlumbConnection.bindClickAction(typeEditor.jsPlumbConnectionClicked);
-        });
+          jsPlumbConnection.bindClickAction(typeEditor.jsPlumbConnectionClicked)
+        })
 
-      defaultEntityHandler.on('createEntity', displayInstance.notifyNewInstance);
-      setDefaultEditability(model.annotationData, editMode, writable, mode);
+      defaultEntityHandler.on('createEntity', displayInstance.notifyNewInstance)
+      setDefaultEditability(model.annotationData, editMode, writable, mode)
     },
     event: event
-  };
+  }
 }
