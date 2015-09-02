@@ -1,4 +1,4 @@
-var getUrlParameters = require('../../src/lib/util/getUrlParameters');
+var getUrlParameters = require('../../src/lib/editor/getUrlParameters');
 
 describe("util getUrlParameters default", function() {
 	var emptyObject = {};
