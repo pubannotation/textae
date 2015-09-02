@@ -2,7 +2,8 @@
 
 var fs = require('fs'),
     http = require('http'),
-    connectStatic = require('serve-static');
+    connectStatic = require('serve-static'),
+    favicon = require('serve-favicon');
 
 var rename = {
     ext: function(ext) {
@@ -176,6 +177,7 @@ module.exports = function(grunt) {
                 options: {
                     middleware: function(connect, options) {
                         return [
+                            favicon(__dirname + '/src/favicon.ico'),
                             function(req, res, next) {
                                 // Require authorization if file is 'private.json'.
                                 var pathname = req._parsedUrl.pathname;
