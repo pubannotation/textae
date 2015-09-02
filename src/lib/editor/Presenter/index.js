@@ -1,4 +1,3 @@
-import extend from 'xtend'
 import SettingDialog from '../../component/SettingDialog'
 import TypeEditor from './TypeEditor'
 import EditMode from './EditMode'
@@ -107,8 +106,8 @@ export default function(
       showSettingDialog: showSettingDialog
     }
 
-  event = extend(event, toggleButtonHandler)
-  event = extend(event, modeButtonHandlers)
+  Object.assign(event, toggleButtonHandler)
+  Object.assign(event, modeButtonHandlers)
 
   enableSaveButtorAtEditable(writable, editMode, buttonController)
 

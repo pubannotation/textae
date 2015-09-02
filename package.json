@@ -3,6 +3,18 @@
   "description": "text annotation editor",
   "version": "4.1.19",
   "author": "jdkim",
+  "browserify": {
+    "transform": [
+      [
+        "babelify",
+        {
+          "optional": [
+            "runtime"
+          ]
+        }
+      ]
+    ]
+  },
   "bugs": {
     "url": "https://github.com/pubannotation/textae/issues"
   },
@@ -16,6 +28,7 @@
     "xtend": "^4.0.0"
   },
   "devDependencies": {
+    "babel-runtime": "^5.8.20",
     "babelify": "^6.3.0",
     "bower": "^1.5.2",
     "grunt-browserify": "^4.0.0",
