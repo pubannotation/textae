@@ -13,7 +13,7 @@ export default function(editor, annotationData, selectionModel, typeContainer) {
     selectLeft: () => selectLeft(editorDom, annotationData, selectionModel, typeContainer),
     selectRight: () => selectRight(editorDom, annotationData, selectionModel, typeContainer),
     selectUp: () => selectEntityLayer(editorDom, annotationData, selectionModel),
-    selectDown: () => selectSpanLayer(annotationData, selectionModel)
+    selectDown: () => selectSpanLayer(editorDom, annotationData, selectionModel)
   }
 }
 
@@ -30,9 +30,10 @@ function selectLeft(editorDom, annotationData, selectionModel, typeContainer) {
 
       selectEntityLabel(selectionModel, prev)
     }
-  } else {
-    selectLeftEntity(annotationData, selectionModel, typeContainer)
+    return
   }
+
+  selectLeftEntity(annotationData, selectionModel, typeContainer)
 }
 
 function selectRight(editorDom, annotationData, selectionModel, typeContainer) {
@@ -48,9 +49,10 @@ function selectRight(editorDom, annotationData, selectionModel, typeContainer) {
 
       selectEntityLabel(selectionModel, next)
     }
-  } else {
-    selectRightEntity(annotationData, selectionModel, typeContainer)
+    return
   }
+
+  selectRightEntity(annotationData, selectionModel, typeContainer)
 }
 
 function selectEntityLabel(selectionModel, dom) {
@@ -61,8 +63,7 @@ function selectEntityLabel(selectionModel, dom) {
     children = pane.children,
     ids = Array.from(children).map(dom => dom.title)
 
-  selectionModel.clear()
-  ids.forEach(id => selectionModel.entity.add(id))
+  selectEntities(selectionModel, ids)
 }
 
 function selectEntityLayer(editorDom, annotationData, selectionModel) {
@@ -70,8 +71,10 @@ function selectEntityLayer(editorDom, annotationData, selectionModel) {
 
   if (spanId) {
     let span = annotationData.span.get(spanId),
-      entities = span.getEntities()
-    selectEntity(selectionModel, entities[0])
+      types = span.getTypes(),
+      entities = types[0].entities
+
+    selectEntities(selectionModel, entities)
   }
 
   let labels = editorDom.querySelectorAll('.textae-editor__type-label.ui-selected')
@@ -85,12 +88,32 @@ function selectEntityLayer(editorDom, annotationData, selectionModel) {
   }
 }
 
-function selectSpanLayer(annotationData, selectionModel) {
-  let entityId = selectionModel.entity.single()
-  if (entityId) {
-    let entity = annotationData.entity.get(entityId),
+function selectSpanLayer(editorDom, annotationData, selectionModel) {
+  let labels = editorDom.querySelectorAll('.textae-editor__type-label.ui-selected')
+  if (labels.length === 1) {
+    let label = labels[0],
+      pane = label.nextElementSibling,
+      children = pane.children,
+      entityId = children[0].title,
+      entity = annotationData.entity.get(entityId),
       span = annotationData.span.get(entity.span)
 
     selectSpan(selectionModel, span)
+    return
   }
+
+  let entityId = selectionModel.entity.single()
+  if (entityId) {
+    let entity = annotationData.entity.get(entityId),
+      span = annotationData.span.get(entity.span),
+      type = span.getTypes().filter(type => type.name === entity.type)[0],
+      ids = type.entities
+
+    selectEntities(selectionModel, ids)
+  }
+}
+
+function selectEntities(selectionModel, ids) {
+  selectionModel.clear()
+  ids.forEach(id => selectionModel.entity.add(id))
 }
