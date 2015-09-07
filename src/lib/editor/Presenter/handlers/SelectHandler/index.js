@@ -12,7 +12,7 @@ export default function(editor, annotationData, selectionModel, typeContainer) {
   return {
     selectLeft: () => selectLeft(editorDom, annotationData, selectionModel, typeContainer),
     selectRight: () => selectRight(editorDom, annotationData, selectionModel, typeContainer),
-    selectUp: () => selectEntityLayer(annotationData, selectionModel),
+    selectUp: () => selectEntityLayer(editorDom, annotationData, selectionModel),
     selectDown: () => selectSpanLayer(annotationData, selectionModel)
   }
 }
@@ -65,13 +65,23 @@ function selectEntityLabel(selectionModel, dom) {
   ids.forEach(id => selectionModel.entity.add(id))
 }
 
-function selectEntityLayer(annotationData, selectionModel) {
+function selectEntityLayer(editorDom, annotationData, selectionModel) {
   let spanId = selectionModel.span.single()
 
   if (spanId) {
     let span = annotationData.span.get(spanId),
       entities = span.getEntities()
     selectEntity(selectionModel, entities[0])
+  }
+
+  let labels = editorDom.querySelectorAll('.textae-editor__type-label.ui-selected')
+  if (labels.length === 1) {
+    let label = labels[0],
+      pane = label.nextElementSibling,
+      children = pane.children,
+      id = children[0].title
+
+    selectEntity(selectionModel, id)
   }
 }
 
