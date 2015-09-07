@@ -6,23 +6,63 @@ import {
 }
 from './selectNextEntity'
 
-export default function(annotationData, selectionModel, typeContainer) {
+export default function(editor, annotationData, selectionModel, typeContainer) {
+  let editorDom = editor[0]
+
   return {
-    selectLeft: () => selectLeft(annotationData, selectionModel, typeContainer),
-    selectRight: () => selectRight(annotationData, selectionModel, typeContainer),
+    selectLeft: () => selectLeft(editorDom, annotationData, selectionModel, typeContainer),
+    selectRight: () => selectRight(editorDom, annotationData, selectionModel, typeContainer),
     selectUp: () => selectEntityLayer(annotationData, selectionModel),
     selectDown: () => selectSpanLayer(annotationData, selectionModel)
   }
 }
 
-function selectLeft(annotationData, selectionModel, typeContainer) {
+function selectLeft(editorDom, annotationData, selectionModel, typeContainer) {
   selectNextSpan(annotationData, selectionModel, 'left')
-  selectLeftEntity(annotationData, selectionModel, typeContainer)
+
+  let labels = editorDom.querySelectorAll('.textae-editor__type-label.ui-selected')
+  if (labels.length === 1) {
+    let allLabels = editorDom.querySelectorAll('.textae-editor__type-label'),
+      index = Array.from(allLabels).indexOf(labels[0])
+
+    if (index > 0) {
+      let prev = allLabels[index - 1]
+
+      selectEntityLabel(selectionModel, prev)
+    }
+  } else {
+    selectLeftEntity(annotationData, selectionModel, typeContainer)
+  }
 }
 
-function selectRight(annotationData, selectionModel, typeContainer) {
+function selectRight(editorDom, annotationData, selectionModel, typeContainer) {
   selectNextSpan(annotationData, selectionModel, 'right')
-  selectRightEntity(annotationData, selectionModel, typeContainer)
+
+  let labels = editorDom.querySelectorAll('.textae-editor__type-label.ui-selected')
+  if (labels.length === 1) {
+    let allLabels = editorDom.querySelectorAll('.textae-editor__type-label'),
+      index = Array.from(allLabels).indexOf(labels[0])
+
+    if (allLabels.length - index > 1) {
+      let next = allLabels[index + 1]
+
+      selectEntityLabel(selectionModel, next)
+    }
+  } else {
+    selectRightEntity(annotationData, selectionModel, typeContainer)
+  }
+}
+
+function selectEntityLabel(selectionModel, dom) {
+  console.assert(selectionModel, 'selectionModel MUST not be undefined')
+  console.assert(dom, 'dom MUST not be undefined')
+
+  let pane = dom.nextElementSibling,
+    children = pane.children,
+    ids = Array.from(children).map(dom => dom.title)
+
+  selectionModel.clear()
+  ids.forEach(id => selectionModel.entity.add(id))
 }
 
 function selectEntityLayer(annotationData, selectionModel) {

@@ -71,6 +71,7 @@ export default function(
       editMode
     ),
     selectHandler = new SelectHandler(
+      editor,
       model.annotationData,
       model.selectionModel,
       typeContainer
