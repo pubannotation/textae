@@ -1,9 +1,10 @@
-var AnnotationData = require('./AnnotationData');
+import AnnotationData from './AnnotationData'
+import Selection from './Selection'
 
-module.exports = function(editor) {
-    return {
-        annotationData: new AnnotationData(editor),
-        // A contaier of selection state.
-        selectionModel: require('./Selection')(['span', 'entity', 'relation'])
-    };
-};
+export default function(editor) {
+  return {
+    annotationData: new AnnotationData(editor),
+    // A contaier of selection state.
+    selectionModel: new Selection(['span', 'entity', 'relation'])
+  }
+}
