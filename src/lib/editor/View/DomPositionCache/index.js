@@ -33,7 +33,6 @@ function GridApi(gridPosition) {
 function RelationApi() {
     let newCache = new LesserMap(),
         // The connectCache has jsPlumbConnectors to call jsPlumbConnector instance to edit an according dom object.
-        // This is refered by render.relation and domUtil.selector.relation.
         api = {
             connectCache: newCache,
             toConnect: relationId => newCache.get(relationId)
