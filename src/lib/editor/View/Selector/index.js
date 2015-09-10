@@ -1,31 +1,49 @@
-import domUtil from '../domUtil';
-import DomPositionCache from '../DomPositionCache';
-import selectionClass from './selectionClass';
-import selectRelation from './selectRelation';
-import deselectRelation from './deselectRelation';
+import idFactory from '../../idFactory'
+import DomPositionCache from '../DomPositionCache'
+import selectRelation from './selectRelation'
+import deselectRelation from './deselectRelation'
+
+const SELECTED = 'ui-selected'
 
 export default function(editor, model) {
-  let domPositionCache = new DomPositionCache(editor, model.annotationData.entity);
+  let domPositionCache = new DomPositionCache(editor, model.annotationData.entity)
 
   return {
     span: {
       select: (id) => {
-        modifyStyle(editor, 'span', 'add', id)
-        focus(editor, 'span', id)
+        let el = getSpanDom(id)
+        modifyStyle(el, 'add')
+        el.focus()
       },
       deselect: (id) => {
-        modifyStyle(editor, 'span', 'remove', id)
-        blur(editor, 'span', id)
+        let el = getSpanDom(id)
+
+        // A dom does not exist when it is deleted.
+        if (el){
+          modifyStyle(el, 'remove')
+          el.blur()
+        }
       }
     },
     entity: {
       select: (id) => {
-        modifyStyle(editor, 'entity', 'add', id)
-        focus(editor, 'entity', id)
+        let el = getEntityDom(editor, id)
+
+        // Entities of block span hos no dom elements.
+        if (el) {
+          modifyStyle(el, 'add')
+          el.focus()
+        }
       },
       deselect: (id) => {
-        modifyStyle(editor, 'entity', 'remove', id)
-        blur(editor, 'entity', id)
+        let el = getEntityDom(editor, id)
+
+        // Entities of block span hos no dom elements.
+        // A dom does not exist when it is deleted.
+        if (el) {
+          modifyStyle(el, 'remove')
+          el.blur()
+        }
       }
     },
     relation: {
@@ -35,36 +53,34 @@ export default function(editor, model) {
     entityLabel: {
       update: (id) => updateEntityLabel(editor, id)
     }
-  };
-}
-
-function focus(editor, type, id) {
-  domUtil.selector[type].get(id, editor).focus()
-}
-
-function blur(editor, type, id) {
-  let dom = domUtil.selector[type].get(id, editor)
-
-  // A dom does not exist when it is deleted.
-  if (dom) {
-    dom.blur()
   }
-}
-
-function modifyStyle(editor, type, handle, id) {
-  var $elment = domUtil.selector[type].get(id, editor);
-  selectionClass[handle + 'Class']($elment);
 }
 
 // Select the typeLabel if all entities is selected.
 function updateEntityLabel(editor, entityId) {
-  var $entity = domUtil.selector.entity.get(entityId, editor),
-    $typePane = $entity.parent(),
-    $typeLabel = $typePane.prev();
+  let entity = getEntityDom(editor, entityId)
 
-  if ($typePane.children().length === $typePane.find('.ui-selected').length) {
-    selectionClass.addClass($typeLabel);
-  } else {
-    selectionClass.removeClass($typeLabel);
+  // Entities of block span hos no dom elements.
+  if (entity) {
+    let typePane = entity.parentNode,
+      typeLabel = typePane.previousElementSibling
+
+    if (typePane.children.length === typePane.querySelectorAll(`.${SELECTED}`).length) {
+      typeLabel.classList.add(SELECTED)
+    } else {
+      typeLabel.classList.remove(SELECTED)
+    }
   }
+}
+
+function getSpanDom(id) {
+  return document.querySelector(`#${id}`)
+}
+
+function getEntityDom(editor, entityId) {
+  return editor[0].querySelector(`#${idFactory.makeEntityDomId(editor, entityId)}`)
+}
+
+function modifyStyle(element, handle) {
+  element.classList[handle](SELECTED)
 }
