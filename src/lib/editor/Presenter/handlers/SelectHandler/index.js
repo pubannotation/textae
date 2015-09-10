@@ -74,6 +74,7 @@ function selectUpperLayer(editorDom, annotationData, selectionModel) {
       entities = types[0].entities
 
     selectEntities(selectionModel, entities)
+    return
   }
 
   let labels = editorDom.querySelectorAll('.textae-editor__type-label.ui-selected')
