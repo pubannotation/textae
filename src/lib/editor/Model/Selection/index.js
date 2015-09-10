@@ -6,42 +6,21 @@ import IdContainer from './IdContainer'
 
 export default function(kinds) {
   let emitter = new EventEmitter(),
-    containerList = kinds.map(IdContainer),
-    hash = containerList
-    .reduce((a, b) => {
-      a[b.name] = b
-      return a
-    }, {})
+    map = new Map(kinds.map(kindName => [kindName, new IdContainer(emitter, kindName)])),
+    hash = {}
 
-  relayEventsOfEachContainer(emitter, containerList)
+  map.forEach((container, name) => {
+    hash[name] = container
+  })
 
   return Object.assign(emitter, hash, {
-    clear: () => clearAll(containerList),
-    some: () => someAll(containerList)
+    clear: () => map.forEach((c) => c.clear()),
+    some: () => someAll(map)
   })
 }
 
-function clearAll(containerList) {
-  containerList.forEach((container) => container.clear())
-}
-
-function someAll(containerList) {
-  return containerList
-    .map((container) => container.some())
-    .reduce((a, b) => a || b)
-}
-
-function relayEventsOfEachContainer(emitter, containerList) {
-  containerList.forEach((container) => {
-    container
-      .on(container.name + '.change', function() {
-        emitter.emit(container.name + '.change')
-      })
-      .on(container.name + '.add', function(id) {
-        emitter.emit(container.name + '.select', id)
-      })
-      .on(container.name + '.remove', function(id) {
-        emitter.emit(container.name + '.deselect', id)
-      })
-  })
+function someAll(map) {
+  let ret = false
+  map.forEach(c => ret = ret || c.some())
+  return ret
 }
