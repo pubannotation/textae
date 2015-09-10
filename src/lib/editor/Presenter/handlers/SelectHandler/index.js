@@ -1,10 +1,10 @@
 import selectSpan from './selectSpan'
+import selectEntityLabel from './selectEntityLabel'
 import selectEntity from './selectEntity'
-import selectNextSpan from './selectNextSpan'
 import {
-  selectLeftEntity, selectRightEntity
+  getLeftElement, getRightElement
 }
-from './selectNextEntity'
+from './getElement'
 
 export default function(editor, annotationData, selectionModel, typeContainer) {
   let editorDom = editor[0]
@@ -18,103 +18,123 @@ export default function(editor, annotationData, selectionModel, typeContainer) {
 }
 
 function selectLeft(editorDom, annotationData, selectionModel, typeContainer) {
-  selectNextSpan(annotationData, selectionModel, 'left')
-
-  let labels = editorDom.querySelectorAll('.textae-editor__type-label.ui-selected')
-  if (labels.length === 1) {
-    let allLabels = editorDom.querySelectorAll('.textae-editor__type-label'),
-      index = Array.from(allLabels).indexOf(labels[0])
-
-    if (index > 0) {
-      let prev = allLabels[index - 1]
-
-      selectEntityLabel(selectionModel, prev)
-    }
+  // When one span is selected.
+  let spanId = selectionModel.span.single()
+  if (spanId) {
+    let span = getLeftElement(editorDom, document.querySelector(`#${spanId}`))
+    if (span)
+      selectSpan(selectionModel, span.id)
     return
   }
 
-  selectLeftEntity(annotationData, selectionModel, typeContainer)
+  // When one entity label is selected.
+  let labels = editorDom.querySelectorAll('.textae-editor__type-label.ui-selected')
+  if (labels.length === 1) {
+    let label = getLeftElement(editorDom, labels[0])
+    selectEntityLabel(selectionModel, label)
+    return
+  }
+
+  // When one entity is selected.
+  let entityId = selectionModel.entity.single()
+  if (entityId) {
+    let entity = getLeftElement(editorDom, getEntityDom(editorDom, entityId))
+    selectEntity(selectionModel, entity)
+    return
+  }
 }
 
 function selectRight(editorDom, annotationData, selectionModel, typeContainer) {
-  selectNextSpan(annotationData, selectionModel, 'right')
-
-  let labels = editorDom.querySelectorAll('.textae-editor__type-label.ui-selected')
-  if (labels.length === 1) {
-    let allLabels = editorDom.querySelectorAll('.textae-editor__type-label'),
-      index = Array.from(allLabels).indexOf(labels[0])
-
-    if (allLabels.length - index > 1) {
-      let next = allLabels[index + 1]
-
-      selectEntityLabel(selectionModel, next)
-    }
+  // When one span is selected.
+  let spanId = selectionModel.span.single()
+  if (spanId) {
+    let span = getRightElement(editorDom, document.querySelector(`#${spanId}`))
+    if (span)
+      selectSpan(selectionModel, span.id)
     return
   }
 
-  selectRightEntity(annotationData, selectionModel, typeContainer)
-}
+  // When one entity lable is selected.
+  let labels = editorDom.querySelectorAll('.textae-editor__type-label.ui-selected')
+  if (labels.length === 1) {
+    let label = getRightElement(editorDom, labels[0])
+    selectEntityLabel(selectionModel, label)
+    return
+  }
 
-function selectEntityLabel(selectionModel, dom) {
-  console.assert(selectionModel, 'selectionModel MUST not be undefined')
-  console.assert(dom, 'dom MUST not be undefined')
-
-  let pane = dom.nextElementSibling,
-    children = pane.children,
-    ids = Array.from(children).map(dom => dom.title)
-
-  selectEntities(selectionModel, ids)
+  // When one entity is selected.
+  let entityId = selectionModel.entity.single()
+  if (entityId) {
+    let entity = getRightElement(editorDom, getEntityDom(editorDom, entityId))
+    selectEntity(selectionModel, entity)
+    return
+  }
 }
 
 function selectUpperLayer(editorDom, annotationData, selectionModel) {
+  // When one span is selected.
   let spanId = selectionModel.span.single()
   if (spanId) {
-    let gridElemet = document.querySelector(`#G${spanId}`),
-      typeElement = gridElemet.querySelector('.textae-editor__type'),
-      entityElements = typeElement.querySelectorAll('.textae-editor__entity'),
-      entities = Array.from(entityElements).map(el => el.title)
-
-    selectEntities(selectionModel, entities)
+    selectFirstEntityLabelOfSpan(selectionModel, spanId)
     return
   }
 
+  // When one entity label is selected.
   let labels = editorDom.querySelectorAll('.textae-editor__type-label.ui-selected')
   if (labels.length === 1) {
-    let label = labels[0],
-      pane = label.nextElementSibling,
-      children = pane.children,
-      id = children[0].title
-
-    selectEntity(selectionModel, id)
+    selectFirstEntityOfEntityLabel(selectionModel, labels[0])
+    return
   }
 }
 
 function selectLowerLayer(editorDom, annotationData, selectionModel) {
+  // When one entity label is selected.
   let labels = editorDom.querySelectorAll('.textae-editor__type-label.ui-selected')
   if (labels.length === 1) {
-    let label = labels[0],
-      pane = label.nextElementSibling,
-      children = pane.children,
-      entityId = children[0].title,
-      entity = annotationData.entity.get(entityId),
-      span = annotationData.span.get(entity.span)
-
-    selectSpan(selectionModel, span)
+    selectSpanOfEntityLabel(selectionModel, labels[0])
     return
   }
 
+  // When one entity is selected.
   let entityId = selectionModel.entity.single()
   if (entityId) {
-    let entity = annotationData.entity.get(entityId),
-      span = annotationData.span.get(entity.span),
-      type = span.getTypes().filter(type => type.name === entity.type)[0],
-      ids = type.entities
-
-    selectEntities(selectionModel, ids)
+    selectLabelOfEntity(editorDom, selectionModel, entityId)
+    return
   }
 }
 
-function selectEntities(selectionModel, ids) {
-  selectionModel.clear()
-  ids.forEach(id => selectionModel.entity.add(id))
+function selectFirstEntityLabelOfSpan(selectionModel, spanId) {
+  let grid = document.querySelector(`#G${spanId}`)
+
+  // Block span has no grid.
+  if (grid) {
+    let type = grid.querySelector('.textae-editor__type'),
+      label = type.querySelector('.textae-editor__type-label')
+
+    selectEntityLabel(selectionModel, label)
+  }
+}
+
+function selectFirstEntityOfEntityLabel(selectionModel, label) {
+  let pane = label.nextElementSibling
+
+  selectEntity(selectionModel, pane.children[0])
+}
+
+function selectSpanOfEntityLabel(selectionModel, label) {
+  console.assert(label, 'A label MUST exists.')
+
+  let spanId = label.closest('.textae-editor__grid').id.substring(1)
+  selectSpan(selectionModel, spanId)
+}
+
+function selectLabelOfEntity(editorDom, selectionModel, entityId) {
+  console.assert(entityId, 'An entityId MUST exists.')
+
+  let entityDom = getEntityDom(editorDom, entityId)
+  selectEntityLabel(selectionModel, entityDom.parentNode.previousElementSibling)
+}
+
+function getEntityDom(editorDom, entityId) {
+  return editorDom.querySelector(`[title="${entityId}"]`)
 }

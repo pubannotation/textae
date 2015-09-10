@@ -1,8 +1,9 @@
-export default function(selectionModel, span) {
+export default function(selectionModel, spanId) {
   console.assert(selectionModel, 'selectionModel MUST not undefined.')
+  console.assert(spanId, 'spanId MUST not undefined.')
 
-  if (span) {
+  if (spanId) {
     selectionModel.clear()
-    selectionModel.span.add(span.id)
+    selectionModel.span.add(spanId)
   }
 }
