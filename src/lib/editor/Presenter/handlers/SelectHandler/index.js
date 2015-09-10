@@ -69,9 +69,10 @@ function selectEntityLabel(selectionModel, dom) {
 function selectUpperLayer(editorDom, annotationData, selectionModel) {
   let spanId = selectionModel.span.single()
   if (spanId) {
-    let span = annotationData.span.get(spanId),
-      types = span.getTypes(),
-      entities = types[0].entities
+    let gridElemet = document.querySelector(`#G${spanId}`),
+      typeElement = gridElemet.querySelector('.textae-editor__type'),
+      entityElements = typeElement.querySelectorAll('.textae-editor__entity'),
+      entities = Array.from(entityElements).map(el => el.title)
 
     selectEntities(selectionModel, entities)
     return
