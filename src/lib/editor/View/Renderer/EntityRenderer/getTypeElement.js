@@ -102,7 +102,7 @@ function getGrid(gridRenderer, spanId) {
     // Create a grid unless it exists.
     let $grid = domUtil.selector.grid.get(spanId);
     if ($grid.length === 0) {
-        return gridRenderer.render(spanId);
+        return $(gridRenderer.render(spanId));
     } else {
         return $grid;
     }

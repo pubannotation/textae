@@ -1,32 +1,29 @@
-import getAnnotationBox from './getAnnotationBox';
-import domUtil from '../domUtil';
+import getAnnotationBox from './getAnnotationBox'
+import domUtil from '../domUtil'
 
 export default function(editor, domPositionCache) {
-    var container = getAnnotationBox(editor),
-        render = _.partial(createGrid, domPositionCache, container),
-        destroyGrid = function(spanId) {
-            domUtil.selector.grid.get(spanId).remove();
-            domPositionCache.gridPositionCache.delete(spanId);
-        };
+  let container = getAnnotationBox(editor)
 
-    return {
-        render: render,
-        remove: destroyGrid
-    };
+  return {
+    render: (spanId) => createGrid(domPositionCache, container, spanId),
+    remove: (spanId) => {
+      domUtil.selector.grid.get(spanId).remove()
+      domPositionCache.gridPositionCache.delete(spanId)
+    }
+  }
 }
 
 function createGrid(domPositionCache, container, spanId) {
-    var spanPosition = domPositionCache.getSpan(spanId),
-        $grid = $('<div>')
-        .attr('id', 'G' + spanId)
-        .addClass('textae-editor__grid')
-        .addClass('hidden')
-        .css({
-            'width': spanPosition.width
-        });
+  let spanPosition = domPositionCache.getSpan(spanId),
+    element = document.createElement('div')
 
-    //append to the annotation area.
-    container.append($grid);
+  element.setAttribute('id', 'G' + spanId)
+  element.classList.add('textae-editor__grid')
+  element.classList.add('hidden')
+  element.style.width = spanPosition.width + 'px'
 
-    return $grid;
+  //append to the annotation area.
+  container.append(element)
+
+  return element
 }
