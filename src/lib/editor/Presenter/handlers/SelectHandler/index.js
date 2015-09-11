@@ -4,7 +4,7 @@ import selectEntity from './selectEntity'
 import {
   getLeftElement, getRightElement
 }
-from './getElement'
+from '../../../getNextElement'
 
 export default function(editor, annotationData, selectionModel, typeContainer) {
   let editorDom = editor[0]

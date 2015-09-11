@@ -2,7 +2,7 @@ import getAnnotationBox from './getAnnotationBox'
 import {
   getRightElement
 }
-from '../../Presenter/handlers/SelectHandler/getElement'
+from '../../getNextElement'
 
 export default function(editor, domPositionCache) {
   let container = getAnnotationBox(editor)
