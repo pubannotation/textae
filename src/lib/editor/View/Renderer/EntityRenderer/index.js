@@ -6,7 +6,7 @@ import {
 from 'events';
 import uri from '../../../uri';
 import idFactory from '../../../idFactory';
-import domUtil from '../../domUtil';
+import getEntityDom from '../getEntityDom';
 import Selector from '../../Selector';
 import getTypeDom from './getTypeDom';
 import create from './create';
@@ -68,7 +68,7 @@ function destroy(editor, model, gridRenderer, entity) {
 }
 
 function changeModificationOfExists(editor, modification, entity) {
-    var $entity = domUtil.selector.entity.get(entity.id, editor);
+    var $entity = getEntityDom(entity.id, editor);
     modification.update($entity, entity.id);
 }
 

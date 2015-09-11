@@ -5,7 +5,7 @@ import Connect from './Connect';
 import arrangePositionAll from './arrangePositionAll';
 import determineCurviness from './determineCurviness';
 import jsPlumbArrowOverlayUtil from './jsPlumbArrowOverlayUtil';
-import domUtil from '../../domUtil';
+import getEntityDom from '../getEntityDom';
 
 var POINTUP_LINE_WIDTH = 3,
     LABEL = {
@@ -91,8 +91,8 @@ module.exports = function(editor, model, typeContainer) {
                 createJsPlumbConnect = function(relation) {
                     // Make a connect by jsPlumb.
                     return jsPlumbInstance.connect({
-                        source: domUtil.selector.entity.get(relation.subj, editor),
-                        target: domUtil.selector.entity.get(relation.obj, editor),
+                        source: getEntityDom(relation.subj, editor),
+                        target: getEntityDom(relation.obj, editor),
                         anchors: ['TopCenter', "TopCenter"],
                         connector: ['Bezier', {
                             curviness: determineCurviness(editor, model.annotationData, relation)

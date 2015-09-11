@@ -1,10 +1,10 @@
-import domUtil from '../../domUtil';
+import getEntityDom from '../getEntityDom';
 import getTypeDom from './getTypeDom';
 import arrangePositionOfPane from './arrangePositionOfPane';
 
 export default function(editor, annotationData, entity) {
     // Get old type from Dom, Because the entity may have new type when changing type of the entity.
-    var oldType = domUtil.selector.entity.get(entity.id, editor).remove().attr('type');
+    var oldType = getEntityDom(entity.id, editor).remove().attr('type');
 
     // Delete type if no entity.
     if (doesTypeHasNoEntity(annotationData, entity, oldType)) {
