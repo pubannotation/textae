@@ -1,4 +1,3 @@
-import domUtil from '../../domUtil';
 import idFactory from '../../../idFactory';
 import uri from '../../../uri';
 import getDisplayName from './getDisplayName';
@@ -100,7 +99,7 @@ function createEmptyTypeDomElement(namespace, typeContainer, spanId, type) {
 
 function getGrid(gridRenderer, spanId) {
     // Create a grid unless it exists.
-    let $grid = domUtil.selector.grid.get(spanId);
+    let $grid = $(document.querySelector(`#G${spanId}`));
     if ($grid.length === 0) {
         return $(gridRenderer.render(spanId));
     } else {

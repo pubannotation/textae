@@ -21,13 +21,12 @@ var filterVisibleGrid = function(grid) {
     }
   },
   Promise = require('bluebird'),
-  getGridPosition = require('./getGridPosition'),
-  domUtil = require('./domUtil');
+  getGridPosition = require('./getGridPosition')
 
 // Management position of annotation components.
 module.exports = function(editor, annotationData, typeContainer) {
   var domPositionCaChe = require('./DomPositionCache')(editor, annotationData.entity),
-    getGridOfSpan = domUtil.selector.grid.get,
+    getGridOfSpan = (spanId) => $(document.querySelector(`#G${spanId}`)),
     getGrid = _.partial(doIfSpan, getGridOfSpan),
     updatePositionCache = function(span, newPosition) {
       if (newPosition) {
