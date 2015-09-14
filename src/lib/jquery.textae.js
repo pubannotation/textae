@@ -1,4 +1,4 @@
-var tool = require('./tool'),
+var tool = require('./tool')(),
     control = require('./control'),
     editor = require('./editor');
 
