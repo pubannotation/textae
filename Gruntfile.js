@@ -111,16 +111,7 @@ module.exports = function(grunt) {
         jasmine_node: {
             all: ['test/']
         },
-        // for development
         browserify: {
-            dev: {
-                files: browserifyFiles,
-                options: {
-                    browserifyOptions: {
-                        debug: true
-                    }
-                }
-            },
             dist: {
                 files: browserifyFiles
             }
@@ -145,9 +136,7 @@ module.exports = function(grunt) {
                     '!src/lib/bundle.js'
                 ],
                 tasks: [
-                    'jshint',
-                    'clean:bundle',
-                    'browserify:dev'
+                    'jshint'
                 ]
             },
             static_files: {
@@ -246,7 +235,7 @@ module.exports = function(grunt) {
         },
     });
 
-    grunt.registerTask('dev', ['browserify:dev', 'less', 'connect', 'open:dev', 'watch']);
+    grunt.registerTask('dev', ['connect', 'open:dev', 'watch']);
     grunt.registerTask('dist', ['jshint', 'jasmine_node', 'clean', 'browserify:dist', 'less', 'concat', 'uglify', 'copy', 'replace:version', 'cssmin']);
     grunt.registerTask('demo', ['open:demo', 'connect:developmentServer:keepalive']);
     grunt.registerTask('app', ['open:app', 'connect:developmentServer:keepalive']);
