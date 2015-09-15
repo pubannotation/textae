@@ -10,14 +10,14 @@ export default function(editor, annotationData, selectionModel, typeContainer) {
   let editorDom = editor[0]
 
   return {
-    selectLeft: () => selectLeft(editorDom, annotationData, selectionModel, typeContainer),
-    selectRight: () => selectRight(editorDom, annotationData, selectionModel, typeContainer),
+    selectLeft: (option) => selectLeft(editorDom, annotationData, selectionModel, typeContainer, option.shiftKey),
+    selectRight: (option) => selectRight(editorDom, annotationData, selectionModel, typeContainer, option.shiftKey),
     selectUp: () => selectUpperLayer(editorDom, annotationData, selectionModel),
     selectDown: () => selectLowerLayer(editorDom, annotationData, selectionModel)
   }
 }
 
-function selectLeft(editorDom, annotationData, selectionModel, typeContainer) {
+function selectLeft(editorDom, annotationData, selectionModel, typeContainer, shiftKey) {
   // When one span is selected.
   let spanId = selectionModel.span.single()
   if (spanId) {
@@ -44,7 +44,7 @@ function selectLeft(editorDom, annotationData, selectionModel, typeContainer) {
   }
 }
 
-function selectRight(editorDom, annotationData, selectionModel, typeContainer) {
+function selectRight(editorDom, annotationData, selectionModel, typeContainer, shiftKey) {
   // When one span is selected.
   let spanId = selectionModel.span.single()
   if (spanId) {

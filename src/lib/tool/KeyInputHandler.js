@@ -11,7 +11,8 @@ export default function(helpDialog, editors) {
     } else {
       if (editors.getSelected()) {
         editors.getSelected().api.handleKeyInput(key, {
-          point: getMousePoint()
+          point: getMousePoint(),
+          shiftKey: e.shiftKey
         })
       }
     }
