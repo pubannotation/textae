@@ -20,7 +20,7 @@ export default function(editor, model, spanConfig, command, modeAccordingToButto
     editRelation: elementEditor.start.editRelation,
     editEntity: elementEditor.start.editEntity,
     noEdit: elementEditor.start.noEdit,
-    showPallet: (point) => pallet.show(elementEditor.handler.typeContainer, point),
+    showPallet: (point) => pallet.show(elementEditor.handler.typeContainer, point.point),
     getTypeOfSelected: () => elementEditor.handler.getSelectedType(),
     changeTypeOfSelected: (newType) => elementEditor.handler.changeTypeOfSelected(newType),
     hideDialogs: pallet.hide,

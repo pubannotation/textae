@@ -8,7 +8,9 @@ export default function(helpDialog, editors) {
         break
       default:
         if (editors.getSelected()) {
-          editors.getSelected().api.handleButtonClick(name, getMousePoint())
+          editors.getSelected().api.handleButtonClick(name, {
+            point: getMousePoint()
+          })
         }
     }
   }

@@ -6,7 +6,9 @@ export default function(helpDialog, editors) {
       helpDialog()
     } else {
       if (editors.getSelected()) {
-        editors.getSelected().api.handleKeyInput(key, getMousePoint())
+        editors.getSelected().api.handleKeyInput(key, {
+          point: getMousePoint()
+        })
       }
     }
   }
