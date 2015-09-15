@@ -1,43 +1,33 @@
-var switchActiveClass = function(editors, selected) {
-	var activeClass = 'textae-editor--active';
+const ACTIVE_CLASS = 'textae-editor--active'
 
-	// Remove activeClass from others than selected.
-	_.reject(editors, function(editor) {
-		return editor === selected;
-	}).forEach(function(others) {
-		others.removeClass(activeClass);
-		// console.log('deactive', others.editorId);
-	});
+// The editor is extended jQuery object.
+export default function() {
+  let editorList = [],
+    selected = null,
+    select = (editorList, editor) => {
+      switchActiveClass(editorList, editor)
+      selected = editor
+    }
 
-	// Add activeClass to the selected.
-	selected.addClass(activeClass);
-	// console.log('active', selected.editorId);
-};
+  return {
+    push: (editor) => editorList.push(editor),
+    getNewId: () => 'editor' + editorList.length,
+    getSelected: () => selected,
+    select: (editor) => select(editorList, editor),
+    selectFirst: () => select(editorList, editorList[0]),
+    forEach: editorList.forEach.bind(editorList)
+  }
+}
 
-module.exports = function() {
-	var editorList = [],
-		selected = null,
-		select = function(editor) {
-			switchActiveClass(editorList, editor);
-			selected = editor;
-		},
-		// A container of editors that is extended from Array. 
-		editors = {
-			push: function(editor) {
-				editorList.push(editor);
-			},
-			getNewId: function() {
-				return 'editor' + editorList.length;
-			},
-			getSelected: function() {
-				return selected;
-			},
-			select: select,
-			selectFirst: function() {
-				select(editorList[0]);
-			},
-			forEach: editorList.forEach.bind(editorList)
-		};
+function switchActiveClass(editors, selected) {
+  // Remove ACTIVE_CLASS from others than selected.
+  editors
+    .filter(editor => editor !== selected)
+    .map(other => other[0])
+    .forEach(elemet => {
+      elemet.classList.remove(ACTIVE_CLASS)
+    })
 
-	return editors;
-};
+  // Add ACTIVE_CLASS to the selected.
+  selected[0].classList.add(ACTIVE_CLASS)
+}
