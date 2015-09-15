@@ -4,14 +4,17 @@ import ElementEditor from './ElementEditor'
 
 export default function(editor, model, spanConfig, command, modeAccordingToButton, typeContainer) {
   // will init.
-  let elementEditor = new ElementEditor(editor, model, spanConfig, command, modeAccordingToButton, typeContainer),
+  let elementEditor = new ElementEditor(
+      editor,
+      model,
+      spanConfig,
+      command,
+      modeAccordingToButton,
+      typeContainer, () => cancelSelect(pallet, model.selectionModel)
+    ),
     pallet = new Pallet(
       (label) => elementEditor.handler.changeTypeOfSelected(label), (label) => elementEditor.handler.typeContainer.setDefaultType(label)
     )
-
-  // Bind events.
-  elementEditor.on('cancel.select', () => cancelSelect(pallet, model.selectionModel))
-
 
   return {
     editRelation: elementEditor.start.editRelation,
