@@ -134,6 +134,9 @@
             user-select: none;
             -webkit-touch-callout: none;
             z-index: 1;
+            &:focus {
+                outline-style: none;
+            }
         }
     }
     &_editable &__type-label a {
@@ -180,9 +183,6 @@
         &:hover {
             box-shadow: 1px 1px 10px #600;
             text-shadow: 1px 1px 1px #600;
-        }
-        &:focus {
-            outline-style: none;
         }
         &.ui-selected {
             background-color: yellow;

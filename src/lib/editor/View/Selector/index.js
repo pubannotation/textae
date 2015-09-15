@@ -32,7 +32,9 @@ export default function(editor, model) {
         // Entities of block span hos no dom elements.
         if (el) {
           modifyStyle(el, 'add')
-          el.focus()
+
+          // focus label
+          el.parentNode.previousElementSibling.focus()
         }
       },
       deselect: (id) => {
@@ -42,7 +44,9 @@ export default function(editor, model) {
         // A dom does not exist when it is deleted.
         if (el) {
           modifyStyle(el, 'remove')
-          el.blur()
+
+          // blur label
+          el.parentNode.previousElementSibling.blur()
         }
       }
     },

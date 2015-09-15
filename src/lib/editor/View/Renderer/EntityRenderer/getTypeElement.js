@@ -88,6 +88,8 @@ function createEmptyTypeDomElement(namespace, typeContainer, spanId, type) {
       'background-color': typeContainer.entity.getColor(type),
     });
 
+    $typeLabel[0].setAttribute('tabindex', 0)
+
   setLabelName($typeLabel[0], namespace, typeContainer, type);
 
   return $('<div>')

@@ -7,7 +7,6 @@ export default function createEntityElement(editor, typeContainer, modification,
   element.setAttribute('id', idFactory.makeEntityDomId(editor, entity.id))
   element.setAttribute('title', entity.id)
   element.setAttribute('type', entity.type)
-  element.setAttribute('tabindex', 0)
   element.classList.add('textae-editor__entity')
 
   element.style.borderColor = typeContainer.entity.getColor(entity.type)
