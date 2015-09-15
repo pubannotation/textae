@@ -1,6 +1,6 @@
-import Pallet from '../../../component/Pallet';
-import dismissBrowserSelection from './dismissBrowserSelection';
-import ElementEditor from './ElementEditor';
+import Pallet from '../../../component/Pallet'
+import dismissBrowserSelection from './dismissBrowserSelection'
+import ElementEditor from './ElementEditor'
 
 export default function(editor, model, spanConfig, command, modeAccordingToButton, typeContainer) {
   // will init.
@@ -10,7 +10,7 @@ export default function(editor, model, spanConfig, command, modeAccordingToButto
     )
 
   // Bind events.
-  elementEditor.on('cancel.select', () => cancelSelect(pallet, model.selectionModel));
+  elementEditor.on('cancel.select', () => cancelSelect(pallet, model.selectionModel))
 
 
   return {
@@ -28,13 +28,13 @@ export default function(editor, model, spanConfig, command, modeAccordingToButto
       event
     ),
     getSelectedIdEditable: () => elementEditor.handler.getSelectedIdEditable()
-  };
+  }
 }
 
 function cancelSelect(pallet, selectionModel) {
-  pallet.hide();
-  selectionModel.clear();
-  dismissBrowserSelection();
+  pallet.hide()
+  selectionModel.clear()
+  dismissBrowserSelection()
 }
 
 // A relation is drawn by a jsPlumbConnection.
@@ -44,8 +44,8 @@ function jsPlumbConnectionClicked(elementEditor, jsPlumbConnection, event) {
   // Because the jsPlumb will call the event handler twice
   // when a label is clicked that of a relation added after the initiation.
   if (elementEditor.handler.jsPlumbConnectionClicked && !event.processedByTextae) {
-    elementEditor.handler.jsPlumbConnectionClicked(jsPlumbConnection, event);
+    elementEditor.handler.jsPlumbConnectionClicked(jsPlumbConnection, event)
   }
 
-  event.processedByTextae = true;
+  event.processedByTextae = true
 }
