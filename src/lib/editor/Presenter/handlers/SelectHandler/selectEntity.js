@@ -5,13 +5,15 @@
  */
 export default function(selectionModel, entity) {
   console.assert(selectionModel, 'selectionModel MUST exists.')
-  console.assert(entity, 'entity MUST exists.')
 
-  selectionModel.clear()
+  // A entity may be null when the first or the last entity is selected at the Relation Edit Mode.
+  if(entity){
+    selectionModel.clear()
 
-  if (entity.forEach) {
-    entity.forEach(i => selectionModel.entity.add(i))
-  } else {
-    selectionModel.entity.add(entity.title)
+    if (entity.forEach) {
+      entity.forEach(i => selectionModel.entity.add(i))
+    } else {
+      selectionModel.entity.add(entity.title)
+    }
   }
 }
