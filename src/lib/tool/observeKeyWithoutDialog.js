@@ -1,3 +1,5 @@
+import getKeyCode from './getKeyCode'
+
 // Observe key-input events and convert events to readable code.
 export default function(keyInputHandler) {
   let eventHandler = (e) => keyInputHandler(getKeyCode(e)),
@@ -11,8 +13,4 @@ export default function(keyInputHandler) {
   $('body')
     .on('dialogopen', '.ui-dialog', () => onKeyup = noop)
     .on('dialogclose', '.ui-dialog', () => onKeyup = eventHandler)
-}
-
-function getKeyCode(e) {
-  return e.keyCode
 }
