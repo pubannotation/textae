@@ -1,4 +1,8 @@
-import selectSpan from './selectSpan'
+import {
+  selectSpan,
+  selectSingleSpanById
+}
+from './selectSpan'
 import selectEntityLabel from './selectEntityLabel'
 import selectEntity from './selectEntity'
 import {
@@ -18,12 +22,12 @@ export default function(editor, annotationData, selectionModel, typeContainer) {
 }
 
 function selectLeft(editorDom, annotationData, selectionModel, typeContainer, shiftKey) {
-  // When one span is selected.
-  let spanId = selectionModel.span.single()
-  if (spanId) {
-    let span = getLeftElement(editorDom, document.querySelector(`#${spanId}`))
-    if (span)
-      selectSpan(selectionModel, span.id)
+  let selectedSpans = editorDom.querySelectorAll('.textae-editor__span.ui-selected')
+
+  // Spans are selected.
+  if (selectedSpans.length) {
+    let span = getLeftElement(editorDom, selectedSpans[0])
+    selectSpan(selectionModel, span, shiftKey)
     return
   }
 
@@ -45,12 +49,12 @@ function selectLeft(editorDom, annotationData, selectionModel, typeContainer, sh
 }
 
 function selectRight(editorDom, annotationData, selectionModel, typeContainer, shiftKey) {
-  // When one span is selected.
-  let spanId = selectionModel.span.single()
-  if (spanId) {
-    let span = getRightElement(editorDom, document.querySelector(`#${spanId}`))
-    if (span)
-      selectSpan(selectionModel, span.id)
+  let selectedSpans = editorDom.querySelectorAll('.textae-editor__span.ui-selected')
+
+  // Spans are selected.
+  if (selectedSpans.length) {
+    let span = getRightElement(editorDom, selectedSpans[selectedSpans.length - 1])
+    selectSpan(selectionModel, span, shiftKey)
     return
   }
 
@@ -125,7 +129,7 @@ function selectSpanOfEntityLabel(selectionModel, label) {
   console.assert(label, 'A label MUST exists.')
 
   let spanId = label.closest('.textae-editor__grid').id.substring(1)
-  selectSpan(selectionModel, spanId)
+  selectSingleSpanById(selectionModel, spanId)
 }
 
 function selectLabelOfEntity(editorDom, selectionModel, entityId) {
