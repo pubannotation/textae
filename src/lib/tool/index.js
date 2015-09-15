@@ -6,7 +6,6 @@ import EditorContainer from './EditorContainer'
 import ControlButtonHandler from './ControlButtonHandler'
 import KeyInputHandler from './KeyInputHandler'
 import observeKeyWithoutDialog from './observeKeyWithoutDialog'
-import convertKeyEvent from './convertKeyEvent'
 import HelpDialog from '../component/HelpDialog'
 
 let helpDialog = new HelpDialog()
@@ -21,7 +20,7 @@ export default function() {
   window.addEventListener('load', () => {
     let handleKeyInput = new KeyInputHandler(helpDialog, editors)
 
-    observeKeyWithoutDialog(keyCode => handleKeyInput(convertKeyEvent(keyCode)))
+    observeKeyWithoutDialog(handleKeyInput)
     redrawOnResize(editors)
   })
 
