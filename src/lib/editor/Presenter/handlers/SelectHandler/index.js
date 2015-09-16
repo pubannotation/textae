@@ -10,6 +10,12 @@ import {
 }
 from '../../../getNextElement'
 
+const SPAN_CLASS = 'textae-editor__span',
+  GRID_CLASS = 'textae-editor__grid',
+  LABEL_CLASS = 'textae-editor__type-label',
+  TYPE_CLASS = 'textae-editor__type',
+  ENTINY_CLASS = 'textae-editor__entity'
+
 export default function(editor, annotationData, selectionModel, typeContainer) {
   let editorDom = editor[0]
 
@@ -22,7 +28,7 @@ export default function(editor, annotationData, selectionModel, typeContainer) {
 }
 
 function selectLeft(editorDom, annotationData, selectionModel, typeContainer, shiftKey) {
-  let selectedSpans = editorDom.querySelectorAll('.textae-editor__span.ui-selected')
+  let selectedSpans = selectSelected(editorDom, SPAN_CLASS)
 
   // Spans are selected.
   if (selectedSpans.length) {
@@ -32,7 +38,7 @@ function selectLeft(editorDom, annotationData, selectionModel, typeContainer, sh
   }
 
   // When one entity label is selected.
-  let labels = editorDom.querySelectorAll('.textae-editor__type-label.ui-selected')
+  let labels = selectSelected(editorDom, LABEL_CLASS)
   if (labels.length === 1) {
     let label = getLeftElement(editorDom, labels[0])
     selectEntityLabel(selectionModel, label)
@@ -49,7 +55,7 @@ function selectLeft(editorDom, annotationData, selectionModel, typeContainer, sh
 }
 
 function selectRight(editorDom, annotationData, selectionModel, typeContainer, shiftKey) {
-  let selectedSpans = editorDom.querySelectorAll('.textae-editor__span.ui-selected')
+  let selectedSpans = selectSelected(editorDom, SPAN_CLASS)
 
   // Spans are selected.
   if (selectedSpans.length) {
@@ -59,7 +65,7 @@ function selectRight(editorDom, annotationData, selectionModel, typeContainer, s
   }
 
   // When one entity lable is selected.
-  let labels = editorDom.querySelectorAll('.textae-editor__type-label.ui-selected')
+  let labels = selectSelected(editorDom, LABEL_CLASS)
   if (labels.length === 1) {
     let label = getRightElement(editorDom, labels[0])
     selectEntityLabel(selectionModel, label)
@@ -84,7 +90,7 @@ function selectUpperLayer(editorDom, annotationData, selectionModel) {
   }
 
   // When one entity label is selected.
-  let labels = editorDom.querySelectorAll('.textae-editor__type-label.ui-selected')
+  let labels = selectSelected(editorDom, LABEL_CLASS)
   if (labels.length === 1) {
     selectFirstEntityOfEntityLabel(selectionModel, labels[0])
     return
@@ -93,18 +99,22 @@ function selectUpperLayer(editorDom, annotationData, selectionModel) {
 
 function selectLowerLayer(editorDom, annotationData, selectionModel) {
   // When one entity label is selected.
-  let labels = editorDom.querySelectorAll('.textae-editor__type-label.ui-selected')
+  let labels = selectSelected(editorDom, LABEL_CLASS)
   if (labels.length === 1) {
     selectSpanOfEntityLabel(selectionModel, labels[0])
     return
   }
 
   // When one entity is selected.
-  let selectedEnities = editorDom.querySelectorAll('.textae-editor__entity.ui-selected')
+  let selectedEnities = selectSelected(editorDom, ENTINY_CLASS)
   if (selectedEnities.length === 1) {
     selectLabelOfEntity(selectionModel, selectedEnities[0])
     return
   }
+}
+
+function selectSelected(dom, className) {
+  return dom.querySelectorAll(`.${className}.ui-selected`)
 }
 
 function selectFirstEntityLabelOfSpan(selectionModel, spanId) {
@@ -112,8 +122,8 @@ function selectFirstEntityLabelOfSpan(selectionModel, spanId) {
 
   // Block span has no grid.
   if (grid) {
-    let type = grid.querySelector('.textae-editor__type'),
-      label = type.querySelector('.textae-editor__type-label')
+    let type = grid.querySelector(`.${TYPE_CLASS}`),
+      label = type.querySelector(`.${LABEL_CLASS}`)
 
     selectEntityLabel(selectionModel, label)
   }
@@ -128,7 +138,7 @@ function selectFirstEntityOfEntityLabel(selectionModel, label) {
 function selectSpanOfEntityLabel(selectionModel, label) {
   console.assert(label, 'A label MUST exists.')
 
-  let spanId = label.closest('.textae-editor__grid').id.substring(1)
+  let spanId = label.closest(`.${GRID_CLASS}`).id.substring(1)
   selectSingleSpanById(selectionModel, spanId)
 }
 
