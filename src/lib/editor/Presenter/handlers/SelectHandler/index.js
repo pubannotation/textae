@@ -40,17 +40,17 @@ function selectLeft(editorDom, annotationData, selectionModel, typeContainer, sh
 
   // When one entity label is selected.
   let labels = selectSelected(editorDom, LABEL_CLASS)
-  if (labels.length === 1) {
+  if (labels.length) {
     let label = getLeftElement(editorDom, labels[0])
-    selectEntityLabel(selectionModel, label)
+    selectEntityLabel(selectionModel, label, shiftKey)
     return
   }
 
   // When one entity is selected.
-  let entityId = selectionModel.entity.single()
-  if (entityId) {
-    let entity = getLeftElement(editorDom, getEntityDom(editorDom, entityId))
-    selectEntity(selectionModel, entity)
+  let entities = selectSelected(editorDom, ENTINY_CLASS)
+  if (entities.length) {
+    let entity = getLeftElement(editorDom, entities[0])
+    selectEntity(selectionModel, entity, shiftKey)
     return
   }
 }
@@ -67,17 +67,17 @@ function selectRight(editorDom, annotationData, selectionModel, typeContainer, s
 
   // When one entity lable is selected.
   let labels = selectSelected(editorDom, LABEL_CLASS)
-  if (labels.length === 1) {
-    let label = getRightElement(editorDom, labels[0])
-    selectEntityLabel(selectionModel, label)
+  if (labels.length) {
+    let label = getRightElement(editorDom, labels[labels.length - 1])
+    selectEntityLabel(selectionModel, label, shiftKey)
     return
   }
 
   // When one entity is selected.
-  let entityId = selectionModel.entity.single()
-  if (entityId) {
-    let entity = getRightElement(editorDom, getEntityDom(editorDom, entityId))
-    selectEntity(selectionModel, entity)
+  let entities = selectSelected(editorDom, ENTINY_CLASS)
+  if (entities.length) {
+    let entity = getRightElement(editorDom, entities[entities.length - 1])
+    selectEntity(selectionModel, entity, shiftKey)
     return
   }
 }

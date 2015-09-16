@@ -3,11 +3,11 @@ export {
   selectSingleSpanById
 }
 
-function selectSpan(selectionModel, dom, shiftKey) {
+function selectSpan(selectionModel, dom, isMulti) {
   console.assert(selectionModel, 'selectionModel MUST not undefined.')
 
   if (dom) {
-    if (shiftKey) {
+    if (isMulti) {
       selectionModel.span.add(dom.id)
     } else {
       selectSingleSpanById(selectionModel, dom.id)

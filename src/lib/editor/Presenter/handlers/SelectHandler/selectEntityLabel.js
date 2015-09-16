@@ -1,12 +1,15 @@
 import selectEntity from './selectEntity'
 
-export default function selectEntityLabel(selectionModel, dom) {
+export default function selectEntityLabel(selectionModel, dom, isMulti) {
   console.assert(selectionModel, 'selectionModel MUST exists')
 
   if (dom) {
     let pane = dom.nextElementSibling,
-      children = pane.children
+      allEntityOflabels = pane.children
 
-    selectEntity(selectionModel, children)
+    if (!isMulti)
+      selectionModel.clear()
+
+    selectionModel.entity.add(Array.from(allEntityOflabels).map(dom => dom.title))
   }
 }
