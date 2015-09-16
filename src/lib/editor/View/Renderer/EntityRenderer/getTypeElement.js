@@ -1,7 +1,7 @@
 import idFactory from '../../../idFactory';
 import uri from '../../../uri';
 import getDisplayName from './getDisplayName';
-import getTypeDom from './getTypeDom';
+import getTypeDom from '../getTypeDom';
 
 //render type unless exists.
 export default function(namespace, typeContainer, gridRenderer, spanId, type) {

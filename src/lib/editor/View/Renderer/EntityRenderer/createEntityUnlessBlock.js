@@ -1,11 +1,7 @@
-import create from './create';
+import create from './create'
 
-export default function(editor, namespace, typeContainer, gridRenderer, modification, emitter, entity) {
+export default function(editor, namespace, typeContainer, gridRenderer, modification, entity) {
     if (!typeContainer.entity.isBlock(entity.type)) {
-        create(editor, namespace, typeContainer, gridRenderer, modification, entity);
+        create(editor, namespace, typeContainer, gridRenderer, modification, entity)
     }
-
-    emitter.emit('render', entity);
-
-    return entity;
 }

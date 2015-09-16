@@ -1,16 +1,16 @@
-import Selector from '../../Selector';
-import createEntityUnlessBlock from './createEntityUnlessBlock';
-import removeEntityElement from './removeEntityElement';
+import Selector from '../../Selector'
+import createEntityUnlessBlock from './createEntityUnlessBlock'
+import removeEntityElement from './removeEntityElement'
 
-export default function(editor, model, typeContainer, gridRenderer, modification, emitter, entity) {
-    let selector = new Selector(editor, model);
+export default function(editor, model, typeContainer, gridRenderer, modification, entity) {
+    let selector = new Selector(editor, model)
 
     // Remove an old entity.
     removeEntityElement(
         editor,
         model.annotationData,
         entity
-    );
+    )
 
     // Show a new entity.
     createEntityUnlessBlock(
@@ -19,15 +19,12 @@ export default function(editor, model, typeContainer, gridRenderer, modification
         typeContainer,
         gridRenderer,
         modification,
-        emitter,
         entity
-    );
+    )
 
     // Re-select a new entity instance.
     if (model.selectionModel.entity.has(entity.id)) {
-        selector.entity.select(entity.id);
-        selector.entityLabel.update(entity.id);
+        selector.entity.select(entity.id)
+        selector.entityLabel.update(entity.id)
     }
-
-    return entity;
 }
