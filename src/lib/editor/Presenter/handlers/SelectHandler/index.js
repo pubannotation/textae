@@ -17,50 +17,65 @@ const SPAN_CLASS = 'textae-editor__span',
   TYPE_CLASS = 'textae-editor__type',
   ENTINY_CLASS = 'textae-editor__entity'
 
-export default function(editor, annotationData, selectionModel, typeContainer) {
+export default function(editor, selectionModel) {
   let editorDom = editor[0]
 
   return {
-    selectLeft: (option) => selectLeft(editorDom, annotationData, selectionModel, typeContainer, option.shiftKey),
-    selectRight: (option) => selectRight(editorDom, annotationData, selectionModel, typeContainer, option.shiftKey),
-    selectUp: () => selectUpperLayer(editorDom, annotationData, selectionModel),
-    selectDown: () => selectLowerLayer(editorDom, annotationData, selectionModel)
+    selectLeft: (option) => selectLeft(editorDom, selectionModel, option.shiftKey),
+    selectRight: (option) => selectRight(editorDom, selectionModel, option.shiftKey),
+    selectUp: () => selectUpperLayer(editorDom, selectionModel),
+    selectDown: () => selectLowerLayer(editorDom, selectionModel),
+    selectLeftFunc: () => selectLeftFunc(editorDom, selectionModel),
+    selectRightFunc: () => selectRightFunc(editorDom, selectionModel)
   }
 }
 
-function selectLeft(editorDom, annotationData, selectionModel, typeContainer, shiftKey) {
-  let or = (className, func, next) => selectOr(editorDom, className, func, selectionModel, shiftKey, next, (selected) => getLeftElement(editorDom, selected[0]))
-
-  or(SPAN_CLASS, selectSpan, () => {
-    or(LABEL_CLASS, selectEntityLabel, () => {
-      or(ENTINY_CLASS, selectEntity)
-    })
-  })
+function selectLeft(editorDom, selectionModel, shiftKey) {
+  let selectNext = selectLeftFunc(editorDom, selectionModel, shiftKey)
+  selectNext()
 }
 
-function selectRight(editorDom, annotationData, selectionModel, typeContainer, shiftKey) {
+function selectRight(editorDom, selectionModel, shiftKey) {
+  let selectNext = selectRightFunc(editorDom, selectionModel, shiftKey)
+  selectNext()
+}
+
+function selectLeftFunc(editorDom, selectionModel, shiftKey) {
+  let or = (className, func, next) => selectOr(editorDom, className, func, selectionModel, shiftKey, next, (selected) => getLeftElement(editorDom, selected[0]))
+
+  let selectNext = or(SPAN_CLASS, selectSpan, () =>
+    or(LABEL_CLASS, selectEntityLabel, () =>
+      or(ENTINY_CLASS, selectEntity)
+    )
+  )
+
+  return selectNext
+}
+
+function selectRightFunc(editorDom, selectionModel, shiftKey) {
   let or = (className, func, next) => selectOr(editorDom, className, func, selectionModel, shiftKey, next, (selected) => getRightElement(editorDom, selected[selected.length - 1]))
 
-  or(SPAN_CLASS, selectSpan, () => {
-    or(LABEL_CLASS, selectEntityLabel, () => {
+  let selectNext = or(SPAN_CLASS, selectSpan, () =>
+    or(LABEL_CLASS, selectEntityLabel, () =>
       or(ENTINY_CLASS, selectEntity)
-    })
-  })
+    )
+  )
+
+  return selectNext
 }
 
 function selectOr(editorDom, className, selectFunc, selectionModel, shiftKey, next, getNextFunc) {
   let selected = selectSelected(editorDom, className)
 
   if (selected.length) {
-    let left = getNextFunc(selected)
-    selectFunc(selectionModel, left, shiftKey)
+    let nextElement = getNextFunc(selected)
+    return () => selectFunc(selectionModel, nextElement, shiftKey)
   } else {
-    if (next)
-      next()
+    return next ? next() : () => {}
   }
 }
 
-function selectUpperLayer(editorDom, annotationData, selectionModel) {
+function selectUpperLayer(editorDom, selectionModel) {
   // When one span is selected.
   let spanId = selectionModel.span.single()
   if (spanId) {
@@ -76,7 +91,7 @@ function selectUpperLayer(editorDom, annotationData, selectionModel) {
   }
 }
 
-function selectLowerLayer(editorDom, annotationData, selectionModel) {
+function selectLowerLayer(editorDom, selectionModel) {
   // When one entity label is selected.
   let labels = selectSelected(editorDom, LABEL_CLASS)
   if (labels.length === 1) {

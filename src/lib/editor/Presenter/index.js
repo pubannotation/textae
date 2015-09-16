@@ -72,9 +72,7 @@ export default function(
     ),
     selectHandler = new SelectHandler(
       editor,
-      model.annotationData,
-      model.selectionModel,
-      typeContainer
+      model.selectionModel
     ),
     showSettingDialog = new SettingDialog(
       editor,
@@ -92,7 +90,8 @@ export default function(
       copyEntities: clipBoardHandler.copyEntities,
       removeSelectedElements: () => removeSelectedElements(
         command,
-        model.selectionModel
+        model.selectionModel,
+        selectHandler
       ),
       createEntity: defaultEntityHandler.createEntity,
       showPallet: typeEditor.showPallet,

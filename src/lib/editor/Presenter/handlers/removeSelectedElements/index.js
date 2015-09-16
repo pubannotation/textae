@@ -1,6 +1,9 @@
-import RemoveCommandsFromSelection from './RemoveCommandsFromSelection';
+import RemoveCommandsFromSelection from './RemoveCommandsFromSelection'
 
-export default function(command, selectionModel) {
-    var commands = new RemoveCommandsFromSelection(command, selectionModel);
-    command.invoke(commands);
+export default function(command, selectionModel, selectHandler) {
+  let selectNext = selectHandler.selectRightFunc(),
+    commands = new RemoveCommandsFromSelection(command, selectionModel)
+
+  command.invoke(commands)
+  selectNext()
 }
