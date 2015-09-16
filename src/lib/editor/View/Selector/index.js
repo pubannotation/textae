@@ -2,6 +2,7 @@ import idFactory from '../../idFactory'
 import DomPositionCache from '../DomPositionCache'
 import selectRelation from './selectRelation'
 import deselectRelation from './deselectRelation'
+import getEntityDom from '../../getEntityDom';
 
 const SELECTED = 'ui-selected'
 
@@ -27,7 +28,7 @@ export default function(editor, model) {
     },
     entity: {
       select: (id) => {
-        let el = getEntityDom(editor, id)
+        let el = getEntityDom(editor[0], id)
 
         // Entities of block span hos no dom elements.
         if (el) {
@@ -38,7 +39,7 @@ export default function(editor, model) {
         }
       },
       deselect: (id) => {
-        let el = getEntityDom(editor, id)
+        let el = getEntityDom(editor[0], id)
 
         // Entities of block span hos no dom elements.
         // A dom does not exist when it is deleted.
@@ -62,7 +63,7 @@ export default function(editor, model) {
 
 // Select the typeLabel if all entities is selected.
 function updateEntityLabel(editor, entityId) {
-  let entity = getEntityDom(editor, entityId)
+  let entity = getEntityDom(editor[0], entityId)
 
   // Entities of block span hos no dom elements.
   if (entity) {
@@ -79,10 +80,6 @@ function updateEntityLabel(editor, entityId) {
 
 function getSpanDom(id) {
   return document.querySelector(`#${id}`)
-}
-
-function getEntityDom(editor, entityId) {
-  return editor[0].querySelector(`#${idFactory.makeEntityDomId(editor, entityId)}`)
 }
 
 function modifyStyle(element, handle) {

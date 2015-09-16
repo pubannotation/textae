@@ -9,6 +9,7 @@ import {
   getLeftElement, getRightElement
 }
 from '../../../getNextElement'
+import getEntityDom from '../../../getEntityDom'
 
 const SPAN_CLASS = 'textae-editor__span',
   GRID_CLASS = 'textae-editor__grid',
@@ -146,8 +147,4 @@ function selectLabelOfEntity(selectionModel, entity) {
   console.assert(entity, 'An entity MUST exists.')
 
   selectEntityLabel(selectionModel, entity.parentNode.previousElementSibling)
-}
-
-function getEntityDom(editorDom, entityId) {
-  return editorDom.querySelector(`[title="${entityId}"]`)
 }

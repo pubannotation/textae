@@ -2,7 +2,7 @@ import ModificationRenderer from '../ModificationRenderer'
 import getDisplayName from './getDisplayName'
 import uri from '../../../uri'
 import idFactory from '../../../idFactory'
-import getEntityDom from '../getEntityDom'
+import getEntityDom from '../../../getEntityDom'
 import Selector from '../../Selector'
 import create from './create'
 import createEntityUnlessBlock from './createEntityUnlessBlock'
@@ -62,8 +62,8 @@ function destroy(editor, model, gridRenderer, entity) {
 }
 
 function changeModificationOfExists(editor, modification, entity) {
-  var $entity = getEntityDom(entity.id, editor)
-  modification.update($entity, entity.id)
+  var $entity = $(getEntityDom(editor[0], entity.id));
+  modification.update($entity, entity.id);
 }
 
 function doesSpanHasNoEntity(annotationData, spanId) {
