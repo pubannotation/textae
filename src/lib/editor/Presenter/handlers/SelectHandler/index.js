@@ -29,56 +29,34 @@ export default function(editor, annotationData, selectionModel, typeContainer) {
 }
 
 function selectLeft(editorDom, annotationData, selectionModel, typeContainer, shiftKey) {
-  let selectedSpans = selectSelected(editorDom, SPAN_CLASS)
+  let or = (className, func, next) => selectOr(editorDom, className, func, selectionModel, shiftKey, next, (selected) => getLeftElement(editorDom, selected[0]))
 
-  // Spans are selected.
-  if (selectedSpans.length) {
-    let span = getLeftElement(editorDom, selectedSpans[0])
-    selectSpan(selectionModel, span, shiftKey)
-    return
-  }
-
-  // When one entity label is selected.
-  let labels = selectSelected(editorDom, LABEL_CLASS)
-  if (labels.length) {
-    let label = getLeftElement(editorDom, labels[0])
-    selectEntityLabel(selectionModel, label, shiftKey)
-    return
-  }
-
-  // When one entity is selected.
-  let entities = selectSelected(editorDom, ENTINY_CLASS)
-  if (entities.length) {
-    let entity = getLeftElement(editorDom, entities[0])
-    selectEntity(selectionModel, entity, shiftKey)
-    return
-  }
+  or(SPAN_CLASS, selectSpan, () => {
+    or(LABEL_CLASS, selectEntityLabel, () => {
+      or(ENTINY_CLASS, selectEntity)
+    })
+  })
 }
 
 function selectRight(editorDom, annotationData, selectionModel, typeContainer, shiftKey) {
-  let selectedSpans = selectSelected(editorDom, SPAN_CLASS)
+  let or = (className, func, next) => selectOr(editorDom, className, func, selectionModel, shiftKey, next, (selected) => getRightElement(editorDom, selected[selected.length - 1]))
 
-  // Spans are selected.
-  if (selectedSpans.length) {
-    let span = getRightElement(editorDom, selectedSpans[selectedSpans.length - 1])
-    selectSpan(selectionModel, span, shiftKey)
-    return
-  }
+  or(SPAN_CLASS, selectSpan, () => {
+    or(LABEL_CLASS, selectEntityLabel, () => {
+      or(ENTINY_CLASS, selectEntity)
+    })
+  })
+}
 
-  // When one entity lable is selected.
-  let labels = selectSelected(editorDom, LABEL_CLASS)
-  if (labels.length) {
-    let label = getRightElement(editorDom, labels[labels.length - 1])
-    selectEntityLabel(selectionModel, label, shiftKey)
-    return
-  }
+function selectOr(editorDom, className, selectFunc, selectionModel, shiftKey, next, getNextFunc) {
+  let selected = selectSelected(editorDom, className)
 
-  // When one entity is selected.
-  let entities = selectSelected(editorDom, ENTINY_CLASS)
-  if (entities.length) {
-    let entity = getRightElement(editorDom, entities[entities.length - 1])
-    selectEntity(selectionModel, entity, shiftKey)
-    return
+  if (selected.length) {
+    let left = getNextFunc(selected)
+    selectFunc(selectionModel, left, shiftKey)
+  } else {
+    if (next)
+      next()
   }
 }
 
