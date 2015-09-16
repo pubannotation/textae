@@ -40,41 +40,6 @@ function selectRight(editorDom, selectionModel, shiftKey) {
   selectNext()
 }
 
-function selectLeftFunc(editorDom, selectionModel, shiftKey) {
-  let or = (className, func, next) => selectOr(editorDom, className, func, selectionModel, shiftKey, next, (selected) => getLeftElement(editorDom, selected[0]))
-
-  let selectNext = or(SPAN_CLASS, selectSpan, () =>
-    or(LABEL_CLASS, selectEntityLabel, () =>
-      or(ENTINY_CLASS, selectEntity)
-    )
-  )
-
-  return selectNext
-}
-
-function selectRightFunc(editorDom, selectionModel, shiftKey) {
-  let or = (className, func, next) => selectOr(editorDom, className, func, selectionModel, shiftKey, next, (selected) => getRightElement(editorDom, selected[selected.length - 1]))
-
-  let selectNext = or(SPAN_CLASS, selectSpan, () =>
-    or(LABEL_CLASS, selectEntityLabel, () =>
-      or(ENTINY_CLASS, selectEntity)
-    )
-  )
-
-  return selectNext
-}
-
-function selectOr(editorDom, className, selectFunc, selectionModel, shiftKey, next, getNextFunc) {
-  let selected = selectSelected(editorDom, className)
-
-  if (selected.length) {
-    let nextElement = getNextFunc(selected)
-    return () => selectFunc(selectionModel, nextElement, shiftKey)
-  } else {
-    return next ? next() : () => {}
-  }
-}
-
 function selectUpperLayer(editorDom, selectionModel) {
   // When one span is selected.
   let spanId = selectionModel.span.single()
@@ -104,6 +69,41 @@ function selectLowerLayer(editorDom, selectionModel) {
   if (selectedEnities.length === 1) {
     selectLabelOfEntity(selectionModel, selectedEnities[0])
     return
+  }
+}
+
+function selectLeftFunc(editorDom, selectionModel, shiftKey) {
+  let getNextFunc = (selected) => getLeftElement(editorDom, selected[0])
+
+  return selectNextFunc(editorDom, selectionModel, shiftKey, getNextFunc)
+}
+
+function selectRightFunc(editorDom, selectionModel, shiftKey) {
+  let getNextFunc = (selected) => getRightElement(editorDom, selected[selected.length - 1])
+
+  return selectNextFunc(editorDom, selectionModel, shiftKey, getNextFunc)
+}
+
+function selectNextFunc(editorDom, selectionModel, shiftKey, getNextFunc) {
+  let or = (className, func, next) => selectOr(editorDom, className, func, selectionModel, shiftKey, next, getNextFunc)
+
+  let selectNext = or(SPAN_CLASS, selectSpan, () =>
+    or(LABEL_CLASS, selectEntityLabel, () =>
+      or(ENTINY_CLASS, selectEntity)
+    )
+  )
+
+  return selectNext
+}
+
+function selectOr(editorDom, className, selectFunc, selectionModel, shiftKey, next, getNextFunc) {
+  let selected = selectSelected(editorDom, className)
+
+  if (selected.length) {
+    let nextElement = getNextFunc(selected)
+    return () => selectFunc(selectionModel, nextElement, shiftKey)
+  } else {
+    return next ? next() : () => {}
   }
 }
 
