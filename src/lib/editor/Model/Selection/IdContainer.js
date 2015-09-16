@@ -18,6 +18,14 @@ function triggerChange(emitter, kindName) {
 }
 
 function add(selected, emitter, kindName, id) {
+  if (id.forEach) {
+    id.forEach(id => {
+      selected.add(id)
+      emitter.emit(kindName + '.select', id)
+      triggerChange(emitter, kindName)
+    })
+  }
+
   selected.add(id)
   emitter.emit(kindName + '.select', id)
   triggerChange(emitter, kindName)

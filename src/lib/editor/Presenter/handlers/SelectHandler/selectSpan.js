@@ -3,14 +3,14 @@ export {
   selectSingleSpanById
 }
 
-function selectSpan(selectionModel, span, shiftKey) {
+function selectSpan(selectionModel, dom, shiftKey) {
   console.assert(selectionModel, 'selectionModel MUST not undefined.')
 
-  if (span) {
+  if (dom) {
     if (shiftKey) {
-      selectionModel.span.add(span.id)
+      selectionModel.span.add(dom.id)
     } else {
-      selectSingleSpanById(selectionModel, span.id)
+      selectSingleSpanById(selectionModel, dom.id)
     }
   }
 }
