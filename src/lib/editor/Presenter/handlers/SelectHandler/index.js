@@ -100,9 +100,9 @@ function selectLowerLayer(editorDom, annotationData, selectionModel) {
   }
 
   // When one entity is selected.
-  let entityId = selectionModel.entity.single()
-  if (entityId) {
-    selectLabelOfEntity(editorDom, selectionModel, entityId)
+  let selectedEnities = editorDom.querySelectorAll('.textae-editor__entity.ui-selected')
+  if (selectedEnities.length === 1) {
+    selectLabelOfEntity(selectionModel, selectedEnities[0])
     return
   }
 }
@@ -132,11 +132,10 @@ function selectSpanOfEntityLabel(selectionModel, label) {
   selectSingleSpanById(selectionModel, spanId)
 }
 
-function selectLabelOfEntity(editorDom, selectionModel, entityId) {
-  console.assert(entityId, 'An entityId MUST exists.')
+function selectLabelOfEntity(selectionModel, entity) {
+  console.assert(entity, 'An entity MUST exists.')
 
-  let entityDom = getEntityDom(editorDom, entityId)
-  selectEntityLabel(selectionModel, entityDom.parentNode.previousElementSibling)
+  selectEntityLabel(selectionModel, entity.parentNode.previousElementSibling)
 }
 
 function getEntityDom(editorDom, entityId) {
