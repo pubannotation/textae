@@ -6,7 +6,7 @@ export default function(annotationData, editMode, writable, mode) {
     annotationData
         .on('all.change', (annotationData, multitrack, reject) => updateWritable(multitrack, reject, writable));
 
-    let editable = mode !== 'view';
+    let editable = mode === 'edit';
     if (editable) {
         let showForEdit = (annotationData, multitrack, reject) => showLoadNoticeForEditableMode(multitrack);
 
