@@ -13,7 +13,7 @@ export default function(editor, model, typeEditor, buttonStateHelper) {
   let emitter = new EventEmitter(),
     transition = new Transition(editor, model, typeEditor, buttonStateHelper),
     stateMachine = bindTransition(transition),
-    trigger = new Trigger(stateMachine);
+    trigger = new Trigger(stateMachine, model.annotationData);
 
   stateMachine.once('transition', () => enableButtonHasAnnotation(buttonStateHelper));
 
