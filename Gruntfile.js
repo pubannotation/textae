@@ -77,7 +77,7 @@ module.exports = function(grunt) {
                     filter: 'isFile'
                 }, {
                     expand: true,
-                    cwd: 'src/vender',
+                    cwd: 'dev/vender',
                     src: ['images/*', 'jquery/dist/jquery.min.*', 'toastr/toastr.min.*', 'underscore/underscore-min.*', 'jquery-ui.min.*', 'jquery.jsPlumb-1.5.2-min.js'],
                     dest: 'dist/vender',
                     filter: 'isFile'
@@ -132,8 +132,7 @@ module.exports = function(grunt) {
                 files: [
                     'Gruntfile.js',
                     'src/lib/**/*.js',
-                    'src/lib/**/*.json',
-                    '!src/lib/bundle.js'
+                    'src/lib/**/*.json'
                 ],
                 tasks: [
                     'jshint'
@@ -141,8 +140,8 @@ module.exports = function(grunt) {
             },
             static_files: {
                 files: [
-                    'src/development.html',
-                    'src/lib/bundle.js',
+                    'dev/development.html',
+                    'dev/bundle.js',
                     'src/lib/css/*.css',
                     'src/*.json'
                 ],
@@ -160,11 +159,11 @@ module.exports = function(grunt) {
                 options: {
                     middleware: function(connect, options) {
                         return [
-                            favicon(__dirname + '/src/favicon.ico'),
+                            favicon(__dirname + '/dev/favicon.ico'),
                             function(req, res, next) {
                                 // Require authorization if file is 'private.json'.
                                 var pathname = req._parsedUrl.pathname;
-                                if(pathname !== '/src/private.json')
+                                if(pathname !== '/dev/private.json')
                                     return next();
 
                                 var authorization = req.headers.authorization;
@@ -227,7 +226,7 @@ module.exports = function(grunt) {
                 url: 'http://localhost:8000/dist/textae.html?mode=edit&target=../src/1_annotations.json'
             },
             dev: {
-                url: 'http://localhost:8000/src/development.html?config=1_config.json&target=1_annotations.json'
+                url: 'http://localhost:8000/dev/development.html?config=1_config.json&target=1_annotations.json'
             },
             demo: {
                 url: 'http://localhost:8000/dist/demo/bionlp-st-ge/demo-cdn.html'
