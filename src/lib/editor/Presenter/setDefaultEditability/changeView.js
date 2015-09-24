@@ -1,3 +1,5 @@
+import isSimple from '../isSimple'
+
 export function forEditable(editMode, annotationData) {
     if (isSimple(annotationData)) {
         editMode.toTerm();
@@ -12,9 +14,4 @@ export function forView(editMode, annotationData) {
     } else {
         editMode.toViewInstance();
     }
-}
-
-// Change view mode accoding to the annotation data.
-function isSimple(annotationData) {
-    return !annotationData.relation.some() && annotationData.span.multiEntities().length === 0;
 }
