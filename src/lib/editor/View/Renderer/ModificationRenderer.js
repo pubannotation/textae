@@ -1,20 +1,20 @@
-const allModificationClasses = 'textae-editor__negation textae-editor__speculation';
+const allModificationClasses = 'textae-editor__negation textae-editor__speculation'
 
 export default function(annotationData) {
-    return {
-        getClasses: _.partial(getClasses, annotationData),
-        update: _.partial(update, annotationData)
-    };
+  return {
+    getClasses: _.partial(getClasses, annotationData),
+    update: _.partial(update, annotationData)
+  }
 }
 
 function getClasses(annotationData, objectId) {
-    return annotationData.getModificationOf(objectId)
+  return annotationData.getModificationOf(objectId)
         .map(function(m) {
-            return 'textae-editor__' + m.pred.toLowerCase();
-        });
+          return 'textae-editor__' + m.pred.toLowerCase()
+        })
 }
 
 function update(annotationData, domElement, objectId) {
-    domElement.removeClass(allModificationClasses);
-    domElement.addClass(getClasses(annotationData, objectId).join(" "));
+  domElement.removeClass(allModificationClasses)
+  domElement.addClass(getClasses(annotationData, objectId).join(" "))
 }

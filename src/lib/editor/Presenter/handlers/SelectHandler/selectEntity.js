@@ -1,8 +1,9 @@
 /**
  * Select entity.
  * @param {object} selectionModel - this is the selectionModel.
- * @param {string} entity - dom of entity to select or array of ids of entities.
+ * @param {string} dom - dom of entity to select or array of ids of entities.
  * @param {bool} isMulti - select multi elements.
+ * @return {undefined}
  */
 export default function(selectionModel, dom, isMulti) {
   console.assert(selectionModel, 'selectionModel MUST exists.')

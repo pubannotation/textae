@@ -1,10 +1,10 @@
-import jQuerySugar from '../jQuerySugar';
+import jQuerySugar from '../jQuerySugar'
 
-export default function (displayInstance, $dialog) {
-    jQuerySugar.enabled(toTypeGap($dialog), displayInstance.showInstance());
-    return $dialog;
+export default function(displayInstance, $dialog) {
+  jQuerySugar.enabled(toTypeGap($dialog), displayInstance.showInstance())
+  return $dialog
 }
 
 function toTypeGap($content) {
-    return $content.find('.type-gap');
+  return $content.find('.type-gap')
 }

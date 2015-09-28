@@ -1,30 +1,30 @@
-import not from 'not';
+import not from 'not'
 
 const BLOCK = 'textae-editor__span--block',
-    WRAP = 'textae-editor__span--wrap';
+  WRAP = 'textae-editor__span--wrap'
 
 export default function(span, isBlockFunc) {
-    var spanElement = document.querySelector('#' + span.id);
+  var spanElement = document.querySelector('#' + span.id)
 
-    if (hasType(span, isBlockFunc)) {
-        spanElement.classList.add(BLOCK);
-    } else {
-        spanElement.classList.remove(BLOCK);
-    }
+  if (hasType(span, isBlockFunc)) {
+    spanElement.classList.add(BLOCK)
+  } else {
+    spanElement.classList.remove(BLOCK)
+  }
 
-    if (hasType(span, not(isBlockFunc))) {
-        if (spanElement.classList.contains(WRAP)) {
-            spanElement.classList.remove(WRAP);
-        }
-    } else {
-        spanElement.classList.add(WRAP);
+  if (hasType(span, not(isBlockFunc))) {
+    if (spanElement.classList.contains(WRAP)) {
+      spanElement.classList.remove(WRAP)
     }
+  } else {
+    spanElement.classList.add(WRAP)
+  }
 }
 
 function hasType(span, isBlockFunc) {
-    return span
-        .getTypes()
-        .map(type => type.name)
-        .filter(isBlockFunc)
-        .length > 0;
+  return span
+    .getTypes()
+    .map(type => type.name)
+    .filter(isBlockFunc)
+    .length > 0
 }

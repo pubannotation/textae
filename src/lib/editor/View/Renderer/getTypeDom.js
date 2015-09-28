@@ -1,5 +1,5 @@
-import idFactory from '../../idFactory';
+import idFactory from '../../idFactory'
 
 export default function(spanId, type) {
-  return $('#' + idFactory.makeTypeId(spanId, type));
+  return $('#' + idFactory.makeTypeId(spanId, type))
 }

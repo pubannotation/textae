@@ -1,9 +1,9 @@
 export default function(domPositionCache, relationId) {
-    let connect = domPositionCache.toConnect(relationId);
+  let connect = domPositionCache.toConnect(relationId)
 
-    removeUiSelectClass(connect);
+  removeUiSelectClass(connect)
 }
 
 function removeUiSelectClass(connect) {
-    if (connect && connect.deselect) connect.deselect();
+  if (connect && connect.deselect) connect.deselect()
 }

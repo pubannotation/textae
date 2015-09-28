@@ -11,7 +11,8 @@ export default function(editor, domPositionCache) {
     render: (spanId) => createGrid(editor[0], domPositionCache, container[0], spanId),
     remove: (spanId) => {
       let grid = document.querySelector(`#G${spanId}`)
-      if(grid)
+
+      if (grid)
         grid.parentNode.removeChild(grid)
 
       domPositionCache.gridPositionCache.delete(spanId)
@@ -32,8 +33,8 @@ function createGrid(editorDom, domPositionCache, container, spanId) {
   if (rightSpan) {
     container.insertBefore(element, document.querySelector(`#G${rightSpan.id}`))
   } else {
-    //append to the annotation area.
-    container.appendChild(element);
+    // append to the annotation area.
+    container.appendChild(element)
   }
 
   return element

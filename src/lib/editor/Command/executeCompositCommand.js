@@ -1,45 +1,46 @@
-var invokeCommand = require('./invokeCommand'),
-    commandLog = require('./commandLog'),
-    setRevertAndLog = function() {
-        var log = function(prefix, param) {
-                commandLog(prefix + param.commandType + ' a ' + param.modelType + ': ' + param.id);
-            },
-            doneLog = _.partial(log, ''),
-            revertLog = _.partial(log, 'revert '),
-            RevertFunction = function(subCommands, logParam) {
-                var toRevert = function(command) {
-                        return command.revert();
-                    },
-                    execute = function(command) {
-                        command.execute();
-                    },
-                    revertedCommand = {
-                        execute: function() {
-                            invokeCommand.invokeRevert(subCommands);
-                            revertLog(logParam);
-                        }
-                    };
+import invokeCommand from './invokeCommand'
+import commandLog from './commandLog'
 
-                return function() {
-                    return revertedCommand;
-                };
-            },
-            setRevert = function(modelType, command, commandType, id, subCommands) {
-                var logParam = {
-                    modelType: modelType,
-                    commandType: commandType,
-                    id: id
-                };
+var setRevertAndLog = function() {
+    var log = function(prefix, param) {
+        commandLog(prefix + param.commandType + ' a ' + param.modelType + ': ' + param.id)
+      },
+      doneLog = _.partial(log, ''),
+      revertLog = _.partial(log, 'revert '),
+      RevertFunction = function(subCommands, logParam) {
+        var toRevert = function(command) {
+            return command.revert()
+          },
+          execute = function(command) {
+            command.execute()
+          },
+          revertedCommand = {
+            execute: function() {
+              invokeCommand.invokeRevert(subCommands)
+              revertLog(logParam)
+            }
+          }
 
-                command.revert = new RevertFunction(subCommands, logParam);
-                return logParam;
-            };
+        return function() {
+          return revertedCommand
+        }
+      },
+      setRevert = function(modelType, command, commandType, id, subCommands) {
+        var logParam = {
+          modelType: modelType,
+          commandType: commandType,
+          id: id
+        }
 
-        return _.compose(doneLog, setRevert);
-    }(),
-    executeCompositCommand = function(modelType, command, commandType, id, subCommands) {
-        invokeCommand.invoke(subCommands);
-        setRevertAndLog(modelType, command, commandType, id, subCommands);
-    };
+        command.revert = new RevertFunction(subCommands, logParam)
+        return logParam
+      }
 
-module.exports = executeCompositCommand;
+    return _.compose(doneLog, setRevert)
+  }(),
+  executeCompositCommand = function(modelType, command, commandType, id, subCommands) {
+    invokeCommand.invoke(subCommands)
+    setRevertAndLog(modelType, command, commandType, id, subCommands)
+  }
+
+module.exports = executeCompositCommand

@@ -1,9 +1,9 @@
-import Handlebars from 'handlebars';
+import Handlebars from 'handlebars'
 import {
-    hasError as hasError
+  hasError as hasError
 }
-from '../editor/Model/AnnotationData/parseAnnotation/validateAnnotation';
-import GetEditorDialog from './dialog/GetEditorDialog';
+from '../editor/Model/AnnotationData/parseAnnotation/validateAnnotation'
+import GetEditorDialog from './dialog/GetEditorDialog'
 
 const source = `
     <div class="textae-editor__valiondate-dialog__content">
@@ -124,67 +124,67 @@ const source = `
             </table>
         {{/if}}
     </div>`,
-    mergeMessage = `
+  mergeMessage = `
         <div class="textae-editor__valiondate-dialog__content">
             <h1>Track annatations will be merged to the root anntations.</h1>
-        </div>`;
+        </div>`
 
-let tepmlate = Handlebars.compile(source);
+let tepmlate = Handlebars.compile(source)
 
 export default function(editor, rejects) {
-    if (!hasError(rejects))
-        return;
+  if (!hasError(rejects))
+    return
 
-    let $dialog = new GetEditorDialog(editor)(
-        'textae.dialog.validation',
-        'The following erroneous annotations ignored',
-        $('<div>'), {
-            noCancelButton: true,
-            height: 450
-        }
-    );
+  let $dialog = new GetEditorDialog(editor)(
+    'textae.dialog.validation',
+    'The following erroneous annotations ignored',
+    $('<div>'), {
+      noCancelButton: true,
+      height: 450
+    }
+  )
 
-    updateContent($dialog[0].firstChild, rejects);
-    $dialog.open();
+  updateContent($dialog[0].firstChild, rejects)
+  $dialog.open()
 }
 
 function updateContent(content, rejects) {
-    content.innerHTML = '';
+  content.innerHTML = ''
 
-    rejects
-        .map(transformToReferenceObjectError)
-        .map(tepmlate)
-        .forEach((html, index) => {
-            if (index === 1) {
-                content.insertAdjacentHTML('beforeend', mergeMessage);
-            }
+  rejects
+    .map(transformToReferenceObjectError)
+    .map(tepmlate)
+    .forEach((html, index) => {
+      if (index === 1) {
+        content.insertAdjacentHTML('beforeend', mergeMessage)
+      }
 
-            content.insertAdjacentHTML('beforeend', html);
-        });
+      content.insertAdjacentHTML('beforeend', html)
+    })
 
-    return content;
+  return content
 }
 
 function transformToReferenceObjectError(reject) {
-    // Combine rejects for referenced object errer.
-    reject.referencedItems = reject.relationObj
-        .map(relation => {
-            relation.alertObj = true;
-            return relation;
-        })
-        .concat(reject.relationSubj
-            .map(relation => {
-                relation.alertSubj = true;
-                return relation;
-            })
-        )
-        .concat(reject.modification
-            .map(modification => {
-                modification.subj = '-';
-                modification.alertObj = true;
-                return modification;
-            })
-        );
+  // Combine rejects for referenced object errer.
+  reject.referencedItems = reject.relationObj
+    .map(relation => {
+      relation.alertObj = true
+      return relation
+    })
+    .concat(reject.relationSubj
+      .map(relation => {
+        relation.alertSubj = true
+        return relation
+      })
+    )
+    .concat(reject.modification
+      .map(modification => {
+        modification.subj = '-'
+        modification.alertObj = true
+        return modification
+      })
+    )
 
-    return reject;
+  return reject
 }

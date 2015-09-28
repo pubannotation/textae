@@ -1,4 +1,4 @@
 export default function(typeEditor, selectionModel) {
-    typeEditor.hideDialogs();
-    selectionModel.clear();
+  typeEditor.hideDialogs()
+  selectionModel.clear()
 }

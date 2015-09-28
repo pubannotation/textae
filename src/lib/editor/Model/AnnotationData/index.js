@@ -1,47 +1,48 @@
-var setNewData = require('./setNewData'),
-    toJson = require('./toJson'),
-    Container = require('./Container'),
-    clearAnnotationData = function(dataStore) {
-        dataStore.span.clear();
-        dataStore.entity.clear();
-        dataStore.relation.clear();
-        dataStore.modification.clear();
-        dataStore.paragraph.clear();
-    },
-    AnntationData = function(editor) {
-        var originalData,
-            dataStore = new Container(editor);
+import setNewData from './setNewData'
+import toJson from './toJson'
+import Container from './Container'
 
-        return _.extend(dataStore, {
-            reset: function(annotation) {
-                try {
-                    clearAnnotationData(dataStore);
+var clearAnnotationData = function(dataStore) {
+    dataStore.span.clear()
+    dataStore.entity.clear()
+    dataStore.relation.clear()
+    dataStore.modification.clear()
+    dataStore.paragraph.clear()
+  },
+  AnntationData = function(editor) {
+    var originalData,
+      dataStore = new Container(editor)
 
-                    if (!annotation.text) throw "read failed.";
+    return _.extend(dataStore, {
+      reset: function(annotation) {
+        try {
+          clearAnnotationData(dataStore)
 
-                    var result = setNewData(dataStore, annotation);
+          if (!annotation.text) throw new Error('read failed.')
 
-                    originalData = annotation;
+          var result = setNewData(dataStore, annotation)
 
-                    dataStore.emit('paragraph.change', dataStore.paragraph.all());
+          originalData = annotation
 
-                    dataStore.emit('all.change', dataStore, result.multitrack, result.rejects);
+          dataStore.emit('paragraph.change', dataStore.paragraph.all())
 
-                    return result.rejects;
-                } catch (error) {
-                    console.error(error, error.stack);
-                }
-            },
-            toJson: function() {
-                return JSON.stringify(toJson(originalData, dataStore));
-            },
-            getModificationOf: function(objectId) {
-                return dataStore.modification.all()
-                    .filter(function(m) {
-                        return m.obj === objectId;
-                    });
-            }
-        });
-    };
+          dataStore.emit('all.change', dataStore, result.multitrack, result.rejects)
 
-module.exports = AnntationData;
+          return result.rejects
+        } catch (error) {
+          console.error(error, error.stack)
+        }
+      },
+      toJson: function() {
+        return JSON.stringify(toJson(originalData, dataStore))
+      },
+      getModificationOf: function(objectId) {
+        return dataStore.modification.all()
+          .filter(function(m) {
+            return m.obj === objectId
+          })
+      }
+    })
+  }
+
+module.exports = AnntationData

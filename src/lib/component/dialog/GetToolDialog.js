@@ -1,4 +1,4 @@
 var ToolDialog = require('./ToolDialog'),
-	FunctionUseCache = require('./FunctionUseCache');
+  FunctionUseCache = require('./FunctionUseCache')
 
-module.exports = new FunctionUseCache(ToolDialog);
+module.exports = new FunctionUseCache(ToolDialog)

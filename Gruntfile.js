@@ -100,13 +100,8 @@ module.exports = function(grunt) {
                 }]
             }
         },
-        // for test
-        jshint: {
-            files: ['Gruntfile.js', 'src/lib/**'],
-            options: {
-                jshintrc: '.jshintrc',
-                ignores: ['src/lib/bundle.js', 'src/lib/css/**']
-            }
+        eslint: {
+            target: 'src/lib/**/*.js'
         },
         jasmine_node: {
             all: ['test/']
@@ -128,16 +123,6 @@ module.exports = function(grunt) {
             }
         },
         watch: {
-            javascript: {
-                files: [
-                    'Gruntfile.js',
-                    'src/lib/**/*.js',
-                    'src/lib/**/*.json'
-                ],
-                tasks: [
-                    'jshint'
-                ]
-            },
             static_files: {
                 files: [
                     'dev/development.html',
@@ -235,7 +220,7 @@ module.exports = function(grunt) {
     });
 
     grunt.registerTask('dev', ['connect', 'open:dev', 'watch']);
-    grunt.registerTask('dist', ['jshint', 'jasmine_node', 'clean', 'browserify:dist', 'less', 'concat', 'uglify', 'copy', 'replace:version', 'cssmin']);
+    grunt.registerTask('dist', ['eslint', 'jasmine_node', 'clean', 'browserify:dist', 'less', 'concat', 'uglify', 'copy', 'replace:version', 'cssmin']);
     grunt.registerTask('demo', ['open:demo', 'connect:developmentServer:keepalive']);
     grunt.registerTask('app', ['open:app', 'connect:developmentServer:keepalive']);
 };

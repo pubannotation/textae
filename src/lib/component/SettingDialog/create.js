@@ -1,7 +1,7 @@
-import * as lineHeight from '../../editor/View/lineHeight';
-import updateLineHeight from './updateLineHeight';
-import updateTypeGapEnable from './updateTypeGapEnable';
-import updateTypeGapValue from './updateTypeGapValue';
+import * as lineHeight from '../../editor/View/lineHeight'
+import updateLineHeight from './updateLineHeight'
+import updateTypeGapEnable from './updateTypeGapEnable'
+import updateTypeGapValue from './updateTypeGapValue'
 
 const CONTENT = `
     <div class="textae-editor__setting-dialog">
@@ -15,70 +15,70 @@ const CONTENT = `
             px
         </div>
     </div>
-`;
+`
 
 export default function(editor, displayInstance) {
-    let $content = $(CONTENT);
+  let $content = $(CONTENT)
 
-    bind($content, editor, displayInstance);
+  bind($content, editor, displayInstance)
 
-    return $content;
+  return $content
 }
 
 function bind($content, editor, displayInstance) {
-    bindChangeTypeGap(
-        $content,
-        editor,
-        displayInstance
-    );
+  bindChangeTypeGap(
+      $content,
+      editor,
+      displayInstance
+  )
 
-    bindChangeLineHeight(
-        $content,
-        editor
-    );
+  bindChangeLineHeight(
+      $content,
+      editor
+  )
 }
 
 function bindChangeTypeGap($content, editor, displayInstance) {
-    let onTypeGapChange = debounce300(
+  let onTypeGapChange = debounce300(
         (e) => {
-            displayInstance.changeTypeGap(e.target.value);
-            updateLineHeight(editor, $content);
+          displayInstance.changeTypeGap(e.target.value)
+          updateLineHeight(editor, $content)
         }
-    );
+    )
 
-    return $content
-        .on(
-            'change',
-            '.type-gap',
-            onTypeGapChange
-        );
+  return $content
+      .on(
+          'change',
+          '.type-gap',
+          onTypeGapChange
+      )
 }
 
 function bindChangeLineHeight($content, editor) {
-    let onLineHeightChange = debounce300(
+  let onLineHeightChange = debounce300(
         (e) => {
-            lineHeight.set(editor[0], e.target.value);
-            redrawAllEditor();
+          lineHeight.set(editor[0], e.target.value)
+          redrawAllEditor()
         }
-    );
+    )
 
-    return $content
-        .on(
-            'change',
-            '.line-height',
-            onLineHeightChange
-        );
+  return $content
+      .on(
+          'change',
+          '.line-height',
+          onLineHeightChange
+      )
 }
 
 // Redraw all editors in tha windows.
 function redrawAllEditor() {
-    $(window).trigger('resize');
+  $(window).trigger('resize')
 }
 
 function debounce300(func) {
-    return _.debounce(func, 300);
+  return _.debounce(func, 300)
 }
 
 function sixteenTimes(val) {
-    return val * 16;
+  return val * 16
 }

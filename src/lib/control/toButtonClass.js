@@ -1,3 +1,3 @@
 export default function(buttonType) {
-    return `.textae-control__${buttonType}-button`;
+  return `.textae-control__${buttonType}-button`
 }

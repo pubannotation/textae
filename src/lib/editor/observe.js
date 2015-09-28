@@ -1,36 +1,36 @@
-import showVilidationDialog from '../component/showVilidationDialog';
+import showVilidationDialog from '../component/showVilidationDialog'
 
 export function observeModelChange(annotationData, history, writable) {
-    annotationData
-        .on('all.change', (annotationData, multitrack, reject) => {
-            history.reset();
-            showVilidationDialog(self, reject);
-        });
+  annotationData
+    .on('all.change', (annotationData, multitrack, reject) => {
+      history.reset()
+      showVilidationDialog(self, reject)
+    })
 }
 
 export function observeHistorfChange(history, buttonStateHelper, leaveMessage, writable) {
-    history.on('change', function(state) {
-        //change button state
-        buttonStateHelper.enabled("undo", state.hasAnythingToUndo);
-        buttonStateHelper.enabled("redo", state.hasAnythingToRedo);
+  history.on('change', function(state) {
+    // change button state
+    buttonStateHelper.enabled("undo", state.hasAnythingToUndo)
+    buttonStateHelper.enabled("redo", state.hasAnythingToRedo)
 
-        //change leaveMessage show
-        window.onbeforeunload = state.hasAnythingToSave ? function() {
-            return leaveMessage;
-        } : null;
+    // change leaveMessage show
+    window.onbeforeunload = state.hasAnythingToSave ? function() {
+      return leaveMessage
+    } : null
 
-        writable.update(state.hasAnythingToSave);
-    });
+    writable.update(state.hasAnythingToSave)
+  })
 }
 
 export function observeDataSave(dataAccessObject, history, writable) {
-    dataAccessObject
-        .on('save', function() {
-            history.saved();
-            writable.forceModified(false);
-            toastr.success("annotation saved");
-        })
-        .on('save error', function() {
-            toastr.error("could not save");
-        });
+  dataAccessObject
+    .on('save', function() {
+      history.saved()
+      writable.forceModified(false)
+      toastr.success("annotation saved")
+    })
+    .on('save error', function() {
+      toastr.error("could not save")
+    })
 }

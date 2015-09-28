@@ -1,23 +1,23 @@
-import destroy from './destroy';
+import destroy from './destroy'
 
 export default function(span) {
-    // Destroy rendered children.
-    span.children
-        .filter(exists)
-        .forEach(destroySpanRecurcive);
+  // Destroy rendered children.
+  span.children
+      .filter(exists)
+      .forEach(destroySpanRecurcive)
 
-    return span;
+  return span
 }
 
 function exists(span) {
-    return document.querySelector('#' + span.id) !== null;
+  return document.querySelector('#' + span.id) !== null
 }
 
 // Destroy DOM elements of descendant spans.
 function destroySpanRecurcive(span) {
-    span.children
+  span.children
         .forEach(function(span) {
-            destroySpanRecurcive(span);
-        });
-    destroy(span.id);
+          destroySpanRecurcive(span)
+        })
+  destroy(span.id)
 }

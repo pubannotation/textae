@@ -8,13 +8,13 @@ from '../parseAnnotation/validateAnnotation'
 export default function(editor, emitter, paragraph) {
   let toSpanModel = function() {
       let spanExtension = {
-        //for debug. print myself only.
+        // for debug. print myself only.
         toStringOnlyThis: function() {
           return toStringOnlyThis(this, emitter)
         },
-        //for debug. print with children.
+        // for debug. print with children.
         toString: function(depth) {
-          depth = depth || 1 //default depth is 1
+          depth = depth || 1 // default depth is 1
 
           let childrenString = this.children && this.children.length > 0 ?
             "\n" + this.children.map(function(child) {
@@ -86,12 +86,10 @@ export default function(editor, emitter, paragraph) {
     getParet = function(parent, span) {
       if (isChildOf(editor, spanContainer, span, parent)) {
         return parent
+      } else if (parent.parent) {
+        return getParet(parent.parent, span)
       } else {
-        if (parent.parent) {
-          return getParet(parent.parent, span)
-        } else {
-          return null
-        }
+        return null
       }
     },
     updateSpanTree = function() {
@@ -126,7 +124,7 @@ export default function(editor, emitter, paragraph) {
           }
         })
 
-      //this for debug.
+      // this for debug.
       spanTree.toString = function() {
         return this.map(function(span) {
           return span.toString()
@@ -142,7 +140,7 @@ export default function(editor, emitter, paragraph) {
     },
     api = {
 
-      //expected span is like { "begin": 19, "end": 49 }
+      // expected span is like { "begin": 19, "end": 49 }
       add: function(span) {
         if (span)
           return spanContainer.add(toSpanModel(span), updateSpanTree)
@@ -160,7 +158,7 @@ export default function(editor, emitter, paragraph) {
         let first = spanContainer.get(firstId)
         let second = spanContainer.get(secondId)
 
-        //switch if seconfId before firstId
+        // switch if seconfId before firstId
         if (spanComparator(first, second) > 0) {
           let temp = first
           first = second

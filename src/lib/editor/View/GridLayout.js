@@ -1,43 +1,45 @@
+import Promise from 'bluebird'
+import DomPositionCache from './DomPositionCache'
+import getGridPosition from './getGridPosition'
+
 var filterVisibleGrid = function(grid) {
     if (grid && grid.hasClass('hidden')) {
-      return grid;
+      return grid
     }
   },
   showGrid = function(grid) {
     if (grid) {
-      grid.removeClass('hidden');
+      grid.removeClass('hidden')
     }
   },
   filterMoved = function(oldPosition, newPosition) {
     if (!oldPosition || oldPosition.top !== newPosition.top || oldPosition.left !== newPosition.left) {
-      return newPosition;
+      return newPosition
     } else {
-      return null;
+      return null
     }
   },
   doIfSpan = function(func, span) {
     if (span) {
-      return func(span.id);
+      return func(span.id)
     }
-  },
-  Promise = require('bluebird'),
-  getGridPosition = require('./getGridPosition')
+  }
 
 // Management position of annotation components.
 module.exports = function(editor, annotationData, typeContainer) {
-  var domPositionCaChe = require('./DomPositionCache')(editor, annotationData.entity),
+  var domPositionCaChe = new DomPositionCache(editor, annotationData.entity),
     getGridOfSpan = (spanId) => $(document.querySelector(`#G${spanId}`)),
     getGrid = _.partial(doIfSpan, getGridOfSpan),
     updatePositionCache = function(span, newPosition) {
       if (newPosition) {
-        domPositionCaChe.setGrid(span.id, newPosition);
-        return span;
+        domPositionCaChe.setGrid(span.id, newPosition)
+        return span
       }
     },
     updateGridPositon = function(span, newPosition) {
       if (newPosition) {
-        getGrid(span).css(newPosition);
-        return newPosition;
+        getGrid(span).css(newPosition)
+        return newPosition
       }
     },
     arrangeGridPosition = function(typeGapValue, span) {
@@ -48,46 +50,46 @@ module.exports = function(editor, annotationData, typeContainer) {
           _.partial(filterMoved, domPositionCaChe.getGrid(span.id)),
           _.partial(getNewPosition)
         ),
-        showInvisibleGrid = _.compose(showGrid, filterVisibleGrid, getGrid);
+        showInvisibleGrid = _.compose(showGrid, filterVisibleGrid, getGrid)
 
       // The span may be remeved because this functon is call asynchronously.
       if (annotationData.span.get(span.id)) {
         // Move all relations because entities are increased or decreased unless the grid is moved.
-        _.compose(showInvisibleGrid, moveTheGridIfChange)(span);
+        _.compose(showInvisibleGrid, moveTheGridIfChange)(span)
       }
     },
     arrangeGridPositionPromise = function(typeGapValue, span) {
       return new Promise(function(resolve, reject) {
         _.defer(function() {
           try {
-            arrangeGridPosition(typeGapValue, span);
-            resolve();
+            arrangeGridPosition(typeGapValue, span)
+            resolve()
           } catch (error) {
-            console.error(error, error.stack);
-            reject();
+            console.error(error, error.stack)
+            reject()
           }
-        });
-      });
+        })
+      })
     },
     arrangeGridPositionAll = function(typeGapValue) {
       return annotationData.span.all()
         .filter(function(span) {
           // There is at least one type in span that has a grid.
-          return span.getTypes().length > 0;
+          return span.getTypes().length > 0
         })
         .map(function(span) {
           // Cache all span position because alternating between getting offset and setting offset.
-          domPositionCaChe.getSpan(span.id);
-          return span;
+          domPositionCaChe.getSpan(span.id)
+          return span
         })
-        .map(_.partial(arrangeGridPositionPromise, typeGapValue));
+        .map(_.partial(arrangeGridPositionPromise, typeGapValue))
     },
     arrangePositionAll = function(typeGapValue) {
-      domPositionCaChe.reset();
-      return Promise.all(arrangeGridPositionAll(typeGapValue));
-    };
+      domPositionCaChe.reset()
+      return Promise.all(arrangeGridPositionAll(typeGapValue))
+    }
 
   return {
     arrangePosition: arrangePositionAll
-  };
-};
+  }
+}

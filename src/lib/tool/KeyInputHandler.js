@@ -8,13 +8,11 @@ export default function(helpDialog, editors) {
 
     if (key === 'H') {
       helpDialog()
-    } else {
-      if (editors.getSelected()) {
-        editors.getSelected().api.handleKeyInput(key, {
-          point: getMousePoint(),
-          shiftKey: e.shiftKey
-        })
-      }
+    } else if (editors.getSelected()) {
+      editors.getSelected().api.handleKeyInput(key, {
+        point: getMousePoint(),
+        shiftKey: e.shiftKey
+      })
     }
   }
 }

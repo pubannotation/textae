@@ -2,7 +2,7 @@ import idFactory from '../../idFactory'
 import DomPositionCache from '../DomPositionCache'
 import selectRelation from './selectRelation'
 import deselectRelation from './deselectRelation'
-import getEntityDom from '../../getEntityDom';
+import getEntityDom from '../../getEntityDom'
 
 const SELECTED = 'ui-selected'
 
@@ -20,7 +20,7 @@ export default function(editor, model) {
         let el = getSpanDom(id)
 
         // A dom does not exist when it is deleted.
-        if (el){
+        if (el) {
           modifyStyle(el, 'remove')
           el.blur()
         }

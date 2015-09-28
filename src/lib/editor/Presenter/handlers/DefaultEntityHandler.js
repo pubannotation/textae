@@ -1,32 +1,36 @@
-var EventEmitter = require('events').EventEmitter,
-    replicate = require('./replicate'),
-    createEntityToSelectedSpan = require('./createEntityToSelectedSpan'),
-    DefaultEntityHandler = function(command, annotationData, selectionModel, modeAccordingToButton, spanConfig, entity) {
-        var emitter = new EventEmitter(),
-            replicateImple = function() {
-                replicate(
-                    command,
-                    annotationData,
-                    modeAccordingToButton,
-                    spanConfig,
-                    selectionModel.span.single(),
-                    entity
-                );
-            },
-            createEntityImple = function() {
-                createEntityToSelectedSpan(
-                    command,
-                    selectionModel.span.all(),
-                    entity
-                );
+import {
+  EventEmitter
+}
+from 'events'
+import replicate from './replicate'
+import createEntityToSelectedSpan from './createEntityToSelectedSpan'
 
-                emitter.emit('createEntity');
-            };
+var DefaultEntityHandler = function(command, annotationData, selectionModel, modeAccordingToButton, spanConfig, entity) {
+  var emitter = new EventEmitter(),
+    replicateImple = function() {
+      replicate(
+        command,
+        annotationData,
+        modeAccordingToButton,
+        spanConfig,
+        selectionModel.span.single(),
+        entity
+      )
+    },
+    createEntityImple = function() {
+      createEntityToSelectedSpan(
+        command,
+        selectionModel.span.all(),
+        entity
+      )
 
-        return _.extend(emitter, {
-            replicate: replicateImple,
-            createEntity: createEntityImple
-        });
-    };
+      emitter.emit('createEntity')
+    }
 
-module.exports = DefaultEntityHandler;
+  return _.extend(emitter, {
+    replicate: replicateImple,
+    createEntity: createEntityImple
+  })
+}
+
+module.exports = DefaultEntityHandler

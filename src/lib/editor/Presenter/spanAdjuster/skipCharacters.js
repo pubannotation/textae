@@ -1,6 +1,6 @@
 module.exports = function(getChars, step, str, position, predicate) {
-	while (predicate(getChars(str, position)))
-		position += step;
+  while (predicate(getChars(str, position)))
+    position += step
 
-	return position;
-};
+  return position
+}

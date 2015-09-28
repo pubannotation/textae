@@ -1,4 +1,4 @@
-import Handlebars from 'handlebars';
+import Handlebars from 'handlebars'
 
 // Make a group of buttons that is headed by the separator.
 const source = `
@@ -11,10 +11,10 @@ const source = `
     <span class="textae-control__icon textae-control__{{type}}-button" title="{{title}}"></span>
         {{/list}}
     {{/buttonGroup}}
-    `;
+    `
 
-let tepmlate = Handlebars.compile(source);
+let tepmlate = Handlebars.compile(source)
 
 export default function($control, buttonMap) {
-    $control[0].innerHTML = tepmlate(buttonMap);
+  $control[0].innerHTML = tepmlate(buttonMap)
 }

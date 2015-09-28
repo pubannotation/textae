@@ -1,29 +1,29 @@
 import {
   EventEmitter
 }
-from 'events';
-import Transition from './Transition';
-import bindTransition from './bindTransition';
-import resetView from './resetView';
-import event from './event';
-import Trigger from './Trigger';
-import enableButtonHasAnnotation from './enableButtonHasAnnotation';
+from 'events'
+import Transition from './Transition'
+import bindTransition from './bindTransition'
+import resetView from './resetView'
+import event from './event'
+import Trigger from './Trigger'
+import enableButtonHasAnnotation from './enableButtonHasAnnotation'
 
 export default function(editor, model, typeEditor, buttonStateHelper) {
   let emitter = new EventEmitter(),
     transition = new Transition(editor, model, typeEditor, buttonStateHelper),
     stateMachine = bindTransition(transition),
-    trigger = new Trigger(stateMachine, model.annotationData);
+    trigger = new Trigger(stateMachine, model.annotationData)
 
-  stateMachine.once('transition', () => enableButtonHasAnnotation(buttonStateHelper));
+  stateMachine.once('transition', () => enableButtonHasAnnotation(buttonStateHelper))
 
   transition
     .on(event.SHOW, () => emitter.emit(event.SHOW))
     .on(event.HIDE, () => emitter.emit(event.HIDE))
     .on(event.CHANGE, () => resetView(typeEditor, model.selectionModel))
-    .on(event.CHANGE, (editable, mode) => emitter.emit(event.CHANGE, editable, mode));
+    .on(event.CHANGE, (editable, mode) => emitter.emit(event.CHANGE, editable, mode))
 
-  Object.assign(emitter, trigger);
+  Object.assign(emitter, trigger)
 
-  return emitter;
+  return emitter
 }

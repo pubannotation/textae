@@ -1,25 +1,25 @@
-import createRange from './createRange';
+import createRange from './createRange'
 
 export default function(textNode, startOfTextNode, span) {
-    let offset = getOffset(span, startOfTextNode);
+  let offset = getOffset(span, startOfTextNode)
 
-    if (!validateOffset(textNode, offset)) {
-        throw new Error('oh my god! I cannot render this span. ' + span.toStringOnlyThis() + ', textNode ' + textNode.textContent);
-    }
+  if (!validateOffset(textNode, offset)) {
+    throw new Error('oh my god! I cannot render this span. ' + span.toStringOnlyThis() + ', textNode ' + textNode.textContent)
+  }
 
-    return createRange(textNode, offset);
+  return createRange(textNode, offset)
 }
 
 function getOffset(span, startOfTextNode) {
-    let startOffset = span.begin - startOfTextNode,
-        endOffset = span.end - startOfTextNode;
+  let startOffset = span.begin - startOfTextNode,
+    endOffset = span.end - startOfTextNode
 
-    return {
-        start: startOffset,
-        end: endOffset
-    };
+  return {
+    start: startOffset,
+    end: endOffset
+  }
 }
 
 function validateOffset(textNode, offset) {
-    return 0 <= offset.start && offset.end <= textNode.length;
+  return 0 <= offset.start && offset.end <= textNode.length
 }

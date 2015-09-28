@@ -30,7 +30,7 @@ export default function() {
       // Use arguments later than first.
       // Because the first argmest of event handlers of the jQuery event is jQuery event object.
       instance
-        .on('textae.control.button.click', (e, ...rest) => handleControlButtonClick.apply(null, rest))
+        .on('textae.control.button.click', (e, ...rest) => handleControlButtonClick(...rest))
 
       controlBar.setInstance(instance)
     },

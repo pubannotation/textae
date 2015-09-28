@@ -1,3 +1,4 @@
+import Promise from 'bluebird'
 import ModificationRenderer from '../ModificationRenderer'
 import getAnnotationBox from '../getAnnotationBox'
 import DomPositionCache from '../../DomPositionCache'
@@ -27,7 +28,7 @@ var POINTUP_LINE_WIDTH = 3,
     // Find the label overlay by self, because the function 'getLabelOverlays' returns no label overlay.
     var labelOverlay = connect.getOverlay(LABEL.id)
     if (!labelOverlay) {
-      throw 'no label overlay'
+      throw new Error('no label overlay')
     }
 
     return labelOverlay
@@ -68,7 +69,7 @@ module.exports = function(editor, model, typeContainer) {
     },
     isGridPrepared = function(relationId) {
       if (!model.annotationData.relation.get(relationId))
-        return
+        return undefined
 
       var domPositionCaChe = new DomPositionCache(editor, model.annotationData.entity),
         relation = model.annotationData.relation.get(relationId)
@@ -79,7 +80,7 @@ module.exports = function(editor, model, typeContainer) {
     filterGridExists = function(connect) {
       // The grid may be destroyed when the spans was moved repetitively by undo or redo.
       if (!isGridPrepared(connect.relationId)) {
-        return
+        return undefined
       }
       return connect
     },
@@ -99,7 +100,7 @@ module.exports = function(editor, model, typeContainer) {
             }],
             paintStyle: new ConnectorStrokeStyle(relation.id),
             parameters: {
-              'id': relation.id,
+              id: relation.id,
             },
             cssClass: 'textae-editor__relation',
             overlays: [
@@ -291,7 +292,6 @@ module.exports = function(editor, model, typeContainer) {
         deleteRender
       )
     }(),
-    Promise = require('bluebird'),
     // Create a dummy relation when before moving grids after creation grids.
     // Because a jsPlumb error occurs when a relation between same points.
     // And entities of same length spans was same point before moving grids.
