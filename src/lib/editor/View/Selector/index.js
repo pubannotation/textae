@@ -72,8 +72,10 @@ function updateEntityLabel(editor, entityId) {
 
     if (typePane.children.length === typePane.querySelectorAll(`.${SELECTED}`).length) {
       typeLabel.classList.add(SELECTED)
+      typePane.classList.add(SELECTED)
     } else {
       typeLabel.classList.remove(SELECTED)
+      typePane.classList.remove(SELECTED)
     }
   }
 }
