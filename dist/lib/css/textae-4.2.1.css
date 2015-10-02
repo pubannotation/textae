@@ -219,7 +219,7 @@
 }
 .textae-editor__span {
   background-color: rgba(100, 100, 215, 0.5);
-  border-color: #666;
+  border-color: rgba(100, 100, 215, 0.8);
   border-style: solid;
   border-width: 1px 0;
   white-space: pre;
@@ -228,8 +228,12 @@
   text-shadow: 1px 1px 1px #00d;
   padding: 1px 0;
 }
+.textae-editor__span:focus {
+  outline-style: none;
+}
 .textae-editor__span.ui-selected {
   background-color: rgba(255, 200, 100, 0.9);
+  border-color: red;
   color: #00d;
 }
 .textae-editor__span--wrap {
@@ -239,11 +243,10 @@
   background-color: rgba(255, 100, 215, 0.5);
 }
 .textae-editor__span--block.ui-selected {
-  background-color: rgba(255, 100, 100, 0.9);
   color: #00d;
 }
 .textae-editor__grid {
-  border-color: #dda;
+  border-color: rgba(100, 100, 215, 0.8);
   border-style: solid;
   border-width: 0 1px;
   overflow: visible;
@@ -259,10 +262,10 @@
   white-space: nowrap;
 }
 .textae-editor__type-label {
-  border-color: #a9a9a9;
+  border-color: rgba(100, 100, 215, 0.8);
   border-radius: 4px;
   border-style: solid;
-  border-width: 1px;
+  border-width: 1px 0;
   line-height: 16px;
   overflow: hidden;
   position: relative;
@@ -273,6 +276,9 @@
   user-select: none;
   -webkit-touch-callout: none;
   z-index: 1;
+}
+.textae-editor__type-label:focus {
+  outline-style: none;
 }
 .textae-editor_editable .textae-editor__type-label a {
   color: black;
@@ -287,9 +293,8 @@
 }
 .textae-editor__type:hover .textae-editor__entity-pane,
 .textae-editor__type:hover .textae-editor__type-label {
-  z-index: 3;
+  z-index: 4;
 }
-.textae-editor__type:hover .textae-editor__entity,
 .textae-editor__type:hover .textae-editor__type-label {
   box-shadow: 1px 1px 10px #600;
 }
@@ -298,7 +303,8 @@
 }
 .textae-editor__type-label.ui-selected,
 .textae-editor__type:hover .textae-editor__type-label.ui-selected {
-  box-shadow: 1px 1px 15px #f00;
+  box-shadow: 0 0 0 2pt red;
+  z-index: 4;
 }
 .textae-editor__entity-pane {
   line-height: normal;
@@ -306,10 +312,14 @@
   top: -28px;
   z-index: 1;
 }
+.textae-editor__entity-pane.ui-selected {
+  z-index: 4;
+}
 .textae-editor__entity {
-  background-color: #add8e6;
+  background-color: rgba(100, 100, 215, 0.8);
   border-radius: 6px;
   border-style: solid;
+  border-width: 1px;
   display: inline-block;
   height: 12px;
   vertical-align: top;
@@ -321,7 +331,7 @@
   text-shadow: 1px 1px 1px #600;
 }
 .textae-editor__entity.ui-selected {
-  background-color: yellow;
+  background-color: rgba(255, 0, 0, 0.8);
 }
 .textae-editor__entity.textae-editor__negation::before,
 .textae-editor__entity.textae-editor__speculation::before {
@@ -372,10 +382,16 @@
   position: relative;
   top: -12px;
 }
+.textae-editor_term-mode .textae-editor__grid {
+  border-style: none;
+}
 .textae-editor_term-mode .textae-editor__type {
   height: 18px;
   margin-bottom: 0;
   padding-top: 0;
+}
+.textae-editor_term-mode .textae-editor__type-label {
+  border-width: 1px 0 0 0;
 }
 .textae-editor_term-mode .textae-editor__relation,
 .textae-editor_term-mode .textae-editor__relation__label {
