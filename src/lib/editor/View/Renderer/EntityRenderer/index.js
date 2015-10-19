@@ -62,8 +62,8 @@ function destroy(editor, model, gridRenderer, entity) {
 }
 
 function changeModificationOfExists(editor, modification, entity) {
-  var $entity = $(getEntityDom(editor[0], entity.id))
-  modification.update($entity, entity.id)
+  var entityDom = getEntityDom(editor[0], entity.id)
+  modification.update(entityDom, entity.id)
 }
 
 function doesSpanHasNoEntity(annotationData, spanId) {

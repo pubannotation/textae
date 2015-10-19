@@ -346,7 +346,7 @@ module.exports = function(editor, model, typeContainer) {
 
       // A connect may be an object before it rendered.
       if (connect instanceof jsPlumb.Connection) {
-        modification.update(new LabelOverlay(connect), relation.id)
+        modification.update(new LabelOverlay(connect).getElement(), relation.id)
       }
     },
     remove = function(relation) {
