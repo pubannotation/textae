@@ -23756,11 +23756,12 @@ var _removeEntityElement2 = _interopRequireDefault(_removeEntityElement);
 exports['default'] = function (editor, model, typeContainer, gridRenderer, modification, entity) {
     var selector = new _Selector2['default'](editor, model);
 
-    // Remove an old entity.
-    (0, _removeEntityElement2['default'])(editor, model.annotationData, entity);
-
+    // Remove old entity after add new one, because grids will be removed unless entities.
     // Show a new entity.
     (0, _createEntityUnlessBlock2['default'])(editor, model.annotationData.namespace, typeContainer, gridRenderer, modification, entity);
+
+    // Remove an old entity.
+    (0, _removeEntityElement2['default'])(editor, model.annotationData, entity);
 
     // Re-select a new entity instance.
     if (model.selectionModel.entity.has(entity.id)) {
@@ -24124,8 +24125,8 @@ function destroy(editor, model, gridRenderer, entity) {
 }
 
 function changeModificationOfExists(editor, modification, entity) {
-  var $entity = $((0, _getEntityDom2['default'])(editor[0], entity.id));
-  modification.update($entity, entity.id);
+  var entityDom = (0, _getEntityDom2['default'])(editor[0], entity.id);
+  modification.update(entityDom, entity.id);
 }
 
 function doesSpanHasNoEntity(annotationData, spanId) {
@@ -24359,8 +24360,32 @@ var allModificationClasses = 'textae-editor__negation textae-editor__speculation
 
 exports['default'] = function (annotationData) {
   return {
-    getClasses: _.partial(getClasses, annotationData),
-    update: _.partial(update, annotationData)
+    getClasses: (function (_getClasses) {
+      function getClasses(_x) {
+        return _getClasses.apply(this, arguments);
+      }
+
+      getClasses.toString = function () {
+        return _getClasses.toString();
+      };
+
+      return getClasses;
+    })(function (objectId) {
+      return getClasses(annotationData, objectId);
+    }),
+    update: (function (_update) {
+      function update(_x2, _x3) {
+        return _update.apply(this, arguments);
+      }
+
+      update.toString = function () {
+        return _update.toString();
+      };
+
+      return update;
+    })(function (domElement, objectId) {
+      return update(annotationData, domElement, objectId);
+    })
   };
 };
 
@@ -24371,8 +24396,11 @@ function getClasses(annotationData, objectId) {
 }
 
 function update(annotationData, domElement, objectId) {
-  domElement.removeClass(allModificationClasses);
-  domElement.addClass(getClasses(annotationData, objectId).join(" "));
+  domElement.classList.remove('textae-editor__negation');
+  domElement.classList.remove('textae-editor__speculation');
+  getClasses(annotationData, objectId).forEach(function (c) {
+    return domElement.classList.add(c);
+  });
 }
 module.exports = exports['default'];
 
@@ -24875,7 +24903,7 @@ module.exports = function (editor, model, typeContainer) {
 
     // A connect may be an object before it rendered.
     if (connect instanceof jsPlumb.Connection) {
-      modification.update(new LabelOverlay(connect), relation.id);
+      modification.update(new LabelOverlay(connect).getElement(), relation.id);
     }
   },
       remove = function remove(relation) {
