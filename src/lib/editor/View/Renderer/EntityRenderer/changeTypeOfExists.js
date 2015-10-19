@@ -5,13 +5,7 @@ import removeEntityElement from './removeEntityElement'
 export default function(editor, model, typeContainer, gridRenderer, modification, entity) {
   let selector = new Selector(editor, model)
 
-  // Remove an old entity.
-  removeEntityElement(
-      editor,
-      model.annotationData,
-      entity
-  )
-
+  // Remove old entity after add new one, because grids will be removed unless entities.
   // Show a new entity.
   createEntityUnlessBlock(
       editor,
@@ -19,6 +13,13 @@ export default function(editor, model, typeContainer, gridRenderer, modification
       typeContainer,
       gridRenderer,
       modification,
+      entity
+  )
+
+  // Remove an old entity.
+  removeEntityElement(
+      editor,
+      model.annotationData,
       entity
   )
 
