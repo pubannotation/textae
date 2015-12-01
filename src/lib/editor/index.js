@@ -24,7 +24,7 @@ export default function() {
   let writable = new Writable()
 
   observe.observeModelChange(model.annotationData, history, writable)
-  observe.observeHistorfChange(
+  observe.observeHistoryChange(
     history,
     buttonController.buttonStateHelper,
     CONFIRM_DISCARD_CHANGE_MESSAGE,

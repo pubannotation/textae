@@ -8,7 +8,7 @@ export function observeModelChange(annotationData, history, writable) {
     })
 }
 
-export function observeHistorfChange(history, buttonStateHelper, leaveMessage, writable) {
+export function observeHistoryChange(history, buttonStateHelper, leaveMessage, writable) {
   history.on('change', function(state) {
     // change button state
     buttonStateHelper.enabled("undo", state.hasAnythingToUndo)
