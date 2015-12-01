@@ -21,6 +21,7 @@
   "dependencies": {
     "bluebird": "^2.9.34",
     "capitalize": "^1.0.0",
+    "delegate": "^3.0.0",
     "emitter-fsm": "0.0.2",
     "handlebars": "^4.0.2",
     "not": "^0.1.0",

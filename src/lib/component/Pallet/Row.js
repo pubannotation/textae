@@ -4,10 +4,15 @@ const html = `
 {{#each this}}
 <tr class="textae-editor__type-pallet__entity-type" style="background-color: {{color}};">
   <td>
-    <input class="textae-editor__type-pallet__entity-type__radio" type="radio" name="etype" label="{{typeName}}" {{#if defaultType}}title="default type" checked="checked"{{/if}}>
+    <input class="textae-editor__type-pallet__entity-type__radio" type="radio" name="etype" id="{{id}}" {{#if defaultType}}title="default type" checked="checked"{{/if}}>
   </td>
-  <td class="textae-editor__type-pallet__entity-type__label" label="{{typeName}}">
-    {{typeName}}
+  <td class="textae-editor__type-pallet__entity-type__label" id="{{id}}">
+    <span title={{id}}>
+      {{id}}
+    </span>
+  </td>
+  <td>
+    {{label}}
   </td>
   <td>
     {{#if uri}}
@@ -22,13 +27,14 @@ let tepmlate = Handlebars.compile(html)
 
 export default function(typeContainer) {
   let types = typeContainer
-    .getSortedNames()
-    .map(typeName => {
+    .getSortedIds()
+    .map(id => {
       return {
-        typeName: typeName,
-        defaultType: typeName === typeContainer.getDefaultType(),
-        uri: typeContainer.getUri(typeName),
-        color: typeContainer.getColor(typeName)
+        id,
+        label: typeContainer.getLabel(id),
+        defaultType: id === typeContainer.getDefaultType(),
+        uri: typeContainer.getUri(id),
+        color: typeContainer.getColor(id)
       }
     })
 

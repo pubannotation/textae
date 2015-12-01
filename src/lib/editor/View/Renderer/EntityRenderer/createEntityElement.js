@@ -1,5 +1,4 @@
 import idFactory from '../../../idFactory'
-import getTypeElement from './getTypeElement'
 
 export default function createEntityElement(editor, typeContainer, modification, entity) {
   let element = document.createElement('div')
@@ -9,7 +8,7 @@ export default function createEntityElement(editor, typeContainer, modification,
   element.setAttribute('type', entity.type)
   element.classList.add('textae-editor__entity')
 
-  element.style.borderColor = typeContainer.entity.getColor(entity.type)
+  element.style.borderColor = typeContainer.getColor(entity.type)
 
   // Set css classes for modifications.
   modification.getClasses(entity.id)

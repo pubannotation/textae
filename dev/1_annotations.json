@@ -2,43 +2,43 @@
     "config": {
         "relation types": [{
             "color": "#5CFF0A",
-            "name": "locatedAt"
+            "id": "locatedAt"
         }, {
             "color": "#FF0000",
-            "name": "themeOf"
+            "id": "themeOf"
         }, {
             "color": "#0000FF",
-            "name": "equivalentTo"
+            "id": "equivalentTo"
         }],
         "entity types": [{
             "color": "#FF00FF",
-            "name": "Protein",
+            "id": "Protein",
             "default": true
         }, {
             "color": "#FF0000",
-            "name": "Cell"
+            "id": "Cell"
         }, {
             "color": "#00FF00",
-            "name": "Transcription"
+            "id": "Transcription"
         }, {
             "color": "#FFFF00",
-            "name": "Gene_expression"
+            "id": "Gene_expression"
         }, {
             "color": "#FF00FF",
-            "name": "Negative_regulation"
+            "id": "Negative_regulation"
         }, {
             "color": "#00FFFF",
-            "name": "Positive_regulation"
+            "id": "Positive_regulation"
         }, {
             "color": "#FFFF66",
-            "name": "Regulation",
-            "uri": "http://www.yahoo.co.jp"
+            "label": "Regulation",
+            "id": "http://www.yahoo.co.jp"
         }, {
             "color": "#666666",
-            "name": "New"
+            "id": "New"
         }, {
             "color": "#0000FF",
-            "name": "Sentence",
+            "id": "Sentence",
             "type": "block"
         }]
     },
@@ -139,7 +139,7 @@
             "begin": 858,
             "end": 865
         },
-        "obj": "Regulation"
+        "obj": "http://www.yahoo.co.jp"
     }, {
         "id": "T8",
         "span": {

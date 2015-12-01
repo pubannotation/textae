@@ -28,8 +28,8 @@
     ],
     "entity types": [{
         "color": "#0000FF",
-        "name": "Parent",
-        "uri": "http://dbpedia.org/ontology/parent",
+        "label": "Parent",
+        "id": "http://dbpedia.org/ontology/parent",
         "default": true
     }]
 }

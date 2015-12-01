@@ -19,7 +19,7 @@ export default function() {
   var emitter = new EventEmitter(),
     buttons = buttonList.map(Button),
     propagateStateOfAllButtons = () => propagateStateOf(emitter, buttons),
-    buttonHash = buttons.reduce(reduce2hash, {})
+    buttonHash = buttons.reduce(reduce2hash(), {})
 
   // default pushed;
   buttonHash['boundary-detection'].value(true)

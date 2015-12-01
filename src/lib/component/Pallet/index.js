@@ -2,7 +2,7 @@ import Component from './Component'
 import Row from './Row'
 
 export default function(selectType, selectDefaultType) {
-  let $pallet = new Component(selectType, selectDefaultType)
+  let $pallet = $(new Component(selectType, selectDefaultType))
 
   return {
     show: (typeContainer, point) => show($pallet, typeContainer, point),
@@ -11,7 +11,7 @@ export default function(selectType, selectDefaultType) {
 }
 
 function show($pallet, typeContainer, point) {
-  if (typeContainer && typeContainer.getSortedNames().length > 0) {
+  if (typeContainer && typeContainer.getSortedIds().length > 0) {
     $pallet = reuseOldPallet($pallet)
     $pallet = appendRows(typeContainer, $pallet)
     $pallet = setMaxHeight($pallet)

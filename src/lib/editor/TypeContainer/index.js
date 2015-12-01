@@ -1,85 +1,35 @@
 import reduce2hash from '../../util/reduce2hash'
-import uri from '../uri'
+import defaultType from './defaultType'
+import TypeContainer from './TypeContainer'
 
-var DEFAULT_TYPE = 'something',
-  TypeContainer = function(getActualTypesFunction, defaultColor) {
-    var definedTypes = {},
-      defaultType = DEFAULT_TYPE
-
-    return {
-      setDefinedTypes: function(newDefinedTypes) {
-        definedTypes = newDefinedTypes
-      },
-      getDeinedTypes: function() {
-        return _.extend({}, definedTypes)
-      },
-      setDefaultType: function(name) {
-        defaultType = name
-      },
-      getDefaultType: function() {
-        return defaultType || this.getSortedNames()[0]
-      },
-      getColor: function(name) {
-        return definedTypes[name] && definedTypes[name].color || defaultColor
-      },
-      getUri: function(name) {
-        return definedTypes[name] && definedTypes[name].uri ||
-          uri.getUrlMatches(name) ? name : undefined
-      },
-      getSortedNames: function() {
-        if (getActualTypesFunction) {
-          var typeCount = getActualTypesFunction()
-            .concat(Object.keys(definedTypes))
-            .reduce(function(a, b) {
-              a[b] = a[b] ? a[b] + 1 : 1
-              return a
-            }, {})
-
-          // Sort by number of types, and by name if numbers are same.
-          var typeNames = Object.keys(typeCount)
-          typeNames.sort(function(a, b) {
-            var diff = typeCount[b] - typeCount[a]
-            return diff !== 0 ? diff :
-              a > b ? 1 :
-              b < a ? -1 :
-              0
-          })
-
-          return typeNames
-        } else {
-          return []
+export default function(model) {
+  const entityContainer = Object.assign(
+      new TypeContainer(model.annotationData.entity.types, '#77DDDD'), {
+        isBlock: (type) => {
+          const definition = entityContainer.getDeinedType(type)
+          return definition && definition.type && definition.type === 'block'
         }
-      }
-    }
-  },
-  setContainerDefinedTypes = function(container, newDefinedTypes) {
-    // expected newDefinedTypes is an array of object. example of object is {"name": "Regulation","color": "#FFFF66","default": true}.
-    if (newDefinedTypes !== undefined) {
-      container.setDefinedTypes(newDefinedTypes.reduce(reduce2hash, {}))
-      container.setDefaultType(
-        newDefinedTypes.filter(function(type) {
-          return type.default === true
-        }).map(function(type) {
-          return type.name
-        }).shift() || DEFAULT_TYPE
-      )
-    }
-  }
-
-module.exports = function(model) {
-  var entityContainer = _.extend(new TypeContainer(model.annotationData.entity.types, '#77DDDD'), {
-      isBlock: function(type) {
-        // console.log(type, entityContainer.getDeinedTypes(), entityContainer.getDeinedTypes()[type]);
-        var definition = entityContainer.getDeinedTypes()[type]
-        return definition && definition.type && definition.type === 'block'
-      }
-    }),
+      }),
     relationContaier = new TypeContainer(model.annotationData.relation.types, '#555555')
 
   return {
     entity: entityContainer,
-    setDefinedEntityTypes: _.partial(setContainerDefinedTypes, entityContainer),
+    setDefinedEntityTypes: (newDefinedTypes) => setContainerDefinedTypes(entityContainer, newDefinedTypes),
     relation: relationContaier,
-    setDefinedRelationTypes: _.partial(setContainerDefinedTypes, relationContaier)
+    setDefinedRelationTypes: (newDefinedTypes) => setContainerDefinedTypes(relationContaier, newDefinedTypes)
+  }
+}
+
+function setContainerDefinedTypes(container, newDefinedTypes) {
+  // expected newDefinedTypes is an array of object. example of object is {"name": "Regulation","color": "#FFFF66","default": true}.
+  if (newDefinedTypes !== undefined) {
+    container.setDefinedTypes(newDefinedTypes.reduce(reduce2hash('id'), {}))
+
+    const defaultFromDefinedTypes = newDefinedTypes
+      .filter((type) => type.default === true)
+      .map((type) => type.id)
+      .shift()
+
+    container.setDefaultType(defaultFromDefinedTypes || defaultType)
   }
 }

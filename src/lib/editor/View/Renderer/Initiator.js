@@ -16,7 +16,7 @@ export default function(domPositionCaChe, relationRenderer, buttonStateHelper, t
   let emitter = new EventEmitter(),
     gridRenderer = new GridRenderer(editor, domPositionCaChe),
     renderEntityHandler = (entity) => getTypeDom(entity.span, entity.type).css(new TypeStyle(typeGap())),
-    entityRenderer = new EntityRenderer(editor, model, typeContainer, gridRenderer, renderEntityHandler),
+    entityRenderer = new EntityRenderer(editor, model, typeContainer.entity, gridRenderer, renderEntityHandler),
     spanRenderer = new SpanRenderer(
       model.annotationData,
       typeContainer.entity.isBlock,
