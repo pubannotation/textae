@@ -24,6 +24,7 @@ export default function(editor, selectionModel, annotationData, command, typeCon
       changeTypeOfSelected: (newType) => changeTypeIfSelected(
         command,
         getSelectedIdEditable,
+        annotationData.relation,
         command.factory.relationChangeTypeCommand,
         newType
       ),

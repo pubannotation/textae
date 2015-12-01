@@ -24,7 +24,8 @@ export default function(editor, model, command, modeAccordingToButton, typeConta
     handler = {
       changeTypeOfSelected: (newType) => changeTypeIfSelected(
         command,
-        getSelectedIdEditable, (id, newType) => command.factory.entityChangeTypeCommand(
+        getSelectedIdEditable,
+        model.annotationData.entity, (id, newType) => command.factory.entityChangeTypeCommand(
           id,
           newType,
           typeContainer.entity.isBlock(newType)

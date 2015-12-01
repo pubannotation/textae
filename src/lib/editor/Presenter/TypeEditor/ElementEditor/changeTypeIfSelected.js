@@ -1,10 +1,7 @@
-export default function(command, getSelectedAndEditable, createChangeTypeCommandFunction, newType) {
-  var ids = getSelectedAndEditable()
-  if (ids.length > 0) {
-    var commands = ids.map(function(id) {
-      return createChangeTypeCommandFunction(id, newType)
-    })
+export default function(command, getSelectedFunction, model, createChangeTypeCommandFunction, newType) {
+  const commands = getSelectedFunction()
+    .filter((id) => model.get(id).type !== newType)
+    .map((id) => createChangeTypeCommandFunction(id, newType))
 
-    command.invoke(commands)
-  }
+  command.invoke(commands)
 }
