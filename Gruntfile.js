@@ -1,25 +1,25 @@
-'use strict';
+'use strict'
 
 var fs = require('fs'),
     http = require('http'),
     connectStatic = require('serve-static'),
-    favicon = require('serve-favicon');
+    favicon = require('serve-favicon')
 
 var rename = {
     ext: function(ext) {
         return function(dest, src) {
-            return dest + "/" + src.replace(/(\.[^\/\.]*)?$/, ext);
-        };
+            return dest + "/" + src.replace(/(\.[^\/\.]*)?$/, ext)
+        }
     },
-};
+}
 
 var browserifyFiles = {
     'src/lib/bundle.js': ['src/lib/jquery.textae.js']
-};
+}
 
 module.exports = function(grunt) {
-    require('load-grunt-tasks')(grunt);
-    var babelify = require('babelify');
+    require('load-grunt-tasks')(grunt)
+    var babelify = require('babelify')
 
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
@@ -153,61 +153,61 @@ module.exports = function(grunt) {
                             favicon(__dirname + '/dev/favicon.ico'),
                             function(req, res, next) {
                                 // Require authorization if file is 'private.json'.
-                                var pathname = req._parsedUrl.pathname;
-                                if(pathname !== '/dev/private.json')
-                                    return next();
+                                var pathname = req._parsedUrl.pathname
+                                if (pathname !== '/dev/private.json')
+                                    return next()
 
-                                var authorization = req.headers.authorization;
+                                var authorization = req.headers.authorization
                                 if (!authorization) {
-                                    return unauthorized(res);
+                                    return unauthorized(res)
                                 }
 
-                                var parts = authorization.split(' ');
+                                var parts = authorization.split(' ')
                                 if (parts.length !== 2)
-                                    return next(error(400));
+                                    return next(error(400))
 
                                 var scheme = parts[0],
                                     credentials = new Buffer(parts[1], 'base64').toString(),
-                                    index = credentials.indexOf(':');
-                                if ('Basic' != scheme || index < 0)
-                                    return next(error(400));
+                                    index = credentials.indexOf(':')
+                                if ('Basic' !== scheme || index < 0)
+                                    return next(error(400))
 
                                 var user = credentials.slice(0, index),
-                                    pass = credentials.slice(index + 1);
+                                    pass = credentials.slice(index + 1)
 
                                 if (user !== 'Jin-Dong Kim' || pass !== 'passpass') {
-                                    return unauthorized(res);
+                                    return unauthorized(res)
                                 } else {
-                                    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:8000');
-                                    res.setHeader('Access-Control-Allow-Credentials', 'true');
-                                    next();
+                                    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:8000')
+                                    res.setHeader('Access-Control-Allow-Credentials', 'true')
+                                    next()
                                 }
 
                                 function unauthorized(res) {
-                                    res.statusCode = 401;
-                                    res.setHeader('WWW-Authenticate', 'Basic realm="textae development server."');
-                                    res.end('Unauthorized');
+                                    res.statusCode = 401
+                                    res.setHeader('WWW-Authenticate', 'Basic realm="textae development server."')
+                                    res.end('Unauthorized')
                                 }
 
                                 function error(code, msg) {
-                                    var err = new Error(msg || http.STATUS_CODES[code]);
-                                    err.status = code;
-                                    return err;
+                                    var err = new Error(msg || http.STATUS_CODES[code])
+                                    err.status = code
+                                    return err
                                 }
                             },
                             connectStatic(options.base[0]),
                             function(req, res, next) {
                                 // Stub to upload json.
                                 if (req.method !== "POST")
-                                    return next();
+                                    return next()
 
-                                var filename = req.url.substr(1) + ".dev_data.json";
-                                req.pipe(fs.createWriteStream(filename));
-                                req.on('end', function(){
-                                    res.end();
-                                });
+                                var filename = req.url.substr(1) + ".dev_data.json"
+                                req.pipe(fs.createWriteStream(filename))
+                                req.on('end', function() {
+                                    res.end()
+                                })
                             }
-                        ];
+                        ]
                     },
                 },
             }
@@ -223,10 +223,10 @@ module.exports = function(grunt) {
                 url: 'http://localhost:8000/dist/demo/bionlp-st-ge/demo-cdn.html'
             }
         },
-    });
+    })
 
-    grunt.registerTask('dev', ['connect', 'open:dev', 'watch']);
-    grunt.registerTask('dist', ['eslint', 'jasmine_node', 'clean', 'browserify:dist', 'less', 'concat', 'uglify', 'copy', 'replace:version', 'cssmin']);
-    grunt.registerTask('demo', ['open:demo', 'connect:developmentServer:keepalive']);
-    grunt.registerTask('app', ['open:app', 'connect:developmentServer:keepalive']);
-};
+    grunt.registerTask('dev', ['connect', 'open:dev', 'watch'])
+    grunt.registerTask('dist', ['eslint', 'jasmine_node', 'clean', 'browserify:dist', 'less', 'concat', 'uglify', 'copy', 'replace:version', 'cssmin'])
+    grunt.registerTask('demo', ['open:demo', 'connect:developmentServer:keepalive'])
+    grunt.registerTask('app', ['open:app', 'connect:developmentServer:keepalive'])
+}
