@@ -24,14 +24,17 @@
     "delegate": "^3.0.0",
     "emitter-fsm": "0.0.2",
     "handlebars": "^4.0.2",
+    "jquery": "^2.1.4",
     "not": "^0.1.0",
     "observ": "^0.2.0",
-    "xtend": "^4.0.0"
+    "toastr": "^2.1.2",
+    "underscore": "^1.8.3",
+    "xtend": "^4.0.0",
+    "yui": "^3.18.1"
   },
   "devDependencies": {
     "babel-runtime": "^5.8.20",
     "babelify": "^6.3.0",
-    "bower": "^1.5.2",
     "eslint": "^1.5.1",
     "grunt-browserify": "^4.0.0",
     "grunt-cli": "^0.1.13",
@@ -65,7 +68,6 @@
     "url": "https://github.com/pubannotation/textae.git"
   },
   "scripts": {
-    "postinstall": "node_modules/bower/bin/bower install",
     "test": "grunt jasmine_node",
     "watch": "npm run watchify & grunt dev",
     "watchify": "watchify -d src/lib/jquery.textae.js -t babelify -o dev/bundle.js"
