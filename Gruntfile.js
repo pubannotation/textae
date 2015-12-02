@@ -208,7 +208,7 @@ module.exports = function(grunt) {
         },
         open: {
             app: {
-                url: 'http://localhost:8000/dist/textae.html?mode=edit&target=../src/1_annotations.json'
+                url: 'http://localhost:8000/dist/textae.html?mode=edit&target=../dev/1_annotations.json'
             },
             dev: {
                 url: 'http://localhost:8000/dev/development.html?config=1_config.json&target=1_annotations.json'
