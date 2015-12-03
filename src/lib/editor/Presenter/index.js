@@ -97,7 +97,7 @@ export default function(
       showPallet: typeEditor.showPallet,
       replicate: defaultEntityHandler.replicate,
       pasteEntities: clipBoardHandler.pasteEntities,
-      changeLabel: () => changeLabelHandler(typeEditor),
+      changeLabel: () => changeLabelHandler(editor, typeEditor),
       cancelSelect: typeEditor.cancelSelect,
       negation: modificationHandler.negation,
       speculation: modificationHandler.speculation,

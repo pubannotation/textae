@@ -1,10 +1,13 @@
-export default function(typeEditor) {
-  if (typeEditor.getSelectedIdEditable().length > 0) {
-    let currentType = typeEditor.getTypeOfSelected()
+import editIdDialog from '../../../component/editIdDialog'
 
-    var newType = prompt('Please enter a new label', currentType)
-    if (newType) {
-      typeEditor.changeTypeOfSelected(newType)
-    }
+export default function(editor, typeEditor) {
+  if (typeEditor.getSelectedIdEditable().length > 0) {
+    const currentType = typeEditor.getTypeOfSelected()
+
+    editIdDialog(editor, currentType, (newType) => {
+      if (newType) {
+        typeEditor.changeTypeOfSelected(newType)
+      }
+    })
   }
 }

@@ -1,4 +1,3 @@
-import jQuerySugar from '../jQuerySugar'
 import updateLineHeight from './updateLineHeight'
 import updateTypeGapEnable from './updateTypeGapEnable'
 import updateTypeGapValue from './updateTypeGapValue'

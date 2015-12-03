@@ -1,34 +1,38 @@
 import Dialog from './Dialog'
 
-var getDialogId = function(editorId, id) {
-    return editorId + '.' + id
-  },
-  defaultOption = {
-    width: 550,
-    height: 220
-  }
+const defaultOption = {
+  width: 550,
+  height: 220
+}
 
-module.exports = function(editorId, id, title, $content, option) {
-  var openOption = _.extend({}, defaultOption, option)
+export default function(editorId, id, title, $content, option) {
+  const openOption = getOption(option),
+    $dialog = new Dialog(
+      openOption,
+      getDialogId(editorId, id),
+      title,
+      $content
+    )
 
-  if (option && option.noCancelButton) {
-    openOption.buttons = {}
-  } else {
-    openOption.buttons = {
+  return Object.assign($dialog, {
+    id: id
+  })
+}
+
+function getOption(option) {
+  const newOpiton = Object.assign({}, defaultOption, option)
+
+  if (!newOpiton.noCancelButton) {
+    newOpiton.buttons = Object.assign({}, newOpiton.buttons, {
       Cancel: function() {
         $(this).dialog('close')
       }
-    }
+    })
   }
 
-  var $dialog = new Dialog(
-    openOption,
-    getDialogId(editorId, id),
-    title,
-    $content
-  )
+  return newOpiton
+}
 
-  return _.extend($dialog, {
-    id: id
-  })
+function getDialogId(editorId, id) {
+  return `${editorId}.${id}`
 }
