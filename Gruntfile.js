@@ -86,7 +86,7 @@ module.exports = function(grunt) {
                     cwd: 'node_modules',
                     src: [
                       'jquery/dist/jquery.min.*',
-                      'toastr/build/toastr.min.*',
+                      'toastr/build/toastr.*',
                       'underscore/underscore-min.*',
                       'element-closest/closest.js'],
                     dest: 'dist/vender',
