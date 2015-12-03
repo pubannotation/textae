@@ -22,6 +22,7 @@
     "bluebird": "^3.0.6",
     "capitalize": "^1.0.0",
     "delegate": "^3.0.0",
+    "element-closest": "^1.0.3",
     "emitter-fsm": "0.0.2",
     "handlebars": "^4.0.2",
     "jquery": "^2.1.4",
