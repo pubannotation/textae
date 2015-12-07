@@ -1,18 +1,19 @@
-import getHeightIncludeDescendantGrids from './getHeightIncludeDescendantGrids'
+import getHeightIncludeDescendantGrids from '../getHeightIncludeDescendantGrids'
+import getGridOfSpan from './getGridOfSpan'
 
-export default function(getSpan, getGridOfSpan, typeContainer, typeGapValue, span) {
+export default function(getSpan, typeContainer, typeGapValue, span) {
   if (span.children.length === 0) {
-    return stickGridOnSpan(getSpan, getGridOfSpan, span)
+    return stickGridOnSpan(getSpan, span)
   } else {
     return pullUpGridOverDescendants(getSpan, typeContainer, typeGapValue, span)
   }
 }
 
-function stickGridOnSpan(getSpan, getGridOfSpan, span) {
+function stickGridOnSpan(getSpan, span) {
   var spanPosition = getSpan(span.id)
 
   return {
-    top: spanPosition.top - getGridOfSpan(span.id).outerHeight(),
+    top: spanPosition.top - $(getGridOfSpan(span.id)).outerHeight(),
     left: spanPosition.left
   }
 }
