@@ -3,7 +3,8 @@
 var fs = require('fs'),
     http = require('http'),
     connectStatic = require('serve-static'),
-    favicon = require('serve-favicon')
+    favicon = require('serve-favicon'),
+    querystring = require('qs')
 
 var rename = {
     ext: function(ext) {
@@ -210,6 +211,29 @@ module.exports = function(grunt) {
                                 req.on('end', function() {
                                     res.end()
                                 })
+                            },
+                            function(req, res, next) {
+                              if (req.method === "GET" && req._parsedUrl.pathname === '/dev/autocomplete') {
+                                const rawData = [{
+                                  id: 'http://dbpedia.org/ontology/parent',
+                                  label: 'parent'
+                                }, {
+                                    id: 'http://dbpedia.org/ontology/productionCompany',
+                                    label: 'productionCompany'
+                                }, {
+                                  label: 'Light stuff',
+                                  id: 'http://www.yahoo.co.jp'
+                                }, {
+                                  label: 'Learning SPARQL',
+                                  id: 'http://www.amazon.com/Learning-SPARQL-Bob-DuCharme/dp/1449371434/ref=sr_1_1?ie=UTF8&qid=1452147643&sr=8-1&keywords=sparql'
+                                }],
+                                term = querystring.parse(req._parsedUrl.query).term
+
+                                res.setHeader('Content-Type', 'application/json')
+                                res.end(JSON.stringify(rawData.filter(d => d.label.includes(term))))
+                              } else {
+                                return next()
+                              }
                             }
                         ]
                     },
@@ -221,7 +245,7 @@ module.exports = function(grunt) {
                 url: 'http://localhost:8000/dist/textae.html?mode=edit&target=../dev/1_annotations.json'
             },
             dev: {
-                url: 'http://localhost:8000/dev/development.html?config=1_config.json&target=1_annotations.json'
+                url: 'http://localhost:8000/dev/development.html?config=1_config.json&target=1_annotations.json&autocompletion_ws=/dev/autocomplete'
             },
             demo: {
                 url: 'http://localhost:8000/dist/demo/bionlp-st-ge/demo-cdn.html'

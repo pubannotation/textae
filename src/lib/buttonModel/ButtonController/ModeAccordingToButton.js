@@ -2,7 +2,7 @@ import {
   EventEmitter as EventEmitter
 }
 from 'events'
-import reduce2hash from '../../util/reduce2hash'
+import reduce2hash from './reduce2hash'
 
 const buttonList = [
   'view',

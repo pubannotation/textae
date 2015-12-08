@@ -1,4 +1,4 @@
-import * as lineHeight from '../../editor/View/lineHeight'
+import * as lineHeight from '../../editor/start/View/lineHeight'
 import updateLineHeight from './updateLineHeight'
 import updateTypeGapEnable from './updateTypeGapEnable'
 import updateTypeGapValue from './updateTypeGapValue'

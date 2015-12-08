@@ -2,9 +2,6 @@ node_modules/
 npm-debug.log
 *.dev_data.json
 dev/bundle.js
-dev/vender/jquery/
-dev/vender/toastr/
-dev/vender/underscore/
 src/lib/bundle.js
 src/lib/css/textae.css
 src/lib/css/textae-control.css
