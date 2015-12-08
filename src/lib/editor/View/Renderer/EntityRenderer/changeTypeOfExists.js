@@ -1,27 +1,27 @@
 import Selector from '../../Selector'
 import createEntityUnlessBlock from './createEntityUnlessBlock'
 import removeEntityElement from './removeEntityElement'
+import removeNoEntityPaneElement from './removeNoEntityPaneElement'
 
 export default function(editor, model, typeContainer, gridRenderer, modification, entity) {
   let selector = new Selector(editor, model)
 
+  // Remove an old entity.
+  const parentNode = removeEntityElement(editor, entity.id)
+
   // Remove old entity after add new one, because grids will be removed unless entities.
   // Show a new entity.
   createEntityUnlessBlock(
-      editor,
-      model.annotationData.namespace,
-      typeContainer,
-      gridRenderer,
-      modification,
-      entity
+    editor,
+    model.annotationData.namespace,
+    typeContainer,
+    gridRenderer,
+    modification,
+    entity
   )
 
-  // Remove an old entity.
-  removeEntityElement(
-      editor,
-      model.annotationData,
-      entity
-  )
+  // Remove an parentNode unless entity.
+  removeNoEntityPaneElement(parentNode)
 
   // Re-select a new entity instance.
   if (model.selectionModel.entity.has(entity.id)) {

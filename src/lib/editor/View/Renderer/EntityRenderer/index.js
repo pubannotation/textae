@@ -7,6 +7,7 @@ import Selector from '../../Selector'
 import createEntityUnlessBlock from './createEntityUnlessBlock'
 import changeTypeOfExists from './changeTypeOfExists'
 import removeEntityElement from './removeEntityElement'
+import removeNoEntityPaneElement from './removeNoEntityPaneElement'
 
 export default function(editor, model, typeContainer, gridRenderer, renderEntityHandler) {
   let modification = new ModificationRenderer(model.annotationData)
@@ -54,7 +55,9 @@ function destroy(editor, model, gridRenderer, entity) {
     gridRenderer.remove(entity.span)
   } else {
     // Destroy an each entity.
-    removeEntityElement(editor, model.annotationData, entity)
+    const paneNode = removeEntityElement(editor, entity.id)
+
+    removeNoEntityPaneElement(paneNode)
   }
 
   return entity

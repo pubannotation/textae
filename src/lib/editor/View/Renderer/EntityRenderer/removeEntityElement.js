@@ -1,30 +1,15 @@
 import getEntityDom from '../../../getEntityDom'
-import arrangePositionOfPane from './arrangePositionOfPane'
 
-export default function(editor, annotationData, entity) {
-  let entityDom = getEntityDom(editor[0], entity.id)
+export default function(editor, entityId) {
+  const entityDom = getEntityDom(editor[0], entityId)
 
-  // The entity is removed already.
-  if (!entityDom) {
-    return
+  // The entity may be removed already.
+  if (entityDom) {
+    const paneNode = entityDom.parentNode
+
+    entityDom.remove()
+    return paneNode
   }
 
-  let paneDom = entityDom.parentNode
-  entityDom.remove()
-
-  if (paneDom.children.length) {
-    // Arrage the position of TypePane, because number of entities decrease.
-    arrangePositionOfPane(paneDom)
-  } else {
-    let typeDom = paneDom.parentNode,
-      gridDom = typeDom.parentNode
-
-    // Remove type unlese entity.
-    typeDom.remove()
-
-    // Remove grid unless type.
-    if (!gridDom.children.length) {
-      gridDom.remove()
-    }
-  }
+  return null
 }
