@@ -13,6 +13,11 @@ export default function(editor) {
   // Mode is prior in the url parameter.
   priorUrl(params, editor, 'mode')
 
+  // Decode URI encode
+  urlDecode(params, 'config')
+  urlDecode(params, 'target')
+  urlDecode(params, 'autocompletion_ws')
+
   // Read Html text and clear it.
   const inlineAnnotation = editor.text()
   editor.empty()
@@ -27,11 +32,19 @@ export default function(editor) {
 }
 
 function priorUrl(params, editor, name) {
-  if (!params[name] && editor.attr(name))
+  if (!params[name] && editor.attr(name)) {
     params[name] = editor.attr(name)
+  }
 }
 
 function priorAttr(params, editor, name) {
-  if (editor.attr(name))
+  if (editor.attr(name)) {
     params[name] = editor.attr(name)
+  }
+}
+
+function urlDecode(params, name) {
+  if (params[name]) {
+    params[name] = decodeURIComponent(params[name])
+  }
 }

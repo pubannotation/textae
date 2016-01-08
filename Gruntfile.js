@@ -245,7 +245,7 @@ module.exports = function(grunt) {
                 url: 'http://localhost:8000/dist/textae.html?mode=edit&target=../dev/1_annotations.json'
             },
             dev: {
-                url: 'http://localhost:8000/dev/development.html?config=1_config.json&target=1_annotations.json&autocompletion_ws=/dev/autocomplete'
+                url: 'http://localhost:8000/dev/development.html?config=1_config.json%3Faaa&target=1_annotations.json%3Fbbbb%3Daaa%0D%0A&autocompletion_ws=%2Fdev%2Fautocomplete%3Forder%3Ddesc'
             },
             demo: {
                 url: 'http://localhost:8000/dist/demo/bionlp-st-ge/demo-cdn.html'
