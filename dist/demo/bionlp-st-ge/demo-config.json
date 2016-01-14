@@ -1,67 +1,67 @@
 {
-    "delimiter characters": [
-        " ",
-        ".",
-        "!",
-        "?",
-        ",",
-        ":",
-        ";",
-        "-",
-        "/",
-        "&",
-        "(",
-        ")",
-        "{",
-        "}",
-        "[",
-        "]",
-        "\\",
-        "\"",
-        "'",
-        "\n",
-        "–"
-    ],
-    "non-edge characters": [
-        " ",
-        "\n"
-    ],
-    "relation types": [{
-            "name": "themeOf",
-            "color": "#0000FF",
-            "default": true
-        }, {
-            "name": "causeOf",
-            "color": "#FF0000"
-        }, {
-            "name": "partOf",
-            "color": "#00FF00"
-        }, {
-            "name": "locationOf",
-            "color": "#00FFFF"
-        }, {
-            "name": "oldLocationOf",
-            "color": "#00BBBB"
-        },
-
-        {
-            "name": "coreferenceOf",
-            "color": "#BBBBBB"
-        }, {
-            "name": "equivalentTo",
-            "color": "#EEEE55"
-        }
-    ],
-    "entity types": [{
-        "color": "#0000FF",
-        "name": "Sentence",
-        "type": "block"
-    }],
-    "modification types": [{
-        "name": "Speculation",
-        "color": "#222222"
+  "delimiter characters": [
+    " ",
+    ".",
+    "!",
+    "?",
+    ",",
+    ":",
+    ";",
+    "-",
+    "/",
+    "&",
+    "(",
+    ")",
+    "{",
+    "}",
+    "[",
+    "]",
+    "\\",
+    "\"",
+    "'",
+    "\n",
+    "–"
+  ],
+  "non-edge characters": [
+    " ",
+    "\n"
+  ],
+  "relation types": [{
+      "id": "themeOf",
+      "color": "#0000FF",
+      "default": true
     }, {
-        "name": "Negation",
-        "color": "#222222"
-    }]
+      "id": "causeOf",
+      "color": "#FF0000"
+    }, {
+      "id": "partOf",
+      "color": "#00FF00"
+    }, {
+      "id": "locationOf",
+      "color": "#00FFFF"
+    }, {
+      "id": "oldLocationOf",
+      "color": "#00BBBB"
+    },
+
+    {
+      "id": "coreferenceOf",
+      "color": "#BBBBBB"
+    }, {
+      "id": "equivalentTo",
+      "color": "#EEEE55"
+    }
+  ],
+  "entity types": [{
+    "color": "#0000FF",
+    "id": "Sentence",
+    "type": "block"
+  }],
+  "modification types": [{
+    "id": "Speculation",
+    "color": "#222222"
+  }, {
+    "id": "Negation",
+    "color": "#222222"
+  }]
 }

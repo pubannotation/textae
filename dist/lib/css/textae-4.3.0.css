@@ -16,9 +16,9 @@
   /* fallback (Opera) */
   background: #bbe;
   /* Mozilla: */
-  background: -moz-linear-gradient(left, #bbbbee, #ffffff);
+  background: -moz-linear-gradient(left, #BBBBEE, #FFFFFF);
   /* Chrome, Safari:*/
-  background: -webkit-gradient(linear, left top, right top, from(#bbbbee), to(#ffffff));
+  background: -webkit-gradient(linear, left top, right top, from(#BBBBEE), to(#FFFFFF));
   /* MSIE */
   filter: progid:DXImageTransform.Microsoft.Gradient(StartColorStr='#BBBBEE', EndColorStr='#FFFFFF', GradientType=1);
   border-left: 5px solid #558;
@@ -30,7 +30,7 @@
   margin-left: 2px;
   padding: 0 20px 0 10px;
   position: relative;
-  z-index: 3;
+  z-index: 7;
   /*== Elements inside the textae_control ==*/
 }
 .textae-control__title {
@@ -167,10 +167,10 @@
   visibility: hidden;
 }
 .textae-editor_term-mode.textae-editor--active {
-  background-color: #ffffee;
+  background-color: #ffe;
 }
 .textae-editor_instance-mode.textae-editor--active {
-  background-color: #ffffee;
+  background-color: #ffe;
 }
 .textae-editor_instance-mode.textae-editor--active .textae-editor__body__text-box__paragraph {
   background-color: rgba(255, 255, 238, 0.8);
@@ -201,9 +201,9 @@
   /* fallback (Opera) */
   background: #ddf;
   /* Mozilla: */
-  background: -moz-linear-gradient(left, #ddddff, #ffffff);
+  background: -moz-linear-gradient(left, #DDDDFF, #FFFFFF);
   /* Chrome, Safari:*/
-  background: -webkit-gradient(linear, left top, right top, from(#ddddff), to(#ffffff));
+  background: -webkit-gradient(linear, left top, right top, from(#DDDDFF), to(#FFFFFF));
   /* MSIE */
   bottom: 0;
   height: 20px;
@@ -499,6 +499,9 @@
   height: 25px;
   width: 340px;
 }
+.textae-editor__edit-id-dialog__id {
+  width: 498px;
+}
 .textae-editor__setting-dialog__label {
   display: inline-block;
   padding-right: 2px;
@@ -550,6 +553,9 @@
 .textae-editor__valiondate-dialog__content table td.alert {
   color: red;
 }
+.ui-autocomplete {
+  z-index: 103;
+}
 
 /* pallet */
 .textae-editor__type-pallet {
@@ -557,9 +563,10 @@
   border: solid 2px #333;
   font-size: x-small;
   margin: 0;
-  max-height: 300px;
+  max-height: 450px;
   overflow-x: hidden;
   padding: 0;
+  position: fixed;
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   -khtml-user-select: none;
@@ -594,8 +601,9 @@
   padding: 0;
 }
 .textae-editor__type-pallet td.textae-editor__type-pallet__entity-type__label {
+  overflow-x: hidden;
   padding: 5px;
-  max-width: 800px;
+  max-width: 500px;
 }
 .textae-editor__type-pallet table {
   width: 100%;

@@ -21,7 +21,18 @@
   <div id="css_area"></div>
 
   <div class="textae-control"></div>
-  <div class="textae-editor" config="demo-config.json" target="demo-annotations.json" style="line-height: 60px;"></div>
+  <div class="textae-editor" target="demo-annotations.json"></div>
+  <div class="textae-editor">
+    {"config": {
+      "entity types": [{
+          "color": "#FFFF66",
+          "id": "http://www.yahoo.co.jp",
+          "label": "Yahoo!"
+      }, {
+          "id": "http://dbpedia.org/ontology/productionCompany",
+          "label": "production company"
+      }]
+  },"text":"Ribonucleic acid (RNA) is a ubiquitous family of large biological molecules that perform multiple vital roles in the coding, decoding, regulation, and expression of genes.","denotations":[{"id":"E3","span":{"begin":165,"end":170},"obj":"http://dbpedia.org/ontology/parent"},{"id":"E4","span":{"begin":89,"end":97},"obj":"something"}],"relations":[{"id":"R1","pred":"something","subj":"E4","obj":"E3"}]}</div>
 </body>
 
 </html>
