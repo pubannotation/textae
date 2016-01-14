@@ -3,7 +3,10 @@ import source from './source'
 export default function(dialog, input, label, typeContainer, autocompletionWs, done, currentId) {
   // Update the source
   $(input).autocomplete({
-    source: (request, response) => source(typeContainer, autocompletionWs, request, response),
+    source: (request, response) => {
+      label.innerText = ''
+      source(typeContainer, autocompletionWs, request, response)
+    },
     minLength: 2,
     select: (event, ui) => select(input, label, ui)
   })
