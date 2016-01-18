@@ -38,5 +38,5 @@ export default function(typeContainer) {
       }
     })
 
-  return $(tepmlate(types))
+  return tepmlate(types)
 }
