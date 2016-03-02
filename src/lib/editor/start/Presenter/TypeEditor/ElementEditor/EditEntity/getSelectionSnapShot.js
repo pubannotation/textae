@@ -1,17 +1,12 @@
-import dismissBrowserSelection from '../../dismissBrowserSelection'
-
+// Return the snap shot of the selection.
 export default function() {
-  let selection = window.getSelection(),
-    snapShot = {
-      anchorNode: selection.anchorNode,
-      anchorOffset: selection.anchorOffset,
-      focusNode: selection.focusNode,
-      focusOffset: selection.focusOffset,
-      range: selection.getRangeAt(0)
-    }
+  const selection = window.getSelection()
 
-  dismissBrowserSelection()
-
-  // Return the snap shot of the selection.
-  return snapShot
+  return {
+    anchorNode: selection.anchorNode,
+    anchorOffset: selection.anchorOffset,
+    focusNode: selection.focusNode,
+    focusOffset: selection.focusOffset,
+    range: selection.getRangeAt(0)
+  }
 }

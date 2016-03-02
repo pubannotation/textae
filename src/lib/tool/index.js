@@ -20,7 +20,7 @@ export default function() {
   window.addEventListener('load', () => {
     let handleKeyInput = new KeyInputHandler(helpDialog, editors)
 
-    observeKeyWithoutDialog(handleKeyInput)
+    observeKeyWithoutDialog(handleKeyInput, editors)
     redrawOnResize(editors)
   })
 
@@ -32,6 +32,10 @@ export default function() {
       instance
         .on('textae.control.button.click', (e, ...rest) => handleControlButtonClick(...rest))
 
+      instance[0].addEventListener('mousedown', (e) => {
+        e.preventDefault()
+      })
+
       controlBar.setInstance(instance)
     },
     // Register editors to tool
@@ -39,20 +43,23 @@ export default function() {
       editors.push(editor)
 
       // Add an event emitter to the editer.
-      let emitter = new EventEmitter()
-        .on('textae.editor.select', () => editors.select(editor))
+      let eventEmitter = new EventEmitter()
+        .on('textae.editor.select', () => editors.selected = editor)
+        .on('textae.editor.unselect', () => {
+          editors.unselect()
+          controlBar.changeButtonState()
+        })
         .on('textae.control.button.push', (data) => {
-          if (editor === editors.getSelected())
+          if (editor === editors.selected)
             controlBar.push(data.buttonName, data.state)
         })
         .on('textae.control.buttons.change', (enableButtons) => {
-          if (editor === editors.getSelected())
+          if (editor === editors.selected)
             controlBar.changeButtonState(enableButtons)
         })
 
       Object.assign(editor, {
-        editorId: editors.getNewId(),
-        eventEmitter: emitter
+        eventEmitter
       })
     },
     disableAllButtons: () => controlBar.changeButtonState()
@@ -80,8 +87,5 @@ function ControlBar() {
 function redrawOnResize(editors) {
   // Bind resize event
   window
-    .addEventListener('resize', _.debounce(() => {
-      // Redraw all editors per editor.
-      editors.forEach((editor) => window.requestAnimationFrame(editor.api.redraw))
-    }, 500))
+    .addEventListener('resize', _.debounce(() => editors.redraw(), 500))
 }

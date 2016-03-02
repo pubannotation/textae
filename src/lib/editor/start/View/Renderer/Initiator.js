@@ -11,9 +11,10 @@ import SpanRenderer from './SpanRenderer'
 import GridRenderer from './GridRenderer'
 import EntityRenderer from './EntityRenderer'
 import getTypeDom from './getTypeDom'
+import modelToId from '../../../modelToId'
 
 export default function(domPositionCaChe, relationRenderer, buttonStateHelper, typeGap, editor, model, typeContainer) {
-  let emitter = new EventEmitter(),
+  const emitter = new EventEmitter(),
     gridRenderer = new GridRenderer(editor, domPositionCaChe),
     renderEntityHandler = (entity) => getTypeDom(entity.span, entity.type).css(new TypeStyle(typeGap())),
     entityRenderer = new EntityRenderer(editor, model, typeContainer.entity, gridRenderer, renderEntityHandler),
@@ -24,10 +25,10 @@ export default function(domPositionCaChe, relationRenderer, buttonStateHelper, t
     )
 
   return (editor, annotationData, selectionModel) => {
-    let renderAll = new RenderAll(editor, domPositionCaChe, spanRenderer, relationRenderer),
+    const renderAll = new RenderAll(editor, domPositionCaChe, spanRenderer, relationRenderer),
       chongeSpanOfEntity = (entity) => {
         // Change css class of the span according to the type is block or not.
-        let span = annotationData.span.get(entity.span)
+        const span = annotationData.span.get(entity.span)
         return spanRenderer.change(span)
       },
       renderModificationEntityOrRelation = modification => {
@@ -35,17 +36,13 @@ export default function(domPositionCaChe, relationRenderer, buttonStateHelper, t
         renderModification(annotationData, 'entity', modification, entityRenderer, buttonStateHelper)
       }
 
-    let eventHandlers = [
-      ['all.change', annotationData => {
-        renderAll(annotationData)
-        selectionModel.clear()
-      }],
+    const eventHandlers = new Map([
+      ['all.change', renderAll],
       ['paragraph.change', paragraphs => renderParagraph(editor, paragraphs)],
       ['span.add', spanRenderer.render],
       ['span.remove', span => {
         spanRenderer.remove(span)
         gridRenderer.remove(span.id)
-        selectionModel.span.remove(modelToId(span))
       }],
       ['entity.add', entity => {
         // Add a now entity with a new grid after the span moved.
@@ -59,32 +56,27 @@ export default function(domPositionCaChe, relationRenderer, buttonStateHelper, t
       ['entity.remove', entity => {
         entityRenderer.remove(entity)
         chongeSpanOfEntity(entity)
-        selectionModel.entity.remove(modelToId(entity))
       }],
       ['relation.add', relation => {
         relationRenderer.render(relation)
-        emitter.emit('relation.add', relation)
       }],
       ['relation.change', relationRenderer.change],
       ['relation.remove', relation => {
         relationRenderer.remove(relation)
-        selectionModel.relation.remove(modelToId(relation))
       }],
       ['modification.add', renderModificationEntityOrRelation],
       ['modification.remove', renderModificationEntityOrRelation]
-    ]
+    ])
 
-    eventHandlers.forEach(eventHandler => bindeToModelEvent(emitter, annotationData, eventHandler[0], eventHandler[1]))
+    for (let eventHandler of eventHandlers) {
+      bindeToModelEvent(emitter, annotationData, eventHandler[0], eventHandler[1])
+    }
 
     typeContainer.entity
       .on('type.change', (id) => entityRenderer.updateLabel(id))
 
     return emitter
   }
-}
-
-function modelToId(modelElement) {
-  return modelElement.id
 }
 
 function bindeToModelEvent(emitter, annotationData, eventName, handler) {

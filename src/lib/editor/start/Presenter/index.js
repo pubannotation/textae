@@ -25,7 +25,7 @@ export default function(
   writable,
   autocompletionWs
 ) {
-  let typeEditor = new TypeEditor(
+  const typeEditor = new TypeEditor(
       editor,
       model,
       spanConfig,
@@ -79,15 +79,9 @@ export default function(
       editor,
       displayInstance
     ),
-    editorSelected = () => {
-      typeEditor.hideDialogs()
-
-      // Select this editor.
-      editor.eventEmitter.emit('textae.editor.select')
-      buttonController.buttonStateHelper.propagate()
-    },
     event = {
-      editorSelected: editorSelected,
+      editorSelected,
+      editorUnselected,
       copyEntities: clipBoardHandler.copyEntities,
       removeSelectedElements: () => removeSelectedElements(
         command,
@@ -99,7 +93,7 @@ export default function(
       replicate: defaultEntityHandler.replicate,
       pasteEntities: clipBoardHandler.pasteEntities,
       changeLabel: typeEditor.changeLabel,
-      cancelSelect: typeEditor.cancelSelect,
+      cancelSelect,
       negation: modificationHandler.negation,
       speculation: modificationHandler.speculation,
       showSettingDialog: showSettingDialog
@@ -124,5 +118,24 @@ export default function(
       setDefaultEditability(model.annotationData, editMode, writable, mode)
     },
     event: event
+  }
+
+  function editorSelected() {
+    editor.eventEmitter.emit('textae.editor.select')
+    buttonController.buttonStateHelper.propagate()
+  }
+
+  function editorUnselected() {
+    typeEditor.hidePallet()
+    editor.eventEmitter.emit('textae.editor.unselect')
+
+    // Do not cancelSelect, because mouse up events occurs before blur events.
+  }
+
+  function cancelSelect() {
+    typeEditor.cancelSelect()
+
+    // Foucs the editor for ESC key
+    editor.focus()
   }
 }

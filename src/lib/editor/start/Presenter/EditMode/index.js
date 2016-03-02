@@ -4,7 +4,6 @@ import {
 from 'events'
 import Transition from './Transition'
 import bindTransition from './bindTransition'
-import resetView from './resetView'
 import event from './event'
 import Trigger from './Trigger'
 import enableButtonHasAnnotation from './enableButtonHasAnnotation'
@@ -20,7 +19,7 @@ export default function(editor, model, typeEditor, buttonStateHelper) {
   transition
     .on(event.SHOW, () => emitter.emit(event.SHOW))
     .on(event.HIDE, () => emitter.emit(event.HIDE))
-    .on(event.CHANGE, () => resetView(typeEditor, model.selectionModel))
+    .on(event.CHANGE, typeEditor.cancelSelect)
     .on(event.CHANGE, (editable, mode) => emitter.emit(event.CHANGE, editable, mode))
 
   Object.assign(emitter, trigger)

@@ -9,12 +9,17 @@ export default function(editor, selectionModel, annotationData, command, typeCon
   // So multi selection of relations with Ctrl-key is not work.
   let init = () => {
     editor
-      .on('mouseup', '.textae-editor__entity', (e) => entityClickedAtRelationMode(
-        selectionModel,
-        command,
-        typeContainer,
-        e
-      ))
+      .on('mouseup', '.textae-editor__entity', (e) => {
+        const ret = entityClickedAtRelationMode(
+          selectionModel,
+          command,
+          typeContainer,
+          e
+        )
+        editor.focus()
+
+        return ret
+      })
       .on('mouseup', '.textae-editor__relation, .textae-editor__relation__label', () => false)
       .on('mouseup', '.textae-editor__body', cancelSelect)
   }

@@ -1,4 +1,3 @@
-import dismissBrowserSelection from '../../dismissBrowserSelection'
 import selectEntities from './selectEntities'
 
 export default function(selectionModel, e) {

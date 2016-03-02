@@ -4,7 +4,6 @@ import {
 from 'events'
 import setEditableStyle from './setEditableStyle'
 import ViewMode from './ViewMode'
-import resetView from './resetView'
 import event from './event'
 
 const TERM = 'term',

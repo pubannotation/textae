@@ -1,8 +1,4 @@
-import dismissBrowserSelection from '../../dismissBrowserSelection'
-
 export default function(selectionModel, ctrlKey, typeLabel, entities) {
-  dismissBrowserSelection()
-
   if (ctrlKey) {
     if (typeLabel.classList.contains('ui-selected')) {
       deselect(selectionModel, entities)
@@ -13,13 +9,19 @@ export default function(selectionModel, ctrlKey, typeLabel, entities) {
     selectionModel.clear()
     select(selectionModel, entities)
   }
+
   return false
+}
 
-  function select(selectionModel, entities) {
-    Array.prototype.forEach.call(entities, (entity) => selectionModel.entity.add(entity.title))
+// A parameter entities is a HTMLCollection. It does not have the forEach method.
+function select(selectionModel, entities) {
+  for (let entity of entities) {
+    selectionModel.entity.add(entity.title)
   }
+}
 
-  function deselect(selectionModel, entities) {
-    Array.prototype.forEach.call(entities, (entity) => selectionModel.entity.remove(entity.title))
+function deselect(selectionModel, entities) {
+  for (let entity of entities) {
+    selectionModel.entity.remove(entity.title)
   }
 }

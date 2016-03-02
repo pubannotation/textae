@@ -1,5 +1,4 @@
 import Pallet from '../../../../component/Pallet'
-import dismissBrowserSelection from './dismissBrowserSelection'
 import ElementEditor from './ElementEditor'
 import changeLabelHandler from './changeLabelHandler'
 
@@ -19,7 +18,7 @@ export default function(
       spanConfig,
       command,
       modeAccordingToButton,
-      typeContainer, () => cancelSelect(pallet, model.selectionModel)
+      typeContainer, () => cancelSelect(pallet, model.selectionModel, editor)
     ),
     pallet = new Pallet(
       (label) => {
@@ -32,11 +31,11 @@ export default function(
       editEntity: elementEditor.start.editEntity,
       noEdit: elementEditor.start.noEdit,
       showPallet: (point) => pallet.show(elementEditor.getHandler().typeContainer, point.point),
+      hidePallet: pallet.hide,
       getTypeOfSelected: () => elementEditor.getHandler().getSelectedType(),
       changeLabel: () => changeLabelHandler(editor, elementEditor.getHandler, autocompletionWs),
       changeTypeOfSelectedElement: (newType) => elementEditor.getHandler().changeTypeOfSelectedElement(newType),
-      hideDialogs: pallet.hide,
-      cancelSelect: () => cancelSelect(pallet, model.selectionModel),
+      cancelSelect: () => cancelSelect(pallet, model.selectionModel, editor),
       jsPlumbConnectionClicked: (jsPlumbConnection, event) => jsPlumbConnectionClicked(
         elementEditor,
         jsPlumbConnection,
@@ -48,10 +47,9 @@ export default function(
   return api
 }
 
-function cancelSelect(pallet, selectionModel) {
+function cancelSelect(pallet, selectionModel, editor) {
   pallet.hide()
   selectionModel.clear()
-  dismissBrowserSelection()
 }
 
 // A relation is drawn by a jsPlumbConnection.

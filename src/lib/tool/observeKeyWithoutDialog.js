@@ -1,10 +1,9 @@
 // Observe key-input events and convert events to readable code.
-export default function(keyInputHandler) {
+export default function(keyInputHandler, editors) {
   let noop = () => {},
     onKeyup = keyInputHandler // Overwrite by the noop when daialogs are opened.
 
-  // Observe key-input
-  document.addEventListener('keyup', (event) => onKeyup(event))
+  editors.observeKeyInput(onKeyup)
 
   // Disable/Enable key-input When a jquery-ui dialog is opened/closeed
   $('body')

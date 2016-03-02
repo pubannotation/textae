@@ -1,7 +1,4 @@
-module.exports = function(message) {
+export default function(message) {
   // Show synchronous to smooth cancelation of selecton.
-  _.defer(_.partial(
-    alert,
-    message
-  ))
+  requestAnimationFrame(() => alert(message))
 }

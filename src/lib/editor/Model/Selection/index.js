@@ -5,7 +5,7 @@ from 'events'
 import IdContainer from './IdContainer'
 
 export default function(kinds) {
-  let emitter = new EventEmitter(),
+  const emitter = new EventEmitter(),
     map = new Map(kinds.map(kindName => [kindName, new IdContainer(emitter, kindName)])),
     hash = {}
 

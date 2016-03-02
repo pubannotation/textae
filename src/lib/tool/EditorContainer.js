@@ -1,31 +1,54 @@
 const ACTIVE_CLASS = 'textae-editor--active'
 
-// The editor is extended jQuery object.
-export default function() {
-  let editorList = [],
-    selected = null,
-    select = (editorList, editor) => {
-      switchActiveClass(editorList, editor)
-      selected = editor
-    }
-
-  return {
-    push: (editor) => editorList.push(editor),
-    getNewId: () => 'editor' + editorList.length,
-    getSelected: () => selected,
-    select: (editor) => select(editorList, editor),
-    forEach: editorList.forEach.bind(editorList)
+export default class {
+  constructor() {
+    this.editorList = []
+    this.selectedEditor = null
+  }
+  push(editor) {
+    Object.assign(editor, {
+      editorId: getNewId(this.editorList)
+    })
+    this.editorList.push(editor)
+  }
+  get selected() {
+    return this.selectedEditor
+  }
+  set selected(editor) {
+    switchActiveClass(this.editorList, editor)
+    this.selectedEditor = editor
+  }
+  unselect() {
+    removeAciteveClass(this.editorList)
+    this.selectedEditor = null
+  }
+  redraw() {
+    this.editorList.forEach((editor) => window.requestAnimationFrame(editor.api.redraw))
+  }
+  observeKeyInput(onKeyup) {
+    this.editorList.forEach((editor) => {
+      editor[0].addEventListener('keyup', (event) => {
+        onKeyup(event)
+      })
+    })
   }
 }
 
-function switchActiveClass(editors, selected) {
-  // Remove ACTIVE_CLASS from others than selected.
+function getNewId(editorList) {
+  return 'editor' + editorList.length
+}
+
+function removeAciteveClass(editors) {
+  // Remove ACTIVE_CLASS from all editor.
   editors
-    .filter(editor => editor !== selected)
     .map(other => other[0])
     .forEach(elemet => {
       elemet.classList.remove(ACTIVE_CLASS)
     })
+}
+
+function switchActiveClass(editors, selected) {
+  removeAciteveClass(editors)
 
   // Add ACTIVE_CLASS to the selected.
   selected[0].classList.add(ACTIVE_CLASS)
