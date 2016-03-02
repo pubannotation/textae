@@ -51,7 +51,7 @@ export default function(editor, dataAccessObject, history, buttonController, mod
 
   dataAccessObject
     .on('load', data => {
-      setAnnotation(spanConfig, typeContainer, model.annotationData, params.config, data.annotation)
+      setAnnotation(spanConfig, typeContainer, model.annotationData, data.annotation, params.config)
       statusBar.status(data.source)
       originalAnnotation = data.annotation
     })
@@ -78,17 +78,21 @@ function loadAnnotation(spanConfig, typeContainer, annotationData, statusBar, pa
       // Set an inline annotation.
       let originalAnnotation = JSON.parse(annotation.inlineAnnotation)
 
-      setAnnotation(spanConfig, typeContainer, annotationData, params.config, originalAnnotation)
+      setAnnotation(spanConfig, typeContainer, annotationData, originalAnnotation, params.config)
       statusBar.status('inline')
       return originalAnnotation
     } else if (annotation.url) {
       // Load an annotation from server.
       dataAccessObject.getAnnotationFromServer(annotation.url)
+    } else {
+      setAnnotation(spanConfig, typeContainer, annotationData, {
+        text: 'Currently, the document is empty. Use the "import" button or press the key "i" to open a document with annotation.'
+      })
     }
   }
 }
 
-function setAnnotation(spanConfig, typeContainer, annotationData, config, annotation) {
+function setAnnotation(spanConfig, typeContainer, annotationData, annotation, config) {
   const ret = setConfigInAnnotation(spanConfig, typeContainer, annotation)
 
   if (ret === 'no config') {
