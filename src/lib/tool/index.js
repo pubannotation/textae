@@ -55,12 +55,7 @@ export default function() {
         eventEmitter: emitter
       })
     },
-    // Select the first editor
-    selectFirstEditor: () => {
-      // Disable all buttons.
-      controlBar.changeButtonState()
-      editors.selectFirst()
-    },
+    disableAllButtons: () => controlBar.changeButtonState()
   }
 }
 

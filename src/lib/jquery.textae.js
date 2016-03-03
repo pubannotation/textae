@@ -14,7 +14,7 @@ jQuery.fn.textae = (function() {
         e.api.start(e)
         return e
       })
-      tool.selectFirstEditor()
+      tool.disableAllButtons()
     } else if (this.hasClass("textae-control")) {
       var c = control(this)
       tool.setControl(c)

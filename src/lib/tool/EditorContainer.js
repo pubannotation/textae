@@ -14,7 +14,6 @@ export default function() {
     getNewId: () => 'editor' + editorList.length,
     getSelected: () => selected,
     select: (editor) => select(editorList, editor),
-    selectFirst: () => select(editorList, editorList[0]),
     forEach: editorList.forEach.bind(editorList)
   }
 }
