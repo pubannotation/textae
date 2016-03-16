@@ -10,15 +10,11 @@ export default function(editor, annotationData, typeContainer, arrangePositionAl
     update = (typeGapValue) => {
       emitter.emit('render.start', editor)
 
-      // Do asynchronous to change behavior of editor.
-      // For example a wait cursor or a disabled control.
-      requestAnimationFrame(() =>
-        gridLayout.arrangePosition(typeGapValue)
+      gridLayout.arrangePosition(typeGapValue)
         .then(() => renderLazyRelationAll(annotationData.relation.all()))
         .then(arrangePositionAllRelation)
         .then(() => emitter.emit('render.end', editor))
         .catch((error) => console.error(error, error.stack))
-      )
     }
 
   return Object.assign(emitter, {

@@ -302,7 +302,9 @@ module.exports = function(editor, model, typeContainer) {
           })
         },
         renderIfGridExists = function(relation) {
-          if (filterGridExists(relation)) render(relation)
+          if (filterGridExists(relation) && relation.render) {
+            render(relation)
+          }
         },
         extendDummyApiToCreateRlationWhenGridMoved = function(relation) {
           var render = function() {
