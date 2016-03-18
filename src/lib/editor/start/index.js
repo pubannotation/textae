@@ -71,6 +71,9 @@ export default function(editor, dataAccessObject, history, buttonController, mod
     view,
     updateLineHeight
   )
+
+  // Add tabIndex to listen to keyboard events.
+  editor[0].tabIndex = -1
 }
 
 function loadAnnotation(spanConfig, typeContainer, annotationData, statusBar, params, dataAccessObject) {
