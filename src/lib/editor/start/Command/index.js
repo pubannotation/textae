@@ -13,13 +13,18 @@ export default function(editor, model, history) {
     },
     undo: () => {
       if (history.hasAnythingToUndo()) {
+        // Focus the editor.
+        // Focus is lost when undo ceration.
         model.selectionModel.clear()
+        editor.focus()
         invokeCommand.invokeRevert(history.prev())
       }
     },
     redo: () => {
       if (history.hasAnythingToRedo()) {
+        // Select only new element when redo ceration.
         model.selectionModel.clear()
+
         invokeCommand.invoke(history.next())
       }
     },
