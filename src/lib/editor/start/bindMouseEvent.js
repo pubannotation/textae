@@ -17,19 +17,22 @@ export default function(editor, presenter, view) {
   delegate(dom, '.textae-editor__body__text-box__paragraph-margin', 'mousedown', (e) => {
     // Filter bubbling event from children.
     // if (e.target.className === 'textae-editor__body__text-box__paragraph-margin')
-      // e.preventDefault()
+    // e.preventDefault()
   })
 
-  // Select the editor when body, span, grid or entity is clicked.
-  // delegate(dom, '.textae-editor__body,.textae-editor__span,.textae-editor__grid,.textae-editor__entity', 'mouseup', presenter.event.editorSelected)
-
-  // Unselect the editor when the editro focus outed.
-  // function hoge(message, e) {
-  //   console.log(message, e, document.activeElement)
-  // }
-  dom.addEventListener('focus', presenter.event.editorSelected, true)
-  dom.addEventListener('blur', presenter.event.editorUnselected, true)
-
+  // Select the editor when the editor, a span or an entity-type is focused in.
+  // Unselect the editor when a child element of other than the editor is focused in.
+  // The blur events always occurs each focus changing.
+  // For example, blur events always occurs when the labels in the pallt is clicked.
+  // If other editors are selected, the pallet should be closed.
+  // But the blur events is not distinguished from clicking on the parret and selection other editors.
+  document.body.addEventListener('focus', (e) => {
+    if (e.target.closest('.textae-editor') === dom) {
+      presenter.event.editorSelected()
+    } else {
+      presenter.event.editorUnselected()
+    }
+  }, true)
 
   // Highlight retaitons when related entity is heverd.
   delegate(dom, '.textae-editor__entity', 'mouseover', (e) => view.hoverRelation.on(e.target.title))

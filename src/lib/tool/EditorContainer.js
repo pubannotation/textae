@@ -18,9 +18,11 @@ export default class {
     switchActiveClass(this.editorList, editor)
     this.selectedEditor = editor
   }
-  unselect() {
-    removeAciteveClass(this.editorList)
-    this.selectedEditor = null
+  unselect(editor) {
+    if(this.selectedEditor === editor){
+      editor[0].classList.remove(ACTIVE_CLASS)
+      this.selectedEditor = null
+    }
   }
   redraw() {
     this.editorList.forEach((editor) => window.requestAnimationFrame(editor.api.redraw))

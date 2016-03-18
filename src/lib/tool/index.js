@@ -46,7 +46,7 @@ export default function() {
       let eventEmitter = new EventEmitter()
         .on('textae.editor.select', () => editors.selected = editor)
         .on('textae.editor.unselect', () => {
-          editors.unselect()
+          editors.unselect(editor)
           controlBar.changeButtonState()
         })
         .on('textae.control.button.push', (data) => {
