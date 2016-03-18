@@ -11,6 +11,7 @@ import bindMouseEvent from './bindMouseEvent'
 import DaoHandler from './DaoHandler'
 import APIs from './APIs'
 import calculateLineHeight from './calculateLineHeight'
+import focusEditorWhenFocusedChildRemoved from './focusEditorWhenFocusedChildRemoved'
 
 export default function(editor, dataAccessObject, history, buttonController, model, clipBoard, writable) {
   const params = getParams(editor),
@@ -36,6 +37,8 @@ export default function(editor, dataAccessObject, history, buttonController, mod
 
   view.init(editor, buttonController, typeGap, typeContainer, writable)
   bindMouseEvent(editor, presenter, view)
+  focusEditorWhenFocusedChildRemoved(editor)
+
   presenter.init(params.mode)
 
   // Manage the original annotation
