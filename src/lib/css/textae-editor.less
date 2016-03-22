@@ -11,20 +11,6 @@
         outline-style: none;
     }
     border: 1px solid black;
-    &--wait {
-        cursor: wait;
-    }
-    &--wait::before {
-        content: '';
-        display: block;
-        height: 100%;
-        left: 0;
-        opacity: 0;
-        position: fixed;
-        top: 0;
-        width: 100%;
-        z-index: 200;
-    }
     .hidden {
         visibility: hidden;
     }
@@ -320,6 +306,16 @@
         .textae-editor__relation__label.ui-selected {
             z-index: 2;
         }
+    }
+    &-veil {
+        cursor: wait;
+        height: 100%;
+        left: 0;
+        opacity: 0;
+        position: fixed;
+        top: 0;
+        width: 100%;
+        z-index: 200;
     }
 }
 /* relation */

@@ -7,6 +7,7 @@ import ControlButtonHandler from './ControlButtonHandler'
 import KeyInputHandler from './KeyInputHandler'
 import observeKeyWithoutDialog from './observeKeyWithoutDialog'
 import HelpDialog from '../component/HelpDialog'
+import setVeilObserver from './setVeilObserver'
 
 let helpDialog = new HelpDialog()
 
@@ -57,6 +58,8 @@ export default function() {
           if (editor === editors.selected)
             controlBar.changeButtonState(enableButtons)
         })
+
+      setVeilObserver(editor[0])
 
       Object.assign(editor, {
         eventEmitter
