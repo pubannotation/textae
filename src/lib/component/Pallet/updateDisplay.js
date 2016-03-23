@@ -5,6 +5,7 @@ export default function(pallet, typeContainer, point) {
     clear(pallet)
     appendRows(pallet, typeContainer)
     show(pallet)
+    setWidthWithinWindow(pallet)
     setHeightWithinWindow(pallet)
     moveIntoWindow(pallet, point)
   }
@@ -23,6 +24,13 @@ function show(pallet) {
   pallet.style.display = 'block'
 }
 
+function setWidthWithinWindow(pallet) {
+  pallet.style.width ='auto'
+  if (window.innerWidth - 2 <= pallet.offsetWidth) {
+    pallet.style.width = window.innerWidth - 4 + 'px'
+  }
+}
+
 function setHeightWithinWindow(pallet) {
   if (window.innerHeight - 2 <= pallet.offsetHeight) {
     pallet.style.height = window.innerHeight - 2 + 'px'
@@ -30,6 +38,11 @@ function setHeightWithinWindow(pallet) {
 }
 
 function moveIntoWindow(pallet, point) {
+  // Pull left the pallet when the pallet protrudes from right of the window.
+  if (pallet.offsetWidth + point.left > window.innerWidth) {
+    point.left = window.innerWidth - pallet.offsetWidth - 2
+  }
+
   // Pull up the pallet when the pallet protrudes from bottom of the window.
   if (pallet.offsetHeight + point.top > window.innerHeight) {
     point.top = window.innerHeight - pallet.offsetHeight - 1
