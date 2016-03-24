@@ -19,7 +19,7 @@ export default class {
     this.selectedEditor = editor
   }
   unselect(editor) {
-    if(this.selectedEditor === editor){
+    if (this.selectedEditor === editor) {
       editor[0].classList.remove(ACTIVE_CLASS)
       this.selectedEditor = null
     }
@@ -44,8 +44,8 @@ function removeAciteveClass(editors) {
   // Remove ACTIVE_CLASS from all editor.
   editors
     .map(other => other[0])
-    .forEach(elemet => {
-      elemet.classList.remove(ACTIVE_CLASS)
+    .forEach(element => {
+      element.classList.remove(ACTIVE_CLASS)
     })
 }
 
