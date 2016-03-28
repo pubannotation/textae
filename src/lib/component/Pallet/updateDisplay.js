@@ -25,7 +25,7 @@ function show(pallet) {
 }
 
 function setWidthWithinWindow(pallet) {
-  pallet.style.width ='auto'
+  pallet.style.width = 'auto'
   if (window.innerWidth - 2 <= pallet.offsetWidth) {
     pallet.style.width = window.innerWidth - 4 + 'px'
   }
