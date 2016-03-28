@@ -18,24 +18,34 @@ export default function(
       spanConfig,
       command,
       modeAccordingToButton,
-      typeContainer, () => cancelSelect(pallet, model.selectionModel, editor)
+      typeContainer, () => cancelSelect(pallet, model.selectionModel)
     ),
     pallet = new Pallet(
       (label) => {
         const commands = elementEditor.getHandler().changeTypeOfSelectedElement(label)
         command.invoke(commands)
-      }, (label) => elementEditor.getHandler().typeContainer.setDefaultType(label)
+      }, (label) => {
+        elementEditor.getHandler().typeContainer.setDefaultType(label)
+        // Focus the editor to prevent lost focus when the pallet is closed during selecting radio buttons.
+        editor[0].focus()
+      }
     ),
     api = {
       editRelation: elementEditor.start.editRelation,
       editEntity: elementEditor.start.editEntity,
       noEdit: elementEditor.start.noEdit,
-      showPallet: (point) => pallet.show(elementEditor.getHandler().typeContainer, point.point),
+      showPallet: (point) => {
+        // Add the pallet to the editor to prevent focus out of the editor when radio buttnos on the pallet are clicked.
+        if (!editor[0].querySelector('.textae-editor__type-pallet')) {
+          editor[0].appendChild(pallet.el)
+        }
+        pallet.show(elementEditor.getHandler().typeContainer, point.point)
+      },
       hidePallet: pallet.hide,
       getTypeOfSelected: () => elementEditor.getHandler().getSelectedType(),
       changeLabel: () => changeLabelHandler(editor, elementEditor.getHandler, autocompletionWs),
       changeTypeOfSelectedElement: (newType) => elementEditor.getHandler().changeTypeOfSelectedElement(newType),
-      cancelSelect: () => cancelSelect(pallet, model.selectionModel, editor),
+      cancelSelect: () => cancelSelect(pallet, model.selectionModel),
       jsPlumbConnectionClicked: (jsPlumbConnection, event) => jsPlumbConnectionClicked(
         elementEditor,
         jsPlumbConnection,
@@ -47,7 +57,7 @@ export default function(
   return api
 }
 
-function cancelSelect(pallet, selectionModel, editor) {
+function cancelSelect(pallet, selectionModel) {
   pallet.hide()
   selectionModel.clear()
 }
