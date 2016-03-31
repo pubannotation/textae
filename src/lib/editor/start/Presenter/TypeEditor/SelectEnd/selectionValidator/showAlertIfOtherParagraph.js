@@ -10,12 +10,12 @@ export default function(selection) {
 }
 
 function isInSameParagraph(selection) {
-  var anchorParagraphId = getParagraphId(selection.anchorNode),
-    focusParagraphId = getParagraphId(selection.focusNode)
+  const anchorParagraph = getParagraph(selection.anchorNode),
+    focusParagraph = getParagraph(selection.focusNode)
 
-  return anchorParagraphId === focusParagraphId
+  return anchorParagraph === focusParagraph
 }
 
-function getParagraphId(node) {
-  return node.parentNode.closest('.textae-editor__body__text-box__paragraph').id
+function getParagraph(node) {
+  return node.parentElement.closest('.textae-editor__body__text-box__paragraph')
 }
