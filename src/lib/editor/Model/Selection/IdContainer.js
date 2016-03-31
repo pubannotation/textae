@@ -24,8 +24,7 @@ function add(selected, emitter, kindName, id) {
       emitter.emit(kindName + '.select', id)
       triggerChange(emitter, kindName)
     })
-  }
-  else{
+  } else {
     selected.add(id)
     emitter.emit(kindName + '.select', id)
     triggerChange(emitter, kindName)
