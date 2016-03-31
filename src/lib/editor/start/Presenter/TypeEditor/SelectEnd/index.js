@@ -1,5 +1,6 @@
 import * as selectionValidator from './selectionValidator'
 import SpanEditor from './SpanEditor'
+import * as selectPosition from './selectPosition'
 
 module.exports = function(editor, model, command, modeAccordingToButton, typeContainer) {
   // Initiated by events.
@@ -52,9 +53,15 @@ function selectEndOnSpan(spanEditor, annotationData, data) {
 
   if (isValid) {
     if (data.selection.anchorNode === data.selection.focusNode) {
-      spanEditor.create(data)
+      const ap = selectPosition.getAnchorPosition(annotationData, data.selection),
+        span = annotationData.span.get(data.selection.anchorNode.parentElement.id)
+      if (ap === span.begin || ap === span.end) {
+        spanEditor.shrinkPullByTheEar(data, data.selection.anchorNode.parentElement.id)
+      } else {
+        spanEditor.create(data)
+      }
     } else if (data.selection.focusNode.parentElement.closest(`#${data.selection.anchorNode.parentElement.id}`)) {
-      spanEditor.shrink(data)
+      spanEditor.shrinkCrossTheEar(data)
     } else if (data.selection.anchorNode.parentElement.closest(`#${data.selection.focusNode.parentElement.id}`)) {
       spanEditor.expand(data)
     }
