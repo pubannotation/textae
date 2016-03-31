@@ -17221,6 +17221,74 @@ function Observable(value) {
 },{}],162:[function(require,module,exports){
 'use strict';
 
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
+
+var _events = require('events');
+
+exports['default'] = function () {
+  var states = {},
+      eventEmitter = new _events.EventEmitter(),
+      mixin = {
+    set: function set(button, enable) {
+      states[button] = enable;
+    },
+    propagate: function propagate() {
+      eventEmitter.emit('change', states);
+    }
+  };
+
+  return _.extend(eventEmitter, mixin);
+};
+
+module.exports = exports['default'];
+
+},{"events":110}],163:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
+var allButtons = ['delete'],
+    spanButtons = allButtons.concat(['replicate', 'entity', 'copy', 'paste']),
+    relationButtons = allButtons.concat(['pallet', 'change-label', 'negation', 'speculation']),
+    entityButtons = relationButtons.concat(['copy']);
+
+exports['default'] = function (model, modeAccordingToButton, buttonEnableStates, updateButtonState, updateModificationButtons) {
+  var propagate = function propagate() {
+    buttonEnableStates.propagate();
+    modeAccordingToButton.propagate();
+  };
+
+  return {
+    propagate: propagate,
+    enabled: function enabled(button, enable) {
+      buttonEnableStates.set(button, enable);
+      propagate();
+    },
+    updateBySpan: function updateBySpan() {
+      updateButtonState(spanButtons);
+      propagate();
+    },
+    updateByEntity: function updateByEntity() {
+      updateButtonState(entityButtons);
+      updateModificationButtons(model.selectionModel.entity);
+      propagate();
+    },
+    updateByRelation: function updateByRelation() {
+      updateButtonState(relationButtons);
+      updateModificationButtons(model.selectionModel.relation);
+      propagate();
+    }
+  };
+};
+
+module.exports = exports['default'];
+
+},{}],164:[function(require,module,exports){
+'use strict';
+
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
 
 Object.defineProperty(exports, '__esModule', {
@@ -17305,82 +17373,78 @@ function toData(button) {
 }
 module.exports = exports['default'];
 
-},{"./reduce2hash":164,"babel-runtime/helpers/interop-require-default":18,"events":110}],163:[function(require,module,exports){
+},{"./reduce2hash":168,"babel-runtime/helpers/interop-require-default":18,"events":110}],165:[function(require,module,exports){
 'use strict';
 
-var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
+var _Map = require('babel-runtime/core-js/map')['default'];
 
-var _events = require('events');
+var _getIterator = require('babel-runtime/core-js/get-iterator')['default'];
 
-var _ModeAccordingToButton = require('./ModeAccordingToButton');
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
 
-var _ModeAccordingToButton2 = _interopRequireDefault(_ModeAccordingToButton);
-
-var ButtonEnableStates = function ButtonEnableStates() {
-  var states = {},
-      set = function set(button, enable) {
-    states[button] = enable;
-  },
-      eventEmitter = new _events.EventEmitter(),
-      propagate = function propagate() {
-    eventEmitter.emit('change', states);
-  };
-
-  return _.extend(eventEmitter, {
-    set: set,
-    propagate: propagate
-  });
-},
-    UpdateButtonState = function UpdateButtonState(model, buttonEnableStates, clipBoard) {
+exports['default'] = function (model, buttonEnableStates, clipBoard) {
   // Short cut name
   var s = model.selectionModel,
-      doPredicate = function doPredicate(name) {
-    return _.isFunction(name) ? name() : s[name].some();
-  },
-      and = function and() {
-    for (var i = 0; i < arguments.length; i++) {
-      if (!doPredicate(arguments[i])) return false;
-    }
-
-    return true;
-  },
-      or = function or() {
-    for (var i = 0; i < arguments.length; i++) {
-      if (doPredicate(arguments[i])) return true;
-    }
-
-    return false;
-  },
       hasCopy = function hasCopy() {
     return clipBoard.clipBoard.length > 0;
   },
-      sOrE = _.partial(or, 'span', 'entity'),
-      eOrR = _.partial(or, 'entity', 'relation');
+      eOrR = function eOrR() {
+    return s.entity.some() || s.relation.some();
+  };
 
   // Check all associated anntation elements.
   // For exapmle, it should be that buttons associate with entitis is enable,
   // when deselect the span after select a span and an entity.
-  var predicates = {
-    replicate: function replicate() {
-      return Boolean(s.span.single());
-    },
-    entity: s.span.some,
-    'delete': s.some, // It works well on relation-edit-mode if relations are deselect brefore an entity is select.
-    copy: sOrE,
-    paste: _.partial(and, hasCopy, 'span'),
-    pallet: eOrR,
-    'change-label': eOrR,
-    negation: eOrR,
-    speculation: eOrR
-  };
+  var predicates = new _Map([['replicate', function () {
+    return Boolean(s.span.single());
+  }], ['entity', s.span.some], ['delete', s.some], // It works well on relation-edit-mode if relations are deselect brefore an entity is select.
+  ['copy', function () {
+    return s.span.some() || s.entity.some();
+  }], ['paste', function () {
+    return hasCopy() && s.span.some();
+  }], ['pallet', eOrR], ['change-label', eOrR], ['negation', eOrR], ['speculation', eOrR]]);
 
   return function (buttons) {
-    buttons.forEach(function (buttonName) {
-      buttonEnableStates.set(buttonName, predicates[buttonName]());
-    });
+    var _iteratorNormalCompletion = true;
+    var _didIteratorError = false;
+    var _iteratorError = undefined;
+
+    try {
+      for (var _iterator = _getIterator(buttons), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+        var buttonName = _step.value;
+
+        var predicate = predicates.get(buttonName);
+        buttonEnableStates.set(buttonName, predicate());
+      }
+    } catch (err) {
+      _didIteratorError = true;
+      _iteratorError = err;
+    } finally {
+      try {
+        if (!_iteratorNormalCompletion && _iterator['return']) {
+          _iterator['return']();
+        }
+      } finally {
+        if (_didIteratorError) {
+          throw _iteratorError;
+        }
+      }
+    }
   };
-},
-    UpdateModificationButtons = function UpdateModificationButtons(model, modeAccordingToButton) {
+};
+
+module.exports = exports['default'];
+
+},{"babel-runtime/core-js/get-iterator":3,"babel-runtime/core-js/map":5}],166:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
+
+exports['default'] = function (model, modeAccordingToButton) {
   var doesAllModificaionHasSpecified = function doesAllModificaionHasSpecified(specified, modificationsOfSelectedElement) {
     return modificationsOfSelectedElement.length > 0 && _.every(modificationsOfSelectedElement, function (m) {
       return _.contains(m, specified);
@@ -17401,55 +17465,66 @@ var ButtonEnableStates = function ButtonEnableStates() {
     updateModificationButton('Negation', modifications);
     updateModificationButton('Speculation', modifications);
   };
-},
-    ButtonStateHelper = function ButtonStateHelper(model, modeAccordingToButton, buttonEnableStates, updateButtonState, updateModificationButtons) {
-  var allButtons = ['delete'],
-      spanButtons = allButtons.concat(['replicate', 'entity', 'copy', 'paste']),
-      relationButtons = allButtons.concat(['pallet', 'change-label', 'negation', 'speculation']),
-      entityButtons = relationButtons.concat(['copy']),
-      propagate = _.compose(modeAccordingToButton.propagate, buttonEnableStates.propagate),
-      propagateAfter = _.partial(_.compose, propagate);
-
-  return {
-    propagate: propagate,
-    enabled: propagateAfter(buttonEnableStates.set),
-    updateBySpan: propagateAfter(_.partial(updateButtonState, spanButtons)),
-    updateByEntity: _.compose(propagate, _.partial(updateModificationButtons, model.selectionModel.entity), _.partial(updateButtonState, entityButtons)),
-    updateByRelation: _.compose(propagate, _.partial(updateModificationButtons, model.selectionModel.relation), _.partial(updateButtonState, relationButtons))
-  };
 };
+
+module.exports = exports['default'];
+
+},{}],167:[function(require,module,exports){
+'use strict';
+
+var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
+
+var _events = require('events');
+
+var _ModeAccordingToButton = require('./ModeAccordingToButton');
+
+var _ModeAccordingToButton2 = _interopRequireDefault(_ModeAccordingToButton);
+
+var _ButtonEnableStates = require('./ButtonEnableStates');
+
+var _ButtonEnableStates2 = _interopRequireDefault(_ButtonEnableStates);
+
+var _UpdateButtonState = require('./UpdateButtonState');
+
+var _UpdateButtonState2 = _interopRequireDefault(_UpdateButtonState);
+
+var _UpdateModificationButtons = require('./UpdateModificationButtons');
+
+var _UpdateModificationButtons2 = _interopRequireDefault(_UpdateModificationButtons);
+
+var _ButtonStateHelper = require('./ButtonStateHelper');
+
+var _ButtonStateHelper2 = _interopRequireDefault(_ButtonStateHelper);
 
 module.exports = function (editor, model, clipBoard) {
   // Save state of push control buttons.
   var modeAccordingToButton = new _ModeAccordingToButton2['default'](),
 
   // Save enable/disable state of contorol buttons.
-  buttonEnableStates = new ButtonEnableStates(),
-      updateButtonState = new UpdateButtonState(model, buttonEnableStates, clipBoard),
+  buttonEnableStates = new _ButtonEnableStates2['default'](),
+      updateButtonState = new _UpdateButtonState2['default'](model, buttonEnableStates, clipBoard),
 
   // Change push/unpush of buttons of modifications.
-  updateModificationButtons = new UpdateModificationButtons(model, modeAccordingToButton),
+  updateModificationButtons = new _UpdateModificationButtons2['default'](model, modeAccordingToButton),
 
   // Helper to update button state.
-  buttonStateHelper = new ButtonStateHelper(model, modeAccordingToButton, buttonEnableStates, updateButtonState, updateModificationButtons);
+  buttonStateHelper = new _ButtonStateHelper2['default'](model, modeAccordingToButton, buttonEnableStates, updateButtonState, updateModificationButtons);
 
   // Proragate events.
   modeAccordingToButton.on('change', function (data) {
-    editor.eventEmitter.emit('textae.control.button.push', data);
+    return editor.eventEmitter.emit('textae.control.button.push', data);
   });
-
   buttonEnableStates.on('change', function (data) {
-    editor.eventEmitter.emit('textae.control.buttons.change', data);
+    return editor.eventEmitter.emit('textae.control.buttons.change', data);
   });
 
   return {
-    // Modes accoding to buttons of control.
     modeAccordingToButton: modeAccordingToButton,
     buttonStateHelper: buttonStateHelper
   };
 };
 
-},{"./ModeAccordingToButton":162,"babel-runtime/helpers/interop-require-default":18,"events":110}],164:[function(require,module,exports){
+},{"./ButtonEnableStates":162,"./ButtonStateHelper":163,"./ModeAccordingToButton":164,"./UpdateButtonState":165,"./UpdateModificationButtons":166,"babel-runtime/helpers/interop-require-default":18,"events":110}],168:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -17467,7 +17542,7 @@ exports['default'] = function () {
 
 module.exports = exports['default'];
 
-},{}],165:[function(require,module,exports){
+},{}],169:[function(require,module,exports){
 // Maintainance a state of which the save button is able to be push.
 
 "use strict";
@@ -17500,7 +17575,7 @@ exports["default"] = function () {
 
 module.exports = exports["default"];
 
-},{"babel-runtime/helpers/interop-require-default":18,"observ":161}],166:[function(require,module,exports){
+},{"babel-runtime/helpers/interop-require-default":18,"observ":161}],170:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -17701,7 +17776,7 @@ module.exports = function (editor, confirmDiscardChangeMessage) {
   return api;
 };
 
-},{"../util/CursorChanger":406,"../util/ajaxAccessor":407,"./dialog/GetEditorDialog":182,"./jQuerySugar":192,"babel-runtime/helpers/interop-require-default":18,"babel-runtime/helpers/interop-require-wildcard":19,"events":110,"url":117}],167:[function(require,module,exports){
+},{"../util/CursorChanger":425,"../util/ajaxAccessor":426,"./dialog/GetEditorDialog":186,"./jQuerySugar":196,"babel-runtime/helpers/interop-require-default":18,"babel-runtime/helpers/interop-require-wildcard":19,"events":110,"url":117}],171:[function(require,module,exports){
 'use strict';
 
 var ToolDialog = require('./dialog/GetToolDialog');
@@ -17715,7 +17790,7 @@ module.exports = function () {
   return helpDialog.open;
 };
 
-},{"./dialog/GetToolDialog":183}],168:[function(require,module,exports){
+},{"./dialog/GetToolDialog":187}],172:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -17750,7 +17825,7 @@ exports['default'] = function (selectType, selectDefaultType) {
 
 module.exports = exports['default'];
 
-},{"babel-runtime/helpers/interop-require-default":18,"delegate":107}],169:[function(require,module,exports){
+},{"babel-runtime/helpers/interop-require-default":18,"delegate":107}],173:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -17768,24 +17843,22 @@ var _updateDisplay = require('./updateDisplay');
 var _updateDisplay2 = _interopRequireDefault(_updateDisplay);
 
 exports['default'] = function (selectType, selectDefaultType) {
-  var pallet = new _Component2['default'](selectType, selectDefaultType);
-  var $pallet = $(pallet);
-
-  document.body.appendChild(pallet);
+  var el = new _Component2['default'](selectType, selectDefaultType);
 
   return {
+    el: el,
     show: function show(typeContainer, point) {
-      return (0, _updateDisplay2['default'])(pallet, typeContainer, point);
+      return (0, _updateDisplay2['default'])(el, typeContainer, point);
     },
     hide: function hide() {
-      return pallet.style.display = 'none';
+      return el.style.display = 'none';
     }
   };
 };
 
 module.exports = exports['default'];
 
-},{"./Component":168,"./updateDisplay":171,"babel-runtime/helpers/interop-require-default":18}],170:[function(require,module,exports){
+},{"./Component":172,"./updateDisplay":175,"babel-runtime/helpers/interop-require-default":18}],174:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -17818,7 +17891,7 @@ exports['default'] = function (typeContainer) {
 
 module.exports = exports['default'];
 
-},{"babel-runtime/helpers/interop-require-default":18,"handlebars":147}],171:[function(require,module,exports){
+},{"babel-runtime/helpers/interop-require-default":18,"handlebars":147}],175:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -17836,6 +17909,7 @@ exports['default'] = function (pallet, typeContainer, point) {
     clear(pallet);
     appendRows(pallet, typeContainer);
     show(pallet);
+    setWidthWithinWindow(pallet);
     setHeightWithinWindow(pallet);
     moveIntoWindow(pallet, point);
   }
@@ -17854,6 +17928,13 @@ function show(pallet) {
   pallet.style.display = 'block';
 }
 
+function setWidthWithinWindow(pallet) {
+  pallet.style.width = 'auto';
+  if (window.innerWidth - 2 <= pallet.offsetWidth) {
+    pallet.style.width = window.innerWidth - 4 + 'px';
+  }
+}
+
 function setHeightWithinWindow(pallet) {
   if (window.innerHeight - 2 <= pallet.offsetHeight) {
     pallet.style.height = window.innerHeight - 2 + 'px';
@@ -17861,6 +17942,11 @@ function setHeightWithinWindow(pallet) {
 }
 
 function moveIntoWindow(pallet, point) {
+  // Pull left the pallet when the pallet protrudes from right of the window.
+  if (pallet.offsetWidth + point.left > window.innerWidth) {
+    point.left = window.innerWidth - pallet.offsetWidth - 2;
+  }
+
   // Pull up the pallet when the pallet protrudes from bottom of the window.
   if (pallet.offsetHeight + point.top > window.innerHeight) {
     point.top = window.innerHeight - pallet.offsetHeight - 1;
@@ -17871,7 +17957,7 @@ function moveIntoWindow(pallet, point) {
 }
 module.exports = exports['default'];
 
-},{"./toRows":170,"babel-runtime/helpers/interop-require-default":18}],172:[function(require,module,exports){
+},{"./toRows":174,"babel-runtime/helpers/interop-require-default":18}],176:[function(require,module,exports){
 'use strict';
 
 var _interopRequireWildcard = require('babel-runtime/helpers/interop-require-wildcard')['default'];
@@ -17946,7 +18032,7 @@ function sixteenTimes(val) {
 }
 module.exports = exports['default'];
 
-},{"../../editor/start/View/lineHeight":387,"./updateLineHeight":175,"./updateTypeGapEnable":176,"./updateTypeGapValue":177,"babel-runtime/helpers/interop-require-default":18,"babel-runtime/helpers/interop-require-wildcard":19}],173:[function(require,module,exports){
+},{"../../editor/start/View/lineHeight":402,"./updateLineHeight":179,"./updateTypeGapEnable":180,"./updateTypeGapValue":181,"babel-runtime/helpers/interop-require-default":18,"babel-runtime/helpers/interop-require-wildcard":19}],177:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -17985,7 +18071,7 @@ function appendToDialog($content, editor) {
 }
 module.exports = exports['default'];
 
-},{"../dialog/GetEditorDialog":182,"./create":172,"./update":174,"babel-runtime/helpers/interop-require-default":18}],174:[function(require,module,exports){
+},{"../dialog/GetEditorDialog":186,"./create":176,"./update":178,"babel-runtime/helpers/interop-require-default":18}],178:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -18014,7 +18100,7 @@ exports['default'] = function ($dialog, editor, displayInstance) {
 
 module.exports = exports['default'];
 
-},{"./updateLineHeight":175,"./updateTypeGapEnable":176,"./updateTypeGapValue":177,"babel-runtime/helpers/interop-require-default":18}],175:[function(require,module,exports){
+},{"./updateLineHeight":179,"./updateTypeGapEnable":180,"./updateTypeGapValue":181,"babel-runtime/helpers/interop-require-default":18}],179:[function(require,module,exports){
 'use strict';
 
 var _interopRequireWildcard = require('babel-runtime/helpers/interop-require-wildcard')['default'];
@@ -18039,7 +18125,7 @@ exports['default'] = function (editor, $dialog) {
 
 module.exports = exports['default'];
 
-},{"../../editor/start/View/lineHeight":387,"../jQuerySugar":192,"babel-runtime/helpers/interop-require-default":18,"babel-runtime/helpers/interop-require-wildcard":19}],176:[function(require,module,exports){
+},{"../../editor/start/View/lineHeight":402,"../jQuerySugar":196,"babel-runtime/helpers/interop-require-default":18,"babel-runtime/helpers/interop-require-wildcard":19}],180:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -18062,7 +18148,7 @@ function toTypeGap($content) {
 }
 module.exports = exports['default'];
 
-},{"../jQuerySugar":192,"babel-runtime/helpers/interop-require-default":18}],177:[function(require,module,exports){
+},{"../jQuerySugar":196,"babel-runtime/helpers/interop-require-default":18}],181:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -18081,7 +18167,7 @@ exports['default'] = function (displayInstance, $dialog) {
 
 module.exports = exports['default'];
 
-},{"../jQuerySugar":192,"babel-runtime/helpers/interop-require-default":18}],178:[function(require,module,exports){
+},{"../jQuerySugar":196,"babel-runtime/helpers/interop-require-default":18}],182:[function(require,module,exports){
 'use strict';
 
 var getAreaIn = function getAreaIn($parent) {
@@ -18106,7 +18192,7 @@ module.exports = function (editor) {
   };
 };
 
-},{}],179:[function(require,module,exports){
+},{}],183:[function(require,module,exports){
 'use strict';
 
 var Dialog = function Dialog(id, title, $content) {
@@ -18142,7 +18228,7 @@ module.exports = function (openOption, id, title, $content) {
   return createAndAppendDialog(id, title, $content);
 };
 
-},{}],180:[function(require,module,exports){
+},{}],184:[function(require,module,exports){
 'use strict';
 
 var _Object$assign = require('babel-runtime/core-js/object/assign')['default'];
@@ -18190,7 +18276,7 @@ function getDialogId(editorId, id) {
 }
 module.exports = exports['default'];
 
-},{"./Dialog":179,"babel-runtime/core-js/object/assign":6,"babel-runtime/helpers/interop-require-default":18}],181:[function(require,module,exports){
+},{"./Dialog":183,"babel-runtime/core-js/object/assign":6,"babel-runtime/helpers/interop-require-default":18}],185:[function(require,module,exports){
 "use strict";
 
 var _toConsumableArray = require("babel-runtime/helpers/to-consumable-array")["default"];
@@ -18220,7 +18306,7 @@ module.exports = function (createFunction) {
   };
 };
 
-},{"babel-runtime/helpers/to-consumable-array":21}],182:[function(require,module,exports){
+},{"babel-runtime/helpers/to-consumable-array":21}],186:[function(require,module,exports){
 'use strict';
 
 var EditorDialog = require('./EditorDialog'),
@@ -18232,7 +18318,7 @@ module.exports = function (editor) {
   return editor.getDialog;
 };
 
-},{"./EditorDialog":180,"./FunctionUseCache":181}],183:[function(require,module,exports){
+},{"./EditorDialog":184,"./FunctionUseCache":185}],187:[function(require,module,exports){
 'use strict';
 
 var ToolDialog = require('./ToolDialog'),
@@ -18240,7 +18326,7 @@ var ToolDialog = require('./ToolDialog'),
 
 module.exports = new FunctionUseCache(ToolDialog);
 
-},{"./FunctionUseCache":181,"./ToolDialog":184}],184:[function(require,module,exports){
+},{"./FunctionUseCache":185,"./ToolDialog":188}],188:[function(require,module,exports){
 'use strict';
 
 var Dialog = require('./Dialog');
@@ -18253,7 +18339,7 @@ module.exports = function (id, title, size, $content) {
   });
 };
 
-},{"./Dialog":179}],185:[function(require,module,exports){
+},{"./Dialog":183}],189:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -18264,7 +18350,7 @@ var CLASS_NAME = 'textae-editor__edit-id-dialog__id';
 exports['default'] = CLASS_NAME;
 module.exports = exports['default'];
 
-},{}],186:[function(require,module,exports){
+},{}],190:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -18312,7 +18398,7 @@ exports['default'] = function (editor, $content, input, label) {
 
 module.exports = exports['default'];
 
-},{"../dialog/GetEditorDialog":182,"./className":185,"babel-runtime/helpers/interop-require-default":18,"delegate":107}],187:[function(require,module,exports){
+},{"../dialog/GetEditorDialog":186,"./className":189,"babel-runtime/helpers/interop-require-default":18,"delegate":107}],191:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -18351,7 +18437,7 @@ exports['default'] = function (editor, currentId, typeContainer, done, autocompl
 
 module.exports = exports['default'];
 
-},{"./create":186,"./template":189,"./update":190,"babel-runtime/helpers/interop-require-default":18}],188:[function(require,module,exports){
+},{"./create":190,"./template":193,"./update":194,"babel-runtime/helpers/interop-require-default":18}],192:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -18397,7 +18483,7 @@ function getLocalData(typeContainer, term) {
 }
 module.exports = exports["default"];
 
-},{}],189:[function(require,module,exports){
+},{}],193:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -18415,7 +18501,7 @@ var TEMPLATE = '\n<div>\n  label: <span></span>\n</div>\n<div>\n  <input type="t
 exports['default'] = TEMPLATE;
 module.exports = exports['default'];
 
-},{"./className":185,"babel-runtime/helpers/interop-require-default":18}],190:[function(require,module,exports){
+},{"./className":189,"babel-runtime/helpers/interop-require-default":18}],194:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -18461,7 +18547,7 @@ function _select(input, label, ui) {
 }
 module.exports = exports['default'];
 
-},{"./source":188,"babel-runtime/helpers/interop-require-default":18}],191:[function(require,module,exports){
+},{"./source":192,"babel-runtime/helpers/interop-require-default":18}],195:[function(require,module,exports){
 'use strict';
 
 module.exports = function ($target, enable) {
@@ -18472,7 +18558,7 @@ module.exports = function ($target, enable) {
   }
 };
 
-},{}],192:[function(require,module,exports){
+},{}],196:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -18515,7 +18601,7 @@ module.exports = {
   setValue: _.partial(setProp, 'value')
 };
 
-},{"./jQueryEnabled":191,"babel-runtime/helpers/interop-require-default":18}],193:[function(require,module,exports){
+},{"./jQueryEnabled":195,"babel-runtime/helpers/interop-require-default":18}],197:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -18583,7 +18669,7 @@ function transformToReferenceObjectError(reject) {
 }
 module.exports = exports['default'];
 
-},{"../editor/Model/AnnotationData/parseAnnotation/validateAnnotation":221,"./dialog/GetEditorDialog":182,"babel-runtime/helpers/interop-require-default":18,"handlebars":147}],194:[function(require,module,exports){
+},{"../editor/Model/AnnotationData/parseAnnotation/validateAnnotation":225,"./dialog/GetEditorDialog":186,"babel-runtime/helpers/interop-require-default":18,"handlebars":147}],198:[function(require,module,exports){
 module.exports={
     "buttonGroup": [{
         "list": [{
@@ -18674,7 +18760,7 @@ module.exports={
     }]
 }
 
-},{}],195:[function(require,module,exports){
+},{}],199:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -18713,7 +18799,7 @@ function find($control, buttonType) {
   return $control.find((0, _toButtonClass2['default'])(buttonType));
 }
 
-},{"./toButtonClass":198,"babel-runtime/helpers/interop-require-default":18}],196:[function(require,module,exports){
+},{"./toButtonClass":202,"babel-runtime/helpers/interop-require-default":18}],200:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -18786,7 +18872,7 @@ function updateButtonPushState($control, buttonType, isPushed) {
 }
 module.exports = exports['default'];
 
-},{"./buttonMap":194,"./iconCssUtil":195,"./makeButtons":197,"./toButtonList":199,"./updateButtons":200,"babel-runtime/helpers/interop-require-default":18,"babel-runtime/helpers/interop-require-wildcard":19}],197:[function(require,module,exports){
+},{"./buttonMap":198,"./iconCssUtil":199,"./makeButtons":201,"./toButtonList":203,"./updateButtons":204,"babel-runtime/helpers/interop-require-default":18,"babel-runtime/helpers/interop-require-wildcard":19}],201:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -18810,7 +18896,7 @@ exports['default'] = function ($control, buttonMap) {
 
 module.exports = exports['default'];
 
-},{"babel-runtime/helpers/interop-require-default":18,"handlebars":147}],198:[function(require,module,exports){
+},{"babel-runtime/helpers/interop-require-default":18,"handlebars":147}],202:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -18823,7 +18909,7 @@ exports["default"] = function (buttonType) {
 
 module.exports = exports["default"];
 
-},{}],199:[function(require,module,exports){
+},{}],203:[function(require,module,exports){
 // Return {read: 1, write: 1, undo: 1, redo: 1, replicate: 1…}
 "use strict";
 
@@ -18843,7 +18929,7 @@ exports["default"] = function (buttonMap) {
 
 module.exports = exports["default"];
 
-},{}],200:[function(require,module,exports){
+},{}],204:[function(require,module,exports){
 'use strict';
 
 var _Object$keys = require('babel-runtime/core-js/object/keys')['default'];
@@ -18903,7 +18989,7 @@ function setButtonApearanceAndEventHandler($control, buttonType, enable) {
 }
 module.exports = exports['default'];
 
-},{"./iconCssUtil":195,"./toButtonClass":198,"babel-runtime/core-js/object/keys":10,"babel-runtime/helpers/interop-require-default":18,"babel-runtime/helpers/interop-require-wildcard":19}],201:[function(require,module,exports){
+},{"./iconCssUtil":199,"./toButtonClass":202,"babel-runtime/core-js/object/keys":10,"babel-runtime/helpers/interop-require-default":18,"babel-runtime/helpers/interop-require-wildcard":19}],205:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -18971,7 +19057,7 @@ exports['default'] = function () {
 
 module.exports = exports['default'];
 
-},{"events":110}],202:[function(require,module,exports){
+},{"events":110}],206:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -19019,7 +19105,7 @@ var toModel = function toModel(editor, entity) {
 
 module.exports = EntityContainer;
 
-},{"../../../idFactory":236,"./ModelContainer":203,"babel-runtime/helpers/interop-require-default":18}],203:[function(require,module,exports){
+},{"../../../idFactory":240,"./ModelContainer":207,"babel-runtime/helpers/interop-require-default":18}],207:[function(require,module,exports){
 'use strict';
 
 var _Object$keys = require('babel-runtime/core-js/object/keys')['default'];
@@ -19114,7 +19200,7 @@ module.exports = function (emitter, prefix, mappingFunction, idPrefix) {
   };
 };
 
-},{"./getNextId":206,"babel-runtime/core-js/object/keys":10,"babel-runtime/helpers/interop-require-default":18}],204:[function(require,module,exports){
+},{"./getNextId":210,"babel-runtime/core-js/object/keys":10,"babel-runtime/helpers/interop-require-default":18}],208:[function(require,module,exports){
 'use strict';
 
 var idFactory = require('../../../idFactory'),
@@ -19176,7 +19262,7 @@ module.exports = function (editor, emitter) {
   return api;
 };
 
-},{"../../../idFactory":236,"./ModelContainer":203}],205:[function(require,module,exports){
+},{"../../../idFactory":240,"./ModelContainer":207}],209:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -19402,7 +19488,7 @@ function _toStringOnlyThis(span, emitter) {
 }
 module.exports = exports['default'];
 
-},{"../../../idFactory":236,"../parseAnnotation/validateAnnotation":221,"./ModelContainer":203,"babel-runtime/helpers/interop-require-default":18}],206:[function(require,module,exports){
+},{"../../../idFactory":240,"../parseAnnotation/validateAnnotation":225,"./ModelContainer":207,"babel-runtime/helpers/interop-require-default":18}],210:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -19433,7 +19519,7 @@ function withoutPrefix(id) {
 }
 module.exports = exports["default"];
 
-},{}],207:[function(require,module,exports){
+},{}],211:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -19492,7 +19578,7 @@ function mapRelations(relations) {
 }
 module.exports = exports['default'];
 
-},{"./EntityContainer":202,"./ModelContainer":203,"./ParagraphContainer":204,"./SpanContainer":205,"babel-runtime/helpers/interop-require-default":18,"events":110}],208:[function(require,module,exports){
+},{"./EntityContainer":206,"./ModelContainer":207,"./ParagraphContainer":208,"./SpanContainer":209,"babel-runtime/helpers/interop-require-default":18,"events":110}],212:[function(require,module,exports){
 'use strict';
 
 var _Object$assign = require('babel-runtime/core-js/object/assign')['default'];
@@ -19535,7 +19621,7 @@ exports['default'] = function (editor) {
 
 module.exports = exports['default'];
 
-},{"./Container":207,"./reset":229,"./toJson":231,"babel-runtime/core-js/object/assign":6,"babel-runtime/helpers/interop-require-default":18}],209:[function(require,module,exports){
+},{"./Container":211,"./reset":233,"./toJson":235,"babel-runtime/core-js/object/assign":6,"babel-runtime/helpers/interop-require-default":18}],213:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -19560,7 +19646,7 @@ exports['default'] = function (span, entity, denotations, prefix) {
 
 module.exports = exports['default'];
 
-},{"./importSource":210,"./translateDenotation":215,"babel-runtime/helpers/interop-require-default":18}],210:[function(require,module,exports){
+},{"./importSource":214,"./translateDenotation":219,"babel-runtime/helpers/interop-require-default":18}],214:[function(require,module,exports){
 "use strict";
 
 module.exports = function (targets, translater, source) {
@@ -19573,7 +19659,7 @@ module.exports = function (targets, translater, source) {
   });
 };
 
-},{}],211:[function(require,module,exports){
+},{}],215:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -19598,7 +19684,7 @@ exports['default'] = function (modification, modifications, prefix) {
 
 module.exports = exports['default'];
 
-},{"./importSource":210,"./translateModification":216,"babel-runtime/helpers/interop-require-default":18}],212:[function(require,module,exports){
+},{"./importSource":214,"./translateModification":220,"babel-runtime/helpers/interop-require-default":18}],216:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -19620,7 +19706,7 @@ exports['default'] = function (destination, source) {
 
 module.exports = exports['default'];
 
-},{"./importSource":210,"babel-runtime/helpers/interop-require-default":18}],213:[function(require,module,exports){
+},{"./importSource":214,"babel-runtime/helpers/interop-require-default":18}],217:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -19645,7 +19731,7 @@ exports['default'] = function (relation, relations, prefix) {
 
 module.exports = exports['default'];
 
-},{"./importSource":210,"./translateRelation":217,"babel-runtime/helpers/interop-require-default":18}],214:[function(require,module,exports){
+},{"./importSource":214,"./translateRelation":221,"babel-runtime/helpers/interop-require-default":18}],218:[function(require,module,exports){
 "use strict";
 
 module.exports = function (src, prefix) {
@@ -19654,7 +19740,7 @@ module.exports = function (src, prefix) {
   return src.id ? prefix + src.id : null;
 };
 
-},{}],215:[function(require,module,exports){
+},{}],219:[function(require,module,exports){
 'use strict';
 
 var setIdPrefixIfExist = require('./setIdPrefixIfExist');
@@ -19668,7 +19754,7 @@ module.exports = function (prefix, src) {
   });
 };
 
-},{"./setIdPrefixIfExist":214}],216:[function(require,module,exports){
+},{"./setIdPrefixIfExist":218}],220:[function(require,module,exports){
 'use strict';
 
 var setIdPrefixIfExist = require('./setIdPrefixIfExist');
@@ -19682,7 +19768,7 @@ module.exports = function (prefix, src) {
   });
 };
 
-},{"./setIdPrefixIfExist":214}],217:[function(require,module,exports){
+},{"./setIdPrefixIfExist":218}],221:[function(require,module,exports){
 'use strict';
 
 var setIdPrefixIfExist = require('./setIdPrefixIfExist');
@@ -19697,7 +19783,7 @@ module.exports = function (prefix, src) {
   });
 };
 
-},{"./setIdPrefixIfExist":214}],218:[function(require,module,exports){
+},{"./setIdPrefixIfExist":218}],222:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -19736,7 +19822,7 @@ exports['default'] = function (span, entity, relation, modification, paragraph, 
 
 module.exports = exports['default'];
 
-},{"./importAnnotation/denotation":209,"./importAnnotation/modification":211,"./importAnnotation/relation":213,"./validateAnnotation":221,"babel-runtime/helpers/interop-require-default":18}],219:[function(require,module,exports){
+},{"./importAnnotation/denotation":213,"./importAnnotation/modification":215,"./importAnnotation/relation":217,"./validateAnnotation":225,"babel-runtime/helpers/interop-require-default":18}],223:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -19751,7 +19837,7 @@ exports["default"] = function (rejects) {
 
 module.exports = exports["default"];
 
-},{}],220:[function(require,module,exports){
+},{}],224:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -19767,7 +19853,7 @@ exports["default"] = function (reject) {
 
 module.exports = exports["default"];
 
-},{}],221:[function(require,module,exports){
+},{}],225:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -19792,7 +19878,7 @@ exports['default'] = _main2['default'];
 exports.hasError = _RejectHasError2['default'];
 exports.isBoundaryCrossingWithOtherSpans = _isBoundaryCrossingWithOtherSpans2['default'];
 
-},{"./Reject/hasError":219,"./isBoundaryCrossingWithOtherSpans":222,"./main":224,"babel-runtime/helpers/interop-require-default":18}],222:[function(require,module,exports){
+},{"./Reject/hasError":223,"./isBoundaryCrossingWithOtherSpans":226,"./main":228,"babel-runtime/helpers/interop-require-default":18}],226:[function(require,module,exports){
 // A span its range is coross over with other spans are not able to rendered.
 "use strict";
 
@@ -19815,7 +19901,7 @@ function isBoundaryCrossing(candidateSpan, existSpan) {
 module.exports = exports["default"];
 // Because spans are renderd with span tag. Html tags can not be cross over.
 
-},{}],223:[function(require,module,exports){
+},{}],227:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -19832,7 +19918,7 @@ exports["default"] = function (data, opt) {
 
 module.exports = exports["default"];
 
-},{}],224:[function(require,module,exports){
+},{}],228:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -19879,7 +19965,7 @@ exports['default'] = function (text, paragraph, annotation) {
 
 module.exports = exports['default'];
 
-},{"./validateDenotation":226,"./validateModificatian":227,"./validateRelation":228,"babel-runtime/helpers/interop-require-default":18}],225:[function(require,module,exports){
+},{"./validateDenotation":230,"./validateModificatian":231,"./validateRelation":232,"babel-runtime/helpers/interop-require-default":18}],229:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -19911,7 +19997,7 @@ function acceptIf(predicate, predicateOption, result, target, index, array) {
 }
 module.exports = exports['default'];
 
-},{"./Reject":220,"babel-runtime/helpers/interop-require-default":18}],226:[function(require,module,exports){
+},{"./Reject":224,"babel-runtime/helpers/interop-require-default":18}],230:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -19973,7 +20059,7 @@ function isInParagraph(denotation, paragraph) {
 }
 module.exports = exports['default'];
 
-},{"./isBoundaryCrossingWithOtherSpans":222,"./validate":225,"babel-runtime/helpers/interop-require-default":18}],227:[function(require,module,exports){
+},{"./isBoundaryCrossingWithOtherSpans":226,"./validate":229,"babel-runtime/helpers/interop-require-default":18}],231:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -20007,7 +20093,7 @@ exports['default'] = function (denotations, relations, modifications) {
 
 module.exports = exports['default'];
 
-},{"./isContains":223,"./validate":225,"babel-runtime/helpers/interop-require-default":18}],228:[function(require,module,exports){
+},{"./isContains":227,"./validate":229,"babel-runtime/helpers/interop-require-default":18}],232:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -20047,7 +20133,7 @@ exports['default'] = function (denotations, relations) {
 
 module.exports = exports['default'];
 
-},{"./isContains":223,"./validate":225,"babel-runtime/helpers/interop-require-default":18}],229:[function(require,module,exports){
+},{"./isContains":227,"./validate":229,"babel-runtime/helpers/interop-require-default":18}],233:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -20089,7 +20175,7 @@ function clearAnnotationData(dataStore) {
 }
 module.exports = exports['default'];
 
-},{"./setNewData":230,"babel-runtime/helpers/interop-require-default":18}],230:[function(require,module,exports){
+},{"./setNewData":234,"babel-runtime/helpers/interop-require-default":18}],234:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -20152,7 +20238,7 @@ function parseDennotation(dataStore, annotation) {
 }
 module.exports = exports['default'];
 
-},{"./parseAnnotation":218,"./parseAnnotation/importAnnotation/namespace":212,"babel-runtime/helpers/interop-require-default":18}],231:[function(require,module,exports){
+},{"./parseAnnotation":222,"./parseAnnotation/importAnnotation/namespace":216,"babel-runtime/helpers/interop-require-default":18}],235:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -20198,7 +20284,7 @@ function toRelation(dataStore) {
 }
 module.exports = exports["default"];
 
-},{}],232:[function(require,module,exports){
+},{}],236:[function(require,module,exports){
 'use strict';
 
 var _Set = require('babel-runtime/core-js/set')['default'];
@@ -20251,11 +20337,11 @@ function _add(selected, emitter, kindName, id) {
       emitter.emit(kindName + '.select', id);
       triggerChange(emitter, kindName);
     });
+  } else {
+    selected.add(id);
+    emitter.emit(kindName + '.select', id);
+    triggerChange(emitter, kindName);
   }
-
-  selected.add(id);
-  emitter.emit(kindName + '.select', id);
-  triggerChange(emitter, kindName);
 }
 
 function _single(selected) {
@@ -20286,7 +20372,7 @@ function _clear(selected, emitter, kindName) {
 }
 module.exports = exports['default'];
 
-},{"babel-runtime/core-js/array/from":2,"babel-runtime/core-js/set":13}],233:[function(require,module,exports){
+},{"babel-runtime/core-js/array/from":2,"babel-runtime/core-js/set":13}],237:[function(require,module,exports){
 'use strict';
 
 var _Map = require('babel-runtime/core-js/map')['default'];
@@ -20337,8 +20423,12 @@ function someAll(map) {
 }
 module.exports = exports['default'];
 
-},{"./IdContainer":232,"babel-runtime/core-js/map":5,"babel-runtime/core-js/object/assign":6,"babel-runtime/helpers/interop-require-default":18,"events":110}],234:[function(require,module,exports){
+},{"./IdContainer":236,"babel-runtime/core-js/map":5,"babel-runtime/core-js/object/assign":6,"babel-runtime/helpers/interop-require-default":18,"events":110}],238:[function(require,module,exports){
 'use strict';
+
+var _Map = require('babel-runtime/core-js/map')['default'];
+
+var _getIterator = require('babel-runtime/core-js/get-iterator')['default'];
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
 
@@ -20354,17 +20444,58 @@ var _Selection = require('./Selection');
 
 var _Selection2 = _interopRequireDefault(_Selection);
 
+var _modelToId = require('../modelToId');
+
+var _modelToId2 = _interopRequireDefault(_modelToId);
+
 exports['default'] = function (editor) {
+  var annotationData = new _AnnotationData2['default'](editor),
+
+  // A contaier of selection state.
+  selectionModel = new _Selection2['default'](['span', 'entity', 'relation']),
+      eventMap = new _Map([['all.change', selectionModel.clear], ['span.remove', function (span) {
+    return selectionModel.span.remove((0, _modelToId2['default'])(span));
+  }], ['entity.remove', function (entity) {
+    return selectionModel.entity.remove((0, _modelToId2['default'])(entity));
+  }], ['relation.remove', function (relation) {
+    return selectionModel.relation.remove((0, _modelToId2['default'])(relation));
+  }]]);
+
+  // Bind the selection model to the model.
+  var _iteratorNormalCompletion = true;
+  var _didIteratorError = false;
+  var _iteratorError = undefined;
+
+  try {
+    for (var _iterator = _getIterator(eventMap), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+      var eventHandler = _step.value;
+
+      annotationData.on(eventHandler[0], eventHandler[1]);
+    }
+  } catch (err) {
+    _didIteratorError = true;
+    _iteratorError = err;
+  } finally {
+    try {
+      if (!_iteratorNormalCompletion && _iterator['return']) {
+        _iterator['return']();
+      }
+    } finally {
+      if (_didIteratorError) {
+        throw _iteratorError;
+      }
+    }
+  }
+
   return {
-    annotationData: new _AnnotationData2['default'](editor),
-    // A contaier of selection state.
-    selectionModel: new _Selection2['default'](['span', 'entity', 'relation'])
+    annotationData: annotationData,
+    selectionModel: selectionModel
   };
 };
 
 module.exports = exports['default'];
 
-},{"./AnnotationData":208,"./Selection":233,"babel-runtime/helpers/interop-require-default":18}],235:[function(require,module,exports){
+},{"../modelToId":242,"./AnnotationData":212,"./Selection":237,"babel-runtime/core-js/get-iterator":3,"babel-runtime/core-js/map":5,"babel-runtime/helpers/interop-require-default":18}],239:[function(require,module,exports){
 "use strict";
 
 module.exports = function (allSpans, candidateSpan) {
@@ -20373,7 +20504,7 @@ module.exports = function (allSpans, candidateSpan) {
   }).length > 0;
 };
 
-},{}],236:[function(require,module,exports){
+},{}],240:[function(require,module,exports){
 'use strict';
 
 var typeCounter = [],
@@ -20409,7 +20540,7 @@ module.exports = {
   }
 };
 
-},{}],237:[function(require,module,exports){
+},{}],241:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -20486,7 +20617,21 @@ exports['default'] = function () {
 
 module.exports = exports['default'];
 
-},{"../buttonModel/ButtonController":163,"../buttonModel/Writable":165,"../component/DataAccessObject":166,"./History":201,"./Model":234,"./observe":238,"./start":395,"babel-runtime/helpers/interop-require-default":18,"babel-runtime/helpers/interop-require-wildcard":19,"observ":161}],238:[function(require,module,exports){
+},{"../buttonModel/ButtonController":167,"../buttonModel/Writable":169,"../component/DataAccessObject":170,"./History":205,"./Model":238,"./observe":243,"./start":411,"babel-runtime/helpers/interop-require-default":18,"babel-runtime/helpers/interop-require-wildcard":19,"observ":161}],242:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports["default"] = modelToId;
+
+function modelToId(model) {
+  return model.id;
+}
+
+module.exports = exports["default"];
+
+},{}],243:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -20534,7 +20679,7 @@ function observeDataSave(dataAccessObject, history, writable) {
   });
 }
 
-},{"../component/showVilidationDialog":193,"babel-runtime/helpers/interop-require-default":18}],239:[function(require,module,exports){
+},{"../component/showVilidationDialog":197,"babel-runtime/helpers/interop-require-default":18}],244:[function(require,module,exports){
 'use strict';
 
 var _Map = require('babel-runtime/core-js/map')['default'];
@@ -20576,7 +20721,7 @@ function IconApiMap(command, presenter, daoHandler, buttonController, updateLine
 }
 module.exports = exports['default'];
 
-},{"babel-runtime/core-js/map":5}],240:[function(require,module,exports){
+},{"babel-runtime/core-js/map":5}],245:[function(require,module,exports){
 "use strict";
 
 var _createClass = require("babel-runtime/helpers/create-class")["default"];
@@ -20608,7 +20753,7 @@ var _default = (function () {
 exports["default"] = _default;
 module.exports = exports["default"];
 
-},{"babel-runtime/helpers/class-call-check":14,"babel-runtime/helpers/create-class":15}],241:[function(require,module,exports){
+},{"babel-runtime/helpers/class-call-check":14,"babel-runtime/helpers/create-class":15}],246:[function(require,module,exports){
 'use strict';
 
 var _get = require('babel-runtime/helpers/get')['default'];
@@ -20662,7 +20807,7 @@ var TypeChangeLabelCommand = (function (_BaseCommand) {
 exports['default'] = TypeChangeLabelCommand;
 module.exports = exports['default'];
 
-},{"./BaseCommand":240,"./commandLog":243,"babel-runtime/core-js/object/assign":6,"babel-runtime/helpers/class-call-check":14,"babel-runtime/helpers/get":16,"babel-runtime/helpers/inherits":17,"babel-runtime/helpers/interop-require-default":18}],242:[function(require,module,exports){
+},{"./BaseCommand":245,"./commandLog":248,"babel-runtime/core-js/object/assign":6,"babel-runtime/helpers/class-call-check":14,"babel-runtime/helpers/get":16,"babel-runtime/helpers/inherits":17,"babel-runtime/helpers/interop-require-default":18}],247:[function(require,module,exports){
 'use strict';
 
 var _get = require('babel-runtime/helpers/get')['default'];
@@ -20729,7 +20874,7 @@ var TypeRemoveCommand = (function (_BaseCommand2) {
 exports['default'] = TypeCreateCommand;
 module.exports = exports['default'];
 
-},{"./BaseCommand":240,"./commandLog":243,"babel-runtime/helpers/class-call-check":14,"babel-runtime/helpers/get":16,"babel-runtime/helpers/inherits":17,"babel-runtime/helpers/interop-require-default":18}],243:[function(require,module,exports){
+},{"./BaseCommand":245,"./commandLog":248,"babel-runtime/helpers/class-call-check":14,"babel-runtime/helpers/get":16,"babel-runtime/helpers/inherits":17,"babel-runtime/helpers/interop-require-default":18}],248:[function(require,module,exports){
 'use strict';
 
 module.exports = function (message, object) {
@@ -20741,7 +20886,7 @@ module.exports = function (message, object) {
   }
 };
 
-},{}],244:[function(require,module,exports){
+},{}],249:[function(require,module,exports){
 'use strict';
 
 var _get = require('babel-runtime/helpers/get')['default'];
@@ -20858,7 +21003,7 @@ function selectNewModel(selectionModel, modelType, newModel) {
   }
 }
 
-},{"./BaseCommand":240,"./commandLog":243,"babel-runtime/helpers/class-call-check":14,"babel-runtime/helpers/get":16,"babel-runtime/helpers/inherits":17,"babel-runtime/helpers/interop-require-default":18}],245:[function(require,module,exports){
+},{"./BaseCommand":245,"./commandLog":248,"babel-runtime/helpers/class-call-check":14,"babel-runtime/helpers/get":16,"babel-runtime/helpers/inherits":17,"babel-runtime/helpers/interop-require-default":18}],250:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -20903,7 +21048,7 @@ exports['default'] = function (model, id) {
 
 module.exports = exports['default'];
 
-},{"./commandTemplate":244,"./executeCompositCommand":248,"babel-runtime/helpers/interop-require-default":18}],246:[function(require,module,exports){
+},{"./commandTemplate":249,"./executeCompositCommand":253,"babel-runtime/helpers/interop-require-default":18}],251:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -20938,7 +21083,7 @@ exports['default'] = function (model, id, newType, isRemoveRelations) {
 
 module.exports = exports['default'];
 
-},{"./commandTemplate":244,"./executeCompositCommand":248,"babel-runtime/helpers/interop-require-default":18}],247:[function(require,module,exports){
+},{"./commandTemplate":249,"./executeCompositCommand":253,"babel-runtime/helpers/interop-require-default":18}],252:[function(require,module,exports){
 'use strict';
 
 var _Object$keys = require('babel-runtime/core-js/object/keys')['default'];
@@ -20998,7 +21143,7 @@ function toEntityPerSpan(model, ids) {
 }
 module.exports = exports['default'];
 
-},{"./entityAndAssociatesRemoveCommand":245,"./spanRemoveCommand":254,"babel-runtime/core-js/object/keys":10,"babel-runtime/helpers/interop-require-default":18}],248:[function(require,module,exports){
+},{"./entityAndAssociatesRemoveCommand":250,"./spanRemoveCommand":259,"babel-runtime/core-js/object/keys":10,"babel-runtime/helpers/interop-require-default":18}],253:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -21055,7 +21200,7 @@ var setRevertAndLog = (function () {
 
 module.exports = executeCompositCommand;
 
-},{"../invokeCommand":257,"./commandLog":243,"babel-runtime/helpers/interop-require-default":18}],249:[function(require,module,exports){
+},{"../invokeCommand":262,"./commandLog":248,"babel-runtime/helpers/interop-require-default":18}],254:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -21118,7 +21263,7 @@ function isWord(sourceDoc, detectBoundaryFunc, candidateSpan) {
 }
 module.exports = exports['default'];
 
-},{"../../../Model/AnnotationData/parseAnnotation/validateAnnotation":221,"../../../Model/isAlreadySpaned":235,"babel-runtime/helpers/interop-require-default":18,"not":160}],250:[function(require,module,exports){
+},{"../../../Model/AnnotationData/parseAnnotation/validateAnnotation":225,"../../../Model/isAlreadySpaned":239,"babel-runtime/helpers/interop-require-default":18,"not":160}],255:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -21224,7 +21369,7 @@ function Factory(editor, model) {
 
 module.exports = exports['default'];
 
-},{"./TypeChangeLabelCommand":241,"./TypeCreateCommand":242,"./commandTemplate":244,"./entityAndAssociatesRemoveCommand":245,"./entityChangeTypeRemoveRelationCommand":246,"./entityRemoveAndSpanRemeveIfNoEntityRestCommand":247,"./relationAndAssociatesRemoveCommand":251,"./spanAndDefaultEntryCreateCommand":252,"./spanMoveCommand":253,"./spanRemoveCommand":254,"./spanReplicateCommand":255,"babel-runtime/helpers/interop-require-default":18}],251:[function(require,module,exports){
+},{"./TypeChangeLabelCommand":246,"./TypeCreateCommand":247,"./commandTemplate":249,"./entityAndAssociatesRemoveCommand":250,"./entityChangeTypeRemoveRelationCommand":251,"./entityRemoveAndSpanRemeveIfNoEntityRestCommand":252,"./relationAndAssociatesRemoveCommand":256,"./spanAndDefaultEntryCreateCommand":257,"./spanMoveCommand":258,"./spanRemoveCommand":259,"./spanReplicateCommand":260,"babel-runtime/helpers/interop-require-default":18}],256:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -21264,7 +21409,7 @@ exports['default'] = function (model, id) {
 
 module.exports = exports['default'];
 
-},{"./commandTemplate":244,"./executeCompositCommand":248,"babel-runtime/helpers/interop-require-default":18}],252:[function(require,module,exports){
+},{"./commandTemplate":249,"./executeCompositCommand":253,"babel-runtime/helpers/interop-require-default":18}],257:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -21307,7 +21452,7 @@ exports['default'] = function (editor, model, type, span) {
 
 module.exports = exports['default'];
 
-},{"../../../idFactory":236,"./commandTemplate":244,"./executeCompositCommand":248,"babel-runtime/helpers/interop-require-default":18}],253:[function(require,module,exports){
+},{"../../../idFactory":240,"./commandTemplate":249,"./executeCompositCommand":253,"babel-runtime/helpers/interop-require-default":18}],258:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -21376,7 +21521,7 @@ function spanMoveCommand(editor, model, spanId, newSpan) {
 
 module.exports = exports['default'];
 
-},{"../../../idFactory":236,"./commandTemplate":244,"./executeCompositCommand":248,"./spanRemoveCommand":254,"babel-runtime/helpers/interop-require-default":18}],254:[function(require,module,exports){
+},{"../../../idFactory":240,"./commandTemplate":249,"./executeCompositCommand":253,"./spanRemoveCommand":259,"babel-runtime/helpers/interop-require-default":18}],259:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -21413,7 +21558,7 @@ exports['default'] = function (model, id) {
 
 module.exports = exports['default'];
 
-},{"./commandTemplate":244,"./entityAndAssociatesRemoveCommand":245,"./executeCompositCommand":248,"babel-runtime/helpers/interop-require-default":18}],255:[function(require,module,exports){
+},{"./commandTemplate":249,"./entityAndAssociatesRemoveCommand":250,"./executeCompositCommand":253,"babel-runtime/helpers/interop-require-default":18}],260:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -21449,7 +21594,7 @@ exports['default'] = function (editor, model, type, span, detectBoundaryFunc) {
 
 module.exports = exports['default'];
 
-},{"./executeCompositCommand":248,"./getReplicationSpans":249,"./spanAndDefaultEntryCreateCommand":252,"babel-runtime/helpers/interop-require-default":18}],256:[function(require,module,exports){
+},{"./executeCompositCommand":253,"./getReplicationSpans":254,"./spanAndDefaultEntryCreateCommand":257,"babel-runtime/helpers/interop-require-default":18}],261:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -21479,13 +21624,18 @@ exports['default'] = function (editor, model, history) {
     },
     undo: function undo() {
       if (history.hasAnythingToUndo()) {
+        // Focus the editor.
+        // Focus is lost when undo ceration.
         model.selectionModel.clear();
+        editor.focus();
         _invokeCommand2['default'].invokeRevert(history.prev());
       }
     },
     redo: function redo() {
       if (history.hasAnythingToRedo()) {
+        // Select only new element when redo ceration.
         model.selectionModel.clear();
+
         _invokeCommand2['default'].invoke(history.next());
       }
     },
@@ -21495,7 +21645,7 @@ exports['default'] = function (editor, model, history) {
 
 module.exports = exports['default'];
 
-},{"./Factory":250,"./invokeCommand":257,"babel-runtime/helpers/interop-require-default":18}],257:[function(require,module,exports){
+},{"./Factory":255,"./invokeCommand":262,"babel-runtime/helpers/interop-require-default":18}],262:[function(require,module,exports){
 "use strict";
 
 var _Object$create = require("babel-runtime/core-js/object/create")["default"];
@@ -21520,7 +21670,7 @@ var invoke = function invoke(commands) {
 
 module.exports = invokeCommand;
 
-},{"babel-runtime/core-js/object/create":7}],258:[function(require,module,exports){
+},{"babel-runtime/core-js/object/create":7}],263:[function(require,module,exports){
 "use strict";
 
 var _Object$assign = require("babel-runtime/core-js/object/assign")["default"];
@@ -21552,7 +21702,7 @@ function showSaveDailogWithEditedData(dataAccessObject, annotationData, typeCont
 }
 module.exports = exports["default"];
 
-},{"babel-runtime/core-js/object/assign":6}],259:[function(require,module,exports){
+},{"babel-runtime/core-js/object/assign":6}],264:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -21591,7 +21741,7 @@ function updateHash(hash, key, val) {
 }
 module.exports = exports['default'];
 
-},{"babel-runtime/helpers/interop-require-default":18,"capitalize":23}],260:[function(require,module,exports){
+},{"babel-runtime/helpers/interop-require-default":18,"capitalize":23}],265:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -21655,7 +21805,7 @@ function updateTypeGap(showInstance, typeGap, typeGapCache) {
 }
 module.exports = exports['default'];
 
-},{"../EditMode/event":267,"./TypeGapCache":259,"babel-runtime/helpers/interop-require-default":18}],261:[function(require,module,exports){
+},{"../EditMode/event":272,"./TypeGapCache":264,"babel-runtime/helpers/interop-require-default":18}],266:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -21733,7 +21883,7 @@ exports['default'] = function () {
 
 module.exports = exports['default'];
 
-},{"./state":271,"babel-runtime/helpers/interop-require-default":18,"emitter-fsm":108}],262:[function(require,module,exports){
+},{"./state":275,"babel-runtime/helpers/interop-require-default":18,"emitter-fsm":108}],267:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -21751,10 +21901,6 @@ var _setEditableStyle2 = _interopRequireDefault(_setEditableStyle);
 var _ViewMode = require('./ViewMode');
 
 var _ViewMode2 = _interopRequireDefault(_ViewMode);
-
-var _resetView = require('./resetView');
-
-var _resetView2 = _interopRequireDefault(_resetView);
 
 var _event = require('./event');
 
@@ -21815,7 +21961,7 @@ exports['default'] = function (editor, model, typeEditor, buttonStateHelper) {
 
 module.exports = exports['default'];
 
-},{"./ViewMode":264,"./event":267,"./resetView":269,"./setEditableStyle":270,"babel-runtime/helpers/interop-require-default":18,"events":110}],263:[function(require,module,exports){
+},{"./ViewMode":269,"./event":272,"./setEditableStyle":274,"babel-runtime/helpers/interop-require-default":18,"events":110}],268:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -21948,7 +22094,7 @@ function toEditStateAccordingToAnntationData(stateMachine, annotationData) {
 }
 module.exports = exports['default'];
 
-},{"../isSimple":314,"./state":271,"babel-runtime/helpers/interop-require-default":18}],264:[function(require,module,exports){
+},{"../isSimple":329,"./state":275,"babel-runtime/helpers/interop-require-default":18}],269:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -21998,7 +22144,7 @@ function removeListeners(selectionModel, entitySelectChanged, buttonStateHelper)
 }
 module.exports = exports['default'];
 
-},{"../../View/Selector":381,"babel-runtime/helpers/interop-require-default":18}],265:[function(require,module,exports){
+},{"../../View/Selector":396,"babel-runtime/helpers/interop-require-default":18}],270:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -22031,7 +22177,7 @@ function toEnterEvent(state) {
 }
 module.exports = exports['default'];
 
-},{"./StateMachine":261,"./state":271,"babel-runtime/helpers/interop-require-default":18}],266:[function(require,module,exports){
+},{"./StateMachine":266,"./state":275,"babel-runtime/helpers/interop-require-default":18}],271:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -22048,14 +22194,14 @@ exports['default'] = function (buttonStateHelper) {
 
 module.exports = exports['default'];
 
-},{}],267:[function(require,module,exports){
+},{}],272:[function(require,module,exports){
 module.exports={
     "SHOW": "showInstance",
     "HIDE": "hideInstance",
     "CHANGE": "change"
 }
 
-},{}],268:[function(require,module,exports){
+},{}],273:[function(require,module,exports){
 'use strict';
 
 var _Object$assign = require('babel-runtime/core-js/object/assign')['default'];
@@ -22075,10 +22221,6 @@ var _Transition2 = _interopRequireDefault(_Transition);
 var _bindTransition = require('./bindTransition');
 
 var _bindTransition2 = _interopRequireDefault(_bindTransition);
-
-var _resetView = require('./resetView');
-
-var _resetView2 = _interopRequireDefault(_resetView);
 
 var _event = require('./event');
 
@@ -22106,9 +22248,7 @@ exports['default'] = function (editor, model, typeEditor, buttonStateHelper) {
     return emitter.emit(_event2['default'].SHOW);
   }).on(_event2['default'].HIDE, function () {
     return emitter.emit(_event2['default'].HIDE);
-  }).on(_event2['default'].CHANGE, function () {
-    return (0, _resetView2['default'])(typeEditor, model.selectionModel);
-  }).on(_event2['default'].CHANGE, function (editable, mode) {
+  }).on(_event2['default'].CHANGE, typeEditor.cancelSelect).on(_event2['default'].CHANGE, function (editable, mode) {
     return emitter.emit(_event2['default'].CHANGE, editable, mode);
   });
 
@@ -22119,21 +22259,7 @@ exports['default'] = function (editor, model, typeEditor, buttonStateHelper) {
 
 module.exports = exports['default'];
 
-},{"./Transition":262,"./Trigger":263,"./bindTransition":265,"./enableButtonHasAnnotation":266,"./event":267,"./resetView":269,"babel-runtime/core-js/object/assign":6,"babel-runtime/helpers/interop-require-default":18,"events":110}],269:[function(require,module,exports){
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-exports["default"] = function (typeEditor, selectionModel) {
-  typeEditor.hideDialogs();
-  selectionModel.clear();
-};
-
-module.exports = exports["default"];
-
-},{}],270:[function(require,module,exports){
+},{"./Transition":267,"./Trigger":268,"./bindTransition":270,"./enableButtonHasAnnotation":271,"./event":272,"babel-runtime/core-js/object/assign":6,"babel-runtime/helpers/interop-require-default":18,"events":110}],274:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -22150,7 +22276,7 @@ exports['default'] = function (editor, buttonStateHelper, isEditable) {
 
 module.exports = exports['default'];
 
-},{}],271:[function(require,module,exports){
+},{}],275:[function(require,module,exports){
 module.exports={
     "INIT": "Init",
     "TERM": "Term Centric",
@@ -22160,7 +22286,7 @@ module.exports={
     "VIEW_INSTANCE": "View Instance"
 }
 
-},{}],272:[function(require,module,exports){
+},{}],276:[function(require,module,exports){
 'use strict';
 
 var _createClass = require('babel-runtime/helpers/create-class')['default'];
@@ -22237,7 +22363,7 @@ var _default = (function () {
 exports['default'] = _default;
 module.exports = exports['default'];
 
-},{"babel-runtime/helpers/class-call-check":14,"babel-runtime/helpers/create-class":15}],273:[function(require,module,exports){
+},{"babel-runtime/helpers/class-call-check":14,"babel-runtime/helpers/create-class":15}],277:[function(require,module,exports){
 'use strict';
 
 var _get = require('babel-runtime/helpers/get')['default'];
@@ -22288,7 +22414,7 @@ var _default = (function (_DefaultHandler) {
 exports['default'] = _default;
 module.exports = exports['default'];
 
-},{"../DefaultHandler":272,"babel-runtime/helpers/class-call-check":14,"babel-runtime/helpers/create-class":15,"babel-runtime/helpers/get":16,"babel-runtime/helpers/inherits":17,"babel-runtime/helpers/interop-require-default":18}],274:[function(require,module,exports){
+},{"../DefaultHandler":276,"babel-runtime/helpers/class-call-check":14,"babel-runtime/helpers/create-class":15,"babel-runtime/helpers/get":16,"babel-runtime/helpers/inherits":17,"babel-runtime/helpers/interop-require-default":18}],278:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -22334,7 +22460,7 @@ exports['default'] = function (editor, annotationData, selectionModel, typeConta
 
 module.exports = exports['default'];
 
-},{}],275:[function(require,module,exports){
+},{}],279:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -22363,34 +22489,27 @@ exports['default'] = function (cancelSelect, selectEnd, spanConfig) {
 
 module.exports = exports['default'];
 
-},{"./getSelectionSnapShot":278,"babel-runtime/helpers/interop-require-default":18}],276:[function(require,module,exports){
-'use strict';
+},{"./getSelectionSnapShot":282,"babel-runtime/helpers/interop-require-default":18}],280:[function(require,module,exports){
+"use strict";
 
-var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
-
-Object.defineProperty(exports, '__esModule', {
+Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _dismissBrowserSelection = require('../../dismissBrowserSelection');
-
-var _dismissBrowserSelection2 = _interopRequireDefault(_dismissBrowserSelection);
-
-exports['default'] = function (selectionModel, e) {
-  (0, _dismissBrowserSelection2['default'])();
-
+exports["default"] = function (selectionModel, e) {
   if (e.ctrlKey || e.metaKey) {
     selectionModel.entity.toggle(e.target.title);
   } else {
     selectionModel.clear();
     selectionModel.entity.add(e.target.title);
   }
+
   return false;
 };
 
-module.exports = exports['default'];
+module.exports = exports["default"];
 
-},{"../../dismissBrowserSelection":295,"babel-runtime/helpers/interop-require-default":18}],277:[function(require,module,exports){
+},{}],281:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -22412,38 +22531,29 @@ exports['default'] = function (selectionModel, e) {
 
 module.exports = exports['default'];
 
-},{"./selectEntities":280,"babel-runtime/helpers/interop-require-default":18}],278:[function(require,module,exports){
-'use strict';
+},{"./selectEntities":284,"babel-runtime/helpers/interop-require-default":18}],282:[function(require,module,exports){
+// Return the snap shot of the selection.
+"use strict";
 
-var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
-
-Object.defineProperty(exports, '__esModule', {
+Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _dismissBrowserSelection = require('../../dismissBrowserSelection');
+exports["default"] = function () {
+  var selection = window.getSelection();
 
-var _dismissBrowserSelection2 = _interopRequireDefault(_dismissBrowserSelection);
-
-exports['default'] = function () {
-  var selection = window.getSelection(),
-      snapShot = {
+  return {
     anchorNode: selection.anchorNode,
     anchorOffset: selection.anchorOffset,
     focusNode: selection.focusNode,
     focusOffset: selection.focusOffset,
     range: selection.getRangeAt(0)
   };
-
-  (0, _dismissBrowserSelection2['default'])();
-
-  // Return the snap shot of the selection.
-  return snapShot;
 };
 
-module.exports = exports['default'];
+module.exports = exports["default"];
 
-},{"../../dismissBrowserSelection":295,"babel-runtime/helpers/interop-require-default":18}],279:[function(require,module,exports){
+},{}],283:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -22491,6 +22601,8 @@ exports['default'] = function (editor, model, command, modeAccordingToButton, ty
       init = function init() {
     editor.on('mouseup', '.textae-editor__body', function () {
       return (0, _bodyClicked2['default'])(cancelSelect, selectEnd, spanConfig);
+    }).on('mouseup', '.textae-editor__type', function () {
+      return editor.focus();
     }).on('mouseup', '.textae-editor__span', function (e) {
       return (0, _spanClicked2['default'])(spanConfig, selectEnd, selectSpan, e);
     }).on('mouseup', '.textae-editor__type-label', function (e) {
@@ -22511,22 +22623,16 @@ exports['default'] = function (editor, model, command, modeAccordingToButton, ty
 
 module.exports = exports['default'];
 
-},{"../../SelectEnd":288,"./EditEntityHandler":273,"./SelectSpan":274,"./bodyClicked":275,"./entityClicked":276,"./entityPaneClicked":277,"./spanClicked":281,"./typeLabelClicked":282,"babel-runtime/helpers/interop-require-default":18}],280:[function(require,module,exports){
+},{"../../SelectEnd":306,"./EditEntityHandler":277,"./SelectSpan":278,"./bodyClicked":279,"./entityClicked":280,"./entityPaneClicked":281,"./spanClicked":285,"./typeLabelClicked":286,"babel-runtime/helpers/interop-require-default":18}],284:[function(require,module,exports){
 'use strict';
 
-var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
+var _getIterator = require('babel-runtime/core-js/get-iterator')['default'];
 
 Object.defineProperty(exports, '__esModule', {
   value: true
 });
 
-var _dismissBrowserSelection = require('../../dismissBrowserSelection');
-
-var _dismissBrowserSelection2 = _interopRequireDefault(_dismissBrowserSelection);
-
 exports['default'] = function (selectionModel, ctrlKey, typeLabel, entities) {
-  (0, _dismissBrowserSelection2['default'])();
-
   if (ctrlKey) {
     if (typeLabel.classList.contains('ui-selected')) {
       deselect(selectionModel, entities);
@@ -22537,24 +22643,67 @@ exports['default'] = function (selectionModel, ctrlKey, typeLabel, entities) {
     selectionModel.clear();
     select(selectionModel, entities);
   }
+
   return false;
-
-  function select(selectionModel, entities) {
-    Array.prototype.forEach.call(entities, function (entity) {
-      return selectionModel.entity.add(entity.title);
-    });
-  }
-
-  function deselect(selectionModel, entities) {
-    Array.prototype.forEach.call(entities, function (entity) {
-      return selectionModel.entity.remove(entity.title);
-    });
-  }
 };
 
+// A parameter entities is a HTMLCollection. It does not have the forEach method.
+function select(selectionModel, entities) {
+  var _iteratorNormalCompletion = true;
+  var _didIteratorError = false;
+  var _iteratorError = undefined;
+
+  try {
+    for (var _iterator = _getIterator(entities), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+      var entity = _step.value;
+
+      selectionModel.entity.add(entity.title);
+    }
+  } catch (err) {
+    _didIteratorError = true;
+    _iteratorError = err;
+  } finally {
+    try {
+      if (!_iteratorNormalCompletion && _iterator['return']) {
+        _iterator['return']();
+      }
+    } finally {
+      if (_didIteratorError) {
+        throw _iteratorError;
+      }
+    }
+  }
+}
+
+function deselect(selectionModel, entities) {
+  var _iteratorNormalCompletion2 = true;
+  var _didIteratorError2 = false;
+  var _iteratorError2 = undefined;
+
+  try {
+    for (var _iterator2 = _getIterator(entities), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+      var entity = _step2.value;
+
+      selectionModel.entity.remove(entity.title);
+    }
+  } catch (err) {
+    _didIteratorError2 = true;
+    _iteratorError2 = err;
+  } finally {
+    try {
+      if (!_iteratorNormalCompletion2 && _iterator2['return']) {
+        _iterator2['return']();
+      }
+    } finally {
+      if (_didIteratorError2) {
+        throw _iteratorError2;
+      }
+    }
+  }
+}
 module.exports = exports['default'];
 
-},{"../../dismissBrowserSelection":295,"babel-runtime/helpers/interop-require-default":18}],281:[function(require,module,exports){
+},{"babel-runtime/core-js/get-iterator":3}],285:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -22587,7 +22736,7 @@ exports['default'] = function (spanConfig, selectEnd, selectSpan, event) {
 
 module.exports = exports['default'];
 
-},{"./getSelectionSnapShot":278,"babel-runtime/helpers/interop-require-default":18}],282:[function(require,module,exports){
+},{"./getSelectionSnapShot":282,"babel-runtime/helpers/interop-require-default":18}],286:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -22595,10 +22744,6 @@ var _interopRequireDefault = require('babel-runtime/helpers/interop-require-defa
 Object.defineProperty(exports, '__esModule', {
   value: true
 });
-
-var _dismissBrowserSelection = require('../../dismissBrowserSelection');
-
-var _dismissBrowserSelection2 = _interopRequireDefault(_dismissBrowserSelection);
 
 var _selectEntities = require('./selectEntities');
 
@@ -22613,7 +22758,7 @@ exports['default'] = function (selectionModel, e) {
 
 module.exports = exports['default'];
 
-},{"../../dismissBrowserSelection":295,"./selectEntities":280,"babel-runtime/helpers/interop-require-default":18}],283:[function(require,module,exports){
+},{"./selectEntities":284,"babel-runtime/helpers/interop-require-default":18}],287:[function(require,module,exports){
 "use strict";
 
 var _get = require("babel-runtime/helpers/get")["default"];
@@ -22680,31 +22825,26 @@ var _default = (function (_DefaultHandler) {
 exports["default"] = _default;
 module.exports = exports["default"];
 
-},{"../DefaultHandler":272,"babel-runtime/helpers/class-call-check":14,"babel-runtime/helpers/create-class":15,"babel-runtime/helpers/get":16,"babel-runtime/helpers/inherits":17,"babel-runtime/helpers/interop-require-default":18}],284:[function(require,module,exports){
+},{"../DefaultHandler":276,"babel-runtime/helpers/class-call-check":14,"babel-runtime/helpers/create-class":15,"babel-runtime/helpers/get":16,"babel-runtime/helpers/inherits":17,"babel-runtime/helpers/interop-require-default":18}],288:[function(require,module,exports){
 'use strict';
-
-var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
 
 Object.defineProperty(exports, '__esModule', {
   value: true
 });
 exports['default'] = entityClickedAtRelationMode;
 
-var _dismissBrowserSelection = require('../../dismissBrowserSelection');
-
-var _dismissBrowserSelection2 = _interopRequireDefault(_dismissBrowserSelection);
-
 function entityClickedAtRelationMode(selectionModel, command, typeContainer, e) {
   if (!selectionModel.entity.some()) {
     selectionModel.clear();
     selectionModel.entity.add($(e.target).attr('title'));
   } else {
-    selectObjectEntity(selectionModel, command, typeContainer, e);
+    onSelectObjectEntity(selectionModel, command, typeContainer, e);
   }
+
   return false;
 }
 
-function selectObjectEntity(selectionModel, command, typeContainer, e) {
+function onSelectObjectEntity(selectionModel, command, typeContainer, e) {
   // Cannot make a self reference relation.
   var subjectEntityId = selectionModel.entity.all()[0],
       objectEntityId = $(e.target).attr('title');
@@ -22714,31 +22854,35 @@ function selectObjectEntity(selectionModel, command, typeContainer, e) {
     selectionModel.entity.remove(subjectEntityId);
   } else {
     selectionModel.entity.add(objectEntityId);
-    _.defer(function () {
-      command.invoke([command.factory.relationCreateCommand({
-        subj: subjectEntityId,
-        obj: objectEntityId,
-        type: typeContainer.relation.getDefaultType()
-      })]);
+    createRelation(command, subjectEntityId, objectEntityId, typeContainer);
+    updateSelectionOfEntity(e, selectionModel.entity, subjectEntityId, objectEntityId);
+  }
+}
 
-      if (e.ctrlKey || e.metaKey) {
-        // Remaining selection of the subject entity.
-        selectionModel.entity.remove(objectEntityId);
-      } else if (e.shiftKey) {
-        (0, _dismissBrowserSelection2['default'])();
-        selectionModel.entity.remove(subjectEntityId);
-        selectionModel.entity.add(objectEntityId);
-        return false;
-      } else {
-        selectionModel.entity.remove(subjectEntityId);
-        selectionModel.entity.remove(objectEntityId);
-      }
-    });
+function createRelation(command, subjectEntityId, objectEntityId, typeContainer) {
+  command.invoke([command.factory.relationCreateCommand({
+    subj: subjectEntityId,
+    obj: objectEntityId,
+    type: typeContainer.relation.getDefaultType()
+  })]);
+}
+
+function updateSelectionOfEntity(event, selectionModel, subjectEntityId, objectEntityId) {
+  if (event.ctrlKey || event.metaKey) {
+    // Remaining selection of the subject entity.
+    selectionModel.remove(objectEntityId);
+  } else if (event.shiftKey) {
+    selectionModel.remove(subjectEntityId);
+    selectionModel.add(objectEntityId);
+    return false;
+  } else {
+    selectionModel.remove(subjectEntityId);
+    selectionModel.remove(objectEntityId);
   }
 }
 module.exports = exports['default'];
 
-},{"../../dismissBrowserSelection":295,"babel-runtime/helpers/interop-require-default":18}],285:[function(require,module,exports){
+},{}],289:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -22763,7 +22907,10 @@ exports['default'] = function (editor, selectionModel, annotationData, command, 
   // So multi selection of relations with Ctrl-key is not work.
   var init = function init() {
     editor.on('mouseup', '.textae-editor__entity', function (e) {
-      return (0, _entityClickedAtRelationMode2['default'])(selectionModel, command, typeContainer, e);
+      var ret = (0, _entityClickedAtRelationMode2['default'])(selectionModel, command, typeContainer, e);
+      editor.focus();
+
+      return ret;
     }).on('mouseup', '.textae-editor__relation, .textae-editor__relation__label', function () {
       return false;
     }).on('mouseup', '.textae-editor__body', cancelSelect);
@@ -22777,7 +22924,7 @@ exports['default'] = function (editor, selectionModel, annotationData, command, 
 
 module.exports = exports['default'];
 
-},{"./EditRelationHandler":283,"./entityClickedAtRelationMode":284,"babel-runtime/helpers/interop-require-default":18}],286:[function(require,module,exports){
+},{"./EditRelationHandler":287,"./entityClickedAtRelationMode":288,"babel-runtime/helpers/interop-require-default":18}],290:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -22804,10 +22951,10 @@ var _DefaultHandler2 = _interopRequireDefault(_DefaultHandler);
 
 // Provide handlers to edit elements according to an edit mode.
 
-exports['default'] = function (editor, model, spanConfig, command, modeAccordingToButton, typeContainer, canselHandler) {
+exports['default'] = function (editor, model, spanConfig, command, modeAccordingToButton, typeContainer, cancelSelect) {
   var handler = new _DefaultHandler2['default'](),
-      _editRelation = new _EditRelation2['default'](editor, model.selectionModel, model.annotationData, command, typeContainer, canselHandler),
-      _editEntity = new _EditEntity2['default'](editor, model, command, modeAccordingToButton, typeContainer, spanConfig, canselHandler);
+      _editRelation = new _EditRelation2['default'](editor, model.selectionModel, model.annotationData, command, typeContainer, cancelSelect),
+      _editEntity = new _EditEntity2['default'](editor, model, command, modeAccordingToButton, typeContainer, spanConfig, cancelSelect);
 
   return {
     getHandler: function getHandler() {
@@ -22836,7 +22983,7 @@ exports['default'] = function (editor, model, spanConfig, command, modeAccording
 
 module.exports = exports['default'];
 
-},{"./DefaultHandler":272,"./EditEntity":279,"./EditRelation":285,"./unbindAllEventhandler":287,"babel-runtime/helpers/interop-require-default":18}],287:[function(require,module,exports){
+},{"./DefaultHandler":276,"./EditEntity":283,"./EditRelation":289,"./unbindAllEventhandler":291,"babel-runtime/helpers/interop-require-default":18}],291:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -22849,319 +22996,35 @@ exports['default'] = function (editor) {
 
 module.exports = exports['default'];
 
-},{}],288:[function(require,module,exports){
+},{}],292:[function(require,module,exports){
 'use strict';
+
+var _slicedToArray = require('babel-runtime/helpers/sliced-to-array')['default'];
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
 
-var _SelectionParser = require('./SelectionParser');
-
-var _SelectionParser2 = _interopRequireDefault(_SelectionParser);
-
-var _SelectionValidater = require('./SelectionValidater');
-
-var _SelectionValidater2 = _interopRequireDefault(_SelectionValidater);
-
-var _SpanEditor = require('./SpanEditor');
-
-var _SpanEditor2 = _interopRequireDefault(_SpanEditor);
-
-var selectEndOnText = function selectEndOnText(selectionValidater, spanEditor, data) {
-  var isValid = selectionValidater.validateOnText(data.spanConfig, data.selection);
-
-  if (isValid) {
-    _.compose(spanEditor.expand, spanEditor.create)(data);
-  }
-},
-    selectEndOnSpan = function selectEndOnSpan(selectionValidater, spanEditor, data) {
-  var isValid = selectionValidater.validateOnSpan(data.spanConfig, data.selection);
-
-  if (isValid) {
-    _.compose(spanEditor.shrink, spanEditor.expand, spanEditor.create)(data);
-  }
-};
-
-module.exports = function (editor, model, command, modeAccordingToButton, typeContainer) {
-  var selectionParser = new _SelectionParser2['default'](editor, model),
-      selectionValidater = new _SelectionValidater2['default'](selectionParser),
-
-  // Initiated by events.
-  selectEndOnTextImpl = null,
-      selectEndOnSpanImpl = null,
-      changeSpanEditorAccordingToButtons = function changeSpanEditorAccordingToButtons() {
-    var isDetectDelimiterEnable = modeAccordingToButton['boundary-detection'].value(),
-        isReplicateAuto = modeAccordingToButton['replicate-auto'].value(),
-        spanEditor = new _SpanEditor2['default'](editor, model, command, typeContainer, isDetectDelimiterEnable, isReplicateAuto);
-
-    selectEndOnTextImpl = _.partial(selectEndOnText, selectionValidater, spanEditor);
-    selectEndOnSpanImpl = _.partial(selectEndOnSpan, selectionValidater, spanEditor);
-  };
-
-  // Change spanEditor according to the  buttons state.
-  changeSpanEditorAccordingToButtons();
-
-  modeAccordingToButton['boundary-detection'].on('change', changeSpanEditorAccordingToButtons);
-
-  modeAccordingToButton['replicate-auto'].on('change', changeSpanEditorAccordingToButtons);
-
-  return {
-    onText: function onText(data) {
-      if (selectEndOnTextImpl) selectEndOnTextImpl(data);
-    },
-    onSpan: function onSpan(data) {
-      if (selectEndOnSpanImpl) selectEndOnSpanImpl(data);
-    }
-  };
-};
-
-},{"./SelectionParser":289,"./SelectionValidater":290,"./SpanEditor":291,"babel-runtime/helpers/interop-require-default":18}],289:[function(require,module,exports){
-'use strict';
-
-var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
-
-var _selectPosition = require('./selectPosition');
-
-var _selectPosition2 = _interopRequireDefault(_selectPosition);
-
-module.exports = function (editor, model) {
-  // A span cannot be created include nonEdgeCharacters only.
-  var hasCharacters = function hasCharacters(spanConfig, selection) {
-    if (!selection) return false;
-
-    var positions = _selectPosition2['default'].toPositions(model.annotationData, selection),
-        selectedString = model.annotationData.sourceDoc.substring(positions.anchorPosition, positions.focusPosition),
-        stringWithoutBlankCharacters = spanConfig.removeBlankChractors(selectedString);
-
-    return stringWithoutBlankCharacters.length > 0;
-  },
-      isInOneParent = function isInOneParent(selection) {
-    // A span can be created at the same parent node.
-    // The parentElement is expected as a paragraph or a span.
-    return selection.anchorNode.parentElement.id === selection.focusNode.parentElement.id;
-  },
-      getAnchorNodeParent = function getAnchorNodeParent(selection) {
-    return $(selection.anchorNode.parentNode);
-  },
-      getFocusNodeParent = function getFocusNodeParent(selection) {
-    return $(selection.focusNode.parentNode);
-  },
-      hasSpan = function hasSpan($node) {
-    return $node.hasClass('textae-editor__span');
-  },
-      hasParagraphs = function hasParagraphs($node) {
-    return $node.hasClass('textae-editor__body__text-box__paragraph');
-  },
-      hasSpanOrParagraphs = function hasSpanOrParagraphs($node) {
-    return hasSpan($node) || hasParagraphs($node);
-  },
-      isAnchrNodeInSpan = _.compose(hasSpan, getAnchorNodeParent),
-      isFocusNodeInSpan = _.compose(hasSpan, getFocusNodeParent),
-      isFocusNodeInParagraph = _.compose(hasParagraphs, getFocusNodeParent),
-      isAnchrNodeInSpanOrParagraph = _.compose(hasSpanOrParagraphs, getAnchorNodeParent),
-      isInSameParagraph = (function () {
-    var getParagraph = function getParagraph(_x) {
-      var _again = true;
-
-      _function: while (_again) {
-        var $node = _x;
-        _again = false;
-
-        if (hasParagraphs($node)) {
-          return $node;
-        } else if (hasSpan($node)) {
-          _x = $node.parent();
-          _again = true;
-          continue _function;
-        } else {
-          return null;
-        }
-      }
-    },
-        getParagraphId = function getParagraphId(selection, position) {
-      var $parent = $(selection[position + 'Node'].parentNode),
-          $paragraph = getParagraph($parent);
-      return $paragraph && $paragraph.attr('id');
-    };
-
-    return function (selection) {
-      var anchorParagraphId = getParagraphId(selection, 'anchor'),
-          focusParagraphId = getParagraphId(selection, 'focus');
-
-      return anchorParagraphId === focusParagraphId;
-    };
-  })(),
-      isAnchorOneDownUnderForcus = function isAnchorOneDownUnderForcus(selection) {
-    return selection.anchorNode.parentNode.parentNode === selection.focusNode.parentNode;
-  },
-      isForcusOneDownUnderAnchor = function isForcusOneDownUnderAnchor(selection) {
-    return selection.anchorNode.parentNode === selection.focusNode.parentNode.parentNode;
-  },
-      isInSelectedSpan = function isInSelectedSpan(position) {
-    var spanId = model.selectionModel.span.single();
-    if (spanId) {
-      var selectedSpan = model.annotationData.span.get(spanId);
-      return selectedSpan.begin < position && position < selectedSpan.end;
-    }
-    return false;
-  },
-      isAnchorInSelectedSpan = function isAnchorInSelectedSpan(selection) {
-    return isInSelectedSpan(_selectPosition2['default'].getAnchorPosition(model.annotationData, selection));
-  },
-      isFocusOnSelectedSpan = function isFocusOnSelectedSpan(selection) {
-    return selection.focusNode.parentNode.id === model.selectionModel.span.single();
-  },
-      isFocusInSelectedSpan = function isFocusInSelectedSpan(selection) {
-    return isInSelectedSpan(_selectPosition2['default'].getFocusPosition(model.annotationData, selection));
-  },
-      isLongerThanParentSpan = function isLongerThanParentSpan(selection) {
-    var $getAnchorNodeParent = getAnchorNodeParent(selection),
-        focusPosition = _selectPosition2['default'].getFocusPosition(model.annotationData, selection);
-
-    if (hasSpan($getAnchorNodeParent) && $getAnchorNodeParent.parent() && hasSpan($getAnchorNodeParent.parent())) {
-      var span = model.annotationData.span.get($getAnchorNodeParent.parent().attr('id'));
-      if (focusPosition < span.begin || span.end < focusPosition) return true;
-    }
-  },
-      isShorterThanChildSpan = function isShorterThanChildSpan(selection) {
-    var $getFocusNodeParent = getFocusNodeParent(selection),
-        anchorPosition = _selectPosition2['default'].getAnchorPosition(model.annotationData, selection);
-
-    if (hasSpan($getFocusNodeParent) && $getFocusNodeParent.parent() && hasSpan($getFocusNodeParent.parent())) {
-      var span = model.annotationData.span.get($getFocusNodeParent.parent().attr('id'));
-      if (anchorPosition < span.begin || span.end < anchorPosition) return true;
-    }
-  };
-
-  return {
-    hasCharacters: hasCharacters,
-    isInOneParent: isInOneParent,
-    isAnchrNodeInSpan: isAnchrNodeInSpan,
-    isAnchrNodeInSpanOrParagraph: isAnchrNodeInSpanOrParagraph,
-    isFocusNodeInSpan: isFocusNodeInSpan,
-    isFocusNodeInParagraph: isFocusNodeInParagraph,
-    isInSameParagraph: isInSameParagraph,
-    isAnchorOneDownUnderForcus: isAnchorOneDownUnderForcus,
-    isForcusOneDownUnderAnchor: isForcusOneDownUnderAnchor,
-    isAnchorInSelectedSpan: isAnchorInSelectedSpan,
-    isFocusOnSelectedSpan: isFocusOnSelectedSpan,
-    isFocusInSelectedSpan: isFocusInSelectedSpan,
-    isLongerThanParentSpan: isLongerThanParentSpan,
-    isShorterThanChildSpan: isShorterThanChildSpan
-  };
-};
-
-},{"./selectPosition":297,"babel-runtime/helpers/interop-require-default":18}],290:[function(require,module,exports){
-'use strict';
-
-var deferAlert = require('./deferAlert');
-
-module.exports = function (parser) {
-  var showAlertIfOtherSpan = function showAlertIfOtherSpan(selection) {
-    if (parser.isInSameParagraph(selection)) {
-      return true;
-    }
-
-    deferAlert('It is ambiguous for which span you want to adjust the boundary. Select the span, and try again.');
-    return false;
-  },
-      commonValidate = function commonValidate(spanConfig, selection) {
-    // This order is not important.
-    return showAlertIfOtherSpan(selection) && parser.isAnchrNodeInSpanOrParagraph(selection) && parser.hasCharacters(spanConfig, selection);
-  },
-      validateOnText = function validateOnText(spanConfig, selection) {
-    // This order is important, because showAlertIfOtherSpan is show alert.
-    return parser.isFocusNodeInParagraph(selection) && commonValidate(spanConfig, selection);
-  },
-      validateOnSpan = function validateOnSpan(spanConfig, selection) {
-    // This order is important, because showAlertIfOtherSpan is show alert.
-    return parser.isFocusNodeInSpan(selection) && commonValidate(spanConfig, selection);
-  };
-
-  return {
-    validateOnText: validateOnText,
-    validateOnSpan: validateOnSpan
-  };
-};
-
-},{"./deferAlert":294}],291:[function(require,module,exports){
-'use strict';
-
-var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
+var _interopRequireWildcard = require('babel-runtime/helpers/interop-require-wildcard')['default'];
 
 Object.defineProperty(exports, '__esModule', {
   value: true
 });
 
-var _idFactory = require('../../../idFactory');
+var _ModelAnnotationDataParseAnnotationValidateAnnotation = require('../../../../../Model/AnnotationData/parseAnnotation/validateAnnotation');
 
-var _idFactory2 = _interopRequireDefault(_idFactory);
-
-var _ModelAnnotationDataParseAnnotationValidateAnnotation = require('../../../Model/AnnotationData/parseAnnotation/validateAnnotation');
-
-var _ModelIsAlreadySpaned = require('../../../Model/isAlreadySpaned');
+var _ModelIsAlreadySpaned = require('../../../../../Model/isAlreadySpaned');
 
 var _ModelIsAlreadySpaned2 = _interopRequireDefault(_ModelIsAlreadySpaned);
 
-var _deferAlert = require('./deferAlert');
+var _selectPosition = require('../selectPosition');
 
-var _deferAlert2 = _interopRequireDefault(_deferAlert);
+var selectPosition = _interopRequireWildcard(_selectPosition);
 
-var _spanAdjusterDelimiterDetectAdjuster = require('../spanAdjuster/delimiterDetectAdjuster');
+var BLOCK_THRESHOLD = 100;
 
-var _spanAdjusterDelimiterDetectAdjuster2 = _interopRequireDefault(_spanAdjusterDelimiterDetectAdjuster);
+exports['default'] = function (model, command, typeContainer, spanAdjuster, isDetectDelimiterEnable, isReplicateAuto, selection, spanConfig) {
+  model.selectionModel.clear();
 
-var _spanAdjusterBlankSkipAdjuster = require('../spanAdjuster/blankSkipAdjuster');
-
-var _spanAdjusterBlankSkipAdjuster2 = _interopRequireDefault(_spanAdjusterBlankSkipAdjuster);
-
-var _SpanManipulater = require('./SpanManipulater');
-
-var _SpanManipulater2 = _interopRequireDefault(_SpanManipulater);
-
-var _SelectionParser = require('./SelectionParser');
-
-var _SelectionParser2 = _interopRequireDefault(_SelectionParser);
-
-exports['default'] = function (editor, model, command, typeContainer, isDetectDelimiterEnable, isReplicateAuto) {
-  var spanAdjuster = isDetectDelimiterEnable ? _spanAdjusterDelimiterDetectAdjuster2['default'] : _spanAdjusterBlankSkipAdjuster2['default'],
-      spanManipulater = new _SpanManipulater2['default'](model, spanAdjuster),
-      selectionParser = new _SelectionParser2['default'](editor, model),
-      doCreate = _.partial(DoCreate, model, command, typeContainer, spanManipulater, isDetectDelimiterEnable, isReplicateAuto),
-      doExpandSpanToSelection = _.partial(expandSpanToSelection, editor, model, command, spanManipulater),
-      doExpand = _.partial(DoExpand, model, selectionParser, doExpandSpanToSelection),
-      doShrinkSpanToSelection = _.partial(shrinkSpanToSelection, editor, model, command, spanManipulater),
-      doShrink = _.partial(DoShrink, model, selectionParser, doShrinkSpanToSelection);
-
-  return {
-    create: _.partial(processSelectionIf, doCreate, selectionParser.isInOneParent),
-    expand: _.partial(processSelectionIf, doExpand, selectionParser.isAnchrNodeInSpan),
-    shrink: _.partial(processSelectionIf, doShrink, selectionParser.isFocusNodeInSpan)
-  };
-};
-
-function processSelectionIf(doFunc, predicate, data) {
-  if (data && predicate(data.selection)) {
-    return doFunc(data);
-  }
-  return data;
-}
-
-function moveSpan(editor, command, spanId, newSpan) {
-  // Do not need move.
-  if (spanId === _idFactory2['default'].makeSpanId(editor, newSpan)) {
-    return undefined;
-  }
-
-  return [command.factory.spanMoveCommand(spanId, newSpan)];
-}
-
-function removeSpan(command, spanId) {
-  return [command.factory.spanRemoveCommand(spanId)];
-}
-
-function DoCreate(model, command, typeContainer, spanManipulater, isDetectDelimiterEnable, isReplicateAuto, data) {
-  var BLOCK_THRESHOLD = 100,
-      newSpan = spanManipulater.create(data.selection, data.spanConfig);
+  var newSpan = getNewSpan(model, spanAdjuster, selection, spanConfig);
 
   // The span cross exists spans.
   if ((0, _ModelAnnotationDataParseAnnotationValidateAnnotation.isBoundaryCrossingWithOtherSpans)(model.annotationData.span.all(), newSpan)) {
@@ -23173,6 +23036,12 @@ function DoCreate(model, command, typeContainer, spanManipulater, isDetectDelimi
     return;
   }
 
+  var commands = createCommands(command, typeContainer, newSpan, isReplicateAuto, isDetectDelimiterEnable, spanConfig);
+
+  command.invoke(commands);
+};
+
+function createCommands(command, typeContainer, newSpan, isReplicateAuto, isDetectDelimiterEnable, spanConfig) {
   var commands = [command.factory.spanCreateCommand(typeContainer.entity.getDefaultType(), {
     begin: newSpan.begin,
     end: newSpan.end
@@ -23182,14 +23051,86 @@ function DoCreate(model, command, typeContainer, spanManipulater, isDetectDelimi
     commands.push(command.factory.spanReplicateCommand(typeContainer.entity.getDefaultType(), {
       begin: newSpan.begin,
       end: newSpan.end
-    }, isDetectDelimiterEnable ? data.spanConfig.isDelimiter : null));
+    }, isDetectDelimiterEnable ? spanConfig.isDelimiter : null));
   }
 
-  command.invoke(commands);
+  return commands;
 }
 
-function expandSpanToSelection(editor, model, command, spanManipulater, spanId, data) {
-  var newSpan = spanManipulater.expand(spanId, data.selection, data.spanConfig);
+function getNewSpan(model, spanAdjuster, selection, spanConfig) {
+  var _selectPosition$getBeginEnd = selectPosition.getBeginEnd(model.annotationData, selection);
+
+  var _selectPosition$getBeginEnd2 = _slicedToArray(_selectPosition$getBeginEnd, 2);
+
+  var begin = _selectPosition$getBeginEnd2[0];
+  var end = _selectPosition$getBeginEnd2[1];
+
+  return {
+    begin: spanAdjuster.backFromBegin(model.annotationData.sourceDoc, begin, spanConfig),
+    end: spanAdjuster.forwardFromEnd(model.annotationData.sourceDoc, end - 1, spanConfig) + 1
+  };
+}
+module.exports = exports['default'];
+
+},{"../../../../../Model/AnnotationData/parseAnnotation/validateAnnotation":225,"../../../../../Model/isAlreadySpaned":239,"../selectPosition":307,"babel-runtime/helpers/interop-require-default":18,"babel-runtime/helpers/interop-require-wildcard":19,"babel-runtime/helpers/sliced-to-array":20}],293:[function(require,module,exports){
+'use strict';
+
+var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
+
+var _interopRequireWildcard = require('babel-runtime/helpers/interop-require-wildcard')['default'];
+
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
+
+var _ModelAnnotationDataParseAnnotationValidateAnnotation = require('../../../../../Model/AnnotationData/parseAnnotation/validateAnnotation');
+
+var _deferAlert = require('../deferAlert');
+
+var _deferAlert2 = _interopRequireDefault(_deferAlert);
+
+var _selectPosition = require('../selectPosition');
+
+var selectPosition = _interopRequireWildcard(_selectPosition);
+
+var _isInSelected = require('./isInSelected');
+
+var isInSelected = _interopRequireWildcard(_isInSelected);
+
+var _moveSpan = require('./moveSpan');
+
+var _moveSpan2 = _interopRequireDefault(_moveSpan);
+
+exports['default'] = function (editor, model, command, spanAdjuster, selection, spanConfig) {
+  var spanId = getExpandTargetSpan(model, selection);
+
+  if (spanId) {
+    expandSpanToSelection(editor, model, command, spanAdjuster, spanId, selection, spanConfig);
+  }
+};
+
+function getExpandTargetSpan(model, selection) {
+  // If a span is selected, it is able to begin drag a span in the span and expand the span.
+  // The focus node should be at one level above the selected node.
+  if (isInSelected.isAnchorInSelectedSpan(model, selection)) {
+    // cf.
+    // 1. one side of a inner span is same with one side of the outside span.
+    // 2. Select an outside span.
+    // 3. Begin Drug from an inner span to out of an outside span.
+    // Expand the selected span.
+    return model.selectionModel.span.single();
+  } else if (isAnchorOneDownUnderForcus(selection)) {
+    // To expand the span , belows are needed:
+    // 1. The anchorNode is in the span.
+    // 2. The foucusNode is out of the span and in the parent of the span.
+    return selection.anchorNode.parentNode.id;
+  }
+}
+
+function expandSpanToSelection(editor, model, command, spanAdjuster, spanId, selection, spanConfig) {
+  model.selectionModel.clear();
+
+  var newSpan = getNewSpan(model, spanAdjuster, spanId, selection, spanConfig);
 
   // The span cross exists spans.
   if ((0, _ModelAnnotationDataParseAnnotationValidateAnnotation.isBoundaryCrossingWithOtherSpans)(model.annotationData.span.all(), newSpan)) {
@@ -23197,31 +23138,325 @@ function expandSpanToSelection(editor, model, command, spanManipulater, spanId, 
     return;
   }
 
-  command.invoke(moveSpan(editor, command, spanId, newSpan));
+  command.invoke((0, _moveSpan2['default'])(editor, command, spanId, newSpan));
 }
 
-function DoExpand(model, selectionParser, expandSpanToSelection, data) {
-  // If a span is selected, it is able to begin drag a span in the span and expand the span.
-  // The focus node should be at one level above the selected node.
-  if (selectionParser.isAnchorInSelectedSpan(data.selection)) {
-    // cf.
-    // 1. one side of a inner span is same with one side of the outside span.
-    // 2. Select an outside span.
-    // 3. Begin Drug from an inner span to out of an outside span.
-    // Expand the selected span.
-    expandSpanToSelection(model.selectionModel.span.single(), data);
-  } else if (selectionParser.isAnchorOneDownUnderForcus(data.selection)) {
-    // To expand the span , belows are needed:
-    // 1. The anchorNode is in the span.
-    // 2. The foucusNode is out of the span and in the parent of the span.
-    expandSpanToSelection(data.selection.anchorNode.parentNode.id, data);
+function isAnchorOneDownUnderForcus(selection) {
+  return selection.anchorNode.parentNode.parentNode === selection.focusNode.parentNode;
+}
+
+function getNewSpan(model, spanAdjuster, spanId, selection, spanConfig) {
+  var anchorPosition = selectPosition.getAnchorPosition(model.annotationData, selection),
+      focusPosition = selectPosition.getFocusPosition(model.annotationData, selection);
+
+  return getNewExpandSpan(model, spanAdjuster, spanId, anchorPosition, focusPosition, spanConfig);
+}
+
+function getNewExpandSpan(model, spanAdjuster, spanId, anchorPosition, focusPosition, spanConfig) {
+  var span = model.annotationData.span.get(spanId);
+
+  if (anchorPosition > focusPosition) {
+    // expand to the left
+    return {
+      begin: spanAdjuster.backFromBegin(model.annotationData.sourceDoc, focusPosition, spanConfig),
+      end: span.end
+    };
   } else {
-    return data;
+    // expand to the right
+    return {
+      begin: span.begin,
+      end: spanAdjuster.forwardFromEnd(model.annotationData.sourceDoc, focusPosition - 1, spanConfig) + 1
+    };
   }
 }
+module.exports = exports['default'];
 
-function shrinkSpanToSelection(editor, model, command, spanManipulater, spanId, data) {
-  var newSpan = spanManipulater.shrink(spanId, data.selection, data.spanConfig);
+},{"../../../../../Model/AnnotationData/parseAnnotation/validateAnnotation":225,"../deferAlert":303,"../selectPosition":307,"./isInSelected":295,"./moveSpan":296,"babel-runtime/helpers/interop-require-default":18,"babel-runtime/helpers/interop-require-wildcard":19}],294:[function(require,module,exports){
+'use strict';
+
+var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
+
+var _interopRequireWildcard = require('babel-runtime/helpers/interop-require-wildcard')['default'];
+
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
+
+var _spanAdjusterDelimiterDetectAdjuster = require('../../../spanAdjuster/delimiterDetectAdjuster');
+
+var _spanAdjusterDelimiterDetectAdjuster2 = _interopRequireDefault(_spanAdjusterDelimiterDetectAdjuster);
+
+var _spanAdjusterBlankSkipAdjuster = require('../../../spanAdjuster/blankSkipAdjuster');
+
+var _spanAdjusterBlankSkipAdjuster2 = _interopRequireDefault(_spanAdjusterBlankSkipAdjuster);
+
+var _create2 = require('./create');
+
+var _create3 = _interopRequireDefault(_create2);
+
+var _expand2 = require('./expand');
+
+var _expand3 = _interopRequireDefault(_expand2);
+
+var _shrink = require('./shrink');
+
+var shrink = _interopRequireWildcard(_shrink);
+
+exports['default'] = function (editor, model, command, typeContainer, isDetectDelimiterEnable, isReplicateAuto) {
+  var spanAdjuster = isDetectDelimiterEnable ? _spanAdjusterDelimiterDetectAdjuster2['default'] : _spanAdjusterBlankSkipAdjuster2['default'];
+
+  return {
+    create: function create(data) {
+      return (0, _create3['default'])(model, command, typeContainer, spanAdjuster, isDetectDelimiterEnable, isReplicateAuto, data.selection, data.spanConfig);
+    },
+    expand: function expand(data) {
+      return (0, _expand3['default'])(editor, model, command, spanAdjuster, data.selection, data.spanConfig);
+    },
+    shrinkCrossTheEar: function shrinkCrossTheEar(data) {
+      return shrink.crossTheEar(editor, model, command, spanAdjuster, data.selection, data.spanConfig);
+    },
+    shrinkPullByTheEar: function shrinkPullByTheEar(data) {
+      return shrink.pullByTheEar(editor, model, command, spanAdjuster, data.selection, data.spanConfig);
+    }
+  };
+};
+
+module.exports = exports['default'];
+
+},{"../../../spanAdjuster/blankSkipAdjuster":335,"../../../spanAdjuster/delimiterDetectAdjuster":336,"./create":292,"./expand":293,"./shrink":300,"babel-runtime/helpers/interop-require-default":18,"babel-runtime/helpers/interop-require-wildcard":19}],295:[function(require,module,exports){
+'use strict';
+
+var _interopRequireWildcard = require('babel-runtime/helpers/interop-require-wildcard')['default'];
+
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
+
+var _selectPosition = require('../selectPosition');
+
+var selectPosition = _interopRequireWildcard(_selectPosition);
+
+var _hasClass = require('../hasClass');
+
+var hasClass = _interopRequireWildcard(_hasClass);
+
+var _getParent = require('../getParent');
+
+var getParent = _interopRequireWildcard(_getParent);
+
+exports.isAnchorInSelectedSpan = isAnchorInSelectedSpan;
+exports.isFocusInSelectedSpan = isFocusInSelectedSpan;
+
+function isAnchorInSelectedSpan(model, selection) {
+  return isInSelectedSpan(model, selectPosition.getAnchorPosition(model.annotationData, selection));
+}
+
+function isFocusInSelectedSpan(model, selection) {
+  return isInSelectedSpan(model, selectPosition.getFocusPosition(model.annotationData, selection));
+}
+
+function isInSelectedSpan(model, position) {
+  var spanId = model.selectionModel.span.single();
+
+  if (spanId) {
+    var selectedSpan = model.annotationData.span.get(spanId);
+    return selectedSpan.begin < position && position < selectedSpan.end;
+  }
+
+  return false;
+}
+
+},{"../getParent":304,"../hasClass":305,"../selectPosition":307,"babel-runtime/helpers/interop-require-wildcard":19}],296:[function(require,module,exports){
+'use strict';
+
+var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
+
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
+
+var _idFactory = require('../../../../../idFactory');
+
+var _idFactory2 = _interopRequireDefault(_idFactory);
+
+exports['default'] = function (editor, command, spanId, newSpan) {
+  // Do not need move.
+  if (spanId === _idFactory2['default'].makeSpanId(editor, newSpan)) {
+    return undefined;
+  }
+
+  return [command.factory.spanMoveCommand(spanId, newSpan)];
+};
+
+module.exports = exports['default'];
+
+},{"../../../../../idFactory":240,"babel-runtime/helpers/interop-require-default":18}],297:[function(require,module,exports){
+'use strict';
+
+var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
+
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
+
+var _getTargetSpanWhenFocusNodeDifferentFromAnchorNode = require('./getTargetSpanWhenFocusNodeDifferentFromAnchorNode');
+
+var _getTargetSpanWhenFocusNodeDifferentFromAnchorNode2 = _interopRequireDefault(_getTargetSpanWhenFocusNodeDifferentFromAnchorNode);
+
+var _shrinkSpanToSelection = require('./shrinkSpanToSelection');
+
+var _shrinkSpanToSelection2 = _interopRequireDefault(_shrinkSpanToSelection);
+
+exports['default'] = function (editor, model, command, spanAdjuster, selection, spanConfig) {
+  var spanId = (0, _getTargetSpanWhenFocusNodeDifferentFromAnchorNode2['default'])(model, selection);
+
+  if (spanId) {
+    (0, _shrinkSpanToSelection2['default'])(editor, model, command, spanAdjuster, spanId, selection, spanConfig);
+  }
+};
+
+module.exports = exports['default'];
+
+},{"./getTargetSpanWhenFocusNodeDifferentFromAnchorNode":298,"./shrinkSpanToSelection":302,"babel-runtime/helpers/interop-require-default":18}],298:[function(require,module,exports){
+'use strict';
+
+var _interopRequireWildcard = require('babel-runtime/helpers/interop-require-wildcard')['default'];
+
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
+
+var _isInSelected = require('./../isInSelected');
+
+var isInSelected = _interopRequireWildcard(_isInSelected);
+
+exports['default'] = function (model, selection, id) {
+  if (isInSelected.isFocusInSelectedSpan(model, selection)) {
+    // If a span is selected, it is able to begin drag out of an outer span of the span and shrink the span.
+    // The focus node should be at the selected node.
+    // cf.
+    // 1. Select an inner span.
+    // 2. Begin Drug from out of an outside span to the selected span.
+    // Shrink the selected span.
+    return model.selectionModel.span.single();
+  } else if (isForcusOneDownUnderAnchor(selection)) {
+    // To shrink the span , belows are needed:
+    // 1. The anchorNode out of the span and in the parent of the span.
+    // 2. The foucusNode is in the span.
+    return selection.focusNode.parentNode.id;
+  } else if (id) {
+    return id;
+  }
+};
+
+function isForcusOneDownUnderAnchor(selection) {
+  return selection.anchorNode.parentNode === selection.focusNode.parentNode.parentNode;
+}
+module.exports = exports['default'];
+
+},{"./../isInSelected":295,"babel-runtime/helpers/interop-require-wildcard":19}],299:[function(require,module,exports){
+'use strict';
+
+var _interopRequireWildcard = require('babel-runtime/helpers/interop-require-wildcard')['default'];
+
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
+
+var _isInSelected = require('./../isInSelected');
+
+var isInSelected = _interopRequireWildcard(_isInSelected);
+
+exports['default'] = function (model, selection) {
+  if (isInSelected.isFocusInSelectedSpan(model, selection)) {
+    return model.selectionModel.span.single();
+  }
+
+  return selection.focusNode.parentElement.id;
+};
+
+module.exports = exports['default'];
+
+},{"./../isInSelected":295,"babel-runtime/helpers/interop-require-wildcard":19}],300:[function(require,module,exports){
+'use strict';
+
+var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
+
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
+
+var _crossTheEar = require('./crossTheEar');
+
+var _crossTheEar2 = _interopRequireDefault(_crossTheEar);
+
+var _pullByTheEar = require('./pullByTheEar');
+
+var _pullByTheEar2 = _interopRequireDefault(_pullByTheEar);
+
+exports.crossTheEar = _crossTheEar2['default'];
+exports.pullByTheEar = _pullByTheEar2['default'];
+
+},{"./crossTheEar":297,"./pullByTheEar":301,"babel-runtime/helpers/interop-require-default":18}],301:[function(require,module,exports){
+'use strict';
+
+var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
+
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
+
+var _getTargetSpanWhenFocusNodeSameWithAnchorNode = require('./getTargetSpanWhenFocusNodeSameWithAnchorNode');
+
+var _getTargetSpanWhenFocusNodeSameWithAnchorNode2 = _interopRequireDefault(_getTargetSpanWhenFocusNodeSameWithAnchorNode);
+
+var _shrinkSpanToSelection = require('./shrinkSpanToSelection');
+
+var _shrinkSpanToSelection2 = _interopRequireDefault(_shrinkSpanToSelection);
+
+exports['default'] = function (editor, model, command, spanAdjuster, selection, spanConfig) {
+  var spanId = (0, _getTargetSpanWhenFocusNodeSameWithAnchorNode2['default'])(model, selection);
+
+  if (spanId) {
+    (0, _shrinkSpanToSelection2['default'])(editor, model, command, spanAdjuster, spanId, selection, spanConfig);
+  }
+};
+
+module.exports = exports['default'];
+
+},{"./getTargetSpanWhenFocusNodeSameWithAnchorNode":299,"./shrinkSpanToSelection":302,"babel-runtime/helpers/interop-require-default":18}],302:[function(require,module,exports){
+'use strict';
+
+var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
+
+var _interopRequireWildcard = require('babel-runtime/helpers/interop-require-wildcard')['default'];
+
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
+
+var _ModelAnnotationDataParseAnnotationValidateAnnotation = require('../../../../../../Model/AnnotationData/parseAnnotation/validateAnnotation');
+
+var _deferAlert = require('../../deferAlert');
+
+var _deferAlert2 = _interopRequireDefault(_deferAlert);
+
+var _idFactory = require('../../../../../../idFactory');
+
+var _idFactory2 = _interopRequireDefault(_idFactory);
+
+var _moveSpan = require('./../moveSpan');
+
+var _moveSpan2 = _interopRequireDefault(_moveSpan);
+
+var _selectPosition = require('../../selectPosition');
+
+var selectPosition = _interopRequireWildcard(_selectPosition);
+
+exports['default'] = function (editor, model, command, spanAdjuster, spanId, selection, spanConfig) {
+  model.selectionModel.clear();
+
+  var newSpan = getNewSpan(model, spanAdjuster, spanId, selection, spanConfig);
 
   // The span cross exists spans.
   if ((0, _ModelAnnotationDataParseAnnotationValidateAnnotation.isBoundaryCrossingWithOtherSpans)(model.annotationData.span.all(), newSpan)) {
@@ -23232,127 +23467,409 @@ function shrinkSpanToSelection(editor, model, command, spanManipulater, spanId, 
   var newSpanId = _idFactory2['default'].makeSpanId(editor, newSpan),
       sameSpan = model.annotationData.span.get(newSpanId);
 
-  command.invoke(newSpan.begin < newSpan.end && !sameSpan ? moveSpan(editor, command, spanId, newSpan) : removeSpan(command, spanId));
+  command.invoke(newSpan.begin < newSpan.end && !sameSpan ? (0, _moveSpan2['default'])(editor, command, spanId, newSpan) : removeSpan(command, spanId));
+};
+
+function getNewSpan(model, spanAdjuster, spanId, selection, spanConfig) {
+  var anchorPosition = selectPosition.getAnchorPosition(model.annotationData, selection),
+      focusPosition = selectPosition.getFocusPosition(model.annotationData, selection);
+
+  return getNewShortSpan(model, spanAdjuster, spanId, anchorPosition, focusPosition, spanConfig);
 }
 
-function DoShrink(model, selectionParser, doShrinkSpanToSelection, data) {
-  if (selectionParser.isFocusInSelectedSpan(data.selection)) {
-    // If a span is selected, it is able to begin drag out of an outer span of the span and shrink the span.
-    // The focus node should be at the selected node.
-    // cf.
-    // 1. Select an inner span.
-    // 2. Begin Drug from out of an outside span to the selected span.
-    // Shrink the selected span.
-    doShrinkSpanToSelection(model.selectionModel.span.single(), data);
-  } else if (selectionParser.isForcusOneDownUnderAnchor(data.selection)) {
-    // To shrink the span , belows are needed:
-    // 1. The anchorNode out of the span and in the parent of the span.
-    // 2. The foucusNode is in the span.
-    doShrinkSpanToSelection(data.selection.focusNode.parentNode.id, data);
+function removeSpan(command, spanId) {
+  return [command.factory.spanRemoveCommand(spanId)];
+}
+
+function getNewShortSpan(model, spanAdjuster, spanId, anchorPosition, focusPosition, spanConfig) {
+  var span = model.annotationData.span.get(spanId);
+
+  if (anchorPosition < focusPosition) {
+    // shorten the left boundary
+    if (span.end === focusPosition) return {
+      begin: span.end,
+      end: span.end
+    };
+
+    return {
+      begin: spanAdjuster.forwardFromBegin(model.annotationData.sourceDoc, focusPosition, spanConfig),
+      end: span.end
+    };
+  } else {
+    // shorten the right boundary
+    if (span.begin === focusPosition) return {
+      begin: span.begin,
+      end: span.begin
+    };
+
+    return {
+      begin: span.begin,
+      end: spanAdjuster.backFromEnd(model.annotationData.sourceDoc, focusPosition - 1, spanConfig) + 1
+    };
   }
 }
 module.exports = exports['default'];
 
-},{"../../../Model/AnnotationData/parseAnnotation/validateAnnotation":221,"../../../Model/isAlreadySpaned":235,"../../../idFactory":236,"../spanAdjuster/blankSkipAdjuster":320,"../spanAdjuster/delimiterDetectAdjuster":321,"./SelectionParser":289,"./SpanManipulater":292,"./deferAlert":294,"babel-runtime/helpers/interop-require-default":18}],292:[function(require,module,exports){
+},{"../../../../../../Model/AnnotationData/parseAnnotation/validateAnnotation":225,"../../../../../../idFactory":240,"../../deferAlert":303,"../../selectPosition":307,"./../moveSpan":296,"babel-runtime/helpers/interop-require-default":18,"babel-runtime/helpers/interop-require-wildcard":19}],303:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+exports["default"] = function (message) {
+  // Show synchronous to smooth cancelation of selecton.
+  requestAnimationFrame(function () {
+    return alert(message);
+  });
+};
+
+module.exports = exports["default"];
+
+},{}],304:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.getAnchorNodeParent = getAnchorNodeParent;
+exports.getFocusNodeParent = getFocusNodeParent;
+
+function getAnchorNodeParent(selection) {
+  return $(selection.anchorNode.parentNode);
+}
+
+function getFocusNodeParent(selection) {
+  return $(selection.focusNode.parentNode);
+}
+
+},{}],305:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
+exports.hasSpan = hasSpan;
+exports.hasParagraphs = hasParagraphs;
+exports.hasSpanOrParagraphs = hasSpanOrParagraphs;
+
+function hasSpan($node) {
+  return $node.hasClass('textae-editor__span');
+}
+
+function hasParagraphs($node) {
+  return $node.hasClass('textae-editor__body__text-box__paragraph');
+}
+
+function hasSpanOrParagraphs($node) {
+  return hasSpan($node) || hasParagraphs($node);
+}
+
+},{}],306:[function(require,module,exports){
+'use strict';
+
+var _interopRequireWildcard = require('babel-runtime/helpers/interop-require-wildcard')['default'];
+
+var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
+
+var _selectionValidator = require('./selectionValidator');
+
+var selectionValidator = _interopRequireWildcard(_selectionValidator);
+
+var _SpanEditor = require('./SpanEditor');
+
+var _SpanEditor2 = _interopRequireDefault(_SpanEditor);
+
+var _selectPosition = require('./selectPosition');
+
+var selectPosition = _interopRequireWildcard(_selectPosition);
+
+module.exports = function (editor, model, command, modeAccordingToButton, typeContainer) {
+  // Initiated by events.
+  var selectEndOnTextImpl = null,
+      selectEndOnSpanImpl = null,
+      changeSpanEditorAccordingToButtons = function changeSpanEditorAccordingToButtons() {
+    var isDetectDelimiterEnable = modeAccordingToButton['boundary-detection'].value(),
+        isReplicateAuto = modeAccordingToButton['replicate-auto'].value(),
+        spanEditor = new _SpanEditor2['default'](editor, model, command, typeContainer, isDetectDelimiterEnable, isReplicateAuto);
+
+    selectEndOnTextImpl = function (annotationData, data) {
+      return selectEndOnText(spanEditor, annotationData, data);
+    };
+    selectEndOnSpanImpl = function (annotationData, data) {
+      return selectEndOnSpan(spanEditor, annotationData, data);
+    };
+  };
+
+  // Change spanEditor according to the  buttons state.
+  changeSpanEditorAccordingToButtons();
+
+  modeAccordingToButton['boundary-detection'].on('change', changeSpanEditorAccordingToButtons);
+
+  modeAccordingToButton['replicate-auto'].on('change', changeSpanEditorAccordingToButtons);
+
+  return {
+    onText: function onText(data) {
+      if (selectEndOnTextImpl) selectEndOnTextImpl(model.annotationData, data);
+    },
+    onSpan: function onSpan(data) {
+      if (selectEndOnSpanImpl) selectEndOnSpanImpl(model.annotationData, data);
+    }
+  };
+};
+
+function selectEndOnText(spanEditor, annotationData, data) {
+  var isValid = selectionValidator.validateOnText(annotationData, data.spanConfig, data.selection);
+
+  if (isValid) {
+    // The parent of the focusNode is the paragraph.
+    // Same paragraph check is done in the validateOnText.
+    if (data.selection.anchorNode.parentNode.classList.contains('textae-editor__body__text-box__paragraph')) {
+      spanEditor.create(data);
+    } else if (data.selection.anchorNode.parentNode.classList.contains('textae-editor__span')) {
+      spanEditor.expand(data);
+    }
+  }
+
+  clearTextSelection();
+}
+
+function selectEndOnSpan(spanEditor, annotationData, data) {
+  var isValid = selectionValidator.validateOnSpan(annotationData, data.spanConfig, data.selection);
+
+  if (isValid) {
+    if (data.selection.anchorNode === data.selection.focusNode) {
+      var ap = selectPosition.getAnchorPosition(annotationData, data.selection),
+          span = annotationData.span.get(data.selection.anchorNode.parentElement.id);
+      if (ap === span.begin || ap === span.end) {
+        spanEditor.shrinkPullByTheEar(data, data.selection.anchorNode.parentElement.id);
+      } else {
+        spanEditor.create(data);
+      }
+    } else if (data.selection.focusNode.parentElement.closest('#' + data.selection.anchorNode.parentElement.id)) {
+      spanEditor.shrinkCrossTheEar(data);
+    } else if (data.selection.anchorNode.parentElement.closest('#' + data.selection.focusNode.parentElement.id)) {
+      spanEditor.expand(data);
+    }
+  }
+
+  clearTextSelection();
+}
+
+function clearTextSelection() {
+  // Clear text selection
+  if (window.getSelection().empty) {
+    // Chrome
+    window.getSelection().empty();
+  } else if (window.getSelection().removeAllRanges) {
+    // Firefox
+    window.getSelection().removeAllRanges();
+  }
+}
+
+},{"./SpanEditor":294,"./selectPosition":307,"./selectionValidator":309,"babel-runtime/helpers/interop-require-default":18,"babel-runtime/helpers/interop-require-wildcard":19}],307:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.getBeginEnd = getBeginEnd;
+exports.getAnchorPosition = getAnchorPosition;
+exports.getFocusPosition = getFocusPosition;
+
+function getFocusPosition(annotationData, selection) {
+  var position = getPosition(annotationData.paragraph, annotationData.span, selection.focusNode);
+
+  return position + selection.focusOffset;
+}
+
+function getAnchorPosition(annotationData, selection) {
+  var position = getPosition(annotationData.paragraph, annotationData.span, selection.anchorNode);
+
+  return position + selection.anchorOffset;
+}
+
+function getBeginEnd(annotationData, selection) {
+  var anchorPosition = getAnchorPosition(annotationData, selection),
+      focusPosition = getFocusPosition(annotationData, selection);
+
+  // switch the position when the selection is made from right to left
+  if (anchorPosition > focusPosition) {
+    return [focusPosition, anchorPosition];
+  }
+
+  return [anchorPosition, focusPosition];
+}
+
+function getPosition(paragraph, span, node) {
+  return getParentModel(paragraph, span, node).begin + getOffsetFromParent(node);
+}
+
+function getOffsetFromParent(node) {
+  var childNodes = node.parentElement.childNodes;
+
+  var offset = 0;
+  for (var i = 0; childNodes[i] !== node; i++) {
+    // until the focus node
+    if (childNodes[i].nodeName === "#text") {
+      offset += childNodes[i].nodeValue.length;
+    } else {
+      offset += childNodes[i].textContent.length;
+    }
+  }
+
+  return offset;
+}
+
+function getParentModel(paragraph, span, node) {
+  var parent = node.parentElement;
+
+  if (parent.classList.contains("textae-editor__body__text-box__paragraph")) {
+    return paragraph.get(parent.id);
+  }
+
+  if (parent.classList.contains("textae-editor__span")) {
+    return span.get(parent.id);
+  }
+
+  throw new Error('Can not get position of a node : ' + node + ' ' + node.data);
+}
+
+},{}],308:[function(require,module,exports){
+'use strict';
+
+var _slicedToArray = require('babel-runtime/helpers/sliced-to-array')['default'];
+
+var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
+
+var _interopRequireWildcard = require('babel-runtime/helpers/interop-require-wildcard')['default'];
+
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
+exports['default'] = commonValidate;
+
+var _showAlertIfOtherParagraph = require('./showAlertIfOtherParagraph');
+
+var _showAlertIfOtherParagraph2 = _interopRequireDefault(_showAlertIfOtherParagraph);
+
+var _hasClass = require('../hasClass');
+
+var hasClass = _interopRequireWildcard(_hasClass);
+
+var _getParent = require('../getParent');
+
+var getParent = _interopRequireWildcard(_getParent);
+
+var _selectPosition = require('../selectPosition');
+
+var selectPosition = _interopRequireWildcard(_selectPosition);
+
+function commonValidate(annotationData, spanConfig, selection) {
+  // This order is not important.
+  return (0, _showAlertIfOtherParagraph2['default'])(selection) && isAnchrNodeInSpanOrParagraph(selection) && hasCharacters(annotationData, spanConfig, selection);
+}
+
+function isAnchrNodeInSpanOrParagraph(selection) {
+  return hasClass.hasSpanOrParagraphs(getParent.getAnchorNodeParent(selection));
+}
+
+// A span cannot be created include nonEdgeCharacters only.
+function hasCharacters(annotationData, spanConfig, selection) {
+  if (!selection) return false;
+
+  var _selectPosition$getBeginEnd = selectPosition.getBeginEnd(annotationData, selection);
+
+  var _selectPosition$getBeginEnd2 = _slicedToArray(_selectPosition$getBeginEnd, 2);
+
+  var begin = _selectPosition$getBeginEnd2[0];
+  var end = _selectPosition$getBeginEnd2[1];
+  var selectedString = annotationData.sourceDoc.substring(begin, end);
+  var stringWithoutBlankCharacters = spanConfig.removeBlankChractors(selectedString);
+
+  return stringWithoutBlankCharacters.length > 0;
+}
+module.exports = exports['default'];
+
+},{"../getParent":304,"../hasClass":305,"../selectPosition":307,"./showAlertIfOtherParagraph":310,"babel-runtime/helpers/interop-require-default":18,"babel-runtime/helpers/interop-require-wildcard":19,"babel-runtime/helpers/sliced-to-array":20}],309:[function(require,module,exports){
+'use strict';
+
+var _interopRequireWildcard = require('babel-runtime/helpers/interop-require-wildcard')['default'];
+
+var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
+
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
+
+var _hasClass = require('../hasClass');
+
+var hasClass = _interopRequireWildcard(_hasClass);
+
+var _getParent = require('../getParent');
+
+var getParent = _interopRequireWildcard(_getParent);
+
+var _commonValidate = require('./commonValidate');
+
+var _commonValidate2 = _interopRequireDefault(_commonValidate);
+
+exports.validateOnText = validateOnText;
+exports.validateOnSpan = validateOnSpan;
+
+function validateOnText(annotationData, spanConfig, selection) {
+  // This order is important, because showAlertIfOtherSpan is show alert.
+  return isFocusNodeInParagraph(selection) && (0, _commonValidate2['default'])(annotationData, spanConfig, selection);
+}
+
+function validateOnSpan(annotationData, spanConfig, selection) {
+  // This order is important, because showAlertIfOtherSpan is show alert.
+  return isFocusNodeInSpan(selection) && (0, _commonValidate2['default'])(annotationData, spanConfig, selection);
+}
+
+function isFocusNodeInParagraph(selection) {
+  return hasClass.hasParagraphs(getParent.getFocusNodeParent(selection));
+}
+
+function isFocusNodeInSpan(selection) {
+  return hasClass.hasSpan(getParent.getFocusNodeParent(selection));
+}
+
+},{"../getParent":304,"../hasClass":305,"./commonValidate":308,"babel-runtime/helpers/interop-require-default":18,"babel-runtime/helpers/interop-require-wildcard":19}],310:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
 
-var _selectPosition = require('./selectPosition');
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
 
-var _selectPosition2 = _interopRequireDefault(_selectPosition);
+var _deferAlert = require('../deferAlert');
 
-module.exports = function (model, spanAdjuster) {
-  var createSpan = (function () {
-    var toSpanPosition = function toSpanPosition(selection, spanConfig) {
-      var positions = _selectPosition2['default'].toPositions(model.annotationData, selection);
-      return {
-        begin: spanAdjuster.backFromBegin(model.annotationData.sourceDoc, positions.anchorPosition, spanConfig),
-        end: spanAdjuster.forwardFromEnd(model.annotationData.sourceDoc, positions.focusPosition - 1, spanConfig) + 1
-      };
-    };
+var _deferAlert2 = _interopRequireDefault(_deferAlert);
 
-    return function (selection, spanConfig) {
-      model.selectionModel.clear();
-      return toSpanPosition(selection, spanConfig);
-    };
-  })(),
-      expandSpan = (function () {
-    var getNewSpan = function getNewSpan(spanId, selectionRange, anchorNodeRange, focusPosition, spanConfig) {
-      var span = model.annotationData.span.get(spanId);
+exports['default'] = function (selection) {
+  if (isInSameParagraph(selection)) {
+    return true;
+  }
 
-      if (selectionRange.compareBoundaryPoints(Range.START_TO_START, anchorNodeRange) < 0) {
-        // expand to the left
-        return {
-          begin: spanAdjuster.backFromBegin(model.annotationData.sourceDoc, focusPosition, spanConfig),
-          end: span.end
-        };
-      } else {
-        // expand to the right
-        return {
-          begin: span.begin,
-          end: spanAdjuster.forwardFromEnd(model.annotationData.sourceDoc, focusPosition - 1, spanConfig) + 1
-        };
-      }
-    };
-
-    return function (spanId, selection, spanConfig) {
-      model.selectionModel.clear();
-
-      var anchorNodeRange = document.createRange();
-      anchorNodeRange.selectNode(selection.anchorNode);
-      var focusPosition = _selectPosition2['default'].getFocusPosition(model.annotationData, selection);
-
-      return getNewSpan(spanId, selection.range, anchorNodeRange, focusPosition, spanConfig);
-    };
-  })(),
-      shortenSpan = (function () {
-    var getNewSpan = function getNewSpan(spanId, selectionRange, focusNodeRange, focusPosition, spanConfig) {
-      var span = model.annotationData.span.get(spanId);
-      if (selectionRange.compareBoundaryPoints(Range.START_TO_START, focusNodeRange) > 0) {
-        // shorten the right boundary
-        if (span.begin === focusPosition) return {
-          begin: span.begin,
-          end: span.begin
-        };
-
-        return {
-          begin: span.begin,
-          end: spanAdjuster.backFromEnd(model.annotationData.sourceDoc, focusPosition - 1, spanConfig) + 1
-        };
-      } else {
-        // shorten the left boundary
-        if (span.end === focusPosition) return {
-          begin: span.end,
-          end: span.end
-        };
-
-        return {
-          begin: spanAdjuster.forwardFromBegin(model.annotationData.sourceDoc, focusPosition, spanConfig),
-          end: span.end
-        };
-      }
-    };
-
-    return function (spanId, selection, spanConfig) {
-      model.selectionModel.clear();
-
-      var focusNodeRange = document.createRange();
-      focusNodeRange.selectNode(selection.focusNode);
-      var focusPosition = _selectPosition2['default'].getFocusPosition(model.annotationData, selection);
-
-      return getNewSpan(spanId, selection.range, focusNodeRange, focusPosition, spanConfig);
-    };
-  })();
-
-  return {
-    create: createSpan,
-    expand: expandSpan,
-    shrink: shortenSpan
-  };
+  (0, _deferAlert2['default'])('It is ambiguous for which span you want to adjust the boundary. Select the span, and try again.');
+  return false;
 };
 
-},{"./selectPosition":297,"babel-runtime/helpers/interop-require-default":18}],293:[function(require,module,exports){
+function isInSameParagraph(selection) {
+  var anchorParagraph = getParagraph(selection.anchorNode),
+      focusParagraph = getParagraph(selection.focusNode);
+
+  return anchorParagraph === focusParagraph;
+}
+
+function getParagraph(node) {
+  return node.parentElement.closest('.textae-editor__body__text-box__paragraph');
+}
+module.exports = exports['default'];
+
+},{"../deferAlert":303,"babel-runtime/helpers/interop-require-default":18}],311:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -23393,23 +23910,7 @@ exports['default'] = function (editor, getHandler, autocompletionWs) {
 
 module.exports = exports['default'];
 
-},{"../../../../component/editIdDialog":187,"babel-runtime/helpers/interop-require-default":18}],294:[function(require,module,exports){
-"use strict";
-
-module.exports = function (message) {
-  // Show synchronous to smooth cancelation of selecton.
-  _.defer(_.partial(alert, message));
-};
-
-},{}],295:[function(require,module,exports){
-"use strict";
-
-module.exports = function () {
-  var selection = window.getSelection();
-  selection.collapse(document.body, 0);
-};
-
-},{}],296:[function(require,module,exports){
+},{"../../../../component/editIdDialog":191,"babel-runtime/helpers/interop-require-default":18}],312:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -23421,10 +23922,6 @@ Object.defineProperty(exports, '__esModule', {
 var _componentPallet = require('../../../../component/Pallet');
 
 var _componentPallet2 = _interopRequireDefault(_componentPallet);
-
-var _dismissBrowserSelection = require('./dismissBrowserSelection');
-
-var _dismissBrowserSelection2 = _interopRequireDefault(_dismissBrowserSelection);
 
 var _ElementEditor = require('./ElementEditor');
 
@@ -23443,15 +23940,22 @@ exports['default'] = function (editor, model, spanConfig, command, modeAccording
     var commands = elementEditor.getHandler().changeTypeOfSelectedElement(label);
     command.invoke(commands);
   }, function (label) {
-    return elementEditor.getHandler().typeContainer.setDefaultType(label);
+    elementEditor.getHandler().typeContainer.setDefaultType(label);
+    // Focus the editor to prevent lost focus when the pallet is closed during selecting radio buttons.
+    editor[0].focus();
   }),
       api = {
     editRelation: elementEditor.start.editRelation,
     editEntity: elementEditor.start.editEntity,
     noEdit: elementEditor.start.noEdit,
     showPallet: function showPallet(point) {
-      return pallet.show(elementEditor.getHandler().typeContainer, point.point);
+      // Add the pallet to the editor to prevent focus out of the editor when radio buttnos on the pallet are clicked.
+      if (!editor[0].querySelector('.textae-editor__type-pallet')) {
+        editor[0].appendChild(pallet.el);
+      }
+      pallet.show(elementEditor.getHandler().typeContainer, point.point);
     },
+    hidePallet: pallet.hide,
     getTypeOfSelected: function getTypeOfSelected() {
       return elementEditor.getHandler().getSelectedType();
     },
@@ -23461,7 +23965,6 @@ exports['default'] = function (editor, model, spanConfig, command, modeAccording
     changeTypeOfSelectedElement: function changeTypeOfSelectedElement(newType) {
       return elementEditor.getHandler().changeTypeOfSelectedElement(newType);
     },
-    hideDialogs: pallet.hide,
     cancelSelect: function cancelSelect() {
       return _cancelSelect(pallet, model.selectionModel);
     },
@@ -23479,7 +23982,6 @@ exports['default'] = function (editor, model, spanConfig, command, modeAccording
 function _cancelSelect(pallet, selectionModel) {
   pallet.hide();
   selectionModel.clear();
-  (0, _dismissBrowserSelection2['default'])();
 }
 
 // A relation is drawn by a jsPlumbConnection.
@@ -23496,63 +23998,7 @@ function _jsPlumbConnectionClicked(elementEditor, jsPlumbConnection, event) {
 }
 module.exports = exports['default'];
 
-},{"../../../../component/Pallet":169,"./ElementEditor":286,"./changeLabelHandler":293,"./dismissBrowserSelection":295,"babel-runtime/helpers/interop-require-default":18}],297:[function(require,module,exports){
-"use strict";
-
-var getPosition = function getPosition(paragraph, span, node) {
-  var $parent = $(node).parent();
-  var parentId = $parent.attr("id");
-
-  var pos;
-  if ($parent.hasClass("textae-editor__body__text-box__paragraph")) {
-    pos = paragraph.get(parentId).begin;
-  } else if ($parent.hasClass("textae-editor__span")) {
-    pos = span.get(parentId).begin;
-  } else {
-    throw new Error('Can not get position of a node : ' + node + ' ' + node.data);
-  }
-
-  var childNodes = node.parentElement.childNodes;
-  for (var i = 0; childNodes[i] !== node; i++) {
-    // until the focus node
-    pos += childNodes[i].nodeName === "#text" ? childNodes[i].nodeValue.length : $('#' + childNodes[i].id).text().length;
-  }
-
-  return pos;
-},
-    getFocusPosition = function getFocusPosition(annotationData, selection) {
-  var pos = getPosition(annotationData.paragraph, annotationData.span, selection.focusNode);
-  pos += selection.focusOffset;
-  return pos;
-},
-    getAnchorPosition = function getAnchorPosition(annotationData, selection) {
-  var pos = getPosition(annotationData.paragraph, annotationData.span, selection.anchorNode);
-  return pos + selection.anchorOffset;
-},
-    toPositions = function toPositions(annotationData, selection) {
-  var anchorPosition = getAnchorPosition(annotationData, selection),
-      focusPosition = getFocusPosition(annotationData, selection);
-
-  // switch the position when the selection is made from right to left
-  if (anchorPosition > focusPosition) {
-    var tmpPos = anchorPosition;
-    anchorPosition = focusPosition;
-    focusPosition = tmpPos;
-  }
-
-  return {
-    anchorPosition: anchorPosition,
-    focusPosition: focusPosition
-  };
-};
-
-module.exports = {
-  toPositions: toPositions,
-  getAnchorPosition: getAnchorPosition,
-  getFocusPosition: getFocusPosition
-};
-
-},{}],298:[function(require,module,exports){
+},{"../../../../component/Pallet":173,"./ElementEditor":290,"./changeLabelHandler":311,"babel-runtime/helpers/interop-require-default":18}],313:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -23590,7 +24036,7 @@ exports['default'] = function (writable, editMode, buttonController) {
 
 module.exports = exports['default'];
 
-},{"./setButtonState":315,"babel-runtime/helpers/interop-require-default":18}],299:[function(require,module,exports){
+},{"./setButtonState":330,"babel-runtime/helpers/interop-require-default":18}],314:[function(require,module,exports){
 "use strict";
 
 module.exports = function (command, annotationData, selectionModel, clipBoard) {
@@ -23625,7 +24071,7 @@ module.exports = function (command, annotationData, selectionModel, clipBoard) {
   };
 };
 
-},{}],300:[function(require,module,exports){
+},{}],315:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -23659,7 +24105,7 @@ var DefaultEntityHandler = function DefaultEntityHandler(command, annotationData
 
 module.exports = DefaultEntityHandler;
 
-},{"./createEntityToSelectedSpan":308,"./replicate":311,"babel-runtime/helpers/interop-require-default":18,"events":110}],301:[function(require,module,exports){
+},{"./createEntityToSelectedSpan":323,"./replicate":326,"babel-runtime/helpers/interop-require-default":18,"events":110}],316:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -23676,7 +24122,7 @@ exports["default"] = function (editMode) {
 
 module.exports = exports["default"];
 
-},{}],302:[function(require,module,exports){
+},{}],317:[function(require,module,exports){
 'use strict';
 
 var toggleModification = require('./toggleModification');
@@ -23692,7 +24138,7 @@ module.exports = function (command, annotationData, modeAccordingToButton, typeE
   };
 };
 
-},{"./toggleModification":312}],303:[function(require,module,exports){
+},{"./toggleModification":327}],318:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -23875,7 +24321,7 @@ function selectLabelOfEntity(selectionModel, entity) {
 }
 module.exports = exports['default'];
 
-},{"../../../getEntityDom":391,"../../../getNextElement":392,"./selectEntity":304,"./selectEntityLabel":305,"./selectSpan":306,"babel-runtime/helpers/interop-require-default":18}],304:[function(require,module,exports){
+},{"../../../getEntityDom":407,"../../../getNextElement":408,"./selectEntity":319,"./selectEntityLabel":320,"./selectSpan":321,"babel-runtime/helpers/interop-require-default":18}],319:[function(require,module,exports){
 /**
  * Select entity.
  * @param {object} selectionModel - this is the selectionModel.
@@ -23902,7 +24348,7 @@ exports['default'] = function (selectionModel, dom, isMulti) {
 
 module.exports = exports['default'];
 
-},{}],305:[function(require,module,exports){
+},{}],320:[function(require,module,exports){
 'use strict';
 
 var _Array$from = require('babel-runtime/core-js/array/from')['default'];
@@ -23935,7 +24381,7 @@ function selectEntityLabel(selectionModel, dom, isMulti) {
 
 module.exports = exports['default'];
 
-},{"./selectEntity":304,"babel-runtime/core-js/array/from":2,"babel-runtime/helpers/interop-require-default":18}],306:[function(require,module,exports){
+},{"./selectEntity":319,"babel-runtime/core-js/array/from":2,"babel-runtime/helpers/interop-require-default":18}],321:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -23965,7 +24411,7 @@ function selectSingleSpanById(selectionModel, spanId) {
   }
 }
 
-},{}],307:[function(require,module,exports){
+},{}],322:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -24003,7 +24449,7 @@ function _toggleInstaceRelation(editMode) {
 }
 module.exports = exports['default'];
 
-},{}],308:[function(require,module,exports){
+},{}],323:[function(require,module,exports){
 "use strict";
 
 module.exports = function (command, spans, entity) {
@@ -24017,7 +24463,7 @@ module.exports = function (command, spans, entity) {
   command.invoke(commands);
 };
 
-},{}],309:[function(require,module,exports){
+},{}],324:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -24049,7 +24495,7 @@ function toRemoveRelationCommands(relationIds, command) {
 }
 module.exports = exports["default"];
 
-},{}],310:[function(require,module,exports){
+},{}],325:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -24072,7 +24518,7 @@ exports['default'] = function (command, selectionModel, selectHandler) {
 
 module.exports = exports['default'];
 
-},{"./RemoveCommandsFromSelection":309,"babel-runtime/helpers/interop-require-default":18}],311:[function(require,module,exports){
+},{"./RemoveCommandsFromSelection":324,"babel-runtime/helpers/interop-require-default":18}],326:[function(require,module,exports){
 'use strict';
 
 var getDetectBoundaryFunc = function getDetectBoundaryFunc(modeAccordingToButton, spanConfig) {
@@ -24090,7 +24536,7 @@ var getDetectBoundaryFunc = function getDetectBoundaryFunc(modeAccordingToButton
 
 module.exports = replicate;
 
-},{}],312:[function(require,module,exports){
+},{}],327:[function(require,module,exports){
 "use strict";
 
 var isModificationType = function isModificationType(modification, modificationType) {
@@ -24132,7 +24578,7 @@ var isModificationType = function isModificationType(modification, modificationT
 
 module.exports = toggleModification;
 
-},{}],313:[function(require,module,exports){
+},{}],328:[function(require,module,exports){
 'use strict';
 
 var _Object$assign = require('babel-runtime/core-js/object/assign')['default'];
@@ -24206,15 +24652,9 @@ exports['default'] = function (editor, model, view, command, spanConfig, clipBoa
       modeButtonHandlers = new _handlersModeButtonHandlers2['default'](editMode),
       selectHandler = new _handlersSelectHandler2['default'](editor, model.selectionModel),
       showSettingDialog = new _componentSettingDialog2['default'](editor, displayInstance),
-      editorSelected = function editorSelected() {
-    typeEditor.hideDialogs();
-
-    // Select this editor.
-    editor.eventEmitter.emit('textae.editor.select');
-    buttonController.buttonStateHelper.propagate();
-  },
       event = {
     editorSelected: editorSelected,
+    editorUnselected: editorUnselected,
     copyEntities: clipBoardHandler.copyEntities,
     removeSelectedElements: function removeSelectedElements() {
       return (0, _handlersRemoveSelectedElements2['default'])(command, model.selectionModel, selectHandler);
@@ -24224,7 +24664,7 @@ exports['default'] = function (editor, model, view, command, spanConfig, clipBoa
     replicate: defaultEntityHandler.replicate,
     pasteEntities: clipBoardHandler.pasteEntities,
     changeLabel: typeEditor.changeLabel,
-    cancelSelect: typeEditor.cancelSelect,
+    cancelSelect: cancelSelect,
     negation: modificationHandler.negation,
     speculation: modificationHandler.speculation,
     showSettingDialog: showSettingDialog
@@ -24249,11 +24689,30 @@ exports['default'] = function (editor, model, view, command, spanConfig, clipBoa
     },
     event: event
   };
+
+  function editorSelected() {
+    editor.eventEmitter.emit('textae.editor.select');
+    buttonController.buttonStateHelper.propagate();
+  }
+
+  function editorUnselected() {
+    typeEditor.hidePallet();
+    editor.eventEmitter.emit('textae.editor.unselect');
+
+    // Do not cancelSelect, because mouse up events occurs before blur events.
+  }
+
+  function cancelSelect() {
+    typeEditor.cancelSelect();
+
+    // Foucs the editor for ESC key
+    editor.focus();
+  }
 };
 
 module.exports = exports['default'];
 
-},{"../../../component/SettingDialog":173,"./DisplayInstance":260,"./EditMode":268,"./TypeEditor":296,"./enableSaveButtorAtEditable":298,"./handlers/ClipBoardHandler":299,"./handlers/DefaultEntityHandler":300,"./handlers/ModeButtonHandlers":301,"./handlers/ModificationHandler":302,"./handlers/SelectHandler":303,"./handlers/ToggleButtonHandler":307,"./handlers/removeSelectedElements":310,"./setDefaultEditability":317,"babel-runtime/core-js/object/assign":6,"babel-runtime/helpers/interop-require-default":18}],314:[function(require,module,exports){
+},{"../../../component/SettingDialog":177,"./DisplayInstance":265,"./EditMode":273,"./TypeEditor":312,"./enableSaveButtorAtEditable":313,"./handlers/ClipBoardHandler":314,"./handlers/DefaultEntityHandler":315,"./handlers/ModeButtonHandlers":316,"./handlers/ModificationHandler":317,"./handlers/SelectHandler":318,"./handlers/ToggleButtonHandler":322,"./handlers/removeSelectedElements":325,"./setDefaultEditability":332,"babel-runtime/core-js/object/assign":6,"babel-runtime/helpers/interop-require-default":18}],329:[function(require,module,exports){
 // Change view mode accoding to the annotation data.
 "use strict";
 
@@ -24267,7 +24726,7 @@ exports["default"] = function (annotationData) {
 
 module.exports = exports["default"];
 
-},{}],315:[function(require,module,exports){
+},{}],330:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -24307,7 +24766,7 @@ function isSpanEdit(editable, mode) {
 }
 module.exports = exports['default'];
 
-},{}],316:[function(require,module,exports){
+},{}],331:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -24338,7 +24797,7 @@ function forView(editMode, annotationData) {
   }
 }
 
-},{"../isSimple":314,"babel-runtime/helpers/interop-require-default":18}],317:[function(require,module,exports){
+},{"../isSimple":329,"babel-runtime/helpers/interop-require-default":18}],332:[function(require,module,exports){
 'use strict';
 
 var _interopRequireWildcard = require('babel-runtime/helpers/interop-require-wildcard')['default'];
@@ -24384,7 +24843,7 @@ exports['default'] = function (annotationData, editMode, writable, mode) {
 
 module.exports = exports['default'];
 
-},{"./changeView":316,"./showLoadNoticeForEditableMode":318,"./updateWritable":319,"babel-runtime/helpers/interop-require-default":18,"babel-runtime/helpers/interop-require-wildcard":19}],318:[function(require,module,exports){
+},{"./changeView":331,"./showLoadNoticeForEditableMode":333,"./updateWritable":334,"babel-runtime/helpers/interop-require-default":18,"babel-runtime/helpers/interop-require-wildcard":19}],333:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -24399,7 +24858,7 @@ exports["default"] = function (multitrack) {
 
 module.exports = exports["default"];
 
-},{}],319:[function(require,module,exports){
+},{}],334:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -24422,7 +24881,7 @@ exports['default'] = function (multitrack, reject, writable) {
 
 module.exports = exports['default'];
 
-},{"../../../Model/AnnotationData/parseAnnotation/validateAnnotation":221}],320:[function(require,module,exports){
+},{"../../../Model/AnnotationData/parseAnnotation/validateAnnotation":225}],335:[function(require,module,exports){
 'use strict';
 
 var skipBlank = require('./skipBlank');
@@ -24442,7 +24901,7 @@ module.exports = {
   }
 };
 
-},{"./skipBlank":322}],321:[function(require,module,exports){
+},{"./skipBlank":337}],336:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -24516,7 +24975,7 @@ module.exports = {
   backFromEnd: backFromEnd
 };
 
-},{"./skipBlank":322,"./skipCharacters":323,"babel-runtime/helpers/interop-require-default":18}],322:[function(require,module,exports){
+},{"./skipBlank":337,"./skipCharacters":338,"babel-runtime/helpers/interop-require-default":18}],337:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -24540,7 +24999,7 @@ module.exports = {
   back: skipBackBlank
 };
 
-},{"./skipCharacters":323,"babel-runtime/helpers/interop-require-default":18}],323:[function(require,module,exports){
+},{"./skipCharacters":338,"babel-runtime/helpers/interop-require-default":18}],338:[function(require,module,exports){
 "use strict";
 
 module.exports = function (getChars, step, str, position, predicate) {
@@ -24549,7 +25008,7 @@ module.exports = function (getChars, step, str, position, predicate) {
   return position;
 };
 
-},{}],324:[function(require,module,exports){
+},{}],339:[function(require,module,exports){
 "use strict";
 
 var defaults = {
@@ -24593,7 +25052,7 @@ module.exports = function () {
   };
 };
 
-},{}],325:[function(require,module,exports){
+},{}],340:[function(require,module,exports){
 'use strict';
 
 var _Map = require('babel-runtime/core-js/map')['default'];
@@ -24727,7 +25186,7 @@ function _getSortedIds(getActualTypesFunction, definedTypes) {
 }
 module.exports = exports['default'];
 
-},{"../../uri":396,"./defaultType":326,"babel-runtime/core-js/array/from":2,"babel-runtime/core-js/get-iterator":3,"babel-runtime/core-js/map":5,"babel-runtime/core-js/object/assign":6,"babel-runtime/core-js/object/keys":10,"babel-runtime/helpers/interop-require-default":18,"events":110}],326:[function(require,module,exports){
+},{"../../uri":412,"./defaultType":341,"babel-runtime/core-js/array/from":2,"babel-runtime/core-js/get-iterator":3,"babel-runtime/core-js/map":5,"babel-runtime/core-js/object/assign":6,"babel-runtime/core-js/object/keys":10,"babel-runtime/helpers/interop-require-default":18,"events":110}],341:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -24736,7 +25195,7 @@ Object.defineProperty(exports, '__esModule', {
 exports['default'] = 'something';
 module.exports = exports['default'];
 
-},{}],327:[function(require,module,exports){
+},{}],342:[function(require,module,exports){
 'use strict';
 
 var _Object$assign = require('babel-runtime/core-js/object/assign')['default'];
@@ -24798,8 +25257,10 @@ function setContainerDefinedTypes(container, newDefinedTypes) {
 }
 module.exports = exports['default'];
 
-},{"./Container":325,"./defaultType":326,"babel-runtime/core-js/object/assign":6,"babel-runtime/helpers/interop-require-default":18}],328:[function(require,module,exports){
+},{"./Container":340,"./defaultType":341,"babel-runtime/core-js/object/assign":6,"babel-runtime/helpers/interop-require-default":18}],343:[function(require,module,exports){
 'use strict';
+
+var _Object$assign = require('babel-runtime/core-js/object/assign')['default'];
 
 var _Promise = require('babel-runtime/core-js/promise')['default'];
 
@@ -24821,20 +25282,16 @@ exports['default'] = function (editor, annotationData, typeContainer, arrangePos
       update = function update(typeGapValue) {
     emitter.emit('render.start', editor);
 
-    // Do asynchronous to change behavior of editor.
-    // For example a wait cursor or a disabled control.
-    _.defer(function () {
-      return gridLayout.arrangePosition(typeGapValue).then(function () {
-        return renderLazyRelationAll(annotationData.relation.all());
-      }).then(arrangePositionAllRelation).then(function () {
-        return emitter.emit('render.end', editor);
-      })['catch'](function (error) {
-        return console.error(error, error.stack);
-      });
+    gridLayout.arrangePosition(typeGapValue).then(function () {
+      return renderLazyRelationAll(annotationData.relation.all());
+    }).then(arrangePositionAllRelation).then(function () {
+      return emitter.emit('render.end', editor);
+    })['catch'](function (error) {
+      return console.error(error, error.stack);
     });
   };
 
-  return _.extend(emitter, {
+  return _Object$assign(emitter, {
     update: update
   });
 };
@@ -24849,7 +25306,7 @@ function renderLazyRelationAll(relations) {
 }
 module.exports = exports['default'];
 
-},{"./GridLayout":338,"babel-runtime/core-js/promise":12,"babel-runtime/helpers/interop-require-default":18,"events":110}],329:[function(require,module,exports){
+},{"./GridLayout":353,"babel-runtime/core-js/object/assign":6,"babel-runtime/core-js/promise":12,"babel-runtime/helpers/interop-require-default":18,"events":110}],344:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -24902,7 +25359,7 @@ function clearAll(caches) {
 }
 module.exports = exports['default'];
 
-},{"./LesserMap":331,"babel-runtime/helpers/interop-require-default":18}],330:[function(require,module,exports){
+},{"./LesserMap":346,"babel-runtime/helpers/interop-require-default":18}],345:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -24934,7 +25391,7 @@ function _isGridPrepared(entityModel, map, entityId) {
 }
 module.exports = exports['default'];
 
-},{"./LesserMap":331,"babel-runtime/helpers/interop-require-default":18}],331:[function(require,module,exports){
+},{"./LesserMap":346,"babel-runtime/helpers/interop-require-default":18}],346:[function(require,module,exports){
 'use strict';
 
 var _Map = require('babel-runtime/core-js/map')['default'];
@@ -24956,7 +25413,7 @@ exports['default'] = function () {
 
 module.exports = exports['default'];
 
-},{"babel-runtime/core-js/map":5}],332:[function(require,module,exports){
+},{"babel-runtime/core-js/map":5}],347:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -25029,7 +25486,7 @@ function getEntity(editor, entityModel, gridPositionCache, entityId) {
 }
 module.exports = exports['default'];
 
-},{"../../getEntityDom":391,"./CachedGetterFactory":329,"babel-runtime/helpers/interop-require-default":18}],333:[function(require,module,exports){
+},{"../../getEntityDom":407,"./CachedGetterFactory":344,"babel-runtime/helpers/interop-require-default":18}],348:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -25090,7 +25547,7 @@ function RelationApi() {
 }
 module.exports = exports['default'];
 
-},{"./GridPosition":330,"./LesserMap":331,"./SpanAndEntityPosition":332,"babel-runtime/helpers/interop-require-default":18}],334:[function(require,module,exports){
+},{"./GridPosition":345,"./LesserMap":346,"./SpanAndEntityPosition":347,"babel-runtime/helpers/interop-require-default":18}],349:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -25151,7 +25608,7 @@ function updatePositionCache(domPositionCaChe, span, newPosition) {
 }
 module.exports = exports['default'];
 
-},{"./getGridOfSpan":336,"./getGridPosition":337,"./showInvisibleGrid":339,"babel-runtime/helpers/interop-require-default":18}],335:[function(require,module,exports){
+},{"./getGridOfSpan":351,"./getGridPosition":352,"./showInvisibleGrid":354,"babel-runtime/helpers/interop-require-default":18}],350:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -25184,7 +25641,7 @@ exports['default'] = function (domPositionCaChe, typeContainer, typeGapValue, an
 
 module.exports = exports['default'];
 
-},{"./arrangeGridPosition":334,"babel-runtime/helpers/interop-require-default":18,"bluebird":22}],336:[function(require,module,exports){
+},{"./arrangeGridPosition":349,"babel-runtime/helpers/interop-require-default":18,"bluebird":22}],351:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -25197,7 +25654,7 @@ exports["default"] = function (spanId) {
 
 module.exports = exports["default"];
 
-},{}],337:[function(require,module,exports){
+},{}],352:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -25243,7 +25700,7 @@ function pullUpGridOverDescendants(getSpan, typeContainer, typeGapValue, span) {
 }
 module.exports = exports['default'];
 
-},{"../getHeightIncludeDescendantGrids":384,"./getGridOfSpan":336,"babel-runtime/helpers/interop-require-default":18}],338:[function(require,module,exports){
+},{"../getHeightIncludeDescendantGrids":399,"./getGridOfSpan":351,"babel-runtime/helpers/interop-require-default":18}],353:[function(require,module,exports){
 'use strict';
 
 var _Promise = require('babel-runtime/core-js/promise')['default'];
@@ -25291,7 +25748,7 @@ function genArrangeAllGridPositionPromises(domPositionCaChe, typeContainer, type
 }
 module.exports = exports['default'];
 
-},{"../DomPositionCache":333,"./arrangeGridPositionPromise":335,"babel-runtime/core-js/promise":12,"babel-runtime/helpers/interop-require-default":18}],339:[function(require,module,exports){
+},{"../DomPositionCache":348,"./arrangeGridPositionPromise":350,"babel-runtime/core-js/promise":12,"babel-runtime/helpers/interop-require-default":18}],354:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -25324,7 +25781,7 @@ function showGrid(grid) {
 }
 module.exports = exports['default'];
 
-},{"./getGridOfSpan":336,"babel-runtime/helpers/interop-require-default":18}],340:[function(require,module,exports){
+},{"./getGridOfSpan":351,"babel-runtime/helpers/interop-require-default":18}],355:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -25357,7 +25814,7 @@ function processAccosiatedRelation(entity, domPositionCaChe, func, entityId) {
 }
 module.exports = exports['default'];
 
-},{"./DomPositionCache":333,"babel-runtime/helpers/interop-require-default":18}],341:[function(require,module,exports){
+},{"./DomPositionCache":348,"babel-runtime/helpers/interop-require-default":18}],356:[function(require,module,exports){
 // Arrange a position of the pane to center entities when entities width is longer than pane width.
 'use strict';
 
@@ -25382,7 +25839,7 @@ exports['default'] = function (pane) {
 
 module.exports = exports['default'];
 
-},{}],342:[function(require,module,exports){
+},{}],357:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -25429,7 +25886,7 @@ exports['default'] = function (editor, model, typeContainer, gridRenderer, modif
 
 module.exports = exports['default'];
 
-},{"../../Selector":381,"./createEntityUnlessBlock":345,"./removeEntityElement":349,"./removeNoEntityPaneElement":350,"babel-runtime/helpers/interop-require-default":18}],343:[function(require,module,exports){
+},{"../../Selector":396,"./createEntityUnlessBlock":360,"./removeEntityElement":364,"./removeNoEntityPaneElement":365,"babel-runtime/helpers/interop-require-default":18}],358:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -25474,7 +25931,7 @@ exports['default'] = function (editor, namspace, typeContainer, gridRenderer, mo
 
 module.exports = exports['default'];
 
-},{"../../../../idFactory":236,"./arrangePositionOfPane":341,"./createEntityElement":344,"./getTypeElement":347,"babel-runtime/helpers/interop-require-default":18}],344:[function(require,module,exports){
+},{"../../../../idFactory":240,"./arrangePositionOfPane":356,"./createEntityElement":359,"./getTypeElement":362,"babel-runtime/helpers/interop-require-default":18}],359:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -25508,7 +25965,7 @@ function createEntityElement(editor, typeContainer, modification, entity) {
 
 module.exports = exports['default'];
 
-},{"../../../../idFactory":236,"babel-runtime/helpers/interop-require-default":18}],345:[function(require,module,exports){
+},{"../../../../idFactory":240,"babel-runtime/helpers/interop-require-default":18}],360:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -25529,7 +25986,7 @@ exports['default'] = function (editor, namespace, typeContainer, gridRenderer, m
 
 module.exports = exports['default'];
 
-},{"./create":343,"babel-runtime/helpers/interop-require-default":18}],346:[function(require,module,exports){
+},{"./create":358,"babel-runtime/helpers/interop-require-default":18}],361:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -25572,7 +26029,7 @@ exports['default'] = function (type) {
 
 module.exports = exports['default'];
 
-},{"../../../../uri":396,"babel-runtime/helpers/interop-require-default":18}],347:[function(require,module,exports){
+},{"../../../../uri":412,"babel-runtime/helpers/interop-require-default":18}],362:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -25632,7 +26089,7 @@ function getGrid(gridRenderer, spanId) {
 }
 module.exports = exports['default'];
 
-},{"../../../../idFactory":236,"../getTypeDom":376,"./setLabelToTypeLabel":351,"babel-runtime/helpers/interop-require-default":18}],348:[function(require,module,exports){
+},{"../../../../idFactory":240,"../getTypeDom":391,"./setLabelToTypeLabel":366,"babel-runtime/helpers/interop-require-default":18}],363:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -25733,7 +26190,7 @@ function doesSpanHasNoEntity(annotationData, spanId) {
 }
 module.exports = exports['default'];
 
-},{"../../../../idFactory":236,"../../../../uri":396,"../../../getEntityDom":391,"../../Selector":381,"../ModificationRenderer":355,"./changeTypeOfExists":342,"./createEntityUnlessBlock":345,"./getDisplayName":346,"./removeEntityElement":349,"./removeNoEntityPaneElement":350,"./updateLabel":352,"babel-runtime/helpers/interop-require-default":18}],349:[function(require,module,exports){
+},{"../../../../idFactory":240,"../../../../uri":412,"../../../getEntityDom":407,"../../Selector":396,"../ModificationRenderer":370,"./changeTypeOfExists":357,"./createEntityUnlessBlock":360,"./getDisplayName":361,"./removeEntityElement":364,"./removeNoEntityPaneElement":365,"./updateLabel":367,"babel-runtime/helpers/interop-require-default":18}],364:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -25762,7 +26219,7 @@ exports['default'] = function (editor, entityId) {
 
 module.exports = exports['default'];
 
-},{"../../../getEntityDom":391,"babel-runtime/helpers/interop-require-default":18}],350:[function(require,module,exports){
+},{"../../../getEntityDom":407,"babel-runtime/helpers/interop-require-default":18}],365:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -25800,7 +26257,7 @@ function removeNoEntityPaneElement(paneElement) {
 
 module.exports = exports['default'];
 
-},{"./arrangePositionOfPane":341,"babel-runtime/helpers/interop-require-default":18}],351:[function(require,module,exports){
+},{"./arrangePositionOfPane":356,"babel-runtime/helpers/interop-require-default":18}],366:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -25885,7 +26342,7 @@ function getMatchPrefix(namespace, type) {
 }
 module.exports = exports['default'];
 
-},{"../../../../uri":396,"./getDisplayName":346,"babel-runtime/helpers/interop-require-default":18}],352:[function(require,module,exports){
+},{"../../../../uri":412,"./getDisplayName":361,"babel-runtime/helpers/interop-require-default":18}],367:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -25916,7 +26373,7 @@ exports['default'] = function (annotationData, typeContainer, type) {
 
 module.exports = exports['default'];
 
-},{"../getTypeDom":376,"./setLabelToTypeLabel":351,"babel-runtime/helpers/interop-require-default":18}],353:[function(require,module,exports){
+},{"../getTypeDom":391,"./setLabelToTypeLabel":366,"babel-runtime/helpers/interop-require-default":18}],368:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -25969,8 +26426,12 @@ function createGrid(editorDom, domPositionCache, container, spanId) {
 }
 module.exports = exports['default'];
 
-},{"../../getNextElement":392,"./getAnnotationBox":373,"babel-runtime/helpers/interop-require-default":18}],354:[function(require,module,exports){
+},{"../../getNextElement":408,"./getAnnotationBox":388,"babel-runtime/helpers/interop-require-default":18}],369:[function(require,module,exports){
 'use strict';
+
+var _Map = require('babel-runtime/core-js/map')['default'];
+
+var _getIterator = require('babel-runtime/core-js/get-iterator')['default'];
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
 
@@ -26016,6 +26477,10 @@ var _getTypeDom = require('./getTypeDom');
 
 var _getTypeDom2 = _interopRequireDefault(_getTypeDom);
 
+var _modelToId = require('../../../modelToId');
+
+var _modelToId2 = _interopRequireDefault(_modelToId);
+
 exports['default'] = function (domPositionCaChe, relationRenderer, buttonStateHelper, typeGap, editor, model, typeContainer) {
   var emitter = new _events.EventEmitter(),
       gridRenderer = new _GridRenderer2['default'](editor, domPositionCaChe),
@@ -26037,15 +26502,11 @@ exports['default'] = function (domPositionCaChe, relationRenderer, buttonStateHe
       (0, _renderModification2['default'])(annotationData, 'entity', modification, entityRenderer, buttonStateHelper);
     };
 
-    var eventHandlers = [['all.change', function (annotationData) {
-      renderAll(annotationData);
-      selectionModel.clear();
-    }], ['paragraph.change', function (paragraphs) {
+    var eventHandlers = new _Map([['all.change', renderAll], ['paragraph.change', function (paragraphs) {
       return (0, _renderParagraph2['default'])(editor, paragraphs);
     }], ['span.add', spanRenderer.render], ['span.remove', function (span) {
       spanRenderer.remove(span);
       gridRenderer.remove(span.id);
-      selectionModel.span.remove(modelToId(span));
     }], ['entity.add', function (entity) {
       // Add a now entity with a new grid after the span moved.
       chongeSpanOfEntity(entity);
@@ -26056,18 +26517,36 @@ exports['default'] = function (domPositionCaChe, relationRenderer, buttonStateHe
     }], ['entity.remove', function (entity) {
       entityRenderer.remove(entity);
       chongeSpanOfEntity(entity);
-      selectionModel.entity.remove(modelToId(entity));
     }], ['relation.add', function (relation) {
       relationRenderer.render(relation);
-      emitter.emit('relation.add', relation);
     }], ['relation.change', relationRenderer.change], ['relation.remove', function (relation) {
       relationRenderer.remove(relation);
-      selectionModel.relation.remove(modelToId(relation));
-    }], ['modification.add', renderModificationEntityOrRelation], ['modification.remove', renderModificationEntityOrRelation]];
+    }], ['modification.add', renderModificationEntityOrRelation], ['modification.remove', renderModificationEntityOrRelation]]);
 
-    eventHandlers.forEach(function (eventHandler) {
-      return bindeToModelEvent(emitter, annotationData, eventHandler[0], eventHandler[1]);
-    });
+    var _iteratorNormalCompletion = true;
+    var _didIteratorError = false;
+    var _iteratorError = undefined;
+
+    try {
+      for (var _iterator = _getIterator(eventHandlers), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+        var eventHandler = _step.value;
+
+        bindeToModelEvent(emitter, annotationData, eventHandler[0], eventHandler[1]);
+      }
+    } catch (err) {
+      _didIteratorError = true;
+      _iteratorError = err;
+    } finally {
+      try {
+        if (!_iteratorNormalCompletion && _iterator['return']) {
+          _iterator['return']();
+        }
+      } finally {
+        if (_didIteratorError) {
+          throw _iteratorError;
+        }
+      }
+    }
 
     typeContainer.entity.on('type.change', function (id) {
       return entityRenderer.updateLabel(id);
@@ -26077,10 +26556,6 @@ exports['default'] = function (domPositionCaChe, relationRenderer, buttonStateHe
   };
 };
 
-function modelToId(modelElement) {
-  return modelElement.id;
-}
-
 function bindeToModelEvent(emitter, annotationData, eventName, handler) {
   annotationData.on(eventName, function (param) {
     handler(param);
@@ -26089,7 +26564,7 @@ function bindeToModelEvent(emitter, annotationData, eventName, handler) {
 }
 module.exports = exports['default'];
 
-},{"../TypeStyle":383,"./EntityRenderer":348,"./GridRenderer":353,"./RenderAll":361,"./SpanRenderer":369,"./getAnnotationBox":373,"./getTypeDom":376,"./renderModification":378,"./renderParagraph":379,"babel-runtime/helpers/interop-require-default":18,"events":110}],355:[function(require,module,exports){
+},{"../../../modelToId":242,"../TypeStyle":398,"./EntityRenderer":363,"./GridRenderer":368,"./RenderAll":376,"./SpanRenderer":384,"./getAnnotationBox":388,"./getTypeDom":391,"./renderModification":393,"./renderParagraph":394,"babel-runtime/core-js/get-iterator":3,"babel-runtime/core-js/map":5,"babel-runtime/helpers/interop-require-default":18,"events":110}],370:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -26123,7 +26598,7 @@ function _update(annotationData, domElement, objectId) {
 }
 module.exports = exports['default'];
 
-},{}],356:[function(require,module,exports){
+},{}],371:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -26149,7 +26624,7 @@ exports['default'] = function (editor, annotationData, relationId) {
 
 module.exports = exports['default'];
 
-},{"../../DomPositionCache":333,"babel-runtime/helpers/interop-require-default":18}],357:[function(require,module,exports){
+},{"../../DomPositionCache":348,"babel-runtime/helpers/interop-require-default":18}],372:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -26176,7 +26651,7 @@ var _jsPlumbArrowOverlayUtil2 = _interopRequireDefault(_jsPlumbArrowOverlayUtil)
 
 exports['default'] = function (editor, model, jsPlumbInstance) {
   return new _bluebird2['default'](function (resolve, reject) {
-    _.defer(function () {
+    requestAnimationFrame(function () {
       try {
         // For tuning
         // var startTime = new Date();
@@ -26233,7 +26708,7 @@ function resetAllCurviness(editor, annotationData, relations) {
 }
 module.exports = exports['default'];
 
-},{"./Connect":356,"./determineCurviness":358,"./jsPlumbArrowOverlayUtil":360,"babel-runtime/helpers/interop-require-default":18,"bluebird":22}],358:[function(require,module,exports){
+},{"./Connect":371,"./determineCurviness":373,"./jsPlumbArrowOverlayUtil":375,"babel-runtime/helpers/interop-require-default":18,"bluebird":22}],373:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -26284,7 +26759,7 @@ function toAnchors(relation) {
 }
 module.exports = exports['default'];
 
-},{"../../DomPositionCache":333,"babel-runtime/helpers/interop-require-default":18}],359:[function(require,module,exports){
+},{"../../DomPositionCache":348,"babel-runtime/helpers/interop-require-default":18}],374:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -26578,7 +27053,9 @@ module.exports = function (editor, model, typeContainer) {
       });
     },
         renderIfGridExists = function renderIfGridExists(relation) {
-      if (filterGridExists(relation)) render(relation);
+      if (filterGridExists(relation) && relation.render) {
+        render(relation);
+      }
     },
         extendDummyApiToCreateRlationWhenGridMoved = function extendDummyApiToCreateRlationWhenGridMoved(relation) {
       var render = function render() {
@@ -26658,7 +27135,7 @@ module.exports = function (editor, model, typeContainer) {
   };
 };
 
-},{"../../../getEntityDom":391,"../../DomPositionCache":333,"../ModificationRenderer":355,"../getAnnotationBox":373,"./Connect":356,"./arrangePositionAll":357,"./determineCurviness":358,"./jsPlumbArrowOverlayUtil":360,"babel-runtime/helpers/interop-require-default":18,"bluebird":22}],360:[function(require,module,exports){
+},{"../../../getEntityDom":407,"../../DomPositionCache":348,"../ModificationRenderer":370,"../getAnnotationBox":388,"./Connect":371,"./arrangePositionAll":372,"./determineCurviness":373,"./jsPlumbArrowOverlayUtil":375,"babel-runtime/helpers/interop-require-default":18,"bluebird":22}],375:[function(require,module,exports){
 'use strict';
 
 var // Overlay styles for jsPlubm connections.
@@ -26743,7 +27220,7 @@ module.exports = {
   }
 };
 
-},{}],361:[function(require,module,exports){
+},{}],376:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -26787,7 +27264,7 @@ function renderAllRelation(annotationData, relationRenderer) {
 }
 module.exports = exports['default'];
 
-},{"./getAnnotationBox":373,"babel-runtime/helpers/interop-require-default":18}],362:[function(require,module,exports){
+},{"./getAnnotationBox":388,"babel-runtime/helpers/interop-require-default":18}],377:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -26841,7 +27318,7 @@ function renderChildresnSpan(span, create) {
 }
 module.exports = exports['default'];
 
-},{"./destroyChildrenSpan":367,"./getBigBrother":368,"./renderClassOfSpan":370,"./renderEntitiesOfSpan":371,"./renderSingleSpan":372,"babel-runtime/helpers/interop-require-default":18}],363:[function(require,module,exports){
+},{"./destroyChildrenSpan":382,"./getBigBrother":383,"./renderClassOfSpan":385,"./renderEntitiesOfSpan":386,"./renderSingleSpan":387,"babel-runtime/helpers/interop-require-default":18}],378:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -26857,7 +27334,7 @@ exports["default"] = function (textNode, offset) {
 
 module.exports = exports["default"];
 
-},{}],364:[function(require,module,exports){
+},{}],379:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -26875,7 +27352,7 @@ exports['default'] = function (span) {
 
 module.exports = exports['default'];
 
-},{}],365:[function(require,module,exports){
+},{}],380:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -26913,7 +27390,7 @@ function validateOffset(textNode, offset) {
 }
 module.exports = exports['default'];
 
-},{"./createRange":363,"babel-runtime/helpers/interop-require-default":18}],366:[function(require,module,exports){
+},{"./createRange":378,"babel-runtime/helpers/interop-require-default":18}],381:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -26935,7 +27412,7 @@ exports['default'] = function (spanId) {
 
 module.exports = exports['default'];
 
-},{}],367:[function(require,module,exports){
+},{}],382:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -26968,7 +27445,7 @@ function destroySpanRecurcive(span) {
 }
 module.exports = exports['default'];
 
-},{"./destroy":366,"babel-runtime/helpers/interop-require-default":18}],368:[function(require,module,exports){
+},{"./destroy":381,"babel-runtime/helpers/interop-require-default":18}],383:[function(require,module,exports){
 // A big brother is brother node on a structure at rendered.
 // There is no big brother if the span is first in a paragraph.
 "use strict";
@@ -26991,7 +27468,7 @@ exports["default"] = function (span, topLevelSpans) {
 module.exports = exports["default"];
 // Warning: parent is set at updateSpanTree, is not exists now.
 
-},{}],369:[function(require,module,exports){
+},{}],384:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -27028,7 +27505,7 @@ exports['default'] = function (annotationData, isBlockFunc, renderEntityFunc) {
 
 module.exports = exports['default'];
 
-},{"./create":362,"./destroy":366,"./renderClassOfSpan":370,"babel-runtime/helpers/interop-require-default":18}],370:[function(require,module,exports){
+},{"./create":377,"./destroy":381,"./renderClassOfSpan":385,"babel-runtime/helpers/interop-require-default":18}],385:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -27069,7 +27546,7 @@ function hasType(span, isBlockFunc) {
 }
 module.exports = exports['default'];
 
-},{"babel-runtime/helpers/interop-require-default":18,"not":160}],371:[function(require,module,exports){
+},{"babel-runtime/helpers/interop-require-default":18,"not":160}],386:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -27087,7 +27564,7 @@ function renderEntitiesOfType(type, entityIdToModelFunc, renderEntityFunc) {
 }
 module.exports = exports["default"];
 
-},{}],372:[function(require,module,exports){
+},{}],387:[function(require,module,exports){
 'use strict';
 
 var _slicedToArray = require('babel-runtime/helpers/sliced-to-array')['default'];
@@ -27166,7 +27643,7 @@ function getParentModel(span) {
 }
 module.exports = exports['default'];
 
-},{"./createSpanElement":364,"./createSpanRange":365,"babel-runtime/helpers/interop-require-default":18,"babel-runtime/helpers/sliced-to-array":20}],373:[function(require,module,exports){
+},{"./createSpanElement":379,"./createSpanRange":380,"babel-runtime/helpers/interop-require-default":18,"babel-runtime/helpers/sliced-to-array":20}],388:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -27187,7 +27664,7 @@ var _getEditorBody2 = _interopRequireDefault(_getEditorBody);
 exports['default'] = _.compose(_.partial(_getElement2['default'], 'div', 'textae-editor__body__annotation-box'), _getEditorBody2['default']);
 module.exports = exports['default'];
 
-},{"./getEditorBody":374,"./getElement":375,"babel-runtime/helpers/interop-require-default":18}],374:[function(require,module,exports){
+},{"./getEditorBody":389,"./getElement":390,"babel-runtime/helpers/interop-require-default":18}],389:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -27204,7 +27681,7 @@ var _getElement2 = _interopRequireDefault(_getElement);
 exports['default'] = _.partial(_getElement2['default'], 'div', 'textae-editor__body');
 module.exports = exports['default'];
 
-},{"./getElement":375,"babel-runtime/helpers/interop-require-default":18}],375:[function(require,module,exports){
+},{"./getElement":390,"babel-runtime/helpers/interop-require-default":18}],390:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -27222,7 +27699,7 @@ exports['default'] = function (tagName, className, $parent) {
 
 module.exports = exports['default'];
 
-},{}],376:[function(require,module,exports){
+},{}],391:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -27241,7 +27718,7 @@ exports['default'] = function (spanId, type) {
 
 module.exports = exports['default'];
 
-},{"../../../idFactory":236,"babel-runtime/helpers/interop-require-default":18}],377:[function(require,module,exports){
+},{"../../../idFactory":240,"babel-runtime/helpers/interop-require-default":18}],392:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -27266,7 +27743,7 @@ module.exports = function (editor, model, buttonStateHelper, typeContainer, type
   return api;
 };
 
-},{"../DomPositionCache":333,"./Initiator":354,"babel-runtime/helpers/interop-require-default":18}],378:[function(require,module,exports){
+},{"../DomPositionCache":348,"./Initiator":369,"babel-runtime/helpers/interop-require-default":18}],393:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -27290,7 +27767,7 @@ exports['default'] = function (annotationData, modelType, modification, renderer
 
 module.exports = exports['default'];
 
-},{"babel-runtime/helpers/interop-require-default":18,"capitalize":23}],379:[function(require,module,exports){
+},{"babel-runtime/helpers/interop-require-default":18,"capitalize":23}],394:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -27331,7 +27808,7 @@ function createTaggedSourceDoc(paragraphs) {
 }
 module.exports = exports['default'];
 
-},{"../getTextBox":385,"./getEditorBody":374,"./getElement":375,"babel-runtime/helpers/interop-require-default":18,"handlebars":147}],380:[function(require,module,exports){
+},{"../getTextBox":400,"./getEditorBody":389,"./getElement":390,"babel-runtime/helpers/interop-require-default":18,"handlebars":147}],395:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -27349,7 +27826,7 @@ function removeUiSelectClass(connect) {
 }
 module.exports = exports["default"];
 
-},{}],381:[function(require,module,exports){
+},{}],396:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -27469,7 +27946,7 @@ function modifyStyle(element, handle) {
 }
 module.exports = exports['default'];
 
-},{"../../../idFactory":236,"../../getEntityDom":391,"../DomPositionCache":333,"./deselectRelation":380,"./selectRelation":382,"babel-runtime/helpers/interop-require-default":18}],382:[function(require,module,exports){
+},{"../../../idFactory":240,"../../getEntityDom":407,"../DomPositionCache":348,"./deselectRelation":395,"./selectRelation":397,"babel-runtime/helpers/interop-require-default":18}],397:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -27487,7 +27964,7 @@ function addUiSelectClass(connect) {
 }
 module.exports = exports["default"];
 
-},{}],383:[function(require,module,exports){
+},{}],398:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -27503,7 +27980,7 @@ exports['default'] = function (newValue) {
 
 module.exports = exports['default'];
 
-},{}],384:[function(require,module,exports){
+},{}],399:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -27524,7 +28001,7 @@ function getHeightIncludeDescendantGrids(span, typeContainer, typeGapValue) {
 
 module.exports = exports["default"];
 
-},{}],385:[function(require,module,exports){
+},{}],400:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -27538,7 +28015,7 @@ function getTextBox(editor) {
 
 module.exports = exports['default'];
 
-},{}],386:[function(require,module,exports){
+},{}],401:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -27649,7 +28126,7 @@ function setHandlerOnDisplayEvent(editor, display) {
 }
 module.exports = exports['default'];
 
-},{"../../../util/CursorChanger":406,"./Display":328,"./Hover":340,"./Renderer":377,"./Renderer/RelationRenderer":359,"./TypeStyle":383,"./lineHeight":387,"./setSelectionModelHandler":388,"babel-runtime/helpers/interop-require-default":18,"babel-runtime/helpers/interop-require-wildcard":19}],387:[function(require,module,exports){
+},{"../../../util/CursorChanger":425,"./Display":343,"./Hover":355,"./Renderer":392,"./Renderer/RelationRenderer":374,"./TypeStyle":398,"./lineHeight":402,"./setSelectionModelHandler":403,"babel-runtime/helpers/interop-require-default":18,"babel-runtime/helpers/interop-require-wildcard":19}],402:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -27741,7 +28218,7 @@ function pixelToInt(str) {
   return str === '' ? 0 : parseInt(str, 10);
 }
 
-},{"./getHeightIncludeDescendantGrids":384,"./getTextBox":385,"babel-runtime/helpers/interop-require-default":18}],388:[function(require,module,exports){
+},{"./getHeightIncludeDescendantGrids":399,"./getTextBox":400,"babel-runtime/helpers/interop-require-default":18}],403:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -27766,35 +28243,67 @@ function delay150(func) {
 }
 module.exports = exports['default'];
 
-},{"./Selector":381,"babel-runtime/helpers/interop-require-default":18}],389:[function(require,module,exports){
+},{"./Selector":396,"babel-runtime/helpers/interop-require-default":18}],404:[function(require,module,exports){
 'use strict';
+
+var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
 
 Object.defineProperty(exports, '__esModule', {
   value: true
 });
 
+var _delegate = require('delegate');
+
+var _delegate2 = _interopRequireDefault(_delegate);
+
 exports['default'] = function (editor, presenter, view) {
-  editor.on('mousedown', function (e) {
+  var dom = editor[0];
+
+  // Prevent a selection text with shift keies.
+  dom.addEventListener('mousedown', function (e) {
     if (e.shiftKey) {
-      return false;
+      e.preventDefault();
     }
-  })
+  });
+
   // Prevent a selection of a type by the double-click.
-  .on('mousedown', '.textae-editor__type', function () {
-    return false;
-  }).on('mousedown', '.textae-editor__body__text-box__paragraph-margin', function (e) {
-    // Prevent a selection of a margin of a paragraph by the double-click.
-    if (e.target.className === 'textae-editor__body__text-box__paragraph-margin') return false;
-  }).on('mouseup', '.textae-editor__body,.textae-editor__span,.textae-editor__grid,.textae-editor__entity', presenter.event.editorSelected).on('mouseenter', '.textae-editor__entity', function (e) {
-    return view.hoverRelation.on($(e.target).attr('title'));
-  }).on('mouseleave', '.textae-editor__entity', function (e) {
-    return view.hoverRelation.off($(e.target).attr('title'));
+  (0, _delegate2['default'])(dom, '.textae-editor__type', 'mousedown', function (e) {
+    return e.preventDefault();
+  });
+
+  // Prevent a selection of a margin of a paragraph by the double-click.
+  (0, _delegate2['default'])(dom, '.textae-editor__body__text-box__paragraph-margin', 'mousedown', function (e) {
+    // Filter bubbling event from children.
+    // if (e.target.className === 'textae-editor__body__text-box__paragraph-margin')
+    // e.preventDefault()
+  });
+
+  // Select the editor when the editor, a span or an entity-type is focused in.
+  // Unselect the editor when a child element of other than the editor is focused in.
+  // The blur events always occurs each focus changing.
+  // For example, blur events always occurs when the labels in the pallt is clicked.
+  // If other editors are selected, the pallet should be closed.
+  // But the blur events is not distinguished from clicking on the parret and selection other editors.
+  document.body.addEventListener('focus', function (e) {
+    if (e.target.closest('.textae-editor') === dom) {
+      presenter.event.editorSelected();
+    } else {
+      presenter.event.editorUnselected();
+    }
+  }, true);
+
+  // Highlight retaitons when related entity is heverd.
+  (0, _delegate2['default'])(dom, '.textae-editor__entity', 'mouseover', function (e) {
+    return view.hoverRelation.on(e.target.title);
+  });
+  (0, _delegate2['default'])(dom, '.textae-editor__entity', 'mouseout', function (e) {
+    return view.hoverRelation.off(e.target.title);
   });
 };
 
 module.exports = exports['default'];
 
-},{}],390:[function(require,module,exports){
+},{"babel-runtime/helpers/interop-require-default":18,"delegate":107}],405:[function(require,module,exports){
 'use strict';
 
 var _interopRequireWildcard = require('babel-runtime/helpers/interop-require-wildcard')['default'];
@@ -27814,7 +28323,40 @@ exports['default'] = function (editor, annotationData, typeContainer, typeGap, v
 
 module.exports = exports['default'];
 
-},{"./View/lineHeight":387,"babel-runtime/helpers/interop-require-wildcard":19}],391:[function(require,module,exports){
+},{"./View/lineHeight":402,"babel-runtime/helpers/interop-require-wildcard":19}],406:[function(require,module,exports){
+// Focus of the editor or children element is necessary to listen to keyboard events.
+// Elements be able to focused are the editor, spans and entity types.
+// The focus is lost when spans or entity types are remove.
+// Next elements are seleced autmatically by user deleting.
+// Next elements are not seleced autmatically by undo creation.
+'use strict';
+
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
+
+exports['default'] = function (editor) {
+  // Observe a removing the focused document object.
+  new MutationObserver(function (mutations) {
+    mutations.forEach(function (mutation) {
+      if (mutation.removedNodes.length && mutation.removedNodes[0].nodeType === 1) {
+        if (mutation.removedNodes[0].classList.contains('textae-editor__span') || mutation.removedNodes[0].classList.contains('textae-editor__type')) {
+          if (document.activeElement.tagName === 'BODY') {
+            editor.focus();
+          }
+        }
+      }
+    });
+  }).observe(editor[0].querySelector('.textae-editor__body'), {
+    childList: true,
+    subtree: true
+  });
+};
+
+module.exports = exports['default'];
+// So, focus the editer when spans or entity types are removed and lost focus.
+
+},{}],407:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -27827,7 +28369,7 @@ exports["default"] = function (editor, entityId) {
 
 module.exports = exports["default"];
 
-},{}],392:[function(require,module,exports){
+},{}],408:[function(require,module,exports){
 'use strict';
 
 var _slicedToArray = require('babel-runtime/helpers/sliced-to-array')['default'];
@@ -27880,7 +28422,7 @@ function getElements(editorDom, element) {
   return [all, index];
 }
 
-},{"babel-runtime/core-js/array/from":2,"babel-runtime/helpers/sliced-to-array":20}],393:[function(require,module,exports){
+},{"babel-runtime/core-js/array/from":2,"babel-runtime/helpers/sliced-to-array":20}],409:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -27943,7 +28485,7 @@ function urlDecode(params, name) {
 }
 module.exports = exports['default'];
 
-},{"./getUrlParameters":394,"babel-runtime/helpers/interop-require-default":18}],394:[function(require,module,exports){
+},{"./getUrlParameters":410,"babel-runtime/helpers/interop-require-default":18}],410:[function(require,module,exports){
 // Usage sample: getUrlParameters(location.search).
 'use strict';
 
@@ -27969,7 +28511,7 @@ module.exports = function (urlQuery) {
   }, {});
 };
 
-},{}],395:[function(require,module,exports){
+},{}],411:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -28032,6 +28574,10 @@ var _calculateLineHeight = require('./calculateLineHeight');
 
 var _calculateLineHeight2 = _interopRequireDefault(_calculateLineHeight);
 
+var _focusEditorWhenFocusedChildRemoved = require('./focusEditorWhenFocusedChildRemoved');
+
+var _focusEditorWhenFocusedChildRemoved2 = _interopRequireDefault(_focusEditorWhenFocusedChildRemoved);
+
 exports['default'] = function (editor, dataAccessObject, history, buttonController, model, clipBoard, writable) {
   var params = (0, _getParams2['default'])(editor),
       spanConfig = new _SpanConfig2['default'](),
@@ -28045,6 +28591,8 @@ exports['default'] = function (editor, dataAccessObject, history, buttonControll
 
   view.init(editor, buttonController, typeGap, typeContainer, writable);
   (0, _bindMouseEvent2['default'])(editor, presenter, view);
+  (0, _focusEditorWhenFocusedChildRemoved2['default'])(editor);
+
   presenter.init(params.mode);
 
   // Manage the original annotation
@@ -28056,7 +28604,7 @@ exports['default'] = function (editor, dataAccessObject, history, buttonControll
       statusBar = getStatusBar(editor, params.status_bar);
 
   dataAccessObject.on('load', function (data) {
-    setAnnotation(spanConfig, typeContainer, model.annotationData, params.config, data.annotation);
+    setAnnotation(spanConfig, typeContainer, model.annotationData, data.annotation, params.config);
     statusBar.status(data.source);
     originalAnnotation = data.annotation;
   });
@@ -28068,6 +28616,9 @@ exports['default'] = function (editor, dataAccessObject, history, buttonControll
   };
 
   editor.api = new _APIs2['default'](command, presenter, daoHandler, buttonController, view, updateLineHeight);
+
+  // Add tabIndex to listen to keyboard events.
+  editor[0].tabIndex = -1;
 };
 
 function loadAnnotation(spanConfig, typeContainer, annotationData, statusBar, params, dataAccessObject) {
@@ -28078,17 +28629,21 @@ function loadAnnotation(spanConfig, typeContainer, annotationData, statusBar, pa
       // Set an inline annotation.
       var originalAnnotation = JSON.parse(annotation.inlineAnnotation);
 
-      setAnnotation(spanConfig, typeContainer, annotationData, params.config, originalAnnotation);
+      setAnnotation(spanConfig, typeContainer, annotationData, originalAnnotation, params.config);
       statusBar.status('inline');
       return originalAnnotation;
     } else if (annotation.url) {
       // Load an annotation from server.
       dataAccessObject.getAnnotationFromServer(annotation.url);
+    } else {
+      setAnnotation(spanConfig, typeContainer, annotationData, {
+        text: 'Currently, the document is empty. Use the "import" button or press the key "i" to open a document with annotation.'
+      });
     }
   }
 }
 
-function setAnnotation(spanConfig, typeContainer, annotationData, config, annotation) {
+function setAnnotation(spanConfig, typeContainer, annotationData, annotation, config) {
   var ret = setConfigInAnnotation(spanConfig, typeContainer, annotation);
 
   if (ret === 'no config') {
@@ -28146,7 +28701,7 @@ function getStatusBar(editor, statusBar) {
 }
 module.exports = exports['default'];
 
-},{"../../component/StatusBar":178,"../../util/ajaxAccessor":407,"./APIs":239,"./Command":256,"./DaoHandler":258,"./Presenter":313,"./SpanConfig":324,"./TypeContainer":327,"./View":386,"./bindMouseEvent":389,"./calculateLineHeight":390,"./getParams":393,"babel-runtime/helpers/interop-require-default":18,"babel-runtime/helpers/interop-require-wildcard":19,"observ":161}],396:[function(require,module,exports){
+},{"../../component/StatusBar":182,"../../util/ajaxAccessor":426,"./APIs":244,"./Command":261,"./DaoHandler":263,"./Presenter":328,"./SpanConfig":339,"./TypeContainer":342,"./View":401,"./bindMouseEvent":404,"./calculateLineHeight":405,"./focusEditorWhenFocusedChildRemoved":406,"./getParams":409,"babel-runtime/helpers/interop-require-default":18,"babel-runtime/helpers/interop-require-wildcard":19,"observ":161}],412:[function(require,module,exports){
 'use strict';
 
 module.exports = {
@@ -28162,7 +28717,7 @@ module.exports = {
   }
 };
 
-},{}],397:[function(require,module,exports){
+},{}],413:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -28191,7 +28746,7 @@ jQuery.fn.textae = (function () {
         e.api.start(e);
         return e;
       });
-      tool.selectFirstEditor();
+      tool.disableAllButtons();
     } else if (this.hasClass("textae-control")) {
       var c = (0, _control2['default'])(this);
       tool.setControl(c);
@@ -28200,7 +28755,7 @@ jQuery.fn.textae = (function () {
   };
 })();
 
-},{"./control":196,"./editor":237,"./tool":404,"babel-runtime/helpers/interop-require-default":18}],398:[function(require,module,exports){
+},{"./control":200,"./editor":241,"./tool":420,"babel-runtime/helpers/interop-require-default":18}],414:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -28220,8 +28775,8 @@ exports['default'] = function (helpDialog, editors) {
         helpDialog();
         break;
       default:
-        if (editors.getSelected()) {
-          editors.getSelected().api.handleButtonClick(name, {
+        if (editors.selected) {
+          editors.selected.api.handleButtonClick(name, {
             point: (0, _getMousePoint2['default'])()
           });
         }
@@ -28231,60 +28786,98 @@ exports['default'] = function (helpDialog, editors) {
 
 module.exports = exports['default'];
 
-},{"./getMousePoint":403,"babel-runtime/helpers/interop-require-default":18}],399:[function(require,module,exports){
+},{"./getMousePoint":419,"babel-runtime/helpers/interop-require-default":18}],415:[function(require,module,exports){
 'use strict';
+
+var _createClass = require('babel-runtime/helpers/create-class')['default'];
+
+var _classCallCheck = require('babel-runtime/helpers/class-call-check')['default'];
+
+var _Object$assign = require('babel-runtime/core-js/object/assign')['default'];
 
 Object.defineProperty(exports, '__esModule', {
   value: true
 });
 var ACTIVE_CLASS = 'textae-editor--active';
 
-// The editor is extended jQuery object.
+var _default = (function () {
+  function _default() {
+    _classCallCheck(this, _default);
 
-exports['default'] = function () {
-  var editorList = [],
-      selected = null,
-      _select = function _select(editorList, editor) {
-    switchActiveClass(editorList, editor);
-    selected = editor;
-  };
+    this.editorList = [];
+    this.selectedEditor = null;
+  }
 
-  return {
-    push: function push(editor) {
-      return editorList.push(editor);
+  _createClass(_default, [{
+    key: 'push',
+    value: function push(editor) {
+      _Object$assign(editor, {
+        editorId: getNewId(this.editorList)
+      });
+      this.editorList.push(editor);
+    }
+  }, {
+    key: 'unselect',
+    value: function unselect(editor) {
+      if (this.selectedEditor === editor) {
+        editor[0].classList.remove(ACTIVE_CLASS);
+        this.selectedEditor = null;
+      }
+    }
+  }, {
+    key: 'redraw',
+    value: function redraw() {
+      this.editorList.forEach(function (editor) {
+        return window.requestAnimationFrame(editor.api.redraw);
+      });
+    }
+  }, {
+    key: 'observeKeyInput',
+    value: function observeKeyInput(onKeyup) {
+      this.editorList.forEach(function (editor) {
+        editor[0].addEventListener('keyup', function (event) {
+          onKeyup(event);
+        });
+      });
+    }
+  }, {
+    key: 'selected',
+    get: function get() {
+      return this.selectedEditor;
     },
-    getNewId: function getNewId() {
-      return 'editor' + editorList.length;
-    },
-    getSelected: function getSelected() {
-      return selected;
-    },
-    select: function select(editor) {
-      return _select(editorList, editor);
-    },
-    selectFirst: function selectFirst() {
-      return _select(editorList, editorList[0]);
-    },
-    forEach: editorList.forEach.bind(editorList)
-  };
-};
+    set: function set(editor) {
+      switchActiveClass(this.editorList, editor);
+      this.selectedEditor = editor;
+    }
+  }]);
+
+  return _default;
+})();
+
+exports['default'] = _default;
+
+function getNewId(editorList) {
+  return 'editor' + editorList.length;
+}
+
+function removeAciteveClass(editors) {
+  // Remove ACTIVE_CLASS from all editor.
+  editors.map(function (other) {
+    return other[0];
+  }).forEach(function (element) {
+    element.classList.remove(ACTIVE_CLASS);
+  });
+}
 
 function switchActiveClass(editors, selected) {
-  // Remove ACTIVE_CLASS from others than selected.
-  editors.filter(function (editor) {
-    return editor !== selected;
-  }).map(function (other) {
-    return other[0];
-  }).forEach(function (elemet) {
-    elemet.classList.remove(ACTIVE_CLASS);
-  });
+  removeAciteveClass(editors);
 
   // Add ACTIVE_CLASS to the selected.
   selected[0].classList.add(ACTIVE_CLASS);
 }
 module.exports = exports['default'];
 
-},{}],400:[function(require,module,exports){
+},{"babel-runtime/core-js/object/assign":6,"babel-runtime/helpers/class-call-check":14,"babel-runtime/helpers/create-class":15}],416:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -28311,8 +28904,10 @@ exports['default'] = function (helpDialog, editors) {
 
     if (key === 'H') {
       helpDialog();
-    } else if (editors.getSelected()) {
-      editors.getSelected().api.handleKeyInput(key, {
+    } else if (key === 'A') {
+      editors.unselect();
+    } else if (editors.selected) {
+      editors.selected.api.handleKeyInput(key, {
         point: (0, _getMousePoint2['default'])(),
         shiftKey: e.shiftKey
       });
@@ -28322,7 +28917,7 @@ exports['default'] = function (helpDialog, editors) {
 
 module.exports = exports['default'];
 
-},{"./convertKeyEvent":401,"./getKeyCode":402,"./getMousePoint":403,"babel-runtime/helpers/interop-require-default":18}],401:[function(require,module,exports){
+},{"./convertKeyEvent":417,"./getKeyCode":418,"./getMousePoint":419,"babel-runtime/helpers/interop-require-default":18}],417:[function(require,module,exports){
 'use strict';
 
 var _Map = require('babel-runtime/core-js/map')['default'];
@@ -28345,7 +28940,7 @@ function convertKeyEvent(keyCode) {
 
 module.exports = exports['default'];
 
-},{"babel-runtime/core-js/map":5}],402:[function(require,module,exports){
+},{"babel-runtime/core-js/map":5}],418:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -28358,7 +28953,7 @@ exports["default"] = function (e) {
 
 module.exports = exports["default"];
 
-},{}],403:[function(require,module,exports){
+},{}],419:[function(require,module,exports){
 // Ovserve and record mouse position to return it.
 'use strict';
 
@@ -28378,7 +28973,7 @@ exports['default'] = function () {
 
 module.exports = exports['default'];
 
-},{}],404:[function(require,module,exports){
+},{}],420:[function(require,module,exports){
 'use strict';
 
 var _Object$assign = require('babel-runtime/core-js/object/assign')['default'];
@@ -28411,6 +29006,10 @@ var _componentHelpDialog = require('../component/HelpDialog');
 
 var _componentHelpDialog2 = _interopRequireDefault(_componentHelpDialog);
 
+var _setVeilObserver = require('./setVeilObserver');
+
+var _setVeilObserver2 = _interopRequireDefault(_setVeilObserver);
+
 var helpDialog = new _componentHelpDialog2['default']();
 
 // The tool manages interactions between components.
@@ -28424,7 +29023,7 @@ exports['default'] = function () {
   window.addEventListener('load', function () {
     var handleKeyInput = new _KeyInputHandler2['default'](helpDialog, editors);
 
-    (0, _observeKeyWithoutDialog2['default'])(handleKeyInput);
+    (0, _observeKeyWithoutDialog2['default'])(handleKeyInput, editors);
     redrawOnResize(editors);
   });
 
@@ -28441,6 +29040,10 @@ exports['default'] = function () {
         return handleControlButtonClick.apply(undefined, rest);
       });
 
+      instance[0].addEventListener('mousedown', function (e) {
+        e.preventDefault();
+      });
+
       controlBar.setInstance(instance);
     },
     // Register editors to tool
@@ -28448,24 +29051,27 @@ exports['default'] = function () {
       editors.push(editor);
 
       // Add an event emitter to the editer.
-      var emitter = new _events.EventEmitter().on('textae.editor.select', function () {
-        return editors.select(editor);
+      var eventEmitter = new _events.EventEmitter().on('textae.editor.select', function () {
+        return editors.selected = editor;
+      }).on('textae.editor.unselect', function () {
+        editors.unselect(editor);
+        if (!editors.selected) {
+          controlBar.changeButtonState();
+        }
       }).on('textae.control.button.push', function (data) {
-        if (editor === editors.getSelected()) controlBar.push(data.buttonName, data.state);
+        if (editor === editors.selected) controlBar.push(data.buttonName, data.state);
       }).on('textae.control.buttons.change', function (enableButtons) {
-        if (editor === editors.getSelected()) controlBar.changeButtonState(enableButtons);
+        if (editor === editors.selected) controlBar.changeButtonState(enableButtons);
       });
 
+      (0, _setVeilObserver2['default'])(editor[0]);
+
       _Object$assign(editor, {
-        editorId: editors.getNewId(),
-        eventEmitter: emitter
+        eventEmitter: eventEmitter
       });
     },
-    // Select the first editor
-    selectFirstEditor: function selectFirstEditor() {
-      // Disable all buttons.
-      controlBar.changeButtonState();
-      editors.selectFirst();
+    disableAllButtons: function disableAllButtons() {
+      return controlBar.changeButtonState();
     }
   };
 };
@@ -28492,15 +29098,12 @@ function ControlBar() {
 function redrawOnResize(editors) {
   // Bind resize event
   window.addEventListener('resize', _.debounce(function () {
-    // Redraw all editors per editor.
-    editors.forEach(function (editor) {
-      return window.requestAnimationFrame(editor.api.redraw);
-    });
+    return editors.redraw();
   }, 500));
 }
 module.exports = exports['default'];
 
-},{"../component/HelpDialog":167,"./ControlButtonHandler":398,"./EditorContainer":399,"./KeyInputHandler":400,"./observeKeyWithoutDialog":405,"babel-runtime/core-js/object/assign":6,"babel-runtime/helpers/interop-require-default":18,"events":110}],405:[function(require,module,exports){
+},{"../component/HelpDialog":171,"./ControlButtonHandler":414,"./EditorContainer":415,"./KeyInputHandler":416,"./observeKeyWithoutDialog":421,"./setVeilObserver":423,"babel-runtime/core-js/object/assign":6,"babel-runtime/helpers/interop-require-default":18,"events":110}],421:[function(require,module,exports){
 // Observe key-input events and convert events to readable code.
 'use strict';
 
@@ -28508,14 +29111,11 @@ Object.defineProperty(exports, '__esModule', {
   value: true
 });
 
-exports['default'] = function (keyInputHandler) {
+exports['default'] = function (keyInputHandler, editors) {
   var noop = function noop() {},
       onKeyup = keyInputHandler; // Overwrite by the noop when daialogs are opened.
 
-  // Observe key-input
-  document.addEventListener('keyup', function (event) {
-    return onKeyup(event);
-  });
+  editors.observeKeyInput(onKeyup);
 
   // Disable/Enable key-input When a jquery-ui dialog is opened/closeed
   $('body').on('dialogopen', '.ui-dialog', function () {
@@ -28527,7 +29127,104 @@ exports['default'] = function (keyInputHandler) {
 
 module.exports = exports['default'];
 
-},{}],406:[function(require,module,exports){
+},{}],422:[function(require,module,exports){
+'use strict';
+
+var _Map = require('babel-runtime/core-js/map')['default'];
+
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
+var waitingEditors = new _Map();
+
+exports['default'] = function (element) {
+  if (element.classList.contains('textae-editor--wait')) {
+    waitingEditors.set(element);
+  } else {
+    waitingEditors['delete'](element);
+  }
+
+  return waitingEditors.size > 0;
+};
+
+module.exports = exports['default'];
+
+},{"babel-runtime/core-js/map":5}],423:[function(require,module,exports){
+'use strict';
+
+var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
+
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
+
+var _hasWaitingEditor = require('./hasWaitingEditor');
+
+var _hasWaitingEditor2 = _interopRequireDefault(_hasWaitingEditor);
+
+var _veil = require('./veil');
+
+var _veil2 = _interopRequireDefault(_veil);
+
+var config = {
+  attributes: true,
+  attributeFilter: ['class']
+};
+
+exports['default'] = function (editorDom) {
+  new MutationObserver(updateVeil).observe(editorDom, config);
+};
+
+function updateVeil(mutationRecords) {
+  mutationRecords.forEach(function (m) {
+    return switchVeil((0, _hasWaitingEditor2['default'])(m.target));
+  });
+}
+
+function switchVeil(hasWaitingEditor) {
+  if (hasWaitingEditor) {
+    _veil2['default'].show();
+  } else {
+    _veil2['default'].hide();
+  }
+}
+module.exports = exports['default'];
+
+},{"./hasWaitingEditor":422,"./veil":424,"babel-runtime/helpers/interop-require-default":18}],424:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
+var veilClass = 'textae-editor-veil';
+
+function show() {
+  var veil = document.querySelector('.' + veilClass);
+
+  if (veil) {
+    veil.style.display = 'block';
+  } else {
+    var _veil = document.createElement('div');
+    _veil.className = veilClass;
+    document.body.appendChild(_veil);
+  }
+}
+
+function hide() {
+  var veil = document.querySelector('.' + veilClass);
+
+  if (veil) {
+    veil.style.display = 'none';
+  }
+}
+
+exports['default'] = {
+  show: show,
+  hide: hide
+};
+module.exports = exports['default'];
+
+},{}],425:[function(require,module,exports){
 'use strict';
 
 var changeCursor = function changeCursor(editor, action) {
@@ -28546,7 +29243,7 @@ module.exports = function (editor) {
   };
 };
 
-},{}],407:[function(require,module,exports){
+},{}],426:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -28605,7 +29302,7 @@ function isEmpty(str) {
   return !str || str === "";
 }
 
-},{}]},{},[397]);
+},{}]},{},[413]);
 
 // for module pattern with tail.js
 (function(jQuery) { // Application main
