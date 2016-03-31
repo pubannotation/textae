@@ -1,9 +1,7 @@
 .textae-control {
-	position: fixed;
-	z-index: 2;
+  position: fixed;
 }
-
 .textae-editor {
-    position: relative;
-    top: 22px;
+  position: relative;
+  top: 22px;
 }
