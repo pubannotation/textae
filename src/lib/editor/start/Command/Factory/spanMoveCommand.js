@@ -43,13 +43,6 @@ export default function spanMoveCommand(editor, model, spanId, newSpan) {
   return {
     execute: function() {
       executeCompositCommand('span', this, 'move', spanId, subCommands)
-
-      // Clear text selection
-      if (window.getSelection().empty) { // Chrome
-        window.getSelection().empty()
-      } else if (window.getSelection().removeAllRanges) { // Firefox
-        window.getSelection().removeAllRanges()
-      }
     }
   }
 }

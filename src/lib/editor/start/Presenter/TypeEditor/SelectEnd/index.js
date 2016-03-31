@@ -46,6 +46,8 @@ function selectEndOnText(spanEditor, annotationData, data) {
       spanEditor.expand(data)
     }
   }
+
+  clearTextSelection()
 }
 
 function selectEndOnSpan(spanEditor, annotationData, data) {
@@ -65,5 +67,16 @@ function selectEndOnSpan(spanEditor, annotationData, data) {
     } else if (data.selection.anchorNode.parentElement.closest(`#${data.selection.focusNode.parentElement.id}`)) {
       spanEditor.expand(data)
     }
+  }
+
+  clearTextSelection()
+}
+
+function clearTextSelection() {
+  // Clear text selection
+  if (window.getSelection().empty) { // Chrome
+    window.getSelection().empty()
+  } else if (window.getSelection().removeAllRanges) { // Firefox
+    window.getSelection().removeAllRanges()
   }
 }
