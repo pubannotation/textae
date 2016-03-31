@@ -4,7 +4,7 @@ import {
 }
 from '../../../../../Model/AnnotationData/parseAnnotation/validateAnnotation'
 import deferAlert from '../deferAlert'
-import selectPosition from '../selectPosition'
+import * as selectPosition from '../selectPosition'
 import * as isInSelected from './isInSelected'
 import moveSpan from './moveSpan'
 

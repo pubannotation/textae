@@ -1,4 +1,4 @@
-import selectPosition from '../selectPosition'
+import * as selectPosition from '../selectPosition'
 import * as hasClass from '../hasClass'
 import * as getParent from '../getParent'
 

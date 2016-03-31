@@ -1,7 +1,7 @@
 import showAlertIfOtherParagraph from './showAlertIfOtherParagraph'
 import * as hasClass from '../hasClass'
 import * as getParent from '../getParent'
-import selectPosition from '../selectPosition'
+import * as selectPosition from '../selectPosition'
 
 export default function commonValidate(annotationData, spanConfig, selection) {
   // This order is not important.
@@ -18,8 +18,8 @@ function isAnchrNodeInSpanOrParagraph(selection) {
 function hasCharacters(annotationData, spanConfig, selection) {
   if (!selection) return false
 
-  var positions = selectPosition.toPositions(annotationData, selection),
-    selectedString = annotationData.sourceDoc.substring(positions.anchorPosition, positions.focusPosition),
+  var [begin, end] = selectPosition.getBeginEnd(annotationData, selection),
+    selectedString = annotationData.sourceDoc.substring(begin, end),
     stringWithoutBlankCharacters = spanConfig.removeBlankChractors(selectedString)
 
   return stringWithoutBlankCharacters.length > 0

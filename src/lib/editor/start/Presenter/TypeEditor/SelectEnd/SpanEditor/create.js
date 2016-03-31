@@ -3,7 +3,7 @@ import {
 }
 from '../../../../../Model/AnnotationData/parseAnnotation/validateAnnotation'
 import isAlreadySpaned from '../../../../../Model/isAlreadySpaned'
-import selectPosition from '../selectPosition'
+import * as selectPosition from '../selectPosition'
 
 const BLOCK_THRESHOLD = 100
 
@@ -54,10 +54,10 @@ function createCommands(command, typeContainer, newSpan, isReplicateAuto, isDete
 }
 
 function getNewSpan(model, spanAdjuster, selection, spanConfig) {
-  const positions = selectPosition.toPositions(model.annotationData, selection)
+  const [begin, end] = selectPosition.getBeginEnd(model.annotationData, selection)
 
   return {
-    begin: spanAdjuster.backFromBegin(model.annotationData.sourceDoc, positions.anchorPosition, spanConfig),
-    end: spanAdjuster.forwardFromEnd(model.annotationData.sourceDoc, positions.focusPosition - 1, spanConfig) + 1
+    begin: spanAdjuster.backFromBegin(model.annotationData.sourceDoc, begin, spanConfig),
+    end: spanAdjuster.forwardFromEnd(model.annotationData.sourceDoc, end - 1, spanConfig) + 1
   }
 }
