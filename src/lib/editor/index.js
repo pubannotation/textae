@@ -18,7 +18,7 @@ export default function() {
       // clipBoard has entity type.
       clipBoard: []
     },
-    buttonController = new ButtonController(this, model, clipBoard),
+    buttonController = new ButtonController(this, model.annotationData, model.selectionModel, clipBoard),
     dataAccessObject = new DataAccessObject(this, CONFIRM_DISCARD_CHANGE_MESSAGE)
 
   let writable = new Writable()

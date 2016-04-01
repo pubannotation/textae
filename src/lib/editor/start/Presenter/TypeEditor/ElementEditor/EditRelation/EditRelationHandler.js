@@ -7,7 +7,7 @@ export default class extends DefaultHandler {
     this.command = command
     this.annotationData = annotationData.relation
     this.selectionModel = selectionModel.relation
-    this.clearAllSelection = selectionModel.clear
+    this.clearAllSelection = () => selectionModel.clear()
   }
   changeTypeOfSelectedElement(newType) {
     return this.getEditTarget(newType)

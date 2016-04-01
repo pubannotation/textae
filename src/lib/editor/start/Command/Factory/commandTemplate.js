@@ -6,8 +6,9 @@ class CreateCommand extends BaseCommand {
     super(function() {
       newModel = model.annotationData[modelType].add(newModel)
 
-      if (isSelectable)
-        selectNewModel(model.selectionModel, modelType, newModel)
+      if (isSelectable) {
+        model.selectionModel.add(modelType, newModel.id)
+      }
 
       // Set revert
       this.revert = () => new RemoveCommand(model, modelType, newModel.id)
@@ -66,10 +67,4 @@ export {
   CreateCommand,
   RemoveCommand,
   ChangeTypeCommand
-}
-
-function selectNewModel(selectionModel, modelType, newModel) {
-  if (selectionModel[modelType]) {
-    selectionModel[modelType].add(newModel.id)
-  }
 }

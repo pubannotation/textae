@@ -3,24 +3,83 @@ import {
 }
 from 'events'
 import IdContainer from './IdContainer'
+import modelToId from '../../modelToId'
 
-export default function(kinds) {
-  const emitter = new EventEmitter(),
-    map = new Map(kinds.map(kindName => [kindName, new IdContainer(emitter, kindName)])),
-    hash = {}
+const kinds = ['span', 'entity', 'relation']
 
-  map.forEach((container, name) => {
-    hash[name] = container
-  })
+export default class extends EventEmitter {
+  constructor(annotationData) {
+    super()
 
-  return Object.assign(emitter, hash, {
-    clear: () => map.forEach((c) => c.clear()),
-    some: () => someAll(map)
-  })
-}
+    this.map = new Map(kinds.map(kindName => [kindName, new IdContainer(this, kindName)]))
+    this.map.forEach((container, name) => {
+      this[name] = container
+    })
 
-function someAll(map) {
-  let ret = false
-  map.forEach(c => ret = ret || c.some())
-  return ret
+    const eventMap = new Map([
+      ['all.change', () => this.clear()],
+      ['span.remove', (span) => this.span.remove(modelToId(span))],
+      ['entity.remove', (entity) => this.entity.remove(modelToId(entity))],
+      ['relation.remove', (relation) => this.relation.remove(modelToId(relation))],
+    ])
+
+    // Bind the selection model to the model.
+    for (let eventHandler of eventMap) {
+      annotationData.on(eventHandler[0], eventHandler[1])
+    }
+  }
+  clear() {
+    this.map.forEach((c) => c.clear())
+  }
+  some() {
+    return Array.from(this.map.values()).reduce((a, b) => a || b.some, false)
+  }
+  add(modelType, id) {
+    console.assert(this[modelType])
+    this[modelType].add(id)
+  }
+
+  /**
+   * Select entity.
+   * @param {string} dom - dom of entity to select or array of ids of entities.
+   * @param {bool} isMulti - select multi elements.
+   * @return {undefined}
+   */
+  selectEntity(dom, isMulti) {
+    // A entity may be null when the first or the last entity is selected at the Relation Edit Mode.
+    if (dom) {
+      if (!isMulti) {
+        this.clear()
+      }
+
+      this.entity.add(dom.title)
+    }
+  }
+  selectEntityLabel(dom, isMulti) {
+    if (dom) {
+      const pane = dom.nextElementSibling,
+        allEntityOflabels = pane.children
+
+      if (!isMulti) {
+        this.clear()
+      }
+
+      this.entity.add(Array.from(allEntityOflabels).map(dom => dom.title))
+    }
+  }
+  selectSingleSpanById(spanId) {
+    if (spanId) {
+      this.clear()
+      this.span.add(spanId)
+    }
+  }
+  selectSpan(dom, isMulti) {
+    if (dom) {
+      if (isMulti) {
+        this.span.add(dom.id)
+      } else {
+        this.selectSingleSpanById(dom.id)
+      }
+    }
+  }
 }

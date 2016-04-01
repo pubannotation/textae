@@ -1,4 +1,4 @@
-export default function(model, modeAccordingToButton) {
+export default function(annotationData, modeAccordingToButton) {
   var doesAllModificaionHasSpecified = function(specified, modificationsOfSelectedElement) {
       return modificationsOfSelectedElement.length > 0 && _.every(modificationsOfSelectedElement, function(m) {
         return _.contains(m, specified)
@@ -12,7 +12,7 @@ export default function(model, modeAccordingToButton) {
 
   return function(selectionModel) {
     var modifications = selectionModel.all().map(function(e) {
-      return model.annotationData.getModificationOf(e).map(function(m) {
+      return annotationData.getModificationOf(e).map(function(m) {
         return m.pred
       })
     })

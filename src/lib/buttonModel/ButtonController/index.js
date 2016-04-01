@@ -8,17 +8,17 @@ import UpdateButtonState from './UpdateButtonState'
 import UpdateModificationButtons from './UpdateModificationButtons'
 import ButtonStateHelper from './ButtonStateHelper'
 
-module.exports = function(editor, model, clipBoard) {
+module.exports = function(editor, annotationData, selectionModel, clipBoard) {
   // Save state of push control buttons.
   const modeAccordingToButton = new ModeAccordingToButton(),
     // Save enable/disable state of contorol buttons.
     buttonEnableStates = new ButtonEnableStates(),
-    updateButtonState = new UpdateButtonState(model, buttonEnableStates, clipBoard),
+    updateButtonState = new UpdateButtonState(selectionModel, buttonEnableStates, clipBoard),
     // Change push/unpush of buttons of modifications.
-    updateModificationButtons = new UpdateModificationButtons(model, modeAccordingToButton),
+    updateModificationButtons = new UpdateModificationButtons(annotationData, modeAccordingToButton),
     // Helper to update button state.
     buttonStateHelper = new ButtonStateHelper(
-      model,
+      selectionModel,
       modeAccordingToButton,
       buttonEnableStates,
       updateButtonState,

@@ -1,12 +1,6 @@
 import {
-  selectSpan,
-  selectSingleSpanById
-}
-from './selectSpan'
-import selectEntityLabel from './selectEntityLabel'
-import selectEntity from './selectEntity'
-import {
-  getLeftElement, getRightElement
+  getLeftElement,
+  getRightElement
 }
 from '../../../getNextElement'
 import getEntityDom from '../../../getEntityDom'
@@ -85,26 +79,29 @@ function selectRightFunc(editorDom, selectionModel, shiftKey) {
 }
 
 function selectNextFunc(editorDom, selectionModel, shiftKey, getNextFunc) {
-  let or = (className, func, next) => selectOr(editorDom, className, func, selectionModel, shiftKey, next, getNextFunc)
+  let selectedSpans = selectSelected(editorDom, SPAN_CLASS)
 
-  let selectNext = or(SPAN_CLASS, selectSpan, () =>
-    or(LABEL_CLASS, selectEntityLabel, () =>
-      or(ENTINY_CLASS, selectEntity)
-    )
-  )
-
-  return selectNext
-}
-
-function selectOr(editorDom, className, selectFunc, selectionModel, shiftKey, next, getNextFunc) {
-  let selected = selectSelected(editorDom, className)
-
-  if (selected.length) {
-    let nextElement = getNextFunc(selected)
-    return () => selectFunc(selectionModel, nextElement, shiftKey)
-  } else {
-    return next ? next() : () => {}
+  if (selectedSpans.length) {
+    let nextElement = getNextFunc(selectedSpans)
+    return () => selectionModel.selectSpan(nextElement, shiftKey)
   }
+
+  let selectedEntityLabel = selectSelected(editorDom, LABEL_CLASS)
+
+  if (selectedEntityLabel.length) {
+    let nextElement = getNextFunc(selectedEntityLabel)
+    return () => selectionModel.selectEntityLabel(nextElement, shiftKey)
+  }
+
+  let selectedEntities = selectSelected(editorDom, ENTINY_CLASS)
+
+  if (selectedEntities.length) {
+    // return a select entity function
+    let nextElement = getNextFunc(selectedEntities)
+    return () => selectionModel.selectEntity(nextElement, shiftKey)
+  }
+
+  return () => {}
 }
 
 function selectSelected(dom, className) {
@@ -119,25 +116,25 @@ function selectFirstEntityLabelOfSpan(selectionModel, spanId) {
     let type = grid.querySelector(`.${TYPE_CLASS}`),
       label = type.querySelector(`.${LABEL_CLASS}`)
 
-    selectEntityLabel(selectionModel, label)
+    selectionModel.selectEntityLabel(label)
   }
 }
 
 function selectFirstEntityOfEntityLabel(selectionModel, label) {
   let pane = label.nextElementSibling
 
-  selectEntity(selectionModel, pane.children[0])
+  selectionModel.selectEntity(pane.children[0])
 }
 
 function selectSpanOfEntityLabel(selectionModel, label) {
   console.assert(label, 'A label MUST exists.')
 
   let spanId = label.closest(`.${GRID_CLASS}`).id.substring(1)
-  selectSingleSpanById(selectionModel, spanId)
+  selectionModel.selectSingleSpanById(spanId)
 }
 
 function selectLabelOfEntity(selectionModel, entity) {
   console.assert(entity, 'An entity MUST exists.')
 
-  selectEntityLabel(selectionModel, entity.parentNode.previousElementSibling)
+  selectionModel.selectEntityLabel(entity.parentNode.previousElementSibling)
 }
