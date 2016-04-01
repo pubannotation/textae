@@ -17,7 +17,7 @@ export default function(editor, dataAccessObject, history, buttonController, mod
   const params = getParams(editor),
     spanConfig = new SpanConfig(),
     // Users can edit model only via commands.
-    command = new Command(editor, model, history),
+    command = new Command(editor, model.annotationData, model.selectionModel, history),
     typeGap = new Observable(-1),
     typeContainer = new TypeContainer(model),
     view = new View(editor, model),

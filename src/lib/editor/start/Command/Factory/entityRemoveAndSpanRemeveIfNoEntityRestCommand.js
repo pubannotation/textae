@@ -1,14 +1,14 @@
 import spanRemoveCommand from './spanRemoveCommand'
 import entityAndAssociatesRemoveCommand from './entityAndAssociatesRemoveCommand'
 
-export default function(model, ids) {
-  const entityPerSpan = toEntityPerSpan(model, ids)
+export default function(annotationData, selectionModel, ids) {
+  const entityPerSpan = toEntityPerSpan(annotationData, ids)
 
   return _.flatten(
     Object
     .keys(entityPerSpan)
     .map(function(spanId) {
-      var span = model.annotationData.span.get(spanId),
+      var span = annotationData.span.get(spanId),
         targetIds = entityPerSpan[spanId],
         allEntitiesOfSpan = _.flatten(
           span
@@ -32,19 +32,19 @@ export default function(model, ids) {
     })
     .map(function(data) {
       if (data.noRestEntities)
-        return spanRemoveCommand(model, data.spasId)
+        return spanRemoveCommand(annotationData, selectionModel, data.spasId)
       else
         return data.entities.map(function(id) {
-          return entityAndAssociatesRemoveCommand(model, id)
+          return entityAndAssociatesRemoveCommand(annotationData, selectionModel, id)
         })
     })
   )
 }
 
-function toEntityPerSpan(model, ids) {
+function toEntityPerSpan(annotationData, ids) {
   return ids
     .map(function(id) {
-      var span = model.annotationData.entity.get(id).span
+      var span = annotationData.entity.get(id).span
       return {
         id: id,
         span: span
