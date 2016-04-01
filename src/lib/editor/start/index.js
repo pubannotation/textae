@@ -19,7 +19,7 @@ export default function(editor, dataAccessObject, history, buttonController, mod
     // Users can edit model only via commands.
     command = new Command(editor, model.annotationData, model.selectionModel, history),
     typeGap = new Observable(-1),
-    typeContainer = new TypeContainer(model),
+    typeContainer = new TypeContainer(model.annotationData),
     view = new View(editor, model),
     presenter = new Presenter(
       editor,

@@ -1,15 +1,15 @@
 import defaultType from './defaultType'
 import Container from './Container'
 
-export default function(model) {
+export default function(annotationData) {
   const entityContainer = Object.assign(
-      new Container(model.annotationData.entity.types, '#77DDDD'), {
+      new Container(annotationData.entity.types, '#77DDDD'), {
         isBlock: (type) => {
           const definition = entityContainer.getDefinedType(type)
           return definition && definition.type && definition.type === 'block'
         }
       }),
-    relationContaier = new Container(model.annotationData.relation.types, '#555555')
+    relationContaier = new Container(annotationData.relation.types, '#555555')
 
   return {
     entity: entityContainer,
