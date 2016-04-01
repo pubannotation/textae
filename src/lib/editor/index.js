@@ -6,24 +6,28 @@ import ButtonController from '../buttonModel/ButtonController'
 import Writable from '../buttonModel/Writable'
 // model manages data objects.
 import Model from './Model'
+import Selection from './Selection'
 // The history of command that providing undo and redo.
 import History from './History'
 import * as observe from './observe'
 import start from './start'
 
+
 export default function() {
-  let model = new Model(this),
+  let annotationData = new Model(this).annotationData,
+    // A contaier of selection state.
+    selectionModel = new Selection(annotationData),
     history = new History(),
     clipBoard = {
       // clipBoard has entity type.
       clipBoard: []
     },
-    buttonController = new ButtonController(this, model.annotationData, model.selectionModel, clipBoard),
+    buttonController = new ButtonController(this, annotationData, selectionModel, clipBoard),
     dataAccessObject = new DataAccessObject(this, CONFIRM_DISCARD_CHANGE_MESSAGE)
 
   let writable = new Writable()
 
-  observe.observeModelChange(model.annotationData, history, writable)
+  observe.observeModelChange(annotationData, history, writable)
   observe.observeHistoryChange(
     history,
     buttonController.buttonStateHelper,
@@ -39,8 +43,8 @@ export default function() {
       dataAccessObject,
       history,
       buttonController,
-      model.annotationData,
-      model.selectionModel,
+      annotationData,
+      selectionModel,
       clipBoard,
       writable
     )

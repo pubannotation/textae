@@ -2,7 +2,7 @@ import {
   isBoundaryCrossingWithOtherSpans as isBoundaryCrossingWithOtherSpans
 }
 from '../../../../../Model/AnnotationData/parseAnnotation/validateAnnotation'
-import isAlreadySpaned from '../../../../../Model/isAlreadySpaned'
+import isAlreadySpaned from '../../../../isAlreadySpaned'
 import * as selectPosition from '../selectPosition'
 
 const BLOCK_THRESHOLD = 100

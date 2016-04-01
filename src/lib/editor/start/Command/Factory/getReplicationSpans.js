@@ -1,5 +1,5 @@
 import not from 'not'
-import isAlreadySpaned from '../../../Model/isAlreadySpaned'
+import isAlreadySpaned from '../../isAlreadySpaned'
 import {
   isBoundaryCrossingWithOtherSpans as isBoundaryCrossingWithOtherSpans
 }
