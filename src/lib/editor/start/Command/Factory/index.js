@@ -17,7 +17,7 @@ import TypeCreateCommand from './TypeCreateCommand'
 export default function Factory(editor, annotationData, selectionModel) {
   // The relaitonId is optional set only when revert of the relationRemoveCommand.
   // Set the css class lately, because jsPlumbConnector is no applyed that css class immediately after create.
-  const relationCreateCommand = (relation) => new CreateCommand(annotationData, selectionModel, 'relation', false, relation),
+  const relationCreateCommand = (relation) => new CreateCommand(annotationData, selectionModel, 'relation', true, relation),
     factory = {
       spanCreateCommand: (type, span) => spanAndDefaultEntryCreateCommand(editor, annotationData, selectionModel, type, span),
       spanRemoveCommand: (id) => spanRemoveCommand(annotationData, selectionModel, id),
