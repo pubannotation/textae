@@ -8,11 +8,11 @@ import event from './event'
 import Trigger from './Trigger'
 import enableButtonHasAnnotation from './enableButtonHasAnnotation'
 
-export default function(editor, model, typeEditor, buttonStateHelper) {
+export default function(editor, annotationData, selectionModel, typeEditor, buttonStateHelper) {
   let emitter = new EventEmitter(),
-    transition = new Transition(editor, model, typeEditor, buttonStateHelper),
+    transition = new Transition(editor, annotationData, selectionModel, typeEditor, buttonStateHelper),
     stateMachine = bindTransition(transition),
-    trigger = new Trigger(stateMachine, model.annotationData)
+    trigger = new Trigger(stateMachine, annotationData)
 
   stateMachine.once('transition', () => enableButtonHasAnnotation(buttonStateHelper))
 

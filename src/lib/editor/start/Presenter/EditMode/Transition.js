@@ -10,8 +10,8 @@ const TERM = 'term',
   INSTANCE = 'instance',
   RELATION = 'relation'
 
-export default function(editor, model, typeEditor, buttonStateHelper) {
-  let viewMode = new ViewMode(editor, model.annotationData, model.selectionModel, buttonStateHelper),
+export default function(editor, annotationData, selectionModel, typeEditor, buttonStateHelper) {
+  const viewMode = new ViewMode(editor, annotationData, selectionModel, buttonStateHelper),
     emitter = new EventEmitter(),
     api = {
       toTerm: function() {

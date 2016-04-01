@@ -36,7 +36,8 @@ export default function(
     ),
     editMode = new EditMode(
       editor,
-      model,
+      model.annotationData,
+      model.selectionModel,
       typeEditor,
       buttonController.buttonStateHelper
     ),
