@@ -1,10 +1,11 @@
 import getTargetSpanWhenFocusNodeSameWithAnchorNode from './getTargetSpanWhenFocusNodeSameWithAnchorNode'
 import shrinkSpanToSelection from './shrinkSpanToSelection'
 
-export default function(editor, model, command, spanAdjuster, selection, spanConfig) {
-  const spanId = getTargetSpanWhenFocusNodeSameWithAnchorNode(model, selection)
+export default function(editor, annotationData, selectionModel, command, spanAdjuster, selection, spanConfig) {
+  const spanId = getTargetSpanWhenFocusNodeSameWithAnchorNode(annotationData, selectionModel, selection)
 
   if (spanId) {
-    shrinkSpanToSelection(editor, model, command, spanAdjuster, spanId, selection, spanConfig)
+    selectionModel.clear()
+    shrinkSpanToSelection(editor, annotationData, command, spanAdjuster, spanId, selection, spanConfig)
   }
 }

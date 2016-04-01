@@ -4,10 +4,11 @@ import unbindAllEventhandler from './unbindAllEventhandler'
 import DefaultHandler from './DefaultHandler'
 
 // Provide handlers to edit elements according to an edit mode.
-export default function(editor, model, spanConfig, command, modeAccordingToButton, typeContainer, cancelSelect) {
-  let handler = new DefaultHandler(),
-    editRelation = new EditRelation(editor, model.selectionModel, model.annotationData, command, typeContainer, cancelSelect),
-    editEntity = new EditEntity(editor, model, command, modeAccordingToButton, typeContainer, spanConfig, cancelSelect)
+export default function(editor, annotationData, selectionModel, spanConfig, command, modeAccordingToButton, typeContainer, cancelSelect) {
+  let handler = new DefaultHandler()
+
+  const editRelation = new EditRelation(editor, annotationData, selectionModel, command, typeContainer, cancelSelect),
+    editEntity = new EditEntity(editor, annotationData, selectionModel, command, modeAccordingToButton, typeContainer, spanConfig, cancelSelect)
 
   return {
     getHandler: () => handler,

@@ -1,7 +1,7 @@
 import entityClickedAtRelationMode from './entityClickedAtRelationMode'
 import EditRelationHandler from './EditRelationHandler'
 
-export default function(editor, selectionModel, annotationData, command, typeContainer, cancelSelect) {
+export default function(editor, annotationData, selectionModel, command, typeContainer, cancelSelect) {
   // Control only entities and relations.
   // Cancel events of relations and theier label.
   // Because a jQuery event and a jsPlumb event are both fired when a relation are clicked.

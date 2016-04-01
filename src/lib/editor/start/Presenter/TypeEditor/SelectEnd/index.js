@@ -2,18 +2,19 @@ import * as selectionValidator from './selectionValidator'
 import SpanEditor from './SpanEditor'
 import * as selectPosition from './selectPosition'
 
-module.exports = function(editor, model, command, modeAccordingToButton, typeContainer) {
+export default function(editor, annotationData, selectionModel, command, modeAccordingToButton, typeContainer) {
   // Initiated by events.
-  var selectEndOnTextImpl = null,
-    selectEndOnSpanImpl = null,
-    changeSpanEditorAccordingToButtons = function() {
-      var isDetectDelimiterEnable = modeAccordingToButton['boundary-detection'].value(),
-        isReplicateAuto = modeAccordingToButton['replicate-auto'].value(),
-        spanEditor = new SpanEditor(editor, model, command, typeContainer, isDetectDelimiterEnable, isReplicateAuto)
+  let selectEndOnTextImpl = null,
+    selectEndOnSpanImpl = null
 
-      selectEndOnTextImpl = (annotationData, data) => selectEndOnText(spanEditor, annotationData, data)
-      selectEndOnSpanImpl = (annotationData, data) => selectEndOnSpan(spanEditor, annotationData, data)
-    }
+  const changeSpanEditorAccordingToButtons = function() {
+    const isDetectDelimiterEnable = modeAccordingToButton['boundary-detection'].value(),
+      isReplicateAuto = modeAccordingToButton['replicate-auto'].value(),
+      spanEditor = new SpanEditor(editor, annotationData, selectionModel, command, typeContainer, isDetectDelimiterEnable, isReplicateAuto)
+
+    selectEndOnTextImpl = (annotationData, data) => selectEndOnText(spanEditor, annotationData, data)
+    selectEndOnSpanImpl = (annotationData, data) => selectEndOnSpan(spanEditor, annotationData, data)
+  }
 
   // Change spanEditor according to the  buttons state.
   changeSpanEditorAccordingToButtons()
@@ -26,16 +27,16 @@ module.exports = function(editor, model, command, modeAccordingToButton, typeCon
 
   return {
     onText: function(data) {
-      if (selectEndOnTextImpl) selectEndOnTextImpl(model.annotationData, data)
+      if (selectEndOnTextImpl) selectEndOnTextImpl(annotationData, data)
     },
     onSpan: function(data) {
-      if (selectEndOnSpanImpl) selectEndOnSpanImpl(model.annotationData, data)
+      if (selectEndOnSpanImpl) selectEndOnSpanImpl(annotationData, data)
     }
   }
 }
 
 function selectEndOnText(spanEditor, annotationData, data) {
-  var isValid = selectionValidator.validateOnText(annotationData, data.spanConfig, data.selection)
+  const isValid = selectionValidator.validateOnText(annotationData, data.spanConfig, data.selection)
 
   if (isValid) {
     // The parent of the focusNode is the paragraph.
@@ -51,7 +52,7 @@ function selectEndOnText(spanEditor, annotationData, data) {
 }
 
 function selectEndOnSpan(spanEditor, annotationData, data) {
-  var isValid = selectionValidator.validateOnSpan(annotationData, data.spanConfig, data.selection)
+  const isValid = selectionValidator.validateOnSpan(annotationData, data.spanConfig, data.selection)
 
   if (isValid) {
     if (data.selection.anchorNode === data.selection.focusNode) {

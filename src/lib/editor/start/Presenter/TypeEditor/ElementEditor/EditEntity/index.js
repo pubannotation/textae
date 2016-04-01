@@ -7,10 +7,9 @@ import entityClicked from './entityClicked'
 import entityPaneClicked from './entityPaneClicked'
 import EditEntityHandler from './EditEntityHandler'
 
-export default function(editor, model, command, modeAccordingToButton, typeContainer, spanConfig, cancelSelect) {
-  let selectEnd = new SelectEnd(editor, model, command, modeAccordingToButton, typeContainer),
-    selectSpan = new SelectSpan(editor, model.annotationData, model.selectionModel, typeContainer),
-    selectionModel = model.selectionModel,
+export default function(editor, annotationData, selectionModel, command, modeAccordingToButton, typeContainer, spanConfig, cancelSelect) {
+  const selectEnd = new SelectEnd(editor, annotationData, selectionModel, command, modeAccordingToButton, typeContainer),
+    selectSpan = new SelectSpan(editor, annotationData, selectionModel, typeContainer),
     init = () => {
       editor
         .on('mouseup', '.textae-editor__body', () => bodyClicked(cancelSelect, selectEnd, spanConfig))
@@ -24,6 +23,6 @@ export default function(editor, model, command, modeAccordingToButton, typeConta
 
   return {
     init,
-    handlers: new EditEntityHandler(typeContainer, command, model.annotationData, selectionModel)
+    handlers: new EditEntityHandler(typeContainer, command, annotationData, selectionModel)
   }
 }

@@ -7,21 +7,19 @@ import * as selectPosition from '../selectPosition'
 
 const BLOCK_THRESHOLD = 100
 
-export default function(model, command, typeContainer, spanAdjuster, isDetectDelimiterEnable, isReplicateAuto, selection, spanConfig) {
-  model.selectionModel.clear()
-
-  const newSpan = getNewSpan(model, spanAdjuster, selection, spanConfig)
+export default function(annotationData, command, typeContainer, spanAdjuster, isDetectDelimiterEnable, isReplicateAuto, selection, spanConfig) {
+  const newSpan = getNewSpan(annotationData, spanAdjuster, selection, spanConfig)
 
   // The span cross exists spans.
   if (isBoundaryCrossingWithOtherSpans(
-      model.annotationData.span.all(),
+      annotationData.span.all(),
       newSpan
     )) {
     return
   }
 
   // The span exists already.
-  if (isAlreadySpaned(model.annotationData.span.all(), newSpan)) {
+  if (isAlreadySpaned(annotationData.span.all(), newSpan)) {
     return
   }
 
@@ -53,11 +51,11 @@ function createCommands(command, typeContainer, newSpan, isReplicateAuto, isDete
   return commands
 }
 
-function getNewSpan(model, spanAdjuster, selection, spanConfig) {
-  const [begin, end] = selectPosition.getBeginEnd(model.annotationData, selection)
+function getNewSpan(annotationData, spanAdjuster, selection, spanConfig) {
+  const [begin, end] = selectPosition.getBeginEnd(annotationData, selection)
 
   return {
-    begin: spanAdjuster.backFromBegin(model.annotationData.sourceDoc, begin, spanConfig),
-    end: spanAdjuster.forwardFromEnd(model.annotationData.sourceDoc, end - 1, spanConfig) + 1
+    begin: spanAdjuster.backFromBegin(annotationData.sourceDoc, begin, spanConfig),
+    end: spanAdjuster.forwardFromEnd(annotationData.sourceDoc, end - 1, spanConfig) + 1
   }
 }

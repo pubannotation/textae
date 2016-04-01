@@ -4,7 +4,8 @@ import changeLabelHandler from './changeLabelHandler'
 
 export default function(
   editor,
-  model,
+  annotationData,
+  selectionModel,
   spanConfig,
   command,
   modeAccordingToButton,
@@ -14,11 +15,12 @@ export default function(
   // will init.
   let elementEditor = new ElementEditor(
       editor,
-      model,
+      annotationData,
+      selectionModel,
       spanConfig,
       command,
       modeAccordingToButton,
-      typeContainer, () => cancelSelect(pallet, model.selectionModel)
+      typeContainer, () => cancelSelect(pallet, selectionModel)
     ),
     pallet = new Pallet(
       (label) => {
@@ -45,7 +47,7 @@ export default function(
       getTypeOfSelected: () => elementEditor.getHandler().getSelectedType(),
       changeLabel: () => changeLabelHandler(editor, elementEditor.getHandler, autocompletionWs),
       changeTypeOfSelectedElement: (newType) => elementEditor.getHandler().changeTypeOfSelectedElement(newType),
-      cancelSelect: () => cancelSelect(pallet, model.selectionModel),
+      cancelSelect: () => cancelSelect(pallet, selectionModel),
       jsPlumbConnectionClicked: (jsPlumbConnection, event) => jsPlumbConnectionClicked(
         elementEditor,
         jsPlumbConnection,

@@ -27,7 +27,8 @@ export default function(
 ) {
   const typeEditor = new TypeEditor(
       editor,
-      model,
+      model.annotationData,
+      model.selectionModel,
       spanConfig,
       command,
       buttonController.modeAccordingToButton,

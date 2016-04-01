@@ -7,14 +7,12 @@ import idFactory from '../../../../../../idFactory'
 import moveSpan from './../moveSpan'
 import * as selectPosition from '../../selectPosition'
 
-export default function(editor, model, command, spanAdjuster, spanId, selection, spanConfig) {
-  model.selectionModel.clear()
-
-  const newSpan = getNewSpan(model, spanAdjuster, spanId, selection, spanConfig)
+export default function(editor, annotationData, command, spanAdjuster, spanId, selection, spanConfig) {
+  const newSpan = getNewSpan(annotationData, spanAdjuster, spanId, selection, spanConfig)
 
   // The span cross exists spans.
   if (isBoundaryCrossingWithOtherSpans(
-      model.annotationData.span.all(),
+      annotationData.span.all(),
       newSpan
     )) {
     deferAlert('A span cannot be shrinked to make a boundary crossing.')
@@ -22,7 +20,7 @@ export default function(editor, model, command, spanAdjuster, spanId, selection,
   }
 
   const newSpanId = idFactory.makeSpanId(editor, newSpan),
-    sameSpan = model.annotationData.span.get(newSpanId)
+    sameSpan = annotationData.span.get(newSpanId)
 
   command.invoke(
     newSpan.begin < newSpan.end && !sameSpan ?
@@ -31,19 +29,19 @@ export default function(editor, model, command, spanAdjuster, spanId, selection,
   )
 }
 
-function getNewSpan(model, spanAdjuster, spanId, selection, spanConfig) {
-  const anchorPosition = selectPosition.getAnchorPosition(model.annotationData, selection),
-    focusPosition = selectPosition.getFocusPosition(model.annotationData, selection)
+function getNewSpan(annotationData, spanAdjuster, spanId, selection, spanConfig) {
+  const anchorPosition = selectPosition.getAnchorPosition(annotationData, selection),
+    focusPosition = selectPosition.getFocusPosition(annotationData, selection)
 
-  return getNewShortSpan(model, spanAdjuster, spanId, anchorPosition, focusPosition, spanConfig)
+  return getNewShortSpan(annotationData, spanAdjuster, spanId, anchorPosition, focusPosition, spanConfig)
 }
 
 function removeSpan(command, spanId) {
   return [command.factory.spanRemoveCommand(spanId)]
 }
 
-function getNewShortSpan(model, spanAdjuster, spanId, anchorPosition, focusPosition, spanConfig) {
-  const span = model.annotationData.span.get(spanId)
+function getNewShortSpan(annotationData, spanAdjuster, spanId, anchorPosition, focusPosition, spanConfig) {
+  const span = annotationData.span.get(spanId)
 
   if (anchorPosition < focusPosition) {
     // shorten the left boundary
@@ -53,7 +51,7 @@ function getNewShortSpan(model, spanAdjuster, spanId, anchorPosition, focusPosit
     }
 
     return {
-      begin: spanAdjuster.forwardFromBegin(model.annotationData.sourceDoc, focusPosition, spanConfig),
+      begin: spanAdjuster.forwardFromBegin(annotationData.sourceDoc, focusPosition, spanConfig),
       end: span.end
     }
   } else {
@@ -65,7 +63,7 @@ function getNewShortSpan(model, spanAdjuster, spanId, anchorPosition, focusPosit
 
     return {
       begin: span.begin,
-      end: spanAdjuster.backFromEnd(model.annotationData.sourceDoc, focusPosition - 1, spanConfig) + 1
+      end: spanAdjuster.backFromEnd(annotationData.sourceDoc, focusPosition - 1, spanConfig) + 1
     }
   }
 }
