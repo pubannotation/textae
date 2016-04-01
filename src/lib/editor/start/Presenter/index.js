@@ -14,7 +14,8 @@ import enableSaveButtorAtEditable from './enableSaveButtorAtEditable'
 
 export default function(
   editor,
-  model,
+  annotationData,
+  selectionModel,
   view,
   command,
   spanConfig,
@@ -27,8 +28,8 @@ export default function(
 ) {
   const typeEditor = new TypeEditor(
       editor,
-      model.annotationData,
-      model.selectionModel,
+      annotationData,
+      selectionModel,
       spanConfig,
       command,
       buttonController.modeAccordingToButton,
@@ -37,8 +38,8 @@ export default function(
     ),
     editMode = new EditMode(
       editor,
-      model.annotationData,
-      model.selectionModel,
+      annotationData,
+      selectionModel,
       typeEditor,
       buttonController.buttonStateHelper
     ),
@@ -48,21 +49,21 @@ export default function(
     ),
     defaultEntityHandler = new DefaultEntityHandler(
       command,
-      model.annotationData,
-      model.selectionModel,
+      annotationData,
+      selectionModel,
       buttonController.modeAccordingToButton,
       spanConfig,
       typeContainer.entity
     ),
     clipBoardHandler = new ClipBoardHandler(
       command,
-      model.annotationData,
-      model.selectionModel,
+      annotationData,
+      selectionModel,
       clipBoard
     ),
     modificationHandler = new ModificationHandler(
       command,
-      model.annotationData,
+      annotationData,
       buttonController.modeAccordingToButton,
       typeEditor
     ),
@@ -75,7 +76,7 @@ export default function(
     ),
     selectHandler = new SelectHandler(
       editor,
-      model.selectionModel
+      selectionModel
     ),
     showSettingDialog = new SettingDialog(
       editor,
@@ -87,7 +88,7 @@ export default function(
       copyEntities: clipBoardHandler.copyEntities,
       removeSelectedElements: () => removeSelectedElements(
         command,
-        model.selectionModel,
+        selectionModel,
         selectHandler
       ),
       createEntity: defaultEntityHandler.createEntity,
@@ -117,7 +118,7 @@ export default function(
         })
 
       defaultEntityHandler.on('createEntity', displayInstance.notifyNewInstance)
-      setDefaultEditability(model.annotationData, editMode, writable, mode)
+      setDefaultEditability(annotationData, editMode, writable, mode)
     },
     event: event
   }

@@ -23,7 +23,8 @@ export default function(editor, dataAccessObject, history, buttonController, mod
     view = new View(editor, model.annotationData, model.selectionModel),
     presenter = new Presenter(
       editor,
-      model,
+      model.annotationData,
+      model.selectionModel,
       view,
       command,
       spanConfig,
