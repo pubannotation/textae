@@ -13,18 +13,18 @@ import APIs from './APIs'
 import calculateLineHeight from './calculateLineHeight'
 import focusEditorWhenFocusedChildRemoved from './focusEditorWhenFocusedChildRemoved'
 
-export default function(editor, dataAccessObject, history, buttonController, model, clipBoard, writable) {
+export default function(editor, dataAccessObject, history, buttonController, annotationData, selectionModel, clipBoard, writable) {
   const params = getParams(editor),
     spanConfig = new SpanConfig(),
     // Users can edit model only via commands.
-    command = new Command(editor, model.annotationData, model.selectionModel, history),
+    command = new Command(editor, annotationData, selectionModel, history),
     typeGap = new Observable(-1),
-    typeContainer = new TypeContainer(model.annotationData),
-    view = new View(editor, model.annotationData, model.selectionModel),
+    typeContainer = new TypeContainer(annotationData),
+    view = new View(editor, annotationData, selectionModel),
     presenter = new Presenter(
       editor,
-      model.annotationData,
-      model.selectionModel,
+      annotationData,
+      selectionModel,
       view,
       command,
       spanConfig,
@@ -48,21 +48,21 @@ export default function(editor, dataAccessObject, history, buttonController, mod
   const daoHandler = new DaoHandler(
       dataAccessObject,
       history,
-      model.annotationData,
+      annotationData,
       typeContainer, () => originalAnnotation
     ),
     statusBar = getStatusBar(editor, params.status_bar)
 
   dataAccessObject
     .on('load', data => {
-      setAnnotation(spanConfig, typeContainer, model.annotationData, data.annotation, params.config)
+      setAnnotation(spanConfig, typeContainer, annotationData, data.annotation, params.config)
       statusBar.status(data.source)
       originalAnnotation = data.annotation
     })
 
-  originalAnnotation = loadAnnotation(spanConfig, typeContainer, model.annotationData, statusBar, params, dataAccessObject)
+  originalAnnotation = loadAnnotation(spanConfig, typeContainer, annotationData, statusBar, params, dataAccessObject)
 
-  const updateLineHeight = () => calculateLineHeight(editor, model.annotationData, typeContainer, typeGap, view)
+  const updateLineHeight = () => calculateLineHeight(editor, annotationData, typeContainer, typeGap, view)
 
   editor.api = new APIs(
     command,

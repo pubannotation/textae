@@ -39,7 +39,8 @@ export default function() {
       dataAccessObject,
       history,
       buttonController,
-      model,
+      model.annotationData,
+      model.selectionModel,
       clipBoard,
       writable
     )
