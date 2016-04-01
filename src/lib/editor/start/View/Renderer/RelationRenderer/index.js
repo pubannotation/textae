@@ -34,10 +34,10 @@ var POINTUP_LINE_WIDTH = 3,
     return labelOverlay
   }
 
-module.exports = function(editor, model, typeContainer) {
+module.exports = function(editor, annotationData, selectionModel, typeContainer) {
   // Init a jsPlumb instance.
-  var modification = new ModificationRenderer(model.annotationData),
-    domPositionCaChe = new DomPositionCache(editor, model.annotationData.entity),
+  var modification = new ModificationRenderer(annotationData),
+    domPositionCaChe = new DomPositionCache(editor, annotationData.entity),
     jsPlumbInstance,
     ConnectorStrokeStyle = function() {
       var converseHEXinotRGBA = function(color, opacity) {
@@ -50,7 +50,7 @@ module.exports = function(editor, model, typeContainer) {
       }
 
       return function(relationId) {
-        var type = model.annotationData.relation.get(relationId).type,
+        var type = annotationData.relation.get(relationId).type,
           colorHex = typeContainer.relation.getColor(type)
 
         return {
@@ -62,17 +62,17 @@ module.exports = function(editor, model, typeContainer) {
     // Cache a connect instance.
     cache = function(connect) {
       var relationId = connect.relationId
-      var domPositionCaChe = new DomPositionCache(editor, model.annotationData.entity)
+      var domPositionCaChe = new DomPositionCache(editor, annotationData.entity)
       domPositionCaChe.connectCache.set(relationId, connect)
 
       return connect
     },
     isGridPrepared = function(relationId) {
-      if (!model.annotationData.relation.get(relationId))
+      if (!annotationData.relation.get(relationId))
         return undefined
 
-      var domPositionCaChe = new DomPositionCache(editor, model.annotationData.entity),
-        relation = model.annotationData.relation.get(relationId)
+      var domPositionCaChe = new DomPositionCache(editor, annotationData.entity),
+        relation = annotationData.relation.get(relationId)
 
       return domPositionCaChe.gridPositionCache.isGridPrepared(relation.subj) &&
         domPositionCaChe.gridPositionCache.isGridPrepared(relation.obj)
@@ -96,7 +96,7 @@ module.exports = function(editor, model, typeContainer) {
             target: $(getEntityDom(editor[0], relation.obj)),
             anchors: ['TopCenter', "TopCenter"],
             connector: ['Bezier', {
-              curviness: determineCurviness(editor, model.annotationData, relation)
+              curviness: determineCurviness(editor, annotationData, relation)
             }],
             paintStyle: new ConnectorStrokeStyle(relation.id),
             parameters: {
@@ -328,13 +328,13 @@ module.exports = function(editor, model, typeContainer) {
       return _.compose(cache, extendDummyApiToCreateRlationWhenGridMoved, extendRelationId)
     }(),
     changeType = function(relation) {
-      var connect = new Connect(editor, model.annotationData, relation.id),
+      var connect = new Connect(editor, annotationData, relation.id),
         strokeStyle = new ConnectorStrokeStyle(relation.id)
 
       // The connect may be an object for lazyRender instead of jsPlumb.Connection.
       // This occurs when changing types and deletes was reverted.
       if (connect instanceof jsPlumb.Connection) {
-        if (model.selectionModel.relation.has(relation.id)) {
+        if (selectionModel.relation.has(relation.id)) {
           // Re-set style of the line and arrow if selected.
           strokeStyle.lineWidth = POINTUP_LINE_WIDTH
         }
@@ -344,7 +344,7 @@ module.exports = function(editor, model, typeContainer) {
       }
     },
     changeJsModification = function(relation) {
-      var connect = new Connect(editor, model.annotationData, relation.id)
+      var connect = new Connect(editor, annotationData, relation.id)
 
       // A connect may be an object before it rendered.
       if (connect instanceof jsPlumb.Connection) {
@@ -352,7 +352,7 @@ module.exports = function(editor, model, typeContainer) {
       }
     },
     remove = function(relation) {
-      var connect = new Connect(editor, model.annotationData, relation.id)
+      var connect = new Connect(editor, annotationData, relation.id)
       jsPlumbInstance.detach(connect)
       domPositionCaChe.connectCache.delete(relation.id)
 
@@ -366,7 +366,7 @@ module.exports = function(editor, model, typeContainer) {
       var container = getAnnotationBox(editor)
       jsPlumbInstance = makeJsPlumbInstance(container)
 
-      return () => arrangePositionAll(editor, model, jsPlumbInstance)
+      return () => arrangePositionAll(editor, annotationData, selectionModel, jsPlumbInstance)
     }
 
   return {

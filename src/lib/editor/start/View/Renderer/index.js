@@ -1,20 +1,22 @@
 import DomPositionCache from '../DomPositionCache'
 import Initiator from './Initiator'
 
-module.exports = function(editor, model, buttonStateHelper, typeContainer, typeGap, relationRenderer) {
-  var domPositionCaChe = new DomPositionCache(editor, model.annotationData.entity)
-
-  var api = {
-    init: new Initiator(
+export default function(editor, annotationData, selectionModel, buttonStateHelper, typeContainer, typeGap, relationRenderer) {
+  const domPositionCaChe = new DomPositionCache(editor, annotationData.entity),
+    api = {
+      init: new Initiator(
         domPositionCaChe,
         relationRenderer,
         buttonStateHelper,
         typeGap,
-        editor, model, typeContainer
-    ),
-    arrangeRelationPositionAll: relationRenderer.arrangePositionAll,
-    renderLazyRelationAll: relationRenderer.renderLazyRelationAll
-  }
+        editor,
+        annotationData,
+        selectionModel,
+        typeContainer
+      ),
+      arrangeRelationPositionAll: relationRenderer.arrangePositionAll,
+      renderLazyRelationAll: relationRenderer.renderLazyRelationAll
+    }
 
   return api
 }

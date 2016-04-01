@@ -3,7 +3,7 @@ import Connect from './Connect'
 import determineCurviness from './determineCurviness'
 import jsPlumbArrowOverlayUtil from './jsPlumbArrowOverlayUtil'
 
-export default function(editor, model, jsPlumbInstance) {
+export default function(editor, annotationData, selectionModel, jsPlumbInstance) {
   return new Promise(function(resolve, reject) {
     requestAnimationFrame(() => {
       try {
@@ -11,18 +11,18 @@ export default function(editor, model, jsPlumbInstance) {
         // var startTime = new Date();
 
         // Extract relations removed, because relation dom is not synchro with the model.
-        const relations = model.annotationData.relation.all().filter(r => !r.removed)
+        const relations = annotationData.relation.all().filter(r => !r.removed)
 
         resetAllCurviness(
           editor,
-          model.annotationData,
+          annotationData,
           relations
         )
         jsPlumbInstance.repaintEverything()
         reselectAll(
           editor,
-          model.annotationData,
-          model.selectionModel.relation.all()
+          annotationData,
+          selectionModel.relation.all()
         )
 
         // For tuning

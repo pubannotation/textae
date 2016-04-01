@@ -1,32 +1,32 @@
-import Selector from '../../View/Selector'
+import Selector from '../../Selector'
 
-export default function(editor, model, buttonStateHelper) {
-  let selector = new Selector(editor, model),
+export default function(editor, annotationData, selectionModel, buttonStateHelper) {
+  const selector = new Selector(editor, annotationData),
     // This notify is off at relation-edit-mode.
     entitySelectChanged = _.compose(buttonStateHelper.updateByEntity, selector.entityLabel.update)
 
-  let api = {
-    setTerm: function() {
+  const api = {
+    setTerm() {
       changeCssClass(editor, 'term')
-      removeListeners(model.selectionModel, entitySelectChanged, buttonStateHelper)
+      removeListeners(selectionModel, entitySelectChanged, buttonStateHelper)
 
-      model.selectionModel
+      selectionModel
         .on('entity.select', entitySelectChanged)
         .on('entity.deselect', entitySelectChanged)
         .on('entity.change', buttonStateHelper.updateByEntity)
     },
-    setInstance: function() {
+    setInstance() {
       changeCssClass(editor, 'instance')
-      removeListeners(model.selectionModel, entitySelectChanged, buttonStateHelper)
+      removeListeners(selectionModel, entitySelectChanged, buttonStateHelper)
 
-      model.selectionModel
+      selectionModel
         .on('entity.select', entitySelectChanged)
         .on('entity.deselect', entitySelectChanged)
         .on('entity.change', buttonStateHelper.updateByEntity)
     },
-    setRelation: function() {
+    setRelation() {
       changeCssClass(editor, 'relation')
-      removeListeners(model.selectionModel, entitySelectChanged, buttonStateHelper)
+      removeListeners(selectionModel, entitySelectChanged, buttonStateHelper)
     }
   }
 

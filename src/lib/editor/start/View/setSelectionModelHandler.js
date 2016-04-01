@@ -1,10 +1,10 @@
-import Selector from './Selector'
+import Selector from '../Selector'
 
-export default function(editor, model, buttonController) {
-  var selector = new Selector(editor, model)
+export default function(editor, annotationData, selectionModel, buttonController) {
+  var selector = new Selector(editor, annotationData)
 
   // Because entity.change is off at relation-edit-mode.
-  model.selectionModel
+  selectionModel
     .on('span.select', selector.span.select)
     .on('span.deselect', selector.span.deselect)
     .on('span.change', buttonController.buttonStateHelper.updateBySpan)

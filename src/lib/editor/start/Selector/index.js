@@ -1,13 +1,13 @@
-import idFactory from '../../../idFactory'
-import DomPositionCache from '../DomPositionCache'
+import idFactory from '../../idFactory'
+import DomPositionCache from '../View/DomPositionCache'
 import selectRelation from './selectRelation'
 import deselectRelation from './deselectRelation'
-import getEntityDom from '../../getEntityDom'
+import getEntityDom from '../getEntityDom'
 
 const SELECTED = 'ui-selected'
 
-export default function(editor, model) {
-  let domPositionCache = new DomPositionCache(editor, model.annotationData.entity)
+export default function(editor, annotationData) {
+  let domPositionCache = new DomPositionCache(editor, annotationData.entity)
 
   return {
     span: {

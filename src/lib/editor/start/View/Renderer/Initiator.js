@@ -13,13 +13,13 @@ import EntityRenderer from './EntityRenderer'
 import getTypeDom from './getTypeDom'
 import modelToId from '../../../modelToId'
 
-export default function(domPositionCaChe, relationRenderer, buttonStateHelper, typeGap, editor, model, typeContainer) {
+export default function(domPositionCaChe, relationRenderer, buttonStateHelper, typeGap, editor, annotationData, selectionModel, typeContainer) {
   const emitter = new EventEmitter(),
     gridRenderer = new GridRenderer(editor, domPositionCaChe),
     renderEntityHandler = (entity) => getTypeDom(entity.span, entity.type).css(new TypeStyle(typeGap())),
-    entityRenderer = new EntityRenderer(editor, model, typeContainer.entity, gridRenderer, renderEntityHandler),
+    entityRenderer = new EntityRenderer(editor, annotationData, selectionModel, typeContainer.entity, gridRenderer, renderEntityHandler),
     spanRenderer = new SpanRenderer(
-      model.annotationData,
+      annotationData,
       typeContainer.entity.isBlock,
       entityRenderer.render
     )

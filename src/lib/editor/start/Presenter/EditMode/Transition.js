@@ -11,7 +11,7 @@ const TERM = 'term',
   RELATION = 'relation'
 
 export default function(editor, model, typeEditor, buttonStateHelper) {
-  let viewMode = new ViewMode(editor, model, buttonStateHelper),
+  let viewMode = new ViewMode(editor, model.annotationData, model.selectionModel, buttonStateHelper),
     emitter = new EventEmitter(),
     api = {
       toTerm: function() {

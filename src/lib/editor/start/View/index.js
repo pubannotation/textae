@@ -14,25 +14,26 @@ const BODY = `
 </div>
 `
 
-export default function(editor, model) {
-  let hover = new Hover(editor, model.annotationData.entity)
+export default function(editor, annotationData, selectionModel) {
+  let hover = new Hover(editor, annotationData.entity)
 
   let api = {
     init: (editor, buttonController, typeGap, typeContainer) => {
-      setSelectionModelHandler(editor, model, buttonController)
+      setSelectionModelHandler(editor, annotationData, selectionModel, buttonController)
 
       editor[0].innerHTML = BODY
 
-      let relationRenderer = new RelationRenderer(editor, model, typeContainer)
+      let relationRenderer = new RelationRenderer(editor, annotationData, selectionModel, typeContainer)
       let arrangePositionAllRelation = relationRenderer.init(editor),
-        display = new Display(editor, model.annotationData, typeContainer, arrangePositionAllRelation)
+        display = new Display(editor, annotationData, typeContainer, arrangePositionAllRelation)
 
-      setHandlerOnTyapGapEvent(editor, model, typeGap, typeContainer, display)
+      setHandlerOnTyapGapEvent(editor, annotationData, typeGap, typeContainer, display)
       setHandlerOnDisplayEvent(editor, display)
 
       initRenderer(
         editor,
-        model,
+        annotationData,
+        selectionModel,
         display.update,
         typeGap,
         typeContainer,
@@ -51,11 +52,11 @@ export default function(editor, model) {
   return api
 }
 
-function initRenderer(editor, model, updateDisplay, typeGap, typeContainer, buttonStateHelper, relationRenderer) {
-  let renderer = new Renderer(editor, model, buttonStateHelper, typeContainer, typeGap, relationRenderer),
+function initRenderer(editor, annotationData, selectionModel, updateDisplay, typeGap, typeContainer, buttonStateHelper, relationRenderer) {
+  let renderer = new Renderer(editor, annotationData, selectionModel, buttonStateHelper, typeContainer, typeGap, relationRenderer),
     debouncedUpdateDisplay = _.debounce(() => updateDisplay(typeGap()), 100)
 
-  renderer.init(editor, model.annotationData, model.selectionModel)
+  renderer.init(editor, annotationData, selectionModel)
     .on('change', debouncedUpdateDisplay)
     .on('all.change', debouncedUpdateDisplay)
     .on('paragraph.change', () => lineHeight.reduceBottomSpace(editor[0]))
@@ -67,11 +68,11 @@ function initRenderer(editor, model, updateDisplay, typeGap, typeContainer, butt
     .on('relation.add', debouncedUpdateDisplay)
 }
 
-function setHandlerOnTyapGapEvent(editor, model, typeGap, typeContainer, display) {
-  let setTypeStyle = newValue => editor.find('.textae-editor__type').css(new TypeStyle(newValue))
+function setHandlerOnTyapGapEvent(editor, annotationData, typeGap, typeContainer, display) {
+  let setTypeStyle = (newValue) => editor.find('.textae-editor__type').css(new TypeStyle(newValue))
 
   typeGap(setTypeStyle)
-  typeGap(newValue => lineHeight.setToTypeGap(editor[0], model.annotationData, typeContainer, newValue))
+  typeGap(newValue => lineHeight.setToTypeGap(editor[0], annotationData, typeContainer, newValue))
   typeGap(display.update)
 }
 

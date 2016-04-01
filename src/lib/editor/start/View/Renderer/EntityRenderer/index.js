@@ -3,21 +3,20 @@ import getDisplayName from './getDisplayName'
 import uri from '../../../../uri'
 import idFactory from '../../../../idFactory'
 import getEntityDom from '../../../getEntityDom'
-import Selector from '../../Selector'
 import createEntityUnlessBlock from './createEntityUnlessBlock'
 import changeTypeOfExists from './changeTypeOfExists'
 import removeEntityElement from './removeEntityElement'
 import removeNoEntityPaneElement from './removeNoEntityPaneElement'
 import updateLabel from './updateLabel'
 
-export default function(editor, model, typeContainer, gridRenderer, renderEntityHandler) {
-  let modification = new ModificationRenderer(model.annotationData)
+export default function(editor, annotationData, selectionModel, typeContainer, gridRenderer, renderEntityHandler) {
+  let modification = new ModificationRenderer(annotationData)
 
   return {
     render: (entity) => {
       createEntityUnlessBlock(
         editor,
-        model.annotationData.namespace,
+        annotationData.namespace,
         typeContainer,
         gridRenderer,
         modification,
@@ -28,7 +27,8 @@ export default function(editor, model, typeContainer, gridRenderer, renderEntity
     change: (entity) => {
       changeTypeOfExists(
         editor,
-        model,
+        annotationData,
+        selectionModel,
         typeContainer,
         gridRenderer,
         modification,
@@ -43,16 +43,16 @@ export default function(editor, model, typeContainer, gridRenderer, renderEntity
     ),
     remove: (entity) => destroy(
       editor,
-      model,
+      annotationData,
       gridRenderer,
       entity
     ),
-    updateLabel: (type) => updateLabel(model.annotationData, typeContainer, type)
+    updateLabel: (type) => updateLabel(annotationData, typeContainer, type)
   }
 }
 
-function destroy(editor, model, gridRenderer, entity) {
-  if (doesSpanHasNoEntity(model.annotationData, entity.span)) {
+function destroy(editor, annotationData, gridRenderer, entity) {
+  if (doesSpanHasNoEntity(annotationData, entity.span)) {
     // Destroy a grid when all entities are remove.
     gridRenderer.remove(entity.span)
   } else {
