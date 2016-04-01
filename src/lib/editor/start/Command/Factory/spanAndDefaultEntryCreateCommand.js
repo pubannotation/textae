@@ -6,8 +6,8 @@ import executeCompositCommand from './executeCompositCommand'
 import idFactory from '../../../idFactory'
 
 export default function(editor, model, type, span) {
-  const spanCreateCommand = (span) => new CreateCommand(model, 'span', true, span),
-    entityCreateCommand = (entity) => new CreateCommand(model, 'entity', true, entity),
+  const spanCreateCommand = (span) => new CreateCommand(model.annotationData, model.selectionModel, 'span', true, span),
+    entityCreateCommand = (entity) => new CreateCommand(model.annotationData, model.selectionModel, 'entity', true, entity),
     id = idFactory.makeSpanId(editor, span),
     createSpan = spanCreateCommand(span),
     createEntity = entityCreateCommand({

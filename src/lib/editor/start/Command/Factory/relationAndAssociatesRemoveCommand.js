@@ -5,17 +5,10 @@ from './commandTemplate'
 import executeCompositCommand from './executeCompositCommand'
 
 export default function(model, id) {
-  var relationRemoveCommand = (relation) => new RemoveCommand(model, 'relation', relation),
-    modificationRemoveCommand = (modification) => new RemoveCommand(model, 'modification', modification)
-
-  var removeRelation = relationRemoveCommand(id),
+  const removeRelation = new RemoveCommand(model.annotationData, model.selectionModel, 'relation', id),
     removeModification = model.annotationData.getModificationOf(id)
-    .map(function(modification) {
-      return modification.id
-    })
-    .map(function(id) {
-      return modificationRemoveCommand(id)
-    }),
+    .map((modification) => modification.id)
+    .map((id) => new RemoveCommand(model.annotationData, model.selectionModel, 'modification', id)),
     subCommands = removeModification.concat(removeRelation)
 
   return {

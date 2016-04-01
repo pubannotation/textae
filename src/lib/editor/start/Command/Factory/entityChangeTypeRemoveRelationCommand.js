@@ -1,18 +1,16 @@
 import {
-  RemoveCommand, ChangeTypeCommand
+  RemoveCommand
 }
 from './commandTemplate'
+import ChangeTypeCommand from './ChangeTypeCommand'
 import executeCompositCommand from './executeCompositCommand'
 
 export default function(model, id, newType, isRemoveRelations) {
-  const relationRemoveCommand = (relation) => new RemoveCommand(model, 'relation', relation),
-    // isRemoveRelations is set true when newType is block.
-    changeType = new ChangeTypeCommand(model, 'entity', id, newType),
+  // isRemoveRelations is set true when newType is block.
+  const changeType = new ChangeTypeCommand(model.annotationData, 'entity', id, newType),
     subCommands = isRemoveRelations ?
     model.annotationData.entity.assosicatedRelations(id)
-    .map(function(id) {
-      return relationRemoveCommand(id)
-    })
+    .map((id) => new RemoveCommand(model.annotationData, model.selectionModel, 'relation', id))
     .concat(changeType) : [changeType]
 
   return {
