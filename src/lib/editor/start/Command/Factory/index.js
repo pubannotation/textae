@@ -19,10 +19,10 @@ export default function Factory(editor, annotationData, selectionModel) {
   // Set the css class lately, because jsPlumbConnector is no applyed that css class immediately after create.
   const relationCreateCommand = (relation) => new CreateCommand(annotationData, selectionModel, 'relation', true, relation),
     factory = {
-      spanCreateCommand: (type, span) => spanAndTypesCreateCommand(editor, annotationData, selectionModel, [type], span),
+      spanCreateCommand: (type, span) => spanAndTypesCreateCommand(editor, annotationData, selectionModel, span, [type]),
       spanRemoveCommand: (id) => spanRemoveCommand(annotationData, selectionModel, id),
       spanMoveCommand: (spanId, newSpan) => spanMoveCommand(editor, annotationData, selectionModel, spanId, newSpan),
-      spanReplicateCommand: (type, span, detectBoundaryFunc) => spanReplicateCommand(editor, annotationData, selectionModel, type, span, detectBoundaryFunc),
+      spanReplicateCommand: (span, types, detectBoundaryFunc) => spanReplicateCommand(editor, annotationData, selectionModel, span, types, detectBoundaryFunc),
       entityCreateCommand: (entity) => new CreateCommand(annotationData, selectionModel, 'entity', true, entity),
       entityRemoveCommand: (ids) => entityRemoveAndSpanRemeveIfNoEntityRestCommand(annotationData, selectionModel, ids),
       entityChangeTypeCommand: (id, newType, isRemoveRelations) => entityChangeTypeRemoveRelationCommand(annotationData, selectionModel, id, newType, isRemoveRelations),

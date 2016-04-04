@@ -38,11 +38,10 @@ function createCommands(command, typeContainer, newSpan, isReplicateAuto, isDete
 
   if (isReplicateAuto && newSpan.end - newSpan.begin <= BLOCK_THRESHOLD) {
     commands.push(
-      command.factory.spanReplicateCommand(
-        typeContainer.entity.getDefaultType(), {
+      command.factory.spanReplicateCommand({
           begin: newSpan.begin,
           end: newSpan.end
-        },
+        }, [typeContainer.entity.getDefaultType()],
         isDetectDelimiterEnable ? spanConfig.isDelimiter : null
       )
     )
