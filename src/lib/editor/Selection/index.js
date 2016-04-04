@@ -32,7 +32,7 @@ export default class extends EventEmitter {
     this.map.forEach((c) => c.clear())
   }
   some() {
-    return Array.from(this.map.values()).reduce((a, b) => a || b.some, false)
+    return Array.from(this.map.values()).reduce((a, b) => a || b.some(), false)
   }
   add(modelType, id) {
     console.assert(this[modelType])
