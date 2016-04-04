@@ -4,7 +4,7 @@ import {
 }
 from './commandTemplate'
 import ChangeTypeCommand from './ChangeTypeCommand'
-import spanAndDefaultEntryCreateCommand from './spanAndDefaultEntryCreateCommand'
+import spanAndEntryCreateCommand from './spanAndEntryCreateCommand'
 import spanReplicateCommand from './spanReplicateCommand'
 import spanRemoveCommand from './spanRemoveCommand'
 import spanMoveCommand from './spanMoveCommand'
@@ -19,7 +19,7 @@ export default function Factory(editor, annotationData, selectionModel) {
   // Set the css class lately, because jsPlumbConnector is no applyed that css class immediately after create.
   const relationCreateCommand = (relation) => new CreateCommand(annotationData, selectionModel, 'relation', true, relation),
     factory = {
-      spanCreateCommand: (type, span) => spanAndDefaultEntryCreateCommand(editor, annotationData, selectionModel, type, span),
+      spanCreateCommand: (type, span) => spanAndEntryCreateCommand(editor, annotationData, selectionModel, type, span),
       spanRemoveCommand: (id) => spanRemoveCommand(annotationData, selectionModel, id),
       spanMoveCommand: (spanId, newSpan) => spanMoveCommand(editor, annotationData, selectionModel, spanId, newSpan),
       spanReplicateCommand: (type, span, detectBoundaryFunc) => spanReplicateCommand(editor, annotationData, selectionModel, type, span, detectBoundaryFunc),

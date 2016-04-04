@@ -1,9 +1,9 @@
-import spanAndDefaultEntryCreateCommand from './spanAndDefaultEntryCreateCommand'
+import spanAndEntryCreateCommand from './spanAndEntryCreateCommand'
 import getReplicationSpans from './getReplicationSpans'
 import executeCompositCommand from './executeCompositCommand'
 
 export default function(editor, annotationData, selectionModel, type, span, detectBoundaryFunc) {
-  const createSpan = (span) => spanAndDefaultEntryCreateCommand(editor, annotationData, selectionModel, type, span),
+  const createSpan = (span) => spanAndEntryCreateCommand(editor, annotationData, selectionModel, type, span),
     subCommands = getReplicationSpans(annotationData, span, detectBoundaryFunc)
     .map(createSpan)
 
