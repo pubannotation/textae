@@ -16,17 +16,20 @@ export default function(editor, annotationData, command, spanAdjuster, spanId, s
       newSpan
     )) {
     deferAlert('A span cannot be shrinked to make a boundary crossing.')
-    return
+    return false
   }
 
   const newSpanId = idFactory.makeSpanId(editor, newSpan),
     sameSpan = annotationData.span.get(newSpanId)
 
-  command.invoke(
-    newSpan.begin < newSpan.end && !sameSpan ?
-    moveSpan(editor, command, spanId, newSpan) :
-    removeSpan(command, spanId)
-  )
+  if (newSpan.begin < newSpan.end && !sameSpan) {
+    command.invoke(moveSpan(editor, command, spanId, newSpan))
+  } else {
+    command.invoke(removeSpan(command, spanId))
+    return true
+  }
+
+  return false
 }
 
 function getNewSpan(annotationData, spanAdjuster, spanId, selection, spanConfig) {
