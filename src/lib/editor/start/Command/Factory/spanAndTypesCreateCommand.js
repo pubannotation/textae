@@ -5,16 +5,16 @@ from './commandTemplate'
 import executeCompositCommand from './executeCompositCommand'
 import idFactory from '../../../idFactory'
 
-export default function(editor, annotationData, selectionModel, type, span) {
+export default function(editor, annotationData, selectionModel, types, span) {
   const spanCreateCommand = (span) => new CreateCommand(annotationData, selectionModel, 'span', true, span),
     entityCreateCommand = (entity) => new CreateCommand(annotationData, selectionModel, 'entity', true, entity),
     id = idFactory.makeSpanId(editor, span),
     createSpan = spanCreateCommand(span),
-    createEntity = entityCreateCommand({
+    createEntities = types.map((type) => entityCreateCommand({
       span: id,
       type: type
-    }),
-    subCommands = [createSpan, createEntity]
+    })),
+    subCommands = [createSpan].concat(createEntities)
 
   return {
     execute: function() {
