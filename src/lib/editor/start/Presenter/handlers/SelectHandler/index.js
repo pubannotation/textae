@@ -11,16 +11,20 @@ const SPAN_CLASS = 'textae-editor__span',
   TYPE_CLASS = 'textae-editor__type',
   ENTINY_CLASS = 'textae-editor__entity'
 
-export default function(editor, selectionModel) {
-  let editorDom = editor[0]
-
+export default function(editorDom, selectionModel) {
   return {
-    selectLeft: (option) => selectLeft(editorDom, selectionModel, option.shiftKey),
-    selectRight: (option) => selectRight(editorDom, selectionModel, option.shiftKey),
-    selectUp: () => selectUpperLayer(editorDom, selectionModel),
-    selectDown: () => selectLowerLayer(editorDom, selectionModel),
-    selectLeftFunc: () => selectLeftFunc(editorDom, selectionModel),
-    selectRightFunc: () => selectRightFunc(editorDom, selectionModel)
+    selectLeft(option) {
+      selectLeft(editorDom, selectionModel, option.shiftKey)
+    },
+    selectRight(option = {}) {
+      selectRight(editorDom, selectionModel, option.shiftKey)
+    },
+    selectUp() {
+      selectUpperLayer(editorDom, selectionModel)
+    },
+    selectDown() {
+      selectLowerLayer(editorDom, selectionModel)
+    }
   }
 }
 

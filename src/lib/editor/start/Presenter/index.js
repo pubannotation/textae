@@ -75,7 +75,7 @@ export default function(
       editMode
     ),
     selectHandler = new SelectHandler(
-      editor,
+      editor[0],
       selectionModel
     ),
     showSettingDialog = new SettingDialog(

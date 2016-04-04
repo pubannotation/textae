@@ -1,9 +1,9 @@
 import RemoveCommandsFromSelection from './RemoveCommandsFromSelection'
 
 export default function(command, selectionModel, selectHandler) {
-  let selectNext = selectHandler.selectRightFunc(),
-    commands = new RemoveCommandsFromSelection(command, selectionModel)
+  let commands = new RemoveCommandsFromSelection(command, selectionModel)
 
+  // Select the next element before clear selection.
+  selectHandler.selectRight()
   command.invoke(commands)
-  selectNext()
 }
