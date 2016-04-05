@@ -17255,7 +17255,7 @@ var allButtons = ['delete'],
     relationButtons = allButtons.concat(['pallet', 'change-label', 'negation', 'speculation']),
     entityButtons = relationButtons.concat(['copy']);
 
-exports['default'] = function (model, modeAccordingToButton, buttonEnableStates, updateButtonState, updateModificationButtons) {
+exports['default'] = function (selectionModel, modeAccordingToButton, buttonEnableStates, updateButtonState, updateModificationButtons) {
   var propagate = function propagate() {
     buttonEnableStates.propagate();
     modeAccordingToButton.propagate();
@@ -17273,12 +17273,12 @@ exports['default'] = function (model, modeAccordingToButton, buttonEnableStates,
     },
     updateByEntity: function updateByEntity() {
       updateButtonState(entityButtons);
-      updateModificationButtons(model.selectionModel.entity);
+      updateModificationButtons(selectionModel.entity);
       propagate();
     },
     updateByRelation: function updateByRelation() {
       updateButtonState(relationButtons);
-      updateModificationButtons(model.selectionModel.relation);
+      updateModificationButtons(selectionModel.relation);
       propagate();
     }
   };
@@ -17384,26 +17384,29 @@ Object.defineProperty(exports, '__esModule', {
   value: true
 });
 
-exports['default'] = function (model, buttonEnableStates, clipBoard) {
+exports['default'] = function (selectionModel, buttonEnableStates, clipBoard) {
   // Short cut name
-  var s = model.selectionModel,
-      hasCopy = function hasCopy() {
+  var hasCopy = function hasCopy() {
     return clipBoard.clipBoard.length > 0;
   },
       eOrR = function eOrR() {
-    return s.entity.some() || s.relation.some();
+    return selectionModel.entity.some() || selectionModel.relation.some();
   };
 
   // Check all associated anntation elements.
   // For exapmle, it should be that buttons associate with entitis is enable,
   // when deselect the span after select a span and an entity.
   var predicates = new _Map([['replicate', function () {
-    return Boolean(s.span.single());
-  }], ['entity', s.span.some], ['delete', s.some], // It works well on relation-edit-mode if relations are deselect brefore an entity is select.
+    return Boolean(selectionModel.span.single());
+  }], ['entity', function () {
+    return selectionModel.span.some();
+  }], ['delete', function () {
+    return selectionModel.some();
+  }], // It works well on relation-edit-mode if relations are deselect brefore an entity is select.
   ['copy', function () {
-    return s.span.some() || s.entity.some();
+    return selectionModel.span.some() || selectionModel.entity.some();
   }], ['paste', function () {
-    return hasCopy() && s.span.some();
+    return hasCopy() && selectionModel.span.some();
   }], ['pallet', eOrR], ['change-label', eOrR], ['negation', eOrR], ['speculation', eOrR]]);
 
   return function (buttons) {
@@ -17444,7 +17447,7 @@ Object.defineProperty(exports, '__esModule', {
   value: true
 });
 
-exports['default'] = function (model, modeAccordingToButton) {
+exports['default'] = function (annotationData, modeAccordingToButton) {
   var doesAllModificaionHasSpecified = function doesAllModificaionHasSpecified(specified, modificationsOfSelectedElement) {
     return modificationsOfSelectedElement.length > 0 && _.every(modificationsOfSelectedElement, function (m) {
       return _.contains(m, specified);
@@ -17457,7 +17460,7 @@ exports['default'] = function (model, modeAccordingToButton) {
 
   return function (selectionModel) {
     var modifications = selectionModel.all().map(function (e) {
-      return model.annotationData.getModificationOf(e).map(function (m) {
+      return annotationData.getModificationOf(e).map(function (m) {
         return m.pred;
       });
     });
@@ -17496,19 +17499,19 @@ var _ButtonStateHelper = require('./ButtonStateHelper');
 
 var _ButtonStateHelper2 = _interopRequireDefault(_ButtonStateHelper);
 
-module.exports = function (editor, model, clipBoard) {
+module.exports = function (editor, annotationData, selectionModel, clipBoard) {
   // Save state of push control buttons.
   var modeAccordingToButton = new _ModeAccordingToButton2['default'](),
 
   // Save enable/disable state of contorol buttons.
   buttonEnableStates = new _ButtonEnableStates2['default'](),
-      updateButtonState = new _UpdateButtonState2['default'](model, buttonEnableStates, clipBoard),
+      updateButtonState = new _UpdateButtonState2['default'](selectionModel, buttonEnableStates, clipBoard),
 
   // Change push/unpush of buttons of modifications.
-  updateModificationButtons = new _UpdateModificationButtons2['default'](model, modeAccordingToButton),
+  updateModificationButtons = new _UpdateModificationButtons2['default'](annotationData, modeAccordingToButton),
 
   // Helper to update button state.
-  buttonStateHelper = new _ButtonStateHelper2['default'](model, modeAccordingToButton, buttonEnableStates, updateButtonState, updateModificationButtons);
+  buttonStateHelper = new _ButtonStateHelper2['default'](selectionModel, modeAccordingToButton, buttonEnableStates, updateButtonState, updateModificationButtons);
 
   // Proragate events.
   modeAccordingToButton.on('change', function (data) {
@@ -17776,7 +17779,7 @@ module.exports = function (editor, confirmDiscardChangeMessage) {
   return api;
 };
 
-},{"../util/CursorChanger":425,"../util/ajaxAccessor":426,"./dialog/GetEditorDialog":186,"./jQuerySugar":196,"babel-runtime/helpers/interop-require-default":18,"babel-runtime/helpers/interop-require-wildcard":19,"events":110,"url":117}],171:[function(require,module,exports){
+},{"../util/CursorChanger":424,"../util/ajaxAccessor":425,"./dialog/GetEditorDialog":186,"./jQuerySugar":196,"babel-runtime/helpers/interop-require-default":18,"babel-runtime/helpers/interop-require-wildcard":19,"events":110,"url":117}],171:[function(require,module,exports){
 'use strict';
 
 var ToolDialog = require('./dialog/GetToolDialog');
@@ -18032,7 +18035,7 @@ function sixteenTimes(val) {
 }
 module.exports = exports['default'];
 
-},{"../../editor/start/View/lineHeight":402,"./updateLineHeight":179,"./updateTypeGapEnable":180,"./updateTypeGapValue":181,"babel-runtime/helpers/interop-require-default":18,"babel-runtime/helpers/interop-require-wildcard":19}],177:[function(require,module,exports){
+},{"../../editor/start/View/lineHeight":400,"./updateLineHeight":179,"./updateTypeGapEnable":180,"./updateTypeGapValue":181,"babel-runtime/helpers/interop-require-default":18,"babel-runtime/helpers/interop-require-wildcard":19}],177:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -18125,7 +18128,7 @@ exports['default'] = function (editor, $dialog) {
 
 module.exports = exports['default'];
 
-},{"../../editor/start/View/lineHeight":402,"../jQuerySugar":196,"babel-runtime/helpers/interop-require-default":18,"babel-runtime/helpers/interop-require-wildcard":19}],180:[function(require,module,exports){
+},{"../../editor/start/View/lineHeight":400,"../jQuerySugar":196,"babel-runtime/helpers/interop-require-default":18,"babel-runtime/helpers/interop-require-wildcard":19}],180:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -19105,7 +19108,7 @@ var toModel = function toModel(editor, entity) {
 
 module.exports = EntityContainer;
 
-},{"../../../idFactory":240,"./ModelContainer":207,"babel-runtime/helpers/interop-require-default":18}],207:[function(require,module,exports){
+},{"../../../idFactory":239,"./ModelContainer":207,"babel-runtime/helpers/interop-require-default":18}],207:[function(require,module,exports){
 'use strict';
 
 var _Object$keys = require('babel-runtime/core-js/object/keys')['default'];
@@ -19262,7 +19265,7 @@ module.exports = function (editor, emitter) {
   return api;
 };
 
-},{"../../../idFactory":240,"./ModelContainer":207}],209:[function(require,module,exports){
+},{"../../../idFactory":239,"./ModelContainer":207}],209:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -19488,7 +19491,7 @@ function _toStringOnlyThis(span, emitter) {
 }
 module.exports = exports['default'];
 
-},{"../../../idFactory":240,"../parseAnnotation/validateAnnotation":225,"./ModelContainer":207,"babel-runtime/helpers/interop-require-default":18}],210:[function(require,module,exports){
+},{"../../../idFactory":239,"../parseAnnotation/validateAnnotation":225,"./ModelContainer":207,"babel-runtime/helpers/interop-require-default":18}],210:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -20287,6 +20290,29 @@ module.exports = exports["default"];
 },{}],236:[function(require,module,exports){
 'use strict';
 
+var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
+
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
+
+var _AnnotationData = require('./AnnotationData');
+
+var _AnnotationData2 = _interopRequireDefault(_AnnotationData);
+
+exports['default'] = function (editor) {
+  var annotationData = new _AnnotationData2['default'](editor);
+
+  return {
+    annotationData: annotationData
+  };
+};
+
+module.exports = exports['default'];
+
+},{"./AnnotationData":212,"babel-runtime/helpers/interop-require-default":18}],237:[function(require,module,exports){
+'use strict';
+
 var _Set = require('babel-runtime/core-js/set')['default'];
 
 var _Array$from = require('babel-runtime/core-js/array/from')['default'];
@@ -20372,12 +20398,22 @@ function _clear(selected, emitter, kindName) {
 }
 module.exports = exports['default'];
 
-},{"babel-runtime/core-js/array/from":2,"babel-runtime/core-js/set":13}],237:[function(require,module,exports){
+},{"babel-runtime/core-js/array/from":2,"babel-runtime/core-js/set":13}],238:[function(require,module,exports){
 'use strict';
+
+var _get = require('babel-runtime/helpers/get')['default'];
+
+var _inherits = require('babel-runtime/helpers/inherits')['default'];
+
+var _createClass = require('babel-runtime/helpers/create-class')['default'];
+
+var _classCallCheck = require('babel-runtime/helpers/class-call-check')['default'];
 
 var _Map = require('babel-runtime/core-js/map')['default'];
 
-var _Object$assign = require('babel-runtime/core-js/object/assign')['default'];
+var _getIterator = require('babel-runtime/core-js/get-iterator')['default'];
+
+var _Array$from = require('babel-runtime/core-js/array/from')['default'];
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
 
@@ -20391,120 +20427,149 @@ var _IdContainer = require('./IdContainer');
 
 var _IdContainer2 = _interopRequireDefault(_IdContainer);
 
-exports['default'] = function (kinds) {
-  var emitter = new _events.EventEmitter(),
-      map = new _Map(kinds.map(function (kindName) {
-    return [kindName, new _IdContainer2['default'](emitter, kindName)];
-  })),
-      hash = {};
-
-  map.forEach(function (container, name) {
-    hash[name] = container;
-  });
-
-  return _Object$assign(emitter, hash, {
-    clear: function clear() {
-      return map.forEach(function (c) {
-        return c.clear();
-      });
-    },
-    some: function some() {
-      return someAll(map);
-    }
-  });
-};
-
-function someAll(map) {
-  var ret = false;
-  map.forEach(function (c) {
-    return ret = ret || c.some();
-  });
-  return ret;
-}
-module.exports = exports['default'];
-
-},{"./IdContainer":236,"babel-runtime/core-js/map":5,"babel-runtime/core-js/object/assign":6,"babel-runtime/helpers/interop-require-default":18,"events":110}],238:[function(require,module,exports){
-'use strict';
-
-var _Map = require('babel-runtime/core-js/map')['default'];
-
-var _getIterator = require('babel-runtime/core-js/get-iterator')['default'];
-
-var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
-
-Object.defineProperty(exports, '__esModule', {
-  value: true
-});
-
-var _AnnotationData = require('./AnnotationData');
-
-var _AnnotationData2 = _interopRequireDefault(_AnnotationData);
-
-var _Selection = require('./Selection');
-
-var _Selection2 = _interopRequireDefault(_Selection);
-
 var _modelToId = require('../modelToId');
 
 var _modelToId2 = _interopRequireDefault(_modelToId);
 
-exports['default'] = function (editor) {
-  var annotationData = new _AnnotationData2['default'](editor),
+var kinds = ['span', 'entity', 'relation'];
 
-  // A contaier of selection state.
-  selectionModel = new _Selection2['default'](['span', 'entity', 'relation']),
-      eventMap = new _Map([['all.change', selectionModel.clear], ['span.remove', function (span) {
-    return selectionModel.span.remove((0, _modelToId2['default'])(span));
-  }], ['entity.remove', function (entity) {
-    return selectionModel.entity.remove((0, _modelToId2['default'])(entity));
-  }], ['relation.remove', function (relation) {
-    return selectionModel.relation.remove((0, _modelToId2['default'])(relation));
-  }]]);
+var _default = (function (_EventEmitter) {
+  _inherits(_default, _EventEmitter);
 
-  // Bind the selection model to the model.
-  var _iteratorNormalCompletion = true;
-  var _didIteratorError = false;
-  var _iteratorError = undefined;
+  function _default(annotationData) {
+    var _this = this;
 
-  try {
-    for (var _iterator = _getIterator(eventMap), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-      var eventHandler = _step.value;
+    _classCallCheck(this, _default);
 
-      annotationData.on(eventHandler[0], eventHandler[1]);
-    }
-  } catch (err) {
-    _didIteratorError = true;
-    _iteratorError = err;
-  } finally {
+    _get(Object.getPrototypeOf(_default.prototype), 'constructor', this).call(this);
+
+    this.map = new _Map(kinds.map(function (kindName) {
+      return [kindName, new _IdContainer2['default'](_this, kindName)];
+    }));
+    this.map.forEach(function (container, name) {
+      _this[name] = container;
+    });
+
+    var eventMap = new _Map([['all.change', function () {
+      return _this.clear();
+    }], ['span.remove', function (span) {
+      return _this.span.remove((0, _modelToId2['default'])(span));
+    }], ['entity.remove', function (entity) {
+      return _this.entity.remove((0, _modelToId2['default'])(entity));
+    }], ['relation.remove', function (relation) {
+      return _this.relation.remove((0, _modelToId2['default'])(relation));
+    }]]);
+
+    // Bind the selection model to the model.
+    var _iteratorNormalCompletion = true;
+    var _didIteratorError = false;
+    var _iteratorError = undefined;
+
     try {
-      if (!_iteratorNormalCompletion && _iterator['return']) {
-        _iterator['return']();
+      for (var _iterator = _getIterator(eventMap), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+        var eventHandler = _step.value;
+
+        annotationData.on(eventHandler[0], eventHandler[1]);
       }
+    } catch (err) {
+      _didIteratorError = true;
+      _iteratorError = err;
     } finally {
-      if (_didIteratorError) {
-        throw _iteratorError;
+      try {
+        if (!_iteratorNormalCompletion && _iterator['return']) {
+          _iterator['return']();
+        }
+      } finally {
+        if (_didIteratorError) {
+          throw _iteratorError;
+        }
       }
     }
   }
 
-  return {
-    annotationData: annotationData,
-    selectionModel: selectionModel
-  };
-};
+  _createClass(_default, [{
+    key: 'clear',
+    value: function clear() {
+      this.map.forEach(function (c) {
+        return c.clear();
+      });
+    }
+  }, {
+    key: 'some',
+    value: function some() {
+      return _Array$from(this.map.values()).reduce(function (a, b) {
+        return a || b.some();
+      }, false);
+    }
+  }, {
+    key: 'add',
+    value: function add(modelType, id) {
+      console.assert(this[modelType]);
+      this[modelType].add(id);
+    }
 
+    /**
+     * Select entity.
+     * @param {string} dom - dom of entity to select or array of ids of entities.
+     * @param {bool} isMulti - select multi elements.
+     * @return {undefined}
+     */
+  }, {
+    key: 'selectEntity',
+    value: function selectEntity(dom, isMulti) {
+      // A entity may be null when the first or the last entity is selected at the Relation Edit Mode.
+      if (dom) {
+        if (!isMulti) {
+          this.clear();
+        }
+
+        this.entity.add(dom.title);
+      }
+    }
+  }, {
+    key: 'selectEntityLabel',
+    value: function selectEntityLabel(dom, isMulti) {
+      if (dom) {
+        var pane = dom.nextElementSibling,
+            allEntityOflabels = pane.children;
+
+        if (!isMulti) {
+          this.clear();
+        }
+
+        this.entity.add(_Array$from(allEntityOflabels).map(function (dom) {
+          return dom.title;
+        }));
+      }
+    }
+  }, {
+    key: 'selectSingleSpanById',
+    value: function selectSingleSpanById(spanId) {
+      if (spanId) {
+        this.clear();
+        this.span.add(spanId);
+      }
+    }
+  }, {
+    key: 'selectSpan',
+    value: function selectSpan(dom, isMulti) {
+      if (dom) {
+        if (isMulti) {
+          this.span.add(dom.id);
+        } else {
+          this.selectSingleSpanById(dom.id);
+        }
+      }
+    }
+  }]);
+
+  return _default;
+})(_events.EventEmitter);
+
+exports['default'] = _default;
 module.exports = exports['default'];
 
-},{"../modelToId":242,"./AnnotationData":212,"./Selection":237,"babel-runtime/core-js/get-iterator":3,"babel-runtime/core-js/map":5,"babel-runtime/helpers/interop-require-default":18}],239:[function(require,module,exports){
-"use strict";
-
-module.exports = function (allSpans, candidateSpan) {
-  return allSpans.filter(function (existSpan) {
-    return existSpan.begin === candidateSpan.begin && existSpan.end === candidateSpan.end;
-  }).length > 0;
-};
-
-},{}],240:[function(require,module,exports){
+},{"../modelToId":241,"./IdContainer":237,"babel-runtime/core-js/array/from":2,"babel-runtime/core-js/get-iterator":3,"babel-runtime/core-js/map":5,"babel-runtime/helpers/class-call-check":14,"babel-runtime/helpers/create-class":15,"babel-runtime/helpers/get":16,"babel-runtime/helpers/inherits":17,"babel-runtime/helpers/interop-require-default":18,"events":110}],239:[function(require,module,exports){
 'use strict';
 
 var typeCounter = [],
@@ -20540,7 +20605,7 @@ module.exports = {
   }
 };
 
-},{}],241:[function(require,module,exports){
+},{}],240:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -20573,6 +20638,10 @@ var _Model = require('./Model');
 
 var _Model2 = _interopRequireDefault(_Model);
 
+var _Selection = require('./Selection');
+
+var _Selection2 = _interopRequireDefault(_Selection);
+
 // The history of command that providing undo and redo.
 
 var _History = require('./History');
@@ -20590,25 +20659,28 @@ var _start3 = _interopRequireDefault(_start2);
 var CONFIRM_DISCARD_CHANGE_MESSAGE = 'There is a change that has not been saved. If you procceed now, you will lose it.';
 
 exports['default'] = function () {
-  var model = new _Model2['default'](this),
+  var annotationData = new _Model2['default'](this).annotationData,
+
+  // A contaier of selection state.
+  selectionModel = new _Selection2['default'](annotationData),
       history = new _History2['default'](),
       clipBoard = {
     // clipBoard has entity type.
     clipBoard: []
   },
-      buttonController = new _buttonModelButtonController2['default'](this, model, clipBoard),
+      buttonController = new _buttonModelButtonController2['default'](this, annotationData, selectionModel, clipBoard),
       dataAccessObject = new _componentDataAccessObject2['default'](this, CONFIRM_DISCARD_CHANGE_MESSAGE);
 
   var writable = new _buttonModelWritable2['default']();
 
-  observe.observeModelChange(model.annotationData, history, writable);
+  observe.observeModelChange(annotationData, history, writable);
   observe.observeHistoryChange(history, buttonController.buttonStateHelper, CONFIRM_DISCARD_CHANGE_MESSAGE, writable);
   observe.observeDataSave(dataAccessObject, history, writable);
 
   // public funcitons of editor
   this.api = {
     start: function start(editor) {
-      return (0, _start3['default'])(editor, dataAccessObject, history, buttonController, model, clipBoard, writable);
+      return (0, _start3['default'])(editor, dataAccessObject, history, buttonController, annotationData, selectionModel, clipBoard, writable);
     }
   };
 
@@ -20617,7 +20689,7 @@ exports['default'] = function () {
 
 module.exports = exports['default'];
 
-},{"../buttonModel/ButtonController":167,"../buttonModel/Writable":169,"../component/DataAccessObject":170,"./History":205,"./Model":238,"./observe":243,"./start":411,"babel-runtime/helpers/interop-require-default":18,"babel-runtime/helpers/interop-require-wildcard":19,"observ":161}],242:[function(require,module,exports){
+},{"../buttonModel/ButtonController":167,"../buttonModel/Writable":169,"../component/DataAccessObject":170,"./History":205,"./Model":236,"./Selection":238,"./observe":242,"./start":409,"babel-runtime/helpers/interop-require-default":18,"babel-runtime/helpers/interop-require-wildcard":19,"observ":161}],241:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -20631,7 +20703,7 @@ function modelToId(model) {
 
 module.exports = exports["default"];
 
-},{}],243:[function(require,module,exports){
+},{}],242:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -20679,7 +20751,7 @@ function observeDataSave(dataAccessObject, history, writable) {
   });
 }
 
-},{"../component/showVilidationDialog":197,"babel-runtime/helpers/interop-require-default":18}],244:[function(require,module,exports){
+},{"../component/showVilidationDialog":197,"babel-runtime/helpers/interop-require-default":18}],243:[function(require,module,exports){
 'use strict';
 
 var _Map = require('babel-runtime/core-js/map')['default'];
@@ -20721,7 +20793,7 @@ function IconApiMap(command, presenter, daoHandler, buttonController, updateLine
 }
 module.exports = exports['default'];
 
-},{"babel-runtime/core-js/map":5}],245:[function(require,module,exports){
+},{"babel-runtime/core-js/map":5}],244:[function(require,module,exports){
 "use strict";
 
 var _createClass = require("babel-runtime/helpers/create-class")["default"];
@@ -20753,7 +20825,57 @@ var _default = (function () {
 exports["default"] = _default;
 module.exports = exports["default"];
 
-},{"babel-runtime/helpers/class-call-check":14,"babel-runtime/helpers/create-class":15}],246:[function(require,module,exports){
+},{"babel-runtime/helpers/class-call-check":14,"babel-runtime/helpers/create-class":15}],245:[function(require,module,exports){
+'use strict';
+
+var _get = require('babel-runtime/helpers/get')['default'];
+
+var _inherits = require('babel-runtime/helpers/inherits')['default'];
+
+var _classCallCheck = require('babel-runtime/helpers/class-call-check')['default'];
+
+var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
+
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
+
+var _BaseCommand2 = require('./BaseCommand');
+
+var _BaseCommand3 = _interopRequireDefault(_BaseCommand2);
+
+var _commandLog = require('./commandLog');
+
+var _commandLog2 = _interopRequireDefault(_commandLog);
+
+var ChangeTypeCommand = (function (_BaseCommand) {
+  _inherits(ChangeTypeCommand, _BaseCommand);
+
+  function ChangeTypeCommand(annotationData, modelType, id, newType) {
+    _classCallCheck(this, ChangeTypeCommand);
+
+    _get(Object.getPrototypeOf(ChangeTypeCommand.prototype), 'constructor', this).call(this, function () {
+      var oldType = annotationData[modelType].get(id).type;
+
+      // Update model
+      var targetModel = annotationData[modelType].changeType(id, newType);
+
+      // Set revert
+      this.revert = function () {
+        return new ChangeTypeCommand(annotationData, modelType, id, oldType);
+      };
+
+      (0, _commandLog2['default'])('change type of a ' + modelType + '. oldtype:' + oldType + ' ' + modelType + ':', targetModel);
+    });
+  }
+
+  return ChangeTypeCommand;
+})(_BaseCommand3['default']);
+
+exports['default'] = ChangeTypeCommand;
+module.exports = exports['default'];
+
+},{"./BaseCommand":244,"./commandLog":248,"babel-runtime/helpers/class-call-check":14,"babel-runtime/helpers/get":16,"babel-runtime/helpers/inherits":17,"babel-runtime/helpers/interop-require-default":18}],246:[function(require,module,exports){
 'use strict';
 
 var _get = require('babel-runtime/helpers/get')['default'];
@@ -20807,7 +20929,7 @@ var TypeChangeLabelCommand = (function (_BaseCommand) {
 exports['default'] = TypeChangeLabelCommand;
 module.exports = exports['default'];
 
-},{"./BaseCommand":245,"./commandLog":248,"babel-runtime/core-js/object/assign":6,"babel-runtime/helpers/class-call-check":14,"babel-runtime/helpers/get":16,"babel-runtime/helpers/inherits":17,"babel-runtime/helpers/interop-require-default":18}],247:[function(require,module,exports){
+},{"./BaseCommand":244,"./commandLog":248,"babel-runtime/core-js/object/assign":6,"babel-runtime/helpers/class-call-check":14,"babel-runtime/helpers/get":16,"babel-runtime/helpers/inherits":17,"babel-runtime/helpers/interop-require-default":18}],247:[function(require,module,exports){
 'use strict';
 
 var _get = require('babel-runtime/helpers/get')['default'];
@@ -20874,7 +20996,7 @@ var TypeRemoveCommand = (function (_BaseCommand2) {
 exports['default'] = TypeCreateCommand;
 module.exports = exports['default'];
 
-},{"./BaseCommand":245,"./commandLog":248,"babel-runtime/helpers/class-call-check":14,"babel-runtime/helpers/get":16,"babel-runtime/helpers/inherits":17,"babel-runtime/helpers/interop-require-default":18}],248:[function(require,module,exports){
+},{"./BaseCommand":244,"./commandLog":248,"babel-runtime/helpers/class-call-check":14,"babel-runtime/helpers/get":16,"babel-runtime/helpers/inherits":17,"babel-runtime/helpers/interop-require-default":18}],248:[function(require,module,exports){
 'use strict';
 
 module.exports = function (message, object) {
@@ -20901,9 +21023,9 @@ Object.defineProperty(exports, '__esModule', {
   value: true
 });
 
-var _BaseCommand4 = require('./BaseCommand');
+var _BaseCommand3 = require('./BaseCommand');
 
-var _BaseCommand5 = _interopRequireDefault(_BaseCommand4);
+var _BaseCommand4 = _interopRequireDefault(_BaseCommand3);
 
 var _commandLog = require('./commandLog');
 
@@ -20912,17 +21034,19 @@ var _commandLog2 = _interopRequireDefault(_commandLog);
 var CreateCommand = (function (_BaseCommand) {
   _inherits(CreateCommand, _BaseCommand);
 
-  function CreateCommand(model, modelType, isSelectable, newModel) {
+  function CreateCommand(annotationData, selectionModel, modelType, isSelectable, newModel) {
     _classCallCheck(this, CreateCommand);
 
     _get(Object.getPrototypeOf(CreateCommand.prototype), 'constructor', this).call(this, function () {
-      newModel = model.annotationData[modelType].add(newModel);
+      newModel = annotationData[modelType].add(newModel);
 
-      if (isSelectable) selectNewModel(model.selectionModel, modelType, newModel);
+      if (isSelectable) {
+        selectionModel.add(modelType, newModel.id);
+      }
 
       // Set revert
       this.revert = function () {
-        return new RemoveCommand(model, modelType, newModel.id);
+        return new RemoveCommand(annotationData, selectionModel, modelType, newModel.id);
       };
 
       (0, _commandLog2['default'])('create a new ' + modelType + ': ', newModel);
@@ -20932,22 +21056,22 @@ var CreateCommand = (function (_BaseCommand) {
   }
 
   return CreateCommand;
-})(_BaseCommand5['default']);
+})(_BaseCommand4['default']);
 
 var RemoveCommand = (function (_BaseCommand2) {
   _inherits(RemoveCommand, _BaseCommand2);
 
-  function RemoveCommand(model, modelType, id) {
+  function RemoveCommand(annotationData, selectionModel, modelType, id) {
     _classCallCheck(this, RemoveCommand);
 
     _get(Object.getPrototypeOf(RemoveCommand.prototype), 'constructor', this).call(this, function () {
       // Update model
-      var oloModel = model.annotationData[modelType].remove(id);
+      var oloModel = annotationData[modelType].remove(id);
 
       if (oloModel) {
         // Set revert
         this.revert = function () {
-          return new CreateCommand(model, modelType, false, oloModel);
+          return new CreateCommand(annotationData, selectionModel, modelType, false, oloModel);
         };
 
         (0, _commandLog2['default'])('remove a ' + modelType + ': ', oloModel);
@@ -20964,46 +21088,12 @@ var RemoveCommand = (function (_BaseCommand2) {
   }
 
   return RemoveCommand;
-})(_BaseCommand5['default']);
+})(_BaseCommand4['default']);
 
-var ChangeTypeCommand = (function (_BaseCommand3) {
-  _inherits(ChangeTypeCommand, _BaseCommand3);
-
-  function ChangeTypeCommand(model, modelType, id, newType) {
-    _classCallCheck(this, ChangeTypeCommand);
-
-    _get(Object.getPrototypeOf(ChangeTypeCommand.prototype), 'constructor', this).call(this, function () {
-      var oldType = model.annotationData[modelType].get(id).type;
-
-      // Update model
-      var targetModel = model.annotationData[modelType].changeType(id, newType);
-
-      // Set revert
-      this.revert = function () {
-        return new ChangeTypeCommand(model, modelType, id, oldType);
-      };
-
-      (0, _commandLog2['default'])('change type of a ' + modelType + '. oldtype:' + oldType + ' ' + modelType + ':', targetModel);
-    });
-  }
-
-  return ChangeTypeCommand;
-})(_BaseCommand5['default']);
-
-var debugLog = _commandLog2['default'];
-
-exports.debugLog = debugLog;
 exports.CreateCommand = CreateCommand;
 exports.RemoveCommand = RemoveCommand;
-exports.ChangeTypeCommand = ChangeTypeCommand;
 
-function selectNewModel(selectionModel, modelType, newModel) {
-  if (selectionModel[modelType]) {
-    selectionModel[modelType].add(newModel.id);
-  }
-}
-
-},{"./BaseCommand":245,"./commandLog":248,"babel-runtime/helpers/class-call-check":14,"babel-runtime/helpers/get":16,"babel-runtime/helpers/inherits":17,"babel-runtime/helpers/interop-require-default":18}],250:[function(require,module,exports){
+},{"./BaseCommand":244,"./commandLog":248,"babel-runtime/helpers/class-call-check":14,"babel-runtime/helpers/get":16,"babel-runtime/helpers/inherits":17,"babel-runtime/helpers/interop-require-default":18}],250:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -21018,24 +21108,22 @@ var _executeCompositCommand = require('./executeCompositCommand');
 
 var _executeCompositCommand2 = _interopRequireDefault(_executeCompositCommand);
 
-exports['default'] = function (model, id) {
+var _relationAndAssociatesRemoveCommand = require('./relationAndAssociatesRemoveCommand');
+
+var _relationAndAssociatesRemoveCommand2 = _interopRequireDefault(_relationAndAssociatesRemoveCommand);
+
+exports['default'] = function (annotationData, selectionModel, id) {
   var entityRemoveCommand = function entityRemoveCommand(entity) {
-    return new _commandTemplate.RemoveCommand(model, 'entity', entity);
-  },
-      modificationRemoveCommand = function modificationRemoveCommand(modification) {
-    return new _commandTemplate.RemoveCommand(model, 'modification', modification);
-  },
-      relationRemoveCommand = function relationRemoveCommand(relation) {
-    return new _commandTemplate.RemoveCommand(model, 'relation', relation);
+    return new _commandTemplate.RemoveCommand(annotationData, selectionModel, 'entity', entity);
   },
       removeEntity = entityRemoveCommand(id),
-      removeRelation = model.annotationData.entity.assosicatedRelations(id).map(function (id) {
-    return relationRemoveCommand(id);
+      removeRelation = annotationData.entity.assosicatedRelations(id).map(function (id) {
+    return (0, _relationAndAssociatesRemoveCommand2['default'])(annotationData, selectionModel, id);
   }),
-      removeModification = model.annotationData.getModificationOf(id).map(function (modification) {
+      removeModification = annotationData.getModificationOf(id).map(function (modification) {
     return modification.id;
   }).map(function (id) {
-    return modificationRemoveCommand(id);
+    return new _commandTemplate.RemoveCommand(annotationData, selectionModel, 'modification', id);
   }),
       subCommands = removeRelation.concat(removeModification).concat(removeEntity);
 
@@ -21048,7 +21136,7 @@ exports['default'] = function (model, id) {
 
 module.exports = exports['default'];
 
-},{"./commandTemplate":249,"./executeCompositCommand":253,"babel-runtime/helpers/interop-require-default":18}],251:[function(require,module,exports){
+},{"./commandTemplate":249,"./executeCompositCommand":253,"./relationAndAssociatesRemoveCommand":256,"babel-runtime/helpers/interop-require-default":18}],251:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -21059,19 +21147,19 @@ Object.defineProperty(exports, '__esModule', {
 
 var _commandTemplate = require('./commandTemplate');
 
+var _ChangeTypeCommand = require('./ChangeTypeCommand');
+
+var _ChangeTypeCommand2 = _interopRequireDefault(_ChangeTypeCommand);
+
 var _executeCompositCommand = require('./executeCompositCommand');
 
 var _executeCompositCommand2 = _interopRequireDefault(_executeCompositCommand);
 
-exports['default'] = function (model, id, newType, isRemoveRelations) {
-  var relationRemoveCommand = function relationRemoveCommand(relation) {
-    return new _commandTemplate.RemoveCommand(model, 'relation', relation);
-  },
-
+exports['default'] = function (annotationData, selectionModel, id, newType, isRemoveRelations) {
   // isRemoveRelations is set true when newType is block.
-  changeType = new _commandTemplate.ChangeTypeCommand(model, 'entity', id, newType),
-      subCommands = isRemoveRelations ? model.annotationData.entity.assosicatedRelations(id).map(function (id) {
-    return relationRemoveCommand(id);
+  var changeType = new _ChangeTypeCommand2['default'](annotationData, 'entity', id, newType),
+      subCommands = isRemoveRelations ? annotationData.entity.assosicatedRelations(id).map(function (id) {
+    return new _commandTemplate.RemoveCommand(annotationData, selectionModel, 'relation', id);
   }).concat(changeType) : [changeType];
 
   return {
@@ -21083,7 +21171,7 @@ exports['default'] = function (model, id, newType, isRemoveRelations) {
 
 module.exports = exports['default'];
 
-},{"./commandTemplate":249,"./executeCompositCommand":253,"babel-runtime/helpers/interop-require-default":18}],252:[function(require,module,exports){
+},{"./ChangeTypeCommand":245,"./commandTemplate":249,"./executeCompositCommand":253,"babel-runtime/helpers/interop-require-default":18}],252:[function(require,module,exports){
 'use strict';
 
 var _Object$keys = require('babel-runtime/core-js/object/keys')['default'];
@@ -21102,11 +21190,11 @@ var _entityAndAssociatesRemoveCommand = require('./entityAndAssociatesRemoveComm
 
 var _entityAndAssociatesRemoveCommand2 = _interopRequireDefault(_entityAndAssociatesRemoveCommand);
 
-exports['default'] = function (model, ids) {
-  var entityPerSpan = toEntityPerSpan(model, ids);
+exports['default'] = function (annotationData, selectionModel, ids) {
+  var entityPerSpan = toEntityPerSpan(annotationData, ids);
 
   return _.flatten(_Object$keys(entityPerSpan).map(function (spanId) {
-    var span = model.annotationData.span.get(spanId),
+    var span = annotationData.span.get(spanId),
         targetIds = entityPerSpan[spanId],
         allEntitiesOfSpan = _.flatten(span.getTypes().map(function (type) {
       return type.entities;
@@ -21121,15 +21209,15 @@ exports['default'] = function (model, ids) {
       noRestEntities: restEntities.length === 0
     };
   }).map(function (data) {
-    if (data.noRestEntities) return (0, _spanRemoveCommand2['default'])(model, data.spasId);else return data.entities.map(function (id) {
-      return (0, _entityAndAssociatesRemoveCommand2['default'])(model, id);
+    if (data.noRestEntities) return (0, _spanRemoveCommand2['default'])(annotationData, selectionModel, data.spasId);else return data.entities.map(function (id) {
+      return (0, _entityAndAssociatesRemoveCommand2['default'])(annotationData, selectionModel, id);
     });
   }));
 };
 
-function toEntityPerSpan(model, ids) {
+function toEntityPerSpan(annotationData, ids) {
   return ids.map(function (id) {
-    var span = model.annotationData.entity.get(id).span;
+    var span = annotationData.entity.get(id).span;
     return {
       id: id,
       span: span
@@ -21213,9 +21301,9 @@ var _not = require('not');
 
 var _not2 = _interopRequireDefault(_not);
 
-var _ModelIsAlreadySpaned = require('../../../Model/isAlreadySpaned');
+var _isAlreadySpaned = require('../../isAlreadySpaned');
 
-var _ModelIsAlreadySpaned2 = _interopRequireDefault(_ModelIsAlreadySpaned);
+var _isAlreadySpaned2 = _interopRequireDefault(_isAlreadySpaned);
 
 var _ModelAnnotationDataParseAnnotationValidateAnnotation = require('../../../Model/AnnotationData/parseAnnotation/validateAnnotation');
 
@@ -21231,7 +21319,7 @@ exports['default'] = function (dataStore, originSpan, detectBoundaryFunc) {
       // Because string of each others are same. End of them are same too.
       span.begin !== originSpan.begin
     );
-  }).filter(wordFilter).filter((0, _not2['default'])(_.partial(_ModelIsAlreadySpaned2['default'], allSpans))).filter((0, _not2['default'])(_.partial(_ModelAnnotationDataParseAnnotationValidateAnnotation.isBoundaryCrossingWithOtherSpans, allSpans)));
+  }).filter(wordFilter).filter((0, _not2['default'])(_.partial(_isAlreadySpaned2['default'], allSpans))).filter((0, _not2['default'])(_.partial(_ModelAnnotationDataParseAnnotationValidateAnnotation.isBoundaryCrossingWithOtherSpans, allSpans)));
 };
 
 // Get spans their stirng is same with the originSpan from sourceDoc.
@@ -21263,7 +21351,7 @@ function isWord(sourceDoc, detectBoundaryFunc, candidateSpan) {
 }
 module.exports = exports['default'];
 
-},{"../../../Model/AnnotationData/parseAnnotation/validateAnnotation":225,"../../../Model/isAlreadySpaned":239,"babel-runtime/helpers/interop-require-default":18,"not":160}],255:[function(require,module,exports){
+},{"../../../Model/AnnotationData/parseAnnotation/validateAnnotation":225,"../../isAlreadySpaned":410,"babel-runtime/helpers/interop-require-default":18,"not":160}],255:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -21275,17 +21363,17 @@ exports['default'] = Factory;
 
 var _commandTemplate = require('./commandTemplate');
 
-var _spanAndDefaultEntryCreateCommand = require('./spanAndDefaultEntryCreateCommand');
+var _ChangeTypeCommand = require('./ChangeTypeCommand');
 
-var _spanAndDefaultEntryCreateCommand2 = _interopRequireDefault(_spanAndDefaultEntryCreateCommand);
+var _ChangeTypeCommand2 = _interopRequireDefault(_ChangeTypeCommand);
+
+var _spanAndTypesCreateCommand = require('./spanAndTypesCreateCommand');
+
+var _spanAndTypesCreateCommand2 = _interopRequireDefault(_spanAndTypesCreateCommand);
 
 var _spanReplicateCommand2 = require('./spanReplicateCommand');
 
 var _spanReplicateCommand3 = _interopRequireDefault(_spanReplicateCommand2);
-
-var _entityAndAssociatesRemoveCommand = require('./entityAndAssociatesRemoveCommand');
-
-var _entityAndAssociatesRemoveCommand2 = _interopRequireDefault(_entityAndAssociatesRemoveCommand);
 
 var _spanRemoveCommand2 = require('./spanRemoveCommand');
 
@@ -21315,46 +21403,46 @@ var _TypeCreateCommand = require('./TypeCreateCommand');
 
 var _TypeCreateCommand2 = _interopRequireDefault(_TypeCreateCommand);
 
-function Factory(editor, model) {
+function Factory(editor, annotationData, selectionModel) {
   // The relaitonId is optional set only when revert of the relationRemoveCommand.
   // Set the css class lately, because jsPlumbConnector is no applyed that css class immediately after create.
   var relationCreateCommand = function relationCreateCommand(relation) {
-    return new _commandTemplate.CreateCommand(model, 'relation', false, relation);
+    return new _commandTemplate.CreateCommand(annotationData, selectionModel, 'relation', true, relation);
   },
       factory = {
     spanCreateCommand: function spanCreateCommand(type, span) {
-      return (0, _spanAndDefaultEntryCreateCommand2['default'])(editor, model, type, span);
+      return (0, _spanAndTypesCreateCommand2['default'])(editor, annotationData, selectionModel, span, [type]);
     },
     spanRemoveCommand: function spanRemoveCommand(id) {
-      return (0, _spanRemoveCommand3['default'])(model, id);
+      return (0, _spanRemoveCommand3['default'])(annotationData, selectionModel, id);
     },
     spanMoveCommand: function spanMoveCommand(spanId, newSpan) {
-      return (0, _spanMoveCommand3['default'])(editor, model, spanId, newSpan);
+      return (0, _spanMoveCommand3['default'])(editor, annotationData, selectionModel, spanId, newSpan);
     },
-    spanReplicateCommand: function spanReplicateCommand(type, span, detectBoundaryFunc) {
-      return (0, _spanReplicateCommand3['default'])(editor, model, type, span, detectBoundaryFunc);
+    spanReplicateCommand: function spanReplicateCommand(span, types, detectBoundaryFunc) {
+      return (0, _spanReplicateCommand3['default'])(editor, annotationData, selectionModel, span, types, detectBoundaryFunc);
     },
     entityCreateCommand: function entityCreateCommand(entity) {
-      return new _commandTemplate.CreateCommand(model, 'entity', true, entity);
+      return new _commandTemplate.CreateCommand(annotationData, selectionModel, 'entity', true, entity);
     },
     entityRemoveCommand: function entityRemoveCommand(ids) {
-      return (0, _entityRemoveAndSpanRemeveIfNoEntityRestCommand2['default'])(model, ids);
+      return (0, _entityRemoveAndSpanRemeveIfNoEntityRestCommand2['default'])(annotationData, selectionModel, ids);
     },
     entityChangeTypeCommand: function entityChangeTypeCommand(id, newType, isRemoveRelations) {
-      return (0, _entityChangeTypeRemoveRelationCommand2['default'])(model, id, newType, isRemoveRelations);
+      return (0, _entityChangeTypeRemoveRelationCommand2['default'])(annotationData, selectionModel, id, newType, isRemoveRelations);
     },
     relationCreateCommand: relationCreateCommand,
     relationRemoveCommand: function relationRemoveCommand(id) {
-      return (0, _relationAndAssociatesRemoveCommand2['default'])(model, id);
+      return (0, _relationAndAssociatesRemoveCommand2['default'])(annotationData, selectionModel, id);
     },
     relationChangeTypeCommand: function relationChangeTypeCommand(id, newType) {
-      return new _commandTemplate.ChangeTypeCommand(model, 'relation', id, newType);
+      return new _ChangeTypeCommand2['default'](annotationData, 'relation', id, newType);
     },
     modificationCreateCommand: function modificationCreateCommand(modification) {
-      return new _commandTemplate.CreateCommand(model, 'modification', false, modification);
+      return new _commandTemplate.CreateCommand(annotationData, selectionModel, 'modification', false, modification);
     },
     modificationRemoveCommand: function modificationRemoveCommand(modification) {
-      return new _commandTemplate.RemoveCommand(model, 'modification', modification);
+      return new _commandTemplate.RemoveCommand(annotationData, selectionModel, 'modification', modification);
     },
     typeCreateCommand: function typeCreateCommand(typeContainer, id, label) {
       return new _TypeCreateCommand2['default'](typeContainer, id, label);
@@ -21369,7 +21457,7 @@ function Factory(editor, model) {
 
 module.exports = exports['default'];
 
-},{"./TypeChangeLabelCommand":246,"./TypeCreateCommand":247,"./commandTemplate":249,"./entityAndAssociatesRemoveCommand":250,"./entityChangeTypeRemoveRelationCommand":251,"./entityRemoveAndSpanRemeveIfNoEntityRestCommand":252,"./relationAndAssociatesRemoveCommand":256,"./spanAndDefaultEntryCreateCommand":257,"./spanMoveCommand":258,"./spanRemoveCommand":259,"./spanReplicateCommand":260,"babel-runtime/helpers/interop-require-default":18}],256:[function(require,module,exports){
+},{"./ChangeTypeCommand":245,"./TypeChangeLabelCommand":246,"./TypeCreateCommand":247,"./commandTemplate":249,"./entityChangeTypeRemoveRelationCommand":251,"./entityRemoveAndSpanRemeveIfNoEntityRestCommand":252,"./relationAndAssociatesRemoveCommand":256,"./spanAndTypesCreateCommand":257,"./spanMoveCommand":258,"./spanRemoveCommand":259,"./spanReplicateCommand":260,"babel-runtime/helpers/interop-require-default":18}],256:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -21384,19 +21472,12 @@ var _executeCompositCommand = require('./executeCompositCommand');
 
 var _executeCompositCommand2 = _interopRequireDefault(_executeCompositCommand);
 
-exports['default'] = function (model, id) {
-  var relationRemoveCommand = function relationRemoveCommand(relation) {
-    return new _commandTemplate.RemoveCommand(model, 'relation', relation);
-  },
-      modificationRemoveCommand = function modificationRemoveCommand(modification) {
-    return new _commandTemplate.RemoveCommand(model, 'modification', modification);
-  };
-
-  var removeRelation = relationRemoveCommand(id),
-      removeModification = model.annotationData.getModificationOf(id).map(function (modification) {
+exports['default'] = function (annotationData, selectionModel, id) {
+  var removeRelation = new _commandTemplate.RemoveCommand(annotationData, selectionModel, 'relation', id),
+      removeModification = annotationData.getModificationOf(id).map(function (modification) {
     return modification.id;
   }).map(function (id) {
-    return modificationRemoveCommand(id);
+    return new _commandTemplate.RemoveCommand(annotationData, selectionModel, 'modification', id);
   }),
       subCommands = removeModification.concat(removeRelation);
 
@@ -21428,20 +21509,22 @@ var _idFactory = require('../../../idFactory');
 
 var _idFactory2 = _interopRequireDefault(_idFactory);
 
-exports['default'] = function (editor, model, type, span) {
+exports['default'] = function (editor, annotationData, selectionModel, span, types) {
   var spanCreateCommand = function spanCreateCommand(span) {
-    return new _commandTemplate.CreateCommand(model, 'span', true, span);
+    return new _commandTemplate.CreateCommand(annotationData, selectionModel, 'span', true, span);
   },
       entityCreateCommand = function entityCreateCommand(entity) {
-    return new _commandTemplate.CreateCommand(model, 'entity', true, entity);
+    return new _commandTemplate.CreateCommand(annotationData, selectionModel, 'entity', true, entity);
   },
       id = _idFactory2['default'].makeSpanId(editor, span),
       createSpan = spanCreateCommand(span),
-      createEntity = entityCreateCommand({
-    span: id,
-    type: type
+      createEntities = types.map(function (type) {
+    return entityCreateCommand({
+      span: id,
+      type: type
+    });
   }),
-      subCommands = [createSpan, createEntity];
+      subCommands = [createSpan].concat(createEntities);
 
   return {
     execute: function execute() {
@@ -21452,7 +21535,7 @@ exports['default'] = function (editor, model, type, span) {
 
 module.exports = exports['default'];
 
-},{"../../../idFactory":240,"./commandTemplate":249,"./executeCompositCommand":253,"babel-runtime/helpers/interop-require-default":18}],258:[function(require,module,exports){
+},{"../../../idFactory":239,"./commandTemplate":249,"./executeCompositCommand":253,"babel-runtime/helpers/interop-require-default":18}],258:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -21476,23 +21559,23 @@ var _executeCompositCommand = require('./executeCompositCommand');
 
 var _executeCompositCommand2 = _interopRequireDefault(_executeCompositCommand);
 
-function spanMoveCommand(editor, model, spanId, newSpan) {
+function spanMoveCommand(editor, annotationData, selectionModel, spanId, newSpan) {
   var spanCreateCommand = function spanCreateCommand(span) {
-    return new _commandTemplate.CreateCommand(model, 'span', true, span);
+    return new _commandTemplate.CreateCommand(annotationData, selectionModel, 'span', true, span);
   },
       entityCreateCommand = function entityCreateCommand(entity) {
-    return new _commandTemplate.CreateCommand(model, 'entity', true, entity);
+    return new _commandTemplate.CreateCommand(annotationData, selectionModel, 'entity', true, entity);
   },
       relationCreateCommand = function relationCreateCommand(relation) {
-    return new _commandTemplate.CreateCommand(model, 'relation', false, relation);
+    return new _commandTemplate.CreateCommand(annotationData, selectionModel, 'relation', false, relation);
   },
       newSpanId = _idFactory2['default'].makeSpanId(editor, newSpan),
-      d = model.annotationData;
+      d = annotationData;
 
   var subCommands = [];
 
   if (!d.span.get(newSpanId)) {
-    subCommands.push((0, _spanRemoveCommand2['default'])(model, spanId));
+    subCommands.push((0, _spanRemoveCommand2['default'])(annotationData, selectionModel, spanId));
     subCommands.push(spanCreateCommand({
       begin: newSpan.begin,
       end: newSpan.end
@@ -21521,7 +21604,7 @@ function spanMoveCommand(editor, model, spanId, newSpan) {
 
 module.exports = exports['default'];
 
-},{"../../../idFactory":240,"./commandTemplate":249,"./executeCompositCommand":253,"./spanRemoveCommand":259,"babel-runtime/helpers/interop-require-default":18}],259:[function(require,module,exports){
+},{"../../../idFactory":239,"./commandTemplate":249,"./executeCompositCommand":253,"./spanRemoveCommand":259,"babel-runtime/helpers/interop-require-default":18}],259:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -21540,11 +21623,11 @@ var _executeCompositCommand = require('./executeCompositCommand');
 
 var _executeCompositCommand2 = _interopRequireDefault(_executeCompositCommand);
 
-exports['default'] = function (model, id) {
-  var removeSpan = new _commandTemplate.RemoveCommand(model, 'span', id),
-      removeEntity = _.flatten(model.annotationData.span.get(id).getTypes().map(function (type) {
+exports['default'] = function (annotationData, selectionModel, id) {
+  var removeSpan = new _commandTemplate.RemoveCommand(annotationData, selectionModel, 'span', id),
+      removeEntity = _.flatten(annotationData.span.get(id).getTypes().map(function (type) {
     return type.entities.map(function (entityId) {
-      return (0, _entityAndAssociatesRemoveCommand2['default'])(model, entityId);
+      return (0, _entityAndAssociatesRemoveCommand2['default'])(annotationData, selectionModel, entityId);
     });
   })),
       subCommands = removeEntity.concat(removeSpan);
@@ -21567,9 +21650,9 @@ Object.defineProperty(exports, '__esModule', {
   value: true
 });
 
-var _spanAndDefaultEntryCreateCommand = require('./spanAndDefaultEntryCreateCommand');
+var _spanAndTypesCreateCommand = require('./spanAndTypesCreateCommand');
 
-var _spanAndDefaultEntryCreateCommand2 = _interopRequireDefault(_spanAndDefaultEntryCreateCommand);
+var _spanAndTypesCreateCommand2 = _interopRequireDefault(_spanAndTypesCreateCommand);
 
 var _getReplicationSpans = require('./getReplicationSpans');
 
@@ -21579,11 +21662,11 @@ var _executeCompositCommand = require('./executeCompositCommand');
 
 var _executeCompositCommand2 = _interopRequireDefault(_executeCompositCommand);
 
-exports['default'] = function (editor, model, type, span, detectBoundaryFunc) {
+exports['default'] = function (editor, annotationData, selectionModel, span, types, detectBoundaryFunc) {
   var createSpan = function createSpan(span) {
-    return (0, _spanAndDefaultEntryCreateCommand2['default'])(editor, model, type, span);
+    return (0, _spanAndTypesCreateCommand2['default'])(editor, annotationData, selectionModel, span, types);
   },
-      subCommands = (0, _getReplicationSpans2['default'])(model.annotationData, span, detectBoundaryFunc).map(createSpan);
+      subCommands = (0, _getReplicationSpans2['default'])(annotationData, span, detectBoundaryFunc).map(createSpan);
 
   return {
     execute: function execute() {
@@ -21594,7 +21677,7 @@ exports['default'] = function (editor, model, type, span, detectBoundaryFunc) {
 
 module.exports = exports['default'];
 
-},{"./executeCompositCommand":253,"./getReplicationSpans":254,"./spanAndDefaultEntryCreateCommand":257,"babel-runtime/helpers/interop-require-default":18}],261:[function(require,module,exports){
+},{"./executeCompositCommand":253,"./getReplicationSpans":254,"./spanAndTypesCreateCommand":257,"babel-runtime/helpers/interop-require-default":18}],261:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -21614,7 +21697,7 @@ var _Factory2 = _interopRequireDefault(_Factory);
 // A command is an operation by user that is saved as history, and can undo and redo.
 // Users can edit model only via commands.
 
-exports['default'] = function (editor, model, history) {
+exports['default'] = function (editor, annotationData, selectionModel, history) {
   return {
     invoke: function invoke(commands) {
       if (commands && commands.length > 0) {
@@ -21626,7 +21709,7 @@ exports['default'] = function (editor, model, history) {
       if (history.hasAnythingToUndo()) {
         // Focus the editor.
         // Focus is lost when undo ceration.
-        model.selectionModel.clear();
+        selectionModel.clear();
         editor.focus();
         _invokeCommand2['default'].invokeRevert(history.prev());
       }
@@ -21634,12 +21717,12 @@ exports['default'] = function (editor, model, history) {
     redo: function redo() {
       if (history.hasAnythingToRedo()) {
         // Select only new element when redo ceration.
-        model.selectionModel.clear();
+        selectionModel.clear();
 
         _invokeCommand2['default'].invoke(history.next());
       }
     },
-    factory: new _Factory2['default'](editor, model)
+    factory: new _Factory2['default'](editor, annotationData, selectionModel)
   };
 };
 
@@ -21910,8 +21993,8 @@ var TERM = 'term',
     INSTANCE = 'instance',
     RELATION = 'relation';
 
-exports['default'] = function (editor, model, typeEditor, buttonStateHelper) {
-  var viewMode = new _ViewMode2['default'](editor, model, buttonStateHelper),
+exports['default'] = function (editor, annotationData, selectionModel, typeEditor, buttonStateHelper) {
+  var viewMode = new _ViewMode2['default'](editor, annotationData, selectionModel, buttonStateHelper),
       emitter = new _events.EventEmitter(),
       api = {
     toTerm: function toTerm() {
@@ -22094,7 +22177,7 @@ function toEditStateAccordingToAnntationData(stateMachine, annotationData) {
 }
 module.exports = exports['default'];
 
-},{"../isSimple":329,"./state":275,"babel-runtime/helpers/interop-require-default":18}],269:[function(require,module,exports){
+},{"../isSimple":327,"./state":275,"babel-runtime/helpers/interop-require-default":18}],269:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -22103,12 +22186,12 @@ Object.defineProperty(exports, '__esModule', {
   value: true
 });
 
-var _ViewSelector = require('../../View/Selector');
+var _Selector = require('../../Selector');
 
-var _ViewSelector2 = _interopRequireDefault(_ViewSelector);
+var _Selector2 = _interopRequireDefault(_Selector);
 
-exports['default'] = function (editor, model, buttonStateHelper) {
-  var selector = new _ViewSelector2['default'](editor, model),
+exports['default'] = function (editor, annotationData, selectionModel, buttonStateHelper) {
+  var selector = new _Selector2['default'](editor, annotationData),
 
   // This notify is off at relation-edit-mode.
   entitySelectChanged = _.compose(buttonStateHelper.updateByEntity, selector.entityLabel.update);
@@ -22116,19 +22199,19 @@ exports['default'] = function (editor, model, buttonStateHelper) {
   var api = {
     setTerm: function setTerm() {
       changeCssClass(editor, 'term');
-      removeListeners(model.selectionModel, entitySelectChanged, buttonStateHelper);
+      removeListeners(selectionModel, entitySelectChanged, buttonStateHelper);
 
-      model.selectionModel.on('entity.select', entitySelectChanged).on('entity.deselect', entitySelectChanged).on('entity.change', buttonStateHelper.updateByEntity);
+      selectionModel.on('entity.select', entitySelectChanged).on('entity.deselect', entitySelectChanged).on('entity.change', buttonStateHelper.updateByEntity);
     },
     setInstance: function setInstance() {
       changeCssClass(editor, 'instance');
-      removeListeners(model.selectionModel, entitySelectChanged, buttonStateHelper);
+      removeListeners(selectionModel, entitySelectChanged, buttonStateHelper);
 
-      model.selectionModel.on('entity.select', entitySelectChanged).on('entity.deselect', entitySelectChanged).on('entity.change', buttonStateHelper.updateByEntity);
+      selectionModel.on('entity.select', entitySelectChanged).on('entity.deselect', entitySelectChanged).on('entity.change', buttonStateHelper.updateByEntity);
     },
     setRelation: function setRelation() {
       changeCssClass(editor, 'relation');
-      removeListeners(model.selectionModel, entitySelectChanged, buttonStateHelper);
+      removeListeners(selectionModel, entitySelectChanged, buttonStateHelper);
     }
   };
 
@@ -22144,7 +22227,7 @@ function removeListeners(selectionModel, entitySelectChanged, buttonStateHelper)
 }
 module.exports = exports['default'];
 
-},{"../../View/Selector":396,"babel-runtime/helpers/interop-require-default":18}],270:[function(require,module,exports){
+},{"../../Selector":338,"babel-runtime/helpers/interop-require-default":18}],270:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -22234,11 +22317,11 @@ var _enableButtonHasAnnotation = require('./enableButtonHasAnnotation');
 
 var _enableButtonHasAnnotation2 = _interopRequireDefault(_enableButtonHasAnnotation);
 
-exports['default'] = function (editor, model, typeEditor, buttonStateHelper) {
+exports['default'] = function (editor, annotationData, selectionModel, typeEditor, buttonStateHelper) {
   var emitter = new _events.EventEmitter(),
-      transition = new _Transition2['default'](editor, model, typeEditor, buttonStateHelper),
+      transition = new _Transition2['default'](editor, annotationData, selectionModel, typeEditor, buttonStateHelper),
       stateMachine = (0, _bindTransition2['default'])(transition),
-      trigger = new _Trigger2['default'](stateMachine, model.annotationData);
+      trigger = new _Trigger2['default'](stateMachine, annotationData);
 
   stateMachine.once('transition', function () {
     return (0, _enableButtonHasAnnotation2['default'])(buttonStateHelper);
@@ -22594,10 +22677,9 @@ var _EditEntityHandler = require('./EditEntityHandler');
 
 var _EditEntityHandler2 = _interopRequireDefault(_EditEntityHandler);
 
-exports['default'] = function (editor, model, command, modeAccordingToButton, typeContainer, spanConfig, cancelSelect) {
-  var selectEnd = new _SelectEnd2['default'](editor, model, command, modeAccordingToButton, typeContainer),
-      selectSpan = new _SelectSpan2['default'](editor, model.annotationData, model.selectionModel, typeContainer),
-      selectionModel = model.selectionModel,
+exports['default'] = function (editor, annotationData, selectionModel, command, modeAccordingToButton, typeContainer, spanConfig, cancelSelect) {
+  var selectEnd = new _SelectEnd2['default'](editor, annotationData, selectionModel, command, modeAccordingToButton, typeContainer),
+      selectSpan = new _SelectSpan2['default'](editor, annotationData, selectionModel, typeContainer),
       init = function init() {
     editor.on('mouseup', '.textae-editor__body', function () {
       return (0, _bodyClicked2['default'])(cancelSelect, selectEnd, spanConfig);
@@ -22617,13 +22699,13 @@ exports['default'] = function (editor, model, command, modeAccordingToButton, ty
 
   return {
     init: init,
-    handlers: new _EditEntityHandler2['default'](typeContainer, command, model.annotationData, selectionModel)
+    handlers: new _EditEntityHandler2['default'](typeContainer, command, annotationData, selectionModel)
   };
 };
 
 module.exports = exports['default'];
 
-},{"../../SelectEnd":306,"./EditEntityHandler":277,"./SelectSpan":278,"./bodyClicked":279,"./entityClicked":280,"./entityPaneClicked":281,"./spanClicked":285,"./typeLabelClicked":286,"babel-runtime/helpers/interop-require-default":18}],284:[function(require,module,exports){
+},{"../../SelectEnd":307,"./EditEntityHandler":277,"./SelectSpan":278,"./bodyClicked":279,"./entityClicked":280,"./entityPaneClicked":281,"./spanClicked":285,"./typeLabelClicked":286,"babel-runtime/helpers/interop-require-default":18}],284:[function(require,module,exports){
 'use strict';
 
 var _getIterator = require('babel-runtime/core-js/get-iterator')['default'];
@@ -22790,7 +22872,9 @@ var _default = (function (_DefaultHandler) {
     this.command = command;
     this.annotationData = annotationData.relation;
     this.selectionModel = selectionModel.relation;
-    this.clearAllSelection = selectionModel.clear;
+    this.clearAllSelection = function () {
+      return selectionModel.clear();
+    };
   }
 
   _createClass(_default, [{
@@ -22899,7 +22983,7 @@ var _EditRelationHandler = require('./EditRelationHandler');
 
 var _EditRelationHandler2 = _interopRequireDefault(_EditRelationHandler);
 
-exports['default'] = function (editor, selectionModel, annotationData, command, typeContainer, cancelSelect) {
+exports['default'] = function (editor, annotationData, selectionModel, command, typeContainer, cancelSelect) {
   // Control only entities and relations.
   // Cancel events of relations and theier label.
   // Because a jQuery event and a jsPlumb event are both fired when a relation are clicked.
@@ -22951,10 +23035,11 @@ var _DefaultHandler2 = _interopRequireDefault(_DefaultHandler);
 
 // Provide handlers to edit elements according to an edit mode.
 
-exports['default'] = function (editor, model, spanConfig, command, modeAccordingToButton, typeContainer, cancelSelect) {
-  var handler = new _DefaultHandler2['default'](),
-      _editRelation = new _EditRelation2['default'](editor, model.selectionModel, model.annotationData, command, typeContainer, cancelSelect),
-      _editEntity = new _EditEntity2['default'](editor, model, command, modeAccordingToButton, typeContainer, spanConfig, cancelSelect);
+exports['default'] = function (editor, annotationData, selectionModel, spanConfig, command, modeAccordingToButton, typeContainer, cancelSelect) {
+  var handler = new _DefaultHandler2['default']();
+
+  var _editRelation = new _EditRelation2['default'](editor, annotationData, selectionModel, command, typeContainer, cancelSelect),
+      _editEntity = new _EditEntity2['default'](editor, annotationData, selectionModel, command, modeAccordingToButton, typeContainer, spanConfig, cancelSelect);
 
   return {
     getHandler: function getHandler() {
@@ -23011,9 +23096,9 @@ Object.defineProperty(exports, '__esModule', {
 
 var _ModelAnnotationDataParseAnnotationValidateAnnotation = require('../../../../../Model/AnnotationData/parseAnnotation/validateAnnotation');
 
-var _ModelIsAlreadySpaned = require('../../../../../Model/isAlreadySpaned');
+var _isAlreadySpaned = require('../../../../isAlreadySpaned');
 
-var _ModelIsAlreadySpaned2 = _interopRequireDefault(_ModelIsAlreadySpaned);
+var _isAlreadySpaned2 = _interopRequireDefault(_isAlreadySpaned);
 
 var _selectPosition = require('../selectPosition');
 
@@ -23021,18 +23106,16 @@ var selectPosition = _interopRequireWildcard(_selectPosition);
 
 var BLOCK_THRESHOLD = 100;
 
-exports['default'] = function (model, command, typeContainer, spanAdjuster, isDetectDelimiterEnable, isReplicateAuto, selection, spanConfig) {
-  model.selectionModel.clear();
-
-  var newSpan = getNewSpan(model, spanAdjuster, selection, spanConfig);
+exports['default'] = function (annotationData, command, typeContainer, spanAdjuster, isDetectDelimiterEnable, isReplicateAuto, selection, spanConfig) {
+  var newSpan = getNewSpan(annotationData, spanAdjuster, selection, spanConfig);
 
   // The span cross exists spans.
-  if ((0, _ModelAnnotationDataParseAnnotationValidateAnnotation.isBoundaryCrossingWithOtherSpans)(model.annotationData.span.all(), newSpan)) {
+  if ((0, _ModelAnnotationDataParseAnnotationValidateAnnotation.isBoundaryCrossingWithOtherSpans)(annotationData.span.all(), newSpan)) {
     return;
   }
 
   // The span exists already.
-  if ((0, _ModelIsAlreadySpaned2['default'])(model.annotationData.span.all(), newSpan)) {
+  if ((0, _isAlreadySpaned2['default'])(annotationData.span.all(), newSpan)) {
     return;
   }
 
@@ -23048,17 +23131,17 @@ function createCommands(command, typeContainer, newSpan, isReplicateAuto, isDete
   })];
 
   if (isReplicateAuto && newSpan.end - newSpan.begin <= BLOCK_THRESHOLD) {
-    commands.push(command.factory.spanReplicateCommand(typeContainer.entity.getDefaultType(), {
+    commands.push(command.factory.spanReplicateCommand({
       begin: newSpan.begin,
       end: newSpan.end
-    }, isDetectDelimiterEnable ? spanConfig.isDelimiter : null));
+    }, [typeContainer.entity.getDefaultType()], isDetectDelimiterEnable ? spanConfig.isDelimiter : null));
   }
 
   return commands;
 }
 
-function getNewSpan(model, spanAdjuster, selection, spanConfig) {
-  var _selectPosition$getBeginEnd = selectPosition.getBeginEnd(model.annotationData, selection);
+function getNewSpan(annotationData, spanAdjuster, selection, spanConfig) {
+  var _selectPosition$getBeginEnd = selectPosition.getBeginEnd(annotationData, selection);
 
   var _selectPosition$getBeginEnd2 = _slicedToArray(_selectPosition$getBeginEnd, 2);
 
@@ -23066,13 +23149,13 @@ function getNewSpan(model, spanAdjuster, selection, spanConfig) {
   var end = _selectPosition$getBeginEnd2[1];
 
   return {
-    begin: spanAdjuster.backFromBegin(model.annotationData.sourceDoc, begin, spanConfig),
-    end: spanAdjuster.forwardFromEnd(model.annotationData.sourceDoc, end - 1, spanConfig) + 1
+    begin: spanAdjuster.backFromBegin(annotationData.sourceDoc, begin, spanConfig),
+    end: spanAdjuster.forwardFromEnd(annotationData.sourceDoc, end - 1, spanConfig) + 1
   };
 }
 module.exports = exports['default'];
 
-},{"../../../../../Model/AnnotationData/parseAnnotation/validateAnnotation":225,"../../../../../Model/isAlreadySpaned":239,"../selectPosition":307,"babel-runtime/helpers/interop-require-default":18,"babel-runtime/helpers/interop-require-wildcard":19,"babel-runtime/helpers/sliced-to-array":20}],293:[function(require,module,exports){
+},{"../../../../../Model/AnnotationData/parseAnnotation/validateAnnotation":225,"../../../../isAlreadySpaned":410,"../selectPosition":308,"babel-runtime/helpers/interop-require-default":18,"babel-runtime/helpers/interop-require-wildcard":19,"babel-runtime/helpers/sliced-to-array":20}],293:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -23101,24 +23184,25 @@ var _moveSpan = require('./moveSpan');
 
 var _moveSpan2 = _interopRequireDefault(_moveSpan);
 
-exports['default'] = function (editor, model, command, spanAdjuster, selection, spanConfig) {
-  var spanId = getExpandTargetSpan(model, selection);
+exports['default'] = function (editor, annotationData, selectionModel, command, spanAdjuster, selection, spanConfig) {
+  var spanId = getExpandTargetSpan(annotationData, selectionModel, selection);
 
   if (spanId) {
-    expandSpanToSelection(editor, model, command, spanAdjuster, spanId, selection, spanConfig);
+    selectionModel.clear();
+    expandSpanToSelection(editor, annotationData, command, spanAdjuster, spanId, selection, spanConfig);
   }
 };
 
-function getExpandTargetSpan(model, selection) {
+function getExpandTargetSpan(annotationData, selectionModel, selection) {
   // If a span is selected, it is able to begin drag a span in the span and expand the span.
   // The focus node should be at one level above the selected node.
-  if (isInSelected.isAnchorInSelectedSpan(model, selection)) {
+  if (isInSelected.isAnchorInSelectedSpan(annotationData, selectionModel, selection)) {
     // cf.
     // 1. one side of a inner span is same with one side of the outside span.
     // 2. Select an outside span.
     // 3. Begin Drug from an inner span to out of an outside span.
     // Expand the selected span.
-    return model.selectionModel.span.single();
+    return selectionModel.span.single();
   } else if (isAnchorOneDownUnderForcus(selection)) {
     // To expand the span , belows are needed:
     // 1. The anchorNode is in the span.
@@ -23127,13 +23211,11 @@ function getExpandTargetSpan(model, selection) {
   }
 }
 
-function expandSpanToSelection(editor, model, command, spanAdjuster, spanId, selection, spanConfig) {
-  model.selectionModel.clear();
-
-  var newSpan = getNewSpan(model, spanAdjuster, spanId, selection, spanConfig);
+function expandSpanToSelection(editor, annotationData, command, spanAdjuster, spanId, selection, spanConfig) {
+  var newSpan = getNewSpan(annotationData, spanAdjuster, spanId, selection, spanConfig);
 
   // The span cross exists spans.
-  if ((0, _ModelAnnotationDataParseAnnotationValidateAnnotation.isBoundaryCrossingWithOtherSpans)(model.annotationData.span.all(), newSpan)) {
+  if ((0, _ModelAnnotationDataParseAnnotationValidateAnnotation.isBoundaryCrossingWithOtherSpans)(annotationData.span.all(), newSpan)) {
     (0, _deferAlert2['default'])('A span cannot be expanded to make a boundary crossing.');
     return;
   }
@@ -23145,33 +23227,33 @@ function isAnchorOneDownUnderForcus(selection) {
   return selection.anchorNode.parentNode.parentNode === selection.focusNode.parentNode;
 }
 
-function getNewSpan(model, spanAdjuster, spanId, selection, spanConfig) {
-  var anchorPosition = selectPosition.getAnchorPosition(model.annotationData, selection),
-      focusPosition = selectPosition.getFocusPosition(model.annotationData, selection);
+function getNewSpan(annotationData, spanAdjuster, spanId, selection, spanConfig) {
+  var anchorPosition = selectPosition.getAnchorPosition(annotationData, selection),
+      focusPosition = selectPosition.getFocusPosition(annotationData, selection);
 
-  return getNewExpandSpan(model, spanAdjuster, spanId, anchorPosition, focusPosition, spanConfig);
+  return getNewExpandSpan(annotationData, spanAdjuster, spanId, anchorPosition, focusPosition, spanConfig);
 }
 
-function getNewExpandSpan(model, spanAdjuster, spanId, anchorPosition, focusPosition, spanConfig) {
-  var span = model.annotationData.span.get(spanId);
+function getNewExpandSpan(annotationData, spanAdjuster, spanId, anchorPosition, focusPosition, spanConfig) {
+  var span = annotationData.span.get(spanId);
 
   if (anchorPosition > focusPosition) {
     // expand to the left
     return {
-      begin: spanAdjuster.backFromBegin(model.annotationData.sourceDoc, focusPosition, spanConfig),
+      begin: spanAdjuster.backFromBegin(annotationData.sourceDoc, focusPosition, spanConfig),
       end: span.end
     };
   } else {
     // expand to the right
     return {
       begin: span.begin,
-      end: spanAdjuster.forwardFromEnd(model.annotationData.sourceDoc, focusPosition - 1, spanConfig) + 1
+      end: spanAdjuster.forwardFromEnd(annotationData.sourceDoc, focusPosition - 1, spanConfig) + 1
     };
   }
 }
 module.exports = exports['default'];
 
-},{"../../../../../Model/AnnotationData/parseAnnotation/validateAnnotation":225,"../deferAlert":303,"../selectPosition":307,"./isInSelected":295,"./moveSpan":296,"babel-runtime/helpers/interop-require-default":18,"babel-runtime/helpers/interop-require-wildcard":19}],294:[function(require,module,exports){
+},{"../../../../../Model/AnnotationData/parseAnnotation/validateAnnotation":225,"../deferAlert":304,"../selectPosition":308,"./isInSelected":295,"./moveSpan":296,"babel-runtime/helpers/interop-require-default":18,"babel-runtime/helpers/interop-require-wildcard":19}],294:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -23202,28 +23284,29 @@ var _shrink = require('./shrink');
 
 var shrink = _interopRequireWildcard(_shrink);
 
-exports['default'] = function (editor, model, command, typeContainer, isDetectDelimiterEnable, isReplicateAuto) {
+exports['default'] = function (editor, annotationData, selectionModel, command, typeContainer, isDetectDelimiterEnable, isReplicateAuto) {
   var spanAdjuster = isDetectDelimiterEnable ? _spanAdjusterDelimiterDetectAdjuster2['default'] : _spanAdjusterBlankSkipAdjuster2['default'];
 
   return {
     create: function create(data) {
-      return (0, _create3['default'])(model, command, typeContainer, spanAdjuster, isDetectDelimiterEnable, isReplicateAuto, data.selection, data.spanConfig);
+      selectionModel.clear();
+      (0, _create3['default'])(annotationData, command, typeContainer, spanAdjuster, isDetectDelimiterEnable, isReplicateAuto, data.selection, data.spanConfig);
     },
     expand: function expand(data) {
-      return (0, _expand3['default'])(editor, model, command, spanAdjuster, data.selection, data.spanConfig);
+      return (0, _expand3['default'])(editor, annotationData, selectionModel, command, spanAdjuster, data.selection, data.spanConfig);
     },
     shrinkCrossTheEar: function shrinkCrossTheEar(data) {
-      return shrink.crossTheEar(editor, model, command, spanAdjuster, data.selection, data.spanConfig);
+      return shrink.crossTheEar(editor, annotationData, selectionModel, command, spanAdjuster, data.selection, data.spanConfig);
     },
     shrinkPullByTheEar: function shrinkPullByTheEar(data) {
-      return shrink.pullByTheEar(editor, model, command, spanAdjuster, data.selection, data.spanConfig);
+      return shrink.pullByTheEar(editor, annotationData, selectionModel, command, spanAdjuster, data.selection, data.spanConfig);
     }
   };
 };
 
 module.exports = exports['default'];
 
-},{"../../../spanAdjuster/blankSkipAdjuster":335,"../../../spanAdjuster/delimiterDetectAdjuster":336,"./create":292,"./expand":293,"./shrink":300,"babel-runtime/helpers/interop-require-default":18,"babel-runtime/helpers/interop-require-wildcard":19}],295:[function(require,module,exports){
+},{"../../../spanAdjuster/blankSkipAdjuster":333,"../../../spanAdjuster/delimiterDetectAdjuster":334,"./create":292,"./expand":293,"./shrink":300,"babel-runtime/helpers/interop-require-default":18,"babel-runtime/helpers/interop-require-wildcard":19}],295:[function(require,module,exports){
 'use strict';
 
 var _interopRequireWildcard = require('babel-runtime/helpers/interop-require-wildcard')['default'];
@@ -23247,26 +23330,26 @@ var getParent = _interopRequireWildcard(_getParent);
 exports.isAnchorInSelectedSpan = isAnchorInSelectedSpan;
 exports.isFocusInSelectedSpan = isFocusInSelectedSpan;
 
-function isAnchorInSelectedSpan(model, selection) {
-  return isInSelectedSpan(model, selectPosition.getAnchorPosition(model.annotationData, selection));
+function isAnchorInSelectedSpan(annotationData, selectionModel, selection) {
+  return isInSelectedSpan(annotationData, selectionModel, selectPosition.getAnchorPosition(annotationData, selection));
 }
 
-function isFocusInSelectedSpan(model, selection) {
-  return isInSelectedSpan(model, selectPosition.getFocusPosition(model.annotationData, selection));
+function isFocusInSelectedSpan(annotationData, selectionModel, selection) {
+  return isInSelectedSpan(annotationData, selectionModel, selectPosition.getFocusPosition(annotationData, selection));
 }
 
-function isInSelectedSpan(model, position) {
-  var spanId = model.selectionModel.span.single();
+function isInSelectedSpan(annotationData, selectionModel, position) {
+  var spanId = selectionModel.span.single();
 
   if (spanId) {
-    var selectedSpan = model.annotationData.span.get(spanId);
+    var selectedSpan = annotationData.span.get(spanId);
     return selectedSpan.begin < position && position < selectedSpan.end;
   }
 
   return false;
 }
 
-},{"../getParent":304,"../hasClass":305,"../selectPosition":307,"babel-runtime/helpers/interop-require-wildcard":19}],296:[function(require,module,exports){
+},{"../getParent":305,"../hasClass":306,"../selectPosition":308,"babel-runtime/helpers/interop-require-wildcard":19}],296:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -23290,7 +23373,7 @@ exports['default'] = function (editor, command, spanId, newSpan) {
 
 module.exports = exports['default'];
 
-},{"../../../../../idFactory":240,"babel-runtime/helpers/interop-require-default":18}],297:[function(require,module,exports){
+},{"../../../../../idFactory":239,"babel-runtime/helpers/interop-require-default":18}],297:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -23303,21 +23386,22 @@ var _getTargetSpanWhenFocusNodeDifferentFromAnchorNode = require('./getTargetSpa
 
 var _getTargetSpanWhenFocusNodeDifferentFromAnchorNode2 = _interopRequireDefault(_getTargetSpanWhenFocusNodeDifferentFromAnchorNode);
 
-var _shrinkSpanToSelection = require('./shrinkSpanToSelection');
+var _shrinkSpanToSelectionAndSelectNextIfRemoved = require('./shrinkSpanToSelectionAndSelectNextIfRemoved');
 
-var _shrinkSpanToSelection2 = _interopRequireDefault(_shrinkSpanToSelection);
+var _shrinkSpanToSelectionAndSelectNextIfRemoved2 = _interopRequireDefault(_shrinkSpanToSelectionAndSelectNextIfRemoved);
 
-exports['default'] = function (editor, model, command, spanAdjuster, selection, spanConfig) {
-  var spanId = (0, _getTargetSpanWhenFocusNodeDifferentFromAnchorNode2['default'])(model, selection);
+exports['default'] = function (editor, annotationData, selectionModel, command, spanAdjuster, selection, spanConfig) {
+  var spanId = (0, _getTargetSpanWhenFocusNodeDifferentFromAnchorNode2['default'])(annotationData, selectionModel, selection);
 
   if (spanId) {
-    (0, _shrinkSpanToSelection2['default'])(editor, model, command, spanAdjuster, spanId, selection, spanConfig);
+    selectionModel.clear();
+    (0, _shrinkSpanToSelectionAndSelectNextIfRemoved2['default'])(editor, annotationData, command, spanAdjuster, spanId, selection, spanConfig, selectionModel);
   }
 };
 
 module.exports = exports['default'];
 
-},{"./getTargetSpanWhenFocusNodeDifferentFromAnchorNode":298,"./shrinkSpanToSelection":302,"babel-runtime/helpers/interop-require-default":18}],298:[function(require,module,exports){
+},{"./getTargetSpanWhenFocusNodeDifferentFromAnchorNode":298,"./shrinkSpanToSelectionAndSelectNextIfRemoved":303,"babel-runtime/helpers/interop-require-default":18}],298:[function(require,module,exports){
 'use strict';
 
 var _interopRequireWildcard = require('babel-runtime/helpers/interop-require-wildcard')['default'];
@@ -23330,15 +23414,15 @@ var _isInSelected = require('./../isInSelected');
 
 var isInSelected = _interopRequireWildcard(_isInSelected);
 
-exports['default'] = function (model, selection, id) {
-  if (isInSelected.isFocusInSelectedSpan(model, selection)) {
+exports['default'] = function (annotationData, selectionModel, selection, id) {
+  if (isInSelected.isFocusInSelectedSpan(annotationData, selectionModel, selection)) {
     // If a span is selected, it is able to begin drag out of an outer span of the span and shrink the span.
     // The focus node should be at the selected node.
     // cf.
     // 1. Select an inner span.
     // 2. Begin Drug from out of an outside span to the selected span.
     // Shrink the selected span.
-    return model.selectionModel.span.single();
+    return selectionModel.span.single();
   } else if (isForcusOneDownUnderAnchor(selection)) {
     // To shrink the span , belows are needed:
     // 1. The anchorNode out of the span and in the parent of the span.
@@ -23367,9 +23451,9 @@ var _isInSelected = require('./../isInSelected');
 
 var isInSelected = _interopRequireWildcard(_isInSelected);
 
-exports['default'] = function (model, selection) {
-  if (isInSelected.isFocusInSelectedSpan(model, selection)) {
-    return model.selectionModel.span.single();
+exports['default'] = function (annotationData, selectionModel, selection) {
+  if (isInSelected.isFocusInSelectedSpan(annotationData, selectionModel, selection)) {
+    return selectionModel.span.single();
   }
 
   return selection.focusNode.parentElement.id;
@@ -23410,21 +23494,22 @@ var _getTargetSpanWhenFocusNodeSameWithAnchorNode = require('./getTargetSpanWhen
 
 var _getTargetSpanWhenFocusNodeSameWithAnchorNode2 = _interopRequireDefault(_getTargetSpanWhenFocusNodeSameWithAnchorNode);
 
-var _shrinkSpanToSelection = require('./shrinkSpanToSelection');
+var _shrinkSpanToSelectionAndSelectNextIfRemoved = require('./shrinkSpanToSelectionAndSelectNextIfRemoved');
 
-var _shrinkSpanToSelection2 = _interopRequireDefault(_shrinkSpanToSelection);
+var _shrinkSpanToSelectionAndSelectNextIfRemoved2 = _interopRequireDefault(_shrinkSpanToSelectionAndSelectNextIfRemoved);
 
-exports['default'] = function (editor, model, command, spanAdjuster, selection, spanConfig) {
-  var spanId = (0, _getTargetSpanWhenFocusNodeSameWithAnchorNode2['default'])(model, selection);
+exports['default'] = function (editor, annotationData, selectionModel, command, spanAdjuster, selection, spanConfig) {
+  var spanId = (0, _getTargetSpanWhenFocusNodeSameWithAnchorNode2['default'])(annotationData, selectionModel, selection);
 
   if (spanId) {
-    (0, _shrinkSpanToSelection2['default'])(editor, model, command, spanAdjuster, spanId, selection, spanConfig);
+    selectionModel.clear();
+    (0, _shrinkSpanToSelectionAndSelectNextIfRemoved2['default'])(editor, annotationData, command, spanAdjuster, spanId, selection, spanConfig, selectionModel);
   }
 };
 
 module.exports = exports['default'];
 
-},{"./getTargetSpanWhenFocusNodeSameWithAnchorNode":299,"./shrinkSpanToSelection":302,"babel-runtime/helpers/interop-require-default":18}],302:[function(require,module,exports){
+},{"./getTargetSpanWhenFocusNodeSameWithAnchorNode":299,"./shrinkSpanToSelectionAndSelectNextIfRemoved":303,"babel-runtime/helpers/interop-require-default":18}],302:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -23453,36 +23538,41 @@ var _selectPosition = require('../../selectPosition');
 
 var selectPosition = _interopRequireWildcard(_selectPosition);
 
-exports['default'] = function (editor, model, command, spanAdjuster, spanId, selection, spanConfig) {
-  model.selectionModel.clear();
-
-  var newSpan = getNewSpan(model, spanAdjuster, spanId, selection, spanConfig);
+exports['default'] = function (editor, annotationData, command, spanAdjuster, spanId, selection, spanConfig) {
+  var newSpan = getNewSpan(annotationData, spanAdjuster, spanId, selection, spanConfig);
 
   // The span cross exists spans.
-  if ((0, _ModelAnnotationDataParseAnnotationValidateAnnotation.isBoundaryCrossingWithOtherSpans)(model.annotationData.span.all(), newSpan)) {
+  if ((0, _ModelAnnotationDataParseAnnotationValidateAnnotation.isBoundaryCrossingWithOtherSpans)(annotationData.span.all(), newSpan)) {
     (0, _deferAlert2['default'])('A span cannot be shrinked to make a boundary crossing.');
-    return;
+    return false;
   }
 
   var newSpanId = _idFactory2['default'].makeSpanId(editor, newSpan),
-      sameSpan = model.annotationData.span.get(newSpanId);
+      sameSpan = annotationData.span.get(newSpanId);
 
-  command.invoke(newSpan.begin < newSpan.end && !sameSpan ? (0, _moveSpan2['default'])(editor, command, spanId, newSpan) : removeSpan(command, spanId));
+  if (newSpan.begin < newSpan.end && !sameSpan) {
+    command.invoke((0, _moveSpan2['default'])(editor, command, spanId, newSpan));
+  } else {
+    command.invoke(removeSpan(command, spanId));
+    return true;
+  }
+
+  return false;
 };
 
-function getNewSpan(model, spanAdjuster, spanId, selection, spanConfig) {
-  var anchorPosition = selectPosition.getAnchorPosition(model.annotationData, selection),
-      focusPosition = selectPosition.getFocusPosition(model.annotationData, selection);
+function getNewSpan(annotationData, spanAdjuster, spanId, selection, spanConfig) {
+  var anchorPosition = selectPosition.getAnchorPosition(annotationData, selection),
+      focusPosition = selectPosition.getFocusPosition(annotationData, selection);
 
-  return getNewShortSpan(model, spanAdjuster, spanId, anchorPosition, focusPosition, spanConfig);
+  return getNewShortSpan(annotationData, spanAdjuster, spanId, anchorPosition, focusPosition, spanConfig);
 }
 
 function removeSpan(command, spanId) {
   return [command.factory.spanRemoveCommand(spanId)];
 }
 
-function getNewShortSpan(model, spanAdjuster, spanId, anchorPosition, focusPosition, spanConfig) {
-  var span = model.annotationData.span.get(spanId);
+function getNewShortSpan(annotationData, spanAdjuster, spanId, anchorPosition, focusPosition, spanConfig) {
+  var span = annotationData.span.get(spanId);
 
   if (anchorPosition < focusPosition) {
     // shorten the left boundary
@@ -23492,7 +23582,7 @@ function getNewShortSpan(model, spanAdjuster, spanId, anchorPosition, focusPosit
     };
 
     return {
-      begin: spanAdjuster.forwardFromBegin(model.annotationData.sourceDoc, focusPosition, spanConfig),
+      begin: spanAdjuster.forwardFromBegin(annotationData.sourceDoc, focusPosition, spanConfig),
       end: span.end
     };
   } else {
@@ -23504,13 +23594,42 @@ function getNewShortSpan(model, spanAdjuster, spanId, anchorPosition, focusPosit
 
     return {
       begin: span.begin,
-      end: spanAdjuster.backFromEnd(model.annotationData.sourceDoc, focusPosition - 1, spanConfig) + 1
+      end: spanAdjuster.backFromEnd(annotationData.sourceDoc, focusPosition - 1, spanConfig) + 1
     };
   }
 }
 module.exports = exports['default'];
 
-},{"../../../../../../Model/AnnotationData/parseAnnotation/validateAnnotation":225,"../../../../../../idFactory":240,"../../deferAlert":303,"../../selectPosition":307,"./../moveSpan":296,"babel-runtime/helpers/interop-require-default":18,"babel-runtime/helpers/interop-require-wildcard":19}],303:[function(require,module,exports){
+},{"../../../../../../Model/AnnotationData/parseAnnotation/validateAnnotation":225,"../../../../../../idFactory":239,"../../deferAlert":304,"../../selectPosition":308,"./../moveSpan":296,"babel-runtime/helpers/interop-require-default":18,"babel-runtime/helpers/interop-require-wildcard":19}],303:[function(require,module,exports){
+'use strict';
+
+var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
+
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
+
+var _shrinkSpanToSelection = require('./shrinkSpanToSelection');
+
+var _shrinkSpanToSelection2 = _interopRequireDefault(_shrinkSpanToSelection);
+
+var _getNextElement = require('../../../../../getNextElement');
+
+exports['default'] = function (editor, annotationData, command, spanAdjuster, spanId, selection, spanConfig, selectionModel) {
+  var oldSpan = document.querySelector('#' + spanId),
+
+  // Get the next span before removing the old span.
+  nextSpan = (0, _getNextElement.getRightElement)(editor[0], oldSpan),
+      removed = (0, _shrinkSpanToSelection2['default'])(editor, annotationData, command, spanAdjuster, spanId, selection, spanConfig);
+
+  if (removed && nextSpan) {
+    selectionModel.selectSingleSpanById(nextSpan.id);
+  }
+};
+
+module.exports = exports['default'];
+
+},{"../../../../../getNextElement":406,"./shrinkSpanToSelection":302,"babel-runtime/helpers/interop-require-default":18}],304:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -23526,7 +23645,7 @@ exports["default"] = function (message) {
 
 module.exports = exports["default"];
 
-},{}],304:[function(require,module,exports){
+},{}],305:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -23543,7 +23662,7 @@ function getFocusNodeParent(selection) {
   return $(selection.focusNode.parentNode);
 }
 
-},{}],305:[function(require,module,exports){
+},{}],306:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -23565,12 +23684,16 @@ function hasSpanOrParagraphs($node) {
   return hasSpan($node) || hasParagraphs($node);
 }
 
-},{}],306:[function(require,module,exports){
+},{}],307:[function(require,module,exports){
 'use strict';
 
 var _interopRequireWildcard = require('babel-runtime/helpers/interop-require-wildcard')['default'];
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
+
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
 
 var _selectionValidator = require('./selectionValidator');
 
@@ -23584,14 +23707,15 @@ var _selectPosition = require('./selectPosition');
 
 var selectPosition = _interopRequireWildcard(_selectPosition);
 
-module.exports = function (editor, model, command, modeAccordingToButton, typeContainer) {
+exports['default'] = function (editor, annotationData, selectionModel, command, modeAccordingToButton, typeContainer) {
   // Initiated by events.
   var selectEndOnTextImpl = null,
-      selectEndOnSpanImpl = null,
-      changeSpanEditorAccordingToButtons = function changeSpanEditorAccordingToButtons() {
+      selectEndOnSpanImpl = null;
+
+  var changeSpanEditorAccordingToButtons = function changeSpanEditorAccordingToButtons() {
     var isDetectDelimiterEnable = modeAccordingToButton['boundary-detection'].value(),
         isReplicateAuto = modeAccordingToButton['replicate-auto'].value(),
-        spanEditor = new _SpanEditor2['default'](editor, model, command, typeContainer, isDetectDelimiterEnable, isReplicateAuto);
+        spanEditor = new _SpanEditor2['default'](editor, annotationData, selectionModel, command, typeContainer, isDetectDelimiterEnable, isReplicateAuto);
 
     selectEndOnTextImpl = function (annotationData, data) {
       return selectEndOnText(spanEditor, annotationData, data);
@@ -23610,10 +23734,10 @@ module.exports = function (editor, model, command, modeAccordingToButton, typeCo
 
   return {
     onText: function onText(data) {
-      if (selectEndOnTextImpl) selectEndOnTextImpl(model.annotationData, data);
+      if (selectEndOnTextImpl) selectEndOnTextImpl(annotationData, data);
     },
     onSpan: function onSpan(data) {
-      if (selectEndOnSpanImpl) selectEndOnSpanImpl(model.annotationData, data);
+      if (selectEndOnSpanImpl) selectEndOnSpanImpl(annotationData, data);
     }
   };
 };
@@ -23666,8 +23790,9 @@ function clearTextSelection() {
     window.getSelection().removeAllRanges();
   }
 }
+module.exports = exports['default'];
 
-},{"./SpanEditor":294,"./selectPosition":307,"./selectionValidator":309,"babel-runtime/helpers/interop-require-default":18,"babel-runtime/helpers/interop-require-wildcard":19}],307:[function(require,module,exports){
+},{"./SpanEditor":294,"./selectPosition":308,"./selectionValidator":310,"babel-runtime/helpers/interop-require-default":18,"babel-runtime/helpers/interop-require-wildcard":19}],308:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -23735,7 +23860,7 @@ function getParentModel(paragraph, span, node) {
   throw new Error('Can not get position of a node : ' + node + ' ' + node.data);
 }
 
-},{}],308:[function(require,module,exports){
+},{}],309:[function(require,module,exports){
 'use strict';
 
 var _slicedToArray = require('babel-runtime/helpers/sliced-to-array')['default'];
@@ -23791,7 +23916,7 @@ function hasCharacters(annotationData, spanConfig, selection) {
 }
 module.exports = exports['default'];
 
-},{"../getParent":304,"../hasClass":305,"../selectPosition":307,"./showAlertIfOtherParagraph":310,"babel-runtime/helpers/interop-require-default":18,"babel-runtime/helpers/interop-require-wildcard":19,"babel-runtime/helpers/sliced-to-array":20}],309:[function(require,module,exports){
+},{"../getParent":305,"../hasClass":306,"../selectPosition":308,"./showAlertIfOtherParagraph":311,"babel-runtime/helpers/interop-require-default":18,"babel-runtime/helpers/interop-require-wildcard":19,"babel-runtime/helpers/sliced-to-array":20}],310:[function(require,module,exports){
 'use strict';
 
 var _interopRequireWildcard = require('babel-runtime/helpers/interop-require-wildcard')['default'];
@@ -23835,7 +23960,7 @@ function isFocusNodeInSpan(selection) {
   return hasClass.hasSpan(getParent.getFocusNodeParent(selection));
 }
 
-},{"../getParent":304,"../hasClass":305,"./commonValidate":308,"babel-runtime/helpers/interop-require-default":18,"babel-runtime/helpers/interop-require-wildcard":19}],310:[function(require,module,exports){
+},{"../getParent":305,"../hasClass":306,"./commonValidate":309,"babel-runtime/helpers/interop-require-default":18,"babel-runtime/helpers/interop-require-wildcard":19}],311:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -23869,7 +23994,7 @@ function getParagraph(node) {
 }
 module.exports = exports['default'];
 
-},{"../deferAlert":303,"babel-runtime/helpers/interop-require-default":18}],311:[function(require,module,exports){
+},{"../deferAlert":304,"babel-runtime/helpers/interop-require-default":18}],312:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -23910,7 +24035,7 @@ exports['default'] = function (editor, getHandler, autocompletionWs) {
 
 module.exports = exports['default'];
 
-},{"../../../../component/editIdDialog":191,"babel-runtime/helpers/interop-require-default":18}],312:[function(require,module,exports){
+},{"../../../../component/editIdDialog":191,"babel-runtime/helpers/interop-require-default":18}],313:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -23931,10 +24056,10 @@ var _changeLabelHandler = require('./changeLabelHandler');
 
 var _changeLabelHandler2 = _interopRequireDefault(_changeLabelHandler);
 
-exports['default'] = function (editor, model, spanConfig, command, modeAccordingToButton, typeContainer, autocompletionWs) {
+exports['default'] = function (editor, annotationData, selectionModel, spanConfig, command, modeAccordingToButton, typeContainer, autocompletionWs) {
   // will init.
-  var elementEditor = new _ElementEditor2['default'](editor, model, spanConfig, command, modeAccordingToButton, typeContainer, function () {
-    return _cancelSelect(pallet, model.selectionModel);
+  var elementEditor = new _ElementEditor2['default'](editor, annotationData, selectionModel, spanConfig, command, modeAccordingToButton, typeContainer, function () {
+    return _cancelSelect(pallet, selectionModel);
   }),
       pallet = new _componentPallet2['default'](function (label) {
     var commands = elementEditor.getHandler().changeTypeOfSelectedElement(label);
@@ -23966,7 +24091,7 @@ exports['default'] = function (editor, model, spanConfig, command, modeAccording
       return elementEditor.getHandler().changeTypeOfSelectedElement(newType);
     },
     cancelSelect: function cancelSelect() {
-      return _cancelSelect(pallet, model.selectionModel);
+      return _cancelSelect(pallet, selectionModel);
     },
     jsPlumbConnectionClicked: function jsPlumbConnectionClicked(jsPlumbConnection, event) {
       return _jsPlumbConnectionClicked(elementEditor, jsPlumbConnection, event);
@@ -23998,7 +24123,7 @@ function _jsPlumbConnectionClicked(elementEditor, jsPlumbConnection, event) {
 }
 module.exports = exports['default'];
 
-},{"../../../../component/Pallet":173,"./ElementEditor":290,"./changeLabelHandler":311,"babel-runtime/helpers/interop-require-default":18}],313:[function(require,module,exports){
+},{"../../../../component/Pallet":173,"./ElementEditor":290,"./changeLabelHandler":312,"babel-runtime/helpers/interop-require-default":18}],314:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -24036,7 +24161,7 @@ exports['default'] = function (writable, editMode, buttonController) {
 
 module.exports = exports['default'];
 
-},{"./setButtonState":330,"babel-runtime/helpers/interop-require-default":18}],314:[function(require,module,exports){
+},{"./setButtonState":328,"babel-runtime/helpers/interop-require-default":18}],315:[function(require,module,exports){
 "use strict";
 
 module.exports = function (command, annotationData, selectionModel, clipBoard) {
@@ -24071,7 +24196,7 @@ module.exports = function (command, annotationData, selectionModel, clipBoard) {
   };
 };
 
-},{}],315:[function(require,module,exports){
+},{}],316:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -24105,7 +24230,7 @@ var DefaultEntityHandler = function DefaultEntityHandler(command, annotationData
 
 module.exports = DefaultEntityHandler;
 
-},{"./createEntityToSelectedSpan":323,"./replicate":326,"babel-runtime/helpers/interop-require-default":18,"events":110}],316:[function(require,module,exports){
+},{"./createEntityToSelectedSpan":321,"./replicate":324,"babel-runtime/helpers/interop-require-default":18,"events":110}],317:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -24122,7 +24247,7 @@ exports["default"] = function (editMode) {
 
 module.exports = exports["default"];
 
-},{}],317:[function(require,module,exports){
+},{}],318:[function(require,module,exports){
 'use strict';
 
 var toggleModification = require('./toggleModification');
@@ -24138,7 +24263,7 @@ module.exports = function (command, annotationData, modeAccordingToButton, typeE
   };
 };
 
-},{"./toggleModification":327}],318:[function(require,module,exports){
+},{"./toggleModification":325}],319:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -24146,16 +24271,6 @@ var _interopRequireDefault = require('babel-runtime/helpers/interop-require-defa
 Object.defineProperty(exports, '__esModule', {
   value: true
 });
-
-var _selectSpan = require('./selectSpan');
-
-var _selectEntityLabel = require('./selectEntityLabel');
-
-var _selectEntityLabel2 = _interopRequireDefault(_selectEntityLabel);
-
-var _selectEntity = require('./selectEntity');
-
-var _selectEntity2 = _interopRequireDefault(_selectEntity);
 
 var _getNextElement = require('../../../getNextElement');
 
@@ -24169,38 +24284,32 @@ var SPAN_CLASS = 'textae-editor__span',
     TYPE_CLASS = 'textae-editor__type',
     ENTINY_CLASS = 'textae-editor__entity';
 
-exports['default'] = function (editor, selectionModel) {
-  var editorDom = editor[0];
-
+exports['default'] = function (editorDom, selectionModel) {
   return {
     selectLeft: function selectLeft(option) {
-      return _selectLeft(editorDom, selectionModel, option.shiftKey);
+      _selectLeft(editorDom, selectionModel, option.shiftKey);
     },
-    selectRight: function selectRight(option) {
-      return _selectRight(editorDom, selectionModel, option.shiftKey);
+    selectRight: function selectRight() {
+      var option = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+
+      _selectRight(editorDom, selectionModel, option.shiftKey);
     },
     selectUp: function selectUp() {
-      return selectUpperLayer(editorDom, selectionModel);
+      selectUpperLayer(editorDom, selectionModel);
     },
     selectDown: function selectDown() {
-      return selectLowerLayer(editorDom, selectionModel);
-    },
-    selectLeftFunc: function selectLeftFunc() {
-      return _selectLeftFunc(editorDom, selectionModel);
-    },
-    selectRightFunc: function selectRightFunc() {
-      return _selectRightFunc(editorDom, selectionModel);
+      selectLowerLayer(editorDom, selectionModel);
     }
   };
 };
 
 function _selectLeft(editorDom, selectionModel, shiftKey) {
-  var selectNext = _selectLeftFunc(editorDom, selectionModel, shiftKey);
+  var selectNext = selectLeftFunc(editorDom, selectionModel, shiftKey);
   selectNext();
 }
 
 function _selectRight(editorDom, selectionModel, shiftKey) {
-  var selectNext = _selectRightFunc(editorDom, selectionModel, shiftKey);
+  var selectNext = selectRightFunc(editorDom, selectionModel, shiftKey);
   selectNext();
 }
 
@@ -24236,7 +24345,7 @@ function selectLowerLayer(editorDom, selectionModel) {
   }
 }
 
-function _selectLeftFunc(editorDom, selectionModel, shiftKey) {
+function selectLeftFunc(editorDom, selectionModel, shiftKey) {
   var getNextFunc = function getNextFunc(selected) {
     return (0, _getNextElement.getLeftElement)(editorDom, selected[0]);
   };
@@ -24244,7 +24353,7 @@ function _selectLeftFunc(editorDom, selectionModel, shiftKey) {
   return selectNextFunc(editorDom, selectionModel, shiftKey, getNextFunc);
 }
 
-function _selectRightFunc(editorDom, selectionModel, shiftKey) {
+function selectRightFunc(editorDom, selectionModel, shiftKey) {
   var getNextFunc = function getNextFunc(selected) {
     return (0, _getNextElement.getRightElement)(editorDom, selected[selected.length - 1]);
   };
@@ -24253,36 +24362,53 @@ function _selectRightFunc(editorDom, selectionModel, shiftKey) {
 }
 
 function selectNextFunc(editorDom, selectionModel, shiftKey, getNextFunc) {
-  var or = function or(className, func, next) {
-    return selectOr(editorDom, className, func, selectionModel, shiftKey, next, getNextFunc);
-  };
+  var selectedSpans = selectSelected(editorDom, SPAN_CLASS);
 
-  var selectNext = or(SPAN_CLASS, _selectSpan.selectSpan, function () {
-    return or(LABEL_CLASS, _selectEntityLabel2['default'], function () {
-      return or(ENTINY_CLASS, _selectEntity2['default']);
-    });
-  });
-
-  return selectNext;
-}
-
-function selectOr(editorDom, className, selectFunc, selectionModel, shiftKey, next, getNextFunc) {
-  var selected = selectSelected(editorDom, className);
-
-  if (selected.length) {
+  if (selectedSpans.length) {
     var _ret = (function () {
-      var nextElement = getNextFunc(selected);
+      var nextElement = getNextFunc(selectedSpans);
       return {
         v: function () {
-          return selectFunc(selectionModel, nextElement, shiftKey);
+          return selectionModel.selectSpan(nextElement, shiftKey);
         }
       };
     })();
 
     if (typeof _ret === 'object') return _ret.v;
-  } else {
-    return next ? next() : function () {};
   }
+
+  var selectedEntityLabel = selectSelected(editorDom, LABEL_CLASS);
+
+  if (selectedEntityLabel.length) {
+    var _ret2 = (function () {
+      var nextElement = getNextFunc(selectedEntityLabel);
+      return {
+        v: function () {
+          return selectionModel.selectEntityLabel(nextElement, shiftKey);
+        }
+      };
+    })();
+
+    if (typeof _ret2 === 'object') return _ret2.v;
+  }
+
+  var selectedEntities = selectSelected(editorDom, ENTINY_CLASS);
+
+  if (selectedEntities.length) {
+    var _ret3 = (function () {
+      // return a select entity function
+      var nextElement = getNextFunc(selectedEntities);
+      return {
+        v: function () {
+          return selectionModel.selectEntity(nextElement, shiftKey);
+        }
+      };
+    })();
+
+    if (typeof _ret3 === 'object') return _ret3.v;
+  }
+
+  return function () {};
 }
 
 function selectSelected(dom, className) {
@@ -24297,121 +24423,31 @@ function selectFirstEntityLabelOfSpan(selectionModel, spanId) {
     var type = grid.querySelector('.' + TYPE_CLASS),
         label = type.querySelector('.' + LABEL_CLASS);
 
-    (0, _selectEntityLabel2['default'])(selectionModel, label);
+    selectionModel.selectEntityLabel(label);
   }
 }
 
 function selectFirstEntityOfEntityLabel(selectionModel, label) {
   var pane = label.nextElementSibling;
 
-  (0, _selectEntity2['default'])(selectionModel, pane.children[0]);
+  selectionModel.selectEntity(pane.children[0]);
 }
 
 function selectSpanOfEntityLabel(selectionModel, label) {
   console.assert(label, 'A label MUST exists.');
 
   var spanId = label.closest('.' + GRID_CLASS).id.substring(1);
-  (0, _selectSpan.selectSingleSpanById)(selectionModel, spanId);
+  selectionModel.selectSingleSpanById(spanId);
 }
 
 function selectLabelOfEntity(selectionModel, entity) {
   console.assert(entity, 'An entity MUST exists.');
 
-  (0, _selectEntityLabel2['default'])(selectionModel, entity.parentNode.previousElementSibling);
+  selectionModel.selectEntityLabel(entity.parentNode.previousElementSibling);
 }
 module.exports = exports['default'];
 
-},{"../../../getEntityDom":407,"../../../getNextElement":408,"./selectEntity":319,"./selectEntityLabel":320,"./selectSpan":321,"babel-runtime/helpers/interop-require-default":18}],319:[function(require,module,exports){
-/**
- * Select entity.
- * @param {object} selectionModel - this is the selectionModel.
- * @param {string} dom - dom of entity to select or array of ids of entities.
- * @param {bool} isMulti - select multi elements.
- * @return {undefined}
- */
-'use strict';
-
-Object.defineProperty(exports, '__esModule', {
-  value: true
-});
-
-exports['default'] = function (selectionModel, dom, isMulti) {
-  console.assert(selectionModel, 'selectionModel MUST exists.');
-
-  // A entity may be null when the first or the last entity is selected at the Relation Edit Mode.
-  if (dom) {
-    if (!isMulti) selectionModel.clear();
-
-    selectionModel.entity.add(dom.title);
-  }
-};
-
-module.exports = exports['default'];
-
-},{}],320:[function(require,module,exports){
-'use strict';
-
-var _Array$from = require('babel-runtime/core-js/array/from')['default'];
-
-var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
-
-Object.defineProperty(exports, '__esModule', {
-  value: true
-});
-exports['default'] = selectEntityLabel;
-
-var _selectEntity = require('./selectEntity');
-
-var _selectEntity2 = _interopRequireDefault(_selectEntity);
-
-function selectEntityLabel(selectionModel, dom, isMulti) {
-  console.assert(selectionModel, 'selectionModel MUST exists');
-
-  if (dom) {
-    var pane = dom.nextElementSibling,
-        allEntityOflabels = pane.children;
-
-    if (!isMulti) selectionModel.clear();
-
-    selectionModel.entity.add(_Array$from(allEntityOflabels).map(function (dom) {
-      return dom.title;
-    }));
-  }
-}
-
-module.exports = exports['default'];
-
-},{"./selectEntity":319,"babel-runtime/core-js/array/from":2,"babel-runtime/helpers/interop-require-default":18}],321:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, '__esModule', {
-  value: true
-});
-exports.selectSpan = selectSpan;
-exports.selectSingleSpanById = selectSingleSpanById;
-
-function selectSpan(selectionModel, dom, isMulti) {
-  console.assert(selectionModel, 'selectionModel MUST not undefined.');
-
-  if (dom) {
-    if (isMulti) {
-      selectionModel.span.add(dom.id);
-    } else {
-      selectSingleSpanById(selectionModel, dom.id);
-    }
-  }
-}
-
-function selectSingleSpanById(selectionModel, spanId) {
-  console.assert(selectionModel, 'selectionModel MUST not undefined.');
-
-  if (spanId) {
-    selectionModel.clear();
-    selectionModel.span.add(spanId);
-  }
-}
-
-},{}],322:[function(require,module,exports){
+},{"../../../getEntityDom":405,"../../../getNextElement":406,"babel-runtime/helpers/interop-require-default":18}],320:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -24449,7 +24485,7 @@ function _toggleInstaceRelation(editMode) {
 }
 module.exports = exports['default'];
 
-},{}],323:[function(require,module,exports){
+},{}],321:[function(require,module,exports){
 "use strict";
 
 module.exports = function (command, spans, entity) {
@@ -24463,7 +24499,7 @@ module.exports = function (command, spans, entity) {
   command.invoke(commands);
 };
 
-},{}],324:[function(require,module,exports){
+},{}],322:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -24495,7 +24531,7 @@ function toRemoveRelationCommands(relationIds, command) {
 }
 module.exports = exports["default"];
 
-},{}],325:[function(require,module,exports){
+},{}],323:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -24509,34 +24545,45 @@ var _RemoveCommandsFromSelection = require('./RemoveCommandsFromSelection');
 var _RemoveCommandsFromSelection2 = _interopRequireDefault(_RemoveCommandsFromSelection);
 
 exports['default'] = function (command, selectionModel, selectHandler) {
-  var selectNext = selectHandler.selectRightFunc(),
-      commands = new _RemoveCommandsFromSelection2['default'](command, selectionModel);
+  var commands = new _RemoveCommandsFromSelection2['default'](command, selectionModel);
 
+  // Select the next element before clear selection.
+  selectHandler.selectRight();
   command.invoke(commands);
-  selectNext();
 };
 
 module.exports = exports['default'];
 
-},{"./RemoveCommandsFromSelection":324,"babel-runtime/helpers/interop-require-default":18}],326:[function(require,module,exports){
+},{"./RemoveCommandsFromSelection":322,"babel-runtime/helpers/interop-require-default":18}],324:[function(require,module,exports){
 'use strict';
 
-var getDetectBoundaryFunc = function getDetectBoundaryFunc(modeAccordingToButton, spanConfig) {
-  if (modeAccordingToButton['boundary-detection'].value()) return spanConfig.isDelimiter;else return null;
-},
-    replicate = function replicate(command, annotationData, modeAccordingToButton, spanConfig, spanId, entity) {
-  var detectBoundaryFunc = getDetectBoundaryFunc(modeAccordingToButton, spanConfig);
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
+
+exports['default'] = function (command, annotationData, modeAccordingToButton, spanConfig, spanId, entity) {
+  var detectBoundaryFunc = getDetectBoundaryFunc(modeAccordingToButton, spanConfig),
+      span = annotationData.span.get(spanId);
 
   if (spanId) {
-    command.invoke([command.factory.spanReplicateCommand(entity.getDefaultType(), annotationData.span.get(spanId), detectBoundaryFunc)]);
+    command.invoke([command.factory.spanReplicateCommand(span, span.getTypes().map(function (t) {
+      return t.name;
+    }), detectBoundaryFunc)]);
   } else {
     alert('You can replicate span annotation when there is only span selected.');
   }
 };
 
-module.exports = replicate;
+function getDetectBoundaryFunc(modeAccordingToButton, spanConfig) {
+  if (modeAccordingToButton['boundary-detection'].value()) {
+    return spanConfig.isDelimiter;
+  } else {
+    return null;
+  }
+}
+module.exports = exports['default'];
 
-},{}],327:[function(require,module,exports){
+},{}],325:[function(require,module,exports){
 "use strict";
 
 var isModificationType = function isModificationType(modification, modificationType) {
@@ -24578,7 +24625,7 @@ var isModificationType = function isModificationType(modification, modificationT
 
 module.exports = toggleModification;
 
-},{}],328:[function(require,module,exports){
+},{}],326:[function(require,module,exports){
 'use strict';
 
 var _Object$assign = require('babel-runtime/core-js/object/assign')['default'];
@@ -24641,23 +24688,23 @@ var _enableSaveButtorAtEditable = require('./enableSaveButtorAtEditable');
 
 var _enableSaveButtorAtEditable2 = _interopRequireDefault(_enableSaveButtorAtEditable);
 
-exports['default'] = function (editor, model, view, command, spanConfig, clipBoard, buttonController, typeGap, typeContainer, writable, autocompletionWs) {
-  var typeEditor = new _TypeEditor2['default'](editor, model, spanConfig, command, buttonController.modeAccordingToButton, typeContainer, autocompletionWs),
-      editMode = new _EditMode2['default'](editor, model, typeEditor, buttonController.buttonStateHelper),
+exports['default'] = function (editor, annotationData, selectionModel, view, command, spanConfig, clipBoard, buttonController, typeGap, typeContainer, writable, autocompletionWs) {
+  var typeEditor = new _TypeEditor2['default'](editor, annotationData, selectionModel, spanConfig, command, buttonController.modeAccordingToButton, typeContainer, autocompletionWs),
+      editMode = new _EditMode2['default'](editor, annotationData, selectionModel, typeEditor, buttonController.buttonStateHelper),
       displayInstance = new _DisplayInstance2['default'](typeGap, editMode),
-      defaultEntityHandler = new _handlersDefaultEntityHandler2['default'](command, model.annotationData, model.selectionModel, buttonController.modeAccordingToButton, spanConfig, typeContainer.entity),
-      clipBoardHandler = new _handlersClipBoardHandler2['default'](command, model.annotationData, model.selectionModel, clipBoard),
-      modificationHandler = new _handlersModificationHandler2['default'](command, model.annotationData, buttonController.modeAccordingToButton, typeEditor),
+      defaultEntityHandler = new _handlersDefaultEntityHandler2['default'](command, annotationData, selectionModel, buttonController.modeAccordingToButton, spanConfig, typeContainer.entity),
+      clipBoardHandler = new _handlersClipBoardHandler2['default'](command, annotationData, selectionModel, clipBoard),
+      modificationHandler = new _handlersModificationHandler2['default'](command, annotationData, buttonController.modeAccordingToButton, typeEditor),
       toggleButtonHandler = new _handlersToggleButtonHandler2['default'](buttonController.modeAccordingToButton, editMode),
       modeButtonHandlers = new _handlersModeButtonHandlers2['default'](editMode),
-      selectHandler = new _handlersSelectHandler2['default'](editor, model.selectionModel),
+      selectHandler = new _handlersSelectHandler2['default'](editor[0], selectionModel),
       showSettingDialog = new _componentSettingDialog2['default'](editor, displayInstance),
       event = {
     editorSelected: editorSelected,
     editorUnselected: editorUnselected,
     copyEntities: clipBoardHandler.copyEntities,
     removeSelectedElements: function removeSelectedElements() {
-      return (0, _handlersRemoveSelectedElements2['default'])(command, model.selectionModel, selectHandler);
+      return (0, _handlersRemoveSelectedElements2['default'])(command, selectionModel, selectHandler);
     },
     createEntity: defaultEntityHandler.createEntity,
     showPallet: typeEditor.showPallet,
@@ -24685,7 +24732,7 @@ exports['default'] = function (editor, model, view, command, spanConfig, clipBoa
       });
 
       defaultEntityHandler.on('createEntity', displayInstance.notifyNewInstance);
-      (0, _setDefaultEditability2['default'])(model.annotationData, editMode, writable, mode);
+      (0, _setDefaultEditability2['default'])(annotationData, editMode, writable, mode);
     },
     event: event
   };
@@ -24712,7 +24759,7 @@ exports['default'] = function (editor, model, view, command, spanConfig, clipBoa
 
 module.exports = exports['default'];
 
-},{"../../../component/SettingDialog":177,"./DisplayInstance":265,"./EditMode":273,"./TypeEditor":312,"./enableSaveButtorAtEditable":313,"./handlers/ClipBoardHandler":314,"./handlers/DefaultEntityHandler":315,"./handlers/ModeButtonHandlers":316,"./handlers/ModificationHandler":317,"./handlers/SelectHandler":318,"./handlers/ToggleButtonHandler":322,"./handlers/removeSelectedElements":325,"./setDefaultEditability":332,"babel-runtime/core-js/object/assign":6,"babel-runtime/helpers/interop-require-default":18}],329:[function(require,module,exports){
+},{"../../../component/SettingDialog":177,"./DisplayInstance":265,"./EditMode":273,"./TypeEditor":313,"./enableSaveButtorAtEditable":314,"./handlers/ClipBoardHandler":315,"./handlers/DefaultEntityHandler":316,"./handlers/ModeButtonHandlers":317,"./handlers/ModificationHandler":318,"./handlers/SelectHandler":319,"./handlers/ToggleButtonHandler":320,"./handlers/removeSelectedElements":323,"./setDefaultEditability":330,"babel-runtime/core-js/object/assign":6,"babel-runtime/helpers/interop-require-default":18}],327:[function(require,module,exports){
 // Change view mode accoding to the annotation data.
 "use strict";
 
@@ -24726,7 +24773,7 @@ exports["default"] = function (annotationData) {
 
 module.exports = exports["default"];
 
-},{}],330:[function(require,module,exports){
+},{}],328:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -24766,7 +24813,7 @@ function isSpanEdit(editable, mode) {
 }
 module.exports = exports['default'];
 
-},{}],331:[function(require,module,exports){
+},{}],329:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -24797,7 +24844,7 @@ function forView(editMode, annotationData) {
   }
 }
 
-},{"../isSimple":329,"babel-runtime/helpers/interop-require-default":18}],332:[function(require,module,exports){
+},{"../isSimple":327,"babel-runtime/helpers/interop-require-default":18}],330:[function(require,module,exports){
 'use strict';
 
 var _interopRequireWildcard = require('babel-runtime/helpers/interop-require-wildcard')['default'];
@@ -24843,7 +24890,7 @@ exports['default'] = function (annotationData, editMode, writable, mode) {
 
 module.exports = exports['default'];
 
-},{"./changeView":331,"./showLoadNoticeForEditableMode":333,"./updateWritable":334,"babel-runtime/helpers/interop-require-default":18,"babel-runtime/helpers/interop-require-wildcard":19}],333:[function(require,module,exports){
+},{"./changeView":329,"./showLoadNoticeForEditableMode":331,"./updateWritable":332,"babel-runtime/helpers/interop-require-default":18,"babel-runtime/helpers/interop-require-wildcard":19}],331:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -24858,7 +24905,7 @@ exports["default"] = function (multitrack) {
 
 module.exports = exports["default"];
 
-},{}],334:[function(require,module,exports){
+},{}],332:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -24881,7 +24928,7 @@ exports['default'] = function (multitrack, reject, writable) {
 
 module.exports = exports['default'];
 
-},{"../../../Model/AnnotationData/parseAnnotation/validateAnnotation":225}],335:[function(require,module,exports){
+},{"../../../Model/AnnotationData/parseAnnotation/validateAnnotation":225}],333:[function(require,module,exports){
 'use strict';
 
 var skipBlank = require('./skipBlank');
@@ -24901,7 +24948,7 @@ module.exports = {
   }
 };
 
-},{"./skipBlank":337}],336:[function(require,module,exports){
+},{"./skipBlank":335}],334:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -24975,7 +25022,7 @@ module.exports = {
   backFromEnd: backFromEnd
 };
 
-},{"./skipBlank":337,"./skipCharacters":338,"babel-runtime/helpers/interop-require-default":18}],337:[function(require,module,exports){
+},{"./skipBlank":335,"./skipCharacters":336,"babel-runtime/helpers/interop-require-default":18}],335:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -24999,7 +25046,7 @@ module.exports = {
   back: skipBackBlank
 };
 
-},{"./skipCharacters":338,"babel-runtime/helpers/interop-require-default":18}],338:[function(require,module,exports){
+},{"./skipCharacters":336,"babel-runtime/helpers/interop-require-default":18}],336:[function(require,module,exports){
 "use strict";
 
 module.exports = function (getChars, step, str, position, predicate) {
@@ -25008,7 +25055,163 @@ module.exports = function (getChars, step, str, position, predicate) {
   return position;
 };
 
-},{}],339:[function(require,module,exports){
+},{}],337:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+exports["default"] = function (domPositionCache, relationId) {
+  var connect = domPositionCache.toConnect(relationId);
+
+  removeUiSelectClass(connect);
+};
+
+function removeUiSelectClass(connect) {
+  if (connect && connect.deselect) connect.deselect();
+}
+module.exports = exports["default"];
+
+},{}],338:[function(require,module,exports){
+'use strict';
+
+var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
+
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
+
+var _idFactory = require('../../idFactory');
+
+var _idFactory2 = _interopRequireDefault(_idFactory);
+
+var _ViewDomPositionCache = require('../View/DomPositionCache');
+
+var _ViewDomPositionCache2 = _interopRequireDefault(_ViewDomPositionCache);
+
+var _selectRelation = require('./selectRelation');
+
+var _selectRelation2 = _interopRequireDefault(_selectRelation);
+
+var _deselectRelation = require('./deselectRelation');
+
+var _deselectRelation2 = _interopRequireDefault(_deselectRelation);
+
+var _getEntityDom = require('../getEntityDom');
+
+var _getEntityDom2 = _interopRequireDefault(_getEntityDom);
+
+var SELECTED = 'ui-selected';
+
+exports['default'] = function (editor, annotationData) {
+  var domPositionCache = new _ViewDomPositionCache2['default'](editor, annotationData.entity);
+
+  return {
+    span: {
+      select: function select(id) {
+        var el = getSpanDom(id);
+        modifyStyle(el, 'add');
+        el.focus();
+      },
+      deselect: function deselect(id) {
+        var el = getSpanDom(id);
+
+        // A dom does not exist when it is deleted.
+        if (el) {
+          modifyStyle(el, 'remove');
+          el.blur();
+        }
+      }
+    },
+    entity: {
+      select: function select(id) {
+        var el = (0, _getEntityDom2['default'])(editor[0], id);
+
+        // Entities of block span hos no dom elements.
+        if (el) {
+          modifyStyle(el, 'add');
+
+          // focus label
+          el.parentNode.previousElementSibling.focus();
+        }
+      },
+      deselect: function deselect(id) {
+        var el = (0, _getEntityDom2['default'])(editor[0], id);
+
+        // Entities of block span hos no dom elements.
+        // A dom does not exist when it is deleted.
+        if (el) {
+          modifyStyle(el, 'remove');
+
+          // blur label
+          el.parentNode.previousElementSibling.blur();
+        }
+      }
+    },
+    relation: {
+      select: function select(id) {
+        return (0, _selectRelation2['default'])(domPositionCache, id);
+      },
+      deselect: function deselect(id) {
+        return (0, _deselectRelation2['default'])(domPositionCache, id);
+      }
+    },
+    entityLabel: {
+      update: function update(id) {
+        return updateEntityLabel(editor, id);
+      }
+    }
+  };
+};
+
+// Select the typeLabel if all entities is selected.
+function updateEntityLabel(editor, entityId) {
+  var entity = (0, _getEntityDom2['default'])(editor[0], entityId);
+
+  // Entities of block span hos no dom elements.
+  if (entity) {
+    var typePane = entity.parentNode,
+        typeLabel = typePane.previousElementSibling;
+
+    if (typePane.children.length === typePane.querySelectorAll('.' + SELECTED).length) {
+      typeLabel.classList.add(SELECTED);
+      typePane.classList.add(SELECTED);
+    } else {
+      typeLabel.classList.remove(SELECTED);
+      typePane.classList.remove(SELECTED);
+    }
+  }
+}
+
+function getSpanDom(id) {
+  return document.querySelector('#' + id);
+}
+
+function modifyStyle(element, handle) {
+  element.classList[handle](SELECTED);
+}
+module.exports = exports['default'];
+
+},{"../../idFactory":239,"../View/DomPositionCache":349,"../getEntityDom":405,"./deselectRelation":337,"./selectRelation":339,"babel-runtime/helpers/interop-require-default":18}],339:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+exports["default"] = function (domPositionCache, relationId) {
+  var connect = domPositionCache.toConnect(relationId);
+
+  addUiSelectClass(connect);
+};
+
+function addUiSelectClass(connect) {
+  if (connect && connect.select) connect.select();
+}
+module.exports = exports["default"];
+
+},{}],340:[function(require,module,exports){
 "use strict";
 
 var defaults = {
@@ -25052,7 +25255,7 @@ module.exports = function () {
   };
 };
 
-},{}],340:[function(require,module,exports){
+},{}],341:[function(require,module,exports){
 'use strict';
 
 var _Map = require('babel-runtime/core-js/map')['default'];
@@ -25186,7 +25389,7 @@ function _getSortedIds(getActualTypesFunction, definedTypes) {
 }
 module.exports = exports['default'];
 
-},{"../../uri":412,"./defaultType":341,"babel-runtime/core-js/array/from":2,"babel-runtime/core-js/get-iterator":3,"babel-runtime/core-js/map":5,"babel-runtime/core-js/object/assign":6,"babel-runtime/core-js/object/keys":10,"babel-runtime/helpers/interop-require-default":18,"events":110}],341:[function(require,module,exports){
+},{"../../uri":411,"./defaultType":342,"babel-runtime/core-js/array/from":2,"babel-runtime/core-js/get-iterator":3,"babel-runtime/core-js/map":5,"babel-runtime/core-js/object/assign":6,"babel-runtime/core-js/object/keys":10,"babel-runtime/helpers/interop-require-default":18,"events":110}],342:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -25195,7 +25398,7 @@ Object.defineProperty(exports, '__esModule', {
 exports['default'] = 'something';
 module.exports = exports['default'];
 
-},{}],342:[function(require,module,exports){
+},{}],343:[function(require,module,exports){
 'use strict';
 
 var _Object$assign = require('babel-runtime/core-js/object/assign')['default'];
@@ -25214,14 +25417,14 @@ var _Container = require('./Container');
 
 var _Container2 = _interopRequireDefault(_Container);
 
-exports['default'] = function (model) {
-  var entityContainer = _Object$assign(new _Container2['default'](model.annotationData.entity.types, '#77DDDD'), {
+exports['default'] = function (annotationData) {
+  var entityContainer = _Object$assign(new _Container2['default'](annotationData.entity.types, '#77DDDD'), {
     isBlock: function isBlock(type) {
       var definition = entityContainer.getDefinedType(type);
       return definition && definition.type && definition.type === 'block';
     }
   }),
-      relationContaier = new _Container2['default'](model.annotationData.relation.types, '#555555');
+      relationContaier = new _Container2['default'](annotationData.relation.types, '#555555');
 
   return {
     entity: entityContainer,
@@ -25257,7 +25460,7 @@ function setContainerDefinedTypes(container, newDefinedTypes) {
 }
 module.exports = exports['default'];
 
-},{"./Container":340,"./defaultType":341,"babel-runtime/core-js/object/assign":6,"babel-runtime/helpers/interop-require-default":18}],343:[function(require,module,exports){
+},{"./Container":341,"./defaultType":342,"babel-runtime/core-js/object/assign":6,"babel-runtime/helpers/interop-require-default":18}],344:[function(require,module,exports){
 'use strict';
 
 var _Object$assign = require('babel-runtime/core-js/object/assign')['default'];
@@ -25306,7 +25509,7 @@ function renderLazyRelationAll(relations) {
 }
 module.exports = exports['default'];
 
-},{"./GridLayout":353,"babel-runtime/core-js/object/assign":6,"babel-runtime/core-js/promise":12,"babel-runtime/helpers/interop-require-default":18,"events":110}],344:[function(require,module,exports){
+},{"./GridLayout":354,"babel-runtime/core-js/object/assign":6,"babel-runtime/core-js/promise":12,"babel-runtime/helpers/interop-require-default":18,"events":110}],345:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -25359,7 +25562,7 @@ function clearAll(caches) {
 }
 module.exports = exports['default'];
 
-},{"./LesserMap":346,"babel-runtime/helpers/interop-require-default":18}],345:[function(require,module,exports){
+},{"./LesserMap":347,"babel-runtime/helpers/interop-require-default":18}],346:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -25391,7 +25594,7 @@ function _isGridPrepared(entityModel, map, entityId) {
 }
 module.exports = exports['default'];
 
-},{"./LesserMap":346,"babel-runtime/helpers/interop-require-default":18}],346:[function(require,module,exports){
+},{"./LesserMap":347,"babel-runtime/helpers/interop-require-default":18}],347:[function(require,module,exports){
 'use strict';
 
 var _Map = require('babel-runtime/core-js/map')['default'];
@@ -25413,7 +25616,7 @@ exports['default'] = function () {
 
 module.exports = exports['default'];
 
-},{"babel-runtime/core-js/map":5}],347:[function(require,module,exports){
+},{"babel-runtime/core-js/map":5}],348:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -25486,7 +25689,7 @@ function getEntity(editor, entityModel, gridPositionCache, entityId) {
 }
 module.exports = exports['default'];
 
-},{"../../getEntityDom":407,"./CachedGetterFactory":344,"babel-runtime/helpers/interop-require-default":18}],348:[function(require,module,exports){
+},{"../../getEntityDom":405,"./CachedGetterFactory":345,"babel-runtime/helpers/interop-require-default":18}],349:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -25547,7 +25750,7 @@ function RelationApi() {
 }
 module.exports = exports['default'];
 
-},{"./GridPosition":345,"./LesserMap":346,"./SpanAndEntityPosition":347,"babel-runtime/helpers/interop-require-default":18}],349:[function(require,module,exports){
+},{"./GridPosition":346,"./LesserMap":347,"./SpanAndEntityPosition":348,"babel-runtime/helpers/interop-require-default":18}],350:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -25608,7 +25811,7 @@ function updatePositionCache(domPositionCaChe, span, newPosition) {
 }
 module.exports = exports['default'];
 
-},{"./getGridOfSpan":351,"./getGridPosition":352,"./showInvisibleGrid":354,"babel-runtime/helpers/interop-require-default":18}],350:[function(require,module,exports){
+},{"./getGridOfSpan":352,"./getGridPosition":353,"./showInvisibleGrid":355,"babel-runtime/helpers/interop-require-default":18}],351:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -25641,7 +25844,7 @@ exports['default'] = function (domPositionCaChe, typeContainer, typeGapValue, an
 
 module.exports = exports['default'];
 
-},{"./arrangeGridPosition":349,"babel-runtime/helpers/interop-require-default":18,"bluebird":22}],351:[function(require,module,exports){
+},{"./arrangeGridPosition":350,"babel-runtime/helpers/interop-require-default":18,"bluebird":22}],352:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -25654,7 +25857,7 @@ exports["default"] = function (spanId) {
 
 module.exports = exports["default"];
 
-},{}],352:[function(require,module,exports){
+},{}],353:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -25700,7 +25903,7 @@ function pullUpGridOverDescendants(getSpan, typeContainer, typeGapValue, span) {
 }
 module.exports = exports['default'];
 
-},{"../getHeightIncludeDescendantGrids":399,"./getGridOfSpan":351,"babel-runtime/helpers/interop-require-default":18}],353:[function(require,module,exports){
+},{"../getHeightIncludeDescendantGrids":397,"./getGridOfSpan":352,"babel-runtime/helpers/interop-require-default":18}],354:[function(require,module,exports){
 'use strict';
 
 var _Promise = require('babel-runtime/core-js/promise')['default'];
@@ -25748,7 +25951,7 @@ function genArrangeAllGridPositionPromises(domPositionCaChe, typeContainer, type
 }
 module.exports = exports['default'];
 
-},{"../DomPositionCache":348,"./arrangeGridPositionPromise":350,"babel-runtime/core-js/promise":12,"babel-runtime/helpers/interop-require-default":18}],354:[function(require,module,exports){
+},{"../DomPositionCache":349,"./arrangeGridPositionPromise":351,"babel-runtime/core-js/promise":12,"babel-runtime/helpers/interop-require-default":18}],355:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -25781,7 +25984,7 @@ function showGrid(grid) {
 }
 module.exports = exports['default'];
 
-},{"./getGridOfSpan":351,"babel-runtime/helpers/interop-require-default":18}],355:[function(require,module,exports){
+},{"./getGridOfSpan":352,"babel-runtime/helpers/interop-require-default":18}],356:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -25814,7 +26017,7 @@ function processAccosiatedRelation(entity, domPositionCaChe, func, entityId) {
 }
 module.exports = exports['default'];
 
-},{"./DomPositionCache":348,"babel-runtime/helpers/interop-require-default":18}],356:[function(require,module,exports){
+},{"./DomPositionCache":349,"babel-runtime/helpers/interop-require-default":18}],357:[function(require,module,exports){
 // Arrange a position of the pane to center entities when entities width is longer than pane width.
 'use strict';
 
@@ -25839,7 +26042,7 @@ exports['default'] = function (pane) {
 
 module.exports = exports['default'];
 
-},{}],357:[function(require,module,exports){
+},{}],358:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -25848,7 +26051,7 @@ Object.defineProperty(exports, '__esModule', {
   value: true
 });
 
-var _Selector = require('../../Selector');
+var _Selector = require('../../../Selector');
 
 var _Selector2 = _interopRequireDefault(_Selector);
 
@@ -25864,21 +26067,21 @@ var _removeNoEntityPaneElement = require('./removeNoEntityPaneElement');
 
 var _removeNoEntityPaneElement2 = _interopRequireDefault(_removeNoEntityPaneElement);
 
-exports['default'] = function (editor, model, typeContainer, gridRenderer, modification, entity) {
-  var selector = new _Selector2['default'](editor, model);
+exports['default'] = function (editor, annotationData, selectionModel, typeContainer, gridRenderer, modification, entity) {
+  var selector = new _Selector2['default'](editor, annotationData);
 
   // Remove an old entity.
   var parentNode = (0, _removeEntityElement2['default'])(editor, entity.id);
 
   // Remove old entity after add new one, because grids will be removed unless entities.
   // Show a new entity.
-  (0, _createEntityUnlessBlock2['default'])(editor, model.annotationData.namespace, typeContainer, gridRenderer, modification, entity);
+  (0, _createEntityUnlessBlock2['default'])(editor, annotationData.namespace, typeContainer, gridRenderer, modification, entity);
 
   // Remove an parentNode unless entity.
   (0, _removeNoEntityPaneElement2['default'])(parentNode);
 
   // Re-select a new entity instance.
-  if (model.selectionModel.entity.has(entity.id)) {
+  if (selectionModel.entity.has(entity.id)) {
     selector.entity.select(entity.id);
     selector.entityLabel.update(entity.id);
   }
@@ -25886,7 +26089,7 @@ exports['default'] = function (editor, model, typeContainer, gridRenderer, modif
 
 module.exports = exports['default'];
 
-},{"../../Selector":396,"./createEntityUnlessBlock":360,"./removeEntityElement":364,"./removeNoEntityPaneElement":365,"babel-runtime/helpers/interop-require-default":18}],358:[function(require,module,exports){
+},{"../../../Selector":338,"./createEntityUnlessBlock":361,"./removeEntityElement":365,"./removeNoEntityPaneElement":366,"babel-runtime/helpers/interop-require-default":18}],359:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -25931,7 +26134,7 @@ exports['default'] = function (editor, namspace, typeContainer, gridRenderer, mo
 
 module.exports = exports['default'];
 
-},{"../../../../idFactory":240,"./arrangePositionOfPane":356,"./createEntityElement":359,"./getTypeElement":362,"babel-runtime/helpers/interop-require-default":18}],359:[function(require,module,exports){
+},{"../../../../idFactory":239,"./arrangePositionOfPane":357,"./createEntityElement":360,"./getTypeElement":363,"babel-runtime/helpers/interop-require-default":18}],360:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -25965,7 +26168,7 @@ function createEntityElement(editor, typeContainer, modification, entity) {
 
 module.exports = exports['default'];
 
-},{"../../../../idFactory":240,"babel-runtime/helpers/interop-require-default":18}],360:[function(require,module,exports){
+},{"../../../../idFactory":239,"babel-runtime/helpers/interop-require-default":18}],361:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -25986,7 +26189,7 @@ exports['default'] = function (editor, namespace, typeContainer, gridRenderer, m
 
 module.exports = exports['default'];
 
-},{"./create":358,"babel-runtime/helpers/interop-require-default":18}],361:[function(require,module,exports){
+},{"./create":359,"babel-runtime/helpers/interop-require-default":18}],362:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -26029,7 +26232,7 @@ exports['default'] = function (type) {
 
 module.exports = exports['default'];
 
-},{"../../../../uri":412,"babel-runtime/helpers/interop-require-default":18}],362:[function(require,module,exports){
+},{"../../../../uri":411,"babel-runtime/helpers/interop-require-default":18}],363:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -26089,7 +26292,7 @@ function getGrid(gridRenderer, spanId) {
 }
 module.exports = exports['default'];
 
-},{"../../../../idFactory":240,"../getTypeDom":391,"./setLabelToTypeLabel":366,"babel-runtime/helpers/interop-require-default":18}],363:[function(require,module,exports){
+},{"../../../../idFactory":239,"../getTypeDom":392,"./setLabelToTypeLabel":367,"babel-runtime/helpers/interop-require-default":18}],364:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -26118,10 +26321,6 @@ var _getEntityDom = require('../../../getEntityDom');
 
 var _getEntityDom2 = _interopRequireDefault(_getEntityDom);
 
-var _Selector = require('../../Selector');
-
-var _Selector2 = _interopRequireDefault(_Selector);
-
 var _createEntityUnlessBlock = require('./createEntityUnlessBlock');
 
 var _createEntityUnlessBlock2 = _interopRequireDefault(_createEntityUnlessBlock);
@@ -26142,32 +26341,32 @@ var _updateLabel2 = require('./updateLabel');
 
 var _updateLabel3 = _interopRequireDefault(_updateLabel2);
 
-exports['default'] = function (editor, model, typeContainer, gridRenderer, renderEntityHandler) {
-  var modification = new _ModificationRenderer2['default'](model.annotationData);
+exports['default'] = function (editor, annotationData, selectionModel, typeContainer, gridRenderer, renderEntityHandler) {
+  var modification = new _ModificationRenderer2['default'](annotationData);
 
   return {
     render: function render(entity) {
-      (0, _createEntityUnlessBlock2['default'])(editor, model.annotationData.namespace, typeContainer, gridRenderer, modification, entity);
+      (0, _createEntityUnlessBlock2['default'])(editor, annotationData.namespace, typeContainer, gridRenderer, modification, entity);
       renderEntityHandler(entity);
     },
     change: function change(entity) {
-      (0, _changeTypeOfExists2['default'])(editor, model, typeContainer, gridRenderer, modification, entity);
+      (0, _changeTypeOfExists2['default'])(editor, annotationData, selectionModel, typeContainer, gridRenderer, modification, entity);
       renderEntityHandler(entity);
     },
     changeModification: function changeModification(entity) {
       return changeModificationOfExists(editor, modification, entity);
     },
     remove: function remove(entity) {
-      return destroy(editor, model, gridRenderer, entity);
+      return destroy(editor, annotationData, gridRenderer, entity);
     },
     updateLabel: function updateLabel(type) {
-      return (0, _updateLabel3['default'])(model.annotationData, typeContainer, type);
+      return (0, _updateLabel3['default'])(annotationData, typeContainer, type);
     }
   };
 };
 
-function destroy(editor, model, gridRenderer, entity) {
-  if (doesSpanHasNoEntity(model.annotationData, entity.span)) {
+function destroy(editor, annotationData, gridRenderer, entity) {
+  if (doesSpanHasNoEntity(annotationData, entity.span)) {
     // Destroy a grid when all entities are remove.
     gridRenderer.remove(entity.span);
   } else {
@@ -26190,7 +26389,7 @@ function doesSpanHasNoEntity(annotationData, spanId) {
 }
 module.exports = exports['default'];
 
-},{"../../../../idFactory":240,"../../../../uri":412,"../../../getEntityDom":407,"../../Selector":396,"../ModificationRenderer":370,"./changeTypeOfExists":357,"./createEntityUnlessBlock":360,"./getDisplayName":361,"./removeEntityElement":364,"./removeNoEntityPaneElement":365,"./updateLabel":367,"babel-runtime/helpers/interop-require-default":18}],364:[function(require,module,exports){
+},{"../../../../idFactory":239,"../../../../uri":411,"../../../getEntityDom":405,"../ModificationRenderer":371,"./changeTypeOfExists":358,"./createEntityUnlessBlock":361,"./getDisplayName":362,"./removeEntityElement":365,"./removeNoEntityPaneElement":366,"./updateLabel":368,"babel-runtime/helpers/interop-require-default":18}],365:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -26219,7 +26418,7 @@ exports['default'] = function (editor, entityId) {
 
 module.exports = exports['default'];
 
-},{"../../../getEntityDom":407,"babel-runtime/helpers/interop-require-default":18}],365:[function(require,module,exports){
+},{"../../../getEntityDom":405,"babel-runtime/helpers/interop-require-default":18}],366:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -26257,7 +26456,7 @@ function removeNoEntityPaneElement(paneElement) {
 
 module.exports = exports['default'];
 
-},{"./arrangePositionOfPane":356,"babel-runtime/helpers/interop-require-default":18}],366:[function(require,module,exports){
+},{"./arrangePositionOfPane":357,"babel-runtime/helpers/interop-require-default":18}],367:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -26342,7 +26541,7 @@ function getMatchPrefix(namespace, type) {
 }
 module.exports = exports['default'];
 
-},{"../../../../uri":412,"./getDisplayName":361,"babel-runtime/helpers/interop-require-default":18}],367:[function(require,module,exports){
+},{"../../../../uri":411,"./getDisplayName":362,"babel-runtime/helpers/interop-require-default":18}],368:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -26373,7 +26572,7 @@ exports['default'] = function (annotationData, typeContainer, type) {
 
 module.exports = exports['default'];
 
-},{"../getTypeDom":391,"./setLabelToTypeLabel":366,"babel-runtime/helpers/interop-require-default":18}],368:[function(require,module,exports){
+},{"../getTypeDom":392,"./setLabelToTypeLabel":367,"babel-runtime/helpers/interop-require-default":18}],369:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -26426,7 +26625,7 @@ function createGrid(editorDom, domPositionCache, container, spanId) {
 }
 module.exports = exports['default'];
 
-},{"../../getNextElement":408,"./getAnnotationBox":388,"babel-runtime/helpers/interop-require-default":18}],369:[function(require,module,exports){
+},{"../../getNextElement":406,"./getAnnotationBox":389,"babel-runtime/helpers/interop-require-default":18}],370:[function(require,module,exports){
 'use strict';
 
 var _Map = require('babel-runtime/core-js/map')['default'];
@@ -26481,14 +26680,14 @@ var _modelToId = require('../../../modelToId');
 
 var _modelToId2 = _interopRequireDefault(_modelToId);
 
-exports['default'] = function (domPositionCaChe, relationRenderer, buttonStateHelper, typeGap, editor, model, typeContainer) {
+exports['default'] = function (domPositionCaChe, relationRenderer, buttonStateHelper, typeGap, editor, annotationData, selectionModel, typeContainer) {
   var emitter = new _events.EventEmitter(),
       gridRenderer = new _GridRenderer2['default'](editor, domPositionCaChe),
       renderEntityHandler = function renderEntityHandler(entity) {
     return (0, _getTypeDom2['default'])(entity.span, entity.type).css(new _TypeStyle2['default'](typeGap()));
   },
-      entityRenderer = new _EntityRenderer2['default'](editor, model, typeContainer.entity, gridRenderer, renderEntityHandler),
-      spanRenderer = new _SpanRenderer2['default'](model.annotationData, typeContainer.entity.isBlock, entityRenderer.render);
+      entityRenderer = new _EntityRenderer2['default'](editor, annotationData, selectionModel, typeContainer.entity, gridRenderer, renderEntityHandler),
+      spanRenderer = new _SpanRenderer2['default'](annotationData, typeContainer.entity.isBlock, entityRenderer.render);
 
   return function (editor, annotationData, selectionModel) {
     var renderAll = new _RenderAll2['default'](editor, domPositionCaChe, spanRenderer, relationRenderer),
@@ -26564,7 +26763,7 @@ function bindeToModelEvent(emitter, annotationData, eventName, handler) {
 }
 module.exports = exports['default'];
 
-},{"../../../modelToId":242,"../TypeStyle":398,"./EntityRenderer":363,"./GridRenderer":368,"./RenderAll":376,"./SpanRenderer":384,"./getAnnotationBox":388,"./getTypeDom":391,"./renderModification":393,"./renderParagraph":394,"babel-runtime/core-js/get-iterator":3,"babel-runtime/core-js/map":5,"babel-runtime/helpers/interop-require-default":18,"events":110}],370:[function(require,module,exports){
+},{"../../../modelToId":241,"../TypeStyle":396,"./EntityRenderer":364,"./GridRenderer":369,"./RenderAll":377,"./SpanRenderer":385,"./getAnnotationBox":389,"./getTypeDom":392,"./renderModification":394,"./renderParagraph":395,"babel-runtime/core-js/get-iterator":3,"babel-runtime/core-js/map":5,"babel-runtime/helpers/interop-require-default":18,"events":110}],371:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -26598,7 +26797,7 @@ function _update(annotationData, domElement, objectId) {
 }
 module.exports = exports['default'];
 
-},{}],371:[function(require,module,exports){
+},{}],372:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -26624,7 +26823,7 @@ exports['default'] = function (editor, annotationData, relationId) {
 
 module.exports = exports['default'];
 
-},{"../../DomPositionCache":348,"babel-runtime/helpers/interop-require-default":18}],372:[function(require,module,exports){
+},{"../../DomPositionCache":349,"babel-runtime/helpers/interop-require-default":18}],373:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -26649,7 +26848,7 @@ var _jsPlumbArrowOverlayUtil = require('./jsPlumbArrowOverlayUtil');
 
 var _jsPlumbArrowOverlayUtil2 = _interopRequireDefault(_jsPlumbArrowOverlayUtil);
 
-exports['default'] = function (editor, model, jsPlumbInstance) {
+exports['default'] = function (editor, annotationData, selectionModel, jsPlumbInstance) {
   return new _bluebird2['default'](function (resolve, reject) {
     requestAnimationFrame(function () {
       try {
@@ -26657,13 +26856,13 @@ exports['default'] = function (editor, model, jsPlumbInstance) {
         // var startTime = new Date();
 
         // Extract relations removed, because relation dom is not synchro with the model.
-        var relations = model.annotationData.relation.all().filter(function (r) {
+        var relations = annotationData.relation.all().filter(function (r) {
           return !r.removed;
         });
 
-        resetAllCurviness(editor, model.annotationData, relations);
+        resetAllCurviness(editor, annotationData, relations);
         jsPlumbInstance.repaintEverything();
-        reselectAll(editor, model.annotationData, model.selectionModel.relation.all());
+        reselectAll(editor, annotationData, selectionModel.relation.all());
 
         // For tuning
         // var endTime = new Date();
@@ -26708,7 +26907,7 @@ function resetAllCurviness(editor, annotationData, relations) {
 }
 module.exports = exports['default'];
 
-},{"./Connect":371,"./determineCurviness":373,"./jsPlumbArrowOverlayUtil":375,"babel-runtime/helpers/interop-require-default":18,"bluebird":22}],373:[function(require,module,exports){
+},{"./Connect":372,"./determineCurviness":374,"./jsPlumbArrowOverlayUtil":376,"babel-runtime/helpers/interop-require-default":18,"bluebird":22}],374:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -26759,7 +26958,7 @@ function toAnchors(relation) {
 }
 module.exports = exports['default'];
 
-},{"../../DomPositionCache":348,"babel-runtime/helpers/interop-require-default":18}],374:[function(require,module,exports){
+},{"../../DomPositionCache":349,"babel-runtime/helpers/interop-require-default":18}],375:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -26826,10 +27025,10 @@ var POINTUP_LINE_WIDTH = 3,
   return labelOverlay;
 };
 
-module.exports = function (editor, model, typeContainer) {
+module.exports = function (editor, annotationData, selectionModel, typeContainer) {
   // Init a jsPlumb instance.
-  var modification = new _ModificationRenderer2['default'](model.annotationData),
-      domPositionCaChe = new _DomPositionCache2['default'](editor, model.annotationData.entity),
+  var modification = new _ModificationRenderer2['default'](annotationData),
+      domPositionCaChe = new _DomPositionCache2['default'](editor, annotationData.entity),
       jsPlumbInstance,
       ConnectorStrokeStyle = (function () {
     var converseHEXinotRGBA = function converseHEXinotRGBA(color, opacity) {
@@ -26842,7 +27041,7 @@ module.exports = function (editor, model, typeContainer) {
     };
 
     return function (relationId) {
-      var type = model.annotationData.relation.get(relationId).type,
+      var type = annotationData.relation.get(relationId).type,
           colorHex = typeContainer.relation.getColor(type);
 
       return {
@@ -26855,16 +27054,16 @@ module.exports = function (editor, model, typeContainer) {
   // Cache a connect instance.
   cache = function cache(connect) {
     var relationId = connect.relationId;
-    var domPositionCaChe = new _DomPositionCache2['default'](editor, model.annotationData.entity);
+    var domPositionCaChe = new _DomPositionCache2['default'](editor, annotationData.entity);
     domPositionCaChe.connectCache.set(relationId, connect);
 
     return connect;
   },
       isGridPrepared = function isGridPrepared(relationId) {
-    if (!model.annotationData.relation.get(relationId)) return undefined;
+    if (!annotationData.relation.get(relationId)) return undefined;
 
-    var domPositionCaChe = new _DomPositionCache2['default'](editor, model.annotationData.entity),
-        relation = model.annotationData.relation.get(relationId);
+    var domPositionCaChe = new _DomPositionCache2['default'](editor, annotationData.entity),
+        relation = annotationData.relation.get(relationId);
 
     return domPositionCaChe.gridPositionCache.isGridPrepared(relation.subj) && domPositionCaChe.gridPositionCache.isGridPrepared(relation.obj);
   },
@@ -26887,7 +27086,7 @@ module.exports = function (editor, model, typeContainer) {
         target: $((0, _getEntityDom2['default'])(editor[0], relation.obj)),
         anchors: ['TopCenter', "TopCenter"],
         connector: ['Bezier', {
-          curviness: (0, _determineCurviness2['default'])(editor, model.annotationData, relation)
+          curviness: (0, _determineCurviness2['default'])(editor, annotationData, relation)
         }],
         paintStyle: new ConnectorStrokeStyle(relation.id),
         parameters: {
@@ -27079,13 +27278,13 @@ module.exports = function (editor, model, typeContainer) {
     return _.compose(cache, extendDummyApiToCreateRlationWhenGridMoved, extendRelationId);
   })(),
       changeType = function changeType(relation) {
-    var connect = new _Connect2['default'](editor, model.annotationData, relation.id),
+    var connect = new _Connect2['default'](editor, annotationData, relation.id),
         strokeStyle = new ConnectorStrokeStyle(relation.id);
 
     // The connect may be an object for lazyRender instead of jsPlumb.Connection.
     // This occurs when changing types and deletes was reverted.
     if (connect instanceof jsPlumb.Connection) {
-      if (model.selectionModel.relation.has(relation.id)) {
+      if (selectionModel.relation.has(relation.id)) {
         // Re-set style of the line and arrow if selected.
         strokeStyle.lineWidth = POINTUP_LINE_WIDTH;
       }
@@ -27095,7 +27294,7 @@ module.exports = function (editor, model, typeContainer) {
     }
   },
       changeJsModification = function changeJsModification(relation) {
-    var connect = new _Connect2['default'](editor, model.annotationData, relation.id);
+    var connect = new _Connect2['default'](editor, annotationData, relation.id);
 
     // A connect may be an object before it rendered.
     if (connect instanceof jsPlumb.Connection) {
@@ -27103,7 +27302,7 @@ module.exports = function (editor, model, typeContainer) {
     }
   },
       remove = function remove(relation) {
-    var connect = new _Connect2['default'](editor, model.annotationData, relation.id);
+    var connect = new _Connect2['default'](editor, annotationData, relation.id);
     jsPlumbInstance.detach(connect);
     domPositionCaChe.connectCache['delete'](relation.id);
 
@@ -27118,7 +27317,7 @@ module.exports = function (editor, model, typeContainer) {
     jsPlumbInstance = makeJsPlumbInstance(container);
 
     return function () {
-      return (0, _arrangePositionAll2['default'])(editor, model, jsPlumbInstance);
+      return (0, _arrangePositionAll2['default'])(editor, annotationData, selectionModel, jsPlumbInstance);
     };
   };
 
@@ -27135,7 +27334,7 @@ module.exports = function (editor, model, typeContainer) {
   };
 };
 
-},{"../../../getEntityDom":407,"../../DomPositionCache":348,"../ModificationRenderer":370,"../getAnnotationBox":388,"./Connect":371,"./arrangePositionAll":372,"./determineCurviness":373,"./jsPlumbArrowOverlayUtil":375,"babel-runtime/helpers/interop-require-default":18,"bluebird":22}],375:[function(require,module,exports){
+},{"../../../getEntityDom":405,"../../DomPositionCache":349,"../ModificationRenderer":371,"../getAnnotationBox":389,"./Connect":372,"./arrangePositionAll":373,"./determineCurviness":374,"./jsPlumbArrowOverlayUtil":376,"babel-runtime/helpers/interop-require-default":18,"bluebird":22}],376:[function(require,module,exports){
 'use strict';
 
 var // Overlay styles for jsPlubm connections.
@@ -27220,7 +27419,7 @@ module.exports = {
   }
 };
 
-},{}],376:[function(require,module,exports){
+},{}],377:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -27264,7 +27463,7 @@ function renderAllRelation(annotationData, relationRenderer) {
 }
 module.exports = exports['default'];
 
-},{"./getAnnotationBox":388,"babel-runtime/helpers/interop-require-default":18}],377:[function(require,module,exports){
+},{"./getAnnotationBox":389,"babel-runtime/helpers/interop-require-default":18}],378:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -27318,7 +27517,7 @@ function renderChildresnSpan(span, create) {
 }
 module.exports = exports['default'];
 
-},{"./destroyChildrenSpan":382,"./getBigBrother":383,"./renderClassOfSpan":385,"./renderEntitiesOfSpan":386,"./renderSingleSpan":387,"babel-runtime/helpers/interop-require-default":18}],378:[function(require,module,exports){
+},{"./destroyChildrenSpan":383,"./getBigBrother":384,"./renderClassOfSpan":386,"./renderEntitiesOfSpan":387,"./renderSingleSpan":388,"babel-runtime/helpers/interop-require-default":18}],379:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -27334,7 +27533,7 @@ exports["default"] = function (textNode, offset) {
 
 module.exports = exports["default"];
 
-},{}],379:[function(require,module,exports){
+},{}],380:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -27352,7 +27551,7 @@ exports['default'] = function (span) {
 
 module.exports = exports['default'];
 
-},{}],380:[function(require,module,exports){
+},{}],381:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -27390,7 +27589,7 @@ function validateOffset(textNode, offset) {
 }
 module.exports = exports['default'];
 
-},{"./createRange":378,"babel-runtime/helpers/interop-require-default":18}],381:[function(require,module,exports){
+},{"./createRange":379,"babel-runtime/helpers/interop-require-default":18}],382:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -27412,7 +27611,7 @@ exports['default'] = function (spanId) {
 
 module.exports = exports['default'];
 
-},{}],382:[function(require,module,exports){
+},{}],383:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -27445,7 +27644,7 @@ function destroySpanRecurcive(span) {
 }
 module.exports = exports['default'];
 
-},{"./destroy":381,"babel-runtime/helpers/interop-require-default":18}],383:[function(require,module,exports){
+},{"./destroy":382,"babel-runtime/helpers/interop-require-default":18}],384:[function(require,module,exports){
 // A big brother is brother node on a structure at rendered.
 // There is no big brother if the span is first in a paragraph.
 "use strict";
@@ -27468,7 +27667,7 @@ exports["default"] = function (span, topLevelSpans) {
 module.exports = exports["default"];
 // Warning: parent is set at updateSpanTree, is not exists now.
 
-},{}],384:[function(require,module,exports){
+},{}],385:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -27505,7 +27704,7 @@ exports['default'] = function (annotationData, isBlockFunc, renderEntityFunc) {
 
 module.exports = exports['default'];
 
-},{"./create":377,"./destroy":381,"./renderClassOfSpan":385,"babel-runtime/helpers/interop-require-default":18}],385:[function(require,module,exports){
+},{"./create":378,"./destroy":382,"./renderClassOfSpan":386,"babel-runtime/helpers/interop-require-default":18}],386:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -27546,7 +27745,7 @@ function hasType(span, isBlockFunc) {
 }
 module.exports = exports['default'];
 
-},{"babel-runtime/helpers/interop-require-default":18,"not":160}],386:[function(require,module,exports){
+},{"babel-runtime/helpers/interop-require-default":18,"not":160}],387:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -27564,7 +27763,7 @@ function renderEntitiesOfType(type, entityIdToModelFunc, renderEntityFunc) {
 }
 module.exports = exports["default"];
 
-},{}],387:[function(require,module,exports){
+},{}],388:[function(require,module,exports){
 'use strict';
 
 var _slicedToArray = require('babel-runtime/helpers/sliced-to-array')['default'];
@@ -27643,7 +27842,7 @@ function getParentModel(span) {
 }
 module.exports = exports['default'];
 
-},{"./createSpanElement":379,"./createSpanRange":380,"babel-runtime/helpers/interop-require-default":18,"babel-runtime/helpers/sliced-to-array":20}],388:[function(require,module,exports){
+},{"./createSpanElement":380,"./createSpanRange":381,"babel-runtime/helpers/interop-require-default":18,"babel-runtime/helpers/sliced-to-array":20}],389:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -27664,7 +27863,7 @@ var _getEditorBody2 = _interopRequireDefault(_getEditorBody);
 exports['default'] = _.compose(_.partial(_getElement2['default'], 'div', 'textae-editor__body__annotation-box'), _getEditorBody2['default']);
 module.exports = exports['default'];
 
-},{"./getEditorBody":389,"./getElement":390,"babel-runtime/helpers/interop-require-default":18}],389:[function(require,module,exports){
+},{"./getEditorBody":390,"./getElement":391,"babel-runtime/helpers/interop-require-default":18}],390:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -27681,7 +27880,7 @@ var _getElement2 = _interopRequireDefault(_getElement);
 exports['default'] = _.partial(_getElement2['default'], 'div', 'textae-editor__body');
 module.exports = exports['default'];
 
-},{"./getElement":390,"babel-runtime/helpers/interop-require-default":18}],390:[function(require,module,exports){
+},{"./getElement":391,"babel-runtime/helpers/interop-require-default":18}],391:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -27699,7 +27898,7 @@ exports['default'] = function (tagName, className, $parent) {
 
 module.exports = exports['default'];
 
-},{}],391:[function(require,module,exports){
+},{}],392:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -27718,10 +27917,14 @@ exports['default'] = function (spanId, type) {
 
 module.exports = exports['default'];
 
-},{"../../../idFactory":240,"babel-runtime/helpers/interop-require-default":18}],392:[function(require,module,exports){
+},{"../../../idFactory":239,"babel-runtime/helpers/interop-require-default":18}],393:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
+
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
 
 var _DomPositionCache = require('../DomPositionCache');
 
@@ -27731,11 +27934,10 @@ var _Initiator = require('./Initiator');
 
 var _Initiator2 = _interopRequireDefault(_Initiator);
 
-module.exports = function (editor, model, buttonStateHelper, typeContainer, typeGap, relationRenderer) {
-  var domPositionCaChe = new _DomPositionCache2['default'](editor, model.annotationData.entity);
-
-  var api = {
-    init: new _Initiator2['default'](domPositionCaChe, relationRenderer, buttonStateHelper, typeGap, editor, model, typeContainer),
+exports['default'] = function (editor, annotationData, selectionModel, buttonStateHelper, typeContainer, typeGap, relationRenderer) {
+  var domPositionCaChe = new _DomPositionCache2['default'](editor, annotationData.entity),
+      api = {
+    init: new _Initiator2['default'](domPositionCaChe, relationRenderer, buttonStateHelper, typeGap, editor, annotationData, selectionModel, typeContainer),
     arrangeRelationPositionAll: relationRenderer.arrangePositionAll,
     renderLazyRelationAll: relationRenderer.renderLazyRelationAll
   };
@@ -27743,7 +27945,9 @@ module.exports = function (editor, model, buttonStateHelper, typeContainer, type
   return api;
 };
 
-},{"../DomPositionCache":348,"./Initiator":369,"babel-runtime/helpers/interop-require-default":18}],393:[function(require,module,exports){
+module.exports = exports['default'];
+
+},{"../DomPositionCache":349,"./Initiator":370,"babel-runtime/helpers/interop-require-default":18}],394:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -27767,7 +27971,7 @@ exports['default'] = function (annotationData, modelType, modification, renderer
 
 module.exports = exports['default'];
 
-},{"babel-runtime/helpers/interop-require-default":18,"capitalize":23}],394:[function(require,module,exports){
+},{"babel-runtime/helpers/interop-require-default":18,"capitalize":23}],395:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -27808,163 +28012,7 @@ function createTaggedSourceDoc(paragraphs) {
 }
 module.exports = exports['default'];
 
-},{"../getTextBox":400,"./getEditorBody":389,"./getElement":390,"babel-runtime/helpers/interop-require-default":18,"handlebars":147}],395:[function(require,module,exports){
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-exports["default"] = function (domPositionCache, relationId) {
-  var connect = domPositionCache.toConnect(relationId);
-
-  removeUiSelectClass(connect);
-};
-
-function removeUiSelectClass(connect) {
-  if (connect && connect.deselect) connect.deselect();
-}
-module.exports = exports["default"];
-
-},{}],396:[function(require,module,exports){
-'use strict';
-
-var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
-
-Object.defineProperty(exports, '__esModule', {
-  value: true
-});
-
-var _idFactory = require('../../../idFactory');
-
-var _idFactory2 = _interopRequireDefault(_idFactory);
-
-var _DomPositionCache = require('../DomPositionCache');
-
-var _DomPositionCache2 = _interopRequireDefault(_DomPositionCache);
-
-var _selectRelation = require('./selectRelation');
-
-var _selectRelation2 = _interopRequireDefault(_selectRelation);
-
-var _deselectRelation = require('./deselectRelation');
-
-var _deselectRelation2 = _interopRequireDefault(_deselectRelation);
-
-var _getEntityDom = require('../../getEntityDom');
-
-var _getEntityDom2 = _interopRequireDefault(_getEntityDom);
-
-var SELECTED = 'ui-selected';
-
-exports['default'] = function (editor, model) {
-  var domPositionCache = new _DomPositionCache2['default'](editor, model.annotationData.entity);
-
-  return {
-    span: {
-      select: function select(id) {
-        var el = getSpanDom(id);
-        modifyStyle(el, 'add');
-        el.focus();
-      },
-      deselect: function deselect(id) {
-        var el = getSpanDom(id);
-
-        // A dom does not exist when it is deleted.
-        if (el) {
-          modifyStyle(el, 'remove');
-          el.blur();
-        }
-      }
-    },
-    entity: {
-      select: function select(id) {
-        var el = (0, _getEntityDom2['default'])(editor[0], id);
-
-        // Entities of block span hos no dom elements.
-        if (el) {
-          modifyStyle(el, 'add');
-
-          // focus label
-          el.parentNode.previousElementSibling.focus();
-        }
-      },
-      deselect: function deselect(id) {
-        var el = (0, _getEntityDom2['default'])(editor[0], id);
-
-        // Entities of block span hos no dom elements.
-        // A dom does not exist when it is deleted.
-        if (el) {
-          modifyStyle(el, 'remove');
-
-          // blur label
-          el.parentNode.previousElementSibling.blur();
-        }
-      }
-    },
-    relation: {
-      select: function select(id) {
-        return (0, _selectRelation2['default'])(domPositionCache, id);
-      },
-      deselect: function deselect(id) {
-        return (0, _deselectRelation2['default'])(domPositionCache, id);
-      }
-    },
-    entityLabel: {
-      update: function update(id) {
-        return updateEntityLabel(editor, id);
-      }
-    }
-  };
-};
-
-// Select the typeLabel if all entities is selected.
-function updateEntityLabel(editor, entityId) {
-  var entity = (0, _getEntityDom2['default'])(editor[0], entityId);
-
-  // Entities of block span hos no dom elements.
-  if (entity) {
-    var typePane = entity.parentNode,
-        typeLabel = typePane.previousElementSibling;
-
-    if (typePane.children.length === typePane.querySelectorAll('.' + SELECTED).length) {
-      typeLabel.classList.add(SELECTED);
-      typePane.classList.add(SELECTED);
-    } else {
-      typeLabel.classList.remove(SELECTED);
-      typePane.classList.remove(SELECTED);
-    }
-  }
-}
-
-function getSpanDom(id) {
-  return document.querySelector('#' + id);
-}
-
-function modifyStyle(element, handle) {
-  element.classList[handle](SELECTED);
-}
-module.exports = exports['default'];
-
-},{"../../../idFactory":240,"../../getEntityDom":407,"../DomPositionCache":348,"./deselectRelation":395,"./selectRelation":397,"babel-runtime/helpers/interop-require-default":18}],397:[function(require,module,exports){
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-exports["default"] = function (domPositionCache, relationId) {
-  var connect = domPositionCache.toConnect(relationId);
-
-  addUiSelectClass(connect);
-};
-
-function addUiSelectClass(connect) {
-  if (connect && connect.select) connect.select();
-}
-module.exports = exports["default"];
-
-},{}],398:[function(require,module,exports){
+},{"../getTextBox":398,"./getEditorBody":390,"./getElement":391,"babel-runtime/helpers/interop-require-default":18,"handlebars":147}],396:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -27980,7 +28028,7 @@ exports['default'] = function (newValue) {
 
 module.exports = exports['default'];
 
-},{}],399:[function(require,module,exports){
+},{}],397:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -28001,7 +28049,7 @@ function getHeightIncludeDescendantGrids(span, typeContainer, typeGapValue) {
 
 module.exports = exports["default"];
 
-},{}],400:[function(require,module,exports){
+},{}],398:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -28015,7 +28063,7 @@ function getTextBox(editor) {
 
 module.exports = exports['default'];
 
-},{}],401:[function(require,module,exports){
+},{}],399:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -28060,23 +28108,23 @@ var _RendererRelationRenderer2 = _interopRequireDefault(_RendererRelationRendere
 
 var BODY = '\n<div class="textae-editor__body">\n    <div class="textae-editor__body__annotation-box"></div>\n    <div class="textae-editor__body__text-box"></div>\n</div>\n';
 
-exports['default'] = function (editor, model) {
-  var hover = new _Hover2['default'](editor, model.annotationData.entity);
+exports['default'] = function (editor, annotationData, selectionModel) {
+  var hover = new _Hover2['default'](editor, annotationData.entity);
 
   var api = {
     init: function init(editor, buttonController, typeGap, typeContainer) {
-      (0, _setSelectionModelHandler2['default'])(editor, model, buttonController);
+      (0, _setSelectionModelHandler2['default'])(editor, annotationData, selectionModel, buttonController);
 
       editor[0].innerHTML = BODY;
 
-      var relationRenderer = new _RendererRelationRenderer2['default'](editor, model, typeContainer);
+      var relationRenderer = new _RendererRelationRenderer2['default'](editor, annotationData, selectionModel, typeContainer);
       var arrangePositionAllRelation = relationRenderer.init(editor),
-          display = new _Display2['default'](editor, model.annotationData, typeContainer, arrangePositionAllRelation);
+          display = new _Display2['default'](editor, annotationData, typeContainer, arrangePositionAllRelation);
 
-      setHandlerOnTyapGapEvent(editor, model, typeGap, typeContainer, display);
+      setHandlerOnTyapGapEvent(editor, annotationData, typeGap, typeContainer, display);
       setHandlerOnDisplayEvent(editor, display);
 
-      initRenderer(editor, model, display.update, typeGap, typeContainer, buttonController.buttonStateHelper, relationRenderer);
+      initRenderer(editor, annotationData, selectionModel, display.update, typeGap, typeContainer, buttonController.buttonStateHelper, relationRenderer);
 
       api.updateDisplay = function () {
         display.update(typeGap());
@@ -28089,25 +28137,25 @@ exports['default'] = function (editor, model) {
   return api;
 };
 
-function initRenderer(editor, model, updateDisplay, typeGap, typeContainer, buttonStateHelper, relationRenderer) {
-  var renderer = new _Renderer2['default'](editor, model, buttonStateHelper, typeContainer, typeGap, relationRenderer),
+function initRenderer(editor, annotationData, selectionModel, updateDisplay, typeGap, typeContainer, buttonStateHelper, relationRenderer) {
+  var renderer = new _Renderer2['default'](editor, annotationData, selectionModel, buttonStateHelper, typeContainer, typeGap, relationRenderer),
       debouncedUpdateDisplay = _.debounce(function () {
     return updateDisplay(typeGap());
   }, 100);
 
-  renderer.init(editor, model.annotationData, model.selectionModel).on('change', debouncedUpdateDisplay).on('all.change', debouncedUpdateDisplay).on('paragraph.change', function () {
+  renderer.init(editor, annotationData, selectionModel).on('change', debouncedUpdateDisplay).on('all.change', debouncedUpdateDisplay).on('paragraph.change', function () {
     return lineHeight.reduceBottomSpace(editor[0]);
   }).on('span.add', debouncedUpdateDisplay).on('span.remove', debouncedUpdateDisplay).on('entity.add', debouncedUpdateDisplay).on('entity.change', debouncedUpdateDisplay).on('entity.remove', debouncedUpdateDisplay).on('relation.add', debouncedUpdateDisplay);
 }
 
-function setHandlerOnTyapGapEvent(editor, model, typeGap, typeContainer, display) {
+function setHandlerOnTyapGapEvent(editor, annotationData, typeGap, typeContainer, display) {
   var setTypeStyle = function setTypeStyle(newValue) {
     return editor.find('.textae-editor__type').css(new _TypeStyle2['default'](newValue));
   };
 
   typeGap(setTypeStyle);
   typeGap(function (newValue) {
-    return lineHeight.setToTypeGap(editor[0], model.annotationData, typeContainer, newValue);
+    return lineHeight.setToTypeGap(editor[0], annotationData, typeContainer, newValue);
   });
   typeGap(display.update);
 }
@@ -28126,7 +28174,7 @@ function setHandlerOnDisplayEvent(editor, display) {
 }
 module.exports = exports['default'];
 
-},{"../../../util/CursorChanger":425,"./Display":343,"./Hover":355,"./Renderer":392,"./Renderer/RelationRenderer":374,"./TypeStyle":398,"./lineHeight":402,"./setSelectionModelHandler":403,"babel-runtime/helpers/interop-require-default":18,"babel-runtime/helpers/interop-require-wildcard":19}],402:[function(require,module,exports){
+},{"../../../util/CursorChanger":424,"./Display":344,"./Hover":356,"./Renderer":393,"./Renderer/RelationRenderer":375,"./TypeStyle":396,"./lineHeight":400,"./setSelectionModelHandler":401,"babel-runtime/helpers/interop-require-default":18,"babel-runtime/helpers/interop-require-wildcard":19}],400:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -28218,7 +28266,7 @@ function pixelToInt(str) {
   return str === '' ? 0 : parseInt(str, 10);
 }
 
-},{"./getHeightIncludeDescendantGrids":399,"./getTextBox":400,"babel-runtime/helpers/interop-require-default":18}],403:[function(require,module,exports){
+},{"./getHeightIncludeDescendantGrids":397,"./getTextBox":398,"babel-runtime/helpers/interop-require-default":18}],401:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -28227,15 +28275,15 @@ Object.defineProperty(exports, '__esModule', {
   value: true
 });
 
-var _Selector = require('./Selector');
+var _Selector = require('../Selector');
 
 var _Selector2 = _interopRequireDefault(_Selector);
 
-exports['default'] = function (editor, model, buttonController) {
-  var selector = new _Selector2['default'](editor, model);
+exports['default'] = function (editor, annotationData, selectionModel, buttonController) {
+  var selector = new _Selector2['default'](editor, annotationData);
 
   // Because entity.change is off at relation-edit-mode.
-  model.selectionModel.on('span.select', selector.span.select).on('span.deselect', selector.span.deselect).on('span.change', buttonController.buttonStateHelper.updateBySpan).on('entity.select', selector.entity.select).on('entity.deselect', selector.entity.deselect).on('relation.select', delay150(selector.relation.select)).on('relation.deselect', delay150(selector.relation.deselect)).on('relation.change', buttonController.buttonStateHelper.updateByRelation);
+  selectionModel.on('span.select', selector.span.select).on('span.deselect', selector.span.deselect).on('span.change', buttonController.buttonStateHelper.updateBySpan).on('entity.select', selector.entity.select).on('entity.deselect', selector.entity.deselect).on('relation.select', delay150(selector.relation.select)).on('relation.deselect', delay150(selector.relation.deselect)).on('relation.change', buttonController.buttonStateHelper.updateByRelation);
 };
 
 function delay150(func) {
@@ -28243,7 +28291,7 @@ function delay150(func) {
 }
 module.exports = exports['default'];
 
-},{"./Selector":396,"babel-runtime/helpers/interop-require-default":18}],404:[function(require,module,exports){
+},{"../Selector":338,"babel-runtime/helpers/interop-require-default":18}],402:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -28303,7 +28351,7 @@ exports['default'] = function (editor, presenter, view) {
 
 module.exports = exports['default'];
 
-},{"babel-runtime/helpers/interop-require-default":18,"delegate":107}],405:[function(require,module,exports){
+},{"babel-runtime/helpers/interop-require-default":18,"delegate":107}],403:[function(require,module,exports){
 'use strict';
 
 var _interopRequireWildcard = require('babel-runtime/helpers/interop-require-wildcard')['default'];
@@ -28323,7 +28371,7 @@ exports['default'] = function (editor, annotationData, typeContainer, typeGap, v
 
 module.exports = exports['default'];
 
-},{"./View/lineHeight":402,"babel-runtime/helpers/interop-require-wildcard":19}],406:[function(require,module,exports){
+},{"./View/lineHeight":400,"babel-runtime/helpers/interop-require-wildcard":19}],404:[function(require,module,exports){
 // Focus of the editor or children element is necessary to listen to keyboard events.
 // Elements be able to focused are the editor, spans and entity types.
 // The focus is lost when spans or entity types are remove.
@@ -28356,7 +28404,7 @@ exports['default'] = function (editor) {
 module.exports = exports['default'];
 // So, focus the editer when spans or entity types are removed and lost focus.
 
-},{}],407:[function(require,module,exports){
+},{}],405:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -28369,7 +28417,7 @@ exports["default"] = function (editor, entityId) {
 
 module.exports = exports["default"];
 
-},{}],408:[function(require,module,exports){
+},{}],406:[function(require,module,exports){
 'use strict';
 
 var _slicedToArray = require('babel-runtime/helpers/sliced-to-array')['default'];
@@ -28422,7 +28470,7 @@ function getElements(editorDom, element) {
   return [all, index];
 }
 
-},{"babel-runtime/core-js/array/from":2,"babel-runtime/helpers/sliced-to-array":20}],409:[function(require,module,exports){
+},{"babel-runtime/core-js/array/from":2,"babel-runtime/helpers/sliced-to-array":20}],407:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -28485,7 +28533,7 @@ function urlDecode(params, name) {
 }
 module.exports = exports['default'];
 
-},{"./getUrlParameters":410,"babel-runtime/helpers/interop-require-default":18}],410:[function(require,module,exports){
+},{"./getUrlParameters":408,"babel-runtime/helpers/interop-require-default":18}],408:[function(require,module,exports){
 // Usage sample: getUrlParameters(location.search).
 'use strict';
 
@@ -28511,7 +28559,7 @@ module.exports = function (urlQuery) {
   }, {});
 };
 
-},{}],411:[function(require,module,exports){
+},{}],409:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -28578,16 +28626,16 @@ var _focusEditorWhenFocusedChildRemoved = require('./focusEditorWhenFocusedChild
 
 var _focusEditorWhenFocusedChildRemoved2 = _interopRequireDefault(_focusEditorWhenFocusedChildRemoved);
 
-exports['default'] = function (editor, dataAccessObject, history, buttonController, model, clipBoard, writable) {
+exports['default'] = function (editor, dataAccessObject, history, buttonController, annotationData, selectionModel, clipBoard, writable) {
   var params = (0, _getParams2['default'])(editor),
       spanConfig = new _SpanConfig2['default'](),
 
   // Users can edit model only via commands.
-  command = new _Command2['default'](editor, model, history),
+  command = new _Command2['default'](editor, annotationData, selectionModel, history),
       typeGap = new _observ2['default'](-1),
-      typeContainer = new _TypeContainer2['default'](model),
-      view = new _View2['default'](editor, model),
-      presenter = new _Presenter2['default'](editor, model, view, command, spanConfig, clipBoard, buttonController, typeGap, typeContainer, writable, params.autocompletion_ws);
+      typeContainer = new _TypeContainer2['default'](annotationData),
+      view = new _View2['default'](editor, annotationData, selectionModel),
+      presenter = new _Presenter2['default'](editor, annotationData, selectionModel, view, command, spanConfig, clipBoard, buttonController, typeGap, typeContainer, writable, params.autocompletion_ws);
 
   view.init(editor, buttonController, typeGap, typeContainer, writable);
   (0, _bindMouseEvent2['default'])(editor, presenter, view);
@@ -28598,21 +28646,21 @@ exports['default'] = function (editor, dataAccessObject, history, buttonControll
   // Manage the original annotation
   var originalAnnotation = undefined;
 
-  var daoHandler = new _DaoHandler2['default'](dataAccessObject, history, model.annotationData, typeContainer, function () {
+  var daoHandler = new _DaoHandler2['default'](dataAccessObject, history, annotationData, typeContainer, function () {
     return originalAnnotation;
   }),
       statusBar = getStatusBar(editor, params.status_bar);
 
   dataAccessObject.on('load', function (data) {
-    setAnnotation(spanConfig, typeContainer, model.annotationData, data.annotation, params.config);
+    setAnnotation(spanConfig, typeContainer, annotationData, data.annotation, params.config);
     statusBar.status(data.source);
     originalAnnotation = data.annotation;
   });
 
-  originalAnnotation = loadAnnotation(spanConfig, typeContainer, model.annotationData, statusBar, params, dataAccessObject);
+  originalAnnotation = loadAnnotation(spanConfig, typeContainer, annotationData, statusBar, params, dataAccessObject);
 
   var updateLineHeight = function updateLineHeight() {
-    return (0, _calculateLineHeight2['default'])(editor, model.annotationData, typeContainer, typeGap, view);
+    return (0, _calculateLineHeight2['default'])(editor, annotationData, typeContainer, typeGap, view);
   };
 
   editor.api = new _APIs2['default'](command, presenter, daoHandler, buttonController, view, updateLineHeight);
@@ -28701,7 +28749,22 @@ function getStatusBar(editor, statusBar) {
 }
 module.exports = exports['default'];
 
-},{"../../component/StatusBar":182,"../../util/ajaxAccessor":426,"./APIs":244,"./Command":261,"./DaoHandler":263,"./Presenter":328,"./SpanConfig":339,"./TypeContainer":342,"./View":401,"./bindMouseEvent":404,"./calculateLineHeight":405,"./focusEditorWhenFocusedChildRemoved":406,"./getParams":409,"babel-runtime/helpers/interop-require-default":18,"babel-runtime/helpers/interop-require-wildcard":19,"observ":161}],412:[function(require,module,exports){
+},{"../../component/StatusBar":182,"../../util/ajaxAccessor":425,"./APIs":243,"./Command":261,"./DaoHandler":263,"./Presenter":326,"./SpanConfig":340,"./TypeContainer":343,"./View":399,"./bindMouseEvent":402,"./calculateLineHeight":403,"./focusEditorWhenFocusedChildRemoved":404,"./getParams":407,"babel-runtime/helpers/interop-require-default":18,"babel-runtime/helpers/interop-require-wildcard":19,"observ":161}],410:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+exports["default"] = function (allSpans, candidateSpan) {
+  return allSpans.filter(function (existSpan) {
+    return existSpan.begin === candidateSpan.begin && existSpan.end === candidateSpan.end;
+  }).length > 0;
+};
+
+module.exports = exports["default"];
+
+},{}],411:[function(require,module,exports){
 'use strict';
 
 module.exports = {
@@ -28717,7 +28780,7 @@ module.exports = {
   }
 };
 
-},{}],413:[function(require,module,exports){
+},{}],412:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -28755,7 +28818,7 @@ jQuery.fn.textae = (function () {
   };
 })();
 
-},{"./control":200,"./editor":241,"./tool":420,"babel-runtime/helpers/interop-require-default":18}],414:[function(require,module,exports){
+},{"./control":200,"./editor":240,"./tool":419,"babel-runtime/helpers/interop-require-default":18}],413:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -28786,7 +28849,7 @@ exports['default'] = function (helpDialog, editors) {
 
 module.exports = exports['default'];
 
-},{"./getMousePoint":419,"babel-runtime/helpers/interop-require-default":18}],415:[function(require,module,exports){
+},{"./getMousePoint":418,"babel-runtime/helpers/interop-require-default":18}],414:[function(require,module,exports){
 'use strict';
 
 var _createClass = require('babel-runtime/helpers/create-class')['default'];
@@ -28877,7 +28940,7 @@ function switchActiveClass(editors, selected) {
 }
 module.exports = exports['default'];
 
-},{"babel-runtime/core-js/object/assign":6,"babel-runtime/helpers/class-call-check":14,"babel-runtime/helpers/create-class":15}],416:[function(require,module,exports){
+},{"babel-runtime/core-js/object/assign":6,"babel-runtime/helpers/class-call-check":14,"babel-runtime/helpers/create-class":15}],415:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -28917,7 +28980,7 @@ exports['default'] = function (helpDialog, editors) {
 
 module.exports = exports['default'];
 
-},{"./convertKeyEvent":417,"./getKeyCode":418,"./getMousePoint":419,"babel-runtime/helpers/interop-require-default":18}],417:[function(require,module,exports){
+},{"./convertKeyEvent":416,"./getKeyCode":417,"./getMousePoint":418,"babel-runtime/helpers/interop-require-default":18}],416:[function(require,module,exports){
 'use strict';
 
 var _Map = require('babel-runtime/core-js/map')['default'];
@@ -28940,7 +29003,7 @@ function convertKeyEvent(keyCode) {
 
 module.exports = exports['default'];
 
-},{"babel-runtime/core-js/map":5}],418:[function(require,module,exports){
+},{"babel-runtime/core-js/map":5}],417:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -28953,7 +29016,7 @@ exports["default"] = function (e) {
 
 module.exports = exports["default"];
 
-},{}],419:[function(require,module,exports){
+},{}],418:[function(require,module,exports){
 // Ovserve and record mouse position to return it.
 'use strict';
 
@@ -28973,7 +29036,7 @@ exports['default'] = function () {
 
 module.exports = exports['default'];
 
-},{}],420:[function(require,module,exports){
+},{}],419:[function(require,module,exports){
 'use strict';
 
 var _Object$assign = require('babel-runtime/core-js/object/assign')['default'];
@@ -29103,7 +29166,7 @@ function redrawOnResize(editors) {
 }
 module.exports = exports['default'];
 
-},{"../component/HelpDialog":171,"./ControlButtonHandler":414,"./EditorContainer":415,"./KeyInputHandler":416,"./observeKeyWithoutDialog":421,"./setVeilObserver":423,"babel-runtime/core-js/object/assign":6,"babel-runtime/helpers/interop-require-default":18,"events":110}],421:[function(require,module,exports){
+},{"../component/HelpDialog":171,"./ControlButtonHandler":413,"./EditorContainer":414,"./KeyInputHandler":415,"./observeKeyWithoutDialog":420,"./setVeilObserver":422,"babel-runtime/core-js/object/assign":6,"babel-runtime/helpers/interop-require-default":18,"events":110}],420:[function(require,module,exports){
 // Observe key-input events and convert events to readable code.
 'use strict';
 
@@ -29127,7 +29190,7 @@ exports['default'] = function (keyInputHandler, editors) {
 
 module.exports = exports['default'];
 
-},{}],422:[function(require,module,exports){
+},{}],421:[function(require,module,exports){
 'use strict';
 
 var _Map = require('babel-runtime/core-js/map')['default'];
@@ -29149,7 +29212,7 @@ exports['default'] = function (element) {
 
 module.exports = exports['default'];
 
-},{"babel-runtime/core-js/map":5}],423:[function(require,module,exports){
+},{"babel-runtime/core-js/map":5}],422:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -29190,7 +29253,7 @@ function switchVeil(hasWaitingEditor) {
 }
 module.exports = exports['default'];
 
-},{"./hasWaitingEditor":422,"./veil":424,"babel-runtime/helpers/interop-require-default":18}],424:[function(require,module,exports){
+},{"./hasWaitingEditor":421,"./veil":423,"babel-runtime/helpers/interop-require-default":18}],423:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -29224,7 +29287,7 @@ exports['default'] = {
 };
 module.exports = exports['default'];
 
-},{}],425:[function(require,module,exports){
+},{}],424:[function(require,module,exports){
 'use strict';
 
 var changeCursor = function changeCursor(editor, action) {
@@ -29243,7 +29306,7 @@ module.exports = function (editor) {
   };
 };
 
-},{}],426:[function(require,module,exports){
+},{}],425:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -29302,7 +29365,7 @@ function isEmpty(str) {
   return !str || str === "";
 }
 
-},{}]},{},[413]);
+},{}]},{},[412]);
 
 // for module pattern with tail.js
 (function(jQuery) { // Application main
