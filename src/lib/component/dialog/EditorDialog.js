@@ -5,18 +5,16 @@ const defaultOption = {
   height: 220
 }
 
-export default function(editorId, id, title, $content, option) {
+export default function(editorId, id, title, el, option) {
   const openOption = getOption(option),
     $dialog = new Dialog(
       openOption,
-      getDialogId(editorId, id),
+      id,
       title,
-      $content
+      el
     )
 
-  return Object.assign($dialog, {
-    id: getDialogId(editorId, id)
-  })
+  return $dialog
 }
 
 function getOption(option) {
@@ -31,8 +29,4 @@ function getOption(option) {
   }
 
   return newOpiton
-}
-
-function getDialogId(editorId, id) {
-  return `${editorId}.${id}`
 }

@@ -3,7 +3,7 @@ import {
   hasError as hasError
 }
 from '../editor/Model/AnnotationData/parseAnnotation/validateAnnotation'
-import GetEditorDialog from './dialog/GetEditorDialog'
+import EditorDialog from './dialog/EditorDialog'
 
 const source = `
     <div class="textae-editor__valiondate-dialog__content">
@@ -135,14 +135,17 @@ export default function(editor, rejects) {
   if (!hasError(rejects))
     return
 
-  let $dialog = new GetEditorDialog(editor)(
-    'textae.dialog.validation',
-    'The following erroneous annotations ignored',
-    $('<div>'), {
-      noCancelButton: true,
-      height: 450
-    }
-  )
+
+  const el = document.createElement('div'),
+    $dialog = new EditorDialog(
+      editor.editorId,
+      'textae.dialog.validation',
+      'The following erroneous annotations ignored',
+      el, {
+        noCancelButton: true,
+        height: 450
+      }
+    )
 
   updateContent($dialog[0].firstChild, rejects)
   $dialog.open()

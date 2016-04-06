@@ -1,17 +1,18 @@
 import delegate from 'delegate'
-import GetEditorDialog from '../dialog/GetEditorDialog'
+import EditorDialog from '../dialog/EditorDialog'
 import CLASS_NAME from './className'
 
-export default function(editor, $content, input, label) {
+export default function(editor, el, input, label) {
   const okHandler = () => {
       $dialog.done(input.value, label.innerText)
       $dialog.close()
     },
     // Create a dialog
-    $dialog = new GetEditorDialog(editor)(
+    $dialog = new EditorDialog(
+      editor.editorId,
       'textae.dialog.edit-id',
       'Please enter new id',
-      $content, {
+      el, {
         noCancelButton: true,
         buttons: {
           OK: okHandler

@@ -22,7 +22,7 @@ export default function(editor, displayInstance) {
 
   bind($content, editor, displayInstance)
 
-  return $content
+  return $content[0]
 }
 
 function bind($content, editor, displayInstance) {

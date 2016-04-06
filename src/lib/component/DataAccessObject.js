@@ -5,7 +5,7 @@ import {
 from 'events'
 import * as ajaxAccessor from '../util/ajaxAccessor'
 import CursorChanger from '../util/CursorChanger'
-import GetEditorDialog from './dialog/GetEditorDialog'
+import EditorDialog from './dialog/EditorDialog'
 import jQuerySugar from './jQuerySugar'
 
 var bindEvent = function($target, event, func) {
@@ -52,7 +52,13 @@ module.exports = function(editor, confirmDiscardChangeMessage) {
 
           return $dialog
         },
-        getDialog = _.compose(extendOpenWithUrl, bindCloseEvent, new GetEditorDialog(editor)),
+        getDialog = (id, title, el) => {
+          return extendOpenWithUrl(
+            bindCloseEvent(
+              new EditorDialog(editor.editorId, id, title, el)
+            )
+          )
+        },
         label = {
           URL: 'URL',
           LOCAL: 'Local'
@@ -117,7 +123,7 @@ module.exports = function(editor, confirmDiscardChangeMessage) {
             })
 
           // Capture the local variable by inner funcitons.
-          var $dialog = getDialog('textae.dialog.load', 'Load Annotations', $content)
+          var $dialog = getDialog('textae.dialog.load', 'Load Annotations', $content[0])
 
           return $dialog
         },
@@ -195,7 +201,7 @@ module.exports = function(editor, confirmDiscardChangeMessage) {
               return false
             })
 
-          var $dialog = getDialog('textae.dialog.save', 'Save Annotations', $content)
+          var $dialog = getDialog('textae.dialog.save', 'Save Annotations', $content[0])
 
           // Set the filename when the dialog is opened.
           $dialog.on('dialogopen', function() {
