@@ -15,7 +15,7 @@ export default function(editorId, id, title, $content, option) {
     )
 
   return Object.assign($dialog, {
-    id: id
+    id: getDialogId(editorId, id)
   })
 }
 

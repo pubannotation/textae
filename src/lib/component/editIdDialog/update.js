@@ -8,7 +8,8 @@ export default function(dialog, input, label, typeContainer, autocompletionWs, d
       source(typeContainer, autocompletionWs, request, response)
     },
     minLength: 2,
-    select: (event, ui) => select(input, label, ui)
+    select: (event, ui) => select(input, label, ui),
+    appendTo: `#${dialog.id}`
   })
 
   // Update done handler
