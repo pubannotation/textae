@@ -1,4 +1,4 @@
-import isSimple from '../isSimple'
+import isSimple from './isSimple'
 
 export function forEditable(editMode, annotationData) {
   if (isSimple(annotationData)) {

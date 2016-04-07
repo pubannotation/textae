@@ -2,7 +2,7 @@ import SettingDialog from '../../../component/SettingDialog'
 import TypeEditor from './TypeEditor'
 import EditMode from './EditMode'
 import DisplayInstance from './DisplayInstance'
-import setDefaultEditability from './setDefaultEditability'
+import initiateEditMode from './initiateEditMode'
 import ClipBoardHandler from './handlers/ClipBoardHandler'
 import DefaultEntityHandler from './handlers/DefaultEntityHandler'
 import removeSelectedElements from './handlers/removeSelectedElements'
@@ -11,6 +11,7 @@ import SelectHandler from './handlers/SelectHandler'
 import ToggleButtonHandler from './handlers/ToggleButtonHandler'
 import ModeButtonHandlers from './handlers/ModeButtonHandlers'
 import enableSaveButtorAtEditable from './enableSaveButtorAtEditable'
+import bindModelChange from './bindModelChange'
 
 export default function(
   editor,
@@ -118,7 +119,10 @@ export default function(
         })
 
       defaultEntityHandler.on('createEntity', displayInstance.notifyNewInstance)
-      setDefaultEditability(annotationData, editMode, writable, mode)
+
+      // Do not call before the View.init.
+      initiateEditMode(mode, editMode, annotationData)
+      bindModelChange(annotationData, writable, editMode)
     },
     event: event
   }
