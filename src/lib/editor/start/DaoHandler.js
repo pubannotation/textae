@@ -15,5 +15,5 @@ function showSaveDailogWithEditedData(dataAccessObject, annotationData, typeCont
     originalAnnotation,
     annotationData.toJson(), {
       config
-    })))
+    })), null, 2)
 }
