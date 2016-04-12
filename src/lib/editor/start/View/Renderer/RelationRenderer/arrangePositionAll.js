@@ -1,4 +1,3 @@
-import Promise from 'bluebird'
 import Connect from './Connect'
 import determineCurviness from './determineCurviness'
 import jsPlumbArrowOverlayUtil from './jsPlumbArrowOverlayUtil'

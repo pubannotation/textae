@@ -1,4 +1,3 @@
-import Promise from 'bluebird'
 import arrangeGridPosition from './arrangeGridPosition'
 
 export default function(domPositionCaChe, typeContainer, typeGapValue, annotationData, span) {

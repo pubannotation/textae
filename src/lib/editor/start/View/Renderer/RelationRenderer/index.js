@@ -1,4 +1,3 @@
-import Promise from 'bluebird'
 import ModificationRenderer from '../ModificationRenderer'
 import getAnnotationBox from '../getAnnotationBox'
 import DomPositionCache from '../../DomPositionCache'

@@ -19,7 +19,6 @@
     "url": "https://github.com/pubannotation/textae/issues"
   },
   "dependencies": {
-    "bluebird": "^3.0.6",
     "capitalize": "^1.0.0",
     "delegate": "^3.0.0",
     "element-closest": "^1.0.3",
