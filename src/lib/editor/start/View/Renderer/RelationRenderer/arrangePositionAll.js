@@ -9,8 +9,11 @@ export default function(editor, annotationData, selectionModel, jsPlumbInstance)
         // For tuning
         // var startTime = new Date();
 
-        // Extract relations removed, because relation dom is not synchro with the model.
-        const relations = annotationData.relation.all().filter(r => !r.removed)
+        // Extract relations are removed or rendered not yet, because relation DOMs are render asynchronously.
+        const relations = annotationData
+          .relation.all()
+          .filter(r => !r.removed)
+          .filter(r => r.render === undefined)
 
         resetAllCurviness(
           editor,
