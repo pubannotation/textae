@@ -3,7 +3,6 @@ import getTextBox from './getTextBox'
 
 const TEXT_HEIGHT = 23
 const MARGIN_TOP = 30
-const MINIMUM_HEIGHT = 41
 
 export function get(editor) {
   let textBox = getTextBox(editor),
@@ -42,11 +41,7 @@ export function setToTypeGap(editor, annotationData, typeContainer, typeGapValue
     let style = window.getComputedStyle(editor),
       n = pixelToInt(style.lineHeight)
 
-    if (style.lineHeight === 'normal') {
-      maxHeight = MINIMUM_HEIGHT
-    } else {
-      maxHeight = n
-    }
+    maxHeight = n
   } else {
     maxHeight = _.max(
       annotationData.span.all()
