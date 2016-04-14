@@ -92,5 +92,5 @@ function ControlBar() {
 function redrawOnResize(editors) {
   // Bind resize event
   window
-    .addEventListener('resize', _.debounce(() => editors.redraw(), 500))
+    .addEventListener('resize', _.throttle(() => editors.redraw(), 500))
 }
