@@ -1,0 +1,76 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+
+  <link rel="stylesheet" href="../vender/jquery-ui.min.css" />
+  <link rel="stylesheet" href="../vender/toastr/build/toastr.min.css" />
+  <link rel="stylesheet" href="../lib/css/textae-{{version}}.min.css" />
+
+  <script src="../vender/jquery/dist/jquery.min.js"></script>
+  <script src="../vender/jquery-ui.min.js"></script>
+  <script src="../vender/jquery.jsPlumb-1.5.2-min.js"></script>
+  <script src="../vender/underscore/underscore-min.js"></script>
+  <script src="../vender/toastr/build/toastr.min.js"></script>
+  <script src="../vender/element-closest/closest.js"></script>
+  <script src="../lib/textae-{{version}}.min.js"></script>
+</head>
+
+<body>
+  <div id="css_area"></div>
+
+  <input><span>Wellcome!</span>
+  <div class="textae-control" style="position:fixed;"></div>
+  <div class="textae-editor" title="editor1" mode="edit" status_bar='on'></div>
+  <input />
+  <div class="textae-editor" title="editor2 for comfirm a priority source and target parameters" config="../../dev/2_config.json" style="line-height: 48px;" target="dummy" source="http://localhost:8000/dev/2_annotations.json" mode="edit"></div>
+  <div class="textae-editor" title="editor3 having annotations for the simple mode" source="http://localhost:8000/dev/2_annotations.json" mode="edit"></div>
+  <div class="textae-editor" title="editor4 having annotations for the instance mode with the view mode" config="../../dev/2_config.json" target="../../dev/3_annotations.json" status_bar="off"></div>
+  <div class="textae-editor" title="editro5 having inline config" target="../../dev/1_annotations.json" mode="edit" status_bar='on'>
+    {"config": {
+      "relation types": [{
+          "color": "#5CFF0A",
+          "id": "locatedAt"
+      }, {
+          "color": "#FF0000",
+          "id": "themeOf"
+      }, {
+          "color": "#0000FF",
+          "id": "equivalentTo"
+      }],
+      "entity types": [{
+          "color": "#FFFF00",
+          "id": "Protein",
+          "default": true
+      }, {
+          "color": "#FF0000",
+          "id": "Cell"
+      }, {
+          "color": "#00FF00",
+          "id": "Transcription"
+      }, {
+          "color": "#FFFF00",
+          "id": "Gene_expression"
+      }, {
+          "color": "#FF00FF",
+          "id": "Negative_regulation"
+      }, {
+          "color": "#00FFFF",
+          "id": "Positive_regulation"
+      }, {
+          "color": "#FFFF66",
+          "id": "Regulation",
+          "uri": "http://www.yahoo.co.jp"
+      }, {
+          "color": "#666666",
+          "id": "New"
+      }, {
+          "color": "#0000FF",
+          "id": "Sentence",
+          "type": "block"
+      }]
+  },"text":"Ribonucleic acid (RNA) is a ubiquitous family of large biological molecules that perform multiple vital roles in the coding, decoding, regulation, and expression of genes.","denotations":[{"id":"E3","span":{"begin":165,"end":170},"obj":"http://dbpedia.org/ontology/parent"},{"id":"E4","span":{"begin":89,"end":97},"obj":"something"}],"relations":[{"id":"R1","pred":"something","subj":"E4","obj":"E3"}]}</div>
+</body>
+
+</html>
