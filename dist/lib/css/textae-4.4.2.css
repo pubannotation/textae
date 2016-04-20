@@ -9,6 +9,10 @@
   width: 480px;
   color: #ddd;
 }
+/* To show candidates of the autocomplete, overwrite a style of the jQuery-ui dialog */
+.ui-dialog {
+  overflow: visible;
+}
 
 /* control */
 .textae-control {
@@ -141,6 +145,7 @@
 }
 
 .textae-editor {
+  line-height: 41px;
   overflow: hidden;
   border: 1px solid black;
   /* active editer color */
@@ -197,6 +202,7 @@
   /* MSIE */
   bottom: 0;
   height: 20px;
+  line-height: normal;
   opacity: 0.9;
   overflow-y: hidden;
   position: relative;
@@ -553,9 +559,6 @@
 .textae-editor__valiondate-dialog__content table td.alert {
   color: red;
 }
-.ui-autocomplete {
-  z-index: 103;
-}
 
 /* pallet */
 .textae-editor__type-pallet {
@@ -564,6 +567,7 @@
   font-size: x-small;
   margin: 0;
   max-height: 450px;
+  line-height: normal;
   overflow-x: scroll;
   padding: 0;
   position: fixed;
