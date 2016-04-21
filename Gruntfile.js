@@ -20,7 +20,6 @@ var browserifyFiles = {
 
 module.exports = function(grunt) {
     require('load-grunt-tasks')(grunt)
-    var babelify = require('babelify')
 
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),

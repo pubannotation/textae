@@ -69,6 +69,6 @@
   "scripts": {
     "test": "grunt jasmine_node",
     "watch": "npm run watchify & grunt dev",
-    "watchify": "watchify -d src/lib/jquery.textae.js -t babelify -o dev/bundle.js"
+    "watchify": "watchify -d src/lib/jquery.textae.js  -o dev/bundle.js"
   }
 }
