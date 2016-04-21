@@ -114,9 +114,6 @@ module.exports = function(grunt) {
         eslint: {
             target: 'src/lib/**/*.js'
         },
-        jasmine_node: {
-            all: ['test/']
-        },
         browserify: {
             dist: {
                 files: browserifyFiles
@@ -254,7 +251,7 @@ module.exports = function(grunt) {
     })
 
     grunt.registerTask('dev', ['connect', 'open:dev', 'watch'])
-    grunt.registerTask('dist', ['eslint', 'jasmine_node', 'clean', 'browserify:dist', 'less', 'concat', 'uglify', 'copy', 'replace:version', 'cssmin'])
+    grunt.registerTask('dist', ['eslint', 'clean', 'browserify:dist', 'less', 'concat', 'uglify', 'copy', 'replace:version', 'cssmin'])
     grunt.registerTask('demo', ['open:demo', 'connect:developmentServer:keepalive'])
     grunt.registerTask('app', ['open:app', 'connect:developmentServer:keepalive'])
 }
