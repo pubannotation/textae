@@ -14,20 +14,11 @@ var rename = {
     },
 }
 
-var browserifyFiles = {
-    'src/lib/bundle.js': ['src/lib/jquery.textae.js']
-}
-
 module.exports = function(grunt) {
     require('load-grunt-tasks')(grunt)
 
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
-        // clean dist directory
-        clean: {
-            dist: "dist/*",
-            bundle: "src/lib/bundle.js"
-        },
         // create dist files
         concat: {
             js: {
@@ -108,14 +99,6 @@ module.exports = function(grunt) {
                     from: '{{version}}',
                     to: '<%= pkg.version %>'
                 }]
-            }
-        },
-        eslint: {
-            target: 'src/lib/**/*.js'
-        },
-        browserify: {
-            dist: {
-                files: browserifyFiles
             }
         },
         less: {
@@ -250,7 +233,6 @@ module.exports = function(grunt) {
     })
 
     grunt.registerTask('dev', ['connect', 'open:dev', 'watch'])
-    grunt.registerTask('dist', ['eslint', 'clean', 'browserify:dist', 'less', 'concat', 'uglify', 'copy', 'replace:version', 'cssmin'])
+    grunt.registerTask('dist', ['less', 'concat', 'uglify', 'copy', 'replace:version', 'cssmin'])
     grunt.registerTask('demo', ['open:demo', 'connect:developmentServer:keepalive'])
-    grunt.registerTask('app', ['open:app', 'connect:developmentServer:keepalive'])
 }
