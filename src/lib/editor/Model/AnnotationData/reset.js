@@ -1,22 +1,19 @@
 import setNewData from './setNewData'
 
 export default function reset(dataStore, annotation) {
-  try {
-    clearAnnotationData(dataStore)
-
-    if (!annotation.text) {
-      throw new Error('read failed.')
-    }
-
-    const result = setNewData(dataStore, annotation)
-
-    dataStore.emit('paragraph.change', dataStore.paragraph.all())
-    dataStore.emit('all.change', dataStore, result.multitrack, result.rejects)
-
-    return result.rejects
-  } catch (error) {
-    console.error(error, error.stack)
+  if (!annotation.text) {
+    toastr.error('This is not a json file of anntations.')
+    return null
   }
+
+  clearAnnotationData(dataStore)
+
+  const result = setNewData(dataStore, annotation)
+
+  dataStore.emit('paragraph.change', dataStore.paragraph.all())
+  dataStore.emit('all.change', dataStore, result.multitrack, result.rejects)
+
+  return result.rejects
 }
 
 function clearAnnotationData(dataStore) {
