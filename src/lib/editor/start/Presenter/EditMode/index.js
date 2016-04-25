@@ -22,9 +22,7 @@ export default function(editor, annotationData, selectionModel, typeEditor, butt
     .on(event.CHANGE, typeEditor.cancelSelect)
     .on(event.CHANGE, (editable, mode) => emitter.emit(event.CHANGE, editable, mode))
 
-  Object.assign(emitter, trigger, {
-    isView: () => stateMachine.currentState === 'View Term' || stateMachine.currentState === 'View Instance'
-  })
+  Object.assign(emitter, trigger)
 
   return emitter
 }
