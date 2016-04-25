@@ -20,7 +20,7 @@ export default function(editor, dataAccessObject, history, buttonController, ann
     command = new Command(editor, annotationData, selectionModel, history),
     typeGap = new Observable(-1),
     typeContainer = new TypeContainer(annotationData),
-    view = new View(editor, annotationData, selectionModel),
+    view = new View(editor, annotationData, selectionModel, buttonController, typeGap, typeContainer, writable),
     presenter = new Presenter(
       editor,
       annotationData,
@@ -36,7 +36,6 @@ export default function(editor, dataAccessObject, history, buttonController, ann
       params.autocompletion_ws
     )
 
-  view.init(editor, buttonController, typeGap, typeContainer, writable)
   bindMouseEvent(editor, presenter, view)
   focusEditorWhenFocusedChildRemoved(editor)
 

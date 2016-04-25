@@ -14,7 +14,6 @@ export default function(editor, annotationData, selectionModel, buttonStateHelpe
         selectionModel,
         typeContainer
       ),
-      arrangeRelationPositionAll: relationRenderer.arrangePositionAll,
       renderLazyRelationAll: relationRenderer.renderLazyRelationAll
     }
 

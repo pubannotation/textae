@@ -6,41 +6,19 @@ import arrangePositionAll from './arrangePositionAll'
 import determineCurviness from './determineCurviness'
 import jsPlumbArrowOverlayUtil from './jsPlumbArrowOverlayUtil'
 import getEntityDom from '../../../getEntityDom'
+import makeJsPlumbInstance from './makeJsPlumbInstance'
+import LabelOverlay from './LabelOverlay'
+import LABEL from './LABEL'
 
-var POINTUP_LINE_WIDTH = 3,
-  LABEL = {
-    cssClass: 'textae-editor__relation__label',
-    id: 'label'
-  },
-  makeJsPlumbInstance = function(container) {
-    var newInstance = jsPlumb.getInstance({
-      ConnectionsDetachable: false,
-      Endpoint: ['Dot', {
-        radius: 1
-      }]
-    })
-    newInstance.setRenderMode(newInstance.SVG)
-    newInstance.Defaults.Container = container
-    return newInstance
-  },
-  LabelOverlay = function(connect) {
-    // Find the label overlay by self, because the function 'getLabelOverlays' returns no label overlay.
-    var labelOverlay = connect.getOverlay(LABEL.id)
-    if (!labelOverlay) {
-      throw new Error('no label overlay')
-    }
-
-    return labelOverlay
-  }
+const POINTUP_LINE_WIDTH = 3
 
 module.exports = function(editor, annotationData, selectionModel, typeContainer) {
   // Init a jsPlumb instance.
-  var modification = new ModificationRenderer(annotationData),
+  const modification = new ModificationRenderer(annotationData),
     domPositionCaChe = new DomPositionCache(editor, annotationData.entity),
-    jsPlumbInstance,
     ConnectorStrokeStyle = function() {
-      var converseHEXinotRGBA = function(color, opacity) {
-        var c = color.slice(1),
+      const converseHEXinotRGBA = function(color, opacity) {
+        const c = color.slice(1),
           r = parseInt(c.substr(0, 2), 16),
           g = parseInt(c.substr(2, 2), 16),
           b = parseInt(c.substr(4, 2), 16)
@@ -49,7 +27,7 @@ module.exports = function(editor, annotationData, selectionModel, typeContainer)
       }
 
       return function(relationId) {
-        var type = annotationData.relation.get(relationId).type,
+        const type = annotationData.relation.get(relationId).type,
           colorHex = typeContainer.relation.getColor(type)
 
         return {
@@ -60,8 +38,8 @@ module.exports = function(editor, annotationData, selectionModel, typeContainer)
     }(),
     // Cache a connect instance.
     cache = function(connect) {
-      var relationId = connect.relationId
-      var domPositionCaChe = new DomPositionCache(editor, annotationData.entity)
+      const relationId = connect.relationId
+      const domPositionCaChe = new DomPositionCache(editor, annotationData.entity)
       domPositionCaChe.connectCache.set(relationId, connect)
 
       return connect
@@ -70,7 +48,7 @@ module.exports = function(editor, annotationData, selectionModel, typeContainer)
       if (!annotationData.relation.get(relationId))
         return undefined
 
-      var domPositionCaChe = new DomPositionCache(editor, annotationData.entity),
+      const domPositionCaChe = new DomPositionCache(editor, annotationData.entity),
         relation = annotationData.relation.get(relationId)
 
       return domPositionCaChe.gridPositionCache.isGridPrepared(relation.subj) &&
@@ -84,7 +62,7 @@ module.exports = function(editor, annotationData, selectionModel, typeContainer)
       return connect
     },
     render = function() {
-      var deleteRender = function(relation) {
+      const deleteRender = function(relation) {
           delete relation.render
           return relation
         },
@@ -117,8 +95,8 @@ module.exports = function(editor, annotationData, selectionModel, typeContainer)
           })
         },
         extendPointup = function() {
-          var Pointupable = function() {
-            var hoverupLabel = function(connect) {
+          const Pointupable = function() {
+            const hoverupLabel = function(connect) {
                 new LabelOverlay(connect).addClass('hover')
                 return connect
               },
@@ -171,7 +149,7 @@ module.exports = function(editor, annotationData, selectionModel, typeContainer)
               }
 
             return function(relationId, connect) {
-              var getStrokeStyle = _.partial(ConnectorStrokeStyle, relationId),
+              const getStrokeStyle = _.partial(ConnectorStrokeStyle, relationId),
                 pointupLineColor = _.partial(pointupLine, getStrokeStyle),
                 pointdownLineColor = _.partial(pointdownLine, getStrokeStyle),
                 unlessSelect = _.partial(unless, connect, function(connect) {
@@ -217,7 +195,7 @@ module.exports = function(editor, annotationData, selectionModel, typeContainer)
           }()
 
           return function(connect) {
-            var relationId = connect.relationId
+            const relationId = connect.relationId
             return _.extend(
               connect,
               new Pointupable(relationId, connect)
@@ -226,7 +204,7 @@ module.exports = function(editor, annotationData, selectionModel, typeContainer)
         }(),
         // Set hover action.
         hoverize = function() {
-          var bindHoverAction = function(jsPlumbElement, onMouseOver, onMouseRemove) {
+          const bindHoverAction = function(jsPlumbElement, onMouseOver, onMouseRemove) {
               jsPlumbElement.bind('mouseenter', onMouseOver).bind('mouseexit', onMouseRemove)
             },
             pointup = function(connect) {
@@ -255,8 +233,8 @@ module.exports = function(editor, annotationData, selectionModel, typeContainer)
         }(),
         extendApi = function() {
           // Extend module for jsPlumb.Connection.
-          var Api = function(connect) {
-            var bindClickAction = function(onClick) {
+          const Api = function(connect) {
+            const bindClickAction = function(onClick) {
               this.bind('click', onClick)
               this.getOverlay(LABEL.id).bind('click', function(label, event) {
                 onClick(label.component, event)
@@ -295,7 +273,7 @@ module.exports = function(editor, annotationData, selectionModel, typeContainer)
     // Because a jsPlumb error occurs when a relation between same points.
     // And entities of same length spans was same point before moving grids.
     renderLazy = function() {
-      var extendRelationId = function(relation) {
+      const extendRelationId = function(relation) {
           return _.extend(relation, {
             relationId: relation.id
           })
@@ -306,7 +284,7 @@ module.exports = function(editor, annotationData, selectionModel, typeContainer)
           }
         },
         extendDummyApiToCreateRlationWhenGridMoved = function(relation) {
-          var render = function() {
+          const render = function() {
             return new Promise(function(resolve, reject) {
               _.defer(function() {
                 try {
@@ -327,7 +305,7 @@ module.exports = function(editor, annotationData, selectionModel, typeContainer)
       return _.compose(cache, extendDummyApiToCreateRlationWhenGridMoved, extendRelationId)
     }(),
     changeType = function(relation) {
-      var connect = new Connect(editor, annotationData, relation.id),
+      const connect = new Connect(editor, annotationData, relation.id),
         strokeStyle = new ConnectorStrokeStyle(relation.id)
 
       // The connect may be an object for lazyRender instead of jsPlumb.Connection.
@@ -343,33 +321,17 @@ module.exports = function(editor, annotationData, selectionModel, typeContainer)
       }
     },
     changeJsModification = function(relation) {
-      var connect = new Connect(editor, annotationData, relation.id)
+      const connect = new Connect(editor, annotationData, relation.id)
 
       // A connect may be an object before it rendered.
       if (connect instanceof jsPlumb.Connection) {
         modification.update(new LabelOverlay(connect).getElement(), relation.id)
       }
     },
-    remove = function(relation) {
-      var connect = new Connect(editor, annotationData, relation.id)
-      jsPlumbInstance.detach(connect)
-      domPositionCaChe.connectCache.delete(relation.id)
-
-      // Set the flag dead already to delay selection.
-      connect.dead = true
-
-      // Set a flag to extract relations from target to move relations asynchronously.
-      relation.removed = true
-    },
-    init = function(editor) {
-      var container = getAnnotationBox(editor)
-      jsPlumbInstance = makeJsPlumbInstance(container)
-
-      return () => arrangePositionAll(editor, annotationData, selectionModel, jsPlumbInstance)
-    }
+    jsPlumbInstance = makeJsPlumbInstance(getAnnotationBox(editor))
 
   return {
-    init: init,
+    arrangePositionAll: () => arrangePositionAll(editor, annotationData, selectionModel, jsPlumbInstance),
     reset: function() {
       jsPlumbInstance.reset()
       domPositionCaChe.connectCache.clear()
@@ -377,6 +339,18 @@ module.exports = function(editor, annotationData, selectionModel, typeContainer)
     render: renderLazy,
     change: changeType,
     changeModification: changeJsModification,
-    remove: remove
+    remove: (relation) => removeRelation(editor, annotationData, relation, jsPlumbInstance, domPositionCaChe)
   }
+}
+
+function removeRelation(editor, annotationData, relation, jsPlumbInstance, domPositionCaChe) {
+  const connect = new Connect(editor, annotationData, relation.id)
+  jsPlumbInstance.detach(connect)
+  domPositionCaChe.connectCache.delete(relation.id)
+
+  // Set the flag dead already to delay selection.
+  connect.dead = true
+
+  // Set a flag to extract relations from target to move relations asynchronously.
+  relation.removed = true
 }
