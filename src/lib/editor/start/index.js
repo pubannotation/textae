@@ -33,13 +33,12 @@ export default function(editor, dataAccessObject, history, buttonController, ann
       typeGap,
       typeContainer,
       writable,
-      params.autocompletion_ws
+      params.autocompletion_ws,
+      params.mode
     )
 
   bindMouseEvent(editor, presenter, view)
   focusEditorWhenFocusedChildRemoved(editor)
-
-  presenter.init(params.mode)
 
   // Manage the original annotation
   let originalAnnotation

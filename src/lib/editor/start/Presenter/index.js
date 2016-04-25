@@ -24,7 +24,8 @@ export default function(
   typeGap,
   typeContainer,
   writable,
-  autocompletionWs
+  autocompletionWs,
+  mode
 ) {
   const typeEditor = new TypeEditor(
       editor,
@@ -108,20 +109,19 @@ export default function(
 
   enableSaveButtorAtEditable(writable, editMode, buttonController)
 
+  // The jsPlumbConnetion has an original event mecanism.
+  // We can only bind the connection directory.
+  editor
+    .on('textae.editor.jsPlumbConnection.add', (event, jsPlumbConnection) => {
+      jsPlumbConnection.bindClickAction(typeEditor.jsPlumbConnectionClicked)
+    })
+
+  defaultEntityHandler.on('createEntity', displayInstance.notifyNewInstance)
+
+  bindModelChange(annotationData, writable, editMode, mode)
+
   return {
-    init: function(mode) {
-      // The jsPlumbConnetion has an original event mecanism.
-      // We can only bind the connection directory.
-      editor
-        .on('textae.editor.jsPlumbConnection.add', (event, jsPlumbConnection) => {
-          jsPlumbConnection.bindClickAction(typeEditor.jsPlumbConnectionClicked)
-        })
-
-      defaultEntityHandler.on('createEntity', displayInstance.notifyNewInstance)
-
-      bindModelChange(annotationData, writable, editMode, mode)
-    },
-    event: event
+    event
   }
 
   function editorSelected() {
