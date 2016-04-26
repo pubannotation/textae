@@ -1,11 +1,12 @@
 import Renderer from './Renderer'
 import * as lineHeight from './lineHeight'
 import Hover from './Hover'
-import Display from './Display'
+import AnnotationPosition from './AnnotationPosition'
 import CursorChanger from '../../../util/CursorChanger'
 import setSelectionModelHandler from './setSelectionModelHandler'
 import TypeStyle from './TypeStyle'
 import RelationRenderer from './Renderer/RelationRenderer'
+import updateTextBoxHeight from './updateTextBoxHeight'
 
 const BODY = `
 <div class="textae-editor__body">
@@ -19,16 +20,16 @@ export default function(editor, annotationData, selectionModel, buttonController
   setSelectionModelHandler(editor, annotationData, selectionModel, buttonController)
 
   const relationRenderer = new RelationRenderer(editor, annotationData, selectionModel, typeContainer)
-  const display = new Display(editor, annotationData, typeContainer, relationRenderer.arrangePositionAll)
+  const annotationPosition = new AnnotationPosition(editor, annotationData, typeContainer, relationRenderer.arrangePositionAll)
 
-  setHandlerOnTyapGapEvent(editor, annotationData, typeGap, typeContainer, display)
-  setHandlerOnDisplayEvent(editor, display)
+  setHandlerOnTyapGapEvent(editor, annotationData, typeGap, typeContainer, annotationPosition)
+  setHandlerOnDisplayEvent(editor, annotationPosition)
 
   initRenderer(
     editor,
     annotationData,
     selectionModel,
-    display.update,
+    annotationPosition.update,
     typeGap,
     typeContainer,
     buttonController.buttonStateHelper,
@@ -38,50 +39,44 @@ export default function(editor, annotationData, selectionModel, buttonController
   return {
     hoverRelation: new Hover(editor, annotationData.entity),
     updateDisplay: () => {
-      display.update(typeGap())
-      lineHeight.reduceBottomSpace(editor[0])
+      annotationPosition.update(typeGap())
+      updateTextBoxHeight(editor[0])
     }
   }
 }
 
-function initRenderer(editor, annotationData, selectionModel, updateDisplay, typeGap, typeContainer, buttonStateHelper, relationRenderer) {
+function initRenderer(editor, annotationData, selectionModel, updateAnnotationPosition, typeGap, typeContainer, buttonStateHelper, relationRenderer) {
   const renderer = new Renderer(editor, annotationData, selectionModel, buttonStateHelper, typeContainer, typeGap, relationRenderer),
-    debouncedUpdateDisplay = _.debounce(() => updateDisplay(typeGap()), 100)
+    debouncedUpdateAnnotationPosition = _.debounce(() => updateAnnotationPosition(typeGap()), 100)
 
   renderer.init(editor, annotationData, selectionModel)
-    .on('change', debouncedUpdateDisplay)
+    .on('change', debouncedUpdateAnnotationPosition)
     .on('all.change', () => {
-      lineHeight.reduceBottomSpace(editor[0])
+      updateTextBoxHeight(editor[0])
       lineHeight.setToTypeGap(editor[0], annotationData, typeContainer, typeGap())
-      debouncedUpdateDisplay()
+      debouncedUpdateAnnotationPosition()
     })
-    .on('span.add', debouncedUpdateDisplay)
-    .on('span.remove', debouncedUpdateDisplay)
-    .on('entity.add', debouncedUpdateDisplay)
-    .on('entity.change', debouncedUpdateDisplay)
-    .on('entity.remove', debouncedUpdateDisplay)
-    .on('relation.add', debouncedUpdateDisplay)
+    .on('span.add', debouncedUpdateAnnotationPosition)
+    .on('span.remove', debouncedUpdateAnnotationPosition)
+    .on('entity.add', debouncedUpdateAnnotationPosition)
+    .on('entity.change', debouncedUpdateAnnotationPosition)
+    .on('entity.remove', debouncedUpdateAnnotationPosition)
+    .on('relation.add', debouncedUpdateAnnotationPosition)
 }
 
-function setHandlerOnTyapGapEvent(editor, annotationData, typeGap, typeContainer, display) {
+function setHandlerOnTyapGapEvent(editor, annotationData, typeGap, typeContainer, annotationPosition) {
   const setTypeStyle = (newValue) => editor.find('.textae-editor__type').css(new TypeStyle(newValue))
 
   typeGap(setTypeStyle)
-  typeGap(newValue => lineHeight.setToTypeGap(editor[0], annotationData, typeContainer, newValue))
-  typeGap(display.update)
+  typeGap((newValue) => lineHeight.setToTypeGap(editor[0], annotationData, typeContainer, newValue))
+  typeGap(annotationPosition.update)
 }
 
-function setHandlerOnDisplayEvent(editor, display) {
+function setHandlerOnDisplayEvent(editor, annotationPosition) {
   // Set cursor control by view rendering events.
   const cursorChanger = new CursorChanger(editor)
 
-  display
-    .on('render.start', editor => {
-      // console.log(editor.editorId, 'render.start');
-      cursorChanger.startWait()
-    })
-    .on('render.end', editor => {
-      // console.log(editor.editorId, 'render.end');
-      cursorChanger.endWait()
-    })
+  annotationPosition
+    .on('render.start', cursorChanger.startWait)
+    .on('render.end', cursorChanger.endWait)
 }
