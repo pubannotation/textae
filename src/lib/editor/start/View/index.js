@@ -50,8 +50,11 @@ function initRenderer(editor, annotationData, selectionModel, updateDisplay, typ
 
   renderer.init(editor, annotationData, selectionModel)
     .on('change', debouncedUpdateDisplay)
-    .on('all.change', debouncedUpdateDisplay)
-    .on('paragraph.change', () => lineHeight.reduceBottomSpace(editor[0]))
+    .on('all.change', () => {
+      lineHeight.reduceBottomSpace(editor[0])
+      lineHeight.setToTypeGap(editor[0], annotationData, typeContainer, typeGap())
+      debouncedUpdateDisplay()
+    })
     .on('span.add', debouncedUpdateDisplay)
     .on('span.remove', debouncedUpdateDisplay)
     .on('entity.add', debouncedUpdateDisplay)
