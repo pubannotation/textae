@@ -27,52 +27,53 @@ export default function(editor, displayInstance) {
 
 function bind($content, editor, displayInstance) {
   bindChangeTypeGap(
-      $content,
-      editor,
-      displayInstance
+    $content,
+    editor,
+    displayInstance
   )
 
   bindChangeLineHeight(
-      $content,
-      editor
+    $content,
+    editor
   )
 }
 
 function bindChangeTypeGap($content, editor, displayInstance) {
   let onTypeGapChange = debounce300(
-        (e) => {
-          displayInstance.changeTypeGap(e.target.value)
-          updateLineHeight(editor, $content)
-        }
-    )
+    (e) => {
+      displayInstance.changeTypeGap(e.target.value)
+      updateLineHeight(editor, $content)
+    }
+  )
 
   return $content
-      .on(
-          'change',
-          '.type-gap',
-          onTypeGapChange
-      )
+    .on(
+      'change',
+      '.type-gap',
+      onTypeGapChange
+    )
 }
 
 function bindChangeLineHeight($content, editor) {
   let onLineHeightChange = debounce300(
-        (e) => {
-          lineHeight.set(editor[0], e.target.value)
-          redrawAllEditor()
-        }
-    )
+    (e) => {
+      lineHeight.set(editor[0], e.target.value)
+      redrawAllEditor()
+    }
+  )
 
   return $content
-      .on(
-          'change',
-          '.line-height',
-          onLineHeightChange
-      )
+    .on(
+      'change',
+      '.line-height',
+      onLineHeightChange
+    )
 }
 
 // Redraw all editors in tha windows.
 function redrawAllEditor() {
-  $(window).trigger('resize')
+  const event = new Event('resize')
+  window.dispatchEvent(event)
 }
 
 function debounce300(func) {
