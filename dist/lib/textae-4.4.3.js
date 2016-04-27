@@ -303,31 +303,31 @@ function amdefine(module, requireFn) {
 module.exports = amdefine;
 
 }).call(this,require('_process'),"/node_modules/amdefine/amdefine.js")
-},{"_process":111,"path":110}],2:[function(require,module,exports){
+},{"_process":155,"path":154}],2:[function(require,module,exports){
 module.exports = { "default": require("core-js/library/fn/array/from"), __esModule: true };
-},{"core-js/library/fn/array/from":24}],3:[function(require,module,exports){
+},{"core-js/library/fn/array/from":25}],3:[function(require,module,exports){
 module.exports = { "default": require("core-js/library/fn/get-iterator"), __esModule: true };
-},{"core-js/library/fn/get-iterator":25}],4:[function(require,module,exports){
+},{"core-js/library/fn/get-iterator":26}],4:[function(require,module,exports){
 module.exports = { "default": require("core-js/library/fn/is-iterable"), __esModule: true };
-},{"core-js/library/fn/is-iterable":26}],5:[function(require,module,exports){
+},{"core-js/library/fn/is-iterable":27}],5:[function(require,module,exports){
 module.exports = { "default": require("core-js/library/fn/map"), __esModule: true };
-},{"core-js/library/fn/map":27}],6:[function(require,module,exports){
+},{"core-js/library/fn/map":28}],6:[function(require,module,exports){
 module.exports = { "default": require("core-js/library/fn/object/assign"), __esModule: true };
-},{"core-js/library/fn/object/assign":28}],7:[function(require,module,exports){
+},{"core-js/library/fn/object/assign":29}],7:[function(require,module,exports){
 module.exports = { "default": require("core-js/library/fn/object/create"), __esModule: true };
-},{"core-js/library/fn/object/create":29}],8:[function(require,module,exports){
+},{"core-js/library/fn/object/create":30}],8:[function(require,module,exports){
 module.exports = { "default": require("core-js/library/fn/object/define-property"), __esModule: true };
-},{"core-js/library/fn/object/define-property":30}],9:[function(require,module,exports){
+},{"core-js/library/fn/object/define-property":31}],9:[function(require,module,exports){
 module.exports = { "default": require("core-js/library/fn/object/get-own-property-descriptor"), __esModule: true };
-},{"core-js/library/fn/object/get-own-property-descriptor":31}],10:[function(require,module,exports){
+},{"core-js/library/fn/object/get-own-property-descriptor":32}],10:[function(require,module,exports){
 module.exports = { "default": require("core-js/library/fn/object/keys"), __esModule: true };
-},{"core-js/library/fn/object/keys":32}],11:[function(require,module,exports){
+},{"core-js/library/fn/object/keys":33}],11:[function(require,module,exports){
 module.exports = { "default": require("core-js/library/fn/object/set-prototype-of"), __esModule: true };
-},{"core-js/library/fn/object/set-prototype-of":33}],12:[function(require,module,exports){
+},{"core-js/library/fn/object/set-prototype-of":34}],12:[function(require,module,exports){
 module.exports = { "default": require("core-js/library/fn/promise"), __esModule: true };
-},{"core-js/library/fn/promise":34}],13:[function(require,module,exports){
+},{"core-js/library/fn/promise":35}],13:[function(require,module,exports){
 module.exports = { "default": require("core-js/library/fn/set"), __esModule: true };
-},{"core-js/library/fn/set":35}],14:[function(require,module,exports){
+},{"core-js/library/fn/set":36}],14:[function(require,module,exports){
 "use strict";
 
 exports["default"] = function (instance, Constructor) {
@@ -525,6 +525,8 @@ exports["default"] = function (arr) {
 
 exports.__esModule = true;
 },{"babel-runtime/core-js/array/from":2}],22:[function(require,module,exports){
+
+},{}],23:[function(require,module,exports){
 module.exports = function (string) {
   return string.charAt(0).toUpperCase() + string.substring(1);
 }
@@ -535,7 +537,7 @@ module.exports.words = function (string) {
   })
 }
 
-},{}],23:[function(require,module,exports){
+},{}],24:[function(require,module,exports){
 var matches = require('matches-selector')
 
 module.exports = function (element, selector, checkYoSelf) {
@@ -547,77 +549,77 @@ module.exports = function (element, selector, checkYoSelf) {
   }
 }
 
-},{"matches-selector":158}],24:[function(require,module,exports){
+},{"matches-selector":151}],25:[function(require,module,exports){
 require('../../modules/es6.string.iterator');
 require('../../modules/es6.array.from');
 module.exports = require('../../modules/$.core').Array.from;
-},{"../../modules/$.core":44,"../../modules/es6.array.from":92,"../../modules/es6.string.iterator":102}],25:[function(require,module,exports){
+},{"../../modules/$.core":45,"../../modules/es6.array.from":93,"../../modules/es6.string.iterator":103}],26:[function(require,module,exports){
 require('../modules/web.dom.iterable');
 require('../modules/es6.string.iterator');
 module.exports = require('../modules/core.get-iterator');
-},{"../modules/core.get-iterator":90,"../modules/es6.string.iterator":102,"../modules/web.dom.iterable":105}],26:[function(require,module,exports){
+},{"../modules/core.get-iterator":91,"../modules/es6.string.iterator":103,"../modules/web.dom.iterable":106}],27:[function(require,module,exports){
 require('../modules/web.dom.iterable');
 require('../modules/es6.string.iterator');
 module.exports = require('../modules/core.is-iterable');
-},{"../modules/core.is-iterable":91,"../modules/es6.string.iterator":102,"../modules/web.dom.iterable":105}],27:[function(require,module,exports){
+},{"../modules/core.is-iterable":92,"../modules/es6.string.iterator":103,"../modules/web.dom.iterable":106}],28:[function(require,module,exports){
 require('../modules/es6.object.to-string');
 require('../modules/es6.string.iterator');
 require('../modules/web.dom.iterable');
 require('../modules/es6.map');
 require('../modules/es7.map.to-json');
 module.exports = require('../modules/$.core').Map;
-},{"../modules/$.core":44,"../modules/es6.map":94,"../modules/es6.object.to-string":99,"../modules/es6.string.iterator":102,"../modules/es7.map.to-json":103,"../modules/web.dom.iterable":105}],28:[function(require,module,exports){
+},{"../modules/$.core":45,"../modules/es6.map":95,"../modules/es6.object.to-string":100,"../modules/es6.string.iterator":103,"../modules/es7.map.to-json":104,"../modules/web.dom.iterable":106}],29:[function(require,module,exports){
 require('../../modules/es6.object.assign');
 module.exports = require('../../modules/$.core').Object.assign;
-},{"../../modules/$.core":44,"../../modules/es6.object.assign":95}],29:[function(require,module,exports){
+},{"../../modules/$.core":45,"../../modules/es6.object.assign":96}],30:[function(require,module,exports){
 var $ = require('../../modules/$');
 module.exports = function create(P, D){
   return $.create(P, D);
 };
-},{"../../modules/$":66}],30:[function(require,module,exports){
+},{"../../modules/$":67}],31:[function(require,module,exports){
 var $ = require('../../modules/$');
 module.exports = function defineProperty(it, key, desc){
   return $.setDesc(it, key, desc);
 };
-},{"../../modules/$":66}],31:[function(require,module,exports){
+},{"../../modules/$":67}],32:[function(require,module,exports){
 var $ = require('../../modules/$');
 require('../../modules/es6.object.get-own-property-descriptor');
 module.exports = function getOwnPropertyDescriptor(it, key){
   return $.getDesc(it, key);
 };
-},{"../../modules/$":66,"../../modules/es6.object.get-own-property-descriptor":96}],32:[function(require,module,exports){
+},{"../../modules/$":67,"../../modules/es6.object.get-own-property-descriptor":97}],33:[function(require,module,exports){
 require('../../modules/es6.object.keys');
 module.exports = require('../../modules/$.core').Object.keys;
-},{"../../modules/$.core":44,"../../modules/es6.object.keys":97}],33:[function(require,module,exports){
+},{"../../modules/$.core":45,"../../modules/es6.object.keys":98}],34:[function(require,module,exports){
 require('../../modules/es6.object.set-prototype-of');
 module.exports = require('../../modules/$.core').Object.setPrototypeOf;
-},{"../../modules/$.core":44,"../../modules/es6.object.set-prototype-of":98}],34:[function(require,module,exports){
+},{"../../modules/$.core":45,"../../modules/es6.object.set-prototype-of":99}],35:[function(require,module,exports){
 require('../modules/es6.object.to-string');
 require('../modules/es6.string.iterator');
 require('../modules/web.dom.iterable');
 require('../modules/es6.promise');
 module.exports = require('../modules/$.core').Promise;
-},{"../modules/$.core":44,"../modules/es6.object.to-string":99,"../modules/es6.promise":100,"../modules/es6.string.iterator":102,"../modules/web.dom.iterable":105}],35:[function(require,module,exports){
+},{"../modules/$.core":45,"../modules/es6.object.to-string":100,"../modules/es6.promise":101,"../modules/es6.string.iterator":103,"../modules/web.dom.iterable":106}],36:[function(require,module,exports){
 require('../modules/es6.object.to-string');
 require('../modules/es6.string.iterator');
 require('../modules/web.dom.iterable');
 require('../modules/es6.set');
 require('../modules/es7.set.to-json');
 module.exports = require('../modules/$.core').Set;
-},{"../modules/$.core":44,"../modules/es6.object.to-string":99,"../modules/es6.set":101,"../modules/es6.string.iterator":102,"../modules/es7.set.to-json":104,"../modules/web.dom.iterable":105}],36:[function(require,module,exports){
+},{"../modules/$.core":45,"../modules/es6.object.to-string":100,"../modules/es6.set":102,"../modules/es6.string.iterator":103,"../modules/es7.set.to-json":105,"../modules/web.dom.iterable":106}],37:[function(require,module,exports){
 module.exports = function(it){
   if(typeof it != 'function')throw TypeError(it + ' is not a function!');
   return it;
 };
-},{}],37:[function(require,module,exports){
-module.exports = function(){ /* empty */ };
 },{}],38:[function(require,module,exports){
+module.exports = function(){ /* empty */ };
+},{}],39:[function(require,module,exports){
 var isObject = require('./$.is-object');
 module.exports = function(it){
   if(!isObject(it))throw TypeError(it + ' is not an object!');
   return it;
 };
-},{"./$.is-object":59}],39:[function(require,module,exports){
+},{"./$.is-object":60}],40:[function(require,module,exports){
 // getting tag from 19.1.3.6 Object.prototype.toString()
 var cof = require('./$.cof')
   , TAG = require('./$.wks')('toStringTag')
@@ -634,13 +636,13 @@ module.exports = function(it){
     // ES3 arguments fallback
     : (B = cof(O)) == 'Object' && typeof O.callee == 'function' ? 'Arguments' : B;
 };
-},{"./$.cof":40,"./$.wks":88}],40:[function(require,module,exports){
+},{"./$.cof":41,"./$.wks":89}],41:[function(require,module,exports){
 var toString = {}.toString;
 
 module.exports = function(it){
   return toString.call(it).slice(8, -1);
 };
-},{}],41:[function(require,module,exports){
+},{}],42:[function(require,module,exports){
 'use strict';
 var $            = require('./$')
   , hide         = require('./$.hide')
@@ -800,7 +802,7 @@ module.exports = {
     setSpecies(NAME);
   }
 };
-},{"./$":66,"./$.ctx":45,"./$.defined":46,"./$.descriptors":47,"./$.for-of":51,"./$.has":53,"./$.hide":54,"./$.is-object":59,"./$.iter-define":62,"./$.iter-step":64,"./$.redefine-all":72,"./$.set-species":76,"./$.strict-new":80,"./$.uid":87}],42:[function(require,module,exports){
+},{"./$":67,"./$.ctx":46,"./$.defined":47,"./$.descriptors":48,"./$.for-of":52,"./$.has":54,"./$.hide":55,"./$.is-object":60,"./$.iter-define":63,"./$.iter-step":65,"./$.redefine-all":73,"./$.set-species":77,"./$.strict-new":81,"./$.uid":88}],43:[function(require,module,exports){
 // https://github.com/DavidBruant/Map-Set.prototype.toJSON
 var forOf   = require('./$.for-of')
   , classof = require('./$.classof');
@@ -812,7 +814,7 @@ module.exports = function(NAME){
     return arr;
   };
 };
-},{"./$.classof":39,"./$.for-of":51}],43:[function(require,module,exports){
+},{"./$.classof":40,"./$.for-of":52}],44:[function(require,module,exports){
 'use strict';
 var $              = require('./$')
   , global         = require('./$.global')
@@ -868,10 +870,10 @@ module.exports = function(NAME, wrapper, methods, common, IS_MAP, IS_WEAK){
 
   return C;
 };
-},{"./$":66,"./$.descriptors":47,"./$.export":49,"./$.fails":50,"./$.for-of":51,"./$.global":52,"./$.hide":54,"./$.is-object":59,"./$.redefine-all":72,"./$.set-to-string-tag":77,"./$.strict-new":80}],44:[function(require,module,exports){
+},{"./$":67,"./$.descriptors":48,"./$.export":50,"./$.fails":51,"./$.for-of":52,"./$.global":53,"./$.hide":55,"./$.is-object":60,"./$.redefine-all":73,"./$.set-to-string-tag":78,"./$.strict-new":81}],45:[function(require,module,exports){
 var core = module.exports = {version: '1.2.6'};
 if(typeof __e == 'number')__e = core; // eslint-disable-line no-undef
-},{}],45:[function(require,module,exports){
+},{}],46:[function(require,module,exports){
 // optional / simple context binding
 var aFunction = require('./$.a-function');
 module.exports = function(fn, that, length){
@@ -892,18 +894,18 @@ module.exports = function(fn, that, length){
     return fn.apply(that, arguments);
   };
 };
-},{"./$.a-function":36}],46:[function(require,module,exports){
+},{"./$.a-function":37}],47:[function(require,module,exports){
 // 7.2.1 RequireObjectCoercible(argument)
 module.exports = function(it){
   if(it == undefined)throw TypeError("Can't call method on  " + it);
   return it;
 };
-},{}],47:[function(require,module,exports){
+},{}],48:[function(require,module,exports){
 // Thank's IE8 for his funny defineProperty
 module.exports = !require('./$.fails')(function(){
   return Object.defineProperty({}, 'a', {get: function(){ return 7; }}).a != 7;
 });
-},{"./$.fails":50}],48:[function(require,module,exports){
+},{"./$.fails":51}],49:[function(require,module,exports){
 var isObject = require('./$.is-object')
   , document = require('./$.global').document
   // in old IE typeof document.createElement is 'object'
@@ -911,7 +913,7 @@ var isObject = require('./$.is-object')
 module.exports = function(it){
   return is ? document.createElement(it) : {};
 };
-},{"./$.global":52,"./$.is-object":59}],49:[function(require,module,exports){
+},{"./$.global":53,"./$.is-object":60}],50:[function(require,module,exports){
 var global    = require('./$.global')
   , core      = require('./$.core')
   , ctx       = require('./$.ctx')
@@ -958,7 +960,7 @@ $export.P = 8;  // proto
 $export.B = 16; // bind
 $export.W = 32; // wrap
 module.exports = $export;
-},{"./$.core":44,"./$.ctx":45,"./$.global":52}],50:[function(require,module,exports){
+},{"./$.core":45,"./$.ctx":46,"./$.global":53}],51:[function(require,module,exports){
 module.exports = function(exec){
   try {
     return !!exec();
@@ -966,7 +968,7 @@ module.exports = function(exec){
     return true;
   }
 };
-},{}],51:[function(require,module,exports){
+},{}],52:[function(require,module,exports){
 var ctx         = require('./$.ctx')
   , call        = require('./$.iter-call')
   , isArrayIter = require('./$.is-array-iter')
@@ -986,17 +988,17 @@ module.exports = function(iterable, entries, fn, that){
     call(iterator, f, step.value, entries);
   }
 };
-},{"./$.an-object":38,"./$.ctx":45,"./$.is-array-iter":58,"./$.iter-call":60,"./$.to-length":85,"./core.get-iterator-method":89}],52:[function(require,module,exports){
+},{"./$.an-object":39,"./$.ctx":46,"./$.is-array-iter":59,"./$.iter-call":61,"./$.to-length":86,"./core.get-iterator-method":90}],53:[function(require,module,exports){
 // https://github.com/zloirock/core-js/issues/86#issuecomment-115759028
 var global = module.exports = typeof window != 'undefined' && window.Math == Math
   ? window : typeof self != 'undefined' && self.Math == Math ? self : Function('return this')();
 if(typeof __g == 'number')__g = global; // eslint-disable-line no-undef
-},{}],53:[function(require,module,exports){
+},{}],54:[function(require,module,exports){
 var hasOwnProperty = {}.hasOwnProperty;
 module.exports = function(it, key){
   return hasOwnProperty.call(it, key);
 };
-},{}],54:[function(require,module,exports){
+},{}],55:[function(require,module,exports){
 var $          = require('./$')
   , createDesc = require('./$.property-desc');
 module.exports = require('./$.descriptors') ? function(object, key, value){
@@ -1005,9 +1007,9 @@ module.exports = require('./$.descriptors') ? function(object, key, value){
   object[key] = value;
   return object;
 };
-},{"./$":66,"./$.descriptors":47,"./$.property-desc":71}],55:[function(require,module,exports){
+},{"./$":67,"./$.descriptors":48,"./$.property-desc":72}],56:[function(require,module,exports){
 module.exports = require('./$.global').document && document.documentElement;
-},{"./$.global":52}],56:[function(require,module,exports){
+},{"./$.global":53}],57:[function(require,module,exports){
 // fast apply, http://jsperf.lnkit.com/fast-apply/5
 module.exports = function(fn, args, that){
   var un = that === undefined;
@@ -1024,13 +1026,13 @@ module.exports = function(fn, args, that){
                       : fn.call(that, args[0], args[1], args[2], args[3]);
   } return              fn.apply(that, args);
 };
-},{}],57:[function(require,module,exports){
+},{}],58:[function(require,module,exports){
 // fallback for non-array-like ES3 and non-enumerable old V8 strings
 var cof = require('./$.cof');
 module.exports = Object('z').propertyIsEnumerable(0) ? Object : function(it){
   return cof(it) == 'String' ? it.split('') : Object(it);
 };
-},{"./$.cof":40}],58:[function(require,module,exports){
+},{"./$.cof":41}],59:[function(require,module,exports){
 // check on default Array iterator
 var Iterators  = require('./$.iterators')
   , ITERATOR   = require('./$.wks')('iterator')
@@ -1039,11 +1041,11 @@ var Iterators  = require('./$.iterators')
 module.exports = function(it){
   return it !== undefined && (Iterators.Array === it || ArrayProto[ITERATOR] === it);
 };
-},{"./$.iterators":65,"./$.wks":88}],59:[function(require,module,exports){
+},{"./$.iterators":66,"./$.wks":89}],60:[function(require,module,exports){
 module.exports = function(it){
   return typeof it === 'object' ? it !== null : typeof it === 'function';
 };
-},{}],60:[function(require,module,exports){
+},{}],61:[function(require,module,exports){
 // call something on iterator step with safe closing on error
 var anObject = require('./$.an-object');
 module.exports = function(iterator, fn, value, entries){
@@ -1056,7 +1058,7 @@ module.exports = function(iterator, fn, value, entries){
     throw e;
   }
 };
-},{"./$.an-object":38}],61:[function(require,module,exports){
+},{"./$.an-object":39}],62:[function(require,module,exports){
 'use strict';
 var $              = require('./$')
   , descriptor     = require('./$.property-desc')
@@ -1070,7 +1072,7 @@ module.exports = function(Constructor, NAME, next){
   Constructor.prototype = $.create(IteratorPrototype, {next: descriptor(1, next)});
   setToStringTag(Constructor, NAME + ' Iterator');
 };
-},{"./$":66,"./$.hide":54,"./$.property-desc":71,"./$.set-to-string-tag":77,"./$.wks":88}],62:[function(require,module,exports){
+},{"./$":67,"./$.hide":55,"./$.property-desc":72,"./$.set-to-string-tag":78,"./$.wks":89}],63:[function(require,module,exports){
 'use strict';
 var LIBRARY        = require('./$.library')
   , $export        = require('./$.export')
@@ -1137,7 +1139,7 @@ module.exports = function(Base, NAME, Constructor, next, DEFAULT, IS_SET, FORCED
   }
   return methods;
 };
-},{"./$":66,"./$.export":49,"./$.has":53,"./$.hide":54,"./$.iter-create":61,"./$.iterators":65,"./$.library":67,"./$.redefine":73,"./$.set-to-string-tag":77,"./$.wks":88}],63:[function(require,module,exports){
+},{"./$":67,"./$.export":50,"./$.has":54,"./$.hide":55,"./$.iter-create":62,"./$.iterators":66,"./$.library":68,"./$.redefine":74,"./$.set-to-string-tag":78,"./$.wks":89}],64:[function(require,module,exports){
 var ITERATOR     = require('./$.wks')('iterator')
   , SAFE_CLOSING = false;
 
@@ -1159,13 +1161,13 @@ module.exports = function(exec, skipClosing){
   } catch(e){ /* empty */ }
   return safe;
 };
-},{"./$.wks":88}],64:[function(require,module,exports){
+},{"./$.wks":89}],65:[function(require,module,exports){
 module.exports = function(done, value){
   return {value: value, done: !!done};
 };
-},{}],65:[function(require,module,exports){
-module.exports = {};
 },{}],66:[function(require,module,exports){
+module.exports = {};
+},{}],67:[function(require,module,exports){
 var $Object = Object;
 module.exports = {
   create:     $Object.create,
@@ -1179,9 +1181,9 @@ module.exports = {
   getSymbols: $Object.getOwnPropertySymbols,
   each:       [].forEach
 };
-},{}],67:[function(require,module,exports){
-module.exports = true;
 },{}],68:[function(require,module,exports){
+module.exports = true;
+},{}],69:[function(require,module,exports){
 var global    = require('./$.global')
   , macrotask = require('./$.task').set
   , Observer  = global.MutationObserver || global.WebKitMutationObserver
@@ -1246,7 +1248,7 @@ module.exports = function asap(fn){
     notify();
   } last = task;
 };
-},{"./$.cof":40,"./$.global":52,"./$.task":82}],69:[function(require,module,exports){
+},{"./$.cof":41,"./$.global":53,"./$.task":83}],70:[function(require,module,exports){
 // 19.1.2.1 Object.assign(target, source, ...)
 var $        = require('./$')
   , toObject = require('./$.to-object')
@@ -1280,7 +1282,7 @@ module.exports = require('./$.fails')(function(){
   }
   return T;
 } : Object.assign;
-},{"./$":66,"./$.fails":50,"./$.iobject":57,"./$.to-object":86}],70:[function(require,module,exports){
+},{"./$":67,"./$.fails":51,"./$.iobject":58,"./$.to-object":87}],71:[function(require,module,exports){
 // most Object methods by ES6 should accept primitives
 var $export = require('./$.export')
   , core    = require('./$.core')
@@ -1291,7 +1293,7 @@ module.exports = function(KEY, exec){
   exp[KEY] = exec(fn);
   $export($export.S + $export.F * fails(function(){ fn(1); }), 'Object', exp);
 };
-},{"./$.core":44,"./$.export":49,"./$.fails":50}],71:[function(require,module,exports){
+},{"./$.core":45,"./$.export":50,"./$.fails":51}],72:[function(require,module,exports){
 module.exports = function(bitmap, value){
   return {
     enumerable  : !(bitmap & 1),
@@ -1300,20 +1302,20 @@ module.exports = function(bitmap, value){
     value       : value
   };
 };
-},{}],72:[function(require,module,exports){
+},{}],73:[function(require,module,exports){
 var redefine = require('./$.redefine');
 module.exports = function(target, src){
   for(var key in src)redefine(target, key, src[key]);
   return target;
 };
-},{"./$.redefine":73}],73:[function(require,module,exports){
+},{"./$.redefine":74}],74:[function(require,module,exports){
 module.exports = require('./$.hide');
-},{"./$.hide":54}],74:[function(require,module,exports){
+},{"./$.hide":55}],75:[function(require,module,exports){
 // 7.2.9 SameValue(x, y)
 module.exports = Object.is || function is(x, y){
   return x === y ? x !== 0 || 1 / x === 1 / y : x != x && y != y;
 };
-},{}],75:[function(require,module,exports){
+},{}],76:[function(require,module,exports){
 // Works with __proto__ only. Old v8 can't work with null proto objects.
 /* eslint-disable no-proto */
 var getDesc  = require('./$').getDesc
@@ -1340,7 +1342,7 @@ module.exports = {
     }({}, false) : undefined),
   check: check
 };
-},{"./$":66,"./$.an-object":38,"./$.ctx":45,"./$.is-object":59}],76:[function(require,module,exports){
+},{"./$":67,"./$.an-object":39,"./$.ctx":46,"./$.is-object":60}],77:[function(require,module,exports){
 'use strict';
 var core        = require('./$.core')
   , $           = require('./$')
@@ -1354,7 +1356,7 @@ module.exports = function(KEY){
     get: function(){ return this; }
   });
 };
-},{"./$":66,"./$.core":44,"./$.descriptors":47,"./$.wks":88}],77:[function(require,module,exports){
+},{"./$":67,"./$.core":45,"./$.descriptors":48,"./$.wks":89}],78:[function(require,module,exports){
 var def = require('./$').setDesc
   , has = require('./$.has')
   , TAG = require('./$.wks')('toStringTag');
@@ -1362,14 +1364,14 @@ var def = require('./$').setDesc
 module.exports = function(it, tag, stat){
   if(it && !has(it = stat ? it : it.prototype, TAG))def(it, TAG, {configurable: true, value: tag});
 };
-},{"./$":66,"./$.has":53,"./$.wks":88}],78:[function(require,module,exports){
+},{"./$":67,"./$.has":54,"./$.wks":89}],79:[function(require,module,exports){
 var global = require('./$.global')
   , SHARED = '__core-js_shared__'
   , store  = global[SHARED] || (global[SHARED] = {});
 module.exports = function(key){
   return store[key] || (store[key] = {});
 };
-},{"./$.global":52}],79:[function(require,module,exports){
+},{"./$.global":53}],80:[function(require,module,exports){
 // 7.3.20 SpeciesConstructor(O, defaultConstructor)
 var anObject  = require('./$.an-object')
   , aFunction = require('./$.a-function')
@@ -1378,12 +1380,12 @@ module.exports = function(O, D){
   var C = anObject(O).constructor, S;
   return C === undefined || (S = anObject(C)[SPECIES]) == undefined ? D : aFunction(S);
 };
-},{"./$.a-function":36,"./$.an-object":38,"./$.wks":88}],80:[function(require,module,exports){
+},{"./$.a-function":37,"./$.an-object":39,"./$.wks":89}],81:[function(require,module,exports){
 module.exports = function(it, Constructor, name){
   if(!(it instanceof Constructor))throw TypeError(name + ": use the 'new' operator!");
   return it;
 };
-},{}],81:[function(require,module,exports){
+},{}],82:[function(require,module,exports){
 var toInteger = require('./$.to-integer')
   , defined   = require('./$.defined');
 // true  -> String#at
@@ -1401,7 +1403,7 @@ module.exports = function(TO_STRING){
       : TO_STRING ? s.slice(i, i + 2) : (a - 0xd800 << 10) + (b - 0xdc00) + 0x10000;
   };
 };
-},{"./$.defined":46,"./$.to-integer":83}],82:[function(require,module,exports){
+},{"./$.defined":47,"./$.to-integer":84}],83:[function(require,module,exports){
 var ctx                = require('./$.ctx')
   , invoke             = require('./$.invoke')
   , html               = require('./$.html')
@@ -1477,40 +1479,40 @@ module.exports = {
   set:   setTask,
   clear: clearTask
 };
-},{"./$.cof":40,"./$.ctx":45,"./$.dom-create":48,"./$.global":52,"./$.html":55,"./$.invoke":56}],83:[function(require,module,exports){
+},{"./$.cof":41,"./$.ctx":46,"./$.dom-create":49,"./$.global":53,"./$.html":56,"./$.invoke":57}],84:[function(require,module,exports){
 // 7.1.4 ToInteger
 var ceil  = Math.ceil
   , floor = Math.floor;
 module.exports = function(it){
   return isNaN(it = +it) ? 0 : (it > 0 ? floor : ceil)(it);
 };
-},{}],84:[function(require,module,exports){
+},{}],85:[function(require,module,exports){
 // to indexed object, toObject with fallback for non-array-like ES3 strings
 var IObject = require('./$.iobject')
   , defined = require('./$.defined');
 module.exports = function(it){
   return IObject(defined(it));
 };
-},{"./$.defined":46,"./$.iobject":57}],85:[function(require,module,exports){
+},{"./$.defined":47,"./$.iobject":58}],86:[function(require,module,exports){
 // 7.1.15 ToLength
 var toInteger = require('./$.to-integer')
   , min       = Math.min;
 module.exports = function(it){
   return it > 0 ? min(toInteger(it), 0x1fffffffffffff) : 0; // pow(2, 53) - 1 == 9007199254740991
 };
-},{"./$.to-integer":83}],86:[function(require,module,exports){
+},{"./$.to-integer":84}],87:[function(require,module,exports){
 // 7.1.13 ToObject(argument)
 var defined = require('./$.defined');
 module.exports = function(it){
   return Object(defined(it));
 };
-},{"./$.defined":46}],87:[function(require,module,exports){
+},{"./$.defined":47}],88:[function(require,module,exports){
 var id = 0
   , px = Math.random();
 module.exports = function(key){
   return 'Symbol('.concat(key === undefined ? '' : key, ')_', (++id + px).toString(36));
 };
-},{}],88:[function(require,module,exports){
+},{}],89:[function(require,module,exports){
 var store  = require('./$.shared')('wks')
   , uid    = require('./$.uid')
   , Symbol = require('./$.global').Symbol;
@@ -1518,7 +1520,7 @@ module.exports = function(name){
   return store[name] || (store[name] =
     Symbol && Symbol[name] || (Symbol || uid)('Symbol.' + name));
 };
-},{"./$.global":52,"./$.shared":78,"./$.uid":87}],89:[function(require,module,exports){
+},{"./$.global":53,"./$.shared":79,"./$.uid":88}],90:[function(require,module,exports){
 var classof   = require('./$.classof')
   , ITERATOR  = require('./$.wks')('iterator')
   , Iterators = require('./$.iterators');
@@ -1527,7 +1529,7 @@ module.exports = require('./$.core').getIteratorMethod = function(it){
     || it['@@iterator']
     || Iterators[classof(it)];
 };
-},{"./$.classof":39,"./$.core":44,"./$.iterators":65,"./$.wks":88}],90:[function(require,module,exports){
+},{"./$.classof":40,"./$.core":45,"./$.iterators":66,"./$.wks":89}],91:[function(require,module,exports){
 var anObject = require('./$.an-object')
   , get      = require('./core.get-iterator-method');
 module.exports = require('./$.core').getIterator = function(it){
@@ -1535,7 +1537,7 @@ module.exports = require('./$.core').getIterator = function(it){
   if(typeof iterFn != 'function')throw TypeError(it + ' is not iterable!');
   return anObject(iterFn.call(it));
 };
-},{"./$.an-object":38,"./$.core":44,"./core.get-iterator-method":89}],91:[function(require,module,exports){
+},{"./$.an-object":39,"./$.core":45,"./core.get-iterator-method":90}],92:[function(require,module,exports){
 var classof   = require('./$.classof')
   , ITERATOR  = require('./$.wks')('iterator')
   , Iterators = require('./$.iterators');
@@ -1545,7 +1547,7 @@ module.exports = require('./$.core').isIterable = function(it){
     || '@@iterator' in O
     || Iterators.hasOwnProperty(classof(O));
 };
-},{"./$.classof":39,"./$.core":44,"./$.iterators":65,"./$.wks":88}],92:[function(require,module,exports){
+},{"./$.classof":40,"./$.core":45,"./$.iterators":66,"./$.wks":89}],93:[function(require,module,exports){
 'use strict';
 var ctx         = require('./$.ctx')
   , $export     = require('./$.export')
@@ -1583,7 +1585,7 @@ $export($export.S + $export.F * !require('./$.iter-detect')(function(iter){ Arra
   }
 });
 
-},{"./$.ctx":45,"./$.export":49,"./$.is-array-iter":58,"./$.iter-call":60,"./$.iter-detect":63,"./$.to-length":85,"./$.to-object":86,"./core.get-iterator-method":89}],93:[function(require,module,exports){
+},{"./$.ctx":46,"./$.export":50,"./$.is-array-iter":59,"./$.iter-call":61,"./$.iter-detect":64,"./$.to-length":86,"./$.to-object":87,"./core.get-iterator-method":90}],94:[function(require,module,exports){
 'use strict';
 var addToUnscopables = require('./$.add-to-unscopables')
   , step             = require('./$.iter-step')
@@ -1618,7 +1620,7 @@ Iterators.Arguments = Iterators.Array;
 addToUnscopables('keys');
 addToUnscopables('values');
 addToUnscopables('entries');
-},{"./$.add-to-unscopables":37,"./$.iter-define":62,"./$.iter-step":64,"./$.iterators":65,"./$.to-iobject":84}],94:[function(require,module,exports){
+},{"./$.add-to-unscopables":38,"./$.iter-define":63,"./$.iter-step":65,"./$.iterators":66,"./$.to-iobject":85}],95:[function(require,module,exports){
 'use strict';
 var strong = require('./$.collection-strong');
 
@@ -1636,12 +1638,12 @@ require('./$.collection')('Map', function(get){
     return strong.def(this, key === 0 ? 0 : key, value);
   }
 }, strong, true);
-},{"./$.collection":43,"./$.collection-strong":41}],95:[function(require,module,exports){
+},{"./$.collection":44,"./$.collection-strong":42}],96:[function(require,module,exports){
 // 19.1.3.1 Object.assign(target, source)
 var $export = require('./$.export');
 
 $export($export.S + $export.F, 'Object', {assign: require('./$.object-assign')});
-},{"./$.export":49,"./$.object-assign":69}],96:[function(require,module,exports){
+},{"./$.export":50,"./$.object-assign":70}],97:[function(require,module,exports){
 // 19.1.2.6 Object.getOwnPropertyDescriptor(O, P)
 var toIObject = require('./$.to-iobject');
 
@@ -1650,7 +1652,7 @@ require('./$.object-sap')('getOwnPropertyDescriptor', function($getOwnPropertyDe
     return $getOwnPropertyDescriptor(toIObject(it), key);
   };
 });
-},{"./$.object-sap":70,"./$.to-iobject":84}],97:[function(require,module,exports){
+},{"./$.object-sap":71,"./$.to-iobject":85}],98:[function(require,module,exports){
 // 19.1.2.14 Object.keys(O)
 var toObject = require('./$.to-object');
 
@@ -1659,13 +1661,13 @@ require('./$.object-sap')('keys', function($keys){
     return $keys(toObject(it));
   };
 });
-},{"./$.object-sap":70,"./$.to-object":86}],98:[function(require,module,exports){
+},{"./$.object-sap":71,"./$.to-object":87}],99:[function(require,module,exports){
 // 19.1.3.19 Object.setPrototypeOf(O, proto)
 var $export = require('./$.export');
 $export($export.S, 'Object', {setPrototypeOf: require('./$.set-proto').set});
-},{"./$.export":49,"./$.set-proto":75}],99:[function(require,module,exports){
-
-},{}],100:[function(require,module,exports){
+},{"./$.export":50,"./$.set-proto":76}],100:[function(require,module,exports){
+arguments[4][22][0].apply(exports,arguments)
+},{"dup":22}],101:[function(require,module,exports){
 'use strict';
 var $          = require('./$')
   , LIBRARY    = require('./$.library')
@@ -1955,7 +1957,7 @@ $export($export.S + $export.F * !(USE_NATIVE && require('./$.iter-detect')(funct
     return capability.promise;
   }
 });
-},{"./$":66,"./$.a-function":36,"./$.an-object":38,"./$.classof":39,"./$.core":44,"./$.ctx":45,"./$.descriptors":47,"./$.export":49,"./$.for-of":51,"./$.global":52,"./$.is-object":59,"./$.iter-detect":63,"./$.library":67,"./$.microtask":68,"./$.redefine-all":72,"./$.same-value":74,"./$.set-proto":75,"./$.set-species":76,"./$.set-to-string-tag":77,"./$.species-constructor":79,"./$.strict-new":80,"./$.wks":88}],101:[function(require,module,exports){
+},{"./$":67,"./$.a-function":37,"./$.an-object":39,"./$.classof":40,"./$.core":45,"./$.ctx":46,"./$.descriptors":48,"./$.export":50,"./$.for-of":52,"./$.global":53,"./$.is-object":60,"./$.iter-detect":64,"./$.library":68,"./$.microtask":69,"./$.redefine-all":73,"./$.same-value":75,"./$.set-proto":76,"./$.set-species":77,"./$.set-to-string-tag":78,"./$.species-constructor":80,"./$.strict-new":81,"./$.wks":89}],102:[function(require,module,exports){
 'use strict';
 var strong = require('./$.collection-strong');
 
@@ -1968,7 +1970,7 @@ require('./$.collection')('Set', function(get){
     return strong.def(this, value = value === 0 ? 0 : value, value);
   }
 }, strong);
-},{"./$.collection":43,"./$.collection-strong":41}],102:[function(require,module,exports){
+},{"./$.collection":44,"./$.collection-strong":42}],103:[function(require,module,exports){
 'use strict';
 var $at  = require('./$.string-at')(true);
 
@@ -1986,21 +1988,21 @@ require('./$.iter-define')(String, 'String', function(iterated){
   this._i += point.length;
   return {value: point, done: false};
 });
-},{"./$.iter-define":62,"./$.string-at":81}],103:[function(require,module,exports){
+},{"./$.iter-define":63,"./$.string-at":82}],104:[function(require,module,exports){
 // https://github.com/DavidBruant/Map-Set.prototype.toJSON
 var $export  = require('./$.export');
 
 $export($export.P, 'Map', {toJSON: require('./$.collection-to-json')('Map')});
-},{"./$.collection-to-json":42,"./$.export":49}],104:[function(require,module,exports){
+},{"./$.collection-to-json":43,"./$.export":50}],105:[function(require,module,exports){
 // https://github.com/DavidBruant/Map-Set.prototype.toJSON
 var $export  = require('./$.export');
 
 $export($export.P, 'Set', {toJSON: require('./$.collection-to-json')('Set')});
-},{"./$.collection-to-json":42,"./$.export":49}],105:[function(require,module,exports){
+},{"./$.collection-to-json":43,"./$.export":50}],106:[function(require,module,exports){
 require('./es6.array.iterator');
 var Iterators = require('./$.iterators');
 Iterators.NodeList = Iterators.HTMLCollection = Iterators.Array;
-},{"./$.iterators":65,"./es6.array.iterator":93}],106:[function(require,module,exports){
+},{"./$.iterators":66,"./es6.array.iterator":94}],107:[function(require,module,exports){
 var closest = require('closest');
 
 /**
@@ -2045,7 +2047,7 @@ function listener(element, selector, type, callback) {
 
 module.exports = delegate;
 
-},{"closest":23}],107:[function(require,module,exports){
+},{"closest":24}],108:[function(require,module,exports){
 var Emitter = require('events').EventEmitter
 
 function StateMachine (opts) {
@@ -2194,9 +2196,7 @@ StateMachine.prototype._validate = function (from, to) {
 }
 
 module.exports = StateMachine
-},{"events":109}],108:[function(require,module,exports){
-arguments[4][99][0].apply(exports,arguments)
-},{"dup":99}],109:[function(require,module,exports){
+},{"events":109}],109:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -2280,18 +2280,11 @@ EventEmitter.prototype.emit = function(type) {
         break;
       // slower
       default:
-        len = arguments.length;
-        args = new Array(len - 1);
-        for (i = 1; i < len; i++)
-          args[i - 1] = arguments[i];
+        args = Array.prototype.slice.call(arguments, 1);
         handler.apply(this, args);
     }
   } else if (isObject(handler)) {
-    len = arguments.length;
-    args = new Array(len - 1);
-    for (i = 1; i < len; i++)
-      args[i - 1] = arguments[i];
-
+    args = Array.prototype.slice.call(arguments, 1);
     listeners = handler.slice();
     len = listeners.length;
     for (i = 0; i < len; i++)
@@ -2329,7 +2322,6 @@ EventEmitter.prototype.addListener = function(type, listener) {
 
   // Check for listener leak
   if (isObject(this._events[type]) && !this._events[type].warned) {
-    var m;
     if (!isUndefined(this._maxListeners)) {
       m = this._maxListeners;
     } else {
@@ -2451,7 +2443,7 @@ EventEmitter.prototype.removeAllListeners = function(type) {
 
   if (isFunction(listeners)) {
     this.removeListener(type, listeners);
-  } else {
+  } else if (listeners) {
     // LIFO order
     while (listeners.length)
       this.removeListener(type, listeners[listeners.length - 1]);
@@ -2472,15 +2464,20 @@ EventEmitter.prototype.listeners = function(type) {
   return ret;
 };
 
+EventEmitter.prototype.listenerCount = function(type) {
+  if (this._events) {
+    var evlistener = this._events[type];
+
+    if (isFunction(evlistener))
+      return 1;
+    else if (evlistener)
+      return evlistener.length;
+  }
+  return 0;
+};
+
 EventEmitter.listenerCount = function(emitter, type) {
-  var ret;
-  if (!emitter._events || !emitter._events[type])
-    ret = 0;
-  else if (isFunction(emitter._events[type]))
-    ret = 1;
-  else
-    ret = emitter._events[type].length;
-  return ret;
+  return emitter.listenerCount(type);
 };
 
 function isFunction(arg) {
@@ -2500,1749 +2497,6 @@ function isUndefined(arg) {
 }
 
 },{}],110:[function(require,module,exports){
-(function (process){
-// Copyright Joyent, Inc. and other Node contributors.
-//
-// Permission is hereby granted, free of charge, to any person obtaining a
-// copy of this software and associated documentation files (the
-// "Software"), to deal in the Software without restriction, including
-// without limitation the rights to use, copy, modify, merge, publish,
-// distribute, sublicense, and/or sell copies of the Software, and to permit
-// persons to whom the Software is furnished to do so, subject to the
-// following conditions:
-//
-// The above copyright notice and this permission notice shall be included
-// in all copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
-// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
-// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
-// USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-// resolves . and .. elements in a path array with directory names there
-// must be no slashes, empty elements, or device names (c:\) in the array
-// (so also no leading and trailing slashes - it does not distinguish
-// relative and absolute paths)
-function normalizeArray(parts, allowAboveRoot) {
-  // if the path tries to go above the root, `up` ends up > 0
-  var up = 0;
-  for (var i = parts.length - 1; i >= 0; i--) {
-    var last = parts[i];
-    if (last === '.') {
-      parts.splice(i, 1);
-    } else if (last === '..') {
-      parts.splice(i, 1);
-      up++;
-    } else if (up) {
-      parts.splice(i, 1);
-      up--;
-    }
-  }
-
-  // if the path is allowed to go above the root, restore leading ..s
-  if (allowAboveRoot) {
-    for (; up--; up) {
-      parts.unshift('..');
-    }
-  }
-
-  return parts;
-}
-
-// Split a filename into [root, dir, basename, ext], unix version
-// 'root' is just a slash, or nothing.
-var splitPathRe =
-    /^(\/?|)([\s\S]*?)((?:\.{1,2}|[^\/]+?|)(\.[^.\/]*|))(?:[\/]*)$/;
-var splitPath = function(filename) {
-  return splitPathRe.exec(filename).slice(1);
-};
-
-// path.resolve([from ...], to)
-// posix version
-exports.resolve = function() {
-  var resolvedPath = '',
-      resolvedAbsolute = false;
-
-  for (var i = arguments.length - 1; i >= -1 && !resolvedAbsolute; i--) {
-    var path = (i >= 0) ? arguments[i] : process.cwd();
-
-    // Skip empty and invalid entries
-    if (typeof path !== 'string') {
-      throw new TypeError('Arguments to path.resolve must be strings');
-    } else if (!path) {
-      continue;
-    }
-
-    resolvedPath = path + '/' + resolvedPath;
-    resolvedAbsolute = path.charAt(0) === '/';
-  }
-
-  // At this point the path should be resolved to a full absolute path, but
-  // handle relative paths to be safe (might happen when process.cwd() fails)
-
-  // Normalize the path
-  resolvedPath = normalizeArray(filter(resolvedPath.split('/'), function(p) {
-    return !!p;
-  }), !resolvedAbsolute).join('/');
-
-  return ((resolvedAbsolute ? '/' : '') + resolvedPath) || '.';
-};
-
-// path.normalize(path)
-// posix version
-exports.normalize = function(path) {
-  var isAbsolute = exports.isAbsolute(path),
-      trailingSlash = substr(path, -1) === '/';
-
-  // Normalize the path
-  path = normalizeArray(filter(path.split('/'), function(p) {
-    return !!p;
-  }), !isAbsolute).join('/');
-
-  if (!path && !isAbsolute) {
-    path = '.';
-  }
-  if (path && trailingSlash) {
-    path += '/';
-  }
-
-  return (isAbsolute ? '/' : '') + path;
-};
-
-// posix version
-exports.isAbsolute = function(path) {
-  return path.charAt(0) === '/';
-};
-
-// posix version
-exports.join = function() {
-  var paths = Array.prototype.slice.call(arguments, 0);
-  return exports.normalize(filter(paths, function(p, index) {
-    if (typeof p !== 'string') {
-      throw new TypeError('Arguments to path.join must be strings');
-    }
-    return p;
-  }).join('/'));
-};
-
-
-// path.relative(from, to)
-// posix version
-exports.relative = function(from, to) {
-  from = exports.resolve(from).substr(1);
-  to = exports.resolve(to).substr(1);
-
-  function trim(arr) {
-    var start = 0;
-    for (; start < arr.length; start++) {
-      if (arr[start] !== '') break;
-    }
-
-    var end = arr.length - 1;
-    for (; end >= 0; end--) {
-      if (arr[end] !== '') break;
-    }
-
-    if (start > end) return [];
-    return arr.slice(start, end - start + 1);
-  }
-
-  var fromParts = trim(from.split('/'));
-  var toParts = trim(to.split('/'));
-
-  var length = Math.min(fromParts.length, toParts.length);
-  var samePartsLength = length;
-  for (var i = 0; i < length; i++) {
-    if (fromParts[i] !== toParts[i]) {
-      samePartsLength = i;
-      break;
-    }
-  }
-
-  var outputParts = [];
-  for (var i = samePartsLength; i < fromParts.length; i++) {
-    outputParts.push('..');
-  }
-
-  outputParts = outputParts.concat(toParts.slice(samePartsLength));
-
-  return outputParts.join('/');
-};
-
-exports.sep = '/';
-exports.delimiter = ':';
-
-exports.dirname = function(path) {
-  var result = splitPath(path),
-      root = result[0],
-      dir = result[1];
-
-  if (!root && !dir) {
-    // No dirname whatsoever
-    return '.';
-  }
-
-  if (dir) {
-    // It has a dirname, strip trailing slash
-    dir = dir.substr(0, dir.length - 1);
-  }
-
-  return root + dir;
-};
-
-
-exports.basename = function(path, ext) {
-  var f = splitPath(path)[2];
-  // TODO: make this comparison case-insensitive on windows?
-  if (ext && f.substr(-1 * ext.length) === ext) {
-    f = f.substr(0, f.length - ext.length);
-  }
-  return f;
-};
-
-
-exports.extname = function(path) {
-  return splitPath(path)[3];
-};
-
-function filter (xs, f) {
-    if (xs.filter) return xs.filter(f);
-    var res = [];
-    for (var i = 0; i < xs.length; i++) {
-        if (f(xs[i], i, xs)) res.push(xs[i]);
-    }
-    return res;
-}
-
-// String.prototype.substr - negative index don't work in IE8
-var substr = 'ab'.substr(-1) === 'b'
-    ? function (str, start, len) { return str.substr(start, len) }
-    : function (str, start, len) {
-        if (start < 0) start = str.length + start;
-        return str.substr(start, len);
-    }
-;
-
-}).call(this,require('_process'))
-},{"_process":111}],111:[function(require,module,exports){
-// shim for using process in browser
-
-var process = module.exports = {};
-var queue = [];
-var draining = false;
-var currentQueue;
-var queueIndex = -1;
-
-function cleanUpNextTick() {
-    draining = false;
-    if (currentQueue.length) {
-        queue = currentQueue.concat(queue);
-    } else {
-        queueIndex = -1;
-    }
-    if (queue.length) {
-        drainQueue();
-    }
-}
-
-function drainQueue() {
-    if (draining) {
-        return;
-    }
-    var timeout = setTimeout(cleanUpNextTick);
-    draining = true;
-
-    var len = queue.length;
-    while(len) {
-        currentQueue = queue;
-        queue = [];
-        while (++queueIndex < len) {
-            if (currentQueue) {
-                currentQueue[queueIndex].run();
-            }
-        }
-        queueIndex = -1;
-        len = queue.length;
-    }
-    currentQueue = null;
-    draining = false;
-    clearTimeout(timeout);
-}
-
-process.nextTick = function (fun) {
-    var args = new Array(arguments.length - 1);
-    if (arguments.length > 1) {
-        for (var i = 1; i < arguments.length; i++) {
-            args[i - 1] = arguments[i];
-        }
-    }
-    queue.push(new Item(fun, args));
-    if (queue.length === 1 && !draining) {
-        setTimeout(drainQueue, 0);
-    }
-};
-
-// v8 likes predictible objects
-function Item(fun, array) {
-    this.fun = fun;
-    this.array = array;
-}
-Item.prototype.run = function () {
-    this.fun.apply(null, this.array);
-};
-process.title = 'browser';
-process.browser = true;
-process.env = {};
-process.argv = [];
-process.version = ''; // empty string to avoid regexp issues
-process.versions = {};
-
-function noop() {}
-
-process.on = noop;
-process.addListener = noop;
-process.once = noop;
-process.off = noop;
-process.removeListener = noop;
-process.removeAllListeners = noop;
-process.emit = noop;
-
-process.binding = function (name) {
-    throw new Error('process.binding is not supported');
-};
-
-process.cwd = function () { return '/' };
-process.chdir = function (dir) {
-    throw new Error('process.chdir is not supported');
-};
-process.umask = function() { return 0; };
-
-},{}],112:[function(require,module,exports){
-(function (global){
-/*! https://mths.be/punycode v1.3.2 by @mathias */
-;(function(root) {
-
-	/** Detect free variables */
-	var freeExports = typeof exports == 'object' && exports &&
-		!exports.nodeType && exports;
-	var freeModule = typeof module == 'object' && module &&
-		!module.nodeType && module;
-	var freeGlobal = typeof global == 'object' && global;
-	if (
-		freeGlobal.global === freeGlobal ||
-		freeGlobal.window === freeGlobal ||
-		freeGlobal.self === freeGlobal
-	) {
-		root = freeGlobal;
-	}
-
-	/**
-	 * The `punycode` object.
-	 * @name punycode
-	 * @type Object
-	 */
-	var punycode,
-
-	/** Highest positive signed 32-bit float value */
-	maxInt = 2147483647, // aka. 0x7FFFFFFF or 2^31-1
-
-	/** Bootstring parameters */
-	base = 36,
-	tMin = 1,
-	tMax = 26,
-	skew = 38,
-	damp = 700,
-	initialBias = 72,
-	initialN = 128, // 0x80
-	delimiter = '-', // '\x2D'
-
-	/** Regular expressions */
-	regexPunycode = /^xn--/,
-	regexNonASCII = /[^\x20-\x7E]/, // unprintable ASCII chars + non-ASCII chars
-	regexSeparators = /[\x2E\u3002\uFF0E\uFF61]/g, // RFC 3490 separators
-
-	/** Error messages */
-	errors = {
-		'overflow': 'Overflow: input needs wider integers to process',
-		'not-basic': 'Illegal input >= 0x80 (not a basic code point)',
-		'invalid-input': 'Invalid input'
-	},
-
-	/** Convenience shortcuts */
-	baseMinusTMin = base - tMin,
-	floor = Math.floor,
-	stringFromCharCode = String.fromCharCode,
-
-	/** Temporary variable */
-	key;
-
-	/*--------------------------------------------------------------------------*/
-
-	/**
-	 * A generic error utility function.
-	 * @private
-	 * @param {String} type The error type.
-	 * @returns {Error} Throws a `RangeError` with the applicable error message.
-	 */
-	function error(type) {
-		throw RangeError(errors[type]);
-	}
-
-	/**
-	 * A generic `Array#map` utility function.
-	 * @private
-	 * @param {Array} array The array to iterate over.
-	 * @param {Function} callback The function that gets called for every array
-	 * item.
-	 * @returns {Array} A new array of values returned by the callback function.
-	 */
-	function map(array, fn) {
-		var length = array.length;
-		var result = [];
-		while (length--) {
-			result[length] = fn(array[length]);
-		}
-		return result;
-	}
-
-	/**
-	 * A simple `Array#map`-like wrapper to work with domain name strings or email
-	 * addresses.
-	 * @private
-	 * @param {String} domain The domain name or email address.
-	 * @param {Function} callback The function that gets called for every
-	 * character.
-	 * @returns {Array} A new string of characters returned by the callback
-	 * function.
-	 */
-	function mapDomain(string, fn) {
-		var parts = string.split('@');
-		var result = '';
-		if (parts.length > 1) {
-			// In email addresses, only the domain name should be punycoded. Leave
-			// the local part (i.e. everything up to `@`) intact.
-			result = parts[0] + '@';
-			string = parts[1];
-		}
-		// Avoid `split(regex)` for IE8 compatibility. See #17.
-		string = string.replace(regexSeparators, '\x2E');
-		var labels = string.split('.');
-		var encoded = map(labels, fn).join('.');
-		return result + encoded;
-	}
-
-	/**
-	 * Creates an array containing the numeric code points of each Unicode
-	 * character in the string. While JavaScript uses UCS-2 internally,
-	 * this function will convert a pair of surrogate halves (each of which
-	 * UCS-2 exposes as separate characters) into a single code point,
-	 * matching UTF-16.
-	 * @see `punycode.ucs2.encode`
-	 * @see <https://mathiasbynens.be/notes/javascript-encoding>
-	 * @memberOf punycode.ucs2
-	 * @name decode
-	 * @param {String} string The Unicode input string (UCS-2).
-	 * @returns {Array} The new array of code points.
-	 */
-	function ucs2decode(string) {
-		var output = [],
-		    counter = 0,
-		    length = string.length,
-		    value,
-		    extra;
-		while (counter < length) {
-			value = string.charCodeAt(counter++);
-			if (value >= 0xD800 && value <= 0xDBFF && counter < length) {
-				// high surrogate, and there is a next character
-				extra = string.charCodeAt(counter++);
-				if ((extra & 0xFC00) == 0xDC00) { // low surrogate
-					output.push(((value & 0x3FF) << 10) + (extra & 0x3FF) + 0x10000);
-				} else {
-					// unmatched surrogate; only append this code unit, in case the next
-					// code unit is the high surrogate of a surrogate pair
-					output.push(value);
-					counter--;
-				}
-			} else {
-				output.push(value);
-			}
-		}
-		return output;
-	}
-
-	/**
-	 * Creates a string based on an array of numeric code points.
-	 * @see `punycode.ucs2.decode`
-	 * @memberOf punycode.ucs2
-	 * @name encode
-	 * @param {Array} codePoints The array of numeric code points.
-	 * @returns {String} The new Unicode string (UCS-2).
-	 */
-	function ucs2encode(array) {
-		return map(array, function(value) {
-			var output = '';
-			if (value > 0xFFFF) {
-				value -= 0x10000;
-				output += stringFromCharCode(value >>> 10 & 0x3FF | 0xD800);
-				value = 0xDC00 | value & 0x3FF;
-			}
-			output += stringFromCharCode(value);
-			return output;
-		}).join('');
-	}
-
-	/**
-	 * Converts a basic code point into a digit/integer.
-	 * @see `digitToBasic()`
-	 * @private
-	 * @param {Number} codePoint The basic numeric code point value.
-	 * @returns {Number} The numeric value of a basic code point (for use in
-	 * representing integers) in the range `0` to `base - 1`, or `base` if
-	 * the code point does not represent a value.
-	 */
-	function basicToDigit(codePoint) {
-		if (codePoint - 48 < 10) {
-			return codePoint - 22;
-		}
-		if (codePoint - 65 < 26) {
-			return codePoint - 65;
-		}
-		if (codePoint - 97 < 26) {
-			return codePoint - 97;
-		}
-		return base;
-	}
-
-	/**
-	 * Converts a digit/integer into a basic code point.
-	 * @see `basicToDigit()`
-	 * @private
-	 * @param {Number} digit The numeric value of a basic code point.
-	 * @returns {Number} The basic code point whose value (when used for
-	 * representing integers) is `digit`, which needs to be in the range
-	 * `0` to `base - 1`. If `flag` is non-zero, the uppercase form is
-	 * used; else, the lowercase form is used. The behavior is undefined
-	 * if `flag` is non-zero and `digit` has no uppercase form.
-	 */
-	function digitToBasic(digit, flag) {
-		//  0..25 map to ASCII a..z or A..Z
-		// 26..35 map to ASCII 0..9
-		return digit + 22 + 75 * (digit < 26) - ((flag != 0) << 5);
-	}
-
-	/**
-	 * Bias adaptation function as per section 3.4 of RFC 3492.
-	 * http://tools.ietf.org/html/rfc3492#section-3.4
-	 * @private
-	 */
-	function adapt(delta, numPoints, firstTime) {
-		var k = 0;
-		delta = firstTime ? floor(delta / damp) : delta >> 1;
-		delta += floor(delta / numPoints);
-		for (/* no initialization */; delta > baseMinusTMin * tMax >> 1; k += base) {
-			delta = floor(delta / baseMinusTMin);
-		}
-		return floor(k + (baseMinusTMin + 1) * delta / (delta + skew));
-	}
-
-	/**
-	 * Converts a Punycode string of ASCII-only symbols to a string of Unicode
-	 * symbols.
-	 * @memberOf punycode
-	 * @param {String} input The Punycode string of ASCII-only symbols.
-	 * @returns {String} The resulting string of Unicode symbols.
-	 */
-	function decode(input) {
-		// Don't use UCS-2
-		var output = [],
-		    inputLength = input.length,
-		    out,
-		    i = 0,
-		    n = initialN,
-		    bias = initialBias,
-		    basic,
-		    j,
-		    index,
-		    oldi,
-		    w,
-		    k,
-		    digit,
-		    t,
-		    /** Cached calculation results */
-		    baseMinusT;
-
-		// Handle the basic code points: let `basic` be the number of input code
-		// points before the last delimiter, or `0` if there is none, then copy
-		// the first basic code points to the output.
-
-		basic = input.lastIndexOf(delimiter);
-		if (basic < 0) {
-			basic = 0;
-		}
-
-		for (j = 0; j < basic; ++j) {
-			// if it's not a basic code point
-			if (input.charCodeAt(j) >= 0x80) {
-				error('not-basic');
-			}
-			output.push(input.charCodeAt(j));
-		}
-
-		// Main decoding loop: start just after the last delimiter if any basic code
-		// points were copied; start at the beginning otherwise.
-
-		for (index = basic > 0 ? basic + 1 : 0; index < inputLength; /* no final expression */) {
-
-			// `index` is the index of the next character to be consumed.
-			// Decode a generalized variable-length integer into `delta`,
-			// which gets added to `i`. The overflow checking is easier
-			// if we increase `i` as we go, then subtract off its starting
-			// value at the end to obtain `delta`.
-			for (oldi = i, w = 1, k = base; /* no condition */; k += base) {
-
-				if (index >= inputLength) {
-					error('invalid-input');
-				}
-
-				digit = basicToDigit(input.charCodeAt(index++));
-
-				if (digit >= base || digit > floor((maxInt - i) / w)) {
-					error('overflow');
-				}
-
-				i += digit * w;
-				t = k <= bias ? tMin : (k >= bias + tMax ? tMax : k - bias);
-
-				if (digit < t) {
-					break;
-				}
-
-				baseMinusT = base - t;
-				if (w > floor(maxInt / baseMinusT)) {
-					error('overflow');
-				}
-
-				w *= baseMinusT;
-
-			}
-
-			out = output.length + 1;
-			bias = adapt(i - oldi, out, oldi == 0);
-
-			// `i` was supposed to wrap around from `out` to `0`,
-			// incrementing `n` each time, so we'll fix that now:
-			if (floor(i / out) > maxInt - n) {
-				error('overflow');
-			}
-
-			n += floor(i / out);
-			i %= out;
-
-			// Insert `n` at position `i` of the output
-			output.splice(i++, 0, n);
-
-		}
-
-		return ucs2encode(output);
-	}
-
-	/**
-	 * Converts a string of Unicode symbols (e.g. a domain name label) to a
-	 * Punycode string of ASCII-only symbols.
-	 * @memberOf punycode
-	 * @param {String} input The string of Unicode symbols.
-	 * @returns {String} The resulting Punycode string of ASCII-only symbols.
-	 */
-	function encode(input) {
-		var n,
-		    delta,
-		    handledCPCount,
-		    basicLength,
-		    bias,
-		    j,
-		    m,
-		    q,
-		    k,
-		    t,
-		    currentValue,
-		    output = [],
-		    /** `inputLength` will hold the number of code points in `input`. */
-		    inputLength,
-		    /** Cached calculation results */
-		    handledCPCountPlusOne,
-		    baseMinusT,
-		    qMinusT;
-
-		// Convert the input in UCS-2 to Unicode
-		input = ucs2decode(input);
-
-		// Cache the length
-		inputLength = input.length;
-
-		// Initialize the state
-		n = initialN;
-		delta = 0;
-		bias = initialBias;
-
-		// Handle the basic code points
-		for (j = 0; j < inputLength; ++j) {
-			currentValue = input[j];
-			if (currentValue < 0x80) {
-				output.push(stringFromCharCode(currentValue));
-			}
-		}
-
-		handledCPCount = basicLength = output.length;
-
-		// `handledCPCount` is the number of code points that have been handled;
-		// `basicLength` is the number of basic code points.
-
-		// Finish the basic string - if it is not empty - with a delimiter
-		if (basicLength) {
-			output.push(delimiter);
-		}
-
-		// Main encoding loop:
-		while (handledCPCount < inputLength) {
-
-			// All non-basic code points < n have been handled already. Find the next
-			// larger one:
-			for (m = maxInt, j = 0; j < inputLength; ++j) {
-				currentValue = input[j];
-				if (currentValue >= n && currentValue < m) {
-					m = currentValue;
-				}
-			}
-
-			// Increase `delta` enough to advance the decoder's <n,i> state to <m,0>,
-			// but guard against overflow
-			handledCPCountPlusOne = handledCPCount + 1;
-			if (m - n > floor((maxInt - delta) / handledCPCountPlusOne)) {
-				error('overflow');
-			}
-
-			delta += (m - n) * handledCPCountPlusOne;
-			n = m;
-
-			for (j = 0; j < inputLength; ++j) {
-				currentValue = input[j];
-
-				if (currentValue < n && ++delta > maxInt) {
-					error('overflow');
-				}
-
-				if (currentValue == n) {
-					// Represent delta as a generalized variable-length integer
-					for (q = delta, k = base; /* no condition */; k += base) {
-						t = k <= bias ? tMin : (k >= bias + tMax ? tMax : k - bias);
-						if (q < t) {
-							break;
-						}
-						qMinusT = q - t;
-						baseMinusT = base - t;
-						output.push(
-							stringFromCharCode(digitToBasic(t + qMinusT % baseMinusT, 0))
-						);
-						q = floor(qMinusT / baseMinusT);
-					}
-
-					output.push(stringFromCharCode(digitToBasic(q, 0)));
-					bias = adapt(delta, handledCPCountPlusOne, handledCPCount == basicLength);
-					delta = 0;
-					++handledCPCount;
-				}
-			}
-
-			++delta;
-			++n;
-
-		}
-		return output.join('');
-	}
-
-	/**
-	 * Converts a Punycode string representing a domain name or an email address
-	 * to Unicode. Only the Punycoded parts of the input will be converted, i.e.
-	 * it doesn't matter if you call it on a string that has already been
-	 * converted to Unicode.
-	 * @memberOf punycode
-	 * @param {String} input The Punycoded domain name or email address to
-	 * convert to Unicode.
-	 * @returns {String} The Unicode representation of the given Punycode
-	 * string.
-	 */
-	function toUnicode(input) {
-		return mapDomain(input, function(string) {
-			return regexPunycode.test(string)
-				? decode(string.slice(4).toLowerCase())
-				: string;
-		});
-	}
-
-	/**
-	 * Converts a Unicode string representing a domain name or an email address to
-	 * Punycode. Only the non-ASCII parts of the domain name will be converted,
-	 * i.e. it doesn't matter if you call it with a domain that's already in
-	 * ASCII.
-	 * @memberOf punycode
-	 * @param {String} input The domain name or email address to convert, as a
-	 * Unicode string.
-	 * @returns {String} The Punycode representation of the given domain name or
-	 * email address.
-	 */
-	function toASCII(input) {
-		return mapDomain(input, function(string) {
-			return regexNonASCII.test(string)
-				? 'xn--' + encode(string)
-				: string;
-		});
-	}
-
-	/*--------------------------------------------------------------------------*/
-
-	/** Define the public API */
-	punycode = {
-		/**
-		 * A string representing the current Punycode.js version number.
-		 * @memberOf punycode
-		 * @type String
-		 */
-		'version': '1.3.2',
-		/**
-		 * An object of methods to convert from JavaScript's internal character
-		 * representation (UCS-2) to Unicode code points, and back.
-		 * @see <https://mathiasbynens.be/notes/javascript-encoding>
-		 * @memberOf punycode
-		 * @type Object
-		 */
-		'ucs2': {
-			'decode': ucs2decode,
-			'encode': ucs2encode
-		},
-		'decode': decode,
-		'encode': encode,
-		'toASCII': toASCII,
-		'toUnicode': toUnicode
-	};
-
-	/** Expose `punycode` */
-	// Some AMD build optimizers, like r.js, check for specific condition patterns
-	// like the following:
-	if (
-		typeof define == 'function' &&
-		typeof define.amd == 'object' &&
-		define.amd
-	) {
-		define('punycode', function() {
-			return punycode;
-		});
-	} else if (freeExports && freeModule) {
-		if (module.exports == freeExports) { // in Node.js or RingoJS v0.8.0+
-			freeModule.exports = punycode;
-		} else { // in Narwhal or RingoJS v0.7.0-
-			for (key in punycode) {
-				punycode.hasOwnProperty(key) && (freeExports[key] = punycode[key]);
-			}
-		}
-	} else { // in Rhino or a web browser
-		root.punycode = punycode;
-	}
-
-}(this));
-
-}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],113:[function(require,module,exports){
-// Copyright Joyent, Inc. and other Node contributors.
-//
-// Permission is hereby granted, free of charge, to any person obtaining a
-// copy of this software and associated documentation files (the
-// "Software"), to deal in the Software without restriction, including
-// without limitation the rights to use, copy, modify, merge, publish,
-// distribute, sublicense, and/or sell copies of the Software, and to permit
-// persons to whom the Software is furnished to do so, subject to the
-// following conditions:
-//
-// The above copyright notice and this permission notice shall be included
-// in all copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
-// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
-// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
-// USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-'use strict';
-
-// If obj.hasOwnProperty has been overridden, then calling
-// obj.hasOwnProperty(prop) will break.
-// See: https://github.com/joyent/node/issues/1707
-function hasOwnProperty(obj, prop) {
-  return Object.prototype.hasOwnProperty.call(obj, prop);
-}
-
-module.exports = function(qs, sep, eq, options) {
-  sep = sep || '&';
-  eq = eq || '=';
-  var obj = {};
-
-  if (typeof qs !== 'string' || qs.length === 0) {
-    return obj;
-  }
-
-  var regexp = /\+/g;
-  qs = qs.split(sep);
-
-  var maxKeys = 1000;
-  if (options && typeof options.maxKeys === 'number') {
-    maxKeys = options.maxKeys;
-  }
-
-  var len = qs.length;
-  // maxKeys <= 0 means that we should not limit keys count
-  if (maxKeys > 0 && len > maxKeys) {
-    len = maxKeys;
-  }
-
-  for (var i = 0; i < len; ++i) {
-    var x = qs[i].replace(regexp, '%20'),
-        idx = x.indexOf(eq),
-        kstr, vstr, k, v;
-
-    if (idx >= 0) {
-      kstr = x.substr(0, idx);
-      vstr = x.substr(idx + 1);
-    } else {
-      kstr = x;
-      vstr = '';
-    }
-
-    k = decodeURIComponent(kstr);
-    v = decodeURIComponent(vstr);
-
-    if (!hasOwnProperty(obj, k)) {
-      obj[k] = v;
-    } else if (isArray(obj[k])) {
-      obj[k].push(v);
-    } else {
-      obj[k] = [obj[k], v];
-    }
-  }
-
-  return obj;
-};
-
-var isArray = Array.isArray || function (xs) {
-  return Object.prototype.toString.call(xs) === '[object Array]';
-};
-
-},{}],114:[function(require,module,exports){
-// Copyright Joyent, Inc. and other Node contributors.
-//
-// Permission is hereby granted, free of charge, to any person obtaining a
-// copy of this software and associated documentation files (the
-// "Software"), to deal in the Software without restriction, including
-// without limitation the rights to use, copy, modify, merge, publish,
-// distribute, sublicense, and/or sell copies of the Software, and to permit
-// persons to whom the Software is furnished to do so, subject to the
-// following conditions:
-//
-// The above copyright notice and this permission notice shall be included
-// in all copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
-// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
-// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
-// USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-'use strict';
-
-var stringifyPrimitive = function(v) {
-  switch (typeof v) {
-    case 'string':
-      return v;
-
-    case 'boolean':
-      return v ? 'true' : 'false';
-
-    case 'number':
-      return isFinite(v) ? v : '';
-
-    default:
-      return '';
-  }
-};
-
-module.exports = function(obj, sep, eq, name) {
-  sep = sep || '&';
-  eq = eq || '=';
-  if (obj === null) {
-    obj = undefined;
-  }
-
-  if (typeof obj === 'object') {
-    return map(objectKeys(obj), function(k) {
-      var ks = encodeURIComponent(stringifyPrimitive(k)) + eq;
-      if (isArray(obj[k])) {
-        return map(obj[k], function(v) {
-          return ks + encodeURIComponent(stringifyPrimitive(v));
-        }).join(sep);
-      } else {
-        return ks + encodeURIComponent(stringifyPrimitive(obj[k]));
-      }
-    }).join(sep);
-
-  }
-
-  if (!name) return '';
-  return encodeURIComponent(stringifyPrimitive(name)) + eq +
-         encodeURIComponent(stringifyPrimitive(obj));
-};
-
-var isArray = Array.isArray || function (xs) {
-  return Object.prototype.toString.call(xs) === '[object Array]';
-};
-
-function map (xs, f) {
-  if (xs.map) return xs.map(f);
-  var res = [];
-  for (var i = 0; i < xs.length; i++) {
-    res.push(f(xs[i], i));
-  }
-  return res;
-}
-
-var objectKeys = Object.keys || function (obj) {
-  var res = [];
-  for (var key in obj) {
-    if (Object.prototype.hasOwnProperty.call(obj, key)) res.push(key);
-  }
-  return res;
-};
-
-},{}],115:[function(require,module,exports){
-'use strict';
-
-exports.decode = exports.parse = require('./decode');
-exports.encode = exports.stringify = require('./encode');
-
-},{"./decode":113,"./encode":114}],116:[function(require,module,exports){
-// Copyright Joyent, Inc. and other Node contributors.
-//
-// Permission is hereby granted, free of charge, to any person obtaining a
-// copy of this software and associated documentation files (the
-// "Software"), to deal in the Software without restriction, including
-// without limitation the rights to use, copy, modify, merge, publish,
-// distribute, sublicense, and/or sell copies of the Software, and to permit
-// persons to whom the Software is furnished to do so, subject to the
-// following conditions:
-//
-// The above copyright notice and this permission notice shall be included
-// in all copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
-// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
-// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
-// USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-var punycode = require('punycode');
-
-exports.parse = urlParse;
-exports.resolve = urlResolve;
-exports.resolveObject = urlResolveObject;
-exports.format = urlFormat;
-
-exports.Url = Url;
-
-function Url() {
-  this.protocol = null;
-  this.slashes = null;
-  this.auth = null;
-  this.host = null;
-  this.port = null;
-  this.hostname = null;
-  this.hash = null;
-  this.search = null;
-  this.query = null;
-  this.pathname = null;
-  this.path = null;
-  this.href = null;
-}
-
-// Reference: RFC 3986, RFC 1808, RFC 2396
-
-// define these here so at least they only have to be
-// compiled once on the first module load.
-var protocolPattern = /^([a-z0-9.+-]+:)/i,
-    portPattern = /:[0-9]*$/,
-
-    // RFC 2396: characters reserved for delimiting URLs.
-    // We actually just auto-escape these.
-    delims = ['<', '>', '"', '`', ' ', '\r', '\n', '\t'],
-
-    // RFC 2396: characters not allowed for various reasons.
-    unwise = ['{', '}', '|', '\\', '^', '`'].concat(delims),
-
-    // Allowed by RFCs, but cause of XSS attacks.  Always escape these.
-    autoEscape = ['\''].concat(unwise),
-    // Characters that are never ever allowed in a hostname.
-    // Note that any invalid chars are also handled, but these
-    // are the ones that are *expected* to be seen, so we fast-path
-    // them.
-    nonHostChars = ['%', '/', '?', ';', '#'].concat(autoEscape),
-    hostEndingChars = ['/', '?', '#'],
-    hostnameMaxLen = 255,
-    hostnamePartPattern = /^[a-z0-9A-Z_-]{0,63}$/,
-    hostnamePartStart = /^([a-z0-9A-Z_-]{0,63})(.*)$/,
-    // protocols that can allow "unsafe" and "unwise" chars.
-    unsafeProtocol = {
-      'javascript': true,
-      'javascript:': true
-    },
-    // protocols that never have a hostname.
-    hostlessProtocol = {
-      'javascript': true,
-      'javascript:': true
-    },
-    // protocols that always contain a // bit.
-    slashedProtocol = {
-      'http': true,
-      'https': true,
-      'ftp': true,
-      'gopher': true,
-      'file': true,
-      'http:': true,
-      'https:': true,
-      'ftp:': true,
-      'gopher:': true,
-      'file:': true
-    },
-    querystring = require('querystring');
-
-function urlParse(url, parseQueryString, slashesDenoteHost) {
-  if (url && isObject(url) && url instanceof Url) return url;
-
-  var u = new Url;
-  u.parse(url, parseQueryString, slashesDenoteHost);
-  return u;
-}
-
-Url.prototype.parse = function(url, parseQueryString, slashesDenoteHost) {
-  if (!isString(url)) {
-    throw new TypeError("Parameter 'url' must be a string, not " + typeof url);
-  }
-
-  var rest = url;
-
-  // trim before proceeding.
-  // This is to support parse stuff like "  http://foo.com  \n"
-  rest = rest.trim();
-
-  var proto = protocolPattern.exec(rest);
-  if (proto) {
-    proto = proto[0];
-    var lowerProto = proto.toLowerCase();
-    this.protocol = lowerProto;
-    rest = rest.substr(proto.length);
-  }
-
-  // figure out if it's got a host
-  // user@server is *always* interpreted as a hostname, and url
-  // resolution will treat //foo/bar as host=foo,path=bar because that's
-  // how the browser resolves relative URLs.
-  if (slashesDenoteHost || proto || rest.match(/^\/\/[^@\/]+@[^@\/]+/)) {
-    var slashes = rest.substr(0, 2) === '//';
-    if (slashes && !(proto && hostlessProtocol[proto])) {
-      rest = rest.substr(2);
-      this.slashes = true;
-    }
-  }
-
-  if (!hostlessProtocol[proto] &&
-      (slashes || (proto && !slashedProtocol[proto]))) {
-
-    // there's a hostname.
-    // the first instance of /, ?, ;, or # ends the host.
-    //
-    // If there is an @ in the hostname, then non-host chars *are* allowed
-    // to the left of the last @ sign, unless some host-ending character
-    // comes *before* the @-sign.
-    // URLs are obnoxious.
-    //
-    // ex:
-    // http://a@b@c/ => user:a@b host:c
-    // http://a@b?@c => user:a host:c path:/?@c
-
-    // v0.12 TODO(isaacs): This is not quite how Chrome does things.
-    // Review our test case against browsers more comprehensively.
-
-    // find the first instance of any hostEndingChars
-    var hostEnd = -1;
-    for (var i = 0; i < hostEndingChars.length; i++) {
-      var hec = rest.indexOf(hostEndingChars[i]);
-      if (hec !== -1 && (hostEnd === -1 || hec < hostEnd))
-        hostEnd = hec;
-    }
-
-    // at this point, either we have an explicit point where the
-    // auth portion cannot go past, or the last @ char is the decider.
-    var auth, atSign;
-    if (hostEnd === -1) {
-      // atSign can be anywhere.
-      atSign = rest.lastIndexOf('@');
-    } else {
-      // atSign must be in auth portion.
-      // http://a@b/c@d => host:b auth:a path:/c@d
-      atSign = rest.lastIndexOf('@', hostEnd);
-    }
-
-    // Now we have a portion which is definitely the auth.
-    // Pull that off.
-    if (atSign !== -1) {
-      auth = rest.slice(0, atSign);
-      rest = rest.slice(atSign + 1);
-      this.auth = decodeURIComponent(auth);
-    }
-
-    // the host is the remaining to the left of the first non-host char
-    hostEnd = -1;
-    for (var i = 0; i < nonHostChars.length; i++) {
-      var hec = rest.indexOf(nonHostChars[i]);
-      if (hec !== -1 && (hostEnd === -1 || hec < hostEnd))
-        hostEnd = hec;
-    }
-    // if we still have not hit it, then the entire thing is a host.
-    if (hostEnd === -1)
-      hostEnd = rest.length;
-
-    this.host = rest.slice(0, hostEnd);
-    rest = rest.slice(hostEnd);
-
-    // pull out port.
-    this.parseHost();
-
-    // we've indicated that there is a hostname,
-    // so even if it's empty, it has to be present.
-    this.hostname = this.hostname || '';
-
-    // if hostname begins with [ and ends with ]
-    // assume that it's an IPv6 address.
-    var ipv6Hostname = this.hostname[0] === '[' &&
-        this.hostname[this.hostname.length - 1] === ']';
-
-    // validate a little.
-    if (!ipv6Hostname) {
-      var hostparts = this.hostname.split(/\./);
-      for (var i = 0, l = hostparts.length; i < l; i++) {
-        var part = hostparts[i];
-        if (!part) continue;
-        if (!part.match(hostnamePartPattern)) {
-          var newpart = '';
-          for (var j = 0, k = part.length; j < k; j++) {
-            if (part.charCodeAt(j) > 127) {
-              // we replace non-ASCII char with a temporary placeholder
-              // we need this to make sure size of hostname is not
-              // broken by replacing non-ASCII by nothing
-              newpart += 'x';
-            } else {
-              newpart += part[j];
-            }
-          }
-          // we test again with ASCII char only
-          if (!newpart.match(hostnamePartPattern)) {
-            var validParts = hostparts.slice(0, i);
-            var notHost = hostparts.slice(i + 1);
-            var bit = part.match(hostnamePartStart);
-            if (bit) {
-              validParts.push(bit[1]);
-              notHost.unshift(bit[2]);
-            }
-            if (notHost.length) {
-              rest = '/' + notHost.join('.') + rest;
-            }
-            this.hostname = validParts.join('.');
-            break;
-          }
-        }
-      }
-    }
-
-    if (this.hostname.length > hostnameMaxLen) {
-      this.hostname = '';
-    } else {
-      // hostnames are always lower case.
-      this.hostname = this.hostname.toLowerCase();
-    }
-
-    if (!ipv6Hostname) {
-      // IDNA Support: Returns a puny coded representation of "domain".
-      // It only converts the part of the domain name that
-      // has non ASCII characters. I.e. it dosent matter if
-      // you call it with a domain that already is in ASCII.
-      var domainArray = this.hostname.split('.');
-      var newOut = [];
-      for (var i = 0; i < domainArray.length; ++i) {
-        var s = domainArray[i];
-        newOut.push(s.match(/[^A-Za-z0-9_-]/) ?
-            'xn--' + punycode.encode(s) : s);
-      }
-      this.hostname = newOut.join('.');
-    }
-
-    var p = this.port ? ':' + this.port : '';
-    var h = this.hostname || '';
-    this.host = h + p;
-    this.href += this.host;
-
-    // strip [ and ] from the hostname
-    // the host field still retains them, though
-    if (ipv6Hostname) {
-      this.hostname = this.hostname.substr(1, this.hostname.length - 2);
-      if (rest[0] !== '/') {
-        rest = '/' + rest;
-      }
-    }
-  }
-
-  // now rest is set to the post-host stuff.
-  // chop off any delim chars.
-  if (!unsafeProtocol[lowerProto]) {
-
-    // First, make 100% sure that any "autoEscape" chars get
-    // escaped, even if encodeURIComponent doesn't think they
-    // need to be.
-    for (var i = 0, l = autoEscape.length; i < l; i++) {
-      var ae = autoEscape[i];
-      var esc = encodeURIComponent(ae);
-      if (esc === ae) {
-        esc = escape(ae);
-      }
-      rest = rest.split(ae).join(esc);
-    }
-  }
-
-
-  // chop off from the tail first.
-  var hash = rest.indexOf('#');
-  if (hash !== -1) {
-    // got a fragment string.
-    this.hash = rest.substr(hash);
-    rest = rest.slice(0, hash);
-  }
-  var qm = rest.indexOf('?');
-  if (qm !== -1) {
-    this.search = rest.substr(qm);
-    this.query = rest.substr(qm + 1);
-    if (parseQueryString) {
-      this.query = querystring.parse(this.query);
-    }
-    rest = rest.slice(0, qm);
-  } else if (parseQueryString) {
-    // no query string, but parseQueryString still requested
-    this.search = '';
-    this.query = {};
-  }
-  if (rest) this.pathname = rest;
-  if (slashedProtocol[lowerProto] &&
-      this.hostname && !this.pathname) {
-    this.pathname = '/';
-  }
-
-  //to support http.request
-  if (this.pathname || this.search) {
-    var p = this.pathname || '';
-    var s = this.search || '';
-    this.path = p + s;
-  }
-
-  // finally, reconstruct the href based on what has been validated.
-  this.href = this.format();
-  return this;
-};
-
-// format a parsed object into a url string
-function urlFormat(obj) {
-  // ensure it's an object, and not a string url.
-  // If it's an obj, this is a no-op.
-  // this way, you can call url_format() on strings
-  // to clean up potentially wonky urls.
-  if (isString(obj)) obj = urlParse(obj);
-  if (!(obj instanceof Url)) return Url.prototype.format.call(obj);
-  return obj.format();
-}
-
-Url.prototype.format = function() {
-  var auth = this.auth || '';
-  if (auth) {
-    auth = encodeURIComponent(auth);
-    auth = auth.replace(/%3A/i, ':');
-    auth += '@';
-  }
-
-  var protocol = this.protocol || '',
-      pathname = this.pathname || '',
-      hash = this.hash || '',
-      host = false,
-      query = '';
-
-  if (this.host) {
-    host = auth + this.host;
-  } else if (this.hostname) {
-    host = auth + (this.hostname.indexOf(':') === -1 ?
-        this.hostname :
-        '[' + this.hostname + ']');
-    if (this.port) {
-      host += ':' + this.port;
-    }
-  }
-
-  if (this.query &&
-      isObject(this.query) &&
-      Object.keys(this.query).length) {
-    query = querystring.stringify(this.query);
-  }
-
-  var search = this.search || (query && ('?' + query)) || '';
-
-  if (protocol && protocol.substr(-1) !== ':') protocol += ':';
-
-  // only the slashedProtocols get the //.  Not mailto:, xmpp:, etc.
-  // unless they had them to begin with.
-  if (this.slashes ||
-      (!protocol || slashedProtocol[protocol]) && host !== false) {
-    host = '//' + (host || '');
-    if (pathname && pathname.charAt(0) !== '/') pathname = '/' + pathname;
-  } else if (!host) {
-    host = '';
-  }
-
-  if (hash && hash.charAt(0) !== '#') hash = '#' + hash;
-  if (search && search.charAt(0) !== '?') search = '?' + search;
-
-  pathname = pathname.replace(/[?#]/g, function(match) {
-    return encodeURIComponent(match);
-  });
-  search = search.replace('#', '%23');
-
-  return protocol + host + pathname + search + hash;
-};
-
-function urlResolve(source, relative) {
-  return urlParse(source, false, true).resolve(relative);
-}
-
-Url.prototype.resolve = function(relative) {
-  return this.resolveObject(urlParse(relative, false, true)).format();
-};
-
-function urlResolveObject(source, relative) {
-  if (!source) return relative;
-  return urlParse(source, false, true).resolveObject(relative);
-}
-
-Url.prototype.resolveObject = function(relative) {
-  if (isString(relative)) {
-    var rel = new Url();
-    rel.parse(relative, false, true);
-    relative = rel;
-  }
-
-  var result = new Url();
-  Object.keys(this).forEach(function(k) {
-    result[k] = this[k];
-  }, this);
-
-  // hash is always overridden, no matter what.
-  // even href="" will remove it.
-  result.hash = relative.hash;
-
-  // if the relative url is empty, then there's nothing left to do here.
-  if (relative.href === '') {
-    result.href = result.format();
-    return result;
-  }
-
-  // hrefs like //foo/bar always cut to the protocol.
-  if (relative.slashes && !relative.protocol) {
-    // take everything except the protocol from relative
-    Object.keys(relative).forEach(function(k) {
-      if (k !== 'protocol')
-        result[k] = relative[k];
-    });
-
-    //urlParse appends trailing / to urls like http://www.example.com
-    if (slashedProtocol[result.protocol] &&
-        result.hostname && !result.pathname) {
-      result.path = result.pathname = '/';
-    }
-
-    result.href = result.format();
-    return result;
-  }
-
-  if (relative.protocol && relative.protocol !== result.protocol) {
-    // if it's a known url protocol, then changing
-    // the protocol does weird things
-    // first, if it's not file:, then we MUST have a host,
-    // and if there was a path
-    // to begin with, then we MUST have a path.
-    // if it is file:, then the host is dropped,
-    // because that's known to be hostless.
-    // anything else is assumed to be absolute.
-    if (!slashedProtocol[relative.protocol]) {
-      Object.keys(relative).forEach(function(k) {
-        result[k] = relative[k];
-      });
-      result.href = result.format();
-      return result;
-    }
-
-    result.protocol = relative.protocol;
-    if (!relative.host && !hostlessProtocol[relative.protocol]) {
-      var relPath = (relative.pathname || '').split('/');
-      while (relPath.length && !(relative.host = relPath.shift()));
-      if (!relative.host) relative.host = '';
-      if (!relative.hostname) relative.hostname = '';
-      if (relPath[0] !== '') relPath.unshift('');
-      if (relPath.length < 2) relPath.unshift('');
-      result.pathname = relPath.join('/');
-    } else {
-      result.pathname = relative.pathname;
-    }
-    result.search = relative.search;
-    result.query = relative.query;
-    result.host = relative.host || '';
-    result.auth = relative.auth;
-    result.hostname = relative.hostname || relative.host;
-    result.port = relative.port;
-    // to support http.request
-    if (result.pathname || result.search) {
-      var p = result.pathname || '';
-      var s = result.search || '';
-      result.path = p + s;
-    }
-    result.slashes = result.slashes || relative.slashes;
-    result.href = result.format();
-    return result;
-  }
-
-  var isSourceAbs = (result.pathname && result.pathname.charAt(0) === '/'),
-      isRelAbs = (
-          relative.host ||
-          relative.pathname && relative.pathname.charAt(0) === '/'
-      ),
-      mustEndAbs = (isRelAbs || isSourceAbs ||
-                    (result.host && relative.pathname)),
-      removeAllDots = mustEndAbs,
-      srcPath = result.pathname && result.pathname.split('/') || [],
-      relPath = relative.pathname && relative.pathname.split('/') || [],
-      psychotic = result.protocol && !slashedProtocol[result.protocol];
-
-  // if the url is a non-slashed url, then relative
-  // links like ../.. should be able
-  // to crawl up to the hostname, as well.  This is strange.
-  // result.protocol has already been set by now.
-  // Later on, put the first path part into the host field.
-  if (psychotic) {
-    result.hostname = '';
-    result.port = null;
-    if (result.host) {
-      if (srcPath[0] === '') srcPath[0] = result.host;
-      else srcPath.unshift(result.host);
-    }
-    result.host = '';
-    if (relative.protocol) {
-      relative.hostname = null;
-      relative.port = null;
-      if (relative.host) {
-        if (relPath[0] === '') relPath[0] = relative.host;
-        else relPath.unshift(relative.host);
-      }
-      relative.host = null;
-    }
-    mustEndAbs = mustEndAbs && (relPath[0] === '' || srcPath[0] === '');
-  }
-
-  if (isRelAbs) {
-    // it's absolute.
-    result.host = (relative.host || relative.host === '') ?
-                  relative.host : result.host;
-    result.hostname = (relative.hostname || relative.hostname === '') ?
-                      relative.hostname : result.hostname;
-    result.search = relative.search;
-    result.query = relative.query;
-    srcPath = relPath;
-    // fall through to the dot-handling below.
-  } else if (relPath.length) {
-    // it's relative
-    // throw away the existing file, and take the new path instead.
-    if (!srcPath) srcPath = [];
-    srcPath.pop();
-    srcPath = srcPath.concat(relPath);
-    result.search = relative.search;
-    result.query = relative.query;
-  } else if (!isNullOrUndefined(relative.search)) {
-    // just pull out the search.
-    // like href='?foo'.
-    // Put this after the other two cases because it simplifies the booleans
-    if (psychotic) {
-      result.hostname = result.host = srcPath.shift();
-      //occationaly the auth can get stuck only in host
-      //this especialy happens in cases like
-      //url.resolveObject('mailto:local1@domain1', 'local2@domain2')
-      var authInHost = result.host && result.host.indexOf('@') > 0 ?
-                       result.host.split('@') : false;
-      if (authInHost) {
-        result.auth = authInHost.shift();
-        result.host = result.hostname = authInHost.shift();
-      }
-    }
-    result.search = relative.search;
-    result.query = relative.query;
-    //to support http.request
-    if (!isNull(result.pathname) || !isNull(result.search)) {
-      result.path = (result.pathname ? result.pathname : '') +
-                    (result.search ? result.search : '');
-    }
-    result.href = result.format();
-    return result;
-  }
-
-  if (!srcPath.length) {
-    // no path at all.  easy.
-    // we've already handled the other stuff above.
-    result.pathname = null;
-    //to support http.request
-    if (result.search) {
-      result.path = '/' + result.search;
-    } else {
-      result.path = null;
-    }
-    result.href = result.format();
-    return result;
-  }
-
-  // if a url ENDs in . or .., then it must get a trailing slash.
-  // however, if it ends in anything else non-slashy,
-  // then it must NOT get a trailing slash.
-  var last = srcPath.slice(-1)[0];
-  var hasTrailingSlash = (
-      (result.host || relative.host) && (last === '.' || last === '..') ||
-      last === '');
-
-  // strip single dots, resolve double dots to parent dir
-  // if the path tries to go above the root, `up` ends up > 0
-  var up = 0;
-  for (var i = srcPath.length; i >= 0; i--) {
-    last = srcPath[i];
-    if (last == '.') {
-      srcPath.splice(i, 1);
-    } else if (last === '..') {
-      srcPath.splice(i, 1);
-      up++;
-    } else if (up) {
-      srcPath.splice(i, 1);
-      up--;
-    }
-  }
-
-  // if the path is allowed to go above the root, restore leading ..s
-  if (!mustEndAbs && !removeAllDots) {
-    for (; up--; up) {
-      srcPath.unshift('..');
-    }
-  }
-
-  if (mustEndAbs && srcPath[0] !== '' &&
-      (!srcPath[0] || srcPath[0].charAt(0) !== '/')) {
-    srcPath.unshift('');
-  }
-
-  if (hasTrailingSlash && (srcPath.join('/').substr(-1) !== '/')) {
-    srcPath.push('');
-  }
-
-  var isAbsolute = srcPath[0] === '' ||
-      (srcPath[0] && srcPath[0].charAt(0) === '/');
-
-  // put the host back
-  if (psychotic) {
-    result.hostname = result.host = isAbsolute ? '' :
-                                    srcPath.length ? srcPath.shift() : '';
-    //occationaly the auth can get stuck only in host
-    //this especialy happens in cases like
-    //url.resolveObject('mailto:local1@domain1', 'local2@domain2')
-    var authInHost = result.host && result.host.indexOf('@') > 0 ?
-                     result.host.split('@') : false;
-    if (authInHost) {
-      result.auth = authInHost.shift();
-      result.host = result.hostname = authInHost.shift();
-    }
-  }
-
-  mustEndAbs = mustEndAbs || (result.host && srcPath.length);
-
-  if (mustEndAbs && !isAbsolute) {
-    srcPath.unshift('');
-  }
-
-  if (!srcPath.length) {
-    result.pathname = null;
-    result.path = null;
-  } else {
-    result.pathname = srcPath.join('/');
-  }
-
-  //to support request.http
-  if (!isNull(result.pathname) || !isNull(result.search)) {
-    result.path = (result.pathname ? result.pathname : '') +
-                  (result.search ? result.search : '');
-  }
-  result.auth = relative.auth || result.auth;
-  result.slashes = result.slashes || relative.slashes;
-  result.href = result.format();
-  return result;
-};
-
-Url.prototype.parseHost = function() {
-  var host = this.host;
-  var port = portPattern.exec(host);
-  if (port) {
-    port = port[0];
-    if (port !== ':') {
-      this.port = port.substr(1);
-    }
-    host = host.substr(0, host.length - port.length);
-  }
-  if (host) this.hostname = host;
-};
-
-function isString(arg) {
-  return typeof arg === "string";
-}
-
-function isObject(arg) {
-  return typeof arg === 'object' && arg !== null;
-}
-
-function isNull(arg) {
-  return arg === null;
-}
-function isNullOrUndefined(arg) {
-  return  arg == null;
-}
-
-},{"punycode":112,"querystring":115}],117:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -4309,7 +2563,7 @@ exports['default'] = inst;
 module.exports = exports['default'];
 
 
-},{"./handlebars.runtime":118,"./handlebars/compiler/ast":120,"./handlebars/compiler/base":121,"./handlebars/compiler/compiler":123,"./handlebars/compiler/javascript-compiler":125,"./handlebars/compiler/visitor":128,"./handlebars/no-conflict":142}],118:[function(require,module,exports){
+},{"./handlebars.runtime":111,"./handlebars/compiler/ast":113,"./handlebars/compiler/base":114,"./handlebars/compiler/compiler":116,"./handlebars/compiler/javascript-compiler":118,"./handlebars/compiler/visitor":121,"./handlebars/no-conflict":135}],111:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -4377,7 +2631,7 @@ exports['default'] = inst;
 module.exports = exports['default'];
 
 
-},{"./handlebars/base":119,"./handlebars/exception":132,"./handlebars/no-conflict":142,"./handlebars/runtime":143,"./handlebars/safe-string":144,"./handlebars/utils":145}],119:[function(require,module,exports){
+},{"./handlebars/base":112,"./handlebars/exception":125,"./handlebars/no-conflict":135,"./handlebars/runtime":136,"./handlebars/safe-string":137,"./handlebars/utils":138}],112:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -4483,7 +2737,7 @@ exports.createFrame = _utils.createFrame;
 exports.logger = _logger2['default'];
 
 
-},{"./decorators":130,"./exception":132,"./helpers":133,"./logger":141,"./utils":145}],120:[function(require,module,exports){
+},{"./decorators":123,"./exception":125,"./helpers":126,"./logger":134,"./utils":138}],113:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -4516,7 +2770,7 @@ exports['default'] = AST;
 module.exports = exports['default'];
 
 
-},{}],121:[function(require,module,exports){
+},{}],114:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -4566,7 +2820,7 @@ function parse(input, options) {
 }
 
 
-},{"../utils":145,"./helpers":124,"./parser":126,"./whitespace-control":129}],122:[function(require,module,exports){
+},{"../utils":138,"./helpers":117,"./parser":119,"./whitespace-control":122}],115:[function(require,module,exports){
 /* global define */
 'use strict';
 
@@ -4734,7 +2988,7 @@ exports['default'] = CodeGen;
 module.exports = exports['default'];
 
 
-},{"../utils":145,"source-map":147}],123:[function(require,module,exports){
+},{"../utils":138,"source-map":140}],116:[function(require,module,exports){
 /* eslint-disable new-cap */
 
 'use strict';
@@ -5308,7 +3562,7 @@ function transformLiteralToPath(sexpr) {
 }
 
 
-},{"../exception":132,"../utils":145,"./ast":120}],124:[function(require,module,exports){
+},{"../exception":125,"../utils":138,"./ast":113}],117:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -5540,7 +3794,7 @@ function preparePartialBlock(open, program, close, locInfo) {
 }
 
 
-},{"../exception":132}],125:[function(require,module,exports){
+},{"../exception":125}],118:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -6668,7 +4922,7 @@ exports['default'] = JavaScriptCompiler;
 module.exports = exports['default'];
 
 
-},{"../base":119,"../exception":132,"../utils":145,"./code-gen":122}],126:[function(require,module,exports){
+},{"../base":112,"../exception":125,"../utils":138,"./code-gen":115}],119:[function(require,module,exports){
 /* istanbul ignore next */
 /* Jison generated parser */
 "use strict";
@@ -7408,7 +5662,7 @@ var handlebars = (function () {
 exports['default'] = handlebars;
 
 
-},{}],127:[function(require,module,exports){
+},{}],120:[function(require,module,exports){
 /* eslint-disable new-cap */
 'use strict';
 
@@ -7596,7 +5850,7 @@ PrintVisitor.prototype.HashPair = function (pair) {
 /* eslint-enable new-cap */
 
 
-},{"./visitor":128}],128:[function(require,module,exports){
+},{"./visitor":121}],121:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -7738,7 +5992,7 @@ exports['default'] = Visitor;
 module.exports = exports['default'];
 
 
-},{"../exception":132}],129:[function(require,module,exports){
+},{"../exception":125}],122:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -7961,7 +6215,7 @@ exports['default'] = WhitespaceControl;
 module.exports = exports['default'];
 
 
-},{"./visitor":128}],130:[function(require,module,exports){
+},{"./visitor":121}],123:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -7979,7 +6233,7 @@ function registerDefaultDecorators(instance) {
 }
 
 
-},{"./decorators/inline":131}],131:[function(require,module,exports){
+},{"./decorators/inline":124}],124:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -8010,7 +6264,7 @@ exports['default'] = function (instance) {
 module.exports = exports['default'];
 
 
-},{"../utils":145}],132:[function(require,module,exports){
+},{"../utils":138}],125:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -8052,7 +6306,7 @@ exports['default'] = Exception;
 module.exports = exports['default'];
 
 
-},{}],133:[function(require,module,exports){
+},{}],126:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -8100,7 +6354,7 @@ function registerDefaultHelpers(instance) {
 }
 
 
-},{"./helpers/block-helper-missing":134,"./helpers/each":135,"./helpers/helper-missing":136,"./helpers/if":137,"./helpers/log":138,"./helpers/lookup":139,"./helpers/with":140}],134:[function(require,module,exports){
+},{"./helpers/block-helper-missing":127,"./helpers/each":128,"./helpers/helper-missing":129,"./helpers/if":130,"./helpers/log":131,"./helpers/lookup":132,"./helpers/with":133}],127:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -8141,7 +6395,7 @@ exports['default'] = function (instance) {
 module.exports = exports['default'];
 
 
-},{"../utils":145}],135:[function(require,module,exports){
+},{"../utils":138}],128:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -8237,7 +6491,7 @@ exports['default'] = function (instance) {
 module.exports = exports['default'];
 
 
-},{"../exception":132,"../utils":145}],136:[function(require,module,exports){
+},{"../exception":125,"../utils":138}],129:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -8264,7 +6518,7 @@ exports['default'] = function (instance) {
 module.exports = exports['default'];
 
 
-},{"../exception":132}],137:[function(require,module,exports){
+},{"../exception":125}],130:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -8295,7 +6549,7 @@ exports['default'] = function (instance) {
 module.exports = exports['default'];
 
 
-},{"../utils":145}],138:[function(require,module,exports){
+},{"../utils":138}],131:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -8323,7 +6577,7 @@ exports['default'] = function (instance) {
 module.exports = exports['default'];
 
 
-},{}],139:[function(require,module,exports){
+},{}],132:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -8337,7 +6591,7 @@ exports['default'] = function (instance) {
 module.exports = exports['default'];
 
 
-},{}],140:[function(require,module,exports){
+},{}],133:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -8372,7 +6626,7 @@ exports['default'] = function (instance) {
 module.exports = exports['default'];
 
 
-},{"../utils":145}],141:[function(require,module,exports){
+},{"../utils":138}],134:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -8421,7 +6675,7 @@ exports['default'] = logger;
 module.exports = exports['default'];
 
 
-},{"./utils":145}],142:[function(require,module,exports){
+},{"./utils":138}],135:[function(require,module,exports){
 (function (global){
 /* global window */
 'use strict';
@@ -8445,7 +6699,7 @@ module.exports = exports['default'];
 
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],143:[function(require,module,exports){
+},{}],136:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -8739,7 +6993,7 @@ function executeDecorators(fn, prog, container, depths, data, blockParams) {
 }
 
 
-},{"./base":119,"./exception":132,"./utils":145}],144:[function(require,module,exports){
+},{"./base":112,"./exception":125,"./utils":138}],137:[function(require,module,exports){
 // Build out our basic SafeString type
 'use strict';
 
@@ -8756,7 +7010,7 @@ exports['default'] = SafeString;
 module.exports = exports['default'];
 
 
-},{}],145:[function(require,module,exports){
+},{}],138:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -8882,7 +7136,7 @@ function appendContextPath(contextPath, id) {
 }
 
 
-},{}],146:[function(require,module,exports){
+},{}],139:[function(require,module,exports){
 // USAGE:
 // var handlebars = require('handlebars');
 /* eslint-disable no-var */
@@ -8909,7 +7163,7 @@ if (typeof require !== 'undefined' && require.extensions) {
   require.extensions['.hbs'] = extension;
 }
 
-},{"../dist/cjs/handlebars":117,"../dist/cjs/handlebars/compiler/printer":127,"fs":108}],147:[function(require,module,exports){
+},{"../dist/cjs/handlebars":110,"../dist/cjs/handlebars/compiler/printer":120,"fs":22}],140:[function(require,module,exports){
 /*
  * Copyright 2009-2011 Mozilla Foundation and contributors
  * Licensed under the New BSD license. See LICENSE.txt or:
@@ -8919,7 +7173,7 @@ exports.SourceMapGenerator = require('./source-map/source-map-generator').Source
 exports.SourceMapConsumer = require('./source-map/source-map-consumer').SourceMapConsumer;
 exports.SourceNode = require('./source-map/source-node').SourceNode;
 
-},{"./source-map/source-map-consumer":154,"./source-map/source-map-generator":155,"./source-map/source-node":156}],148:[function(require,module,exports){
+},{"./source-map/source-map-consumer":147,"./source-map/source-map-generator":148,"./source-map/source-node":149}],141:[function(require,module,exports){
 /* -*- Mode: js; js-indent-level: 2; -*- */
 /*
  * Copyright 2011 Mozilla Foundation and contributors
@@ -9028,7 +7282,7 @@ define(function (require, exports, module) {
 
 });
 
-},{"./util":157,"amdefine":1}],149:[function(require,module,exports){
+},{"./util":150,"amdefine":1}],142:[function(require,module,exports){
 /* -*- Mode: js; js-indent-level: 2; -*- */
 /*
  * Copyright 2011 Mozilla Foundation and contributors
@@ -9176,7 +7430,7 @@ define(function (require, exports, module) {
 
 });
 
-},{"./base64":150,"amdefine":1}],150:[function(require,module,exports){
+},{"./base64":143,"amdefine":1}],143:[function(require,module,exports){
 /* -*- Mode: js; js-indent-level: 2; -*- */
 /*
  * Copyright 2011 Mozilla Foundation and contributors
@@ -9251,7 +7505,7 @@ define(function (require, exports, module) {
 
 });
 
-},{"amdefine":1}],151:[function(require,module,exports){
+},{"amdefine":1}],144:[function(require,module,exports){
 /* -*- Mode: js; js-indent-level: 2; -*- */
 /*
  * Copyright 2011 Mozilla Foundation and contributors
@@ -9370,7 +7624,7 @@ define(function (require, exports, module) {
 
 });
 
-},{"amdefine":1}],152:[function(require,module,exports){
+},{"amdefine":1}],145:[function(require,module,exports){
 /* -*- Mode: js; js-indent-level: 2; -*- */
 /*
  * Copyright 2014 Mozilla Foundation and contributors
@@ -9458,7 +7712,7 @@ define(function (require, exports, module) {
 
 });
 
-},{"./util":157,"amdefine":1}],153:[function(require,module,exports){
+},{"./util":150,"amdefine":1}],146:[function(require,module,exports){
 /* -*- Mode: js; js-indent-level: 2; -*- */
 /*
  * Copyright 2011 Mozilla Foundation and contributors
@@ -9580,7 +7834,7 @@ define(function (require, exports, module) {
 
 });
 
-},{"amdefine":1}],154:[function(require,module,exports){
+},{"amdefine":1}],147:[function(require,module,exports){
 /* -*- Mode: js; js-indent-level: 2; -*- */
 /*
  * Copyright 2011 Mozilla Foundation and contributors
@@ -10659,7 +8913,7 @@ define(function (require, exports, module) {
 
 });
 
-},{"./array-set":148,"./base64-vlq":149,"./binary-search":151,"./quick-sort":153,"./util":157,"amdefine":1}],155:[function(require,module,exports){
+},{"./array-set":141,"./base64-vlq":142,"./binary-search":144,"./quick-sort":146,"./util":150,"amdefine":1}],148:[function(require,module,exports){
 /* -*- Mode: js; js-indent-level: 2; -*- */
 /*
  * Copyright 2011 Mozilla Foundation and contributors
@@ -11060,7 +9314,7 @@ define(function (require, exports, module) {
 
 });
 
-},{"./array-set":148,"./base64-vlq":149,"./mapping-list":152,"./util":157,"amdefine":1}],156:[function(require,module,exports){
+},{"./array-set":141,"./base64-vlq":142,"./mapping-list":145,"./util":150,"amdefine":1}],149:[function(require,module,exports){
 /* -*- Mode: js; js-indent-level: 2; -*- */
 /*
  * Copyright 2011 Mozilla Foundation and contributors
@@ -11476,7 +9730,7 @@ define(function (require, exports, module) {
 
 });
 
-},{"./source-map-generator":155,"./util":157,"amdefine":1}],157:[function(require,module,exports){
+},{"./source-map-generator":148,"./util":150,"amdefine":1}],150:[function(require,module,exports){
 /* -*- Mode: js; js-indent-level: 2; -*- */
 /*
  * Copyright 2011 Mozilla Foundation and contributors
@@ -11848,7 +10102,7 @@ define(function (require, exports, module) {
 
 });
 
-},{"amdefine":1}],158:[function(require,module,exports){
+},{"amdefine":1}],151:[function(require,module,exports){
 
 /**
  * Element prototype.
@@ -11889,7 +10143,7 @@ function match(el, selector) {
   }
   return false;
 }
-},{}],159:[function(require,module,exports){
+},{}],152:[function(require,module,exports){
 module.exports = not
 
 function not(f) {
@@ -11900,7 +10154,7 @@ function not(f) {
     }
 }
 
-},{}],160:[function(require,module,exports){
+},{}],153:[function(require,module,exports){
 module.exports = Observable
 
 function Observable(value) {
@@ -11929,7 +10183,1796 @@ function Observable(value) {
     }
 }
 
-},{}],161:[function(require,module,exports){
+},{}],154:[function(require,module,exports){
+(function (process){
+// Copyright Joyent, Inc. and other Node contributors.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a
+// copy of this software and associated documentation files (the
+// "Software"), to deal in the Software without restriction, including
+// without limitation the rights to use, copy, modify, merge, publish,
+// distribute, sublicense, and/or sell copies of the Software, and to permit
+// persons to whom the Software is furnished to do so, subject to the
+// following conditions:
+//
+// The above copyright notice and this permission notice shall be included
+// in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+// USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+// resolves . and .. elements in a path array with directory names there
+// must be no slashes, empty elements, or device names (c:\) in the array
+// (so also no leading and trailing slashes - it does not distinguish
+// relative and absolute paths)
+function normalizeArray(parts, allowAboveRoot) {
+  // if the path tries to go above the root, `up` ends up > 0
+  var up = 0;
+  for (var i = parts.length - 1; i >= 0; i--) {
+    var last = parts[i];
+    if (last === '.') {
+      parts.splice(i, 1);
+    } else if (last === '..') {
+      parts.splice(i, 1);
+      up++;
+    } else if (up) {
+      parts.splice(i, 1);
+      up--;
+    }
+  }
+
+  // if the path is allowed to go above the root, restore leading ..s
+  if (allowAboveRoot) {
+    for (; up--; up) {
+      parts.unshift('..');
+    }
+  }
+
+  return parts;
+}
+
+// Split a filename into [root, dir, basename, ext], unix version
+// 'root' is just a slash, or nothing.
+var splitPathRe =
+    /^(\/?|)([\s\S]*?)((?:\.{1,2}|[^\/]+?|)(\.[^.\/]*|))(?:[\/]*)$/;
+var splitPath = function(filename) {
+  return splitPathRe.exec(filename).slice(1);
+};
+
+// path.resolve([from ...], to)
+// posix version
+exports.resolve = function() {
+  var resolvedPath = '',
+      resolvedAbsolute = false;
+
+  for (var i = arguments.length - 1; i >= -1 && !resolvedAbsolute; i--) {
+    var path = (i >= 0) ? arguments[i] : process.cwd();
+
+    // Skip empty and invalid entries
+    if (typeof path !== 'string') {
+      throw new TypeError('Arguments to path.resolve must be strings');
+    } else if (!path) {
+      continue;
+    }
+
+    resolvedPath = path + '/' + resolvedPath;
+    resolvedAbsolute = path.charAt(0) === '/';
+  }
+
+  // At this point the path should be resolved to a full absolute path, but
+  // handle relative paths to be safe (might happen when process.cwd() fails)
+
+  // Normalize the path
+  resolvedPath = normalizeArray(filter(resolvedPath.split('/'), function(p) {
+    return !!p;
+  }), !resolvedAbsolute).join('/');
+
+  return ((resolvedAbsolute ? '/' : '') + resolvedPath) || '.';
+};
+
+// path.normalize(path)
+// posix version
+exports.normalize = function(path) {
+  var isAbsolute = exports.isAbsolute(path),
+      trailingSlash = substr(path, -1) === '/';
+
+  // Normalize the path
+  path = normalizeArray(filter(path.split('/'), function(p) {
+    return !!p;
+  }), !isAbsolute).join('/');
+
+  if (!path && !isAbsolute) {
+    path = '.';
+  }
+  if (path && trailingSlash) {
+    path += '/';
+  }
+
+  return (isAbsolute ? '/' : '') + path;
+};
+
+// posix version
+exports.isAbsolute = function(path) {
+  return path.charAt(0) === '/';
+};
+
+// posix version
+exports.join = function() {
+  var paths = Array.prototype.slice.call(arguments, 0);
+  return exports.normalize(filter(paths, function(p, index) {
+    if (typeof p !== 'string') {
+      throw new TypeError('Arguments to path.join must be strings');
+    }
+    return p;
+  }).join('/'));
+};
+
+
+// path.relative(from, to)
+// posix version
+exports.relative = function(from, to) {
+  from = exports.resolve(from).substr(1);
+  to = exports.resolve(to).substr(1);
+
+  function trim(arr) {
+    var start = 0;
+    for (; start < arr.length; start++) {
+      if (arr[start] !== '') break;
+    }
+
+    var end = arr.length - 1;
+    for (; end >= 0; end--) {
+      if (arr[end] !== '') break;
+    }
+
+    if (start > end) return [];
+    return arr.slice(start, end - start + 1);
+  }
+
+  var fromParts = trim(from.split('/'));
+  var toParts = trim(to.split('/'));
+
+  var length = Math.min(fromParts.length, toParts.length);
+  var samePartsLength = length;
+  for (var i = 0; i < length; i++) {
+    if (fromParts[i] !== toParts[i]) {
+      samePartsLength = i;
+      break;
+    }
+  }
+
+  var outputParts = [];
+  for (var i = samePartsLength; i < fromParts.length; i++) {
+    outputParts.push('..');
+  }
+
+  outputParts = outputParts.concat(toParts.slice(samePartsLength));
+
+  return outputParts.join('/');
+};
+
+exports.sep = '/';
+exports.delimiter = ':';
+
+exports.dirname = function(path) {
+  var result = splitPath(path),
+      root = result[0],
+      dir = result[1];
+
+  if (!root && !dir) {
+    // No dirname whatsoever
+    return '.';
+  }
+
+  if (dir) {
+    // It has a dirname, strip trailing slash
+    dir = dir.substr(0, dir.length - 1);
+  }
+
+  return root + dir;
+};
+
+
+exports.basename = function(path, ext) {
+  var f = splitPath(path)[2];
+  // TODO: make this comparison case-insensitive on windows?
+  if (ext && f.substr(-1 * ext.length) === ext) {
+    f = f.substr(0, f.length - ext.length);
+  }
+  return f;
+};
+
+
+exports.extname = function(path) {
+  return splitPath(path)[3];
+};
+
+function filter (xs, f) {
+    if (xs.filter) return xs.filter(f);
+    var res = [];
+    for (var i = 0; i < xs.length; i++) {
+        if (f(xs[i], i, xs)) res.push(xs[i]);
+    }
+    return res;
+}
+
+// String.prototype.substr - negative index don't work in IE8
+var substr = 'ab'.substr(-1) === 'b'
+    ? function (str, start, len) { return str.substr(start, len) }
+    : function (str, start, len) {
+        if (start < 0) start = str.length + start;
+        return str.substr(start, len);
+    }
+;
+
+}).call(this,require('_process'))
+},{"_process":155}],155:[function(require,module,exports){
+// shim for using process in browser
+
+var process = module.exports = {};
+var queue = [];
+var draining = false;
+var currentQueue;
+var queueIndex = -1;
+
+function cleanUpNextTick() {
+    draining = false;
+    if (currentQueue.length) {
+        queue = currentQueue.concat(queue);
+    } else {
+        queueIndex = -1;
+    }
+    if (queue.length) {
+        drainQueue();
+    }
+}
+
+function drainQueue() {
+    if (draining) {
+        return;
+    }
+    var timeout = setTimeout(cleanUpNextTick);
+    draining = true;
+
+    var len = queue.length;
+    while(len) {
+        currentQueue = queue;
+        queue = [];
+        while (++queueIndex < len) {
+            if (currentQueue) {
+                currentQueue[queueIndex].run();
+            }
+        }
+        queueIndex = -1;
+        len = queue.length;
+    }
+    currentQueue = null;
+    draining = false;
+    clearTimeout(timeout);
+}
+
+process.nextTick = function (fun) {
+    var args = new Array(arguments.length - 1);
+    if (arguments.length > 1) {
+        for (var i = 1; i < arguments.length; i++) {
+            args[i - 1] = arguments[i];
+        }
+    }
+    queue.push(new Item(fun, args));
+    if (queue.length === 1 && !draining) {
+        setTimeout(drainQueue, 0);
+    }
+};
+
+// v8 likes predictible objects
+function Item(fun, array) {
+    this.fun = fun;
+    this.array = array;
+}
+Item.prototype.run = function () {
+    this.fun.apply(null, this.array);
+};
+process.title = 'browser';
+process.browser = true;
+process.env = {};
+process.argv = [];
+process.version = ''; // empty string to avoid regexp issues
+process.versions = {};
+
+function noop() {}
+
+process.on = noop;
+process.addListener = noop;
+process.once = noop;
+process.off = noop;
+process.removeListener = noop;
+process.removeAllListeners = noop;
+process.emit = noop;
+
+process.binding = function (name) {
+    throw new Error('process.binding is not supported');
+};
+
+process.cwd = function () { return '/' };
+process.chdir = function (dir) {
+    throw new Error('process.chdir is not supported');
+};
+process.umask = function() { return 0; };
+
+},{}],156:[function(require,module,exports){
+(function (global){
+/*! https://mths.be/punycode v1.4.1 by @mathias */
+;(function(root) {
+
+	/** Detect free variables */
+	var freeExports = typeof exports == 'object' && exports &&
+		!exports.nodeType && exports;
+	var freeModule = typeof module == 'object' && module &&
+		!module.nodeType && module;
+	var freeGlobal = typeof global == 'object' && global;
+	if (
+		freeGlobal.global === freeGlobal ||
+		freeGlobal.window === freeGlobal ||
+		freeGlobal.self === freeGlobal
+	) {
+		root = freeGlobal;
+	}
+
+	/**
+	 * The `punycode` object.
+	 * @name punycode
+	 * @type Object
+	 */
+	var punycode,
+
+	/** Highest positive signed 32-bit float value */
+	maxInt = 2147483647, // aka. 0x7FFFFFFF or 2^31-1
+
+	/** Bootstring parameters */
+	base = 36,
+	tMin = 1,
+	tMax = 26,
+	skew = 38,
+	damp = 700,
+	initialBias = 72,
+	initialN = 128, // 0x80
+	delimiter = '-', // '\x2D'
+
+	/** Regular expressions */
+	regexPunycode = /^xn--/,
+	regexNonASCII = /[^\x20-\x7E]/, // unprintable ASCII chars + non-ASCII chars
+	regexSeparators = /[\x2E\u3002\uFF0E\uFF61]/g, // RFC 3490 separators
+
+	/** Error messages */
+	errors = {
+		'overflow': 'Overflow: input needs wider integers to process',
+		'not-basic': 'Illegal input >= 0x80 (not a basic code point)',
+		'invalid-input': 'Invalid input'
+	},
+
+	/** Convenience shortcuts */
+	baseMinusTMin = base - tMin,
+	floor = Math.floor,
+	stringFromCharCode = String.fromCharCode,
+
+	/** Temporary variable */
+	key;
+
+	/*--------------------------------------------------------------------------*/
+
+	/**
+	 * A generic error utility function.
+	 * @private
+	 * @param {String} type The error type.
+	 * @returns {Error} Throws a `RangeError` with the applicable error message.
+	 */
+	function error(type) {
+		throw new RangeError(errors[type]);
+	}
+
+	/**
+	 * A generic `Array#map` utility function.
+	 * @private
+	 * @param {Array} array The array to iterate over.
+	 * @param {Function} callback The function that gets called for every array
+	 * item.
+	 * @returns {Array} A new array of values returned by the callback function.
+	 */
+	function map(array, fn) {
+		var length = array.length;
+		var result = [];
+		while (length--) {
+			result[length] = fn(array[length]);
+		}
+		return result;
+	}
+
+	/**
+	 * A simple `Array#map`-like wrapper to work with domain name strings or email
+	 * addresses.
+	 * @private
+	 * @param {String} domain The domain name or email address.
+	 * @param {Function} callback The function that gets called for every
+	 * character.
+	 * @returns {Array} A new string of characters returned by the callback
+	 * function.
+	 */
+	function mapDomain(string, fn) {
+		var parts = string.split('@');
+		var result = '';
+		if (parts.length > 1) {
+			// In email addresses, only the domain name should be punycoded. Leave
+			// the local part (i.e. everything up to `@`) intact.
+			result = parts[0] + '@';
+			string = parts[1];
+		}
+		// Avoid `split(regex)` for IE8 compatibility. See #17.
+		string = string.replace(regexSeparators, '\x2E');
+		var labels = string.split('.');
+		var encoded = map(labels, fn).join('.');
+		return result + encoded;
+	}
+
+	/**
+	 * Creates an array containing the numeric code points of each Unicode
+	 * character in the string. While JavaScript uses UCS-2 internally,
+	 * this function will convert a pair of surrogate halves (each of which
+	 * UCS-2 exposes as separate characters) into a single code point,
+	 * matching UTF-16.
+	 * @see `punycode.ucs2.encode`
+	 * @see <https://mathiasbynens.be/notes/javascript-encoding>
+	 * @memberOf punycode.ucs2
+	 * @name decode
+	 * @param {String} string The Unicode input string (UCS-2).
+	 * @returns {Array} The new array of code points.
+	 */
+	function ucs2decode(string) {
+		var output = [],
+		    counter = 0,
+		    length = string.length,
+		    value,
+		    extra;
+		while (counter < length) {
+			value = string.charCodeAt(counter++);
+			if (value >= 0xD800 && value <= 0xDBFF && counter < length) {
+				// high surrogate, and there is a next character
+				extra = string.charCodeAt(counter++);
+				if ((extra & 0xFC00) == 0xDC00) { // low surrogate
+					output.push(((value & 0x3FF) << 10) + (extra & 0x3FF) + 0x10000);
+				} else {
+					// unmatched surrogate; only append this code unit, in case the next
+					// code unit is the high surrogate of a surrogate pair
+					output.push(value);
+					counter--;
+				}
+			} else {
+				output.push(value);
+			}
+		}
+		return output;
+	}
+
+	/**
+	 * Creates a string based on an array of numeric code points.
+	 * @see `punycode.ucs2.decode`
+	 * @memberOf punycode.ucs2
+	 * @name encode
+	 * @param {Array} codePoints The array of numeric code points.
+	 * @returns {String} The new Unicode string (UCS-2).
+	 */
+	function ucs2encode(array) {
+		return map(array, function(value) {
+			var output = '';
+			if (value > 0xFFFF) {
+				value -= 0x10000;
+				output += stringFromCharCode(value >>> 10 & 0x3FF | 0xD800);
+				value = 0xDC00 | value & 0x3FF;
+			}
+			output += stringFromCharCode(value);
+			return output;
+		}).join('');
+	}
+
+	/**
+	 * Converts a basic code point into a digit/integer.
+	 * @see `digitToBasic()`
+	 * @private
+	 * @param {Number} codePoint The basic numeric code point value.
+	 * @returns {Number} The numeric value of a basic code point (for use in
+	 * representing integers) in the range `0` to `base - 1`, or `base` if
+	 * the code point does not represent a value.
+	 */
+	function basicToDigit(codePoint) {
+		if (codePoint - 48 < 10) {
+			return codePoint - 22;
+		}
+		if (codePoint - 65 < 26) {
+			return codePoint - 65;
+		}
+		if (codePoint - 97 < 26) {
+			return codePoint - 97;
+		}
+		return base;
+	}
+
+	/**
+	 * Converts a digit/integer into a basic code point.
+	 * @see `basicToDigit()`
+	 * @private
+	 * @param {Number} digit The numeric value of a basic code point.
+	 * @returns {Number} The basic code point whose value (when used for
+	 * representing integers) is `digit`, which needs to be in the range
+	 * `0` to `base - 1`. If `flag` is non-zero, the uppercase form is
+	 * used; else, the lowercase form is used. The behavior is undefined
+	 * if `flag` is non-zero and `digit` has no uppercase form.
+	 */
+	function digitToBasic(digit, flag) {
+		//  0..25 map to ASCII a..z or A..Z
+		// 26..35 map to ASCII 0..9
+		return digit + 22 + 75 * (digit < 26) - ((flag != 0) << 5);
+	}
+
+	/**
+	 * Bias adaptation function as per section 3.4 of RFC 3492.
+	 * https://tools.ietf.org/html/rfc3492#section-3.4
+	 * @private
+	 */
+	function adapt(delta, numPoints, firstTime) {
+		var k = 0;
+		delta = firstTime ? floor(delta / damp) : delta >> 1;
+		delta += floor(delta / numPoints);
+		for (/* no initialization */; delta > baseMinusTMin * tMax >> 1; k += base) {
+			delta = floor(delta / baseMinusTMin);
+		}
+		return floor(k + (baseMinusTMin + 1) * delta / (delta + skew));
+	}
+
+	/**
+	 * Converts a Punycode string of ASCII-only symbols to a string of Unicode
+	 * symbols.
+	 * @memberOf punycode
+	 * @param {String} input The Punycode string of ASCII-only symbols.
+	 * @returns {String} The resulting string of Unicode symbols.
+	 */
+	function decode(input) {
+		// Don't use UCS-2
+		var output = [],
+		    inputLength = input.length,
+		    out,
+		    i = 0,
+		    n = initialN,
+		    bias = initialBias,
+		    basic,
+		    j,
+		    index,
+		    oldi,
+		    w,
+		    k,
+		    digit,
+		    t,
+		    /** Cached calculation results */
+		    baseMinusT;
+
+		// Handle the basic code points: let `basic` be the number of input code
+		// points before the last delimiter, or `0` if there is none, then copy
+		// the first basic code points to the output.
+
+		basic = input.lastIndexOf(delimiter);
+		if (basic < 0) {
+			basic = 0;
+		}
+
+		for (j = 0; j < basic; ++j) {
+			// if it's not a basic code point
+			if (input.charCodeAt(j) >= 0x80) {
+				error('not-basic');
+			}
+			output.push(input.charCodeAt(j));
+		}
+
+		// Main decoding loop: start just after the last delimiter if any basic code
+		// points were copied; start at the beginning otherwise.
+
+		for (index = basic > 0 ? basic + 1 : 0; index < inputLength; /* no final expression */) {
+
+			// `index` is the index of the next character to be consumed.
+			// Decode a generalized variable-length integer into `delta`,
+			// which gets added to `i`. The overflow checking is easier
+			// if we increase `i` as we go, then subtract off its starting
+			// value at the end to obtain `delta`.
+			for (oldi = i, w = 1, k = base; /* no condition */; k += base) {
+
+				if (index >= inputLength) {
+					error('invalid-input');
+				}
+
+				digit = basicToDigit(input.charCodeAt(index++));
+
+				if (digit >= base || digit > floor((maxInt - i) / w)) {
+					error('overflow');
+				}
+
+				i += digit * w;
+				t = k <= bias ? tMin : (k >= bias + tMax ? tMax : k - bias);
+
+				if (digit < t) {
+					break;
+				}
+
+				baseMinusT = base - t;
+				if (w > floor(maxInt / baseMinusT)) {
+					error('overflow');
+				}
+
+				w *= baseMinusT;
+
+			}
+
+			out = output.length + 1;
+			bias = adapt(i - oldi, out, oldi == 0);
+
+			// `i` was supposed to wrap around from `out` to `0`,
+			// incrementing `n` each time, so we'll fix that now:
+			if (floor(i / out) > maxInt - n) {
+				error('overflow');
+			}
+
+			n += floor(i / out);
+			i %= out;
+
+			// Insert `n` at position `i` of the output
+			output.splice(i++, 0, n);
+
+		}
+
+		return ucs2encode(output);
+	}
+
+	/**
+	 * Converts a string of Unicode symbols (e.g. a domain name label) to a
+	 * Punycode string of ASCII-only symbols.
+	 * @memberOf punycode
+	 * @param {String} input The string of Unicode symbols.
+	 * @returns {String} The resulting Punycode string of ASCII-only symbols.
+	 */
+	function encode(input) {
+		var n,
+		    delta,
+		    handledCPCount,
+		    basicLength,
+		    bias,
+		    j,
+		    m,
+		    q,
+		    k,
+		    t,
+		    currentValue,
+		    output = [],
+		    /** `inputLength` will hold the number of code points in `input`. */
+		    inputLength,
+		    /** Cached calculation results */
+		    handledCPCountPlusOne,
+		    baseMinusT,
+		    qMinusT;
+
+		// Convert the input in UCS-2 to Unicode
+		input = ucs2decode(input);
+
+		// Cache the length
+		inputLength = input.length;
+
+		// Initialize the state
+		n = initialN;
+		delta = 0;
+		bias = initialBias;
+
+		// Handle the basic code points
+		for (j = 0; j < inputLength; ++j) {
+			currentValue = input[j];
+			if (currentValue < 0x80) {
+				output.push(stringFromCharCode(currentValue));
+			}
+		}
+
+		handledCPCount = basicLength = output.length;
+
+		// `handledCPCount` is the number of code points that have been handled;
+		// `basicLength` is the number of basic code points.
+
+		// Finish the basic string - if it is not empty - with a delimiter
+		if (basicLength) {
+			output.push(delimiter);
+		}
+
+		// Main encoding loop:
+		while (handledCPCount < inputLength) {
+
+			// All non-basic code points < n have been handled already. Find the next
+			// larger one:
+			for (m = maxInt, j = 0; j < inputLength; ++j) {
+				currentValue = input[j];
+				if (currentValue >= n && currentValue < m) {
+					m = currentValue;
+				}
+			}
+
+			// Increase `delta` enough to advance the decoder's <n,i> state to <m,0>,
+			// but guard against overflow
+			handledCPCountPlusOne = handledCPCount + 1;
+			if (m - n > floor((maxInt - delta) / handledCPCountPlusOne)) {
+				error('overflow');
+			}
+
+			delta += (m - n) * handledCPCountPlusOne;
+			n = m;
+
+			for (j = 0; j < inputLength; ++j) {
+				currentValue = input[j];
+
+				if (currentValue < n && ++delta > maxInt) {
+					error('overflow');
+				}
+
+				if (currentValue == n) {
+					// Represent delta as a generalized variable-length integer
+					for (q = delta, k = base; /* no condition */; k += base) {
+						t = k <= bias ? tMin : (k >= bias + tMax ? tMax : k - bias);
+						if (q < t) {
+							break;
+						}
+						qMinusT = q - t;
+						baseMinusT = base - t;
+						output.push(
+							stringFromCharCode(digitToBasic(t + qMinusT % baseMinusT, 0))
+						);
+						q = floor(qMinusT / baseMinusT);
+					}
+
+					output.push(stringFromCharCode(digitToBasic(q, 0)));
+					bias = adapt(delta, handledCPCountPlusOne, handledCPCount == basicLength);
+					delta = 0;
+					++handledCPCount;
+				}
+			}
+
+			++delta;
+			++n;
+
+		}
+		return output.join('');
+	}
+
+	/**
+	 * Converts a Punycode string representing a domain name or an email address
+	 * to Unicode. Only the Punycoded parts of the input will be converted, i.e.
+	 * it doesn't matter if you call it on a string that has already been
+	 * converted to Unicode.
+	 * @memberOf punycode
+	 * @param {String} input The Punycoded domain name or email address to
+	 * convert to Unicode.
+	 * @returns {String} The Unicode representation of the given Punycode
+	 * string.
+	 */
+	function toUnicode(input) {
+		return mapDomain(input, function(string) {
+			return regexPunycode.test(string)
+				? decode(string.slice(4).toLowerCase())
+				: string;
+		});
+	}
+
+	/**
+	 * Converts a Unicode string representing a domain name or an email address to
+	 * Punycode. Only the non-ASCII parts of the domain name will be converted,
+	 * i.e. it doesn't matter if you call it with a domain that's already in
+	 * ASCII.
+	 * @memberOf punycode
+	 * @param {String} input The domain name or email address to convert, as a
+	 * Unicode string.
+	 * @returns {String} The Punycode representation of the given domain name or
+	 * email address.
+	 */
+	function toASCII(input) {
+		return mapDomain(input, function(string) {
+			return regexNonASCII.test(string)
+				? 'xn--' + encode(string)
+				: string;
+		});
+	}
+
+	/*--------------------------------------------------------------------------*/
+
+	/** Define the public API */
+	punycode = {
+		/**
+		 * A string representing the current Punycode.js version number.
+		 * @memberOf punycode
+		 * @type String
+		 */
+		'version': '1.4.1',
+		/**
+		 * An object of methods to convert from JavaScript's internal character
+		 * representation (UCS-2) to Unicode code points, and back.
+		 * @see <https://mathiasbynens.be/notes/javascript-encoding>
+		 * @memberOf punycode
+		 * @type Object
+		 */
+		'ucs2': {
+			'decode': ucs2decode,
+			'encode': ucs2encode
+		},
+		'decode': decode,
+		'encode': encode,
+		'toASCII': toASCII,
+		'toUnicode': toUnicode
+	};
+
+	/** Expose `punycode` */
+	// Some AMD build optimizers, like r.js, check for specific condition patterns
+	// like the following:
+	if (
+		typeof define == 'function' &&
+		typeof define.amd == 'object' &&
+		define.amd
+	) {
+		define('punycode', function() {
+			return punycode;
+		});
+	} else if (freeExports && freeModule) {
+		if (module.exports == freeExports) {
+			// in Node.js, io.js, or RingoJS v0.8.0+
+			freeModule.exports = punycode;
+		} else {
+			// in Narwhal or RingoJS v0.7.0-
+			for (key in punycode) {
+				punycode.hasOwnProperty(key) && (freeExports[key] = punycode[key]);
+			}
+		}
+	} else {
+		// in Rhino or a web browser
+		root.punycode = punycode;
+	}
+
+}(this));
+
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{}],157:[function(require,module,exports){
+// Copyright Joyent, Inc. and other Node contributors.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a
+// copy of this software and associated documentation files (the
+// "Software"), to deal in the Software without restriction, including
+// without limitation the rights to use, copy, modify, merge, publish,
+// distribute, sublicense, and/or sell copies of the Software, and to permit
+// persons to whom the Software is furnished to do so, subject to the
+// following conditions:
+//
+// The above copyright notice and this permission notice shall be included
+// in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+// USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+'use strict';
+
+// If obj.hasOwnProperty has been overridden, then calling
+// obj.hasOwnProperty(prop) will break.
+// See: https://github.com/joyent/node/issues/1707
+function hasOwnProperty(obj, prop) {
+  return Object.prototype.hasOwnProperty.call(obj, prop);
+}
+
+module.exports = function(qs, sep, eq, options) {
+  sep = sep || '&';
+  eq = eq || '=';
+  var obj = {};
+
+  if (typeof qs !== 'string' || qs.length === 0) {
+    return obj;
+  }
+
+  var regexp = /\+/g;
+  qs = qs.split(sep);
+
+  var maxKeys = 1000;
+  if (options && typeof options.maxKeys === 'number') {
+    maxKeys = options.maxKeys;
+  }
+
+  var len = qs.length;
+  // maxKeys <= 0 means that we should not limit keys count
+  if (maxKeys > 0 && len > maxKeys) {
+    len = maxKeys;
+  }
+
+  for (var i = 0; i < len; ++i) {
+    var x = qs[i].replace(regexp, '%20'),
+        idx = x.indexOf(eq),
+        kstr, vstr, k, v;
+
+    if (idx >= 0) {
+      kstr = x.substr(0, idx);
+      vstr = x.substr(idx + 1);
+    } else {
+      kstr = x;
+      vstr = '';
+    }
+
+    k = decodeURIComponent(kstr);
+    v = decodeURIComponent(vstr);
+
+    if (!hasOwnProperty(obj, k)) {
+      obj[k] = v;
+    } else if (isArray(obj[k])) {
+      obj[k].push(v);
+    } else {
+      obj[k] = [obj[k], v];
+    }
+  }
+
+  return obj;
+};
+
+var isArray = Array.isArray || function (xs) {
+  return Object.prototype.toString.call(xs) === '[object Array]';
+};
+
+},{}],158:[function(require,module,exports){
+// Copyright Joyent, Inc. and other Node contributors.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a
+// copy of this software and associated documentation files (the
+// "Software"), to deal in the Software without restriction, including
+// without limitation the rights to use, copy, modify, merge, publish,
+// distribute, sublicense, and/or sell copies of the Software, and to permit
+// persons to whom the Software is furnished to do so, subject to the
+// following conditions:
+//
+// The above copyright notice and this permission notice shall be included
+// in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+// USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+'use strict';
+
+var stringifyPrimitive = function(v) {
+  switch (typeof v) {
+    case 'string':
+      return v;
+
+    case 'boolean':
+      return v ? 'true' : 'false';
+
+    case 'number':
+      return isFinite(v) ? v : '';
+
+    default:
+      return '';
+  }
+};
+
+module.exports = function(obj, sep, eq, name) {
+  sep = sep || '&';
+  eq = eq || '=';
+  if (obj === null) {
+    obj = undefined;
+  }
+
+  if (typeof obj === 'object') {
+    return map(objectKeys(obj), function(k) {
+      var ks = encodeURIComponent(stringifyPrimitive(k)) + eq;
+      if (isArray(obj[k])) {
+        return map(obj[k], function(v) {
+          return ks + encodeURIComponent(stringifyPrimitive(v));
+        }).join(sep);
+      } else {
+        return ks + encodeURIComponent(stringifyPrimitive(obj[k]));
+      }
+    }).join(sep);
+
+  }
+
+  if (!name) return '';
+  return encodeURIComponent(stringifyPrimitive(name)) + eq +
+         encodeURIComponent(stringifyPrimitive(obj));
+};
+
+var isArray = Array.isArray || function (xs) {
+  return Object.prototype.toString.call(xs) === '[object Array]';
+};
+
+function map (xs, f) {
+  if (xs.map) return xs.map(f);
+  var res = [];
+  for (var i = 0; i < xs.length; i++) {
+    res.push(f(xs[i], i));
+  }
+  return res;
+}
+
+var objectKeys = Object.keys || function (obj) {
+  var res = [];
+  for (var key in obj) {
+    if (Object.prototype.hasOwnProperty.call(obj, key)) res.push(key);
+  }
+  return res;
+};
+
+},{}],159:[function(require,module,exports){
+'use strict';
+
+exports.decode = exports.parse = require('./decode');
+exports.encode = exports.stringify = require('./encode');
+
+},{"./decode":157,"./encode":158}],160:[function(require,module,exports){
+// Copyright Joyent, Inc. and other Node contributors.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a
+// copy of this software and associated documentation files (the
+// "Software"), to deal in the Software without restriction, including
+// without limitation the rights to use, copy, modify, merge, publish,
+// distribute, sublicense, and/or sell copies of the Software, and to permit
+// persons to whom the Software is furnished to do so, subject to the
+// following conditions:
+//
+// The above copyright notice and this permission notice shall be included
+// in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+// USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+'use strict';
+
+var punycode = require('punycode');
+var util = require('./util');
+
+exports.parse = urlParse;
+exports.resolve = urlResolve;
+exports.resolveObject = urlResolveObject;
+exports.format = urlFormat;
+
+exports.Url = Url;
+
+function Url() {
+  this.protocol = null;
+  this.slashes = null;
+  this.auth = null;
+  this.host = null;
+  this.port = null;
+  this.hostname = null;
+  this.hash = null;
+  this.search = null;
+  this.query = null;
+  this.pathname = null;
+  this.path = null;
+  this.href = null;
+}
+
+// Reference: RFC 3986, RFC 1808, RFC 2396
+
+// define these here so at least they only have to be
+// compiled once on the first module load.
+var protocolPattern = /^([a-z0-9.+-]+:)/i,
+    portPattern = /:[0-9]*$/,
+
+    // Special case for a simple path URL
+    simplePathPattern = /^(\/\/?(?!\/)[^\?\s]*)(\?[^\s]*)?$/,
+
+    // RFC 2396: characters reserved for delimiting URLs.
+    // We actually just auto-escape these.
+    delims = ['<', '>', '"', '`', ' ', '\r', '\n', '\t'],
+
+    // RFC 2396: characters not allowed for various reasons.
+    unwise = ['{', '}', '|', '\\', '^', '`'].concat(delims),
+
+    // Allowed by RFCs, but cause of XSS attacks.  Always escape these.
+    autoEscape = ['\''].concat(unwise),
+    // Characters that are never ever allowed in a hostname.
+    // Note that any invalid chars are also handled, but these
+    // are the ones that are *expected* to be seen, so we fast-path
+    // them.
+    nonHostChars = ['%', '/', '?', ';', '#'].concat(autoEscape),
+    hostEndingChars = ['/', '?', '#'],
+    hostnameMaxLen = 255,
+    hostnamePartPattern = /^[+a-z0-9A-Z_-]{0,63}$/,
+    hostnamePartStart = /^([+a-z0-9A-Z_-]{0,63})(.*)$/,
+    // protocols that can allow "unsafe" and "unwise" chars.
+    unsafeProtocol = {
+      'javascript': true,
+      'javascript:': true
+    },
+    // protocols that never have a hostname.
+    hostlessProtocol = {
+      'javascript': true,
+      'javascript:': true
+    },
+    // protocols that always contain a // bit.
+    slashedProtocol = {
+      'http': true,
+      'https': true,
+      'ftp': true,
+      'gopher': true,
+      'file': true,
+      'http:': true,
+      'https:': true,
+      'ftp:': true,
+      'gopher:': true,
+      'file:': true
+    },
+    querystring = require('querystring');
+
+function urlParse(url, parseQueryString, slashesDenoteHost) {
+  if (url && util.isObject(url) && url instanceof Url) return url;
+
+  var u = new Url;
+  u.parse(url, parseQueryString, slashesDenoteHost);
+  return u;
+}
+
+Url.prototype.parse = function(url, parseQueryString, slashesDenoteHost) {
+  if (!util.isString(url)) {
+    throw new TypeError("Parameter 'url' must be a string, not " + typeof url);
+  }
+
+  // Copy chrome, IE, opera backslash-handling behavior.
+  // Back slashes before the query string get converted to forward slashes
+  // See: https://code.google.com/p/chromium/issues/detail?id=25916
+  var queryIndex = url.indexOf('?'),
+      splitter =
+          (queryIndex !== -1 && queryIndex < url.indexOf('#')) ? '?' : '#',
+      uSplit = url.split(splitter),
+      slashRegex = /\\/g;
+  uSplit[0] = uSplit[0].replace(slashRegex, '/');
+  url = uSplit.join(splitter);
+
+  var rest = url;
+
+  // trim before proceeding.
+  // This is to support parse stuff like "  http://foo.com  \n"
+  rest = rest.trim();
+
+  if (!slashesDenoteHost && url.split('#').length === 1) {
+    // Try fast path regexp
+    var simplePath = simplePathPattern.exec(rest);
+    if (simplePath) {
+      this.path = rest;
+      this.href = rest;
+      this.pathname = simplePath[1];
+      if (simplePath[2]) {
+        this.search = simplePath[2];
+        if (parseQueryString) {
+          this.query = querystring.parse(this.search.substr(1));
+        } else {
+          this.query = this.search.substr(1);
+        }
+      } else if (parseQueryString) {
+        this.search = '';
+        this.query = {};
+      }
+      return this;
+    }
+  }
+
+  var proto = protocolPattern.exec(rest);
+  if (proto) {
+    proto = proto[0];
+    var lowerProto = proto.toLowerCase();
+    this.protocol = lowerProto;
+    rest = rest.substr(proto.length);
+  }
+
+  // figure out if it's got a host
+  // user@server is *always* interpreted as a hostname, and url
+  // resolution will treat //foo/bar as host=foo,path=bar because that's
+  // how the browser resolves relative URLs.
+  if (slashesDenoteHost || proto || rest.match(/^\/\/[^@\/]+@[^@\/]+/)) {
+    var slashes = rest.substr(0, 2) === '//';
+    if (slashes && !(proto && hostlessProtocol[proto])) {
+      rest = rest.substr(2);
+      this.slashes = true;
+    }
+  }
+
+  if (!hostlessProtocol[proto] &&
+      (slashes || (proto && !slashedProtocol[proto]))) {
+
+    // there's a hostname.
+    // the first instance of /, ?, ;, or # ends the host.
+    //
+    // If there is an @ in the hostname, then non-host chars *are* allowed
+    // to the left of the last @ sign, unless some host-ending character
+    // comes *before* the @-sign.
+    // URLs are obnoxious.
+    //
+    // ex:
+    // http://a@b@c/ => user:a@b host:c
+    // http://a@b?@c => user:a host:c path:/?@c
+
+    // v0.12 TODO(isaacs): This is not quite how Chrome does things.
+    // Review our test case against browsers more comprehensively.
+
+    // find the first instance of any hostEndingChars
+    var hostEnd = -1;
+    for (var i = 0; i < hostEndingChars.length; i++) {
+      var hec = rest.indexOf(hostEndingChars[i]);
+      if (hec !== -1 && (hostEnd === -1 || hec < hostEnd))
+        hostEnd = hec;
+    }
+
+    // at this point, either we have an explicit point where the
+    // auth portion cannot go past, or the last @ char is the decider.
+    var auth, atSign;
+    if (hostEnd === -1) {
+      // atSign can be anywhere.
+      atSign = rest.lastIndexOf('@');
+    } else {
+      // atSign must be in auth portion.
+      // http://a@b/c@d => host:b auth:a path:/c@d
+      atSign = rest.lastIndexOf('@', hostEnd);
+    }
+
+    // Now we have a portion which is definitely the auth.
+    // Pull that off.
+    if (atSign !== -1) {
+      auth = rest.slice(0, atSign);
+      rest = rest.slice(atSign + 1);
+      this.auth = decodeURIComponent(auth);
+    }
+
+    // the host is the remaining to the left of the first non-host char
+    hostEnd = -1;
+    for (var i = 0; i < nonHostChars.length; i++) {
+      var hec = rest.indexOf(nonHostChars[i]);
+      if (hec !== -1 && (hostEnd === -1 || hec < hostEnd))
+        hostEnd = hec;
+    }
+    // if we still have not hit it, then the entire thing is a host.
+    if (hostEnd === -1)
+      hostEnd = rest.length;
+
+    this.host = rest.slice(0, hostEnd);
+    rest = rest.slice(hostEnd);
+
+    // pull out port.
+    this.parseHost();
+
+    // we've indicated that there is a hostname,
+    // so even if it's empty, it has to be present.
+    this.hostname = this.hostname || '';
+
+    // if hostname begins with [ and ends with ]
+    // assume that it's an IPv6 address.
+    var ipv6Hostname = this.hostname[0] === '[' &&
+        this.hostname[this.hostname.length - 1] === ']';
+
+    // validate a little.
+    if (!ipv6Hostname) {
+      var hostparts = this.hostname.split(/\./);
+      for (var i = 0, l = hostparts.length; i < l; i++) {
+        var part = hostparts[i];
+        if (!part) continue;
+        if (!part.match(hostnamePartPattern)) {
+          var newpart = '';
+          for (var j = 0, k = part.length; j < k; j++) {
+            if (part.charCodeAt(j) > 127) {
+              // we replace non-ASCII char with a temporary placeholder
+              // we need this to make sure size of hostname is not
+              // broken by replacing non-ASCII by nothing
+              newpart += 'x';
+            } else {
+              newpart += part[j];
+            }
+          }
+          // we test again with ASCII char only
+          if (!newpart.match(hostnamePartPattern)) {
+            var validParts = hostparts.slice(0, i);
+            var notHost = hostparts.slice(i + 1);
+            var bit = part.match(hostnamePartStart);
+            if (bit) {
+              validParts.push(bit[1]);
+              notHost.unshift(bit[2]);
+            }
+            if (notHost.length) {
+              rest = '/' + notHost.join('.') + rest;
+            }
+            this.hostname = validParts.join('.');
+            break;
+          }
+        }
+      }
+    }
+
+    if (this.hostname.length > hostnameMaxLen) {
+      this.hostname = '';
+    } else {
+      // hostnames are always lower case.
+      this.hostname = this.hostname.toLowerCase();
+    }
+
+    if (!ipv6Hostname) {
+      // IDNA Support: Returns a punycoded representation of "domain".
+      // It only converts parts of the domain name that
+      // have non-ASCII characters, i.e. it doesn't matter if
+      // you call it with a domain that already is ASCII-only.
+      this.hostname = punycode.toASCII(this.hostname);
+    }
+
+    var p = this.port ? ':' + this.port : '';
+    var h = this.hostname || '';
+    this.host = h + p;
+    this.href += this.host;
+
+    // strip [ and ] from the hostname
+    // the host field still retains them, though
+    if (ipv6Hostname) {
+      this.hostname = this.hostname.substr(1, this.hostname.length - 2);
+      if (rest[0] !== '/') {
+        rest = '/' + rest;
+      }
+    }
+  }
+
+  // now rest is set to the post-host stuff.
+  // chop off any delim chars.
+  if (!unsafeProtocol[lowerProto]) {
+
+    // First, make 100% sure that any "autoEscape" chars get
+    // escaped, even if encodeURIComponent doesn't think they
+    // need to be.
+    for (var i = 0, l = autoEscape.length; i < l; i++) {
+      var ae = autoEscape[i];
+      if (rest.indexOf(ae) === -1)
+        continue;
+      var esc = encodeURIComponent(ae);
+      if (esc === ae) {
+        esc = escape(ae);
+      }
+      rest = rest.split(ae).join(esc);
+    }
+  }
+
+
+  // chop off from the tail first.
+  var hash = rest.indexOf('#');
+  if (hash !== -1) {
+    // got a fragment string.
+    this.hash = rest.substr(hash);
+    rest = rest.slice(0, hash);
+  }
+  var qm = rest.indexOf('?');
+  if (qm !== -1) {
+    this.search = rest.substr(qm);
+    this.query = rest.substr(qm + 1);
+    if (parseQueryString) {
+      this.query = querystring.parse(this.query);
+    }
+    rest = rest.slice(0, qm);
+  } else if (parseQueryString) {
+    // no query string, but parseQueryString still requested
+    this.search = '';
+    this.query = {};
+  }
+  if (rest) this.pathname = rest;
+  if (slashedProtocol[lowerProto] &&
+      this.hostname && !this.pathname) {
+    this.pathname = '/';
+  }
+
+  //to support http.request
+  if (this.pathname || this.search) {
+    var p = this.pathname || '';
+    var s = this.search || '';
+    this.path = p + s;
+  }
+
+  // finally, reconstruct the href based on what has been validated.
+  this.href = this.format();
+  return this;
+};
+
+// format a parsed object into a url string
+function urlFormat(obj) {
+  // ensure it's an object, and not a string url.
+  // If it's an obj, this is a no-op.
+  // this way, you can call url_format() on strings
+  // to clean up potentially wonky urls.
+  if (util.isString(obj)) obj = urlParse(obj);
+  if (!(obj instanceof Url)) return Url.prototype.format.call(obj);
+  return obj.format();
+}
+
+Url.prototype.format = function() {
+  var auth = this.auth || '';
+  if (auth) {
+    auth = encodeURIComponent(auth);
+    auth = auth.replace(/%3A/i, ':');
+    auth += '@';
+  }
+
+  var protocol = this.protocol || '',
+      pathname = this.pathname || '',
+      hash = this.hash || '',
+      host = false,
+      query = '';
+
+  if (this.host) {
+    host = auth + this.host;
+  } else if (this.hostname) {
+    host = auth + (this.hostname.indexOf(':') === -1 ?
+        this.hostname :
+        '[' + this.hostname + ']');
+    if (this.port) {
+      host += ':' + this.port;
+    }
+  }
+
+  if (this.query &&
+      util.isObject(this.query) &&
+      Object.keys(this.query).length) {
+    query = querystring.stringify(this.query);
+  }
+
+  var search = this.search || (query && ('?' + query)) || '';
+
+  if (protocol && protocol.substr(-1) !== ':') protocol += ':';
+
+  // only the slashedProtocols get the //.  Not mailto:, xmpp:, etc.
+  // unless they had them to begin with.
+  if (this.slashes ||
+      (!protocol || slashedProtocol[protocol]) && host !== false) {
+    host = '//' + (host || '');
+    if (pathname && pathname.charAt(0) !== '/') pathname = '/' + pathname;
+  } else if (!host) {
+    host = '';
+  }
+
+  if (hash && hash.charAt(0) !== '#') hash = '#' + hash;
+  if (search && search.charAt(0) !== '?') search = '?' + search;
+
+  pathname = pathname.replace(/[?#]/g, function(match) {
+    return encodeURIComponent(match);
+  });
+  search = search.replace('#', '%23');
+
+  return protocol + host + pathname + search + hash;
+};
+
+function urlResolve(source, relative) {
+  return urlParse(source, false, true).resolve(relative);
+}
+
+Url.prototype.resolve = function(relative) {
+  return this.resolveObject(urlParse(relative, false, true)).format();
+};
+
+function urlResolveObject(source, relative) {
+  if (!source) return relative;
+  return urlParse(source, false, true).resolveObject(relative);
+}
+
+Url.prototype.resolveObject = function(relative) {
+  if (util.isString(relative)) {
+    var rel = new Url();
+    rel.parse(relative, false, true);
+    relative = rel;
+  }
+
+  var result = new Url();
+  var tkeys = Object.keys(this);
+  for (var tk = 0; tk < tkeys.length; tk++) {
+    var tkey = tkeys[tk];
+    result[tkey] = this[tkey];
+  }
+
+  // hash is always overridden, no matter what.
+  // even href="" will remove it.
+  result.hash = relative.hash;
+
+  // if the relative url is empty, then there's nothing left to do here.
+  if (relative.href === '') {
+    result.href = result.format();
+    return result;
+  }
+
+  // hrefs like //foo/bar always cut to the protocol.
+  if (relative.slashes && !relative.protocol) {
+    // take everything except the protocol from relative
+    var rkeys = Object.keys(relative);
+    for (var rk = 0; rk < rkeys.length; rk++) {
+      var rkey = rkeys[rk];
+      if (rkey !== 'protocol')
+        result[rkey] = relative[rkey];
+    }
+
+    //urlParse appends trailing / to urls like http://www.example.com
+    if (slashedProtocol[result.protocol] &&
+        result.hostname && !result.pathname) {
+      result.path = result.pathname = '/';
+    }
+
+    result.href = result.format();
+    return result;
+  }
+
+  if (relative.protocol && relative.protocol !== result.protocol) {
+    // if it's a known url protocol, then changing
+    // the protocol does weird things
+    // first, if it's not file:, then we MUST have a host,
+    // and if there was a path
+    // to begin with, then we MUST have a path.
+    // if it is file:, then the host is dropped,
+    // because that's known to be hostless.
+    // anything else is assumed to be absolute.
+    if (!slashedProtocol[relative.protocol]) {
+      var keys = Object.keys(relative);
+      for (var v = 0; v < keys.length; v++) {
+        var k = keys[v];
+        result[k] = relative[k];
+      }
+      result.href = result.format();
+      return result;
+    }
+
+    result.protocol = relative.protocol;
+    if (!relative.host && !hostlessProtocol[relative.protocol]) {
+      var relPath = (relative.pathname || '').split('/');
+      while (relPath.length && !(relative.host = relPath.shift()));
+      if (!relative.host) relative.host = '';
+      if (!relative.hostname) relative.hostname = '';
+      if (relPath[0] !== '') relPath.unshift('');
+      if (relPath.length < 2) relPath.unshift('');
+      result.pathname = relPath.join('/');
+    } else {
+      result.pathname = relative.pathname;
+    }
+    result.search = relative.search;
+    result.query = relative.query;
+    result.host = relative.host || '';
+    result.auth = relative.auth;
+    result.hostname = relative.hostname || relative.host;
+    result.port = relative.port;
+    // to support http.request
+    if (result.pathname || result.search) {
+      var p = result.pathname || '';
+      var s = result.search || '';
+      result.path = p + s;
+    }
+    result.slashes = result.slashes || relative.slashes;
+    result.href = result.format();
+    return result;
+  }
+
+  var isSourceAbs = (result.pathname && result.pathname.charAt(0) === '/'),
+      isRelAbs = (
+          relative.host ||
+          relative.pathname && relative.pathname.charAt(0) === '/'
+      ),
+      mustEndAbs = (isRelAbs || isSourceAbs ||
+                    (result.host && relative.pathname)),
+      removeAllDots = mustEndAbs,
+      srcPath = result.pathname && result.pathname.split('/') || [],
+      relPath = relative.pathname && relative.pathname.split('/') || [],
+      psychotic = result.protocol && !slashedProtocol[result.protocol];
+
+  // if the url is a non-slashed url, then relative
+  // links like ../.. should be able
+  // to crawl up to the hostname, as well.  This is strange.
+  // result.protocol has already been set by now.
+  // Later on, put the first path part into the host field.
+  if (psychotic) {
+    result.hostname = '';
+    result.port = null;
+    if (result.host) {
+      if (srcPath[0] === '') srcPath[0] = result.host;
+      else srcPath.unshift(result.host);
+    }
+    result.host = '';
+    if (relative.protocol) {
+      relative.hostname = null;
+      relative.port = null;
+      if (relative.host) {
+        if (relPath[0] === '') relPath[0] = relative.host;
+        else relPath.unshift(relative.host);
+      }
+      relative.host = null;
+    }
+    mustEndAbs = mustEndAbs && (relPath[0] === '' || srcPath[0] === '');
+  }
+
+  if (isRelAbs) {
+    // it's absolute.
+    result.host = (relative.host || relative.host === '') ?
+                  relative.host : result.host;
+    result.hostname = (relative.hostname || relative.hostname === '') ?
+                      relative.hostname : result.hostname;
+    result.search = relative.search;
+    result.query = relative.query;
+    srcPath = relPath;
+    // fall through to the dot-handling below.
+  } else if (relPath.length) {
+    // it's relative
+    // throw away the existing file, and take the new path instead.
+    if (!srcPath) srcPath = [];
+    srcPath.pop();
+    srcPath = srcPath.concat(relPath);
+    result.search = relative.search;
+    result.query = relative.query;
+  } else if (!util.isNullOrUndefined(relative.search)) {
+    // just pull out the search.
+    // like href='?foo'.
+    // Put this after the other two cases because it simplifies the booleans
+    if (psychotic) {
+      result.hostname = result.host = srcPath.shift();
+      //occationaly the auth can get stuck only in host
+      //this especially happens in cases like
+      //url.resolveObject('mailto:local1@domain1', 'local2@domain2')
+      var authInHost = result.host && result.host.indexOf('@') > 0 ?
+                       result.host.split('@') : false;
+      if (authInHost) {
+        result.auth = authInHost.shift();
+        result.host = result.hostname = authInHost.shift();
+      }
+    }
+    result.search = relative.search;
+    result.query = relative.query;
+    //to support http.request
+    if (!util.isNull(result.pathname) || !util.isNull(result.search)) {
+      result.path = (result.pathname ? result.pathname : '') +
+                    (result.search ? result.search : '');
+    }
+    result.href = result.format();
+    return result;
+  }
+
+  if (!srcPath.length) {
+    // no path at all.  easy.
+    // we've already handled the other stuff above.
+    result.pathname = null;
+    //to support http.request
+    if (result.search) {
+      result.path = '/' + result.search;
+    } else {
+      result.path = null;
+    }
+    result.href = result.format();
+    return result;
+  }
+
+  // if a url ENDs in . or .., then it must get a trailing slash.
+  // however, if it ends in anything else non-slashy,
+  // then it must NOT get a trailing slash.
+  var last = srcPath.slice(-1)[0];
+  var hasTrailingSlash = (
+      (result.host || relative.host || srcPath.length > 1) &&
+      (last === '.' || last === '..') || last === '');
+
+  // strip single dots, resolve double dots to parent dir
+  // if the path tries to go above the root, `up` ends up > 0
+  var up = 0;
+  for (var i = srcPath.length; i >= 0; i--) {
+    last = srcPath[i];
+    if (last === '.') {
+      srcPath.splice(i, 1);
+    } else if (last === '..') {
+      srcPath.splice(i, 1);
+      up++;
+    } else if (up) {
+      srcPath.splice(i, 1);
+      up--;
+    }
+  }
+
+  // if the path is allowed to go above the root, restore leading ..s
+  if (!mustEndAbs && !removeAllDots) {
+    for (; up--; up) {
+      srcPath.unshift('..');
+    }
+  }
+
+  if (mustEndAbs && srcPath[0] !== '' &&
+      (!srcPath[0] || srcPath[0].charAt(0) !== '/')) {
+    srcPath.unshift('');
+  }
+
+  if (hasTrailingSlash && (srcPath.join('/').substr(-1) !== '/')) {
+    srcPath.push('');
+  }
+
+  var isAbsolute = srcPath[0] === '' ||
+      (srcPath[0] && srcPath[0].charAt(0) === '/');
+
+  // put the host back
+  if (psychotic) {
+    result.hostname = result.host = isAbsolute ? '' :
+                                    srcPath.length ? srcPath.shift() : '';
+    //occationaly the auth can get stuck only in host
+    //this especially happens in cases like
+    //url.resolveObject('mailto:local1@domain1', 'local2@domain2')
+    var authInHost = result.host && result.host.indexOf('@') > 0 ?
+                     result.host.split('@') : false;
+    if (authInHost) {
+      result.auth = authInHost.shift();
+      result.host = result.hostname = authInHost.shift();
+    }
+  }
+
+  mustEndAbs = mustEndAbs || (result.host && srcPath.length);
+
+  if (mustEndAbs && !isAbsolute) {
+    srcPath.unshift('');
+  }
+
+  if (!srcPath.length) {
+    result.pathname = null;
+    result.path = null;
+  } else {
+    result.pathname = srcPath.join('/');
+  }
+
+  //to support request.http
+  if (!util.isNull(result.pathname) || !util.isNull(result.search)) {
+    result.path = (result.pathname ? result.pathname : '') +
+                  (result.search ? result.search : '');
+  }
+  result.auth = relative.auth || result.auth;
+  result.slashes = result.slashes || relative.slashes;
+  result.href = result.format();
+  return result;
+};
+
+Url.prototype.parseHost = function() {
+  var host = this.host;
+  var port = portPattern.exec(host);
+  if (port) {
+    port = port[0];
+    if (port !== ':') {
+      this.port = port.substr(1);
+    }
+    host = host.substr(0, host.length - port.length);
+  }
+  if (host) this.hostname = host;
+};
+
+},{"./util":161,"punycode":156,"querystring":159}],161:[function(require,module,exports){
+'use strict';
+
+module.exports = {
+  isString: function(arg) {
+    return typeof(arg) === 'string';
+  },
+  isObject: function(arg) {
+    return typeof(arg) === 'object' && arg !== null;
+  },
+  isNull: function(arg) {
+    return arg === null;
+  },
+  isNullOrUndefined: function(arg) {
+    return arg == null;
+  }
+};
+
+},{}],162:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -11955,7 +11998,7 @@ exports['default'] = function () {
 
 module.exports = exports['default'];
 
-},{"events":109}],162:[function(require,module,exports){
+},{"events":109}],163:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -11997,7 +12040,7 @@ exports['default'] = function (selectionModel, modeAccordingToButton, buttonEnab
 
 module.exports = exports['default'];
 
-},{}],163:[function(require,module,exports){
+},{}],164:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -12084,7 +12127,7 @@ function toData(button) {
 }
 module.exports = exports['default'];
 
-},{"./reduce2hash":167,"babel-runtime/helpers/interop-require-default":18,"events":109}],164:[function(require,module,exports){
+},{"./reduce2hash":168,"babel-runtime/helpers/interop-require-default":18,"events":109}],165:[function(require,module,exports){
 'use strict';
 
 var _Map = require('babel-runtime/core-js/map')['default'];
@@ -12151,7 +12194,7 @@ exports['default'] = function (selectionModel, buttonEnableStates, clipBoard) {
 
 module.exports = exports['default'];
 
-},{"babel-runtime/core-js/get-iterator":3,"babel-runtime/core-js/map":5}],165:[function(require,module,exports){
+},{"babel-runtime/core-js/get-iterator":3,"babel-runtime/core-js/map":5}],166:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -12183,7 +12226,7 @@ exports['default'] = function (annotationData, modeAccordingToButton) {
 
 module.exports = exports['default'];
 
-},{}],166:[function(require,module,exports){
+},{}],167:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -12238,7 +12281,7 @@ module.exports = function (editor, annotationData, selectionModel, clipBoard) {
   };
 };
 
-},{"./ButtonEnableStates":161,"./ButtonStateHelper":162,"./ModeAccordingToButton":163,"./UpdateButtonState":164,"./UpdateModificationButtons":165,"babel-runtime/helpers/interop-require-default":18,"events":109}],167:[function(require,module,exports){
+},{"./ButtonEnableStates":162,"./ButtonStateHelper":163,"./ModeAccordingToButton":164,"./UpdateButtonState":165,"./UpdateModificationButtons":166,"babel-runtime/helpers/interop-require-default":18,"events":109}],168:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -12256,7 +12299,7 @@ exports['default'] = function () {
 
 module.exports = exports['default'];
 
-},{}],168:[function(require,module,exports){
+},{}],169:[function(require,module,exports){
 // Maintainance a state of which the save button is able to be push.
 
 "use strict";
@@ -12289,7 +12332,7 @@ exports["default"] = function () {
 
 module.exports = exports["default"];
 
-},{"babel-runtime/helpers/interop-require-default":18,"observ":160}],169:[function(require,module,exports){
+},{"babel-runtime/helpers/interop-require-default":18,"observ":153}],170:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -12335,6 +12378,7 @@ module.exports = function (editor, confirmDiscardChangeMessage) {
       getAnnotationFromServer = function getAnnotationFromServer(urlToJson) {
     cursorChanger.startWait();
     ajaxAccessor.getAsync(urlToJson, function getAnnotationFromServerSuccess(annotation) {
+      cursorChanger.endWait();
       api.emit('load', {
         annotation: annotation,
         source: _jQuerySugar2['default'].toLink(_url2['default'].resolve(location.href, urlToJson))
@@ -12492,7 +12536,7 @@ module.exports = function (editor, confirmDiscardChangeMessage) {
   return api;
 };
 
-},{"../util/CursorChanger":421,"../util/ajaxAccessor":422,"./dialog/EditorDialog":183,"./jQuerySugar":192,"babel-runtime/helpers/interop-require-default":18,"babel-runtime/helpers/interop-require-wildcard":19,"events":109,"url":116}],170:[function(require,module,exports){
+},{"../util/CursorChanger":426,"../util/ajaxAccessor":427,"./dialog/EditorDialog":184,"./jQuerySugar":193,"babel-runtime/helpers/interop-require-default":18,"babel-runtime/helpers/interop-require-wildcard":19,"events":109,"url":160}],171:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -12519,7 +12563,7 @@ exports['default'] = function () {
 
 module.exports = exports['default'];
 
-},{"./dialog/Dialog":182,"babel-runtime/helpers/interop-require-default":18}],171:[function(require,module,exports){
+},{"./dialog/Dialog":183,"babel-runtime/helpers/interop-require-default":18}],172:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -12554,7 +12598,7 @@ exports['default'] = function (selectType, selectDefaultType) {
 
 module.exports = exports['default'];
 
-},{"babel-runtime/helpers/interop-require-default":18,"delegate":106}],172:[function(require,module,exports){
+},{"babel-runtime/helpers/interop-require-default":18,"delegate":107}],173:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -12587,7 +12631,7 @@ exports['default'] = function (selectType, selectDefaultType) {
 
 module.exports = exports['default'];
 
-},{"./Component":171,"./updateDisplay":174,"babel-runtime/helpers/interop-require-default":18}],173:[function(require,module,exports){
+},{"./Component":172,"./updateDisplay":175,"babel-runtime/helpers/interop-require-default":18}],174:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -12620,7 +12664,7 @@ exports['default'] = function (typeContainer) {
 
 module.exports = exports['default'];
 
-},{"babel-runtime/helpers/interop-require-default":18,"handlebars":146}],174:[function(require,module,exports){
+},{"babel-runtime/helpers/interop-require-default":18,"handlebars":139}],175:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -12686,7 +12730,7 @@ function moveIntoWindow(pallet, point) {
 }
 module.exports = exports['default'];
 
-},{"./toRows":173,"babel-runtime/helpers/interop-require-default":18}],175:[function(require,module,exports){
+},{"./toRows":174,"babel-runtime/helpers/interop-require-default":18}],176:[function(require,module,exports){
 'use strict';
 
 var _interopRequireWildcard = require('babel-runtime/helpers/interop-require-wildcard')['default'];
@@ -12694,7 +12738,7 @@ var _interopRequireWildcard = require('babel-runtime/helpers/interop-require-wil
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
 
 Object.defineProperty(exports, '__esModule', {
-    value: true
+  value: true
 });
 
 var _editorStartViewLineHeight = require('../../editor/start/View/lineHeight');
@@ -12716,52 +12760,53 @@ var _updateTypeGapValue2 = _interopRequireDefault(_updateTypeGapValue);
 var CONTENT = '\n    <div class="textae-editor__setting-dialog">\n        <div>\n            <label class="textae-editor__setting-dialog__label">Type Gap</label>\n            <input type="number" class="textae-editor__setting-dialog__type-gap type-gap" step="1" min="0" max="5">\n        </div>\n        <div>\n            <label class="textae-editor__setting-dialog__label">Line Height</label>\n            <input type="number" class="textae-editor__setting-dialog__line-height line-height" step="1" min="50" max="500">\n            px\n        </div>\n    </div>\n';
 
 exports['default'] = function (editor, displayInstance) {
-    var $content = $(CONTENT);
+  var $content = $(CONTENT);
 
-    bind($content, editor, displayInstance);
+  bind($content, editor, displayInstance);
 
-    return $content[0];
+  return $content[0];
 };
 
 function bind($content, editor, displayInstance) {
-    bindChangeTypeGap($content, editor, displayInstance);
+  bindChangeTypeGap($content, editor, displayInstance);
 
-    bindChangeLineHeight($content, editor);
+  bindChangeLineHeight($content, editor);
 }
 
 function bindChangeTypeGap($content, editor, displayInstance) {
-    var onTypeGapChange = debounce300(function (e) {
-        displayInstance.changeTypeGap(e.target.value);
-        (0, _updateLineHeight2['default'])(editor, $content);
-    });
+  var onTypeGapChange = debounce300(function (e) {
+    displayInstance.changeTypeGap(e.target.value);
+    (0, _updateLineHeight2['default'])(editor, $content);
+  });
 
-    return $content.on('change', '.type-gap', onTypeGapChange);
+  return $content.on('change', '.type-gap', onTypeGapChange);
 }
 
 function bindChangeLineHeight($content, editor) {
-    var onLineHeightChange = debounce300(function (e) {
-        lineHeight.set(editor[0], e.target.value);
-        redrawAllEditor();
-    });
+  var onLineHeightChange = debounce300(function (e) {
+    lineHeight.set(editor[0], e.target.value);
+    redrawAllEditor();
+  });
 
-    return $content.on('change', '.line-height', onLineHeightChange);
+  return $content.on('change', '.line-height', onLineHeightChange);
 }
 
 // Redraw all editors in tha windows.
 function redrawAllEditor() {
-    $(window).trigger('resize');
+  var event = new Event('resize');
+  window.dispatchEvent(event);
 }
 
 function debounce300(func) {
-    return _.debounce(func, 300);
+  return _.debounce(func, 300);
 }
 
 function sixteenTimes(val) {
-    return val * 16;
+  return val * 16;
 }
 module.exports = exports['default'];
 
-},{"../../editor/start/View/lineHeight":397,"./updateLineHeight":178,"./updateTypeGapEnable":179,"./updateTypeGapValue":180,"babel-runtime/helpers/interop-require-default":18,"babel-runtime/helpers/interop-require-wildcard":19}],176:[function(require,module,exports){
+},{"../../editor/start/View/lineHeight":400,"./updateLineHeight":179,"./updateTypeGapEnable":180,"./updateTypeGapValue":181,"babel-runtime/helpers/interop-require-default":18,"babel-runtime/helpers/interop-require-wildcard":19}],177:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -12800,7 +12845,7 @@ function appendToDialog(content, editor) {
 }
 module.exports = exports['default'];
 
-},{"../dialog/EditorDialog":183,"./create":175,"./update":177,"babel-runtime/helpers/interop-require-default":18}],177:[function(require,module,exports){
+},{"../dialog/EditorDialog":184,"./create":176,"./update":178,"babel-runtime/helpers/interop-require-default":18}],178:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -12829,7 +12874,7 @@ exports['default'] = function ($dialog, editor, displayInstance) {
 
 module.exports = exports['default'];
 
-},{"./updateLineHeight":178,"./updateTypeGapEnable":179,"./updateTypeGapValue":180,"babel-runtime/helpers/interop-require-default":18}],178:[function(require,module,exports){
+},{"./updateLineHeight":179,"./updateTypeGapEnable":180,"./updateTypeGapValue":181,"babel-runtime/helpers/interop-require-default":18}],179:[function(require,module,exports){
 'use strict';
 
 var _interopRequireWildcard = require('babel-runtime/helpers/interop-require-wildcard')['default'];
@@ -12854,7 +12899,7 @@ exports['default'] = function (editor, $dialog) {
 
 module.exports = exports['default'];
 
-},{"../../editor/start/View/lineHeight":397,"../jQuerySugar":192,"babel-runtime/helpers/interop-require-default":18,"babel-runtime/helpers/interop-require-wildcard":19}],179:[function(require,module,exports){
+},{"../../editor/start/View/lineHeight":400,"../jQuerySugar":193,"babel-runtime/helpers/interop-require-default":18,"babel-runtime/helpers/interop-require-wildcard":19}],180:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -12877,7 +12922,7 @@ function toTypeGap($content) {
 }
 module.exports = exports['default'];
 
-},{"../jQuerySugar":192,"babel-runtime/helpers/interop-require-default":18}],180:[function(require,module,exports){
+},{"../jQuerySugar":193,"babel-runtime/helpers/interop-require-default":18}],181:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -12896,7 +12941,7 @@ exports['default'] = function (displayInstance, $dialog) {
 
 module.exports = exports['default'];
 
-},{"../jQuerySugar":192,"babel-runtime/helpers/interop-require-default":18}],181:[function(require,module,exports){
+},{"../jQuerySugar":193,"babel-runtime/helpers/interop-require-default":18}],182:[function(require,module,exports){
 'use strict';
 
 var getAreaIn = function getAreaIn($parent) {
@@ -12921,7 +12966,7 @@ module.exports = function (editor) {
   };
 };
 
-},{}],182:[function(require,module,exports){
+},{}],183:[function(require,module,exports){
 'use strict';
 
 var _Object$assign = require('babel-runtime/core-js/object/assign')['default'];
@@ -12955,7 +13000,7 @@ function Dialog(id, title, content) {
 }
 module.exports = exports['default'];
 
-},{"./extendDialog":184,"babel-runtime/core-js/object/assign":6,"babel-runtime/helpers/interop-require-default":18}],183:[function(require,module,exports){
+},{"./extendDialog":185,"babel-runtime/core-js/object/assign":6,"babel-runtime/helpers/interop-require-default":18}],184:[function(require,module,exports){
 'use strict';
 
 var _Object$assign = require('babel-runtime/core-js/object/assign')['default'];
@@ -12997,7 +13042,7 @@ function getOption(option) {
 }
 module.exports = exports['default'];
 
-},{"./Dialog":182,"babel-runtime/core-js/object/assign":6,"babel-runtime/helpers/interop-require-default":18}],184:[function(require,module,exports){
+},{"./Dialog":183,"babel-runtime/core-js/object/assign":6,"babel-runtime/helpers/interop-require-default":18}],185:[function(require,module,exports){
 'use strict';
 
 var _Object$assign = require('babel-runtime/core-js/object/assign')['default'];
@@ -13022,7 +13067,7 @@ function OpenCloseMixin($dialog, openOption) {
 }
 module.exports = exports['default'];
 
-},{"babel-runtime/core-js/object/assign":6}],185:[function(require,module,exports){
+},{"babel-runtime/core-js/object/assign":6}],186:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -13033,7 +13078,7 @@ var CLASS_NAME = 'textae-editor__edit-id-dialog__id';
 exports['default'] = CLASS_NAME;
 module.exports = exports['default'];
 
-},{}],186:[function(require,module,exports){
+},{}],187:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -13081,7 +13126,7 @@ exports['default'] = function (editor, el, input, label) {
 
 module.exports = exports['default'];
 
-},{"../dialog/EditorDialog":183,"./className":185,"babel-runtime/helpers/interop-require-default":18,"delegate":106}],187:[function(require,module,exports){
+},{"../dialog/EditorDialog":184,"./className":186,"babel-runtime/helpers/interop-require-default":18,"delegate":107}],188:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -13122,7 +13167,7 @@ exports['default'] = function (editor, currentId, typeContainer, done, autocompl
 
 module.exports = exports['default'];
 
-},{"./create":186,"./template":189,"./update":190,"babel-runtime/helpers/interop-require-default":18}],188:[function(require,module,exports){
+},{"./create":187,"./template":190,"./update":191,"babel-runtime/helpers/interop-require-default":18}],189:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -13168,7 +13213,7 @@ function getLocalData(typeContainer, term) {
 }
 module.exports = exports["default"];
 
-},{}],189:[function(require,module,exports){
+},{}],190:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -13186,7 +13231,7 @@ var TEMPLATE = '\n<div>\n  label: <span></span>\n</div>\n<div>\n  <input type="t
 exports['default'] = TEMPLATE;
 module.exports = exports['default'];
 
-},{"./className":185,"babel-runtime/helpers/interop-require-default":18}],190:[function(require,module,exports){
+},{"./className":186,"babel-runtime/helpers/interop-require-default":18}],191:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -13233,7 +13278,7 @@ function _select(input, label, ui) {
 }
 module.exports = exports['default'];
 
-},{"./source":188,"babel-runtime/helpers/interop-require-default":18}],191:[function(require,module,exports){
+},{"./source":189,"babel-runtime/helpers/interop-require-default":18}],192:[function(require,module,exports){
 'use strict';
 
 module.exports = function ($target, enable) {
@@ -13244,7 +13289,7 @@ module.exports = function ($target, enable) {
   }
 };
 
-},{}],192:[function(require,module,exports){
+},{}],193:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -13287,7 +13332,7 @@ module.exports = {
   setValue: _.partial(setProp, 'value')
 };
 
-},{"./jQueryEnabled":191,"babel-runtime/helpers/interop-require-default":18}],193:[function(require,module,exports){
+},{"./jQueryEnabled":192,"babel-runtime/helpers/interop-require-default":18}],194:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -13356,7 +13401,7 @@ function transformToReferenceObjectError(reject) {
 }
 module.exports = exports['default'];
 
-},{"../editor/Model/AnnotationData/parseAnnotation/validateAnnotation":221,"./dialog/EditorDialog":183,"babel-runtime/helpers/interop-require-default":18,"handlebars":146}],194:[function(require,module,exports){
+},{"../editor/Model/AnnotationData/parseAnnotation/validateAnnotation":222,"./dialog/EditorDialog":184,"babel-runtime/helpers/interop-require-default":18,"handlebars":139}],195:[function(require,module,exports){
 module.exports={
     "buttonGroup": [{
         "list": [{
@@ -13447,7 +13492,7 @@ module.exports={
     }]
 }
 
-},{}],195:[function(require,module,exports){
+},{}],196:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -13486,7 +13531,7 @@ function find($control, buttonType) {
   return $control.find((0, _toButtonClass2['default'])(buttonType));
 }
 
-},{"./toButtonClass":198,"babel-runtime/helpers/interop-require-default":18}],196:[function(require,module,exports){
+},{"./toButtonClass":199,"babel-runtime/helpers/interop-require-default":18}],197:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -13559,7 +13604,7 @@ function updateButtonPushState($control, buttonType, isPushed) {
 }
 module.exports = exports['default'];
 
-},{"./buttonMap":194,"./iconCssUtil":195,"./makeButtons":197,"./toButtonList":199,"./updateButtons":200,"babel-runtime/helpers/interop-require-default":18,"babel-runtime/helpers/interop-require-wildcard":19}],197:[function(require,module,exports){
+},{"./buttonMap":195,"./iconCssUtil":196,"./makeButtons":198,"./toButtonList":200,"./updateButtons":201,"babel-runtime/helpers/interop-require-default":18,"babel-runtime/helpers/interop-require-wildcard":19}],198:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -13583,7 +13628,7 @@ exports['default'] = function ($control, buttonMap) {
 
 module.exports = exports['default'];
 
-},{"babel-runtime/helpers/interop-require-default":18,"handlebars":146}],198:[function(require,module,exports){
+},{"babel-runtime/helpers/interop-require-default":18,"handlebars":139}],199:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -13596,7 +13641,7 @@ exports["default"] = function (buttonType) {
 
 module.exports = exports["default"];
 
-},{}],199:[function(require,module,exports){
+},{}],200:[function(require,module,exports){
 // Return {read: 1, write: 1, undo: 1, redo: 1, replicate: 1…}
 "use strict";
 
@@ -13616,7 +13661,7 @@ exports["default"] = function (buttonMap) {
 
 module.exports = exports["default"];
 
-},{}],200:[function(require,module,exports){
+},{}],201:[function(require,module,exports){
 'use strict';
 
 var _Object$keys = require('babel-runtime/core-js/object/keys')['default'];
@@ -13676,7 +13721,7 @@ function setButtonApearanceAndEventHandler($control, buttonType, enable) {
 }
 module.exports = exports['default'];
 
-},{"./iconCssUtil":195,"./toButtonClass":198,"babel-runtime/core-js/object/keys":10,"babel-runtime/helpers/interop-require-default":18,"babel-runtime/helpers/interop-require-wildcard":19}],201:[function(require,module,exports){
+},{"./iconCssUtil":196,"./toButtonClass":199,"babel-runtime/core-js/object/keys":10,"babel-runtime/helpers/interop-require-default":18,"babel-runtime/helpers/interop-require-wildcard":19}],202:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -13744,7 +13789,7 @@ exports['default'] = function () {
 
 module.exports = exports['default'];
 
-},{"events":109}],202:[function(require,module,exports){
+},{"events":109}],203:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -13792,7 +13837,7 @@ var toModel = function toModel(editor, entity) {
 
 module.exports = EntityContainer;
 
-},{"../../../idFactory":235,"./ModelContainer":203,"babel-runtime/helpers/interop-require-default":18}],203:[function(require,module,exports){
+},{"../../../idFactory":236,"./ModelContainer":204,"babel-runtime/helpers/interop-require-default":18}],204:[function(require,module,exports){
 'use strict';
 
 var _Object$keys = require('babel-runtime/core-js/object/keys')['default'];
@@ -13887,7 +13932,7 @@ module.exports = function (emitter, prefix, mappingFunction, idPrefix) {
   };
 };
 
-},{"./getNextId":206,"babel-runtime/core-js/object/keys":10,"babel-runtime/helpers/interop-require-default":18}],204:[function(require,module,exports){
+},{"./getNextId":207,"babel-runtime/core-js/object/keys":10,"babel-runtime/helpers/interop-require-default":18}],205:[function(require,module,exports){
 'use strict';
 
 var idFactory = require('../../../idFactory'),
@@ -13949,7 +13994,7 @@ module.exports = function (editor, emitter) {
   return api;
 };
 
-},{"../../../idFactory":235,"./ModelContainer":203}],205:[function(require,module,exports){
+},{"../../../idFactory":236,"./ModelContainer":204}],206:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -14175,7 +14220,7 @@ function _toStringOnlyThis(span, emitter) {
 }
 module.exports = exports['default'];
 
-},{"../../../idFactory":235,"../parseAnnotation/validateAnnotation":221,"./ModelContainer":203,"babel-runtime/helpers/interop-require-default":18}],206:[function(require,module,exports){
+},{"../../../idFactory":236,"../parseAnnotation/validateAnnotation":222,"./ModelContainer":204,"babel-runtime/helpers/interop-require-default":18}],207:[function(require,module,exports){
 "use strict";
 
 var _toConsumableArray = require("babel-runtime/helpers/to-consumable-array")["default"];
@@ -14217,7 +14262,7 @@ function onlyNumber(id) {
 }
 module.exports = exports["default"];
 
-},{"babel-runtime/helpers/to-consumable-array":21}],207:[function(require,module,exports){
+},{"babel-runtime/helpers/to-consumable-array":21}],208:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -14276,7 +14321,7 @@ function mapRelations(relations) {
 }
 module.exports = exports['default'];
 
-},{"./EntityContainer":202,"./ModelContainer":203,"./ParagraphContainer":204,"./SpanContainer":205,"babel-runtime/helpers/interop-require-default":18,"events":109}],208:[function(require,module,exports){
+},{"./EntityContainer":203,"./ModelContainer":204,"./ParagraphContainer":205,"./SpanContainer":206,"babel-runtime/helpers/interop-require-default":18,"events":109}],209:[function(require,module,exports){
 'use strict';
 
 var _Object$assign = require('babel-runtime/core-js/object/assign')['default'];
@@ -14319,7 +14364,7 @@ exports['default'] = function (editor) {
 
 module.exports = exports['default'];
 
-},{"./Container":207,"./reset":229,"./toJson":231,"babel-runtime/core-js/object/assign":6,"babel-runtime/helpers/interop-require-default":18}],209:[function(require,module,exports){
+},{"./Container":208,"./reset":230,"./toJson":232,"babel-runtime/core-js/object/assign":6,"babel-runtime/helpers/interop-require-default":18}],210:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -14344,7 +14389,7 @@ exports['default'] = function (span, entity, denotations, prefix) {
 
 module.exports = exports['default'];
 
-},{"./importSource":210,"./translateDenotation":215,"babel-runtime/helpers/interop-require-default":18}],210:[function(require,module,exports){
+},{"./importSource":211,"./translateDenotation":216,"babel-runtime/helpers/interop-require-default":18}],211:[function(require,module,exports){
 "use strict";
 
 module.exports = function (targets, translater, source) {
@@ -14357,7 +14402,7 @@ module.exports = function (targets, translater, source) {
   });
 };
 
-},{}],211:[function(require,module,exports){
+},{}],212:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -14382,7 +14427,7 @@ exports['default'] = function (modification, modifications, prefix) {
 
 module.exports = exports['default'];
 
-},{"./importSource":210,"./translateModification":216,"babel-runtime/helpers/interop-require-default":18}],212:[function(require,module,exports){
+},{"./importSource":211,"./translateModification":217,"babel-runtime/helpers/interop-require-default":18}],213:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -14404,7 +14449,7 @@ exports['default'] = function (destination, source) {
 
 module.exports = exports['default'];
 
-},{"./importSource":210,"babel-runtime/helpers/interop-require-default":18}],213:[function(require,module,exports){
+},{"./importSource":211,"babel-runtime/helpers/interop-require-default":18}],214:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -14429,7 +14474,7 @@ exports['default'] = function (relation, relations, prefix) {
 
 module.exports = exports['default'];
 
-},{"./importSource":210,"./translateRelation":217,"babel-runtime/helpers/interop-require-default":18}],214:[function(require,module,exports){
+},{"./importSource":211,"./translateRelation":218,"babel-runtime/helpers/interop-require-default":18}],215:[function(require,module,exports){
 "use strict";
 
 module.exports = function (src, prefix) {
@@ -14438,7 +14483,7 @@ module.exports = function (src, prefix) {
   return src.id ? prefix + src.id : null;
 };
 
-},{}],215:[function(require,module,exports){
+},{}],216:[function(require,module,exports){
 'use strict';
 
 var setIdPrefixIfExist = require('./setIdPrefixIfExist');
@@ -14452,7 +14497,7 @@ module.exports = function (prefix, src) {
   });
 };
 
-},{"./setIdPrefixIfExist":214}],216:[function(require,module,exports){
+},{"./setIdPrefixIfExist":215}],217:[function(require,module,exports){
 'use strict';
 
 var setIdPrefixIfExist = require('./setIdPrefixIfExist');
@@ -14466,7 +14511,7 @@ module.exports = function (prefix, src) {
   });
 };
 
-},{"./setIdPrefixIfExist":214}],217:[function(require,module,exports){
+},{"./setIdPrefixIfExist":215}],218:[function(require,module,exports){
 'use strict';
 
 var setIdPrefixIfExist = require('./setIdPrefixIfExist');
@@ -14481,7 +14526,7 @@ module.exports = function (prefix, src) {
   });
 };
 
-},{"./setIdPrefixIfExist":214}],218:[function(require,module,exports){
+},{"./setIdPrefixIfExist":215}],219:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -14520,7 +14565,7 @@ exports['default'] = function (span, entity, relation, modification, paragraph, 
 
 module.exports = exports['default'];
 
-},{"./importAnnotation/denotation":209,"./importAnnotation/modification":211,"./importAnnotation/relation":213,"./validateAnnotation":221,"babel-runtime/helpers/interop-require-default":18}],219:[function(require,module,exports){
+},{"./importAnnotation/denotation":210,"./importAnnotation/modification":212,"./importAnnotation/relation":214,"./validateAnnotation":222,"babel-runtime/helpers/interop-require-default":18}],220:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -14535,7 +14580,7 @@ exports["default"] = function (rejects) {
 
 module.exports = exports["default"];
 
-},{}],220:[function(require,module,exports){
+},{}],221:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -14551,7 +14596,7 @@ exports["default"] = function (reject) {
 
 module.exports = exports["default"];
 
-},{}],221:[function(require,module,exports){
+},{}],222:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -14576,7 +14621,7 @@ exports['default'] = _main2['default'];
 exports.hasError = _RejectHasError2['default'];
 exports.isBoundaryCrossingWithOtherSpans = _isBoundaryCrossingWithOtherSpans2['default'];
 
-},{"./Reject/hasError":219,"./isBoundaryCrossingWithOtherSpans":222,"./main":224,"babel-runtime/helpers/interop-require-default":18}],222:[function(require,module,exports){
+},{"./Reject/hasError":220,"./isBoundaryCrossingWithOtherSpans":223,"./main":225,"babel-runtime/helpers/interop-require-default":18}],223:[function(require,module,exports){
 // A span its range is coross over with other spans are not able to rendered.
 "use strict";
 
@@ -14599,7 +14644,7 @@ function isBoundaryCrossing(candidateSpan, existSpan) {
 module.exports = exports["default"];
 // Because spans are renderd with span tag. Html tags can not be cross over.
 
-},{}],223:[function(require,module,exports){
+},{}],224:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -14616,7 +14661,7 @@ exports["default"] = function (data, opt) {
 
 module.exports = exports["default"];
 
-},{}],224:[function(require,module,exports){
+},{}],225:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -14663,7 +14708,7 @@ exports['default'] = function (text, paragraph, annotation) {
 
 module.exports = exports['default'];
 
-},{"./validateDenotation":226,"./validateModificatian":227,"./validateRelation":228,"babel-runtime/helpers/interop-require-default":18}],225:[function(require,module,exports){
+},{"./validateDenotation":227,"./validateModificatian":228,"./validateRelation":229,"babel-runtime/helpers/interop-require-default":18}],226:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -14695,7 +14740,7 @@ function acceptIf(predicate, predicateOption, result, target, index, array) {
 }
 module.exports = exports['default'];
 
-},{"./Reject":220,"babel-runtime/helpers/interop-require-default":18}],226:[function(require,module,exports){
+},{"./Reject":221,"babel-runtime/helpers/interop-require-default":18}],227:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -14757,7 +14802,7 @@ function isInParagraph(denotation, paragraph) {
 }
 module.exports = exports['default'];
 
-},{"./isBoundaryCrossingWithOtherSpans":222,"./validate":225,"babel-runtime/helpers/interop-require-default":18}],227:[function(require,module,exports){
+},{"./isBoundaryCrossingWithOtherSpans":223,"./validate":226,"babel-runtime/helpers/interop-require-default":18}],228:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -14791,7 +14836,7 @@ exports['default'] = function (denotations, relations, modifications) {
 
 module.exports = exports['default'];
 
-},{"./isContains":223,"./validate":225,"babel-runtime/helpers/interop-require-default":18}],228:[function(require,module,exports){
+},{"./isContains":224,"./validate":226,"babel-runtime/helpers/interop-require-default":18}],229:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -14831,7 +14876,7 @@ exports['default'] = function (denotations, relations) {
 
 module.exports = exports['default'];
 
-},{"./isContains":223,"./validate":225,"babel-runtime/helpers/interop-require-default":18}],229:[function(require,module,exports){
+},{"./isContains":224,"./validate":226,"babel-runtime/helpers/interop-require-default":18}],230:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -14846,22 +14891,19 @@ var _setNewData = require('./setNewData');
 var _setNewData2 = _interopRequireDefault(_setNewData);
 
 function reset(dataStore, annotation) {
-  try {
-    clearAnnotationData(dataStore);
-
-    if (!annotation.text) {
-      throw new Error('read failed.');
-    }
-
-    var result = (0, _setNewData2['default'])(dataStore, annotation);
-
-    dataStore.emit('paragraph.change', dataStore.paragraph.all());
-    dataStore.emit('all.change', dataStore, result.multitrack, result.rejects);
-
-    return result.rejects;
-  } catch (error) {
-    console.error(error, error.stack);
+  if (!annotation.text) {
+    toastr.error('This is not a json file of anntations.');
+    return null;
   }
+
+  clearAnnotationData(dataStore);
+
+  var result = (0, _setNewData2['default'])(dataStore, annotation);
+
+  dataStore.emit('paragraph.change', dataStore.paragraph.all());
+  dataStore.emit('all.change', dataStore, result.multitrack, result.rejects);
+
+  return result.rejects;
 }
 
 function clearAnnotationData(dataStore) {
@@ -14873,7 +14915,7 @@ function clearAnnotationData(dataStore) {
 }
 module.exports = exports['default'];
 
-},{"./setNewData":230,"babel-runtime/helpers/interop-require-default":18}],230:[function(require,module,exports){
+},{"./setNewData":231,"babel-runtime/helpers/interop-require-default":18}],231:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -14936,7 +14978,7 @@ function parseDennotation(dataStore, annotation) {
 }
 module.exports = exports['default'];
 
-},{"./parseAnnotation":218,"./parseAnnotation/importAnnotation/namespace":212,"babel-runtime/helpers/interop-require-default":18}],231:[function(require,module,exports){
+},{"./parseAnnotation":219,"./parseAnnotation/importAnnotation/namespace":213,"babel-runtime/helpers/interop-require-default":18}],232:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -14982,7 +15024,7 @@ function toRelation(dataStore) {
 }
 module.exports = exports["default"];
 
-},{}],232:[function(require,module,exports){
+},{}],233:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -15005,7 +15047,7 @@ exports['default'] = function (editor) {
 
 module.exports = exports['default'];
 
-},{"./AnnotationData":208,"babel-runtime/helpers/interop-require-default":18}],233:[function(require,module,exports){
+},{"./AnnotationData":209,"babel-runtime/helpers/interop-require-default":18}],234:[function(require,module,exports){
 'use strict';
 
 var _Set = require('babel-runtime/core-js/set')['default'];
@@ -15093,7 +15135,7 @@ function _clear(selected, emitter, kindName) {
 }
 module.exports = exports['default'];
 
-},{"babel-runtime/core-js/array/from":2,"babel-runtime/core-js/set":13}],234:[function(require,module,exports){
+},{"babel-runtime/core-js/array/from":2,"babel-runtime/core-js/set":13}],235:[function(require,module,exports){
 'use strict';
 
 var _get = require('babel-runtime/helpers/get')['default'];
@@ -15264,7 +15306,7 @@ var _default = (function (_EventEmitter) {
 exports['default'] = _default;
 module.exports = exports['default'];
 
-},{"../modelToId":237,"./IdContainer":233,"babel-runtime/core-js/array/from":2,"babel-runtime/core-js/get-iterator":3,"babel-runtime/core-js/map":5,"babel-runtime/helpers/class-call-check":14,"babel-runtime/helpers/create-class":15,"babel-runtime/helpers/get":16,"babel-runtime/helpers/inherits":17,"babel-runtime/helpers/interop-require-default":18,"events":109}],235:[function(require,module,exports){
+},{"../modelToId":238,"./IdContainer":234,"babel-runtime/core-js/array/from":2,"babel-runtime/core-js/get-iterator":3,"babel-runtime/core-js/map":5,"babel-runtime/helpers/class-call-check":14,"babel-runtime/helpers/create-class":15,"babel-runtime/helpers/get":16,"babel-runtime/helpers/inherits":17,"babel-runtime/helpers/interop-require-default":18,"events":109}],236:[function(require,module,exports){
 'use strict';
 
 var typeCounter = [],
@@ -15300,7 +15342,7 @@ module.exports = {
   }
 };
 
-},{}],236:[function(require,module,exports){
+},{}],237:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -15384,7 +15426,7 @@ exports['default'] = function () {
 
 module.exports = exports['default'];
 
-},{"../buttonModel/ButtonController":166,"../buttonModel/Writable":168,"../component/DataAccessObject":169,"./History":201,"./Model":232,"./Selection":234,"./observe":238,"./start":406,"babel-runtime/helpers/interop-require-default":18,"babel-runtime/helpers/interop-require-wildcard":19,"observ":160}],237:[function(require,module,exports){
+},{"../buttonModel/ButtonController":167,"../buttonModel/Writable":169,"../component/DataAccessObject":170,"./History":202,"./Model":233,"./Selection":235,"./observe":239,"./start":411,"babel-runtime/helpers/interop-require-default":18,"babel-runtime/helpers/interop-require-wildcard":19,"observ":153}],238:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -15398,7 +15440,7 @@ function modelToId(model) {
 
 module.exports = exports["default"];
 
-},{}],238:[function(require,module,exports){
+},{}],239:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -15446,7 +15488,7 @@ function observeDataSave(dataAccessObject, history, writable) {
   });
 }
 
-},{"../component/showVilidationDialog":193,"babel-runtime/helpers/interop-require-default":18}],239:[function(require,module,exports){
+},{"../component/showVilidationDialog":194,"babel-runtime/helpers/interop-require-default":18}],240:[function(require,module,exports){
 'use strict';
 
 var _Map = require('babel-runtime/core-js/map')['default'];
@@ -15488,7 +15530,7 @@ function IconApiMap(command, presenter, daoHandler, buttonController, updateLine
 }
 module.exports = exports['default'];
 
-},{"babel-runtime/core-js/map":5}],240:[function(require,module,exports){
+},{"babel-runtime/core-js/map":5}],241:[function(require,module,exports){
 "use strict";
 
 var _createClass = require("babel-runtime/helpers/create-class")["default"];
@@ -15520,7 +15562,7 @@ var _default = (function () {
 exports["default"] = _default;
 module.exports = exports["default"];
 
-},{"babel-runtime/helpers/class-call-check":14,"babel-runtime/helpers/create-class":15}],241:[function(require,module,exports){
+},{"babel-runtime/helpers/class-call-check":14,"babel-runtime/helpers/create-class":15}],242:[function(require,module,exports){
 'use strict';
 
 var _get = require('babel-runtime/helpers/get')['default'];
@@ -15570,7 +15612,7 @@ var ChangeTypeCommand = (function (_BaseCommand) {
 exports['default'] = ChangeTypeCommand;
 module.exports = exports['default'];
 
-},{"./BaseCommand":240,"./commandLog":244,"babel-runtime/helpers/class-call-check":14,"babel-runtime/helpers/get":16,"babel-runtime/helpers/inherits":17,"babel-runtime/helpers/interop-require-default":18}],242:[function(require,module,exports){
+},{"./BaseCommand":241,"./commandLog":245,"babel-runtime/helpers/class-call-check":14,"babel-runtime/helpers/get":16,"babel-runtime/helpers/inherits":17,"babel-runtime/helpers/interop-require-default":18}],243:[function(require,module,exports){
 'use strict';
 
 var _get = require('babel-runtime/helpers/get')['default'];
@@ -15624,7 +15666,7 @@ var TypeChangeLabelCommand = (function (_BaseCommand) {
 exports['default'] = TypeChangeLabelCommand;
 module.exports = exports['default'];
 
-},{"./BaseCommand":240,"./commandLog":244,"babel-runtime/core-js/object/assign":6,"babel-runtime/helpers/class-call-check":14,"babel-runtime/helpers/get":16,"babel-runtime/helpers/inherits":17,"babel-runtime/helpers/interop-require-default":18}],243:[function(require,module,exports){
+},{"./BaseCommand":241,"./commandLog":245,"babel-runtime/core-js/object/assign":6,"babel-runtime/helpers/class-call-check":14,"babel-runtime/helpers/get":16,"babel-runtime/helpers/inherits":17,"babel-runtime/helpers/interop-require-default":18}],244:[function(require,module,exports){
 'use strict';
 
 var _get = require('babel-runtime/helpers/get')['default'];
@@ -15691,7 +15733,7 @@ var TypeRemoveCommand = (function (_BaseCommand2) {
 exports['default'] = TypeCreateCommand;
 module.exports = exports['default'];
 
-},{"./BaseCommand":240,"./commandLog":244,"babel-runtime/helpers/class-call-check":14,"babel-runtime/helpers/get":16,"babel-runtime/helpers/inherits":17,"babel-runtime/helpers/interop-require-default":18}],244:[function(require,module,exports){
+},{"./BaseCommand":241,"./commandLog":245,"babel-runtime/helpers/class-call-check":14,"babel-runtime/helpers/get":16,"babel-runtime/helpers/inherits":17,"babel-runtime/helpers/interop-require-default":18}],245:[function(require,module,exports){
 'use strict';
 
 module.exports = function (message, object) {
@@ -15703,7 +15745,7 @@ module.exports = function (message, object) {
   }
 };
 
-},{}],245:[function(require,module,exports){
+},{}],246:[function(require,module,exports){
 'use strict';
 
 var _get = require('babel-runtime/helpers/get')['default'];
@@ -15788,7 +15830,7 @@ var RemoveCommand = (function (_BaseCommand2) {
 exports.CreateCommand = CreateCommand;
 exports.RemoveCommand = RemoveCommand;
 
-},{"./BaseCommand":240,"./commandLog":244,"babel-runtime/helpers/class-call-check":14,"babel-runtime/helpers/get":16,"babel-runtime/helpers/inherits":17,"babel-runtime/helpers/interop-require-default":18}],246:[function(require,module,exports){
+},{"./BaseCommand":241,"./commandLog":245,"babel-runtime/helpers/class-call-check":14,"babel-runtime/helpers/get":16,"babel-runtime/helpers/inherits":17,"babel-runtime/helpers/interop-require-default":18}],247:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -15831,7 +15873,7 @@ exports['default'] = function (annotationData, selectionModel, id) {
 
 module.exports = exports['default'];
 
-},{"./commandTemplate":245,"./executeCompositCommand":249,"./relationAndAssociatesRemoveCommand":252,"babel-runtime/helpers/interop-require-default":18}],247:[function(require,module,exports){
+},{"./commandTemplate":246,"./executeCompositCommand":250,"./relationAndAssociatesRemoveCommand":253,"babel-runtime/helpers/interop-require-default":18}],248:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -15866,7 +15908,7 @@ exports['default'] = function (annotationData, selectionModel, id, newType, isRe
 
 module.exports = exports['default'];
 
-},{"./ChangeTypeCommand":241,"./commandTemplate":245,"./executeCompositCommand":249,"babel-runtime/helpers/interop-require-default":18}],248:[function(require,module,exports){
+},{"./ChangeTypeCommand":242,"./commandTemplate":246,"./executeCompositCommand":250,"babel-runtime/helpers/interop-require-default":18}],249:[function(require,module,exports){
 'use strict';
 
 var _Object$keys = require('babel-runtime/core-js/object/keys')['default'];
@@ -15926,7 +15968,7 @@ function toEntityPerSpan(annotationData, ids) {
 }
 module.exports = exports['default'];
 
-},{"./entityAndAssociatesRemoveCommand":246,"./spanRemoveCommand":255,"babel-runtime/core-js/object/keys":10,"babel-runtime/helpers/interop-require-default":18}],249:[function(require,module,exports){
+},{"./entityAndAssociatesRemoveCommand":247,"./spanRemoveCommand":256,"babel-runtime/core-js/object/keys":10,"babel-runtime/helpers/interop-require-default":18}],250:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -15983,7 +16025,7 @@ var setRevertAndLog = (function () {
 
 module.exports = executeCompositCommand;
 
-},{"../invokeCommand":258,"./commandLog":244,"babel-runtime/helpers/interop-require-default":18}],250:[function(require,module,exports){
+},{"../invokeCommand":259,"./commandLog":245,"babel-runtime/helpers/interop-require-default":18}],251:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -16046,7 +16088,7 @@ function isWord(sourceDoc, detectBoundaryFunc, candidateSpan) {
 }
 module.exports = exports['default'];
 
-},{"../../../Model/AnnotationData/parseAnnotation/validateAnnotation":221,"../../isAlreadySpaned":407,"babel-runtime/helpers/interop-require-default":18,"not":159}],251:[function(require,module,exports){
+},{"../../../Model/AnnotationData/parseAnnotation/validateAnnotation":222,"../../isAlreadySpaned":412,"babel-runtime/helpers/interop-require-default":18,"not":152}],252:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -16152,7 +16194,7 @@ function Factory(editor, annotationData, selectionModel) {
 
 module.exports = exports['default'];
 
-},{"./ChangeTypeCommand":241,"./TypeChangeLabelCommand":242,"./TypeCreateCommand":243,"./commandTemplate":245,"./entityChangeTypeRemoveRelationCommand":247,"./entityRemoveAndSpanRemeveIfNoEntityRestCommand":248,"./relationAndAssociatesRemoveCommand":252,"./spanAndTypesCreateCommand":253,"./spanMoveCommand":254,"./spanRemoveCommand":255,"./spanReplicateCommand":256,"babel-runtime/helpers/interop-require-default":18}],252:[function(require,module,exports){
+},{"./ChangeTypeCommand":242,"./TypeChangeLabelCommand":243,"./TypeCreateCommand":244,"./commandTemplate":246,"./entityChangeTypeRemoveRelationCommand":248,"./entityRemoveAndSpanRemeveIfNoEntityRestCommand":249,"./relationAndAssociatesRemoveCommand":253,"./spanAndTypesCreateCommand":254,"./spanMoveCommand":255,"./spanRemoveCommand":256,"./spanReplicateCommand":257,"babel-runtime/helpers/interop-require-default":18}],253:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -16185,7 +16227,7 @@ exports['default'] = function (annotationData, selectionModel, id) {
 
 module.exports = exports['default'];
 
-},{"./commandTemplate":245,"./executeCompositCommand":249,"babel-runtime/helpers/interop-require-default":18}],253:[function(require,module,exports){
+},{"./commandTemplate":246,"./executeCompositCommand":250,"babel-runtime/helpers/interop-require-default":18}],254:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -16230,7 +16272,7 @@ exports['default'] = function (editor, annotationData, selectionModel, span, typ
 
 module.exports = exports['default'];
 
-},{"../../../idFactory":235,"./commandTemplate":245,"./executeCompositCommand":249,"babel-runtime/helpers/interop-require-default":18}],254:[function(require,module,exports){
+},{"../../../idFactory":236,"./commandTemplate":246,"./executeCompositCommand":250,"babel-runtime/helpers/interop-require-default":18}],255:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -16299,7 +16341,7 @@ function spanMoveCommand(editor, annotationData, selectionModel, spanId, newSpan
 
 module.exports = exports['default'];
 
-},{"../../../idFactory":235,"./commandTemplate":245,"./executeCompositCommand":249,"./spanRemoveCommand":255,"babel-runtime/helpers/interop-require-default":18}],255:[function(require,module,exports){
+},{"../../../idFactory":236,"./commandTemplate":246,"./executeCompositCommand":250,"./spanRemoveCommand":256,"babel-runtime/helpers/interop-require-default":18}],256:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -16336,7 +16378,7 @@ exports['default'] = function (annotationData, selectionModel, id) {
 
 module.exports = exports['default'];
 
-},{"./commandTemplate":245,"./entityAndAssociatesRemoveCommand":246,"./executeCompositCommand":249,"babel-runtime/helpers/interop-require-default":18}],256:[function(require,module,exports){
+},{"./commandTemplate":246,"./entityAndAssociatesRemoveCommand":247,"./executeCompositCommand":250,"babel-runtime/helpers/interop-require-default":18}],257:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -16372,7 +16414,7 @@ exports['default'] = function (editor, annotationData, selectionModel, span, typ
 
 module.exports = exports['default'];
 
-},{"./executeCompositCommand":249,"./getReplicationSpans":250,"./spanAndTypesCreateCommand":253,"babel-runtime/helpers/interop-require-default":18}],257:[function(require,module,exports){
+},{"./executeCompositCommand":250,"./getReplicationSpans":251,"./spanAndTypesCreateCommand":254,"babel-runtime/helpers/interop-require-default":18}],258:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -16423,7 +16465,7 @@ exports['default'] = function (editor, annotationData, selectionModel, history) 
 
 module.exports = exports['default'];
 
-},{"./Factory":251,"./invokeCommand":258,"babel-runtime/helpers/interop-require-default":18}],258:[function(require,module,exports){
+},{"./Factory":252,"./invokeCommand":259,"babel-runtime/helpers/interop-require-default":18}],259:[function(require,module,exports){
 "use strict";
 
 var _Object$create = require("babel-runtime/core-js/object/create")["default"];
@@ -16448,7 +16490,7 @@ var invoke = function invoke(commands) {
 
 module.exports = invokeCommand;
 
-},{"babel-runtime/core-js/object/create":7}],259:[function(require,module,exports){
+},{"babel-runtime/core-js/object/create":7}],260:[function(require,module,exports){
 "use strict";
 
 var _Object$assign = require("babel-runtime/core-js/object/assign")["default"];
@@ -16480,7 +16522,7 @@ function showSaveDailogWithEditedData(dataAccessObject, annotationData, typeCont
 }
 module.exports = exports["default"];
 
-},{"babel-runtime/core-js/object/assign":6}],260:[function(require,module,exports){
+},{"babel-runtime/core-js/object/assign":6}],261:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -16519,7 +16561,7 @@ function updateHash(hash, key, val) {
 }
 module.exports = exports['default'];
 
-},{"babel-runtime/helpers/interop-require-default":18,"capitalize":22}],261:[function(require,module,exports){
+},{"babel-runtime/helpers/interop-require-default":18,"capitalize":23}],262:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -16583,7 +16625,7 @@ function updateTypeGap(showInstance, typeGap, typeGapCache) {
 }
 module.exports = exports['default'];
 
-},{"../EditMode/event":268,"./TypeGapCache":260,"babel-runtime/helpers/interop-require-default":18}],262:[function(require,module,exports){
+},{"../EditMode/event":269,"./TypeGapCache":261,"babel-runtime/helpers/interop-require-default":18}],263:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -16661,7 +16703,7 @@ exports['default'] = function () {
 
 module.exports = exports['default'];
 
-},{"./state":271,"babel-runtime/helpers/interop-require-default":18,"emitter-fsm":107}],263:[function(require,module,exports){
+},{"./state":272,"babel-runtime/helpers/interop-require-default":18,"emitter-fsm":108}],264:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -16739,7 +16781,7 @@ exports['default'] = function (editor, annotationData, selectionModel, typeEdito
 
 module.exports = exports['default'];
 
-},{"./ViewMode":265,"./event":268,"./setEditableStyle":270,"babel-runtime/helpers/interop-require-default":18,"events":109}],264:[function(require,module,exports){
+},{"./ViewMode":266,"./event":269,"./setEditableStyle":271,"babel-runtime/helpers/interop-require-default":18,"events":109}],265:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -16872,7 +16914,7 @@ function toEditStateAccordingToAnntationData(stateMachine, annotationData) {
 }
 module.exports = exports['default'];
 
-},{"../isSimple":328,"./state":271,"babel-runtime/helpers/interop-require-default":18}],265:[function(require,module,exports){
+},{"../isSimple":328,"./state":272,"babel-runtime/helpers/interop-require-default":18}],266:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -16922,7 +16964,7 @@ function removeListeners(selectionModel, entitySelectChanged, buttonStateHelper)
 }
 module.exports = exports['default'];
 
-},{"../../Selector":335,"babel-runtime/helpers/interop-require-default":18}],266:[function(require,module,exports){
+},{"../../Selector":335,"babel-runtime/helpers/interop-require-default":18}],267:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -16955,7 +16997,7 @@ function toEnterEvent(state) {
 }
 module.exports = exports['default'];
 
-},{"./StateMachine":262,"./state":271,"babel-runtime/helpers/interop-require-default":18}],267:[function(require,module,exports){
+},{"./StateMachine":263,"./state":272,"babel-runtime/helpers/interop-require-default":18}],268:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -16972,14 +17014,14 @@ exports['default'] = function (buttonStateHelper) {
 
 module.exports = exports['default'];
 
-},{}],268:[function(require,module,exports){
+},{}],269:[function(require,module,exports){
 module.exports={
     "SHOW": "showInstance",
     "HIDE": "hideInstance",
     "CHANGE": "change"
 }
 
-},{}],269:[function(require,module,exports){
+},{}],270:[function(require,module,exports){
 'use strict';
 
 var _Object$assign = require('babel-runtime/core-js/object/assign')['default'];
@@ -17030,18 +17072,14 @@ exports['default'] = function (editor, annotationData, selectionModel, typeEdito
     return emitter.emit(_event2['default'].CHANGE, editable, mode);
   });
 
-  _Object$assign(emitter, trigger, {
-    isView: function isView() {
-      return stateMachine.currentState === 'View Term' || stateMachine.currentState === 'View Instance';
-    }
-  });
+  _Object$assign(emitter, trigger);
 
   return emitter;
 };
 
 module.exports = exports['default'];
 
-},{"./Transition":263,"./Trigger":264,"./bindTransition":266,"./enableButtonHasAnnotation":267,"./event":268,"babel-runtime/core-js/object/assign":6,"babel-runtime/helpers/interop-require-default":18,"events":109}],270:[function(require,module,exports){
+},{"./Transition":264,"./Trigger":265,"./bindTransition":267,"./enableButtonHasAnnotation":268,"./event":269,"babel-runtime/core-js/object/assign":6,"babel-runtime/helpers/interop-require-default":18,"events":109}],271:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -17058,7 +17096,7 @@ exports['default'] = function (editor, buttonStateHelper, isEditable) {
 
 module.exports = exports['default'];
 
-},{}],271:[function(require,module,exports){
+},{}],272:[function(require,module,exports){
 module.exports={
     "INIT": "Init",
     "TERM": "Term Centric",
@@ -17068,7 +17106,7 @@ module.exports={
     "VIEW_INSTANCE": "View Instance"
 }
 
-},{}],272:[function(require,module,exports){
+},{}],273:[function(require,module,exports){
 'use strict';
 
 var _createClass = require('babel-runtime/helpers/create-class')['default'];
@@ -17145,7 +17183,7 @@ var _default = (function () {
 exports['default'] = _default;
 module.exports = exports['default'];
 
-},{"babel-runtime/helpers/class-call-check":14,"babel-runtime/helpers/create-class":15}],273:[function(require,module,exports){
+},{"babel-runtime/helpers/class-call-check":14,"babel-runtime/helpers/create-class":15}],274:[function(require,module,exports){
 'use strict';
 
 var _get = require('babel-runtime/helpers/get')['default'];
@@ -17196,7 +17234,7 @@ var _default = (function (_DefaultHandler) {
 exports['default'] = _default;
 module.exports = exports['default'];
 
-},{"../DefaultHandler":272,"babel-runtime/helpers/class-call-check":14,"babel-runtime/helpers/create-class":15,"babel-runtime/helpers/get":16,"babel-runtime/helpers/inherits":17,"babel-runtime/helpers/interop-require-default":18}],274:[function(require,module,exports){
+},{"../DefaultHandler":273,"babel-runtime/helpers/class-call-check":14,"babel-runtime/helpers/create-class":15,"babel-runtime/helpers/get":16,"babel-runtime/helpers/inherits":17,"babel-runtime/helpers/interop-require-default":18}],275:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -17242,7 +17280,7 @@ exports['default'] = function (editor, annotationData, selectionModel, typeConta
 
 module.exports = exports['default'];
 
-},{}],275:[function(require,module,exports){
+},{}],276:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -17271,7 +17309,7 @@ exports['default'] = function (cancelSelect, selectEnd, spanConfig) {
 
 module.exports = exports['default'];
 
-},{"./getSelectionSnapShot":278,"babel-runtime/helpers/interop-require-default":18}],276:[function(require,module,exports){
+},{"./getSelectionSnapShot":279,"babel-runtime/helpers/interop-require-default":18}],277:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -17291,7 +17329,7 @@ exports["default"] = function (selectionModel, e) {
 
 module.exports = exports["default"];
 
-},{}],277:[function(require,module,exports){
+},{}],278:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -17313,7 +17351,7 @@ exports['default'] = function (selectionModel, e) {
 
 module.exports = exports['default'];
 
-},{"./selectEntities":280,"babel-runtime/helpers/interop-require-default":18}],278:[function(require,module,exports){
+},{"./selectEntities":281,"babel-runtime/helpers/interop-require-default":18}],279:[function(require,module,exports){
 // Return the snap shot of the selection.
 "use strict";
 
@@ -17335,7 +17373,7 @@ exports["default"] = function () {
 
 module.exports = exports["default"];
 
-},{}],279:[function(require,module,exports){
+},{}],280:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -17404,7 +17442,7 @@ exports['default'] = function (editor, annotationData, selectionModel, command, 
 
 module.exports = exports['default'];
 
-},{"../../SelectEnd":303,"./EditEntityHandler":273,"./SelectSpan":274,"./bodyClicked":275,"./entityClicked":276,"./entityPaneClicked":277,"./spanClicked":281,"./typeLabelClicked":282,"babel-runtime/helpers/interop-require-default":18}],280:[function(require,module,exports){
+},{"../../SelectEnd":304,"./EditEntityHandler":274,"./SelectSpan":275,"./bodyClicked":276,"./entityClicked":277,"./entityPaneClicked":278,"./spanClicked":282,"./typeLabelClicked":283,"babel-runtime/helpers/interop-require-default":18}],281:[function(require,module,exports){
 'use strict';
 
 var _getIterator = require('babel-runtime/core-js/get-iterator')['default'];
@@ -17484,7 +17522,7 @@ function deselect(selectionModel, entities) {
 }
 module.exports = exports['default'];
 
-},{"babel-runtime/core-js/get-iterator":3}],281:[function(require,module,exports){
+},{"babel-runtime/core-js/get-iterator":3}],282:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -17517,7 +17555,7 @@ exports['default'] = function (spanConfig, selectEnd, selectSpan, event) {
 
 module.exports = exports['default'];
 
-},{"./getSelectionSnapShot":278,"babel-runtime/helpers/interop-require-default":18}],282:[function(require,module,exports){
+},{"./getSelectionSnapShot":279,"babel-runtime/helpers/interop-require-default":18}],283:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -17539,7 +17577,7 @@ exports['default'] = function (selectionModel, e) {
 
 module.exports = exports['default'];
 
-},{"./selectEntities":280,"babel-runtime/helpers/interop-require-default":18}],283:[function(require,module,exports){
+},{"./selectEntities":281,"babel-runtime/helpers/interop-require-default":18}],284:[function(require,module,exports){
 "use strict";
 
 var _get = require("babel-runtime/helpers/get")["default"];
@@ -17608,7 +17646,7 @@ var _default = (function (_DefaultHandler) {
 exports["default"] = _default;
 module.exports = exports["default"];
 
-},{"../DefaultHandler":272,"babel-runtime/helpers/class-call-check":14,"babel-runtime/helpers/create-class":15,"babel-runtime/helpers/get":16,"babel-runtime/helpers/inherits":17,"babel-runtime/helpers/interop-require-default":18}],284:[function(require,module,exports){
+},{"../DefaultHandler":273,"babel-runtime/helpers/class-call-check":14,"babel-runtime/helpers/create-class":15,"babel-runtime/helpers/get":16,"babel-runtime/helpers/inherits":17,"babel-runtime/helpers/interop-require-default":18}],285:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -17665,7 +17703,7 @@ function updateSelectionOfEntity(event, selectionModel, subjectEntityId, objectE
 }
 module.exports = exports['default'];
 
-},{}],285:[function(require,module,exports){
+},{}],286:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -17707,7 +17745,7 @@ exports['default'] = function (editor, annotationData, selectionModel, command, 
 
 module.exports = exports['default'];
 
-},{"./EditRelationHandler":283,"./entityClickedAtRelationMode":284,"babel-runtime/helpers/interop-require-default":18}],286:[function(require,module,exports){
+},{"./EditRelationHandler":284,"./entityClickedAtRelationMode":285,"babel-runtime/helpers/interop-require-default":18}],287:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -17767,7 +17805,7 @@ exports['default'] = function (editor, annotationData, selectionModel, spanConfi
 
 module.exports = exports['default'];
 
-},{"./DefaultHandler":272,"./EditEntity":279,"./EditRelation":285,"./unbindAllEventhandler":287,"babel-runtime/helpers/interop-require-default":18}],287:[function(require,module,exports){
+},{"./DefaultHandler":273,"./EditEntity":280,"./EditRelation":286,"./unbindAllEventhandler":288,"babel-runtime/helpers/interop-require-default":18}],288:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -17780,7 +17818,7 @@ exports['default'] = function (editor) {
 
 module.exports = exports['default'];
 
-},{}],288:[function(require,module,exports){
+},{}],289:[function(require,module,exports){
 'use strict';
 
 var _slicedToArray = require('babel-runtime/helpers/sliced-to-array')['default'];
@@ -17854,7 +17892,7 @@ function getNewSpan(annotationData, spanAdjuster, selection, spanConfig) {
 }
 module.exports = exports['default'];
 
-},{"../../../../../Model/AnnotationData/parseAnnotation/validateAnnotation":221,"../../../../isAlreadySpaned":407,"../selectPosition":304,"babel-runtime/helpers/interop-require-default":18,"babel-runtime/helpers/interop-require-wildcard":19,"babel-runtime/helpers/sliced-to-array":20}],289:[function(require,module,exports){
+},{"../../../../../Model/AnnotationData/parseAnnotation/validateAnnotation":222,"../../../../isAlreadySpaned":412,"../selectPosition":305,"babel-runtime/helpers/interop-require-default":18,"babel-runtime/helpers/interop-require-wildcard":19,"babel-runtime/helpers/sliced-to-array":20}],290:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -17952,7 +17990,7 @@ function getNewExpandSpan(annotationData, spanAdjuster, spanId, anchorPosition, 
 }
 module.exports = exports['default'];
 
-},{"../../../../../Model/AnnotationData/parseAnnotation/validateAnnotation":221,"../deferAlert":300,"../selectPosition":304,"./isInSelected":291,"./moveSpan":292,"babel-runtime/helpers/interop-require-default":18,"babel-runtime/helpers/interop-require-wildcard":19}],290:[function(require,module,exports){
+},{"../../../../../Model/AnnotationData/parseAnnotation/validateAnnotation":222,"../deferAlert":301,"../selectPosition":305,"./isInSelected":292,"./moveSpan":293,"babel-runtime/helpers/interop-require-default":18,"babel-runtime/helpers/interop-require-wildcard":19}],291:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -18005,7 +18043,7 @@ exports['default'] = function (editor, annotationData, selectionModel, command, 
 
 module.exports = exports['default'];
 
-},{"../../../spanAdjuster/blankSkipAdjuster":330,"../../../spanAdjuster/delimiterDetectAdjuster":331,"./create":288,"./expand":289,"./shrink":296,"babel-runtime/helpers/interop-require-default":18,"babel-runtime/helpers/interop-require-wildcard":19}],291:[function(require,module,exports){
+},{"../../../spanAdjuster/blankSkipAdjuster":330,"../../../spanAdjuster/delimiterDetectAdjuster":331,"./create":289,"./expand":290,"./shrink":297,"babel-runtime/helpers/interop-require-default":18,"babel-runtime/helpers/interop-require-wildcard":19}],292:[function(require,module,exports){
 'use strict';
 
 var _interopRequireWildcard = require('babel-runtime/helpers/interop-require-wildcard')['default'];
@@ -18048,7 +18086,7 @@ function isInSelectedSpan(annotationData, selectionModel, position) {
   return false;
 }
 
-},{"../getParent":301,"../hasClass":302,"../selectPosition":304,"babel-runtime/helpers/interop-require-wildcard":19}],292:[function(require,module,exports){
+},{"../getParent":302,"../hasClass":303,"../selectPosition":305,"babel-runtime/helpers/interop-require-wildcard":19}],293:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -18072,7 +18110,7 @@ exports['default'] = function (editor, command, spanId, newSpan) {
 
 module.exports = exports['default'];
 
-},{"../../../../../idFactory":235,"babel-runtime/helpers/interop-require-default":18}],293:[function(require,module,exports){
+},{"../../../../../idFactory":236,"babel-runtime/helpers/interop-require-default":18}],294:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -18100,7 +18138,7 @@ exports['default'] = function (editor, annotationData, selectionModel, command, 
 
 module.exports = exports['default'];
 
-},{"./getTargetSpanWhenFocusNodeDifferentFromAnchorNode":294,"./shrinkSpanToSelectionAndSelectNextIfRemoved":299,"babel-runtime/helpers/interop-require-default":18}],294:[function(require,module,exports){
+},{"./getTargetSpanWhenFocusNodeDifferentFromAnchorNode":295,"./shrinkSpanToSelectionAndSelectNextIfRemoved":300,"babel-runtime/helpers/interop-require-default":18}],295:[function(require,module,exports){
 'use strict';
 
 var _interopRequireWildcard = require('babel-runtime/helpers/interop-require-wildcard')['default'];
@@ -18137,7 +18175,7 @@ function isForcusOneDownUnderAnchor(selection) {
 }
 module.exports = exports['default'];
 
-},{"./../isInSelected":291,"babel-runtime/helpers/interop-require-wildcard":19}],295:[function(require,module,exports){
+},{"./../isInSelected":292,"babel-runtime/helpers/interop-require-wildcard":19}],296:[function(require,module,exports){
 'use strict';
 
 var _interopRequireWildcard = require('babel-runtime/helpers/interop-require-wildcard')['default'];
@@ -18160,7 +18198,7 @@ exports['default'] = function (annotationData, selectionModel, selection) {
 
 module.exports = exports['default'];
 
-},{"./../isInSelected":291,"babel-runtime/helpers/interop-require-wildcard":19}],296:[function(require,module,exports){
+},{"./../isInSelected":292,"babel-runtime/helpers/interop-require-wildcard":19}],297:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -18180,7 +18218,7 @@ var _pullByTheEar2 = _interopRequireDefault(_pullByTheEar);
 exports.crossTheEar = _crossTheEar2['default'];
 exports.pullByTheEar = _pullByTheEar2['default'];
 
-},{"./crossTheEar":293,"./pullByTheEar":297,"babel-runtime/helpers/interop-require-default":18}],297:[function(require,module,exports){
+},{"./crossTheEar":294,"./pullByTheEar":298,"babel-runtime/helpers/interop-require-default":18}],298:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -18208,7 +18246,7 @@ exports['default'] = function (editor, annotationData, selectionModel, command, 
 
 module.exports = exports['default'];
 
-},{"./getTargetSpanWhenFocusNodeSameWithAnchorNode":295,"./shrinkSpanToSelectionAndSelectNextIfRemoved":299,"babel-runtime/helpers/interop-require-default":18}],298:[function(require,module,exports){
+},{"./getTargetSpanWhenFocusNodeSameWithAnchorNode":296,"./shrinkSpanToSelectionAndSelectNextIfRemoved":300,"babel-runtime/helpers/interop-require-default":18}],299:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -18299,7 +18337,7 @@ function getNewShortSpan(annotationData, spanAdjuster, spanId, anchorPosition, f
 }
 module.exports = exports['default'];
 
-},{"../../../../../../Model/AnnotationData/parseAnnotation/validateAnnotation":221,"../../../../../../idFactory":235,"../../deferAlert":300,"../../selectPosition":304,"./../moveSpan":292,"babel-runtime/helpers/interop-require-default":18,"babel-runtime/helpers/interop-require-wildcard":19}],299:[function(require,module,exports){
+},{"../../../../../../Model/AnnotationData/parseAnnotation/validateAnnotation":222,"../../../../../../idFactory":236,"../../deferAlert":301,"../../selectPosition":305,"./../moveSpan":293,"babel-runtime/helpers/interop-require-default":18,"babel-runtime/helpers/interop-require-wildcard":19}],300:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -18328,7 +18366,7 @@ exports['default'] = function (editor, annotationData, command, spanAdjuster, sp
 
 module.exports = exports['default'];
 
-},{"../../../../../getNextElement":403,"./shrinkSpanToSelection":298,"babel-runtime/helpers/interop-require-default":18}],300:[function(require,module,exports){
+},{"../../../../../getNextElement":408,"./shrinkSpanToSelection":299,"babel-runtime/helpers/interop-require-default":18}],301:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -18344,7 +18382,7 @@ exports["default"] = function (message) {
 
 module.exports = exports["default"];
 
-},{}],301:[function(require,module,exports){
+},{}],302:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -18361,7 +18399,7 @@ function getFocusNodeParent(selection) {
   return $(selection.focusNode.parentNode);
 }
 
-},{}],302:[function(require,module,exports){
+},{}],303:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -18383,7 +18421,7 @@ function hasSpanOrParagraphs($node) {
   return hasSpan($node) || hasParagraphs($node);
 }
 
-},{}],303:[function(require,module,exports){
+},{}],304:[function(require,module,exports){
 'use strict';
 
 var _interopRequireWildcard = require('babel-runtime/helpers/interop-require-wildcard')['default'];
@@ -18491,7 +18529,7 @@ function clearTextSelection() {
 }
 module.exports = exports['default'];
 
-},{"./SpanEditor":290,"./selectPosition":304,"./selectionValidator":306,"babel-runtime/helpers/interop-require-default":18,"babel-runtime/helpers/interop-require-wildcard":19}],304:[function(require,module,exports){
+},{"./SpanEditor":291,"./selectPosition":305,"./selectionValidator":307,"babel-runtime/helpers/interop-require-default":18,"babel-runtime/helpers/interop-require-wildcard":19}],305:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -18559,7 +18597,7 @@ function getParentModel(paragraph, span, node) {
   throw new Error('Can not get position of a node : ' + node + ' ' + node.data);
 }
 
-},{}],305:[function(require,module,exports){
+},{}],306:[function(require,module,exports){
 'use strict';
 
 var _slicedToArray = require('babel-runtime/helpers/sliced-to-array')['default'];
@@ -18615,7 +18653,7 @@ function hasCharacters(annotationData, spanConfig, selection) {
 }
 module.exports = exports['default'];
 
-},{"../getParent":301,"../hasClass":302,"../selectPosition":304,"./showAlertIfOtherParagraph":307,"babel-runtime/helpers/interop-require-default":18,"babel-runtime/helpers/interop-require-wildcard":19,"babel-runtime/helpers/sliced-to-array":20}],306:[function(require,module,exports){
+},{"../getParent":302,"../hasClass":303,"../selectPosition":305,"./showAlertIfOtherParagraph":308,"babel-runtime/helpers/interop-require-default":18,"babel-runtime/helpers/interop-require-wildcard":19,"babel-runtime/helpers/sliced-to-array":20}],307:[function(require,module,exports){
 'use strict';
 
 var _interopRequireWildcard = require('babel-runtime/helpers/interop-require-wildcard')['default'];
@@ -18659,7 +18697,7 @@ function isFocusNodeInSpan(selection) {
   return hasClass.hasSpan(getParent.getFocusNodeParent(selection));
 }
 
-},{"../getParent":301,"../hasClass":302,"./commonValidate":305,"babel-runtime/helpers/interop-require-default":18,"babel-runtime/helpers/interop-require-wildcard":19}],307:[function(require,module,exports){
+},{"../getParent":302,"../hasClass":303,"./commonValidate":306,"babel-runtime/helpers/interop-require-default":18,"babel-runtime/helpers/interop-require-wildcard":19}],308:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -18693,7 +18731,7 @@ function getParagraph(node) {
 }
 module.exports = exports['default'];
 
-},{"../deferAlert":300,"babel-runtime/helpers/interop-require-default":18}],308:[function(require,module,exports){
+},{"../deferAlert":301,"babel-runtime/helpers/interop-require-default":18}],309:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -18734,7 +18772,7 @@ exports['default'] = function (editor, getHandler, autocompletionWs) {
 
 module.exports = exports['default'];
 
-},{"../../../../component/editIdDialog":187,"babel-runtime/helpers/interop-require-default":18}],309:[function(require,module,exports){
+},{"../../../../component/editIdDialog":188,"babel-runtime/helpers/interop-require-default":18}],310:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -18822,7 +18860,7 @@ function _jsPlumbConnectionClicked(elementEditor, jsPlumbConnection, event) {
 }
 module.exports = exports['default'];
 
-},{"../../../../component/Pallet":172,"./ElementEditor":286,"./changeLabelHandler":308,"babel-runtime/helpers/interop-require-default":18}],310:[function(require,module,exports){
+},{"../../../../component/Pallet":173,"./ElementEditor":287,"./changeLabelHandler":309,"babel-runtime/helpers/interop-require-default":18}],311:[function(require,module,exports){
 'use strict';
 
 var _interopRequireWildcard = require('babel-runtime/helpers/interop-require-wildcard')['default'];
@@ -18845,11 +18883,11 @@ var _updateWritable = require('./updateWritable');
 
 var _updateWritable2 = _interopRequireDefault(_updateWritable);
 
-exports['default'] = function (annotationData, writable, editMode) {
+exports['default'] = function (annotationData, writable, editMode, mode) {
   annotationData.on('all.change', function (annotationData, multitrack, reject) {
     return (0, _updateWritable2['default'])(multitrack, reject, writable);
   }).on('all.change', function (annotationData, multitrack) {
-    if (editMode.isView()) {
+    if (mode !== 'edit') {
       changeEditMode.forView(editMode, annotationData);
     } else {
       (0, _showLoadNoticeForEditableMode2['default'])(multitrack);
@@ -18860,7 +18898,7 @@ exports['default'] = function (annotationData, writable, editMode) {
 
 module.exports = exports['default'];
 
-},{"../changeEditMode":313,"./showLoadNoticeForEditableMode":311,"./updateWritable":312,"babel-runtime/helpers/interop-require-default":18,"babel-runtime/helpers/interop-require-wildcard":19}],311:[function(require,module,exports){
+},{"../changeEditMode":314,"./showLoadNoticeForEditableMode":312,"./updateWritable":313,"babel-runtime/helpers/interop-require-default":18,"babel-runtime/helpers/interop-require-wildcard":19}],312:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -18875,7 +18913,7 @@ exports["default"] = function (multitrack) {
 
 module.exports = exports["default"];
 
-},{}],312:[function(require,module,exports){
+},{}],313:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -18898,7 +18936,7 @@ exports['default'] = function (multitrack, reject, writable) {
 
 module.exports = exports['default'];
 
-},{"../../../Model/AnnotationData/parseAnnotation/validateAnnotation":221}],313:[function(require,module,exports){
+},{"../../../Model/AnnotationData/parseAnnotation/validateAnnotation":222}],314:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -18929,7 +18967,7 @@ function forView(editMode, annotationData) {
   }
 }
 
-},{"./isSimple":328,"babel-runtime/helpers/interop-require-default":18}],314:[function(require,module,exports){
+},{"./isSimple":328,"babel-runtime/helpers/interop-require-default":18}],315:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -18967,7 +19005,7 @@ exports['default'] = function (writable, editMode, buttonController) {
 
 module.exports = exports['default'];
 
-},{"./setButtonState":329,"babel-runtime/helpers/interop-require-default":18}],315:[function(require,module,exports){
+},{"./setButtonState":329,"babel-runtime/helpers/interop-require-default":18}],316:[function(require,module,exports){
 "use strict";
 
 module.exports = function (command, annotationData, selectionModel, clipBoard) {
@@ -19002,7 +19040,7 @@ module.exports = function (command, annotationData, selectionModel, clipBoard) {
   };
 };
 
-},{}],316:[function(require,module,exports){
+},{}],317:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -19036,7 +19074,7 @@ var DefaultEntityHandler = function DefaultEntityHandler(command, annotationData
 
 module.exports = DefaultEntityHandler;
 
-},{"./createEntityToSelectedSpan":321,"./replicate":324,"babel-runtime/helpers/interop-require-default":18,"events":109}],317:[function(require,module,exports){
+},{"./createEntityToSelectedSpan":322,"./replicate":325,"babel-runtime/helpers/interop-require-default":18,"events":109}],318:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -19053,7 +19091,7 @@ exports["default"] = function (editMode) {
 
 module.exports = exports["default"];
 
-},{}],318:[function(require,module,exports){
+},{}],319:[function(require,module,exports){
 'use strict';
 
 var toggleModification = require('./toggleModification');
@@ -19069,7 +19107,7 @@ module.exports = function (command, annotationData, modeAccordingToButton, typeE
   };
 };
 
-},{"./toggleModification":325}],319:[function(require,module,exports){
+},{"./toggleModification":326}],320:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -19253,7 +19291,7 @@ function selectLabelOfEntity(selectionModel, entity) {
 }
 module.exports = exports['default'];
 
-},{"../../../getEntityDom":402,"../../../getNextElement":403,"babel-runtime/helpers/interop-require-default":18}],320:[function(require,module,exports){
+},{"../../../getEntityDom":407,"../../../getNextElement":408,"babel-runtime/helpers/interop-require-default":18}],321:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -19291,7 +19329,7 @@ function _toggleInstaceRelation(editMode) {
 }
 module.exports = exports['default'];
 
-},{}],321:[function(require,module,exports){
+},{}],322:[function(require,module,exports){
 "use strict";
 
 module.exports = function (command, spans, entity) {
@@ -19305,7 +19343,7 @@ module.exports = function (command, spans, entity) {
   command.invoke(commands);
 };
 
-},{}],322:[function(require,module,exports){
+},{}],323:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -19337,7 +19375,7 @@ function toRemoveRelationCommands(relationIds, command) {
 }
 module.exports = exports["default"];
 
-},{}],323:[function(require,module,exports){
+},{}],324:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -19360,7 +19398,7 @@ exports['default'] = function (command, selectionModel, selectHandler) {
 
 module.exports = exports['default'];
 
-},{"./RemoveCommandsFromSelection":322,"babel-runtime/helpers/interop-require-default":18}],324:[function(require,module,exports){
+},{"./RemoveCommandsFromSelection":323,"babel-runtime/helpers/interop-require-default":18}],325:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -19389,7 +19427,7 @@ function getDetectBoundaryFunc(modeAccordingToButton, spanConfig) {
 }
 module.exports = exports['default'];
 
-},{}],325:[function(require,module,exports){
+},{}],326:[function(require,module,exports){
 "use strict";
 
 var isModificationType = function isModificationType(modification, modificationType) {
@@ -19431,7 +19469,7 @@ var isModificationType = function isModificationType(modification, modificationT
 
 module.exports = toggleModification;
 
-},{}],326:[function(require,module,exports){
+},{}],327:[function(require,module,exports){
 'use strict';
 
 var _Object$assign = require('babel-runtime/core-js/object/assign')['default'];
@@ -19457,10 +19495,6 @@ var _EditMode2 = _interopRequireDefault(_EditMode);
 var _DisplayInstance = require('./DisplayInstance');
 
 var _DisplayInstance2 = _interopRequireDefault(_DisplayInstance);
-
-var _initiateEditMode = require('./initiateEditMode');
-
-var _initiateEditMode2 = _interopRequireDefault(_initiateEditMode);
 
 var _handlersClipBoardHandler = require('./handlers/ClipBoardHandler');
 
@@ -19498,7 +19532,7 @@ var _bindModelChange = require('./bindModelChange');
 
 var _bindModelChange2 = _interopRequireDefault(_bindModelChange);
 
-exports['default'] = function (editor, annotationData, selectionModel, view, command, spanConfig, clipBoard, buttonController, typeGap, typeContainer, writable, autocompletionWs) {
+exports['default'] = function (editor, annotationData, selectionModel, view, command, spanConfig, clipBoard, buttonController, typeGap, typeContainer, writable, autocompletionWs, mode) {
   var typeEditor = new _TypeEditor2['default'](editor, annotationData, selectionModel, spanConfig, command, buttonController.modeAccordingToButton, typeContainer, autocompletionWs),
       editMode = new _EditMode2['default'](editor, annotationData, selectionModel, typeEditor, buttonController.buttonStateHelper),
       displayInstance = new _DisplayInstance2['default'](typeGap, editMode),
@@ -19533,20 +19567,17 @@ exports['default'] = function (editor, annotationData, selectionModel, view, com
 
   (0, _enableSaveButtorAtEditable2['default'])(writable, editMode, buttonController);
 
+  // The jsPlumbConnetion has an original event mecanism.
+  // We can only bind the connection directory.
+  editor.on('textae.editor.jsPlumbConnection.add', function (event, jsPlumbConnection) {
+    jsPlumbConnection.bindClickAction(typeEditor.jsPlumbConnectionClicked);
+  });
+
+  defaultEntityHandler.on('createEntity', displayInstance.notifyNewInstance);
+
+  (0, _bindModelChange2['default'])(annotationData, writable, editMode, mode);
+
   return {
-    init: function init(mode) {
-      // The jsPlumbConnetion has an original event mecanism.
-      // We can only bind the connection directory.
-      editor.on('textae.editor.jsPlumbConnection.add', function (event, jsPlumbConnection) {
-        jsPlumbConnection.bindClickAction(typeEditor.jsPlumbConnectionClicked);
-      });
-
-      defaultEntityHandler.on('createEntity', displayInstance.notifyNewInstance);
-
-      // Do not call before the View.init.
-      (0, _initiateEditMode2['default'])(mode, editMode, annotationData);
-      (0, _bindModelChange2['default'])(annotationData, writable, editMode);
-    },
     event: event
   };
 
@@ -19572,31 +19603,7 @@ exports['default'] = function (editor, annotationData, selectionModel, view, com
 
 module.exports = exports['default'];
 
-},{"../../../component/SettingDialog":176,"./DisplayInstance":261,"./EditMode":269,"./TypeEditor":309,"./bindModelChange":310,"./enableSaveButtorAtEditable":314,"./handlers/ClipBoardHandler":315,"./handlers/DefaultEntityHandler":316,"./handlers/ModeButtonHandlers":317,"./handlers/ModificationHandler":318,"./handlers/SelectHandler":319,"./handlers/ToggleButtonHandler":320,"./handlers/removeSelectedElements":323,"./initiateEditMode":327,"babel-runtime/core-js/object/assign":6,"babel-runtime/helpers/interop-require-default":18}],327:[function(require,module,exports){
-'use strict';
-
-var _interopRequireWildcard = require('babel-runtime/helpers/interop-require-wildcard')['default'];
-
-Object.defineProperty(exports, '__esModule', {
-  value: true
-});
-
-var _changeEditMode = require('../changeEditMode');
-
-var changeEditMode = _interopRequireWildcard(_changeEditMode);
-
-exports['default'] = function (mode, editMode, annotationData) {
-  // Set the mode according to params at 1st time.
-  if (mode !== 'edit') {
-    changeEditMode.forView(editMode, annotationData);
-  } else {
-    changeEditMode.forEditable(editMode, annotationData);
-  }
-};
-
-module.exports = exports['default'];
-
-},{"../changeEditMode":313,"babel-runtime/helpers/interop-require-wildcard":19}],328:[function(require,module,exports){
+},{"../../../component/SettingDialog":177,"./DisplayInstance":262,"./EditMode":270,"./TypeEditor":310,"./bindModelChange":311,"./enableSaveButtorAtEditable":315,"./handlers/ClipBoardHandler":316,"./handlers/DefaultEntityHandler":317,"./handlers/ModeButtonHandlers":318,"./handlers/ModificationHandler":319,"./handlers/SelectHandler":320,"./handlers/ToggleButtonHandler":321,"./handlers/removeSelectedElements":324,"babel-runtime/core-js/object/assign":6,"babel-runtime/helpers/interop-require-default":18}],328:[function(require,module,exports){
 // Change view mode accoding to the annotation data.
 "use strict";
 
@@ -19915,7 +19922,7 @@ function modifyStyle(element, handle) {
 }
 module.exports = exports['default'];
 
-},{"../../idFactory":235,"../View/DomPositionCache":346,"../getEntityDom":402,"./deselectRelation":334,"./selectRelation":336,"babel-runtime/helpers/interop-require-default":18}],336:[function(require,module,exports){
+},{"../../idFactory":236,"../View/DomPositionCache":346,"../getEntityDom":407,"./deselectRelation":334,"./selectRelation":336,"babel-runtime/helpers/interop-require-default":18}],336:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -20111,7 +20118,7 @@ function _getSortedIds(getActualTypesFunction, definedTypes) {
 }
 module.exports = exports['default'];
 
-},{"../../uri":408,"./defaultType":339,"babel-runtime/core-js/array/from":2,"babel-runtime/core-js/get-iterator":3,"babel-runtime/core-js/map":5,"babel-runtime/core-js/object/assign":6,"babel-runtime/core-js/object/keys":10,"babel-runtime/helpers/interop-require-default":18,"events":109}],339:[function(require,module,exports){
+},{"../../uri":413,"./defaultType":339,"babel-runtime/core-js/array/from":2,"babel-runtime/core-js/get-iterator":3,"babel-runtime/core-js/map":5,"babel-runtime/core-js/object/assign":6,"babel-runtime/core-js/object/keys":10,"babel-runtime/helpers/interop-require-default":18,"events":109}],339:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -20411,7 +20418,7 @@ function getEntity(editor, entityModel, gridPositionCache, entityId) {
 }
 module.exports = exports['default'];
 
-},{"../../getEntityDom":402,"./CachedGetterFactory":342,"babel-runtime/helpers/interop-require-default":18}],346:[function(require,module,exports){
+},{"../../getEntityDom":407,"./CachedGetterFactory":342,"babel-runtime/helpers/interop-require-default":18}],346:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -20623,7 +20630,7 @@ function pullUpGridOverDescendants(getSpan, typeContainer, typeGapValue, span) {
 }
 module.exports = exports['default'];
 
-},{"../getHeightIncludeDescendantGrids":394,"./getGridOfSpan":349,"babel-runtime/helpers/interop-require-default":18}],351:[function(require,module,exports){
+},{"../getHeightIncludeDescendantGrids":397,"./getGridOfSpan":349,"babel-runtime/helpers/interop-require-default":18}],351:[function(require,module,exports){
 'use strict';
 
 var _Promise = require('babel-runtime/core-js/promise')['default'];
@@ -20854,7 +20861,7 @@ exports['default'] = function (editor, namspace, typeContainer, gridRenderer, mo
 
 module.exports = exports['default'];
 
-},{"../../../../idFactory":235,"./arrangePositionOfPane":354,"./createEntityElement":357,"./getTypeElement":360,"babel-runtime/helpers/interop-require-default":18}],357:[function(require,module,exports){
+},{"../../../../idFactory":236,"./arrangePositionOfPane":354,"./createEntityElement":357,"./getTypeElement":360,"babel-runtime/helpers/interop-require-default":18}],357:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -20888,7 +20895,7 @@ function createEntityElement(editor, typeContainer, modification, entity) {
 
 module.exports = exports['default'];
 
-},{"../../../../idFactory":235,"babel-runtime/helpers/interop-require-default":18}],358:[function(require,module,exports){
+},{"../../../../idFactory":236,"babel-runtime/helpers/interop-require-default":18}],358:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -20952,7 +20959,7 @@ exports['default'] = function (type) {
 
 module.exports = exports['default'];
 
-},{"../../../../uri":408,"babel-runtime/helpers/interop-require-default":18}],360:[function(require,module,exports){
+},{"../../../../uri":413,"babel-runtime/helpers/interop-require-default":18}],360:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -21012,7 +21019,7 @@ function getGrid(gridRenderer, spanId) {
 }
 module.exports = exports['default'];
 
-},{"../../../../idFactory":235,"../getTypeDom":389,"./setLabelToTypeLabel":364,"babel-runtime/helpers/interop-require-default":18}],361:[function(require,module,exports){
+},{"../../../../idFactory":236,"../getTypeDom":392,"./setLabelToTypeLabel":364,"babel-runtime/helpers/interop-require-default":18}],361:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -21109,7 +21116,7 @@ function doesSpanHasNoEntity(annotationData, spanId) {
 }
 module.exports = exports['default'];
 
-},{"../../../../idFactory":235,"../../../../uri":408,"../../../getEntityDom":402,"../ModificationRenderer":368,"./changeTypeOfExists":355,"./createEntityUnlessBlock":358,"./getDisplayName":359,"./removeEntityElement":362,"./removeNoEntityPaneElement":363,"./updateLabel":365,"babel-runtime/helpers/interop-require-default":18}],362:[function(require,module,exports){
+},{"../../../../idFactory":236,"../../../../uri":413,"../../../getEntityDom":407,"../ModificationRenderer":368,"./changeTypeOfExists":355,"./createEntityUnlessBlock":358,"./getDisplayName":359,"./removeEntityElement":362,"./removeNoEntityPaneElement":363,"./updateLabel":365,"babel-runtime/helpers/interop-require-default":18}],362:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -21138,7 +21145,7 @@ exports['default'] = function (editor, entityId) {
 
 module.exports = exports['default'];
 
-},{"../../../getEntityDom":402,"babel-runtime/helpers/interop-require-default":18}],363:[function(require,module,exports){
+},{"../../../getEntityDom":407,"babel-runtime/helpers/interop-require-default":18}],363:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -21261,7 +21268,7 @@ function getMatchPrefix(namespace, type) {
 }
 module.exports = exports['default'];
 
-},{"../../../../uri":408,"./getDisplayName":359,"babel-runtime/helpers/interop-require-default":18}],365:[function(require,module,exports){
+},{"../../../../uri":413,"./getDisplayName":359,"babel-runtime/helpers/interop-require-default":18}],365:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -21292,7 +21299,7 @@ exports['default'] = function (annotationData, typeContainer, type) {
 
 module.exports = exports['default'];
 
-},{"../getTypeDom":389,"./setLabelToTypeLabel":364,"babel-runtime/helpers/interop-require-default":18}],366:[function(require,module,exports){
+},{"../getTypeDom":392,"./setLabelToTypeLabel":364,"babel-runtime/helpers/interop-require-default":18}],366:[function(require,module,exports){
 'use strict';
 
 var _slicedToArray = require('babel-runtime/helpers/sliced-to-array')['default'];
@@ -21393,7 +21400,7 @@ function getRightSpanAndGrid(editorDom, spanId) {
 }
 module.exports = exports['default'];
 
-},{"../../getNextElement":403,"./getAnnotationBox":386,"babel-runtime/helpers/interop-require-default":18,"babel-runtime/helpers/sliced-to-array":20}],367:[function(require,module,exports){
+},{"../../getNextElement":408,"./getAnnotationBox":389,"babel-runtime/helpers/interop-require-default":18,"babel-runtime/helpers/sliced-to-array":20}],367:[function(require,module,exports){
 'use strict';
 
 var _Map = require('babel-runtime/core-js/map')['default'];
@@ -21531,7 +21538,7 @@ function bindeToModelEvent(emitter, annotationData, eventName, handler) {
 }
 module.exports = exports['default'];
 
-},{"../../../modelToId":237,"../TypeStyle":393,"./EntityRenderer":361,"./GridRenderer":366,"./RenderAll":374,"./SpanRenderer":382,"./getAnnotationBox":386,"./getTypeDom":389,"./renderModification":391,"./renderParagraph":392,"babel-runtime/core-js/get-iterator":3,"babel-runtime/core-js/map":5,"babel-runtime/helpers/interop-require-default":18,"events":109}],368:[function(require,module,exports){
+},{"../../../modelToId":238,"../TypeStyle":396,"./EntityRenderer":361,"./GridRenderer":366,"./RenderAll":377,"./SpanRenderer":385,"./getAnnotationBox":389,"./getTypeDom":392,"./renderModification":394,"./renderParagraph":395,"babel-runtime/core-js/get-iterator":3,"babel-runtime/core-js/map":5,"babel-runtime/helpers/interop-require-default":18,"events":109}],368:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -21592,6 +21599,37 @@ exports['default'] = function (editor, annotationData, relationId) {
 module.exports = exports['default'];
 
 },{"../../DomPositionCache":346,"babel-runtime/helpers/interop-require-default":18}],370:[function(require,module,exports){
+module.exports={
+  "cssClass": "textae-editor__relation__label",
+  "id": "label"
+}
+
+},{}],371:[function(require,module,exports){
+'use strict';
+
+var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
+
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
+
+var _LABEL = require('./LABEL');
+
+var _LABEL2 = _interopRequireDefault(_LABEL);
+
+exports['default'] = function (connect) {
+  // Find the label overlay by self, because the function 'getLabelOverlays' returns no label overlay.
+  var labelOverlay = connect.getOverlay(_LABEL2['default'].id);
+  if (!labelOverlay) {
+    throw new Error('no label overlay');
+  }
+
+  return labelOverlay;
+};
+
+module.exports = exports['default'];
+
+},{"./LABEL":370,"babel-runtime/helpers/interop-require-default":18}],372:[function(require,module,exports){
 'use strict';
 
 var _Promise = require('babel-runtime/core-js/promise')['default'];
@@ -21675,7 +21713,7 @@ function resetAllCurviness(editor, annotationData, relations) {
 }
 module.exports = exports['default'];
 
-},{"./Connect":369,"./determineCurviness":371,"./jsPlumbArrowOverlayUtil":373,"babel-runtime/core-js/promise":12,"babel-runtime/helpers/interop-require-default":18}],371:[function(require,module,exports){
+},{"./Connect":369,"./determineCurviness":373,"./jsPlumbArrowOverlayUtil":375,"babel-runtime/core-js/promise":12,"babel-runtime/helpers/interop-require-default":18}],373:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -21726,7 +21764,7 @@ function toAnchors(relation) {
 }
 module.exports = exports['default'];
 
-},{"../../DomPositionCache":346,"babel-runtime/helpers/interop-require-default":18}],372:[function(require,module,exports){
+},{"../../DomPositionCache":346,"babel-runtime/helpers/interop-require-default":18}],374:[function(require,module,exports){
 'use strict';
 
 var _Promise = require('babel-runtime/core-js/promise')['default'];
@@ -21749,9 +21787,9 @@ var _Connect = require('./Connect');
 
 var _Connect2 = _interopRequireDefault(_Connect);
 
-var _arrangePositionAll = require('./arrangePositionAll');
+var _arrangePositionAll2 = require('./arrangePositionAll');
 
-var _arrangePositionAll2 = _interopRequireDefault(_arrangePositionAll);
+var _arrangePositionAll3 = _interopRequireDefault(_arrangePositionAll2);
 
 var _determineCurviness = require('./determineCurviness');
 
@@ -21765,37 +21803,24 @@ var _getEntityDom = require('../../../getEntityDom');
 
 var _getEntityDom2 = _interopRequireDefault(_getEntityDom);
 
-var POINTUP_LINE_WIDTH = 3,
-    LABEL = {
-  cssClass: 'textae-editor__relation__label',
-  id: 'label'
-},
-    makeJsPlumbInstance = function makeJsPlumbInstance(container) {
-  var newInstance = jsPlumb.getInstance({
-    ConnectionsDetachable: false,
-    Endpoint: ['Dot', {
-      radius: 1
-    }]
-  });
-  newInstance.setRenderMode(newInstance.SVG);
-  newInstance.Defaults.Container = container;
-  return newInstance;
-},
-    LabelOverlay = function LabelOverlay(connect) {
-  // Find the label overlay by self, because the function 'getLabelOverlays' returns no label overlay.
-  var labelOverlay = connect.getOverlay(LABEL.id);
-  if (!labelOverlay) {
-    throw new Error('no label overlay');
-  }
+var _makeJsPlumbInstance = require('./makeJsPlumbInstance');
 
-  return labelOverlay;
-};
+var _makeJsPlumbInstance2 = _interopRequireDefault(_makeJsPlumbInstance);
+
+var _LabelOverlay = require('./LabelOverlay');
+
+var _LabelOverlay2 = _interopRequireDefault(_LabelOverlay);
+
+var _LABEL = require('./LABEL');
+
+var _LABEL2 = _interopRequireDefault(_LABEL);
+
+var POINTUP_LINE_WIDTH = 3;
 
 module.exports = function (editor, annotationData, selectionModel, typeContainer) {
   // Init a jsPlumb instance.
   var modification = new _ModificationRenderer2['default'](annotationData),
       domPositionCaChe = new _DomPositionCache2['default'](editor, annotationData.entity),
-      jsPlumbInstance,
       ConnectorStrokeStyle = (function () {
     var converseHEXinotRGBA = function converseHEXinotRGBA(color, opacity) {
       var c = color.slice(1),
@@ -21859,9 +21884,9 @@ module.exports = function (editor, annotationData, selectionModel, typeContainer
           id: relation.id
         },
         cssClass: 'textae-editor__relation',
-        overlays: [['Arrow', _jsPlumbArrowOverlayUtil2['default'].NORMAL_ARROW], ['Label', _.extend({}, LABEL, {
+        overlays: [['Arrow', _jsPlumbArrowOverlayUtil2['default'].NORMAL_ARROW], ['Label', _.extend({}, _LABEL2['default'], {
           label: '[' + relation.id + '] ' + relation.type,
-          cssClass: LABEL.cssClass + ' ' + modification.getClasses(relation.id).join(' ')
+          cssClass: _LABEL2['default'].cssClass + ' ' + modification.getClasses(relation.id).join(' ')
         })]]
       });
     },
@@ -21873,19 +21898,19 @@ module.exports = function (editor, annotationData, selectionModel, typeContainer
         extendPointup = (function () {
       var Pointupable = (function () {
         var hoverupLabel = function hoverupLabel(connect) {
-          new LabelOverlay(connect).addClass('hover');
+          new _LabelOverlay2['default'](connect).addClass('hover');
           return connect;
         },
             hoverdownLabel = function hoverdownLabel(connect) {
-          new LabelOverlay(connect).removeClass('hover');
+          new _LabelOverlay2['default'](connect).removeClass('hover');
           return connect;
         },
             selectLabel = function selectLabel(connect) {
-          new LabelOverlay(connect).addClass('ui-selected');
+          new _LabelOverlay2['default'](connect).addClass('ui-selected');
           return connect;
         },
             deselectLabel = function deselectLabel(connect) {
-          new LabelOverlay(connect).removeClass('ui-selected');
+          new _LabelOverlay2['default'](connect).removeClass('ui-selected');
           return connect;
         },
             hoverupLine = function hoverupLine(connect) {
@@ -21973,7 +21998,7 @@ module.exports = function (editor, annotationData, selectionModel, typeContainer
         return connect;
       },
           bindLabel = function bindLabel(connect) {
-        bindHoverAction(new LabelOverlay(connect), _.compose(pointup, toComponent), _.compose(pointdown, toComponent));
+        bindHoverAction(new _LabelOverlay2['default'](connect), _.compose(pointup, toComponent), _.compose(pointdown, toComponent));
         return connect;
       };
 
@@ -21984,7 +22009,7 @@ module.exports = function (editor, annotationData, selectionModel, typeContainer
       var Api = function Api(connect) {
         var bindClickAction = function bindClickAction(onClick) {
           this.bind('click', onClick);
-          this.getOverlay(LABEL.id).bind('click', function (label, event) {
+          this.getOverlay(_LABEL2['default'].id).bind('click', function (label, event) {
             onClick(label.component, event);
           });
         };
@@ -22056,7 +22081,7 @@ module.exports = function (editor, annotationData, selectionModel, typeContainer
       }
       connect.setPaintStyle(strokeStyle);
 
-      new LabelOverlay(connect).setLabel('[' + relation.id + '] ' + relation.type);
+      new _LabelOverlay2['default'](connect).setLabel('[' + relation.id + '] ' + relation.type);
     }
   },
       changeJsModification = function changeJsModification(relation) {
@@ -22064,31 +22089,15 @@ module.exports = function (editor, annotationData, selectionModel, typeContainer
 
     // A connect may be an object before it rendered.
     if (connect instanceof jsPlumb.Connection) {
-      modification.update(new LabelOverlay(connect).getElement(), relation.id);
+      modification.update(new _LabelOverlay2['default'](connect).getElement(), relation.id);
     }
   },
-      remove = function remove(relation) {
-    var connect = new _Connect2['default'](editor, annotationData, relation.id);
-    jsPlumbInstance.detach(connect);
-    domPositionCaChe.connectCache['delete'](relation.id);
-
-    // Set the flag dead already to delay selection.
-    connect.dead = true;
-
-    // Set a flag to extract relations from target to move relations asynchronously.
-    relation.removed = true;
-  },
-      init = function init(editor) {
-    var container = (0, _getAnnotationBox2['default'])(editor);
-    jsPlumbInstance = makeJsPlumbInstance(container);
-
-    return function () {
-      return (0, _arrangePositionAll2['default'])(editor, annotationData, selectionModel, jsPlumbInstance);
-    };
-  };
+      jsPlumbInstance = (0, _makeJsPlumbInstance2['default'])((0, _getAnnotationBox2['default'])(editor));
 
   return {
-    init: init,
+    arrangePositionAll: function arrangePositionAll() {
+      return (0, _arrangePositionAll3['default'])(editor, annotationData, selectionModel, jsPlumbInstance);
+    },
     reset: function reset() {
       jsPlumbInstance.reset();
       domPositionCaChe.connectCache.clear();
@@ -22096,11 +22105,25 @@ module.exports = function (editor, annotationData, selectionModel, typeContainer
     render: renderLazy,
     change: changeType,
     changeModification: changeJsModification,
-    remove: remove
+    remove: function remove(relation) {
+      return removeRelation(editor, annotationData, relation, jsPlumbInstance, domPositionCaChe);
+    }
   };
 };
 
-},{"../../../getEntityDom":402,"../../DomPositionCache":346,"../ModificationRenderer":368,"../getAnnotationBox":386,"./Connect":369,"./arrangePositionAll":370,"./determineCurviness":371,"./jsPlumbArrowOverlayUtil":373,"babel-runtime/core-js/promise":12,"babel-runtime/helpers/interop-require-default":18}],373:[function(require,module,exports){
+function removeRelation(editor, annotationData, relation, jsPlumbInstance, domPositionCaChe) {
+  var connect = new _Connect2['default'](editor, annotationData, relation.id);
+  jsPlumbInstance.detach(connect);
+  domPositionCaChe.connectCache['delete'](relation.id);
+
+  // Set the flag dead already to delay selection.
+  connect.dead = true;
+
+  // Set a flag to extract relations from target to move relations asynchronously.
+  relation.removed = true;
+}
+
+},{"../../../getEntityDom":407,"../../DomPositionCache":346,"../ModificationRenderer":368,"../getAnnotationBox":389,"./Connect":369,"./LABEL":370,"./LabelOverlay":371,"./arrangePositionAll":372,"./determineCurviness":373,"./jsPlumbArrowOverlayUtil":375,"./makeJsPlumbInstance":376,"babel-runtime/core-js/promise":12,"babel-runtime/helpers/interop-require-default":18}],375:[function(require,module,exports){
 'use strict';
 
 var // Overlay styles for jsPlubm connections.
@@ -22185,7 +22208,28 @@ module.exports = {
   }
 };
 
-},{}],374:[function(require,module,exports){
+},{}],376:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
+
+exports['default'] = function (container) {
+  var newInstance = jsPlumb.getInstance({
+    ConnectionsDetachable: false,
+    Endpoint: ['Dot', {
+      radius: 1
+    }]
+  });
+  newInstance.setRenderMode(newInstance.SVG);
+  newInstance.Defaults.Container = container;
+  return newInstance;
+};
+
+module.exports = exports['default'];
+
+},{}],377:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -22229,7 +22273,7 @@ function renderAllRelation(annotationData, relationRenderer) {
 }
 module.exports = exports['default'];
 
-},{"./getAnnotationBox":386,"babel-runtime/helpers/interop-require-default":18}],375:[function(require,module,exports){
+},{"./getAnnotationBox":389,"babel-runtime/helpers/interop-require-default":18}],378:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -22283,7 +22327,7 @@ function renderChildresnSpan(span, create) {
 }
 module.exports = exports['default'];
 
-},{"./destroyChildrenSpan":380,"./getBigBrother":381,"./renderClassOfSpan":383,"./renderEntitiesOfSpan":384,"./renderSingleSpan":385,"babel-runtime/helpers/interop-require-default":18}],376:[function(require,module,exports){
+},{"./destroyChildrenSpan":383,"./getBigBrother":384,"./renderClassOfSpan":386,"./renderEntitiesOfSpan":387,"./renderSingleSpan":388,"babel-runtime/helpers/interop-require-default":18}],379:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -22299,7 +22343,7 @@ exports["default"] = function (textNode, offset) {
 
 module.exports = exports["default"];
 
-},{}],377:[function(require,module,exports){
+},{}],380:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -22317,7 +22361,7 @@ exports['default'] = function (span) {
 
 module.exports = exports['default'];
 
-},{}],378:[function(require,module,exports){
+},{}],381:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -22355,7 +22399,7 @@ function validateOffset(textNode, offset) {
 }
 module.exports = exports['default'];
 
-},{"./createRange":376,"babel-runtime/helpers/interop-require-default":18}],379:[function(require,module,exports){
+},{"./createRange":379,"babel-runtime/helpers/interop-require-default":18}],382:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -22377,7 +22421,7 @@ exports['default'] = function (spanId) {
 
 module.exports = exports['default'];
 
-},{}],380:[function(require,module,exports){
+},{}],383:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -22410,7 +22454,7 @@ function destroySpanRecurcive(span) {
 }
 module.exports = exports['default'];
 
-},{"./destroy":379,"babel-runtime/helpers/interop-require-default":18}],381:[function(require,module,exports){
+},{"./destroy":382,"babel-runtime/helpers/interop-require-default":18}],384:[function(require,module,exports){
 // A big brother is brother node on a structure at rendered.
 // There is no big brother if the span is first in a paragraph.
 "use strict";
@@ -22433,7 +22477,7 @@ exports["default"] = function (span, topLevelSpans) {
 module.exports = exports["default"];
 // Warning: parent is set at updateSpanTree, is not exists now.
 
-},{}],382:[function(require,module,exports){
+},{}],385:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -22470,7 +22514,7 @@ exports['default'] = function (annotationData, isBlockFunc, renderEntityFunc) {
 
 module.exports = exports['default'];
 
-},{"./create":375,"./destroy":379,"./renderClassOfSpan":383,"babel-runtime/helpers/interop-require-default":18}],383:[function(require,module,exports){
+},{"./create":378,"./destroy":382,"./renderClassOfSpan":386,"babel-runtime/helpers/interop-require-default":18}],386:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -22511,7 +22555,7 @@ function hasType(span, isBlockFunc) {
 }
 module.exports = exports['default'];
 
-},{"babel-runtime/helpers/interop-require-default":18,"not":159}],384:[function(require,module,exports){
+},{"babel-runtime/helpers/interop-require-default":18,"not":152}],387:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -22529,7 +22573,7 @@ function renderEntitiesOfType(type, entityIdToModelFunc, renderEntityFunc) {
 }
 module.exports = exports["default"];
 
-},{}],385:[function(require,module,exports){
+},{}],388:[function(require,module,exports){
 'use strict';
 
 var _slicedToArray = require('babel-runtime/helpers/sliced-to-array')['default'];
@@ -22608,7 +22652,7 @@ function getParentModel(span) {
 }
 module.exports = exports['default'];
 
-},{"./createSpanElement":377,"./createSpanRange":378,"babel-runtime/helpers/interop-require-default":18,"babel-runtime/helpers/sliced-to-array":20}],386:[function(require,module,exports){
+},{"./createSpanElement":380,"./createSpanRange":381,"babel-runtime/helpers/interop-require-default":18,"babel-runtime/helpers/sliced-to-array":20}],389:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -22629,7 +22673,7 @@ var _getEditorBody2 = _interopRequireDefault(_getEditorBody);
 exports['default'] = _.compose(_.partial(_getElement2['default'], 'div', 'textae-editor__body__annotation-box'), _getEditorBody2['default']);
 module.exports = exports['default'];
 
-},{"./getEditorBody":387,"./getElement":388,"babel-runtime/helpers/interop-require-default":18}],387:[function(require,module,exports){
+},{"./getEditorBody":390,"./getElement":391,"babel-runtime/helpers/interop-require-default":18}],390:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -22646,7 +22690,7 @@ var _getElement2 = _interopRequireDefault(_getElement);
 exports['default'] = _.partial(_getElement2['default'], 'div', 'textae-editor__body');
 module.exports = exports['default'];
 
-},{"./getElement":388,"babel-runtime/helpers/interop-require-default":18}],388:[function(require,module,exports){
+},{"./getElement":391,"babel-runtime/helpers/interop-require-default":18}],391:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -22664,7 +22708,7 @@ exports['default'] = function (tagName, className, $parent) {
 
 module.exports = exports['default'];
 
-},{}],389:[function(require,module,exports){
+},{}],392:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -22683,7 +22727,7 @@ exports['default'] = function (spanId, type) {
 
 module.exports = exports['default'];
 
-},{"../../../idFactory":235,"babel-runtime/helpers/interop-require-default":18}],390:[function(require,module,exports){
+},{"../../../idFactory":236,"babel-runtime/helpers/interop-require-default":18}],393:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -22704,7 +22748,6 @@ exports['default'] = function (editor, annotationData, selectionModel, buttonSta
   var domPositionCaChe = new _DomPositionCache2['default'](editor, annotationData.entity),
       api = {
     init: new _Initiator2['default'](domPositionCaChe, relationRenderer, buttonStateHelper, typeGap, editor, annotationData, selectionModel, typeContainer),
-    arrangeRelationPositionAll: relationRenderer.arrangePositionAll,
     renderLazyRelationAll: relationRenderer.renderLazyRelationAll
   };
 
@@ -22713,7 +22756,7 @@ exports['default'] = function (editor, annotationData, selectionModel, buttonSta
 
 module.exports = exports['default'];
 
-},{"../DomPositionCache":346,"./Initiator":367,"babel-runtime/helpers/interop-require-default":18}],391:[function(require,module,exports){
+},{"../DomPositionCache":346,"./Initiator":367,"babel-runtime/helpers/interop-require-default":18}],394:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -22737,7 +22780,7 @@ exports['default'] = function (annotationData, modelType, modification, renderer
 
 module.exports = exports['default'];
 
-},{"babel-runtime/helpers/interop-require-default":18,"capitalize":22}],392:[function(require,module,exports){
+},{"babel-runtime/helpers/interop-require-default":18,"capitalize":23}],395:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -22778,7 +22821,7 @@ function createTaggedSourceDoc(paragraphs) {
 }
 module.exports = exports['default'];
 
-},{"../getTextBox":395,"./getEditorBody":387,"./getElement":388,"babel-runtime/helpers/interop-require-default":18,"handlebars":146}],393:[function(require,module,exports){
+},{"../getTextBox":398,"./getEditorBody":390,"./getElement":391,"babel-runtime/helpers/interop-require-default":18,"handlebars":139}],396:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -22794,7 +22837,7 @@ exports['default'] = function (newValue) {
 
 module.exports = exports['default'];
 
-},{}],394:[function(require,module,exports){
+},{}],397:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -22815,7 +22858,7 @@ function getHeightIncludeDescendantGrids(span, typeContainer, typeGapValue) {
 
 module.exports = exports["default"];
 
-},{}],395:[function(require,module,exports){
+},{}],398:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -22829,7 +22872,7 @@ function getTextBox(editor) {
 
 module.exports = exports['default'];
 
-},{}],396:[function(require,module,exports){
+},{}],399:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -22852,9 +22895,9 @@ var _Hover = require('./Hover');
 
 var _Hover2 = _interopRequireDefault(_Hover);
 
-var _Display = require('./Display');
+var _AnnotationPosition = require('./AnnotationPosition');
 
-var _Display2 = _interopRequireDefault(_Display);
+var _AnnotationPosition2 = _interopRequireDefault(_AnnotationPosition);
 
 var _utilCursorChanger = require('../../../util/CursorChanger');
 
@@ -22872,49 +22915,47 @@ var _RendererRelationRenderer = require('./Renderer/RelationRenderer');
 
 var _RendererRelationRenderer2 = _interopRequireDefault(_RendererRelationRenderer);
 
+var _updateTextBoxHeight = require('./updateTextBoxHeight');
+
+var _updateTextBoxHeight2 = _interopRequireDefault(_updateTextBoxHeight);
+
 var BODY = '\n<div class="textae-editor__body">\n    <div class="textae-editor__body__annotation-box"></div>\n    <div class="textae-editor__body__text-box"></div>\n</div>\n';
 
-exports['default'] = function (editor, annotationData, selectionModel) {
-  var hover = new _Hover2['default'](editor, annotationData.entity);
+exports['default'] = function (editor, annotationData, selectionModel, buttonController, typeGap, typeContainer, writable) {
+  editor[0].innerHTML = BODY;
+  (0, _setSelectionModelHandler2['default'])(editor, annotationData, selectionModel, buttonController);
 
-  var api = {
-    init: function init(editor, buttonController, typeGap, typeContainer) {
-      (0, _setSelectionModelHandler2['default'])(editor, annotationData, selectionModel, buttonController);
+  var relationRenderer = new _RendererRelationRenderer2['default'](editor, annotationData, selectionModel, typeContainer);
+  var annotationPosition = new _AnnotationPosition2['default'](editor, annotationData, typeContainer, relationRenderer.arrangePositionAll);
 
-      editor[0].innerHTML = BODY;
+  setHandlerOnTyapGapEvent(editor, annotationData, typeGap, typeContainer, annotationPosition);
+  setHandlerOnDisplayEvent(editor, annotationPosition);
 
-      var relationRenderer = new _RendererRelationRenderer2['default'](editor, annotationData, selectionModel, typeContainer);
-      var arrangePositionAllRelation = relationRenderer.init(editor),
-          display = new _Display2['default'](editor, annotationData, typeContainer, arrangePositionAllRelation);
+  initRenderer(editor, annotationData, selectionModel, annotationPosition.update, typeGap, typeContainer, buttonController.buttonStateHelper, relationRenderer);
 
-      setHandlerOnTyapGapEvent(editor, annotationData, typeGap, typeContainer, display);
-      setHandlerOnDisplayEvent(editor, display);
-
-      initRenderer(editor, annotationData, selectionModel, display.update, typeGap, typeContainer, buttonController.buttonStateHelper, relationRenderer);
-
-      api.updateDisplay = function () {
-        display.update(typeGap());
-        lineHeight.reduceBottomSpace(editor[0]);
-      };
-    },
-    hoverRelation: hover
+  return {
+    hoverRelation: new _Hover2['default'](editor, annotationData.entity),
+    updateDisplay: function updateDisplay() {
+      annotationPosition.update(typeGap());
+      (0, _updateTextBoxHeight2['default'])(editor[0]);
+    }
   };
-
-  return api;
 };
 
-function initRenderer(editor, annotationData, selectionModel, updateDisplay, typeGap, typeContainer, buttonStateHelper, relationRenderer) {
+function initRenderer(editor, annotationData, selectionModel, updateAnnotationPosition, typeGap, typeContainer, buttonStateHelper, relationRenderer) {
   var renderer = new _Renderer2['default'](editor, annotationData, selectionModel, buttonStateHelper, typeContainer, typeGap, relationRenderer),
-      debouncedUpdateDisplay = _.debounce(function () {
-    return updateDisplay(typeGap());
+      debouncedUpdateAnnotationPosition = _.debounce(function () {
+    return updateAnnotationPosition(typeGap());
   }, 100);
 
-  renderer.init(editor, annotationData, selectionModel).on('change', debouncedUpdateDisplay).on('all.change', debouncedUpdateDisplay).on('paragraph.change', function () {
-    return lineHeight.reduceBottomSpace(editor[0]);
-  }).on('span.add', debouncedUpdateDisplay).on('span.remove', debouncedUpdateDisplay).on('entity.add', debouncedUpdateDisplay).on('entity.change', debouncedUpdateDisplay).on('entity.remove', debouncedUpdateDisplay).on('relation.add', debouncedUpdateDisplay);
+  renderer.init(editor, annotationData, selectionModel).on('change', debouncedUpdateAnnotationPosition).on('all.change', function () {
+    (0, _updateTextBoxHeight2['default'])(editor[0]);
+    lineHeight.setToTypeGap(editor[0], annotationData, typeContainer, typeGap());
+    debouncedUpdateAnnotationPosition();
+  }).on('span.add', debouncedUpdateAnnotationPosition).on('span.remove', debouncedUpdateAnnotationPosition).on('entity.add', debouncedUpdateAnnotationPosition).on('entity.change', debouncedUpdateAnnotationPosition).on('entity.remove', debouncedUpdateAnnotationPosition).on('relation.add', debouncedUpdateAnnotationPosition);
 }
 
-function setHandlerOnTyapGapEvent(editor, annotationData, typeGap, typeContainer, display) {
+function setHandlerOnTyapGapEvent(editor, annotationData, typeGap, typeContainer, annotationPosition) {
   var setTypeStyle = function setTypeStyle(newValue) {
     return editor.find('.textae-editor__type').css(new _TypeStyle2['default'](newValue));
   };
@@ -22923,24 +22964,18 @@ function setHandlerOnTyapGapEvent(editor, annotationData, typeGap, typeContainer
   typeGap(function (newValue) {
     return lineHeight.setToTypeGap(editor[0], annotationData, typeContainer, newValue);
   });
-  typeGap(display.update);
+  typeGap(annotationPosition.update);
 }
 
-function setHandlerOnDisplayEvent(editor, display) {
+function setHandlerOnDisplayEvent(editor, annotationPosition) {
   // Set cursor control by view rendering events.
   var cursorChanger = new _utilCursorChanger2['default'](editor);
 
-  display.on('render.start', function (editor) {
-    // console.log(editor.editorId, 'render.start');
-    cursorChanger.startWait();
-  }).on('render.end', function (editor) {
-    // console.log(editor.editorId, 'render.end');
-    cursorChanger.endWait();
-  });
+  annotationPosition.on('render.start', cursorChanger.startWait).on('render.end', cursorChanger.endWait);
 }
 module.exports = exports['default'];
 
-},{"../../../util/CursorChanger":421,"./Display":341,"./Hover":353,"./Renderer":390,"./Renderer/RelationRenderer":372,"./TypeStyle":393,"./lineHeight":397,"./setSelectionModelHandler":398,"babel-runtime/helpers/interop-require-default":18,"babel-runtime/helpers/interop-require-wildcard":19}],397:[function(require,module,exports){
+},{"../../../util/CursorChanger":426,"./AnnotationPosition":341,"./Hover":353,"./Renderer":393,"./Renderer/RelationRenderer":374,"./TypeStyle":396,"./lineHeight":400,"./setSelectionModelHandler":402,"./updateTextBoxHeight":403,"babel-runtime/helpers/interop-require-default":18,"babel-runtime/helpers/interop-require-wildcard":19}],400:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -22949,7 +22984,6 @@ Object.defineProperty(exports, '__esModule', {
   value: true
 });
 exports.get = get;
-exports.reduceBottomSpace = reduceBottomSpace;
 exports.set = set;
 exports.setToTypeGap = setToTypeGap;
 
@@ -22961,6 +22995,14 @@ var _getTextBox = require('./getTextBox');
 
 var _getTextBox2 = _interopRequireDefault(_getTextBox);
 
+var _pixelToInt = require('./pixelToInt');
+
+var _pixelToInt2 = _interopRequireDefault(_pixelToInt);
+
+var _updateTextBoxHeight = require('./updateTextBoxHeight');
+
+var _updateTextBoxHeight2 = _interopRequireDefault(_updateTextBoxHeight);
+
 var TEXT_HEIGHT = 23;
 var MARGIN_TOP = 30;
 
@@ -22968,19 +23010,7 @@ function get(editor) {
   var textBox = (0, _getTextBox2['default'])(editor),
       style = window.getComputedStyle(textBox);
 
-  return pixelToInt(style.lineHeight);
-}
-
-// Reduce the space under the .textae-editor__body__text-box same as padding-top.
-
-function reduceBottomSpace(editor) {
-  var textBox = (0, _getTextBox2['default'])(editor),
-      style = window.getComputedStyle(textBox);
-
-  // The height calculated by auto is exclude the value of the padding top.
-  // Rest small space.
-  textBox.style.height = 'auto';
-  textBox.style.height = textBox.offsetHeight - pixelToInt(style.paddingTop) + 20 + 'px';
+  return (0, _pixelToInt2['default'])(style.lineHeight);
 }
 
 function set(editor, heightValue) {
@@ -22990,17 +23020,16 @@ function set(editor, heightValue) {
   textBox.style.paddingTop = heightValue / 2 + 'px';
 
   suppressScrollJump(textBox, heightValue);
-
-  reduceBottomSpace(editor);
+  (0, _updateTextBoxHeight2['default'])(editor);
 }
 
 function setToTypeGap(editor, annotationData, typeContainer, typeGapValue) {
-  var heightOfType = typeGapValue * 18 + 18,
-      maxHeight = undefined;
+  var heightOfType = typeGapValue * 18 + 18;
+  var maxHeight = undefined;
 
   if (annotationData.span.all().length === 0) {
     var style = window.getComputedStyle(editor),
-        n = pixelToInt(style.lineHeight);
+        n = (0, _pixelToInt2['default'])(style.lineHeight);
 
     maxHeight = n;
   } else {
@@ -23016,18 +23045,27 @@ function setToTypeGap(editor, annotationData, typeContainer, typeGapValue) {
 
 function suppressScrollJump(textBox, heightValue) {
   var beforeLineHeight = textBox.style.lineHeight,
-      b = pixelToInt(beforeLineHeight);
+      b = (0, _pixelToInt2['default'])(beforeLineHeight);
 
   if (b) {
     window.scroll(window.scrollX, window.scrollY * heightValue / b);
   }
 }
 
-function pixelToInt(str) {
-  return str === '' ? 0 : parseInt(str, 10);
-}
+},{"./getHeightIncludeDescendantGrids":397,"./getTextBox":398,"./pixelToInt":401,"./updateTextBoxHeight":403,"babel-runtime/helpers/interop-require-default":18}],401:[function(require,module,exports){
+'use strict';
 
-},{"./getHeightIncludeDescendantGrids":394,"./getTextBox":395,"babel-runtime/helpers/interop-require-default":18}],398:[function(require,module,exports){
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
+
+exports['default'] = function (str) {
+  return str === '' ? 0 : parseInt(str, 10);
+};
+
+module.exports = exports['default'];
+
+},{}],402:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -23052,7 +23090,38 @@ function delay150(func) {
 }
 module.exports = exports['default'];
 
-},{"../Selector":335,"babel-runtime/helpers/interop-require-default":18}],399:[function(require,module,exports){
+},{"../Selector":335,"babel-runtime/helpers/interop-require-default":18}],403:[function(require,module,exports){
+'use strict';
+
+var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
+
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
+
+var _getTextBox = require('./getTextBox');
+
+var _getTextBox2 = _interopRequireDefault(_getTextBox);
+
+var _pixelToInt = require('./pixelToInt');
+
+var _pixelToInt2 = _interopRequireDefault(_pixelToInt);
+
+// Reduce the space under the .textae-editor__body__text-box same as padding-top.
+
+exports['default'] = function (editor) {
+  var textBox = (0, _getTextBox2['default'])(editor),
+      style = window.getComputedStyle(textBox);
+
+  // The height calculated by auto is exclude the value of the padding top.
+  // Rest small space.
+  textBox.style.height = 'auto';
+  textBox.style.height = textBox.offsetHeight - (0, _pixelToInt2['default'])(style.paddingTop) + 20 + 'px';
+};
+
+module.exports = exports['default'];
+
+},{"./getTextBox":398,"./pixelToInt":401,"babel-runtime/helpers/interop-require-default":18}],404:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -23122,7 +23191,7 @@ exports['default'] = function (editor, presenter, view) {
 
 module.exports = exports['default'];
 
-},{"babel-runtime/helpers/interop-require-default":18,"delegate":106}],400:[function(require,module,exports){
+},{"babel-runtime/helpers/interop-require-default":18,"delegate":107}],405:[function(require,module,exports){
 'use strict';
 
 var _interopRequireWildcard = require('babel-runtime/helpers/interop-require-wildcard')['default'];
@@ -23142,7 +23211,7 @@ exports['default'] = function (editor, annotationData, typeContainer, typeGap, v
 
 module.exports = exports['default'];
 
-},{"./View/lineHeight":397,"babel-runtime/helpers/interop-require-wildcard":19}],401:[function(require,module,exports){
+},{"./View/lineHeight":400,"babel-runtime/helpers/interop-require-wildcard":19}],406:[function(require,module,exports){
 // Focus of the editor or children element is necessary to listen to keyboard events.
 // Elements be able to focused are the editor, spans and entity types.
 // The focus is lost when spans or entity types are remove.
@@ -23175,7 +23244,7 @@ exports['default'] = function (editor) {
 module.exports = exports['default'];
 // So, focus the editer when spans or entity types are removed and lost focus.
 
-},{}],402:[function(require,module,exports){
+},{}],407:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -23188,7 +23257,7 @@ exports["default"] = function (editor, entityId) {
 
 module.exports = exports["default"];
 
-},{}],403:[function(require,module,exports){
+},{}],408:[function(require,module,exports){
 'use strict';
 
 var _slicedToArray = require('babel-runtime/helpers/sliced-to-array')['default'];
@@ -23241,7 +23310,7 @@ function getElements(editorDom, element) {
   return [all, index];
 }
 
-},{"babel-runtime/core-js/array/from":2,"babel-runtime/helpers/sliced-to-array":20}],404:[function(require,module,exports){
+},{"babel-runtime/core-js/array/from":2,"babel-runtime/helpers/sliced-to-array":20}],409:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -23304,7 +23373,7 @@ function urlDecode(params, name) {
 }
 module.exports = exports['default'];
 
-},{"./getUrlParameters":405,"babel-runtime/helpers/interop-require-default":18}],405:[function(require,module,exports){
+},{"./getUrlParameters":410,"babel-runtime/helpers/interop-require-default":18}],410:[function(require,module,exports){
 // Usage sample: getUrlParameters(location.search).
 'use strict';
 
@@ -23330,7 +23399,7 @@ module.exports = function (urlQuery) {
   }, {});
 };
 
-},{}],406:[function(require,module,exports){
+},{}],411:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -23405,14 +23474,11 @@ exports['default'] = function (editor, dataAccessObject, history, buttonControll
   command = new _Command2['default'](editor, annotationData, selectionModel, history),
       typeGap = new _observ2['default'](-1),
       typeContainer = new _TypeContainer2['default'](annotationData),
-      view = new _View2['default'](editor, annotationData, selectionModel),
-      presenter = new _Presenter2['default'](editor, annotationData, selectionModel, view, command, spanConfig, clipBoard, buttonController, typeGap, typeContainer, writable, params.autocompletion_ws);
+      view = new _View2['default'](editor, annotationData, selectionModel, buttonController, typeGap, typeContainer, writable),
+      presenter = new _Presenter2['default'](editor, annotationData, selectionModel, view, command, spanConfig, clipBoard, buttonController, typeGap, typeContainer, writable, params.autocompletion_ws, params.mode);
 
-  view.init(editor, buttonController, typeGap, typeContainer, writable);
   (0, _bindMouseEvent2['default'])(editor, presenter, view);
   (0, _focusEditorWhenFocusedChildRemoved2['default'])(editor);
-
-  presenter.init(params.mode);
 
   // Manage the original annotation
   var originalAnnotation = undefined;
@@ -23520,7 +23586,7 @@ function getStatusBar(editor, statusBar) {
 }
 module.exports = exports['default'];
 
-},{"../../component/StatusBar":181,"../../util/ajaxAccessor":422,"./APIs":239,"./Command":257,"./DaoHandler":259,"./Presenter":326,"./SpanConfig":337,"./TypeContainer":340,"./View":396,"./bindMouseEvent":399,"./calculateLineHeight":400,"./focusEditorWhenFocusedChildRemoved":401,"./getParams":404,"babel-runtime/helpers/interop-require-default":18,"babel-runtime/helpers/interop-require-wildcard":19,"observ":160}],407:[function(require,module,exports){
+},{"../../component/StatusBar":182,"../../util/ajaxAccessor":427,"./APIs":240,"./Command":258,"./DaoHandler":260,"./Presenter":327,"./SpanConfig":337,"./TypeContainer":340,"./View":399,"./bindMouseEvent":404,"./calculateLineHeight":405,"./focusEditorWhenFocusedChildRemoved":406,"./getParams":409,"babel-runtime/helpers/interop-require-default":18,"babel-runtime/helpers/interop-require-wildcard":19,"observ":153}],412:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -23535,7 +23601,7 @@ exports["default"] = function (allSpans, candidateSpan) {
 
 module.exports = exports["default"];
 
-},{}],408:[function(require,module,exports){
+},{}],413:[function(require,module,exports){
 'use strict';
 
 module.exports = {
@@ -23551,7 +23617,7 @@ module.exports = {
   }
 };
 
-},{}],409:[function(require,module,exports){
+},{}],414:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -23589,7 +23655,7 @@ jQuery.fn.textae = (function () {
   };
 })();
 
-},{"./control":196,"./editor":236,"./tool":416,"babel-runtime/helpers/interop-require-default":18}],410:[function(require,module,exports){
+},{"./control":197,"./editor":237,"./tool":421,"babel-runtime/helpers/interop-require-default":18}],415:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -23620,7 +23686,7 @@ exports['default'] = function (helpDialog, editors) {
 
 module.exports = exports['default'];
 
-},{"./getMousePoint":415,"babel-runtime/helpers/interop-require-default":18}],411:[function(require,module,exports){
+},{"./getMousePoint":420,"babel-runtime/helpers/interop-require-default":18}],416:[function(require,module,exports){
 'use strict';
 
 var _createClass = require('babel-runtime/helpers/create-class')['default'];
@@ -23711,7 +23777,7 @@ function switchActiveClass(editors, selected) {
 }
 module.exports = exports['default'];
 
-},{"babel-runtime/core-js/object/assign":6,"babel-runtime/helpers/class-call-check":14,"babel-runtime/helpers/create-class":15}],412:[function(require,module,exports){
+},{"babel-runtime/core-js/object/assign":6,"babel-runtime/helpers/class-call-check":14,"babel-runtime/helpers/create-class":15}],417:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -23751,7 +23817,7 @@ exports['default'] = function (helpDialog, editors) {
 
 module.exports = exports['default'];
 
-},{"./convertKeyEvent":413,"./getKeyCode":414,"./getMousePoint":415,"babel-runtime/helpers/interop-require-default":18}],413:[function(require,module,exports){
+},{"./convertKeyEvent":418,"./getKeyCode":419,"./getMousePoint":420,"babel-runtime/helpers/interop-require-default":18}],418:[function(require,module,exports){
 'use strict';
 
 var _Map = require('babel-runtime/core-js/map')['default'];
@@ -23774,7 +23840,7 @@ function convertKeyEvent(keyCode) {
 
 module.exports = exports['default'];
 
-},{"babel-runtime/core-js/map":5}],414:[function(require,module,exports){
+},{"babel-runtime/core-js/map":5}],419:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -23787,7 +23853,7 @@ exports["default"] = function (e) {
 
 module.exports = exports["default"];
 
-},{}],415:[function(require,module,exports){
+},{}],420:[function(require,module,exports){
 // Ovserve and record mouse position to return it.
 'use strict';
 
@@ -23807,7 +23873,7 @@ exports['default'] = function () {
 
 module.exports = exports['default'];
 
-},{}],416:[function(require,module,exports){
+},{}],421:[function(require,module,exports){
 'use strict';
 
 var _Object$assign = require('babel-runtime/core-js/object/assign')['default'];
@@ -23937,7 +24003,7 @@ function redrawOnResize(editors) {
 }
 module.exports = exports['default'];
 
-},{"../component/HelpDialog":170,"./ControlButtonHandler":410,"./EditorContainer":411,"./KeyInputHandler":412,"./observeKeyWithoutDialog":417,"./setVeilObserver":419,"babel-runtime/core-js/object/assign":6,"babel-runtime/helpers/interop-require-default":18,"events":109}],417:[function(require,module,exports){
+},{"../component/HelpDialog":171,"./ControlButtonHandler":415,"./EditorContainer":416,"./KeyInputHandler":417,"./observeKeyWithoutDialog":422,"./setVeilObserver":424,"babel-runtime/core-js/object/assign":6,"babel-runtime/helpers/interop-require-default":18,"events":109}],422:[function(require,module,exports){
 // Observe key-input events and convert events to readable code.
 'use strict';
 
@@ -23961,7 +24027,7 @@ exports['default'] = function (keyInputHandler, editors) {
 
 module.exports = exports['default'];
 
-},{}],418:[function(require,module,exports){
+},{}],423:[function(require,module,exports){
 'use strict';
 
 var _Map = require('babel-runtime/core-js/map')['default'];
@@ -23983,7 +24049,7 @@ exports['default'] = function (element) {
 
 module.exports = exports['default'];
 
-},{"babel-runtime/core-js/map":5}],419:[function(require,module,exports){
+},{"babel-runtime/core-js/map":5}],424:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -24024,7 +24090,7 @@ function switchVeil(hasWaitingEditor) {
 }
 module.exports = exports['default'];
 
-},{"./hasWaitingEditor":418,"./veil":420,"babel-runtime/helpers/interop-require-default":18}],420:[function(require,module,exports){
+},{"./hasWaitingEditor":423,"./veil":425,"babel-runtime/helpers/interop-require-default":18}],425:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -24058,7 +24124,7 @@ exports['default'] = {
 };
 module.exports = exports['default'];
 
-},{}],421:[function(require,module,exports){
+},{}],426:[function(require,module,exports){
 'use strict';
 
 var changeCursor = function changeCursor(editor, action) {
@@ -24077,7 +24143,7 @@ module.exports = function (editor) {
   };
 };
 
-},{}],422:[function(require,module,exports){
+},{}],427:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -24136,7 +24202,7 @@ function isEmpty(str) {
   return !str || str === "";
 }
 
-},{}]},{},[409]);
+},{}]},{},[414]);
 
 // for module pattern with tail.js
 (function(jQuery) { // Application main
