@@ -6,7 +6,10 @@ export default function(openOption, id, title, $content) {
     modal: true
   }, openOption)
 
-  return extendDialog(openOption, new Dialog(id, title, $content))
+  const $dialog = new Dialog(id, title, $content)
+
+  $dialog.on('dialogclose', () => $dialog.dialog('destroy'))
+  return extendDialog(openOption, $dialog)
 }
 
 function Dialog(id, title, content) {
