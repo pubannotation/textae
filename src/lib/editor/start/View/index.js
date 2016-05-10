@@ -39,8 +39,8 @@ export default function(editor, annotationData, selectionModel, buttonController
   return {
     hoverRelation: new Hover(editor, annotationData.entity),
     updateDisplay: () => {
-      annotationPosition.update(typeGap())
       updateTextBoxHeight(editor[0])
+      return annotationPosition.update(typeGap())
     }
   }
 }

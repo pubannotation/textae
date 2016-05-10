@@ -13,7 +13,12 @@ export default function(
   return {
     handleKeyInput: (key, value) => handle(keyApiMap, key, value),
     handleButtonClick: (key, value) => handle(iconApiMap, key, value),
-    redraw: () => view.updateDisplay()
+    redraw: () => {
+      // Positions of grids differ from positions of spans when the Maximize button clicked of the chrome and edge on the windows.
+      // They move spans after grids are moved.
+      // We move grids twice.
+      view.updateDisplay().then(view.updateDisplay)
+    }
   }
 }
 

@@ -25,14 +25,10 @@ export default class {
     }
   }
   redraw() {
-    this.editorList.forEach((editor) => window.requestAnimationFrame(editor.api.redraw))
+    this.editorList.forEach((e) => e.api.redraw())
   }
   observeKeyInput(onKeyup) {
-    this.editorList.forEach((editor) => {
-      editor[0].addEventListener('keyup', (event) => {
-        onKeyup(event)
-      })
-    })
+    this.editorList.forEach((e) => e[0].addEventListener('keyup', (event) => onKeyup(event)))
   }
 }
 

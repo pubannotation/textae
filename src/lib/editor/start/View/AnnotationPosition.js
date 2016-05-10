@@ -10,7 +10,7 @@ export default function(editor, annotationData, typeContainer, arrangePositionAl
     update = (typeGapValue) => {
       emitter.emit('render.start', editor)
 
-      gridLayout.arrangePosition(typeGapValue)
+      return gridLayout.arrangePosition(typeGapValue)
         .then(() => renderLazyRelationAll(annotationData.relation.all()))
         .then(arrangePositionAllRelation)
         .then(() => emitter.emit('render.end', editor))
