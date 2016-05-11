@@ -11,6 +11,10 @@ import Selection from './Selection'
 import History from './History'
 import * as observe from './observe'
 import start from './start'
+import {
+  EventEmitter as EventEmitter
+}
+from 'events'
 
 
 export default function() {
@@ -49,6 +53,9 @@ export default function() {
       writable
     )
   }
+
+  // Set the eventEmitter to communicate with the tool and a control.
+  this.eventEmitter = new EventEmitter()
 
   return this
 }

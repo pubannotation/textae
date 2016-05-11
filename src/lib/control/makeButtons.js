@@ -15,6 +15,6 @@ const source = `
 
 let tepmlate = Handlebars.compile(source)
 
-export default function($control, buttonMap) {
-  $control[0].innerHTML = tepmlate(buttonMap)
+export default function(control, buttonMap) {
+  control.innerHTML = tepmlate(buttonMap)
 }

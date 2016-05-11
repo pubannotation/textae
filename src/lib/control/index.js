@@ -10,31 +10,40 @@ const ALWAYS_ENABLES = {
   help: true
 }
 
-// The control is a control bar to edit.
-// This can controls mulitple instance of editor.
-export default function($control) {
-  let buttonList = toButtonList(BUTTON_MAP)
+// The control is a control bar in an editor.
+export default function() {
+  const $control = $(createElement()),
+    buttonList = toButtonList(BUTTON_MAP)
 
-  makeButtons($control, BUTTON_MAP)
+  // Reset the state
+  updateAllButtonEnableState($control, buttonList)
 
   // Public API
   $control.updateAllButtonEnableState = enableButtons => updateAllButtonEnableState(
-      $control,
-      buttonList,
-      enableButtons
+    $control,
+    buttonList,
+    enableButtons
   )
   $control.updateButtonPushState = (buttonType, isPushed) => updateButtonPushState(
-      $control,
-      buttonType,
-      isPushed
+    $control,
+    buttonType,
+    isPushed
   )
 
   return $control
 }
 
+function createElement() {
+  const el = document.createElement('div')
+  el.classList.add('textae-control')
+  makeButtons(el, BUTTON_MAP)
+
+  return el
+}
+
 function updateAllButtonEnableState($control, buttonList, enableButtons) {
   // Make buttons in a enableButtons enabled, and other buttons in the buttonList disabled.
-  let enables = _.extend({}, buttonList, ALWAYS_ENABLES, enableButtons)
+  const enables = Object.assign({}, buttonList, ALWAYS_ENABLES, enableButtons)
 
   // A function to enable/disable button.
   updateButtons($control, buttonList, enables)
