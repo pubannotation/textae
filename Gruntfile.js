@@ -79,7 +79,8 @@ module.exports = function(grunt) {
                       'jquery/dist/jquery.min.*',
                       'toastr/build/toastr.*',
                       'underscore/underscore-min.*',
-                      'element-closest/closest.js'],
+                      'element-closest/closest.js',
+                      'sticky-kit/dist/sticky-kit.min.js'],
                     dest: 'dist/vender',
                     filter: 'isFile'
                 }, {
