@@ -17,17 +17,17 @@
         visibility: hidden;
     }
     /* active editer color */
-    &_term-mode.textae-editor--active {
+    &--term-mode.textae-editor--active {
         .active;
     }
-    &_instance-mode.textae-editor--active {
+    &--instance-mode.textae-editor--active {
         .active;
         .textae-editor__body__text-box__paragraph {
             background-color: fade(@acitveColor, 80%);
             z-index: 2;
         }
     }
-    &_relation-mode.textae-editor--active {
+    &--relation-mode.textae-editor--active {
         background-color: #ffedee;
     }
     &__body {
@@ -134,15 +134,15 @@
             }
         }
     }
-    &_editable &__type-label a {
+    &--editable &__type-label a {
         color: black;
         pointer-events: none;
         text-decoration: none;
     }
     &__type-label,
     &__entity,
-    &_relation-mode &__type:hover &__entity,
-    &_relation-mode &__type:hover &__type-label {
+    &--relation-mode &__type:hover &__entity,
+    &--relation-mode &__type:hover &__type-label {
         opacity: 0.9;
     }
     &__type:hover &__entity-pane,
@@ -239,7 +239,7 @@
         }
     }
     /* term centric mode */
-    &_term-mode {
+    &--term-mode {
         .textae-editor {
             &__grid {
               border-style: none;
@@ -270,7 +270,7 @@
         }
     }
     /* instance edit mode */
-    &_instance-mode {
+    &--instance-mode {
         .textae-editor {
             &__relation:hover,
             &__relation.hover {
@@ -283,7 +283,7 @@
         }
     }
     /* relation edit mode */
-    &_relation-mode {
+    &--relation-mode {
         cursor: pointer;
         .textae-editor__type:hover .textae-editor__type-label {
             box-shadow: none;

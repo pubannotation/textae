@@ -35,10 +35,10 @@ export default function(editor, annotationData, selectionModel, buttonStateHelpe
 
 function changeCssClass(editor, mode) {
   editor
-    .removeClass('textae-editor_term-mode')
-    .removeClass('textae-editor_instance-mode')
-    .removeClass('textae-editor_relation-mode')
-    .addClass('textae-editor_' + mode + '-mode')
+    .removeClass('textae-editor--term-mode')
+    .removeClass('textae-editor--instance-mode')
+    .removeClass('textae-editor--relation-mode')
+    .addClass(`textae-editor--${mode}-mode`)
 }
 
 function removeListeners(selectionModel, entitySelectChanged, buttonStateHelper) {
