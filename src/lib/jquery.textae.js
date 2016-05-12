@@ -22,6 +22,8 @@ jQuery.fn.textae = (function() {
         // Combine a controle to an editor
         combine(e, control())
 
+        e.find('.textae-control').stick_in_parent()
+
         return e
       })
     }
