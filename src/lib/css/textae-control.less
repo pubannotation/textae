@@ -23,6 +23,7 @@
     margin-left: 2px;
     padding: 0 20px 0 10px;
     position: relative;
+    visibility: hidden;
     z-index: 7;
     /*== Elements inside the textae_control ==*/
     &__title {
@@ -128,5 +129,11 @@
     }
     &__line-height-button {
         background: url("./images/btn_line_height_16.png");
+    }
+}
+
+[mode="edit"].textae-editor--active {
+    .textae-control {
+        visibility: visible;
     }
 }
