@@ -9,6 +9,7 @@ export default function(editor) {
 
   priorAttr(params, editor, 'config')
   priorAttr(params, editor, 'status_bar')
+  priorAttr(params, editor, 'control')
 
   // Mode is prior in the url parameter.
   priorUrl(params, editor, 'mode')

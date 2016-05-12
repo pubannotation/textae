@@ -51,6 +51,13 @@ export default function(editor, dataAccessObject, history, buttonController, ann
     ),
     statusBar = getStatusBar(editor, params.status_bar)
 
+  if (params.control === 'visible') {
+    editor[0].classList.add('textae-editor--control-visible')
+  }
+  if (params.control === 'hidden') {
+    editor[0].classList.add('textae-editor--control-hidden')
+  }
+
   dataAccessObject
     .on('load', data => {
       setAnnotation(spanConfig, typeContainer, annotationData, data.annotation, params.config)
