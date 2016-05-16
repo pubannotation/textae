@@ -1,51 +1,60 @@
-import getUrlParameters from './getUrlParameters'
+export default function(element) {
+  const params = new Map()
 
-export default function(editor) {
-  // Read model parameters from url parameters and html attributes.
-  const params = getUrlParameters(location.search)
-
-  // 'source' prefer to 'target'
-  params.target = editor.attr('source') || editor.attr('target') || params.source || params.target
-
-  priorAttr(params, editor, 'config')
-  priorAttr(params, editor, 'status_bar')
-  priorAttr(params, editor, 'control')
-
-  // Mode is prior in the url parameter.
-  priorUrl(params, editor, 'mode')
+  getAttribute(params, element, 'mode')
+  getAttribute(params, element, 'control')
+  getAttribute(params, element, 'status_bar')
+  getAttribute(params, element, 'config')
+  getAttribute(params, element, 'autocompletion_ws')
 
   // Decode URI encode
-  urlDecode(params, 'config')
-  urlDecode(params, 'target')
-  urlDecode(params, 'autocompletion_ws')
-
-  // Read Html text and clear it.
-  const inlineAnnotation = editor.text()
-  editor.empty()
+  decodeUrl(params, 'config')
+  decodeUrl(params, 'autocompletion_ws')
 
   // Set annotaiton parameters.
-  params.annotation = {
-    inlineAnnotation: inlineAnnotation,
-    url: params.target
-  }
+  params.set('annotation', getAnntation(element))
 
   return params
 }
 
-function priorUrl(params, editor, name) {
-  if (!params[name] && editor.attr(name)) {
-    params[name] = editor.attr(name)
+function getAttribute(params, editor, name) {
+  if (editor.getAttribute(name)) {
+    params.set(name, editor.getAttribute(name))
   }
 }
 
-function priorAttr(params, editor, name) {
-  if (editor.attr(name)) {
-    params[name] = editor.attr(name)
+function decodeUrl(params, name) {
+  if (params.has(name)) {
+    params.set(name, decodeURIComponent(params.get(name)))
   }
 }
 
-function urlDecode(params, name) {
-  if (params[name]) {
-    params[name] = decodeURIComponent(params[name])
+function getAnntation(element) {
+  const annotaiton = new Map()
+
+  // Read Html text and clear it.
+  const inlineAnnotation = element.innerText
+  element.innerHTML = ''
+  if (inlineAnnotation) {
+    annotaiton.set('inlineAnnotation', inlineAnnotation)
   }
+
+  // Read url.
+  const url = getUrl(element)
+  if (url) {
+    annotaiton.set('url', getUrl(element))
+  }
+
+  return annotaiton
+}
+
+function getUrl(element) {
+  // 'source' prefer to 'target'
+  const value = element.getAttribute('source') || element.getAttribute('target')
+
+  if (value) {
+    return decodeURIComponent(value)
+  }
+
+  return ''
 }

@@ -14,7 +14,7 @@ import calculateLineHeight from './calculateLineHeight'
 import focusEditorWhenFocusedChildRemoved from './focusEditorWhenFocusedChildRemoved'
 
 export default function(editor, dataAccessObject, history, buttonController, annotationData, selectionModel, clipBoard, writable) {
-  const params = getParams(editor),
+  const params = getParams(editor[0]),
     spanConfig = new SpanConfig(),
     // Users can edit model only via commands.
     command = new Command(editor, annotationData, selectionModel, history),
@@ -33,8 +33,8 @@ export default function(editor, dataAccessObject, history, buttonController, ann
       typeGap,
       typeContainer,
       writable,
-      params.autocompletion_ws,
-      params.mode
+      params.get('autocompletion_ws'),
+      params.get('mode')
     )
 
   bindMouseEvent(editor, presenter, view)
@@ -49,18 +49,18 @@ export default function(editor, dataAccessObject, history, buttonController, ann
       annotationData,
       typeContainer, () => originalAnnotation
     ),
-    statusBar = getStatusBar(editor, params.status_bar)
+    statusBar = getStatusBar(editor, params.get('status_bar'))
 
-  if (params.control === 'visible') {
+  if (params.get('control') === 'visible') {
     editor[0].classList.add('textae-editor--control-visible')
   }
-  if (params.control === 'hidden') {
+  if (params.get('control') === 'hidden') {
     editor[0].classList.add('textae-editor--control-hidden')
   }
 
   dataAccessObject
     .on('load', data => {
-      setAnnotation(spanConfig, typeContainer, annotationData, data.annotation, params.config)
+      setAnnotation(spanConfig, typeContainer, annotationData, data.annotation, params.get('config'))
       statusBar.status(data.source)
       originalAnnotation = data.annotation
     })
@@ -83,23 +83,23 @@ export default function(editor, dataAccessObject, history, buttonController, ann
 }
 
 function loadAnnotation(spanConfig, typeContainer, annotationData, statusBar, params, dataAccessObject) {
-  const annotation = params.annotation
+  const annotation = params.get('annotation')
 
   if (annotation) {
-    if (annotation.inlineAnnotation) {
+    if (annotation.has('inlineAnnotation')) {
       // Set an inline annotation.
-      let originalAnnotation = JSON.parse(annotation.inlineAnnotation)
+      let originalAnnotation = JSON.parse(annotation.get('inlineAnnotation'))
 
-      setAnnotation(spanConfig, typeContainer, annotationData, originalAnnotation, params.config)
+      setAnnotation(spanConfig, typeContainer, annotationData, originalAnnotation, params.get('config'))
       statusBar.status('inline')
       return originalAnnotation
-    } else if (annotation.url) {
+    } else if (annotation.has('url')) {
       // Load an annotation from server.
-      dataAccessObject.getAnnotationFromServer(annotation.url)
+      dataAccessObject.getAnnotationFromServer(annotation.get('url'))
     } else {
       setAnnotation(spanConfig, typeContainer, annotationData, {
         text: 'Currently, the document is empty. Use the "import" button or press the key "i" to open a document with annotation.'
-      }, params.config)
+      }, params.get('config'))
     }
   }
 }
