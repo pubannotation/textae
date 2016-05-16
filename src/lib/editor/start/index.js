@@ -99,7 +99,7 @@ function loadAnnotation(spanConfig, typeContainer, annotationData, statusBar, pa
     } else {
       setAnnotation(spanConfig, typeContainer, annotationData, {
         text: 'Currently, the document is empty. Use the "import" button or press the key "i" to open a document with annotation.'
-      })
+      }, params.config)
     }
   }
 }
