@@ -3,12 +3,16 @@ import extendDialog from './extendDialog'
 export default function(openOption, id, title, $content) {
   openOption = Object.assign({
     resizable: false,
-    modal: true
+    modal: true,
+    dialogClass: 'textae-editor--dialog'
   }, openOption)
 
   const $dialog = new Dialog(id, title, $content)
 
-  $dialog.on('dialogclose', () => $dialog.dialog('destroy'))
+  $dialog.on('dialogclose', () => {
+    // Delay destroy to check a click target is child of the dialog.
+    requestAnimationFrame(() => $dialog.dialog('destroy'))
+  })
   return extendDialog(openOption, $dialog)
 }
 

@@ -39,9 +39,17 @@ export default function(editor, presenter, view) {
   // Unselect the editor when a child element of other than the editor is clicked.
   // The focus events are not fired on the un-focusable elements like div.
   document.body.addEventListener('click', (e) => {
-    if (e.target.closest('.textae-editor') !== dom) {
-      presenter.event.editorUnselected()
+    // Ignore clicks on the jQuery UI dialogs.
+    if (e.target.closest('.textae-editor--dialog') !== null) {
+      return
     }
+
+    // Ignore clicks on children of the this Editor
+    if (e.target.closest('.textae-editor') === dom) {
+      return
+    }
+
+    presenter.event.editorUnselected()
   })
 
   // Highlight retaitons when related entity is heverd.

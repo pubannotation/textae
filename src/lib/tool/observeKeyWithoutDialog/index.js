@@ -14,6 +14,6 @@ export default function(editors) {
 
   // Disable/Enable key-input When a jquery-ui dialog is opened/closeed
   $('body')
-    .on('dialogopen', '.ui-dialog', () => onKeyup = noop)
-    .on('dialogclose', '.ui-dialog', () => onKeyup = keyInputHandler)
+    .on('dialogopen', '.textae-editor--dialog', () => onKeyup = noop)
+    .on('dialogclose', '.textae-editor--dialog', () => onKeyup = keyInputHandler)
 }
