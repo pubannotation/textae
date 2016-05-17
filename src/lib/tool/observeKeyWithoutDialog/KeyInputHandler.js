@@ -8,7 +8,7 @@ export default function(helpDialog, editors) {
 
     if (key === 'H') {
       helpDialog()
-    } else if (editors.selected) {
+    } else {
       editors.selected.api.handleKeyInput(key, {
         point: getMousePoint(),
         shiftKey: e.shiftKey
