@@ -21,6 +21,21 @@
 
 <body>
   <div class="textae-editor"></div>
+  <script>
+  !function(){
+    if(location.search){
+      const queries = location.search.substring(1).split('&')
+      const editors = Array.from(document.querySelectorAll('.textae-editor'))
+
+      for (let editor of editors) {
+        for (let query of queries) {
+          let name = query.split('=')[0]
+          editor.setAttribute(name, query.split('=')[1] ? decodeURIComponent(query.split('=')[1]) : name)
+        }
+      }
+    }
+  }()
+  </script>
 </body>
 
 </html>
