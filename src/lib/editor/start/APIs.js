@@ -18,7 +18,10 @@ export default function(
       // They move spans after grids are moved.
       // We move grids twice.
       view.updateDisplay().then(view.updateDisplay)
-    }
+    },
+    // To trigger button state update events on init.
+    // Because an inline annotation is readed before a binding the control.
+    updateButtons: buttonController.buttonStateHelper.propagate
   }
 }
 

@@ -9,6 +9,8 @@ module.exports = function combine(editor, control) {
     .on('textae.control.button.push', (data) => control.updateButtonPushState(data.buttonName, data.state))
     .on('textae.control.buttons.change', (enableButtons) => control.updateAllButtonEnableState(enableButtons))
 
+  editor.api.updateButtons()
+
   const helpDialog = new HelpDialog(),
     handleControlButtonClick = new ControlButtonHandler(editor, helpDialog)
 

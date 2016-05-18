@@ -15,9 +15,6 @@ export default function() {
   const $control = $(createElement()),
     buttonList = toButtonList(BUTTON_MAP)
 
-  // Reset the state
-  updateAllButtonEnableState($control, buttonList)
-
   // Public API
   $control.updateAllButtonEnableState = enableButtons => updateAllButtonEnableState(
     $control,
