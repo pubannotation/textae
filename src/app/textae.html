@@ -22,6 +22,7 @@
 <body>
   <div class="textae-editor"></div>
   <script>
+  // Run scripts before start the textae.
   !function(){
     if(location.search){
       const queries = location.search.substring(1).split('&')
@@ -35,6 +36,11 @@
       }
     }
   }()
+
+  // Run scripts after start the textae.
+  setTimeout(() => {
+    document.querySelector('.textae-editor').focus()
+  }, 0)
   </script>
 </body>
 
