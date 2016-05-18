@@ -1,9 +1,6 @@
 // for module pattern with tail.js
 (function(jQuery) { // Application main
-  $(function() { // setup contorl
-    $(".textae-control").textae()
-
-    // setup editor
+  $(function() {
     $(".textae-editor").textae()
   })
 })(jQuery)
