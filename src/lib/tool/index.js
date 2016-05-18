@@ -1,6 +1,7 @@
 import EditorContainer from './EditorContainer'
 import observeKeyWithoutDialog from './observeKeyWithoutDialog'
 import setVeilObserver from './setVeilObserver'
+import selectUnselectEditorOn from './selectUnselectEditorOn'
 
 // The tool manages interactions between components.
 export default function() {
@@ -10,6 +11,7 @@ export default function() {
   window.addEventListener('load', () => {
     observeKeyWithoutDialog(editors)
     redrawOnResize(editors)
+    selectUnselectEditorOn(editors)
   })
 
   return {

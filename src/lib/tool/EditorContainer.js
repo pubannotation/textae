@@ -30,6 +30,9 @@ export default class {
   observeKeyInput(onKeyup) {
     this.editorList.forEach((e) => e[0].addEventListener('keyup', (event) => onKeyup(event)))
   }
+  findByDom(dom) {
+    return this.editorList.filter((e) => e[0] === dom)[0]
+  }
 }
 
 function getNewId(editorList) {
