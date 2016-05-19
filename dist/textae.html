@@ -6,7 +6,7 @@
 
   <link rel="stylesheet" href="vender/jquery-ui.min.css" />
   <link rel="stylesheet" href="vender/toastr/build/toastr.min.css" />
-  <link rel="stylesheet" href="lib/css/textae-4.4.3.min.css">
+  <link rel="stylesheet" href="lib/css/textae-4.5.0.min.css">
   <link rel="stylesheet" href="textae.css">
 
   <script src="vender/jquery/dist/jquery.min.js"></script>
@@ -15,12 +15,33 @@
   <script src="vender/underscore/underscore-min.js"></script>
   <script src="vender/toastr/build/toastr.min.js"></script>
   <script src="vender/element-closest/closest.js"></script>
-  <script src="lib/textae-4.4.3.min.js"></script>
+  <script src="vender/sticky-kit/dist/sticky-kit.min.js"></script>
+  <script src="lib/textae-4.5.0.min.js"></script>
 </head>
 
 <body>
-  <div class="textae-control"></div>
   <div class="textae-editor"></div>
+  <script>
+  // Run scripts before start the textae.
+  !function(){
+    if(location.search){
+      const queries = location.search.substring(1).split('&')
+      const editors = Array.from(document.querySelectorAll('.textae-editor'))
+
+      for (let editor of editors) {
+        for (let query of queries) {
+          let name = query.split('=')[0]
+          editor.setAttribute(name, query.split('=')[1] ? decodeURIComponent(query.split('=')[1]) : name)
+        }
+      }
+    }
+  }()
+
+  // Run scripts after start the textae.
+  setTimeout(() => {
+    document.querySelector('.textae-editor').focus()
+  }, 0)
+  </script>
 </body>
 
 </html>
