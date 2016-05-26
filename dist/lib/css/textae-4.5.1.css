@@ -30,9 +30,8 @@
   border-right: 5px solid #558;
   box-shadow: 6px 6px 6px 6px rgba(0, 0, 0, 0.4);
   display: inline-block;
-  height: 28px;
   margin-left: 2px;
-  padding: 0 20px 0 10px;
+  padding: 0 20px 5px 10px;
   position: relative;
   visibility: hidden;
   z-index: 7;
@@ -44,7 +43,7 @@
   margin-right: 10px;
   font-weight: bold;
   text-shadow: 2px 2px 5px #555;
-  font-size: 20px;
+  font-size: 18px;
   line-height: normal;
   vertical-align: bottom;
 }
