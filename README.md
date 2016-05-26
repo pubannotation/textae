@@ -89,6 +89,35 @@ Contributors (so far)
 - Shigeru Nakajima
 
 
+## For developer
+
+You need [Node.js](https://nodejs.org)
+
+```
+git clone git@github.com:pubannotation/textae.git
+cd textae/
+npm install
+npm i -g grunt-cli
+grunt less
+npm run watch
+```
+
+Open a browser [the url to develop](http://localhost:8000/dev/development.html)
+
+### Build
+
+```
+npm run dist
+```
+
+Distribution files will be create under the `dist` ditrectory.
+
+```
+grunt demo
+```
+
+Open [the demo url](http://localhost:8000/dist/demo/development.html) with distribtion files.
+
 License
 -------
 
