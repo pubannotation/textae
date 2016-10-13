@@ -7,7 +7,7 @@ export default function(dialog, input, label, typeContainer, autocompletionWs, d
       label.innerText = ''
       source(typeContainer, autocompletionWs, request, response)
     },
-    minLength: 2,
+    minLength: 3,
     select: (event, ui) => select(input, label, ui)
   })
 
