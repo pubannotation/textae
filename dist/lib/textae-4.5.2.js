@@ -13405,7 +13405,7 @@ exports['default'] = function (dialog, input, label, typeContainer, autocompleti
       label.innerText = '';
       (0, _source3['default'])(typeContainer, autocompletionWs, request, response);
     },
-    minLength: 2,
+    minLength: 3,
     select: function select(event, ui) {
       return _select(input, label, ui);
     }
