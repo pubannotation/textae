@@ -1,15 +1,19 @@
 import source from './source'
+import customizeqQueryUiAutocomplete from './customize-jquery-ui-autocomplete'
+
+customizeqQueryUiAutocomplete()
 
 export default function(dialog, input, label, typeContainer, autocompletionWs, done, currentId) {
   // Update the source
-  $(input).autocomplete({
-    source: (request, response) => {
-      label.innerText = ''
-      source(typeContainer, autocompletionWs, request, response)
-    },
-    minLength: 3,
-    select: (event, ui) => select(input, label, ui)
-  })
+  $(input)
+    .autocomplete({
+      source: (request, response) => {
+        label.innerText = ''
+        source(typeContainer, autocompletionWs, request, response)
+      },
+      minLength: 3,
+      select: (event, ui) => select(input, label, ui)
+    })
 
   // Update done handler
   dialog.done = done
@@ -25,7 +29,7 @@ export default function(dialog, input, label, typeContainer, autocompletionWs, d
 
 function select(input, label, ui) {
   input.value = ui.item.raw.id
-  label.innerText = ui.item.raw.label
+  label.innerHTML = ui.item.raw.label
 
   return false
 }
