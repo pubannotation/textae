@@ -30,11 +30,7 @@ module.exports = function(grunt) {
             },
             css: {
                 src: [
-                    'src/lib/css/textae.css',
-                    'src/lib/css/textae-control.css',
-                    'src/lib/css/textae-editor.css',
-                    'src/lib/css/textae-editor-dialog.css',
-                    'src/lib/css/textae-editor-type-pallet.css'
+                    'src/lib/css/textae.css'
                 ],
                 dest: 'dist/lib/css/<%= pkg.name %>-<%= pkg.version %>.css',
             }
@@ -105,11 +101,7 @@ module.exports = function(grunt) {
         less: {
             all: {
                 files: {
-                    'src/lib/css/textae.css': 'src/lib/css/textae.less',
-                    'src/lib/css/textae-control.css': 'src/lib/css/textae-control.less',
-                    'src/lib/css/textae-editor.css': 'src/lib/css/textae-editor.less',
-                    'src/lib/css/textae-editor-dialog.css': 'src/lib/css/textae-editor-dialog.less',
-                    'src/lib/css/textae-editor-type-pallet.css': 'src/lib/css/textae-editor-type-pallet.less'
+                    'src/lib/css/textae.css': 'src/lib/css/textae.less'
                 }
             }
         },
