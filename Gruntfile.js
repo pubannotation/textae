@@ -65,7 +65,7 @@ module.exports = function(grunt) {
                 }, {
                     expand: true,
                     cwd: 'dev/vender',
-                    src: ['images/*', 'jquery-ui.min.*', 'jquery.jsPlumb-1.5.2-min.js'],
+                    src: ['images/*', 'jquery-ui.min.*', 'jquery.jsPlumb-1.5.2-min.js', 'font-awesome-4.6.3/**'],
                     dest: 'dist/vender',
                     filter: 'isFile'
                 }, {

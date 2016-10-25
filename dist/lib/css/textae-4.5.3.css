@@ -1,19 +1,3 @@
-* {
-  box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  font-family: verdana, arial, helvetica, sans-serif;
-}
-.textae-tool__key-help {
-  background: url("images/keyhelp.png");
-  height: 240px;
-  width: 480px;
-  color: #ddd;
-}
-/* To show candidates of the autocomplete, overwrite a style of the jQuery-ui dialog */
-.ui-dialog {
-  overflow: visible;
-}
-
 /* control */
 .textae-control {
   background-color: #bbe;
@@ -153,7 +137,202 @@
 .textae-editor--control-hidden .textae-control {
   visibility: hidden !important;
 }
-
+/* dialog */
+.textae-editor__load-dialog__label {
+  display: inline-block;
+  padding-right: 2px;
+  text-align: right;
+}
+.textae-editor__load-dialog__label::after {
+  content: ":";
+}
+.textae-editor__load-dialog__label {
+  line-height: 1.1em;
+  width: 57px;
+}
+.textae-editor__load-dialog__row {
+  margin-bottom: 4px;
+}
+.textae-editor__load-dialog__file-name {
+  line-height: 16px;
+  height: 25px;
+  width: 340px;
+}
+.textae-editor__load-dialog__file {
+  line-height: 16px;
+  height: 25px;
+  width: 340px;
+}
+.textae-editor__save-dialog__label {
+  display: inline-block;
+  padding-right: 2px;
+  text-align: right;
+}
+.textae-editor__save-dialog__label::after {
+  content: ":";
+}
+.textae-editor__save-dialog__label {
+  line-height: 1.1em;
+  width: 57px;
+}
+.textae-editor__save-dialog__row {
+  margin-bottom: 4px;
+}
+.textae-editor__save-dialog__server-file-name {
+  line-height: 16px;
+  height: 25px;
+  width: 340px;
+}
+.textae-editor__save-dialog__local-file-name {
+  line-height: 16px;
+  height: 25px;
+  width: 340px;
+}
+.textae-editor__edit-id-dialog__id {
+  width: 498px;
+}
+.textae-editor__setting-dialog__label {
+  display: inline-block;
+  padding-right: 2px;
+  text-align: right;
+}
+.textae-editor__setting-dialog__label::after {
+  content: ":";
+}
+.textae-editor__setting-dialog__label {
+  width: 114px;
+}
+.textae-editor__setting-dialog__type-gap[disabled="disabled"] {
+  background-color: #999;
+}
+.textae-editor__valiondate-dialog__content h1 {
+  font-size: 1em;
+  font-weight: normal;
+}
+.textae-editor__valiondate-dialog__content h2 {
+  font-size: 1em;
+  font-weight: normal;
+}
+.textae-editor__valiondate-dialog__content table {
+  border-collapse: collapse;
+  font-size: 0.65em;
+  margin-bottom: 20px;
+  width: 100%;
+}
+.textae-editor__valiondate-dialog__content table th {
+  border: 1px solid #b9b9b9;
+  padding: 3px;
+  background-color: #ddd;
+  color: #333;
+}
+.textae-editor__valiondate-dialog__content table th.id {
+  width: 32px;
+}
+.textae-editor__valiondate-dialog__content table th.range {
+  width: 50px;
+}
+.textae-editor__valiondate-dialog__content table th.referencedItem {
+  width: 100px;
+}
+.textae-editor__valiondate-dialog__content table td {
+  border: 1px solid #b9b9b9;
+  padding: 3px;
+  background-color: #fff;
+}
+.textae-editor__valiondate-dialog__content table td.alert {
+  color: red;
+}
+.textae-editor--dialog {
+  /* To show candidates of the autocomplete, overwrite a style of the jQuery-ui dialog */
+}
+.textae-editor--dialog.ui-dialog {
+  overflow: visible;
+}
+.textae-editor--dialog .ui-autocomplete {
+  width: 498px;
+}
+.textae-editor--dialog .ui-menu-item {
+  max-width: 100%;
+}
+.textae-editor--dialog .ui-menu-item div {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.textae-editor--dialog .ui-state-focus {
+  margin: -1px 0;
+}
+.textae-editor--dialog .ui-menu-item:hover div {
+  overflow: visible;
+}
+/* pallet */
+.textae-editor__type-pallet {
+  background-color: rgba(200, 255, 255, 0.9);
+  border: solid 2px #333;
+  font-size: x-small;
+  margin: 0;
+  max-height: 450px;
+  line-height: normal;
+  overflow-x: scroll;
+  padding: 0;
+  position: fixed;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  width: auto;
+  z-index: 250;
+}
+.textae-editor__type-pallet table {
+  border-collapse: collapse;
+  border-color: #aaa;
+  border-style: solid;
+  border-width: 1px;
+  margin: 0;
+  padding: 0;
+}
+.textae-editor__type-pallet tr {
+  border-collapse: collapse;
+  border-color: #aaa;
+  border-style: solid;
+  border-width: 1px;
+  margin: 0;
+  padding: 0;
+}
+.textae-editor__type-pallet td {
+  border-collapse: collapse;
+  border-color: #aaa;
+  border-style: solid;
+  border-width: 1px;
+  margin: 0;
+  padding: 0;
+}
+.textae-editor__type-pallet td.textae-editor__type-pallet__entity-type__label {
+  overflow-x: hidden;
+  padding: 5px;
+  max-width: 500px;
+}
+.textae-editor__type-pallet table {
+  width: 100%;
+}
+.textae-editor__type-pallet__entity-type {
+  opacity: 0.8;
+}
+.textae-editor__type-pallet__entity-type:hover {
+  opacity: 1;
+}
+.textae-editor__type-pallet__entity-type__radio,
+.textae-editor__type-pallet__entity-type__label {
+  cursor: pointer;
+}
+.textae-editor__type-pallet__link {
+  background: url("images/link.png");
+  display: inline-block;
+  height: 16px;
+  width: 16px;
+}
 .textae-editor {
   line-height: 41px;
   overflow: hidden;
@@ -463,178 +642,14 @@
 ._jsPlumb_endpoint {
   visibility: hidden;
 }
-
-/* dialog */
-.textae-editor__load-dialog__label {
-  display: inline-block;
-  padding-right: 2px;
-  text-align: right;
+* {
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  font-family: verdana, arial, helvetica, sans-serif;
 }
-.textae-editor__load-dialog__label::after {
-  content: ":";
-}
-.textae-editor__load-dialog__label {
-  line-height: 1.1em;
-  width: 57px;
-}
-.textae-editor__load-dialog__row {
-  margin-bottom: 4px;
-}
-.textae-editor__load-dialog__file-name {
-  line-height: 16px;
-  height: 25px;
-  width: 340px;
-}
-.textae-editor__load-dialog__file {
-  line-height: 16px;
-  height: 25px;
-  width: 340px;
-}
-.textae-editor__save-dialog__label {
-  display: inline-block;
-  padding-right: 2px;
-  text-align: right;
-}
-.textae-editor__save-dialog__label::after {
-  content: ":";
-}
-.textae-editor__save-dialog__label {
-  line-height: 1.1em;
-  width: 57px;
-}
-.textae-editor__save-dialog__row {
-  margin-bottom: 4px;
-}
-.textae-editor__save-dialog__server-file-name {
-  line-height: 16px;
-  height: 25px;
-  width: 340px;
-}
-.textae-editor__save-dialog__local-file-name {
-  line-height: 16px;
-  height: 25px;
-  width: 340px;
-}
-.textae-editor__edit-id-dialog__id {
-  width: 498px;
-}
-.textae-editor__setting-dialog__label {
-  display: inline-block;
-  padding-right: 2px;
-  text-align: right;
-}
-.textae-editor__setting-dialog__label::after {
-  content: ":";
-}
-.textae-editor__setting-dialog__label {
-  width: 114px;
-}
-.textae-editor__setting-dialog__type-gap[disabled="disabled"] {
-  background-color: #999;
-}
-.textae-editor__valiondate-dialog__content h1 {
-  font-size: 1em;
-  font-weight: normal;
-}
-.textae-editor__valiondate-dialog__content h2 {
-  font-size: 1em;
-  font-weight: normal;
-}
-.textae-editor__valiondate-dialog__content table {
-  border-collapse: collapse;
-  font-size: 0.65em;
-  margin-bottom: 20px;
-  width: 100%;
-}
-.textae-editor__valiondate-dialog__content table th {
-  border: 1px solid #b9b9b9;
-  padding: 3px;
-  background-color: #ddd;
-  color: #333;
-}
-.textae-editor__valiondate-dialog__content table th.id {
-  width: 32px;
-}
-.textae-editor__valiondate-dialog__content table th.range {
-  width: 50px;
-}
-.textae-editor__valiondate-dialog__content table th.referencedItem {
-  width: 100px;
-}
-.textae-editor__valiondate-dialog__content table td {
-  border: 1px solid #b9b9b9;
-  padding: 3px;
-  background-color: #fff;
-}
-.textae-editor__valiondate-dialog__content table td.alert {
-  color: red;
-}
-
-/* pallet */
-.textae-editor__type-pallet {
-  background-color: rgba(200, 255, 255, 0.9);
-  border: solid 2px #333;
-  font-size: x-small;
-  margin: 0;
-  max-height: 450px;
-  line-height: normal;
-  overflow-x: scroll;
-  padding: 0;
-  position: fixed;
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  -khtml-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  width: auto;
-  z-index: 250;
-}
-.textae-editor__type-pallet table {
-  border-collapse: collapse;
-  border-color: #aaa;
-  border-style: solid;
-  border-width: 1px;
-  margin: 0;
-  padding: 0;
-}
-.textae-editor__type-pallet tr {
-  border-collapse: collapse;
-  border-color: #aaa;
-  border-style: solid;
-  border-width: 1px;
-  margin: 0;
-  padding: 0;
-}
-.textae-editor__type-pallet td {
-  border-collapse: collapse;
-  border-color: #aaa;
-  border-style: solid;
-  border-width: 1px;
-  margin: 0;
-  padding: 0;
-}
-.textae-editor__type-pallet td.textae-editor__type-pallet__entity-type__label {
-  overflow-x: hidden;
-  padding: 5px;
-  max-width: 500px;
-}
-.textae-editor__type-pallet table {
-  width: 100%;
-}
-.textae-editor__type-pallet__entity-type {
-  opacity: 0.8;
-}
-.textae-editor__type-pallet__entity-type:hover {
-  opacity: 1;
-}
-.textae-editor__type-pallet__entity-type__radio,
-.textae-editor__type-pallet__entity-type__label {
-  cursor: pointer;
-}
-.textae-editor__type-pallet__link {
-  background: url("images/link.png");
-  display: inline-block;
-  height: 16px;
-  width: 16px;
+.textae-tool__key-help {
+  background: url("images/keyhelp.png");
+  height: 240px;
+  width: 480px;
+  color: #ddd;
 }
