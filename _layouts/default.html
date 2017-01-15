@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+	<meta charset="utf-8">
+	<title>{{ page.title }}</title>
+	<meta name="viewport" content="width=device-width">
+	<link rel="stylesheet" href="{{ site.baseurl }}/css/layout.css" />
+	<link rel="stylesheet" href="{{ site.baseurl }}/css/pitch.css" />
+	<link rel="stylesheet" href="{{ site.baseurl }}/css/docs.css" />
+	<script src="https://use.fontawesome.com/d09f0623af.js"></script>
+</head>
+
+<body class="wrap">
+	<div id="header" class="frame">
+		{% include _header.html %}
+	</div>
+
+	<div id="main">
+		{{ content }}
+	</div>
+
+	<div id="footer" class="frame">
+		{% include _footer.html %}
+	</div>
+</body>
+
+</html>

@@ -1,0 +1,7 @@
+<div class="side-contents hide-on-mobiles">
+  <aside>
+    {% for section in site.data.docs %}
+    {% include docs_ul.html items=section.docs %}
+    {% endfor %}
+  </aside>
+</div>
