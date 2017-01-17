@@ -47,7 +47,9 @@ export default function(editor, dataAccessObject, history, buttonController, ann
       dataAccessObject,
       history,
       annotationData,
-      typeContainer, () => originalAnnotation
+      typeContainer,
+      () => originalAnnotation,
+      params.get('annotation')
     ),
     statusBar = getStatusBar(editor, params.get('status_bar'))
 

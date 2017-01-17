@@ -45,12 +45,29 @@ function getAnntation(element) {
     annotaiton.set('url', getUrl(element))
   }
 
+  // Read save_to
+  const saveTo = getSaveToUrl(element)
+  if (saveTo) {
+    annotaiton.set('save_to', getSaveToUrl(element))
+  }
+
   return annotaiton
 }
 
 function getUrl(element) {
   // 'source' prefer to 'target'
   const value = element.getAttribute('source') || element.getAttribute('target')
+
+  if (value) {
+    return decodeURIComponent(value)
+  }
+
+  return ''
+}
+
+function getSaveToUrl(element) {
+  // 'save_to'
+  const value = element.getAttribute('save_to')
 
   if (value) {
     return decodeURIComponent(value)
