@@ -1,4 +1,7 @@
 import extendDialog from './extendDialog'
+import $ from 'jquery'
+global.jQuery = require("jquery")
+require("jq-ui")
 
 export default function(openOption, id, title, $content) {
   openOption = Object.assign({

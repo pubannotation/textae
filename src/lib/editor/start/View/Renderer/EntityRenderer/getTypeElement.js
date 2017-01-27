@@ -1,6 +1,7 @@
 import idFactory from '../../../../idFactory'
 import getTypeDom from '../getTypeDom'
 import setLabelToTypeLabel from './setLabelToTypeLabel'
+import $ from 'jquery'
 
 // render type unless exists.
 export default function(namespace, typeContainer, gridRenderer, spanId, type) {

@@ -3,6 +3,7 @@ import {
   EventEmitter as EventEmitter
 }
 from 'events'
+import $ from 'jquery'
 
 export default function(editor, annotationData, typeContainer, arrangePositionAllRelation) {
   const emitter = new EventEmitter(),

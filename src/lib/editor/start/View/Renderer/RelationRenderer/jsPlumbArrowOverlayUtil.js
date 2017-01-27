@@ -1,3 +1,5 @@
+import _ from 'underscore'
+
 var // Overlay styles for jsPlubm connections.
   NORMAL_ARROW = {
     width: 7,

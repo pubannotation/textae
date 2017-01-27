@@ -1,3 +1,5 @@
+import _ from 'underscore'
+
 module.exports = function(command, annotationData, selectionModel, clipBoard) {
   var copyEntities = function() {
       // Unique Entities. Because a entity is deplicate When a span and thats entity is selected.

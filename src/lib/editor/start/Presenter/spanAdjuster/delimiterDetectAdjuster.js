@@ -1,5 +1,6 @@
 import skipCharacters from './skipCharacters'
 import skipBlank from './skipBlank'
+import _ from 'underscore'
 
 var getPrev = function(str, position) {
     return [str.charAt(position), str.charAt(position - 1)]

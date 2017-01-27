@@ -2,6 +2,7 @@ import {
   EventEmitter as EventEmitter
 }
 from 'events'
+import _ from 'underscore'
 
 export default function() {
   const states = {},

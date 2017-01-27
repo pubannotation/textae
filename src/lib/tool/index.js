@@ -2,6 +2,7 @@ import EditorContainer from './EditorContainer'
 import observeKeyWithoutDialog from './observeKeyWithoutDialog'
 import setVeilObserver from './setVeilObserver'
 import selectUnselectEditorOn from './selectUnselectEditorOn'
+import _ from 'underscore'
 
 // The tool manages interactions between components.
 export default function() {

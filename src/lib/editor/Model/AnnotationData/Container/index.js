@@ -6,6 +6,7 @@ import ModelContainer from './ModelContainer'
 import ParagraphContainer from './ParagraphContainer'
 import SpanContainer from './SpanContainer'
 import EntityContainer from './EntityContainer'
+import _ from 'underscore'
 
 export default function(editor) {
   let emitter = new EventEmitter(),

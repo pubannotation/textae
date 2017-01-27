@@ -1,5 +1,5 @@
 export default function(dataAccessObject, history, annotationData, typeContainer, getOriginalAnnotation, params) {
-  const showAccess = () => dataAccessObject.showAccess(history.hasAnythingToSave()),
+  const showAccess = () => dataAccessObject.showAccess(history.hasAnythingToSave(), params),
     showSave = () => showSaveDailogWithEditedData(dataAccessObject, annotationData, typeContainer, getOriginalAnnotation, params)
 
   return {

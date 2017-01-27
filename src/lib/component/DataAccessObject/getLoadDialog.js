@@ -3,6 +3,8 @@ import label from './label'
 import getAnnotationFromServer from './getAnnotationFromServer'
 import CursorChanger from '../../util/CursorChanger'
 import getDialog from './getDialog'
+import $ from 'jquery'
+import _ from 'underscore'
 
 module.exports = function(api, confirmDiscardChangeMessage, setDataSourceUrl, editor) {
   var getAnnotationFromFile = function(file) {
@@ -12,11 +14,13 @@ module.exports = function(api, confirmDiscardChangeMessage, setDataSourceUrl, ed
       reader.onload = function() {
         // Load json or .txt
         let annotation
-        if(isJSON(this.result)){
+        if (isJSON(this.result)) {
           annotation = JSON.parse(this.result)
-        }else if(isTxtFile(firstFile.name)){
+        } else if (isTxtFile(firstFile.name)) {
           // If this is .txt, New annotation json is made from .txt
-          annotation = {"text":this.result}
+          annotation = {
+            text: this.result
+          }
         }
 
         api.emit('load', {

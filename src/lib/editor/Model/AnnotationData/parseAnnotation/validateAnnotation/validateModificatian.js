@@ -1,5 +1,6 @@
 import validate from './validate'
 import isContains from './isContains'
+import _ from 'underscore'
 
 export default function(denotations, relations, modifications) {
   const resultModification = validate(

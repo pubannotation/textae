@@ -1,4 +1,5 @@
 import Selector from '../../Selector'
+import _ from 'underscore'
 
 export default function(editor, annotationData, selectionModel, buttonStateHelper) {
   const selector = new Selector(editor, annotationData),

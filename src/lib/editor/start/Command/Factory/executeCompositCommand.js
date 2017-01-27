@@ -1,5 +1,6 @@
 import invokeCommand from '../invokeCommand'
 import commandLog from './commandLog'
+import _ from 'underscore'
 
 var setRevertAndLog = function() {
     var log = function(prefix, param) {

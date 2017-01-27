@@ -1,4 +1,5 @@
 import capitalize from 'capitalize'
+import _ from 'underscore'
 
 const SEED = {
   instanceHide: 0,

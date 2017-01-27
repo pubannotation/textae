@@ -16,8 +16,8 @@ module.exports = function(editor, confirmDiscardChangeMessage) {
       dataSourceUrl = url
     },
     api = new EventEmitter(),
-    showAccess = function(hasAnythingToSave) {
-      openAndSetParam(getLoadDialog(api, confirmDiscardChangeMessage, setDataSourceUrl, editor), hasAnythingToSave, dataSourceUrl)
+    showAccess = function(hasAnythingToSave, params) {
+      openAndSetParam(getLoadDialog(api, confirmDiscardChangeMessage, setDataSourceUrl, editor), hasAnythingToSave, dataSourceUrl, params)
     },
     showSave = function(jsonData, params) {
       openAndSetParam(getSaveDialog(api, confirmDiscardChangeMessage, setDataSourceUrl, editor), jsonData, dataSourceUrl, params)

@@ -4,6 +4,8 @@ import {
   isBoundaryCrossingWithOtherSpans
 }
 from '../parseAnnotation/validateAnnotation'
+import $ from 'jquery'
+import _ from 'underscore'
 
 export default function(editor, emitter, paragraph) {
   let toSpanModel = function() {

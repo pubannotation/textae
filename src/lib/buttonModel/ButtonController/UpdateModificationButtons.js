@@ -1,3 +1,5 @@
+import _ from 'underscore'
+
 export default function(annotationData, modeAccordingToButton) {
   var doesAllModificaionHasSpecified = function(specified, modificationsOfSelectedElement) {
       return modificationsOfSelectedElement.length > 0 && _.every(modificationsOfSelectedElement, function(m) {

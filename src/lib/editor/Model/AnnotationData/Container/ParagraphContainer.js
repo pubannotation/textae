@@ -1,3 +1,5 @@
+import _ from 'underscore'
+
 var idFactory = require('../../../idFactory'),
   ModelContainer = require('./ModelContainer')
 

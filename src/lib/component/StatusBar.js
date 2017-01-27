@@ -1,3 +1,6 @@
+import _ from 'underscore'
+import $ from 'jquery'
+
 var getAreaIn = function($parent) {
   var $area = $parent.find('.textae-editor__footer .textae-editor__footer__message')
   if ($area.length === 0) {

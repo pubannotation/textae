@@ -1,5 +1,6 @@
 import getHeightIncludeDescendantGrids from '../getHeightIncludeDescendantGrids'
 import getGridOfSpan from './getGridOfSpan'
+import $ from 'jquery'
 
 export default function(getSpan, typeContainer, typeGapValue, span) {
   if (span.children.length === 0) {
