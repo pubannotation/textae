@@ -23,8 +23,9 @@ module.exports = function(grunt) {
         concat: {
             js: {
                 src: [
+                    'node_modules/jquery/dist/jquery.min.js',
+                    'src/lib/modules/jquery.jsPlumb-1.5.2-min.js',
                     'src/lib/bundle.js',
-                    'src/lib/main.js',
                 ],
                 dest: 'dist/lib/<%= pkg.name %>-<%= pkg.version %>.js',
             },
@@ -61,23 +62,6 @@ module.exports = function(grunt) {
                     cwd: 'src/',
                     src: ['demo/**', 'lib/css/images/**', '!**/*.psd'],
                     dest: 'dist/',
-                    filter: 'isFile'
-                }, {
-                    expand: true,
-                    cwd: 'dev/vender',
-                    src: ['images/*', 'jquery-ui.min.*', 'jquery.jsPlumb-1.5.2-min.js', 'font-awesome-4.6.3/**'],
-                    dest: 'dist/vender',
-                    filter: 'isFile'
-                }, {
-                    expand: true,
-                    cwd: 'node_modules',
-                    src: [
-                      'jquery/dist/jquery.min.*',
-                      'toastr/build/toastr.*',
-                      'underscore/underscore-min.*',
-                      'element-closest/closest.js',
-                      'sticky-kit/dist/sticky-kit.min.js'],
-                    dest: 'dist/vender',
                     filter: 'isFile'
                 }, {
                     expand: true,

@@ -32,7 +32,6 @@ jQuery.fn.textae = (function() {
   }
 })()
 
-
 jQuery(function($) {
   $(".textae-editor").textae()
 })

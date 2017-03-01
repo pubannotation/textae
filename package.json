@@ -19,7 +19,8 @@
   "browser": {
     "jquery": "./node_modules/jquery/dist/jquery.min.js",
     "jq-ui": "./src/lib/modules/jquery-ui.min.js",
-    "stickykit": "./src/lib/modules/sticky-kit.js"
+    "stickykit": "./src/lib/modules/sticky-kit.js",
+    "js-plumb": "./src/lib/modules/jquery.jsPlumb-1.5.2.js"
   },
   "browserify-shim": {
     "jquery": "$",
@@ -34,7 +35,8 @@
       "depends": [
         "jquery:$"
       ]
-    }
+    },
+    "js-plumb": "global:js-plumb"
   },
   "bugs": {
     "url": "https://github.com/pubannotation/textae/issues"

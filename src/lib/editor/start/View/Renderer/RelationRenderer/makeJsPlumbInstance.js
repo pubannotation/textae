@@ -1,5 +1,6 @@
-global.jQuery = require("jquery");
-require("jsPlumb");
+// global.jQuery = require("jquery");
+// jsPlumb = require("js-plumb");
+// require("jsplumb");
 
 export default function(container) {
   const newInstance = jsPlumb.getInstance({
@@ -8,7 +9,7 @@ export default function(container) {
       radius: 1
     }]
   })
-  // newInstance.setRenderMode(newInstance.SVG)
+  newInstance.setRenderMode(newInstance.SVG)
   newInstance.Defaults.Container = container
   return newInstance
 }
