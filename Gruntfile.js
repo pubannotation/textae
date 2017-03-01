@@ -16,6 +16,7 @@ var rename = {
 
 module.exports = function(grunt) {
     require('load-grunt-tasks')(grunt)
+    var saveLicense = require('uglify-save-license')
 
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
@@ -38,6 +39,7 @@ module.exports = function(grunt) {
         },
         uglify: {
             options: {
+                preserveComments: saveLicense,
                 banner: '/*! <%= pkg.name %> <%= pkg.version %> <%= grunt.template.today("dd-mm-yyyy") %> */\n',
             },
             dist: {
