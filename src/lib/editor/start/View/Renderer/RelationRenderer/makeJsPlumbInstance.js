@@ -1,3 +1,7 @@
+// global.jQuery = require("jquery");
+// jsPlumb = require("js-plumb");
+// require("jsplumb");
+
 export default function(container) {
   const newInstance = jsPlumb.getInstance({
     ConnectionsDetachable: false,

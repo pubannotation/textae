@@ -1,4 +1,6 @@
 import jQueryEnabled from './jQueryEnabled'
+import $ from 'jquery'
+import _ from 'underscore'
 
 var setProp = function(key, $target, className, value) {
   var valueObject = {}

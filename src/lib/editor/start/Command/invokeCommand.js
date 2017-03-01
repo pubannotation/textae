@@ -1,3 +1,5 @@
+import _ from 'underscore'
+
 var invoke = function(commands) {
     commands.forEach(function(command) {
       command.execute()

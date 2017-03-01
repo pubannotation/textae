@@ -1,3 +1,6 @@
+global.jQuery = require("jquery")
+require("jq-ui")
+
 export default function(openOption, $dialog) {
   return Object.assign(
     $dialog,

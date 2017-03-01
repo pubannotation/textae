@@ -2,15 +2,17 @@ import Tool from './tool'
 import control from './control'
 import editor from './editor'
 import combine from './combine'
+global.jQuery = require("jquery")
+require("stickykit")
 
 let tool = new Tool()
 
 jQuery.fn.textae = (function() {
   return function() {
-    if (this.hasClass("textae-editor")) {
-      this.each(function() {
+    if (jQuery(this).hasClass("textae-editor")) {
+      jQuery(this).each(function() {
         // Create an editor
-        var e = $(this)
+        var e = jQuery(this)
         editor.apply(e)
 
         // Register an editor
@@ -29,3 +31,7 @@ jQuery.fn.textae = (function() {
     }
   }
 })()
+
+jQuery(function($) {
+  $(".textae-editor").textae()
+})

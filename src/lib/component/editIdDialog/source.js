@@ -1,3 +1,5 @@
+import $ from 'jquery'
+
 export default function(typeContainer, autocompletionWs, request, response) {
   const localData = getLocalData(typeContainer, request.term)
 

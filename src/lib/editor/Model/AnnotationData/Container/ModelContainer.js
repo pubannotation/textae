@@ -1,4 +1,5 @@
 import getNextId from './getNextId'
+import _ from 'underscore'
 
 var ERROR_MESSAGE = 'Set the mappingFunction by the constructor to use the method "ModelContainer.setSource".'
 

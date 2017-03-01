@@ -1,3 +1,5 @@
+import _ from 'underscore'
+
 var isModificationType = function(modification, modificationType) {
     return modification.pred === modificationType
   },

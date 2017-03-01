@@ -5,6 +5,7 @@ from 'events'
 import setEditableStyle from './setEditableStyle'
 import ViewMode from './ViewMode'
 import event from './event'
+import _ from 'underscore'
 
 const TERM = 'term',
   INSTANCE = 'instance',

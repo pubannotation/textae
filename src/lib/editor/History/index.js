@@ -2,6 +2,7 @@ import {
   EventEmitter as EventEmitter
 }
 from 'events'
+import _ from 'underscore'
 
 // histories of edit to undo and redo.
 export default function() {

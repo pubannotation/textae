@@ -1,5 +1,6 @@
 import TypeGapCache from './TypeGapCache'
 import event from '../EditMode/event'
+require('toastr')
 
 export default function(typeGap, editMode) {
   let showInstance = true,

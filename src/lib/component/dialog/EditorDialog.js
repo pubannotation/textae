@@ -1,4 +1,5 @@
 import Dialog from './Dialog'
+import $ from 'jquery'
 
 const defaultOption = {
   width: 550,

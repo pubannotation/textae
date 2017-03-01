@@ -1,6 +1,7 @@
 import GridPosition from './GridPosition'
 import SpanAndEntityPosition from './SpanAndEntityPosition'
 import LesserMap from './LesserMap'
+import _ from 'underscore'
 
 // Utility functions for get positions of DOM elemnts.
 export default function(editor, entityModel) {

@@ -1,5 +1,6 @@
 import idFactory from '../../../idFactory'
 import ModelContainer from './ModelContainer'
+import _ from 'underscore'
 
 // Expected an entity like {id: "E21", span: "editor2__S50_54", type: "Protein"}.
 var toModel = function(editor, entity) {

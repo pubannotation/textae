@@ -4,6 +4,7 @@ import {
 from 'events'
 import replicate from './replicate'
 import createEntityToSelectedSpan from './createEntityToSelectedSpan'
+import _ from 'underscore'
 
 var DefaultEntityHandler = function(command, annotationData, selectionModel, modeAccordingToButton, spanConfig, entity) {
   var emitter = new EventEmitter(),

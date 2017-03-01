@@ -2,6 +2,7 @@ import getHeightIncludeDescendantGrids from './getHeightIncludeDescendantGrids'
 import getTextBox from './getTextBox'
 import pixelToInt from './pixelToInt'
 import updateTextBoxHeight from './updateTextBoxHeight'
+import _ from 'underscore'
 
 const TEXT_HEIGHT = 23
 const MARGIN_TOP = 30

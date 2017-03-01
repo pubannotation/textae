@@ -2,6 +2,7 @@ export {
   getAsync,
   post
 }
+import $ from 'jquery'
 
 function getAsync(url, dataHandler, failedHandler) {
   if (isEmpty(url)) {

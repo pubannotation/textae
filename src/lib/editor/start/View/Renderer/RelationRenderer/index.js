@@ -9,6 +9,8 @@ import getEntityDom from '../../../getEntityDom'
 import makeJsPlumbInstance from './makeJsPlumbInstance'
 import LabelOverlay from './LabelOverlay'
 import LABEL from './LABEL'
+import _ from 'underscore'
+import $ from 'jquery'
 
 const POINTUP_LINE_WIDTH = 3
 

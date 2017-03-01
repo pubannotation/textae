@@ -1,4 +1,5 @@
 import DomPositionCache from './DomPositionCache'
+import _ from 'underscore'
 
 export default function(editor, entity) {
   let domPositionCaChe = new DomPositionCache(editor, entity)

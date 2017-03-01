@@ -3,6 +3,8 @@ import label from './label'
 import getAnnotationFromServer from './getAnnotationFromServer'
 import CursorChanger from '../../util/CursorChanger'
 import getDialog from './getDialog'
+import $ from 'jquery'
+import _ from 'underscore'
 
 module.exports = function(api, confirmDiscardChangeMessage, setDataSourceUrl, editor) {
   var getAnnotationFromFile = function(file) {
@@ -10,7 +12,17 @@ module.exports = function(api, confirmDiscardChangeMessage, setDataSourceUrl, ed
         reader = new FileReader()
 
       reader.onload = function() {
-        var annotation = JSON.parse(this.result)
+        // Load json or .txt
+        let annotation
+        if (isJSON(this.result)) {
+          annotation = JSON.parse(this.result)
+        } else if (isTxtFile(firstFile.name)) {
+          // If this is .txt, New annotation json is made from .txt
+          annotation = {
+            text: this.result
+          }
+        }
+
         api.emit('load', {
           annotation: annotation,
           source: firstFile.name + '(local file)'
@@ -67,4 +79,28 @@ module.exports = function(api, confirmDiscardChangeMessage, setDataSourceUrl, ed
   var $dialog = getDialog('textae.dialog.load', 'Load Annotations', $content[0], editor)
 
   return $dialog
+}
+
+
+function isJSON(arg) {
+  arg = (typeof arg === "function") ? arg() : arg;
+  if (typeof arg !== "string") {
+    return false;
+  }
+  try {
+    arg = (!JSON) ? eval("(" + arg + ")") : JSON.parse(arg)
+    return true;
+  } catch (e) {
+    return false;
+  }
+}
+
+
+function isTxtFile($fileName) {
+  const f = $fileName.split('.');
+  if (f[f.length - 1].toLowerCase() === 'txt') {
+    return true;
+  } else {
+    return false;
+  }
 }

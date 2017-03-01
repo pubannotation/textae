@@ -1,3 +1,5 @@
+import _ from 'underscore'
+
 export default function(editor, annotationData, selectionModel, typeContainer) {
   let getBlockEntities = function(spanId) {
       return _.flatten(

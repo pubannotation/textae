@@ -3,6 +3,7 @@ import {
 }
 from 'events'
 import reduce2hash from './reduce2hash'
+import _ from 'underscore'
 
 const buttonList = [
   'view',

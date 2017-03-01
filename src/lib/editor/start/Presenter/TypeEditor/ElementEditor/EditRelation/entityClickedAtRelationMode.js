@@ -1,3 +1,5 @@
+import $ from 'jquery'
+
 export default function entityClickedAtRelationMode(selectionModel, command, typeContainer, e) {
   if (!selectionModel.entity.some()) {
     selectionModel.clear()

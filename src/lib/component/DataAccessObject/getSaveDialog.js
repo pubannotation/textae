@@ -4,6 +4,8 @@ import getLoadDialog from './getLoadDialog'
 import label from './label'
 import jQuerySugar from '../jQuerySugar'
 import getDialog from './getDialog'
+import $ from 'jquery'
+import _ from 'underscore'
 
 module.exports = function(api, confirmDiscardChangeMessage, setDataSourceUrl, editor) {
   var cursorChanger = new CursorChanger(editor),

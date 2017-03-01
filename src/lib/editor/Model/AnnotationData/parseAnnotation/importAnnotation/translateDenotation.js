@@ -1,4 +1,5 @@
 var setIdPrefixIfExist = require('./setIdPrefixIfExist')
+import _ from 'underscore'
 
 // Expected denotations is an Array of object like { "id": "T1", "span": { "begin": 19, "end": 49 }, "obj": "Cell" }.
 module.exports = function(prefix, src) {

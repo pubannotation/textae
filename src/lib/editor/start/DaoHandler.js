@@ -1,13 +1,13 @@
-export default function(dataAccessObject, history, annotationData, typeContainer, getOriginalAnnotation) {
-  const showAccess = () => dataAccessObject.showAccess(history.hasAnythingToSave()),
-    showSave = () => showSaveDailogWithEditedData(dataAccessObject, annotationData, typeContainer, getOriginalAnnotation)
+export default function(dataAccessObject, history, annotationData, typeContainer, getOriginalAnnotation, params) {
+  const showAccess = () => dataAccessObject.showAccess(history.hasAnythingToSave(), params),
+    showSave = () => showSaveDailogWithEditedData(dataAccessObject, annotationData, typeContainer, getOriginalAnnotation, params)
 
   return {
     showAccess, showSave
   }
 }
 
-function showSaveDailogWithEditedData(dataAccessObject, annotationData, typeContainer, getOriginalAnnotation) {
+function showSaveDailogWithEditedData(dataAccessObject, annotationData, typeContainer, getOriginalAnnotation, params) {
   const originalAnnotation = getOriginalAnnotation(),
     config = typeContainer.getConfig()
 
@@ -15,5 +15,5 @@ function showSaveDailogWithEditedData(dataAccessObject, annotationData, typeCont
     originalAnnotation,
     annotationData.toJson(), {
       config
-    })), null, 2)
+    })), params)
 }

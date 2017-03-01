@@ -1,5 +1,6 @@
 import spanRemoveCommand from './spanRemoveCommand'
 import entityAndAssociatesRemoveCommand from './entityAndAssociatesRemoveCommand'
+import _ from 'underscore'
 
 export default function(annotationData, selectionModel, ids) {
   const entityPerSpan = toEntityPerSpan(annotationData, ids)

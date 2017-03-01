@@ -1,5 +1,6 @@
 import KeyInputHandler from './KeyInputHandler'
 import HelpDialog from '../../component/HelpDialog'
+import $ from 'jquery'
 
 const helpDialog = new HelpDialog(),
   noop = () => {}

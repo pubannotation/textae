@@ -7,6 +7,7 @@ import setSelectionModelHandler from './setSelectionModelHandler'
 import TypeStyle from './TypeStyle'
 import RelationRenderer from './Renderer/RelationRenderer'
 import updateTextBoxHeight from './updateTextBoxHeight'
+import _ from 'underscore'
 
 const BODY = `
 <div class="textae-editor__body">

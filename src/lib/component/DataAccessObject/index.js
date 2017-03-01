@@ -16,11 +16,11 @@ module.exports = function(editor, confirmDiscardChangeMessage) {
       dataSourceUrl = url
     },
     api = new EventEmitter(),
-    showAccess = function(hasAnythingToSave) {
-      openAndSetParam(getLoadDialog(api, confirmDiscardChangeMessage, setDataSourceUrl, editor), hasAnythingToSave, dataSourceUrl)
+    showAccess = function(hasAnythingToSave, params) {
+      openAndSetParam(getLoadDialog(api, confirmDiscardChangeMessage, setDataSourceUrl, editor), hasAnythingToSave, dataSourceUrl, params)
     },
-    showSave = function(jsonData) {
-      openAndSetParam(getSaveDialog(api, confirmDiscardChangeMessage, setDataSourceUrl, editor), jsonData, dataSourceUrl)
+    showSave = function(jsonData, params) {
+      openAndSetParam(getSaveDialog(api, confirmDiscardChangeMessage, setDataSourceUrl, editor), jsonData, dataSourceUrl, params)
     },
     cursorChanger = new CursorChanger(editor)
 
@@ -33,10 +33,16 @@ module.exports = function(editor, confirmDiscardChangeMessage) {
   return api
 }
 
-function openAndSetParam($dialog, params, dataSourceUrl) {
+function openAndSetParam($dialog, params, dataSourceUrl, parameter) {
+  // If has the save_to parameter
+  let url = dataSourceUrl;
+  if (parameter.has('save_to')) {
+    url = parameter.get('save_to');
+  }
+
   // Display dataSourceUrl.
   $dialog.find('[type="text"].url')
-    .val(dataSourceUrl)
+    .val(url)
     .trigger('input')
 
   $dialog.params = params
