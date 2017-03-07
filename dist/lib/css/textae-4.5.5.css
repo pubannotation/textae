@@ -1596,6 +1596,15 @@ button.toast-close-button {
     width: 25em;
   }
 }
+#editor_holder {
+  margin-top: 15px;
+}
+#editor_holder h3 {
+  padding-left: 5px;
+}
+#editor_holder .form-control input {
+  width: 100%;
+}
 .textae-editor {
   line-height: 41px;
   overflow: hidden;

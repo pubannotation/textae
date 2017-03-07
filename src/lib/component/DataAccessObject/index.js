@@ -6,6 +6,7 @@ import CursorChanger from '../../util/CursorChanger'
 import getAnnotationFromServer from './getAnnotationFromServer'
 import getLoadDialog from './getLoadDialog'
 import getSaveDialog from './getSaveDialog'
+import jsonEditor from '../jsonEditor'
 
 // A sub component to save and load data.
 module.exports = function(editor, confirmDiscardChangeMessage) {
@@ -20,7 +21,11 @@ module.exports = function(editor, confirmDiscardChangeMessage) {
       openAndSetParam(getLoadDialog(api, confirmDiscardChangeMessage, setDataSourceUrl, editor), hasAnythingToSave, dataSourceUrl, params)
     },
     showSave = function(jsonData, params) {
-      openAndSetParam(getSaveDialog(api, confirmDiscardChangeMessage, setDataSourceUrl, editor), jsonData, dataSourceUrl, params)
+      var $dialog = openAndSetParam(getSaveDialog(api, confirmDiscardChangeMessage, setDataSourceUrl, editor), jsonData, dataSourceUrl, params)
+      
+      // Set JsonEditor
+      jsonEditor($dialog)
+
     },
     cursorChanger = new CursorChanger(editor)
 
@@ -47,4 +52,6 @@ function openAndSetParam($dialog, params, dataSourceUrl, parameter) {
 
   $dialog.params = params
   $dialog.open()
+
+  return $dialog;
 }

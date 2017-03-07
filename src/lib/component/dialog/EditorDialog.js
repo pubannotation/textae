@@ -1,9 +1,9 @@
 import Dialog from './Dialog'
 import $ from 'jquery'
 
+// height: 220
 const defaultOption = {
   width: 550,
-  height: 220
 }
 
 export default function(editorId, id, title, el, option) {
