@@ -30412,16 +30412,20 @@ var _importSource = require('./importSource');
 
 var _importSource2 = _interopRequireDefault(_importSource);
 
+var _underscore = require('underscore');
+
+var _underscore2 = _interopRequireDefault(_underscore);
+
 exports['default'] = function (destination, source) {
   // Clone source to prevet changing orignal data.
   (0, _importSource2['default'])([destination], function (namespace) {
-    return _.extend({}, namespace);
+    return _underscore2['default'].extend({}, namespace);
   }, source);
 };
 
 module.exports = exports['default'];
 
-},{"./importSource":234,"babel-runtime/helpers/interop-require-default":20}],237:[function(require,module,exports){
+},{"./importSource":234,"babel-runtime/helpers/interop-require-default":20,"underscore":173}],237:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -30881,9 +30885,13 @@ var _setNewData = require('./setNewData');
 
 var _setNewData2 = _interopRequireDefault(_setNewData);
 
+var _toastr = require('toastr');
+
+var _toastr2 = _interopRequireDefault(_toastr);
+
 function reset(dataStore, annotation) {
   if (!annotation.text) {
-    toastr.error('This is not a json file of anntations.');
+    _toastr2['default'].error('This is not a json file of anntations.');
     return null;
   }
 
@@ -30906,7 +30914,7 @@ function clearAnnotationData(dataStore) {
 }
 module.exports = exports['default'];
 
-},{"./setNewData":254,"babel-runtime/helpers/interop-require-default":20}],254:[function(require,module,exports){
+},{"./setNewData":254,"babel-runtime/helpers/interop-require-default":20,"toastr":172}],254:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -34962,19 +34970,25 @@ module.exports = exports['default'];
 },{"../changeEditMode":337,"./showLoadNoticeForEditableMode":335,"./updateWritable":336,"babel-runtime/helpers/interop-require-default":20,"babel-runtime/helpers/interop-require-wildcard":21}],335:[function(require,module,exports){
 "use strict";
 
+var _interopRequireDefault = require("babel-runtime/helpers/interop-require-default")["default"];
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _toastr = require('toastr');
+
+var _toastr2 = _interopRequireDefault(_toastr);
+
 exports["default"] = function (multitrack) {
   if (multitrack) {
-    toastr.success("track annotations have been merged to root annotations.");
+    _toastr2["default"].success("track annotations have been merged to root annotations.");
   }
 };
 
 module.exports = exports["default"];
 
-},{}],336:[function(require,module,exports){
+},{"babel-runtime/helpers/interop-require-default":20,"toastr":172}],336:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
