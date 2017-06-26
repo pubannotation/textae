@@ -27985,6 +27985,10 @@ var _jQuerySugar = require('../jQuerySugar');
 
 var _jQuerySugar2 = _interopRequireDefault(_jQuerySugar);
 
+var _toastr = require('toastr');
+
+var _toastr2 = _interopRequireDefault(_toastr);
+
 module.exports = function (urlToJson, cursorChanger, api, setDataSourceUrl) {
   cursorChanger.startWait();
   ajaxAccessor.getAsync(urlToJson, function getAnnotationFromServerSuccess(annotation) {
@@ -27996,11 +28000,11 @@ module.exports = function (urlToJson, cursorChanger, api, setDataSourceUrl) {
     setDataSourceUrl(urlToJson);
   }, function () {
     cursorChanger.endWait();
-    toastr.error("Could not load the target.");
+    _toastr2['default'].error("Could not load the target.");
   });
 };
 
-},{"../../util/ajaxAccessor":451,"../jQuerySugar":215,"babel-runtime/helpers/interop-require-default":20,"babel-runtime/helpers/interop-require-wildcard":21,"url":174}],187:[function(require,module,exports){
+},{"../../util/ajaxAccessor":451,"../jQuerySugar":215,"babel-runtime/helpers/interop-require-default":20,"babel-runtime/helpers/interop-require-wildcard":21,"toastr":172,"url":174}],187:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];

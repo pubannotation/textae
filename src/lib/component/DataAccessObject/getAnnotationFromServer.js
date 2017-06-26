@@ -1,6 +1,7 @@
 import url from 'url'
 import * as ajaxAccessor from '../../util/ajaxAccessor'
 import jQuerySugar from '../jQuerySugar'
+import toastr from 'toastr'
 
 module.exports = function(urlToJson, cursorChanger, api, setDataSourceUrl) {
   cursorChanger.startWait()
