@@ -21,11 +21,10 @@ module.exports = function(editor, confirmDiscardChangeMessage) {
       openAndSetParam(getLoadDialog(api, confirmDiscardChangeMessage, setDataSourceUrl, editor), hasAnythingToSave, dataSourceUrl, params)
     },
     showSave = function(jsonData, params) {
-      var $dialog = openAndSetParam(getSaveDialog(api, confirmDiscardChangeMessage, setDataSourceUrl, editor), jsonData, dataSourceUrl, params)
-      
-      // Set JsonEditor
-      jsonEditor($dialog)
-
+      openAndSetParam(getSaveDialog(api, confirmDiscardChangeMessage, setDataSourceUrl, editor), jsonData, dataSourceUrl, params)
+      // ADD JsonEditor
+      // var $dialog = openAndSetParam(getSaveDialog(api, confirmDiscardChangeMessage, setDataSourceUrl, editor), jsonData, dataSourceUrl, params)      
+      // jsonEditor($dialog)
     },
     cursorChanger = new CursorChanger(editor)
 
