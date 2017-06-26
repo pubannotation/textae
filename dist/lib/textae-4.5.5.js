@@ -30412,16 +30412,20 @@ var _importSource = require('./importSource');
 
 var _importSource2 = _interopRequireDefault(_importSource);
 
+var _underscore = require('underscore');
+
+var _underscore2 = _interopRequireDefault(_underscore);
+
 exports['default'] = function (destination, source) {
   // Clone source to prevet changing orignal data.
   (0, _importSource2['default'])([destination], function (namespace) {
-    return _.extend({}, namespace);
+    return _underscore2['default'].extend({}, namespace);
   }, source);
 };
 
 module.exports = exports['default'];
 
-},{"./importSource":234,"babel-runtime/helpers/interop-require-default":20}],237:[function(require,module,exports){
+},{"./importSource":234,"babel-runtime/helpers/interop-require-default":20,"underscore":173}],237:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
