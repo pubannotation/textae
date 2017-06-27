@@ -28219,7 +28219,13 @@ module.exports = function (api, confirmDiscardChangeMessage, setDataSourceUrl, e
     api.emit('save');
     $content.trigger('dialog.close');
     return false;
-  }).append(new RowDiv().append((0, _jquery2['default'])('<div id="editor_holder"></div> ')));
+  });
+  // Add JsonEditor
+  // .append(
+  //   new RowDiv().append(
+  //     $('<div id="editor_holder"></div> ')
+  //   )
+  // )
 
   var $dialog = (0, _getDialog2['default'])('textae.dialog.save', 'Save Annotations', $content[0], editor);
 
@@ -28274,10 +28280,10 @@ module.exports = function (editor, confirmDiscardChangeMessage) {
     openAndSetParam((0, _getLoadDialog2['default'])(api, confirmDiscardChangeMessage, setDataSourceUrl, editor), hasAnythingToSave, dataSourceUrl, params);
   },
       showSave = function showSave(jsonData, params) {
-    var $dialog = openAndSetParam((0, _getSaveDialog2['default'])(api, confirmDiscardChangeMessage, setDataSourceUrl, editor), jsonData, dataSourceUrl, params);
-
-    // Set JsonEditor
-    (0, _jsonEditor2['default'])($dialog);
+    openAndSetParam((0, _getSaveDialog2['default'])(api, confirmDiscardChangeMessage, setDataSourceUrl, editor), jsonData, dataSourceUrl, params);
+    // ADD JsonEditor
+    // var $dialog = openAndSetParam(getSaveDialog(api, confirmDiscardChangeMessage, setDataSourceUrl, editor), jsonData, dataSourceUrl, params)     
+    // jsonEditor($dialog)
   },
       cursorChanger = new _utilCursorChanger2['default'](editor);
 
