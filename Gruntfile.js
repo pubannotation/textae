@@ -68,7 +68,7 @@ module.exports = function(grunt) {
                 }, {
                     expand: true,
                     cwd: 'src/app',
-                    src: ['textae.*'],
+                    src: ['editor.*'],
                     dest: 'dist/',
                     filter: 'isFile'
                 }]
@@ -76,7 +76,7 @@ module.exports = function(grunt) {
         },
         replace: {
             version: {
-                src: ['dist/textae.html', 'dist/demo/**/*.html'],
+                src: ['dist/editor.html', 'dist/demo/**/*.html'],
                 overwrite: true,
                 replacements: [{
                     from: '{{version}}',
@@ -200,7 +200,7 @@ module.exports = function(grunt) {
         },
         open: {
             app: {
-                url: 'http://localhost:8000/dist/textae.html?mode=edit&target=../dev/1_annotations.json'
+                url: 'http://localhost:8000/dist/editor.html?mode=edit&target=../dev/1_annotations.json'
             },
             dev: {
                 url: 'http://localhost:8000/dev/development.html'

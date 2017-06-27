@@ -81,7 +81,13 @@ module.exports = function(api, confirmDiscardChangeMessage, setDataSourceUrl, ed
       $content.trigger('dialog.close')
       return false
     })
-
+    // Add JsonEditor
+    // .append(
+    //   new RowDiv().append(
+    //     $('<div id="editor_holder"></div> ')
+    //   )
+    // )
+   
   var $dialog = getDialog('textae.dialog.save', 'Save Annotations', $content[0], editor)
 
   // Set the filename when the dialog is opened.

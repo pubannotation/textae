@@ -1,4 +1,5 @@
 import setNewData from './setNewData'
+import toastr from 'toastr'
 
 export default function reset(dataStore, annotation) {
   if (!annotation.text) {
