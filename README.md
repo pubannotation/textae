@@ -81,42 +81,71 @@ Example:
 <div class="textae-editor" status_bar="on" ></div>
 ```
 
-Contributors (so far)
----------------------
+## For development
 
-- Jin-Dong Kim
-- Yue Wang
-- Shigeru Nakajima
+### Preparation
 
+[Node.js](https://nodejs.org) is required to be installed on your system.
 
-## For developer
-
-You need [Node.js](https://nodejs.org)
-
+* To clone the project and get into the directory
 ```
 git clone git@github.com:pubannotation/textae.git
 cd textae/
+```
+
+* To install the required npm packages (which are specified in 'package.json').
+```
 npm install
+```
+
+* To install the package 'grunt'.
+```
 npm i -g grunt-cli
+```
+
+* To compile the LESS files to CSS.
+```
 grunt less
+```
+
+### Development
+
+* To open in your browser the file 'dev/development.html' through 'http://localhost:8000', for development
+```
 npm run watch
 ```
 
-Open a browser [the url to develop](http://localhost:8000/dev/development.html)
+* If the file does not open automatically, click [here](http://localhost:8000/dev/development.html).
+
+* For development, your editions are supposed to be made to the files in the 'src' directory.
+
 
 ### Build
+
+* To compile the files for distribution into the dictionary 'dist'.
 
 ```
 npm run dist
 ```
 
-Distribution files will be create under the `dist` ditrectory.
+### Demo
+
+* To open in your browser the file 'dist/demo/development.html' through 'http://localhost:8000' in distribution environment.
 
 ```
 grunt demo
 ```
 
-Open [the demo url](http://localhost:8000/dist/demo/development.html) with distribtion files.
+* If the file does not open automatically, click [here](http://localhost:8000/dist/demo/development.html).
+
+
+Contributors (so far)
+---------------------
+
+- Jin-Dong Kim ([DBCLS](http://dbcls.rois.ac.jp/en/))
+- Yue Wang ([DBCLS](http://dbcls.rois.ac.jp/en/))
+- Shigeru Nakajima ([Luxiar](http://www.luxiar.com/))
+- Masahiro Nakashima ([YouWorks](https://youworks.jp/))
 
 License
 -------
