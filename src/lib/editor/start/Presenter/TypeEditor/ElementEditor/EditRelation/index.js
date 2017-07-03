@@ -16,7 +16,6 @@ export default function(editor, annotationData, selectionModel, command, typeCon
           typeContainer,
           e
         )
-        editor.focus()
 
         return ret
       })
