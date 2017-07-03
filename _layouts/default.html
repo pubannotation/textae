@@ -11,17 +11,19 @@
 	<script src="https://use.fontawesome.com/d09f0623af.js"></script>
 </head>
 
-<body class="wrap">
-	<div id="header" class="frame">
-		{% include _header.html %}
-	</div>
+<body>
+	<div id="canvas">
+		<div id="header" class="frame">
+			{% include _header.html %}
+		</div>
 
-	<div id="main">
-		{{ content }}
-	</div>
+		<div id="main">
+			{{ content }}
+		</div>
 
-	<div id="footer" class="frame">
-		{% include _footer.html %}
+		<div id="footer" class="frame">
+			{% include _footer.html %}
+		</div>
 	</div>
 </body>
 

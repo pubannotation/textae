@@ -16,16 +16,7 @@ Here is an example page which has multiple instances of TextAE.
 In the _head_ area of a HTML document, put
 
 ```HTML
-<link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/themes/smoothness/jquery-ui.css" />
-<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" />
 <link rel="stylesheet" href="http://textae.pubannotation.org/lib/css/textae.min.css" />
-<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/jquery-ui.min.js"></script>
-<script src="http://textae.pubannotation.org/vender/jquery.jsPlumb-1.5.2-min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
-<script src="https://cdn.polyfill.io/v2/polyfill.js?features=Element.prototype.closest"></script>
-<script src="https://cdn.jsdelivr.net/jquery.sticky-kit/1.1.2/jquery.sticky-kit.min.js"></script>
 <script src="http://textae.pubannotation.org/lib/textae.min.js"></script>
 ```
 

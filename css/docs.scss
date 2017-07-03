@@ -2,26 +2,25 @@
 ---
 
 article {
-  min-height: 200px;
+  min-height: 300px;
   margin: 5px 0;
 	padding: 10px;
   border-radius: 10px;
 	background: #f8f8f0;
   box-shadow: 3px 3px 3px #aaa;
   color: #552;
-  font-size: small;
   line-height: 1.5;
 
 	h1 {
 		margin: 0.6em 0 0.4em 0;
 		border-style: none;
-		font-size: 18px;
+		font-size: 1.5em;
 	}
 
   h2, h3 {
     margin: 0.8em 0 0.5em 0;
     border-style: none;
-    font-size: 14px;
+    font-size: 1.2em;
   }
 
 	ul {
@@ -36,6 +35,7 @@ article {
 		padding: 5px;
 		color: #eee;
 		background-color: #333;
+    font-size: 12pt;
 	}
 
 }
@@ -56,6 +56,10 @@ article {
 }
 
 aside {
+  position: relative;
+  top: 20px;
+  left: -4px;
+
   ul {
     list-style-type: none;
     margin: 10px 0;
@@ -63,10 +67,10 @@ aside {
 
     li {
       margin: 2px 0;
-      border-bottom-left-radius: 8px;
-      background: #fffff8;
+      border-top-right-radius: 8px;
+      border-bottom-right-radius: 8px;
       padding: 5px;
-      text-align: right;
+      padding-left: 10px;
 
       &.current {
         background: #f8f8f0;
