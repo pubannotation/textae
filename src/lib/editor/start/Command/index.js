@@ -14,7 +14,7 @@ export default function(editor, annotationData, selectionModel, history) {
     undo: () => {
       if (history.hasAnythingToUndo()) {
         // Focus the editor.
-        // Focus is lost when undo ceration.
+        // Focus is lost when undo a creation.
         selectionModel.clear()
         editor.focus()
         invokeCommand.invokeRevert(history.prev())
@@ -22,7 +22,7 @@ export default function(editor, annotationData, selectionModel, history) {
     },
     redo: () => {
       if (history.hasAnythingToRedo()) {
-        // Select only new element when redo ceration.
+        // Select only new element when redo a creation.
         selectionModel.clear()
 
         invokeCommand.invoke(history.next())
