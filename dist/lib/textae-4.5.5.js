@@ -32507,7 +32507,7 @@ exports['default'] = function (editor, annotationData, selectionModel, history) 
     undo: function undo() {
       if (history.hasAnythingToUndo()) {
         // Focus the editor.
-        // Focus is lost when undo ceration.
+        // Focus is lost when undo a creation.
         selectionModel.clear();
         editor.focus();
         _invokeCommand2['default'].invokeRevert(history.prev());
@@ -32515,7 +32515,7 @@ exports['default'] = function (editor, annotationData, selectionModel, history) 
     },
     redo: function redo() {
       if (history.hasAnythingToRedo()) {
-        // Select only new element when redo ceration.
+        // Select only new element when redo a creation.
         selectionModel.clear();
 
         _invokeCommand2['default'].invoke(history.next());
@@ -33815,18 +33815,18 @@ var _EditRelationHandler = require('./EditRelationHandler');
 var _EditRelationHandler2 = _interopRequireDefault(_EditRelationHandler);
 
 exports['default'] = function (editor, annotationData, selectionModel, command, typeContainer, cancelSelect) {
-  // Control only entities and relations.
-  // Cancel events of relations and theier label.
-  // Because a jQuery event and a jsPlumb event are both fired when a relation are clicked.
-  // And jQuery events are propergated to body click events and cancel select.
-  // So multi selection of relations with Ctrl-key is not work.
+  // Manupulate only entities and relations on the Edit Relation mode.
   var init = function init() {
     editor.on('mouseup', '.textae-editor__entity', function (e) {
       var ret = (0, _entityClickedAtRelationMode2['default'])(selectionModel, command, typeContainer, e);
-      editor.focus();
 
       return ret;
-    }).on('mouseup', '.textae-editor__relation, .textae-editor__relation__label', function () {
+    })
+    // Cancel event handlers of mouseup events of relations and theier label.
+    // Because a jQuery event and a jsPlumb event are both fired when a relation are clicked.
+    // And jQuery click events will  propagate to the body element and cancel selection.
+    // So multi selection of relations with Ctrl-key is not work.
+    .on('mouseup', '.textae-editor__relation, .textae-editor__relation__label', function () {
       return false;
     }).on('mouseup', '.textae-editor__body', cancelSelect);
   };
@@ -38096,6 +38096,11 @@ module.exports = function (editor, annotationData, selectionModel, typeContainer
         },
             selectLine = function selectLine(connect) {
           connect.addClass('ui-selected');
+
+          // Before creation of e a relation the souce entity is selected. And that entity is deselected at that relation creation.
+          // When entities or spans is deselected thier HTML element is blured.
+          // Focus the editor manually to prevent the editor lose focus and lose capability of keyboard shortcut.
+          editor.focus();
           return connect;
         },
             deselectLine = function deselectLine(connect) {
