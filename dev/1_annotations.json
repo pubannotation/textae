@@ -393,8 +393,8 @@
     }],
     "relations": [{
         "pred": "locatedAt",
-        "subj": "E1",
-        "obj": "T1"
+        "subj": "E21",
+        "obj": "E18"
     }, {
         "id": "R2",
         "pred": "themeOf",
@@ -453,7 +453,7 @@
     }],
     "modifications": [{
         "pred": "Negation",
-        "obj": "E1"
+        "obj": "E21"
     }, {
         "id": "M2",
         "pred": "Negation",
