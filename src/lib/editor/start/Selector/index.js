@@ -14,6 +14,8 @@ export default function(editor, annotationData) {
       select: (id) => {
         let el = getSpanDom(id)
         modifyStyle(el, 'add')
+
+        // Set focus to the span element in order to scroll the browser to the position of the element.
         el.focus()
       },
       deselect: (id) => {
@@ -33,7 +35,7 @@ export default function(editor, annotationData) {
         if (el) {
           modifyStyle(el, 'add')
 
-          // focus label
+          // Set focus to the label element in order to scroll the browser to the position of the element.
           el.parentNode.previousElementSibling.focus()
         }
       },
