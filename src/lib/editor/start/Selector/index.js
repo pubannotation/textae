@@ -22,7 +22,6 @@ export default function(editor, annotationData) {
         // A dom does not exist when it is deleted.
         if (el) {
           modifyStyle(el, 'remove')
-          el.blur()
         }
       }
     },
@@ -45,9 +44,6 @@ export default function(editor, annotationData) {
         // A dom does not exist when it is deleted.
         if (el) {
           modifyStyle(el, 'remove')
-
-          // blur label
-          el.parentNode.previousElementSibling.blur()
         }
       }
     },
