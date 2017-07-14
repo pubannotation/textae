@@ -176,8 +176,6 @@
     "modules": true
   },
   "globals": {
-    "_": true,
-    "toastr": true,
     "jsPlumb": true
   }
 }
