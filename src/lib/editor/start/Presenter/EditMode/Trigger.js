@@ -77,6 +77,7 @@ function upSimple(stateMachine) {
 
 function toggleInstaceRelation(stateMachine, annotationData) {
   switch (stateMachine.currentState) {
+    case state.TERM:
     case state.INSTANCE:
       stateMachine.setState(state.RELATION)
       break
