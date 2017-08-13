@@ -6,6 +6,7 @@ title: Intro
 ## <i class="fa fa-check" aria-hidden="true"></i> Javascript app for text annotation
 
 * TextAE can be embedded in any HTML document, in any place, in any style.
+* <span style="background-color:#F00; color:#FFF">Caveat</span> <span style="color:#F00; font-style:italic">TextAE may not work properly in Microsoft IE. Please use FireFox, Chrome, Safari, or Opera which better support standard HTML5 + CSS3.</span>
 
 ```HTML
 <div class="textae-editor style="width:300px; background-color:lavender; position:relative; top:-70px; left:300px"">
