@@ -14,7 +14,7 @@ function parseBaseText(paragraph, sourceDoc) {
   paragraph.addSource(sourceDoc)
 }
 
-function parseTracks(span, entity, relation, modification, paragraph, text, annotation) {
+function parseTracks(span, entity, attribute, relation, modification, paragraph, text, annotation) {
   if (!annotation.tracks) return [false, []]
 
   var tracks = annotation.tracks
@@ -27,6 +27,7 @@ function parseTracks(span, entity, relation, modification, paragraph, text, anno
         reject = parseAnnotation(
           span,
           entity,
+          attribute,
           relation,
           modification,
           paragraph,
@@ -46,6 +47,7 @@ function parseDennotation(dataStore, annotation) {
   var tracks = parseTracks(
       dataStore.span,
       dataStore.entity,
+      dataStore.attribute,
       dataStore.relation,
       dataStore.modification,
       dataStore.paragraph,
@@ -55,6 +57,7 @@ function parseDennotation(dataStore, annotation) {
     annotationReject = parseAnnotation(
       dataStore.span,
       dataStore.entity,
+      dataStore.attribute,
       dataStore.relation,
       dataStore.modification,
       dataStore.paragraph,

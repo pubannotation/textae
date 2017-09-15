@@ -4,7 +4,7 @@ import importAttribute from './importAnnotation/attribute'
 import importRelation from './importAnnotation/relation'
 import importModification from './importAnnotation/modification'
 
-export default function(span, entity, relation, modification, paragraph, text, annotation, prefix) {
+export default function(span, entity, attribute, relation, modification, paragraph, text, annotation, prefix) {
   var result = validateAnnotation(text, paragraph, annotation)
 
   importDenotation(
@@ -14,12 +14,11 @@ export default function(span, entity, relation, modification, paragraph, text, a
       prefix
   )
 
-  // @todo Comment out when attribute container is made.
-  // importAttribute(
-  //     attribute,
-  //     result.accept.attribute,
-  //     prefix
-  // )
+  importAttribute(
+      attribute,
+      result.accept.attribute,
+      prefix
+  )
 
   importRelation(
       relation,

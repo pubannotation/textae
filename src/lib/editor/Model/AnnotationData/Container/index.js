@@ -13,7 +13,8 @@ export default function(editor) {
     namespace = new ModelContainer(emitter, 'namespace', _.identity),
     paragraph = new ParagraphContainer(editor, emitter),
     span = new SpanContainer(editor, emitter, paragraph),
-    relation = new ModelContainer(emitter, 'relation', mapRelations),
+    attribute = new ModelContainer(emitter, 'attribute', mapAttributesAndRelations),
+    relation = new ModelContainer(emitter, 'relation', mapAttributesAndRelations),
     entity = new EntityContainer(editor, emitter, relation),
     modification = new ModelContainer(emitter, 'modification', _.identity)
 
@@ -23,18 +24,19 @@ export default function(editor) {
     paragraph: paragraph,
     span: span,
     entity: entity,
+    attribute: attribute,
     relation: relation,
     modification: modification,
   })
 }
 
-function mapRelations(relations) {
-  return relations.map(r => {
+function mapAttributesAndRelations(attributesOrRelations) {
+  return attributesOrRelations.map(aor => {
     return {
-      id: r.id,
-      type: r.pred,
-      subj: r.subj,
-      obj: r.obj
+      id: aor.id,
+      type: aor.pred,
+      subj: aor.subj,
+      obj: aor.obj
     }
   })
 }
