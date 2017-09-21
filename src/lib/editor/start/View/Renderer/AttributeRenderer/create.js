@@ -6,11 +6,15 @@ export default function(editor, namspace, typeContainer, gridRenderer, attribute
   attributeModel.type = String(attributeModel.type)
 
   let entity = entityModels.filter((entity) => {
-      return entity.id === attributeModel.subj
-    })[0],
-    $type = getTypeDom(entity.span, entity.type),
+    return entity.id === attributeModel.subj
+  })[0]
+  if (!entity) {
+    throw new Error("entity is not rendered : " + attributeModel.subj)
+  }
+
+  let $type = getTypeDom(entity.span, entity.type),
     $attribute = createAttributeElement(editor, typeContainer, attributeModel)
-    $type.find('.textae-editor__type-label').append($attribute)
+  $type.find('.textae-editor__type-label').append($attribute)
 
   return $attribute
 }
