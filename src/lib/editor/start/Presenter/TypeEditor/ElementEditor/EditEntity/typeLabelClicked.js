@@ -2,7 +2,13 @@ import selectEntities from './selectEntities'
 
 export default function(selectionModel, e) {
   let typeLabel = e.target,
-    entities = e.target.previousElementSibling.children
+    isTypeLabel = typeLabel.classList.contains('textae-editor__type-label')
 
-  return selectEntities(selectionModel, e.ctrlKey || e.metaKey, typeLabel, entities)
+  if (isTypeLabel) {
+    let entities = e.target.previousElementSibling.children
+
+    return selectEntities(selectionModel, e.ctrlKey || e.metaKey, typeLabel, entities)
+  }
+
+  return null
 }
