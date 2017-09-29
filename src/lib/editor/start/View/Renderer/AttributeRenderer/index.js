@@ -2,14 +2,13 @@ import create from './create'
 
 export default function(editor, annotationData, selectionModel, typeContainer, gridRenderer) {
   return {
-    render: (attribute, entities) => {
+    render: (attribute) => {
       create(
         editor,
         annotationData.namespace,
         typeContainer,
         gridRenderer,
-        attribute,
-        entities
+        attribute
       )
     },
     change: () => {},

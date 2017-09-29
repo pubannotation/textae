@@ -1,20 +1,18 @@
-import getTypeDom from '../getTypeDom'
+import getEntityDom from '../../../getEntityDom'
 import createAttributeElement from './createAttributeElement'
 
-export default function(editor, namspace, typeContainer, gridRenderer, attributeModel, entityModels) {
+export default function(editor, namspace, typeContainer, gridRenderer, attributeModel) {
   // Replace null to 'null' if type is null and undefined too.
   attributeModel.type = String(attributeModel.type)
 
-  let entity = entityModels.filter((entity) => {
-    return entity.id === attributeModel.subj
-  })[0]
-  if (!entity) {
+  let entityDom = getEntityDom(editor[0], attributeModel.subj)
+  if (!entityDom) {
     throw new Error("entity is not rendered : " + attributeModel.subj)
   }
 
-  let $type = getTypeDom(entity.span, entity.type),
+  let $label = $(entityDom.parentNode.nextElementSibling),
     $attribute = createAttributeElement(editor, typeContainer, attributeModel)
-  $type.find('.textae-editor__type-label').append($attribute)
+  $label.append($attribute)
 
   return $attribute
 }

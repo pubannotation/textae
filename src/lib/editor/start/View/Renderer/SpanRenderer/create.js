@@ -28,7 +28,6 @@ function create(span, annotationData, isBlockFunc, renderEntityFunc, renderAttri
   renderAttributesOfSpan(
       span,
       annotationData.attribute.get,
-      annotationData.entity.get,
       renderAttributeFunc
   )
 
