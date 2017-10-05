@@ -1,4 +1,4 @@
-import source from './source'
+import source from '../source'
 import customizeqQueryUiAutocomplete from './customize-jquery-ui-autocomplete'
 import $ from 'jquery'
 

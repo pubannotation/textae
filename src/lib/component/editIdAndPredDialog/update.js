@@ -1,4 +1,4 @@
-import source from '../editIdDialog/source'
+import source from '../source'
 import customizeqQueryUiAutocomplete from '../editIdDialog/customize-jquery-ui-autocomplete'
 import $ from 'jquery'
 

@@ -23,7 +23,7 @@ export default function(editor, el, inputId, inputPred, label) {
     )
 
   // Observe enter key press
-  delegate($dialog[0], `.${CLASS_NAMES}`, 'keyup', (e) => {
+  delegate($dialog[0], `.${CLASS_NAMES.id}`, 'keyup', (e) => {
     if (e.keyCode === 13) {
       okHandler()
     }
