@@ -13,8 +13,12 @@ export default function(editor, emitter) {
   return _.extend(container, {
     change: (id, newType, newPred) => {
       let model = container.get(id)
-      model.type = newType
-      model.pred = newPred
+      if (newType) {
+        model.type = newType
+      }
+      if (newPred) {
+        model.pred = newPred
+      }
       emitter.emit(container.name + '.change', model)
       return model
     }

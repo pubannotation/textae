@@ -10,7 +10,11 @@ export default function DefaultAttributeHandler(annotationData, command, selecti
       let attributes = selectionModel.attribute.all(),
         commands = attributes.map(function(attributeId) {
           let entityId = annotationData.attribute.get(attributeId).subj
-          return command.factory.attributeCreateCommand({id: null, type: attribute.getDefaultType(), subj: entityId})
+          return command.factory.attributeCreateCommand({
+            id: null,
+            type: attribute.getDefaultType(),
+            pred: 'pred',
+            subj: entityId})
         })
 
       command.invoke(commands)

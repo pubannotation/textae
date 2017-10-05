@@ -1,5 +1,6 @@
 import BaseCommand from './BaseCommand'
 import commandLog from './commandLog'
+import AttributeChangeCommand from './AttributeChangeCommand'
 
 export default class extends BaseCommand {
   constructor(annotationData, modelType, id, newType, newPred) {

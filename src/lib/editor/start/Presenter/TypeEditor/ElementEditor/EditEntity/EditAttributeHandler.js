@@ -29,5 +29,7 @@ export default class extends DefaultHandler {
     if (id) {
       return this.annotationData.get(id).pred
     }
+
+    return ''
   }
 }
