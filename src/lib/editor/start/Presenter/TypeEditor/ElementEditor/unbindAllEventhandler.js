@@ -6,4 +6,7 @@ export default function(editor) {
       .off('mouseup', '.textae-editor__type-label')
       .off('mouseup', '.textae-editor__entity-pane')
       .off('mouseup', '.textae-editor__entity')
+      .off('click', '.textae-editor__attribute-button--add')
+      .off('click', '.textae-editor__attribute-button--edit')
+      .off('click', '.textae-editor__attribute-button--delete')
 }
