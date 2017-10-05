@@ -8,9 +8,10 @@ export default function(editor, typeContainer, attributeModel) {
   element.setAttribute('id', idFactory.makeAttributeDomId(editor, attributeModel.id))
   element.setAttribute('title', attributeModel.id)
   element.setAttribute('type', attributeModel.type)
+  element.setAttribute('pred', attributeModel.pred)
   element.classList.add('textae-editor__attribute')
   element.style.borderColor = typeContainer.getColor(attributeModel.type)
-  element.innerText = attributeModel.obj || 'something'
+  element.innerText = attributeModel.type || 'something'
 
   element.appendChild(popUpEditorElement)
 

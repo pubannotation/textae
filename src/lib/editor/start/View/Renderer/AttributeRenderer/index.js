@@ -1,4 +1,5 @@
 import create from './create'
+import createAttributePopupEditorElement from './createAttributePopupEditorElement'
 
 export default function(editor, annotationData, selectionModel, typeContainer, gridRenderer) {
   return {
@@ -11,26 +12,28 @@ export default function(editor, annotationData, selectionModel, typeContainer, g
         attribute
       )
     },
-    change: () => {},
+    change: (attribute) => changeAttributeElement(editor, typeContainer, attribute),
     changeModification: () => {},
-    remove: (attribute) => destroy(
-      editor,
-      annotationData,
-      gridRenderer,
-      attribute
-    ),
+    remove: (attribute) => removeAttributeElement(editor, attribute),
     updateLabel: () => {}
   }
 }
 
-function destroy(editor, annotationData, gridRenderer, attribute) {
-  removeAttributeElement(editor, attribute.id)
+function changeAttributeElement(editor, typeContainer, attribute) {
+  const attributeDom = getAttributeDom(editor[0], attribute.id)
 
-  return attribute
+  if (attributeDom) {
+    attributeDom.setAttribute('type', attribute.type)
+    attributeDom.setAttribute('pred', attribute.pred)
+    attributeDom.innerText = attribute.type
+    attributeDom.appendChild(createAttributePopupEditorElement(editor, typeContainer, attribute))
+  }
+
+  return null
 }
 
-function removeAttributeElement(editor, attributeId) {
-  const attributeDom = getAttributeDom(editor[0], attributeId)
+function removeAttributeElement(editor, attribute) {
+  const attributeDom = getAttributeDom(editor[0], attribute.id)
 
   if (attributeDom) {
     attributeDom.remove()

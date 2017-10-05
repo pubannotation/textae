@@ -99,6 +99,6 @@ function IconApiMap(
 function PopupApiMap(command, presenter, daoHandler) {
   return new Map([
     ['textae.popup.button.add_attribute.click', presenter.event.createAttribute],
-    ['textae.popup.button.change_label.click', presenter.event.changeLabel]
+    ['textae.popup.button.change_label.click', presenter.event.changeLabelAndPred]
   ])
 }

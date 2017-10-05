@@ -22,11 +22,5 @@ export default function(editor, selectionModel, getHandler, autocompletionWs) {
       }
 
     editIdDialog(editor, currentType, getHandler().typeContainer, done, autocompletionWs)
-
-    // Cancel selections here.
-    // Because attributes are selected only during processing click events of add, edit and delete buttons.
-    if (getHandler().annotationData.name === 'attribute') {
-      selectionModel.clear()
-    }
   }
 }

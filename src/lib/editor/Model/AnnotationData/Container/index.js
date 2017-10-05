@@ -6,6 +6,7 @@ import ModelContainer from './ModelContainer'
 import ParagraphContainer from './ParagraphContainer'
 import SpanContainer from './SpanContainer'
 import EntityContainer from './EntityContainer'
+import AttributeContainer from './AttributeContainer'
 import _ from 'underscore'
 
 export default function(editor) {
@@ -13,8 +14,8 @@ export default function(editor) {
     namespace = new ModelContainer(emitter, 'namespace', _.identity),
     paragraph = new ParagraphContainer(editor, emitter),
     span = new SpanContainer(editor, emitter, paragraph),
-    attribute = new ModelContainer(emitter, 'attribute', mapAttributesAndRelations),
-    relation = new ModelContainer(emitter, 'relation', mapAttributesAndRelations),
+    attribute = new AttributeContainer(editor, emitter),
+    relation = new ModelContainer(emitter, 'relation', mapRelations),
     entity = new EntityContainer(editor, emitter, relation),
     modification = new ModelContainer(emitter, 'modification', _.identity)
 
@@ -30,13 +31,13 @@ export default function(editor) {
   })
 }
 
-function mapAttributesAndRelations(attributesOrRelations) {
-  return attributesOrRelations.map(aor => {
+function mapRelations(relations) {
+  return relations.map(r => {
     return {
-      id: aor.id,
-      type: aor.pred,
-      subj: aor.subj,
-      obj: aor.obj
+      id: r.id,
+      type: r.pred,
+      subj: r.subj,
+      obj: r.obj
     }
   })
 }

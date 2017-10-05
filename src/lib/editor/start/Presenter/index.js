@@ -105,6 +105,7 @@ export default function(
       replicate: defaultEntityHandler.replicate,
       pasteEntities: clipBoardHandler.pasteEntities,
       changeLabel: typeEditor.changeLabel,
+      changeLabelAndPred: typeEditor.changeLabelAndPred,
       cancelSelect,
       negation: modificationHandler.negation,
       speculation: modificationHandler.speculation,

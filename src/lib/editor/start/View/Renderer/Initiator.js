@@ -63,6 +63,9 @@ export default function(domPositionCaChe, relationRenderer, buttonStateHelper, t
       ['attribute.add', attribute => {
         attributeRenderer.render(attribute)
       }],
+      ['attribute.change', attribute => {
+        attributeRenderer.change(attribute)
+      }],
       ['attribute.remove', attribute => {
         attributeRenderer.remove(attribute)
       }],

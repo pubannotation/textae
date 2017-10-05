@@ -8,11 +8,26 @@ export default class extends DefaultHandler {
     this.annotationData = annotationData.attribute
     this.selectionModel = selectionModel.attribute
   }
-  changeTypeOfSelectedElement(newType) {
-    return this.getEditTarget(newType)
-      .map((id) => this.command.factory.attributeChangeTypeCommand(
+  getEditTarget(newType, newPred) {
+    return this.selectionModel.all()
+      .filter((id) => {
+        let attribute = this.annotationData.get(id)
+        return attribute.type !== newType || attribute.pred !== newPred
+      })
+  }
+  changeSelectedElement(newType, newPred) {
+    return this.getEditTarget(newType, newPred)
+      .map((id) => this.command.factory.attributeChangeCommand(
         id,
-        newType
+        newType,
+        newPred
       ))
+  }
+  getSelectedPred() {
+    let id = this.selectionModel.single()
+
+    if (id) {
+      return this.annotationData.get(id).pred
+    }
   }
 }

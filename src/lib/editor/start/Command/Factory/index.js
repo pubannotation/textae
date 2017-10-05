@@ -13,6 +13,7 @@ import entityRemoveAndSpanRemeveIfNoEntityRestCommand from './entityRemoveAndSpa
 import relationAndAssociatesRemoveCommand from './relationAndAssociatesRemoveCommand'
 import TypeChangeLabelCommand from './TypeChangeLabelCommand'
 import TypeCreateCommand from './TypeCreateCommand'
+import AttributeChangeCommand from "./AttributeChangeCommand"
 
 export default function Factory(editor, annotationData, selectionModel) {
   // The relaitonId is optional set only when revert of the relationRemoveCommand.
@@ -28,7 +29,7 @@ export default function Factory(editor, annotationData, selectionModel) {
       entityChangeTypeCommand: (id, newType, isRemoveRelations) => entityChangeTypeRemoveRelationCommand(annotationData, selectionModel, id, newType, isRemoveRelations),
       attributeCreateCommand: (attribute) => new CreateCommand(annotationData, selectionModel, 'attribute', true, attribute),
       attributeRemoveCommand: (id) => new RemoveCommand(annotationData, selectionModel, 'attribute', id),
-      attributeChangeTypeCommand: (id, newType) => new ChangeTypeCommand(annotationData, 'attribute', id, newType),
+      attributeChangeCommand: (id, newType, newPred) => new AttributeChangeCommand(annotationData, 'attribute', id, newType, newPred),
       relationCreateCommand: relationCreateCommand,
       relationRemoveCommand: (id) => relationAndAssociatesRemoveCommand(annotationData, selectionModel, id),
       relationChangeTypeCommand: (id, newType) => new ChangeTypeCommand(annotationData, 'relation', id, newType),
