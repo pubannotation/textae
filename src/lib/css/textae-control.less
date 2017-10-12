@@ -3,30 +3,10 @@
     display: inline-block;
     float: left;
 }
-/* control */
+/* common css of controls */
 .textae-control {
-    background-color: #bbe;
-    /* fallback (Opera) */
-    background: #bbe;
-    /* Mozilla: */
-    background: -moz-linear-gradient(left, #BBBBEE, #FFFFFF);
-    /* Chrome, Safari:*/
-    background: -webkit-gradient(linear, left top, right top, from(#BBBBEE), to(#FFFFFF));
-    /* MSIE */
-    filter:progid:DXImageTransform.Microsoft.Gradient(StartColorStr='#BBBBEE', EndColorStr='#FFFFFF', GradientType=1);
-    border-left: 5px solid #558;
-    border-radius: 15px;
-    border-right: 5px solid #558;
-    box-shadow: 6px 6px 6px 6px rgba(0,0,0,0.4);
-    display: inline-block;
-    margin-left: 2px;
-    padding: 0 20px 5px 10px;
-    position: relative;
-    visibility: hidden;
-    z-index: 7;
     /*== Elements inside the textae_control ==*/
     &__title {
-        .left;
         margin-right: 10px;
         font-weight: bold;
         text-shadow: 2px 2px 5px #555;
@@ -38,16 +18,10 @@
         }
     }
     &__separator {
-        .left;
         margin: 6px 2px 0 2px;
-        height: 16px;
-        border: 2px solid #aad;
     }
     &__icon {
-        .left;
         cursor: pointer;
-        height: 16px;
-        width: 16px;
         margin: 6px 4px 0 4px;
         &--disabled {
             cursor: auto;
@@ -81,11 +55,9 @@
     }
     &__undo-button {
         background: url("./images/btn_undo_16.png");
-        text-align: right;
     }
     &__redo-button {
         background: url("./images/btn_redo_16.png");
-        text-align: left;
     }
     &__replicate-button {
         background: url("./images/btn_replicate_16.png");
@@ -137,12 +109,76 @@
     }
 }
 .textae-editor--control-visible {
-  .textae-control {
-      visibility: visible !important;
-  }
+    .textae-control {
+        visibility: visible !important;
+    }
 }
 .textae-editor--control-hidden {
-  .textae-control {
-      visibility: hidden !important;
-  }
+    .textae-control {
+        visibility: hidden !important;
+    }
+}
+
+/* control bar */
+.textae-control-bar {
+    background-color: #bbe;
+    /* fallback (Opera) */
+    background: #bbe;
+    /* Mozilla: */
+    background: -moz-linear-gradient(left, #BBBBEE, #FFFFFF);
+    /* Chrome, Safari:*/
+    background: -webkit-gradient(linear, left top, right top, from(#BBBBEE), to(#FFFFFF));
+    /* MSIE */
+    filter:progid:DXImageTransform.Microsoft.Gradient(StartColorStr='#BBBBEE', EndColorStr='#FFFFFF', GradientType=1);
+    border-left: 5px solid #558;
+    border-radius: 15px;
+    border-right: 5px solid #558;
+    box-shadow: 6px 6px 6px 6px rgba(0,0,0,0.4);
+    display: inline-block;
+    margin-left: 2px;
+    padding: 0 20px 5px 10px;
+    position: relative;
+    visibility: hidden;
+    z-index: 7;
+    /*== Elements inside the textae_control ==*/
+    .textae-control__title {
+        .left;
+    }
+    .textae-control__separator {
+        .left;
+        height: 16px;
+        border: 2px solid #aad;
+    }
+    .textae-control__icon {
+        .left;
+        width: 16px;
+        height: 16px;
+    }
+}
+
+/* context menu */
+.textae-context-menu {
+    position: absolute;
+    padding: 10px;
+    border: solid 1px gray;
+    box-shadow: 2px 2px 1px 1px rgba(0, 0, 0, .4);
+    background-color: white;
+    z-index: 8;
+    &--show {
+        display: block;
+    }
+    &--hide {
+        display: none;
+    }
+
+    .textae-control__icon {
+        margin-top: 0;
+        padding-left: 20px;
+        background-size: 16px;
+        background-repeat: no-repeat;
+        background-position: left center;
+    }
+    .textae-control__separator {
+        border: 1px solid #aad;
+    }
 }

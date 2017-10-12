@@ -1,5 +1,6 @@
 import Tool from './tool'
-import control from './control'
+import controlBar from './control/controlBar'
+import ContextMenu from './control/ContextMenu'
 import editor from './editor'
 import combine from './combine'
 global.jQuery = require("jquery")
@@ -12,7 +13,7 @@ jQuery.fn.textae = (function() {
     if (jQuery(this).hasClass("textae-editor")) {
       jQuery(this).each(function() {
         // Create an editor
-        var e = jQuery(this)
+        let e = jQuery(this)
         editor.apply(e)
 
         // Register an editor
@@ -22,7 +23,7 @@ jQuery.fn.textae = (function() {
         e.api.start(e)
 
         // Combine a controle to an editor
-        combine(e, control())
+        combine(e, controlBar(), new ContextMenu(e))
 
         e.find('.textae-control').stick_in_parent()
 
