@@ -33,6 +33,11 @@ module.exports = function combine(editor, controlBar, contextMenu) {
     e.preventDefault()
   })
 
+  contextMenu[0].addEventListener('mousedown', (e) => {
+    // Should prevent because mousedown events bubble to the editor.
+    e.preventDefault()
+  })
+
   editor[0].addEventListener('mousedown', (e) => {
     if (contextMenu.isOpen()) {
       contextMenu.closing = true
