@@ -23,6 +23,7 @@ function changeAttributeElement(editor, typeContainer, attribute) {
   const attributeDom = getAttributeDom(editor[0], attribute.id)
 
   if (attributeDom) {
+    attributeDom.setAttribute('title', 'id: ' + attribute.id + ', pred: ' + attribute.pred + ', value: ' + attribute.type)
     attributeDom.setAttribute('type', attribute.type)
     attributeDom.setAttribute('pred', attribute.pred)
     attributeDom.innerText = attribute.type
@@ -43,5 +44,5 @@ function removeAttributeElement(editor, attribute) {
 }
 
 function getAttributeDom(editor, attributeId) {
-  return editor.querySelector(`[title="${attributeId}"]`)
+  return editor.querySelector(`[origin-id="${attributeId}"]`)
 }
