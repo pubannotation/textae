@@ -1,4 +1,4 @@
-import defaultType from './defaultType'
+import defaults from './defaults'
 import Container from './Container'
 
 export default function(annotationData) {
@@ -39,6 +39,6 @@ function setContainerDefinedTypes(container, newDefinedTypes) {
       .map((type) => type.id)
       .shift()
 
-    container.setDefaultType(defaultFromDefinedTypes || defaultType)
+    container.setDefaultType(defaultFromDefinedTypes || defaults.type)
   }
 }

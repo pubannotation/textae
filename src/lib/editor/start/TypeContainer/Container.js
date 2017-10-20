@@ -2,12 +2,12 @@ import {
   EventEmitter as EventEmitter
 }
 from 'events'
-import DEFAULT_TYPE from './defaultType'
+import DEFAULTS from './defaults'
 import uri from '../../uri'
 
 export default function(getActualTypesFunction, defaultColor) {
   let definedTypes = new Map(),
-    defaultType = DEFAULT_TYPE
+    defaultType = DEFAULTS.type
 
   const emitter = new EventEmitter(),
     api = {
@@ -33,6 +33,8 @@ export default function(getActualTypesFunction, defaultColor) {
         defaultType = id
       },
       getDefaultType: () => defaultType || getSortedIds()[0],
+      getDefaultPred: () => DEFAULTS.pred,
+      getDefaultValue: () => DEFAULTS.value,
       getColor: (id) => definedTypes.get(id) && definedTypes.get(id).color || defaultColor,
       getLabel: (id) => definedTypes.get(id) && definedTypes.get(id).label || undefined,
       getUri: (id) => uri.getUrlMatches(id) ? id : undefined,

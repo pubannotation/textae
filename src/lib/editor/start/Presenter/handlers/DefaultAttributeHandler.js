@@ -13,8 +13,8 @@ export default function DefaultAttributeHandler(annotationData, command, selecti
           return command.factory.attributeCreateCommand({
             id: null,
             subj: entityId,
-            pred: 'pred',
-            value: attribute.getDefaultType()
+            pred: attribute.getDefaultPred(),
+            value: attribute.getDefaultValue()
           })
         })
 
