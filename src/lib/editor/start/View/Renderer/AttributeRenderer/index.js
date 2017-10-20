@@ -23,10 +23,10 @@ function changeAttributeElement(editor, typeContainer, attribute) {
   const attributeDom = getAttributeDom(editor[0], attribute.id)
 
   if (attributeDom) {
-    attributeDom.setAttribute('title', 'id: ' + attribute.id + ', pred: ' + attribute.pred + ', value: ' + attribute.type)
-    attributeDom.setAttribute('type', attribute.type)
+    attributeDom.setAttribute('title', 'id: ' + attribute.id + ', pred: ' + attribute.pred + ', value: ' + attribute.value)
+    attributeDom.setAttribute('type', attribute.value)
     attributeDom.setAttribute('pred', attribute.pred)
-    attributeDom.innerText = attribute.type
+    attributeDom.innerText = attribute.value
     attributeDom.appendChild(createAttributePopupEditorElement(editor, typeContainer, attribute))
   }
 

@@ -4,26 +4,26 @@ import $ from 'jquery'
 
 customizeqQueryUiAutocomplete()
 
-export default function(dialog, inputId, inputPred, label, typeContainer, autocompletionWs, done, currentId, currentPred) {
+export default function(dialog, inputPred, inputValue, label, typeContainer, autocompletionWs, done, currentPred, currentValue) {
   // Update the source
-  $(inputId)
+  $(inputValue)
     .autocomplete({
       source: (request, response) => {
         label.innerText = ''
         source(typeContainer, autocompletionWs, request, response)
       },
       minLength: 3,
-      select: (event, ui) => select(inputId, label, ui)
+      select: (event, ui) => select(inputValue, label, ui)
     })
 
   // Update done handler
   dialog.done = done
 
   // Update display value
-  inputId.value = currentId
   inputPred.value = currentPred
-  if (typeContainer.getLabel(currentId)) {
-    label.innerText = typeContainer.getLabel(currentId)
+  inputValue.value = currentValue
+  if (typeContainer.getLabel(currentValue)) {
+    label.innerText = typeContainer.getLabel(currentValue)
   } else {
     label.innerText = ''
   }

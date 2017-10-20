@@ -8,19 +8,19 @@ export default class extends DefaultHandler {
     this.annotationData = annotationData.attribute
     this.selectionModel = selectionModel.attribute
   }
-  getEditTarget(newType, newPred) {
+  getEditTarget(newPred, newValue) {
     return this.selectionModel.all()
       .filter((id) => {
         let attribute = this.annotationData.get(id)
-        return attribute.type !== newType || attribute.pred !== newPred
+        return attribute.pred !== newPred || attribute.value !== newValue
       })
   }
-  changeSelectedElement(newType, newPred) {
-    return this.getEditTarget(newType, newPred)
+  changeSelectedElement(newPred, newValue) {
+    return this.getEditTarget(newPred, newValue)
       .map((id) => this.command.factory.attributeChangeCommand(
         id,
-        newType,
-        newPred
+        newPred,
+        newValue
       ))
   }
   getSelectedPred() {
@@ -28,6 +28,15 @@ export default class extends DefaultHandler {
 
     if (id) {
       return this.annotationData.get(id).pred
+    }
+
+    return ''
+  }
+  getSelectedValue() {
+    let id = this.selectionModel.single()
+
+    if (id) {
+      return this.annotationData.get(id).value
     }
 
     return ''

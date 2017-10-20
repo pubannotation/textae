@@ -4,21 +4,21 @@ import editIdAndPredDialog from '../../../../component/editIdAndPredDialog'
 export default function(editor, selectionModel, getHandler, autocompletionWs) {
   if (getHandler().getSelectedIdEditable().length > 0) {
     const handler = getHandler(),
-      currentType = handler.getSelectedType(),
       currentPred = handler.getSelectedPred(),
-      done = (id, pred, label) => {
+      currentValue = handler.getSelectedValue(),
+      done = (pred, value, label) => {
         let commands = []
 
         if (label) {
-          const command = getHandler().changeLabelOfId(id, label)
+          const command = getHandler().changeLabelOfId(value, label)
 
           if (command) {
             commands.push(command)
           }
         }
 
-        if (id) {
-          commands = commands.concat(getHandler().changeSelectedElement(id, pred))
+        if (value) {
+          commands = commands.concat(getHandler().changeSelectedElement(pred, value))
           getHandler().command.invoke(commands)
         }
 
@@ -27,6 +27,6 @@ export default function(editor, selectionModel, getHandler, autocompletionWs) {
         selectionModel.clear()
       }
 
-    editIdAndPredDialog(editor, currentType, currentPred, getHandler().typeContainer, done, autocompletionWs)
+    editIdAndPredDialog(editor, currentPred, currentValue, getHandler().typeContainer, done, autocompletionWs)
   }
 }

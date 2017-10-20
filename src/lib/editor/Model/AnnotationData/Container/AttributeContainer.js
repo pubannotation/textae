@@ -11,13 +11,13 @@ export default function(editor, emitter) {
   )
 
   return _.extend(container, {
-    change: (id, newType, newPred) => {
+    change: (id, newPred, newValue) => {
       let model = container.get(id)
-      if (newType) {
-        model.type = newType
-      }
       if (newPred) {
         model.pred = newPred
+      }
+      if (newValue) {
+        model.value = newValue
       }
       emitter.emit(container.name + '.change', model)
       return model
@@ -25,13 +25,13 @@ export default function(editor, emitter) {
   })
 }
 
-// Expected an entity like {id: "E21", span: "editor2__S50_54", type: "Protein"}.
+// Expected an attribute like {id: "A1", subj: "T1", pred: "example_predicate_1", obj: "attr1"}.
 let toModel = (editor, attribute) => {
     return {
       id: attribute.id,
       subj: attribute.subj,
       pred: attribute.pred,
-      type: attribute.obj
+      value: attribute.obj
     }
   },
   mappingFunction = (editor, attributions) => {

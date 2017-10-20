@@ -29,9 +29,9 @@ function toAttribution(dataStore) {
   return dataStore.attribute.all().map((attribute) => {
     return {
       id: attribute.id,
-      pred: attribute.pred,
       subj: attribute.subj,
-      obj: attribute.type,
+      pred: attribute.pred,
+      obj: attribute.value,
     }
   })
 }

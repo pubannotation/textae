@@ -2,16 +2,16 @@ import delegate from 'delegate'
 import EditorDialog from '../dialog/EditorDialog'
 import CLASS_NAMES from './className'
 
-export default function(editor, el, inputId, inputPred, label) {
+export default function(editor, el, inputPred, inputValue, label) {
   const okHandler = () => {
-      $dialog.done(inputId.value, inputPred.value, label.innerText)
+      $dialog.done(inputPred.value, inputValue.value, label.innerText)
       $dialog.close()
     },
     // Create a dialog
     $dialog = new EditorDialog(
       editor.editorId,
       'textae.dialog.edit-id',
-      'Please enter new id or pred',
+      'Please enter new predicate or value',
       el,
       {
         noCancelButton: true,
