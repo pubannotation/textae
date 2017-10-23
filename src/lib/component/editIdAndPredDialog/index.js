@@ -19,8 +19,13 @@ export default function(editor, currentPred, currentValue, typeContainer, done, 
     input = el.querySelectorAll('input'),
     inputPred = input[0],
     inputValue = input[1],
-    dialog = create(editor, el, inputPred, inputValue, label)
+    $dialog = create(editor, el, inputPred, inputValue, label)
 
-  dialog.open()
-  update(dialog, inputPred, inputValue, label, typeContainer, autocompletionWs, done, currentPred, currentValue)
+  $dialog.open()
+  update($dialog, inputPred, inputValue, label, typeContainer, autocompletionWs, done, currentPred, currentValue)
+  setFocusOnValueInput($dialog, CLASS_NAMES.value.split(' ')[2])
+}
+
+function setFocusOnValueInput($dialog, valueInputClassName) {
+  $dialog.find('.' + valueInputClassName).focus().select()
 }
