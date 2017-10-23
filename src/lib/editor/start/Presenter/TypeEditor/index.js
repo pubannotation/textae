@@ -1,7 +1,7 @@
 import Pallet from '../../../../component/Pallet'
 import ElementEditor from './ElementEditor'
 import changeLabelHandler from './changeLabelHandler'
-import changeLabelAndPredHandler from './changeLabelAndPredHandler'
+import changeAttributeHandler from './changeAttributeHandler'
 
 export default function(
   editor,
@@ -47,7 +47,7 @@ export default function(
       hidePallet: pallet.hide,
       getTypeOfSelected: () => elementEditor.getHandler().getSelectedType(),
       changeLabel: () => changeLabelHandler(editor, selectionModel, elementEditor.getHandler, autocompletionWs),
-      changeLabelAndPred: () => changeLabelAndPredHandler(editor, selectionModel, elementEditor.getHandler, autocompletionWs),
+      changeLabelAndPred: () => changeAttributeHandler(editor, selectionModel, elementEditor.getHandler, autocompletionWs),
       changeTypeOfSelectedElement: (newType) => elementEditor.getHandler().changeTypeOfSelectedElement(newType),
       changeSelectedElement: (newType) => elementEditor.getHandler().changeSelectedElement(newType),
       cancelSelect: () => cancelSelect(pallet, selectionModel),

@@ -1,11 +1,11 @@
-import editIdAndPredDialog from '../../../../component/editIdAndPredDialog'
+import EditAttributeDialog from '../../../../component/EditAttributeDialog'
 
 // An handler is get on runtime, because it is changed by the edit mode.
 export default function(editor, selectionModel, getHandler, autocompletionWs) {
   if (getHandler().getSelectedIdEditable().length > 0) {
     const handler = getHandler(),
-      currentPred = handler.getSelectedPred(),
-      currentValue = handler.getSelectedValue(),
+      value1 = handler.getSelectedPred(),
+      value2 = handler.getSelectedValue(),
       done = (pred, value, label) => {
         let commands = []
 
@@ -27,6 +27,8 @@ export default function(editor, selectionModel, getHandler, autocompletionWs) {
         selectionModel.clear()
       }
 
-    editIdAndPredDialog(editor, currentPred, currentValue, getHandler().typeContainer, done, autocompletionWs)
+    let dialog = new EditAttributeDialog(editor, getHandler().typeContainer, done, autocompletionWs)
+    dialog.update(value1, value2)
+    dialog.open()
   }
 }

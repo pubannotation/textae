@@ -1,26 +1,30 @@
-import editIdDialog from '../../../../component/editIdDialog'
+import EditLabelDialog from '../../../../component/EditLabelDialog'
 
 // An handler is get on runtime, because it is changed by the edit mode.
 export default function(editor, selectionModel, getHandler, autocompletionWs) {
   if (getHandler().getSelectedIdEditable().length > 0) {
-    const currentType = getHandler().getSelectedType(),
-      done = (id, label) => {
+    const handler = getHandler(),
+      value1 = 'type',
+      value2 = handler.getSelectedType(),
+      done = (value1, value2, label) => {
         let commands = []
 
         if (label) {
-          const command = getHandler().changeLabelOfId(id, label)
+          const command = handler.changeLabelOfId(value2, label)
 
           if (command) {
             commands.push(command)
           }
         }
 
-        if (id) {
-          commands = commands.concat(getHandler().changeTypeOfSelectedElement(id))
-          getHandler().command.invoke(commands)
+        if (value2) {
+          commands = commands.concat(handler.changeTypeOfSelectedElement(value2))
+          handler.command.invoke(commands)
         }
       }
 
-    editIdDialog(editor, currentType, getHandler().typeContainer, done, autocompletionWs)
+    let dialog = new EditLabelDialog(editor, handler.typeContainer, done, autocompletionWs)
+    dialog.update(value1, value2)
+    dialog.open()
   }
 }
