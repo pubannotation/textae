@@ -3,10 +3,6 @@
     &.ui-dialog {
         overflow: visible;
     }
-    // Fix candidates width
-    .ui-autocomplete {
-        width: 498px;
-    }
 
     .ui-menu-item {
         max-width: 100%;
@@ -26,4 +22,10 @@
     .ui-menu-item:hover div {
         overflow: visible;
     }
+}
+
+.ui-widget.ui-autocomplete {
+    // Fix candidates width
+    width: 498px;
+    z-index: 102;
 }
