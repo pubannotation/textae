@@ -15,7 +15,7 @@ function stickGridOnSpan(getSpan, span) {
   var spanPosition = getSpan(span.id)
 
   return {
-    top: spanPosition.top - calcHeightOfGrid(span.id),
+    top: spanPosition.top - calcHeightOfGrid(span.id) + 2, // '+2' means nothing special, just tweaking.
     left: spanPosition.left
   }
 }
