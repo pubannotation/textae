@@ -1,11 +1,12 @@
 import BaseCommand from './BaseCommand'
 import commandLog from './commandLog'
 import AttributeChangeCommand from './AttributeChangeCommand'
+import _ from 'underscore'
 
 export default class extends BaseCommand {
   constructor(annotationData, modelType, id, newPred, newValue) {
     super(function() {
-      let oldModel = annotationData[modelType].get(id)
+      let oldModel = _.clone(annotationData[modelType].get(id))
 
       // Update model
       let targetModel = annotationData[modelType].change(id, newPred, newValue)
