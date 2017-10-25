@@ -8,6 +8,7 @@ import $ from 'jquery'
 // Buttons that always eanable.
 const ALWAYS_ENABLES = {
   read: true,
+  write: true,
   help: true
 }
 
@@ -41,7 +42,7 @@ function createElement() {
 
 function updateAllButtonEnableState($control, buttonList, enableButtons) {
   // Make buttons in a enableButtons enabled, and other buttons in the buttonList disabled.
-  const enables = Object.assign({}, buttonList, ALWAYS_ENABLES, enableButtons)
+  const enables = Object.assign({}, buttonList, enableButtons, ALWAYS_ENABLES)
 
   // A function to enable/disable button.
   updateButtons($control, buttonList, enables)
