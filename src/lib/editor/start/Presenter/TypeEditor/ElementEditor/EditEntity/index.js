@@ -21,8 +21,8 @@ export default function(editor, annotationData, selectionModel, command, modeAcc
         .on('mouseup', '.textae-editor__type-label', (e) => typeLabelClicked(selectionModel, e))
         .on('mouseup', '.textae-editor__entity-pane', (e) => entityPaneClicked(selectionModel, e))
         .on('mouseup', '.textae-editor__entity', (e) => entityClicked(selectionModel, e))
-        .on('click', '.textae-editor__attribute-button--add', (e) => addButtonClicked(editor, annotationData, selectionModel, command, typeContainer, e))
-        .on('click', '.textae-editor__attribute-button--edit', (e) => editButtonClicked(editor, annotationData, selectionModel, command, typeContainer, e))
+        .on('click', '.textae-editor__attribute-button--add', (e) => addButtonClicked(editor, selectionModel, e))
+        .on('click', '.textae-editor__attribute-button--edit', (e) => editButtonClicked(editor, selectionModel, e))
         .on('click', '.textae-editor__attribute-button--delete', (e) => deleteButtonClicked(annotationData, selectionModel, command, e))
       },
       handlers = () => {
@@ -39,22 +39,17 @@ export default function(editor, annotationData, selectionModel, command, modeAcc
   }
 }
 
-function addButtonClicked(editor, annotationData, selectionModel, command, typeContainer, e) {
-  let attributeId = getAttributeIdByClickedButton(e)
-
-  selectAttribute(selectionModel, e)
+function addButtonClicked(editor, selectionModel, e) {
+  let entityId = e.target.parentNode.firstChild.firstChild.getAttribute('title')
+  selectionModel.clear()
+  selectionModel.entity.add(entityId)
   editor.api.handlePopupClick('textae.popup.button.add_attribute.click', null)
 }
 
-function editButtonClicked(editor, annotationData, selectionModel, command, typeContainer, e) {
-  let attributeId = getAttributeIdByClickedButton(e)
-
-  selectAttribute(selectionModel, e)
-  editor.api.handlePopupClick('textae.popup.button.change_label.click', null)
-}
-
-function selectAttribute(selectionModel, e) {
+function editButtonClicked(editor, selectionModel, e) {
   let attributeId = getAttributeIdByClickedButton(e)
   selectionModel.clear()
   selectionModel.attribute.add(attributeId)
+  editor.api.handlePopupClick('textae.popup.button.change_label.click', null)
 }
+

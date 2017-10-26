@@ -183,8 +183,16 @@
         box-shadow: 0 1px 2px 0 rgba(100, 100, 100, .5);
         background-color: white;
         &--add {
-            padding-top: 1px;
+            visibility: hidden;
+            position: relative;
+            top: -10px;
+            z-index: 10;
+            margin: 0 auto;
             &:before {
+                position: relative;
+                display: inline-block;
+                top: -11px;
+                left: 0;
                 font-family: FontAwesome;
                 content: "\f067";
             }
@@ -355,6 +363,11 @@
 
     &--instance-mode&--editable,
     &--term-mode&--editable {
+        .textae-editor__type-label.ui-selected {
+            + .textae-editor__attribute-button {
+                visibility: visible;
+            }
+        }
         .textae-editor__attribute:hover {
             box-shadow: 1px 1px 3px #600;
 

@@ -30,6 +30,10 @@ function createEmptyTypeDomElement(namespace, typeContainer, spanId, type) {
       'background-color': typeContainer.getColor(type),
     })
 
+  let addButtonElement = document.createElement('div')
+  addButtonElement.classList.add('textae-editor__attribute-button')
+  addButtonElement.classList.add('textae-editor__attribute-button--add')
+
   $typeLabel[0].setAttribute('tabindex', 0)
 
   setLabelToTypeLabel($typeLabel[0], namespace, typeContainer, type)
@@ -39,6 +43,7 @@ function createEmptyTypeDomElement(namespace, typeContainer, spanId, type) {
     .addClass('textae-editor__type')
     .append($entityPane)
     .append($typeLabel)
+    .append($(addButtonElement))
 }
 
 // Create a grid unless it exists.

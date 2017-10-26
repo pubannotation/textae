@@ -7,9 +7,8 @@ import _ from 'underscore'
 export default function DefaultAttributeHandler(annotationData, command, selectionModel, attribute) {
   let emitter = new EventEmitter(),
     createAttributeImple = function() {
-      let attributes = selectionModel.attribute.all(),
-        commands = attributes.map(function(attributeId) {
-          let entityId = annotationData.attribute.get(attributeId).subj
+      let entities = selectionModel.entity.all(),
+        commands = entities.map(function(entityId) {
           return command.factory.attributeCreateCommand({
             id: null,
             subj: entityId,
