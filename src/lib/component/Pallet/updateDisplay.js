@@ -1,9 +1,9 @@
 import toRows from './toRows'
 
-export default function(pallet, typeContainer, point) {
+export default function(pallet, typeContainer, point, labelUsedNumberMap) {
   if (typeContainer && typeContainer.getSortedIds().length > 0) {
     clear(pallet)
-    appendRows(pallet, typeContainer)
+    appendRows(pallet, typeContainer, labelUsedNumberMap)
     show(pallet)
     setWidthWithinWindow(pallet)
     setHeightWithinWindow(pallet)
@@ -16,8 +16,8 @@ function clear(pallet) {
   pallet.style.height = ''
 }
 
-function appendRows(pallet, typeContainer) {
-  pallet.querySelector('table').innerHTML = toRows(typeContainer)
+function appendRows(pallet, typeContainer, labelUsedNumberMap) {
+  pallet.querySelector('table').innerHTML = toRows(typeContainer, labelUsedNumberMap)
 }
 
 function show(pallet) {

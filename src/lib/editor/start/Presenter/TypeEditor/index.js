@@ -30,7 +30,8 @@ export default function(
         elementEditor.getHandler().typeContainer.setDefaultType(label)
         // Focus the editor to prevent lost focus when the pallet is closed during selecting radio buttons.
         editor[0].focus()
-      }
+      },
+      annotationData
     ),
     api = {
       editRelation: elementEditor.start.editRelation,

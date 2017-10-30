@@ -1,6 +1,12 @@
 import Handlebars from 'handlebars'
 
 const html = `
+<tr>
+  <th></th>
+  <th>label</th>
+  <th>used</th>
+  <th></th>
+</tr>
 {{#each this}}
 <tr class="textae-editor__type-pallet__entity-type" style="background-color: {{color}};">
   <td>
@@ -11,8 +17,8 @@ const html = `
       {{id}}
     </span>
   </td>
-  <td>
-    {{label}}
+  <td class="textae-editor__type-pallet__entity-type__used-number">
+    {{label}} {{usedNumber}}
   </td>
   <td>
     {{#if uri}}
@@ -25,7 +31,7 @@ const html = `
 
 let tepmlate = Handlebars.compile(html)
 
-export default function(typeContainer) {
+export default function(typeContainer, labelUsedNumberMap) {
   let types = typeContainer
     .getSortedIds()
     .map(id => {
@@ -34,7 +40,8 @@ export default function(typeContainer) {
         label: typeContainer.getLabel(id),
         defaultType: id === typeContainer.getDefaultType(),
         uri: typeContainer.getUri(id),
-        color: typeContainer.getColor(id)
+        color: typeContainer.getColor(id),
+        usedNumber: labelUsedNumberMap.get(id)
       }
     })
 
