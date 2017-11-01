@@ -1,5 +1,6 @@
 import EditRelation from './EditRelation'
 import EditEntity from './EditEntity'
+import EditAttribute from './EditAttibute'
 import unbindAllEventhandler from './unbindAllEventhandler'
 import DefaultHandler from './DefaultHandler'
 
@@ -8,7 +9,8 @@ export default function(editor, annotationData, selectionModel, spanConfig, comm
   let handler = new DefaultHandler()
 
   const editRelation = new EditRelation(editor, annotationData, selectionModel, command, typeContainer, cancelSelect),
-    editEntity = new EditEntity(editor, annotationData, selectionModel, command, modeAccordingToButton, typeContainer, spanConfig, cancelSelect)
+    editEntity = new EditEntity(editor, annotationData, selectionModel, command, modeAccordingToButton, typeContainer, spanConfig, cancelSelect),
+    editAttribute = new EditAttribute(editor, annotationData, selectionModel, command, typeContainer, cancelSelect)
 
   return {
     getHandler: () => handler,
@@ -21,6 +23,7 @@ export default function(editor, annotationData, selectionModel, spanConfig, comm
         unbindAllEventhandler(editor)
 
         editEntity.init()
+        editAttribute.init()
         handler = editEntity.handlers
       },
       editRelation: () => {

@@ -60,6 +60,9 @@ export default function(domPositionCaChe, relationRenderer, buttonStateHelper, t
         entityRenderer.remove(entity)
         chongeSpanOfEntity(entity)
       }],
+      ['attribute.remove', attribute => {
+        attributeRenderer.remove(attribute)
+      }],
       ['relation.add', relation => {
         relationRenderer.render(relation)
       }],
