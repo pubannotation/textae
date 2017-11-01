@@ -10,6 +10,7 @@ import TypeStyle from '../TypeStyle'
 import SpanRenderer from './SpanRenderer'
 import GridRenderer from './GridRenderer'
 import EntityRenderer from './EntityRenderer'
+import AttributeRenderer from './AttributeRenderer'
 import getTypeDom from './getTypeDom'
 import modelToId from '../../../modelToId'
 
@@ -18,10 +19,12 @@ export default function(domPositionCaChe, relationRenderer, buttonStateHelper, t
     gridRenderer = new GridRenderer(editor, domPositionCaChe),
     renderEntityHandler = (entity) => getTypeDom(entity.span, entity.type).css(new TypeStyle(typeGap())),
     entityRenderer = new EntityRenderer(editor, annotationData, selectionModel, typeContainer.entity, gridRenderer, renderEntityHandler),
+    attributeRenderer = new AttributeRenderer(editor, annotationData, selectionModel, typeContainer.entity, gridRenderer, renderEntityHandler),
     spanRenderer = new SpanRenderer(
       annotationData,
       typeContainer.entity.isBlock,
-      entityRenderer.render
+      entityRenderer.render,
+      attributeRenderer.render
     )
 
   return (editor, annotationData, selectionModel) => {

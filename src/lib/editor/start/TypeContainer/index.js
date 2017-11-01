@@ -9,16 +9,20 @@ export default function(annotationData) {
           return definition && definition.type && definition.type === 'block'
         }
       }),
+    attributeContainer = new Container(annotationData.attribute.types, '#77DDDD'),
     relationContaier = new Container(annotationData.relation.types, '#555555')
 
   return {
     entity: entityContainer,
     setDefinedEntityTypes: (newDefinedTypes) => setContainerDefinedTypes(entityContainer, newDefinedTypes),
+    attribute: attributeContainer,
+    setDefinedAttributeTypes: (newDefinedTypes) => setContainerDefinedTypes(attributeContainer, newDefinedTypes),
     relation: relationContaier,
     setDefinedRelationTypes: (newDefinedTypes) => setContainerDefinedTypes(relationContaier, newDefinedTypes),
     getConfig: () => {
       return {
         'entity types': entityContainer.getDefinedTypes(),
+        'attribute types': attributeContainer.getDefinedTypes(),
         'relation types': relationContaier.getDefinedTypes()
       }
     }

@@ -26,6 +26,10 @@ module.exports = {
     // Exclude : and . from a dom id to use for ID selector.
     return makeId(editor.editorId, 'E', id.replace(/[:¥.]/g, ''))
   },
+  makeAttributeDomId: function(editor, id) {
+    // Exclude : and . from a dom id to use for ID selector.
+    return makeId(editor.editorId, 'A', id.replace(/[:¥.]/g, ''))
+  },
   makeParagraphId: function(editor, id) {
     return makeId(editor.editorId, 'P', id)
   }

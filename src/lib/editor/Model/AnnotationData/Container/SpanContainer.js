@@ -28,18 +28,23 @@ export default function(editor, emitter, paragraph) {
         // Get online for update is not grantieed.
         getTypes: function() {
           let spanId = this.id
-
-          // Return an array of type like { id : "editor2__S1741_1755-1", name: "Negative_regulation", entities: ["E16", "E17"] }.
+          // Return an array of type like { id : "editor2__S1741_1755-1", name: "Negative_regulation", entities: ["E16", "E17"], attributes: ["A16", "A17"] }.
           return emitter.entity.all()
             .filter(function(entity) {
               return spanId === entity.span
             })
             .reduce(function(a, b) {
-              let typeId = idFactory.makeTypeId(b.span, b.type)
-
-              let type = a.filter(function(type) {
-                return type.id === typeId
-              })
+              let typeId = idFactory.makeTypeId(b.span, b.type),
+                type = a.filter(function (type) {
+                  return type.id === typeId
+                }),
+                attributes = emitter.attribute.all()
+                  .filter(function(attribute) {
+                    return attribute.subj === b.id
+                  })
+                  .map(function(attribute) {
+                    return attribute.id
+                  })
 
               if (type.length > 0) {
                 type[0].entities.push(b.id)
@@ -47,7 +52,8 @@ export default function(editor, emitter, paragraph) {
                 a.push({
                   id: typeId,
                   name: b.type,
-                  entities: [b.id]
+                  entities: [b.id],
+                  attributes: attributes
                 })
               }
               return a
@@ -56,6 +62,11 @@ export default function(editor, emitter, paragraph) {
         getEntities: function() {
           return _.flatten(this.getTypes().map(function(type) {
             return type.entities
+          }))
+        },
+        getAttributes: function() {
+          return _.flatten(this.getTypes().map(function(type) {
+            return type.attributes
           }))
         }
       }
