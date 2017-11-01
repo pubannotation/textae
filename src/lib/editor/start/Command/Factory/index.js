@@ -27,6 +27,7 @@ export default function Factory(editor, annotationData, selectionModel) {
       entityRemoveCommand: (ids) => entityRemoveAndSpanRemeveIfNoEntityRestCommand(annotationData, selectionModel, ids),
       entityChangeTypeCommand: (id, newType, isRemoveRelations) => entityChangeTypeRemoveRelationCommand(annotationData, selectionModel, id, newType, isRemoveRelations),
       attributeRemoveCommand: (id) => new RemoveCommand(annotationData, selectionModel, 'attribute', id),
+      attributeChangeTypeCommand: (id, newType) => new ChangeTypeCommand(annotationData, 'attribute', id, newType),
       relationCreateCommand: relationCreateCommand,
       relationRemoveCommand: (id) => relationAndAssociatesRemoveCommand(annotationData, selectionModel, id),
       relationChangeTypeCommand: (id, newType) => new ChangeTypeCommand(annotationData, 'relation', id, newType),

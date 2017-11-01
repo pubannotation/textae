@@ -11,6 +11,8 @@ export default function(editor, annotationData, selectionModel, buttonController
     .on('span.change', buttonController.buttonStateHelper.updateBySpan)
     .on('entity.select', selector.entity.select)
     .on('entity.deselect', selector.entity.deselect)
+    .on('attribute.select', selector.attribute.select)
+    .on('attribute.deselect', selector.attribute.deselect)
     .on('relation.select', delay150(selector.relation.select))
     .on('relation.deselect', delay150(selector.relation.deselect))
     .on('relation.change', buttonController.buttonStateHelper.updateByRelation)

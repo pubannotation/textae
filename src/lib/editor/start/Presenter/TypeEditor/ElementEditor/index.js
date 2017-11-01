@@ -5,30 +5,38 @@ import DefaultHandler from './DefaultHandler'
 
 // Provide handlers to edit elements according to an edit mode.
 export default function(editor, annotationData, selectionModel, spanConfig, command, modeAccordingToButton, typeContainer, cancelSelect) {
-  let handler = new DefaultHandler()
+  let handler = 'default'
 
-  const editRelation = new EditRelation(editor, annotationData, selectionModel, command, typeContainer, cancelSelect),
-    editEntity = new EditEntity(editor, annotationData, selectionModel, command, modeAccordingToButton, typeContainer, spanConfig, cancelSelect)
+  const editEntity = new EditEntity(editor, annotationData, selectionModel, command, modeAccordingToButton, typeContainer, spanConfig, cancelSelect),
+  editRelation = new EditRelation(editor, annotationData, selectionModel, command, typeContainer, cancelSelect)
 
   return {
-    getHandler: () => handler,
+    getHandler: () => getHandler(handler, editEntity, editRelation),
     start: {
       noEdit: () => {
         unbindAllEventhandler(editor)
-        handler = new DefaultHandler()
+        handler = 'default'
       },
       editEntity: () => {
         unbindAllEventhandler(editor)
 
         editEntity.init()
-        handler = editEntity.handlers
+        handler = 'entity'
       },
       editRelation: () => {
         unbindAllEventhandler(editor)
 
         editRelation.init()
-        handler = editRelation.handlers
+        handler = 'relation'
       }
     }
+  }
+}
+
+function getHandler(handler, editEntity, editRelation) {
+  switch (handler) {
+    case 'entity' : return editEntity.handlers()
+    case 'relation' : return editRelation.handlers
+    default : return new DefaultHandler()
   }
 }

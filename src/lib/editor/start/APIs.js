@@ -7,12 +7,14 @@ export default function(
   updateLineHeight
 ) {
   const keyApiMap = new KeyApiMap(command, presenter, daoHandler),
-    iconApiMap = new IconApiMap(command, presenter, daoHandler, buttonController, updateLineHeight)
+    iconApiMap = new IconApiMap(command, presenter, daoHandler, buttonController, updateLineHeight),
+    popupApiMap = new PopupApiMap(command, presenter, daoHandler)
 
   // Update APIs
   return {
     handleKeyInput: (key, value) => handle(keyApiMap, key, value),
     handleButtonClick: (key, value) => handle(iconApiMap, key, value),
+    handlePopupClick: (key, value) => handle(popupApiMap, key, value),
     redraw: () => {
       // Positions of grids differ from positions of spans when the Maximize button clicked of the chrome and edge on the windows.
       // They move spans after grids are moved.
@@ -92,4 +94,10 @@ function IconApiMap(
       ['textae.control.button.line_height.click', updateLineHeight]
     ]
   )
+}
+
+function PopupApiMap(command, presenter, daoHandler) {
+  return new Map([
+    ['textae.popup.button.change_label.click', presenter.event.changeLabel]
+  ])
 }
