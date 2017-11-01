@@ -10,7 +10,7 @@ export default function(editor, typeContainer, attributeModel) {
   element.setAttribute('type', attributeModel.type)
   element.classList.add('textae-editor__attribute')
   element.style.borderColor = typeContainer.getColor(attributeModel.type)
-  element.innerText = attributeModel.obj
+  element.innerText = attributeModel.obj || 'something'
 
   element.appendChild(popUpEditorElement)
 

@@ -4,6 +4,7 @@ import EditMode from './EditMode'
 import DisplayInstance from './DisplayInstance'
 import ClipBoardHandler from './handlers/ClipBoardHandler'
 import DefaultEntityHandler from './handlers/DefaultEntityHandler'
+import DefaultAttributeHandler from './handlers/DefaultAttributeHandler'
 import removeSelectedElements from './handlers/removeSelectedElements'
 import ModificationHandler from './handlers/ModificationHandler'
 import SelectHandler from './handlers/SelectHandler'
@@ -56,6 +57,12 @@ export default function(
       spanConfig,
       typeContainer.entity
     ),
+    defaultAttributeHandler = new DefaultAttributeHandler(
+      annotationData,
+      command,
+      selectionModel,
+      typeContainer.attribute
+    ),
     clipBoardHandler = new ClipBoardHandler(
       command,
       annotationData,
@@ -93,6 +100,7 @@ export default function(
         selectHandler
       ),
       createEntity: defaultEntityHandler.createEntity,
+      createAttribute: defaultAttributeHandler.createAttribute,
       showPallet: typeEditor.showPallet,
       replicate: defaultEntityHandler.replicate,
       pasteEntities: clipBoardHandler.pasteEntities,

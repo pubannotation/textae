@@ -45,7 +45,7 @@ export default function(
       },
       hidePallet: pallet.hide,
       getTypeOfSelected: () => elementEditor.getHandler().getSelectedType(),
-      changeLabel: () => changeLabelHandler(editor, elementEditor.getHandler, autocompletionWs),
+      changeLabel: () => changeLabelHandler(editor, selectionModel, elementEditor.getHandler, autocompletionWs),
       changeTypeOfSelectedElement: (newType) => elementEditor.getHandler().changeTypeOfSelectedElement(newType),
       cancelSelect: () => cancelSelect(pallet, selectionModel),
       jsPlumbConnectionClicked: (jsPlumbConnection, event) => jsPlumbConnectionClicked(

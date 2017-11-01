@@ -1,7 +1,7 @@
 import editIdDialog from '../../../../component/editIdDialog'
 
 // An handler is get on runtime, because it is changed by the edit mode.
-export default function(editor, getHandler, autocompletionWs) {
+export default function(editor, selectionModel, getHandler, autocompletionWs) {
   if (getHandler().getSelectedIdEditable().length > 0) {
     const currentType = getHandler().getSelectedType(),
       done = (id, label) => {
@@ -22,5 +22,11 @@ export default function(editor, getHandler, autocompletionWs) {
       }
 
     editIdDialog(editor, currentType, getHandler().typeContainer, done, autocompletionWs)
+
+    // Cancel selections here.
+    // Because attributes are selected only during processing click events of add, edit and delete buttons.
+    if (getHandler().annotationData.name === 'attribute') {
+      selectionModel.clear()
+    }
   }
 }

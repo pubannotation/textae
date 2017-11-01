@@ -62,6 +62,8 @@ function initRenderer(editor, annotationData, selectionModel, updateAnnotationPo
     .on('entity.add', debouncedUpdateAnnotationPosition)
     .on('entity.change', debouncedUpdateAnnotationPosition)
     .on('entity.remove', debouncedUpdateAnnotationPosition)
+    .on('attribute.add', debouncedUpdateAnnotationPosition)
+    .on('attribute.remove', debouncedUpdateAnnotationPosition)
     .on('relation.add', debouncedUpdateAnnotationPosition)
 }
 
