@@ -5,7 +5,7 @@ from 'events'
 import IdContainer from './IdContainer'
 import modelToId from '../modelToId'
 
-const kinds = ['span', 'entity', 'relation']
+const kinds = ['span', 'entity', 'attribute', 'relation']
 
 export default class extends EventEmitter {
   constructor(annotationData) {
