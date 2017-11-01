@@ -1,8 +1,8 @@
-import BUTTON_MAP from './buttonMap'
+import BUTTON_MAP from '../buttonMap'
 import makeButtons from './makeButtons'
-import toButtonList from './toButtonList'
-import * as cssUtil from './iconCssUtil'
-import updateButtons from './updateButtons'
+import toButtonList from '../toButtonList'
+import * as cssUtil from '../iconCssUtil'
+import updateButtons from '../updateButtons'
 import $ from 'jquery'
 
 // Buttons that always eanable.
@@ -35,6 +35,7 @@ export default function() {
 function createElement() {
   const el = document.createElement('div')
   el.classList.add('textae-control')
+  el.classList.add('textae-control-bar')
   makeButtons(el, BUTTON_MAP)
 
   return el
