@@ -51,6 +51,11 @@ function getAnntation(element) {
     annotaiton.set('save_to', getSaveToUrl(element))
   }
 
+  if (!inlineAnnotation && !url) {
+    let defaultText = '{"text": "Currently, the document is empty. Use the `import` button or press the key `i` to open a document with annotation."}'
+    annotaiton.set('inlineAnnotation', defaultText)
+  }
+
   return annotaiton
 }
 
