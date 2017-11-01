@@ -36,7 +36,7 @@ export default function(editor, annotationData) {
           modifyStyle(el, 'add')
 
           // Set focus to the label element in order to scroll the browser to the position of the element.
-          el.parentNode.previousElementSibling.focus()
+          el.parentNode.nextElementSibling.focus()
         }
       },
       deselect: (id) => {
@@ -66,7 +66,7 @@ function updateEntityLabel(editor, entityId) {
   // Entities of block span hos no dom elements.
   if (entity) {
     let typePane = entity.parentNode,
-      typeLabel = typePane.previousElementSibling
+      typeLabel = typePane.nextElementSibling
 
     if (typePane.children.length === typePane.querySelectorAll(`.${SELECTED}`).length) {
       typeLabel.classList.add(SELECTED)

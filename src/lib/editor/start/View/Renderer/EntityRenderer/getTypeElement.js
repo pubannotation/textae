@@ -37,8 +37,8 @@ function createEmptyTypeDomElement(namespace, typeContainer, spanId, type) {
   return $('<div>')
     .attr('id', typeId)
     .addClass('textae-editor__type')
+    .append($entityPane)
     .append($typeLabel)
-    .append($entityPane) // Set pane after label because pane is over label.
 }
 
 // Create a grid unless it exists.
