@@ -28,6 +28,11 @@ export default function() {
     buttonType,
     isPushed
   )
+  $control.transitButtonImage = transitButtons => transitButtonImage(
+    $control,
+    buttonList,
+    transitButtons
+  )
 
   return $control
 }
@@ -54,4 +59,16 @@ function updateButtonPushState($control, buttonType, isPushed) {
   } else {
     cssUtil.unpush($control, buttonType)
   }
+}
+
+function transitButtonImage($control, buttonList, transitButtons) {
+  Object.keys(transitButtons)
+    .filter(buttonType => buttonList[buttonType])
+    .forEach(buttonType => {
+      if (transitButtons[buttonType] === true) {
+        cssUtil.transit($control, buttonType)
+      } else {
+        cssUtil.untransit($control, buttonType)
+      }
+    })
 }

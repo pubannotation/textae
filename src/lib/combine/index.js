@@ -8,6 +8,7 @@ module.exports = function combine(editor, control) {
     .on('textae.editor.unselect', control.updateAllButtonEnableState)
     .on('textae.control.button.push', (data) => control.updateButtonPushState(data.buttonName, data.state))
     .on('textae.control.buttons.change', (enableButtons) => control.updateAllButtonEnableState(enableButtons))
+    .on('textae.control.buttons.transit', (transitButtons) => control.transitButtonImage(transitButtons))
 
   editor.api.updateButtons()
 

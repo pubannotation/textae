@@ -3,9 +3,10 @@ const allButtons = ['delete'],
   relationButtons = allButtons.concat(['pallet', 'change-label', 'negation', 'speculation']),
   entityButtons = relationButtons.concat(['copy'])
 
-export default function(selectionModel, modeAccordingToButton, buttonEnableStates, updateButtonState, updateModificationButtons) {
+export default function(selectionModel, modeAccordingToButton, buttonEnableStates, updateButtonState, buttonTransitStates, updateModificationButtons) {
   const propagate = () => {
       buttonEnableStates.propagate()
+      buttonTransitStates.propagate()
       modeAccordingToButton.propagate()
     }
 
@@ -13,6 +14,10 @@ export default function(selectionModel, modeAccordingToButton, buttonEnableState
     propagate,
     enabled(button, enable) {
       buttonEnableStates.set(button, enable)
+      propagate()
+    },
+    transit(button, isTransit) {
+      buttonTransitStates.set(button, isTransit)
       propagate()
     },
     updateBySpan() {
