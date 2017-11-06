@@ -5,7 +5,7 @@ const html = `
   <th>default</th>
   <th>id</th>
   <th>label</th>
-  <th>used</th>
+  <th>use</th>
   <th>color</th>
 </tr>
 {{#each this}}
@@ -24,7 +24,7 @@ const html = `
   <td class="textae-editor__type-pallet__entity-type__short-label">
     {{label}}
   </td>
-  <td class="textae-editor__type-pallet__entity-type__used-number">
+  <td class="textae-editor__type-pallet__entity-type__use-number">
     {{usedNumber}}
   </td>
   <td>

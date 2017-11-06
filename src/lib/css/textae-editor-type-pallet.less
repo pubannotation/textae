@@ -5,17 +5,20 @@
     border-width: 1px;
     margin: 0;
     padding: 0;
+    text-align: center;
 }
 /* pallet */
 .textae-editor__type-pallet {
     background-color: rgba(200,255,255,0.9);
     border: solid 2px #333;
+    border-radius: 5px;
+    box-shadow: gray 10px 10px 10px 0;
     font-size: x-small;
     margin: 0;
     max-height: 450px;
     line-height: normal;
-    overflow-x: scroll;;
-    padding: 0;
+    overflow-x: hidden;
+    padding: 5px;
     position: fixed;
     -webkit-touch-callout: none;
     -webkit-user-select: none;
@@ -31,14 +34,19 @@
     tr {
         .table;
     }
+    th {
+        padding-right: 8px;
+    }
     td {
         .table;
-        &.textae-editor__type-pallet__entity-type__label {
+        &.textae-editor__type-pallet__entity-type__label,
+        &.textae-editor__type-pallet__entity-type__short-label {
             overflow-x: hidden;
             padding: 5px;
             max-width: 500px;
+            text-align: left;
         }
-        &.textae-editor__type-pallet__entity-type__used-number {
+        &.textae-editor__type-pallet__entity-type__use-number {
             padding: 5px;
         }
     }
@@ -58,6 +66,7 @@
     &__link {
         background: url("./images/link.png");
         display: inline-block;
+        vertical-align: middle;
         height: 16px;
         width: 16px;
     }
