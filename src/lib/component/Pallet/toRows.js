@@ -3,6 +3,7 @@ import Handlebars from 'handlebars'
 const html = `
 <tr>
   <th>default</th>
+  <th>id</th>
   <th>label</th>
   <th>used</th>
   <th>color</th>
@@ -20,8 +21,11 @@ const html = `
       <a href="{{uri}}" target="_blank"><span class="textae-editor__type-pallet__link"></span></a>
     {{/if}}
   </td>
+  <td class="textae-editor__type-pallet__entity-type__short-label">
+    {{label}}
+  </td>
   <td class="textae-editor__type-pallet__entity-type__used-number">
-    {{label}} {{usedNumber}}
+    {{usedNumber}}
   </td>
   <td>
     <input class="textae-editor__type-pallet__color-picker" type="color" value="{{color}}" data-id="{{id}}">
