@@ -2,10 +2,11 @@ import Handlebars from 'handlebars'
 
 const html = `
 <tr>
-  <th></th>
+  <th>default</th>
   <th>label</th>
   <th>used</th>
   <th></th>
+  <th>color</th>
 </tr>
 {{#each this}}
 <tr class="textae-editor__type-pallet__entity-type" style="background-color: {{color}};">
@@ -24,6 +25,7 @@ const html = `
     {{#if uri}}
     <a href="{{uri}}" target="_blank"><span class="textae-editor__type-pallet__link"></span></a>
     {{/if}}
+    <input class="textae-editor__type-pallet__color-picker" type="color" value="{{color}}" data-id="{{id}}">
   </td>
 </tr>
 {{/each}}

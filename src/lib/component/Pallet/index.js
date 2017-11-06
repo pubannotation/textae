@@ -10,6 +10,7 @@ export default class {
   show(typeContainer, point) {
     let labelUsedNumberMap = countLabelUsed(this.annotationData, typeContainer.getSortedIds())
     updateDisplay(this.el, typeContainer, point, labelUsedNumberMap)
+    bindChangeEvent(this.el, typeContainer)
   }
 
   hide() {
@@ -33,4 +34,24 @@ function countLabelUsed(annotationData, sortedIds) {
   })
 
   return countMap
+}
+
+function bindChangeEvent(pallet, typeContainer) {
+  let inputColors = pallet.getElementsByTagName('input')
+
+  Array.from(inputColors, (inputColor) => {
+    inputColor.addEventListener('change', (e) => {
+      let target = e.target,
+        id = target.getAttribute('data-id'),
+        newColor = target.value
+
+      target.setAttribute('value', newColor)
+      target.parentNode.parentNode.setAttribute('style', 'background-color:' + newColor + ';')
+
+      typeContainer.setDefinedType({
+        id: id,
+        color: newColor
+      })
+    })
+  })
 }
