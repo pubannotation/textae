@@ -5,7 +5,6 @@ const html = `
   <th>default</th>
   <th>label</th>
   <th>used</th>
-  <th></th>
   <th>color</th>
 </tr>
 {{#each this}}
@@ -17,14 +16,14 @@ const html = `
     <span title={{id}}>
       {{id}}
     </span>
+    {{#if uri}}
+      <a href="{{uri}}" target="_blank"><span class="textae-editor__type-pallet__link"></span></a>
+    {{/if}}
   </td>
   <td class="textae-editor__type-pallet__entity-type__used-number">
     {{label}} {{usedNumber}}
   </td>
   <td>
-    {{#if uri}}
-    <a href="{{uri}}" target="_blank"><span class="textae-editor__type-pallet__link"></span></a>
-    {{/if}}
     <input class="textae-editor__type-pallet__color-picker" type="color" value="{{color}}" data-id="{{id}}">
   </td>
 </tr>
