@@ -1,11 +1,16 @@
 import delegate from 'delegate'
 
-export default function(selectType, selectDefaultType, selectAllFunc) {
+export default function(selectType, selectDefaultType, selectAllFunc, removeTypeFunc) {
   const pallet = document.createElement('div')
 
   pallet.classList.add('textae-editor__type-pallet')
   pallet.style.display = 'none'
   pallet.appendChild(document.createElement('table'))
+
+  delegate(pallet, '.textae-editor__type-pallet__entity-type__radio', 'change', (e) => {
+    pallet.style.display = 'none'
+    selectDefaultType(e.delegateTarget.id)
+  })
 
   delegate(pallet, '.textae-editor__type-pallet__entity-type__label', 'click', (e) => {
     pallet.style.display = 'none'
@@ -20,9 +25,12 @@ export default function(selectType, selectDefaultType, selectAllFunc) {
     }
   })
 
-  delegate(pallet, '.textae-editor__type-pallet__entity-type__radio', 'change', (e) => {
+  delegate(pallet, '.textae-editor__type-pallet__entity-type__remove', 'click', (e) => {
     pallet.style.display = 'none'
-    selectDefaultType(e.delegateTarget.id)
+    removeTypeFunc(
+      e.delegateTarget.getAttribute('data-id'),
+      e.delegateTarget.getAttribute('data-short-label')
+    )
   })
 
   return pallet

@@ -1,27 +1,15 @@
 import BaseCommand from './BaseCommand'
 import commandLog from './commandLog'
+import TypeRemoveCommand from './TypeRemoveCommand'
 
 class TypeCreateCommand extends BaseCommand {
-  constructor(typeContainer, id, label) {
+  constructor(typeContainer, newType) {
     super(function() {
-      typeContainer.setDefinedType({
-        id, label
-      })
+      typeContainer.setDefinedType(newType)
 
-      this.revert = () => new TypeRemoveCommand(typeContainer, id, label)
-      commandLog(`create a new type. id: ${id}, label: ${label}`)
-    })
-  }
-}
+      this.revert = () => new TypeRemoveCommand(typeContainer, newType)
 
-class TypeRemoveCommand extends BaseCommand {
-  constructor(typeContainer, id, label) {
-    super(function() {
-      typeContainer.remove(id)
-
-      // Set revert
-      this.revert = () => new TypeCreateCommand(typeContainer, id, label)
-      commandLog(`remove a type. id: ${id}`)
+      commandLog(`create a new type. id: ${newType.id}, label: ${newType.label}`)
     })
   }
 }

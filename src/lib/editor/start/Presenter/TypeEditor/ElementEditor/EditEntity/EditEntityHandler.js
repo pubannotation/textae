@@ -27,4 +27,16 @@ export default class extends DefaultHandler {
       }
     })
   }
+  removeType(id, label) {
+    let removeType = {
+      id: id,
+      label: label || ''
+    }
+
+    if (typeof id === "undefined") {
+      throw new Error('You must set the type id to remove.')
+    }
+
+    return [this.command.factory.typeRemoveCommand(this.typeContainer, removeType)]
+  }
 }

@@ -7,6 +7,7 @@ const html = `
   <th>label</th>
   <th>use</th>
   <th>color</th>
+  <th>remove</th>
 </tr>
 {{#each this}}
 <tr class="textae-editor__type-pallet__entity-type" style="background-color: {{color}};">
@@ -25,10 +26,15 @@ const html = `
     {{label}}
   </td>
   <td class="textae-editor__type-pallet__entity-type__use-number" data-id="{{id}}">
-    {{usedNumber}}
+    {{useNumber}}
   </td>
   <td>
     <input class="textae-editor__type-pallet__color-picker" type="color" value="{{color}}" data-id="{{id}}">
+  </td>
+  <td>
+    {{#unless useNumber}}
+    <input class="textae-editor__type-pallet__entity-type__remove" type="button" value="×" data-id="{{id}}" data-short-label="{{label}}">
+    {{/unless}}
   </td>
 </tr>
 {{/each}}
@@ -46,7 +52,7 @@ export default function(typeContainer, labelUsedNumberMap) {
         defaultType: id === typeContainer.getDefaultType(),
         uri: typeContainer.getUri(id),
         color: typeContainer.getColor(id),
-        usedNumber: labelUsedNumberMap.get(id)
+        useNumber: labelUsedNumberMap.get(id)
       }
     })
 

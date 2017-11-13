@@ -40,6 +40,10 @@ export default function(
       },
       (id) => {
         elementEditor.getHandler().selectAll(id)
+      },
+      (id, label) => {
+        const commands = elementEditor.getHandler().removeType(id, label)
+        command.invoke(commands)
       }
     ),
     api = {

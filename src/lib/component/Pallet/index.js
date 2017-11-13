@@ -2,16 +2,16 @@ import Component from './Component'
 import updateDisplay from './updateDisplay'
 
 export default class {
-  constructor(editor, selectType, selectDefaultType, annotationData, changeColorFunc, selectAllFunc) {
+  constructor(editor, selectType, selectDefaultType, annotationData, changeColorFunc, selectAllFunc, removeTypeFunc) {
     this.editor = editor
-    this.el = new Component(selectType, selectDefaultType, selectAllFunc)
+    this.el = new Component(selectType, selectDefaultType, selectAllFunc, removeTypeFunc)
     this.annotationData = annotationData
     this.changeColorFunc = changeColorFunc
   }
 
   show(typeContainer, point) {
     let labelUsedNumberMap = countLabelUsed(this.annotationData, typeContainer.getSortedIds())
-    updateDisplay(this.el, typeContainer, this.point, labelUsedNumberMap)
+    updateDisplay(this.el, typeContainer, point, labelUsedNumberMap)
     bindChangeEvent(this.editor, this.el, typeContainer, this.changeColorFunc, this.update)
   }
 

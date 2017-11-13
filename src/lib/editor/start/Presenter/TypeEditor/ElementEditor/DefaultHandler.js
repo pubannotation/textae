@@ -7,7 +7,7 @@ export default class {
     const oldType = this.typeContainer.getDefinedType(id)
 
     if (!oldType.id) {
-      return this.command.factory.typeCreateCommand(this.typeContainer, id, label)
+      return this.command.factory.typeCreateCommand(this.typeContainer, {id: id, label: label})
     }
 
     if (oldType.id && oldType.label !== label) {
