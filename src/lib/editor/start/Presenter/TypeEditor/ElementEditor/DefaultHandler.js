@@ -15,6 +15,7 @@ export default class {
     }
   }
   changeTypeOfSelectedElement() {}
+  changeColorOfType() {}
   getSelectedIdEditable() {
     if (this.selectionModel) {
       return this.selectionModel.all()
@@ -38,4 +39,5 @@ export default class {
     return this.selectionModel.all()
       .filter((id) => this.annotationData.get(id).type !== newType)
   }
+  selectAll() {}
 }

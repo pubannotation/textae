@@ -2,15 +2,17 @@ import Component from './Component'
 import updateDisplay from './updateDisplay'
 
 export default class {
-  constructor(selectType, selectDefaultType, annotationData) {
-    this.el = new Component(selectType, selectDefaultType)
+  constructor(editor, selectType, selectDefaultType, annotationData, changeColorFunc, selectAllFunc) {
+    this.editor = editor
+    this.el = new Component(selectType, selectDefaultType, selectAllFunc)
     this.annotationData = annotationData
+    this.changeColorFunc = changeColorFunc
   }
 
   show(typeContainer, point) {
     let labelUsedNumberMap = countLabelUsed(this.annotationData, typeContainer.getSortedIds())
-    updateDisplay(this.el, typeContainer, point, labelUsedNumberMap)
-    bindChangeEvent(this.el, typeContainer)
+    updateDisplay(this.el, typeContainer, this.point, labelUsedNumberMap)
+    bindChangeEvent(this.editor, this.el, typeContainer, this.changeColorFunc, this.update)
   }
 
   hide() {
@@ -36,7 +38,7 @@ function countLabelUsed(annotationData, sortedIds) {
   return countMap
 }
 
-function bindChangeEvent(pallet, typeContainer) {
+function bindChangeEvent(editor, pallet, typeContainer, changeColorFunc, updateFunc) {
   let inputColors = pallet.getElementsByTagName('input')
 
   Array.from(inputColors, (inputColor) => {
@@ -45,13 +47,10 @@ function bindChangeEvent(pallet, typeContainer) {
         id = target.getAttribute('data-id'),
         newColor = target.value
 
+      changeColorFunc(id, newColor)
+
       target.setAttribute('value', newColor)
       target.parentNode.parentNode.setAttribute('style', 'background-color:' + newColor + ';')
-
-      typeContainer.setDefinedType({
-        id: id,
-        color: newColor
-      })
     })
   })
 }

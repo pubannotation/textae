@@ -24,7 +24,7 @@ const html = `
   <td class="textae-editor__type-pallet__entity-type__short-label">
     {{label}}
   </td>
-  <td class="textae-editor__type-pallet__entity-type__use-number">
+  <td class="textae-editor__type-pallet__entity-type__use-number" data-id="{{id}}">
     {{usedNumber}}
   </td>
   <td>
