@@ -1,5 +1,6 @@
 import Pallet from '../../../../component/Pallet'
 import ElementEditor from './ElementEditor'
+import createTypeHandler from './createTypeHandler'
 import changeLabelHandler from './changeLabelHandler'
 
 export default function(
@@ -44,7 +45,8 @@ export default function(
       (id, label) => {
         const commands = elementEditor.getHandler().removeType(id, label)
         command.invoke(commands)
-      }
+      },
+      () => createTypeHandler(editor, elementEditor.getHandler, autocompletionWs)
     ),
     api = {
       editRelation: elementEditor.start.editRelation,

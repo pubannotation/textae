@@ -38,6 +38,11 @@ const html = `
   </td>
 </tr>
 {{/each}}
+<tr>
+<td colspan="6">
+  <input class="textae-editor__type-pallet__entity-type__add" type="button" value="add new type">
+</td>
+</tr>
 `
 
 let tepmlate = Handlebars.compile(html)

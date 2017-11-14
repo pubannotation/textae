@@ -3,6 +3,9 @@ export default class {
     // The Reference to content to be shown in the pallet.
     this.typeContainer = null
   }
+  addType(id) {
+    return this.command.factory.typeCreateCommand(this.typeContainer, {id: id, label: ''})
+  }
   changeLabelOfId(id, label) {
     const oldType = this.typeContainer.getDefinedType(id)
 

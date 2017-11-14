@@ -7,7 +7,10 @@ export default function(pallet, typeContainer, point, labelUsedNumberMap) {
     show(pallet)
     setWidthWithinWindow(pallet)
     setHeightWithinWindow(pallet)
-    moveIntoWindow(pallet, point)
+
+    if (point) {
+      moveIntoWindow(pallet, point)
+    }
   }
 }
 
