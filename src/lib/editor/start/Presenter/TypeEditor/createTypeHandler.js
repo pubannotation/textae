@@ -1,4 +1,4 @@
-import editIdDialog from '../../../../component/editIdDialog'
+import EditLabelDialog from '../../../../component/EditLabelDialog'
 import {
   EventEmitter as EventEmitter
 }
@@ -6,21 +6,25 @@ import {
 
 // An handler is get on runtime, because it is changed by the edit mode.
 export default function(editor, getHandler, autocompletionWs) {
-  const currentType = '',
-    done = (id) => {
+  const handler = getHandler(),
+    value1 = 'type',
+    value2 = '',
+    done = (value1, value2) => {
       let commands = [],
         emitter = new EventEmitter()
 
-      if (id) {
-        const command = getHandler().addType(id)
+      if (value2) {
+        const command = handler.addType(value2)
 
         if (command) {
           commands.push(command)
-          getHandler().command.invoke(commands)
+          handler.command.invoke(commands)
           editor.eventEmitter.emit('textae.pallet.update')
         }
       }
     }
 
-  editIdDialog(editor, currentType, getHandler().typeContainer, done, autocompletionWs)
+  let dialog = new EditLabelDialog(editor, handler.typeContainer, done, autocompletionWs)
+  dialog.update(value1, value2)
+  dialog.open()
 }
