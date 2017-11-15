@@ -1,5 +1,6 @@
 import Pallet from '../../../../component/Pallet'
 import ElementEditor from './ElementEditor'
+import createTypeHandler from './createTypeHandler'
 import changeLabelHandler from './changeLabelHandler'
 import changeAttributeHandler from './changeAttributeHandler'
 
@@ -24,14 +25,29 @@ export default function(
       typeContainer, () => cancelSelect(pallet, selectionModel)
     ),
     pallet = new Pallet(
+      editor,
       (label) => {
         const commands = elementEditor.getHandler().changeTypeOfSelectedElement(label)
         command.invoke(commands)
-      }, (label) => {
+      },
+      (label) => {
         elementEditor.getHandler().typeContainer.setDefaultType(label)
         // Focus the editor to prevent lost focus when the pallet is closed during selecting radio buttons.
         editor[0].focus()
-      }
+      },
+      annotationData,
+      (id, newColor) => {
+        const commands = elementEditor.getHandler().changeColorOfType(id, newColor)
+        command.invoke(commands)
+      },
+      (id) => {
+        elementEditor.getHandler().selectAll(id)
+      },
+      (id, label) => {
+        const commands = elementEditor.getHandler().removeType(id, label)
+        command.invoke(commands)
+      },
+      () => createTypeHandler(editor, elementEditor.getHandler, autocompletionWs)
     ),
     api = {
       editRelation: elementEditor.start.editRelation,

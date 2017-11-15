@@ -3,11 +3,14 @@ export default class {
     // The Reference to content to be shown in the pallet.
     this.typeContainer = null
   }
+  addType(id) {
+    return this.command.factory.typeCreateCommand(this.typeContainer, {id: id, label: ''})
+  }
   changeLabelOfId(id, label) {
     const oldType = this.typeContainer.getDefinedType(id)
 
     if (!oldType.id) {
-      return this.command.factory.typeCreateCommand(this.typeContainer, id, label)
+      return this.command.factory.typeCreateCommand(this.typeContainer, {id: id, label: label})
     }
 
     if (oldType.id && oldType.label !== label) {
@@ -15,6 +18,7 @@ export default class {
     }
   }
   changeTypeOfSelectedElement() {}
+  changeColorOfType() {}
   getSelectedIdEditable() {
     if (this.selectionModel) {
       return this.selectionModel.all()
@@ -38,4 +42,5 @@ export default class {
     return this.selectionModel.all()
       .filter((id) => this.annotationData.get(id).type !== newType)
   }
+  selectAll() {}
 }

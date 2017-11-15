@@ -12,7 +12,9 @@ import entityChangeTypeRemoveRelationCommand from './entityChangeTypeRemoveRelat
 import entityRemoveAndSpanRemeveIfNoEntityRestCommand from './entityRemoveAndSpanRemeveIfNoEntityRestCommand'
 import relationAndAssociatesRemoveCommand from './relationAndAssociatesRemoveCommand'
 import TypeChangeLabelCommand from './TypeChangeLabelCommand'
+import TypeChangeColorCommand from './TypeChangeColorCommand'
 import TypeCreateCommand from './TypeCreateCommand'
+import TypeRemoveCommand from './TypeRemoveCommand'
 import AttributeChangeCommand from "./AttributeChangeCommand"
 
 export default function Factory(editor, annotationData, selectionModel) {
@@ -35,8 +37,10 @@ export default function Factory(editor, annotationData, selectionModel) {
       relationChangeTypeCommand: (id, newType) => new ChangeTypeCommand(annotationData, 'relation', id, newType),
       modificationCreateCommand: (modification) => new CreateCommand(annotationData, selectionModel, 'modification', false, modification),
       modificationRemoveCommand: (modification) => new RemoveCommand(annotationData, selectionModel, 'modification', modification),
-      typeCreateCommand: (typeContainer, id, label) => new TypeCreateCommand(typeContainer, id, label),
-      typeChangeLabelCommand: (typeContainer, id, label) => new TypeChangeLabelCommand(typeContainer, id, label)
+      typeCreateCommand: (typeContainer, newType) => new TypeCreateCommand(typeContainer, newType),
+      typeRemoveCommand: (typeContainer, removeType) => new TypeRemoveCommand(typeContainer, removeType),
+      typeChangeLabelCommand: (typeContainer, id, label) => new TypeChangeLabelCommand(typeContainer, id, label),
+      typeChangeColorCommand: (typeContainer, id, color) => new TypeChangeColorCommand(typeContainer, id, color)
     }
 
   return factory
