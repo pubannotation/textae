@@ -8,6 +8,7 @@ module.exports = function combine(editor, controlBar, contextMenu) {
     .on('textae.editor.unselect', controlBar.updateAllButtonEnableState)
     .on('textae.control.button.push', (data) => controlBar.updateButtonPushState(data.buttonName, data.state))
     .on('textae.control.buttons.change', (enableButtons) => controlBar.updateAllButtonEnableState(enableButtons))
+    .on('textae.control.buttons.transit', (transitButtons) => controlBar.transitButtonImage(transitButtons))
 
   // add context menu
   editor[0].appendChild(contextMenu[0])

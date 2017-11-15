@@ -10,7 +10,7 @@ import ModificationHandler from './handlers/ModificationHandler'
 import SelectHandler from './handlers/SelectHandler'
 import ToggleButtonHandler from './handlers/ToggleButtonHandler'
 import ModeButtonHandlers from './handlers/ModeButtonHandlers'
-import setButtonState from './setButtonState'
+import transitSaveButton from './transitSaveButton'
 import bindModelChange from './bindModelChange'
 
 export default function(
@@ -116,7 +116,7 @@ export default function(
   Object.assign(event, toggleButtonHandler)
   Object.assign(event, modeButtonHandlers)
 
-  editMode.on('change', (editable, mode) => setButtonState(buttonController, editable, mode))
+  transitSaveButton(writable, editMode, buttonController)
 
   // The jsPlumbConnetion has an original event mecanism.
   // We can only bind the connection directory.

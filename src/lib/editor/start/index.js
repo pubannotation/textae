@@ -99,9 +99,7 @@ function loadAnnotation(spanConfig, typeContainer, annotationData, statusBar, pa
       // Load an annotation from server.
       dataAccessObject.getAnnotationFromServer(annotation.get('url'))
     } else {
-      setAnnotation(spanConfig, typeContainer, annotationData, {
-        text: 'Currently, the document is empty. Use the "import" button or press the key "i" to open a document with annotation.'
-      }, params.get('config'))
+      throw new Error('annotation text is empty.')
     }
   }
 }

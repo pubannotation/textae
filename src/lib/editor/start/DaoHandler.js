@@ -1,16 +1,9 @@
 export default function(dataAccessObject, history, annotationData, typeContainer, getOriginalAnnotation, params) {
   const showAccess = () => dataAccessObject.showAccess(history.hasAnythingToSave(), params),
-    showSave = () => {
-      if (isAnnotationImported(params)) {
-        showSaveDailogWithEditedData(dataAccessObject, annotationData, typeContainer, getOriginalAnnotation, params)
-      } else {
-        alert('please import an annotation from server or set by an inline configuration.')
-      }
-    }
+    showSave = () => showSaveDailogWithEditedData(dataAccessObject, annotationData, typeContainer, getOriginalAnnotation, params)
 
   return {
-    showAccess,
-    showSave
+    showAccess, showSave
   }
 }
 
@@ -23,8 +16,4 @@ function showSaveDailogWithEditedData(dataAccessObject, annotationData, typeCont
     annotationData.toJson(), {
       config
     })), params)
-}
-
-function isAnnotationImported(params) {
-  return params.has('inlineAnnotation') || params.has('url')
 }
