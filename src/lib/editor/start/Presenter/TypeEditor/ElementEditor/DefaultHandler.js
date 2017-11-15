@@ -4,7 +4,7 @@ export default class {
     this.typeContainer = null
   }
   addType(id) {
-    return this.command.factory.typeCreateCommand(this.typeContainer, {id: id, label: ''})
+    return this.command.factory.typeCreateCommand(this.typeContainer, {id: id})
   }
   changeLabelOfId(id, label) {
     const oldType = this.typeContainer.getDefinedType(id)
