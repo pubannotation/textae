@@ -17,7 +17,7 @@ export default class {
         console.log('pallet updated.')
       }
 
-    // selfUpdate will be called in an event, so neet to bind 'this'.
+    // selfUpdate will be called in an event, so need to bind 'this'.
     selfUpdate = selfUpdate.bind(this)
     this.editor.eventEmitter.on('textae.pallet.update', selfUpdate)
 
