@@ -47,8 +47,9 @@ const html = `
 
 let tepmlate = Handlebars.compile(html)
 
-export default function(typeContainer, labelUsedNumberMap) {
-  let types = typeContainer
+export default function(typeContainer) {
+  let labelUseCountMap = typeContainer.countTypeUse(),
+    types = typeContainer
     .getSortedIds()
     .map(id => {
       return {
@@ -57,7 +58,7 @@ export default function(typeContainer, labelUsedNumberMap) {
         defaultType: id === typeContainer.getDefaultType(),
         uri: typeContainer.getUri(id),
         color: typeContainer.getColor(id),
-        useNumber: labelUsedNumberMap.get(id)
+        useNumber: labelUseCountMap.get(id)
       }
     })
 

@@ -5,9 +5,10 @@ from 'events'
 import DEFAULTS from './defaults'
 import uri from '../../uri'
 
-export default function(getActualTypesFunction, defaultColor) {
+export default function(getAllInstanceFunc, getActualTypesFunction, defaultColor) {
   let definedTypes = new Map(),
-    defaultType = DEFAULTS.type
+    defaultType = null,
+    isSetDefaultTypeManually = false
 
   const emitter = new EventEmitter(),
     api = {
@@ -31,8 +32,13 @@ export default function(getActualTypesFunction, defaultColor) {
       setDefaultType: (id) => {
         console.assert(id, 'id is necessary!')
         defaultType = id
+        isSetDefaultTypeManually = true
       },
-      getDefaultType: () => defaultType || getSortedIds()[0],
+      setDefaultTypeAutomatically: (id) => {
+        defaultType = id
+      },
+      countTypeUse: () => countTypeUse(getAllInstanceFunc),
+      getDefaultType: () => isSetDefaultTypeManually ? defaultType : setAutoDefaultType(getAllInstanceFunc, api.setDefaultTypeAutomatically),
       getDefaultPred: () => DEFAULTS.pred,
       getDefaultValue: () => DEFAULTS.value,
       getColor: (id) => definedTypes.get(id) && definedTypes.get(id).color || defaultColor,
@@ -46,6 +52,44 @@ export default function(getActualTypesFunction, defaultColor) {
     }
 
   return Object.assign(emitter, api)
+}
+
+function countTypeUse(getAllInstanceFunc) {
+  let countMap = new Map()
+
+  getAllInstanceFunc().forEach((instance) => {
+    let type = instance.type
+    if (countMap.has(type)) {
+      countMap.set(type, countMap.get(type) + 1)
+    } else {
+      countMap.set(type, 1)
+    }
+  })
+
+  return countMap
+}
+
+function setAutoDefaultType(getAllInstanceFunc, setDefaultTypeFunc) {
+  let setType = null,
+    countMap = countTypeUse(getAllInstanceFunc)
+
+  if (!countMap || countMap.size === 0) {
+    setType = DEFAULTS.type
+  } else {
+    let mapAsc = new Map([...countMap.entries()].sort()),
+      max = 0
+
+    setType = [...mapAsc.keys()][0]
+    mapAsc.forEach((value, key) => {
+      if (value > max) {
+        max = value
+        setType = key
+      }
+    })
+  }
+
+  setDefaultTypeFunc(setType)
+  return setType
 }
 
 function getSortedIds(getActualTypesFunction, definedTypes) {

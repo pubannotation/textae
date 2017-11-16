@@ -3,14 +3,14 @@ import Container from './Container'
 
 export default function(annotationData) {
   const entityContainer = Object.assign(
-      new Container(annotationData.entity.types, '#77DDDD'), {
+      new Container(annotationData.entity.all, annotationData.entity.types, '#77DDDD'), {
         isBlock: (type) => {
           const definition = entityContainer.getDefinedType(type)
           return definition && definition.type && definition.type === 'block'
         }
       }),
-    attributeContainer = new Container(annotationData.attribute.types, '#77DDDD'),
-    relationContaier = new Container(annotationData.relation.types, '#555555')
+    attributeContainer = new Container(annotationData.attribute.all, annotationData.attribute.types, '#77DDDD'),
+    relationContaier = new Container(annotationData.relation.all, annotationData.relation.types, '#555555')
 
   return {
     entity: entityContainer,
@@ -39,6 +39,8 @@ function setContainerDefinedTypes(container, newDefinedTypes) {
       .map((type) => type.id)
       .shift()
 
-    container.setDefaultType(defaultFromDefinedTypes || defaults.type)
+    if (defaultFromDefinedTypes) {
+      container.setDefaultType(defaultFromDefinedTypes)
+    }
   }
 }
