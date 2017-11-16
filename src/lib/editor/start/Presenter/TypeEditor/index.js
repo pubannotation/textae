@@ -36,12 +36,19 @@ export default function(
         editor[0].focus()
       },
       annotationData,
-      (id, newColor) => {
-        const commands = elementEditor.getHandler().changeColorOfType(id, newColor)
+      (label, newColor) => {
+        const handler = elementEditor.getHandler(),
+          userSelectedIds = handler.selectionModel.all(),
+          commands = elementEditor.getHandler().changeColorOfType(label, newColor)
+
+        // need to select all target instance because relation's color will not be changed.
+        handler.selectAllByLabel(label)
         command.invoke(commands)
+        editor.api.redraw()
+        handler.selectAllById(userSelectedIds)
       },
-      (id) => {
-        elementEditor.getHandler().selectAll(id)
+      (label) => {
+        elementEditor.getHandler().selectAllByLabel(label)
       },
       (id, label) => {
         const commands = elementEditor.getHandler().removeType(id, label)

@@ -42,5 +42,22 @@ export default class {
     return this.selectionModel.all()
       .filter((id) => this.annotationData.get(id).type !== newType)
   }
-  selectAll() {}
+  selectAllByLabel(label) {
+    this.selectionModel.clear()
+    this.annotationData.all().map((model) => {
+      if (model.type === label) {
+        this.selectionModel.add(model.id)
+      }
+    })
+  }
+  selectAllById(ids) {
+    this.selectionModel.clear()
+    this.annotationData.all().map((model) => {
+      ids.map((id) => {
+        if (model.id === id) {
+          this.selectionModel.add(model.id)
+        }
+      })
+    })
+  }
 }

@@ -19,14 +19,6 @@ export default class extends DefaultHandler {
   changeColorOfType(id, newColor) {
     return [this.command.factory.typeChangeColorCommand(this.typeContainer, id, newColor)]
   }
-  selectAll(id) {
-    this.selectionModel.clear()
-    this.annotationData.all().map((entity) => {
-      if (entity.type === id) {
-        this.selectionModel.add(entity.id)
-      }
-    })
-  }
   removeType(id, label) {
     let removeType = {
       id: id,
