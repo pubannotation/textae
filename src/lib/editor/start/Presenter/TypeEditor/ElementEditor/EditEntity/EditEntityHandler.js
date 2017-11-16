@@ -16,19 +16,4 @@ export default class extends DefaultHandler {
         this.typeContainer.isBlock(newType)
       ))
   }
-  changeColorOfType(id, newColor) {
-    return [this.command.factory.typeChangeColorCommand(this.typeContainer, id, newColor)]
-  }
-  removeType(id, label) {
-    let removeType = {
-      id: id,
-      label: label || ''
-    }
-
-    if (typeof id === "undefined") {
-      throw new Error('You must set the type id to remove.')
-    }
-
-    return [this.command.factory.typeRemoveCommand(this.typeContainer, removeType)]
-  }
 }
