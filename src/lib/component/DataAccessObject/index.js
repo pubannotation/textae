@@ -4,6 +4,7 @@ import {
 from 'events'
 import CursorChanger from '../../util/CursorChanger'
 import getAnnotationFromServer from './getAnnotationFromServer'
+import DialogParams from '../dialog/DialogParams'
 import getLoadDialog from './getLoadDialog'
 import getSaveDialog from './getSaveDialog'
 import jsonEditor from '../jsonEditor'
@@ -17,13 +18,15 @@ module.exports = function(editor, confirmDiscardChangeMessage) {
       dataSourceUrl = url
     },
     api = new EventEmitter(),
-    showAccess = function(hasAnythingToSave, params) {
-      openAndSetParam(getLoadDialog(api, confirmDiscardChangeMessage, setDataSourceUrl, editor), hasAnythingToSave, dataSourceUrl, params)
+    showAccess = function(hasAnythingToSave, parameter) {
+      let params = new DialogParams(null, null, null, hasAnythingToSave)
+      openAndSetParam(getLoadDialog(api, confirmDiscardChangeMessage, setDataSourceUrl, editor), params, dataSourceUrl, parameter)
     },
-    showSave = function(jsonData, params) {
-      openAndSetParam(getSaveDialog(api, confirmDiscardChangeMessage, setDataSourceUrl, editor), jsonData, dataSourceUrl, params)
+    showSave = function(originalData, editedData, parameter) {
+      let params = new DialogParams(editedData, originalData.config, editedData.config, null)
+      openAndSetParam(getSaveDialog(api, confirmDiscardChangeMessage, setDataSourceUrl, editor), params, dataSourceUrl, parameter)
       // ADD JsonEditor
-      // var $dialog = openAndSetParam(getSaveDialog(api, confirmDiscardChangeMessage, setDataSourceUrl, editor), jsonData, dataSourceUrl, params)      
+      // var $dialog = openAndSetParam(getSaveDialog(api, confirmDiscardChangeMessage, setDataSourceUrl, editor), jsonData, dataSourceUrl, params)
       // jsonEditor($dialog)
     },
     cursorChanger = new CursorChanger(editor)
@@ -54,3 +57,8 @@ function openAndSetParam($dialog, params, dataSourceUrl, parameter) {
 
   return $dialog;
 }
+
+function extractConfigData(annotationData) {
+  return JSON.stringify(JSON.parse(annotationData).config)
+}
+

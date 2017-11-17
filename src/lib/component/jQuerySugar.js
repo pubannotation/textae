@@ -17,6 +17,11 @@ module.exports = {
     return $('<div>')
     .addClass(className)
   },
+  P: function(className, text) {
+    return $('<p>')
+    .addClass(className)
+    .text(text)
+  },
   Label: function(className, text) {
     return $('<label>')
     .addClass(className)

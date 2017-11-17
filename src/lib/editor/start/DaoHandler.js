@@ -8,12 +8,12 @@ export default function(dataAccessObject, history, annotationData, typeContainer
 }
 
 function showSaveDailogWithEditedData(dataAccessObject, annotationData, typeContainer, getOriginalAnnotation, params) {
-  const originalAnnotation = getOriginalAnnotation(),
+  const originalData = getOriginalAnnotation(),
     config = typeContainer.getConfig()
 
-  dataAccessObject.showSave(JSON.stringify(Object.assign(
-    originalAnnotation,
-    annotationData.toJson(), {
-      config
-    })), params)
+  dataAccessObject.showSave(
+    originalData,
+    Object.assign(JSON.parse(JSON.stringify(originalData)), annotationData.toJson(), {config}),
+    params
+  )
 }
