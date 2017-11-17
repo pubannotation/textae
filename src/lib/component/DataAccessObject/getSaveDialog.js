@@ -4,6 +4,7 @@ import getLoadDialog from './getLoadDialog'
 import label from './label'
 import jQuerySugar from '../jQuerySugar'
 import getDialog from './getDialog'
+import jsonDiff from '../../util/jsonDiff'
 import $ from 'jquery'
 import _ from 'underscore'
 
@@ -130,15 +131,17 @@ module.exports = function(api, confirmDiscardChangeMessage, setDataSourceUrl, ed
         api.emit('save')
         closeDialog($content)
       }),
-    $diffViewer = _.partial(jQuerySugar.Div, 'textae-editor__save-dialog__diff-viewer'),
+    $diffViewer = $('<div class="textae-editor__save-dialog__diff-viewer">'),
     $content = $annotationContent.append($configurationContent).append($diffViewer)
 
   var $dialog = getDialog('textae.dialog.save', 'Save Annotations', $content[0], editor)
 
   // Set the filename when the dialog is opened.
   $dialog.on('dialogopen', function() {
+    let diff = jsonDiff($dialog.params.originalConfig, $dialog.params.editedConfig)
     $dialog.find('[type="text"].local').val(getAnnotationFilename())
     $dialog.find('[type="text"].local--config').val(getConfigurationFilename())
+    $dialog.find('.textae-editor__save-dialog__diff-viewer').html(diff || 'nothing.')
   })
 
   return $dialog
