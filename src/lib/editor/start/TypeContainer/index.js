@@ -22,7 +22,7 @@ export default function(annotationData) {
     getConfig: () => {
       return {
         'entity types': entityContainer.getDefinedTypes(),
-        'attribute types': attributeContainer.getDefinedTypes(),
+        // 'attribute types': attributeContainer.getDefinedTypes(),
         'relation types': relationContaier.getDefinedTypes()
       }
     }
