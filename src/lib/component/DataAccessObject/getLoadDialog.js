@@ -96,7 +96,7 @@ module.exports = function(api, confirmDiscardChangeMessage, setDataSourceUrl, ed
       .append(
         new RowDiv().append(
           new RowLabel(label.URL),
-          $('<input type="text" class="textae-editor__load-dialog__server-file-name--config url--config" />'),
+          $('<input type="text" class="textae-editor__load-dialog__file-name--config url--config" />'),
           $configButtonUrl
         )
       )

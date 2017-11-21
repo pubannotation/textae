@@ -27,26 +27,68 @@
     border: 1px solid #b9b9b9;
     padding: 3px;
 }
+.config-title() {
+    margin: 20px 0 12px 6px;
+    padding: .2em .4em;
+    border-bottom: 1px solid #e78f08;
+    font-weight: bold;
+}
+
 /* dialog */
 .textae-editor {
     &__load-dialog {
         .common;
         .save_load;
-        &__file-name {
+        &__config-title {
+            .config-title;
+        }
+        &__file-name,
+        &__file-name--config {
             .file;
         }
-        &__file {
+        &__file,
+        &__file--config {
             .file;
         }
     }
     &__save-dialog {
         .common;
         .save_load;
-        &__server-file-name {
+        &__config-title {
+            .config-title;
+        }
+        &__server-file-name,
+        &__server-file-name--config {
             .file
         }
-        &__local-file-name {
+        &__local-file-name,
+        &__local-file-name--config {
             .file
+        }
+        &__diff-title {
+            margin: 10px 0 0 9px;
+            font-size: .8em;
+            .diff-info {
+                display: inline-block;
+                margin-left: 5px;
+                padding: 0 5px;
+                font-size: .8em;
+                &--add {
+                    background-color: #bbffbb;
+                }
+                &--remove {
+                    background-color: #ffbbbb;
+                    text-decoration: line-through;
+                }
+            }
+        }
+        &__diff-viewer {
+            overflow: scroll;
+            margin: 0 10px;
+            padding: 10px 0;
+            max-height: 250px;
+            border: solid 1px lightgray;
+            border-radius: 4px;
         }
     }
     &__edit-id-dialog {

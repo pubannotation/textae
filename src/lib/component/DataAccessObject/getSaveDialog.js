@@ -128,11 +128,17 @@ module.exports = function(api, confirmDiscardChangeMessage, setDataSourceUrl, ed
         $(this)
           .attr('href', downloadPath)
           .attr('download', jQuerySugar.getValueFromText($annotationContent, 'local--config'))
-        api.emit('save')
+        api.emit('save--config')
         closeDialog($content)
       }),
+    $diffTitle = new RowDiv()
+      .append($('<p class="textae-editor__save-dialog__diff-title">')
+        .text('Configuration differences')
+        .append($('<span class="diff-info diff-info--add">added</span>'))
+        .append($('<span class="diff-info diff-info--remove">removed</span>'))
+      ),
     $diffViewer = $('<div class="textae-editor__save-dialog__diff-viewer">'),
-    $content = $annotationContent.append($configurationContent).append($diffViewer)
+    $content = $annotationContent.append($configurationContent).append($diffTitle).append($diffViewer)
 
   var $dialog = getDialog('textae.dialog.save', 'Save Annotations', $content[0], editor)
 
