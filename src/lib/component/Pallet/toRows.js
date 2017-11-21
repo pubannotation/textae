@@ -26,7 +26,9 @@ const html = `
     {{label}}
   </td>
   <td class="textae-editor__type-pallet__entity-type__use-number" data-id="{{id}}">
-    {{useNumber}}
+    {{#if useNumber}}
+      <span class="textae-editor__type-pallet__entity-type__use-number__number">{{useNumber}}</span>
+    {{/if}}
   </td>
   <td>
     <input class="textae-editor__type-pallet__color-picker" type="color" value="{{color}}" data-id="{{id}}">

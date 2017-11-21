@@ -39,6 +39,9 @@
     }
     td {
         .table;
+        input {
+            cursor: pointer;
+        }
         &.textae-editor__type-pallet__entity-type__label,
         &.textae-editor__type-pallet__entity-type__short-label {
             overflow-x: hidden;
@@ -48,8 +51,24 @@
         }
         &.textae-editor__type-pallet__entity-type__use-number {
             padding: 5px;
+            .textae-editor__type-pallet__entity-type__use-number__number {
+                display: inline-block;
+                width: 100%;
+                height: 100%;
+                text-decoration: underline;
+                cursor: pointer;
+            }
+        }
+        & .textae-editor__type-pallet__entity-type__remove {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            background: transparent;
+            border: none;
+            text-decoration: underline;
         }
         & .textae-editor__type-pallet__entity-type__add {
+            margin: 2px 0;
             padding: 3px 5px;
         }
     }
