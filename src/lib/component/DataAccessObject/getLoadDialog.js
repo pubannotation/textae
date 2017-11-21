@@ -7,28 +7,41 @@ import $ from 'jquery'
 import _ from 'underscore'
 
 module.exports = function(api, confirmDiscardChangeMessage, setDataSourceUrl, editor) {
-  var getAnnotationFromFile = function(file) {
-      var firstFile = file.files[0],
-        reader = new FileReader()
+  let getJsonFromFile = function(file, fileType) {
+      let firstFile = file.files[0],
+        reader = new FileReader(),
+        params = {
+          annotation: null,
+          config: null,
+          source: firstFile.name + '(local file)'
+        }
+
+      if (['annotation', 'config'].indexOf(fileType) === -1) {
+        throw new Error('Cannot read data type of ' + fileType)
+      }
 
       reader.onload = function() {
         // Load json or .txt
-        let annotation
+        let loadData
         if (isJSON(this.result)) {
-          annotation = JSON.parse(this.result)
+          loadData = JSON.parse(this.result)
         } else if (isTxtFile(firstFile.name)) {
           // If this is .txt, New annotation json is made from .txt
-          annotation = {
+          loadData = {
             text: this.result
           }
         }
 
-        api.emit('load', {
-          annotation: annotation,
-          source: firstFile.name + '(local file)'
-        })
+        params[fileType] = loadData
+        api.emit('load--' + fileType, params)
       }
       reader.readAsText(firstFile)
+    },
+    getAnnotationFromFile = (file) => {
+      getJsonFromFile(file, 'annotation')
+    },
+    getConfigFromFile = (file) => {
+      getJsonFromFile(file, 'config')
     },
     RowDiv = _.partial(jQuerySugar.Div, 'textae-editor__load-dialog__row'),
     RowLabel = _.partial(jQuerySugar.Label, 'textae-editor__load-dialog__label'),
@@ -36,43 +49,83 @@ module.exports = function(api, confirmDiscardChangeMessage, setDataSourceUrl, ed
     isUserComfirm = function() {
       return !$dialog.params.hasAnythingToSave || window.confirm(confirmDiscardChangeMessage)
     },
-    $buttonUrl = new OpenButton('url'),
-    $buttonLocal = new OpenButton('local'),
-    $content = $('<div>')
+    $annotationButtonUrl = new OpenButton('url'),
+    $annotationButtonLocal = new OpenButton('local'),
+    $configButtonUrl = new OpenButton('url--config'),
+    $configButtonLocal = new OpenButton('local--config'),
+    $annotationContent = $('<div>')
     .append(
       new RowDiv().append(
         new RowLabel(label.URL),
         $('<input type="text" class="textae-editor__load-dialog__file-name url" />'),
-        $buttonUrl
+        $annotationButtonUrl
       )
     )
     .on('input', '[type="text"].url', function() {
-      jQuerySugar.enabled($buttonUrl, this.value)
+      jQuerySugar.enabled($annotationButtonUrl, this.value)
     })
     .on('click', '[type="button"].url', function() {
       if (isUserComfirm()) {
-        getAnnotationFromServer(jQuerySugar.getValueFromText($content, 'url'), new CursorChanger(editor), api, setDataSourceUrl)
+        getAnnotationFromServer(jQuerySugar.getValueFromText($annotationContent, 'url'), new CursorChanger(editor), api, setDataSourceUrl)
       }
-
-      $content.trigger('dialog.close')
+      closeDialog($content)
     })
     .append(
       new RowDiv().append(
         new RowLabel(label.LOCAL),
         $('<input class="textae-editor__load-dialog__file" type="file" />'),
-        $buttonLocal
+        $annotationButtonLocal
       )
     )
-    .on('change', '[type="file"]', function() {
-      jQuerySugar.enabled($buttonLocal, this.files.length > 0)
+    .on('change', '.textae-editor__load-dialog__file', function() {
+      jQuerySugar.enabled($annotationButtonLocal, this.files.length > 0)
     })
     .on('click', '[type="button"].local', function() {
       if (isUserComfirm()) {
-        getAnnotationFromFile($content.find('[type="file"]')[0])
+        getAnnotationFromFile($annotationContent.find('[type="file"]')[0])
       }
+      closeDialog($content)
+    }),
 
-      $content.trigger('dialog.close')
-    })
+    $configurationContent = $('<div>')
+      .append(
+        new RowDiv().append(
+          _.partial(jQuerySugar.P, 'textae-editor__load-dialog__config-title', '...or load configurations')
+        )
+      )
+      .append(
+        new RowDiv().append(
+          new RowLabel(label.URL),
+          $('<input type="text" class="textae-editor__load-dialog__server-file-name--config url--config" />'),
+          $configButtonUrl
+        )
+      )
+      .on('input', 'input.url--config', function() {
+        jQuerySugar.enabled($configButtonUrl, this.value)
+      })
+      .on('click', '[type="button"].url--config', function() {
+        // if (isUserComfirm()) {
+        //   getAnnotationFromServer(jQuerySugar.getValueFromText($configurationContent, 'url--config'), new CursorChanger(editor), api, setDataSourceUrl)
+        // }
+        // closeDialog($content)
+      })
+      .append(
+        new RowDiv().append(
+          new RowLabel(label.LOCAL),
+          $('<input class="textae-editor__load-dialog__file--config" type="file" />'),
+          $configButtonLocal
+        )
+      )
+      .on('change', '.textae-editor__load-dialog__file--config', function() {
+        jQuerySugar.enabled($configButtonLocal, this.files.length > 0)
+      })
+      .on('click', '[type="button"].local--config', function() {
+        if (isUserComfirm()) {
+          getConfigFromFile($configurationContent.find('.textae-editor__load-dialog__file--config')[0])
+        }
+        closeDialog($content)
+      }),
+    $content = $annotationContent.append($configurationContent)
 
   // Capture the local variable by inner funcitons.
   var $dialog = getDialog('textae.dialog.load', 'Load Annotations', $content[0], editor)
@@ -82,24 +135,29 @@ module.exports = function(api, confirmDiscardChangeMessage, setDataSourceUrl, ed
 
 
 function isJSON(arg) {
-  arg = (typeof arg === "function") ? arg() : arg;
+  arg = (typeof arg === "function") ? arg() : arg
   if (typeof arg !== "string") {
-    return false;
+    return false
   }
   try {
     arg = (!JSON) ? eval("(" + arg + ")") : JSON.parse(arg)
-    return true;
+    return true
   } catch (e) {
-    return false;
+    return false
   }
 }
 
 
 function isTxtFile($fileName) {
-  const f = $fileName.split('.');
+  const f = $fileName.split('.')
   if (f[f.length - 1].toLowerCase() === 'txt') {
-    return true;
+    return true
   } else {
-    return false;
+    return false
   }
 }
+
+function closeDialog($content) {
+  $content.trigger('dialog.close')
+}
+

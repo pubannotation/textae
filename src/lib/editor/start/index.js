@@ -61,10 +61,16 @@ export default function(editor, dataAccessObject, history, buttonController, ann
   }
 
   dataAccessObject
-    .on('load', data => {
+    .on('load--annotation', data => {
       setAnnotation(spanConfig, typeContainer, annotationData, data.annotation, params.get('config'))
       statusBar.status(data.source)
       originalAnnotation = data.annotation
+    })
+    .on('load--config', data => {
+      let config = data.config,
+        annotation = Object.assign(originalAnnotation, config)
+      setSpanAndTypeConfig(spanConfig, typeContainer, config)
+      annotationData.reset(annotation)
     })
 
   originalAnnotation = loadAnnotation(spanConfig, typeContainer, annotationData, statusBar, params, dataAccessObject)

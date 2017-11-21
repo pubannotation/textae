@@ -7,7 +7,7 @@ module.exports = function(urlToJson, cursorChanger, api, setDataSourceUrl) {
   cursorChanger.startWait()
   ajaxAccessor.getAsync(urlToJson, function getAnnotationFromServerSuccess(annotation) {
     cursorChanger.endWait()
-    api.emit('load', {
+    api.emit('load--annotation', {
       annotation: annotation,
       source: jQuerySugar.toLink(url.resolve(location.href, urlToJson))
     })
