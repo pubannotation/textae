@@ -23,6 +23,7 @@ const html = `
       <a href="{{uri}}" target="_blank"><span class="textae-editor__type-pallet__link"></span></a>
     {{/if}}
     {{#if defaultType}}
+      <span class="textae-editor__type-pallet__default-icon" title="This type is set as a default type."></span>
     {{/if}}
   </td>
   <td class="textae-editor__type-pallet__short-label">
