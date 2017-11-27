@@ -25,16 +25,24 @@ export default function(editor, annotationData, selectionModel, command, modeAcc
         .on('click', '.textae-editor__attribute-button--edit', (e) => editButtonClicked(editor, selectionModel, e))
         .on('click', '.textae-editor__attribute-button--delete', (e) => deleteButtonClicked(annotationData, selectionModel, command, e))
       },
+      entityHandler = () => {
+        return new EditEntityHandler(typeContainer, command, annotationData, selectionModel)
+      },
+      attributeHandler = () => {
+        return new EditAttributeHandler(typeContainer, command, annotationData, selectionModel)
+      },
       handlers = () => {
         if (selectionModel.entity.all().length >= 1) {
-          return new EditEntityHandler(typeContainer, command, annotationData, selectionModel)
+          return entityHandler(typeContainer, command, annotationData, selectionModel)
         }
 
-        return new EditAttributeHandler(typeContainer, command, annotationData, selectionModel)
+        return attributeHandler(typeContainer, command, annotationData, selectionModel)
       }
 
   return {
     init,
+    entityHandler: entityHandler,
+    attributeHandler: attributeHandler,
     handlers: handlers
   }
 }

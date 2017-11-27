@@ -12,6 +12,7 @@ export default function(editor, annotationData, selectionModel, spanConfig, comm
 
   return {
     getHandler: () => getHandler(handler, editEntity, editRelation),
+    getHandlerForPallet: () => getHandlerForPallet(handler, editEntity, editRelation),
     start: {
       noEdit: () => {
         unbindAllEventhandler(editor)
@@ -36,6 +37,14 @@ export default function(editor, annotationData, selectionModel, spanConfig, comm
 function getHandler(handler, editEntity, editRelation) {
   switch (handler) {
     case 'entity' : return editEntity.handlers()
+    case 'relation' : return editRelation.handlers
+    default : return new DefaultHandler()
+  }
+}
+
+function getHandlerForPallet(handler, editEntity, editRelation) {
+  switch (handler) {
+    case 'entity' : return editEntity.entityHandler()
     case 'relation' : return editRelation.handlers
     default : return new DefaultHandler()
   }

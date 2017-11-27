@@ -27,19 +27,19 @@ export default function(
     pallet = new Pallet(
       editor,
       (label) => {
-        const commands = elementEditor.getHandler().changeTypeOfSelectedElement(label)
+        const commands = elementEditor.getHandlerForPallet().changeTypeOfSelectedElement(label)
         command.invoke(commands)
       },
       (label) => {
-        elementEditor.getHandler().typeContainer.setDefaultType(label)
+        elementEditor.getHandlerForPallet().typeContainer.setDefaultType(label)
         // Focus the editor to prevent lost focus when the pallet is closed during selecting radio buttons.
         editor[0].focus()
       },
       annotationData,
       (label, newColor) => {
-        const handler = elementEditor.getHandler(),
+        const handler = elementEditor.getHandlerForPallet(),
           userSelectedIds = handler.selectionModel.all(),
-          commands = elementEditor.getHandler().changeColorOfType(label, newColor)
+          commands = handler.changeColorOfType(label, newColor)
 
         // need to select all target instance because relation's color will not be changed.
         handler.selectAllByLabel(label)
@@ -48,13 +48,13 @@ export default function(
         handler.selectAllById(userSelectedIds)
       },
       (label) => {
-        elementEditor.getHandler().selectAllByLabel(label)
+        elementEditor.getHandlerForPallet().selectAllByLabel(label)
       },
       (id, label) => {
-        const commands = elementEditor.getHandler().removeType(id, label)
+        const commands = elementEditor.getHandlerForPallet().removeType(id, label)
         command.invoke(commands)
       },
-      () => createTypeHandler(editor, elementEditor.getHandler, autocompletionWs)
+      () => createTypeHandler(editor, elementEditor.getHandlerForPallet, autocompletionWs)
     ),
     api = {
       editRelation: elementEditor.start.editRelation,
@@ -65,7 +65,7 @@ export default function(
         if (!editor[0].querySelector('.textae-editor__type-pallet')) {
           editor[0].appendChild(pallet.el)
         }
-        pallet.show(elementEditor.getHandler().typeContainer, point.point)
+        pallet.show(elementEditor.getHandlerForPallet().typeContainer, point.point)
       },
       hidePallet: pallet.hide,
       getTypeOfSelected: () => elementEditor.getHandler().getSelectedType(),

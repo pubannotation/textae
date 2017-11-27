@@ -7,6 +7,7 @@ export default function setButtonState(buttonController, editable, mode) {
   buttonController.buttonStateHelper.enabled('replicate-auto', isSpanEdit(editable, mode))
   buttonController.buttonStateHelper.enabled('boundary-detection', isSpanEdit(editable, mode))
   buttonController.buttonStateHelper.enabled('line-height', editable)
+  buttonController.buttonStateHelper.enabled('pallet', !isView(editable))
 }
 
 function isView(editable) {
