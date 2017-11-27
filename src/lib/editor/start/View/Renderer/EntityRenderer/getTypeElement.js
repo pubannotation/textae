@@ -33,6 +33,7 @@ function createEmptyTypeDomElement(namespace, typeContainer, spanId, type) {
   let addButtonElement = document.createElement('div')
   addButtonElement.classList.add('textae-editor__attribute-button')
   addButtonElement.classList.add('textae-editor__attribute-button--add')
+  addButtonElement.setAttribute('title', 'Add a new attribute to this entity.')
 
   $typeLabel[0].setAttribute('tabindex', 0)
 
