@@ -33,7 +33,7 @@ export default class {
 
 function bindChangeEvent(pallet, changeColorFunc, createTypeFunc) {
   let inputColors = pallet.getElementsByClassName('textae-editor__type-pallet__color-picker'),
-    inputAdd = pallet.getElementsByClassName('textae-editor__type-pallet__entity-type__add')
+    inputAdd = pallet.getElementsByClassName('textae-editor__type-pallet__add')
 
   Array.from(inputColors, (inputColor) => {
     inputColor.addEventListener('change', (e) => {

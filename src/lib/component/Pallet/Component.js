@@ -7,17 +7,17 @@ export default function(selectType, selectDefaultType, selectAllFunc, removeType
   pallet.style.display = 'none'
   pallet.appendChild(document.createElement('table'))
 
-  delegate(pallet, '.textae-editor__type-pallet__entity-type__radio', 'change', (e) => {
+  delegate(pallet, '.textae-editor__type-pallet__radio', 'change', (e) => {
     pallet.style.display = 'none'
     selectDefaultType(e.delegateTarget.id)
   })
 
-  delegate(pallet, '.textae-editor__type-pallet__entity-type__label', 'click', (e) => {
+  delegate(pallet, '.textae-editor__type-pallet__label', 'click', (e) => {
     pallet.style.display = 'none'
     selectType(e.delegateTarget.id)
   })
 
-  delegate(pallet, '.textae-editor__type-pallet__entity-type__use-number__number', 'click', (e) => {
+  delegate(pallet, '.textae-editor__type-pallet__use-number__number', 'click', (e) => {
     let useNum = e.delegateTarget.getAttribute('value')
     pallet.style.display = 'none'
     if (useNum >= 1) {
@@ -25,7 +25,7 @@ export default function(selectType, selectDefaultType, selectAllFunc, removeType
     }
   })
 
-  delegate(pallet, '.textae-editor__type-pallet__entity-type__remove', 'click', (e) => {
+  delegate(pallet, '.textae-editor__type-pallet__remove', 'click', (e) => {
     pallet.style.display = 'none'
     removeTypeFunc(
       e.delegateTarget.getAttribute('data-id'),
