@@ -7,6 +7,7 @@ const html = `
   <th>label</th>
   <th>use</th>
   <th>color</th>
+  <th>edit</th>
   <th>remove</th>
 </tr>
 {{#each this}}
@@ -35,6 +36,9 @@ const html = `
   </td>
   <td>
     <input class="textae-editor__type-pallet__color-picker" type="color" value="{{color}}" data-id="{{id}}">
+  </td>
+  <td>
+    <button class="textae-editor__type-pallet__edit-type" type="button" title="Edit this type."  data-id="{{id}}"></button>
   </td>
   <td>
     {{#unless useNumber}}

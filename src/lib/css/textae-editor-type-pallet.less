@@ -57,7 +57,8 @@
                 padding: 3px;
             }
         }
-        & .textae-editor__type-pallet__entity-type__remove {
+        & .textae-editor__type-pallet__edit-type,
+        & .textae-editor__type-pallet__remove {
             display: inline-block;
             width: 22px;
             height: 22px;
@@ -69,11 +70,20 @@
                 left: -3px;
                 font-size: 1.2em;
                 font-family: FontAwesome;
-                content: "\f1f8";
                 color: #333333;
             }
         }
-        & .textae-editor__type-pallet__entity-type__add {
+        & .textae-editor__type-pallet__edit-type {
+            &:before {
+                content: "\f040";
+            }
+        }
+        & .textae-editor__type-pallet__remove {
+            &:before {
+                content: "\f1f8";
+            }
+        }
+        & .textae-editor__type-pallet__add {
             margin: 2px 0;
             padding: 3px 5px;
         }
