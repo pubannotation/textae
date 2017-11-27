@@ -1,6 +1,6 @@
 const allButtons = ['delete'],
   spanButtons = allButtons.concat(['replicate', 'entity', 'copy', 'paste']),
-  relationButtons = allButtons.concat(['pallet', 'change-label', 'negation', 'speculation']),
+  relationButtons = allButtons.concat(['change-label', 'negation', 'speculation']),
   entityButtons = relationButtons.concat(['copy'])
 
 export default function(selectionModel, modeAccordingToButton, buttonEnableStates, updateButtonState, buttonTransitStates, updateModificationButtons) {

@@ -13,7 +13,6 @@ export default function(selectionModel, buttonEnableStates, clipBoard) {
       ['delete', () => selectionModel.some()], // It works well on relation-edit-mode if relations are deselect brefore an entity is select.
       ['copy', () => selectionModel.span.some() || selectionModel.entity.some()],
       ['paste', () => hasCopy() && selectionModel.span.some()],
-      ['pallet', eOrR],
       ['change-label', eOrR],
       ['negation', eOrR],
       ['speculation', eOrR]
