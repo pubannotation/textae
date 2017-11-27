@@ -51,7 +51,7 @@
             "title": "New entity [E]"
         }, {
             "type": "pallet",
-            "title": "Select label [Q]"
+            "title": "Show label list editor [Q]"
         }, {
             "type": "change-label",
             "title": "Change label [W]"
