@@ -17,8 +17,8 @@ export default function(selectType, selectDefaultType, selectAllFunc, removeType
     selectType(e.delegateTarget.id)
   })
 
-  delegate(pallet, '.textae-editor__type-pallet__entity-type__use-number', 'click', (e) => {
-    let useNum = e.delegateTarget.innerText
+  delegate(pallet, '.textae-editor__type-pallet__entity-type__use-number__number', 'click', (e) => {
+    let useNum = e.delegateTarget.getAttribute('value')
     pallet.style.display = 'none'
     if (useNum >= 1) {
       selectAllFunc(e.delegateTarget.getAttribute('data-id'))

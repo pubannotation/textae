@@ -25,9 +25,10 @@ const html = `
   <td class="textae-editor__type-pallet__entity-type__short-label">
     {{label}}
   </td>
-  <td class="textae-editor__type-pallet__entity-type__use-number" data-id="{{id}}">
+  <td class="textae-editor__type-pallet__entity-type__use-number">
     {{#if useNumber}}
-      <span class="textae-editor__type-pallet__entity-type__use-number__number">{{useNumber}}</span>
+      <input class="textae-editor__type-pallet__entity-type__use-number__number" type="button" value="{{useNumber}}"
+         title="Select all entities or relations of this type." data-id="{{id}}">
     {{/if}}
   </td>
   <td>
