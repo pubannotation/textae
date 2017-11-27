@@ -4,7 +4,7 @@ import updateDisplay from './updateDisplay'
 export default class {
   constructor(editor, selectType, selectDefaultType, annotationData, changeColorFunc, selectAllFunc, removeTypeFunc, createTypeFunc) {
     this.editor = editor
-    this.el = new Component(selectType, selectDefaultType, selectAllFunc, removeTypeFunc)
+    this.el = new Component(editor, selectType, selectDefaultType, selectAllFunc, removeTypeFunc)
     this.annotationData = annotationData
     this.changeColorFunc = changeColorFunc
     this.createTypeFunc = createTypeFunc
@@ -14,7 +14,6 @@ export default class {
     let selfUpdate = () => {
         updateDisplay(this.el, this.typeContainer, null)
         bindChangeEvent(this.el, this.changeColorFunc, this.createTypeFunc)
-        console.log('pallet updated.')
       }
 
     // selfUpdate will be called in an event, so need to bind 'this'.
