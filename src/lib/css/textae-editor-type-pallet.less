@@ -4,7 +4,7 @@
     border-style: solid;
     border-width: 1px;
     margin: 0;
-    padding: 0;
+    padding: 2px;
     text-align: center;
 }
 /* pallet */
@@ -50,7 +50,6 @@
             text-align: left;
         }
         &.textae-editor__type-pallet__entity-type__use-number {
-            padding: 2px;
             .textae-editor__type-pallet__entity-type__use-number__number {
                 display: inline-block;
                 width: 100%;
@@ -60,11 +59,19 @@
         }
         & .textae-editor__type-pallet__entity-type__remove {
             display: inline-block;
-            width: 20px;
-            height: 20px;
-            background: transparent;
-            border: none;
-            text-decoration: underline;
+            width: 22px;
+            height: 22px;
+            cursor: pointer;
+            &:before {
+                position: relative;
+                display: inline-block;
+                top: -1px;
+                left: -3px;
+                font-size: 1.2em;
+                font-family: FontAwesome;
+                content: "\f1f8";
+                color: #333333;
+            }
         }
         & .textae-editor__type-pallet__entity-type__add {
             margin: 2px 0;

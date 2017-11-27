@@ -36,7 +36,8 @@ const html = `
   </td>
   <td>
     {{#unless useNumber}}
-    <input class="textae-editor__type-pallet__entity-type__remove" type="button" value="×" data-id="{{id}}" data-short-label="{{label}}">
+    <button class="textae-editor__type-pallet__entity-type__remove" type="button"
+      title="Remove this type." data-id="{{id}}" data-short-label="{{label}}"></button>
     {{/unless}}
   </td>
 </tr>
