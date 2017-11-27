@@ -12,6 +12,7 @@ export default class {
     // Buttons that always enable.
     this.ALWAYS_ENABLES = {
       read: true,
+      write: true,
       help: true
     }
     this[0] = this.create()
