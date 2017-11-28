@@ -16,6 +16,10 @@ const CONTENT = `
             <input type="number" class="textae-editor__setting-dialog__line-height line-height" step="1" min="50" max="500">
             px
         </div>
+        <div>
+            <label class="textae-editor__setting-dialog__label">Lock Edit Config</label>
+            <input type="checkbox" class="textae-editor__setting-dialog__lock-config lock-config">
+        </div>
     </div>
 `
 
@@ -35,6 +39,11 @@ function bind($content, editor, displayInstance) {
   )
 
   bindChangeLineHeight(
+    $content,
+    editor
+  )
+
+  bindChangeLockConfig(
     $content,
     editor
   )
@@ -69,6 +78,25 @@ function bindChangeLineHeight($content, editor) {
       'change',
       '.line-height',
       onLineHeightChange
+    )
+}
+
+function bindChangeLockConfig($content, editor) {
+  let onChangeLockConfig = debounce300(
+    (e) => {
+      if (e.target.checked) {
+        editor.eventEmitter.emit('textae.config.lock')
+      } else {
+        editor.eventEmitter.emit('textae.config.unlock')
+      }
+    }
+  )
+
+  return $content
+    .on(
+      'change',
+      '.lock-config',
+      onChangeLockConfig
     )
 }
 

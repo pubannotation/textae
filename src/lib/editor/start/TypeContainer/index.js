@@ -1,7 +1,7 @@
 import defaults from './defaults'
 import Container from './Container'
 
-export default function(annotationData) {
+export default function(editor, annotationData) {
   const entityContainer = Object.assign(
       new Container(annotationData.entity.all, annotationData.entity.types, '#77DDDD'), {
         isBlock: (type) => {
@@ -12,7 +12,18 @@ export default function(annotationData) {
     attributeContainer = new Container(annotationData.attribute.all, annotationData.attribute.types, '#77DDDD'),
     relationContaier = new Container(annotationData.relation.all, annotationData.relation.types, '#555555')
 
+  let isLockState = false
+
   return {
+    isLock: isLockState,
+    lockEdit: () => {
+      isLockState = true
+      console.log('textae.config.lock')
+    },
+    unlockEdit: () => {
+      isLockState = false
+      console.log('textae.config.unlock')
+    },
     entity: entityContainer,
     setDefinedEntityTypes: (newDefinedTypes) => setContainerDefinedTypes(entityContainer, newDefinedTypes),
     attribute: attributeContainer,

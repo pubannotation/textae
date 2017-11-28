@@ -19,7 +19,7 @@ export default function(editor, dataAccessObject, history, buttonController, ann
     // Users can edit model only via commands.
     command = new Command(editor, annotationData, selectionModel, history),
     typeGap = new Observable(-1),
-    typeContainer = new TypeContainer(annotationData),
+    typeContainer = new TypeContainer(editor, annotationData),
     view = new View(editor, annotationData, selectionModel, buttonController, typeGap, typeContainer, writable),
     presenter = new Presenter(
       editor,
@@ -60,6 +60,27 @@ export default function(editor, dataAccessObject, history, buttonController, ann
     editor[0].classList.add('textae-editor--control-hidden')
   }
 
+  editor.eventEmitter.on('textae.config.lock', () => {
+    typeContainer.lockEdit()
+    editor[0].classList.add('textae-editor--configuration-uneditable')
+  })
+  editor.eventEmitter.on('textae.config.unlock', () => {
+    typeContainer.unlockEdit()
+    editor[0].classList.add('textae-editor--configuration-editable')
+  })
+
+  let configurationEditFromUrl = getConfigurationEditParamFromUrl(params.get('source'))
+  if (configurationEditFromUrl !== null) {
+    params.set('configuration__edit', configurationEditFromUrl)
+  }
+
+  if (params.has('configuration__edit')
+    && (params.get('configuration__edit') === 'false' || !params.get('configuration__edit'))) {
+    editor.eventEmitter.emit('textae.config.lock')
+  } else {
+    editor.eventEmitter.emit('textae.config.unlock')
+  }
+
   dataAccessObject
     .on('load--annotation', data => {
       setAnnotation(spanConfig, typeContainer, annotationData, data.annotation, params.get('config'))
@@ -88,6 +109,36 @@ export default function(editor, dataAccessObject, history, buttonController, ann
 
   // Add tabIndex to listen to keyboard events.
   editor[0].tabIndex = -1
+}
+
+function getQueryParams(url) {
+  let queryParamMap = new Map(),
+    queryStr = url.split('?')[1]
+
+  if (queryStr) {
+    let parameters = queryStr.split('&')
+
+    for (let i = 0; i < parameters.length; i++) {
+      let element = parameters[i].split('='),
+        paramName = decodeURIComponent(element[0]),
+        paramValue = decodeURIComponent(element[1])
+
+      queryParamMap.set(paramName, decodeURIComponent(paramValue))
+    }
+  }
+
+  return queryParamMap
+}
+
+function getConfigurationEditParamFromUrl(url) {
+  if (url) {
+    let queryParamMap = getQueryParams(url)
+    if (queryParamMap.has('configuration__edit')) {
+      return queryParamMap.get('configuration__edit')
+    }
+  }
+
+  return null
 }
 
 function loadAnnotation(spanConfig, typeContainer, annotationData, statusBar, params, dataAccessObject) {

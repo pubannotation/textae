@@ -5,14 +5,16 @@ export default function(element) {
   getAttribute(params, element, 'control')
   getAttribute(params, element, 'status_bar')
   getAttribute(params, element, 'config')
+  getAttribute(params, element, 'configuration__edit')
   getAttribute(params, element, 'autocompletion_ws')
 
   // Decode URI encode
   decodeUrl(params, 'config')
   decodeUrl(params, 'autocompletion_ws')
 
-  // Set annotaiton parameters.
-  params.set('annotation', getAnntation(element))
+  // Set annotation parameters.
+  params.set('source', getSource(element))
+  params.set('annotation', getAnnotation(element, params.get('source')))
 
   return params
 }
@@ -29,42 +31,44 @@ function decodeUrl(params, name) {
   }
 }
 
-function getAnntation(element) {
-  const annotaiton = new Map()
+function getAnnotation(element, source) {
+  const annotation = new Map()
 
   // Read Html text and clear it.
   const inlineAnnotation = element.innerText
   element.innerHTML = ''
   if (inlineAnnotation) {
-    annotaiton.set('inlineAnnotation', inlineAnnotation)
+    annotation.set('inlineAnnotation', inlineAnnotation)
   }
 
   // Read url.
-  const url = getUrl(element)
+  const url = getUrl(source)
   if (url) {
-    annotaiton.set('url', getUrl(element))
+    annotation.set('url', url)
   }
 
   // Read save_to
   const saveTo = getSaveToUrl(element)
   if (saveTo) {
-    annotaiton.set('save_to', getSaveToUrl(element))
+    annotation.set('save_to', getSaveToUrl(element))
   }
 
   if (!inlineAnnotation && !url) {
     let defaultText = '{"text": "Currently, the document is empty. Use the `import` button or press the key `i` to open a document with annotation."}'
-    annotaiton.set('inlineAnnotation', defaultText)
+    annotation.set('inlineAnnotation', defaultText)
   }
 
-  return annotaiton
+  return annotation
 }
 
-function getUrl(element) {
+function getSource(element) {
   // 'source' prefer to 'target'
-  const value = element.getAttribute('source') || element.getAttribute('target')
+  return element.getAttribute('source') || element.getAttribute('target')
+}
 
-  if (value) {
-    return decodeURIComponent(value)
+function getUrl(source) {
+  if (source) {
+    return decodeURIComponent(source)
   }
 
   return ''
