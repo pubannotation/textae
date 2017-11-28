@@ -2,28 +2,32 @@ import defaults from './defaults'
 import Container from './Container'
 
 export default function(editor, annotationData) {
+  let isLockState = false,
+    isLock = () => isLockState,
+    lockEdit = () => {
+      isLockState = true
+      console.log('textae.config.lock')
+    },
+    unlockEdit = () => {
+      isLockState = false
+      console.log('textae.config.unlock')
+    }
+
   const entityContainer = Object.assign(
-      new Container(annotationData.entity.all, annotationData.entity.types, '#77DDDD'), {
+      new Container(annotationData.entity.all, annotationData.entity.types, '#77DDDD', isLock, lockEdit, unlockEdit), {
         isBlock: (type) => {
           const definition = entityContainer.getDefinedType(type)
           return definition && definition.type && definition.type === 'block'
         }
       }),
-    attributeContainer = new Container(annotationData.attribute.all, annotationData.attribute.types, '#77DDDD'),
-    relationContaier = new Container(annotationData.relation.all, annotationData.relation.types, '#555555')
+    attributeContainer = new Container(annotationData.attribute.all, annotationData.attribute.types, '#77DDDD', isLock, lockEdit, unlockEdit),
+    relationContaier = new Container(annotationData.relation.all, annotationData.relation.types, '#555555', isLock, lockEdit, unlockEdit)
 
-  let isLockState = false
 
   return {
-    isLock: isLockState,
-    lockEdit: () => {
-      isLockState = true
-      console.log('textae.config.lock')
-    },
-    unlockEdit: () => {
-      isLockState = false
-      console.log('textae.config.unlock')
-    },
+    isLock: isLock,
+    lockEdit: lockEdit,
+    unlockEdit: unlockEdit,
     entity: entityContainer,
     setDefinedEntityTypes: (newDefinedTypes) => setContainerDefinedTypes(entityContainer, newDefinedTypes),
     attribute: attributeContainer,

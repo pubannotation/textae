@@ -5,13 +5,16 @@ from 'events'
 import DEFAULTS from './defaults'
 import uri from '../../uri'
 
-export default function(getAllInstanceFunc, getActualTypesFunction, defaultColor) {
+export default function(getAllInstanceFunc, getActualTypesFunction, defaultColor, isLockFunc, lockEditFunc, unlockEditFunc) {
   let definedTypes = new Map(),
     defaultType = null,
     isSetDefaultTypeManually = false
 
   const emitter = new EventEmitter(),
     api = {
+      isLock: isLockFunc,
+      lockEdit: lockEditFunc,
+      unlockEdit: unlockEditFunc,
       setDefinedType: (newType) => {
         definedTypes.set(newType.id, newType)
         emitter.emit('type.change', newType.id)

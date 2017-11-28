@@ -32,6 +32,22 @@
         float: left;
         font-size: 1.4em;
     }
+    &__lock-icon {
+        margin-left: 10px;
+        font-size: .8em;
+        color: orangered;
+        &:before {
+            position: relative;
+            display: inline-block;
+            top: 2px;
+            left: 0;
+            width: 16px;
+            height: 16px;
+            font-family: FontAwesome;
+            content: "\f023";
+            font-size: 1.5em;
+        }
+    }
     &__buttons {
         float: right;
         display: flex;

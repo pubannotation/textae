@@ -3,6 +3,7 @@ import toRows from './toRows'
 export default function(pallet, typeContainer, point) {
   if (typeContainer && typeContainer.getSortedIds().length > 0) {
     clear(pallet)
+    updateLockState(pallet, typeContainer.isLock())
     appendRows(pallet, typeContainer)
     show(pallet)
     setWidthWithinWindow(pallet)
@@ -17,6 +18,15 @@ export default function(pallet, typeContainer, point) {
 function clear(pallet) {
   pallet.querySelector('table').innerHTML = ''
   pallet.style.height = ''
+}
+
+function updateLockState(pallet, isLock) {
+  let lockIcon = pallet.querySelector('.textae-editor__type-pallet__lock-icon')
+  if (isLock) {
+    lockIcon.style.display = 'inline-block'
+  } else {
+    lockIcon.style.display = 'none'
+  }
 }
 
 function appendRows(pallet, typeContainer) {

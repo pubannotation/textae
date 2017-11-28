@@ -9,6 +9,10 @@ export default function(editor, selectType, selectDefaultType, selectAllFunc, re
   title.classList.add('textae-editor__type-pallet__title')
   title.innerText = 'Edit Configurations'
 
+  let lockIcon = document.createElement('span')
+  lockIcon.classList.add('textae-editor__type-pallet__lock-icon')
+  lockIcon.innerText = 'locked'
+
   let buttonContainer = document.createElement('div')
   buttonContainer.classList.add('textae-editor__type-pallet__buttons')
 
@@ -27,6 +31,7 @@ export default function(editor, selectType, selectDefaultType, selectAllFunc, re
   writeButton.classList.add('textae-editor__type-pallet__button--write')
   writeButton.setAttribute('title', 'Upload')
 
+  title.appendChild(lockIcon)
   buttonContainer.appendChild(addButton)
   buttonContainer.appendChild(readButton)
   buttonContainer.appendChild(writeButton)

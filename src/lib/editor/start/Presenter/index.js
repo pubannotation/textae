@@ -88,6 +88,7 @@ export default function(
     ),
     showSettingDialog = new SettingDialog(
       editor,
+      typeContainer,
       displayInstance
     ),
     event = {
