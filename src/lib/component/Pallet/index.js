@@ -4,7 +4,7 @@ import updateDisplay from './updateDisplay'
 export default class {
   constructor(editor, selectType, selectDefaultType, annotationData, changeColorFunc, selectAllFunc, removeTypeFunc, createTypeFunc) {
     this.editor = editor
-    this.el = new Component(editor, selectType, selectDefaultType, selectAllFunc, removeTypeFunc)
+    this.el = new Component(editor, selectType, selectDefaultType, selectAllFunc, removeTypeFunc, createTypeFunc)
     this.annotationData = annotationData
     this.changeColorFunc = changeColorFunc
     this.createTypeFunc = createTypeFunc
@@ -31,8 +31,7 @@ export default class {
 }
 
 function bindChangeEvent(pallet, changeColorFunc, createTypeFunc) {
-  let inputColors = pallet.getElementsByClassName('textae-editor__type-pallet__color-picker'),
-    inputAdd = pallet.getElementsByClassName('textae-editor__type-pallet__add')
+  let inputColors = pallet.getElementsByClassName('textae-editor__type-pallet__color-picker')
 
   Array.from(inputColors, (inputColor) => {
     inputColor.addEventListener('change', (e) => {
@@ -45,9 +44,5 @@ function bindChangeEvent(pallet, changeColorFunc, createTypeFunc) {
       target.setAttribute('value', newColor)
       target.parentNode.parentNode.setAttribute('style', 'background-color:' + newColor + ';')
     })
-  })
-
-  inputAdd[0].addEventListener('click', (e) => {
-    createTypeFunc()
   })
 }

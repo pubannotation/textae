@@ -1,6 +1,6 @@
 import delegate from 'delegate'
 
-export default function(editor, selectType, selectDefaultType, selectAllFunc, removeTypeFunc) {
+export default function(editor, selectType, selectDefaultType, selectAllFunc, removeTypeFunc, createTypeFunc) {
   const pallet = document.createElement('div')
   pallet.classList.add('textae-editor__type-pallet')
   pallet.style.display = 'none'
@@ -12,6 +12,11 @@ export default function(editor, selectType, selectDefaultType, selectAllFunc, re
   let buttonContainer = document.createElement('div')
   buttonContainer.classList.add('textae-editor__type-pallet__buttons')
 
+  let addButton = document.createElement('span')
+  addButton.classList.add('textae-editor__type-pallet__button')
+  addButton.classList.add('textae-editor__type-pallet__button--add')
+  addButton.setAttribute('title', 'Add new type')
+
   let readButton = document.createElement('span')
   readButton.classList.add('textae-editor__type-pallet__button')
   readButton.classList.add('textae-editor__type-pallet__button--read')
@@ -22,12 +27,17 @@ export default function(editor, selectType, selectDefaultType, selectAllFunc, re
   writeButton.classList.add('textae-editor__type-pallet__button--write')
   writeButton.setAttribute('title', 'Upload')
 
+  buttonContainer.appendChild(addButton)
   buttonContainer.appendChild(readButton)
   buttonContainer.appendChild(writeButton)
   pallet.appendChild(title)
   pallet.appendChild(buttonContainer)
   pallet.appendChild(document.createElement('table'))
   pallet.appendChild(document.createElement('table'))
+
+  delegate(pallet, '.textae-editor__type-pallet__button--add', 'click', (e) => {
+    createTypeFunc()
+  })
 
   delegate(pallet, '.textae-editor__type-pallet__button--read', 'click', (e) => {
     editor.api.handlePalletClick('textae.pallet.button.read.click')
