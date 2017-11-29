@@ -5,7 +5,7 @@ const html = `
   <th>id</th>
   <th>label</th>
   <th>#</th>
-  <th></th>
+  <th class="textae-editor__type-pallet__hide-when-locked"></th>
 </tr>
 {{#each this}}
 <tr class="textae-editor__type-pallet__row" style="background-color: {{color}};">
@@ -27,7 +27,7 @@ const html = `
     {{#if useNumber}}{{useNumber}}{{/if}}
     {{#unless useNumber}}0{{/unless}}
   </td>
-  <td class="textae-editor__type-pallet__table-buttons">
+  <td class="textae-editor__type-pallet__table-buttons textae-editor__type-pallet__hide-when-locked">
     <button class="textae-editor__type-pallet__select-all" type="button"
       title="Select all the cases of this type." data-id="{{id}}" data-use-number="{{useNumber}}"></button>
     <button class="textae-editor__type-pallet__edit-type" type="button"

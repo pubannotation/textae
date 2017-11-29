@@ -15,6 +15,7 @@ export default function(editor, selectType, selectDefaultType, selectAllFunc, re
 
   let buttonContainer = document.createElement('div')
   buttonContainer.classList.add('textae-editor__type-pallet__buttons')
+  buttonContainer.classList.add('textae-editor__type-pallet__hide-when-locked')
 
   let addButton = document.createElement('span')
   addButton.classList.add('textae-editor__type-pallet__button')

@@ -3,8 +3,8 @@ import toRows from './toRows'
 export default function(pallet, typeContainer, point) {
   if (typeContainer && typeContainer.getSortedIds().length > 0) {
     clear(pallet)
-    updateLockState(pallet, typeContainer.isLock())
     appendRows(pallet, typeContainer)
+    updateLockState(pallet, typeContainer.isLock())
     show(pallet)
     setWidthWithinWindow(pallet)
     setHeightWithinWindow(pallet)
@@ -21,11 +21,20 @@ function clear(pallet) {
 }
 
 function updateLockState(pallet, isLock) {
-  let lockIcon = pallet.querySelector('.textae-editor__type-pallet__lock-icon')
+  let lockIcon = pallet.querySelector('.textae-editor__type-pallet__lock-icon'),
+    lockNodes = pallet.querySelectorAll('.textae-editor__type-pallet__hide-when-locked'),
+    hideClassName = 'textae-editor__type-pallet__hide-when-locked--hide'
+
   if (isLock) {
     lockIcon.style.display = 'inline-block'
+    Array.prototype.forEach.call(lockNodes, (lockNode) => {
+      lockNode.classList.add(hideClassName)
+    })
   } else {
     lockIcon.style.display = 'none'
+    Array.prototype.forEach.call(lockNodes, (lockNode) => {
+      lockNode.classList.remove(hideClassName)
+    })
   }
 }
 
