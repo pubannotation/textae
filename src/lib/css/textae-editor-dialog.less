@@ -20,7 +20,7 @@
 }
 .file() {
     line-height: 16px;
-    height: 25px;
+    height: 31px;
     width: 340px;
 }
 .cell() {
@@ -104,13 +104,34 @@
             width: 50%;
         }
     }
+    &__edit-type-dialog {
+        &__container {
+            display: flex;
+            flex-wrap: wrap;
+        }
+        &__input-box {
+            width: 50%;
+        }
+        &__color-picker,
+        &__set-default {
+            width: 100%;
+            margin: 10px 10px 0 0;
+        }
+    }
     &__setting-dialog {
         .common;
+        & > div {
+            margin-bottom: 2px;
+        }
         &__label {
-            width: 114px;
+            width: 150px;
         }
         &__type-gap[disabled="disabled"] {
             background-color: #999;
+        }
+        &__lock-config {
+            vertical-align: middle;
+            cursor: pointer;
         }
     }
     &__valiondate-dialog__content {
