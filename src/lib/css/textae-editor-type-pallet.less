@@ -7,6 +7,12 @@
     padding: 2px;
     text-align: center;
 }
+.fontAwesomeIcon(@content) {
+    position: relative;
+    display: inline-block;
+    font-family: FontAwesome;
+    content: @content;
+}
 /* pallet */
 .textae-editor__type-pallet {
     background-color: rgba(200,255,255,0.9);
@@ -37,14 +43,11 @@
         font-size: .8em;
         color: orangered;
         &:before {
-            position: relative;
-            display: inline-block;
+            .fontAwesomeIcon("\f023");
             top: 2px;
             left: 0;
             width: 16px;
             height: 16px;
-            font-family: FontAwesome;
-            content: "\f023";
             font-size: 1.5em;
         }
     }
@@ -61,12 +64,9 @@
         cursor: pointer;
         &--add {
             &:before {
-                position: relative;
-                display: inline-block;
+                .fontAwesomeIcon("\f067");
                 top: 1px;
-                left: 0px;
-                font-family: FontAwesome;
-                content: "\f067";
+                left: 0;
                 font-size: 1.5em;
                 color: #444;
             }
@@ -89,63 +89,65 @@
     }
     td {
         .table;
-        input {
+        input,
+        button[type="button"] {
             cursor: pointer;
         }
-        &.textae-editor__type-pallet__label,
-        &.textae-editor__type-pallet__short-label {
-            overflow-x: hidden;
-            padding: 5px;
-            max-width: 500px;
-            text-align: left;
-            .textae-editor__type-pallet__default-icon {
+        &.textae-editor__type-pallet {
+            &__label,
+            &__short-label {
+                overflow-x: hidden;
+                padding: 5px;
+                max-width: 500px;
+                text-align: left;
+            }
+            &__table-buttons {
+                width: 88px;
+            }
+        }
+        & .textae-editor__type-pallet {
+            &__default-icon {
                 &:before {
-                    position: relative;
-                    display: inline-block;
+                    .fontAwesomeIcon("\f046");
                     top: 1px;
-                    font-family: FontAwesome;
-                    content: "\f046";
                     font-size: 1.3em;
                 }
             }
-        }
-        &.textae-editor__type-pallet__use-number {
-            .textae-editor__type-pallet__use-number__number {
+            &__select-all,
+            &__edit-type,
+            &__remove {
                 display: inline-block;
                 width: 22px;
                 height: 22px;
-                padding: 3px;
+                &:before {
+                    top: -1px;
+                    left: -3px;
+                    font-size: 1.2em;
+                    color: #333333;
+                }
             }
-        }
-        & .textae-editor__type-pallet__edit-type,
-        & .textae-editor__type-pallet__remove {
-            display: inline-block;
-            width: 22px;
-            height: 22px;
-            cursor: pointer;
-            &:before {
-                position: relative;
-                display: inline-block;
-                top: -1px;
-                left: -3px;
-                font-size: 1.2em;
-                font-family: FontAwesome;
-                color: #333333;
+            &__select-all {
+                &:before {
+                    .fontAwesomeIcon("\f046");
+                    top: 0;
+                    left: -4px;
+                }
             }
-        }
-        & .textae-editor__type-pallet__edit-type {
-            &:before {
-                content: "\f040";
+            &__edit-type {
+                &:before {
+                    .fontAwesomeIcon("\f040");
+                }
             }
-        }
-        & .textae-editor__type-pallet__remove {
-            &:before {
-                content: "\f1f8";
+            &__remove {
+                &:before {
+                    .fontAwesomeIcon("\f1f8");
+                }
             }
-        }
-        & .textae-editor__type-pallet__add {
-            margin: 2px 0;
-            padding: 3px 5px;
+            &__add {
+                margin: 2px 0;
+                padding: 3px 5px;
+            }
+
         }
     }
     table {

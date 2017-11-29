@@ -2,19 +2,13 @@ import Handlebars from 'handlebars'
 
 const html = `
 <tr>
-  <th>default</th>
   <th>id</th>
   <th>label</th>
-  <th>color</th>
   <th>#</th>
-  <th>edit</th>
-  <th>remove</th>
+  <th></th>
 </tr>
 {{#each this}}
 <tr class="textae-editor__type-pallet__row" style="background-color: {{color}};">
-  <td>
-    <input class="textae-editor__type-pallet__radio" type="radio" name="etype" id="{{id}}" {{#if defaultType}}title="default type" checked="checked"{{/if}}>
-  </td>
   <td class="textae-editor__type-pallet__label" id="{{id}}">
     <span title={{id}}>
       {{id}}
@@ -33,14 +27,13 @@ const html = `
     {{#if useNumber}}{{useNumber}}{{/if}}
     {{#unless useNumber}}0{{/unless}}
   </td>
-  <td>
-    <button class="textae-editor__type-pallet__edit-type" type="button" title="Edit this type."  data-id="{{id}}"></button>
-  </td>
-  <td>
-    {{#unless useNumber}}
+  <td class="textae-editor__type-pallet__table-buttons">
+    <button class="textae-editor__type-pallet__select-all" type="button"
+      title="Select all the cases of this type." data-id="{{id}}" data-use-number="{{useNumber}}"></button>
+    <button class="textae-editor__type-pallet__edit-type" type="button"
+      title="Edit this type." data-id="{{id}}" data-color="{{color}}" data-is-default="{{defaultType}}"></button>
     <button class="textae-editor__type-pallet__remove" type="button"
       title="Remove this type." data-id="{{id}}" data-short-label="{{label}}"></button>
-    {{/unless}}
   </td>
 </tr>
 {{/each}}
