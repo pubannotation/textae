@@ -5,8 +5,8 @@ const html = `
   <th>default</th>
   <th>id</th>
   <th>label</th>
-  <th>use</th>
   <th>color</th>
+  <th>#</th>
   <th>edit</th>
   <th>remove</th>
 </tr>
@@ -30,13 +30,8 @@ const html = `
     {{label}}
   </td>
   <td class="textae-editor__type-pallet__use-number">
-    {{#if useNumber}}
-      <input class="textae-editor__type-pallet__use-number__number" type="button" value="{{useNumber}}"
-         title="Select all entities or relations of this type." data-id="{{id}}">
-    {{/if}}
-  </td>
-  <td>
-    <input class="textae-editor__type-pallet__color-picker" type="color" value="{{color}}" data-id="{{id}}">
+    {{#if useNumber}}{{useNumber}}{{/if}}
+    {{#unless useNumber}}0{{/unless}}
   </td>
   <td>
     <button class="textae-editor__type-pallet__edit-type" type="button" title="Edit this type."  data-id="{{id}}"></button>
