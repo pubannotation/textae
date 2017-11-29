@@ -59,14 +59,16 @@ export default function(editor, selectType, selectDefaultType, selectAllFunc, re
   })
 
   delegate(pallet, '.textae-editor__type-pallet__select-all', 'click', (e) => {
-    let useNum = e.delegateTarget.getAttribute('data-use-number')
-    if (useNum >= 1) {
-      selectAllFunc(e.delegateTarget.getAttribute('data-id'))
-      triggerUpdatePallet(editor)
-    }
+    if (!checkButtonEnable(e.target)) return
+
+    selectAllFunc(e.delegateTarget.getAttribute('data-id'))
+    triggerUpdatePallet(editor)
+  })
   })
 
   delegate(pallet, '.textae-editor__type-pallet__remove', 'click', (e) => {
+    if (!checkButtonEnable(e.target)) return
+
     removeTypeFunc(
       e.delegateTarget.getAttribute('data-id'),
       e.delegateTarget.getAttribute('data-short-label')
@@ -79,4 +81,8 @@ export default function(editor, selectType, selectDefaultType, selectAllFunc, re
 
 function triggerUpdatePallet(editor) {
   editor.eventEmitter.emit('textae.pallet.update')
+}
+
+function checkButtonEnable(targetNode) {
+  return !targetNode.classList.contains('textae-editor__type-pallet__table-button--disabled')
 }

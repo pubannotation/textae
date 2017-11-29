@@ -118,9 +118,7 @@
                     font-size: 1.3em;
                 }
             }
-            &__select-all,
-            &__edit-type,
-            &__remove {
+            &__table-button {
                 display: inline-block;
                 width: 22px;
                 height: 22px;
@@ -129,6 +127,15 @@
                     left: -3px;
                     font-size: 1.2em;
                     color: #333333;
+                }
+                &--disabled {
+                    cursor: auto !important;
+                    &:hover, &:active, &:focus {
+                        outline: none;
+                    }
+                    &:before {
+                        color: #bbbbbb;
+                    }
                 }
             }
             &__select-all {
