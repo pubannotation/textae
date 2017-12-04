@@ -87,12 +87,14 @@ export default function(editor, dataAccessObject, history, buttonController, ann
       setAnnotation(spanConfig, typeContainer, annotationData, data.annotation, params.get('config'))
       statusBar.status(data.source)
       originalAnnotation = data.annotation
+      editor.eventEmitter.emit('textae.pallet.update')
     })
     .on('load--config', data => {
       let config = data.config,
         annotation = Object.assign(originalAnnotation, config)
       setSpanAndTypeConfig(spanConfig, typeContainer, config)
       annotationData.reset(annotation)
+      editor.eventEmitter.emit('textae.pallet.update')
     })
 
   originalAnnotation = loadAnnotation(spanConfig, typeContainer, annotationData, statusBar, params, dataAccessObject)
