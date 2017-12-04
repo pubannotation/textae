@@ -2,7 +2,7 @@ import spanRemoveCommand from './spanRemoveCommand'
 import entityAndAssociatesRemoveCommand from './entityAndAssociatesRemoveCommand'
 import _ from 'underscore'
 
-export default function(annotationData, selectionModel, ids) {
+export default function(editor, annotationData, selectionModel, ids) {
   const entityPerSpan = toEntityPerSpan(annotationData, ids)
 
   return _.flatten(
@@ -33,10 +33,10 @@ export default function(annotationData, selectionModel, ids) {
     })
     .map(function(data) {
       if (data.noRestEntities)
-        return spanRemoveCommand(annotationData, selectionModel, data.spasId)
+        return spanRemoveCommand(editor, annotationData, selectionModel, data.spasId)
       else
         return data.entities.map(function(id) {
-          return entityAndAssociatesRemoveCommand(annotationData, selectionModel, id)
+          return entityAndAssociatesRemoveCommand(editor, annotationData, selectionModel, id)
         })
     })
   )

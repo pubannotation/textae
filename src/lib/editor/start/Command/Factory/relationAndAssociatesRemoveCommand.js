@@ -4,11 +4,11 @@ import {
 from './commandTemplate'
 import executeCompositCommand from './executeCompositCommand'
 
-export default function(annotationData, selectionModel, id) {
-  const removeRelation = new RemoveCommand(annotationData, selectionModel, 'relation', id),
+export default function(editor, annotationData, selectionModel, id) {
+  const removeRelation = new RemoveCommand(editor, annotationData, selectionModel, 'relation', id),
     removeModification = annotationData.getModificationOf(id)
     .map((modification) => modification.id)
-    .map((id) => new RemoveCommand(annotationData, selectionModel, 'modification', id)),
+    .map((id) => new RemoveCommand(editor, annotationData, selectionModel, 'modification', id)),
     subCommands = removeModification.concat(removeRelation)
 
   return {

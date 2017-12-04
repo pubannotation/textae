@@ -1,20 +1,23 @@
 export default class {
-  constructor() {
+  constructor(modelType) {
+    this.modelType = modelType || 'default'
     // The Reference to content to be shown in the pallet.
     this.typeContainer = null
   }
-  addType(id) {
-    return this.command.factory.typeCreateCommand(this.typeContainer, {id: id})
+  addType(newType) {
+    console.assert(newType.id, 'id is necessary!')
+    return this.command.factory.typeCreateCommand(this.typeContainer, newType)
+  }
+  changeType(id, newType) {
+    return this.command.factory.typeChangeCommand(this.typeContainer, this.modelType, id, newType)
   }
   changeLabelOfId(id, label) {
     const oldType = this.typeContainer.getDefinedType(id)
 
     if (!oldType.id) {
       return this.command.factory.typeCreateCommand(this.typeContainer, {id: id, label: label})
-    }
-
-    if (oldType.id && oldType.label !== label) {
-      return this.command.factory.typeChangeLabelCommand(this.typeContainer, id, label)
+    } else if (oldType.label !== label) {
+      return this.command.factory.typeChangeCommand(this.typeContainer, id, label)
     }
   }
   changeTypeOfSelectedElement() {}
@@ -58,9 +61,6 @@ export default class {
         }
       })
     })
-  }
-  changeColorOfType(id, newColor) {
-    return [this.command.factory.typeChangeColorCommand(this.typeContainer, id, newColor)]
   }
   removeType(id, label) {
     let removeType = {

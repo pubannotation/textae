@@ -2,7 +2,7 @@ import DefaultHandler from '../DefaultHandler'
 
 export default class extends DefaultHandler {
   constructor(typeContainer, command, annotationData, selectionModel) {
-    super()
+    super('entity')
     this.typeContainer = typeContainer.entity
     this.command = command
     this.annotationData = annotationData.entity

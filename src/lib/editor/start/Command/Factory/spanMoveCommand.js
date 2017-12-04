@@ -7,16 +7,16 @@ import spanRemoveCommand from './spanRemoveCommand'
 import executeCompositCommand from './executeCompositCommand'
 
 export default function spanMoveCommand(editor, annotationData, selectionModel, spanId, newSpan) {
-  const spanCreateCommand = (span) => new CreateCommand(annotationData, selectionModel, 'span', true, span),
-    entityCreateCommand = (entity) => new CreateCommand(annotationData, selectionModel, 'entity', true, entity),
-    relationCreateCommand = (relation) => new CreateCommand(annotationData, selectionModel, 'relation', false, relation),
+  const spanCreateCommand = (span) => new CreateCommand(editor, annotationData, selectionModel, 'span', true, span),
+    entityCreateCommand = (entity) => new CreateCommand(editor, annotationData, selectionModel, 'entity', true, entity),
+    relationCreateCommand = (relation) => new CreateCommand(editor, annotationData, selectionModel, 'relation', false, relation),
     newSpanId = idFactory.makeSpanId(editor, newSpan),
     d = annotationData
 
   let subCommands = []
 
   if (!d.span.get(newSpanId)) {
-    subCommands.push(spanRemoveCommand(annotationData, selectionModel, spanId))
+    subCommands.push(spanRemoveCommand(editor, annotationData, selectionModel, spanId))
     subCommands.push(spanCreateCommand({
       begin: newSpan.begin,
       end: newSpan.end

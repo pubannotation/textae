@@ -1,47 +1,46 @@
 import Handlebars from 'handlebars'
+import CLASS_NAMES from './className'
 
 const html = `
 <tr>
   <th>id</th>
   <th>label</th>
   <th>#</th>
-  <th class="textae-editor__type-pallet__hide-when-locked"></th>
+  <th class="${CLASS_NAMES.hideWhenLocked}"></th>
 </tr>
 {{#each this}}
-<tr class="textae-editor__type-pallet__row" style="background-color: {{color}};">
-  <td class="textae-editor__type-pallet__label" id="{{id}}">
+<tr class="${CLASS_NAMES.row}" style="background-color: {{color}};">
+  <td class="${CLASS_NAMES.label}" id="{{id}}">
     <span title={{id}}>
       {{id}}
     </span>
     {{#if uri}}
-      <a href="{{uri}}" target="_blank"><span class="textae-editor__type-pallet__link"></span></a>
+      <a href="{{uri}}" target="_blank"><span class="${CLASS_NAMES.link}"></span></a>
     {{/if}}
     {{#if defaultType}}
-      <span class="textae-editor__type-pallet__default-icon" title="This type is set as a default type."></span>
+      <span class="${CLASS_NAMES.defaultIcon}" title="This type is set as a default type."></span>
     {{/if}}
   </td>
-  <td class="textae-editor__type-pallet__short-label">
+  <td class="${CLASS_NAMES.shortLabel}">
     {{label}}
   </td>
-  <td class="textae-editor__type-pallet__use-number">
+  <td class="${CLASS_NAMES.useNumber}">
     {{#if useNumber}}{{useNumber}}{{/if}}
     {{#unless useNumber}}0{{/unless}}
   </td>
-  <td class="textae-editor__type-pallet__table-buttons textae-editor__type-pallet__hide-when-locked">
-    <button class="textae-editor__type-pallet__table-button textae-editor__type-pallet__select-all
-      {{#unless useNumber}}textae-editor__type-pallet__table-button--disabled{{/unless}}"
+  <td class="${CLASS_NAMES.tableButtons} ${CLASS_NAMES.hideWhenLocked}">
+    <button class="${CLASS_NAMES.tableButton} ${CLASS_NAMES.selectAll} {{#unless useNumber}}${CLASS_NAMES.tableButtonDisabled}{{/unless}}"
       type="button" title="Select all the cases of this type." data-id="{{id}}" data-use-number="{{useNumber}}"></button>
-    <button class="textae-editor__type-pallet__table-button textae-editor__type-pallet__edit-type" type="button"
-      title="Edit this type." data-id="{{id}}" data-color="{{color}}" data-is-default="{{defaultType}}"></button>
-    <button class="textae-editor__type-pallet__table-button textae-editor__type-pallet__remove
-      {{#if useNumber}}textae-editor__type-pallet__table-button--disabled{{/if}}"
+    <button class="${CLASS_NAMES.tableButton} ${CLASS_NAMES.editType}"
+      type="button" title="Edit this type." data-id="{{id}}" data-color="{{color}}" data-is-default="{{defaultType}}"></button>
+    <button class="${CLASS_NAMES.tableButton} ${CLASS_NAMES.remove} {{#if useNumber}}${CLASS_NAMES.tableButtonDisabled}{{/if}}"
       type="button" title="Remove this type." data-id="{{id}}" data-short-label="{{label}}"></button>
   </td>
 </tr>
 {{/each}}
 `
 
-let tepmlate = Handlebars.compile(html)
+let template = Handlebars.compile(html)
 
 export default function(typeContainer) {
   let labelUseCountMap = typeContainer.countTypeUse(),
@@ -58,5 +57,5 @@ export default function(typeContainer) {
       }
     })
 
-  return tepmlate(types)
+  return template(types)
 }

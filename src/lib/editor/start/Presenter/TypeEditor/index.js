@@ -1,6 +1,5 @@
 import Pallet from '../../../../component/Pallet'
 import ElementEditor from './ElementEditor'
-import createTypeHandler from './createTypeHandler'
 import changeLabelHandler from './changeLabelHandler'
 import changeAttributeHandler from './changeAttributeHandler'
 
@@ -26,35 +25,11 @@ export default function(
     ),
     pallet = new Pallet(
       editor,
-      (label) => {
-        const commands = elementEditor.getHandlerForPallet().changeTypeOfSelectedElement(label)
-        command.invoke(commands)
-      },
-      (label) => {
-        elementEditor.getHandlerForPallet().typeContainer.setDefaultType(label)
-        // Focus the editor to prevent lost focus when the pallet is closed during selecting radio buttons.
-        editor[0].focus()
-      },
       annotationData,
-      (label, newColor) => {
-        const handler = elementEditor.getHandlerForPallet(),
-          userSelectedIds = handler.selectionModel.all(),
-          commands = handler.changeColorOfType(label, newColor)
-
-        // need to select all target instance because relation's color will not be changed.
-        handler.selectAllByLabel(label)
-        command.invoke(commands)
-        editor.api.redraw()
-        handler.selectAllById(userSelectedIds)
-      },
-      (label) => {
-        elementEditor.getHandlerForPallet().selectAllByLabel(label)
-      },
-      (id, label) => {
-        const commands = elementEditor.getHandlerForPallet().removeType(id, label)
-        command.invoke(commands)
-      },
-      () => createTypeHandler(editor, elementEditor.getHandlerForPallet, autocompletionWs)
+      command,
+      typeContainer,
+      autocompletionWs,
+      elementEditor
     ),
     api = {
       editRelation: elementEditor.start.editRelation,

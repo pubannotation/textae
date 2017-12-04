@@ -32,18 +32,26 @@ export default function(getAllInstanceFunc, getActualTypesFunction, defaultColor
 
         return ret
       },
+      changeDefinedType: (id, newType) => {
+        definedTypes.delete(id)
+        definedTypes.set(newType.id, newType)
+        emitter.emit('type.change', newType.id)
+      },
       setDefaultType: (id) => {
         console.assert(id, 'id is necessary!')
         defaultType = id
+        setDefaultTypeToDefinedTypes(definedTypes, id)
         isSetDefaultTypeManually = true
       },
       setDefaultTypeAutomatically: (id) => {
         defaultType = id
+        setDefaultTypeToDefinedTypes(definedTypes, id)
       },
       countTypeUse: () => countTypeUse(getAllInstanceFunc),
       getDefaultType: () => isSetDefaultTypeManually ? defaultType : setAutoDefaultType(getAllInstanceFunc, api.setDefaultTypeAutomatically),
       getDefaultPred: () => DEFAULTS.pred,
       getDefaultValue: () => DEFAULTS.value,
+      getDefaultColor: () => defaultColor,
       getColor: (id) => definedTypes.get(id) && definedTypes.get(id).color || defaultColor,
       getLabel: (id) => definedTypes.get(id) && definedTypes.get(id).label || undefined,
       getUri: (id) => uri.getUrlMatches(id) ? id : undefined,
@@ -55,6 +63,16 @@ export default function(getAllInstanceFunc, getActualTypesFunction, defaultColor
     }
 
   return Object.assign(emitter, api)
+}
+
+function setDefaultTypeToDefinedTypes(definedTypes, id) {
+  definedTypes.forEach((definedType) => {
+    if (definedType.id === id) {
+      definedType.default = true
+    } else if (definedType.default) {
+      delete definedType.default
+    }
+  })
 }
 
 function countTypeUse(getAllInstanceFunc) {

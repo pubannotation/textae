@@ -1,4 +1,5 @@
 import toRows from './toRows'
+import CLASS_NAMES from './className'
 
 export default function(pallet, typeContainer, point) {
   if (typeContainer && typeContainer.getSortedIds().length > 0) {
@@ -21,9 +22,9 @@ function clear(pallet) {
 }
 
 function updateLockState(pallet, isLock) {
-  let lockIcon = pallet.querySelector('.textae-editor__type-pallet__lock-icon'),
-    lockNodes = pallet.querySelectorAll('.textae-editor__type-pallet__hide-when-locked'),
-    hideClassName = 'textae-editor__type-pallet__hide-when-locked--hide'
+  let lockIcon = pallet.querySelector('.' + CLASS_NAMES.lockIcon),
+    lockNodes = pallet.querySelectorAll('.' + CLASS_NAMES.hideWhenLocked),
+    hideClassName = CLASS_NAMES.hideWhenLockedHide
 
   if (isLock) {
     lockIcon.style.display = 'inline-block'
