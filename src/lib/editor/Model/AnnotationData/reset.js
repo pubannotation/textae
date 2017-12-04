@@ -24,4 +24,5 @@ function clearAnnotationData(dataStore) {
   dataStore.relation.clear()
   dataStore.modification.clear()
   dataStore.paragraph.clear()
+  dataStore.namespace.clear()
 }
