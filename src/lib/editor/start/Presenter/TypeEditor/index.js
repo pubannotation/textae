@@ -61,8 +61,11 @@ export default function(
 }
 
 function cancelSelect(pallet, selectionModel) {
-  pallet.hide()
-  selectionModel.clear()
+  if (pallet.visibly()) {
+    pallet.hide()
+  } else {
+    selectionModel.clear()
+  }
 }
 
 // A relation is drawn by a jsPlumbConnection.

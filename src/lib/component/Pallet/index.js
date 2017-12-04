@@ -28,6 +28,10 @@ export default class {
   hide() {
     this.el.style.display = 'none'
   }
+
+  visibly() {
+    return this.el.style.display !== 'none'
+  }
 }
 
 function setNotDefinedTypesToConfig(typeContainer) {
