@@ -5,7 +5,7 @@ export default function(element) {
   getAttribute(params, element, 'control')
   getAttribute(params, element, 'status_bar')
   getAttribute(params, element, 'config')
-  getAttribute(params, element, 'configuration__edit')
+  getAttribute(params, element, 'config_lock')
   getAttribute(params, element, 'autocompletion_ws')
 
   // Decode URI encode

@@ -69,13 +69,14 @@ export default function(editor, dataAccessObject, history, buttonController, ann
     editor[0].classList.add('textae-editor--configuration-editable')
   })
 
-  let configurationEditFromUrl = getConfigurationEditParamFromUrl(params.get('source'))
-  if (configurationEditFromUrl !== null) {
-    params.set('configuration__edit', configurationEditFromUrl)
+  // Over write editor-div's config lock state by url's.
+  // Url's default is 'unlock', so its default is also 'unlock'.
+  let configEditFromUrl = getConfigEditParamFromUrl(params.get('source'))
+  if (configEditFromUrl !== null) {
+    params.set('config_lock', configEditFromUrl)
   }
 
-  if (params.has('configuration__edit')
-    && (params.get('configuration__edit') === 'false' || !params.get('configuration__edit'))) {
+  if (params.has('config_lock') && params.get('config_lock') === 'true') {
     editor.eventEmitter.emit('textae.config.lock')
   } else {
     editor.eventEmitter.emit('textae.config.unlock')
@@ -130,11 +131,11 @@ function getQueryParams(url) {
   return queryParamMap
 }
 
-function getConfigurationEditParamFromUrl(url) {
+function getConfigEditParamFromUrl(url) {
   if (url) {
     let queryParamMap = getQueryParams(url)
-    if (queryParamMap.has('configuration__edit')) {
-      return queryParamMap.get('configuration__edit')
+    if (queryParamMap.has('config_lock')) {
+      return queryParamMap.get('config_lock')
     }
   }
 
