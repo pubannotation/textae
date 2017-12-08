@@ -8,6 +8,7 @@ const html = `
   <th>#</th>
   <th class="${CLASS_NAMES.hideWhenLocked}"></th>
 </tr>
+{{#if this}}
 {{#each this}}
 <tr class="${CLASS_NAMES.row}" style="background-color: {{color}};">
   <td class="${CLASS_NAMES.label}" id="{{id}}">
@@ -38,6 +39,10 @@ const html = `
   </td>
 </tr>
 {{/each}}
+{{/if}}
+{{#unless this}}
+<tr class="${CLASS_NAMES.row}"><td class="${CLASS_NAMES.noConfig}" colspan="4">There is no configuration.</td></tr>
+{{/unless}}
 `
 
 let template = Handlebars.compile(html)

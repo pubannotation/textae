@@ -21,7 +21,8 @@ const CLASS_NAMES = {
   selectAll: 'textae-editor__type-pallet__select-all',
   editType: 'textae-editor__type-pallet__edit-type',
   remove: 'textae-editor__type-pallet__remove',
-  tableButtonDisabled: 'textae-editor__type-pallet__table-button--disabled'
+  tableButtonDisabled: 'textae-editor__type-pallet__table-button--disabled',
+  noConfig: 'textae-editor__type-pallet__no-config'
 }
 
 export default CLASS_NAMES

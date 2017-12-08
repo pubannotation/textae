@@ -2,7 +2,7 @@ import toRows from './toRows'
 import CLASS_NAMES from './className'
 
 export default function(pallet, history, typeContainer, point) {
-  if (typeContainer && typeContainer.getSortedIds().length > 0) {
+  if (typeContainer) {
     clear(pallet)
     appendRows(pallet, typeContainer)
     updateLockState(pallet, typeContainer.isLock())
