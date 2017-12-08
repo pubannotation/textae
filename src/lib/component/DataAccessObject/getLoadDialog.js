@@ -1,4 +1,5 @@
 import jQuerySugar from '../jQuerySugar'
+import getJsonFromFile from './getJsonFromFile'
 import label from './label'
 import getAnnotationFromServer from './getAnnotationFromServer'
 import CursorChanger from '../../util/CursorChanger'
@@ -7,40 +8,7 @@ import $ from 'jquery'
 import _ from 'underscore'
 
 module.exports = function(api, confirmDiscardChangeMessage, setDataSourceUrl, editor) {
-  let getJsonFromFile = function(file, fileType) {
-      let firstFile = file.files[0],
-        reader = new FileReader(),
-        params = {
-          annotation: null,
-          config: null,
-          source: firstFile.name + '(local file)'
-        }
-
-      if (['annotation', 'config'].indexOf(fileType) === -1) {
-        throw new Error('Cannot read data type of ' + fileType)
-      }
-
-      reader.onload = function() {
-        // Load json or .txt
-        let loadData
-        if (isJSON(this.result)) {
-          loadData = JSON.parse(this.result)
-        } else if (isTxtFile(firstFile.name)) {
-          // If this is .txt, New annotation json is made from .txt
-          loadData = {
-            text: this.result
-          }
-        }
-
-        params[fileType] = loadData
-        api.emit('load--' + fileType, params)
-      }
-      reader.readAsText(firstFile)
-    },
-    getAnnotationFromFile = (file) => {
-      getJsonFromFile(file, 'annotation')
-    },
-    RowDiv = _.partial(jQuerySugar.Div, 'textae-editor__load-dialog__row'),
+    let RowDiv = _.partial(jQuerySugar.Div, 'textae-editor__load-dialog__row'),
     RowLabel = _.partial(jQuerySugar.Label, 'textae-editor__load-dialog__label'),
     OpenButton = _.partial(jQuerySugar.Button, 'Open'),
     isUserComfirm = function() {
@@ -77,7 +45,7 @@ module.exports = function(api, confirmDiscardChangeMessage, setDataSourceUrl, ed
     })
     .on('click', '[type="button"].local', function() {
       if (isUserComfirm()) {
-        getAnnotationFromFile($content.find('[type="file"]')[0])
+        getJsonFromFile(api, $content.find('[type="file"]')[0], 'annotation')
       }
       closeDialog($content)
     })
@@ -88,31 +56,6 @@ module.exports = function(api, confirmDiscardChangeMessage, setDataSourceUrl, ed
   return $dialog
 }
 
-
-function isJSON(arg) {
-  arg = (typeof arg === "function") ? arg() : arg
-  if (typeof arg !== "string") {
-    return false
-  }
-  try {
-    arg = (!JSON) ? eval("(" + arg + ")") : JSON.parse(arg)
-    return true
-  } catch (e) {
-    return false
-  }
-}
-
-
-function isTxtFile($fileName) {
-  const f = $fileName.split('.')
-  if (f[f.length - 1].toLowerCase() === 'txt') {
-    return true
-  } else {
-    return false
-  }
-}
-
 function closeDialog($content) {
   $content.trigger('dialog.close')
 }
-
