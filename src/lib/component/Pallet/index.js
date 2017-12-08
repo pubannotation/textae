@@ -9,8 +9,10 @@ export default class {
     this.el = new Component(editor, annotationData, command, typeContainer, autocompletionWs, elementEditor)
 
     // selfUpdate will be called in an event, so need to bind 'this'.
-    let selfUpdate = this.selfUpdate.bind(this)
+    let selfUpdate = this.selfUpdate.bind(this),
+      hide = this.hide.bind(this)
     this.editor.eventEmitter.on('textae.pallet.update', selfUpdate)
+    this.editor.eventEmitter.on('textae.pallet.close', hide)
   }
 
   show(typeContainer, point) {

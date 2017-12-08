@@ -10,9 +10,10 @@ module.exports = function(editors) {
   document.body.addEventListener('focus', (e) => {
     const editor = editors.findByDom(e.target.closest('.textae-editor'))
     if (editor) {
+      if (editors.selected && editor[0] !== editors.selected[0]) {
+        editors.unselect(editors.selected)
+      }
       editors.selected = editor
-    } else if (editors.selected) {
-      editors.unselect(editors.selected)
     }
   }, true)
 

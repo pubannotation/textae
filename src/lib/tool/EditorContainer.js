@@ -21,6 +21,7 @@ export default class {
   unselect(editor) {
     if (this.selectedEditor === editor) {
       editor[0].classList.remove(ACTIVE_CLASS)
+      editor.eventEmitter.emit('textae.pallet.close')
       this.selectedEditor = null
     }
   }
