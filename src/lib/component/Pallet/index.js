@@ -5,6 +5,7 @@ export default class {
   constructor(editor, history, annotationData, command, typeContainer, autocompletionWs, elementEditor) {
     this.editor = editor
     this.history = history
+    this.elementEditor = elementEditor
     this.el = new Component(editor, annotationData, command, typeContainer, autocompletionWs, elementEditor)
 
     // selfUpdate will be called in an event, so need to bind 'this'.
@@ -17,7 +18,7 @@ export default class {
     if (!typeContainer.isLock()) {
       setNotDefinedTypesToConfig(typeContainer)
     }
-    updateDisplay(this.el, this.history, typeContainer, point)
+    updateDisplay(this.el, this.history, typeContainer, point, this.elementEditor.getHandlerType())
   }
 
   hide() {
@@ -34,7 +35,7 @@ export default class {
     }
 
     if (this.el.style.display !== 'none') {
-      updateDisplay(this.el, this.history, this.typeContainer, null)
+      updateDisplay(this.el, this.history, this.typeContainer, null, this.elementEditor.getHandlerType())
     }
   }
 }

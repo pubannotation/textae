@@ -1,11 +1,13 @@
 import toRows from './toRows'
 import CLASS_NAMES from './className'
 
-export default function(pallet, history, typeContainer, point) {
+export default function(pallet, history, typeContainer, point, handlerType) {
   if (typeContainer) {
     clear(pallet)
     appendRows(pallet, typeContainer)
     updateLockState(pallet, typeContainer.isLock())
+    updateTitle(pallet, handlerType)
+    updateBGColorClass(pallet, handlerType)
     show(pallet)
     setWidthWithinWindow(pallet)
     setHeightWithinWindow(pallet)
@@ -37,6 +39,21 @@ function updateLockState(pallet, isLock) {
     Array.prototype.forEach.call(lockNodes, (lockNode) => {
       lockNode.classList.remove(hideClassName)
     })
+  }
+}
+
+function updateTitle(pallet, handlerType) {
+  let titleText = pallet.querySelector('.' + CLASS_NAMES.titleText)
+  titleText.innerText = handlerType.charAt(0).toUpperCase() + handlerType.slice(1) + ' configuration'
+}
+
+function updateBGColorClass(pallet, handlerType) {
+  if (handlerType === 'entity') {
+    pallet.classList.remove(CLASS_NAMES.baseRelation)
+    pallet.classList.add(CLASS_NAMES.baseEntity)
+  } else if (handlerType === 'relation') {
+    pallet.classList.add(CLASS_NAMES.baseRelation)
+    pallet.classList.remove(CLASS_NAMES.baseEntity)
   }
 }
 

@@ -11,6 +11,7 @@ export default function(editor, annotationData, selectionModel, spanConfig, comm
   editRelation = new EditRelation(editor, annotationData, selectionModel, command, typeContainer, cancelSelect)
 
   return {
+    getHandlerType: () => handler,
     getHandler: () => getHandler(handler, editEntity, editRelation),
     getHandlerForPallet: () => getHandlerForPallet(handler, editEntity, editRelation),
     start: {

@@ -9,7 +9,9 @@ export default function(editor, annotationData, command, typeContainer, autocomp
 
   let title = document.createElement('p')
   title.classList.add(CLASS_NAMES.title)
-  title.innerText = 'Edit Configurations'
+
+  let titleText = document.createElement('span')
+  titleText.classList.add(CLASS_NAMES.titleText)
 
   let lockIcon = document.createElement('span')
   lockIcon.classList.add(CLASS_NAMES.lockIcon)
@@ -34,6 +36,7 @@ export default function(editor, annotationData, command, typeContainer, autocomp
   writeButton.classList.add(CLASS_NAMES.buttonWrite)
   writeButton.setAttribute('title', 'Upload')
 
+  title.appendChild(titleText)
   title.appendChild(lockIcon)
   buttonContainer.appendChild(addButton)
   buttonContainer.appendChild(readButton)

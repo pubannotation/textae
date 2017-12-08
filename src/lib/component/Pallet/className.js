@@ -1,6 +1,9 @@
 const CLASS_NAMES = {
   base: 'textae-editor__type-pallet',
+  baseEntity: 'textae-editor__type-pallet--entity',
+  baseRelation: 'textae-editor__type-pallet--relation',
   title: 'textae-editor__type-pallet__title',
+  titleText: 'textae-editor__type-pallet__title-text',
   lockIcon: 'textae-editor__type-pallet__lock-icon',
   buttons: 'textae-editor__type-pallet__buttons',
   button: 'textae-editor__type-pallet__button',
