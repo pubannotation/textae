@@ -30,7 +30,13 @@ export default function($dialog, typeContainer, autocompletionWs, done, id, labe
     $labelSpan.text('')
   }
   $inputs.eq(2).val(color)
+  $inputs.eq(3).attr('checked', isDefault)
   $inputs.eq(3).prop('checked', isDefault)
+
+  if (isDefault) {
+    $inputs.eq(3).attr('disabled', 'disabled')
+    $inputs.eq(3).prop('disabled', 'disabled')
+  }
 }
 
 function select($input, $labelSpan, ui) {
