@@ -2,42 +2,47 @@ import BaseCommand from './BaseCommand'
 import commandLog from './commandLog'
 
 class TypeChangeCommand extends BaseCommand {
-  constructor(editor, annotationData, typeContainer, modelType, id, newType, revertDefaultTypeId) {
+  constructor(editor, annotationData, typeContainer, modelType, id, changeValues, revertDefaultTypeId) {
     super(function() {
       let oldType = typeContainer.getDefinedType(id),
-        mergedType = Object.assign({}, oldType)
+        newType = Object.assign({}, oldType),
+        revertChangeValues = {}
 
       // change config
-      Object.assign(mergedType, newType)
-      Object.keys(mergedType).forEach((key) => {
-        if (mergedType[key] === '' || (key === 'default' && !mergedType[key])) {
-          delete mergedType[key]
+      Object.keys(changeValues).forEach((key) => {
+        if (changeValues[key] === null && typeof oldType[key] !== 'undefined') {
+          delete newType[key]
+          revertChangeValues[key] = oldType[key]
+        } else if (changeValues[key] !== null) {
+          newType[key] = changeValues[key]
+          revertChangeValues[key] = typeof oldType[key] === 'undefined' ? null : oldType[key]
         }
       })
-      typeContainer.changeDefinedType(id, mergedType)
+      typeContainer.changeDefinedType(id, newType)
 
       // manage default type
-      if (revertDefaultTypeId) {
-        typeContainer.setDefaultType(revertDefaultTypeId)
-      } else if (newType.default && newType.default !== oldType.default) {
+      if (newType.default) {
         // remember the current default, because revert command will not understand what type was it.
         revertDefaultTypeId = typeContainer.getDefaultType()
-        typeContainer.setDefaultType(mergedType.id)
+        typeContainer.setDefaultType(newType.id)
+      } else if (revertDefaultTypeId) {
+        typeContainer.setDefaultType(revertDefaultTypeId)
+        revertDefaultTypeId = 'undefined'
       }
 
       // change annotation
       annotationData[modelType].all().map((model) => {
         if (model.type === oldType.label || model.type === oldType.id) {
-          annotationData[modelType].changeType(model.id, mergedType.id)
+          annotationData[modelType].changeType(model.id, newType.id)
         }
       })
 
       // Set revert
-      this.revert = () => new TypeChangeCommand(editor, annotationData, typeContainer, modelType, mergedType.id, oldType, revertDefaultTypeId)
+      this.revert = () => new TypeChangeCommand(editor, annotationData, typeContainer, modelType, newType.id, revertChangeValues, revertDefaultTypeId)
 
       editor.eventEmitter.emit('textae.pallet.update')
       commandLog('change old type:' + JSON.stringify(oldType)
-        + ' to new type:' + JSON.stringify(mergedType)
+        + ' to new type:' + JSON.stringify(newType)
         + ', default is `' + typeContainer.getDefaultType() + '`')
     })
   }

@@ -25,7 +25,7 @@ export default function(annotationData, command, typeContainer, spanAdjuster, is
 
   const commands = createCommands(command, typeContainer, newSpan, isReplicateAuto, isDetectDelimiterEnable, spanConfig)
 
-  command.invoke(commands)
+  command.invoke(commands, ['annotation'])
 }
 
 function createCommands(command, typeContainer, newSpan, isReplicateAuto, isDetectDelimiterEnable, spanConfig) {

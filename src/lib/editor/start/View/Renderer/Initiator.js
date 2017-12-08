@@ -41,6 +41,10 @@ export default function(domPositionCaChe, relationRenderer, buttonStateHelper, t
 
     const eventHandlers = new Map([
       ['all.change', renderAll],
+      ['config.change', () => {
+        entityRenderer.updateLabelAll()
+        relationRenderer.changeAll()
+      }],
       ['paragraph.change', paragraphs => renderParagraph(editor, paragraphs)],
       ['span.add', spanRenderer.render],
       ['span.remove', span => {

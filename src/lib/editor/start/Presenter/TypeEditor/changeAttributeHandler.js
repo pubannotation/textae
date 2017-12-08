@@ -19,7 +19,7 @@ export default function(editor, selectionModel, getHandler, autocompletionWs) {
 
         if (value) {
           commands = commands.concat(getHandler().changeSelectedElement(pred, value))
-          getHandler().command.invoke(commands)
+          getHandler().command.invoke(commands, ['annotation'])
         }
 
         // Cancel selections here.

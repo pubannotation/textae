@@ -1,7 +1,7 @@
 import toRows from './toRows'
 import CLASS_NAMES from './className'
 
-export default function(pallet, typeContainer, point) {
+export default function(pallet, history, typeContainer, point) {
   if (typeContainer && typeContainer.getSortedIds().length > 0) {
     clear(pallet)
     appendRows(pallet, typeContainer)
@@ -9,6 +9,7 @@ export default function(pallet, typeContainer, point) {
     show(pallet)
     setWidthWithinWindow(pallet)
     setHeightWithinWindow(pallet)
+    setWriteButtonState(history, pallet)
 
     if (point) {
       moveIntoWindow(pallet, point)
@@ -57,6 +58,14 @@ function setWidthWithinWindow(pallet) {
 function setHeightWithinWindow(pallet) {
   if (window.innerHeight - 2 <= pallet.offsetHeight) {
     pallet.style.height = window.innerHeight - 2 + 'px'
+  }
+}
+
+function setWriteButtonState(history, pallet) {
+  if (history.hasAnythingToSave('configuration')) {
+    pallet.querySelector('.' + CLASS_NAMES.buttonWrite).classList.add(CLASS_NAMES.buttonWriteTransit)
+  } else {
+    pallet.querySelector('.' + CLASS_NAMES.buttonWrite).classList.remove(CLASS_NAMES.buttonWriteTransit)
   }
 }
 

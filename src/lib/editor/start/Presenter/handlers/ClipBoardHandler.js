@@ -27,7 +27,7 @@ module.exports = function(command, annotationData, selectionModel, clipBoard) {
         })
       }))
 
-      command.invoke(commands)
+      command.invoke(commands, ['annotation'])
     }
 
   return {

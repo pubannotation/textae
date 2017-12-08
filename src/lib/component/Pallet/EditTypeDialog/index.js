@@ -35,7 +35,12 @@ export default class {
   }
 
   open() {
+    let inputs = this.$dialog.find('input')
+    if (!inputs.eq(0).prop('disabled')) {
+      this.$dialog.find('input').eq(0).focus().select()
+    } else {
+      this.$dialog.find('input').eq(1).focus().select()
+    }
     this.$dialog.open()
-    this.$dialog.find('input').eq(1).focus().select()
   }
 }

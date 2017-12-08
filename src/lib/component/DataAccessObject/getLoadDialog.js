@@ -44,7 +44,7 @@ module.exports = function(api, confirmDiscardChangeMessage, setDataSourceUrl, ed
     RowLabel = _.partial(jQuerySugar.Label, 'textae-editor__load-dialog__label'),
     OpenButton = _.partial(jQuerySugar.Button, 'Open'),
     isUserComfirm = function() {
-      return !$dialog.params.hasAnythingToSave || window.confirm(confirmDiscardChangeMessage)
+      return !$dialog.params.hasAnythingToSaveAnnotation || window.confirm(confirmDiscardChangeMessage)
     },
     $buttonUrl = new OpenButton('url'),
     $buttonLocal = new OpenButton('local'),

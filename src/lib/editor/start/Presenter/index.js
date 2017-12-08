@@ -15,6 +15,7 @@ import bindModelChange from './bindModelChange'
 
 export default function(
   editor,
+  history,
   annotationData,
   selectionModel,
   view,
@@ -30,6 +31,7 @@ export default function(
 ) {
   const typeEditor = new TypeEditor(
       editor,
+      history,
       annotationData,
       selectionModel,
       spanConfig,

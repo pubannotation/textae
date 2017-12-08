@@ -6,5 +6,5 @@ module.exports = function(command, spans, entity) {
     })
   })
 
-  command.invoke(commands)
+  command.invoke(commands, ['annotation'])
 }

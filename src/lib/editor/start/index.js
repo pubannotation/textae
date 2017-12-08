@@ -23,6 +23,7 @@ export default function(editor, dataAccessObject, history, buttonController, ann
     view = new View(editor, annotationData, selectionModel, buttonController, typeGap, typeContainer, writable),
     presenter = new Presenter(
       editor,
+      history,
       annotationData,
       selectionModel,
       view,
@@ -90,10 +91,12 @@ export default function(editor, dataAccessObject, history, buttonController, ann
       editor.eventEmitter.emit('textae.pallet.update')
     })
     .on('load--config', data => {
-      let config = data.config,
-        annotation = Object.assign(originalAnnotation, config)
-      setSpanAndTypeConfig(spanConfig, typeContainer, config)
-      annotationData.reset(annotation)
+      if (originalAnnotation.config) {
+        originalAnnotation = Object.assign(originalAnnotation, data.config)
+      }
+      data.annotation = Object.assign(originalAnnotation, annotationData.toJson())
+      setSpanAndTypeConfig(spanConfig, typeContainer, data.config)
+      annotationData.resetOnlyConfig(data.annotation)
       editor.eventEmitter.emit('textae.pallet.update')
     })
 

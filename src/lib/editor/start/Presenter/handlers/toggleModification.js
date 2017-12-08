@@ -36,7 +36,7 @@ var isModificationType = function(modification, modificationType) {
   toggleModification = function(command, annotationData, modeAccordingToButton, modificationType, typeEditor) {
     var has = modeAccordingToButton[modificationType.toLowerCase()].value(),
       commands = createCommand(command, annotationData, modificationType, typeEditor, has)
-    command.invoke(commands)
+    command.invoke(commands, ['annotation'])
   }
 
 module.exports = toggleModification

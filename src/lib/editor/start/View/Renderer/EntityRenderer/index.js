@@ -47,7 +47,12 @@ export default function(editor, annotationData, selectionModel, typeContainer, g
       gridRenderer,
       entity
     ),
-    updateLabel: (type) => updateLabel(annotationData, typeContainer, type)
+    updateLabel: (type) => updateLabel(annotationData, typeContainer, type),
+    updateLabelAll: () => {
+      annotationData.entity.all().map((entity) => {
+        updateLabel(annotationData, typeContainer, entity.type)
+      })
+    }
   }
 }
 

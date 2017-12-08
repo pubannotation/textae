@@ -38,7 +38,7 @@ export default function() {
     CONFIRM_DISCARD_CHANGE_MESSAGE,
     writable
   )
-  observe.observeDataSave(dataAccessObject, history, writable)
+  observe.observeDataSave(this, dataAccessObject, history, writable)
 
   // public funcitons of editor
   this.api = {

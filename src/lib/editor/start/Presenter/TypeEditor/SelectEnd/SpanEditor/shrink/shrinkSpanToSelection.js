@@ -23,9 +23,9 @@ export default function(editor, annotationData, command, spanAdjuster, spanId, s
     sameSpan = annotationData.span.get(newSpanId)
 
   if (newSpan.begin < newSpan.end && !sameSpan) {
-    command.invoke(moveSpan(editor, command, spanId, newSpan))
+    command.invoke(moveSpan(editor, command, spanId, newSpan), ['annotation'])
   } else {
-    command.invoke(removeSpan(command, spanId))
+    command.invoke(removeSpan(command, spanId), ['annotation'])
     return true
   }
 

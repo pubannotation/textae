@@ -41,7 +41,6 @@ export default function(editor, annotationData, command, typeContainer, autocomp
   pallet.appendChild(title)
   pallet.appendChild(buttonContainer)
   pallet.appendChild(document.createElement('table'))
-  pallet.appendChild(document.createElement('table'))
 
   delegate(pallet, '.' + CLASS_NAMES.buttonAdd, 'click', (e) => {
     let handler = elementEditor.getHandlerForPallet(),
@@ -56,7 +55,8 @@ export default function(editor, annotationData, command, typeContainer, autocomp
         if (newColor !== defaultColor) newType.color = newColor
         if (newDefault) newType.default = newDefault
 
-        handler.command.invoke([handler.addType(newType)])
+        handler.command.invoke([handler.addType(newType)], ['configuration'])
+        triggerUpdatePallet(editor)
       },
       dialog = new EditTypeDialog(editor, handler.typeContainer, done, autocompletionWs, 'Please create a new type')
 
@@ -74,18 +74,14 @@ export default function(editor, annotationData, command, typeContainer, autocomp
 
   delegate(pallet, '.' + CLASS_NAMES.label, 'click', (e) => {
     const commands = elementEditor.getHandlerForPallet().changeTypeOfSelectedElement(e.delegateTarget.id)
-    command.invoke(commands)
+    command.invoke(commands, ['annotation'])
     triggerUpdatePallet(editor)
-    // Focus the editor to prevent lost focus when the pallet is closed during selecting radio buttons.
-    editor[0].focus()
   })
 
   delegate(pallet, '.' + CLASS_NAMES.selectAll, 'click', (e) => {
     if (!checkButtonEnable(e.target)) return
 
     elementEditor.getHandlerForPallet().selectAllByLabel(e.delegateTarget.getAttribute('data-id'))
-    // Focus the editor to prevent lost focus when the pallet is closed during selecting radio buttons.
-    editor[0].focus()
   })
 
   delegate(pallet, '.' + CLASS_NAMES.editType, 'click', (e) => {
@@ -96,14 +92,22 @@ export default function(editor, annotationData, command, typeContainer, autocomp
       color = target.getAttribute('data-color').toLowerCase(),
       isDefault = target.getAttribute('data-is-default') === 'true',
       done = (newId, newLabel, newColor, newDefault) => {
-        let newType = {}
-        if (newId !== id) newType.id = newId
-        if (newLabel !== label) newType.label = newLabel
-        if (newColor !== color) newType.color = newColor
-        if (newDefault !== isDefault) newType.default = newDefault
+        let changeValues = {}
 
-        if (Object.keys(newType).length) {
-          handler.command.invoke([handler.changeType(id, newType)])
+        if (newId !== id) changeValues.id = newId
+        if (newLabel !== label) {
+          changeValues.label = newLabel === '' ? null : newLabel
+        }
+        if (newColor !== color) {
+          changeValues.color = newColor === '' ? null : newColor
+        }
+        if (newDefault !== isDefault) {
+          changeValues.default = isDefault ? null : true
+        }
+
+        if (Object.keys(changeValues).length) {
+          handler.command.invoke([handler.changeType(id, changeValues)], ['annotation', 'configuration'])
+          triggerUpdatePallet(editor)
         }
       },
       dialog = new EditTypeDialog(editor, handler.typeContainer, done, autocompletionWs, 'Please edit the type')
@@ -116,9 +120,8 @@ export default function(editor, annotationData, command, typeContainer, autocomp
     if (!checkButtonEnable(e.target)) return
 
     const commands = elementEditor.getHandlerForPallet().removeType(e.delegateTarget.getAttribute('data-id'), e.delegateTarget.getAttribute('data-short-label'))
-    command.invoke(commands)
-    // Focus the editor to prevent lost focus when the pallet is closed during selecting radio buttons.
-    editor[0].focus()
+    command.invoke(commands, ['configuration'])
+    triggerUpdatePallet(editor)
   })
 
   return pallet

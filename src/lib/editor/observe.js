@@ -1,11 +1,15 @@
 import showVilidationDialog from '../component/showVilidationDialog'
+import KINDS from './start/Command/Factory/kinds'
 import toastr from 'toastr'
 
 export function observeModelChange(annotationData, history, writable) {
   annotationData
     .on('all.change', (annotationData, multitrack, reject) => {
-      history.reset()
+      resetAllHistories(history, KINDS)
       showVilidationDialog(self, reject)
+    })
+    .on('config.change', () => {
+      history.reset(KINDS.conf)
     })
 }
 
@@ -16,22 +20,34 @@ export function observeHistoryChange(history, buttonStateHelper, leaveMessage, w
     buttonStateHelper.enabled("redo", state.hasAnythingToRedo)
 
     // change leaveMessage show
-    window.onbeforeunload = state.hasAnythingToSave ? function() {
+    window.onbeforeunload = state.hasAnythingToSaveAnnotation ? function() {
       return leaveMessage
     } : null
 
-    writable.update(state.hasAnythingToSave)
+    writable.update(state.hasAnythingToSaveAnnotation)
   })
 }
 
-export function observeDataSave(dataAccessObject, history, writable) {
+export function observeDataSave(editor, dataAccessObject, history, writable) {
   dataAccessObject
     .on('save', function() {
-      history.saved()
+      resetAllHistories(history, KINDS)
       writable.forceModified(false)
+      editor.eventEmitter.emit('textae.pallet.update')
       toastr.success("annotation saved")
+    })
+    .on('save--config', function() {
+      history.saved(KINDS.conf)
+      editor.eventEmitter.emit('textae.pallet.update')
+      toastr.success("configuration saved")
     })
     .on('save error', function() {
       toastr.error("could not save")
     })
+}
+
+function resetAllHistories(history, kinds) {
+  Object.keys(kinds).forEach((kind) => {
+    history.reset(kinds[kind])
+  })
 }

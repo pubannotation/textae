@@ -21,22 +21,22 @@ module.exports = function(editor, confirmDiscardChangeMessage) {
     },
     api = new EventEmitter(),
     showAccess = function(hasAnythingToSave, parameter) {
-      let params = new DialogParams(null, null, null, hasAnythingToSave)
+      let params = new DialogParams(null, null, null, hasAnythingToSave, null)
       openAndSetParam(getLoadDialog(api, confirmDiscardChangeMessage, setDataSourceUrl, editor), params, dataSourceUrl, parameter)
     },
     showAccessConf = function(hasAnythingToSave, parameter) {
-      let params = new DialogParams(null, null, null, hasAnythingToSave)
+      let params = new DialogParams(null, null, null, null, hasAnythingToSave)
       openAndSetParam(getLoadConfDialog(api, confirmDiscardChangeMessage, setDataSourceUrl, editor), params, dataSourceUrl, parameter)
     },
     showSave = function(originalData, editedData, parameter) {
-      let params = new DialogParams(editedData, originalData.config, editedData.config, null)
+      let params = new DialogParams(editedData, originalData.config, editedData.config, null, null)
       openAndSetParam(getSaveDialog(api, confirmDiscardChangeMessage, setDataSourceUrl, editor), params, dataSourceUrl, parameter)
       // ADD JsonEditor
       // var $dialog = openAndSetParam(getSaveDialog(api, confirmDiscardChangeMessage, setDataSourceUrl, editor), jsonData, dataSourceUrl, params)
       // jsonEditor($dialog)
     },
     showSaveConf = function(originalData, editedData, parameter) {
-      let params = new DialogParams(editedData, originalData.config, editedData.config, null)
+      let params = new DialogParams(editedData, originalData.config, editedData.config, null, null)
       openAndSetParam(getSaveConfDialog(api, confirmDiscardChangeMessage, setDataSourceUrl, editor), params, dataSourceUrl, parameter)
     },
     cursorChanger = new CursorChanger(editor)

@@ -5,10 +5,15 @@ import Factory from './Factory'
 // Users can edit model only via commands.
 export default function(editor, annotationData, selectionModel, history) {
   return {
-    invoke: (commands) => {
+    invoke: (commands, kinds) => {
+      if (typeof kinds === 'undefined') {
+        throw new Error('Please set the second argument ―― it describes what kind of type the invoking command.')
+      }
+
       if (commands && commands.length > 0) {
         invokeCommand.invoke(commands)
-        history.push(commands)
+        history.push(commands, kinds)
+        editor.eventEmitter.emit('textae.pallet.update')
       }
     },
     undo: () => {
@@ -18,6 +23,7 @@ export default function(editor, annotationData, selectionModel, history) {
         selectionModel.clear()
         editor.focus()
         invokeCommand.invokeRevert(history.prev())
+        editor.eventEmitter.emit('textae.pallet.update')
       }
     },
     redo: () => {
@@ -26,6 +32,7 @@ export default function(editor, annotationData, selectionModel, history) {
         selectionModel.clear()
 
         invokeCommand.invoke(history.next())
+        editor.eventEmitter.emit('textae.pallet.update')
       }
     },
     factory: new Factory(editor, annotationData, selectionModel)

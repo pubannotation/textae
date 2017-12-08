@@ -345,6 +345,11 @@ module.exports = function(editor, annotationData, selectionModel, typeContainer)
     },
     render: renderLazy,
     change: changeType,
+    changeAll: () => {
+      annotationData.relation.all().map((relation) => {
+        changeType(relation)
+      })
+    },
     changeModification: changeJsModification,
     remove: (relation) => removeRelation(editor, annotationData, relation, jsPlumbInstance, domPositionCaChe)
   }

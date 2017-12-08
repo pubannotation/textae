@@ -7,6 +7,7 @@ const CLASS_NAMES = {
   buttonAdd: 'textae-editor__type-pallet__button--add',
   buttonRead: 'textae-editor__type-pallet__button--read',
   buttonWrite: 'textae-editor__type-pallet__button--write',
+  buttonWriteTransit: 'textae-editor__type-pallet__button--write--transit',
   hideWhenLocked: 'textae-editor__type-pallet__hide-when-locked',
   hideWhenLockedHide: 'textae-editor__type-pallet__hide-when-locked--hide',
   row: 'textae-editor__type-pallet__row',

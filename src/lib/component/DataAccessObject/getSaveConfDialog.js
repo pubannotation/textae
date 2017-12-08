@@ -11,7 +11,7 @@ import _ from 'underscore'
 module.exports = function(api, confirmDiscardChangeMessage, setDataSourceUrl, editor) {
   var cursorChanger = new CursorChanger(editor),
     showSaveSuccess = function() {
-      api.emit('save')
+      api.emit('save--config')
       cursorChanger.endWait()
     },
     showSaveError = function() {

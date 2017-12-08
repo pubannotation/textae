@@ -1,7 +1,9 @@
+import KINDS from './Command/Factory/kinds'
+
 export default function(dataAccessObject, history, annotationData, typeContainer, getOriginalAnnotation, params) {
-  const showAccess = () => dataAccessObject.showAccess(history.hasAnythingToSave(), params),
+  const showAccess = () => dataAccessObject.showAccess(history.hasAnythingToSave(KINDS.anno), params),
     showSave = () => showSaveDialogWithEditedData(dataAccessObject, annotationData, typeContainer, getOriginalAnnotation, params),
-    showAccessConf = () => dataAccessObject.showAccessConf(history.hasAnythingToSave(), params),
+    showAccessConf = () => dataAccessObject.showAccessConf(history.hasAnythingToSave(KINDS.conf), params),
     showSaveConf = () => showSaveConfDialogWithEditedData(dataAccessObject, annotationData, typeContainer, getOriginalAnnotation, params)
 
   return {

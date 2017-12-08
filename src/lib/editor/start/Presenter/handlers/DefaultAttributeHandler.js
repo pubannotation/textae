@@ -17,7 +17,7 @@ export default function DefaultAttributeHandler(annotationData, command, selecti
           })
         })
 
-      command.invoke(commands)
+      command.invoke(commands, ['annotation'])
 
       // Cancel selections here.
       // Because attributes are selected only during processing click events of add, edit and delete buttons.

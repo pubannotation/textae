@@ -19,7 +19,7 @@ export default function(editor, selectionModel, getHandler, autocompletionWs) {
 
         if (value2) {
           commands = commands.concat(handler.changeTypeOfSelectedElement(value2))
-          handler.command.invoke(commands)
+          handler.command.invoke(commands, ['annotation'])
         }
       }
 

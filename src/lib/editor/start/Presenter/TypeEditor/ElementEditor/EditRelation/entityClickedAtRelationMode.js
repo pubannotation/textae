@@ -31,7 +31,8 @@ function createRelation(command, subjectEntityId, objectEntityId, typeContainer)
     subj: subjectEntityId,
     obj: objectEntityId,
     type: typeContainer.relation.getDefaultType()
-  })])
+  })],
+    ['annotation'])
 }
 
 function updateSelectionOfEntity(event, selectionModel, subjectEntityId, objectEntityId) {

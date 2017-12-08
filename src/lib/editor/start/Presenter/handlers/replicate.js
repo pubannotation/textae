@@ -8,7 +8,8 @@ export default function(command, annotationData, modeAccordingToButton, spanConf
         span,
         span.getTypes().map((t) => t.name),
         detectBoundaryFunc
-      )]
+      )],
+      ['annotation']
     )
   } else {
     alert('You can replicate span annotation when there is only span selected.')

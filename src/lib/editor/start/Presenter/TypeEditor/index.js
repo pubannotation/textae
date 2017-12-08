@@ -5,6 +5,7 @@ import changeAttributeHandler from './changeAttributeHandler'
 
 export default function(
   editor,
+  history,
   annotationData,
   selectionModel,
   spanConfig,
@@ -25,6 +26,7 @@ export default function(
     ),
     pallet = new Pallet(
       editor,
+      history,
       annotationData,
       command,
       typeContainer,
