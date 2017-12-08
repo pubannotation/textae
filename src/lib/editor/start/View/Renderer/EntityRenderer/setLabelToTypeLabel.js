@@ -3,12 +3,16 @@ import getDisplayName from './getDisplayName'
 
 export default function setLabelToTypeLabel(typeLabel, namespace, typeContainer, type) {
   let label = getLabel(namespace, typeContainer, type),
-    href = getUri(namespace, typeContainer, type)
+    href = getUri(namespace, typeContainer, type),
+    // Keep the attributes html not to be overwrote the following 'innerHTML'.
+    getChildAttributesHtml = Array.prototype.reduce.call(typeLabel.querySelectorAll('.textae-editor__attribute'), (carry, attribute) => {
+      return carry + attribute.outerHTML
+    }, '')
 
   if (href) {
-    typeLabel.innerHTML = `<a target="_blank"/ href="${href}">${label}</a>`
+    typeLabel.innerHTML = `<a target="_blank"/ href="${href}">${label}</a>` + getChildAttributesHtml
   } else {
-    typeLabel.innerHTML = label
+    typeLabel.innerHTML = label + getChildAttributesHtml
   }
 }
 
