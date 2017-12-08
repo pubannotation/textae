@@ -44,6 +44,7 @@ export default function(domPositionCaChe, relationRenderer, buttonStateHelper, t
       ['config.change', () => {
         entityRenderer.updateLabelAll()
         relationRenderer.changeAll()
+        editor.eventEmitter.emit('textae.pallet.update')
       }],
       ['paragraph.change', paragraphs => renderParagraph(editor, paragraphs)],
       ['span.add', spanRenderer.render],

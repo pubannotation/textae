@@ -5,14 +5,12 @@ export default function setLabelToTypeLabel(typeLabel, namespace, typeContainer,
   let label = getLabel(namespace, typeContainer, type),
     href = getUri(namespace, typeContainer, type),
     // Keep the attributes html not to be overwrote the following 'innerHTML'.
-    getChildAttributesHtml = Array.prototype.reduce.call(typeLabel.querySelectorAll('.textae-editor__attribute'), (carry, attribute) => {
-      return carry + attribute.outerHTML
-    }, '')
+    childAttributesHtml = getChildAttributesHtml(typeLabel)
 
   if (href) {
-    typeLabel.innerHTML = `<a target="_blank"/ href="${href}">${label}</a>` + getChildAttributesHtml
+    typeLabel.innerHTML = `<a target="_blank"/ href="${href}">${label}</a>` + childAttributesHtml
   } else {
-    typeLabel.innerHTML = label + getChildAttributesHtml
+    typeLabel.innerHTML = label + childAttributesHtml
   }
 }
 
@@ -69,3 +67,10 @@ function getMatchPrefix(namespace, type) {
 
   return null
 }
+
+function getChildAttributesHtml(typeLabel) {
+  return Array.prototype.reduce.call(typeLabel.querySelectorAll('.textae-editor__attribute'), (carry, attribute) => {
+    return carry + attribute.outerHTML
+  }, '')
+}
+
