@@ -34,6 +34,21 @@
             "label": "Regulation",
             "id": "http://www.yahoo.co.jp"
         }, {
+            "label": "News",
+            "id": "https://news.yahoo.co.jp/"
+        }, {
+            "label": "News*",
+            "id": "https://news.yahoo.co.jp/*"
+        }, {
+            "label": "News-photo",
+            "id": "https://news.yahoo.co.jp/photo"
+        }, {
+            "label": "News-photo*",
+            "id": "https://news.yahoo.co.jp/photo*"
+        }, {
+            "label": "News-photo-sci",
+            "id": "https://news.yahoo.co.jp/photo?c=c_sci"
+        }, {
             "color": "#666666",
             "id": "New"
         }, {

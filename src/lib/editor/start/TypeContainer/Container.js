@@ -16,6 +16,20 @@ export default function(getAllInstanceFunc, getActualTypesFunction, defaultColor
       lockEdit: lockEditFunc,
       unlockEdit: unlockEditFunc,
       setDefinedType: (newType) => {
+        if (typeof newType.color === 'undefined') {
+          let forwardMatchColor = getColor(definedTypes, newType.id, defaultColor)
+          if (forwardMatchColor !== defaultColor) {
+            newType.color = forwardMatchColor
+          }
+        }
+
+        if (typeof newType.label === 'undefined') {
+          let forwardMatchLabel = getLabel(definedTypes, newType.id)
+          if (forwardMatchLabel) {
+            newType.label = forwardMatchLabel
+          }
+        }
+
         definedTypes.set(newType.id, newType)
         emitter.emit('type.change', newType.id)
       },
@@ -52,8 +66,8 @@ export default function(getAllInstanceFunc, getActualTypesFunction, defaultColor
       getDefaultPred: () => DEFAULTS.pred,
       getDefaultValue: () => DEFAULTS.value,
       getDefaultColor: () => defaultColor,
-      getColor: (id) => definedTypes.get(id) && definedTypes.get(id).color || defaultColor,
-      getLabel: (id) => definedTypes.get(id) && definedTypes.get(id).label || undefined,
+      getColor: (id) => getColor(definedTypes, id, defaultColor),
+      getLabel: (id) => getLabel(definedTypes, id),
       getUri: (id) => uri.getUrlMatches(id) ? id : undefined,
       getSortedIds: () => getSortedIds(getActualTypesFunction, definedTypes),
       remove: (id) => {
@@ -111,6 +125,55 @@ function setAutoDefaultType(getAllInstanceFunc, setDefaultTypeFunc) {
 
   setDefaultTypeFunc(setType)
   return setType
+}
+
+function getColor(definedTypes, id, defaultColor) {
+  // Return color if perfectly matched
+  if (definedTypes.get(id) && definedTypes.get(id).color) {
+    return definedTypes.get(id).color
+  }
+
+  // Return color if forward matched
+  let forwardMatchType = getForwardMatchType(definedTypes, id)
+  if (forwardMatchType && forwardMatchType.color) {
+    return forwardMatchType.color
+  }
+
+  return defaultColor
+}
+
+function getLabel(definedTypes, id) {
+  // Return label if perfectly matched
+  if (definedTypes.get(id) && definedTypes.get(id).label) {
+    return definedTypes.get(id).label
+  }
+
+  // Return label if forward matched
+  let forwardMatchType = getForwardMatchType(definedTypes, id)
+  if (forwardMatchType && forwardMatchType.label) {
+    return forwardMatchType.label
+  }
+
+  return undefined
+}
+
+function getForwardMatchType(definedTypes, id) {
+  // '*' at the last char of id means wildcard.
+  let forwardMatchTypes = []
+  definedTypes.forEach((definedType) => {
+    if (definedType.id.indexOf('*') !== -1 && id.indexOf(definedType.id.slice(0, -1)) === 0) {
+      forwardMatchTypes.push(definedType)
+    }
+  })
+
+  // If some wildcard-id are matched, return the type of the most longest matched.
+  if (forwardMatchTypes.length >= 1) {
+    return forwardMatchTypes.reduce((longestType, forwardMatchType) => {
+      return forwardMatchType.id.length > longestType.id.length ? forwardMatchType : longestType
+    }, {id: ''})
+  }
+
+  return null
 }
 
 function getSortedIds(getActualTypesFunction, definedTypes) {
