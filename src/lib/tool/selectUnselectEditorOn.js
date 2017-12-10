@@ -25,6 +25,17 @@ module.exports = function(editors) {
       return
     }
 
+    // Ignore clicks on the label list editor.
+    if (e.target.closest('.textae-editor__type-pallet') !== null) {
+      return
+    } else {
+      let classList = e.target.classList
+      // ClassList isn't an array
+      for (let i = 0; i < classList.length; i++) {
+        if (classList[i].indexOf('textae-editor__type-pallet') !== -1) return
+      }
+    }
+
     // Ignore clicks on children of the this Editor
     if (editors.findByDom(e.target.closest('.textae-editor'))) {
       return
