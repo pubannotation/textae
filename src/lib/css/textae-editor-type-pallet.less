@@ -197,3 +197,18 @@
         width: 16px;
     }
 }
+
+// for Firefox only
+@-moz-document url-prefix() {
+    .textae-editor__type-pallet {
+        td {
+            & .textae-editor__type-pallet {
+                &__table-button {
+                    &:before {
+                        left: -6px;
+                    }
+                }
+            }
+        }
+    }
+}
