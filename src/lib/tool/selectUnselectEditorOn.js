@@ -25,6 +25,11 @@ module.exports = function(editors) {
       return
     }
 
+    // Ignore clicks on the auto-completion items.
+    if (e.target.closest('.ui-autocomplete') !== null) {
+      return
+    }
+
     // Ignore clicks on the label list editor.
     if (e.target.closest('.textae-editor__type-pallet') !== null) {
       return
