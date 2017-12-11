@@ -12,6 +12,8 @@ import DaoHandler from './DaoHandler'
 import APIs from './APIs'
 import calculateLineHeight from './calculateLineHeight'
 import focusEditorWhenFocusedChildRemoved from './focusEditorWhenFocusedChildRemoved'
+import validateConfiguration from '../Model/AnnotationData/validateConfiguration'
+import toastr from 'toastr'
 
 export default function(editor, dataAccessObject, history, buttonController, annotationData, selectionModel, clipBoard, writable) {
   const params = getParams(editor[0]),
@@ -91,6 +93,10 @@ export default function(editor, dataAccessObject, history, buttonController, ann
       editor.eventEmitter.emit('textae.pallet.update')
     })
     .on('load--config', data => {
+      if (!validateConfiguration(data.config)) {
+        toastr.error('This is not a configuration file or its format is invalid.')
+        return
+      }
       originalAnnotation.config = data.config
       data.annotation = Object.assign(originalAnnotation, annotationData.toJson())
       setSpanAndTypeConfig(spanConfig, typeContainer, data.config)
