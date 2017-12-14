@@ -17,14 +17,14 @@ export default function(getAllInstanceFunc, getActualTypesFunction, defaultColor
       unlockEdit: unlockEditFunc,
       setDefinedType: (newType) => {
         if (typeof newType.color === 'undefined') {
-          let forwardMatchColor = getColor(definedTypes, newType.id, defaultColor)
+          let forwardMatchColor = api.getColor(newType.id)
           if (forwardMatchColor !== defaultColor) {
             newType.color = forwardMatchColor
           }
         }
 
         if (typeof newType.label === 'undefined') {
-          let forwardMatchLabel = getLabel(definedTypes, newType.id)
+          let forwardMatchLabel = api.getLabel(newType.id)
           if (forwardMatchLabel) {
             newType.label = forwardMatchLabel
           }
@@ -66,8 +66,8 @@ export default function(getAllInstanceFunc, getActualTypesFunction, defaultColor
       getDefaultPred: () => DEFAULTS.pred,
       getDefaultValue: () => DEFAULTS.value,
       getDefaultColor: () => defaultColor,
-      getColor: (id) => getColor(definedTypes, id, defaultColor),
-      getLabel: (id) => getLabel(definedTypes, id),
+      getColor: (id, dismissForwardMatch = false) => getLabelOrColor('color', definedTypes, id, defaultColor, dismissForwardMatch),
+      getLabel: (id, dismissForwardMatch = false) => getLabelOrColor('label', definedTypes, id, undefined, dismissForwardMatch),
       getUri: (id) => uri.getUrlMatches(id) ? id : undefined,
       getSortedIds: () => getSortedIds(getActualTypesFunction, definedTypes),
       remove: (id) => {
@@ -127,34 +127,21 @@ function setAutoDefaultType(getAllInstanceFunc, setDefaultTypeFunc) {
   return setType
 }
 
-function getColor(definedTypes, id, defaultColor) {
-  // Return color if perfectly matched
-  if (definedTypes.get(id) && definedTypes.get(id).color) {
-    return definedTypes.get(id).color
+function getLabelOrColor(labelOrColor, definedTypes, id, defaultValue, dismissForwardMatch) {
+  // Return value if perfectly matched
+  if (definedTypes.get(id) && definedTypes.get(id)[labelOrColor]) {
+    return definedTypes.get(id)[labelOrColor]
   }
 
-  // Return color if forward matched
-  let forwardMatchType = getForwardMatchType(definedTypes, id)
-  if (forwardMatchType && forwardMatchType.color) {
-    return forwardMatchType.color
+  // Return value if forward matched
+  if (!dismissForwardMatch) {
+    let forwardMatchType = getForwardMatchType(definedTypes, id)
+    if (forwardMatchType && forwardMatchType[labelOrColor]) {
+      return forwardMatchType[labelOrColor]
+    }
   }
 
-  return defaultColor
-}
-
-function getLabel(definedTypes, id) {
-  // Return label if perfectly matched
-  if (definedTypes.get(id) && definedTypes.get(id).label) {
-    return definedTypes.get(id).label
-  }
-
-  // Return label if forward matched
-  let forwardMatchType = getForwardMatchType(definedTypes, id)
-  if (forwardMatchType && forwardMatchType.label) {
-    return forwardMatchType.label
-  }
-
-  return undefined
+  return defaultValue
 }
 
 function getForwardMatchType(definedTypes, id) {

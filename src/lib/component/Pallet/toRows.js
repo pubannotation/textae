@@ -54,10 +54,10 @@ export default function(typeContainer) {
     .map(id => {
       return {
         id,
-        label: typeContainer.getLabel(id),
+        label: typeContainer.getLabel(id, true),
         defaultType: id === typeContainer.getDefaultType(),
         uri: typeContainer.getUri(id),
-        color: typeContainer.getColor(id),
+        color: typeContainer.getColor(id, true),
         useNumber: labelUseCountMap.get(id)
       }
     })
