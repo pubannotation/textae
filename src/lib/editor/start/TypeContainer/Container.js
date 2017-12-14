@@ -193,7 +193,7 @@ function getSortedIds(getActualTypesFunction, definedTypes) {
 
       return diff !== 0 ? diff :
         a > b ? 1 :
-        b < a ? -1 :
+        a < b ? -1 :
         0
     })
 
