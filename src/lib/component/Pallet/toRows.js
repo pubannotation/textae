@@ -41,7 +41,7 @@ const html = `
 {{/each}}
 {{/if}}
 {{#unless this}}
-<tr class="${CLASS_NAMES.row}"><td class="${CLASS_NAMES.noConfig}" colspan="4">There is no configuration.</td></tr>
+<tr class="${CLASS_NAMES.row}"><td class="${CLASS_NAMES.noConfig}" colspan="4"></td></tr>
 {{/unless}}
 `
 

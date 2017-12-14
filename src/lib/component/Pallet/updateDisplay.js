@@ -7,6 +7,7 @@ export default function(pallet, history, typeContainer, point, handlerType) {
     appendRows(pallet, typeContainer)
     updateLockState(pallet, typeContainer.isLock())
     updateTitle(pallet, handlerType)
+    updateNoConfigText(pallet, handlerType)
     updateBGColorClass(pallet, handlerType)
     show(pallet)
     setWidthWithinWindow(pallet)
@@ -45,6 +46,13 @@ function updateLockState(pallet, isLock) {
 function updateTitle(pallet, handlerType) {
   let titleText = pallet.querySelector('.' + CLASS_NAMES.titleText)
   titleText.innerText = handlerType.charAt(0).toUpperCase() + handlerType.slice(1) + ' configuration'
+}
+
+function updateNoConfigText(pallet, handlerType) {
+  let noConfigText = pallet.querySelector('.' + CLASS_NAMES.noConfig)
+  if (noConfigText) {
+    noConfigText.innerText = 'There is no ' + handlerType + ' definition.'
+  }
 }
 
 function updateBGColorClass(pallet, handlerType) {
