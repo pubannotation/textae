@@ -57,7 +57,7 @@ export default class extends EventEmitter {
   }
   selectEntityLabel(dom, isMulti) {
     if (dom) {
-      const pane = dom.previousElementSibling,
+      const pane = dom.nextElementSibling,
         allEntityOflabels = pane.children
 
       if (!isMulti) {
