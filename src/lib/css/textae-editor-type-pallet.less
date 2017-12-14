@@ -126,11 +126,14 @@
         }
         & .textae-editor__type-pallet {
             &__default-icon {
-                &:before {
-                    .fontAwesomeIcon("\f046");
-                    top: 1px;
-                    font-size: 1.3em;
-                }
+                display: inline-block;
+                position: relative;
+                top: 1px;
+                width: 10px;
+                height: 10px;
+                border: 2px solid darkgray;
+                border-radius: 50%;
+                background: radial-gradient(ellipse at center, black 0%, #dcdcdc 70%, #dcdcdc 100%);
             }
             &__table-button {
                 display: inline-block;
