@@ -1,6 +1,7 @@
 export {
   getAsync,
-  post
+  post,
+  patch
 }
 import $ from 'jquery'
 
@@ -37,9 +38,25 @@ function post(url, data, successHandler, failHandler, finishHandler) {
   }
 
   console.log("POST data", data)
+  requestAjax('post', url, data, successHandler, failHandler, finishHandler)
+}
 
+function patch(url, data, successHandler, failHandler, finishHandler) {
+  if (isEmpty(url)) {
+    return
+  }
+
+  console.log("PATCH data", data)
+  requestAjax('patch', url, data, successHandler, failHandler, finishHandler)
+}
+
+function isEmpty(str) {
+  return !str || str === ""
+}
+
+function requestAjax(type, url, data, successHandler, failHandler, finishHandler) {
   let opt = {
-    type: "post",
+    type: type,
     url: url,
     contentType: "application/json",
     data: data,
@@ -53,8 +70,4 @@ function post(url, data, successHandler, failHandler, finishHandler) {
     .done(successHandler)
     .fail(failHandler)
     .always(finishHandler)
-}
-
-function isEmpty(str) {
-  return !str || str === ""
 }

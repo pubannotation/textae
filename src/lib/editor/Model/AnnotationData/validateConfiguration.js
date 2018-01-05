@@ -1,8 +1,8 @@
 export default function(loadConfig) {
   let keys = Object.keys(loadConfig),
     validKeyMap = {
-      'entity types': ['id', 'label', 'color', 'default', 'block'],
-      'relation types': ['id', 'label', 'color', 'default', 'block'],
+      'entity types': ['id', 'label', 'color', 'default', 'type'],
+      'relation types': ['id', 'label', 'color', 'default', 'type'],
       'delimiter characters': '',
       'non-edge characters': ''
     },

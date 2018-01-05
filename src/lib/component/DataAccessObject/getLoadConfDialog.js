@@ -1,7 +1,7 @@
 import jQuerySugar from '../jQuerySugar'
 import getJsonFromFile from './getJsonFromFile'
 import label from './label'
-import getAnnotationFromServer from './getAnnotationFromServer'
+import getConfigurationFromServer from './getCofigurationFromServer'
 import CursorChanger from '../../util/CursorChanger'
 import getDialog from './getDialog'
 import $ from 'jquery'
@@ -11,7 +11,7 @@ module.exports = function(api, confirmDiscardChangeMessage, setDataSourceUrl, ed
     let RowDiv = _.partial(jQuerySugar.Div, 'textae-editor__load-dialog__row'),
     RowLabel = _.partial(jQuerySugar.Label, 'textae-editor__load-dialog__label'),
     OpenButton = _.partial(jQuerySugar.Button, 'Open'),
-    isUserComfirm = function() {
+    isUserConfirm = function() {
       return !$dialog.params.hasAnythingToSaveConfiguration || window.confirm(confirmDiscardChangeMessage)
     },
     $configButtonUrl = new OpenButton('url--config'),
@@ -28,10 +28,10 @@ module.exports = function(api, confirmDiscardChangeMessage, setDataSourceUrl, ed
         jQuerySugar.enabled($configButtonUrl, this.value)
       })
       .on('click', '[type="button"].url--config', function() {
-        // if (isUserComfirm()) {
-        //   getAnnotationFromServer(jQuerySugar.getValueFromText($configurationContent, 'url--config'), new CursorChanger(editor), api, setDataSourceUrl)
-        // }
-        // closeDialog($content)
+        if (isUserConfirm()) {
+          getConfigurationFromServer(jQuerySugar.getValueFromText($content, 'url--config'), new CursorChanger(editor), api, setDataSourceUrl)
+        }
+        closeDialog($content)
       })
       .append(
         new RowDiv().append(
@@ -44,7 +44,7 @@ module.exports = function(api, confirmDiscardChangeMessage, setDataSourceUrl, ed
         jQuerySugar.enabled($configButtonLocal, this.files.length > 0)
       })
       .on('click', '[type="button"].local--config', function() {
-        if (isUserComfirm()) {
+        if (isUserConfirm()) {
           getJsonFromFile(api, $content.find('.textae-editor__load-dialog__file--config')[0], 'config')
         }
         closeDialog($content)

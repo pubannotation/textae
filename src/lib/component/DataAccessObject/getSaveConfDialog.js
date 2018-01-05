@@ -1,5 +1,5 @@
 import CursorChanger from '../../util/CursorChanger'
-import * as ajaxAccessor from '../../util/ajaxAccessor'
+import saveJsonToServer from './saveJsonToServer'
 import getLoadDialog from './getLoadDialog'
 import label from './label'
 import jQuerySugar from '../jQuerySugar'
@@ -18,12 +18,6 @@ module.exports = function(api, confirmDiscardChangeMessage, setDataSourceUrl, ed
       api.emit('save error')
       cursorChanger.endWait()
     },
-    // saveConfigurationToServer = function(url, jsonData) {
-    //   cursorChanger.startWait()
-    //   ajaxAccessor.post(url, jsonData, showSaveSuccess, showSaveError, function() {
-    //     cursorChanger.endWait()
-    //   })
-    // },
     createDownloadPath = function(contents) {
       var blob = new Blob([contents], {
         type: 'application/json'
@@ -52,8 +46,14 @@ module.exports = function(api, confirmDiscardChangeMessage, setDataSourceUrl, ed
         jQuerySugar.enabled($configSaveButton, this.value)
       })
       .on('click', '[type="button"].url--config', function() {
-        // saveConfigurationsToServer(jQuerySugar.getValueFromText($content, 'url--config'), JSON.parse($dialog.params.editedConfig))
-        // closeDialog($content)
+        saveJsonToServer(
+          jQuerySugar.getValueFromText($content, 'url--config'),
+          JSON.stringify($dialog.params.editedConfig),
+          showSaveSuccess,
+          showSaveError,
+          cursorChanger
+        )
+        closeDialog($content)
       })
       .append(
         new RowDiv().append(

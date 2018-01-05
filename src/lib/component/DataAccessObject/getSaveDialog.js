@@ -1,5 +1,5 @@
 import CursorChanger from '../../util/CursorChanger'
-import * as ajaxAccessor from '../../util/ajaxAccessor'
+import saveJsonToServer from './saveJsonToServer'
 import getLoadDialog from './getLoadDialog'
 import label from './label'
 import jQuerySugar from '../jQuerySugar'
@@ -16,12 +16,6 @@ module.exports = function(api, confirmDiscardChangeMessage, setDataSourceUrl, ed
     showSaveError = function() {
       api.emit('save error')
       cursorChanger.endWait()
-    },
-    saveAnnotationToServer = function(url, jsonData) {
-      cursorChanger.startWait()
-      ajaxAccessor.post(url, jsonData, showSaveSuccess, showSaveError, function() {
-        cursorChanger.endWait()
-      })
     },
     createDownloadPath = function(contents) {
       var blob = new Blob([contents], {
@@ -50,7 +44,13 @@ module.exports = function(api, confirmDiscardChangeMessage, setDataSourceUrl, ed
       jQuerySugar.enabled($saveButton, this.value)
     })
     .on('click', '[type="button"].url', function() {
-      saveAnnotationToServer(jQuerySugar.getValueFromText($content, 'url'), JSON.parse($dialog.params.editedAnnotation))
+      saveJsonToServer(
+        jQuerySugar.getValueFromText($content, 'url'),
+        JSON.stringify($dialog.params.editedAnnotation),
+        showSaveSuccess,
+        showSaveError,
+        cursorChanger
+      )
       closeDialog($content)
     })
     .append(
