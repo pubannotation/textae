@@ -155,13 +155,14 @@ function getConfigEditParamFromUrl(url) {
 
 function loadAnnotation(spanConfig, typeContainer, annotationData, statusBar, params, dataAccessObject) {
   const annotation = params.get('annotation')
+  const config = params.get('config')
 
   if (annotation) {
     if (annotation.has('inlineAnnotation')) {
       // Set an inline annotation.
       let originalAnnotation = JSON.parse(annotation.get('inlineAnnotation'))
 
-      setAnnotation(spanConfig, typeContainer, annotationData, originalAnnotation, params.get('config'))
+      setAnnotation(spanConfig, typeContainer, annotationData, originalAnnotation, config)
       statusBar.status('inline')
       return originalAnnotation
     } else if (annotation.has('url')) {
@@ -170,6 +171,9 @@ function loadAnnotation(spanConfig, typeContainer, annotationData, statusBar, pa
     } else {
       throw new Error('annotation text is empty.')
     }
+  }
+  if (config) {
+     dataAccessObject.getConfigurationFromServer(config)
   }
 }
 
