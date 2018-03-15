@@ -62,7 +62,7 @@ module.exports = function(grunt) {
                 files: [{
                     expand: true,
                     cwd: 'src/',
-                    src: ['demo/**', 'lib/css/images/**', '!**/*.psd'],
+                    src: ['demo/**', 'lib/css/images/**', 'lib/fonts/**', '!**/*.psd'],
                     dest: 'dist/',
                     filter: 'isFile'
                 }, {
