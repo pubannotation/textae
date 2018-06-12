@@ -17,7 +17,8 @@
     ]
   },
   "browser": {
-    "jquery": "./node_modules/jquery/dist/jquery.min.js",
+    "jquery": "./src/lib/modules/browserify-hax.js",
+    "static-jquery": "./node_modules/jquery/dist/jquery.min.js",
     "jq-ui": "./node_modules/jquery-ui-dist/jquery-ui.min.js",
     "stickykit": "./src/lib/modules/sticky-kit.js",
     "js-plumb": "./src/lib/modules/jquery.jsPlumb-1.5.2.js",

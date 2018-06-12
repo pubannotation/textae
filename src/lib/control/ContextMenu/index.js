@@ -3,6 +3,7 @@ import makeButtons from './makeButtons'
 import toButtonList from '../toButtonList'
 import * as cssUtil from '../iconCssUtil'
 import updateButtons from '../updateButtons'
+import $ from 'jquery'
 
 export default class {
   constructor(editor) {

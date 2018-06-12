@@ -3,17 +3,18 @@ import controlBar from './control/controlBar'
 import ContextMenu from './control/ContextMenu'
 import editor from './editor'
 import combine from './combine'
-global.jQuery = require("jquery")
+const tJQ = require("jquery")
 require("stickykit")
 
+const textaeQuery = tJQ.noConflict(true)
 let tool = new Tool()
 
-jQuery.fn.textae = (function() {
+textaeQuery.fn.textae = (function() {
   return function() {
-    if (jQuery(this).hasClass("textae-editor")) {
-      jQuery(this).each(function() {
+    if (textaeQuery(this).hasClass("textae-editor")) {
+      textaeQuery(this).each(function() {
         // Create an editor
-        let e = jQuery(this)
+        let e = textaeQuery(this)
         editor.apply(e)
 
         // Register an editor
@@ -33,6 +34,7 @@ jQuery.fn.textae = (function() {
   }
 })()
 
-jQuery(function($) {
-  $(".textae-editor").textae()
+document.addEventListener("DOMContentLoaded", function(event) {
+  textaeQuery(".textae-editor").textae()
 })
+$.noConflict(true)
