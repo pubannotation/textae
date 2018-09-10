@@ -1,5 +1,6 @@
 import getEntityDom from '../../../getEntityDom'
 import createAttributeElement from './createAttributeElement'
+import $ from 'jquery'
 
 export default function(editor, namspace, typeContainer, gridRenderer, attributeModel) {
   // Replace null to 'null' if type is null and undefined too.
