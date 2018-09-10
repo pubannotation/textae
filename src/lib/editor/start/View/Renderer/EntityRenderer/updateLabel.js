@@ -17,7 +17,7 @@ export default function(annotationData, typeContainer, type) {
 
 function setTypeColor(label, typeContainer, type) {
   let color = typeContainer.getColor(type),
-    entities = label.getElementsByClassName('textae-editor__entity')
+    entities = label.nextElementSibling.getElementsByClassName('textae-editor__entity')
 
   label.setAttribute('style', 'background-color: ' + color)
   Array.prototype.forEach.call(entities, (entity) => {

@@ -1,4 +1,5 @@
 import getHeightIncludeDescendantGrids from '../getHeightIncludeDescendantGrids'
+import calcAttributeHeightOfGrid from '../calcAttributeHeightOfGrid'
 import getGridOfSpan from './getGridOfSpan'
 import $ from 'jquery'
 
@@ -14,9 +15,13 @@ function stickGridOnSpan(getSpan, span) {
   var spanPosition = getSpan(span.id)
 
   return {
-    top: spanPosition.top - $(getGridOfSpan(span.id)).outerHeight(),
+    top: spanPosition.top - calcHeightOfGrid(span.id) + 2, // '+2' means nothing special, just tweaking.
     left: spanPosition.left
   }
+}
+
+function calcHeightOfGrid(spanId) {
+  return $(getGridOfSpan(spanId)).outerHeight() + 18 + calcAttributeHeightOfGrid(spanId)
 }
 
 function pullUpGridOverDescendants(getSpan, typeContainer, typeGapValue, span) {
@@ -25,7 +30,7 @@ function pullUpGridOverDescendants(getSpan, typeContainer, typeGapValue, span) {
     descendantsMaxHeight = getHeightIncludeDescendantGrids(span, typeContainer, typeGapValue)
 
   return {
-    top: spanPosition.top - descendantsMaxHeight,
+    top: spanPosition.top - descendantsMaxHeight - calcAttributeHeightOfGrid(span.id),
     left: spanPosition.left
   }
 }

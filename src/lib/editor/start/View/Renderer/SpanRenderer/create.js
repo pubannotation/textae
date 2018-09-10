@@ -25,6 +25,12 @@ function create(span, annotationData, isBlockFunc, renderEntityFunc, renderAttri
       renderEntityFunc
   )
 
+  renderAttributesOfSpan(
+      span,
+      annotationData.attribute.get,
+      renderAttributeFunc
+  )
+
   renderChildresnSpan(
       span,
       span => create(span, annotationData, isBlockFunc, renderEntityFunc, renderAttributeFunc)
