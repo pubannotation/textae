@@ -143,10 +143,10 @@
     &__setting-dialog {
         .common;
         & > div {
-            margin-bottom: 2px;
+            margin-bottom: 4px;
         }
         &__label {
-            width: 150px;
+            width: 240px;
         }
         &__type-gap[disabled="disabled"] {
             background-color: #999;
@@ -190,6 +190,20 @@
                 &.alert {
                     color: red;
                 }
+            }
+        }
+    }
+    &__login-info-dialog {
+        &__open-link,
+        &__ok {
+            margin-top: 10px;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        &__message-box-setting {
+            font-size: .8em;
+            label {
+                cursor: pointer;
             }
         }
     }

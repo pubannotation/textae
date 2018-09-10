@@ -20,6 +20,10 @@ const CONTENT = `
             <label class="textae-editor__setting-dialog__label">Lock Edit Config</label>
             <input type="checkbox" class="textae-editor__setting-dialog__lock-config lock-config">
         </div>
+        <div>
+             <label class="textae-editor__setting-dialog__label">Reset Hidden Message Boxes</label>
+            <input type="button" class="textae-editor__setting-dialog__reset-hidden-message-boxes reset-hidden-message-boxes" value="Reset">
+        </div>
     </div>
 `
 
@@ -44,6 +48,11 @@ function bind($content, editor, displayInstance) {
   )
 
   bindChangeLockConfig(
+    $content,
+    editor
+  )
+
+  bindClickResetHiddenMessageBoxes(
     $content,
     editor
   )
@@ -98,6 +107,14 @@ function bindChangeLockConfig($content, editor) {
       '.lock-config',
       onChangeLockConfig
     )
+}
+
+function bindClickResetHiddenMessageBoxes($content, editor) {
+  let onClickResetHiddenMessageBoxes = () => {
+    editor.eventEmitter.emit('textae.message-box.show')
+  }
+
+  return $content.on('click', '.reset-hidden-message-boxes', onClickResetHiddenMessageBoxes)
 }
 
 // Redraw all editors in tha windows.

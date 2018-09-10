@@ -13,10 +13,12 @@ module.exports = function(api, confirmDiscardChangeMessage, setDataSourceUrl, ed
     showSaveSuccess = function() {
       api.emit('save--config')
       cursorChanger.endWait()
+      closeDialog($content)
     },
     showSaveError = function() {
       api.emit('save error')
       cursorChanger.endWait()
+      closeDialog($content)
     },
     createDownloadPath = function(contents) {
       var blob = new Blob([contents], {
@@ -51,9 +53,9 @@ module.exports = function(api, confirmDiscardChangeMessage, setDataSourceUrl, ed
           JSON.stringify($dialog.params.editedConfig),
           showSaveSuccess,
           showSaveError,
-          cursorChanger
+          cursorChanger,
+          editor
         )
-        closeDialog($content)
       })
       .append(
         new RowDiv().append(

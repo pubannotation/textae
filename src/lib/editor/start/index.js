@@ -1,5 +1,6 @@
 import Observable from 'observ'
 import * as ajaxAccessor from '../../util/ajaxAccessor'
+import cookieHandler from '../../util/CookieHandler'
 import StatusBar from '../../component/StatusBar'
 import getParams from './getParams'
 import SpanConfig from './SpanConfig'
@@ -62,6 +63,13 @@ export default function(editor, dataAccessObject, history, buttonController, ann
   if (params.get('control') === 'hidden') {
     editor[0].classList.add('textae-editor--control-hidden')
   }
+
+  editor.eventEmitter.on('textae.message-box.hide', () => {
+    cookieHandler().set('hide-message-box', 'true', {path: '/'})
+  })
+  editor.eventEmitter.on('textae.message-box.show', () => {
+    cookieHandler().set('hide-message-box', 'false', {path: '/'})
+  })
 
   editor.eventEmitter.on('textae.config.lock', () => {
     typeContainer.lockEdit()
