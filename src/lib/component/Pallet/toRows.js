@@ -5,7 +5,7 @@ const html = `
 <tr>
   <th>id</th>
   <th>label</th>
-  <th>#</th>
+  <th title="Number of annotations.">#</th>
   <th class="${CLASS_NAMES.hideWhenLocked}"></th>
 </tr>
 {{#if this}}
@@ -35,7 +35,9 @@ const html = `
     <button class="${CLASS_NAMES.tableButton} ${CLASS_NAMES.editType}"
       type="button" title="Edit this type." data-id="{{id}}" data-color="{{color}}" data-is-default="{{defaultType}}"></button>
     <button class="${CLASS_NAMES.tableButton} ${CLASS_NAMES.remove} {{#if useNumber}}${CLASS_NAMES.tableButtonDisabled}{{/if}}"
-      type="button" title="Remove this type." data-id="{{id}}" data-short-label="{{label}}"></button>
+      type="button"
+       title="{{#if useNumber}}To activate this button, remove all the annotations of this type.{{/if}}{{#unless useNumber}}Remove this type.{{/unless}}"
+       data-id="{{id}}" data-short-label="{{label}}"></button>
   </td>
 </tr>
 {{/each}}
