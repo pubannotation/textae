@@ -29,7 +29,10 @@ export default class {
     this.editorList.forEach((e) => e.api.redraw())
   }
   observeKeyInput(onKeyup) {
-    this.editorList.forEach((e) => e[0].addEventListener('keyup', (event) => onKeyup(event)))
+    this.editorList.forEach((e) => e[0].addEventListener('keyup', function(event) {
+      e.eventEmitter.emit('textae.key.input')
+      onKeyup(event)
+    }))
   }
   findByDom(dom) {
     return this.editorList.filter((e) => e[0] === dom)[0]
