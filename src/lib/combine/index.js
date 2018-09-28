@@ -56,7 +56,7 @@ module.exports = function combine(editor, controlBar, contextMenu) {
   editor[0].addEventListener('contextmenu', (e) => {
     // Prevent show browser default context menu
     e.preventDefault()
-    contextMenu.show(event.layerY, event.layerX)
+    contextMenu.show(e.layerY, e.layerX)
 
     // If 'contextmenu' event fired when context menu has already opened, need to cancel closing.
     if (contextMenu.closing) {
