@@ -45,12 +45,12 @@ module.exports = function combine(editor, controlBar, contextMenu) {
     e.preventDefault()
   })
 
-  editor[0].addEventListener('mousedown', (e) => {
+  editor[0].addEventListener('mouseup', (e) => {
     if (contextMenu.isOpen()) {
       contextMenu.closing = true
       // Events of a hidden element will not fire, but 'mousedown' event fires before 'contextmenu' event.
       // So change process order by using setTimeout().
-      setTimeout(() => contextMenu.hide(), 0)
+      setTimeout(() => contextMenu.hide(), 1)
     }
   })
   editor[0].addEventListener('contextmenu', (e) => {
