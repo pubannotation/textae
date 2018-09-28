@@ -5,7 +5,7 @@ export default function(selectionModel, e) {
     isTypeLabel = typeLabel.classList.contains('textae-editor__type-label')
 
   if (isTypeLabel) {
-    let entities = e.target.nextElementSibling.children
+    let entities = e.target.previousElementSibling.children
 
     return selectEntities(selectionModel, e.ctrlKey || e.metaKey, typeLabel, entities)
   }
