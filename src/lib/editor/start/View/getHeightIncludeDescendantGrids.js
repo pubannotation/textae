@@ -1,5 +1,4 @@
 import _ from 'underscore'
-import calcAttributeHeightOfGrid from './calcAttributeHeightOfGrid'
 
 export default function getHeightIncludeDescendantGrids(span, typeContainer, typeGapValue) {
   var descendantsMaxHeight = span.children.length === 0 ? 0 :
@@ -8,7 +7,7 @@ export default function getHeightIncludeDescendantGrids(span, typeContainer, typ
     ),
     gridHeight = span.getTypes()
     .filter(type => !typeContainer.entity.isBlock(type.name))
-    .length * (typeGapValue * 18 + calcAttributeHeightOfGrid(span.id) + 18)// first 18px is margin between grids, second 18px is pane height.
+    .length * (typeGapValue * 18 + 18)
 
   return gridHeight + descendantsMaxHeight
 }
