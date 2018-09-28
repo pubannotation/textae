@@ -1,12 +1,23 @@
 import EditorDialog from '../dialog/EditorDialog'
 import create from './create'
 import update from './update'
+import delegate from "delegate"
 
 export default function(editor, typeContainer, displayInstance) {
   let content = create(editor, displayInstance),
+    okHandler = () => {
+      $dialog.close()
+    },
     $dialog = appendToDialog(
-      content, editor
+      content, editor, okHandler
     )
+
+  // Observe enter key press
+  delegate($dialog[0], `.textae-editor--dialog`, 'keyup', (e) => {
+    if (e.keyCode === 13) {
+      okHandler()
+    }
+  })
 
   return () => {
     update($dialog, editor, typeContainer, displayInstance)
@@ -14,12 +25,15 @@ export default function(editor, typeContainer, displayInstance) {
   }
 }
 
-function appendToDialog(content, editor) {
+function appendToDialog(content, editor, okHandler) {
   return new EditorDialog(
     editor.editorId,
     'textae.dialog.setting',
     'Setting',
     content, {
-      noCancelButton: true
+      noCancelButton: true,
+      buttons: {
+        OK: okHandler
+      }
     })
 }
