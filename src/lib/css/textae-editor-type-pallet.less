@@ -24,7 +24,8 @@
     line-height: normal;
     overflow-x: scroll;
     padding: 5px;
-    position: fixed;
+    // Need '!important' because jQuery UI 'draggable()' set position as 'relative'.
+    position: fixed !important;
     -webkit-touch-callout: none;
     -webkit-user-select: none;
     -khtml-user-select: none;

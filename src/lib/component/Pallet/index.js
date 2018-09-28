@@ -1,5 +1,6 @@
 import Component from './Component'
 import updateDisplay from './updateDisplay'
+import $ from "jquery"
 
 export default class {
   constructor(editor, history, annotationData, command, typeContainer, autocompletionWs, elementEditor) {
@@ -13,6 +14,11 @@ export default class {
       hide = this.hide.bind(this)
     this.editor.eventEmitter.on('textae.pallet.update', selfUpdate)
     this.editor.eventEmitter.on('textae.pallet.close', hide)
+
+    // let the pallet draggable.
+    $(this.el).draggable({
+      containment: editor,
+    })
   }
 
   show(typeContainer, point) {
