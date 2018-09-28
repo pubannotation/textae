@@ -1,5 +1,5 @@
 import CursorChanger from '../../util/CursorChanger'
-import saveJsonToServer from './saveJsonToServer'
+import saveConfigJsonToServer from './saveConfigJsonToServer'
 import getLoadDialog from './getLoadDialog'
 import label from './label'
 import jQuerySugar from '../jQuerySugar'
@@ -48,7 +48,7 @@ module.exports = function(api, confirmDiscardChangeMessage, setDataSourceUrl, ed
         jQuerySugar.enabled($configSaveButton, this.value)
       })
       .on('click', '[type="button"].url--config', function() {
-        saveJsonToServer(
+        saveConfigJsonToServer(
           jQuerySugar.getValueFromText($content, 'url--config'),
           JSON.stringify($dialog.params.editedConfig),
           showSaveSuccess,

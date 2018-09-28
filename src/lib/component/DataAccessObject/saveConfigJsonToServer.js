@@ -8,6 +8,10 @@ export default function(url, jsonData, showSaveSuccess, showSaveError, cursorCha
   let endWait = () => {
       cursorChanger.endWait()
     },
+    retryByPost = () => {
+      cursorChanger.startWait()
+      ajaxAccessor.post(url, jsonData, showSaveSuccess, showSaveError, endWait)
+    },
     handleCustomHeader = (ajaxResponse) => {
       // When save failed, analyze the response code and headers.
       // If the response follows the followings format, will open 'login-page-url' in a new popup window.
@@ -37,9 +41,11 @@ export default function(url, jsonData, showSaveSuccess, showSaveError, cursorCha
           openPopUp(locationHeader)
         }
       } else {
-        showSaveError()
+        retryByPost()
       }
     }
 
-  ajaxAccessor.post(url, jsonData, showSaveSuccess, handleCustomHeader, endWait)
+  // textae-config service is build with the Ruby on Rails 4.X.
+  // To change existing files, only PATCH method is allowed on the Ruby on Rails 4.X.
+  ajaxAccessor.patch(url, jsonData, showSaveSuccess, handleCustomHeader, endWait)
 }
