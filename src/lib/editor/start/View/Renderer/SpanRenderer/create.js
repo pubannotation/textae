@@ -2,7 +2,6 @@ import getBigBrother from './getBigBrother'
 import renderSingleSpan from './renderSingleSpan'
 import renderClassOfSpan from './renderClassOfSpan'
 import renderEntitiesOfSpan from './renderEntitiesOfSpan'
-import renderAttributesOfSpan from './renderAttributesOfSpan'
 import destroyChildrenSpan from './destroyChildrenSpan'
 
 export default create
@@ -23,12 +22,6 @@ function create(span, annotationData, isBlockFunc, renderEntityFunc, renderAttri
       span,
       annotationData.entity.get,
       renderEntityFunc
-  )
-
-  renderAttributesOfSpan(
-      span,
-      annotationData.attribute.get,
-      renderAttributeFunc
   )
 
   renderChildresnSpan(
