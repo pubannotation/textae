@@ -20,7 +20,6 @@ function enableButton($control, buttonType) {
         'textae.control.button.click',
         `textae.control.button.${buttonType.replace(/-/g, '_')}.click`
     )
-    return false
   }
 
   $control
