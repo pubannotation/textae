@@ -94,8 +94,6 @@ export default function(
       displayInstance
     ),
     event = {
-      editorSelected,
-      editorUnselected,
       copyEntities: clipBoardHandler.copyEntities,
       removeSelectedElements: () => removeSelectedElements(
         command,
@@ -134,18 +132,6 @@ export default function(
 
   return {
     event
-  }
-
-  function editorSelected() {
-    editor.eventEmitter.emit('textae.editor.select')
-    buttonController.buttonStateHelper.propagate()
-  }
-
-  function editorUnselected() {
-    typeEditor.hidePallet()
-    editor.eventEmitter.emit('textae.editor.unselect')
-
-    // Do not cancelSelect, because mouse up events occurs before blur events.
   }
 
   function cancelSelect() {

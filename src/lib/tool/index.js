@@ -31,9 +31,5 @@ function redrawOnResize(editors) {
 function registerEditor(contaier, editor) {
   contaier.push(editor)
 
-  editor.eventEmitter
-    .on('textae.editor.select', () => contaier.selected = editor)
-    .on('textae.editor.unselect', () => contaier.unselect(editor))
-
   setVeilObserver(editor[0])
 }

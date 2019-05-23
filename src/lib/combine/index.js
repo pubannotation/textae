@@ -5,7 +5,6 @@ module.exports = function combine(editor, controlBar, contextMenu) {
   // add control bar
   editor[0].insertBefore(controlBar[0], editor[0].childNodes[0])
   editor.eventEmitter
-    .on('textae.editor.unselect', controlBar.updateAllButtonEnableState)
     .on('textae.control.button.push', (data) => controlBar.updateButtonPushState(data.buttonName, data.state))
     .on('textae.control.buttons.change', (enableButtons) => controlBar.updateAllButtonEnableState(enableButtons))
     .on('textae.control.buttons.transit', (transitButtons) => controlBar.transitButtonImage(transitButtons))
@@ -13,7 +12,6 @@ module.exports = function combine(editor, controlBar, contextMenu) {
   // add context menu
   editor[0].appendChild(contextMenu[0])
   editor.eventEmitter
-    .on('textae.editor.unselect', contextMenu.updateAllButtonEnableState)
     .on('textae.control.button.push', (data) => contextMenu.updateButtonPushState(data.buttonName, data.state))
     .on('textae.control.buttons.change', (enableButtons) => contextMenu.updateAllButtonEnableState(enableButtons))
     .on('textae.key.input', () => contextMenu.hide())
