@@ -18,7 +18,6 @@ export default class {
     }
     this[0] = this.create()
     this.$control = $(this[0])
-    this.closing = false
   }
   create() {
     let div = document.createElement('div')
@@ -35,14 +34,9 @@ export default class {
     menuNode.classList.add(this.className + '--show')
   }
   hide() {
-    if (!this.closing) {
-      return
-    }
-
     let menuNode = this.getContextMenuNode()
     menuNode.classList.remove(this.className + '--show')
     menuNode.classList.add(this.className + '--hide')
-    this.closing = false
   }
   isOpen() {
     return this.getContextMenuNode().classList.contains(this.className + '--show')

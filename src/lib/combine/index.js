@@ -18,7 +18,6 @@ module.exports = function combine(editor, controlBar, contextMenu) {
     .on('textae.control.buttons.change', (enableButtons) => contextMenu.updateAllButtonEnableState(enableButtons))
     .on('textae.key.input', function() {
       if (contextMenu.isOpen()) {
-        contextMenu.closing = true
         contextMenu.hide()
       }
     })
@@ -47,18 +46,13 @@ module.exports = function combine(editor, controlBar, contextMenu) {
 
   editor[0].addEventListener('click', (e) => {
     if (contextMenu.isOpen()) {
-      contextMenu.closing = true
       contextMenu.hide()
     }
   })
+
   editor[0].addEventListener('contextmenu', (e) => {
     // Prevent show browser default context menu
     e.preventDefault()
     contextMenu.show(e.layerY, e.layerX)
-
-    // If 'contextmenu' event fired when context menu has already opened, need to cancel closing.
-    if (contextMenu.closing) {
-      contextMenu.closing = false
-    }
   })
 }
