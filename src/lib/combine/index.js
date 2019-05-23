@@ -40,11 +40,17 @@ module.exports = function combine(editor, controlBar, contextMenu) {
     e.preventDefault()
   })
 
-  editor[0].addEventListener('click', () => contextMenu.hide())
+  // Close ContextMenu when another editor is clicked
+  window.addEventListener('click', () => contextMenu.hide())
+  window.addEventListener('contextmenu', (e) => {
+    // Close ContextMenu when another editor is clicked.
+    contextMenu.hide()
 
-  editor[0].addEventListener('contextmenu', (e) => {
-    // Prevent show browser default context menu
-    e.preventDefault()
-    contextMenu.show(e.layerY, e.layerX)
+    // Open ContextMenu when selected editor is clicked.
+    if (e.target.closest('.textae-editor') === editor[0]) {
+      // Prevent show browser default context menu
+      e.preventDefault()
+      contextMenu.show(e.layerY, e.layerX)
+    }
   })
 }
