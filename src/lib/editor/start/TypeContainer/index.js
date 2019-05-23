@@ -2,14 +2,10 @@ import defaults from './defaults'
 import Container from './Container'
 
 export default function(editor, annotationData) {
-  let isLockState = false,
-    isLock = () => isLockState,
-    lockEdit = () => {
-      isLockState = true
-    },
-    unlockEdit = () => {
-      isLockState = false
-    }
+  let isLockState = false
+  const isLock = () => isLockState
+  const lockEdit = () => isLockState = true
+  const unlockEdit = () => isLockState = false
 
   const entityContainer = Object.assign(
       new Container(annotationData.entity.all, annotationData.entity.types, '#77DDDD', isLock, lockEdit, unlockEdit), {
@@ -21,11 +17,10 @@ export default function(editor, annotationData) {
     attributeContainer = new Container(annotationData.attribute.all, annotationData.attribute.types, '#77DDDD', isLock, lockEdit, unlockEdit),
     relationContaier = new Container(annotationData.relation.all, annotationData.relation.types, '#555555', isLock, lockEdit, unlockEdit)
 
-
   return {
-    isLock: isLock,
-    lockEdit: lockEdit,
-    unlockEdit: unlockEdit,
+    isLock,
+    lockEdit,
+    unlockEdit,
     entity: entityContainer,
     setDefinedEntityTypes: (newDefinedTypes) => setContainerDefinedTypes(entityContainer, newDefinedTypes),
     attribute: attributeContainer,
