@@ -6,11 +6,9 @@ export default function(editor, annotationData) {
     isLock = () => isLockState,
     lockEdit = () => {
       isLockState = true
-      console.log('textae.config.lock')
     },
     unlockEdit = () => {
       isLockState = false
-      console.log('textae.config.unlock')
     }
 
   const entityContainer = Object.assign(
