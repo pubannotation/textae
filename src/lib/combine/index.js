@@ -16,11 +16,7 @@ module.exports = function combine(editor, controlBar, contextMenu) {
     .on('textae.editor.unselect', contextMenu.updateAllButtonEnableState)
     .on('textae.control.button.push', (data) => contextMenu.updateButtonPushState(data.buttonName, data.state))
     .on('textae.control.buttons.change', (enableButtons) => contextMenu.updateAllButtonEnableState(enableButtons))
-    .on('textae.key.input', function() {
-      if (contextMenu.isOpen()) {
-        contextMenu.hide()
-      }
-    })
+    .on('textae.key.input', () => contextMenu.hide())
 
   editor.api.updateButtons()
 
@@ -44,11 +40,7 @@ module.exports = function combine(editor, controlBar, contextMenu) {
     e.preventDefault()
   })
 
-  editor[0].addEventListener('click', (e) => {
-    if (contextMenu.isOpen()) {
-      contextMenu.hide()
-    }
-  })
+  editor[0].addEventListener('click', () => contextMenu.hide())
 
   editor[0].addEventListener('contextmenu', (e) => {
     // Prevent show browser default context menu

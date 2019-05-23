@@ -34,9 +34,11 @@ export default class {
     menuNode.classList.add(this.className + '--show')
   }
   hide() {
-    let menuNode = this.getContextMenuNode()
-    menuNode.classList.remove(this.className + '--show')
-    menuNode.classList.add(this.className + '--hide')
+    if (this.isOpen()) {
+      let menuNode = this.getContextMenuNode()
+      menuNode.classList.remove(this.className + '--show')
+      menuNode.classList.add(this.className + '--hide')
+    }
   }
   isOpen() {
     return this.getContextMenuNode().classList.contains(this.className + '--show')
