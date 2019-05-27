@@ -37,7 +37,6 @@
     "sticky-kit": "github:leafo/sticky-kit",
     "throttleit": "^1.0.0",
     "underscore": "^1.8.3",
-    "xtend": "^4.0.0",
     "yui": "^3.18.1"
   },
   "devDependencies": {
