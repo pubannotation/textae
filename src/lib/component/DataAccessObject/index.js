@@ -10,7 +10,6 @@ import getLoadDialog from './getLoadDialog'
 import getLoadConfDialog from './getLoadConfDialog'
 import getSaveDialog from './getSaveDialog'
 import getSaveConfDialog from './getSaveConfDialog'
-import jsonEditor from '../jsonEditor'
 
 // A sub component to save and load data.
 module.exports = function(editor, confirmDiscardChangeMessage) {
