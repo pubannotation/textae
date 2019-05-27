@@ -26,7 +26,7 @@ textaeQuery.fn.textae = (function() {
         // Combine a controle to an editor
         combine(e, controlBar(), new ContextMenu(e))
 
-        e.find('.textae-control').stick_in_parent()
+        e.find('.textae-control-bar').stick_in_parent()
 
         return e
       })
