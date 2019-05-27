@@ -2,7 +2,7 @@ import EditorContainer from './EditorContainer'
 import observeKeyWithoutDialog from './observeKeyWithoutDialog'
 import setVeilObserver from './setVeilObserver'
 import selectUnselectEditorOn from './selectUnselectEditorOn'
-import _ from 'underscore'
+import throttle from 'throttleit'
 
 // The tool manages interactions between components.
 export default function() {
@@ -25,7 +25,7 @@ export default function() {
 function redrawOnResize(editors) {
   // Bind resize event
   window
-    .addEventListener('resize', _.throttle(() => editors.redraw(), 500))
+    .addEventListener('resize', throttle(() => editors.redraw(), 500))
 }
 
 function registerEditor(contaier, editor) {
