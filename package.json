@@ -11,8 +11,7 @@
           "optional": [
             "runtime"
           ]
-        },
-        "browserify-shim"
+        }
       ]
     ]
   },
@@ -23,23 +22,6 @@
     "stickykit": "./src/lib/modules/sticky-kit.js",
     "js-plumb": "./src/lib/modules/jquery.jsPlumb-1.5.2.js",
     "jsoneditor": "./src/lib/modules/jsoneditor.min.js"
-  },
-  "browserify-shim": {
-    "jquery": "$",
-    "jq-ui": {
-      "exports": "jq-ui",
-      "depends": [
-        "jquery:$"
-      ]
-    },
-    "stickykit": {
-      "exports": "stickykit",
-      "depends": [
-        "jquery:$"
-      ]
-    },
-    "js-plumb": "global:js-plumb",
-    "jsoneditor": "global:jsoneditor"
   },
   "bugs": {
     "url": "https://github.com/pubannotation/textae/issues"
