@@ -48,7 +48,11 @@ module.exports = function combine(editor, controlBar, contextMenu) {
     if (e.target.closest('.textae-editor') === editor[0]) {
       // Prevent show browser default context menu
       e.preventDefault()
-      contextMenu.show(e.layerY, e.layerX)
+
+      // The context menu is `position:absolute` in the editor.
+      // I want the coordinates where you right-click with the mouse, starting from the upper left of the editor.
+      // So the Y coordinate is pageY minus the editor's offsetTop.
+      contextMenu.show(e.pageY - editor[0].offsetTop, e.pageX)
     }
   })
 }
