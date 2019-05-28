@@ -12,7 +12,7 @@ export default function(getSpan, typeContainer, typeGapValue, span) {
 }
 
 function stickGridOnSpan(getSpan, span) {
-  var spanPosition = getSpan(span.id)
+  const spanPosition = getSpan(span.id)
 
   return {
     top: spanPosition.top - calcHeightOfGrid(span.id) + 2, // '+2' means nothing special, just tweaking.
@@ -26,8 +26,8 @@ function calcHeightOfGrid(spanId) {
 
 function pullUpGridOverDescendants(getSpan, typeContainer, typeGapValue, span) {
   // Culculate the height of the grid include descendant grids, because css style affects slowly.
-  var spanPosition = getSpan(span.id),
-    descendantsMaxHeight = getHeightIncludeDescendantGrids(span, typeContainer, typeGapValue)
+  const spanPosition = getSpan(span.id)
+  const descendantsMaxHeight = getHeightIncludeDescendantGrids(span, typeContainer, typeGapValue)
 
   return {
     top: spanPosition.top - descendantsMaxHeight - calcAttributeHeightOfGrid(span.id),
