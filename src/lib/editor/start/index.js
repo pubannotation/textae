@@ -21,7 +21,10 @@ export default function(editor, dataAccessObject, history, buttonController, ann
     spanConfig = new SpanConfig(),
     // Users can edit model only via commands.
     command = new Command(editor, annotationData, selectionModel, history),
-    typeGap = new Observable(-1),
+    typeGap = new Observable({
+      value: -1,
+      showInstance: false
+    }),
     typeContainer = new TypeContainer(editor, annotationData),
     view = new View(editor, annotationData, selectionModel, buttonController, typeGap, typeContainer, writable),
     presenter = new Presenter(

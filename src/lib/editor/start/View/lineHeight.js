@@ -24,8 +24,8 @@ export function set(editor, heightValue) {
   updateTextBoxHeight(editor)
 }
 
-export function setToTypeGap(editor, annotationData, typeContainer, typeGapValue) {
-  const heightOfType = typeGapValue * 18 + 18
+export function setToTypeGap(editor, annotationData, typeContainer, typeGap) {
+  const heightOfType = typeGap.value * 18 + 18
   let maxHeight
 
   if (annotationData.span.all().length === 0) {
@@ -36,7 +36,7 @@ export function setToTypeGap(editor, annotationData, typeContainer, typeGapValue
   } else {
     maxHeight = _.max(
       annotationData.span.all()
-      .map(span => getHeightIncludeDescendantGrids(span, typeContainer, typeGapValue))
+      .map(span => getHeightIncludeDescendantGrids(span, typeContainer, typeGap))
     )
 
     maxHeight += TEXT_HEIGHT + MARGIN_TOP

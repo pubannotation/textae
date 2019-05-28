@@ -19,7 +19,7 @@ export default function(typeGap, editMode) {
   return {
     showInstance: () => showInstance,
     changeTypeGap: (val) => changeTypeGap(showInstance, typeGap, typeGapCache, val),
-    getTypeGap: () => typeGap(),
+    getTypeGap: () => typeGap().value,
     notifyNewInstance: () => {
       if (!showInstance) toastr.success("an instance is created behind.")
     }
@@ -38,8 +38,14 @@ function changeTypeGap(showInstance, typeGap, typeGapCache, value) {
 
 function updateTypeGap(showInstance, typeGap, typeGapCache) {
   if (showInstance) {
-    typeGap.set(typeGapCache.instanceShow)
+    typeGap.set({
+      value: typeGapCache.instanceShow,
+      showInstance
+    })
   } else {
-    typeGap.set(typeGapCache.instanceHide)
+    typeGap.set({
+      value: typeGapCache.instanceHide,
+      showInstance
+    })
   }
 }

@@ -8,10 +8,10 @@ import $ from 'jquery'
 export default function(editor, annotationData, typeContainer, arrangePositionAllRelation) {
   const emitter = new EventEmitter(),
     gridLayout = new GridLayout(editor, annotationData, typeContainer),
-    update = (typeGapValue) => {
+    update = (typeGap) => {
       emitter.emit('render.start', editor)
 
-      return gridLayout.arrangePosition(typeGapValue)
+      return gridLayout.arrangePosition(typeGap)
         .then(() => renderLazyRelationAll(annotationData.relation.all()))
         .then(arrangePositionAllRelation)
         .then(() => emitter.emit('render.end', editor))

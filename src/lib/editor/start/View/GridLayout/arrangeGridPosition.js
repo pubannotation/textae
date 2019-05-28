@@ -3,13 +3,13 @@ import getGridOfSpan from './getGridOfSpan'
 import showInvisibleGrid from './showInvisibleGrid'
 import $ from 'jquery'
 
-export default function(domPositionCaChe, typeContainer, typeGapValue, annotationData, span) {
+export default function(domPositionCaChe, typeContainer, typeGap, annotationData, span) {
   // The span may be remeved because this functon is call asynchronously.
   if (!annotationData.span.get(span.id)) {
     return
   }
 
-  const newPosition = getGridPosition(domPositionCaChe.getSpan, typeContainer, typeGapValue, span)
+  const newPosition = getGridPosition(domPositionCaChe.getSpan, typeContainer, typeGap, span)
 
   if (filterMoved(domPositionCaChe.getGrid(span.id), newPosition) === null) {
     return

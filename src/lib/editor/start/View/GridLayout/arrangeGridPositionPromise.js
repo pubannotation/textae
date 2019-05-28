@@ -1,11 +1,11 @@
 import arrangeGridPosition from './arrangeGridPosition'
 import $ from 'jquery'
 
-export default function(domPositionCaChe, typeContainer, typeGapValue, annotationData, span) {
+export default function(domPositionCaChe, typeContainer, typeGap, annotationData, span) {
   return new Promise(function(resolve, reject) {
     requestAnimationFrame(() => {
       try {
-        arrangeGridPosition(domPositionCaChe, typeContainer, typeGapValue, annotationData, span)
+        arrangeGridPosition(domPositionCaChe, typeContainer, typeGap, annotationData, span)
         resolve()
       } catch (error) {
         console.error(error, error.stack)

@@ -1,6 +1,6 @@
-export default function(newValue) {
+export default function(typeGap) {
   return {
-    height: 18 * newValue + 18 + 'px',
-    'padding-top': 18 * newValue + 'px'
+    height: 18 * typeGap.value + 18 + 'px',
+    'padding-top': 18 * typeGap.value + 'px'
   }
 }
