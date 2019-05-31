@@ -1,7 +1,6 @@
 import GridPosition from './GridPosition'
 import SpanAndEntityPosition from './SpanAndEntityPosition'
 import LesserMap from './LesserMap'
-import _ from 'underscore'
 
 // Utility functions for get positions of DOM elemnts.
 export default function(editor, entityModel) {
@@ -11,12 +10,12 @@ export default function(editor, entityModel) {
 }
 
 function create(editor, entityModel) {
-  let gridPosition = new GridPosition(entityModel),
-    spanAndEntityPosition = new SpanAndEntityPosition(editor, entityModel, gridPosition),
-    grid = new GridApi(gridPosition),
-    relation = new RelationApi()
+  const gridPosition = new GridPosition(entityModel)
+  const spanAndEntityPosition = new SpanAndEntityPosition(editor, entityModel, gridPosition)
+  const grid = new GridApi(gridPosition)
+  const relation = new RelationApi()
 
-  return _.extend(
+  return Object.assign(
     spanAndEntityPosition,
     grid,
     relation
@@ -32,12 +31,13 @@ function GridApi(gridPosition) {
 }
 
 function RelationApi() {
-  let newCache = new LesserMap(),
-    // The connectCache has jsPlumbConnectors to call jsPlumbConnector instance to edit an according dom object.
-    api = {
-      connectCache: newCache,
-      toConnect: relationId => newCache.get(relationId)
-    }
+  const newCache = new LesserMap()
+
+  // The connectCache has jsPlumbConnectors to call jsPlumbConnector instance to edit an according dom object.
+  const api = {
+    connectCache: newCache,
+    toConnect: relationId => newCache.get(relationId)
+  }
 
   return api
 }
