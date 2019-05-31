@@ -61,7 +61,7 @@ function bind($content, editor, displayInstance) {
 function bindChangeTypeGap($content, editor, displayInstance) {
   let onTypeGapChange = debounce300(
     (e) => {
-      displayInstance.changeTypeGap(e.target.value)
+      displayInstance.changeTypeGap(Number(e.target.value))
       updateLineHeight(editor, $content)
     }
   )
