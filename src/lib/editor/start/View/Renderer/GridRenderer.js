@@ -21,8 +21,8 @@ export default function(editor, domPositionCache) {
 }
 
 function createGrid(editorDom, domPositionCache, container, spanId) {
-  let spanPosition = domPositionCache.getSpan(spanId),
-    element = document.createElement('div')
+  const spanPosition = domPositionCache.getSpan(spanId)
+  const element = document.createElement('div')
 
   element.setAttribute('id', `G${spanId}`)
   element.classList.add('textae-editor__grid')
