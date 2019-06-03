@@ -48,7 +48,7 @@ export default function(editor, annotationData, selectionModel, command, modeAcc
 }
 
 function addButtonClicked(editor, selectionModel, e) {
-  let entityId = e.target.parentNode.firstChild.firstChild.getAttribute('title')
+  let entityId = e.target.parentNode.querySelector('.textae-editor__entity').getAttribute('title')
   selectionModel.clear()
   selectionModel.entity.add(entityId)
   editor.api.handlePopupClick('textae.popup.button.add_attribute.click', null)
@@ -60,4 +60,3 @@ function editButtonClicked(editor, selectionModel, e) {
   selectionModel.attribute.add(attributeId)
   editor.api.handlePopupClick('textae.popup.button.change_label.click', null)
 }
-
