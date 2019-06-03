@@ -21,7 +21,9 @@ function create(span, annotationData, isBlockFunc, renderEntityFunc, renderAttri
   renderEntitiesOfSpan(
       span,
       annotationData.entity.get,
-      renderEntityFunc
+      renderEntityFunc,
+      annotationData.attribute.get,
+      renderAttributeFunc
   )
 
   renderChildresnSpan(
