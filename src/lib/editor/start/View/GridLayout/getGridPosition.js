@@ -1,7 +1,6 @@
 import getHeightIncludeDescendantGrids from '../getHeightIncludeDescendantGrids'
 import calcAttributeHeightOfGrid from '../calcAttributeHeightOfGrid'
 import getGridOfSpan from './getGridOfSpan'
-import $ from 'jquery'
 
 export default function(getSpan, typeContainer, typeGap, span) {
   if (span.children.length === 0) {
@@ -14,7 +13,7 @@ export default function(getSpan, typeContainer, typeGap, span) {
 function stickGridOnSpan(getSpan, span, typeGap) {
   const entityPaneHeight = typeGap.showInstance ? 16 : 0
   const spanPosition = getSpan(span.id)
-  const griHeight = $(getGridOfSpan(span.id)).outerHeight() + entityPaneHeight + calcAttributeHeightOfGrid(span.id)
+  const griHeight = getGridOfSpan(span.id).offsetHeight + entityPaneHeight + calcAttributeHeightOfGrid(span.id)
 
   return {
     top: spanPosition.top - griHeight,
