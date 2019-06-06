@@ -17,10 +17,12 @@ module.exports = {
   // This IDs are used for id of DOM element and css selector for jQuery.
   // But types are inputed by users and may have `!"#$%&'()*+,./:;<=>?@[\]^`{|}~` which can not be used for css selecor.
   makeTypeId: function(spanId, type) {
-    if (typeCounter.indexOf(type) === -1) {
-      typeCounter.push(type)
+    const hash = hashString(String(type))
+
+    if (typeCounter.indexOf(hash) === -1) {
+      typeCounter.push(hash)
     }
-    return spanId + '-' + typeCounter.indexOf(type)
+    return spanId + '-' + typeCounter.indexOf(hash)
   },
   makeEntityDomId: function(editor, id) {
     // Exclude : and . from a dom id to use for ID selector.
@@ -33,4 +35,16 @@ module.exports = {
   makeParagraphId: function(editor, id) {
     return makeId(editor.editorId, 'P', id)
   }
+}
+
+// see: https://lowrey.me/implementing-javas-string-hashcode-in-javascript/
+function hashString(str) {
+  let hash = 0
+
+  for (let i = 0; i < str.length; i++) {
+    hash += Math.pow(str.charCodeAt(i) * 31, str.length - i)
+    hash &= hash // Convert to 32bit integer
+  }
+
+  return hash
 }
