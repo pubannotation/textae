@@ -1,3 +1,4 @@
+import AttributeRenderer from '../AttributeRenderer'
 import ModificationRenderer from '../ModificationRenderer'
 import getDisplayName from './getDisplayName'
 import uri from '../../../../uri'
@@ -10,6 +11,7 @@ import removeNoEntityPaneElement from './removeNoEntityPaneElement'
 import updateLabel from './updateLabel'
 
 export default function(editor, annotationData, selectionModel, typeContainer, gridRenderer, renderEntityHandler) {
+  const renderAttribute = new AttributeRenderer(editor)
   let modification = new ModificationRenderer(annotationData)
 
   return {
@@ -23,6 +25,9 @@ export default function(editor, annotationData, selectionModel, typeContainer, g
         entity
       )
       renderEntityHandler(entity)
+      for (const attribute of entity.attributes) {
+        renderAttribute.render(attribute)
+      }
     },
     change: (entity) => {
       changeTypeOfExists(

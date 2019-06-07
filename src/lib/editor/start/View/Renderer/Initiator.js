@@ -23,8 +23,7 @@ export default function(domPositionCaChe, relationRenderer, buttonStateHelper, t
     spanRenderer = new SpanRenderer(
       annotationData,
       typeContainer.entity.isBlock,
-      entityRenderer.render,
-      attributeRenderer.render
+      entityRenderer.render
     )
 
   return (editor, annotationData, selectionModel) => {
