@@ -16,6 +16,19 @@ export default function(editor, domPositionCache) {
         grid.parentNode.removeChild(grid)
 
       domPositionCache.gridPositionCache.delete(spanId)
+    },
+    changeId: ({oldId, newId}) => {
+      const element = document.querySelector(`#G${oldId}`)
+      element.setAttribute('id', `G${newId}`)
+
+      for (const type of element.querySelectorAll('.textae-editor__type, .textae-editor__entity-pane')) {
+        type.setAttribute('id', type.getAttribute('id').replace(oldId, newId))
+      }
+
+      const spanPosition = domPositionCache.getSpan(newId)
+      element.style.width = spanPosition.width + 'px'
+
+      domPositionCache.gridPositionCache.delete(oldId)
     }
   }
 }

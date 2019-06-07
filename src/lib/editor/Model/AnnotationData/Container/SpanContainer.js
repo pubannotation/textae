@@ -203,6 +203,23 @@ export default function(editor, emitter, paragraph) {
       clear: function() {
         spanContainer.clear()
         spanTopLevel = []
+      },
+      move: (id, newSpan) => {
+        const oldOne = spanContainer.remove(id)
+        const newOne = spanContainer.add(toSpanModel(newSpan), updateSpanTree)
+
+        emitter.entity.all()
+          .filter((entity) => {
+            return id === entity.span
+          })
+          .forEach((entity) => entity.span = newOne.id)
+
+        emitter.emit('span.move', {oldId: id, newId: newOne.id})
+
+        return [{
+          begin: oldOne.begin,
+          end: oldOne.end
+        }, newOne.id]
       }
     }
 

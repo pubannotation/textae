@@ -58,6 +58,7 @@ function initRenderer(editor, annotationData, selectionModel, updateAnnotationPo
       debouncedUpdateAnnotationPosition()
     })
     .on('span.add', debouncedUpdateAnnotationPosition)
+    .on('span.move', debouncedUpdateAnnotationPosition)
     .on('span.remove', debouncedUpdateAnnotationPosition)
     .on('entity.add', debouncedUpdateAnnotationPosition)
     .on('entity.change', debouncedUpdateAnnotationPosition)
