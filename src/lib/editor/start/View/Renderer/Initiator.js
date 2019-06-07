@@ -19,7 +19,7 @@ export default function(domPositionCaChe, relationRenderer, buttonStateHelper, t
     gridRenderer = new GridRenderer(editor, domPositionCaChe),
     renderEntityHandler = (entity) => getTypeDom(entity.span, entity.type).css(new TypeStyle(typeGap())),
     entityRenderer = new EntityRenderer(editor, annotationData, selectionModel, typeContainer.entity, gridRenderer, renderEntityHandler),
-    attributeRenderer = new AttributeRenderer(editor, annotationData, selectionModel, typeContainer.entity, gridRenderer, renderEntityHandler),
+    attributeRenderer = new AttributeRenderer(editor),
     spanRenderer = new SpanRenderer(
       annotationData,
       typeContainer.entity.isBlock,

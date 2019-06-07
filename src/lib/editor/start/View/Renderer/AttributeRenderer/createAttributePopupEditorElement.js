@@ -1,4 +1,4 @@
-export default function(editor, typeContainer, attribute) {
+export default function(editor, attribute) {
   let boxElement = document.createElement('div')
   boxElement.classList.add('textae-editor__attribute-buttons')
 

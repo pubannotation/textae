@@ -1,25 +1,22 @@
 import create from './create'
 import createAttributePopupEditorElement from './createAttributePopupEditorElement'
 
-export default function(editor, annotationData, selectionModel, typeContainer, gridRenderer) {
+export default function(editor) {
   return {
     render: (attribute) => {
       create(
         editor,
-        annotationData.namespace,
-        typeContainer,
-        gridRenderer,
         attribute
       )
     },
-    change: (attribute) => changeAttributeElement(editor, typeContainer, attribute),
+    change: (attribute) => changeAttributeElement(editor, attribute),
     changeModification: () => {},
     remove: (attribute) => removeAttributeElement(editor, attribute),
     updateLabel: () => {}
   }
 }
 
-function changeAttributeElement(editor, typeContainer, attribute) {
+function changeAttributeElement(editor, attribute) {
   const attributeDom = getAttributeDom(editor[0], attribute.id)
 
   if (attributeDom) {
@@ -27,7 +24,7 @@ function changeAttributeElement(editor, typeContainer, attribute) {
     attributeDom.setAttribute('type', attribute.value)
     attributeDom.setAttribute('pred', attribute.pred)
     attributeDom.innerText = attribute.value
-    attributeDom.appendChild(createAttributePopupEditorElement(editor, typeContainer, attribute))
+    attributeDom.appendChild(createAttributePopupEditorElement(editor, attribute))
   }
 
   return null

@@ -1,7 +1,7 @@
 import idFactory from '../../../../idFactory'
 import createAttributePopupEditorElement from './createAttributePopupEditorElement'
 
-export default function(editor, typeContainer, attribute) {
+export default function(editor, attribute) {
   let element = document.createElement('div'),
     popUpEditorElement = createAttributePopupEditorElement()
 
@@ -11,7 +11,6 @@ export default function(editor, typeContainer, attribute) {
   element.setAttribute('type', attribute.value)
   element.setAttribute('pred', attribute.pred)
   element.classList.add('textae-editor__attribute')
-  element.style.borderColor = typeContainer.getColor(attribute.value)
   element.innerText = attribute.value
 
   element.appendChild(popUpEditorElement)
