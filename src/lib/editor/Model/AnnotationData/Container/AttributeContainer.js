@@ -34,7 +34,7 @@ let toModel = (editor, attribute) => {
       value: attribute.obj
     }
   },
-  mappingFunction = (editor, attributions) => {
-    attributions = attributions || []
-    return attributions.map(_.partial(toModel, editor))
+  mappingFunction = (editor, attributes) => {
+    attributes = attributes || []
+    return attributes.map(_.partial(toModel, editor))
   }
