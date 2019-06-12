@@ -3,7 +3,7 @@
   /*== Elements inside the textae_control ==*/
 }
 .textae-control__title {
-  margin-right: 10px;
+  margin: 0 10px 0 0;
   font-weight: bold;
   text-shadow: 2px 2px 5px #555;
   font-size: 18px;
@@ -129,7 +129,7 @@
   padding: 0 20px 5px 10px;
   position: relative;
   visibility: hidden;
-  z-index: 7;
+  z-index: 8;
   /*== Elements inside the textae_control ==*/
 }
 .textae-control-bar .textae-control__title {
@@ -157,13 +157,22 @@
   box-shadow: 2px 2px 1px 1px rgba(0, 0, 0, 0.4);
   width: 292px;
   background-color: white;
-  z-index: 8;
+  z-index: 7;
 }
 .textae-context-menu--show {
   display: block;
 }
 .textae-context-menu--hide {
   display: none;
+}
+.textae-context-menu > p {
+  line-height: 1.5em;
+}
+.textae-context-menu > p:not(.textae-control__title):not(.textae-control__icon--disabled):focus,
+.textae-context-menu > p:not(.textae-control__title):not(.textae-control__icon--disabled):active,
+.textae-context-menu > p:not(.textae-control__title):not(.textae-control__icon--disabled):hover {
+  background-color: #c4c4f0;
+  color: white;
 }
 .textae-context-menu .textae-control__icon {
   margin-top: 0;
@@ -321,10 +330,10 @@
   content: ":";
 }
 .textae-editor__setting-dialog > div {
-  margin-bottom: 2px;
+  margin-bottom: 4px;
 }
 .textae-editor__setting-dialog__label {
-  width: 150px;
+  width: 240px;
 }
 .textae-editor__setting-dialog__type-gap[disabled="disabled"] {
   background-color: #999;
@@ -370,6 +379,18 @@
 .textae-editor__valiondate-dialog__content table td.alert {
   color: red;
 }
+.textae-editor__login-info-dialog__open-link,
+.textae-editor__login-info-dialog__ok {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  text-align: center;
+}
+.textae-editor__login-info-dialog__message-box-setting {
+  font-size: .8em;
+}
+.textae-editor__login-info-dialog__message-box-setting label {
+  cursor: pointer;
+}
 .textae-editor--dialog {
   /* To show candidates of the autocomplete, overwrite a style of the jQuery-ui dialog */
 }
@@ -405,7 +426,7 @@
   line-height: normal;
   overflow-x: scroll;
   padding: 5px;
-  position: fixed;
+  position: fixed !important;
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   -khtml-user-select: none;
@@ -4352,7 +4373,6 @@ button.toast-close-button {
 }
 .textae-editor {
   line-height: 41px;
-  overflow: hidden;
   position: relative;
   padding: 2px;
   border: 1px solid black;
@@ -4557,7 +4577,7 @@ button.toast-close-button {
 .textae-editor__entity-pane {
   line-height: normal;
   position: relative;
-  top: -28px;
+  top: 4px;
   z-index: 1;
 }
 .textae-editor__entity-pane.ui-selected {
@@ -4648,6 +4668,7 @@ button.toast-close-button {
 .textae-editor--term-mode .textae-editor__entity-pane {
   /*Set visibility style to hide entities, because size of entities are necesarry to render relation.*/
   visibility: hidden;
+  height: 0;
 }
 .textae-editor--term-mode path,
 .textae-editor--term-mode circle {
