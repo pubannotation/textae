@@ -11,7 +11,7 @@ export default function(text, paragraph, annotation) {
     ),
     resultAttribute = validateAttribute(
       resultDenotation.accept,
-      annotation.attributions
+      annotation.attributes
     ),
     resultRelation = validateRelation(
       resultDenotation.accept,

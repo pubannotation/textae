@@ -1,7 +1,7 @@
 export default function(dataStore) {
   return {
     denotations: toDenotation(dataStore),
-    attributions: toAttribution(dataStore),
+    attributes: toAttribution(dataStore),
     relations: toRelation(dataStore),
     modifications: dataStore.modification.all()
   }

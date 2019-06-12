@@ -406,7 +406,7 @@
         },
         "obj": "Gene_expression"
     }],
-    "attributions": [{
+    "attributes": [{
         "id": "A1",
         "subj": "T1.a.b",
         "pred": "example_predicate_1",
