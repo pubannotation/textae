@@ -32,7 +32,6 @@ export default function(editor, dataAccessObject, history, buttonController, ann
       history,
       annotationData,
       selectionModel,
-      view,
       command,
       spanConfig,
       clipBoard,

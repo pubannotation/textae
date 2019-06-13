@@ -19,7 +19,6 @@ export default function(
   history,
   annotationData,
   selectionModel,
-  view,
   command,
   spanConfig,
   clipBoard,
