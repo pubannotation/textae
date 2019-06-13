@@ -5,7 +5,7 @@ import DisplayInstance from './DisplayInstance'
 import ClipBoardHandler from './handlers/ClipBoardHandler'
 import CreateEntityHandler from './handlers/CreateEntityHandler'
 import ReplicateHandler from './handlers/ReplicateHandler'
-import DefaultAttributeHandler from './handlers/DefaultAttributeHandler'
+import CreateAttributeHandler from './handlers/CreateAttributeHandler'
 import removeSelectedElements from './handlers/removeSelectedElements'
 import ModificationHandler from './handlers/ModificationHandler'
 import SelectHandler from './handlers/SelectHandler'
@@ -65,8 +65,7 @@ export default function(
       buttonController.modeAccordingToButton,
       spanConfig
     ),
-    defaultAttributeHandler = new DefaultAttributeHandler(
-      annotationData,
+    createAttributeHandler = new CreateAttributeHandler(
       command,
       selectionModel,
       typeContainer.attribute
@@ -107,7 +106,7 @@ export default function(
         selectHandler
       ),
       createEntity: createEntityHandler,
-      createAttribute: defaultAttributeHandler.createAttribute,
+      createAttribute: createAttributeHandler,
       showPallet: typeEditor.showPallet,
       replicate: replicateHandler,
       pasteEntities: clipBoardHandler.pasteEntities,

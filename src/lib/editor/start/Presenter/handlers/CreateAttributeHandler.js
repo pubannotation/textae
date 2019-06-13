@@ -1,12 +1,5 @@
-import {
-  EventEmitter
-}
-  from 'events'
-import _ from 'underscore'
-
-export default function DefaultAttributeHandler(annotationData, command, selectionModel, attribute) {
-  let emitter = new EventEmitter(),
-    createAttributeImple = function() {
+export default function(command, selectionModel, attribute) {
+  return function() {
       let entities = selectionModel.entity.all(),
         commands = entities.map(function(entityId) {
           return command.factory.attributeCreateCommand({
@@ -23,8 +16,4 @@ export default function DefaultAttributeHandler(annotationData, command, selecti
       // Because attributes are selected only during processing click events of add, edit and delete buttons.
       selectionModel.clear()
     }
-
-  return _.extend(emitter, {
-    createAttribute: createAttributeImple
-  })
 }
