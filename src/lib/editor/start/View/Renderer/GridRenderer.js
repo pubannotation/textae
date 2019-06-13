@@ -19,14 +19,18 @@ export default function(editor, domPositionCache) {
     },
     changeId: ({oldId, newId}) => {
       const element = document.querySelector(`#G${oldId}`)
-      element.setAttribute('id', `G${newId}`)
 
-      for (const type of element.querySelectorAll('.textae-editor__type, .textae-editor__entity-pane')) {
-        type.setAttribute('id', type.getAttribute('id').replace(oldId, newId))
+      // Since block span has no grid, there may not be a grid. 
+      if(element) {
+        element.setAttribute('id', `G${newId}`)
+
+        for (const type of element.querySelectorAll('.textae-editor__type, .textae-editor__entity-pane')) {
+          type.setAttribute('id', type.getAttribute('id').replace(oldId, newId))
+        }
+  
+        const spanPosition = domPositionCache.getSpan(newId)
+        element.style.width = spanPosition.width + 'px'
       }
-
-      const spanPosition = domPositionCache.getSpan(newId)
-      element.style.width = spanPosition.width + 'px'
 
       domPositionCache.gridPositionCache.delete(oldId)
     }
