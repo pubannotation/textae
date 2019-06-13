@@ -16,7 +16,7 @@ const BODY = `
 </div>
 `
 
-export default function(editor, annotationData, selectionModel, buttonController, typeGap, typeContainer, writable) {
+export default function(editor, annotationData, selectionModel, buttonController, typeGap, typeContainer) {
   editor[0].innerHTML = BODY
   setSelectionModelHandler(editor, annotationData, selectionModel, buttonController)
 
