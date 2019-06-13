@@ -3,7 +3,8 @@ import TypeEditor from './TypeEditor'
 import EditMode from './EditMode'
 import DisplayInstance from './DisplayInstance'
 import ClipBoardHandler from './handlers/ClipBoardHandler'
-import DefaultEntityHandler from './handlers/DefaultEntityHandler'
+import CreateEntityHandler from './handlers/CreateEntityHandler'
+import ReplicateHandler from './handlers/ReplicateHandler'
 import DefaultAttributeHandler from './handlers/DefaultAttributeHandler'
 import removeSelectedElements from './handlers/removeSelectedElements'
 import ModificationHandler from './handlers/ModificationHandler'
@@ -51,13 +52,18 @@ export default function(
       typeGap,
       editMode
     ),
-    defaultEntityHandler = new DefaultEntityHandler(
+    createEntityHandler = new CreateEntityHandler(
+      command,
+      selectionModel,
+      typeContainer.entity,
+      displayInstance.notifyNewInstance
+    ),
+    replicateHandler = new ReplicateHandler(
       command,
       annotationData,
       selectionModel,
       buttonController.modeAccordingToButton,
-      spanConfig,
-      typeContainer.entity
+      spanConfig
     ),
     defaultAttributeHandler = new DefaultAttributeHandler(
       annotationData,
@@ -100,10 +106,10 @@ export default function(
         selectionModel,
         selectHandler
       ),
-      createEntity: defaultEntityHandler.createEntity,
+      createEntity: createEntityHandler,
       createAttribute: defaultAttributeHandler.createAttribute,
       showPallet: typeEditor.showPallet,
-      replicate: defaultEntityHandler.replicate,
+      replicate: replicateHandler,
       pasteEntities: clipBoardHandler.pasteEntities,
       changeLabel: typeEditor.changeLabel,
       changeLabelAndPred: typeEditor.changeLabelAndPred,
@@ -125,8 +131,6 @@ export default function(
     .on('textae.editor.jsPlumbConnection.add', (event, jsPlumbConnection) => {
       jsPlumbConnection.bindClickAction(typeEditor.jsPlumbConnectionClicked)
     })
-
-  defaultEntityHandler.on('createEntity', displayInstance.notifyNewInstance)
 
   bindModelChange(annotationData, writable, editMode, mode)
 

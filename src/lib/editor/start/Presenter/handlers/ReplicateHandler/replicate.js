@@ -1,4 +1,4 @@
-export default function(command, annotationData, modeAccordingToButton, spanConfig, spanId, entity) {
+export default function(command, annotationData, modeAccordingToButton, spanConfig, spanId) {
   const detectBoundaryFunc = getDetectBoundaryFunc(modeAccordingToButton, spanConfig),
     span = annotationData.span.get(spanId)
 
