@@ -25,7 +25,7 @@ export default function(editor, dataAccessObject, history, buttonController, ann
       value: -1,
       showInstance: false
     }),
-    typeContainer = new TypeContainer(editor, annotationData),
+    typeContainer = new TypeContainer(annotationData),
     view = new View(editor, annotationData, selectionModel, buttonController, typeGap, typeContainer, writable),
     presenter = new Presenter(
       editor,

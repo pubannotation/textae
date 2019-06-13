@@ -1,7 +1,6 @@
-import defaults from './defaults'
 import Container from './Container'
 
-export default function(editor, annotationData) {
+export default function(annotationData) {
   let isLockState = false
   const isLock = () => isLockState
   const lockEdit = () => isLockState = true
