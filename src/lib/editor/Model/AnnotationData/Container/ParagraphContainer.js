@@ -1,61 +1,57 @@
-import _ from 'underscore'
+import idFactory from '../../../idFactory'
+import ModelContainer from './ModelContainer'
 
-var idFactory = require('../../../idFactory'),
-  ModelContainer = require('./ModelContainer')
+export default class extends ModelContainer {
+  constructor(editor, emitter) {
+    super(emitter, 'paragraph', (sourceDoc) => mappingFunction(editor, sourceDoc))
+  }
 
-module.exports = function(editor, emitter) {
-  var mappingFunction = function(sourceDoc) {
-      sourceDoc = sourceDoc || []
-      var textLengthBeforeThisParagraph = 0
+  // get the paragraph that span is belong to.
+  getBelongingTo(span) {
+    const match = super.all().filter((p) => span.begin >= p.begin && span.end <= p.end)
 
-      return sourceDoc.split("\n")
-        .map(function(p, index) {
-          var ret = {
-            id: idFactory.makeParagraphId(editor, index),
-            begin: textLengthBeforeThisParagraph,
-            end: textLengthBeforeThisParagraph + p.length,
-            text: p,
-            order: index
-          }
+    if (match.length === 0) {
+      throw new Error('span should belong to any paragraph.')
+    } else {
+      return match[0]
+    }
+  }
 
-          textLengthBeforeThisParagraph += p.length + 1
-          return ret
-        })
-    },
-    contaier = new ModelContainer(emitter, 'paragraph', mappingFunction),
-    originAll = contaier.all,
-    api = _.extend(contaier, {
-      // get the paragraph that span is belong to.
-      getBelongingTo: function(span) {
-        var match = contaier.all().filter(function(p) {
-          return span.begin >= p.begin && span.end <= p.end
-        })
+  all() {
+    const paragraphs = super.all()
 
-        if (match.length === 0) {
-          throw new Error('span should belong to any paragraph.')
-        } else {
-          return match[0]
-        }
-      },
-      all: function() {
-        let paragraphs = originAll()
-
-        // The order is important to render.
-        paragraphs.sort((a, b) => {
-          if (a.order < b.order) {
-            return -1
-          }
-
-          if (a.order > b.order) {
-            return 1
-          }
-
-          return 0
-        })
-
-        return paragraphs
+    // The order is important to render.
+    paragraphs.sort((a, b) => {
+      if (a.order < b.order) {
+        return -1
       }
+
+      if (a.order > b.order) {
+        return 1
+      }
+
+      return 0
     })
 
-  return api
+    return paragraphs
+  }
+}
+
+function mappingFunction(editor, sourceDoc) {
+  sourceDoc = sourceDoc || []
+  let textLengthBeforeThisParagraph = 0
+
+  return sourceDoc.split('\n')
+    .map((p, index) => {
+      const ret = {
+        id: idFactory.makeParagraphId(editor, index),
+        begin: textLengthBeforeThisParagraph,
+        end: textLengthBeforeThisParagraph + p.length,
+        text: p,
+        order: index
+      }
+
+      textLengthBeforeThisParagraph += p.length + 1
+      return ret
+    })
 }

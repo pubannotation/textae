@@ -1,72 +1,62 @@
 import idFactory from '../../../idFactory'
 import ModelContainer from './ModelContainer'
-import _ from 'underscore'
 
-const EntityContainer = function(editor, emitter, relation) {
-  const getAttributesOf = (entityId) => {
-    return emitter.attribute.all()
-      .filter((a) => a.subj === entityId)
+export default class extends ModelContainer {
+  constructor(editor, emitter, relation) {
+    super(
+      emitter,
+      'entity',
+      (denotations) => mappingFunction(editor, emitter, denotations),
+      'T'
+    )
+    this.emitter = emitter
+    this.relation = relation
   }
 
-  // Expected an entity like {id: "E21", span: "editor2__S50_54", type: "Protein"}.
-  const toModel = function(editor, entity) {
-    return {
-      id: entity.id,
-      span: idFactory.makeSpanId(editor, entity.span),
-      type: entity.obj,
-      get attributes() {
-        return getAttributesOf(entity.id)
-      }
-    }
-  }
-
-  const mappingFunction = function(editor, denotations) {
-    denotations = denotations || []
-    return denotations.map(_.partial(toModel, editor))
-  }
-
-  const entityContainer = new ModelContainer(
-    emitter,
-    'entity',
-    _.partial(mappingFunction, editor),
-    'T'
-  )
-
-  const originAdd = entityContainer.add
-  const add = (entity) => {
+  add(entity) {
     if (!entity.span) throw new Error('entity has no span! ' + JSON.stringify(entity))
 
     if (!entity.attributes) {
       // When undoing, the entity already has id and attributes getters.
       // When moving a span, the entity already has id.
-      return originAdd(entity, () => {
+      const emitter = this.emitter
+      return super.add(entity, () => {
         Object.defineProperty(entity, "attributes", {
-          get: function() {
-            return getAttributesOf(entity.id)
-          }
+          get: () => getAttributesOf(emitter, entity.id)
         })
       })
     }
 
-    return originAdd(entity)
+    return super.add(entity)
   }
 
-  const assosicatedRelations = function(entityId) {
-    return relation.all()
-      .filter(function(r) {
-        return r.obj === entityId || r.subj === entityId
-      })
-      .map(function(r) {
-        return r.id
-      })
+  assosicatedRelations(entityId) {
+    return this.relation.all()
+      .filter((r) => r.obj === entityId || r.subj === entityId)
+      .map((r) => r.id)
   }
-
-  return Object.assign(
-    entityContainer, {
-      add,
-      assosicatedRelations
-    }
-  )
 }
 
-module.exports = EntityContainer
+function getAttributesOf(emitter, entityId) {
+  return emitter.attribute.all()
+    .filter((a) => a.subj === entityId)
+}
+
+// Expected an entity like {id: "E21", span: "editor2__S50_54", type: "Protein"}.
+function toModel(editor, emitter, entity) {
+  return {
+    id: entity.id,
+    span: idFactory.makeSpanId(editor, entity.span),
+    type: entity.obj,
+    get attributes() {
+      return getAttributesOf(emitter, entity.id)
+    }
+  }
+}
+
+function mappingFunction(editor, emitter, denotations) {
+  denotations = denotations || []
+  return denotations.map((entity) => toModel(editor, emitter, entity))
+}
+
+

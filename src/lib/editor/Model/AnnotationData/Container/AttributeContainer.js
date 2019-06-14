@@ -1,40 +1,44 @@
-import idFactory from '../../../idFactory'
 import ModelContainer from './ModelContainer'
-import _ from 'underscore'
 
-export default function(editor, emitter) {
-  let container = new ModelContainer(
-    emitter,
-    'attribute',
-    _.partial(mappingFunction, editor),
-    'A'
-  )
+export default class extends ModelContainer {
+  constructor(editor, emitter) {
+    super(
+      emitter,
+      'attribute',
+      mappingFunction,
+      'A'
+    )
+    this.emitter = emitter
+  }
 
-  return _.extend(container, {
-    change: (id, newPred, newValue) => {
-      let model = container.get(id)
-      if (newPred) {
-        model.pred = newPred
-      }
-      if (newValue) {
-        model.value = newValue
-      }
-      emitter.emit(container.name + '.change', model)
-      return model
+  change(id, newPred, newValue) {
+    const model = this.get(id)
+
+    if (newPred) {
+      model.pred = newPred
     }
-  })
+
+    if (newValue) {
+      model.value = newValue
+    }
+
+    this.emitter.emit(`${this.name}.change`, model)
+
+    return model
+  }
 }
 
 // Expected an attribute like {id: "A1", subj: "T1", pred: "example_predicate_1", obj: "attr1"}.
-let toModel = (editor, attribute) => {
-    return {
-      id: attribute.id,
-      subj: attribute.subj,
-      pred: attribute.pred,
-      value: attribute.obj
-    }
-  },
-  mappingFunction = (editor, attributes) => {
-    attributes = attributes || []
-    return attributes.map(_.partial(toModel, editor))
+function toModel(attribute) {
+  return {
+    id: attribute.id,
+    subj: attribute.subj,
+    pred: attribute.pred,
+    value: attribute.obj
   }
+}
+
+function mappingFunction(attributes) {
+  attributes = attributes || []
+  return attributes.map(toModel)
+}
