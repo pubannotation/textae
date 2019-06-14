@@ -33,10 +33,10 @@ export default function(editor, annotationData, selectionModel, command, modeAcc
       },
       handlers = () => {
         if (selectionModel.entity.all().length >= 1) {
-          return entityHandler(typeContainer, command, annotationData, selectionModel)
+          return entityHandler()
         }
 
-        return attributeHandler(typeContainer, command, annotationData, selectionModel)
+        return attributeHandler()
       }
 
   return {
