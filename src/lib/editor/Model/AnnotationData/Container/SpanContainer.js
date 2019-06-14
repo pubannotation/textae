@@ -206,13 +206,16 @@ export default function(editor, emitter, paragraph) {
       },
       move: (id, newSpan) => {
         const oldOne = spanContainer.remove(id)
-        const newOne = spanContainer.add(toSpanModel(newSpan), updateSpanTree)
+        const newOne = spanContainer.add(toSpanModel(newSpan), (newOne) => {
+          updateSpanTree()
 
-        emitter.entity.all()
+          // Update entities before 'span.add' event, because span.getTypes depends on entities and used to render span.
+          emitter.entity.all()
           .filter((entity) => {
             return id === entity.span
           })
           .forEach((entity) => entity.span = newOne.id)
+        })
 
         emitter.emit('span.move', {oldId: id, newId: newOne.id})
 

@@ -52,7 +52,7 @@ module.exports = function(emitter, prefix, mappingFunction, idPrefix) {
     // The doAfter is avoked before a event emitted.
     add: function(model, doAfter) {
       var newModel = add(model)
-      if (_.isFunction(doAfter)) doAfter()
+      if (_.isFunction(doAfter)) doAfter(newModel)
 
       emitter.emit(prefix + '.add', newModel)
       return newModel
