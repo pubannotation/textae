@@ -18,10 +18,7 @@ export default function(
     handlePopupClick: (key, value) => handle(popupApiMap, key, value),
     handlePalletClick: (key, value) => handle(palletApiMap, key, value),
     redraw: () => {
-      // Positions of grids differ from positions of spans when the Maximize button clicked of the chrome and edge on the windows.
-      // They move spans after grids are moved.
-      // We move grids twice.
-      view.updateDisplay().then(view.updateDisplay)
+      view.updateDisplay()
     },
     // To trigger button state update events on init.
     // Because an inline annotation is readed before a binding the control.
