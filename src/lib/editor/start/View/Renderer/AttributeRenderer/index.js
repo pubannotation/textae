@@ -1,5 +1,4 @@
 import create from './create'
-import createAttributePopupEditorElement from './createAttributePopupEditorElement'
 
 export default function(editor) {
   return {
@@ -23,8 +22,7 @@ function changeAttributeElement(editor, attribute) {
     attributeDom.setAttribute('title', 'id: ' + attribute.id + ', pred: ' + attribute.pred + ', value: ' + attribute.value)
     attributeDom.setAttribute('type', attribute.value)
     attributeDom.setAttribute('pred', attribute.pred)
-    attributeDom.innerText = attribute.value
-    attributeDom.appendChild(createAttributePopupEditorElement(editor, attribute))
+    attributeDom.firstElementChild.innerText = attribute.value
   }
 
   return null
