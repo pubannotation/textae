@@ -1,87 +1,76 @@
 import AttributeRenderer from '../AttributeRenderer'
 import ModificationRenderer from '../ModificationRenderer'
-import getDisplayName from './getDisplayName'
-import uri from '../../../../uri'
-import idFactory from '../../../../idFactory'
-import getEntityDom from '../../../getEntityDom'
 import createEntityUnlessBlock from './createEntityUnlessBlock'
 import changeTypeOfExists from './changeTypeOfExists'
-import removeEntityElement from './removeEntityElement'
-import removeNoEntityPaneElement from './removeNoEntityPaneElement'
 import updateLabel from './updateLabel'
+import changeModificationOfExists from './changeModificationOfExists'
+import destroy from './destroy'
 
-export default function(editor, annotationData, selectionModel, typeContainer, gridRenderer, renderEntityHandler) {
-  const renderAttribute = new AttributeRenderer(editor)
-  let modification = new ModificationRenderer(annotationData)
+export default class {
+  constructor(editor, annotationData, selectionModel, typeContainer, gridRenderer, renderEntityHandler) {
+    this.editor = editor
+    this.annotationData = annotationData
+    this.typeContainer = typeContainer
+    this.gridRenderer = gridRenderer
+    this.renderEntityHandler = renderEntityHandler
+    this.selectionModel = selectionModel
+    this.renderAttribute = new AttributeRenderer(editor)
+    this.modification = new ModificationRenderer(annotationData)
+  }
 
-  return {
-    render: (entity) => {
-      createEntityUnlessBlock(
-        editor,
-        annotationData.namespace,
-        typeContainer,
-        gridRenderer,
-        modification,
-        entity
-      )
-      renderEntityHandler(entity)
-      for (const attribute of entity.attributes) {
-        renderAttribute.render(attribute)
-      }
-    },
-    change: (entity) => {
-      changeTypeOfExists(
-        editor,
-        annotationData,
-        selectionModel,
-        typeContainer,
-        gridRenderer,
-        modification,
-        entity
-      )
-      renderEntityHandler(entity)
-    },
-    changeModification: (entity) => changeModificationOfExists(
-      editor,
-      modification,
+  render(entity) {
+    createEntityUnlessBlock(
+      this.editor,
+      this.annotationData.namespace,
+      this.typeContainer,
+      this.gridRenderer,
+      this.modification,
       entity
-    ),
-    remove: (entity) => destroy(
-      editor,
-      annotationData,
-      gridRenderer,
-      entity
-    ),
-    updateLabel: (type) => updateLabel(annotationData, typeContainer, type),
-    updateLabelAll: () => {
-      annotationData.entity.all().map((entity) => {
-        updateLabel(annotationData, typeContainer, entity.type)
-      })
+    )
+
+    this.renderEntityHandler(entity)
+    for (const attribute of entity.attributes) {
+      this.renderAttribute.render(attribute)
     }
   }
-}
 
-function destroy(editor, annotationData, gridRenderer, entity) {
-  if (doesSpanHasNoEntity(annotationData, entity.span)) {
-    // Destroy a grid when all entities are remove.
-    gridRenderer.remove(entity.span)
-  } else {
-    // Destroy an each entity.
-    const paneNode = removeEntityElement(editor, entity.id)
-
-    removeNoEntityPaneElement(paneNode)
+  change(entity) {
+    changeTypeOfExists(
+      this.editor,
+      this.annotationData,
+      this.selectionModel,
+      this.typeContainer,
+      this.gridRenderer,
+      this.modification,
+      entity
+    )
+    this.renderEntityHandler(entity)
   }
 
-  return entity
-}
-
-function changeModificationOfExists(editor, modification, entity) {
-  var entityDom = getEntityDom(editor[0], entity.id)
-  if (entityDom) {
-    modification.update(entityDom, entity.id)
+  changeModification(entity) {
+    changeModificationOfExists(
+      this.editor,
+      this.modification,
+      entity
+    )
   }
-}
 
-function doesSpanHasNoEntity(annotationData, spanId) {
-  return annotationData.span.get(spanId).getTypes().length === 0
+  remove(entity) {
+     destroy(
+      this.editor,
+      this.annotationData,
+      this.gridRenderer,
+      entity
+    )
+  }
+
+  updateLabel(type) {
+    updateLabel(this.annotationData, this.typeContainer, type)
+  }
+
+  updateLabelAll() {
+    this.annotationData.entity.all().map((entity) => {
+      updateLabel(this.annotationData, this.typeContainer, entity.type)
+    })
+  }
 }
