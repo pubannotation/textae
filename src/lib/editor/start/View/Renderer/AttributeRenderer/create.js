@@ -1,3 +1,4 @@
+import idFactory from '../../../../idFactory'
 import getEntityDom from '../../../getEntityDom'
 import createAttributeElement from './createAttributeElement'
 import $ from 'jquery'
@@ -8,9 +9,11 @@ export default function(editor, attributeModel) {
     throw new Error("entity is not rendered : " + attributeModel.subj)
   }
 
-  let $label = $(entityDom.parentNode.nextElementSibling),
+  // Check the attribute is not rendered already because this function also is called when moving span.
+  const id = idFactory.makeAttributeDomId(editor, attributeModel.id)
+  if (!document.querySelector(`#${id}`)) {
+    let $label = $(entityDom.parentNode.nextElementSibling),
     $attribute = createAttributeElement(editor, attributeModel)
-  $label.append($attribute)
-
-  return $attribute
+    $label.append($attribute)
+  }
 }
