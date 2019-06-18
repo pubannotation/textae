@@ -10,11 +10,11 @@ const CURVINESS_PARAMETERS = {
 }
 
 export default function(editor, annotationData, relation) {
-  var domPositionCaChe = new DomPositionCache(editor, annotationData.entity)
+  var domPositionCache = new DomPositionCache(editor, annotationData.entity)
 
   var anchors = toAnchors(relation)
-  var sourcePosition = domPositionCaChe.getEntity(anchors.sourceId)
-  var targetPosition = domPositionCaChe.getEntity(anchors.targetId)
+  var sourcePosition = domPositionCache.getEntity(anchors.sourceId)
+  var targetPosition = domPositionCache.getEntity(anchors.targetId)
 
   var sourceX = sourcePosition.center
   var targetX = targetPosition.center

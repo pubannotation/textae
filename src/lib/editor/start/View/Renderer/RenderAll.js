@@ -1,10 +1,10 @@
 import getAnnotationBox from './getAnnotationBox'
 
-export default function(editor, domPositionCaChe, spanRenderer, relationRenderer) {
+export default function(editor, domPositionCache, spanRenderer, relationRenderer) {
   return function(annotationData) {
     // Render annotations
     getAnnotationBox(editor).empty()
-    domPositionCaChe.gridPositionCache.clear()
+    domPositionCache.gridPositionCache.clear()
     renderAllSpan(annotationData, spanRenderer)
 
     // Render relations

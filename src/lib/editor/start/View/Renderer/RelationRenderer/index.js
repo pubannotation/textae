@@ -17,7 +17,7 @@ const POINTUP_LINE_WIDTH = 3
 module.exports = function(editor, annotationData, selectionModel, typeContainer) {
   // Init a jsPlumb instance.
   const modification = new ModificationRenderer(annotationData),
-    domPositionCaChe = new DomPositionCache(editor, annotationData.entity),
+    domPositionCache = new DomPositionCache(editor, annotationData.entity),
     ConnectorStrokeStyle = function() {
       const converseHEXinotRGBA = function(color, opacity) {
         const c = color.slice(1),
@@ -41,8 +41,8 @@ module.exports = function(editor, annotationData, selectionModel, typeContainer)
     // Cache a connect instance.
     cache = function(connect) {
       const relationId = connect.relationId
-      const domPositionCaChe = new DomPositionCache(editor, annotationData.entity)
-      domPositionCaChe.connectCache.set(relationId, connect)
+      const domPositionCache = new DomPositionCache(editor, annotationData.entity)
+      domPositionCache.connectCache.set(relationId, connect)
 
       return connect
     },
@@ -50,11 +50,11 @@ module.exports = function(editor, annotationData, selectionModel, typeContainer)
       if (!annotationData.relation.get(relationId))
         return undefined
 
-      const domPositionCaChe = new DomPositionCache(editor, annotationData.entity),
+      const domPositionCache = new DomPositionCache(editor, annotationData.entity),
         relation = annotationData.relation.get(relationId)
 
-      return domPositionCaChe.gridPositionCache.isGridPrepared(relation.subj) &&
-        domPositionCaChe.gridPositionCache.isGridPrepared(relation.obj)
+      return domPositionCache.gridPositionCache.isGridPrepared(relation.subj) &&
+        domPositionCache.gridPositionCache.isGridPrepared(relation.obj)
     },
     filterGridExists = function(connect) {
       // The grid may be destroyed when the spans was moved repetitively by undo or redo.
@@ -341,7 +341,7 @@ module.exports = function(editor, annotationData, selectionModel, typeContainer)
     arrangePositionAll: () => arrangePositionAll(editor, annotationData, selectionModel, jsPlumbInstance),
     reset: function() {
       jsPlumbInstance.reset()
-      domPositionCaChe.connectCache.clear()
+      domPositionCache.connectCache.clear()
     },
     render: renderLazy,
     change: changeType,
@@ -351,14 +351,14 @@ module.exports = function(editor, annotationData, selectionModel, typeContainer)
       })
     },
     changeModification: changeJsModification,
-    remove: (relation) => removeRelation(editor, annotationData, relation, jsPlumbInstance, domPositionCaChe)
+    remove: (relation) => removeRelation(editor, annotationData, relation, jsPlumbInstance, domPositionCache)
   }
 }
 
-function removeRelation(editor, annotationData, relation, jsPlumbInstance, domPositionCaChe) {
+function removeRelation(editor, annotationData, relation, jsPlumbInstance, domPositionCache) {
   const connect = new Connect(editor, annotationData, relation.id)
   jsPlumbInstance.detach(connect)
-  domPositionCaChe.connectCache.delete(relation.id)
+  domPositionCache.connectCache.delete(relation.id)
 
   // Set the flag dead already to delay selection.
   connect.dead = true

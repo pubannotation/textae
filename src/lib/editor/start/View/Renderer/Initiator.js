@@ -14,9 +14,9 @@ import AttributeRenderer from './AttributeRenderer'
 import getTypeDom from './getTypeDom'
 import modelToId from '../../../modelToId'
 
-export default function(domPositionCaChe, relationRenderer, buttonStateHelper, typeGap, editor, annotationData, selectionModel, typeContainer) {
+export default function(domPositionCache, relationRenderer, buttonStateHelper, typeGap, editor, annotationData, selectionModel, typeContainer) {
   const emitter = new EventEmitter(),
-    gridRenderer = new GridRenderer(editor, domPositionCaChe),
+    gridRenderer = new GridRenderer(editor, domPositionCache),
     renderEntityHandler = (entity) => getTypeDom(entity.span, entity.type).css(new TypeStyle(typeGap())),
     entityRenderer = new EntityRenderer(editor, annotationData, selectionModel, typeContainer.entity, gridRenderer, renderEntityHandler),
     attributeRenderer = new AttributeRenderer(editor),
@@ -27,7 +27,7 @@ export default function(domPositionCaChe, relationRenderer, buttonStateHelper, t
     )
 
   return (editor, annotationData, selectionModel) => {
-    const renderAll = new RenderAll(editor, domPositionCaChe, spanRenderer, relationRenderer),
+    const renderAll = new RenderAll(editor, domPositionCache, spanRenderer, relationRenderer),
       chongeSpanOfEntity = (entity) => {
         // Change css class of the span according to the type is block or not.
         const span = annotationData.span.get(entity.span)

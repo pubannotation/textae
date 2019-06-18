@@ -2,27 +2,27 @@ import DomPositionCache from './DomPositionCache'
 import _ from 'underscore'
 
 export default function(editor, entity) {
-  let domPositionCaChe = new DomPositionCache(editor, entity)
+  let domPositionCache = new DomPositionCache(editor, entity)
 
   return {
     on: _.partial(
         processAccosiatedRelation,
         entity,
-        domPositionCaChe,
+        domPositionCache,
         connect => connect.pointup()
     ),
     off: _.partial(
         processAccosiatedRelation,
         entity,
-        domPositionCaChe,
+        domPositionCache,
         connect => connect.pointdown()
     )
   }
 }
 
-function processAccosiatedRelation(entity, domPositionCaChe, func, entityId) {
+function processAccosiatedRelation(entity, domPositionCache, func, entityId) {
   entity.assosicatedRelations(entityId)
-      .map(domPositionCaChe.toConnect)
+      .map(domPositionCache.toConnect)
       .filter(connect => connect.pointup && connect.pointdown)
       .forEach(func)
 }
