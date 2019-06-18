@@ -1,7 +1,6 @@
 import getGridPosition from './getGridPosition'
 import getGridOfSpan from './getGridOfSpan'
 import showInvisibleGrid from './showInvisibleGrid'
-import $ from 'jquery'
 
 export default function(domPositionCache, typeContainer, typeGap, annotationData, span) {
   // The span may be remeved because this functon is call asynchronously.

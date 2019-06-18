@@ -2,7 +2,7 @@ import {
   EventEmitter as EventEmitter
 }
 from 'events'
-import GridLayout from '../GridLayout'
+import GridLayout from './GridLayout'
 import updateGridLayout from './updateGridLayout'
 
 export default class extends EventEmitter {

@@ -1,4 +1,4 @@
-import DomPositionCache from '../DomPositionCache'
+import DomPositionCache from '../../DomPositionCache'
 import arrangeGridPositionPromise from './arrangeGridPositionPromise'
 
 // Management position of annotation components.
