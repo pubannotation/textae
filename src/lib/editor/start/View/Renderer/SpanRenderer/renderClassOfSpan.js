@@ -22,6 +22,7 @@ export default function(span, isBlockFunc) {
     }
   } else {
     el.classList.remove(BLOCK)
+    el.classList.remove(WRAP)
   }
 }
 
