@@ -2,7 +2,7 @@ import getGridPosition from './getGridPosition'
 import getGridOfSpan from './getGridOfSpan'
 import showInvisibleGrid from './showInvisibleGrid'
 
-export default function(domPositionCache, typeContainer, typeGap, annotationData, span) {
+export default function(domPositionCache, typeContainer, annotationData, typeGap, span) {
   // The span may be remeved because this functon is call asynchronously.
   if (!annotationData.span.get(span.id)) {
     return
