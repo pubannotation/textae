@@ -1,54 +1,52 @@
 import getAnnotationBox from '../getAnnotationBox'
 import createGrid from './createGrid'
+import adaptWidthToSpan from './adaptWidthToSpan'
+import getGridElement from './getGridElement'
 
-export default function(editor, domPositionCache) {
-  const container = getAnnotationBox(editor)
+export default class {
+  constructor(editor, domPositionCache) {
+    this.editor = editor
+    this.domPositionCache = domPositionCache
+    this.container = getAnnotationBox(editor)
+  }
 
-  return {
-    render: (spanId) => createGrid(editor[0], domPositionCache, container[0], spanId),
-    remove: (spanId) => {
-      const gridElement = getGridElement(spanId)
+  render(spanId) {
+    return createGrid(this.editor[0], this.domPositionCache, this.container[0], spanId)
+  }
 
-      if (gridElement)
-        gridElement.parentNode.removeChild(gridElement)
+  remove(spanId) {
+    const gridElement = getGridElement(spanId)
 
-      domPositionCache.gridPositionCache.delete(spanId)
-    },
-    changeId: ({oldId, newId}) => {
-      const gridElement = getGridElement(oldId)
+    if (gridElement) {
+      gridElement.parentNode.removeChild(gridElement)
+    }
 
-      // Since block span has no grid, there may not be a grid.
-      if (gridElement) {
-        gridElement.setAttribute('id', `G${newId}`)
+    this.domPositionCache.gridPositionCache.delete(spanId)
+  }
 
-        for (const type of gridElement.querySelectorAll('.textae-editor__type, .textae-editor__entity-pane')) {
-          type.setAttribute('id', type.getAttribute('id').replace(oldId, newId))
-        }
+  changeId({oldId, newId}) {
+    const gridElement = getGridElement(oldId)
 
-        adaptWidthToSpan(gridElement, domPositionCache, newId)
+    // Since block span has no grid, there may not be a grid.
+    if (gridElement) {
+      gridElement.setAttribute('id', `G${newId}`)
+
+      for (const type of gridElement.querySelectorAll('.textae-editor__type, .textae-editor__entity-pane')) {
+        type.setAttribute('id', type.getAttribute('id').replace(oldId, newId))
       }
 
-      domPositionCache.gridPositionCache.delete(oldId)
-    },
-    updateWidth(spanId) {
-      const gridElement = getGridElement(spanId)
+      adaptWidthToSpan(gridElement, this.domPositionCache, newId)
+    }
 
-      // Since block span has no grid, there may not be a grid.
-      if (gridElement) {
-        adaptWidthToSpan(gridElement, domPositionCache, spanId)
-      }
+    this.domPositionCache.gridPositionCache.delete(oldId)
+  }
+
+  updateWidth(spanId) {
+    const gridElement = getGridElement(spanId)
+
+    // Since block span has no grid, there may not be a grid.
+    if (gridElement) {
+      adaptWidthToSpan(gridElement, this.domPositionCache, spanId)
     }
   }
 }
-
-function adaptWidthToSpan(gridElement, domPositionCache, spanId) {
-  domPositionCache.reset()
-  const spanPosition = domPositionCache.getSpan(spanId)
-
-  gridElement.style.width = spanPosition.width + 'px'
-}
-
-function getGridElement(spanId) {
-  return document.querySelector(`#G${spanId}`)
-}
-
