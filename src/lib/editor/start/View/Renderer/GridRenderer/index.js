@@ -25,13 +25,27 @@ export default function(editor, domPositionCache) {
           type.setAttribute('id', type.getAttribute('id').replace(oldId, newId))
         }
 
-        const spanPosition = domPositionCache.getSpan(newId)
-        gridElement.style.width = spanPosition.width + 'px'
+        adaptWidthToSpan(gridElement, domPositionCache, newId)
       }
 
       domPositionCache.gridPositionCache.delete(oldId)
+    },
+    updateWidth(spanId) {
+      const gridElement = getGridElement(spanId)
+
+      // Since block span has no grid, there may not be a grid.
+      if (gridElement) {
+        adaptWidthToSpan(gridElement, domPositionCache, spanId)
+      }
     }
   }
+}
+
+function adaptWidthToSpan(gridElement, domPositionCache, spanId) {
+  domPositionCache.reset()
+  const spanPosition = domPositionCache.getSpan(spanId)
+
+  gridElement.style.width = spanPosition.width + 'px'
 }
 
 function getGridElement(spanId) {

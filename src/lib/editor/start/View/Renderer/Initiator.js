@@ -57,6 +57,7 @@ export default function(domPositionCaChe, relationRenderer, buttonStateHelper, t
       ['entity.change', entity => {
         entityRenderer.change(entity)
         chongeSpanOfEntity(entity)
+        gridRenderer.updateWidth(entity.span)
       }],
       ['entity.remove', entity => {
         entityRenderer.remove(entity)
