@@ -46,9 +46,9 @@ export default function(domPositionCache, relationRenderer, buttonStateHelper, t
         editor.eventEmitter.emit('textae.pallet.update')
       }],
       ['paragraph.change', paragraphs => renderParagraph(editor, paragraphs)],
-      ['span.add', spanRenderer.render],
+      ['span.add', (span) => spanRenderer.render(span)],
       ['span.move', ({oldId, newId}) => gridRenderer.changeId({oldId, newId})],
-      ['span.remove', spanRenderer.remove],
+      ['span.remove', (span) => spanRenderer.remove(span)],
       ['entity.add', entity => {
         // Add a now entity with a new grid after the span moved.
         chongeSpanOfEntity(entity)
