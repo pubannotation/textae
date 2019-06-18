@@ -1,5 +1,4 @@
 import arrangeGridPosition from './arrangeGridPosition'
-import $ from 'jquery'
 
 export default function(domPositionCache, typeContainer, typeGap, annotationData, span) {
   return new Promise(function(resolve, reject) {
