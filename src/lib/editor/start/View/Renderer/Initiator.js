@@ -1,5 +1,4 @@
 import renderParagraph from './renderParagraph'
-import getAnnotationBox from './getAnnotationBox'
 import RenderAll from './RenderAll'
 import renderModification from './renderModification'
 import {
@@ -12,7 +11,6 @@ import GridRenderer from './GridRenderer'
 import EntityRenderer from './EntityRenderer'
 import AttributeRenderer from './AttributeRenderer'
 import getTypeDom from './getTypeDom'
-import modelToId from '../../../modelToId'
 
 export default function(domPositionCache, relationRenderer, buttonStateHelper, typeGap, editor, annotationData, selectionModel, typeContainer) {
   const emitter = new EventEmitter(),
