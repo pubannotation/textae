@@ -30,7 +30,7 @@ export default function(editor, annotationData, selectionModel, buttonController
     editor,
     annotationData,
     selectionModel,
-    annotationPosition.update,
+    () => annotationPosition.update(typeGap()),
     typeGap,
     typeContainer,
     buttonController.buttonStateHelper,
@@ -73,7 +73,7 @@ function setHandlerOnTyapGapEvent(editor, annotationData, typeGap, typeContainer
 
   typeGap(setTypeStyle)
   typeGap((newValue) => lineHeight.setToTypeGap(editor[0], annotationData, typeContainer, newValue))
-  typeGap(annotationPosition.update)
+  typeGap((newValue) => annotationPosition.update(newValue))
 }
 
 function setHandlerOnDisplayEvent(editor, annotationPosition) {
