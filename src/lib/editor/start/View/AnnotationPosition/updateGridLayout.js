@@ -1,11 +1,10 @@
-import renderLazyRelationAll from './renderLazyRelationAll'
 
-export default function(emitter, editor, gridLayout, annotationData, arrangePositionAllRelation, typeGap) {
-  emitter.emit('render.start', editor)
+export default function(emitter, editor, gridLayout, typeGap) {
+  emitter.emit('position-update.start', editor)
 
   gridLayout.arrangePosition(typeGap)
-    .then(() => renderLazyRelationAll(annotationData.relation.all()))
-    .then(arrangePositionAllRelation)
-    .then(() => emitter.emit('render.end', editor))
+    .then(() => emitter.emit('position-update.grid.end', () => {
+      emitter.emit('position-update.end', editor)
+    }))
     .catch((error) => console.error(error, error.stack))
 }

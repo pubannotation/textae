@@ -8,6 +8,7 @@ import TypeStyle from './TypeStyle'
 import RelationRenderer from './Renderer/RelationRenderer'
 import updateTextBoxHeight from './updateTextBoxHeight'
 import _ from 'underscore'
+import renderLazyRelationAll from './renderLazyRelationAll'
 
 const BODY = `
 <div class="textae-editor__body">
@@ -21,7 +22,12 @@ export default function(editor, annotationData, selectionModel, buttonController
   setSelectionModelHandler(editor, annotationData, selectionModel, buttonController)
 
   const relationRenderer = new RelationRenderer(editor, annotationData, selectionModel, typeContainer)
-  const annotationPosition = new AnnotationPosition(editor, annotationData, typeContainer, relationRenderer.arrangePositionAll)
+  const annotationPosition = new AnnotationPosition(editor, annotationData, typeContainer)
+  annotationPosition.on('position-update.grid.end', (done) => {
+    renderLazyRelationAll(annotationData.relation.all())
+    relationRenderer.arrangePositionAll()
+    done()
+  })
 
   setHandlerOnTyapGapEvent(editor, annotationData, typeGap, typeContainer, annotationPosition)
   setHandlerOnDisplayEvent(editor, annotationPosition)
@@ -81,6 +87,6 @@ function setHandlerOnDisplayEvent(editor, annotationPosition) {
   const cursorChanger = new CursorChanger(editor)
 
   annotationPosition
-    .on('render.start', cursorChanger.startWait)
-    .on('render.end', cursorChanger.endWait)
+    .on('position-update.start', cursorChanger.startWait)
+    .on('position-update.end', cursorChanger.endWait)
 }
