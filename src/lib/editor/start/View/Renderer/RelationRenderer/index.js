@@ -7,6 +7,7 @@ import removeRelation from './removeRelation'
 import setRenderLazy from './setRenderLazy'
 import changeType from './changeType'
 import changeJsPlumbModification from './changeJsPlumbModification'
+import renderLazyRelationAll from './renderLazyRelationAll'
 
 export default class {
   constructor(editor, annotationData, selectionModel, typeContainer) {
@@ -20,6 +21,7 @@ export default class {
   }
 
   arrangePositionAll() {
+    renderLazyRelationAll(this.annotationData.relation.all())
     arrangePositionAll(this.editor, this.annotationData, this.selectionModel, this.jsPlumbInstance)
   }
 

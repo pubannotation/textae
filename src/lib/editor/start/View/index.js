@@ -8,7 +8,6 @@ import TypeStyle from './TypeStyle'
 import RelationRenderer from './Renderer/RelationRenderer'
 import updateTextBoxHeight from './updateTextBoxHeight'
 import _ from 'underscore'
-import renderLazyRelationAll from './renderLazyRelationAll'
 
 const BODY = `
 <div class="textae-editor__body">
@@ -24,7 +23,6 @@ export default function(editor, annotationData, selectionModel, buttonController
   const relationRenderer = new RelationRenderer(editor, annotationData, selectionModel, typeContainer)
   const annotationPosition = new AnnotationPosition(editor, annotationData, typeContainer)
   annotationPosition.on('position-update.grid.end', (done) => {
-    renderLazyRelationAll(annotationData.relation.all())
     relationRenderer.arrangePositionAll()
     done()
   })
