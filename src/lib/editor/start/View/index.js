@@ -34,11 +34,11 @@ export default function(editor, annotationData, selectionModel, buttonController
     editor,
     annotationData,
     selectionModel,
-    () => annotationPosition.update(typeGap()),
     typeGap,
     typeContainer,
     buttonController.buttonStateHelper,
-    relationRenderer
+    relationRenderer,
+    annotationPosition
   )
 
   return {
@@ -50,9 +50,9 @@ export default function(editor, annotationData, selectionModel, buttonController
   }
 }
 
-function initRenderer(editor, annotationData, selectionModel, updateAnnotationPosition, typeGap, typeContainer, buttonStateHelper, relationRenderer) {
+function initRenderer(editor, annotationData, selectionModel, typeGap, typeContainer, buttonStateHelper, relationRenderer, annotationPosition) {
   const renderer = new Renderer(editor, annotationData, selectionModel, buttonStateHelper, typeContainer, typeGap, relationRenderer),
-    debouncedUpdateAnnotationPosition = _.debounce(() => updateAnnotationPosition(typeGap()), 100)
+    debouncedUpdateAnnotationPosition = _.debounce(() => annotationPosition.updateAsync(typeGap()), 100)
 
   renderer.init(editor, annotationData, selectionModel)
     .on('change', debouncedUpdateAnnotationPosition)
@@ -62,7 +62,14 @@ function initRenderer(editor, annotationData, selectionModel, updateAnnotationPo
       debouncedUpdateAnnotationPosition()
     })
     .on('span.add', debouncedUpdateAnnotationPosition)
-    .on('span.move', debouncedUpdateAnnotationPosition)
+    .on('span.move', () => {
+      // Move grids and relations synchronously.
+      // If grid and relations move asynchronously,
+      // grid positions in cache may be deleted before render relation when moving span frequently.
+      // Position of relation depends on position of grid and position of grid is cached for perfermance.
+      // If position of grid is not cached, relation can not be rendered.
+      annotationPosition.update(typeGap())
+    })
     .on('span.remove', debouncedUpdateAnnotationPosition)
     .on('entity.add', debouncedUpdateAnnotationPosition)
     .on('entity.change', debouncedUpdateAnnotationPosition)

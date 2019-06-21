@@ -3,7 +3,6 @@ import {
 }
 from 'events'
 import GridLayout from './GridLayout'
-import updateGridLayout from './updateGridLayout'
 
 export default class extends EventEmitter {
   constructor(editor, annotationData, typeContainer) {
@@ -12,6 +11,17 @@ export default class extends EventEmitter {
   }
 
   update(typeGap) {
-    updateGridLayout(this, this.gridLayout, typeGap)
+    super.emit('position-update.start')
+
+    this.gridLayout.arrangePosition(typeGap)
+    super.emit('position-update.grid.end', () => super.emit('position-update.end'))
+  }
+
+  updateAsync(typeGap) {
+    super.emit('position-update.start')
+
+    this.gridLayout.arrangePositionAsync(typeGap)
+      .then(() => super.emit('position-update.grid.end', () => super.emit('position-update.end')))
+      .catch((error) => console.error(error, error.stack))
   }
 }
