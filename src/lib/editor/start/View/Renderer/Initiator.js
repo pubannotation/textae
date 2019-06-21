@@ -73,7 +73,9 @@ export default function(domPositionCache, relationRenderer, buttonStateHelper, t
       ['relation.add', relation => {
         relationRenderer.render(relation)
       }],
-      ['relation.change', relationRenderer.change],
+      ['relation.change', relation => {
+        relationRenderer.change(relation)
+      }],
       ['relation.remove', relation => {
         relationRenderer.remove(relation)
       }],

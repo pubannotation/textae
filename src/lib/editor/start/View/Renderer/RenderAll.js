@@ -27,5 +27,5 @@ function renderAllSpan(annotationData, spanRenderer) {
 
 function renderAllRelation(annotationData, relationRenderer) {
   relationRenderer.reset()
-  annotationData.relation.all().forEach(relationRenderer.render)
+  annotationData.relation.all().forEach((relatiton) => relationRenderer.render(relatiton))
 }

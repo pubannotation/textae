@@ -1,12 +1,12 @@
 import $ from 'jquery'
-import determineCurviness from '../determineCurviness'
-import jsPlumbArrowOverlayUtil from '../jsPlumbArrowOverlayUtil'
-import getEntityDom from '../../../../getEntityDom'
-import LABEL from '../LABEL'
-import connectorStrokeStyle from '../connectorStrokeStyle'
+import determineCurviness from '../../determineCurviness'
+import jsPlumbArrowOverlayUtil from '../../jsPlumbArrowOverlayUtil'
+import getEntityDom from '../../../../../getEntityDom'
+import LABEL from '../../LABEL'
+import connectorStrokeStyle from '../../connectorStrokeStyle'
 
 // Make a connect by jsPlumb.
-export default function(jsPlumbInstance, editor, relation, annotationData, typeContainer, modification) {
+export default function(jsPlumbInstance, editor, relation, annotationData, typeContainer, modificationRenderer) {
   return jsPlumbInstance.connect({
     source: $(getEntityDom(editor[0], relation.subj)),
     target: $(getEntityDom(editor[0], relation.obj)),
@@ -22,8 +22,8 @@ export default function(jsPlumbInstance, editor, relation, annotationData, typeC
     overlays: [
       ['Arrow', jsPlumbArrowOverlayUtil.NORMAL_ARROW],
       ['Label', Object.assign({}, LABEL, {
-        label: '[' + relation.id + '] ' + relation.type,
-        cssClass: LABEL.cssClass + ' ' + modification.getClasses(relation.id).join(' ')
+        label: `[${relation.id}] ${relation.type}`,
+        cssClass: `${LABEL.cssClass} ${modificationRenderer.getClasses(relation.id).join(' ')}`
       })]
     ]
   })

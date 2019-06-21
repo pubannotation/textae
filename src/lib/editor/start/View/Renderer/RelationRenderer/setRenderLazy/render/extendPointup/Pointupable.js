@@ -1,9 +1,8 @@
 
-import jsPlumbArrowOverlayUtil from '../../jsPlumbArrowOverlayUtil'
-import LabelOverlay from '../../LabelOverlay'
-import connectorStrokeStyle from '../../connectorStrokeStyle'
-
-const POINTUP_LINE_WIDTH = 3
+import jsPlumbArrowOverlayUtil from '../../../jsPlumbArrowOverlayUtil'
+import LabelOverlay from '../../../LabelOverlay'
+import connectorStrokeStyle from '../../../connectorStrokeStyle'
+import POINTUP_LINE_WIDTH from '../../../POINTUP_LINE_WIDTH'
 
 export default class {
   constructor(editor, annotationData, typeContainer, connect) {

@@ -2,8 +2,7 @@ import DomPositionCache from '../DomPositionCache'
 import Initiator from './Initiator'
 
 export default function(editor, annotationData, selectionModel, buttonStateHelper, typeContainer, typeGap, relationRenderer) {
-  const domPositionCache
-   = new DomPositionCache(editor, annotationData.entity),
+  const domPositionCache = new DomPositionCache(editor, annotationData.entity),
     api = {
       init: new Initiator(
         domPositionCache,
@@ -15,7 +14,7 @@ export default function(editor, annotationData, selectionModel, buttonStateHelpe
         selectionModel,
         typeContainer
       ),
-      renderLazyRelationAll: relationRenderer.renderLazyRelationAll
+      renderLazyRelationAll: () => relationRenderer.renderLazyRelationAll()
     }
 
   return api

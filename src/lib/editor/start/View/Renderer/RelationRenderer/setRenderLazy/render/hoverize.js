@@ -1,4 +1,4 @@
-import LabelOverlay from '../LabelOverlay'
+import LabelOverlay from '../../LabelOverlay'
 import extendPointup from './extendPointup'
 
 // Set hover action.

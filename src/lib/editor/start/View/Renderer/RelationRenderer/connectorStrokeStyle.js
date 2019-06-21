@@ -1,4 +1,4 @@
-export default function connectorStrokeStyle(annotationData, typeContainer, relationId) {
+export default function(annotationData, typeContainer, relationId) {
     const type = annotationData.relation.get(relationId).type
     const colorHex = typeContainer.relation.getColor(type)
 
