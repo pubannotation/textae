@@ -1,7 +1,7 @@
 export default function(command, selectionModel) {
-  let spanIds = selectionModel.span.all(),
-    entityIds = selectionModel.entity.all(),
-    relationIds = selectionModel.relation.all()
+  const spanIds = selectionModel.span.all()
+  const entityIds = selectionModel.entity.all()
+  const relationIds = selectionModel.relation.all()
 
   return getAll(command, spanIds, entityIds, relationIds)
 }

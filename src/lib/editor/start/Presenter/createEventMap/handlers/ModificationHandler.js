@@ -1,11 +1,11 @@
-var toggleModification = require('./toggleModification')
+import toggleModification from './toggleModification'
 
 module.exports = function(command, annotationData, modeAccordingToButton, typeEditor) {
   return {
-    negation: function() {
+    negation: () => {
       toggleModification(command, annotationData, modeAccordingToButton, 'Negation', typeEditor)
     },
-    speculation: function() {
+    speculation: () => {
       toggleModification(command, annotationData, modeAccordingToButton, 'Speculation', typeEditor)
     }
   }
