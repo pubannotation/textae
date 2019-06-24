@@ -2,8 +2,7 @@ import {
   getLeftElement,
   getRightElement
 }
-from '../../../getNextElement'
-import getEntityDom from '../../../getEntityDom'
+from '../../../../getNextElement'
 
 const SPAN_CLASS = 'textae-editor__span',
   GRID_CLASS = 'textae-editor__grid',
