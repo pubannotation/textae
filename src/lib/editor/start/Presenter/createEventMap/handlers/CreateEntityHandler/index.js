@@ -1,11 +1,7 @@
-import {
-  EventEmitter
-}
-from 'events'
 import createEntityToSpans from './createEntityToSpans'
 
 export default function(command, selectionModel, entity, callback) {
-  return function() {
+  return () => {
     createEntityToSpans(
       command,
       selectionModel.span.all(),
