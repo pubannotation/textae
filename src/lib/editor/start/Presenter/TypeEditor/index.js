@@ -46,7 +46,7 @@ export default function(
       },
       hidePallet: pallet.hide,
       changeLabel: () => changeLabelHandler(editor, elementEditor.getHandler, autocompletionWs),
-      changeLabelAndPred: () => changeAttributeHandler(editor, selectionModel, elementEditor.getHandler, autocompletionWs),
+      changeLabelAndPred: () => changeAttributeHandler(editor, selectionModel, elementEditor.getAttributeHandler, autocompletionWs),
       changeTypeOfSelectedElement: (newType) => elementEditor.getHandler().changeTypeOfSelectedElement(newType),
       changeSelectedElement: (newType) => elementEditor.getHandler().changeSelectedElement(newType),
       cancelSelect: () => cancelSelect(pallet, selectionModel),

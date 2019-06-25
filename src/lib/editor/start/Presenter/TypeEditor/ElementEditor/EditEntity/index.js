@@ -10,17 +10,10 @@ export default function(editor, annotationData, selectionModel, command, modeAcc
 
   const entityHandler = () => new EditEntityHandler(typeContainer, command, annotationData, selectionModel)
   const attributeHandler = () => new EditAttributeHandler(typeContainer, command, annotationData, selectionModel)
-  const handlers = () => {
-    if (selectionModel.entity.all().length >= 1) {
-      return entityHandler()
-    }
-
-    return attributeHandler()
-  }
 
   return {
     init: () => init(editor, cancelSelect, selectEnd, spanConfig, selectSpan, selectionModel, annotationData, command),
     entityHandler: entityHandler,
-    handlers: handlers
+    attributeHandler: attributeHandler
   }
 }

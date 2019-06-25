@@ -15,6 +15,7 @@ export default function(editor, annotationData, selectionModel, spanConfig, comm
     getHandlerType: () => handler,
     getHandler: () => getHandler(handler, editEntity, editRelation),
     getHandlerForPallet: () => getHandlerForPallet(handler, editEntity, editRelation),
+    getAttributeHandler: editEntity.attributeHandler,
     start: {
       noEdit: () => {
         unbindAllEventhandler(editor)
