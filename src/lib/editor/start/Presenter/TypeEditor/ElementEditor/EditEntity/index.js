@@ -21,7 +21,6 @@ export default function(editor, annotationData, selectionModel, command, modeAcc
   return {
     init: () => init(editor, cancelSelect, selectEnd, spanConfig, selectSpan, selectionModel, annotationData, command),
     entityHandler: entityHandler,
-    attributeHandler: attributeHandler,
     handlers: handlers
   }
 }

@@ -45,7 +45,6 @@ export default function(
         pallet.show(elementEditor.getHandlerForPallet().typeContainer, point.point)
       },
       hidePallet: pallet.hide,
-      getTypeOfSelected: () => elementEditor.getHandler().getSelectedType(),
       changeLabel: () => changeLabelHandler(editor, selectionModel, elementEditor.getHandler, autocompletionWs),
       changeLabelAndPred: () => changeAttributeHandler(editor, selectionModel, elementEditor.getHandler, autocompletionWs),
       changeTypeOfSelectedElement: (newType) => elementEditor.getHandler().changeTypeOfSelectedElement(newType),
