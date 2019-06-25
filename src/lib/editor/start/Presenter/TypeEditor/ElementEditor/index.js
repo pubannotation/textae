@@ -1,7 +1,8 @@
 import EditRelation from './EditRelation'
 import EditEntity from './EditEntity'
 import unbindAllEventhandler from './unbindAllEventhandler'
-import DefaultHandler from './DefaultHandler'
+import getHandler from './getHandler'
+import getHandlerForPallet from './getHandlerForPallet'
 
 // Provide handlers to edit elements according to an edit mode.
 export default function(editor, annotationData, selectionModel, spanConfig, command, modeAccordingToButton, typeContainer, cancelSelect) {
@@ -35,18 +36,3 @@ export default function(editor, annotationData, selectionModel, spanConfig, comm
   }
 }
 
-function getHandler(handler, editEntity, editRelation) {
-  switch (handler) {
-    case 'entity' : return editEntity.handlers()
-    case 'relation' : return editRelation.handlers
-    default : return new DefaultHandler()
-  }
-}
-
-function getHandlerForPallet(handler, editEntity, editRelation) {
-  switch (handler) {
-    case 'entity' : return editEntity.entityHandler()
-    case 'relation' : return editRelation.handlers
-    default : return new DefaultHandler()
-  }
-}
