@@ -7,8 +7,8 @@ import DefaultHandler from './DefaultHandler'
 export default function(editor, annotationData, selectionModel, spanConfig, command, modeAccordingToButton, typeContainer, cancelSelect) {
   let handler = 'default'
 
-  const editEntity = new EditEntity(editor, annotationData, selectionModel, command, modeAccordingToButton, typeContainer, spanConfig, cancelSelect),
-  editRelation = new EditRelation(editor, annotationData, selectionModel, command, typeContainer, cancelSelect)
+  const editEntity = new EditEntity(editor, annotationData, selectionModel, command, modeAccordingToButton, typeContainer, spanConfig, cancelSelect)
+  const editRelation = new EditRelation(editor, annotationData, selectionModel, command, typeContainer, cancelSelect)
 
   return {
     getHandlerType: () => handler,
