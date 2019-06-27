@@ -33,8 +33,6 @@ export default class {
     }
   }
 
-  changeTypeOfSelectedElement() {}
-
   getSelectedType() {
     let id = this.selectionModel.single()
 
