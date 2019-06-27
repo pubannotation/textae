@@ -15,48 +15,51 @@ export default function(
   autocompletionWs
 ) {
   // will init.
-  let elementEditor = new ElementEditor(
-      editor,
-      annotationData,
-      selectionModel,
-      spanConfig,
-      command,
-      modeAccordingToButton,
-      typeContainer, () => cancelSelect(pallet, selectionModel)
+  const elementEditor = new ElementEditor(
+    editor,
+    annotationData,
+    selectionModel,
+    spanConfig,
+    command,
+    modeAccordingToButton,
+    typeContainer,
+    () => cancelSelect(pallet, selectionModel)
+  )
+
+  const pallet = new Pallet(
+    editor,
+    history,
+    annotationData,
+    command,
+    typeContainer,
+    autocompletionWs,
+    elementEditor
+  )
+
+  const api = {
+    editRelation: elementEditor.start.editRelation,
+    editEntity: elementEditor.start.editEntity,
+    noEdit: elementEditor.start.noEdit,
+    showPallet: (point) => {
+      // Add the pallet to the editor to prevent focus out of the editor when radio buttnos on the pallet are clicked.
+      if (!editor[0].querySelector('.textae-editor__type-pallet')) {
+        editor[0].appendChild(pallet.el)
+      }
+      pallet.show(elementEditor.getHandlerForPallet().typeContainer, point.point)
+    },
+    hidePallet: pallet.hide,
+    changeLabel: () => changeLabelHandler(editor, elementEditor.getHandler, autocompletionWs),
+    changeLabelAndPred: () => changeAttributeHandler(editor, selectionModel, elementEditor.editAttributeHandler, autocompletionWs),
+    changeTypeOfSelectedElement: (newType) => elementEditor.getHandler().changeTypeOfSelectedElement(newType),
+    changeSelectedElement: (newType) => elementEditor.getHandler().changeSelectedElement(newType),
+    cancelSelect: () => cancelSelect(pallet, selectionModel),
+    jsPlumbConnectionClicked: (jsPlumbConnection, event) => jsPlumbConnectionClicked(
+      elementEditor,
+      jsPlumbConnection,
+      event
     ),
-    pallet = new Pallet(
-      editor,
-      history,
-      annotationData,
-      command,
-      typeContainer,
-      autocompletionWs,
-      elementEditor
-    ),
-    api = {
-      editRelation: elementEditor.start.editRelation,
-      editEntity: elementEditor.start.editEntity,
-      noEdit: elementEditor.start.noEdit,
-      showPallet: (point) => {
-        // Add the pallet to the editor to prevent focus out of the editor when radio buttnos on the pallet are clicked.
-        if (!editor[0].querySelector('.textae-editor__type-pallet')) {
-          editor[0].appendChild(pallet.el)
-        }
-        pallet.show(elementEditor.getHandlerForPallet().typeContainer, point.point)
-      },
-      hidePallet: pallet.hide,
-      changeLabel: () => changeLabelHandler(editor, elementEditor.getHandler, autocompletionWs),
-      changeLabelAndPred: () => changeAttributeHandler(editor, selectionModel, elementEditor.editAttributeHandler, autocompletionWs),
-      changeTypeOfSelectedElement: (newType) => elementEditor.getHandler().changeTypeOfSelectedElement(newType),
-      changeSelectedElement: (newType) => elementEditor.getHandler().changeSelectedElement(newType),
-      cancelSelect: () => cancelSelect(pallet, selectionModel),
-      jsPlumbConnectionClicked: (jsPlumbConnection, event) => jsPlumbConnectionClicked(
-        elementEditor,
-        jsPlumbConnection,
-        event
-      ),
-      getSelectedIdEditable: () => elementEditor.getHandler().getSelectedIdEditable()
-    }
+    getSelectedIdEditable: () => elementEditor.getHandler().getSelectedIdEditable()
+  }
 
   return api
 }
