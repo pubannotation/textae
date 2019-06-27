@@ -9,7 +9,8 @@ export default function($dialog, typeContainer, autocompletionWs, done, value1, 
     $labelSpan = $dialog.find('label').eq(1).find('span')
 
   // Update the source
-  $inputs.eq(1)
+  if (typeContainer && autocompletionWs) {
+    $inputs.eq(1)
     .autocomplete({
       source: (request, response) => {
         $labelSpan.text('')
@@ -18,6 +19,7 @@ export default function($dialog, typeContainer, autocompletionWs, done, value1, 
       minLength: 3,
       select: (event, ui) => select($inputs.eq(1), $labelSpan, ui)
     })
+  }
 
   // Update done handler
   $dialog.done = done
@@ -25,7 +27,7 @@ export default function($dialog, typeContainer, autocompletionWs, done, value1, 
   // Update display value
   $inputs.eq(0).val(value1)
   $inputs.eq(1).val(value2)
-  if (typeContainer.getLabel(value2)) {
+  if (typeContainer && typeContainer.getLabel(value2)) {
     $labelSpan.text(typeContainer.getLabel(value2))
   } else {
     $labelSpan.text('')

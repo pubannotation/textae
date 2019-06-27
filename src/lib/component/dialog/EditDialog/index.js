@@ -4,7 +4,7 @@ import update from './update'
 
 export default class {
 
-  constructor(editor, label1, label2, typeContainer, done, autocompletionWs) {
+  constructor(editor, label1, label2, done, typeContainer, autocompletionWs) {
     this.typeContainer = typeContainer
     this.done = done
     this.autocompletionWs = autocompletionWs

@@ -36,7 +36,7 @@ export default function(
     elementEditor
   )
 
-  const changeLabelAndPred = new ChangeLabelAndPred(editor, annotationData, selectionModel, command, typeContainer, autocompletionWs)
+  const changeLabelAndPred = new ChangeLabelAndPred(editor, annotationData, selectionModel, command)
 
   const api = {
     editRelation: elementEditor.start.editRelation,

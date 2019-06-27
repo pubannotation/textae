@@ -1,21 +1,13 @@
 import EditAttributeDialog from '../../../../../component/EditAttributeDialog'
 
 // An handler is get on runtime, because it is changed by the edit mode.
-export default function(editor, selectionModel, editAttributeHandler, autocompletionWs, typeContainer, command) {
+export default function(editor, selectionModel, editAttributeHandler, command) {
   if (editAttributeHandler.getSelectedIdEditable().length > 0) {
     const value1 = editAttributeHandler.getSelectedPred()
     const value2 = editAttributeHandler.getSelectedValue()
 
-    const done = (pred, value, label) => {
+    const done = (pred, value) => {
       let commands = []
-
-      if (label) {
-        const command = editAttributeHandler.changeLabelOfId(value, label)
-
-        if (command) {
-          commands.push(command)
-        }
-      }
 
       if (value) {
         commands = commands.concat(editAttributeHandler.changeSelectedElement(command, pred, value))
@@ -27,7 +19,7 @@ export default function(editor, selectionModel, editAttributeHandler, autocomple
       selectionModel.clear()
     }
 
-    const dialog = new EditAttributeDialog(editor, typeContainer.attribute, done, autocompletionWs)
+    const dialog = new EditAttributeDialog(editor, done)
     dialog.update(value1, value2)
     dialog.open()
   }
