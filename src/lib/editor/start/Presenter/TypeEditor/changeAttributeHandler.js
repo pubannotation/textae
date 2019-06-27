@@ -1,4 +1,4 @@
-import EditAttributeDialog from '../../../../../component/EditAttributeDialog'
+import EditAttributeDialog from '../../../../component/EditAttributeDialog'
 
 export default function(editor, annotationData, command, attributeId) {
   const attribute = annotationData.attribute.get(attributeId)

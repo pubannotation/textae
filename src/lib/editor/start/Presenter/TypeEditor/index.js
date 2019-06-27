@@ -1,7 +1,7 @@
 import Pallet from '../../../../component/Pallet'
 import ElementEditor from './ElementEditor'
 import changeLabelHandler from './changeLabelHandler'
-import ChangeLabelAndPred from './ChangeLabelAndPred'
+import changeAttributeHandler from './changeAttributeHandler'
 
 export default function(
   editor,
@@ -36,8 +36,6 @@ export default function(
     elementEditor
   )
 
-  const changeLabelAndPred = new ChangeLabelAndPred(editor, annotationData, command)
-
   const api = {
     editRelation: elementEditor.start.editRelation,
     editEntity: elementEditor.start.editEntity,
@@ -51,7 +49,7 @@ export default function(
     },
     hidePallet: pallet.hide,
     changeLabel: () => changeLabelHandler(editor, elementEditor.getHandler, autocompletionWs),
-    changeLabelAndPred,
+    changeLabelAndPred: (attributeId) => changeAttributeHandler(editor, annotationData, command, attributeId),
     changeTypeOfSelectedElement: (newType) => elementEditor.getHandler().changeTypeOfSelectedElement(newType),
     changeSelectedElement: (newType) => elementEditor.getHandler().changeSelectedElement(newType),
     cancelSelect: () => cancelSelect(pallet, selectionModel),
