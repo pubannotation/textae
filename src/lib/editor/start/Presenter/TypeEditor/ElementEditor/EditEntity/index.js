@@ -10,7 +10,7 @@ export default function(editor, annotationData, selectionModel, command, modeAcc
   const entityHandler = () => new EditEntityHandler(typeContainer, command, annotationData, selectionModel)
 
   return {
-    init: () => init(editor, cancelSelect, selectEnd, spanConfig, selectSpan, selectionModel, annotationData, command),
+    init: () => init(editor, cancelSelect, selectEnd, spanConfig, selectSpan, selectionModel),
     entityHandler: entityHandler
   }
 }

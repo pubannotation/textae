@@ -3,6 +3,7 @@ import EditEntity from './EditEntity'
 import unbindAllEventhandler from './unbindAllEventhandler'
 import getHandler from './getHandler'
 import getHandlerForPallet from './getHandlerForPallet'
+import initiateEditAttribute from './initiateEditAttribute'
 
 // Provide handlers to edit elements according to an edit mode.
 export default function(editor, annotationData, selectionModel, spanConfig, command, modeAccordingToButton, typeContainer, cancelSelect) {
@@ -24,6 +25,8 @@ export default function(editor, annotationData, selectionModel, spanConfig, comm
         unbindAllEventhandler(editor)
 
         editEntity.init()
+        initiateEditAttribute(editor, annotationData, selectionModel, command)
+
         handler = 'entity'
       },
       editRelation: () => {
