@@ -4,7 +4,7 @@ import update from './update'
 
 export default class {
 
-  constructor(editor, label1, label2, done, typeContainer, autocompletionWs) {
+  constructor(editor, predicate, value, done, typeContainer, autocompletionWs) {
     this.typeContainer = typeContainer
     this.done = done
     this.autocompletionWs = autocompletionWs
@@ -13,12 +13,12 @@ export default class {
     el.classList.add(CLASS_NAMES.container)
     el.innerHTML = `
 <div class="${CLASS_NAMES.inputBox}">
-  <label>${label1}:</label><br>
-  <input class="${CLASS_NAMES.value1}">
+  <label>${predicate}:</label><br>
+  <input class="${CLASS_NAMES.predicate}">
 </div>
 <div class="${CLASS_NAMES.inputBox}">
-  <label>${label2}:<span></span></label><br>
-  <input class="${CLASS_NAMES.value2}">
+  <label>${value}:<span></span></label><br>
+  <input class="${CLASS_NAMES.value}">
 </div>`
 
     const label = el.querySelector('span'),
@@ -27,8 +27,8 @@ export default class {
     this.$dialog = create(editor, el, input[0], input[1], label)
   }
 
-  update(value1, value2) {
-    update(this.$dialog, this.typeContainer, this.autocompletionWs, this.done, value1, value2)
+  update(predicate, value) {
+    update(this.$dialog, this.typeContainer, this.autocompletionWs, this.done, predicate, value)
   }
 
   open() {

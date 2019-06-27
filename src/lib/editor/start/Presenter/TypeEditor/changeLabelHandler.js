@@ -4,27 +4,27 @@ import EditLabelDialog from '../../../../component/EditLabelDialog'
 export default function(editor, getHandler, autocompletionWs) {
   if (getHandler().getSelectedIdEditable().length > 0) {
     const handler = getHandler(),
-      value1 = 'type',
-      value2 = handler.getSelectedType(),
-      done = (value1, value2, label) => {
+      predicate = 'type',
+      value = handler.getSelectedType(),
+      done = (_, value, label) => {
         let commands = []
 
         if (label) {
-          const command = handler.changeLabelOfId(value2, label)
+          const command = handler.changeLabelOfId(value, label)
 
           if (command) {
             commands.push(command)
           }
         }
 
-        if (value2) {
-          commands = commands.concat(handler.changeTypeOfSelectedElement(value2))
+        if (value) {
+          commands = commands.concat(handler.changeTypeOfSelectedElement(value))
           handler.command.invoke(commands, ['annotation'])
         }
       }
 
     let dialog = new EditLabelDialog(editor, handler.typeContainer, done, autocompletionWs)
-    dialog.update(value1, value2)
+    dialog.update(predicate, value)
     dialog.open()
   }
 }

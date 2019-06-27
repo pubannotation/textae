@@ -4,7 +4,7 @@ import $ from 'jquery'
 
 customizeqQueryUiAutocomplete()
 
-export default function($dialog, typeContainer, autocompletionWs, done, value1, value2) {
+export default function($dialog, typeContainer, autocompletionWs, done, predicate, value) {
   let $inputs = $dialog.find('input'),
     $labelSpan = $dialog.find('label').eq(1).find('span')
 
@@ -25,10 +25,10 @@ export default function($dialog, typeContainer, autocompletionWs, done, value1, 
   $dialog.done = done
 
   // Update display value
-  $inputs.eq(0).val(value1)
-  $inputs.eq(1).val(value2)
-  if (typeContainer && typeContainer.getLabel(value2)) {
-    $labelSpan.text(typeContainer.getLabel(value2))
+  $inputs.eq(0).val(predicate)
+  $inputs.eq(1).val(value)
+  if (typeContainer && typeContainer.getLabel(value)) {
+    $labelSpan.text(typeContainer.getLabel(value))
   } else {
     $labelSpan.text('')
   }
