@@ -1,12 +1,17 @@
-import GetSelectedIdEditable from '../GetSelectedIdEditable'
-
-export default class extends GetSelectedIdEditable {
+export default class {
   constructor(modelType, selectionModel, typeContainer, command) {
-    super(selectionModel)
-
+    this.selectionModel = selectionModel
     this.modelType = modelType
     this.typeContainer = typeContainer
     this.command = command
+  }
+
+  getSelectedIdEditable() {
+    if (this.selectionModel) {
+      return this.selectionModel.all()
+    }
+
+    return []
   }
 
   addType(newType) {
