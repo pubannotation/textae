@@ -1,7 +1,7 @@
 import EditAttributeDialog from '../../../../../component/EditAttributeDialog'
 
 // An handler is get on runtime, because it is changed by the edit mode.
-export default function(editor, selectionModel, editAttributeHandler, autocompletionWs) {
+export default function(editor, selectionModel, editAttributeHandler, autocompletionWs, typeContainer, command) {
   if (editAttributeHandler.getSelectedIdEditable().length > 0) {
     const value1 = editAttributeHandler.getSelectedPred()
     const value2 = editAttributeHandler.getSelectedValue()
@@ -18,8 +18,8 @@ export default function(editor, selectionModel, editAttributeHandler, autocomple
       }
 
       if (value) {
-        commands = commands.concat(editAttributeHandler.changeSelectedElement(pred, value))
-        editAttributeHandler.command.invoke(commands, ['annotation'])
+        commands = commands.concat(editAttributeHandler.changeSelectedElement(command, pred, value))
+        command.invoke(commands, ['annotation'])
       }
 
       // Cancel selections here.
@@ -27,7 +27,7 @@ export default function(editor, selectionModel, editAttributeHandler, autocomple
       selectionModel.clear()
     }
 
-    const dialog = new EditAttributeDialog(editor, editAttributeHandler.typeContainer, done, autocompletionWs)
+    const dialog = new EditAttributeDialog(editor, typeContainer.attribute, done, autocompletionWs)
     dialog.update(value1, value2)
     dialog.open()
   }

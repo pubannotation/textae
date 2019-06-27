@@ -1,25 +1,15 @@
 import GetSelectedIdEditable from '../GetSelectedIdEditable'
 
 export default class extends GetSelectedIdEditable {
-  constructor(typeContainer, command, annotationData, selectionModel) {
+  constructor(annotationData, selectionModel) {
     super()
-    this.typeContainer = typeContainer.attribute
-    this.command = command
     this.annotationData = annotationData.attribute
     this.selectionModel = selectionModel.attribute
   }
 
-  getEditTarget(newPred, newValue) {
-    return this.selectionModel.all()
-      .filter((id) => {
-        let attribute = this.annotationData.get(id)
-        return attribute.pred !== newPred || attribute.value !== newValue
-      })
-  }
-
-  changeSelectedElement(newPred, newValue) {
-    return this.getEditTarget(newPred, newValue)
-      .map((id) => this.command.factory.attributeChangeCommand(
+  changeSelectedElement(command, newPred, newValue) {
+    return getEditTarget(this.selectionModel.all(), this.annotationData, newPred, newValue)
+      .map((id) => command.factory.attributeChangeCommand(
         id,
         newPred,
         newValue
@@ -46,3 +36,13 @@ export default class extends GetSelectedIdEditable {
     return ''
   }
 }
+
+function getEditTarget(selecteds, annotationData, newPred, newValue) {
+  return selecteds.filter((id) => different(annotationData, id, newPred, newValue))
+}
+
+function different(annotationData, id, newPred, newValue) {
+  const attribute = annotationData.get(id)
+  return attribute.pred !== newPred || attribute.value !== newValue
+}
+
