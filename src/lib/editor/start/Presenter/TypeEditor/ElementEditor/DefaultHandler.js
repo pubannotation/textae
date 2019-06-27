@@ -8,13 +8,16 @@ export default class extends GetSelectedIdEditable {
     // The Reference to content to be shown in the pallet.
     this.typeContainer = null
   }
+
   addType(newType) {
     console.assert(newType.id, 'id is necessary!')
     return this.command.factory.typeCreateCommand(this.typeContainer, newType)
   }
+
   changeType(id, newType) {
     return this.command.factory.typeChangeCommand(this.typeContainer, this.modelType, id, newType)
   }
+
   changeLabelOfId(id, label) {
     const oldType = this.typeContainer.getDefinedType(id)
 
@@ -24,7 +27,9 @@ export default class extends GetSelectedIdEditable {
       return this.command.factory.typeChangeCommand(this.typeContainer, id, label)
     }
   }
+
   changeTypeOfSelectedElement() {}
+
   getSelectedType() {
     let id = this.selectionModel.single()
 
@@ -34,13 +39,16 @@ export default class extends GetSelectedIdEditable {
 
     return ''
   }
+
   jsPlumbConnectionClicked() {
     // A Swithing point to change a behavior when relation is clicked.
   }
+
   getEditTarget(newType) {
     return this.selectionModel.all()
       .filter((id) => this.annotationData.get(id).type !== newType)
   }
+
   selectAllByLabel(label) {
     this.selectionModel.clear()
     this.annotationData.all().map((model) => {
@@ -49,6 +57,7 @@ export default class extends GetSelectedIdEditable {
       }
     })
   }
+
   selectAllById(ids) {
     this.selectionModel.clear()
     this.annotationData.all().map((model) => {
@@ -59,6 +68,7 @@ export default class extends GetSelectedIdEditable {
       })
     })
   }
+
   removeType(id, label) {
     let removeType = {
       id: id,
