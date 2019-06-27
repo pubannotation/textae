@@ -1,8 +1,9 @@
 import EditAttributeDialog from '../../../../../component/EditAttributeDialog'
 
-export default function(editor, editAttributeHandler, command, attributeId) {
-  const value1 = editAttributeHandler.getSelectedPred(attributeId)
-  const value2 = editAttributeHandler.getSelectedValue(attributeId)
+export default function(editor, annotationData, command, attributeId) {
+  const attribute = annotationData.attribute.get(attributeId)
+  const value1 = attribute.pred
+  const value2 = attribute.value
 
   const done = (pred, value) => {
     if (value) {
