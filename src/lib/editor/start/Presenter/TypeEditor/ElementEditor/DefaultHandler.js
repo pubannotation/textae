@@ -1,5 +1,8 @@
-export default class {
+import GetSelectedIdEditable from './GetSelectedIdEditable'
+
+export default class extends GetSelectedIdEditable {
   constructor(modelType) {
+    super()
     this.modelType = modelType || 'default'
     // The Reference to content to be shown in the pallet.
     this.typeContainer = null
@@ -21,13 +24,6 @@ export default class {
     }
   }
   changeTypeOfSelectedElement() {}
-  getSelectedIdEditable() {
-    if (this.selectionModel) {
-      return this.selectionModel.all()
-    }
-
-    return []
-  }
   getSelectedType() {
     let id = this.selectionModel.single()
 

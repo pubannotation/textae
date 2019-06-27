@@ -1,6 +1,6 @@
-import DefaultHandler from './DefaultHandler'
+import GetSelectedIdEditable from './GetSelectedIdEditable'
 
-export default class extends DefaultHandler {
+export default class extends GetSelectedIdEditable {
   constructor(typeContainer, command, annotationData, selectionModel) {
     super()
     this.typeContainer = typeContainer.attribute
