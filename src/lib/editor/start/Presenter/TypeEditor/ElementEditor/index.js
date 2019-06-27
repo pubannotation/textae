@@ -11,13 +11,13 @@ export default function(editor, annotationData, selectionModel, spanConfig, comm
 
   const editEntity = new EditEntity(editor, annotationData, selectionModel, command, modeAccordingToButton, typeContainer, spanConfig, cancelSelect)
   const editRelation = new EditRelation(editor, annotationData, selectionModel, command, typeContainer, cancelSelect)
-  const attributeHandler = () => new EditAttributeHandler(typeContainer, command, annotationData, selectionModel)
+  const editAttributeHandler = new EditAttributeHandler(typeContainer, command, annotationData, selectionModel)
 
   return {
     getHandlerType: () => handler,
     getHandler: () => getHandler(handler, editEntity, editRelation),
     getHandlerForPallet: () => getHandlerForPallet(handler, editEntity, editRelation),
-    getAttributeHandler: attributeHandler,
+    editAttributeHandler,
     start: {
       noEdit: () => {
         unbindAllEventhandler(editor)
