@@ -8,6 +8,7 @@ export default class extends GetSelectedIdEditable {
     this.annotationData = annotationData.attribute
     this.selectionModel = selectionModel.attribute
   }
+
   getEditTarget(newPred, newValue) {
     return this.selectionModel.all()
       .filter((id) => {
@@ -15,6 +16,7 @@ export default class extends GetSelectedIdEditable {
         return attribute.pred !== newPred || attribute.value !== newValue
       })
   }
+
   changeSelectedElement(newPred, newValue) {
     return this.getEditTarget(newPred, newValue)
       .map((id) => this.command.factory.attributeChangeCommand(
@@ -23,6 +25,7 @@ export default class extends GetSelectedIdEditable {
         newValue
       ))
   }
+
   getSelectedPred() {
     let id = this.selectionModel.single()
 
@@ -32,6 +35,7 @@ export default class extends GetSelectedIdEditable {
 
     return ''
   }
+
   getSelectedValue() {
     let id = this.selectionModel.single()
 
