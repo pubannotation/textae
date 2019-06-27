@@ -1,4 +1,4 @@
-import GetSelectedIdEditable from './GetSelectedIdEditable'
+import GetSelectedIdEditable from '../GetSelectedIdEditable'
 
 export default class extends GetSelectedIdEditable {
   constructor(typeContainer, command, annotationData, selectionModel) {
@@ -27,7 +27,7 @@ export default class extends GetSelectedIdEditable {
   }
 
   getSelectedPred() {
-    let id = this.selectionModel.single()
+    const id = this.selectionModel.single()
 
     if (id) {
       return this.annotationData.get(id).pred
@@ -37,7 +37,7 @@ export default class extends GetSelectedIdEditable {
   }
 
   getSelectedValue() {
-    let id = this.selectionModel.single()
+    const id = this.selectionModel.single()
 
     if (id) {
       return this.annotationData.get(id).value

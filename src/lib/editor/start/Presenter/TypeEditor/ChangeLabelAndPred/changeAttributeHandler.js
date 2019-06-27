@@ -1,4 +1,4 @@
-import EditAttributeDialog from '../../../../component/EditAttributeDialog'
+import EditAttributeDialog from '../../../../../component/EditAttributeDialog'
 
 // An handler is get on runtime, because it is changed by the edit mode.
 export default function(editor, selectionModel, editAttributeHandler, autocompletionWs) {

@@ -1,4 +1,4 @@
-import GetSelectedIdEditable from './GetSelectedIdEditable'
+import GetSelectedIdEditable from '../GetSelectedIdEditable'
 
 export default class extends GetSelectedIdEditable {
   constructor(modelType) {
