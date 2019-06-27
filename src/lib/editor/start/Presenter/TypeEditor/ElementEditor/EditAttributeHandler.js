@@ -1,4 +1,4 @@
-import DefaultHandler from '../DefaultHandler'
+import DefaultHandler from './DefaultHandler'
 
 export default class extends DefaultHandler {
   constructor(typeContainer, command, annotationData, selectionModel) {
