@@ -13,11 +13,11 @@ export default class {
     el.innerHTML = `
 <div class="${CLASS_NAMES.inputBox}">
   <label>Id:</label><br>
-  <input class="${CLASS_NAMES.value1}">
+  <input>
 </div>
 <div class="${CLASS_NAMES.inputBox}">
   <label>Label:<span></span></label><br>
-  <input class="${CLASS_NAMES.value2}">
+  <input>
 </div>
 <div class="${CLASS_NAMES.colorPicker}">
   <label>Color:<input class="${CLASS_NAMES.colorPickerInput}" type="color"></label>
