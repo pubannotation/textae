@@ -1,12 +1,12 @@
 import GetSelectedIdEditable from '../GetSelectedIdEditable'
 
 export default class extends GetSelectedIdEditable {
-  constructor(modelType, selectionModel) {
+  constructor(modelType, selectionModel, typeContainer, command) {
     super(selectionModel)
 
-    this.modelType = modelType || 'default'
-    // The Reference to content to be shown in the pallet.
-    this.typeContainer = null
+    this.modelType = modelType
+    this.typeContainer = typeContainer
+    this.command = command
   }
 
   addType(newType) {

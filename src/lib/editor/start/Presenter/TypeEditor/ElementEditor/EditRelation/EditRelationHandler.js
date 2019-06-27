@@ -2,10 +2,8 @@ import DefaultHandler from '../DefaultHandler'
 
 export default class extends DefaultHandler {
   constructor(typeContainer, command, annotationData, selectionModel) {
-    super('relation', selectionModel)
+    super('relation', selectionModel, typeContainer.relation, command)
 
-    this.typeContainer = typeContainer.relation
-    this.command = command
     this.annotationData = annotationData.relation
     this.selectionModel = selectionModel.relation
     this.clearAllSelection = () => selectionModel.clear()
