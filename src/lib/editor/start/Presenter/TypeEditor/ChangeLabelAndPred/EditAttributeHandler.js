@@ -2,7 +2,8 @@ import GetSelectedIdEditable from '../GetSelectedIdEditable'
 
 export default class extends GetSelectedIdEditable {
   constructor(annotationData, selectionModel) {
-    super()
+    super(selectionModel)
+
     this.annotationData = annotationData.attribute
     this.selectionModel = selectionModel.attribute
   }
