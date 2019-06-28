@@ -11,17 +11,18 @@ export default function(editor, namspace, typeContainer, gridRenderer, modificat
   entity.type = String(entity.type)
 
   // Append a new entity to the type
-  let $pane = getTypeElement(
+  const $pane = getTypeElement(
       namspace,
       typeContainer,
       gridRenderer,
       entity.span,
       entity.type
     )
-    .find('.textae-editor__entity-pane'),
-    entityDomId = idFactory.makeEntityDomId(editor, entity.id)
+    .find('.textae-editor__entity-pane')
 
-  if ($pane.find('#' + entityDomId).length === 0) {
+    const entityDomId = idFactory.makeEntityDomId(editor, entity.id)
+
+  if ($pane.find(`#${entityDomId}`).length === 0) {
     $pane.append(createEntityElement(editor, typeContainer, modification, entity))
     arrangePositionOfPane($pane[0])
   }
