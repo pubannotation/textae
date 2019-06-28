@@ -4,7 +4,7 @@ import removeEntityElement from './removeEntityElement'
 import removeNoEntityPaneElement from './removeNoEntityPaneElement'
 
 export default function(editor, annotationData, selectionModel, typeContainer, gridRenderer, modification, entity) {
-  let selector = new Selector(editor, annotationData)
+  const selector = new Selector(editor, annotationData)
 
   // Remove an old entity.
   const parentNode = removeEntityElement(editor, entity.id)
