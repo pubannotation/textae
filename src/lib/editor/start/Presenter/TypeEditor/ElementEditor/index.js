@@ -25,7 +25,7 @@ export default function(editor, annotationData, selectionModel, spanConfig, comm
         unbindAllEventhandler(editor)
 
         editEntity.init()
-        initiateEditAttribute(editor, annotationData, selectionModel, command)
+        initiateEditAttribute(editor, annotationData, selectionModel, command, typeContainer)
 
         handler = 'entity'
       },

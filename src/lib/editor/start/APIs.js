@@ -8,14 +8,12 @@ export default function(
 ) {
   const keyApiMap = new KeyApiMap(command, presenter, daoHandler),
     iconApiMap = new IconApiMap(command, presenter, daoHandler, buttonController, updateLineHeight),
-    popupApiMap = new PopupApiMap(command, presenter, daoHandler),
     palletApiMap = new PalletApiMap(command, presenter, daoHandler)
 
   // Update APIs
   return {
     handleKeyInput: (key, value) => handle(keyApiMap, key, value),
     handleButtonClick: (key, value) => handle(iconApiMap, key, value),
-    handlePopupClick: (key, value) => handle(popupApiMap, key, value),
     handlePalletClick: (key, value) => handle(palletApiMap, key, value),
     redraw: () => {
       view.updateDisplay()
@@ -93,13 +91,6 @@ function IconApiMap(
       ['textae.control.button.line_height.click', updateLineHeight]
     ]
   )
-}
-
-function PopupApiMap(command, presenter, daoHandler) {
-  return new Map([
-    ['textae.popup.button.add_attribute.click', presenter.event.createAttribute],
-    ['textae.popup.button.change_label.click', presenter.event.changeLabelAndPred]
-  ])
 }
 
 function PalletApiMap(command, presenter, daoHandler) {
