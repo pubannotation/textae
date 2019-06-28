@@ -6,9 +6,9 @@ export default function(
   view,
   updateLineHeight
 ) {
-  const keyApiMap = new KeyApiMap(command, presenter, daoHandler),
-    iconApiMap = new IconApiMap(command, presenter, daoHandler, buttonController, updateLineHeight),
-    palletApiMap = new PalletApiMap(command, presenter, daoHandler)
+  const keyApiMap = new KeyApiMap(command, presenter, daoHandler)
+  const iconApiMap = new IconApiMap(command, presenter, daoHandler, buttonController, updateLineHeight)
+  const palletApiMap = new PalletApiMap(command, presenter, daoHandler)
 
   // Update APIs
   return {
@@ -29,7 +29,6 @@ function handle(map, key, value) {
     map.get(key)(value)
   }
 }
-
 
 function KeyApiMap(command, presenter, daoHandler) {
   return new Map([
