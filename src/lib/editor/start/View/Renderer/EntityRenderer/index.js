@@ -1,4 +1,3 @@
-import AttributeRenderer from '../AttributeRenderer'
 import ModificationRenderer from '../ModificationRenderer'
 import createEntityUnlessBlock from './createEntityUnlessBlock'
 import changeTypeOfExists from './changeTypeOfExists'
@@ -14,7 +13,6 @@ export default class {
     this.gridRenderer = gridRenderer
     this.renderEntityHandler = renderEntityHandler
     this.selectionModel = selectionModel
-    this.renderAttribute = new AttributeRenderer(editor)
     this.modification = new ModificationRenderer(annotationData)
   }
 
@@ -29,9 +27,6 @@ export default class {
     )
 
     this.renderEntityHandler(entity)
-    for (const attribute of entity.attributes) {
-      this.renderAttribute.render(attribute)
-    }
   }
 
   change(entity) {

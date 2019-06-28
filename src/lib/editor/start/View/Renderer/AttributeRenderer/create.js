@@ -1,6 +1,7 @@
 import idFactory from '../../../../idFactory'
 import getEntityDom from '../../../getEntityDom'
-import createAttributeHtml from './createAttributeHtml'
+import appendAttribute from './appendAttribute'
+
 
 export default function(editor, attribute) {
   const entityDom = getEntityDom(editor[0], attribute.subj)
@@ -11,8 +12,6 @@ export default function(editor, attribute) {
   // Check the attribute is not rendered already because this function also is called when moving span.
   const id = idFactory.makeAttributeDomId(editor, attribute.id)
   if (!document.querySelector(`#${id}`)) {
-    const label = entityDom.parentNode.nextElementSibling
-    const html = createAttributeHtml(id, attribute)
-    label.insertAdjacentHTML('beforeend', html)
+    appendAttribute(editor, entityDom.parentNode, attribute)
   }
 }
