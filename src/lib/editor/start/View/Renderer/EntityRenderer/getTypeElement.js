@@ -11,7 +11,7 @@ export default function(namespace, typeContainer, gridRenderer, spanId, type) {
     getGrid(gridRenderer, spanId).appendChild($type[0])
   }
 
-  return $type
+  return $type[0]
 }
 
 // A Type element has an entity_pane elment that has a label and will have entities.
