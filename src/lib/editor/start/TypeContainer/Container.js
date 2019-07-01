@@ -47,7 +47,6 @@ export default function(getAllInstanceFunc, getActualTypesFunction, defaultColor
         return ret
       },
       changeDefinedType: (id, newType) => {
-        definedTypes.delete(id)
         definedTypes.set(newType.id, newType)
         emitter.emit('type.change', newType.id)
       },
