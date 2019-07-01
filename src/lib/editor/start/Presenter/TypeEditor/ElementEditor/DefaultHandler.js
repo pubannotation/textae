@@ -29,7 +29,7 @@ export default class {
     if (!oldType.id) {
       return this.command.factory.typeCreateCommand(this.typeContainer, {id: id, label: label})
     } else if (oldType.label !== label) {
-      return this.command.factory.typeChangeCommand(this.typeContainer, id, label)
+      return this.command.factory.typeChangeCommand(this.typeContainer, this.modelType, id, {label: label})
     }
   }
 
