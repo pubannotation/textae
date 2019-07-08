@@ -42,7 +42,7 @@ export default function(
       if (!editor[0].querySelector('.textae-editor__type-pallet')) {
         editor[0].appendChild(pallet.el)
       }
-      pallet.show(point.point)
+      pallet.show(point.point, typeContainer.isLock())
     },
     hidePallet: pallet.hide,
     changeLabel: () => changeLabelHandler(editor, elementEditor.getHandler, autocompletionWs),
