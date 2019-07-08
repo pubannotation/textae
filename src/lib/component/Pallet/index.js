@@ -1,6 +1,8 @@
 import Component from './Component'
 import updateDisplay from './updateDisplay'
 import $ from "jquery"
+import show from './show'
+import setNotDefinedTypesToConfig from './setNotDefinedTypesToConfig'
 
 export default class {
   constructor(editor, history, command, autocompletionWs, elementEditor) {
@@ -23,10 +25,11 @@ export default class {
 
   show(point) {
     const typeContainer = this.elementEditor.getHandlerForPallet().typeContainer
-    if (!typeContainer.isLock()) {
-      setNotDefinedTypesToConfig(typeContainer)
-    }
-    updateDisplay(this.el, this.history, typeContainer, point, this.elementEditor.getHandlerType())
+    const handlerType = this.elementEditor.getHandlerType()
+    const el = this.el
+    const history = this.history
+
+    show(typeContainer, el, history, point, handlerType)
   }
 
   hide() {
@@ -49,16 +52,4 @@ export default class {
   }
 }
 
-function setNotDefinedTypesToConfig(typeContainer) {
-  let allIds = typeContainer.getSortedIds(),
-    definedIds = typeContainer.getDefinedTypes().map((definedType) => {
-      return definedType.id
-    }),
-    notDefinedIds = allIds.filter((someId) => {
-      return definedIds.indexOf(someId) < 0
-    })
 
-  notDefinedIds.map((notDefinedId) => {
-    typeContainer.setDefinedType({id: notDefinedId})
-  })
-}
