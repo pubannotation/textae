@@ -1,8 +1,6 @@
 import Component from './Component'
 import updateDisplay from './updateDisplay'
 import $ from "jquery"
-import show from './show'
-import setNotDefinedTypesToConfig from './setNotDefinedTypesToConfig'
 
 export default class {
   constructor(editor, history, command, autocompletionWs, elementEditor) {
@@ -29,7 +27,7 @@ export default class {
     const el = this.el
     const history = this.history
 
-    show(typeContainer, el, history, point, handlerType)
+    updateDisplay(el, history, typeContainer, point, handlerType)
   }
 
   hide() {
@@ -42,10 +40,6 @@ export default class {
 }
 
 function updateSelf(typeContainer, el, history, handlerType) {
-  if (typeof typeContainer !== 'undefined' && !typeContainer.isLock()) {
-    setNotDefinedTypesToConfig(typeContainer)
-  }
-
   if (el.style.display !== 'none') {
     updateDisplay(el, history, typeContainer, null, handlerType)
   }
