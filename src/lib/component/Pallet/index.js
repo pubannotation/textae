@@ -11,12 +11,11 @@ export default class {
     this.elementEditor = elementEditor
     this.el = new Component(editor, command, autocompletionWs, elementEditor)
 
-    // selfUpdate will be called in an event, so need to bind 'this'.
-    const selfUpdate = this.selfUpdate.bind(this)
-    const hide = this.hide.bind(this)
-
-    this.editor.eventEmitter.on('textae.pallet.update', () => this.selfUpdate())
-    this.editor.eventEmitter.on('textae.pallet.close', hide)
+    // Bind event
+    this.editor.eventEmitter.on('textae.pallet.update', () => {
+      updateSelf(this.elementEditor.getHandlerForPallet().typeContainer, this.el, this.history, this.elementEditor.getHandlerType())
+    })
+    this.editor.eventEmitter.on('textae.pallet.close', () => this.hide())
 
     // let the pallet draggable.
     $(this.el).draggable({
@@ -40,17 +39,13 @@ export default class {
   visibly() {
     return this.el.style.display !== 'none'
   }
-
-  selfUpdate() {
-    const typeContainer = this.elementEditor.getHandlerForPallet().typeContainer
-    if (typeof typeContainer !== 'undefined' && !typeContainer.isLock()) {
-      setNotDefinedTypesToConfig(typeContainer)
-    }
-
-    if (this.el.style.display !== 'none') {
-      updateDisplay(this.el, this.history, typeContainer, null, this.elementEditor.getHandlerType())
-    }
-  }
 }
 
-
+function updateSelf(typeContainer, el, history, handlerType) {
+  if (typeof typeContainer !== 'undefined' && !typeContainer.isLock()) {
+    setNotDefinedTypesToConfig(typeContainer);
+  }
+  if (el.style.display !== 'none') {
+    updateDisplay(el, history, typeContainer, null, handlerType);
+  }
+}
