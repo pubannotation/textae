@@ -1,5 +1,5 @@
 import Handlebars from 'handlebars'
-import CLASS_NAMES from './className'
+import CLASS_NAMES from '../className'
 
 const html = `
 <tr>
@@ -47,11 +47,11 @@ const html = `
 {{/unless}}
 `
 
-let template = Handlebars.compile(html)
+const template = Handlebars.compile(html)
 
 export default function(typeContainer) {
-  let labelUseCountMap = typeContainer.countTypeUse(),
-    types = typeContainer
+  const labelUseCountMap = typeContainer.countTypeUse()
+  const types = typeContainer
     .getSortedIds()
     .map(id => {
       return {
