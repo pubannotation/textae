@@ -4,9 +4,9 @@ import commandLog from './commandLog'
 class TypeChangeCommand extends BaseCommand {
   constructor(editor, annotationData, typeContainer, modelType, id, changeValues, revertDefaultTypeId) {
     super(function() {
-      let oldType = typeContainer.getDefinedType(id),
-        newType = Object.assign({}, oldType),
-        revertChangeValues = {}
+      const oldType = typeContainer.getDefinedType(id)
+      const newType = Object.assign({}, oldType)
+      const revertChangeValues = {}
 
       // change config
       Object.keys(changeValues).forEach((key) => {
