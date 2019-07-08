@@ -2,9 +2,8 @@ import BaseCommand from './BaseCommand'
 import commandLog from './commandLog'
 
 class TypeChangeCommand extends BaseCommand {
-  constructor(editor, annotationData, typeContainer, modelType, id, changeValues, revertDefaultTypeId) {
+  constructor(editor, annotationData, typeContainer, modelType, oldType, changeValues, revertDefaultTypeId) {
     super(function() {
-      const oldType = typeContainer.getDefinedType(id)
       const newType = Object.assign({}, oldType)
       const revertChangeValues = {}
 
@@ -18,7 +17,7 @@ class TypeChangeCommand extends BaseCommand {
           revertChangeValues[key] = typeof oldType[key] === 'undefined' ? null : oldType[key]
         }
       })
-      typeContainer.changeDefinedType(id, newType)
+      typeContainer.changeDefinedType(oldType.id, newType)
 
       // manage default type
       if (newType.default) {

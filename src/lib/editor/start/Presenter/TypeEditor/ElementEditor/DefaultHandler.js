@@ -19,8 +19,8 @@ export default class {
     return this.command.factory.typeCreateCommand(this.typeContainer, newType)
   }
 
-  changeType(id, newType) {
-    return this.command.factory.typeChangeCommand(this.typeContainer, this.modelType, id, newType)
+  changeType(oldType, newType) {
+    return this.command.factory.typeChangeCommand(this.typeContainer, this.modelType, oldType, newType)
   }
 
   changeLabelOfId(id, label) {
