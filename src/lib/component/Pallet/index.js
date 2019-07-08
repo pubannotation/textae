@@ -12,9 +12,10 @@ export default class {
     this.el = new Component(editor, command, autocompletionWs, elementEditor)
 
     // selfUpdate will be called in an event, so need to bind 'this'.
-    let selfUpdate = this.selfUpdate.bind(this),
-      hide = this.hide.bind(this)
-    this.editor.eventEmitter.on('textae.pallet.update', selfUpdate)
+    const selfUpdate = this.selfUpdate.bind(this)
+    const hide = this.hide.bind(this)
+
+    this.editor.eventEmitter.on('textae.pallet.update', () => this.selfUpdate())
     this.editor.eventEmitter.on('textae.pallet.close', hide)
 
     // let the pallet draggable.
