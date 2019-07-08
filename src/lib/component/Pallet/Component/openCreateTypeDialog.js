@@ -1,9 +1,9 @@
 import EditTypeDialog from "../EditTypeDialog"
 import triggerUpdatePallet from "./triggerUpdatePallet"
 
-export default function(elementEditor, e, typeContainer, editor, autocompletionWs) {
+export default function(elementEditor, editor, autocompletionWs) {
   const handler = elementEditor.getHandlerForPallet()
-  const defaultColor = typeContainer[handler.modelType].getDefaultColor()
+
   const done = (newId, newLabel, newColor, newDefault) => {
     if (newId === '') {
       return
@@ -25,7 +25,10 @@ export default function(elementEditor, e, typeContainer, editor, autocompletionW
     handler.command.invoke([handler.addType(newType)], ['configuration'])
     triggerUpdatePallet(editor)
   }
+
   const dialog = new EditTypeDialog(editor, handler.typeContainer, done, autocompletionWs, 'Please create a new type')
+  const defaultColor = handler.typeContainer.getDefaultColor()
+
   dialog.update(null, '', defaultColor, false)
   dialog.open()
 }

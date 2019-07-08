@@ -5,9 +5,9 @@ import checkButtonEnable from './checkButtonEnable'
 import triggerUpdatePallet from './triggerUpdatePallet'
 import openEditTypeDialog from './openEditTypeDialog'
 
-export default function(pallet, elementEditor, typeContainer, editor, autocompletionWs, command) {
+export default function(pallet, elementEditor, editor, autocompletionWs, command) {
   delegate(pallet, `.${CLASS_NAMES.buttonAdd}`, 'click', (e) => {
-    openCreateTypeDialog(elementEditor, e, typeContainer, editor, autocompletionWs)
+    openCreateTypeDialog(elementEditor, editor, autocompletionWs)
   })
 
   delegate(pallet, `.${CLASS_NAMES.buttonRead}`, 'click', (e) => {

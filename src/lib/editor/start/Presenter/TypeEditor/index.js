@@ -28,9 +28,7 @@ export default function(
   const pallet = new Pallet(
     editor,
     history,
-    annotationData,
     command,
-    typeContainer,
     autocompletionWs,
     elementEditor
   )
