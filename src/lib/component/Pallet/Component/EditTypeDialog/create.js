@@ -1,5 +1,5 @@
 import delegate from 'delegate'
-import EditorDialog from '../../dialog/EditorDialog'
+import EditorDialog from '../../../dialog/EditorDialog'
 import CLASS_NAMES from './className'
 
 export default function(editor, el, inputs, title) {

@@ -1,4 +1,4 @@
-import EditTypeDialog from "../EditTypeDialog"
+import EditTypeDialog from "./EditTypeDialog"
 import triggerUpdatePallet from "./triggerUpdatePallet"
 
 export default function(elementEditor, editor, autocompletionWs) {

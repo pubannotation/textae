@@ -1,4 +1,4 @@
-import EditTypeDialog from "../EditTypeDialog"
+import EditTypeDialog from "./EditTypeDialog"
 import invokeChangeTypeCommand from './invokeChangeTypeCommand'
 
 export default function(elementEditor, e, editor, autocompletionWs) {
