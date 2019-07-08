@@ -10,7 +10,7 @@ import getDefaultTypeAutomatically from './getDefaultTypeAutomatically'
 import getLabelOrColor from './getLabelOrColor'
 import getSortedIds from './getSortedIds'
 
-export default function(getAllInstanceFunc, defaultColor, isLockFunc, lockEditFunc, unlockEditFunc) {
+export default function(getAllInstanceFunc, defaultColor, isLockFunc) {
   let definedTypes = new Map(),
     defaultType = null,
     isSetDefaultTypeManually = false
@@ -18,8 +18,6 @@ export default function(getAllInstanceFunc, defaultColor, isLockFunc, lockEditFu
   const emitter = new EventEmitter(),
     api = {
       isLock: isLockFunc,
-      lockEdit: lockEditFunc,
-      unlockEdit: unlockEditFunc,
       setDefinedType: (newType) => {
         if (typeof newType.color === 'undefined') {
           let forwardMatchColor = api.getColor(newType.id)
