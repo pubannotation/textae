@@ -68,23 +68,23 @@
         width: 16px;
         height: 16px;
         cursor: pointer;
-        &--add {
-            &:before {
-                .fontAwesomeIcon("\f067");
-                top: 1px;
-                left: 0;
-                font-size: 1.5em;
-                color: #444;
-            }
+    }
+    &__add-button {
+        &:before {
+            .fontAwesomeIcon("\f067");
+            top: 1px;
+            left: 0;
+            font-size: 1.5em;
+            color: #444;
         }
-        &--read {
-            background: url(images/btn_read_16.png);
-        }
-        &--write {
-            background: url(images/btn_write_16.png);
-            &--transit {
-                background: url(images/btn_write_modified_16.png);
-            }
+    }
+    &__read-button {
+        background: url(images/btn_read_16.png);
+    }
+    &__write-button {
+        background: url(images/btn_write_16.png);
+        &--transit {
+            background: url(images/btn_write_modified_16.png);
         }
     }
     &__hide-when-locked {
