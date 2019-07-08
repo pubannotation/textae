@@ -43,9 +43,10 @@ export default class {
 
 function updateSelf(typeContainer, el, history, handlerType) {
   if (typeof typeContainer !== 'undefined' && !typeContainer.isLock()) {
-    setNotDefinedTypesToConfig(typeContainer);
+    setNotDefinedTypesToConfig(typeContainer)
   }
+
   if (el.style.display !== 'none') {
-    updateDisplay(el, history, typeContainer, null, handlerType);
+    updateDisplay(el, history, typeContainer, null, handlerType)
   }
 }
