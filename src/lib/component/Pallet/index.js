@@ -21,8 +21,8 @@ export default class {
     })
   }
 
-  show(typeContainer, point) {
-    this.typeContainer = typeContainer
+  show(point) {
+    const typeContainer = this.elementEditor.getHandlerForPallet().typeContainer
     if (!typeContainer.isLock()) {
       setNotDefinedTypesToConfig(typeContainer)
     }
@@ -38,12 +38,13 @@ export default class {
   }
 
   selfUpdate() {
-    if (typeof this.typeContainer !== 'undefined' && !this.typeContainer.isLock()) {
-      setNotDefinedTypesToConfig(this.typeContainer)
+    const typeContainer = this.elementEditor.getHandlerForPallet().typeContainer
+    if (typeof typeContainer !== 'undefined' && !typeContainer.isLock()) {
+      setNotDefinedTypesToConfig(typeContainer)
     }
 
     if (this.el.style.display !== 'none') {
-      updateDisplay(this.el, this.history, this.typeContainer, null, this.elementEditor.getHandlerType())
+      updateDisplay(this.el, this.history, typeContainer, null, this.elementEditor.getHandlerType())
     }
   }
 }
