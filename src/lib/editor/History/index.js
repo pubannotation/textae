@@ -2,33 +2,22 @@ import {
   EventEmitter as EventEmitter
 }
 from 'events'
-import _ from 'underscore'
 import KINDS from '../start/Command/Factory/kinds'
 
 // histories of edit to undo and redo.
 export default function() {
-  let
-    lastSaveIndexes = initIndexes(),
-    lastEditIndexes = initIndexes(),
-    pointer = -1,
-    histories = [],
-    hasAnythingToUndo = () => pointer > -1,
-    hasAnythingToRedo = () => pointer < histories.length - 1,
-    hasAnythingToSave = (kind) => lastEditIndexes[kind] !== lastSaveIndexes[kind],
-    emitter = new EventEmitter(),
-    trigger = () => {
-      emitter.emit('change', {
-        hasAnythingToSaveAnnotation: hasAnythingToSave(KINDS.anno),
-        hasAnythingToSaveConfiguration: hasAnythingToSave(KINDS.conf),
-        hasAnythingToUndo: hasAnythingToUndo(),
-        hasAnythingToRedo: hasAnythingToRedo()
-      })
-    }
+  const lastSaveIndexes = initIndexes()
+  const lastEditIndexes = initIndexes()
+  let pointer = -1
+  const histories = []
+  const hasAnythingToUndo = () => pointer > -1
+  const hasAnythingToRedo = () => pointer < histories.length - 1
+  const hasAnythingToSave = (kind) => lastEditIndexes[kind] !== lastSaveIndexes[kind]
+  const emitter = new EventEmitter()
 
-  return _.extend(emitter, {
+  return Object.assign(emitter, {
     reset: (kind) => {
-      let historyLen = histories.length
-      let adjustOtherKindIndexesFunc = (kind) => {
+      const adjustOtherKindIndexesFunc = (kind) => {
         lastSaveIndexes[kind]--
         lastEditIndexes[kind]--
       }
@@ -43,34 +32,39 @@ export default function() {
 
       lastSaveIndexes[kind] = -1
       lastEditIndexes[kind] = -1
-      trigger()
+      trigger(emitter, hasAnythingToSave, hasAnythingToUndo, hasAnythingToRedo)
     },
     push: (commands, kinds) => {
-      let historyMap = {kind: kinds, commands: commands}
+      const historyMap = {kind: kinds, commands: commands}
+
       histories.splice(pointer + 1, histories.length - pointer, historyMap)
       pointer++
       kinds.forEach((kind) => {
         lastEditIndexes[kind] = pointer
       })
-      trigger()
+      trigger(emitter, hasAnythingToSave, hasAnythingToUndo, hasAnythingToRedo)
     },
     next: () => {
       pointer++
-      let nextEdit = histories[pointer]
+      const nextEdit = histories[pointer]
+
       nextEdit.kind.forEach((kind) => {
         lastEditIndexes[kind] = pointer
       })
-      trigger()
+      trigger(emitter, hasAnythingToSave, hasAnythingToUndo, hasAnythingToRedo)
+
       return nextEdit.commands
     },
     prev: () => {
-      let lastEdit = histories[pointer]
+      const lastEdit = histories[pointer]
+
       pointer--
+
       lastEdit.kind.forEach((kind) => {
         if (pointer === -1) {
           lastEditIndexes[kind] = -1
         } else {
-          let beforeGoBack = lastEditIndexes[kind]
+          const beforeGoBack = lastEditIndexes[kind]
           // Go back index one by one, because we don't know the prev history has same kind as the last edit history.
           for (let i = pointer; i >= 0; i--) {
             if (histories[i].kind.indexOf(kind) !== -1) {
@@ -85,12 +79,13 @@ export default function() {
           }
         }
       })
-      trigger()
+      trigger(emitter, hasAnythingToSave, hasAnythingToUndo, hasAnythingToRedo)
+
       return lastEdit.commands
     },
     saved: (kind) => {
       lastSaveIndexes[kind] = lastEditIndexes[kind]
-      trigger()
+      trigger(emitter, hasAnythingToSave, hasAnythingToUndo, hasAnythingToRedo)
     },
     hasAnythingToSave: hasAnythingToSave,
     hasAnythingToUndo: hasAnythingToUndo,
@@ -99,9 +94,18 @@ export default function() {
 }
 
 function initIndexes() {
-  let map = {}
+  const map = {}
   Object.keys(KINDS).forEach((kind) => {
     map[KINDS[kind]] = -1
   })
   return map
+}
+
+function trigger(emitter, hasAnythingToSave, hasAnythingToUndo, hasAnythingToRedo) {
+  emitter.emit('change', {
+    hasAnythingToSaveAnnotation: hasAnythingToSave(KINDS.anno),
+    hasAnythingToSaveConfiguration: hasAnythingToSave(KINDS.conf),
+    hasAnythingToUndo: hasAnythingToUndo(),
+    hasAnythingToRedo: hasAnythingToRedo()
+  })
 }
