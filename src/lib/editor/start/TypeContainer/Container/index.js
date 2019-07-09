@@ -96,7 +96,8 @@ export default class extends EventEmitter {
   getDefaultColor() {
     return this.defaultColor
   }
-  getColor(id, dismissForwardMatch = false) { 
+
+  getColor(id, dismissForwardMatch = false) {
     return getLabelOrColor('color', this.definedTypes, id, this.defaultColor, dismissForwardMatch)
   }
 
