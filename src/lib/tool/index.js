@@ -28,8 +28,8 @@ function redrawOnResize(editors) {
     .addEventListener('resize', throttle(() => editors.redraw(), 500))
 }
 
-function registerEditor(contaier, editor) {
-  contaier.push(editor)
+function registerEditor(container, editor) {
+  container.push(editor)
 
   setVeilObserver(editor[0])
 }
