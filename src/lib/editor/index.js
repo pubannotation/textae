@@ -1,6 +1,3 @@
-const CONFIRM_DISCARD_CHANGE_MESSAGE = 'There is a change that has not been saved. If you procceed now, you will lose it.'
-
-import Observable from 'observ'
 import DataAccessObject from '../component/DataAccessObject'
 import ButtonController from '../buttonModel/ButtonController'
 import Writable from '../buttonModel/Writable'
@@ -16,20 +13,20 @@ import {
 }
 from 'events'
 
+const CONFIRM_DISCARD_CHANGE_MESSAGE = 'There is a change that has not been saved. If you procceed now, you will lose it.'
 
 export default function() {
-  let annotationData = new Model(this).annotationData,
-    // A contaier of selection state.
-    selectionModel = new Selection(annotationData),
-    history = new History(),
-    clipBoard = {
-      // clipBoard has entity type.
-      clipBoard: []
-    },
-    buttonController = new ButtonController(this, annotationData, selectionModel, clipBoard),
-    dataAccessObject = new DataAccessObject(this, CONFIRM_DISCARD_CHANGE_MESSAGE)
-
-  let writable = new Writable()
+  const annotationData = new Model(this).annotationData
+  // A contaier of selection state.
+  const selectionModel = new Selection(annotationData)
+  const history = new History()
+  const clipBoard = {
+    // clipBoard has entity type.
+    clipBoard: []
+  }
+  const buttonController = new ButtonController(this, annotationData, selectionModel, clipBoard)
+  const dataAccessObject = new DataAccessObject(this, CONFIRM_DISCARD_CHANGE_MESSAGE)
+  const writable = new Writable()
 
   observe.observeModelChange(annotationData, history, writable)
   observe.observeHistoryChange(
