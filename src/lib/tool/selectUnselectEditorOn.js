@@ -1,3 +1,5 @@
+import selectEditor from "./selectEditor"
+
 export default function(editors) {
   // The blur events always occurs each focus changing.
   // For example, blur events always occurs when the labels in the pallet is clicked.
@@ -9,12 +11,7 @@ export default function(editors) {
   // The click events are not fired on changing the selection by the tab key.
   document.body.addEventListener('focus', (e) => {
     const editor = editors.findByDom(e.target.closest('.textae-editor'))
-    if (editor) {
-      if (editors.selected && editor[0] !== editors.selected[0]) {
-        editors.unselect(editors.selected)
-      }
-      editors.selected = editor
-    }
+    selectEditor(editors, editor)
   }, true)
 
   // Unselect the editor when a child element of other than the editor is clicked.
