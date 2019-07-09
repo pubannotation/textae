@@ -1,3 +1,3 @@
-const jQuery = require('static-jquery')
-const nonGlobal = jQuery.noConflict(true)
-module.exports = nonGlobal
+import {noConflict} from 'static-jquery'
+const nonGlobal = noConflict(true)
+export default nonGlobal
