@@ -1,4 +1,5 @@
 import Container from './Container'
+import setContainerDefinedTypes from './setContainerDefinedTypes'
 
 export default function(annotationData) {
   let isLockState = false
@@ -32,22 +33,6 @@ export default function(annotationData) {
         // 'attribute types': attributeContainer.getDefinedTypes(),
         'relation types': relationContaier.getDefinedTypes()
       }
-    }
-  }
-}
-
-function setContainerDefinedTypes(container, newDefinedTypes) {
-  // expected newDefinedTypes is an array of object. example of object is {"name": "Regulation","color": "#FFFF66","default": true}.
-  if (newDefinedTypes !== undefined) {
-    container.setDefinedTypes(newDefinedTypes)
-
-    const defaultFromDefinedTypes = newDefinedTypes
-      .filter((type) => type.default === true)
-      .map((type) => type.id)
-      .shift()
-
-    if (defaultFromDefinedTypes) {
-      container.setDefaultType(defaultFromDefinedTypes)
     }
   }
 }
