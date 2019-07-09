@@ -20,7 +20,7 @@ export default function(domPositionCache, relationRenderer, buttonStateHelper, t
     attributeRenderer = new AttributeRenderer(editor),
     spanRenderer = new SpanRenderer(
       annotationData,
-      typeContainer.entity.isBlock,
+      (type) => typeContainer.entity.isBlock(type),
       (entity) => entityRenderer.render(entity)
     )
 
