@@ -8,14 +8,14 @@ export default function(annotationData) {
   const unlockEdit = () => isLockState = false
 
   const entityContainer = Object.assign(
-      new Container(() => annotationData.entity.all(), '#77DDDD'), {
-        isBlock: (type) => {
-          const definition = entityContainer.getDefinedType(type)
-          return definition && definition.type && definition.type === 'block'
-        }
-      }),
-    attributeContainer = new Container(() => annotationData.attribute.all(), '#77DDDD'),
-    relationContaier = new Container(() => annotationData.relation.all(), '#555555')
+    new Container(() => annotationData.entity.all(), '#77DDDD'), {
+      isBlock: (type) => {
+        const definition = entityContainer.getDefinedType(type)
+        return definition && definition.type && definition.type === 'block'
+      }
+    })
+  const attributeContainer = new Container(() => annotationData.attribute.all(), '#77DDDD')
+  const relationContaier = new Container(() => annotationData.relation.all(), '#555555')
 
   return {
     isLock,
