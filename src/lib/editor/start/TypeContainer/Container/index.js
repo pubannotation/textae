@@ -5,10 +5,11 @@ from 'events'
 import DEFAULTS from '../defaults'
 import uri from '../../../uri'
 import setDefaultTypeToDefinedTypes from './setDefaultTypeToDefinedTypes'
-import countTypeUse from './countTypeUse'
+import createCountMap from './createCountMap'
 import getDefaultTypeAutomatically from './getDefaultTypeAutomatically'
 import getLabelOrColor from './getLabelOrColor'
 import sortByCountAndName from './sortByCountAndName'
+import createTypesWithoutInstance from './createTypesWithoutInstance'
 
 export default class extends EventEmitter {
   constructor(getAllInstanceFunc, defaultColor) {
@@ -72,12 +73,12 @@ export default class extends EventEmitter {
   }
 
   countTypeUse() {
-    return countTypeUse(this.getAllInstanceFunc)
+    return createCountMap(this.getAllInstanceFunc())
   }
 
   getDefaultType() {
     if (!this.isSetDefaultTypeManually) {
-      const id = getDefaultTypeAutomatically(this.getAllInstanceFunc)
+      const id = getDefaultTypeAutomatically(this.getAllInstanceFunc())
       this.defaultType = id
       setDefaultTypeToDefinedTypes(this.definedTypes, id)
     }
@@ -110,8 +111,11 @@ export default class extends EventEmitter {
   }
 
   getSortedIds() {
-    const map = countTypeUse(this.getAllInstanceFunc)
-    return sortByCountAndName(map)
+    const allInstance = this.getAllInstanceFunc()
+    const countMap = createCountMap(allInstance)
+    const typesWithoutInstance = createTypesWithoutInstance(this.definedTypes.keys(), countMap)
+
+    return sortByCountAndName(countMap).concat(typesWithoutInstance)
   }
 
   remove(id) {
@@ -119,3 +123,4 @@ export default class extends EventEmitter {
     super.emit('type.change', id)
   }
 }
+

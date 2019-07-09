@@ -1,5 +1,5 @@
-export default function(getAllInstanceFunc) {
-  return getAllInstanceFunc().reduce((countMap, instance) => {
+export default function(instances) {
+  return instances.reduce((countMap, instance) => {
     const type = instance.type
 
     if (countMap.has(type)) {

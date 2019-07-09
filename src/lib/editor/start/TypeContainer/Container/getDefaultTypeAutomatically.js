@@ -1,8 +1,8 @@
 import DEFAULTS from '../defaults'
-import countTypeUse from './countTypeUse'
+import countTypeUse from './createCountMap'
 
-export default function(getAllInstanceFunc) {
-  const countMap = countTypeUse(getAllInstanceFunc)
+export default function(instances) {
+  const countMap = countTypeUse(instances)
 
   if (!countMap || countMap.size === 0) {
     return DEFAULTS.type
