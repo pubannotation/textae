@@ -17,31 +17,31 @@ import validateConfiguration from '../Model/AnnotationData/validateConfiguration
 import toastr from 'toastr'
 
 export default function(editor, dataAccessObject, history, buttonController, annotationData, selectionModel, clipBoard, writable) {
-  const params = getParams(editor[0]),
-    spanConfig = new SpanConfig(),
-    // Users can edit model only via commands.
-    command = new Command(editor, annotationData, selectionModel, history),
-    typeGap = new Observable({
-      value: -1,
-      showInstance: false
-    }),
-    typeContainer = new TypeContainer(annotationData),
-    view = new View(editor, annotationData, selectionModel, buttonController, typeGap, typeContainer),
-    presenter = new Presenter(
-      editor,
-      history,
-      annotationData,
-      selectionModel,
-      command,
-      spanConfig,
-      clipBoard,
-      buttonController,
-      typeGap,
-      typeContainer,
-      writable,
-      params.get('autocompletion_ws'),
-      params.get('mode')
-    )
+  const params = getParams(editor[0])
+  const spanConfig = new SpanConfig()
+  // Users can edit model only via commands.
+  const command = new Command(editor, annotationData, selectionModel, history)
+  const typeGap = new Observable({
+    value: -1,
+    showInstance: false
+  })
+  const typeContainer = new TypeContainer(annotationData)
+  const view = new View(editor, annotationData, selectionModel, buttonController, typeGap, typeContainer)
+  const presenter = new Presenter(
+    editor,
+    history,
+    annotationData,
+    selectionModel,
+    command,
+    spanConfig,
+    clipBoard,
+    buttonController,
+    typeGap,
+    typeContainer,
+    writable,
+    params.get('autocompletion_ws'),
+    params.get('mode')
+  )
 
   bindMouseEvent(editor, presenter, view)
   focusEditorWhenFocusedChildRemoved(editor)
@@ -56,12 +56,13 @@ export default function(editor, dataAccessObject, history, buttonController, ann
       typeContainer,
       () => originalAnnotation,
       params.get('annotation')
-    ),
-    statusBar = getStatusBar(editor, params.get('status_bar'))
+    )
+  const statusBar = getStatusBar(editor, params.get('status_bar'))
 
   if (params.get('control') === 'visible') {
     editor[0].classList.add('textae-editor--control-visible')
   }
+
   if (params.get('control') === 'hidden') {
     editor[0].classList.add('textae-editor--control-hidden')
   }
@@ -69,6 +70,7 @@ export default function(editor, dataAccessObject, history, buttonController, ann
   editor.eventEmitter.on('textae.message-box.hide', () => {
     cookieHandler().set('hide-message-box', 'true', {path: '/'})
   })
+
   editor.eventEmitter.on('textae.message-box.show', () => {
     cookieHandler().set('hide-message-box', 'false', {path: '/'})
   })
@@ -77,6 +79,7 @@ export default function(editor, dataAccessObject, history, buttonController, ann
     typeContainer.lockEdit()
     editor[0].classList.add('textae-editor--configuration-uneditable')
   })
+
   editor.eventEmitter.on('textae.config.unlock', () => {
     typeContainer.unlockEdit()
     editor[0].classList.add('textae-editor--configuration-editable')
@@ -84,7 +87,7 @@ export default function(editor, dataAccessObject, history, buttonController, ann
 
   // Over write editor-div's config lock state by url's.
   // Url's default is 'unlock', so its default is also 'unlock'.
-  let configEditFromUrl = getConfigEditParamFromUrl(params.get('source'))
+  const configEditFromUrl = getConfigEditParamFromUrl(params.get('source'))
   if (configEditFromUrl !== null) {
     params.set('config_lock', configEditFromUrl)
   }
