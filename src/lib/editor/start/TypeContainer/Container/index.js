@@ -8,7 +8,7 @@ import setDefaultTypeToDefinedTypes from './setDefaultTypeToDefinedTypes'
 import countTypeUse from './countTypeUse'
 import getDefaultTypeAutomatically from './getDefaultTypeAutomatically'
 import getLabelOrColor from './getLabelOrColor'
-import getSortedIds from './getSortedIds'
+import sortByCountAndName from './sortByCountAndName'
 
 export default class extends EventEmitter {
   constructor(getAllInstanceFunc, defaultColor) {
@@ -110,7 +110,8 @@ export default class extends EventEmitter {
   }
 
   getSortedIds() {
-    return getSortedIds(countTypeUse(this.getAllInstanceFunc))
+    const map = countTypeUse(this.getAllInstanceFunc)
+    return sortByCountAndName(map)
   }
 
   remove(id) {
