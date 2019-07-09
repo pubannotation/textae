@@ -1,6 +1,6 @@
 import EditRelation from './EditRelation'
 import EditEntity from './EditEntity'
-import unbindAllEventhandler from './unbindAllEventhandler'
+import unbindAllMouseEventhandler from './unbindAllMouseEventhandler'
 import getHandler from './getHandler'
 import getHandlerForPallet from './getHandlerForPallet'
 import initiateEditAttribute from './initiateEditAttribute'
@@ -18,11 +18,11 @@ export default function(editor, annotationData, selectionModel, spanConfig, comm
     getHandlerForPallet: () => getHandlerForPallet(handler, editEntity, editRelation),
     start: {
       noEdit: () => {
-        unbindAllEventhandler(editor)
+        unbindAllMouseEventhandler(editor)
         handler = 'default'
       },
       editEntity: () => {
-        unbindAllEventhandler(editor)
+        unbindAllMouseEventhandler(editor)
 
         editEntity.init()
         initiateEditAttribute(editor, annotationData, selectionModel, command, typeContainer)
@@ -30,7 +30,7 @@ export default function(editor, annotationData, selectionModel, spanConfig, comm
         handler = 'entity'
       },
       editRelation: () => {
-        unbindAllEventhandler(editor)
+        unbindAllMouseEventhandler(editor)
 
         editRelation.init()
         handler = 'relation'
