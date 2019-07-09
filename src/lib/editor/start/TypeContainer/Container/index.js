@@ -72,10 +72,6 @@ export default class extends EventEmitter {
     this.isSetDefaultTypeManually = true
   }
 
-  countTypeUse() {
-    return createCountMap(this.getAllInstanceFunc())
-  }
-
   getDefaultType() {
     if (!this.isSetDefaultTypeManually) {
       const id = getDefaultTypeAutomatically(this.getAllInstanceFunc())
@@ -110,12 +106,22 @@ export default class extends EventEmitter {
     return uri.getUrlMatches(id) ? id : undefined
   }
 
-  getSortedIds() {
+  get typeDefinition() {
     const allInstance = this.getAllInstanceFunc()
     const countMap = createCountMap(allInstance)
     const typesWithoutInstance = createTypesWithoutInstance(this.definedTypes.keys(), countMap)
+    const types = sortByCountAndName(countMap).concat(typesWithoutInstance)
 
-    return sortByCountAndName(countMap).concat(typesWithoutInstance)
+    return types.map(id => {
+        return {
+          id,
+          label: this.getLabel(id, true),
+          defaultType: id === this.getDefaultType(),
+          uri: this.getUri(id),
+          color: this.getColor(id, true),
+          useNumber: countMap.get(id)
+        }
+      })
   }
 
   remove(id) {

@@ -50,19 +50,5 @@ const html = `
 const template = Handlebars.compile(html)
 
 export default function(typeContainer) {
-  const labelUseCountMap = typeContainer.countTypeUse()
-  const types = typeContainer
-    .getSortedIds()
-    .map(id => {
-      return {
-        id,
-        label: typeContainer.getLabel(id, true),
-        defaultType: id === typeContainer.getDefaultType(),
-        uri: typeContainer.getUri(id),
-        color: typeContainer.getColor(id, true),
-        useNumber: labelUseCountMap.get(id)
-      }
-    })
-
-  return template(types)
+  return template(typeContainer.typeDefinition)
 }
