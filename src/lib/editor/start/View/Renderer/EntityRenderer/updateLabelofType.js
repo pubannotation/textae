@@ -10,5 +10,5 @@ export default function(annotationData, typeContainer, type) {
     .filter(typeDom => typeDom)
     .map(typeDom => typeDom.querySelector('.textae-editor__type-label'))
     .filter(label => label)
-    .forEach(label => updateLabel(label, annotationData, typeContainer, type))
+    .forEach(label => updateLabel(label, annotationData.namespace, typeContainer, type))
 }
