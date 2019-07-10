@@ -1,8 +1,8 @@
-import Container from './Container'
+import EditableContainer from './EditableContainer'
 
-export default class extends Container {
-  constructor(getAllInstanceFunc, defaultColor) {
-    super(getAllInstanceFunc, defaultColor)
+export default class extends EditableContainer {
+  constructor(getAllInstanceFunc, defaultColor, getLockStateFunc) {
+    super(getAllInstanceFunc, defaultColor, getLockStateFunc)
   }
 
   isBlock(type) {

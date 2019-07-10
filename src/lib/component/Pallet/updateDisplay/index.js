@@ -10,11 +10,11 @@ import setHeightWithinWindow from './setHeightWithinWindow'
 import updateWriteButton from './updateWriteButton'
 import moveIntoWindow from './moveIntoWindow'
 
-export default function(pallet, history, typeContainer, point, handlerType, isLock) {
+export default function(pallet, history, typeContainer, point, handlerType) {
   if (typeContainer) {
     clear(pallet)
     appendRows(pallet, typeContainer)
-    updateLockState(pallet, isLock)
+    updateLockState(pallet, typeContainer.isLock)
     updateTitle(pallet, handlerType)
     updateNoConfigText(pallet, handlerType)
     updateBGColorClass(pallet, handlerType)

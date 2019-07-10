@@ -21,13 +21,13 @@ export default class {
     })
   }
 
-  show(point, isLock) {
+  show(point) {
     const typeContainer = this.elementEditor.getHandlerForPallet().typeContainer
     const handlerType = this.elementEditor.getHandlerType()
     const el = this.el
     const history = this.history
 
-    updateDisplay(el, history, typeContainer, point, handlerType, isLock)
+    updateDisplay(el, history, typeContainer, point, handlerType)
   }
 
   hide() {

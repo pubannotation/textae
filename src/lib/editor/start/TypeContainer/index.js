@@ -1,19 +1,20 @@
+import EntityContainer from './EntityContainer'
+import EditableContainer from './EditableContainer'
 import Container from './Container'
 import setContainerDefinedTypes from './setContainerDefinedTypes'
-import EntityContainer from './EntityContainer'
 
 export default function(annotationData) {
   let isLockState = false
-  const isLock = () => isLockState
+  const getLockStateFunc = () => isLockState
   const lockEdit = () => isLockState = true
   const unlockEdit = () => isLockState = false
 
-  const entityContainer = new EntityContainer(() => annotationData.entity.all(), '#77DDDD')
+  const entityContainer = new EntityContainer(() => annotationData.entity.all(), '#77DDDD', getLockStateFunc)
+  const relationContaier = new EditableContainer(() => annotationData.relation.all(), '#555555', getLockStateFunc)
   const attributeContainer = new Container(() => annotationData.attribute.all(), '#77DDDD')
-  const relationContaier = new Container(() => annotationData.relation.all(), '#555555')
 
   return {
-    isLock,
+    isLock: getLockStateFunc,
     lockEdit,
     unlockEdit,
     entity: entityContainer,
