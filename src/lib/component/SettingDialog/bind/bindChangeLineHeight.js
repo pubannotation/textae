@@ -1,5 +1,5 @@
 import debounce300 from "./debounce300"
-import * as lineHeight from '../../../../editor/start/View/lineHeight'
+import * as lineHeight from '../../../editor/start/View/lineHeight'
 import redrawAllEditor from "./redrawAllEditor"
 
 export default function($content, editor) {

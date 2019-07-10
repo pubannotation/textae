@@ -1,5 +1,5 @@
 import debounce300 from "./debounce300"
-import updateLineHeight from '../../updateLineHeight'
+import updateLineHeight from '../updateLineHeight'
 
 export default function($content, editor, displayInstance) {
   const onTypeGapChange = debounce300((e) => {

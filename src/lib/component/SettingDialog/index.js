@@ -1,15 +1,20 @@
 import delegate from 'delegate'
 import create from './create'
+import bind from './bind'
 import update from './update'
 import appendToDialog from './appendToDialog'
 
 export default function(editor, typeContainer, displayInstance) {
-  const content = create(editor, displayInstance)
+  const $content = create(editor, displayInstance)
+
+  bind($content, editor, displayInstance)
+
   const okHandler = () => {
     $dialog.close()
   }
+
   const $dialog = appendToDialog(
-    content, editor, okHandler
+    $content[0], editor, okHandler
   )
 
   // Observe enter key press

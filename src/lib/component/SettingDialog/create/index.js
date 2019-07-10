@@ -1,5 +1,4 @@
 import $ from 'jquery'
-import bind from './bind'
 
 const CONTENT = `
   <div class="textae-editor__setting-dialog">
@@ -26,7 +25,5 @@ const CONTENT = `
 export default function(editor, displayInstance) {
   const $content = $(CONTENT)
 
-  bind($content, editor, displayInstance)
-
-  return $content[0]
+  return $content
 }
