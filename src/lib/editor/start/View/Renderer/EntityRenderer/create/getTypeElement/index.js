@@ -4,13 +4,13 @@ import getGrid from './getGrid'
 
 // render type unless exists.
 export default function(namespace, typeContainer, gridRenderer, spanId, type) {
-  const $type = getTypeDom(spanId, type)
+  const dom = getTypeDom(spanId, type)
 
-  if ($type.length !== 0) {
-    return $type[0]
+  if (dom) {
+    return dom
   }
 
   getGrid(gridRenderer, spanId).insertAdjacentHTML('beforeend', createEmptyTypeHtml(spanId, type))
 
-  return getTypeDom(spanId, type)[0]
+  return getTypeDom(spanId, type)
 }

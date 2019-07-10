@@ -11,11 +11,12 @@ import GridRenderer from './GridRenderer'
 import EntityRenderer from './EntityRenderer'
 import AttributeRenderer from './AttributeRenderer'
 import getTypeDom from './getTypeDom'
+import $ from 'jquery'
 
 export default function(domPositionCache, relationRenderer, buttonStateHelper, typeGap, editor, annotationData, selectionModel, typeContainer) {
   const emitter = new EventEmitter(),
     gridRenderer = new GridRenderer(editor, domPositionCache),
-    renderEntityHandler = (entity) => getTypeDom(entity.span, entity.type).css(new TypeStyle(typeGap())),
+    renderEntityHandler = (entity) => $(getTypeDom(entity.span, entity.type)).css(new TypeStyle(typeGap())),
     entityRenderer = new EntityRenderer(editor, annotationData, selectionModel, typeContainer.entity, gridRenderer, renderEntityHandler),
     attributeRenderer = new AttributeRenderer(editor),
     spanRenderer = new SpanRenderer(

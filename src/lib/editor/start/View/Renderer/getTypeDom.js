@@ -1,6 +1,5 @@
 import idFactory from '../../../idFactory'
-import $ from 'jquery'
 
 export default function(spanId, type) {
-  return $('#' + idFactory.makeTypeId(spanId, type))
+  return document.querySelector(`#${idFactory.makeTypeId(spanId, type)}`)
 }
