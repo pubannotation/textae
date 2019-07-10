@@ -1,7 +1,7 @@
 import ModificationRenderer from '../ModificationRenderer'
 import createEntityUnlessBlock from './createEntityUnlessBlock'
 import changeTypeOfExists from './changeTypeOfExists'
-import updateLabel from './updateLabel'
+import updateLabelofType from './updateLabelofType'
 import changeModificationOfExists from './changeModificationOfExists'
 import destroy from './destroy'
 
@@ -60,12 +60,12 @@ export default class {
   }
 
   updateLabel(type) {
-    updateLabel(this.annotationData, this.typeContainer, type)
+    updateLabelofType(this.annotationData, this.typeContainer, type)
   }
 
   updateLabelAll() {
     this.annotationData.entity.all().map((entity) => {
-      updateLabel(this.annotationData, this.typeContainer, entity.type)
+      updateLabelofType(this.annotationData, this.typeContainer, entity.type)
     })
   }
 }
