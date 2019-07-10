@@ -4,13 +4,13 @@ import update from './update'
 import delegate from "delegate"
 
 export default function(editor, typeContainer, displayInstance) {
-  let content = create(editor, displayInstance),
-    okHandler = () => {
-      $dialog.close()
-    },
-    $dialog = appendToDialog(
-      content, editor, okHandler
-    )
+  const content = create(editor, displayInstance)
+  const okHandler = () => {
+    $dialog.close()
+  }
+  const $dialog = appendToDialog(
+    content, editor, okHandler
+  )
 
   // Observe enter key press
   delegate($dialog[0], `.textae-editor--dialog`, 'keyup', (e) => {
