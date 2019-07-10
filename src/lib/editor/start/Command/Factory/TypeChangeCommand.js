@@ -39,7 +39,6 @@ class TypeChangeCommand extends BaseCommand {
       // Set revert
       this.revert = () => new TypeChangeCommand(editor, annotationData, typeContainer, modelType, newType, revertChangeValues, revertDefaultTypeId)
 
-      editor.eventEmitter.emit('textae.pallet.update')
       commandLog('change old type:' + JSON.stringify(oldType)
         + ' to new type:' + JSON.stringify(newType)
         + ', default is `' + typeContainer.getDefaultType() + '`')

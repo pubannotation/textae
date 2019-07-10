@@ -33,12 +33,10 @@ export function observeDataSave(editor, dataAccessObject, history, writable) {
     .on('save', function() {
       resetAllHistories(history, KINDS)
       writable.forceModified(false)
-      editor.eventEmitter.emit('textae.pallet.update')
       toastr.success("annotation saved")
     })
     .on('save--config', function() {
       history.saved(KINDS.conf)
-      editor.eventEmitter.emit('textae.pallet.update')
       toastr.success("configuration saved")
     })
     .on('save error', function() {

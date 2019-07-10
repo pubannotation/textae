@@ -13,7 +13,6 @@ export default function(editor, annotationData, selectionModel, history) {
       if (commands && commands.length > 0) {
         invokeCommand.invoke(commands)
         history.push(commands, kinds)
-        editor.eventEmitter.emit('textae.pallet.update')
       }
     },
     undo: () => {
@@ -23,7 +22,6 @@ export default function(editor, annotationData, selectionModel, history) {
         selectionModel.clear()
         editor.focus()
         invokeCommand.invokeRevert(history.prev())
-        editor.eventEmitter.emit('textae.pallet.update')
       }
     },
     redo: () => {
@@ -32,7 +30,6 @@ export default function(editor, annotationData, selectionModel, history) {
         selectionModel.clear()
 
         invokeCommand.invoke(history.next())
-        editor.eventEmitter.emit('textae.pallet.update')
       }
     },
     factory: new Factory(editor, annotationData, selectionModel)

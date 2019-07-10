@@ -13,7 +13,6 @@ class CreateCommand extends BaseCommand {
       // Set revert
       this.revert = () => new RemoveCommand(editor, annotationData, selectionModel, modelType, newModel.id)
 
-      editor.eventEmitter.emit('textae.pallet.update')
       commandLog('create a new ' + modelType + ': ', newModel)
 
       return newModel
@@ -31,7 +30,6 @@ class RemoveCommand extends BaseCommand {
         // Set revert
         this.revert = () => new CreateCommand(editor, annotationData, selectionModel, modelType, false, oloModel)
 
-        editor.eventEmitter.emit('textae.pallet.update')
         commandLog('remove a ' + modelType + ': ', oloModel)
       } else {
         // Do not revert unless an object was removed.

@@ -1,5 +1,3 @@
-import triggerUpdatePallet from './triggerUpdatePallet'
-
 export default function(oldType, newType, handler, editor) {
   const changeValues = {}
 
@@ -21,6 +19,5 @@ export default function(oldType, newType, handler, editor) {
 
   if (Object.keys(changeValues).length) {
     handler.command.invoke([handler.changeType(oldType, changeValues)], ['annotation', 'configuration'])
-    triggerUpdatePallet(editor)
   }
 }

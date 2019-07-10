@@ -1,5 +1,4 @@
 import EditTypeDialog from "./EditTypeDialog"
-import triggerUpdatePallet from "./triggerUpdatePallet"
 
 export default function(elementEditor, editor, autocompletionWs) {
   const handler = elementEditor.getHandlerForPallet()
@@ -23,7 +22,6 @@ export default function(elementEditor, editor, autocompletionWs) {
     }
 
     handler.command.invoke([handler.addType(newType)], ['configuration'])
-    triggerUpdatePallet(editor)
   }
 
   const dialog = new EditTypeDialog(editor, handler.typeContainer, done, autocompletionWs, 'Please create a new type')

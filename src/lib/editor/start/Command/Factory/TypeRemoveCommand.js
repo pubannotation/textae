@@ -21,7 +21,6 @@ class TypeRemoveCommand extends BaseCommand {
       // Set revert
       this.revert = () => new TypeCreateCommand(editor, typeContainer, removeType)
 
-      editor.eventEmitter.emit('textae.pallet.update')
       commandLog('remove a type:' + JSON.stringify(removeType)
         + ', default is `' + typeContainer.getDefaultType() + '`')
     })

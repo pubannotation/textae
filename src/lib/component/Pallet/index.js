@@ -10,7 +10,8 @@ export default class {
     this.el = new Component(editor, command, autocompletionWs, elementEditor)
 
     // Bind event
-    this.editor.eventEmitter.on('textae.pallet.update', () => {
+    // Update save config button when history changing
+    history.on('change', () => {
       updateSelf(this.elementEditor.getHandlerForPallet().typeContainer, this.el, this.history, this.elementEditor.getHandlerType())
     })
     this.editor.eventEmitter.on('textae.pallet.close', () => this.hide())
@@ -31,7 +32,10 @@ export default class {
       const history = this.history
       this.onConfigLockChange = () => updateDisplay(el, history, typeContainer, null, handlerType)
 
+      // Update table content when config lock state or type definition changing
       typeContainer.on('type.lock', this.onConfigLockChange)
+      typeContainer.on('type.change', this.onConfigLockChange)
+
       updateDisplay(el, history, typeContainer, point, handlerType)
     }
   }
@@ -39,8 +43,11 @@ export default class {
   hide() {
     this.el.style.display = 'none'
 
+    // Release event listeners that bound when opening pallet.
     if (this.onConfigLockChange) {
-      this.elementEditor.getHandlerForPallet().typeContainer.removeListener('type.lock', this.onConfigLockChange)
+      const typeContainer = this.elementEditor.getHandlerForPallet().typeContainer
+      typeContainer.removeListener('type.lock', this.onConfigLockChange)
+      typeContainer.removeListener('type.change', this.onConfigLockChange)
     }
   }
 
