@@ -2,13 +2,13 @@ import SettingDialog from '../../../../component/SettingDialog'
 import ClipBoardHandler from './handlers/ClipBoardHandler'
 import CreateEntityHandler from './handlers/CreateEntityHandler'
 import ReplicateHandler from './handlers/ReplicateHandler'
-// import CreateAttributeHandler from './handlers/CreateAttributeHandler'
 import removeSelectedElements from './handlers/removeSelectedElements'
 import ModificationHandler from './handlers/ModificationHandler'
 import SelectHandler from './handlers/SelectHandler'
 import cancelSelect from './cancelSelect'
 import extendModeButtonHandlers from './extendModeButtonHandlers'
 import extendToggleButtonHandler from './extendToggleButtonHandler'
+import createAttribute from '../createAttribute'
 
 export default function(command, selectionModel, typeDefinition, displayInstance, annotationData, buttonController, spanConfig, clipBoard, typeEditor, editor, editMode) {
   const createEntityHandler = new CreateEntityHandler(command, selectionModel, typeDefinition.entity, displayInstance.notifyNewInstance)
@@ -29,6 +29,7 @@ export default function(command, selectionModel, typeDefinition, displayInstance
     cancelSelect: () => cancelSelect(typeEditor, editor),
     negation: modificationHandler.negation,
     speculation: modificationHandler.speculation,
+    createAttribute: () => createAttribute(command, selectionModel),
     showSettingDialog: showSettingDialog
   }
   Object.assign(event, selectHandler)

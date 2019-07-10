@@ -1,4 +1,4 @@
-import createAttribute from './createAttribute'
+import createAttribute from '../../../createAttribute'
 
 export default function(command, selectionModel, e) {
   const entityId = e.target.parentNode.querySelector('.textae-editor__entity').getAttribute('title')

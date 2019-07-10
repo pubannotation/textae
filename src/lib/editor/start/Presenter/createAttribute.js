@@ -10,8 +10,4 @@ export default function(command, selectionModel) {
   })
 
   command.invoke(commands, ['annotation'])
-
-  // Cancel selections here.
-  // Because attributes are selected only during processing click events of add, edit and delete buttons.
-  selectionModel.clear()
 }

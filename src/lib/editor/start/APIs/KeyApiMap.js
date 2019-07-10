@@ -12,6 +12,7 @@ export default function(command, presenter, daoHandler) {
     ['Q', presenter.event.showPallet],
     ['R', presenter.event.replicate],
     ['S', presenter.event.speculation],
+    ['T', presenter.event.createAttribute],
     ['U', daoHandler.showSave],
     ['V', presenter.event.pasteEntities],
     ['W', presenter.event.changeLabel],
