@@ -2,7 +2,6 @@ import {
   EventEmitter as EventEmitter
 }
 from 'events'
-import DEFAULTS from '../defaults'
 import uri from '../../../uri'
 import setDefaultTypeToDefinedTypes from './setDefaultTypeToDefinedTypes'
 import createCountMap from './createCountMap'
@@ -83,11 +82,11 @@ export default class extends EventEmitter {
   }
 
   getDefaultPred() {
-    return DEFAULTS.pred
+    return 'some_predicate'
   }
 
   getDefaultValue() {
-    return DEFAULTS.value
+    return 'some_value'
   }
 
   getDefaultColor() {
