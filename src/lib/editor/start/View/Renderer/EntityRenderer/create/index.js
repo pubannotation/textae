@@ -1,8 +1,8 @@
-import idFactory from '../../../../idFactory'
+import idFactory from '../../../../../idFactory'
 import getTypeElement from './getTypeElement'
-import arrangePositionOfPane from './arrangePositionOfPane'
+import arrangePositionOfPane from '../arrangePositionOfPane'
 import createEntityElement from './createEntityElement'
-import appendAttribute from '../AttributeRenderer/appendAttribute'
+import appendAttribute from '../../AttributeRenderer/appendAttribute'
 
 // An entity is a circle on Type that is an endpoint of a relation.
 // A span have one grid and a grid can have multi types and a type can have multi entities.

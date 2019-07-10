@@ -1,4 +1,4 @@
-import idFactory from '../../../../../idFactory'
+import idFactory from '../../../../../../idFactory'
 import $ from 'jquery'
 
 // A Type element has an entity_pane elment that has a label and will have entities.
