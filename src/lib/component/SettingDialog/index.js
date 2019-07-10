@@ -7,7 +7,7 @@ import appendToDialog from './appendToDialog'
 export default function(editor, typeContainer, displayInstance) {
   const $content = create(editor, displayInstance)
 
-  bind($content, editor, displayInstance)
+  bind($content, editor, displayInstance, typeContainer)
 
   const okHandler = () => {
     $dialog.close()

@@ -1,11 +1,11 @@
 import debounce300 from "./debounce300"
 
-export default function bindChangeLockConfig($content, editor) {
+export default function bindChangeLockConfig($content, editor, typeContainer) {
   const onChangeLockConfig = debounce300((e) => {
     if (e.target.checked) {
-      editor.eventEmitter.emit('textae.config.lock')
+      typeContainer.lockEdit()
     } else {
-      editor.eventEmitter.emit('textae.config.unlock')
+      typeContainer.unlockEdit()
     }
   })
 

@@ -75,16 +75,6 @@ export default function(editor, dataAccessObject, history, buttonController, ann
     cookieHandler().set('hide-message-box', 'false', {path: '/'})
   })
 
-  editor.eventEmitter.on('textae.config.lock', () => {
-    typeContainer.lockEdit()
-    editor[0].classList.add('textae-editor--configuration-uneditable')
-  })
-
-  editor.eventEmitter.on('textae.config.unlock', () => {
-    typeContainer.unlockEdit()
-    editor[0].classList.add('textae-editor--configuration-editable')
-  })
-
   // Over write editor-div's config lock state by url's.
   // Url's default is 'unlock', so its default is also 'unlock'.
   const configEditFromUrl = getConfigEditParamFromUrl(params.get('source'))
@@ -93,9 +83,9 @@ export default function(editor, dataAccessObject, history, buttonController, ann
   }
 
   if (params.has('config_lock') && params.get('config_lock') === 'true') {
-    editor.eventEmitter.emit('textae.config.lock')
+    typeContainer.lockEdit()
   } else {
-    editor.eventEmitter.emit('textae.config.unlock')
+    typeContainer.unlockEdit()
   }
 
   dataAccessObject
