@@ -1,11 +1,11 @@
-export default function(command, selectionModel, attribute) {
+export default function(command, selectionModel) {
   const entities = selectionModel.entity.all()
   const commands = entities.map((entityId) => {
     return command.factory.attributeCreateCommand({
       id: null,
       subj: entityId,
-      pred: attribute.getDefaultPred(),
-      value: attribute.getDefaultValue()
+      pred: 'some_predicate',
+      value: 'some_value'
     })
   })
 

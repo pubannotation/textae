@@ -1,6 +1,6 @@
-import EditableContainer from './EditableContainer'
+import Container from './Container'
 
-export default class extends EditableContainer {
+export default class extends Container {
   constructor(getAllInstanceFunc, defaultColor, lockStateObservable) {
     super(getAllInstanceFunc, defaultColor, lockStateObservable)
   }

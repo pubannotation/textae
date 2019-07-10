@@ -11,13 +11,16 @@ import sortByCountAndName from './sortByCountAndName'
 import createTypesWithoutInstance from './createTypesWithoutInstance'
 
 export default class extends EventEmitter {
-  constructor(getAllInstanceFunc, defaultColor) {
+  constructor(getAllInstanceFunc, defaultColor, lockStateObservable) {
     super()
     this.definedTypes = new Map()
     this.defaultType = null
     this.isSetDefaultTypeManually = false
     this.getAllInstanceFunc = getAllInstanceFunc
     this.defaultColor = defaultColor
+    this.lockStateObservable = lockStateObservable
+
+    lockStateObservable(() => super.emit('type.lock'))
   }
 
   setDefinedType(newType) {
@@ -81,14 +84,6 @@ export default class extends EventEmitter {
     return this.defaultType
   }
 
-  getDefaultPred() {
-    return 'some_predicate'
-  }
-
-  getDefaultValue() {
-    return 'some_value'
-  }
-
   getDefaultColor() {
     return this.defaultColor
   }
@@ -126,6 +121,10 @@ export default class extends EventEmitter {
   remove(id) {
     this.definedTypes.delete(id)
     super.emit('type.change', id)
+  }
+
+  get isLock() {
+    return this.lockStateObservable()
   }
 }
 

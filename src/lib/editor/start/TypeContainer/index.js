@@ -1,6 +1,5 @@
 import Observable from 'observ'
 import EntityContainer from './EntityContainer'
-import EditableContainer from './EditableContainer'
 import Container from './Container'
 import setContainerDefinedTypes from './setContainerDefinedTypes'
 
@@ -8,8 +7,7 @@ export default function(annotationData) {
   const lockStateObservable = new Observable(false)
 
   const entityContainer = new EntityContainer(() => annotationData.entity.all(), '#77DDDD', lockStateObservable)
-  const relationContaier = new EditableContainer(() => annotationData.relation.all(), '#555555', lockStateObservable)
-  const attributeContainer = new Container(() => annotationData.attribute.all(), '#77DDDD')
+  const relationContaier = new Container(() => annotationData.relation.all(), '#555555', lockStateObservable)
 
   return {
     isLock: lockStateObservable,
@@ -21,8 +19,6 @@ export default function(annotationData) {
     },
     entity: entityContainer,
     setDefinedEntityTypes: (newDefinedTypes) => setContainerDefinedTypes(entityContainer, newDefinedTypes),
-    attribute: attributeContainer,
-    setDefinedAttributeTypes: (newDefinedTypes) => setContainerDefinedTypes(attributeContainer, newDefinedTypes),
     relation: relationContaier,
     setDefinedRelationTypes: (newDefinedTypes) => setContainerDefinedTypes(relationContaier, newDefinedTypes),
     getConfig: () => {
