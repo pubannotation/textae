@@ -8,8 +8,8 @@ const TEXT_HEIGHT = 23
 const MARGIN_TOP = 30
 
 export function get(editor) {
-  const textBox = getTextBox(editor),
-    style = window.getComputedStyle(textBox)
+  const textBox = getTextBox(editor)
+  const style = window.getComputedStyle(textBox)
 
   return pixelToInt(style.lineHeight)
 }
@@ -17,15 +17,14 @@ export function get(editor) {
 export function set(editor, heightValue) {
   const textBox = getTextBox(editor)
 
-  textBox.style.lineHeight = heightValue + 'px'
-  textBox.style.paddingTop = heightValue / 2 + 'px'
+  textBox.style.lineHeight = `${heightValue}px`
+  textBox.style.paddingTop = `${heightValue / 2}px`
 
   suppressScrollJump(textBox, heightValue)
   updateTextBoxHeight(editor)
 }
 
 export function setToTypeGap(editor, annotationData, typeContainer, typeGap) {
-  const heightOfType = typeGap.value * 18 + 18
   let maxHeight
 
   if (annotationData.span.all().length === 0) {
@@ -36,7 +35,7 @@ export function setToTypeGap(editor, annotationData, typeContainer, typeGap) {
   } else {
     maxHeight = _.max(
       annotationData.span.all()
-      .map(span => getHeightIncludeDescendantGrids(span, typeContainer, typeGap))
+        .map(span => getHeightIncludeDescendantGrids(span, typeContainer, typeGap))
     )
 
     maxHeight += TEXT_HEIGHT + MARGIN_TOP
@@ -46,8 +45,8 @@ export function setToTypeGap(editor, annotationData, typeContainer, typeGap) {
 }
 
 function suppressScrollJump(textBox, heightValue) {
-  const beforeLineHeight = textBox.style.lineHeight,
-    b = pixelToInt(beforeLineHeight)
+  const beforeLineHeight = textBox.style.lineHeight
+  const b = pixelToInt(beforeLineHeight)
 
   if (b) {
     window.scroll(window.scrollX, window.scrollY * heightValue / b)
