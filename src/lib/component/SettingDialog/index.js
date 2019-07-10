@@ -1,7 +1,7 @@
-import EditorDialog from '../dialog/EditorDialog'
+import delegate from 'delegate'
 import create from './create'
 import update from './update'
-import delegate from "delegate"
+import appendToDialog from './appendToDialog'
 
 export default function(editor, typeContainer, displayInstance) {
   const content = create(editor, displayInstance)
@@ -25,15 +25,4 @@ export default function(editor, typeContainer, displayInstance) {
   }
 }
 
-function appendToDialog(content, editor, okHandler) {
-  return new EditorDialog(
-    editor.editorId,
-    'textae.dialog.setting',
-    'Setting',
-    content, {
-      noCancelButton: true,
-      buttons: {
-        OK: okHandler
-      }
-    })
-}
+
