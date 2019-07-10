@@ -10,22 +10,22 @@ export default function(domPositionCache, typeContainer, annotationData, typeGap
 
   const newPosition = getGridPosition(domPositionCache.getSpan, typeContainer, typeGap, span)
 
-  if (filterMoved(domPositionCache.getGrid(span.id), newPosition) === null) {
-    return
-  }
+  if (isDifferent(domPositionCache.getGrid(span.id), newPosition)) {
+    console.log('bb', domPositionCache.getGrid(span.id), newPosition)
 
-  // Move all relations because entities are increased or decreased unless the grid is moved.
-  updateGridPositon(span, newPosition)
-  updatePositionCache(domPositionCache, span, newPosition)
-  showInvisibleGrid(span)
+    // Move all relations because entities are increased or decreased unless the grid is moved.
+    updateGridPositon(span, newPosition)
+    updatePositionCache(domPositionCache, span, newPosition)
+    showInvisibleGrid(span)
+  }
 }
 
-function filterMoved(oldPosition, newPosition) {
+function isDifferent(oldPosition, newPosition) {
   if (!oldPosition || oldPosition.top !== newPosition.top || oldPosition.left !== newPosition.left) {
-    return newPosition
-  } else {
-    return null
+    return true
   }
+
+  return false
 }
 
 function updateGridPositon(span, newPosition) {
