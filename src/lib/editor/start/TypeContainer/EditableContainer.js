@@ -1,12 +1,14 @@
 import Container from './Container'
 
 export default class extends Container {
-  constructor(getAllInstanceFunc, defaultColor, getLockStateFunc) {
+  constructor(getAllInstanceFunc, defaultColor, lockStateObservable) {
     super(getAllInstanceFunc, defaultColor)
-    this.getLockState = getLockStateFunc
+    this.lockStateObservable = lockStateObservable
+
+    lockStateObservable(() => super.emit('type.lock'))
   }
 
   get isLock() {
-    return this.getLockState()
+    return this.lockStateObservable()
   }
 }

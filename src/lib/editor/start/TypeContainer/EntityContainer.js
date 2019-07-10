@@ -1,8 +1,8 @@
 import EditableContainer from './EditableContainer'
 
 export default class extends EditableContainer {
-  constructor(getAllInstanceFunc, defaultColor, getLockStateFunc) {
-    super(getAllInstanceFunc, defaultColor, getLockStateFunc)
+  constructor(getAllInstanceFunc, defaultColor, lockStateObservable) {
+    super(getAllInstanceFunc, defaultColor, lockStateObservable)
   }
 
   isBlock(type) {

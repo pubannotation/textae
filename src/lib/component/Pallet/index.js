@@ -23,15 +23,25 @@ export default class {
 
   show(point) {
     const typeContainer = this.elementEditor.getHandlerForPallet().typeContainer
-    const handlerType = this.elementEditor.getHandlerType()
-    const el = this.el
-    const history = this.history
 
-    updateDisplay(el, history, typeContainer, point, handlerType)
+    // The typeContainer is null when read-only mode
+    if (typeContainer) {
+      const handlerType = this.elementEditor.getHandlerType()
+      const el = this.el
+      const history = this.history
+      this.onConfigLockChange = () => updateDisplay(el, history, typeContainer, null, handlerType)
+
+      typeContainer.on('type.lock', this.onConfigLockChange)
+      updateDisplay(el, history, typeContainer, point, handlerType)
+    }
   }
 
   hide() {
     this.el.style.display = 'none'
+
+    if (this.onConfigLockChange) {
+      this.elementEditor.getHandlerForPallet().typeContainer.removeListener('type.lock', this.onConfigLockChange)
+    }
   }
 
   visibly() {
