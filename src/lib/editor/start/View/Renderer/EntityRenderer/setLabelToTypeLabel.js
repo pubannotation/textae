@@ -2,10 +2,11 @@ import uri from '../../../../uri'
 import getDisplayName from './getDisplayName'
 
 export default function setLabelToTypeLabel(typeLabel, namespace, typeContainer, type) {
-  let label = getLabel(namespace, typeContainer, type),
-    href = getUri(namespace, typeContainer, type),
-    // Keep the attributes html not to be overwrote the following 'innerHTML'.
-    childAttributesHtml = getChildAttributesHtml(typeLabel)
+  const label = getLabel(namespace, typeContainer, type)
+  const href = getUri(namespace, typeContainer, type)
+
+  // Keep the attributes html not to be overwrote the following 'innerHTML'.
+  const childAttributesHtml = getChildAttributesHtml(typeLabel)
 
   if (href) {
     typeLabel.innerHTML = `<a target="_blank"/ href="${href}">${label}</a>` + childAttributesHtml
@@ -15,7 +16,7 @@ export default function setLabelToTypeLabel(typeLabel, namespace, typeContainer,
 }
 
 function getLabel(namespace, typeContainer, typeId) {
-  let match = getMatchPrefix(namespace, typeId)
+  const match = getMatchPrefix(namespace, typeId)
 
   // When a type id has label attrdute.
   if (typeContainer.getLabel(typeId)) {
@@ -42,7 +43,7 @@ function getUri(namespace, typeContainer, type) {
   } else if (namespace.some()) {
     let match = getMatchPrefix(namespace, type)
     if (match) {
-      return match.uri + type.replace(match.prefix + ':', '')
+      return match.uri + type.replace(`${match.prefix}:`, '')
     }
 
     let base = namespace.all().filter(namespace => namespace.prefix === '_base')
@@ -55,8 +56,8 @@ function getUri(namespace, typeContainer, type) {
 }
 
 function getMatchPrefix(namespace, type) {
-  let namespaces = namespace.all(),
-    matchs = namespaces
+  const namespaces = namespace.all()
+  const matchs = namespaces
     .filter(namespace => namespace.prefix !== '_base')
     .filter(namespace => {
       return type.indexOf(namespace.prefix + ':') === 0
