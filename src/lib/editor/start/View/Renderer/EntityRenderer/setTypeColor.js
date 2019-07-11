@@ -1,5 +1,6 @@
 export default function(label, typeContainer, type) {
-    const color = typeContainer.getColor(type), entities = label.nextElementSibling.getElementsByClassName('textae-editor__entity')
+    const color = typeContainer.getColor(type)
+    const entities = label.nextElementSibling.getElementsByClassName('textae-editor__entity')
 
     label.setAttribute('style', `background-color: ${color}`)
 
