@@ -1,6 +1,6 @@
-import uri from '../../../../uri'
+import uri from '../../../../../uri'
+import getMatchPrefix from "../getMatchPrefix"
 import getDisplayName from './getDisplayName'
-import getMatchPrefix from "./getMatchPrefix"
 
 export default function(namespace, typeContainer, typeId) {
   const match = getMatchPrefix(namespace, typeId)

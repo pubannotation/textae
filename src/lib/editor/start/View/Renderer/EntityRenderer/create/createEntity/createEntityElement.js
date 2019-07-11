@@ -1,4 +1,4 @@
-import idFactory from '../../../../../idFactory'
+import idFactory from '../../../../../../idFactory'
 
 export default function createEntityElement(editor, typeContainer, modification, entity) {
   let element = document.createElement('div')

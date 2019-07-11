@@ -1,5 +1,5 @@
-import removeEntityElement from './removeEntityElement'
-import removeNoEntityPaneElement from './removeNoEntityPaneElement'
+import removeEntityElement from '../removeEntityElement'
+import removeNoEntityPaneElement from '../removeNoEntityPaneElement'
 import doesSpanHasNoEntity from './doesSpanHasNoEntity'
 
 export default function destroy(editor, annotationData, gridRenderer, entity) {

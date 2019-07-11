@@ -1,5 +1,5 @@
 import Selector from '../../../Selector'
-import createEntityUnlessBlock from './createEntityUnlessBlock'
+import create from './create'
 import removeEntityElement from './removeEntityElement'
 import removeNoEntityPaneElement from './removeNoEntityPaneElement'
 
@@ -11,7 +11,7 @@ export default function(editor, annotationData, selectionModel, typeContainer, g
 
   // Remove old entity after add new one, because grids will be removed unless entities.
   // Show a new entity.
-  createEntityUnlessBlock(
+  create(
     editor,
     annotationData.namespace,
     typeContainer,

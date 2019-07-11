@@ -1,5 +1,5 @@
 import ModificationRenderer from '../ModificationRenderer'
-import createEntityUnlessBlock from './createEntityUnlessBlock'
+import creat from './create'
 import changeTypeOfExists from './changeTypeOfExists'
 import updateLabelofType from './updateLabelofType'
 import changeModificationOfExists from './changeModificationOfExists'
@@ -17,7 +17,7 @@ export default class {
   }
 
   render(entity) {
-    createEntityUnlessBlock(
+    creat(
       this.editor,
       this.annotationData.namespace,
       this.typeContainer,

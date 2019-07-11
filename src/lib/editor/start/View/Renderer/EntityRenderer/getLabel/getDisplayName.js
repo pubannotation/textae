@@ -1,4 +1,4 @@
-import uri from '../../../../uri'
+import uri from '../../../../../uri'
 
 // Display short name for URL(http or https);
 export default function(type) {

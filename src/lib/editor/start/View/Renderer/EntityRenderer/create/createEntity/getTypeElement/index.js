@@ -1,4 +1,4 @@
-import getTypeDom from '../../../getTypeDom'
+import getTypeDom from '../../../../getTypeDom'
 import createEmptyTypeHtml from './createEmptyTypeHtml'
 import getGrid from './getGrid'
 
