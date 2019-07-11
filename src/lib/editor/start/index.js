@@ -1,7 +1,5 @@
 import Observable from 'observ'
-import * as ajaxAccessor from '../../util/ajaxAccessor'
 import cookieHandler from '../../util/CookieHandler'
-import StatusBar from '../../component/StatusBar'
 import getParams from './getParams'
 import SpanConfig from './SpanConfig'
 import Command from './Command'
@@ -15,6 +13,11 @@ import calculateLineHeight from './calculateLineHeight'
 import focusEditorWhenFocusedChildRemoved from './focusEditorWhenFocusedChildRemoved'
 import validateConfiguration from '../Model/AnnotationData/validateConfiguration'
 import toastr from 'toastr'
+import getStatusBar from './getStatusBar'
+import setSpanAndTypeConfig from './setSpanAndTypeConfig'
+import setAnnotation from './setAnnotation'
+import loadAnnotation from './loadAnnotation'
+import getConfigEditParamFromUrl from './getConfigEditParamFromUrl'
 
 export default function(editor, dataAccessObject, history, buttonController, annotationData, selectionModel, clipBoard, writable) {
   const params = getParams(editor[0])
@@ -124,117 +127,4 @@ export default function(editor, dataAccessObject, history, buttonController, ann
 
   // Add tabIndex to listen to keyboard events.
   editor[0].tabIndex = -1
-}
-
-function getQueryParams(url) {
-  let queryParamMap = new Map(),
-    queryStr = url.split('?')[1]
-
-  if (queryStr) {
-    let parameters = queryStr.split('&')
-
-    for (let i = 0; i < parameters.length; i++) {
-      let element = parameters[i].split('='),
-        paramName = decodeURIComponent(element[0]),
-        paramValue = decodeURIComponent(element[1])
-
-      queryParamMap.set(paramName, decodeURIComponent(paramValue))
-    }
-  }
-
-  return queryParamMap
-}
-
-function getConfigEditParamFromUrl(url) {
-  if (url) {
-    let queryParamMap = getQueryParams(url)
-    if (queryParamMap.has('config_lock')) {
-      return queryParamMap.get('config_lock')
-    }
-  }
-
-  return null
-}
-
-function loadAnnotation(spanConfig, typeContainer, annotationData, statusBar, params, dataAccessObject) {
-  const annotation = params.get('annotation')
-  const config = params.get('config')
-
-  if (annotation) {
-    if (annotation.has('inlineAnnotation')) {
-      // Set an inline annotation.
-      let originalAnnotation = JSON.parse(annotation.get('inlineAnnotation'))
-
-      setAnnotation(spanConfig, typeContainer, annotationData, originalAnnotation, config)
-      statusBar.status('inline')
-      return originalAnnotation
-    } else if (annotation.has('url')) {
-      // Load an annotation from server.
-      dataAccessObject.getAnnotationFromServer(annotation.get('url'))
-    } else {
-      throw new Error('annotation text is empty.')
-    }
-  }
-  if (config) {
-     dataAccessObject.getConfigurationFromServer(config)
-  }
-}
-
-function setAnnotation(spanConfig, typeContainer, annotationData, annotation, config) {
-  const ret = setConfigInAnnotation(spanConfig, typeContainer, annotation)
-
-  if (ret === 'no config') {
-    setConfigFromServer(spanConfig, typeContainer, annotationData, config, annotation)
-  } else {
-    annotationData.reset(annotation)
-  }
-}
-
-function setConfigInAnnotation(spanConfig, typeContainer, annotation) {
-  spanConfig.reset()
-  setSpanAndTypeConfig(spanConfig, typeContainer, annotation.config)
-
-  if (!annotation.config) {
-    return 'no config'
-  }
-}
-
-function setConfigFromServer(spanConfig, typeContainer, annotationData, config, annotation) {
-  spanConfig.reset()
-
-  if (typeof config === 'string') {
-    ajaxAccessor
-      .getAsync(config,
-        configFromServer => {
-          setSpanAndTypeConfig(spanConfig, typeContainer, configFromServer)
-          annotationData.reset(annotation)
-        }, () => alert('could not read the span configuration from the location you specified.: ' + config)
-      )
-  } else {
-    annotationData.reset(annotation)
-  }
-}
-
-function setSpanAndTypeConfig(spanConfig, typeContainer, config) {
-  spanConfig.set(config)
-  setTypeConfig(typeContainer, config)
-}
-
-function setTypeConfig(typeContainer, config) {
-  typeContainer.setDefinedEntityTypes(config ? config['entity types'] : [])
-  typeContainer.setDefinedRelationTypes(config ? config['relation types'] : [])
-
-  if (config && config.css !== undefined) {
-    $('#css_area').html('<link rel="stylesheet" href="' + config.css + '"/>')
-  }
-
-  return config
-}
-
-function getStatusBar(editor, statusBar) {
-  if (statusBar === 'on')
-    return new StatusBar(editor)
-  return {
-    status: function() {}
-  }
 }
