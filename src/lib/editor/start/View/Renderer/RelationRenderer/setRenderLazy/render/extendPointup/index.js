@@ -1,7 +1,7 @@
 import Pointupable from './Pointupable'
 
-export default function(editor, annotationData, typeContainer, connect) {
-  const pointupable = new Pointupable(editor, annotationData, typeContainer, connect)
+export default function(editor, annotationData, typeDefinition, connect) {
+  const pointupable = new Pointupable(editor, annotationData, typeDefinition, connect)
 
   return Object.assign(connect, {
     pointup() {

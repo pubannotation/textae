@@ -3,7 +3,7 @@ import cookieHandler from '../../util/CookieHandler'
 import getParams from './getParams'
 import SpanConfig from './SpanConfig'
 import Command from './Command'
-import TypeContainer from '../Model/TypeContainer'
+import TypeDefinition from '../Model/TypeDefinition'
 import View from './View'
 import Presenter from './Presenter'
 import bindMouseEvent from './bindMouseEvent'
@@ -28,8 +28,8 @@ export default function(editor, dataAccessObject, history, buttonController, ann
     value: -1,
     showInstance: false
   })
-  const typeContainer = new TypeContainer(annotationData)
-  const view = new View(editor, annotationData, selectionModel, buttonController, typeGap, typeContainer)
+  const typeDefinition = new TypeDefinition(annotationData)
+  const view = new View(editor, annotationData, selectionModel, buttonController, typeGap, typeDefinition)
   const presenter = new Presenter(
     editor,
     history,
@@ -40,7 +40,7 @@ export default function(editor, dataAccessObject, history, buttonController, ann
     clipBoard,
     buttonController,
     typeGap,
-    typeContainer,
+    typeDefinition,
     writable,
     params.get('autocompletion_ws'),
     params.get('mode')
@@ -56,7 +56,7 @@ export default function(editor, dataAccessObject, history, buttonController, ann
       dataAccessObject,
       history,
       annotationData,
-      typeContainer,
+      typeDefinition,
       () => originalAnnotation,
       params.get('annotation')
     )
@@ -86,14 +86,14 @@ export default function(editor, dataAccessObject, history, buttonController, ann
   }
 
   if (params.has('config_lock') && params.get('config_lock') === 'true') {
-    typeContainer.lockEdit()
+    typeDefinition.lockEdit()
   } else {
-    typeContainer.unlockEdit()
+    typeDefinition.unlockEdit()
   }
 
   dataAccessObject
     .on('load--annotation', data => {
-      setAnnotation(spanConfig, typeContainer, annotationData, data.annotation, params.get('config'))
+      setAnnotation(spanConfig, typeDefinition, annotationData, data.annotation, params.get('config'))
       statusBar.status(data.source)
       originalAnnotation = data.annotation
       editor.eventEmitter.emit('textae.pallet.update')
@@ -105,16 +105,16 @@ export default function(editor, dataAccessObject, history, buttonController, ann
       }
       originalAnnotation.config = data.config
       data.annotation = Object.assign(originalAnnotation, annotationData.toJson())
-      setSpanAndTypeConfig(spanConfig, typeContainer, data.config)
+      setSpanAndTypeConfig(spanConfig, typeDefinition, data.config)
       annotationData.resetOnlyConfig(data.annotation)
     })
     .on('save--config', function() {
-      originalAnnotation.config = typeContainer.getConfig()
+      originalAnnotation.config = typeDefinition.getConfig()
     })
 
-  originalAnnotation = loadAnnotation(spanConfig, typeContainer, annotationData, statusBar, params, dataAccessObject)
+  originalAnnotation = loadAnnotation(spanConfig, typeDefinition, annotationData, statusBar, params, dataAccessObject)
 
-  const updateLineHeight = () => calculateLineHeight(editor, annotationData, typeContainer, typeGap, view)
+  const updateLineHeight = () => calculateLineHeight(editor, annotationData, typeDefinition, typeGap, view)
 
   editor.api = new APIs(
     command,

@@ -1,12 +1,12 @@
 import _ from 'underscore'
 
-export default function(editor, annotationData, selectionModel, typeContainer) {
+export default function(editor, annotationData, selectionModel, typeDefinition) {
   let getBlockEntities = function(spanId) {
       return _.flatten(
         annotationData.span.get(spanId)
         .getTypes()
         .filter(function(type) {
-          return typeContainer.entity.isBlock(type.name)
+          return typeDefinition.entity.isBlock(type.name)
         })
         .map(function(type) {
           return type.entities

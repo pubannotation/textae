@@ -1,6 +1,6 @@
 import setAnnotation from './setAnnotation'
 
-export default function(spanConfig, typeContainer, annotationData, statusBar, params, dataAccessObject) {
+export default function(spanConfig, typeDefinition, annotationData, statusBar, params, dataAccessObject) {
   const annotation = params.get('annotation')
   const config = params.get('config')
 
@@ -8,7 +8,7 @@ export default function(spanConfig, typeContainer, annotationData, statusBar, pa
     if (annotation.has('inlineAnnotation')) {
       // Set an inline annotation.
       const originalAnnotation = JSON.parse(annotation.get('inlineAnnotation'))
-      setAnnotation(spanConfig, typeContainer, annotationData, originalAnnotation, config)
+      setAnnotation(spanConfig, typeDefinition, annotationData, originalAnnotation, config)
       statusBar.status('inline')
 
       return originalAnnotation

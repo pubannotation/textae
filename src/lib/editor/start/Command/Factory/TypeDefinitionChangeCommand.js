@@ -2,7 +2,7 @@ import BaseCommand from './BaseCommand'
 import commandLog from './commandLog'
 
 class TypeChangeCommand extends BaseCommand {
-  constructor(editor, annotationData, typeContainer, modelType, oldType, changeValues, revertDefaultTypeId) {
+  constructor(editor, annotationData, typeDefinition, modelType, oldType, changeValues, revertDefaultTypeId) {
     super(function() {
       const newType = Object.assign({}, oldType)
       const revertChangeValues = {}
@@ -17,15 +17,15 @@ class TypeChangeCommand extends BaseCommand {
           revertChangeValues[key] = typeof oldType[key] === 'undefined' ? null : oldType[key]
         }
       })
-      typeContainer.changeDefinedType(oldType.id, newType)
+      typeDefinition.changeDefinedType(oldType.id, newType)
 
       // manage default type
       if (newType.default) {
         // remember the current default, because revert command will not understand what type was it.
-        revertDefaultTypeId = typeContainer.getDefaultType()
-        typeContainer.setDefaultType(newType.id)
+        revertDefaultTypeId = typeDefinition.getDefaultType()
+        typeDefinition.setDefaultType(newType.id)
       } else if (revertDefaultTypeId) {
-        typeContainer.setDefaultType(revertDefaultTypeId)
+        typeDefinition.setDefaultType(revertDefaultTypeId)
         revertDefaultTypeId = 'undefined'
       }
 
@@ -37,11 +37,11 @@ class TypeChangeCommand extends BaseCommand {
       })
 
       // Set revert
-      this.revert = () => new TypeChangeCommand(editor, annotationData, typeContainer, modelType, newType, revertChangeValues, revertDefaultTypeId)
+      this.revert = () => new TypeChangeCommand(editor, annotationData, typeDefinition, modelType, newType, revertChangeValues, revertDefaultTypeId)
 
       commandLog('change old type:' + JSON.stringify(oldType)
         + ' to new type:' + JSON.stringify(newType)
-        + ', default is `' + typeContainer.getDefaultType() + '`')
+        + ', default is `' + typeDefinition.getDefaultType() + '`')
     })
   }
 }

@@ -13,15 +13,15 @@ import AttributeRenderer from './AttributeRenderer'
 import getTypeDom from './getTypeDom'
 import $ from 'jquery'
 
-export default function(domPositionCache, relationRenderer, buttonStateHelper, typeGap, editor, annotationData, selectionModel, typeContainer) {
+export default function(domPositionCache, relationRenderer, buttonStateHelper, typeGap, editor, annotationData, selectionModel, typeDefinition) {
   const emitter = new EventEmitter(),
     gridRenderer = new GridRenderer(editor, domPositionCache),
     renderEntityHandler = (entity) => $(getTypeDom(entity.span, entity.type)).css(new TypeStyle(typeGap())),
-    entityRenderer = new EntityRenderer(editor, annotationData, selectionModel, typeContainer.entity, gridRenderer, renderEntityHandler),
+    entityRenderer = new EntityRenderer(editor, annotationData, selectionModel, typeDefinition.entity, gridRenderer, renderEntityHandler),
     attributeRenderer = new AttributeRenderer(editor),
     spanRenderer = new SpanRenderer(
       annotationData,
-      (type) => typeContainer.entity.isBlock(type),
+      (type) => typeDefinition.entity.isBlock(type),
       (entity) => entityRenderer.render(entity)
     )
 
@@ -87,7 +87,7 @@ export default function(domPositionCache, relationRenderer, buttonStateHelper, t
       bindeToModelEvent(emitter, annotationData, eventHandler[0], eventHandler[1])
     }
 
-    typeContainer.entity
+    typeDefinition.entity
       .on('type.change', (id) => entityRenderer.updateLabel(id))
 
     return emitter

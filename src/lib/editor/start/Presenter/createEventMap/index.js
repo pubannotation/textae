@@ -10,14 +10,13 @@ import cancelSelect from './cancelSelect'
 import extendModeButtonHandlers from './extendModeButtonHandlers'
 import extendToggleButtonHandler from './extendToggleButtonHandler'
 
-export default function(command, selectionModel, typeContainer, displayInstance, annotationData, buttonController, spanConfig, clipBoard, typeEditor, editor, editMode) {
-  const createEntityHandler = new CreateEntityHandler(command, selectionModel, typeContainer.entity, displayInstance.notifyNewInstance)
+export default function(command, selectionModel, typeDefinition, displayInstance, annotationData, buttonController, spanConfig, clipBoard, typeEditor, editor, editMode) {
+  const createEntityHandler = new CreateEntityHandler(command, selectionModel, typeDefinition.entity, displayInstance.notifyNewInstance)
   const replicateHandler = new ReplicateHandler(command, annotationData, selectionModel, buttonController.modeAccordingToButton, spanConfig)
-  // const createAttributeHandler = new CreateAttributeHandler(command, selectionModel, typeContainer.attribute)
   const clipBoardHandler = new ClipBoardHandler(command, annotationData, selectionModel, clipBoard)
   const modificationHandler = new ModificationHandler(command, annotationData, buttonController.modeAccordingToButton, typeEditor)
   const selectHandler = new SelectHandler(editor[0], selectionModel)
-  const showSettingDialog = new SettingDialog(editor, typeContainer, displayInstance)
+  const showSettingDialog = new SettingDialog(editor, typeDefinition, displayInstance)
   const event = {
     copyEntities: clipBoardHandler.copyEntities,
     removeSelectedElements: () => removeSelectedElements(command, selectionModel, selectHandler),

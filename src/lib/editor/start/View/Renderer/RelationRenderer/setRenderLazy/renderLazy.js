@@ -1,7 +1,7 @@
 import render from './render'
 import isGridPrepared from './isGridPrepared'
 
-export default function(editor, annotationData, relation, jsPlumbInstance, typeContainer, modificationRenderer, cache) {
+export default function(editor, annotationData, relation, jsPlumbInstance, typeDefinition, modificationRenderer, cache) {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       try {
@@ -10,7 +10,7 @@ export default function(editor, annotationData, relation, jsPlumbInstance, typeC
           return
         }
         if (relation.render) {
-          render(jsPlumbInstance, editor, annotationData, typeContainer, modificationRenderer, relation, cache)
+          render(jsPlumbInstance, editor, annotationData, typeDefinition, modificationRenderer, relation, cache)
         }
         resolve(relation)
       } catch (error) {

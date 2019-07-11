@@ -1,17 +1,17 @@
 import $ from 'jquery'
 
-export default function entityClickedAtRelationMode(selectionModel, command, typeContainer, e) {
+export default function entityClickedAtRelationMode(selectionModel, command, typeDefinition, e) {
   if (!selectionModel.entity.some()) {
     selectionModel.clear()
     selectionModel.entity.add($(e.target).attr('title'))
   } else {
-    onSelectObjectEntity(selectionModel, command, typeContainer, e)
+    onSelectObjectEntity(selectionModel, command, typeDefinition, e)
   }
 
   return false
 }
 
-function onSelectObjectEntity(selectionModel, command, typeContainer, e) {
+function onSelectObjectEntity(selectionModel, command, typeDefinition, e) {
   // Cannot make a self reference relation.
   const subjectEntityId = selectionModel.entity.all()[0],
     objectEntityId = $(e.target).attr('title')
@@ -21,16 +21,16 @@ function onSelectObjectEntity(selectionModel, command, typeContainer, e) {
     selectionModel.entity.remove(subjectEntityId)
   } else {
     selectionModel.entity.add(objectEntityId)
-    createRelation(command, subjectEntityId, objectEntityId, typeContainer)
+    createRelation(command, subjectEntityId, objectEntityId, typeDefinition)
     updateSelectionOfEntity(e, selectionModel.entity, subjectEntityId, objectEntityId)
   }
 }
 
-function createRelation(command, subjectEntityId, objectEntityId, typeContainer) {
+function createRelation(command, subjectEntityId, objectEntityId, typeDefinition) {
   command.invoke([command.factory.relationCreateCommand({
     subj: subjectEntityId,
     obj: objectEntityId,
-    type: typeContainer.relation.getDefaultType()
+    type: typeDefinition.relation.getDefaultType()
   })],
     ['annotation'])
 }

@@ -2,7 +2,7 @@ import * as selectionValidator from './selectionValidator'
 import SpanEditor from './SpanEditor'
 import * as selectPosition from './selectPosition'
 
-export default function(editor, annotationData, selectionModel, command, modeAccordingToButton, typeContainer) {
+export default function(editor, annotationData, selectionModel, command, modeAccordingToButton, typeDefinition) {
   // Initiated by events.
   let selectEndOnTextImpl = null,
     selectEndOnSpanImpl = null
@@ -10,7 +10,7 @@ export default function(editor, annotationData, selectionModel, command, modeAcc
   const changeSpanEditorAccordingToButtons = function() {
     const isDetectDelimiterEnable = modeAccordingToButton['boundary-detection'].value(),
       isReplicateAuto = modeAccordingToButton['replicate-auto'].value(),
-      spanEditor = new SpanEditor(editor, annotationData, selectionModel, command, typeContainer, isDetectDelimiterEnable, isReplicateAuto)
+      spanEditor = new SpanEditor(editor, annotationData, selectionModel, command, typeDefinition, isDetectDelimiterEnable, isReplicateAuto)
 
     selectEndOnTextImpl = (annotationData, data) => selectEndOnText(spanEditor, annotationData, data)
     selectEndOnSpanImpl = (annotationData, data) => selectEndOnSpan(spanEditor, annotationData, data)

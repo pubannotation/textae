@@ -2,9 +2,9 @@ import LabelOverlay from '../../LabelOverlay'
 import extendPointup from './extendPointup'
 
 // Set hover action.
-export default function(editor, annotationData, typeContainer, connect, relationId) {
+export default function(editor, annotationData, typeDefinition, connect, relationId) {
   extendRelationId(connect, relationId)
-  extendPointup(editor, annotationData, typeContainer, connect)
+  extendPointup(editor, annotationData, typeDefinition, connect)
   bindConnect(connect)
   bindLabel(connect)
   return connect

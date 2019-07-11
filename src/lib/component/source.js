@@ -1,7 +1,7 @@
 import $ from 'jquery'
 
-export default function(typeContainer, autocompletionWs, request, response) {
-  const localData = getLocalData(typeContainer, request.term)
+export default function(typeDefinition, autocompletionWs, request, response) {
+  const localData = getLocalData(typeDefinition, request.term)
 
   if (!autocompletionWs) {
     response(localData)
@@ -23,8 +23,8 @@ export default function(typeContainer, autocompletionWs, request, response) {
   })
 }
 
-function getLocalData(typeContainer, term) {
-  return typeContainer
+function getLocalData(typeDefinition, term) {
+  return typeDefinition
     .getDefinedTypes()
     .filter(t => t.label)
     .filter(t => t.label.includes(term))

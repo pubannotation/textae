@@ -1,8 +1,8 @@
 import DefaultHandler from '../DefaultHandler'
 
 export default class extends DefaultHandler {
-  constructor(typeContainer, command, annotationData, selectionModel) {
-    super('entity', selectionModel, typeContainer.entity, command)
+  constructor(typeDefinition, command, annotationData, selectionModel) {
+    super('entity', selectionModel, typeDefinition.entity, command)
 
     this.annotationData = annotationData.entity
     this.selectionModel = selectionModel.entity
@@ -12,7 +12,7 @@ export default class extends DefaultHandler {
       .map((id) => this.command.factory.entityChangeTypeCommand(
         id,
         newType,
-        this.typeContainer.isBlock(newType)
+        this.typeDefinition.isBlock(newType)
       ))
   }
 }

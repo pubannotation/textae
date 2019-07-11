@@ -3,9 +3,9 @@ import LabelOverlay from './LabelOverlay'
 import connectorStrokeStyle from './connectorStrokeStyle'
 import POINTUP_LINE_WIDTH from './POINTUP_LINE_WIDTH'
 
-export default function changeType(editor, annotationData, typeContainer, selectionModel, relation) {
+export default function changeType(editor, annotationData, typeDefinition, selectionModel, relation) {
   const connect = new Connect(editor, annotationData, relation.id)
-  const strokeStyle = connectorStrokeStyle(annotationData, typeContainer, relation.id)
+  const strokeStyle = connectorStrokeStyle(annotationData, typeDefinition, relation.id)
 
   // The connect may be an object for lazyRender instead of jsPlumb.Connection.
   // This occurs when changing types and deletes was reverted.

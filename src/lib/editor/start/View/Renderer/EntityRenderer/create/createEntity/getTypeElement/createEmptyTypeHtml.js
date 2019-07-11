@@ -20,11 +20,11 @@ const source = `
 `
 const template = Handlebars.compile(source)
 
-export default function(spanId, namespace, typeContainer, type) {
+export default function(spanId, namespace, typeDefinition, type) {
   const id = idFactory.makeTypeId(spanId, type)
-  const label = getLabel(namespace, typeContainer, type)
-  const href = getUri(namespace, typeContainer, type)
-  const color = typeContainer.getColor(type)
+  const label = getLabel(namespace, typeDefinition, type)
+  const href = getUri(namespace, typeDefinition, type)
+  const color = typeDefinition.getColor(type)
 
   return template({id, label, href, color})
 }

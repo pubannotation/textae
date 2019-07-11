@@ -1,6 +1,6 @@
-export default function(annotationData, typeContainer, relationId) {
+export default function(annotationData, typeDefinition, relationId) {
     const type = annotationData.relation.get(relationId).type
-    const colorHex = typeContainer.relation.getColor(type)
+    const colorHex = typeDefinition.relation.getColor(type)
 
     return {
       lineWidth: 1,
@@ -14,5 +14,5 @@ export default function(annotationData, typeContainer, relationId) {
       g = parseInt(c.substr(2, 2), 16),
       b = parseInt(c.substr(4, 2), 16)
 
-    return 'rgba(' + r + ', ' + g + ', ' + b + ', 1)'
+    return `rgba(${r}, ${g}, ${b}, 1)`
   }

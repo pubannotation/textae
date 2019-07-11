@@ -7,7 +7,7 @@ import * as selectPosition from '../selectPosition'
 
 const BLOCK_THRESHOLD = 100
 
-export default function(annotationData, command, typeContainer, spanAdjuster, isDetectDelimiterEnable, isReplicateAuto, selection, spanConfig) {
+export default function(annotationData, command, typeDefinition, spanAdjuster, isDetectDelimiterEnable, isReplicateAuto, selection, spanConfig) {
   const newSpan = getNewSpan(annotationData, spanAdjuster, selection, spanConfig)
 
   // The span cross exists spans.
@@ -23,14 +23,14 @@ export default function(annotationData, command, typeContainer, spanAdjuster, is
     return
   }
 
-  const commands = createCommands(command, typeContainer, newSpan, isReplicateAuto, isDetectDelimiterEnable, spanConfig)
+  const commands = createCommands(command, typeDefinition, newSpan, isReplicateAuto, isDetectDelimiterEnable, spanConfig)
 
   command.invoke(commands, ['annotation'])
 }
 
-function createCommands(command, typeContainer, newSpan, isReplicateAuto, isDetectDelimiterEnable, spanConfig) {
+function createCommands(command, typeDefinition, newSpan, isReplicateAuto, isDetectDelimiterEnable, spanConfig) {
   const commands = [command.factory.spanCreateCommand(
-    typeContainer.entity.getDefaultType(), {
+    typeDefinition.entity.getDefaultType(), {
       begin: newSpan.begin,
       end: newSpan.end
     }
@@ -41,7 +41,7 @@ function createCommands(command, typeContainer, newSpan, isReplicateAuto, isDete
       command.factory.spanReplicateCommand({
           begin: newSpan.begin,
           end: newSpan.end
-        }, [typeContainer.entity.getDefaultType()],
+        }, [typeDefinition.entity.getDefaultType()],
         isDetectDelimiterEnable ? spanConfig.isDelimiter : null
       )
     )

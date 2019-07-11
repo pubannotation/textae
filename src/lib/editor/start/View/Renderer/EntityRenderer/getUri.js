@@ -1,10 +1,10 @@
 import uri from '../../../../uri'
 import getMatchPrefix from "./getMatchPrefix"
-export default function(namespace, typeContainer, type) {
+export default function(namespace, typeDefinition, type) {
   if (uri.isUri(type)) {
     return type
-  } else if (typeContainer.getUri(type)) {
-    return typeContainer.getUri(type)
+  } else if (typeDefinition.getUri(type)) {
+    return typeDefinition.getUri(type)
   } else if (namespace.some()) {
     const match = getMatchPrefix(namespace, type)
     if (match) {

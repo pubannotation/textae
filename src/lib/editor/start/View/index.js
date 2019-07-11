@@ -16,18 +16,18 @@ const BODY = `
 </div>
 `
 
-export default function(editor, annotationData, selectionModel, buttonController, typeGap, typeContainer) {
+export default function(editor, annotationData, selectionModel, buttonController, typeGap, typeDefinition) {
   editor[0].innerHTML = BODY
   setSelectionModelHandler(editor, annotationData, selectionModel, buttonController)
 
-  const relationRenderer = new RelationRenderer(editor, annotationData, selectionModel, typeContainer)
-  const annotationPosition = new AnnotationPosition(editor, annotationData, typeContainer)
+  const relationRenderer = new RelationRenderer(editor, annotationData, selectionModel, typeDefinition)
+  const annotationPosition = new AnnotationPosition(editor, annotationData, typeDefinition)
   annotationPosition.on('position-update.grid.end', (done) => {
     relationRenderer.arrangePositionAll()
     done()
   })
 
-  setHandlerOnTyapGapEvent(editor, annotationData, typeGap, typeContainer, annotationPosition)
+  setHandlerOnTyapGapEvent(editor, annotationData, typeGap, typeDefinition, annotationPosition)
   setHandlerOnDisplayEvent(editor, annotationPosition)
 
   initRenderer(
@@ -35,7 +35,7 @@ export default function(editor, annotationData, selectionModel, buttonController
     annotationData,
     selectionModel,
     typeGap,
-    typeContainer,
+    typeDefinition,
     buttonController.buttonStateHelper,
     relationRenderer,
     annotationPosition
@@ -50,15 +50,15 @@ export default function(editor, annotationData, selectionModel, buttonController
   }
 }
 
-function initRenderer(editor, annotationData, selectionModel, typeGap, typeContainer, buttonStateHelper, relationRenderer, annotationPosition) {
-  const renderer = new Renderer(editor, annotationData, selectionModel, buttonStateHelper, typeContainer, typeGap, relationRenderer),
+function initRenderer(editor, annotationData, selectionModel, typeGap, typeDefinition, buttonStateHelper, relationRenderer, annotationPosition) {
+  const renderer = new Renderer(editor, annotationData, selectionModel, buttonStateHelper, typeDefinition, typeGap, relationRenderer),
     debouncedUpdateAnnotationPosition = _.debounce(() => annotationPosition.updateAsync(typeGap()), 100)
 
   renderer.init(editor, annotationData, selectionModel)
     .on('change', debouncedUpdateAnnotationPosition)
     .on('all.change', () => {
       updateTextBoxHeight(editor[0])
-      lineHeight.setToTypeGap(editor[0], annotationData, typeContainer, typeGap())
+      lineHeight.setToTypeGap(editor[0], annotationData, typeDefinition, typeGap())
       debouncedUpdateAnnotationPosition()
     })
     .on('span.add', debouncedUpdateAnnotationPosition)
@@ -79,11 +79,11 @@ function initRenderer(editor, annotationData, selectionModel, typeGap, typeConta
     .on('relation.add', debouncedUpdateAnnotationPosition)
 }
 
-function setHandlerOnTyapGapEvent(editor, annotationData, typeGap, typeContainer, annotationPosition) {
+function setHandlerOnTyapGapEvent(editor, annotationData, typeGap, typeDefinition, annotationPosition) {
   const setTypeStyle = (newValue) => editor.find('.textae-editor__type').css(new TypeStyle(newValue))
 
   typeGap(setTypeStyle)
-  typeGap((newValue) => lineHeight.setToTypeGap(editor[0], annotationData, typeContainer, newValue))
+  typeGap((newValue) => lineHeight.setToTypeGap(editor[0], annotationData, typeDefinition, newValue))
   typeGap((newValue) => annotationPosition.update(newValue))
 }
 

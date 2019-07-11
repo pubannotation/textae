@@ -3,7 +3,7 @@ import create from './create'
 import removeEntityElement from './removeEntityElement'
 import removeNoEntityPaneElement from './removeNoEntityPaneElement'
 
-export default function(editor, annotationData, selectionModel, typeContainer, gridRenderer, modification, entity) {
+export default function(editor, annotationData, selectionModel, typeDefinition, gridRenderer, modification, entity) {
   const selector = new Selector(editor, annotationData)
 
   // Remove an old entity.
@@ -14,7 +14,7 @@ export default function(editor, annotationData, selectionModel, typeContainer, g
   create(
     editor,
     annotationData.namespace,
-    typeContainer,
+    typeDefinition,
     gridRenderer,
     modification,
     entity

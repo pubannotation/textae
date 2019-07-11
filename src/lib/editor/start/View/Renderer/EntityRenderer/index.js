@@ -6,10 +6,10 @@ import changeModificationOfExists from './changeModificationOfExists'
 import destroy from './destroy'
 
 export default class {
-  constructor(editor, annotationData, selectionModel, typeContainer, gridRenderer, renderEntityHandler) {
+  constructor(editor, annotationData, selectionModel, typeDefinition, gridRenderer, renderEntityHandler) {
     this.editor = editor
     this.annotationData = annotationData
-    this.typeContainer = typeContainer
+    this.typeDefinition = typeDefinition
     this.gridRenderer = gridRenderer
     this.renderEntityHandler = renderEntityHandler
     this.selectionModel = selectionModel
@@ -20,7 +20,7 @@ export default class {
     creat(
       this.editor,
       this.annotationData.namespace,
-      this.typeContainer,
+      this.typeDefinition,
       this.gridRenderer,
       this.modification,
       entity
@@ -34,7 +34,7 @@ export default class {
       this.editor,
       this.annotationData,
       this.selectionModel,
-      this.typeContainer,
+      this.typeDefinition,
       this.gridRenderer,
       this.modification,
       entity
@@ -60,12 +60,12 @@ export default class {
   }
 
   updateLabel(type) {
-    updateLabelofType(this.annotationData, this.typeContainer, type)
+    updateLabelofType(this.annotationData, this.typeDefinition, type)
   }
 
   updateLabelAll() {
     this.annotationData.entity.all().map((entity) => {
-      updateLabelofType(this.annotationData, this.typeContainer, entity.type)
+      updateLabelofType(this.annotationData, this.typeDefinition, entity.type)
     })
   }
 }

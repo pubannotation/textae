@@ -4,8 +4,8 @@ import update from './update'
 
 export default class {
 
-  constructor(editor, predicate, value, done, typeContainer, autocompletionWs) {
-    this.typeContainer = typeContainer
+  constructor(editor, predicate, value, done, typeDefinition, autocompletionWs) {
+    this.typeDefinition = typeDefinition
     this.done = done
     this.autocompletionWs = autocompletionWs
 
@@ -28,7 +28,7 @@ export default class {
   }
 
   update(predicate, value) {
-    update(this.$dialog, this.typeContainer, this.autocompletionWs, this.done, predicate, value)
+    update(this.$dialog, this.typeDefinition, this.autocompletionWs, this.done, predicate, value)
   }
 
   open() {

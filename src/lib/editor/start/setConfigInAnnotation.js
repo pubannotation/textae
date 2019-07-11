@@ -1,8 +1,8 @@
 import setSpanAndTypeConfig from './setSpanAndTypeConfig'
 
-export default function(spanConfig, typeContainer, annotation) {
+export default function(spanConfig, typeDefinition, annotation) {
   spanConfig.reset()
-  setSpanAndTypeConfig(spanConfig, typeContainer, annotation.config)
+  setSpanAndTypeConfig(spanConfig, typeDefinition, annotation.config)
 
   if (!annotation.config) {
     return 'no config'

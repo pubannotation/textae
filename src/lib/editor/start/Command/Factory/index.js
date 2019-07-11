@@ -36,9 +36,9 @@ export default function Factory(editor, annotationData, selectionModel) {
       relationChangeTypeCommand: (id, newType) => new ChangeTypeCommand(editor, annotationData, 'relation', id, newType),
       modificationCreateCommand: (modification) => new CreateCommand(editor, annotationData, selectionModel, 'modification', false, modification),
       modificationRemoveCommand: (modification) => new RemoveCommand(editor, annotationData, selectionModel, 'modification', modification),
-      typeDefinitionCreateCommand: (typeContainer, newType) => new TypeDefinitionCreateCommand(editor, typeContainer, newType),
-      typeDefinitionChangeCommand: (typeContainer, modelType, id, newType) => new TypeDefinitionChangeCommand(editor, annotationData, typeContainer, modelType, id, newType, null),
-      typeDefinitionRemoveCommand: (typeContainer, removeType) => new TypeDefinitionRemoveCommand(editor, typeContainer, removeType),
+      typeDefinitionCreateCommand: (typeDefinition, newType) => new TypeDefinitionCreateCommand(editor, typeDefinition, newType),
+      typeDefinitionChangeCommand: (typeDefinition, modelType, id, newType) => new TypeDefinitionChangeCommand(editor, annotationData, typeDefinition, modelType, id, newType, null),
+      typeDefinitionRemoveCommand: (typeDefinition, removeType) => new TypeDefinitionRemoveCommand(editor, typeDefinition, removeType),
     }
 
   return factory

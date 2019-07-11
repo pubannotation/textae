@@ -6,13 +6,13 @@ import selectLabel from './selectLabel'
 import hoverdownLabel from './hoverdownLabel'
 import hoverdownLine from './hoverdownLine'
 
-export default function(connect, editor, annotationData, typeContainer, relationId) {
+export default function(connect, editor, annotationData, typeDefinition, relationId) {
   if (!connect.dead) {
     selectLine(editor, connect)
     selectLabel(connect)
     hoverdownLine(connect)
     hoverdownLabel(connect)
-    connect.setPaintStyle(Object.assign(connectorStrokeStyle(annotationData, typeContainer, relationId), {
+    connect.setPaintStyle(Object.assign(connectorStrokeStyle(annotationData, typeDefinition, relationId), {
       lineWidth: POINTUP_LINE_WIDTH
     }))
     jsPlumbArrowOverlayUtil.showBigArrow(connect)

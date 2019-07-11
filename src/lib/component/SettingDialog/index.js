@@ -4,10 +4,10 @@ import bind from './bind'
 import update from './update'
 import appendToDialog from './appendToDialog'
 
-export default function(editor, typeContainer, displayInstance) {
+export default function(editor, typeDefinition, displayInstance) {
   const $content = create(editor, displayInstance)
 
-  bind($content, editor, displayInstance, typeContainer)
+  bind($content, editor, displayInstance, typeDefinition)
 
   const okHandler = () => {
     $dialog.close()
@@ -25,7 +25,7 @@ export default function(editor, typeContainer, displayInstance) {
   })
 
   return () => {
-    update($dialog, editor, typeContainer, displayInstance)
+    update($dialog, editor, typeDefinition, displayInstance)
     return $dialog.open()
   }
 }

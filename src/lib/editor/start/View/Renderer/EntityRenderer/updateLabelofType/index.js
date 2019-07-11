@@ -1,7 +1,7 @@
 import getTypeDom from '../../getTypeDom'
 import updateLabel from './updateLabel'
 
-export default function(annotationData, typeContainer, type) {
+export default function(annotationData, typeDefinition, type) {
   annotationData
     .entity
     .all()
@@ -10,5 +10,5 @@ export default function(annotationData, typeContainer, type) {
     .filter(typeDom => typeDom)
     .map(typeDom => typeDom.querySelector('.textae-editor__type-label'))
     .filter(label => label)
-    .forEach(label => updateLabel(label, annotationData.namespace, typeContainer, type))
+    .forEach(label => updateLabel(label, annotationData.namespace, typeDefinition, type))
 }

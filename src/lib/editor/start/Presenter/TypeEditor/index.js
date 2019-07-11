@@ -10,7 +10,7 @@ export default function(
   spanConfig,
   command,
   modeAccordingToButton,
-  typeContainer,
+  typeDefinition,
   autocompletionWs
 ) {
   // will init.
@@ -21,7 +21,7 @@ export default function(
     spanConfig,
     command,
     modeAccordingToButton,
-    typeContainer,
+    typeDefinition,
     () => cancelSelect(pallet, selectionModel)
   )
 

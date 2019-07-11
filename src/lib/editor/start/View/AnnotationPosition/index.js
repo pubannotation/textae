@@ -5,9 +5,9 @@ from 'events'
 import GridLayout from './GridLayout'
 
 export default class extends EventEmitter {
-  constructor(editor, annotationData, typeContainer) {
+  constructor(editor, annotationData, typeDefinition) {
     super()
-    this.gridLayout = new GridLayout(editor, annotationData, typeContainer)
+    this.gridLayout = new GridLayout(editor, annotationData, typeDefinition)
   }
 
   update(typeGap) {

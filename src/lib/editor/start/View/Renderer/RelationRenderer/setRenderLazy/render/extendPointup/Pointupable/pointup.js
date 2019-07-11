@@ -5,11 +5,11 @@ import hoverupLabel from './hoverupLabel'
 import hoverupLine from './hoverupLine'
 import hasClass from './hasClass'
 
-export default function(connect, annotationData, typeContainer, relationId) {
+export default function(connect, annotationData, typeDefinition, relationId) {
   if (!hasClass(connect, 'ui-selected')) {
     hoverupLine(connect)
     hoverupLabel(connect)
-    connect.setPaintStyle(Object.assign(connectorStrokeStyle(annotationData, typeContainer, relationId), {
+    connect.setPaintStyle(Object.assign(connectorStrokeStyle(annotationData, typeDefinition, relationId), {
       lineWidth: POINTUP_LINE_WIDTH
     }))
     jsPlumbArrowOverlayUtil.showBigArrow(connect)

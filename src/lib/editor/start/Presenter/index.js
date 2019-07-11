@@ -16,7 +16,7 @@ export default class {
     clipBoard,
     buttonController,
     typeGap,
-    typeContainer,
+    typeDefinition,
     writable,
     autocompletionWs,
     mode
@@ -29,7 +29,7 @@ export default class {
       spanConfig,
       command,
       buttonController.modeAccordingToButton,
-      typeContainer,
+      typeDefinition,
       autocompletionWs
     )
 
@@ -49,7 +49,7 @@ export default class {
     transitSaveButton(writable, editMode, buttonController)
     bindModelChange(annotationData, writable, editMode, mode)
 
-    this.event = createEventMap(command, selectionModel, typeContainer, displayInstance, annotationData, buttonController, spanConfig, clipBoard, typeEditor, editor, editMode)
+    this.event = createEventMap(command, selectionModel, typeDefinition, displayInstance, annotationData, buttonController, spanConfig, clipBoard, typeEditor, editor, editMode)
 
     // The jsPlumbConnetion has an original event mecanism.
     // We can only bind the connection directory.

@@ -49,6 +49,6 @@ const html = `
 
 const template = Handlebars.compile(html)
 
-export default function(typeContainer) {
-  return template(typeContainer.typeDefinition)
+export default function(typeDefinition) {
+  return template(typeDefinition.typeDefinition)
 }

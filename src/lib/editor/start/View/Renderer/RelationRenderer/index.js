@@ -10,11 +10,11 @@ import changeJsPlumbModification from './changeJsPlumbModification'
 import renderLazyRelationAll from './renderLazyRelationAll'
 
 export default class {
-  constructor(editor, annotationData, selectionModel, typeContainer) {
+  constructor(editor, annotationData, selectionModel, typeDefinition) {
     this.editor = editor
     this.annotationData = annotationData
     this.selectionModel = selectionModel
-    this.typeContainer = typeContainer
+    this.typeDefinition = typeDefinition
     this.modificationRenderer = new ModificationRenderer(annotationData)
     this.domPositionCache = new DomPositionCache(editor, annotationData.entity)
     this.jsPlumbInstance = makeJsPlumbInstance(getAnnotationBox(editor))
@@ -34,16 +34,16 @@ export default class {
     // Create a dummy relation when before moving grids after creation grids.
     // Because a jsPlumb error occurs when a relation between same points.
     // And entities of same length spans was same point before moving grids.
-    setRenderLazy(this.jsPlumbInstance, this.editor, this.annotationData, this.typeContainer, this.modificationRenderer, relation)
+    setRenderLazy(this.jsPlumbInstance, this.editor, this.annotationData, this.typeDefinition, this.modificationRenderer, relation)
   }
 
   change(relation) {
-    changeType(this.editor, this.annotationData, this.typeContainer, this.selectionModel, relation)
+    changeType(this.editor, this.annotationData, this.typeDefinition, this.selectionModel, relation)
   }
 
   changeAll() {
     this.annotationData.relation.all().map((relation) => {
-      changeType(this.editor, this.annotationData, this.typeContainer, this.selectionModel, relation)
+      changeType(this.editor, this.annotationData, this.typeDefinition, this.selectionModel, relation)
     })
   }
 

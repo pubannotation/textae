@@ -4,26 +4,26 @@ import select from './select'
 import deselect from './deselect'
 
 export default class {
-  constructor(editor, annotationData, typeContainer, connect) {
+  constructor(editor, annotationData, typeDefinition, connect) {
     this.editor = editor
     this.annotationData = annotationData
-    this.typeContainer = typeContainer
+    this.typeDefinition = typeDefinition
     this.connect = connect
   }
 
   pointup() {
-    pointup(this.connect, this.annotationData, this.typeContainer, this.connect.relationId)
+    pointup(this.connect, this.annotationData, this.typeDefinition, this.connect.relationId)
   }
 
   pointdown() {
-    pointdown(this.connect, this.annotationData, this.typeContainer, this.connect.relationId)
+    pointdown(this.connect, this.annotationData, this.typeDefinition, this.connect.relationId)
   }
 
   select() {
-    select(this.connect, this.editor, this.annotationData, this.typeContainer, this.connect.relationId)
+    select(this.connect, this.editor, this.annotationData, this.typeDefinition, this.connect.relationId)
   }
 
   deselect() {
-    deselect(this.connect, this.annotationData, this.typeContainer, this.connect.relationId)
+    deselect(this.connect, this.annotationData, this.typeDefinition, this.connect.relationId)
   }
 }

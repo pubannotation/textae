@@ -1,6 +1,6 @@
 import setTypeConfig from './setTypeConfig'
 
-export default function(spanConfig, typeContainer, config) {
+export default function(spanConfig, typeDefinition, config) {
   spanConfig.set(config)
-  setTypeConfig(typeContainer, config)
+  setTypeConfig(typeDefinition, config)
 }

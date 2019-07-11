@@ -1,10 +1,10 @@
 import KINDS from './Command/Factory/kinds'
 
-export default function(dataAccessObject, history, annotationData, typeContainer, getOriginalAnnotation, params) {
+export default function(dataAccessObject, history, annotationData, typeDefinition, getOriginalAnnotation, params) {
   const showAccess = () => dataAccessObject.showAccess(history.hasAnythingToSave(KINDS.anno), params),
-    showSave = () => showSaveDialogWithEditedData(dataAccessObject, annotationData, typeContainer, getOriginalAnnotation, params),
+    showSave = () => showSaveDialogWithEditedData(dataAccessObject, annotationData, typeDefinition, getOriginalAnnotation, params),
     showAccessConf = () => dataAccessObject.showAccessConf(history.hasAnythingToSave(KINDS.conf), params),
-    showSaveConf = () => showSaveConfDialogWithEditedData(dataAccessObject, annotationData, typeContainer, getOriginalAnnotation, params)
+    showSaveConf = () => showSaveConfDialogWithEditedData(dataAccessObject, annotationData, typeDefinition, getOriginalAnnotation, params)
 
   return {
     showAccess,
@@ -14,9 +14,9 @@ export default function(dataAccessObject, history, annotationData, typeContainer
   }
 }
 
-function showSaveDialogWithEditedData(dataAccessObject, annotationData, typeContainer, getOriginalAnnotation, params) {
+function showSaveDialogWithEditedData(dataAccessObject, annotationData, typeDefinition, getOriginalAnnotation, params) {
   const originalData = getOriginalAnnotation(),
-    config = typeContainer.getConfig()
+    config = typeDefinition.getConfig()
 
   dataAccessObject.showSave(
     originalData,
@@ -25,9 +25,9 @@ function showSaveDialogWithEditedData(dataAccessObject, annotationData, typeCont
   )
 }
 
-function showSaveConfDialogWithEditedData(dataAccessObject, annotationData, typeContainer, getOriginalAnnotation, params) {
+function showSaveConfDialogWithEditedData(dataAccessObject, annotationData, typeDefinition, getOriginalAnnotation, params) {
   const originalData = getOriginalAnnotation(),
-    config = typeContainer.getConfig()
+    config = typeDefinition.getConfig()
 
   dataAccessObject.showSaveConf(
     originalData,

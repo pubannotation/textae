@@ -6,11 +6,11 @@ import getHandlerForPallet from './getHandlerForPallet'
 import initiateEditAttribute from './initiateEditAttribute'
 
 // Provide handlers to edit elements according to an edit mode.
-export default function(editor, annotationData, selectionModel, spanConfig, command, modeAccordingToButton, typeContainer, cancelSelect) {
+export default function(editor, annotationData, selectionModel, spanConfig, command, modeAccordingToButton, typeDefinition, cancelSelect) {
   let handler = 'default'
 
-  const editEntity = new EditEntity(editor, annotationData, selectionModel, command, modeAccordingToButton, typeContainer, spanConfig, cancelSelect)
-  const editRelation = new EditRelation(editor, annotationData, selectionModel, command, typeContainer, cancelSelect)
+  const editEntity = new EditEntity(editor, annotationData, selectionModel, command, modeAccordingToButton, typeDefinition, spanConfig, cancelSelect)
+  const editRelation = new EditRelation(editor, annotationData, selectionModel, command, typeDefinition, cancelSelect)
 
   return {
     getHandlerType: () => handler,

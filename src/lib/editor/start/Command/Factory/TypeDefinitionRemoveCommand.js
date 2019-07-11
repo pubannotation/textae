@@ -3,15 +3,15 @@ import commandLog from './commandLog'
 import TypeDefinitionCreateCommand from './TypeDefinitionCreateCommand'
 
 class TypeRemoveCommand extends BaseCommand {
-  constructor(editor, typeContainer, removeType, revertDefaultTypeId) {
+  constructor(editor, typeDefinition, removeType, revertDefaultTypeId) {
     super(function() {
       let id = removeType.id,
-        oldType = typeContainer.getDefinedType(id)
+        oldType = typeDefinition.getDefinedType(id)
 
-      typeContainer.remove(id)
+      typeDefinition.remove(id)
 
       if (revertDefaultTypeId) {
-        typeContainer.setDefaultType(revertDefaultTypeId)
+        typeDefinition.setDefaultType(revertDefaultTypeId)
       }
 
       if (oldType) {
@@ -19,10 +19,10 @@ class TypeRemoveCommand extends BaseCommand {
       }
 
       // Set revert
-      this.revert = () => new TypeDefinitionCreateCommand(editor, typeContainer, removeType)
+      this.revert = () => new TypeDefinitionCreateCommand(editor, typeDefinition, removeType)
 
       commandLog('remove a type:' + JSON.stringify(removeType)
-        + ', default is `' + typeContainer.getDefaultType() + '`')
+        + ', default is `' + typeDefinition.getDefaultType() + '`')
     })
   }
 }

@@ -1,6 +1,6 @@
 import arrangeGridPositionPromise from './arrangeGridPositionPromise'
 
-export default function(domPositionCache, typeContainer, annotationData, typeGap) {
+export default function(domPositionCache, typeDefinition, annotationData, typeGap) {
   return annotationData.span.all()
     // There is at least one type in span that has a grid.
     .filter((span) => span.getTypes().length > 0)
@@ -9,5 +9,5 @@ export default function(domPositionCache, typeContainer, annotationData, typeGap
       domPositionCache.getSpan(span.id)
       return span
     })
-    .map((span) => arrangeGridPositionPromise(domPositionCache, typeContainer, annotationData, typeGap, span))
+    .map((span) => arrangeGridPositionPromise(domPositionCache, typeDefinition, annotationData, typeGap, span))
 }

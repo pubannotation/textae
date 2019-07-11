@@ -3,14 +3,14 @@ import customizeqQueryUiAutocomplete from '../../../dialog/EditDialog/customize-
 
 customizeqQueryUiAutocomplete()
 
-export default function($dialog, typeContainer, autocompletionWs, done, id, label, color, isDefault) {
+export default function($dialog, typeDefinition, autocompletionWs, done, id, label, color, isDefault) {
   let $inputs = $dialog.find('input')
 
   // Update the source
   $inputs.eq(0)
     .autocomplete({
       source: (request, response) => {
-        source(typeContainer, autocompletionWs, request, response)
+        source(typeDefinition, autocompletionWs, request, response)
       },
       minLength: 3,
       select: (event, ui) => select($inputs.eq(0), $inputs.eq(1), ui)
@@ -18,7 +18,7 @@ export default function($dialog, typeContainer, autocompletionWs, done, id, labe
   $inputs.eq(1)
     .autocomplete({
       source: (request, response) => {
-        source(typeContainer, autocompletionWs, request, response)
+        source(typeDefinition, autocompletionWs, request, response)
       },
       minLength: 3,
       select: (event, ui) => select($inputs.eq(0), $inputs.eq(1), ui)

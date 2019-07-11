@@ -3,8 +3,8 @@ import update from './update'
 import CLASS_NAMES from './className'
 
 export default class {
-  constructor(editor, typeContainer, done, autocompletionWs, title) {
-    this.typeContainer = typeContainer
+  constructor(editor, typeDefinition, done, autocompletionWs, title) {
+    this.typeDefinition = typeDefinition
     this.done = done
     this.autocompletionWs = autocompletionWs
 
@@ -31,7 +31,7 @@ export default class {
   }
 
   update(id, label, color, isDefault) {
-    update(this.$dialog, this.typeContainer, this.autocompletionWs, this.done, id, label, color, isDefault)
+    update(this.$dialog, this.typeDefinition, this.autocompletionWs, this.done, id, label, color, isDefault)
   }
 
   open() {
