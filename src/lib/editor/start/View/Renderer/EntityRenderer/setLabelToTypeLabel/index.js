@@ -1,5 +1,5 @@
-import getLabel from './getLabel'
-import getUri from './getUri'
+import getLabel from '../getLabel'
+import getUri from '../getUri'
 import getChildAttributesHtml from './getChildAttributesHtml'
 
 export default function setLabelToTypeLabel(typeLabel, namespace, typeContainer, type) {

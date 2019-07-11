@@ -1,18 +1,30 @@
 import Handlebars from 'handlebars'
 import idFactory from '../../../../../../idFactory'
+import getLabel from '../../getLabel'
+import getUri from '../../getUri'
+
 
 // A Type element has an entity_pane elment that has a label and will have entities.
 const source = `
 <div id="{{id}}" class="textae-editor__type">
   <div id="P-{{id}}" class="textae-editor__entity-pane"></div>
-  <div class="textae-editor__type-label" tabindex="0"></div>
+  <div class="textae-editor__type-label" tabindex="0" style="background-color: {{color}}">
+    {{#if href}}
+      <a target="_blank"/ href="{{href}}">{{label}}</a>
+    {{else}}
+      {{label}}
+    {{/if}}
+  </div>
   <div class="textae-editor__attribute-button textae-editor__attribute-button--add" title="Add a new attribute to this entity."></div>
 </div>
 `
 const template = Handlebars.compile(source)
 
-export default function(spanId, type) {
-  const typeId = idFactory.makeTypeId(spanId, type)
+export default function(spanId, namespace, typeContainer, type) {
+  const id = idFactory.makeTypeId(spanId, type)
+  const label = getLabel(namespace, typeContainer, type)
+  const href = getUri(namespace, typeContainer, type)
+  const color = typeContainer.getColor(type)
 
-  return template({id: typeId})
+  return template({id, label, href, color})
 }

@@ -1,4 +1,4 @@
-import uri from '../../../../../uri'
+import uri from '../../../../uri'
 import getMatchPrefix from "./getMatchPrefix"
 export default function(namespace, typeContainer, type) {
   if (uri.isUri(type)) {

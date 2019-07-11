@@ -1,4 +1,4 @@
-import getTypeDom from '../getTypeDom'
+import getTypeDom from '../../getTypeDom'
 import updateLabel from './updateLabel'
 
 export default function(annotationData, typeContainer, type) {

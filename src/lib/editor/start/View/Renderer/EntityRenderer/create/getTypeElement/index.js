@@ -1,7 +1,6 @@
 import getTypeDom from '../../../getTypeDom'
 import createEmptyTypeHtml from './createEmptyTypeHtml'
 import getGrid from './getGrid'
-import updateLabel from '../../updateLabel'
 
 // render type unless exists.
 export default function(namespace, typeContainer, gridRenderer, spanId, type) {
@@ -11,11 +10,7 @@ export default function(namespace, typeContainer, gridRenderer, spanId, type) {
     return dom
   }
 
-  getGrid(gridRenderer, spanId).insertAdjacentHTML('beforeend', createEmptyTypeHtml(spanId, type))
+  getGrid(gridRenderer, spanId).insertAdjacentHTML('beforeend', createEmptyTypeHtml(spanId, namespace, typeContainer, type))
 
-  const newDom = getTypeDom(spanId, type)
-
-  updateLabel(newDom.querySelector('.textae-editor__type-label'), namespace, typeContainer, type)
-
-  return newDom
+  return getTypeDom(spanId, type)
 }
