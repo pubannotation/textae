@@ -2,7 +2,7 @@ import DataAccessObject from '../component/DataAccessObject'
 import ButtonController from '../buttonModel/ButtonController'
 import Writable from '../buttonModel/Writable'
 // model manages data objects.
-import Model from './Model'
+import AnnotationData from './Model/AnnotationData'
 import Selection from './Selection'
 // The history of command that providing undo and redo.
 import History from './History'
@@ -16,7 +16,7 @@ from 'events'
 const CONFIRM_DISCARD_CHANGE_MESSAGE = 'There is a change that has not been saved. If you procceed now, you will lose it.'
 
 export default function() {
-  const annotationData = new Model(this).annotationData
+  const annotationData = new AnnotationData(this)
   // A contaier of selection state.
   const selectionModel = new Selection(annotationData)
   const history = new History()
