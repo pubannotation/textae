@@ -1,6 +1,4 @@
-import _ from 'underscore'
-
-var defaults = {
+const defaults = {
   "delimiter characters": [
     " ",
     ".",
@@ -32,38 +30,43 @@ var defaults = {
   ]
 }
 
-module.exports = function() {
-  var delimiterCharacters = [],
-    blankCharacters = [],
-    set = function(config) {
-      var settings = _.extend({}, defaults, config)
+export default function() {
+  let delimiterCharacters = []
+  let blankCharacters = []
 
-      delimiterCharacters = settings['delimiter characters']
-      blankCharacters = settings['non-edge characters']
-      return config
-    },
-    reset = _.partial(set, defaults),
-    isDelimiter = function(char) {
-      if (delimiterCharacters.indexOf('ANY') >= 0) {
-        return 1
-      }
-      return delimiterCharacters.indexOf(char) >= 0
-    },
-    isBlankCharacter = function(char) {
-      return blankCharacters.indexOf(char) >= 0
-    },
-    removeBlankChractors = function(str) {
-      blankCharacters.forEach(function(char) {
-        str = str.replace(char, '')
-      })
-      return str
+  const set = (config) => {
+    var settings = Object.assign({}, defaults, config)
+
+    delimiterCharacters = settings['delimiter characters']
+    blankCharacters = settings['non-edge characters']
+    return config
+  }
+
+  const reset = () => set(defaults)
+
+  const isDelimiter = (char) => {
+    if (delimiterCharacters.indexOf('ANY') >= 0) {
+      return 1
     }
 
+    return delimiterCharacters.indexOf(char) >= 0
+  }
+
+  const isBlankCharacter = (char) => blankCharacters.indexOf(char) >= 0
+
+  const removeBlankChractors = (str) => {
+    for (const char of blankCharacters) {
+      str = str.replace(char, '')
+    }
+
+    return str
+  }
+
   return {
-    reset: reset,
-    set: set,
-    isDelimiter: isDelimiter,
-    isBlankCharacter: isBlankCharacter,
-    removeBlankChractors: removeBlankChractors
+    reset,
+    set,
+    isDelimiter,
+    isBlankCharacter,
+    removeBlankChractors
   }
 }
