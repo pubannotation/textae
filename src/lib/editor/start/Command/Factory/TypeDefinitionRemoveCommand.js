@@ -1,6 +1,6 @@
 import BaseCommand from './BaseCommand'
 import commandLog from './commandLog'
-import TypeCreateCommand from './TypeCreateCommand'
+import TypeDefinitionCreateCommand from './TypeDefinitionCreateCommand'
 
 class TypeRemoveCommand extends BaseCommand {
   constructor(editor, typeContainer, removeType, revertDefaultTypeId) {
@@ -19,7 +19,7 @@ class TypeRemoveCommand extends BaseCommand {
       }
 
       // Set revert
-      this.revert = () => new TypeCreateCommand(editor, typeContainer, removeType)
+      this.revert = () => new TypeDefinitionCreateCommand(editor, typeContainer, removeType)
 
       commandLog('remove a type:' + JSON.stringify(removeType)
         + ', default is `' + typeContainer.getDefaultType() + '`')

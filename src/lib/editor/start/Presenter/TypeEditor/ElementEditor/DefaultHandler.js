@@ -16,20 +16,20 @@ export default class {
 
   addType(newType) {
     console.assert(newType.id, 'id is necessary!')
-    return this.command.factory.typeCreateCommand(this.typeContainer, newType)
+    return this.command.factory.typeDefinitionCreateCommand(this.typeContainer, newType)
   }
 
   changeType(oldType, newType) {
-    return this.command.factory.typeChangeCommand(this.typeContainer, this.modelType, oldType, newType)
+    return this.command.factory.typeDefinitionChangeCommand(this.typeContainer, this.modelType, oldType, newType)
   }
 
   changeLabelOfId(id, label) {
     const oldType = this.typeContainer.getDefinedType(id)
 
     if (!oldType.id) {
-      return this.command.factory.typeCreateCommand(this.typeContainer, {id: id, label: label})
+      return this.command.factory.typeDefinitionCreateCommand(this.typeContainer, {id: id, label: label})
     } else if (oldType.label !== label) {
-      return this.command.factory.typeChangeCommand(this.typeContainer, this.modelType, id, {label: label})
+      return this.command.factory.typeDefinitionChangeCommand(this.typeContainer, this.modelType, id, {label: label})
     }
   }
 
@@ -82,6 +82,6 @@ export default class {
       throw new Error('You must set the type id to remove.')
     }
 
-    return [this.command.factory.typeRemoveCommand(this.typeContainer, removeType)]
+    return [this.command.factory.typeDefinitionRemoveCommand(this.typeContainer, removeType)]
   }
 }

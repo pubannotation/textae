@@ -1,6 +1,6 @@
 import BaseCommand from './BaseCommand'
 import commandLog from './commandLog'
-import TypeRemoveCommand from './TypeRemoveCommand'
+import TypeDefinitionRemoveCommand from './TypeDefinitionRemoveCommand'
 
 class TypeCreateCommand extends BaseCommand {
   constructor(editor, typeContainer, newType) {
@@ -20,7 +20,7 @@ class TypeCreateCommand extends BaseCommand {
         typeContainer.setDefaultType(newType.id)
       }
 
-      this.revert = () => new TypeRemoveCommand(editor, typeContainer, newType, revertDefaultTypeId)
+      this.revert = () => new TypeDefinitionRemoveCommand(editor, typeContainer, newType, revertDefaultTypeId)
 
       commandLog(`create a new type:${JSON.stringify(newType)}, default is ${ typeContainer.getDefaultType() }`)
     })
