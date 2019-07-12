@@ -16,6 +16,7 @@ export default function(command, presenter, daoHandler, buttonController, update
     ['textae.control.button.pallet.click', presenter.event.showPallet],
     ['textae.control.button.negation.click', presenter.event.negation],
     ['textae.control.button.speculation.click', presenter.event.speculation],
+    ['textae.control.button.attribute.click', presenter.event.createAttribute],
     ['textae.control.button.delete.click', presenter.event.removeSelectedElements],
     ['textae.control.button.copy.click', presenter.event.copyEntities],
     ['textae.control.button.paste.click', presenter.event.pasteEntities],
