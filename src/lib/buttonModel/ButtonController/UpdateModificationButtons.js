@@ -1,25 +1,25 @@
 import _ from 'underscore'
 
 export default function(annotationData, modeAccordingToButton) {
-  var doesAllModificaionHasSpecified = function(specified, modificationsOfSelectedElement) {
-      return modificationsOfSelectedElement.length > 0 && _.every(modificationsOfSelectedElement, function(m) {
-        return _.contains(m, specified)
-      })
-    },
-    updateModificationButton = function(specified, modificationsOfSelectedElement) {
-      // All modification has specified modification if exits.
-      modeAccordingToButton[specified.toLowerCase()]
-        .value(doesAllModificaionHasSpecified(specified, modificationsOfSelectedElement))
-    }
-
   return function(selectionModel) {
-    var modifications = selectionModel.all().map(function(e) {
-      return annotationData.getModificationOf(e).map(function(m) {
-        return m.pred
-      })
-    })
+    const modifications = selectionModel.all().map((e) => annotationData.getModificationOf(e).map((m) => m.pred))
 
-    updateModificationButton('Negation', modifications)
-    updateModificationButton('Speculation', modifications)
+    updateModificationButton(modeAccordingToButton, 'Negation', modifications)
+    updateModificationButton(modeAccordingToButton, 'Speculation', modifications)
   }
 }
+
+function updateModificationButton(modeAccordingToButton, specified, modificationsOfSelectedElement) {
+  // All modification has specified modification if exits.
+  modeAccordingToButton[specified.toLowerCase()]
+    .value(doesAllModificaionHasSpecified(specified, modificationsOfSelectedElement))
+}
+
+function doesAllModificaionHasSpecified(specified, modificationsOfSelectedElement) {
+  if (modificationsOfSelectedElement.length < 0) {
+    return false
+  }
+
+  return modificationsOfSelectedElement.length === modificationsOfSelectedElement.filter((m) => m.includes(specified)).length
+}
+
