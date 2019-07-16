@@ -1,6 +1,5 @@
 import ModeAccordingToButton from './ModeAccordingToButton'
 import ButtonEnableStates from './ButtonEnableStates'
-import UpdateModificationButtons from './UpdateModificationButtons'
 import ButtonTransitStates from './ButtonTransitStates'
 import ButtonStateHelper from './ButtonStateHelper'
 
@@ -11,19 +10,16 @@ export default function(editor, annotationData, selectionModel, clipBoard) {
   // Save enable/disable state of contorol buttons.
   const buttonEnableStates = new ButtonEnableStates(selectionModel, buttonEnableStates, clipBoard)
 
-  // Change push/unpush of buttons of modifications.
-  const updateModificationButtons = new UpdateModificationButtons(annotationData, modeAccordingToButton)
-
   // Toggle class to transit icon image.
   const buttonTransitStates = new ButtonTransitStates()
 
   // Helper to update button state.
   const buttonStateHelper = new ButtonStateHelper(
-    selectionModel,
-    modeAccordingToButton,
     buttonEnableStates,
     buttonTransitStates,
-    updateModificationButtons
+    annotationData,
+    modeAccordingToButton,
+    selectionModel
   )
 
   // Proragate events.
