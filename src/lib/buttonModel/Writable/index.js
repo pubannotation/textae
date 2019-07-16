@@ -1,5 +1,6 @@
 // Maintainance a state of which the save button is able to be push.
 import Observable from "observ"
+import updateWritable from './updateWritable'
 
 export default function() {
   let isDataModified = false
@@ -12,6 +13,9 @@ export default function() {
     },
     update(val) {
       o.set(isDataModified || val)
+    },
+    updateWithModify(multitrack, reject) {
+      updateWritable(this, multitrack, reject)
     }
   })
 }

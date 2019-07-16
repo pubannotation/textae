@@ -1,9 +1,9 @@
 import {
     hasError
 }
-from '../../../Model/AnnotationData/parseAnnotation/validateAnnotation'
+from '../../editor/Model/AnnotationData/parseAnnotation/validateAnnotation'
 
-export default function(multitrack, reject, writable) {
+export default function(writable, multitrack, reject) {
   writable.forceModified(false)
 
   if (multitrack) {

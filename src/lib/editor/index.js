@@ -12,7 +12,6 @@ import {
   EventEmitter as EventEmitter
 }
 from 'events'
-import updateWritable from './start/Presenter/bindModelChange/updateWritable'
 
 const CONFIRM_DISCARD_CHANGE_MESSAGE = 'There is a change that has not been saved. If you procceed now, you will lose it.'
 
@@ -40,7 +39,7 @@ export default function() {
 
   writable(val => buttonController.buttonStateHelper.transit('write', val))
   annotationData
-    .on('all.change', (_, multitrack, reject) => updateWritable(multitrack, reject, writable))
+    .on('all.change', (_, multitrack, reject) => writable.updateWithModify(multitrack, reject))
 
 
   // public funcitons of editor
