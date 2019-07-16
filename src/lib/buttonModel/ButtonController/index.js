@@ -5,7 +5,7 @@ import ButtonStateHelper from './ButtonStateHelper'
 
 export default function(editor, annotationData, selectionModel, clipBoard) {
   // Save state of push control buttons.
-  const modeAccordingToButton = new ModeAccordingToButton()
+  const modeAccordingToButton = new ModeAccordingToButton(annotationData)
 
   // Save enable/disable state of contorol buttons.
   const buttonEnableStates = new ButtonEnableStates(selectionModel, buttonEnableStates, clipBoard)
@@ -17,7 +17,6 @@ export default function(editor, annotationData, selectionModel, clipBoard) {
   const buttonStateHelper = new ButtonStateHelper(
     buttonEnableStates,
     buttonTransitStates,
-    annotationData,
     modeAccordingToButton,
     selectionModel
   )

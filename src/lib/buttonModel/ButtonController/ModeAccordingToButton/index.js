@@ -5,6 +5,7 @@ from 'events'
 import reduce2hash from '../reduce2hash'
 import Button from './Button'
 import propagateStateOf from './propagateStateOf'
+import updateModificationButton from './updateModificationButton'
 
 const buttonList = [
   'view',
@@ -18,10 +19,11 @@ const buttonList = [
 ]
 
 export default class extends EventEmitter {
-  constructor() {
+  constructor(annotationData) {
     super()
     this.buttons = buttonList.map((name) => new Button(name))
     this.buttonHash = this.buttons.reduce(reduce2hash(), {})
+    this.annotationData = annotationData
 
     // default pushed;
     this.buttonHash['boundary-detection'].value(true)
@@ -38,5 +40,12 @@ export default class extends EventEmitter {
 
   getButton(name) {
     return this.buttonHash[name]
+  }
+
+  updateModificationButtons(selectionModel) {
+    const modifications = selectionModel.all().map((e) => this.annotationData.getModificationOf(e).map((m) => m.pred))
+
+    updateModificationButton(this, 'Negation', modifications)
+    updateModificationButton(this, 'Speculation', modifications)
   }
 }
