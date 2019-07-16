@@ -17,27 +17,26 @@ const buttonList = [
   'speculation'
 ]
 
-export default function() {
-  const emitter = new EventEmitter()
-  const buttons = buttonList.map((name) => new Button(name))
-  const propagateStateOfAllButtons = () => propagateStateOf(emitter, buttons)
-  const buttonHash = buttons.reduce(reduce2hash(), {})
+export default class extends EventEmitter {
+  constructor() {
+    super()
+    this.buttons = buttonList.map((name) => new Button(name))
+    this.buttonHash = this.buttons.reduce(reduce2hash(), {})
 
-  // default pushed;
-  buttonHash['boundary-detection'].value(true)
+    // default pushed;
+    this.buttonHash['boundary-detection'].value(true)
 
-  // Bind events.
-  buttons.forEach(function(button) {
-    button.on('change', (data) => emitter.emit('change', data))
-  })
+    // Bind events.
+    this.buttons.forEach(function(button) {
+      button.on('change', (data) => super.emit('change', data))
+    })
+  }
 
-  const getValueOf = (name) => buttonHash[name]
+  propagate() {
+    propagateStateOf(this, this.buttons)
+  }
 
-  return Object.assign(
-    emitter,
-    {
-      propagate: propagateStateOfAllButtons,
-      getButton: getValueOf
-    }
-  )
+  getButton(name) {
+    return this.buttonHash[name]
+  }
 }
