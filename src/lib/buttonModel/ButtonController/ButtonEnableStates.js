@@ -4,7 +4,7 @@ import {
 from 'events'
 
 export default class extends EventEmitter {
-  constructor(selectionModel, buttonEnableStates, clipBoard) {
+  constructor(selectionModel, clipBoard) {
     super()
     this.states = {}
 

@@ -8,7 +8,7 @@ export default function(editor, annotationData, selectionModel, clipBoard) {
   const modeAccordingToButton = new ModeAccordingToButton(annotationData)
 
   // Save enable/disable state of contorol buttons.
-  const buttonEnableStates = new ButtonEnableStates(selectionModel, buttonEnableStates, clipBoard)
+  const buttonEnableStates = new ButtonEnableStates(selectionModel, clipBoard)
 
   // Toggle class to transit icon image.
   const buttonTransitStates = new ButtonTransitStates()
