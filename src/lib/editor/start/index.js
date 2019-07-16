@@ -19,7 +19,7 @@ import setAnnotation from './setAnnotation'
 import loadAnnotation from './loadAnnotation'
 import getConfigEditParamFromUrl from './getConfigEditParamFromUrl'
 
-export default function(editor, dataAccessObject, history, buttonController, annotationData, selectionModel, clipBoard, writable) {
+export default function(editor, dataAccessObject, history, buttonController, annotationData, selectionModel, clipBoard) {
   const params = getParams(editor[0])
   const spanConfig = new SpanConfig()
   // Users can edit model only via commands.
@@ -41,7 +41,6 @@ export default function(editor, dataAccessObject, history, buttonController, ann
     buttonController,
     typeGap,
     typeDefinition,
-    writable,
     params.get('autocompletion_ws'),
     params.get('mode')
   )

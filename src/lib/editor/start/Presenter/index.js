@@ -17,7 +17,6 @@ export default class {
     buttonController,
     typeGap,
     typeDefinition,
-    writable,
     autocompletionWs,
     mode
   ) {
@@ -46,8 +45,8 @@ export default class {
       editMode
     )
 
-    transitSaveButton(writable, editMode, buttonController)
-    bindModelChange(annotationData, writable, editMode, mode)
+    transitSaveButton(editMode, buttonController)
+    bindModelChange(annotationData, editMode, mode)
 
     this.event = createEventMap(command, selectionModel, typeDefinition, displayInstance, annotationData, buttonController, spanConfig, clipBoard, typeEditor, editor, editMode)
 

@@ -12,6 +12,7 @@ import {
   EventEmitter as EventEmitter
 }
 from 'events'
+import updateWritable from './start/Presenter/bindModelChange/updateWritable'
 
 const CONFIRM_DISCARD_CHANGE_MESSAGE = 'There is a change that has not been saved. If you procceed now, you will lose it.'
 
@@ -37,6 +38,11 @@ export default function() {
   )
   observe.observeDataSave(this, dataAccessObject, history, writable)
 
+  writable(val => buttonController.buttonStateHelper.transit('write', val))
+  annotationData
+    .on('all.change', (_, multitrack, reject) => updateWritable(multitrack, reject, writable))
+
+
   // public funcitons of editor
   this.api = {
     start: (editor) => start(
@@ -46,8 +52,7 @@ export default function() {
       buttonController,
       annotationData,
       selectionModel,
-      clipBoard,
-      writable
+      clipBoard
     )
   }
 
