@@ -2,9 +2,9 @@ import showVilidationDialog from '../component/showVilidationDialog'
 import KINDS from './start/Command/Factory/kinds'
 import toastr from 'toastr'
 
-export function observeModelChange(annotationData, history, writable) {
+export function observeModelChange(annotationData, history) {
   annotationData
-    .on('all.change', (annotationData, multitrack, reject) => {
+    .on('all.change', (_, __, reject) => {
       resetAllHistories(history, KINDS)
       showVilidationDialog(self, reject)
     })
@@ -28,7 +28,7 @@ export function observeHistoryChange(history, buttonStateHelper, leaveMessage, w
   })
 }
 
-export function observeDataSave(editor, dataAccessObject, history, writable) {
+export function observeDataSave(_, dataAccessObject, history, writable) {
   dataAccessObject
     .on('save', function() {
       resetAllHistories(history, KINDS)

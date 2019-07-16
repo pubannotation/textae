@@ -28,7 +28,7 @@ export default function() {
   const dataAccessObject = new DataAccessObject(this, CONFIRM_DISCARD_CHANGE_MESSAGE)
   const writable = new Writable()
 
-  observe.observeModelChange(annotationData, history, writable)
+  observe.observeModelChange(annotationData, history)
   observe.observeHistoryChange(
     history,
     buttonController.buttonStateHelper,
