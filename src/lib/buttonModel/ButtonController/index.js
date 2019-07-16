@@ -1,6 +1,5 @@
 import ModeAccordingToButton from './ModeAccordingToButton'
 import ButtonEnableStates from './ButtonEnableStates'
-import UpdateButtonState from './UpdateButtonState'
 import UpdateModificationButtons from './UpdateModificationButtons'
 import ButtonTransitStates from './ButtonTransitStates'
 import ButtonStateHelper from './ButtonStateHelper'
@@ -10,9 +9,7 @@ export default function(editor, annotationData, selectionModel, clipBoard) {
   const modeAccordingToButton = new ModeAccordingToButton()
 
   // Save enable/disable state of contorol buttons.
-  const buttonEnableStates = new ButtonEnableStates()
-
-  const updateButtonState = new UpdateButtonState(selectionModel, buttonEnableStates, clipBoard)
+  const buttonEnableStates = new ButtonEnableStates(selectionModel, buttonEnableStates, clipBoard)
 
   // Change push/unpush of buttons of modifications.
   const updateModificationButtons = new UpdateModificationButtons(annotationData, modeAccordingToButton)
@@ -25,7 +22,6 @@ export default function(editor, annotationData, selectionModel, clipBoard) {
     selectionModel,
     modeAccordingToButton,
     buttonEnableStates,
-    updateButtonState,
     buttonTransitStates,
     updateModificationButtons
   )
