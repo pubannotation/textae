@@ -19,7 +19,7 @@ const buttonList = [
 
 export default function() {
   const emitter = new EventEmitter()
-  const buttons = buttonList.map(Button)
+  const buttons = buttonList.map((name) => new Button(name))
   const propagateStateOfAllButtons = () => propagateStateOf(emitter, buttons)
   const buttonHash = buttons.reduce(reduce2hash(), {})
 

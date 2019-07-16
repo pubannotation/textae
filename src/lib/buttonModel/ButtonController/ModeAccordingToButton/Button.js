@@ -1,35 +1,32 @@
 import {EventEmitter as EventEmitter} from 'events'
 
-export default function(buttonName) {
-  // Button state is true when the button is pushed.
-  const emitter = new EventEmitter()
+// Button state is true when the button is pushed.
+export default class extends EventEmitter {
+  constructor(buttonName) {
+    super()
+    this.name = buttonName
+    this.state = false
+  }
 
-  let state = false
-
-  const value = (newValue) => {
+  value(newValue) {
     if (newValue !== undefined) {
-      state = newValue
-      propagate()
+      this.state = newValue
+      this.propagate()
     } else {
-      return state
+      return this.state
     }
   }
 
-  const toggle = function toggleButton() {
-    state = !state
-    propagate()
+  toggle() {
+    this.state = !this.state
+    this.propagate()
   }
 
   // Propagate button state to the tool.
-  const propagate = () => emitter.emit('change', {
-    buttonName: buttonName,
-    state: state
-  })
-
-  return Object.assign(emitter, {
-    name: buttonName,
-    value: value,
-    toggle: toggle,
-    propagate: propagate
-  })
+  propagate() {
+    super.emit('change', {
+      buttonName: this.name,
+      state: this.state
+    })
+  }
 }
