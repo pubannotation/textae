@@ -1,11 +1,11 @@
 import DataAccessObject from '../component/DataAccessObject'
 import ButtonController from '../buttonModel/ButtonController'
-import Writable from '../buttonModel/Writable'
 // model manages data objects.
 import AnnotationData from './Model/AnnotationData'
 import Selection from './Selection'
 // The history of command that providing undo and redo.
 import History from './History'
+import bindUpdateSaveButton from './bindUpdateSaveButton'
 import * as observe from './observe'
 import start from './start'
 import {
@@ -26,8 +26,8 @@ export default function() {
   }
   const buttonController = new ButtonController(this, annotationData, selectionModel, clipBoard)
   const dataAccessObject = new DataAccessObject(this, CONFIRM_DISCARD_CHANGE_MESSAGE)
-  const writable = new Writable(history, dataAccessObject, annotationData, buttonController)
 
+  bindUpdateSaveButton(history, dataAccessObject, annotationData, buttonController)
   observe.observeModelChange(annotationData, history)
   observe.observeHistoryChange(
     history,
