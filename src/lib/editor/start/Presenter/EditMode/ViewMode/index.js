@@ -1,4 +1,6 @@
-import Selector from '../../Selector'
+import Selector from '../../../Selector'
+import changeCssClass from './changeCssClass'
+import removeListeners from './removeListeners'
 
 export default function(editor, annotationData, selectionModel, buttonStateHelper) {
   const selector = new Selector(editor, annotationData)
@@ -35,20 +37,4 @@ export default function(editor, annotationData, selectionModel, buttonStateHelpe
   }
 
   return api
-}
-
-function changeCssClass(editor, mode) {
-  editor
-    .removeClass('textae-editor--term-mode')
-    .removeClass('textae-editor--instance-mode')
-    .removeClass('textae-editor--relation-mode')
-    .addClass(`textae-editor--${mode}-mode`)
-}
-
-function removeListeners(selectionModel, entitySelectChanged, buttonStateHelper) {
-  selectionModel
-    .removeListener('entity.select', entitySelectChanged)
-    .removeListener('entity.deselect', entitySelectChanged)
-    .removeListener('entity.change', entitySelectChanged)
-    .removeListener('entity.change', () => buttonStateHelper.updateByEntity())
 }
