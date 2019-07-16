@@ -3,7 +3,6 @@ import {
 }
 from 'events'
 import reduce2hash from './reduce2hash'
-import _ from 'underscore'
 
 const buttonList = [
   'view',
@@ -17,10 +16,10 @@ const buttonList = [
 ]
 
 export default function() {
-  var emitter = new EventEmitter(),
-    buttons = buttonList.map(Button),
-    propagateStateOfAllButtons = () => propagateStateOf(emitter, buttons),
-    buttonHash = buttons.reduce(reduce2hash(), {})
+  const emitter = new EventEmitter()
+  const buttons = buttonList.map(Button)
+  const propagateStateOfAllButtons = () => propagateStateOf(emitter, buttons)
+  const buttonHash = buttons.reduce(reduce2hash(), {})
 
   // default pushed;
   buttonHash['boundary-detection'].value(true)
@@ -30,7 +29,7 @@ export default function() {
     button.on('change', (data) => emitter.emit('change', data))
   })
 
-  return _.extend(
+  return Object.assign(
     emitter,
     buttonHash, {
       propagate: propagateStateOfAllButtons
@@ -40,27 +39,31 @@ export default function() {
 
 function Button(buttonName) {
   // Button state is true when the button is pushed.
-  var emitter = new EventEmitter(),
-    state = false,
-    value = (newValue) => {
-      if (newValue !== undefined) {
-        state = newValue
-        propagate()
-      } else {
-        return state
-      }
-    },
-    toggle = function toggleButton() {
-      state = !state
-      propagate()
-    },
-    // Propagate button state to the tool.
-    propagate = () => emitter.emit('change', {
-      buttonName: buttonName,
-      state: state
-    })
+  const emitter = new EventEmitter()
 
-  return _.extend(emitter, {
+  let state = false
+
+  const value = (newValue) => {
+    if (newValue !== undefined) {
+      state = newValue
+      propagate()
+    } else {
+      return state
+    }
+  }
+
+  const toggle = function toggleButton() {
+    state = !state
+    propagate()
+  }
+
+  // Propagate button state to the tool.
+  const propagate = () => emitter.emit('change', {
+    buttonName: buttonName,
+    state: state
+  })
+
+  return Object.assign(emitter, {
     name: buttonName,
     value: value,
     toggle: toggle,
