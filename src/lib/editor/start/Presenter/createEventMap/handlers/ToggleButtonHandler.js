@@ -7,7 +7,7 @@ export default function(modeAccordingToButton, editMode) {
 }
 
 function toggleSimpleMode(modeAccordingToButton, editMode) {
-  if (modeAccordingToButton.simple.value()) {
+  if (modeAccordingToButton.getButton('simple').value()) {
     editMode.upSimple()
   } else {
     editMode.pushSimple()
@@ -15,7 +15,7 @@ function toggleSimpleMode(modeAccordingToButton, editMode) {
 }
 
 function toggleDetectBoundaryMode(modeAccordingToButton) {
-  modeAccordingToButton['boundary-detection'].toggle()
+  modeAccordingToButton.getButton('boundary-detection').toggle()
 }
 
 function toggleInstaceRelation(editMode) {

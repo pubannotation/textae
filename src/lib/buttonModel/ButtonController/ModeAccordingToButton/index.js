@@ -31,10 +31,13 @@ export default function() {
     button.on('change', (data) => emitter.emit('change', data))
   })
 
+  const getValueOf = (name) => buttonHash[name]
+
   return Object.assign(
     emitter,
-    buttonHash, {
-      propagate: propagateStateOfAllButtons
+    {
+      propagate: propagateStateOfAllButtons,
+      getButton: getValueOf
     }
   )
 }

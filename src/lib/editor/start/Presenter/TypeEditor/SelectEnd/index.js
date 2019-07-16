@@ -8,8 +8,8 @@ export default function(editor, annotationData, selectionModel, command, modeAcc
     selectEndOnSpanImpl = null
 
   const changeSpanEditorAccordingToButtons = function() {
-    const isDetectDelimiterEnable = modeAccordingToButton['boundary-detection'].value(),
-      isReplicateAuto = modeAccordingToButton['replicate-auto'].value(),
+    const isDetectDelimiterEnable = modeAccordingToButton.getButton('boundary-detection').value(),
+      isReplicateAuto = modeAccordingToButton.getButton('replicate-auto').value(),
       spanEditor = new SpanEditor(editor, annotationData, selectionModel, command, typeDefinition, isDetectDelimiterEnable, isReplicateAuto)
 
     selectEndOnTextImpl = (annotationData, data) => selectEndOnText(spanEditor, annotationData, data)
@@ -19,10 +19,10 @@ export default function(editor, annotationData, selectionModel, command, modeAcc
   // Change spanEditor according to the  buttons state.
   changeSpanEditorAccordingToButtons()
 
-  modeAccordingToButton['boundary-detection']
+  modeAccordingToButton.getButton('boundary-detection')
     .on('change', changeSpanEditorAccordingToButtons)
 
-  modeAccordingToButton['replicate-auto']
+  modeAccordingToButton.getButton('replicate-auto')
     .on('change', changeSpanEditorAccordingToButtons)
 
   return {

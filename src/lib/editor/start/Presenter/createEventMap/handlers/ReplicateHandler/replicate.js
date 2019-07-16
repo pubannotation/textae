@@ -17,7 +17,7 @@ export default function(command, annotationData, modeAccordingToButton, spanConf
 }
 
 function getDetectBoundaryFunc(modeAccordingToButton, spanConfig) {
-  if (modeAccordingToButton['boundary-detection'].value()) {
+  if (modeAccordingToButton.getButton('boundary-detection').value()) {
     return spanConfig.isDelimiter
   } else {
     return null

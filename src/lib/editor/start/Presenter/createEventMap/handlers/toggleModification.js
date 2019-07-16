@@ -1,5 +1,5 @@
 export default function(command, annotationData, modeAccordingToButton, modificationType, typeEditor) {
-  const has = modeAccordingToButton[modificationType.toLowerCase()].value()
+  const has = modeAccordingToButton.getButton(modificationType.toLowerCase()).value()
   const commands = createCommand(command, annotationData, modificationType, typeEditor, has)
 
   command.invoke(commands, ['annotation'])
