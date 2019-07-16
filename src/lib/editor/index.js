@@ -26,21 +26,15 @@ export default function() {
   }
   const buttonController = new ButtonController(this, annotationData, selectionModel, clipBoard)
   const dataAccessObject = new DataAccessObject(this, CONFIRM_DISCARD_CHANGE_MESSAGE)
-  const writable = new Writable()
+  const writable = new Writable(history, dataAccessObject, annotationData, buttonController)
 
   observe.observeModelChange(annotationData, history)
   observe.observeHistoryChange(
     history,
     buttonController.buttonStateHelper,
-    CONFIRM_DISCARD_CHANGE_MESSAGE,
-    writable
+    CONFIRM_DISCARD_CHANGE_MESSAGE
   )
-  observe.observeDataSave(this, dataAccessObject, history, writable)
-
-  writable(val => buttonController.buttonStateHelper.transit('write', val))
-  annotationData
-    .on('all.change', (_, multitrack, reject) => writable.updateWithModify(multitrack, reject))
-
+  observe.observeDataSave(this, dataAccessObject, history)
 
   // public funcitons of editor
   this.api = {

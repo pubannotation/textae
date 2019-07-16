@@ -13,7 +13,7 @@ export function observeModelChange(annotationData, history) {
     })
 }
 
-export function observeHistoryChange(history, buttonStateHelper, leaveMessage, writable) {
+export function observeHistoryChange(history, buttonStateHelper, leaveMessage) {
   history.on('change', (state) => {
     // change button state
     buttonStateHelper.enabled("undo", state.hasAnythingToUndo)
@@ -21,16 +21,13 @@ export function observeHistoryChange(history, buttonStateHelper, leaveMessage, w
 
     // change leaveMessage show
     window.onbeforeunload = state.hasAnythingToSaveAnnotation ? () => leaveMessage : null
-
-    writable.update(state.hasAnythingToSaveAnnotation)
   })
 }
 
-export function observeDataSave(_, dataAccessObject, history, writable) {
+export function observeDataSave(_, dataAccessObject, history) {
   dataAccessObject
     .on('save', () => {
       resetAllHistories(history, KINDS)
-      writable.forceModified(false)
       toastr.success("annotation saved")
     })
     .on('save--config', () => {

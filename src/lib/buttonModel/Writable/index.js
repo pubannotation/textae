@@ -2,20 +2,31 @@
 import Observable from "observ"
 import updateWritable from './updateWritable'
 
-export default function() {
+export default function(history, dataAccessObject, annotationData, buttonController) {
   let isDataModified = false
   const o = new Observable(false)
 
-  return Object.assign(o, {
-    forceModified(val) {
-      o.set(val)
-      isDataModified = val
-    },
-    update(val) {
-      o.set(isDataModified || val)
-    },
-    updateWithModify(multitrack, reject) {
-      updateWritable(this, multitrack, reject)
-    }
-  })
+  function forceModified(val) {
+    o.set(val)
+    isDataModified = val
+  }
+
+  Object.assign(o, {forceModified})
+
+  function updateWithModify(multitrack, reject) {
+    updateWritable(o, multitrack, reject)
+  }
+
+  function update(val) {
+    o.set(isDataModified || val)
+  }
+
+  function bind(history, dataAccessObject, annotationData, buttonController) {
+    history.on('change', (state) => update(state.hasAnythingToSaveAnnotation))
+    dataAccessObject.on('save', () => forceModified(false))
+    annotationData.on('all.change', (_, multitrack, reject) => updateWithModify(multitrack, reject))
+    o(val => buttonController.buttonStateHelper.transit('write', val))
+  }
+
+  bind(history, dataAccessObject, annotationData, buttonController)
 }
