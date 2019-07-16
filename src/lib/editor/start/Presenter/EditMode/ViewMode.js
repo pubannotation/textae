@@ -1,10 +1,12 @@
 import Selector from '../../Selector'
-import _ from 'underscore'
 
 export default function(editor, annotationData, selectionModel, buttonStateHelper) {
   const selector = new Selector(editor, annotationData),
     // This notify is off at relation-edit-mode.
-    entitySelectChanged = _.compose(buttonStateHelper.updateByEntity, selector.entityLabel.update)
+    entitySelectChanged = () => {
+      buttonStateHelper.updateByEntity()
+      selector.entityLabel.update()
+    }
 
   const api = {
     setTerm() {
@@ -14,7 +16,7 @@ export default function(editor, annotationData, selectionModel, buttonStateHelpe
       selectionModel
         .on('entity.select', entitySelectChanged)
         .on('entity.deselect', entitySelectChanged)
-        .on('entity.change', buttonStateHelper.updateByEntity)
+        .on('entity.change', () => buttonStateHelper.updateByEntity())
     },
     setInstance() {
       changeCssClass(editor, 'instance')
@@ -23,7 +25,7 @@ export default function(editor, annotationData, selectionModel, buttonStateHelpe
       selectionModel
         .on('entity.select', entitySelectChanged)
         .on('entity.deselect', entitySelectChanged)
-        .on('entity.change', buttonStateHelper.updateByEntity)
+        .on('entity.change', () => buttonStateHelper.updateByEntity())
     },
     setRelation() {
       changeCssClass(editor, 'relation')
@@ -47,5 +49,5 @@ function removeListeners(selectionModel, entitySelectChanged, buttonStateHelper)
     .removeListener('entity.select', entitySelectChanged)
     .removeListener('entity.deselect', entitySelectChanged)
     .removeListener('entity.change', entitySelectChanged)
-    .removeListener('entity.change', buttonStateHelper.updateByEntity)
+    .removeListener('entity.change', () => buttonStateHelper.updateByEntity())
 }
