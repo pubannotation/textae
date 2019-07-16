@@ -1,12 +1,13 @@
 import Selector from '../../Selector'
 
 export default function(editor, annotationData, selectionModel, buttonStateHelper) {
-  const selector = new Selector(editor, annotationData),
-    // This notify is off at relation-edit-mode.
-    entitySelectChanged = () => {
-      buttonStateHelper.updateByEntity()
-      selector.entityLabel.update()
-    }
+  const selector = new Selector(editor, annotationData)
+
+  // This notify is off at relation-edit-mode.
+  const entitySelectChanged = () => {
+    buttonStateHelper.updateByEntity()
+    selector.entityLabel.update()
+  }
 
   const api = {
     setTerm() {
