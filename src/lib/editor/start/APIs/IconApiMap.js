@@ -9,7 +9,7 @@ export default function(command, presenter, daoHandler, buttonController, update
     ['textae.control.button.undo.click', command.undo],
     ['textae.control.button.redo.click', command.redo],
     ['textae.control.button.replicate.click', presenter.event.replicate],
-    ['textae.control.button.replicate_auto.click', buttonController.modeAccordingToButton['replicate-auto'].toggle],
+    ['textae.control.button.replicate_auto.click', () => buttonController.modeAccordingToButton['replicate-auto'].toggle()],
     ['textae.control.button.boundary_detection.click', presenter.event.toggleDetectBoundaryMode],
     ['textae.control.button.entity.click', presenter.event.createEntity],
     ['textae.control.button.change_label.click', presenter.event.changeLabel],
