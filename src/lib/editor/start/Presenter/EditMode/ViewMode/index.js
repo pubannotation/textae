@@ -2,39 +2,43 @@ import Selector from '../../../Selector'
 import changeCssClass from './changeCssClass'
 import removeListeners from './removeListeners'
 
-export default function(editor, annotationData, selectionModel, buttonStateHelper) {
-  const selector = new Selector(editor, annotationData)
+export default class {
+  constructor(editor, annotationData, selectionModel, buttonStateHelper) {
+    this.editor = editor
+    this.selectionModel = selectionModel
+    this.buttonStateHelper = buttonStateHelper
 
-  // This notify is off at relation-edit-mode.
-  const entitySelectChanged = () => {
-    buttonStateHelper.updateByEntity()
-    selector.entityLabel.update()
-  }
+    const selector = new Selector(editor, annotationData)
 
-  const api = {
-    setTerm() {
-      changeCssClass(editor, 'term')
-      removeListeners(selectionModel, entitySelectChanged, buttonStateHelper)
-
-      selectionModel
-        .on('entity.select', entitySelectChanged)
-        .on('entity.deselect', entitySelectChanged)
-        .on('entity.change', () => buttonStateHelper.updateByEntity())
-    },
-    setInstance() {
-      changeCssClass(editor, 'instance')
-      removeListeners(selectionModel, entitySelectChanged, buttonStateHelper)
-
-      selectionModel
-        .on('entity.select', entitySelectChanged)
-        .on('entity.deselect', entitySelectChanged)
-        .on('entity.change', () => buttonStateHelper.updateByEntity())
-    },
-    setRelation() {
-      changeCssClass(editor, 'relation')
-      removeListeners(selectionModel, entitySelectChanged, buttonStateHelper)
+    // This notify is off at relation-edit-mode.
+    this.entitySelectChanged = () => {
+      buttonStateHelper.updateByEntity()
+      selector.entityLabel.update()
     }
   }
 
-  return api
+  setTerm() {
+    changeCssClass(this.editor, 'term')
+    removeListeners(this.selectionModel, this.entitySelectChanged, this.buttonStateHelper)
+
+    this.selectionModel
+      .on('entity.select', this.entitySelectChanged)
+      .on('entity.deselect', this.entitySelectChanged)
+      .on('entity.change', () => this.buttonStateHelper.updateByEntity())
+  }
+
+  setInstance() {
+    changeCssClass(this.editor, 'instance')
+    removeListeners(this.selectionModel, this.entitySelectChanged, this.buttonStateHelper)
+
+    this.selectionModel
+      .on('entity.select', this.entitySelectChanged)
+      .on('entity.deselect', this.entitySelectChanged)
+      .on('entity.change', () => this.buttonStateHelper.updateByEntity())
+  }
+
+  setRelation() {
+    changeCssClass(this.editor, 'relation')
+    removeListeners(this.selectionModel, this.entitySelectChanged, this.buttonStateHelper)
+  }
 }
