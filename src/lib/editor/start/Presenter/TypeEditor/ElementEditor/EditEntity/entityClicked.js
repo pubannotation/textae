@@ -6,5 +6,5 @@ export default function(selectionModel, e) {
     selectionModel.entity.add(e.target.title)
   }
 
-  return false
+  e.stopPropagation()
 }
