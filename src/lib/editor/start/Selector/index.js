@@ -77,6 +77,8 @@ export default function(editor, annotationData) {
 
 // Select the typeLabel if all entities is selected.
 function updateEntityLabel(editor, entityId) {
+  console.assert(entityId, 'An entity id is necessary.')
+
   let entity = getEntityDom(editor[0], entityId)
 
   // Entities of block span hos no dom elements.

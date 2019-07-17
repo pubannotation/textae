@@ -11,9 +11,9 @@ export default class {
     const selector = new Selector(editor, annotationData)
 
     // This notify is off at relation-edit-mode.
-    this.entitySelectChanged = () => {
+    this.entitySelectChanged = (id) => {
       buttonStateHelper.updateByEntity()
-      selector.entityLabel.update()
+      selector.entityLabel.update(id)
     }
   }
 
