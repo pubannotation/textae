@@ -3,6 +3,7 @@ import toSpanModel from './toSpanModel'
 import mappingFunction from './mappingFunction'
 import createSpanTree from './createSpanTree'
 import spanComparator from './spanComparator'
+import updateSpanIdOfEntities from './updateSpanIdOfEntities'
 
 export default class extends ModelContainer {
   constructor(editor, emitter, paragraph) {
@@ -91,15 +92,13 @@ export default class extends ModelContainer {
     const oldOne = super.remove(id)
     const newOne = super.add(toSpanModel(this.editor, this.emitter, this.paragraph, newSpan), (newOne) => {
       this.spanTopLevel = this.updateSpanTree()
-
-      // Update entities before 'span.add' event, because span.getTypes depends on entities and used to render span.
-      this.emitter.entity.all()
-      .filter((entity) => {
-        return id === entity.span
-      })
-      .forEach((entity) => entity.span = newOne.id)
     })
 
+    // Since span.getTypes depends on the property of the entity, the grid of the entity does not move unless the span ID of the entity is updated.
+    // The grid is moved by the 'span.move' event, so we will update the entity before the 'span.move' event.
+    // The ID of Grid DOM element is updated by 'span.move' event.
+    // If you update the entity before the 'span.add' event, the Grid will be rendered duplicates.
+    updateSpanIdOfEntities(this.emitter.entity.all(), id, newOne)
     this.emitter.emit('span.move', {oldId: id, newId: newOne.id})
 
     return [{
@@ -108,3 +107,5 @@ export default class extends ModelContainer {
     }, newOne.id]
   }
 }
+
+
