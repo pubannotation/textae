@@ -1,7 +1,7 @@
 import getSelectionSnapShot from './getSelectionSnapShot'
 
 export default function(spanConfig, selectEnd, selectSpan, event) {
-  let selection = window.getSelection()
+  const selection = window.getSelection()
 
   // No select
   if (selection.isCollapsed) {
