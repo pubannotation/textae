@@ -1,6 +1,7 @@
 import * as selectionValidator from './selectionValidator'
 import SpanEditor from './SpanEditor'
 import * as selectPosition from './selectPosition'
+import clearTextSelection from '../clearTextSelection'
 
 export default function(editor, annotationData, selectionModel, command, modeAccordingToButton, typeDefinition) {
   // Initiated by events.
@@ -71,8 +72,4 @@ function selectEndOnSpan(spanEditor, annotationData, data) {
   }
 
   clearTextSelection()
-}
-
-function clearTextSelection() {
-  window.getSelection().removeAllRanges()
 }
