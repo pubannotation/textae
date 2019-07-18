@@ -14,8 +14,10 @@ export default function(domPositionCache, entityRenderer, relationRenderer, edit
     }],
     ['paragraph.change', paragraphs => renderParagraph(editor, paragraphs)],
     ['span.add', (span) => spanRenderer.render(span)],
-    ['span.move', ({oldId, newId}) => gridRenderer.changeId({oldId, newId})],
-    ['span.remove', (span) => spanRenderer.remove(span)],
+    ['span.remove', (span) => {
+      spanRenderer.remove(span)
+      gridRenderer.remove(span.id)
+    }],
     ['entity.add', entity => {
       // Add a now entity with a new grid after the span moved.
       chongeSpanOfEntity(entity)

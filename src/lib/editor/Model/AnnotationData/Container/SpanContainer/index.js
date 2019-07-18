@@ -92,14 +92,14 @@ export default class extends ModelContainer {
     const oldOne = super.remove(id)
     const newOne = super.add(toSpanModel(this.editor, this.emitter, this.paragraph, newSpan), (newOne) => {
       this.spanTopLevel = this.updateSpanTree()
+      // Span.getTypes function depends on the property of the entity.
+      // We can not distinguish the span is block span or not unless the span ID of the entity is updated.
+      // Span DOM element is rendered by 'span.add' event.
+      // We need to update the span ID of the entity before 'span.add' event.
+      updateSpanIdOfEntities(this.emitter.entity.all(), id, newOne)
     })
 
-    // Since span.getTypes depends on the property of the entity, the grid of the entity does not move unless the span ID of the entity is updated.
-    // The grid is moved by the 'span.move' event, so we will update the entity before the 'span.move' event.
-    // The ID of Grid DOM element is updated by 'span.move' event.
-    // If you update the entity before the 'span.add' event, the Grid will be rendered duplicates.
-    updateSpanIdOfEntities(this.emitter.entity.all(), id, newOne)
-    this.emitter.emit('span.move', {oldId: id, newId: newOne.id})
+    this.emitter.emit('span.move')
 
     return [{
       begin: oldOne.begin,
