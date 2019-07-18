@@ -1,8 +1,8 @@
 export default function setButtonState(buttonController, editable, mode) {
-  buttonController.modeAccordingToButton.getButton('view').value(isView(editable))
-  buttonController.modeAccordingToButton.getButton('term').value(isTerm(editable, mode))
-  buttonController.modeAccordingToButton.getButton('relation').value(isRelation(mode))
-  buttonController.modeAccordingToButton.getButton('simple').value(isSimple(mode))
+  buttonController.pushButtons.getButton('view').value(isView(editable))
+  buttonController.pushButtons.getButton('term').value(isTerm(editable, mode))
+  buttonController.pushButtons.getButton('relation').value(isRelation(mode))
+  buttonController.pushButtons.getButton('simple').value(isSimple(mode))
   buttonController.buttonStateHelper.enabled('simple', !isRelation(mode))
   buttonController.buttonStateHelper.enabled('replicate-auto', isSpanEdit(editable, mode))
   buttonController.buttonStateHelper.enabled('boundary-detection', isSpanEdit(editable, mode))

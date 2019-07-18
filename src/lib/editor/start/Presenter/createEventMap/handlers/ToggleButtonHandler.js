@@ -1,21 +1,21 @@
-export default function(modeAccordingToButton, editMode) {
+export default function(pushButtons, editMode) {
   return {
-    toggleSimpleMode: () => toggleSimpleMode(modeAccordingToButton, editMode),
-    toggleDetectBoundaryMode: () => toggleDetectBoundaryMode(modeAccordingToButton),
+    toggleSimpleMode: () => toggleSimpleMode(pushButtons, editMode),
+    toggleDetectBoundaryMode: () => toggleDetectBoundaryMode(pushButtons),
     toggleInstaceRelation: () => toggleInstaceRelation(editMode)
   }
 }
 
-function toggleSimpleMode(modeAccordingToButton, editMode) {
-  if (modeAccordingToButton.getButton('simple').value()) {
+function toggleSimpleMode(pushButtons, editMode) {
+  if (pushButtons.getButton('simple').value()) {
     editMode.upSimple()
   } else {
     editMode.pushSimple()
   }
 }
 
-function toggleDetectBoundaryMode(modeAccordingToButton) {
-  modeAccordingToButton.getButton('boundary-detection').toggle()
+function toggleDetectBoundaryMode(pushButtons) {
+  pushButtons.getButton('boundary-detection').toggle()
 }
 
 function toggleInstaceRelation(editMode) {

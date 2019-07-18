@@ -9,7 +9,7 @@ export default function(
   selectionModel,
   spanConfig,
   command,
-  modeAccordingToButton,
+  pushButtons,
   typeDefinition,
   autocompletionWs
 ) {
@@ -20,7 +20,7 @@ export default function(
     selectionModel,
     spanConfig,
     command,
-    modeAccordingToButton,
+    pushButtons,
     typeDefinition,
     () => cancelSelect(pallet, selectionModel)
   )

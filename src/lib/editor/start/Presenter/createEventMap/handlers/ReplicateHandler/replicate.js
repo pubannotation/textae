@@ -1,5 +1,6 @@
-export default function(command, annotationData, modeAccordingToButton, spanConfig, spanId) {
-  const detectBoundaryFunc = getDetectBoundaryFunc(modeAccordingToButton, spanConfig),
+export default function(command, annotationData, pushButtons, spanConfig, spanId) {
+  const detectBoundaryFunc = getDetectBoundaryFunc(pushButtons
+    , spanConfig),
     span = annotationData.span.get(spanId)
 
   if (spanId) {
@@ -16,8 +17,8 @@ export default function(command, annotationData, modeAccordingToButton, spanConf
   }
 }
 
-function getDetectBoundaryFunc(modeAccordingToButton, spanConfig) {
-  if (modeAccordingToButton.getButton('boundary-detection').value()) {
+function getDetectBoundaryFunc(pushButtons, spanConfig) {
+  if (pushButtons.getButton('boundary-detection').value()) {
     return spanConfig.isDelimiter
   } else {
     return null

@@ -1,12 +1,12 @@
 import toggleModification from './toggleModification'
 
-export default function(command, annotationData, modeAccordingToButton, typeEditor) {
+export default function(command, annotationData, pushButtons, typeEditor) {
   return {
     negation: () => {
-      toggleModification(command, annotationData, modeAccordingToButton, 'Negation', typeEditor)
+      toggleModification(command, annotationData, pushButtons, 'Negation', typeEditor)
     },
     speculation: () => {
-      toggleModification(command, annotationData, modeAccordingToButton, 'Speculation', typeEditor)
+      toggleModification(command, annotationData, pushButtons, 'Speculation', typeEditor)
     }
   }
 }

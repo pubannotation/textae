@@ -3,14 +3,15 @@ import SpanEditor from './SpanEditor'
 import * as selectPosition from './selectPosition'
 import clearTextSelection from '../clearTextSelection'
 
-export default function(editor, annotationData, selectionModel, command, modeAccordingToButton, typeDefinition) {
+export default function(editor, annotationData, selectionModel, command, pushButtons
+  , typeDefinition) {
   // Initiated by events.
   let selectEndOnTextImpl = null,
     selectEndOnSpanImpl = null
 
   const changeSpanEditorAccordingToButtons = function() {
-    const isDetectDelimiterEnable = modeAccordingToButton.getButton('boundary-detection').value(),
-      isReplicateAuto = modeAccordingToButton.getButton('replicate-auto').value(),
+    const isDetectDelimiterEnable = pushButtons.getButton('boundary-detection').value(),
+      isReplicateAuto = pushButtons.getButton('replicate-auto').value(),
       spanEditor = new SpanEditor(editor, annotationData, selectionModel, command, typeDefinition, isDetectDelimiterEnable, isReplicateAuto)
 
     selectEndOnTextImpl = (annotationData, data) => selectEndOnText(spanEditor, annotationData, data)
@@ -20,10 +21,10 @@ export default function(editor, annotationData, selectionModel, command, modeAcc
   // Change spanEditor according to the  buttons state.
   changeSpanEditorAccordingToButtons()
 
-  modeAccordingToButton.getButton('boundary-detection')
+  pushButtons.getButton('boundary-detection')
     .on('change', changeSpanEditorAccordingToButtons)
 
-  modeAccordingToButton.getButton('replicate-auto')
+  pushButtons.getButton('replicate-auto')
     .on('change', changeSpanEditorAccordingToButtons)
 
   return {

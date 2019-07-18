@@ -4,48 +4,48 @@ const relationButtons = allButtons.concat(['change-label', 'negation', 'speculat
 const entityButtons = relationButtons.concat(['copy'])
 
 export default class {
-  constructor(buttonEnableStates, buttonTransitStates, modeAccordingToButton, selectionModel) {
+  constructor(buttonEnableStates, buttonTransitStates, pushButtons, selectionModel) {
     this.buttonEnableStates = buttonEnableStates
     this.buttonTransitStates = buttonTransitStates
-    this.modeAccordingToButton = modeAccordingToButton
+    this.pushButtons = pushButtons
     this.selectionModel = selectionModel
   }
 
   propagate() {
-    propergate(this.buttonEnableStates, this.buttonTransitStates, this.modeAccordingToButton)
+    propergate(this.buttonEnableStates, this.buttonTransitStates, this.pushButtons)
   }
 
   enabled(button, enable) {
     this.buttonEnableStates.set(button, enable)
-    propergate(this.buttonEnableStates, this.buttonTransitStates, this.modeAccordingToButton)
+    propergate(this.buttonEnableStates, this.buttonTransitStates, this.pushButtons)
   }
 
   transit(button, isTransit) {
     this.buttonTransitStates.set(button, isTransit)
-    propergate(this.buttonEnableStates, this.buttonTransitStates, this.modeAccordingToButton)
+    propergate(this.buttonEnableStates, this.buttonTransitStates, this.pushButtons)
   }
 
   updateBySpan() {
     this.buttonEnableStates.updateButtons(spanButtons)
-    propergate(this.buttonEnableStates, this.buttonTransitStates, this.modeAccordingToButton)
+    propergate(this.buttonEnableStates, this.buttonTransitStates, this.pushButtons)
   }
 
   updateByEntity() {
     this.buttonEnableStates.updateButtons(entityButtons)
-    this.modeAccordingToButton.updateModificationButtons(this.selectionModel.entity)
-    propergate(this.buttonEnableStates, this.buttonTransitStates, this.modeAccordingToButton)
+    this.pushButtons.updateModificationButtons(this.selectionModel.entity)
+    propergate(this.buttonEnableStates, this.buttonTransitStates, this.pushButtons)
   }
 
   updateByRelation() {
     this.buttonEnableStates.updateButtons(relationButtons)
-    this.modeAccordingToButton.updateModificationButtons(this.selectionModel.relation)
-    propergate(this.buttonEnableStates, this.buttonTransitStates, this.modeAccordingToButton)
+    this.pushButtons.updateModificationButtons(this.selectionModel.relation)
+    propergate(this.buttonEnableStates, this.buttonTransitStates, this.pushButtons)
   }
 }
 
-function propergate(buttonEnableStates, buttonTransitStates, modeAccordingToButton) {
+function propergate(buttonEnableStates, buttonTransitStates, pushButtons) {
   buttonEnableStates.propagate()
   buttonTransitStates.propagate()
-  modeAccordingToButton.propagate()
+  pushButtons.propagate()
 }
 

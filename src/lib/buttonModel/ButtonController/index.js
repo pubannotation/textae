@@ -1,11 +1,11 @@
-import ModeAccordingToButton from './ModeAccordingToButton'
+import PushButtons from './PushButtons'
 import ButtonEnableStates from './ButtonEnableStates'
 import ButtonTransitStates from './ButtonTransitStates'
 import ButtonStateHelper from './ButtonStateHelper'
 
 export default function(editor, annotationData, selectionModel, clipBoard) {
   // Save state of push control buttons.
-  const modeAccordingToButton = new ModeAccordingToButton(annotationData)
+  const pushButtons = new PushButtons(annotationData)
 
   // Save enable/disable state of contorol buttons.
   const buttonEnableStates = new ButtonEnableStates(selectionModel, clipBoard)
@@ -17,17 +17,17 @@ export default function(editor, annotationData, selectionModel, clipBoard) {
   const buttonStateHelper = new ButtonStateHelper(
     buttonEnableStates,
     buttonTransitStates,
-    modeAccordingToButton,
+    pushButtons,
     selectionModel
   )
 
   // Proragate events.
-  modeAccordingToButton.on('change', (data) => editor.eventEmitter.emit('textae.control.button.push', data))
+  pushButtons.on('change', (data) => editor.eventEmitter.emit('textae.control.button.push', data))
   buttonEnableStates.on('change', (data) => editor.eventEmitter.emit('textae.control.buttons.change', data))
   buttonTransitStates.on('change', (data) => editor.eventEmitter.emit('textae.control.buttons.transit', data))
 
   return {
-    modeAccordingToButton,
+    pushButtons,
     buttonStateHelper,
   }
 }

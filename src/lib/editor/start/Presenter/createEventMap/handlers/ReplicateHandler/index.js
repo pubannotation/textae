@@ -1,11 +1,11 @@
 import replicate from './replicate'
 
-export default function(command, annotationData, selectionModel, modeAccordingToButton, spanConfig) {
+export default function(command, annotationData, selectionModel, pushButtons, spanConfig) {
   return function() {
     replicate(
         command,
         annotationData,
-        modeAccordingToButton,
+        pushButtons,
         spanConfig,
         selectionModel.span.single()
     )
