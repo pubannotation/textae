@@ -1,6 +1,6 @@
-import renderParagraph from './renderParagraph'
-import RenderAll from './RenderAll'
-import AttributeRenderer from './AttributeRenderer'
+import renderParagraph from '../renderParagraph'
+import RenderAll from '../RenderAll'
+import AttributeRenderer from '../AttributeRenderer'
 
 export default function(domPositionCache, entityRenderer, relationRenderer, editor, spanRenderer, gridRenderer, chongeSpanOfEntity, renderModificationEntityOrRelation) {
   const renderAll = new RenderAll(editor, domPositionCache, spanRenderer, relationRenderer)

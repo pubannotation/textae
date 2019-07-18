@@ -8,11 +8,14 @@ export default function(emitter, domPositionCache, entityRenderer, relationRende
     const span = annotationData.span.get(entity.span)
     return spanRenderer.change(span)
   }
+
   const renderModificationEntityOrRelation = modification => {
     renderModification(annotationData, 'relation', modification, relationRenderer, buttonStateHelper)
     renderModification(annotationData, 'entity', modification, entityRenderer, buttonStateHelper)
   }
+
   const eventMap = createEventMap(domPositionCache, entityRenderer, relationRenderer, editor, spanRenderer, gridRenderer, chongeSpanOfEntity, renderModificationEntityOrRelation)
+
   for (const [event, handler] of eventMap) {
     bindeToModelEvent(emitter, annotationData, event, handler)
   }
