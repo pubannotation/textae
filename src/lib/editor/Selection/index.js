@@ -4,6 +4,7 @@ import {
 from 'events'
 import IdContainer from './IdContainer'
 import modelToId from '../modelToId'
+import getPaneDomOfType from '../getPaneDomOfType'
 
 const kinds = ['span', 'entity', 'attribute', 'relation']
 
@@ -57,8 +58,8 @@ export default class extends EventEmitter {
   }
   selectEntityLabel(dom, isMulti) {
     if (dom) {
-      const pane = dom.previousElementSibling,
-        allEntityOflabels = pane.children
+      const pane = getPaneDomOfType(dom)
+      const allEntityOflabels = pane.children
 
       if (!isMulti) {
         this.clear()

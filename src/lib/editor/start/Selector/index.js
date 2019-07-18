@@ -2,6 +2,9 @@ import DomPositionCache from '../View/DomPositionCache'
 import selectRelation from './selectRelation'
 import deselectRelation from './deselectRelation'
 import getEntityDom from '../getEntityDom'
+import getLabelDomOfType from '../getLabelDomOfType'
+import getEntitiesDomOfType from '../getEntitiesDomOfType'
+import getPaneDomOfType from '../../getPaneDomOfType'
 
 const SELECTED = 'ui-selected'
 
@@ -35,7 +38,7 @@ export default function(editor, annotationData) {
           modifyStyle(el, 'add')
 
           // Set focus to the label element in order to scroll the browser to the position of the element.
-          el.parentNode.nextElementSibling.focus()
+          getLabelDomOfType(el).focus()
         }
       },
       deselect: (id) => {
@@ -82,10 +85,11 @@ function updateEntityLabel(editor, entityId) {
 
   // Entities of block span hos no dom elements.
   if (entity) {
-    const typePane = entity.parentNode
-    const typeLabel = typePane.nextElementSibling
+    const typePane = getPaneDomOfType(entity)
+    const typeLabel = getLabelDomOfType(entity)
+    const entities = getEntitiesDomOfType(entity)
 
-    if (typePane.children.length === typePane.querySelectorAll(`.${SELECTED}`).length) {
+    if (entities.length === typePane.querySelectorAll(`.${SELECTED}`).length) {
       typeLabel.classList.add(SELECTED)
       typePane.classList.add(SELECTED)
     } else {
