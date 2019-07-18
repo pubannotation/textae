@@ -51,8 +51,8 @@ export default function(editor, annotationData, selectionModel, buttonController
 }
 
 function initRenderer(editor, annotationData, selectionModel, typeGap, typeDefinition, buttonStateHelper, relationRenderer, annotationPosition) {
-  const renderer = new Renderer(editor, annotationData, selectionModel, buttonStateHelper, typeDefinition, typeGap, relationRenderer),
-    debouncedUpdateAnnotationPosition = _.debounce(() => annotationPosition.updateAsync(typeGap()), 100)
+  const renderer = new Renderer(editor, annotationData, selectionModel, buttonStateHelper, typeDefinition, typeGap, relationRenderer)
+  const debouncedUpdateAnnotationPosition = _.debounce(() => annotationPosition.updateAsync(typeGap()), 100)
 
   renderer.init(editor, annotationData)
     .on('change', debouncedUpdateAnnotationPosition)
