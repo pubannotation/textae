@@ -25,7 +25,7 @@ export default function(domPositionCache, relationRenderer, buttonStateHelper, t
     (entity) => entityRenderer.render(entity)
   )
 
-  return (editor, annotationData, selectionModel) => {
+  return (editor, annotationData) => {
     const renderAll = new RenderAll(editor, domPositionCache, spanRenderer, relationRenderer)
 
     const chongeSpanOfEntity = (entity) => {

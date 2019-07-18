@@ -54,7 +54,7 @@ function initRenderer(editor, annotationData, selectionModel, typeGap, typeDefin
   const renderer = new Renderer(editor, annotationData, selectionModel, buttonStateHelper, typeDefinition, typeGap, relationRenderer),
     debouncedUpdateAnnotationPosition = _.debounce(() => annotationPosition.updateAsync(typeGap()), 100)
 
-  renderer.init(editor, annotationData, selectionModel)
+  renderer.init(editor, annotationData)
     .on('change', debouncedUpdateAnnotationPosition)
     .on('all.change', () => {
       updateTextBoxHeight(editor[0])
