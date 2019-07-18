@@ -124,7 +124,7 @@ function selectFirstEntityLabelOfSpan(selectionModel, spanId) {
 }
 
 function selectFirstEntityOfEntityLabel(selectionModel, label) {
-  let pane = label.nextElementSibling
+  let pane = label.previousElementSibling
 
   selectionModel.selectEntity(pane.children[0])
 }
