@@ -1,4 +1,3 @@
-import idFactory from '../../idFactory'
 import DomPositionCache from '../View/DomPositionCache'
 import selectRelation from './selectRelation'
 import deselectRelation from './deselectRelation'
@@ -7,19 +6,19 @@ import getEntityDom from '../getEntityDom'
 const SELECTED = 'ui-selected'
 
 export default function(editor, annotationData) {
-  let domPositionCache = new DomPositionCache(editor, annotationData.entity)
+  const domPositionCache = new DomPositionCache(editor, annotationData.entity)
 
   return {
     span: {
       select: (id) => {
-        let el = getSpanDom(id)
+        const el = getSpanDom(id)
         modifyStyle(el, 'add')
 
         // Set focus to the span element in order to scroll the browser to the position of the element.
         el.focus()
       },
       deselect: (id) => {
-        let el = getSpanDom(id)
+        const el = getSpanDom(id)
 
         // A dom does not exist when it is deleted.
         if (el) {
@@ -29,7 +28,7 @@ export default function(editor, annotationData) {
     },
     entity: {
       select: (id) => {
-        let el = getEntityDom(editor[0], id)
+        const el = getEntityDom(editor[0], id)
 
         // Entities of block span hos no dom elements.
         if (el) {
@@ -40,7 +39,7 @@ export default function(editor, annotationData) {
         }
       },
       deselect: (id) => {
-        let el = getEntityDom(editor[0], id)
+        const el = getEntityDom(editor[0], id)
 
         // Entities of block span hos no dom elements.
         // A dom does not exist when it is deleted.
@@ -51,14 +50,14 @@ export default function(editor, annotationData) {
     },
     attribute: {
       select: (id) => {
-        let el = document.querySelector('div[title="' + id + '"]')
+        const el = document.querySelector('div[title="' + id + '"]')
 
         if (el) {
           modifyStyle(el, 'add')
         }
       },
       deselect: (id) => {
-        let el = document.querySelector('div[title="' + id + '"]')
+        const el = document.querySelector('div[title="' + id + '"]')
 
         if (el) {
           modifyStyle(el, 'remove')
@@ -79,12 +78,12 @@ export default function(editor, annotationData) {
 function updateEntityLabel(editor, entityId) {
   console.assert(entityId, 'An entity id is necessary.')
 
-  let entity = getEntityDom(editor[0], entityId)
+  const entity = getEntityDom(editor[0], entityId)
 
   // Entities of block span hos no dom elements.
   if (entity) {
-    let typePane = entity.parentNode,
-      typeLabel = typePane.nextElementSibling
+    const typePane = entity.parentNode
+    const typeLabel = typePane.nextElementSibling
 
     if (typePane.children.length === typePane.querySelectorAll(`.${SELECTED}`).length) {
       typeLabel.classList.add(SELECTED)
