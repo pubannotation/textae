@@ -2,12 +2,11 @@ import {
   EventEmitter as EventEmitter
 }
 from 'events'
-import reduce2hash from '../reduce2hash'
 import Button from './Button'
 import propagateStateOf from './propagateStateOf'
 import updateModificationButton from './updateModificationButton'
 
-const buttonList = [
+const list = [
   'view',
   'term',
   'relation',
@@ -21,25 +20,28 @@ const buttonList = [
 export default class extends EventEmitter {
   constructor(annotationData) {
     super()
-    this.buttons = buttonList.map((name) => new Button(name))
-    this.buttonHash = this.buttons.reduce(reduce2hash(), {})
+    this.buttonMap = list.reduce((map, buttonName) => {
+      map.set(buttonName, new Button(buttonName))
+      return map
+    }, new Map())
+
     this.annotationData = annotationData
 
     // default pushed;
-    this.buttonHash['boundary-detection'].value(true)
+    this.buttonMap.get('boundary-detection').value(true)
 
     // Bind events.
-    this.buttons.forEach(function(button) {
+    for (const button of this.buttonMap.values()) {
       button.on('change', (data) => super.emit('change', data))
-    })
+    }
   }
 
   propagate() {
-    propagateStateOf(this, this.buttons)
+    propagateStateOf(this, this.buttonMap)
   }
 
   getButton(name) {
-    return this.buttonHash[name]
+    return this.buttonMap.get(name)
   }
 
   updateModificationButtons(selectionModel) {
