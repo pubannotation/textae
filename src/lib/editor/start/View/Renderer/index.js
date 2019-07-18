@@ -13,8 +13,7 @@ export default function(editor, annotationData, selectionModel, buttonStateHelpe
         annotationData,
         selectionModel,
         typeDefinition
-      ),
-      renderLazyRelationAll: () => relationRenderer.renderLazyRelationAll()
+      )
     }
 
   return api
