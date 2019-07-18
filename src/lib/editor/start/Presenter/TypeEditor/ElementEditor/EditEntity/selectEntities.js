@@ -15,13 +15,13 @@ export default function(selectionModel, ctrlKey, typeLabel, entities) {
 
 // A parameter entities is a HTMLCollection. It does not have the forEach method.
 function select(selectionModel, entities) {
-  for (let entity of entities) {
+  for (const entity of entities) {
     selectionModel.entity.add(entity.title)
   }
 }
 
 function deselect(selectionModel, entities) {
-  for (let entity of entities) {
+  for (const entity of entities) {
     selectionModel.entity.remove(entity.title)
   }
 }
