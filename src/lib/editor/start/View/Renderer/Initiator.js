@@ -14,28 +14,30 @@ import getTypeDom from './getTypeDom'
 import $ from 'jquery'
 
 export default function(domPositionCache, relationRenderer, buttonStateHelper, typeGap, editor, annotationData, selectionModel, typeDefinition) {
-  const emitter = new EventEmitter(),
-    gridRenderer = new GridRenderer(editor, domPositionCache),
-    renderEntityHandler = (entity) => $(getTypeDom(entity.span, entity.type)).css(new TypeStyle(typeGap())),
-    entityRenderer = new EntityRenderer(editor, annotationData, selectionModel, typeDefinition.entity, gridRenderer, renderEntityHandler),
-    attributeRenderer = new AttributeRenderer(editor),
-    spanRenderer = new SpanRenderer(
-      annotationData,
-      (type) => typeDefinition.entity.isBlock(type),
-      (entity) => entityRenderer.render(entity)
-    )
+  const emitter = new EventEmitter()
+  const gridRenderer = new GridRenderer(editor, domPositionCache)
+  const renderEntityHandler = (entity) => $(getTypeDom(entity.span, entity.type)).css(new TypeStyle(typeGap()))
+  const entityRenderer = new EntityRenderer(editor, annotationData, selectionModel, typeDefinition.entity, gridRenderer, renderEntityHandler)
+  const attributeRenderer = new AttributeRenderer(editor)
+  const spanRenderer = new SpanRenderer(
+    annotationData,
+    (type) => typeDefinition.entity.isBlock(type),
+    (entity) => entityRenderer.render(entity)
+  )
 
   return (editor, annotationData, selectionModel) => {
-    const renderAll = new RenderAll(editor, domPositionCache, spanRenderer, relationRenderer),
-      chongeSpanOfEntity = (entity) => {
-        // Change css class of the span according to the type is block or not.
-        const span = annotationData.span.get(entity.span)
-        return spanRenderer.change(span)
-      },
-      renderModificationEntityOrRelation = modification => {
-        renderModification(annotationData, 'relation', modification, relationRenderer, buttonStateHelper)
-        renderModification(annotationData, 'entity', modification, entityRenderer, buttonStateHelper)
-      }
+    const renderAll = new RenderAll(editor, domPositionCache, spanRenderer, relationRenderer)
+
+    const chongeSpanOfEntity = (entity) => {
+      // Change css class of the span according to the type is block or not.
+      const span = annotationData.span.get(entity.span)
+      return spanRenderer.change(span)
+    }
+
+    const renderModificationEntityOrRelation = modification => {
+      renderModification(annotationData, 'relation', modification, relationRenderer, buttonStateHelper)
+      renderModification(annotationData, 'entity', modification, entityRenderer, buttonStateHelper)
+    }
 
     const eventHandlers = new Map([
       ['all.change', renderAll],
