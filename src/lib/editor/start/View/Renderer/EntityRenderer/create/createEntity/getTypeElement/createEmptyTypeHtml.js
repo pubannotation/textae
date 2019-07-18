@@ -15,7 +15,6 @@ const source = `
       {{label}}
     {{/if}}
   </div>
-  <div class="textae-editor__attribute-button textae-editor__attribute-button--add" title="Add a new attribute to this entity."></div>
 </div>
 `
 const template = Handlebars.compile(source)
