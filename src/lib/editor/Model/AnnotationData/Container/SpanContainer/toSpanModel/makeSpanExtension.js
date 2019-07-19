@@ -26,7 +26,7 @@ export default function(emitter) {
       return emitter.entity.all()
         .filter((entity) => spanId === entity.span)
         .reduce((array, entity) => {
-          const id = idFactory.makeTypeId(entity.span, entity.type)
+          const id = idFactory.makeTypeId(entity)
 
           const type = array.filter((type) => type.id === id)
 

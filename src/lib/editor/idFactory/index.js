@@ -13,14 +13,14 @@ export default {
   // The ID of type has number of type.
   // This IDs are used for id of DOM element and css selector for jQuery.
   // But types are inputed by users and may have `!"#$%&'()*+,./:;<=>?@[\]^`{|}~` which can not be used for css selecor.
-  makeTypeId(spanId, type) {
-    const hash = hashString(String(type))
+  makeTypeId(entity) {
+    const hash = hashString(String(entity.type))
 
     if (typeCounter.indexOf(hash) === -1) {
       typeCounter.push(hash)
     }
 
-    return `${spanId}-${typeCounter.indexOf(hash)}`
+    return `${entity.span}-${typeCounter.indexOf(hash)}`
   },
   makeEntityDomId(editor, id) {
     // Exclude : and . from a dom id to use for ID selector.

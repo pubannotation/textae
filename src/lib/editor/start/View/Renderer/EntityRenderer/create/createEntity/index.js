@@ -16,8 +16,7 @@ export default function(editor, namspace, typeDefinition, gridRenderer, modifica
       namspace,
       typeDefinition,
       gridRenderer,
-      entity.span,
-      entity.type
+      entity
     )
     .querySelector('.textae-editor__entity-pane')
 

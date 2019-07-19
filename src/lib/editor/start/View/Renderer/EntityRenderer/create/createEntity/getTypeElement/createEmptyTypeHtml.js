@@ -22,11 +22,11 @@ const source = `
 `
 const template = Handlebars.compile(source)
 
-export default function(spanId, namespace, typeDefinition, type) {
-  const id = idFactory.makeTypeId(spanId, type)
-  const label = getLabel(namespace, typeDefinition, type)
-  const href = getUri(namespace, typeDefinition, type)
-  const color = typeDefinition.getColor(type)
+export default function(entity, namespace, typeDefinition) {
+  const id = idFactory.makeTypeId(entity)
+  const label = getLabel(namespace, typeDefinition, entity.type)
+  const href = getUri(namespace, typeDefinition, entity.type)
+  const color = typeDefinition.getColor(entity.type)
 
   return template({id, label, href, color})
 }

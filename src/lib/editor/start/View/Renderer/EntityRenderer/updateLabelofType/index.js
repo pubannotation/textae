@@ -6,7 +6,7 @@ export default function(annotationData, typeDefinition, type) {
     .entity
     .all()
     .filter(entity => entity.type === type)
-    .map(entity => getTypeDom(entity.span, type))
+    .map(entity => getTypeDom(entity))
     .filter(typeDom => typeDom)
     .map(typeDom => typeDom.querySelector('.textae-editor__type-values'))
     .filter(values => values)

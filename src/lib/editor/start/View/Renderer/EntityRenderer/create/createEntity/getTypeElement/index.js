@@ -3,14 +3,14 @@ import createEmptyTypeHtml from './createEmptyTypeHtml'
 import getGrid from './getGrid'
 
 // render type unless exists.
-export default function(namespace, typeDefinition, gridRenderer, spanId, type) {
-  const dom = getTypeDom(spanId, type)
+export default function(namespace, typeDefinition, gridRenderer, entity) {
+  const dom = getTypeDom(entity)
 
   if (dom) {
     return dom
   }
 
-  getGrid(gridRenderer, spanId).insertAdjacentHTML('beforeend', createEmptyTypeHtml(spanId, namespace, typeDefinition, type))
+  getGrid(gridRenderer, entity.span).insertAdjacentHTML('beforeend', createEmptyTypeHtml(entity, namespace, typeDefinition))
 
-  return getTypeDom(spanId, type)
+  return getTypeDom(entity)
 }
