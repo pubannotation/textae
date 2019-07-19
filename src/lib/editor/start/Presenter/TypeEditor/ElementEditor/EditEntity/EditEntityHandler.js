@@ -12,7 +12,7 @@ export default class extends DefaultHandler {
       .map((id) => this.command.factory.entityChangeTypeCommand(
         id,
         newType,
-        this.typeDefinition.isBlock(newType)
+        this.typeContainer.isBlock(newType)
       ))
   }
 }
