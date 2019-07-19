@@ -4,16 +4,17 @@ import changeTypeOfExists from './changeTypeOfExists'
 import updateLabelofType from './updateLabelofType'
 import changeModificationOfExists from './changeModificationOfExists'
 import destroy from './destroy'
+import setTypeGapHeight from './setTypeGapHeight'
 
 export default class {
-  constructor(editor, annotationData, selectionModel, typeDefinition, gridRenderer, renderEntityHandler) {
+  constructor(editor, annotationData, selectionModel, typeDefinition, gridRenderer, typeGap) {
     this.editor = editor
     this.annotationData = annotationData
     this.typeDefinition = typeDefinition
     this.gridRenderer = gridRenderer
-    this.renderEntityHandler = renderEntityHandler
     this.selectionModel = selectionModel
     this.modification = new ModificationRenderer(annotationData)
+    this.typeGap = typeGap
   }
 
   render(entity) {
@@ -26,7 +27,7 @@ export default class {
       entity
     )
 
-    this.renderEntityHandler(entity)
+    setTypeGapHeight(entity, this.typeGap)
   }
 
   change(entity) {
@@ -39,7 +40,8 @@ export default class {
       this.modification,
       entity
     )
-    this.renderEntityHandler(entity)
+
+    setTypeGapHeight(entity, this.typeGap)
   }
 
   changeModification(entity) {

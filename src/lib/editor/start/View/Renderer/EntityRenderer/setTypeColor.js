@@ -1,4 +1,4 @@
-export default function(label, typeDefinition, type) {
+export default function(values, typeDefinition, type) {
     const color = typeDefinition.getColor(type)
-    label.setAttribute('style', `background-color: ${color}`)
+    values.setAttribute('style', `background-color: ${color}`)
 }

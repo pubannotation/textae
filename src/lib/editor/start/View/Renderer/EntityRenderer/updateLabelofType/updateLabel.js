@@ -1,7 +1,7 @@
 import setLabelToTypeLabel from '../setLabelToTypeLabel'
 import setTypeColor from '../setTypeColor'
 
-export default function(label, namespace, typeDefinition, type) {
-  setLabelToTypeLabel(label, namespace, typeDefinition, type)
-  setTypeColor(label, typeDefinition, type)
+export default function(values, namespace, typeDefinition, type) {
+  setLabelToTypeLabel(values.querySelector('.textae-editor__type-label'), namespace, typeDefinition, type)
+  setTypeColor(values, typeDefinition, type)
 }

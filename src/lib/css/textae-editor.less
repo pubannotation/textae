@@ -110,12 +110,10 @@
     }
     &__type {
         font-size: small;
-        height: 36px;
-        padding-top: 18px;
         position: relative;
         text-align: center;
         white-space: nowrap;
-        &-label {
+        &-values {
             border-color: @border;
             border-radius: 4px;
             border-style: solid;
@@ -130,9 +128,9 @@
             user-select: none;
             -webkit-touch-callout: none;
             z-index: 1;
-            &:focus {
-                outline-style: none;
-            }
+        }
+        &-label:focus {
+            outline-style: none;
         }
     }
     &--editable &__type-label a {
@@ -140,24 +138,24 @@
         pointer-events: none;
         text-decoration: none;
     }
-    &__type-label,
+    &__type-values,
     &__entity,
     &--relation-mode &__type:hover &__entity,
-    &--relation-mode &__type:hover &__type-label {
+    &--relation-mode &__type:hover &__type-values {
         opacity: 0.9;
     }
     &__type:hover &__entity-pane,
-    &__type:hover &__type-label {
+    &__type:hover &__type-values {
         z-index: 4;
     }
-    &__type:hover &__type-label {
+    &__type:hover &__type-values {
         box-shadow: 1px 1px 10px #600;
     }
-    &__type:hover &__type-label {
+    &__type:hover &__type-values {
         overflow: visible;
     }
-    &__type-label.ui-selected,
-    &__type:hover &__type-label.ui-selected {
+    &__type-values.ui-selected,
+    &__type:hover &__type-values.ui-selected {
         box-shadow: 0 0 0 2pt @selected;
         z-index: 4;
     }
@@ -210,9 +208,8 @@
         }
     }
     &__entity-pane {
-        line-height: normal;
+        line-height: 11px;
         position: relative;
-        top: 4px;
         z-index: 1;
         &.ui-selected {
           z-index: 4;
@@ -294,7 +291,6 @@
               border-style: none;
             }
             &__type {
-                height: 18px;
                 margin-bottom: 0;
                 padding-top: 0;
             }

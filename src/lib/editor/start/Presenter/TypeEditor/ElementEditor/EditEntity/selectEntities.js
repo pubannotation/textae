@@ -1,6 +1,6 @@
-export default function(selectionModel, ctrlKey, typeLabel, entities) {
+export default function(selectionModel, ctrlKey, typeValues, entities) {
   if (ctrlKey) {
-    if (typeLabel.classList.contains('ui-selected')) {
+    if (typeValues.classList.contains('ui-selected')) {
       deselect(selectionModel, entities)
     } else {
       select(selectionModel, entities)

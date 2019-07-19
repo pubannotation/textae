@@ -8,7 +8,7 @@ export default function(annotationData, typeDefinition, type) {
     .filter(entity => entity.type === type)
     .map(entity => getTypeDom(entity.span, type))
     .filter(typeDom => typeDom)
-    .map(typeDom => typeDom.querySelector('.textae-editor__type-label'))
-    .filter(label => label)
-    .forEach(label => updateLabel(label, annotationData.namespace, typeDefinition, type))
+    .map(typeDom => typeDom.querySelector('.textae-editor__type-values'))
+    .filter(values => values)
+    .forEach(values => updateLabel(values, annotationData.namespace, typeDefinition, type))
 }

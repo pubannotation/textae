@@ -7,13 +7,16 @@ import getUri from '../../../getUri'
 // A Type element has an entity_pane elment that has a label and will have entities.
 const source = `
 <div id="{{id}}" class="textae-editor__type">
+  <div class="textae-editor__type-gap"></div>
   <div id="P-{{id}}" class="textae-editor__entity-pane"></div>
-  <div class="textae-editor__type-label" tabindex="0" style="background-color: {{color}}">
-    {{#if href}}
-      <a target="_blank"/ href="{{href}}">{{label}}</a>
-    {{else}}
-      {{label}}
-    {{/if}}
+  <div class="textae-editor__type-values" style="background-color: {{color}}">
+    <div class="textae-editor__type-label" tabindex="0">
+      {{#if href}}
+        <a target="_blank"/ href="{{href}}">{{label}}</a>
+      {{else}}
+        {{label}}
+      {{/if}}
+    </div>
   </div>
 </div>
 `

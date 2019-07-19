@@ -10,5 +10,5 @@ export default function(editor, pane, attribute) {
     return
   }
 
-  label.insertAdjacentHTML('beforeend', createAttributeHtml(id, attribute))
+  label.insertAdjacentHTML('afterend', createAttributeHtml(id, attribute))
 }

@@ -86,14 +86,14 @@ function updateEntityLabel(editor, entityId) {
   // Entities of block span hos no dom elements.
   if (entity) {
     const typePane = getPaneDomOfType(entity)
-    const typeLabel = getLabelDomOfType(entity)
+    const typeValues = typePane.closest('.textae-editor__type').querySelector('.textae-editor__type-values')
     const entities = getEntitiesDomOfType(entity)
 
     if (entities.length === typePane.querySelectorAll(`.${SELECTED}`).length) {
-      typeLabel.classList.add(SELECTED)
+      typeValues.classList.add(SELECTED)
       typePane.classList.add(SELECTED)
     } else {
-      typeLabel.classList.remove(SELECTED)
+      typeValues.classList.remove(SELECTED)
       typePane.classList.remove(SELECTED)
     }
   }
