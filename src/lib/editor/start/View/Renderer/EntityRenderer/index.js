@@ -64,8 +64,8 @@ export default class {
   }
 
   updateLabelAll() {
-    this.annotationData.entity.all().map((entity) => {
+    for (const entity of this.annotationData.entity.all()) {
       updateLabelofType(this.annotationData, this.typeDefinition, entity.type)
-    })
+    }
   }
 }
