@@ -1,6 +1,5 @@
 import makeTypePrefix from "./makeTypePrefix"
 import makeId from "./makeId"
-import hashString from "./hashString"
 
 const typeCounter = []
 
@@ -14,13 +13,14 @@ export default {
   // This IDs are used for id of DOM element and css selector for jQuery.
   // But types are inputed by users and may have `!"#$%&'()*+,./:;<=>?@[\]^`{|}~` which can not be used for css selecor.
   makeTypeId(entity) {
-    const hash = hashString(String(entity.type))
+    const attrs = entity.attributes.map(a => a.pred + a.obj).join(',')
+    const key = String(entity.type) + attrs
 
-    if (typeCounter.indexOf(hash) === -1) {
-      typeCounter.push(hash)
+    if (typeCounter.indexOf(key) === -1) {
+      typeCounter.push(key)
     }
 
-    return `${entity.span}-${typeCounter.indexOf(hash)}`
+    return `${entity.span}-${typeCounter.indexOf(key)}`
   },
   makeEntityDomId(editor, id) {
     // Exclude : and . from a dom id to use for ID selector.
