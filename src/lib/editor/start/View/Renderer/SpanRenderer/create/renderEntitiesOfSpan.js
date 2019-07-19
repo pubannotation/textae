@@ -1,14 +1,14 @@
-export default function(span, entityIdToModelFunc, renderEntityFunc) {
+export default function(span, annotationData, renderEntityFunc) {
   span.getTypes()
       .forEach(type => renderEntitiesOfType(
           type,
-          entityIdToModelFunc,
+          annotationData,
           renderEntityFunc
       ))
 }
 
-function renderEntitiesOfType(type, entityIdToModelFunc, renderEntityFunc) {
+function renderEntitiesOfType(type, annotationData, renderEntityFunc) {
   type.entities
-      .map(entityIdToModelFunc)
+      .map((id) => annotationData.entity.get(id))
       .forEach(renderEntityFunc)
 }

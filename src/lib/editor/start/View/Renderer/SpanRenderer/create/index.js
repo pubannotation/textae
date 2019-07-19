@@ -22,7 +22,7 @@ function create(annotationData, span, isBlockFunc, renderEntityFunc) {
 
   renderEntitiesOfSpan(
       span,
-      (id) => annotationData.entity.get(id),
+      annotationData,
       renderEntityFunc
   )
 
