@@ -1,10 +1,8 @@
 import renderParagraph from '../renderParagraph'
 import RenderAll from '../RenderAll'
-import AttributeRenderer from '../AttributeRenderer'
 
 export default function(domPositionCache, entityRenderer, relationRenderer, editor, spanRenderer, gridRenderer, changeSpanOfEntity, renderModificationEntityOrRelation) {
   const renderAll = new RenderAll(editor, domPositionCache, spanRenderer, relationRenderer)
-  const attributeRenderer = new AttributeRenderer(editor)
 
   return new Map([
     ['all.change', renderAll],
@@ -31,15 +29,6 @@ export default function(domPositionCache, entityRenderer, relationRenderer, edit
     ['entity.remove', entity => {
       entityRenderer.remove(entity)
       changeSpanOfEntity(entity)
-    }],
-    ['attribute.add', attribute => {
-      attributeRenderer.render(attribute)
-    }],
-    ['attribute.change', attribute => {
-      attributeRenderer.change(attribute)
-    }],
-    ['attribute.remove', attribute => {
-      attributeRenderer.remove(attribute)
     }],
     ['relation.add', relation => {
       relationRenderer.render(relation)

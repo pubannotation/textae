@@ -13,7 +13,9 @@ export default class extends ModelContainer {
   }
 
   add(attribute) {
-    return super.add(new Attribute(attribute))
+    return super.add(new Attribute(attribute), () => {
+      this.emitter.emit('entity.change', this.emitter.entity.get(attribute.subj))
+    })
   }
 
   change(id, newPred, newObj) {
@@ -28,8 +30,17 @@ export default class extends ModelContainer {
     }
 
     this.emitter.emit(`${this.name}.change`, model)
+    this.emitter.emit('entity.change', this.emitter.entity.get(model.subj))
 
     return model
+  }
+
+  remove(id) {
+    const instance = super.remove(id)
+
+    this.emitter.emit('entity.change', this.emitter.entity.get(instance.subj))
+
+    return instance
   }
 }
 

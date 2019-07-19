@@ -17,6 +17,15 @@ const source = `
         {{label}}
       {{/if}}
     </div>
+    {{#each attributes}}
+    <div id="{{domId}}" title="{{title}}" data-attribute-id="{{id}}" class="textae-editor__attribute">
+      <span>{{obj}}</span>
+      <div class="textae-editor__attribute-buttons">
+        <div class="textae-editor__attribute-button textae-editor__attribute-button--edit" title="Edit this attribute."></div>
+        <div class="textae-editor__attribute-button textae-editor__attribute-button--delete" title="Delete this attribute."></div>
+      </div>
+    </div>
+    {{/each}}
   </div>
 </div>
 `
@@ -27,6 +36,12 @@ export default function(entity, namespace, typeDefinition) {
   const label = getLabel(namespace, typeDefinition, entity.type)
   const href = getUri(namespace, typeDefinition, entity.type)
   const color = typeDefinition.getColor(entity.type)
+  const attributes = entity.attributes.map((attribute) => {
+    return Object.assign({}, attribute, {
+      domId: `${id}-${attribute.id}`,
+      title: `pred: ${attribute.pred}, value: ${attribute.obj}`,
+    })
+  })
 
-  return template({id, label, href, color})
+  return template({id, label, href, color, attributes})
 }
