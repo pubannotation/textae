@@ -1,5 +1,4 @@
-import createEntity
- from './createEntity'
+import createEntity from './createEntity'
 
 export default function(editor, namespace, typeDefinition, gridRenderer, modification, entity) {
   if (!typeDefinition.isBlock(entity.type)) {
