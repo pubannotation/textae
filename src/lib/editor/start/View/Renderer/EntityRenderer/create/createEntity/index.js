@@ -12,15 +12,14 @@ export default function(editor, namspace, typeDefinition, gridRenderer, modifica
   entity.type = String(entity.type)
 
   // Append a new entity to the type
-  const pane = getTypeElement(
-      namspace,
-      typeDefinition,
-      gridRenderer,
-      entity
-    )
-    .querySelector('.textae-editor__entity-pane')
-
-    const entityDomId = idFactory.makeEntityDomId(editor, entity.id)
+  const typeDom = getTypeElement(
+    namspace,
+    typeDefinition,
+    gridRenderer,
+    entity
+  )
+  const pane = typeDom.querySelector('.textae-editor__entity-pane')
+  const entityDomId = idFactory.makeEntityDomId(editor, entity.id)
 
   if (!pane.querySelector(`#${entityDomId}`)) {
     pane.appendChild(createEntityElement(editor, typeDefinition, modification, entity))
