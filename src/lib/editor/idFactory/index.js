@@ -26,10 +26,6 @@ export default {
     // Exclude : and . from a dom id to use for ID selector.
     return makeId(editor.editorId, 'E', id.replace(/[:¥.]/g, ''))
   },
-  makeAttributeDomId(editor, id) {
-    // Exclude : and . from a dom id to use for ID selector.
-    return makeId(editor.editorId, 'A', id.replace(/[:¥.]/g, ''))
-  },
   makeParagraphId(editor, id) {
     return makeId(editor.editorId, 'P', id)
   }

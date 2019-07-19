@@ -1,12 +1,12 @@
-import idFactory from '../../../../idFactory'
 import createAttributeHtml from './createAttributeHtml'
 import getLabelDomOfType from '../../../getLabelDomOfType'
 
-export default function(editor, pane, attribute) {
-  const label = getLabelDomOfType(pane)
-  const id = idFactory.makeAttributeDomId(editor, attribute.id)
+export default function(typeDom, attribute) {
+  const label = getLabelDomOfType(typeDom)
+  const id = `${typeDom.id}-${attribute.id}`
 
-  if (label.querySelector(`#${id}`)) {
+  // Check the attribute is not rendered already because this function also is called when moving span.
+  if (typeDom.querySelector(`#${id}`)) {
     return
   }
 

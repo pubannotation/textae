@@ -27,7 +27,7 @@ export default function(editor, namspace, typeDefinition, gridRenderer, modifica
   }
 
   for (const attribute of entity.attributes) {
-    appendAttribute(editor, pane, attribute)
+    appendAttribute(typeDom, attribute)
   }
 }
 
