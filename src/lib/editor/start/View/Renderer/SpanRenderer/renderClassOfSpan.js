@@ -1,5 +1,3 @@
-import not from 'not'
-
 const BLOCK = 'textae-editor__span--block'
 const WRAP = 'textae-editor__span--wrap'
 
@@ -7,12 +5,12 @@ export default function(span, isBlockFunc) {
   const el = document.querySelector(`#${span.id}`)
 
   // Set block class if there is any block type.
-  if (any(span, isBlockFunc)) {
+  if (span.getTypes().some(type => isBlockFunc(type.name))) {
     el.classList.add(BLOCK)
 
     // The text of span can be wrapped because block type does not display Grid.
     // Set wrap class unless there is any type other than block.
-    if (!any(span, not(isBlockFunc))) {
+    if (span.getTypes().every(type => isBlockFunc(type.name))) {
       el.classList.add(WRAP)
     } else {
       // Grid can not be folded.
@@ -24,12 +22,4 @@ export default function(span, isBlockFunc) {
     el.classList.remove(BLOCK)
     el.classList.remove(WRAP)
   }
-}
-
-function any(span, isBlockFunc) {
-  return span
-    .getTypes()
-    .map(type => type.name)
-    .filter(isBlockFunc)
-    .length > 0
 }
