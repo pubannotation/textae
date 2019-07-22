@@ -9,9 +9,9 @@ export default function(editor) {
       )
     },
     change: (attribute) => changeAttributeElement(editor, attribute),
-    changeModification: () => {},
+    changeModification: () => { },
     remove: (attribute) => removeAttributeElement(editor, attribute),
-    updateLabel: () => {}
+    updateLabel: () => { }
   }
 }
 
@@ -19,9 +19,7 @@ function changeAttributeElement(editor, attribute) {
   const attributeDom = getAttributeDom(editor[0], attribute.id)
 
   if (attributeDom) {
-    attributeDom.setAttribute('title', 'id: ' + attribute.id + ', pred: ' + attribute.pred + ', value: ' + attribute.value)
-    attributeDom.setAttribute('type', attribute.value)
-    attributeDom.setAttribute('pred', attribute.pred)
+    attributeDom.setAttribute('title', `pred: ${attribute.pred}, value: ${attribute.value}`)
     attributeDom.firstElementChild.innerText = attribute.value
   }
 
@@ -39,5 +37,5 @@ function removeAttributeElement(editor, attribute) {
 }
 
 function getAttributeDom(editor, attributeId) {
-  return editor.querySelector(`[origin-id="${attributeId}"]`)
+  return editor.querySelector(`[data-attribute-id="${attributeId}"]`)
 }

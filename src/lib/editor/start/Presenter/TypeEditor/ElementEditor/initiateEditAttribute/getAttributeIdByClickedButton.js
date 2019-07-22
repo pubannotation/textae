@@ -1,3 +1,3 @@
 export default function(e) {
-  return e.target.parentNode.parentNode.getAttribute('origin-id')
+  return e.target.parentNode.parentNode.dataset.attributeId
 }
