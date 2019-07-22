@@ -1,7 +1,6 @@
 export default function(command, annotationData, pushButtons, spanConfig, spanId) {
-  const detectBoundaryFunc = getDetectBoundaryFunc(pushButtons
-    , spanConfig),
-    span = annotationData.span.get(spanId)
+  const detectBoundaryFunc = getDetectBoundaryFunc(pushButtons, spanConfig)
+  const span = annotationData.span.get(spanId)
 
   if (spanId) {
     command.invoke(
