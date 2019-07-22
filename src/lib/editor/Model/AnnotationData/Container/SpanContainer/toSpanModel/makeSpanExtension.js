@@ -28,14 +28,15 @@ export default function(emitter) {
         .reduce((array, entity) => {
           const id = idFactory.makeTypeId(entity)
 
-          const type = array.filter((type) => type.id === id)
+          const type = array.find((type) => type.id === id)
 
           const attributes = emitter.attribute.all()
             .filter((attribute) => attribute.subj === entity.id)
             .map((attribute) => attribute.id)
 
-          if (type.length > 0) {
-            type[0].entities.push(entity.id)
+          if (type) {
+            type.entities.push(entity.id)
+            type.attributes = type.attributes.concat(attributes)
           } else {
             array.push({
               id,
