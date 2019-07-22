@@ -7,54 +7,54 @@ export default function(editor, annotationData, selectionModel, ids) {
 
   return _.flatten(
     Object
-    .keys(entityPerSpan)
-    .map(function(spanId) {
-      var span = annotationData.span.get(spanId),
-        targetIds = entityPerSpan[spanId],
-        allEntitiesOfSpan = _.flatten(
+      .keys(entityPerSpan)
+      .map((spanId) => {
+        const span = annotationData.span.get(spanId)
+        const targetIds = entityPerSpan[spanId]
+
+        const allEntitiesOfSpan = _.flatten(
           span
-          .getTypes()
-          .map(function(type) {
-            return type.entities
-          })
-        ),
-        restEntities = _.reject(
-          allEntitiesOfSpan,
-          function(entityId) {
-            return _.contains(targetIds, entityId)
-          }
+            .getTypes()
+            .map((type) => type.entities)
         )
 
-      return {
-        entities: targetIds,
-        spasId: spanId,
-        noRestEntities: restEntities.length === 0
-      }
-    })
-    .map(function(data) {
-      if (data.noRestEntities)
-        return spanRemoveCommand(editor, annotationData, selectionModel, data.spasId)
-      else
-        return data.entities.map(function(id) {
-          return entityAndAssociatesRemoveCommand(editor, annotationData, selectionModel, id)
-        })
-    })
+        const restEntities = _.reject(
+          allEntitiesOfSpan,
+          (entityId) => _.contains(targetIds, entityId)
+        )
+
+        return {
+          entities: targetIds,
+          spasId: spanId,
+          noRestEntities: restEntities.length === 0
+        }
+      })
+      .map((data) => {
+        if (data.noRestEntities) {
+          return spanRemoveCommand(editor, annotationData, selectionModel, data.spasId)
+        } else {
+          return data.entities.map((id) => entityAndAssociatesRemoveCommand(editor, annotationData, selectionModel, id))
+        }
+      })
   )
 }
 
 function toEntityPerSpan(annotationData, ids) {
   return ids
-    .map(function(id) {
-      var span = annotationData.entity.get(id).span
+    .map((id) => {
+      const span = annotationData.entity.get(id).span
+
       return {
-        id: id,
-        span: span
+        id,
+        span
       }
     })
-    .reduce(function(ret, entity) {
-      var hoge = ret[entity.span] ? ret[entity.span] : []
+    .reduce((ret, entity) => {
+      const hoge = ret[entity.span] ? ret[entity.span] : []
+
       hoge.push(entity.id)
       ret[entity.span] = hoge
+
       return ret
     }, {})
 }
