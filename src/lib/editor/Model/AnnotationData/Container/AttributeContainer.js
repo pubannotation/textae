@@ -2,7 +2,7 @@ import ModelContainer from './ModelContainer'
 import Attribute from './Attribute'
 
 export default class extends ModelContainer {
-  constructor(editor, emitter) {
+  constructor(emitter) {
     super(
       emitter,
       'attribute',

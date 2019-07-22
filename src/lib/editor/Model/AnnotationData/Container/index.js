@@ -14,7 +14,7 @@ export default function(editor) {
     namespace = new ModelContainer(emitter, 'namespace', _.identity),
     paragraph = new ParagraphContainer(editor, emitter),
     span = new SpanContainer(editor, emitter, paragraph),
-    attribute = new AttributeContainer(editor, emitter),
+    attribute = new AttributeContainer(emitter),
     relation = new ModelContainer(emitter, 'relation', mapRelations),
     entity = new EntityContainer(editor, emitter, relation),
     modification = new ModelContainer(emitter, 'modification', _.identity)
