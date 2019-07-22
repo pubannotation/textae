@@ -2,7 +2,7 @@ import renderParagraph from '../renderParagraph'
 import RenderAll from '../RenderAll'
 import AttributeRenderer from '../AttributeRenderer'
 
-export default function(domPositionCache, entityRenderer, relationRenderer, editor, spanRenderer, gridRenderer, chongeSpanOfEntity, renderModificationEntityOrRelation) {
+export default function(domPositionCache, entityRenderer, relationRenderer, editor, spanRenderer, gridRenderer, changeSpanOfEntity, renderModificationEntityOrRelation) {
   const renderAll = new RenderAll(editor, domPositionCache, spanRenderer, relationRenderer)
   const attributeRenderer = new AttributeRenderer(editor)
 
@@ -20,17 +20,17 @@ export default function(domPositionCache, entityRenderer, relationRenderer, edit
     }],
     ['entity.add', entity => {
       // Add a now entity with a new grid after the span moved.
-      chongeSpanOfEntity(entity)
+      changeSpanOfEntity(entity)
       entityRenderer.render(entity)
     }],
     ['entity.change', entity => {
       entityRenderer.change(entity)
-      chongeSpanOfEntity(entity)
+      changeSpanOfEntity(entity)
       gridRenderer.updateWidth(entity.span)
     }],
     ['entity.remove', entity => {
       entityRenderer.remove(entity)
-      chongeSpanOfEntity(entity)
+      changeSpanOfEntity(entity)
     }],
     ['attribute.add', attribute => {
       attributeRenderer.render(attribute)

@@ -3,7 +3,7 @@ import bindeToModelEvent from './bindeToModelEvent'
 import createEventMap from "./createEventMap"
 
 export default function(emitter, domPositionCache, entityRenderer, relationRenderer, editor, spanRenderer, gridRenderer, buttonStateHelper, annotationData) {
-  const chongeSpanOfEntity = (entity) => {
+  const changeSpanOfEntity = (entity) => {
     // Change css class of the span according to the type is block or not.
     const span = annotationData.span.get(entity.span)
     return spanRenderer.change(span)
@@ -14,7 +14,7 @@ export default function(emitter, domPositionCache, entityRenderer, relationRende
     renderModification(annotationData, 'entity', modification, entityRenderer, buttonStateHelper)
   }
 
-  const eventMap = createEventMap(domPositionCache, entityRenderer, relationRenderer, editor, spanRenderer, gridRenderer, chongeSpanOfEntity, renderModificationEntityOrRelation)
+  const eventMap = createEventMap(domPositionCache, entityRenderer, relationRenderer, editor, spanRenderer, gridRenderer, changeSpanOfEntity, renderModificationEntityOrRelation)
 
   for (const [event, handler] of eventMap) {
     bindeToModelEvent(emitter, annotationData, event, handler)
