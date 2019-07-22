@@ -52,7 +52,7 @@ export default class extends ModelContainer {
 
     // switch if seconfId before firstId
     if (spanComparator(first, second) > 0) {
-      let temp = first
+      const temp = first
       first = second
       second = temp
     }
@@ -68,10 +68,8 @@ export default class extends ModelContainer {
 
   multiEntities() {
     return super.all()
-      .filter(function(span) {
-        let multiEntitiesTypes = span.getTypes().filter(function(type) {
-          return type.entities.length > 1
-        })
+      .filter((span) => {
+        const multiEntitiesTypes = span.getTypes().filter((type) => type.entities.length > 1)
 
         return multiEntitiesTypes.length > 0
       })
