@@ -3,10 +3,9 @@ import selectRelation from './selectRelation'
 import deselectRelation from './deselectRelation'
 import getEntityDom from '../getEntityDom'
 import getLabelDomOfType from '../getLabelDomOfType'
-import getEntitiesDomOfType from '../getEntitiesDomOfType'
-import getPaneDomOfType from '../../getPaneDomOfType'
-
-const SELECTED = 'ui-selected'
+import updateEntityTypeValues from './updateEntityTypeValues'
+import getSpanDom from './getSpanDom'
+import modifyStyle from './modifyStyle'
 
 export default function(editor, annotationData) {
   const domPositionCache = new DomPositionCache(editor, annotationData.entity)
@@ -72,37 +71,7 @@ export default function(editor, annotationData) {
       deselect: (id) => deselectRelation(domPositionCache, id)
     },
     entityLabel: {
-      update: (id) => updateEntityLabel(editor, id)
+      update: (id) => updateEntityTypeValues(editor, id)
     }
   }
-}
-
-// Select the typeLabel if all entities is selected.
-function updateEntityLabel(editor, entityId) {
-  console.assert(entityId, 'An entity id is necessary.')
-
-  const entity = getEntityDom(editor[0], entityId)
-
-  // Entities of block span hos no dom elements.
-  if (entity) {
-    const typePane = getPaneDomOfType(entity)
-    const typeValues = typePane.closest('.textae-editor__type').querySelector('.textae-editor__type-values')
-    const entities = getEntitiesDomOfType(entity)
-
-    if (entities.length === typePane.querySelectorAll(`.${SELECTED}`).length) {
-      typeValues.classList.add(SELECTED)
-      typePane.classList.add(SELECTED)
-    } else {
-      typeValues.classList.remove(SELECTED)
-      typePane.classList.remove(SELECTED)
-    }
-  }
-}
-
-function getSpanDom(id) {
-  return document.querySelector(`#${id}`)
-}
-
-function modifyStyle(element, handle) {
-  element.classList[handle](SELECTED)
 }

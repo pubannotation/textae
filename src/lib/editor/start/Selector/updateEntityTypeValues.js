@@ -1,0 +1,24 @@
+import getEntityDom from '../getEntityDom'
+import getEntitiesDomOfType from '../getEntitiesDomOfType'
+import getPaneDomOfType from '../../getPaneDomOfType'
+import SELECTED from "./SELECTED"
+
+// Select the typeValues if all entities is selected.
+export default function(editor, entityId) {
+  console.assert(entityId, 'An entity id is necessary.')
+  const entity = getEntityDom(editor[0], entityId)
+
+  // Entities of block span hos no dom elements.
+  if (entity) {
+    const typePane = getPaneDomOfType(entity)
+    const typeValues = typePane.closest('.textae-editor__type').querySelector('.textae-editor__type-values')
+    const entities = getEntitiesDomOfType(entity)
+    if (entities.length === typePane.querySelectorAll(`.${SELECTED}`).length) {
+      typeValues.classList.add(SELECTED)
+      typePane.classList.add(SELECTED)
+    } else {
+      typeValues.classList.remove(SELECTED)
+      typePane.classList.remove(SELECTED)
+    }
+  }
+}
