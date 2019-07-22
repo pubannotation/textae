@@ -35,13 +35,13 @@ export default function(emitter) {
             .map((attribute) => attribute.id)
 
           if (type) {
-            type.entities.push(entity.id)
+            type.entities.push(entity)
             type.attributes = type.attributes.concat(attributes)
           } else {
             array.push({
               id,
               name: entity.type,
-              entities: [entity.id],
+              entities: [entity],
               attributes
             })
           }

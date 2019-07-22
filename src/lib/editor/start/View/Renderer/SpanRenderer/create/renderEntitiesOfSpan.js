@@ -9,6 +9,5 @@ export default function(span, annotationData, renderEntityFunc) {
 
 function renderEntitiesOfType(type, annotationData, renderEntityFunc) {
   type.entities
-      .map((id) => annotationData.entity.get(id))
       .forEach(renderEntityFunc)
 }

@@ -15,7 +15,7 @@ export default function(editor, annotationData, selectionModel, ids) {
         const allEntitiesOfSpan = _.flatten(
           span
             .getTypes()
-            .map((type) => type.entities)
+            .map((type) => type.entities.map((e) => e.id))
         )
 
         const restEntities = _.reject(

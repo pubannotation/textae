@@ -5,7 +5,7 @@ export default function(editor, annotationData, selectionModel, typeDefinition) 
     annotationData.span.get(spanId)
       .getTypes()
       .filter((type) => typeDefinition.entity.isBlock(type.name))
-      .map((type) => type.entities)
+      .map((type) => type.entities.map((e) => e.id))
   )
 
   const operateSpanWithBlockEntities = (method, spanId) => {
