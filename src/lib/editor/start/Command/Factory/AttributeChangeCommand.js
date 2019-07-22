@@ -1,19 +1,21 @@
 import BaseCommand from './BaseCommand'
 import commandLog from './commandLog'
-import AttributeChangeCommand from './AttributeChangeCommand'
+import findAttribute from './findAttribute'
 
-export default class extends BaseCommand {
-  constructor(annotationData, id, newPred, newObj) {
+export default class AttributeChangeCommand extends BaseCommand {
+  constructor(annotationData, selectedEntities, oldPred, oldObj, newPred, newObj) {
     super(function() {
-      const oldModel = Object.assign(annotationData.attribute.get(id))
-
-      // Update model
-      const targetModel = annotationData.attribute.change(id, newPred, newObj)
+      // Update models
+      const effectedAttributes = []
+        for (const id of selectedEntities) {
+        const attribute = findAttribute(annotationData, id, oldPred, oldObj)
+        effectedAttributes.push(annotationData.attribute.change(attribute.id, newPred, newObj))
+      }
 
       // Set revert
-      this.revert = () => new AttributeChangeCommand(annotationData, 'attribute', id, oldModel.pred, oldModel.obj)
+      this.revert = () => new AttributeChangeCommand(annotationData, selectedEntities, newPred, newObj, oldPred, oldObj)
 
-      commandLog(`change type of an attribute old pred:${oldModel.pred} old obj:${oldModel.obj}. attribute:`, targetModel)
+      commandLog(`change type of an attribute old pred:${oldPred} old obj:${oldObj}. effected attributes: [${effectedAttributes.map(a => `{id: ${a.id}, subj: ${a.subj}, pred: ${a.pred}, obj: ${a.obj}}`).join(',')}]`)
     })
   }
 }

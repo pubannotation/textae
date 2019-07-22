@@ -1,21 +1,19 @@
 import EditAttributeDialog from '../../../../../../../component/EditAttributeDialog'
 
-export default function(editor, annotationData, command, attributeId) {
-  const attribute = annotationData.attribute.get(attributeId)
-  const predicate = attribute.pred
-  const obj = attribute.obj
-
-  const done = (pred, obj) => {
+export default function(editor, command, selectedEntities, pred, obj) {
+  const done = (newPred, newObj) => {
     if (obj) {
       command.invoke([command.factory.attributeChangeCommand(
-        attributeId,
+        selectedEntities,
         pred,
-        obj
+        obj,
+        newPred,
+        newObj
       )], ['annotation'])
     }
   }
 
   const dialog = new EditAttributeDialog(editor, done)
-  dialog.update(predicate, obj)
+  dialog.update(pred, obj)
   dialog.open()
 }

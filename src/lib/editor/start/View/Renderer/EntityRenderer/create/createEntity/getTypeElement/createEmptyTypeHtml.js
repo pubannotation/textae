@@ -18,7 +18,7 @@ const source = `
       {{/if}}
     </div>
     {{#each attributes}}
-    <div id="{{domId}}" title="{{title}}" data-attribute-id="{{id}}" class="textae-editor__attribute">
+    <div id="{{domId}}" title="{{title}}" data-pred="{{pred}}" data-obj="{{obj}}" class="textae-editor__attribute">
       <span>{{obj}}</span>
       <div class="textae-editor__attribute-buttons">
         <div class="textae-editor__attribute-button textae-editor__attribute-button--edit" title="Edit this attribute."></div>
