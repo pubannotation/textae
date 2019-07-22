@@ -30,19 +30,13 @@ export default function(emitter) {
 
           const type = array.find((type) => type.id === id)
 
-          const attributes = emitter.attribute.all()
-            .filter((attribute) => attribute.subj === entity.id)
-            .map((attribute) => attribute.id)
-
           if (type) {
             type.entities.push(entity)
-            type.attributes = type.attributes.concat(attributes)
           } else {
             array.push({
               id,
               name: entity.type,
-              entities: [entity],
-              attributes
+              entities: [entity]
             })
           }
 
