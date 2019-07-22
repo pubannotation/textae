@@ -1,4 +1,5 @@
 import ModelContainer from './ModelContainer'
+import Attribute from './Attribute'
 
 export default class extends ModelContainer {
   constructor(editor, emitter) {
@@ -11,15 +12,19 @@ export default class extends ModelContainer {
     this.emitter = emitter
   }
 
-  change(id, newPred, newValue) {
+  add(attribute) {
+    return super.add(new Attribute(attribute))
+  }
+
+  change(id, newPred, newObj) {
     const model = this.get(id)
 
     if (newPred) {
       model.pred = newPred
     }
 
-    if (newValue) {
-      model.value = newValue
+    if (newObj) {
+      model.obj = newObj
     }
 
     this.emitter.emit(`${this.name}.change`, model)
@@ -28,17 +33,7 @@ export default class extends ModelContainer {
   }
 }
 
-// Expected an attribute like {id: "A1", subj: "T1", pred: "example_predicate_1", obj: "attr1"}.
-function toModel(attribute) {
-  return {
-    id: attribute.id,
-    subj: attribute.subj,
-    pred: attribute.pred,
-    value: attribute.obj
-  }
-}
-
 function mappingFunction(attributes) {
   attributes = attributes || []
-  return attributes.map(toModel)
+  return attributes.map((a) => new Attribute(a))
 }

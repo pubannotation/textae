@@ -2,7 +2,7 @@ import Handlebars from 'handlebars'
 
 const source = `
 <div id="{{domId}}" title="{{title}}" data-attribute-id="{{id}}" class="textae-editor__attribute">
-  <span>{{value}}</span>
+  <span>{{obj}}</span>
   <div class="textae-editor__attribute-buttons">
     <div class="textae-editor__attribute-button textae-editor__attribute-button--edit" title="Edit this attribute."></div>
     <div class="textae-editor__attribute-button textae-editor__attribute-button--delete" title="Delete this attribute."></div>
@@ -11,9 +11,6 @@ const source = `
 `
 const template = Handlebars.compile(source)
 
-export default function(id, attribute) {
-  return template(Object.assign({}, attribute, {
-    domId: id,
-    title: `pred: ${attribute.pred}, value: ${attribute.value}`
-  }))
+export default function(typeDomId, attribute) {
+  return template(attribute.getDataToRender(typeDomId))
 }

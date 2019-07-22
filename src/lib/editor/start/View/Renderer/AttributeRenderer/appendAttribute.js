@@ -10,5 +10,5 @@ export default function(typeDom, attribute) {
     return
   }
 
-  label.insertAdjacentHTML('afterend', createAttributeHtml(id, attribute))
+  label.insertAdjacentHTML('afterend', createAttributeHtml(typeDom.id, attribute))
 }

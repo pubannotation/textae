@@ -17,10 +17,11 @@ export default function(editor) {
 
 function changeAttributeElement(editor, attribute) {
   const attributeDom = getAttributeDom(editor[0], attribute.id)
+  const renderData = attribute.getDataToRender(attributeDom.closest('.textae-editor__type').id)
 
   if (attributeDom) {
-    attributeDom.setAttribute('title', `pred: ${attribute.pred}, value: ${attribute.value}`)
-    attributeDom.firstElementChild.innerText = attribute.value
+    attributeDom.setAttribute('title', renderData.title)
+    attributeDom.firstElementChild.innerText = renderData.obj
   }
 
   return null

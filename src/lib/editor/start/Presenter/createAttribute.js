@@ -5,7 +5,7 @@ export default function(command, selectionModel) {
       id: null,
       subj: entityId,
       pred: 'some_predicate',
-      value: 'some_value'
+      obj: 'some_value'
     })
   })
 

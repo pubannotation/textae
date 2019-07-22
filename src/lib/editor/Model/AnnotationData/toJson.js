@@ -31,7 +31,7 @@ function toAttribute(dataStore) {
       id: attribute.id,
       subj: attribute.subj,
       pred: attribute.pred,
-      obj: attribute.value,
+      obj: attribute.obj,
     }
   })
 }
