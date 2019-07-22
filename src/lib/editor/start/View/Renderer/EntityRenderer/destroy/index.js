@@ -1,5 +1,5 @@
 import removeEntityElement from '../removeEntityElement'
-import removeNoEntityPaneElement from '../removeNoEntityPaneElement'
+import updateAncestorsElement from '../updateAncestorsElement'
 import doesSpanHasNoEntity from './doesSpanHasNoEntity'
 
 export default function destroy(editor, annotationData, gridRenderer, entity) {
@@ -8,8 +8,8 @@ export default function destroy(editor, annotationData, gridRenderer, entity) {
     gridRenderer.remove(entity.span)
   } else {
     // Destroy an each entity.
-    const paneNode = removeEntityElement(editor, entity.id)
-    removeNoEntityPaneElement(paneNode)
+    const paneElement = removeEntityElement(editor, entity.id)
+    updateAncestorsElement(paneElement)
   }
 
   return entity
