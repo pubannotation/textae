@@ -27,7 +27,6 @@
   "dependencies": {
     "capitalize": "^1.0.0",
     "delegate": "^3.0.0",
-    "element-closest": "^1.0.3",
     "emitter-fsm": "0.0.2",
     "handlebars": "^4.0.2",
     "jsondiffpatch": "^0.2.5",
