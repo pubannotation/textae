@@ -1,4 +1,4 @@
-import EditAttributeDialog from '../../../../../../../component/EditAttributeDialog'
+import EditDialog from '../../../../../../../component/dialog/EditDialog'
 
 export default function(editor, command, selectedEntities, pred, obj) {
   const done = (newPred, newObj) => {
@@ -13,7 +13,7 @@ export default function(editor, command, selectedEntities, pred, obj) {
     }
   }
 
-  const dialog = new EditAttributeDialog(editor, done)
+  const dialog = new EditDialog(editor, done)
   dialog.update(pred, obj)
   dialog.open()
 }
