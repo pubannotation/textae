@@ -1,4 +1,4 @@
-import {SPAN_CLASS, LABEL_CLASS, ENTINY_CLASS} from "./const"
+import {SPAN_CLASS, ENTINY_CLASS} from "./const"
 import selectSelected from "./selectSelected"
 
 export default function(editorDom, selectionModel, shiftKey, getNextFunc) {
@@ -9,7 +9,7 @@ export default function(editorDom, selectionModel, shiftKey, getNextFunc) {
     return () => selectionModel.selectSpan(nextElement, shiftKey)
   }
 
-  const selectedEntityLabel = selectSelected(editorDom, LABEL_CLASS)
+  const selectedEntityLabel = selectSelected(editorDom, 'textae-editor__type-values')
 
   if (selectedEntityLabel.length) {
     const nextElement = getNextFunc(selectedEntityLabel)
