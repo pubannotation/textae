@@ -3,7 +3,7 @@ import create from './create'
 import update from './update'
 
 export default class {
-  constructor(editor, predicate, value, done, typeDefinition, autocompletionWs) {
+  constructor(editor, done, typeDefinition, autocompletionWs) {
     this.typeDefinition = typeDefinition
     this.done = done
     this.autocompletionWs = autocompletionWs
@@ -12,11 +12,11 @@ export default class {
     el.classList.add(CLASS_NAMES.container)
     el.innerHTML = `
 <div class="${CLASS_NAMES.inputBox}">
-  <label>${predicate}:</label><br>
+  <label>Predicate:</label><br>
   <input class="${CLASS_NAMES.predicate}">
 </div>
 <div class="${CLASS_NAMES.inputBox}">
-  <label>${value}:<span></span></label><br>
+  <label>Value:<span></span></label><br>
   <input class="${CLASS_NAMES.value}">
 </div>`
 
