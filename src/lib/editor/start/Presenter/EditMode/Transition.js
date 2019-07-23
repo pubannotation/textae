@@ -10,51 +10,58 @@ const TERM = 'term'
 const INSTANCE = 'instance'
 const RELATION = 'relation'
 
-export default function(editor, annotationData, selectionModel, typeEditor, buttonStateHelper) {
-  const viewMode = new ViewMode(editor, annotationData, selectionModel, buttonStateHelper)
-  const emitter = new EventEmitter()
-  const api = {
-      toTerm: function() {
-        emitter.emit(event.HIDE)
-        emitter.emit(event.CHANGE, true, TERM)
+export default class extends EventEmitter {
+  constructor(editor, annotationData, selectionModel, typeEditor, buttonStateHelper) {
+    super()
 
-        typeEditor.editEntity()
-        viewMode.setTerm()
-        setEditableStyle(editor, buttonStateHelper, true)
-      },
-      toInstance: function() {
-        emitter.emit(event.SHOW)
-        emitter.emit(event.CHANGE, true, INSTANCE)
+    this.editor = editor
+    this.typeEditor = typeEditor
+    this.viewMode = new ViewMode(editor, annotationData, selectionModel, buttonStateHelper)
+    this.buttonStateHelper = buttonStateHelper
+  }
 
-        typeEditor.editEntity()
-        viewMode.setInstance()
-        setEditableStyle(editor, buttonStateHelper, true)
-      },
-      toRelation: function() {
-        emitter.emit(event.SHOW)
-        emitter.emit(event.CHANGE, true, RELATION)
+  toTerm() {
+    super.emit(event.HIDE)
+    super.emit(event.CHANGE, true, TERM)
 
-        typeEditor.editRelation()
-        viewMode.setRelation()
-        setEditableStyle(editor, buttonStateHelper, true)
-      },
-      toViewTerm: function() {
-        emitter.emit(event.HIDE)
-        emitter.emit(event.CHANGE, false, TERM)
+    this.typeEditor.editEntity()
+    this.viewMode.setTerm()
+    setEditableStyle(this.editor, this.buttonStateHelper, true)
+  }
 
-        typeEditor.noEdit()
-        viewMode.setTerm()
-        setEditableStyle(editor, buttonStateHelper, false)
-      },
-      toViewInstance: function() {
-        emitter.emit(event.SHOW)
-        emitter.emit(event.CHANGE, false, INSTANCE)
+  toInstance() {
+    super.emit(event.SHOW)
+    super.emit(event.CHANGE, true, INSTANCE)
 
-        typeEditor.noEdit()
-        viewMode.setInstance()
-        setEditableStyle(editor, buttonStateHelper, false)
-      }
-    }
+    this.typeEditor.editEntity()
+    this.viewMode.setInstance()
+    setEditableStyle(this.editor, this.buttonStateHelper, true)
+  }
 
-  return Object.assign(emitter, api)
+  toRelation() {
+    super.emit(event.SHOW)
+    super.emit(event.CHANGE, true, RELATION)
+
+    this.typeEditor.editRelation()
+    this.viewMode.setRelation()
+    setEditableStyle(this.editor, this.buttonStateHelper, true)
+  }
+
+  toViewTerm() {
+    super.emit(event.HIDE)
+    super.emit(event.CHANGE, false, TERM)
+
+    this.typeEditor.noEdit()
+    this.viewMode.setTerm()
+    setEditableStyle(this.editor, this.buttonStateHelper, false)
+  }
+
+  toViewInstance() {
+    super.emit(event.SHOW)
+    super.emit(event.CHANGE, false, INSTANCE)
+
+    this.typeEditor.noEdit()
+    this.viewMode.setInstance()
+    setEditableStyle(this.editor, this.buttonStateHelper, false)
+  }
 }

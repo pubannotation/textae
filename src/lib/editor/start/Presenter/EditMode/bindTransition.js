@@ -9,11 +9,11 @@ export default function(transition) {
           // For debug.
           // console.log(editor.editorId, 'from:', e.from, ' to:', e.to);
         })
-        .on(toEnterEvent(state.TERM), transition.toTerm)
-        .on(toEnterEvent(state.INSTANCE), transition.toInstance)
-        .on(toEnterEvent(state.RELATION), transition.toRelation)
-        .on(toEnterEvent(state.VIEW_TERM), transition.toViewTerm)
-        .on(toEnterEvent(state.VIEW_INSTANCE), transition.toViewInstance)
+        .on(toEnterEvent(state.TERM), () => transition.toTerm())
+        .on(toEnterEvent(state.INSTANCE), () => transition.toInstance())
+        .on(toEnterEvent(state.RELATION), () => transition.toRelation())
+        .on(toEnterEvent(state.VIEW_TERM), () => transition.toViewTerm())
+        .on(toEnterEvent(state.VIEW_INSTANCE), () => transition.toViewInstance())
 
   return stateMachine
 }
