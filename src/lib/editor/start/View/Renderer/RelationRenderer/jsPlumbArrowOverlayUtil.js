@@ -1,95 +1,86 @@
-import _ from 'underscore'
+// import _ from 'underscore'
 
-var // Overlay styles for jsPlubm connections.
-  NORMAL_ARROW = {
-    width: 7,
-    length: 9,
-    location: 1,
-    id: 'normal-arrow'
-  },
-  HOVER_ARROW = {
-    width: 14,
-    length: 18,
-    location: 1,
-    id: 'hover-arrow',
-  },
-  addArrow = function(id, connect) {
-    if (id === NORMAL_ARROW.id) {
-      connect.addOverlay(['Arrow', NORMAL_ARROW])
-    } else if (id === HOVER_ARROW.id) {
-      connect.addOverlay(['Arrow', HOVER_ARROW])
-    }
-    return connect
-  },
-  addArrows = function(connect, arrows) {
-    arrows.forEach(function(id) {
-      addArrow(id, connect)
-    })
-    return arrows
-  },
-  getArrowIds = function(connect) {
-    return connect.getOverlays()
-      .filter(function(overlay) {
-        return overlay.type === 'Arrow'
-      })
-      .map(function(arrow) {
-        return arrow.id
-      })
-  },
-  hasNormalArrow = function(connect) {
-    return connect.getOverlay(NORMAL_ARROW.id)
-  },
-  hasHoverArrow = function(connect) {
-    return connect.getOverlay(HOVER_ARROW.id)
-  },
-  removeArrow = function(id, connect) {
-    connect.removeOverlay(id)
-    return connect
-  },
-  removeArrows = function(connect, arrows) {
-    arrows.forEach(function(id) {
-      removeArrow(id, connect)
-    })
-    return arrows
-  },
-  resetArrows = function(connect) {
-    _.compose(
-      _.partial(addArrows, connect),
-      _.partial(removeArrows, connect),
-      getArrowIds
-    )(connect)
-  },
-  addNormalArrow = _.partial(addArrow, NORMAL_ARROW.id),
-  addHoverArrow = _.partial(addArrow, HOVER_ARROW.id),
-  removeNormalArrow = _.partial(removeArrow, NORMAL_ARROW.id),
-  removeHoverArrow = _.partial(removeArrow, HOVER_ARROW.id),
-  // Remove a normal arrow and add a new big arrow.
-  // Because an arrow is out of position if hideOverlay and showOverlay is used.
-  switchHoverArrow = _.compose(
-    addHoverArrow,
-    removeNormalArrow
-  ),
-  switchNormalArrow = _.compose(
-    addNormalArrow,
-    removeHoverArrow
-  )
+// Overlay styles for jsPlubm connections.
+const NORMAL_ARROW = {
+  width: 7,
+  length: 9,
+  location: 1,
+  id: 'normal-arrow'
+}
 
-module.exports = {
-  NORMAL_ARROW: NORMAL_ARROW,
-  resetArrows: resetArrows,
-  showBigArrow: function(connect) {
-    // Do not add a big arrow twice when a relation has been selected during hover.
+const HOVER_ARROW = {
+  width: 14,
+  length: 18,
+  location: 1,
+  id: 'hover-arrow',
+}
+
+export default {
+  NORMAL_ARROW,
+  resetArrows(connect) {
+    const ids = getArrowIds(connect)
+    removeArrows(connect, ids)
+    addArrows(connect, ids)
+  },
+  showBigArrow(connect) {
     if (hasHoverArrow(connect)) {
       return connect
     }
 
-    return switchHoverArrow(connect)
-  },
-  hideBigArrow: function(connect) {
-    // Already affected
-    if (hasNormalArrow(connect))
-      return connect
+    // Remove a normal arrow and add a new big arrow.
+    // Because an arrow is out of position if hideOverlay and showOverlay is used.
+    removeArrow(NORMAL_ARROW.id, connect)
+    addArrow(HOVER_ARROW.id, connect)
 
-    return switchNormalArrow(connect)
+    return connect
+  },
+  hideBigArrow(connect) {
+    if (hasNormalArrow(connect)) {
+      return connect
+    }
+
+    removeArrow(HOVER_ARROW.id, connect)
+    addArrow(NORMAL_ARROW.id, connect)
+
+    return connect
   }
 }
+
+function addArrow(id, connect) {
+  if (id === NORMAL_ARROW.id) {
+    connect.addOverlay(['Arrow', NORMAL_ARROW])
+  } else if (id === HOVER_ARROW.id) {
+    connect.addOverlay(['Arrow', HOVER_ARROW])
+  }
+  return connect
+}
+
+function addArrows(connect, arrows) {
+  arrows.forEach((id) => addArrow(id, connect))
+  return arrows
+}
+
+function getArrowIds(connect) {
+  return connect.getOverlays()
+    .filter((overlay) => overlay.type === 'Arrow')
+    .map((arrow) => arrow.id)
+}
+
+function hasNormalArrow(connect) {
+  return connect.getOverlay(NORMAL_ARROW.id)
+}
+
+function hasHoverArrow(connect) {
+  return connect.getOverlay(HOVER_ARROW.id)
+}
+
+function removeArrow(id, connect) {
+  connect.removeOverlay(id)
+  return connect
+}
+
+function removeArrows(connect, arrows) {
+  arrows.forEach((id) => removeArrow(id, connect))
+  return arrows
+}
+
