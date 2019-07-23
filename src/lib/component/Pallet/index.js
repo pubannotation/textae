@@ -12,7 +12,7 @@ export default class {
     // Bind event
     // Update save config button when history changing
     history.on('change', () => {
-      updateSelf(this.elementEditor.getHandlerForPallet().typeContainer, this.el, this.history, this.elementEditor.getHandlerType())
+      updateSelf(this.elementEditor.getHandler().typeContainer, this.el, this.history, this.elementEditor.getHandlerType())
     })
     this.editor.eventEmitter.on('textae.pallet.close', () => this.hide())
 
@@ -23,7 +23,7 @@ export default class {
   }
 
   show(point) {
-    const typeContainer = this.elementEditor.getHandlerForPallet().typeContainer
+    const typeContainer = this.elementEditor.getHandler().typeContainer
 
     // The typeContainer is null when read-only mode
     if (typeContainer) {
@@ -45,7 +45,7 @@ export default class {
 
     // Release event listeners that bound when opening pallet.
     if (this.onConfigLockChange) {
-      const typeContainer = this.elementEditor.getHandlerForPallet().typeContainer
+      const typeContainer = this.elementEditor.getHandler().typeContainer
       typeContainer.removeListener('type.lock', this.onConfigLockChange)
       typeContainer.removeListener('type.change', this.onConfigLockChange)
     }

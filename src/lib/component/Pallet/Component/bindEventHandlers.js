@@ -18,7 +18,7 @@ export default function(pallet, elementEditor, editor, autocompletionWs, command
   })
 
   delegate(pallet, `.${CLASS_NAMES.label}`, 'click', (e) => {
-    const commands = elementEditor.getHandlerForPallet().changeTypeOfSelectedElement(e.delegateTarget.id)
+    const commands = elementEditor.getHandler().changeTypeOfSelectedElement(e.delegateTarget.id)
     command.invoke(commands, ['annotation'])
   })
 
@@ -26,7 +26,7 @@ export default function(pallet, elementEditor, editor, autocompletionWs, command
     if (!checkButtonEnable(e.target)) {
       return
     }
-    elementEditor.getHandlerForPallet().selectAllByLabel(e.delegateTarget.getAttribute('data-id'))
+    elementEditor.getHandler().selectAllByLabel(e.delegateTarget.getAttribute('data-id'))
   })
 
   delegate(pallet, `.${CLASS_NAMES.editType}`, 'click', (e) => {
@@ -37,7 +37,7 @@ export default function(pallet, elementEditor, editor, autocompletionWs, command
     if (!checkButtonEnable(e.target)) {
       return
     }
-    const commands = elementEditor.getHandlerForPallet().removeType(e.delegateTarget.getAttribute('data-id'), e.delegateTarget.getAttribute('data-short-label'))
+    const commands = elementEditor.getHandler().removeType(e.delegateTarget.getAttribute('data-id'), e.delegateTarget.getAttribute('data-short-label'))
     command.invoke(commands, ['configuration'])
   })
 }

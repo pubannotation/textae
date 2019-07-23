@@ -1,7 +1,7 @@
 import EditTypeDialog from "./EditTypeDialog"
 
 export default function(elementEditor, editor, autocompletionWs) {
-  const handler = elementEditor.getHandlerForPallet()
+  const handler = elementEditor.getHandler()
 
   const done = (newId, newLabel, newColor, newDefault) => {
     if (newId === '') {

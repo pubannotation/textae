@@ -2,7 +2,6 @@ import EditRelation from './EditRelation'
 import EditEntity from './EditEntity'
 import unbindAllMouseEventhandler from './unbindAllMouseEventhandler'
 import getHandler from './getHandler'
-import getHandlerForPallet from './getHandlerForPallet'
 import initiateEditAttribute from './initiateEditAttribute'
 
 // Provide handlers to edit elements according to an edit mode.
@@ -15,7 +14,6 @@ export default function(editor, annotationData, selectionModel, spanConfig, comm
   return {
     getHandlerType: () => handler,
     getHandler: () => getHandler(handler, editEntity, editRelation),
-    getHandlerForPallet: () => getHandlerForPallet(handler, editEntity, editRelation),
     start: {
       noEdit: () => {
         unbindAllMouseEventhandler(editor)

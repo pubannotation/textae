@@ -4,7 +4,7 @@ import invokeChangeTypeCommand from './invokeChangeTypeCommand'
 export default function(elementEditor, e, editor, autocompletionWs) {
   const target = e.delegateTarget
   const id = target.getAttribute('data-id')
-  const handler = elementEditor.getHandlerForPallet()
+  const handler = elementEditor.getHandler()
   const label = handler.typeContainer.getLabel(id) || ''
   const color = target.getAttribute('data-color').toLowerCase()
   const isDefault = target.getAttribute('data-is-default') === 'true'
