@@ -4709,16 +4709,16 @@ button.toast-close-button {
 .textae-editor--relation-mode .textae-editor__relation__label.ui-selected {
   z-index: 2;
 }
-.textae-editor--instance-mode.textae-editor--editable .textae-editor__attribute:hover,
-.textae-editor--term-mode.textae-editor--editable .textae-editor__attribute:hover {
+.textae-editor--instance-mode.textae-editor--editable .textae-editor__type-values--some_entity_selected .textae-editor__attribute:hover,
+.textae-editor--term-mode.textae-editor--editable .textae-editor__type-values--some_entity_selected .textae-editor__attribute:hover {
   box-shadow: 1px 1px 3px #600;
 }
-.textae-editor--instance-mode.textae-editor--editable .textae-editor__attribute:hover .textae-editor__attribute-buttons,
-.textae-editor--term-mode.textae-editor--editable .textae-editor__attribute:hover .textae-editor__attribute-buttons {
+.textae-editor--instance-mode.textae-editor--editable .textae-editor__type-values--some_entity_selected .textae-editor__attribute:hover .textae-editor__attribute-buttons,
+.textae-editor--term-mode.textae-editor--editable .textae-editor__type-values--some_entity_selected .textae-editor__attribute:hover .textae-editor__attribute-buttons {
   display: flex;
 }
-.textae-editor--instance-mode.textae-editor--editable .textae-editor__attribute:hover .textae-editor__attribute-buttons:hover,
-.textae-editor--term-mode.textae-editor--editable .textae-editor__attribute:hover .textae-editor__attribute-buttons:hover {
+.textae-editor--instance-mode.textae-editor--editable .textae-editor__type-values--some_entity_selected .textae-editor__attribute:hover .textae-editor__attribute-buttons:hover,
+.textae-editor--term-mode.textae-editor--editable .textae-editor__type-values--some_entity_selected .textae-editor__attribute:hover .textae-editor__attribute-buttons:hover {
   display: flex;
 }
 .textae-editor-veil {
