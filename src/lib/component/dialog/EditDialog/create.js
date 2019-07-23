@@ -1,21 +1,23 @@
+import Handlebars from 'handlebars'
 import delegate from 'delegate'
 import EditorDialog from '../EditorDialog'
 
-const HTML = `
+const source = `
 <div class="textae-editor__edit-value-and-pred-dialog__container">
   <div class="textae-editor__edit-value-and-pred-dialog__input-box">
     <label>Predicate:</label><br>
-    <input class="'textae-editor__edit-value-and-pred-dialog--predicate'">
+    <input class="'textae-editor__edit-value-and-pred-dialog--predicate'" value="{{predicate}}">
   </div>
   <div class="textae-editor__edit-value-and-pred-dialog__input-box">
     <label>Value:<span></span></label><br>
-    <input class="'textae-editor__edit-value-and-pred-dialog--value'">
+    <input class="'textae-editor__edit-value-and-pred-dialog--value'" value="{{value}}">
   </div>
 </div>`
+const template = Handlebars.compile(source)
 
-export default function(editor, done) {
+export default function(editor, predicate, value, done) {
   const el = document.createElement('div')
-  el.innerHTML = HTML
+  el.innerHTML = template({predicate, value})
 
   // Use `this` according to the jQuery style.
   const okHandler = function() {
