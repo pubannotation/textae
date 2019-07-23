@@ -8,7 +8,7 @@ export default function(selectionModel, e) {
   if (isTypeLabel) {
     const entities = getEntitiesDomOfType(typeLabel)
 
-    return selectEntities(selectionModel, e.ctrlKey || e.metaKey, typeLabel.closest('textae-editor__type-values'), entities)
+    return selectEntities(selectionModel, e.ctrlKey || e.metaKey, typeLabel.closest('.textae-editor__type-values'), entities)
   }
 
   return null
