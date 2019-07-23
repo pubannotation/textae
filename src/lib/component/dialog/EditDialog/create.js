@@ -17,12 +17,13 @@ export default function(editor, done) {
   el.classList.add(CLASS_NAMES.container)
   el.innerHTML = HTML
 
-  const label = el.querySelector('span')
-  const input = el.querySelectorAll('input')
-  const input1 = input[0]
-  const input2 = input[1]
+  // Use `this` according to the jQuery style.
+  const okHandler = function() {
+    const label = this.querySelector('span')
+    const input = this.querySelectorAll('input')
+    const input1 = input[0]
+    const input2 = input[1]
 
-  const okHandler = () => {
     done(input1.value, input2.value, label.innerText)
     $dialog.close()
   }
@@ -45,7 +46,7 @@ export default function(editor, done) {
   // Observe enter key press
   delegate($dialog[0], `.${CLASS_NAMES.value}`, 'keyup', (e) => {
     if (e.keyCode === 13) {
-      okHandler()
+      okHandler.call($dialog[0])
     }
   })
 
