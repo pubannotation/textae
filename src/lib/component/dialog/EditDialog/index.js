@@ -3,7 +3,6 @@ import create from './create'
 import update from './update'
 
 export default class {
-
   constructor(editor, predicate, value, done, typeDefinition, autocompletionWs) {
     this.typeDefinition = typeDefinition
     this.done = done
@@ -21,8 +20,8 @@ export default class {
   <input class="${CLASS_NAMES.value}">
 </div>`
 
-    const label = el.querySelector('span'),
-      input = el.querySelectorAll('input')
+    const label = el.querySelector('span')
+    const input = el.querySelectorAll('input')
 
     this.$dialog = create(editor, el, input[0], input[1], label)
   }
