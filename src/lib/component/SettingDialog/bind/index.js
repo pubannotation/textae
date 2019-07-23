@@ -6,6 +6,6 @@ import bindChangeTypeGap from "./bindChangeTypeGap"
 export default function($content, editor, displayInstance, typeDefinition) {
   bindChangeTypeGap($content, editor, displayInstance)
   bindChangeLineHeight($content, editor)
-  bindChangeLockConfig($content, editor, typeDefinition)
+  bindChangeLockConfig($content, typeDefinition)
   bindClickResetHiddenMessageBoxes($content, editor)
 }

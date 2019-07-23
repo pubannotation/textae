@@ -1,6 +1,6 @@
 import debounce300 from "./debounce300"
 
-export default function bindChangeLockConfig($content, editor, typeDefinition) {
+export default function($content, typeDefinition) {
   const onChangeLockConfig = debounce300((e) => {
     if (e.target.checked) {
       typeDefinition.lockEdit()
