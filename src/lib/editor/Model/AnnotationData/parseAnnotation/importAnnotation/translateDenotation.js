@@ -1,10 +1,10 @@
-var setIdPrefixIfExist = require('./setIdPrefixIfExist')
-import _ from 'underscore'
+import setIdPrefixIfExist from './setIdPrefixIfExist'
 
 // Expected denotations is an Array of object like { "id": "T1", "span": { "begin": 19, "end": 49 }, "obj": "Cell" }.
-module.exports = function(prefix, src) {
+export default function(prefix, src) {
   prefix = prefix || ''
-  return _.extend({}, src, {
+
+  return Object.assign({}, src, {
     // Do not convert  string unless id.
     id: setIdPrefixIfExist(src, prefix)
   })
