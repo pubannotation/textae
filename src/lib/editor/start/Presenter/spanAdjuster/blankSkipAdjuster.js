@@ -1,16 +1,16 @@
-var skipBlank = require('./skipBlank')
+import skipBlank from './skipBlank'
 
-module.exports = {
-  backFromBegin: function(str, position, spanConfig) {
+export default {
+  backFromBegin(str, position, spanConfig) {
     return skipBlank.forward(str, position, spanConfig.isBlankCharacter)
   },
-  forwardFromEnd: function(str, position, spanConfig) {
+  forwardFromEn(str, position, spanConfig) {
     return skipBlank.back(str, position, spanConfig.isBlankCharacter)
   },
-  forwardFromBegin: function(str, position, spanConfig) {
+  forwardFromBegin(str, position, spanConfig) {
     return skipBlank.forward(str, position, spanConfig.isBlankCharacter)
   },
-  backFromEnd: function(str, position, spanConfig) {
+  backFromEnd(str, position, spanConfig) {
     return skipBlank.back(str, position, spanConfig.isBlankCharacter)
   }
 }
