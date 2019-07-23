@@ -5,16 +5,15 @@ from 'events'
 import setEditableStyle from './setEditableStyle'
 import ViewMode from './ViewMode'
 import event from './event'
-import _ from 'underscore'
 
-const TERM = 'term',
-  INSTANCE = 'instance',
-  RELATION = 'relation'
+const TERM = 'term'
+const INSTANCE = 'instance'
+const RELATION = 'relation'
 
 export default function(editor, annotationData, selectionModel, typeEditor, buttonStateHelper) {
-  const viewMode = new ViewMode(editor, annotationData, selectionModel, buttonStateHelper),
-    emitter = new EventEmitter(),
-    api = {
+  const viewMode = new ViewMode(editor, annotationData, selectionModel, buttonStateHelper)
+  const emitter = new EventEmitter()
+  const api = {
       toTerm: function() {
         emitter.emit(event.HIDE)
         emitter.emit(event.CHANGE, true, TERM)
@@ -57,5 +56,5 @@ export default function(editor, annotationData, selectionModel, typeEditor, butt
       }
     }
 
-  return _.extend(emitter, api)
+  return Object.assign(emitter, api)
 }
