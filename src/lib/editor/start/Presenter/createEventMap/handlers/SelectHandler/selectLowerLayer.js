@@ -1,4 +1,4 @@
-import {LABEL_CLASS, ENTINY_CLASS} from "./const"
+import {ENTINY_CLASS} from "./const"
 import selectLabelOfEntity from "./selectLabelOfEntity"
 import selectSpanOfEntityLabel from "./selectSpanOfEntityLabel"
 import selectSelected from "./selectSelected"
