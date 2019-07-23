@@ -2,9 +2,9 @@ import delegate from 'delegate'
 import EditorDialog from '../EditorDialog'
 import CLASS_NAMES from './className'
 
-export default function(editor, el, input1, input2, label) {
+export default function(editor, el, input1, input2, label, done) {
   const okHandler = () => {
-    $dialog.done(input1.value, input2.value, label.innerText)
+    done(input1.value, input2.value, label.innerText)
     $dialog.close()
   }
 

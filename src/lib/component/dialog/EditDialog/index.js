@@ -4,8 +4,6 @@ import update from './update'
 
 export default class {
   constructor(editor, done) {
-    this.done = done
-
     const el = document.createElement('div')
     el.classList.add(CLASS_NAMES.container)
     el.innerHTML = `
@@ -21,11 +19,11 @@ export default class {
     const label = el.querySelector('span')
     const input = el.querySelectorAll('input')
 
-    this.$dialog = create(editor, el, input[0], input[1], label)
+    this.$dialog = create(editor, el, input[0], input[1], label, done)
   }
 
   update(predicate, value) {
-    update(this.$dialog, this.done, predicate, value)
+    update(this.$dialog, predicate, value)
   }
 
   open() {
