@@ -1,6 +1,3 @@
-import customizeqQueryUiAutocomplete from './customize-jquery-ui-autocomplete'
-
-customizeqQueryUiAutocomplete()
 
 export default function($dialog, predicate, value) {
   const $inputs = $dialog.find('input')

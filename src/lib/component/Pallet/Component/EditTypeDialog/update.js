@@ -1,5 +1,5 @@
 import source from '../../../source'
-import customizeqQueryUiAutocomplete from '../../../dialog/EditDialog/customize-jquery-ui-autocomplete'
+import customizeqQueryUiAutocomplete from '../../../customize-jquery-ui-autocomplete'
 
 customizeqQueryUiAutocomplete()
 
