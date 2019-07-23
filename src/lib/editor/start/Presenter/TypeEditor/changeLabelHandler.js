@@ -22,8 +22,7 @@ export default function(editor, getHandler, autocompletionWs) {
       }
     }
 
-    const dialog = new EditLabelDialog(editor, done, handler.typeContainer, autocompletionWs)
-    dialog.update(predicate, value)
+    const dialog = new EditLabelDialog(editor, predicate, value, done, handler.typeContainer, autocompletionWs)
     dialog.open()
   }
 }

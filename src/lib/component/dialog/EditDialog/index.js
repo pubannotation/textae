@@ -2,11 +2,8 @@ import create from './create'
 import update from './update'
 
 export default class {
-  constructor(editor, done) {
+  constructor(editor, predicate, value, done) {
     this.$dialog = create(editor, done)
-  }
-
-  update(predicate, value) {
     update(this.$dialog, predicate, value)
   }
 

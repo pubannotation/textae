@@ -13,7 +13,6 @@ export default function(editor, command, selectedEntities, pred, obj) {
     }
   }
 
-  const dialog = new EditDialog(editor, done)
-  dialog.update(pred, obj)
+  const dialog = new EditDialog(editor, pred, obj, done)
   dialog.open()
 }
