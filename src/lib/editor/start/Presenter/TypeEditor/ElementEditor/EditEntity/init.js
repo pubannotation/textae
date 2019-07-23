@@ -1,6 +1,6 @@
 import spanClicked from './spanClicked'
 import bodyClicked from './bodyClicked'
-import typeLabelClicked from './typeLabelClicked'
+import typeValeusClicked from './typeValuesClicked'
 import entityClicked from './entityClicked'
 
 export default function(editor, cancelSelect, selectEnd, spanConfig, selectSpan, selectionModel) {
@@ -10,7 +10,7 @@ export default function(editor, cancelSelect, selectEnd, spanConfig, selectSpan,
   editor
     .on('click', '.textae-editor__body', (e) => bodyClicked(cancelSelect, selectEnd, spanConfig, e))
     .on('click', '.textae-editor__type', () => editor.focus())
-    .on('click', '.textae-editor__type-label', (e) => typeLabelClicked(selectionModel, e))
+    .on('click', '.textae-editor__type-values', (e) => typeValeusClicked(selectionModel, e))
     .on('click', '.textae-editor__entity', (e) => entityClicked(selectionModel, e))
 
   // To shrink a span listen the mouseup event.
