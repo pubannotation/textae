@@ -1,20 +1,20 @@
 import delegate from 'delegate'
 import EditorDialog from '../EditorDialog'
-import CLASS_NAMES from './className'
 
 const HTML = `
-<div class="${CLASS_NAMES.inputBox}">
-<label>Predicate:</label><br>
-<input class="${CLASS_NAMES.predicate}">
-</div>
-<div class="${CLASS_NAMES.inputBox}">
-<label>Value:<span></span></label><br>
-<input class="${CLASS_NAMES.value}">
+<div class="textae-editor__edit-value-and-pred-dialog__container">
+  <div class="textae-editor__edit-value-and-pred-dialog__input-box">
+    <label>Predicate:</label><br>
+    <input class="'textae-editor__edit-value-and-pred-dialog--predicate'">
+  </div>
+  <div class="textae-editor__edit-value-and-pred-dialog__input-box">
+    <label>Value:<span></span></label><br>
+    <input class="'textae-editor__edit-value-and-pred-dialog--value'">
+  </div>
 </div>`
 
 export default function(editor, done) {
   const el = document.createElement('div')
-  el.classList.add(CLASS_NAMES.container)
   el.innerHTML = HTML
 
   // Use `this` according to the jQuery style.
@@ -33,7 +33,7 @@ export default function(editor, done) {
     editor.editorId,
     'textae.dialog.edit-id',
     'Please enter new values',
-    el,
+    el.children[0],
     {
       noCancelButton: true,
       buttons: {
@@ -44,7 +44,7 @@ export default function(editor, done) {
   )
 
   // Observe enter key press
-  delegate($dialog[0], `.${CLASS_NAMES.value}`, 'keyup', (e) => {
+  delegate($dialog[0], '.textae-editor__edit-value-and-pred-dialog--value', 'keyup', (e) => {
     if (e.keyCode === 13) {
       okHandler.call($dialog[0])
     }
