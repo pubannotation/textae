@@ -3,10 +3,8 @@ import create from './create'
 import update from './update'
 
 export default class {
-  constructor(editor, done, typeDefinition, autocompletionWs) {
-    this.typeDefinition = typeDefinition
+  constructor(editor, done) {
     this.done = done
-    this.autocompletionWs = autocompletionWs
 
     const el = document.createElement('div')
     el.classList.add(CLASS_NAMES.container)
@@ -27,7 +25,7 @@ export default class {
   }
 
   update(predicate, value) {
-    update(this.$dialog, this.typeDefinition, this.autocompletionWs, this.done, predicate, value)
+    update(this.$dialog, this.done, predicate, value)
   }
 
   open() {
