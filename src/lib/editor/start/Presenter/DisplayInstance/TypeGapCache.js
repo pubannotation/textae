@@ -7,7 +7,7 @@ const SEED = {
 }
 
 export default function() {
-  let api = _.extend({}, SEED),
+  let api = Object.assign({}, SEED),
     set = (mode, val) => updateHash(api, mode, val)
 
   _.each(SEED, (val, key) => {

@@ -1,5 +1,4 @@
 import LesserMap from './LesserMap'
-import _ from 'underscore'
 
 export default function(entityModel) {
   // The chache for position of grids.
@@ -7,7 +6,7 @@ export default function(entityModel) {
   // This is referenced at create or move relations.
   let map = new LesserMap()
 
-  return _.extend(map, {
+  return Object.assign(map, {
     isGridPrepared: entityId => isGridPrepared(entityModel, map, entityId)
   })
 }

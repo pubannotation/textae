@@ -19,7 +19,7 @@ export default function(editor) {
     entity = new EntityContainer(editor, emitter, relation),
     modification = new ModelContainer(emitter, 'modification', _.identity)
 
-  return _.extend(emitter, {
+  return Object.assign(emitter, {
     namespace: namespace,
     sourceDoc: '',
     paragraph: paragraph,

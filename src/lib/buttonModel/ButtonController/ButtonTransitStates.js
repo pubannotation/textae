@@ -2,7 +2,6 @@ import {
   EventEmitter as EventEmitter
 }
 from 'events'
-import _ from 'underscore'
 
 export default function() {
   const states = {},
@@ -16,5 +15,5 @@ export default function() {
       }
     }
 
-  return _.extend(eventEmitter, mixin)
+  return Object.assign(eventEmitter, mixin)
 }
