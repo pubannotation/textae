@@ -18,7 +18,6 @@ export default function(pallet, elementEditor, editor, autocompletionWs, command
   })
 
   delegate(pallet, `.${CLASS_NAMES.label}`, 'click', (e) => {
-    console.log('hi')
     const commands = elementEditor.getHandlerForPallet().changeTypeOfSelectedElement(e.delegateTarget.id)
     command.invoke(commands, ['annotation'])
   })
