@@ -21,7 +21,7 @@ function renderAllSpan(annotationData, spanRenderer) {
   // For tuning
   // var startTime = new Date();
 
-  annotationData.span.topLevel().forEach(function(span) {
+  annotationData.span.topLevel().forEach((span) => {
     spanRenderer.render(span)
   })
 

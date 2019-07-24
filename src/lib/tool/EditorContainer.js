@@ -30,7 +30,7 @@ export default class {
   }
   observeKeyInput(onKeyup) {
     this.editorList.forEach((e) =>
-      e[0].addEventListener('keyup', function(event) {
+      e[0].addEventListener('keyup', (event) => {
         e.eventEmitter.emit('textae.key.input')
         onKeyup(event)
       })

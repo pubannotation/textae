@@ -61,7 +61,7 @@ module.exports = function(
     .on('input', 'input.url', function() {
       jQuerySugar.enabled($saveButton, this.value)
     })
-    .on('click', '[type="button"].url', function() {
+    .on('click', '[type="button"].url', () => {
       saveJsonToServer(
         jQuerySugar.getValueFromText($content, 'url'),
         JSON.stringify($dialog.params.editedAnnotation),
@@ -98,7 +98,7 @@ module.exports = function(
         )
       )
     )
-    .on('click', 'a.viewsource', function(e) {
+    .on('click', 'a.viewsource', (e) => {
       const downloadPath = createDownloadPath(
         JSON.stringify($dialog.params.editedAnnotation)
       )
@@ -122,7 +122,7 @@ module.exports = function(
   )
 
   // Set the filename when the dialog is opened.
-  $dialog.on('dialogopen', function() {
+  $dialog.on('dialogopen', () => {
     $dialog.find('[type="text"].local').val(getAnnotationFilename())
   })
 

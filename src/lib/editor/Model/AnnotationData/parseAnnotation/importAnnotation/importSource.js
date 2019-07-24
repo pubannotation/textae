@@ -3,7 +3,7 @@ module.exports = function(targets, translater, source) {
     source = source.map(translater)
   }
 
-  targets.forEach(function(target) {
+  targets.forEach((target) => {
     target.addSource(source)
   })
 }

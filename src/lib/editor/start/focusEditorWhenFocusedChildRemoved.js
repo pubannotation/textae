@@ -6,8 +6,8 @@
 // So, focus the editer when spans or entity types are removed and lost focus.
 export default function(editor) {
   // Observe a removing the focused document object.
-  new MutationObserver(function(mutations) {
-    mutations.forEach(function(mutation) {
+  new MutationObserver((mutations) => {
+    mutations.forEach((mutation) => {
       if (
         mutation.removedNodes.length &&
         mutation.removedNodes[0].nodeType === 1

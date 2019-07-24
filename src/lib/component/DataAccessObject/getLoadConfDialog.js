@@ -40,7 +40,7 @@ module.exports = function(
     .on('input', 'input.url--config', function() {
       jQuerySugar.enabled($configButtonUrl, this.value)
     })
-    .on('click', '[type="button"].url--config', function() {
+    .on('click', '[type="button"].url--config', () => {
       if (isUserConfirm()) {
         getConfigurationFromServer(
           jQuerySugar.getValueFromText($content, 'url--config'),
@@ -63,7 +63,7 @@ module.exports = function(
     .on('change', '.textae-editor__load-dialog__file--config', function() {
       jQuerySugar.enabled($configButtonLocal, this.files.length > 0)
     })
-    .on('click', '[type="button"].local--config', function() {
+    .on('click', '[type="button"].local--config', () => {
       if (isUserConfirm()) {
         getJsonFromFile(
           api,

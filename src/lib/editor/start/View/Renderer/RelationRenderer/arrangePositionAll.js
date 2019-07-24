@@ -8,7 +8,7 @@ export default function(
   selectionModel,
   jsPlumbInstance
 ) {
-  return new Promise(function(resolve, reject) {
+  return new Promise((resolve, reject) => {
     try {
       // For tuning
       // var startTime = new Date();

@@ -4,7 +4,8 @@
     "one-var": ["warn", "never"],
     "no-var": "warn",
     "prefer-const": "warn",
-    "object-shorthand": ["warn", "always"]
+    "object-shorthand": ["warn", "always"],
+    "prefer-arrow-callback": "warn"
   },
   "env": {
     "browser": true,

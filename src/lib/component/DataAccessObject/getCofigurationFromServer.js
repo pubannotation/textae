@@ -7,7 +7,7 @@ module.exports = function(urlToJson, cursorChanger, api, setDataSourceUrl) {
   cursorChanger.startWait()
   ajaxAccessor.getAsync(
     urlToJson,
-    function(config) {
+    (config) => {
       cursorChanger.endWait()
       api.emit('load--config', {
         annotation: null,
@@ -16,7 +16,7 @@ module.exports = function(urlToJson, cursorChanger, api, setDataSourceUrl) {
       })
       setDataSourceUrl(urlToJson)
     },
-    function() {
+    () => {
       cursorChanger.endWait()
       toastr.error('Could not load the target.')
     }

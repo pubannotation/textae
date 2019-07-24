@@ -1,14 +1,14 @@
 import _ from 'underscore'
 
 const invoke = function(commands) {
-  commands.forEach(function(command) {
+  commands.forEach((command) => {
     command.execute()
   })
 }
 const RevertCommands = function(commands) {
   commands = Object.create(commands)
   commands.reverse()
-  return commands.map(function(originCommand) {
+  return commands.map((originCommand) => {
     return originCommand.revert()
   })
 }

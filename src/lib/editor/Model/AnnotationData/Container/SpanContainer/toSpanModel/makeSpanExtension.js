@@ -15,7 +15,7 @@ export default function(emitter) {
         this.children && this.children.length > 0
           ? '\n' +
             this.children
-              .map(function(child) {
+              .map((child) => {
                 return (
                   new Array(depth + 1).join('\t') + child.toString(depth + 1)
                 )

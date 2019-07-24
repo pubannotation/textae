@@ -34,7 +34,7 @@ textaeQuery.fn.textae = (function() {
   }
 })()
 
-document.addEventListener('DOMContentLoaded', function(event) {
+document.addEventListener('DOMContentLoaded', (event) => {
   textaeQuery('.textae-editor').textae()
 })
 $.noConflict(true)

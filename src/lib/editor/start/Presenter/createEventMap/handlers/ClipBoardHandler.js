@@ -6,12 +6,12 @@ module.exports = function(command, annotationData, selectionModel, clipBoard) {
     clipBoard.clipBoard = _.uniq(
       (function getEntitiesFromSelectedSpan() {
         return _.flatten(
-          selectionModel.span.all().map(function(spanId) {
+          selectionModel.span.all().map((spanId) => {
             return annotationData.span.get(spanId).getEntities()
           })
         )
       })().concat(selectionModel.entity.all())
-    ).map(function(entityId) {
+    ).map((entityId) => {
       // Map entities to types, because entities may be delete.
       return annotationData.entity.get(entityId).type
     })
@@ -20,8 +20,8 @@ module.exports = function(command, annotationData, selectionModel, clipBoard) {
   const pasteEntities = function() {
     // Make commands per selected spans from types in clipBoard.
     const commands = _.flatten(
-      selectionModel.span.all().map(function(spanId) {
-        return clipBoard.clipBoard.map(function(type) {
+      selectionModel.span.all().map((spanId) => {
+        return clipBoard.clipBoard.map((type) => {
           return command.factory.entityCreateCommand({
             span: spanId,
             type

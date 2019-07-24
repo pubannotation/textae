@@ -7,7 +7,7 @@ module.exports = function(urlToJson, cursorChanger, api, setDataSourceUrl) {
   cursorChanger.startWait()
   ajaxAccessor.getAsync(
     urlToJson,
-    function getAnnotationFromServerSuccess(annotation) {
+    (annotation) => {
       cursorChanger.endWait()
       api.emit('load--annotation', {
         annotation,
@@ -16,7 +16,7 @@ module.exports = function(urlToJson, cursorChanger, api, setDataSourceUrl) {
       })
       setDataSourceUrl(urlToJson)
     },
-    function() {
+    () => {
       cursorChanger.endWait()
       toastr.error('Could not load the target.')
     }

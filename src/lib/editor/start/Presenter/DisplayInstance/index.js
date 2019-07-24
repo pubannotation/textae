@@ -7,11 +7,11 @@ export default function(typeGap, editMode) {
   const typeGapCache = new TypeGapCache()
 
   editMode
-    .on(event.SHOW, function(argument) {
+    .on(event.SHOW, (argument) => {
       showInstance = true
       updateTypeGap(showInstance, typeGap, typeGapCache)
     })
-    .on(event.HIDE, function(argument) {
+    .on(event.HIDE, (argument) => {
       showInstance = false
       updateTypeGap(showInstance, typeGap, typeGapCache)
     })

@@ -19,7 +19,7 @@ export default function(type) {
       if (matches[5] && matches[5].length > 1)
         return matches[5]
           .split('/')
-          .filter(function(s) {
+          .filter((s) => {
             return s !== ''
           })
           .pop()

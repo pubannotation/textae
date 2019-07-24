@@ -133,7 +133,7 @@ export default function(
       setSpanAndTypeConfig(spanConfig, typeDefinition, data.config)
       annotationData.resetOnlyConfig(data.annotation)
     })
-    .on('save--config', function() {
+    .on('save--config', () => {
       originalAnnotation.config = typeDefinition.getConfig()
     })
 

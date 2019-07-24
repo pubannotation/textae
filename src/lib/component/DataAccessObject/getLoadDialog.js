@@ -40,7 +40,7 @@ module.exports = function(
     .on('input', '[type="text"].url', function() {
       jQuerySugar.enabled($buttonUrl, this.value)
     })
-    .on('click', '[type="button"].url', function() {
+    .on('click', '[type="button"].url', () => {
       if (isUserComfirm()) {
         getAnnotationFromServer(
           jQuerySugar.getValueFromText($content, 'url'),
@@ -61,7 +61,7 @@ module.exports = function(
     .on('change', '.textae-editor__load-dialog__file', function() {
       jQuerySugar.enabled($buttonLocal, this.files.length > 0)
     })
-    .on('click', '[type="button"].local', function() {
+    .on('click', '[type="button"].local', () => {
       if (isUserComfirm()) {
         getJsonFromFile(api, $content.find('[type="file"]')[0], 'annotation')
       }

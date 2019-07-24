@@ -62,7 +62,7 @@ module.exports = function(
     .on('input', 'input.url--config', function() {
       jQuerySugar.enabled($configSaveButton, this.value)
     })
-    .on('click', '[type="button"].url--config', function() {
+    .on('click', '[type="button"].url--config', () => {
       saveConfigJsonToServer(
         jQuerySugar.getValueFromText($content, 'url--config'),
         JSON.stringify($dialog.params.editedConfig),
@@ -111,7 +111,7 @@ module.exports = function(
   )
 
   // Set the filename when the dialog is opened.
-  $dialog.on('dialogopen', function() {
+  $dialog.on('dialogopen', () => {
     const diff = jsonDiff(
       $dialog.params.originalConfig,
       $dialog.params.editedConfig
