@@ -12,10 +12,10 @@ export default function(
   editor
 ) {
   cursorChanger.startWait()
-  let endWait = () => {
+  const endWait = () => {
     cursorChanger.endWait()
   }
-  let handleCustomHeader = (ajaxResponse) => {
+  const handleCustomHeader = (ajaxResponse) => {
     // When save failed, analyze the response code and headers.
     // If the response follows the followings format, will open 'login-page-url' in a new popup window.
     // ==============================================================
@@ -29,11 +29,11 @@ export default function(
     // ==============================================================
     // Access-Control-Expose-Headers: WWW-Authenticate,Location
     // ==============================================================
-    let statusCode = ajaxResponse.status
-    let wwwAuthenticateHeader = ajaxResponse.getResponseHeader(
+    const statusCode = ajaxResponse.status
+    const wwwAuthenticateHeader = ajaxResponse.getResponseHeader(
       'WWW-Authenticate'
     )
-    let locationHeader = ajaxResponse.getResponseHeader('Location')
+    const locationHeader = ajaxResponse.getResponseHeader('Location')
 
     if (
       statusCode === 401 &&
@@ -41,9 +41,9 @@ export default function(
       wwwAuthenticateHeader === 'ServerPage' &&
       locationHeader
     ) {
-      let isHideMessageBox = cookieHandler().get('hide-message-box')
+      const isHideMessageBox = cookieHandler().get('hide-message-box')
       if (isHideMessageBox === '' || isHideMessageBox === 'false') {
-        let dialog = loginInfoDialog(editor, locationHeader)
+        const dialog = loginInfoDialog(editor, locationHeader)
         dialog.open()
       } else {
         openPopUp(locationHeader)

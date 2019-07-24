@@ -20,9 +20,9 @@ function isAnchrNodeInSpanOrParagraph(selection) {
 function hasCharacters(annotationData, spanConfig, selection) {
   if (!selection) return false
 
-  var [begin, end] = selectPosition.getBeginEnd(annotationData, selection)
-  var selectedString = annotationData.sourceDoc.substring(begin, end)
-  var stringWithoutBlankCharacters = spanConfig.removeBlankChractors(
+  const [begin, end] = selectPosition.getBeginEnd(annotationData, selection)
+  const selectedString = annotationData.sourceDoc.substring(begin, end)
+  const stringWithoutBlankCharacters = spanConfig.removeBlankChractors(
     selectedString
   )
 

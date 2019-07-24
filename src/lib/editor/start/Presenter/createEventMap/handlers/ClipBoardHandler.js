@@ -19,7 +19,7 @@ module.exports = function(command, annotationData, selectionModel, clipBoard) {
 
   const pasteEntities = function() {
     // Make commands per selected spans from types in clipBoard.
-    var commands = _.flatten(
+    const commands = _.flatten(
       selectionModel.span.all().map(function(spanId) {
         return clipBoard.clipBoard.map(function(type) {
           return command.factory.entityCreateCommand({

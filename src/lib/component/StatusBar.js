@@ -1,13 +1,13 @@
 import _ from 'underscore'
 import $ from 'jquery'
 
-var getAreaIn = function($parent) {
-  var $area = $parent.find(
+const getAreaIn = function($parent) {
+  let $area = $parent.find(
     '.textae-editor__footer .textae-editor__footer__message'
   )
   if ($area.length === 0) {
     $area = $('<div>').addClass('textae-editor__footer__message')
-    var $footer = $('<div>')
+    const $footer = $('<div>')
       .addClass('textae-editor__footer')
       .append($area)
     $parent.append($footer)
@@ -17,8 +17,8 @@ var getAreaIn = function($parent) {
 }
 
 module.exports = function(editor) {
-  var getAreaInEditor = _.partial(getAreaIn, editor)
-  var status = function(message) {
+  const getAreaInEditor = _.partial(getAreaIn, editor)
+  const status = function(message) {
     if (message !== '') getAreaInEditor().html('Source: ' + message)
   }
 

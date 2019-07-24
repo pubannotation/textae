@@ -7,7 +7,7 @@ export default function(
   selectionModel,
   buttonController
 ) {
-  var selector = new Selector(editor, annotationData)
+  const selector = new Selector(editor, annotationData)
 
   // Because entity.change is off at relation-edit-mode.
   selectionModel

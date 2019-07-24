@@ -14,42 +14,42 @@ module.exports = function(
   setDataSourceUrl,
   editor
 ) {
-  var cursorChanger = new CursorChanger(editor)
-  var showSaveSuccess = function() {
+  const cursorChanger = new CursorChanger(editor)
+  const showSaveSuccess = function() {
     api.emit('save--config')
     cursorChanger.endWait()
     closeDialog($content)
   }
-  var showSaveError = function() {
+  const showSaveError = function() {
     api.emit('save error')
     cursorChanger.endWait()
     closeDialog($content)
   }
-  var createDownloadPath = function(contents) {
-    var blob = new Blob([contents], {
+  const createDownloadPath = function(contents) {
+    const blob = new Blob([contents], {
       type: 'application/json'
     })
     return URL.createObjectURL(blob)
   }
-  var getConfigurationFilename = function() {
-    var $fileInput = getLoadDialog(
+  const getConfigurationFilename = function() {
+    const $fileInput = getLoadDialog(
       api,
       confirmDiscardChangeMessage,
       label,
       setDataSourceUrl,
       editor
     ).find("input[type='file']")
-    var file = $fileInput.prop('files')[0]
+    const file = $fileInput.prop('files')[0]
 
     return file ? file.name : 'config.json'
   }
-  var RowDiv = _.partial(jQuerySugar.Div, 'textae-editor__save-dialog__row')
-  var RowLabel = _.partial(
+  const RowDiv = _.partial(jQuerySugar.Div, 'textae-editor__save-dialog__row')
+  const RowLabel = _.partial(
     jQuerySugar.Label,
     'textae-editor__save-dialog__label'
   )
-  var $configSaveButton = new jQuerySugar.Button('Save', 'url--config')
-  var $configurationContent = $('<div>')
+  const $configSaveButton = new jQuerySugar.Button('Save', 'url--config')
+  const $configurationContent = $('<div>')
     .append(
       new RowDiv().append(
         new RowLabel(label.URL),
@@ -82,7 +82,7 @@ module.exports = function(
       )
     )
     .on('click', 'a.download--config', function() {
-      let downloadPath = createDownloadPath(
+      const downloadPath = createDownloadPath(
         JSON.stringify($dialog.params.editedConfig)
       )
       $(this)
@@ -94,16 +94,16 @@ module.exports = function(
       api.emit('save--config')
       closeDialog($content)
     })
-  var $diffTitle = new RowDiv().append(
+  const $diffTitle = new RowDiv().append(
     $('<p class="textae-editor__save-dialog__diff-title">')
       .text('Configuration differences')
       .append($('<span class="diff-info diff-info--add">added</span>'))
       .append($('<span class="diff-info diff-info--remove">removed</span>'))
   )
-  var $diffViewer = $('<div class="textae-editor__save-dialog__diff-viewer">')
-  var $content = $configurationContent.append($diffTitle).append($diffViewer)
+  const $diffViewer = $('<div class="textae-editor__save-dialog__diff-viewer">')
+  const $content = $configurationContent.append($diffTitle).append($diffViewer)
 
-  var $dialog = getDialog(
+  const $dialog = getDialog(
     'textae.dialog.save',
     'Save Configurations',
     $content[0],
@@ -112,7 +112,7 @@ module.exports = function(
 
   // Set the filename when the dialog is opened.
   $dialog.on('dialogopen', function() {
-    let diff = jsonDiff(
+    const diff = jsonDiff(
       $dialog.params.originalConfig,
       $dialog.params.editedConfig
     )

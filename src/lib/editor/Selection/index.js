@@ -27,7 +27,7 @@ export default class extends EventEmitter {
     ])
 
     // Bind the selection model to the model.
-    for (let eventHandler of eventMap) {
+    for (const eventHandler of eventMap) {
       annotationData.on(eventHandler[0], eventHandler[1])
     }
   }

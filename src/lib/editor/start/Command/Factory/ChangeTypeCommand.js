@@ -4,10 +4,10 @@ import commandLog from './commandLog'
 class ChangeTypeCommand extends BaseCommand {
   constructor(editor, annotationData, modelType, id, newType) {
     super(function() {
-      let oldType = annotationData[modelType].get(id).type
+      const oldType = annotationData[modelType].get(id).type
 
       // Update model
-      let targetModel = annotationData[modelType].changeType(id, newType)
+      const targetModel = annotationData[modelType].changeType(id, newType)
 
       // Set revert
       this.revert = () =>

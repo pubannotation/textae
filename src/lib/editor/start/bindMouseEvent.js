@@ -1,7 +1,7 @@
 import delegate from 'delegate'
 
 export default function(editor, presenter, view) {
-  let dom = editor[0]
+  const dom = editor[0]
 
   // Prevent a selection text with shift keies.
   dom.addEventListener('mousedown', (e) => {

@@ -22,7 +22,7 @@ module.exports = function(editor, confirmDiscardChangeMessage) {
   }
   const api = new EventEmitter()
   const showAccess = function(hasAnythingToSave, parameter) {
-    let params = new DialogParams(null, null, null, hasAnythingToSave, null)
+    const params = new DialogParams(null, null, null, hasAnythingToSave, null)
     openAndSetParam(
       getLoadDialog(
         api,
@@ -36,7 +36,7 @@ module.exports = function(editor, confirmDiscardChangeMessage) {
     )
   }
   const showAccessConf = function(hasAnythingToSave, parameter) {
-    let params = new DialogParams(null, null, null, null, hasAnythingToSave)
+    const params = new DialogParams(null, null, null, null, hasAnythingToSave)
     openAndSetParam(
       getLoadConfDialog(
         api,
@@ -50,7 +50,7 @@ module.exports = function(editor, confirmDiscardChangeMessage) {
     )
   }
   const showSave = function(originalData, editedData, parameter) {
-    let params = new DialogParams(
+    const params = new DialogParams(
       editedData,
       originalData.config,
       editedData.config,
@@ -73,7 +73,7 @@ module.exports = function(editor, confirmDiscardChangeMessage) {
     // jsonEditor($dialog)
   }
   const showSaveConf = function(originalData, editedData, parameter) {
-    let params = new DialogParams(
+    const params = new DialogParams(
       editedData,
       originalData.config,
       editedData.config,

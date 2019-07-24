@@ -6,7 +6,7 @@ function getAsync(url, dataHandler, failedHandler) {
     return
   }
 
-  let opt = {
+  const opt = {
     type: 'GET',
     url: url,
     cache: false,
@@ -58,7 +58,7 @@ function requestAjax(
   failHandler,
   finishHandler
 ) {
-  let opt = {
+  const opt = {
     type: type,
     url: url,
     contentType: 'application/json',

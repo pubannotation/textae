@@ -6,7 +6,7 @@ export default function createEntityElement(
   modification,
   entity
 ) {
-  let element = document.createElement('div')
+  const element = document.createElement('div')
 
   element.setAttribute('id', idFactory.makeEntityDomId(editor, entity.id))
   element.setAttribute('title', entity.id)

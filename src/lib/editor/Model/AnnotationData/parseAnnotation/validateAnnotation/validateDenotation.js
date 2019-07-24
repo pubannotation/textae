@@ -12,8 +12,11 @@ export default function(text, paragraph, denotations) {
   const resultIsNotCrossing = validate(
     resultInParagraph.accept,
     (denotation, opt, index, array) => {
-      let others = array.slice(0, index).map((d) => d.span)
-      let isInvalid = isBoundaryCrossingWithOtherSpans(others, denotation.span)
+      const others = array.slice(0, index).map((d) => d.span)
+      const isInvalid = isBoundaryCrossingWithOtherSpans(
+        others,
+        denotation.span
+      )
 
       return !isInvalid
     }

@@ -1,6 +1,6 @@
 export default function(loadConfig) {
-  let keys = Object.keys(loadConfig)
-  let validKeyMap = {
+  const keys = Object.keys(loadConfig)
+  const validKeyMap = {
     'entity types': ['id', 'label', 'color', 'default', 'type'],
     'relation types': ['id', 'label', 'color', 'default', 'type'],
     'delimiter characters': '',
@@ -16,7 +16,7 @@ export default function(loadConfig) {
 
     if (Array.isArray(validKeyMap[key])) {
       loadConfig[key].forEach((type) => {
-        let subKeys = Object.keys(type)
+        const subKeys = Object.keys(type)
         subKeys.forEach((subKey) => {
           if (validKeyMap[key].indexOf(subKey) === -1) {
             isValid = false

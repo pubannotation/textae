@@ -15,7 +15,7 @@ export default function(
   annotation,
   prefix
 ) {
-  var result = validateAnnotation(text, paragraph, annotation)
+  const result = validateAnnotation(text, paragraph, annotation)
 
   importDenotation(span, entity, result.accept.denotation, prefix)
 

@@ -1,5 +1,5 @@
 // Ovserve and record mouse position to return it.
-let lastMousePoint = {}
+const lastMousePoint = {}
 
 document.querySelector('html').addEventListener('mousemove', (e) => {
   lastMousePoint.top = e.clientY

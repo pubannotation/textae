@@ -20,7 +20,7 @@ export default class {
     this.$control = $(this[0])
   }
   create() {
-    let div = document.createElement('div')
+    const div = document.createElement('div')
     div.classList.add('textae-control')
     div.classList.add(this.className)
     makeButtons(div, BUTTON_MAP)
@@ -28,7 +28,7 @@ export default class {
     return div
   }
   show(positionTop, positionLeft) {
-    let menuNode = this.getContextMenuNode()
+    const menuNode = this.getContextMenuNode()
     menuNode.setAttribute(
       'style',
       'top: ' + positionTop + 'px; left: ' + positionLeft + 'px'
@@ -38,7 +38,7 @@ export default class {
   }
   hide() {
     if (this.isOpen()) {
-      let menuNode = this.getContextMenuNode()
+      const menuNode = this.getContextMenuNode()
       menuNode.classList.remove(this.className + '--show')
       menuNode.classList.add(this.className + '--hide')
     }

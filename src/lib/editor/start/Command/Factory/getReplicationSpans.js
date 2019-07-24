@@ -5,8 +5,8 @@ import _ from 'underscore'
 
 // Check replications are word or not if spanConfig is set.
 export default function(dataStore, originSpan, detectBoundaryFunc) {
-  let allSpans = dataStore.span.all()
-  let wordFilter = detectBoundaryFunc
+  const allSpans = dataStore.span.all()
+  const wordFilter = detectBoundaryFunc
     ? _.partial(isWord, dataStore.sourceDoc, detectBoundaryFunc)
     : _.identity
 
@@ -24,12 +24,12 @@ export default function(dataStore, originSpan, detectBoundaryFunc) {
 
 // Get spans their stirng is same with the originSpan from sourceDoc.
 function getSpansTheirStringIsSameWith(sourceDoc, originSpan) {
-  let getNextStringIndex = String.prototype.indexOf.bind(
+  const getNextStringIndex = String.prototype.indexOf.bind(
     sourceDoc,
     sourceDoc.substring(originSpan.begin, originSpan.end)
   )
-  let length = originSpan.end - originSpan.begin
-  let findStrings = []
+  const length = originSpan.end - originSpan.begin
+  const findStrings = []
   let offset = 0
 
   for (
@@ -51,8 +51,8 @@ function getSpansTheirStringIsSameWith(sourceDoc, originSpan) {
 // The preceding charactor and the following of a word charactor are delimiter.
 // For example, 't' ,a part of 'that', is not same with an origin span when it is 't'.
 function isWord(sourceDoc, detectBoundaryFunc, candidateSpan) {
-  let precedingChar = sourceDoc.charAt(candidateSpan.begin - 1)
-  let followingChar = sourceDoc.charAt(candidateSpan.end)
+  const precedingChar = sourceDoc.charAt(candidateSpan.begin - 1)
+  const followingChar = sourceDoc.charAt(candidateSpan.end)
 
   return detectBoundaryFunc(precedingChar) && detectBoundaryFunc(followingChar)
 }

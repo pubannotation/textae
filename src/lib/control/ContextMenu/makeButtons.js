@@ -13,7 +13,7 @@ const source = `
     {{/buttonGroup}}
     `
 
-let template = Handlebars.compile(source)
+const template = Handlebars.compile(source)
 
 export default function(control, buttonMap) {
   control.innerHTML = template(buttonMap)

@@ -22,14 +22,14 @@ export default class extends EventEmitter {
 
   setDefinedType(newType) {
     if (typeof newType.color === 'undefined') {
-      let forwardMatchColor = this.getColor(newType.id)
+      const forwardMatchColor = this.getColor(newType.id)
       if (forwardMatchColor !== this.defaultColor) {
         newType.color = forwardMatchColor
       }
     }
 
     if (typeof newType.label === 'undefined') {
-      let forwardMatchLabel = this.getLabel(newType.id)
+      const forwardMatchLabel = this.getLabel(newType.id)
       if (forwardMatchLabel) {
         newType.label = forwardMatchLabel
       }
@@ -54,7 +54,7 @@ export default class extends EventEmitter {
 
   getDefinedTypes() {
     const ret = []
-    for (let id of this.definedTypes.keys()) {
+    for (const id of this.definedTypes.keys()) {
       ret.push(this.definedTypes.get(id))
     }
 

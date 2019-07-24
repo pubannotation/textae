@@ -38,7 +38,7 @@ class RemoveCommand extends BaseCommand {
   constructor(editor, annotationData, selectionModel, modelType, id) {
     super(function() {
       // Update model
-      let oloModel = annotationData[modelType].remove(id)
+      const oloModel = annotationData[modelType].remove(id)
 
       if (oloModel) {
         // Set revert

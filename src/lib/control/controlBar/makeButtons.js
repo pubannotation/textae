@@ -13,7 +13,7 @@ const source = `
     {{/buttonGroup}}
     `
 
-let tepmlate = Handlebars.compile(source)
+const tepmlate = Handlebars.compile(source)
 
 export default function(control, buttonMap) {
   control.innerHTML = tepmlate(buttonMap)

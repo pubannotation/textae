@@ -52,7 +52,7 @@ export default class {
   }
 
   getSelectedType() {
-    let id = this.selectionModel.single()
+    const id = this.selectionModel.single()
 
     if (id) {
       return this.annotationData.get(id).type
@@ -92,7 +92,7 @@ export default class {
   }
 
   removeType(id, label) {
-    let removeType = {
+    const removeType = {
       id: id,
       label: label || ''
     }

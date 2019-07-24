@@ -2,7 +2,7 @@ import Machine from 'emitter-fsm'
 import state from './state'
 
 export default function() {
-  let m = new Machine({
+  const m = new Machine({
     states: [
       state.INIT,
       state.TERM,

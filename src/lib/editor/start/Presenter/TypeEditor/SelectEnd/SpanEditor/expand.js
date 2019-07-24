@@ -122,7 +122,7 @@ function getNewExpandSpan(
   focusPosition,
   spanConfig
 ) {
-  var span = annotationData.span.get(spanId)
+  const span = annotationData.span.get(spanId)
 
   if (anchorPosition > focusPosition) {
     // expand to the left

@@ -126,7 +126,7 @@ const mergeMessage = `
             <h1>Track annatations will be merged to the root anntations.</h1>
         </div>`
 
-let tepmlate = Handlebars.compile(source)
+const tepmlate = Handlebars.compile(source)
 
 export default function(editor, rejects) {
   if (!hasError(rejects)) return

@@ -13,7 +13,7 @@ export default function(
   color,
   isDefault
 ) {
-  let $inputs = $dialog.find('input')
+  const $inputs = $dialog.find('input')
 
   // Update the source
   $inputs.eq(0).autocomplete({

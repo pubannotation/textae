@@ -44,7 +44,7 @@ export default class {
   }
 
   open() {
-    let inputs = this.$dialog.find('input')
+    const inputs = this.$dialog.find('input')
     if (!inputs.eq(0).prop('disabled')) {
       this.$dialog
         .find('input')

@@ -4,7 +4,7 @@ import uri from '../../../../../uri'
 export default function(type) {
   // For tunning, search the scheme before execute a regular-expression.
   if (uri.isUri(type)) {
-    var matches = uri.getUrlMatches(type)
+    const matches = uri.getUrlMatches(type)
 
     if (matches) {
       // Order to dispaly.

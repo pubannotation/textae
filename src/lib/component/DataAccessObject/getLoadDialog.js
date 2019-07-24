@@ -13,21 +13,21 @@ module.exports = function(
   setDataSourceUrl,
   editor
 ) {
-  let RowDiv = _.partial(jQuerySugar.Div, 'textae-editor__load-dialog__row')
-  let RowLabel = _.partial(
+  const RowDiv = _.partial(jQuerySugar.Div, 'textae-editor__load-dialog__row')
+  const RowLabel = _.partial(
     jQuerySugar.Label,
     'textae-editor__load-dialog__label'
   )
-  let OpenButton = _.partial(jQuerySugar.Button, 'Open')
-  let isUserComfirm = function() {
+  const OpenButton = _.partial(jQuerySugar.Button, 'Open')
+  const isUserComfirm = function() {
     return (
       !$dialog.params.hasAnythingToSaveAnnotation ||
       window.confirm(confirmDiscardChangeMessage)
     )
   }
-  let $buttonUrl = new OpenButton('url')
-  let $buttonLocal = new OpenButton('local')
-  let $content = $('<div>')
+  const $buttonUrl = new OpenButton('url')
+  const $buttonLocal = new OpenButton('local')
+  const $content = $('<div>')
     .append(
       new RowDiv().append(
         new RowLabel(label.URL),
@@ -69,7 +69,7 @@ module.exports = function(
     })
 
   // Capture the local variable by inner funcitons.
-  var $dialog = getDialog(
+  const $dialog = getDialog(
     'textae.dialog.load',
     'Load Annotations',
     $content[0],

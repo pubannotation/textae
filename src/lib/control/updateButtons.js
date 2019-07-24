@@ -17,7 +17,7 @@ export default function($control, buttonList, buttonEnables) {
 }
 
 function enableButton($control, buttonType) {
-  let eventHandler = () => {
+  const eventHandler = () => {
     $control.trigger(
       'textae.control.button.click',
       `textae.control.button.${buttonType.replace(/-/g, '_')}.click`

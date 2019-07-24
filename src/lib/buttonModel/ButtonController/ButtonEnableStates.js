@@ -25,7 +25,7 @@ export default class extends EventEmitter {
   }
 
   updateButtons(buttons) {
-    for (let buttonName of buttons) {
+    for (const buttonName of buttons) {
       const predicate = this.predicates.get(buttonName)
       this.set(buttonName, predicate())
     }

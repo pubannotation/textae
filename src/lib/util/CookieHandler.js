@@ -14,12 +14,12 @@ function exists(key) {
 }
 
 function get(key) {
-  let regexp = new RegExp(`(?:(?:^|.*;\\s*)${key}\\s*\\=\\s*([^;]*).*$)|^.*$`)
+  const regexp = new RegExp(`(?:(?:^|.*;\\s*)${key}\\s*\\=\\s*([^;]*).*$)|^.*$`)
   return document.cookie.replace(regexp, '$1')
 }
 
 function set(key, value, options) {
-  let optionStr = Object.keys(options).reduce((accum, optKey) => {
+  const optionStr = Object.keys(options).reduce((accum, optKey) => {
     return `${accum}; ${optKey}=${options[optKey]}`
   }, '')
 

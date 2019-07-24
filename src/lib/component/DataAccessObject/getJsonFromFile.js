@@ -1,7 +1,7 @@
 export default function(api, file, fileType) {
-  let firstFile = file.files[0]
-  let reader = new FileReader()
-  let params = {
+  const firstFile = file.files[0]
+  const reader = new FileReader()
+  const params = {
     annotation: null,
     config: null,
     source: firstFile.name + '(local file)'

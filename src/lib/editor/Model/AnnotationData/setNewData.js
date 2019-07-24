@@ -26,13 +26,13 @@ function parseTracks(
 ) {
   if (!annotation.tracks) return [false, []]
 
-  var tracks = annotation.tracks
+  const tracks = annotation.tracks
   delete annotation.tracks
 
-  var rejects = tracks.map((track, i) => {
-    var number = i + 1
-    var prefix = `track${number}_`
-    var reject = parseAnnotation(
+  const rejects = tracks.map((track, i) => {
+    const number = i + 1
+    const prefix = `track${number}_`
+    const reject = parseAnnotation(
       span,
       entity,
       attribute,
@@ -52,7 +52,7 @@ function parseTracks(
 }
 
 function parseDennotation(dataStore, annotation) {
-  var tracks = parseTracks(
+  const tracks = parseTracks(
     dataStore.span,
     dataStore.entity,
     dataStore.attribute,
@@ -62,7 +62,7 @@ function parseDennotation(dataStore, annotation) {
     annotation.text,
     annotation
   )
-  var annotationReject = parseAnnotation(
+  const annotationReject = parseAnnotation(
     dataStore.span,
     dataStore.entity,
     dataStore.attribute,

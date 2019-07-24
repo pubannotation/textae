@@ -7,7 +7,7 @@ export default function(
   renderer,
   buttonStateHelper
 ) {
-  var target = annotationData[modelType].get(modification.obj)
+  const target = annotationData[modelType].get(modification.obj)
 
   if (target) {
     renderer.changeModification(target)

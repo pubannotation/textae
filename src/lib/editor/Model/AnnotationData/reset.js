@@ -9,7 +9,7 @@ export default function reset(dataStore, annotation, isOnlyConfig) {
 
   if (!isOnlyConfig) {
     clearAnnotationData(dataStore)
-    let result = setNewData(dataStore, annotation)
+    const result = setNewData(dataStore, annotation)
     dataStore.emit('paragraph.change', dataStore.paragraph.all())
     dataStore.emit('all.change', dataStore, result.multitrack, result.rejects)
   } else {

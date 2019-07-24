@@ -13,21 +13,21 @@ module.exports = function(
   setDataSourceUrl,
   editor
 ) {
-  let RowDiv = _.partial(jQuerySugar.Div, 'textae-editor__load-dialog__row')
-  let RowLabel = _.partial(
+  const RowDiv = _.partial(jQuerySugar.Div, 'textae-editor__load-dialog__row')
+  const RowLabel = _.partial(
     jQuerySugar.Label,
     'textae-editor__load-dialog__label'
   )
-  let OpenButton = _.partial(jQuerySugar.Button, 'Open')
-  let isUserConfirm = function() {
+  const OpenButton = _.partial(jQuerySugar.Button, 'Open')
+  const isUserConfirm = function() {
     return (
       !$dialog.params.hasAnythingToSaveConfiguration ||
       window.confirm(confirmDiscardChangeMessage)
     )
   }
-  let $configButtonUrl = new OpenButton('url--config')
-  let $configButtonLocal = new OpenButton('local--config')
-  let $content = $('<div>')
+  const $configButtonUrl = new OpenButton('url--config')
+  const $configButtonLocal = new OpenButton('local--config')
+  const $content = $('<div>')
     .append(
       new RowDiv().append(
         new RowLabel(label.URL),
@@ -75,7 +75,7 @@ module.exports = function(
     })
 
   // Capture the local variable by inner funcitons.
-  var $dialog = getDialog(
+  const $dialog = getDialog(
     'textae.dialog.load',
     'Load Configurations',
     $content[0],

@@ -1,6 +1,6 @@
 export default function(url) {
-  let width = 600
-  let height = 500
+  const width = 600
+  const height = 500
 
   window.open(url, '_blank', `width=${width}, height=${height}`)
 }

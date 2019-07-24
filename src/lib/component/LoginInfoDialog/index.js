@@ -27,8 +27,8 @@ const CONTENT = `
 `
 
 export default function(editor, loginUrl) {
-  let $content = $(CONTENT)
-  let $dialog = appendToDialog($content[0], editor)
+  const $content = $(CONTENT)
+  const $dialog = appendToDialog($content[0], editor)
   bind($content, $dialog, loginUrl, editor)
 
   return $dialog

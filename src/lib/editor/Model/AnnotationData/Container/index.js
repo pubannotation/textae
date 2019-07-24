@@ -7,14 +7,14 @@ import AttributeContainer from './AttributeContainer'
 import _ from 'underscore'
 
 export default function(editor) {
-  let emitter = new EventEmitter()
-  let namespace = new ModelContainer(emitter, 'namespace', _.identity)
-  let paragraph = new ParagraphContainer(editor, emitter)
-  let span = new SpanContainer(editor, emitter, paragraph)
-  let attribute = new AttributeContainer(emitter)
-  let relation = new ModelContainer(emitter, 'relation', mapRelations)
-  let entity = new EntityContainer(editor, emitter, relation)
-  let modification = new ModelContainer(emitter, 'modification', _.identity)
+  const emitter = new EventEmitter()
+  const namespace = new ModelContainer(emitter, 'namespace', _.identity)
+  const paragraph = new ParagraphContainer(editor, emitter)
+  const span = new SpanContainer(editor, emitter, paragraph)
+  const attribute = new AttributeContainer(emitter)
+  const relation = new ModelContainer(emitter, 'relation', mapRelations)
+  const entity = new EntityContainer(editor, emitter, relation)
+  const modification = new ModelContainer(emitter, 'modification', _.identity)
 
   return Object.assign(emitter, {
     namespace: namespace,

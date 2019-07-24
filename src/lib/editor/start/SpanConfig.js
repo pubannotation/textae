@@ -32,7 +32,7 @@ export default function() {
   let blankCharacters = []
 
   const set = (config) => {
-    var settings = Object.assign({}, defaults, config)
+    const settings = Object.assign({}, defaults, config)
 
     delimiterCharacters = settings['delimiter characters']
     blankCharacters = settings['non-edge characters']

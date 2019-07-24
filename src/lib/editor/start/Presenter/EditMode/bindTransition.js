@@ -2,7 +2,7 @@ import StateMachine from './StateMachine'
 import state from './state'
 
 export default function(transition) {
-  let stateMachine = new StateMachine()
+  const stateMachine = new StateMachine()
 
   stateMachine
     .on('transition', (e) => {

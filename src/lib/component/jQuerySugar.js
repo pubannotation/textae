@@ -2,8 +2,8 @@ import jQueryEnabled from './jQueryEnabled'
 import $ from 'jquery'
 import _ from 'underscore'
 
-var setProp = function(key, $target, className, value) {
-  var valueObject = {}
+const setProp = function(key, $target, className, value) {
+  const valueObject = {}
 
   valueObject[key] = value
   return $target

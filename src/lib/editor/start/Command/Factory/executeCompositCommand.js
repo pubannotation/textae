@@ -2,22 +2,22 @@ import invokeCommand from '../invokeCommand'
 import commandLog from './commandLog'
 import _ from 'underscore'
 
-var setRevertAndLog = (function() {
-  var log = function(prefix, param) {
+const setRevertAndLog = (function() {
+  const log = function(prefix, param) {
     commandLog(
       prefix + param.commandType + ' a ' + param.modelType + ': ' + param.id
     )
   }
-  var doneLog = _.partial(log, '')
-  var revertLog = _.partial(log, 'revert ')
-  var RevertFunction = function(subCommands, logParam) {
-    var toRevert = function(command) {
+  const doneLog = _.partial(log, '')
+  const revertLog = _.partial(log, 'revert ')
+  const RevertFunction = function(subCommands, logParam) {
+    const toRevert = function(command) {
       return command.revert()
     }
-    var execute = function(command) {
+    const execute = function(command) {
       command.execute()
     }
-    var revertedCommand = {
+    const revertedCommand = {
       execute: function() {
         invokeCommand.invokeRevert(subCommands)
         revertLog(logParam)
@@ -28,8 +28,8 @@ var setRevertAndLog = (function() {
       return revertedCommand
     }
   }
-  var setRevert = function(modelType, command, commandType, id, subCommands) {
-    var logParam = {
+  const setRevert = function(modelType, command, commandType, id, subCommands) {
+    const logParam = {
       modelType: modelType,
       commandType: commandType,
       id: id
@@ -44,7 +44,7 @@ var setRevertAndLog = (function() {
     setRevert
   )
 })()
-var executeCompositCommand = function(
+const executeCompositCommand = function(
   modelType,
   command,
   commandType,

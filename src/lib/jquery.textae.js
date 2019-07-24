@@ -7,14 +7,14 @@ const tJQ = require('jquery')
 require('sticky-kit')
 
 const textaeQuery = tJQ.noConflict(true)
-let tool = new Tool()
+const tool = new Tool()
 
 textaeQuery.fn.textae = (function() {
   return function() {
     if (textaeQuery(this).hasClass('textae-editor')) {
       textaeQuery(this).each(function() {
         // Create an editor
-        let e = textaeQuery(this)
+        const e = textaeQuery(this)
         editor.apply(e)
 
         // Register an editor

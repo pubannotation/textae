@@ -4,7 +4,7 @@ export default function(entityModel) {
   // The chache for position of grids.
   // This is updated at arrange position of grids.
   // This is referenced at create or move relations.
-  let map = new LesserMap()
+  const map = new LesserMap()
 
   return Object.assign(map, {
     isGridPrepared: (entityId) => isGridPrepared(entityModel, map, entityId)
@@ -12,6 +12,6 @@ export default function(entityModel) {
 }
 
 function isGridPrepared(entityModel, map, entityId) {
-  let spanId = entityModel.get(entityId).span
+  const spanId = entityModel.get(entityId).span
   return map.get(spanId)
 }

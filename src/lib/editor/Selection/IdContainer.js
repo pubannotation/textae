@@ -1,5 +1,5 @@
 export default function(emitter, kindName) {
-  let selected = new Set()
+  const selected = new Set()
 
   return {
     add: (id) => add(selected, emitter, kindName, id),

@@ -2,7 +2,7 @@ import DomPositionCache from './DomPositionCache'
 import _ from 'underscore'
 
 export default function(editor, entity) {
-  let domPositionCache = new DomPositionCache(editor, entity)
+  const domPositionCache = new DomPositionCache(editor, entity)
 
   return {
     on: _.partial(
