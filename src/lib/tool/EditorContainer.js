@@ -42,7 +42,7 @@ export default class {
 }
 
 function getNewId(editorList) {
-  return 'editor' + editorList.length
+  return `editor${editorList.length}`
 }
 
 function removeAciteveClass(editors) {

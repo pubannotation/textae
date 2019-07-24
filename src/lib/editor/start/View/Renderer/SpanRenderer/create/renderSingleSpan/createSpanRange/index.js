@@ -7,10 +7,9 @@ export default function(textNode, startOfTextNode, span) {
 
   if (!validateOffset(textNode, offset)) {
     throw new Error(
-      'oh my god! I cannot render this span. ' +
-        span.toStringOnlyThis() +
-        ', textNode ' +
+      `oh my god! I cannot render this span. ${span.toStringOnlyThis()}, textNode ${
         textNode.textContent
+      }`
     )
   }
 

@@ -15,7 +15,7 @@ export default class extends ModelContainer {
 
   add(entity) {
     if (!entity.span)
-      throw new Error('entity has no span! ' + JSON.stringify(entity))
+      throw new Error(`entity has no span! ${JSON.stringify(entity)}`)
 
     if (!entity.attributes) {
       // When undoing, the entity already has id and attributes getters.

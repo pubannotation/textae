@@ -20,9 +20,9 @@ export default function(editor, entityModel, gridPositionCache) {
 }
 
 function getSpan(editor, spanId) {
-  const span = editor[0].querySelector('#' + spanId)
+  const span = editor[0].querySelector(`#${spanId}`)
   if (!span) {
-    throw new Error('span is not renderd : ' + spanId)
+    throw new Error(`span is not renderd : ${spanId}`)
   }
 
   // An element.offsetTop and element.offsetLeft does not work in the Firefox,
@@ -42,7 +42,7 @@ function getSpan(editor, spanId) {
 function getEntity(editor, entityModel, gridPositionCache, entityId) {
   const entity = getEntityDom(editor[0], entityId)
   if (!entity) {
-    throw new Error('entity is not rendered : ' + entityId)
+    throw new Error(`entity is not rendered : ${entityId}`)
   }
 
   const spanId = entityModel.get(entityId).span

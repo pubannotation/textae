@@ -14,13 +14,7 @@ class ChangeTypeCommand extends BaseCommand {
         new ChangeTypeCommand(editor, annotationData, modelType, id, oldType)
 
       commandLog(
-        'change type of a ' +
-          modelType +
-          '. oldtype:' +
-          oldType +
-          ' ' +
-          modelType +
-          ':',
+        `change type of a ${modelType}. oldtype:${oldType} ${modelType}:`,
         targetModel
       )
     })

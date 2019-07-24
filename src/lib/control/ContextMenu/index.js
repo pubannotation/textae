@@ -31,21 +31,21 @@ export default class {
     const menuNode = this.getContextMenuNode()
     menuNode.setAttribute(
       'style',
-      'top: ' + positionTop + 'px; left: ' + positionLeft + 'px'
+      `top: ${positionTop}px; left: ${positionLeft}px`
     )
-    menuNode.classList.remove(this.className + '--hide')
-    menuNode.classList.add(this.className + '--show')
+    menuNode.classList.remove(`${this.className}--hide`)
+    menuNode.classList.add(`${this.className}--show`)
   }
   hide() {
     if (this.isOpen()) {
       const menuNode = this.getContextMenuNode()
-      menuNode.classList.remove(this.className + '--show')
-      menuNode.classList.add(this.className + '--hide')
+      menuNode.classList.remove(`${this.className}--show`)
+      menuNode.classList.add(`${this.className}--hide`)
     }
   }
   isOpen() {
     return this.getContextMenuNode().classList.contains(
-      this.className + '--show'
+      `${this.className}--show`
     )
   }
   updateAllButtonEnableState(enableButtons) {
@@ -68,6 +68,6 @@ export default class {
     }
   }
   getContextMenuNode() {
-    return this.editor.querySelector('.' + this.className)
+    return this.editor.querySelector(`.${this.className}`)
   }
 }

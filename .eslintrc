@@ -5,7 +5,8 @@
     "no-var": "warn",
     "prefer-const": "warn",
     "object-shorthand": ["warn", "always"],
-    "prefer-arrow-callback": "warn"
+    "prefer-arrow-callback": "warn",
+    "prefer-template": "warn"
   },
   "env": {
     "browser": true,

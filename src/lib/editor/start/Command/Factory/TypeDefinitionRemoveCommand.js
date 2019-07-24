@@ -23,11 +23,9 @@ class TypeRemoveCommand extends BaseCommand {
         new TypeDefinitionCreateCommand(editor, typeDefinition, removeType)
 
       commandLog(
-        'remove a type:' +
-          JSON.stringify(removeType) +
-          ', default is `' +
-          typeDefinition.getDefaultType() +
-          '`'
+        `remove a type:${JSON.stringify(
+          removeType
+        )}, default is \`${typeDefinition.getDefaultType()}\``
       )
     })
   }

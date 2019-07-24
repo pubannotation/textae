@@ -6,7 +6,7 @@ export default function(pane) {
     .reduce((sum, width) => sum + width, 0)
 
   if (widthOfentities > paneWidth) {
-    pane.style.left = (paneWidth - widthOfentities) / 2 + 'px'
+    pane.style.left = `${(paneWidth - widthOfentities) / 2}px`
   } else {
     pane.style.left = null
   }

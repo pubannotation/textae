@@ -25,6 +25,6 @@ export default function changeType(
       strokeStyle.lineWidth = POINTUP_LINE_WIDTH
     }
     connect.setPaintStyle(strokeStyle)
-    new LabelOverlay(connect).setLabel('[' + relation.id + '] ' + relation.type)
+    new LabelOverlay(connect).setLabel(`[${relation.id}] ${relation.type}`)
   }
 }

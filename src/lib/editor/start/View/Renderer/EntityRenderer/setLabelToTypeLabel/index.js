@@ -15,8 +15,7 @@ export default function setLabelToTypeLabel(
   const childAttributesHtml = getChildAttributesHtml(typeLabel)
 
   if (href) {
-    typeLabel.innerHTML =
-      `<a target="_blank"/ href="${href}">${label}</a>` + childAttributesHtml
+    typeLabel.innerHTML = `<a target="_blank"/ href="${href}">${label}</a>${childAttributesHtml}`
   } else {
     typeLabel.innerHTML = label + childAttributesHtml
   }

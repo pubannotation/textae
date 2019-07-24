@@ -19,13 +19,13 @@ export function unpush($control, buttonType) {
 
 export function transit($control, buttonType) {
   find($control, buttonType).addClass(
-    'textae-control__' + buttonType + '-button--transit'
+    `textae-control__${buttonType}-button--transit`
   )
 }
 
 export function untransit($control, buttonType) {
   find($control, buttonType).removeClass(
-    'textae-control__' + buttonType + '-button--transit'
+    `textae-control__${buttonType}-button--transit`
   )
 }
 

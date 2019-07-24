@@ -4,11 +4,11 @@ export default function(api, file, fileType) {
   const params = {
     annotation: null,
     config: null,
-    source: firstFile.name + '(local file)'
+    source: `${firstFile.name}(local file)`
   }
 
   if (['annotation', 'config'].indexOf(fileType) === -1) {
-    throw new Error('Cannot read data type of ' + fileType)
+    throw new Error(`Cannot read data type of ${fileType}`)
   }
 
   reader.onload = function() {
@@ -24,7 +24,7 @@ export default function(api, file, fileType) {
     }
 
     params[fileType] = loadData
-    api.emit('load--' + fileType, params)
+    api.emit(`load--${fileType}`, params)
   }
   reader.readAsText(firstFile)
 }

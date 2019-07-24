@@ -5,7 +5,7 @@ import _ from 'underscore'
 const setRevertAndLog = (function() {
   const log = function(prefix, param) {
     commandLog(
-      prefix + param.commandType + ' a ' + param.modelType + ': ' + param.id
+      `${prefix + param.commandType} a ${param.modelType}: ${param.id}`
     )
   }
   const doneLog = _.partial(log, '')

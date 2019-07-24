@@ -11,6 +11,6 @@ export default function(
 
   if (target) {
     renderer.changeModification(target)
-    buttonStateHelper['updateBy' + capitalize(modelType)]()
+    buttonStateHelper[`updateBy${capitalize(modelType)}`]()
   }
 }

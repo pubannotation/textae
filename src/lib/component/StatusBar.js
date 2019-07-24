@@ -19,7 +19,7 @@ const getAreaIn = function($parent) {
 module.exports = function(editor) {
   const getAreaInEditor = _.partial(getAreaIn, editor)
   const status = function(message) {
-    if (message !== '') getAreaInEditor().html('Source: ' + message)
+    if (message !== '') getAreaInEditor().html(`Source: ${message}`)
   }
 
   return {

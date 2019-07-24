@@ -13,14 +13,13 @@ export default function(emitter) {
 
       const childrenString =
         this.children && this.children.length > 0
-          ? '\n' +
-            this.children
+          ? `\n${this.children
               .map((child) => {
                 return (
                   new Array(depth + 1).join('\t') + child.toString(depth + 1)
                 )
               })
-              .join('\n')
+              .join('\n')}`
           : ''
 
       return this.toStringOnlyThis() + childrenString

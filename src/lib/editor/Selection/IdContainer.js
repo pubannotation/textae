@@ -14,19 +14,19 @@ export default function(emitter, kindName) {
 }
 
 function triggerChange(emitter, kindName) {
-  emitter.emit(kindName + '.change')
+  emitter.emit(`${kindName}.change`)
 }
 
 function add(selected, emitter, kindName, id) {
   if (id.forEach) {
     id.forEach((id) => {
       selected.add(id)
-      emitter.emit(kindName + '.select', id)
+      emitter.emit(`${kindName}.select`, id)
       triggerChange(emitter, kindName)
     })
   } else {
     selected.add(id)
-    emitter.emit(kindName + '.select', id)
+    emitter.emit(`${kindName}.select`, id)
     triggerChange(emitter, kindName)
   }
 }
@@ -45,7 +45,7 @@ function toggle(selected, emitter, kindName, id) {
 
 function remove(selected, emitter, kindName, id) {
   selected.delete(id)
-  emitter.emit(kindName + '.deselect', id)
+  emitter.emit(`${kindName}.deselect`, id)
   triggerChange(emitter, kindName)
 }
 

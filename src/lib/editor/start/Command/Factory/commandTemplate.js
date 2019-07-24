@@ -27,7 +27,7 @@ class CreateCommand extends BaseCommand {
           newModel.id
         )
 
-      commandLog('create a new ' + modelType + ': ', newModel)
+      commandLog(`create a new ${modelType}: `, newModel)
 
       return newModel
     })
@@ -52,7 +52,7 @@ class RemoveCommand extends BaseCommand {
             oloModel
           )
 
-        commandLog('remove a ' + modelType + ': ', oloModel)
+        commandLog(`remove a ${modelType}: `, oloModel)
       } else {
         // Do not revert unless an object was removed.
         this.revert = () => {
@@ -60,7 +60,7 @@ class RemoveCommand extends BaseCommand {
             execute: () => {}
           }
         }
-        commandLog('already removed ' + modelType + ': ', id)
+        commandLog(`already removed ${modelType}: `, id)
       }
     })
   }

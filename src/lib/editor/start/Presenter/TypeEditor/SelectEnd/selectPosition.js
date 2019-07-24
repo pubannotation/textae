@@ -63,5 +63,5 @@ function getParentModel(paragraph, span, node) {
     return span.get(parent.id)
   }
 
-  throw new Error('Can not get position of a node : ' + node + ' ' + node.data)
+  throw new Error(`Can not get position of a node : ${node} ${node.data}`)
 }

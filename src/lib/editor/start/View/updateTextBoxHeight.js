@@ -9,6 +9,7 @@ export default function(editor) {
   // The height calculated by auto is exclude the value of the padding top.
   // Rest small space.
   textBox.style.height = 'auto'
-  textBox.style.height =
-    textBox.offsetHeight - pixelToInt(style.paddingTop) + 20 + 'px'
+  textBox.style.height = `${textBox.offsetHeight -
+    pixelToInt(style.paddingTop) +
+    20}px`
 }

@@ -39,10 +39,10 @@ module.exports = {
     return $('<input type="number"/>').addClass(className)
   },
   toLink(url) {
-    return '<a href="' + url + '">' + url + '</a>'
+    return `<a href="${url}">${url}</a>`
   },
   getValueFromText($target, className) {
-    return $target.find('[type="text"].' + className).val()
+    return $target.find(`[type="text"].${className}`).val()
   },
   setChecked: _.partial(setProp, 'checked'),
   setValue: _.partial(setProp, 'value')

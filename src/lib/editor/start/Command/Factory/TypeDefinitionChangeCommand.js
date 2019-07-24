@@ -58,13 +58,11 @@ class TypeChangeCommand extends BaseCommand {
         )
 
       commandLog(
-        'change old type:' +
-          JSON.stringify(oldType) +
-          ' to new type:' +
-          JSON.stringify(newType) +
-          ', default is `' +
-          typeDefinition.getDefaultType() +
-          '`'
+        `change old type:${JSON.stringify(
+          oldType
+        )} to new type:${JSON.stringify(
+          newType
+        )}, default is \`${typeDefinition.getDefaultType()}\``
       )
     })
   }
