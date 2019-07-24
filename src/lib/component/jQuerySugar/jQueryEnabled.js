@@ -1,4 +1,4 @@
-module.exports = function($target, enable) {
+export default function($target, enable) {
   if (enable) {
     $target.removeAttr('disabled')
   } else {

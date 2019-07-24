@@ -1,18 +1,8 @@
 import jQueryEnabled from './jQueryEnabled'
 import $ from 'jquery'
-import _ from 'underscore'
+import setProp from './setProp'
 
-const setProp = function(key, $target, className, value) {
-  const valueObject = {}
-
-  valueObject[key] = value
-  return $target
-    .find(className)
-    .prop(valueObject)
-    .end()
-}
-
-module.exports = {
+export default {
   enabled: jQueryEnabled,
   Div(className) {
     return $('<div>').addClass(className)
@@ -44,6 +34,10 @@ module.exports = {
   getValueFromText($target, className) {
     return $target.find(`[type="text"].${className}`).val()
   },
-  setChecked: _.partial(setProp, 'checked'),
-  setValue: _.partial(setProp, 'value')
+  setChecked($target, className, value) {
+    setProp('checked', $target, className, value)
+  },
+  setValue($target, className, value) {
+    setProp('value', $target, className, value)
+  }
 }
