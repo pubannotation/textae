@@ -107,13 +107,8 @@ module.exports = function(
       closeDialog($content)
       return false
     })
-  // Add JsonEditor
-  // .append(
-  //   new RowDiv().append(
-  //     $('<div id="editor_holder"></div> ')
-  //   )
-  // )
 
+  // Capture the local variable by inner funcitons.
   const $dialog = getDialog(
     'textae.dialog.save',
     'Save Annotations',

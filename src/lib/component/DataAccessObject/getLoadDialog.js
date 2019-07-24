@@ -19,7 +19,7 @@ module.exports = function(
     'textae-editor__load-dialog__label'
   )
   const OpenButton = _.partial(jQuerySugar.Button, 'Open')
-  const isUserComfirm = function() {
+  const isUserConfirm = function() {
     return (
       !$dialog.params.hasAnythingToSaveAnnotation ||
       window.confirm(confirmDiscardChangeMessage)
@@ -37,11 +37,11 @@ module.exports = function(
         $buttonUrl
       )
     )
-    .on('input', '[type="text"].url', function() {
+    .on('input', 'input.url', function() {
       jQuerySugar.enabled($buttonUrl, this.value)
     })
     .on('click', '[type="button"].url', () => {
-      if (isUserComfirm()) {
+      if (isUserConfirm()) {
         getAnnotationFromServer(
           jQuerySugar.getValueFromText($content, 'url'),
           new CursorChanger(editor),
@@ -62,8 +62,12 @@ module.exports = function(
       jQuerySugar.enabled($buttonLocal, this.files.length > 0)
     })
     .on('click', '[type="button"].local', () => {
-      if (isUserComfirm()) {
-        getJsonFromFile(api, $content.find('[type="file"]')[0], 'annotation')
+      if (isUserConfirm()) {
+        getJsonFromFile(
+          api,
+          $content.find('.textae-editor__load-dialog__file')[0],
+          'annotation'
+        )
       }
       closeDialog($content)
     })

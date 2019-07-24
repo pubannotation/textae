@@ -25,25 +25,25 @@ module.exports = function(
       window.confirm(confirmDiscardChangeMessage)
     )
   }
-  const $configButtonUrl = new OpenButton('url--config')
-  const $configButtonLocal = new OpenButton('local--config')
+  const $buttonUrl = new OpenButton('url')
+  const $buttonLocal = new OpenButton('local')
   const $content = $('<div>')
     .append(
       new RowDiv().append(
         new RowLabel(label.URL),
         $(
-          '<input type="text" class="textae-editor__load-dialog__file-name--config url--config" />'
+          '<input type="text" class="textae-editor__load-dialog__file-name url" />'
         ),
-        $configButtonUrl
+        $buttonUrl
       )
     )
-    .on('input', 'input.url--config', function() {
-      jQuerySugar.enabled($configButtonUrl, this.value)
+    .on('input', 'input.url', function() {
+      jQuerySugar.enabled($buttonUrl, this.value)
     })
-    .on('click', '[type="button"].url--config', () => {
+    .on('click', '[type="button"].url', () => {
       if (isUserConfirm()) {
         getConfigurationFromServer(
-          jQuerySugar.getValueFromText($content, 'url--config'),
+          jQuerySugar.getValueFromText($content, 'url'),
           new CursorChanger(editor),
           api,
           setDataSourceUrl
@@ -54,20 +54,18 @@ module.exports = function(
     .append(
       new RowDiv().append(
         new RowLabel(label.LOCAL),
-        $(
-          '<input class="textae-editor__load-dialog__file--config" type="file" />'
-        ),
-        $configButtonLocal
+        $('<input class="textae-editor__load-dialog__file" type="file" />'),
+        $buttonLocal
       )
     )
-    .on('change', '.textae-editor__load-dialog__file--config', function() {
-      jQuerySugar.enabled($configButtonLocal, this.files.length > 0)
+    .on('change', '.textae-editor__load-dialog__file', function() {
+      jQuerySugar.enabled($buttonLocal, this.files.length > 0)
     })
-    .on('click', '[type="button"].local--config', () => {
+    .on('click', '[type="button"].local', () => {
       if (isUserConfirm()) {
         getJsonFromFile(
           api,
-          $content.find('.textae-editor__load-dialog__file--config')[0],
+          $content.find('.textae-editor__load-dialog__file')[0],
           'config'
         )
       }
