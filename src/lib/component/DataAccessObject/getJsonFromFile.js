@@ -35,13 +35,12 @@ function isJSON(arg) {
     return false
   }
   try {
-    arg = !JSON ? eval("(" + arg + ")") : JSON.parse(arg)
+    arg = JSON.parse(arg)
     return true
   } catch (e) {
     return false
   }
 }
-
 
 function isTxtFile($fileName) {
   const f = $fileName.split('.')
