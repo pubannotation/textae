@@ -85,7 +85,7 @@
     "browserify": "browserify src/lib/jquery.textae.js -o src/lib/bundle.js",
     "clean": "rimraf dist/* src/lib/bundle.js",
     "grunt-dist": "grunt dist",
-    "dist": "npm-run-all clean browserify grunt-dist",
+    "dist": "npm-run-all clean lint browserify grunt-dist",
     "lint": "eslint src/lib",
     "test": "grunt jasmine_node",
     "watch": "npm run watchify & grunt dev",
