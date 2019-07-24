@@ -18,10 +18,11 @@ export default function(typeGap, editMode) {
 
   return {
     showInstance: () => showInstance,
-    changeTypeGap: (val) => changeTypeGap(showInstance, typeGap, typeGapCache, val),
+    changeTypeGap: (val) =>
+      changeTypeGap(showInstance, typeGap, typeGapCache, val),
     getTypeGap: () => typeGap().value,
     notifyNewInstance: () => {
-      if (!showInstance) toastr.success("an instance is created behind.")
+      if (!showInstance) toastr.success('an instance is created behind.')
     }
   }
 }

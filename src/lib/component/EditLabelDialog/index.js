@@ -2,7 +2,14 @@ import EditDialog from '../dialog/EditDialog'
 import setAutocompleteSource from './setAutocompleteSource'
 
 export default class extends EditDialog {
-  constructor(editor, predicate, value, done, typeDefinition, autocompletionWs) {
+  constructor(
+    editor,
+    predicate,
+    value,
+    done,
+    typeDefinition,
+    autocompletionWs
+  ) {
     super(editor, predicate, value, done)
 
     // Make predicate unmodifiable
@@ -13,7 +20,10 @@ export default class extends EditDialog {
 
     // Update the source
     const $value = $inputs.eq(1)
-    const $labelSpan = this.$dialog.find('label').eq(1).find('span')
+    const $labelSpan = this.$dialog
+      .find('label')
+      .eq(1)
+      .find('span')
     setAutocompleteSource(typeDefinition, autocompletionWs, $value, $labelSpan)
 
     // Sel a label

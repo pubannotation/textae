@@ -2,9 +2,11 @@ import invokeCommand from '../invokeCommand'
 import commandLog from './commandLog'
 import _ from 'underscore'
 
-var setRevertAndLog = function() {
+var setRevertAndLog = (function() {
     var log = function(prefix, param) {
-        commandLog(prefix + param.commandType + ' a ' + param.modelType + ': ' + param.id)
+        commandLog(
+          prefix + param.commandType + ' a ' + param.modelType + ': ' + param.id
+        )
       },
       doneLog = _.partial(log, ''),
       revertLog = _.partial(log, 'revert '),
@@ -37,9 +39,18 @@ var setRevertAndLog = function() {
         return logParam
       }
 
-    return _.compose(doneLog, setRevert)
-  }(),
-  executeCompositCommand = function(modelType, command, commandType, id, subCommands) {
+    return _.compose(
+      doneLog,
+      setRevert
+    )
+  })(),
+  executeCompositCommand = function(
+    modelType,
+    command,
+    commandType,
+    id,
+    subCommands
+  ) {
     invokeCommand.invoke(subCommands)
     setRevertAndLog(modelType, command, commandType, id, subCommands)
   }

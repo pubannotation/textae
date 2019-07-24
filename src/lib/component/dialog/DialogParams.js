@@ -1,5 +1,11 @@
 export default class DialogParams {
-  constructor(editedAnnotation, originalConfig, editedConfig, hasAnythingToSaveAnnotation, hasAnythingToSaveConfiguration) {
+  constructor(
+    editedAnnotation,
+    originalConfig,
+    editedConfig,
+    hasAnythingToSaveAnnotation,
+    hasAnythingToSaveConfiguration
+  ) {
     this.editedAnnotation = editedAnnotation
     this.originalConfig = originalConfig
     this.editedConfig = editedConfig

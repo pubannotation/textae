@@ -1,4 +1,4 @@
 export default {
-    anno: 'annotation',
-    conf: 'configuration'
+  anno: 'annotation',
+  conf: 'configuration'
 }

@@ -40,21 +40,29 @@ export default class {
       buttonController.buttonStateHelper
     )
 
-    const displayInstance = new DisplayInstance(
-      typeGap,
-      editMode
-    )
+    const displayInstance = new DisplayInstance(typeGap, editMode)
 
     transitSaveButton(editMode, buttonController)
     bindModelChange(annotationData, editMode, mode)
 
-    this.event = createEventMap(command, selectionModel, typeDefinition, displayInstance, annotationData, buttonController, spanConfig, clipBoard, typeEditor, editor, editMode)
+    this.event = createEventMap(
+      command,
+      selectionModel,
+      typeDefinition,
+      displayInstance,
+      annotationData,
+      buttonController,
+      spanConfig,
+      clipBoard,
+      typeEditor,
+      editor,
+      editMode
+    )
 
     // The jsPlumbConnetion has an original event mecanism.
     // We can only bind the connection directory.
-    editor
-      .on('textae.editor.jsPlumbConnection.add', (_, jsPlumbConnection) => {
-        jsPlumbConnection.bindClickAction(typeEditor.jsPlumbConnectionClicked)
-      })
+    editor.on('textae.editor.jsPlumbConnection.add', (_, jsPlumbConnection) => {
+      jsPlumbConnection.bindClickAction(typeEditor.jsPlumbConnectionClicked)
+    })
   }
 }

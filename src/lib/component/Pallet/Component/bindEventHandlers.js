@@ -4,7 +4,13 @@ import openCreateTypeDialog from './openCreateTypeDialog'
 import checkButtonEnable from './checkButtonEnable'
 import openEditTypeDialog from './openEditTypeDialog'
 
-export default function(pallet, elementEditor, editor, autocompletionWs, command) {
+export default function(
+  pallet,
+  elementEditor,
+  editor,
+  autocompletionWs,
+  command
+) {
   delegate(pallet, `.${CLASS_NAMES.buttonAdd}`, 'click', (e) => {
     openCreateTypeDialog(elementEditor, editor, autocompletionWs)
   })
@@ -18,7 +24,9 @@ export default function(pallet, elementEditor, editor, autocompletionWs, command
   })
 
   delegate(pallet, `.${CLASS_NAMES.label}`, 'click', (e) => {
-    const commands = elementEditor.getHandler().changeTypeOfSelectedElement(e.delegateTarget.id)
+    const commands = elementEditor
+      .getHandler()
+      .changeTypeOfSelectedElement(e.delegateTarget.id)
     command.invoke(commands, ['annotation'])
   })
 
@@ -26,7 +34,9 @@ export default function(pallet, elementEditor, editor, autocompletionWs, command
     if (!checkButtonEnable(e.target)) {
       return
     }
-    elementEditor.getHandler().selectAllByLabel(e.delegateTarget.getAttribute('data-id'))
+    elementEditor
+      .getHandler()
+      .selectAllByLabel(e.delegateTarget.getAttribute('data-id'))
   })
 
   delegate(pallet, `.${CLASS_NAMES.editType}`, 'click', (e) => {
@@ -37,7 +47,12 @@ export default function(pallet, elementEditor, editor, autocompletionWs, command
     if (!checkButtonEnable(e.target)) {
       return
     }
-    const commands = elementEditor.getHandler().removeType(e.delegateTarget.getAttribute('data-id'), e.delegateTarget.getAttribute('data-short-label'))
+    const commands = elementEditor
+      .getHandler()
+      .removeType(
+        e.delegateTarget.getAttribute('data-id'),
+        e.delegateTarget.getAttribute('data-short-label')
+      )
     command.invoke(commands, ['configuration'])
   })
 }

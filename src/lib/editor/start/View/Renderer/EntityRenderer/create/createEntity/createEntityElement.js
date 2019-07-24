@@ -1,6 +1,11 @@
 import idFactory from '../../../../../../idFactory'
 
-export default function createEntityElement(editor, typeDefinition, modification, entity) {
+export default function createEntityElement(
+  editor,
+  typeDefinition,
+  modification,
+  entity
+) {
   let element = document.createElement('div')
 
   element.setAttribute('id', idFactory.makeEntityDomId(editor, entity.id))
@@ -11,10 +16,9 @@ export default function createEntityElement(editor, typeDefinition, modification
   element.style.borderColor = typeDefinition.getColor(entity.type)
 
   // Set css classes for modifications.
-  modification.getClasses(entity.id)
-    .forEach(c => {
-      element.classList.add(c)
-    })
+  modification.getClasses(entity.id).forEach((c) => {
+    element.classList.add(c)
+  })
 
   return element
 }

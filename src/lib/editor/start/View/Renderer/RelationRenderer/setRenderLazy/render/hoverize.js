@@ -2,7 +2,13 @@ import LabelOverlay from '../../LabelOverlay'
 import extendPointup from './extendPointup'
 
 // Set hover action.
-export default function(editor, annotationData, typeDefinition, connect, relationId) {
+export default function(
+  editor,
+  annotationData,
+  typeDefinition,
+  connect,
+  relationId
+) {
   extendRelationId(connect, relationId)
   extendPointup(editor, annotationData, typeDefinition, connect)
   bindConnect(connect)
@@ -23,13 +29,23 @@ function extendRelationId(connect, relationId) {
 }
 
 function bindConnect(connect) {
-  bindHoverAction(connect, (connect) => connect.pointup(), (connect) => connect.pointdown())
+  bindHoverAction(
+    connect,
+    (connect) => connect.pointup(),
+    (connect) => connect.pointdown()
+  )
 }
 
 function bindLabel(connect) {
-  bindHoverAction(new LabelOverlay(connect), (label) => label.component.pointup(), (label) => label.component.pointdown())
+  bindHoverAction(
+    new LabelOverlay(connect),
+    (label) => label.component.pointup(),
+    (label) => label.component.pointdown()
+  )
 }
 
 function bindHoverAction(jsPlumbElement, onMouseOver, onMouseRemove) {
-  jsPlumbElement.bind('mouseenter', onMouseOver).bind('mouseexit', onMouseRemove)
+  jsPlumbElement
+    .bind('mouseenter', onMouseOver)
+    .bind('mouseexit', onMouseRemove)
 }

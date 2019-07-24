@@ -3,7 +3,14 @@ import cookieHandler from '../../util/CookieHandler'
 import loginInfoDialog from '../LoginInfoDialog'
 import openPopUp from './openPopUp'
 
-export default function(url, jsonData, showSaveSuccess, showSaveError, cursorChanger, editor) {
+export default function(
+  url,
+  jsonData,
+  showSaveSuccess,
+  showSaveError,
+  cursorChanger,
+  editor
+) {
   cursorChanger.startWait()
   let endWait = () => {
       cursorChanger.endWait()
@@ -27,12 +34,17 @@ export default function(url, jsonData, showSaveSuccess, showSaveError, cursorCha
       // Access-Control-Expose-Headers: WWW-Authenticate,Location
       // ==============================================================
       let statusCode = ajaxResponse.status
-      let wwwAuthenticateHeader = ajaxResponse.getResponseHeader('WWW-Authenticate')
+      let wwwAuthenticateHeader = ajaxResponse.getResponseHeader(
+        'WWW-Authenticate'
+      )
       let locationHeader = ajaxResponse.getResponseHeader('Location')
 
-      if (statusCode === 401
-          && wwwAuthenticateHeader && wwwAuthenticateHeader === "ServerPage"
-          && locationHeader) {
+      if (
+        statusCode === 401 &&
+        wwwAuthenticateHeader &&
+        wwwAuthenticateHeader === 'ServerPage' &&
+        locationHeader
+      ) {
         let isHideMessageBox = cookieHandler().get('hide-message-box')
         if (isHideMessageBox === '' || isHideMessageBox === 'false') {
           let dialog = loginInfoDialog(editor, locationHeader)
@@ -47,5 +59,11 @@ export default function(url, jsonData, showSaveSuccess, showSaveError, cursorCha
 
   // textae-config service is build with the Ruby on Rails 4.X.
   // To change existing files, only PATCH method is allowed on the Ruby on Rails 4.X.
-  ajaxAccessor.patch(url, jsonData, showSaveSuccess, handleCustomHeader, endWait)
+  ajaxAccessor.patch(
+    url,
+    jsonData,
+    showSaveSuccess,
+    handleCustomHeader,
+    endWait
+  )
 }

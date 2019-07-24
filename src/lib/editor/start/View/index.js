@@ -14,18 +14,45 @@ const BODY = `
 </div>
 `
 
-export default function(editor, annotationData, selectionModel, buttonController, typeGap, typeDefinition) {
+export default function(
+  editor,
+  annotationData,
+  selectionModel,
+  buttonController,
+  typeGap,
+  typeDefinition
+) {
   editor[0].innerHTML = BODY
-  setSelectionModelHandler(editor, annotationData, selectionModel, buttonController)
+  setSelectionModelHandler(
+    editor,
+    annotationData,
+    selectionModel,
+    buttonController
+  )
 
-  const relationRenderer = new RelationRenderer(editor, annotationData, selectionModel, typeDefinition)
-  const annotationPosition = new AnnotationPosition(editor, annotationData, typeDefinition)
+  const relationRenderer = new RelationRenderer(
+    editor,
+    annotationData,
+    selectionModel,
+    typeDefinition
+  )
+  const annotationPosition = new AnnotationPosition(
+    editor,
+    annotationData,
+    typeDefinition
+  )
   annotationPosition.on('position-update.grid.end', (done) => {
     relationRenderer.arrangePositionAll()
     done()
   })
 
-  setHandlerOnTyapGapEvent(editor, annotationData, typeGap, typeDefinition, annotationPosition)
+  setHandlerOnTyapGapEvent(
+    editor,
+    annotationData,
+    typeGap,
+    typeDefinition,
+    annotationPosition
+  )
   setHandlerOnDisplayEvent(editor, annotationPosition)
 
   initRenderer(

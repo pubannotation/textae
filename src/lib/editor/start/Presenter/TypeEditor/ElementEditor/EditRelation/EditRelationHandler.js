@@ -9,13 +9,14 @@ export default class extends DefaultHandler {
     this.clearAllSelection = () => selectionModel.clear()
   }
   changeTypeOfSelectedElement(newType) {
-    return this.getEditTarget(newType)
-      .map((id) => this.command.factory.relationChangeTypeCommand(id, newType))
+    return this.getEditTarget(newType).map((id) =>
+      this.command.factory.relationChangeTypeCommand(id, newType)
+    )
   }
   jsPlumbConnectionClicked(jsPlumbConnection, event) {
     // Select or deselect relation.
     // This function is expected to be called when Relation-Edit-Mode.
-    let relationId = jsPlumbConnection.getParameter("id")
+    let relationId = jsPlumbConnection.getParameter('id')
 
     if (event.ctrlKey || event.metaKey) {
       this.selectionModel.toggle(relationId)

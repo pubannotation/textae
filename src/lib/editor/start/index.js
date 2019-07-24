@@ -19,7 +19,15 @@ import setAnnotation from './setAnnotation'
 import loadAnnotation from './loadAnnotation'
 import getConfigEditParamFromUrl from './getConfigEditParamFromUrl'
 
-export default function(editor, dataAccessObject, history, buttonController, annotationData, selectionModel, clipBoard) {
+export default function(
+  editor,
+  dataAccessObject,
+  history,
+  buttonController,
+  annotationData,
+  selectionModel,
+  clipBoard
+) {
   const params = getParams(editor[0])
   const spanConfig = new SpanConfig()
   // Users can edit model only via commands.
@@ -29,7 +37,14 @@ export default function(editor, dataAccessObject, history, buttonController, ann
     showInstance: false
   })
   const typeDefinition = new TypeDefinition(annotationData)
-  const view = new View(editor, annotationData, selectionModel, buttonController, typeGap, typeDefinition)
+  const view = new View(
+    editor,
+    annotationData,
+    selectionModel,
+    buttonController,
+    typeGap,
+    typeDefinition
+  )
   const presenter = new Presenter(
     editor,
     history,
@@ -52,13 +67,13 @@ export default function(editor, dataAccessObject, history, buttonController, ann
   let originalAnnotation
 
   const daoHandler = new DaoHandler(
-      dataAccessObject,
-      history,
-      annotationData,
-      typeDefinition,
-      () => originalAnnotation,
-      params.get('annotation')
-    )
+    dataAccessObject,
+    history,
+    annotationData,
+    typeDefinition,
+    () => originalAnnotation,
+    params.get('annotation')
+  )
   const statusBar = getStatusBar(editor, params.get('status_bar'))
 
   if (params.get('control') === 'visible') {
@@ -70,11 +85,11 @@ export default function(editor, dataAccessObject, history, buttonController, ann
   }
 
   editor.eventEmitter.on('textae.message-box.hide', () => {
-    cookieHandler().set('hide-message-box', 'true', {path: '/'})
+    cookieHandler().set('hide-message-box', 'true', { path: '/' })
   })
 
   editor.eventEmitter.on('textae.message-box.show', () => {
-    cookieHandler().set('hide-message-box', 'false', {path: '/'})
+    cookieHandler().set('hide-message-box', 'false', { path: '/' })
   })
 
   // Over write editor-div's config lock state by url's.
@@ -91,19 +106,30 @@ export default function(editor, dataAccessObject, history, buttonController, ann
   }
 
   dataAccessObject
-    .on('load--annotation', data => {
-      setAnnotation(spanConfig, typeDefinition, annotationData, data.annotation, params.get('config'))
+    .on('load--annotation', (data) => {
+      setAnnotation(
+        spanConfig,
+        typeDefinition,
+        annotationData,
+        data.annotation,
+        params.get('config')
+      )
       statusBar.status(data.source)
       originalAnnotation = data.annotation
       editor.eventEmitter.emit('textae.pallet.update')
     })
-    .on('load--config', data => {
+    .on('load--config', (data) => {
       if (!validateConfiguration(data.config)) {
-        toastr.error('This is not a configuration file or its format is invalid.')
+        toastr.error(
+          'This is not a configuration file or its format is invalid.'
+        )
         return
       }
       originalAnnotation.config = data.config
-      data.annotation = Object.assign(originalAnnotation, annotationData.toJson())
+      data.annotation = Object.assign(
+        originalAnnotation,
+        annotationData.toJson()
+      )
       setSpanAndTypeConfig(spanConfig, typeDefinition, data.config)
       annotationData.resetOnlyConfig(data.annotation)
     })
@@ -111,9 +137,17 @@ export default function(editor, dataAccessObject, history, buttonController, ann
       originalAnnotation.config = typeDefinition.getConfig()
     })
 
-  originalAnnotation = loadAnnotation(spanConfig, typeDefinition, annotationData, statusBar, params, dataAccessObject)
+  originalAnnotation = loadAnnotation(
+    spanConfig,
+    typeDefinition,
+    annotationData,
+    statusBar,
+    params,
+    dataAccessObject
+  )
 
-  const updateLineHeight = () => calculateLineHeight(editor, annotationData, typeDefinition, typeGap, view)
+  const updateLineHeight = () =>
+    calculateLineHeight(editor, annotationData, typeDefinition, typeGap, view)
 
   editor.api = new APIs(
     command,

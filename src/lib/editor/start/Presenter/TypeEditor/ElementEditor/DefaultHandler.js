@@ -16,20 +16,36 @@ export default class {
 
   addType(newType) {
     console.assert(newType.id, 'id is necessary!')
-    return this.command.factory.typeDefinitionCreateCommand(this.typeContainer, newType)
+    return this.command.factory.typeDefinitionCreateCommand(
+      this.typeContainer,
+      newType
+    )
   }
 
   changeType(oldType, newType) {
-    return this.command.factory.typeDefinitionChangeCommand(this.typeContainer, this.modelType, oldType, newType)
+    return this.command.factory.typeDefinitionChangeCommand(
+      this.typeContainer,
+      this.modelType,
+      oldType,
+      newType
+    )
   }
 
   changeLabelOfId(id, label) {
     const oldType = this.typeContainer.getDefinedType(id)
 
     if (!oldType.id) {
-      return this.command.factory.typeDefinitionCreateCommand(this.typeContainer, {id: id, label: label})
+      return this.command.factory.typeDefinitionCreateCommand(
+        this.typeContainer,
+        { id: id, label: label }
+      )
     } else if (oldType.label !== label) {
-      return this.command.factory.typeDefinitionChangeCommand(this.typeContainer, this.modelType, id, {label: label})
+      return this.command.factory.typeDefinitionChangeCommand(
+        this.typeContainer,
+        this.modelType,
+        id,
+        { label: label }
+      )
     }
 
     return null
@@ -50,7 +66,8 @@ export default class {
   }
 
   getEditTarget(newType) {
-    return this.selectionModel.all()
+    return this.selectionModel
+      .all()
       .filter((id) => this.annotationData.get(id).type !== newType)
   }
 
@@ -80,10 +97,15 @@ export default class {
       label: label || ''
     }
 
-    if (typeof id === "undefined") {
+    if (typeof id === 'undefined') {
       throw new Error('You must set the type id to remove.')
     }
 
-    return [this.command.factory.typeDefinitionRemoveCommand(this.typeContainer, removeType)]
+    return [
+      this.command.factory.typeDefinitionRemoveCommand(
+        this.typeContainer,
+        removeType
+      )
+    ]
   }
 }

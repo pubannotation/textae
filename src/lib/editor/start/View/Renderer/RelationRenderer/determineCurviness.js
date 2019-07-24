@@ -6,7 +6,7 @@ const CURVINESS_PARAMETERS = {
   yrate: 0.05,
 
   // curviness offset
-  offset: 20,
+  offset: 20
 }
 
 export default function(editor, annotationData, relation) {
@@ -24,7 +24,10 @@ export default function(editor, annotationData, relation) {
 
   var xdiff = Math.abs(sourceX - targetX)
   var ydiff = Math.abs(sourceY - targetY)
-  var curviness = xdiff * CURVINESS_PARAMETERS.xrate + ydiff * CURVINESS_PARAMETERS.yrate + CURVINESS_PARAMETERS.offset
+  var curviness =
+    xdiff * CURVINESS_PARAMETERS.xrate +
+    ydiff * CURVINESS_PARAMETERS.yrate +
+    CURVINESS_PARAMETERS.offset
   curviness /= 2.4
 
   return curviness

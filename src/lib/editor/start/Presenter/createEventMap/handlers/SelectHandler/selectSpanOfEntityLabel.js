@@ -1,4 +1,4 @@
-import {GRID_CLASS} from "./const"
+import { GRID_CLASS } from './const'
 
 export default function(selectionModel, label) {
   console.assert(label, 'A label MUST exists.')

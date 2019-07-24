@@ -9,9 +9,14 @@ export default function(connect, annotationData, typeDefinition, relationId) {
   if (!hasClass(connect, 'ui-selected')) {
     hoverupLine(connect)
     hoverupLabel(connect)
-    connect.setPaintStyle(Object.assign(connectorStrokeStyle(annotationData, typeDefinition, relationId), {
-      lineWidth: POINTUP_LINE_WIDTH
-    }))
+    connect.setPaintStyle(
+      Object.assign(
+        connectorStrokeStyle(annotationData, typeDefinition, relationId),
+        {
+          lineWidth: POINTUP_LINE_WIDTH
+        }
+      )
+    )
     jsPlumbArrowOverlayUtil.showBigArrow(connect)
   }
 }

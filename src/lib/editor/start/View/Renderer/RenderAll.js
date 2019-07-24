@@ -1,6 +1,11 @@
 import getAnnotationBox from './getAnnotationBox'
 
-export default function(editor, domPositionCache, spanRenderer, relationRenderer) {
+export default function(
+  editor,
+  domPositionCache,
+  spanRenderer,
+  relationRenderer
+) {
   return function(annotationData) {
     // Render annotations
     getAnnotationBox(editor).empty()
@@ -27,5 +32,7 @@ function renderAllSpan(annotationData, spanRenderer) {
 
 function renderAllRelation(annotationData, relationRenderer) {
   relationRenderer.reset()
-  annotationData.relation.all().forEach((relatiton) => relationRenderer.render(relatiton))
+  annotationData.relation
+    .all()
+    .forEach((relatiton) => relationRenderer.render(relatiton))
 }

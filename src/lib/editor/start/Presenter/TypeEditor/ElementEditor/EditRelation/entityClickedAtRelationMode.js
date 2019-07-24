@@ -1,6 +1,11 @@
 import $ from 'jquery'
 
-export default function entityClickedAtRelationMode(selectionModel, command, typeDefinition, e) {
+export default function entityClickedAtRelationMode(
+  selectionModel,
+  command,
+  typeDefinition,
+  e
+) {
   if (!selectionModel.entity.some()) {
     selectionModel.clear()
     selectionModel.entity.add($(e.target).attr('title'))
@@ -22,20 +27,39 @@ function onSelectObjectEntity(selectionModel, command, typeDefinition, e) {
   } else {
     selectionModel.entity.add(objectEntityId)
     createRelation(command, subjectEntityId, objectEntityId, typeDefinition)
-    updateSelectionOfEntity(e, selectionModel.entity, subjectEntityId, objectEntityId)
+    updateSelectionOfEntity(
+      e,
+      selectionModel.entity,
+      subjectEntityId,
+      objectEntityId
+    )
   }
 }
 
-function createRelation(command, subjectEntityId, objectEntityId, typeDefinition) {
-  command.invoke([command.factory.relationCreateCommand({
-    subj: subjectEntityId,
-    obj: objectEntityId,
-    type: typeDefinition.relation.getDefaultType()
-  })],
-    ['annotation'])
+function createRelation(
+  command,
+  subjectEntityId,
+  objectEntityId,
+  typeDefinition
+) {
+  command.invoke(
+    [
+      command.factory.relationCreateCommand({
+        subj: subjectEntityId,
+        obj: objectEntityId,
+        type: typeDefinition.relation.getDefaultType()
+      })
+    ],
+    ['annotation']
+  )
 }
 
-function updateSelectionOfEntity(event, selectionModel, subjectEntityId, objectEntityId) {
+function updateSelectionOfEntity(
+  event,
+  selectionModel,
+  subjectEntityId,
+  objectEntityId
+) {
   if (event.ctrlKey || event.metaKey) {
     // Remaining selection of the subject entity.
     selectionModel.remove(objectEntityId)

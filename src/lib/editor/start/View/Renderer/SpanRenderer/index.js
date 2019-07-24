@@ -10,12 +10,7 @@ export default class {
   }
 
   render(span) {
-    create(
-      this.annotationData,
-      span,
-      this.isBlockFunc,
-      this.renderEntityFunc
-    )
+    create(this.annotationData, span, this.isBlockFunc, this.renderEntityFunc)
   }
 
   remove(span) {

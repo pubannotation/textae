@@ -10,14 +10,17 @@ export default function(span, bigBrother) {
   // The parent of the bigBrother is same with of span, which is a span or the root of spanTree.
   if (bigBrother) {
     // The target text arrounded by span is in a textNode after the bigBrother if bigBrother exists.
-    [targetTextNode, startOfTextNode] = getTextNodeFromBigBrother(bigBrother)
+    ;[targetTextNode, startOfTextNode] = getTextNodeFromBigBrother(bigBrother)
   } else {
     // The target text arrounded by span is the first child of parent unless bigBrother exists.
-    [targetTextNode, startOfTextNode] = getTextNodeFromParent(span)
+    ;[targetTextNode, startOfTextNode] = getTextNodeFromParent(span)
   }
 
   if (!targetTextNode) {
-    throw new Error('The textNode on to create a span is not found. ' + span.toStringOnlyThis())
+    throw new Error(
+      'The textNode on to create a span is not found. ' +
+        span.toStringOnlyThis()
+    )
   }
 
   return createSpanRange(targetTextNode, startOfTextNode, span)

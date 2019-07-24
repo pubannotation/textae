@@ -1,4 +1,10 @@
-export default function(command, presenter, daoHandler, buttonController, updateLineHeight) {
+export default function(
+  command,
+  presenter,
+  daoHandler,
+  buttonController,
+  updateLineHeight
+) {
   return new Map([
     ['textae.control.button.view.click', presenter.event.toViewMode],
     ['textae.control.button.term.click', presenter.event.toTermMode],
@@ -9,15 +15,24 @@ export default function(command, presenter, daoHandler, buttonController, update
     ['textae.control.button.undo.click', command.undo],
     ['textae.control.button.redo.click', command.redo],
     ['textae.control.button.replicate.click', presenter.event.replicate],
-    ['textae.control.button.replicate_auto.click', () => buttonController.pushButtons.getButton('replicate-auto').toggle()],
-    ['textae.control.button.boundary_detection.click', presenter.event.toggleDetectBoundaryMode],
+    [
+      'textae.control.button.replicate_auto.click',
+      () => buttonController.pushButtons.getButton('replicate-auto').toggle()
+    ],
+    [
+      'textae.control.button.boundary_detection.click',
+      presenter.event.toggleDetectBoundaryMode
+    ],
     ['textae.control.button.entity.click', presenter.event.createEntity],
     ['textae.control.button.change_label.click', presenter.event.changeLabel],
     ['textae.control.button.pallet.click', presenter.event.showPallet],
     ['textae.control.button.negation.click', presenter.event.negation],
     ['textae.control.button.speculation.click', presenter.event.speculation],
     ['textae.control.button.attribute.click', presenter.event.createAttribute],
-    ['textae.control.button.delete.click', presenter.event.removeSelectedElements],
+    [
+      'textae.control.button.delete.click',
+      presenter.event.removeSelectedElements
+    ],
     ['textae.control.button.copy.click', presenter.event.copyEntities],
     ['textae.control.button.paste.click', presenter.event.pasteEntities],
     ['textae.control.button.setting.click', presenter.event.showSettingDialog],

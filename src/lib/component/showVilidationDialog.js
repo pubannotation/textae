@@ -1,8 +1,5 @@
 import Handlebars from 'handlebars'
-import {
-  hasError as hasError
-}
-from '../editor/Model/AnnotationData/parseAnnotation/validateAnnotation'
+import { hasError } from '../editor/Model/AnnotationData/parseAnnotation/validateAnnotation'
 import EditorDialog from './dialog/EditorDialog'
 
 const source = `
@@ -132,16 +129,15 @@ const source = `
 let tepmlate = Handlebars.compile(source)
 
 export default function(editor, rejects) {
-  if (!hasError(rejects))
-    return
-
+  if (!hasError(rejects)) return
 
   const el = document.createElement('div'),
     $dialog = new EditorDialog(
       editor.editorId,
       'textae.dialog.validation',
       'The following erroneous annotations ignored',
-      el, {
+      el,
+      {
         noCancelButton: true,
         height: 450
       }
@@ -171,18 +167,18 @@ function updateContent(content, rejects) {
 function transformToReferenceObjectError(reject) {
   // Combine rejects for referenced object errer.
   reject.referencedItems = reject.relationObj
-    .map(relation => {
+    .map((relation) => {
       relation.alertObj = true
       return relation
     })
-    .concat(reject.relationSubj
-      .map(relation => {
+    .concat(
+      reject.relationSubj.map((relation) => {
         relation.alertSubj = true
         return relation
       })
     )
-    .concat(reject.modification
-      .map(modification => {
+    .concat(
+      reject.modification.map((modification) => {
         modification.subj = '-'
         modification.alertObj = true
         return modification

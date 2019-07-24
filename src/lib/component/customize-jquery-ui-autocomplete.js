@@ -3,7 +3,6 @@ global.jQuery = require('jquery')
 require('jquery-ui')
 require('jquery-ui/ui/widgets/autocomplete')
 
-
 /* eslint no-underscore-dangle: 0 */
 // Custumize jQuery-ui autocomplete
 module.exports = function() {
@@ -11,7 +10,7 @@ module.exports = function() {
   $.ui.autocomplete.prototype._renderItem = function(ul, item) {
     const [label, url] = item.label.split('@')
 
-    return $("<li>")
+    return $('<li>')
       .append($(`<div>${label} <i class="fa fa-globe"></i>${url}</div>`))
       .appendTo(ul)
   }

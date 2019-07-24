@@ -17,7 +17,7 @@ const template = Handlebars.compile(source)
 
 export default function(editor, predicate, value, done) {
   const el = document.createElement('div')
-  el.innerHTML = template({predicate, value})
+  el.innerHTML = template({ predicate, value })
 
   // Use `this` according to the jQuery style.
   const okHandler = function() {
@@ -46,11 +46,16 @@ export default function(editor, predicate, value, done) {
   )
 
   // Observe enter key press
-  delegate($dialog[0], '.textae-editor__edit-value-and-pred-dialog--value', 'keyup', (e) => {
-    if (e.keyCode === 13) {
-      okHandler.call($dialog[0])
+  delegate(
+    $dialog[0],
+    '.textae-editor__edit-value-and-pred-dialog--value',
+    'keyup',
+    (e) => {
+      if (e.keyCode === 13) {
+        okHandler.call($dialog[0])
+      }
     }
-  })
+  )
 
   return $dialog
 }

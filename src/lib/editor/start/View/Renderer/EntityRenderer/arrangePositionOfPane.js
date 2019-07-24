@@ -1,10 +1,8 @@
 // Arrange a position of the pane to center entities when entities width is longer than pane width.
 export default function(pane) {
   const paneWidth = pane.offsetWidth
-  const widthOfentities = Array.prototype.map.call(
-      pane.children,
-      e => e.offsetWidth
-    )
+  const widthOfentities = Array.prototype.map
+    .call(pane.children, (e) => e.offsetWidth)
     .reduce((sum, width) => sum + width, 0)
 
   if (widthOfentities > paneWidth) {

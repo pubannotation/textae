@@ -1,7 +1,21 @@
 import createEntity from './createEntity'
 
-export default function(editor, namespace, typeDefinition, gridRenderer, modification, entity) {
+export default function(
+  editor,
+  namespace,
+  typeDefinition,
+  gridRenderer,
+  modification,
+  entity
+) {
   if (!typeDefinition.isBlock(entity.type)) {
-    createEntity(editor, namespace, typeDefinition, gridRenderer, modification, entity)
+    createEntity(
+      editor,
+      namespace,
+      typeDefinition,
+      gridRenderer,
+      modification,
+      entity
+    )
   }
 }

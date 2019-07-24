@@ -3,7 +3,6 @@ import idFactory from '../../../../../../../idFactory'
 import getLabel from '../../../getLabel'
 import getUri from '../../../getUri'
 
-
 // A Type element has an entity_pane elment that has a label and will have entities.
 const source = `
 <div id="{{id}}" class="textae-editor__type">
@@ -39,9 +38,9 @@ export default function(entity, namespace, typeDefinition) {
   const attributes = entity.attributes.map((attribute) => {
     return Object.assign({}, attribute, {
       domId: `${id}-${attribute.id}`,
-      title: `pred: ${attribute.pred}, value: ${attribute.obj}`,
+      title: `pred: ${attribute.pred}, value: ${attribute.obj}`
     })
   })
 
-  return template({id, label, href, color, attributes})
+  return template({ id, label, href, color, attributes })
 }

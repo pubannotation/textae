@@ -29,7 +29,10 @@ export default class {
   }
   show(positionTop, positionLeft) {
     let menuNode = this.getContextMenuNode()
-    menuNode.setAttribute('style', 'top: ' + positionTop + 'px; left: ' + positionLeft + 'px')
+    menuNode.setAttribute(
+      'style',
+      'top: ' + positionTop + 'px; left: ' + positionLeft + 'px'
+    )
     menuNode.classList.remove(this.className + '--hide')
     menuNode.classList.add(this.className + '--show')
   }
@@ -41,11 +44,18 @@ export default class {
     }
   }
   isOpen() {
-    return this.getContextMenuNode().classList.contains(this.className + '--show')
+    return this.getContextMenuNode().classList.contains(
+      this.className + '--show'
+    )
   }
   updateAllButtonEnableState(enableButtons) {
-        // Make buttons in a enableButtons enabled, and other buttons in the buttonList disabled.
-    const enables = Object.assign({}, this.buttonList, this.ALWAYS_ENABLES, enableButtons)
+    // Make buttons in a enableButtons enabled, and other buttons in the buttonList disabled.
+    const enables = Object.assign(
+      {},
+      this.buttonList,
+      this.ALWAYS_ENABLES,
+      enableButtons
+    )
 
     // A function to enable/disable button.
     updateButtons(this.$control, this.buttonList, enables)

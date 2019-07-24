@@ -45,17 +45,18 @@ export default function(
       pallet.show(point.point)
     },
     hidePallet: pallet.hide,
-    changeLabel: () => changeLabelHandler(editor, elementEditor.getHandler, autocompletionWs),
+    changeLabel: () =>
+      changeLabelHandler(editor, elementEditor.getHandler, autocompletionWs),
     changeLabelAndPred: null,
-    changeTypeOfSelectedElement: (newType) => elementEditor.getHandler().changeTypeOfSelectedElement(newType),
-    changeSelectedElement: (newType) => elementEditor.getHandler().changeSelectedElement(newType),
+    changeTypeOfSelectedElement: (newType) =>
+      elementEditor.getHandler().changeTypeOfSelectedElement(newType),
+    changeSelectedElement: (newType) =>
+      elementEditor.getHandler().changeSelectedElement(newType),
     cancelSelect: () => cancelSelect(pallet, selectionModel),
-    jsPlumbConnectionClicked: (jsPlumbConnection, event) => jsPlumbConnectionClicked(
-      elementEditor,
-      jsPlumbConnection,
-      event
-    ),
-    getSelectedIdEditable: () => elementEditor.getHandler().getSelectedIdEditable()
+    jsPlumbConnectionClicked: (jsPlumbConnection, event) =>
+      jsPlumbConnectionClicked(elementEditor, jsPlumbConnection, event),
+    getSelectedIdEditable: () =>
+      elementEditor.getHandler().getSelectedIdEditable()
   }
 
   return api
@@ -75,11 +76,14 @@ function jsPlumbConnectionClicked(elementEditor, jsPlumbConnection, event) {
   // Check the event is processed already.
   // Because the jsPlumb will call the event handler twice
   // when a label is clicked that of a relation added after the initiation.
-  if (elementEditor.getHandler().jsPlumbConnectionClicked && !event.processedByTextae) {
-    elementEditor.getHandler().jsPlumbConnectionClicked(jsPlumbConnection, event)
+  if (
+    elementEditor.getHandler().jsPlumbConnectionClicked &&
+    !event.processedByTextae
+  ) {
+    elementEditor
+      .getHandler()
+      .jsPlumbConnectionClicked(jsPlumbConnection, event)
   }
 
   event.processedByTextae = true
 }
-
-

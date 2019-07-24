@@ -1,7 +1,4 @@
-export {
-  getAnchorNodeParent,
-  getFocusNodeParent
-}
+export { getAnchorNodeParent, getFocusNodeParent }
 import $ from 'jquery'
 
 function getAnchorNodeParent(selection) {

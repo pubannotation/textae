@@ -5,7 +5,9 @@ export default function(selection) {
     return true
   }
 
-  deferAlert('It is ambiguous for which span you want to adjust the boundary. Select the span, and try again.')
+  deferAlert(
+    'It is ambiguous for which span you want to adjust the boundary. Select the span, and try again.'
+  )
   return false
 }
 

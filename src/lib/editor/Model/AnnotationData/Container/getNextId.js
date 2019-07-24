@@ -14,9 +14,7 @@ function getNextNumber(numbers) {
 }
 
 function getIssuedNumbers(ids, prefix) {
-  return ids
-    .filter((id) => isWellFormed(prefix, id))
-    .map(onlyNumber)
+  return ids.filter((id) => isWellFormed(prefix, id)).map(onlyNumber)
 }
 
 function isWellFormed(prefix, id) {

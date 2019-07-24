@@ -1,7 +1,4 @@
-import {
-  EventEmitter as EventEmitter
-}
-from 'events'
+import { EventEmitter } from 'events'
 import Button from './Button'
 import propagateStateOf from './propagateStateOf'
 import updateModificationButton from './updateModificationButton'
@@ -45,7 +42,9 @@ export default class extends EventEmitter {
   }
 
   updateModificationButtons(selectionModel) {
-    const modifications = selectionModel.all().map((e) => this.annotationData.getModificationOf(e).map((m) => m.pred))
+    const modifications = selectionModel
+      .all()
+      .map((e) => this.annotationData.getModificationOf(e).map((m) => m.pred))
 
     updateModificationButton(this, 'Negation', modifications)
     updateModificationButton(this, 'Speculation', modifications)

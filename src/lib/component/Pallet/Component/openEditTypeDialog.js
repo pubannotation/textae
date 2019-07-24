@@ -1,4 +1,4 @@
-import EditTypeDialog from "./EditTypeDialog"
+import EditTypeDialog from './EditTypeDialog'
 import invokeChangeTypeCommand from './invokeChangeTypeCommand'
 
 export default function(elementEditor, e, editor, autocompletionWs) {
@@ -23,7 +23,13 @@ export default function(elementEditor, e, editor, autocompletionWs) {
     }
     invokeChangeTypeCommand(oldType, newType, handler, editor)
   }
-  const dialog = new EditTypeDialog(editor, handler.typeContainer, done, autocompletionWs, 'Please edit the type')
+  const dialog = new EditTypeDialog(
+    editor,
+    handler.typeContainer,
+    done,
+    autocompletionWs,
+    'Please edit the type'
+  )
   dialog.update(id, label, color, isDefault)
   dialog.open()
 }

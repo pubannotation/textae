@@ -3,14 +3,39 @@ import updateTextBoxHeight from './updateTextBoxHeight'
 import _ from 'underscore'
 import * as lineHeight from './lineHeight'
 
-export default function(editor, annotationData, selectionModel, typeGap, typeDefinition, buttonStateHelper, relationRenderer, annotationPosition) {
-  const debouncedUpdateAnnotationPosition = _.debounce(() => annotationPosition.updateAsync(typeGap()), 100)
+export default function(
+  editor,
+  annotationData,
+  selectionModel,
+  typeGap,
+  typeDefinition,
+  buttonStateHelper,
+  relationRenderer,
+  annotationPosition
+) {
+  const debouncedUpdateAnnotationPosition = _.debounce(
+    () => annotationPosition.updateAsync(typeGap()),
+    100
+  )
 
-  new Renderer(editor, annotationData, selectionModel, buttonStateHelper, typeDefinition, typeGap, relationRenderer)
+  new Renderer(
+    editor,
+    annotationData,
+    selectionModel,
+    buttonStateHelper,
+    typeDefinition,
+    typeGap,
+    relationRenderer
+  )
     .on('change', debouncedUpdateAnnotationPosition)
     .on('all.change', () => {
       updateTextBoxHeight(editor[0])
-      lineHeight.setToTypeGap(editor[0], annotationData, typeDefinition, typeGap())
+      lineHeight.setToTypeGap(
+        editor[0],
+        annotationData,
+        typeDefinition,
+        typeGap()
+      )
       debouncedUpdateAnnotationPosition()
     })
     .on('span.add', debouncedUpdateAnnotationPosition)

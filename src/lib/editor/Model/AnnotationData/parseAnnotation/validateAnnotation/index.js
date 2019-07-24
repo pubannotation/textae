@@ -3,7 +3,4 @@ import hasError from './Reject/hasError'
 import isBoundaryCrossingWithOtherSpans from './isBoundaryCrossingWithOtherSpans'
 
 export default main
-export {
-    hasError,
-    isBoundaryCrossingWithOtherSpans
-}
+export { hasError, isBoundaryCrossingWithOtherSpans }

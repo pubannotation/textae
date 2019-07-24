@@ -22,12 +22,18 @@ export default function(editor, annotationData, selectionModel, clipBoard) {
   )
 
   // Proragate events.
-  pushButtons.on('change', (data) => editor.eventEmitter.emit('textae.control.button.push', data))
-  buttonEnableStates.on('change', (data) => editor.eventEmitter.emit('textae.control.buttons.change', data))
-  buttonTransitStates.on('change', (data) => editor.eventEmitter.emit('textae.control.buttons.transit', data))
+  pushButtons.on('change', (data) =>
+    editor.eventEmitter.emit('textae.control.button.push', data)
+  )
+  buttonEnableStates.on('change', (data) =>
+    editor.eventEmitter.emit('textae.control.buttons.change', data)
+  )
+  buttonTransitStates.on('change', (data) =>
+    editor.eventEmitter.emit('textae.control.buttons.transit', data)
+  )
 
   return {
     pushButtons,
-    buttonStateHelper,
+    buttonStateHelper
   }
 }

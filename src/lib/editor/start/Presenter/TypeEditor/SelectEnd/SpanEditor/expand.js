@@ -1,26 +1,44 @@
-
-import {
-  isBoundaryCrossingWithOtherSpans as isBoundaryCrossingWithOtherSpans
-}
-from '../../../../../Model/AnnotationData/parseAnnotation/validateAnnotation'
+import { isBoundaryCrossingWithOtherSpans } from '../../../../../Model/AnnotationData/parseAnnotation/validateAnnotation'
 import deferAlert from '../deferAlert'
 import * as selectPosition from '../selectPosition'
 import * as isInSelected from './isInSelected'
 import moveSpan from './moveSpan'
 
-export default function(editor, annotationData, selectionModel, command, spanAdjuster, selection, spanConfig) {
+export default function(
+  editor,
+  annotationData,
+  selectionModel,
+  command,
+  spanAdjuster,
+  selection,
+  spanConfig
+) {
   const spanId = getExpandTargetSpan(annotationData, selectionModel, selection)
 
   if (spanId) {
     selectionModel.clear()
-    expandSpanToSelection(editor, annotationData, command, spanAdjuster, spanId, selection, spanConfig)
+    expandSpanToSelection(
+      editor,
+      annotationData,
+      command,
+      spanAdjuster,
+      spanId,
+      selection,
+      spanConfig
+    )
   }
 }
 
 function getExpandTargetSpan(annotationData, selectionModel, selection) {
   // If a span is selected, it is able to begin drag a span in the span and expand the span.
   // The focus node should be at one level above the selected node.
-  if (isInSelected.isAnchorInSelectedSpan(annotationData, selectionModel, selection)) {
+  if (
+    isInSelected.isAnchorInSelectedSpan(
+      annotationData,
+      selectionModel,
+      selection
+    )
+  ) {
     // cf.
     // 1. one side of a inner span is same with one side of the outside span.
     // 2. Select an outside span.
@@ -37,14 +55,25 @@ function getExpandTargetSpan(annotationData, selectionModel, selection) {
   return null
 }
 
-function expandSpanToSelection(editor, annotationData, command, spanAdjuster, spanId, selection, spanConfig) {
-  const newSpan = getNewSpan(annotationData, spanAdjuster, spanId, selection, spanConfig)
+function expandSpanToSelection(
+  editor,
+  annotationData,
+  command,
+  spanAdjuster,
+  spanId,
+  selection,
+  spanConfig
+) {
+  const newSpan = getNewSpan(
+    annotationData,
+    spanAdjuster,
+    spanId,
+    selection,
+    spanConfig
+  )
 
   // The span cross exists spans.
-  if (isBoundaryCrossingWithOtherSpans(
-      annotationData.span.all(),
-      newSpan
-    )) {
+  if (isBoundaryCrossingWithOtherSpans(annotationData.span.all(), newSpan)) {
     deferAlert('A span cannot be expanded to make a boundary crossing.')
     return
   }
@@ -53,30 +82,65 @@ function expandSpanToSelection(editor, annotationData, command, spanAdjuster, sp
 }
 
 function isAnchorOneDownUnderForcus(selection) {
-  return selection.anchorNode.parentNode.parentNode === selection.focusNode.parentNode
+  return (
+    selection.anchorNode.parentNode.parentNode ===
+    selection.focusNode.parentNode
+  )
 }
 
-function getNewSpan(annotationData, spanAdjuster, spanId, selection, spanConfig) {
-  const anchorPosition = selectPosition.getAnchorPosition(annotationData, selection),
+function getNewSpan(
+  annotationData,
+  spanAdjuster,
+  spanId,
+  selection,
+  spanConfig
+) {
+  const anchorPosition = selectPosition.getAnchorPosition(
+      annotationData,
+      selection
+    ),
     focusPosition = selectPosition.getFocusPosition(annotationData, selection)
 
-  return getNewExpandSpan(annotationData, spanAdjuster, spanId, anchorPosition, focusPosition, spanConfig)
+  return getNewExpandSpan(
+    annotationData,
+    spanAdjuster,
+    spanId,
+    anchorPosition,
+    focusPosition,
+    spanConfig
+  )
 }
 
-function getNewExpandSpan(annotationData, spanAdjuster, spanId, anchorPosition, focusPosition, spanConfig) {
+function getNewExpandSpan(
+  annotationData,
+  spanAdjuster,
+  spanId,
+  anchorPosition,
+  focusPosition,
+  spanConfig
+) {
   var span = annotationData.span.get(spanId)
 
   if (anchorPosition > focusPosition) {
     // expand to the left
     return {
-      begin: spanAdjuster.backFromBegin(annotationData.sourceDoc, focusPosition, spanConfig),
+      begin: spanAdjuster.backFromBegin(
+        annotationData.sourceDoc,
+        focusPosition,
+        spanConfig
+      ),
       end: span.end
     }
   } else {
     // expand to the right
     return {
       begin: span.begin,
-      end: spanAdjuster.forwardFromEnd(annotationData.sourceDoc, focusPosition - 1, spanConfig) + 1
+      end:
+        spanAdjuster.forwardFromEnd(
+          annotationData.sourceDoc,
+          focusPosition - 1,
+          spanConfig
+        ) + 1
     }
   }
 }

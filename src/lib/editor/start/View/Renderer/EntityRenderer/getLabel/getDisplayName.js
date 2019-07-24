@@ -9,19 +9,20 @@ export default function(type) {
     if (matches) {
       // Order to dispaly.
       // 1. The anchor without #.
-      if (matches[9])
-        return matches[9].slice(1)
+      if (matches[9]) return matches[9].slice(1)
 
       // 2. The file name with the extention.
-      if (matches[6])
-        return matches[6] + (matches[7] || '')
+      if (matches[6]) return matches[6] + (matches[7] || '')
 
       // 3. The last directory name.
       // Exclude slash only. cf. http://hoge.com/
       if (matches[5] && matches[5].length > 1)
-        return matches[5].split('/').filter(function(s) {
-          return s !== ''
-        }).pop()
+        return matches[5]
+          .split('/')
+          .filter(function(s) {
+            return s !== ''
+          })
+          .pop()
 
       // 4. The domain name.
       return matches[3]

@@ -6,7 +6,7 @@ class TypeCreateCommand extends BaseCommand {
   constructor(editor, typeDefinition, newType) {
     super(function() {
       Object.keys(newType).forEach((key) => {
-        if (newType[key] === '' || key === 'default' && !newType[key]) {
+        if (newType[key] === '' || (key === 'default' && !newType[key])) {
           delete newType[key]
         }
       })
@@ -20,9 +20,19 @@ class TypeCreateCommand extends BaseCommand {
         typeDefinition.setDefaultType(newType.id)
       }
 
-      this.revert = () => new TypeDefinitionRemoveCommand(editor, typeDefinition, newType, revertDefaultTypeId)
+      this.revert = () =>
+        new TypeDefinitionRemoveCommand(
+          editor,
+          typeDefinition,
+          newType,
+          revertDefaultTypeId
+        )
 
-      commandLog(`create a new type:${JSON.stringify(newType)}, default is ${ typeDefinition.getDefaultType() }`)
+      commandLog(
+        `create a new type:${JSON.stringify(
+          newType
+        )}, default is ${typeDefinition.getDefaultType()}`
+      )
     })
   }
 }

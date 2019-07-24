@@ -8,6 +8,8 @@ export default function(span, topLevelSpans) {
     return index === 0 ? null : span.parent.children[index - 1]
   } else {
     index = topLevelSpans.indexOf(span)
-    return index === 0 || topLevelSpans[index - 1].paragraph !== span.paragraph ? null : topLevelSpans[index - 1]
+    return index === 0 || topLevelSpans[index - 1].paragraph !== span.paragraph
+      ? null
+      : topLevelSpans[index - 1]
   }
 }

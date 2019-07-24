@@ -1,7 +1,7 @@
-import {ENTINY_CLASS} from "./const"
-import selectLabelOfEntity from "./selectLabelOfEntity"
-import selectSpanOfEntityLabel from "./selectSpanOfEntityLabel"
-import selectSelected from "./selectSelected"
+import { ENTINY_CLASS } from './const'
+import selectLabelOfEntity from './selectLabelOfEntity'
+import selectSpanOfEntityLabel from './selectSpanOfEntityLabel'
+import selectSelected from './selectSelected'
 
 export default function(editorDom, selectionModel) {
   // When one entity label is selected.

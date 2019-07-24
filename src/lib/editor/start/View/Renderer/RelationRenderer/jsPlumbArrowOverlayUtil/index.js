@@ -1,12 +1,12 @@
-import NORMAL_ARROW from "./NORMAL_ARROW"
-import HOVER_ARROW from "./HOVER_ARROW"
-import addArrow from "./addArrow"
-import addArrows from "./addArrows"
-import getArrowIds from "./getArrowIds"
-import hasNormalArrow from "./hasNormalArrow"
-import hasHoverArrow from "./hasHoverArrow"
-import removeArrow from "./removeArrow"
-import removeArrows from "./removeArrows"
+import NORMAL_ARROW from './NORMAL_ARROW'
+import HOVER_ARROW from './HOVER_ARROW'
+import addArrow from './addArrow'
+import addArrows from './addArrows'
+import getArrowIds from './getArrowIds'
+import hasNormalArrow from './hasNormalArrow'
+import hasHoverArrow from './hasHoverArrow'
+import removeArrow from './removeArrow'
+import removeArrows from './removeArrows'
 
 export default {
   NORMAL_ARROW,
@@ -38,4 +38,3 @@ export default {
     return connect
   }
 }
-

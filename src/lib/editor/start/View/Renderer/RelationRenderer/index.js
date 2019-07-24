@@ -22,7 +22,12 @@ export default class {
 
   arrangePositionAll() {
     renderLazyRelationAll(this.annotationData.relation.all())
-    arrangePositionAll(this.editor, this.annotationData, this.selectionModel, this.jsPlumbInstance)
+    arrangePositionAll(
+      this.editor,
+      this.annotationData,
+      this.selectionModel,
+      this.jsPlumbInstance
+    )
   }
 
   reset() {
@@ -34,24 +39,54 @@ export default class {
     // Create a dummy relation when before moving grids after creation grids.
     // Because a jsPlumb error occurs when a relation between same points.
     // And entities of same length spans was same point before moving grids.
-    setRenderLazy(this.jsPlumbInstance, this.editor, this.annotationData, this.typeDefinition, this.modificationRenderer, relation)
+    setRenderLazy(
+      this.jsPlumbInstance,
+      this.editor,
+      this.annotationData,
+      this.typeDefinition,
+      this.modificationRenderer,
+      relation
+    )
   }
 
   change(relation) {
-    changeType(this.editor, this.annotationData, this.typeDefinition, this.selectionModel, relation)
+    changeType(
+      this.editor,
+      this.annotationData,
+      this.typeDefinition,
+      this.selectionModel,
+      relation
+    )
   }
 
   changeAll() {
     this.annotationData.relation.all().map((relation) => {
-      changeType(this.editor, this.annotationData, this.typeDefinition, this.selectionModel, relation)
+      changeType(
+        this.editor,
+        this.annotationData,
+        this.typeDefinition,
+        this.selectionModel,
+        relation
+      )
     })
   }
 
   changeModification(relation) {
-    changeJsPlumbModification(this.editor, this.annotationData, this.modificationRenderer, relation)
+    changeJsPlumbModification(
+      this.editor,
+      this.annotationData,
+      this.modificationRenderer,
+      relation
+    )
   }
 
   remove(relation) {
-    removeRelation(this.editor, this.annotationData, this.jsPlumbInstance, this.domPositionCache, relation)
+    removeRelation(
+      this.editor,
+      this.annotationData,
+      this.jsPlumbInstance,
+      this.domPositionCache,
+      relation
+    )
   }
 }

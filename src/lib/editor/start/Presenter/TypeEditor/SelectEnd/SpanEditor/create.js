@@ -1,20 +1,28 @@
-import {
-  isBoundaryCrossingWithOtherSpans as isBoundaryCrossingWithOtherSpans
-}
-from '../../../../../Model/AnnotationData/parseAnnotation/validateAnnotation'
+import { isBoundaryCrossingWithOtherSpans } from '../../../../../Model/AnnotationData/parseAnnotation/validateAnnotation'
 import isAlreadySpaned from '../../../../isAlreadySpaned'
 import * as selectPosition from '../selectPosition'
 
 const BLOCK_THRESHOLD = 100
 
-export default function(annotationData, command, typeDefinition, spanAdjuster, isDetectDelimiterEnable, isReplicateAuto, selection, spanConfig) {
-  const newSpan = getNewSpan(annotationData, spanAdjuster, selection, spanConfig)
+export default function(
+  annotationData,
+  command,
+  typeDefinition,
+  spanAdjuster,
+  isDetectDelimiterEnable,
+  isReplicateAuto,
+  selection,
+  spanConfig
+) {
+  const newSpan = getNewSpan(
+    annotationData,
+    spanAdjuster,
+    selection,
+    spanConfig
+  )
 
   // The span cross exists spans.
-  if (isBoundaryCrossingWithOtherSpans(
-      annotationData.span.all(),
-      newSpan
-    )) {
+  if (isBoundaryCrossingWithOtherSpans(annotationData.span.all(), newSpan)) {
     return
   }
 
@@ -23,25 +31,41 @@ export default function(annotationData, command, typeDefinition, spanAdjuster, i
     return
   }
 
-  const commands = createCommands(command, typeDefinition, newSpan, isReplicateAuto, isDetectDelimiterEnable, spanConfig)
+  const commands = createCommands(
+    command,
+    typeDefinition,
+    newSpan,
+    isReplicateAuto,
+    isDetectDelimiterEnable,
+    spanConfig
+  )
 
   command.invoke(commands, ['annotation'])
 }
 
-function createCommands(command, typeDefinition, newSpan, isReplicateAuto, isDetectDelimiterEnable, spanConfig) {
-  const commands = [command.factory.spanCreateCommand(
-    typeDefinition.entity.getDefaultType(), {
+function createCommands(
+  command,
+  typeDefinition,
+  newSpan,
+  isReplicateAuto,
+  isDetectDelimiterEnable,
+  spanConfig
+) {
+  const commands = [
+    command.factory.spanCreateCommand(typeDefinition.entity.getDefaultType(), {
       begin: newSpan.begin,
       end: newSpan.end
-    }
-  )]
+    })
+  ]
 
   if (isReplicateAuto && newSpan.end - newSpan.begin <= BLOCK_THRESHOLD) {
     commands.push(
-      command.factory.spanReplicateCommand({
+      command.factory.spanReplicateCommand(
+        {
           begin: newSpan.begin,
           end: newSpan.end
-        }, [typeDefinition.entity.getDefaultType()],
+        },
+        [typeDefinition.entity.getDefaultType()],
         isDetectDelimiterEnable ? spanConfig.isDelimiter : null
       )
     )
@@ -54,7 +78,16 @@ function getNewSpan(annotationData, spanAdjuster, selection, spanConfig) {
   const [begin, end] = selectPosition.getBeginEnd(annotationData, selection)
 
   return {
-    begin: spanAdjuster.backFromBegin(annotationData.sourceDoc, begin, spanConfig),
-    end: spanAdjuster.forwardFromEnd(annotationData.sourceDoc, end - 1, spanConfig) + 1
+    begin: spanAdjuster.backFromBegin(
+      annotationData.sourceDoc,
+      begin,
+      spanConfig
+    ),
+    end:
+      spanAdjuster.forwardFromEnd(
+        annotationData.sourceDoc,
+        end - 1,
+        spanConfig
+      ) + 1
   }
 }

@@ -2,7 +2,12 @@ import getLabel from '../getLabel'
 import getUri from '../getUri'
 import getChildAttributesHtml from './getChildAttributesHtml'
 
-export default function setLabelToTypeLabel(typeLabel, namespace, typeDefinition, type) {
+export default function setLabelToTypeLabel(
+  typeLabel,
+  namespace,
+  typeDefinition,
+  type
+) {
   const label = getLabel(namespace, typeDefinition, type)
   const href = getUri(namespace, typeDefinition, type)
 
@@ -10,7 +15,8 @@ export default function setLabelToTypeLabel(typeLabel, namespace, typeDefinition
   const childAttributesHtml = getChildAttributesHtml(typeLabel)
 
   if (href) {
-    typeLabel.innerHTML = `<a target="_blank"/ href="${href}">${label}</a>` + childAttributesHtml
+    typeLabel.innerHTML =
+      `<a target="_blank"/ href="${href}">${label}</a>` + childAttributesHtml
   } else {
     typeLabel.innerHTML = label + childAttributesHtml
   }

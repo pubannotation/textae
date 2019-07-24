@@ -24,8 +24,7 @@ export default function() {
 // Observe window-resize event and redraw all editors.
 function redrawOnResize(editors) {
   // Bind resize event
-  window
-    .addEventListener('resize', throttle(() => editors.redraw(), 500))
+  window.addEventListener('resize', throttle(() => editors.redraw(), 500))
 }
 
 function registerEditor(container, editor) {

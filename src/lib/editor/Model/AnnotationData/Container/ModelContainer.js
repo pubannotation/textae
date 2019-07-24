@@ -1,6 +1,7 @@
 import getNextId from './getNextId'
 
-const ERROR_MESSAGE = 'Set the mappingFunction by the constructor to use the method "ModelContainer.addSource".'
+const ERROR_MESSAGE =
+  'Set the mappingFunction by the constructor to use the method "ModelContainer.addSource".'
 
 export default class {
   constructor(emitter, prefix, mappingFunction, idPrefix) {
@@ -30,7 +31,9 @@ export default class {
       return 0
     })
 
-    collection.forEach((instance) => addToContainer(instance, this.container, this.prefix))
+    collection.forEach((instance) =>
+      addToContainer(instance, this.container, this.prefix)
+    )
   }
 
   // The doAfter is avoked before a event emitted.
@@ -81,7 +84,9 @@ export default class {
 
 // see: https://stackoverflow.com/questions/5999998/check-if-a-variable-is-of-function-type
 function isFunction(functionToCheck) {
-  return functionToCheck && {}.toString.call(functionToCheck) === '[object Function]'
+  return (
+    functionToCheck && {}.toString.call(functionToCheck) === '[object Function]'
+  )
 }
 
 function addToContainer(instance, container, prefix) {

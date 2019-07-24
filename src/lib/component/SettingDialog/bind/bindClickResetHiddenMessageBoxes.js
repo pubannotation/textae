@@ -3,5 +3,9 @@ export default function($content, editor) {
     editor.eventEmitter.emit('textae.message-box.show')
   }
 
-  return $content.on('click', '.reset-hidden-message-boxes', onClickResetHiddenMessageBoxes)
+  return $content.on(
+    'click',
+    '.reset-hidden-message-boxes',
+    onClickResetHiddenMessageBoxes
+  )
 }

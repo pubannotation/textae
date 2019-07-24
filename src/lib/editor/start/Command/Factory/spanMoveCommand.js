@@ -8,13 +8,22 @@ class SpanMoveCommand extends BaseCommand {
       const [oldSpan, newId] = annotationData.span.move(spanId, newSpan)
 
       // Set revert
-      this.revert = () => new SpanMoveCommand(editor, annotationData, newId, oldSpan)
+      this.revert = () =>
+        new SpanMoveCommand(editor, annotationData, newId, oldSpan)
 
-      commandLog(`move span: ${spanId} to {begin: ${newSpan.begin}, end: ${newSpan.end}}`)
+      commandLog(
+        `move span: ${spanId} to {begin: ${newSpan.begin}, end: ${newSpan.end}}`
+      )
     })
   }
 }
 
-export default function(editor, annotationData, selectionModel, spanId, newSpan) {
+export default function(
+  editor,
+  annotationData,
+  selectionModel,
+  spanId,
+  newSpan
+) {
   return new SpanMoveCommand(editor, annotationData, spanId, newSpan)
 }

@@ -8,7 +8,9 @@ export default function(connect, annotationData, typeDefinition, relationId) {
   if (!hasClass(connect, 'ui-selected')) {
     hoverdownLine(connect)
     hoverdownLabel(connect)
-    connect.setPaintStyle(connectorStrokeStyle(annotationData, typeDefinition, relationId))
+    connect.setPaintStyle(
+      connectorStrokeStyle(annotationData, typeDefinition, relationId)
+    )
     jsPlumbArrowOverlayUtil.hideBigArrow(connect)
   }
 }

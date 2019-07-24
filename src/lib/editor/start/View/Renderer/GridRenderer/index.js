@@ -11,7 +11,12 @@ export default class {
   }
 
   render(spanId) {
-    return createGrid(this.editor[0], this.domPositionCache, this.container[0], spanId)
+    return createGrid(
+      this.editor[0],
+      this.domPositionCache,
+      this.container[0],
+      spanId
+    )
   }
 
   remove(spanId) {

@@ -39,9 +39,11 @@ function appendToDialog($content, editor) {
     editor.editorId,
     'textae.dialog.login-info',
     'Login is required',
-    $content, {
+    $content,
+    {
       noCancelButton: true
-    })
+    }
+  )
 }
 
 function bind($content, $dialog, loginUrl, editor) {

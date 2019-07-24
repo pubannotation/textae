@@ -1,14 +1,22 @@
-export default function(command, annotationData, pushButtons, spanConfig, spanId) {
+export default function(
+  command,
+  annotationData,
+  pushButtons,
+  spanConfig,
+  spanId
+) {
   const detectBoundaryFunc = getDetectBoundaryFunc(pushButtons, spanConfig)
   const span = annotationData.span.get(spanId)
 
   if (spanId) {
     command.invoke(
-      [command.factory.spanReplicateCommand(
-        span,
-        span.getTypes().map((t) => t.name),
-        detectBoundaryFunc
-      )],
+      [
+        command.factory.spanReplicateCommand(
+          span,
+          span.getTypes().map((t) => t.name),
+          detectBoundaryFunc
+        )
+      ],
       ['annotation']
     )
   } else {

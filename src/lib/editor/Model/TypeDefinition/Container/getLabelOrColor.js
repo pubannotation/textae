@@ -1,6 +1,12 @@
-import getForwardMatchType from "./getForwardMatchType"
+import getForwardMatchType from './getForwardMatchType'
 
-export default function(labelOrColor, definedTypes, id, defaultValue, dismissForwardMatch) {
+export default function(
+  labelOrColor,
+  definedTypes,
+  id,
+  defaultValue,
+  dismissForwardMatch
+) {
   // Return value if perfectly matched
   if (definedTypes.get(id) && definedTypes.get(id)[labelOrColor]) {
     return definedTypes.get(id)[labelOrColor]

@@ -6,21 +6,17 @@ export default function(editor, annotationData, selectionModel, ids) {
   const entityPerSpan = toEntityPerSpan(annotationData, ids)
 
   return _.flatten(
-    Object
-      .keys(entityPerSpan)
+    Object.keys(entityPerSpan)
       .map((spanId) => {
         const span = annotationData.span.get(spanId)
         const targetIds = entityPerSpan[spanId]
 
         const allEntitiesOfSpan = _.flatten(
-          span
-            .getTypes()
-            .map((type) => type.entities.map((e) => e.id))
+          span.getTypes().map((type) => type.entities.map((e) => e.id))
         )
 
-        const restEntities = _.reject(
-          allEntitiesOfSpan,
-          (entityId) => _.contains(targetIds, entityId)
+        const restEntities = _.reject(allEntitiesOfSpan, (entityId) =>
+          _.contains(targetIds, entityId)
         )
 
         return {
@@ -31,9 +27,21 @@ export default function(editor, annotationData, selectionModel, ids) {
       })
       .map((data) => {
         if (data.noRestEntities) {
-          return spanRemoveCommand(editor, annotationData, selectionModel, data.spasId)
+          return spanRemoveCommand(
+            editor,
+            annotationData,
+            selectionModel,
+            data.spasId
+          )
         } else {
-          return data.entities.map((id) => entityAndAssociatesRemoveCommand(editor, annotationData, selectionModel, id))
+          return data.entities.map((id) =>
+            entityAndAssociatesRemoveCommand(
+              editor,
+              annotationData,
+              selectionModel,
+              id
+            )
+          )
         }
       })
   )

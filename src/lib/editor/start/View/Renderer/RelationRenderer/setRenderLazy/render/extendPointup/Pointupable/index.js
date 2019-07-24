@@ -12,18 +12,39 @@ export default class {
   }
 
   pointup() {
-    pointup(this.connect, this.annotationData, this.typeDefinition, this.connect.relationId)
+    pointup(
+      this.connect,
+      this.annotationData,
+      this.typeDefinition,
+      this.connect.relationId
+    )
   }
 
   pointdown() {
-    pointdown(this.connect, this.annotationData, this.typeDefinition, this.connect.relationId)
+    pointdown(
+      this.connect,
+      this.annotationData,
+      this.typeDefinition,
+      this.connect.relationId
+    )
   }
 
   select() {
-    select(this.connect, this.editor, this.annotationData, this.typeDefinition, this.connect.relationId)
+    select(
+      this.connect,
+      this.editor,
+      this.annotationData,
+      this.typeDefinition,
+      this.connect.relationId
+    )
   }
 
   deselect() {
-    deselect(this.connect, this.annotationData, this.typeDefinition, this.connect.relationId)
+    deselect(
+      this.connect,
+      this.annotationData,
+      this.typeDefinition,
+      this.connect.relationId
+    )
   }
 }

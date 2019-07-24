@@ -1,14 +1,17 @@
 import extendDialog from './extendDialog'
 import $ from 'jquery'
-global.jQuery = require("jquery")
-require("jq-ui")
+global.jQuery = require('jquery')
+require('jq-ui')
 
 export default function(openOption, id, title, $content) {
-  openOption = Object.assign({
-    resizable: false,
-    modal: true,
-    dialogClass: 'textae-editor--dialog'
-  }, openOption)
+  openOption = Object.assign(
+    {
+      resizable: false,
+      modal: true,
+      dialogClass: 'textae-editor--dialog'
+    },
+    openOption
+  )
 
   const $dialog = new Dialog(id, title, $content)
 

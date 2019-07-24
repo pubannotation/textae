@@ -7,7 +7,7 @@ export default function(entityModel) {
   let map = new LesserMap()
 
   return Object.assign(map, {
-    isGridPrepared: entityId => isGridPrepared(entityModel, map, entityId)
+    isGridPrepared: (entityId) => isGridPrepared(entityModel, map, entityId)
   })
 }
 

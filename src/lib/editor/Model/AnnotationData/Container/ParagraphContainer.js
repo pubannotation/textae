@@ -3,12 +3,16 @@ import ModelContainer from './ModelContainer'
 
 export default class extends ModelContainer {
   constructor(editor, emitter) {
-    super(emitter, 'paragraph', (sourceDoc) => mappingFunction(editor, sourceDoc))
+    super(emitter, 'paragraph', (sourceDoc) =>
+      mappingFunction(editor, sourceDoc)
+    )
   }
 
   // get the paragraph that span is belong to.
   getBelongingTo(span) {
-    const match = super.all().filter((p) => span.begin >= p.begin && span.end <= p.end)
+    const match = super
+      .all()
+      .filter((p) => span.begin >= p.begin && span.end <= p.end)
 
     if (match.length === 0) {
       throw new Error('span should belong to any paragraph.')
@@ -41,17 +45,16 @@ function mappingFunction(editor, sourceDoc) {
   sourceDoc = sourceDoc || []
   let textLengthBeforeThisParagraph = 0
 
-  return sourceDoc.split('\n')
-    .map((p, index) => {
-      const ret = {
-        id: idFactory.makeParagraphId(editor, index),
-        begin: textLengthBeforeThisParagraph,
-        end: textLengthBeforeThisParagraph + p.length,
-        text: p,
-        order: index
-      }
+  return sourceDoc.split('\n').map((p, index) => {
+    const ret = {
+      id: idFactory.makeParagraphId(editor, index),
+      begin: textLengthBeforeThisParagraph,
+      end: textLengthBeforeThisParagraph + p.length,
+      text: p,
+      order: index
+    }
 
-      textLengthBeforeThisParagraph += p.length + 1
-      return ret
-    })
+    textLengthBeforeThisParagraph += p.length + 1
+    return ret
+  })
 }

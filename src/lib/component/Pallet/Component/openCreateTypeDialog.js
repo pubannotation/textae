@@ -1,4 +1,4 @@
-import EditTypeDialog from "./EditTypeDialog"
+import EditTypeDialog from './EditTypeDialog'
 
 export default function(elementEditor, editor, autocompletionWs) {
   const handler = elementEditor.getHandler()
@@ -24,7 +24,13 @@ export default function(elementEditor, editor, autocompletionWs) {
     handler.command.invoke([handler.addType(newType)], ['configuration'])
   }
 
-  const dialog = new EditTypeDialog(editor, handler.typeContainer, done, autocompletionWs, 'Please create a new type')
+  const dialog = new EditTypeDialog(
+    editor,
+    handler.typeContainer,
+    done,
+    autocompletionWs,
+    'Please create a new type'
+  )
   const defaultColor = handler.typeContainer.getDefaultColor()
 
   dialog.update(null, '', defaultColor, false)

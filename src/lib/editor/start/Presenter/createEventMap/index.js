@@ -10,16 +10,54 @@ import extendModeButtonHandlers from './extendModeButtonHandlers'
 import extendToggleButtonHandler from './extendToggleButtonHandler'
 import createAttribute from '../createAttribute'
 
-export default function(command, selectionModel, typeDefinition, displayInstance, annotationData, buttonController, spanConfig, clipBoard, typeEditor, editor, editMode) {
-  const createEntityHandler = new CreateEntityHandler(command, selectionModel, typeDefinition.entity, displayInstance.notifyNewInstance)
-  const replicateHandler = new ReplicateHandler(command, annotationData, selectionModel, buttonController.pushButtons, spanConfig)
-  const clipBoardHandler = new ClipBoardHandler(command, annotationData, selectionModel, clipBoard)
-  const modificationHandler = new ModificationHandler(command, annotationData, buttonController.pushButtons, typeEditor)
+export default function(
+  command,
+  selectionModel,
+  typeDefinition,
+  displayInstance,
+  annotationData,
+  buttonController,
+  spanConfig,
+  clipBoard,
+  typeEditor,
+  editor,
+  editMode
+) {
+  const createEntityHandler = new CreateEntityHandler(
+    command,
+    selectionModel,
+    typeDefinition.entity,
+    displayInstance.notifyNewInstance
+  )
+  const replicateHandler = new ReplicateHandler(
+    command,
+    annotationData,
+    selectionModel,
+    buttonController.pushButtons,
+    spanConfig
+  )
+  const clipBoardHandler = new ClipBoardHandler(
+    command,
+    annotationData,
+    selectionModel,
+    clipBoard
+  )
+  const modificationHandler = new ModificationHandler(
+    command,
+    annotationData,
+    buttonController.pushButtons,
+    typeEditor
+  )
   const selectHandler = new SelectHandler(editor[0], selectionModel)
-  const showSettingDialog = new SettingDialog(editor, typeDefinition, displayInstance)
+  const showSettingDialog = new SettingDialog(
+    editor,
+    typeDefinition,
+    displayInstance
+  )
   const event = {
     copyEntities: clipBoardHandler.copyEntities,
-    removeSelectedElements: () => removeSelectedElements(command, selectionModel, selectHandler),
+    removeSelectedElements: () =>
+      removeSelectedElements(command, selectionModel, selectHandler),
     createEntity: createEntityHandler,
     showPallet: typeEditor.showPallet,
     replicate: replicateHandler,

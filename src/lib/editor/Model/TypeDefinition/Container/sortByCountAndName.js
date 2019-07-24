@@ -4,10 +4,7 @@ export default function(countTypeUse) {
 
   typeNames.sort((a, b) => {
     const diff = countTypeUse.get(b) - countTypeUse.get(a)
-    return diff !== 0 ? diff
-      : a > b ? 1
-      : a < b ? -1
-      : 0
+    return diff !== 0 ? diff : a > b ? 1 : a < b ? -1 : 0
   })
 
   return typeNames

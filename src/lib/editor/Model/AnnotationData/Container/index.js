@@ -1,7 +1,4 @@
-import {
-  EventEmitter as EventEmitter
-}
-from 'events'
+import { EventEmitter } from 'events'
 import ModelContainer from './ModelContainer'
 import ParagraphContainer from './ParagraphContainer'
 import SpanContainer from './SpanContainer'
@@ -27,12 +24,12 @@ export default function(editor) {
     entity: entity,
     attribute: attribute,
     relation: relation,
-    modification: modification,
+    modification: modification
   })
 }
 
 function mapRelations(relations) {
-  return relations.map(r => {
+  return relations.map((r) => {
     return {
       id: r.id,
       type: r.pred,

@@ -7,5 +7,5 @@ const source = `
 const template = Handlebars.compile(source)
 
 export default function(spanId, spanWidth) {
-  return template({id: `G${spanId}`, spanWidth})
+  return template({ id: `G${spanId}`, spanWidth })
 }

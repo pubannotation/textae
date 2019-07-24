@@ -1,4 +1,8 @@
-export default function(selectionModel, entitySelectChanged, buttonStateHelper) {
+export default function(
+  selectionModel,
+  entitySelectChanged,
+  buttonStateHelper
+) {
   selectionModel
     .removeListener('entity.select', entitySelectChanged)
     .removeListener('entity.deselect', entitySelectChanged)

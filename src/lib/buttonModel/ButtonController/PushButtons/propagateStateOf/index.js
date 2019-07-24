@@ -1,4 +1,4 @@
-import toData from "./toData"
+import toData from './toData'
 
 export default function(emitter, buttons) {
   for (const button of buttons.values()) {

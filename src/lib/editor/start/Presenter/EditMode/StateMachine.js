@@ -24,10 +24,7 @@ export default function() {
       exclude: [state.VIEW_INSTANCE]
     },
     to: {
-      exclude: [
-        state.INIT,
-        state.VIEW_INSTANCE
-      ]
+      exclude: [state.INIT, state.VIEW_INSTANCE]
     }
   })
 
@@ -36,10 +33,7 @@ export default function() {
       exclude: [state.VIEW_TERM]
     },
     to: {
-      exclude: [
-        state.INIT,
-        state.VIEW_TERM
-      ]
+      exclude: [state.INIT, state.VIEW_TERM]
     }
   })
 
@@ -48,39 +42,25 @@ export default function() {
       exclude: [state.INIT]
     },
     to: {
-      exclude: [
-        state.INIT,
-        state.VIEW_TERM
-      ]
+      exclude: [state.INIT, state.VIEW_TERM]
     }
   })
 
   m.config(state.VIEW_TERM, {
     from: {
-      exclude: [
-        state.INSTANCE,
-        state.RELATION
-      ]
+      exclude: [state.INSTANCE, state.RELATION]
     },
     to: {
-      exclude: [
-        state.INIT,
-        state.INSTANCE
-      ]
+      exclude: [state.INIT, state.INSTANCE]
     }
   })
 
   m.config(state.VIEW_INSTANCE, {
     from: {
-      exclude: [
-        state.TERM
-      ]
+      exclude: [state.TERM]
     },
     to: {
-      exclude: [
-        state.INIT,
-        state.TERM
-      ]
+      exclude: [state.INIT, state.TERM]
     }
   })
 

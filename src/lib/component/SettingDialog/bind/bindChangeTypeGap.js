@@ -1,4 +1,4 @@
-import debounce300 from "./debounce300"
+import debounce300 from './debounce300'
 import updateLineHeight from '../updateLineHeight'
 
 export default function($content, editor, displayInstance) {

@@ -7,7 +7,9 @@ export default function(connect, annotationData, typeDefinition, relationId) {
   if (!connect.dead) {
     deselectLine(connect)
     deselectLabel(connect)
-    connect.setPaintStyle(connectorStrokeStyle(annotationData, typeDefinition, relationId))
+    connect.setPaintStyle(
+      connectorStrokeStyle(annotationData, typeDefinition, relationId)
+    )
     jsPlumbArrowOverlayUtil.hideBigArrow(connect)
   }
 }

@@ -2,7 +2,14 @@ import BaseCommand from './BaseCommand'
 import commandLog from './commandLog'
 
 class CreateCommand extends BaseCommand {
-  constructor(editor, annotationData, selectionModel, modelType, isSelectable, newModel) {
+  constructor(
+    editor,
+    annotationData,
+    selectionModel,
+    modelType,
+    isSelectable,
+    newModel
+  ) {
     super(function() {
       newModel = annotationData[modelType].add(newModel)
 
@@ -11,7 +18,14 @@ class CreateCommand extends BaseCommand {
       }
 
       // Set revert
-      this.revert = () => new RemoveCommand(editor, annotationData, selectionModel, modelType, newModel.id)
+      this.revert = () =>
+        new RemoveCommand(
+          editor,
+          annotationData,
+          selectionModel,
+          modelType,
+          newModel.id
+        )
 
       commandLog('create a new ' + modelType + ': ', newModel)
 
@@ -28,7 +42,15 @@ class RemoveCommand extends BaseCommand {
 
       if (oloModel) {
         // Set revert
-        this.revert = () => new CreateCommand(editor, annotationData, selectionModel, modelType, false, oloModel)
+        this.revert = () =>
+          new CreateCommand(
+            editor,
+            annotationData,
+            selectionModel,
+            modelType,
+            false,
+            oloModel
+          )
 
         commandLog('remove a ' + modelType + ': ', oloModel)
       } else {
@@ -44,7 +66,4 @@ class RemoveCommand extends BaseCommand {
   }
 }
 
-export {
-  CreateCommand,
-  RemoveCommand
-}
+export { CreateCommand, RemoveCommand }

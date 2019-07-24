@@ -29,10 +29,12 @@ export default class {
     this.editorList.forEach((e) => e.api.redraw())
   }
   observeKeyInput(onKeyup) {
-    this.editorList.forEach((e) => e[0].addEventListener('keyup', function(event) {
-      e.eventEmitter.emit('textae.key.input')
-      onKeyup(event)
-    }))
+    this.editorList.forEach((e) =>
+      e[0].addEventListener('keyup', function(event) {
+        e.eventEmitter.emit('textae.key.input')
+        onKeyup(event)
+      })
+    )
   }
   findByDom(dom) {
     return this.editorList.filter((e) => e[0] === dom)[0]
@@ -46,8 +48,8 @@ function getNewId(editorList) {
 function removeAciteveClass(editors) {
   // Remove ACTIVE_CLASS from all editor.
   editors
-    .map(other => other[0])
-    .forEach(element => {
+    .map((other) => other[0])
+    .forEach((element) => {
       element.classList.remove(ACTIVE_CLASS)
     })
 }

@@ -1,4 +1,4 @@
-import selectEditor from "./selectEditor"
+import selectEditor from './selectEditor'
 
 export default function(editors) {
   // The blur events always occurs each focus changing.
@@ -9,10 +9,14 @@ export default function(editors) {
   // Select the editor when the editor, a span or an entity-type is focused in.
   // Unselect the editor when a child element of other than the editor is focused in.
   // The click events are not fired on changing the selection by the tab key.
-  document.body.addEventListener('focus', (e) => {
-    const editor = editors.findByDom(e.target.closest('.textae-editor'))
-    selectEditor(editors, editor)
-  }, true)
+  document.body.addEventListener(
+    'focus',
+    (e) => {
+      const editor = editors.findByDom(e.target.closest('.textae-editor'))
+      selectEditor(editors, editor)
+    },
+    true
+  )
 
   // Unselect the editor when a child element of other than the editor is clicked.
   // The focus events are not fired on the un-focusable elements like div.

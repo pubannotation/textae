@@ -30,8 +30,8 @@ export default function(api, file, fileType) {
 }
 
 function isJSON(arg) {
-  arg = typeof arg === "function" ? arg() : arg
-  if (typeof arg !== "string") {
+  arg = typeof arg === 'function' ? arg() : arg
+  if (typeof arg !== 'string') {
     return false
   }
   try {

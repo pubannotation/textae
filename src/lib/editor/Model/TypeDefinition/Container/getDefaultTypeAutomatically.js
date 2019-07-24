@@ -9,14 +9,17 @@ export default function(instances) {
 
   const countMapEntries = [...countMap.entries()].sort()
 
-  const {mostCommonlyUsedType} = countMapEntries.reduce(({max, mostCommonlyUsedType}, [type, useCount]) => {
-    if (useCount > max) {
-      max = useCount
-      mostCommonlyUsedType = type
-    }
+  const { mostCommonlyUsedType } = countMapEntries.reduce(
+    ({ max, mostCommonlyUsedType }, [type, useCount]) => {
+      if (useCount > max) {
+        max = useCount
+        mostCommonlyUsedType = type
+      }
 
-    return {max, mostCommonlyUsedType}
-  }, {max: 0, mostCommonlyUsedType: [countMapEntries][0]})
+      return { max, mostCommonlyUsedType }
+    },
+    { max: 0, mostCommonlyUsedType: [countMapEntries][0] }
+  )
 
   return mostCommonlyUsedType
 }

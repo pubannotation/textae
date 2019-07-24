@@ -5,11 +5,36 @@ import getHandler from './getHandler'
 import initiateEditAttribute from './initiateEditAttribute'
 
 // Provide handlers to edit elements according to an edit mode.
-export default function(editor, annotationData, selectionModel, spanConfig, command, pushButtons, typeDefinition, cancelSelect) {
+export default function(
+  editor,
+  annotationData,
+  selectionModel,
+  spanConfig,
+  command,
+  pushButtons,
+  typeDefinition,
+  cancelSelect
+) {
   let handler = 'default'
 
-  const editEntity = new EditEntity(editor, annotationData, selectionModel, command, pushButtons, typeDefinition, spanConfig, cancelSelect)
-  const editRelation = new EditRelation(editor, annotationData, selectionModel, command, typeDefinition, cancelSelect)
+  const editEntity = new EditEntity(
+    editor,
+    annotationData,
+    selectionModel,
+    command,
+    pushButtons,
+    typeDefinition,
+    spanConfig,
+    cancelSelect
+  )
+  const editRelation = new EditRelation(
+    editor,
+    annotationData,
+    selectionModel,
+    command,
+    typeDefinition,
+    cancelSelect
+  )
 
   return {
     getHandlerType: () => handler,
@@ -36,4 +61,3 @@ export default function(editor, annotationData, selectionModel, spanConfig, comm
     }
   }
 }
-

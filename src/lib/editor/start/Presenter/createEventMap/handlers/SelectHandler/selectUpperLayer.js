@@ -1,6 +1,6 @@
-import selectFirstEntityOfEntityLabel from "./selectFirstEntityOfEntityLabel"
-import selectFirstEntityLabelOfSpan from "./selectFirstEntityLabelOfSpan"
-import selectSelected from "./selectSelected"
+import selectFirstEntityOfEntityLabel from './selectFirstEntityOfEntityLabel'
+import selectFirstEntityLabelOfSpan from './selectFirstEntityLabelOfSpan'
+import selectSelected from './selectSelected'
 
 export default function(editorDom, selectionModel) {
   // When one span is selected.

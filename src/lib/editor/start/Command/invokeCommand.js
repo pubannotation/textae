@@ -12,7 +12,10 @@ var invoke = function(commands) {
       return originCommand.revert()
     })
   },
-  invokeRevert = _.compose(invoke, RevertCommands),
+  invokeRevert = _.compose(
+    invoke,
+    RevertCommands
+  ),
   invokeCommand = {
     invoke: invoke,
     invokeRevert: invokeRevert

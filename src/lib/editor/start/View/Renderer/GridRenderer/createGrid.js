@@ -1,5 +1,5 @@
-import getRightGrid from "./getRightGrid"
-import createGridHtml from "./createGridHtml"
+import getRightGrid from './getRightGrid'
+import createGridHtml from './createGridHtml'
 
 export default function(editorDom, domPositionCache, container, spanId) {
   const spanPosition = domPositionCache.getSpan(spanId)

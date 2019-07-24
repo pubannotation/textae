@@ -2,12 +2,17 @@ module.exports = function(editor, contextMenu, handleControlButtonClick) {
   // add context menu
   editor[0].appendChild(contextMenu[0])
   editor.eventEmitter
-    .on('textae.control.button.push', (data) => contextMenu.updateButtonPushState(data.buttonName, data.state))
-    .on('textae.control.buttons.change', (enableButtons) => contextMenu.updateAllButtonEnableState(enableButtons))
+    .on('textae.control.button.push', (data) =>
+      contextMenu.updateButtonPushState(data.buttonName, data.state)
+    )
+    .on('textae.control.buttons.change', (enableButtons) =>
+      contextMenu.updateAllButtonEnableState(enableButtons)
+    )
     .on('textae.key.input', () => contextMenu.hide())
 
-  contextMenu.$control
-    .on('textae.control.button.click', (e, ...rest) => handleControlButtonClick(...rest))
+  contextMenu.$control.on('textae.control.button.click', (e, ...rest) =>
+    handleControlButtonClick(...rest)
+  )
 
   contextMenu[0].addEventListener('mousedown', (e) => {
     // Should prevent because mousedown events bubble to the editor.

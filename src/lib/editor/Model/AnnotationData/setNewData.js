@@ -14,31 +14,39 @@ function parseBaseText(paragraph, sourceDoc) {
   paragraph.addSource(sourceDoc)
 }
 
-function parseTracks(span, entity, attribute, relation, modification, paragraph, text, annotation) {
+function parseTracks(
+  span,
+  entity,
+  attribute,
+  relation,
+  modification,
+  paragraph,
+  text,
+  annotation
+) {
   if (!annotation.tracks) return [false, []]
 
   var tracks = annotation.tracks
   delete annotation.tracks
 
-  var rejects = tracks
-    .map((track, i) => {
-      var number = i + 1,
-        prefix = `track${ number }_`,
-        reject = parseAnnotation(
-          span,
-          entity,
-          attribute,
-          relation,
-          modification,
-          paragraph,
-          text,
-          track,
-          prefix
-        )
+  var rejects = tracks.map((track, i) => {
+    var number = i + 1,
+      prefix = `track${number}_`,
+      reject = parseAnnotation(
+        span,
+        entity,
+        attribute,
+        relation,
+        modification,
+        paragraph,
+        text,
+        track,
+        prefix
+      )
 
-      reject.name = `Track ${ number } annotations.`
-      return reject
-    })
+    reject.name = `Track ${number} annotations.`
+    return reject
+  })
 
   return [true, rejects]
 }
@@ -62,14 +70,12 @@ function parseDennotation(dataStore, annotation) {
       dataStore.modification,
       dataStore.paragraph,
       annotation.text,
-      annotation)
+      annotation
+    )
 
   annotationReject.name = 'Root annotations.'
 
-  importNamespace(
-    dataStore.namespace,
-    annotation.namespaces
-  )
+  importNamespace(dataStore.namespace, annotation.namespaces)
 
   return {
     multitrack: tracks[0],

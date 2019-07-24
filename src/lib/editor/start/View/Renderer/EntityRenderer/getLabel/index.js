@@ -1,5 +1,5 @@
 import uri from '../../../../../uri'
-import getMatchPrefix from "../getMatchPrefix"
+import getMatchPrefix from '../getMatchPrefix'
 import getDisplayName from './getDisplayName'
 
 export default function(namespace, typeDefinition, typeId) {

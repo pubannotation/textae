@@ -1,7 +1,4 @@
-import {
-  EventEmitter as EventEmitter
-}
-from 'events'
+import { EventEmitter } from 'events'
 import KINDS from '../start/Command/Factory/kinds'
 
 // histories of edit to undo and redo.
@@ -12,7 +9,8 @@ export default function() {
   const histories = []
   const hasAnythingToUndo = () => pointer > -1
   const hasAnythingToRedo = () => pointer < histories.length - 1
-  const hasAnythingToSave = (kind) => lastEditIndexes[kind] !== lastSaveIndexes[kind]
+  const hasAnythingToSave = (kind) =>
+    lastEditIndexes[kind] !== lastSaveIndexes[kind]
   const emitter = new EventEmitter()
 
   return Object.assign(emitter, {
@@ -23,7 +21,10 @@ export default function() {
       }
 
       for (let i = 0; i < histories.length; i++) {
-        if (histories[i].kind.indexOf(kind) !== -1 && histories[i].kind.length === 1) {
+        if (
+          histories[i].kind.indexOf(kind) !== -1 &&
+          histories[i].kind.length === 1
+        ) {
           histories.splice(i, 1)
           Object.keys(KINDS).forEach(adjustOtherKindIndexesFunc)
           pointer--
@@ -35,7 +36,7 @@ export default function() {
       trigger(emitter, hasAnythingToSave, hasAnythingToUndo, hasAnythingToRedo)
     },
     push: (commands, kinds) => {
-      const historyMap = {kind: kinds, commands: commands}
+      const historyMap = { kind: kinds, commands: commands }
 
       histories.splice(pointer + 1, histories.length - pointer, historyMap)
       pointer++
@@ -101,7 +102,12 @@ function initIndexes() {
   return map
 }
 
-function trigger(emitter, hasAnythingToSave, hasAnythingToUndo, hasAnythingToRedo) {
+function trigger(
+  emitter,
+  hasAnythingToSave,
+  hasAnythingToUndo,
+  hasAnythingToRedo
+) {
   emitter.emit('change', {
     hasAnythingToSaveAnnotation: hasAnythingToSave(KINDS.anno),
     hasAnythingToSaveConfiguration: hasAnythingToSave(KINDS.conf),

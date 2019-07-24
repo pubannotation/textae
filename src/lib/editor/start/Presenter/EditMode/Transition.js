@@ -1,7 +1,4 @@
-import {
-  EventEmitter
-}
-from 'events'
+import { EventEmitter } from 'events'
 import setEditableStyle from './setEditableStyle'
 import ViewMode from './ViewMode'
 import event from './event'
@@ -11,12 +8,23 @@ const INSTANCE = 'instance'
 const RELATION = 'relation'
 
 export default class extends EventEmitter {
-  constructor(editor, annotationData, selectionModel, typeEditor, buttonStateHelper) {
+  constructor(
+    editor,
+    annotationData,
+    selectionModel,
+    typeEditor,
+    buttonStateHelper
+  ) {
     super()
 
     this.editor = editor
     this.typeEditor = typeEditor
-    this.viewMode = new ViewMode(editor, annotationData, selectionModel, buttonStateHelper)
+    this.viewMode = new ViewMode(
+      editor,
+      annotationData,
+      selectionModel,
+      buttonStateHelper
+    )
     this.buttonStateHelper = buttonStateHelper
   }
 

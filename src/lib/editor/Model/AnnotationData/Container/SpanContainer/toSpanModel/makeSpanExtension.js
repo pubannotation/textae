@@ -11,10 +11,17 @@ export default function(emitter) {
     toString(depth) {
       depth = depth || 1 // default depth is 1
 
-      const childrenString = this.children && this.children.length > 0 ?
-        "\n" + this.children.map(function(child) {
-          return new Array(depth + 1).join("\t") + child.toString(depth + 1)
-        }).join("\n") : ""
+      const childrenString =
+        this.children && this.children.length > 0
+          ? '\n' +
+            this.children
+              .map(function(child) {
+                return (
+                  new Array(depth + 1).join('\t') + child.toString(depth + 1)
+                )
+              })
+              .join('\n')
+          : ''
 
       return this.toStringOnlyThis() + childrenString
     },
@@ -23,7 +30,8 @@ export default function(emitter) {
       const spanId = this.id
 
       // Return an array of type like { id : "editor2__S1741_1755-1", name: "Negative_regulation", entities: ["E16", "E17"], attributes: ["A16", "A17"] }.
-      return emitter.entity.all()
+      return emitter.entity
+        .all()
         .filter((entity) => spanId === entity.span)
         .reduce((array, entity) => {
           const id = idFactory.makeTypeId(entity)

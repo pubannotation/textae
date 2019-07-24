@@ -3,18 +3,9 @@ import updateTypeGapEnable from './updateTypeGapEnable'
 import updateTypeGapValue from './updateTypeGapValue'
 
 export default function($dialog, editor, typeDefinition, displayInstance) {
-  updateTypeGapEnable(
-      displayInstance,
-      $dialog
-  )
-  updateTypeGapValue(
-      displayInstance,
-      $dialog
-  )
-  updateLineHeight(
-      editor,
-      $dialog
-  )
+  updateTypeGapEnable(displayInstance, $dialog)
+  updateTypeGapValue(displayInstance, $dialog)
+  updateLineHeight(editor, $dialog)
 
   $dialog.find('.lock-config').prop('checked', typeDefinition.isLock())
 }

@@ -8,21 +8,24 @@ export default function(dataStore) {
 }
 
 function toDenotation(dataStore) {
-  return dataStore.entity.all()
-    // Span may be not exists, because crossing spans are not add to the dataStore.
-    .filter((entity) => dataStore.span.get(entity.span))
-    .map((entity) => {
-      const currentSpan = dataStore.span.get(entity.span)
+  return (
+    dataStore.entity
+      .all()
+      // Span may be not exists, because crossing spans are not add to the dataStore.
+      .filter((entity) => dataStore.span.get(entity.span))
+      .map((entity) => {
+        const currentSpan = dataStore.span.get(entity.span)
 
-      return {
-        id: entity.id,
-        span: {
-          begin: currentSpan.begin,
-          end: currentSpan.end
-        },
-        obj: entity.type
-      }
-    })
+        return {
+          id: entity.id,
+          span: {
+            begin: currentSpan.begin,
+            end: currentSpan.end
+          },
+          obj: entity.type
+        }
+      })
+  )
 }
 
 function toAttribute(dataStore) {
@@ -31,7 +34,7 @@ function toAttribute(dataStore) {
       id: attribute.id,
       subj: attribute.subj,
       pred: attribute.pred,
-      obj: attribute.obj,
+      obj: attribute.obj
     }
   })
 }

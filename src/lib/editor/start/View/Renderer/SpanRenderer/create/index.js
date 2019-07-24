@@ -15,19 +15,11 @@ function create(annotationData, span, isBlockFunc, renderEntityFunc) {
 
   renderSingleSpan(span, bigBrother)
 
-  renderClassOfSpan(
-      span,
-      isBlockFunc
-  )
+  renderClassOfSpan(span, isBlockFunc)
 
-  renderEntitiesOfSpan(
-      span,
-      annotationData,
-      renderEntityFunc
-  )
+  renderEntitiesOfSpan(span, annotationData, renderEntityFunc)
 
-  renderChildresnSpan(
-      span,
-      span => create(annotationData, span, isBlockFunc, renderEntityFunc)
+  renderChildresnSpan(span, (span) =>
+    create(annotationData, span, isBlockFunc, renderEntityFunc)
   )
 }

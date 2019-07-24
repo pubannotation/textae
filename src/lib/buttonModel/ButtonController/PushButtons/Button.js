@@ -1,4 +1,4 @@
-import {EventEmitter as EventEmitter} from 'events'
+import { EventEmitter } from 'events'
 
 // Button state is true when the button is pushed.
 export default class extends EventEmitter {

@@ -18,21 +18,12 @@ export default function() {
     buttonList = toButtonList(BUTTON_MAP)
 
   // Public API
-  $control.updateAllButtonEnableState = enableButtons => updateAllButtonEnableState(
-    $control,
-    buttonList,
-    enableButtons
-  )
-  $control.updateButtonPushState = (buttonType, isPushed) => updateButtonPushState(
-    $control,
-    buttonType,
-    isPushed
-  )
-  $control.transitButtonImage = transitButtons => transitButtonImage(
-    $control,
-    buttonList,
-    transitButtons
-  )
+  $control.updateAllButtonEnableState = (enableButtons) =>
+    updateAllButtonEnableState($control, buttonList, enableButtons)
+  $control.updateButtonPushState = (buttonType, isPushed) =>
+    updateButtonPushState($control, buttonType, isPushed)
+  $control.transitButtonImage = (transitButtons) =>
+    transitButtonImage($control, buttonList, transitButtons)
 
   return $control
 }
@@ -64,8 +55,8 @@ function updateButtonPushState($control, buttonType, isPushed) {
 
 function transitButtonImage($control, buttonList, transitButtons) {
   Object.keys(transitButtons)
-    .filter(buttonType => buttonList[buttonType])
-    .forEach(buttonType => {
+    .filter((buttonType) => buttonList[buttonType])
+    .forEach((buttonType) => {
       if (transitButtons[buttonType] === true) {
         cssUtil.transit($control, buttonType)
       } else {

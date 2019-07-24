@@ -1,6 +1,6 @@
-import debounce300 from "./debounce300"
+import debounce300 from './debounce300'
 import * as lineHeight from '../../../editor/start/View/lineHeight'
-import redrawAllEditor from "./redrawAllEditor"
+import redrawAllEditor from './redrawAllEditor'
 
 export default function($content, editor) {
   const onLineHeightChange = debounce300((e) => {

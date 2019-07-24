@@ -2,21 +2,22 @@ import * as hasClass from '../hasClass'
 import * as getParent from '../getParent'
 import commonValidate from './commonValidate'
 
-export {
-  validateOnText,
-  validateOnSpan
-}
+export { validateOnText, validateOnSpan }
 
 function validateOnText(annotationData, spanConfig, selection) {
   // This order is important, because showAlertIfOtherSpan is show alert.
-  return isFocusNodeInParagraph(selection) &&
+  return (
+    isFocusNodeInParagraph(selection) &&
     commonValidate(annotationData, spanConfig, selection)
+  )
 }
 
 function validateOnSpan(annotationData, spanConfig, selection) {
   // This order is important, because showAlertIfOtherSpan is show alert.
-  return isFocusNodeInSpan(selection) &&
+  return (
+    isFocusNodeInSpan(selection) &&
     commonValidate(annotationData, spanConfig, selection)
+  )
 }
 
 function isFocusNodeInParagraph(selection) {

@@ -10,7 +10,10 @@ export default function(namespace, typeDefinition, gridRenderer, entity) {
     return dom
   }
 
-  getGrid(gridRenderer, entity.span).insertAdjacentHTML('beforeend', createEmptyTypeHtml(entity, namespace, typeDefinition))
+  getGrid(gridRenderer, entity.span).insertAdjacentHTML(
+    'beforeend',
+    createEmptyTypeHtml(entity, namespace, typeDefinition)
+  )
 
   return getTypeDom(entity)
 }

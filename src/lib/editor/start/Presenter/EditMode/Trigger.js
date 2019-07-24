@@ -15,7 +15,8 @@ export default function(stateMachine, annotationData) {
     pushSimple: () => pushSimple(stateMachine),
     upSimple: () => upSimple(stateMachine),
     // For key input of F or M.
-    toggleInstaceRelation: () => toggleInstaceRelation(stateMachine, annotationData)
+    toggleInstaceRelation: () =>
+      toggleInstaceRelation(stateMachine, annotationData)
   }
 }
 
@@ -29,7 +30,7 @@ function pushView(stateMachine) {
       stateMachine.setState(state.VIEW_INSTANCE)
       break
     default:
-      // Do nothig.
+    // Do nothig.
   }
 }
 
@@ -45,7 +46,7 @@ function pushTerm(stateMachine, annotationData) {
       stateMachine.setState(state.TERM)
       break
     default:
-      // Do nothig.
+    // Do nothig.
   }
 }
 
@@ -85,7 +86,7 @@ function toggleInstaceRelation(stateMachine, annotationData) {
       toEditStateAccordingToAnntationData(stateMachine, annotationData)
       break
     default:
-      // Do nothig.
+    // Do nothig.
   }
 }
 

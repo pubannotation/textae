@@ -40,7 +40,8 @@ export default function(text, paragraph, annotation) {
       relationObj: resultRelation.reject.obj,
       relationSubj: resultRelation.reject.subj,
       modification: resultModification.reject.modification,
-      hasError: resultDenotation.hasError ||
+      hasError:
+        resultDenotation.hasError ||
         resultAttribute.hasError ||
         resultRelation.hasError ||
         resultModification.hasError

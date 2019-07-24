@@ -8,18 +8,22 @@ export default function(editor) {
   // Observe a removing the focused document object.
   new MutationObserver(function(mutations) {
     mutations.forEach(function(mutation) {
-      if (mutation.removedNodes.length && mutation.removedNodes[0].nodeType === 1) {
-        if (mutation.removedNodes[0].classList.contains('textae-editor__span') || mutation.removedNodes[0].classList.contains('textae-editor__type')) {
+      if (
+        mutation.removedNodes.length &&
+        mutation.removedNodes[0].nodeType === 1
+      ) {
+        if (
+          mutation.removedNodes[0].classList.contains('textae-editor__span') ||
+          mutation.removedNodes[0].classList.contains('textae-editor__type')
+        ) {
           if (document.activeElement.tagName === 'BODY') {
             editor.focus()
           }
         }
       }
     })
-  }).observe(
-    editor[0].querySelector('.textae-editor__body'), {
-      childList: true,
-      subtree: true
-    }
-  )
+  }).observe(editor[0].querySelector('.textae-editor__body'), {
+    childList: true,
+    subtree: true
+  })
 }

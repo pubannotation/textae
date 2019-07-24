@@ -7,7 +7,10 @@ export default function() {
 }
 
 function exists(key) {
-  return document.cookie.split(';').filter((item) => item.includes(`${key}=`)).length !== 0
+  return (
+    document.cookie.split(';').filter((item) => item.includes(`${key}=`))
+      .length !== 0
+  )
 }
 
 function get(key) {

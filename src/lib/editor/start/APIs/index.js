@@ -1,7 +1,7 @@
-import handle from "./handle"
-import KeyApiMap from "./KeyApiMap"
-import IconApiMap from "./IconApiMap"
-import PalletApiMap from "./PalletApiMap"
+import handle from './handle'
+import KeyApiMap from './KeyApiMap'
+import IconApiMap from './IconApiMap'
+import PalletApiMap from './PalletApiMap'
 
 export default function(
   command,
@@ -12,7 +12,13 @@ export default function(
   updateLineHeight
 ) {
   const keyApiMap = new KeyApiMap(command, presenter, daoHandler)
-  const iconApiMap = new IconApiMap(command, presenter, daoHandler, buttonController, updateLineHeight)
+  const iconApiMap = new IconApiMap(
+    command,
+    presenter,
+    daoHandler,
+    buttonController,
+    updateLineHeight
+  )
   const palletApiMap = new PalletApiMap(daoHandler)
 
   // Update APIs

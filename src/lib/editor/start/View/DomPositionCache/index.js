@@ -11,22 +11,22 @@ export default function(editor, entityModel) {
 
 function create(editor, entityModel) {
   const gridPosition = new GridPosition(entityModel)
-  const spanAndEntityPosition = new SpanAndEntityPosition(editor, entityModel, gridPosition)
+  const spanAndEntityPosition = new SpanAndEntityPosition(
+    editor,
+    entityModel,
+    gridPosition
+  )
   const grid = new GridApi(gridPosition)
   const relation = new RelationApi()
 
-  return Object.assign(
-    spanAndEntityPosition,
-    grid,
-    relation
-  )
+  return Object.assign(spanAndEntityPosition, grid, relation)
 }
 
 function GridApi(gridPosition) {
   return {
     gridPositionCache: gridPosition,
     getGrid: gridPosition.get,
-    setGrid: gridPosition.set,
+    setGrid: gridPosition.set
   }
 }
 
@@ -36,7 +36,7 @@ function RelationApi() {
   // The connectCache has jsPlumbConnectors to call jsPlumbConnector instance to edit an according dom object.
   const api = {
     connectCache: newCache,
-    toConnect: relationId => newCache.get(relationId)
+    toConnect: (relationId) => newCache.get(relationId)
   }
 
   return api

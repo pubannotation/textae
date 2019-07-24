@@ -7,12 +7,11 @@ export default function(command, selectionModel) {
 }
 
 function getAll(command, spanIds, entityIds, relationIds) {
-  return []
-    .concat(
-      toRemoveRelationCommands(relationIds, command),
-      toRemoveEntityCommands(entityIds, command),
-      toRomeveSpanCommands(spanIds, command)
-    )
+  return [].concat(
+    toRemoveRelationCommands(relationIds, command),
+    toRemoveEntityCommands(entityIds, command),
+    toRomeveSpanCommands(spanIds, command)
+  )
 }
 
 function toRomeveSpanCommands(spanIds, command) {

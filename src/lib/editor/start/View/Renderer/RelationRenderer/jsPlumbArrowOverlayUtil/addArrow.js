@@ -1,5 +1,5 @@
-import NORMAL_ARROW from "./NORMAL_ARROW"
-import HOVER_ARROW from "./HOVER_ARROW"
+import NORMAL_ARROW from './NORMAL_ARROW'
+import HOVER_ARROW from './HOVER_ARROW'
 
 export default function(id, connect) {
   if (id === NORMAL_ARROW.id) {

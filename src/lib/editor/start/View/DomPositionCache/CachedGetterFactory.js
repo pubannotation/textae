@@ -28,5 +28,5 @@ function getFromCache(cache, getter, id) {
 }
 
 function clearAll(caches) {
-  caches.forEach(cache => cache.clear())
+  caches.forEach((cache) => cache.clear())
 }

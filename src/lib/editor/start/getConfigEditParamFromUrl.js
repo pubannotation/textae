@@ -1,4 +1,4 @@
-import getQueryParams from "./getQueryParams"
+import getQueryParams from './getQueryParams'
 
 export default function(url) {
   if (url) {

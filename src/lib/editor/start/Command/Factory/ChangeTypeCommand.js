@@ -10,9 +10,19 @@ class ChangeTypeCommand extends BaseCommand {
       let targetModel = annotationData[modelType].changeType(id, newType)
 
       // Set revert
-      this.revert = () => new ChangeTypeCommand(editor, annotationData, modelType, id, oldType)
+      this.revert = () =>
+        new ChangeTypeCommand(editor, annotationData, modelType, id, oldType)
 
-      commandLog('change type of a ' + modelType + '. oldtype:' + oldType + ' ' + modelType + ':', targetModel)
+      commandLog(
+        'change type of a ' +
+          modelType +
+          '. oldtype:' +
+          oldType +
+          ' ' +
+          modelType +
+          ':',
+        targetModel
+      )
     })
   }
 }

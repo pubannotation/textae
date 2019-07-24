@@ -8,12 +8,10 @@ import History from './History'
 import bindUpdateSaveButton from './bindUpdateSaveButton'
 import * as observe from './observe'
 import start from './start'
-import {
-  EventEmitter as EventEmitter
-}
-from 'events'
+import { EventEmitter } from 'events'
 
-const CONFIRM_DISCARD_CHANGE_MESSAGE = 'There is a change that has not been saved. If you procceed now, you will lose it.'
+const CONFIRM_DISCARD_CHANGE_MESSAGE =
+  'There is a change that has not been saved. If you procceed now, you will lose it.'
 
 export default function() {
   const annotationData = new AnnotationData(this)
@@ -24,10 +22,23 @@ export default function() {
     // clipBoard has entity type.
     clipBoard: []
   }
-  const buttonController = new ButtonController(this, annotationData, selectionModel, clipBoard)
-  const dataAccessObject = new DataAccessObject(this, CONFIRM_DISCARD_CHANGE_MESSAGE)
+  const buttonController = new ButtonController(
+    this,
+    annotationData,
+    selectionModel,
+    clipBoard
+  )
+  const dataAccessObject = new DataAccessObject(
+    this,
+    CONFIRM_DISCARD_CHANGE_MESSAGE
+  )
 
-  bindUpdateSaveButton(history, dataAccessObject, annotationData, buttonController)
+  bindUpdateSaveButton(
+    history,
+    dataAccessObject,
+    annotationData,
+    buttonController
+  )
   observe.observeModelChange(annotationData, history)
   observe.observeHistoryChange(
     history,
@@ -38,15 +49,16 @@ export default function() {
 
   // public funcitons of editor
   this.api = {
-    start: (editor) => start(
-      editor,
-      dataAccessObject,
-      history,
-      buttonController,
-      annotationData,
-      selectionModel,
-      clipBoard
-    )
+    start: (editor) =>
+      start(
+        editor,
+        dataAccessObject,
+        history,
+        buttonController,
+        annotationData,
+        selectionModel,
+        clipBoard
+      )
   }
 
   // Set the eventEmitter to communicate with the tool and a control.

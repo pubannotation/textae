@@ -1,7 +1,4 @@
-import {
-  EventEmitter as EventEmitter
-}
-from 'events'
+import { EventEmitter } from 'events'
 import CursorChanger from '../../util/CursorChanger'
 import getAnnotationFromServer from './getAnnotationFromServer'
 import getConfigurationFromServer from './getCofigurationFromServer'
@@ -26,28 +23,92 @@ module.exports = function(editor, confirmDiscardChangeMessage) {
     api = new EventEmitter(),
     showAccess = function(hasAnythingToSave, parameter) {
       let params = new DialogParams(null, null, null, hasAnythingToSave, null)
-      openAndSetParam(getLoadDialog(api, confirmDiscardChangeMessage, setAnnotationDataSourceUrl, editor), params, annotationDataSourceUrl, parameter)
+      openAndSetParam(
+        getLoadDialog(
+          api,
+          confirmDiscardChangeMessage,
+          setAnnotationDataSourceUrl,
+          editor
+        ),
+        params,
+        annotationDataSourceUrl,
+        parameter
+      )
     },
     showAccessConf = function(hasAnythingToSave, parameter) {
       let params = new DialogParams(null, null, null, null, hasAnythingToSave)
-      openAndSetParam(getLoadConfDialog(api, confirmDiscardChangeMessage, setConfigurationDataSourceUrl, editor), params, configurationDataSourceUrl, parameter)
+      openAndSetParam(
+        getLoadConfDialog(
+          api,
+          confirmDiscardChangeMessage,
+          setConfigurationDataSourceUrl,
+          editor
+        ),
+        params,
+        configurationDataSourceUrl,
+        parameter
+      )
     },
     showSave = function(originalData, editedData, parameter) {
-      let params = new DialogParams(editedData, originalData.config, editedData.config, null, null)
-      openAndSetParam(getSaveDialog(api, confirmDiscardChangeMessage, setAnnotationDataSourceUrl, editor), params, annotationDataSourceUrl, parameter)
+      let params = new DialogParams(
+        editedData,
+        originalData.config,
+        editedData.config,
+        null,
+        null
+      )
+      openAndSetParam(
+        getSaveDialog(
+          api,
+          confirmDiscardChangeMessage,
+          setAnnotationDataSourceUrl,
+          editor
+        ),
+        params,
+        annotationDataSourceUrl,
+        parameter
+      )
       // ADD JsonEditor
       // var $dialog = openAndSetParam(getSaveDialog(api, confirmDiscardChangeMessage, setDataSourceUrl, editor), jsonData, dataSourceUrl, params)
       // jsonEditor($dialog)
     },
     showSaveConf = function(originalData, editedData, parameter) {
-      let params = new DialogParams(editedData, originalData.config, editedData.config, null, null)
-      openAndSetParam(getSaveConfDialog(api, confirmDiscardChangeMessage, setConfigurationDataSourceUrl, editor), params, configurationDataSourceUrl, parameter)
+      let params = new DialogParams(
+        editedData,
+        originalData.config,
+        editedData.config,
+        null,
+        null
+      )
+      openAndSetParam(
+        getSaveConfDialog(
+          api,
+          confirmDiscardChangeMessage,
+          setConfigurationDataSourceUrl,
+          editor
+        ),
+        params,
+        configurationDataSourceUrl,
+        parameter
+      )
     },
     cursorChanger = new CursorChanger(editor)
 
   Object.assign(api, {
-    getAnnotationFromServer: (urlToJson) => getAnnotationFromServer(urlToJson, cursorChanger, api, setAnnotationDataSourceUrl),
-    getConfigurationFromServer: (urlToJson) => getConfigurationFromServer(urlToJson, cursorChanger, api, setConfigurationDataSourceUrl),
+    getAnnotationFromServer: (urlToJson) =>
+      getAnnotationFromServer(
+        urlToJson,
+        cursorChanger,
+        api,
+        setAnnotationDataSourceUrl
+      ),
+    getConfigurationFromServer: (urlToJson) =>
+      getConfigurationFromServer(
+        urlToJson,
+        cursorChanger,
+        api,
+        setConfigurationDataSourceUrl
+      ),
     showAccess,
     showSave,
     showAccessConf,
@@ -65,10 +126,12 @@ function openAndSetParam($dialog, params, dataSourceUrl, parameter) {
   }
 
   // Display dataSourceUrl.
-  $dialog.find('[type="text"].url')
+  $dialog
+    .find('[type="text"].url')
     .val(url)
     .trigger('input')
-  $dialog.find('[type="text"].url--config')
+  $dialog
+    .find('[type="text"].url--config')
     .val(url)
     .trigger('input')
 
@@ -81,4 +144,3 @@ function openAndSetParam($dialog, params, dataSourceUrl, parameter) {
 function extractConfigData(annotationData) {
   return JSON.stringify(JSON.parse(annotationData).config)
 }
-

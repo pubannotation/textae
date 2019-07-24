@@ -54,7 +54,8 @@ function getAnnotation(element, source) {
   }
 
   if (!inlineAnnotation && !url) {
-    let defaultText = '{"text": "Currently, the document is empty. Use the `import` button or press the key `i` to open a document with annotation."}'
+    let defaultText =
+      '{"text": "Currently, the document is empty. Use the `import` button or press the key `i` to open a document with annotation."}'
     annotation.set('inlineAnnotation', defaultText)
   }
 

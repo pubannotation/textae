@@ -1,7 +1,4 @@
-import {
-  EventEmitter as EventEmitter
-}
-from 'events'
+import { EventEmitter } from 'events'
 
 export default function() {
   const states = {},

@@ -1,6 +1,12 @@
 import Connect from './Connect'
 
-export default function(editor, annotationData, jsPlumbInstance, domPositionCache, relation) {
+export default function(
+  editor,
+  annotationData,
+  jsPlumbInstance,
+  domPositionCache,
+  relation
+) {
   const connect = new Connect(editor, annotationData, relation.id)
   jsPlumbInstance.detach(connect)
   domPositionCache.connectCache.delete(relation.id)

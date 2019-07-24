@@ -8,6 +8,8 @@ export default function(editor, annotationData, relationId) {
   const domPositionCache = new DomPositionCache(editor, annotationData.entity)
   const relation = annotationData.relation.get(relationId)
 
-  return domPositionCache.gridPositionCache.isGridPrepared(relation.subj) &&
+  return (
+    domPositionCache.gridPositionCache.isGridPrepared(relation.subj) &&
     domPositionCache.gridPositionCache.isGridPrepared(relation.obj)
+  )
 }

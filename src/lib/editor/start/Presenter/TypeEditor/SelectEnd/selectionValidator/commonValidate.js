@@ -5,9 +5,11 @@ import * as selectPosition from '../selectPosition'
 
 export default function commonValidate(annotationData, spanConfig, selection) {
   // This order is not important.
-  return showAlertIfOtherParagraph(selection) &&
+  return (
+    showAlertIfOtherParagraph(selection) &&
     isAnchrNodeInSpanOrParagraph(selection) &&
     hasCharacters(annotationData, spanConfig, selection)
+  )
 }
 
 function isAnchrNodeInSpanOrParagraph(selection) {
@@ -20,7 +22,9 @@ function hasCharacters(annotationData, spanConfig, selection) {
 
   var [begin, end] = selectPosition.getBeginEnd(annotationData, selection),
     selectedString = annotationData.sourceDoc.substring(begin, end),
-    stringWithoutBlankCharacters = spanConfig.removeBlankChractors(selectedString)
+    stringWithoutBlankCharacters = spanConfig.removeBlankChractors(
+      selectedString
+    )
 
   return stringWithoutBlankCharacters.length > 0
 }

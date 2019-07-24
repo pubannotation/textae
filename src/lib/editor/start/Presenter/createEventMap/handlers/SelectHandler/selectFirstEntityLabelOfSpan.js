@@ -1,4 +1,4 @@
-import {TYPE_CLASS} from "./const"
+import { TYPE_CLASS } from './const'
 
 export default function(selectionModel, spanId) {
   const grid = document.querySelector(`#G${spanId}`)

@@ -3,18 +3,16 @@ import Attribute from './Attribute'
 
 export default class extends ModelContainer {
   constructor(emitter) {
-    super(
-      emitter,
-      'attribute',
-      mappingFunction,
-      'A'
-    )
+    super(emitter, 'attribute', mappingFunction, 'A')
     this.emitter = emitter
   }
 
   add(attribute) {
     return super.add(new Attribute(attribute), () => {
-      this.emitter.emit('entity.change', this.emitter.entity.get(attribute.subj))
+      this.emitter.emit(
+        'entity.change',
+        this.emitter.entity.get(attribute.subj)
+      )
     })
   }
 

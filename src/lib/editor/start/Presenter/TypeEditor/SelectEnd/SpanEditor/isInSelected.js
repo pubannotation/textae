@@ -2,17 +2,22 @@ import * as selectPosition from '../selectPosition'
 import * as hasClass from '../hasClass'
 import * as getParent from '../getParent'
 
-export {
-  isAnchorInSelectedSpan,
-  isFocusInSelectedSpan
-}
+export { isAnchorInSelectedSpan, isFocusInSelectedSpan }
 
 function isAnchorInSelectedSpan(annotationData, selectionModel, selection) {
-  return isInSelectedSpan(annotationData, selectionModel, selectPosition.getAnchorPosition(annotationData, selection))
+  return isInSelectedSpan(
+    annotationData,
+    selectionModel,
+    selectPosition.getAnchorPosition(annotationData, selection)
+  )
 }
 
 function isFocusInSelectedSpan(annotationData, selectionModel, selection) {
-  return isInSelectedSpan(annotationData, selectionModel, selectPosition.getFocusPosition(annotationData, selection))
+  return isInSelectedSpan(
+    annotationData,
+    selectionModel,
+    selectPosition.getFocusPosition(annotationData, selection)
+  )
 }
 
 function isInSelectedSpan(annotationData, selectionModel, position) {

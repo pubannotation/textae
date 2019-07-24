@@ -18,6 +18,9 @@ export default function(oldType, newType, handler, editor) {
   }
 
   if (Object.keys(changeValues).length) {
-    handler.command.invoke([handler.changeType(oldType, changeValues)], ['annotation', 'configuration'])
+    handler.command.invoke(
+      [handler.changeType(oldType, changeValues)],
+      ['annotation', 'configuration']
+    )
   }
 }

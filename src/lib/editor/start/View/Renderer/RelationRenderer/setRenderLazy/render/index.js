@@ -3,11 +3,25 @@ import hoverize from './hoverize'
 import createJsPlumbConnect from './createJsPlumbConnect'
 import cache from '../cache'
 
-export default function(jsPlumbInstance, editor, annotationData, typeDefinition, modificationRenderer, relation) {
+export default function(
+  jsPlumbInstance,
+  editor,
+  annotationData,
+  typeDefinition,
+  modificationRenderer,
+  relation
+) {
   // Delete reneder method for renderLazy
   delete relation.render
 
-  const connect = createJsPlumbConnect(jsPlumbInstance, editor, relation, annotationData, typeDefinition, modificationRenderer)
+  const connect = createJsPlumbConnect(
+    jsPlumbInstance,
+    editor,
+    relation,
+    annotationData,
+    typeDefinition,
+    modificationRenderer
+  )
 
   hoverize(editor, annotationData, typeDefinition, connect, relation.id)
   Object.assign(connect, new Api())

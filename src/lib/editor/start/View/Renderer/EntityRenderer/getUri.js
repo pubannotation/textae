@@ -1,5 +1,5 @@
 import uri from '../../../../uri'
-import getMatchPrefix from "./getMatchPrefix"
+import getMatchPrefix from './getMatchPrefix'
 export default function(namespace, typeDefinition, type) {
   if (uri.isUri(type)) {
     return type
@@ -11,7 +11,9 @@ export default function(namespace, typeDefinition, type) {
       return match.uri + type.replace(`${match.prefix}:`, '')
     }
 
-    const base = namespace.all().filter(namespace => namespace.prefix === '_base')
+    const base = namespace
+      .all()
+      .filter((namespace) => namespace.prefix === '_base')
     if (base.length === 1) {
       return base[0].uri + type
     }

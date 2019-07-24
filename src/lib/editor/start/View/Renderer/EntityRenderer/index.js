@@ -7,7 +7,14 @@ import destroy from './destroy'
 import setTypeGapHeight from './setTypeGapHeight'
 
 export default class {
-  constructor(editor, annotationData, selectionModel, typeDefinition, gridRenderer, typeGap) {
+  constructor(
+    editor,
+    annotationData,
+    selectionModel,
+    typeDefinition,
+    gridRenderer,
+    typeGap
+  ) {
     this.editor = editor
     this.annotationData = annotationData
     this.typeDefinition = typeDefinition
@@ -45,20 +52,11 @@ export default class {
   }
 
   changeModification(entity) {
-    changeModificationOfExists(
-      this.editor,
-      this.modification,
-      entity
-    )
+    changeModificationOfExists(this.editor, this.modification, entity)
   }
 
   remove(entity) {
-     destroy(
-      this.editor,
-      this.annotationData,
-      this.gridRenderer,
-      entity
-    )
+    destroy(this.editor, this.annotationData, this.gridRenderer, entity)
   }
 
   updateLabel(type) {

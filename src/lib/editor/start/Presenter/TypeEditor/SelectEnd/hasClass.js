@@ -1,8 +1,4 @@
-export {
-  hasSpan,
-  hasParagraphs,
-  hasSpanOrParagraphs
-}
+export { hasSpan, hasParagraphs, hasSpanOrParagraphs }
 
 function hasSpan($node) {
   return $node.hasClass('textae-editor__span')

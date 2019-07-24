@@ -19,7 +19,11 @@ export default class {
 
   setTerm() {
     changeCssClass(this.editor, 'term')
-    removeListeners(this.selectionModel, this.entitySelectChanged, this.buttonStateHelper)
+    removeListeners(
+      this.selectionModel,
+      this.entitySelectChanged,
+      this.buttonStateHelper
+    )
 
     this.selectionModel
       .on('entity.select', this.entitySelectChanged)
@@ -29,7 +33,11 @@ export default class {
 
   setInstance() {
     changeCssClass(this.editor, 'instance')
-    removeListeners(this.selectionModel, this.entitySelectChanged, this.buttonStateHelper)
+    removeListeners(
+      this.selectionModel,
+      this.entitySelectChanged,
+      this.buttonStateHelper
+    )
 
     this.selectionModel
       .on('entity.select', this.entitySelectChanged)
@@ -39,6 +47,10 @@ export default class {
 
   setRelation() {
     changeCssClass(this.editor, 'relation')
-    removeListeners(this.selectionModel, this.entitySelectChanged, this.buttonStateHelper)
+    removeListeners(
+      this.selectionModel,
+      this.entitySelectChanged,
+      this.buttonStateHelper
+    )
   }
 }

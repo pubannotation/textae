@@ -1,31 +1,79 @@
-export default function(command, annotationData, pushButtons, modificationType, typeEditor) {
+export default function(
+  command,
+  annotationData,
+  pushButtons,
+  modificationType,
+  typeEditor
+) {
   const has = pushButtons.getButton(modificationType.toLowerCase()).value()
-  const commands = createCommand(command, annotationData, modificationType, typeEditor, has)
+  const commands = createCommand(
+    command,
+    annotationData,
+    modificationType,
+    typeEditor,
+    has
+  )
 
   command.invoke(commands, ['annotation'])
 }
 
-function createCommand(command, annotationData, modificationType, typeEditor, has) {
+function createCommand(
+  command,
+  annotationData,
+  modificationType,
+  typeEditor,
+  has
+) {
   if (has) {
-    return removeModification(command, annotationData, modificationType, typeEditor)
+    return removeModification(
+      command,
+      annotationData,
+      modificationType,
+      typeEditor
+    )
   } else {
-    return createModification(command, annotationData, modificationType, typeEditor)
+    return createModification(
+      command,
+      annotationData,
+      modificationType,
+      typeEditor
+    )
   }
 }
 
-function createModification(command, annotationData, modificationType, typeEditor) {
-  return typeEditor.getSelectedIdEditable()
-    .filter((id) => !getSpecificModification(annotationData, id, modificationType).length > 0)
-    .map((id) => command.factory.modificationCreateCommand({
+function createModification(
+  command,
+  annotationData,
+  modificationType,
+  typeEditor
+) {
+  return typeEditor
+    .getSelectedIdEditable()
+    .filter(
+      (id) =>
+        !getSpecificModification(annotationData, id, modificationType).length >
+        0
+    )
+    .map((id) =>
+      command.factory.modificationCreateCommand({
         obj: id,
         pred: modificationType
       })
     )
 }
 
-function removeModification(command, annotationData, modificationType, typeEditor) {
+function removeModification(
+  command,
+  annotationData,
+  modificationType,
+  typeEditor
+) {
   return typeEditor.getSelectedIdEditable().map((id) => {
-    const modification = getSpecificModification(annotationData, id, modificationType)[0]
+    const modification = getSpecificModification(
+      annotationData,
+      id,
+      modificationType
+    )[0]
     return command.factory.modificationRemoveCommand(modification.id)
   })
 }
@@ -33,11 +81,11 @@ function removeModification(command, annotationData, modificationType, typeEdito
 function getSpecificModification(annotationData, id, modificationType) {
   return annotationData
     .getModificationOf(id)
-    .filter((modification) => isModificationType(modification, modificationType))
+    .filter((modification) =>
+      isModificationType(modification, modificationType)
+    )
 }
 
 function isModificationType(modification, modificationType) {
   return modification.pred === modificationType
 }
-
-

@@ -8,15 +8,17 @@ export default function(spanContainer, editor, allSpan) {
   const spanTree = []
 
   sortedSpans
-    .map((span, index, array) => Object.assign(span, {
-      // Reset parent
-      parent: null,
-      // Reset children
-      children: [],
-      // Order by position
-      left: index !== 0 ? array[index - 1] : null,
-      right: index !== array.length - 1 ? array[index + 1] : null,
-    }))
+    .map((span, index, array) =>
+      Object.assign(span, {
+        // Reset parent
+        parent: null,
+        // Reset children
+        children: [],
+        // Order by position
+        left: index !== 0 ? array[index - 1] : null,
+        right: index !== array.length - 1 ? array[index + 1] : null
+      })
+    )
     .forEach((span) => {
       if (span.left) {
         const parent = getParent(editor, spanContainer, span, span.left)

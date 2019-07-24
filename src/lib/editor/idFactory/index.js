@@ -1,5 +1,5 @@
-import makeTypePrefix from "./makeTypePrefix"
-import makeId from "./makeId"
+import makeTypePrefix from './makeTypePrefix'
+import makeId from './makeId'
 
 const typeCounter = []
 
@@ -13,7 +13,7 @@ export default {
   // This IDs are used for id of DOM element and css selector for jQuery.
   // But types are inputed by users and may have `!"#$%&'()*+,./:;<=>?@[\]^`{|}~` which can not be used for css selecor.
   makeTypeId(entity) {
-    const attrs = entity.attributes.map(a => a.pred + a.obj).join(',')
+    const attrs = entity.attributes.map((a) => a.pred + a.obj).join(',')
     const key = String(entity.type) + attrs
 
     if (typeCounter.indexOf(key) === -1) {

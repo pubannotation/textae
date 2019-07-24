@@ -34,8 +34,11 @@ export function setToTypeGap(editor, annotationData, typeDefinition, typeGap) {
     maxHeight = n
   } else {
     maxHeight = _.max(
-      annotationData.span.all()
-        .map(span => getHeightIncludeDescendantGrids(span, typeDefinition, typeGap))
+      annotationData.span
+        .all()
+        .map((span) =>
+          getHeightIncludeDescendantGrids(span, typeDefinition, typeGap)
+        )
     )
 
     maxHeight += TEXT_HEIGHT + MARGIN_TOP
@@ -49,6 +52,6 @@ function suppressScrollJump(textBox, heightValue) {
   const b = pixelToInt(beforeLineHeight)
 
   if (b) {
-    window.scroll(window.scrollX, window.scrollY * heightValue / b)
+    window.scroll(window.scrollX, (window.scrollY * heightValue) / b)
   }
 }

@@ -1,7 +1,12 @@
 import Selector from '../Selector'
 import _ from 'underscore'
 
-export default function(editor, annotationData, selectionModel, buttonController) {
+export default function(
+  editor,
+  annotationData,
+  selectionModel,
+  buttonController
+) {
   var selector = new Selector(editor, annotationData)
 
   // Because entity.change is off at relation-edit-mode.
@@ -15,7 +20,9 @@ export default function(editor, annotationData, selectionModel, buttonController
     .on('attribute.deselect', selector.attribute.deselect)
     .on('relation.select', delay150(selector.relation.select))
     .on('relation.deselect', delay150(selector.relation.deselect))
-    .on('relation.change', () => buttonController.buttonStateHelper.updateByRelation())
+    .on('relation.change', () =>
+      buttonController.buttonStateHelper.updateByRelation()
+    )
 }
 
 function delay150(func) {

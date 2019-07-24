@@ -3,5 +3,8 @@ export default function(specified, modificationsOfSelectedElement) {
     return false
   }
 
-  return modificationsOfSelectedElement.length === modificationsOfSelectedElement.filter((m) => m.includes(specified)).length
+  return (
+    modificationsOfSelectedElement.length ===
+    modificationsOfSelectedElement.filter((m) => m.includes(specified)).length
+  )
 }

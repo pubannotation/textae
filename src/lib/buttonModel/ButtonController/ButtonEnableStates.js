@@ -1,7 +1,4 @@
-import {
-  EventEmitter as EventEmitter
-}
-from 'events'
+import { EventEmitter } from 'events'
 
 export default class extends EventEmitter {
   constructor(selectionModel, clipBoard) {
@@ -10,7 +7,8 @@ export default class extends EventEmitter {
 
     // Short cut name
     const hasCopy = () => clipBoard.clipBoard.length > 0
-    const eOrR = () => selectionModel.entity.some() || selectionModel.relation.some()
+    const eOrR = () =>
+      selectionModel.entity.some() || selectionModel.relation.some()
 
     // Check all associated anntation elements.
     // For exapmle, it should be that buttons associate with entitis is enable,

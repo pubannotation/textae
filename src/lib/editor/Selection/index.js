@@ -1,7 +1,4 @@
-import {
-  EventEmitter
-}
-from 'events'
+import { EventEmitter } from 'events'
 import IdContainer from './IdContainer'
 import modelToId from '../modelToId'
 import getPaneDomOfType from '../getPaneDomOfType'
@@ -12,7 +9,9 @@ export default class extends EventEmitter {
   constructor(annotationData) {
     super()
 
-    this.map = new Map(kinds.map(kindName => [kindName, new IdContainer(this, kindName)]))
+    this.map = new Map(
+      kinds.map((kindName) => [kindName, new IdContainer(this, kindName)])
+    )
     this.map.forEach((container, name) => {
       this[name] = container
     })
@@ -21,7 +20,10 @@ export default class extends EventEmitter {
       ['all.change', () => this.clear()],
       ['span.remove', (span) => this.span.remove(modelToId(span))],
       ['entity.remove', (entity) => this.entity.remove(modelToId(entity))],
-      ['relation.remove', (relation) => this.relation.remove(modelToId(relation))],
+      [
+        'relation.remove',
+        (relation) => this.relation.remove(modelToId(relation))
+      ]
     ])
 
     // Bind the selection model to the model.
@@ -65,7 +67,7 @@ export default class extends EventEmitter {
         this.clear()
       }
 
-      this.entity.add(Array.from(allEntityOflabels).map(dom => dom.title))
+      this.entity.add(Array.from(allEntityOflabels).map((dom) => dom.title))
     }
   }
   selectSingleSpanById(spanId) {

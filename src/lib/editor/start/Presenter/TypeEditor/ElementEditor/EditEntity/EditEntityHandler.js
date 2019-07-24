@@ -8,11 +8,12 @@ export default class extends DefaultHandler {
     this.selectionModel = selectionModel.entity
   }
   changeTypeOfSelectedElement(newType) {
-    return this.getEditTarget(newType)
-      .map((id) => this.command.factory.entityChangeTypeCommand(
+    return this.getEditTarget(newType).map((id) =>
+      this.command.factory.entityChangeTypeCommand(
         id,
         newType,
         this.typeContainer.isBlock(newType)
-      ))
+      )
+    )
   }
 }

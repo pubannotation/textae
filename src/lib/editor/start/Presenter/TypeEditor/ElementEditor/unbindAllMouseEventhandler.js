@@ -10,6 +10,5 @@ export default function(editor) {
     .off('click', '.textae-editor__attribute-button--edit')
     .off('click', '.textae-editor__attribute-button--delete')
 
-  editor
-    .off('mouseup', '.textae-editor__span')
+  editor.off('mouseup', '.textae-editor__span')
 }

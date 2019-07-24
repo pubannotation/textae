@@ -18,11 +18,21 @@ export default function(editor, getHandler, autocompletionWs) {
       }
 
       if (value) {
-        handler.command.invoke(commands.concat(handler.changeTypeOfSelectedElement(value)), ['annotation'])
+        handler.command.invoke(
+          commands.concat(handler.changeTypeOfSelectedElement(value)),
+          ['annotation']
+        )
       }
     }
 
-    const dialog = new EditLabelDialog(editor, predicate, value, done, handler.typeContainer, autocompletionWs)
+    const dialog = new EditLabelDialog(
+      editor,
+      predicate,
+      value,
+      done,
+      handler.typeContainer,
+      autocompletionWs
+    )
     dialog.open()
   }
 }

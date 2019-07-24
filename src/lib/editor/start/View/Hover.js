@@ -6,23 +6,24 @@ export default function(editor, entity) {
 
   return {
     on: _.partial(
-        processAccosiatedRelation,
-        entity,
-        domPositionCache,
-        connect => connect.pointup()
+      processAccosiatedRelation,
+      entity,
+      domPositionCache,
+      (connect) => connect.pointup()
     ),
     off: _.partial(
-        processAccosiatedRelation,
-        entity,
-        domPositionCache,
-        connect => connect.pointdown()
+      processAccosiatedRelation,
+      entity,
+      domPositionCache,
+      (connect) => connect.pointdown()
     )
   }
 }
 
 function processAccosiatedRelation(entity, domPositionCache, func, entityId) {
-  entity.assosicatedRelations(entityId)
-      .map(domPositionCache.toConnect)
-      .filter(connect => connect.pointup && connect.pointdown)
-      .forEach(func)
+  entity
+    .assosicatedRelations(entityId)
+    .map(domPositionCache.toConnect)
+    .filter((connect) => connect.pointup && connect.pointdown)
+    .forEach(func)
 }

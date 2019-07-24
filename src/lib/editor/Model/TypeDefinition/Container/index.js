@@ -1,7 +1,4 @@
-import {
-  EventEmitter as EventEmitter
-}
-from 'events'
+import { EventEmitter } from 'events'
 import uri from '../../../uri'
 import setDefaultTypeToDefinedTypes from './setDefaultTypeToDefinedTypes'
 import createCountMap from './createCountMap'
@@ -43,10 +40,12 @@ export default class extends EventEmitter {
   }
 
   setDefinedTypes(newDefinedTypes) {
-    this.definedTypes = new Map(newDefinedTypes.reduce((a, b) => {
-      a.push([b.id, b])
-      return a
-    }, []))
+    this.definedTypes = new Map(
+      newDefinedTypes.reduce((a, b) => {
+        a.push([b.id, b])
+        return a
+      }, [])
+    )
   }
 
   getDefinedType(id) {
@@ -89,11 +88,23 @@ export default class extends EventEmitter {
   }
 
   getColor(id, dismissForwardMatch = false) {
-    return getLabelOrColor('color', this.definedTypes, id, this.defaultColor, dismissForwardMatch)
+    return getLabelOrColor(
+      'color',
+      this.definedTypes,
+      id,
+      this.defaultColor,
+      dismissForwardMatch
+    )
   }
 
   getLabel(id, dismissForwardMatch = false) {
-    return getLabelOrColor('label', this.definedTypes, id, undefined, dismissForwardMatch)
+    return getLabelOrColor(
+      'label',
+      this.definedTypes,
+      id,
+      undefined,
+      dismissForwardMatch
+    )
   }
 
   getUri(id) {
@@ -103,19 +114,22 @@ export default class extends EventEmitter {
   get typeDefinition() {
     const allInstance = this.getAllInstanceFunc()
     const countMap = createCountMap(allInstance)
-    const typesWithoutInstance = createTypesWithoutInstance(this.definedTypes.keys(), countMap)
+    const typesWithoutInstance = createTypesWithoutInstance(
+      this.definedTypes.keys(),
+      countMap
+    )
     const types = sortByCountAndName(countMap).concat(typesWithoutInstance)
 
-    return types.map(id => {
-        return {
-          id,
-          label: this.getLabel(id, true),
-          defaultType: id === this.getDefaultType(),
-          uri: this.getUri(id),
-          color: this.getColor(id, true),
-          useNumber: countMap.get(id)
-        }
-      })
+    return types.map((id) => {
+      return {
+        id,
+        label: this.getLabel(id, true),
+        defaultType: id === this.getDefaultType(),
+        uri: this.getUri(id),
+        color: this.getColor(id, true),
+        useNumber: countMap.get(id)
+      }
+    })
   }
 
   remove(id) {
@@ -127,4 +141,3 @@ export default class extends EventEmitter {
     return this.lockStateObservable()
   }
 }
-

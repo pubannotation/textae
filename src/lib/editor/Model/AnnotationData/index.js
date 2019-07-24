@@ -9,9 +9,7 @@ export default function(editor) {
     reset: (annotation) => reset(dataStore, annotation, false),
     resetOnlyConfig: (annotation) => reset(dataStore, annotation, true),
     toJson: () => toJson(dataStore),
-    getModificationOf: (objectId) => dataStore
-      .modification
-      .all()
-      .filter((m) => m.obj === objectId)
+    getModificationOf: (objectId) =>
+      dataStore.modification.all().filter((m) => m.obj === objectId)
   })
 }

@@ -14,7 +14,10 @@ function getForwardMatchTypes(definedTypes, id) {
   const forwardMatchTypes = []
 
   for (const definedType of definedTypes.keys()) {
-    if (definedType.indexOf('*') !== -1 && id.indexOf(definedType.slice(0, -1)) === 0) {
+    if (
+      definedType.indexOf('*') !== -1 &&
+      id.indexOf(definedType.slice(0, -1)) === 0
+    ) {
       forwardMatchTypes.push(definedType)
     }
   }

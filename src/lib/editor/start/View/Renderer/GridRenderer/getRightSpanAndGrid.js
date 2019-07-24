@@ -1,7 +1,10 @@
-import {getRightElement} from '../../../getNextElement'
+import { getRightElement } from '../../../getNextElement'
 
 export default function(editorDom, spanId) {
-  const rightSpan = getRightElement(editorDom, document.querySelector(`#${spanId}`))
+  const rightSpan = getRightElement(
+    editorDom,
+    document.querySelector(`#${spanId}`)
+  )
 
   if (!rightSpan) {
     return [null, null]

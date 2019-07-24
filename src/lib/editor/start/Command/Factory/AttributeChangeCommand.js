@@ -3,19 +3,43 @@ import commandLog from './commandLog'
 import findAttribute from './findAttribute'
 
 export default class AttributeChangeCommand extends BaseCommand {
-  constructor(annotationData, selectedEntities, oldPred, oldObj, newPred, newObj) {
+  constructor(
+    annotationData,
+    selectedEntities,
+    oldPred,
+    oldObj,
+    newPred,
+    newObj
+  ) {
     super(function() {
       // Update models
       const effectedAttributes = []
-        for (const id of selectedEntities) {
+      for (const id of selectedEntities) {
         const attribute = findAttribute(annotationData, id, oldPred, oldObj)
-        effectedAttributes.push(annotationData.attribute.change(attribute.id, newPred, newObj))
+        effectedAttributes.push(
+          annotationData.attribute.change(attribute.id, newPred, newObj)
+        )
       }
 
       // Set revert
-      this.revert = () => new AttributeChangeCommand(annotationData, selectedEntities, newPred, newObj, oldPred, oldObj)
+      this.revert = () =>
+        new AttributeChangeCommand(
+          annotationData,
+          selectedEntities,
+          newPred,
+          newObj,
+          oldPred,
+          oldObj
+        )
 
-      commandLog(`change type of an attribute old pred:${oldPred} old obj:${oldObj}. effected attributes: [${effectedAttributes.map(a => `{id: ${a.id}, subj: ${a.subj}, pred: ${a.pred}, obj: ${a.obj}}`).join(',')}]`)
+      commandLog(
+        `change type of an attribute old pred:${oldPred} old obj:${oldObj}. effected attributes: [${effectedAttributes
+          .map(
+            (a) =>
+              `{id: ${a.id}, subj: ${a.subj}, pred: ${a.pred}, obj: ${a.obj}}`
+          )
+          .join(',')}]`
+      )
     })
   }
 }

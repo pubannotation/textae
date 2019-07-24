@@ -3,17 +3,12 @@ import $ from 'jquery'
 
 // height: 220
 const defaultOption = {
-  width: 550,
+  width: 550
 }
 
 export default function(editorId, id, title, el, option) {
   const openOption = getOption(option),
-    $dialog = new Dialog(
-      openOption,
-      id,
-      title,
-      el
-    )
+    $dialog = new Dialog(openOption, id, title, el)
 
   return $dialog
 }

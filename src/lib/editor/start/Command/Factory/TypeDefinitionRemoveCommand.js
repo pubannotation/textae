@@ -19,10 +19,16 @@ class TypeRemoveCommand extends BaseCommand {
       }
 
       // Set revert
-      this.revert = () => new TypeDefinitionCreateCommand(editor, typeDefinition, removeType)
+      this.revert = () =>
+        new TypeDefinitionCreateCommand(editor, typeDefinition, removeType)
 
-      commandLog('remove a type:' + JSON.stringify(removeType)
-        + ', default is `' + typeDefinition.getDefaultType() + '`')
+      commandLog(
+        'remove a type:' +
+          JSON.stringify(removeType) +
+          ', default is `' +
+          typeDefinition.getDefaultType() +
+          '`'
+      )
     })
   }
 }

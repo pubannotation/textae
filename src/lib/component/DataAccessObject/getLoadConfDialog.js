@@ -7,12 +7,23 @@ import getDialog from './getDialog'
 import $ from 'jquery'
 import _ from 'underscore'
 
-module.exports = function(api, confirmDiscardChangeMessage, setDataSourceUrl, editor) {
-    let RowDiv = _.partial(jQuerySugar.Div, 'textae-editor__load-dialog__row'),
-    RowLabel = _.partial(jQuerySugar.Label, 'textae-editor__load-dialog__label'),
+module.exports = function(
+  api,
+  confirmDiscardChangeMessage,
+  setDataSourceUrl,
+  editor
+) {
+  let RowDiv = _.partial(jQuerySugar.Div, 'textae-editor__load-dialog__row'),
+    RowLabel = _.partial(
+      jQuerySugar.Label,
+      'textae-editor__load-dialog__label'
+    ),
     OpenButton = _.partial(jQuerySugar.Button, 'Open'),
     isUserConfirm = function() {
-      return !$dialog.params.hasAnythingToSaveConfiguration || window.confirm(confirmDiscardChangeMessage)
+      return (
+        !$dialog.params.hasAnythingToSaveConfiguration ||
+        window.confirm(confirmDiscardChangeMessage)
+      )
     },
     $configButtonUrl = new OpenButton('url--config'),
     $configButtonLocal = new OpenButton('local--config'),
@@ -20,7 +31,9 @@ module.exports = function(api, confirmDiscardChangeMessage, setDataSourceUrl, ed
       .append(
         new RowDiv().append(
           new RowLabel(label.URL),
-          $('<input type="text" class="textae-editor__load-dialog__file-name--config url--config" />'),
+          $(
+            '<input type="text" class="textae-editor__load-dialog__file-name--config url--config" />'
+          ),
           $configButtonUrl
         )
       )
@@ -29,14 +42,21 @@ module.exports = function(api, confirmDiscardChangeMessage, setDataSourceUrl, ed
       })
       .on('click', '[type="button"].url--config', function() {
         if (isUserConfirm()) {
-          getConfigurationFromServer(jQuerySugar.getValueFromText($content, 'url--config'), new CursorChanger(editor), api, setDataSourceUrl)
+          getConfigurationFromServer(
+            jQuerySugar.getValueFromText($content, 'url--config'),
+            new CursorChanger(editor),
+            api,
+            setDataSourceUrl
+          )
         }
         closeDialog($content)
       })
       .append(
         new RowDiv().append(
           new RowLabel(label.LOCAL),
-          $('<input class="textae-editor__load-dialog__file--config" type="file" />'),
+          $(
+            '<input class="textae-editor__load-dialog__file--config" type="file" />'
+          ),
           $configButtonLocal
         )
       )
@@ -45,13 +65,22 @@ module.exports = function(api, confirmDiscardChangeMessage, setDataSourceUrl, ed
       })
       .on('click', '[type="button"].local--config', function() {
         if (isUserConfirm()) {
-          getJsonFromFile(api, $content.find('.textae-editor__load-dialog__file--config')[0], 'config')
+          getJsonFromFile(
+            api,
+            $content.find('.textae-editor__load-dialog__file--config')[0],
+            'config'
+          )
         }
         closeDialog($content)
       })
 
   // Capture the local variable by inner funcitons.
-  var $dialog = getDialog('textae.dialog.load', 'Load Configurations', $content[0], editor)
+  var $dialog = getDialog(
+    'textae.dialog.load',
+    'Load Configurations',
+    $content[0],
+    editor
+  )
 
   return $dialog
 }
@@ -59,4 +88,3 @@ module.exports = function(api, confirmDiscardChangeMessage, setDataSourceUrl, ed
 function closeDialog($content) {
   $content.trigger('dialog.close')
 }
-

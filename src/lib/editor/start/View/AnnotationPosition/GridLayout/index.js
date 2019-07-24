@@ -15,13 +15,21 @@ export default class {
     this.domPositionCache.reset()
 
     // There is at least one type in span that has a grid.
-    const targetSpans = this.annotationData.span.all().filter((span) => span.getTypes().length > 0)
+    const targetSpans = this.annotationData.span
+      .all()
+      .filter((span) => span.getTypes().length > 0)
 
     for (const span of targetSpans) {
       // Cache all span position because alternating between getting offset and setting offset.
       this.domPositionCache.getSpan(span.id)
 
-      arrangeGridPosition(this.domPositionCache, this.typeDefinition, this.annotationData, typeGap, span)
+      arrangeGridPosition(
+        this.domPositionCache,
+        this.typeDefinition,
+        this.annotationData,
+        typeGap,
+        span
+      )
     }
   }
 
@@ -29,7 +37,12 @@ export default class {
     this.domPositionCache.reset()
 
     return Promise.all(
-      genArrangeAllGridPositionPromises(this.domPositionCache, this.typeDefinition, this.annotationData, typeGap)
+      genArrangeAllGridPositionPromises(
+        this.domPositionCache,
+        this.typeDefinition,
+        this.annotationData,
+        typeGap
+      )
     )
   }
 }

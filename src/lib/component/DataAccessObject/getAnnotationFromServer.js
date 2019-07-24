@@ -5,16 +5,20 @@ import toastr from 'toastr'
 
 module.exports = function(urlToJson, cursorChanger, api, setDataSourceUrl) {
   cursorChanger.startWait()
-  ajaxAccessor.getAsync(urlToJson, function getAnnotationFromServerSuccess(annotation) {
-    cursorChanger.endWait()
-    api.emit('load--annotation', {
-      annotation: annotation,
-      config: null,
-      source: jQuerySugar.toLink(url.resolve(location.href, urlToJson))
-    })
-    setDataSourceUrl(urlToJson)
-  }, function() {
-    cursorChanger.endWait()
-    toastr.error("Could not load the target.")
-  })
+  ajaxAccessor.getAsync(
+    urlToJson,
+    function getAnnotationFromServerSuccess(annotation) {
+      cursorChanger.endWait()
+      api.emit('load--annotation', {
+        annotation: annotation,
+        config: null,
+        source: jQuerySugar.toLink(url.resolve(location.href, urlToJson))
+      })
+      setDataSourceUrl(urlToJson)
+    },
+    function() {
+      cursorChanger.endWait()
+      toastr.error('Could not load the target.')
+    }
+  )
 }

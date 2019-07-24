@@ -1,8 +1,4 @@
-export {
-  getAsync,
-  post,
-  patch
-}
+export { getAsync, post, patch }
 import $ from 'jquery'
 
 function getAsync(url, dataHandler, failedHandler) {
@@ -11,7 +7,7 @@ function getAsync(url, dataHandler, failedHandler) {
   }
 
   let opt = {
-    type: "GET",
+    type: 'GET',
     url: url,
     cache: false,
     xhrFields: {
@@ -37,7 +33,7 @@ function post(url, data, successHandler, failHandler, finishHandler) {
     return
   }
 
-  console.log("POST data", data)
+  console.log('POST data', data)
   requestAjax('post', url, data, successHandler, failHandler, finishHandler)
 }
 
@@ -46,19 +42,26 @@ function patch(url, data, successHandler, failHandler, finishHandler) {
     return
   }
 
-  console.log("PATCH data", data)
+  console.log('PATCH data', data)
   requestAjax('patch', url, data, successHandler, failHandler, finishHandler)
 }
 
 function isEmpty(str) {
-  return !str || str === ""
+  return !str || str === ''
 }
 
-function requestAjax(type, url, data, successHandler, failHandler, finishHandler) {
+function requestAjax(
+  type,
+  url,
+  data,
+  successHandler,
+  failHandler,
+  finishHandler
+) {
   let opt = {
     type: type,
     url: url,
-    contentType: "application/json",
+    contentType: 'application/json',
     data: data,
     crossDomain: true,
     xhrFields: {

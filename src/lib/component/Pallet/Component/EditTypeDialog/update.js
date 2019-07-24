@@ -3,26 +3,33 @@ import customizeqQueryUiAutocomplete from '../../../customize-jquery-ui-autocomp
 
 customizeqQueryUiAutocomplete()
 
-export default function($dialog, typeDefinition, autocompletionWs, done, id, label, color, isDefault) {
+export default function(
+  $dialog,
+  typeDefinition,
+  autocompletionWs,
+  done,
+  id,
+  label,
+  color,
+  isDefault
+) {
   let $inputs = $dialog.find('input')
 
   // Update the source
-  $inputs.eq(0)
-    .autocomplete({
-      source: (request, response) => {
-        source(typeDefinition, autocompletionWs, request, response)
-      },
-      minLength: 3,
-      select: (event, ui) => select($inputs.eq(0), $inputs.eq(1), ui)
-    })
-  $inputs.eq(1)
-    .autocomplete({
-      source: (request, response) => {
-        source(typeDefinition, autocompletionWs, request, response)
-      },
-      minLength: 3,
-      select: (event, ui) => select($inputs.eq(0), $inputs.eq(1), ui)
-    })
+  $inputs.eq(0).autocomplete({
+    source: (request, response) => {
+      source(typeDefinition, autocompletionWs, request, response)
+    },
+    minLength: 3,
+    select: (event, ui) => select($inputs.eq(0), $inputs.eq(1), ui)
+  })
+  $inputs.eq(1).autocomplete({
+    source: (request, response) => {
+      source(typeDefinition, autocompletionWs, request, response)
+    },
+    minLength: 3,
+    select: (event, ui) => select($inputs.eq(0), $inputs.eq(1), ui)
+  })
 
   // Update done handler
   $dialog.done = done
