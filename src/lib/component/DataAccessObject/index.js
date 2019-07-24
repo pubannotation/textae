@@ -75,7 +75,7 @@ function openAndSetParam($dialog, params, dataSourceUrl, parameter) {
   $dialog.params = params
   $dialog.open()
 
-  return $dialog;
+  return $dialog
 }
 
 function extractConfigData(annotationData) {

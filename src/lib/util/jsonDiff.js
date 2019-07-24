@@ -1,5 +1,5 @@
-import { diff } from 'jsondiffpatch';
-import formatters from 'jsondiffpatch/src/formatters';
+import {diff} from 'jsondiffpatch'
+import formatters from 'jsondiffpatch/src/formatters'
 
 
 export default function(originalConfig, editedConfig) {
