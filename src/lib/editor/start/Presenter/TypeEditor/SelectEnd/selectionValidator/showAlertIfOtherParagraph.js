@@ -12,8 +12,8 @@ export default function(selection) {
 }
 
 function isInSameParagraph(selection) {
-  const anchorParagraph = getParagraph(selection.anchorNode),
-    focusParagraph = getParagraph(selection.focusNode)
+  const anchorParagraph = getParagraph(selection.anchorNode)
+  const focusParagraph = getParagraph(selection.focusNode)
 
   return anchorParagraph === focusParagraph
 }

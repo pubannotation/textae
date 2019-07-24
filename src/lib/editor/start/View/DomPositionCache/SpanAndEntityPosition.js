@@ -7,10 +7,10 @@ export default function(editor, entityModel, gridPositionCache) {
   // The cache for span positions.
   // Getting the postion of spans is too slow about 5-10 ms per a element in Chrome browser. For example offsetTop property.
   // This cache is big effective for the initiation, and little effective for resize.
-  let cachedGetSpan = factory((spanId) => getSpan(editor, spanId)),
-    cachedGetEntity = factory((entityId) =>
-      getEntity(editor, entityModel, gridPositionCache, entityId)
-    )
+  let cachedGetSpan = factory((spanId) => getSpan(editor, spanId))
+  let cachedGetEntity = factory((entityId) =>
+    getEntity(editor, entityModel, gridPositionCache, entityId)
+  )
 
   return {
     reset: factory.clearAllCache,
@@ -27,8 +27,8 @@ function getSpan(editor, spanId) {
 
   // An element.offsetTop and element.offsetLeft does not work in the Firefox,
   // when much spans are loaded like http://pubannotation.org/docs/sourcedb/PMC/sourceid/1315279/divs/10/annotations.json.
-  let spanBox = span.getBoundingClientRect(),
-    textBox = span.offsetParent.offsetParent.getBoundingClientRect()
+  let spanBox = span.getBoundingClientRect()
+  let textBox = span.offsetParent.offsetParent.getBoundingClientRect()
 
   return {
     top: spanBox.top - textBox.top,
@@ -45,8 +45,8 @@ function getEntity(editor, entityModel, gridPositionCache, entityId) {
     throw new Error('entity is not rendered : ' + entityId)
   }
 
-  let spanId = entityModel.get(entityId).span,
-    gridPosition = gridPositionCache.get(spanId)
+  let spanId = entityModel.get(entityId).span
+  let gridPosition = gridPositionCache.get(spanId)
 
   return {
     top: gridPosition.top + entity.offsetTop,

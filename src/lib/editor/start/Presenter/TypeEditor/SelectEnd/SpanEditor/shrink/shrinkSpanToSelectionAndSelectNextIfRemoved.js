@@ -11,18 +11,18 @@ export default function(
   spanConfig,
   selectionModel
 ) {
-  const oldSpan = document.querySelector(`#${spanId}`),
-    // Get the next span before removing the old span.
-    nextSpan = getRightElement(editor[0], oldSpan),
-    removed = shrinkSpanToSelection(
-      editor,
-      annotationData,
-      command,
-      spanAdjuster,
-      spanId,
-      selection,
-      spanConfig
-    )
+  const oldSpan = document.querySelector(`#${spanId}`)
+  // Get the next span before removing the old span.
+  const nextSpan = getRightElement(editor[0], oldSpan)
+  const removed = shrinkSpanToSelection(
+    editor,
+    annotationData,
+    command,
+    spanAdjuster,
+    spanId,
+    selection,
+    spanConfig
+  )
 
   if (removed && nextSpan) {
     selectionModel.selectSingleSpanById(nextSpan.id)

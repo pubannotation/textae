@@ -18,8 +18,8 @@ export default function entityClickedAtRelationMode(
 
 function onSelectObjectEntity(selectionModel, command, typeDefinition, e) {
   // Cannot make a self reference relation.
-  const subjectEntityId = selectionModel.entity.all()[0],
-    objectEntityId = $(e.target).attr('title')
+  const subjectEntityId = selectionModel.entity.all()[0]
+  const objectEntityId = $(e.target).attr('title')
 
   if (subjectEntityId === objectEntityId) {
     // Deslect already selected entity.

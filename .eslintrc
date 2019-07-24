@@ -1,6 +1,7 @@
 {
   "rules": {
-    "no-unused-vars": "off"
+    "no-unused-vars": "off",
+    "one-var": ["warn", "never"]
   },
   "env": {
     "browser": true,

@@ -11,18 +11,18 @@ export default function(
   detectBoundaryFunc
 ) {
   const createSpan = (span) =>
-      spanAndTypesCreateCommand(
-        editor,
-        annotationData,
-        selectionModel,
-        span,
-        types
-      ),
-    subCommands = getReplicationSpans(
+    spanAndTypesCreateCommand(
+      editor,
       annotationData,
+      selectionModel,
       span,
-      detectBoundaryFunc
-    ).map(createSpan)
+      types
+    )
+  const subCommands = getReplicationSpans(
+    annotationData,
+    span,
+    detectBoundaryFunc
+  ).map(createSpan)
 
   return {
     execute: function() {

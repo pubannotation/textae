@@ -5,23 +5,23 @@ import validateModificatian from './validateModificatian'
 
 export default function(text, paragraph, annotation) {
   const resultDenotation = validateDenotation(
-      text,
-      paragraph,
-      annotation.denotations
-    ),
-    resultAttribute = validateAttribute(
-      resultDenotation.accept,
-      annotation.attributes
-    ),
-    resultRelation = validateRelation(
-      resultDenotation.accept,
-      annotation.relations
-    ),
-    resultModification = validateModificatian(
-      resultDenotation.accept,
-      resultRelation.accept,
-      annotation.modifications
-    )
+    text,
+    paragraph,
+    annotation.denotations
+  )
+  const resultAttribute = validateAttribute(
+    resultDenotation.accept,
+    annotation.attributes
+  )
+  const resultRelation = validateRelation(
+    resultDenotation.accept,
+    annotation.relations
+  )
+  const resultModification = validateModificatian(
+    resultDenotation.accept,
+    resultRelation.accept,
+    annotation.modifications
+  )
 
   return {
     accept: {

@@ -9,31 +9,28 @@ export default function(
   params
 ) {
   const showAccess = () =>
-      dataAccessObject.showAccess(
-        history.hasAnythingToSave(KINDS.anno),
-        params
-      ),
-    showSave = () =>
-      showSaveDialogWithEditedData(
-        dataAccessObject,
-        annotationData,
-        typeDefinition,
-        getOriginalAnnotation,
-        params
-      ),
-    showAccessConf = () =>
-      dataAccessObject.showAccessConf(
-        history.hasAnythingToSave(KINDS.conf),
-        params
-      ),
-    showSaveConf = () =>
-      showSaveConfDialogWithEditedData(
-        dataAccessObject,
-        annotationData,
-        typeDefinition,
-        getOriginalAnnotation,
-        params
-      )
+    dataAccessObject.showAccess(history.hasAnythingToSave(KINDS.anno), params)
+  const showSave = () =>
+    showSaveDialogWithEditedData(
+      dataAccessObject,
+      annotationData,
+      typeDefinition,
+      getOriginalAnnotation,
+      params
+    )
+  const showAccessConf = () =>
+    dataAccessObject.showAccessConf(
+      history.hasAnythingToSave(KINDS.conf),
+      params
+    )
+  const showSaveConf = () =>
+    showSaveConfDialogWithEditedData(
+      dataAccessObject,
+      annotationData,
+      typeDefinition,
+      getOriginalAnnotation,
+      params
+    )
 
   return {
     showAccess,
@@ -50,8 +47,8 @@ function showSaveDialogWithEditedData(
   getOriginalAnnotation,
   params
 ) {
-  const originalData = getOriginalAnnotation(),
-    config = typeDefinition.getConfig()
+  const originalData = getOriginalAnnotation()
+  const config = typeDefinition.getConfig()
 
   dataAccessObject.showSave(
     originalData,
@@ -71,8 +68,8 @@ function showSaveConfDialogWithEditedData(
   getOriginalAnnotation,
   params
 ) {
-  const originalData = getOriginalAnnotation(),
-    config = typeDefinition.getConfig()
+  const originalData = getOriginalAnnotation()
+  const config = typeDefinition.getConfig()
 
   dataAccessObject.showSaveConf(
     originalData,

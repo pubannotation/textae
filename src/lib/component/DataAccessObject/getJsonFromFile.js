@@ -1,11 +1,11 @@
 export default function(api, file, fileType) {
-  let firstFile = file.files[0],
-    reader = new FileReader(),
-    params = {
-      annotation: null,
-      config: null,
-      source: firstFile.name + '(local file)'
-    }
+  let firstFile = file.files[0]
+  let reader = new FileReader()
+  let params = {
+    annotation: null,
+    config: null,
+    source: firstFile.name + '(local file)'
+  }
 
   if (['annotation', 'config'].indexOf(fileType) === -1) {
     throw new Error('Cannot read data type of ' + fileType)

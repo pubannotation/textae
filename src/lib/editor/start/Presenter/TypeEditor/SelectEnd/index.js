@@ -12,23 +12,23 @@ export default function(
   typeDefinition
 ) {
   // Initiated by events.
-  let selectEndOnTextImpl = null,
-    selectEndOnSpanImpl = null
+  let selectEndOnTextImpl = null
+  let selectEndOnSpanImpl = null
 
   const changeSpanEditorAccordingToButtons = function() {
     const isDetectDelimiterEnable = pushButtons
-        .getButton('boundary-detection')
-        .value(),
-      isReplicateAuto = pushButtons.getButton('replicate-auto').value(),
-      spanEditor = new SpanEditor(
-        editor,
-        annotationData,
-        selectionModel,
-        command,
-        typeDefinition,
-        isDetectDelimiterEnable,
-        isReplicateAuto
-      )
+      .getButton('boundary-detection')
+      .value()
+    const isReplicateAuto = pushButtons.getButton('replicate-auto').value()
+    const spanEditor = new SpanEditor(
+      editor,
+      annotationData,
+      selectionModel,
+      command,
+      typeDefinition,
+      isDetectDelimiterEnable,
+      isReplicateAuto
+    )
 
     selectEndOnTextImpl = (annotationData, data) =>
       selectEndOnText(spanEditor, annotationData, data)
@@ -95,12 +95,12 @@ function selectEndOnSpan(spanEditor, annotationData, data) {
   if (isValid) {
     if (data.selection.anchorNode === data.selection.focusNode) {
       const ap = selectPosition.getAnchorPosition(
-          annotationData,
-          data.selection
-        ),
-        span = annotationData.span.get(
-          data.selection.anchorNode.parentElement.id
-        )
+        annotationData,
+        data.selection
+      )
+      const span = annotationData.span.get(
+        data.selection.anchorNode.parentElement.id
+      )
       if (ap === span.begin || ap === span.end) {
         spanEditor.shrinkPullByTheEar(
           data,

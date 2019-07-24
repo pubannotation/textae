@@ -14,8 +14,8 @@ const ALWAYS_ENABLES = {
 
 // The control is a control bar in an editor.
 export default function() {
-  const $control = $(createElement()),
-    buttonList = toButtonList(BUTTON_MAP)
+  const $control = $(createElement())
+  const buttonList = toButtonList(BUTTON_MAP)
 
   // Public API
   $control.updateAllButtonEnableState = (enableButtons) =>

@@ -13,66 +13,66 @@ module.exports = function(
   setDataSourceUrl,
   editor
 ) {
-  let RowDiv = _.partial(jQuerySugar.Div, 'textae-editor__load-dialog__row'),
-    RowLabel = _.partial(
-      jQuerySugar.Label,
-      'textae-editor__load-dialog__label'
-    ),
-    OpenButton = _.partial(jQuerySugar.Button, 'Open'),
-    isUserConfirm = function() {
-      return (
-        !$dialog.params.hasAnythingToSaveConfiguration ||
-        window.confirm(confirmDiscardChangeMessage)
+  let RowDiv = _.partial(jQuerySugar.Div, 'textae-editor__load-dialog__row')
+  let RowLabel = _.partial(
+    jQuerySugar.Label,
+    'textae-editor__load-dialog__label'
+  )
+  let OpenButton = _.partial(jQuerySugar.Button, 'Open')
+  let isUserConfirm = function() {
+    return (
+      !$dialog.params.hasAnythingToSaveConfiguration ||
+      window.confirm(confirmDiscardChangeMessage)
+    )
+  }
+  let $configButtonUrl = new OpenButton('url--config')
+  let $configButtonLocal = new OpenButton('local--config')
+  let $content = $('<div>')
+    .append(
+      new RowDiv().append(
+        new RowLabel(label.URL),
+        $(
+          '<input type="text" class="textae-editor__load-dialog__file-name--config url--config" />'
+        ),
+        $configButtonUrl
       )
-    },
-    $configButtonUrl = new OpenButton('url--config'),
-    $configButtonLocal = new OpenButton('local--config'),
-    $content = $('<div>')
-      .append(
-        new RowDiv().append(
-          new RowLabel(label.URL),
-          $(
-            '<input type="text" class="textae-editor__load-dialog__file-name--config url--config" />'
-          ),
-          $configButtonUrl
+    )
+    .on('input', 'input.url--config', function() {
+      jQuerySugar.enabled($configButtonUrl, this.value)
+    })
+    .on('click', '[type="button"].url--config', function() {
+      if (isUserConfirm()) {
+        getConfigurationFromServer(
+          jQuerySugar.getValueFromText($content, 'url--config'),
+          new CursorChanger(editor),
+          api,
+          setDataSourceUrl
         )
+      }
+      closeDialog($content)
+    })
+    .append(
+      new RowDiv().append(
+        new RowLabel(label.LOCAL),
+        $(
+          '<input class="textae-editor__load-dialog__file--config" type="file" />'
+        ),
+        $configButtonLocal
       )
-      .on('input', 'input.url--config', function() {
-        jQuerySugar.enabled($configButtonUrl, this.value)
-      })
-      .on('click', '[type="button"].url--config', function() {
-        if (isUserConfirm()) {
-          getConfigurationFromServer(
-            jQuerySugar.getValueFromText($content, 'url--config'),
-            new CursorChanger(editor),
-            api,
-            setDataSourceUrl
-          )
-        }
-        closeDialog($content)
-      })
-      .append(
-        new RowDiv().append(
-          new RowLabel(label.LOCAL),
-          $(
-            '<input class="textae-editor__load-dialog__file--config" type="file" />'
-          ),
-          $configButtonLocal
+    )
+    .on('change', '.textae-editor__load-dialog__file--config', function() {
+      jQuerySugar.enabled($configButtonLocal, this.files.length > 0)
+    })
+    .on('click', '[type="button"].local--config', function() {
+      if (isUserConfirm()) {
+        getJsonFromFile(
+          api,
+          $content.find('.textae-editor__load-dialog__file--config')[0],
+          'config'
         )
-      )
-      .on('change', '.textae-editor__load-dialog__file--config', function() {
-        jQuerySugar.enabled($configButtonLocal, this.files.length > 0)
-      })
-      .on('click', '[type="button"].local--config', function() {
-        if (isUserConfirm()) {
-          getJsonFromFile(
-            api,
-            $content.find('.textae-editor__load-dialog__file--config')[0],
-            'config'
-          )
-        }
-        closeDialog($content)
-      })
+      }
+      closeDialog($content)
+    })
 
   // Capture the local variable by inner funcitons.
   var $dialog = getDialog(

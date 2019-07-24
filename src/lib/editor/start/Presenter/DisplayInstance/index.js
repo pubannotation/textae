@@ -3,8 +3,8 @@ import event from '../EditMode/event'
 import toastr from 'toastr'
 
 export default function(typeGap, editMode) {
-  let showInstance = true,
-    typeGapCache = new TypeGapCache()
+  let showInstance = true
+  let typeGapCache = new TypeGapCache()
 
   editMode
     .on(event.SHOW, function(argument) {

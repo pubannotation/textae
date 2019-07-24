@@ -27,8 +27,8 @@ export default function(
     return false
   }
 
-  const newSpanId = idFactory.makeSpanId(editor, newSpan),
-    sameSpan = annotationData.span.get(newSpanId)
+  const newSpanId = idFactory.makeSpanId(editor, newSpan)
+  const sameSpan = annotationData.span.get(newSpanId)
 
   if (newSpan.begin < newSpan.end && !sameSpan) {
     command.invoke(moveSpan(editor, command, spanId, newSpan), ['annotation'])
@@ -48,10 +48,13 @@ function getNewSpan(
   spanConfig
 ) {
   const anchorPosition = selectPosition.getAnchorPosition(
-      annotationData,
-      selection
-    ),
-    focusPosition = selectPosition.getFocusPosition(annotationData, selection)
+    annotationData,
+    selection
+  )
+  const focusPosition = selectPosition.getFocusPosition(
+    annotationData,
+    selection
+  )
 
   return getNewShortSpan(
     annotationData,

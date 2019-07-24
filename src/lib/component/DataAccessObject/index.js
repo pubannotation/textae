@@ -11,88 +11,88 @@ import getSaveConfDialog from './getSaveConfDialog'
 // A sub component to save and load data.
 module.exports = function(editor, confirmDiscardChangeMessage) {
   // Store the url the annotation data is loaded from per editor.
-  let annotationDataSourceUrl = '',
-    configurationDataSourceUrl = ''
+  let annotationDataSourceUrl = ''
+  let configurationDataSourceUrl = ''
 
   const setAnnotationDataSourceUrl = (url) => {
-      annotationDataSourceUrl = url
-    },
-    setConfigurationDataSourceUrl = (url) => {
-      configurationDataSourceUrl = url
-    },
-    api = new EventEmitter(),
-    showAccess = function(hasAnythingToSave, parameter) {
-      let params = new DialogParams(null, null, null, hasAnythingToSave, null)
-      openAndSetParam(
-        getLoadDialog(
-          api,
-          confirmDiscardChangeMessage,
-          setAnnotationDataSourceUrl,
-          editor
-        ),
-        params,
-        annotationDataSourceUrl,
-        parameter
-      )
-    },
-    showAccessConf = function(hasAnythingToSave, parameter) {
-      let params = new DialogParams(null, null, null, null, hasAnythingToSave)
-      openAndSetParam(
-        getLoadConfDialog(
-          api,
-          confirmDiscardChangeMessage,
-          setConfigurationDataSourceUrl,
-          editor
-        ),
-        params,
-        configurationDataSourceUrl,
-        parameter
-      )
-    },
-    showSave = function(originalData, editedData, parameter) {
-      let params = new DialogParams(
-        editedData,
-        originalData.config,
-        editedData.config,
-        null,
-        null
-      )
-      openAndSetParam(
-        getSaveDialog(
-          api,
-          confirmDiscardChangeMessage,
-          setAnnotationDataSourceUrl,
-          editor
-        ),
-        params,
-        annotationDataSourceUrl,
-        parameter
-      )
-      // ADD JsonEditor
-      // var $dialog = openAndSetParam(getSaveDialog(api, confirmDiscardChangeMessage, setDataSourceUrl, editor), jsonData, dataSourceUrl, params)
-      // jsonEditor($dialog)
-    },
-    showSaveConf = function(originalData, editedData, parameter) {
-      let params = new DialogParams(
-        editedData,
-        originalData.config,
-        editedData.config,
-        null,
-        null
-      )
-      openAndSetParam(
-        getSaveConfDialog(
-          api,
-          confirmDiscardChangeMessage,
-          setConfigurationDataSourceUrl,
-          editor
-        ),
-        params,
-        configurationDataSourceUrl,
-        parameter
-      )
-    },
-    cursorChanger = new CursorChanger(editor)
+    annotationDataSourceUrl = url
+  }
+  const setConfigurationDataSourceUrl = (url) => {
+    configurationDataSourceUrl = url
+  }
+  const api = new EventEmitter()
+  const showAccess = function(hasAnythingToSave, parameter) {
+    let params = new DialogParams(null, null, null, hasAnythingToSave, null)
+    openAndSetParam(
+      getLoadDialog(
+        api,
+        confirmDiscardChangeMessage,
+        setAnnotationDataSourceUrl,
+        editor
+      ),
+      params,
+      annotationDataSourceUrl,
+      parameter
+    )
+  }
+  const showAccessConf = function(hasAnythingToSave, parameter) {
+    let params = new DialogParams(null, null, null, null, hasAnythingToSave)
+    openAndSetParam(
+      getLoadConfDialog(
+        api,
+        confirmDiscardChangeMessage,
+        setConfigurationDataSourceUrl,
+        editor
+      ),
+      params,
+      configurationDataSourceUrl,
+      parameter
+    )
+  }
+  const showSave = function(originalData, editedData, parameter) {
+    let params = new DialogParams(
+      editedData,
+      originalData.config,
+      editedData.config,
+      null,
+      null
+    )
+    openAndSetParam(
+      getSaveDialog(
+        api,
+        confirmDiscardChangeMessage,
+        setAnnotationDataSourceUrl,
+        editor
+      ),
+      params,
+      annotationDataSourceUrl,
+      parameter
+    )
+    // ADD JsonEditor
+    // var $dialog = openAndSetParam(getSaveDialog(api, confirmDiscardChangeMessage, setDataSourceUrl, editor), jsonData, dataSourceUrl, params)
+    // jsonEditor($dialog)
+  }
+  const showSaveConf = function(originalData, editedData, parameter) {
+    let params = new DialogParams(
+      editedData,
+      originalData.config,
+      editedData.config,
+      null,
+      null
+    )
+    openAndSetParam(
+      getSaveConfDialog(
+        api,
+        confirmDiscardChangeMessage,
+        setConfigurationDataSourceUrl,
+        editor
+      ),
+      params,
+      configurationDataSourceUrl,
+      parameter
+    )
+  }
+  const cursorChanger = new CursorChanger(editor)
 
   Object.assign(api, {
     getAnnotationFromServer: (urlToJson) =>

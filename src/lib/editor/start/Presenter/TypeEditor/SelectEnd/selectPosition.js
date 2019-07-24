@@ -21,8 +21,8 @@ function getAnchorPosition(annotationData, selection) {
 }
 
 function getBeginEnd(annotationData, selection) {
-  const anchorPosition = getAnchorPosition(annotationData, selection),
-    focusPosition = getFocusPosition(annotationData, selection)
+  const anchorPosition = getAnchorPosition(annotationData, selection)
+  const focusPosition = getFocusPosition(annotationData, selection)
 
   // switch the position when the selection is made from right to left
   if (anchorPosition > focusPosition) {

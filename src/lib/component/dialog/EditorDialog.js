@@ -7,8 +7,8 @@ const defaultOption = {
 }
 
 export default function(editorId, id, title, el, option) {
-  const openOption = getOption(option),
-    $dialog = new Dialog(openOption, id, title, el)
+  const openOption = getOption(option)
+  const $dialog = new Dialog(openOption, id, title, el)
 
   return $dialog
 }

@@ -5,8 +5,8 @@ import TypeDefinitionCreateCommand from './TypeDefinitionCreateCommand'
 class TypeRemoveCommand extends BaseCommand {
   constructor(editor, typeDefinition, removeType, revertDefaultTypeId) {
     super(function() {
-      let id = removeType.id,
-        oldType = typeDefinition.getDefinedType(id)
+      let id = removeType.id
+      let oldType = typeDefinition.getDefinedType(id)
 
       typeDefinition.remove(id)
 

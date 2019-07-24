@@ -1,12 +1,12 @@
 export default function(loadConfig) {
-  let keys = Object.keys(loadConfig),
-    validKeyMap = {
-      'entity types': ['id', 'label', 'color', 'default', 'type'],
-      'relation types': ['id', 'label', 'color', 'default', 'type'],
-      'delimiter characters': '',
-      'non-edge characters': ''
-    },
-    isValid = true
+  let keys = Object.keys(loadConfig)
+  let validKeyMap = {
+    'entity types': ['id', 'label', 'color', 'default', 'type'],
+    'relation types': ['id', 'label', 'color', 'default', 'type'],
+    'delimiter characters': '',
+    'non-edge characters': ''
+  }
+  let isValid = true
 
   keys.forEach((key) => {
     if (typeof validKeyMap[key] === 'undefined') {

@@ -120,8 +120,8 @@ const source = `
                 </tbody>
             </table>
         {{/if}}
-    </div>`,
-  mergeMessage = `
+    </div>`
+const mergeMessage = `
         <div class="textae-editor__valiondate-dialog__content">
             <h1>Track annatations will be merged to the root anntations.</h1>
         </div>`
@@ -131,17 +131,17 @@ let tepmlate = Handlebars.compile(source)
 export default function(editor, rejects) {
   if (!hasError(rejects)) return
 
-  const el = document.createElement('div'),
-    $dialog = new EditorDialog(
-      editor.editorId,
-      'textae.dialog.validation',
-      'The following erroneous annotations ignored',
-      el,
-      {
-        noCancelButton: true,
-        height: 450
-      }
-    )
+  const el = document.createElement('div')
+  const $dialog = new EditorDialog(
+    editor.editorId,
+    'textae.dialog.validation',
+    'The following erroneous annotations ignored',
+    el,
+    {
+      noCancelButton: true,
+      height: 450
+    }
+  )
 
   updateContent($dialog[0].firstChild, rejects)
   $dialog.open()

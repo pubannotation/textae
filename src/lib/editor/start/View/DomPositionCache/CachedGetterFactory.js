@@ -1,8 +1,8 @@
 import LesserMap from './LesserMap'
 
 export default function() {
-  let caches = [],
-    factory = (getter) => create(caches, getter)
+  let caches = []
+  let factory = (getter) => create(caches, getter)
 
   factory.clearAllCache = () => clearAll(caches)
   return factory

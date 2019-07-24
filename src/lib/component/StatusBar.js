@@ -17,10 +17,10 @@ var getAreaIn = function($parent) {
 }
 
 module.exports = function(editor) {
-  var getAreaInEditor = _.partial(getAreaIn, editor),
-    status = function(message) {
-      if (message !== '') getAreaInEditor().html('Source: ' + message)
-    }
+  var getAreaInEditor = _.partial(getAreaIn, editor)
+  var status = function(message) {
+    if (message !== '') getAreaInEditor().html('Source: ' + message)
+  }
 
   return {
     status: status

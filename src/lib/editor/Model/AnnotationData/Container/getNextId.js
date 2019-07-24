@@ -1,14 +1,14 @@
 export default function(prefix, existsIds) {
-  const numbers = getIssuedNumbers(existsIds, prefix),
-    nextNumber = getNextNumber(numbers)
+  const numbers = getIssuedNumbers(existsIds, prefix)
+  const nextNumber = getNextNumber(numbers)
 
   return prefix + nextNumber
 }
 
 function getNextNumber(numbers) {
   // The Math.max retrun -Infinity when the second argument array is empty.
-  const max = numbers.length === 0 ? 0 : Math.max(...numbers),
-    nextNumber = max + 1
+  const max = numbers.length === 0 ? 0 : Math.max(...numbers)
+  const nextNumber = max + 1
 
   return nextNumber
 }

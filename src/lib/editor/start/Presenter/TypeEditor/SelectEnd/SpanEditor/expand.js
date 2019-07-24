@@ -96,10 +96,13 @@ function getNewSpan(
   spanConfig
 ) {
   const anchorPosition = selectPosition.getAnchorPosition(
-      annotationData,
-      selection
-    ),
-    focusPosition = selectPosition.getFocusPosition(annotationData, selection)
+    annotationData,
+    selection
+  )
+  const focusPosition = selectPosition.getFocusPosition(
+    annotationData,
+    selection
+  )
 
   return getNewExpandSpan(
     annotationData,

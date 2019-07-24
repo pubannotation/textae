@@ -30,19 +30,19 @@ function parseTracks(
   delete annotation.tracks
 
   var rejects = tracks.map((track, i) => {
-    var number = i + 1,
-      prefix = `track${number}_`,
-      reject = parseAnnotation(
-        span,
-        entity,
-        attribute,
-        relation,
-        modification,
-        paragraph,
-        text,
-        track,
-        prefix
-      )
+    var number = i + 1
+    var prefix = `track${number}_`
+    var reject = parseAnnotation(
+      span,
+      entity,
+      attribute,
+      relation,
+      modification,
+      paragraph,
+      text,
+      track,
+      prefix
+    )
 
     reject.name = `Track ${number} annotations.`
     return reject
@@ -53,25 +53,25 @@ function parseTracks(
 
 function parseDennotation(dataStore, annotation) {
   var tracks = parseTracks(
-      dataStore.span,
-      dataStore.entity,
-      dataStore.attribute,
-      dataStore.relation,
-      dataStore.modification,
-      dataStore.paragraph,
-      annotation.text,
-      annotation
-    ),
-    annotationReject = parseAnnotation(
-      dataStore.span,
-      dataStore.entity,
-      dataStore.attribute,
-      dataStore.relation,
-      dataStore.modification,
-      dataStore.paragraph,
-      annotation.text,
-      annotation
-    )
+    dataStore.span,
+    dataStore.entity,
+    dataStore.attribute,
+    dataStore.relation,
+    dataStore.modification,
+    dataStore.paragraph,
+    annotation.text,
+    annotation
+  )
+  var annotationReject = parseAnnotation(
+    dataStore.span,
+    dataStore.entity,
+    dataStore.attribute,
+    dataStore.relation,
+    dataStore.modification,
+    dataStore.paragraph,
+    annotation.text,
+    annotation
+  )
 
   annotationReject.name = 'Root annotations.'
 
