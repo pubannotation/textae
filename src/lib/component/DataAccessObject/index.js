@@ -7,9 +7,10 @@ import getLoadDialog from './getLoadDialog'
 import getLoadConfDialog from './getLoadConfDialog'
 import getSaveDialog from './getSaveDialog'
 import getSaveConfDialog from './getSaveConfDialog'
+import openAndSetParam from './openAndSetParam'
 
 // A sub component to save and load data.
-module.exports = function(editor, confirmDiscardChangeMessage) {
+export default function(editor, confirmDiscardChangeMessage) {
   // Store the url the annotation data is loaded from per editor.
   let annotationDataSourceUrl = ''
   let configurationDataSourceUrl = ''
@@ -68,9 +69,6 @@ module.exports = function(editor, confirmDiscardChangeMessage) {
       annotationDataSourceUrl,
       parameter
     )
-    // ADD JsonEditor
-    // var $dialog = openAndSetParam(getSaveDialog(api, confirmDiscardChangeMessage, setDataSourceUrl, editor), jsonData, dataSourceUrl, params)
-    // jsonEditor($dialog)
   }
   const showSaveConf = function(originalData, editedData, parameter) {
     const params = new DialogParams(
@@ -116,31 +114,4 @@ module.exports = function(editor, confirmDiscardChangeMessage) {
   })
 
   return api
-}
-
-function openAndSetParam($dialog, params, dataSourceUrl, parameter) {
-  // If has the save_to parameter
-  let url = dataSourceUrl
-  if (parameter.has('save_to')) {
-    url = parameter.get('save_to')
-  }
-
-  // Display dataSourceUrl.
-  $dialog
-    .find('[type="text"].url')
-    .val(url)
-    .trigger('input')
-  $dialog
-    .find('[type="text"].url--config')
-    .val(url)
-    .trigger('input')
-
-  $dialog.params = params
-  $dialog.open()
-
-  return $dialog
-}
-
-function extractConfigData(annotationData) {
-  return JSON.stringify(JSON.parse(annotationData).config)
 }
