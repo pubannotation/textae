@@ -1,3 +1,4 @@
+
 import {
   isBoundaryCrossingWithOtherSpans as isBoundaryCrossingWithOtherSpans
 }
@@ -32,6 +33,8 @@ function getExpandTargetSpan(annotationData, selectionModel, selection) {
     // 2. The foucusNode is out of the span and in the parent of the span.
     return selection.anchorNode.parentNode.id
   }
+
+  return null
 }
 
 function expandSpanToSelection(editor, annotationData, command, spanAdjuster, spanId, selection, spanConfig) {

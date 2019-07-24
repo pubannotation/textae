@@ -23,4 +23,6 @@ export default function(spanConfig, typeDefinition, annotationData, statusBar, p
   if (config) {
     dataAccessObject.getConfigurationFromServer(config)
   }
+
+  return null
 }

@@ -31,6 +31,8 @@ export default class {
     } else if (oldType.label !== label) {
       return this.command.factory.typeDefinitionChangeCommand(this.typeContainer, this.modelType, id, {label: label})
     }
+
+    return null
   }
 
   getSelectedType() {

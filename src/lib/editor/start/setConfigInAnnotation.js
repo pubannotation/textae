@@ -7,4 +7,6 @@ export default function(spanConfig, typeDefinition, annotation) {
   if (!annotation.config) {
     return 'no config'
   }
+
+  return null
 }

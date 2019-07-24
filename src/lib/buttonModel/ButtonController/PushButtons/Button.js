@@ -15,6 +15,8 @@ export default class extends EventEmitter {
     } else {
       return this.state
     }
+
+    return null
   }
 
   toggle() {

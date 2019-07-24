@@ -15,6 +15,8 @@ export default function reset(dataStore, annotation, isOnlyConfig) {
   } else {
     dataStore.emit('config.change', dataStore)
   }
+
+  return null
 }
 
 function clearAnnotationData(dataStore) {

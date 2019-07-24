@@ -7,7 +7,7 @@ const controlKeyEventMap = new Map([
   [46, 'DEL']
 ])
 
-export default function convertKeyEvent(keyCode) {
+export default function(keyCode) {
   if (65 <= keyCode && keyCode <= 90) {
     // From a to z, convert 'A' to 'Z'
     return String.fromCharCode(keyCode)
@@ -15,4 +15,6 @@ export default function convertKeyEvent(keyCode) {
     // Control keys, like ESC, DEL ...
     return controlKeyEventMap.get(keyCode)
   }
+
+  return null
 }

@@ -11,6 +11,8 @@ function getLeftElement(editorDom, element) {
   if (index > 0) {
     return all[index - 1]
   }
+
+  return null
 }
 
 function getRightElement(editorDom, element) {
@@ -21,6 +23,8 @@ function getRightElement(editorDom, element) {
   if (all.length - index > 1) {
     return all[index + 1]
   }
+
+  return null
 }
 
 function getElements(editorDom, element) {

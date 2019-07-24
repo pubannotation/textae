@@ -17,6 +17,8 @@ export default function(annotationData, selectionModel, selection, id) {
   } else if (id) {
     return id
   }
+
+  return null
 }
 
 function isForcusOneDownUnderAnchor(selection) {

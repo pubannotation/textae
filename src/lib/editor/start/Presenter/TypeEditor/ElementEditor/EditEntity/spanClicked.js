@@ -24,4 +24,6 @@ export default function(spanConfig, selectEnd, selectSpan, event) {
     // And do non propagate the parent span.
     event.stopPropagation()
   }
+
+  return null
 }

@@ -47,4 +47,6 @@ function updateSelectionOfEntity(event, selectionModel, subjectEntityId, objectE
     selectionModel.remove(subjectEntityId)
     selectionModel.remove(objectEntityId)
   }
+
+  return null
 }
