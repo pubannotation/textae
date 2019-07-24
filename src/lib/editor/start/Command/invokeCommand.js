@@ -17,8 +17,8 @@ const invokeRevert = _.compose(
   RevertCommands
 )
 const invokeCommand = {
-  invoke: invoke,
-  invokeRevert: invokeRevert
+  invoke,
+  invokeRevert
 }
 
 module.exports = invokeCommand

@@ -8,7 +8,7 @@ function getAsync(url, dataHandler, failedHandler) {
 
   const opt = {
     type: 'GET',
-    url: url,
+    url,
     cache: false,
     xhrFields: {
       withCredentials: true
@@ -59,10 +59,10 @@ function requestAjax(
   finishHandler
 ) {
   const opt = {
-    type: type,
-    url: url,
+    type,
+    url,
     contentType: 'application/json',
-    data: data,
+    data,
     crossDomain: true,
     xhrFields: {
       withCredentials: true

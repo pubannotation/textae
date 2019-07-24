@@ -17,7 +17,7 @@ export default function(spanConfig, selectEnd, selectSpan, event) {
     return false
   } else {
     selectEnd.onSpan({
-      spanConfig: spanConfig,
+      spanConfig,
       selection: getSelectionSnapShot()
     })
     // Cancel selection of a paragraph.

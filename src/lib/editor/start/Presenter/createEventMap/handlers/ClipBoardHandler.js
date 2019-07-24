@@ -24,7 +24,7 @@ module.exports = function(command, annotationData, selectionModel, clipBoard) {
         return clipBoard.clipBoard.map(function(type) {
           return command.factory.entityCreateCommand({
             span: spanId,
-            type: type
+            type
           })
         })
       })

@@ -103,7 +103,7 @@ export default function Factory(editor, annotationData, selectionModel) {
         newPred,
         newObj
       ),
-    relationCreateCommand: relationCreateCommand,
+    relationCreateCommand,
     relationRemoveCommand: (id) =>
       relationAndAssociatesRemoveCommand(
         editor,

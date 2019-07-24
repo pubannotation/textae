@@ -17,14 +17,14 @@ export default function(editor) {
   const modification = new ModelContainer(emitter, 'modification', _.identity)
 
   return Object.assign(emitter, {
-    namespace: namespace,
+    namespace,
     sourceDoc: '',
-    paragraph: paragraph,
-    span: span,
-    entity: entity,
-    attribute: attribute,
-    relation: relation,
-    modification: modification
+    paragraph,
+    span,
+    entity,
+    attribute,
+    relation,
+    modification
   })
 }
 

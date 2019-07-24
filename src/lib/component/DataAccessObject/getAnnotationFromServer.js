@@ -10,7 +10,7 @@ module.exports = function(urlToJson, cursorChanger, api, setDataSourceUrl) {
     function getAnnotationFromServerSuccess(annotation) {
       cursorChanger.endWait()
       api.emit('load--annotation', {
-        annotation: annotation,
+        annotation,
         config: null,
         source: jQuerySugar.toLink(url.resolve(location.href, urlToJson))
       })

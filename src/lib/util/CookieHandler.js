@@ -1,8 +1,8 @@
 export default function() {
   return {
-    exists: exists,
-    get: get,
-    set: set
+    exists,
+    get,
+    set
   }
 }
 

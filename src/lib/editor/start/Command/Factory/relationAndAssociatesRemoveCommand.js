@@ -25,7 +25,7 @@ export default function(editor, annotationData, selectionModel, id) {
   const subCommands = removeModification.concat(removeRelation)
 
   return {
-    execute: function() {
+    execute() {
       executeCompositCommand('relation', this, 'remove', id, subCommands)
     }
   }

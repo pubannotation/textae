@@ -14,34 +14,34 @@ const setProp = function(key, $target, className, value) {
 
 module.exports = {
   enabled: jQueryEnabled,
-  Div: function(className) {
+  Div(className) {
     return $('<div>').addClass(className)
   },
-  P: function(className, text) {
+  P(className, text) {
     return $('<p>')
       .addClass(className)
       .text(text)
   },
-  Label: function(className, text) {
+  Label(className, text) {
     return $('<label>')
       .addClass(className)
       .text(text)
   },
-  Button: function(label, className) {
+  Button(label, className) {
     return $('<input type="button" disabled="disabled" />')
       .addClass(className)
       .val(label)
   },
-  Checkbox: function(className) {
+  Checkbox(className) {
     return $('<input type="checkbox"/>').addClass(className)
   },
-  Number: function(className) {
+  Number(className) {
     return $('<input type="number"/>').addClass(className)
   },
-  toLink: function(url) {
+  toLink(url) {
     return '<a href="' + url + '">' + url + '</a>'
   },
-  getValueFromText: function($target, className) {
+  getValueFromText($target, className) {
     return $target.find('[type="text"].' + className).val()
   },
   setChecked: _.partial(setProp, 'checked'),

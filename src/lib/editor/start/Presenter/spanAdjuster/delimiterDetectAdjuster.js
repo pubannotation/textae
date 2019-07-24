@@ -76,8 +76,8 @@ const backFromEnd = function(str, endPosition, spanConfig) {
 }
 
 module.exports = {
-  backFromBegin: backFromBegin,
-  forwardFromEnd: forwardFromEnd,
-  forwardFromBegin: forwardFromBegin,
-  backFromEnd: backFromEnd
+  backFromBegin,
+  forwardFromEnd,
+  forwardFromBegin,
+  backFromEnd
 }

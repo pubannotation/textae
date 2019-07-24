@@ -36,7 +36,7 @@ export default function() {
       trigger(emitter, hasAnythingToSave, hasAnythingToUndo, hasAnythingToRedo)
     },
     push: (commands, kinds) => {
-      const historyMap = { kind: kinds, commands: commands }
+      const historyMap = { kind: kinds, commands }
 
       histories.splice(pointer + 1, histories.length - pointer, historyMap)
       pointer++
@@ -88,9 +88,9 @@ export default function() {
       lastSaveIndexes[kind] = lastEditIndexes[kind]
       trigger(emitter, hasAnythingToSave, hasAnythingToUndo, hasAnythingToRedo)
     },
-    hasAnythingToSave: hasAnythingToSave,
-    hasAnythingToUndo: hasAnythingToUndo,
-    hasAnythingToRedo: hasAnythingToRedo
+    hasAnythingToSave,
+    hasAnythingToUndo,
+    hasAnythingToRedo
   })
 }
 

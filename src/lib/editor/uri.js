@@ -1,8 +1,8 @@
 module.exports = {
-  isUri: function(type) {
+  isUri(type) {
     return String(type).indexOf('http') > -1
   },
-  getUrlMatches: function(type) {
+  getUrlMatches(type) {
     // The regular-expression to parse URL.
     // See detail:
     // http://someweblog.com/url-regular-expression-javascript-link-shortener/

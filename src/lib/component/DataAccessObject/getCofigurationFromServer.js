@@ -11,7 +11,7 @@ module.exports = function(urlToJson, cursorChanger, api, setDataSourceUrl) {
       cursorChanger.endWait()
       api.emit('load--config', {
         annotation: null,
-        config: config,
+        config,
         source: jQuerySugar.toLink(url.resolve(location.href, urlToJson))
       })
       setDataSourceUrl(urlToJson)

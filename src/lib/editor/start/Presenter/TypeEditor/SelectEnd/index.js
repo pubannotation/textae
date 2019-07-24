@@ -48,10 +48,10 @@ export default function(
     .on('change', changeSpanEditorAccordingToButtons)
 
   return {
-    onText: function(data) {
+    onText(data) {
       if (selectEndOnTextImpl) selectEndOnTextImpl(annotationData, data)
     },
-    onSpan: function(data) {
+    onSpan(data) {
       if (selectEndOnSpanImpl) selectEndOnSpanImpl(annotationData, data)
     }
   }

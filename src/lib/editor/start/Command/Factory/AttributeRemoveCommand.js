@@ -26,7 +26,7 @@ export default function(
   }
 
   return {
-    execute: function() {
+    execute() {
       executeCompositCommand(
         'attributes',
         this,

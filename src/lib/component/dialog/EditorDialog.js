@@ -18,7 +18,7 @@ function getOption(option) {
 
   if (!newOpiton.noCancelButton) {
     newOpiton.buttons = Object.assign({}, newOpiton.buttons, {
-      Cancel: function() {
+      Cancel() {
         $(this).dialog('close')
       }
     })

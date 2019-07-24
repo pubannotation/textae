@@ -25,7 +25,7 @@ export default function(
   ).map(createSpan)
 
   return {
-    execute: function() {
+    execute() {
       executeCompositCommand('span', this, 'replicate', span.id, subCommands)
     }
   }

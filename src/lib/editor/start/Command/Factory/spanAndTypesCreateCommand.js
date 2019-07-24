@@ -26,13 +26,13 @@ export default function(editor, annotationData, selectionModel, span, types) {
   const createEntities = types.map((type) =>
     entityCreateCommand({
       span: id,
-      type: type
+      type
     })
   )
   const subCommands = [createSpan].concat(createEntities)
 
   return {
-    execute: function() {
+    execute() {
       executeCompositCommand('span', this, 'create', id, subCommands)
     }
   }

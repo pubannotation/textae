@@ -30,7 +30,7 @@ export default function(editor, annotationData, selectionModel, id) {
   const subCommands = removeEntity.concat(removeSpan)
 
   return {
-    execute: function() {
+    execute() {
       executeCompositCommand('span', this, 'remove', id, subCommands)
     }
   }

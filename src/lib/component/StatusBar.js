@@ -23,6 +23,6 @@ module.exports = function(editor) {
   }
 
   return {
-    status: status
+    status
   }
 }

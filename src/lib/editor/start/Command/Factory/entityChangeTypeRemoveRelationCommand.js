@@ -35,7 +35,7 @@ export default function(
     : [changeType]
 
   return {
-    execute: function() {
+    execute() {
       executeCompositCommand('entity', this, 'change', id, subCommands)
     }
   }

@@ -68,7 +68,7 @@ export default function(
     negation: modificationHandler.negation,
     speculation: modificationHandler.speculation,
     createAttribute: () => createAttribute(command, selectionModel),
-    showSettingDialog: showSettingDialog
+    showSettingDialog
   }
   Object.assign(event, selectHandler)
   extendToggleButtonHandler(buttonController, editMode, event)

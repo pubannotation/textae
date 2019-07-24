@@ -18,7 +18,7 @@ const setRevertAndLog = (function() {
       command.execute()
     }
     const revertedCommand = {
-      execute: function() {
+      execute() {
         invokeCommand.invokeRevert(subCommands)
         revertLog(logParam)
       }
@@ -30,9 +30,9 @@ const setRevertAndLog = (function() {
   }
   const setRevert = function(modelType, command, commandType, id, subCommands) {
     const logParam = {
-      modelType: modelType,
-      commandType: commandType,
-      id: id
+      modelType,
+      commandType,
+      id
     }
 
     command.revert = new RevertFunction(subCommands, logParam)

@@ -37,14 +37,14 @@ export default class {
     if (!oldType.id) {
       return this.command.factory.typeDefinitionCreateCommand(
         this.typeContainer,
-        { id: id, label: label }
+        { id, label }
       )
     } else if (oldType.label !== label) {
       return this.command.factory.typeDefinitionChangeCommand(
         this.typeContainer,
         this.modelType,
         id,
-        { label: label }
+        { label }
       )
     }
 
@@ -93,7 +93,7 @@ export default class {
 
   removeType(id, label) {
     const removeType = {
-      id: id,
+      id,
       label: label || ''
     }
 

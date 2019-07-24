@@ -34,7 +34,7 @@ export default function(editor, annotationData, selectionModel, id) {
     .concat(removeEntity)
 
   return {
-    execute: function() {
+    execute() {
       executeCompositCommand('entity', this, 'remove', id, subCommands)
     }
   }

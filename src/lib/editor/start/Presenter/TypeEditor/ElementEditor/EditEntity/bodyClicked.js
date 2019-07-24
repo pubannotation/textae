@@ -15,7 +15,7 @@ export default function(cancelSelect, selectEnd, spanConfig, event) {
     cancelSelect()
   } else {
     selectEnd.onText({
-      spanConfig: spanConfig,
+      spanConfig,
       selection: getSelectionSnapShot()
     })
   }
