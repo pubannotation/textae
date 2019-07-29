@@ -1,5 +1,3 @@
-import _ from 'underscore'
-
 export default function(command, annotationData, selectionModel, clipBoard) {
   return {
     copyEntities: () => copyEntities(clipBoard, selectionModel, annotationData),
