@@ -10,6 +10,11 @@ import openAndSetParam from './openAndSetParam'
 import getJsonFromFile from './getJsonFromFile'
 import saveJsonToServer from './saveJsonToServer'
 import saveConfigJsonToServer from './saveConfigJsonToServer'
+import jQuerySugar from '../jQuerySugar'
+import createDownloadPath from './createDownloadPath'
+import closeDialog from './closeDialog'
+import $ from 'jquery'
+import jsonDiff from '../../util/jsonDiff'
 
 // A sub component to save and load data.
 export default function(editor, confirmDiscardChangeMessage) {
@@ -74,7 +79,27 @@ export default function(editor, confirmDiscardChangeMessage) {
         () => api.emit('save'),
         editedData,
         'annotations.json',
-        'Save Annotations'
+        'Save Annotations',
+        ($dialog) => {
+          $dialog
+            .append(
+              new jQuerySugar.Div('textae-editor__save-dialog__row').append(
+                jQuerySugar.Label('textae-editor__save-dialog__label'),
+                $(
+                  '<a class="viewsource" href="#">Click to see the json source in a new window.</a>'
+                )
+              )
+            )
+            .on('click', 'a.viewsource', () => {
+              const downloadPath = createDownloadPath(
+                JSON.stringify(editedData)
+              )
+              window.open(downloadPath, '_blank')
+              api.emit('save')
+              closeDialog($dialog)
+              return false
+            })
+        }
       ),
       params,
       annotationDataSourceUrl,
@@ -92,7 +117,31 @@ export default function(editor, confirmDiscardChangeMessage) {
         editedData.config,
         'config.json',
         'Save Configurations',
-        originalData.config
+        ($dialog) => {
+          $dialog
+            .append(
+              new jQuerySugar.Div('textae-editor__save-dialog__row').append(
+                $('<p class="textae-editor__save-dialog__diff-title">')
+                  .text('Configuration differences')
+                  .append(
+                    $('<span class="diff-info diff-info--add">added</span>')
+                  )
+                  .append(
+                    $(
+                      '<span class="diff-info diff-info--remove">removed</span>'
+                    )
+                  )
+              )
+            )
+            .append(
+              $(
+                `<div class="textae-editor__save-dialog__diff-viewer">${jsonDiff(
+                  originalData.config,
+                  editedData.config
+                ) || 'nothing.'}</div>`
+              )
+            )
+        }
       ),
       params,
       configurationDataSourceUrl,

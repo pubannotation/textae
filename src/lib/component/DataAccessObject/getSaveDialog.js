@@ -14,7 +14,8 @@ module.exports = function(
   onSave,
   edited,
   filename,
-  title
+  title,
+  setOptionFields
 ) {
   const cursorChanger = new CursorChanger(editor)
   const showSaveSuccess = function() {
@@ -73,24 +74,11 @@ module.exports = function(
       onSave()
       closeDialog($content)
     })
-    .append(
-      new RowDiv().append(
-        new RowLabel(),
-        $(
-          '<a class="viewsource" href="#">Click to see the json source in a new window.</a>'
-        )
-      )
-    )
-    .on('click', 'a.viewsource', (e) => {
-      const downloadPath = createDownloadPath(JSON.stringify(edited))
-      window.open(downloadPath, '_blank')
-      onSave
-      closeDialog($content)
-      return false
-    })
 
   // Capture the local variable by inner funcitons.
   const $dialog = getDialog('textae.dialog.save', title, $content[0], editor)
+
+  setOptionFields($dialog)
 
   return $dialog
 }
