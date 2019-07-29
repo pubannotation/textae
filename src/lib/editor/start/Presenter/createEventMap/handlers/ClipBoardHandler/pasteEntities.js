@@ -2,14 +2,15 @@
 export default function(selectionModel, clipBoard, command) {
   const commands = selectionModel.span
     .all()
-    .map((spanId) => {
-      return clipBoard.clipBoard.map((type) => {
-        return command.factory.entityCreateCommand({
-          span: spanId,
+    .map((span) =>
+      clipBoard.clipBoard.map((type) =>
+        command.factory.entityCreateCommand({
+          span,
           type
         })
-      })
-    })
+      )
+    )
     .flat()
+
   command.invoke(commands, ['annotation'])
 }
