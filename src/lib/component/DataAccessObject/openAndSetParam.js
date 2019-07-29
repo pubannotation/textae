@@ -1,4 +1,4 @@
-export default function($dialog, params, dataSourceUrl, parameter) {
+export default function($dialog, dataSourceUrl, parameter) {
   // If has the save_to parameter
   let url = dataSourceUrl
   if (parameter.has('save_to')) {
@@ -16,7 +16,6 @@ export default function($dialog, params, dataSourceUrl, parameter) {
     .val(url)
     .trigger('input')
 
-  $dialog.params = params
   $dialog.open()
 
   return $dialog

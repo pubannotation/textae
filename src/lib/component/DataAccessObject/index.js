@@ -2,7 +2,6 @@ import { EventEmitter } from 'events'
 import CursorChanger from '../../util/CursorChanger'
 import getAnnotationFromServer from './getAnnotationFromServer'
 import getConfigurationFromServer from './getCofigurationFromServer'
-import DialogParams from '../dialog/DialogParams'
 import getLoadDialog from './getLoadDialog'
 import getSaveDialog from './getSaveDialog'
 import getSaveConfDialog from './getSaveConfDialog'
@@ -44,7 +43,6 @@ export default function(editor, confirmDiscardChangeMessage) {
         (api, file) => getJsonFromFile(api, file, 'annotation'),
         'Load Annotations'
       ),
-      null,
       annotationDataSourceUrl,
       parameter
     )
@@ -64,13 +62,11 @@ export default function(editor, confirmDiscardChangeMessage) {
         (api, file) => getJsonFromFile(api, file, 'config'),
         'Load Configurations'
       ),
-      null,
       configurationDataSourceUrl,
       parameter
     )
   }
   const showSave = function(originalData, editedData, parameter) {
-    const params = new DialogParams(null, originalData.config, null, null, null)
     openAndSetParam(
       getSaveDialog(
         api,
@@ -101,13 +97,11 @@ export default function(editor, confirmDiscardChangeMessage) {
             })
         }
       ),
-      params,
       annotationDataSourceUrl,
       parameter
     )
   }
   const showSaveConf = function(originalData, editedData, parameter) {
-    const params = new DialogParams(null, originalData.config, null, null, null)
     openAndSetParam(
       getSaveConfDialog(
         api,
@@ -143,7 +137,6 @@ export default function(editor, confirmDiscardChangeMessage) {
             )
         }
       ),
-      params,
       configurationDataSourceUrl,
       parameter
     )
