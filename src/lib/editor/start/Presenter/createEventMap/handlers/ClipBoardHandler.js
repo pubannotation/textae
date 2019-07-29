@@ -7,7 +7,7 @@ module.exports = function(command, annotationData, selectionModel, clipBoard) {
       (function getEntitiesFromSelectedSpan() {
         return _.flatten(
           selectionModel.span.all().map((spanId) => {
-            return annotationData.span.get(spanId).getEntities()
+            return annotationData.span.get(spanId).getEntities().map((e) => e.id)
           })
         )
       })().concat(selectionModel.entity.all())
