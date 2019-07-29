@@ -13,7 +13,8 @@ module.exports = function(
   onSave,
   edited,
   filename,
-  title
+  title,
+  originalConfig
 ) {
   const cursorChanger = new CursorChanger(editor)
   const showSaveSuccess = function() {
@@ -86,18 +87,17 @@ module.exports = function(
           .append($('<span class="diff-info diff-info--remove">removed</span>'))
       )
     )
-    .append($('<div class="textae-editor__save-dialog__diff-viewer">'))
+    .append(
+      $(
+        `<div class="textae-editor__save-dialog__diff-viewer">${jsonDiff(
+          originalConfig,
+          edited
+        ) || 'nothing.'}</div>`
+      )
+    )
 
   // Capture the local variable by inner funcitons.
   const $dialog = getDialog('textae.dialog.save', title, $content[0], editor)
-
-  // Set the filename when the dialog is opened.
-  $dialog.on('dialogopen', () => {
-    const diff = jsonDiff($dialog.params.originalConfig, edited)
-    $dialog
-      .find('.textae-editor__save-dialog__diff-viewer')
-      .html(diff || 'nothing.')
-  })
 
   return $dialog
 }

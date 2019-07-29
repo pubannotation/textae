@@ -91,7 +91,8 @@ export default function(editor, confirmDiscardChangeMessage) {
         () => api.emit('save--config'),
         editedData.config,
         'config.json',
-        'Save Configurations'
+        'Save Configurations',
+        originalData.config
       ),
       params,
       configurationDataSourceUrl,
