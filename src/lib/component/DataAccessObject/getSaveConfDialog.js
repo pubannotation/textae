@@ -5,6 +5,8 @@ import getDialog from './getDialog'
 import jsonDiff from '../../util/jsonDiff'
 import $ from 'jquery'
 import _ from 'underscore'
+import createDownloadPath from './createDownloadPath'
+import closeDialog from './closeDialog'
 
 module.exports = function(
   api,
@@ -26,12 +28,6 @@ module.exports = function(
     api.emit('save error')
     cursorChanger.endWait()
     closeDialog($content)
-  }
-  const createDownloadPath = function(contents) {
-    const blob = new Blob([contents], {
-      type: 'application/json'
-    })
-    return URL.createObjectURL(blob)
   }
   const RowDiv = _.partial(jQuerySugar.Div, 'textae-editor__save-dialog__row')
   const RowLabel = _.partial(
@@ -100,8 +96,4 @@ module.exports = function(
   const $dialog = getDialog('textae.dialog.save', title, $content[0], editor)
 
   return $dialog
-}
-
-function closeDialog($content) {
-  $content.trigger('dialog.close')
 }
