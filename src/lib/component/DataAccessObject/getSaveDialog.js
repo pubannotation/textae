@@ -5,7 +5,7 @@ import getDialog from './getDialog'
 import $ from 'jquery'
 import _ from 'underscore'
 
-module.exports = function(api, editor, saveToServer, onSave) {
+module.exports = function(api, editor, saveToServer, onSave, edited) {
   const cursorChanger = new CursorChanger(editor)
   const showSaveSuccess = function() {
     onSave()
@@ -45,7 +45,7 @@ module.exports = function(api, editor, saveToServer, onSave) {
     .on('click', '[type="button"].url', () => {
       saveToServer(
         jQuerySugar.getValueFromText($content, 'url'),
-        JSON.stringify($dialog.params.editedAnnotation),
+        JSON.stringify(edited),
         showSaveSuccess,
         showSaveError,
         cursorChanger,
@@ -62,9 +62,7 @@ module.exports = function(api, editor, saveToServer, onSave) {
       )
     )
     .on('click', 'a.download', function() {
-      const downloadPath = createDownloadPath(
-        JSON.stringify($dialog.params.editedAnnotation)
-      )
+      const downloadPath = createDownloadPath(JSON.stringify(edited))
       $(this)
         .attr('href', downloadPath)
         .attr('download', jQuerySugar.getValueFromText($content, 'local'))
@@ -80,9 +78,7 @@ module.exports = function(api, editor, saveToServer, onSave) {
       )
     )
     .on('click', 'a.viewsource', (e) => {
-      const downloadPath = createDownloadPath(
-        JSON.stringify($dialog.params.editedAnnotation)
-      )
+      const downloadPath = createDownloadPath(JSON.stringify(edited))
       window.open(downloadPath, '_blank')
       onSave
       closeDialog($content)

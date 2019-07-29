@@ -65,31 +65,29 @@ export default function(editor, confirmDiscardChangeMessage) {
     )
   }
   const showSave = function(originalData, editedData, parameter) {
-    const params = new DialogParams(
-      editedData,
-      originalData.config,
-      editedData.config,
-      null,
-      null
-    )
+    const params = new DialogParams(null, originalData.config, null, null, null)
     openAndSetParam(
-      getSaveDialog(api, editor, saveJsonToServer, () => api.emit('save')),
+      getSaveDialog(
+        api,
+        editor,
+        saveJsonToServer,
+        () => api.emit('save'),
+        editedData
+      ),
       params,
       annotationDataSourceUrl,
       parameter
     )
   }
   const showSaveConf = function(originalData, editedData, parameter) {
-    const params = new DialogParams(
-      editedData,
-      originalData.config,
-      editedData.config,
-      null,
-      null
-    )
+    const params = new DialogParams(null, originalData.config, null, null, null)
     openAndSetParam(
-      getSaveConfDialog(api, editor, saveConfigJsonToServer, () =>
-        api.emit('save--config')
+      getSaveConfDialog(
+        api,
+        editor,
+        saveConfigJsonToServer,
+        () => api.emit('save--config'),
+        editedData.config
       ),
       params,
       configurationDataSourceUrl,

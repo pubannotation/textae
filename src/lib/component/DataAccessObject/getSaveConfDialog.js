@@ -6,7 +6,7 @@ import jsonDiff from '../../util/jsonDiff'
 import $ from 'jquery'
 import _ from 'underscore'
 
-module.exports = function(api, editor, saveToServer, onSave) {
+module.exports = function(api, editor, saveToServer, onSave, edited) {
   const cursorChanger = new CursorChanger(editor)
   const showSaveSuccess = function() {
     onSave()
@@ -46,7 +46,7 @@ module.exports = function(api, editor, saveToServer, onSave) {
     .on('click', '[type="button"].url', () => {
       saveToServer(
         jQuerySugar.getValueFromText($content, 'url'),
-        JSON.stringify($dialog.params.editedConfig),
+        JSON.stringify(edited),
         showSaveSuccess,
         showSaveError,
         cursorChanger,
@@ -63,9 +63,7 @@ module.exports = function(api, editor, saveToServer, onSave) {
       )
     )
     .on('click', 'a.download', function() {
-      const downloadPath = createDownloadPath(
-        JSON.stringify($dialog.params.editedConfig)
-      )
+      const downloadPath = createDownloadPath(JSON.stringify(edited))
       $(this)
         .attr('href', downloadPath)
         .attr('download', jQuerySugar.getValueFromText($content, 'local'))
@@ -92,10 +90,7 @@ module.exports = function(api, editor, saveToServer, onSave) {
 
   // Set the filename when the dialog is opened.
   $dialog.on('dialogopen', () => {
-    const diff = jsonDiff(
-      $dialog.params.originalConfig,
-      $dialog.params.editedConfig
-    )
+    const diff = jsonDiff($dialog.params.originalConfig, edited)
     $dialog.find('[type="text"].local').val('config.json')
     $dialog
       .find('.textae-editor__save-dialog__diff-viewer')
