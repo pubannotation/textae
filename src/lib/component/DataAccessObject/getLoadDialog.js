@@ -1,9 +1,10 @@
+import CursorChanger from '../../util/CursorChanger'
 import jQuerySugar from '../jQuerySugar'
 import label from './label'
-import CursorChanger from '../../util/CursorChanger'
 import getDialog from './getDialog'
 import $ from 'jquery'
 import _ from 'underscore'
+import closeDialog from './closeDialog'
 
 module.exports = function(
   api,
@@ -70,8 +71,4 @@ module.exports = function(
   const $dialog = getDialog('textae.dialog.load', title, $content[0], editor)
 
   return $dialog
-}
-
-function closeDialog($content) {
-  $content.trigger('dialog.close')
 }

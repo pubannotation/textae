@@ -1,11 +1,11 @@
 import CursorChanger from '../../util/CursorChanger'
-import label from './label'
 import jQuerySugar from '../jQuerySugar'
+import label from './label'
 import getDialog from './getDialog'
 import $ from 'jquery'
 import _ from 'underscore'
-import createDownloadPath from './createDownloadPath'
 import closeDialog from './closeDialog'
+import createDownloadPath from './createDownloadPath'
 
 module.exports = function(
   api,
