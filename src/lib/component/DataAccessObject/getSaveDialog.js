@@ -5,7 +5,15 @@ import getDialog from './getDialog'
 import $ from 'jquery'
 import _ from 'underscore'
 
-module.exports = function(api, editor, saveToServer, onSave, edited) {
+module.exports = function(
+  api,
+  editor,
+  saveToServer,
+  onSave,
+  edited,
+  filename,
+  title
+) {
   const cursorChanger = new CursorChanger(editor)
   const showSaveSuccess = function() {
     onSave()
@@ -56,7 +64,7 @@ module.exports = function(api, editor, saveToServer, onSave, edited) {
       new RowDiv().append(
         new RowLabel(label.LOCAL),
         $(
-          '<input type="text" class="textae-editor__save-dialog__local-file-name local">'
+          `<input type="text" value="${filename}" class="textae-editor__save-dialog__local-file-name local">`
         ),
         $('<a class="download" href="#">Download</a>')
       )
@@ -86,17 +94,7 @@ module.exports = function(api, editor, saveToServer, onSave, edited) {
     })
 
   // Capture the local variable by inner funcitons.
-  const $dialog = getDialog(
-    'textae.dialog.save',
-    'Save Annotations',
-    $content[0],
-    editor
-  )
-
-  // Set the filename when the dialog is opened.
-  $dialog.on('dialogopen', () => {
-    $dialog.find('[type="text"].local').val('annotations.json')
-  })
+  const $dialog = getDialog('textae.dialog.save', title, $content[0], editor)
 
   return $dialog
 }

@@ -72,7 +72,9 @@ export default function(editor, confirmDiscardChangeMessage) {
         editor,
         saveJsonToServer,
         () => api.emit('save'),
-        editedData
+        editedData,
+        'annotations.json',
+        'Save Annotations'
       ),
       params,
       annotationDataSourceUrl,
@@ -87,7 +89,9 @@ export default function(editor, confirmDiscardChangeMessage) {
         editor,
         saveConfigJsonToServer,
         () => api.emit('save--config'),
-        editedData.config
+        editedData.config,
+        'config.json',
+        'Save Configurations'
       ),
       params,
       configurationDataSourceUrl,
