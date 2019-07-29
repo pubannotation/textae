@@ -11,7 +11,8 @@ module.exports = function(
   editor,
   isUserConfirm,
   getFromServer,
-  getJsonFromFile
+  getJsonFromFile,
+  title
 ) {
   const RowDiv = _.partial(jQuerySugar.Div, 'textae-editor__load-dialog__row')
   const RowLabel = _.partial(
@@ -66,12 +67,7 @@ module.exports = function(
     })
 
   // Capture the local variable by inner funcitons.
-  const $dialog = getDialog(
-    'textae.dialog.load',
-    'Load Annotations',
-    $content[0],
-    editor
-  )
+  const $dialog = getDialog('textae.dialog.load', title, $content[0], editor)
 
   return $dialog
 }

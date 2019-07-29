@@ -35,7 +35,8 @@ export default function(editor, confirmDiscardChangeMessage) {
           )
         },
         getAnnotationFromServer,
-        (api, file) => getJsonFromFile(api, file, 'annotation')
+        (api, file) => getJsonFromFile(api, file, 'annotation'),
+        'Load Annotations'
       ),
       null,
       annotationDataSourceUrl,
@@ -54,7 +55,8 @@ export default function(editor, confirmDiscardChangeMessage) {
           )
         },
         getConfigurationFromServer,
-        (api, file) => getJsonFromFile(api, file, 'config')
+        (api, file) => getJsonFromFile(api, file, 'config'),
+        'Load Configurations'
       ),
       null,
       configurationDataSourceUrl,
