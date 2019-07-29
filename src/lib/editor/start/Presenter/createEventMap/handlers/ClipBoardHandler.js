@@ -11,14 +11,15 @@ export default function(command, annotationData, selectionModel, clipBoard) {
 function copyEntities(clipBoard, selectionModel, annotationData) {
   clipBoard.clipBoard = _.uniq(
     (function getEntitiesFromSelectedSpan() {
-      return _.flatten(
-        selectionModel.span.all().map((spanId) => {
+      return selectionModel.span
+        .all()
+        .map((spanId) => {
           return annotationData.span
             .get(spanId)
             .getEntities()
             .map((e) => e.id)
         })
-      )
+        .flat()
     })().concat(selectionModel.entity.all())
   ).map((entityId) => {
     // Map entities to types, because entities may be delete.
@@ -28,8 +29,9 @@ function copyEntities(clipBoard, selectionModel, annotationData) {
 
 // Make commands per selected spans from types in clipBoard.
 function pasteEntities(selectionModel, clipBoard, command) {
-  const commands = _.flatten(
-    selectionModel.span.all().map((spanId) => {
+  const commands = selectionModel.span
+    .all()
+    .map((spanId) => {
       return clipBoard.clipBoard.map((type) => {
         return command.factory.entityCreateCommand({
           span: spanId,
@@ -37,6 +39,7 @@ function pasteEntities(selectionModel, clipBoard, command) {
         })
       })
     })
-  )
+    .flat()
+
   command.invoke(commands, ['annotation'])
 }
