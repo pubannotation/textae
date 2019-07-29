@@ -1,13 +1,18 @@
 import jQuerySugar from '../jQuerySugar'
 import getJsonFromFile from './getJsonFromFile'
 import label from './label'
-import getAnnotationFromServer from './getAnnotationFromServer'
 import CursorChanger from '../../util/CursorChanger'
 import getDialog from './getDialog'
 import $ from 'jquery'
 import _ from 'underscore'
 
-module.exports = function(api, setDataSourceUrl, editor, isUserConfirm) {
+module.exports = function(
+  api,
+  setDataSourceUrl,
+  editor,
+  isUserConfirm,
+  getFromServer
+) {
   const RowDiv = _.partial(jQuerySugar.Div, 'textae-editor__load-dialog__row')
   const RowLabel = _.partial(
     jQuerySugar.Label,
@@ -31,7 +36,7 @@ module.exports = function(api, setDataSourceUrl, editor, isUserConfirm) {
     })
     .on('click', '[type="button"].url', () => {
       if (isUserConfirm()) {
-        getAnnotationFromServer(
+        getFromServer(
           jQuerySugar.getValueFromText($content, 'url'),
           new CursorChanger(editor),
           api,
