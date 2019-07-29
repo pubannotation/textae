@@ -7,22 +7,13 @@ import getDialog from './getDialog'
 import $ from 'jquery'
 import _ from 'underscore'
 
-module.exports = function(
-  api,
-  confirmDiscardChangeMessage,
-  setDataSourceUrl,
-  editor,
-  hasAnythingToSave
-) {
+module.exports = function(api, setDataSourceUrl, editor, isUserConfirm) {
   const RowDiv = _.partial(jQuerySugar.Div, 'textae-editor__load-dialog__row')
   const RowLabel = _.partial(
     jQuerySugar.Label,
     'textae-editor__load-dialog__label'
   )
   const OpenButton = _.partial(jQuerySugar.Button, 'Open')
-  const isUserConfirm = function() {
-    return !hasAnythingToSave || window.confirm(confirmDiscardChangeMessage)
-  }
   const $buttonUrl = new OpenButton('url')
   const $buttonLocal = new OpenButton('local')
   const $content = $('<div>')

@@ -24,13 +24,9 @@ export default function(editor, confirmDiscardChangeMessage) {
   const api = new EventEmitter()
   const showAccess = function(hasAnythingToSave, parameter) {
     openAndSetParam(
-      getLoadDialog(
-        api,
-        confirmDiscardChangeMessage,
-        setAnnotationDataSourceUrl,
-        editor,
-        hasAnythingToSave
-      ),
+      getLoadDialog(api, setAnnotationDataSourceUrl, editor, () => {
+        return !hasAnythingToSave || window.confirm(confirmDiscardChangeMessage)
+      }),
       null,
       annotationDataSourceUrl,
       parameter
@@ -38,13 +34,9 @@ export default function(editor, confirmDiscardChangeMessage) {
   }
   const showAccessConf = function(hasAnythingToSave, parameter) {
     openAndSetParam(
-      getLoadConfDialog(
-        api,
-        confirmDiscardChangeMessage,
-        setConfigurationDataSourceUrl,
-        editor,
-        hasAnythingToSave
-      ),
+      getLoadConfDialog(api, setConfigurationDataSourceUrl, editor, () => {
+        return !hasAnythingToSave || window.confirm(confirmDiscardChangeMessage)
+      }),
       null,
       configurationDataSourceUrl,
       parameter
