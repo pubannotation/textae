@@ -29,23 +29,23 @@ module.exports = function(api, editor, saveToServer, onSave) {
     jQuerySugar.Label,
     'textae-editor__save-dialog__label'
   )
-  const $configSaveButton = new jQuerySugar.Button('Save', 'url--config')
-  const $configurationContent = $('<div>')
+  const $saveButton = new jQuerySugar.Button('Save', 'url')
+  const $content = $('<div>')
     .append(
       new RowDiv().append(
         new RowLabel(label.URL),
         $(
-          '<input type="text" class="textae-editor__save-dialog__server-file-name--config url--config" />'
+          '<input type="text" class="textae-editor__save-dialog__server-file-name url" />'
         ),
-        $configSaveButton
+        $saveButton
       )
     )
-    .on('input', 'input.url--config', function() {
-      jQuerySugar.enabled($configSaveButton, this.value)
+    .on('input', 'input.url', function() {
+      jQuerySugar.enabled($saveButton, this.value)
     })
-    .on('click', '[type="button"].url--config', () => {
+    .on('click', '[type="button"].url', () => {
       saveToServer(
-        jQuerySugar.getValueFromText($content, 'url--config'),
+        jQuerySugar.getValueFromText($content, 'url'),
         JSON.stringify($dialog.params.editedConfig),
         showSaveSuccess,
         showSaveError,
@@ -57,33 +57,32 @@ module.exports = function(api, editor, saveToServer, onSave) {
       new RowDiv().append(
         new RowLabel(label.LOCAL),
         $(
-          '<input type="text" class="textae-editor__save-dialog__local-file-name--config local--config">'
+          '<input type="text" class="textae-editor__save-dialog__local-file-name local">'
         ),
-        $('<a class="download--config" href="#">Download</a>')
+        $('<a class="download" href="#">Download</a>')
       )
     )
-    .on('click', 'a.download--config', function() {
+    .on('click', 'a.download', function() {
       const downloadPath = createDownloadPath(
         JSON.stringify($dialog.params.editedConfig)
       )
       $(this)
         .attr('href', downloadPath)
-        .attr(
-          'download',
-          jQuerySugar.getValueFromText($configurationContent, 'local--config')
-        )
+        .attr('download', jQuerySugar.getValueFromText($content, 'local'))
       onSave()
       closeDialog($content)
     })
-  const $diffTitle = new RowDiv().append(
-    $('<p class="textae-editor__save-dialog__diff-title">')
-      .text('Configuration differences')
-      .append($('<span class="diff-info diff-info--add">added</span>'))
-      .append($('<span class="diff-info diff-info--remove">removed</span>'))
-  )
-  const $diffViewer = $('<div class="textae-editor__save-dialog__diff-viewer">')
-  const $content = $configurationContent.append($diffTitle).append($diffViewer)
+    .append(
+      new RowDiv().append(
+        $('<p class="textae-editor__save-dialog__diff-title">')
+          .text('Configuration differences')
+          .append($('<span class="diff-info diff-info--add">added</span>'))
+          .append($('<span class="diff-info diff-info--remove">removed</span>'))
+      )
+    )
+    .append($('<div class="textae-editor__save-dialog__diff-viewer">'))
 
+  // Capture the local variable by inner funcitons.
   const $dialog = getDialog(
     'textae.dialog.save',
     'Save Configurations',
@@ -97,7 +96,7 @@ module.exports = function(api, editor, saveToServer, onSave) {
       $dialog.params.originalConfig,
       $dialog.params.editedConfig
     )
-    $dialog.find('[type="text"].local--config').val('config.json')
+    $dialog.find('[type="text"].local').val('config.json')
     $dialog
       .find('.textae-editor__save-dialog__diff-viewer')
       .html(diff || 'nothing.')
