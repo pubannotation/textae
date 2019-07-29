@@ -4,7 +4,6 @@ import getAnnotationFromServer from './getAnnotationFromServer'
 import getConfigurationFromServer from './getCofigurationFromServer'
 import getLoadDialog from './getLoadDialog'
 import getSaveDialog from './getSaveDialog'
-import getSaveConfDialog from './getSaveConfDialog'
 import openAndSetParam from './openAndSetParam'
 import getJsonFromFile from './getJsonFromFile'
 import saveJsonToServer from './saveJsonToServer'
@@ -103,7 +102,7 @@ export default function(editor, confirmDiscardChangeMessage) {
   }
   const showSaveConf = function(originalData, editedData, parameter) {
     openAndSetParam(
-      getSaveConfDialog(
+      getSaveDialog(
         api,
         editor,
         saveConfigJsonToServer,
