@@ -11,7 +11,8 @@ module.exports = function(
   api,
   confirmDiscardChangeMessage,
   setDataSourceUrl,
-  editor
+  editor,
+  hasAnythingToSave
 ) {
   const RowDiv = _.partial(jQuerySugar.Div, 'textae-editor__load-dialog__row')
   const RowLabel = _.partial(
@@ -20,10 +21,7 @@ module.exports = function(
   )
   const OpenButton = _.partial(jQuerySugar.Button, 'Open')
   const isUserConfirm = function() {
-    return (
-      !$dialog.params.hasAnythingToSaveConfiguration ||
-      window.confirm(confirmDiscardChangeMessage)
-    )
+    return !hasAnythingToSave || window.confirm(confirmDiscardChangeMessage)
   }
   const $buttonUrl = new OpenButton('url')
   const $buttonLocal = new OpenButton('local')
