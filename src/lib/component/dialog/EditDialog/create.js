@@ -6,11 +6,11 @@ const source = `
 <div class="textae-editor__edit-value-and-pred-dialog__container">
   <div class="textae-editor__edit-value-and-pred-dialog__input-box">
     <label>Predicate:</label><br>
-    <input class="'textae-editor__edit-value-and-pred-dialog--predicate'" value="{{predicate}}">
+    <input class="textae-editor__edit-value-and-pred-dialog--predicate" value="{{predicate}}">
   </div>
   <div class="textae-editor__edit-value-and-pred-dialog__input-box">
     <label>Value:<span></span></label><br>
-    <input class="'textae-editor__edit-value-and-pred-dialog--value'" value="{{value}}">
+    <input class="textae-editor__edit-value-and-pred-dialog--value" value="{{value}}">
   </div>
 </div>`
 const template = Handlebars.compile(source)
