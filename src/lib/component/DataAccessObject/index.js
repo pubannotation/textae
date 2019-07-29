@@ -4,7 +4,6 @@ import getAnnotationFromServer from './getAnnotationFromServer'
 import getConfigurationFromServer from './getCofigurationFromServer'
 import DialogParams from '../dialog/DialogParams'
 import getLoadDialog from './getLoadDialog'
-import getLoadConfDialog from './getLoadConfDialog'
 import getSaveDialog from './getSaveDialog'
 import getSaveConfDialog from './getSaveConfDialog'
 import openAndSetParam from './openAndSetParam'
@@ -45,7 +44,7 @@ export default function(editor, confirmDiscardChangeMessage) {
   }
   const showAccessConf = function(hasAnythingToSave, parameter) {
     openAndSetParam(
-      getLoadConfDialog(
+      getLoadDialog(
         api,
         setConfigurationDataSourceUrl,
         editor,
