@@ -1,15 +1,14 @@
 import CursorChanger from '../../util/CursorChanger'
-import saveJsonToServer from './saveJsonToServer'
 import label from './label'
 import jQuerySugar from '../jQuerySugar'
 import getDialog from './getDialog'
 import $ from 'jquery'
 import _ from 'underscore'
 
-module.exports = function(api, editor) {
+module.exports = function(api, editor, saveToServer, onSave) {
   const cursorChanger = new CursorChanger(editor)
   const showSaveSuccess = function() {
-    api.emit('save')
+    onSave()
     cursorChanger.endWait()
     closeDialog($content)
   }
@@ -44,7 +43,7 @@ module.exports = function(api, editor) {
       jQuerySugar.enabled($saveButton, this.value)
     })
     .on('click', '[type="button"].url', () => {
-      saveJsonToServer(
+      saveToServer(
         jQuerySugar.getValueFromText($content, 'url'),
         JSON.stringify($dialog.params.editedAnnotation),
         showSaveSuccess,
@@ -69,7 +68,7 @@ module.exports = function(api, editor) {
       $(this)
         .attr('href', downloadPath)
         .attr('download', jQuerySugar.getValueFromText($content, 'local'))
-      api.emit('save')
+      onSave()
       closeDialog($content)
     })
     .append(
@@ -85,7 +84,7 @@ module.exports = function(api, editor) {
         JSON.stringify($dialog.params.editedAnnotation)
       )
       window.open(downloadPath, '_blank')
-      api.emit('save')
+      onSave
       closeDialog($content)
       return false
     })

@@ -8,6 +8,8 @@ import getSaveDialog from './getSaveDialog'
 import getSaveConfDialog from './getSaveConfDialog'
 import openAndSetParam from './openAndSetParam'
 import getJsonFromFile from './getJsonFromFile'
+import saveJsonToServer from './saveJsonToServer'
+import saveConfigJsonToServer from './saveConfigJsonToServer'
 
 // A sub component to save and load data.
 export default function(editor, confirmDiscardChangeMessage) {
@@ -71,7 +73,7 @@ export default function(editor, confirmDiscardChangeMessage) {
       null
     )
     openAndSetParam(
-      getSaveDialog(api, editor),
+      getSaveDialog(api, editor, saveJsonToServer, () => api.emit('save')),
       params,
       annotationDataSourceUrl,
       parameter
@@ -86,7 +88,9 @@ export default function(editor, confirmDiscardChangeMessage) {
       null
     )
     openAndSetParam(
-      getSaveConfDialog(api, editor),
+      getSaveConfDialog(api, editor, saveConfigJsonToServer, () =>
+        api.emit('save--config')
+      ),
       params,
       configurationDataSourceUrl,
       parameter

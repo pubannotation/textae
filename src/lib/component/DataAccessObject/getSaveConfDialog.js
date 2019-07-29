@@ -1,5 +1,4 @@
 import CursorChanger from '../../util/CursorChanger'
-import saveConfigJsonToServer from './saveConfigJsonToServer'
 import label from './label'
 import jQuerySugar from '../jQuerySugar'
 import getDialog from './getDialog'
@@ -7,10 +6,10 @@ import jsonDiff from '../../util/jsonDiff'
 import $ from 'jquery'
 import _ from 'underscore'
 
-module.exports = function(api, editor) {
+module.exports = function(api, editor, saveToServer, onSave) {
   const cursorChanger = new CursorChanger(editor)
   const showSaveSuccess = function() {
-    api.emit('save--config')
+    onSave()
     cursorChanger.endWait()
     closeDialog($content)
   }
@@ -45,7 +44,7 @@ module.exports = function(api, editor) {
       jQuerySugar.enabled($configSaveButton, this.value)
     })
     .on('click', '[type="button"].url--config', () => {
-      saveConfigJsonToServer(
+      saveToServer(
         jQuerySugar.getValueFromText($content, 'url--config'),
         JSON.stringify($dialog.params.editedConfig),
         showSaveSuccess,
@@ -73,7 +72,7 @@ module.exports = function(api, editor) {
           'download',
           jQuerySugar.getValueFromText($configurationContent, 'local--config')
         )
-      api.emit('save--config')
+      onSave()
       closeDialog($content)
     })
   const $diffTitle = new RowDiv().append(
