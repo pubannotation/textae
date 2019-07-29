@@ -8,6 +8,7 @@ import getLoadConfDialog from './getLoadConfDialog'
 import getSaveDialog from './getSaveDialog'
 import getSaveConfDialog from './getSaveConfDialog'
 import openAndSetParam from './openAndSetParam'
+import getJsonFromFile from './getJsonFromFile'
 
 // A sub component to save and load data.
 export default function(editor, confirmDiscardChangeMessage) {
@@ -33,7 +34,8 @@ export default function(editor, confirmDiscardChangeMessage) {
             !hasAnythingToSave || window.confirm(confirmDiscardChangeMessage)
           )
         },
-        getAnnotationFromServer
+        getAnnotationFromServer,
+        (api, file) => getJsonFromFile(api, file, 'annotation')
       ),
       null,
       annotationDataSourceUrl,
@@ -51,7 +53,8 @@ export default function(editor, confirmDiscardChangeMessage) {
             !hasAnythingToSave || window.confirm(confirmDiscardChangeMessage)
           )
         },
-        getConfigurationFromServer
+        getConfigurationFromServer,
+        (api, file) => getJsonFromFile(api, file, 'config')
       ),
       null,
       configurationDataSourceUrl,

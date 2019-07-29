@@ -1,5 +1,4 @@
 import jQuerySugar from '../jQuerySugar'
-import getJsonFromFile from './getJsonFromFile'
 import label from './label'
 import CursorChanger from '../../util/CursorChanger'
 import getDialog from './getDialog'
@@ -11,7 +10,8 @@ module.exports = function(
   setDataSourceUrl,
   editor,
   isUserConfirm,
-  getFromServer
+  getFromServer,
+  getJsonFromFile
 ) {
   const RowDiv = _.partial(jQuerySugar.Div, 'textae-editor__load-dialog__row')
   const RowLabel = _.partial(
@@ -59,8 +59,7 @@ module.exports = function(
       if (isUserConfirm()) {
         getJsonFromFile(
           api,
-          $content.find('.textae-editor__load-dialog__file')[0],
-          'config'
+          $content.find('.textae-editor__load-dialog__file')[0]
         )
       }
       closeDialog($content)
