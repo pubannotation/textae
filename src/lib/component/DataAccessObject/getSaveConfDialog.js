@@ -1,6 +1,5 @@
 import CursorChanger from '../../util/CursorChanger'
 import saveConfigJsonToServer from './saveConfigJsonToServer'
-import getLoadDialog from './getLoadDialog'
 import label from './label'
 import jQuerySugar from '../jQuerySugar'
 import getDialog from './getDialog'
@@ -8,12 +7,7 @@ import jsonDiff from '../../util/jsonDiff'
 import $ from 'jquery'
 import _ from 'underscore'
 
-module.exports = function(
-  api,
-  confirmDiscardChangeMessage,
-  setDataSourceUrl,
-  editor
-) {
+module.exports = function(api, editor) {
   const cursorChanger = new CursorChanger(editor)
   const showSaveSuccess = function() {
     api.emit('save--config')
@@ -30,18 +24,6 @@ module.exports = function(
       type: 'application/json'
     })
     return URL.createObjectURL(blob)
-  }
-  const getConfigurationFilename = function() {
-    const $fileInput = getLoadDialog(
-      api,
-      confirmDiscardChangeMessage,
-      label,
-      setDataSourceUrl,
-      editor
-    ).find("input[type='file']")
-    const file = $fileInput.prop('files')[0]
-
-    return file ? file.name : 'config.json'
   }
   const RowDiv = _.partial(jQuerySugar.Div, 'textae-editor__save-dialog__row')
   const RowLabel = _.partial(
@@ -116,7 +98,7 @@ module.exports = function(
       $dialog.params.originalConfig,
       $dialog.params.editedConfig
     )
-    $dialog.find('[type="text"].local--config').val(getConfigurationFilename())
+    $dialog.find('[type="text"].local--config').val('config.json')
     $dialog
       .find('.textae-editor__save-dialog__diff-viewer')
       .html(diff || 'nothing.')

@@ -59,12 +59,7 @@ export default function(editor, confirmDiscardChangeMessage) {
       null
     )
     openAndSetParam(
-      getSaveDialog(
-        api,
-        confirmDiscardChangeMessage,
-        setAnnotationDataSourceUrl,
-        editor
-      ),
+      getSaveDialog(api, editor),
       params,
       annotationDataSourceUrl,
       parameter
@@ -79,12 +74,7 @@ export default function(editor, confirmDiscardChangeMessage) {
       null
     )
     openAndSetParam(
-      getSaveConfDialog(
-        api,
-        confirmDiscardChangeMessage,
-        setConfigurationDataSourceUrl,
-        editor
-      ),
+      getSaveConfDialog(api, editor),
       params,
       configurationDataSourceUrl,
       parameter
