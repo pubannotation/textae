@@ -9,9 +9,7 @@ import bindUpdateSaveButton from './bindUpdateSaveButton'
 import * as observe from './observe'
 import start from './start'
 import { EventEmitter } from 'events'
-
-const CONFIRM_DISCARD_CHANGE_MESSAGE =
-  'There is a change that has not been saved. If you procceed now, you will lose it.'
+import CONFIRM_DISCARD_CHANGE_MESSAGE from './CONFIRM_DISCARD_CHANGE_MESSAGE'
 
 export default function() {
   const annotationData = new AnnotationData(this)

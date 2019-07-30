@@ -121,6 +121,16 @@ module.exports = function(grunt) {
             return [
               favicon(`${__dirname}/dev/favicon.ico`),
               function(req, res, next) {
+                // Path to Sever Auth test
+                const pathname = req._parsedUrl.pathname
+                if (pathname !== '/dev/server_auth') return next()
+
+                res.statusCode = 401
+                res.setHeader('WWW-Authenticate', 'ServerPage')
+                res.setHeader('Location', '/dev/dummy_auth_page.html')
+                res.end('Unauthorized')
+              },
+              function(req, res, next) {
                 // Require authorization if file is 'private.json'.
                 const pathname = req._parsedUrl.pathname
                 if (pathname !== '/dev/private.json') return next()

@@ -1,9 +1,10 @@
 import Handlebars from 'handlebars'
+import delegate from 'delegate'
 import jQuerySugar from '../jQuerySugar'
 import getDialog from './getDialog'
 import $ from 'jquery'
-import closeDialog from './closeDialog'
 import createDownloadPath from './createDownloadPath'
+import toDomEelement from './toDomEelement'
 
 const source = `<div>
   <div class="textae-editor__save-dialog__row">
@@ -20,55 +21,43 @@ const source = `<div>
 const template = Handlebars.compile(source)
 
 export default function(
-  api,
-  cursorChanger,
-  saveToServer,
-  onSave,
-  edited,
-  filename,
   title,
+  filename,
+  url,
+  data,
+  saveToServer,
   setOptionFields,
-  url
+  onSave
 ) {
-  const $dialog = getDialog(
-    'textae.dialog.save',
-    title,
-    template({ filename, url })
-  )
+  const el = toDomEelement(template({ filename, url }))
 
-  $dialog
-    .on('input', '[type="text"].url', (e) => {
-      const $button = $(e.target.nextElementSibling)
-      jQuerySugar.enabled($button, e.target.value)
-    })
-    .on('click', '[type="button"].url', (e) => {
-      saveToServer(
-        e.target.previousElementSibling.value,
-        JSON.stringify(edited),
-        () => {
-          onSave()
-          cursorChanger.endWait()
-          closeDialog($dialog)
-        },
-        () => {
-          api.emit('save error')
-          cursorChanger.endWait()
-          closeDialog($dialog)
-        }
-      )
-    })
-    .on('click', 'a.download', (e) => {
-      const downloadPath = createDownloadPath(JSON.stringify(edited))
+  // Disabled the button to save to the URL when no URL.
+  delegate(el, '[type="text"].url', 'input', (e) => {
+    const $button = $(e.target.nextElementSibling)
+    jQuerySugar.enabled($button, e.target.value)
+  })
 
-      $(e.target)
-        .attr('href', downloadPath)
-        .attr('download', e.target.previousElementSibling.value)
+  const $dialog = getDialog('textae.dialog.save', title, el)
 
-      onSave()
-      closeDialog($dialog)
-    })
+  // Save to the URL.
+  delegate(el, '[type="button"].url', 'click', (e) => {
+    saveToServer(e.target.previousElementSibling.value, JSON.stringify(data))
+    $dialog.close()
+  })
 
-  setOptionFields($dialog)
+  // Download as a JSON file.
+  delegate(el, 'a.download', 'click', (e) => {
+    const aTag = e.target
+    const downloadPath = createDownloadPath(JSON.stringify(data))
+
+    aTag.setAttribute('href', downloadPath)
+    aTag.setAttribute('download', aTag.previousElementSibling.value)
+
+    onSave()
+    $dialog.close()
+  })
+
+  setOptionFields(el)
 
   return $dialog
 }

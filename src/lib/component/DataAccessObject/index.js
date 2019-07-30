@@ -1,165 +1,105 @@
 import { EventEmitter } from 'events'
 import CursorChanger from '../../util/CursorChanger'
-import getAnnotationFromServer from './getAnnotationFromServer'
-import getConfigurationFromServer from './getCofigurationFromServer'
 import getLoadDialog from './getLoadDialog'
-import getSaveDialog from './getSaveDialog'
+import getFromServer from './getFromServer'
 import getJsonFromFile from './getJsonFromFile'
-import saveJsonToServer from './saveJsonToServer'
-import saveConfigJsonToServer from './saveConfigJsonToServer'
-import jQuerySugar from '../jQuerySugar'
-import createDownloadPath from './createDownloadPath'
-import closeDialog from './closeDialog'
-import $ from 'jquery'
-import jsonDiff from '../../util/jsonDiff'
+import getSaveDialog from './getSaveDialog'
 import overwriteUrl from './overwriteUrl'
+import AjaxSender from './AjaxSender'
+import addViewSource from './addViewSource'
+import addJsonDiff from './addJsonDiff'
 
 // A sub component to save and load data.
-export default function(editor, confirmDiscardChangeMessage) {
-  // Store the url the annotation data is loaded from per editor.
-  const urlOfLastRead = {
-    annotation: '',
-    config: ''
+export default class extends EventEmitter {
+  constructor(editor) {
+    super()
+
+    // Store the url the annotation data is loaded from per editor.
+    this.urlOfLastRead = {
+      annotation: '',
+      config: ''
+    }
+    this.cursorChanger = new CursorChanger(editor)
+
+    this.load = (type, url) =>
+      getFromServer(
+        url,
+        () => this.cursorChanger.startWait(),
+        ({ source, loadData }) => {
+          const data = {
+            source
+          }
+          data[type] = loadData
+          super.emit(`load--${type}`, data)
+          this.urlOfLastRead[type] = url
+        },
+        () => this.cursorChanger.endWait()
+      )
+
+    this.read = (type, file) =>
+      getJsonFromFile(file, type, (data) => super.emit(`load--${type}`, data))
+
+    this.ajaxSender = new AjaxSender(
+      () => this.cursorChanger.startWait(),
+      () => super.emit('save'),
+      () => super.emit('save error'),
+      () => this.cursorChanger.endWait()
+    )
   }
 
-  const setAnnotationDataSourceUrl = (url) => {
-    urlOfLastRead.annotation = url
+  getAnnotationFromServer(url) {
+    this.load('annotation', url)
   }
-  const setConfigurationDataSourceUrl = (url) => {
-    urlOfLastRead.config = url
+
+  getConfigurationFromServer(url) {
+    this.load('config', url)
   }
-  const api = new EventEmitter()
-  const cursorChanger = new CursorChanger(editor)
-  const showAccess = function(hasAnythingToSave) {
+
+  showAccess(hasChange) {
     getLoadDialog(
-      api,
-      setAnnotationDataSourceUrl,
-      cursorChanger,
-      () => {
-        return !hasAnythingToSave || window.confirm(confirmDiscardChangeMessage)
-      },
-      getAnnotationFromServer,
-      (api, file) => getJsonFromFile(api, file, 'annotation'),
       'Load Annotations',
-      urlOfLastRead.annotation
+      this.urlOfLastRead.annotation,
+      (url) => this.load('annotation', url),
+      (file) => this.read('annotation', file),
+      hasChange
     ).open()
   }
-  const showAccessConf = function(hasAnythingToSave) {
+
+  showAccessConf(hasChange) {
     getLoadDialog(
-      api,
-      setConfigurationDataSourceUrl,
-      cursorChanger,
-      () => {
-        return !hasAnythingToSave || window.confirm(confirmDiscardChangeMessage)
-      },
-      getConfigurationFromServer,
-      (api, file) => getJsonFromFile(api, file, 'config'),
       'Load Configurations',
-      urlOfLastRead.config
+      this.urlOfLastRead.config,
+      (url) => this.load('config', url),
+      (file) => this.read('config', file),
+      hasChange
     ).open()
   }
-  const showSave = function(editedData, parameter) {
+
+  showSave(editedData, params) {
     getSaveDialog(
-      api,
-      cursorChanger,
-      (url, jsonData, showSaveSuccess, showSaveError) =>
-        saveJsonToServer(
-          url,
-          jsonData,
-          showSaveSuccess,
-          showSaveError,
-          cursorChanger,
-          editor
-        ),
-      () => api.emit('save'),
-      editedData,
-      'annotations.json',
       'Save Annotations',
-      ($dialog) => {
-        $dialog
-          .append(
-            new jQuerySugar.Div('textae-editor__save-dialog__row').append(
-              jQuerySugar.Label('textae-editor__save-dialog__label'),
-              $(
-                '<a class="viewsource" href="#">Click to see the json source in a new window.</a>'
-              )
-            )
-          )
-          .on('click', 'a.viewsource', () => {
-            const downloadPath = createDownloadPath(JSON.stringify(editedData))
-            window.open(downloadPath, '_blank')
-            api.emit('save')
-            closeDialog($dialog)
-            return false
-          })
-      },
-      overwriteUrl(urlOfLastRead.annotation, parameter)
+      'annotations.json',
+      overwriteUrl(this.urlOfLastRead.annotation, params),
+      editedData,
+      (url, data) => this.ajaxSender.post(url, data),
+      (el) => addViewSource(el, editedData, this),
+      () => super.emit('save')
     ).open()
   }
-  const showSaveConf = function(originalData, editedData, parameter) {
+
+  showSaveConf(orig, edited, params) {
     getSaveDialog(
-      api,
-      cursorChanger,
-      (url, jsonData, showSaveSuccess, showSaveError) =>
-        saveConfigJsonToServer(
-          url,
-          jsonData,
-          showSaveSuccess,
-          showSaveError,
-          cursorChanger,
-          editor
-        ),
-      () => api.emit('save--config'),
-      editedData.config,
-      'config.json',
       'Save Configurations',
-      ($dialog) => {
-        $dialog
-          .append(
-            new jQuerySugar.Div('textae-editor__save-dialog__row').append(
-              $('<p class="textae-editor__save-dialog__diff-title">')
-                .text('Configuration differences')
-                .append(
-                  $('<span class="diff-info diff-info--add">added</span>')
-                )
-                .append(
-                  $('<span class="diff-info diff-info--remove">removed</span>')
-                )
-            )
-          )
-          .append(
-            $(
-              `<div class="textae-editor__save-dialog__diff-viewer">${jsonDiff(
-                originalData.config,
-                editedData.config
-              ) || 'nothing.'}</div>`
-            )
-          )
+      'config.json',
+      overwriteUrl(this.urlOfLastRead.config, params),
+      edited.config,
+      (url, data) => {
+        // textae-config service is build with the Ruby on Rails 4.X.
+        // To change existing files, only PATCH method is allowed on the Ruby on Rails 4.X.
+        this.ajaxSender.patch(url, data)
       },
-      overwriteUrl(urlOfLastRead.config, parameter)
+      (el) => addJsonDiff(el, orig, edited),
+      () => super.emit('save--config')
     ).open()
   }
-
-  Object.assign(api, {
-    getAnnotationFromServer: (urlToJson) =>
-      getAnnotationFromServer(
-        urlToJson,
-        cursorChanger,
-        api,
-        setAnnotationDataSourceUrl
-      ),
-    getConfigurationFromServer: (urlToJson) =>
-      getConfigurationFromServer(
-        urlToJson,
-        cursorChanger,
-        api,
-        setConfigurationDataSourceUrl
-      ),
-    showAccess,
-    showSave,
-    showAccessConf,
-    showSaveConf
-  })
-
-  return api
 }

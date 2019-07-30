@@ -1,10 +1,7 @@
 import EditorDialog from '../dialog/EditorDialog'
 
-export default function(id, title, html) {
-  const wrapper = document.createElement('div')
-  wrapper.innerHTML = html
-
-  const $dialog = new EditorDialog(null, id, title, wrapper.firstChild)
+export default function(id, title, el) {
+  const $dialog = new EditorDialog(null, id, title, el)
 
   $dialog.on('dialog.close', $dialog.close)
 

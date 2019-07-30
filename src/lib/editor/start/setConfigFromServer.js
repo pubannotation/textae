@@ -1,4 +1,4 @@
-import * as ajaxAccessor from '../../util/ajaxAccessor'
+import ajaxAccessor from '../../util/ajaxAccessor'
 import setSpanAndTypeConfig from './setSpanAndTypeConfig'
 
 export default function(
@@ -11,7 +11,7 @@ export default function(
   spanConfig.reset()
 
   if (typeof config === 'string') {
-    ajaxAccessor.getAsync(
+    ajaxAccessor(
       config,
       (configFromServer) => {
         setSpanAndTypeConfig(spanConfig, typeDefinition, configFromServer)

@@ -1,5 +1,4 @@
 import Observable from 'observ'
-import cookieHandler from '../../util/CookieHandler'
 import getParams from './getParams'
 import SpanConfig from './SpanConfig'
 import Command from './Command'
@@ -83,14 +82,6 @@ export default function(
   if (params.get('control') === 'hidden') {
     editor[0].classList.add('textae-editor--control-hidden')
   }
-
-  editor.eventEmitter.on('textae.message-box.hide', () => {
-    cookieHandler().set('hide-message-box', 'true', { path: '/' })
-  })
-
-  editor.eventEmitter.on('textae.message-box.show', () => {
-    cookieHandler().set('hide-message-box', 'false', { path: '/' })
-  })
 
   // Over write editor-div's config lock state by url's.
   // Url's default is 'unlock', so its default is also 'unlock'.

@@ -1,8 +1,10 @@
 import Handlebars from 'handlebars'
+import delegate from 'delegate'
 import jQuerySugar from '../jQuerySugar'
 import getDialog from './getDialog'
 import $ from 'jquery'
-import closeDialog from './closeDialog'
+import toDomEelement from './toDomEelement'
+import CONFIRM_DISCARD_CHANGE_MESSAGE from '../../editor/CONFIRM_DISCARD_CHANGE_MESSAGE'
 
 const source = `<div>
   <div class="textae-editor__load-dialog__row">
@@ -18,47 +20,43 @@ const source = `<div>
 </div>`
 const template = Handlebars.compile(source)
 
-export default function(
-  api,
-  setDataSourceUrl,
-  cursorChanger,
-  isUserConfirm,
-  getFromServer,
-  getJsonFromFile,
-  title,
-  url
-) {
-  const $dialog = getDialog('textae.dialog.load', title, template({ url }))
+export default function(title, url, loadFromServer, loadFromFile, hasChange) {
+  const el = toDomEelement(template({ url }))
 
-  $dialog
-    .on('input', '[type="text"].url', (e) => {
-      const $button = $(e.target.nextElementSibling)
-      jQuerySugar.enabled($button, e.target.value)
-    })
-    .on('click', '[type="button"].url', (e) => {
-      if (isUserConfirm()) {
-        getFromServer(
-          e.target.previousElementSibling.value,
-          cursorChanger,
-          api,
-          setDataSourceUrl
-        )
-      }
-      closeDialog($dialog)
-    })
-    .on('change', '.textae-editor__load-dialog__file', (e) => {
-      const $button = $(e.target.nextElementSibling)
-      jQuerySugar.enabled($button, e.target.files.length > 0)
-    })
-    .on('click', '[type="button"].local', (e) => {
-      const file = e.target.previousElementSibling
+  // Disabled the button to load from the URL when no URL.
+  delegate(el, '[type="text"].url', 'input', (e) => {
+    const $button = $(e.target.nextElementSibling)
+    jQuerySugar.enabled($button, e.target.value)
+  })
 
-      if (isUserConfirm()) {
-        getJsonFromFile(api, file)
-      }
+  // Disabled the button to load from a file when no file.
+  delegate(el, '.textae-editor__load-dialog__file', 'change', (e) => {
+    const $button = $(e.target.nextElementSibling)
+    jQuerySugar.enabled($button, e.target.files.length > 0)
+  })
 
-      closeDialog($dialog)
-    })
+  const $dialog = getDialog('textae.dialog.load', title, el)
+  const isUserConfirm = () =>
+    !hasChange || window.confirm(CONFIRM_DISCARD_CHANGE_MESSAGE)
+
+  // Load from the URL.
+  delegate(el, '[type="button"].url', 'click', (e) => {
+    if (isUserConfirm()) {
+      loadFromServer(e.target.previousElementSibling.value)
+    }
+    $dialog.close()
+  })
+
+  // Load from a file.
+  delegate(el, '[type="button"].local', 'click', (e) => {
+    const file = e.target.previousElementSibling
+
+    if (isUserConfirm()) {
+      loadFromFile(file)
+    }
+
+    $dialog.close()
+  })
 
   return $dialog
 }

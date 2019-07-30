@@ -1,8 +1,8 @@
-export { getAsync, post, patch }
 import $ from 'jquery'
+import isEmptyString from './isEmptyString'
 
-function getAsync(url, dataHandler, failedHandler) {
-  if (isEmpty(url)) {
+export default function(url, dataHandler, failedHandler) {
+  if (isEmptyString(url)) {
     return
   }
 
@@ -16,61 +16,6 @@ function getAsync(url, dataHandler, failedHandler) {
   }
 
   $.ajax(opt)
-    .done((data) => {
-      if (dataHandler !== undefined) {
-        dataHandler(data)
-      }
-    })
-    .fail((res, textStatus, errorThrown) => {
-      if (failedHandler !== undefined) {
-        failedHandler()
-      }
-    })
-}
-
-function post(url, data, successHandler, failHandler, finishHandler) {
-  if (isEmpty(url)) {
-    return
-  }
-
-  console.log('POST data', data)
-  requestAjax('post', url, data, successHandler, failHandler, finishHandler)
-}
-
-function patch(url, data, successHandler, failHandler, finishHandler) {
-  if (isEmpty(url)) {
-    return
-  }
-
-  console.log('PATCH data', data)
-  requestAjax('patch', url, data, successHandler, failHandler, finishHandler)
-}
-
-function isEmpty(str) {
-  return !str || str === ''
-}
-
-function requestAjax(
-  type,
-  url,
-  data,
-  successHandler,
-  failHandler,
-  finishHandler
-) {
-  const opt = {
-    type,
-    url,
-    contentType: 'application/json',
-    data,
-    crossDomain: true,
-    xhrFields: {
-      withCredentials: true
-    }
-  }
-
-  $.ajax(opt)
-    .done(successHandler)
-    .fail(failHandler)
-    .always(finishHandler)
+    .done(dataHandler)
+    .fail(failedHandler)
 }
