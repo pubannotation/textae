@@ -1,7 +1,10 @@
-import DataAccessDialog from '../dialog/EditorDialog'
+import EditorDialog from '../dialog/EditorDialog'
 
-module.exports = function(id, title, el, editor) {
-  const $dialog = new DataAccessDialog(editor.editorId, id, title, el)
+export default function(id, title, html) {
+  const wrapper = document.createElement('div')
+  wrapper.innerHTML = html
+
+  const $dialog = new EditorDialog(null, id, title, wrapper.firstChild)
 
   $dialog.on('dialog.close', $dialog.close)
 

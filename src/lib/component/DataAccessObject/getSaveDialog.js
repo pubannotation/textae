@@ -1,82 +1,72 @@
-import CursorChanger from '../../util/CursorChanger'
+import Handlebars from 'handlebars'
 import jQuerySugar from '../jQuerySugar'
-import label from './label'
 import getDialog from './getDialog'
 import $ from 'jquery'
-import _ from 'underscore'
 import closeDialog from './closeDialog'
 import createDownloadPath from './createDownloadPath'
 
-module.exports = function(
+const source = `<div>
+  <div class="textae-editor__save-dialog__row">
+    <label class="textae-editor__save-dialog__label">URL</label>
+    <input type="text" value="{{url}}" class="textae-editor__save-dialog__server-file-name url">
+    <input type="button" class="url" {{#unless url}}disabled="disabled"{{/unless}} value="Save">
+  </div>
+  <div class="textae-editor__save-dialog__row">
+    <label class="textae-editor__save-dialog__label">Local</label>
+    <input type="text" value="{{filename}}" class="textae-editor__save-dialog__local-file-name local">
+    <a class="download" href="#">Download</a>
+  </div>
+</div>`
+const template = Handlebars.compile(source)
+
+export default function(
   api,
-  editor,
+  cursorChanger,
   saveToServer,
   onSave,
   edited,
   filename,
   title,
-  setOptionFields
+  setOptionFields,
+  url
 ) {
-  const cursorChanger = new CursorChanger(editor)
-  const showSaveSuccess = function() {
-    onSave()
-    cursorChanger.endWait()
-    closeDialog($content)
-  }
-  const showSaveError = function() {
-    api.emit('save error')
-    cursorChanger.endWait()
-    closeDialog($content)
-  }
-  const RowDiv = _.partial(jQuerySugar.Div, 'textae-editor__save-dialog__row')
-  const RowLabel = _.partial(
-    jQuerySugar.Label,
-    'textae-editor__save-dialog__label'
+  const $dialog = getDialog(
+    'textae.dialog.save',
+    title,
+    template({ filename, url })
   )
-  const $saveButton = new jQuerySugar.Button('Save', 'url')
-  const $content = $('<div>')
-    .append(
-      new RowDiv().append(
-        new RowLabel(label.URL),
-        $(
-          '<input type="text" class="textae-editor__save-dialog__server-file-name url" />'
-        ),
-        $saveButton
-      )
-    )
-    .on('input', 'input.url', function() {
-      jQuerySugar.enabled($saveButton, this.value)
-    })
-    .on('click', '[type="button"].url', () => {
-      saveToServer(
-        jQuerySugar.getValueFromText($content, 'url'),
-        JSON.stringify(edited),
-        showSaveSuccess,
-        showSaveError,
-        cursorChanger,
-        editor
-      )
-    })
-    .append(
-      new RowDiv().append(
-        new RowLabel(label.LOCAL),
-        $(
-          `<input type="text" value="${filename}" class="textae-editor__save-dialog__local-file-name local">`
-        ),
-        $('<a class="download" href="#">Download</a>')
-      )
-    )
-    .on('click', 'a.download', function() {
-      const downloadPath = createDownloadPath(JSON.stringify(edited))
-      $(this)
-        .attr('href', downloadPath)
-        .attr('download', jQuerySugar.getValueFromText($content, 'local'))
-      onSave()
-      closeDialog($content)
-    })
 
-  // Capture the local variable by inner funcitons.
-  const $dialog = getDialog('textae.dialog.save', title, $content[0], editor)
+  $dialog
+    .on('input', '[type="text"].url', (e) => {
+      const $button = $(e.target.nextElementSibling)
+      jQuerySugar.enabled($button, e.target.value)
+    })
+    .on('click', '[type="button"].url', (e) => {
+      saveToServer(
+        e.target.previousElementSibling.value,
+        JSON.stringify(edited),
+        () => {
+          onSave()
+          cursorChanger.endWait()
+          closeDialog($dialog)
+        },
+        () => {
+          api.emit('save error')
+          cursorChanger.endWait()
+          closeDialog($dialog)
+        }
+      )
+    })
+    .on('click', 'a.download', (e) => {
+      const downloadPath = createDownloadPath(JSON.stringify(edited))
+
+      $(e.target)
+        .attr('href', downloadPath)
+        .attr('download', e.target.previousElementSibling.value)
+
+      onSave()
+      closeDialog($dialog)
+    })
 
   setOptionFields($dialog)
 

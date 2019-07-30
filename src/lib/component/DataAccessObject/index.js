@@ -17,22 +17,25 @@ import jsonDiff from '../../util/jsonDiff'
 // A sub component to save and load data.
 export default function(editor, confirmDiscardChangeMessage) {
   // Store the url the annotation data is loaded from per editor.
-  let annotationDataSourceUrl = ''
-  let configurationDataSourceUrl = ''
+  const urlOfLastRead = {
+    annotation: '',
+    config: ''
+  }
 
   const setAnnotationDataSourceUrl = (url) => {
-    annotationDataSourceUrl = url
+    urlOfLastRead.annotation = url
   }
   const setConfigurationDataSourceUrl = (url) => {
-    configurationDataSourceUrl = url
+    urlOfLastRead.config = url
   }
   const api = new EventEmitter()
+  const cursorChanger = new CursorChanger(editor)
   const showAccess = function(hasAnythingToSave, parameter) {
     openAndSetParam(
       getLoadDialog(
         api,
         setAnnotationDataSourceUrl,
-        editor,
+        cursorChanger,
         () => {
           return (
             !hasAnythingToSave || window.confirm(confirmDiscardChangeMessage)
@@ -40,9 +43,10 @@ export default function(editor, confirmDiscardChangeMessage) {
         },
         getAnnotationFromServer,
         (api, file) => getJsonFromFile(api, file, 'annotation'),
-        'Load Annotations'
+        'Load Annotations',
+        urlOfLastRead.annotation
       ),
-      annotationDataSourceUrl,
+      urlOfLastRead.annotation,
       parameter
     )
   }
@@ -51,7 +55,7 @@ export default function(editor, confirmDiscardChangeMessage) {
       getLoadDialog(
         api,
         setConfigurationDataSourceUrl,
-        editor,
+        cursorChanger,
         () => {
           return (
             !hasAnythingToSave || window.confirm(confirmDiscardChangeMessage)
@@ -59,9 +63,10 @@ export default function(editor, confirmDiscardChangeMessage) {
         },
         getConfigurationFromServer,
         (api, file) => getJsonFromFile(api, file, 'config'),
-        'Load Configurations'
+        'Load Configurations',
+        urlOfLastRead.config
       ),
-      configurationDataSourceUrl,
+      urlOfLastRead.config,
       parameter
     )
   }
@@ -69,8 +74,16 @@ export default function(editor, confirmDiscardChangeMessage) {
     openAndSetParam(
       getSaveDialog(
         api,
-        editor,
-        saveJsonToServer,
+        cursorChanger,
+        (url, jsonData, showSaveSuccess, showSaveError) =>
+          saveJsonToServer(
+            url,
+            jsonData,
+            showSaveSuccess,
+            showSaveError,
+            cursorChanger,
+            editor
+          ),
         () => api.emit('save'),
         editedData,
         'annotations.json',
@@ -94,9 +107,10 @@ export default function(editor, confirmDiscardChangeMessage) {
               closeDialog($dialog)
               return false
             })
-        }
+        },
+        urlOfLastRead.annotation
       ),
-      annotationDataSourceUrl,
+      urlOfLastRead.annotation,
       parameter
     )
   }
@@ -104,8 +118,16 @@ export default function(editor, confirmDiscardChangeMessage) {
     openAndSetParam(
       getSaveDialog(
         api,
-        editor,
-        saveConfigJsonToServer,
+        cursorChanger,
+        (url, jsonData, showSaveSuccess, showSaveError) =>
+          saveConfigJsonToServer(
+            url,
+            jsonData,
+            showSaveSuccess,
+            showSaveError,
+            cursorChanger,
+            editor
+          ),
         () => api.emit('save--config'),
         editedData.config,
         'config.json',
@@ -134,13 +156,13 @@ export default function(editor, confirmDiscardChangeMessage) {
                 ) || 'nothing.'}</div>`
               )
             )
-        }
+        },
+        urlOfLastRead.annotation
       ),
-      configurationDataSourceUrl,
+      urlOfLastRead.config,
       parameter
     )
   }
-  const cursorChanger = new CursorChanger(editor)
 
   Object.assign(api, {
     getAnnotationFromServer: (urlToJson) =>

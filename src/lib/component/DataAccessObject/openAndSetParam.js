@@ -11,11 +11,6 @@ export default function($dialog, dataSourceUrl, parameter) {
     .val(url)
     .trigger('input')
 
-  $dialog
-    .find('[type="text"].url--config')
-    .val(url)
-    .trigger('input')
-
   $dialog.open()
 
   return $dialog

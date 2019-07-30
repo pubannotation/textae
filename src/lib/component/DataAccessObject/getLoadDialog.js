@@ -1,74 +1,64 @@
-import CursorChanger from '../../util/CursorChanger'
+import Handlebars from 'handlebars'
 import jQuerySugar from '../jQuerySugar'
-import label from './label'
 import getDialog from './getDialog'
 import $ from 'jquery'
-import _ from 'underscore'
 import closeDialog from './closeDialog'
 
-module.exports = function(
+const source = `<div>
+  <div class="textae-editor__load-dialog__row">
+    <label class="textae-editor__load-dialog__label">URL</label>
+    <input type="text" value="{{url}}" class="textae-editor__load-dialog__file-name url">
+    <input type="button" class="url" {{#unless url}}disabled="disabled"{{/unless}} value="Open">
+  </div>
+  <div class="textae-editor__load-dialog__row">
+    <label class="textae-editor__load-dialog__label">Local</label>
+    <input class="textae-editor__load-dialog__file" type="file">
+    <input type="button" class="local" disabled="disabled" value="Open">
+  </div>
+</div>`
+const template = Handlebars.compile(source)
+
+export default function(
   api,
   setDataSourceUrl,
-  editor,
+  cursorChanger,
   isUserConfirm,
   getFromServer,
   getJsonFromFile,
-  title
+  title,
+  url
 ) {
-  const RowDiv = _.partial(jQuerySugar.Div, 'textae-editor__load-dialog__row')
-  const RowLabel = _.partial(
-    jQuerySugar.Label,
-    'textae-editor__load-dialog__label'
-  )
-  const OpenButton = _.partial(jQuerySugar.Button, 'Open')
-  const $buttonUrl = new OpenButton('url')
-  const $buttonLocal = new OpenButton('local')
-  const $content = $('<div>')
-    .append(
-      new RowDiv().append(
-        new RowLabel(label.URL),
-        $(
-          '<input type="text" class="textae-editor__load-dialog__file-name url" />'
-        ),
-        $buttonUrl
-      )
-    )
-    .on('input', 'input.url', function() {
-      jQuerySugar.enabled($buttonUrl, this.value)
+  const $dialog = getDialog('textae.dialog.load', title, template({ url }))
+
+  $dialog
+    .on('input', '[type="text"].url', (e) => {
+      const $button = $(e.target.nextElementSibling)
+      jQuerySugar.enabled($button, e.target.value)
     })
-    .on('click', '[type="button"].url', () => {
+    .on('click', '[type="button"].url', (e) => {
       if (isUserConfirm()) {
         getFromServer(
-          jQuerySugar.getValueFromText($content, 'url'),
-          new CursorChanger(editor),
+          e.target.previousElementSibling.value,
+          cursorChanger,
           api,
           setDataSourceUrl
         )
       }
-      closeDialog($content)
+      closeDialog($dialog)
     })
-    .append(
-      new RowDiv().append(
-        new RowLabel(label.LOCAL),
-        $('<input class="textae-editor__load-dialog__file" type="file" />'),
-        $buttonLocal
-      )
-    )
-    .on('change', '.textae-editor__load-dialog__file', function() {
-      jQuerySugar.enabled($buttonLocal, this.files.length > 0)
+    .on('change', '.textae-editor__load-dialog__file', (e) => {
+      const $button = $(e.target.nextElementSibling)
+      jQuerySugar.enabled($button, e.target.files.length > 0)
     })
-    .on('click', '[type="button"].local', () => {
-      if (isUserConfirm()) {
-        getJsonFromFile(
-          api,
-          $content.find('.textae-editor__load-dialog__file')[0]
-        )
-      }
-      closeDialog($content)
-    })
+    .on('click', '[type="button"].local', (e) => {
+      const file = e.target.previousElementSibling
 
-  // Capture the local variable by inner funcitons.
-  const $dialog = getDialog('textae.dialog.load', title, $content[0], editor)
+      if (isUserConfirm()) {
+        getJsonFromFile(api, file)
+      }
+
+      closeDialog($dialog)
+    })
 
   return $dialog
 }
