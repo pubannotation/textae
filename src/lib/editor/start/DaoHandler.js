@@ -9,7 +9,7 @@ export default function(
   params
 ) {
   const showAccess = () =>
-    dataAccessObject.showAccess(history.hasAnythingToSave(KINDS.anno), params)
+    dataAccessObject.showAccess(history.hasAnythingToSave(KINDS.anno))
   const showSave = () =>
     showSaveDialogWithEditedData(
       dataAccessObject,
@@ -19,10 +19,7 @@ export default function(
       params
     )
   const showAccessConf = () =>
-    dataAccessObject.showAccessConf(
-      history.hasAnythingToSave(KINDS.conf),
-      params
-    )
+    dataAccessObject.showAccessConf(history.hasAnythingToSave(KINDS.conf))
   const showSaveConf = () =>
     showSaveConfDialogWithEditedData(
       dataAccessObject,
@@ -51,7 +48,6 @@ function showSaveDialogWithEditedData(
   const config = typeDefinition.getConfig()
 
   dataAccessObject.showSave(
-    originalData,
     Object.assign(
       JSON.parse(JSON.stringify(originalData)),
       annotationData.toJson(),
