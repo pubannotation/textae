@@ -36,6 +36,9 @@ export default function(
     showInstance: false
   })
   const typeDefinition = new TypeDefinition(annotationData)
+  typeDefinition.entity.on('type.reset', () => history.resetConfiguration())
+  typeDefinition.relation.on('type.reset', () => history.resetConfiguration())
+
   const view = new View(
     editor,
     annotationData,
@@ -122,7 +125,6 @@ export default function(
         annotationData.toJson()
       )
       setSpanAndTypeConfig(spanConfig, typeDefinition, data.config)
-      annotationData.resetOnlyConfig()
     })
     .on('save--config', () => {
       originalAnnotation.config = typeDefinition.getConfig()

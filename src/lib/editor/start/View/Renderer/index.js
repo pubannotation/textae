@@ -45,8 +45,10 @@ export default class extends EventEmitter {
       annotationData
     )
 
-    typeDefinition.entity.on('type.change', (id) =>
-      entityRenderer.updateLabel(id)
-    )
+    typeDefinition.entity
+      .on('type.change', (id) => entityRenderer.updateLabel(id))
+      .on('type.reset', () => entityRenderer.updateLabelAll())
+
+    typeDefinition.relation.on('type.reset', () => relationRenderer.changeAll())
   }
 }

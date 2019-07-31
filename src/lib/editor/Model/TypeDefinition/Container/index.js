@@ -44,6 +44,7 @@ export default class extends EventEmitter {
         return a
       }, [])
     )
+    super.emit('type.reset')
   }
 
   has(id) {

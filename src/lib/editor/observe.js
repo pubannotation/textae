@@ -2,12 +2,10 @@ import showVilidationDialog from '../component/showVilidationDialog'
 import toastr from 'toastr'
 
 export function observeModelChange(annotationData, history) {
-  annotationData
-    .on('all.change', (_, __, reject) => {
-      history.resetAllHistories()
-      showVilidationDialog(self, reject)
-    })
-    .on('config.change', () => history.resetConfiguration())
+  annotationData.on('all.change', (_, __, reject) => {
+    history.resetAllHistories()
+    showVilidationDialog(self, reject)
+  })
 }
 
 export function observeHistoryChange(history, buttonStateHelper, leaveMessage) {

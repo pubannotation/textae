@@ -11,10 +11,6 @@ export default class extends Container {
     reset(this, annotation)
   }
 
-  resetOnlyConfig() {
-    super.emit('config.change', this)
-  }
-
   toJson() {
     return toJson(this)
   }

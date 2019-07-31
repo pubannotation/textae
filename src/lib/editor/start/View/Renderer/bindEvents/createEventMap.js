@@ -20,13 +20,6 @@ export default function(
 
   return new Map([
     ['all.change', renderAll],
-    [
-      'config.change',
-      () => {
-        entityRenderer.updateLabelAll()
-        relationRenderer.changeAll()
-      }
-    ],
     ['paragraph.change', (paragraphs) => renderParagraph(editor, paragraphs)],
     ['span.add', (span) => spanRenderer.render(span)],
     [
