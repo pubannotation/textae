@@ -50,7 +50,7 @@ function toModel(editor, emitter, entity) {
     span: idFactory.makeSpanId(editor, entity.span),
     type: entity.obj,
     get attributes() {
-      return getAttributesOf(emitter, entity.id)
+      return getAttributesOf(emitter, this.id)
     }
   }
 }
