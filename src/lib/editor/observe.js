@@ -1,16 +1,13 @@
 import showVilidationDialog from '../component/showVilidationDialog'
-import KINDS from './start/Command/Factory/kinds'
 import toastr from 'toastr'
 
 export function observeModelChange(annotationData, history) {
   annotationData
     .on('all.change', (_, __, reject) => {
-      resetAllHistories(history, KINDS)
+      history.resetAllHistories()
       showVilidationDialog(self, reject)
     })
-    .on('config.change', () => {
-      history.reset(KINDS.conf)
-    })
+    .on('config.change', () => history.resetConfiguration())
 }
 
 export function observeHistoryChange(history, buttonStateHelper, leaveMessage) {
@@ -29,20 +26,14 @@ export function observeHistoryChange(history, buttonStateHelper, leaveMessage) {
 export function observeDataSave(_, dataAccessObject, history) {
   dataAccessObject
     .on('save', () => {
-      resetAllHistories(history, KINDS)
+      history.resetAllHistories()
       toastr.success('annotation saved')
     })
     .on('save--config', () => {
-      history.saved(KINDS.conf)
+      history.configurationSaved()
       toastr.success('configuration saved')
     })
     .on('save error', () => {
       toastr.error('could not save')
     })
-}
-
-function resetAllHistories(history, kinds) {
-  Object.keys(kinds).forEach((kind) => {
-    history.reset(kinds[kind])
-  })
 }

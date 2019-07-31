@@ -12,25 +12,6 @@ export default class extends EventEmitter {
     this.histories = []
   }
 
-  reset(kind) {
-    switch (kind) {
-      case KINDS.conf:
-        // Reset configuration history when loading configuration.
-        this._removeConfigurationOperationsFromHistory()
-        break
-      case KINDS.anno:
-        // Reset all history when loading annotation.
-        this._resetHistory()
-        break
-      default:
-        throw 'unrecognized kind!'
-    }
-
-    this.lastSaveIndexes[kind] = -1
-    this.lastEditIndexes[kind] = -1
-    this.trigger()
-  }
-
   _removeConfigurationOperationsFromHistory() {
     for (let i = 0; i < this.histories.length; i++) {
       if (this.histories[i].isExactly(KINDS.conf)) {
@@ -43,6 +24,22 @@ export default class extends EventEmitter {
   _resetHistory() {
     this.pointer = -1
     this.histories = []
+  }
+
+  resetConfiguration() {
+    this._removeConfigurationOperationsFromHistory()
+    this.lastSaveIndexes[KINDS.conf] = -1
+    this.lastEditIndexes[KINDS.conf] = -1
+    this.trigger()
+  }
+
+  resetAllHistories() {
+    this._resetHistory()
+    this.lastSaveIndexes[KINDS.anno] = -1
+    this.lastEditIndexes[KINDS.anno] = -1
+    this.lastSaveIndexes[KINDS.conf] = -1
+    this.lastEditIndexes[KINDS.conf] = -1
+    this.trigger()
   }
 
   push(commands) {
@@ -99,12 +96,19 @@ export default class extends EventEmitter {
     return lastEdit
   }
 
-  saved(kind) {
+  configurationSaved() {
+    const kind = KINDS.conf
     this.lastSaveIndexes[kind] = this.lastEditIndexes[kind]
     this.trigger()
   }
 
-  hasAnythingToSave(kind) {
+  hasAnythingToSaveAnnotation() {
+    const kind = KINDS.anno
+    return this.lastEditIndexes[kind] !== this.lastSaveIndexes[kind]
+  }
+
+  hasAnythingToSaveConfiguration() {
+    const kind = KINDS.conf
     return this.lastEditIndexes[kind] !== this.lastSaveIndexes[kind]
   }
 
@@ -118,8 +122,8 @@ export default class extends EventEmitter {
 
   trigger() {
     super.emit('change', {
-      hasAnythingToSaveAnnotation: this.hasAnythingToSave(KINDS.anno),
-      hasAnythingToSaveConfiguration: this.hasAnythingToSave(KINDS.conf),
+      hasAnythingToSaveAnnotation: this.hasAnythingToSaveAnnotation(),
+      hasAnythingToSaveConfiguration: this.hasAnythingToSaveConfiguration(),
       hasAnythingToUndo: this.hasAnythingToUndo(),
       hasAnythingToRedo: this.hasAnythingToRedo()
     })
