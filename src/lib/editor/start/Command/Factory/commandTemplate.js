@@ -10,59 +10,72 @@ class CreateCommand extends BaseCommand {
     isSelectable,
     newModel
   ) {
-    super(function() {
-      newModel = annotationData[modelType].add(newModel)
+    super()
+    this.editor = editor
+    this.annotationData = annotationData
+    this.selectionModel = selectionModel
+    this.modelType = modelType
+    this.isSelectable = isSelectable
+    this.newModel = newModel
+  }
 
-      if (isSelectable) {
-        selectionModel.add(modelType, newModel.id)
-      }
+  execute() {
+    this.newModel = this.annotationData[this.modelType].add(this.newModel)
 
-      // Set revert
-      this.revert = () =>
-        new RemoveCommand(
-          editor,
-          annotationData,
-          selectionModel,
-          modelType,
-          newModel.id
-        )
+    if (this.isSelectable) {
+      this.selectionModel.add(this.modelType, this.newModel.id)
+    }
+    commandLog(`create a new ${this.modelType}: `, this.newModel)
+  }
 
-      commandLog(`create a new ${modelType}: `, newModel)
-
-      return newModel
-    })
+  revert() {
+    return new RemoveCommand(
+      this.editor,
+      this.annotationData,
+      this.selectionModel,
+      this.modelType,
+      this.newModel.id
+    )
   }
 }
 
 class RemoveCommand extends BaseCommand {
   constructor(editor, annotationData, selectionModel, modelType, id) {
-    super(function() {
-      // Update model
-      const oloModel = annotationData[modelType].remove(id)
+    super()
+    this.editor = editor
+    this.annotationData = annotationData
+    this.selectionModel = selectionModel
+    this.modelType = modelType
+    this.id = id
+  }
 
-      if (oloModel) {
-        // Set revert
-        this.revert = () =>
-          new CreateCommand(
-            editor,
-            annotationData,
-            selectionModel,
-            modelType,
-            false,
-            oloModel
-          )
+  execute() {
+    // Update model
+    this.oloModel = this.annotationData[this.modelType].remove(this.id)
 
-        commandLog(`remove a ${modelType}: `, oloModel)
-      } else {
-        // Do not revert unless an object was removed.
-        this.revert = () => {
-          return {
-            execute: () => {}
-          }
-        }
-        commandLog(`already removed ${modelType}: `, id)
+    if (this.oloModel) {
+      commandLog(`remove a ${this.modelType}: `, this.oloModel)
+    } else {
+      commandLog(`already removed ${this.modelType}: `, this.id)
+    }
+  }
+
+  revert() {
+    if (this.oloModel) {
+      return new CreateCommand(
+        this.editor,
+        this.annotationData,
+        this.selectionModel,
+        this.modelType,
+        false,
+        this.oloModel
+      )
+    } else {
+      // Do not revert unless an object was removed.
+      return {
+        execute: () => {}
       }
-    })
+    }
   }
 }
 

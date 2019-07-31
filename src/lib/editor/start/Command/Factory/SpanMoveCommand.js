@@ -3,17 +3,34 @@ import commandLog from './commandLog'
 
 export default class SpanMoveCommand extends BaseCommand {
   constructor(editor, annotationData, spanId, newSpan) {
-    super(function() {
-      // Update model
-      const [oldSpan, newId] = annotationData.span.move(spanId, newSpan)
+    super()
+    this.editor = editor
+    this.annotationData = annotationData
+    this.spanId = spanId
+    this.newSpan = newSpan
+  }
 
-      // Set revert
-      this.revert = () =>
-        new SpanMoveCommand(editor, annotationData, newId, oldSpan)
+  execute() {
+    // Update model
+    const [oldSpan, newId] = this.annotationData.span.move(
+      this.spanId,
+      this.newSpan
+    )
 
-      commandLog(
-        `move span: ${spanId} to {begin: ${newSpan.begin}, end: ${newSpan.end}}`
-      )
-    })
+    this.oldSpan = oldSpan
+    this.newId = newId
+
+    commandLog(
+      `move span: ${this.spanId} to {begin: ${this.newSpan.begin}, end: ${this.newSpan.end}}`
+    )
+  }
+
+  revert() {
+    return new SpanMoveCommand(
+      this.editor,
+      this.annotationData,
+      this.newId,
+      this.oldSpan
+    )
   }
 }
