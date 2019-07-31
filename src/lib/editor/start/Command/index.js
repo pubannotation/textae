@@ -6,11 +6,10 @@ import Factory from './Factory'
 export default function(editor, annotationData, selectionModel, history) {
   return {
     invoke: (commands, kinds) => {
-      if (typeof kinds === 'undefined') {
-        throw new Error(
-          'Please set the second argument ―― it describes what kind of type the invoking command.'
-        )
-      }
+      console.assert(
+        kinds,
+        'Please set the second argument ―― it describes what kind of type the invoking command.'
+      )
 
       if (commands && commands.length > 0) {
         invokeCommand.invoke(commands)
