@@ -13,18 +13,12 @@ export default class extends EventEmitter {
   }
 
   reset(kind) {
-    const adjustOtherKindIndexesFunc = (kind) => {
-      this.lastSaveIndexes[kind]--
-      this.lastEditIndexes[kind]--
-    }
-
     for (let i = 0; i < this.histories.length; i++) {
       if (
         this.histories[i].kind.indexOf(kind) !== -1 &&
         this.histories[i].kind.length === 1
       ) {
         this.histories.splice(i, 1)
-        Object.keys(KINDS).forEach(adjustOtherKindIndexesFunc)
         this.pointer--
       }
     }
