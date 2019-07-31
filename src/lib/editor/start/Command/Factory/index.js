@@ -3,7 +3,7 @@ import ChangeTypeCommand from './ChangeTypeCommand'
 import spanAndTypesCreateCommand from './spanAndTypesCreateCommand'
 import spanReplicateCommand from './spanReplicateCommand'
 import spanRemoveCommand from './spanRemoveCommand'
-import spanMoveCommand from './spanMoveCommand'
+import SpanMoveCommand from './SpanMoveCommand'
 import entityChangeTypeRemoveRelationCommand from './entityChangeTypeRemoveRelationCommand'
 import entityRemoveAndSpanRemeveIfNoEntityRestCommand from './entityRemoveAndSpanRemeveIfNoEntityRestCommand'
 import relationAndAssociatesRemoveCommand from './relationAndAssociatesRemoveCommand'
@@ -33,7 +33,7 @@ export default function Factory(editor, annotationData, selectionModel) {
     spanRemoveCommand: (id) =>
       spanRemoveCommand(editor, annotationData, selectionModel, id),
     spanMoveCommand: (spanId, newSpan) =>
-      spanMoveCommand(editor, annotationData, selectionModel, spanId, newSpan),
+      new SpanMoveCommand(editor, annotationData, spanId, newSpan),
     spanReplicateCommand: (span, types, detectBoundaryFunc) =>
       spanReplicateCommand(
         editor,

@@ -1,7 +1,7 @@
 import BaseCommand from './BaseCommand'
 import commandLog from './commandLog'
 
-class SpanMoveCommand extends BaseCommand {
+export default class SpanMoveCommand extends BaseCommand {
   constructor(editor, annotationData, spanId, newSpan) {
     super(function() {
       // Update model
@@ -16,14 +16,4 @@ class SpanMoveCommand extends BaseCommand {
       )
     })
   }
-}
-
-export default function(
-  editor,
-  annotationData,
-  selectionModel,
-  spanId,
-  newSpan
-) {
-  return new SpanMoveCommand(editor, annotationData, spanId, newSpan)
 }
