@@ -1,19 +1,17 @@
 import invokeCommand from './invokeCommand'
 import Factory from './Factory'
+import Commands from '../../History/Commands'
 
 // A command is an operation by user that is saved as history, and can undo and redo.
 // Users can edit model only via commands.
 export default function(editor, annotationData, selectionModel, history) {
   return {
     invoke: (commands, kinds) => {
-      console.assert(
-        kinds,
-        'Please set the second argument ―― it describes what kind of type the invoking command.'
-      )
+      const c = new Commands(commands, kinds)
 
-      if (commands && commands.length > 0) {
-        invokeCommand.invoke(commands)
-        history.push(commands, kinds)
+      if (c.hasCommands) {
+        invokeCommand.invoke(c.commands)
+        history.push(c)
       }
     },
     undo: () => {
@@ -22,7 +20,7 @@ export default function(editor, annotationData, selectionModel, history) {
         // Focus is lost when undo a creation.
         selectionModel.clear()
         editor.focus()
-        invokeCommand.invokeRevert(history.prev())
+        invokeCommand.invokeRevert(history.prev().commands)
       }
     },
     redo: () => {
@@ -30,7 +28,7 @@ export default function(editor, annotationData, selectionModel, history) {
         // Select only new element when redo a creation.
         selectionModel.clear()
 
-        invokeCommand.invoke(history.next())
+        invokeCommand.invoke(history.next().commands)
       }
     },
     factory: new Factory(editor, annotationData, selectionModel)

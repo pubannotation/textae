@@ -14,10 +14,7 @@ export default class extends EventEmitter {
 
   reset(kind) {
     for (let i = 0; i < this.histories.length; i++) {
-      if (
-        this.histories[i].kind.indexOf(kind) !== -1 &&
-        this.histories[i].kind.length === 1
-      ) {
+      if (this.histories[i].isExactly(kind)) {
         this.histories.splice(i, 1)
         this.pointer--
       }
@@ -28,18 +25,16 @@ export default class extends EventEmitter {
     this.trigger()
   }
 
-  push(commands, kinds) {
-    const historyMap = { kind: kinds, commands }
-
+  push(commands) {
     this.histories.splice(
       this.pointer + 1,
       this.histories.length - this.pointer,
-      historyMap
+      commands
     )
     this.pointer++
-    kinds.forEach((kind) => {
+    for (const kind of commands.kinds.values()) {
       this.lastEditIndexes[kind] = this.pointer
-    })
+    }
     this.trigger()
   }
 
@@ -47,11 +42,12 @@ export default class extends EventEmitter {
     this.pointer++
     const nextEdit = this.histories[this.pointer]
 
-    nextEdit.kind.forEach((kind) => {
+    for (const kind of nextEdit.kinds.values()) {
       this.lastEditIndexes[kind] = this.pointer
-    })
+    }
+
     this.trigger()
-    return nextEdit.commands
+    return nextEdit
   }
 
   prev() {
@@ -59,14 +55,14 @@ export default class extends EventEmitter {
 
     this.pointer--
 
-    lastEdit.kind.forEach((kind) => {
+    for (const kind of lastEdit.kinds.values()) {
       if (this.pointer === -1) {
         this.lastEditIndexes[kind] = -1
       } else {
         const beforeGoBack = this.lastEditIndexes[kind]
         // Go back index one by one, because we don't know the prev history has same kind as the last edit history.
         for (let i = this.pointer; i >= 0; i--) {
-          if (this.histories[i].kind.indexOf(kind) !== -1) {
+          if (this.histories[i].kinds.has(kind)) {
             this.lastEditIndexes[kind] = i
             break
           }
@@ -77,9 +73,10 @@ export default class extends EventEmitter {
           this.lastEditIndexes[kind] = -1
         }
       }
-    })
+    }
+
     this.trigger()
-    return lastEdit.commands
+    return lastEdit
   }
 
   saved(kind) {
