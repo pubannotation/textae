@@ -16,9 +16,14 @@ export default class AttributeChangeCommand extends BaseCommand {
       const effectedAttributes = []
       for (const id of selectedEntities) {
         const attribute = findAttribute(annotationData, id, oldPred, oldObj)
-        effectedAttributes.push(
-          annotationData.attribute.change(attribute.id, newPred, newObj)
-        )
+
+        // If you select an entity with attributes and an entity without attributes,
+        // the attributes may not be found.
+        if (attribute) {
+          effectedAttributes.push(
+            annotationData.attribute.change(attribute.id, newPred, newObj)
+          )
+        }
       }
 
       // Set revert
