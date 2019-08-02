@@ -1,91 +1,16 @@
-export default function(
-  command,
-  annotationData,
-  pushButtons,
-  modificationType,
-  typeEditor
-) {
-  const has = pushButtons.getButton(modificationType.toLowerCase()).value()
-  const commands = createCommand(
-    command,
-    annotationData,
-    modificationType,
-    typeEditor,
-    has
-  )
+export default function(command, pushButtons, modificationType, typeEditor) {
+  const hasAlready = pushButtons
+    .getButton(modificationType.toLowerCase())
+    .value()
 
-  command.invoke(commands)
-}
-
-function createCommand(
-  command,
-  annotationData,
-  modificationType,
-  typeEditor,
-  has
-) {
-  if (has) {
-    return removeModification(
-      command,
-      annotationData,
-      modificationType,
-      typeEditor
-    )
+  let c
+  if (hasAlready) {
+    c = command.factory.modificationRemoveCommand(modificationType, typeEditor)
   } else {
-    return createModification(
-      command,
-      annotationData,
-      modificationType,
-      typeEditor
-    )
+    c = command.factory.modificationCreateCommand(modificationType, typeEditor)
   }
-}
 
-function createModification(
-  command,
-  annotationData,
-  modificationType,
-  typeEditor
-) {
-  return typeEditor
-    .getSelectedIdEditable()
-    .filter(
-      (id) =>
-        !getSpecificModification(annotationData, id, modificationType).length >
-        0
-    )
-    .map((id) =>
-      command.factory.modificationCreateCommand({
-        obj: id,
-        pred: modificationType
-      })
-    )
-}
-
-function removeModification(
-  command,
-  annotationData,
-  modificationType,
-  typeEditor
-) {
-  return typeEditor.getSelectedIdEditable().map((id) => {
-    const modification = getSpecificModification(
-      annotationData,
-      id,
-      modificationType
-    )[0]
-    return command.factory.modificationRemoveCommand(modification.id)
-  })
-}
-
-function getSpecificModification(annotationData, id, modificationType) {
-  return annotationData
-    .getModificationOf(id)
-    .filter((modification) =>
-      isModificationType(modification, modificationType)
-    )
-}
-
-function isModificationType(modification, modificationType) {
-  return modification.pred === modificationType
+  if (c.subCommands.length) {
+    command.invoke([c], ['annotation'])
+  }
 }

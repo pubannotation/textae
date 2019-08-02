@@ -12,6 +12,8 @@ import TypeDefinitionChangeAndRefectInstancesCommand from './TypeDefinitionChang
 import TypeDefinitionRemoveCommand from './TypeDefinitionRemoveCommand'
 import ChangeAttributesOfSelectedEntitiesCommand from './ChangeAttributesOfSelectedEntitiesCommand'
 import RemoveAttributesOfSelectedEntitiesCommand from './RemoveAttributesOfSelectedEntitiesCommand'
+import AttatchModificationsToSelectedCommand from './AttatchModificationsToSelectedCommand'
+import RemoveModificationsFromSelectedCommand from './RemoveModificationsFromSelectedCommand'
 
 export default function Factory(editor, annotationData, selectionModel) {
   // The relaitonId is optional set only when revert of the relationRemoveCommand.
@@ -117,22 +119,21 @@ export default function Factory(editor, annotationData, selectionModel) {
       ),
     relationChangeTypeCommand: (id, newType) =>
       new ChangeTypeCommand(editor, annotationData, 'relation', id, newType),
-    modificationCreateCommand: (modification) =>
-      new CreateCommand(
+    modificationCreateCommand: (modificationType, typeEditor) =>
+      new AttatchModificationsToSelectedCommand(
         editor,
-        annotationData,
         selectionModel,
-        'modification',
-        false,
-        modification
+        annotationData,
+        modificationType,
+        typeEditor
       ),
-    modificationRemoveCommand: (modification) =>
-      new RemoveCommand(
+    modificationRemoveCommand: (modificationType, typeEditor) =>
+      new RemoveModificationsFromSelectedCommand(
         editor,
-        annotationData,
         selectionModel,
-        'modification',
-        modification
+        annotationData,
+        modificationType,
+        typeEditor
       ),
     typeDefinitionCreateCommand: (typeDefinition, newType) =>
       new TypeDefinitionCreateCommand(editor, typeDefinition, newType),

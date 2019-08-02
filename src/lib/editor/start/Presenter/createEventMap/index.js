@@ -44,7 +44,6 @@ export default function(
   )
   const modificationHandler = new ModificationHandler(
     command,
-    annotationData,
     buttonController.pushButtons,
     typeEditor
   )
