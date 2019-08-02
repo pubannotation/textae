@@ -1,7 +1,8 @@
 import invokeCommand from '../invokeCommand'
 import commandLog from './commandLog'
+import BaseCommand from './BaseCommand'
 
-export default class {
+export default class extends BaseCommand {
   execute(modelType, commandType, id, subCommands) {
     invokeCommand.invoke(subCommands)
     this.revert = () => ({
@@ -11,5 +12,12 @@ export default class {
       }
     })
     commandLog(`${commandType} a ${modelType}: ${id}`)
+  }
+
+  get kind() {
+    return this.subCommands.reduce(
+      (acc, curr) => new Set([...acc, ...curr.kind]),
+      new Set()
+    )
   }
 }

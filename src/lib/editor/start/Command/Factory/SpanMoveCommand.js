@@ -1,7 +1,7 @@
-import BaseCommand from './BaseCommand'
 import commandLog from './commandLog'
+import AnnotationCommand from './AnnotationCommand'
 
-export default class SpanMoveCommand extends BaseCommand {
+export default class SpanMoveCommand extends AnnotationCommand {
   constructor(editor, annotationData, spanId, newSpan) {
     super()
     this.editor = editor

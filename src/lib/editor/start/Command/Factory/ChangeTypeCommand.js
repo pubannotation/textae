@@ -1,7 +1,7 @@
-import BaseCommand from './BaseCommand'
 import commandLog from './commandLog'
+import AnnotationCommand from './AnnotationCommand'
 
-export default class ChangeTypeCommand extends BaseCommand {
+export default class ChangeTypeCommand extends AnnotationCommand {
   constructor(editor, annotationData, modelType, id, newType) {
     super()
     this.editor = editor

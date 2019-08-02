@@ -14,7 +14,7 @@ export default function(
     has
   )
 
-  command.invoke(commands, ['annotation'])
+  command.invoke(commands)
 }
 
 function createCommand(

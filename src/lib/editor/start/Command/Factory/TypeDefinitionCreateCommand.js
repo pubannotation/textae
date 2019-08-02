@@ -1,8 +1,8 @@
-import BaseCommand from './BaseCommand'
 import commandLog from './commandLog'
 import TypeDefinitionRemoveCommand from './TypeDefinitionRemoveCommand'
+import ConfigurationCommand from './ConfigurationCommand'
 
-export default class TypeCreateCommand extends BaseCommand {
+export default class TypeCreateCommand extends ConfigurationCommand {
   constructor(editor, typeDefinition, newType) {
     super()
     this.editor = editor

@@ -1,7 +1,7 @@
-import BaseCommand from './BaseCommand'
 import commandLog from './commandLog'
+import AnnotationCommand from './AnnotationCommand'
 
-class CreateCommand extends BaseCommand {
+class CreateCommand extends AnnotationCommand {
   constructor(
     editor,
     annotationData,
@@ -39,7 +39,7 @@ class CreateCommand extends BaseCommand {
   }
 }
 
-class RemoveCommand extends BaseCommand {
+class RemoveCommand extends AnnotationCommand {
   constructor(editor, annotationData, selectionModel, modelType, id) {
     super()
     this.editor = editor

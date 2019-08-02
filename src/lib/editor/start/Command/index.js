@@ -6,8 +6,8 @@ import Commands from '../../History/Commands'
 // Users can edit model only via commands.
 export default function(editor, annotationData, selectionModel, history) {
   return {
-    invoke: (commands, kinds) => {
-      const c = new Commands(commands, kinds)
+    invoke: (commands) => {
+      const c = new Commands(commands)
 
       if (c.hasCommands) {
         invokeCommand.invoke(c.commands)

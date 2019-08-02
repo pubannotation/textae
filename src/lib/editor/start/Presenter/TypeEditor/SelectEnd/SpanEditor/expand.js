@@ -78,7 +78,7 @@ function expandSpanToSelection(
     return
   }
 
-  command.invoke(moveSpan(editor, command, spanId, newSpan), ['annotation'])
+  command.invoke(moveSpan(editor, command, spanId, newSpan))
 }
 
 function isAnchorOneDownUnderForcus(selection) {

@@ -1,16 +1,15 @@
 export default class {
-  constructor(commands, kinds) {
-    console.assert(
-      kinds,
-      'Please set the second argument ―― it describes what kind of type the invoking command.'
-    )
-
-    this._kinds = kinds
+  constructor(commands) {
     this.commands = commands
   }
 
+  // Summarizes whether the included command affects Annotation or Configuration,
+  // and determines whether there is content to be saved in Annotation or Configuration.
   get kinds() {
-    return new Set(this._kinds)
+    return this.commands.reduce(
+      (acc, curr) => new Set([...acc, ...curr.kind]),
+      new Set()
+    )
   }
 
   get hasCommands() {

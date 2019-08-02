@@ -1,23 +1,44 @@
-import BaseCommand from '../BaseCommand'
-import commandLog from '../commandLog'
-import populate from './populate'
+import commandLog from './commandLog'
+import ConfigurationCommand from './ConfigurationCommand'
 
-export default class TypeDefinitionChangeCommand extends BaseCommand {
-  constructor(typeDefinition, oldType, changeValues, revertDefaultTypeId) {
+export default class TypeDefinitionChangeCommand extends ConfigurationCommand {
+  constructor(
+    editor,
+    annotationData,
+    typeDefinition,
+    modelType,
+    oldType,
+    changeValues,
+    revertDefaultTypeId
+  ) {
     super()
+    this.editor = editor
+    this.annotationData = annotationData
     this.typeDefinition = typeDefinition
+    this.modelType = modelType
     this.oldType = oldType
     this.changeValues = changeValues
     this.revertDefaultTypeId = revertDefaultTypeId
   }
 
   execute() {
-    const { newType, revertChangeValues } = populate(
-      this.changeValues,
-      this.oldType
-    )
-    this.newType = newType
-    this.revertChangeValues = revertChangeValues
+    this.newType = Object.assign({}, this.oldType)
+    this.revertChangeValues = {}
+
+    // change config
+    Object.keys(this.changeValues).forEach((key) => {
+      if (
+        this.changeValues[key] === null &&
+        typeof this.oldType[key] !== 'undefined'
+      ) {
+        delete this.newType[key]
+        this.revertChangeValues[key] = this.oldType[key]
+      } else if (this.changeValues[key] !== null) {
+        this.newType[key] = this.changeValues[key]
+        this.revertChangeValues[key] =
+          typeof this.oldType[key] === 'undefined' ? null : this.oldType[key]
+      }
+    })
     this.typeDefinition.changeDefinedType(this.oldType.id, this.newType)
 
     // manage default type
@@ -29,6 +50,7 @@ export default class TypeDefinitionChangeCommand extends BaseCommand {
       this.typeDefinition.setDefaultType(this.revertDefaultTypeId)
       this.revertDefaultTypeId = 'undefined'
     }
+
     commandLog(
       `change old type:${JSON.stringify(
         this.oldType
@@ -40,7 +62,10 @@ export default class TypeDefinitionChangeCommand extends BaseCommand {
 
   revert() {
     return new TypeDefinitionChangeCommand(
+      this.editor,
+      this.annotationData,
       this.typeDefinition,
+      this.modelType,
       this.newType,
       this.revertChangeValues,
       this.revertDefaultTypeId

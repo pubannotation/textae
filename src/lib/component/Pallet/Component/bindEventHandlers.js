@@ -27,7 +27,7 @@ export default function(
     const commands = elementEditor
       .getHandler()
       .changeTypeOfSelectedElement(e.delegateTarget.id)
-    command.invoke(commands, ['annotation'])
+    command.invoke(commands)
   })
 
   delegate(pallet, `.${CLASS_NAMES.selectAll}`, 'click', (e) => {
@@ -53,6 +53,6 @@ export default function(
         e.delegateTarget.getAttribute('data-id'),
         e.delegateTarget.getAttribute('data-short-label')
       )
-    command.invoke(commands, ['configuration'])
+    command.invoke(commands)
   })
 }

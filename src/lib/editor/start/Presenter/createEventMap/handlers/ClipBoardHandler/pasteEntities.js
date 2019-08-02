@@ -12,5 +12,5 @@ export default function(selectionModel, clipBoard, command) {
     )
     .flat()
 
-  command.invoke(commands, ['annotation'])
+  command.invoke(commands)
 }

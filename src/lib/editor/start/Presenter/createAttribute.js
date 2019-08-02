@@ -9,5 +9,5 @@ export default function(command, selectionModel) {
     })
   })
 
-  command.invoke(commands, ['annotation'])
+  command.invoke(commands)
 }

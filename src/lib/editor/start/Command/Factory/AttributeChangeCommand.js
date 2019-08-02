@@ -1,6 +1,6 @@
-import BaseCommand from './BaseCommand'
+import AnnotationCommand from './AnnotationCommand'
 
-export default class AttributeChangeCommand extends BaseCommand {
+export default class AttributeChangeCommand extends AnnotationCommand {
   constructor(annotationData, attribute, newPred, newObj) {
     super()
     this.annotationData = annotationData

@@ -40,7 +40,7 @@ export default function(
     spanConfig
   )
 
-  command.invoke(commands, ['annotation'])
+  command.invoke(commands)
 }
 
 function createCommands(

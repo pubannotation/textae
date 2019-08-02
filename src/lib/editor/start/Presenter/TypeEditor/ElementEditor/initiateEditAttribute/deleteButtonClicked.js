@@ -8,7 +8,7 @@ export default function(selectionModel, command, e) {
     pred,
     obj
   )
-  command.invoke([commands], ['annotation'])
+  command.invoke([commands])
 
   // The event target DOM element of the attribute has already been deleted.
   // It can not be determined whether this click event occurred in the editor.

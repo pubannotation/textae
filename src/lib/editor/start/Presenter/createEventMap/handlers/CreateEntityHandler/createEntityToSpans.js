@@ -6,5 +6,5 @@ export default function(command, spans, type) {
     })
   )
 
-  command.invoke(commands, ['annotation'])
+  command.invoke(commands)
 }

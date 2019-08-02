@@ -31,9 +31,9 @@ export default function(
   const sameSpan = annotationData.span.get(newSpanId)
 
   if (newSpan.begin < newSpan.end && !sameSpan) {
-    command.invoke(moveSpan(editor, command, spanId, newSpan), ['annotation'])
+    command.invoke(moveSpan(editor, command, spanId, newSpan))
   } else {
-    command.invoke(removeSpan(command, spanId), ['annotation'])
+    command.invoke(removeSpan(command, spanId))
     return true
   }
 

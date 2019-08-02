@@ -5,5 +5,5 @@ export default function(command, selectionModel, selectHandler) {
 
   // Select the next element before clear selection.
   selectHandler.selectRight()
-  command.invoke(commands, ['annotation'])
+  command.invoke(commands)
 }
