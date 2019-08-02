@@ -19,7 +19,11 @@ function toRomeveSpanCommands(spanIds, command) {
 }
 
 function toRemoveEntityCommands(entityIds, command) {
-  return command.factory.entityRemoveCommand(entityIds)
+  if (entityIds.length === 0) {
+    return []
+  }
+
+  return [command.factory.entityRemoveCommand(entityIds)]
 }
 
 function toRemoveRelationCommands(relationIds, command) {

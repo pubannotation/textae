@@ -1,17 +1,17 @@
 import { CreateCommand, RemoveCommand } from './commandTemplate'
 import ChangeTypeCommand from './ChangeTypeCommand'
-import spanAndTypesCreateCommand from './spanAndTypesCreateCommand'
-import spanReplicateCommand from './spanReplicateCommand'
-import spanRemoveCommand from './spanRemoveCommand'
+import SpanAndTypesCreateCommand from './SpanAndTypesCreateCommand'
+import SpanReplicateCommand from './SpanReplicateCommand'
+import SpanRemoveCommand from './SpanRemoveCommand'
 import SpanMoveCommand from './SpanMoveCommand'
-import entityChangeTypeRemoveRelationCommand from './entityChangeTypeRemoveRelationCommand'
-import entityRemoveAndSpanRemeveIfNoEntityRestCommand from './entityRemoveAndSpanRemeveIfNoEntityRestCommand'
-import relationAndAssociatesRemoveCommand from './relationAndAssociatesRemoveCommand'
+import EntityChangeTypeRemoveRelationCommand from './EntityChangeTypeRemoveRelationCommand'
+import EntityRemoveAndSpanRemeveIfNoEntityRestCommand from './EntityRemoveAndSpanRemeveIfNoEntityRestCommand'
+import RelationAndAssociatesRemoveCommand from './RelationAndAssociatesRemoveCommand'
 import TypeDefinitionCreateCommand from './TypeDefinitionCreateCommand'
-import TypeDefinitionChangeCommand from './TypeDefinitionChangeCommand'
+import TypeDefinitionChangeAndRefectInstancesCommand from './TypeDefinitionChangeAndRefectInstancesCommand'
 import TypeDefinitionRemoveCommand from './TypeDefinitionRemoveCommand'
-import AttributeChangeCommand from './AttributeChangeCommand'
-import attributeRemoveCommand from './AttributeRemoveCommand'
+import ChangeAttributesOfSelectedEntitiesCommand from './ChangeAttributesOfSelectedEntitiesCommand'
+import RemoveAttributesOfSelectedEntitiesCommand from './RemoveAttributesOfSelectedEntitiesCommand'
 
 export default function Factory(editor, annotationData, selectionModel) {
   // The relaitonId is optional set only when revert of the relationRemoveCommand.
@@ -27,15 +27,19 @@ export default function Factory(editor, annotationData, selectionModel) {
     )
   const factory = {
     spanCreateCommand: (type, span) =>
-      spanAndTypesCreateCommand(editor, annotationData, selectionModel, span, [
-        type
-      ]),
+      new SpanAndTypesCreateCommand(
+        editor,
+        annotationData,
+        selectionModel,
+        span,
+        [type]
+      ),
     spanRemoveCommand: (id) =>
-      spanRemoveCommand(editor, annotationData, selectionModel, id),
+      new SpanRemoveCommand(editor, annotationData, selectionModel, id),
     spanMoveCommand: (spanId, newSpan) =>
       new SpanMoveCommand(editor, annotationData, spanId, newSpan),
     spanReplicateCommand: (span, types, detectBoundaryFunc) =>
-      spanReplicateCommand(
+      new SpanReplicateCommand(
         editor,
         annotationData,
         selectionModel,
@@ -53,14 +57,14 @@ export default function Factory(editor, annotationData, selectionModel) {
         entity
       ),
     entityRemoveCommand: (ids) =>
-      entityRemoveAndSpanRemeveIfNoEntityRestCommand(
+      new EntityRemoveAndSpanRemeveIfNoEntityRestCommand(
         editor,
         annotationData,
         selectionModel,
         ids
       ),
     entityChangeTypeCommand: (id, newType, isRemoveRelations) =>
-      entityChangeTypeRemoveRelationCommand(
+      new EntityChangeTypeRemoveRelationCommand(
         editor,
         annotationData,
         selectionModel,
@@ -78,7 +82,7 @@ export default function Factory(editor, annotationData, selectionModel) {
         attribute
       ),
     attributeRemoveCommand: (selectedEntities, pred, obj) =>
-      attributeRemoveCommand(
+      new RemoveAttributesOfSelectedEntitiesCommand(
         editor,
         annotationData,
         selectionModel,
@@ -94,7 +98,7 @@ export default function Factory(editor, annotationData, selectionModel) {
       newPred,
       newObj
     ) =>
-      new AttributeChangeCommand(
+      new ChangeAttributesOfSelectedEntitiesCommand(
         annotationData,
         id,
         selectedEntities,
@@ -105,7 +109,7 @@ export default function Factory(editor, annotationData, selectionModel) {
       ),
     relationCreateCommand,
     relationRemoveCommand: (id) =>
-      relationAndAssociatesRemoveCommand(
+      new RelationAndAssociatesRemoveCommand(
         editor,
         annotationData,
         selectionModel,
@@ -133,7 +137,7 @@ export default function Factory(editor, annotationData, selectionModel) {
     typeDefinitionCreateCommand: (typeDefinition, newType) =>
       new TypeDefinitionCreateCommand(editor, typeDefinition, newType),
     typeDefinitionChangeCommand: (typeDefinition, modelType, id, newType) =>
-      new TypeDefinitionChangeCommand(
+      new TypeDefinitionChangeAndRefectInstancesCommand(
         editor,
         annotationData,
         typeDefinition,
