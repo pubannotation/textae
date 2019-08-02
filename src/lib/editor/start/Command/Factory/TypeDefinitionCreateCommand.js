@@ -11,14 +11,6 @@ export default class TypeCreateCommand extends BaseCommand {
   }
 
   execute() {
-    Object.keys(this.newType).forEach((key) => {
-      if (
-        this.newType[key] === '' ||
-        (key === 'default' && !this.newType[key])
-      ) {
-        delete this.newType[key]
-      }
-    })
     this.typeDefinition.setDefinedType(this.newType)
 
     // manage default type
@@ -34,6 +26,7 @@ export default class TypeCreateCommand extends BaseCommand {
       )}, default is ${this.typeDefinition.getDefaultType()}`
     )
   }
+
   revert() {
     return new TypeDefinitionRemoveCommand(
       this.editor,
