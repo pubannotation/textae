@@ -18,6 +18,7 @@ export default class {
   }
 
   isExactly(kind) {
-    return this.kinds.every((k) => k === kind)
+    const kinds = this.kinds
+    return kinds.has(kind) && kinds.size === 1
   }
 }
