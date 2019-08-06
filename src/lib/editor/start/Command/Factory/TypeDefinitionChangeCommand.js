@@ -8,7 +8,7 @@ export default class TypeDefinitionChangeCommand extends ConfigurationCommand {
     typeDefinition,
     modelType,
     oldType,
-    changeValues,
+    changedProperties,
     revertDefaultTypeId
   ) {
     super()
@@ -17,25 +17,25 @@ export default class TypeDefinitionChangeCommand extends ConfigurationCommand {
     this.typeDefinition = typeDefinition
     this.modelType = modelType
     this.oldType = oldType
-    this.changeValues = changeValues
+    this.changedProperties = changedProperties
     this.revertDefaultTypeId = revertDefaultTypeId
   }
 
   execute() {
     this.newType = Object.assign({}, this.oldType)
-    this.revertChangeValues = {}
+    this.revertChangedProperties = {}
 
     // change config
-    Object.keys(this.changeValues).forEach((key) => {
+    Object.keys(this.changedProperties).forEach((key) => {
       if (
-        this.changeValues[key] === null &&
+        this.changedProperties[key] === null &&
         typeof this.oldType[key] !== 'undefined'
       ) {
         delete this.newType[key]
-        this.revertChangeValues[key] = this.oldType[key]
-      } else if (this.changeValues[key] !== null) {
-        this.newType[key] = this.changeValues[key]
-        this.revertChangeValues[key] =
+        this.revertChangedProperties[key] = this.oldType[key]
+      } else if (this.changedProperties[key] !== null) {
+        this.newType[key] = this.changedProperties[key]
+        this.revertChangedProperties[key] =
           typeof this.oldType[key] === 'undefined' ? null : this.oldType[key]
       }
     })
@@ -67,7 +67,7 @@ export default class TypeDefinitionChangeCommand extends ConfigurationCommand {
       this.typeDefinition,
       this.modelType,
       this.newType,
-      this.revertChangeValues,
+      this.revertChangedProperties,
       this.revertDefaultTypeId
     )
   }

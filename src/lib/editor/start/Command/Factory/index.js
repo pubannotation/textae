@@ -140,7 +140,7 @@ export default function Factory(editor, annotationData, selectionModel) {
       typeDefinition,
       modelType,
       oldType,
-      newType
+      changedProperties
     ) =>
       new TypeDefinitionChangeAndRefectInstancesCommand(
         editor,
@@ -148,7 +148,7 @@ export default function Factory(editor, annotationData, selectionModel) {
         typeDefinition,
         modelType,
         oldType,
-        newType,
+        changedProperties,
         null
       ),
     typeDefinitionRemoveCommand: (typeDefinition, removeType) =>

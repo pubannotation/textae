@@ -9,7 +9,7 @@ export default class extends CompositeCommand {
     typeDefinition,
     modelType,
     oldType,
-    changeValues,
+    changedProperties,
     revertDefaultTypeId
   ) {
     super()
@@ -22,13 +22,17 @@ export default class extends CompositeCommand {
         typeDefinition,
         modelType,
         oldType,
-        changeValues,
+        changedProperties,
         revertDefaultTypeId
       )
     ]
 
     // change annotation
-    if (changeValues.id || changeValues.label || changeValues.color) {
+    if (
+      changedProperties.id ||
+      changedProperties.label ||
+      changedProperties.color
+    ) {
       annotationData[modelType].all().map((model) => {
         if (model.type === oldType.id) {
           subComands.push(
@@ -37,7 +41,7 @@ export default class extends CompositeCommand {
               annotationData,
               modelType,
               model.id,
-              changeValues.id || oldType.id
+              changedProperties.id || oldType.id
             )
           )
         }
