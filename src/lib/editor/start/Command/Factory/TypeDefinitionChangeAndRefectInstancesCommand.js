@@ -30,7 +30,7 @@ export default class extends CompositeCommand {
     // change annotation
     if (changeValues.id || changeValues.label || changeValues.color) {
       annotationData[modelType].all().map((model) => {
-        if (model.type === oldType.label || model.type === oldType.id) {
+        if (model.type === oldType.id) {
           subComands.push(
             new ChangeTypeCommand(
               editor,
