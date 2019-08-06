@@ -60,6 +60,10 @@ export default class extends EventEmitter {
   }
 
   changeDefinedType(id, newType) {
+    // Delete old ID when changing ID.
+    if (id !== newType.id) {
+      this.definedTypes.delete(id)
+    }
     this.definedTypes.set(newType.id, newType)
     super.emit('type.change', newType.id)
   }
