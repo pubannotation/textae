@@ -136,13 +136,18 @@ export default function Factory(editor, annotationData, selectionModel) {
       ),
     typeDefinitionCreateCommand: (typeDefinition, newType) =>
       new TypeDefinitionCreateCommand(editor, typeDefinition, newType),
-    typeDefinitionChangeCommand: (typeDefinition, modelType, id, newType) =>
+    typeDefinitionChangeCommand: (
+      typeDefinition,
+      modelType,
+      oldType,
+      newType
+    ) =>
       new TypeDefinitionChangeAndRefectInstancesCommand(
         editor,
         annotationData,
         typeDefinition,
         modelType,
-        id,
+        oldType,
         newType,
         null
       ),
