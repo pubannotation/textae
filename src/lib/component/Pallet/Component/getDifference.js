@@ -1,4 +1,4 @@
-export default function(before, after, handler) {
+export default function(before, after) {
   const changedProperties = {}
 
   if (before.id !== after.id) {
@@ -17,7 +17,5 @@ export default function(before, after, handler) {
     changedProperties.default = after.isDefault ? true : null
   }
 
-  if (Object.keys(changedProperties).length) {
-    handler.command.invoke([handler.changeType(before, changedProperties)])
-  }
+  return changedProperties
 }

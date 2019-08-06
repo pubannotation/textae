@@ -1,5 +1,5 @@
 import EditTypeDialog from './EditTypeDialog'
-import invokeChangeTypeCommand from './invokeChangeTypeCommand'
+import getDifference from './getDifference'
 
 export default function(elementEditor, e, editor, autocompletionWs) {
   const target = e.delegateTarget
@@ -21,7 +21,13 @@ export default function(elementEditor, e, editor, autocompletionWs) {
       color: newColor,
       isDefault: newDefault
     }
-    invokeChangeTypeCommand(beforeChange, afterChange, handler)
+
+    const changedProperties = getDifference(beforeChange, afterChange)
+    if (Object.keys(changedProperties).length) {
+      handler.command.invoke([
+        handler.changeType(beforeChange, changedProperties)
+      ])
+    }
   }
   const dialog = new EditTypeDialog(
     editor,
