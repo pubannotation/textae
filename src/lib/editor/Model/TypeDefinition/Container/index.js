@@ -11,8 +11,6 @@ export default class extends EventEmitter {
   constructor(getAllInstanceFunc, defaultColor, lockStateObservable) {
     super()
     this.definedTypes = new Map()
-    this.defaultType = null
-    this.isSetDefaultTypeManually = false
     this.getAllInstanceFunc = getAllInstanceFunc
     this.defaultColor = defaultColor
     this.lockStateObservable = lockStateObservable
@@ -68,19 +66,18 @@ export default class extends EventEmitter {
 
   setDefaultType(id) {
     console.assert(id, 'id is necessary!')
-    this.defaultType = id
     setDefaultTypeToDefinedTypes(this.definedTypes, id)
-    this.isSetDefaultTypeManually = true
   }
 
+  // Return the type that has the default property or the most  used type.
   getDefaultType() {
-    if (!this.isSetDefaultTypeManually) {
-      const id = getDefaultTypeAutomatically(this.getAllInstanceFunc())
-      this.defaultType = id
-      setDefaultTypeToDefinedTypes(this.definedTypes, id)
+    for (const type of this.definedTypes.values()) {
+      if (type.default) {
+        return type.id
+      }
     }
 
-    return this.defaultType
+    return getDefaultTypeAutomatically(this.getAllInstanceFunc())
   }
 
   getDefaultColor() {
