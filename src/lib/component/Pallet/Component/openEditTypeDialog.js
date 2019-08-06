@@ -21,7 +21,7 @@ export default function(elementEditor, e, editor, autocompletionWs) {
       color: newColor,
       isDefault: newDefault
     }
-    invokeChangeTypeCommand(oldType, newType, handler, editor)
+    invokeChangeTypeCommand(oldType, newType, handler)
   }
   const dialog = new EditTypeDialog(
     editor,

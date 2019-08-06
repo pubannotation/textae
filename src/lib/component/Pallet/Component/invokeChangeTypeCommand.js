@@ -1,4 +1,4 @@
-export default function(oldType, newType, handler, editor) {
+export default function(oldType, newType, handler) {
   const changeValues = {}
 
   if (oldType.id !== newType.id) {
