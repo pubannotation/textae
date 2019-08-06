@@ -1,23 +1,23 @@
-export default function(oldType, newType, handler) {
+export default function(before, after, handler) {
   const changeValues = {}
 
-  if (oldType.id !== newType.id) {
-    changeValues.id = newType.id
+  if (before.id !== after.id) {
+    changeValues.id = after.id
   }
 
-  if (oldType.label !== newType.label) {
-    changeValues.label = newType.label === '' ? null : newType.label
+  if (before.label !== after.label) {
+    changeValues.label = after.label === '' ? null : after.label
   }
 
-  if (oldType.color !== newType.color) {
-    changeValues.color = newType.color === '' ? null : newType.color
+  if (before.color !== after.color) {
+    changeValues.color = after.color === '' ? null : after.color
   }
 
-  if (oldType.isDefault !== newType.isDefault) {
-    changeValues.default = newType.isDefault ? true : null
+  if (before.isDefault !== after.isDefault) {
+    changeValues.default = after.isDefault ? true : null
   }
 
   if (Object.keys(changeValues).length) {
-    handler.command.invoke([handler.changeType(oldType, changeValues)])
+    handler.command.invoke([handler.changeType(before, changeValues)])
   }
 }
