@@ -8,20 +8,20 @@ export default function(elementEditor, e, editor, autocompletionWs) {
   const label = handler.typeContainer.getLabel(id) || ''
   const color = target.getAttribute('data-color').toLowerCase()
   const isDefault = target.getAttribute('data-is-default') === 'true'
-  const oldType = {
+  const beforeChange = {
     id,
     label,
     color,
     isDefault
   }
   const done = (newId, newLabel, newColor, newDefault) => {
-    const newType = {
+    const afterChange = {
       id: newId,
       label: newLabel,
       color: newColor,
       isDefault: newDefault
     }
-    invokeChangeTypeCommand(oldType, newType, handler)
+    invokeChangeTypeCommand(beforeChange, afterChange, handler)
   }
   const dialog = new EditTypeDialog(
     editor,
