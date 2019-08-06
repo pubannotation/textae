@@ -22,11 +22,11 @@ export default class {
     )
   }
 
-  changeType(oldType, changedProperties) {
+  changeType(id, changedProperties) {
     return this.command.factory.typeDefinitionChangeCommand(
       this.typeContainer,
       this.modelType,
-      oldType,
+      id,
       changedProperties
     )
   }

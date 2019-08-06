@@ -8,7 +8,7 @@ export default class extends CompositeCommand {
     annotationData,
     typeDefinition,
     modelType,
-    oldType,
+    id,
     changedProperties,
     revertDefaultTypeId
   ) {
@@ -21,7 +21,7 @@ export default class extends CompositeCommand {
         annotationData,
         typeDefinition,
         modelType,
-        oldType,
+        id,
         changedProperties,
         revertDefaultTypeId
       )
@@ -34,14 +34,14 @@ export default class extends CompositeCommand {
       changedProperties.has('color')
     ) {
       annotationData[modelType].all().map((model) => {
-        if (model.type === oldType.id) {
+        if (model.type === id) {
           subComands.push(
             new ChangeTypeCommand(
               editor,
               annotationData,
               modelType,
               model.id,
-              changedProperties.get('id') || oldType.id
+              changedProperties.get('id') || id
             )
           )
         }
@@ -49,7 +49,7 @@ export default class extends CompositeCommand {
     }
 
     this.subCommands = subComands
-    this.id = oldType.id
+    this.id = id
   }
 
   execute() {

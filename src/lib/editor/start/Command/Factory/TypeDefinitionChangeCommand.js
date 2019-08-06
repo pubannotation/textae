@@ -7,7 +7,7 @@ export default class TypeDefinitionChangeCommand extends ConfigurationCommand {
     annotationData,
     typeDefinition,
     modelType,
-    oldType,
+    id,
     changedProperties,
     revertDefaultTypeId
   ) {
@@ -16,45 +16,35 @@ export default class TypeDefinitionChangeCommand extends ConfigurationCommand {
     this.annotationData = annotationData
     this.typeDefinition = typeDefinition
     this.modelType = modelType
-    this.oldType = oldType
+    this.id = id
     this.changedProperties = changedProperties
     this.revertDefaultTypeId = revertDefaultTypeId
   }
 
   execute() {
-    this.newType = Object.assign({}, this.oldType)
-    this.revertChangedProperties = new Map()
-
-    // change config
-    for (const [key, property] of this.changedProperties.entries()) {
-      if (property === null && typeof this.oldType[key] !== 'undefined') {
-        delete this.newType[key]
-        this.revertChangedProperties.set(key, this.oldType[key])
-      } else if (property !== null) {
-        this.newType[key] = property
-        this.revertChangedProperties.set(
-          key,
-          typeof this.oldType[key] === 'undefined' ? null : this.oldType[key]
-        )
-      }
-    }
-    this.typeDefinition.changeDefinedType(this.oldType.id, this.newType)
+    const oldType = this.typeDefinition.getDefinedType(this.id)
+    const [newType, revertChangedProperties] = applyChangedProperties(
+      this.changedProperties,
+      oldType
+    )
+    this.typeDefinition.changeDefinedType(this.id, newType)
 
     // manage default type
-    if (this.newType.default) {
+    if (newType.default) {
       // remember the current default, because revert command will not understand what type was it.
       this.revertDefaultTypeId = this.typeDefinition.getDefaultType()
-      this.typeDefinition.setDefaultType(this.newType.id)
+      this.typeDefinition.setDefaultType(newType.id)
     } else if (this.revertDefaultTypeId) {
       this.typeDefinition.setDefaultType(this.revertDefaultTypeId)
       this.revertDefaultTypeId = 'undefined'
     }
 
+    this.revertId = newType.id
+    this.revertChangedProperties = revertChangedProperties
+
     commandLog(
-      `change old type:${JSON.stringify(
-        this.oldType
-      )} to new type:${JSON.stringify(
-        this.newType
+      `change old type:${JSON.stringify(oldType)} to new type:${JSON.stringify(
+        newType
       )}, default is \`${this.typeDefinition.getDefaultType()}\``
     )
   }
@@ -65,9 +55,28 @@ export default class TypeDefinitionChangeCommand extends ConfigurationCommand {
       this.annotationData,
       this.typeDefinition,
       this.modelType,
-      this.newType,
+      this.revertId,
       this.revertChangedProperties,
       this.revertDefaultTypeId
     )
   }
+}
+
+function applyChangedProperties(changedProperties, oldType) {
+  const newType = Object.assign({}, oldType)
+  const revertChangedProperties = new Map()
+  // change config
+  for (const [key, property] of changedProperties.entries()) {
+    if (property === null && typeof oldType[key] !== 'undefined') {
+      delete newType[key]
+      revertChangedProperties.set(key, oldType[key])
+    } else if (property !== null) {
+      newType[key] = property
+      revertChangedProperties.set(
+        key,
+        typeof oldType[key] === 'undefined' ? null : oldType[key]
+      )
+    }
+  }
+  return [newType, revertChangedProperties]
 }
