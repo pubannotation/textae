@@ -29,9 +29,9 @@ export default class extends CompositeCommand {
 
     // change annotation
     if (
-      changedProperties.id ||
-      changedProperties.label ||
-      changedProperties.color
+      changedProperties.has('id') ||
+      changedProperties.has('label') ||
+      changedProperties.has('color')
     ) {
       annotationData[modelType].all().map((model) => {
         if (model.type === oldType.id) {
@@ -41,7 +41,7 @@ export default class extends CompositeCommand {
               annotationData,
               modelType,
               model.id,
-              changedProperties.id || oldType.id
+              changedProperties.get('id') || oldType.id
             )
           )
         }

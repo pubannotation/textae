@@ -23,22 +23,21 @@ export default class TypeDefinitionChangeCommand extends ConfigurationCommand {
 
   execute() {
     this.newType = Object.assign({}, this.oldType)
-    this.revertChangedProperties = {}
+    this.revertChangedProperties = new Map()
 
     // change config
-    Object.keys(this.changedProperties).forEach((key) => {
-      if (
-        this.changedProperties[key] === null &&
-        typeof this.oldType[key] !== 'undefined'
-      ) {
+    for (const [key, property] of this.changedProperties.entries()) {
+      if (property === null && typeof this.oldType[key] !== 'undefined') {
         delete this.newType[key]
-        this.revertChangedProperties[key] = this.oldType[key]
-      } else if (this.changedProperties[key] !== null) {
-        this.newType[key] = this.changedProperties[key]
-        this.revertChangedProperties[key] =
+        this.revertChangedProperties.set(key, this.oldType[key])
+      } else if (property !== null) {
+        this.newType[key] = property
+        this.revertChangedProperties.set(
+          key,
           typeof this.oldType[key] === 'undefined' ? null : this.oldType[key]
+        )
       }
-    })
+    }
     this.typeDefinition.changeDefinedType(this.oldType.id, this.newType)
 
     // manage default type

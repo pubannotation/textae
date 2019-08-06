@@ -23,7 +23,7 @@ export default function(elementEditor, e, editor, autocompletionWs) {
     }
 
     const changedProperties = getDifference(beforeChange, afterChange)
-    if (Object.keys(changedProperties).length) {
+    if (changedProperties.size) {
       handler.command.invoke([
         handler.changeType(beforeChange, changedProperties)
       ])
