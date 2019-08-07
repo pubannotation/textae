@@ -57,7 +57,7 @@ export default function(
     $dialog.close()
   })
 
-  setOptionFields(el)
+  setOptionFields(el, () => $dialog.close())
 
   return $dialog
 }

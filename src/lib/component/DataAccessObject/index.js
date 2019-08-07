@@ -82,7 +82,7 @@ export default class extends EventEmitter {
       overwriteUrl(this.urlOfLastRead.annotation, params),
       editedData,
       (url, data) => this.ajaxSender.post(url, data),
-      (el) => addViewSource(el, editedData, this),
+      (el, closeDialog) => addViewSource(el, editedData, this, closeDialog),
       () => super.emit('save')
     ).open()
   }

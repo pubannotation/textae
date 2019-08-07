@@ -1,7 +1,7 @@
 import delegate from 'delegate'
 import createDownloadPath from './createDownloadPath'
 
-export default function(el, editedData, api) {
+export default function(el, editedData, api, closeDialog) {
   el.insertAdjacentHTML(
     'beforeend',
     `
@@ -14,6 +14,6 @@ export default function(el, editedData, api) {
   delegate(el, 'a.viewsource', 'click', () => {
     window.open(createDownloadPath(JSON.stringify(editedData)), '_blank')
     api.emit('save')
-    el.close()
+    closeDialog()
   })
 }
