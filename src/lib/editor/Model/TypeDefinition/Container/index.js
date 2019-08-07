@@ -46,6 +46,10 @@ export default class extends EventEmitter {
     )
   }
 
+  has(id) {
+    return this.definedTypes.has(id)
+  }
+
   getDefinedType(id) {
     return Object.assign({}, this.definedTypes.get(id))
   }
