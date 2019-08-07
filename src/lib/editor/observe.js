@@ -11,13 +11,13 @@ export function observeModelChange(annotationData, history) {
 }
 
 export function observeHistoryChange(history, buttonStateHelper, leaveMessage) {
-  history.on('change', (state) => {
+  history.on('change', () => {
     // change button state
-    buttonStateHelper.enabled('undo', state.hasAnythingToUndo)
-    buttonStateHelper.enabled('redo', state.hasAnythingToRedo)
+    buttonStateHelper.enabled('undo', history.hasAnythingToUndo)
+    buttonStateHelper.enabled('redo', history.hasAnythingToRedo)
 
     // change leaveMessage show
-    window.onbeforeunload = state.hasAnythingToSaveAnnotation
+    window.onbeforeunload = history.hasAnythingToSaveAnnotation
       ? () => leaveMessage
       : null
   })

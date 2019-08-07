@@ -7,28 +7,26 @@ import Commands from '../../History/Commands'
 export default function(editor, annotationData, selectionModel, history) {
   return {
     invoke: (commands) => {
-      const c = new Commands(commands)
-
-      if (c.hasCommands) {
-        invokeCommand.invoke(c.commands)
-        history.push(c)
+      if (commands && commands.length > 0) {
+        invokeCommand.invoke(commands)
+        history.push(commands)
       }
     },
     undo: () => {
-      if (history.hasAnythingToUndo()) {
+      if (history.hasAnythingToUndo) {
         // Focus the editor.
         // Focus is lost when undo a creation.
         selectionModel.clear()
         editor.focus()
-        invokeCommand.invokeRevert(history.prev().commands)
+        invokeCommand.invokeRevert(history.prev())
       }
     },
     redo: () => {
-      if (history.hasAnythingToRedo()) {
+      if (history.hasAnythingToRedo) {
         // Select only new element when redo a creation.
         selectionModel.clear()
 
-        invokeCommand.invoke(history.next().commands)
+        invokeCommand.invoke(history.next())
       }
     },
     factory: new Factory(editor, annotationData, selectionModel)

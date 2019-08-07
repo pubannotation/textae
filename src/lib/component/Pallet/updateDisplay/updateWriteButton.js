@@ -1,7 +1,7 @@
 import CLASS_NAMES from '../className'
 
 export default function(pallet, history) {
-  if (history.hasAnythingToSaveConfiguration()) {
+  if (history.hasAnythingToSaveConfiguration) {
     pallet
       .querySelector(`.${CLASS_NAMES.buttonWrite}`)
       .classList.add(CLASS_NAMES.buttonWriteTransit)

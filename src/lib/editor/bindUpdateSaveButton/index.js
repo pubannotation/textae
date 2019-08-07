@@ -15,8 +15,8 @@ export default function(
 
   const o = new Observable(false)
 
-  history.on('change', (state) => {
-    o.set(loadedAnnotationIsModified || state.hasAnythingToSaveAnnotation)
+  history.on('change', () => {
+    o.set(loadedAnnotationIsModified || history.hasAnythingToSaveAnnotation)
   })
 
   dataAccessObject.on('save', () => {

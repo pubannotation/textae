@@ -7,7 +7,7 @@ export default function(
   params
 ) {
   const showAccess = () =>
-    dataAccessObject.showAccess(history.hasAnythingToSaveAnnotation())
+    dataAccessObject.showAccess(history.hasAnythingToSaveAnnotation)
   const showSave = () =>
     showSaveDialogWithEditedData(
       dataAccessObject,
@@ -17,7 +17,7 @@ export default function(
       params
     )
   const showAccessConf = () =>
-    dataAccessObject.showAccessConf(history.hasAnythingToSaveConfiguration())
+    dataAccessObject.showAccessConf(history.hasAnythingToSaveConfiguration)
   const showSaveConf = () =>
     showSaveConfDialogWithEditedData(
       dataAccessObject,
