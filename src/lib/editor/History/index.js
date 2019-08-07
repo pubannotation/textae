@@ -13,16 +13,36 @@ export default class extends EventEmitter {
   }
 
   reset(kind) {
-    for (let i = 0; i < this.histories.length; i++) {
-      if (this.histories[i].isExactly(kind)) {
-        this.histories.splice(i, 1)
-        this.pointer--
-      }
+    switch (kind) {
+      case KINDS.conf:
+        // Reset configuration history when loading configuration.
+        this._removeConfigurationOperationsFromHistory()
+        break
+      case KINDS.anno:
+        // Reset all history when loading annotation.
+        this._resetHistory()
+        break
+      default:
+        throw 'unrecognized kind!'
     }
 
     this.lastSaveIndexes[kind] = -1
     this.lastEditIndexes[kind] = -1
     this.trigger()
+  }
+
+  _removeConfigurationOperationsFromHistory() {
+    for (let i = 0; i < this.histories.length; i++) {
+      if (this.histories[i].isExactly(KINDS.conf)) {
+        this.pointer--
+        this.histories.splice(i, 1)
+      }
+    }
+  }
+
+  _resetHistory() {
+    this.pointer = -1
+    this.histories = []
   }
 
   push(commands) {
