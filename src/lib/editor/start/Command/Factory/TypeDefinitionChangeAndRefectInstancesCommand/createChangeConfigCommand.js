@@ -7,8 +7,7 @@ export default function(
   editor,
   annotationData,
   modelType,
-  changedProperties,
-  revertDefaultTypeId
+  changedProperties
 ) {
   // The palette also displays instance types other than type in the typeDefinition,
   // so modified type may not be in the typeDefinition.
@@ -20,7 +19,7 @@ export default function(
       modelType,
       id,
       changedProperties,
-      revertDefaultTypeId
+      null
     )
   } else {
     return new TypeDefinitionCreateCommand(

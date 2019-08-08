@@ -148,8 +148,7 @@ export default function Factory(editor, annotationData, selectionModel) {
         typeDefinition,
         modelType,
         id,
-        changedProperties,
-        null
+        changedProperties
       ),
     typeDefinitionRemoveCommand: (typeDefinition, removeType) =>
       new TypeDefinitionRemoveCommand(editor, typeDefinition, removeType)

@@ -9,8 +9,7 @@ export default class extends CompositeCommand {
     typeDefinition,
     modelType,
     id,
-    changedProperties,
-    revertDefaultTypeId
+    changedProperties
   ) {
     super()
     let subCommands = []
@@ -23,8 +22,7 @@ export default class extends CompositeCommand {
         editor,
         annotationData,
         modelType,
-        changedProperties,
-        revertDefaultTypeId
+        changedProperties
       )
     )
 
