@@ -9,7 +9,7 @@ export default class TypeDefinitionChangeCommand extends ConfigurationCommand {
     modelType,
     id,
     changedProperties,
-    revertDefaultTypeId
+    newDefaultTypeId
   ) {
     super()
     this.editor = editor
@@ -18,7 +18,7 @@ export default class TypeDefinitionChangeCommand extends ConfigurationCommand {
     this.modelType = modelType
     this.id = id
     this.changedProperties = changedProperties
-    this.revertDefaultTypeId = revertDefaultTypeId
+    this.newDefaultTypeId = newDefaultTypeId
   }
 
   execute() {
@@ -30,14 +30,7 @@ export default class TypeDefinitionChangeCommand extends ConfigurationCommand {
     this.typeDefinition.changeDefinedType(this.id, newType)
 
     // manage default type
-    if (newType.default) {
-      // remember the current default, because revert command will not understand what type was it.
-      this.revertDefaultTypeId = this.typeDefinition.getDefaultType()
-      this.typeDefinition.setDefaultType(newType.id)
-    } else if (this.revertDefaultTypeId) {
-      this.typeDefinition.setDefaultType(this.revertDefaultTypeId)
-      this.revertDefaultTypeId = 'undefined'
-    }
+    this._updateDefaultType(newType)
 
     this.revertId = newType.id
     this.revertChangedProperties = revertChangedProperties
@@ -47,6 +40,16 @@ export default class TypeDefinitionChangeCommand extends ConfigurationCommand {
         newType
       )}, default is \`${this.typeDefinition.getDefaultType()}\``
     )
+  }
+
+  _updateDefaultType(newType) {
+    if (newType.default) {
+      // remember the current default, because revert command will not understand what type was it.
+      this.revertDefaultTypeId = this.typeDefinition.getDefaultType()
+      this.typeDefinition.setDefaultType(newType.id)
+    } else if (this.newDefaultTypeId) {
+      this.typeDefinition.setDefaultType(this.newDefaultTypeId)
+    }
   }
 
   revert() {
