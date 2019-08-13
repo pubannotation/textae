@@ -1,6 +1,8 @@
 import Component from './Component'
 import updateDisplay from './updateDisplay'
-import $ from 'jquery'
+import enableJqueryDraggable from './enableJqueryDraggable'
+import handleEventListners from './handleEventListners'
+import moveIntoWindow from './moveIntoWindow'
 
 export default class {
   constructor(editor, history, command, autocompletionWs, elementEditor) {
@@ -12,40 +14,41 @@ export default class {
     // Bind event
     // Update save config button when history changing
     history.on('change', () => {
-      updateSelf(
-        this.elementEditor.getHandler().typeContainer,
-        this.el,
-        this.history,
-        this.elementEditor.getHandlerType()
-      )
+      if (this.visibly) {
+        this._updateDisplay()
+      }
     })
     this.editor.eventEmitter.on('textae.pallet.close', () => this.hide())
 
     // let the pallet draggable.
-    $(this.el).draggable({
-      containment: editor
-    })
+    enableJqueryDraggable(this.el, editor)
   }
 
+  _updateDisplay() {
+    updateDisplay(
+      this.el,
+      this.history,
+      this.elementEditor.getHandler().typeContainer,
+      this.elementEditor.getHandlerType()
+    )
+  }
+
+  // Display Entity or Relation Type on the palette according to the edit mode.
   show(point) {
+    console.assert(point, 'point is necessary.')
+
     const typeContainer = this.elementEditor.getHandler().typeContainer
 
     // The typeContainer is null when read-only mode
     if (typeContainer) {
-      const handlerType = this.elementEditor.getHandlerType()
-      const el = this.el
-      const history = this.history
-
       // Save the event listener as an object property to delete the event listener when the palette is closed.
-      this.updateTableContent = () =>
-        updateDisplay(el, history, typeContainer, null, handlerType)
+      this.updateDisplayForEditMode = () => this._updateDisplay()
 
       // Update table content when config lock state or type definition changing
-      typeContainer.on('type.lock', this.updateTableContent)
-      typeContainer.on('type.change', this.updateTableContent)
-      typeContainer.on('type.default.change', this.updateTableContent)
+      handleEventListners(typeContainer, 'add', this.updateDisplayForEditMode)
 
-      updateDisplay(el, history, typeContainer, point, handlerType)
+      this._updateDisplay()
+      moveIntoWindow(this.el, point)
     }
   }
 
@@ -53,21 +56,13 @@ export default class {
     this.el.style.display = 'none'
 
     // Release event listeners that bound when opening pallet.
-    if (this.updateTableContent) {
+    if (this.updateDisplayForEditMode) {
       const t = this.elementEditor.getHandler().typeContainer
-      t.removeListener('type.lock', this.updateTableContent)
-      t.removeListener('type.change', this.updateTableContent)
-      t.removeListener('type.default.change', this.updateTableContent)
+      handleEventListners(t, 'remove', this.updateDisplayForEditMode)
     }
   }
 
-  visibly() {
+  get visibly() {
     return this.el.style.display !== 'none'
-  }
-}
-
-function updateSelf(typeContainer, el, history, handlerType) {
-  if (el.style.display !== 'none') {
-    updateDisplay(el, history, typeContainer, null, handlerType)
   }
 }

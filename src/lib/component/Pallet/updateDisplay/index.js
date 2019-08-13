@@ -8,9 +8,8 @@ import show from './show'
 import setWidthWithinWindow from './setWidthWithinWindow'
 import setHeightWithinWindow from './setHeightWithinWindow'
 import updateWriteButton from './updateWriteButton'
-import moveIntoWindow from './moveIntoWindow'
 
-export default function(pallet, history, typeContainer, point, handlerType) {
+export default function(pallet, history, typeContainer, handlerType) {
   if (typeContainer) {
     clear(pallet)
     appendRows(pallet, typeContainer)
@@ -22,9 +21,5 @@ export default function(pallet, history, typeContainer, point, handlerType) {
     setWidthWithinWindow(pallet)
     setHeightWithinWindow(pallet)
     updateWriteButton(pallet, history)
-
-    if (point) {
-      moveIntoWindow(pallet, point)
-    }
   }
 }

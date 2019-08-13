@@ -63,7 +63,7 @@ export default function(
 }
 
 function cancelSelect(pallet, selectionModel) {
-  if (pallet.visibly()) {
+  if (pallet.visibly) {
     pallet.hide()
   } else {
     selectionModel.clear()
