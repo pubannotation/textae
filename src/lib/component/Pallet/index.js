@@ -35,12 +35,14 @@ export default class {
       const handlerType = this.elementEditor.getHandlerType()
       const el = this.el
       const history = this.history
-      this.onConfigLockChange = () =>
+
+      // Save the event listener as an object property to delete the event listener when the palette is closed.
+      this.updateTableContent = () =>
         updateDisplay(el, history, typeContainer, null, handlerType)
 
       // Update table content when config lock state or type definition changing
-      typeContainer.on('type.lock', this.onConfigLockChange)
-      typeContainer.on('type.change', this.onConfigLockChange)
+      typeContainer.on('type.lock', this.updateTableContent)
+      typeContainer.on('type.change', this.updateTableContent)
 
       updateDisplay(el, history, typeContainer, point, handlerType)
     }
@@ -50,10 +52,10 @@ export default class {
     this.el.style.display = 'none'
 
     // Release event listeners that bound when opening pallet.
-    if (this.onConfigLockChange) {
+    if (this.updateTableContent) {
       const typeContainer = this.elementEditor.getHandler().typeContainer
-      typeContainer.removeListener('type.lock', this.onConfigLockChange)
-      typeContainer.removeListener('type.change', this.onConfigLockChange)
+      typeContainer.removeListener('type.lock', this.updateTableContent)
+      typeContainer.removeListener('type.change', this.updateTableContent)
     }
   }
 
