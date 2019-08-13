@@ -3,14 +3,13 @@ export default function(dataStore) {
     denotations: toDenotation(dataStore),
     attributes: toAttribute(dataStore),
     relations: toRelation(dataStore),
-    modifications: dataStore.modification.all()
+    modifications: dataStore.modification.all
   }
 }
 
 function toDenotation(dataStore) {
   return (
-    dataStore.entity
-      .all()
+    dataStore.entity.all
       // Span may be not exists, because crossing spans are not add to the dataStore.
       .filter((entity) => dataStore.span.get(entity.span))
       .map((entity) => {
@@ -29,7 +28,7 @@ function toDenotation(dataStore) {
 }
 
 function toAttribute(dataStore) {
-  return dataStore.attribute.all().map((attribute) => {
+  return dataStore.attribute.all.map((attribute) => {
     return {
       id: attribute.id,
       subj: attribute.subj,
@@ -40,7 +39,7 @@ function toAttribute(dataStore) {
 }
 
 function toRelation(dataStore) {
-  return dataStore.relation.all().map((r) => {
+  return dataStore.relation.all.map((r) => {
     return {
       id: r.id,
       pred: r.type,

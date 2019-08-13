@@ -21,7 +21,7 @@ export default class {
   }
 
   arrangePositionAll() {
-    renderLazyRelationAll(this.annotationData.relation.all())
+    renderLazyRelationAll(this.annotationData.relation.all)
     arrangePositionAll(
       this.editor,
       this.annotationData,
@@ -60,7 +60,7 @@ export default class {
   }
 
   changeAll() {
-    this.annotationData.relation.all().map((relation) => {
+    this.annotationData.relation.all.map((relation) => {
       changeType(
         this.editor,
         this.annotationData,

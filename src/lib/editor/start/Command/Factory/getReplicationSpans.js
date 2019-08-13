@@ -5,7 +5,7 @@ import _ from 'underscore'
 
 // Check replications are word or not if spanConfig is set.
 export default function(dataStore, originSpan, detectBoundaryFunc) {
-  const allSpans = dataStore.span.all()
+  const allSpans = dataStore.span.all
   const wordFilter = detectBoundaryFunc
     ? _.partial(isWord, dataStore.sourceDoc, detectBoundaryFunc)
     : _.identity

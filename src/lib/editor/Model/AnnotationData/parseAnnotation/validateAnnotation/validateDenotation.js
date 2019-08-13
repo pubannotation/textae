@@ -55,10 +55,8 @@ function isBeginAndEndIn(denotation, text) {
 
 function isInParagraph(denotation, paragraph) {
   return (
-    paragraph
-      .all()
-      .filter(
-        (p) => p.begin <= denotation.span.begin && denotation.span.end <= p.end
-      ).length === 1
+    paragraph.all.filter(
+      (p) => p.begin <= denotation.span.begin && denotation.span.end <= p.end
+    ).length === 1
   )
 }

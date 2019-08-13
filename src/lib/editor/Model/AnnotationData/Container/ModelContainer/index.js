@@ -1,4 +1,5 @@
-import getNextId from './getNextId'
+import isFunction from './isFunction'
+import addToContainer from './addToContainer'
 
 export default class {
   constructor(emitter, prefix, mappingFunction = null, idPrefix = null) {
@@ -47,16 +48,12 @@ export default class {
     return this.container.get(id)
   }
 
-  all() {
+  get all() {
     return Array.from(this.container.values())
   }
 
-  some() {
+  get some() {
     return this.container.size
-  }
-
-  types() {
-    return Array.from(this.container.values()).map((instance) => instance.type)
   }
 
   changeType(id, newType) {
@@ -78,22 +75,4 @@ export default class {
   clear() {
     this.container.clear()
   }
-}
-
-// see: https://stackoverflow.com/questions/5999998/check-if-a-variable-is-of-function-type
-function isFunction(functionToCheck) {
-  return (
-    functionToCheck && {}.toString.call(functionToCheck) === '[object Function]'
-  )
-}
-
-function addToContainer(instance, container, prefix) {
-  if (!instance.id) {
-    // Overwrite to revert
-    const ids = Array.from(container.keys())
-    const newId = getNextId(prefix, ids)
-    instance.id = newId
-  }
-  container.set(instance.id, instance)
-  return instance
 }

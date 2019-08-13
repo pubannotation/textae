@@ -15,9 +15,9 @@ export default class {
     this.domPositionCache.reset()
 
     // There is at least one type in span that has a grid.
-    const targetSpans = this.annotationData.span
-      .all()
-      .filter((span) => span.getTypes().length > 0)
+    const targetSpans = this.annotationData.span.all.filter(
+      (span) => span.getTypes().length > 0
+    )
 
     for (const span of targetSpans) {
       // Cache all span position because alternating between getting offset and setting offset.

@@ -73,7 +73,7 @@ function expandSpanToSelection(
   )
 
   // The span cross exists spans.
-  if (isBoundaryCrossingWithOtherSpans(annotationData.span.all(), newSpan)) {
+  if (isBoundaryCrossingWithOtherSpans(annotationData.span.all, newSpan)) {
     deferAlert('A span cannot be expanded to make a boundary crossing.')
     return
   }

@@ -22,12 +22,12 @@ export default function(
   )
 
   // The span cross exists spans.
-  if (isBoundaryCrossingWithOtherSpans(annotationData.span.all(), newSpan)) {
+  if (isBoundaryCrossingWithOtherSpans(annotationData.span.all, newSpan)) {
     return
   }
 
   // The span exists already.
-  if (isAlreadySpaned(annotationData.span.all(), newSpan)) {
+  if (isAlreadySpaned(annotationData.span.all, newSpan)) {
     return
   }
 

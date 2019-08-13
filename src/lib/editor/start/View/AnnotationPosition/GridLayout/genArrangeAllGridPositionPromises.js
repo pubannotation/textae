@@ -7,8 +7,7 @@ export default function(
   typeGap
 ) {
   return (
-    annotationData.span
-      .all()
+    annotationData.span.all
       // There is at least one type in span that has a grid.
       .filter((span) => span.getTypes().length > 0)
       .map((span) => {

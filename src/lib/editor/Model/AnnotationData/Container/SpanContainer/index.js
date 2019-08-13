@@ -19,7 +19,7 @@ export default class extends ModelContainer {
   // private
   updateSpanTree() {
     // the spanTree has parent-child structure.
-    const spanTree = createSpanTree(this, this.editor, super.all())
+    const spanTree = createSpanTree(this, this.editor, super.all)
 
     // this for debug.
     spanTree.toString = function() {
@@ -62,8 +62,7 @@ export default class extends ModelContainer {
       second = temp
     }
 
-    return super
-      .all()
+    return super.all
       .filter((span) => first.begin <= span.begin && span.end <= second.end)
       .map((span) => span.id)
   }
@@ -73,7 +72,7 @@ export default class extends ModelContainer {
   }
 
   multiEntities() {
-    return super.all().filter((span) => {
+    return super.all.filter((span) => {
       const multiEntitiesTypes = span
         .getTypes()
         .filter((type) => type.entities.length > 1)
@@ -103,7 +102,7 @@ export default class extends ModelContainer {
         // We can not distinguish the span is block span or not unless the span ID of the entity is updated.
         // Span DOM element is rendered by 'span.add' event.
         // We need to update the span ID of the entity before 'span.add' event.
-        updateSpanIdOfEntities(this.emitter.entity.all(), id, newOne)
+        updateSpanIdOfEntities(this.emitter.entity.all, id, newOne)
       }
     )
 

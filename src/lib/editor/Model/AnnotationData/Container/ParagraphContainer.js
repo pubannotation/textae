@@ -10,9 +10,9 @@ export default class extends ModelContainer {
 
   // get the paragraph that span is belong to.
   getBelongingTo(span) {
-    const match = super
-      .all()
-      .filter((p) => span.begin >= p.begin && span.end <= p.end)
+    const match = super.all.filter(
+      (p) => span.begin >= p.begin && span.end <= p.end
+    )
 
     if (match.length === 0) {
       throw new Error('span should belong to any paragraph.')
@@ -21,8 +21,8 @@ export default class extends ModelContainer {
     }
   }
 
-  all() {
-    const paragraphs = super.all()
+  get all() {
+    const paragraphs = super.all
 
     // The order is important to render.
     paragraphs.sort((a, b) => {

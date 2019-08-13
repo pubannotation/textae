@@ -27,18 +27,16 @@ export function set(editor, heightValue) {
 export function setToTypeGap(editor, annotationData, typeDefinition, typeGap) {
   let maxHeight
 
-  if (annotationData.span.all().length === 0) {
+  if (annotationData.span.all.length === 0) {
     const style = window.getComputedStyle(editor)
     const n = pixelToInt(style.lineHeight)
 
     maxHeight = n
   } else {
     maxHeight = _.max(
-      annotationData.span
-        .all()
-        .map((span) =>
-          getHeightIncludeDescendantGrids(span, typeDefinition, typeGap)
-        )
+      annotationData.span.all.map((span) =>
+        getHeightIncludeDescendantGrids(span, typeDefinition, typeGap)
+      )
     )
 
     maxHeight += TEXT_HEIGHT + MARGIN_TOP

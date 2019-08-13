@@ -2,8 +2,7 @@ import getTypeDom from '../../getTypeDom'
 import updateLabel from './updateLabel'
 
 export default function(annotationData, typeDefinition, type) {
-  annotationData.entity
-    .all()
+  annotationData.entity.all
     .filter((entity) => entity.type === type)
     .map((entity) => getTypeDom(entity))
     .filter((typeDom) => typeDom)

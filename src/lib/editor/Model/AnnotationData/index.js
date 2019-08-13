@@ -20,6 +20,6 @@ export default class extends Container {
   }
 
   getModificationOf(objectId) {
-    return this.modification.all().filter((m) => m.obj === objectId)
+    return this.modification.all.filter((m) => m.obj === objectId)
   }
 }
