@@ -122,7 +122,7 @@ export default function(
         annotationData.toJson()
       )
       setSpanAndTypeConfig(spanConfig, typeDefinition, data.config)
-      annotationData.resetOnlyConfig(data.annotation)
+      annotationData.resetOnlyConfig()
     })
     .on('save--config', () => {
       originalAnnotation.config = typeDefinition.getConfig()

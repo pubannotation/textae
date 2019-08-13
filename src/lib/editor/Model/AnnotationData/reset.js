@@ -1,20 +1,16 @@
 import setNewData from './setNewData'
 import toastr from 'toastr'
 
-export default function reset(dataStore, annotation, isOnlyConfig) {
-  if (!isOnlyConfig && !annotation.text) {
+export default function reset(dataStore, annotation) {
+  if (!annotation.text) {
     toastr.error('This is not a json file of anntations.')
     return null
   }
 
-  if (!isOnlyConfig) {
-    clearAnnotationData(dataStore)
-    const result = setNewData(dataStore, annotation)
-    dataStore.emit('paragraph.change', dataStore.paragraph.all())
-    dataStore.emit('all.change', dataStore, result.multitrack, result.rejects)
-  } else {
-    dataStore.emit('config.change', dataStore)
-  }
+  clearAnnotationData(dataStore)
+  const result = setNewData(dataStore, annotation)
+  dataStore.emit('paragraph.change', dataStore.paragraph.all())
+  dataStore.emit('all.change', dataStore, result.multitrack, result.rejects)
 
   return null
 }
