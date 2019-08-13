@@ -75,6 +75,7 @@ export default class extends EventEmitter {
   setDefaultType(id) {
     console.assert(id, 'id is necessary!')
     setDefaultTypeToDefinedTypes(this.definedTypes, id)
+    super.emit('type.default.change')
   }
 
   // Return the type that has the default property or the most  used type.

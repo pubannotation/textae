@@ -43,6 +43,7 @@ export default class {
       // Update table content when config lock state or type definition changing
       typeContainer.on('type.lock', this.updateTableContent)
       typeContainer.on('type.change', this.updateTableContent)
+      typeContainer.on('type.default.change', this.updateTableContent)
 
       updateDisplay(el, history, typeContainer, point, handlerType)
     }
@@ -53,9 +54,10 @@ export default class {
 
     // Release event listeners that bound when opening pallet.
     if (this.updateTableContent) {
-      const typeContainer = this.elementEditor.getHandler().typeContainer
-      typeContainer.removeListener('type.lock', this.updateTableContent)
-      typeContainer.removeListener('type.change', this.updateTableContent)
+      const t = this.elementEditor.getHandler().typeContainer
+      t.removeListener('type.lock', this.updateTableContent)
+      t.removeListener('type.change', this.updateTableContent)
+      t.removeListener('type.default.change', this.updateTableContent)
     }
   }
 
