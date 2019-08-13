@@ -85,11 +85,6 @@
             background: url(images/btn_write_modified_16.png);
         }
     }
-    &__hide-when-locked {
-        &--hide {
-            display: none;
-        }
-    }
     &__label,
     &__short-label,
     &__no-config {
@@ -108,8 +103,6 @@
     }
     &__table-buttons {
         padding: 2px;
-        width: 88px;
-        min-width: 88px;
         text-align: center;
     }
     &__default-icon {
@@ -186,6 +179,11 @@
         vertical-align: middle;
         height: 16px;
         width: 16px;
+    }
+    &__hide-when-locked {
+        &--hide {
+            display: none;
+        }
     }
     table {
         .table;

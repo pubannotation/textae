@@ -5,7 +5,7 @@ const html = `
   <th>id</th>
   <th>label</th>
   <th title="Number of annotations.">#</th>
-  <th class="textae-editor__type-pallet__hide-when-locked"></th>
+  <th></th>
 </tr>
 {{#if this}}
 {{#each this}}
@@ -28,7 +28,7 @@ const html = `
     {{#if useNumber}}{{useNumber}}{{/if}}
     {{#unless useNumber}}0{{/unless}}
   </td>
-  <td class="textae-editor__type-pallet__table-buttons textae-editor__type-pallet__hide-when-locked">
+  <td class="textae-editor__type-pallet__table-buttons">
     <button
       type="button"
       class="textae-editor__type-pallet__table-button textae-editor__type-pallet__select-all {{#unless useNumber}}textae-editor__type-pallet__table-button--disabled{{/unless}}"
@@ -38,14 +38,14 @@ const html = `
     </button>
     <button
       type="button"
-      class="textae-editor__type-pallet__table-button textae-editor__type-pallet__edit-type"
+      class="textae-editor__type-pallet__table-button textae-editor__type-pallet__edit-type textae-editor__type-pallet__hide-when-locked"
       title="Edit this type." data-id="{{id}}"
       data-color="{{color}}"
       data-is-default="{{defaultType}}">
     </button>
     <button 
       type="button"
-      class="textae-editor__type-pallet__table-button textae-editor__type-pallet__remove {{#if useNumber}}textae-editor__type-pallet__table-button--disabled{{/if}}"
+      class="textae-editor__type-pallet__table-button textae-editor__type-pallet__remove textae-editor__type-pallet__hide-when-locked {{#if useNumber}}textae-editor__type-pallet__table-button--disabled{{/if}}"
       title="{{#if useNumber}}To activate this button, remove all the annotations of this type.{{/if}}{{#unless useNumber}}Remove this type.{{/unless}}"
       data-id="{{id}}"
       data-short-label="{{label}}">
