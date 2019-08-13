@@ -1,18 +1,16 @@
 import getNextId from './getNextId'
 
-const ERROR_MESSAGE =
-  'Set the mappingFunction by the constructor to use the method "ModelContainer.addSource".'
-
 export default class {
-  constructor(emitter, prefix, mappingFunction, idPrefix) {
-    if (!isFunction(mappingFunction)) {
-      throw new Error(ERROR_MESSAGE)
-    }
-
+  constructor(emitter, prefix, mappingFunction = null, idPrefix = null) {
     this.emitter = emitter
     this.name = prefix
-    this.mappingFunction = mappingFunction
+
+    // If mappingFunction is not specified, set a function that does not change anything.
+    this.mappingFunction = mappingFunction || ((v) => v)
+
+    // If idPrefix is specified, overwrite prefix.
     this.prefix = idPrefix ? idPrefix : prefix.charAt(0).toUpperCase()
+
     this.container = new Map()
   }
 

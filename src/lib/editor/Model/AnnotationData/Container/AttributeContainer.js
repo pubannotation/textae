@@ -3,7 +3,7 @@ import Attribute from './Attribute'
 
 export default class extends ModelContainer {
   constructor(emitter) {
-    super(emitter, 'attribute', mappingFunction, 'A')
+    super(emitter, 'attribute', mappingFunction)
     this.emitter = emitter
   }
 
