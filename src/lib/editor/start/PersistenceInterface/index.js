@@ -1,4 +1,4 @@
-import showSaveDialogWithEditedData from './showSaveDialogWithEditedData'
+import showSaveAnnoDialogWithEditedData from './showSaveAnnoDialogWithEditedData'
 import showSaveConfDialogWithEditedData from './showSaveConfDialogWithEditedData'
 
 export default class {
@@ -8,6 +8,7 @@ export default class {
     annotationData,
     typeDefinition,
     getOriginalAnnotation,
+    getOriginalConfig,
     saveToParameter
   ) {
     this._dataAccessObject = dataAccessObject
@@ -15,6 +16,7 @@ export default class {
     this._annotationData = annotationData
     this._typeDefinition = typeDefinition
     this._getOriginalAnnotation = getOriginalAnnotation
+    this._getOriginalConfig = getOriginalConfig
     this._saveToParameter = saveToParameter
   }
 
@@ -25,7 +27,7 @@ export default class {
   }
 
   uploadAnnotation() {
-    showSaveDialogWithEditedData(
+    showSaveAnnoDialogWithEditedData(
       this._dataAccessObject,
       this._annotationData,
       this._typeDefinition,
@@ -43,9 +45,8 @@ export default class {
   uploadConfiguration() {
     showSaveConfDialogWithEditedData(
       this._dataAccessObject,
-      this._annotationData,
       this._typeDefinition,
-      this._getOriginalAnnotation
+      this._getOriginalConfig
     )
   }
 }

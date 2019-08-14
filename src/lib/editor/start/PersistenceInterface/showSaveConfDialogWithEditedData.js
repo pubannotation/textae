@@ -1,18 +1,12 @@
-export default function showSaveConfDialogWithEditedData(
-  dataAccessObject,
-  annotationData,
-  typeDefinition,
-  getOriginalAnnotation
-) {
-  const originalData = getOriginalAnnotation()
-  const config = typeDefinition.getConfig()
+export default function(dataAccessObject, typeDefinition, getOriginalConfig) {
+  const orignalConfig = getOriginalConfig()
 
-  dataAccessObject.showSaveConf(
-    originalData.config,
-    Object.assign(
-      JSON.parse(JSON.stringify(originalData)),
-      annotationData.toJson(),
-      { config }
-    ).config
+  // Merge with the original config and save the value unchanged in the editor.
+  const editidConfig = Object.assign(
+    {},
+    orignalConfig,
+    typeDefinition.getConfig()
   )
+
+  dataAccessObject.showSaveConf(orignalConfig, editidConfig)
 }

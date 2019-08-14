@@ -137,6 +137,7 @@ export default function(
     annotationData,
     typeDefinition,
     () => originalAnnotation,
+    () => originalAnnotation.config,
     params.get('annotation').get('save_to')
   )
   const updateLineHeight = () =>
