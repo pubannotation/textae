@@ -1,7 +1,7 @@
 export default function(
   command,
   presenter,
-  daoHandler,
+  persistenceInterface,
   buttonController,
   updateLineHeight
 ) {
@@ -10,8 +10,14 @@ export default function(
     ['textae.control.button.term.click', presenter.event.toTermMode],
     ['textae.control.button.relation.click', presenter.event.toRelationMode],
     ['textae.control.button.simple.click', presenter.event.toggleSimpleMode],
-    ['textae.control.button.read.click', daoHandler.showAccess],
-    ['textae.control.button.write.click', daoHandler.showSave],
+    [
+      'textae.control.button.read.click',
+      () => persistenceInterface.importAnnotation()
+    ],
+    [
+      'textae.control.button.write.click',
+      () => persistenceInterface.uploadAnnotation()
+    ],
     ['textae.control.button.undo.click', command.undo],
     ['textae.control.button.redo.click', command.redo],
     ['textae.control.button.replicate.click', presenter.event.replicate],

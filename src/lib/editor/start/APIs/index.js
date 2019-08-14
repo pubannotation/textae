@@ -6,20 +6,20 @@ import PalletApiMap from './PalletApiMap'
 export default function(
   command,
   presenter,
-  daoHandler,
+  persistenceInterface,
   buttonController,
   view,
   updateLineHeight
 ) {
-  const keyApiMap = new KeyApiMap(command, presenter, daoHandler)
+  const keyApiMap = new KeyApiMap(command, presenter, persistenceInterface)
   const iconApiMap = new IconApiMap(
     command,
     presenter,
-    daoHandler,
+    persistenceInterface,
     buttonController,
     updateLineHeight
   )
-  const palletApiMap = new PalletApiMap(daoHandler)
+  const palletApiMap = new PalletApiMap(persistenceInterface)
 
   // Update APIs
   return {

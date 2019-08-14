@@ -1,4 +1,4 @@
-export default function(command, presenter, daoHandler) {
+export default function(command, presenter, persistenceInterface) {
   return new Map([
     ['A', command.redo],
     ['B', presenter.event.toggleDetectBoundaryMode],
@@ -7,13 +7,13 @@ export default function(command, presenter, daoHandler) {
     ['DEL', presenter.event.removeSelectedElements],
     ['E', presenter.event.createEntity],
     ['F', presenter.event.toggleInstaceRelation],
-    ['I', daoHandler.showAccess],
+    ['I', () => persistenceInterface.importAnnotation()],
     ['M', presenter.event.toggleInstaceRelation],
     ['Q', presenter.event.showPallet],
     ['R', presenter.event.replicate],
     ['S', presenter.event.speculation],
     ['T', presenter.event.createAttribute],
-    ['U', daoHandler.showSave],
+    ['U', () => persistenceInterface.uploadAnnotation()],
     ['V', presenter.event.pasteEntities],
     ['W', presenter.event.changeLabel],
     ['X', presenter.event.negation],

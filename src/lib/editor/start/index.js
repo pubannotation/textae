@@ -6,7 +6,7 @@ import TypeDefinition from '../Model/TypeDefinition'
 import View from './View'
 import Presenter from './Presenter'
 import bindMouseEvent from './bindMouseEvent'
-import DaoHandler from './DaoHandler'
+import PersistenceInterface from './PersistenceInterface'
 import APIs from './APIs'
 import calculateLineHeight from './calculateLineHeight'
 import focusEditorWhenFocusedChildRemoved from './focusEditorWhenFocusedChildRemoved'
@@ -68,7 +68,7 @@ export default function(
   // Manage the original annotation
   let originalAnnotation
 
-  const daoHandler = new DaoHandler(
+  const persistenceInterface = new PersistenceInterface(
     dataAccessObject,
     history,
     annotationData,
@@ -145,7 +145,7 @@ export default function(
   editor.api = new APIs(
     command,
     presenter,
-    daoHandler,
+    persistenceInterface,
     buttonController,
     view,
     updateLineHeight
