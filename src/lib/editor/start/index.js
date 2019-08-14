@@ -17,6 +17,7 @@ import setSpanAndTypeConfig from './setSpanAndTypeConfig'
 import setAnnotation from './setAnnotation'
 import loadAnnotation from './loadAnnotation'
 import getConfigEditParamFromUrl from './getConfigEditParamFromUrl'
+import OriginalData from './OriginalData'
 
 export default function(
   editor,
@@ -65,9 +66,6 @@ export default function(
   bindMouseEvent(editor, presenter, view)
   focusEditorWhenFocusedChildRemoved(editor)
 
-  // Manage the original annotation
-  let originalAnnotation
-
   const statusBar = getStatusBar(editor, params.get('status_bar'))
 
   if (params.get('control') === 'visible') {
@@ -91,6 +89,8 @@ export default function(
     typeDefinition.unlockEdit()
   }
 
+  const originalData = new OriginalData()
+
   dataAccessObject
     .on('load--annotation', (data) => {
       setAnnotation(
@@ -101,7 +101,7 @@ export default function(
         params.get('config')
       )
       statusBar.status(data.source)
-      originalAnnotation = data.annotation
+      originalData.annotation = data.annotation
       editor.eventEmitter.emit('textae.pallet.update')
     })
     .on('load--config', (data) => {
@@ -111,18 +111,18 @@ export default function(
         )
         return
       }
-      originalAnnotation.config = data.config
+      originalData.config = data.config
       data.annotation = Object.assign(
-        originalAnnotation,
+        originalData.annotation,
         annotationData.toJson()
       )
       setSpanAndTypeConfig(spanConfig, typeDefinition, data.config)
     })
     .on('save--config', () => {
-      originalAnnotation.config = typeDefinition.getConfig()
+      originalData.config = typeDefinition.getConfig()
     })
 
-  originalAnnotation = loadAnnotation(
+  originalData.annotation = loadAnnotation(
     spanConfig,
     typeDefinition,
     annotationData,
@@ -136,8 +136,8 @@ export default function(
     history,
     annotationData,
     typeDefinition,
-    () => originalAnnotation,
-    () => originalAnnotation.config,
+    () => originalData.annotation,
+    () => originalData.config,
     params.get('annotation').get('save_to')
   )
   const updateLineHeight = () =>
