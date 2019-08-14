@@ -38,9 +38,22 @@ export default class extends CompositeCommand {
             id
           )
       )
+    const removeAttribute = annotationData.entity
+      .get(id)
+      .attributes.map(
+        (attribute) =>
+          new RemoveCommand(
+            editor,
+            annotationData,
+            selectionModel,
+            'attribute',
+            attribute.id
+          )
+      )
 
     this.subCommands = removeRelation
       .concat(removeModification)
+      .concat(removeAttribute)
       .concat(removeEntity)
     this.id = id
   }
