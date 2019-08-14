@@ -8,14 +8,14 @@ export default class {
     annotationData,
     typeDefinition,
     getOriginalAnnotation,
-    params
+    saveToParameter
   ) {
     this._dataAccessObject = dataAccessObject
     this._history = history
     this._annotationData = annotationData
     this._typeDefinition = typeDefinition
     this._getOriginalAnnotation = getOriginalAnnotation
-    this._params = params
+    this._saveToParameter = saveToParameter
   }
 
   importAnnotation() {
@@ -30,7 +30,7 @@ export default class {
       this._annotationData,
       this._typeDefinition,
       this._getOriginalAnnotation,
-      this._params
+      this._saveToParameter
     )
   }
 

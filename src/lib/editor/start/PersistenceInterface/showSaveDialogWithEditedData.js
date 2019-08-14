@@ -3,7 +3,7 @@ export default function showSaveDialogWithEditedData(
   annotationData,
   typeDefinition,
   getOriginalAnnotation,
-  params
+  saveToParameter
 ) {
   const originalData = getOriginalAnnotation()
   const config = typeDefinition.getConfig()
@@ -14,6 +14,6 @@ export default function showSaveDialogWithEditedData(
       annotationData.toJson(),
       { config }
     ),
-    params.get('save_to')
+    saveToParameter
   )
 }

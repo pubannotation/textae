@@ -74,7 +74,7 @@ export default function(
     annotationData,
     typeDefinition,
     () => originalAnnotation,
-    params.get('annotation')
+    params.get('annotation').get('save_to')
   )
   const statusBar = getStatusBar(editor, params.get('status_bar'))
 
