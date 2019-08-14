@@ -43,8 +43,7 @@ export default class {
       this._dataAccessObject,
       this._annotationData,
       this._typeDefinition,
-      this._getOriginalAnnotation,
-      this._params
+      this._getOriginalAnnotation
     )
   }
 }

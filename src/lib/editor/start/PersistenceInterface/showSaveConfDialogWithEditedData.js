@@ -2,8 +2,7 @@ export default function showSaveConfDialogWithEditedData(
   dataAccessObject,
   annotationData,
   typeDefinition,
-  getOriginalAnnotation,
-  params
+  getOriginalAnnotation
 ) {
   const originalData = getOriginalAnnotation()
   const config = typeDefinition.getConfig()
@@ -14,7 +13,6 @@ export default function showSaveConfDialogWithEditedData(
       JSON.parse(JSON.stringify(originalData)),
       annotationData.toJson(),
       { config }
-    ),
-    params
+    )
   )
 }

@@ -87,11 +87,11 @@ export default class extends EventEmitter {
     ).open()
   }
 
-  showSaveConf(orig, edited, params) {
+  showSaveConf(orig, edited) {
     getSaveDialog(
       'Save Configurations',
       'config.json',
-      overwriteUrl(this.urlOfLastRead.config, params),
+      this.urlOfLastRead.config,
       edited.config,
       (url, data) => {
         // textae-config service is build with the Ruby on Rails 4.X.
