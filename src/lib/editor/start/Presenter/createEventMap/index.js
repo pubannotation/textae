@@ -55,13 +55,13 @@ export default function(
     displayInstance
   )
   const event = {
-    copyEntities: clipBoardHandler.copyEntities,
+    copyEntities: () => clipBoardHandler.copyEntities(),
     removeSelectedElements: () =>
       removeSelectedElements(command, selectionModel, selectHandler),
     createEntity: createEntityHandler,
     showPallet: typeEditor.showPallet,
     replicate: replicateHandler,
-    pasteEntities: clipBoardHandler.pasteEntities,
+    pasteEntities: () => clipBoardHandler.pasteEntities(),
     changeLabel: typeEditor.changeLabel,
     changeLabelAndPred: typeEditor.changeLabelAndPred,
     cancelSelect: () => cancelSelect(typeEditor, editor),
