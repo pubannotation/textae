@@ -68,14 +68,6 @@ export default function(
   // Manage the original annotation
   let originalAnnotation
 
-  const persistenceInterface = new PersistenceInterface(
-    dataAccessObject,
-    history,
-    annotationData,
-    typeDefinition,
-    () => originalAnnotation,
-    params.get('annotation').get('save_to')
-  )
   const statusBar = getStatusBar(editor, params.get('status_bar'))
 
   if (params.get('control') === 'visible') {
@@ -139,6 +131,14 @@ export default function(
     dataAccessObject
   )
 
+  const persistenceInterface = new PersistenceInterface(
+    dataAccessObject,
+    history,
+    annotationData,
+    typeDefinition,
+    () => originalAnnotation,
+    params.get('annotation').get('save_to')
+  )
   const updateLineHeight = () =>
     calculateLineHeight(editor, annotationData, typeDefinition, typeGap, view)
 
