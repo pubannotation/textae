@@ -19,7 +19,9 @@ export default class {
   }
 
   importAnnotation() {
-    this._dataAccessObject.showAccess(this._history.hasAnythingToSaveAnnotation)
+    this._dataAccessObject.showAccessAnno(
+      this._history.hasAnythingToSaveAnnotation
+    )
   }
 
   uploadAnnotation() {

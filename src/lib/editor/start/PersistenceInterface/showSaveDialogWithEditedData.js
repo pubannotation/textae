@@ -8,12 +8,12 @@ export default function showSaveDialogWithEditedData(
   const originalData = getOriginalAnnotation()
   const config = typeDefinition.getConfig()
 
-  dataAccessObject.showSave(
+  dataAccessObject.showSaveAnno(
     Object.assign(
       JSON.parse(JSON.stringify(originalData)),
       annotationData.toJson(),
       { config }
     ),
-    params
+    params.get('save_to')
   )
 }

@@ -4,7 +4,6 @@ import getLoadDialog from './getLoadDialog'
 import getFromServer from './getFromServer'
 import getJsonFromFile from './getJsonFromFile'
 import getSaveDialog from './getSaveDialog'
-import overwriteUrl from './overwriteUrl'
 import AjaxSender from './AjaxSender'
 import addViewSource from './addViewSource'
 import addJsonDiff from './addJsonDiff'
@@ -55,7 +54,7 @@ export default class extends EventEmitter {
     this.load('config', url)
   }
 
-  showAccess(hasChange) {
+  showAccessAnno(hasChange) {
     getLoadDialog(
       'Load Annotations',
       this.urlOfLastRead.annotation,
@@ -75,11 +74,11 @@ export default class extends EventEmitter {
     ).open()
   }
 
-  showSave(editedData, params) {
+  showSaveAnno(editedData, saveToParameter = null) {
     getSaveDialog(
       'Save Annotations',
       'annotations.json',
-      overwriteUrl(this.urlOfLastRead.annotation, params),
+      saveToParameter || this.urlOfLastRead.annotation,
       editedData,
       (url, data) => this.ajaxSender.post(url, data),
       (el, closeDialog) => addViewSource(el, editedData, this, closeDialog),
