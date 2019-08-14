@@ -91,7 +91,7 @@ export default class extends EventEmitter {
       'Save Configurations',
       'config.json',
       this.urlOfLastRead.config,
-      edited.config,
+      edited,
       (url, data) => {
         // textae-config service is build with the Ruby on Rails 4.X.
         // To change existing files, only PATCH method is allowed on the Ruby on Rails 4.X.

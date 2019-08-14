@@ -1,7 +1,7 @@
 import jsonDiff from '../../util/jsonDiff'
 
-export default function(el, originalData, editedData) {
-  const diff = jsonDiff(originalData.config, editedData.config) || 'nothing.'
+export default function(el, originalConfig, editedConfig) {
+  const diff = jsonDiff(originalConfig, editedConfig) || 'nothing.'
   el.insertAdjacentHTML(
     'beforeend',
     `

@@ -8,11 +8,11 @@ export default function showSaveConfDialogWithEditedData(
   const config = typeDefinition.getConfig()
 
   dataAccessObject.showSaveConf(
-    originalData,
+    originalData.config,
     Object.assign(
       JSON.parse(JSON.stringify(originalData)),
       annotationData.toJson(),
       { config }
-    )
+    ).config
   )
 }
