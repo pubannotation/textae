@@ -1,6 +1,6 @@
-import SpanAndTypesCreateCommand from './SpanAndTypesCreateCommand'
+import SpanAndTypesCreateCommand from '../SpanAndTypesCreateCommand'
 import getReplicationSpans from './getReplicationSpans'
-import CompositeCommand from './CompositeCommand'
+import CompositeCommand from '../CompositeCommand'
 
 export default class extends CompositeCommand {
   constructor(

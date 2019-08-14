@@ -1,6 +1,6 @@
 import not from 'not'
-import isAlreadySpaned from '../../isAlreadySpaned'
-import { isBoundaryCrossingWithOtherSpans } from '../../../Model/AnnotationData/parseAnnotation/validateAnnotation'
+import isAlreadySpaned from '../../../isAlreadySpaned'
+import { isBoundaryCrossingWithOtherSpans } from '../../../../Model/AnnotationData/parseAnnotation/validateAnnotation'
 import _ from 'underscore'
 
 // Check replications are word or not if spanConfig is set.
