@@ -23,11 +23,11 @@ export function observeHistoryChange(history, buttonStateHelper, leaveMessage) {
 
 export function observeDataSave(_, dataAccessObject, history) {
   dataAccessObject
-    .on('save', () => {
+    .on('annotation.save', () => {
       history.resetAllHistories()
       toastr.success('annotation saved')
     })
-    .on('save--config', () => {
+    .on('configuration.save', () => {
       history.configurationSaved()
       toastr.success('configuration saved')
     })

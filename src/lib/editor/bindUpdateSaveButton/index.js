@@ -19,7 +19,7 @@ export default function(
     o.set(loadedAnnotationIsModified || history.hasAnythingToSaveAnnotation)
   })
 
-  dataAccessObject.on('save', () => {
+  dataAccessObject.on('annotation.save', () => {
     o.set(false)
     loadedAnnotationIsModified = false
   })

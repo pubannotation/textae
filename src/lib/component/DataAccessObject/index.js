@@ -7,6 +7,7 @@ import getSaveDialog from './getSaveDialog'
 import AjaxSender from './AjaxSender'
 import addViewSource from './addViewSource'
 import addJsonDiff from './addJsonDiff'
+import toLoadEvent from './toLoadEvent'
 
 // A sub component to save and load data.
 export default class extends EventEmitter {
@@ -29,18 +30,18 @@ export default class extends EventEmitter {
             source
           }
           data[type] = loadData
-          super.emit(`load--${type}`, data)
+          super.emit(toLoadEvent(type), data)
           this.urlOfLastRead[type] = url
         },
         () => this.cursorChanger.endWait()
       )
 
     this.read = (type, file) =>
-      getJsonFromFile(file, type, (data) => super.emit(`load--${type}`, data))
+      getJsonFromFile(file, type, (data) => super.emit(toLoadEvent(type), data))
 
     this.ajaxSender = new AjaxSender(
       () => this.cursorChanger.startWait(),
-      () => super.emit('save'),
+      () => super.emit('annotation.save'),
       () => super.emit('save error'),
       () => this.cursorChanger.endWait()
     )
@@ -82,7 +83,7 @@ export default class extends EventEmitter {
       editedData,
       (url, data) => this.ajaxSender.post(url, data),
       (el, closeDialog) => addViewSource(el, editedData, this, closeDialog),
-      () => super.emit('save')
+      () => super.emit('annotation.save')
     ).open()
   }
 
@@ -98,7 +99,7 @@ export default class extends EventEmitter {
         this.ajaxSender.patch(url, data)
       },
       (el) => addJsonDiff(el, orig, edited),
-      () => super.emit('save--config')
+      () => super.emit('configuration.save')
     ).open()
   }
 }

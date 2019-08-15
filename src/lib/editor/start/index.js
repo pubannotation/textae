@@ -92,7 +92,7 @@ export default function(
   const originalData = new OriginalData()
 
   dataAccessObject
-    .on('load--annotation', ({ annotation, source }) => {
+    .on('annotation.load', ({ annotation, source }) => {
       setAnnotation(
         spanConfig,
         typeDefinition,
@@ -104,7 +104,7 @@ export default function(
       originalData.annotation = annotation
       editor.eventEmitter.emit('textae.pallet.update')
     })
-    .on('load--config', ({ config }) => {
+    .on('configuration.load', ({ config }) => {
       if (!validateConfiguration(config)) {
         toastr.error(
           'This is not a configuration file or its format is invalid.'
@@ -114,7 +114,7 @@ export default function(
       originalData.config = config
       setSpanAndTypeConfig(spanConfig, typeDefinition, config)
     })
-    .on('save--config', () => {
+    .on('configuration.save', () => {
       originalData.config = typeDefinition.getConfig()
     })
 
