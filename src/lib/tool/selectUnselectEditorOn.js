@@ -31,6 +31,11 @@ export default function(editors) {
       return
     }
 
+    // Ignore clicks on the overlay of the jQuery UI.
+    if (e.target.closest('.ui-widget-overlay') !== null) {
+      return
+    }
+
     // Ignore clicks on the label list editor.
     if (e.target.closest('.textae-editor__type-pallet') !== null) {
       return
