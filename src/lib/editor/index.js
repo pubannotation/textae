@@ -6,10 +6,12 @@ import Selection from './Selection'
 // The history of command that providing undo and redo.
 import History from './History'
 import bindUpdateSaveButton from './bindUpdateSaveButton'
-import * as observe from './observe'
 import start from './start'
 import { EventEmitter } from 'events'
 import CONFIRM_DISCARD_CHANGE_MESSAGE from './CONFIRM_DISCARD_CHANGE_MESSAGE'
+import observeDataSave from './observeDataSave'
+import observeHistoryChange from './observeHistoryChange'
+import observeModelChange from './observeModelChange'
 
 export default function() {
   const annotationData = new AnnotationData(this)
@@ -37,13 +39,13 @@ export default function() {
     annotationData,
     buttonController
   )
-  observe.observeModelChange(annotationData, history)
-  observe.observeHistoryChange(
+  observeDataSave(dataAccessObject, history)
+  observeHistoryChange(
     history,
     buttonController.buttonStateHelper,
     CONFIRM_DISCARD_CHANGE_MESSAGE
   )
-  observe.observeDataSave(this, dataAccessObject, history)
+  observeModelChange(annotationData, history)
 
   // public funcitons of editor
   this.api = {
