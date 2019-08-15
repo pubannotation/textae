@@ -59,6 +59,8 @@ export default class {
     if (this.updateDisplayForEditMode) {
       const t = this.elementEditor.getHandler().typeContainer
       handleEventListners(t, 'remove', this.updateDisplayForEditMode)
+
+      this.updateDisplayForEditMode = null
     }
   }
 
