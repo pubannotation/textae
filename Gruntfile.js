@@ -25,7 +25,7 @@ module.exports = function(grunt) {
       js: {
         src: [
           'node_modules/jquery/dist/jquery.min.js',
-          'src/lib/modules/jquery.jsPlumb-1.5.2-min.js',
+          'src/lib/modules/jquery.jsPlumb-1.5.5-min.js',
           'src/lib/bundle.js'
         ],
         dest: 'dist/lib/<%= pkg.name %>-<%= pkg.version %>.js'
