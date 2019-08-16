@@ -22,7 +22,7 @@ export default function(
   )
 
   // The span cross exists spans.
-  if (isBoundaryCrossingWithOtherSpans(annotationData.span.all(), newSpan)) {
+  if (isBoundaryCrossingWithOtherSpans(annotationData.span.all, newSpan)) {
     deferAlert('A span cannot be shrinked to make a boundary crossing.')
     return false
   }
