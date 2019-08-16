@@ -5,6 +5,6 @@ export default function(editor, annotationPosition) {
   const cursorChanger = new CursorChanger(editor)
 
   annotationPosition
-    .on('position-update.start', cursorChanger.startWait)
-    .on('position-update.end', cursorChanger.endWait)
+    .on('position-update.start', () => cursorChanger.startWait())
+    .on('position-update.end', () => cursorChanger.endWait())
 }
