@@ -58,7 +58,6 @@
     "jquery": "^2.2.4",
     "jquery-ui": "^1.12.1",
     "jquery-ui-dist": "^1.12.1",
-    "jsplumb": "^2.2.10",
     "load-grunt-tasks": "~3.3.0",
     "npm-run-all": "^1.7.0",
     "prettier": "^1.18.2",
