@@ -1,9 +1,10 @@
+import $ from 'jquery'
+import push from '../push'
+import unpush from '../unpush'
 import BUTTON_MAP from '../buttonMap'
 import makeButtons from './makeButtons'
 import toButtonList from '../toButtonList'
-import * as cssUtil from '../iconCssUtil'
 import updateButtons from '../updateButtons'
-import $ from 'jquery'
 
 export default class {
   constructor(editor) {
@@ -62,9 +63,9 @@ export default class {
   }
   updateButtonPushState(buttonType, isPushed) {
     if (isPushed) {
-      cssUtil.push(this.$control, buttonType)
+      push(this.$control, buttonType)
     } else {
-      cssUtil.unpush(this.$control, buttonType)
+      unpush(this.$control, buttonType)
     }
   }
   getContextMenuNode() {

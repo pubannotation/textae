@@ -1,6 +1,6 @@
 import { isBoundaryCrossingWithOtherSpans } from '../../../../../Model/AnnotationData/parseAnnotation/validateAnnotation'
 import isAlreadySpaned from '../../../../isAlreadySpaned'
-import * as selectPosition from '../selectPosition'
+import getBeginEnd from '../getBeginEnd'
 
 const BLOCK_THRESHOLD = 100
 
@@ -75,7 +75,7 @@ function createCommands(
 }
 
 function getNewSpan(annotationData, spanAdjuster, selection, spanConfig) {
-  const [begin, end] = selectPosition.getBeginEnd(annotationData, selection)
+  const [begin, end] = getBeginEnd(annotationData, selection)
 
   return {
     begin: spanAdjuster.backFromBegin(

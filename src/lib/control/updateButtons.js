@@ -1,5 +1,6 @@
-import * as cssUtil from './iconCssUtil'
 import toButtonClass from './toButtonClass'
+import enable from './enable'
+import disable from './disable'
 
 const EVENT = 'click'
 
@@ -28,13 +29,13 @@ function enableButton($control, buttonType) {
     .off(EVENT, toButtonClass(buttonType))
     .on(EVENT, toButtonClass(buttonType), eventHandler)
 
-  cssUtil.enable($control, buttonType)
+  enable($control, buttonType)
 }
 
 function disableButton($control, buttonType) {
   $control.off(EVENT, toButtonClass(buttonType))
 
-  cssUtil.disable($control, buttonType)
+  disable($control, buttonType)
 }
 
 function setButtonApearanceAndEventHandler($control, buttonType, enable) {

@@ -2,7 +2,8 @@ import delimiterDetectAdjuster from '../../../spanAdjuster/delimiterDetectAdjust
 import blankSkipAdjuster from '../../../spanAdjuster/blankSkipAdjuster'
 import create from './create'
 import expand from './expand'
-import * as shrink from './shrink'
+import crossTheEar from './crossTheEar'
+import pullByTheEar from './pullByTheEar'
 
 export default function(
   editor,
@@ -41,7 +42,7 @@ export default function(
         data.spanConfig
       ),
     shrinkCrossTheEar: (data) =>
-      shrink.crossTheEar(
+      crossTheEar(
         editor,
         annotationData,
         selectionModel,
@@ -51,7 +52,7 @@ export default function(
         data.spanConfig
       ),
     shrinkPullByTheEar: (data) =>
-      shrink.pullByTheEar(
+      pullByTheEar(
         editor,
         annotationData,
         selectionModel,

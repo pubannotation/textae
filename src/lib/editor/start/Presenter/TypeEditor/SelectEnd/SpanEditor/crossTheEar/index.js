@@ -1,5 +1,5 @@
-import getTargetSpanWhenFocusNodeSameWithAnchorNode from './getTargetSpanWhenFocusNodeSameWithAnchorNode'
-import shrinkSpanToSelectionAndSelectNextIfRemoved from './shrinkSpanToSelectionAndSelectNextIfRemoved'
+import getTargetSpanWhenFocusNodeDifferentFromAnchorNode from './getTargetSpanWhenFocusNodeDifferentFromAnchorNode'
+import shrinkSpanToSelectionAndSelectNextIfRemoved from '../shrinkSpanToSelectionAndSelectNextIfRemoved'
 
 export default function(
   editor,
@@ -10,7 +10,7 @@ export default function(
   selection,
   spanConfig
 ) {
-  const spanId = getTargetSpanWhenFocusNodeSameWithAnchorNode(
+  const spanId = getTargetSpanWhenFocusNodeDifferentFromAnchorNode(
     annotationData,
     selectionModel,
     selection

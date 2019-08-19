@@ -1,9 +1,12 @@
-import BUTTON_MAP from '../buttonMap'
-import makeButtons from './makeButtons'
-import toButtonList from '../toButtonList'
-import * as cssUtil from '../iconCssUtil'
-import updateButtons from '../updateButtons'
 import $ from 'jquery'
+import BUTTON_MAP from '../buttonMap'
+import toButtonList from '../toButtonList'
+import updateButtons from '../updateButtons'
+import push from '../push'
+import unpush from '../unpush'
+import transit from '../transit'
+import untransit from '../untransit'
+import makeButtons from './makeButtons'
 
 // Buttons that always eanable.
 const ALWAYS_ENABLES = {
@@ -47,9 +50,9 @@ function updateAllButtonEnableState($control, buttonList, enableButtons) {
 
 function updateButtonPushState($control, buttonType, isPushed) {
   if (isPushed) {
-    cssUtil.push($control, buttonType)
+    push($control, buttonType)
   } else {
-    cssUtil.unpush($control, buttonType)
+    unpush($control, buttonType)
   }
 }
 
@@ -58,9 +61,9 @@ function transitButtonImage($control, buttonList, transitButtons) {
     .filter((buttonType) => buttonList[buttonType])
     .forEach((buttonType) => {
       if (transitButtons[buttonType] === true) {
-        cssUtil.transit($control, buttonType)
+        transit($control, buttonType)
       } else {
-        cssUtil.untransit($control, buttonType)
+        untransit($control, buttonType)
       }
     })
 }

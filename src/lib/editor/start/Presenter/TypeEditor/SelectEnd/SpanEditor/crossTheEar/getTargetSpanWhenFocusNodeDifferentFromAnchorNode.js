@@ -1,13 +1,7 @@
-import * as isInSelected from './../isInSelected'
+import isFocusInSelectedSpan from '../isFocusInSelectedSpan'
 
 export default function(annotationData, selectionModel, selection, id) {
-  if (
-    isInSelected.isFocusInSelectedSpan(
-      annotationData,
-      selectionModel,
-      selection
-    )
-  ) {
+  if (isFocusInSelectedSpan(annotationData, selectionModel, selection)) {
     // If a span is selected, it is able to begin drag out of an outer span of the span and shrink the span.
     // The focus node should be at the selected node.
     // cf.

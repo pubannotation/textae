@@ -1,7 +1,8 @@
-import * as selectionValidator from './selectionValidator'
 import SpanEditor from './SpanEditor'
-import * as selectPosition from './selectPosition'
+import getAnchorPosition from './getAnchorPosition'
 import clearTextSelection from '../clearTextSelection'
+import validateOnText from './validateOnText'
+import validateOnSpan from './validateOnSpan'
 
 export default function(
   editor,
@@ -58,7 +59,7 @@ export default function(
 }
 
 function selectEndOnText(spanEditor, annotationData, data) {
-  const isValid = selectionValidator.validateOnText(
+  const isValid = validateOnText(
     annotationData,
     data.spanConfig,
     data.selection
@@ -86,7 +87,7 @@ function selectEndOnText(spanEditor, annotationData, data) {
 }
 
 function selectEndOnSpan(spanEditor, annotationData, data) {
-  const isValid = selectionValidator.validateOnSpan(
+  const isValid = validateOnSpan(
     annotationData,
     data.spanConfig,
     data.selection
@@ -94,10 +95,7 @@ function selectEndOnSpan(spanEditor, annotationData, data) {
 
   if (isValid) {
     if (data.selection.anchorNode === data.selection.focusNode) {
-      const ap = selectPosition.getAnchorPosition(
-        annotationData,
-        data.selection
-      )
+      const ap = getAnchorPosition(annotationData, data.selection)
       const span = annotationData.span.get(
         data.selection.anchorNode.parentElement.id
       )

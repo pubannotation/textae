@@ -1,7 +1,7 @@
 import showAlertIfOtherParagraph from './showAlertIfOtherParagraph'
-import * as hasClass from '../hasClass'
-import * as getParent from '../getParent'
-import * as selectPosition from '../selectPosition'
+import getBeginEnd from '../getBeginEnd'
+import hasSpanOrParagraphs from '../hasSpanOrParagraphs'
+import getAnchorNodeParent from '../getAnchorNodeParent'
 
 export default function commonValidate(annotationData, spanConfig, selection) {
   // This order is not important.
@@ -13,14 +13,14 @@ export default function commonValidate(annotationData, spanConfig, selection) {
 }
 
 function isAnchrNodeInSpanOrParagraph(selection) {
-  return hasClass.hasSpanOrParagraphs(getParent.getAnchorNodeParent(selection))
+  return hasSpanOrParagraphs(getAnchorNodeParent(selection))
 }
 
 // A span cannot be created include nonEdgeCharacters only.
 function hasCharacters(annotationData, spanConfig, selection) {
   if (!selection) return false
 
-  const [begin, end] = selectPosition.getBeginEnd(annotationData, selection)
+  const [begin, end] = getBeginEnd(annotationData, selection)
   const selectedString = annotationData.sourceDoc.substring(begin, end)
   const stringWithoutBlankCharacters = spanConfig.removeBlankChractors(
     selectedString
