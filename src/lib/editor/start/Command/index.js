@@ -1,6 +1,5 @@
 import invokeCommand from './invokeCommand'
 import Factory from './Factory'
-import Commands from '../../History/Commands'
 
 // A command is an operation by user that is saved as history, and can undo and redo.
 // Users can edit model only via commands.
