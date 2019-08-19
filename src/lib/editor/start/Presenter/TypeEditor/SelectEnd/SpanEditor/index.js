@@ -33,7 +33,6 @@ export default function(
     },
     expand: (data) =>
       expand(
-        editor,
         annotationData,
         selectionModel,
         command,

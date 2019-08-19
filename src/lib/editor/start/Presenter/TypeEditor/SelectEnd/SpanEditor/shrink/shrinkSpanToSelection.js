@@ -1,11 +1,8 @@
 import { isBoundaryCrossingWithOtherSpans } from '../../../../../../Model/AnnotationData/parseAnnotation/validateAnnotation'
 import deferAlert from '../../deferAlert'
-import idFactory from '../../../../../../idFactory'
-import moveSpan from './../moveSpan'
 import * as selectPosition from '../../selectPosition'
 
 export default function(
-  editor,
   annotationData,
   command,
   spanAdjuster,
@@ -27,11 +24,10 @@ export default function(
     return false
   }
 
-  const newSpanId = idFactory.makeSpanId(editor, newSpan)
-  const sameSpan = annotationData.span.get(newSpanId)
+  const doesExists = annotationData.span.has(newSpan)
 
-  if (newSpan.begin < newSpan.end && !sameSpan) {
-    command.invoke(moveSpan(editor, command, spanId, newSpan))
+  if (newSpan.begin < newSpan.end && !doesExists) {
+    command.invoke([command.factory.spanMoveCommand(spanId, newSpan)])
   } else {
     command.invoke(removeSpan(command, spanId))
     return true

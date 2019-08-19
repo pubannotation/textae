@@ -2,10 +2,8 @@ import { isBoundaryCrossingWithOtherSpans } from '../../../../../Model/Annotatio
 import deferAlert from '../deferAlert'
 import * as selectPosition from '../selectPosition'
 import * as isInSelected from './isInSelected'
-import moveSpan from './moveSpan'
 
 export default function(
-  editor,
   annotationData,
   selectionModel,
   command,
@@ -18,7 +16,6 @@ export default function(
   if (spanId) {
     selectionModel.clear()
     expandSpanToSelection(
-      editor,
       annotationData,
       command,
       spanAdjuster,
@@ -56,7 +53,6 @@ function getExpandTargetSpan(annotationData, selectionModel, selection) {
 }
 
 function expandSpanToSelection(
-  editor,
   annotationData,
   command,
   spanAdjuster,
@@ -78,7 +74,7 @@ function expandSpanToSelection(
     return
   }
 
-  command.invoke(moveSpan(editor, command, spanId, newSpan))
+  command.invoke([command.factory.spanMoveCommand(spanId, newSpan)])
 }
 
 function isAnchorOneDownUnderForcus(selection) {

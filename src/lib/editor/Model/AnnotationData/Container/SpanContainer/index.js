@@ -4,6 +4,7 @@ import mappingFunction from './mappingFunction'
 import createSpanTree from './createSpanTree'
 import spanComparator from './spanComparator'
 import updateSpanIdOfEntities from './updateSpanIdOfEntities'
+import idFactory from '../../../../idFactory'
 
 export default class extends ModelContainer {
   constructor(editor, emitter, paragraph) {
@@ -45,6 +46,11 @@ export default class extends ModelContainer {
   addSource(spans) {
     super.addSource(spans)
     this.spanTopLevel = this.updateSpanTree()
+  }
+
+  has(span) {
+    const spanId = idFactory.makeSpanId(this.editor, span)
+    return this.container.has(spanId)
   }
 
   get(spanId) {

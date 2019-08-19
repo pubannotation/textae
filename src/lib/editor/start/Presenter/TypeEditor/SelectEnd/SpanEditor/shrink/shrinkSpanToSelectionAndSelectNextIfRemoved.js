@@ -15,7 +15,6 @@ export default function(
   // Get the next span before removing the old span.
   const nextSpan = getRightElement(editor[0], oldSpan)
   const removed = shrinkSpanToSelection(
-    editor,
     annotationData,
     command,
     spanAdjuster,
