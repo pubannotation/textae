@@ -24,5 +24,10 @@ export default function(
     return
   }
 
+  // A span cannot be expanded a span to the same as an existing span.
+  if (annotationData.span.has(newSpan)) {
+    return
+  }
+
   command.invoke([command.factory.spanMoveCommand(spanId, newSpan)])
 }
