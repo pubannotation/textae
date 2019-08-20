@@ -14,63 +14,72 @@ const BODY = `
 </div>
 `
 
-export default function(
-  editor,
-  annotationData,
-  selectionModel,
-  buttonController,
-  typeGap,
-  typeDefinition
-) {
-  editor[0].innerHTML = BODY
-  setSelectionModelHandler(
+export default class {
+  constructor(
     editor,
     annotationData,
     selectionModel,
-    buttonController
-  )
-
-  const relationRenderer = new RelationRenderer(
-    editor,
-    annotationData,
-    selectionModel,
-    typeDefinition
-  )
-  const annotationPosition = new AnnotationPosition(
-    editor,
-    annotationData,
-    typeDefinition
-  )
-  annotationPosition.on('position-update.grid.end', (done) => {
-    relationRenderer.arrangePositionAll()
-    done()
-  })
-
-  setHandlerOnTyapGapEvent(
-    editor,
-    annotationData,
+    buttonController,
     typeGap,
-    typeDefinition,
-    annotationPosition
-  )
-  setHandlerOnDisplayEvent(editor, annotationPosition)
+    typeDefinition
+  ) {
+    this._editor = editor
+    this._typeGap = typeGap
 
-  initRenderer(
-    editor,
-    annotationData,
-    selectionModel,
-    typeGap,
-    typeDefinition,
-    buttonController.buttonStateHelper,
-    relationRenderer,
-    annotationPosition
-  )
+    editor[0].innerHTML = BODY
+    setSelectionModelHandler(
+      editor,
+      annotationData,
+      selectionModel,
+      buttonController
+    )
 
-  return {
-    hoverRelation: new Hover(editor, annotationData.entity),
-    updateDisplay: () => {
-      updateTextBoxHeight(editor[0])
-      annotationPosition.update(typeGap())
-    }
+    const relationRenderer = new RelationRenderer(
+      editor,
+      annotationData,
+      selectionModel,
+      typeDefinition
+    )
+
+    this._annotationPosition = new AnnotationPosition(
+      editor,
+      annotationData,
+      typeDefinition
+    )
+    this._annotationPosition.on('position-update.grid.end', (done) => {
+      relationRenderer.arrangePositionAll()
+      done()
+    })
+
+    setHandlerOnTyapGapEvent(
+      editor,
+      annotationData,
+      typeGap,
+      typeDefinition,
+      this._annotationPosition
+    )
+    setHandlerOnDisplayEvent(editor, this._annotationPosition)
+
+    initRenderer(
+      editor,
+      annotationData,
+      selectionModel,
+      typeGap,
+      typeDefinition,
+      buttonController.buttonStateHelper,
+      relationRenderer,
+      this._annotationPosition
+    )
+
+    this._hoverRelation = new Hover(editor, annotationData.entity)
+  }
+
+  get hoverRelation() {
+    return this._hoverRelation
+  }
+
+  updateDisplay() {
+    updateTextBoxHeight(this._editor[0])
+    this._annotationPosition.update(this._typeGap())
   }
 }
