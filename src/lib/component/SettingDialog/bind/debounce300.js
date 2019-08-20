@@ -1,5 +1,5 @@
-import _ from 'underscore'
+import debounce from 'debounce'
 
 export default function(func) {
-  return _.debounce(func, 300)
+  return debounce(func, 300)
 }

@@ -1,6 +1,6 @@
+import debounce from 'debounce'
 import Renderer from './Renderer'
 import updateTextBoxHeight from './updateTextBoxHeight'
-import _ from 'underscore'
 import * as lineHeight from './lineHeight'
 
 export default function(
@@ -13,7 +13,7 @@ export default function(
   relationRenderer,
   annotationPosition
 ) {
-  const debouncedUpdateAnnotationPosition = _.debounce(
+  const debouncedUpdateAnnotationPosition = debounce(
     () => annotationPosition.updateAsync(typeGap()),
     100
   )
