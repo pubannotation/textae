@@ -1,4 +1,4 @@
-import getTypeGapHeightStyle from '../../getTypeGapHeightStyle'
+import getTypeGapHeightStyle from '../../lineHeight/getTypeGapHeightStyle'
 import getTypeDom from '../getTypeDom'
 
 export default function(entity, typeGap) {

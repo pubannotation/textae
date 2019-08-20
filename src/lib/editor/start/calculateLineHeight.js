@@ -1,6 +1,6 @@
-import * as lineHeight from './View/lineHeight'
+import setLineHeightToTypeGap from './View/setLineHeightToTypeGap'
 
 export default function(editor, annotationData, typeDefinition, typeGap, view) {
-  lineHeight.setToTypeGap(editor[0], annotationData, typeDefinition, typeGap())
+  setLineHeightToTypeGap(editor[0], annotationData, typeDefinition, typeGap())
   view.updateDisplay()
 }

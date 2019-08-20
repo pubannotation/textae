@@ -1,7 +1,7 @@
 import debounce from 'debounce'
 import Renderer from './Renderer'
 import updateTextBoxHeight from './updateTextBoxHeight'
-import * as lineHeight from './lineHeight'
+import setLineHeightToTypeGap from './setLineHeightToTypeGap'
 
 export default function(
   editor,
@@ -30,7 +30,7 @@ export default function(
     .on('change', debouncedUpdateAnnotationPosition)
     .on('all.change', () => {
       updateTextBoxHeight(editor[0])
-      lineHeight.setToTypeGap(
+      setLineHeightToTypeGap(
         editor[0],
         annotationData,
         typeDefinition,
