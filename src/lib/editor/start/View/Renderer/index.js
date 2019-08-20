@@ -54,7 +54,8 @@ export default class {
       debouncedUpdateAnnotationPosition,
       gridRenderer,
       entityRenderer,
-      buttonStateHelper
+      buttonStateHelper,
+      annotationPosition
     )
 
     bindTypeDefinitionEvents(typeDefinition, entityRenderer, relationRenderer)
