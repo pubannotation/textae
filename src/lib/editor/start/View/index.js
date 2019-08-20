@@ -20,7 +20,7 @@ export default class {
     editor,
     annotationData,
     selectionModel,
-    buttonController,
+    buttonStateHelper,
     typeGap,
     typeDefinition
   ) {
@@ -30,11 +30,7 @@ export default class {
     editor[0].innerHTML = BODY
 
     const selector = new Selector(editor, annotationData)
-    setSelectionModelHandler(
-      selectionModel,
-      selector,
-      buttonController.buttonStateHelper
-    )
+    setSelectionModelHandler(selectionModel, selector, buttonStateHelper)
 
     const relationRenderer = new RelationRenderer(
       editor,
@@ -66,7 +62,7 @@ export default class {
       editor,
       annotationData,
       selectionModel,
-      buttonController.buttonStateHelper,
+      buttonStateHelper,
       typeDefinition,
       typeGap,
       relationRenderer,

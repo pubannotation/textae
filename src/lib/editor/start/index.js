@@ -44,7 +44,7 @@ export default function(
     editor,
     annotationData,
     selectionModel,
-    buttonController,
+    buttonController.buttonStateHelper,
     typeGap,
     typeDefinition
   )
