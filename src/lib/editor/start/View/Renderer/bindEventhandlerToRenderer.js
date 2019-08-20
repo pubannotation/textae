@@ -1,32 +1,20 @@
 import debounce from 'debounce'
-import Renderer from './Renderer'
-import updateTextBoxHeight from './updateTextBoxHeight'
-import setLineHeightToTypeGap from './setLineHeightToTypeGap'
+import updateTextBoxHeight from '../updateTextBoxHeight'
+import setLineHeightToTypeGap from '../setLineHeightToTypeGap'
 
 export default function(
+  renderer,
   editor,
   annotationData,
-  selectionModel,
-  typeGap,
   typeDefinition,
-  buttonStateHelper,
-  relationRenderer,
+  typeGap,
   annotationPosition
 ) {
   const debouncedUpdateAnnotationPosition = debounce(
     () => annotationPosition.updateAsync(typeGap()),
     100
   )
-
-  new Renderer(
-    editor,
-    annotationData,
-    selectionModel,
-    buttonStateHelper,
-    typeDefinition,
-    typeGap,
-    relationRenderer
-  )
+  renderer
     .on('change', debouncedUpdateAnnotationPosition)
     .on('all.change', () => {
       updateTextBoxHeight(editor[0])

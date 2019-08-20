@@ -4,6 +4,7 @@ import SpanRenderer from './SpanRenderer'
 import GridRenderer from './GridRenderer'
 import EntityRenderer from './EntityRenderer'
 import bindEvents from './bindEvents'
+import bindEventhandlerToRenderer from './bindEventhandlerToRenderer'
 
 export default class extends EventEmitter {
   constructor(
@@ -50,5 +51,21 @@ export default class extends EventEmitter {
       .on('type.reset', () => entityRenderer.updateLabelAll())
 
     typeDefinition.relation.on('type.reset', () => relationRenderer.changeAll())
+
+    this._editor = editor
+    this._annotationData = annotationData
+    this._typeDefinition = typeDefinition
+    this._typeGap = typeGap
+  }
+
+  bindEventHandler(annotationPosition) {
+    bindEventhandlerToRenderer(
+      this,
+      this._editor,
+      this._annotationData,
+      this._typeDefinition,
+      this._typeGap,
+      annotationPosition
+    )
   }
 }

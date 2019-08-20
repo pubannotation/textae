@@ -3,9 +3,9 @@ import AnnotationPosition from './AnnotationPosition'
 import setSelectionModelHandler from './setSelectionModelHandler'
 import RelationRenderer from './Renderer/RelationRenderer'
 import updateTextBoxHeight from './updateTextBoxHeight'
-import initRenderer from './initRenderer'
 import setHandlerOnTyapGapEvent from './setHandlerOnTyapGapEvent'
 import setHandlerOnDisplayEvent from './setHandlerOnDisplayEvent'
+import Renderer from './Renderer'
 
 const BODY = `
 <div class="textae-editor__body">
@@ -60,16 +60,15 @@ export default class {
     )
     setHandlerOnDisplayEvent(editor, this._annotationPosition)
 
-    initRenderer(
+    new Renderer(
       editor,
       annotationData,
       selectionModel,
-      typeGap,
-      typeDefinition,
       buttonController.buttonStateHelper,
-      relationRenderer,
-      this._annotationPosition
-    )
+      typeDefinition,
+      typeGap,
+      relationRenderer
+    ).bindEventHandler(this._annotationPosition)
 
     this._hoverRelation = new Hover(editor, annotationData.entity)
   }
