@@ -4,6 +4,7 @@ import EntityRenderer from './EntityRenderer'
 import debounce from 'debounce'
 import bindTypeDefinitionEvents from './bindTypeDefinitionEvents'
 import bindAnnotationDataEvents from './bindAnnotationDataEvents'
+import RelationRenderer from './RelationRenderer'
 
 export default class {
   constructor(
@@ -13,7 +14,6 @@ export default class {
     buttonStateHelper,
     typeDefinition,
     typeGap,
-    relationRenderer,
     annotationPosition
   ) {
     const domPositionCache = new DomPositionCache(editor, annotationData.entity)
@@ -26,6 +26,19 @@ export default class {
       gridRenderer,
       typeGap
     )
+    const relationRenderer = new RelationRenderer(
+      editor,
+      annotationData,
+      selectionModel,
+      typeDefinition
+    )
+
+    // Bind annotationPosition Events.
+    annotationPosition.on('position-update.grid.end', (done) => {
+      relationRenderer.arrangePositionAll()
+      done()
+    })
+
     const debouncedUpdateAnnotationPosition = debounce(
       () => annotationPosition.updateAsync(typeGap()),
       100

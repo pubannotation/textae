@@ -1,7 +1,6 @@
 import Hover from './Hover'
 import AnnotationPosition from './AnnotationPosition'
 import setSelectionModelHandler from './setSelectionModelHandler'
-import RelationRenderer from './Renderer/RelationRenderer'
 import updateTextBoxHeight from './updateTextBoxHeight'
 import setHandlerOnTyapGapEvent from './setHandlerOnTyapGapEvent'
 import setHandlerOnDisplayEvent from './setHandlerOnDisplayEvent'
@@ -32,22 +31,11 @@ export default class {
     const selector = new Selector(editor, annotationData)
     setSelectionModelHandler(selectionModel, selector, buttonStateHelper)
 
-    const relationRenderer = new RelationRenderer(
-      editor,
-      annotationData,
-      selectionModel,
-      typeDefinition
-    )
-
     this._annotationPosition = new AnnotationPosition(
       editor,
       annotationData,
       typeDefinition
     )
-    this._annotationPosition.on('position-update.grid.end', (done) => {
-      relationRenderer.arrangePositionAll()
-      done()
-    })
 
     setHandlerOnTyapGapEvent(
       editor,
@@ -65,7 +53,6 @@ export default class {
       buttonStateHelper,
       typeDefinition,
       typeGap,
-      relationRenderer,
       this._annotationPosition
     )
 
