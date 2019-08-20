@@ -1,5 +1,4 @@
 import Selector from '../Selector'
-import _ from 'underscore'
 
 export default function(
   editor,
@@ -18,13 +17,13 @@ export default function(
     .on('entity.deselect', selector.entity.deselect)
     .on('attribute.select', selector.attribute.select)
     .on('attribute.deselect', selector.attribute.deselect)
-    .on('relation.select', delay150(selector.relation.select))
-    .on('relation.deselect', delay150(selector.relation.deselect))
+    .on('relation.select', (id) =>
+      setTimeout(() => selector.relation.select(id), 150)
+    )
+    .on('relation.deselect', (id) =>
+      setTimeout(() => selector.relation.deselect(id), 150)
+    )
     .on('relation.change', () =>
       buttonController.buttonStateHelper.updateByRelation()
     )
-}
-
-function delay150(func) {
-  return _.partial(_.delay, func, 150)
 }
