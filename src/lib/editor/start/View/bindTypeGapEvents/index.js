@@ -2,9 +2,9 @@ import setLineHeightToTypeGap from '../setLineHeightToTypeGap'
 import updateAllTypeGaps from './updateAllTypeGaps'
 
 export default function(
+  typeGap,
   editor,
   annotationData,
-  typeGap,
   typeDefinition,
   annotationPosition
 ) {

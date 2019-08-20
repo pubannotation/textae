@@ -1,11 +1,12 @@
+import CursorChanger from '../../../util/CursorChanger'
+import Selector from '../Selector'
 import Hover from './Hover'
 import AnnotationPosition from './AnnotationPosition'
-import setSelectionModelHandler from './setSelectionModelHandler'
+import bindSelectionModelEvents from './bindSelectionModelEvents'
 import updateTextBoxHeight from './updateTextBoxHeight'
-import setHandlerOnTyapGapEvent from './setHandlerOnTyapGapEvent'
-import setHandlerOnDisplayEvent from './setHandlerOnDisplayEvent'
+import bindTypeGapEvents from './bindTypeGapEvents'
+import bindAnnotaitonPositionEvents from './bindAnnotaitonPositionEvents'
 import Renderer from './Renderer'
-import Selector from '../Selector'
 
 const BODY = `
 <div class="textae-editor__body">
@@ -23,28 +24,27 @@ export default class {
     typeGap,
     typeDefinition
   ) {
-    this._editor = editor
-    this._typeGap = typeGap
-
     editor[0].innerHTML = BODY
 
-    const selector = new Selector(editor, annotationData)
-    setSelectionModelHandler(selectionModel, selector, buttonStateHelper)
+    bindSelectionModelEvents(
+      selectionModel,
+      new Selector(editor, annotationData),
+      buttonStateHelper
+    )
 
-    this._annotationPosition = new AnnotationPosition(
+    const annotationPosition = new AnnotationPosition(
       editor,
       annotationData,
       typeDefinition
     )
-
-    setHandlerOnTyapGapEvent(
+    bindTypeGapEvents(
+      typeGap,
       editor,
       annotationData,
-      typeGap,
       typeDefinition,
-      this._annotationPosition
+      annotationPosition
     )
-    setHandlerOnDisplayEvent(editor, this._annotationPosition)
+    bindAnnotaitonPositionEvents(annotationPosition, new CursorChanger(editor))
 
     new Renderer(
       editor,
@@ -53,10 +53,13 @@ export default class {
       buttonStateHelper,
       typeDefinition,
       typeGap,
-      this._annotationPosition
+      annotationPosition
     )
 
     this._hoverRelation = new Hover(editor, annotationData.entity)
+    this._editor = editor
+    this._typeGap = typeGap
+    this._annotationPosition = annotationPosition
   }
 
   get hoverRelation() {
