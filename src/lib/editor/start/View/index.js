@@ -67,8 +67,9 @@ export default class {
       buttonController.buttonStateHelper,
       typeDefinition,
       typeGap,
-      relationRenderer
-    ).bindEventHandler(this._annotationPosition)
+      relationRenderer,
+      this._annotationPosition
+    )
 
     this._hoverRelation = new Hover(editor, annotationData.entity)
   }

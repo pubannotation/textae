@@ -1,12 +1,12 @@
 import DomPositionCache from '../DomPositionCache'
-import { EventEmitter } from 'events'
 import SpanRenderer from './SpanRenderer'
 import GridRenderer from './GridRenderer'
 import EntityRenderer from './EntityRenderer'
-import bindEvents from './bindEvents'
-import bindEventhandlerToRenderer from './bindEventhandlerToRenderer'
+import debounce from 'debounce'
+import bindTypeDefinitionEvents from './bindTypeDefinitionEvents'
+import bindAnnotationDataEvents from './bindAnnotationDataEvents'
 
-export default class extends EventEmitter {
+export default class {
   constructor(
     editor,
     annotationData,
@@ -14,10 +14,9 @@ export default class extends EventEmitter {
     buttonStateHelper,
     typeDefinition,
     typeGap,
-    relationRenderer
+    relationRenderer,
+    annotationPosition
   ) {
-    super()
-
     const domPositionCache = new DomPositionCache(editor, annotationData.entity)
     const gridRenderer = new GridRenderer(editor, domPositionCache)
     const entityRenderer = new EntityRenderer(
@@ -33,39 +32,30 @@ export default class extends EventEmitter {
       (type) => typeDefinition.entity.isBlock(type),
       (entity) => entityRenderer.render(entity)
     )
-
-    bindEvents(
-      this,
-      domPositionCache,
-      entityRenderer,
-      relationRenderer,
-      editor,
-      spanRenderer,
-      gridRenderer,
-      buttonStateHelper,
-      annotationData
+    const debouncedUpdateAnnotationPosition = debounce(
+      () => annotationPosition.updateAsync(typeGap()),
+      100
     )
 
-    typeDefinition.entity
-      .on('type.change', (id) => entityRenderer.updateLabel(id))
-      .on('type.reset', () => entityRenderer.updateLabelAll())
+    bindAnnotationDataEvents(
+      annotationData,
+      editor,
+      domPositionCache,
+      spanRenderer,
+      relationRenderer,
+      typeDefinition,
+      typeGap,
+      debouncedUpdateAnnotationPosition,
+      gridRenderer,
+      entityRenderer,
+      buttonStateHelper
+    )
 
-    typeDefinition.relation.on('type.reset', () => relationRenderer.changeAll())
+    bindTypeDefinitionEvents(typeDefinition, entityRenderer, relationRenderer)
 
     this._editor = editor
     this._annotationData = annotationData
     this._typeDefinition = typeDefinition
     this._typeGap = typeGap
-  }
-
-  bindEventHandler(annotationPosition) {
-    bindEventhandlerToRenderer(
-      this,
-      this._editor,
-      this._annotationData,
-      this._typeDefinition,
-      this._typeGap,
-      annotationPosition
-    )
   }
 }
