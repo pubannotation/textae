@@ -6,6 +6,7 @@ import updateTextBoxHeight from './updateTextBoxHeight'
 import setHandlerOnTyapGapEvent from './setHandlerOnTyapGapEvent'
 import setHandlerOnDisplayEvent from './setHandlerOnDisplayEvent'
 import Renderer from './Renderer'
+import Selector from '../Selector'
 
 const BODY = `
 <div class="textae-editor__body">
@@ -27,11 +28,12 @@ export default class {
     this._typeGap = typeGap
 
     editor[0].innerHTML = BODY
+
+    const selector = new Selector(editor, annotationData)
     setSelectionModelHandler(
-      editor,
-      annotationData,
       selectionModel,
-      buttonController
+      selector,
+      buttonController.buttonStateHelper
     )
 
     const relationRenderer = new RelationRenderer(
