@@ -1,5 +1,4 @@
 import DomPositionCache from '../DomPositionCache'
-import SpanRenderer from './SpanRenderer'
 import GridRenderer from './GridRenderer'
 import EntityRenderer from './EntityRenderer'
 import debounce from 'debounce'
@@ -27,11 +26,6 @@ export default class {
       gridRenderer,
       typeGap
     )
-    const spanRenderer = new SpanRenderer(
-      annotationData,
-      (type) => typeDefinition.entity.isBlock(type),
-      (entity) => entityRenderer.render(entity)
-    )
     const debouncedUpdateAnnotationPosition = debounce(
       () => annotationPosition.updateAsync(typeGap()),
       100
@@ -41,7 +35,6 @@ export default class {
       annotationData,
       editor,
       domPositionCache,
-      spanRenderer,
       relationRenderer,
       typeDefinition,
       typeGap,

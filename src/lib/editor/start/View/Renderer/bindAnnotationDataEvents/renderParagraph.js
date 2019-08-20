@@ -1,5 +1,5 @@
 import Handlebars from 'handlebars'
-import getTextBox from '../getTextBox'
+import getTextBox from '../../getTextBox'
 
 const source = `
 {{#paragraphs}}

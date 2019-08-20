@@ -1,16 +1,16 @@
-import renderParagraph from '../renderParagraph'
+import renderParagraph from './renderParagraph'
 import updateModificationButtons from './updateModificationButtons'
 import renderModificationOfEntityOrRelation from './renderModificationOfEntityOrRelation'
 import updateBlockStyleOfSpan from './updateBlockStyleOfSpan'
 import renderAllAnnotations from './renderAllAnnotations'
 import updateTextBoxHeight from '../../updateTextBoxHeight'
 import setLineHeightToTypeGap from '../../setLineHeightToTypeGap'
+import SpanRenderer from './SpanRenderer'
 
 export default function(
   annotationData,
   editor,
   domPositionCache,
-  spanRenderer,
   relationRenderer,
   typeDefinition,
   typeGap,
@@ -19,6 +19,12 @@ export default function(
   entityRenderer,
   buttonStateHelper
 ) {
+  const spanRenderer = new SpanRenderer(
+    annotationData,
+    (type) => typeDefinition.entity.isBlock(type),
+    (entity) => entityRenderer.render(entity)
+  )
+
   annotationData
     .on('all.change', () => {
       renderAllAnnotations(
