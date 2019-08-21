@@ -1,0 +1,1 @@
+An annotation is a metadatum (e.g. a post, explanation, markup) attached to location or other data.

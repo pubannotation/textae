@@ -93,6 +93,13 @@ export default function(
 
   dataAccessObject
     .on('annotation.load', ({ annotation, source }) => {
+      if (!annotation || !annotation.text) {
+        toastr.error(
+          `${source} is not a annotation file or its format is invalid.`
+        )
+        return
+      }
+
       setAnnotation(
         spanConfig,
         typeDefinition,
@@ -104,10 +111,10 @@ export default function(
       originalData.annotation = annotation
       editor.eventEmitter.emit('textae.pallet.update')
     })
-    .on('configuration.load', ({ config }) => {
+    .on('configuration.load', ({ config, source }) => {
       if (!validateConfiguration(config)) {
         toastr.error(
-          'This is not a configuration file or its format is invalid.'
+          `${source} is not a configuration file or its format is invalid.`
         )
         return
       }
