@@ -10,11 +10,7 @@ export default function(
 
   if (spanId) {
     command.invoke([
-      command.factory.spanReplicateCommand(
-        span,
-        span.getTypes().map((t) => t.name),
-        detectBoundaryFunc
-      )
+      command.factory.spanReplicateCommand(span, detectBoundaryFunc)
     ])
   } else {
     alert('You can replicate span annotation when there is only span selected.')

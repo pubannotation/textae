@@ -8,27 +8,28 @@ export default class extends CompositeCommand {
     annotationData,
     selectionModel,
     span,
-    types,
     detectBoundaryFunc
   ) {
     super()
-    const createSpan = (span) =>
-      new SpanAndTypesCreateCommand(
-        editor,
-        annotationData,
-        selectionModel,
-        span,
-        types
-      )
+
     this.subCommands = getReplicationSpans(
       annotationData,
       span,
       detectBoundaryFunc
-    ).map(createSpan)
-    this.span = span
+    ).map(
+      (newSpan) =>
+        new SpanAndTypesCreateCommand(
+          editor,
+          annotationData,
+          selectionModel,
+          newSpan,
+          span.getTypes()
+        )
+    )
+    this.id = span.id
   }
 
   execute() {
-    super.execute('span', 'replicate', this.span.id, this.subCommands)
+    super.execute('span', 'replicate', this.id, this.subCommands)
   }
 }

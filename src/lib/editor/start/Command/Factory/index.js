@@ -28,14 +28,15 @@ export default function Factory(editor, annotationData, selectionModel) {
       relation
     )
   const factory = {
-    spanCreateCommand: (type, span) =>
-      new SpanAndTypesCreateCommand(
+    spanCreateCommand: (type, span) => {
+      return new SpanAndTypesCreateCommand(
         editor,
         annotationData,
         selectionModel,
         span,
-        [type]
-      ),
+        [{ name: type }]
+      )
+    },
     spanRemoveCommand: (id) =>
       new SpanRemoveCommand(editor, annotationData, selectionModel, id),
     spanMoveCommand: (spanId, newSpan) =>
