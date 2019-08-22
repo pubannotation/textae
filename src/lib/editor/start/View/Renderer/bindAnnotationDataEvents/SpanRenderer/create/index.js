@@ -17,7 +17,7 @@ function create(annotationData, span, isBlockFunc, renderEntityFunc) {
 
   renderClassOfSpan(span, isBlockFunc)
 
-  renderEntitiesOfSpan(span, annotationData, renderEntityFunc)
+  renderEntitiesOfSpan(span, renderEntityFunc)
 
   renderChildresnSpan(span, (span) =>
     create(annotationData, span, isBlockFunc, renderEntityFunc)
