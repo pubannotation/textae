@@ -5,12 +5,12 @@ export default function(span, isBlockFunc) {
   const el = document.querySelector(`#${span.id}`)
 
   // Set block class if there is any block type.
-  if (span.getTypes().some((type) => isBlockFunc(type.name))) {
+  if (span.types.some((type) => isBlockFunc(type.name))) {
     el.classList.add(BLOCK)
 
     // The text of span can be wrapped because block type does not display Grid.
     // Set wrap class unless there is any type other than block.
-    if (span.getTypes().every((type) => isBlockFunc(type.name))) {
+    if (span.types.every((type) => isBlockFunc(type.name))) {
       el.classList.add(WRAP)
     } else {
       // Grid can not be folded.

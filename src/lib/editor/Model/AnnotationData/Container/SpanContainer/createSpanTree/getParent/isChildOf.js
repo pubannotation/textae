@@ -8,7 +8,9 @@ export default function(editor, spanContainer, span, maybeParent) {
   const id = idFactory.makeSpanId(editor, maybeParent)
 
   if (!spanContainer.get(id)) {
-    throw new Error(`maybeParent is removed. ${maybeParent.toStringOnlyThis()}`)
+    throw new Error(
+      `maybeParent is removed. { begin: ${maybeParent.begin}, end: ${maybeParent.end} }`
+    )
   }
 
   return maybeParent.begin <= span.begin && span.end <= maybeParent.end

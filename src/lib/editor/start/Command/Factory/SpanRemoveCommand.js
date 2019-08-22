@@ -10,8 +10,7 @@ export default class extends CompositeCommand {
     const removeEntity = _.flatten(
       annotationData.span
         .get(id)
-        .getTypes()
-        .map((type) =>
+        .types.map((type) =>
           type.entities.map(
             (entity) =>
               new EntityAndAssociatesRemoveCommand(

@@ -1,15 +1,20 @@
 import ModelContainer from '../ModelContainer'
-import toSpanModel from './toSpanModel'
 import mappingFunction from './mappingFunction'
 import createSpanTree from './createSpanTree'
 import spanComparator from './spanComparator'
 import updateSpanIdOfEntities from './updateSpanIdOfEntities'
 import idFactory from '../../../../idFactory'
+import SpanModel from './SpanModel'
 
 export default class extends ModelContainer {
   constructor(editor, emitter, paragraph) {
     super(emitter, 'span', (denotations) =>
-      mappingFunction(editor, emitter, paragraph, denotations)
+      mappingFunction(
+        denotations,
+        editor,
+        paragraph,
+        () => this.emitter.entity.all
+      )
     )
     this.editor = editor
     this.emitter = emitter
@@ -20,22 +25,19 @@ export default class extends ModelContainer {
   // private
   updateSpanTree() {
     // the spanTree has parent-child structure.
-    const spanTree = createSpanTree(this, this.editor, super.all)
-
-    // this for debug.
-    spanTree.toString = function() {
-      return this.map((span) => span.toString()).join('\n')
-    }
-    //  console.log(spanTree.toString())
-
-    return spanTree
+    return createSpanTree(this, this.editor, super.all)
   }
 
   // expected span is like { "begin": 19, "end": 49 }
   add(span) {
     if (span)
       return super.add(
-        toSpanModel(this.editor, this.emitter, this.paragraph, span),
+        new SpanModel(
+          this.editor,
+          this.paragraph,
+          span,
+          () => this.emitter.entity.all
+        ),
         () => {
           this.spanTopLevel = this.updateSpanTree()
         }
@@ -79,9 +81,9 @@ export default class extends ModelContainer {
 
   multiEntities() {
     return super.all.filter((span) => {
-      const multiEntitiesTypes = span
-        .getTypes()
-        .filter((type) => type.entities.length > 1)
+      const multiEntitiesTypes = span.types.filter(
+        (type) => type.entities.length > 1
+      )
 
       return multiEntitiesTypes.length > 0
     })
@@ -101,7 +103,12 @@ export default class extends ModelContainer {
   move(id, newSpan) {
     const oldOne = super.remove(id)
     const newOne = super.add(
-      toSpanModel(this.editor, this.emitter, this.paragraph, newSpan),
+      new SpanModel(
+        this.editor,
+        this.paragraph,
+        newSpan,
+        () => this.emitter.entity.all
+      ),
       (newOne) => {
         this.spanTopLevel = this.updateSpanTree()
         // Span.getTypes function depends on the property of the entity.

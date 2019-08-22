@@ -23,7 +23,7 @@ export default class extends CompositeCommand {
           annotationData,
           selectionModel,
           newSpan,
-          span.getTypes()
+          span.types
         )
     )
     this.id = span.id

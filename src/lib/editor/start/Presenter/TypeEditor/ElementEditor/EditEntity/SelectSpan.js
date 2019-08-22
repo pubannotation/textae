@@ -10,8 +10,7 @@ export default function(
     _.flatten(
       annotationData.span
         .get(spanId)
-        .getTypes()
-        .filter((type) => typeDefinition.entity.isBlock(type.name))
+        .types.filter((type) => typeDefinition.entity.isBlock(type.name))
         .map((type) => type.entities.map((e) => e.id))
     )
 
