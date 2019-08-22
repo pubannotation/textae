@@ -7,7 +7,7 @@ import _ from 'underscore'
 export default function(dataStore, originSpan, detectBoundaryFunc) {
   const allSpans = dataStore.span.all
   const wordFilter = detectBoundaryFunc
-    ? _.partial(isWord, dataStore.sourceDoc, detectBoundaryFunc)
+    ? (span) => isWord(dataStore.sourceDoc, detectBoundaryFunc, span)
     : _.identity
 
   return getSpansTheirStringIsSameWith(dataStore.sourceDoc, originSpan)
@@ -18,8 +18,8 @@ export default function(dataStore, originSpan, detectBoundaryFunc) {
         span.begin !== originSpan.begin
     )
     .filter(wordFilter)
-    .filter(not(_.partial(isAlreadySpaned, allSpans)))
-    .filter(not(_.partial(isBoundaryCrossingWithOtherSpans, allSpans)))
+    .filter(not((span) => isAlreadySpaned(allSpans, span)))
+    .filter(not((span) => isBoundaryCrossingWithOtherSpans(allSpans, span)))
 }
 
 // Get spans their stirng is same with the originSpan from sourceDoc.

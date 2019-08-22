@@ -4,6 +4,7 @@ import _ from 'underscore'
 
 // Get the display area for denotations and relations.
 export default _.compose(
-  _.partial(getElement, 'div', 'textae-editor__body__annotation-box'),
+  ($parent) =>
+    getElement('div', 'textae-editor__body__annotation-box', $parent),
   getEditorBody
 )

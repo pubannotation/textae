@@ -1,22 +1,23 @@
 import DomPositionCache from './DomPositionCache'
-import _ from 'underscore'
 
 export default function(editor, entity) {
   const domPositionCache = new DomPositionCache(editor, entity)
 
   return {
-    on: _.partial(
-      processAccosiatedRelation,
-      entity,
-      domPositionCache,
-      (connect) => connect.pointup()
-    ),
-    off: _.partial(
-      processAccosiatedRelation,
-      entity,
-      domPositionCache,
-      (connect) => connect.pointdown()
-    )
+    on: (entityId) =>
+      processAccosiatedRelation(
+        entity,
+        domPositionCache,
+        (connect) => connect.pointup(),
+        entityId
+      ),
+    off: (entityId) =>
+      processAccosiatedRelation(
+        entity,
+        domPositionCache,
+        (connect) => connect.pointdown(),
+        entityId
+      )
   }
 }
 

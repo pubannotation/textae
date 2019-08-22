@@ -1,5 +1,3 @@
-import _ from 'underscore'
-
 export default function(
   editor,
   annotationData,
@@ -20,14 +18,10 @@ export default function(
     }
   }
 
-  const selectSpanWithBlockEnities = _.partial(
-    operateSpanWithBlockEntities,
-    'add'
-  )
-  const toggleSpanWithBlockEnities = _.partial(
-    operateSpanWithBlockEntities,
-    'toggle'
-  )
+  const selectSpanWithBlockEnities = (spanId) =>
+    operateSpanWithBlockEntities('add', spanId)
+  const toggleSpanWithBlockEnities = (id) =>
+    operateSpanWithBlockEntities('toggle', id)
 
   return (event) => {
     const firstId = selectionModel.span.single()

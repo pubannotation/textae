@@ -1,6 +1,5 @@
 import skipCharacters from './skipCharacters'
 import skipBlank from './skipBlank'
-import _ from 'underscore'
 
 const getPrev = function(str, position) {
   return [str.charAt(position), str.charAt(position - 1)]
@@ -58,20 +57,14 @@ const forwardFromEnd = function(str, endPosition, spanConfig) {
 }
 // adjust the beginning position of a span for shortening
 const forwardFromBegin = function(str, beginPosition, spanConfig) {
-  const isWordEdge = _.partial(
-    isNotWord,
-    spanConfig.isBlankCharacter,
-    spanConfig.isDelimiter
-  )
+  const isWordEdge = (chars) =>
+    isNotWord(spanConfig.isBlankCharacter, spanConfig.isDelimiter, chars)
   return skipToWord(str, beginPosition, isWordEdge)
 }
 // adjust the end position of a span for shortening
 const backFromEnd = function(str, endPosition, spanConfig) {
-  const isWordEdge = _.partial(
-    isNotWord,
-    spanConfig.isBlankCharacter,
-    spanConfig.isDelimiter
-  )
+  const isWordEdge = (chars) =>
+    isNotWord(spanConfig.isBlankCharacter, spanConfig.isDelimiter, chars)
   return backToWord(str, endPosition, isWordEdge)
 }
 
