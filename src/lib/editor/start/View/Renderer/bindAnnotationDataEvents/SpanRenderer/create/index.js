@@ -3,7 +3,7 @@ import getBigBrother from './getBigBrother'
 import renderSingleSpan from './renderSingleSpan'
 import renderEntitiesOfSpan from './renderEntitiesOfSpan'
 import destroyChildrenSpan from './destroyChildrenSpan'
-import renderChildresnSpan from './renderChildresnSpan'
+import renderChildrenSpan from './renderChildrenSpan'
 
 // Destroy children spans to wrap a TextNode with <span> tag when new span over exists spans.
 export default function create(
@@ -18,7 +18,7 @@ export default function create(
   renderSingleSpan(span, bigBrother)
   renderClassOfSpan(span, isBlockFunc)
   renderEntitiesOfSpan(span, renderEntityFunc)
-  renderChildresnSpan(span, (span) =>
+  renderChildrenSpan(span, (span) =>
     create(annotationData, span, isBlockFunc, renderEntityFunc)
   )
 }
