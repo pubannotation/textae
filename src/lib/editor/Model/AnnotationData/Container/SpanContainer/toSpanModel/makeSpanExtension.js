@@ -53,11 +53,6 @@ export default function(emitter) {
       return this.getTypes()
         .map((type) => type.entities)
         .reduce((prev, current) => prev.concat(current), [])
-    },
-    getAttributes() {
-      return this.getTypes()
-        .map((type) => type.attributes)
-        .reduce((prev, current) => prev.concat(current), [])
     }
   }
 }
