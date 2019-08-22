@@ -7,12 +7,11 @@ export default function(
   typeDefinition
 ) {
   const getBlockEntities = (spanId) =>
-    _.flatten(
-      annotationData.span
-        .get(spanId)
-        .types.filter((type) => typeDefinition.entity.isBlock(type.name))
-        .map((type) => type.entities.map((e) => e.id))
-    )
+    annotationData.span
+      .get(spanId)
+      .types.filter((type) => typeDefinition.entity.isBlock(type.name))
+      .map((type) => type.entities.map((e) => e.id))
+      .flat()
 
   const operateSpanWithBlockEntities = (method, spanId) => {
     selectionModel.span[method](spanId)
