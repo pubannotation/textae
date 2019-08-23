@@ -26,6 +26,8 @@ class CreateCommand extends AnnotationCommand {
       this.selectionModel.add(this.modelType, this.newModel.id)
     }
     commandLog(`create a new ${this.modelType}: `, this.newModel)
+
+    return this.newModel
   }
 
   revert() {

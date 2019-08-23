@@ -5,6 +5,7 @@ export default class {
 
     if (entity) {
       this.entities = [entity]
+      this.attributes = entity.attributes
     }
   }
 }

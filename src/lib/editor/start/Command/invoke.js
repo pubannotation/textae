@@ -1,5 +1,3 @@
 export default function(commands) {
-  commands.forEach((command) => {
-    command.execute()
-  })
+  return commands.map((c) => c.execute())
 }

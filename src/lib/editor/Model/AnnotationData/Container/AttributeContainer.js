@@ -36,6 +36,8 @@ export default class extends ModelContainer {
   remove(id) {
     const instance = super.remove(id)
 
+    console.assert(instance, `There are no attribute ${id} to delete!`)
+
     this.emitter.emit('entity.change', this.emitter.entity.get(instance.subj))
 
     return instance
