@@ -19,7 +19,6 @@ export default class extends ModelContainer {
 
     if (!entity.attributes) {
       // When undoing, the entity already has id and attributes getters.
-      // When moving a span, the entity already has id.
       const emitter = this.emitter
       return super.add(entity, () => {
         Object.defineProperty(entity, 'attributes', {
