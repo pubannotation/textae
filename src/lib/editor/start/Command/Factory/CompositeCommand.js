@@ -1,13 +1,14 @@
-import invokeCommand from '../invokeCommand'
+import invoke from '../invoke'
+import invokeRevert from '../invokeRevert'
 import commandLog from './commandLog'
 import BaseCommand from './BaseCommand'
 
 export default class extends BaseCommand {
   execute(modelType, commandType, id, subCommands) {
-    invokeCommand.invoke(subCommands)
+    invoke(subCommands)
     this.revert = () => ({
       execute() {
-        invokeCommand.invokeRevert(subCommands)
+        invokeRevert(subCommands)
         commandLog(`revert ${commandType} a ${modelType}: ${id}`)
       }
     })
