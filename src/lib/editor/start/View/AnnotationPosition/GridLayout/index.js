@@ -16,7 +16,7 @@ export default class {
 
     // There is at least one type in span that has a grid.
     const targetSpans = this.annotationData.span.all.filter(
-      (span) => span.types.length > 0
+      (span) => span.hasTypes
     )
 
     for (const span of targetSpans) {
