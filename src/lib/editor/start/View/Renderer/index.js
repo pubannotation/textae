@@ -1,4 +1,4 @@
-import DomPositionCache from '../DomPositionCache'
+import getDomPositionCache from '../getDomPositionCache'
 import GridRenderer from './GridRenderer'
 import EntityRenderer from './EntityRenderer'
 import debounce from 'debounce'
@@ -16,7 +16,7 @@ export default class {
     typeGap,
     annotationPosition
   ) {
-    const domPositionCache = new DomPositionCache(editor, annotationData.entity)
+    const domPositionCache = getDomPositionCache(editor, annotationData.entity)
     const gridRenderer = new GridRenderer(editor, domPositionCache)
     const entityRenderer = new EntityRenderer(
       editor,

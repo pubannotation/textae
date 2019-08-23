@@ -1,4 +1,4 @@
-import DomPositionCache from '../View/DomPositionCache'
+import getDomPositionCache from '../View/getDomPositionCache'
 import selectRelation from './selectRelation'
 import deselectRelation from './deselectRelation'
 import getEntityDom from '../getEntityDom'
@@ -8,7 +8,7 @@ import getSpanDom from './getSpanDom'
 import modifyStyle from './modifyStyle'
 
 export default function(editor, annotationData) {
-  const domPositionCache = new DomPositionCache(editor, annotationData.entity)
+  const domPositionCache = getDomPositionCache(editor, annotationData.entity)
 
   return {
     span: {

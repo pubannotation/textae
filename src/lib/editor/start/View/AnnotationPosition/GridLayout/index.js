@@ -1,4 +1,4 @@
-import DomPositionCache from '../../DomPositionCache'
+import getDomPositionCache from '../../getDomPositionCache'
 import genArrangeAllGridPositionPromises from './genArrangeAllGridPositionPromises'
 import arrangeGridPosition from './arrangeGridPosition'
 
@@ -8,7 +8,7 @@ export default class {
     this.editor = editor
     this.annotationData = annotationData
     this.typeDefinition = typeDefinition
-    this.domPositionCache = new DomPositionCache(editor, annotationData.entity)
+    this.domPositionCache = getDomPositionCache(editor, annotationData.entity)
   }
 
   arrangePosition(typeGap) {

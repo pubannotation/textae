@@ -1,6 +1,6 @@
 import ModificationRenderer from '../ModificationRenderer'
 import getAnnotationBox from '../getAnnotationBox'
-import DomPositionCache from '../../DomPositionCache'
+import getDomPositionCache from '../../getDomPositionCache'
 import arrangePositionAll from './arrangePositionAll'
 import makeJsPlumbInstance from './makeJsPlumbInstance'
 import removeRelation from './removeRelation'
@@ -16,7 +16,7 @@ export default class {
     this.selectionModel = selectionModel
     this.typeDefinition = typeDefinition
     this.modificationRenderer = new ModificationRenderer(annotationData)
-    this.domPositionCache = new DomPositionCache(editor, annotationData.entity)
+    this.domPositionCache = getDomPositionCache(editor, annotationData.entity)
     this.jsPlumbInstance = makeJsPlumbInstance(getAnnotationBox(editor))
   }
 

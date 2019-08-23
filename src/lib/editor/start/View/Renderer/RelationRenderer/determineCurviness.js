@@ -1,4 +1,4 @@
-import DomPositionCache from '../../DomPositionCache'
+import getDomPositionCache from '../../getDomPositionCache'
 
 const CURVINESS_PARAMETERS = {
   // curviness parameters
@@ -10,7 +10,7 @@ const CURVINESS_PARAMETERS = {
 }
 
 export default function(editor, annotationData, relation) {
-  const domPositionCache = new DomPositionCache(editor, annotationData.entity)
+  const domPositionCache = getDomPositionCache(editor, annotationData.entity)
 
   const anchors = toAnchors(relation)
   const sourcePosition = domPositionCache.getEntity(anchors.sourceId)

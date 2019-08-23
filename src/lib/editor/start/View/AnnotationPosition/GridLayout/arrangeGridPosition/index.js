@@ -16,7 +16,7 @@ export default function(
   }
 
   const newPosition = getGridPosition(
-    domPositionCache.getSpan,
+    (spanId) => domPositionCache.getSpan(spanId),
     typeDefinition,
     typeGap,
     span

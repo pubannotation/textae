@@ -1,7 +1,7 @@
-import DomPositionCache from './DomPositionCache'
+import getDomPositionCache from './getDomPositionCache'
 
 export default function(editor, entity) {
-  const domPositionCache = new DomPositionCache(editor, entity)
+  const domPositionCache = getDomPositionCache(editor, entity)
 
   return {
     on: (entityId) =>
@@ -24,7 +24,7 @@ export default function(editor, entity) {
 function processAccosiatedRelation(entity, domPositionCache, func, entityId) {
   entity
     .assosicatedRelations(entityId)
-    .map(domPositionCache.toConnect)
+    .map((relationId) => domPositionCache.toConnect(relationId))
     .filter((connect) => connect.pointup && connect.pointdown)
     .forEach(func)
 }
