@@ -14,10 +14,10 @@ export default class {
   arrangePosition(typeGap) {
     this.domPositionCache.reset()
 
-    for (const span of this.annotationData.span.all) {
-      // Cache all span position because alternating between getting offset and setting offset.
-      this.domPositionCache.getSpan(span.id)
+    // Cache all span position because alternating between getting offset and setting offset.
+    this.domPositionCache.cacheAllSpan(this.annotationData.span.all)
 
+    for (const span of this.annotationData.span.all) {
       arrangeGridPosition(
         this.domPositionCache,
         this.typeDefinition,

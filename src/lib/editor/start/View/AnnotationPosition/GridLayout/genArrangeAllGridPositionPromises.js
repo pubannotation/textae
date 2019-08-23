@@ -7,9 +7,7 @@ export default function(
   typeGap
 ) {
   // Cache all span position because alternating between getting offset and setting offset.
-  for (const span of annotationData.span.all) {
-    domPositionCache.getSpan(span.id)
-  }
+  domPositionCache.cacheAllSpan(annotationData.span.all)
 
   return annotationData.span.all.map((span) =>
     arrangeGridPositionPromise(

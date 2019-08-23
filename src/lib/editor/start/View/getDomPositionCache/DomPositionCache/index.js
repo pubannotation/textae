@@ -15,6 +15,10 @@ export default class {
     this._relation = new RelationApi()
   }
 
+  get gridPositionCache() {
+    return this._gridPosition
+  }
+
   reset() {
     this._spanAndEntityPosition.reset()
   }
@@ -23,16 +27,18 @@ export default class {
     return this._spanAndEntityPosition.getSpan(spanId)
   }
 
+  getGrid(id) {
+    return this._grid.getGrid(id)
+  }
+
   getEntity(entityId) {
     return this._spanAndEntityPosition.getEntity(entityId)
   }
 
-  get gridPositionCache() {
-    return this._gridPosition
-  }
-
-  getGrid(id) {
-    return this._grid.getGrid(id)
+  cacheAllSpan(spans) {
+    for (const span of spans) {
+      this._spanAndEntityPosition.getSpan(span.id)
+    }
   }
 
   setGrid(id, val) {
