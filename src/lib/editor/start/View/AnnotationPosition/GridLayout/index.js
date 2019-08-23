@@ -14,12 +14,7 @@ export default class {
   arrangePosition(typeGap) {
     this.domPositionCache.reset()
 
-    // There is at least one type in span that has a grid.
-    const targetSpans = this.annotationData.span.all.filter(
-      (span) => span.hasTypes
-    )
-
-    for (const span of targetSpans) {
+    for (const span of this.annotationData.span.all) {
       // Cache all span position because alternating between getting offset and setting offset.
       this.domPositionCache.getSpan(span.id)
 

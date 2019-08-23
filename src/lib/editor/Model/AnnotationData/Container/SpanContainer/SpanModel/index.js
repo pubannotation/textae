@@ -25,11 +25,6 @@ export default class SpanModel {
     return this._paragraph.getBelongingTo(this._span)
   }
 
-  get hasTypes() {
-    console.log('iii')
-    return this.types.length > 0
-  }
-
   // Get online for update is not grantieed.
   // Return an array of type like { id : "editor2__S1741_1755-1", name: "Negative_regulation", entities: ["E16", "E17"], attributes: ["A16", "A17"] }.
   get types() {
