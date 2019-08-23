@@ -1,20 +1,20 @@
 import idFactory from '../../../../../idFactory'
 
 export default function(entities) {
-  return entities.reduce((array, entity) => {
-    const id = idFactory.makeTypeId(entity)
-    const type = array.find((type) => type.id === id)
+  return entities.reduce((typeList, entity) => {
+    const typeId = idFactory.makeTypeId(entity)
+    const type = typeList.find((type) => type.id === typeId)
 
     if (type) {
       type.entities.push(entity)
     } else {
-      array.push({
-        id,
+      typeList.push({
+        id: typeId,
         name: entity.type,
         entities: [entity]
       })
     }
 
-    return array
+    return typeList
   }, [])
 }
