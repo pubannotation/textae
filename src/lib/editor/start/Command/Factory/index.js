@@ -1,4 +1,4 @@
-import { CreateCommand, RemoveCommand } from './commandTemplate'
+import { CreateCommand } from './commandTemplate'
 import ChangeTypeCommand from './ChangeTypeCommand'
 import SpanAndTypesCreateCommand from './SpanAndTypesCreateCommand'
 import SpanReplicateCommand from './SpanReplicateCommand'
