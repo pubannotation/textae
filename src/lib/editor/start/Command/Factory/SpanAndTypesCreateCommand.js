@@ -1,6 +1,7 @@
 import { CreateCommand } from './commandTemplate'
 import idFactory from '../../../idFactory'
 import CompositeCommand from './CompositeCommand'
+import EntitCreateCommand from './EntityCreateCommand'
 
 export default class extends CompositeCommand {
   constructor(editor, annotationData, selectionModel, newSpan, types) {
@@ -17,14 +18,15 @@ export default class extends CompositeCommand {
         newSpan
       )
     ].concat(
-      types.map((type) =>
-        typeCreateCommand(
-          editor,
-          annotationData,
-          selectionModel,
-          spanId,
-          type.name
-        )
+      types.map(
+        (type) =>
+          new EntitCreateCommand(
+            editor,
+            annotationData,
+            selectionModel,
+            spanId,
+            type.name
+          )
       )
     )
     this.id = spanId
@@ -33,18 +35,4 @@ export default class extends CompositeCommand {
   execute() {
     super.execute('span', 'create', this.id, this.subCommands)
   }
-}
-
-function typeCreateCommand(editor, annotationData, selectionModel, span, type) {
-  return new CreateCommand(
-    editor,
-    annotationData,
-    selectionModel,
-    'entity',
-    true,
-    {
-      span,
-      type
-    }
-  )
 }
