@@ -1,4 +1,5 @@
 import idFactory from '../../../../../idFactory'
+import TypeModel from '../TypeModel'
 
 export default function(entities) {
   return entities.reduce((typeList, entity) => {
@@ -8,11 +9,7 @@ export default function(entities) {
     if (type) {
       type.entities.push(entity)
     } else {
-      typeList.push({
-        id: typeId,
-        name: entity.type,
-        entities: [entity]
-      })
+      typeList.push(new TypeModel(entity.type, typeId, entity))
     }
 
     return typeList

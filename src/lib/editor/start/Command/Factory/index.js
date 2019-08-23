@@ -14,6 +14,7 @@ import ChangeAttributesOfSelectedEntitiesCommand from './ChangeAttributesOfSelec
 import RemoveAttributesOfSelectedEntitiesCommand from './RemoveAttributesOfSelectedEntitiesCommand'
 import AttatchModificationsToSelectedCommand from './AttatchModificationsToSelectedCommand'
 import RemoveModificationsFromSelectedCommand from './RemoveModificationsFromSelectedCommand'
+import TypeModel from '../../../Model/AnnotationData/Container/SpanContainer/TypeModel'
 
 export default function Factory(editor, annotationData, selectionModel) {
   // The relaitonId is optional set only when revert of the relationRemoveCommand.
@@ -34,7 +35,7 @@ export default function Factory(editor, annotationData, selectionModel) {
         annotationData,
         selectionModel,
         span,
-        [{ name: type }]
+        [new TypeModel(type)]
       )
     },
     spanRemoveCommand: (id) =>
