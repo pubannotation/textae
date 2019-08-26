@@ -27,7 +27,7 @@ export default class {
 </div>`
 
     const inputs = el.querySelectorAll('input')
-    this.$dialog = create(editor, el, inputs, title)
+    this.$dialog = create(el, inputs, title)
   }
 
   update(id, label, color, isDefault) {

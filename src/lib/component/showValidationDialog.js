@@ -128,12 +128,11 @@ const mergeMessage = `
 
 const tepmlate = Handlebars.compile(source)
 
-export default function(editor, rejects) {
+export default function(rejects) {
   if (!hasError(rejects)) return
 
   const el = document.createElement('div')
   const $dialog = new EditorDialog(
-    editor.editorId,
     'textae.dialog.validation',
     'The following erroneous annotations ignored',
     el,

@@ -32,7 +32,6 @@ export default function(editor, predicate, value, done) {
 
   // Create a dialog
   const $dialog = new EditorDialog(
-    editor.editorId,
     'textae.dialog.edit-id',
     'Please enter new values',
     el.children[0],
