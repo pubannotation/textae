@@ -1,6 +1,4 @@
 import $ from 'jquery'
-global.jQuery = require('jquery')
-require('jquery-ui')
 require('jquery-ui/ui/widgets/autocomplete')
 
 /* eslint no-underscore-dangle: 0 */

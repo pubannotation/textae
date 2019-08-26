@@ -16,9 +16,6 @@
     ]
   },
   "browser": {
-    "jquery": "./src/lib/modules/browserify-hax.js",
-    "static-jquery": "./node_modules/jquery/dist/jquery.min.js",
-    "jq-ui": "./node_modules/jquery-ui-dist/jquery-ui.min.js",
     "js-plumb": "./src/lib/modules/jquery.jsPlumb-1.5.2.js"
   },
   "bugs": {
@@ -41,6 +38,7 @@
     "babel-runtime": "^5.8.34",
     "babelify": "^6.4.0",
     "browserify-shim": "^3.8.12",
+    "deamdify": "^0.3.0",
     "debounce": "^1.2.0",
     "eslint": "^6.1.0",
     "eslint-config-prettier": "^6.0.0",
@@ -58,7 +56,6 @@
     "grunt-text-replace": "^0.4.0",
     "jquery": "^2.2.4",
     "jquery-ui": "^1.12.1",
-    "jquery-ui-dist": "^1.12.1",
     "load-grunt-tasks": "~3.3.0",
     "npm-run-all": "^1.7.0",
     "prettier": "^1.18.2",
@@ -82,13 +79,13 @@
     "url": "https://github.com/pubannotation/textae.git"
   },
   "scripts": {
-    "browserify": "browserify src/lib/jquery.textae.js -o src/lib/bundle.js",
+    "browserify": "browserify -g deamdify src/lib/jquery.textae.js -o src/lib/bundle.js",
     "clean": "rimraf dist/* src/lib/bundle.js",
     "grunt-dist": "grunt dist",
     "dist": "npm-run-all clean lint browserify grunt-dist",
     "lint": "eslint src/lib",
     "test": "grunt jasmine_node",
     "watch": "npm run watchify & grunt dev",
-    "watchify": "watchify -d src/lib/jquery.textae.js -o dev/bundle.js"
+    "watchify": "watchify -g deamdify -d src/lib/jquery.textae.js -o dev/bundle.js"
   }
 }

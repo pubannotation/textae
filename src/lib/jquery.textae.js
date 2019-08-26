@@ -4,6 +4,7 @@ import ContextMenu from './control/ContextMenu'
 import editor from './editor'
 import combine from './combine'
 const tJQ = require('jquery')
+global.jQuery = require('jquery')
 require('sticky-kit')
 
 const textaeQuery = tJQ.noConflict(true)
