@@ -8,8 +8,8 @@
       [
         "babelify",
         {
-          "optional": [
-            "runtime"
+          "plugins": [
+            "transform-es2015-modules-commonjs"
           ]
         }
       ]
@@ -35,8 +35,9 @@
     "yui": "^3.18.1"
   },
   "devDependencies": {
-    "babel-runtime": "^5.8.34",
-    "babelify": "^6.4.0",
+    "@babel/core": "^7.5.5",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.26.2",
+    "babelify": "^10.0.0",
     "browserify-shim": "^3.8.12",
     "deamdify": "^0.3.0",
     "debounce": "^1.2.0",
