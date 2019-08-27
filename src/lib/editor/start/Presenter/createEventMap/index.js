@@ -65,7 +65,7 @@ export default function(
     cancelSelect: () => cancelSelect(typeEditor, editor),
     negation: modificationHandler.negation,
     speculation: modificationHandler.speculation,
-    createAttribute: () => createAttribute(command, selectionModel),
+    createAttribute: () => createAttribute(command),
     showSettingDialog
   }
   Object.assign(event, selectHandler)

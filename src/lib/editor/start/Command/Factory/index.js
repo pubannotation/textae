@@ -18,6 +18,7 @@ import ChangeTypeOfSelectedRelationsCommand from './ChangeTypeOfSelectedRelation
 import RemoveSelectedCommand from './RemoveSelectedCommand'
 import CreateDefaultTypeEntityToSelectedSpans from './CreateDefaultTypeEntityToSelectedSpans'
 import PasteTypesToSelectedSpansCommand from './PasteTypesToSelectedSpansCommand'
+import CreateDefaultAttributeToSelectedEntitiesCommand from './CreateDefaultAttributeToSelectedEntitiesCommand'
 
 export default class {
   constructor(editor, annotationData, selectionModel) {
@@ -143,6 +144,14 @@ export default class {
       oldObj,
       newPred,
       newObj
+    )
+  }
+
+  createDefaultAttributeToSelectedEntitiesCommand() {
+    return new CreateDefaultAttributeToSelectedEntitiesCommand(
+      this._editor,
+      this._annotationData,
+      this._selectionModel
     )
   }
 
