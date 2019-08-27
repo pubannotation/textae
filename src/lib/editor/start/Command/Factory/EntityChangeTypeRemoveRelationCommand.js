@@ -36,10 +36,7 @@ export default class extends CompositeCommand {
           )
           .concat(changeType)
       : [changeType]
+    this._logMessage = `set ${newType} to type of the entity ${id}`
     this.id = id
-  }
-
-  execute() {
-    super.execute('entity', 'change', this.id, this.subCommands)
   }
 }

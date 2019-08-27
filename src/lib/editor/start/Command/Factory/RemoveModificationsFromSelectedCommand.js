@@ -12,8 +12,8 @@ export default class extends CompositeCommand {
   ) {
     super()
 
-    this.id = typeEditor.getSelectedIdEditable()
-    this.subCommands = this.id
+    const targets = typeEditor.getSelectedIdEditable()
+    this.subCommands = targets
       .map(
         (id) => getSpecificModification(annotationData, id, modificationType)[0]
       )
@@ -27,9 +27,6 @@ export default class extends CompositeCommand {
             m.id
           )
       )
-  }
-
-  execute() {
-    super.execute('modification', 'remove', this.id, this.subCommands)
+    this._logMessage = `remove a modification ${modificationType} from ${targets}`
   }
 }

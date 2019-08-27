@@ -25,10 +25,6 @@ export default class extends CompositeCommand {
           )
       )
     this.subCommands = removeModification.concat(removeRelation)
-    this.id = id
-  }
-
-  execute() {
-    super.execute('relation', 'remove', this.id, this.subCommands)
+    this._logMessage = `remove a relation ${id}`
   }
 }

@@ -12,8 +12,9 @@ export default class extends CompositeCommand {
   ) {
     super()
 
-    this.id = typeEditor.getSelectedIdEditable()
-    this.subCommands = this.id
+    const targets = typeEditor.getSelectedIdEditable()
+
+    this.subCommands = targets
       .filter(
         (id) =>
           !getSpecificModification(annotationData, id, modificationType)
@@ -33,9 +34,7 @@ export default class extends CompositeCommand {
             }
           )
       )
-  }
 
-  execute() {
-    super.execute('modification', 'attach', this.id, this.subCommands)
+    this._logMessage = `attach a modification to ${targets}`
   }
 }

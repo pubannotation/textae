@@ -30,10 +30,6 @@ export default class extends CompositeCommand {
           )
       )
     )
-    this.id = spanId
-  }
-
-  execute() {
-    super.execute('span', 'create', this.id, this.subCommands)
+    this._logMessage = `create a span ${spanId}`
   }
 }

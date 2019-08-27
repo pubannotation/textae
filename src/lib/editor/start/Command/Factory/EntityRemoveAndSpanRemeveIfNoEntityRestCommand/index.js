@@ -33,10 +33,8 @@ export default class extends CompositeCommand {
     }
 
     this.subCommands = commands
-    this.id = entityIds
-  }
-
-  execute() {
-    super.execute('entities', 'remove', this.id, this.subCommands)
+    this._logMessage = `remove entities ${entityIds} from spans ${[
+      ...spans.values()
+    ].map((span) => span.id)}`
   }
 }

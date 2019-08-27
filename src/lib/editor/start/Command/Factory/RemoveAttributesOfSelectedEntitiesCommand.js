@@ -35,14 +35,7 @@ export default class extends CompositeCommand {
         )
       }
     }
-  }
 
-  execute() {
-    super.execute(
-      'attributes',
-      'remove',
-      `remove attribute {pred: ${this.pred}, obj: ${this.obj}} from ${this.selectedEntities}`,
-      this.subCommands
-    )
+    this._logMessage = `remove an attribute {pred: ${this.pred}, obj: ${this.obj}} from ${this.selectedEntities}`
   }
 }

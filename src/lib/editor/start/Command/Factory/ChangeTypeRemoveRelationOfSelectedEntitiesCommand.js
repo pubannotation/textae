@@ -25,10 +25,6 @@ export default class extends CompositeCommand {
           isRemoveRelations
         )
     )
-    this.id = selectedElements
-  }
-
-  execute() {
-    super.execute('entities', 'change', this.id, this.subCommands)
+    this._logMessage = `set type ${newType} to entities ${selectedElements}`
   }
 }

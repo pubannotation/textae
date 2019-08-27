@@ -55,10 +55,6 @@ export default class extends CompositeCommand {
       .concat(removeModification)
       .concat(removeAttribute)
       .concat(removeEntity)
-    this.id = id
-  }
-
-  execute() {
-    super.execute('entity', 'remove', this.id, this.subCommands)
+    this._logMessage = `remove an entity ${id}`
   }
 }

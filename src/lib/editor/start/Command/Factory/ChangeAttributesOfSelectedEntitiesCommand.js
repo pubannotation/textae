@@ -28,15 +28,11 @@ export default class extends CompositeCommand {
     }
 
     this.subCommands = effectedAttributes
-    this.id = `effected attributes: [${effectedAttributes
+    this._logMessage = `set pred ${newPred}, obj ${newObj} to attributes: ${effectedAttributes
       .map(
         ({ attribute }) =>
           `{id: ${attribute.id}, subj: ${attribute.subj}, pred: ${attribute.pred}, obj: ${attribute.obj}}`
       )
-      .join(',')}]`
-  }
-
-  execute() {
-    super.execute('attribute', 'change', this.id, this.subCommands)
+      .join(',')}`
   }
 }

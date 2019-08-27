@@ -27,10 +27,6 @@ export default class extends CompositeCommand {
       id
     )
     this.subCommands = removeEntity.concat(removeSpan)
-    this.id = id
-  }
-
-  execute() {
-    super.execute('span', 'remove', this.id, this.subCommands)
+    this._logMessage = `remove a span ${id}`
   }
 }

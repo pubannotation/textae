@@ -4,15 +4,17 @@ import commandLog from './commandLog'
 import BaseCommand from './BaseCommand'
 
 export default class extends BaseCommand {
-  execute(modelType, commandType, id, subCommands) {
-    invoke(subCommands)
+  execute() {
+    invoke(this.subCommands)
     this.revert = () => ({
+      subCommands: this.subCommands,
+      _logMessage: this._logMessage,
       execute() {
-        invokeRevert(subCommands)
-        commandLog(`revert ${commandType} a ${modelType}: ${id}`)
+        invokeRevert(this.subCommands)
+        commandLog(`revert: ${this._logMessage}`)
       }
     })
-    commandLog(`${commandType} a ${modelType}: ${id}`)
+    commandLog(this._logMessage)
   }
 
   get kind() {

@@ -44,10 +44,8 @@ export default class extends CompositeCommand {
     }
 
     this.subCommands = subCommands
-    this.id = id
-  }
-
-  execute() {
-    super.execute('type definition', 'change', this.id, this.subCommands)
+    this._logMessage = `set ${[...changedProperties.entries()].map(
+      ([id, val]) => `${id}:${val}`
+    )} to type definition ${id}`
   }
 }

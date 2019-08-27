@@ -26,10 +26,6 @@ export default class extends CompositeCommand {
           span.types
         )
     )
-    this.id = span.id
-  }
-
-  execute() {
-    super.execute('span', 'replicate', this.id, this.subCommands)
+    this._logMessage = `replicate a span ${span.id}`
   }
 }
