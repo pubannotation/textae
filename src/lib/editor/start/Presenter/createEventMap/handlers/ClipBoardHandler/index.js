@@ -1,5 +1,4 @@
 import copyEntities from './copyEntities'
-import pasteEntities from './pasteEntities'
 
 export default class {
   constructor(command, annotationData, selectionModel, clipBoard) {
@@ -14,6 +13,10 @@ export default class {
   }
 
   pasteEntities() {
-    pasteEntities(this._selectionModel, this._clipBoard, this._command)
+    this._command.invoke(
+      this._command.factory.pasteTypesToSelectedSpansCommand(
+        this._clipBoard.clipBoard
+      )
+    )
   }
 }

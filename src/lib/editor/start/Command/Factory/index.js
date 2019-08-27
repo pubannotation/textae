@@ -17,6 +17,7 @@ import ChangeTypeRemoveRelationOfSelectedEntitiesCommand from './ChangeTypeRemov
 import ChangeTypeOfSelectedRelationsCommand from './ChangeTypeOfSelectedRelationsCommand'
 import RemoveSelectedCommand from './RemoveSelectedCommand'
 import CreateDefaultTypeEntityToSelectedSpans from './CreateDefaultTypeEntityToSelectedSpans'
+import PasteTypesToSelectedSpansCommand from './PasteTypesToSelectedSpansCommand'
 
 export default class {
   constructor(editor, annotationData, selectionModel) {
@@ -64,17 +65,6 @@ export default class {
     )
   }
 
-  entityCreateCommand(entity) {
-    return new CreateCommand(
-      this._editor,
-      this._annotationData,
-      this._selectionModel,
-      'entity',
-      true,
-      entity
-    )
-  }
-
   entitiesRemoveCommand(selectedElements) {
     return new EntitiesRemoveAndSpanRemeveIfNoEntityRestCommand(
       this._editor,
@@ -103,6 +93,15 @@ export default class {
       this._annotationData,
       this._selectionModel,
       typeDefinition
+    )
+  }
+
+  pasteTypesToSelectedSpansCommand(types) {
+    return new PasteTypesToSelectedSpansCommand(
+      this._editor,
+      this._annotationData,
+      this._selectionModel,
+      types
     )
   }
 
