@@ -24,10 +24,11 @@ export default function(
   })
 
   delegate(pallet, `.${CLASS_NAMES.label}`, 'click', (e) => {
-    const commands = elementEditor
-      .getHandler()
-      .changeTypeOfSelectedElement(e.delegateTarget.id)
-    command.invoke(commands)
+    command.invoke(
+      elementEditor
+        .getHandler()
+        .changeTypeOfSelectedElement(e.delegateTarget.id)
+    )
   })
 
   delegate(pallet, `.${CLASS_NAMES.selectAll}`, 'click', (e) => {
@@ -47,12 +48,14 @@ export default function(
     if (!checkButtonEnable(e.target)) {
       return
     }
-    const commands = elementEditor
-      .getHandler()
-      .removeType(
-        e.delegateTarget.getAttribute('data-id'),
-        e.delegateTarget.getAttribute('data-short-label')
-      )
-    command.invoke(commands)
+
+    command.invoke(
+      elementEditor
+        .getHandler()
+        .removeType(
+          e.delegateTarget.getAttribute('data-id'),
+          e.delegateTarget.getAttribute('data-short-label')
+        )
+    )
   })
 }

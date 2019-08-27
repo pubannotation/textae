@@ -75,11 +75,9 @@ export default class {
       throw new Error('You must set the type id to remove.')
     }
 
-    return [
-      this.command.factory.typeDefinitionRemoveCommand(
-        this.typeContainer,
-        removeType
-      )
-    ]
+    return this.command.factory.typeDefinitionRemoveCommand(
+      this.typeContainer,
+      removeType
+    )
   }
 }

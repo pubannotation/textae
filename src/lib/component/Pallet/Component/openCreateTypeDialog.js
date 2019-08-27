@@ -21,7 +21,7 @@ export default function(elementEditor, editor, autocompletionWs) {
       newType.default = newDefault
     }
 
-    handler.command.invoke([handler.addType(newType)])
+    handler.command.invoke(handler.addType(newType))
   }
 
   const dialog = new EditTypeDialog(

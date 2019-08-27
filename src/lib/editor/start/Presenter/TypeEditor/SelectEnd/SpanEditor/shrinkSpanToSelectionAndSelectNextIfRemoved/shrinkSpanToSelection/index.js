@@ -27,9 +27,9 @@ export default function(
   const doesExists = annotationData.span.has(newSpan)
 
   if (newSpan.begin < newSpan.end && !doesExists) {
-    command.invoke([command.factory.spanMoveCommand(spanId, newSpan)])
+    command.invoke(command.factory.spanMoveCommand(spanId, newSpan))
   } else {
-    command.invoke([command.factory.spanRemoveCommand(spanId)])
+    command.invoke(command.factory.spanRemoveCommand(spanId))
     return true
   }
 

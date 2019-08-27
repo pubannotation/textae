@@ -1,1 +1,5 @@
-export default class {}
+export default class {
+  get isEmpty() {
+    return false
+  }
+}

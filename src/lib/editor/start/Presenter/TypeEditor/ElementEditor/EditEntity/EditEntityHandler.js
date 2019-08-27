@@ -9,21 +9,17 @@ export default class extends DefaultHandler {
   }
 
   changeTypeOfSelectedElement(newType) {
-    return [
-      this.command.factory.changeTypeRemoveRelationOfSelectedEntitiesCommand(
-        newType,
-        this.typeContainer.isBlock(newType)
-      )
-    ]
+    return this.command.factory.changeTypeRemoveRelationOfSelectedEntitiesCommand(
+      newType,
+      this.typeContainer.isBlock(newType)
+    )
   }
 
   changeLabelCommand(label, value) {
-    return [
-      this.command.factory.changeEntityLabelCommand(
-        label,
-        value,
-        this.typeContainer
-      )
-    ]
+    return this.command.factory.changeEntityLabelCommand(
+      label,
+      value,
+      this.typeContainer
+    )
   }
 }

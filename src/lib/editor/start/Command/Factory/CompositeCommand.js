@@ -26,4 +26,8 @@ export default class extends BaseCommand {
       new Set()
     )
   }
+
+  get isEmpty() {
+    return this._subCommands.length === 0
+  }
 }

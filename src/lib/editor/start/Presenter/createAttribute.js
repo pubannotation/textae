@@ -1,5 +1,5 @@
 export default function(command) {
-  command.invoke([
+  command.invoke(
     command.factory.createDefaultAttributeToSelectedEntitiesCommand()
-  ])
+  )
 }

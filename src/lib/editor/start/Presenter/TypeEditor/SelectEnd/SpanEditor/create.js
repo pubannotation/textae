@@ -51,12 +51,13 @@ function createCommands(
   isDetectDelimiterEnable,
   spanConfig
 ) {
-  const commands = [
-    command.factory.spanCreateCommand(typeDefinition.entity.getDefaultType(), {
+  const commands = command.factory.spanCreateCommand(
+    typeDefinition.entity.getDefaultType(),
+    {
       begin: newSpan.begin,
       end: newSpan.end
-    })
-  ]
+    }
+  )
 
   if (isReplicateAuto && newSpan.end - newSpan.begin <= BLOCK_THRESHOLD) {
     commands.push(

@@ -42,13 +42,13 @@ function createRelation(
   objectEntityId,
   typeDefinition
 ) {
-  command.invoke([
+  command.invoke(
     command.factory.relationCreateCommand({
       subj: subjectEntityId,
       obj: objectEntityId,
       type: typeDefinition.relation.getDefaultType()
     })
-  ])
+  )
 }
 
 function updateSelectionOfEntity(

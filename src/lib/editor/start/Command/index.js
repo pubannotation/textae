@@ -6,11 +6,13 @@ import Factory from './Factory'
 // Users can edit model only via commands.
 export default function(editor, annotationData, selectionModel, history) {
   return {
-    invoke: (commands) => {
-      if (commands && commands.length > 0) {
-        invoke(commands)
-        history.push(commands)
+    invoke: (command) => {
+      if (command.isEmpty) {
+        return
       }
+
+      invoke([command])
+      history.push([command])
     },
     undo: () => {
       if (history.hasAnythingToUndo) {

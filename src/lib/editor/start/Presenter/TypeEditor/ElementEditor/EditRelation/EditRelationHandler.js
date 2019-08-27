@@ -10,17 +10,15 @@ export default class extends DefaultHandler {
   }
 
   changeTypeOfSelectedElement(newType) {
-    return [this.command.factory.changeTypeOfSelectedRelationsCommand(newType)]
+    return this.command.factory.changeTypeOfSelectedRelationsCommand(newType)
   }
 
   changeLabelCommand(label, value) {
-    return [
-      this.command.factory.changeRelationLabelCommand(
-        label,
-        value,
-        this.typeContainer
-      )
-    ]
+    return this.command.factory.changeRelationLabelCommand(
+      label,
+      value,
+      this.typeContainer
+    )
   }
 
   jsPlumbConnectionClicked(jsPlumbConnection, event) {

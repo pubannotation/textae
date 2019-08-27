@@ -9,9 +9,9 @@ export default function(
   const span = annotationData.span.get(spanId)
 
   if (spanId) {
-    command.invoke([
+    command.invoke(
       command.factory.spanReplicateCommand(span, detectBoundaryFunc)
-    ])
+    )
   } else {
     alert('You can replicate span annotation when there is only span selected.')
   }

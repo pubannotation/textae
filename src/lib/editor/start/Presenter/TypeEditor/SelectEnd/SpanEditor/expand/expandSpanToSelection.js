@@ -29,5 +29,5 @@ export default function(
     return
   }
 
-  command.invoke([command.factory.spanMoveCommand(spanId, newSpan)])
+  command.invoke(command.factory.spanMoveCommand(spanId, newSpan))
 }
