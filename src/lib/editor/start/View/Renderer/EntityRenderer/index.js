@@ -1,5 +1,5 @@
 import ModificationRenderer from '../ModificationRenderer'
-import creat from './create'
+import create from './create'
 import changeTypeOfExists from './changeTypeOfExists'
 import updateLabelofType from './updateLabelofType'
 import changeModificationOfExists from './changeModificationOfExists'
@@ -25,7 +25,7 @@ export default class {
   }
 
   render(entity) {
-    creat(
+    create(
       this.editor,
       this.annotationData.namespace,
       this.typeDefinition,
