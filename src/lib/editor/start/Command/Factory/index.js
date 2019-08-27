@@ -19,6 +19,8 @@ import RemoveSelectedCommand from './RemoveSelectedCommand'
 import CreateDefaultTypeEntityToSelectedSpans from './CreateDefaultTypeEntityToSelectedSpans'
 import PasteTypesToSelectedSpansCommand from './PasteTypesToSelectedSpansCommand'
 import CreateDefaultAttributeToSelectedEntitiesCommand from './CreateDefaultAttributeToSelectedEntitiesCommand'
+import ChangeEntityLabelCommand from './ChangeEntityLabelCommand'
+import ChangeRelationLabelCommand from './ChangeRelationLabelCommand'
 
 export default class {
   constructor(editor, annotationData, selectionModel) {
@@ -85,6 +87,17 @@ export default class {
       this._selectionModel,
       newType,
       isRemoveRelations
+    )
+  }
+
+  changeEntityLabelCommand(label, value, typeContainer) {
+    return new ChangeEntityLabelCommand(
+      this._editor,
+      this._annotationData,
+      this._selectionModel,
+      label,
+      value,
+      typeContainer
     )
   }
 
@@ -174,6 +187,17 @@ export default class {
       this._annotationData,
       this._selectionModel,
       id
+    )
+  }
+
+  changeRelationLabelCommand(label, value, typeContainer) {
+    return new ChangeRelationLabelCommand(
+      this._editor,
+      this._annotationData,
+      this._selectionModel,
+      label,
+      value,
+      typeContainer
     )
   }
 

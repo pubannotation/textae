@@ -31,26 +31,6 @@ export default class {
     )
   }
 
-  changeLabelOfId(id, label) {
-    const oldType = this.typeContainer.getDefinedType(id)
-
-    if (!oldType.id) {
-      return this.command.factory.typeDefinitionCreateCommand(
-        this.typeContainer,
-        { id, label }
-      )
-    } else if (oldType.label !== label) {
-      return this.command.factory.typeDefinitionChangeCommand(
-        this.typeContainer,
-        this.modelType,
-        id,
-        { label }
-      )
-    }
-
-    return null
-  }
-
   getSelectedType() {
     const id = this.selectionModel.single()
 

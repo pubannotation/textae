@@ -46,7 +46,12 @@ export default function(
     },
     hidePallet: pallet.hide,
     changeLabel: () =>
-      changeLabelHandler(editor, elementEditor.getHandler, autocompletionWs),
+      changeLabelHandler(
+        editor,
+        elementEditor.getHandler,
+        autocompletionWs,
+        command
+      ),
     changeLabelAndPred: null,
     changeTypeOfSelectedElement: (newType) =>
       elementEditor.getHandler().changeTypeOfSelectedElement(newType),

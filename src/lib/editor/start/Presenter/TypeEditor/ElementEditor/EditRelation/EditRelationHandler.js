@@ -13,6 +13,16 @@ export default class extends DefaultHandler {
     return [this.command.factory.changeTypeOfSelectedRelationsCommand(newType)]
   }
 
+  changeLabelCommand(label, value) {
+    return [
+      this.command.factory.changeRelationLabelCommand(
+        label,
+        value,
+        this.typeContainer
+      )
+    ]
+  }
+
   jsPlumbConnectionClicked(jsPlumbConnection, event) {
     // Select or deselect relation.
     // This function is expected to be called when Relation-Edit-Mode.

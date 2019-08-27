@@ -16,4 +16,14 @@ export default class extends DefaultHandler {
       )
     ]
   }
+
+  changeLabelCommand(label, value) {
+    return [
+      this.command.factory.changeEntityLabelCommand(
+        label,
+        value,
+        this.typeContainer
+      )
+    ]
+  }
 }
