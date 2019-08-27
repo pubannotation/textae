@@ -34,6 +34,9 @@
     &__body {
         position: relative;
         &__text-box {
+            // Hides the part of the paragraph that overflowed from the textae editor 
+            // so that you can click the DOM element below the paragraph.
+            overflow: hidden;
             /* prefer calculated line height */
             p {
                 line-height: inherit;
