@@ -15,6 +15,7 @@ import RemoveModificationsFromSelectedCommand from './RemoveModificationsFromSel
 import TypeModel from '../../../Model/AnnotationData/Container/SpanContainer/TypeModel'
 import ChangeTypeRemoveRelationOfSelectedEntitiesCommand from './ChangeTypeRemoveRelationOfSelectedEntitiesCommand'
 import ChangeTypeOfSelectedRelationsCommand from './ChangeTypeOfSelectedRelationsCommand'
+import RemoveSelectedCommand from './RemoveSelectedCommand'
 
 export default class {
   constructor(editor, annotationData, selectionModel) {
@@ -165,6 +166,14 @@ export default class {
       this._selectionModel,
       selectedElements,
       newType
+    )
+  }
+
+  removeSelectedComand() {
+    return new RemoveSelectedCommand(
+      this._editor,
+      this._annotationData,
+      this._selectionModel
     )
   }
 

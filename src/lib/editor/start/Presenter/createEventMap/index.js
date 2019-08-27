@@ -56,7 +56,7 @@ export default function(
   const event = {
     copyEntities: () => clipBoardHandler.copyEntities(),
     removeSelectedElements: () =>
-      removeSelectedElements(command, selectionModel, selectHandler),
+      removeSelectedElements(command, selectHandler),
     createEntity: createEntityHandler,
     showPallet: typeEditor.showPallet,
     replicate: replicateHandler,
