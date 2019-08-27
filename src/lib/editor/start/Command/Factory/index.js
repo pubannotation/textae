@@ -16,6 +16,7 @@ import TypeModel from '../../../Model/AnnotationData/Container/SpanContainer/Typ
 import ChangeTypeRemoveRelationOfSelectedEntitiesCommand from './ChangeTypeRemoveRelationOfSelectedEntitiesCommand'
 import ChangeTypeOfSelectedRelationsCommand from './ChangeTypeOfSelectedRelationsCommand'
 import RemoveSelectedCommand from './RemoveSelectedCommand'
+import CreateDefaultTypeEntityToSelectedSpans from './CreateDefaultTypeEntityToSelectedSpans'
 
 export default class {
   constructor(editor, annotationData, selectionModel) {
@@ -93,6 +94,15 @@ export default class {
       this._selectionModel,
       newType,
       isRemoveRelations
+    )
+  }
+
+  createDefaultTypeEntityToSelectedSpansCommand(typeDefinition) {
+    return new CreateDefaultTypeEntityToSelectedSpans(
+      this._editor,
+      this._annotationData,
+      this._selectionModel,
+      typeDefinition
     )
   }
 

@@ -5,6 +5,8 @@ import BaseCommand from './BaseCommand'
 
 export default class extends BaseCommand {
   execute() {
+    console.assert(this._subCommands, '_subCommands is necessary!')
+
     invoke(this._subCommands)
 
     this.revert = () => ({
