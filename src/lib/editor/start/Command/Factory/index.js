@@ -1,5 +1,4 @@
 import { CreateCommand } from './commandTemplate'
-import ChangeTypeCommand from './ChangeTypeCommand'
 import SpanAndTypesCreateCommand from './SpanAndTypesCreateCommand'
 import SpanReplicateCommand from './SpanReplicateCommand'
 import SpanRemoveCommand from './SpanRemoveCommand'
@@ -15,6 +14,7 @@ import AttatchModificationsToSelectedCommand from './AttatchModificationsToSelec
 import RemoveModificationsFromSelectedCommand from './RemoveModificationsFromSelectedCommand'
 import TypeModel from '../../../Model/AnnotationData/Container/SpanContainer/TypeModel'
 import ChangeTypeRemoveRelationOfSelectedEntitiesCommand from './ChangeTypeRemoveRelationOfSelectedEntitiesCommand'
+import ChangeTypeOfSelectedRelationsCommand from './ChangeTypeOfSelectedRelationsCommand'
 
 export default class {
   constructor(editor, annotationData, selectionModel) {
@@ -158,12 +158,12 @@ export default class {
     )
   }
 
-  relationChangeTypeCommand(id, newType) {
-    return new ChangeTypeCommand(
+  changeTypeOfSelectedRelationsCommand(selectedElements, newType) {
+    return new ChangeTypeOfSelectedRelationsCommand(
       this._editor,
       this._annotationData,
-      'relation',
-      id,
+      this._selectionModel,
+      selectedElements,
       newType
     )
   }

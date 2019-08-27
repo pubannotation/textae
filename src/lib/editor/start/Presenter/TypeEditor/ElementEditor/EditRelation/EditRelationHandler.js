@@ -8,11 +8,11 @@ export default class extends DefaultHandler {
     this.selectionModel = selectionModel.relation
     this.clearAllSelection = () => selectionModel.clear()
   }
+
   changeTypeOfSelectedElement(newType) {
-    return this.getEditTarget(newType).map((id) =>
-      this.command.factory.relationChangeTypeCommand(id, newType)
-    )
+    return [this.command.factory.changeTypeOfSelectedRelationsCommand(newType)]
   }
+
   jsPlumbConnectionClicked(jsPlumbConnection, event) {
     // Select or deselect relation.
     // This function is expected to be called when Relation-Edit-Mode.

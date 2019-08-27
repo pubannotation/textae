@@ -65,12 +65,6 @@ export default class {
     // A Swithing point to change a behavior when relation is clicked.
   }
 
-  getEditTarget(newType) {
-    return this.selectionModel
-      .all()
-      .filter((id) => this.annotationData.get(id).type !== newType)
-  }
-
   selectAllByLabel(label) {
     this.selectionModel.clear()
     this.annotationData.all.map((model) => {
