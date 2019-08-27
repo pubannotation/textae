@@ -12,10 +12,9 @@ export default class extends CompositeCommand {
     changedProperties
   ) {
     super()
-    let subCommands = []
 
     // change config
-    subCommands.push(
+    const changeConfigcommands = [
       createChangeConfigCommand(
         typeDefinition,
         id,
@@ -24,26 +23,25 @@ export default class extends CompositeCommand {
         modelType,
         changedProperties
       )
-    )
+    ]
 
+    let changAnnotationCommands = []
     // change annotation
     if (
       changedProperties.has('id') ||
       changedProperties.has('label') ||
       changedProperties.has('color')
     ) {
-      subCommands = subCommands.concat(
-        createChangeAnnotationCommands(
-          annotationData,
-          modelType,
-          id,
-          editor,
-          changedProperties
-        )
+      changAnnotationCommands = createChangeAnnotationCommands(
+        annotationData,
+        modelType,
+        id,
+        editor,
+        changedProperties
       )
     }
 
-    this.subCommands = subCommands
+    this._subCommands = changeConfigcommands.concat(changAnnotationCommands)
     this._logMessage = `set ${[...changedProperties.entries()].map(
       ([id, val]) => `${id}:${val}`
     )} to type definition ${id}`

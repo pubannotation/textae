@@ -5,12 +5,13 @@ import BaseCommand from './BaseCommand'
 
 export default class extends BaseCommand {
   execute() {
-    invoke(this.subCommands)
+    invoke(this._subCommands)
+
     this.revert = () => ({
-      subCommands: this.subCommands,
+      _subCommands: this._subCommands,
       _logMessage: this._logMessage,
       execute() {
-        invokeRevert(this.subCommands)
+        invokeRevert(this._subCommands)
         commandLog(`revert: ${this._logMessage}`)
       }
     })
@@ -18,7 +19,7 @@ export default class extends BaseCommand {
   }
 
   get kind() {
-    return this.subCommands.reduce(
+    return this._subCommands.reduce(
       (acc, curr) => new Set([...acc, ...curr.kind]),
       new Set()
     )

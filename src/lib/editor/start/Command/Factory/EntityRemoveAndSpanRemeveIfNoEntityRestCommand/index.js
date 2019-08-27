@@ -32,7 +32,7 @@ export default class extends CompositeCommand {
       }
     }
 
-    this.subCommands = commands
+    this._subCommands = commands
     this._logMessage = `remove entities ${entityIds} from spans ${[
       ...spans.values()
     ].map((span) => span.id)}`

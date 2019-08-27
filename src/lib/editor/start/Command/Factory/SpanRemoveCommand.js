@@ -26,7 +26,7 @@ export default class extends CompositeCommand {
       'span',
       id
     )
-    this.subCommands = removeEntity.concat(removeSpan)
+    this._subCommands = removeEntity.concat(removeSpan)
     this._logMessage = `remove a span ${id}`
   }
 }

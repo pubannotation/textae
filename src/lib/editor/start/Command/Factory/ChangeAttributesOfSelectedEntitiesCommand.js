@@ -27,7 +27,7 @@ export default class extends CompositeCommand {
       }
     }
 
-    this.subCommands = effectedAttributes
+    this._subCommands = effectedAttributes
     this._logMessage = `set pred ${newPred}, obj ${newObj} to attributes: ${effectedAttributes
       .map(
         ({ attribute }) =>

@@ -14,7 +14,7 @@ export default class extends CompositeCommand {
       .all()
       .filter((id) => annotationData.entity.get(id).type !== newType)
 
-    this.subCommands = selectedElements.map(
+    this._subCommands = selectedElements.map(
       (id) =>
         new EntityChangeTypeRemoveRelationCommand(
           editor,

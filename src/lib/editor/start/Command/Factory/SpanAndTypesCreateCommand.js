@@ -8,7 +8,7 @@ export default class extends CompositeCommand {
     super()
     const spanId = idFactory.makeSpanId(editor, newSpan)
 
-    this.subCommands = [
+    this._subCommands = [
       new CreateCommand(
         editor,
         annotationData,

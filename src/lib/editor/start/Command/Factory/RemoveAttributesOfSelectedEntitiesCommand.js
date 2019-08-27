@@ -13,7 +13,7 @@ export default class extends CompositeCommand {
   ) {
     super()
 
-    this.subCommands = []
+    const removeAttributeCommands = []
     this.pred = pred
     this.obj = obj
     this.selectedEntities = selectedEntities
@@ -24,7 +24,7 @@ export default class extends CompositeCommand {
       // If you select an entity with attributes and an entity without attributes,
       // the attributes may not be found.
       if (attribute) {
-        this.subCommands.push(
+        removeAttributeCommands.push(
           new RemoveCommand(
             editor,
             annotationData,
@@ -36,6 +36,7 @@ export default class extends CompositeCommand {
       }
     }
 
+    this._subCommands = removeAttributeCommands
     this._logMessage = `remove an attribute {pred: ${this.pred}, obj: ${this.obj}} from ${this.selectedEntities}`
   }
 }

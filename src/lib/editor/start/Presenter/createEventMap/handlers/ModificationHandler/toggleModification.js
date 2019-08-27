@@ -7,7 +7,7 @@ export default function(command, pushButtons, modificationType, typeEditor) {
 
   const c = getCommand(hasAlready, command, modificationType, typeEditor)
 
-  if (c.subCommands.length) {
+  if (c._subCommands.length) {
     command.invoke([c], ['annotation'])
   }
 }

@@ -21,7 +21,7 @@ export default class extends CompositeCommand {
     )
 
     // Block types do not have relations. If there is a relation, delete it.
-    this.subCommands = isBlockType
+    this._subCommands = isBlockType
       ? annotationData.entity
           .assosicatedRelations(id)
           .map(

@@ -12,7 +12,7 @@ export default class extends CompositeCommand {
   ) {
     super()
 
-    this.subCommands = getReplicationSpans(
+    this._subCommands = getReplicationSpans(
       annotationData,
       span,
       detectBoundaryFunc

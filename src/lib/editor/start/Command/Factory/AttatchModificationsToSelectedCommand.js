@@ -14,7 +14,7 @@ export default class extends CompositeCommand {
 
     const targets = typeEditor.getSelectedIdEditable()
 
-    this.subCommands = targets
+    this._subCommands = targets
       .filter(
         (id) =>
           !getSpecificModification(annotationData, id, modificationType)

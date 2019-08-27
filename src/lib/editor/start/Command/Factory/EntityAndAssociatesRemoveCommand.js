@@ -51,7 +51,7 @@ export default class extends CompositeCommand {
           )
       )
 
-    this.subCommands = removeRelation
+    this._subCommands = removeRelation
       .concat(removeModification)
       .concat(removeAttribute)
       .concat(removeEntity)
