@@ -23,7 +23,7 @@ function toRemoveEntityCommands(entityIds, command) {
     return []
   }
 
-  return [command.factory.entityRemoveCommand(entityIds)]
+  return [command.factory.entitiesRemoveCommand(entityIds)]
 }
 
 function toRemoveRelationCommands(relationIds, command) {

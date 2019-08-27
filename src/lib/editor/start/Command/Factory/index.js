@@ -3,7 +3,7 @@ import SpanAndTypesCreateCommand from './SpanAndTypesCreateCommand'
 import SpanReplicateCommand from './SpanReplicateCommand'
 import SpanRemoveCommand from './SpanRemoveCommand'
 import SpanMoveCommand from './SpanMoveCommand'
-import EntityRemoveAndSpanRemeveIfNoEntityRestCommand from './EntityRemoveAndSpanRemeveIfNoEntityRestCommand'
+import EntitiesRemoveAndSpanRemeveIfNoEntityRestCommand from './EntitiesRemoveAndSpanRemeveIfNoEntityRestCommand'
 import RelationAndAssociatesRemoveCommand from './RelationAndAssociatesRemoveCommand'
 import TypeDefinitionCreateCommand from './TypeDefinitionCreateCommand'
 import TypeDefinitionChangeAndRefectInstancesCommand from './TypeDefinitionChangeAndRefectInstancesCommand'
@@ -73,12 +73,12 @@ export default class {
     )
   }
 
-  entityRemoveCommand(ids) {
-    return new EntityRemoveAndSpanRemeveIfNoEntityRestCommand(
+  entitiesRemoveCommand(selectedElements) {
+    return new EntitiesRemoveAndSpanRemeveIfNoEntityRestCommand(
       this._editor,
       this._annotationData,
       this._selectionModel,
-      ids
+      selectedElements
     )
   }
 
