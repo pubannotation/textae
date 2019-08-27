@@ -7,13 +7,13 @@ export default class extends DefaultHandler {
     this.annotationData = annotationData.entity
     this.selectionModel = selectionModel.entity
   }
+
   changeTypeOfSelectedElement(newType) {
-    return this.getEditTarget(newType).map((id) =>
-      this.command.factory.entityChangeTypeCommand(
-        id,
+    return [
+      this.command.factory.changeTypeRemoveRelationOfSelectedEntitiesCommand(
         newType,
         this.typeContainer.isBlock(newType)
       )
-    )
+    ]
   }
 }

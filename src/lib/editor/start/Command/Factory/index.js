@@ -4,7 +4,6 @@ import SpanAndTypesCreateCommand from './SpanAndTypesCreateCommand'
 import SpanReplicateCommand from './SpanReplicateCommand'
 import SpanRemoveCommand from './SpanRemoveCommand'
 import SpanMoveCommand from './SpanMoveCommand'
-import EntityChangeTypeRemoveRelationCommand from './EntityChangeTypeRemoveRelationCommand'
 import EntityRemoveAndSpanRemeveIfNoEntityRestCommand from './EntityRemoveAndSpanRemeveIfNoEntityRestCommand'
 import RelationAndAssociatesRemoveCommand from './RelationAndAssociatesRemoveCommand'
 import TypeDefinitionCreateCommand from './TypeDefinitionCreateCommand'
@@ -15,6 +14,7 @@ import RemoveAttributesOfSelectedEntitiesCommand from './RemoveAttributesOfSelec
 import AttatchModificationsToSelectedCommand from './AttatchModificationsToSelectedCommand'
 import RemoveModificationsFromSelectedCommand from './RemoveModificationsFromSelectedCommand'
 import TypeModel from '../../../Model/AnnotationData/Container/SpanContainer/TypeModel'
+import ChangeTypeRemoveRelationOfSelectedEntitiesCommand from './ChangeTypeRemoveRelationOfSelectedEntitiesCommand'
 
 export default class {
   constructor(editor, annotationData, selectionModel) {
@@ -82,12 +82,14 @@ export default class {
     )
   }
 
-  entityChangeTypeCommand(id, newType, isRemoveRelations) {
-    return new EntityChangeTypeRemoveRelationCommand(
+  changeTypeRemoveRelationOfSelectedEntitiesCommand(
+    newType,
+    isRemoveRelations
+  ) {
+    return new ChangeTypeRemoveRelationOfSelectedEntitiesCommand(
       this._editor,
       this._annotationData,
       this._selectionModel,
-      id,
       newType,
       isRemoveRelations
     )
