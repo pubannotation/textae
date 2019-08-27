@@ -15,7 +15,7 @@ function getAll(command, spanIds, entityIds, relationIds) {
 }
 
 function toRomeveSpanCommands(spanIds, command) {
-  return spanIds.map(command.factory.spanRemoveCommand)
+  return spanIds.map((id) => command.factory.spanRemoveCommand(id))
 }
 
 function toRemoveEntityCommands(entityIds, command) {
@@ -27,5 +27,5 @@ function toRemoveEntityCommands(entityIds, command) {
 }
 
 function toRemoveRelationCommands(relationIds, command) {
-  return relationIds.map(command.factory.relationRemoveCommand)
+  return relationIds.map((id) => command.factory.relationRemoveCommand(id))
 }

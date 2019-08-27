@@ -5,8 +5,8 @@ import { CreateCommand } from './commandTemplate'
 export default class extends CompositeCommand {
   constructor(
     editor,
-    selectionModel,
     annotationData,
+    selectionModel,
     modificationType,
     typeEditor
   ) {
