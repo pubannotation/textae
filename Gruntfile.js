@@ -37,7 +37,9 @@ module.exports = function(grunt) {
     },
     uglify: {
       options: {
-        preserveComments: saveLicense,
+        output: {
+          comments: saveLicense
+        },
         banner:
           '/*! <%= pkg.name %> <%= pkg.version %> <%= grunt.template.today("dd-mm-yyyy") %> */\n'
       },
