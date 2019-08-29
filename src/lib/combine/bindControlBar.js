@@ -1,6 +1,12 @@
-module.exports = function(editor, controlBar, handleControlButtonClick) {
+import stickInParent from './stickInParent'
+
+export default function(editor, controlBar, handleControlButtonClick) {
   // add control bar
   editor[0].insertBefore(controlBar[0], editor[0].childNodes[0])
+
+  // Stick the control bar in the editor.
+  stickInParent(controlBar)
+
   editor.eventEmitter
     .on('textae.control.button.push', (data) =>
       controlBar.updateButtonPushState(data.buttonName, data.state)
