@@ -3,11 +3,11 @@ import controlBar from './control/controlBar'
 import ContextMenu from './control/ContextMenu'
 import editor from './editor'
 import combine from './combine'
-const tJQ = require('jquery')
-global.jQuery = require('jquery')
+
+require('jquery')
 require('sticky-kit')
 
-const textaeQuery = tJQ.noConflict(true)
+const textaeQuery = global.jQuery.noConflict(true)
 const tool = new Tool()
 
 textaeQuery.fn.textae = (function() {
@@ -38,4 +38,3 @@ textaeQuery.fn.textae = (function() {
 document.addEventListener('DOMContentLoaded', (event) => {
   textaeQuery('.textae-editor').textae()
 })
-$.noConflict(true)

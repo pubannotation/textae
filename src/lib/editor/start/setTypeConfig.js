@@ -1,3 +1,5 @@
+import $ from 'jquery'
+
 export default function(typeDefinition, config) {
   typeDefinition.setDefinedEntityTypes(config ? config['entity types'] : [])
   typeDefinition.setDefinedRelationTypes(config ? config['relation types'] : [])
