@@ -50,7 +50,6 @@
     "grunt-contrib-copy": "^0.8.1",
     "grunt-contrib-cssmin": "^0.14.0",
     "grunt-contrib-less": "^1.0.1",
-    "grunt-contrib-uglify": "^4.0.1",
     "grunt-contrib-watch": "^0.6.1",
     "grunt-open": "~0.2.3",
     "grunt-text-replace": "^0.4.0",
@@ -64,6 +63,7 @@
     "serve-static": "^1.10.0",
     "toastr": "^2.1.2",
     "uglify-save-license": "^0.4.1",
+    "uglifyify": "^5.0.2",
     "watchify": "^3.7.0"
   },
   "homepage": "https://github.com/pubannotation/textae",
@@ -79,7 +79,7 @@
     "url": "https://github.com/pubannotation/textae.git"
   },
   "scripts": {
-    "browserify": "browserify -g deamdify src/lib/jquery.textae.js -o src/lib/bundle.js",
+    "browserify": "browserify -g deamdify -g uglifyify src/lib/jquery.textae.js -o src/lib/bundle.js",
     "clean": "rimraf dist/* src/lib/bundle.js",
     "grunt-dist": "grunt dist",
     "dist": "npm-run-all clean lint browserify grunt-dist",

@@ -28,27 +28,11 @@ module.exports = function(grunt) {
           'src/lib/modules/jquery.jsPlumb-1.5.5-min.js',
           'src/lib/bundle.js'
         ],
-        dest: 'dist/lib/<%= pkg.name %>-<%= pkg.version %>.js'
+        dest: 'dist/lib/<%= pkg.name %>-<%= pkg.version %>.min.js'
       },
       css: {
         src: ['src/lib/css/textae.css'],
         dest: 'dist/lib/css/<%= pkg.name %>-<%= pkg.version %>.css'
-      }
-    },
-    uglify: {
-      options: {
-        output: {
-          comments: saveLicense
-        },
-        banner:
-          '/*! <%= pkg.name %> <%= pkg.version %> <%= grunt.template.today("dd-mm-yyyy") %> */\n'
-      },
-      dist: {
-        files: {
-          'dist/lib/<%= pkg.name %>-<%= pkg.version %>.min.js': [
-            '<%= concat.js.dest %>'
-          ]
-        }
       }
     },
     cssmin: {
@@ -249,7 +233,6 @@ module.exports = function(grunt) {
   grunt.registerTask('dist', [
     'less',
     'concat',
-    'uglify',
     'copy',
     'replace:version',
     'cssmin'
