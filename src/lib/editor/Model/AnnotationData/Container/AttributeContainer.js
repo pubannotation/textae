@@ -1,7 +1,7 @@
-import ModelContainer from './ModelContainer'
 import Attribute from './Attribute'
+import ContatinerWithEmitter from './ContatinerWithEmitter'
 
-export default class extends ModelContainer {
+export default class extends ContatinerWithEmitter {
   constructor(emitter) {
     super(emitter, 'attribute', mappingFunction)
   }

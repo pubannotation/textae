@@ -1,12 +1,12 @@
-import ModelContainer from '../ModelContainer'
 import mappingFunction from './mappingFunction'
 import createSpanTree from './createSpanTree'
 import spanComparator from './spanComparator'
 import updateSpanIdOfEntities from './updateSpanIdOfEntities'
 import idFactory from '../../../../idFactory'
 import SpanModel from './SpanModel'
+import ContatinerWithEmitter from '../ContatinerWithEmitter'
 
-export default class extends ModelContainer {
+export default class extends ContatinerWithEmitter {
   constructor(editor, emitter, paragraph) {
     super(emitter, 'span', (denotations) =>
       mappingFunction(

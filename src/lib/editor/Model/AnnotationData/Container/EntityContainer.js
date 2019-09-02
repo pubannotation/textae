@@ -1,7 +1,7 @@
 import idFactory from '../../../idFactory'
-import ModelContainer from './ModelContainer'
+import ContatinerWithEmitter from './ContatinerWithEmitter'
 
-export default class extends ModelContainer {
+export default class extends ContatinerWithEmitter {
   constructor(editor, emitter, relation) {
     super(
       emitter,

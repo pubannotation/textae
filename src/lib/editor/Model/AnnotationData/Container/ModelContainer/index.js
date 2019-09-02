@@ -75,8 +75,4 @@ export default class {
   clear() {
     this.container.clear()
   }
-
-  get emitter() {
-    return this._emitter
-  }
 }
