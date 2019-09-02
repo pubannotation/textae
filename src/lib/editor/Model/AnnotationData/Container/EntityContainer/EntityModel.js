@@ -23,7 +23,8 @@ export default class {
   }
 
   get type() {
-    return this._type
+    // Replace null to 'null' if type is null and undefined too.
+    return String(this._type)
   }
 
   set type(val) {

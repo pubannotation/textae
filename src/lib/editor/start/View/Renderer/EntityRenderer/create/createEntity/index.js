@@ -14,9 +14,6 @@ export default function(
   modification,
   entity
 ) {
-  // Replace null to 'null' if type is null and undefined too.
-  entity.type = String(entity.type)
-
   // Append a new entity to the type
   const typeDom = getTypeElement(namspace, typeDefinition, gridRenderer, entity)
   const pane = typeDom.querySelector('.textae-editor__entity-pane')
