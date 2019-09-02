@@ -1,5 +1,5 @@
 import CompositeCommand from './CompositeCommand'
-import { CreateCommand } from './commandTemplate'
+import EntityCreateCommand from './EntityCreateCommand'
 
 export default class extends CompositeCommand {
   constructor(editor, annotationData, selectionModel, types) {
@@ -10,16 +10,12 @@ export default class extends CompositeCommand {
       .map((span) =>
         types.map(
           (type) =>
-            new CreateCommand(
+            new EntityCreateCommand(
               editor,
               annotationData,
               selectionModel,
-              'entity',
-              true,
-              {
-                span,
-                type
-              }
+              span,
+              type
             )
         )
       )
