@@ -1,3 +1,5 @@
+import TypeModel from '../SpanContainer/TypeModel'
+
 export default class RelationModel {
   constructor({ id, pred, subj, obj }) {
     this._id = id
@@ -15,7 +17,7 @@ export default class RelationModel {
   }
 
   get type() {
-    return this._type
+    return new TypeModel(this._type)
   }
 
   set type(val) {

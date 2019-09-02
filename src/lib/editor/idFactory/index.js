@@ -14,7 +14,7 @@ export default {
   // But types are inputed by users and may have `!"#$%&'()*+,./:;<=>?@[\]^`{|}~` which can not be used for css selecor.
   makeTypeId(entity) {
     const attrs = entity.attributes.map((a) => a.pred + a.obj).join(',')
-    const key = String(entity.type) + attrs
+    const key = `${entity.type.name}${attrs}`
 
     if (typeCounter.indexOf(key) === -1) {
       typeCounter.push(key)

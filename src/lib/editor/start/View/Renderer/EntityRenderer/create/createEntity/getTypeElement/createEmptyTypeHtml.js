@@ -32,10 +32,10 @@ const template = Handlebars.compile(source)
 
 export default function(entity, namespace, typeDefinition) {
   const id = idFactory.makeTypeId(entity)
-  const label = getLabel(namespace, typeDefinition, entity.type)
-  const href = getUri(namespace, typeDefinition, entity.type)
-  const color = typeDefinition.getColor(entity.type)
-  const attributes = entity.attributes.map((attribute) => {
+  const label = getLabel(namespace, typeDefinition, entity.type.name)
+  const href = getUri(namespace, typeDefinition, entity.type.name)
+  const color = typeDefinition.getColor(entity.type.name)
+  const attributes = entity.type.attributes.map((attribute) => {
     return Object.assign({}, attribute, {
       domId: `${id}-${attribute.id}`,
       title: `pred: ${attribute.pred}, value: ${attribute.obj}`

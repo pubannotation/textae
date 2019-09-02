@@ -12,7 +12,7 @@ export default function createEntityElement(
   element.setAttribute('title', entity.id)
   element.classList.add('textae-editor__entity')
 
-  element.style.borderColor = typeDefinition.getColor(entity.type)
+  element.style.borderColor = typeDefinition.getColor(entity.type.name)
 
   // Set css classes for modifications.
   modification.getClasses(entity.id).forEach((c) => {

@@ -35,7 +35,7 @@ export default class {
     const id = this.selectionModel.single()
 
     if (id) {
-      return this.annotationData.get(id).type
+      return this.annotationData.get(id).type.name
     }
 
     return ''

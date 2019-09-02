@@ -21,7 +21,7 @@ function toDenotation(dataStore) {
             begin: currentSpan.begin,
             end: currentSpan.end
           },
-          obj: entity.type
+          obj: entity.type.name
         }
       })
   )

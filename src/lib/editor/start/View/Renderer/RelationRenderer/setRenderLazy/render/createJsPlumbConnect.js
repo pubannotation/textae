@@ -38,7 +38,7 @@ export default function(
       [
         'Label',
         Object.assign({}, LABEL, {
-          label: `[${relation.id}] ${relation.type}`,
+          label: `[${relation.id}] ${relation.type.name}`,
           cssClass: `${LABEL.cssClass} ${modificationRenderer
             .getClasses(relation.id)
             .join(' ')}`

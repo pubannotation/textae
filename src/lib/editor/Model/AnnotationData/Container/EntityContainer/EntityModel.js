@@ -1,3 +1,5 @@
+import TypeModel from '../SpanContainer/TypeModel'
+
 export default class {
   constructor(emitter, span, type, id = null) {
     this._span = span
@@ -24,7 +26,7 @@ export default class {
 
   get type() {
     // Replace null to 'null' if type is null and undefined too.
-    return String(this._type)
+    return new TypeModel(String(this._type), this._id, this)
   }
 
   set type(val) {
