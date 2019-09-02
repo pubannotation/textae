@@ -48,7 +48,7 @@ export default function(
         unbindAllMouseEventhandler(editor)
 
         editEntity.init()
-        initiateEditAttribute(editor, annotationData, selectionModel, commander)
+        initiateEditAttribute(editor, selectionModel, commander)
 
         handler = 'entity'
       },
