@@ -1,5 +1,6 @@
-import idFactory from '../../../idFactory'
-import ContatinerWithEmitter from './ContatinerWithEmitter'
+import idFactory from '../../../../idFactory'
+import ContatinerWithEmitter from '../ContatinerWithEmitter'
+import EntityModel from './EntityModel'
 
 export default class extends ContatinerWithEmitter {
   constructor(editor, emitter, relation) {
@@ -17,17 +18,12 @@ export default class extends ContatinerWithEmitter {
     if (!entity.span)
       throw new Error(`entity has no span! ${JSON.stringify(entity)}`)
 
-    if (!entity.attributes) {
-      // When undoing, the entity already has id and attributes getters.
-      const emitter = super.emitter
-      return super.add(entity, () => {
-        Object.defineProperty(entity, 'attributes', {
-          get: () => getAttributesOf(emitter, entity.id)
-        })
-      })
+    // When undoing, the entity is instance of the EntityModel already.
+    if (entity instanceof EntityModel) {
+      return super.add(entity)
     }
 
-    return super.add(entity)
+    return super.add(new EntityModel(super.emitter, entity.span, entity.type))
   }
 
   assosicatedRelations(entityId) {
@@ -37,20 +33,14 @@ export default class extends ContatinerWithEmitter {
   }
 }
 
-function getAttributesOf(emitter, entityId) {
-  return emitter.attribute.all.filter((a) => a.subj === entityId)
-}
-
 // Expected an entity like {id: "E21", span: "editor2__S50_54", type: "Protein"}.
 function toModel(editor, emitter, entity) {
-  return {
-    id: entity.id,
-    span: idFactory.makeSpanId(editor, entity.span),
-    type: entity.obj,
-    get attributes() {
-      return getAttributesOf(emitter, this.id)
-    }
-  }
+  return new EntityModel(
+    emitter,
+    idFactory.makeSpanId(editor, entity.span),
+    entity.obj,
+    entity.id
+  )
 }
 
 function mappingFunction(editor, emitter, denotations) {
