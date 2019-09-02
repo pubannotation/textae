@@ -9,7 +9,7 @@ export default class extends ModelContainer {
       (denotations) => mappingFunction(editor, emitter, denotations),
       'T'
     )
-    this.emitter = emitter
+
     this.relation = relation
   }
 
@@ -19,7 +19,7 @@ export default class extends ModelContainer {
 
     if (!entity.attributes) {
       // When undoing, the entity already has id and attributes getters.
-      const emitter = this.emitter
+      const emitter = super.emitter
       return super.add(entity, () => {
         Object.defineProperty(entity, 'attributes', {
           get: () => getAttributesOf(emitter, entity.id)

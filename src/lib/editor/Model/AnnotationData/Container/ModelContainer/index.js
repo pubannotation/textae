@@ -3,7 +3,7 @@ import addToContainer from './addToContainer'
 
 export default class {
   constructor(emitter, prefix, mappingFunction = null, idPrefix = null) {
-    this.emitter = emitter
+    this._emitter = emitter
     this.name = prefix
 
     // If mappingFunction is not specified, set a function that does not change anything.
@@ -40,7 +40,7 @@ export default class {
     const newInstance = addToContainer(instance, this.container, this.prefix)
     if (isFunction(doAfter)) doAfter(newInstance)
 
-    this.emitter.emit(`${this.name}.add`, newInstance)
+    this._emitter.emit(`${this.name}.add`, newInstance)
     return newInstance
   }
 
@@ -59,7 +59,7 @@ export default class {
   changeType(id, newType) {
     const instance = this.container.get(id)
     instance.type = newType
-    this.emitter.emit(`${this.name}.change`, instance)
+    this._emitter.emit(`${this.name}.change`, instance)
     return instance
   }
 
@@ -67,12 +67,16 @@ export default class {
     const instance = this.container.get(id)
     if (instance) {
       this.container.delete(id)
-      this.emitter.emit(`${this.name}.remove`, instance)
+      this._emitter.emit(`${this.name}.remove`, instance)
     }
     return instance
   }
 
   clear() {
     this.container.clear()
+  }
+
+  get emitter() {
+    return this._emitter
   }
 }

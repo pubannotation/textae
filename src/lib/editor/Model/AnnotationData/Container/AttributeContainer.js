@@ -4,14 +4,13 @@ import Attribute from './Attribute'
 export default class extends ModelContainer {
   constructor(emitter) {
     super(emitter, 'attribute', mappingFunction)
-    this.emitter = emitter
   }
 
   add(attribute) {
     return super.add(new Attribute(attribute), () => {
-      this.emitter.emit(
+      super.emitter.emit(
         'entity.change',
-        this.emitter.entity.get(attribute.subj)
+        super.emitter.entity.get(attribute.subj)
       )
     })
   }
@@ -27,8 +26,8 @@ export default class extends ModelContainer {
       model.obj = newObj
     }
 
-    this.emitter.emit(`${this.name}.change`, model)
-    this.emitter.emit('entity.change', this.emitter.entity.get(model.subj))
+    super.emitter.emit(`${this.name}.change`, model)
+    super.emitter.emit('entity.change', super.emitter.entity.get(model.subj))
 
     return model
   }
@@ -38,7 +37,7 @@ export default class extends ModelContainer {
 
     console.assert(instance, `There are no attribute ${id} to delete!`)
 
-    this.emitter.emit('entity.change', this.emitter.entity.get(instance.subj))
+    super.emitter.emit('entity.change', super.emitter.entity.get(instance.subj))
 
     return instance
   }

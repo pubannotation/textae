@@ -13,11 +13,10 @@ export default class extends ModelContainer {
         denotations,
         editor,
         paragraph,
-        () => this.emitter.entity.all
+        () => super.emitter.entity.all
       )
     )
     this.editor = editor
-    this.emitter = emitter
     this.paragraph = paragraph
     this.spanTopLevel = []
   }
@@ -36,7 +35,7 @@ export default class extends ModelContainer {
           this.editor,
           this.paragraph,
           span,
-          () => this.emitter.entity.all
+          () => super.emitter.entity.all
         ),
         () => {
           this.spanTopLevel = this.updateSpanTree()
@@ -107,7 +106,7 @@ export default class extends ModelContainer {
         this.editor,
         this.paragraph,
         newSpan,
-        () => this.emitter.entity.all
+        () => super.emitter.entity.all
       ),
       (newOne) => {
         this.spanTopLevel = this.updateSpanTree()
@@ -115,11 +114,11 @@ export default class extends ModelContainer {
         // We can not distinguish the span is block span or not unless the span ID of the entity is updated.
         // Span DOM element is rendered by 'span.add' event.
         // We need to update the span ID of the entity before 'span.add' event.
-        updateSpanIdOfEntities(this.emitter.entity.all, id, newOne)
+        updateSpanIdOfEntities(super.emitter.entity.all, id, newOne)
       }
     )
 
-    this.emitter.emit('span.move')
+    super.emitter.emit('span.move')
 
     return [
       {
