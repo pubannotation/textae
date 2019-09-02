@@ -10,7 +10,7 @@ export default class extends ContatinerWithEmitter {
       'T'
     )
 
-    this.relation = relation
+    this._relation = relation
   }
 
   add(entity) {
@@ -31,7 +31,7 @@ export default class extends ContatinerWithEmitter {
   }
 
   assosicatedRelations(entityId) {
-    return this.relation.all
+    return this._relation.all
       .filter((r) => r.obj === entityId || r.subj === entityId)
       .map((r) => r.id)
   }
