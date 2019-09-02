@@ -10,7 +10,6 @@ export default function createEntityElement(
 
   element.setAttribute('id', idFactory.makeEntityDomId(editor, entity.id))
   element.setAttribute('title', entity.id)
-  element.setAttribute('type', entity.type)
   element.classList.add('textae-editor__entity')
 
   element.style.borderColor = typeDefinition.getColor(entity.type)
