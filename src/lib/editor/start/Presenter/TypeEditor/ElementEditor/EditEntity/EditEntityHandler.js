@@ -1,22 +1,22 @@
 import DefaultHandler from '../DefaultHandler'
 
 export default class extends DefaultHandler {
-  constructor(typeDefinition, command, annotationData, selectionModel) {
-    super('entity', selectionModel, typeDefinition.entity, command)
+  constructor(typeDefinition, commander, annotationData, selectionModel) {
+    super('entity', selectionModel, typeDefinition.entity, commander)
 
     this.annotationData = annotationData.entity
     this.selectionModel = selectionModel.entity
   }
 
   changeTypeOfSelectedElement(newType) {
-    return this.command.factory.changeTypeRemoveRelationOfSelectedEntitiesCommand(
+    return this.commander.factory.changeTypeRemoveRelationOfSelectedEntitiesCommand(
       newType,
       this.typeContainer.isBlock(newType)
     )
   }
 
   changeLabelCommand(label, value) {
-    return this.command.factory.changeEntityLabelCommand(
+    return this.commander.factory.changeEntityLabelCommand(
       label,
       value,
       this.typeContainer

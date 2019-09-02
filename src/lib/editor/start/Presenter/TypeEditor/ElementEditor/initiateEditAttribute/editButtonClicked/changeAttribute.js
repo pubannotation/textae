@@ -1,10 +1,10 @@
 import EditDialog from '../../../../../../../component/dialog/EditDialog'
 
-export default function(editor, command, selectedEntities, pred, obj) {
+export default function(editor, commander, selectedEntities, pred, obj) {
   const done = (newPred, newObj) => {
     if (obj) {
-      command.invoke(
-        command.factory.attributeChangeCommand(
+      commander.invoke(
+        commander.factory.attributeChangeCommand(
           selectedEntities,
           pred,
           obj,

@@ -9,7 +9,7 @@ export default function(
   editor,
   annotationData,
   selectionModel,
-  command,
+  commander,
   typeDefinition,
   isDetectDelimiterEnable,
   isReplicateAuto
@@ -23,7 +23,7 @@ export default function(
       selectionModel.clear()
       create(
         annotationData,
-        command,
+        commander,
         typeDefinition,
         spanAdjuster,
         isDetectDelimiterEnable,
@@ -36,7 +36,7 @@ export default function(
       expand(
         annotationData,
         selectionModel,
-        command,
+        commander,
         spanAdjuster,
         data.selection,
         data.spanConfig
@@ -46,7 +46,7 @@ export default function(
         editor,
         annotationData,
         selectionModel,
-        command,
+        commander,
         spanAdjuster,
         data.selection,
         data.spanConfig
@@ -56,7 +56,7 @@ export default function(
         editor,
         annotationData,
         selectionModel,
-        command,
+        commander,
         spanAdjuster,
         data.selection,
         data.spanConfig

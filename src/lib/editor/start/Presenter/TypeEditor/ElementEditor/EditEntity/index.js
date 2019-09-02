@@ -7,7 +7,7 @@ export default function(
   editor,
   annotationData,
   selectionModel,
-  command,
+  commander,
   pushButtons,
   typeDefinition,
   spanConfig,
@@ -17,7 +17,7 @@ export default function(
     editor,
     annotationData,
     selectionModel,
-    command,
+    commander,
     pushButtons,
     typeDefinition
   )
@@ -31,7 +31,7 @@ export default function(
   const entityHandler = () =>
     new EditEntityHandler(
       typeDefinition,
-      command,
+      commander,
       annotationData,
       selectionModel
     )

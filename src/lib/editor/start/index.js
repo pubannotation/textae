@@ -1,7 +1,7 @@
 import Observable from 'observ'
 import getParams from './getParams'
 import SpanConfig from './SpanConfig'
-import Command from './Command'
+import Commander from './Commander'
 import TypeDefinition from '../Model/TypeDefinition'
 import View from './View'
 import Presenter from './Presenter'
@@ -31,7 +31,12 @@ export default function(
   const params = getParams(editor[0])
   const spanConfig = new SpanConfig()
   // Users can edit model only via commands.
-  const command = new Command(editor, annotationData, selectionModel, history)
+  const commander = new Commander(
+    editor,
+    annotationData,
+    selectionModel,
+    history
+  )
   const typeGap = new Observable({
     value: -1,
     showInstance: false
@@ -53,7 +58,7 @@ export default function(
     history,
     annotationData,
     selectionModel,
-    command,
+    commander,
     spanConfig,
     clipBoard,
     buttonController,
@@ -147,7 +152,7 @@ export default function(
     calculateLineHeight(editor, annotationData, typeDefinition, typeGap, view)
 
   editor.api = new APIs(
-    command,
+    commander,
     presenter,
     persistenceInterface,
     buttonController,

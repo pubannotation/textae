@@ -5,7 +5,7 @@ export default function(
   editor,
   annotationData,
   selectionModel,
-  command,
+  commander,
   typeDefinition,
   cancelSelect
 ) {
@@ -13,7 +13,7 @@ export default function(
     bindMouseEvents(
       editor,
       selectionModel,
-      command,
+      commander,
       typeDefinition,
       cancelSelect
     )
@@ -22,7 +22,7 @@ export default function(
     init,
     handlers: new EditRelationHandler(
       typeDefinition,
-      command,
+      commander,
       annotationData,
       selectionModel
     )

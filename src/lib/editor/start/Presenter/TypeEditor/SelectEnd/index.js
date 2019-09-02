@@ -8,7 +8,7 @@ export default function(
   editor,
   annotationData,
   selectionModel,
-  command,
+  commander,
   pushButtons,
   typeDefinition
 ) {
@@ -25,7 +25,7 @@ export default function(
       editor,
       annotationData,
       selectionModel,
-      command,
+      commander,
       typeDefinition,
       isDetectDelimiterEnable,
       isReplicateAuto

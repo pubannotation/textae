@@ -10,11 +10,11 @@ export default class extends DefaultHandler {
   }
 
   changeTypeOfSelectedElement(newType) {
-    return this.command.factory.changeTypeOfSelectedRelationsCommand(newType)
+    return this.commander.factory.changeTypeOfSelectedRelationsCommand(newType)
   }
 
   changeLabelCommand(label, value) {
-    return this.command.factory.changeRelationLabelCommand(
+    return this.commander.factory.changeRelationLabelCommand(
       label,
       value,
       this.typeContainer

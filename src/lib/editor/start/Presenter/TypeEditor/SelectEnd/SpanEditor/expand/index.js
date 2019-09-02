@@ -4,7 +4,7 @@ import expandSpanToSelection from './expandSpanToSelection'
 export default function(
   annotationData,
   selectionModel,
-  command,
+  commander,
   spanAdjuster,
   selection,
   spanConfig
@@ -15,7 +15,7 @@ export default function(
     selectionModel.clear()
     expandSpanToSelection(
       annotationData,
-      command,
+      commander,
       spanAdjuster,
       spanId,
       selection,

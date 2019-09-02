@@ -1,5 +1,5 @@
 export default function(
-  command,
+  commander,
   annotationData,
   pushButtons,
   spanConfig,
@@ -9,8 +9,8 @@ export default function(
   const span = annotationData.span.get(spanId)
 
   if (spanId) {
-    command.invoke(
-      command.factory.spanReplicateCommand(span, detectBoundaryFunc)
+    commander.invoke(
+      commander.factory.spanReplicateCommand(span, detectBoundaryFunc)
     )
   } else {
     alert('You can replicate span annotation when there is only span selected.')

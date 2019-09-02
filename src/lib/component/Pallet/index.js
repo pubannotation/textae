@@ -5,11 +5,11 @@ import handleEventListners from './handleEventListners'
 import moveIntoWindow from './moveIntoWindow'
 
 export default class {
-  constructor(editor, history, command, autocompletionWs, elementEditor) {
+  constructor(editor, history, commander, autocompletionWs, elementEditor) {
     this.editor = editor
     this.history = history
     this.elementEditor = elementEditor
-    this.el = new Component(editor, command, autocompletionWs, elementEditor)
+    this.el = new Component(editor, commander, autocompletionWs, elementEditor)
 
     // Bind event
     // Update save config button when history changing

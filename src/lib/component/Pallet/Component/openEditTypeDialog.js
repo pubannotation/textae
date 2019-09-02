@@ -24,7 +24,7 @@ export default function(elementEditor, e, editor, autocompletionWs) {
 
     const changedProperties = getDifference(beforeChange, afterChange)
     if (changedProperties.size) {
-      handler.command.invoke(handler.changeType(id, changedProperties))
+      handler.commander.invoke(handler.changeType(id, changedProperties))
     }
   }
   const dialog = new EditTypeDialog(

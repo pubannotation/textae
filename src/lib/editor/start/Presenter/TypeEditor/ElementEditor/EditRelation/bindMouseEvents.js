@@ -4,7 +4,7 @@ import entityClickedAtRelationMode from './entityClickedAtRelationMode'
 export default function(
   editor,
   selectionModel,
-  command,
+  commander,
   typeDefinition,
   cancelSelect
 ) {
@@ -15,7 +15,7 @@ export default function(
     .on('click', '.textae-editor__entity', (e) => {
       const ret = entityClickedAtRelationMode(
         selectionModel,
-        command,
+        commander,
         typeDefinition,
         e
       )

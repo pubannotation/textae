@@ -8,7 +8,7 @@ export default function(
   annotationData,
   selectionModel,
   spanConfig,
-  command,
+  commander,
   pushButtons,
   typeDefinition,
   autocompletionWs
@@ -19,7 +19,7 @@ export default function(
     annotationData,
     selectionModel,
     spanConfig,
-    command,
+    commander,
     pushButtons,
     typeDefinition,
     () => cancelSelect(pallet, selectionModel)
@@ -28,7 +28,7 @@ export default function(
   const pallet = new Pallet(
     editor,
     history,
-    command,
+    commander,
     autocompletionWs,
     elementEditor
   )
@@ -46,12 +46,7 @@ export default function(
     },
     hidePallet: pallet.hide,
     changeLabel: () =>
-      changeLabelHandler(
-        editor,
-        elementEditor.getHandler,
-        autocompletionWs,
-        command
-      ),
+      changeLabelHandler(editor, elementEditor.getHandler, autocompletionWs),
     changeLabelAndPred: null,
     changeTypeOfSelectedElement: (newType) =>
       elementEditor.getHandler().changeTypeOfSelectedElement(newType),

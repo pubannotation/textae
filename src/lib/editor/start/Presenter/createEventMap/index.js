@@ -11,7 +11,7 @@ import extendToggleButtonHandler from './extendToggleButtonHandler'
 import createAttribute from '../createAttribute'
 
 export default function(
-  command,
+  commander,
   selectionModel,
   typeDefinition,
   displayInstance,
@@ -24,20 +24,20 @@ export default function(
   editMode
 ) {
   const replicateHandler = new ReplicateHandler(
-    command,
+    commander,
     annotationData,
     selectionModel,
     buttonController.pushButtons,
     spanConfig
   )
   const clipBoardHandler = new ClipBoardHandler(
-    command,
+    commander,
     annotationData,
     selectionModel,
     clipBoard
   )
   const modificationHandler = new ModificationHandler(
-    command,
+    commander,
     buttonController.pushButtons,
     typeEditor
   )
@@ -50,10 +50,10 @@ export default function(
   const event = {
     copyEntities: () => clipBoardHandler.copyEntities(),
     removeSelectedElements: () =>
-      removeSelectedElements(command, selectHandler),
+      removeSelectedElements(commander, selectHandler),
     createEntity: () =>
       createEntityHandler(
-        command,
+        commander,
         typeDefinition,
         displayInstance.notifyNewInstance
       ),
@@ -65,7 +65,7 @@ export default function(
     cancelSelect: () => cancelSelect(typeEditor, editor),
     negation: modificationHandler.negation,
     speculation: modificationHandler.speculation,
-    createAttribute: () => createAttribute(command),
+    createAttribute: () => createAttribute(commander),
     showSettingDialog
   }
   Object.assign(event, selectHandler)

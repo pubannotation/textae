@@ -4,7 +4,7 @@ import { getRightElement } from '../../../../../getNextElement'
 export default function(
   editor,
   annotationData,
-  command,
+  commander,
   spanAdjuster,
   spanId,
   selection,
@@ -16,7 +16,7 @@ export default function(
   const nextSpan = getRightElement(editor[0], oldSpan)
   const removed = shrinkSpanToSelection(
     annotationData,
-    command,
+    commander,
     spanAdjuster,
     spanId,
     selection,

@@ -5,7 +5,7 @@ export default function(
   editor,
   annotationData,
   selectionModel,
-  command,
+  commander,
   spanAdjuster,
   selection,
   spanConfig
@@ -21,7 +21,7 @@ export default function(
     shrinkSpanToSelectionAndSelectNextIfRemoved(
       editor,
       annotationData,
-      command,
+      commander,
       spanAdjuster,
       spanId,
       selection,

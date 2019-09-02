@@ -11,7 +11,7 @@ export default class {
     history,
     annotationData,
     selectionModel,
-    command,
+    commander,
     spanConfig,
     clipBoard,
     buttonController,
@@ -26,7 +26,7 @@ export default class {
       annotationData,
       selectionModel,
       spanConfig,
-      command,
+      commander,
       buttonController.pushButtons,
       typeDefinition,
       autocompletionWs
@@ -46,7 +46,7 @@ export default class {
     bindModelChange(annotationData, editMode, mode)
 
     this.event = createEventMap(
-      command,
+      commander,
       selectionModel,
       typeDefinition,
       displayInstance,

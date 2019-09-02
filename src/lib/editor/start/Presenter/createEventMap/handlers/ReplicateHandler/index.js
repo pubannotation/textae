@@ -1,7 +1,7 @@
 import replicate from './replicate'
 
 export default function(
-  command,
+  commander,
   annotationData,
   selectionModel,
   pushButtons,
@@ -9,7 +9,7 @@ export default function(
 ) {
   return function() {
     replicate(
-      command,
+      commander,
       annotationData,
       pushButtons,
       spanConfig,

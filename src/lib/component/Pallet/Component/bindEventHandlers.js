@@ -9,7 +9,7 @@ export default function(
   elementEditor,
   editor,
   autocompletionWs,
-  command
+  commander
 ) {
   delegate(pallet, `.${CLASS_NAMES.buttonAdd}`, 'click', (e) => {
     openCreateTypeDialog(elementEditor, editor, autocompletionWs)
@@ -24,7 +24,7 @@ export default function(
   })
 
   delegate(pallet, `.${CLASS_NAMES.label}`, 'click', (e) => {
-    command.invoke(
+    commander.invoke(
       elementEditor
         .getHandler()
         .changeTypeOfSelectedElement(e.delegateTarget.id)
@@ -49,7 +49,7 @@ export default function(
       return
     }
 
-    command.invoke(
+    commander.invoke(
       elementEditor
         .getHandler()
         .removeType(

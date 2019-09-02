@@ -1,9 +1,9 @@
 export default class {
-  constructor(modelType, selectionModel, typeContainer, command) {
+  constructor(modelType, selectionModel, typeContainer, commander) {
     this.selectionModel = selectionModel
     this.modelType = modelType
     this.typeContainer = typeContainer
-    this.command = command
+    this.commander = commander
   }
 
   getSelectedIdEditable() {
@@ -16,14 +16,14 @@ export default class {
 
   addType(newType) {
     console.assert(newType.id, 'id is necessary!')
-    return this.command.factory.typeDefinitionCreateCommand(
+    return this.commander.factory.typeDefinitionCreateCommand(
       this.typeContainer,
       newType
     )
   }
 
   changeType(id, changedProperties) {
-    return this.command.factory.typeDefinitionChangeCommand(
+    return this.commander.factory.typeDefinitionChangeCommand(
       this.typeContainer,
       this.modelType,
       id,
@@ -75,7 +75,7 @@ export default class {
       throw new Error('You must set the type id to remove.')
     }
 
-    return this.command.factory.typeDefinitionRemoveCommand(
+    return this.commander.factory.typeDefinitionRemoveCommand(
       this.typeContainer,
       removeType
     )

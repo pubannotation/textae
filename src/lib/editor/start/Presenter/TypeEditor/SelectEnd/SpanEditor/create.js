@@ -6,7 +6,7 @@ const BLOCK_THRESHOLD = 100
 
 export default function(
   annotationData,
-  command,
+  commander,
   typeDefinition,
   spanAdjuster,
   isDetectDelimiterEnable,
@@ -32,7 +32,7 @@ export default function(
   }
 
   const commands = createCommands(
-    command,
+    commander,
     typeDefinition,
     newSpan,
     isReplicateAuto,
@@ -40,18 +40,18 @@ export default function(
     spanConfig
   )
 
-  command.invoke(commands)
+  commander.invoke(commands)
 }
 
 function createCommands(
-  command,
+  commander,
   typeDefinition,
   newSpan,
   isReplicateAuto,
   isDetectDelimiterEnable,
   spanConfig
 ) {
-  const commands = command.factory.spanCreateCommand(
+  const commands = commander.factory.spanCreateCommand(
     typeDefinition.entity.getDefaultType(),
     {
       begin: newSpan.begin,
@@ -61,7 +61,7 @@ function createCommands(
 
   if (isReplicateAuto && newSpan.end - newSpan.begin <= BLOCK_THRESHOLD) {
     commands.push(
-      command.factory.spanReplicateCommand(
+      commander.factory.spanReplicateCommand(
         {
           begin: newSpan.begin,
           end: newSpan.end

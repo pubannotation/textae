@@ -10,7 +10,7 @@ export default function(
   annotationData,
   selectionModel,
   spanConfig,
-  command,
+  commander,
   pushButtons,
   typeDefinition,
   cancelSelect
@@ -21,7 +21,7 @@ export default function(
     editor,
     annotationData,
     selectionModel,
-    command,
+    commander,
     pushButtons,
     typeDefinition,
     spanConfig,
@@ -31,7 +31,7 @@ export default function(
     editor,
     annotationData,
     selectionModel,
-    command,
+    commander,
     typeDefinition,
     cancelSelect
   )
@@ -48,7 +48,7 @@ export default function(
         unbindAllMouseEventhandler(editor)
 
         editEntity.init()
-        initiateEditAttribute(editor, annotationData, selectionModel, command)
+        initiateEditAttribute(editor, annotationData, selectionModel, commander)
 
         handler = 'entity'
       },

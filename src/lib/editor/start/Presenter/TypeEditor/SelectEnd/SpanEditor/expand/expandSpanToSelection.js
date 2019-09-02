@@ -4,7 +4,7 @@ import getNewSpan from './getNewSpan'
 
 export default function(
   annotationData,
-  command,
+  commander,
   spanAdjuster,
   spanId,
   selection,
@@ -29,5 +29,5 @@ export default function(
     return
   }
 
-  command.invoke(command.factory.spanMoveCommand(spanId, newSpan))
+  commander.invoke(commander.factory.spanMoveCommand(spanId, newSpan))
 }

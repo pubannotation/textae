@@ -1,8 +1,8 @@
-export default function(command, selectHandler) {
-  const commands = command.factory.removeSelectedComand()
+export default function(commander, selectHandler) {
+  const commands = commander.factory.removeSelectedComand()
 
   // Select the next element before clear selection.
   selectHandler.selectRight()
 
-  command.invoke(commands)
+  commander.invoke(commands)
 }

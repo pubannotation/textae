@@ -4,7 +4,7 @@ import getNewSpan from './getNewSpan'
 
 export default function(
   annotationData,
-  command,
+  commander,
   spanAdjuster,
   spanId,
   selection,
@@ -27,9 +27,9 @@ export default function(
   const doesExists = annotationData.span.has(newSpan)
 
   if (newSpan.begin < newSpan.end && !doesExists) {
-    command.invoke(command.factory.spanMoveCommand(spanId, newSpan))
+    commander.invoke(commander.factory.spanMoveCommand(spanId, newSpan))
   } else {
-    command.invoke(command.factory.spanRemoveCommand(spanId))
+    commander.invoke(commander.factory.spanRemoveCommand(spanId))
     return true
   }
 
