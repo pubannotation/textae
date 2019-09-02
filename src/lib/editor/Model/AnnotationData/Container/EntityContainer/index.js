@@ -1,6 +1,6 @@
-import idFactory from '../../../../idFactory'
 import ContatinerWithEmitter from '../ContatinerWithEmitter'
 import EntityModel from './EntityModel'
+import mappingFunction from './mappingFunction'
 
 export default class extends ContatinerWithEmitter {
   constructor(editor, emitter, relation) {
@@ -31,19 +31,4 @@ export default class extends ContatinerWithEmitter {
       .filter((r) => r.obj === entityId || r.subj === entityId)
       .map((r) => r.id)
   }
-}
-
-// Expected an entity like {id: "E21", span: "editor2__S50_54", type: "Protein"}.
-function toModel(editor, emitter, entity) {
-  return new EntityModel(
-    emitter,
-    idFactory.makeSpanId(editor, entity.span),
-    entity.obj,
-    entity.id
-  )
-}
-
-function mappingFunction(editor, emitter, denotations) {
-  denotations = denotations || []
-  return denotations.map((entity) => toModel(editor, emitter, entity))
 }
