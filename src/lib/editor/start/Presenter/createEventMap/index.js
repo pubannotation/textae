@@ -1,7 +1,7 @@
 import SettingDialog from '../../../../component/SettingDialog'
 import ClipBoardHandler from './handlers/ClipBoardHandler'
 import createEntityHandler from './handlers/createEntityHandler'
-import ReplicateHandler from './handlers/ReplicateHandler'
+import replicateHandler from './handlers/replicateHandler'
 import removeSelectedElements from './handlers/removeSelectedElements'
 import ModificationHandler from './handlers/ModificationHandler'
 import SelectHandler from './handlers/SelectHandler'
@@ -23,13 +23,6 @@ export default function(
   editor,
   editMode
 ) {
-  const replicateHandler = new ReplicateHandler(
-    commander,
-    annotationData,
-    selectionModel,
-    buttonController.pushButtons,
-    spanConfig
-  )
   const clipBoardHandler = new ClipBoardHandler(
     commander,
     annotationData,
@@ -58,7 +51,14 @@ export default function(
         displayInstance.notifyNewInstance
       ),
     showPallet: typeEditor.showPallet,
-    replicate: replicateHandler,
+    replicate: () =>
+      replicateHandler(
+        commander,
+        annotationData,
+        buttonController.pushButtons,
+        spanConfig,
+        selectionModel.span.single()
+      ),
     pasteEntities: () => clipBoardHandler.pasteEntities(),
     changeLabel: typeEditor.changeLabel,
     changeLabelAndPred: typeEditor.changeLabelAndPred,

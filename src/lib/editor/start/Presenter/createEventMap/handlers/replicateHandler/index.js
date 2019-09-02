@@ -1,3 +1,5 @@
+import getDetectBoundaryFunc from './getDetectBoundaryFunc'
+
 export default function(
   commander,
   annotationData,
@@ -14,13 +16,5 @@ export default function(
     )
   } else {
     alert('You can replicate span annotation when there is only span selected.')
-  }
-}
-
-function getDetectBoundaryFunc(pushButtons, spanConfig) {
-  if (pushButtons.getButton('boundary-detection').value()) {
-    return spanConfig.isDelimiter
-  } else {
-    return null
   }
 }
