@@ -1,5 +1,6 @@
-import Attribute from './Attribute'
-import ContatinerWithEmitter from './ContatinerWithEmitter'
+import AttributeModel from './AttributeModel'
+import ContatinerWithEmitter from '../ContatinerWithEmitter'
+import mappingFunction from './mappingFunction'
 
 export default class extends ContatinerWithEmitter {
   constructor(emitter) {
@@ -7,7 +8,7 @@ export default class extends ContatinerWithEmitter {
   }
 
   add(attribute) {
-    return super.add(new Attribute(attribute), () => {
+    return super.add(new AttributeModel(attribute), () => {
       super.emitter.emit(
         'entity.change',
         super.emitter.entity.get(attribute.subj)
@@ -41,9 +42,4 @@ export default class extends ContatinerWithEmitter {
 
     return instance
   }
-}
-
-function mappingFunction(attributes) {
-  attributes = attributes || []
-  return attributes.map((a) => new Attribute(a))
 }
