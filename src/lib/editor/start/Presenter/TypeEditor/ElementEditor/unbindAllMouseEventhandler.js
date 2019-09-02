@@ -5,7 +5,7 @@ export default function(editor) {
   editor
     .off('click', '.textae-editor__body')
     .off('click', '.textae-editor__span_block')
-    .off('click', '.textae-editor__type-label')
+    .off('click', '.textae-editor__type-values')
     .off('click', '.textae-editor__entity')
     .off('click', '.textae-editor__attribute-button--edit')
     .off('click', '.textae-editor__attribute-button--delete')
