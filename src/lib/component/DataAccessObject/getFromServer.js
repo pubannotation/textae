@@ -1,6 +1,5 @@
 import url from 'url'
 import ajaxAccessor from '../../util/ajaxAccessor'
-import jQuerySugar from '../jQuerySugar'
 import toastr from 'toastr'
 
 export default function(urlForJson, beforeSend, successHandler, finishHandler) {
@@ -9,10 +8,13 @@ export default function(urlForJson, beforeSend, successHandler, finishHandler) {
   ajaxAccessor(
     urlForJson,
     (loadData) => {
+      const uri = url.resolve(location.href, urlForJson)
+
       successHandler({
-        source: jQuerySugar.toLink(url.resolve(location.href, urlForJson)),
+        source: `<a href="${uri}">${decodeURI(uri)}</a>`,
         loadData
       })
+
       finishHandler()
     },
     () => {

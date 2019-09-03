@@ -28,9 +28,6 @@ export default {
   Number(className) {
     return $('<input type="number"/>').addClass(className)
   },
-  toLink(url) {
-    return `<a href="${url}">${url}</a>`
-  },
   getValueFromText($target, className) {
     return $target.find(`[type="text"].${className}`).val()
   },
