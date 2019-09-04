@@ -1,5 +1,5 @@
-import delimiterDetectAdjuster from './spanAdjuster/delimiterDetectAdjuster'
-import blankSkipAdjuster from './spanAdjuster/blankSkipAdjuster'
+import DelimiterDetectAdjuster from './DelimiterDetectAdjuster'
+import BlankSkipAdjuster from './BlankSkipAdjuster'
 import create from './create'
 import expand from './expand'
 import crossTheEar from './crossTheEar'
@@ -15,8 +15,8 @@ export default function(
   isReplicateAuto
 ) {
   const spanAdjuster = isDetectDelimiterEnable
-    ? delimiterDetectAdjuster
-    : blankSkipAdjuster
+    ? new DelimiterDetectAdjuster()
+    : new BlankSkipAdjuster()
 
   return {
     create: (data) => {
