@@ -80,14 +80,14 @@
     "url": "https://github.com/pubannotation/textae.git"
   },
   "scripts": {
-    "browserify": "browserify -g deamdify -g uglifyify src/lib/jquery.textae.js -o src/lib/bundle.js",
+    "browserify": "browserify -g deamdify -g uglifyify src/index.js -o src/lib/bundle.js",
     "clean": "rimraf dist/* src/lib/bundle.js",
     "grunt-dist": "grunt dist",
     "dist": "npm-run-all clean lint browserify grunt-dist cleancss",
     "lint": "eslint src/lib",
     "test": "grunt jasmine_node",
     "watch": "npm run watchify & grunt dev",
-    "watchify": "watchify -g deamdify -d src/lib/jquery.textae.js -o dev/bundle.js",
+    "watchify": "watchify -g deamdify -d src/index.js -o dev/bundle.js",
     "cleancss": "cleancss -o dist/lib/css/$npm_package_name-$npm_package_version.min.css dist/lib/css/$npm_package_name-$npm_package_version.css"
   }
 }
