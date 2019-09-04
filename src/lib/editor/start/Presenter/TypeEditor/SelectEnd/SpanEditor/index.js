@@ -1,5 +1,5 @@
-import delimiterDetectAdjuster from '../../../spanAdjuster/delimiterDetectAdjuster'
-import blankSkipAdjuster from '../../../spanAdjuster/blankSkipAdjuster'
+import delimiterDetectAdjuster from './spanAdjuster/delimiterDetectAdjuster'
+import blankSkipAdjuster from './spanAdjuster/blankSkipAdjuster'
 import create from './create'
 import expand from './expand'
 import crossTheEar from './crossTheEar'
