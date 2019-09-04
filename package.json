@@ -15,9 +15,6 @@
       ]
     ]
   },
-  "browser": {
-    "js-plumb": "./src/lib/modules/jquery.jsPlumb-1.5.2.js"
-  },
   "bugs": {
     "url": "https://github.com/pubannotation/textae/issues"
   },
