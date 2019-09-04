@@ -37,7 +37,7 @@ export default function(
     }
     elementEditor
       .getHandler()
-      .selectAllByLabel(e.delegateTarget.getAttribute('data-id'))
+      .selectAll(e.delegateTarget.getAttribute('data-id'))
   })
 
   delegate(pallet, `.${CLASS_NAMES.editType}`, 'click', (e) => {

@@ -45,23 +45,12 @@ export default class {
     // A Swithing point to change a behavior when relation is clicked.
   }
 
-  selectAllByLabel(label) {
+  selectAll(typeName) {
     this.selectionModel.clear()
     this.annotationData.all.map((model) => {
-      if (model.type.name === label) {
+      if (model.type.name === typeName) {
         this.selectionModel.add(model.id)
       }
-    })
-  }
-
-  selectAllById(ids) {
-    this.selectionModel.clear()
-    this.annotationData.all.map((model) => {
-      ids.map((id) => {
-        if (model.id === id) {
-          this.selectionModel.add(model.id)
-        }
-      })
     })
   }
 
