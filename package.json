@@ -27,7 +27,6 @@
     "emitter-fsm": "0.0.2",
     "handlebars": "^4.0.2",
     "jsondiffpatch": "^0.2.5",
-    "not": "^0.1.0",
     "observ": "^0.2.0",
     "sticky-kit": "github:leafo/sticky-kit",
     "throttleit": "^1.0.0",
