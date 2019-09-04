@@ -48,7 +48,7 @@ export default class {
   selectAllByLabel(label) {
     this.selectionModel.clear()
     this.annotationData.all.map((model) => {
-      if (model.type === label) {
+      if (model.type.name === label) {
         this.selectionModel.add(model.id)
       }
     })
