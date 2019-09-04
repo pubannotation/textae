@@ -84,17 +84,6 @@ module.exports = function(grunt) {
       }
     },
     watch: {
-      static_files: {
-        files: [
-          'dev/development.html',
-          'dev/bundle.js',
-          'src/lib/css/*.css',
-          'src/*.json'
-        ],
-        options: {
-          livereload: true
-        }
-      },
       less: {
         files: ['src/lib/css/*.less'],
         tasks: ['less']
