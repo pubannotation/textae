@@ -35,15 +35,6 @@ module.exports = function(grunt) {
         dest: 'dist/lib/css/<%= pkg.name %>-<%= pkg.version %>.css'
       }
     },
-    cssmin: {
-      minify: {
-        expand: true,
-        cwd: 'dist/lib/css/',
-        src: ['<%= pkg.name %>-<%= pkg.version %>.css'],
-        dest: 'dist/lib/css/',
-        rename: rename.ext('.min.css')
-      }
-    },
     copy: {
       main: {
         files: [
@@ -219,13 +210,7 @@ module.exports = function(grunt) {
   })
 
   grunt.registerTask('dev', ['connect', 'open:dev', 'watch'])
-  grunt.registerTask('dist', [
-    'less',
-    'concat',
-    'copy',
-    'replace:version',
-    'cssmin'
-  ])
+  grunt.registerTask('dist', ['less', 'concat', 'copy', 'replace:version'])
   grunt.registerTask('demo', [
     'open:demo',
     'connect:developmentServer:keepalive'

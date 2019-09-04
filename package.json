@@ -40,6 +40,7 @@
     "babelify": "^10.0.0",
     "browserify": "^16.5.0",
     "browserify-shim": "^3.8.12",
+    "clean-css-cli": "^4.3.0",
     "deamdify": "^0.3.0",
     "debounce": "^1.2.0",
     "eslint": "^6.2.2",
@@ -50,7 +51,6 @@
     "grunt-contrib-concat": "^0.5.1",
     "grunt-contrib-connect": "^0.11.2",
     "grunt-contrib-copy": "^0.8.1",
-    "grunt-contrib-cssmin": "^3.0.0",
     "grunt-contrib-less": "^1.0.1",
     "grunt-contrib-watch": "^1.1.0",
     "grunt-open": "~0.2.3",
@@ -84,10 +84,11 @@
     "browserify": "browserify -g deamdify -g uglifyify src/lib/jquery.textae.js -o src/lib/bundle.js",
     "clean": "rimraf dist/* src/lib/bundle.js",
     "grunt-dist": "grunt dist",
-    "dist": "npm-run-all clean lint browserify grunt-dist",
+    "dist": "npm-run-all clean lint browserify grunt-dist cleancss",
     "lint": "eslint src/lib",
     "test": "grunt jasmine_node",
     "watch": "npm run watchify & grunt dev",
-    "watchify": "watchify -g deamdify -d src/lib/jquery.textae.js -o dev/bundle.js"
+    "watchify": "watchify -g deamdify -d src/lib/jquery.textae.js -o dev/bundle.js",
+    "cleancss": "cleancss -o dist/lib/css/$npm_package_name-$npm_package_version.min.css dist/lib/css/$npm_package_name-$npm_package_version.css"
   }
 }
