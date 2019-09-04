@@ -15,8 +15,7 @@ export default class extends CompositeCommand {
               annotationData,
               selectionModel,
               span,
-              type.name,
-              type.attributes
+              type
             )
         )
       )

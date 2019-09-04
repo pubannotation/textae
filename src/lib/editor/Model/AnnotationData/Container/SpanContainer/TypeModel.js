@@ -1,17 +1,20 @@
 import idFactory from '../../../../idFactory'
 
 export default class {
-  constructor(name, id = null, entity = null) {
-    this.name = name
+  constructor(name, entity = null) {
+    this._name = name
     this._entity = entity
+  }
 
-    if (entity) {
-      this.entities = [entity]
-      this.attributes = entity.attributes
-    }
+  get name() {
+    return this._name
   }
 
   get id() {
     return idFactory.makeTypeId(this._entity)
+  }
+
+  get attributes() {
+    return this._entity ? this._entity.attributes : []
   }
 }

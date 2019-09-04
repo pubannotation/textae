@@ -78,14 +78,8 @@ export default class extends ContatinerWithEmitter {
     return this.spanTopLevel
   }
 
-  multiEntities() {
-    return super.all.filter((span) => {
-      const multiEntitiesTypes = span.types.filter(
-        (type) => type.entities.length > 1
-      )
-
-      return multiEntitiesTypes.length > 0
-    })
+  get hasMultiEntities() {
+    return super.all.some((span) => span.hasMultiEntitiesType)
   }
 
   remove(id) {

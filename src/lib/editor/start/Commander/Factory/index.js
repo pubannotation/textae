@@ -29,13 +29,13 @@ export default class {
     this._selectionModel = selectionModel
   }
 
-  spanCreateCommand(type, span) {
+  spanCreateCommand(typeName, span) {
     return new SpanAndTypesCreateCommand(
       this._editor,
       this._annotationData,
       this._selectionModel,
       span,
-      [new TypeModel(type)]
+      [new TypeModel(typeName)]
     )
   }
 

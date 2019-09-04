@@ -6,22 +6,15 @@ import AnnotationCommand from './AnnotationCommand'
 import CreateAttributesForEntityCommand from './CreateAttributesForEntityCommand'
 
 export default class extends AnnotationCommand {
-  constructor(
-    editor,
-    annotationData,
-    selectionModel,
-    spanId,
-    typeName,
-    attributes = []
-  ) {
+  constructor(editor, annotationData, selectionModel, spanId, type) {
     super()
 
     this._editor = editor
     this._annotationData = annotationData
     this._selectionModel = selectionModel
     this._spanId = spanId
-    this._typeName = typeName
-    this._attributes = attributes
+    this._typeName = type.name
+    this._attributes = type.attributes
   }
 
   execute() {
