@@ -1,10 +1,10 @@
 import Handlebars from 'handlebars'
 import delegate from 'delegate'
-import jQuerySugar from '../jQuerySugar'
 import getDialog from './getDialog'
 import $ from 'jquery'
 import toDomEelement from './toDomEelement'
 import CONFIRM_DISCARD_CHANGE_MESSAGE from '../../editor/CONFIRM_DISCARD_CHANGE_MESSAGE'
+import makeDomEnabled from '../makeDomEnabled'
 
 const source = `<div>
   <div class="textae-editor__load-dialog__row">
@@ -26,13 +26,13 @@ export default function(title, url, loadFromServer, loadFromFile, hasChange) {
   // Disabled the button to load from the URL when no URL.
   delegate(el, '[type="text"].url', 'input', (e) => {
     const $button = $(e.target.nextElementSibling)
-    jQuerySugar.enabled($button, e.target.value)
+    makeDomEnabled($button[0], e.target.value)
   })
 
   // Disabled the button to load from a file when no file.
   delegate(el, '.textae-editor__load-dialog__file', 'change', (e) => {
     const $button = $(e.target.nextElementSibling)
-    jQuerySugar.enabled($button, e.target.files.length > 0)
+    makeDomEnabled($button[0], e.target.files.length > 0)
   })
 
   const $dialog = getDialog('textae.dialog.load', title, el)

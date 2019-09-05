@@ -1,10 +1,10 @@
 import Handlebars from 'handlebars'
 import delegate from 'delegate'
-import jQuerySugar from '../jQuerySugar'
 import getDialog from './getDialog'
 import $ from 'jquery'
 import createDownloadPath from './createDownloadPath'
 import toDomEelement from './toDomEelement'
+import makeDomEnabled from '../makeDomEnabled'
 
 const source = `<div>
   <div class="textae-editor__save-dialog__row">
@@ -34,7 +34,7 @@ export default function(
   // Disabled the button to save to the URL when no URL.
   delegate(el, '[type="text"].url', 'input', (e) => {
     const $button = $(e.target.nextElementSibling)
-    jQuerySugar.enabled($button, e.target.value)
+    makeDomEnabled($button[0], e.target.value)
   })
 
   const $dialog = getDialog('textae.dialog.save', title, el)
