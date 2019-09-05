@@ -3,7 +3,7 @@ import update from './update'
 import CLASS_NAMES from './className'
 
 export default class {
-  constructor(editor, typeDefinition, done, autocompletionWs, title) {
+  constructor(typeDefinition, done, autocompletionWs, title) {
     this.typeDefinition = typeDefinition
     this.done = done
     this.autocompletionWs = autocompletionWs

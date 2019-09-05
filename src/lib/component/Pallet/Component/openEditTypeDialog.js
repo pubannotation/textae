@@ -28,7 +28,6 @@ export default function(elementEditor, e, editor, autocompletionWs) {
     }
   }
   const dialog = new EditTypeDialog(
-    editor,
     handler.typeContainer,
     done,
     autocompletionWs,
