@@ -1,11 +1,15 @@
+import delgate from 'delegate'
 import debounce300 from './debounce300'
 import updateLineHeight from '../updateLineHeight'
 
-export default function($content, editor, displayInstance) {
-  const onTypeGapChange = debounce300((e) => {
-    displayInstance.changeTypeGap(Number(e.target.value))
-    updateLineHeight(editor, $content)
-  })
-
-  return $content.on('change', '.type-gap', onTypeGapChange)
+export default function(content, editorDom, displayInstance) {
+  delgate(
+    content,
+    '.type-gap',
+    'change',
+    debounce300((e) => {
+      displayInstance.changeTypeGap(Number(e.target.value))
+      updateLineHeight(editorDom, content)
+    })
+  )
 }

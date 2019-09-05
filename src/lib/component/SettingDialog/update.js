@@ -1,11 +1,13 @@
-import updateLineHeight from './updateLineHeight'
-import updateTypeGapEnable from './updateTypeGapEnable'
-import updateTypeGapValue from './updateTypeGapValue'
+import makeDomEnabled from '../makeDomEnabled'
+import updateLineHeight from './updateLineHeight';
 
-export default function($dialog, editor, typeDefinition, displayInstance) {
-  updateTypeGapEnable(displayInstance, $dialog)
-  updateTypeGapValue(displayInstance, $dialog)
-  updateLineHeight(editor, $dialog)
+export default function(dialog, editorDom, typeDefinition, displayInstance) {
+  makeDomEnabled(
+    dialog.querySelector('.type-gap'),
+    displayInstance.showInstance()
+  )
+  dialog.querySelector('.type-gap').value = displayInstance.getTypeGap()
+  dialog.querySelector('.lock-config').checked = typeDefinition.isLock()
 
-  $dialog.find('.lock-config').prop('checked', typeDefinition.isLock())
+  updateLineHeight(editorDom, dialog)
 }

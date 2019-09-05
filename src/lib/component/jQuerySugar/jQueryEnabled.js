@@ -1,7 +1,5 @@
+import makeDomEnabled from '../makeDomEnabled'
+
 export default function($target, enable) {
-  if (enable) {
-    $target.removeAttr('disabled')
-  } else {
-    $target.attr('disabled', 'disabled')
-  }
+  makeDomEnabled($target[0], enable)
 }

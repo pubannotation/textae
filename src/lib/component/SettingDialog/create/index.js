@@ -1,6 +1,6 @@
-import $ from 'jquery'
+import toDomEelement from '../../DataAccessObject/toDomEelement'
 
-const CONTENT = `
+const html = `
   <div class="textae-editor__setting-dialog">
       <div>
           <label class="textae-editor__setting-dialog__label">Type Gap</label>
@@ -22,8 +22,6 @@ const CONTENT = `
   </div>
 `
 
-export default function(editor, displayInstance) {
-  const $content = $(CONTENT)
-
-  return $content
+export default function() {
+  return toDomEelement(html)
 }

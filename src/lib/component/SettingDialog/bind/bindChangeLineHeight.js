@@ -1,12 +1,16 @@
+import delgate from 'delegate'
 import debounce300 from './debounce300'
 import setLineHeight from '../../../editor/start/View/lineHeight/setLineHeight'
 import redrawAllEditor from './redrawAllEditor'
 
-export default function($content, editor) {
-  const onLineHeightChange = debounce300((e) => {
-    setLineHeight(editor[0], e.target.value)
-    redrawAllEditor()
-  })
-
-  return $content.on('change', '.line-height', onLineHeightChange)
+export default function(content, editorDom) {
+  delgate(
+    content,
+    '.line-height',
+    'change',
+    debounce300((e) => {
+      setLineHeight(editorDom, e.target.value)
+      redrawAllEditor()
+    })
+  )
 }

@@ -1,6 +1,5 @@
 import getLineHeight from '../../editor/start/View/lineHeight/getLineHeight'
-import jQuerySugar from '../jQuerySugar'
 
-export default function(editor, $dialog) {
-  return jQuerySugar.setValue($dialog, '.line-height', getLineHeight(editor[0]))
+export default function(editorDom, dialog) {
+  dialog.querySelector('.line-height').value = getLineHeight(editorDom)
 }

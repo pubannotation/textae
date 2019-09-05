@@ -35,7 +35,7 @@ export default function(
     typeEditor
   )
   const selectHandler = new SelectHandler(editor[0], selectionModel)
-  const showSettingDialog = new SettingDialog(
+  const settingDialog = new SettingDialog(
     editor,
     typeDefinition,
     displayInstance
@@ -66,7 +66,7 @@ export default function(
     negation: modificationHandler.negation,
     speculation: modificationHandler.speculation,
     createAttribute: () => createAttribute(commander),
-    showSettingDialog
+    showSettingDialog: () => settingDialog.open()
   }
   Object.assign(event, selectHandler)
   extendToggleButtonHandler(buttonController, editMode, event)

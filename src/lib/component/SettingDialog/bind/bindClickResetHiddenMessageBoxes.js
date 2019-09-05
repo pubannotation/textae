@@ -1,11 +1,7 @@
-export default function($content, editor) {
-  const onClickResetHiddenMessageBoxes = () => {
-    editor.eventEmitter.emit('textae.message-box.show')
-  }
+import delgate from 'delegate'
 
-  return $content.on(
-    'click',
-    '.reset-hidden-message-boxes',
-    onClickResetHiddenMessageBoxes
+export default function(content, editor) {
+  delgate(content, '.reset-hidden-message-boxes', 'click', () =>
+    editor.eventEmitter.emit('textae.message-box.show')
   )
 }
