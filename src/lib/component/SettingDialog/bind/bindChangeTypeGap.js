@@ -8,7 +8,7 @@ export default function(content, editorDom, displayInstance) {
     '.type-gap',
     'change',
     debounce300((e) => {
-      displayInstance.changeTypeGap(Number(e.target.value))
+      displayInstance.typeGap = Number(e.target.value)
       updateLineHeight(editorDom, content)
     })
   )

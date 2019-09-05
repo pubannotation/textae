@@ -45,10 +45,8 @@ export default function(
     removeSelectedElements: () =>
       removeSelectedElements(commander, selectHandler),
     createEntity: () =>
-      createEntityHandler(
-        commander,
-        typeDefinition,
-        displayInstance.notifyNewInstance
+      createEntityHandler(commander, typeDefinition, () =>
+        displayInstance.notifyNewInstance()
       ),
     showPallet: typeEditor.showPallet,
     replicate: () =>

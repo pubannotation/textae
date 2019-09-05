@@ -1,52 +1,42 @@
 import TypeGapCache from './TypeGapCache'
 import event from '../EditMode/event'
 import toastr from 'toastr'
+import changeTypeGap from './changeTypeGap'
+import updateTypeGap from './updateTypeGap'
 
-export default function(typeGap, editMode) {
-  let showInstance = true
-  const typeGapCache = new TypeGapCache()
+export default class {
+  constructor(typeGap, editMode) {
+    this._showInstance = true
+    this._typeGapCache = new TypeGapCache()
 
-  editMode
-    .on(event.SHOW, (argument) => {
-      showInstance = true
-      updateTypeGap(showInstance, typeGap, typeGapCache)
-    })
-    .on(event.HIDE, (argument) => {
-      showInstance = false
-      updateTypeGap(showInstance, typeGap, typeGapCache)
-    })
+    editMode
+      .on(event.SHOW, () => {
+        this._showInstance = true
+        updateTypeGap(this._showInstance, typeGap, this._typeGapCache)
+      })
+      .on(event.HIDE, () => {
+        this._showInstance = false
+        updateTypeGap(this._showInstance, typeGap, this._typeGapCache)
+      })
 
-  return {
-    showInstance: () => showInstance,
-    changeTypeGap: (val) =>
-      changeTypeGap(showInstance, typeGap, typeGapCache, val),
-    getTypeGap: () => typeGap().value,
-    notifyNewInstance: () => {
-      if (!showInstance) toastr.success('an instance is created behind.')
+    this._typeGap = typeGap
+  }
+
+  get showInstance() {
+    return this._showInstance
+  }
+
+  get typeGap() {
+    return this._typeGap().value
+  }
+
+  set typeGap(val) {
+    changeTypeGap(this._showInstance, this._typeGap, this._typeGapCache, val)
+  }
+
+  notifyNewInstance() {
+    if (!this._showInstance) {
+      toastr.success('an instance is created behind.')
     }
-  }
-}
-
-function changeTypeGap(showInstance, typeGap, typeGapCache, value) {
-  if (showInstance) {
-    typeGapCache.setInstanceShow(value)
-  } else {
-    typeGapCache.setInstanceHide(value)
-  }
-
-  updateTypeGap(showInstance, typeGap, typeGapCache)
-}
-
-function updateTypeGap(showInstance, typeGap, typeGapCache) {
-  if (showInstance) {
-    typeGap.set({
-      value: typeGapCache.instanceShow,
-      showInstance
-    })
-  } else {
-    typeGap.set({
-      value: typeGapCache.instanceHide,
-      showInstance
-    })
   }
 }
