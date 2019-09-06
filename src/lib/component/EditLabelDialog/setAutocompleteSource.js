@@ -5,7 +5,7 @@ import customizeqQueryUiAutocomplete from '../customize-jquery-ui-autocomplete'
 customizeqQueryUiAutocomplete()
 
 export default function(typeDefinition, autocompletionWs, $value, $labelSpan) {
-  if (typeDefinition && autocompletionWs) {
+  if (typeDefinition) {
     $value.autocomplete({
       source: (request, response) => {
         $labelSpan.text('')
