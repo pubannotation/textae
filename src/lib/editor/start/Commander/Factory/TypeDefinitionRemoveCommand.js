@@ -13,12 +13,12 @@ export default class TypeRemoveCommand extends ConfigurationCommand {
 
   execute() {
     const id = this.removeType.id
-    const oldType = this.typeDefinition.getDefinedType(id)
+    const oldType = this.typeDefinition.get(id)
 
-    this.typeDefinition.remove(id)
+    this.typeDefinition.delete(id)
 
     if (this.revertDefaultTypeId) {
-      this.typeDefinition.setDefaultType(this.revertDefaultTypeId)
+      this.typeDefinition.defaultType = this.revertDefaultTypeId
     }
 
     if (oldType) {
@@ -26,9 +26,9 @@ export default class TypeRemoveCommand extends ConfigurationCommand {
     }
 
     commandLog(
-      `remove a type:${JSON.stringify(
-        this.removeType
-      )}, default is \`${this.typeDefinition.getDefaultType()}\``
+      `remove a type:${JSON.stringify(this.removeType)}, default is \`${
+        this.typeDefinition.defaultType
+      }\``
     )
   }
 

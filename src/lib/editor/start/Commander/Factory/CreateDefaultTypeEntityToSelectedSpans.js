@@ -15,11 +15,13 @@ export default class extends CompositeCommand {
           true,
           {
             span,
-            type: typeDefinition.entity.getDefaultType()
+            type: typeDefinition.entity.defaultType
           }
         )
     )
 
-    this._logMessage = `create a ${typeDefinition.entity.getDefaultType()} type entity to ${selectionModel.span.all()}`
+    this._logMessage = `create a ${
+      typeDefinition.entity.defaultType
+    } type entity to ${selectionModel.span.all()}`
   }
 }

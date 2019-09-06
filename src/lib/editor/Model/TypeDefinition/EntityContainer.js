@@ -6,7 +6,7 @@ export default class extends Container {
   }
 
   isBlock(type) {
-    const definition = this.getDefinedType(type.name)
+    const definition = this.get(type.name)
 
     return definition && definition.type && definition.type === 'block'
   }

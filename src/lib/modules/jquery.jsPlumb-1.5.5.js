@@ -1416,7 +1416,7 @@
 			if (component.getDefaultType) {
 				var td = component.getTypeDescriptor();
 					
-				var o = _ju.merge({}, component.getDefaultType());
+				var o = _ju.merge({}, component.defaultType);
 				for (var i = 0, j = component._jsPlumb.types.length; i < j; i++)
 					o = _ju.merge(o, component._jsPlumb.instance.getType(component._jsPlumb.types[i], td));						
 					

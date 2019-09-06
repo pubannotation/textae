@@ -52,7 +52,7 @@ function createCommands(
   spanConfig
 ) {
   const commands = commander.factory.spanCreateCommand(
-    typeDefinition.entity.getDefaultType(),
+    typeDefinition.entity.defaultType,
     {
       begin: newSpan.begin,
       end: newSpan.end
@@ -66,7 +66,7 @@ function createCommands(
           begin: newSpan.begin,
           end: newSpan.end
         },
-        [typeDefinition.entity.getDefaultType()],
+        [typeDefinition.entity.defaultType],
         isDetectDelimiterEnable ? spanConfig.isDelimiter : null
       )
     )

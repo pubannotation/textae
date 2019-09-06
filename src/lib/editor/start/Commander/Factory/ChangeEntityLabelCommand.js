@@ -16,7 +16,7 @@ export default class extends CompositeCommand {
 
     const commands = []
     if (label) {
-      const oldType = typeContainer.getDefinedType(value)
+      const oldType = typeContainer.get(value)
       if (!oldType.id) {
         commands.push(
           new TypeDefinitionCreateCommand(editor, typeContainer, {

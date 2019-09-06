@@ -30,7 +30,7 @@ export default function(elementEditor, editor, autocompletionWs) {
     autocompletionWs,
     'Please create a new type'
   )
-  const defaultColor = handler.typeContainer.getDefaultColor()
+  const defaultColor = handler.typeContainer.defaultColor
 
   dialog.update(null, '', defaultColor, false)
   dialog.open()

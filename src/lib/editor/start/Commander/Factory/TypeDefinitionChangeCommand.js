@@ -22,12 +22,12 @@ export default class TypeDefinitionChangeCommand extends ConfigurationCommand {
   }
 
   execute() {
-    const oldType = this.typeDefinition.getDefinedType(this.id)
+    const oldType = this.typeDefinition.get(this.id)
     const [newType, revertChangedProperties] = applyChangedProperties(
       this.changedProperties,
       oldType
     )
-    this.typeDefinition.changeDefinedType(this.id, newType)
+    this.typeDefinition.set(this.id, newType)
 
     // manage default type
     this._updateDefaultType(newType)
@@ -38,17 +38,17 @@ export default class TypeDefinitionChangeCommand extends ConfigurationCommand {
     commandLog(
       `change old type:${JSON.stringify(oldType)} to new type:${JSON.stringify(
         newType
-      )}, default is \`${this.typeDefinition.getDefaultType()}\``
+      )}, default is \`${this.typeDefinition.defaultType}\``
     )
   }
 
   _updateDefaultType(newType) {
     if (newType.default) {
       // remember the current default, because revert command will not understand what type was it.
-      this.revertDefaultTypeId = this.typeDefinition.getDefaultType()
-      this.typeDefinition.setDefaultType(newType.id)
+      this.revertDefaultTypeId = this.typeDefinition.defaultType
+      this.typeDefinition.defaultType = newType.id
     } else if (this.newDefaultTypeId) {
-      this.typeDefinition.setDefaultType(this.newDefaultTypeId)
+      this.typeDefinition.defaultType = this.newDefaultTypeId
     }
   }
 

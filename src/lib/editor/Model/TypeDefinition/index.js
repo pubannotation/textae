@@ -1,7 +1,6 @@
 import Observable from 'observ'
 import EntityContainer from './EntityContainer'
 import Container from './Container'
-import setContainerDefinedTypes from './setContainerDefinedTypes'
 
 export default class {
   constructor(annotationData) {
@@ -34,7 +33,7 @@ export default class {
   }
 
   setDefinedEntityTypes(newDefinedTypes) {
-    return setContainerDefinedTypes(this.entityContainer, newDefinedTypes)
+    this.entityContainer.definedTypes = newDefinedTypes
   }
 
   get relation() {
@@ -42,13 +41,13 @@ export default class {
   }
 
   setDefinedRelationTypes(newDefinedTypes) {
-    return setContainerDefinedTypes(this.relationContaier, newDefinedTypes)
+    this.relationContaier.definedTypes = newDefinedTypes
   }
 
   get config() {
     return {
-      'entity types': this.entityContainer.getDefinedTypes(),
-      'relation types': this.relationContaier.getDefinedTypes()
+      'entity types': this.entityContainer.definedTypes,
+      'relation types': this.relationContaier.definedTypes
     }
   }
 }

@@ -46,7 +46,7 @@ function createRelation(
     commander.factory.relationCreateCommand({
       subj: subjectEntityId,
       obj: objectEntityId,
-      type: typeDefinition.relation.getDefaultType()
+      type: typeDefinition.relation.defaultType
     })
   )
 }
