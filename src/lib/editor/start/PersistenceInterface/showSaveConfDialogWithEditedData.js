@@ -1,12 +1,6 @@
-export default function(dataAccessObject, typeDefinition, getOriginalConfig) {
-  const orignalConfig = getOriginalConfig()
-
+export default function(dataAccessObject, currentConfig, orignalConfig) {
   // Merge with the original config and save the value unchanged in the editor.
-  const editidConfig = Object.assign(
-    {},
-    orignalConfig,
-    typeDefinition.getConfig()
-  )
+  const editidConfig = Object.assign({}, orignalConfig, currentConfig)
 
   dataAccessObject.showSaveConf(orignalConfig, editidConfig)
 }

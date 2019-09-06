@@ -30,8 +30,8 @@ export default class {
     showSaveAnnoDialogWithEditedData(
       this._dataAccessObject,
       this._annotationData,
-      this._typeDefinition,
-      this._getOriginalAnnotation,
+      this._typeDefinition.config,
+      this._getOriginalAnnotation(),
       this._saveToParameter
     )
   }
@@ -45,8 +45,8 @@ export default class {
   uploadConfiguration() {
     showSaveConfDialogWithEditedData(
       this._dataAccessObject,
-      this._typeDefinition,
-      this._getOriginalConfig
+      this._typeDefinition.config,
+      this._getOriginalConfig()
     )
   }
 }

@@ -127,7 +127,7 @@ export default function(
       setSpanAndTypeConfig(spanConfig, typeDefinition, config)
     })
     .on('configuration.save', () => {
-      originalData.config = typeDefinition.getConfig()
+      originalData.config = typeDefinition.config
     })
 
   originalData.annotation = loadAnnotation(

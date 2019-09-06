@@ -45,7 +45,7 @@ export default class {
     return setContainerDefinedTypes(this.relationContaier, newDefinedTypes)
   }
 
-  getConfig() {
+  get config() {
     return {
       'entity types': this.entityContainer.getDefinedTypes(),
       'relation types': this.relationContaier.getDefinedTypes()
