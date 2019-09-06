@@ -38,7 +38,7 @@ export default class TypeDefinitionChangeCommand extends ConfigurationCommand {
     commandLog(
       `change old type:${JSON.stringify(oldType)} to new type:${JSON.stringify(
         newType
-      )}, default is \`${this.typeDefinition.defaultType}\``
+      )}, default is ${this.typeDefinition.defaultType}`
     )
   }
 
