@@ -8,7 +8,7 @@ export default function(
   modification,
   entity
 ) {
-  if (!typeDefinition.isBlock(entity.type)) {
+  if (!typeDefinition.isBlock(entity.type.name)) {
     createEntity(
       editor,
       namespace,

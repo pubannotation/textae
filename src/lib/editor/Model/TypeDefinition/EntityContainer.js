@@ -5,8 +5,8 @@ export default class extends Container {
     super(getAllInstanceFunc, defaultColor, lockStateObservable)
   }
 
-  isBlock(type) {
-    const definition = this.get(type.name)
+  isBlock(typeName) {
+    const definition = super.get(typeName)
 
     return definition && definition.type && definition.type === 'block'
   }
