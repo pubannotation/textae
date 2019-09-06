@@ -1,5 +1,6 @@
-require('jquery')
-require('sticky-kit')
+import 'jquery'
+import 'sticky-kit'
+
 const extendedJQuery = global.jQuery.noConflict(true)
 
 export default function(cb) {

@@ -1,5 +1,5 @@
 import $ from 'jquery'
-require('jquery-ui/ui/widgets/autocomplete')
+import 'jquery-ui/ui/widgets/autocomplete'
 
 /* eslint no-underscore-dangle: 0 */
 // Custumize jQuery-ui autocomplete
