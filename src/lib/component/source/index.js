@@ -1,4 +1,5 @@
 import $ from 'jquery'
+import getLocalData from './getLocalData'
 
 export default function(typeDefinition, autocompletionWs, request, response) {
   const localData = getLocalData(typeDefinition, request.term)
@@ -9,7 +10,7 @@ export default function(typeDefinition, autocompletionWs, request, response) {
   }
 
   // Prior lacal data if duplicated
-  $.getJSON(autocompletionWs, request, (data, status, xhr) => {
+  $.getJSON(autocompletionWs, request, (data) => {
     const formattedData = data
       .filter((t) => localData.filter((l) => t.id === l.raw.id).length === 0)
       .map((raw) => {
@@ -21,17 +22,4 @@ export default function(typeDefinition, autocompletionWs, request, response) {
 
     response(localData.concat(formattedData))
   })
-}
-
-function getLocalData(typeDefinition, term) {
-  return typeDefinition
-    .getDefinedTypes()
-    .filter((t) => t.label)
-    .filter((t) => t.label.includes(term))
-    .map((raw) => {
-      return {
-        label: `${raw.label}@${raw.id}`,
-        raw
-      }
-    })
 }
