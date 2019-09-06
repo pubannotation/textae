@@ -3,7 +3,7 @@ import ControlButtonHandler from './ControlButtonHandler'
 import bindControlBar from './bindControlBar'
 import bindContextMenu from './bindContextMenu'
 
-module.exports = function(editor, controlBar, contextMenu) {
+export default function(editor, controlBar, contextMenu) {
   const helpDialog = new HelpDialog()
   const handleControlButtonClick = new ControlButtonHandler(editor, helpDialog)
 

@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   isUri(type) {
     return String(type).indexOf('http') > -1
   },

@@ -3,7 +3,7 @@ import 'jquery-ui/ui/widgets/autocomplete'
 
 /* eslint no-underscore-dangle: 0 */
 // Custumize jQuery-ui autocomplete
-module.exports = function() {
+export default function() {
   // Repalce @ to font awesome icon
   $.ui.autocomplete.prototype._renderItem = function(ul, item) {
     const [label, url] = item.label.split('@')

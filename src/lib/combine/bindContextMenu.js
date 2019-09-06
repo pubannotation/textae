@@ -1,4 +1,4 @@
-module.exports = function(editor, contextMenu, handleControlButtonClick) {
+export default function(editor, contextMenu, handleControlButtonClick) {
   // add context menu
   editor[0].appendChild(contextMenu[0])
   editor.eventEmitter

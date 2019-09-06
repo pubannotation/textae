@@ -10,7 +10,7 @@ const skipBackBlank = function(str, position, isBlankCharacter) {
   return skipCharacters(getNow, -1, str, position, isBlankCharacter)
 }
 
-module.exports = {
+export default {
   forward: skipForwardBlank,
   back: skipBackBlank
 }

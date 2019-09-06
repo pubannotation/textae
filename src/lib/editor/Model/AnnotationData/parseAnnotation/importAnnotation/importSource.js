@@ -1,4 +1,4 @@
-module.exports = function(targets, translater, source) {
+export default function(targets, translater, source) {
   if (source) {
     source = source.map(translater)
   }
