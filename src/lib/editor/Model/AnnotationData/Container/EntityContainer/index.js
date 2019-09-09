@@ -18,7 +18,7 @@ export default class extends ContatinerWithEmitter {
     if (!entity.span)
       throw new Error(`entity has no span! ${JSON.stringify(entity)}`)
 
-    // When undoing, the entity is instance of the EntityModel already.
+    // When redoing, the entity is instance of the EntityModel already.
     if (entity instanceof EntityModel) {
       return super.add(entity)
     }

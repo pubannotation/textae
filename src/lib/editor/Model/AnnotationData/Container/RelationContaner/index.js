@@ -7,4 +7,19 @@ export default class extends ModelContainer {
       relations.map((r) => new RelationModel(r))
     )
   }
+
+  add(relation) {
+    // When redoing, the relation is instance of the RelationModel already.
+    if (relation instanceof RelationModel) {
+      return super.add(relation)
+    }
+
+    return super.add(
+      new RelationModel({
+        subj: relation.subj,
+        obj: relation.obj,
+        pred: relation.type
+      })
+    )
+  }
 }
