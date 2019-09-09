@@ -4,5 +4,7 @@ export default function(relations) {
     relations
       .filter((connect) => connect.render)
       .map((connect) => connect.render())
-  )
+  ).catch((reason) => {
+    console.error('error in renderLazyRelationAll', reason)
+  })
 }
