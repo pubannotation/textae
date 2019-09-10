@@ -1,6 +1,7 @@
 export default function(container) {
-  const newInstance = jsPlumb.getInstance({
+  return jsPlumb.getInstance({
     ConnectionsDetachable: false,
+    Container: container,
     Endpoint: [
       'Dot',
       {
@@ -8,7 +9,4 @@ export default function(container) {
       }
     ]
   })
-  newInstance.setRenderMode(newInstance.SVG)
-  newInstance.Defaults.Container = container
-  return newInstance
 }
