@@ -1,9 +1,9 @@
 import $ from 'jquery'
 import determineCurviness from '../../determineCurviness'
-import jsPlumbArrowOverlayUtil from '../../jsPlumbArrowOverlayUtil'
 import getEntityDom from '../../../../../getEntityDom'
 import LABEL from '../../LABEL'
 import connectorStrokeStyle from '../../connectorStrokeStyle'
+import NORMAL_ARROW from '../../jsPlumbArrowOverlayUtil/NORMAL_ARROW'
 
 // Make a connect by jsPlumb.
 export default function(
@@ -34,7 +34,7 @@ export default function(
     },
     cssClass: 'textae-editor__relation',
     overlays: [
-      ['Arrow', jsPlumbArrowOverlayUtil.NORMAL_ARROW],
+      ['Arrow', NORMAL_ARROW],
       [
         'Label',
         Object.assign({}, LABEL, {

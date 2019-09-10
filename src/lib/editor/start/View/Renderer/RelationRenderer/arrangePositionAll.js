@@ -1,6 +1,6 @@
 import Connect from './Connect'
 import determineCurviness from './determineCurviness'
-import jsPlumbArrowOverlayUtil from './jsPlumbArrowOverlayUtil'
+import resetArrows from './jsPlumbArrowOverlayUtil/resetArrows'
 
 export default function(
   editor,
@@ -63,6 +63,6 @@ function resetAllCurviness(editor, annotationData, relations) {
       ])
 
       // Re-set arrow because it is disappered when setConnector is called.
-      jsPlumbArrowOverlayUtil.resetArrows(data.connect)
+      resetArrows(data.connect)
     })
 }

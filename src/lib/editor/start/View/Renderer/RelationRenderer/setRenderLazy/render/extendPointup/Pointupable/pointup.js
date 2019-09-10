@@ -1,9 +1,9 @@
-import jsPlumbArrowOverlayUtil from '../../../../jsPlumbArrowOverlayUtil'
 import connectorStrokeStyle from '../../../../connectorStrokeStyle'
 import POINTUP_LINE_WIDTH from '../../../../POINTUP_LINE_WIDTH'
 import hoverupLabel from './hoverupLabel'
 import hoverupLine from './hoverupLine'
 import hasClass from './hasClass'
+import showBigArrow from '../../../../jsPlumbArrowOverlayUtil/showBigArrow'
 
 export default function(connect, annotationData, typeDefinition, relationId) {
   if (!hasClass(connect, 'ui-selected')) {
@@ -17,6 +17,6 @@ export default function(connect, annotationData, typeDefinition, relationId) {
         }
       )
     )
-    jsPlumbArrowOverlayUtil.showBigArrow(connect)
+    showBigArrow(connect)
   }
 }

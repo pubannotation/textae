@@ -1,10 +1,10 @@
-import jsPlumbArrowOverlayUtil from '../../../../jsPlumbArrowOverlayUtil'
 import connectorStrokeStyle from '../../../../connectorStrokeStyle'
 import POINTUP_LINE_WIDTH from '../../../../POINTUP_LINE_WIDTH'
 import selectLine from './selectLine'
 import selectLabel from './selectLabel'
 import hoverdownLabel from './hoverdownLabel'
 import hoverdownLine from './hoverdownLine'
+import showBigArrow from '../../../../jsPlumbArrowOverlayUtil/showBigArrow'
 
 export default function(
   connect,
@@ -26,6 +26,6 @@ export default function(
         }
       )
     )
-    jsPlumbArrowOverlayUtil.showBigArrow(connect)
+    showBigArrow(connect)
   }
 }

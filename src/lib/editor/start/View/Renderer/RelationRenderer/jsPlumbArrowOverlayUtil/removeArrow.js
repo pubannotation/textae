@@ -1,4 +1,3 @@
-export default function(id, connect) {
-  connect.removeOverlay(id)
-  return connect
+export default function(id, js_plumb_conncetion) {
+  js_plumb_conncetion.removeOverlay(id)
 }
