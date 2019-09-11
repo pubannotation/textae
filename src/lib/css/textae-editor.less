@@ -135,6 +135,19 @@
         &-label:focus {
             outline-style: none;
         }
+        &:hover {
+            .textae-editor__entity-pane,
+            .textae-editor__type-values {
+                z-index: 4;
+            }
+            .textae-editor__type-values {
+                box-shadow: 1px 1px 10px #600;
+                overflow: visible;
+                &.ui-selected {
+                    box-shadow: 0 0 0 2pt @selected;
+                }
+            }
+        }
     }
     &--editable &__type-label a {
         color: black;
@@ -147,18 +160,7 @@
     &--relation-mode &__type:hover &__type-values {
         opacity: 0.9;
     }
-    &__type:hover &__entity-pane,
-    &__type:hover &__type-values {
-        z-index: 4;
-    }
-    &__type:hover &__type-values {
-        box-shadow: 1px 1px 10px #600;
-    }
-    &__type:hover &__type-values {
-        overflow: visible;
-    }
-    &__type-values.ui-selected,
-    &__type:hover &__type-values.ui-selected {
+    &__type-values.ui-selected {
         box-shadow: 0 0 0 2pt @selected;
         z-index: 4;
     }
