@@ -5,7 +5,7 @@ export default function(getHandler, autocompletionWs) {
   if (getHandler().getSelectedIdEditable().length > 0) {
     const handler = getHandler()
     const predicate = 'type'
-    const value = handler.getSelectedType()
+    const type = handler.getSelectedType()
     const done = (_, value, label) => {
       const commands = handler.changeLabelCommand(label, value)
 
@@ -16,7 +16,7 @@ export default function(getHandler, autocompletionWs) {
 
     const dialog = new EditLabelDialog(
       predicate,
-      value,
+      type,
       done,
       handler.typeContainer,
       autocompletionWs
