@@ -60,7 +60,6 @@
     "serve-favicon": "^2.3.0",
     "serve-static": "^1.10.0",
     "toastr": "^2.1.2",
-    "uglify-save-license": "^0.4.1",
     "uglifyify": "^5.0.2",
     "watchify": "^3.11.1"
   },

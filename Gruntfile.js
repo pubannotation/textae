@@ -6,17 +6,8 @@ const connectStatic = require('serve-static')
 const favicon = require('serve-favicon')
 const querystring = require('qs')
 
-const rename = {
-  ext(ext) {
-    return function(dest, src) {
-      return `${dest}/${src.replace(/(\.[^\/\.]*)?$/, ext)}`
-    }
-  }
-}
-
 module.exports = function(grunt) {
   require('load-grunt-tasks')(grunt)
-  const saveLicense = require('uglify-save-license')
 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
@@ -211,8 +202,4 @@ module.exports = function(grunt) {
 
   grunt.registerTask('dev', ['connect', 'open:dev', 'watch'])
   grunt.registerTask('dist', ['less', 'concat', 'copy', 'replace:version'])
-  grunt.registerTask('demo', [
-    'open:demo',
-    'connect:developmentServer:keepalive'
-  ])
 }
