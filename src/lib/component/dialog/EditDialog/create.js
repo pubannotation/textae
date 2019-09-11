@@ -15,7 +15,7 @@ const source = `
 </div>`
 const template = Handlebars.compile(source)
 
-export default function(editor, predicate, value, done) {
+export default function(predicate, value, done) {
   const el = document.createElement('div')
   el.innerHTML = template({ predicate, value })
 

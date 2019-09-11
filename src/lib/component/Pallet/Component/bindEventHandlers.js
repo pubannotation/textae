@@ -41,7 +41,7 @@ export default function(
   })
 
   delegate(pallet, `.${CLASS_NAMES.editType}`, 'click', (e) => {
-    openEditTypeDialog(elementEditor, e, editor, autocompletionWs)
+    openEditTypeDialog(elementEditor, e, autocompletionWs)
   })
 
   delegate(pallet, `.${CLASS_NAMES.remove}`, 'click', (e) => {

@@ -2,15 +2,8 @@ import EditDialog from '../dialog/EditDialog'
 import setAutocompleteSource from './setAutocompleteSource'
 
 export default class extends EditDialog {
-  constructor(
-    editor,
-    predicate,
-    value,
-    done,
-    typeDefinition,
-    autocompletionWs
-  ) {
-    super(editor, predicate, value, done)
+  constructor(predicate, value, done, typeDefinition, autocompletionWs) {
+    super(predicate, value, done)
 
     // Make predicate unmodifiable
     const $inputs = this.$dialog.find('input')

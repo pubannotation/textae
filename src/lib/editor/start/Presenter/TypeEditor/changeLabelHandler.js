@@ -1,7 +1,7 @@
 import EditLabelDialog from '../../../../component/EditLabelDialog'
 
 // An handler is get on runtime, because it is changed by the edit mode.
-export default function(editor, getHandler, autocompletionWs) {
+export default function(getHandler, autocompletionWs) {
   if (getHandler().getSelectedIdEditable().length > 0) {
     const handler = getHandler()
     const predicate = 'type'
@@ -15,7 +15,6 @@ export default function(editor, getHandler, autocompletionWs) {
     }
 
     const dialog = new EditLabelDialog(
-      editor,
       predicate,
       value,
       done,

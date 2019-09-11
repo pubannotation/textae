@@ -1,6 +1,6 @@
 import EditDialog from '../../../../../../../component/dialog/EditDialog'
 
-export default function(editor, commander, selectedEntities, pred, obj) {
+export default function(commander, selectedEntities, pred, obj) {
   const done = (newPred, newObj) => {
     if (obj) {
       commander.invoke(
@@ -15,6 +15,6 @@ export default function(editor, commander, selectedEntities, pred, obj) {
     }
   }
 
-  const dialog = new EditDialog(editor, pred, obj, done)
+  const dialog = new EditDialog(pred, obj, done)
   dialog.open()
 }

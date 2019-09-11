@@ -1,7 +1,7 @@
 import EditTypeDialog from './EditTypeDialog'
 import getDifference from './getDifference'
 
-export default function(elementEditor, e, editor, autocompletionWs) {
+export default function(elementEditor, e, autocompletionWs) {
   const target = e.delegateTarget
   const id = target.getAttribute('data-id')
   const handler = elementEditor.getHandler()
