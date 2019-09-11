@@ -142,10 +142,25 @@
             }
             .textae-editor__type-values {
                 box-shadow: 1px 1px 10px #600;
+                opacity: 1;
                 overflow: visible;
                 &.ui-selected {
                     box-shadow: 0 0 0 2pt @selected;
                 }
+            }
+            .textae-editor__type-label,
+            .textae-editor__attribute,
+            .textae-editor__attribute-label {
+                background-color: inherit;
+            }
+            .textae-editor__type-label,
+            .textae-editor__attribute-label {
+                border-width: 1px;
+                border-radius: 1px;
+                border-bottom-style: dashed;
+                border-bottom-color: white;
+                display: inline-block;
+                padding: 0 4px;
             }
         }
     }

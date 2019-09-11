@@ -18,7 +18,7 @@ const source = `
     </div>
     {{#each attributes}}
     <div id="{{domId}}" title="{{title}}" data-pred="{{pred}}" data-obj="{{obj}}" class="textae-editor__attribute">
-      <span>{{obj}}</span>
+      <span class="textae-editor__attribute-label">{{obj}}</span>
       <div class="textae-editor__attribute-buttons">
         <div class="textae-editor__attribute-button textae-editor__attribute-button--edit" title="Edit this attribute."></div>
         <div class="textae-editor__attribute-button textae-editor__attribute-button--delete" title="Delete this attribute."></div>
