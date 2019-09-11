@@ -17,7 +17,7 @@ export default class extends DefaultHandler {
   changeLabelHandler(autocompletionWs) {
     if (this.getSelectedIdEditable().length > 0) {
       const predicate = 'type'
-      const type = this.getSelectedType()
+      const type = this._getSelectedType()
       const done = (_, value, label) => {
         const commands = this.commander.factory.changeRelationLabelCommand(
           label,
@@ -53,5 +53,15 @@ export default class extends DefaultHandler {
       this.clearAllSelection()
       this.selectionModel.add(relationId)
     }
+  }
+
+  _getSelectedType() {
+    const id = this.selectionModel.single()
+
+    if (id) {
+      return this.annotationData.get(id).type
+    }
+
+    return ''
   }
 }

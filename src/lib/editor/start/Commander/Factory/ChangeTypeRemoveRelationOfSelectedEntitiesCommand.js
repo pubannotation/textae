@@ -1,6 +1,6 @@
 import CompositeCommand from './CompositeCommand'
-import { RemoveCommand } from './commandTemplate'
 import ChangeTypeCommand from './ChangeTypeCommand'
+import getRemoveRelationCommands from './getRemoveRelationCommands'
 
 export default class extends CompositeCommand {
   constructor(
@@ -11,36 +11,31 @@ export default class extends CompositeCommand {
     isRemoveRelations
   ) {
     super()
-    const hasChanges = selectionModel.entity
-      .all()
-      .filter((id) => annotationData.entity.get(id).type.name !== newType)
 
-    const changeTypeCommands = hasChanges.map(
+    // Get only entities with changes.
+    const entitiesWithChange = selectionModel.entity
+      .all()
+      .filter(
+        (entityId) => annotationData.entity.get(entityId).type.name !== newType
+      )
+
+    // Change type of entities.
+    const changeTypeCommands = entitiesWithChange.map(
       (id) =>
         new ChangeTypeCommand(editor, annotationData, 'entity', id, newType)
     )
 
     // Block types do not have relations. If there is a relation, delete it.
-    this._subCommands = isRemoveRelations
-      ? hasChanges
-          .map((id) =>
-            annotationData.entity
-              .assosicatedRelations(id)
-              .map(
-                (id) =>
-                  new RemoveCommand(
-                    editor,
-                    annotationData,
-                    selectionModel,
-                    'relation',
-                    id
-                  )
-              )
-          )
-          .flat()
-          .concat(changeTypeCommands)
-      : changeTypeCommands
+    const removeRelationCommands = isRemoveRelations
+      ? getRemoveRelationCommands(
+          entitiesWithChange,
+          annotationData,
+          editor,
+          selectionModel
+        )
+      : []
 
-    this._logMessage = `set type ${newType} to entities ${hasChanges}`
+    this._subCommands = removeRelationCommands.concat(changeTypeCommands)
+    this._logMessage = `set type ${newType} to entities ${entitiesWithChange}`
   }
 }

@@ -31,16 +31,6 @@ export default class {
     )
   }
 
-  getSelectedType() {
-    const id = this.selectionModel.single()
-
-    if (id) {
-      return this.annotationData.get(id).type
-    }
-
-    return ''
-  }
-
   jsPlumbConnectionClicked() {
     // A Swithing point to change a behavior when relation is clicked.
   }

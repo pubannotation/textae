@@ -1,5 +1,5 @@
 import DefaultHandler from '../DefaultHandler'
-import EditLabelDialog from '../../../../../../component/EditLabelDialog'
+import EditTypeDialog from '../../../../../../component/EditTypeDialog'
 
 export default class extends DefaultHandler {
   constructor(typeDefinition, commander, annotationData, selectionModel) {
@@ -18,22 +18,23 @@ export default class extends DefaultHandler {
 
   changeLabelHandler(autocompletionWs) {
     if (this.getSelectedIdEditable().length > 0) {
-      const predicate = 'type'
-      const type = this.getSelectedType()
-      const done = (_, value, label) => {
-        const commands = this.commander.factory.changeEntityLabelCommand(
+      const type = mergeTypes(
+        this.selectionModel.all().map((id) => this.annotationData.get(id).type)
+      )
+      const done = (typeName, label, attributes) => {
+        const commands = this.commander.factory.changeEntityTypeCommand(
           label,
-          value,
+          typeName,
+          attributes,
           this.typeContainer
         )
 
-        if (value) {
+        if (typeName) {
           this.commander.invoke(commands)
         }
       }
 
-      const dialog = new EditLabelDialog(
-        predicate,
+      const dialog = new EditTypeDialog(
         type,
         done,
         this.typeContainer,
@@ -42,4 +43,22 @@ export default class extends DefaultHandler {
       dialog.open()
     }
   }
+}
+
+function mergeTypes(types) {
+  return types.reduce(
+    (sum, type) => {
+      sum.name = type.name
+      for (const attribute of type.attributes) {
+        if (sum.attributes.some((a) => a.pred === attribute.pred)) {
+          sum.attributes.find((a) => a.pred === attribute.pred).obj =
+            attribute.obj
+        } else {
+          sum.attributes.push(attribute)
+        }
+      }
+      return sum
+    },
+    { name: '', attributes: [] }
+  )
 }

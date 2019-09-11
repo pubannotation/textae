@@ -17,7 +17,7 @@ import RemoveSelectedCommand from './RemoveSelectedCommand'
 import CreateDefaultTypeEntityToSelectedSpans from './CreateDefaultTypeEntityToSelectedSpans'
 import PasteTypesToSelectedSpansCommand from './PasteTypesToSelectedSpansCommand'
 import CreateDefaultAttributeToSelectedEntitiesCommand from './CreateDefaultAttributeToSelectedEntitiesCommand'
-import ChangeEntityLabelCommand from './ChangeEntityLabelCommand'
+import ChangeEntityTypeCommand from './ChangeEntityTypeCommand'
 import ChangeRelationLabelCommand from './ChangeRelationLabelCommand'
 import CreateSpanAndAutoReplicateCommand from './CreateSpanAndAutoReplicateCommand'
 
@@ -96,13 +96,14 @@ export default class {
     )
   }
 
-  changeEntityLabelCommand(label, value, typeContainer) {
-    return new ChangeEntityLabelCommand(
+  changeEntityTypeCommand(label, value, attributes, typeContainer) {
+    return new ChangeEntityTypeCommand(
       this._editor,
       this._annotationData,
       this._selectionModel,
       label,
       value,
+      attributes,
       typeContainer
     )
   }

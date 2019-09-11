@@ -33,7 +33,31 @@ export default class {
     this._typeName = val
   }
 
+  sameType(type, attributes) {
+    let sameAttributeCounts = 0
+    for (const attr of attributes) {
+      if (
+        this.type.attributes.find(
+          (a) => a.pred === attr.pred && a.obj === attr.obj
+        )
+      ) {
+        sameAttributeCounts++
+      }
+    }
+
+    return this.type.name === type && attributes.length === sameAttributeCounts
+  }
+
   get attributes() {
     return this._emitter.attribute.all.filter((a) => a.subj === this._id)
+  }
+
+  getDifferentAttributes(newAttributes) {
+    return this.attributes.filter(
+      (oldA) =>
+        !newAttributes.some(
+          (newA) => oldA.pred === newA.pred && oldA.obj === newA.obj
+        )
+    )
   }
 }

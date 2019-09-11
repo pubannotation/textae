@@ -1,7 +1,7 @@
 import CompositeCommand from './CompositeCommand'
 import TypeDefinitionCreateCommand from './TypeDefinitionCreateCommand'
 import TypeDefinitionChangeCommand from './TypeDefinitionChangeCommand'
-import ChangeTypeRemoveRelationOfSelectedEntitiesCommand from './ChangeTypeRemoveRelationOfSelectedEntitiesCommand'
+import ChangeTypeNameAndAttributeRemoveRelationOfSelectedEntitiesCommand from './ChangeTypeNameAndAttributeRemoveRelationOfSelectedEntitiesCommand'
 
 export default class extends CompositeCommand {
   constructor(
@@ -10,6 +10,7 @@ export default class extends CompositeCommand {
     selectionModel,
     label,
     value,
+    attributes,
     typeContainer
   ) {
     super()
@@ -38,11 +39,12 @@ export default class extends CompositeCommand {
       }
     }
 
-    const changeEntityCommand = new ChangeTypeRemoveRelationOfSelectedEntitiesCommand(
+    const changeEntityCommand = new ChangeTypeNameAndAttributeRemoveRelationOfSelectedEntitiesCommand(
       editor,
       annotationData,
       selectionModel,
       value,
+      attributes,
       typeContainer.isBlock(value)
     )
     if (!changeEntityCommand.isEmpty) {
@@ -50,6 +52,8 @@ export default class extends CompositeCommand {
     }
 
     this._subCommands = commands
-    this._logMessage = `change entity value: ${value} label: ${label} `
+    this._logMessage = `change entity value: ${value} attribute: ${JSON.stringify(
+      attributes
+    )}  label: ${label} `
   }
 }
