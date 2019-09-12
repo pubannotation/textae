@@ -9,8 +9,9 @@ export default function(paneElement) {
     // Arrage the position of TypePane, because number of entities decrease.
     arrangePositionOfPane(paneElement)
   } else {
-    const typeDom = paneElement.parentNode
-    const gridDom = typeDom.parentNode
+    // Get the ancestor elements before removing.
+    const typeDom = paneElement.closest('.textae-editor__type')
+    const gridDom = typeDom.closest('.textae-editor__grid')
 
     // Remove type unlese entity.
     typeDom.remove()
