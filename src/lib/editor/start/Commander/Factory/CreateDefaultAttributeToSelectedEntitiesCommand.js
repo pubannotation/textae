@@ -5,7 +5,11 @@ export default class extends CompositeCommand {
   constructor(editor, annotationData, selectionModel) {
     super()
 
-    this._subCommands = selectionModel.entity.all().map((entityId) => {
+    const entities = selectionModel.entity.all()
+    const pred = 'some_predicate'
+    const obj = 'some_value'
+
+    this._subCommands = entities.map((subj) => {
       return new CreateCommand(
         editor,
         annotationData,
@@ -14,11 +18,14 @@ export default class extends CompositeCommand {
         true,
         {
           id: null,
-          subj: entityId,
-          pred: 'some_predicate',
-          obj: 'some_value'
+          subj,
+          pred,
+          obj
         }
       )
     })
+    this._logMessage = `create attirbute ${pred}:${obj} to entity ${entities.join(
+      ', '
+    )}`
   }
 }

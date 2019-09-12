@@ -1,6 +1,7 @@
 import SpanAndTypesCreateCommand from '../SpanAndTypesCreateCommand'
 import getReplicationSpans from './getReplicationSpans'
 import CompositeCommand from '../CompositeCommand'
+import idFactory from '../../../../idFactory'
 
 export default class extends CompositeCommand {
   constructor(
@@ -27,6 +28,6 @@ export default class extends CompositeCommand {
           types
         )
     )
-    this._logMessage = `replicate a span ${span.id}`
+    this._logMessage = `replicate a span ${idFactory.makeSpanId(editor, span)}`
   }
 }

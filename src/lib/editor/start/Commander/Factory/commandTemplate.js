@@ -25,7 +25,7 @@ class CreateCommand extends AnnotationCommand {
     if (this.isSelectable) {
       this.selectionModel.add(this.modelType, this.newModel.id)
     }
-    commandLog(`create a new ${this.modelType}: `, this.newModel)
+    commandLog(`create a new ${this.modelType}: ${this.newModel.id}`)
 
     return this.newModel
   }

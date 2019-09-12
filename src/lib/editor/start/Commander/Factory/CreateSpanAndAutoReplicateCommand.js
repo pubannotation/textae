@@ -29,7 +29,7 @@ export default class extends CompositeCommand {
         types
       )
     ]
-    this._logMessage = `create a span ${newSpan.begin}:${newSpan.end}`
+    this._logMessage = `create a span ${newSpan.begin}:${newSpan.end} with type ${types[0].name}`
 
     if (isReplicateAuto && newSpan.end - newSpan.begin <= BLOCK_THRESHOLD) {
       this._subCommands.push(
