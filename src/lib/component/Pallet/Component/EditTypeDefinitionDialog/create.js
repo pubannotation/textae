@@ -1,6 +1,5 @@
 import delegate from 'delegate'
 import EditorDialog from '../../../dialog/EditorDialog'
-import CLASS_NAMES from './className'
 
 export default function(el, inputs, title) {
   const okHandler = () => {
@@ -22,11 +21,16 @@ export default function(el, inputs, title) {
   })
 
   // Observe enter key press
-  delegate($dialog[0], `.${CLASS_NAMES.id}`, 'keyup', (e) => {
-    if (e.keyCode === 13) {
-      okHandler()
+  delegate(
+    $dialog[0],
+    `.textae-editor__edit-type-definition-dialog--id`,
+    'keyup',
+    (e) => {
+      if (e.keyCode === 13) {
+        okHandler()
+      }
     }
-  })
+  )
 
   return $dialog
 }

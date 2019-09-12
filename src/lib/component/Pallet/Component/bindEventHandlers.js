@@ -1,8 +1,8 @@
 import delegate from 'delegate'
 import CLASS_NAMES from '../className'
-import openCreateTypeDialog from './openCreateTypeDialog'
+import openCreateTypeDefinitionDialog from './openCreateTypeDefinitionDialog'
+import openEditTypeDefinitionDialog from './openEditTypeDefinitionDialog'
 import checkButtonEnable from './checkButtonEnable'
-import openEditTypeDialog from './openEditTypeDialog'
 
 export default function(
   pallet,
@@ -12,7 +12,7 @@ export default function(
   commander
 ) {
   delegate(pallet, `.${CLASS_NAMES.buttonAdd}`, 'click', (e) => {
-    openCreateTypeDialog(elementEditor, editor, autocompletionWs)
+    openCreateTypeDefinitionDialog(elementEditor, editor, autocompletionWs)
   })
 
   delegate(pallet, `.${CLASS_NAMES.buttonRead}`, 'click', (e) => {
@@ -41,7 +41,7 @@ export default function(
   })
 
   delegate(pallet, `.${CLASS_NAMES.editType}`, 'click', (e) => {
-    openEditTypeDialog(elementEditor, e, autocompletionWs)
+    openEditTypeDefinitionDialog(elementEditor, e, autocompletionWs)
   })
 
   delegate(pallet, `.${CLASS_NAMES.remove}`, 'click', (e) => {

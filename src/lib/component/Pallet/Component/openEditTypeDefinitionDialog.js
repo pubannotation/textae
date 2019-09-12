@@ -1,4 +1,4 @@
-import EditTypeDialog from './EditTypeDialog'
+import EditTypeDefinitionDialog from './EditTypeDefinitionDialog'
 import getDifference from './getDifference'
 
 export default function(elementEditor, e, autocompletionWs) {
@@ -27,7 +27,7 @@ export default function(elementEditor, e, autocompletionWs) {
       handler.commander.invoke(handler.changeType(id, changedProperties))
     }
   }
-  const dialog = new EditTypeDialog(
+  const dialog = new EditTypeDefinitionDialog(
     handler.typeContainer,
     done,
     autocompletionWs,

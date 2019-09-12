@@ -1,6 +1,5 @@
 import create from './create'
 import update from './update'
-import CLASS_NAMES from './className'
 
 export default class {
   constructor(typeDefinition, done, autocompletionWs, title) {
@@ -9,21 +8,21 @@ export default class {
     this.autocompletionWs = autocompletionWs
 
     const el = document.createElement('div')
-    el.classList.add(CLASS_NAMES.container)
+    el.classList.add('textae-editor__edit-type-definition-dialog__container')
     el.innerHTML = `
-<div class="${CLASS_NAMES.inputBox}">
+<div class="textae-editor__edit-type-definition-dialog__input-box">
   <label>Id:</label><br>
   <input>
 </div>
-<div class="${CLASS_NAMES.inputBox}">
+<div class="textae-editor__edit-type-definition-dialog__input-box">
   <label>Label:<span></span></label><br>
   <input>
 </div>
-<div class="${CLASS_NAMES.colorPicker}">
-  <label>Color:<input class="${CLASS_NAMES.colorPickerInput}" type="color"></label>
+<div class="textae-editor__edit-type-definition-dialog__color-picker">
+  <label>Color:<input class="textae-editor__edit-type-definition-dialog__color-picker__input" type="color"></label>
 </div>
-<div class="${CLASS_NAMES.setDefault}">
-  <label>Default type:<input class="${CLASS_NAMES.setDefaultInput}" type="checkbox"></label>
+<div class="textae-editor__edit-type-definition-dialog__set-default">
+  <label>Default type:<input class="textae-editor__edit-type-definition-dialog__set-default__input" type="checkbox"></label>
 </div>`
 
     const inputs = el.querySelectorAll('input')

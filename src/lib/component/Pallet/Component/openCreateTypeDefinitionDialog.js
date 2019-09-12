@@ -1,4 +1,4 @@
-import EditTypeDialog from './EditTypeDialog'
+import EditTypeDefinitionDialog from './EditTypeDefinitionDialog'
 
 export default function(elementEditor, editor, autocompletionWs) {
   const handler = elementEditor.getHandler()
@@ -24,7 +24,7 @@ export default function(elementEditor, editor, autocompletionWs) {
     handler.commander.invoke(handler.addType(newType))
   }
 
-  const dialog = new EditTypeDialog(
+  const dialog = new EditTypeDefinitionDialog(
     handler.typeContainer,
     done,
     autocompletionWs,
