@@ -1,5 +1,4 @@
 import { CreateCommand } from './commandTemplate'
-import SpanAndTypesCreateCommand from './SpanAndTypesCreateCommand'
 import SpanReplicateCommand from './SpanReplicateCommand'
 import SpanRemoveCommand from './SpanRemoveCommand'
 import SpanMoveCommand from './SpanMoveCommand'
@@ -12,7 +11,6 @@ import ChangeAttributesOfSelectedEntitiesCommand from './ChangeAttributesOfSelec
 import RemoveAttributesOfSelectedEntitiesCommand from './RemoveAttributesOfSelectedEntitiesCommand'
 import AttatchModificationsToSelectedCommand from './AttatchModificationsToSelectedCommand'
 import RemoveModificationsFromSelectedCommand from './RemoveModificationsFromSelectedCommand'
-import TypeModel from '../../../Model/AnnotationData/Container/SpanContainer/TypeModel'
 import ChangeTypeRemoveRelationOfSelectedEntitiesCommand from './ChangeTypeRemoveRelationOfSelectedEntitiesCommand'
 import ChangeTypeOfSelectedRelationsCommand from './ChangeTypeOfSelectedRelationsCommand'
 import RemoveSelectedCommand from './RemoveSelectedCommand'
@@ -21,6 +19,7 @@ import PasteTypesToSelectedSpansCommand from './PasteTypesToSelectedSpansCommand
 import CreateDefaultAttributeToSelectedEntitiesCommand from './CreateDefaultAttributeToSelectedEntitiesCommand'
 import ChangeEntityLabelCommand from './ChangeEntityLabelCommand'
 import ChangeRelationLabelCommand from './ChangeRelationLabelCommand'
+import CreateSpanAndAutoReplicateCommand from './CreateSpanAndAutoReplicateCommand'
 
 export default class {
   constructor(editor, annotationData, selectionModel) {
@@ -29,13 +28,20 @@ export default class {
     this._selectionModel = selectionModel
   }
 
-  spanCreateCommand(typeName, span) {
-    return new SpanAndTypesCreateCommand(
+  createSpanAndAutoReplicateCommand(
+    newSpan,
+    type,
+    isReplicateAuto,
+    detectBountdaryFunc
+  ) {
+    return new CreateSpanAndAutoReplicateCommand(
       this._editor,
       this._annotationData,
       this._selectionModel,
-      span,
-      [new TypeModel(typeName)]
+      newSpan,
+      type,
+      isReplicateAuto,
+      detectBountdaryFunc
     )
   }
 

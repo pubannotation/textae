@@ -1,3 +1,6 @@
+import CreateSpanAndAutoReplicateCommand from '../../../../../Commander/Factory/CreateSpanAndAutoReplicateCommand'
+import TypeModel from '../../../../../../Model/AnnotationData/Container/SpanContainer/TypeModel'
+
 const BLOCK_THRESHOLD = 100
 
 export default function(
@@ -8,24 +11,13 @@ export default function(
   isDetectDelimiterEnable,
   spanConfig
 ) {
-  const commands = commander.factory.spanCreateCommand(
-    typeDefinition.entity.defaultType,
+  return commander.factory.createSpanAndAutoReplicateCommand(
     {
       begin: newSpan.begin,
       end: newSpan.end
-    }
+    },
+    [new TypeModel(typeDefinition.entity.defaultType)],
+    isReplicateAuto,
+    isDetectDelimiterEnable ? spanConfig.isDelimiter : null
   )
-  if (isReplicateAuto && newSpan.end - newSpan.begin <= BLOCK_THRESHOLD) {
-    commands.push(
-      commander.factory.spanReplicateCommand(
-        {
-          begin: newSpan.begin,
-          end: newSpan.end
-        },
-        [typeDefinition.entity.defaultType],
-        isDetectDelimiterEnable ? spanConfig.isDelimiter : null
-      )
-    )
-  }
-  return commands
 }
