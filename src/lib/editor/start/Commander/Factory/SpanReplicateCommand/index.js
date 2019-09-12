@@ -8,6 +8,7 @@ export default class extends CompositeCommand {
     annotationData,
     selectionModel,
     span,
+    types,
     detectBoundaryFunc
   ) {
     super()
@@ -23,7 +24,7 @@ export default class extends CompositeCommand {
           annotationData,
           selectionModel,
           newSpan,
-          span.types
+          types
         )
     )
     this._logMessage = `replicate a span ${span.id}`

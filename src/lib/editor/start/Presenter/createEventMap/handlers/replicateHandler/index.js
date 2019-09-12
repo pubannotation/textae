@@ -12,7 +12,11 @@ export default function(
 
   if (spanId) {
     commander.invoke(
-      commander.factory.spanReplicateCommand(span, detectBoundaryFunc)
+      commander.factory.spanReplicateCommand(
+        span,
+        span.types,
+        detectBoundaryFunc
+      )
     )
   } else {
     alert('You can replicate span annotation when there is only span selected.')
