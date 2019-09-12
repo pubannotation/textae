@@ -1,6 +1,6 @@
 // Maintainance a state of which the save button is able to be push.
 import Observable from 'observ'
-import hasError from '../../editor/Model/AnnotationData/parseAnnotation/validateAnnotation/Reject/hasError'
+import hasError from '../../hasError'
 
 export default function(
   history,

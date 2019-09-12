@@ -1,4 +1,4 @@
-import isBoundaryCrossingWithOtherSpans from '../../../../../Model/AnnotationData/parseAnnotation/validateAnnotation/isBoundaryCrossingWithOtherSpans'
+import isBoundaryCrossingWithOtherSpans from '../../../../../isBoundaryCrossingWithOtherSpans'
 import isAlreadySpaned from '../../../../isAlreadySpaned'
 import getSpansTheirStringIsSameWith from './getSpansTheirStringIsSameWith'
 import isWord from './isWord'

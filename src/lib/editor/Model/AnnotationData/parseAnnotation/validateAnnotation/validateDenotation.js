@@ -1,5 +1,5 @@
 import validate from './validate'
-import isBoundaryCrossingWithOtherSpans from './isBoundaryCrossingWithOtherSpans'
+import isBoundaryCrossingWithOtherSpans from '../../../../isBoundaryCrossingWithOtherSpans'
 
 export default function(text, paragraph, denotations) {
   const resultHasLength = validate(denotations, hasLength)
