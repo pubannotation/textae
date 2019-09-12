@@ -27,43 +27,41 @@ const defaults = {
   'non-edge characters': [' ', '\n']
 }
 
-export default function() {
-  let delimiterCharacters = []
-  let blankCharacters = []
+export default class {
+  constructor() {
+    this._delimiterCharacters = []
+    this._blankCharacters = []
+  }
 
-  const set = (config) => {
+  reset() {
+    this.set(defaults)
+  }
+
+  set(config) {
     const settings = Object.assign({}, defaults, config)
 
-    delimiterCharacters = settings['delimiter characters']
-    blankCharacters = settings['non-edge characters']
+    this._delimiterCharacters = settings['delimiter characters']
+    this._blankCharacters = settings['non-edge characters']
     return config
   }
 
-  const reset = () => set(defaults)
-
-  const isDelimiter = (char) => {
-    if (delimiterCharacters.indexOf('ANY') >= 0) {
+  isDelimiter(char) {
+    if (this._delimiterCharacters.indexOf('ANY') >= 0) {
       return 1
     }
 
-    return delimiterCharacters.indexOf(char) >= 0
+    return this._delimiterCharacters.indexOf(char) >= 0
   }
 
-  const isBlankCharacter = (char) => blankCharacters.indexOf(char) >= 0
+  isBlankCharacter(char) {
+    return this._blankCharacters.indexOf(char) >= 0
+  }
 
-  const removeBlankChractors = (str) => {
-    for (const char of blankCharacters) {
+  removeBlankChractors(str) {
+    for (const char of this._blankCharacters) {
       str = str.replace(char, '')
     }
 
     return str
-  }
-
-  return {
-    reset,
-    set,
-    isDelimiter,
-    isBlankCharacter,
-    removeBlankChractors
   }
 }

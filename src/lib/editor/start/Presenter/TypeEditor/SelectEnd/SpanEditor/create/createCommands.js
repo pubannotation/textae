@@ -18,6 +18,6 @@ export default function(
     },
     [new TypeModel(typeDefinition.entity.defaultType)],
     isReplicateAuto,
-    isDetectDelimiterEnable ? spanConfig.isDelimiter : null
+    isDetectDelimiterEnable ? (char) => spanConfig.isDelimiter(char) : null
   )
 }
