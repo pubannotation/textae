@@ -1,5 +1,4 @@
 import capitalize from 'capitalize'
-import _ from 'underscore'
 
 const SEED = {
   instanceHide: 0,
@@ -10,9 +9,9 @@ export default function() {
   const api = Object.assign({}, SEED)
   const set = (mode, val) => updateHash(api, mode, val)
 
-  _.each(SEED, (val, key) => {
+  for (const key of Object.keys(SEED)) {
     api[`set${capitalize(key)}`] = (val) => set(key, val)
-  })
+  }
 
   return api
 }
