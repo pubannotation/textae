@@ -1,11 +1,10 @@
 import validate from './validate'
 import isContains from './isContains'
-import _ from 'underscore'
 
 export default function(denotations, relations, modifications) {
   const resultModification = validate(modifications, isContains, {
     property: 'obj',
-    dictionary: _.union(denotations, relations)
+    dictionary: denotations.concat(relations)
   })
 
   return {
