@@ -1,4 +1,4 @@
-import { isBoundaryCrossingWithOtherSpans } from '../../parseAnnotation/validateAnnotation'
+import isBoundaryCrossingWithOtherSpans from '../../parseAnnotation/validateAnnotation/isBoundaryCrossingWithOtherSpans'
 import SpanModel from './SpanModel'
 
 export default function(denotations, editor, paragraph, getAllEntitesFunc) {

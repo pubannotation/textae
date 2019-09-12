@@ -1,5 +1,5 @@
 import Handlebars from 'handlebars'
-import { hasError } from '../editor/Model/AnnotationData/parseAnnotation/validateAnnotation'
+import hasError from '../editor/Model/AnnotationData/parseAnnotation/validateAnnotation/Reject/hasError'
 import EditorDialog from './dialog/EditorDialog'
 
 const source = `

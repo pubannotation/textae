@@ -1,4 +1,4 @@
-import { isBoundaryCrossingWithOtherSpans } from '../../../../../../Model/AnnotationData/parseAnnotation/validateAnnotation'
+import isBoundaryCrossingWithOtherSpans from '../../../../../../Model/AnnotationData/parseAnnotation/validateAnnotation/isBoundaryCrossingWithOtherSpans'
 import isAlreadySpaned from '../../../../../isAlreadySpaned'
 import createCommands from './createCommands'
 import getNewSpan from './getNewSpan'
