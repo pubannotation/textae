@@ -1,7 +1,7 @@
-import uri from '../../../../uri'
+import isUri from './isUri'
 import getMatchPrefix from './getMatchPrefix'
 export default function(namespace, typeDefinition, type) {
-  if (uri.isUri(type)) {
+  if (isUri(type)) {
     return type
   } else if (typeDefinition.getUri(type)) {
     return typeDefinition.getUri(type)

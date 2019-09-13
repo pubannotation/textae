@@ -1,5 +1,5 @@
 import { EventEmitter } from 'events'
-import uri from '../../../uri'
+import getUrlMatches from '../../../getUrlMatches'
 import createCountMap from './createCountMap'
 import getDefaultTypeAutomatically from './getDefaultTypeAutomatically'
 import getLabelOrColor from './getLabelOrColor'
@@ -127,7 +127,7 @@ export default class extends EventEmitter {
   }
 
   getUri(id) {
-    return uri.getUrlMatches(id) ? id : undefined
+    return getUrlMatches(id) ? id : undefined
   }
 
   get typeDefinition() {
