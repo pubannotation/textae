@@ -1,6 +1,6 @@
 export default {
   isUri(type) {
-    return String(type).indexOf('http') > -1
+    return type.trim().startsWith('http')
   },
   getUrlMatches(type) {
     // The regular-expression to parse URL.
