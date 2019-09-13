@@ -36,6 +36,6 @@ export default class extends BaseCommand {
   }
 
   get isEmpty() {
-    return this._subCommands.length === 0
+    return !this._subCommands || this._subCommands.length === 0
   }
 }

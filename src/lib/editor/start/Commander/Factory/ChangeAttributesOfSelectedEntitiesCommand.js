@@ -13,6 +13,11 @@ export default class extends CompositeCommand {
   ) {
     super()
 
+    // Has no effect unless changed
+    if (oldPred === newPred && oldObj === newObj) {
+      return
+    }
+
     // Update models
     const effectedAttributes = []
     for (const id of selectedEntities) {
