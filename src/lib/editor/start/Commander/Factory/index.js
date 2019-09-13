@@ -125,17 +125,6 @@ export default class {
     )
   }
 
-  attributeCreateCommand(attribute) {
-    return new CreateCommand(
-      this._editor,
-      this._annotationData,
-      this._selectionModel,
-      'attribute',
-      true,
-      attribute
-    )
-  }
-
   attributeRemoveCommand(selectedEntities, pred, obj) {
     return new RemoveAttributesOfSelectedEntitiesCommand(
       this._editor,
