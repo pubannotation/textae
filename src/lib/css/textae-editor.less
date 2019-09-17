@@ -16,6 +16,7 @@
     .hidden {
         visibility: hidden;
     }
+    white-space: pre;
     /* active editer color */
     &--term-mode.textae-editor--active {
         .active;
@@ -32,6 +33,7 @@
     }
     &__body {
         position: relative;
+        white-space: normal;
         &__text-box {
             // Hides the part of the paragraph that overflowed from the textae editor 
             // so that you can click the DOM element below the paragraph.
@@ -49,6 +51,7 @@
             left: 0;
             position: absolute;
             top: 0;
+            white-space: normal;
         }
     }
     &__footer {
@@ -61,12 +64,14 @@
         background: -webkit-gradient(linear, left top, right top, from(#DDDDFF), to(#FFFFFF));
         /* MSIE */
         // filter: progid: DXImageTransform.Microsoft.Gradient(StartColorStr='#DDDDFF', EndColorStr='#FFFFFF', GradientType=1);
-        bottom: 0;
+        bottom: -2px;
         height: 20px;
+        left: -2px;
         line-height: normal;
         opacity: 0.9;
         overflow-y: hidden;
         position: relative;
+        white-space: normal;
         width: 90%;
         &__message {
             color: gray;
