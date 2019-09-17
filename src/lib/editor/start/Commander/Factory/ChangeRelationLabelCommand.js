@@ -38,15 +38,17 @@ export default class extends CompositeCommand {
       }
     }
 
-    this._subCommands = commands.concat([
-      new ChangeTypeOfSelectedRelationsCommand(
-        editor,
-        annotationData,
-        selectionModel,
-        value
-      )
-    ])
+    const changeRelationCommand = new ChangeTypeOfSelectedRelationsCommand(
+      editor,
+      annotationData,
+      selectionModel,
+      value
+    )
+    if (!changeRelationCommand.isEmpty) {
+      commands.push(changeRelationCommand)
+    }
 
+    this._subCommands = commands
     this._logMessage = `change relation value: ${value} label: ${label} `
   }
 }

@@ -38,16 +38,18 @@ export default class extends CompositeCommand {
       }
     }
 
-    this._subCommands = commands.concat([
-      new ChangeTypeRemoveRelationOfSelectedEntitiesCommand(
-        editor,
-        annotationData,
-        selectionModel,
-        value,
-        typeContainer.isBlock(value)
-      )
-    ])
+    const changeEntityCommand = new ChangeTypeRemoveRelationOfSelectedEntitiesCommand(
+      editor,
+      annotationData,
+      selectionModel,
+      value,
+      typeContainer.isBlock(value)
+    )
+    if (!changeEntityCommand.isEmpty) {
+      commands.push(changeEntityCommand)
+    }
 
+    this._subCommands = commands
     this._logMessage = `change entity value: ${value} label: ${label} `
   }
 }

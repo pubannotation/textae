@@ -12,7 +12,7 @@ export default class extends CompositeCommand {
     super()
     const selectedElements = selectionModel.entity
       .all()
-      .filter((id) => annotationData.entity.get(id).type !== newType)
+      .filter((id) => annotationData.entity.get(id).type.name !== newType)
 
     this._subCommands = selectedElements.map(
       (id) =>
