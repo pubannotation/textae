@@ -1,5 +1,6 @@
 import CompositeCommand from './CompositeCommand'
-import EntityChangeTypeRemoveRelationCommand from './EntityChangeTypeRemoveRelationCommand'
+import { RemoveCommand } from './commandTemplate'
+import ChangeTypeCommand from './ChangeTypeCommand'
 
 export default class extends CompositeCommand {
   constructor(
@@ -10,21 +11,36 @@ export default class extends CompositeCommand {
     isRemoveRelations
   ) {
     super()
-    const selectedElements = selectionModel.entity
+    const hasChanges = selectionModel.entity
       .all()
       .filter((id) => annotationData.entity.get(id).type.name !== newType)
 
-    this._subCommands = selectedElements.map(
+    const changeTypeCommands = hasChanges.map(
       (id) =>
-        new EntityChangeTypeRemoveRelationCommand(
-          editor,
-          annotationData,
-          selectionModel,
-          id,
-          newType,
-          isRemoveRelations
-        )
+        new ChangeTypeCommand(editor, annotationData, 'entity', id, newType)
     )
-    this._logMessage = `set type ${newType} to entities ${selectedElements}`
+
+    // Block types do not have relations. If there is a relation, delete it.
+    this._subCommands = isRemoveRelations
+      ? hasChanges
+          .map((id) =>
+            annotationData.entity
+              .assosicatedRelations(id)
+              .map(
+                (id) =>
+                  new RemoveCommand(
+                    editor,
+                    annotationData,
+                    selectionModel,
+                    'relation',
+                    id
+                  )
+              )
+          )
+          .flat()
+          .concat(changeTypeCommands)
+      : changeTypeCommands
+
+    this._logMessage = `set type ${newType} to entities ${hasChanges}`
   }
 }
