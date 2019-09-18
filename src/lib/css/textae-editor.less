@@ -182,51 +182,6 @@
     &__attribute {
         height: 18px;
     }
-    &__attribute-buttons {
-        display: none;
-        flex-direction: row;
-        justify-content: center;
-        position: relative;
-        top: -26px;
-        left: 0;
-    }
-    &__attribute-button {
-        width: 20px;
-        min-width: 20px;
-        height: 20px;
-        margin: 0 2px;
-        border: solid 1px gray;
-        border-radius: 50%;
-        box-shadow: 0 1px 2px 0 rgba(100, 100, 100, .5);
-        background-color: white;
-        &--add {
-            visibility: hidden;
-            position: relative;
-            top: -10px;
-            z-index: 10;
-            margin: 0 auto;
-            &:before {
-                position: relative;
-                display: inline-block;
-                top: -11px;
-                left: 0;
-                font-family: FontAwesome;
-                content: "\f067";
-            }
-        }
-        &--edit {
-            &:before {
-                font-family: FontAwesome;
-                content: "\f040";
-            }
-        }
-        &--delete {
-            &:before {
-                font-family: FontAwesome;
-                content: "\f1f8";
-            }
-        }
-    }
     &__entity-pane {
         line-height: 11px;
         position: relative;
@@ -377,20 +332,6 @@
         }
     }
 
-    &--instance-mode&--editable,
-    &--term-mode&--editable {
-        .textae-editor__type-values--some_entity_selected .textae-editor__attribute:hover {
-            box-shadow: 1px 1px 3px #600;
-
-            .textae-editor__attribute-buttons {
-                display: flex;
-
-                &:hover {
-                    display: flex;
-                }
-            }
-        }
-    }
     &-veil {
         cursor: wait;
         height: 100%;

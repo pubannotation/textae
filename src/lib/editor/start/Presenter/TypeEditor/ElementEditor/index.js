@@ -2,7 +2,6 @@ import EditRelation from './EditRelation'
 import EditEntity from './EditEntity'
 import unbindAllMouseEventhandler from './unbindAllMouseEventhandler'
 import getHandler from './getHandler'
-import initiateEditAttribute from './initiateEditAttribute'
 
 // Provide handlers to edit elements according to an edit mode.
 export default function(
@@ -48,8 +47,6 @@ export default function(
         unbindAllMouseEventhandler(editor)
 
         editEntity.init()
-        initiateEditAttribute(editor, selectionModel, commander)
-
         handler = 'entity'
       },
       editRelation: () => {
