@@ -22,7 +22,6 @@ export default function(
     typeDefinition
   )
   const selectSpan = new SelectSpan(
-    editor,
     annotationData,
     selectionModel,
     typeDefinition
