@@ -83,16 +83,13 @@ export default class {
     )
   }
 
-  changeTypeRemoveRelationOfSelectedEntitiesCommand(
-    newType,
-    isRemoveRelations
-  ) {
+  changeTypeRemoveRelationOfSelectedEntitiesCommand(newType, typeContainer) {
     return new ChangeTypeRemoveRelationOfSelectedEntitiesCommand(
       this._editor,
       this._annotationData,
       this._selectionModel,
       newType,
-      isRemoveRelations
+      typeContainer
     )
   }
 

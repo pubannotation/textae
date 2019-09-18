@@ -45,7 +45,7 @@ export default class extends CompositeCommand {
       selectionModel,
       value,
       attributes,
-      typeContainer.isBlock(value)
+      typeContainer
     )
     if (!changeEntityCommand.isEmpty) {
       commands.push(changeEntityCommand)

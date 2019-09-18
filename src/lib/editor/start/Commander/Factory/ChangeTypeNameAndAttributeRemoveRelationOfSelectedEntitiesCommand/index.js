@@ -11,7 +11,7 @@ export default class extends CompositeCommand {
     selectionModel,
     newType,
     newAttributes,
-    isRemoveRelations
+    typeContainer
   ) {
     super()
 
@@ -48,7 +48,7 @@ export default class extends CompositeCommand {
     )
 
     // Block types do not have relations. If there is a relation, delete it.
-    const removeRelationCommands = isRemoveRelations
+    const removeRelationCommands = typeContainer.isBlock(newType)
       ? getRemoveRelationCommands(
           entitiesWithChange,
           annotationData,
