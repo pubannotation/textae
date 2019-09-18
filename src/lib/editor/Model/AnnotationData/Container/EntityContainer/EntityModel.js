@@ -60,4 +60,10 @@ export default class {
         )
     )
   }
+
+  get relations() {
+    return this._emitter.relation.all
+      .filter((r) => r.obj === this.id || r.subj === this.id)
+      .map((r) => r.id)
+  }
 }

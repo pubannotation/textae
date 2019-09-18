@@ -9,8 +9,8 @@ export default function(
   return entitiesWithChange
     .map((id) =>
       annotationData.entity
-        .assosicatedRelations(id)
-        .map(
+        .get(id)
+        .relations.map(
           (id) =>
             new RemoveCommand(
               editor,

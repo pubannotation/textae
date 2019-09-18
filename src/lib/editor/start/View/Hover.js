@@ -23,8 +23,8 @@ export default function(editor, entity) {
 
 function processAccosiatedRelation(entity, domPositionCache, func, entityId) {
   entity
-    .assosicatedRelations(entityId)
-    .map((relationId) => domPositionCache.toConnect(relationId))
+    .get(entityId)
+    .relations.map((relationId) => domPositionCache.toConnect(relationId))
     .filter((connect) => connect.pointup && connect.pointdown)
     .forEach(func)
 }

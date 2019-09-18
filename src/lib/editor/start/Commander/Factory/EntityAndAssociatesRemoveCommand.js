@@ -15,8 +15,8 @@ export default class extends CompositeCommand {
       )
     const removeEntity = entityRemoveCommand(id)
     const removeRelation = annotationData.entity
-      .assosicatedRelations(id)
-      .map(
+      .get(id)
+      .relations.map(
         (id) =>
           new RelationAndAssociatesRemoveCommand(
             editor,

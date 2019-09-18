@@ -16,7 +16,7 @@ export default class extends EventEmitter {
     this.span = new SpanContainer(editor, this, this.paragraph)
     this.attribute = new AttributeContainer(this)
     this.relation = new RelationContaner(this)
-    this.entity = new EntityContainer(editor, this, this.relation)
+    this.entity = new EntityContainer(editor, this)
     this.modification = new ModelContainer(this, 'modification')
   }
 }
