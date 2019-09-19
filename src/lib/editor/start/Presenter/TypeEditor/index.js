@@ -1,6 +1,5 @@
 import Pallet from '../../../../component/Pallet'
 import ElementEditor from './ElementEditor'
-import changeLabelHandler from './changeLabelHandler'
 
 export default function(
   editor,
@@ -46,7 +45,7 @@ export default function(
     },
     hidePallet: pallet.hide,
     changeLabel: () =>
-      changeLabelHandler(elementEditor.getHandler, autocompletionWs),
+      elementEditor.getHandler().changeLabelHandler(autocompletionWs),
     changeLabelAndPred: null,
     changeTypeOfSelectedElement: (newType) =>
       elementEditor.getHandler().changeTypeOfSelectedElement(newType),
