@@ -18,9 +18,10 @@ const html = `
     {{#each attributes}}
     {{> attributePartialTemplate}}
     {{/each}}
-    <div class="textae-editor__edit-type-dialog__attribute__add">
-      <button type="button" class="ui-button ui-corner-all textae-editor__edit-type-dialog__attribute__add__value">add an attribute</button>
-    </div>
+  </div>
+  <div class="textae-editor__edit-type-dialog__attribute__message textae-editor__edit-type-dialog__attribute__message--valid">An entity cannot have more than one attribute with the same predicate</div>
+  <div class="textae-editor__edit-type-dialog__attribute__add">
+    <button type="button" class="ui-button ui-corner-all textae-editor__edit-type-dialog__attribute__add__value">add an attribute</button>
   </div>
 </div>`
 

@@ -14,7 +14,7 @@ export default class {
     )
     setAutocompleteSource(typeDefinition, autocompletionWs, $value, $labelSpan)
 
-    // Sel a label
+    // Set a label
     if (typeDefinition && typeDefinition.getLabel(type.name)) {
       $labelSpan.text(typeDefinition.getLabel(type.name))
     }
