@@ -79,14 +79,26 @@ export default class extends EventEmitter {
   }
 
   get config() {
-    const types = [...this._definedTypes.values()]
+    // Get type definitions.
+    const types = new Map(this._definedTypes)
 
-    const defaultType = types.find((type) => type.id === this._defaultType)
-    if (defaultType) {
-      defaultType.default = true
+    // Get types from instances.
+    for (const { type } of this._getAllInstanceFunc()) {
+      if (!types.has(type.name)) {
+        types.set(type.name, { id: type.name })
+      }
     }
 
-    return types
+    // Make default type and delete defalut type from original configuratian.
+    for (const type of types.values()) {
+      if (type.id === this.defaultType) {
+        type.default = true
+      } else {
+        delete type.default
+      }
+    }
+
+    return [...types.values()]
   }
 
   // Return the type that has the default property or the most  used type.
