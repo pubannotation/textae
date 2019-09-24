@@ -46,8 +46,8 @@ export default class {
 
   get config() {
     return {
-      'entity types': this.entityContainer.definedTypes,
-      'relation types': this.relationContaier.definedTypes
+      'entity types': this.entityContainer.config,
+      'relation types': this.relationContaier.config
     }
   }
 }

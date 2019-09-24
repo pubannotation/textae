@@ -64,7 +64,5 @@ const html = `
 const template = Handlebars.compile(html)
 
 export default function(pallet, typeContainer) {
-  pallet.querySelector('table').innerHTML = template(
-    typeContainer.typeDefinition
-  )
+  pallet.querySelector('table').innerHTML = template(typeContainer.pallet)
 }

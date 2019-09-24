@@ -1,10 +1,8 @@
 import { EventEmitter } from 'events'
 import getUrlMatches from '../../../getUrlMatches'
-import createCountMap from './createCountMap'
 import getDefaultTypeAutomatically from './getDefaultTypeAutomatically'
 import getLabelOrColor from './getLabelOrColor'
-import sortByCountAndName from './sortByCountAndName'
-import createTypesWithoutInstance from './createTypesWithoutInstance'
+import formatForPallet from './formatForPallet'
 
 export default class extends EventEmitter {
   constructor(getAllInstanceFunc, defaultColor, lockStateObservable) {
@@ -77,6 +75,10 @@ export default class extends EventEmitter {
   }
 
   get definedTypes() {
+    return this._definedTypes
+  }
+
+  get config() {
     const types = [...this._definedTypes.values()]
 
     const defaultType = types.find((type) => type.id === this._defaultType)
@@ -130,25 +132,13 @@ export default class extends EventEmitter {
     return getUrlMatches(id) ? id : undefined
   }
 
-  get typeDefinition() {
-    const allInstance = this._getAllInstanceFunc()
-    const countMap = createCountMap(allInstance)
-    const typesWithoutInstance = createTypesWithoutInstance(
-      this._definedTypes.keys(),
-      countMap
+  get pallet() {
+    return formatForPallet(
+      this._getAllInstanceFunc(),
+      this._definedTypes,
+      this.defaultType,
+      this._defaultColor
     )
-    const types = sortByCountAndName(countMap).concat(typesWithoutInstance)
-
-    return types.map((id) => {
-      return {
-        id,
-        label: this.getLabel(id, true),
-        defaultType: id === this.defaultType,
-        uri: this.getUri(id),
-        color: this.getColor(id, true),
-        useNumber: countMap.get(id)
-      }
-    })
   }
 
   delete(id) {
