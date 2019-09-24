@@ -2,30 +2,29 @@ import post from './post'
 import patch from './patch'
 
 export default class {
-  constructor(beforeSend, successHandler, failHandler, finishHandler) {
+  constructor(beforeSend, failHandler, finishHandler) {
     this.beforeSend = beforeSend
-    this.successHandler = successHandler
     this.failHandler = failHandler
     this.finishHandler = finishHandler
   }
 
-  post(url, data) {
+  post(url, data, successHandler) {
     post(
       url,
       data,
       this.beforeSend,
-      this.successHandler,
+      successHandler,
       this.failHandler,
       this.finishHandler
     )
   }
 
-  patch(url, data) {
+  patch(url, data, successHandler) {
     patch(
       url,
       data,
       this.beforeSend,
-      this.successHandler,
+      successHandler,
       this.failHandler,
       this.finishHandler
     )

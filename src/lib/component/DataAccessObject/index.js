@@ -41,7 +41,6 @@ export default class extends EventEmitter {
 
     this.ajaxSender = new AjaxSender(
       () => this.cursorChanger.startWait(),
-      () => super.emit('annotation.save'),
       () => super.emit('save error'),
       () => this.cursorChanger.endWait()
     )
@@ -81,7 +80,8 @@ export default class extends EventEmitter {
       'annotations.json',
       saveToParameter || this.urlOfLastRead.annotation,
       editedData,
-      (url, data) => this.ajaxSender.post(url, data),
+      (url, data) =>
+        this.ajaxSender.post(url, data, () => super.emit('annotation.save')),
       (el, closeDialog) => addViewSource(el, editedData, this, closeDialog),
       () => super.emit('annotation.save')
     ).open()
@@ -96,7 +96,7 @@ export default class extends EventEmitter {
       (url, data) => {
         // textae-config service is build with the Ruby on Rails 4.X.
         // To change existing files, only PATCH method is allowed on the Ruby on Rails 4.X.
-        this.ajaxSender.patch(url, data)
+        this.ajaxSender.patch(url, data, () => super.emit('configuration.save'))
       },
       (el) => addJsonDiff(el, orig, edited),
       () => super.emit('configuration.save')
