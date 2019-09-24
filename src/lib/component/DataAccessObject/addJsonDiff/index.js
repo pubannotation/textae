@@ -1,4 +1,4 @@
-import jsonDiff from '../../util/jsonDiff'
+import jsonDiff from './jsonDiff'
 
 export default function(el, originalConfig, editedConfig) {
   const diff = jsonDiff(originalConfig, editedConfig) || 'nothing.'
