@@ -18,26 +18,18 @@
   "bugs": {
     "url": "https://github.com/pubannotation/textae/issues"
   },
-  "dependencies": {
-    "capitalize": "^1.0.0",
-    "delegate": "^3.0.0",
-    "emitter-fsm": "0.0.2",
-    "handlebars": "^4.0.2",
-    "jsondiffpatch": "^0.2.5",
-    "observ": "^0.2.0",
-    "sticky-kit": "github:leafo/sticky-kit",
-    "throttleit": "^1.0.0",
-    "yui": "^3.18.1"
-  },
   "devDependencies": {
     "@babel/core": "^7.5.5",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.26.2",
     "babelify": "^10.0.0",
     "browserify": "^16.5.0",
     "browserify-shim": "^3.8.12",
+    "capitalize": "^1.0.0",
     "clean-css-cli": "^4.3.0",
     "deamdify": "^0.3.0",
     "debounce": "^1.2.0",
+    "delegate": "^3.0.0",
+    "emitter-fsm": "0.0.2",
     "eslint": "^6.2.2",
     "eslint-config-prettier": "^6.0.0",
     "eslint-plugin-prettier": "^3.1.0",
@@ -50,17 +42,23 @@
     "grunt-contrib-watch": "^1.1.0",
     "grunt-open": "~0.2.3",
     "grunt-text-replace": "^0.4.0",
+    "handlebars": "^4.0.2",
     "jquery": "^2.2.4",
     "jquery-ui": "^1.12.1",
+    "jsondiffpatch": "^0.2.5",
     "load-grunt-tasks": "~3.3.0",
     "npm-run-all": "^1.7.0",
+    "observ": "^0.2.0",
     "prettier": "^1.18.2",
     "rimraf": "^2.5.2",
     "serve-favicon": "^2.3.0",
     "serve-static": "^1.10.0",
+    "sticky-kit": "github:leafo/sticky-kit",
+    "throttleit": "^1.0.0",
     "toastr": "^2.1.2",
     "uglifyify": "^5.0.2",
-    "watchify": "^3.11.1"
+    "watchify": "^3.11.1",
+    "yui": "^3.18.1"
   },
   "homepage": "https://github.com/pubannotation/textae",
   "keywords": [
@@ -77,12 +75,12 @@
   "scripts": {
     "browserify": "browserify -g deamdify -g uglifyify src/index.js -o src/lib/bundle.js",
     "clean": "rimraf dist/* src/lib/bundle.js",
-    "grunt-dist": "grunt dist",
+    "cleancss": "cleancss -o dist/lib/css/$npm_package_name-$npm_package_version.min.css dist/lib/css/$npm_package_name-$npm_package_version.css",
     "dist": "npm-run-all clean lint browserify grunt-dist cleancss",
+    "grunt-dist": "grunt dist",
     "lint": "eslint src/lib",
     "test": "grunt jasmine_node",
     "watch": "npm run watchify & grunt dev",
-    "watchify": "watchify -g deamdify -d src/index.js -o dev/bundle.js",
-    "cleancss": "cleancss -o dist/lib/css/$npm_package_name-$npm_package_version.min.css dist/lib/css/$npm_package_name-$npm_package_version.css"
+    "watchify": "watchify -g deamdify -d src/index.js -o dev/bundle.js"
   }
 }
