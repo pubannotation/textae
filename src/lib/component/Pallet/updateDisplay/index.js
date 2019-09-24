@@ -4,12 +4,17 @@ import updateTitle from './updateTitle'
 import updateNoConfigText from './updateNoConfigText'
 import updateBGColorClass from './updateBGColorClass'
 import appendRows from './appendRows'
-import show from './show'
 import setWidthWithinWindow from './setWidthWithinWindow'
 import setHeightWithinWindow from './setHeightWithinWindow'
 import updateWriteButton from './updateWriteButton'
 
-export default function(pallet, history, typeContainer, handlerType) {
+export default function(
+  pallet,
+  typeContainer,
+  handlerType,
+  originalData,
+  typeDefinition
+) {
   if (typeContainer) {
     clear(pallet)
     appendRows(pallet, typeContainer)
@@ -17,9 +22,8 @@ export default function(pallet, history, typeContainer, handlerType) {
     updateTitle(pallet, handlerType)
     updateNoConfigText(pallet, handlerType)
     updateBGColorClass(pallet, handlerType)
-    show(pallet)
     setWidthWithinWindow(pallet)
     setHeightWithinWindow(pallet)
-    updateWriteButton(pallet, history)
+    updateWriteButton(pallet, originalData, typeDefinition)
   }
 }

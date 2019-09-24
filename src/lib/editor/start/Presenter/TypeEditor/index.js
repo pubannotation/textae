@@ -11,7 +11,9 @@ export default function(
   spanConfig,
   commander,
   pushButtons,
+  originalData,
   typeDefinition,
+  dataAccessObject,
   autocompletionWs
 ) {
   // will init.
@@ -31,7 +33,10 @@ export default function(
     history,
     commander,
     autocompletionWs,
-    elementEditor
+    elementEditor,
+    originalData,
+    typeDefinition,
+    dataAccessObject
   )
 
   const api = {

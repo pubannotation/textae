@@ -16,7 +16,9 @@ export default class {
     clipBoard,
     buttonController,
     typeGap,
+    originalData,
     typeDefinition,
+    dataAccessObject,
     autocompletionWs,
     mode
   ) {
@@ -28,7 +30,9 @@ export default class {
       spanConfig,
       commander,
       buttonController.pushButtons,
+      originalData,
       typeDefinition,
+      dataAccessObject,
       autocompletionWs
     )
 

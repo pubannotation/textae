@@ -3,21 +3,29 @@ import updateDisplay from './updateDisplay'
 import enableJqueryDraggable from './enableJqueryDraggable'
 import handleEventListners from './handleEventListners'
 import moveIntoWindow from './moveIntoWindow'
+import show from './show'
 
 export default class {
-  constructor(editor, history, commander, autocompletionWs, elementEditor) {
+  constructor(
+    editor,
+    history,
+    commander,
+    autocompletionWs,
+    elementEditor,
+    originalData,
+    typeDefinition,
+    dataAccessObject
+  ) {
     this._editor = editor
-    this._history = history
     this._elementEditor = elementEditor
     this._el = new Component(editor, commander, autocompletionWs, elementEditor)
+    this._originalData = originalData
+    this._typeDefinition = typeDefinition
 
     // Bind event
-    // Update save config button when history changing
-    history.on('change', () => {
-      if (this.visibly) {
-        this._updateDisplay()
-      }
-    })
+    // Update save config button when changing history and savigng configuration.
+    history.on('change', () => this._updateDisplay())
+    dataAccessObject.on('configuration.save', () => this._updateDisplay())
     this._editor.eventEmitter.on('textae.pallet.close', () => this.hide())
 
     // let the pallet draggable.
@@ -25,12 +33,15 @@ export default class {
   }
 
   _updateDisplay() {
-    updateDisplay(
-      this._el,
-      this._history,
-      this._elementEditor.getHandler().typeContainer,
-      this._elementEditor.getHandlerType()
-    )
+    if (this.visibly) {
+      updateDisplay(
+        this._el,
+        this._elementEditor.getHandler().typeContainer,
+        this._elementEditor.getHandlerType(),
+        this._originalData,
+        this._typeDefinition
+      )
+    }
   }
 
   get el() {
@@ -51,6 +62,7 @@ export default class {
       // Update table content when config lock state or type definition changing
       handleEventListners(typeContainer, 'add', this.updateDisplayForEditMode)
 
+      show(this._el)
       this._updateDisplay()
       moveIntoWindow(this._el, point)
     }

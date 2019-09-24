@@ -3,15 +3,19 @@ export default class OriginalData {
   constructor() {
     this._map = new Map()
   }
+
   get annotation() {
-    return this._map.get('annotation')
+    return this._map.get('annotation') || {}
   }
-  get configuration() {
-    return this._map.get('configuration')
-  }
+
   set annotation(annotation) {
     this._map.set('annotation', annotation)
   }
+
+  get configuration() {
+    return this._map.get('configuration') || {}
+  }
+
   set configuration(configuration) {
     this._map.set('configuration', configuration)
   }

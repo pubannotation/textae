@@ -45,9 +45,16 @@ export default class {
   }
 
   get config() {
-    return {
-      'entity types': this.entityContainer.config,
-      'relation types': this.relationContaier.config
+    const ret = {}
+
+    if (this.entityContainer.config.length) {
+      ret['entity types'] = this.entityContainer.config
     }
+
+    if (this.relationContaier.config.length) {
+      ret['relation types'] = this.relationContaier.config
+    }
+
+    return ret
   }
 }

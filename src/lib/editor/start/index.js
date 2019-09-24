@@ -53,46 +53,6 @@ export default function(
     typeGap,
     typeDefinition
   )
-  const presenter = new Presenter(
-    editor,
-    history,
-    annotationData,
-    selectionModel,
-    commander,
-    spanConfig,
-    clipBoard,
-    buttonController,
-    typeGap,
-    typeDefinition,
-    params.get('autocompletion_ws'),
-    params.get('mode')
-  )
-
-  bindMouseEvent(editor, presenter, view)
-  focusEditorWhenFocusedChildRemoved(editor)
-
-  const statusBar = getStatusBar(editor, params.get('status_bar'))
-
-  if (params.get('control') === 'visible') {
-    editor[0].classList.add('textae-editor--control-visible')
-  }
-
-  if (params.get('control') === 'hidden') {
-    editor[0].classList.add('textae-editor--control-hidden')
-  }
-
-  // Over write editor-div's config lock state by url's.
-  // Url's default is 'unlock', so its default is also 'unlock'.
-  const configEditFromUrl = getConfigEditParamFromUrl(params.get('source'))
-  if (configEditFromUrl !== null) {
-    params.set('config_lock', configEditFromUrl)
-  }
-
-  if (params.has('config_lock') && params.get('config_lock') === 'true') {
-    typeDefinition.lockEdit()
-  } else {
-    typeDefinition.unlockEdit()
-  }
 
   const originalData = new OriginalData()
 
@@ -127,8 +87,54 @@ export default function(
       setSpanAndTypeConfig(spanConfig, typeDefinition, config)
     })
     .on('configuration.save', () => {
-      originalData.configuration = typeDefinition.config
+      originalData.configuration = Object.assign(
+        originalData.configuration,
+        typeDefinition.config
+      )
     })
+
+  const presenter = new Presenter(
+    editor,
+    history,
+    annotationData,
+    selectionModel,
+    commander,
+    spanConfig,
+    clipBoard,
+    buttonController,
+    typeGap,
+    originalData,
+    typeDefinition,
+    dataAccessObject,
+    params.get('autocompletion_ws'),
+    params.get('mode')
+  )
+
+  bindMouseEvent(editor, presenter, view)
+  focusEditorWhenFocusedChildRemoved(editor)
+
+  const statusBar = getStatusBar(editor, params.get('status_bar'))
+
+  if (params.get('control') === 'visible') {
+    editor[0].classList.add('textae-editor--control-visible')
+  }
+
+  if (params.get('control') === 'hidden') {
+    editor[0].classList.add('textae-editor--control-hidden')
+  }
+
+  // Over write editor-div's config lock state by url's.
+  // Url's default is 'unlock', so its default is also 'unlock'.
+  const configEditFromUrl = getConfigEditParamFromUrl(params.get('source'))
+  if (configEditFromUrl !== null) {
+    params.set('config_lock', configEditFromUrl)
+  }
+
+  if (params.has('config_lock') && params.get('config_lock') === 'true') {
+    typeDefinition.lockEdit()
+  } else {
+    typeDefinition.unlockEdit()
+  }
 
   originalData.annotation = loadAnnotation(
     spanConfig,
