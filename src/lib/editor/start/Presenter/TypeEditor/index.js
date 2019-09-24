@@ -1,5 +1,7 @@
 import Pallet from '../../../../component/Pallet'
 import ElementEditor from './ElementEditor'
+import cancelSelect from './cancelSelect'
+import jsPlumbConnectionClicked from './jsPlumbConnectionClicked'
 
 export default function(
   editor,
@@ -59,30 +61,4 @@ export default function(
   }
 
   return api
-}
-
-function cancelSelect(pallet, selectionModel) {
-  if (pallet.visibly) {
-    pallet.hide()
-  } else {
-    selectionModel.clear()
-  }
-}
-
-// A relation is drawn by a jsPlumbConnection.
-// The EventHandlar for clieck event of jsPlumbConnection.
-function jsPlumbConnectionClicked(elementEditor, jsPlumbConnection, event) {
-  // Check the event is processed already.
-  // Because the jsPlumb will call the event handler twice
-  // when a label is clicked that of a relation added after the initiation.
-  if (
-    elementEditor.getHandler().jsPlumbConnectionClicked &&
-    !event.processedByTextae
-  ) {
-    elementEditor
-      .getHandler()
-      .jsPlumbConnectionClicked(jsPlumbConnection, event)
-  }
-
-  event.processedByTextae = true
 }
