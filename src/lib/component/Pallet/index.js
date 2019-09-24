@@ -6,10 +6,10 @@ import moveIntoWindow from './moveIntoWindow'
 
 export default class {
   constructor(editor, history, commander, autocompletionWs, elementEditor) {
-    this.editor = editor
-    this.history = history
-    this.elementEditor = elementEditor
-    this.el = new Component(editor, commander, autocompletionWs, elementEditor)
+    this._editor = editor
+    this._history = history
+    this._elementEditor = elementEditor
+    this._el = new Component(editor, commander, autocompletionWs, elementEditor)
 
     // Bind event
     // Update save config button when history changing
@@ -18,26 +18,30 @@ export default class {
         this._updateDisplay()
       }
     })
-    this.editor.eventEmitter.on('textae.pallet.close', () => this.hide())
+    this._editor.eventEmitter.on('textae.pallet.close', () => this.hide())
 
     // let the pallet draggable.
-    enableJqueryDraggable(this.el, editor)
+    enableJqueryDraggable(this._el, editor)
   }
 
   _updateDisplay() {
     updateDisplay(
-      this.el,
-      this.history,
-      this.elementEditor.getHandler().typeContainer,
-      this.elementEditor.getHandlerType()
+      this._el,
+      this._history,
+      this._elementEditor.getHandler().typeContainer,
+      this._elementEditor.getHandlerType()
     )
+  }
+
+  get el() {
+    return this._el
   }
 
   // Display Entity or Relation Type on the palette according to the edit mode.
   show(point) {
     console.assert(point, 'point is necessary.')
 
-    const typeContainer = this.elementEditor.getHandler().typeContainer
+    const typeContainer = this._elementEditor.getHandler().typeContainer
 
     // The typeContainer is null when read-only mode
     if (typeContainer) {
@@ -48,16 +52,16 @@ export default class {
       handleEventListners(typeContainer, 'add', this.updateDisplayForEditMode)
 
       this._updateDisplay()
-      moveIntoWindow(this.el, point)
+      moveIntoWindow(this._el, point)
     }
   }
 
   hide() {
-    this.el.style.display = 'none'
+    this._el.style.display = 'none'
 
     // Release event listeners that bound when opening pallet.
     if (this.updateDisplayForEditMode) {
-      const t = this.elementEditor.getHandler().typeContainer
+      const t = this._elementEditor.getHandler().typeContainer
       handleEventListners(t, 'remove', this.updateDisplayForEditMode)
 
       this.updateDisplayForEditMode = null
@@ -65,6 +69,6 @@ export default class {
   }
 
   get visibly() {
-    return this.el.style.display !== 'none'
+    return this._el.style.display !== 'none'
   }
 }
