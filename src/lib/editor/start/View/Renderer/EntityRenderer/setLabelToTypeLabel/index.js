@@ -2,12 +2,7 @@ import getLabel from '../getLabel'
 import getUri from '../getUri'
 import getChildAttributesHtml from './getChildAttributesHtml'
 
-export default function setLabelToTypeLabel(
-  typeLabel,
-  namespace,
-  typeDefinition,
-  type
-) {
+export default function(typeLabel, namespace, typeDefinition, type) {
   const label = getLabel(namespace, typeDefinition, type)
   const href = getUri(namespace, typeDefinition, type)
 
