@@ -123,11 +123,11 @@ export default function(
         )
         return
       }
-      originalData.config = config
+      originalData.configuration = config
       setSpanAndTypeConfig(spanConfig, typeDefinition, config)
     })
     .on('configuration.save', () => {
-      originalData.config = typeDefinition.config
+      originalData.configuration = typeDefinition.config
     })
 
   originalData.annotation = loadAnnotation(
@@ -145,7 +145,7 @@ export default function(
     annotationData,
     typeDefinition,
     () => originalData.annotation,
-    () => originalData.config,
+    () => originalData.configuration,
     params.get('annotation').get('save_to')
   )
   const updateLineHeight = () =>
