@@ -3,7 +3,7 @@ import createEmptyTypeHtml from './createEmptyTypeHtml'
 import getGrid from './getGrid'
 
 // render type unless exists.
-export default function(namespace, typeDefinition, gridRenderer, entity) {
+export default function(namespace, typeContainer, gridRenderer, entity) {
   const dom = getTypeDom(entity)
 
   if (dom) {
@@ -12,7 +12,7 @@ export default function(namespace, typeDefinition, gridRenderer, entity) {
 
   getGrid(gridRenderer, entity.span).insertAdjacentHTML(
     'beforeend',
-    createEmptyTypeHtml(entity, namespace, typeDefinition)
+    createEmptyTypeHtml(entity, namespace, typeContainer)
   )
 
   return getTypeDom(entity)

@@ -3,16 +3,16 @@ import createEntity from './createEntity'
 export default function(
   editor,
   namespace,
-  typeDefinition,
+  typeContainer,
   gridRenderer,
   modification,
   entity
 ) {
-  if (!typeDefinition.isBlock(entity.type.name)) {
+  if (!typeContainer.isBlock(entity.type.name)) {
     createEntity(
       editor,
       namespace,
-      typeDefinition,
+      typeContainer,
       gridRenderer,
       modification,
       entity

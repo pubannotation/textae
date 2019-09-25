@@ -2,7 +2,7 @@ import idFactory from '../../../../../../idFactory'
 
 export default function createEntityElement(
   editor,
-  typeDefinition,
+  typeContainer,
   modification,
   entity
 ) {
@@ -12,7 +12,7 @@ export default function createEntityElement(
   element.setAttribute('title', entity.id)
   element.classList.add('textae-editor__entity')
 
-  element.style.borderColor = typeDefinition.getColor(entity.type.name)
+  element.style.borderColor = typeContainer.getColor(entity.type.name)
 
   // Set css classes for modifications.
   modification.getClasses(entity.id).forEach((c) => {

@@ -2,9 +2,9 @@ import getLabel from '../getLabel'
 import getUri from '../getUri'
 import getChildAttributesHtml from './getChildAttributesHtml'
 
-export default function(typeLabel, namespace, typeDefinition, type) {
-  const label = getLabel(namespace, typeDefinition, type)
-  const href = getUri(namespace, typeDefinition, type)
+export default function(typeLabel, namespace, typeContainer, type) {
+  const label = getLabel(namespace, typeContainer, type)
+  const href = getUri(namespace, typeContainer, type)
 
   // Keep the attributes html not to be overwrote the following 'innerHTML'.
   const childAttributesHtml = getChildAttributesHtml(typeLabel)

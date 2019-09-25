@@ -9,19 +9,19 @@ import createEntityElement from './createEntityElement'
 export default function(
   editor,
   namspace,
-  typeDefinition,
+  typeContainer,
   gridRenderer,
   modification,
   entity
 ) {
   // Append a new entity to the type
-  const typeDom = getTypeElement(namspace, typeDefinition, gridRenderer, entity)
+  const typeDom = getTypeElement(namspace, typeContainer, gridRenderer, entity)
   const pane = typeDom.querySelector('.textae-editor__entity-pane')
   const entityDomId = idFactory.makeEntityDomId(editor, entity.id)
 
   if (!pane.querySelector(`#${entityDomId}`)) {
     pane.appendChild(
-      createEntityElement(editor, typeDefinition, modification, entity)
+      createEntityElement(editor, typeContainer, modification, entity)
     )
     arrangePositionOfPane(pane)
   }

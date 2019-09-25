@@ -26,11 +26,11 @@ const source = `
 `
 const template = Handlebars.compile(source)
 
-export default function(entity, namespace, typeDefinition) {
+export default function(entity, namespace, typeContainer) {
   const id = idFactory.makeTypeId(entity)
-  const label = getLabel(namespace, typeDefinition, entity.type.name)
-  const href = getUri(namespace, typeDefinition, entity.type.name)
-  const color = typeDefinition.getColor(entity.type.name)
+  const label = getLabel(namespace, typeContainer, entity.type.name)
+  const href = getUri(namespace, typeContainer, entity.type.name)
+  const color = typeContainer.getColor(entity.type.name)
   const attributes = entity.type.attributes.map((attribute) => {
     return Object.assign({}, attribute, {
       domId: `${id}-${attribute.id}`,

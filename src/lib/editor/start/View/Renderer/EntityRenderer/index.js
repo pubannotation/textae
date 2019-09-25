@@ -11,13 +11,13 @@ export default class {
     editor,
     annotationData,
     selectionModel,
-    typeDefinition,
+    typeCantainer,
     gridRenderer,
     typeGap
   ) {
     this.editor = editor
     this.annotationData = annotationData
-    this.typeDefinition = typeDefinition
+    this.typeContainer = typeCantainer
     this.gridRenderer = gridRenderer
     this.selectionModel = selectionModel
     this.modification = new ModificationRenderer(annotationData)
@@ -28,7 +28,7 @@ export default class {
     create(
       this.editor,
       this.annotationData.namespace,
-      this.typeDefinition,
+      this.typeContainer,
       this.gridRenderer,
       this.modification,
       entity
@@ -42,7 +42,7 @@ export default class {
       this.editor,
       this.annotationData,
       this.selectionModel,
-      this.typeDefinition,
+      this.typeContainer,
       this.gridRenderer,
       this.modification,
       entity
@@ -60,14 +60,14 @@ export default class {
   }
 
   updateLabel(typeName) {
-    updateLabelofType(this.annotationData, this.typeDefinition, typeName)
+    updateLabelofType(this.annotationData, this.typeContainer, typeName)
   }
 
   updateLabelAll() {
     for (const entity of this.annotationData.entity.all) {
       updateLabelofType(
         this.annotationData,
-        this.typeDefinition,
+        this.typeContainer,
         entity.type.name
       )
     }

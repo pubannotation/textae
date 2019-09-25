@@ -7,7 +7,7 @@ export default function(
   editor,
   annotationData,
   selectionModel,
-  typeDefinition,
+  typeContainer,
   gridRenderer,
   modification,
   entity
@@ -22,7 +22,7 @@ export default function(
   create(
     editor,
     annotationData.namespace,
-    typeDefinition,
+    typeContainer,
     gridRenderer,
     modification,
     entity
