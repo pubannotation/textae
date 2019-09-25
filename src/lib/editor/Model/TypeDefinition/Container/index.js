@@ -35,6 +35,8 @@ export default class extends EventEmitter {
     if (defaultType) {
       delete defaultType.default
       this._defaultType = defaultType.id
+    } else {
+      this._defaultType = null
     }
   }
 
