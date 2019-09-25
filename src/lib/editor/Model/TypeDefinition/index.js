@@ -4,55 +4,55 @@ import Container from './Container'
 
 export default class {
   constructor(annotationData) {
-    this.lockStateObservable = new Observable(false)
-    this.entityContainer = new EntityContainer(
+    this._lockStateObservable = new Observable(false)
+    this._entityContainer = new EntityContainer(
       () => annotationData.entity.all,
       '#77DDDD',
-      this.lockStateObservable
+      this._lockStateObservable
     )
-    this.relationContaier = new Container(
+    this._relationContainer = new Container(
       () => annotationData.relation.all,
       '#555555',
-      this.lockStateObservable
+      this._lockStateObservable
     )
   }
 
   isLock() {
-    return this.lockStateObservable()
+    return this._lockStateObservable()
   }
 
   lockEdit() {
-    this.lockStateObservable.set(true)
+    this._lockStateObservable.set(true)
   }
   unlockEdit() {
-    this.lockStateObservable.set(false)
+    this._lockStateObservable.set(false)
   }
 
   get entity() {
-    return this.entityContainer
+    return this._entityContainer
   }
 
   setDefinedEntityTypes(newDefinedTypes) {
-    this.entityContainer.definedTypes = newDefinedTypes
+    this._entityContainer.definedTypes = newDefinedTypes
   }
 
   get relation() {
-    return this.relationContaier
+    return this._relationContainer
   }
 
   setDefinedRelationTypes(newDefinedTypes) {
-    this.relationContaier.definedTypes = newDefinedTypes
+    this._relationContainer.definedTypes = newDefinedTypes
   }
 
   get config() {
     const ret = {}
 
-    if (this.entityContainer.config.length) {
-      ret['entity types'] = this.entityContainer.config
+    if (this._entityContainer.config.length) {
+      ret['entity types'] = this._entityContainer.config
     }
 
-    if (this.relationContaier.config.length) {
-      ret['relation types'] = this.relationContaier.config
+    if (this._relationContainer.config.length) {
+      ret['relation types'] = this._relationContainer.config
     }
 
     return ret
