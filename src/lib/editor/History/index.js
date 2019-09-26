@@ -76,6 +76,11 @@ export default class extends EventEmitter {
     this._trigger()
   }
 
+  annotatioSaved() {
+    this._pointerForAnnotation.save()
+    this._trigger()
+  }
+
   configurationSaved() {
     this._pointerForConfiguration.save()
     this._trigger()

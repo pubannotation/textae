@@ -3,7 +3,7 @@ import toastr from 'toastr'
 export default function(dataAccessObject, history) {
   dataAccessObject
     .on('annotation.save', () => {
-      history.resetAllHistories()
+      history.annotatioSaved()
       toastr.success('annotation saved')
     })
     .on('configuration.save', () => {
