@@ -72,11 +72,17 @@
         overflow-y: hidden;
         position: relative;
         white-space: normal;
-        width: 90%;
         &__message {
             color: gray;
             font-style: italic;
             margin-left: 10px;
+            &__link { 
+                display: inline-block;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                vertical-align: bottom;
+                width: 90%;
+            }
         }
     }
     &__span {

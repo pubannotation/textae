@@ -11,7 +11,9 @@ export default function(urlForJson, beforeSend, successHandler, finishHandler) {
       const uri = url.resolve(location.href, urlForJson)
 
       successHandler({
-        source: `<a href="${uri}">${decodeURI(uri)}</a>`,
+        source: `<a class="textae-editor__footer__message__link" href="${uri}">${decodeURI(
+          uri
+        )}</a>`,
         loadData
       })
 
