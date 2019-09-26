@@ -98,16 +98,6 @@ cd textae/
 npm install
 ```
 
-* To install the package 'grunt'.
-```
-npm i -g grunt-cli
-```
-
-* To compile the LESS files to CSS.
-```
-grunt less
-```
-
 ### Development
 
 * To open in your browser the file 'dev/development.html' through 'http://localhost:8000', for development
@@ -127,16 +117,6 @@ npm run watch
 ```
 npm run dist
 ```
-
-### Demo
-
-* To open in your browser the file 'dist/demo/development.html' through 'http://localhost:8000' in distribution environment.
-
-```
-grunt demo
-```
-
-* If the file does not open automatically, click [here](http://localhost:8000/dist/demo/development.html).
 
 
 Contributors (so far)
