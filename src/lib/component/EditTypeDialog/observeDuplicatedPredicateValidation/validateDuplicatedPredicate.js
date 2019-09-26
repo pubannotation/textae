@@ -11,12 +11,12 @@ export default function(element) {
   let prevValue = undefined
   for (const input of attributes) {
     if (prevValue !== undefined) {
-      if (prevValue !== input.pred) {
-        valid(element)
+      if (prevValue === input.pred) {
+        invalid(element)
         return
       }
     }
     prevValue = input.pred
   }
-  invalid(element)
+  valid(element)
 }
