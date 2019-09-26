@@ -92,12 +92,15 @@ export default class extends EventEmitter {
     }
 
     // Make default type and delete defalut type from original configuratian.
-    for (const type of types.values()) {
+    for (const [key, type] of types.entries()) {
+      // Make a copy so as not to destroy the original object.
+      const copy = Object.assign({}, type)
       if (type.id === this.defaultType) {
-        type.default = true
+        copy.default = true
       } else {
-        delete type.default
+        delete copy.default
       }
+      types.set(key, copy)
     }
 
     return [...types.values()]
