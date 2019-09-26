@@ -1,10 +1,10 @@
-import delegate from 'delegate'
 import EditorDialog from '../dialog/EditorDialog'
 import { wholeTemplate } from './tepmlate'
 import observeEnterKeyPress from './observeEnterKeyPress'
 import observeAddAttributeButton from './observeAddAttributeButton'
 import observeRemoveAttributeButton from './observeRemoveAttributeButton'
 import getValues from './getValues'
+import observeDuplicatedPredicateValidation from './observeDuplicatedPredicateValidation'
 
 export default function(type, done) {
   const el = document.createElement('div')
@@ -45,67 +45,4 @@ export default function(type, done) {
   observeEnterKeyPress($dialog, onOk)
 
   return $dialog
-}
-
-function observeDuplicatedPredicateValidation(element) {
-  delegate(
-    element,
-    '.textae-editor__edit-type-dialog__attribute__predicate__value',
-    'input',
-    () => validateDuplicatedPredicate(element)
-  )
-
-  new MutationObserver(() => validateDuplicatedPredicate(element)).observe(
-    element,
-    {
-      childList: true,
-      subtree: true
-    }
-  )
-}
-
-function validateDuplicatedPredicate(element) {
-  const { attributes } = getValues(element)
-  if (attributes.length < 2) {
-    valid(element)
-    return
-  }
-
-  let prevValue = undefined
-  for (const input of attributes) {
-    if (prevValue !== undefined) {
-      if (prevValue !== input.pred) {
-        valid(element)
-        return
-      }
-    }
-    prevValue = input.pred
-  }
-
-  invalid(element)
-}
-
-function valid(element) {
-  getOkButton(element).removeAttribute('disabled')
-  getMessage(element).classList.add(
-    'textae-editor__edit-type-dialog__attribute__message--valid'
-  )
-}
-
-function invalid(element) {
-  getOkButton(element).setAttribute('disabled', 'dsiabled')
-  getMessage(element).classList.remove(
-    'textae-editor__edit-type-dialog__attribute__message--valid'
-  )
-}
-function getOkButton(element) {
-  return element
-    .closest('.ui-dialog')
-    .querySelector('.textae-editor__edit-type-dialog__ok-button')
-}
-
-function getMessage(element) {
-  return element.querySelector(
-    '.textae-editor__edit-type-dialog__attribute__message'
-  )
 }
