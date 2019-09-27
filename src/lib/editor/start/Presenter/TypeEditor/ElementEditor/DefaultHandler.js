@@ -1,3 +1,5 @@
+import LABEL from '../../../LABEL'
+
 export default class {
   constructor(modelType, selectionModel, typeContainer, commander) {
     this.selectionModel = selectionModel
@@ -31,8 +33,13 @@ export default class {
     )
   }
 
-  jsPlumbConnectionClicked() {
-    // A Swithing point to change a behavior when relation is clicked.
+  jsPlumbConnectionClicked(...args) {
+    // Open link when view mode because link in label of jsPlumb event is not fired.
+    const link = args[0].getOverlay(LABEL.id).canvas.querySelector('a')
+    if (link) {
+      const href = link.getAttribute('href')
+      window.open(href, '_blank')
+    }
   }
 
   selectAll(typeName) {

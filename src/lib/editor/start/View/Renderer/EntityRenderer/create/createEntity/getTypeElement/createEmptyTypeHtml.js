@@ -1,7 +1,7 @@
 import Handlebars from 'handlebars'
 import idFactory from '../../../../../../../idFactory'
-import getLabel from '../../../getLabel'
-import getUri from '../../../getUri'
+import getLabel from '../../../../getLabel'
+import getUri from '../../../../getUri'
 
 // A Type element has an entity_pane elment that has a label and will have entities.
 const source = `

@@ -1,4 +1,4 @@
-import LABEL from '../../LABEL'
+import LABEL from '../../../../../LABEL'
 
 // Extend module for jsPlumb.Connection.
 export default function() {

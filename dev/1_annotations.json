@@ -428,7 +428,7 @@
         "obj": "attr1"
     }],
     "relations": [{
-        "pred": "locatedAt",
+        "pred": "https://en.wikipedia.org/wiki/SPARQL",
         "subj": "E21",
         "obj": "E18"
     }, {

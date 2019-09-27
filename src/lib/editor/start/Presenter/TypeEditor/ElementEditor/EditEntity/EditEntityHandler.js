@@ -9,6 +9,11 @@ export default class extends DefaultHandler {
     this.selectionModel = selectionModel.entity
   }
 
+  jsPlumbConnectionClicked(_, event) {
+    // Do not open link when term mode or simple mode.
+    event.originalEvent.preventDefault()
+  }
+
   changeTypeOfSelectedElement(newType) {
     return this.commander.factory.changeTypeRemoveRelationOfSelectedEntitiesCommand(
       newType,

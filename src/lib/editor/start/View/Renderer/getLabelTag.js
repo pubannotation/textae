@@ -1,5 +1,5 @@
-import getLabel from '../getLabel'
-import getUri from '../getUri'
+import getLabel from './getLabel'
+import getUri from './getUri'
 
 export default function(namespace, typeContainer, type) {
   const label = getLabel(namespace, typeContainer, type)

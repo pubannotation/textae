@@ -1,4 +1,4 @@
-import LABEL from './LABEL'
+import LABEL from '../../../LABEL'
 
 export default function(connect) {
   // Find the label overlay by self, because the function 'getLabelOverlays' returns no label overlay.

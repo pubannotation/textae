@@ -1,9 +1,10 @@
 import $ from 'jquery'
 import determineCurviness from '../../determineCurviness'
 import getEntityDom from '../../../../../getEntityDom'
-import LABEL from '../../LABEL'
+import LABEL from '../../../../../LABEL'
 import connectorStrokeStyle from '../../connectorStrokeStyle'
 import NORMAL_ARROW from '../../jsPlumbArrowOverlayUtil/NORMAL_ARROW'
+import getLabelTag from '../../../getLabelTag'
 
 // Make a connect by jsPlumb.
 export default function(
@@ -38,7 +39,11 @@ export default function(
       [
         'Label',
         Object.assign({}, LABEL, {
-          label: `[${relation.id}] ${relation.type.name}`,
+          label: `[${relation.id}] ${getLabelTag(
+            annotationData.namespace,
+            typeDefinition.relation,
+            relation.type.name
+          )}`,
           cssClass: `${LABEL.cssClass} ${modificationRenderer
             .getClasses(relation.id)
             .join(' ')}`

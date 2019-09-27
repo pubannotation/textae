@@ -1,5 +1,5 @@
 import isUri from '../isUri'
-import getUrlMatches from '../../../../../getUrlMatches'
+import getUrlMatches from '../../../../getUrlMatches'
 
 // Display short name for URL(http or https);
 export default function(type) {
