@@ -42,7 +42,7 @@ function toRelation(dataStore) {
   return dataStore.relation.all.map((r) => {
     return {
       id: r.id,
-      pred: r.type,
+      pred: r.type.name,
       subj: r.subj,
       obj: r.obj
     }
