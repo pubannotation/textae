@@ -63,7 +63,7 @@
     "babel-runtime": "^5.8.34",
     "babelify": "^6.4.0",
     "browserify-shim": "^3.8.12",
-    "eslint": "^1.5.1",
+    "eslint": "^6.6.0",
     "grunt": "^1.0.1",
     "grunt-cli": "^1.2.0",
     "grunt-contrib-concat": "^0.5.1",
