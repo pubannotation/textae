@@ -1,5 +1,3 @@
-import getKeyCode from './getKeyCode'
-import convertKeyEvent from './convertKeyEvent'
 import getMousePoint from '../../util/getMousePoint'
 
 export default function(helpDialog, editors) {
@@ -9,12 +7,10 @@ export default function(helpDialog, editors) {
       return
     }
 
-    const key = convertKeyEvent(getKeyCode(e))
-
-    if (key === 'H') {
+    if (e.key === 'h') {
       helpDialog()
     } else {
-      editors.selected.api.handleKeyInput(key, {
+      editors.selected.api.handleKeyInput(e.key, {
         point: getMousePoint(),
         shiftKey: e.shiftKey
       })
