@@ -122,17 +122,11 @@ export default class extends EventEmitter {
   }
 
   getColor(id) {
-    return getLabelOrColor(
-      'color',
-      this._definedTypes,
-      id,
-      this._defaultColor,
-      false
-    )
+    return getLabelOrColor('color', this._definedTypes, id, this._defaultColor)
   }
 
   getLabel(id) {
-    return getLabelOrColor('label', this._definedTypes, id, undefined, false)
+    return getLabelOrColor('label', this._definedTypes, id, undefined)
   }
 
   getUri(id) {
