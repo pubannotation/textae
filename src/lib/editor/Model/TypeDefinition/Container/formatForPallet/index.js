@@ -1,6 +1,5 @@
 import getUrlMatches from '../../../../getUrlMatches'
 import createCountMap from '../createCountMap'
-import getLabelOrColor from '../getLabelOrColor'
 import sortByCountAndName from './sortByCountAndName'
 import createTypesWithoutInstance from './createTypesWithoutInstance'
 
@@ -11,13 +10,16 @@ export default function(instances, definedTypes, defaultType, defaultColor) {
     countMap
   )
   const types = sortByCountAndName(countMap).concat(typesWithoutInstance)
+
   return types.map((id) => {
     return {
       id,
-      label: getLabelOrColor('label', definedTypes, id, undefined, true),
+      label:
+        (definedTypes.has(id) && definedTypes.get(id)['label']) || undefined,
       defaultType: id === defaultType,
       uri: getUrlMatches(id) ? id : undefined,
-      color: getLabelOrColor('color', definedTypes, id, defaultColor, true),
+      color:
+        (definedTypes.has(id) && definedTypes.get(id)['color']) || defaultColor,
       useNumber: countMap.get(id)
     }
   })
