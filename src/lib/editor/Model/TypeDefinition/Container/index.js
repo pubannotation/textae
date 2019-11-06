@@ -15,11 +15,7 @@ export default class extends EventEmitter {
     lockStateObservable(() => super.emit('type.lock'))
   }
 
-  set definedTypes(value) {
-    if (value === undefined) {
-      return
-    }
-
+  set definedTypes(value = []) {
     // expected new value is an array of object. example of object is {"name": "Regulation","color": "#FFFF66","default": true}.
     this._definedTypes = new Map(
       value.reduce((a, b) => {
