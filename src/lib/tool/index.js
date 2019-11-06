@@ -1,8 +1,8 @@
 import EditorContainer from './EditorContainer'
-import observeKeyWithoutDialog from './observeKeyWithoutDialog'
 import setVeilObserver from './setVeilObserver'
 import selectUnselectEditorOn from './selectUnselectEditorOn'
 import throttle from 'throttleit'
+import keyInputHandler from './keyInputHandler'
 
 // The tool manages interactions between components.
 export default function() {
@@ -10,7 +10,7 @@ export default function() {
 
   // Start observation at document ready, because this function may be called before body is loaded.
   window.addEventListener('load', () => {
-    observeKeyWithoutDialog(editors)
+    editors.observeKeyInput((e) => keyInputHandler(editors, e))
     redrawOnResize(editors)
     selectUnselectEditorOn(editors)
   })
