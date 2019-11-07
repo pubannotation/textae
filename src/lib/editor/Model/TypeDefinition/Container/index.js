@@ -1,7 +1,7 @@
 import { EventEmitter } from 'events'
 import getUrlMatches from '../../../getUrlMatches'
 import getDefaultTypeAutomatically from './getDefaultTypeAutomatically'
-import getLabelOrColor from './getLabelOrColor'
+import getConfig from './getConfig'
 import formatForPallet from './formatForPallet'
 
 export default class extends EventEmitter {
@@ -122,13 +122,13 @@ export default class extends EventEmitter {
   }
 
   getColor(id) {
-    return (
-      getLabelOrColor('color', this._definedTypes, id) || this._defaultColor
-    )
+    const config = getConfig(this._definedTypes, id)
+    return (config && config.color) || this._defaultColor
   }
 
   getLabel(id) {
-    return getLabelOrColor('label', this._definedTypes, id)
+    const config = getConfig(this._definedTypes, id)
+    return config && config.label
   }
 
   getUri(id) {
