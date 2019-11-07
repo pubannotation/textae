@@ -1,6 +1,6 @@
 import getForwardMatchType from './getForwardMatchType'
 
-export default function(labelOrColor, definedTypes, id, defaultValue) {
+export default function(labelOrColor, definedTypes, id) {
   // Return value if perfectly matched
   if (definedTypes.get(id) && definedTypes.get(id)[labelOrColor]) {
     return definedTypes.get(id)[labelOrColor]
@@ -12,6 +12,4 @@ export default function(labelOrColor, definedTypes, id, defaultValue) {
   if (forwardMatchType && forwardMatchType[labelOrColor]) {
     return forwardMatchType[labelOrColor]
   }
-
-  return defaultValue
 }
