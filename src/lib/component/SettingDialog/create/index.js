@@ -1,4 +1,4 @@
-import toDomEelement from '../../DataAccessObject/toDomEelement'
+import toDomEelement from '../../toDomEelement'
 
 const html = `
   <div class="textae-editor__setting-dialog">

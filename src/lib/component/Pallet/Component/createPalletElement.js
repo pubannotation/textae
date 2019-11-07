@@ -1,3 +1,5 @@
+import toDomElement from '../../toDomEelement'
+
 const html = `
 <div class="textae-editor__type-pallet">
   <p class="textae-editor__type-pallet__title">
@@ -16,8 +18,5 @@ const html = `
 </div>`
 
 export default function() {
-  const pallet = document.createElement('div')
-
-  pallet.innerHTML = html
-  return pallet.firstElementChild
+  return toDomElement(html)
 }

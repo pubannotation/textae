@@ -3,7 +3,7 @@ import delegate from 'delegate'
 import getDialog from './getDialog'
 import $ from 'jquery'
 import createDownloadPath from './createDownloadPath'
-import toDomEelement from './toDomEelement'
+import toDomEelement from '../toDomEelement'
 import makeDomEnabled from '../makeDomEnabled'
 
 const source = `<div>
