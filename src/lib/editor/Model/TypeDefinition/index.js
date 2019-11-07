@@ -7,12 +7,10 @@ export default class {
     this._lockStateObservable = new Observable(false)
     this._entityContainer = new EntityContainer(
       annotationData.entity,
-      '#77DDDD',
       this._lockStateObservable
     )
     this._relationContainer = new Container(
       () => annotationData.relation.all,
-      '#555555',
       this._lockStateObservable
     )
   }

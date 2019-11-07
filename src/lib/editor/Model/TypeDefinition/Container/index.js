@@ -5,7 +5,11 @@ import formatForPallet from './formatForPallet'
 import DefinedTypeContainer from './DefinedTypeContainer'
 
 export default class extends EventEmitter {
-  constructor(getAllInstanceFunc, defaultColor, lockStateObservable) {
+  constructor(
+    getAllInstanceFunc,
+    lockStateObservable,
+    defaultColor = '#555555'
+  ) {
     super()
     this._definedTypes = null
     this._getAllInstanceFunc = getAllInstanceFunc

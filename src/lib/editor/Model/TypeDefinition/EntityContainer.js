@@ -1,8 +1,8 @@
 import Container from './Container'
 
 export default class extends Container {
-  constructor(annotationDataEntity, defaultColor, lockStateObservable) {
-    super(() => annotationDataEntity.all, defaultColor, lockStateObservable)
+  constructor(annotationDataEntity, lockStateObservable) {
+    super(() => annotationDataEntity.all, lockStateObservable, '#77DDDD')
     this._annotationDataEntity = annotationDataEntity
   }
 
