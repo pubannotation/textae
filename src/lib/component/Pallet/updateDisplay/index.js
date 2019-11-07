@@ -1,12 +1,8 @@
-import clear from './clear'
-import updateLockState from './updateLockState'
-import updateTitle from './updateTitle'
-import updateNoConfigText from './updateNoConfigText'
+import { diff } from 'jsondiffpatch'
 import updateBGColorClass from './updateBGColorClass'
-import appendRows from './appendRows'
+import createContentHtml from './createContentHtml'
 import setWidthWithinWindow from './setWidthWithinWindow'
 import setHeightWithinWindow from './setHeightWithinWindow'
-import updateWriteButton from './updateWriteButton'
 
 export default function(
   pallet,
@@ -16,14 +12,17 @@ export default function(
   typeDefinition
 ) {
   if (typeContainer) {
-    clear(pallet)
-    appendRows(pallet, typeContainer)
-    updateLockState(pallet, typeContainer.isLock)
-    updateTitle(pallet, handlerType)
-    updateNoConfigText(pallet, handlerType)
+    const content = createContentHtml(
+      typeContainer,
+      handlerType,
+      diff(
+        originalData.configuration,
+        Object.assign({}, originalData.configuration, typeDefinition.config)
+      )
+    )
+    pallet.innerHTML = content
     updateBGColorClass(pallet, handlerType)
     setWidthWithinWindow(pallet)
     setHeightWithinWindow(pallet)
-    updateWriteButton(pallet, originalData, typeDefinition)
   }
 }
