@@ -1,9 +1,8 @@
 import Handlebars from 'handlebars'
-import capitalize from 'capitalize'
 
 const html = `
 <p class="textae-editor__type-pallet__title">
-  <span>{{handlerType}} configuration</span>
+  <span>Relation configuration</span>
   <span class="textae-editor__type-pallet__lock-icon" style="display: {{#if isLock}}inline-block{{else}}none{{/if}};">locked</span>
 </p>
 <div class="textae-editor__type-pallet__buttons">
@@ -71,7 +70,7 @@ const html = `
     {{/each}}
     {{else}}
     <tr class="textae-editor__type-pallet__row">
-      <td class="textae-editor__type-pallet__no-config" colspan="4">There is no {{handlerType}} definition.</td>
+      <td class="textae-editor__type-pallet__no-config" colspan="4">There is no Relation definition.</td>
     </tr>
     {{/if}}
   </tbody>
@@ -80,9 +79,8 @@ const html = `
 
 const template = Handlebars.compile(html)
 
-export default function(typeContainer, handlerType, hasDiff) {
+export default function(typeContainer, hasDiff) {
   return template({
-    handlerType: capitalize(handlerType),
     isLock: typeContainer.isLock,
     hasDiff,
     types: typeContainer.pallet

@@ -17,11 +17,80 @@ export default class extends Container {
     const [entities, attributes] = value
     super.definedTypes = entities || []
     this._annotationDataEntity.definedTypes = this.definedTypes
-    this._annotationDataEntity.definedAttributes = attributes
 
     this._definedAttributes = new Map(
       (attributes || []).map((a) => [a.pred, createAttributeDefinition(a)])
     )
+  }
+
+  getIndexOfAttribute(pred) {
+    return Array.from(this._definedAttributes.values()).findIndex(
+      (a) => a.pred === pred
+    )
+  }
+
+  createAttribute(attrDef, index = null) {
+    // To restore the position of a deleted attribute,
+    // insert the new attribute at the specified index, if specified.
+    // Note: 0 is false in JavaScript
+    if (index !== null) {
+      this._definedAttributes = new Map(
+        Array.from(this._definedAttributes.entries()).reduce(
+          (acc, [key, val], i) => {
+            if (i === index) {
+              acc.push([attrDef.pred, createAttributeDefinition(attrDef)])
+            }
+            acc.push([key, val])
+
+            return acc
+          },
+          []
+        )
+      )
+    } else {
+      this._definedAttributes.set(
+        attrDef.pred,
+        createAttributeDefinition(attrDef)
+      )
+    }
+
+    this._editor.eventEmitter.emit(
+      `textae.typeDefinition.entity.attributeDefinition.create`,
+      attrDef.pred
+    )
+  }
+
+  updateAttribute(oldPred, attrDef) {
+    // Predicate as key of map may be changed.
+    // Keep oreder of attributes.
+    // So that re-create an map instance.
+    this._definedAttributes = new Map(
+      Array.from(this._definedAttributes.entries()).map(([key, val]) => {
+        if (key === oldPred) {
+          return [attrDef.pred, createAttributeDefinition(attrDef)]
+        } else {
+          return [key, val]
+        }
+      })
+    )
+
+    this._editor.eventEmitter.emit(
+      `textae.typeDefinition.entity.attributeDefinition.change`,
+      attrDef.pred
+    )
+
+    return this._definedAttributes.get(attrDef.pred)
+  }
+
+  deleteAttribute(pred) {
+    this._definedAttributes.delete(pred)
+    this._editor.eventEmitter.emit(
+      `textae.typeDefinition.entity.attributeDefinition.delete`
+    )
+  }
+
+  get attributes() {
+    return Array.from(this._definedAttributes.values()) || []
   }
 
   get definedTypes() {

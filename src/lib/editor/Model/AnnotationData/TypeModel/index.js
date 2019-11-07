@@ -60,7 +60,7 @@ export default class {
         title: `pred: ${attribute.pred}, value: ${attribute.obj}`,
         label: getLabel(
           namespace,
-          attribute.obj,
+          typeof attribute.obj === 'string' ? attribute.obj : '',
           typeContainer.getAttributeLabel(attribute)
         ),
         href: getUri(

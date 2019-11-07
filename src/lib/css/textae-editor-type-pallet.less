@@ -49,8 +49,8 @@
   }
 
   &__title {
-    float: left;
     font-size: 1.4em;
+    margin-right: 10px;
   }
 
   &__lock-icon {
@@ -68,6 +68,38 @@
     }
   }
 
+  &__predicate {
+    border: 1px solid;
+    display: flex; 
+    justify-content: space-between
+  }
+
+  &__attribute {
+    border: dashed 1px;
+    border-bottom: none;
+    border-color: black;
+    border-top-left-radius: 9px;
+    border-top-right-radius: 9px;
+    color: gray;
+    height: 30px;
+    line-height: 30px;
+    margin-bottom: 0;
+    margin-left: -1px;
+    margin-top: 20px;
+    overflow: hidden;
+    text-align: center;
+    width: 59px;
+
+    &--selected {
+      background-color:rgb(124, 224, 246);
+      color: blue;
+    }
+  }
+
+  &__create-predicate__button:before {
+    .fontAwesomeIcon("\f067");
+  }
+
   &__buttons {
     float: right;
     display: flex;
@@ -82,7 +114,8 @@
     cursor: pointer;
   }
 
-  &__add-button {
+  &__add-button,
+  &__add-attribute-value-button {
     &:before {
       .fontAwesomeIcon("\f067");
       top: 1px;
@@ -186,6 +219,14 @@
   }
 
   &__edit-type {
+    &:before {
+      .fontAwesomeIcon("\f040");
+      left: -1px;
+      top: -1px;
+    }
+  }
+
+  &__edit-predicate {
     &:before {
       .fontAwesomeIcon("\f040");
       left: -1px;

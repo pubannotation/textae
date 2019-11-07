@@ -23,6 +23,28 @@ export default class {
     )
   }
 
+  createAttributeDefinition(attrDef) {
+    return this.commander.factory.createAttributeDefinitionCommand(
+      this._modelType,
+      attrDef
+    )
+  }
+
+  changeAttributeDefinition(attrDef, changedProperties) {
+    return this.commander.factory.changeAttributeDefinitionCommand(
+      this._modelType,
+      attrDef,
+      changedProperties
+    )
+  }
+
+  deleteAttributeDefinition(attrDef) {
+    return this.commander.factory.deleteAttributeDefinitionCommand(
+      this._modelType,
+      attrDef
+    )
+  }
+
   jsPlumbConnectionClicked(...args) {
     // Open link when view mode because link in label of jsPlumb event is not fired.
     const link = args[0].getOverlay(LABEL.id).canvas.querySelector('a')

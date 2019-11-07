@@ -1,5 +1,7 @@
 import CreateTypeDefinitionDialog from '../../../../../component/CreateTypeDefinitionDialog'
 import EditTypeDefinitionDialog from '../../../../../component/EditTypeDefinitionDialog'
+import CreateAttributeDefinitionDialog from '../../../../../component/CreateAttributeDefinitionDialog'
+import EditAttributeDefinitionDialog from '../../../../../component/EditAttributeDefinitionDialog'
 
 export default function(
   pallet,
@@ -59,6 +61,33 @@ export default function(
 
       commander.invoke(handler.removeType(id, label))
     })
+    .on(`textae.${name}Pallet.attribute.create-predicate-button.click`, () => {
+      const dialog = new CreateAttributeDefinitionDialog()
+      dialog.promise.then((attrDef) => {
+        commander.invoke(handler.createAttributeDefinition(attrDef))
+      })
+      dialog.open()
+    })
+    .on(
+      `textae.${name}Pallet.attribute.edit-predicate-button.click`,
+      (attrDef) => {
+        const dialog = new EditAttributeDefinitionDialog(attrDef)
+        dialog.promise.then((changedProperties) => {
+          if (changedProperties.size) {
+            commander.invoke(
+              handler.changeAttributeDefinition(attrDef, changedProperties)
+            )
+          }
+        })
+        dialog.open()
+      }
+    )
+    .on(
+      `textae.${name}Pallet.attribute.delete-predicate-button.click`,
+      (attrDef) => {
+        commander.invoke(handler.deleteAttributeDefinition(attrDef))
+      }
+    )
     .on('textae.editor.unselect', () => pallet.hide()) // Close pallet when selecting other editor.
     .on('textae.history.change', () => pallet.updateDisplay()) // Update save config button when changing history and savigng configuration.
     .on('textae.dataAccessObject.configuration.save', () =>

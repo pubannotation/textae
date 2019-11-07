@@ -1,8 +1,8 @@
 import { diff } from 'jsondiffpatch'
-import Pallet from './Pallet'
-import createPalletElement from './Pallet/createPalletElement'
-import bindUserEvents from './Pallet/bindUserEvents'
-import createContentHtml from './Pallet/createContentHtml'
+import Pallet from '../Pallet'
+import createPalletElement from '../Pallet/createPalletElement'
+import bindUserEvents from '../Pallet/bindUserEvents'
+import createContentHtml from './createContentHtml'
 
 export default class extends Pallet {
   constructor(editor, originalData, typeDefinition) {
@@ -19,7 +19,6 @@ export default class extends Pallet {
   get _content() {
     return createContentHtml(
       this._typeContainer,
-      'relation',
       diff(
         this._originalData.configuration,
         Object.assign(

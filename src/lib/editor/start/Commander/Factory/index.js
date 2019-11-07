@@ -1,15 +1,18 @@
 import { CreateCommand } from './commandTemplate'
 import AttatchModificationsToSelectedCommand from './AttatchModificationsToSelectedCommand'
+import ChangeAttributeDefinitionAndRefectInstancesCommand from './ChangeAttributeDefinitionAndRefectInstancesCommand'
 import ChangeAttributesOfSelectedEntitiesWithSamePred from './ChangeAttributesOfSelectedEntitiesWithSamePred'
 import ChangeEntityTypeCommand from './ChangeEntityTypeCommand'
 import ChangeRelationLabelCommand from './ChangeRelationLabelCommand'
 import ChangeTypeDefinitionAndRefectInstancesCommand from './ChangeTypeDefinitionAndRefectInstancesCommand'
 import ChangeTypeOfSelectedRelationsCommand from './ChangeTypeOfSelectedRelationsCommand'
 import ChangeTypeRemoveRelationOfSelectedEntitiesCommand from './ChangeTypeRemoveRelationOfSelectedEntitiesCommand'
+import CreateAttributeDefinitionCommand from './CreateAttributeDefinitionCommand'
 import CreateAttributeToSelectedEntitiesCommand from './CreateAttributeToSelectedEntitiesCommand'
 import CreateDefaultTypeEntityToSelectedSpans from './CreateDefaultTypeEntityToSelectedSpans'
 import CreateSpanAndAutoReplicateCommand from './CreateSpanAndAutoReplicateCommand'
 import CreateTypeDefinitionCommand from './CreateTypeDefinitionCommand'
+import DeleteAttributeDefinitionCommand from './DeleteAttributeDefinitionCommand'
 import MoveSpanCommand from './MoveSpanCommand'
 import PasteTypesToSelectedSpansCommand from './PasteTypesToSelectedSpansCommand'
 import ReplicateSpanCommand from './ReplicateSpanCommand'
@@ -26,6 +29,15 @@ export default class {
     this._annotationData = annotationData
     this._selectionModel = selectionModel
     this._typeDefinition = typeDefinition
+  }
+
+  changeAttributeDefinitionCommand(modelType, attrDef, changedProperties) {
+    return new ChangeAttributeDefinitionAndRefectInstancesCommand(
+      this._annotationData,
+      this._typeDefinition[modelType],
+      attrDef,
+      changedProperties
+    )
   }
 
   changeAttributesOfSelectedEntitiesWithSamePred(attributeDefinition, newObj) {
@@ -87,6 +99,13 @@ export default class {
       this._annotationData,
       this._selectionModel,
       newType
+    )
+  }
+
+  createAttributeDefinitionCommand(modelType, attrDef) {
+    return new CreateAttributeDefinitionCommand(
+      this._typeDefinition[modelType],
+      attrDef
     )
   }
 
@@ -152,6 +171,13 @@ export default class {
       this._editor,
       this._typeDefinition[modelType],
       newType
+    )
+  }
+
+  deleteAttributeDefinitionCommand(modelType, attrDef) {
+    return new DeleteAttributeDefinitionCommand(
+      this._typeDefinition[modelType],
+      attrDef
     )
   }
 
