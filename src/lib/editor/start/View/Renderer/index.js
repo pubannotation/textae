@@ -49,7 +49,6 @@ export default class {
       editor,
       domPositionCache,
       relationRenderer,
-      typeDefinition,
       typeGap,
       debouncedUpdateAnnotationPosition,
       gridRenderer,

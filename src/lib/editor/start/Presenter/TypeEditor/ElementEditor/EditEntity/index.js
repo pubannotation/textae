@@ -21,11 +21,7 @@ export default function(
     pushButtons,
     typeDefinition
   )
-  const selectSpan = new SelectSpan(
-    annotationData,
-    selectionModel,
-    typeDefinition
-  )
+  const selectSpan = new SelectSpan(annotationData, selectionModel)
 
   const entityHandler = () =>
     new EditEntityHandler(

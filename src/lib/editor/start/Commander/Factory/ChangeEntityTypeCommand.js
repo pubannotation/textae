@@ -44,8 +44,7 @@ export default class extends CompositeCommand {
       annotationData,
       selectionModel,
       value,
-      attributes,
-      typeContainer
+      attributes
     )
     if (!changeEntityCommand.isEmpty) {
       commands.push(changeEntityCommand)

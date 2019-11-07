@@ -1,16 +1,16 @@
 const BLOCK = 'textae-editor__span--block'
 const WRAP = 'textae-editor__span--wrap'
 
-export default function(span, isBlockFunc) {
+export default function(annotationData, span) {
   const el = document.querySelector(`#${span.id}`)
 
   // Set block class if there is any block type.
-  if (span.types.some((type) => isBlockFunc(type.name))) {
+  if (span.types.some((type) => annotationData.entity.isBlock(type.name))) {
     el.classList.add(BLOCK)
 
     // The text of span can be wrapped because block type does not display Grid.
     // Set wrap class unless there is any type other than block.
-    if (span.types.every((type) => isBlockFunc(type.name))) {
+    if (span.types.every((type) => annotationData.entity.isBlock(type.name))) {
       el.classList.add(WRAP)
     } else {
       // Grid can not be folded.

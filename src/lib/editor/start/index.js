@@ -155,7 +155,7 @@ export default function(
     params.get('annotation').get('save_to')
   )
   const updateLineHeight = () =>
-    calculateLineHeight(editor, annotationData, typeDefinition, typeGap, view)
+    calculateLineHeight(editor, annotationData, typeGap, view)
 
   editor.api = new APIs(
     commander,

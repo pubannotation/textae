@@ -21,11 +21,11 @@ export default function(
   // Show a new entity.
   create(
     editor,
-    annotationData.namespace,
     typeContainer,
     gridRenderer,
     modification,
-    entity
+    entity,
+    annotationData
   )
 
   // Remove an parentNode unless entity.

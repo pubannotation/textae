@@ -2,9 +2,9 @@ import { EventEmitter } from 'events'
 import GridLayout from './GridLayout'
 
 export default class extends EventEmitter {
-  constructor(editor, annotationData, typeDefinition) {
+  constructor(editor, annotationData) {
     super()
-    this.gridLayout = new GridLayout(editor, annotationData, typeDefinition)
+    this.gridLayout = new GridLayout(editor, annotationData)
   }
 
   update(typeGap) {

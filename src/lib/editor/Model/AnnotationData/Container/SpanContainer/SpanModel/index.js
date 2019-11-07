@@ -42,13 +42,9 @@ export default class SpanModel {
     )
   }
 
-  hasBlockType(typeDefinition) {
-    return this.types.some((type) => typeDefinition.entity.isBlock(type.name))
-  }
-
-  getBlockEntities(typeDefinition) {
+  getBlockEntities(annotationDataEntity) {
     return this.entities.filter((entity) =>
-      typeDefinition.entity.isBlock(entity.type.name)
+      annotationDataEntity.isBlock(entity.type.name)
     )
   }
 }

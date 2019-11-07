@@ -35,18 +35,8 @@ export default class {
       buttonStateHelper
     )
 
-    const annotationPosition = new AnnotationPosition(
-      editor,
-      annotationData,
-      typeDefinition
-    )
-    bindTypeGapEvents(
-      typeGap,
-      editor,
-      annotationData,
-      typeDefinition,
-      annotationPosition
-    )
+    const annotationPosition = new AnnotationPosition(editor, annotationData)
+    bindTypeGapEvents(typeGap, editor, annotationData, annotationPosition)
     bindAnnotaitonPositionEvents(annotationPosition, new CursorChanger(editor))
 
     new Renderer(

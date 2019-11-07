@@ -12,7 +12,6 @@ export default function(
   editor,
   domPositionCache,
   relationRenderer,
-  typeDefinition,
   typeGap,
   debouncedUpdateAnnotationPosition,
   gridRenderer,
@@ -20,10 +19,8 @@ export default function(
   buttonStateHelper,
   annotationPosition
 ) {
-  const spanRenderer = new SpanRenderer(
-    annotationData,
-    (type) => typeDefinition.entity.isBlock(type),
-    (entity) => entityRenderer.render(entity)
+  const spanRenderer = new SpanRenderer(annotationData, (entity) =>
+    entityRenderer.render(entity)
   )
 
   annotationData
@@ -36,12 +33,7 @@ export default function(
         relationRenderer
       )
       updateTextBoxHeight(editor[0])
-      setLineHeightToTypeGap(
-        editor[0],
-        annotationData,
-        typeDefinition,
-        typeGap()
-      )
+      setLineHeightToTypeGap(editor[0], annotationData, typeGap())
       debouncedUpdateAnnotationPosition()
     })
     .on('paragraph.change', (paragraphs) => renderParagraph(editor, paragraphs))

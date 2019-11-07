@@ -3,7 +3,7 @@ import ChangeTypeCommand from './ChangeTypeCommand'
 import getRemoveRelationCommands from './getRemoveRelationCommands'
 
 export default class extends CompositeCommand {
-  constructor(editor, annotationData, selectionModel, newType, typeContainer) {
+  constructor(editor, annotationData, selectionModel, newType) {
     super()
 
     // Get only entities with changes.
@@ -20,7 +20,7 @@ export default class extends CompositeCommand {
     )
 
     // Block types do not have relations. If there is a relation, delete it.
-    const removeRelationCommands = typeContainer.isBlock(newType)
+    const removeRelationCommands = annotationData.entity.isBlock(newType)
       ? getRemoveRelationCommands(
           entitiesWithChange,
           annotationData,

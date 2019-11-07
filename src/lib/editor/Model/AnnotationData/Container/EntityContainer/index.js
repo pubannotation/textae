@@ -23,4 +23,8 @@ export default class extends ContatinerWithEmitter {
 
     return super.add(new EntityModel(super.emitter, entity.span, entity.type))
   }
+
+  isBlock(typeName) {
+    return this.definedTypes && this.definedTypes.isBlock(typeName)
+  }
 }

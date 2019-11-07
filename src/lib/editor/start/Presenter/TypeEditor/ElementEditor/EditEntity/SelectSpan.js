@@ -1,4 +1,4 @@
-export default function(annotationData, selectionModel, typeDefinition) {
+export default function(annotationData, selectionModel) {
   return (event) => {
     const firstId = selectionModel.span.single()
     const target = event.target
@@ -8,41 +8,26 @@ export default function(annotationData, selectionModel, typeDefinition) {
       // select reange of spans.
       selectionModel.clear()
       for (const spanId of annotationData.span.range(firstId, id)) {
-        selectSpanWithBlockEnities(
-          annotationData,
-          selectionModel,
-          typeDefinition,
-          spanId
-        )
+        selectSpanWithBlockEnities(annotationData, selectionModel, spanId)
       }
     } else if (event.ctrlKey || event.metaKey) {
       selectionModel.span.toggle(id)
       annotationData.span
         .get(id)
-        .getBlockEntities(typeDefinition)
+        .getBlockEntities(annotationData.entity)
         .forEach((id) => selectionModel.entity.toggle(id))
     } else {
       selectionModel.clear()
-      selectSpanWithBlockEnities(
-        annotationData,
-        selectionModel,
-        typeDefinition,
-        id
-      )
+      selectSpanWithBlockEnities(annotationData, selectionModel, id)
     }
   }
 }
 
-function selectSpanWithBlockEnities(
-  annotationData,
-  selectionModel,
-  typeDefinition,
-  spanId
-) {
+function selectSpanWithBlockEnities(annotationData, selectionModel, spanId) {
   selectionModel.span.add(spanId)
 
   annotationData.span
     .get(spanId)
-    .getBlockEntities(typeDefinition)
+    .getBlockEntities(annotationData.entity)
     .forEach((entity) => selectionModel.entity.add(entity.id))
 }

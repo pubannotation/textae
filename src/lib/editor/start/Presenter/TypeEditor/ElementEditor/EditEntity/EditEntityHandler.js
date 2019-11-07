@@ -16,8 +16,7 @@ export default class extends DefaultHandler {
 
   changeTypeOfSelectedElement(newType) {
     return this.commander.factory.changeTypeRemoveRelationOfSelectedEntitiesCommand(
-      newType,
-      this.typeContainer
+      newType
     )
   }
 

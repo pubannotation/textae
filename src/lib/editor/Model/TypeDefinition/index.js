@@ -6,7 +6,7 @@ export default class {
   constructor(annotationData) {
     this._lockStateObservable = new Observable(false)
     this._entityContainer = new EntityContainer(
-      () => annotationData.entity.all,
+      annotationData.entity,
       '#77DDDD',
       this._lockStateObservable
     )

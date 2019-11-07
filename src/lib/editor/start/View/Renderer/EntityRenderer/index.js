@@ -27,11 +27,11 @@ export default class {
   render(entity) {
     create(
       this.editor,
-      this.annotationData.namespace,
       this.typeContainer,
       this.gridRenderer,
       this.modification,
-      entity
+      entity,
+      this.annotationData
     )
 
     setTypeGapHeight(entity, this.typeGap)

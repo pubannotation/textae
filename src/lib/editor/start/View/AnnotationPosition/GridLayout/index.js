@@ -4,10 +4,9 @@ import arrangeGridPosition from './arrangeGridPosition'
 
 // Management position of annotation components.
 export default class {
-  constructor(editor, annotationData, typeDefinition) {
+  constructor(editor, annotationData) {
     this.editor = editor
     this.annotationData = annotationData
-    this.typeDefinition = typeDefinition
     this.domPositionCache = getDomPositionCache(editor, annotationData.entity)
   }
 
@@ -20,7 +19,6 @@ export default class {
     for (const span of this.annotationData.span.all) {
       arrangeGridPosition(
         this.domPositionCache,
-        this.typeDefinition,
         this.annotationData,
         typeGap,
         span
@@ -34,7 +32,6 @@ export default class {
     return Promise.all(
       genArrangeAllGridPositionPromises(
         this.domPositionCache,
-        this.typeDefinition,
         this.annotationData,
         typeGap
       )

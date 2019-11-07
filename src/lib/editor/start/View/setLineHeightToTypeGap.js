@@ -5,7 +5,7 @@ import setLineHeight from './lineHeight/setLineHeight'
 const TEXT_HEIGHT = 23
 const MARGIN_TOP = 30
 
-export default function(editor, annotationData, typeDefinition, typeGap) {
+export default function(editor, annotationData, typeGap) {
   let maxHeight
   if (annotationData.span.all.length === 0) {
     const style = window.getComputedStyle(editor)
@@ -14,7 +14,7 @@ export default function(editor, annotationData, typeDefinition, typeGap) {
   } else {
     maxHeight = Math.max(
       ...annotationData.span.all.map((span) =>
-        getHeightIncludeDescendantGrids(span, typeDefinition, typeGap)
+        getHeightIncludeDescendantGrids(span, typeGap, annotationData)
       )
     )
     maxHeight += TEXT_HEIGHT + MARGIN_TOP

@@ -2,21 +2,21 @@ import getGridHeight from './getGridHeight'
 
 export default function getHeightIncludeDescendantGrids(
   span,
-  typeDefinition,
-  typeGap
+  typeGap,
+  annotationData
 ) {
   const descendantsMaxHeight =
-    span.children.length === 0 ? 0 : getMaxHeight(span, typeDefinition, typeGap)
-  const gridHeight = getGridHeight(span, typeDefinition, typeGap)
+    span.children.length === 0 ? 0 : getMaxHeight(span, typeGap, annotationData)
+  const gridHeight = getGridHeight(span, typeGap, annotationData)
 
   return gridHeight + descendantsMaxHeight
 }
 
-function getMaxHeight(span, typeDefinition, typeGap) {
+function getMaxHeight(span, typeGap, annotationData) {
   return Math.max.apply(
     null,
     span.children.map((childSpan) =>
-      getHeightIncludeDescendantGrids(childSpan, typeDefinition, typeGap)
+      getHeightIncludeDescendantGrids(childSpan, typeGap, annotationData)
     )
   )
 }
