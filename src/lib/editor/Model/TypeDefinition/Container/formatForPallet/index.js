@@ -6,7 +6,7 @@ import createTypesWithoutInstance from './createTypesWithoutInstance'
 export default function(instances, definedTypes, defaultType, defaultColor) {
   const countMap = createCountMap(instances)
   const typesWithoutInstance = createTypesWithoutInstance(
-    definedTypes.keys(),
+    definedTypes.ids(),
     countMap
   )
   const types = sortByCountAndName(countMap).concat(typesWithoutInstance)

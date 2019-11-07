@@ -1,13 +1,13 @@
 import { EventEmitter } from 'events'
 import getUrlMatches from '../../../getUrlMatches'
 import getDefaultTypeAutomatically from './getDefaultTypeAutomatically'
-import getConfig from './getConfig'
 import formatForPallet from './formatForPallet'
+import DefinedTypeContainer from './DefinedTypeContainer'
 
 export default class extends EventEmitter {
   constructor(getAllInstanceFunc, defaultColor, lockStateObservable) {
     super()
-    this._definedTypes = new Map()
+    this._definedTypes = null
     this._getAllInstanceFunc = getAllInstanceFunc
     this._defaultColor = defaultColor
     this._lockStateObservable = lockStateObservable
@@ -16,13 +16,7 @@ export default class extends EventEmitter {
   }
 
   set definedTypes(value = []) {
-    // expected new value is an array of object. example of object is {"name": "Regulation","color": "#FFFF66","default": true}.
-    this._definedTypes = new Map(
-      value.reduce((a, b) => {
-        a.push([b.id, b])
-        return a
-      }, [])
-    )
+    this._definedTypes = new DefinedTypeContainer(value)
 
     super.emit('type.reset')
 
@@ -41,15 +35,11 @@ export default class extends EventEmitter {
   }
 
   get(id) {
-    return Object.assign({}, this._definedTypes.get(id))
+    return this._definedTypes.get(id)
   }
 
   set(id, newType) {
-    // Delete old ID when changing ID.
-    if (id !== newType.id) {
-      this._definedTypes.delete(id)
-    }
-    this._definedTypes.set(newType.id, newType)
+    this._definedTypes.set(id, newType)
     super.emit('type.change', newType.id)
   }
 
@@ -78,7 +68,7 @@ export default class extends EventEmitter {
 
   get config() {
     // Get type definitions.
-    const types = new Map(this._definedTypes)
+    const types = this._definedTypes.clone()
 
     // Get types from instances.
     for (const { type } of this._getAllInstanceFunc()) {
@@ -122,12 +112,12 @@ export default class extends EventEmitter {
   }
 
   getColor(id) {
-    const config = getConfig(this._definedTypes, id)
+    const config = this._definedTypes.getConfig(id)
     return (config && config.color) || this._defaultColor
   }
 
   getLabel(id) {
-    const config = getConfig(this._definedTypes, id)
+    const config = this._definedTypes.getConfig(id)
     return config && config.label
   }
 
