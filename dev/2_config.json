@@ -1,35 +1,37 @@
 {
-    "delimiter characters": [
-        " ",
-        ".",
-        "!",
-        "?",
-        ",",
-        ":",
-        ";",
-        "-",
-        "/",
-        "&",
-        "(",
-        ")",
-        "{",
-        "}",
-        "[",
-        "]",
-        "\\",
-        "\"",
-        "'",
-        "\n",
-        "–"
-    ],
-    "non-edge characters": [
-        " ",
-        "\n"
-    ],
-    "entity types": [{
-        "color": "#0000FF",
-        "label": "Parent",
-        "id": "http://dbpedia.org/ontology/parent",
-        "default": true
-    }]
+  "delimiter characters": [
+    " ",
+    ".",
+    "!",
+    "?",
+    ",",
+    ":",
+    ";",
+    "-",
+    "/",
+    "&",
+    "(",
+    ")",
+    "{",
+    "}",
+    "[",
+    "]",
+    "\\",
+    "\"",
+    "'",
+    "\n",
+    "–"
+  ],
+  "non-edge characters": [
+    " ",
+    "\n"
+  ],
+  "entity types": [
+    {
+      "color": "#0000FF",
+      "label": "Parent",
+      "id": "http://dbpedia.org/ontology/parent",
+      "default": true
+    }
+  ]
 }

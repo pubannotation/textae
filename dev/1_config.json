@@ -1,45 +1,60 @@
 {
-	"relation types": [{
-		"color": "#5CFF0A",
-		"id": "locatedAt"
-	}, {
-		"color": "#FF0000",
-		"id": "themeOf"
-	}, {
-		"color": "#0000FF",
-		"id": "equivalentTo"
-	}],
-	"entity types": [{
-		"color": "#0000FF",
-		"id": "Protein",
-		"default": true
-	}, {
-		"color": "#FF0000",
-		"id": "Cell"
-	}, {
-		"color": "#00FF00",
-		"id": "Transcription"
-	}, {
-		"color": "#FFFF00",
-		"id": "Gene_expression"
-	}, {
-		"color": "#FF00FF",
-		"id": "Negative_regulation"
-	}, {
-		"color": "#00FFFF",
-		"id": "Positive_regulation"
-	}, {
-		"color": "#FFFF66",
-		"label": "Regulation",
-		"id": "http://www.yahoo.co.jp"
-	}, {
-		"color": "#666666",
-		"id": "New"
-	}, {
-		"color": "#0000FF",
-		"id": "Sentence",
-		"type": "block"
-	}, {
-		"id": "http://dbpedia.org/ontology/productionCompany"
-	}]
+  "entity types": [
+    {
+      "color": "#0000FF",
+      "id": "Protein",
+      "default": true
+    },
+    {
+      "color": "#FF0000",
+      "id": "Cell"
+    },
+    {
+      "color": "#00FF00",
+      "id": "Transcription"
+    },
+    {
+      "color": "#FFFF00",
+      "id": "Gene_expression"
+    },
+    {
+      "color": "#FF00FF",
+      "id": "Negative_regulation"
+    },
+    {
+      "color": "#00FFFF",
+      "id": "Positive_regulation"
+    },
+    {
+      "color": "#FFFF66",
+      "label": "Regulation",
+      "id": "http://www.yahoo.co.jp"
+    },
+    {
+      "color": "#666666",
+      "id": "New"
+    },
+    {
+      "color": "#0000FF",
+      "id": "Sentence",
+      "type": "block"
+    },
+    {
+      "id": "http://dbpedia.org/ontology/productionCompany"
+    }
+  ],
+  "relation types": [
+    {
+      "color": "#5CFF0A",
+      "id": "locatedAt"
+    },
+    {
+      "color": "#FF0000",
+      "id": "themeOf"
+    },
+    {
+      "color": "#0000FF",
+      "id": "equivalentTo"
+    }
+  ]
 }
