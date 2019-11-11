@@ -1,0 +1,61 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "JSON schema for texta configuration files",
+  "definitions": {
+    "characters": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 1
+      }
+    },
+    "color": {
+      "pattern": "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$"
+    },
+    "default": {
+      "type": "boolean"
+    },
+    "denote": {
+      "type": "object",
+      "required": [
+        "id"
+      ],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        },
+        "color": {
+          "$ref": "#/definitions/color"
+        },
+        "default": {
+          "$ref": "#/definitions/default"
+        }
+      }
+    },
+    "types": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/denote"
+      }
+    }
+  },
+  "type": "object",
+  "properties": {
+    "delimiter characters": {
+      "$ref": "#/definitions/characters"
+    },
+    "non-edge characters": {
+      "$ref": "#/definitions/characters"
+    },
+    "entity types": {
+      "$ref": "#/definitions/types"
+    },
+    "relation types": {
+      "$ref": "#/definitions/types"
+    }
+  }
+}
