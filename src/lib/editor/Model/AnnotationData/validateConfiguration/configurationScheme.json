@@ -56,6 +56,147 @@
     },
     "relation types": {
       "$ref": "#/definitions/types"
+    },
+    "attribute types": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "pred": {
+            "type": "string"
+          },
+          "value type": {
+            "enum": [
+              "flag",
+              "selection",
+              "string",
+              "numeric"
+            ]
+          }
+        },
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "value type": {
+                  "const": "flag"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "color": {
+                  "$ref": "#/definitions/color"
+                },
+                "label": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "value type": {
+                  "const": "selection"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "values": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/denote"
+                  }
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "value type": {
+                  "const": "string"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "default": {
+                  "type": "string"
+                },
+                "values": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "required": [
+                      "pattern"
+                    ],
+                    "properties": {
+                      "pattern": {
+                        "type": "string",
+                        "format": "regex"
+                      },
+                      "label": {
+                        "type": "string"
+                      },
+                      "color": {
+                        "$ref": "#/definitions/color"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "value type": {
+                  "const": "numeric"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "default": {
+                  "type": "number"
+                },
+                "min": {
+                  "type": "number"
+                },
+                "max": {
+                  "type": "number"
+                },
+                "step": {
+                  "type": "number"
+                },
+                "values": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "required": [
+                      "range"
+                    ],
+                    "properties": {
+                      "range": {
+                        "type": "string"
+                      },
+                      "label": {
+                        "type": "string"
+                      },
+                      "color": {
+                        "$ref": "#/definitions/color"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        ]
+      }
     }
   }
 }
