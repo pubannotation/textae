@@ -1,7 +1,6 @@
 import CompositeCommand from './CompositeCommand'
 import SpanAndTypesCreateCommand from './SpanAndTypesCreateCommand'
 import SpanReplicateCommand from './SpanReplicateCommand'
-import TypeModel from '../../../Model/AnnotationData/Container/SpanContainer/TypeModel'
 
 const BLOCK_THRESHOLD = 100
 
