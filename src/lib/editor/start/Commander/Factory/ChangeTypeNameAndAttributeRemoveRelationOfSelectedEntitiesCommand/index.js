@@ -5,7 +5,13 @@ import getRemoveChangingAttributeCommands from './getRemoveChangingAttributeComm
 import getAddChangingAttributeCommands from './getAddChangingAttributeCommands'
 
 export default class extends CompositeCommand {
-  constructor(editor, annotationData, selectionModel, newType, newAttributes) {
+  constructor(
+    editor,
+    annotationData,
+    selectionModel,
+    newTypeName,
+    newAttributes
+  ) {
     super()
 
     // Get only entities with changes.
@@ -13,13 +19,15 @@ export default class extends CompositeCommand {
       .all()
       .filter(
         (entityId) =>
-          !annotationData.entity.get(entityId).sameType(newType, newAttributes)
+          !annotationData.entity
+            .get(entityId)
+            .sameType(newTypeName, newAttributes)
       )
 
     // Change type of entities.
     const changeTypeCommands = entitiesWithChange.map(
       (id) =>
-        new ChangeTypeCommand(editor, annotationData, 'entity', id, newType)
+        new ChangeTypeCommand(editor, annotationData, 'entity', id, newTypeName)
     )
 
     // Delete all old attributes.
@@ -41,7 +49,7 @@ export default class extends CompositeCommand {
     )
 
     // Block types do not have relations. If there is a relation, delete it.
-    const removeRelationCommands = annotationData.entity.isBlock(newType)
+    const removeRelationCommands = annotationData.entity.isBlock(newTypeName)
       ? getRemoveRelationCommands(
           entitiesWithChange,
           annotationData,
@@ -54,7 +62,7 @@ export default class extends CompositeCommand {
       .concat(changeTypeCommands)
       .concat(removeAttributeCommands)
       .concat(addAttributeCommands)
-    this._logMessage = `set type ${newType} and ${JSON.stringify(
+    this._logMessage = `set type ${newTypeName} and ${JSON.stringify(
       newAttributes
     )} to entities ${entitiesWithChange}`
   }
