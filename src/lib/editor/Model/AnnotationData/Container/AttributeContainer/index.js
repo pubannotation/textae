@@ -12,7 +12,7 @@ export default class extends ContatinerWithSubContainer {
   add(attribute) {
     return super.add(
       new AttributeModel(attribute, super.entityContainer),
-      (attribute) => super.emitter.emit('entity.change', attribute.entity)
+      (attribute) => super._emit('entity.change', attribute.entity)
     )
   }
 
@@ -27,8 +27,8 @@ export default class extends ContatinerWithSubContainer {
       model.obj = newObj
     }
 
-    super.emitter.emit(`${this.name}.change`, model)
-    super.emitter.emit('entity.change', model.entity)
+    super._emit(`${this.name}.change`, model)
+    super._emit('entity.change', model.entity)
 
     return model
   }
@@ -38,7 +38,7 @@ export default class extends ContatinerWithSubContainer {
 
     console.assert(instance, `There are no attribute ${id} to delete!`)
 
-    super.emitter.emit('entity.change', instance.entity)
+    super._emit('entity.change', instance.entity)
 
     return instance
   }

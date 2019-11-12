@@ -97,7 +97,7 @@ export default class extends ContatinerWithSubContainer {
       }
     )
 
-    super.emitter.emit('span.move')
+    super._emit('span.move')
 
     return [
       {
