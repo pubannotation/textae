@@ -2,11 +2,11 @@ import idFactory from '../../../../../idFactory'
 import getTypes from './getTypes'
 
 export default class SpanModel {
-  constructor(editor, paragraph, span, getAllEntitesFunc) {
+  constructor(editor, paragraph, span, entityContainer) {
     this._editor = editor
     this._span = span
     this._paragraph = paragraph
-    this._getAllEntitesFunc = getAllEntitesFunc
+    this._entityContainer = entityContainer
   }
 
   get id() {
@@ -32,7 +32,7 @@ export default class SpanModel {
   }
 
   get entities() {
-    return this._getAllEntitesFunc().filter((entity) => this.id === entity.span)
+    return this._entityContainer.all.filter((entity) => this.id === entity.span)
   }
 
   // To determine whether to switch to simple mode, make sure that there are types with multiple entities in the span.

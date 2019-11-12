@@ -9,12 +9,7 @@ import ContatinerWithEmitter from '../ContatinerWithEmitter'
 export default class extends ContatinerWithEmitter {
   constructor(editor, emitter, paragraph) {
     super(emitter, 'span', (denotations) =>
-      mappingFunction(
-        denotations,
-        editor,
-        paragraph,
-        () => super.emitter.entity.all
-      )
+      mappingFunction(denotations, editor, paragraph, super.emitter.entity)
     )
     this.editor = editor
     this.paragraph = paragraph
@@ -31,12 +26,7 @@ export default class extends ContatinerWithEmitter {
   add(span) {
     if (span)
       return super.add(
-        new SpanModel(
-          this.editor,
-          this.paragraph,
-          span,
-          () => super.emitter.entity.all
-        ),
+        new SpanModel(this.editor, this.paragraph, span, super.emitter.entity),
         () => {
           this.spanTopLevel = this.updateSpanTree()
         }
@@ -96,12 +86,7 @@ export default class extends ContatinerWithEmitter {
   move(id, newSpan) {
     const oldOne = super.remove(id)
     const newOne = super.add(
-      new SpanModel(
-        this.editor,
-        this.paragraph,
-        newSpan,
-        () => super.emitter.entity.all
-      ),
+      new SpanModel(this.editor, this.paragraph, newSpan, super.emitter.entity),
       (newOne) => {
         this.spanTopLevel = this.updateSpanTree()
         // Span.getTypes function depends on the property of the entity.
