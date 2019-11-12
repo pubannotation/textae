@@ -7,7 +7,13 @@ export default class extends ContatinerWithEmitter {
     super(
       emitter,
       'entity',
-      (denotations) => mappingFunction(editor, emitter, denotations),
+      (denotations) =>
+        mappingFunction(
+          editor,
+          emitter.attribute,
+          emitter.relation,
+          denotations
+        ),
       'T'
     )
   }
@@ -21,7 +27,14 @@ export default class extends ContatinerWithEmitter {
       return super.add(entity)
     }
 
-    return super.add(new EntityModel(super.emitter, entity.span, entity.type))
+    return super.add(
+      new EntityModel(
+        super.emitter.attribute,
+        super.emitter.relation,
+        entity.span,
+        entity.type
+      )
+    )
   }
 
   isBlock(typeName) {

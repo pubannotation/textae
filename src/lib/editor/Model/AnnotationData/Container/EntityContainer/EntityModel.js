@@ -1,11 +1,12 @@
 import TypeModel from '../SpanContainer/TypeModel'
 
 export default class {
-  constructor(emitter, span, type, id = null) {
+  constructor(attributeContainer, relationContaier, span, type, id = null) {
     this._span = span
     this._typeName = type
     this._id = id
-    this._emitter = emitter
+    this._attributeContainer = attributeContainer
+    this._relationContaier = relationContaier
   }
 
   get id() {
@@ -50,7 +51,7 @@ export default class {
   }
 
   get attributes() {
-    return this._emitter.attribute.all.filter((a) => a.subj === this._id)
+    return this._attributeContainer.all.filter((a) => a.subj === this._id)
   }
 
   getDifferentAttributes(newAttributes) {
@@ -63,7 +64,7 @@ export default class {
   }
 
   get relations() {
-    return this._emitter.relation.all
+    return this._relationContaier.all
       .filter((r) => r.obj === this.id || r.subj === this.id)
       .map((r) => r.id)
   }

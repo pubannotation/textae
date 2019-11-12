@@ -1,6 +1,13 @@
 import toModel from './toModel'
 
-export default function(editor, emitter, denotations) {
+export default function(
+  editor,
+  attributeContainer,
+  relationContaier,
+  denotations
+) {
   denotations = denotations || []
-  return denotations.map((entity) => toModel(editor, emitter, entity))
+  return denotations.map((entity) =>
+    toModel(editor, attributeContainer, relationContaier, entity)
+  )
 }
