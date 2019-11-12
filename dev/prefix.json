@@ -1,42 +1,50 @@
 {
-    "target": "http://pubannotation.org/docs/sourcedb/PMC/sourceid/13900/divs/0",
-    "sourcedb": "PMC",
-    "sourceid": "13900",
-    "divid": 0,
-    "text": "Comparison of written reports of mammography, sonography and magnetic resonance mammography for preoperative evaluation of breast lesions, with special emphasis on magnetic resonance mammography\nPatients with abnormal breast findings (n = 413) were examined by mammography, sonography and magnetic resonance (MR) mammography; 185 invasive cancers, 38 carcinoma in situ and 254 benign tumours were confirmed histologically. Sensitivity for mammography was 83.7%, for sonography it was 89.1% and for MR mammography it was 94.6% for invasive cancers. In 42 patients with multifocal invasive cancers, multifocality had been detected by mammography and sonography in 26.2%, and by MR mammography in 66.7%. In nine patients with multicentric cancers, detection rates were 55.5, 55.5 and 88.8%, respectively. Carcinoma in situ was diagnosed by mammography in 78.9% and by MR mammography in 68.4% of patients. Combination of all three diagnostic methods lead to the best results for detection of invasive cancer and multifocal disease. However, sensitivity of mammography and sonography combined was identical to that of MR mammography (ie 94.6%).",
-    "project": "Colil",
-    "namespaces": [{
-        "prefix": "_base",
-        "uri": "http://pubannotation.org/docs/sourcedb/PubMed/sourceid/"
-    }, {
-        "prefix": "abc",
-        "uri": "https://www.google.co.jp/search?q="
-    }, {
-        "prefix": "http",
-        "uri": "this is ignored"
-    }],
-    "denotations": [{
-        "id": "T1",
-        "span": {
-            "begin": 152,
-            "end": 160
-        },
-        "obj": "Protein"
-    }, {
-        "id": "T2",
-        "span": {
-            "begin": 164,
-            "end": 172
-        },
-        "obj": "abc:Protein"
-    }, {
-        "id": "T3",
-        "span": {
-            "begin": 225,
-            "end": 233
-        },
-        "obj": "http://abc.com"
-    }],
-    "relations": [],
-    "modifications": []
+  "target": "http://pubannotation.org/docs/sourcedb/PMC/sourceid/13900/divs/0",
+  "sourcedb": "PMC",
+  "sourceid": "13900",
+  "divid": 0,
+  "text": "Comparison of written reports of mammography, sonography and magnetic resonance mammography for preoperative evaluation of breast lesions, with special emphasis on magnetic resonance mammography\nPatients with abnormal breast findings (n = 413) were examined by mammography, sonography and magnetic resonance (MR) mammography; 185 invasive cancers, 38 carcinoma in situ and 254 benign tumours were confirmed histologically. Sensitivity for mammography was 83.7%, for sonography it was 89.1% and for MR mammography it was 94.6% for invasive cancers. In 42 patients with multifocal invasive cancers, multifocality had been detected by mammography and sonography in 26.2%, and by MR mammography in 66.7%. In nine patients with multicentric cancers, detection rates were 55.5, 55.5 and 88.8%, respectively. Carcinoma in situ was diagnosed by mammography in 78.9% and by MR mammography in 68.4% of patients. Combination of all three diagnostic methods lead to the best results for detection of invasive cancer and multifocal disease. However, sensitivity of mammography and sonography combined was identical to that of MR mammography (ie 94.6%).",
+  "project": "Colil",
+  "namespaces": [
+    {
+      "prefix": "_base",
+      "uri": "http://pubannotation.org/docs/sourcedb/PubMed/sourceid/"
+    },
+    {
+      "prefix": "abc",
+      "uri": "https://www.google.co.jp/search?q="
+    },
+    {
+      "prefix": "http",
+      "uri": "this is ignored"
+    }
+  ],
+  "denotations": [
+    {
+      "id": "T1",
+      "span": {
+        "begin": 152,
+        "end": 160
+      },
+      "obj": "Protein"
+    },
+    {
+      "id": "T2",
+      "span": {
+        "begin": 164,
+        "end": 172
+      },
+      "obj": "abc:Protein"
+    },
+    {
+      "id": "T3",
+      "span": {
+        "begin": 225,
+        "end": 233
+      },
+      "obj": "http://abc.com"
+    }
+  ],
+  "relations": [],
+  "modifications": []
 }

@@ -1,74 +1,93 @@
 {
-    "target": "http://pubannotation.org/docs/sourcedb/PMC/sourceid/1315279/divs/10",
-    "text": " Briefly, embryonic mice were removed from t",
-    "tracks": [{
-        "project": "http://pubannotation.org/projects/craft",
-        "denotations": [{
-            "span": {
-                "begin": 10,
-                "end": 19
-            },
-            "obj": "no id t1"
-        }, {
-            "id": "T1",
-            "span": {
-                "begin": 20,
-                "end": 24
-            },
-            "obj": "organism_Instance_46040"
-        }, {
-            "id": "T2",
-            "span": {
-                "begin": 25,
-                "end": 29
-            },
-            "obj": "organism_Instance_46040"
-        }],
-        "modifications": [{
-            "pred": "Negation",
-            "obj": "T1"
-        }, {
-            "id": "M2",
-            "pred": "Speculation",
-            "obj": "T2"
-        }],
-        "relations": [{
-            "pred": "locatedAt",
-            "subj": "T1",
-            "obj": "T2"
-        }]
-    }, {
-        "project": "http://pubannotation.org/projects/CRAFT-treebank",
-        "denotations": [{
-            "span": {
-                "begin": 1,
-                "end": 8
-            },
-            "obj": "no id t2"
-        }, {
-            "id": "T1",
-            "span": {
-                "begin": 20,
-                "end": 24
-            },
-            "obj": "NNS"
-        }, {
-            "id": "T2",
-            "span": {
-                "begin": 30,
-                "end": 37
-            },
-            "obj": "NNS"
-        }],
-        "relations": [{
-            "id": "R1",
-            "pred": "locatedAt",
-            "subj": "T1",
-            "obj": "T2"
-        }]
-    }, {}],
-    "focus": {
-        "begin": 20,
-        "end": 24
-    }
+  "target": "http://pubannotation.org/docs/sourcedb/PMC/sourceid/1315279/divs/10",
+  "text": " Briefly, embryonic mice were removed from t",
+  "tracks": [
+    {
+      "project": "http://pubannotation.org/projects/craft",
+      "denotations": [
+        {
+          "span": {
+            "begin": 10,
+            "end": 19
+          },
+          "obj": "no id t1"
+        },
+        {
+          "id": "T1",
+          "span": {
+            "begin": 20,
+            "end": 24
+          },
+          "obj": "organism_Instance_46040"
+        },
+        {
+          "id": "T2",
+          "span": {
+            "begin": 25,
+            "end": 29
+          },
+          "obj": "organism_Instance_46040"
+        }
+      ],
+      "modifications": [
+        {
+          "pred": "Negation",
+          "obj": "T1"
+        },
+        {
+          "id": "M2",
+          "pred": "Speculation",
+          "obj": "T2"
+        }
+      ],
+      "relations": [
+        {
+          "pred": "locatedAt",
+          "subj": "T1",
+          "obj": "T2"
+        }
+      ]
+    },
+    {
+      "project": "http://pubannotation.org/projects/CRAFT-treebank",
+      "denotations": [
+        {
+          "span": {
+            "begin": 1,
+            "end": 8
+          },
+          "obj": "no id t2"
+        },
+        {
+          "id": "T1",
+          "span": {
+            "begin": 20,
+            "end": 24
+          },
+          "obj": "NNS"
+        },
+        {
+          "id": "T2",
+          "span": {
+            "begin": 30,
+            "end": 37
+          },
+          "obj": "NNS"
+        }
+      ],
+      "relations": [
+        {
+          "id": "R1",
+          "pred": "locatedAt",
+          "subj": "T1",
+          "obj": "T2"
+        }
+      ]
+    },
+    {}
+  ],
+  "focus": {
+    "begin": 20,
+    "end": 24
+  }
 }
