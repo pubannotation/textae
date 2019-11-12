@@ -1,7 +1,4 @@
-import CreateSpanAndAutoReplicateCommand from '../../../../../Commander/Factory/CreateSpanAndAutoReplicateCommand'
 import TypeModel from '../../../../../../Model/AnnotationData/Container/SpanContainer/TypeModel'
-
-const BLOCK_THRESHOLD = 100
 
 export default function(
   commander,
