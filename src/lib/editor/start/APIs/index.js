@@ -31,7 +31,13 @@ export default class {
   handleKeyInput(event) {
     // Keyup events occurs without selected editor, When editor is focused before initializing.
     if (this._isSelected) {
-      const key = event.key
+      // The value of the key property when pressing a key while holding down the Shift key depends on the keyboard layout.
+      // For example, on a US keyboard, the shift + 1 keystroke is “!”.
+      // When shift is pressed, the input value is taken from the keyCode property.
+      const key = event.shiftKey
+        ? String.fromCharCode(event.keyCode)
+        : event.key
+
       const value = {
         point: getMousePoint(),
         shiftKey: event.shiftKey

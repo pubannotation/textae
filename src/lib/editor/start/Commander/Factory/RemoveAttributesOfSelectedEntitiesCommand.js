@@ -1,6 +1,6 @@
-import { RemoveCommand } from './commandTemplate'
 import findAttribute from './findAttribute'
 import CompositeCommand from './CompositeCommand'
+import getRemoveAtributesByPredAndObjCommands from './getRemoveAtributesByPredAndObjCommands'
 
 export default class extends CompositeCommand {
   constructor(
@@ -13,28 +13,22 @@ export default class extends CompositeCommand {
   ) {
     super()
 
-    const removeAttributeCommands = []
     this.pred = pred
     this.obj = obj
     this.selectedEntities = selectedEntities
 
-    for (const id of selectedEntities) {
-      const attribute = findAttribute(annotationData, id, pred, obj)
+    // If you select an entity with attributes and an entity without attributes,
+    // the attributes may not be found.
+    const attributes = selectedEntities
+      .map((id) => findAttribute(annotationData, id, pred, obj))
+      .filter((attr) => attr)
 
-      // If you select an entity with attributes and an entity without attributes,
-      // the attributes may not be found.
-      if (attribute) {
-        removeAttributeCommands.push(
-          new RemoveCommand(
-            editor,
-            annotationData,
-            selectionModel,
-            'attribute',
-            attribute.id
-          )
-        )
-      }
-    }
+    const removeAttributeCommands = getRemoveAtributesByPredAndObjCommands(
+      attributes,
+      editor,
+      annotationData,
+      selectionModel
+    )
 
     this._subCommands = removeAttributeCommands
     this._logMessage = `remove an attribute {pred: ${this.pred}, obj: ${this.obj}} from ${this.selectedEntities}`

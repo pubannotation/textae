@@ -35,7 +35,10 @@ export default class {
 
   setTypeConfig(config) {
     if (config) {
-      this._entityContainer.definedTypes = config['entity types'] || []
+      this._entityContainer.definedTypes = [
+        config['entity types'] || [],
+        config['attribute types'] || []
+      ]
       this._relationContainer.definedTypes = config['relation types'] || []
     } else {
       this._entityContainer.definedTypes = []

@@ -3,7 +3,6 @@ import ClipBoardHandler from './ClipBoardHandler'
 import createEntityHandler from './createEntityHandler'
 import replicateHandler from './replicateHandler'
 import ModificationHandler from './ModificationHandler'
-import createAttribute from './createAttribute'
 import selectLeft from './selectLeft'
 import selectRight from './selectRight'
 import selectUpperLayer from './selectUpperLayer'
@@ -11,6 +10,8 @@ import selectLowerLayer from './selectLowerLayer'
 import toggleSimpleMode from './toggleSimpleMode'
 import toggleDetectBoundaryMode from './toggleDetectBoundaryMode'
 import toggleInstaceRelation from './toggleInstaceRelation'
+import CreateAttribute from './CreateAttribute'
+import DeleteAttribute from './DeleteAttribute'
 
 export default class {
   constructor(
@@ -52,6 +53,17 @@ export default class {
       displayInstance
     )
     this._editMode = editMode
+    this._createAttribute = new CreateAttribute(
+      commander,
+      editor,
+      annotationData,
+      selectionModel
+    )
+    this._deleteAttribute = new DeleteAttribute(
+      commander,
+      annotationData,
+      selectionModel
+    )
   }
 
   copyEntities() {
@@ -110,7 +122,15 @@ export default class {
   }
 
   createAttribute() {
-    createAttribute(this._commander)
+    this.manipulateAttribute({})
+  }
+
+  manipulateAttribute(options, number) {
+    if (options.shiftKey) {
+      this._deleteAttribute.handle(this._typeDefinition, number)
+    } else {
+      this._createAttribute.handle(this._typeDefinition, number, options)
+    }
   }
 
   showSettingDialog() {

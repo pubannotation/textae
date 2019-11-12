@@ -1,5 +1,10 @@
 export default function(commander, presenter, persistenceInterface) {
   return new Map([
+    ['1', (options) => presenter.event.manipulateAttribute(options, 1)],
+    ['2', (options) => presenter.event.manipulateAttribute(options, 2)],
+    ['3', (options) => presenter.event.manipulateAttribute(options, 3)],
+    ['4', (options) => presenter.event.manipulateAttribute(options, 4)],
+    ['5', (options) => presenter.event.manipulateAttribute(options, 5)],
     ['a', commander.redo],
     ['b', () => presenter.event.toggleDetectBoundaryMode()],
     ['c', () => presenter.event.copyEntities()],

@@ -16,10 +16,13 @@ import ChangeTypeOfSelectedRelationsCommand from './ChangeTypeOfSelectedRelation
 import RemoveSelectedCommand from './RemoveSelectedCommand'
 import CreateDefaultTypeEntityToSelectedSpans from './CreateDefaultTypeEntityToSelectedSpans'
 import PasteTypesToSelectedSpansCommand from './PasteTypesToSelectedSpansCommand'
-import CreateDefaultAttributeToSelectedEntitiesCommand from './CreateDefaultAttributeToSelectedEntitiesCommand'
 import ChangeEntityTypeCommand from './ChangeEntityTypeCommand'
 import ChangeRelationLabelCommand from './ChangeRelationLabelCommand'
 import CreateSpanAndAutoReplicateCommand from './CreateSpanAndAutoReplicateCommand'
+import ToggleFlagAttributeToSelectedEntitiesCommand from './ToggleFlagAttributeToSelectedEntitiesCommand'
+import CreateUnknownAttributeToSelectedEntitiesCommand from './CreateUnknownAttributeToSelectedEntitiesCommand'
+import ChangeAttributesOfSelectedEntitiesWithSamePred from './ChangeAttributesOfSelectedEntitiesWithSamePred'
+import RemoveAttributesOfSelectedEntitiesByPredCommand from './RemoveAttributesOfSelectedEntitiesByPredCommand'
 
 export default class {
   constructor(editor, annotationData, selectionModel, typeDefinition) {
@@ -152,11 +155,43 @@ export default class {
     )
   }
 
-  createDefaultAttributeToSelectedEntitiesCommand() {
-    return new CreateDefaultAttributeToSelectedEntitiesCommand(
+  changeAttributesOfSelectedEntitiesWithSamePred(
+    selectedEntities,
+    pred,
+    newObj
+  ) {
+    return new ChangeAttributesOfSelectedEntitiesWithSamePred(
+      this._annotationData,
+      selectedEntities,
+      pred,
+      newObj
+    )
+  }
+
+  toggleFlagAttributeToSelectedEntitiesCommand(attributeDefinition) {
+    return new ToggleFlagAttributeToSelectedEntitiesCommand(
       this._editor,
       this._annotationData,
-      this._selectionModel
+      this._selectionModel,
+      attributeDefinition
+    )
+  }
+
+  attributeRemoveByPredCommand(attributeDefinition) {
+    return new RemoveAttributesOfSelectedEntitiesByPredCommand(
+      this._editor,
+      this._annotationData,
+      this._selectionModel,
+      attributeDefinition
+    )
+  }
+
+  createUnknownAttributeToSelectedEntitiesCommand(attributeDefinition) {
+    return new CreateUnknownAttributeToSelectedEntitiesCommand(
+      this._editor,
+      this._annotationData,
+      this._selectionModel,
+      attributeDefinition
     )
   }
 

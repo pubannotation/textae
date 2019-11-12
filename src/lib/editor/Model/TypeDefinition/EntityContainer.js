@@ -1,4 +1,5 @@
 import Container from './Container'
+import createAttributeDefinition from './createAttributeDefinition'
 
 export default class extends Container {
   constructor(editor, annotationDataEntity, lockStateObservable) {
@@ -13,8 +14,14 @@ export default class extends Container {
   }
 
   set definedTypes(value) {
-    super.definedTypes = value
+    const [entities, attributes] = value
+    super.definedTypes = entities || []
     this._annotationDataEntity.definedTypes = this.definedTypes
+    this._annotationDataEntity.definedAttributes = attributes
+
+    this._definedAttributes = new Map(
+      (attributes || []).map((a) => [a.pred, createAttributeDefinition(a)])
+    )
   }
 
   get definedTypes() {
@@ -23,5 +30,25 @@ export default class extends Container {
 
   isBlock(typeName) {
     return this._definedTypes.isBlock(typeName)
+  }
+
+  getAttributeLabel(attribute) {
+    if (this._definedAttributes.has(attribute.pred)) {
+      return this._definedAttributes.get(attribute.pred).getLabel(attribute.obj)
+    }
+
+    return attribute.obj
+  }
+
+  getAttributeColor(attribute) {
+    if (this._definedAttributes.has(attribute.pred)) {
+      return this._definedAttributes.get(attribute.pred).getColor(attribute.obj)
+    }
+  }
+
+  getAttributeAt(number) {
+    const attrDef = Array.from(this._definedAttributes.values())[number - 1]
+
+    return attrDef || createAttributeDefinition({})
   }
 }

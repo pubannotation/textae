@@ -2,12 +2,11 @@ import CompositeCommand from './CompositeCommand'
 import { CreateCommand } from './commandTemplate'
 
 export default class extends CompositeCommand {
-  constructor(editor, annotationData, selectionModel) {
+  constructor(editor, annotationData, selectionModel, typeDefinition, number) {
     super()
 
     const entities = selectionModel.entity.all
-    const pred = 'some_predicate'
-    const obj = 'some_value'
+    const { pred, obj } = typeDefinition.entity.getAttributeAt(number)
 
     this._subCommands = entities
       .filter((entityId) =>
