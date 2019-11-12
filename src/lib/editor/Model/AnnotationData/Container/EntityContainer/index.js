@@ -1,8 +1,8 @@
-import ContatinerWithEmitter from '../ContatinerWithEmitter'
+import ContatinerWithSubContainer from '../ContatinerWithSubContainer'
 import EntityModel from './EntityModel'
 import mappingFunction from './mappingFunction'
 
-export default class extends ContatinerWithEmitter {
+export default class extends ContatinerWithSubContainer {
   constructor(editor, emitter) {
     super(
       emitter,
@@ -29,8 +29,8 @@ export default class extends ContatinerWithEmitter {
 
     return super.add(
       new EntityModel(
-        super.emitter.attribute,
-        super.emitter.relation,
+        super.attributeContainer,
+        super.relationContainer,
         entity.span,
         entity.type
       )

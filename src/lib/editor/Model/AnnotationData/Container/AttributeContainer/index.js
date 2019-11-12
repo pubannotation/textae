@@ -1,8 +1,8 @@
 import AttributeModel from './AttributeModel'
-import ContatinerWithEmitter from '../ContatinerWithEmitter'
+import ContatinerWithSubContainer from '../ContatinerWithSubContainer'
 import mappingFunction from './mappingFunction'
 
-export default class extends ContatinerWithEmitter {
+export default class extends ContatinerWithSubContainer {
   constructor(emitter) {
     super(emitter, 'attribute', (attribute) =>
       mappingFunction(attribute, emitter.entity)
@@ -11,7 +11,7 @@ export default class extends ContatinerWithEmitter {
 
   add(attribute) {
     return super.add(
-      new AttributeModel(attribute, super.emitter.entity),
+      new AttributeModel(attribute, super.entityContainer),
       (attribute) => super.emitter.emit('entity.change', attribute.entity)
     )
   }

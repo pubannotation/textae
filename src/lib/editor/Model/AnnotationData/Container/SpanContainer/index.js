@@ -4,12 +4,12 @@ import spanComparator from './spanComparator'
 import updateSpanIdOfEntities from './updateSpanIdOfEntities'
 import idFactory from '../../../../idFactory'
 import SpanModel from './SpanModel'
-import ContatinerWithEmitter from '../ContatinerWithEmitter'
+import ContatinerWithSubContainer from '../ContatinerWithSubContainer'
 
-export default class extends ContatinerWithEmitter {
+export default class extends ContatinerWithSubContainer {
   constructor(editor, emitter, paragraph) {
     super(emitter, 'span', (denotations) =>
-      mappingFunction(denotations, editor, paragraph, super.emitter.entity)
+      mappingFunction(denotations, editor, paragraph, this.entityContainer)
     )
     this.editor = editor
     this.paragraph = paragraph
@@ -26,7 +26,7 @@ export default class extends ContatinerWithEmitter {
   add(span) {
     if (span)
       return super.add(
-        new SpanModel(this.editor, this.paragraph, span, super.emitter.entity),
+        new SpanModel(this.editor, this.paragraph, span, this.entityContainer),
         () => {
           this.spanTopLevel = this.updateSpanTree()
         }
@@ -86,14 +86,14 @@ export default class extends ContatinerWithEmitter {
   move(id, newSpan) {
     const oldOne = super.remove(id)
     const newOne = super.add(
-      new SpanModel(this.editor, this.paragraph, newSpan, super.emitter.entity),
+      new SpanModel(this.editor, this.paragraph, newSpan, this.entityContainer),
       (newOne) => {
         this.spanTopLevel = this.updateSpanTree()
         // Span.getTypes function depends on the property of the entity.
         // We can not distinguish the span is block span or not unless the span ID of the entity is updated.
         // Span DOM element is rendered by 'span.add' event.
         // We need to update the span ID of the entity before 'span.add' event.
-        updateSpanIdOfEntities(super.emitter.entity.all, id, newOne)
+        updateSpanIdOfEntities(this.entityContainer.all, id, newOne)
       }
     )
 
