@@ -1,7 +1,7 @@
 import idFactory from '../../../../idFactory'
 
 export default class {
-  constructor(name, entity = null) {
+  constructor(name, entity) {
     this._name = name
     this._entity = entity
   }

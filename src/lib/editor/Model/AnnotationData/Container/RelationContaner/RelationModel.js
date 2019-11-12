@@ -17,7 +17,7 @@ export default class RelationModel {
   }
 
   get type() {
-    return new TypeModel(this._typeName)
+    return new TypeModel(this._typeName, null)
   }
 
   set type(val) {
