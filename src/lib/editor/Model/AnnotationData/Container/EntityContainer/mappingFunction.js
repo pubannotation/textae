@@ -5,6 +5,7 @@ export default function(
   editor,
   attributeContainer,
   relationContaier,
+  definedTypes,
   denotations
 ) {
   denotations = denotations || []
@@ -13,6 +14,7 @@ export default function(
     return new EntityModel(
       attributeContainer,
       relationContaier,
+      definedTypes,
       idFactory.makeSpanId(editor, entity.span),
       entity.obj,
       entity.id

@@ -5,12 +5,12 @@ export default function(annotationData, span) {
   const el = document.querySelector(`#${span.id}`)
 
   // Set block class if there is any block type.
-  if (span.types.some((type) => annotationData.entity.isBlock(type.name))) {
+  if (span.types.some((type) => type.isBlock)) {
     el.classList.add(BLOCK)
 
     // The text of span can be wrapped because block type does not display Grid.
     // Set wrap class unless there is any type other than block.
-    if (span.types.every((type) => annotationData.entity.isBlock(type.name))) {
+    if (span.types.every((type) => type.isBlock)) {
       el.classList.add(WRAP)
     } else {
       // Grid can not be folded.

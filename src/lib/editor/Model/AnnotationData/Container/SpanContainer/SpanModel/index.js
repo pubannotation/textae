@@ -43,8 +43,6 @@ export default class SpanModel {
   }
 
   getBlockEntities(annotationDataEntity) {
-    return this.entities.filter((entity) =>
-      annotationDataEntity.isBlock(entity.type.name)
-    )
+    return this.entities.filter((entity) => entity.type.isBlock)
   }
 }

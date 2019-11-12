@@ -12,6 +12,7 @@ export default class extends ContatinerWithSubContainer {
           editor,
           emitter.attribute,
           emitter.relation,
+          this.definedTypes,
           denotations
         ),
       'T'
@@ -31,6 +32,7 @@ export default class extends ContatinerWithSubContainer {
       new EntityModel(
         super.attributeContainer,
         super.relationContainer,
+        this.definedTypes,
         entity.span,
         entity.type
       )

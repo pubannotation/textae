@@ -31,7 +31,7 @@ export default class {
       this.gridRenderer,
       this.modification,
       entity,
-      this.annotationData
+      this.annotationData.namespace
     )
 
     setTypeGapHeight(entity, this.typeGap)

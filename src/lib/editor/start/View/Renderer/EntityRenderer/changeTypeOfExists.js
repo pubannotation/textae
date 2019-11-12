@@ -25,7 +25,7 @@ export default function(
     gridRenderer,
     modification,
     entity,
-    annotationData
+    annotationData.namespace
   )
 
   // Remove an parentNode unless entity.

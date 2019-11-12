@@ -1,8 +1,9 @@
 import idFactory from '../../../../idFactory'
 
 export default class {
-  constructor(name, entity) {
+  constructor(name, definedTypes, entity) {
     this._name = name
+    this._definedTypes = definedTypes
     this._entity = entity
   }
 
@@ -16,5 +17,9 @@ export default class {
 
   get attributes() {
     return this._entity ? this._entity.attributes : []
+  }
+
+  get isBlock() {
+    return this._definedTypes && this._definedTypes.isBlock(this._name)
   }
 }

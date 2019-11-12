@@ -6,12 +6,12 @@ export default function(
   gridRenderer,
   modification,
   entity,
-  annotationData
+  namespace
 ) {
-  if (!annotationData.entity.isBlock(entity.type.name)) {
+  if (!entity.type.isBlock) {
     createEntity(
       editor,
-      annotationData.namespace,
+      namespace,
       typeContainer,
       gridRenderer,
       modification,

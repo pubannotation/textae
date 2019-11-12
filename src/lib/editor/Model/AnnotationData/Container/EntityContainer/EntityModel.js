@@ -1,12 +1,20 @@
 import TypeModel from '../SpanContainer/TypeModel'
 
 export default class {
-  constructor(attributeContainer, relationContaier, span, type, id = null) {
+  constructor(
+    attributeContainer,
+    relationContaier,
+    definedTypes,
+    span,
+    type,
+    id = null
+  ) {
     this._span = span
     this._typeName = type
     this._id = id
     this._attributeContainer = attributeContainer
     this._relationContaier = relationContaier
+    this._definedTypes = definedTypes
   }
 
   get id() {
@@ -27,7 +35,7 @@ export default class {
 
   get type() {
     // Replace null to 'null' if type is null and undefined too.
-    return new TypeModel(String(this._typeName), this)
+    return new TypeModel(String(this._typeName), this._definedTypes, this)
   }
 
   set type(val) {
