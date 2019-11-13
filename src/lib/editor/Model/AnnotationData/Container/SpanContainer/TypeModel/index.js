@@ -1,4 +1,6 @@
 import makeTypeId from './makeTypeId'
+import getLabel from '../../../../../start/View/Renderer/getLabel'
+import getUri from '../../../../../start/View/Renderer/getUri'
 
 export default class {
   constructor(name, definedTypes, entity) {
@@ -38,5 +40,24 @@ export default class {
       }
     }
     return typeSummary
+  }
+
+  toDomInfo(namespace, typeContainer) {
+    const id = this.id
+    const label = getLabel(namespace, typeContainer, this.name)
+    const href = getUri(namespace, typeContainer, this.name)
+    const color = typeContainer.getColor(this.name)
+    const attributes = this._attributesForDom
+
+    return { id, label, href, color, attributes }
+  }
+
+  get _attributesForDom() {
+    return this.attributes.map((attribute) => {
+      return Object.assign({}, attribute, {
+        domId: `${this.id}-${attribute.id}`,
+        title: `pred: ${attribute.pred}, value: ${attribute.obj}`
+      })
+    })
   }
 }
