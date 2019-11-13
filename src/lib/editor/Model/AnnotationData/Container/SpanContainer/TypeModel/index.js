@@ -19,6 +19,10 @@ export default class {
     return this._entity ? this._entity.attributes : []
   }
 
+  hasAttributeWithOtherPredicate(pred) {
+    return this.attributes.every((attr) => attr.pred !== pred)
+  }
+
   get isBlock() {
     return this._definedTypes && this._definedTypes.isBlock(this._name)
   }

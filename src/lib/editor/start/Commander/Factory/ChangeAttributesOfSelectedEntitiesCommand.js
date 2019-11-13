@@ -1,7 +1,6 @@
 import findAttribute from './findAttribute'
 import CompositeCommand from './CompositeCommand'
 import AttributeChangeCommand from './AttributeChangeCommand'
-import withOutSamePredicateAttribute from './withOutSamePredicateAttribute'
 
 export default class extends CompositeCommand {
   constructor(
@@ -28,7 +27,11 @@ export default class extends CompositeCommand {
       // the attributes may not be found.
       if (attribute) {
         // An entity cannot have more than one attribute with the same predicate.
-        if (withOutSamePredicateAttribute(annotationData, id, newPred)) {
+        if (
+          annotationData.entity
+            .get(id)
+            .type.hasAttributeWithOtherPredicate(newPred)
+        ) {
           effectedAttributes.push(
             new AttributeChangeCommand(
               annotationData,

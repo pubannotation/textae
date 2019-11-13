@@ -1,6 +1,5 @@
 import CompositeCommand from './CompositeCommand'
 import { CreateCommand } from './commandTemplate'
-import withOutSamePredicateAttribute from './withOutSamePredicateAttribute'
 
 export default class extends CompositeCommand {
   constructor(editor, annotationData, selectionModel) {
@@ -13,7 +12,9 @@ export default class extends CompositeCommand {
     this._subCommands = entities
       .filter((entityId) =>
         // An entity cannot have more than one attribute with the same predicate.
-        withOutSamePredicateAttribute(annotationData, entityId, pred)
+        annotationData.entity
+          .get(entityId)
+          .type.hasAttributeWithOtherPredicate(pred)
       )
       .map((subj) => {
         return new CreateCommand(
