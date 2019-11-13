@@ -1,5 +1,4 @@
 import Handlebars from 'handlebars'
-import idFactory from '../../../../../../../idFactory'
 import getLabel from '../../../../getLabel'
 import getUri from '../../../../getUri'
 
@@ -27,7 +26,7 @@ const source = `
 const template = Handlebars.compile(source)
 
 export default function(entity, namespace, typeContainer) {
-  const id = idFactory.makeTypeId(entity)
+  const id = entity.type.id
   const label = getLabel(namespace, typeContainer, entity.type.name)
   const href = getUri(namespace, typeContainer, entity.type.name)
   const color = typeContainer.getColor(entity.type.name)

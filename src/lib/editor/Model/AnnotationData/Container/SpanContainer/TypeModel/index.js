@@ -1,4 +1,4 @@
-import idFactory from '../../../../idFactory'
+import makeTypeId from './makeTypeId'
 
 export default class {
   constructor(name, definedTypes, entity) {
@@ -12,7 +12,7 @@ export default class {
   }
 
   get id() {
-    return idFactory.makeTypeId(this._entity)
+    return makeTypeId(this._entity)
   }
 
   get attributes() {
