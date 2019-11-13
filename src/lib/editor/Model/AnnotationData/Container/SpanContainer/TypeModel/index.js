@@ -26,4 +26,17 @@ export default class {
   get isBlock() {
     return this._definedTypes && this._definedTypes.isBlock(this._name)
   }
+
+  // When you select multiple entities and display the edit dialog,
+  // this is used to display the merged type name and attributes.
+  mergeType(typeSummary) {
+    typeSummary.name = this._name
+
+    for (const attribute of this.attributes) {
+      if (!typeSummary.attributes.some((a) => a.pred === attribute.pred)) {
+        typeSummary.attributes.push(attribute)
+      }
+    }
+    return typeSummary
+  }
 }

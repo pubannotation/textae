@@ -1,5 +1,6 @@
-import DefaultHandler from '../DefaultHandler'
-import EditTypeDialog from '../../../../../../component/EditTypeDialog'
+import DefaultHandler from '../../DefaultHandler'
+import EditTypeDialog from '../../../../../../../component/EditTypeDialog'
+import mergeTypes from './mergeTypes'
 
 export default class extends DefaultHandler {
   constructor(typeDefinition, commander, annotationData, selectionModel) {
@@ -47,22 +48,4 @@ export default class extends DefaultHandler {
       dialog.open()
     }
   }
-}
-
-function mergeTypes(types) {
-  return types.reduce(
-    (sum, type) => {
-      sum.name = type.name
-      for (const attribute of type.attributes) {
-        if (sum.attributes.some((a) => a.pred === attribute.pred)) {
-          sum.attributes.find((a) => a.pred === attribute.pred).obj =
-            attribute.obj
-        } else {
-          sum.attributes.push(attribute)
-        }
-      }
-      return sum
-    },
-    { name: '', attributes: [] }
-  )
 }
