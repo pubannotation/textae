@@ -34,18 +34,19 @@ export default class {
   }
 
   sameType(type, attributes) {
-    let sameAttributeCounts = 0
-    for (const attr of attributes) {
-      if (
-        this.type.attributes.find(
-          (a) => a.pred === attr.pred && a.obj === attr.obj
-        )
-      ) {
-        sameAttributeCounts++
-      }
+    return this.type.name === type && this._hasSameAttributes(attributes, type)
+  }
+
+  _hasSameAttributes(newAttributes) {
+    if (newAttributes.length != this.attributes.length) {
+      return false
     }
 
-    return this.type.name === type && attributes.length === sameAttributeCounts
+    return (
+      newAttributes.filter((a) =>
+        this.attributes.includes((a) => a.pred === a.pred && a.obj === a.obj)
+      ).length == this.attributes.length
+    )
   }
 
   get attributes() {
