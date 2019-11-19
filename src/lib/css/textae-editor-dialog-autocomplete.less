@@ -1,31 +1,35 @@
 .textae-editor--dialog {
-    /* To show candidates of the autocomplete, overwrite a style of the jQuery-ui dialog */
-    &.ui-dialog {
-        overflow: visible;
-    }
 
-    .ui-menu-item {
-        max-width: 100%;
-    }
-    // Truncate text of catditates
-    .ui-menu-item div {
-        overflow: hidden;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-    }
-    // Reduce gap of border
-    .ui-state-focus {
-        margin: -1px 0;
-    }
-    // Show full text of candidates when hover
-    .ui-menu-item:hover div {
-        overflow: visible;
-    }
+  /* To show candidates of the autocomplete, overwrite a style of the jQuery-ui dialog */
+  &.ui-dialog {
+    overflow: visible;
+  }
+
+  .ui-menu-item {
+    max-width: 100%;
+  }
+
+  // Truncate text of catditates
+  .ui-menu-item div {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  // Reduce gap of border
+  .ui-state-focus {
+    margin: -1px 0;
+  }
+
+  // Show full text of candidates when hover
+  .ui-menu-item:hover div {
+    overflow: visible;
+  }
 }
 
 .ui-widget.ui-autocomplete {
-    // Fix candidates width
-    width: 498px;
-    z-index: 102;
+  // Fix candidates width
+  width: 498px;
+  z-index: 102;
 }

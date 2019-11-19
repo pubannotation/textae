@@ -1,210 +1,252 @@
 // Rules
 .left() {
-    display: inline-block;
-    float: left;
+  display: inline-block;
+  float: left;
 }
+
 /* common css of controls */
 .textae-control {
-    white-space: normal;
+  white-space: normal;
 
-    /*== Elements inside the textae_control ==*/
-    &__title {
-        margin: 0 10px 0 0;
-        font-weight: bold;
-        text-shadow: 2px 2px 5px #555;
-        font-size: 18px;
-        line-height: normal;
-        vertical-align: bottom;
-        a {
-            text-decoration: none;
-        }
+  /*== Elements inside the textae_control ==*/
+  &__title {
+    margin: 0 10px 0 0;
+    font-weight: bold;
+    text-shadow: 2px 2px 5px #555;
+    font-size: 18px;
+    line-height: normal;
+    vertical-align: bottom;
+
+    a {
+      text-decoration: none;
     }
-    &__separator {
-        margin: 6px 2px 0 2px;
+  }
+
+  &__separator {
+    margin: 6px 2px 0 2px;
+  }
+
+  &__icon {
+    cursor: pointer;
+    margin: 6px 4px 0 4px;
+
+    &--disabled {
+      cursor: auto;
+      opacity: 0.3;
     }
-    &__icon {
-        cursor: pointer;
-        margin: 6px 4px 0 4px;
-        &--disabled {
-            cursor: auto;
-            opacity: 0.3;
-        }
-        &--pushed {
-            cursor: auto;
-            -moz-box-shadow: inset 1px 1px 3px #000;
-            -webkit-box-shadow: inset 1px 1px 3px #000;
-            box-shadow: inset 1px 1px 3px #000;
-        }
+
+    &--pushed {
+      cursor: auto;
+      -moz-box-shadow: inset 1px 1px 3px #000;
+      -webkit-box-shadow: inset 1px 1px 3px #000;
+      box-shadow: inset 1px 1px 3px #000;
     }
-    &__view-button {
-        background: url("./images/btn_view_16.png");
-        background-size: cover;
+  }
+
+  &__view-button {
+    background: url("./images/btn_view_16.png");
+    background-size: cover;
+  }
+
+  &__term-button {
+    background: url("./images/btn_term_16.png");
+  }
+
+  &__relation-button {
+    background: url("./images/btn_relation_16.png");
+  }
+
+  &__simple-button {
+    background: url("./images/btn_simple_16.png");
+  }
+
+  &__read-button {
+    background: url("./images/btn_read_16.png");
+  }
+
+  &__write-button {
+    background: url("./images/btn_write_16.png");
+
+    &--transit {
+      background: url("./images/btn_write_modified_16.png");
     }
-    &__term-button {
-        background: url("./images/btn_term_16.png");
-    }
-    &__relation-button {
-        background: url("./images/btn_relation_16.png");
-    }
-    &__simple-button {
-        background: url("./images/btn_simple_16.png");
-    }
-    &__read-button {
-        background: url("./images/btn_read_16.png");
-    }
-    &__write-button {
-        background: url("./images/btn_write_16.png");
-        &--transit {
-            background: url("./images/btn_write_modified_16.png");
-        }
-    }
-    &__undo-button {
-        background: url("./images/btn_undo_16.png");
-    }
-    &__redo-button {
-        background: url("./images/btn_redo_16.png");
-    }
-    &__replicate-button {
-        background: url("./images/btn_replicate_16.png");
-    }
-    &__replicate-auto-button {
-        background: url("./images/btn_replicate_auto_16.png");
-    }
-    &__boundary-detection-button {
-        background: url("./images/btn_boundary_detection_16.png");
-    }
-    &__entity-button {
-        background: url("./images/btn_denote_16.png");
-    }
-    &__pallet-button {
-        background: url("./images/btn_pallet_16.png");
-    }
-    &__change-label-button {
-        background: url("./images/btn_change_label_16.png");
-    }
-    &__negation-button {
-        background: url("./images/btn_negation_16.png");
-    }
-    &__speculation-button {
-        background: url("./images/btn_speculation_16.png");
-    }
-    &__attribute-button {
-        background: url("./images/btn_attribute_16.png");
-    }
-    &__delete-button {
-        background: url("./images/btn_delete_16.png");
-    }
-    &__copy-button {
-        background: url("./images/btn_copy_16.png");
-    }
-    &__paste-button {
-        background: url("./images/btn_paste_16.png");
-    }
-    &__help-button {
-        background: url("./images/btn_help_16.png");
-    }
-    &__setting-button {
-        background: url("./images/btn_setting_16.png");
-    }
-    &__line-height-button {
-        background: url("./images/btn_line_height_16.png");
-    }
+  }
+
+  &__undo-button {
+    background: url("./images/btn_undo_16.png");
+  }
+
+  &__redo-button {
+    background: url("./images/btn_redo_16.png");
+  }
+
+  &__replicate-button {
+    background: url("./images/btn_replicate_16.png");
+  }
+
+  &__replicate-auto-button {
+    background: url("./images/btn_replicate_auto_16.png");
+  }
+
+  &__boundary-detection-button {
+    background: url("./images/btn_boundary_detection_16.png");
+  }
+
+  &__entity-button {
+    background: url("./images/btn_denote_16.png");
+  }
+
+  &__pallet-button {
+    background: url("./images/btn_pallet_16.png");
+  }
+
+  &__change-label-button {
+    background: url("./images/btn_change_label_16.png");
+  }
+
+  &__negation-button {
+    background: url("./images/btn_negation_16.png");
+  }
+
+  &__speculation-button {
+    background: url("./images/btn_speculation_16.png");
+  }
+
+  &__attribute-button {
+    background: url("./images/btn_attribute_16.png");
+  }
+
+  &__delete-button {
+    background: url("./images/btn_delete_16.png");
+  }
+
+  &__copy-button {
+    background: url("./images/btn_copy_16.png");
+  }
+
+  &__paste-button {
+    background: url("./images/btn_paste_16.png");
+  }
+
+  &__help-button {
+    background: url("./images/btn_help_16.png");
+  }
+
+  &__setting-button {
+    background: url("./images/btn_setting_16.png");
+  }
+
+  &__line-height-button {
+    background: url("./images/btn_line_height_16.png");
+  }
 }
 
 [mode="edit"].textae-editor--active {
-    .textae-control {
-        visibility: visible;
-    }
+  .textae-control {
+    visibility: visible;
+  }
 }
+
 .textae-editor--control-visible {
-    .textae-control {
-        visibility: visible !important;
-    }
+  .textae-control {
+    visibility: visible !important;
+  }
 }
+
 .textae-editor--control-hidden {
-    .textae-control {
-        visibility: hidden !important;
-    }
+  .textae-control {
+    visibility: hidden !important;
+  }
 }
 
 /* control bar */
 .textae-control-bar {
-    background-color: #bbe;
-    /* fallback (Opera) */
-    background: #bbe;
-    /* Mozilla: */
-    background: -moz-linear-gradient(left, #BBBBEE, #FFFFFF);
-    /* Chrome, Safari:*/
-    background: -webkit-gradient(linear, left top, right top, from(#BBBBEE), to(#FFFFFF));
-    /* MSIE */
-    filter:progid:DXImageTransform.Microsoft.Gradient(StartColorStr='#BBBBEE', EndColorStr='#FFFFFF', GradientType=1);
-    border-left: 5px solid #558;
-    border-radius: 15px;
-    border-right: 5px solid #558;
-    box-shadow: 6px 6px 6px 6px rgba(0,0,0,0.4);
-    display: inline-block;
-    margin-left: 2px;
-    padding: 0 20px 5px 10px;
-    position: relative;
-    visibility: hidden;
-    z-index: 8;
-    /*== Elements inside the textae_control ==*/
-    .textae-control__title {
-        .left;
-    }
-    .textae-control__separator {
-        .left;
-        height: 16px;
-        border: 2px solid #aad;
-    }
-    .textae-control__icon {
-        .left;
-        width: 16px;
-        height: 16px;
-    }
+  background-color: #bbe;
+  /* fallback (Opera) */
+  background: #bbe;
+  /* Mozilla: */
+  background: -moz-linear-gradient(left, #BBBBEE, #FFFFFF);
+  /* Chrome, Safari:*/
+  background: -webkit-gradient(linear, left top, right top, from(#BBBBEE), to(#FFFFFF));
+  /* MSIE */
+  filter: progid:DXImageTransform.Microsoft.Gradient(StartColorStr='#BBBBEE', EndColorStr='#FFFFFF', GradientType=1);
+  border-left: 5px solid #558;
+  border-radius: 15px;
+  border-right: 5px solid #558;
+  box-shadow: 6px 6px 6px 6px rgba(0, 0, 0, 0.4);
+  display: inline-block;
+  margin-left: 2px;
+  padding: 0 20px 5px 10px;
+  position: relative;
+  visibility: hidden;
+  z-index: 8;
+
+  /*== Elements inside the textae_control ==*/
+  .textae-control__title {
+    .left;
+  }
+
+  .textae-control__separator {
+    .left;
+    height: 16px;
+    border: 2px solid #aad;
+  }
+
+  .textae-control__icon {
+    .left;
+    width: 16px;
+    height: 16px;
+  }
 }
 
 /* context menu */
 .textae-context-menu {
+  display: none;
+  position: absolute;
+  padding: 10px;
+  border: solid 1px gray;
+  box-shadow: 2px 2px 1px 1px rgba(0, 0, 0, .4);
+  width: 292px;
+  background-color: white;
+  z-index: 7;
+
+  &--show {
+    display: block;
+  }
+
+  &--hide {
     display: none;
-    position: absolute;
-    padding: 10px;
-    border: solid 1px gray;
-    box-shadow: 2px 2px 1px 1px rgba(0, 0, 0, .4);
-    width : 292px;
-    background-color: white;
-    z-index: 7;
-    &--show {
-        display: block;
-    }
-    &--hide {
-        display: none;
-    }
+  }
 
-    > p {
-        line-height: 1.5em;
-        &:not(.textae-control__title):not(.textae-control__icon--disabled) {
-            &:focus, &:active, &:hover {
-                background-color: #c4c4f0;
-                color: white;
-            }
-        }
-    }
+  >p {
+    line-height: 1.5em;
 
-    .textae-control__icon {
-        margin-top: 0;
-        padding-left: 20px;
-        background-size: 16px;
-        background-repeat: no-repeat;
-        background-position: left center;
-    }
-    .textae-control__separator {
-        border: 1px solid #aad;
-    }
+    &:not(.textae-control__title):not(.textae-control__icon--disabled) {
 
-    > :nth-last-of-type(1),
-    > :nth-last-of-type(2),
-    > :nth-last-of-type(3)  {
-        display: none;
+      &:focus,
+      &:active,
+      &:hover {
+        background-color: #c4c4f0;
+        color: white;
+      }
     }
+  }
+
+  .textae-control__icon {
+    margin-top: 0;
+    padding-left: 20px;
+    background-size: 16px;
+    background-repeat: no-repeat;
+    background-position: left center;
+  }
+
+  .textae-control__separator {
+    border: 1px solid #aad;
+  }
+
+  > :nth-last-of-type(1),
+  > :nth-last-of-type(2),
+  > :nth-last-of-type(3) {
+    display: none;
+  }
 }

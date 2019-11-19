@@ -1,216 +1,254 @@
 .table() {
-    border-collapse: collapse;
-    border-color: #aaa;
-    border-style: solid;
-    border-width: 1px;
-    margin: 0;
+  border-collapse: collapse;
+  border-color: #aaa;
+  border-style: solid;
+  border-width: 1px;
+  margin: 0;
 }
+
 .fontAwesomeIcon(@content) {
-    position: relative;
-    display: inline-block;
-    font-family: FontAwesome;
-    content: @content;
+  position: relative;
+  display: inline-block;
+  font-family: FontAwesome;
+  content: @content;
 }
+
 /* pallet */
 .textae-editor__type-pallet {
-    border: solid 2px #333;
-    border-radius: 5px;
-    box-shadow: gray 10px 10px 10px 0;
-    font-size: x-small;
-    margin: 0;
-    max-height: 450px;
-    line-height: normal;
-    overflow-x: scroll;
+  border: solid 2px #333;
+  border-radius: 5px;
+  box-shadow: gray 10px 10px 10px 0;
+  font-size: x-small;
+  margin: 0;
+  max-height: 450px;
+  line-height: normal;
+  overflow-x: scroll;
+  padding: 5px;
+  // Need '!important' because jQuery UI 'draggable()' set position as 'relative'.
+  position: fixed !important;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  width: auto;
+  white-space: normal;
+  z-index: 90;
+
+  &--entity {
+    background-color: rgba(200, 255, 255, .9);
+  }
+
+  &--relation {
+    background-color: rgba(255, 187, 187, .9);
+  }
+
+  &__title {
+    float: left;
+    font-size: 1.4em;
+  }
+
+  &__lock-icon {
+    margin-left: 10px;
+    font-size: .8em;
+    color: orangered;
+
+    &:before {
+      .fontAwesomeIcon("\f023");
+      top: 2px;
+      left: 0;
+      width: 16px;
+      height: 16px;
+      font-size: 1.5em;
+    }
+  }
+
+  &__buttons {
+    float: right;
+    display: flex;
+    margin-bottom: 6px;
+  }
+
+  &__button {
+    display: inline-block;
+    margin: 6px 4px 0 4px;
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+  }
+
+  &__add-button {
+    &:before {
+      .fontAwesomeIcon("\f067");
+      top: 1px;
+      left: 0;
+      font-size: 1.5em;
+      color: #444;
+    }
+  }
+
+  &__read-button {
+    background: url(images/btn_read_16.png);
+  }
+
+  &__write-button {
+    background: url(images/btn_write_16.png);
+
+    &--transit {
+      background: url(images/btn_write_modified_16.png);
+    }
+  }
+
+  &__label {
+    cursor: pointer;
+  }
+
+  &__label,
+  &__short-label,
+  &__no-config {
+    overflow-x: hidden;
     padding: 5px;
-    // Need '!important' because jQuery UI 'draggable()' set position as 'relative'.
-    position: fixed !important;
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-    width: auto;
-    white-space: normal;
-    z-index: 90;
-    &--entity {
-        background-color: rgba(200, 255, 255, .9);
+    max-width: 500px;
+    text-align: left;
+  }
+
+  &__use-number {
+    padding: 2px;
+    text-align: center;
+  }
+
+  &__no-config {
+    font-weight: bold;
+    height: 27px;
+  }
+
+  &__table-buttons {
+    padding: 2px;
+    text-align: center;
+  }
+
+  &__default-icon {
+    display: inline-block;
+    position: relative;
+    top: 1px;
+    width: 10px;
+    height: 10px;
+    border: 2px solid darkgray;
+    border-radius: 50%;
+    background: radial-gradient(ellipse at center, black 0%, #dcdcdc 70%, #dcdcdc 100%);
+  }
+
+  &__table-button {
+    border-radius: 4px;
+    display: inline-block;
+    width: 24px;
+    height: 22px;
+
+    // For Firefox, Make the button look like Google chrome.
+    border-width: 1px;
+    border-style: solid;
+    border-color: rgb(216, 216, 216) rgb(209, 209, 209) rgb(186, 186, 186);
+
+    // For Safari, Make the button look like Google chrome.
+    background-color: #EEE;
+
+    &:before {
+      font-size: 1.2em;
+      color: #333333;
     }
-    &--relation {
-        background-color: rgba(255, 187, 187, .9);
+
+    &--disabled {
+      cursor: auto !important;
+
+      &:hover,
+      &:active,
+      &:focus {
+        outline: none;
+      }
+
+      &:before {
+        color: #bbbbbb;
+      }
     }
-    &__title {
-        float: left;
-        font-size: 1.4em;
+  }
+
+  &__select-all {
+    &:before {
+      .fontAwesomeIcon("\f046");
+      left: -2px;
+      top: 1px;
     }
-    &__lock-icon {
-        margin-left: 10px;
-        font-size: .8em;
-        color: orangered;
-        &:before {
-            .fontAwesomeIcon("\f023");
-            top: 2px;
-            left: 0;
-            width: 16px;
-            height: 16px;
-            font-size: 1.5em;
-        }
+  }
+
+  &__edit-type {
+    &:before {
+      .fontAwesomeIcon("\f040");
+      left: -1px;
+      top: -1px;
     }
-    &__buttons {
-        float: right;
-        display: flex;
-        margin-bottom: 6px;
+  }
+
+  &__remove {
+    &:before {
+      .fontAwesomeIcon("\f1f8");
+      left: -1px;
+      top: 0px;
     }
-    &__button {
-        display: inline-block;
-        margin: 6px 4px 0 4px;
-        width: 16px;
-        height: 16px;
-        cursor: pointer;
+  }
+
+  &__add {
+    margin: 2px 0;
+    padding: 3px 5px;
+  }
+
+  &__row {
+    opacity: 0.8;
+
+    &:hover {
+      opacity: 1;
     }
-    &__add-button {
-        &:before {
-            .fontAwesomeIcon("\f067");
-            top: 1px;
-            left: 0;
-            font-size: 1.5em;
-            color: #444;
-        }
-    }
-    &__read-button {
-        background: url(images/btn_read_16.png);
-    }
-    &__write-button {
-        background: url(images/btn_write_16.png);
-        &--transit {
-            background: url(images/btn_write_modified_16.png);
-        }
-    }
+
+    &__radio,
     &__label {
-        cursor: pointer;
+      cursor: pointer;
     }
-    &__label,
-    &__short-label,
-    &__no-config {
-        overflow-x: hidden;
-        padding: 5px;
-        max-width: 500px;
-        text-align: left;
-    }
-    &__use-number {
-        padding: 2px;
-        text-align: center;
-    }
-    &__no-config {
-        font-weight: bold;
-        height: 27px;
-    }
-    &__table-buttons {
-        padding: 2px;
-        text-align: center;
-    }
-    &__default-icon {
-        display: inline-block;
-        position: relative;
-        top: 1px;
-        width: 10px;
-        height: 10px;
-        border: 2px solid darkgray;
-        border-radius: 50%;
-        background: radial-gradient(ellipse at center, black 0%, #dcdcdc 70%, #dcdcdc 100%);
-    }
-    &__table-button {
-        border-radius: 4px;
-        display: inline-block;
-        width: 24px;
-        height: 22px;
+  }
 
-        // For Firefox, Make the button look like Google chrome.
-        border-width: 1px;
-        border-style: solid;
-        border-color: rgb(216, 216, 216) rgb(209, 209, 209) rgb(186, 186, 186);
+  &__link {
+    background: url("./images/link.png");
+    display: inline-block;
+    vertical-align: middle;
+    height: 16px;
+    width: 16px;
+  }
 
-        // For Safari, Make the button look like Google chrome.
-        background-color: #EEE;
+  &__hide-when-locked {
+    &--hide {
+      display: none;
+    }
+  }
 
-        &:before {
-            font-size: 1.2em;
-            color: #333333;
-        }
+  table {
+    .table;
+    width: 100%;
+  }
 
-        &--disabled {
-            cursor: auto !important;
-            &:hover, &:active, &:focus {
-                outline: none;
-            }
-            &:before {
-                color: #bbbbbb;
-            }
-        }
+  tr {
+    .table;
+  }
+
+  th {
+    padding: 2px;
+    padding-right: 8px;
+  }
+
+  td {
+    .table;
+
+    input,
+    button[type="button"] {
+      cursor: pointer;
     }
-    &__select-all {
-        &:before {
-            .fontAwesomeIcon("\f046");
-            left: -2px;
-            top: 1px;
-        }
-    }
-    &__edit-type {
-        &:before {
-            .fontAwesomeIcon("\f040");
-            left: -1px;
-            top: -1px;
-        }
-    }
-    &__remove {
-        &:before {
-            .fontAwesomeIcon("\f1f8");
-            left: -1px;
-            top: 0px;
-        }
-    }
-    &__add {
-        margin: 2px 0;
-        padding: 3px 5px;
-    }
-    &__row {
-        opacity: 0.8;
-        &:hover {
-            opacity: 1;
-        }
-        &__radio,
-        &__label {
-            cursor: pointer;
-        }
-    }
-    &__link {
-        background: url("./images/link.png");
-        display: inline-block;
-        vertical-align: middle;
-        height: 16px;
-        width: 16px;
-    }
-    &__hide-when-locked {
-        &--hide {
-            display: none;
-        }
-    }
-    table {
-        .table;
-        width: 100%;
-    }
-    tr {
-        .table;
-    }
-    th {
-        padding: 2px;
-        padding-right: 8px;
-    }
-    td {
-        .table;
-        input,
-        button[type="button"] {
-            cursor: pointer;
-        }
-    }
+  }
 }

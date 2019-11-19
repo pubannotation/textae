@@ -1,257 +1,316 @@
 // Rules
 .common() {
-    &__label {
-        display: inline-block;
-        padding-right: 2px;
-        text-align: right;
-        &::after {
-            content: ":";
-        }
+  &__label {
+    display: inline-block;
+    padding-right: 2px;
+    text-align: right;
+
+    &::after {
+      content: ":";
     }
+  }
 }
+
 .save_load() {
-    &__label {
-        line-height: 1.1em;
-        width: 57px;
-    }
-    &__row {
-        margin-bottom: 4px;
-    }
+  &__label {
+    line-height: 1.1em;
+    width: 57px;
+  }
+
+  &__row {
+    margin-bottom: 4px;
+  }
 }
+
 .file() {
-    line-height: 16px;
-    height: 31px;
-    width: 340px;
+  line-height: 16px;
+  height: 31px;
+  width: 340px;
 }
+
 .cell() {
-    border: 1px solid #b9b9b9;
-    padding: 3px;
+  border: 1px solid #b9b9b9;
+  padding: 3px;
 }
+
 .config-title() {
-    margin: 20px 0 12px 6px;
-    padding: .2em .4em;
-    border-bottom: 1px solid #e78f08;
-    font-weight: bold;
+  margin: 20px 0 12px 6px;
+  padding: .2em .4em;
+  border-bottom: 1px solid #e78f08;
+  font-weight: bold;
 }
 
 /* dialog */
 .textae-editor {
-    &__load-dialog {
-        .common;
-        .save_load;
-        &__config-title {
-            .config-title;
-        }
-        &__file-name,
-        &__file-name--config {
-            .file;
-        }
-        &__file,
-        &__file--config {
-            .file;
-        }
+  &__load-dialog {
+    .common;
+    .save_load;
+
+    &__config-title {
+      .config-title;
     }
-    &__save-dialog {
-        .common;
-        .save_load;
-        &__config-title {
-            .config-title;
-        }
-        &__server-file-name,
-        &__server-file-name--config {
-            .file
-        }
-        &__local-file-name,
-        &__local-file-name--config {
-            .file
-        }
-        &__diff-title {
-            margin: 10px 0 0 9px;
-            font-size: .8em;
-            .diff-info {
-                display: inline-block;
-                margin-left: 5px;
-                padding: 0 5px;
-                font-size: .8em;
-                &--add {
-                    background-color: #bbffbb;
-                }
-                &--remove {
-                    background-color: #ffbbbb;
-                    text-decoration: line-through;
-                }
-            }
-        }
-        &__diff-viewer {
-            overflow: scroll;
-            margin: 0 10px;
-            padding: 10px 0;
-            max-height: 250px;
-            border: solid 1px lightgray;
-            border-radius: 4px;
-        }
+
+    &__file-name,
+    &__file-name--config {
+      .file;
     }
-    &__edit-id-dialog {
-        &__id {
-          width: 498px;
-        }
+
+    &__file,
+    &__file--config {
+      .file;
     }
-    &__edit-value-and-pred-dialog {
-        &__container {
-            display: flex;
-        }
-        &__input-box {
-            width: 50%;
-        }
+  }
+
+  &__save-dialog {
+    .common;
+    .save_load;
+
+    &__config-title {
+      .config-title;
     }
-    &__edit-type-dialog {
-        &__type{
-            display: flex;
-            margin-bottom: 30px;
-            &__predicate {
-                margin-right: 30px;
-            }
-            &__value {
-                margin-right: 30px;
-                &__value {
-                    width: 450px;
-                }
-            }
-            &__label {
-                margin-right: 30px;
-            }
-        }
-        &__attribute {
-            display: flex;
-            margin-bottom: 30px;
-            &__predicate {
-                margin-right: 30px;
-                &__value {
-                    width: 262px;
-                }
-            }
-            &__value {
-                margin-right: 30px;
-                &__value {
-                    width: 262px;
-                }
-            }
-            &__remove {
-                padding-top: 11px;
-            }
-        }
-        &__attribute__message {
-            color: red;
-            padding-bottom: 30px;
-            &--valid {
-                display: none;
-            }
-        }
-        &__ok-button[disabled="dsiabled"] {
-            opacity: 0.1;
-        }
+
+    &__server-file-name,
+    &__server-file-name--config {
+      .file
     }
-    &__edit-type-definition-dialog {
-        &__container {
-            display: flex;
-            flex-wrap: wrap;
-        }
-        &__input-box {
-            width: 50%;
-        }
-        &__color-picker,
-        &__set-default {
-            width: 100%;
-            margin: 10px 10px 0 0;
-        }
-        &__set-default {
-            &__input {
-                // cannot set some styles if -prefix-appearance is enabled.
-                -webkit-appearance: none;
-                -moz-appearance: none;
-                display: inline-block;
-                vertical-align: middle;
-                width: 18px;
-                height: 18px;
-                border: 2px solid darkgray;
-                border-radius: 50%;
-                background: radial-gradient(ellipse at center, rgb(220,220,220) 0%,rgb(230,230,230) 50%,rgb(220,220,220) 100%);
-                cursor: pointer;
-                &:checked {
-                    background: radial-gradient(ellipse at center, black 0%, #dcdcdc 50%, #dcdcdc 100%);
-                }
-                &:disabled {
-                    opacity: .5;
-                    cursor: auto;
-                }
-            }
-        }
+
+    &__local-file-name,
+    &__local-file-name--config {
+      .file
     }
-    &__setting-dialog {
-        .common;
-        & > div {
-            margin-bottom: 4px;
+
+    &__diff-title {
+      margin: 10px 0 0 9px;
+      font-size: .8em;
+
+      .diff-info {
+        display: inline-block;
+        margin-left: 5px;
+        padding: 0 5px;
+        font-size: .8em;
+
+        &--add {
+          background-color: #bbffbb;
         }
-        &__label {
-            width: 240px;
+
+        &--remove {
+          background-color: #ffbbbb;
+          text-decoration: line-through;
         }
-        &__type-gap[disabled="disabled"] {
-            background-color: #999;
-        }
-        &__lock-config {
-            vertical-align: middle;
-            cursor: pointer;
-        }
+      }
     }
-    &__valiondate-dialog__content {
-        h1 {
-            font-size: 1em;
-            font-weight: normal;
-        }
-        h2 {
-            font-size: 1em;
-            font-weight: normal;
-        }
-        table {
-            border-collapse: collapse;
-            font-size: 0.65em;
-            margin-bottom: 20px;
-            width: 100%;
-            th {
-                .cell;
-                background-color: #ddd;
-                color: #333;
-                &.id {
-                    width: 32px;
-                }
-                &.range {
-                    width: 50px;
-                }
-                &.referencedItem {
-                    width: 100px;
-                }
-            }
-            td {
-                .cell;
-                background-color: #fff;
-                &.alert {
-                    color: red;
-                }
-            }
-        }
+
+    &__diff-viewer {
+      overflow: scroll;
+      margin: 0 10px;
+      padding: 10px 0;
+      max-height: 250px;
+      border: solid 1px lightgray;
+      border-radius: 4px;
     }
-    &__login-info-dialog {
-        &__open-link,
-        &__ok {
-            margin-top: 10px;
-            margin-bottom: 10px;
-            text-align: center;
-        }
-        &__message-box-setting {
-            font-size: .8em;
-            label {
-                cursor: pointer;
-            }
-        }
+  }
+
+  &__edit-id-dialog {
+    &__id {
+      width: 498px;
     }
+  }
+
+  &__edit-value-and-pred-dialog {
+    &__container {
+      display: flex;
+    }
+
+    &__input-box {
+      width: 50%;
+    }
+  }
+
+  &__edit-type-dialog {
+    &__type {
+      display: flex;
+      margin-bottom: 30px;
+
+      &__predicate {
+        margin-right: 30px;
+      }
+
+      &__value {
+        margin-right: 30px;
+
+        &__value {
+          width: 450px;
+        }
+      }
+
+      &__label {
+        margin-right: 30px;
+      }
+    }
+
+    &__attribute {
+      display: flex;
+      margin-bottom: 30px;
+
+      &__predicate {
+        margin-right: 30px;
+
+        &__value {
+          width: 262px;
+        }
+      }
+
+      &__value {
+        margin-right: 30px;
+
+        &__value {
+          width: 262px;
+        }
+      }
+
+      &__remove {
+        padding-top: 11px;
+      }
+    }
+
+    &__attribute__message {
+      color: red;
+      padding-bottom: 30px;
+
+      &--valid {
+        display: none;
+      }
+    }
+
+    &__ok-button[disabled="dsiabled"] {
+      opacity: 0.1;
+    }
+  }
+
+  &__edit-type-definition-dialog {
+    &__container {
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    &__input-box {
+      width: 50%;
+    }
+
+    &__color-picker,
+    &__set-default {
+      width: 100%;
+      margin: 10px 10px 0 0;
+    }
+
+    &__set-default {
+      &__input {
+        // cannot set some styles if -prefix-appearance is enabled.
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        display: inline-block;
+        vertical-align: middle;
+        width: 18px;
+        height: 18px;
+        border: 2px solid darkgray;
+        border-radius: 50%;
+        background: radial-gradient(ellipse at center, rgb(220, 220, 220) 0%, rgb(230, 230, 230) 50%, rgb(220, 220, 220) 100%);
+        cursor: pointer;
+
+        &:checked {
+          background: radial-gradient(ellipse at center, black 0%, #dcdcdc 50%, #dcdcdc 100%);
+        }
+
+        &:disabled {
+          opacity: .5;
+          cursor: auto;
+        }
+      }
+    }
+  }
+
+  &__setting-dialog {
+    .common;
+
+    &>div {
+      margin-bottom: 4px;
+    }
+
+    &__label {
+      width: 240px;
+    }
+
+    &__type-gap[disabled="disabled"] {
+      background-color: #999;
+    }
+
+    &__lock-config {
+      vertical-align: middle;
+      cursor: pointer;
+    }
+  }
+
+  &__valiondate-dialog__content {
+    h1 {
+      font-size: 1em;
+      font-weight: normal;
+    }
+
+    h2 {
+      font-size: 1em;
+      font-weight: normal;
+    }
+
+    table {
+      border-collapse: collapse;
+      font-size: 0.65em;
+      margin-bottom: 20px;
+      width: 100%;
+
+      th {
+        .cell;
+        background-color: #ddd;
+        color: #333;
+
+        &.id {
+          width: 32px;
+        }
+
+        &.range {
+          width: 50px;
+        }
+
+        &.referencedItem {
+          width: 100px;
+        }
+      }
+
+      td {
+        .cell;
+        background-color: #fff;
+
+        &.alert {
+          color: red;
+        }
+      }
+    }
+  }
+
+  &__login-info-dialog {
+
+    &__open-link,
+    &__ok {
+      margin-top: 10px;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+
+    &__message-box-setting {
+      font-size: .8em;
+
+      label {
+        cursor: pointer;
+      }
+    }
+  }
 }
