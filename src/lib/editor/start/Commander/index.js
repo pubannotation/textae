@@ -4,7 +4,13 @@ import Factory from './Factory'
 
 // A command is an operation by user that is saved as history, and can undo and redo.
 // Users can edit model only via commands.
-export default function(editor, annotationData, selectionModel, history) {
+export default function(
+  editor,
+  annotationData,
+  selectionModel,
+  history,
+  typeeDefinition
+) {
   return {
     invoke: (command) => {
       if (command.isEmpty) {
@@ -31,6 +37,11 @@ export default function(editor, annotationData, selectionModel, history) {
         invoke(history.next())
       }
     },
-    factory: new Factory(editor, annotationData, selectionModel)
+    factory: new Factory(
+      editor,
+      annotationData,
+      selectionModel,
+      typeeDefinition
+    )
   }
 }

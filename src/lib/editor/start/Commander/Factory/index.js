@@ -22,10 +22,11 @@ import ChangeRelationLabelCommand from './ChangeRelationLabelCommand'
 import CreateSpanAndAutoReplicateCommand from './CreateSpanAndAutoReplicateCommand'
 
 export default class {
-  constructor(editor, annotationData, selectionModel) {
+  constructor(editor, annotationData, selectionModel, typeDefinition) {
     this._editor = editor
     this._annotationData = annotationData
     this._selectionModel = selectionModel
+    this._typeDefinition = typeDefinition
   }
 
   createSpanAndAutoReplicateCommand(

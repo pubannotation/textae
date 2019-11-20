@@ -30,21 +30,24 @@ export default function(
 ) {
   const params = getParams(editor[0])
   const spanConfig = new SpanConfig()
+
+  const typeDefinition = new TypeDefinition(annotationData)
+  typeDefinition.entity.on('type.reset', () => history.resetConfiguration())
+  typeDefinition.relation.on('type.reset', () => history.resetConfiguration())
+
   // Users can edit model only via commands.
   const commander = new Commander(
     editor,
     annotationData,
     selectionModel,
-    history
+    history,
+    typeDefinition
   )
+
   const typeGap = new Observable({
     value: -1,
     showInstance: false
   })
-  const typeDefinition = new TypeDefinition(annotationData)
-  typeDefinition.entity.on('type.reset', () => history.resetConfiguration())
-  typeDefinition.relation.on('type.reset', () => history.resetConfiguration())
-
   const view = new View(
     editor,
     annotationData,
