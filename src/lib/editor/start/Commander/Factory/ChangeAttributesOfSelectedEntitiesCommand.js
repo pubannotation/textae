@@ -30,7 +30,7 @@ export default class extends CompositeCommand {
         if (
           annotationData.entity
             .get(id)
-            .type.hasAttributeWithOtherPredicate(newPred)
+            .type.withoutSamePredicateAttribute(newPred)
         ) {
           effectedAttributes.push(
             new AttributeChangeCommand(
