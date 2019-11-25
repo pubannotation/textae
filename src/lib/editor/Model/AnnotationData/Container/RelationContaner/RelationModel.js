@@ -1,4 +1,4 @@
-import TypeModel from '../SpanContainer/TypeModel'
+import TypeModel from '../../TypeModel'
 
 export default class RelationModel {
   constructor({ id, pred, subj, obj }) {
