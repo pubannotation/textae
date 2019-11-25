@@ -8,7 +8,7 @@ import SelectHandler from './handlers/SelectHandler'
 import cancelSelect from './cancelSelect'
 import extendModeButtonHandlers from './extendModeButtonHandlers'
 import extendToggleButtonHandler from './extendToggleButtonHandler'
-import createAttribute from '../createAttribute'
+import createAttribute from './createAttribute'
 
 export default function(
   commander,
