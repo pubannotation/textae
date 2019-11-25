@@ -1,6 +1,7 @@
 import CompositeCommand from './CompositeCommand'
 import SpanAndTypesCreateCommand from './SpanAndTypesCreateCommand'
 import SpanReplicateCommand from './SpanReplicateCommand'
+import TypeModel from '../../../Model/AnnotationData/Container/SpanContainer/TypeModel'
 
 const BLOCK_THRESHOLD = 100
 
@@ -10,11 +11,13 @@ export default class extends CompositeCommand {
     annotationData,
     selectionModel,
     newSpan,
-    types,
+    defaultType,
     isReplicateAuto,
     detectBoundaryFunc
   ) {
     super()
+
+    const types = [new TypeModel(defaultType)]
 
     this._subCommands = [
       new SpanAndTypesCreateCommand(

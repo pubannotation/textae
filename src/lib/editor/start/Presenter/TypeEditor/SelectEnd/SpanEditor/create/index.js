@@ -6,7 +6,6 @@ import getNewSpan from './getNewSpan'
 export default function(
   annotationData,
   commander,
-  typeDefinition,
   spanAdjuster,
   isDetectDelimiterEnable,
   isReplicateAuto,
@@ -32,7 +31,6 @@ export default function(
 
   const commands = createCommands(
     commander,
-    typeDefinition,
     newSpan,
     isReplicateAuto,
     isDetectDelimiterEnable,

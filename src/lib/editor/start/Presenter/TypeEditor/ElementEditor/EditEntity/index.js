@@ -18,8 +18,7 @@ export default function(
     annotationData,
     selectionModel,
     commander,
-    pushButtons,
-    typeDefinition
+    pushButtons
   )
   const selectSpan = new SelectSpan(annotationData, selectionModel)
 

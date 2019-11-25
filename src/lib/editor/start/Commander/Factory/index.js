@@ -31,7 +31,6 @@ export default class {
 
   createSpanAndAutoReplicateCommand(
     newSpan,
-    type,
     isReplicateAuto,
     detectBountdaryFunc
   ) {
@@ -40,7 +39,7 @@ export default class {
       this._annotationData,
       this._selectionModel,
       newSpan,
-      type,
+      this._typeDefinition.entity.defaultType,
       isReplicateAuto,
       detectBountdaryFunc
     )

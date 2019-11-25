@@ -10,7 +10,6 @@ export default function(
   annotationData,
   selectionModel,
   commander,
-  typeDefinition,
   isDetectDelimiterEnable,
   isReplicateAuto
 ) {
@@ -24,7 +23,6 @@ export default function(
       create(
         annotationData,
         commander,
-        typeDefinition,
         spanAdjuster,
         isDetectDelimiterEnable,
         isReplicateAuto,

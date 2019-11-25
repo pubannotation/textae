@@ -9,8 +9,7 @@ export default function(
   annotationData,
   selectionModel,
   commander,
-  pushButtons,
-  typeDefinition
+  pushButtons
 ) {
   // Initiated by events.
   let selectEndOnTextImpl = null
@@ -26,7 +25,6 @@ export default function(
       annotationData,
       selectionModel,
       commander,
-      typeDefinition,
       isDetectDelimiterEnable,
       isReplicateAuto
     )
