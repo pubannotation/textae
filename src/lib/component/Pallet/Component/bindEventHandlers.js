@@ -27,7 +27,7 @@ export default function(
     commander.invoke(
       elementEditor
         .getHandler()
-        .changeTypeOfSelectedElement(e.delegateTarget.id)
+        .changeTypeOfSelectedElement(e.delegateTarget.dataset.id)
     )
   })
 
@@ -35,13 +35,17 @@ export default function(
     if (!checkButtonEnable(e.target)) {
       return
     }
-    elementEditor
-      .getHandler()
-      .selectAll(e.delegateTarget.getAttribute('data-id'))
+    elementEditor.getHandler().selectAll(e.delegateTarget.dataset.id)
   })
 
   delegate(pallet, `.${CLASS_NAMES.editType}`, 'click', (e) => {
-    openEditTypeDefinitionDialog(elementEditor, e, autocompletionWs)
+    openEditTypeDefinitionDialog(
+      elementEditor,
+      e.target.dataset.id,
+      e.target.dataset.color.toLowerCase(),
+      e.target.dataset.isDefault === 'true',
+      autocompletionWs
+    )
   })
 
   delegate(pallet, `.${CLASS_NAMES.remove}`, 'click', (e) => {
@@ -58,10 +62,7 @@ export default function(
     commander.invoke(
       elementEditor
         .getHandler()
-        .removeType(
-          e.delegateTarget.getAttribute('data-id'),
-          e.delegateTarget.getAttribute('data-short-label')
-        )
+        .removeType(e.delegateTarget.dataset.id, e.delegateTarget.dataset.label)
     )
   })
 }

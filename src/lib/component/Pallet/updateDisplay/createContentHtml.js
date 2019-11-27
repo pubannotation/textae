@@ -22,7 +22,7 @@ const html = `
     {{#if types}}
     {{#each types}}
     <tr class="textae-editor__type-pallet__row" style="background-color: {{color}};">
-      <td class="textae-editor__type-pallet__label" id="{{id}}">
+      <td class="textae-editor__type-pallet__label" data-id="{{id}}">
         <span title={{id}}>
           {{id}}
         </span>
@@ -61,7 +61,7 @@ const html = `
           class="textae-editor__type-pallet__table-button textae-editor__type-pallet__remove {{#if useNumber}}textae-editor__type-pallet__table-button--disabled{{/if}}"
           title="{{#if useNumber}}To activate this button, remove all the annotations of this type.{{/if}}{{#unless useNumber}}Remove this type.{{/unless}}"
           data-id="{{id}}"
-          data-short-label="{{label}}">
+          data-label="{{label}}">
         </button>
         {{/unless}}
       </td>

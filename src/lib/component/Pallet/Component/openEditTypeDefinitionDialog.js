@@ -1,13 +1,9 @@
 import EditTypeDefinitionDialog from './EditTypeDefinitionDialog'
 import getDifference from './getDifference'
 
-export default function(elementEditor, e, autocompletionWs) {
-  const target = e.delegateTarget
-  const id = target.getAttribute('data-id')
+export default function(elementEditor, id, color, isDefault, autocompletionWs) {
   const handler = elementEditor.getHandler()
   const label = handler.typeContainer.getLabel(id) || ''
-  const color = target.getAttribute('data-color').toLowerCase()
-  const isDefault = target.getAttribute('data-is-default') === 'true'
   const beforeChange = {
     id,
     label,
