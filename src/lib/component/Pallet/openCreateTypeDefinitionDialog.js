@@ -1,4 +1,4 @@
-import EditTypeDefinitionDialog from './EditTypeDefinitionDialog'
+import EditTypeDefinitionDialog from '../EditTypeDefinitionDialog'
 
 export default function(elementEditor, editor, autocompletionWs) {
   const handler = elementEditor.getHandler()

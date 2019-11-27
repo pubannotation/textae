@@ -1,5 +1,5 @@
-import source from '../../source'
-import customizeqQueryUiAutocomplete from '../../customize-jquery-ui-autocomplete'
+import source from '../source'
+import customizeqQueryUiAutocomplete from '../customize-jquery-ui-autocomplete'
 
 customizeqQueryUiAutocomplete()
 

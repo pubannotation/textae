@@ -1,4 +1,4 @@
-import EditTypeDefinitionDialog from './EditTypeDefinitionDialog'
+import EditTypeDefinitionDialog from '../EditTypeDefinitionDialog'
 import getDifference from './getDifference'
 
 export default function(elementEditor, id, color, isDefault, autocompletionWs) {
