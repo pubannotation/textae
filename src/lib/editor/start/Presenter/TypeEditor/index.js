@@ -29,15 +29,14 @@ export default function(
     () => cancelSelect(pallet, selectionModel)
   )
 
-  const pallet = new Pallet(
-    editor,
-    history,
-    elementEditor,
-    originalData,
-    typeDefinition,
-    dataAccessObject
-  )
+  const pallet = new Pallet(editor, elementEditor, originalData, typeDefinition)
   bindPalletEvents(pallet, elementEditor, autocompletionWs, editor, commander)
+  // Bind events to pallet
+  // Close pallet when selecting other editor.
+  editor.eventEmitter.on('textae.pallet.close', () => pallet.hide())
+  // Update save config button when changing history and savigng configuration.
+  history.on('change', () => pallet.updateDisplay())
+  dataAccessObject.on('configuration.save', () => pallet.updateDisplay())
 
   const api = {
     editRelation: elementEditor.start.editRelation,

@@ -8,16 +8,8 @@ import createPalletElement from './createPalletElement'
 import bindUserEvents from './bindUserEvents'
 
 export default class extends EventEmitter {
-  constructor(
-    editor,
-    history,
-    elementEditor,
-    originalData,
-    typeDefinition,
-    dataAccessObject
-  ) {
+  constructor(editor, elementEditor, originalData, typeDefinition) {
     super()
-    this._editor = editor
     this._elementEditor = elementEditor
     this._el = createPalletElement()
     this._originalData = originalData
@@ -26,17 +18,11 @@ export default class extends EventEmitter {
     // Bind user events to the event emitter.
     bindUserEvents(this)
 
-    // Bind event
-    // Update save config button when changing history and savigng configuration.
-    history.on('change', () => this._updateDisplay())
-    dataAccessObject.on('configuration.save', () => this._updateDisplay())
-    this._editor.eventEmitter.on('textae.pallet.close', () => this.hide())
-
     // let the pallet draggable.
     enableJqueryDraggable(this._el, editor)
   }
 
-  _updateDisplay() {
+  updateDisplay() {
     if (this.visibly) {
       updateDisplay(
         this._el,
@@ -61,13 +47,13 @@ export default class extends EventEmitter {
     // The typeContainer is null when read-only mode
     if (typeContainer) {
       // Save the event listener as an object property to delete the event listener when the palette is closed.
-      this.updateDisplayForEditMode = () => this._updateDisplay()
+      this.updateDisplayForEditMode = () => this.updateDisplay()
 
       // Update table content when config lock state or type definition changing
       handleEventListners(typeContainer, 'add', this.updateDisplayForEditMode)
 
       show(this._el)
-      this._updateDisplay()
+      this.updateDisplay()
       moveIntoWindow(this._el, point)
     }
   }
