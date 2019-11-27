@@ -1,5 +1,4 @@
 import delegate from 'delegate'
-import CLASS_NAMES from '../className'
 import openCreateTypeDefinitionDialog from './openCreateTypeDefinitionDialog'
 import openEditTypeDefinitionDialog from './openEditTypeDefinitionDialog'
 import checkButtonEnable from './checkButtonEnable'
@@ -11,19 +10,24 @@ export default function(
   autocompletionWs,
   commander
 ) {
-  delegate(pallet, `.${CLASS_NAMES.buttonAdd}`, 'click', (e) => {
+  delegate(pallet, `.textae-editor__type-pallet__add-button`, 'click', (e) => {
     openCreateTypeDefinitionDialog(elementEditor, editor, autocompletionWs)
   })
 
-  delegate(pallet, `.${CLASS_NAMES.buttonRead}`, 'click', (e) => {
+  delegate(pallet, `.textae-editor__type-pallet__read-button`, 'click', (e) => {
     editor.api.handlePalletClick('textae.pallet.button.read.click')
   })
 
-  delegate(pallet, `.${CLASS_NAMES.buttonWrite}`, 'click', (e) => {
-    editor.api.handlePalletClick('textae.pallet.button.write.click')
-  })
+  delegate(
+    pallet,
+    '.textae-editor__type-pallet__write-button',
+    'click',
+    (e) => {
+      editor.api.handlePalletClick('textae.pallet.button.write.click')
+    }
+  )
 
-  delegate(pallet, `.${CLASS_NAMES.label}`, 'click', (e) => {
+  delegate(pallet, '.textae-editor__type-pallet__label', 'click', (e) => {
     commander.invoke(
       elementEditor
         .getHandler()
@@ -31,14 +35,14 @@ export default function(
     )
   })
 
-  delegate(pallet, `.${CLASS_NAMES.selectAll}`, 'click', (e) => {
+  delegate(pallet, '.textae-editor__type-pallet__select-all', 'click', (e) => {
     if (!checkButtonEnable(e.target)) {
       return
     }
     elementEditor.getHandler().selectAll(e.delegateTarget.dataset.id)
   })
 
-  delegate(pallet, `.${CLASS_NAMES.editType}`, 'click', (e) => {
+  delegate(pallet, '.textae-editor__type-pallet__edit-type', 'click', (e) => {
     openEditTypeDefinitionDialog(
       elementEditor,
       e.target.dataset.id,
@@ -48,7 +52,7 @@ export default function(
     )
   })
 
-  delegate(pallet, `.${CLASS_NAMES.remove}`, 'click', (e) => {
+  delegate(pallet, '.textae-editor__type-pallet__remove', 'click', (e) => {
     if (!checkButtonEnable(e.target)) {
       return
     }

@@ -1,4 +1,5 @@
-import CLASS_NAMES from '../className'
 export default function(targetNode) {
-  return !targetNode.classList.contains(CLASS_NAMES.tableButtonDisabled)
+  return !targetNode.classList.contains(
+    'textae-editor__type-pallet__table-button--disabled'
+  )
 }

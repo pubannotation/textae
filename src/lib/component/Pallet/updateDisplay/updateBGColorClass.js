@@ -1,11 +1,9 @@
-import CLASS_NAMES from '../className'
-
 export default function(pallet, handlerType) {
   if (handlerType === 'entity') {
-    pallet.classList.remove(CLASS_NAMES.baseRelation)
-    pallet.classList.add(CLASS_NAMES.baseEntity)
+    pallet.classList.remove('textae-editor__type-pallet--relation')
+    pallet.classList.add('textae-editor__type-pallet--entity')
   } else if (handlerType === 'relation') {
-    pallet.classList.add(CLASS_NAMES.baseRelation)
-    pallet.classList.remove(CLASS_NAMES.baseEntity)
+    pallet.classList.add('textae-editor__type-pallet--relation')
+    pallet.classList.remove('textae-editor__type-pallet--entity')
   }
 }
