@@ -1,7 +1,7 @@
 import delegate from 'delegate'
-import openCreateTypeDefinitionDialog from './openCreateTypeDefinitionDialog'
-import openEditTypeDefinitionDialog from './openEditTypeDefinitionDialog'
 import checkButtonEnable from './checkButtonEnable'
+import CreateTypeDefinitionDialog from '../CreateTypeDefinitionDialog'
+import EditTypeDefinitionDialog from '../EditTypeDefinitionDialog'
 
 export default function(
   pallet,
@@ -10,8 +10,14 @@ export default function(
   autocompletionWs,
   commander
 ) {
-  delegate(pallet, `.textae-editor__type-pallet__add-button`, 'click', (e) => {
-    openCreateTypeDefinitionDialog(elementEditor, editor, autocompletionWs)
+  delegate(pallet, `.textae-editor__type-pallet__add-button`, 'click', () => {
+    const handler = elementEditor.getHandler()
+
+    new CreateTypeDefinitionDialog(
+      handler.typeContainer,
+      autocompletionWs,
+      (newType) => handler.commander.invoke(handler.addType(newType))
+    )
   })
 
   delegate(pallet, `.textae-editor__type-pallet__read-button`, 'click', (e) => {
@@ -43,12 +49,21 @@ export default function(
   })
 
   delegate(pallet, '.textae-editor__type-pallet__edit-type', 'click', (e) => {
-    openEditTypeDefinitionDialog(
-      elementEditor,
+    const handler = elementEditor.getHandler()
+
+    new EditTypeDefinitionDialog(
+      handler.typeContainer,
       e.target.dataset.id,
       e.target.dataset.color.toLowerCase(),
       e.target.dataset.isDefault === 'true',
-      autocompletionWs
+      autocompletionWs,
+      (changedProperties) => {
+        if (changedProperties.size) {
+          handler.commander.invoke(
+            handler.changeType(e.target.dataset.id, changedProperties)
+          )
+        }
+      }
     )
   })
 
