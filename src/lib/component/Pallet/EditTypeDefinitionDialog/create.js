@@ -1,5 +1,5 @@
 import delegate from 'delegate'
-import EditorDialog from '../../../dialog/EditorDialog'
+import EditorDialog from '../../dialog/EditorDialog'
 
 export default function(el, inputs, title) {
   const okHandler = () => {

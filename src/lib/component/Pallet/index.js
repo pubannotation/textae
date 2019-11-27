@@ -1,9 +1,10 @@
-import Component from './Component'
 import updateDisplay from './updateDisplay'
 import enableJqueryDraggable from './enableJqueryDraggable'
 import handleEventListners from './handleEventListners'
 import moveIntoWindow from './moveIntoWindow'
 import show from './show'
+import createPalletElement from './createPalletElement'
+import bindEventHandlers from './bindEventHandlers'
 
 export default class {
   constructor(
@@ -18,9 +19,18 @@ export default class {
   ) {
     this._editor = editor
     this._elementEditor = elementEditor
-    this._el = new Component(editor, commander, autocompletionWs, elementEditor)
+    this._el = createPalletElement()
     this._originalData = originalData
     this._typeDefinition = typeDefinition
+
+    // Bind callback functions.
+    bindEventHandlers(
+      this._el,
+      elementEditor,
+      editor,
+      autocompletionWs,
+      commander
+    )
 
     // Bind event
     // Update save config button when changing history and savigng configuration.
