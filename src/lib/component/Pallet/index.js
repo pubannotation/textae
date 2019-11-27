@@ -1,36 +1,30 @@
+import { EventEmitter } from 'events'
 import updateDisplay from './updateDisplay'
 import enableJqueryDraggable from './enableJqueryDraggable'
 import handleEventListners from './handleEventListners'
 import moveIntoWindow from './moveIntoWindow'
 import show from './show'
 import createPalletElement from './createPalletElement'
-import bindEventHandlers from './bindEventHandlers'
+import bindUserEvents from './bindUserEvents'
 
-export default class {
+export default class extends EventEmitter {
   constructor(
     editor,
     history,
-    commander,
-    autocompletionWs,
     elementEditor,
     originalData,
     typeDefinition,
     dataAccessObject
   ) {
+    super()
     this._editor = editor
     this._elementEditor = elementEditor
     this._el = createPalletElement()
     this._originalData = originalData
     this._typeDefinition = typeDefinition
 
-    // Bind callback functions.
-    bindEventHandlers(
-      this._el,
-      elementEditor,
-      editor,
-      autocompletionWs,
-      commander
-    )
+    // Bind user events to the event emitter.
+    bindUserEvents(this)
 
     // Bind event
     // Update save config button when changing history and savigng configuration.

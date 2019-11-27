@@ -2,6 +2,7 @@ import Pallet from '../../../../component/Pallet'
 import ElementEditor from './ElementEditor'
 import cancelSelect from './cancelSelect'
 import jsPlumbConnectionClicked from './jsPlumbConnectionClicked'
+import bindPalletEvents from './bindPalletEvents'
 
 export default function(
   editor,
@@ -31,13 +32,12 @@ export default function(
   const pallet = new Pallet(
     editor,
     history,
-    commander,
-    autocompletionWs,
     elementEditor,
     originalData,
     typeDefinition,
     dataAccessObject
   )
+  bindPalletEvents(pallet, elementEditor, autocompletionWs, editor, commander)
 
   const api = {
     editRelation: elementEditor.start.editRelation,
