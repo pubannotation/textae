@@ -1,7 +1,7 @@
 import delegate from 'delegate'
 import checkButtonEnable from './checkButtonEnable'
-import CreateTypeDefinitionDialog from '../CreateTypeDefinitionDialog'
-import EditTypeDefinitionDialog from '../EditTypeDefinitionDialog'
+import CreateTypeDefinitionDialog from '../../CreateTypeDefinitionDialog'
+import EditTypeDefinitionDialog from '../../EditTypeDefinitionDialog'
 
 export default function(
   pallet,
