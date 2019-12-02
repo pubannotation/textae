@@ -49,6 +49,12 @@ export default function(
       return
     }
 
+    // When the user clicks the delete button, the browser focuses on the delete button.
+    // If you delete a line that contains a delete button with focus, the editor loses focus.
+    // Keyboard shortcuts will not work if focus is lost from the editor.
+    // To prevent this, focus on the editor before deleting the line.
+    editor.focus()
+
     commander.invoke(
       elementEditor
         .getHandler()
