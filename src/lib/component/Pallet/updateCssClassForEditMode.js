@@ -1,8 +1,8 @@
-export default function(pallet, handlerType) {
-  if (handlerType === 'entity') {
+export default function(pallet, editModeName) {
+  if (editModeName === 'entity') {
     pallet.classList.remove('textae-editor__type-pallet--relation')
     pallet.classList.add('textae-editor__type-pallet--entity')
-  } else if (handlerType === 'relation') {
+  } else if (editModeName === 'relation') {
     pallet.classList.add('textae-editor__type-pallet--relation')
     pallet.classList.remove('textae-editor__type-pallet--entity')
   }

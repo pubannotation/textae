@@ -3,6 +3,9 @@ import ElementEditor from './ElementEditor'
 import cancelSelect from './cancelSelect'
 import jsPlumbConnectionClicked from './jsPlumbConnectionClicked'
 import bindPalletEvents from './bindPalletEvents'
+import releasePalletUpateFunction from './releasePalletUpateFunction'
+import rebindPalletUpdateFunction from './rebindPalletUpdateFunction'
+import getTypeContainerForCurrentEditMode from './getTypeContainerForCurrentEditMode'
 
 export default function(
   editor,
@@ -29,7 +32,7 @@ export default function(
     () => cancelSelect(pallet, selectionModel)
   )
 
-  const pallet = new Pallet(editor, elementEditor, originalData, typeDefinition)
+  const pallet = new Pallet(editor, originalData, typeDefinition)
   bindPalletEvents(pallet, elementEditor, autocompletionWs, editor, commander)
   // Bind events to pallet
   // Close pallet when selecting other editor.
@@ -37,6 +40,8 @@ export default function(
   // Update save config button when changing history and savigng configuration.
   history.on('change', () => pallet.updateDisplay())
   dataAccessObject.on('configuration.save', () => pallet.updateDisplay())
+
+  const updatePallet = () => pallet.updateDisplay()
 
   const api = {
     editRelation: elementEditor.start.editRelation,
@@ -47,9 +52,24 @@ export default function(
       if (!editor[0].querySelector('.textae-editor__type-pallet')) {
         editor[0].appendChild(pallet.el)
       }
-      pallet.show(point.point)
+
+      const typeContainer = getTypeContainerForCurrentEditMode(
+        elementEditor,
+        typeDefinition
+      )
+      pallet.show(point.point, typeContainer, elementEditor.getHandlerType())
+
+      // Rebinding palette update function to TypeContainer in current editing mode.
+      rebindPalletUpdateFunction(typeContainer, updatePallet)
+      // Save the event emmitter to delete the event listener when the palette is reopend or closed.
+      this._typeContainer = typeContainer
     },
-    hidePallet: pallet.hide,
+    hidePallet: () => {
+      // Release event listeners that bound when opening pallet.
+      releasePalletUpateFunction(this._typeContainer, updatePallet)
+      this._typeContainer = null
+      pallet.hide()
+    },
     changeLabel: () =>
       elementEditor.getHandler().changeLabelHandler(autocompletionWs),
     changeLabelAndPred: null,

@@ -1,16 +1,16 @@
 import { EventEmitter } from 'events'
 import updateDisplay from './updateDisplay'
 import enableJqueryDraggable from './enableJqueryDraggable'
-import handleEventListners from './handleEventListners'
 import moveIntoWindow from './moveIntoWindow'
-import show from './show'
 import createPalletElement from './createPalletElement'
 import bindUserEvents from './bindUserEvents'
+import updateCssClassForEditMode from './updateCssClassForEditMode'
+import show from './show'
+import hide from './hide'
 
 export default class extends EventEmitter {
-  constructor(editor, elementEditor, originalData, typeDefinition) {
+  constructor(editor, originalData, typeDefinition) {
     super()
-    this._elementEditor = elementEditor
     this._el = createPalletElement()
     this._originalData = originalData
     this._typeDefinition = typeDefinition
@@ -20,14 +20,16 @@ export default class extends EventEmitter {
 
     // let the pallet draggable.
     enableJqueryDraggable(this._el, editor)
+
+    this.hide()
   }
 
   updateDisplay() {
     if (this.visibly) {
       updateDisplay(
         this._el,
-        this._elementEditor.getHandler().typeContainer,
-        this._elementEditor.getHandlerType(),
+        this._typeContainer,
+        this._editModeName,
         this._originalData,
         this._typeDefinition
       )
@@ -39,35 +41,26 @@ export default class extends EventEmitter {
   }
 
   // Display Entity or Relation Type on the palette according to the edit mode.
-  show(point) {
+  show(point, typeContainer, editModeName) {
     console.assert(point, 'point is necessary.')
-
-    const typeContainer = this._elementEditor.getHandler().typeContainer
 
     // The typeContainer is null when read-only mode
     if (typeContainer) {
-      // Save the event listener as an object property to delete the event listener when the palette is closed.
-      this.updateDisplayForEditMode = () => this.updateDisplay()
-
-      // Update table content when config lock state or type definition changing
-      handleEventListners(typeContainer, 'add', this.updateDisplayForEditMode)
-
-      show(this._el)
-      this.updateDisplay()
+      show(this, typeContainer, editModeName)
+      updateDisplay(
+        this._el,
+        typeContainer,
+        editModeName,
+        this._originalData,
+        this._typeDefinition
+      )
+      updateCssClassForEditMode(this._el, editModeName)
       moveIntoWindow(this._el, point)
     }
   }
 
   hide() {
-    this._el.style.display = 'none'
-
-    // Release event listeners that bound when opening pallet.
-    if (this.updateDisplayForEditMode) {
-      const t = this._elementEditor.getHandler().typeContainer
-      handleEventListners(t, 'remove', this.updateDisplayForEditMode)
-
-      this.updateDisplayForEditMode = null
-    }
+    hide(this)
   }
 
   get visibly() {
