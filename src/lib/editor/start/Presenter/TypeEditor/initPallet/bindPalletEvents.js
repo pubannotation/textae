@@ -1,17 +1,15 @@
-import CreateTypeDefinitionDialog from '../../../../component/CreateTypeDefinitionDialog'
-import EditTypeDefinitionDialog from '../../../../component/EditTypeDefinitionDialog'
+import CreateTypeDefinitionDialog from '../../../../../component/CreateTypeDefinitionDialog'
+import EditTypeDefinitionDialog from '../../../../../component/EditTypeDefinitionDialog'
 
 export default function bindPalletEvents(
   pallet,
-  elementEditor,
+  handler,
   autocompletionWs,
   editor,
   commander
 ) {
   pallet
     .on('textae.pallet.add-button.click', () => {
-      const handler = elementEditor.getHandler()
-
       new CreateTypeDefinitionDialog(
         handler.typeContainer,
         autocompletionWs,
@@ -25,16 +23,12 @@ export default function bindPalletEvents(
       editor.api.handlePalletClick('textae.pallet.button.write.click')
     )
     .on('textae.pallet.item.label.click', (typeName) =>
-      commander.invoke(
-        elementEditor.getHandler().changeTypeOfSelectedElement(typeName)
-      )
+      commander.invoke(handler.changeTypeOfSelectedElement(typeName))
     )
     .on('textae.pallet.item.select-all-button.click', (typeName) =>
-      elementEditor.getHandler().selectAll(typeName)
+      handler.selectAll(typeName)
     )
     .on('textae.pallet.item.edit-button.click', (id, color, isDefault) => {
-      const handler = elementEditor.getHandler()
-
       new EditTypeDefinitionDialog(
         handler.typeContainer,
         id,
@@ -55,6 +49,6 @@ export default function bindPalletEvents(
       // To prevent this, focus on the editor before deleting the line.
       editor.focus()
 
-      commander.invoke(elementEditor.getHandler().removeType(id, label))
+      commander.invoke(handler.removeType(id, label))
     })
 }

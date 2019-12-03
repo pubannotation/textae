@@ -52,6 +52,14 @@ export default class {
     return getHandler(this._handler, this._editEntity, this._editRelation)
   }
 
+  get entityHandler() {
+    return this._editEntity.entityHandler()
+  }
+
+  get relationHandler() {
+    return this._editRelation.handlers
+  }
+
   noEdit() {
     unbindAllMouseEventhandler(this._editor)
     this._setHandlerType('default')

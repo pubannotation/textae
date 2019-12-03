@@ -10,18 +10,16 @@ export default function(
   originalData,
   typeDefinition
 ) {
-  if (typeContainer) {
-    const content = createContentHtml(
-      typeContainer,
-      editModeName,
-      diff(
-        originalData.configuration,
-        Object.assign({}, originalData.configuration, typeDefinition.config)
-      )
+  const content = createContentHtml(
+    typeContainer,
+    editModeName,
+    diff(
+      originalData.configuration,
+      Object.assign({}, originalData.configuration, typeDefinition.config)
     )
-    pallet.innerHTML = content
+  )
+  pallet.innerHTML = content
 
-    setWidthWithinWindow(pallet)
-    setHeightWithinWindow(pallet)
-  }
+  setWidthWithinWindow(pallet)
+  setHeightWithinWindow(pallet)
 }

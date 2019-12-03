@@ -1,7 +1,6 @@
 import toDomElement from '../toDomEelement'
 
-const html = `<div class="textae-editor__type-pallet"></div>`
-
-export default function() {
+export default function(editModeName) {
+  const html = `<div class="textae-editor__type-pallet textae-editor__type-pallet--${editModeName}"></div>`
   return toDomElement(html)
 }
