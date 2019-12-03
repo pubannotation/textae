@@ -2,6 +2,8 @@ import ElementEditor from './ElementEditor'
 import cancelSelect from './cancelSelect'
 import jsPlumbConnectionClicked from './jsPlumbConnectionClicked'
 import initPallet from './initPallet'
+import EntityPallet from '../../../../component/EntityPallet'
+import RelationPallet from '../../../../component/RelationPallet'
 
 export default class {
   constructor(
@@ -34,28 +36,30 @@ export default class {
       () => this.cancelSelect()
     )
 
-    this._entityPallet = initPallet(
+    this._entityPallet = new EntityPallet(editor, originalData, typeDefinition)
+    initPallet(
+      this._entityPallet,
       editor,
-      originalData,
-      typeDefinition,
       autocompletionWs,
       commander,
       history,
       dataAccessObject,
-      'entity',
       typeDefinition.entity,
       this._elementEditor.entityHandler
     )
 
-    this._relationPallet = initPallet(
+    this._relationPallet = new RelationPallet(
       editor,
       originalData,
-      typeDefinition,
+      typeDefinition
+    )
+    initPallet(
+      this._relationPallet,
+      editor,
       autocompletionWs,
       commander,
       history,
       dataAccessObject,
-      'relation',
       typeDefinition.relation,
       this._elementEditor.relationHandler
     )
