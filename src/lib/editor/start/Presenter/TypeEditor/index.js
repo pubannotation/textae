@@ -7,79 +7,115 @@ import releasePalletUpateFunction from './releasePalletUpateFunction'
 import rebindPalletUpdateFunction from './rebindPalletUpdateFunction'
 import getTypeContainerForCurrentEditMode from './getTypeContainerForCurrentEditMode'
 
-export default function(
-  editor,
-  history,
-  annotationData,
-  selectionModel,
-  spanConfig,
-  commander,
-  pushButtons,
-  originalData,
-  typeDefinition,
-  dataAccessObject,
-  autocompletionWs
-) {
-  // will init.
-  const elementEditor = new ElementEditor(
+export default class {
+  constructor(
     editor,
+    history,
     annotationData,
     selectionModel,
     spanConfig,
     commander,
     pushButtons,
+    originalData,
     typeDefinition,
-    () => cancelSelect(pallet, selectionModel)
-  )
+    dataAccessObject,
+    autocompletionWs
+  ) {
+    this._editor = editor
+    this._typeDefinition = typeDefinition
+    this._autocompletionWs = autocompletionWs
+    this._selectionModel = selectionModel
 
-  const pallet = new Pallet(editor, originalData, typeDefinition)
-  bindPalletEvents(pallet, elementEditor, autocompletionWs, editor, commander)
-  // Bind events to pallet
-  // Close pallet when selecting other editor.
-  editor.eventEmitter.on('textae.pallet.close', () => pallet.hide())
-  // Update save config button when changing history and savigng configuration.
-  history.on('change', () => pallet.updateDisplay())
-  dataAccessObject.on('configuration.save', () => pallet.updateDisplay())
+    // will init.
+    this._elementEditor = new ElementEditor(
+      editor,
+      annotationData,
+      selectionModel,
+      spanConfig,
+      commander,
+      pushButtons,
+      typeDefinition,
+      () => cancelSelect(this._pallet, selectionModel)
+    )
 
-  const updatePallet = () => pallet.updateDisplay()
+    this._pallet = new Pallet(editor, originalData, typeDefinition)
+    bindPalletEvents(
+      this._pallet,
+      this._elementEditor,
+      autocompletionWs,
+      editor,
+      commander
+    )
+    // Bind events to pallet
+    // Close pallet when selecting other editor.
+    editor.eventEmitter.on('textae.pallet.close', () => this._pallet.hide())
+    // Update save config button when changing history and savigng configuration.
+    history.on('change', () => this._pallet.updateDisplay())
+    dataAccessObject.on('configuration.save', () =>
+      this._pallet.updateDisplay()
+    )
 
-  const api = {
-    editRelation: elementEditor.start.editRelation,
-    editEntity: elementEditor.start.editEntity,
-    noEdit: elementEditor.start.noEdit,
-    showPallet: (point) => {
-      // Add the pallet to the editor to prevent focus out of the editor when radio buttnos on the pallet are clicked.
-      if (!editor[0].querySelector('.textae-editor__type-pallet')) {
-        editor[0].appendChild(pallet.el)
-      }
-
-      const typeContainer = getTypeContainerForCurrentEditMode(
-        elementEditor,
-        typeDefinition
-      )
-      pallet.show(point.point, typeContainer, elementEditor.getHandlerType())
-
-      // Rebinding palette update function to TypeContainer in current editing mode.
-      rebindPalletUpdateFunction(typeContainer, updatePallet)
-      // Save the event emmitter to delete the event listener when the palette is reopend or closed.
-      this._typeContainer = typeContainer
-    },
-    hidePallet: () => {
-      // Release event listeners that bound when opening pallet.
-      releasePalletUpateFunction(this._typeContainer, updatePallet)
-      this._typeContainer = null
-      pallet.hide()
-    },
-    changeLabel: () =>
-      elementEditor.getHandler().changeLabelHandler(autocompletionWs),
-    changeTypeOfSelectedElement: (newType) =>
-      elementEditor.getHandler().changeTypeOfSelectedElement(newType),
-    cancelSelect: () => cancelSelect(pallet, selectionModel),
-    jsPlumbConnectionClicked: (jsPlumbConnection, event) =>
-      jsPlumbConnectionClicked(elementEditor, jsPlumbConnection, event),
-    getSelectedIdEditable: () =>
-      elementEditor.getHandler().getSelectedIdEditable()
+    this._updatePallet = () => this._pallet.updateDisplay()
   }
 
-  return api
+  editRelation() {
+    this._elementEditor.editRelation()
+  }
+
+  editEntity() {
+    this._elementEditor.editEntity()
+  }
+
+  noEdit() {
+    this._elementEditor.noEdit()
+  }
+
+  showPallet(point) {
+    // Add the pallet to the editor to prevent focus out of the editor when radio buttnos on the pallet are clicked.
+    if (!this._editor[0].querySelector('.textae-editor__type-pallet')) {
+      this._editor[0].appendChild(this._pallet.el)
+    }
+
+    const typeContainer = getTypeContainerForCurrentEditMode(
+      this._elementEditor,
+      this._typeDefinition
+    )
+    this._pallet.show(
+      point.point,
+      typeContainer,
+      this._elementEditor.getHandlerType()
+    )
+
+    // Rebinding palette update function to TypeContainer in current editing mode.
+    rebindPalletUpdateFunction(typeContainer, this._updatePallet)
+    // Save the event emmitter to delete the event listener when the palette is reopend or closed.
+    this._typeContainer = typeContainer
+  }
+
+  hidePallet() {
+    // Release event listeners that bound when opening pallet.
+    releasePalletUpateFunction(this._typeContainer, this._updatePallet)
+    this._typeContainer = null
+    this._pallet.hide()
+  }
+
+  changeLabel() {
+    this._elementEditor.getHandler().changeLabelHandler(this._autocompletionWs)
+  }
+
+  changeTypeOfSelectedElement(newType) {
+    this._elementEditor.getHandler().changeTypeOfSelectedElement(newType)
+  }
+
+  cancelSelect() {
+    cancelSelect(this._pallet, this._selectionModel)
+  }
+
+  jsPlumbConnectionClicked(jsPlumbConnection, event) {
+    jsPlumbConnectionClicked(this._elementEditor, jsPlumbConnection, event)
+  }
+
+  getSelectedIdEditable() {
+    return this._elementEditor.getHandler().getSelectedIdEditable()
+  }
 }

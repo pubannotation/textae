@@ -48,7 +48,7 @@ export default function(
       createEntityHandler(commander, typeDefinition, () =>
         displayInstance.notifyNewInstance()
       ),
-    showPallet: typeEditor.showPallet,
+    showPallet: (point) => typeEditor.showPallet(point),
     replicate: () =>
       replicateHandler(
         commander,
@@ -58,7 +58,7 @@ export default function(
         selectionModel.span.single()
       ),
     pasteEntities: () => clipBoardHandler.pasteEntities(),
-    changeLabel: typeEditor.changeLabel,
+    changeLabel: () => typeEditor.changeLabel(),
     cancelSelect: () => cancelSelect(typeEditor, editor),
     negation: modificationHandler.negation,
     speculation: modificationHandler.speculation,
