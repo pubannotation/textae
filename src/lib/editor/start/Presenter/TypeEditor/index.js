@@ -72,11 +72,8 @@ export default function(
     },
     changeLabel: () =>
       elementEditor.getHandler().changeLabelHandler(autocompletionWs),
-    changeLabelAndPred: null,
     changeTypeOfSelectedElement: (newType) =>
       elementEditor.getHandler().changeTypeOfSelectedElement(newType),
-    changeSelectedElement: (newType) =>
-      elementEditor.getHandler().changeSelectedElement(newType),
     cancelSelect: () => cancelSelect(pallet, selectionModel),
     jsPlumbConnectionClicked: (jsPlumbConnection, event) =>
       jsPlumbConnectionClicked(elementEditor, jsPlumbConnection, event),

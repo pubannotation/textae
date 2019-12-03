@@ -59,7 +59,6 @@ export default function(
       ),
     pasteEntities: () => clipBoardHandler.pasteEntities(),
     changeLabel: typeEditor.changeLabel,
-    changeLabelAndPred: typeEditor.changeLabelAndPred,
     cancelSelect: () => cancelSelect(typeEditor, editor),
     negation: modificationHandler.negation,
     speculation: modificationHandler.speculation,
