@@ -1,25 +1,23 @@
 import TypeGapCache from './TypeGapCache'
-import event from '../EditMode/event'
 import toastr from 'toastr'
 import changeTypeGap from './changeTypeGap'
 import updateTypeGap from './updateTypeGap'
 
 export default class {
-  constructor(typeGap, editMode) {
+  constructor(typeGap) {
+    this._typeGap = typeGap
     this._showInstance = true
     this._typeGapCache = new TypeGapCache()
+  }
 
-    editMode
-      .on(event.SHOW, () => {
-        this._showInstance = true
-        updateTypeGap(this._showInstance, typeGap, this._typeGapCache)
-      })
-      .on(event.HIDE, () => {
-        this._showInstance = false
-        updateTypeGap(this._showInstance, typeGap, this._typeGapCache)
-      })
+  show() {
+    this._showInstance = true
+    updateTypeGap(this._showInstance, this._typeGap, this._typeGapCache)
+  }
 
-    this._typeGap = typeGap
+  hide() {
+    this._showInstance = false
+    updateTypeGap(this._showInstance, this._typeGap, this._typeGapCache)
   }
 
   get showInstance() {

@@ -30,14 +30,14 @@ export default class {
     editor[0].innerHTML = BODY.replace(/[\n\r]+/g, '')
 
     bindSelectionModelEvents(
-      selectionModel,
+      editor,
       new Selector(editor, annotationData),
       buttonStateHelper
     )
 
     const annotationPosition = new AnnotationPosition(editor, annotationData)
     bindTypeGapEvents(typeGap, editor, annotationData, annotationPosition)
-    bindAnnotaitonPositionEvents(annotationPosition, new CursorChanger(editor))
+    bindAnnotaitonPositionEvents(editor, new CursorChanger(editor))
 
     new Renderer(
       editor,

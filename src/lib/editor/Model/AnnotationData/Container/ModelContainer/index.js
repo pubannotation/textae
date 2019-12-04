@@ -40,7 +40,7 @@ export default class {
     const newInstance = addToContainer(instance, this.container, this.prefix)
     if (isFunction(doAfter)) doAfter(newInstance)
 
-    this._emit(`${this.name}.add`, newInstance)
+    this._emit(`textae.annotationData.${this.name}.add`, newInstance)
     return newInstance
   }
 
@@ -59,7 +59,7 @@ export default class {
   changeType(id, newType) {
     const instance = this.container.get(id)
     instance.type = newType
-    this._emit(`${this.name}.change`, instance)
+    this._emit(`textae.annotationData.${this.name}.change`, instance)
     return instance
   }
 
@@ -67,7 +67,7 @@ export default class {
     const instance = this.container.get(id)
     if (instance) {
       this.container.delete(id)
-      this._emit(`${this.name}.remove`, instance)
+      this._emit(`textae.annotationData.${this.name}.remove`, instance)
     }
     return instance
   }

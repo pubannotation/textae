@@ -1,12 +1,11 @@
-import { EventEmitter } from 'events'
 import Pointer from './Pointer'
 import Commands from './Commands'
 
 // histories of edit to undo and redo.
-export default class extends EventEmitter {
-  constructor() {
-    super()
+export default class {
+  constructor(eventEmitter) {
     this._resetHistory()
+    this._eventEmitter = eventEmitter
   }
 
   push(commands) {
@@ -121,7 +120,7 @@ export default class extends EventEmitter {
   }
 
   _trigger() {
-    super.emit('change')
+    this._eventEmitter.emit('textae.history.change', this)
   }
 
   _removeConfigurationOperationsFromHistory() {

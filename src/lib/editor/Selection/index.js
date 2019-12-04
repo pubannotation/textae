@@ -1,34 +1,40 @@
-import { EventEmitter } from 'events'
 import IdContainer from './IdContainer'
 import modelToId from '../modelToId'
 import getPaneDomOfType from '../getPaneDomOfType'
 
 const kinds = ['span', 'entity', 'attribute', 'relation']
 
-export default class extends EventEmitter {
-  constructor(annotationData) {
-    super()
-
+export default class {
+  constructor(eventEmitter) {
     this.map = new Map(
-      kinds.map((kindName) => [kindName, new IdContainer(this, kindName)])
+      kinds.map((kindName) => [
+        kindName,
+        new IdContainer(eventEmitter, kindName)
+      ])
     )
     this.map.forEach((container, name) => {
       this[name] = container
     })
 
     const eventMap = new Map([
-      ['all.change', () => this.clear()],
-      ['span.remove', (span) => this.span.remove(modelToId(span))],
-      ['entity.remove', (entity) => this.entity.remove(modelToId(entity))],
+      ['textae.annotationData.all.change', () => this.clear()],
       [
-        'relation.remove',
+        'textae.annotationData.span.remove',
+        (span) => this.span.remove(modelToId(span))
+      ],
+      [
+        'textae.annotationData.entity.remove',
+        (entity) => this.entity.remove(modelToId(entity))
+      ],
+      [
+        'textae.annotationData.relation.remove',
         (relation) => this.relation.remove(modelToId(relation))
       ]
     ])
 
     // Bind the selection model to the model.
     for (const eventHandler of eventMap) {
-      annotationData.on(eventHandler[0], eventHandler[1])
+      eventEmitter.on(eventHandler[0], eventHandler[1])
     }
   }
   clear() {

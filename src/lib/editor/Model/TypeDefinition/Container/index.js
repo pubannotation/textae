@@ -1,28 +1,36 @@
-import { EventEmitter } from 'events'
 import getUrlMatches from '../../../getUrlMatches'
 import getDefaultTypeAutomatically from './getDefaultTypeAutomatically'
 import formatForPallet from './formatForPallet'
 import DefinedTypeContainer from './DefinedTypeContainer'
 
-export default class extends EventEmitter {
+export default class {
   constructor(
+    editor,
+    name,
     getAllInstanceFunc,
     lockStateObservable,
     defaultColor = '#555555'
   ) {
-    super()
+    this._editor = editor
+    this._name = name
     this._definedTypes = null
     this._getAllInstanceFunc = getAllInstanceFunc
     this._defaultColor = defaultColor
     this._lockStateObservable = lockStateObservable
 
-    lockStateObservable(() => super.emit('type.lock'))
+    lockStateObservable(() =>
+      this._editor.eventEmitter.emit(
+        `textae.typeDefinition.${this._name}.type.lock`
+      )
+    )
   }
 
   set definedTypes(value = []) {
     this._definedTypes = new DefinedTypeContainer(value)
 
-    super.emit('type.reset')
+    this._editor.eventEmitter.emit(
+      `textae.typeDefinition.${this._name}.type.reset`
+    )
 
     // Set default type
     const defaultType = value.find((type) => type.default === true)
@@ -44,7 +52,10 @@ export default class extends EventEmitter {
 
   set(id, newType) {
     this._definedTypes.set(id, newType)
-    super.emit('type.change', newType.id)
+    this._editor.eventEmitter.emit(
+      `textae.typeDefinition.${this._name}.type.change`,
+      newType.id
+    )
   }
 
   addDefinedType(newType) {
@@ -63,7 +74,10 @@ export default class extends EventEmitter {
     }
 
     this.set(newType.id, newType)
-    super.emit('type.change', newType.id)
+    this._editor.eventEmitter.emit(
+      `textae.typeDefinition.${this._name}.type.change`,
+      newType.id
+    )
   }
 
   get definedTypes() {
@@ -108,7 +122,9 @@ export default class extends EventEmitter {
   set defaultType(id) {
     console.assert(id, 'id is necessary!')
     this._defaultType = id
-    super.emit('type.default.change')
+    this._editor.eventEmitter.emit(
+      `textae.typeDefinition.${this._name}.type.default.change`
+    )
   }
 
   get defaultColor() {
@@ -140,7 +156,10 @@ export default class extends EventEmitter {
 
   delete(id) {
     this._definedTypes.delete(id)
-    super.emit('type.change', id)
+    this._editor.eventEmitter.emit(
+      `textae.typeDefinition.${this._name}.type.change`,
+      id
+    )
   }
 
   get isLock() {

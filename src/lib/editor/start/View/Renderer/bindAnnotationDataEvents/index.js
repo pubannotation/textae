@@ -23,8 +23,8 @@ export default function(
     entityRenderer.render(entity)
   )
 
-  annotationData
-    .on('all.change', () => {
+  editor.eventEmitter
+    .on('textae.annotationData.all.change', () => {
       renderAllAnnotations(
         editor,
         domPositionCache,
@@ -36,12 +36,14 @@ export default function(
       setLineHeightToTypeGap(editor[0], annotationData, typeGap())
       debouncedUpdateAnnotationPosition()
     })
-    .on('paragraph.change', (paragraphs) => renderParagraph(editor, paragraphs))
-    .on('span.add', (span) => {
+    .on('textae.annotationData.paragraph.change', (paragraphs) =>
+      renderParagraph(editor, paragraphs)
+    )
+    .on('textae.annotationData.span.add', (span) => {
       spanRenderer.render(span)
       // debouncedUpdateAnnotationPosition()
     })
-    .on('span.move', () => {
+    .on('textae.annotationData.span.move', () => {
       // Move grids and relations synchronously.
       // If grid and relations move asynchronously,
       // grid positions in cache may be deleted before render relation when moving span frequently.
@@ -49,39 +51,39 @@ export default function(
       // If position of grid is not cached, relation can not be rendered.
       annotationPosition.update(typeGap())
     })
-    .on('span.remove', (span) => {
+    .on('textae.annotationData.span.remove', (span) => {
       spanRenderer.remove(span)
       gridRenderer.remove(span.id)
       // debouncedUpdateAnnotationPosition()
     })
-    .on('entity.add', (entity) => {
+    .on('textae.annotationData.entity.add', (entity) => {
       // Add a now entity with a new grid after the span moved.
       updateBlockStyleOfSpan(annotationData, entity, spanRenderer)
       entityRenderer.render(entity)
       debouncedUpdateAnnotationPosition()
     })
-    .on('entity.change', (entity) => {
+    .on('textae.annotationData.entity.change', (entity) => {
       entityRenderer.change(entity)
       updateBlockStyleOfSpan(annotationData, entity, spanRenderer)
       gridRenderer.updateWidth(entity.span)
       debouncedUpdateAnnotationPosition()
     })
-    .on('entity.remove', (entity) => {
+    .on('textae.annotationData.entity.remove', (entity) => {
       entityRenderer.remove(entity)
       updateBlockStyleOfSpan(annotationData, entity, spanRenderer)
       debouncedUpdateAnnotationPosition()
     })
-    .on('relation.add', (relation) => {
+    .on('textae.annotationData.relation.add', (relation) => {
       relationRenderer.render(relation)
       debouncedUpdateAnnotationPosition()
     })
-    .on('relation.change', (relation) => {
+    .on('textae.annotationData.relation.change', (relation) => {
       relationRenderer.change(relation)
     })
-    .on('relation.remove', (relation) => {
+    .on('textae.annotationData.relation.remove', (relation) => {
       relationRenderer.remove(relation)
     })
-    .on('modification.add', (modification) => {
+    .on('textae.annotationData.modification.add', (modification) => {
       renderModificationOfEntityOrRelation(
         annotationData,
         modification,
@@ -90,7 +92,7 @@ export default function(
       )
       updateModificationButtons(annotationData, modification, buttonStateHelper)
     })
-    .on('modification.remove', (modification) => {
+    .on('textae.annotationData.modification.remove', (modification) => {
       renderModificationOfEntityOrRelation(
         annotationData,
         modification,

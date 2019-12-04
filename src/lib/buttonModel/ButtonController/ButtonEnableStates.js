@@ -1,9 +1,7 @@
-import { EventEmitter } from 'events'
-
-export default class extends EventEmitter {
-  constructor(selectionModel, clipBoard) {
-    super()
-    this.states = {}
+export default class {
+  constructor(editor, selectionModel, clipBoard) {
+    this._editor = editor
+    this._states = {}
 
     // Short cut name
     const hasCopy = () => clipBoard.clipBoard.length > 0
@@ -17,11 +15,14 @@ export default class extends EventEmitter {
   }
 
   set(button, enable) {
-    this.states[button] = enable
+    this._states[button] = enable
   }
 
   propagate() {
-    super.emit('change', this.states)
+    this._editor.eventEmitter.emit(
+      'textae.control.buttons.change',
+      this._states
+    )
   }
 
   updateButtons(buttons) {

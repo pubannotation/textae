@@ -1,5 +1,5 @@
 import typeToMoreDetail from './typeToMoreDetail'
 
 export default function(type) {
-  return `${typeToMoreDetail(type)}.load`
+  return `textae.dataAccessObject.${typeToMoreDetail(type)}.load`
 }

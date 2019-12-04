@@ -1,4 +1,3 @@
-import { EventEmitter } from 'events'
 import CursorChanger from '../../util/CursorChanger'
 import getLoadDialog from './getLoadDialog'
 import getFromServer from './getFromServer'
@@ -10,9 +9,9 @@ import addJsonDiff from './addJsonDiff'
 import toLoadEvent from './toLoadEvent'
 
 // A sub component to save and load data.
-export default class extends EventEmitter {
+export default class {
   constructor(editor) {
-    super()
+    this._editor = editor
 
     // Store the url the annotation data is loaded from per editor.
     this.urlOfLastRead = {
@@ -30,18 +29,20 @@ export default class extends EventEmitter {
             source
           }
           data[type] = loadData
-          super.emit(toLoadEvent(type), data)
+          this._editor.eventEmitter.emit(toLoadEvent(type), data)
           this.urlOfLastRead[type] = url
         },
         () => this.cursorChanger.endWait()
       )
 
     this.read = (type, file) =>
-      getJsonFromFile(file, type, (data) => super.emit(toLoadEvent(type), data))
+      getJsonFromFile(file, type, (data) =>
+        this._editor.eventEmitter.emit(toLoadEvent(type), data)
+      )
 
     this.ajaxSender = new AjaxSender(
       () => this.cursorChanger.startWait(),
-      () => super.emit('save error'),
+      () => this._editor.eventEmitter.emit('textae.dataAccessObject.saveError'),
       () => this.cursorChanger.endWait()
     )
   }
@@ -81,9 +82,17 @@ export default class extends EventEmitter {
       saveToParameter || this.urlOfLastRead.annotation,
       editedData,
       (url, data) =>
-        this.ajaxSender.post(url, data, () => super.emit('annotation.save')),
-      (el, closeDialog) => addViewSource(el, editedData, this, closeDialog),
-      () => super.emit('annotation.save')
+        this.ajaxSender.post(url, data, () =>
+          this._editor.eventEmitter.emit(
+            'textae.dataAccessObject.annotation.save'
+          )
+        ),
+      (el, closeDialog) =>
+        addViewSource(el, editedData, this._editor.eventEmitter, closeDialog),
+      () =>
+        this._editor.eventEmitter.emit(
+          'textae.dataAccessObject.annotation.save'
+        )
     ).open()
   }
 
@@ -96,10 +105,17 @@ export default class extends EventEmitter {
       (url, data) => {
         // textae-config service is build with the Ruby on Rails 4.X.
         // To change existing files, only PATCH method is allowed on the Ruby on Rails 4.X.
-        this.ajaxSender.patch(url, data, () => super.emit('configuration.save'))
+        this.ajaxSender.patch(url, data, () =>
+          this._editor.eventEmitter.emit(
+            'textae.dataAccessObject.configuration.save'
+          )
+        )
       },
       (el) => addJsonDiff(el, orig, edited),
-      () => super.emit('configuration.save')
+      () =>
+        this._editor.eventEmitter.emit(
+          'textae.dataAccessObject.configuration.save'
+        )
     ).open()
   }
 }

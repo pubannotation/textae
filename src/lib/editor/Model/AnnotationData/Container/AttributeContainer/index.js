@@ -3,16 +3,17 @@ import ContatinerWithSubContainer from '../ContatinerWithSubContainer'
 import mappingFunction from './mappingFunction'
 
 export default class extends ContatinerWithSubContainer {
-  constructor(emitter) {
-    super(emitter, 'attribute', (attribute) =>
-      mappingFunction(attribute, emitter.entity)
+  constructor(emitter, parentContainer) {
+    super(emitter, parentContainer, 'attribute', (attribute) =>
+      mappingFunction(attribute, parentContainer.entity)
     )
   }
 
   add(attribute) {
     return super.add(
       new AttributeModel(attribute, super.entityContainer),
-      (attribute) => super._emit('entity.change', attribute.entity)
+      (attribute) =>
+        super._emit('textae.annotationData.entity.change', attribute.entity)
     )
   }
 
@@ -27,8 +28,8 @@ export default class extends ContatinerWithSubContainer {
       model.obj = newObj
     }
 
-    super._emit(`${this.name}.change`, model)
-    super._emit('entity.change', model.entity)
+    super._emit(`textae.annotationData.${this.name}.change`, model)
+    super._emit('textae.annotationData.entity.change', model.entity)
 
     return model
   }
@@ -38,7 +39,7 @@ export default class extends ContatinerWithSubContainer {
 
     console.assert(instance, `There are no attribute ${id} to delete!`)
 
-    super._emit('entity.change', instance.entity)
+    super._emit('textae.annotationData.entity.change', instance.entity)
 
     return instance
   }

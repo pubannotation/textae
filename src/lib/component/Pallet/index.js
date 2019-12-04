@@ -1,12 +1,9 @@
-import { EventEmitter } from 'events'
 import enableJqueryDraggable from './enableJqueryDraggable'
 import moveIntoWindow from './moveIntoWindow'
 import updateDisplay from './updateDisplay'
 
-export default class extends EventEmitter {
+export default class {
   constructor(editor, el) {
-    super()
-
     this._el = el
 
     // let the pallet draggable.

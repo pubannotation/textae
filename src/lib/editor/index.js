@@ -14,10 +14,15 @@ import observeHistoryChange from './observeHistoryChange'
 import observeModelChange from './observeModelChange'
 
 export default function() {
+  // Set the eventEmitter to communicate with the tool and a control.
+  this.eventEmitter = new EventEmitter()
+
   const annotationData = new AnnotationData(this)
+
   // A contaier of selection state.
-  const selectionModel = new Selection(annotationData)
-  const history = new History()
+  const selectionModel = new Selection(this.eventEmitter)
+
+  const history = new History(this.eventEmitter)
   const clipBoard = {
     // clipBoard has entity type.
     clipBoard: []
@@ -33,19 +38,14 @@ export default function() {
     CONFIRM_DISCARD_CHANGE_MESSAGE
   )
 
-  bindUpdateSaveButton(
-    history,
-    dataAccessObject,
-    annotationData,
-    buttonController
-  )
-  observeDataSave(dataAccessObject, history)
+  bindUpdateSaveButton(this, buttonController)
+  observeDataSave(this, history)
   observeHistoryChange(
-    history,
+    this,
     buttonController.buttonStateHelper,
     CONFIRM_DISCARD_CHANGE_MESSAGE
   )
-  observeModelChange(annotationData, history)
+  observeModelChange(this, history)
 
   // public funcitons of editor
   this.api = {
@@ -60,9 +60,6 @@ export default function() {
         clipBoard
       )
   }
-
-  // Set the eventEmitter to communicate with the tool and a control.
-  this.eventEmitter = new EventEmitter()
 
   return this
 }

@@ -1,29 +1,40 @@
-import { EventEmitter } from 'events'
 import GridLayout from './GridLayout'
 
-export default class extends EventEmitter {
+export default class {
   constructor(editor, annotationData) {
-    super()
-    this.gridLayout = new GridLayout(editor, annotationData)
+    this._editor = editor
+    this._gridLayout = new GridLayout(editor, annotationData)
   }
 
   update(typeGap) {
-    super.emit('position-update.start')
+    this._editor.eventEmitter.emit(
+      'textae.annotationPosition.position-update.start'
+    )
 
-    this.gridLayout.arrangePosition(typeGap)
-    super.emit('position-update.grid.end', () =>
-      super.emit('position-update.end')
+    this._gridLayout.arrangePosition(typeGap)
+    this._editor.eventEmitter.emit(
+      'textae.annotationPosition.position-update.grid.end',
+      () =>
+        this._editor.eventEmitter.emit(
+          'textae.annotationPosition.position-update.end'
+        )
     )
   }
 
   updateAsync(typeGap) {
-    super.emit('position-update.start')
+    this._editor.eventEmitter.emit(
+      'textae.annotationPosition.position-update.start'
+    )
 
-    this.gridLayout
+    this._gridLayout
       .arrangePositionAsync(typeGap)
       .then(() =>
-        super.emit('position-update.grid.end', () =>
-          super.emit('position-update.end')
+        this._editor.eventEmitter.emit(
+          'textae.annotationPosition.position-update.grid.end',
+          () =>
+            this._editor.eventEmitter.emit(
+              'textae.annotationPosition.position-update.end'
+            )
         )
       )
       .catch((error) => console.error(error, error.stack))

@@ -1,14 +1,13 @@
 import TypeEditor from './TypeEditor'
 import EditMode from './EditMode'
 import DisplayInstance from './DisplayInstance'
-import transitSaveButton from './transitSaveButton'
 import bindModelChange from './bindModelChange'
 import createEventMap from './createEventMap'
+import setButtonState from './setButtonState'
 
 export default class {
   constructor(
     editor,
-    history,
     annotationData,
     selectionModel,
     commander,
@@ -18,13 +17,11 @@ export default class {
     typeGap,
     originalData,
     typeDefinition,
-    dataAccessObject,
     autocompletionWs,
     mode
   ) {
     const typeEditor = new TypeEditor(
       editor,
-      history,
       annotationData,
       selectionModel,
       spanConfig,
@@ -32,22 +29,25 @@ export default class {
       buttonController.pushButtons,
       originalData,
       typeDefinition,
-      dataAccessObject,
       autocompletionWs
     )
 
+    const displayInstance = new DisplayInstance(typeGap)
     const editMode = new EditMode(
       editor,
       annotationData,
       selectionModel,
       typeEditor,
-      buttonController.buttonStateHelper
+      buttonController.buttonStateHelper,
+      displayInstance
     )
 
-    const displayInstance = new DisplayInstance(typeGap, editMode)
+    editor.eventEmitter.on('textae.editMode.transition', (editable, mode) => {
+      typeEditor.cancelSelect()
+      setButtonState(buttonController, editable, mode)
+    })
 
-    transitSaveButton(editMode, buttonController)
-    bindModelChange(annotationData, editMode, mode)
+    bindModelChange(editor, editMode, mode)
 
     this.event = createEventMap(
       commander,

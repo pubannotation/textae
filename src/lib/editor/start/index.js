@@ -31,9 +31,14 @@ export default function(
   const params = getParams(editor[0])
   const spanConfig = new SpanConfig()
 
-  const typeDefinition = new TypeDefinition(annotationData)
-  typeDefinition.entity.on('type.reset', () => history.resetConfiguration())
-  typeDefinition.relation.on('type.reset', () => history.resetConfiguration())
+  editor.eventEmitter.on('textae.typeDefinition.entity.type.reset', () =>
+    history.resetConfiguration()
+  )
+  editor.eventEmitter.on('textae.typeDefinition.relation.type.reset', () =>
+    history.resetConfiguration()
+  )
+
+  const typeDefinition = new TypeDefinition(editor, annotationData)
 
   // Users can edit model only via commands.
   const commander = new Commander(
@@ -59,8 +64,8 @@ export default function(
 
   const originalData = new OriginalData()
 
-  dataAccessObject
-    .on('annotation.load', ({ annotation, source }) => {
+  editor.eventEmitter
+    .on('textae.dataAccessObject.annotation.load', ({ annotation, source }) => {
       if (!annotation || !annotation.text) {
         toastr.error(
           `${source} is not a annotation file or its format is invalid.`
@@ -79,7 +84,7 @@ export default function(
       originalData.annotation = annotation
       editor.eventEmitter.emit('textae.pallet.update')
     })
-    .on('configuration.load', ({ config, source }) => {
+    .on('textae.dataAccessObject.configuration.load', ({ config, source }) => {
       if (!validateConfiguration(config)) {
         toastr.error(
           `${source} is not a configuration file or its format is invalid.`
@@ -89,7 +94,7 @@ export default function(
       originalData.configuration = config
       setSpanAndTypeConfig(spanConfig, typeDefinition, config)
     })
-    .on('configuration.save', () => {
+    .on('textae.dataAccessObject.configuration.save', () => {
       originalData.configuration = Object.assign(
         originalData.configuration,
         typeDefinition.config
@@ -98,7 +103,6 @@ export default function(
 
   const presenter = new Presenter(
     editor,
-    history,
     annotationData,
     selectionModel,
     commander,
@@ -108,7 +112,6 @@ export default function(
     typeGap,
     originalData,
     typeDefinition,
-    dataAccessObject,
     params.get('autocompletion_ws'),
     params.get('mode')
   )

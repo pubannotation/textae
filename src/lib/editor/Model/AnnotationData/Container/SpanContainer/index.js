@@ -7,8 +7,8 @@ import SpanModel from './SpanModel'
 import ContatinerWithSubContainer from '../ContatinerWithSubContainer'
 
 export default class extends ContatinerWithSubContainer {
-  constructor(editor, emitter, paragraph) {
-    super(emitter, 'span', (denotations) =>
+  constructor(editor, emitter, parentContainer, paragraph) {
+    super(emitter, parentContainer, 'span', (denotations) =>
       mappingFunction(denotations, editor, paragraph, this.entityContainer)
     )
     this.editor = editor
@@ -97,7 +97,7 @@ export default class extends ContatinerWithSubContainer {
       }
     )
 
-    super._emit('span.move')
+    super._emit('textae.annotationData.span.move')
 
     return [
       {

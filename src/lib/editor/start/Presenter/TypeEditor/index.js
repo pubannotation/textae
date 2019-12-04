@@ -8,7 +8,6 @@ import RelationPallet from '../../../../component/RelationPallet'
 export default class {
   constructor(
     editor,
-    history,
     annotationData,
     selectionModel,
     spanConfig,
@@ -16,7 +15,6 @@ export default class {
     pushButtons,
     originalData,
     typeDefinition,
-    dataAccessObject,
     autocompletionWs
   ) {
     this._editor = editor
@@ -42,9 +40,7 @@ export default class {
       editor,
       autocompletionWs,
       commander,
-      history,
-      dataAccessObject,
-      typeDefinition.entity,
+      'entity',
       this._elementEditor.entityHandler
     )
 
@@ -58,9 +54,7 @@ export default class {
       editor,
       autocompletionWs,
       commander,
-      history,
-      dataAccessObject,
-      typeDefinition.relation,
+      'relation',
       this._elementEditor.relationHandler
     )
   }

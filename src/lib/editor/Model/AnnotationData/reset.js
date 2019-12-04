@@ -1,13 +1,21 @@
 import setNewData from './setNewData'
 import toastr from 'toastr'
 
-export default function reset(dataStore, annotation) {
+export default function reset(dataStore, editor, annotation) {
   console.assert(annotation.text, 'This is not a json file of anntations.')
 
   clearAnnotationData(dataStore)
   const result = setNewData(dataStore, annotation)
-  dataStore.emit('paragraph.change', dataStore.paragraph.all)
-  dataStore.emit('all.change', dataStore, result.multitrack, result.rejects)
+  editor.eventEmitter.emit(
+    'textae.annotationData.paragraph.change',
+    dataStore.paragraph.all
+  )
+  editor.eventEmitter.emit(
+    'textae.annotationData.all.change',
+    dataStore,
+    result.multitrack,
+    result.rejects
+  )
 
   return null
 }

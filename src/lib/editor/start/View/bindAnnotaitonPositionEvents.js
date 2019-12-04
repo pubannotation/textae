@@ -1,6 +1,10 @@
-export default function(annotationPosition, cursorChanger) {
+export default function(editor, cursorChanger) {
   // Set cursor control by view rendering events.
-  annotationPosition
-    .on('position-update.start', () => cursorChanger.startWait())
-    .on('position-update.end', () => cursorChanger.endWait())
+  editor.eventEmitter
+    .on('textae.annotationPosition.position-update.start', () =>
+      cursorChanger.startWait()
+    )
+    .on('textae.annotationPosition.position-update.end', () =>
+      cursorChanger.endWait()
+    )
 }

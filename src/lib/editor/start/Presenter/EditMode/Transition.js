@@ -1,75 +1,77 @@
-import { EventEmitter } from 'events'
 import setEditableStyle from './setEditableStyle'
 import ViewMode from './ViewMode'
-import event from './event'
 
 const TERM = 'term'
 const INSTANCE = 'instance'
 const RELATION = 'relation'
 
-export default class extends EventEmitter {
+export default class {
   constructor(
     editor,
     annotationData,
     selectionModel,
     typeEditor,
-    buttonStateHelper
+    buttonStateHelper,
+    displayInstance
   ) {
-    super()
-
-    this.editor = editor
-    this.typeEditor = typeEditor
-    this.viewMode = new ViewMode(
+    this._editor = editor
+    this._typeEditor = typeEditor
+    this._viewMode = new ViewMode(
       editor,
       annotationData,
       selectionModel,
       buttonStateHelper
     )
-    this.buttonStateHelper = buttonStateHelper
+    this._buttonStateHelper = buttonStateHelper
+    this._displayInstance = displayInstance
   }
 
   toTerm() {
-    super.emit(event.HIDE)
-    super.emit(event.CHANGE, true, TERM)
+    this._displayInstance.hide()
+    this._editor.eventEmitter.emit('textae.editMode.transition', true, TERM)
 
-    this.typeEditor.editEntity()
-    this.viewMode.setTerm()
-    setEditableStyle(this.editor, this.buttonStateHelper, true)
+    this._typeEditor.editEntity()
+    this._viewMode.setTerm()
+    setEditableStyle(this._editor, this._buttonStateHelper, true)
   }
 
   toInstance() {
-    super.emit(event.SHOW)
-    super.emit(event.CHANGE, true, INSTANCE)
+    this._displayInstance.show()
+    this._editor.eventEmitter.emit('textae.editMode.transition', true, INSTANCE)
 
-    this.typeEditor.editEntity()
-    this.viewMode.setInstance()
-    setEditableStyle(this.editor, this.buttonStateHelper, true)
+    this._typeEditor.editEntity()
+    this._viewMode.setInstance()
+    setEditableStyle(this._editor, this._buttonStateHelper, true)
   }
 
   toRelation() {
-    super.emit(event.SHOW)
-    super.emit(event.CHANGE, true, RELATION)
+    this._displayInstance.show()
+    this._editor.eventEmitter.emit('textae.editMode.transition', true, RELATION)
 
-    this.typeEditor.editRelation()
-    this.viewMode.setRelation()
-    setEditableStyle(this.editor, this.buttonStateHelper, true)
+    this._typeEditor.editRelation()
+    this._viewMode.setRelation()
+    setEditableStyle(this._editor, this._buttonStateHelper, true)
   }
 
   toViewTerm() {
-    super.emit(event.HIDE)
-    super.emit(event.CHANGE, false, TERM)
+    this._displayInstance.hide()
+    this._editor.eventEmitter.emit('textae.editMode.transition', false, TERM)
 
-    this.typeEditor.noEdit()
-    this.viewMode.setTerm()
-    setEditableStyle(this.editor, this.buttonStateHelper, false)
+    this._typeEditor.noEdit()
+    this._viewMode.setTerm()
+    setEditableStyle(this._editor, this._buttonStateHelper, false)
   }
 
   toViewInstance() {
-    super.emit(event.SHOW)
-    super.emit(event.CHANGE, false, INSTANCE)
+    this._displayInstance.show()
+    this._editor.eventEmitter.emit(
+      'textae.editMode.transition',
+      false,
+      INSTANCE
+    )
 
-    this.typeEditor.noEdit()
-    this.viewMode.setInstance()
-    setEditableStyle(this.editor, this.buttonStateHelper, false)
+    this._typeEditor.noEdit()
+    this._viewMode.setInstance()
+    setEditableStyle(this._editor, this._buttonStateHelper, false)
   }
 }

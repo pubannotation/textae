@@ -3,13 +3,16 @@ import EntityContainer from './EntityContainer'
 import Container from './Container'
 
 export default class {
-  constructor(annotationData) {
+  constructor(editor, annotationData) {
     this._lockStateObservable = new Observable(false)
     this._entityContainer = new EntityContainer(
+      editor,
       annotationData.entity,
       this._lockStateObservable
     )
     this._relationContainer = new Container(
+      editor,
+      'relation',
       () => annotationData.relation.all,
       this._lockStateObservable
     )

@@ -34,10 +34,13 @@ export default class {
     )
 
     // Bind annotationPosition Events.
-    annotationPosition.on('position-update.grid.end', (done) => {
-      relationRenderer.arrangePositionAll()
-      done()
-    })
+    editor.eventEmitter.on(
+      'textae.annotationPosition.position-update.grid.end',
+      (done) => {
+        relationRenderer.arrangePositionAll()
+        done()
+      }
+    )
 
     const debouncedUpdateAnnotationPosition = debounce(
       () => annotationPosition.updateAsync(typeGap()),
@@ -57,7 +60,7 @@ export default class {
       annotationPosition
     )
 
-    bindTypeDefinitionEvents(typeDefinition, entityRenderer, relationRenderer)
+    bindTypeDefinitionEvents(editor, entityRenderer, relationRenderer)
 
     this._editor = editor
     this._annotationData = annotationData

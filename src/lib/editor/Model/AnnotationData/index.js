@@ -5,10 +5,11 @@ import Container from './Container'
 export default class extends Container {
   constructor(editor) {
     super(editor)
+    this._editor = editor
   }
 
   reset(annotation) {
-    reset(this, annotation)
+    reset(this, this._editor, annotation)
   }
 
   toJson() {

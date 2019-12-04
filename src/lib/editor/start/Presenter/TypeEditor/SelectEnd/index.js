@@ -38,13 +38,10 @@ export default function(
   // Change spanEditor according to the  buttons state.
   changeSpanEditorAccordingToButtons()
 
-  pushButtons
-    .getButton('boundary-detection')
-    .on('change', changeSpanEditorAccordingToButtons)
-
-  pushButtons
-    .getButton('replicate-auto')
-    .on('change', changeSpanEditorAccordingToButtons)
+  editor.eventEmitter.on(
+    'textae.control.button.push',
+    changeSpanEditorAccordingToButtons
+  )
 
   return {
     onText(data) {

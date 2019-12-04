@@ -3,15 +3,16 @@ import EntityModel from './EntityModel'
 import mappingFunction from './mappingFunction'
 
 export default class extends ContatinerWithSubContainer {
-  constructor(editor, emitter) {
+  constructor(editor, emitter, parentContainer) {
     super(
       emitter,
+      parentContainer,
       'entity',
       (denotations) =>
         mappingFunction(
           editor,
-          emitter.attribute,
-          emitter.relation,
+          super.attributeContainer,
+          super.relationContainer,
           this.definedTypes,
           denotations
         ),

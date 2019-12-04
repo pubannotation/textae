@@ -1,5 +1,5 @@
-export default function(selectionModel, entitySelectChanged) {
-  selectionModel
-    .removeListener('entity.select', entitySelectChanged)
-    .removeListener('entity.deselect', entitySelectChanged)
+export default function(editor, entitySelectChanged) {
+  editor.eventEmitter
+    .removeListener('textae.selection.entity.select', entitySelectChanged)
+    .removeListener('textae.selection.entity.deselect', entitySelectChanged)
 }

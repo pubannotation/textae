@@ -1,4 +1,10 @@
-export default function setButtonState(buttonController, editable, mode) {
+import isView from './isView'
+import isTerm from './isTerm'
+import isRelation from './isRelation'
+import isSimple from './isSimple'
+import isSpanEdit from './isSpanEdit'
+
+export default function(buttonController, editable, mode) {
   buttonController.pushButtons.getButton('view').value(isView(editable))
   buttonController.pushButtons.getButton('term').value(isTerm(editable, mode))
   buttonController.pushButtons.getButton('relation').value(isRelation(mode))
@@ -14,24 +20,4 @@ export default function setButtonState(buttonController, editable, mode) {
   )
   buttonController.buttonStateHelper.enabled('line-height', editable)
   buttonController.buttonStateHelper.enabled('pallet', !isView(editable))
-}
-
-function isView(editable) {
-  return !editable
-}
-
-function isTerm(editable, mode) {
-  return editable && (mode === 'term' || mode === 'instance')
-}
-
-function isRelation(mode) {
-  return mode === 'relation'
-}
-
-function isSimple(mode) {
-  return mode === 'term'
-}
-
-function isSpanEdit(editable, mode) {
-  return editable && mode !== 'relation'
 }

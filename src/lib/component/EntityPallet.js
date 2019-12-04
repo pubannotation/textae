@@ -13,7 +13,7 @@ export default class extends Pallet {
     this._typeContainer = typeDefinition.entity
 
     // Bind user events to the event emitter.
-    bindUserEvents(this)
+    bindUserEvents(this._el, editor.eventEmitter, 'entity')
   }
 
   get _content() {

@@ -1,16 +1,13 @@
-import { EventEmitter } from 'events'
-
-export default function() {
+export default function(editor) {
   const states = {}
-  const eventEmitter = new EventEmitter()
   const mixin = {
     set(button, isTransit) {
       states[button] = isTransit
     },
     propagate() {
-      eventEmitter.emit('change', states)
+      editor.eventEmitter.emit('textae.control.buttons.transit', states)
     }
   }
 
-  return Object.assign(eventEmitter, mixin)
+  return mixin
 }

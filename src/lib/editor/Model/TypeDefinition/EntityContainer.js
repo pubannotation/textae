@@ -1,8 +1,14 @@
 import Container from './Container'
 
 export default class extends Container {
-  constructor(annotationDataEntity, lockStateObservable) {
-    super(() => annotationDataEntity.all, lockStateObservable, '#77DDDD')
+  constructor(editor, annotationDataEntity, lockStateObservable) {
+    super(
+      editor,
+      'entity',
+      () => annotationDataEntity.all,
+      lockStateObservable,
+      '#77DDDD'
+    )
     this._annotationDataEntity = annotationDataEntity
   }
 

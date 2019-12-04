@@ -13,7 +13,7 @@ export default function(el, editedData, api, closeDialog) {
   )
   delegate(el, 'a.viewsource', 'click', () => {
     window.open(createDownloadPath(JSON.stringify(editedData)), '_blank')
-    api.emit('annotation.save')
+    api.emit('texta.dataAccessObject.annotation.save')
     closeDialog()
   })
 }

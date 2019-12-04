@@ -1,16 +1,16 @@
 import toastr from 'toastr'
 
-export default function(dataAccessObject, history) {
-  dataAccessObject
-    .on('annotation.save', () => {
+export default function(editor, history) {
+  editor.eventEmitter
+    .on('texta.dataAccessObject.annotation.save', () => {
       history.annotatioSaved()
       toastr.success('annotation saved')
     })
-    .on('configuration.save', () => {
+    .on('texta.dataAccessObject.configuration.save', () => {
       history.configurationSaved()
       toastr.success('configuration saved')
     })
-    .on('save error', () => {
+    .on('texta.dataAccessObject.saveError', () => {
       toastr.error('could not save')
     })
 }

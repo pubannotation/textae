@@ -1,7 +1,5 @@
-import { EventEmitter } from 'events'
 import Transition from './Transition'
 import bindTransition from './bindTransition'
-import event from './event'
 import Trigger from './Trigger'
 import enableButtonHasAnnotation from './enableButtonHasAnnotation'
 
@@ -10,15 +8,16 @@ export default function(
   annotationData,
   selectionModel,
   typeEditor,
-  buttonStateHelper
+  buttonStateHelper,
+  displayInstance
 ) {
-  const emitter = new EventEmitter()
   const transition = new Transition(
     editor,
     annotationData,
     selectionModel,
     typeEditor,
-    buttonStateHelper
+    buttonStateHelper,
+    displayInstance
   )
   const stateMachine = bindTransition(transition)
   const trigger = new Trigger(stateMachine, annotationData)
@@ -27,15 +26,5 @@ export default function(
     enableButtonHasAnnotation(buttonStateHelper)
   )
 
-  transition
-    .on(event.SHOW, () => emitter.emit(event.SHOW))
-    .on(event.HIDE, () => emitter.emit(event.HIDE))
-    .on(event.CHANGE, () => typeEditor.cancelSelect())
-    .on(event.CHANGE, (editable, mode) =>
-      emitter.emit(event.CHANGE, editable, mode)
-    )
-
-  Object.assign(emitter, trigger)
-
-  return emitter
+  return trigger
 }
