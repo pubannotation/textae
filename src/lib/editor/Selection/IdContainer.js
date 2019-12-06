@@ -4,17 +4,42 @@ import toggle from './toggle'
 import remove from './remove'
 import clear from './clear'
 
-export default function(emitter, kindName) {
-  const selected = new Set()
+export default class {
+  constructor(emitter, kindName) {
+    this._emitter = emitter
+    this._kindName = kindName
+    this._selected = new Set()
+  }
 
-  return {
-    add: (id) => add(selected, emitter, kindName, id),
-    all: () => Array.from(selected.values()),
-    has: (id) => selected.has(id),
-    some: () => selected.size > 0,
-    single: () => single(selected),
-    toggle: (id) => toggle(selected, emitter, kindName, id),
-    remove: (id) => remove(selected, emitter, kindName, id),
-    clear: () => clear(selected, emitter, kindName)
+  add(id) {
+    add(this._selected, this._emitter, this._kindName, id)
+  }
+
+  all() {
+    return Array.from(this._selected.values())
+  }
+
+  has(id) {
+    return this._selected.has(id)
+  }
+
+  some() {
+    return this._selected.size > 0
+  }
+
+  single() {
+    return single(this._selected)
+  }
+
+  toggle(id) {
+    toggle(this._selected, this._emitter, this._kindName, id)
+  }
+
+  remove(id) {
+    remove(this._selected, this._emitter, this._kindName, id)
+  }
+
+  clear() {
+    clear(this._selected, this._emitter, this._kindName)
   }
 }
