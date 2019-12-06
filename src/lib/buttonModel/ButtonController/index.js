@@ -3,30 +3,35 @@ import ButtonEnableStates from './ButtonEnableStates'
 import ButtonTransitStates from './ButtonTransitStates'
 import ButtonStateHelper from './ButtonStateHelper'
 
-export default function(editor, annotationData, selectionModel, clipBoard) {
-  // Save state of push control buttons.
-  const pushButtons = new PushButtons(editor, annotationData)
+export default class {
+  constructor(editor, annotationData, selectionModel, clipBoard) {
+    // Save state of push control buttons.
+    this._pushButtons = new PushButtons(editor, annotationData)
 
-  // Save enable/disable state of contorol buttons.
-  const buttonEnableStates = new ButtonEnableStates(
-    editor,
-    selectionModel,
-    clipBoard
-  )
+    // Save enable/disable state of contorol buttons.
+    const buttonEnableStates = new ButtonEnableStates(
+      editor,
+      selectionModel,
+      clipBoard
+    )
 
-  // Toggle class to transit icon image.
-  const buttonTransitStates = new ButtonTransitStates(editor)
+    // Toggle class to transit icon image.
+    const buttonTransitStates = new ButtonTransitStates(editor)
 
-  // Helper to update button state.
-  const buttonStateHelper = new ButtonStateHelper(
-    buttonEnableStates,
-    buttonTransitStates,
-    pushButtons,
-    selectionModel
-  )
+    // Helper to update button state.
+    this._buttonStateHelper = new ButtonStateHelper(
+      buttonEnableStates,
+      buttonTransitStates,
+      this._pushButtons,
+      selectionModel
+    )
+  }
 
-  return {
-    pushButtons,
-    buttonStateHelper
+  get pushButtons() {
+    return this._pushButtons
+  }
+
+  get buttonStateHelper() {
+    return this._buttonStateHelper
   }
 }

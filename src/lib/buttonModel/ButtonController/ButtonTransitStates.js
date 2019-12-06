@@ -1,13 +1,17 @@
-export default function(editor) {
-  const states = {}
-  const mixin = {
-    set(button, isTransit) {
-      states[button] = isTransit
-    },
-    propagate() {
-      editor.eventEmitter.emit('textae.control.buttons.transit', states)
-    }
+export default class {
+  constructor(editor) {
+    this._editor = editor
+    this._states = {}
   }
 
-  return mixin
+  set(button, isTransit) {
+    this._states[button] = isTransit
+  }
+
+  propagate() {
+    this._editor.eventEmitter.emit(
+      'textae.control.buttons.transit',
+      this._states
+    )
+  }
 }
