@@ -1,7 +1,7 @@
 import setNewData from './setNewData'
-import toastr from 'toastr'
+import clearAnnotationData from './clearAnnotationData'
 
-export default function reset(dataStore, editor, annotation) {
+export default function(dataStore, editor, annotation) {
   console.assert(annotation.text, 'This is not a json file of anntations.')
 
   clearAnnotationData(dataStore)
@@ -18,14 +18,4 @@ export default function reset(dataStore, editor, annotation) {
   )
 
   return null
-}
-
-function clearAnnotationData(dataStore) {
-  dataStore.span.clear()
-  dataStore.entity.clear()
-  dataStore.attribute.clear()
-  dataStore.relation.clear()
-  dataStore.modification.clear()
-  dataStore.paragraph.clear()
-  dataStore.namespace.clear()
 }
