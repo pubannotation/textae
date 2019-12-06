@@ -1,7 +1,7 @@
 import getConfig from './getConfig'
 
 export default class DefinedTypeContainer {
-  constructor(values = []) {
+  constructor(values) {
     // expected values is an array of object. example of object is {"id": "Regulation","color": "#FFFF66","default": true}.
     this._map = values.reduce((acc, cur) => acc.set(cur.id, cur), new Map())
   }

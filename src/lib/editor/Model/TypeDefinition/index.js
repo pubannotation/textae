@@ -33,16 +33,18 @@ export default class {
     return this._entityContainer
   }
 
-  setDefinedEntityTypes(newDefinedTypes) {
-    this._entityContainer.definedTypes = newDefinedTypes
+  setTypeConfig(config) {
+    if (config) {
+      this._entityContainer.definedTypes = config['entity types'] || []
+      this._relationContainer.definedTypes = config['relation types'] || []
+    } else {
+      this._entityContainer.definedTypes = []
+      this._relationContainer.definedTypes = []
+    }
   }
 
   get relation() {
     return this._relationContainer
-  }
-
-  setDefinedRelationTypes(newDefinedTypes) {
-    this._relationContainer.definedTypes = newDefinedTypes
   }
 
   get config() {

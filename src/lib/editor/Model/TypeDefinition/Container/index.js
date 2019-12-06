@@ -25,7 +25,7 @@ export default class {
     )
   }
 
-  set definedTypes(value = []) {
+  set definedTypes(value) {
     this._definedTypes = new DefinedTypeContainer(value)
 
     this._editor.eventEmitter.emit(

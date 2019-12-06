@@ -12,7 +12,7 @@ export default class extends Container {
     this._annotationDataEntity = annotationDataEntity
   }
 
-  set definedTypes(value = []) {
+  set definedTypes(value) {
     super.definedTypes = value
     this._annotationDataEntity.definedTypes = this.definedTypes
   }
