@@ -3,7 +3,6 @@ import EditMode from './EditMode'
 import DisplayInstance from './DisplayInstance'
 import bindModelChange from './bindModelChange'
 import createEventMap from './createEventMap'
-import setButtonState from './setButtonState'
 
 export default class {
   constructor(
@@ -44,7 +43,7 @@ export default class {
 
     editor.eventEmitter.on('textae.editMode.transition', (editable, mode) => {
       typeEditor.cancelSelect()
-      setButtonState(buttonController, editable, mode)
+      buttonController.setButtonState(editable, mode)
     })
 
     bindModelChange(editor, editMode, mode)

@@ -2,6 +2,7 @@ import PushButtons from './PushButtons'
 import ButtonEnableStates from './ButtonEnableStates'
 import ButtonTransitStates from './ButtonTransitStates'
 import ButtonStateHelper from './ButtonStateHelper'
+import setButtonState from './setButtonState'
 
 export default class {
   constructor(editor, annotationData, selectionModel, clipBoard) {
@@ -33,5 +34,9 @@ export default class {
 
   get buttonStateHelper() {
     return this._buttonStateHelper
+  }
+
+  setButtonState(editable, mode) {
+    setButtonState(this, editable, mode)
   }
 }
