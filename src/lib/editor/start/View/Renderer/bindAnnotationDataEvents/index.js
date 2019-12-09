@@ -66,6 +66,15 @@ export default function(
     .on('textae.annotationData.relation.remove', (relation) => {
       relationRenderer.remove(relation)
     })
+    .on('textae.annotationData.attribute.add', (attribute) => {
+      entityRenderer.change(attribute.entity)
+    })
+    .on('textae.annotationData.attribute.change', (attribute) => {
+      entityRenderer.change(attribute.entity)
+    })
+    .on('textae.annotationData.attribute.remove', (attribute) => {
+      entityRenderer.change(attribute.entity)
+    })
     .on('textae.annotationData.modification.add', (modification) => {
       renderModificationOfEntityOrRelation(
         annotationData,

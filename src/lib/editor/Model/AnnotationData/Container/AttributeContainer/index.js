@@ -13,7 +13,7 @@ export default class extends ContatinerWithSubContainer {
     return super.add(
       new AttributeModel(attribute, super.entityContainer),
       (attribute) =>
-        super._emit('textae.annotationData.entity.change', attribute.entity)
+        super._emit('textae.annotationData.attribute.add', attribute)
     )
   }
 
@@ -28,8 +28,7 @@ export default class extends ContatinerWithSubContainer {
       model.obj = newObj
     }
 
-    super._emit(`textae.annotationData.${this.name}.change`, model)
-    super._emit('textae.annotationData.entity.change', model.entity)
+    super._emit(`textae.annotationData.attribute.change`, model)
 
     return model
   }
@@ -39,7 +38,7 @@ export default class extends ContatinerWithSubContainer {
 
     console.assert(instance, `There are no attribute ${id} to delete!`)
 
-    super._emit('textae.annotationData.entity.change', instance.entity)
+    super._emit('textae.annotationData.attribute.remove', instance)
 
     return instance
   }

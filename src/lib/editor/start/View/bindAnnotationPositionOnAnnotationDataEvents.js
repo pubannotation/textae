@@ -21,6 +21,15 @@ export default function(editor, annotationPosition, typeGap) {
     .on('textae.annotationData.relation.add', () => {
       debouncedUpdateAnnotationPosition()
     })
+    .on('textae.annotationData.attribute.add', () => {
+      debouncedUpdateAnnotationPosition()
+    })
+    .on('textae.annotationData.attribute.change', () => {
+      debouncedUpdateAnnotationPosition()
+    })
+    .on('textae.annotationData.attribute.remove', () => {
+      debouncedUpdateAnnotationPosition()
+    })
     .on('textae.annotationData.span.move', () => {
       // Move grids and relations synchronously.
       // If grid and relations move asynchronously,
