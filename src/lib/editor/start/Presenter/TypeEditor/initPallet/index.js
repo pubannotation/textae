@@ -57,7 +57,7 @@ export default function(
 
       commander.invoke(handler.removeType(id, label))
     })
-    .on('textae.pallet.close', () => pallet.hide()) // Close pallet when selecting other editor.
+    .on('textae.editor.unselect', () => pallet.hide()) // Close pallet when selecting other editor.
     .on('textae.history.change', () => pallet.updateDisplay()) // Update save config button when changing history and savigng configuration.
     .on('textae.dataAccessObject.configuration.save', () =>
       pallet.updateDisplay()
