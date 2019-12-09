@@ -2,7 +2,7 @@ import IdContainer from './IdContainer'
 import modelToId from '../modelToId'
 import getPaneDomOfType from '../getPaneDomOfType'
 
-const kinds = ['span', 'entity', 'attribute', 'relation']
+const kinds = ['span', 'entity', 'relation']
 
 export default class {
   constructor(eventEmitter) {

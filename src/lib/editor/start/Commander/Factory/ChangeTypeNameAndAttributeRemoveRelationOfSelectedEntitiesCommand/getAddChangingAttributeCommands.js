@@ -27,7 +27,7 @@ export default function(
                 annotationData,
                 selectionModel,
                 'attribute',
-                true,
+                false,
                 {
                   subj,
                   obj,
