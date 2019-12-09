@@ -6,13 +6,13 @@ const kinds = ['span', 'entity', 'attribute', 'relation']
 
 export default class {
   constructor(eventEmitter) {
-    this.map = new Map(
+    this._map = new Map(
       kinds.map((kindName) => [
         kindName,
         new IdContainer(eventEmitter, kindName)
       ])
     )
-    this.map.forEach((container, name) => {
+    this._map.forEach((container, name) => {
       this[name] = container
     })
 
@@ -37,15 +37,35 @@ export default class {
       eventEmitter.on(eventHandler[0], eventHandler[1])
     }
   }
-  clear() {
-    this.map.forEach((c) => c.clear())
-  }
-  some() {
-    return Array.from(this.map.values()).reduce((a, b) => a || b.some(), false)
-  }
+
   add(modelType, id) {
     console.assert(this[modelType])
     this[modelType].add(id)
+  }
+
+  some() {
+    return Array.from(this._map.values()).reduce((a, b) => a || b.some(), false)
+  }
+
+  clear() {
+    this._map.forEach((c) => c.clear())
+  }
+
+  selectSpan(dom, isMulti) {
+    if (dom) {
+      if (isMulti) {
+        this.span.add(dom.id)
+      } else {
+        this.selectSingleSpanById(dom.id)
+      }
+    }
+  }
+
+  selectSingleSpanById(spanId) {
+    if (spanId) {
+      this.clear()
+      this.span.add(spanId)
+    }
   }
 
   /**
@@ -64,6 +84,8 @@ export default class {
       this.entity.add(dom.title)
     }
   }
+
+  // Select all entities in the label
   selectEntityLabel(dom, isMulti) {
     if (dom) {
       const pane = getPaneDomOfType(dom)
@@ -74,21 +96,6 @@ export default class {
       }
 
       this.entity.add(Array.from(allEntityOflabels).map((dom) => dom.title))
-    }
-  }
-  selectSingleSpanById(spanId) {
-    if (spanId) {
-      this.clear()
-      this.span.add(spanId)
-    }
-  }
-  selectSpan(dom, isMulti) {
-    if (dom) {
-      if (isMulti) {
-        this.span.add(dom.id)
-      } else {
-        this.selectSingleSpanById(dom.id)
-      }
     }
   }
 }
