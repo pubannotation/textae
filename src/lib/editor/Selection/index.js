@@ -43,8 +43,8 @@ export default class {
     this[modelType].add(id)
   }
 
-  some() {
-    return Array.from(this._map.values()).reduce((a, b) => a || b.some(), false)
+  get some() {
+    return Array.from(this._map.values()).reduce((a, b) => a || b.some, false)
   }
 
   clear() {

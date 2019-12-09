@@ -36,9 +36,9 @@ export default class {
   }
 
   updateModificationButtons(selectionModel) {
-    const modifications = selectionModel
-      .all()
-      .map((e) => this._annotationData.getModificationOf(e).map((m) => m.pred))
+    const modifications = selectionModel.all.map((e) =>
+      this._annotationData.getModificationOf(e).map((m) => m.pred)
+    )
 
     updateModificationButton(this, 'Negation', modifications)
     updateModificationButton(this, 'Speculation', modifications)

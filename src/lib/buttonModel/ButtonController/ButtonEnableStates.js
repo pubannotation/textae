@@ -6,7 +6,7 @@ export default class {
     // Short cut name
     const hasCopy = () => clipBoard.clipBoard.length > 0
     const eOrR = () =>
-      selectionModel.entity.some() || selectionModel.relation.some()
+      selectionModel.entity.some || selectionModel.relation.some
 
     // Check all associated anntation elements.
     // For exapmle, it should be that buttons associate with entitis is enable,
@@ -36,13 +36,13 @@ export default class {
 function createPredicates(selectionModel, hasCopy, eOrR) {
   return new Map([
     ['replicate', () => Boolean(selectionModel.span.single())],
-    ['entity', () => selectionModel.span.some()],
-    ['delete', () => selectionModel.some()],
-    ['copy', () => selectionModel.span.some() || selectionModel.entity.some()],
-    ['paste', () => hasCopy() && selectionModel.span.some()],
+    ['entity', () => selectionModel.span.some],
+    ['delete', () => selectionModel.some],
+    ['copy', () => selectionModel.span.some || selectionModel.entity.some],
+    ['paste', () => hasCopy() && selectionModel.span.some],
     ['change-label', eOrR],
     ['negation', eOrR],
     ['speculation', eOrR],
-    ['attribute', () => selectionModel.entity.some()]
+    ['attribute', () => selectionModel.entity.some]
   ])
 }

@@ -5,9 +5,9 @@ export default class extends CompositeCommand {
   constructor(editor, annotationData, selectionModel, newType) {
     super()
 
-    const selectedElements = selectionModel.relation
-      .all()
-      .filter((id) => annotationData.relation.get(id).type.name !== newType)
+    const selectedElements = selectionModel.relation.all.filter(
+      (id) => annotationData.relation.get(id).type.name !== newType
+    )
 
     this._subCommands = selectedElements.map(
       (id) =>

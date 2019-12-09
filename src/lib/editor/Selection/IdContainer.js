@@ -15,15 +15,15 @@ export default class {
     add(this._selected, this._emitter, this._kindName, id)
   }
 
-  all() {
-    return Array.from(this._selected.values())
-  }
-
   has(id) {
     return this._selected.has(id)
   }
 
-  some() {
+  get all() {
+    return Array.from(this._selected.values())
+  }
+
+  get some() {
     return this._selected.size > 0
   }
 

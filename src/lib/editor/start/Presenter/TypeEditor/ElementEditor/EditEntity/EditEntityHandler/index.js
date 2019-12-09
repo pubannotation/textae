@@ -24,7 +24,7 @@ export default class extends DefaultHandler {
   changeLabelHandler(autocompletionWs) {
     if (this.getSelectedIdEditable().length > 0) {
       const type = mergeTypes(
-        this.selectionModel.all().map((id) => this.annotationData.get(id).type)
+        this.selectionModel.all.map((id) => this.annotationData.get(id).type)
       )
       const done = (typeName, label, attributes) => {
         const commands = this.commander.factory.changeEntityTypeCommand(

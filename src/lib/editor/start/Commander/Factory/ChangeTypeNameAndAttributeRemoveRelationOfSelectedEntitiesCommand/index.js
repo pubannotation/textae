@@ -15,14 +15,12 @@ export default class extends CompositeCommand {
     super()
 
     // Get only entities with changes.
-    const entitiesWithChange = selectionModel.entity
-      .all()
-      .filter(
-        (entityId) =>
-          !annotationData.entity
-            .get(entityId)
-            .sameType(newTypeName, newAttributes)
-      )
+    const entitiesWithChange = selectionModel.entity.all.filter(
+      (entityId) =>
+        !annotationData.entity
+          .get(entityId)
+          .sameType(newTypeName, newAttributes)
+    )
 
     // Change type of entities.
     const changeTypeCommands = entitiesWithChange.map(

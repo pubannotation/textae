@@ -5,7 +5,7 @@ export default function(clipBoard, selectionModel, annotationData) {
   clipBoard.clipBoard = [
     ...new Set(
       getSelectedSpansEntities(selectionModel, annotationData).concat(
-        selectionModel.entity.all()
+        selectionModel.entity.all
       )
     )
   ].map(

@@ -5,7 +5,7 @@ export default class extends CompositeCommand {
   constructor(editor, annotationData, selectionModel) {
     super()
 
-    const entities = selectionModel.entity.all()
+    const entities = selectionModel.entity.all
     const pred = 'some_predicate'
     const obj = 'some_value'
 

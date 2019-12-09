@@ -6,7 +6,7 @@ export default function entityClickedAtRelationMode(
   typeDefinition,
   e
 ) {
-  if (!selectionModel.entity.some()) {
+  if (!selectionModel.entity.some) {
     selectionModel.clear()
     selectionModel.entity.add($(e.target).attr('title'))
   } else {
@@ -18,7 +18,7 @@ export default function entityClickedAtRelationMode(
 
 function onSelectObjectEntity(selectionModel, commander, typeDefinition, e) {
   // Cannot make a self reference relation.
-  const subjectEntityId = selectionModel.entity.all()[0]
+  const subjectEntityId = selectionModel.entity.all[0]
   const objectEntityId = $(e.target).attr('title')
 
   if (subjectEntityId === objectEntityId) {
