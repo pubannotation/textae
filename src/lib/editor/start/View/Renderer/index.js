@@ -1,7 +1,6 @@
 import getDomPositionCache from '../getDomPositionCache'
 import GridRenderer from './GridRenderer'
 import EntityRenderer from './EntityRenderer'
-import debounce from 'debounce'
 import bindTypeDefinitionEvents from './bindTypeDefinitionEvents'
 import bindAnnotationDataEvents from './bindAnnotationDataEvents'
 import RelationRenderer from './RelationRenderer'
@@ -13,8 +12,7 @@ export default class {
     selectionModel,
     buttonStateHelper,
     typeDefinition,
-    typeGap,
-    annotationPosition
+    typeGap
   ) {
     const domPositionCache = getDomPositionCache(editor, annotationData.entity)
     const gridRenderer = new GridRenderer(editor, domPositionCache)
@@ -26,45 +24,36 @@ export default class {
       gridRenderer,
       typeGap
     )
-    const relationRenderer = new RelationRenderer(
+    this._relationRenderer = new RelationRenderer(
       editor,
       annotationData,
       selectionModel,
       typeDefinition
     )
 
-    // Bind annotationPosition Events.
-    editor.eventEmitter.on(
-      'textae.annotationPosition.position-update.grid.end',
-      (done) => {
-        relationRenderer.arrangePositionAll()
-        done()
-      }
-    )
-
-    const debouncedUpdateAnnotationPosition = debounce(
-      () => annotationPosition.updateAsync(typeGap()),
-      100
-    )
-
     bindAnnotationDataEvents(
       annotationData,
       editor,
       domPositionCache,
-      relationRenderer,
+      this._relationRenderer,
       typeGap,
-      debouncedUpdateAnnotationPosition,
       gridRenderer,
       entityRenderer,
-      buttonStateHelper,
-      annotationPosition
+      buttonStateHelper
     )
 
-    bindTypeDefinitionEvents(editor, entityRenderer, relationRenderer)
+    bindTypeDefinitionEvents(editor, entityRenderer, this._relationRenderer)
 
     this._editor = editor
     this._annotationData = annotationData
     this._typeDefinition = typeDefinition
     this._typeGap = typeGap
+  }
+
+  arrangeRelationPositionAllAsync() {
+    return new Promise((resolve, reject) => {
+      this._relationRenderer.arrangePositionAll()
+      resolve()
+    })
   }
 }

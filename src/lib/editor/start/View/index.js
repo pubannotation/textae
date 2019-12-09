@@ -7,6 +7,7 @@ import updateTextBoxHeight from './updateTextBoxHeight'
 import bindTypeGapEvents from './bindTypeGapEvents'
 import bindAnnotaitonPositionEvents from './bindAnnotaitonPositionEvents'
 import Renderer from './Renderer'
+import bindAnnotationPositionOnAnnotationDataEvents from './bindAnnotationPositionOnAnnotationDataEvents'
 
 const BODY = `
 <div class="textae-editor__body">
@@ -35,19 +36,26 @@ export default class {
       buttonStateHelper
     )
 
-    const annotationPosition = new AnnotationPosition(editor, annotationData)
-    bindTypeGapEvents(typeGap, editor, annotationData, annotationPosition)
-    bindAnnotaitonPositionEvents(editor, new CursorChanger(editor))
-
-    new Renderer(
+    const renderer = new Renderer(
       editor,
       annotationData,
       selectionModel,
       buttonStateHelper,
       typeDefinition,
-      typeGap,
-      annotationPosition
+      typeGap
     )
+    const annotationPosition = new AnnotationPosition(
+      editor,
+      annotationData,
+      renderer
+    )
+    bindTypeGapEvents(typeGap, editor, annotationData, annotationPosition)
+    bindAnnotationPositionOnAnnotationDataEvents(
+      editor,
+      annotationPosition,
+      typeGap
+    )
+    bindAnnotaitonPositionEvents(editor, new CursorChanger(editor))
 
     this._hoverRelation = new Hover(editor, annotationData.entity)
     this._editor = editor
