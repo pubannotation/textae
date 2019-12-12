@@ -1,5 +1,5 @@
 import toButtonClass from './toButtonClass'
 
-export default function($control, buttonType) {
-  return $control.find(toButtonClass(buttonType))
+export default function(el, buttonType) {
+  return el.querySelector(toButtonClass(buttonType))
 }

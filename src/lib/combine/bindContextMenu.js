@@ -1,6 +1,6 @@
-export default function(editor, contextMenu, handleControlButtonClick) {
+export default function(editor, contextMenu) {
   // add context menu
-  editor[0].appendChild(contextMenu[0])
+  editor[0].appendChild(contextMenu.el)
   editor.eventEmitter
     .on('textae.control.button.push', (data) =>
       contextMenu.updateButtonPushState(data.buttonName, data.state)
@@ -9,15 +9,6 @@ export default function(editor, contextMenu, handleControlButtonClick) {
       contextMenu.updateAllButtonEnableState(enableButtons)
     )
     .on('textae.key.input', () => contextMenu.hide())
-
-  contextMenu.$control.on('textae.control.button.click', (e, ...rest) =>
-    handleControlButtonClick(...rest)
-  )
-
-  contextMenu[0].addEventListener('mousedown', (e) => {
-    // Should prevent because mousedown events bubble to the editor.
-    e.preventDefault()
-  })
 
   // Close ContextMenu when another editor is clicked
   window.addEventListener('click', (e) => {

@@ -1,74 +1,69 @@
-import $ from 'jquery'
-import push from '../push'
-import unpush from '../unpush'
 import BUTTON_MAP from '../buttonMap'
 import makeButtons from './makeButtons'
 import toButtonList from '../toButtonList'
-import updateButtons from '../updateButtons'
+import bindEventHandler from '../bindEventHandler'
+import updateButtonPushState from '../updateButtonPushState'
+import updateAllButtonEnableState from '../updateAllButtonEnableState'
 
 export default class {
-  constructor(editor) {
-    this.editor = editor[0]
-    this.className = 'textae-context-menu'
-    this.buttonList = toButtonList(BUTTON_MAP)
+  constructor(editor, eventEmitter) {
+    this._editor = editor[0]
+    this._className = 'textae-context-menu'
+    this._buttonList = toButtonList(BUTTON_MAP)
     // Buttons that always enable.
-    this.ALWAYS_ENABLES = {
+    this._ALWAYS_ENABLES = {
       read: true,
       write: true,
       help: true
     }
-    this[0] = this.create()
-    this.$control = $(this[0])
+
+    this.el = this.create()
+
+    bindEventHandler(this.el, eventEmitter)
   }
+
   create() {
     const div = document.createElement('div')
     div.classList.add('textae-control')
-    div.classList.add(this.className)
+    div.classList.add(this._className)
     makeButtons(div, BUTTON_MAP)
 
     return div
   }
+
   show(positionTop, positionLeft) {
     const menuNode = this.getContextMenuNode()
     menuNode.setAttribute(
       'style',
       `top: ${positionTop}px; left: ${positionLeft}px`
     )
-    menuNode.classList.remove(`${this.className}--hide`)
-    menuNode.classList.add(`${this.className}--show`)
+    menuNode.classList.remove(`${this._className}--hide`)
+    menuNode.classList.add(`${this._className}--show`)
   }
+
   hide() {
     if (this.isOpen()) {
       const menuNode = this.getContextMenuNode()
-      menuNode.classList.remove(`${this.className}--show`)
-      menuNode.classList.add(`${this.className}--hide`)
+      menuNode.classList.remove(`${this._className}--show`)
+      menuNode.classList.add(`${this._className}--hide`)
     }
   }
+
   isOpen() {
     return this.getContextMenuNode().classList.contains(
-      `${this.className}--show`
+      `${this._className}--show`
     )
   }
-  updateAllButtonEnableState(enableButtons) {
-    // Make buttons in a enableButtons enabled, and other buttons in the buttonList disabled.
-    const enables = Object.assign(
-      {},
-      this.buttonList,
-      this.ALWAYS_ENABLES,
-      enableButtons
-    )
 
-    // A function to enable/disable button.
-    updateButtons(this.$control, this.buttonList, enables)
+  updateAllButtonEnableState(enableButtons) {
+    updateAllButtonEnableState(this.el, this._buttonList, enableButtons)
   }
+
   updateButtonPushState(buttonType, isPushed) {
-    if (isPushed) {
-      push(this.$control, buttonType)
-    } else {
-      unpush(this.$control, buttonType)
-    }
+    updateButtonPushState(this.el, buttonType, isPushed)
   }
+
   getContextMenuNode() {
-    return this.editor.querySelector(`.${this.className}`)
+    return this._editor.querySelector(`.${this._className}`)
   }
 }

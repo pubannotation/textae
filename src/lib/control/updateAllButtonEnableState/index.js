@@ -1,4 +1,4 @@
-import updateButtons from '../updateButtons'
+import updateButtons from './updateButtons'
 
 // Buttons that always eanable.
 const ALWAYS_ENABLES = {
@@ -7,9 +7,9 @@ const ALWAYS_ENABLES = {
   help: true
 }
 
-export default function($control, buttonList, enableButtons) {
+export default function(el, buttonList, enableButtons) {
   // Make buttons in a enableButtons enabled, and other buttons in the buttonList disabled.
   const enables = Object.assign({}, buttonList, enableButtons, ALWAYS_ENABLES)
   // A function to enable/disable button.
-  updateButtons($control, buttonList, enables)
+  updateButtons(el, buttonList, enables)
 }

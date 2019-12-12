@@ -17,6 +17,6 @@ export default function() {
     // Start an editor
     e.api.start(e)
     // Combine a controle to an editor
-    combine(e, controlBar(), new ContextMenu(e))
+    combine(e, controlBar(e.eventEmitter), new ContextMenu(e, e.eventEmitter))
   }
 }
