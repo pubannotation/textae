@@ -4,16 +4,16 @@ import IconApiMap from './IconApiMap'
 import PalletApiMap from './PalletApiMap'
 
 export default function(
-  command,
+  commander,
   presenter,
   persistenceInterface,
   buttonController,
   view,
   updateLineHeight
 ) {
-  const keyApiMap = new KeyApiMap(command, presenter, persistenceInterface)
+  const keyApiMap = new KeyApiMap(commander, presenter, persistenceInterface)
   const iconApiMap = new IconApiMap(
-    command,
+    commander,
     presenter,
     persistenceInterface,
     buttonController,

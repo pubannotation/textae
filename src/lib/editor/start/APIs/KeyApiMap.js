@@ -1,6 +1,6 @@
-export default function(command, presenter, persistenceInterface) {
+export default function(commander, presenter, persistenceInterface) {
   return new Map([
-    ['a', command.redo],
+    ['a', commander.redo],
     ['b', presenter.event.toggleDetectBoundaryMode],
     ['c', presenter.event.copyEntities],
     ['d', presenter.event.removeSelectedElements],
@@ -16,8 +16,8 @@ export default function(command, presenter, persistenceInterface) {
     ['v', presenter.event.pasteEntities],
     ['w', presenter.event.changeLabel],
     ['x', presenter.event.negation],
-    ['y', command.redo],
-    ['z', command.undo],
+    ['y', commander.redo],
+    ['z', commander.undo],
     ['ArrowDown', presenter.event.selectDown],
     ['ArrowLeft', presenter.event.selectLeft],
     ['ArrowRight', presenter.event.selectRight],

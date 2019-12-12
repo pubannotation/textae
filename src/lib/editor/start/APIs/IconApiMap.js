@@ -1,5 +1,5 @@
 export default function(
-  command,
+  commander,
   presenter,
   persistenceInterface,
   buttonController,
@@ -18,8 +18,8 @@ export default function(
       'textae.control.button.write.click',
       () => persistenceInterface.uploadAnnotation()
     ],
-    ['textae.control.button.undo.click', command.undo],
-    ['textae.control.button.redo.click', command.redo],
+    ['textae.control.button.undo.click', commander.undo],
+    ['textae.control.button.redo.click', commander.redo],
     ['textae.control.button.replicate.click', presenter.event.replicate],
     [
       'textae.control.button.replicate_auto.click',
