@@ -1,5 +1,5 @@
 import EditorDialog from '../dialog/EditorDialog'
-import toDomEelement from '../toDomEelement'
+import toDomEelement from '../../toDomEelement'
 import template from './template'
 import observeEnterKeyPress from './observeEnterKeyPress'
 import setSourceOfAutoComplete from './setSourceOfAutoComplete'

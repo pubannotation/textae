@@ -1,4 +1,4 @@
-import toDomElement from '../../../../../toDomEelement'
+import toDomElement from '../../../../../../toDomEelement'
 import getDialog from './getDialog'
 import bind from './bind'
 

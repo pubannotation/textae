@@ -2,7 +2,7 @@ import Handlebars from 'handlebars'
 import delegate from 'delegate'
 import getDialog from './getDialog'
 import $ from 'jquery'
-import toDomEelement from '../toDomEelement'
+import toDomEelement from '../../toDomEelement'
 import CONFIRM_DISCARD_CHANGE_MESSAGE from '../../editor/CONFIRM_DISCARD_CHANGE_MESSAGE'
 import makeDomEnabled from '../makeDomEnabled'
 
