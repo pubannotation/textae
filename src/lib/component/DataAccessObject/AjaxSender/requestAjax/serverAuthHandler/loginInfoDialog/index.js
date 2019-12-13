@@ -1,4 +1,4 @@
-import toDomElement from '../../../../../../toDomEelement'
+import dohtml from 'dohtml'
 import getDialog from './getDialog'
 import bind from './bind'
 
@@ -24,7 +24,7 @@ const html = `
 `
 
 export default function(loginUrl) {
-  const el = toDomElement(html)
+  const el = dohtml.create(html)
   const $dialog = getDialog(el)
 
   bind(el, $dialog, loginUrl)

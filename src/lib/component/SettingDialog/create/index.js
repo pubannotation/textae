@@ -1,4 +1,4 @@
-import toDomEelement from '../../../toDomEelement'
+import dohtml from 'dohtml'
 
 const html = `
   <div class="textae-editor__setting-dialog">
@@ -23,5 +23,5 @@ const html = `
 `
 
 export default function() {
-  return toDomEelement(html)
+  return dohtml.create(html)
 }

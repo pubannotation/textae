@@ -1,8 +1,8 @@
 import Handlebars from 'handlebars'
 import delegate from 'delegate'
-import getDialog from './getDialog'
 import $ from 'jquery'
-import toDomEelement from '../../toDomEelement'
+import dohtml from 'dohtml'
+import getDialog from './getDialog'
 import CONFIRM_DISCARD_CHANGE_MESSAGE from '../../editor/CONFIRM_DISCARD_CHANGE_MESSAGE'
 import makeDomEnabled from '../makeDomEnabled'
 
@@ -21,7 +21,7 @@ const source = `<div>
 const template = Handlebars.compile(source)
 
 export default function(title, url, loadFromServer, loadFromFile, hasChange) {
-  const el = toDomEelement(template({ url }))
+  const el = dohtml.create(template({ url }))
 
   // Disabled the button to load from the URL when no URL.
   delegate(el, '[type="text"].url', 'input', (e) => {

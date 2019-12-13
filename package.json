@@ -33,6 +33,7 @@
     "deamdify": "^0.3.0",
     "debounce": "^1.2.0",
     "delegate": "^3.0.0",
+    "dohtml": "^0.1.0",
     "emitter-fsm": "0.0.2",
     "eslint": "^6.2.2",
     "eslint-config-prettier": "^6.0.0",

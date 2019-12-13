@@ -1,9 +1,9 @@
 import Handlebars from 'handlebars'
 import delegate from 'delegate'
-import getDialog from './getDialog'
+import dohtml from 'dohtml'
 import $ from 'jquery'
+import getDialog from './getDialog'
 import createDownloadPath from './createDownloadPath'
-import toDomEelement from '../../toDomEelement'
 import makeDomEnabled from '../makeDomEnabled'
 
 const source = `<div>
@@ -29,7 +29,7 @@ export default function(
   setOptionFields,
   onSave
 ) {
-  const el = toDomEelement(template({ filename, url }))
+  const el = dohtml.create(template({ filename, url }))
 
   // Disabled the button to save to the URL when no URL.
   delegate(el, '[type="text"].url', 'input', (e) => {
