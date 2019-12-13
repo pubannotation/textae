@@ -1,6 +1,6 @@
 import $ from 'jquery'
 import Tool from './tool'
-import controlBar from './control/controlBar'
+import ControlBar from './control/ControlBar'
 import ContextMenu from './control/ContextMenu'
 import editor from './editor'
 import combine from './combine'
@@ -17,6 +17,10 @@ export default function() {
     // Start an editor
     e.api.start(e)
     // Combine a controle to an editor
-    combine(e, controlBar(e.eventEmitter), new ContextMenu(e, e.eventEmitter))
+    combine(
+      e,
+      new ControlBar(e.eventEmitter),
+      new ContextMenu(e, e.eventEmitter)
+    )
   }
 }
