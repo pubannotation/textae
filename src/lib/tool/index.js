@@ -4,21 +4,20 @@ import redrawOnResize from './redrawOnResize'
 import setVeilObserver from './setVeilObserver'
 
 // The tool manages interactions between components.
-export default function() {
-  const editors = new EditorContainer()
-  redrawOnResize(editors)
+export default class {
+  constructor() {
+    this._editors = new EditorContainer()
+    redrawOnResize(this._editors)
 
-  // When the DOMContentLoaded event occurs, document.body may not have been initialized yet.
-  // When the load event occurs, bind the event handler of document.body.
-  window.addEventListener('load', () => {
-    selectUnselectEditorOn(editors)
-  })
+    // When the DOMContentLoaded event occurs, document.body may not have been initialized yet.
+    // When the load event occurs, bind the event handler of document.body.
+    window.addEventListener('load', () => {
+      selectUnselectEditorOn(this._editors)
+    })
+  }
 
-  return {
-    // Register editors to tool
-    registerEditor: (editor) => {
-      editors.push(editor)
-      setVeilObserver(editor[0])
-    }
+  registerEditor(editor) {
+    this._editors.push(editor)
+    setVeilObserver(editor[0])
   }
 }
