@@ -5,8 +5,4 @@ export default function(editors, e) {
       editors.openHelpDialog()
     }
   }
-
-  for (const editor of editors.editorList) {
-    editor.api.handleKeyInput(e)
-  }
 }

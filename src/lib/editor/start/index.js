@@ -172,6 +172,12 @@ export default function(
     updateLineHeight
   )
 
+  // Bind keyup event
+  editor[0].addEventListener('keyup', (event) => {
+    editor.eventEmitter.emit('textae.key.input')
+    editor.api.handleKeyInput(event)
+  })
+
   // Add tabIndex to listen to keyboard events.
   editor[0].tabIndex = -1
 }

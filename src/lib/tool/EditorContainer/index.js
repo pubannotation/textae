@@ -1,6 +1,7 @@
 import HelpDialog from '../../component/HelpDialog'
 import getNewId from './getNewId'
 import switchActiveClass from './switchActiveClass'
+import keyInputHandler from './keyInputHandler'
 
 const helpDialog = new HelpDialog()
 
@@ -15,6 +16,8 @@ export default class {
       editorId: getNewId(this.editorList)
     })
     this.editorList.push(editor)
+
+    editor[0].addEventListener('keyup', (e) => keyInputHandler(this, e))
   }
 
   get selected() {
@@ -35,15 +38,6 @@ export default class {
 
   redraw() {
     this.editorList.forEach((e) => e.api.redraw())
-  }
-
-  observeKeyInput(onKeyup) {
-    this.editorList.forEach((e) =>
-      e[0].addEventListener('keyup', (event) => {
-        e.eventEmitter.emit('textae.key.input')
-        onKeyup(event)
-      })
-    )
   }
 
   findByDom(dom) {
