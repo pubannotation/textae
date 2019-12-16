@@ -7,11 +7,12 @@ import registerEditor from './registerEditor'
 // The tool manages interactions between components.
 export default function() {
   const editors = new EditorContainer()
+  redrawOnResize(editors)
 
-  // Start observation at document ready, because this function may be called before body is loaded.
+  // When the DOMContentLoaded event occurs, document.body may not have been initialized yet.
+  // When the load event occurs, bind the event handler of document.body.
   window.addEventListener('load', () => {
     editors.observeKeyInput((e) => keyInputHandler(editors, e))
-    redrawOnResize(editors)
     selectUnselectEditorOn(editors)
   })
 
