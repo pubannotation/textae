@@ -1,5 +1,8 @@
+import HelpDialog from '../../component/HelpDialog'
 import getNewId from './getNewId'
 import switchActiveClass from './switchActiveClass'
+
+const helpDialog = new HelpDialog()
 
 export default class {
   constructor() {
@@ -46,5 +49,9 @@ export default class {
 
   findByDom(dom) {
     return this.editorList.filter((e) => e[0] === dom)[0]
+  }
+
+  openHelpDialog() {
+    helpDialog()
   }
 }
