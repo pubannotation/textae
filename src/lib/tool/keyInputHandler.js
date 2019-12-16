@@ -1,17 +1,12 @@
-import getMousePoint from '../util/getMousePoint'
-
 export default function(editors, e) {
   // Keyup events occurs without selected editor, When editor is focused before initializing.
-  if (!editors.selected) {
-    return
+  if (editors.selected) {
+    if (e.key === 'h') {
+      editors.openHelpDialog()
+    }
   }
 
-  if (e.key === 'h') {
-    editors.openHelpDialog()
-  } else {
-    editors.selected.api.handleKeyInput(e.key, {
-      point: getMousePoint(),
-      shiftKey: e.shiftKey
-    })
+  for (const editor of editors.editorList) {
+    editor.api.handleKeyInput(e)
   }
 }

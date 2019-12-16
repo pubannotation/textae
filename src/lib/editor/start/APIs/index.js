@@ -2,6 +2,7 @@ import handle from './handle'
 import KeyApiMap from './KeyApiMap'
 import IconApiMap from './IconApiMap'
 import PalletApiMap from './PalletApiMap'
+import getMousePoint from '../../../util/getMousePoint'
 
 export default class {
   constructor(
@@ -24,10 +25,20 @@ export default class {
     this._view = view
     this._buttonController = buttonController
     this._presenter = presenter
+    this._isSelected = false
   }
 
-  handleKeyInput(key, value) {
-    handle(this._keyApiMap, key, value)
+  handleKeyInput(event) {
+    // Keyup events occurs without selected editor, When editor is focused before initializing.
+    if (this._isSelected) {
+      const key = event.key
+      const value = {
+        point: getMousePoint(),
+        shiftKey: event.shiftKey
+      }
+
+      handle(this._keyApiMap, key, value)
+    }
   }
 
   handleButtonClick(key, value) {
@@ -50,9 +61,11 @@ export default class {
 
   select() {
     this._presenter.event.select()
+    this._isSelected = true
   }
 
   unselect() {
     this._presenter.event.unselect()
+    this._isSelected = false
   }
 }
