@@ -3,7 +3,6 @@ import updateModificationButtons from './updateModificationButtons'
 import renderModificationOfEntityOrRelation from './renderModificationOfEntityOrRelation'
 import updateBlockStyleOfSpan from './updateBlockStyleOfSpan'
 import renderAllAnnotations from './renderAllAnnotations'
-import updateTextBoxHeight from '../../updateTextBoxHeight'
 import setLineHeightToTypeGap from '../../setLineHeightToTypeGap'
 import SpanRenderer from './SpanRenderer'
 
@@ -30,7 +29,6 @@ export default function(
         spanRenderer,
         relationRenderer
       )
-      updateTextBoxHeight(editor[0])
       setLineHeightToTypeGap(editor[0], annotationData, typeGap())
     })
     .on('textae.annotationData.paragraph.change', (paragraphs) =>
