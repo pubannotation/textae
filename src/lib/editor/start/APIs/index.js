@@ -23,6 +23,7 @@ export default class {
     this._palletApiMap = new PalletApiMap(persistenceInterface)
     this._view = view
     this._buttonController = buttonController
+    this._presenter = presenter
   }
 
   handleKeyInput(key, value) {
@@ -45,5 +46,13 @@ export default class {
   // Because an inline annotation is readed before a binding the control.
   updateButtons() {
     this._buttonController.buttonStateHelper.propagate()
+  }
+
+  select() {
+    this._presenter.event.select()
+  }
+
+  unselect() {
+    this._presenter.event.unselect()
   }
 }

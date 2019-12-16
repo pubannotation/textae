@@ -28,8 +28,7 @@ export default class {
 
   unselect(editor) {
     if (this.selectedEditor === editor) {
-      editor[0].classList.remove('textae-editor--active')
-      editor.eventEmitter.emit('textae.editor.unselect')
+      editor.api.unselect()
       this.selectedEditor = null
     }
   }

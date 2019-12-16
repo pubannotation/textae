@@ -63,7 +63,14 @@ export default function(
     negation: modificationHandler.negation,
     speculation: modificationHandler.speculation,
     createAttribute: () => createAttribute(commander),
-    showSettingDialog: () => settingDialog.open()
+    showSettingDialog: () => settingDialog.open(),
+    select() {
+      editor[0].classList.add('textae-editor--active')
+    },
+    unselect() {
+      editor[0].classList.remove('textae-editor--active')
+      editor.eventEmitter.emit('textae.editor.unselect')
+    }
   }
   Object.assign(event, selectHandler)
   extendToggleButtonHandler(buttonController, editMode, event)
