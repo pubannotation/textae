@@ -1,7 +1,7 @@
 import EditorContainer from './EditorContainer'
 import selectUnselectEditorOn from './selectUnselectEditorOn'
 import redrawOnResize from './redrawOnResize'
-import registerEditor from './registerEditor'
+import setVeilObserver from './setVeilObserver'
 
 // The tool manages interactions between components.
 export default function() {
@@ -17,7 +17,8 @@ export default function() {
   return {
     // Register editors to tool
     registerEditor: (editor) => {
-      registerEditor(editors, editor)
+      editors.push(editor)
+      setVeilObserver(editor[0])
     }
   }
 }
