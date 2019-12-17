@@ -1,3 +1,7 @@
+import HelpDialog from '../../component/HelpDialog'
+
+const helpDialog = new HelpDialog()
+
 export default function(el, eventEmitter) {
   // Bind eventhandler
   const eventHandler = (e) => {
@@ -12,7 +16,12 @@ export default function(el, eventEmitter) {
       `textae.control.button.${buttonType.replace(/-/g, '_')}.click`
     )
   }
+
   for (const button of el.querySelectorAll('.textae-control__icon')) {
-    button.addEventListener('click', eventHandler)
+    if (button.dataset.buttonType === 'help') {
+      button.addEventListener('click', helpDialog)
+    } else {
+      button.addEventListener('click', eventHandler)
+    }
   }
 }
