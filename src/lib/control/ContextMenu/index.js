@@ -2,8 +2,8 @@ import Control from '../Control'
 import { htmlTemplate } from './htmlTemplate'
 
 export default class extends Control {
-  constructor(eventEmitter) {
-    super(htmlTemplate, eventEmitter)
+  constructor(editor) {
+    super(htmlTemplate, editor)
   }
 
   show(positionTop, positionLeft) {

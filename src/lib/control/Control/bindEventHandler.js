@@ -2,19 +2,16 @@ import HelpDialog from '../../component/HelpDialog'
 
 const helpDialog = new HelpDialog()
 
-export default function(el, eventEmitter) {
+export default function(el, editor) {
   // Bind eventhandler
   const eventHandler = (e) => {
     // Ignore disabled button's events.
     if (e.currentTarget.classList.contains('textae-control__icon--disabled')) {
       return
     }
-    // Trigger events with buttonType
+
     const buttonType = e.currentTarget.dataset.buttonType
-    eventEmitter.emit(
-      'textae.control.button.click',
-      `textae.control.button.${buttonType.replace(/-/g, '_')}.click`
-    )
+    editor.api.handleButtonClick(buttonType)
   }
 
   for (const button of el.querySelectorAll('.textae-control__icon')) {

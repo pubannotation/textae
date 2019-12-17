@@ -4,8 +4,8 @@ import transitButtonImage from './transitButtonImage'
 
 // The control is a control bar in an editor.
 export default class extends Control {
-  constructor(eventEmitter) {
-    super(htmlTemplate, eventEmitter)
+  constructor(editor) {
+    super(htmlTemplate, editor)
   }
 
   transitButtonImage(transitButtons) {

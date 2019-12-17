@@ -6,11 +6,11 @@ import toContentHtml from './toContentHtml/toContentHtml'
 
 // The control is a control bar in an editor.
 export default class {
-  constructor(htmlTemplate, eventEmitter) {
+  constructor(htmlTemplate, editor) {
     const el = dohtml.create(toContentHtml(htmlTemplate))
 
     this._el = el
-    bindEventHandler(this._el, eventEmitter)
+    bindEventHandler(this._el, editor)
   }
 
   get el() {

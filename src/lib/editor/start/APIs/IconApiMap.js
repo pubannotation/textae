@@ -6,42 +6,30 @@ export default function(
   updateLineHeight
 ) {
   return new Map([
-    ['textae.control.button.view.click', presenter.event.toViewMode],
-    ['textae.control.button.term.click', presenter.event.toTermMode],
-    ['textae.control.button.relation.click', presenter.event.toRelationMode],
-    ['textae.control.button.simple.click', presenter.event.toggleSimpleMode],
+    ['view', presenter.event.toViewMode],
+    ['term', presenter.event.toTermMode],
+    ['relation', presenter.event.toRelationMode],
+    ['simple', presenter.event.toggleSimpleMode],
+    ['read', () => persistenceInterface.importAnnotation()],
+    ['write', () => persistenceInterface.uploadAnnotation()],
+    ['undo', commander.undo],
+    ['redo', commander.redo],
+    ['replicate', presenter.event.replicate],
     [
-      'textae.control.button.read.click',
-      () => persistenceInterface.importAnnotation()
-    ],
-    [
-      'textae.control.button.write.click',
-      () => persistenceInterface.uploadAnnotation()
-    ],
-    ['textae.control.button.undo.click', commander.undo],
-    ['textae.control.button.redo.click', commander.redo],
-    ['textae.control.button.replicate.click', presenter.event.replicate],
-    [
-      'textae.control.button.replicate_auto.click',
+      'replicate-auto',
       () => buttonController.pushButtons.getButton('replicate-auto').toggle()
     ],
-    [
-      'textae.control.button.boundary_detection.click',
-      presenter.event.toggleDetectBoundaryMode
-    ],
-    ['textae.control.button.entity.click', presenter.event.createEntity],
-    ['textae.control.button.change_label.click', presenter.event.changeLabel],
-    ['textae.control.button.pallet.click', presenter.event.showPallet],
-    ['textae.control.button.negation.click', presenter.event.negation],
-    ['textae.control.button.speculation.click', presenter.event.speculation],
-    ['textae.control.button.attribute.click', presenter.event.createAttribute],
-    [
-      'textae.control.button.delete.click',
-      presenter.event.removeSelectedElements
-    ],
-    ['textae.control.button.copy.click', presenter.event.copyEntities],
-    ['textae.control.button.paste.click', presenter.event.pasteEntities],
-    ['textae.control.button.setting.click', presenter.event.showSettingDialog],
-    ['textae.control.button.line_height.click', updateLineHeight]
+    ['boundary-detection', presenter.event.toggleDetectBoundaryMode],
+    ['entity', presenter.event.createEntity],
+    ['change_label', presenter.event.changeLabel],
+    ['pallet', presenter.event.showPallet],
+    ['negation', presenter.event.negation],
+    ['speculation', presenter.event.speculation],
+    ['attribute', presenter.event.createAttribute],
+    ['delete', presenter.event.removeSelectedElements],
+    ['copy', presenter.event.copyEntities],
+    ['paste', presenter.event.pasteEntities],
+    ['setting', presenter.event.showSettingDialog],
+    ['line-height', updateLineHeight]
   ])
 }
