@@ -1,5 +1,3 @@
-import getMousePoint from '../util/getMousePoint'
-
 export default function(editor, helpDialog) {
   return (name) => {
     switch (name) {
@@ -7,9 +5,7 @@ export default function(editor, helpDialog) {
         helpDialog()
         break
       default:
-        editor.api.handleButtonClick(name, {
-          point: getMousePoint()
-        })
+        editor.api.handleButtonClick(name)
     }
   }
 }

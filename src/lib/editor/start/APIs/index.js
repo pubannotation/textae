@@ -2,7 +2,7 @@ import handle from './handle'
 import KeyApiMap from './KeyApiMap'
 import IconApiMap from './IconApiMap'
 import PalletApiMap from './PalletApiMap'
-import getMousePoint from '../../../util/getMousePoint'
+import getMousePoint from './getMousePoint'
 
 export default class {
   constructor(
@@ -41,7 +41,11 @@ export default class {
     }
   }
 
-  handleButtonClick(key, value) {
+  handleButtonClick(key) {
+    const value = {
+      point: getMousePoint()
+    }
+
     handle(this._iconApiMap, key, value)
   }
 
