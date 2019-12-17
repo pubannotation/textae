@@ -33,7 +33,7 @@ Handles are also necessary to represent *multiple denotations made to the same s
 
 <img src="{{site.baseurl}}/img/full-view-2.png" width="150px">
 
-The above example shows that the same tag, _Tag1_ is annotated to the span, _sample_, twice.
+The above example shows that the same tag _Tag1_ is annotated to the span, _sample_, twice.
 
 Therefore, if your annotation needs to have multiple instances of identical denotation,
 you have to work in the Full View mode.

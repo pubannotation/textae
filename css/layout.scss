@@ -1,25 +1,29 @@
 ---
 ---
 
-* {
-  font-family: Arial, Helvetica, sans-serif;
-}
-
 body {
-  max-width:1000px;
   margin: 0;
   padding: 0;
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: #eee;
+  font: 300 21px Lato, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+#canvas {
+  margin: 0 auto;
+  max-width: 1000px;
 }
 
 .frame {
   padding: 10px;
-  border: solid 1px #CC8;
-  background: #ffc;
-  color: #aaaaaa;
+  background-color: transparent;
+  color: #555;
 
   a {
-    color: #88cc66;
+    color: #88cc44;
+  }
+
+  a:hover {
+    color: #ffff00;
   }
 }
 
@@ -44,7 +48,7 @@ body {
 .main-nav li a {
   border-radius: 5px;
   font-weight: 800;
-  font-size: 14px;
+  font-size: 18px;
   padding: 0.2em 0.6em;
   text-shadow: none;
   text-transform: uppercase;

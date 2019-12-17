@@ -15,6 +15,7 @@ TextAE ...
 * can be embedded in a HTML document.
 * is an open source project.
 * is developed as a default viewer/editor of [PubAnnotation][PubAnnotation].
+* is developed by [DBCLS][DBCLS].
 * is funded by [NBDC][NBDC].
 
 ## Contributors

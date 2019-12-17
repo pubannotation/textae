@@ -44,6 +44,37 @@ In following example, two entity types, _Protein_ and _Regulation_, are defined 
 Optionally, you can specify a dominant type to be a default type (_Protein_ in above example).
 Then, the type will be preselected when you create a denotation-type annotation.
 
+Sometimes, you may want to assign a URI as the identifier of an entity type,
+e.g. _https://en.wikipedia.org/wiki/NF-κB_ (The wikipedia page of _NF-κB_).
+```JSON
+"entity types": [
+  {
+    "id": "https://en.wikipedia.org/wiki/NF-κB",
+    "color": "#0000FF",
+  }
+]
+```
+In such a case, as a URI is usually too long to be comfortably displayed,
+TextAE shows only the last element of the URI, e.g., _NF-κB_, in the visualization,
+rather than showing the whole long URI.
+
+Sometimes, the last element of a URI is not very human-readable. For example,
+Below is the URI of the UniProt entry for _Thy-1 membrane glycoprotein_:
+_https://www.uniprot.org/uniprot/P04216_
+
+In such a case, you can specify the label to be displayed for the entity type.
+```JSON
+"entity types": [
+  {
+    "id": "https://www.uniprot.org/uniprot/P04216",
+    "color": "#FF0000",
+    "label": "Thy-1"
+  }
+]
+```
+Then, TextAE will show the label in the editor screen instead of the URI.
+
+
 ## Relation types
 You can predefine relation types to be used for relation-type of annotations.
 In following example, two relation types, "themeOf" and "causeOf", are defined with their color specification to be _#0000FF_ (blue) and _#FF0000_ (red):
