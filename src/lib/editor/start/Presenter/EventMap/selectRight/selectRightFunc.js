@@ -1,5 +1,5 @@
-import { getRightElement } from '../../../../getNextElement'
-import selectNextFunc from './selectNextFunc'
+import { getRightElement } from '../../../getNextElement'
+import selectNextFunc from '../selectNextFunc'
 
 export default function(editorDom, selectionModel, shiftKey) {
   const getNextFunc = (selected) =>

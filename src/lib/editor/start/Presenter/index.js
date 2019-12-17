@@ -2,7 +2,7 @@ import TypeEditor from './TypeEditor'
 import EditMode from './EditMode'
 import DisplayInstance from './DisplayInstance'
 import bindModelChange from './bindModelChange'
-import createEventMap from './createEventMap'
+import EventMap from './EventMap'
 
 export default class {
   constructor(
@@ -48,7 +48,7 @@ export default class {
 
     bindModelChange(editor, editMode, mode)
 
-    this.event = createEventMap(
+    this.event = new EventMap(
       commander,
       selectionModel,
       typeDefinition,

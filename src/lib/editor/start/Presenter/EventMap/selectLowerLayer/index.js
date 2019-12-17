@@ -1,7 +1,6 @@
-import { ENTINY_CLASS } from './const'
 import selectLabelOfEntity from './selectLabelOfEntity'
 import selectSpanOfEntityLabel from './selectSpanOfEntityLabel'
-import selectSelected from './selectSelected'
+import selectSelected from '../selectSelected'
 
 export default function(editorDom, selectionModel) {
   // When one entity label is selected.
@@ -13,7 +12,7 @@ export default function(editorDom, selectionModel) {
   }
 
   // When one entity is selected.
-  const selectedEnities = selectSelected(editorDom, ENTINY_CLASS)
+  const selectedEnities = selectSelected(editorDom, 'textae-editor__entity')
 
   if (selectedEnities.length === 1) {
     selectLabelOfEntity(selectionModel, selectedEnities[0])
