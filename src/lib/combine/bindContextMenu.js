@@ -8,7 +8,7 @@ export default function(editor, contextMenu) {
     .on('textae.control.buttons.change', (enableButtons) =>
       contextMenu.updateAllButtonEnableState(enableButtons)
     )
-    .on('textae.key.input', () => contextMenu.hide())
+    .on('textae.editor.key.input', () => contextMenu.hide())
 
   // Close ContextMenu when another editor is clicked
   window.addEventListener('click', (e) => {

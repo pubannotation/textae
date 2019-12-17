@@ -174,7 +174,7 @@ export default function(
 
   // Bind keyup event
   editor[0].addEventListener('keyup', (event) => {
-    editor.eventEmitter.emit('textae.key.input')
+    editor.eventEmitter.emit('textae.editor.key.input')
     editor.api.handleKeyInput(event)
   })
 
