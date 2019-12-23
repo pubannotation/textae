@@ -1,6 +1,6 @@
 import getSelectionSnapShot from './getSelectionSnapShot'
 
-export default function(cancelSelect, selectEnd, spanConfig, event) {
+export default function(selectEnd, spanConfig, event) {
   // Span listens for mouse up events.
   // Click events on spans do not stop propagation.
   // If a click event occurs on a span, ignore that event.
@@ -10,10 +10,8 @@ export default function(cancelSelect, selectEnd, spanConfig, event) {
 
   const selection = window.getSelection()
 
-  // No select
-  if (selection.isCollapsed) {
-    cancelSelect()
-  } else {
+  // if text is seleceted
+  if (!selection.isCollapsed) {
     selectEnd.onText({
       spanConfig,
       selection: getSelectionSnapShot()

@@ -116,7 +116,7 @@ export default function(
     params.get('mode')
   )
 
-  bindMouseEvent(editor, presenter, view)
+  bindMouseEvent(editor, view)
   focusEditorWhenFocusedChildRemoved(editor)
 
   const statusBar = getStatusBar(editor, params.get('status_bar'))

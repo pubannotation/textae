@@ -6,17 +6,10 @@ export default function(
   annotationData,
   selectionModel,
   commander,
-  typeDefinition,
-  cancelSelect
+  typeDefinition
 ) {
   const init = () =>
-    bindMouseEvents(
-      editor,
-      selectionModel,
-      commander,
-      typeDefinition,
-      cancelSelect
-    )
+    bindMouseEvents(editor, selectionModel, commander, typeDefinition)
 
   return {
     init,

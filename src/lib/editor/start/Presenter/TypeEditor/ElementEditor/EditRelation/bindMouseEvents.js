@@ -1,13 +1,7 @@
 import entityClickedAtRelationMode from './entityClickedAtRelationMode'
 
 // Manupulate only entities and relations on the Edit Relation mode.
-export default function(
-  editor,
-  selectionModel,
-  commander,
-  typeDefinition,
-  cancelSelect
-) {
+export default function(editor, selectionModel, commander, typeDefinition) {
   // For support context menu.
   // Mouse up event occurs when either left or right button is clicked.
   // Change mouse events to monitor from mouseup to click since v5.0.0.
@@ -30,5 +24,4 @@ export default function(
       '.textae-editor__relation, .textae-editor__relation__label',
       () => false
     )
-    .on('click', '.textae-editor__body', cancelSelect)
 }

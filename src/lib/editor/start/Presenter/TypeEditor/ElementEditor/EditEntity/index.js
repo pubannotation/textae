@@ -10,8 +10,7 @@ export default function(
   commander,
   pushButtons,
   typeDefinition,
-  spanConfig,
-  cancelSelect
+  spanConfig
 ) {
   const selectEnd = new SelectEnd(
     editor,
@@ -31,15 +30,7 @@ export default function(
     )
 
   return {
-    init: () =>
-      init(
-        editor,
-        cancelSelect,
-        selectEnd,
-        spanConfig,
-        selectSpan,
-        selectionModel
-      ),
+    init: () => init(editor, selectEnd, spanConfig, selectSpan, selectionModel),
     entityHandler
   }
 }

@@ -1,6 +1,6 @@
 import delegate from 'delegate'
 
-export default function(editor, presenter, view) {
+export default function(editor, view) {
   const dom = editor[0]
 
   // Prevent a selection text with shift keies.
@@ -9,6 +9,11 @@ export default function(editor, presenter, view) {
       e.preventDefault()
     }
   })
+
+  // Trigger body click event
+  delegate(dom, '.textae-editor__body', 'click', () =>
+    editor.eventEmitter.emit('textae.editor.body.click')
+  )
 
   // Prevent a selection of a type by the double-click.
   delegate(dom, '.textae-editor__type', 'mousedown', (e) => e.preventDefault())

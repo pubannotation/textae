@@ -1,5 +1,4 @@
 import ElementEditor from './ElementEditor'
-import cancelSelect from './cancelSelect'
 import jsPlumbConnectionClicked from './jsPlumbConnectionClicked'
 import initPallet from './initPallet'
 import EntityPallet from '../../../../component/EntityPallet'
@@ -30,8 +29,7 @@ export default class {
       spanConfig,
       commander,
       pushButtons,
-      typeDefinition,
-      () => this.cancelSelect()
+      typeDefinition
     )
 
     this._entityPallet = new EntityPallet(editor, originalData, typeDefinition)
@@ -89,7 +87,11 @@ export default class {
   cancelSelect() {
     const pallet = this._getPallet()
     if (pallet) {
-      cancelSelect(pallet, this._selectionModel)
+      if (pallet.visibly) {
+        pallet.hide()
+      } else {
+        this._selectionModel.clear()
+      }
     }
   }
 

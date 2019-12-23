@@ -5,7 +5,6 @@ import entityClicked from './entityClicked'
 
 export default function(
   editor,
-  cancelSelect,
   selectEnd,
   spanConfig,
   selectSpan,
@@ -16,7 +15,7 @@ export default function(
   // Change mouse events to monitor from mouseup to click since v5.0.0.
   editor
     .on('click', '.textae-editor__body', (e) =>
-      bodyClicked(cancelSelect, selectEnd, spanConfig, e)
+      bodyClicked(selectEnd, spanConfig, e)
     )
     .on('click', '.textae-editor__type', () => editor.focus())
     .on('click', '.textae-editor__type-values', (e) =>

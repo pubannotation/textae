@@ -3,7 +3,6 @@ import ClipBoardHandler from './ClipBoardHandler'
 import createEntityHandler from './createEntityHandler'
 import replicateHandler from './replicateHandler'
 import ModificationHandler from './ModificationHandler'
-import cancelSelect from './cancelSelect'
 import createAttribute from './createAttribute'
 import selectLeft from './selectLeft'
 import selectRight from './selectRight'
@@ -97,7 +96,9 @@ export default class {
   }
 
   cancelSelect() {
-    cancelSelect(this._typeEditor, this._editor)
+    this._typeEditor.cancelSelect()
+    // Foucs the editor for ESC key
+    this._editor.focus()
   }
 
   negation() {

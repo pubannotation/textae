@@ -12,8 +12,7 @@ export default class {
     spanConfig,
     commander,
     pushButtons,
-    typeDefinition,
-    cancelSelect
+    typeDefinition
   ) {
     this._handler = 'default'
 
@@ -24,8 +23,7 @@ export default class {
       commander,
       pushButtons,
       typeDefinition,
-      spanConfig,
-      cancelSelect
+      spanConfig
     )
 
     this._editRelation = new EditRelation(
@@ -33,8 +31,7 @@ export default class {
       annotationData,
       selectionModel,
       commander,
-      typeDefinition,
-      cancelSelect
+      typeDefinition
     )
 
     this._editor = editor
