@@ -78,13 +78,6 @@ export default class {
     }
   }
 
-  hidePallet() {
-    const pallet = this._getPallet()
-    if (pallet) {
-      pallet.hide()
-    }
-  }
-
   changeLabel() {
     this._elementEditor.getHandler().changeLabelHandler(this._autocompletionWs)
   }
