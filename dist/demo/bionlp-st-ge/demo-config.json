@@ -26,6 +26,13 @@
     " ",
     "\n"
   ],
+  "entity types": [
+    {
+      "color": "#0000FF",
+      "id": "Sentence",
+      "type": "block"
+    }
+  ],
   "relation types": [
     {
       "id": "themeOf",
@@ -55,13 +62,6 @@
     {
       "id": "equivalentTo",
       "color": "#EEEE55"
-    }
-  ],
-  "entity types": [
-    {
-      "color": "#0000FF",
-      "id": "Sentence",
-      "type": "block"
     }
   ]
 }

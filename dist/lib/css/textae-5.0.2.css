@@ -492,6 +492,9 @@
 .textae-editor__type-pallet--relation {
   background-color: rgba(255, 187, 187, 0.9);
 }
+.textae-editor__type-pallet--selection-attribute {
+  background-color: rgba(200, 255, 255, 0.9);
+}
 .textae-editor__type-pallet__title {
   float: left;
   font-size: 1.4em;
@@ -4600,6 +4603,8 @@ button.toast-close-button {
 }
 .textae-editor__attribute {
   height: 18px;
+  margin: 0 2px;
+  width: calc(100% - 4px);
 }
 .textae-editor__entity-pane {
   line-height: 11px;
