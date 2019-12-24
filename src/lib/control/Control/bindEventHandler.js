@@ -16,7 +16,7 @@ export default function(el, editor) {
 
   for (const button of el.querySelectorAll('.textae-control__icon')) {
     if (button.dataset.buttonType === 'help') {
-      button.addEventListener('click', helpDialog)
+      button.addEventListener('click', () => helpDialog.open())
     } else {
       button.addEventListener('click', eventHandler)
     }

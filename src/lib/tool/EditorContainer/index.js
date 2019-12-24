@@ -45,6 +45,6 @@ export default class {
   }
 
   openHelpDialog() {
-    helpDialog()
+    helpDialog.open()
   }
 }

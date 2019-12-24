@@ -1,26 +1,45 @@
-import setAutocompleteSource from '../setAutocompleteSource'
-import create from './create'
+import Dialog from '../Dialog'
+import createContentHtml from './createContentHtml'
+import getValues from './getValues'
+import bind from './bind'
+import setSourceOfAutoComplete from '../setSourceOfAutoComplete'
 
-export default class {
+export default class extends Dialog {
   constructor(type, done, typeDefinition, autocompletionWs) {
-    this.$dialog = create(type, done)
+    const contentHtml = createContentHtml({
+      value: type.name,
+      label: typeDefinition.getLabel(type.name),
+      attributes: type.attributes
+    })
+
+    const onOk = (content) => {
+      const { typeName, label, attributes } = getValues(content)
+      done(typeName, label, attributes)
+      super.close()
+    }
+
+    super('Please edit type and attributes', contentHtml, {
+      buttons: [
+        {
+          text: 'OK',
+          class: 'textae-editor__edit-type-dialog__ok-button',
+          click() {
+            onOk(this)
+          }
+        }
+      ],
+      width: 800
+    })
+
+    bind(super.el, onOk)
 
     // Setup autocomplete
-    const $value = this.$dialog.find(
+    const value = super.el.querySelector(
       '.textae-editor__edit-type-dialog__type__value__value'
     )
-    const $labelSpan = this.$dialog.find(
+    const labelSpan = super.el.querySelector(
       '.textae-editor__edit-type-dialog__type__label__value'
     )
-    setAutocompleteSource(typeDefinition, autocompletionWs, $value, $labelSpan)
-
-    // Set a label
-    if (typeDefinition && typeDefinition.getLabel(type.name)) {
-      $labelSpan.text(typeDefinition.getLabel(type.name))
-    }
-  }
-
-  open() {
-    this.$dialog.open()
+    setSourceOfAutoComplete(typeDefinition, autocompletionWs, value, labelSpan)
   }
 }

@@ -1,5 +1,5 @@
-export default function($inputId, $inputLabel, ui) {
-  $inputId.val(ui.item.raw.id)
-  $inputLabel.val(ui.item.raw.label)
+export default function(inputId, inputLabel, ui) {
+  inputId.value = ui.item.raw.id
+  inputLabel.value = ui.item.raw.label
   return false
 }

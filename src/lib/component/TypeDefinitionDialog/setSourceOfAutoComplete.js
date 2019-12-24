@@ -1,24 +1,27 @@
+import $ from 'jquery'
 import customizeqQueryUiAutocomplete from '../customize-jquery-ui-autocomplete'
 import source from '../source'
 import select from './select'
 
 customizeqQueryUiAutocomplete()
 
-export default function($dialog, typeDefinition, autocompletionWs) {
-  const $inputs = $dialog.find('input')
+export default function(el, typeDefinition, autocompletionWs) {
+  const inputs = el.querySelectorAll('input')
+
   // Update the source
-  $inputs.eq(0).autocomplete({
+  $(inputs[0]).autocomplete({
     source: (request, response) => {
       source(typeDefinition, autocompletionWs, request.term, response)
     },
     minLength: 3,
-    select: (_, ui) => select($inputs.eq(0), $inputs.eq(1), ui)
+    select: (_, ui) => select(inputs[0], inputs[1], ui)
   })
-  $inputs.eq(1).autocomplete({
+
+  $(inputs[1]).autocomplete({
     source: (request, response) => {
       source(typeDefinition, autocompletionWs, request.term, response)
     },
     minLength: 3,
-    select: (_, ui) => select($inputs.eq(0), $inputs.eq(1), ui)
+    select: (_, ui) => select(inputs[0], inputs[1], ui)
   })
 }

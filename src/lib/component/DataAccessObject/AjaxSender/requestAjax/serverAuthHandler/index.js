@@ -1,5 +1,5 @@
 import cookieHandler from '../../../../../util/CookieHandler'
-import loginInfoDialog from './loginInfoDialog'
+import LoginInfoDialog from '../../../../LoginInfoDialog'
 import openPopUp from './openPopUp'
 import isSeverAuthRequired from './isSeverAuthRequired'
 
@@ -9,7 +9,7 @@ export default function(ajaxResponse, errorHandler) {
   if (location) {
     const isHideMessageBox = cookieHandler().get('hide-message-box')
     if (isHideMessageBox === '' || isHideMessageBox === 'false') {
-      const dialog = loginInfoDialog(location)
+      const dialog = new LoginInfoDialog(location)
       dialog.open()
     } else {
       openPopUp(location)

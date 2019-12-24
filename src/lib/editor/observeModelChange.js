@@ -1,11 +1,15 @@
-import showValidationDialog from '../component/showValidationDialog'
+import ValidationDialog from '../component/ValidationDialog'
+import hasError from '../hasError'
 
 export default function(editor, history) {
   editor.eventEmitter.on(
     'textae.annotationData.all.change',
     (_, __, reject) => {
       history.resetAllHistories()
-      showValidationDialog(reject)
+
+      if (hasError(reject)) {
+        new ValidationDialog(reject).open()
+      }
     }
   )
 }

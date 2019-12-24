@@ -47,11 +47,6 @@ export default class {
       buttonController.pushButtons,
       typeEditor
     )
-    this._settingDialog = new SettingDialog(
-      editor,
-      typeDefinition,
-      displayInstance
-    )
     this._editMode = editMode
     this._createAttribute = new CreateAttribute(
       commander,
@@ -134,7 +129,11 @@ export default class {
   }
 
   showSettingDialog() {
-    this._settingDialog.open()
+    new SettingDialog(
+      this._editor,
+      this._typeDefinition,
+      this._displayInstance
+    ).open()
   }
 
   select() {

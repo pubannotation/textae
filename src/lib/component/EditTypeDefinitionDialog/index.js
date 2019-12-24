@@ -2,7 +2,7 @@ import TypeDefinitionDialog from '../TypeDefinitionDialog'
 import getDifference from './getDifference'
 
 export default class extends TypeDefinitionDialog {
-  constructor(typeContainer, id, color, isDefault, autocompletionWs, done) {
+  constructor(editor, typeContainer, id, color, isDefault, autocompletionWs) {
     const label = typeContainer.getLabel(id) || ''
 
     const beforeChange = {
@@ -21,7 +21,12 @@ export default class extends TypeDefinitionDialog {
       }
 
       const changedProperties = getDifference(beforeChange, afterChange)
-      done(changedProperties)
+
+      editor.eventEmitter.emit(
+        'textae.editTypeDefinitionDialog.done',
+        id,
+        changedProperties
+      )
     }
 
     super(

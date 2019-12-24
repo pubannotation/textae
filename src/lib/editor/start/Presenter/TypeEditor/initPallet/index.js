@@ -12,10 +12,10 @@ export default function(
   editor.eventEmitter
     .on(`textae.${name}Pallet.add-button.click`, () => {
       new CreateTypeDefinitionDialog(
+        editor,
         handler.typeContainer,
-        autocompletionWs,
-        (newType) => handler.commander.invoke(handler.addType(newType))
-      )
+        autocompletionWs
+      ).open()
     })
     .on(`textae.${name}Pallet.read-button.click`, () =>
       editor.api.handlePalletClick('textae.pallet.button.read.click')
@@ -33,19 +33,13 @@ export default function(
       `textae.${name}Pallet.item.edit-button.click`,
       (id, color, isDefault) => {
         new EditTypeDefinitionDialog(
+          editor,
           handler.typeContainer,
           id,
           color,
           isDefault,
-          autocompletionWs,
-          (changedProperties) => {
-            if (changedProperties.size) {
-              handler.commander.invoke(
-                handler.changeType(id, changedProperties)
-              )
-            }
-          }
-        )
+          autocompletionWs
+        ).open()
       }
     )
     .on(`textae.${name}Pallet.item.remove-button.click`, (id, label) => {
@@ -69,6 +63,14 @@ export default function(
     .on(`textae.typeDefinition.${name}.type.default.change`, () =>
       pallet.updateDisplay()
     )
+    .on('textae.createTypeDefinitionDialog.done', (newType) =>
+      handler.commander.invoke(handler.addType(newType))
+    )
+    .on('textae.editTypeDefinitionDialog.done', (id, changedProperties) => {
+      if (changedProperties.size) {
+        handler.commander.invoke(handler.changeType(id, changedProperties))
+      }
+    })
 
   editor[0].appendChild(pallet.el)
 }

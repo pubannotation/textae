@@ -1,41 +1,33 @@
 import delegate from 'delegate'
-import create from './create'
-import bind from './bind'
-import update from './update'
-import appendToDialog from './appendToDialog'
+import getLineHeight from '../../editor/start/View/lineHeight/getLineHeight'
+import Dialog from '../Dialog'
+import createContentHtml from './createContentHtml'
+import reflectImmediately from './reflectImmediately'
 
-export default class {
+export default class extends Dialog {
   constructor(editor, typeDefinition, displayInstance) {
-    const content = create()
+    const contentHtml = createContentHtml({
+      typeGapDisabled: !displayInstance.showInstance,
+      typeGap: displayInstance.typeGap,
+      lineHeight: getLineHeight(editor[0]),
+      typeDefinitionLocked: typeDefinition.isLock()
+    })
+    const okHandler = () => super.close()
 
-    bind(content, editor, displayInstance, typeDefinition)
+    super('Setting', contentHtml, {
+      buttons: {
+        OK: okHandler
+      }
+    })
 
-    const okHandler = () => {
-      $dialog.close()
-    }
-
-    const $dialog = appendToDialog(content, okHandler)
+    // Reflects configuration changes in real time.
+    reflectImmediately(super.el, editor, displayInstance, typeDefinition)
 
     // Observe enter key press
-    delegate($dialog[0], `.textae-editor--dialog`, 'keyup', (e) => {
+    delegate(super.el, `.textae-editor--dialog`, 'keyup', (e) => {
       if (e.keyCode === 13) {
         okHandler()
       }
     })
-
-    this._$dialog = $dialog
-    this._editorDom = editor[0]
-    this._typeDefinition = typeDefinition
-    this._displayInstance = displayInstance
-  }
-
-  open() {
-    update(
-      this._$dialog[0],
-      this._editorDom,
-      this._typeDefinition,
-      this._displayInstance
-    )
-    this._$dialog.open()
   }
 }
