@@ -1,4 +1,4 @@
-import EditDialog from '../dialog/EditDialog'
+import EditDialog from './dialog/EditDialog'
 import setAutocompleteSource from './setAutocompleteSource'
 
 export default class extends EditDialog {

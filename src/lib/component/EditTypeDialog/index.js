@@ -1,4 +1,4 @@
-import setAutocompleteSource from './setAutocompleteSource'
+import setAutocompleteSource from '../setAutocompleteSource'
 import create from './create'
 
 export default class {
