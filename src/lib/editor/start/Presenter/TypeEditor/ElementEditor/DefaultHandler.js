@@ -66,4 +66,7 @@ export default class {
       removeType
     )
   }
+
+  // Dummy funtion for shotcut key 'w' in the ViewMode.
+  changeLabelHandler() {}
 }
