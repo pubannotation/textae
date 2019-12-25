@@ -5,7 +5,7 @@ const html = `
       <label>Predicate:</label><br>
       <span class="textae-editor__edit-type-dialog__type__predicate__value">type</span>
     </div>
-    <div class="textae-editor__edit-type-dialog__type__value">
+    <div class="textae-editor__edit-type-dialog__type__value ui-front">
       <label>Value:</label><br>
       <input class="textae-editor__edit-type-dialog__type__value__value" value="{{value}}">
     </div>

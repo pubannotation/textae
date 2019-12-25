@@ -25,7 +25,7 @@ export default class extends Dialog {
         buttons: {
           OK: okHandler
         },
-        height: 200
+        height: 250
       }
     )
 

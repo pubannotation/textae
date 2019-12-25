@@ -29,7 +29,20 @@
 }
 
 .ui-widget.ui-autocomplete {
-  // Fix candidates width
-  width: 498px;
+  direction: rtl; // cut off overflow on the left side
   z-index: 102;
+}
+
+// Fix candidates width in term edit mode
+.textae-editor__edit-type-dialog__type__value {
+  .ui-widget.ui-autocomplete {
+    width: 472px;
+  }
+}
+
+// Fix candidates width in relation edit mode
+.textae-editor__edit-value-and-pred-dialog__input-box {
+  .ui-widget.ui-autocomplete {
+    width: 270px;
+  }
 }
