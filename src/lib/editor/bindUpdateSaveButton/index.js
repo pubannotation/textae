@@ -14,7 +14,7 @@ export default function(editor, buttonController) {
     o.set(loadedAnnotationIsModified || history.hasAnythingToSaveAnnotation)
   })
 
-  editor.eventEmitter.on('texta.dataAccessObject.annotation.save', () => {
+  editor.eventEmitter.on('textae.dataAccessObject.annotation.save', () => {
     o.set(false)
     loadedAnnotationIsModified = false
   })
