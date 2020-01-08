@@ -7,7 +7,9 @@ const html = `
   <span class="textae-editor__type-pallet__lock-icon" style="display: {{#if isLock}}inline-block{{else}}none{{/if}};">locked</span>
 </p>
 <div class="textae-editor__type-pallet__buttons">
-  <span class="textae-editor__type-pallet__button textae-editor__type-pallet__add-button" title="Add new type"></span>
+  {{#unless isLock}}
+    <span class="textae-editor__type-pallet__button textae-editor__type-pallet__add-button" title="Add new type"></span>
+  {{/unless}}
   <span class="textae-editor__type-pallet__button textae-editor__type-pallet__read-button" title="Import"></span>
   <span class="textae-editor__type-pallet__button textae-editor__type-pallet__write-button {{#if hasDiff}}textae-editor__type-pallet__write-button--transit{{/if}}" title="Upload"></span>
 </div>
