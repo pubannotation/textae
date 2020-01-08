@@ -47,7 +47,7 @@ const html = `
     </tr>
     {{#if values}}
     {{#each values}}
-    <tr class="textae-editor__type-pallet__row" style="background-color: {{color}};">
+    <tr class="textae-editor__type-pallet__row"{{#if color}} style="background-color: {{color}};"{{/if}}>
       <td class="textae-editor__type-pallet__label" data-id="{{id}}">
         <span title={{id}}>
           {{id}}

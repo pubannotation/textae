@@ -31,7 +31,7 @@ export default class {
       return def.color
     }
 
-    return obj
+    return null
   }
 
   _getDef(obj) {
