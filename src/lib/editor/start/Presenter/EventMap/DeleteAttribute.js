@@ -7,7 +7,7 @@ export default class {
   handle(typeDefinition, number) {
     const attrDef = typeDefinition.entity.getAttributeAt(number)
 
-    const command = this._commander.factory.attributeRemoveByPredCommand(
+    const command = this._commander.factory.removeAttributesOfSelectedEntitiesByPredCommand(
       attrDef
     )
     this._commander.invoke(command)

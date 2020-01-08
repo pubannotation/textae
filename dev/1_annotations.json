@@ -127,10 +127,20 @@
         "label": "TRUE"
       },
       {
-        "pred": "false",
-        "value type": "flag",
-        "color": "#888888",
-        "label": "FALSE"
+        "pred": "free_text_predicate",
+        "value type": "string",
+        "default": "Down the Rabbit Hole",
+        "values": [
+          {
+            "pattern": "default",
+            "color": "#00FFFF"
+          },
+          {
+            "pattern": "^[0-9].*$",
+            "color": "#FF0000",
+            "label": "High"
+          }
+        ]
       }
     ]
   },

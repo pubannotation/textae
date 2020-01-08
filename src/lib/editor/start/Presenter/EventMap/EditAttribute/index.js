@@ -1,8 +1,10 @@
 import FlagAttributeDefinition from '../../../../Model/TypeDefinition/createAttributeDefinition/FlagAttributeDefinition'
 import SelectionAttributePallet from '../../../../../component/SelectionAttributePallet'
 import SelectionAttributeDefinition from '../../../../Model/TypeDefinition/createAttributeDefinition/SelectionAttributeDefinition'
+import StringAttributeDefinition from '../../../../Model/TypeDefinition/createAttributeDefinition/StringAttributeDefinition'
 import toggleFlagAttribute from './toggleFlagAttribute'
 import createSelectionAttributeOrShowSelectionAttributePallet from './createSelectionAttributeOrShowSelectionAttributePallet'
+import createStringAttributeOrShowEditStringAttributeDialog from './createStringAttributeOrShowEditStringAttributeDialog'
 
 export default class {
   constructor(commander, editor, annotationData, selectionModel) {
@@ -24,7 +26,9 @@ export default class {
         }
       )
       .on('textae.selecionAttributePallet.remove-button.click', (attrDef) => {
-        const command = commander.factory.attributeRemoveByPredCommand(attrDef)
+        const command = commander.factory.removeAttributesOfSelectedEntitiesByPredCommand(
+          attrDef
+        )
         commander.invoke(command)
       })
       .on('textae.editor.body.click', () => this._pallet.hide())
@@ -47,6 +51,15 @@ export default class {
         this._commander,
         this._pallet,
         options.point
+      )
+      return
+    }
+
+    if (attrDef instanceof StringAttributeDefinition) {
+      createStringAttributeOrShowEditStringAttributeDialog(
+        this._selectionModel,
+        attrDef,
+        this._commander
       )
       return
     }

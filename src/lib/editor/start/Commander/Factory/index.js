@@ -151,7 +151,7 @@ export default class {
     )
   }
 
-  attributeRemoveByPredCommand(attributeDefinition) {
+  removeAttributesOfSelectedEntitiesByPredCommand(attributeDefinition) {
     return new RemoveAttributesOfSelectedEntitiesByPredCommand(
       this._editor,
       this._annotationData,
