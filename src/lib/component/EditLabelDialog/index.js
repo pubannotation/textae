@@ -12,7 +12,6 @@ export default class extends Dialog {
       const label = super.el.querySelector('span')
 
       done(input.value, label.innerText)
-      super.close()
     }
 
     super(
@@ -22,9 +21,10 @@ export default class extends Dialog {
         label: typeDefinition.getLabel(name)
       }),
       {
-        buttons: {
-          OK: okHandler
-        },
+        label: 'OK',
+        handler: okHandler
+      },
+      {
         height: 250
       }
     )

@@ -7,7 +7,7 @@ import makeDomEnabled from '../makeDomEnabled'
 export default class extends Dialog {
   constructor(title, url, loadFromServer, loadFromFile, hasChange) {
     super(title, createContentHtml({ url }), {
-      buttons: { Cancel: () => super.close() }
+      label: 'Cancel'
     })
 
     // Disabled the button to load from the URL when no URL.

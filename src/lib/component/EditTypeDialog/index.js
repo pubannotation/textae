@@ -15,21 +15,20 @@ export default class extends Dialog {
     const onOk = (content) => {
       const { typeName, label, attributes } = getValues(content)
       done(typeName, label, attributes)
-      super.close()
     }
 
-    super('Please edit type and attributes', contentHtml, {
-      buttons: [
-        {
-          text: 'OK',
-          class: 'textae-editor__edit-type-dialog__ok-button',
-          click() {
-            onOk(this)
-          }
-        }
-      ],
-      width: 800
-    })
+    super(
+      'Please edit type and attributes',
+      contentHtml,
+      {
+        label: 'OK',
+        handler: onOk,
+        class: 'textae-editor__edit-type-dialog__ok-button'
+      },
+      {
+        width: 800
+      }
+    )
 
     bind(super.el, onOk)
 

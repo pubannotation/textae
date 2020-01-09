@@ -13,7 +13,7 @@ export default class extends Dialog {
         diff: jsonDiff(originalData, editedData) || 'nothing.'
       }),
       {
-        buttons: { Cancel: () => super.close() }
+        label: 'Cancel'
       }
     )
 

@@ -8,15 +8,16 @@ export default class extends Dialog {
     const okHandler = () => {
       const inputs = super.el.querySelectorAll('input')
       done(inputs[0].value, inputs[1].value, inputs[2].value, inputs[3].checked)
-      super.close()
     }
 
-    super(title, createContentHtml(content), {
-      buttons: {
-        OK: okHandler
-      },
-      height: 250
-    })
+    super(
+      title,
+      createContentHtml(content),
+      { label: 'OK', handler: okHandler },
+      {
+        height: 250
+      }
+    )
 
     observeEnterKeyPress(super.el, okHandler)
     setSourceOfAutoComplete(super.el, typeDefinition, autocompletionWs)

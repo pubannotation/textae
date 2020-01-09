@@ -5,7 +5,7 @@ export default class extends Dialog {
   constructor(rejects) {
     const contentHtml = createContentHtml(rejects)
 
-    super('The following erroneous annotations ignored', contentHtml, {
+    super('The following erroneous annotations ignored', contentHtml, null, {
       height: 450
     })
   }

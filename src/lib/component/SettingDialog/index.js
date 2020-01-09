@@ -12,12 +12,9 @@ export default class extends Dialog {
       lineHeight: getLineHeight(editor[0]),
       typeDefinitionLocked: typeDefinition.isLock()
     })
-    const okHandler = () => super.close()
 
     super('Setting', contentHtml, {
-      buttons: {
-        OK: okHandler
-      }
+      label: 'OK'
     })
 
     // Reflects configuration changes in real time.
@@ -26,7 +23,7 @@ export default class extends Dialog {
     // Observe enter key press
     delegate(super.el, `.textae-editor--dialog`, 'keyup', (e) => {
       if (e.keyCode === 13) {
-        okHandler()
+        super.close()
       }
     })
   }

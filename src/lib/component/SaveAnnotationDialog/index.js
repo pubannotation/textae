@@ -8,7 +8,7 @@ export default class extends Dialog {
       'Save Annotations',
       createContentHtml({ filename: 'annotations.json', url }),
       {
-        buttons: { Cancel: () => super.close() }
+        label: 'Cancel'
       }
     )
 
