@@ -26,7 +26,7 @@ export default class extends DefaultHandler {
       const type = mergeTypes(
         this.selectionModel.all.map((id) => this.annotationData.get(id).type)
       )
-      const done = (typeName, label, attributes) => {
+      const done = ({ typeName, label, attributes }) => {
         const commands = this.commander.factory.changeEntityTypeCommand(
           label,
           typeName,
@@ -41,10 +41,10 @@ export default class extends DefaultHandler {
 
       const dialog = new EditTypeDialog(
         type,
-        done,
         this.typeContainer,
         autocompletionWs
       )
+      dialog.promise.then(done)
       dialog.open()
     }
   }

@@ -1,8 +1,8 @@
 import TypeDefinitionDialog from './TypeDefinitionDialog'
 
 export default class extends TypeDefinitionDialog {
-  constructor(editor, typeContainer, autocompletionWs) {
-    const onOkHandler = (newId, newLabel, newColor, newDefault) => {
+  constructor(typeContainer, autocompletionWs) {
+    const convertToReseltsFunc = (newId, newLabel, newColor, newDefault) => {
       if (newId === '') {
         return
       }
@@ -20,10 +20,7 @@ export default class extends TypeDefinitionDialog {
         newType.default = newDefault
       }
 
-      editor.eventEmitter.emit(
-        'textae.createTypeDefinitionDialog.done',
-        newType
-      )
+      return { newType }
     }
 
     super(
@@ -36,7 +33,7 @@ export default class extends TypeDefinitionDialog {
       },
       typeContainer,
       autocompletionWs,
-      onOkHandler
+      convertToReseltsFunc
     )
   }
 }

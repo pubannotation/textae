@@ -1,19 +1,9 @@
-import delegate from 'delegate'
-import Dialog from '../Dialog'
+import PromiseDialog from '../PromiseDialog'
 import createContentHtml from './createContentHtml'
 import setSourceOfAutoComplete from '../setSourceOfAutoComplete'
 
-export default class extends Dialog {
-  constructor({ name }, done, typeDefinition, autocompletionWs) {
-    const okHandler = () => {
-      const input = super.el.querySelector(
-        '.textae-editor__edit-value-and-pred-dialog--value'
-      )
-      const label = super.el.querySelector('span')
-
-      done(input.value, label.innerText)
-    }
-
+export default class extends PromiseDialog {
+  constructor({ name }, typeDefinition, autocompletionWs) {
     super(
       'Please enter new values',
       createContentHtml({
@@ -21,23 +11,16 @@ export default class extends Dialog {
         label: typeDefinition.getLabel(name)
       }),
       {
-        label: 'OK',
-        handler: okHandler
-      },
-      {
         height: 250
-      }
-    )
-
-    // Observe enter key press
-    delegate(
-      super.el,
+      },
       '.textae-editor__edit-value-and-pred-dialog--value',
-      'keyup',
-      (e) => {
-        if (e.keyCode === 13) {
-          okHandler()
-        }
+      () => {
+        const input = super.el.querySelector(
+          '.textae-editor__edit-value-and-pred-dialog--value'
+        )
+        const label = super.el.querySelector('span')
+
+        return { value: input.value, label: label.innerText }
       }
     )
 

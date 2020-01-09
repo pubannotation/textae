@@ -17,7 +17,12 @@ export default class extends DefaultHandler {
   changeLabelHandler(autocompletionWs) {
     if (this.getSelectedIdEditable().length > 0) {
       const type = this._getSelectedType()
-      const done = (value, label) => {
+      const dialog = new EditLabelDialog(
+        type,
+        this.typeContainer,
+        autocompletionWs
+      )
+      dialog.promise.then(({ value, label }) => {
         const commands = this.commander.factory.changeRelationLabelCommand(
           label,
           value,
@@ -27,14 +32,7 @@ export default class extends DefaultHandler {
         if (value) {
           this.commander.invoke(commands)
         }
-      }
-
-      const dialog = new EditLabelDialog(
-        type,
-        done,
-        this.typeContainer,
-        autocompletionWs
-      )
+      })
       dialog.open()
     }
   }
