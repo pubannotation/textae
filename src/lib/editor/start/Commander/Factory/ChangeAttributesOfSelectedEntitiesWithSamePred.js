@@ -17,9 +17,11 @@ export default class extends CompositeCommand {
         (a) => a.pred == pred && a.obj !== newObj
       )
 
-      effectedAttributes.push(
-        new AttributeChangeCommand(annotationData, attribute, null, newObj)
-      )
+      if (attribute) {
+        effectedAttributes.push(
+          new AttributeChangeCommand(annotationData, attribute, null, newObj)
+        )
+      }
     }
 
     this._subCommands = effectedAttributes
