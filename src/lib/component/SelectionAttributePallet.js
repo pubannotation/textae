@@ -7,20 +7,25 @@ export default class extends Pallet {
     super(editor, createPalletElement('selection-attribute'))
 
     // Bind user events to the event emitter.
-    delegate(this._el, '.textae-editor__type-pallet__label', 'click', (e) =>
+    delegate(this._el, '.textae-editor__type-pallet__label', 'click', (e) => {
       editor.eventEmitter.emit(
         'textae.selecionAttributePallet.item.label.click',
+        this._definition,
         e.delegateTarget.dataset.id
       )
-    )
+      this.hide()
+    })
     delegate(
       this._el,
       '.textae-editor__type-pallet__remove-button',
       'click',
-      () =>
+      () => {
         editor.eventEmitter.emit(
-          'textae.selecionAttributePallet.remove-button.click'
+          'textae.selecionAttributePallet.remove-button.click',
+          this._definition
         )
+        this.hide()
+      }
     )
   }
 

@@ -157,13 +157,13 @@ export default class {
 
   changeAttributesOfSelectedEntitiesWithSamePred(
     selectedEntities,
-    pred,
+    attributeDefinition,
     newObj
   ) {
     return new ChangeAttributesOfSelectedEntitiesWithSamePred(
       this._annotationData,
       selectedEntities,
-      pred,
+      attributeDefinition.pred,
       newObj
     )
   }

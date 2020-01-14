@@ -11,23 +11,20 @@ export default class {
     editor[0].appendChild(this._pallet.el)
 
     editor.eventEmitter
-      .on('textae.selecionAttributePallet.item.label.click', (newObj) => {
-        const command = commander.factory.changeAttributesOfSelectedEntitiesWithSamePred(
-          this._selectionModel.entity.all,
-          this._attrDef.pred,
-          newObj
-        )
-        this._commander.invoke(command)
-
-        this._pallet.hide()
-      })
-      .on('textae.selecionAttributePallet.remove-button.click', () => {
-        const command = commander.factory.attributeRemoveByPredCommand(
-          this._attrDef
-        )
-        this._commander.invoke(command)
-
-        this._pallet.hide()
+      .on(
+        'textae.selecionAttributePallet.item.label.click',
+        (attrDef, newObj) => {
+          const command = commander.factory.changeAttributesOfSelectedEntitiesWithSamePred(
+            selectionModel.entity.all,
+            attrDef,
+            newObj
+          )
+          commander.invoke(command)
+        }
+      )
+      .on('textae.selecionAttributePallet.remove-button.click', (attrDef) => {
+        const command = commander.factory.attributeRemoveByPredCommand(attrDef)
+        commander.invoke(command)
       })
       .on('textae.editor.body.click', () => this._pallet.hide())
   }
@@ -54,7 +51,6 @@ export default class {
       if (selectedEntitiesWithSamePred.length > 0) {
         this._pallet.definition = attrDef
         this._pallet.show(options.point)
-        this._attrDef = attrDef
       } else {
         const command = this._commander.factory.createUnknownAttributeToSelectedEntitiesCommand(
           attrDef
