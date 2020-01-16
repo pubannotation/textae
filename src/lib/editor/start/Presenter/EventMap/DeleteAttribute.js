@@ -1,8 +1,7 @@
 export default class {
-  constructor(commander, annotationData, selectionModel) {
+  constructor(commander, annotationData) {
     this._commander = commander
     this._annotationData = annotationData
-    this._selectionModel = selectionModel
   }
 
   handle(typeDefinition, number) {

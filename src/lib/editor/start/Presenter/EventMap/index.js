@@ -54,11 +54,7 @@ export default class {
       annotationData,
       selectionModel
     )
-    this._deleteAttribute = new DeleteAttribute(
-      commander,
-      annotationData,
-      selectionModel
-    )
+    this._deleteAttribute = new DeleteAttribute(commander, annotationData)
   }
 
   copyEntities() {
