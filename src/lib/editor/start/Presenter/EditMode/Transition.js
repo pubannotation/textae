@@ -16,12 +16,7 @@ export default class {
   ) {
     this._editor = editor
     this._typeEditor = typeEditor
-    this._viewMode = new ViewMode(
-      editor,
-      annotationData,
-      selectionModel,
-      buttonStateHelper
-    )
+    this._viewMode = new ViewMode(editor, annotationData, buttonStateHelper)
     this._buttonStateHelper = buttonStateHelper
     this._displayInstance = displayInstance
   }

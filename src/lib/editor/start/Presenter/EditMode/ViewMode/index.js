@@ -3,9 +3,8 @@ import changeCssClass from './changeCssClass'
 import removeListeners from './removeListeners'
 
 export default class {
-  constructor(editor, annotationData, selectionModel, buttonStateHelper) {
+  constructor(editor, annotationData, buttonStateHelper) {
     this._editor = editor
-    this._selectionModel = selectionModel
     this._buttonStateHelper = buttonStateHelper
 
     const selector = new Selector(editor, annotationData)
