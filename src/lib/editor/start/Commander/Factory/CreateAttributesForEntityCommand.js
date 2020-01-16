@@ -12,7 +12,7 @@ export default class extends CompositeCommand {
           annotationData,
           selectionModel,
           'attribute',
-          true,
+          false,
           {
             subj: entity,
             obj,
