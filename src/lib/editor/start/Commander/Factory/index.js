@@ -7,7 +7,6 @@ import TypeDefinitionCreateCommand from './TypeDefinitionCreateCommand'
 import TypeDefinitionChangeAndRefectInstancesCommand from './TypeDefinitionChangeAndRefectInstancesCommand'
 import TypeDefinitionRemoveCommand from './TypeDefinitionRemoveCommand'
 import ChangeAttributesOfSelectedEntitiesCommand from './ChangeAttributesOfSelectedEntitiesCommand'
-import RemoveAttributesOfSelectedEntitiesCommand from './RemoveAttributesOfSelectedEntitiesCommand'
 import AttatchModificationsToSelectedCommand from './AttatchModificationsToSelectedCommand'
 import RemoveModificationsFromSelectedCommand from './RemoveModificationsFromSelectedCommand'
 import ChangeTypeRemoveRelationOfSelectedEntitiesCommand from './ChangeTypeRemoveRelationOfSelectedEntitiesCommand'
@@ -112,17 +111,6 @@ export default class {
       this._annotationData,
       this._selectionModel,
       types
-    )
-  }
-
-  attributeRemoveCommand(selectedEntities, pred, obj) {
-    return new RemoveAttributesOfSelectedEntitiesCommand(
-      this._editor,
-      this._annotationData,
-      this._selectionModel,
-      selectedEntities,
-      pred,
-      obj
     )
   }
 
