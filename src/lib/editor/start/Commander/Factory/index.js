@@ -77,15 +77,6 @@ export default class {
     )
   }
 
-  entitiesRemoveCommand(selectedElements) {
-    return new EntitiesRemoveAndSpanRemeveIfNoEntityRestCommand(
-      this._editor,
-      this._annotationData,
-      this._selectionModel,
-      selectedElements
-    )
-  }
-
   changeTypeRemoveRelationOfSelectedEntitiesCommand(newType) {
     return new ChangeTypeRemoveRelationOfSelectedEntitiesCommand(
       this._editor,
