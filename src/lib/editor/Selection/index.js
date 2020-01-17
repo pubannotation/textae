@@ -98,4 +98,10 @@ export default class {
       this.entity.add(Array.from(allEntityOflabels).map((dom) => dom.title))
     }
   }
+
+  getSelectedEntitiesWithSamePredicateAttribute(attrDef) {
+    return this.entity.all.filter((entity) =>
+      entity.attributes.find((attribute) => attribute.pred === attrDef.pred)
+    )
+  }
 }

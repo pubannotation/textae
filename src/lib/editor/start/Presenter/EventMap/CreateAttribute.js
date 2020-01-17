@@ -43,7 +43,7 @@ export default class {
     }
 
     if (attrDef instanceof SelectionAttributeDefinition) {
-      const selectedEntitiesWithSamePred = this._getSelectedEntitiesWithSamePred(
+      const selectedEntitiesWithSamePred = this._selectionModel.getSelectedEntitiesWithSamePredicateAttribute(
         attrDef
       )
 
@@ -63,11 +63,5 @@ export default class {
       attrDef
     )
     this._commander.invoke(command)
-  }
-
-  _getSelectedEntitiesWithSamePred(attrDef) {
-    return this._selectionModel.entity.all.filter((entity) =>
-      entity.attributes.find((attribute) => attribute.pred === attrDef.pred)
-    )
   }
 }
