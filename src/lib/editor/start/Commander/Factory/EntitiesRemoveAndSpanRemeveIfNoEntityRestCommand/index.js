@@ -6,8 +6,9 @@ import removedEntitiesFromSpan from './removedEntitiesFromSpan'
 import areAllEntiesOfSpanRemoved from './areAllEntiesOfSpanRemoved'
 
 export default class extends CompositeCommand {
-  constructor(editor, annotationData, selectionModel, entityIds) {
+  constructor(editor, annotationData, selectionModel) {
     super()
+    const entityIds = selectionModel.entity.all
     const spans = getSpans(entityIds, annotationData)
 
     let commands = []

@@ -23,8 +23,7 @@ export default class extends CompositeCommand {
             new EntitiesRemoveAndSpanRemeveIfNoEntityRestCommand(
               editor,
               annotationData,
-              selectionModel,
-              selectionModel.entity.all
+              selectionModel
             )
           ],
       selectionModel.span.all.map(
