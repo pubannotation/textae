@@ -80,10 +80,6 @@ export default class {
     this._elementEditor.getHandler().changeLabelHandler(this._autocompletionWs)
   }
 
-  changeTypeOfSelectedElement(newType) {
-    this._elementEditor.getHandler().changeTypeOfSelectedElement(newType)
-  }
-
   cancelSelect() {
     const pallet = this._getPallet()
     if (pallet) {
