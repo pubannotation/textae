@@ -20,7 +20,7 @@ export default function() {
   const annotationData = new AnnotationData(this)
 
   // A contaier of selection state.
-  const selectionModel = new Selection(this.eventEmitter)
+  const selectionModel = new Selection(this.eventEmitter, annotationData)
 
   const history = new History(this.eventEmitter)
   const clipBoard = {

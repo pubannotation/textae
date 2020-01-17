@@ -6,11 +6,9 @@ export default class extends CompositeCommand {
     super()
 
     const selectedEntities = selectionModel.entity.all
-    const selectedEntitiesWithSamePred = selectedEntities
-      .map((entityId) => annotationData.entity.get(entityId))
-      .filter((entity) =>
-        entity.attributes.find((attribute) => attribute.pred === pred)
-      )
+    const selectedEntitiesWithSamePred = selectedEntities.filter((entity) =>
+      entity.attributes.find((attribute) => attribute.pred === pred)
+    )
 
     const effectedAttributes = []
     for (const entity of selectedEntitiesWithSamePred) {

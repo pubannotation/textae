@@ -61,7 +61,7 @@ export default class extends DefaultHandler {
   }
 
   get selectedIds() {
-    return this._selectionModel.relation.all
+    return this._selectionModel.relation.all.map((relation) => relation.id)
   }
 
   selectAll(typeName) {

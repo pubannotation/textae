@@ -15,6 +15,8 @@ export default class extends CompositeCommand {
     this._subCommands = removeAttributeCommands
     this._logMessage = `remove attirbute ${
       attributeDefinition.pred
-    } to entity ${selectionModel.entity.all.join(', ')}`
+    } to entity ${selectionModel.entity.all
+      .map((entity) => entity.id)
+      .join(', ')}`
   }
 }

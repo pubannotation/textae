@@ -1,5 +1,3 @@
-export default function(selectionModel, annotationData) {
-  return selectionModel.span.all
-    .map((id) => annotationData.span.get(id).entities.map((e) => e.id))
-    .flat()
+export default function(selectionModel) {
+  return selectionModel.span.all.map((span) => span.entities).flat()
 }

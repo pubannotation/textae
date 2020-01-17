@@ -66,10 +66,8 @@ export default class {
   }
 
   _getSelectedEntitiesWithSamePred(attrDef) {
-    return this._selectionModel.entity.all
-      .map((entityId) => this._annotationData.entity.get(entityId))
-      .filter((entity) =>
-        entity.attributes.find((attribute) => attribute.pred === attrDef.pred)
-      )
+    return this._selectionModel.entity.all.filter((entity) =>
+      entity.attributes.find((attribute) => attribute.pred === attrDef.pred)
+    )
   }
 }

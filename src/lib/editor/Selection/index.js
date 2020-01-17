@@ -5,11 +5,11 @@ import getPaneDomOfType from '../getPaneDomOfType'
 const kinds = ['span', 'entity', 'relation']
 
 export default class {
-  constructor(eventEmitter) {
+  constructor(eventEmitter, annotationData) {
     this._map = new Map(
       kinds.map((kindName) => [
         kindName,
-        new IdContainer(eventEmitter, kindName)
+        new IdContainer(eventEmitter, kindName, annotationData)
       ])
     )
     this._map.forEach((container, name) => {

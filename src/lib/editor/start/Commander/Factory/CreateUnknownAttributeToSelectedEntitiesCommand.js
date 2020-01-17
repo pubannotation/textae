@@ -14,6 +14,8 @@ export default class extends CompositeCommand {
 
     this._logMessage = `create attirbute ${attributeDefinition.pred}:${
       attributeDefinition.default
-    } to entity ${selectionModel.entity.all.join(', ')}`
+    } to entity ${selectionModel.entity.all
+      .map((entity) => entity.id)
+      .join(', ')}`
   }
 }

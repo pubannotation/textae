@@ -29,7 +29,6 @@ export default class {
   ) {
     this._clipBoardHandler = new ClipBoardHandler(
       commander,
-      annotationData,
       selectionModel,
       clipBoard
     )

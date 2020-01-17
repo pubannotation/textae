@@ -24,9 +24,7 @@ export default class extends DefaultHandler {
   changeLabelHandler(autocompletionWs) {
     if (this._selectionModel.entity.some) {
       const type = mergeTypes(
-        this._selectionModel.entity.all.map(
-          (id) => this._annotationData.entity.get(id).type
-        )
+        this._selectionModel.entity.all.map((entity) => entity.type)
       )
       const done = ({ typeName, label, attributes }) => {
         const commands = this.commander.factory.changeEntityTypeCommand(
@@ -52,7 +50,7 @@ export default class extends DefaultHandler {
   }
 
   get selectedIds() {
-    return this._selectionModel.entity.all
+    return this._selectionModel.entity.all.map((entity) => entity.id)
   }
 
   selectAll(typeName) {

@@ -7,8 +7,13 @@ export default class extends CompositeCommand {
   constructor(editor, annotationData, selectionModel) {
     super()
 
+    const selectedSpans = selectionModel.span.all.map((span) => span.id)
+    const selectedRelations = selectionModel.relation.all.map(
+      (relation) => relation.id
+    )
+
     this._subCommands = [].concat(
-      selectionModel.relation.all.map(
+      selectedRelations.map(
         (id) =>
           new RelationAndAssociatesRemoveCommand(
             editor,
@@ -17,22 +22,22 @@ export default class extends CompositeCommand {
             id
           )
       ),
-      selectionModel.entity.all.length === 0
-        ? []
-        : [
+      selectionModel.entity.some
+        ? [
             new EntitiesRemoveAndSpanRemeveIfNoEntityRestCommand(
               editor,
               annotationData,
               selectionModel
             )
-          ],
-      selectionModel.span.all.map(
+          ]
+        : [],
+      selectedSpans.map(
         (id) =>
           new SpanRemoveCommand(editor, annotationData, selectionModel, id)
       )
     )
-    this._logMessage = `remove selected ${selectionModel.span.all
-      .concat(selectionModel.entity.all)
-      .concat(selectionModel.relation.all)}`
+    this._logMessage = `remove selected ${selectedSpans
+      .concat(selectionModel.entity.all.map((entity) => entity.id))
+      .concat(selectedRelations)}`
   }
 }

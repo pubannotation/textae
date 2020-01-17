@@ -1,9 +1,3 @@
-export default function removedEntitiesFromSpan(
-  entityIds,
-  annotationData,
-  span
-) {
-  return entityIds.filter(
-    (id) => annotationData.entity.get(id).span === span.id
-  )
+export default function removedEntitiesFromSpan(entities, span) {
+  return entities.filter((entity) => entity.span === span.id)
 }

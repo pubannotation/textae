@@ -7,13 +7,11 @@ export default function(
   selectionModel
 ) {
   return selectionModel.entity.all
-    .filter((entityId) =>
+    .filter((entity) =>
       // An entity cannot have more than one attribute with the same predicate.
-      annotationData.entity
-        .get(entityId)
-        .type.withoutSamePredicateAttribute(attributeDefinition.pred)
+      entity.type.withoutSamePredicateAttribute(attributeDefinition.pred)
     )
-    .map((subj) => {
+    .map((entity) => {
       return new CreateCommand(
         editor,
         annotationData,
@@ -22,7 +20,7 @@ export default function(
         false,
         {
           id: null,
-          subj,
+          subj: entity.id,
           pred: attributeDefinition.pred,
           obj: attributeDefinition.default
         }

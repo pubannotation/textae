@@ -5,7 +5,8 @@ export default class extends CompositeCommand {
   constructor(editor, annotationData, selectionModel, types) {
     super()
 
-    this._subCommands = selectionModel.span.all
+    const selecteedSpans = selectionModel.span.all.map((span) => span.id)
+    this._subCommands = selecteedSpans
       .map((span) =>
         types.map(
           (type) =>
@@ -20,6 +21,6 @@ export default class extends CompositeCommand {
       )
       .flat()
 
-    this._logMessage = `paste types ${types} to ${selectionModel.span.all}`
+    this._logMessage = `paste types ${types} to ${selecteedSpans}`
   }
 }

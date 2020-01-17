@@ -5,10 +5,11 @@ import remove from './remove'
 import clear from './clear'
 
 export default class {
-  constructor(emitter, kindName) {
+  constructor(emitter, kindName, annotationData) {
     this._emitter = emitter
     this._kindName = kindName
     this._selected = new Set()
+    this._annotationData = annotationData
   }
 
   add(id) {
@@ -20,7 +21,9 @@ export default class {
   }
 
   get all() {
-    return Array.from(this._selected.values())
+    return Array.from(this._selected.values()).map((id) =>
+      this._annotationData[this._kindName].get(id)
+    )
   }
 
   get some() {

@@ -1,3 +1,3 @@
 export default function areAllEntiesOfSpanRemoved(span, removedEntities) {
-  return span.entities.every((entity) => removedEntities.includes(entity.id))
+  return span.entities.every((entity) => removedEntities.includes(entity))
 }

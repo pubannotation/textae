@@ -7,10 +7,8 @@ export default function(
   selectionModel,
   attributeDefinition
 ) {
-  const entities = selectionModel.entity.all
   const attrs = getExistingSamePredicateAttributes(
-    entities,
-    annotationData,
+    selectionModel.entity.all,
     attributeDefinition
   )
   const removeAttributeCommands = getRemoveAtributesByPredAndObjCommands(
