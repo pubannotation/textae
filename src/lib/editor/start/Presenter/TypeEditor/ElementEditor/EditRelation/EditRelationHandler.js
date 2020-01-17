@@ -66,10 +66,8 @@ export default class extends DefaultHandler {
 
   selectAll(typeName) {
     this._selectionModel.relation.clear()
-    this._annotationData.relation.all.forEach((model) => {
-      if (model.type.name === typeName) {
-        this._selectionModel.relation.add(model.id)
-      }
-    })
+    this._annotationData.relation.all
+      .filter((model) => model.type.name === typeName)
+      .forEach((model) => this._selectionModel.relation.add(model.id))
   }
 }

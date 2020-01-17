@@ -57,10 +57,8 @@ export default class extends DefaultHandler {
 
   selectAll(typeName) {
     this._selectionModel.entity.clear()
-    this._annotationData.entity.all.forEach((model) => {
-      if (model.type.name === typeName) {
-        this._selectionModel.entity.add(model.id)
-      }
-    })
+    this._annotationData.entity.all
+      .filter((model) => model.type.name === typeName)
+      .forEach((model) => this._selectionModel.entity.add(model.id))
   }
 }
