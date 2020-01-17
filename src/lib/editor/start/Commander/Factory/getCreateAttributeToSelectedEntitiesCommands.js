@@ -1,13 +1,12 @@
 import { CreateCommand } from './commandTemplate'
 
 export default function(
-  entities,
   annotationData,
   attributeDefinition,
   editor,
   selectionModel
 ) {
-  return entities
+  return selectionModel.entity.all
     .filter((entityId) =>
       // An entity cannot have more than one attribute with the same predicate.
       annotationData.entity
