@@ -52,6 +52,9 @@ export default class {
     return Array.from(this.container.values())
   }
 
+  findByType(typeName) {
+    return this.all.filter((model) => model.type.name === typeName)
+  }
   get some() {
     return this.container.size
   }
