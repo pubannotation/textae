@@ -2,9 +2,10 @@ import CompositeCommand from './CompositeCommand'
 import AttributeChangeCommand from './AttributeChangeCommand'
 
 export default class extends CompositeCommand {
-  constructor(annotationData, selectedEntities, pred, newObj) {
+  constructor(annotationData, selectionModel, pred, newObj) {
     super()
 
+    const selectedEntities = selectionModel.entity.all
     const selectedEntitiesWithSamePred = selectedEntities
       .map((entityId) => annotationData.entity.get(entityId))
       .filter((entity) =>

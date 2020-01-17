@@ -15,7 +15,6 @@ export default class {
         'textae.selecionAttributePallet.item.label.click',
         (attrDef, newObj) => {
           const command = commander.factory.changeAttributesOfSelectedEntitiesWithSamePred(
-            selectionModel.entity.all,
             attrDef,
             newObj
           )
