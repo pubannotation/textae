@@ -1,4 +1,3 @@
-import $ from 'jquery'
 import onSelectObjectEntity from './onSelectObjectEntity'
 
 export default function entityClickedAtRelationMode(
