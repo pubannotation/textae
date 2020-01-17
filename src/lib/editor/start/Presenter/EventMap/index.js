@@ -10,7 +10,7 @@ import selectLowerLayer from './selectLowerLayer'
 import toggleSimpleMode from './toggleSimpleMode'
 import toggleDetectBoundaryMode from './toggleDetectBoundaryMode'
 import toggleInstaceRelation from './toggleInstaceRelation'
-import CreateAttribute from './CreateAttribute'
+import EditAttribute from './EditAttribute'
 import DeleteAttribute from './DeleteAttribute'
 
 export default class {
@@ -47,7 +47,7 @@ export default class {
       typeEditor
     )
     this._editMode = editMode
-    this._createAttribute = new CreateAttribute(
+    this._editAttribute = new EditAttribute(
       commander,
       editor,
       annotationData,
@@ -119,7 +119,7 @@ export default class {
     if (options.shiftKey) {
       this._deleteAttribute.handle(this._typeDefinition, number)
     } else {
-      this._createAttribute.handle(this._typeDefinition, number, options)
+      this._editAttribute.handle(this._typeDefinition, number, options)
     }
   }
 
