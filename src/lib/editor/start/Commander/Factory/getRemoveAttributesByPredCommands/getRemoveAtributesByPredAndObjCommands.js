@@ -1,4 +1,4 @@
-import { RemoveCommand } from './commandTemplate'
+import { RemoveCommand } from '../commandTemplate'
 
 export default function(attrs, editor, annotationData, selectionModel) {
   return attrs.map((attribute) => {

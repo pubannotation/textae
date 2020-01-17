@@ -1,5 +1,5 @@
-import getRemoveAtributesCommands from './getRemoveAtributesByPredAndObjCommands'
-import getExistingSamePredicateAttributes from './ToggleFlagAttributeToSelectedEntitiesCommand/getExistingSamePredicateAttributes'
+import getRemoveAtributesByPredAndObjCommands from './getRemoveAtributesByPredAndObjCommands'
+import getExistingSamePredicateAttributes from './getExistingSamePredicateAttributes'
 
 export default function(
   editor,
@@ -13,7 +13,7 @@ export default function(
     annotationData,
     attributeDefinition
   )
-  const removeAttributeCommands = getRemoveAtributesCommands(
+  const removeAttributeCommands = getRemoveAtributesByPredAndObjCommands(
     attrs,
     editor,
     annotationData,

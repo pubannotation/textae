@@ -1,6 +1,6 @@
-import CompositeCommand from '../CompositeCommand'
-import getCreateAttributeToSelectedEntitiesCommands from '../getCreateAttributeToSelectedEntitiesCommands'
-import getRemoveAttributesByPredCommands from '../getRemoveAttributesByPredCommands'
+import CompositeCommand from './CompositeCommand'
+import getCreateAttributeToSelectedEntitiesCommands from './getCreateAttributeToSelectedEntitiesCommands'
+import getRemoveAttributesByPredCommands from './getRemoveAttributesByPredCommands'
 
 export default class extends CompositeCommand {
   constructor(editor, annotationData, selectionModel, attributeDefinition) {
