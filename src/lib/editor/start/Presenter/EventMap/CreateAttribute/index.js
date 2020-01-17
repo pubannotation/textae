@@ -1,6 +1,8 @@
-import FlagAttributeDefinition from '../../../Model/TypeDefinition/createAttributeDefinition/FlagAttributeDefinition'
-import SelectionAttributePallet from '../../../../component/SelectionAttributePallet'
-import SelectionAttributeDefinition from '../../../Model/TypeDefinition/createAttributeDefinition/SelectionAttributeDefinition'
+import FlagAttributeDefinition from '../../../../Model/TypeDefinition/createAttributeDefinition/FlagAttributeDefinition'
+import SelectionAttributePallet from '../../../../../component/SelectionAttributePallet'
+import SelectionAttributeDefinition from '../../../../Model/TypeDefinition/createAttributeDefinition/SelectionAttributeDefinition'
+import toggleFlagAttribute from './toggleFlagAttribute'
+import createSelectionAttributeOrShowSelectionAttributePallet from './createSelectionAttributeOrShowSelectionAttributePallet'
 
 export default class {
   constructor(commander, editor, annotationData, selectionModel) {
@@ -34,28 +36,18 @@ export default class {
     const attrDef = typeDefinition.entity.getAttributeAt(number)
 
     if (attrDef instanceof FlagAttributeDefinition) {
-      const command = this._commander.factory.toggleFlagAttributeToSelectedEntitiesCommand(
-        attrDef
-      )
-      this._commander.invoke(command)
-
+      toggleFlagAttribute(attrDef, this._commander)
       return
     }
 
     if (attrDef instanceof SelectionAttributeDefinition) {
-      const selectedEntitiesWithSamePred = this._selectionModel.getSelectedEntitiesWithSamePredicateAttribute(
-        attrDef
+      createSelectionAttributeOrShowSelectionAttributePallet(
+        this._selectionModel,
+        attrDef,
+        this._commander,
+        this._pallet,
+        options.point
       )
-
-      if (selectedEntitiesWithSamePred.length > 0) {
-        this._pallet.definition = attrDef
-        this._pallet.show(options.point)
-      } else {
-        const command = this._commander.factory.createUnknownAttributeToSelectedEntitiesCommand(
-          attrDef
-        )
-        this._commander.invoke(command)
-      }
       return
     }
 
