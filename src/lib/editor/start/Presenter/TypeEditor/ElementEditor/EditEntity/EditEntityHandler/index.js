@@ -4,10 +4,10 @@ import mergeTypes from './mergeTypes'
 
 export default class extends DefaultHandler {
   constructor(typeDefinition, commander, annotationData, selectionModel) {
-    super('entity', selectionModel, typeDefinition.entity, commander)
+    super('entity', typeDefinition.entity, commander)
 
-    this.annotationData = annotationData.entity
-    this.selectionModel = selectionModel.entity
+    this._annotationData = annotationData
+    this._selectionModel = selectionModel
   }
 
   jsPlumbConnectionClicked(_, event) {
@@ -22,9 +22,11 @@ export default class extends DefaultHandler {
   }
 
   changeLabelHandler(autocompletionWs) {
-    if (this.getSelectedIdEditable().length > 0) {
+    if (this._selectionModel.entity.some) {
       const type = mergeTypes(
-        this.selectionModel.all.map((id) => this.annotationData.get(id).type)
+        this._selectionModel.entity.all.map(
+          (id) => this._annotationData.entity.get(id).type
+        )
       )
       const done = ({ typeName, label, attributes }) => {
         const commands = this.commander.factory.changeEntityTypeCommand(
@@ -47,5 +49,18 @@ export default class extends DefaultHandler {
       dialog.promise.then(done)
       dialog.open()
     }
+  }
+
+  get selectedIds() {
+    return this._selectionModel.entity.all
+  }
+
+  selectAll(typeName) {
+    this._selectionModel.entity.clear()
+    this._annotationData.entity.all.forEach((model) => {
+      if (model.type.name === typeName) {
+        this._selectionModel.entity.add(model.id)
+      }
+    })
   }
 }

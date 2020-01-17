@@ -2,12 +2,11 @@ import DefaultHandler from '../DefaultHandler'
 import EditLabelDialog from '../../../../../../component/EditLabelDialog'
 
 export default class extends DefaultHandler {
-  constructor(typeDefinition, command, annotationData, selectionModel) {
-    super('relation', selectionModel, typeDefinition.relation, command)
+  constructor(typeDefinition, commander, annotationData, selectionModel) {
+    super('relation', typeDefinition.relation, commander)
 
-    this.annotationData = annotationData.relation
-    this.selectionModel = selectionModel.relation
-    this.clearAllSelection = () => selectionModel.clear()
+    this._annotationData = annotationData
+    this._selectionModel = selectionModel
   }
 
   changeTypeOfSelectedElement(newType) {
@@ -15,7 +14,7 @@ export default class extends DefaultHandler {
   }
 
   changeLabelHandler(autocompletionWs) {
-    if (this.getSelectedIdEditable().length > 0) {
+    if (this._selectionModel.relation.some) {
       const type = this._getSelectedType()
       const dialog = new EditLabelDialog(
         type,
@@ -43,21 +42,34 @@ export default class extends DefaultHandler {
     const relationId = jsPlumbConnection.getParameter('id')
 
     if (event.ctrlKey || event.metaKey) {
-      this.selectionModel.toggle(relationId)
-    } else if (this.selectionModel.single() !== relationId) {
+      this._selectionModel.relation.toggle(relationId)
+    } else if (this._selectionModel.relation.single() !== relationId) {
       // Select only self
-      this.clearAllSelection()
-      this.selectionModel.add(relationId)
+      this._selectionModel.relation.clear()
+      this._selectionModel.relation.add(relationId)
     }
   }
 
   _getSelectedType() {
-    const id = this.selectionModel.single()
+    const id = this._selectionModel.relation.single()
 
     if (id) {
-      return this.annotationData.get(id).type
+      return this._annotationData.relation.get(id).type
     }
 
     return ''
+  }
+
+  get selectedIds() {
+    return this._selectionModel.relation.all
+  }
+
+  selectAll(typeName) {
+    this._selectionModel.relation.clear()
+    this._annotationData.relation.all.forEach((model) => {
+      if (model.type.name === typeName) {
+        this._selectionModel.relation.add(model.id)
+      }
+    })
   }
 }

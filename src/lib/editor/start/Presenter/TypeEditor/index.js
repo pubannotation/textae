@@ -100,7 +100,7 @@ export default class {
   }
 
   getSelectedIdEditable() {
-    return this._elementEditor.getHandler().getSelectedIdEditable()
+    return this._elementEditor.getHandler().selectedIds
   }
 
   _getPallet() {

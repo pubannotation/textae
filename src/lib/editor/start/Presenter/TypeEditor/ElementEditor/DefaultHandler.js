@@ -1,19 +1,10 @@
 import LABEL from '../../../LABEL'
 
 export default class {
-  constructor(modelType, selectionModel, typeContainer, commander) {
-    this.selectionModel = selectionModel
-    this.modelType = modelType
+  constructor(modelType, typeContainer, commander) {
+    this._modelType = modelType
     this.typeContainer = typeContainer
     this.commander = commander
-  }
-
-  getSelectedIdEditable() {
-    if (this.selectionModel) {
-      return this.selectionModel.all
-    }
-
-    return []
   }
 
   addType(newType) {
@@ -27,7 +18,7 @@ export default class {
   changeType(id, changedProperties) {
     return this.commander.factory.typeDefinitionChangeCommand(
       this.typeContainer,
-      this.modelType,
+      this._modelType,
       id,
       changedProperties
     )
@@ -40,15 +31,6 @@ export default class {
       const href = link.getAttribute('href')
       window.open(href, '_blank')
     }
-  }
-
-  selectAll(typeName) {
-    this.selectionModel.clear()
-    this.annotationData.all.map((model) => {
-      if (model.type.name === typeName) {
-        this.selectionModel.add(model.id)
-      }
-    })
   }
 
   removeType(id, label) {
