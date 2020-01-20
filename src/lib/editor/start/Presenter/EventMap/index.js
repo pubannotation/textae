@@ -111,10 +111,6 @@ export default class {
     this._modificationHandler.speculation()
   }
 
-  createAttribute() {
-    this.manipulateAttribute({})
-  }
-
   manipulateAttribute(options, number) {
     if (options.shiftKey) {
       this._deleteAttribute.handle(this._typeDefinition, number)

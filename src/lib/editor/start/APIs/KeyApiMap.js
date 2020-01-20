@@ -16,7 +16,7 @@ export default function(commander, presenter, persistenceInterface) {
     ['q', (option) => presenter.event.showPallet(option)],
     ['r', () => presenter.event.replicate()],
     ['s', () => presenter.event.speculation()],
-    ['t', () => presenter.event.createAttribute()],
+    ['t', (options) => presenter.event.manipulateAttribute(options, 1)],
     ['u', () => persistenceInterface.uploadAnnotation()],
     ['v', () => presenter.event.pasteEntities()],
     ['w', () => presenter.event.changeLabel()],

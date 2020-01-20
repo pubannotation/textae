@@ -74,10 +74,5 @@ export default class {
       )
       return
     }
-
-    const command = this._commander.factory.createUnknownAttributeToSelectedEntitiesCommand(
-      attrDef
-    )
-    this._commander.invoke(command)
   }
 }
