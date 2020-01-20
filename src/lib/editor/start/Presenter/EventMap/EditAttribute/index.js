@@ -1,4 +1,6 @@
 import FlagAttributeDefinition from '../../../../Model/TypeDefinition/createAttributeDefinition/FlagAttributeDefinition'
+import NumericAttributeDefinition from '../../../../Model/TypeDefinition/createAttributeDefinition/NumericAttributeDefinition'
+import createNumericAttributeOrShowEditNumericAttributeDialog from './createNumericAttributeOrShowEditNumericAttributeDialog'
 import SelectionAttributePallet from '../../../../../component/SelectionAttributePallet'
 import SelectionAttributeDefinition from '../../../../Model/TypeDefinition/createAttributeDefinition/SelectionAttributeDefinition'
 import StringAttributeDefinition from '../../../../Model/TypeDefinition/createAttributeDefinition/StringAttributeDefinition'
@@ -41,6 +43,15 @@ export default class {
 
     if (attrDef instanceof FlagAttributeDefinition) {
       toggleFlagAttribute(attrDef, this._commander)
+      return
+    }
+
+    if (attrDef instanceof NumericAttributeDefinition) {
+      createNumericAttributeOrShowEditNumericAttributeDialog(
+        this._selectionModel,
+        attrDef,
+        this._commander
+      )
       return
     }
 
