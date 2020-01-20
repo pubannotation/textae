@@ -6,7 +6,7 @@ export default function(selectionModel, attrDef, commander, pallet, point) {
     pallet.definition = attrDef
     pallet.show(point)
   } else {
-    const command = commander.factory.createUnknownAttributeToSelectedEntitiesCommand(
+    const command = commander.factory.createAttributeToSelectedEntitiesCommand(
       attrDef
     )
     commander.invoke(command)

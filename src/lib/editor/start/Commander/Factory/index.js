@@ -18,7 +18,7 @@ import ChangeEntityTypeCommand from './ChangeEntityTypeCommand'
 import ChangeRelationLabelCommand from './ChangeRelationLabelCommand'
 import CreateSpanAndAutoReplicateCommand from './CreateSpanAndAutoReplicateCommand'
 import ToggleFlagAttributeToSelectedEntitiesCommand from './ToggleFlagAttributeToSelectedEntitiesCommand'
-import CreateUnknownAttributeToSelectedEntitiesCommand from './CreateUnknownAttributeToSelectedEntitiesCommand'
+import CreateAttributeToSelectedEntitiesCommand from './CreateAttributeToSelectedEntitiesCommand'
 import ChangeAttributesOfSelectedEntitiesWithSamePred from './ChangeAttributesOfSelectedEntitiesWithSamePred'
 import RemoveAttributesOfSelectedEntitiesByPredCommand from './RemoveAttributesOfSelectedEntitiesByPredCommand'
 
@@ -160,8 +160,8 @@ export default class {
     )
   }
 
-  createUnknownAttributeToSelectedEntitiesCommand(attributeDefinition) {
-    return new CreateUnknownAttributeToSelectedEntitiesCommand(
+  createAttributeToSelectedEntitiesCommand(attributeDefinition) {
+    return new CreateAttributeToSelectedEntitiesCommand(
       this._editor,
       this._annotationData,
       this._selectionModel,

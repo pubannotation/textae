@@ -15,7 +15,7 @@ export default function(selectionModel, attrDef, commander) {
     })
     dialog.open()
   } else {
-    const command = commander.factory.createUnknownAttributeToSelectedEntitiesCommand(
+    const command = commander.factory.createAttributeToSelectedEntitiesCommand(
       attrDef
     )
     commander.invoke(command)
