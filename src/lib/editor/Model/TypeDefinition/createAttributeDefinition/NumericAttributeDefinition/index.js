@@ -1,8 +1,9 @@
+import AttributeDefinition from '../AttributeDefinition'
 import IntervalNotation from './IntervalNotation'
 
-export default class {
+export default class extends AttributeDefinition {
   constructor(hash) {
-    this.pred = hash.pred
+    super(hash)
     this.default = hash.default
     this.min = hash.min
     this.max = hash.max

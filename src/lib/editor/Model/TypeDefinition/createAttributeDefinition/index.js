@@ -1,4 +1,3 @@
-import AttributeDefinition from './AttributeDefinition'
 import FlagAttributeDefinition from './FlagAttributeDefinition'
 import NumericAttributeDefinition from './NumericAttributeDefinition'
 import SelectionAttributeDefinition from './SelectionAttributeDefinition'
@@ -15,6 +14,6 @@ export default function(hash) {
     case 'string':
       return new StringAttributeDefinition(hash)
     default:
-      return new AttributeDefinition()
+      throw `hash['value type'] is Uknown Attribute`
   }
 }

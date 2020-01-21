@@ -1,6 +1,8 @@
-export default class {
+import AttributeDefinition from './AttributeDefinition'
+
+export default class extends AttributeDefinition {
   constructor(hash) {
-    this.pred = hash.pred
+    super(hash)
     this._values = hash.values
   }
 
