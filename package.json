@@ -44,7 +44,6 @@
     "jsondiffpatch": "^0.2.5",
     "less": "^3.10.3",
     "less-watch-compiler": "^1.14.1",
-    "load-grunt-tasks": "~3.3.0",
     "mkdirp": "^0.5.1",
     "npm-run-all": "^1.8.0",
     "observ": "^0.2.0",
