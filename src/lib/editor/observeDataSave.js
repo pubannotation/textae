@@ -1,16 +1,16 @@
-import toastr from 'toastr'
+import alertifyjs from 'alertifyjs'
 
 export default function(editor, history) {
   editor.eventEmitter
     .on('textae.dataAccessObject.annotation.save', () => {
       history.annotatioSaved()
-      toastr.success('annotation saved')
+      alertifyjs.success('annotation saved')
     })
     .on('textae.dataAccessObject.configuration.save', () => {
       history.configurationSaved()
-      toastr.success('configuration saved')
+      alertifyjs.success('configuration saved')
     })
     .on('textae.dataAccessObject.saveError', () => {
-      toastr.error('could not save')
+      alertifyjs.error('could not save')
     })
 }

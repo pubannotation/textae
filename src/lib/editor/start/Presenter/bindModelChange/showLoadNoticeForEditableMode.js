@@ -1,7 +1,9 @@
-import toastr from 'toastr'
+import alertifyjs from 'alertifyjs'
 
 export default function(multitrack) {
   if (multitrack) {
-    toastr.success('track annotations have been merged to root annotations.')
+    alertifyjs.success(
+      'track annotations have been merged to root annotations.'
+    )
   }
 }

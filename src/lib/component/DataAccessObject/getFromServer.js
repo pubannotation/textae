@@ -1,6 +1,6 @@
 import url from 'url'
 import ajaxAccessor from '../../util/ajaxAccessor'
-import toastr from 'toastr'
+import alertifyjs from 'alertifyjs'
 
 export default function(urlForJson, beforeSend, successHandler, finishHandler) {
   beforeSend()
@@ -21,7 +21,7 @@ export default function(urlForJson, beforeSend, successHandler, finishHandler) {
     },
     () => {
       finishHandler()
-      toastr.error('Could not load the target.')
+      alertifyjs.error('Could not load the target.')
     }
   )
 }

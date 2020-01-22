@@ -21,6 +21,7 @@
   "devDependencies": {
     "@babel/core": "^7.8.3",
     "ajv": "^6.11.0",
+    "alertifyjs": "^1.13.1",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.26.2",
     "babelify": "^10.0.0",
     "browserify": "^16.5.0",
@@ -55,7 +56,6 @@
     "serve-static": "^1.14.1",
     "sticky-kit": "github:leafo/sticky-kit",
     "throttleit": "^1.0.0",
-    "toastr": "^2.1.4",
     "uglifyify": "^5.0.2",
     "watchify": "^3.11.1",
     "yui": "^3.18.1"

@@ -11,7 +11,7 @@ import APIs from './APIs'
 import calculateLineHeight from './calculateLineHeight'
 import focusEditorWhenFocusedChildRemoved from './focusEditorWhenFocusedChildRemoved'
 import validateConfiguration from '../Model/AnnotationData/validateConfiguration'
-import toastr from 'toastr'
+import alertifyjs from 'alertifyjs'
 import getStatusBar from './getStatusBar'
 import setSpanAndTypeConfig from './setSpanAndTypeConfig'
 import setAnnotation from './setAnnotation'
@@ -67,7 +67,7 @@ export default function(
   editor.eventEmitter
     .on('textae.dataAccessObject.annotation.load', ({ annotation, source }) => {
       if (!annotation || !annotation.text) {
-        toastr.error(
+        alertifyjs.error(
           `${source} is not a annotation file or its format is invalid.`
         )
         return
@@ -86,7 +86,7 @@ export default function(
     })
     .on('textae.dataAccessObject.configuration.load', ({ config, source }) => {
       if (!validateConfiguration(config)) {
-        toastr.error(
+        alertifyjs.error(
           `${source} is not a configuration file or its format is invalid.`
         )
         return
@@ -180,4 +180,7 @@ export default function(
 
   // Add tabIndex to listen to keyboard events.
   editor[0].tabIndex = -1
+
+  // Set position of toast messages.
+  alertifyjs.set('notifier', 'position', 'top-right')
 }

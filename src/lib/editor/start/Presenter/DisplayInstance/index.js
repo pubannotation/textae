@@ -1,5 +1,5 @@
 import TypeGapCache from './TypeGapCache'
-import toastr from 'toastr'
+import alertifyjs from 'alertifyjs'
 import changeTypeGap from './changeTypeGap'
 import updateTypeGap from './updateTypeGap'
 
@@ -34,7 +34,7 @@ export default class {
 
   notifyNewInstance() {
     if (!this._showInstance) {
-      toastr.success('an instance is created behind.')
+      alertifyjs.success('an instance is created behind.')
     }
   }
 }
