@@ -3,17 +3,11 @@ import AttributeDefinition from './AttributeDefinition'
 export default class extends AttributeDefinition {
   constructor(hash) {
     super(hash)
-    this._values = hash.values
+    this.values = hash.values
   }
 
   get default() {
-    return this._values.find((a) => a.default).id
-  }
-
-  get   () {
-    return this._values.map((v) =>
-      Object.assign({}, v, { defaultType: v.id === this.default })
-    )
+    return this.values.find((a) => a.default).id
   }
 
   getLabel(obj) {
@@ -37,13 +31,13 @@ export default class extends AttributeDefinition {
   }
 
   _getDef(obj) {
-    return this._values.find((a) => a.id == obj)
+    return this.values.find((a) => a.id == obj)
   }
 
   get JSON() {
     return Object.assign(super.JSON, {
       'value type': 'selection',
-      values: this._values
+      values: this.values
     })
   }
 }

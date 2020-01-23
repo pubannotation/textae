@@ -57,7 +57,7 @@ const html = `
         <span title={{id}}>
           {{id}}
         </span>
-        {{#if defaultType}}
+        {{#if default}}
           <span class="textae-editor__type-pallet__default-icon" title="This type is set as a default type."></span>
         {{/if}}
       </td>
