@@ -10,7 +10,7 @@ export default class extends AttributeDefinition {
     return this._values.find((a) => a.default).id
   }
 
-  get values() {
+  get   () {
     return this._values.map((v) =>
       Object.assign({}, v, { defaultType: v.id === this.default })
     )
@@ -38,5 +38,12 @@ export default class extends AttributeDefinition {
 
   _getDef(obj) {
     return this._values.find((a) => a.id == obj)
+  }
+
+  get JSON() {
+    return Object.assign(super.JSON, {
+      'value type': 'selection',
+      values: this._values
+    })
   }
 }

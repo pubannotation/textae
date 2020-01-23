@@ -47,4 +47,15 @@ export default class extends AttributeDefinition {
 
     return null
   }
+
+  get JSON() {
+    return Object.assign(super.JSON, {
+      'value type': 'numeric',
+      default: this.default,
+      min: this.min,
+      max: this.max,
+      step: this.step,
+      values: this._values
+    })
+  }
 }

@@ -19,4 +19,13 @@ export default class extends AttributeDefinition {
   getColor() {
     return this._color
   }
+
+  get JSON() {
+    return Object.assign(super.JSON, {
+      'value type': 'flag',
+      default: this.default,
+      label: this._label,
+      color: this._color
+    })
+  }
 }

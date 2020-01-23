@@ -42,4 +42,12 @@ export default class extends AttributeDefinition {
 
     return null
   }
+
+  get JSON() {
+    return Object.assign(super.JSON, {
+      'value type': 'string',
+      default: this.default,
+      values: this._values
+    })
+  }
 }
