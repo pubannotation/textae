@@ -47,8 +47,6 @@ export default class extends Container {
   }
 
   getAttributeAt(number) {
-    const attrDef = Array.from(this._definedAttributes.values())[number - 1]
-
-    return attrDef || createAttributeDefinition({})
+    return Array.from(this._definedAttributes.values())[number - 1]
   }
 }
