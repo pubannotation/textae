@@ -3,7 +3,7 @@ import ParagraphContainer from './ParagraphContainer'
 import SpanContainer from './SpanContainer'
 import EntityContainer from './EntityContainer'
 import AttributeContainer from './AttributeContainer'
-import RelationContaner from './RelationContaner'
+import RelationContainer from './RelationContainer'
 
 export default class {
   constructor(editor) {
@@ -17,7 +17,7 @@ export default class {
       this.paragraph
     )
     this.attribute = new AttributeContainer(editor.eventEmitter, this)
-    this.relation = new RelationContaner(editor.eventEmitter)
+    this.relation = new RelationContainer(editor.eventEmitter)
     this.entity = new EntityContainer(editor, editor.eventEmitter, this)
     this.modification = new ModelContainer(editor.eventEmitter, 'modification')
   }
