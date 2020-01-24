@@ -1,3 +1,4 @@
+import alertifyjs from 'alertifyjs'
 import FlagAttributeDefinition from '../../../../Model/TypeDefinition/createAttributeDefinition/FlagAttributeDefinition'
 import NumericAttributeDefinition from '../../../../Model/TypeDefinition/createAttributeDefinition/NumericAttributeDefinition'
 import createNumericAttributeOrShowEditNumericAttributeDialog from './createNumericAttributeOrShowEditNumericAttributeDialog'
@@ -40,6 +41,11 @@ export default class {
     this._pallet.hide()
 
     const attrDef = typeDefinition.entity.getAttributeAt(number)
+
+    if (!attrDef) {
+      alertifyjs.warning(`Attribute No.${number} is not defined`)
+      return
+    }
 
     if (attrDef instanceof FlagAttributeDefinition) {
       toggleFlagAttribute(attrDef, this._commander)
