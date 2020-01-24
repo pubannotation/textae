@@ -1,5 +1,5 @@
 import DefaultHandler from '../../DefaultHandler'
-import EditTypeDialog from '../../../../../../../component/EditTypeDialog'
+import EditEntityTypeDialog from '../../../../../../../component/EditEntityTypeDialog'
 import mergeTypes from './mergeTypes'
 
 export default class extends DefaultHandler {
@@ -39,7 +39,7 @@ export default class extends DefaultHandler {
         }
       }
 
-      const dialog = new EditTypeDialog(
+      const dialog = new EditEntityTypeDialog(
         type,
         this.typeContainer,
         autocompletionWs
