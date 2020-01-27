@@ -3,7 +3,7 @@ import AttributeDefinition from './AttributeDefinition'
 export default class extends AttributeDefinition {
   constructor(hash) {
     super(hash)
-    this.default = hash.default
+    this.default = true
     this._label = hash.label
     this._color = hash.color
   }

@@ -554,7 +554,8 @@
     {
       "id": "A1",
       "subj": "T1.a.b",
-      "pred": "error"
+      "pred": "error",
+      "obj": true
     },
     {
       "id": "A2",

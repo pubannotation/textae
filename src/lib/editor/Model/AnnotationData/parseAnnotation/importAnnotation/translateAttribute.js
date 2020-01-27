@@ -7,6 +7,6 @@ export default function(prefix, src) {
   return Object.assign({}, src, {
     id: setIdPrefixIfExist(src, prefix),
     subj: prefix + src.subj,
-    obj: prefix + src.obj
+    obj: src.obj
   })
 }
