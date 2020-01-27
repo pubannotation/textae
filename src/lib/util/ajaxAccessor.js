@@ -13,7 +13,7 @@ export default function(url, dataHandler, failedHandler) {
     xhrFields: {
       withCredentials: true
     },
-    timeout: 3000
+    timeout: 30000
   }
 
   $.ajax(opt)
