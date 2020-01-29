@@ -59,10 +59,6 @@ export default class {
     destroy(this.editor, this.annotationData, this.gridRenderer, entity)
   }
 
-  updateLabel(typeName) {
-    updateLabelofType(this.annotationData, this.typeContainer, typeName)
-  }
-
   updateLabelAll() {
     for (const entity of this.annotationData.entity.all) {
       updateLabelofType(
