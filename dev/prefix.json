@@ -45,6 +45,46 @@
       "obj": "http://abc.com"
     }
   ],
+  "attributes": [
+    {
+      "id": "A1",
+      "subj": "T1",
+      "pred": "free_text_predicate",
+      "obj": "Protein"
+    },
+    {
+      "id": "A2",
+      "subj": "T2",
+      "pred": "free_text_predicate",
+      "obj": "abc:Protein"
+    },
+    {
+      "id": "A3",
+      "subj": "T3",
+      "pred": "free_text_predicate",
+      "obj": "http://abc.com"
+    }
+  ],
   "relations": [],
-  "modifications": []
+  "modifications": [],
+  "config": {
+    "attribute types": [
+      {
+        "pred": "free_text_predicate",
+        "value type": "string",
+        "default": "Down the Rabbit Hole",
+        "values": [
+          {
+            "pattern": "default",
+            "color": "#00FFFF"
+          },
+          {
+            "pattern": "^[0-9].*$",
+            "color": "#FF0000",
+            "label": "High"
+          }
+        ]
+      }
+    ]
+  }
 }

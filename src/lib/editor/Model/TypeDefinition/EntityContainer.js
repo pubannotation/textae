@@ -37,7 +37,7 @@ export default class extends Container {
       return this._definedAttributes.get(attribute.pred).getLabel(attribute.obj)
     }
 
-    return attribute.obj
+    return
   }
 
   getAttributeColor(attribute) {

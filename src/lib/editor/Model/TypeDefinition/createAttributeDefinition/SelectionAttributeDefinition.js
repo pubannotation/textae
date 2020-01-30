@@ -17,7 +17,7 @@ export default class extends AttributeDefinition {
       return def.label
     }
 
-    return obj
+    return
   }
 
   getColor(obj) {

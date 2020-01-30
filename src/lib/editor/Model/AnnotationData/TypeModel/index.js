@@ -48,17 +48,25 @@ export default class {
     const label = getLabel(namespace, value, typeContainer.getLabel(value))
     const href = getUri(namespace, value, typeContainer.getUri(value))
     const color = typeContainer.getColor(value)
-    const attributes = this._toAttributesForDom(typeContainer)
+    const attributes = this._toAttributesForDom(namespace, typeContainer)
 
     return { id, label, href, color, attributes }
   }
 
-  _toAttributesForDom(typeContainer) {
+  _toAttributesForDom(namespace, typeContainer) {
     return this.attributes.map((attribute) => {
       return Object.assign({}, attribute, {
         domId: `${this.id}-${attribute.id}`,
         title: `pred: ${attribute.pred}, value: ${attribute.obj}`,
-        label: typeContainer.getAttributeLabel(attribute),
+        label: getLabel(
+          namespace,
+          attribute.obj,
+          typeContainer.getAttributeLabel(attribute)
+        ),
+        href: getUri(
+          namespace,
+          typeof attribute.obj === 'string' ? attribute.obj : ''
+        ),
         color: typeContainer.getAttributeColor(attribute)
       })
     })
