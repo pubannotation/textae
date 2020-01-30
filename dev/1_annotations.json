@@ -161,6 +161,53 @@
             "label": "High"
           }
         ]
+      },
+      {
+        "pred": "reputation",
+        "value type": "selection",
+        "values": [
+          {
+            "color": "#00FF00",
+            "id": "http://dbpedia.org/page/Good",
+            "default": true
+          },
+          {
+            "color": "#9999FF",
+            "id": "http://dbpedia.org/page/Nice"
+          }
+        ]
+      },
+      {
+        "pred": "Speculation",
+        "value type": "flag",
+        "color": "#FF8000"
+      },
+      {
+        "pred": "Negation",
+        "value type": "flag",
+        "color": "#FF3399"
+      },
+      {
+        "pred": "voltage",
+        "value type": "numeric",
+        "default": 100,
+        "min": 0,
+        "max": 1000,
+        "step": 10,
+        "values": [
+          {
+            "range": "default",
+            "color": "#00FF00"
+          },
+          {
+            "range": "[200",
+            "color": "#FFFF00"
+          },
+          {
+            "range": "100)",
+            "color": "#808080"
+          }
+        ]
       }
     ]
   },
