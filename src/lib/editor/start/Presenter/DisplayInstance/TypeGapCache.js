@@ -10,7 +10,7 @@ export default function() {
   const set = (mode, val) => updateHash(api, mode, val)
 
   for (const key of Object.keys(SEED)) {
-    api[`set${capitalize(key)}`] = (val) => set(key, val)
+    api[`set${capitalize(key, true)}`] = (val) => set(key, val)
   }
 
   return api
