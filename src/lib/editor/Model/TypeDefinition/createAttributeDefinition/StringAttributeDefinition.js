@@ -3,7 +3,7 @@ export default class extends AttributeDefinition {
   constructor(hash) {
     super(hash)
     this.default = hash.default
-    this._values = hash.values
+    this._values = hash.values || []
   }
 
   getLabel(obj) {
