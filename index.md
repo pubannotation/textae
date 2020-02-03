@@ -3,10 +3,15 @@ layout: docs_with_textae
 title: Intro
 ---
 
-## <i class="fa fa-check" aria-hidden="true"></i> Javascript app for text annotation
+<span style="background-color:#F00; color:#FFF">Caveat</span> <span style="color:#F00; font-style:italic">TextAE may not work properly in Microsoft IE. Please use FireFox, Chrome, Safari, or Edge which better support standard HTML5 + CSS3.</span>
 
-* TextAE can be embedded in any HTML document, in any place, in any style.
-* <span style="background-color:#F00; color:#FFF">Caveat</span> <span style="color:#F00; font-style:italic">TextAE may not work properly in Microsoft IE. Please use FireFox, Chrome, Safari, or Opera which better supports standard HTML5 + CSS3.</span>
+
+## <i class="fa fa-check" aria-hidden="true"></i> An "embeddable" editor for text annotation
+
+* TextAE can be embedded in a HTML document.
+  * See other pages with embedded TextAE boxes
+    * [The PubAnnotation intro page](http://www.pubannotation.org/)
+    * [The result page of a search in PubAnnotation](http://pubannotation.org/projects/GlyCosmos600-GlycoEpitope/search?query=PREFIX+pubann%3A%3Chttp%3A%2F%2Fpubannotation.org%2Fontology%2F%3E%0D%0ASELECT+%3Fs1+%3Fs2%0D%0AWHERE+%7B%0D%0A++GRAPH+prj%3AGlyCosmos600-GlycoEpitope+%7B%0D%0A++++%3Fo1+tao%3Adenoted_by+%3Fs1+.%0D%0A++%7D%0D%0A%0D%0A++GRAPH+prj%3AGlyCosmos600-MAT+%7B%0D%0A++++%3Fo2+tao%3Adenoted_by+%3Fs2+.%0D%0A++%7D%0D%0A%0D%0A++%3Fo3+tao%3Adenoted_by+%3Fs3+.%0D%0A++%3Fo3+a+pubann%3ASentence+.%0D%0A++%3Fs3+tao%3Acontains+%3Fs1+.%0D%0A++%3Fs3+tao%3Acontains+%3Fs2+.%0D%0A%7D%0D%0A&template_select=18&show_mode=textae&project_name=&projects=GlyCosmos600-GlycoEpitope%2CGlyCosmos600-MAT)
 
 ```HTML
 <div class="textae-editor style="width:300px; background-color:lavender; position:relative; top:-70px; left:300px"">
