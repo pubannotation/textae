@@ -7,6 +7,15 @@
   background-color: @acitveColor;
 }
 
+.label--full-length() {
+  border-width: 1px;
+  border-radius: 1px;
+  border-bottom-style: dashed;
+  border-bottom-color: white;
+  display: inline-block;
+  padding: 0 4px;
+}
+
 .textae-editor {
   position: relative;
   padding: 2px;
@@ -138,6 +147,7 @@
     }
   }
 
+  // Type
   &__grid {
     border-color: @border;
     border-style: solid;
@@ -158,8 +168,10 @@
       border-radius: 4px;
       border-style: solid;
       border-width: 1px 0;
+      box-shadow: 1px 1px 10px #600;
       line-height: 16px;
-      overflow: hidden;
+      opacity: 1;
+      overflow: visible;
       position: relative;
       -webkit-user-select: none;
       -khtml-user-select: none;
@@ -170,12 +182,16 @@
       z-index: 1;
     }
 
+    &-label{
+      .label--full-length;
+      background-color: inherit;
+    }
+  
     &-label:focus {
       outline-style: none;
     }
 
     &:hover {
-
       .textae-editor__entity-pane,
       .textae-editor__type-values {
         z-index: 4;
@@ -199,24 +215,22 @@
 
       .textae-editor__type-label,
       .textae-editor__attribute-label {
-        border-width: 1px;
-        border-radius: 1px;
-        border-bottom-style: dashed;
-        border-bottom-color: white;
-        display: inline-block;
-        padding: 0 4px;
+        .label--full-length;
       }
     }
   }
 
-  &--editable &__type-label a,
-  &--editable &__attribute-label a {
-    color: black;
-    pointer-events: none;
-    text-decoration: none;
+  &__attribute {
+    background-color: inherit;
+    height: 18px;
+    margin: 0 2px;
+    width: calc(100% - 4px);
+    &-label {
+      .label--full-length;
+      background-color: inherit;
+    }
   }
 
-  &__type-values,
   &__entity,
   &--relation-mode &__type:hover &__entity,
   &--relation-mode &__type:hover &__type-values {
@@ -228,10 +242,30 @@
     z-index: 4;
   }
 
-  &__attribute {
-    height: 18px;
-    margin: 0 2px;
-    width: calc(100% - 4px);
+  &--editable {
+    .textae-editor {
+      &__type-values {
+        box-shadow: none;
+        opacity: 0.9;
+        overflow: hidden;
+      }
+      &__attribute {
+        background-color: transparent;
+      }
+      &__type-label,
+      &__attribute-label {
+        background-color: transparent;
+        border-width: 0;
+        border-radius: 0;
+        border-bottom-style: none;
+        padding: 0;
+        a {
+          color: black;
+          pointer-events: none;
+          text-decoration: none;
+        }
+      }
+    }
   }
 
   &__entity-pane {
