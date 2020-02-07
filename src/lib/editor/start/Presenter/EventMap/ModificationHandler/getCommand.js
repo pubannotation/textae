@@ -1,11 +1,11 @@
 export default function(hasAlready, commander, modificationType, typeEditor) {
   if (hasAlready) {
-    return commander.factory.modificationRemoveCommand(
+    return commander.factory.removeModificationCommand(
       modificationType,
       typeEditor
     )
   } else {
-    return commander.factory.modificationCreateCommand(
+    return commander.factory.createModificationCommand(
       modificationType,
       typeEditor
     )

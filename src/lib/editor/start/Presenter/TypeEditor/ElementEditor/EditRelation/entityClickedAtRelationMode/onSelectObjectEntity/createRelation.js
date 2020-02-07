@@ -5,7 +5,7 @@ export default function(
   typeDefinition
 ) {
   commander.invoke(
-    commander.factory.relationCreateCommand({
+    commander.factory.createRelationCommand({
       subj: subjectEntityId,
       obj: objectEntityId,
       type: typeDefinition.relation.defaultType
