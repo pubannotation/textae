@@ -1,7 +1,7 @@
 import commandLog from './commandLog'
 import ConfigurationCommand from './ConfigurationCommand'
 
-export default class TypeDefinitionChangeCommand extends ConfigurationCommand {
+export default class ChangeTypeDefinitionCommand extends ConfigurationCommand {
   constructor(
     editor,
     annotationData,
@@ -53,7 +53,7 @@ export default class TypeDefinitionChangeCommand extends ConfigurationCommand {
   }
 
   revert() {
-    return new TypeDefinitionChangeCommand(
+    return new ChangeTypeDefinitionCommand(
       this.editor,
       this.annotationData,
       this.typeDefinition,

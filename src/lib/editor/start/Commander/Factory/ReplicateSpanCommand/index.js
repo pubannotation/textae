@@ -1,4 +1,4 @@
-import SpanAndTypesCreateCommand from '../SpanAndTypesCreateCommand'
+import CreateSpanAndTypesCommand from '../CreateSpanAndTypesCommand'
 import getReplicationSpans from './getReplicationSpans'
 import CompositeCommand from '../CompositeCommand'
 import idFactory from '../../../../idFactory'
@@ -20,7 +20,7 @@ export default class extends CompositeCommand {
       detectBoundaryFunc
     ).map(
       (newSpan) =>
-        new SpanAndTypesCreateCommand(
+        new CreateSpanAndTypesCommand(
           editor,
           annotationData,
           selectionModel,

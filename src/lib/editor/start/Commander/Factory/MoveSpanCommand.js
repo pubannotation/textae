@@ -2,7 +2,7 @@ import commandLog from './commandLog'
 import AnnotationCommand from './AnnotationCommand'
 import idFactory from '../../../idFactory'
 
-export default class SpanMoveCommand extends AnnotationCommand {
+export default class MoveSpanCommand extends AnnotationCommand {
   constructor(editor, annotationData, spanId, newSpan) {
     console.assert(
       spanId !== idFactory.makeSpanId(editor, newSpan),
@@ -32,7 +32,7 @@ export default class SpanMoveCommand extends AnnotationCommand {
   }
 
   revert() {
-    return new SpanMoveCommand(
+    return new MoveSpanCommand(
       this.editor,
       this.annotationData,
       this.newId,

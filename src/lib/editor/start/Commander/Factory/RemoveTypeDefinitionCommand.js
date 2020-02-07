@@ -1,8 +1,8 @@
 import commandLog from './commandLog'
-import TypeDefinitionCreateCommand from './TypeDefinitionCreateCommand'
+import CreateTypeDefinitionCommand from './CreateTypeDefinitionCommand'
 import ConfigurationCommand from './ConfigurationCommand'
 
-export default class TypeRemoveCommand extends ConfigurationCommand {
+export default class extends ConfigurationCommand {
   constructor(editor, typeDefinition, removeType, revertDefaultTypeId) {
     super()
     this.editor = editor
@@ -33,7 +33,7 @@ export default class TypeRemoveCommand extends ConfigurationCommand {
   }
 
   revert() {
-    return new TypeDefinitionCreateCommand(
+    return new CreateTypeDefinitionCommand(
       this.editor,
       this.typeDefinition,
       this.removeType

@@ -1,6 +1,6 @@
 import findAttribute from './findAttribute'
 import CompositeCommand from './CompositeCommand'
-import AttributeChangeCommand from './AttributeChangeCommand'
+import ChangeAttributeCommand from './ChangeAttributeCommand'
 
 export default class extends CompositeCommand {
   constructor(
@@ -33,7 +33,7 @@ export default class extends CompositeCommand {
             .type.withoutSamePredicateAttribute(newPred)
         ) {
           effectedAttributes.push(
-            new AttributeChangeCommand(
+            new ChangeAttributeCommand(
               annotationData,
               attribute,
               newPred,

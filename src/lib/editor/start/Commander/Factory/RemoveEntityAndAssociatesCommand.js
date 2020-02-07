@@ -1,11 +1,11 @@
 import { RemoveCommand } from './commandTemplate'
-import RelationAndAssociatesRemoveCommand from './RelationAndAssociatesRemoveCommand'
+import RemoveRelationAndAssociatesCommand from './RemoveRelationAndAssociatesCommand'
 import CompositeCommand from './CompositeCommand'
 
 export default class extends CompositeCommand {
   constructor(editor, annotationData, selectionModel, id) {
     super()
-    const entityRemoveCommand = (entity) =>
+    const removeEentityCommand = (entity) =>
       new RemoveCommand(
         editor,
         annotationData,
@@ -13,12 +13,12 @@ export default class extends CompositeCommand {
         'entity',
         entity
       )
-    const removeEntity = entityRemoveCommand(id)
+    const removeEntity = removeEentityCommand(id)
     const removeRelation = annotationData.entity
       .get(id)
       .relations.map(
         (id) =>
-          new RelationAndAssociatesRemoveCommand(
+          new RemoveRelationAndAssociatesCommand(
             editor,
             annotationData,
             selectionModel,

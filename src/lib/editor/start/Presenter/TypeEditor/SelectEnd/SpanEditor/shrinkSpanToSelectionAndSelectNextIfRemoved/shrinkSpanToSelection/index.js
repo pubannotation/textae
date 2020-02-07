@@ -29,7 +29,7 @@ export default function(
   if (newSpan.begin < newSpan.end && !doesExists) {
     commander.invoke(commander.factory.spanMoveCommand(spanId, newSpan))
   } else {
-    commander.invoke(commander.factory.spanRemoveCommand(spanId))
+    commander.invoke(commander.factory.removeSpanCommand(spanId))
     return true
   }
 

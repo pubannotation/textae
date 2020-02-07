@@ -1,6 +1,6 @@
 import CompositeCommand from './CompositeCommand'
-import SpanAndTypesCreateCommand from './SpanAndTypesCreateCommand'
-import SpanReplicateCommand from './SpanReplicateCommand'
+import CreateSpanAndTypesCommand from './CreateSpanAndTypesCommand'
+import ReplicateSpanCommand from './ReplicateSpanCommand'
 import TypeModel from '../../../Model/AnnotationData/TypeModel'
 
 const BLOCK_THRESHOLD = 100
@@ -20,7 +20,7 @@ export default class extends CompositeCommand {
     const types = [new TypeModel(defaultType)]
 
     this._subCommands = [
-      new SpanAndTypesCreateCommand(
+      new CreateSpanAndTypesCommand(
         editor,
         annotationData,
         selectionModel,
@@ -35,7 +35,7 @@ export default class extends CompositeCommand {
 
     if (isReplicateAuto && newSpan.end - newSpan.begin <= BLOCK_THRESHOLD) {
       this._subCommands.push(
-        new SpanReplicateCommand(
+        new ReplicateSpanCommand(
           editor,
           annotationData,
           selectionModel,

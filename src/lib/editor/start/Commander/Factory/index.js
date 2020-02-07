@@ -1,11 +1,10 @@
 import { CreateCommand } from './commandTemplate'
-import SpanReplicateCommand from './SpanReplicateCommand'
-import SpanRemoveCommand from './SpanRemoveCommand'
-import SpanMoveCommand from './SpanMoveCommand'
-import RelationAndAssociatesRemoveCommand from './RelationAndAssociatesRemoveCommand'
-import TypeDefinitionCreateCommand from './TypeDefinitionCreateCommand'
-import TypeDefinitionChangeAndRefectInstancesCommand from './TypeDefinitionChangeAndRefectInstancesCommand'
-import TypeDefinitionRemoveCommand from './TypeDefinitionRemoveCommand'
+import ReplicateSpanCommand from './ReplicateSpanCommand'
+import RemoveSpanCommand from './RemoveSpanCommand'
+import MoveSpanCommand from './MoveSpanCommand'
+import CreateTypeDefinitionCommand from './CreateTypeDefinitionCommand'
+import ChangeTypeDefinitionAndRefectInstancesCommand from './ChangeTypeDefinitionAndRefectInstancesCommand'
+import RemoveTypeDefinitionCommand from './RemoveTypeDefinitionCommand'
 import ChangeAttributesOfSelectedEntitiesCommand from './ChangeAttributesOfSelectedEntitiesCommand'
 import AttatchModificationsToSelectedCommand from './AttatchModificationsToSelectedCommand'
 import RemoveModificationsFromSelectedCommand from './RemoveModificationsFromSelectedCommand'
@@ -46,8 +45,8 @@ export default class {
     )
   }
 
-  spanRemoveCommand(id) {
-    return new SpanRemoveCommand(
+  removeSpanCommand(id) {
+    return new RemoveSpanCommand(
       this._editor,
       this._annotationData,
       this._selectionModel,
@@ -56,7 +55,7 @@ export default class {
   }
 
   spanMoveCommand(spanId, newSpan) {
-    return new SpanMoveCommand(
+    return new MoveSpanCommand(
       this._editor,
       this._annotationData,
       spanId,
@@ -64,8 +63,8 @@ export default class {
     )
   }
 
-  spanReplicateCommand(span, types, detectBoundaryFunc) {
-    return new SpanReplicateCommand(
+  replicateSpanCommand(span, types, detectBoundaryFunc) {
+    return new ReplicateSpanCommand(
       this._editor,
       this._annotationData,
       this._selectionModel,
@@ -182,15 +181,6 @@ export default class {
     )
   }
 
-  relationRemoveCommand(id) {
-    return new RelationAndAssociatesRemoveCommand(
-      this._editor,
-      this._annotationData,
-      this._selectionModel,
-      id
-    )
-  }
-
   changeRelationLabelCommand(label, value, typeContainer) {
     return new ChangeRelationLabelCommand(
       this._editor,
@@ -240,21 +230,21 @@ export default class {
     )
   }
 
-  typeDefinitionCreateCommand(typeDefinition, newType) {
-    return new TypeDefinitionCreateCommand(
+  createTypeDefinitionCommand(typeDefinition, newType) {
+    return new CreateTypeDefinitionCommand(
       this._editor,
       typeDefinition,
       newType
     )
   }
 
-  typeDefinitionChangeCommand(
+  changeTypeDefinitionCommand(
     typeDefinition,
     modelType,
     id,
     changedProperties
   ) {
-    return new TypeDefinitionChangeAndRefectInstancesCommand(
+    return new ChangeTypeDefinitionAndRefectInstancesCommand(
       this._editor,
       this._annotationData,
       typeDefinition,
@@ -265,7 +255,7 @@ export default class {
   }
 
   typeDefinitionRemoveCommand(typeDefinition, removeType) {
-    return new TypeDefinitionRemoveCommand(
+    return new RemoveTypeDefinitionCommand(
       this._editor,
       typeDefinition,
       removeType

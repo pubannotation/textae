@@ -1,7 +1,7 @@
-import CompositeCommand from './CompositeCommand'
-import RelationAndAssociatesRemoveCommand from './RelationAndAssociatesRemoveCommand'
-import EntitiesRemoveAndSpanRemeveIfNoEntityRestCommand from './EntitiesRemoveAndSpanRemeveIfNoEntityRestCommand'
-import SpanRemoveCommand from './SpanRemoveCommand'
+import CompositeCommand from '../CompositeCommand'
+import RemoveRelationAndAssociatesCommand from '../RemoveRelationAndAssociatesCommand'
+import RemoveEntitiesAndRemeveSpanIfNoEntityRestCommand from './RemoveEntitiesAndRemeveSpanIfNoEntityRestCommand'
+import RemoveSpanCommand from '../RemoveSpanCommand'
 
 export default class extends CompositeCommand {
   constructor(editor, annotationData, selectionModel) {
@@ -15,7 +15,7 @@ export default class extends CompositeCommand {
     this._subCommands = [].concat(
       selectedRelations.map(
         (id) =>
-          new RelationAndAssociatesRemoveCommand(
+          new RemoveRelationAndAssociatesCommand(
             editor,
             annotationData,
             selectionModel,
@@ -24,7 +24,7 @@ export default class extends CompositeCommand {
       ),
       selectionModel.entity.some
         ? [
-            new EntitiesRemoveAndSpanRemeveIfNoEntityRestCommand(
+            new RemoveEntitiesAndRemeveSpanIfNoEntityRestCommand(
               editor,
               annotationData,
               selectionModel
@@ -33,7 +33,7 @@ export default class extends CompositeCommand {
         : [],
       selectedSpans.map(
         (id) =>
-          new SpanRemoveCommand(editor, annotationData, selectionModel, id)
+          new RemoveSpanCommand(editor, annotationData, selectionModel, id)
       )
     )
     this._logMessage = `remove selected ${selectedSpans

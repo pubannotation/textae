@@ -1,5 +1,5 @@
 import CompositeCommand from './CompositeCommand'
-import AttributeChangeCommand from './AttributeChangeCommand'
+import ChangeAttributeCommand from './ChangeAttributeCommand'
 
 export default class extends CompositeCommand {
   constructor(annotationData, selectionModel, pred, newObj) {
@@ -18,7 +18,7 @@ export default class extends CompositeCommand {
 
       if (attribute) {
         effectedAttributes.push(
-          new AttributeChangeCommand(annotationData, attribute, null, newObj)
+          new ChangeAttributeCommand(annotationData, attribute, null, newObj)
         )
       }
     }

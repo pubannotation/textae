@@ -1,6 +1,6 @@
 import AnnotationCommand from './AnnotationCommand'
 
-export default class AttributeChangeCommand extends AnnotationCommand {
+export default class ChangeAttributeCommand extends AnnotationCommand {
   constructor(annotationData, attribute, newPred, newObj) {
     super()
     this.annotationData = annotationData
@@ -20,7 +20,7 @@ export default class AttributeChangeCommand extends AnnotationCommand {
   }
 
   revert() {
-    return new AttributeChangeCommand(
+    return new ChangeAttributeCommand(
       this.annotationData,
       this.newModel,
       this.oldPred,

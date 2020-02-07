@@ -1,5 +1,5 @@
 import { RemoveCommand } from './commandTemplate'
-import EntityAndAssociatesRemoveCommand from './EntityAndAssociatesRemoveCommand'
+import RemoveEntityAndAssociatesCommand from './RemoveEntityAndAssociatesCommand'
 import CompositeCommand from './CompositeCommand'
 
 export default class extends CompositeCommand {
@@ -10,7 +10,7 @@ export default class extends CompositeCommand {
       .get(id)
       .entities.map(
         ({ id }) =>
-          new EntityAndAssociatesRemoveCommand(
+          new RemoveEntityAndAssociatesCommand(
             editor,
             annotationData,
             selectionModel,

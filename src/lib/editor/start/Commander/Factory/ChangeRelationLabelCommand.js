@@ -1,6 +1,6 @@
 import CompositeCommand from './CompositeCommand'
-import TypeDefinitionCreateCommand from './TypeDefinitionCreateCommand'
-import TypeDefinitionChangeCommand from './TypeDefinitionChangeCommand'
+import CreateTypeDefinitionCommand from './CreateTypeDefinitionCommand'
+import ChangeTypeDefinitionCommand from './ChangeTypeDefinitionCommand'
 import ChangeTypeOfSelectedRelationsCommand from './ChangeTypeOfSelectedRelationsCommand'
 
 export default class extends CompositeCommand {
@@ -19,14 +19,14 @@ export default class extends CompositeCommand {
       const oldType = typeContainer.get(value)
       if (!oldType.id) {
         commands.push(
-          new TypeDefinitionCreateCommand(editor, typeContainer, {
+          new CreateTypeDefinitionCommand(editor, typeContainer, {
             id: value,
             label
           })
         )
       } else if (oldType.label !== label) {
         commands.push(
-          new TypeDefinitionChangeCommand(
+          new ChangeTypeDefinitionCommand(
             editor,
             annotationData,
             typeContainer,

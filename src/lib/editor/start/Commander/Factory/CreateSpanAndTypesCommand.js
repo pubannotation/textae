@@ -1,7 +1,7 @@
 import { CreateCommand } from './commandTemplate'
 import idFactory from '../../../idFactory'
 import CompositeCommand from './CompositeCommand'
-import EntityCreateCommand from './EntityCreateCommand'
+import CreateEntityCommand from './CreateEntityCommand'
 
 export default class extends CompositeCommand {
   constructor(editor, annotationData, selectionModel, newSpan, types) {
@@ -20,7 +20,7 @@ export default class extends CompositeCommand {
     ].concat(
       types.map(
         (type) =>
-          new EntityCreateCommand(
+          new CreateEntityCommand(
             editor,
             annotationData,
             selectionModel,

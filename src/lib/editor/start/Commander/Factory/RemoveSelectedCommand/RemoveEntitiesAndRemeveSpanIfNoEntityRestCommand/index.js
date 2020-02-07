@@ -1,6 +1,6 @@
-import SpanRemoveCommand from '../SpanRemoveCommand'
-import EntityAndAssociatesRemoveCommand from '../EntityAndAssociatesRemoveCommand'
-import CompositeCommand from '../CompositeCommand'
+import RemoveSpanCommand from '../../RemoveSpanCommand'
+import RemoveEntityAndRemoveAssociatesCommand from '../../RemoveEntityAndAssociatesCommand'
+import CompositeCommand from '../../CompositeCommand'
 import getSpans from './getSpans'
 import removedEntitiesFromSpan from './removedEntitiesFromSpan'
 import areAllEntiesOfSpanRemoved from './areAllEntiesOfSpanRemoved'
@@ -16,13 +16,13 @@ export default class extends CompositeCommand {
       // Remove span toggether when all entities of span will be removed.
       if (areAllEntiesOfSpanRemoved(span, selectedEntities)) {
         commands.push(
-          new SpanRemoveCommand(editor, annotationData, selectionModel, span.id)
+          new RemoveSpanCommand(editor, annotationData, selectionModel, span.id)
         )
       } else {
         commands = commands.concat(
           removedEntitiesFromSpan(selectedEntities, span).map(
             (entity) =>
-              new EntityAndAssociatesRemoveCommand(
+              new RemoveEntityAndRemoveAssociatesCommand(
                 editor,
                 annotationData,
                 selectionModel,

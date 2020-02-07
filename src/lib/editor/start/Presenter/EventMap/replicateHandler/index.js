@@ -12,7 +12,7 @@ export default function(
 
   if (spanId) {
     commander.invoke(
-      commander.factory.spanReplicateCommand(
+      commander.factory.replicateSpanCommand(
         span,
         span.types,
         detectBoundaryFunc
