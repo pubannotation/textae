@@ -10,14 +10,13 @@ export default class {
   addType(newType) {
     console.assert(newType.id, 'id is necessary!')
     return this.commander.factory.createTypeDefinitionCommand(
-      this.typeContainer,
+      this._modelType,
       newType
     )
   }
 
   changeType(id, changedProperties) {
     return this.commander.factory.changeTypeDefinitionCommand(
-      this.typeContainer,
       this._modelType,
       id,
       changedProperties
@@ -44,7 +43,7 @@ export default class {
     }
 
     return this.commander.factory.removeTypeDefinitionCommand(
-      this.typeContainer,
+      this._modelType,
       removeType
     )
   }

@@ -60,16 +60,11 @@ export default class {
     )
   }
 
-  changeTypeDefinitionCommand(
-    typeDefinition,
-    modelType,
-    id,
-    changedProperties
-  ) {
+  changeTypeDefinitionCommand(modelType, id, changedProperties) {
     return new ChangeTypeDefinitionAndRefectInstancesCommand(
       this._editor,
       this._annotationData,
-      typeDefinition,
+      this._typeDefinition[modelType],
       modelType,
       id,
       changedProperties
@@ -152,10 +147,10 @@ export default class {
     )
   }
 
-  createTypeDefinitionCommand(typeDefinition, newType) {
+  createTypeDefinitionCommand(modelType, newType) {
     return new CreateTypeDefinitionCommand(
       this._editor,
-      typeDefinition,
+      this._typeDefinition[modelType],
       newType
     )
   }
@@ -225,10 +220,10 @@ export default class {
     )
   }
 
-  removeTypeDefinitionCommand(typeDefinition, removeType) {
+  removeTypeDefinitionCommand(modelType, removeType) {
     return new RemoveTypeDefinitionCommand(
       this._editor,
-      typeDefinition,
+      this._typeDefinition[modelType],
       removeType
     )
   }
