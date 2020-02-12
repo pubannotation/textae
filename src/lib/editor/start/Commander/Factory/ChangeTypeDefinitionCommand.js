@@ -5,7 +5,7 @@ export default class ChangeTypeDefinitionCommand extends ConfigurationCommand {
   constructor(
     editor,
     annotationData,
-    typeDefinition,
+    typeContainer,
     modelType,
     id,
     changedProperties,
@@ -14,7 +14,7 @@ export default class ChangeTypeDefinitionCommand extends ConfigurationCommand {
     super()
     this.editor = editor
     this.annotationData = annotationData
-    this.typeDefinition = typeDefinition
+    this.typeContainer = typeContainer
     this.modelType = modelType
     this.id = id
     this.changedProperties = changedProperties
@@ -22,12 +22,12 @@ export default class ChangeTypeDefinitionCommand extends ConfigurationCommand {
   }
 
   execute() {
-    const oldType = this.typeDefinition.get(this.id)
+    const oldType = this.typeContainer.get(this.id)
     const [newType, revertChangedProperties] = applyChangedProperties(
       this.changedProperties,
       oldType
     )
-    this.typeDefinition.set(this.id, newType)
+    this.typeContainer.set(this.id, newType)
 
     // manage default type
     this._updateDefaultType(newType)
@@ -38,17 +38,17 @@ export default class ChangeTypeDefinitionCommand extends ConfigurationCommand {
     commandLog(
       `change old type:${JSON.stringify(oldType)} to new type:${JSON.stringify(
         newType
-      )}, default is ${this.typeDefinition.defaultType}`
+      )}, default is ${this.typeContainer.defaultType}`
     )
   }
 
   _updateDefaultType(newType) {
     if (newType.default) {
       // remember the current default, because revert command will not understand what type was it.
-      this.revertDefaultTypeId = this.typeDefinition.defaultType
-      this.typeDefinition.defaultType = newType.id
+      this.revertDefaultTypeId = this.typeContainer.defaultType
+      this.typeContainer.defaultType = newType.id
     } else if (this.newDefaultTypeId) {
-      this.typeDefinition.defaultType = this.newDefaultTypeId
+      this.typeContainer.defaultType = this.newDefaultTypeId
     }
   }
 
@@ -56,7 +56,7 @@ export default class ChangeTypeDefinitionCommand extends ConfigurationCommand {
     return new ChangeTypeDefinitionCommand(
       this.editor,
       this.annotationData,
-      this.typeDefinition,
+      this.typeContainer,
       this.modelType,
       this.revertId,
       this.revertChangedProperties,
