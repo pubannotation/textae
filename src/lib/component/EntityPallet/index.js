@@ -79,6 +79,11 @@ export default class extends Pallet {
         // Reload pallet when undo deleted attribute.
         this.updateDisplay()
       })
+
+    // Reload when instance addition / deletion is undo / redo.
+    editor.eventEmitter
+      .on('textae.annotationData.attribute.add', () => this.updateDisplay())
+      .on('textae.annotationData.attribute.remove', () => this.updateDisplay())
   }
 
   show(point) {

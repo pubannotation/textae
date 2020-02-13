@@ -23,12 +23,6 @@ export default class extends Container {
     )
   }
 
-  getIndexOfAttribute(pred) {
-    return Array.from(this._definedAttributes.values()).findIndex(
-      (a) => a.pred === pred
-    )
-  }
-
   createAttribute(attrDef, index = null) {
     // To restore the position of a deleted attribute,
     // insert the new attribute at the specified index, if specified.
@@ -101,6 +95,12 @@ export default class extends Container {
     return this._definedTypes.isBlock(typeName)
   }
 
+  hasAttributeInstance(pred) {
+    return this._annotationDataEntity.attributeContainer.all.some(
+      (a) => a.pred === pred
+    )
+  }
+
   getAttributeLabel(attribute) {
     if (this._definedAttributes.has(attribute.pred)) {
       return this._definedAttributes.get(attribute.pred).getLabel(attribute.obj)
@@ -113,6 +113,12 @@ export default class extends Container {
     if (this._definedAttributes.has(attribute.pred)) {
       return this._definedAttributes.get(attribute.pred).getColor(attribute.obj)
     }
+  }
+
+  getIndexOfAttribute(pred) {
+    return Array.from(this._definedAttributes.values()).findIndex(
+      (a) => a.pred === pred
+    )
   }
 
   getAttributeAt(number) {

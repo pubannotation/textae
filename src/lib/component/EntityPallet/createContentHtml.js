@@ -45,7 +45,11 @@ Handlebars.registerPartial(
   <div class="textae-editor__type-pallet__predicate">
     {{> @partial-block }}
     <div>
+    {{#if hasInstance}}
+      Attribute definitions with instances cannot be deleted.
+    {{else}}
       <button type="button" class="textae-editor__type-pallet__delete-predicate">delete attribute</button>
+    {{/if}}
     </div>
   </div>
   `
@@ -352,7 +356,9 @@ export default function(typeContainer, hasDiff, selectedPred) {
       isLock: typeContainer.isLock,
       attributes,
       hasDiff,
-      attrDef: attrDef.JSON,
+      attrDef: Object.assign(attrDef.JSON, {
+        hasInstance: typeContainer.hasAttributeInstance(selectedPred)
+      }),
       selectedPred,
       addAttribute
     }
