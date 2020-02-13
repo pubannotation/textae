@@ -64,7 +64,10 @@ export default function(
     .on(`textae.${name}Pallet.attribute.create-predicate-button.click`, () => {
       const dialog = new CreateAttributeDefinitionDialog()
       dialog.promise.then((attrDef) => {
-        commander.invoke(handler.createAttributeDefinition(attrDef))
+        // Predicate is necessary and Ignore without predicate.
+        if (attrDef.pred) {
+          commander.invoke(handler.createAttributeDefinition(attrDef))
+        }
       })
       dialog.open()
     })
@@ -73,7 +76,8 @@ export default function(
       (attrDef) => {
         const dialog = new EditAttributeDefinitionDialog(attrDef)
         dialog.promise.then((changedProperties) => {
-          if (changedProperties.size) {
+          // Predicate is necessary and Ignore without predicate.
+          if (changedProperties.size && changedProperties.get('pred') !== '') {
             commander.invoke(
               handler.changeAttributeDefinition(attrDef, changedProperties)
             )
