@@ -1,6 +1,7 @@
 import PromiseDialog from '../PromiseDialog'
 import createContentHtml from './createContentHtml'
 import getInputElementValue from '../getInputElementValue'
+import isChanged from './isChanged'
 
 export default class extends PromiseDialog {
   constructor(attrDef) {
@@ -55,19 +56,19 @@ export default class extends PromiseDialog {
         }
 
         if (attrDef.valueType === 'numeric') {
-          if (json.default !== parseFloat(default_)) {
+          if (isChanged(json.default, default_)) {
             diff.set('default', parseFloat(default_))
           }
 
-          if (json.min !== parseFloat(min)) {
+          if (isChanged(json.min, min)) {
             diff.set('min', parseFloat(min))
           }
 
-          if (json.max !== parseFloat(max)) {
+          if (isChanged(json.max, max)) {
             diff.set('max', parseFloat(max))
           }
 
-          if (json.step !== parseFloat(step)) {
+          if (isChanged(json.step, step)) {
             diff.set('step', parseFloat(step))
           }
         }
