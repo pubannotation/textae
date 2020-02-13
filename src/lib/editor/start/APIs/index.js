@@ -33,10 +33,11 @@ export default class {
     if (this._isSelected) {
       // The value of the key property when pressing a key while holding down the Shift key depends on the keyboard layout.
       // For example, on a US keyboard, the shift + 1 keystroke is “!”.
-      // When shift is pressed, the input value is taken from the keyCode property.
-      const key = event.shiftKey
-        ? String.fromCharCode(event.keyCode)
-        : event.key
+      // When shift and number key are pressed, the input value is taken from the keyCode property.
+      const key =
+        event.shiftKey && 48 <= event.keyCode && event.keyCode <= 57
+          ? String.fromCharCode(event.keyCode)
+          : event.key
 
       const value = {
         point: getMousePoint(),
