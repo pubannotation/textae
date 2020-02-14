@@ -14,7 +14,7 @@ export default class extends ConfigurationCommand {
     this.typeContainer.deleteAttribute(this.removeAttrdef.pred)
 
     commandLog(
-      `remove a attrribute definition:${JSON.stringify(
+      `remove an attrribute definition:${JSON.stringify(
         this.removeAttrdef
       )}, index:${this.index}`
     )
