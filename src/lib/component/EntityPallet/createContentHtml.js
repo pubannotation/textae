@@ -140,6 +140,30 @@ const flagAttributeHtml = `
 </div>
 `
 
+Handlebars.registerPartial(
+  'valueButton',
+  `
+  <td class="textae-editor__type-pallet__table-buttons">
+  {{#unless ../isLock}}
+    <button
+      type="button"
+      class="textae-editor__type-pallet__table-button textae-editor__type-pallet__edit-type"
+      title="Edit this type." data-id="{{id}}"
+      data-color="{{color}}"
+      data-is-default="{{defaultType}}">
+    </button>
+    <button 
+      type="button"
+      class="textae-editor__type-pallet__table-button textae-editor__type-pallet__remove {{#if useNumber}}textae-editor__type-pallet__table-button--disabled{{/if}}"
+      title="{{#if useNumber}}To activate this button, remove all the annotations of this type.{{/if}}{{#unless useNumber}}Remove this type.{{/unless}}"
+      data-id="{{id}}"
+      data-label="{{label}}">
+    </button>
+  {{/unless}}
+</td>
+`
+)
+
 const numericAttributeHtml = `
 {{>header}}
 <div>
@@ -180,24 +204,7 @@ const numericAttributeHtml = `
           <td class="textae-editor__type-pallet__short-label">
             {{color}}
           </td>
-          <td class="textae-editor__type-pallet__table-buttons">
-            {{#unless ../isLock}}
-              <button
-                type="button"
-                class="textae-editor__type-pallet__table-button textae-editor__type-pallet__edit-type"
-                title="Edit this type." data-id="{{id}}"
-                data-color="{{color}}"
-                data-is-default="{{defaultType}}">
-              </button>
-              <button 
-                type="button"
-                class="textae-editor__type-pallet__table-button textae-editor__type-pallet__remove {{#if useNumber}}textae-editor__type-pallet__table-button--disabled{{/if}}"
-                title="{{#if useNumber}}To activate this button, remove all the annotations of this type.{{/if}}{{#unless useNumber}}Remove this type.{{/unless}}"
-                data-id="{{id}}"
-                data-label="{{label}}">
-              </button>
-            {{/unless}}
-          </td>
+          {{>valueButton}}
         </tr>
         {{/each}}
       </tbody>
@@ -244,24 +251,7 @@ const selectionAttributeHtml = `
           <td class="textae-editor__type-pallet__short-label">
             {{color}}
           </td>
-          <td class="textae-editor__type-pallet__table-buttons">
-            {{#unless ../isLock}}
-              <button
-                type="button"
-                class="textae-editor__type-pallet__table-button textae-editor__type-pallet__edit-type"
-                title="Edit this type." data-id="{{id}}"
-                data-color="{{color}}"
-                data-is-default="{{defaultType}}">
-              </button>
-              <button 
-              type="button"
-              class="textae-editor__type-pallet__table-button textae-editor__type-pallet__remove {{#if useNumber}}textae-editor__type-pallet__table-button--disabled{{/if}}"
-              title="{{#if useNumber}}To activate this button, remove all the annotations of this type.{{/if}}{{#unless useNumber}}Remove this type.{{/unless}}"
-              data-id="{{id}}"
-              data-label="{{label}}">
-            </button>
-            {{/unless}}
-          </td>
+          {{>valueButton}}
         </tr>
         {{/each}}
       </tbody>
@@ -307,24 +297,7 @@ const stringAttributeHtml = `
           <td class="textae-editor__type-pallet__short-label">
             {{color}}
           </td>
-          <td class="textae-editor__type-pallet__table-buttons">
-            {{#unless ../isLock}}
-              <button
-                type="button"
-                class="textae-editor__type-pallet__table-button textae-editor__type-pallet__edit-type"
-                title="Edit this type." data-id="{{id}}"
-                data-color="{{color}}"
-                data-is-default="{{defaultType}}">
-              </button>
-              <button 
-                type="button"
-                class="textae-editor__type-pallet__table-button textae-editor__type-pallet__remove {{#if useNumber}}textae-editor__type-pallet__table-button--disabled{{/if}}"
-                title="{{#if useNumber}}To activate this button, remove all the annotations of this type.{{/if}}{{#unless useNumber}}Remove this type.{{/unless}}"
-                data-id="{{id}}"
-                data-label="{{label}}">
-              </button>
-            {{/unless}}
-          </td>
+          {{>valueButton}}
         </tr>
         {{/each}}
       </tbody>
