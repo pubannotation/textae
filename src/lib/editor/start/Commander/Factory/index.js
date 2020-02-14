@@ -31,11 +31,11 @@ export default class {
     this._typeDefinition = typeDefinition
   }
 
-  changeAttributeDefinitionCommand(modelType, attrDef, changedProperties) {
+  changeAttributeDefinitionCommand(modelType, attributeDefinition, changedProperties) {
     return new ChangeAttributeDefinitionAndRefectInstancesCommand(
       this._annotationData,
       this._typeDefinition[modelType],
-      attrDef,
+      attributeDefinition,
       changedProperties
     )
   }
@@ -102,10 +102,10 @@ export default class {
     )
   }
 
-  createAttributeDefinitionCommand(modelType, attrDef) {
+  createAttributeDefinitionCommand(modelType, attributeDefinition) {
     return new CreateAttributeDefinitionCommand(
       this._typeDefinition[modelType],
-      attrDef
+      attributeDefinition
     )
   }
 
@@ -174,10 +174,10 @@ export default class {
     )
   }
 
-  deleteAttributeDefinitionCommand(modelType, attrDef) {
+  deleteAttributeDefinitionCommand(modelType, attributeDefinition) {
     return new DeleteAttributeDefinitionCommand(
       this._typeDefinition[modelType],
-      attrDef
+      attributeDefinition
     )
   }
 
