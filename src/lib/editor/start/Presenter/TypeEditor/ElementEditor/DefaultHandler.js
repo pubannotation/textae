@@ -45,6 +45,14 @@ export default class {
     )
   }
 
+  removeValueFromAttributeDefinition(attrDef, index) {
+    return this.commander.factory.removeValueFromAttributeDefinitionCommand(
+      this._modelType,
+      attrDef,
+      index
+    )
+  }
+
   jsPlumbConnectionClicked(...args) {
     // Open link when view mode because link in label of jsPlumb event is not fired.
     const link = args[0].getOverlay(LABEL.id).canvas.querySelector('a')

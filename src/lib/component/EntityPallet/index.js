@@ -63,6 +63,18 @@ export default class extends Pallet {
       }
     )
 
+    delegate(
+      this._el,
+      '.textae-editor__type-pallet__remove-value',
+      'click',
+      (e) =>
+        editor.eventEmitter.emit(
+          `textae.${name}Pallet.attribute.remove-value-button.click`,
+          this._attrDef,
+          e.target.dataset.index
+        )
+    )
+
     editor.eventEmitter
       .on('textae.typeDefinition.entity.attributeDefinition.create', (pred) => {
         this._selectedPred = pred

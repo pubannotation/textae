@@ -101,6 +101,12 @@ export default class extends Container {
     )
   }
 
+  hasSelectionAtributeValueInstance(pred, id) {
+    return this._annotationDataEntity.attributeContainer.all.some(
+      (a) => a.pred === pred && a.obj == id
+    )
+  }
+
   getAttributeLabel(attribute) {
     if (this._definedAttributes.has(attribute.pred)) {
       return this._definedAttributes.get(attribute.pred).getLabel(attribute.obj)

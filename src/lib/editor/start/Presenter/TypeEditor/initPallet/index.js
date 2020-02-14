@@ -90,6 +90,13 @@ export default function(
       `textae.${name}Pallet.attribute.delete-predicate-button.click`,
       (attrDef) => commander.invoke(handler.deleteAttributeDefinition(attrDef))
     )
+    .on(
+      `textae.${name}Pallet.attribute.remove-value-button.click`,
+      (attrDef, index) =>
+        commander.invoke(
+          handler.removeValueFromAttributeDefinition(attrDef, index)
+        )
+    )
     .on('textae.editor.unselect', () => pallet.hide()) // Close pallet when selecting other editor.
     .on('textae.history.change', () => pallet.updateDisplay()) // Update save config button when changing history and savigng configuration.
     .on('textae.dataAccessObject.configuration.save', () =>

@@ -21,6 +21,7 @@ import RemoveModificationsFromSelectedCommand from './RemoveModificationsFromSel
 import RemoveSelectedCommand from './RemoveSelectedCommand'
 import RemoveSpanCommand from './RemoveSpanCommand'
 import RemoveTypeDefinitionCommand from './RemoveTypeDefinitionCommand'
+import RemoveValueFromAttributeDefinitionCommand from './RemoveValueFromAttributeDefinitionCommand'
 import ToggleFlagAttributeToSelectedEntitiesCommand from './ToggleFlagAttributeToSelectedEntitiesCommand'
 
 export default class {
@@ -31,7 +32,11 @@ export default class {
     this._typeDefinition = typeDefinition
   }
 
-  changeAttributeDefinitionCommand(modelType, attributeDefinition, changedProperties) {
+  changeAttributeDefinitionCommand(
+    modelType,
+    attributeDefinition,
+    changedProperties
+  ) {
     return new ChangeAttributeDefinitionAndRefectInstancesCommand(
       this._annotationData,
       this._typeDefinition[modelType],
@@ -251,6 +256,18 @@ export default class {
       this._editor,
       this._typeDefinition[modelType],
       removeType
+    )
+  }
+
+  removeValueFromAttributeDefinitionCommand(
+    modelType,
+    attributeDefinition,
+    index
+  ) {
+    return new RemoveValueFromAttributeDefinitionCommand(
+      this._typeDefinition[modelType],
+      attributeDefinition,
+      index
     )
   }
 

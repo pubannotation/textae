@@ -154,10 +154,9 @@ Handlebars.registerPartial(
     </button>
     <button 
       type="button"
-      class="textae-editor__type-pallet__table-button textae-editor__type-pallet__remove {{#if useNumber}}textae-editor__type-pallet__table-button--disabled{{/if}}"
-      title="{{#if useNumber}}To activate this button, remove all the annotations of this type.{{/if}}{{#unless useNumber}}Remove this type.{{/unless}}"
-      data-id="{{id}}"
-      data-label="{{label}}">
+      class="textae-editor__type-pallet__table-button textae-editor__type-pallet__remove-value {{#if useNumber}}textae-editor__type-pallet__table-button--disabled{{/if}}"
+      title="{{#if useNumber}}To activate this button, remove all the annotations of this type.{{/if}}{{#unless useNumber}}Remove this value.{{/unless}}"
+      data-index="{{@index}}">
     </button>
   {{/unless}}
 </td>
@@ -346,6 +345,14 @@ export default function(typeContainer, hasDiff, selectedPred) {
           })
         )
       case 'selection':
+        // Disable to press the remove button for the value used in the selection attribute.
+        for (const value of values.attrDef.values) {
+          value.useNumber = typeContainer.hasSelectionAtributeValueInstance(
+            selectedPred,
+            value.id
+          )
+        }
+
         return selectionAttributeTemplate(
           Object.assign(values, {
             addAttributeValueButton: true
