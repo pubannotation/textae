@@ -88,9 +88,7 @@ export default function(
     )
     .on(
       `textae.${name}Pallet.attribute.delete-predicate-button.click`,
-      (attrDef) => {
-        commander.invoke(handler.deleteAttributeDefinition(attrDef))
-      }
+      (attrDef) => commander.invoke(handler.deleteAttributeDefinition(attrDef))
     )
     .on('textae.editor.unselect', () => pallet.hide()) // Close pallet when selecting other editor.
     .on('textae.history.change', () => pallet.updateDisplay()) // Update save config button when changing history and savigng configuration.
