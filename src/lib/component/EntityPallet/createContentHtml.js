@@ -143,8 +143,8 @@ const flagAttributeHtml = `
 Handlebars.registerPartial(
   'valueButton',
   `
+  {{#unless @root.isLock}}
   <td class="textae-editor__type-pallet__table-buttons">
-  {{#unless ../isLock}}
     <button
       type="button"
       class="textae-editor__type-pallet__table-button textae-editor__type-pallet__edit-type"
@@ -158,8 +158,8 @@ Handlebars.registerPartial(
       title="{{#if useNumber}}To activate this button, remove all the annotations of this type.{{/if}}{{#unless useNumber}}Remove this value.{{/unless}}"
       data-index="{{@index}}">
     </button>
+  </td>
   {{/unless}}
-</td>
 `
 )
 
@@ -190,7 +190,9 @@ const numericAttributeHtml = `
           <th>id</th>
           <th>label</th>
           <th>color</th>
+          {{#unless @root.isLock}}
           <th></th>
+          {{/unless}}
         </tr>
         {{#each values}}
         <tr class="textae-editor__type-pallet__row" style="background-color: {{color}};">
@@ -234,7 +236,9 @@ const selectionAttributeHtml = `
           <th>id</th>
           <th>label</th>
           <th>color</th>
+          {{#unless @root.isLock}}
           <th></th>
+          {{/unless}}
         </tr>
         {{#each values}}
         <tr class="textae-editor__type-pallet__row" style="background-color: {{color}};">
@@ -283,7 +287,9 @@ const stringAttributeHtml = `
           <th>pattern</th>
           <th>label</th>
           <th>color</th>
+          {{#unless @root.isLock}}
           <th></th>
+          {{/unless}}
         </tr>
         {{#each values}}
         <tr class="textae-editor__type-pallet__row" style="background-color: {{color}};">
