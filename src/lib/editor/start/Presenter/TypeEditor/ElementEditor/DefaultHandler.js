@@ -45,6 +45,14 @@ export default class {
     )
   }
 
+  addValueToAttributeDefinition(attrDef, value) {
+    return this.commander.factory.addValueToAttributeDefinitionCommand(
+      this._modelType,
+      attrDef,
+      value
+    )
+  }
+
   removeValueFromAttributeDefinition(attrDef, index) {
     return this.commander.factory.removeValueFromAttributeDefinitionCommand(
       this._modelType,

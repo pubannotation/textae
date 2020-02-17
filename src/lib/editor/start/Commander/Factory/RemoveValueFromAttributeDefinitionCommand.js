@@ -11,19 +11,18 @@ export default class extends ConfigurationCommand {
   }
 
   execute() {
-    const attrDef = this._attrDef.JSON
-    this._deletedValue = attrDef.values.splice(this._index, 1)[0]
-    this._typeContainer.updateAttribute(attrDef.pred, attrDef)
+    this._deletedValue = this._attrDef.values.splice(this._index, 1)[0]
+    this._typeContainer.updateAttribute(this._attrDef.pred, this._attrDef)
 
     commandLog(
-      `remove a value from an attrribute:${attrDef.pred}, index:${this._index}`
+      `remove a value from an attrribute:${this._attrDef.pred}, index:${this._index}`
     )
   }
 
   revert() {
     return new AddValueToAttributeDefinitionCommand(
       this._typeContainer,
-      this._attrDef.JSON,
+      this._attrDef,
       this._deletedValue,
       this._index
     )

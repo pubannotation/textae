@@ -2,6 +2,7 @@ import CreateTypeDefinitionDialog from '../../../../../component/CreateTypeDefin
 import EditTypeDefinitionDialog from '../../../../../component/EditTypeDefinitionDialog'
 import CreateAttributeDefinitionDialog from '../../../../../component/CreateAttributeDefinitionDialog'
 import EditAttributeDefinitionDialog from '../../../../../component/EditAttributeDefinitionDialog'
+import AddValueToAttributeDefinitionDialog from '../../../../../component/AddValueToAttributeDefinitionDialog'
 
 export default function(
   pallet,
@@ -90,6 +91,17 @@ export default function(
       `textae.${name}Pallet.attribute.delete-predicate-button.click`,
       (attrDef) => commander.invoke(handler.deleteAttributeDefinition(attrDef))
     )
+    .on(`textae.${name}Pallet.attribute.add-value-button.click`, (attrDef) => {
+      const dialog = new AddValueToAttributeDefinitionDialog(attrDef.valueType)
+      dialog.promise.then((value) => {
+        if (value.range || value.id || value.pattern) {
+          commander.invoke(
+            handler.addValueToAttributeDefinition(attrDef, value)
+          )
+        }
+      })
+      dialog.open()
+    })
     .on(
       `textae.${name}Pallet.attribute.remove-value-button.click`,
       (attrDef, index) =>

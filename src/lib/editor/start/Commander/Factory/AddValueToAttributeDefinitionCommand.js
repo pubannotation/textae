@@ -14,11 +14,14 @@ export default class extends ConfigurationCommand {
   execute() {
     // When undoing, insert to the position before remove.
     this._attrDef.values.splice(
-      this._index || this._attrDef.values.length - 1,
+      this._index || this._attrDef.values.length,
       0,
       this._value
     )
-    this._typeContainer.updateAttribute(this._attrDef.pred, this._attrDef)
+    this._updatedAttrDef = this._typeContainer.updateAttribute(
+      this._attrDef.pred,
+      this._attrDef
+    ).JSON
 
     commandLog(
       `add a new value to attrribute:${
@@ -30,8 +33,8 @@ export default class extends ConfigurationCommand {
   revert() {
     return new RemoveValueFromAttributeDefinitionCommand(
       this._typeContainer,
-      this._attrDef,
-      this._attrDef.values.length - 1
+      this._updatedAttrDef,
+      this._updatedAttrDef.values.length - 1
     )
   }
 }

@@ -1,4 +1,5 @@
 import { CreateCommand } from './commandTemplate'
+import AddValueToAttributeDefinitionCommand from './AddValueToAttributeDefinitionCommand'
 import AttatchModificationsToSelectedCommand from './AttatchModificationsToSelectedCommand'
 import ChangeAttributeDefinitionAndRefectInstancesCommand from './ChangeAttributeDefinitionAndRefectInstancesCommand'
 import ChangeAttributesOfSelectedEntitiesWithSamePred from './ChangeAttributesOfSelectedEntitiesWithSamePred'
@@ -30,6 +31,14 @@ export default class {
     this._annotationData = annotationData
     this._selectionModel = selectionModel
     this._typeDefinition = typeDefinition
+  }
+
+  addValueToAttributeDefinitionCommand(modelType, attributeDefinition, value) {
+    return new AddValueToAttributeDefinitionCommand(
+      this._typeDefinition[modelType],
+      attributeDefinition.JSON,
+      value
+    )
   }
 
   changeAttributeDefinitionCommand(
@@ -266,7 +275,7 @@ export default class {
   ) {
     return new RemoveValueFromAttributeDefinitionCommand(
       this._typeDefinition[modelType],
-      attributeDefinition,
+      attributeDefinition.JSON,
       index
     )
   }
