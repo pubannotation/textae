@@ -187,7 +187,7 @@ const numericAttributeHtml = `
     <table>
       <tbody>
         <tr>
-          <th>id</th>
+          <th>range</th>
           <th>label</th>
           <th>color</th>
           {{#unless @root.isLock}}
