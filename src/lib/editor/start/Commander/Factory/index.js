@@ -8,6 +8,7 @@ import ChangeRelationLabelCommand from './ChangeRelationLabelCommand'
 import ChangeTypeDefinitionAndRefectInstancesCommand from './ChangeTypeDefinitionAndRefectInstancesCommand'
 import ChangeTypeOfSelectedRelationsCommand from './ChangeTypeOfSelectedRelationsCommand'
 import ChangeTypeRemoveRelationOfSelectedEntitiesCommand from './ChangeTypeRemoveRelationOfSelectedEntitiesCommand'
+import ChangeValueOfAttributeDefinitionCommand from './ChangeValueOfAttributeDefinitionCommand'
 import CreateAttributeDefinitionCommand from './CreateAttributeDefinitionCommand'
 import CreateAttributeToSelectedEntitiesCommand from './CreateAttributeToSelectedEntitiesCommand'
 import CreateDefaultTypeEntityToSelectedSpans from './CreateDefaultTypeEntityToSelectedSpans'
@@ -113,6 +114,20 @@ export default class {
       this._annotationData,
       this._selectionModel,
       newType
+    )
+  }
+
+  changeValueOfAttributeDefinitionCommand(
+    modelType,
+    attributeDefinition,
+    index,
+    value
+  ) {
+    return new ChangeValueOfAttributeDefinitionCommand(
+      this._typeDefinition[modelType],
+      attributeDefinition,
+      index,
+      value
     )
   }
 

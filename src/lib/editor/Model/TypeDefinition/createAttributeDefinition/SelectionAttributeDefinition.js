@@ -35,9 +35,14 @@ export default class extends AttributeDefinition {
   }
 
   get JSON() {
+    const values = []
+    for (const value of this.values) {
+      values.push(Object.assign({}, value))
+    }
+
     return Object.assign(super.JSON, {
       'value type': 'selection',
-      values: this.values
+      values
     })
   }
 }

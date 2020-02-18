@@ -147,10 +147,8 @@ Handlebars.registerPartial(
   <td class="textae-editor__type-pallet__table-buttons">
     <button
       type="button"
-      class="textae-editor__type-pallet__table-button textae-editor__type-pallet__edit-type"
-      title="Edit this type." data-id="{{id}}"
-      data-color="{{color}}"
-      data-is-default="{{defaultType}}">
+      class="textae-editor__type-pallet__table-button textae-editor__type-pallet__edit-value"
+      title="Edit this value." data-index="{{@index}}">
     </button>
     <button 
       type="button"

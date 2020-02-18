@@ -21,6 +21,10 @@ export default class {
     return this._entity ? this._entity.attributes : []
   }
 
+  withSamePredicateAttribute(pred) {
+    return this.attributes.some((attr) => attr.pred === pred)
+  }
+
   withoutSamePredicateAttribute(pred) {
     return this.attributes.every((attr) => attr.pred !== pred)
   }

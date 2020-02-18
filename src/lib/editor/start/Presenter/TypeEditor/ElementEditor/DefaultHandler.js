@@ -53,6 +53,15 @@ export default class {
     )
   }
 
+  changeValueOfAttributeDefinition(attrDef, index, value) {
+    return this.commander.factory.changeValueOfAttributeDefinitionCommand(
+      this._modelType,
+      attrDef,
+      index,
+      value
+    )
+  }
+
   removeValueFromAttributeDefinition(attrDef, index) {
     return this.commander.factory.removeValueFromAttributeDefinitionCommand(
       this._modelType,

@@ -5,15 +5,15 @@ const source = `
   <div class="textae-editor__add-value-to-attribute-dialog__row">
     <div class="textae-editor__add-value-to-attribute-dialog__range_or_id_or_pattern">
       <label>{{labelForRangeOrIdOrPattern}}:</label><br>
-      <input>
+      <input value="{{rangeOrIdOrPattern}}">
     </div>
     <div class="textae-editor__add-value-to-attribute-dialog__label">
       <label>label:</label><br>
-      <input>
+      <input value="{{label}}">
     </div>
     <div class="textae-editor__add-value-to-attribute-dialog__color">
       <label>color:</label><br>
-      <input>
+      <input value="{{color}}">
     </div>
   </div>
 </div>`

@@ -67,6 +67,14 @@ export default class {
     }
   }
 
+  updateAttribute(pred) {
+    for (const type of this.annotationData.entity.allRenderedTypes) {
+      if (type.withSamePredicateAttribute(pred)) {
+        updateTypeDom(this.annotationData.namespace, this.typeContainer, type)
+      }
+    }
+  }
+
   updateTypeDomAll() {
     for (const type of this.annotationData.entity.allRenderedTypes) {
       updateTypeDom(this.annotationData.namespace, this.typeContainer, type)

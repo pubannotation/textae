@@ -76,6 +76,18 @@ export default class extends Pallet {
 
     delegate(
       this._el,
+      '.textae-editor__type-pallet__edit-value',
+      'click',
+      (e) =>
+        editor.eventEmitter.emit(
+          `textae.${name}Pallet.attribute.edit-value-button.click`,
+          this._attrDef,
+          e.target.dataset.index
+        )
+    )
+
+    delegate(
+      this._el,
       '.textae-editor__type-pallet__remove-value',
       'click',
       (e) =>

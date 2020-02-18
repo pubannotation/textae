@@ -2,19 +2,27 @@ import PromiseDialog from '../PromiseDialog'
 import createContentHtml from './createContentHtml'
 import getInputElementValue from '../getInputElementValue'
 import IntervalNotation from '../../IntervalNotation'
+import { getOkButton } from './getOkButton'
 
 export default class extends PromiseDialog {
-  constructor(valueType) {
-    const values = {}
+  constructor(valueType, value = {}) {
+    const bindingObject = {
+      label: value.label,
+      color: value.color
+    }
+
     switch (valueType) {
       case 'numeric':
-        values.labelForRangeOrIdOrPattern = 'range'
+        bindingObject.labelForRangeOrIdOrPattern = 'range'
+        bindingObject.rangeOrIdOrPattern = value.range
         break
       case 'selection':
-        values.labelForRangeOrIdOrPattern = 'id'
+        bindingObject.labelForRangeOrIdOrPattern = 'id'
+        bindingObject.rangeOrIdOrPattern = value.id
         break
       case 'string':
-        values.labelForRangeOrIdOrPattern = 'pattern'
+        bindingObject.labelForRangeOrIdOrPattern = 'pattern'
+        bindingObject.rangeOrIdOrPattern = value.pattern
         break
       default:
         throw new Error(`${valueType} is Uknown Attribute`)
@@ -22,7 +30,7 @@ export default class extends PromiseDialog {
 
     super(
       'Please enter new values',
-      createContentHtml(values),
+      createContentHtml(bindingObject),
       {},
       '.textae-editor__add-value-to-attribute-dialog__range_or_id_or_pattern',
       () => {
@@ -41,9 +49,13 @@ export default class extends PromiseDialog {
           '.textae-editor__add-value-to-attribute-dialog__color'
         )
 
-        const ret = {
-          label,
-          color
+        // Set a key only when there is a value.
+        const ret = {}
+        if (label) {
+          ret.label = label
+        }
+        if (color) {
+          ret.color = color
         }
 
         switch (valueType) {
@@ -111,10 +123,4 @@ export default class extends PromiseDialog {
         }
       })
   }
-}
-
-function getOkButton(el) {
-  return el
-    .closest('.ui-dialog')
-    .querySelector('.textae-editor__add-value-to-attribute-dialog__ok-button')
 }

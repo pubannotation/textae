@@ -2,7 +2,7 @@ import CreateTypeDefinitionDialog from '../../../../../component/CreateTypeDefin
 import EditTypeDefinitionDialog from '../../../../../component/EditTypeDefinitionDialog'
 import CreateAttributeDefinitionDialog from '../../../../../component/CreateAttributeDefinitionDialog'
 import EditAttributeDefinitionDialog from '../../../../../component/EditAttributeDefinitionDialog'
-import AddValueToAttributeDefinitionDialog from '../../../../../component/AddValueToAttributeDefinitionDialog'
+import EditValueToAttributeDefinitionDialog from '../../../../../component/EditValueOfAttributeDefinitionDialog'
 
 export default function(
   pallet,
@@ -92,7 +92,7 @@ export default function(
       (attrDef) => commander.invoke(handler.deleteAttributeDefinition(attrDef))
     )
     .on(`textae.${name}Pallet.attribute.add-value-button.click`, (attrDef) => {
-      const dialog = new AddValueToAttributeDefinitionDialog(attrDef.valueType)
+      const dialog = new EditValueToAttributeDefinitionDialog(attrDef.valueType)
       dialog.promise.then((value) => {
         if (value.range || value.id || value.pattern) {
           commander.invoke(
@@ -102,6 +102,37 @@ export default function(
       })
       dialog.open()
     })
+    .on(
+      `textae.${name}Pallet.attribute.edit-value-button.click`,
+      (attrDef, index) => {
+        const oldValue = attrDef.values[index]
+        const dialog = new EditValueToAttributeDefinitionDialog(
+          attrDef.valueType,
+          oldValue
+        )
+        dialog.promise.then((newValue) => {
+          if (newValue.range || newValue.id || newValue.pattern) {
+            const changed =
+              Object.keys(newValue).reduce((acc, cur) => {
+                return acc || newValue[cur] !== oldValue[cur]
+              }, false) ||
+              Object.keys(oldValue).reduce((acc, cur) => {
+                return acc || newValue[cur] !== oldValue[cur]
+              }, false)
+
+            // Ignore if there is no change
+            if (!changed) {
+              return
+            }
+
+            commander.invoke(
+              handler.changeValueOfAttributeDefinition(attrDef, index, newValue)
+            )
+          }
+        })
+        dialog.open()
+      }
+    )
     .on(
       `textae.${name}Pallet.attribute.remove-value-button.click`,
       (attrDef, index) =>
