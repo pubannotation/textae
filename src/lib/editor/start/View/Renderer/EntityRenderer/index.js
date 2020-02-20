@@ -4,7 +4,7 @@ import changeTypeOfExists from './changeTypeOfExists'
 import changeModificationOfExists from './changeModificationOfExists'
 import destroy from './destroy'
 import setTypeGapHeight from './setTypeGapHeight'
-import updateType from './updateType'
+import updateTypeDom from './updateTypeDom'
 
 export default class {
   constructor(
@@ -59,17 +59,17 @@ export default class {
     destroy(this.editor, this.annotationData, this.gridRenderer, entity)
   }
 
-  updateLabel(typeName) {
+  updateTypeDom(typeName) {
     for (const type of this.annotationData.entity.allRenderedTypes) {
       if (type.name === typeName) {
-        updateType(this.annotationData.namespace, this.typeContainer, type)
+        updateTypeDom(this.annotationData.namespace, this.typeContainer, type)
       }
     }
   }
 
-  updateLabelAll() {
+  updateTypeDomAll() {
     for (const type of this.annotationData.entity.allRenderedTypes) {
-      updateType(this.annotationData.namespace, this.typeContainer, type)
+      updateTypeDom(this.annotationData.namespace, this.typeContainer, type)
     }
   }
 }
