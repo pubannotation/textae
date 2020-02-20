@@ -4,6 +4,7 @@ import Container from './Container'
 
 export default class {
   constructor(editor, annotationData) {
+    this._editor = editor
     this._lockStateObservable = new Observable(false)
     this._entityContainer = new EntityContainer(
       editor,
@@ -44,6 +45,8 @@ export default class {
       this._entityContainer.definedTypes = []
       this._relationContainer.definedTypes = []
     }
+
+    this._editor.eventEmitter.emit(`textae.typeDefinition.reset`)
   }
 
   get relation() {

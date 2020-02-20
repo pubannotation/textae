@@ -28,10 +28,6 @@ export default class {
   set definedTypes(value) {
     this._definedTypes = new DefinedTypeContainer(value)
 
-    this._editor.eventEmitter.emit(
-      `textae.typeDefinition.${this._name}.type.reset`
-    )
-
     // Set default type
     const defaultType = value.find((type) => type.default === true)
     if (defaultType) {

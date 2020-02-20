@@ -31,10 +31,7 @@ export default function(
   const params = getParams(editor[0])
   const spanConfig = new SpanConfig()
 
-  editor.eventEmitter.on('textae.typeDefinition.entity.type.reset', () =>
-    history.resetConfiguration()
-  )
-  editor.eventEmitter.on('textae.typeDefinition.relation.type.reset', () =>
+  editor.eventEmitter.on('textae.typeDefinition.reset', () =>
     history.resetConfiguration()
   )
 
