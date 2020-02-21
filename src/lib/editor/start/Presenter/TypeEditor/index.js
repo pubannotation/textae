@@ -83,6 +83,22 @@ export default class {
     }
   }
 
+  selectLeftAttributeTab() {
+    if (this._entityPallet.visibly) {
+      this._entityPallet.selectLeftTab()
+    }
+  }
+
+  selectRightAttributeTab() {
+    if (this._entityPallet.visibly) {
+      this._entityPallet.selectRightTab()
+    }
+  }
+
+  get isEntityPalletShown() {
+    return this._entityPallet.visibly
+  }
+
   changeLabel() {
     this._elementEditor.getHandler().changeLabelHandler(this._autocompletionWs)
   }

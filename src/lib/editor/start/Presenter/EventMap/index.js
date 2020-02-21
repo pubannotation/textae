@@ -137,11 +137,19 @@ export default class {
   }
 
   selectLeft(option) {
-    selectLeft(this._editor[0], this._selectionModel, option.shiftKey)
+    if (this._typeEditor.isEntityPalletShown) {
+      this._typeEditor.selectLeftAttributeTab()
+    } else {
+      selectLeft(this._editor[0], this._selectionModel, option.shiftKey)
+    }
   }
 
   selectRight(option) {
-    selectRight(this._editor[0], this._selectionModel, option.shiftKey)
+    if (this._typeEditor.isEntityPalletShown) {
+      this._typeEditor.selectRightAttributeTab()
+    } else {
+      selectRight(this._editor[0], this._selectionModel, option.shiftKey)
+    }
   }
 
   selectUp() {
