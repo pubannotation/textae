@@ -1,8 +1,8 @@
 import { diff } from 'jsondiffpatch'
-import delegate from 'delegate'
 import Pallet from '../Pallet'
 import createPalletElement from '../Pallet/createPalletElement'
 import bindUserEvents from '../Pallet/bindUserEvents'
+import bindAttributeEvent from './bindAttributeEvent'
 import createContentHtml from './createContentHtml'
 
 export default class extends Pallet {
@@ -16,99 +16,20 @@ export default class extends Pallet {
     // Bind user events to the event emitter.
     const name = 'entity'
     bindUserEvents(this._el, editor.eventEmitter, name)
-
-    delegate(
-      this._el,
-      '.textae-editor__type-pallet__attribute',
-      'click',
-      (e) => {
-        this._showAttribute(e.target.dataset['attribute'])
-        e.stopPropagation()
-      }
-    )
-
-    delegate(
-      this._el,
-      '.textae-editor__type-pallet__create-predicate',
-      'click',
-      () =>
-        editor.eventEmitter.emit(
-          `textae.${name}Pallet.attribute.create-predicate-button.click`
-        )
-    )
-
-    delegate(
-      this._el,
-      '.textae-editor__type-pallet__edit-predicate',
-      'click',
-      () =>
-        editor.eventEmitter.emit(
-          `textae.${name}Pallet.attribute.edit-predicate-button.click`,
-          this._attrDef
-        )
-    )
-
-    // Bind the mousedown event to keep the button out of focus.
-    delegate(
-      this._el,
-      '.textae-editor__type-pallet__delete-predicate',
-      'mousedown',
-      (e) => {
-        e.preventDefault()
-        editor.eventEmitter.emit(
-          `textae.${name}Pallet.attribute.delete-predicate-button.click`,
-          this._attrDef
-        )
-      }
-    )
-
-    delegate(
-      this._el,
-      '.textae-editor__type-pallet__add-attribute-value-button',
-      'click',
-      () =>
-        editor.eventEmitter.emit(
-          `textae.${name}Pallet.attribute.add-value-button.click`,
-          this._attrDef
-        )
-    )
-
-    delegate(
-      this._el,
-      '.textae-editor__type-pallet__edit-value',
-      'click',
-      (e) =>
-        editor.eventEmitter.emit(
-          `textae.${name}Pallet.attribute.edit-value-button.click`,
-          this._attrDef,
-          e.target.dataset.index
-        )
-    )
-
-    delegate(
-      this._el,
-      '.textae-editor__type-pallet__remove-value',
-      'click',
-      (e) =>
-        editor.eventEmitter.emit(
-          `textae.${name}Pallet.attribute.remove-value-button.click`,
-          this._attrDef,
-          e.target.dataset.index
-        )
-    )
+    bindAttributeEvent(this, this._el, editor.eventEmitter)
 
     editor.eventEmitter
       .on('textae.typeDefinition.entity.attributeDefinition.create', (pred) => {
         // Reload pallet when reverting deleted attribute.
-        this._showAttribute(pred)
+        this.showAttribute(pred)
       })
       .on('textae.typeDefinition.entity.attributeDefinition.change', (pred) => {
         // Reload pallet when reverting change attribute.
-        this._showAttribute(pred)
+        this.showAttribute(pred)
       })
       .on('textae.typeDefinition.entity.attributeDefinition.delete', () => {
         // Reload pallet when undo deleted attribute.
-        this._showAttribute(null)
+        this.showAttribute(null)
       })
 
     // Reload when instance addition / deletion is undo / redo.
@@ -122,7 +43,7 @@ export default class extends Pallet {
     super.show(point)
   }
 
-  _showAttribute(pred) {
+  showAttribute(pred) {
     this._selectedPred = pred
     this.updateDisplay()
   }
@@ -142,7 +63,7 @@ export default class extends Pallet {
     )
   }
 
-  get _attrDef() {
+  get attrDef() {
     return this._typeContainer.attributes.find(
       (a) => a.pred === this._selectedPred
     )
