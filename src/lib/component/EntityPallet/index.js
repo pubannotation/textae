@@ -22,8 +22,7 @@ export default class extends Pallet {
       '.textae-editor__type-pallet__attribute',
       'click',
       (e) => {
-        this._selectedPred = e.target.dataset['attribute']
-        this.updateDisplay()
+        this._showAttribute(e.target.dataset['attribute'])
         e.stopPropagation()
       }
     )
@@ -100,19 +99,16 @@ export default class extends Pallet {
 
     editor.eventEmitter
       .on('textae.typeDefinition.entity.attributeDefinition.create', (pred) => {
-        this._selectedPred = pred
         // Reload pallet when reverting deleted attribute.
-        this.updateDisplay()
+        this._showAttribute(pred)
       })
       .on('textae.typeDefinition.entity.attributeDefinition.change', (pred) => {
-        this._selectedPred = pred
         // Reload pallet when reverting change attribute.
-        this.updateDisplay()
+        this._showAttribute(pred)
       })
       .on('textae.typeDefinition.entity.attributeDefinition.delete', () => {
-        this._selectedPred = null
         // Reload pallet when undo deleted attribute.
-        this.updateDisplay()
+        this._showAttribute(null)
       })
 
     // Reload when instance addition / deletion is undo / redo.
@@ -124,6 +120,11 @@ export default class extends Pallet {
   show(point) {
     this._selectedPred = null
     super.show(point)
+  }
+
+  _showAttribute(pred) {
+    this._selectedPred = pred
+    this.updateDisplay()
   }
 
   get _content() {
