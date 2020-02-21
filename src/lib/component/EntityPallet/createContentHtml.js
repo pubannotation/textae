@@ -194,7 +194,7 @@ const numericAttributeHtml = `
         </tr>
         {{#each values}}
         <tr class="textae-editor__type-pallet__row" style="background-color: {{color}};">
-          <td class="textae-editor__type-pallet__label" data-id="{{id}}">
+          <td class="textae-editor__type-pallet__attribute-label">
             {{range}}
           </td>
           <td class="textae-editor__type-pallet__short-label">
@@ -240,7 +240,7 @@ const selectionAttributeHtml = `
         </tr>
         {{#each values}}
         <tr class="textae-editor__type-pallet__row" style="background-color: {{color}};">
-          <td class="textae-editor__type-pallet__label" data-id="{{id}}">
+          <td class="textae-editor__type-pallet__attribute-label">
             {{id}}
             {{#if default}}
               <span class="textae-editor__type-pallet__default-icon" title="This type is set as a default type."></span>
@@ -291,7 +291,7 @@ const stringAttributeHtml = `
         </tr>
         {{#each values}}
         <tr class="textae-editor__type-pallet__row" style="background-color: {{color}};">
-          <td class="textae-editor__type-pallet__label" data-id="{{id}}">
+          <td class="textae-editor__type-pallet__attribute-label">
             {{pattern}}
           </td>
           <td class="textae-editor__type-pallet__short-label">
