@@ -124,6 +124,19 @@ const typeHtml = `
   </tbody>
 </table>
 `
+
+Handlebars.registerPartial(
+  'remove-attribute-button',
+  `
+  {{#if @root.isEntityWithSamePredSelected}}
+  <button
+    type="button"
+    class="textae-editor__type-pallet__remove-attribute"
+  >Remove from selected entity</button>
+  {{/if}}
+`
+)
+
 const flagAttributeHtml = `
 {{>header}}
 <div>
@@ -137,6 +150,7 @@ const flagAttributeHtml = `
           title="Edit this predicate.">
         </button>
         :{{pred}}
+        {{> remove-attribute-button}}
       </div>
     {{/predicate}}
   {{/ attrDef}}
@@ -178,6 +192,7 @@ const numericAttributeHtml = `
             title="Edit this predicate.">
           </button>
           :{{pred}}
+          {{> remove-attribute-button}}
         </div>
         min: {{min}}
         max: {{max}}
@@ -228,6 +243,7 @@ const selectionAttributeHtml = `
           title="Edit this predicate.">
         </button>
         :{{pred}}
+        {{> remove-attribute-button}}
       </div>
     {{/predicate}}
     </div>
@@ -278,6 +294,7 @@ const stringAttributeHtml = `
             title="Edit this predicate.">
           </button>
           :{{pred}}
+          {{> remove-attribute-button}}
         </div>
         default: {{default}}
       </div>
@@ -322,7 +339,7 @@ export default function(
   typeContainer,
   hasDiff,
   selectedPred,
-  numberOfSelectedEntities
+  selectionModelEntity
 ) {
   const addAttribute = typeContainer.attributes.length < 9
 
@@ -345,7 +362,10 @@ export default function(
       }),
       selectedPred,
       addAttribute,
-      selectedEntityLabel: getSelectedEntityLabel(numberOfSelectedEntities)
+      selectedEntityLabel: getSelectedEntityLabel(selectionModelEntity.size),
+      isEntityWithSamePredSelected: selectionModelEntity.isSamePredAttrributeSelected(
+        selectedPred
+      )
     }
 
     switch (attrDef.valueType) {
@@ -389,6 +409,6 @@ export default function(
     types: typeContainer.pallet,
     addAttribute,
     addTypeButton: true,
-    selectedEntityLabel: getSelectedEntityLabel(numberOfSelectedEntities)
+    selectedEntityLabel: getSelectedEntityLabel(selectionModelEntity.size)
   })
 }

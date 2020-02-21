@@ -102,7 +102,7 @@ export default class extends Pallet {
         )
       ),
       this._selectedPred,
-      this._selectionModelEntity.size
+      this._selectionModelEntity
     )
   }
 
