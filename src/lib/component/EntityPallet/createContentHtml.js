@@ -240,7 +240,7 @@ const selectionAttributeHtml = `
         </tr>
         {{#each values}}
         <tr class="textae-editor__type-pallet__row" style="background-color: {{color}};">
-          <td class="textae-editor__type-pallet__attribute-label">
+          <td class="textae-editor__type-pallet__selection-attribute-label" data-id="{{id}}">
             {{id}}
             {{#if default}}
               <span class="textae-editor__type-pallet__default-icon" title="This type is set as a default type."></span>

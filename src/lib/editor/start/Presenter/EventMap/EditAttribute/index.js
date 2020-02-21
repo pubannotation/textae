@@ -19,7 +19,7 @@ export default class {
 
     editor.eventEmitter
       .on(
-        'textae.selecionAttributePallet.item.label.click',
+        'textae.entityPallet.attribute.selection-attribute-label.click',
         (attrDef, newObj) => {
           const command = commander.factory.changeAttributesOfSelectedEntitiesWithSamePred(
             attrDef,
