@@ -7,7 +7,7 @@ const source = `
     <input class="textae-editor__edit-value-and-pred-dialog--predicate" value="{{pred}}" disabled="disabled">
   </div>
   <div class="textae-editor__edit-value-and-pred-dialog__input-box ui-front">
-    <label class="textae-editor__edit-value-and-pred-dialog--label">Value:</label><br>
+    <label class="textae-editor__edit-value-and-pred-dialog--label">Object:</label><br>
     <input class="textae-editor__edit-value-and-pred-dialog--value" type="number" min="{{min}}" max="{{max}}" step="{{step}}" value="{{value}}">
   </div>
 </div>`
