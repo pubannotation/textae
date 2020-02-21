@@ -1,4 +1,5 @@
 import Handlebars from 'handlebars'
+import getSelectedEntityLabel from './getSelectedEntityLabel'
 
 Handlebars.registerPartial(
   'header',
@@ -7,6 +8,8 @@ Handlebars.registerPartial(
     <p class="textae-editor__type-pallet__title">
       <span>Entity configuration</span>
       <span class="textae-editor__type-pallet__lock-icon" style="display: {{#if isLock}}inline-block{{else}}none{{/if}};">locked</span>
+      <br>
+      <span class="textae-editor__type-pallet__selected-entity-label">{{selectedEntityLabel}}</span>
     </p>
     <p class="textae-editor__type-pallet__attribute {{#unless selectedPred}}textae-editor__type-pallet__attribute--selected{{/unless}}" data-attribute="">
       Type
@@ -315,7 +318,12 @@ const numericAttributeTemplate = Handlebars.compile(numericAttributeHtml)
 const selectionAttributeTemplate = Handlebars.compile(selectionAttributeHtml)
 const stringAttributeTemplate = Handlebars.compile(stringAttributeHtml)
 
-export default function(typeContainer, hasDiff, selectedPred) {
+export default function(
+  typeContainer,
+  hasDiff,
+  selectedPred,
+  numberOfSelectedEntities
+) {
   const addAttribute = typeContainer.attributes.length < 9
 
   if (selectedPred) {
@@ -336,7 +344,8 @@ export default function(typeContainer, hasDiff, selectedPred) {
         hasInstance: typeContainer.hasAttributeInstance(selectedPred)
       }),
       selectedPred,
-      addAttribute
+      addAttribute,
+      selectedEntityLabel: getSelectedEntityLabel(numberOfSelectedEntities)
     }
 
     switch (attrDef.valueType) {
@@ -379,6 +388,7 @@ export default function(typeContainer, hasDiff, selectedPred) {
     hasDiff,
     types: typeContainer.pallet,
     addAttribute,
-    addTypeButton: true
+    addTypeButton: true,
+    selectedEntityLabel: getSelectedEntityLabel(numberOfSelectedEntities)
   })
 }

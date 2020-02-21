@@ -6,12 +6,13 @@ import bindAttributeEvent from './bindAttributeEvent'
 import createContentHtml from './createContentHtml'
 
 export default class extends Pallet {
-  constructor(editor, originalData, typeDefinition) {
+  constructor(editor, originalData, typeDefinition, selectionModelEntity) {
     super(editor, createPalletElement('entity'))
 
     this._originalData = originalData
     this._typeDefinition = typeDefinition
     this._typeContainer = typeDefinition.entity
+    this._selectionModelEntity = selectionModelEntity
 
     // Bind user events to the event emitter.
     const name = 'entity'
@@ -36,6 +37,11 @@ export default class extends Pallet {
     editor.eventEmitter
       .on('textae.annotationData.attribute.add', () => this.updateDisplay())
       .on('textae.annotationData.attribute.remove', () => this.updateDisplay())
+
+    // Update selected entity label
+    editor.eventEmitter.on('textae.selection.entity.change', () =>
+      this.updateDisplay()
+    )
   }
 
   show(point) {
@@ -59,7 +65,8 @@ export default class extends Pallet {
           this._typeDefinition.config
         )
       ),
-      this._selectedPred
+      this._selectedPred,
+      this._selectionModelEntity.size
     )
   }
 

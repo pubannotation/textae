@@ -26,8 +26,12 @@ export default class {
     )
   }
 
+  get size() {
+    return this._selected.size
+  }
+
   get some() {
-    return this._selected.size > 0
+    return this.size > 0
   }
 
   single() {

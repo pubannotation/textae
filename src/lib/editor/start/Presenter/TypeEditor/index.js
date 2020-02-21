@@ -33,7 +33,12 @@ export default class {
       typeDefinition
     )
 
-    this._entityPallet = new EntityPallet(editor, originalData, typeDefinition)
+    this._entityPallet = new EntityPallet(
+      editor,
+      originalData,
+      typeDefinition,
+      selectionModel.entity
+    )
     bindAttributeTabEvents(editor.eventEmitter, commander)
     initPallet(
       this._entityPallet,
