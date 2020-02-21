@@ -105,8 +105,8 @@ export default class {
     }
   }
 
-  getSelectedEntitiesWithSamePredicateAttribute(attrDef) {
-    return this.entity.all.filter((entity) =>
+  findSelectedEntityWithSamePredicateAttribute(attrDef) {
+    return this.entity.all.find((entity) =>
       entity.attributes.find((attribute) => attribute.pred === attrDef.pred)
     )
   }

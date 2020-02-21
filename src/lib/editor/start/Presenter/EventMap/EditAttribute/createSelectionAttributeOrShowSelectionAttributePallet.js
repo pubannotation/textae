@@ -1,8 +1,8 @@
 export default function(selectionModel, attrDef, commander, pallet, point) {
-  const selectedEntitiesWithSamePred = selectionModel.getSelectedEntitiesWithSamePredicateAttribute(
+  const selectedEntityWithSamePred = selectionModel.findSelectedEntityWithSamePredicateAttribute(
     attrDef
   )
-  if (selectedEntitiesWithSamePred.length > 0) {
+  if (selectedEntityWithSamePred) {
     pallet.definition = attrDef
     pallet.show(point)
   } else {
