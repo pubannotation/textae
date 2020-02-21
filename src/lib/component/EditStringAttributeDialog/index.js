@@ -4,7 +4,7 @@ import createContentHtml from './createContentHtml'
 export default class extends PromiseDialog {
   constructor(attribute) {
     super(
-      'Please enter new values',
+      'Please edit string',
       createContentHtml({
         pred: attribute.pred,
         value: attribute.obj
