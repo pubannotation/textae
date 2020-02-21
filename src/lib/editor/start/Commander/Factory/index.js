@@ -138,12 +138,13 @@ export default class {
     )
   }
 
-  createAttributeToSelectedEntitiesCommand(attributeDefinition) {
+  createAttributeToSelectedEntitiesCommand(attributeDefinition, obj = null) {
     return new CreateAttributeToSelectedEntitiesCommand(
       this._editor,
       this._annotationData,
       this._selectionModel,
-      attributeDefinition
+      attributeDefinition,
+      obj
     )
   }
 

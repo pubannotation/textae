@@ -4,7 +4,8 @@ export default function(
   annotationData,
   attributeDefinition,
   editor,
-  selectionModel
+  selectionModel,
+  obj
 ) {
   return selectionModel.entity.all
     .filter((entity) =>
@@ -22,7 +23,7 @@ export default function(
           id: null,
           subj: entity.id,
           pred: attributeDefinition.pred,
-          obj: attributeDefinition.default
+          obj: obj || attributeDefinition.default
         }
       )
     })

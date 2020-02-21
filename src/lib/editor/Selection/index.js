@@ -16,6 +16,12 @@ export default class {
       this[name] = container
     })
 
+    // extend Entity container
+    this.entity.isSamePredAttrributeSelected = (pred) =>
+      this.entity.all.some((entity) =>
+        entity.attributes.find((attribute) => attribute.pred === pred)
+      )
+
     const eventMap = new Map([
       ['textae.annotationData.all.change', () => this.clear()],
       [

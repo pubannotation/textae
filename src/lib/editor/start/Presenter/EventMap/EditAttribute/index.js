@@ -21,11 +21,21 @@ export default class {
       .on(
         'textae.entityPallet.attribute.selection-attribute-label.click',
         (attrDef, newObj) => {
-          const command = commander.factory.changeAttributesOfSelectedEntitiesWithSamePred(
-            attrDef,
-            newObj
-          )
-          commander.invoke(command)
+          if (
+            selectionModel.entity.isSamePredAttrributeSelected(attrDef.pred)
+          ) {
+            const command = commander.factory.changeAttributesOfSelectedEntitiesWithSamePred(
+              attrDef,
+              newObj
+            )
+            commander.invoke(command)
+          } else {
+            const command = commander.factory.createAttributeToSelectedEntitiesCommand(
+              attrDef,
+              newObj
+            )
+            commander.invoke(command)
+          }
         }
       )
       .on('textae.selecionAttributePallet.remove-button.click', (attrDef) => {

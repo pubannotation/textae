@@ -2,14 +2,21 @@ import CompositeCommand from './CompositeCommand'
 import getCreateAttributeToSelectedEntitiesCommands from './getCreateAttributeToSelectedEntitiesCommands'
 
 export default class extends CompositeCommand {
-  constructor(editor, annotationData, selectionModel, attributeDefinition) {
+  constructor(
+    editor,
+    annotationData,
+    selectionModel,
+    attributeDefinition,
+    obj
+  ) {
     super()
 
     this._subCommands = getCreateAttributeToSelectedEntitiesCommands(
       annotationData,
       attributeDefinition,
       editor,
-      selectionModel
+      selectionModel,
+      obj
     )
 
     this._logMessage = `create attirbute ${attributeDefinition.pred}:${
