@@ -144,7 +144,7 @@ Handlebars.registerPartial(
   'valueButton',
   `
   {{#unless @root.isLock}}
-  <td class="textae-editor__type-pallet__table-buttons">
+  <td class="textae-editor__type-pallet__table-attribute-buttons">
     <button
       type="button"
       class="textae-editor__type-pallet__table-button textae-editor__type-pallet__edit-value"
