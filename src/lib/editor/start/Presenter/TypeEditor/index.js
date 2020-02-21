@@ -3,6 +3,7 @@ import jsPlumbConnectionClicked from './jsPlumbConnectionClicked'
 import initPallet from './initPallet'
 import EntityPallet from '../../../../component/EntityPallet'
 import RelationPallet from '../../../../component/RelationPallet'
+import bindAttributeTabEvents from './bindAttributeTabEvents'
 
 export default class {
   constructor(
@@ -33,6 +34,7 @@ export default class {
     )
 
     this._entityPallet = new EntityPallet(editor, originalData, typeDefinition)
+    bindAttributeTabEvents(editor.eventEmitter, commander)
     initPallet(
       this._entityPallet,
       editor,
