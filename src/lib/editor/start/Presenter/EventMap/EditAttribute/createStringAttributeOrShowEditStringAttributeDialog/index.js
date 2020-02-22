@@ -2,7 +2,7 @@ import EditStringAttributeDialog from '../../../../../../component/EditStringAtt
 import getChangeOrRemoveCommand from './getChangeOrRemoveCommand'
 
 export default function(selectionModel, attrDef, commander) {
-  const selectedEntityWithSamePred = selectionModel.findSelectedEntityWithSamePredicateAttribute(
+  const selectedEntityWithSamePred = selectionModel.entity.findSelectedWithSamePredicateAttribute(
     attrDef
   )
   if (selectedEntityWithSamePred) {

@@ -1,5 +1,5 @@
 export default function(selectionModel, attrDef, commander, pallet, point) {
-  const selectedEntityWithSamePred = selectionModel.findSelectedEntityWithSamePredicateAttribute(
+  const selectedEntityWithSamePred = selectionModel.entity.findSelectedWithSamePredicateAttribute(
     attrDef
   )
   if (selectedEntityWithSamePred) {

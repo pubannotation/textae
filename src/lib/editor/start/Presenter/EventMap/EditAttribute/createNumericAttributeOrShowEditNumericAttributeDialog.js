@@ -1,7 +1,7 @@
 import EditNumericAttributeDialog from '../../../../../component/EditNumericAttributeDialog'
 
 export default function(selectionModel, attrDef, commander) {
-  const selectedEntityWithSamePred = selectionModel.findSelectedEntityWithSamePredicateAttribute(
+  const selectedEntityWithSamePred = selectionModel.entity.findSelectedWithSamePredicateAttribute(
     attrDef
   )
   if (selectedEntityWithSamePred) {

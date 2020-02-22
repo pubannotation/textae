@@ -22,6 +22,12 @@ export default class {
         entity.attributes.find((attribute) => attribute.pred === pred)
       )
 
+    this.entity.findSelectedWithSamePredicateAttribute = (attrDef) => {
+      return this.entity.all.find((entity) =>
+        entity.attributes.find((attribute) => attribute.pred === attrDef.pred)
+      )
+    }
+
     const eventMap = new Map([
       ['textae.annotationData.all.change', () => this.clear()],
       [
@@ -103,11 +109,5 @@ export default class {
 
       this.entity.add(Array.from(allEntityOflabels).map((dom) => dom.title))
     }
-  }
-
-  findSelectedEntityWithSamePredicateAttribute(attrDef) {
-    return this.entity.all.find((entity) =>
-      entity.attributes.find((attribute) => attribute.pred === attrDef.pred)
-    )
   }
 }
