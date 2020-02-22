@@ -2,7 +2,6 @@ import alertifyjs from 'alertifyjs'
 import FlagAttributeDefinition from '../../../../Model/TypeDefinition/createAttributeDefinition/FlagAttributeDefinition'
 import NumericAttributeDefinition from '../../../../Model/TypeDefinition/createAttributeDefinition/NumericAttributeDefinition'
 import createNumericAttributeOrShowEditNumericAttributeDialog from './createNumericAttributeOrShowEditNumericAttributeDialog'
-import SelectionAttributePallet from '../../../../../component/SelectionAttributePallet'
 import SelectionAttributeDefinition from '../../../../Model/TypeDefinition/createAttributeDefinition/SelectionAttributeDefinition'
 import StringAttributeDefinition from '../../../../Model/TypeDefinition/createAttributeDefinition/StringAttributeDefinition'
 import toggleFlagAttribute from './toggleFlagAttribute'
@@ -10,11 +9,11 @@ import createSelectionAttributeOrShowSelectionAttributePallet from './createSele
 import createStringAttributeOrShowEditStringAttributeDialog from './createStringAttributeOrShowEditStringAttributeDialog'
 
 export default class {
-  constructor(commander, editor, annotationData, selectionModel) {
+  constructor(commander, editor, annotationData, selectionModel, entityPallet) {
     this._commander = commander
     this._annotationData = annotationData
     this._selectionModel = selectionModel
-    this._pallet = new SelectionAttributePallet(editor)
+    this._pallet = entityPallet
     editor[0].appendChild(this._pallet.el)
 
     editor.eventEmitter

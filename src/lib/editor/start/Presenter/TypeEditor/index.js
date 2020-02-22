@@ -33,7 +33,7 @@ export default class {
       typeDefinition
     )
 
-    this._entityPallet = new EntityPallet(
+    this.entityPallet = new EntityPallet(
       editor,
       originalData,
       typeDefinition,
@@ -45,7 +45,7 @@ export default class {
       selectionModel.entity
     )
     initPallet(
-      this._entityPallet,
+      this.entityPallet,
       editor,
       autocompletionWs,
       commander,
@@ -88,19 +88,19 @@ export default class {
   }
 
   selectLeftAttributeTab() {
-    if (this._entityPallet.visibly) {
-      this._entityPallet.selectLeftTab()
+    if (this.entityPallet.visibly) {
+      this.entityPallet.selectLeftTab()
     }
   }
 
   selectRightAttributeTab() {
-    if (this._entityPallet.visibly) {
-      this._entityPallet.selectRightTab()
+    if (this.entityPallet.visibly) {
+      this.entityPallet.selectRightTab()
     }
   }
 
   get isEntityPalletShown() {
-    return this._entityPallet.visibly
+    return this.entityPallet.visibly
   }
 
   changeLabel() {
@@ -128,7 +128,7 @@ export default class {
 
   _getPallet() {
     if (this._elementEditor.getHandlerType() == 'entity') {
-      return this._entityPallet
+      return this.entityPallet
     }
 
     if (this._elementEditor.getHandlerType() == 'relation') {

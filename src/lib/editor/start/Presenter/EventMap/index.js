@@ -51,7 +51,8 @@ export default class {
       commander,
       editor,
       annotationData,
-      selectionModel
+      selectionModel,
+      typeEditor.entityPallet
     )
     this._deleteAttribute = new DeleteAttribute(commander, annotationData)
   }
