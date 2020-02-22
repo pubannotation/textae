@@ -108,6 +108,11 @@ export default function(eventEmitter, commander, selectionModelEntity) {
           )
         )
     )
+    .on('textae.entityPallet.attribute.add-button.click', (attrDef) =>
+      commander.invoke(
+        commander.factory.createAttributeToSelectedEntitiesCommand(attrDef)
+      )
+    )
     .on('textae.entityPallet.attribute.edit-object-button.click', (attrDef) => {
       const selectedEntityWithSamePred = selectionModelEntity.findSelectedWithSamePredicateAttribute(
         attrDef

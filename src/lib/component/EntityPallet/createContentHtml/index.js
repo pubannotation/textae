@@ -126,6 +126,18 @@ const typeHtml = `
 `
 
 Handlebars.registerPartial(
+  'add-attribute-button',
+  `
+  {{#unless @root.isEntityWithSamePredSelected}}
+  <button
+    type="button"
+    class="textae-editor__type-pallet__add-attribute"
+  >Add to selected entity</button>
+  {{/unless}}
+`
+)
+
+Handlebars.registerPartial(
   'remove-attribute-button',
   `
   {{#if @root.isEntityWithSamePredSelected}}
@@ -150,6 +162,7 @@ const flagAttributeHtml = `
           title="Edit this predicate.">
         </button>
         :{{pred}}
+        {{> add-attribute-button}}
         {{> remove-attribute-button}}
       </div>
     {{/predicate}}
@@ -204,6 +217,7 @@ const numericAttributeHtml = `
             title="Edit this predicate.">
           </button>
           :{{pred}}
+          {{> add-attribute-button}}
           {{> edit-object-button}}
           {{> remove-attribute-button}}
         </div>
@@ -256,6 +270,7 @@ const selectionAttributeHtml = `
           title="Edit this predicate.">
         </button>
         :{{pred}}
+        {{> add-attribute-button}}
         {{> remove-attribute-button}}
       </div>
     {{/predicate}}
@@ -307,6 +322,7 @@ const stringAttributeHtml = `
             title="Edit this predicate.">
           </button>
           :{{pred}}
+          {{> add-attribute-button}}
           {{> edit-object-button}}
           {{> remove-attribute-button}}
         </div>
