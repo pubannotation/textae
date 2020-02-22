@@ -1,8 +1,10 @@
 import CreateAttributeDefinitionDialog from '../../../../component/CreateAttributeDefinitionDialog'
 import EditAttributeDefinitionDialog from '../../../../component/EditAttributeDefinitionDialog'
 import EditValueToAttributeDefinitionDialog from '../../../../component/EditValueOfAttributeDefinitionDialog'
+import openEditNumericAttributeDialog from '../openEditNumericAttributeDialog'
+import openEditStringAttributeDialog from '../openEditStringAttributeDialog'
 
-export default function(eventEmitter, commander) {
+export default function(eventEmitter, commander, selectionModelEntity) {
   // Bind events about attributes.
   eventEmitter
     .on(`textae.entityPallet.attribute.create-predicate-button.click`, () => {
@@ -106,6 +108,22 @@ export default function(eventEmitter, commander) {
           )
         )
     )
+    .on('textae.entityPallet.attribute.edit-object-button.click', (attrDef) => {
+      const selectedEntityWithSamePred = selectionModelEntity.findSelectedWithSamePredicateAttribute(
+        attrDef
+      )
+      const attribute = selectedEntityWithSamePred.attributes.find(
+        (a) => a.pred === attrDef.pred
+      )
+
+      if (attrDef.valueType === 'numeric') {
+        openEditNumericAttributeDialog(attrDef, attribute, commander)
+      }
+
+      if (attrDef.valueType === 'string') {
+        openEditStringAttributeDialog(attribute, commander, attrDef)
+      }
+    })
     .on('textae.entityPallet.attribute.remove-button.click', (attrDef) =>
       commander.invoke(
         commander.factory.removeAttributesOfSelectedEntitiesByPredCommand(

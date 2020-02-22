@@ -39,7 +39,11 @@ export default class {
       typeDefinition,
       selectionModel.entity
     )
-    bindAttributeTabEvents(editor.eventEmitter, commander)
+    bindAttributeTabEvents(
+      editor.eventEmitter,
+      commander,
+      selectionModel.entity
+    )
     initPallet(
       this._entityPallet,
       editor,

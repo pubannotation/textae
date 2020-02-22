@@ -1,5 +1,4 @@
-import EditStringAttributeDialog from '../../../../../../component/EditStringAttributeDialog'
-import getChangeOrRemoveCommand from './getChangeOrRemoveCommand'
+import openEditStringAttributeDialog from '../../openEditStringAttributeDialog'
 
 export default function(selectionModel, attrDef, commander) {
   const selectedEntityWithSamePred = selectionModel.entity.findSelectedWithSamePredicateAttribute(
@@ -9,11 +8,7 @@ export default function(selectionModel, attrDef, commander) {
     const attribute = selectedEntityWithSamePred.attributes.find(
       (a) => a.pred === attrDef.pred
     )
-    const dialog = new EditStringAttributeDialog(attribute)
-    dialog.promise.then(({ newObj }) => {
-      commander.invoke(getChangeOrRemoveCommand(newObj, commander, attrDef))
-    })
-    dialog.open()
+    openEditStringAttributeDialog(attribute, commander, attrDef)
   } else {
     const command = commander.factory.createAttributeToSelectedEntitiesCommand(
       attrDef

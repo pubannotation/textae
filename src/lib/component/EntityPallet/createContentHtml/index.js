@@ -158,6 +158,18 @@ const flagAttributeHtml = `
 `
 
 Handlebars.registerPartial(
+  'edit-object-button',
+  `
+  {{#if @root.isEntityWithSamePredSelected}}
+  <button
+    type="button"
+    class="textae-editor__type-pallet__edit-object"
+  >Edit object of selected entity</button>
+  {{/if}}
+`
+)
+
+Handlebars.registerPartial(
   'valueButton',
   `
   {{#unless @root.isLock}}
@@ -192,6 +204,7 @@ const numericAttributeHtml = `
             title="Edit this predicate.">
           </button>
           :{{pred}}
+          {{> edit-object-button}}
           {{> remove-attribute-button}}
         </div>
         min: {{min}}
@@ -294,6 +307,7 @@ const stringAttributeHtml = `
             title="Edit this predicate.">
           </button>
           :{{pred}}
+          {{> edit-object-button}}
           {{> remove-attribute-button}}
         </div>
         default: {{default}}

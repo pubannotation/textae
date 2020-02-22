@@ -1,4 +1,4 @@
-import EditNumericAttributeDialog from '../../../../../component/EditNumericAttributeDialog'
+import openEditNumericAttributeDialog from '../../openEditNumericAttributeDialog'
 
 export default function(selectionModel, attrDef, commander) {
   const selectedEntityWithSamePred = selectionModel.entity.findSelectedWithSamePredicateAttribute(
@@ -8,15 +8,7 @@ export default function(selectionModel, attrDef, commander) {
     const attribute = selectedEntityWithSamePred.attributes.find(
       (a) => a.pred === attrDef.pred
     )
-    const dialog = new EditNumericAttributeDialog(attrDef, attribute)
-    dialog.promise.then(({ newObj }) => {
-      const command = commander.factory.changeAttributesOfSelectedEntitiesWithSamePred(
-        attrDef,
-        newObj
-      )
-      commander.invoke(command)
-    })
-    dialog.open()
+    openEditNumericAttributeDialog(attrDef, attribute, commander)
   } else {
     const command = commander.factory.createAttributeToSelectedEntitiesCommand(
       attrDef

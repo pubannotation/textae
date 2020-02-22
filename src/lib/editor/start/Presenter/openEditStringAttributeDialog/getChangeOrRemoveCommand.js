@@ -1,4 +1,4 @@
-export default function getChangeOrRemoveCommand(newObj, commander, attrDef) {
+export default function(newObj, commander, attrDef) {
   if (newObj) {
     return commander.factory.changeAttributesOfSelectedEntitiesWithSamePred(
       attrDef,
