@@ -36,15 +36,9 @@ export default function(editors) {
       return
     }
 
-    // Ignore clicks on the label list editor.
-    if (e.target.closest('.textae-editor__type-pallet') !== null) {
+    // Ignore clicks on the pallet.
+    if (e.target.closest('.textae-editor__type-pallet__content') !== null) {
       return
-    } else {
-      const classList = e.target.classList
-      // ClassList isn't an array
-      for (let i = 0; i < classList.length; i++) {
-        if (classList[i].indexOf('textae-editor__type-pallet') !== -1) return
-      }
     }
 
     // Ignore clicks on children of the this Editor
