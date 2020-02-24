@@ -66,7 +66,7 @@ export default function(eventEmitter, commander, selectionModelEntity) {
     .on(
       `textae.entityPallet.attribute.edit-value-button.click`,
       (attrDef, index) => {
-        const oldValue = attrDef.values[index]
+        const oldValue = attrDef.JSON.values[index]
         const dialog = new EditValueToAttributeDefinitionDialog(
           attrDef.valueType,
           oldValue
