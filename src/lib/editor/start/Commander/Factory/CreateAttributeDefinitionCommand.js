@@ -11,6 +11,14 @@ export default class extends ConfigurationCommand {
   }
 
   execute() {
+    // Added default properties to newly created numeric attribute.
+    if (this.newAttrDef['value type'] === 'numeric') {
+      this.newAttrDef.min = this.newAttrDef.min || 0
+      this.newAttrDef.max = this.newAttrDef.max || 0
+      this.newAttrDef.step = this.newAttrDef.step || 0
+      this.newAttrDef.default = this.newAttrDef.default || 0
+    }
+
     // Added default value to newly created selection attribute definition.
     // Except when undoing the deletion of selection attribute definition.
     if (
