@@ -11,6 +11,20 @@ export default class extends ConfigurationCommand {
   }
 
   execute() {
+    // Added default value to newly created selection attribute definition.
+    // Except when undoing the deletion of selection attribute definition.
+    if (
+      this.newAttrDef['value type'] === 'selection' &&
+      !this.newAttrDef.values
+    ) {
+      this.newAttrDef.values = [
+        {
+          id: 'default',
+          default: true
+        }
+      ]
+    }
+
     this.typeContainer.createAttribute(this.newAttrDef, this.index)
 
     commandLog(
