@@ -581,6 +581,12 @@
       "subj": "T1.a.b",
       "pred": "error",
       "obj": true
+    },
+    {
+      "id":"A3",
+      "subj":"E1:a:b",
+      "pred":"denote",
+      "obj":"Cell"
     }
   ],
   "relations": [
