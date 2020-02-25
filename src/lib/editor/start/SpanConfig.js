@@ -33,10 +33,6 @@ export default class {
     this._blankCharacters = []
   }
 
-  reset() {
-    this.set(defaults)
-  }
-
   set(config) {
     const settings = Object.assign({}, defaults, config)
 

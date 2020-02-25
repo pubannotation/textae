@@ -8,8 +8,6 @@ export default function(
   annotation,
   configUrl
 ) {
-  spanConfig.reset()
-
   if (annotation.config) {
     setSpanAndTypeConfig(spanConfig, typeDefinition, annotation.config)
     annotationData.reset(annotation)
