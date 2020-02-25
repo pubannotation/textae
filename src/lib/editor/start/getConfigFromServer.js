@@ -1,3 +1,4 @@
+import alertifyjs from 'alertifyjs'
 import ajaxAccessor from '../../util/ajaxAccessor'
 
 export default function(configUrl, done) {
@@ -6,8 +7,8 @@ export default function(configUrl, done) {
       configUrl,
       (configFromServer) => done(configFromServer),
       () =>
-        alert(
-          `could not read the span configuration from the location you specified.: ${configUrl}`
+        alertifyjs.error(
+          `could not load the configuration from the location you specified.: ${configUrl}`
         )
     )
   } else {
