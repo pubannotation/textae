@@ -7,6 +7,12 @@ const source = `
       <label>{{labelForRangeOrIdOrPattern}}:</label><br>
       <input value="{{rangeOrIdOrPattern}}">
     </div>
+    {{#if showDefault}}
+    <div class="textae-editor__add-value-to-attribute-dialog__default">
+      <label>default:</label><br>
+      <input type="checkbox" {{#if default}}checked="checked"{{/if}}>
+    </div>
+    {{/if}}
     <div class="textae-editor__add-value-to-attribute-dialog__label">
       <label>label:</label><br>
       <input value="{{label}}">

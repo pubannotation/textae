@@ -19,6 +19,8 @@ export default class extends PromiseDialog {
       case 'selection':
         bindingObject.labelForRangeOrIdOrPattern = 'id'
         bindingObject.rangeOrIdOrPattern = value.id
+        bindingObject.showDefault = true
+        bindingObject.default = value.default
         break
       case 'string':
         bindingObject.labelForRangeOrIdOrPattern = 'pattern'
@@ -64,6 +66,9 @@ export default class extends PromiseDialog {
             break
           case 'selection':
             ret.id = rangeOrIdOrPattern
+            ret.default = super.el.querySelector(
+              '.textae-editor__add-value-to-attribute-dialog__default input'
+            ).checked
             break
           case 'string':
             ret.pattern = rangeOrIdOrPattern

@@ -7,6 +7,19 @@ export default class extends ConfigurationCommand {
     super()
     this._typeContainer = typeContainer
 
+    if (attrDef['value type'] === 'selection') {
+      // When adding default, remove default property from existing default value.
+      if (value.default) {
+        if (!this._indexThatRemoveDefaultFrom) {
+          this._indexThatRemoveDefaultFrom = attrDef.values.findIndex(
+            (v) => v.default
+          )
+        }
+
+        delete attrDef.values[this._indexThatRemoveDefaultFrom].default
+      }
+    }
+
     // When undoing, insert to the position before remove.
     // The array of values is a copy. If you add values to the array of values when the command executes,
     // the value object will increase each time the command is executed.
@@ -34,7 +47,8 @@ export default class extends ConfigurationCommand {
     return new RemoveValueFromAttributeDefinitionCommand(
       this._typeContainer,
       this._updatedAttrDef,
-      this._updatedAttrDef.values.length - 1
+      this._updatedAttrDef.values.length - 1,
+      this._indexThatRemoveDefaultFrom
     )
   }
 }
