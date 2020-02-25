@@ -1,24 +1,22 @@
-import setConfigFromServer from './setConfigFromServer'
-import setConfigInAnnotation from './setConfigInAnnotation'
+import getConfigFromServer from './getConfigFromServer'
+import setSpanAndTypeConfig from './setSpanAndTypeConfig'
 
 export default function(
   spanConfig,
   typeDefinition,
   annotationData,
   annotation,
-  config
+  configUrl
 ) {
-  const ret = setConfigInAnnotation(spanConfig, typeDefinition, annotation)
+  spanConfig.reset()
 
-  if (ret === 'no config') {
-    setConfigFromServer(
-      spanConfig,
-      typeDefinition,
-      annotationData,
-      config,
-      annotation
-    )
-  } else {
+  if (annotation.config) {
+    setSpanAndTypeConfig(spanConfig, typeDefinition, annotation.config)
     annotationData.reset(annotation)
+  } else {
+    getConfigFromServer(configUrl, (configFromServer) => {
+      setSpanAndTypeConfig(spanConfig, typeDefinition, configFromServer)
+      annotationData.reset(annotation)
+    })
   }
 }
