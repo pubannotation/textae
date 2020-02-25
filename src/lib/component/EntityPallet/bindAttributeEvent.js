@@ -19,18 +19,11 @@ export default function(pallet, el, eventEmitter) {
     )
   )
 
-  // Bind the mousedown event to keep the button out of focus.
-  delegate(
-    el,
-    '.textae-editor__type-pallet__delete-predicate',
-    'mousedown',
-    (e) => {
-      e.preventDefault()
-      eventEmitter.emit(
-        `textae.entityPallet.attribute.delete-predicate-button.click`,
-        pallet.attrDef
-      )
-    }
+  delegate(el, '.textae-editor__type-pallet__delete-predicate', 'click', () =>
+    eventEmitter.emit(
+      `textae.entityPallet.attribute.delete-predicate-button.click`,
+      pallet.attrDef
+    )
   )
 
   delegate(

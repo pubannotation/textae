@@ -50,15 +50,9 @@ export default function(
         dialog.open()
       }
     )
-    .on(`textae.${name}Pallet.item.remove-button.click`, (id, label) => {
-      // When the user clicks the delete button, the browser focuses on the delete button.
-      // If you delete a line that contains a delete button with focus, the editor loses focus.
-      // Keyboard shortcuts will not work if focus is lost from the editor.
-      // To prevent this, focus on the editor before deleting the line.
-      editor.focus()
-
+    .on(`textae.${name}Pallet.item.remove-button.click`, (id, label) =>
       commander.invoke(handler.removeType(id, label))
-    })
+    )
     .on('textae.editor.unselect', () => pallet.hide()) // Close pallet when selecting other editor.
     .on('textae.history.change', () => pallet.updateDisplay()) // Update save config button when changing history and savigng configuration.
     .on('textae.dataAccessObject.configuration.save', () =>
