@@ -1,3 +1,4 @@
+import alertifyjs from 'alertifyjs'
 import Observable from 'observ'
 import getParams from './getParams'
 import SpanConfig from './SpanConfig'
@@ -11,13 +12,13 @@ import APIs from './APIs'
 import calculateLineHeight from './calculateLineHeight'
 import focusEditorWhenFocusedChildRemoved from './focusEditorWhenFocusedChildRemoved'
 import validateConfiguration from '../Model/AnnotationData/validateConfiguration'
-import alertifyjs from 'alertifyjs'
 import getStatusBar from './getStatusBar'
 import setSpanAndTypeConfig from './setSpanAndTypeConfig'
 import setAnnotation from './setAnnotation'
 import loadAnnotation from './loadAnnotation'
 import getConfigEditParamFromUrl from './getConfigEditParamFromUrl'
 import OriginalData from './OriginalData'
+import hasUndefinedAttributes from './hasUndefinedAttributes'
 
 export default function(
   editor,
@@ -88,6 +89,13 @@ export default function(
         )
         return
       }
+
+      const error = hasUndefinedAttributes(annotationData.toJson(), config)
+      if (error) {
+        alertifyjs.error(error)
+        return
+      }
+
       originalData.configuration = config
       setSpanAndTypeConfig(spanConfig, typeDefinition, config)
     })

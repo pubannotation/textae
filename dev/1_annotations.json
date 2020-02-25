@@ -581,24 +581,6 @@
       "subj": "T1.a.b",
       "pred": "error",
       "obj": true
-    },
-    {
-      "id": "A2",
-      "subj": "T1.a.b",
-      "pred": "example_predicate_2",
-      "obj": "attr2"
-    },
-    {
-      "id": "A3",
-      "subj": "T3",
-      "pred": "example_predicate_3",
-      "obj": "attr1"
-    },
-    {
-      "id": "A4",
-      "subj": "E2",
-      "pred": "example_predicate_4",
-      "obj": "attr1"
     }
   ],
   "relations": [
