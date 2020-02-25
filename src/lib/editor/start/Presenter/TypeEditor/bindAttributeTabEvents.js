@@ -87,7 +87,7 @@ export default function(eventEmitter, commander, selectionModelEntity) {
             commander.invoke(
               commander.factory.changeValueOfAttributeDefinitionCommand(
                 'entity',
-                attrDef,
+                attrDef.JSON,
                 index,
                 newValue
               )
