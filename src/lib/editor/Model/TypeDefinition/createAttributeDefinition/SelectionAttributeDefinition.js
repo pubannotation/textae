@@ -3,7 +3,7 @@ import AttributeDefinition from './AttributeDefinition'
 export default class extends AttributeDefinition {
   constructor(hash) {
     super(hash)
-    this.values = hash.values
+    this.values = hash.values || []
   }
 
   get default() {

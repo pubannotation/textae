@@ -8,7 +8,7 @@ export default class extends AttributeDefinition {
     this.min = hash.min
     this.max = hash.max
     this.step = hash.step
-    this._values = hash.values
+    this._values = hash.values || []
   }
 
   getLabel(obj) {
