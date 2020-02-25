@@ -91,6 +91,10 @@ export default class extends Container {
     return this._definedTypes
   }
 
+  get attributeConfig() {
+    return this.attributes.map((a) => a.JSON)
+  }
+
   isBlock(typeName) {
     return this._definedTypes.isBlock(typeName)
   }

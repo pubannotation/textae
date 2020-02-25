@@ -64,6 +64,10 @@ export default class {
       ret['relation types'] = this._relationContainer.config
     }
 
+    if (this._entityContainer.attributeConfig.length) {
+      ret['attribute types'] = this._entityContainer.attributeConfig
+    }
+
     return ret
   }
 }
