@@ -1,3 +1,4 @@
+import alertifyjs from 'alertifyjs'
 import invoke from './invoke'
 import invokeRevert from './invokeRevert'
 import Factory from './Factory'
@@ -26,7 +27,13 @@ export default function(
         // Focus is lost when undo a creation.
         selectionModel.clear()
         editor.focus()
-        invokeRevert(history.prev().commands)
+
+        const commands = history.prev()
+        if (commands.kinds.has('configuration_command')) {
+          alertifyjs.success('configuration has been undone')
+        }
+
+        invokeRevert(commands.commands)
       }
     },
     redo: () => {
@@ -34,7 +41,12 @@ export default function(
         // Select only new element when redo a creation.
         selectionModel.clear()
 
-        invoke(history.next().commands)
+        const commands = history.next()
+        if (commands.kinds.has('configuration_command')) {
+          alertifyjs.success('configuration has been redo')
+        }
+
+        invoke(commands.commands)
       }
     },
     factory: new Factory(
