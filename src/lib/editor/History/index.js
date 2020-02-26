@@ -9,20 +9,20 @@ export default class {
   }
 
   push(commands) {
-    const newCcommands = new Commands(commands)
+    const newCommands = new Commands(commands)
 
     // Delete the following history.
     this._histories.splice(
       this._pointer + 1,
       this._histories.length - this._pointer,
-      newCcommands
+      newCommands
     )
     this._pointer++
 
-    if (newCcommands.kinds.has('annotation_command')) {
+    if (newCommands.kinds.has('annotation_command')) {
       this._pointerForAnnotation.lastEdit = this._pointer
     }
-    if (newCcommands.kinds.has('configuration_command')) {
+    if (newCommands.kinds.has('configuration_command')) {
       this._pointerForConfiguration.lastEdit = this._pointer
     }
 
@@ -41,7 +41,7 @@ export default class {
     }
 
     this._trigger()
-    return next.commands
+    return next
   }
 
   prev() {
@@ -61,7 +61,7 @@ export default class {
     this._pointer--
 
     this._trigger()
-    return prev.commands
+    return prev
   }
 
   resetConfiguration() {

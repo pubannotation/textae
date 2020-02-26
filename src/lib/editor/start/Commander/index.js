@@ -26,7 +26,7 @@ export default function(
         // Focus is lost when undo a creation.
         selectionModel.clear()
         editor.focus()
-        invokeRevert(history.prev())
+        invokeRevert(history.prev().commands)
       }
     },
     redo: () => {
@@ -34,7 +34,7 @@ export default function(
         // Select only new element when redo a creation.
         selectionModel.clear()
 
-        invoke(history.next())
+        invoke(history.next().commands)
       }
     },
     factory: new Factory(
