@@ -6,7 +6,7 @@ export default class extends PromiseDialog {
   constructor(
     title,
     content,
-    typeDefinition,
+    typeContainer,
     autocompletionWs,
     convertToReseltsFunc
   ) {
@@ -28,6 +28,8 @@ export default class extends PromiseDialog {
       }
     )
 
-    setSourceOfAutoComplete(super.el, typeDefinition, autocompletionWs)
+    setSourceOfAutoComplete(super.el, autocompletionWs, (term) =>
+      typeContainer.findByLabel(term)
+    )
   }
 }

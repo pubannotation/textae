@@ -1,10 +1,6 @@
-import getLocalData from './getLocalData'
-
-export default function(typeDefinition, autocompletionWs, term, response) {
-  const localData = getLocalData(typeDefinition, term)
-
+export default function(autocompletionWs, localData, term, done) {
   if (!autocompletionWs) {
-    response(localData)
+    done(localData)
     return
   }
 
@@ -30,7 +26,7 @@ export default function(typeDefinition, autocompletionWs, term, response) {
           }
         })
 
-      response(localData.concat(formattedData))
+      done(localData.concat(formattedData))
     }
   }
 

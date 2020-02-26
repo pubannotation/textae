@@ -3,12 +3,12 @@ import createContentHtml from './createContentHtml'
 import setSourceOfAutoComplete from '../setSourceOfAutoComplete'
 
 export default class extends PromiseDialog {
-  constructor({ name }, typeDefinition, autocompletionWs) {
+  constructor({ name }, typeContainer, autocompletionWs) {
     super(
       'Please enter new values',
       createContentHtml({
         value: name,
-        label: typeDefinition.getLabel(name)
+        label: typeContainer.getLabel(name)
       }),
       {
         height: 250
@@ -31,6 +31,8 @@ export default class extends PromiseDialog {
     const labelSpan = super.el.querySelector(
       '.textae-editor__edit-value-and-pred-dialog--label span'
     )
-    setSourceOfAutoComplete(typeDefinition, autocompletionWs, value, labelSpan)
+    setSourceOfAutoComplete(value, labelSpan, autocompletionWs, (term) =>
+      typeContainer.findByLabel(term)
+    )
   }
 }

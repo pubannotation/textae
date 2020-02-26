@@ -5,10 +5,10 @@ import bind from './bind'
 import setSourceOfAutoComplete from '../setSourceOfAutoComplete'
 
 export default class extends PromiseDialog {
-  constructor(type, typeDefinition, autocompletionWs) {
+  constructor(type, typeContainer, autocompletionWs) {
     const contentHtml = createContentHtml({
       value: type.name,
-      label: typeDefinition.getLabel(type.name),
+      label: typeContainer.getLabel(type.name),
       attributes: type.attributes
     })
 
@@ -32,6 +32,8 @@ export default class extends PromiseDialog {
     const labelSpan = super.el.querySelector(
       '.textae-editor__edit-type-dialog__type__label__value'
     )
-    setSourceOfAutoComplete(typeDefinition, autocompletionWs, value, labelSpan)
+    setSourceOfAutoComplete(value, labelSpan, autocompletionWs, (term) =>
+      typeContainer.findByLabel(term)
+    )
   }
 }

@@ -141,6 +141,13 @@ export default class {
     return getUrlMatches(id) ? id : undefined
   }
 
+  findByLabel(term) {
+    return this.definedTypes.labelIncludes(term).map((raw) => ({
+      label: `${raw.label}@${raw.id}`,
+      raw
+    }))
+  }
+
   get pallet() {
     return formatForPallet(
       this._getAllInstanceFunc(),
