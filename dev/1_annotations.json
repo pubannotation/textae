@@ -1,5 +1,6 @@
 {
   "config": {
+    "autocompletion_ws": "aabc/dev/autocomplete?order=desc",
     "entity types": [
       {
         "color": "#FF00FF",

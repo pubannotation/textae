@@ -33,5 +33,6 @@
       "id": "http://dbpedia.org/ontology/parent",
       "default": true
     }
-  ]
+  ],
+  "autocompletion_ws": "/dev/autocomplete?order=desc"
 }

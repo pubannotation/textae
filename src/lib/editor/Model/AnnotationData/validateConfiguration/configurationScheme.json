@@ -51,6 +51,10 @@
     "non-edge characters": {
       "$ref": "#/definitions/characters"
     },
+    "autocompletion_ws": {
+      "type": "string",
+      "format": "uri-reference"
+    },
     "entity types": {
       "$ref": "#/definitions/types"
     },

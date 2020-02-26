@@ -41,9 +41,11 @@ export default class {
         config['attribute types'] || []
       ]
       this._relationContainer.definedTypes = config['relation types'] || []
+      this.autocompletionWs = config['autocompletion_ws']
     } else {
       this._entityContainer.definedTypes = []
       this._relationContainer.definedTypes = []
+      this.autocompletionWs = ''
     }
 
     this._editor.eventEmitter.emit(`textae.typeDefinition.reset`)

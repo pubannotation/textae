@@ -1,19 +1,12 @@
 import CreateTypeDefinitionDialog from '../../../../component/CreateTypeDefinitionDialog'
 import EditTypeDefinitionDialog from '../../../../component/EditTypeDefinitionDialog'
 
-export default function(
-  pallet,
-  editor,
-  autocompletionWs,
-  commander,
-  name,
-  handler
-) {
+export default function(pallet, editor, typeEditor, commander, name, handler) {
   editor.eventEmitter
     .on(`textae.${name}Pallet.add-button.click`, () => {
       const dialog = new CreateTypeDefinitionDialog(
         handler.typeContainer,
-        autocompletionWs
+        typeEditor.autocompletionWs
       )
       dialog.promise.then(({ newType }) =>
         handler.commander.invoke(handler.addType(newType))
@@ -40,7 +33,7 @@ export default function(
           id,
           color,
           isDefault,
-          autocompletionWs
+          typeEditor.autocompletionWs
         )
         dialog.promise.then(({ id, changedProperties }) => {
           if (changedProperties.size) {

@@ -47,7 +47,7 @@ export default class {
     initPallet(
       this.entityPallet,
       editor,
-      autocompletionWs,
+      this,
       commander,
       'entity',
       this._elementEditor.entityHandler
@@ -61,7 +61,7 @@ export default class {
     initPallet(
       this._relationPallet,
       editor,
-      autocompletionWs,
+      this,
       commander,
       'relation',
       this._elementEditor.relationHandler
@@ -104,7 +104,7 @@ export default class {
   }
 
   changeLabel() {
-    this._elementEditor.getHandler().changeLabelHandler(this._autocompletionWs)
+    this._elementEditor.getHandler().changeLabelHandler(this.autocompletionWs)
   }
 
   cancelSelect() {
@@ -134,5 +134,9 @@ export default class {
     if (this._elementEditor.getHandlerType() == 'relation') {
       return this._relationPallet
     }
+  }
+
+  get autocompletionWs() {
+    return this._autocompletionWs || this._typeDefinition.autocompletionWs
   }
 }
