@@ -55,12 +55,19 @@ export default class {
     )
   }
 
-  changeAttributesOfSelectedEntitiesWithSamePred(attributeDefinition, newObj) {
+  changeAttributesOfSelectedEntitiesWithSamePred(
+    modelType,
+    attributeDefinition,
+    newObj,
+    newLabel
+  ) {
     return new ChangeAttributesOfSelectedEntitiesWithSamePred(
       this._annotationData,
       this._selectionModel,
-      attributeDefinition.pred,
-      newObj
+      this._typeDefinition[modelType],
+      attributeDefinition,
+      newObj,
+      newLabel
     )
   }
 

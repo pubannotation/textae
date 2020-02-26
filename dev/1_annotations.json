@@ -150,6 +150,7 @@
       {
         "pred": "free_text_predicate",
         "value type": "string",
+        "autocompletion_ws": "/dev/autocomplete?order=desc",
         "default": "Down the Rabbit Hole",
         "values": [
           {

@@ -2,6 +2,7 @@ import AttributeDefinition from './AttributeDefinition'
 export default class extends AttributeDefinition {
   constructor(hash) {
     super(hash)
+    this.autocompletionWs = hash.autocompletion_ws
     this.default = hash.default
     this._values = hash.values || []
   }
@@ -46,6 +47,7 @@ export default class extends AttributeDefinition {
   get JSON() {
     return Object.assign(super.JSON, {
       'value type': 'string',
+      autocompletion_ws: this.autocompletionWs,
       default: this.default,
       values: this._values
     })

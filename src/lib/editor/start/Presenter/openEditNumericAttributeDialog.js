@@ -4,6 +4,7 @@ export default function(attrDef, attribute, commander) {
   const dialog = new EditNumericAttributeDialog(attrDef, attribute)
   dialog.promise.then(({ newObj }) => {
     const command = commander.factory.changeAttributesOfSelectedEntitiesWithSamePred(
+      'entity',
       attrDef,
       newObj
     )

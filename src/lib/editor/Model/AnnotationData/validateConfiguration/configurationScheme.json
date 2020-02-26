@@ -41,6 +41,10 @@
       "items": {
         "$ref": "#/definitions/denote"
       }
+    },
+    "autocompletion_ws": {
+      "type": "string",
+      "format": "uri-reference"
     }
   },
   "type": "object",
@@ -52,8 +56,7 @@
       "$ref": "#/definitions/characters"
     },
     "autocompletion_ws": {
-      "type": "string",
-      "format": "uri-reference"
+      "$ref": "#/definitions/autocompletion_ws"
     },
     "entity types": {
       "$ref": "#/definitions/types"
@@ -130,6 +133,9 @@
             "then": {
               "required": ["default", "values"], 
               "properties": {
+                "autocompletion_ws": {
+                  "$ref": "#/definitions/autocompletion_ws"
+                },
                 "default": {
                   "type": "string"
                 },

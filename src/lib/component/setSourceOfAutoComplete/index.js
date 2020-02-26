@@ -13,7 +13,10 @@ export default function(
 ) {
   $(inputElement).autocomplete({
     source: (request, response) => {
-      labelSpan.innerText = ''
+      if (labelSpan) {
+        labelSpan.innerText = ''
+      }
+
       searchTerm(
         autocompletionWs,
         getLocalData(request.term),

@@ -24,6 +24,7 @@ export default class {
             selectionModel.entity.isSamePredAttrributeSelected(attrDef.pred)
           ) {
             const command = commander.factory.changeAttributesOfSelectedEntitiesWithSamePred(
+              'entity',
               attrDef,
               newObj
             )
