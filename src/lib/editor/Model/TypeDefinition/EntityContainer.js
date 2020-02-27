@@ -27,7 +27,9 @@ export default class extends Container {
     // To restore the position of a deleted attribute,
     // insert the new attribute at the specified index, if specified.
     // Note: 0 is false in JavaScript
-    if (index !== null) {
+    // When index and the number of attribute definitions are the same,
+    // the position of the deleted definition is the last. Add to the end of the attribute definition.
+    if (index !== null && this._definedAttributes.size !== index) {
       this._definedAttributes = new Map(
         Array.from(this._definedAttributes.entries()).reduce(
           (acc, [key, val], i) => {
