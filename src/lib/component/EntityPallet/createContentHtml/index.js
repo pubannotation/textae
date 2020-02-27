@@ -155,13 +155,12 @@ const flagAttributeHtml = `
   {{# attrDef}}
     {{#>predicate}}
       <div>
-        predicate
+        flag attribute: {{pred}}
         <button
           type="button"
           class="textae-editor__type-pallet__table-button textae-editor__type-pallet__edit-predicate"
           title="Edit this predicate.">
         </button>
-        :{{pred}}
         {{> add-attribute-button}}
         {{> remove-attribute-button}}
       </div>
@@ -210,13 +209,12 @@ const numericAttributeHtml = `
     {{#>predicate}}
       <div>
         <div>
-          predicate
+          numeric attribute: {{pred}}
           <button
             type="button"
             class="textae-editor__type-pallet__table-button textae-editor__type-pallet__edit-predicate"
             title="Edit this predicate.">
           </button>
-          :{{pred}}
           {{> add-attribute-button}}
           {{> edit-object-button}}
           {{> remove-attribute-button}}
@@ -263,13 +261,12 @@ const selectionAttributeHtml = `
   {{# attrDef}}
     {{#>predicate}}
       <div>
-        predicate
+        selection attribute: {{pred}}
         <button
           type="button"
           class="textae-editor__type-pallet__table-button textae-editor__type-pallet__edit-predicate"
           title="Edit this predicate.">
         </button>
-        :{{pred}}
         {{> add-attribute-button}}
         {{> remove-attribute-button}}
       </div>
@@ -315,13 +312,12 @@ const stringAttributeHtml = `
     {{#>predicate}}
       <div>
         <div>
-          predicate
+          string attribute: {{pred}}
           <button
             type="button"
             class="textae-editor__type-pallet__table-button textae-editor__type-pallet__edit-predicate"
             title="Edit this predicate.">
           </button>
-          :{{pred}}
           {{> add-attribute-button}}
           {{> edit-object-button}}
           {{> remove-attribute-button}}
