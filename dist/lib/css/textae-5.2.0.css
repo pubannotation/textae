@@ -469,6 +469,9 @@
   margin-left: 18px;
   width: 50px;
 }
+.textae-editor__add-value-to-attribute-dialog__ok-button[disabled="disabled"] {
+  opacity: 0.1;
+}
 .textae-editor--dialog {
   /* To show candidates of the autocomplete, overwrite a style of the jQuery-ui dialog */
 }
@@ -532,7 +535,11 @@
 }
 .textae-editor__type-pallet__title {
   font-size: 1.4em;
+  margin-bottom: -3px;
   margin-right: 10px;
+}
+.textae-editor__type-pallet__title__selected-entity-label {
+  font-size: small;
 }
 .textae-editor__type-pallet__lock-icon {
   margin-left: 10px;
@@ -566,7 +573,7 @@
   line-height: 30px;
   margin-bottom: 0;
   margin-left: -1px;
-  margin-top: 20px;
+  margin-top: 25px;
   overflow: hidden;
   text-align: center;
   width: 59px;
@@ -617,6 +624,8 @@
   cursor: pointer;
 }
 .textae-editor__type-pallet__label,
+.textae-editor__type-pallet__attribute-label,
+.textae-editor__type-pallet__selection-attribute-label,
 .textae-editor__type-pallet__short-label,
 .textae-editor__type-pallet__no-config {
   overflow-x: hidden;
@@ -632,9 +641,13 @@
   font-weight: bold;
   height: 27px;
 }
-.textae-editor__type-pallet__table-buttons {
+.textae-editor__type-pallet__table-buttons,
+.textae-editor__type-pallet__table-attribute-buttons {
   padding: 2px;
   text-align: center;
+}
+.textae-editor__type-pallet__table-attribute-buttons {
+  width: 60px;
 }
 .textae-editor__type-pallet__default-icon {
   display: inline-block;
@@ -679,7 +692,8 @@
   left: -2px;
   top: 1px;
 }
-.textae-editor__type-pallet__edit-type:before {
+.textae-editor__type-pallet__edit-type:before,
+.textae-editor__type-pallet__edit-value:before {
   position: relative;
   display: inline-block;
   font-family: FontAwesome;
@@ -695,7 +709,8 @@
   left: -1px;
   top: -1px;
 }
-.textae-editor__type-pallet__remove:before {
+.textae-editor__type-pallet__remove:before,
+.textae-editor__type-pallet__remove-value:before {
   position: relative;
   display: inline-block;
   font-family: FontAwesome;
@@ -4299,7 +4314,7 @@ a.ui-button:active,
 }
 .textae-editor {
   position: relative;
-  padding: 2px;
+  padding: 2px 0;
   border: 1px solid black;
   white-space: pre;
   /* active editer color */
@@ -4338,6 +4353,7 @@ a.ui-button:active,
 }
 .textae-editor__body__text-box p {
   line-height: inherit;
+  padding: 0 16px;
 }
 .textae-editor__body__text-box__paragraph {
   position: relative;
