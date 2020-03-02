@@ -1,7 +1,7 @@
 import deferAlert from '../deferAlert'
 
-export default function(selection) {
-  if (isInSameParagraph(selection)) {
+export default function(selectionWrapper) {
+  if (selectionWrapper.isInSameParagraph()) {
     return true
   }
 
@@ -9,15 +9,4 @@ export default function(selection) {
     'It is ambiguous for which span you want to adjust the boundary. Select the span, and try again.'
   )
   return false
-}
-
-function isInSameParagraph(selection) {
-  const anchorParagraph = getParagraph(selection.anchorNode)
-  const focusParagraph = getParagraph(selection.focusNode)
-
-  return anchorParagraph === focusParagraph
-}
-
-function getParagraph(node) {
-  return node.parentElement.closest('.textae-editor__body__text-box__paragraph')
 }

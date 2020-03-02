@@ -1,10 +1,10 @@
-import commonValidate from '../../commonValidate'
-import isFocusNodeInSpan from './isFocusNodeInSpan'
+import commonValidate from '../commonValidate'
+import SelectionWrapper from '../SelectionWrapper'
 
 export default function(annotationData, spanConfig, selection) {
   // This order is important, because showAlertIfOtherSpan is show alert.
   return (
-    isFocusNodeInSpan(selection) &&
+    new SelectionWrapper(selection).isFocusNodeInParagraph &&
     commonValidate(annotationData, spanConfig, selection)
   )
 }
