@@ -1,4 +1,4 @@
-import commonValidate from '../commonValidate'
+import commonValidate from '../../commonValidate'
 import isFocusNodeInSpan from './isFocusNodeInSpan'
 
 export default function(annotationData, spanConfig, selection) {

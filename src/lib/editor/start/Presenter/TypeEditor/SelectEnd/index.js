@@ -1,8 +1,6 @@
 import SpanEditor from './SpanEditor'
-import getAnchorPosition from './getAnchorPosition'
-import clearTextSelection from '../clearTextSelection'
-import validateOnText from './validateOnText'
-import validateOnSpan from './validateOnSpan'
+import selectEndOnText from './selectEndOnText'
+import selectEndOnSpan from './selectEndOnSpan'
 
 export default function(
   editor,
@@ -51,71 +49,4 @@ export default function(
       if (selectEndOnSpanImpl) selectEndOnSpanImpl(annotationData, data)
     }
   }
-}
-
-function selectEndOnText(spanEditor, annotationData, data) {
-  const isValid = validateOnText(
-    annotationData,
-    data.spanConfig,
-    data.selection
-  )
-
-  if (isValid) {
-    // The parent of the focusNode is the paragraph.
-    // Same paragraph check is done in the validateOnText.
-    if (
-      data.selection.anchorNode.parentNode.classList.contains(
-        'textae-editor__body__text-box__paragraph'
-      )
-    ) {
-      spanEditor.create(data)
-    } else if (
-      data.selection.anchorNode.parentNode.classList.contains(
-        'textae-editor__span'
-      )
-    ) {
-      spanEditor.expand(data)
-    }
-  }
-
-  clearTextSelection()
-}
-
-function selectEndOnSpan(spanEditor, annotationData, data) {
-  const isValid = validateOnSpan(
-    annotationData,
-    data.spanConfig,
-    data.selection
-  )
-
-  if (isValid) {
-    if (data.selection.anchorNode === data.selection.focusNode) {
-      const ap = getAnchorPosition(annotationData, data.selection)
-      const span = annotationData.span.get(
-        data.selection.anchorNode.parentElement.id
-      )
-      if (ap === span.begin || ap === span.end) {
-        spanEditor.shrinkPullByTheEar(
-          data,
-          data.selection.anchorNode.parentElement.id
-        )
-      } else {
-        spanEditor.create(data)
-      }
-    } else if (
-      data.selection.focusNode.parentElement.closest(
-        `#${data.selection.anchorNode.parentElement.id}`
-      )
-    ) {
-      spanEditor.shrinkCrossTheEar(data)
-    } else if (
-      data.selection.anchorNode.parentElement.closest(
-        `#${data.selection.focusNode.parentElement.id}`
-      )
-    ) {
-      spanEditor.expand(data)
-    }
-  }
-
-  clearTextSelection()
 }

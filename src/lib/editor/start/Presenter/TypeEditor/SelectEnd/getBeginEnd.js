@@ -1,12 +1,12 @@
-import getAnchorPosition from './getAnchorPosition'
-import getFocusPosition from './getFocusPosition'
+import getPositions from './getPositions'
 
 export default function(annotationData, selection) {
-  const anchorPosition = getAnchorPosition(annotationData, selection)
-  const focusPosition = getFocusPosition(annotationData, selection)
+  const [begin, end] = getPositions(annotationData, selection)
+
   // switch the position when the selection is made from right to left
-  if (anchorPosition > focusPosition) {
-    return [focusPosition, anchorPosition]
+  if (begin > end) {
+    return [end, begin]
   }
-  return [anchorPosition, focusPosition]
+
+  return [begin, end]
 }
