@@ -34,7 +34,19 @@ export default function(spanEditor, annotationData, data) {
       )
     ) {
       spanEditor.expand(data)
+    } else if (
+      data.selection.focusNode.parentElement.closest(
+        `#${data.selection.anchorNode.parentElement.parentElement.id}`
+      )
+    ) {
+      // When extending the span to the right,
+      // if the right edge after stretching is the same as the right edge of the second span,
+      // the anchorNode will be the textNode of the first span and the focusNode will be the textNode of the second span.
+      // If the Span of the focusNode belongs to the parent of the Span of the anchorNode, the first Span is extensible.
+      // The same applies when extending to the left.
+      spanEditor.expand(data)
     }
   }
+
   clearTextSelection()
 }
