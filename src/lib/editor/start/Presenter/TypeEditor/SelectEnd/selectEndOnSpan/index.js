@@ -1,5 +1,5 @@
-import getAnchorPosition from '../getAnchorPosition'
 import clearTextSelection from '../../clearTextSelection'
+import Positions from '../Positions'
 import validateOnSpan from './validateOnSpan'
 
 export default function(spanEditor, annotationData, data) {
@@ -10,11 +10,11 @@ export default function(spanEditor, annotationData, data) {
   )
   if (isValid) {
     if (data.selection.anchorNode === data.selection.focusNode) {
-      const ap = getAnchorPosition(annotationData, data.selection)
+      const positions = new Positions(annotationData, data.selection)
       const span = annotationData.span.get(
         data.selection.anchorNode.parentElement.id
       )
-      if (ap === span.begin || ap === span.end) {
+      if (positions.anchor === span.begin || positions.anchor === span.end) {
         spanEditor.shrinkPullByTheEar(
           data,
           data.selection.anchorNode.parentElement.id

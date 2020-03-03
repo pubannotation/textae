@@ -1,17 +1,18 @@
-import getBeginEnd from '../../getBeginEnd'
+import Positions from '../../Positions'
 
 export default function(annotationData, spanAdjuster, selection, spanConfig) {
-  const [begin, end] = getBeginEnd(annotationData, selection)
+  const positions = new Positions(annotationData, selection)
+
   return {
     begin: spanAdjuster.backFromBegin(
       annotationData.sourceDoc,
-      begin,
+      positions.begin,
       spanConfig
     ),
     end:
       spanAdjuster.forwardFromEnd(
         annotationData.sourceDoc,
-        end - 1,
+        positions.end - 1,
         spanConfig
       ) + 1
   }

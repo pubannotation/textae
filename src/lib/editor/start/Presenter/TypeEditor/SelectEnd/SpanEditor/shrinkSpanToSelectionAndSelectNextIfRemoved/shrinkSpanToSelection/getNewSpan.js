@@ -1,5 +1,5 @@
 import getNewShortSpan from './getNewShortSpan'
-import getPositions from '../../../getPositions'
+import Positions from '../../../Positions'
 
 export default function getNewSpan(
   annotationData,
@@ -8,16 +8,13 @@ export default function getNewSpan(
   selection,
   spanConfig
 ) {
-  const [anchorPosition, focusPosition] = getPositions(
-    annotationData,
-    selection
-  )
+  const positions = new Positions(annotationData, selection)
   return getNewShortSpan(
     annotationData,
     spanAdjuster,
     spanId,
-    anchorPosition,
-    focusPosition,
+    positions.anchor,
+    positions.focus,
     spanConfig
   )
 }
