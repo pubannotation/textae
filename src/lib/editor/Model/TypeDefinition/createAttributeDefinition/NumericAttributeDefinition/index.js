@@ -55,7 +55,7 @@ export default class extends AttributeDefinition {
       min: this.min,
       max: this.max,
       step: this.step,
-      values: this._values
+      values: super._valuesClone
     })
   }
 }

@@ -39,7 +39,11 @@ export default class extends ConfigurationCommand {
     commandLog(
       `add a new value to attrribute:${
         this._attrDef.pred
-      }, value: ${JSON.stringify(this._value)}, index: ${this._index}`
+      }, value: ${JSON.stringify(this._value)}, index: ${
+        this._index
+      }, updated values: \n ${this._attrDef.values
+        .map((v) => JSON.stringify(v))
+        .join('\n ')}`
     )
   }
 

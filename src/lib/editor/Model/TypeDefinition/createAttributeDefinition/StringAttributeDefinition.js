@@ -49,7 +49,7 @@ export default class extends AttributeDefinition {
       'value type': 'string',
       autocompletion_ws: this.autocompletionWs,
       default: this.default,
-      values: this._values
+      values: super._valuesClone
     })
   }
 }

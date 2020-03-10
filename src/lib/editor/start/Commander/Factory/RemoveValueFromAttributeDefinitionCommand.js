@@ -41,7 +41,11 @@ export default class extends ConfigurationCommand {
     this._typeContainer.updateAttribute(this._attrDef.pred, this._attrDef)
 
     commandLog(
-      `remove a value from an attrribute:${this._attrDef.pred}, index:${this._index}`
+      `remove a value from an attrribute:${this._attrDef.pred}, index:${
+        this._index
+      }, updated values: \n ${this._attrDef.values
+        .map((v) => JSON.stringify(v))
+        .join('\n ')}`
     )
   }
 

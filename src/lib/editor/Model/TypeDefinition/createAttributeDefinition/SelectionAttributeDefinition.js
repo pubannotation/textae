@@ -3,7 +3,7 @@ import AttributeDefinition from './AttributeDefinition'
 export default class extends AttributeDefinition {
   constructor(hash) {
     super(hash)
-    this.values = hash.values || []
+    this._values = hash.values || []
   }
 
   get default() {
@@ -30,19 +30,18 @@ export default class extends AttributeDefinition {
     return null
   }
 
+  get values() {
+    return this._values
+  }
+
   _getDef(obj) {
     return this.values.find((a) => a.id == obj)
   }
 
   get JSON() {
-    const values = []
-    for (const value of this.values) {
-      values.push(Object.assign({}, value))
-    }
-
     return Object.assign(super.JSON, {
       'value type': 'selection',
-      values
+      values: super._valuesClone
     })
   }
 }
