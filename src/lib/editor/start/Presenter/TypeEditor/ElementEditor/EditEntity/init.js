@@ -1,8 +1,12 @@
+import delegate from 'delegate'
 import spanClicked from './spanClicked'
 import bodyClicked from './bodyClicked'
 import typeValeusClicked from './typeValuesClicked'
 import entityClicked from './entityClicked'
 
+// For support context menu.
+// Mouse up event occurs when either left or right button is clicked.
+// Change mouse events to monitor from mouseup to click since v5.0.0.
 export default function(
   editor,
   selectEnd,
@@ -10,23 +14,36 @@ export default function(
   selectSpan,
   selectionModel
 ) {
-  // For support context menu.
-  // Mouse up event occurs when either left or right button is clicked.
-  // Change mouse events to monitor from mouseup to click since v5.0.0.
-  editor
-    .on('click', '.textae-editor__body', (e) =>
+  const listeners = []
+
+  listeners.push(
+    delegate(editor[0], '.textae-editor__body', 'click', (e) =>
       bodyClicked(selectEnd, spanConfig, e)
     )
-    .on('click', '.textae-editor__type', () => editor.focus())
-    .on('click', '.textae-editor__type-values', (e) =>
+  )
+
+  listeners.push(
+    delegate(editor[0], '.textae-editor__type', 'click', () => editor.focus())
+  )
+
+  listeners.push(
+    delegate(editor[0], '.textae-editor__type-values', 'click', (e) =>
       typeValeusClicked(selectionModel, e)
     )
-    .on('click', '.textae-editor__entity', (e) =>
+  )
+
+  listeners.push(
+    delegate(editor[0], '.textae-editor__entity', 'click', (e) =>
       entityClicked(selectionModel, e)
     )
+  )
 
   // To shrink a span listen the mouseup event.
-  editor.on('mouseup', '.textae-editor__span', (e) =>
-    spanClicked(spanConfig, selectEnd, selectSpan, e)
+  listeners.push(
+    delegate(editor[0], '.textae-editor__span', 'mouseup', (e) =>
+      spanClicked(spanConfig, selectEnd, selectSpan, e)
+    )
   )
+
+  return listeners
 }

@@ -1,6 +1,5 @@
 import EditRelation from './EditRelation'
 import EditEntity from './EditEntity'
-import unbindAllMouseEventhandler from './unbindAllMouseEventhandler'
 import getHandler from './getHandler'
 
 // Provide handlers to edit elements according to an edit mode.
@@ -58,21 +57,25 @@ export default class {
   }
 
   noEdit() {
-    unbindAllMouseEventhandler(this._editor)
+    this._unbindAllMouseEventhandler()
     this._setHandlerType('default')
   }
 
   editEntity() {
-    unbindAllMouseEventhandler(this._editor)
-
-    this._editEntity.init()
+    this._unbindAllMouseEventhandler()
+    this._listeners = this._editEntity.init()
     this._setHandlerType('entity')
   }
 
   editRelation() {
-    unbindAllMouseEventhandler(this._editor)
-
-    this._editRelation.init()
+    this._unbindAllMouseEventhandler()
+    this._listeners = this._editRelation.init()
     this._setHandlerType('relation')
+  }
+
+  _unbindAllMouseEventhandler() {
+    for (const listner of this._listeners || []) {
+      listner.destroy()
+    }
   }
 }
