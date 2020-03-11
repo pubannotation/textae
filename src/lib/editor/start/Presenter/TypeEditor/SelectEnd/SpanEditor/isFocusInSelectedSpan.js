@@ -5,6 +5,6 @@ export default function(annotationData, selectionModel, selection) {
   return isInSelectedSpan(
     annotationData,
     selectionModel,
-    new Positions(annotationData, selection).focusPosition
+    new Positions(annotationData, selection).focus
   )
 }
