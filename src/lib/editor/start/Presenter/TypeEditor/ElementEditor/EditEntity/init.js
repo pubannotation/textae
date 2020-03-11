@@ -17,8 +17,6 @@ export default function(
 ) {
   const listeners = []
 
-  listeners.push(bindEditorBodyClickEventTrigger(editor))
-
   // When mouseupping on blank area between lines.
   // You may hover over the text and select the text.
   listeners.push(
@@ -39,6 +37,8 @@ export default function(
       (e) => mouseUpOnText(selectEnd, spanConfig, e)
     )
   )
+
+  listeners.push(bindEditorBodyClickEventTrigger(editor))
 
   listeners.push(
     delegate(editor[0], '.textae-editor__type', 'click', () => editor.focus())
