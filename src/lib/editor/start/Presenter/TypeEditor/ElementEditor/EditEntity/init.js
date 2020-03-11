@@ -1,4 +1,5 @@
 import delegate from 'delegate'
+import bindEditorBodyClickEventTrigger from '../bindEditorBodyClickEventTrigger'
 import spanClicked from './spanClicked'
 import mouseUpOnText from './mouseUpOnText'
 import typeValeusClicked from './typeValuesClicked'
@@ -16,23 +17,7 @@ export default function(
 ) {
   const listeners = []
 
-  // Trigger body click event
-  // The blank area on the editor is textae-editor__body__text-box or textae-editor__body__text-box__paragraph-margin.
-  listeners.push(
-    delegate(editor[0], '.textae-editor__body__text-box', 'click', (e) => {
-      // The delegate also fires events for child elements of the selector.
-      // Ignores events that occur in child elements.
-      // Otherwise, you cannot select child elements.
-      if (
-        e.target.classList.contains('textae-editor__body__text-box') ||
-        e.target.classList.contains(
-          'textae-editor__body__text-box__paragraph-margin'
-        )
-      ) {
-        editor.eventEmitter.emit('textae.editor.body.click')
-      }
-    })
-  )
+  listeners.push(bindEditorBodyClickEventTrigger(editor))
 
   // When mouseupping on blank area between lines.
   // You may hover over the text and select the text.
