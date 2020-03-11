@@ -1,6 +1,6 @@
 import delegate from 'delegate'
 import spanClicked from './spanClicked'
-import bodyClicked from './bodyClicked'
+import mouseUpOnText from './mouseUpOnText'
 import typeValeusClicked from './typeValuesClicked'
 import entityClicked from './entityClicked'
 
@@ -34,9 +34,24 @@ export default function(
     })
   )
 
+  // When mouseupping on blank area between lines.
+  // You may hover over the text and select the text.
   listeners.push(
-    delegate(editor[0], '.textae-editor__body', 'click', (e) =>
-      bodyClicked(selectEnd, spanConfig, e)
+    delegate(
+      editor[0],
+      '.textae-editor__body__text-box__paragraph-margin',
+      'click',
+      (e) => mouseUpOnText(selectEnd, spanConfig, e)
+    )
+  )
+
+  // When mouseupipng on text.
+  listeners.push(
+    delegate(
+      editor[0],
+      '.textae-editor__body__text-box__paragraph',
+      'click',
+      (e) => mouseUpOnText(selectEnd, spanConfig, e)
     )
   )
 
