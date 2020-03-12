@@ -53,7 +53,7 @@ export default class {
   }
 
   get relationHandler() {
-    return this._editRelation.handlers
+    return this._editRelation.relationHandler
   }
 
   noEdit() {

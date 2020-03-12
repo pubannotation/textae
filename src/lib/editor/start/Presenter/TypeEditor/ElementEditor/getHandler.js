@@ -5,7 +5,7 @@ export default function(handler, editEntity, editRelation) {
     case 'entity':
       return editEntity.entityHandler
     case 'relation':
-      return editRelation.handlers
+      return editRelation.relationHandler
     default:
       return new DefaultHandler()
   }
