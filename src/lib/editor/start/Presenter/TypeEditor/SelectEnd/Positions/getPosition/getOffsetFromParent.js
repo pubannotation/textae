@@ -1,13 +1,18 @@
 export default function(node) {
-  const childNodes = node.parentElement.childNodes
   let offset = 0
-  for (let i = 0; childNodes[i] !== node; i++) {
+
+  for (const prevNode of node.parentElement.childNodes) {
     // until the focus node
-    if (childNodes[i].nodeName === '#text') {
-      offset += childNodes[i].nodeValue.length
+    if (prevNode == node) {
+      break
+    }
+
+    if (prevNode.nodeName === '#text') {
+      offset += prevNode.nodeValue.length
     } else {
-      offset += childNodes[i].textContent.length
+      offset += prevNode.textContent.length
     }
   }
+
   return offset
 }
