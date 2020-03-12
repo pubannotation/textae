@@ -1,36 +1,50 @@
 import SelectEnd from '../../SelectEnd'
 import SelectSpan from './SelectSpan'
 import EditEntityHandler from './EditEntityHandler'
-import init from './init'
+import bindMouseEvents from './bindMouseEvents'
 
-export default function(
-  editor,
-  annotationData,
-  selectionModel,
-  commander,
-  pushButtons,
-  typeDefinition,
-  spanConfig
-) {
-  const selectEnd = new SelectEnd(
+export default class {
+  constructor(
     editor,
     annotationData,
     selectionModel,
     commander,
-    pushButtons
-  )
-  const selectSpan = new SelectSpan(annotationData, selectionModel)
-
-  const entityHandler = () =>
-    new EditEntityHandler(
-      typeDefinition,
-      commander,
+    pushButtons,
+    typeDefinition,
+    spanConfig
+  ) {
+    this._editor = editor
+    this._selectEnd = new SelectEnd(
+      editor,
       annotationData,
-      selectionModel
+      selectionModel,
+      commander,
+      pushButtons
     )
+    this._spanConfig = spanConfig
+    this._selectSpan = new SelectSpan(annotationData, selectionModel)
+    this._selectionModel = selectionModel
+    this._typeDefinition = typeDefinition
+    this._commander = commander
+    this._annotationData = annotationData
+  }
 
-  return {
-    init: () => init(editor, selectEnd, spanConfig, selectSpan, selectionModel),
-    entityHandler
+  init() {
+    return bindMouseEvents(
+      this._editor,
+      this._selectEnd,
+      this._spanConfig,
+      this._selectSpan,
+      this._selectionModel
+    )
+  }
+
+  get entityHandler() {
+    return new EditEntityHandler(
+      this._typeDefinition,
+      this._commander,
+      this._annotationData,
+      this._selectionModel
+    )
   }
 }

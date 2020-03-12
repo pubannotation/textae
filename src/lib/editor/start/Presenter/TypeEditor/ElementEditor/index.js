@@ -49,7 +49,7 @@ export default class {
   }
 
   get entityHandler() {
-    return this._editEntity.entityHandler()
+    return this._editEntity.entityHandler
   }
 
   get relationHandler() {
