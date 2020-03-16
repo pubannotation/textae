@@ -56,8 +56,8 @@ export default class {
     handle(this._iconApiMap, key, value)
   }
 
-  handlePalletClick(key, value) {
-    handle(this._palletApiMap, key, value)
+  handlePalletClick(key) {
+    handle(this._palletApiMap, key)
   }
 
   redraw() {
