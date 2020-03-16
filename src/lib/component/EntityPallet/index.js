@@ -44,9 +44,9 @@ export default class extends Pallet {
     )
   }
 
-  show(point) {
+  show() {
     this._selectedPred = null
-    super.show(point)
+    super.show()
   }
 
   showAttribute(pred) {

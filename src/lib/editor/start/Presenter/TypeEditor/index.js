@@ -83,10 +83,10 @@ export default class {
     this._elementEditor.noEdit()
   }
 
-  showPallet(point) {
+  showPallet() {
     const pallet = this._getPallet()
     if (pallet) {
-      pallet.show(point.point)
+      pallet.show()
     }
   }
 

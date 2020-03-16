@@ -47,7 +47,7 @@ export default class {
       .on('textae.editor.body.click', () => this._pallet.hide())
   }
 
-  handle(typeDefinition, number, options) {
+  handle(typeDefinition, number) {
     this._pallet.hide()
 
     const attrDef = typeDefinition.entity.getAttributeAt(number)
@@ -76,8 +76,7 @@ export default class {
         this._selectionModel,
         attrDef,
         this._commander,
-        this._pallet,
-        options.point
+        this._pallet
       )
       return
     }

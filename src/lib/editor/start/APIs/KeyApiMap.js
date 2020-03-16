@@ -17,7 +17,7 @@ export default function(commander, presenter, persistenceInterface) {
     ['f', () => presenter.event.toggleInstaceRelation()],
     ['i', () => persistenceInterface.importAnnotation()],
     ['m', () => presenter.event.toggleInstaceRelation()],
-    ['q', (option) => presenter.event.showPallet(option)],
+    ['q', () => presenter.event.showPallet()],
     ['r', () => presenter.event.replicate()],
     ['s', () => presenter.event.speculation()],
     ['u', () => persistenceInterface.uploadAnnotation()],

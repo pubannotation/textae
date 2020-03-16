@@ -66,8 +66,8 @@ export default class {
     )
   }
 
-  showPallet(point) {
-    this._typeEditor.showPallet(point)
+  showPallet() {
+    this._typeEditor.showPallet()
   }
 
   replicate() {

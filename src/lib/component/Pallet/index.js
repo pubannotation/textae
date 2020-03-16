@@ -2,6 +2,7 @@ import delegate from 'delegate'
 import enableJqueryDraggable from './enableJqueryDraggable'
 import moveIntoWindow from './moveIntoWindow'
 import updateDisplay from './updateDisplay'
+import getMousePoint from './getMousePoint'
 
 export default class {
   constructor(editor, el) {
@@ -36,8 +37,8 @@ export default class {
     return this._el
   }
 
-  show(point) {
-    console.assert(point, 'point is necessary.')
+  show() {
+    const point = getMousePoint()
 
     this._el.style.display = 'block'
     updateDisplay(this._el, this._content)

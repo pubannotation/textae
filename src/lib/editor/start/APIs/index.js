@@ -2,7 +2,6 @@ import handle from './handle'
 import KeyApiMap from './KeyApiMap'
 import IconApiMap from './IconApiMap'
 import PalletApiMap from './PalletApiMap'
-import getMousePoint from './getMousePoint'
 
 export default class {
   constructor(
@@ -40,7 +39,6 @@ export default class {
           : event.key
 
       const value = {
-        point: getMousePoint(),
         shiftKey: event.shiftKey
       }
 
@@ -49,11 +47,7 @@ export default class {
   }
 
   handleButtonClick(key) {
-    const value = {
-      point: getMousePoint()
-    }
-
-    handle(this._iconApiMap, key, value)
+    handle(this._iconApiMap, key, {})
   }
 
   handlePalletClick(key) {

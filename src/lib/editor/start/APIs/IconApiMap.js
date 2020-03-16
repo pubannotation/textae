@@ -22,7 +22,7 @@ export default function(
     ['boundary-detection', () => presenter.event.toggleDetectBoundaryMode()],
     ['entity', () => presenter.event.createEntity()],
     ['change-label', () => presenter.event.changeLabel()],
-    ['pallet', (option) => presenter.event.showPallet(option)],
+    ['pallet', () => presenter.event.showPallet()],
     ['negation', () => presenter.event.negation()],
     ['speculation', () => presenter.event.speculation()],
     ['attribute', () => presenter.event.createAttribute()],
