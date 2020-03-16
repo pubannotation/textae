@@ -107,8 +107,6 @@ export default class extends Pallet {
   }
 
   get attrDef() {
-    return this._typeContainer.attributes.find(
-      (a) => a.pred === this._selectedPred
-    )
+    return this._typeContainer.findAttribute(this._selectedPred)
   }
 }

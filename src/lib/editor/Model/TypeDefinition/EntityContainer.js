@@ -56,6 +56,10 @@ export default class extends Container {
     )
   }
 
+  findAttribute(pred) {
+    return this._definedAttributes.get(pred)
+  }
+
   updateAttribute(oldPred, attrDef) {
     // Predicate as key of map may be changed.
     // Keep oreder of attributes.
@@ -75,7 +79,7 @@ export default class extends Container {
       attrDef.pred
     )
 
-    return this._definedAttributes.get(attrDef.pred)
+    return this.findAttribute(attrDef.pred)
   }
 
   deleteAttribute(pred) {
@@ -115,7 +119,7 @@ export default class extends Container {
 
   getAttributeLabel(attribute) {
     if (this._definedAttributes.has(attribute.pred)) {
-      return this._definedAttributes.get(attribute.pred).getLabel(attribute.obj)
+      return this.findAttribute(attribute.pred).getLabel(attribute.obj)
     }
 
     return
@@ -123,7 +127,7 @@ export default class extends Container {
 
   getAttributeColor(attribute) {
     if (this._definedAttributes.has(attribute.pred)) {
-      return this._definedAttributes.get(attribute.pred).getColor(attribute.obj)
+      return this.findAttribute(attribute.pred).getColor(attribute.obj)
     }
   }
 
