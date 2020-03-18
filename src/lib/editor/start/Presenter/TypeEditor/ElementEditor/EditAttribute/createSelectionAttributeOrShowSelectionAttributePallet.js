@@ -3,7 +3,6 @@ export default function(selectionModel, attrDef, commander, pallet) {
     attrDef
   )
   if (selectedEntityWithSamePred) {
-    // pallet.definition = attrDef
     pallet.show()
     pallet.showAttribute(attrDef.pred)
   } else {
