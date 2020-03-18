@@ -8,6 +8,9 @@ const html = `
   <label>Value:</label><br>
   <input class="textae-editor__edit-type-dialog__attribute__value__value" value="{{this.obj}}" disabled="disabled">
 </div>
+<div class="textae-editor__edit-type-dialog__attribute__edit">
+  <button type="button" class="ui-button ui-corner-all textae-editor__edit-type-dialog__attribute__edit__value" data-predicate="{{this.pred}}"{{#if this.editDisabled}} disabled="disabled"{{/if}}>edit</button>
+</div>
 <div class="textae-editor__edit-type-dialog__attribute__remove">
   <button type="button" class="ui-button ui-corner-all textae-editor__edit-type-dialog__attribute__remove__value">remove</button>
 </div>

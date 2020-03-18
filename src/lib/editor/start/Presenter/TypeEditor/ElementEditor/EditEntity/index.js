@@ -45,6 +45,7 @@ export default class {
 
   get entityHandler() {
     return new EditEntityHandler(
+      this._editor,
       this._typeDefinition,
       this._commander,
       this._annotationData,

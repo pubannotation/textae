@@ -4,7 +4,12 @@ import EditValueToAttributeDefinitionDialog from '../../../../component/EditValu
 import openEditNumericAttributeDialog from '../openEditNumericAttributeDialog'
 import openEditStringAttributeDialog from '../openEditStringAttributeDialog'
 
-export default function(eventEmitter, commander, selectionModelEntity) {
+export default function(
+  eventEmitter,
+  commander,
+  selectionModelEntity,
+  entityPallet
+) {
   // Bind events about attributes.
   eventEmitter
     .on(`textae.entityPallet.attribute.create-predicate-button.click`, () => {
@@ -113,7 +118,7 @@ export default function(eventEmitter, commander, selectionModelEntity) {
         commander.factory.createAttributeToSelectedEntitiesCommand(attrDef)
       )
     )
-    .on('textae.entityPallet.attribute.edit-object-button.click', (attrDef) => {
+    .on('textae.entityPallet.attribute.object.edit', (attrDef) => {
       const selectedEntityWithSamePred = selectionModelEntity.findSelectedWithSamePredicateAttribute(
         attrDef
       )
@@ -121,12 +126,19 @@ export default function(eventEmitter, commander, selectionModelEntity) {
         (a) => a.pred === attrDef.pred
       )
 
-      if (attrDef.valueType === 'numeric') {
-        openEditNumericAttributeDialog(attrDef, attribute, commander)
-      }
-
-      if (attrDef.valueType === 'string') {
-        openEditStringAttributeDialog(attribute, commander, attrDef)
+      switch (attrDef.valueType) {
+        case 'numeric':
+          openEditNumericAttributeDialog(attrDef, attribute, commander)
+          break
+        case 'selection':
+          entityPallet.show()
+          entityPallet.showAttribute(attrDef.pred)
+          break
+        case 'string':
+          openEditStringAttributeDialog(attribute, commander, attrDef)
+          break
+        default:
+          throw new Error(`Invalid attribute valueType: ${attrDef.valueType}`)
       }
     })
     .on('textae.entityPallet.attribute.remove-button.click', (attrDef) =>

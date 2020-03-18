@@ -4,6 +4,7 @@ import mergeTypes from './mergeTypes'
 
 export default class extends DefaultHandler {
   constructor(
+    editor,
     typeDefinition,
     commander,
     annotationData,
@@ -13,6 +14,7 @@ export default class extends DefaultHandler {
   ) {
     super('entity', typeDefinition.entity, commander)
 
+    this._editor = editor
     this._annotationData = annotationData
     this._selectionModel = selectionModel
     this._typeDefinition = typeDefinition
@@ -50,6 +52,7 @@ export default class extends DefaultHandler {
       }
 
       const dialog = new EditEntityTypeDialog(
+        this._editor,
         type,
         this.typeContainer,
         autocompletionWs

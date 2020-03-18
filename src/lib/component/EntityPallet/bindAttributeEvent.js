@@ -74,7 +74,7 @@ export default function(pallet, el, eventEmitter) {
 
   delegate(el, '.textae-editor__type-pallet__edit-object', 'click', () =>
     eventEmitter.emit(
-      'textae.entityPallet.attribute.edit-object-button.click',
+      'textae.entityPallet.attribute.object.edit',
       pallet.attrDef
     )
   )

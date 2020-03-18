@@ -44,7 +44,8 @@ export default class {
     bindAttributeTabEvents(
       editor.eventEmitter,
       commander,
-      selectionModel.entity
+      selectionModel.entity,
+      this._entityPallet
     )
 
     initPallet(

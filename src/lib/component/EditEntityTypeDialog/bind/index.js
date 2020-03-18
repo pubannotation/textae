@@ -1,5 +1,5 @@
 import observeRemoveAttributeButton from './observeRemoveAttributeButton'
 
-export default function(element) {
+export default function(editor, typeContainer, element) {
   observeRemoveAttributeButton(element)
 }

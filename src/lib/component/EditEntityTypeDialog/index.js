@@ -1,3 +1,4 @@
+import delegate from 'delegate'
 import PromiseDialog from '../PromiseDialog'
 import createContentHtml from './createContentHtml'
 import getValues from './getValues'
@@ -5,11 +6,15 @@ import bind from './bind'
 import setSourceOfAutoComplete from '../setSourceOfAutoComplete'
 
 export default class extends PromiseDialog {
-  constructor(type, typeContainer, autocompletionWs) {
+  constructor(editor, type, typeContainer, autocompletionWs) {
     const contentHtml = createContentHtml({
       value: type.name,
       label: typeContainer.getLabel(type.name),
-      attributes: type.attributes
+      attributes: type.attributes.map((a) => ({
+        pred: a.pred,
+        obj: a.obj,
+        editDisabled: a.obj === true
+      }))
     })
 
     super(
@@ -23,7 +28,23 @@ export default class extends PromiseDialog {
       'textae-editor__edit-type-dialog__ok-button'
     )
 
-    bind(super.el)
+    bind(editor, typeContainer, super.el)
+
+    // Observe edit an attributu button
+    delegate(
+      super.el,
+      '.textae-editor__edit-type-dialog__attribute__edit__value',
+      'click',
+      (e) => {
+        super.close()
+        const pred = e.target.dataset.predicate
+        const attrDef = typeContainer.findAttribute(pred)
+        editor.eventEmitter.emit(
+          'textae.entityPallet.attribute.object.edit',
+          attrDef
+        )
+      }
+    )
 
     // Setup autocomplete
     const value = super.el.querySelector(
