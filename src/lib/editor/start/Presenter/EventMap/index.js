@@ -88,8 +88,8 @@ export default class {
     this._typeEditor.changeLabel()
   }
 
-  manipulateAttribute(options, number) {
-    this._typeEditor.manipulateAttribute(options, number)
+  manipulateAttribute(number, shiftKey) {
+    this._typeEditor.manipulateAttribute(number, shiftKey)
   }
 
   cancelSelect() {
@@ -123,19 +123,19 @@ export default class {
     this._editor.eventEmitter.emit('textae.editor.unselect')
   }
 
-  selectLeft(option) {
+  selectLeft(shiftKey) {
     if (this._typeEditor.isEntityPalletShown) {
       this._typeEditor.selectLeftAttributeTab()
     } else {
-      selectLeft(this._editor[0], this._selectionModel, option.shiftKey)
+      selectLeft(this._editor[0], this._selectionModel, shiftKey)
     }
   }
 
-  selectRight(option) {
+  selectRight(shiftKey) {
     if (this._typeEditor.isEntityPalletShown) {
       this._typeEditor.selectRightAttributeTab()
     } else {
-      selectRight(this._editor[0], this._selectionModel, option.shiftKey)
+      selectRight(this._editor[0], this._selectionModel, shiftKey)
     }
   }
 

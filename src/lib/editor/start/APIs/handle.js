@@ -1,5 +1,5 @@
-export default function(map, key, value) {
+export default function(map, key, ...values) {
   if (map.has(key)) {
-    map.get(key)(value)
+    map.get(key)(...values)
   }
 }

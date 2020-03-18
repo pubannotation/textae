@@ -38,11 +38,7 @@ export default class {
           ? String.fromCharCode(event.keyCode)
           : event.key
 
-      const value = {
-        shiftKey: event.shiftKey
-      }
-
-      handle(this._keyApiMap, key, value)
+      handle(this._keyApiMap, key, event.shiftKey)
     }
   }
 

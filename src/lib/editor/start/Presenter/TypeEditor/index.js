@@ -110,8 +110,8 @@ export default class {
     this._elementEditor.getHandler().changeLabelHandler(this.autocompletionWs)
   }
 
-  manipulateAttribute(options, number) {
-    this._elementEditor.getHandler().manipulateAttribute(options, number)
+  manipulateAttribute(number, shiftKey) {
+    this._elementEditor.getHandler().manipulateAttribute(number, shiftKey)
   }
 
   cancelSelect() {
