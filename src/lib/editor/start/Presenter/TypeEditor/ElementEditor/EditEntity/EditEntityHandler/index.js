@@ -3,11 +3,21 @@ import EditEntityTypeDialog from '../../../../../../../component/EditEntityTypeD
 import mergeTypes from './mergeTypes'
 
 export default class extends DefaultHandler {
-  constructor(typeDefinition, commander, annotationData, selectionModel) {
+  constructor(
+    typeDefinition,
+    commander,
+    annotationData,
+    selectionModel,
+    editAttribute,
+    deleteAttribute
+  ) {
     super('entity', typeDefinition.entity, commander)
 
     this._annotationData = annotationData
     this._selectionModel = selectionModel
+    this._typeDefinition = typeDefinition
+    this._editAttribute = editAttribute
+    this._deleteAttribute = deleteAttribute
   }
 
   jsPlumbConnectionClicked(_, event) {
@@ -46,6 +56,14 @@ export default class extends DefaultHandler {
       )
       dialog.promise.then(done)
       dialog.open()
+    }
+  }
+
+  manipulateAttribute(options, number) {
+    if (options.shiftKey) {
+      this._deleteAttribute.handle(this._typeDefinition, number)
+    } else {
+      this._editAttribute.handle(this._typeDefinition, number, options)
     }
   }
 

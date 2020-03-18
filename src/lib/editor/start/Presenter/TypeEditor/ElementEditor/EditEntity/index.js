@@ -11,7 +11,9 @@ export default class {
     commander,
     pushButtons,
     typeDefinition,
-    spanConfig
+    spanConfig,
+    editAttribute,
+    deleteAttribute
   ) {
     this._editor = editor
     this._selectEnd = new SelectEnd(
@@ -27,6 +29,8 @@ export default class {
     this._typeDefinition = typeDefinition
     this._commander = commander
     this._annotationData = annotationData
+    this._editAttribute = editAttribute
+    this._deleteAttribute = deleteAttribute
   }
 
   init() {
@@ -44,7 +48,9 @@ export default class {
       this._typeDefinition,
       this._commander,
       this._annotationData,
-      this._selectionModel
+      this._selectionModel,
+      this._editAttribute,
+      this._deleteAttribute
     )
   }
 }

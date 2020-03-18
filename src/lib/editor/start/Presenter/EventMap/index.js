@@ -10,8 +10,6 @@ import selectLowerLayer from './selectLowerLayer'
 import toggleSimpleMode from './toggleSimpleMode'
 import toggleDetectBoundaryMode from './toggleDetectBoundaryMode'
 import toggleInstaceRelation from './toggleInstaceRelation'
-import EditAttribute from './EditAttribute'
-import DeleteAttribute from './DeleteAttribute'
 
 export default class {
   constructor(
@@ -47,14 +45,6 @@ export default class {
       typeEditor
     )
     this._editMode = editMode
-    this._editAttribute = new EditAttribute(
-      commander,
-      editor,
-      annotationData,
-      selectionModel,
-      typeEditor.entityPallet
-    )
-    this._deleteAttribute = new DeleteAttribute(commander, annotationData)
   }
 
   copyEntities() {
@@ -98,6 +88,10 @@ export default class {
     this._typeEditor.changeLabel()
   }
 
+  manipulateAttribute(options, number) {
+    this._typeEditor.manipulateAttribute(options, number)
+  }
+
   cancelSelect() {
     this._typeEditor.cancelSelect()
     // Foucs the editor for ESC key
@@ -110,14 +104,6 @@ export default class {
 
   speculation() {
     this._modificationHandler.speculation()
-  }
-
-  manipulateAttribute(options, number) {
-    if (options.shiftKey) {
-      this._deleteAttribute.handle(this._typeDefinition, number)
-    } else {
-      this._editAttribute.handle(this._typeDefinition, number, options)
-    }
   }
 
   showSettingDialog() {

@@ -1,6 +1,8 @@
 import EditRelation from './EditRelation'
 import EditEntity from './EditEntity'
 import getHandler from './getHandler'
+import EditAttribute from './EditAttribute'
+import DeleteAttribute from './DeleteAttribute'
 
 // Provide handlers to edit elements according to an edit mode.
 export default class {
@@ -11,9 +13,19 @@ export default class {
     spanConfig,
     commander,
     pushButtons,
-    typeDefinition
+    typeDefinition,
+    entityPallet
   ) {
     this._handler = 'default'
+
+    const editAttribute = new EditAttribute(
+      commander,
+      editor,
+      annotationData,
+      selectionModel,
+      entityPallet
+    )
+    const deleteAttribute = new DeleteAttribute(commander, annotationData)
 
     this._editEntity = new EditEntity(
       editor,
@@ -22,7 +34,9 @@ export default class {
       commander,
       pushButtons,
       typeDefinition,
-      spanConfig
+      spanConfig,
+      editAttribute,
+      deleteAttribute
     )
 
     this._editRelation = new EditRelation(

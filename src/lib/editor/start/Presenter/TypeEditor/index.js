@@ -23,6 +23,13 @@ export default class {
     this._selectionModel = selectionModel
 
     // will init.
+    this._entityPallet = new EntityPallet(
+      editor,
+      originalData,
+      typeDefinition,
+      selectionModel.entity
+    )
+
     this._elementEditor = new ElementEditor(
       editor,
       annotationData,
@@ -30,22 +37,18 @@ export default class {
       spanConfig,
       commander,
       pushButtons,
-      typeDefinition
+      typeDefinition,
+      this._entityPallet
     )
 
-    this.entityPallet = new EntityPallet(
-      editor,
-      originalData,
-      typeDefinition,
-      selectionModel.entity
-    )
     bindAttributeTabEvents(
       editor.eventEmitter,
       commander,
       selectionModel.entity
     )
+
     initPallet(
-      this.entityPallet,
+      this._entityPallet,
       editor,
       this,
       commander,
@@ -88,23 +91,27 @@ export default class {
   }
 
   selectLeftAttributeTab() {
-    if (this.entityPallet.visibly) {
-      this.entityPallet.selectLeftTab()
+    if (this._entityPallet.visibly) {
+      this._entityPallet.selectLeftTab()
     }
   }
 
   selectRightAttributeTab() {
-    if (this.entityPallet.visibly) {
-      this.entityPallet.selectRightTab()
+    if (this._entityPallet.visibly) {
+      this._entityPallet.selectRightTab()
     }
   }
 
   get isEntityPalletShown() {
-    return this.entityPallet.visibly
+    return this._entityPallet.visibly
   }
 
   changeLabel() {
     this._elementEditor.getHandler().changeLabelHandler(this.autocompletionWs)
+  }
+
+  manipulateAttribute(options, number) {
+    this._elementEditor.getHandler().manipulateAttribute(options, number)
   }
 
   cancelSelect() {
@@ -128,7 +135,7 @@ export default class {
 
   _getPallet() {
     if (this._elementEditor.getHandlerType() == 'entity') {
-      return this.entityPallet
+      return this._entityPallet
     }
 
     if (this._elementEditor.getHandlerType() == 'relation') {

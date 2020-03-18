@@ -50,4 +50,7 @@ export default class {
 
   // Dummy funtion for shotcut key 'w' in the ViewMode.
   changeLabelHandler() {}
+
+  // Dummy funtion for shotcut key '1' ~ 9 in the ViewMode and RelationMode.
+  manipulateAttribute() {}
 }
