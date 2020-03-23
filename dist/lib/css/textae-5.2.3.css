@@ -326,8 +326,12 @@
 .textae-editor__edit-type-dialog__attribute__value__value {
   width: 262px;
 }
+.textae-editor__edit-type-dialog__attribute__edit,
 .textae-editor__edit-type-dialog__attribute__remove {
   padding-top: 11px;
+}
+.textae-editor__edit-type-dialog__attribute__edit__value[disabled="disabled"] {
+  opacity: 0.1;
 }
 .textae-editor__edit-type-dialog__attribute__message {
   color: red;
@@ -335,9 +339,6 @@
 }
 .textae-editor__edit-type-dialog__attribute__message--valid {
   display: none;
-}
-.textae-editor__edit-type-dialog__ok-button[disabled="dsiabled"] {
-  opacity: 0.1;
 }
 .textae-editor__edit-type-definition-dialog__container {
   display: flex;
