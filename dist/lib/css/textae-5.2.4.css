@@ -4314,6 +4314,7 @@ a.ui-button:active,
   box-shadow: -5px -5px 5px #000;
 }
 .textae-editor {
+  line-height: 41px;
   position: relative;
   padding: 2px 0;
   border: 1px solid black;
