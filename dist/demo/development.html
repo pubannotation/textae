@@ -3,8 +3,8 @@
 
 <head>
   <meta charset="utf-8" />
-  <link rel="stylesheet" href="../lib/css/textae-5.2.4.min.css" />
-  <script src="../lib/textae-5.2.4.min.js"></script>
+  <link rel="stylesheet" href="../lib/css/textae-5.2.5.min.css" />
+  <script src="../lib/textae-5.2.5.min.js"></script>
 </head>
 
 <body>
@@ -76,6 +76,8 @@
       var isIE = (userAgent.indexOf('msie') >= 0 || userAgent.indexOf('trident') >= 0)
       if (isIE) alert('Microsoft IE is not supported. Please use a HTML5-conformant browser, e.g., FireFox, Chrome, or Safari.')
     }()
+
+    window.addEventListener('load', () => document.querySelector('.textae-editor').focus())
   </script>
 
 </body>

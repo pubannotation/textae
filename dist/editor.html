@@ -3,8 +3,8 @@
 
 <head>
   <meta charset="utf-8" />
-  <link rel="stylesheet" href="lib/css/textae-5.2.4.min.css">
-  <script src="lib/textae-5.2.4.min.js"></script>
+  <link rel="stylesheet" href="lib/css/textae-5.2.5.min.css">
+  <script src="lib/textae-5.2.5.min.js"></script>
 </head>
 
 <body>
@@ -30,9 +30,7 @@
   }()
 
   // Run scripts after start the textae.
-  setTimeout(function() {
-    document.querySelector('.textae-editor').focus()
-  }, 500)
+  window.addEventListener('load', () => document.querySelector('.textae-editor').focus())
   </script>
 </body>
 
