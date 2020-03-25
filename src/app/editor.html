@@ -30,9 +30,7 @@
   }()
 
   // Run scripts after start the textae.
-  setTimeout(function() {
-    document.querySelector('.textae-editor').focus()
-  }, 500)
+  window.addEventListener('load', () => document.querySelector('.textae-editor').focus())
   </script>
 </body>
 

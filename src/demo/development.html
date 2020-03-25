@@ -76,6 +76,8 @@
       var isIE = (userAgent.indexOf('msie') >= 0 || userAgent.indexOf('trident') >= 0)
       if (isIE) alert('Microsoft IE is not supported. Please use a HTML5-conformant browser, e.g., FireFox, Chrome, or Safari.')
     }()
+
+    window.addEventListener('load', () => document.querySelector('.textae-editor').focus())
   </script>
 
 </body>

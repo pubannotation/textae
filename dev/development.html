@@ -73,8 +73,7 @@
   <div class="textae-editor" title="editro8" mode="edit">{"text":"   I have a stomach  ache.","denotations":[{"span":{"begin":12,"end":19},"obj":"http://purl.obolibrary.org/obo/UBERON_0000945"}]}</div>
 
   <script>
-  // Focus on an editor before initializing.
-  setTimeout(() => document.querySelector('.textae-editor').focus(), 0)
+  window.addEventListener('load', () => document.querySelector('.textae-editor').focus())
   </script>
 </body>
 
