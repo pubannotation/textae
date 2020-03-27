@@ -1,5 +1,11 @@
 export default function(annotation, config) {
   if (annotation.attributes) {
+    if (!config) {
+      return `attribute definitions for "${[
+        ...new Set(annotation.attributes.map((a) => a.pred))
+      ].join(', ')}" in configuration is missing. `
+    }
+
     const atrributeTypes = config['attribute types'] || []
 
     const attributesWithoutDefenition = annotation.attributes.filter(
