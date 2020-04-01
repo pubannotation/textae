@@ -21,6 +21,7 @@ export default class extends PromiseDialog {
       'Please edit type and attributes',
       contentHtml,
       {
+        minHeight: 300,
         width: 800
       },
       '.textae-editor__edit-type-dialog__type__value__value',
