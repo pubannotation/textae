@@ -35,6 +35,18 @@ export default class extends PromiseDialog {
           '.textae-editor__create-attribute-definition-dialog__step'
         )
 
+        // Numeric Attribute property value type must be Number type.
+        if (valueType === 'numeric') {
+          return {
+            'value type': valueType,
+            pred,
+            default: parseFloat(default_),
+            min: parseFloat(min),
+            max: parseFloat(max),
+            step: parseFloat(step)
+          }
+        }
+
         return {
           'value type': valueType,
           pred,
