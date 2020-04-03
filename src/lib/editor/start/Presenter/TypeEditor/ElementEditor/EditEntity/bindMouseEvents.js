@@ -4,6 +4,7 @@ import spanClicked from './spanClicked'
 import mouseUpOnText from './mouseUpOnText'
 import typeValeusClicked from './typeValuesClicked'
 import entityClicked from './entityClicked'
+import showAlertWhenCreatingSpanAcrossParagraphs from './showAlertWhenCreatingSpanAcrossParagraphs'
 
 // For support context menu.
 // Mouse up event occurs when either left or right button is clicked.
@@ -16,6 +17,16 @@ export default function(
   selectionModel
 ) {
   const listeners = []
+
+  // Show Alert when trying to create span across paragraphs.
+  listeners.push(
+    delegate(
+      editor[0],
+      '.textae-editor__body__text-box__paragraph-margin',
+      'mouseup',
+      showAlertWhenCreatingSpanAcrossParagraphs
+    )
+  )
 
   // When mouseupping on blank area between lines.
   // You may hover over the text and select the text.
