@@ -19,7 +19,8 @@ export default class extends PromiseDialog {
           '.textae-editor__edit-value-and-pred-dialog--value'
         )
 
-        return { newObj: input.value }
+        // Numeric attribute obj value type must be Number type.
+        return { newObj: parseFloat(input.value) }
       }
     )
   }
