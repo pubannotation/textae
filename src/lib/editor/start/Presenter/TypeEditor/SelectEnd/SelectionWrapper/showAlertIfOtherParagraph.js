@@ -1,7 +1,7 @@
 import deferAlert from '../deferAlert'
 
-export default function(selectionWrapper) {
-  if (selectionWrapper.isInSameParagraph()) {
+export default function(isInSameParagraph) {
+  if (isInSameParagraph) {
     return true
   }
 

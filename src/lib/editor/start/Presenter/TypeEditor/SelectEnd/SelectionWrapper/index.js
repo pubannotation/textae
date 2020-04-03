@@ -1,5 +1,6 @@
 import hasNodeSpanClass from './hasNodeSpanClass'
 import hasNodeParagraphClass from './hasNodeParagraphClass'
+import showAlertIfOtherParagraph from './showAlertIfOtherParagraph'
 import getParagraph from './getParagraph'
 
 export default class {
@@ -20,7 +21,11 @@ export default class {
     return hasNodeSpanClass(node) || hasNodeParagraphClass(node)
   }
 
-  isInSameParagraph() {
+  showAlertIfOtherParagraph() {
+    return showAlertIfOtherParagraph(this._isInSameParagraph())
+  }
+
+  _isInSameParagraph() {
     const anchorParagraph = getParagraph(this._selection.anchorNode)
     const focusParagraph = getParagraph(this._selection.focusNode)
 
