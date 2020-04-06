@@ -4,7 +4,7 @@ import spanClicked from './spanClicked'
 import mouseUpOnText from './mouseUpOnText'
 import typeValeusClicked from './typeValuesClicked'
 import entityClicked from './entityClicked'
-import showAlertWhenCreatingSpanAcrossParagraphs from './showAlertWhenCreatingSpanAcrossParagraphs'
+import SelectionWrapper from '../SelectionWrapper'
 
 // For support context menu.
 // Mouse up event occurs when either left or right button is clicked.
@@ -24,7 +24,8 @@ export default function(
       editor[0],
       '.textae-editor__body__text-box__paragraph-margin',
       'mouseup',
-      showAlertWhenCreatingSpanAcrossParagraphs
+      () =>
+        new SelectionWrapper(window.getSelection()).showAlertIfOtherParagraph()
     )
   )
 

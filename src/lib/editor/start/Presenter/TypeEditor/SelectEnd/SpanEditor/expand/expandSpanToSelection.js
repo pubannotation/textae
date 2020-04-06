@@ -1,5 +1,5 @@
 import isBoundaryCrossingWithOtherSpans from '../../../../../../isBoundaryCrossingWithOtherSpans'
-import deferAlert from '../../deferAlert'
+import clearTextSelectionAndAlert from '../../clearTextSelectionAndAlert'
 import getNewSpan from './getNewSpan'
 
 export default function(
@@ -20,7 +20,9 @@ export default function(
 
   // The span cross exists spans.
   if (isBoundaryCrossingWithOtherSpans(annotationData.span.all, newSpan)) {
-    deferAlert('A span cannot be expanded to make a boundary crossing.')
+    clearTextSelectionAndAlert(
+      'A span cannot be expanded to make a boundary crossing.'
+    )
     return
   }
 
