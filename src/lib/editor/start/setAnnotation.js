@@ -1,7 +1,7 @@
 import alertifyjs from 'alertifyjs'
 import getConfigFromServer from './getConfigFromServer'
 import setSpanAndTypeConfig from './setSpanAndTypeConfig'
-import validateConfiguration from '../Model/AnnotationData/validateConfiguration'
+import validateConfiguration from './validateConfiguration'
 import hasUndefinedAttributes from './hasUndefinedAttributes'
 
 export default function(
