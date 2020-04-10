@@ -585,10 +585,64 @@
       "obj": true
     },
     {
+      "id": "A2",
+      "subj": "T1.a.b",
+      "pred": "success",
+      "obj": true
+    },
+    {
       "id": "A3",
       "subj": "E1:a:b",
       "pred": "denote",
       "obj": "Cell"
+    },
+    {
+      "id": "A4",
+      "subj": "E1:a:b",
+      "pred": "precision",
+      "obj": 1.1
+    },
+    {
+      "id": "A5",
+      "subj": "T1.a.b",
+      "pred": "precision",
+      "obj": 10
+    },
+    {
+      "id": "A6",
+      "subj": "E2",
+      "pred": "precision",
+      "obj": 100.002
+    },
+    {
+      "id": "A7",
+      "subj": "T2",
+      "pred": "precision",
+      "obj": 100.002
+    },
+    {
+      "id": "A8",
+      "subj": "E3",
+      "pred": "precision",
+      "obj": 10
+    },
+    {
+      "id": "A9",
+      "subj": "T1.a.b",
+      "pred": "remark",
+      "obj": "suspicious"
+    },
+    {
+      "id": "A10",
+      "subj": "E2",
+      "pred": "remark",
+      "obj": "suspicious"
+    },
+    {
+      "id": "T2",
+      "subj": "E1:a:b",
+      "pred": "remark",
+      "obj": "reliable"
     }
   ],
   "relations": [

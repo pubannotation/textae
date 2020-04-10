@@ -11,6 +11,7 @@ import PersistenceInterface from './PersistenceInterface'
 import APIs from './APIs'
 import calculateLineHeight from './calculateLineHeight'
 import focusEditorWhenFocusedChildRemoved from './focusEditorWhenFocusedChildRemoved'
+import patchConfiguration from './patchConfiguration'
 import validateConfiguration from './validateConfiguration'
 import getStatusBar from './getStatusBar'
 import setSpanAndTypeConfig from './setSpanAndTypeConfig'
@@ -83,21 +84,26 @@ export default function(
       editor.eventEmitter.emit('textae.pallet.update')
     })
     .on('textae.dataAccessObject.configuration.load', ({ config, source }) => {
-      if (!validateConfiguration(config)) {
+      const patchedConfig = patchConfiguration(annotationData.toJson(), config)
+
+      if (!validateConfiguration(patchedConfig)) {
         alertifyjs.error(
           `${source} is not a configuration file or its format is invalid.`
         )
         return
       }
 
-      const error = hasUndefinedAttributes(annotationData.toJson(), config)
+      const error = hasUndefinedAttributes(
+        annotationData.toJson(),
+        patchedConfig
+      )
       if (error) {
         alertifyjs.error(error)
         return
       }
 
       originalData.configuration = config
-      setSpanAndTypeConfig(spanConfig, typeDefinition, config)
+      setSpanAndTypeConfig(spanConfig, typeDefinition, patchedConfig)
     })
     .on('textae.dataAccessObject.configuration.save', () => {
       originalData.configuration = Object.assign(
