@@ -367,7 +367,7 @@ export default function(
   selectedPred,
   selectionModelEntity
 ) {
-  const addAttribute = typeContainer.attributes.length < 9
+  const addAttribute = typeContainer.attributes.length < 30
 
   if (selectedPred) {
     const attributes = typeContainer.attributes.map((a) => ({
