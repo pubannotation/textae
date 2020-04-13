@@ -93,10 +93,6 @@ export const buttonMap = {
         {
           type: 'speculation',
           title: 'Speculation [S]'
-        },
-        {
-          type: 'attribute',
-          title: 'Add Attributes [T]'
         }
       ]
     },

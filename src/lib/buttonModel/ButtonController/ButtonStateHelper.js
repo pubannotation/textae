@@ -5,7 +5,7 @@ const relationButtons = allButtons.concat([
   'negation',
   'speculation'
 ])
-const entityButtons = relationButtons.concat(['copy', 'attribute'])
+const entityButtons = relationButtons.concat(['copy'])
 
 export default class {
   constructor(

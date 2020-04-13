@@ -25,7 +25,6 @@ export default function(
     ['pallet', () => presenter.event.showPallet()],
     ['negation', () => presenter.event.negation()],
     ['speculation', () => presenter.event.speculation()],
-    ['attribute', () => presenter.event.createAttribute()],
     ['delete', () => presenter.event.removeSelectedElements()],
     ['copy', () => presenter.event.copyEntities()],
     ['paste', () => presenter.event.pasteEntities()],

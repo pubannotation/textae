@@ -7,7 +7,6 @@ export default function(selectionModel, hasCopy, eOrR) {
     ['paste', () => hasCopy() && selectionModel.span.some],
     ['change-label', eOrR],
     ['negation', eOrR],
-    ['speculation', eOrR],
-    ['attribute', () => selectionModel.entity.some]
+    ['speculation', eOrR]
   ])
 }
