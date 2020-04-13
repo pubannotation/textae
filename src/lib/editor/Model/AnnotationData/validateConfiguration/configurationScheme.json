@@ -172,7 +172,7 @@
               }
             },
             "then": {
-              "required": ["default", "min", "max", "step", "values"], 
+              "required": ["default", "min", "max", "step"], 
               "properties": {
                 "default": {
                   "type": "number"
