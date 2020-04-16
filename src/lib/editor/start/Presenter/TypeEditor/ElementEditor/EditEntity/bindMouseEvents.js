@@ -31,25 +31,28 @@ export default function(
 
   // When mouseupping on blank area between lines.
   // You may hover over the text and select the text.
-  listeners.push(
-    delegate(
-      editor[0],
-      '.textae-editor__body__text-box__paragraph-margin',
-      'click',
-      (e) => mouseUpOnText(selectEnd, spanConfig, e)
+  // No 'textae.editor.body.click' event will be fired when text is selected,
+  // so that newly created spans will not be deselected.
+  // Monitor the events of the editor's child elements, not the editor.
+  // Stop the propagation of events using the stopPropagation function.
+  for (const m of editor[0].querySelectorAll(
+    '.textae-editor__body__text-box__paragraph-margin'
+  )) {
+    listeners.push(
+      delegate(
+        m,
+        '.textae-editor__body__text-box__paragraph-margin',
+        'click',
+        (e) => {
+          mouseUpOnText(selectEnd, spanConfig, e)
+          e.stopPropagation()
+        }
+      )
     )
-  )
+  }
 
-  // When mouseupipng on text.
-  listeners.push(
-    delegate(
-      editor[0],
-      '.textae-editor__body__text-box__paragraph',
-      'click',
-      (e) => mouseUpOnText(selectEnd, spanConfig, e)
-    )
-  )
-
+  // When extending span, the behavior depends on whether span is selected or not;
+  // you must not deselect span by firing the 'textae.editor.body.click' event before editing it.
   listeners.push(bindEditorBodyClickEventTrigger(editor))
 
   listeners.push(
