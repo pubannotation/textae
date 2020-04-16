@@ -1,5 +1,5 @@
 import alertifyjs from 'alertifyjs'
-import ajaxAccessor from '../../util/ajaxAccessor'
+import ajaxAccessor from '../../../util/ajaxAccessor'
 
 export default function(configUrl, done) {
   if (typeof configUrl === 'string') {
