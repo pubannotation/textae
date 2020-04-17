@@ -4,6 +4,7 @@ import SpanContainer from './SpanContainer'
 import EntityContainer from './EntityContainer'
 import AttributeContainer from './AttributeContainer'
 import RelationContainer from './RelationContainer'
+import parseDennotation from './parseDennotation'
 
 export default class {
   constructor(editor) {
@@ -20,5 +21,13 @@ export default class {
     this.relation = new RelationContainer(editor.eventEmitter)
     this.entity = new EntityContainer(editor, editor.eventEmitter, this)
     this.modification = new ModelContainer(editor.eventEmitter, 'modification')
+  }
+
+  setNewData(annotation) {
+    this.sourceDoc = annotation.text
+    this.paragraph.addSource(annotation.text)
+    this.config = annotation.config
+
+    return parseDennotation(this, annotation)
   }
 }

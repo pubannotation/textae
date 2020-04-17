@@ -1,4 +1,4 @@
-import importSource from './importSource'
+import importSource from '../../importSource'
 import translateDenotation from './translateDenotation'
 
 export default function(span, entity, denotations, prefix) {

@@ -1,4 +1,4 @@
-import importSource from './importSource'
+import importSource from '../../importSource'
 import translateAttribute from './translateAttribute'
 
 export default function(attribute, attributes, prefix) {

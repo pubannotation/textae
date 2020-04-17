@@ -1,11 +1,10 @@
-import setNewData from './setNewData'
 import clearAnnotationData from './clearAnnotationData'
 
 export default function(dataStore, editor, annotation) {
   console.assert(annotation.text, 'This is not a json file of anntations.')
 
   clearAnnotationData(dataStore)
-  const result = setNewData(dataStore, annotation)
+  const result = dataStore.setNewData(annotation)
   editor.eventEmitter.emit(
     'textae.annotationData.paragraph.change',
     dataStore.paragraph.all
