@@ -27,8 +27,13 @@ export default function(editor, contextMenu) {
     // Close ContextMenu when another editor is clicked.
     contextMenu.hide()
 
-    // Open ContextMenu when selected editor is clicked.
-    if (e.target.closest('.textae-editor') === editor[0]) {
+    // If the editor you click on is selected and editable,
+    // it will display its own context menu, rather than the browser's context menu.
+    const clickedEditor = e.target.closest('.textae-editor')
+    if (
+      clickedEditor === editor[0] &&
+      clickedEditor.classList.contains('textae-editor--editable')
+    ) {
       // Prevent show browser default context menu
       e.preventDefault()
 
