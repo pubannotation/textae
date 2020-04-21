@@ -19,6 +19,10 @@ const source = `
           <label class="textae-editor__setting-dialog__label">Reset Hidden Message Boxes</label>
           <input type="button" class="textae-editor__setting-dialog__reset-hidden-message-boxes reset-hidden-message-boxes" value="Reset">
       </div>
+      <div>
+          <label class="textae-editor__setting-dialog__label">Version</label>
+          {{version}}
+      </div>
   </div>
 `
 

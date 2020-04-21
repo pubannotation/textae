@@ -3,6 +3,7 @@ import getLineHeight from '../../editor/start/View/lineHeight/getLineHeight'
 import Dialog from '../Dialog'
 import createContentHtml from './createContentHtml'
 import reflectImmediately from './reflectImmediately'
+import packageJson from '../../../../package.json'
 
 export default class extends Dialog {
   constructor(editor, typeDefinition, displayInstance) {
@@ -10,7 +11,8 @@ export default class extends Dialog {
       typeGapDisabled: !displayInstance.showInstance,
       typeGap: displayInstance.typeGap,
       lineHeight: getLineHeight(editor[0]),
-      typeDefinitionLocked: typeDefinition.isLock()
+      typeDefinitionLocked: typeDefinition.isLock(),
+      version: packageJson.version
     })
 
     super('Setting', contentHtml, {
