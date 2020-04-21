@@ -4,6 +4,7 @@ import patchConfiguration from '../../patchConfiguration'
 import validateConfiguration from '../../validateConfiguration'
 import hasUndefinedAttributes from '../../hasUndefinedAttributes'
 import areNotBeginAndEndInteger from './areNotBeginAndEndInteger'
+import hasDuplicatedAttributes from './hasDuplicatedAttributes'
 
 export default function(
   spanConfig,
@@ -22,6 +23,16 @@ export default function(
   const error = hasUndefinedAttributes(annotation, patchedConfig)
   if (error) {
     alertifyjs.error(error)
+    return
+  }
+
+  const duplicatedAttributes = hasDuplicatedAttributes(annotation)
+  if (duplicatedAttributes.length) {
+    alertifyjs.error(
+      `Duplicate subj and pred for attributes ${duplicatedAttributes.join(
+        ' and '
+      )}.`
+    )
     return
   }
 

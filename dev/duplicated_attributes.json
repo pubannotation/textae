@@ -1,0 +1,53 @@
+{
+  "text": "Down-regulation of interferon regulatory factor 4\ngene expression in leukemic cells due to hypermethylation of CpG motifs in the promoter region\nAlthough the bcr-abl translocation has been shown to be the causative genetic aberration in chronic myeloid leukemia (CML), there is mounting evidence that the deregulation of other genes, such as the transcription factor interferon regulatory factor 4 (IRF-4), is also implicated in the pathogenesis of CML.",
+  "denotations": [
+    {
+      "id": "E1",
+      "span": {
+        "begin": 55,
+        "end": 65
+      },
+      "obj": "http://www.w3.org/TR/CSS2/selector.html"
+    },
+    {
+      "id": "E2",
+      "span": {
+        "begin": 305,
+        "end": 317
+      },
+      "obj": "http://only-domain.com"
+    }
+  ],
+  "attributes": [
+    {
+      "id": "A1",
+      "subj": "E1",
+      "pred": "precision",
+      "obj": 50
+    },
+    {
+      "id": "A2",
+      "subj": "E1",
+      "pred": "precision",
+      "obj": 78
+    },
+    {
+      "id": "A3",
+      "subj": "E2",
+      "pred": "remark",
+      "obj": "suspicious"
+    },
+    {
+      "id": "A4",
+      "subj": "E2",
+      "pred": "remark",
+      "obj": "reliable"
+    },
+    {
+      "id": "A5",
+      "subj": "E2",
+      "pred": "remark",
+      "obj": "confirmed"
+    }
+  ]
+}
