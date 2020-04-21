@@ -16,7 +16,7 @@ const source = `
           <input type="checkbox" class="textae-editor__setting-dialog__lock-config lock-config" {{#if typeDefinitionLocked}}checked="checked"{{/if}}>
       </div>
       <div>
-            <label class="textae-editor__setting-dialog__label">Reset Hidden Message Boxes</label>
+          <label class="textae-editor__setting-dialog__label">Reset Hidden Message Boxes</label>
           <input type="button" class="textae-editor__setting-dialog__reset-hidden-message-boxes reset-hidden-message-boxes" value="Reset">
       </div>
   </div>
