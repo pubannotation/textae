@@ -48,6 +48,7 @@ export default class {
     )
 
     this._editor = editor
+    this._listeners = []
   }
 
   _setHandlerType(handler) {
@@ -88,8 +89,9 @@ export default class {
   }
 
   _unbindAllMouseEventhandler() {
-    for (const listner of this._listeners || []) {
+    for (const listner of this._listeners) {
       listner.destroy()
     }
+    this._listeners = []
   }
 }

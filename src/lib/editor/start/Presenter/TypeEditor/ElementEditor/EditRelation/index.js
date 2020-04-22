@@ -17,7 +17,7 @@ export default class {
   }
 
   init() {
-    bindMouseEvents(
+    return bindMouseEvents(
       this._editor,
       this._selectionModel,
       this._commander,
