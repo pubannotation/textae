@@ -44,8 +44,13 @@ export default function(
         '.textae-editor__body__text-box__paragraph-margin',
         'click',
         (e) => {
-          mouseUpOnText(selectEnd, spanConfig, e)
-          e.stopPropagation()
+          const selection = window.getSelection()
+
+          // if text is seleceted
+          if (!selection.isCollapsed) {
+            mouseUpOnText(selectEnd, spanConfig, e)
+            e.stopPropagation()
+          }
         }
       )
     )
