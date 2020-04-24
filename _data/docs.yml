@@ -2,6 +2,7 @@
   docs:
     - /
     - /docs/modes/
+    - /docs/term-edit-mode/
     - /docs/views/
     - /docs/format/
     - /docs/embed/

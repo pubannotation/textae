@@ -75,6 +75,7 @@ There are three ways as described below.
 }
 </div>
 
+<div class="textae-editor" target="http://pubannotation.org/projects/NCBIDiseaseCorpus/docs/sourcedb/PubMed/sourceid/1322637/annotations.json"></div>
 
 ### Tip) Note that a TextAE rendering is a normal _div_ element, and you can freely style it using CSS.
 

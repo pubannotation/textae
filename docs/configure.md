@@ -93,6 +93,103 @@ In following example, two relation types, "themeOf" and "causeOf", are defined w
 ]
 ```
 
+## Attribute types
+Attribute types you want to use have to be predefined.
+An Attirubute type can be defined using one of four different value types.
+
+### "selection" value type
+The example below shows the definition of an attribute to have "selection"-type values.
+```JSON
+{
+  "pred": "classification",
+  "value type": "selection",
+  "values": [
+    {
+      "id": "http://uniprot.org/uniprot/",
+      "color": "#0000FF",
+      "label": "Protein",
+      "default": true
+    },
+    {
+      "id": "https://www.ncbi.nlm.nih.gov/gene/",
+      "color": "#00FF00",
+      "label": "Gene"
+    }
+  ]
+}
+ ```
+The value of an attribute of this type can choose one of the predefined values as it s value.
+
+### "numeric" value type
+The example below shows the definition of an attribute to have "selection"-type values.
+```JSON
+{
+  "pred": "score",
+  "value type": "numeric",
+  "default": 0.8,
+  "min": 0,
+  "max": 1,
+  "step": 0.1,
+  "values": [
+    {
+      "range": "default",
+      "color": "#00FF00",
+      "label": "Fair"
+    },
+    {
+      "range": "[0.9",
+      "color": "#FF0000",
+      "label": "High"
+    },
+    {
+      "range": "0.7)",
+      "color": "#0000FF",
+      "label": "Low"
+    }
+  ]
+}
+```
+The value of an attribute of this type can be set with a numeric value within the "min" and "max" values.
+By defining ranges in the "values" array, you can define show the values to be presented using colors and labels.
+
+### "flag" value type
+The example below shows the definition of an attribute to have "selection"-type values.
+```JSON
+{
+  "pred": "uncertain",
+  "value type": "flag",
+  "color": "#FF0000"
+},
+ ```
+
+### "string" value type
+The example below shows the definition of an attribute to have "string" type values.
+```JSON
+{
+  "pred": "disease",
+  "value type": "string",
+  "default": "disease name",
+  "values": [
+    {
+      "pattern": "default",
+      "color": "#00FFFF"
+    },
+    {
+      "pattern": "[Cc]ancer",
+      "color": "#FF0000",
+      "label": "Cancer"
+    }
+  ],
+  "autocompletion_ws":"http://pubdictionaries.org/dictionaries/MONDO/prefix_completion"
+}
+```
+
+An attribute of this type can have any string as its value. 
+By defining patterns in the "values" array, you can define show the values to be presented using colors and labels.
+
+Optionally, an autocompletion web service can be speficied to assisst the entry of the value.
+
+
 ## Delimiter characters
 TextAE features the function, _Boundary Detection_ (![Boundary Detection](https://raw.githubusercontent.com/pubannotation/textae/stable/4/dist/lib/css/images/btn_boundary_detection_16.png)). When the feature is on, word boundaries are automatically detected to help selecting spans to be annotated.
 
