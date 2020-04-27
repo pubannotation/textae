@@ -1,4 +1,4 @@
-import clearTextSelectionAndAlert from '../../SelectEnd/clearTextSelectionAndAlert'
+import clearTextSelectionAndAlert from '../../clearTextSelectionAndAlert'
 
 export default function(isInSameParagraph) {
   if (isInSameParagraph) {

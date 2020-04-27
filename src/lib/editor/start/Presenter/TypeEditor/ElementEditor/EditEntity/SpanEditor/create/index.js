@@ -1,5 +1,5 @@
-import isBoundaryCrossingWithOtherSpans from '../../../../../../isBoundaryCrossingWithOtherSpans'
-import isAlreadySpaned from '../../../../../isAlreadySpaned'
+import isBoundaryCrossingWithOtherSpans from '../../../../../../../isBoundaryCrossingWithOtherSpans'
+import isAlreadySpaned from '../../../../../../isAlreadySpaned'
 import createCommands from './createCommands'
 import getNewSpan from './getNewSpan'
 

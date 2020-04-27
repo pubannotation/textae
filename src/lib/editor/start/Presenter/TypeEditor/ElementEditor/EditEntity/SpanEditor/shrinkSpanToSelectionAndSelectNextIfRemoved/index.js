@@ -1,5 +1,5 @@
 import shrinkSpanToSelection from './shrinkSpanToSelection'
-import { getRightElement } from '../../../../../getNextElement'
+import { getRightElement } from '../../../../../../getNextElement'
 
 export default function(
   editor,

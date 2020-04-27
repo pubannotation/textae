@@ -1,7 +1,6 @@
 import delegate from 'delegate'
 import bindEditorBodyClickEventTrigger from '../bindEditorBodyClickEventTrigger'
 import spanClicked from './spanClicked'
-import mouseUpOnText from './mouseUpOnText'
 import typeValeusClicked from './typeValuesClicked'
 import entityClicked from './entityClicked'
 import SelectionWrapper from '../SelectionWrapper'
@@ -11,10 +10,10 @@ import SelectionWrapper from '../SelectionWrapper'
 // Change mouse events to monitor from mouseup to click since v5.0.0.
 export default function(
   editor,
-  selectEnd,
-  spanConfig,
   selectSpan,
-  selectionModel
+  selectionModel,
+  onSelectEndOnText,
+  onSelectEndOnSpan
 ) {
   const listeners = []
 
@@ -48,7 +47,7 @@ export default function(
 
           // if text is seleceted
           if (!selection.isCollapsed) {
-            mouseUpOnText(selectEnd, spanConfig, e)
+            onSelectEndOnText()
             e.stopPropagation()
           }
         }
@@ -79,7 +78,7 @@ export default function(
   // To shrink a span listen the mouseup event.
   listeners.push(
     delegate(editor[0], '.textae-editor__span', 'mouseup', (e) =>
-      spanClicked(spanConfig, selectEnd, selectSpan, e)
+      spanClicked(onSelectEndOnSpan, selectSpan, e)
     )
   )
 

@@ -1,7 +1,7 @@
 import getSelectionSnapShot from './getSelectionSnapShot'
 import clearTextSelection from '../../clearTextSelection'
 
-export default function(spanConfig, selectEnd, selectSpan, event) {
+export default function(onSelectEndOnSpan, selectSpan, event) {
   // When you click on the text, the browser will automatically select the word.
   // Therefore, the editor shrinks spans instead of selecting spans.
   // Deselect the text.
@@ -16,10 +16,7 @@ export default function(spanConfig, selectEnd, selectSpan, event) {
     selectSpan(event)
     return false
   } else {
-    selectEnd.onSpan({
-      spanConfig,
-      selection: getSelectionSnapShot()
-    })
+    onSelectEndOnSpan()
     // Cancel selection of a paragraph.
     // And do non propagate the parent span.
     event.stopPropagation()

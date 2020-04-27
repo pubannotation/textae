@@ -1,5 +1,5 @@
-import isBoundaryCrossingWithOtherSpans from '../../../../../../isBoundaryCrossingWithOtherSpans'
-import clearTextSelectionAndAlert from '../../clearTextSelectionAndAlert'
+import isBoundaryCrossingWithOtherSpans from '../../../../../../../isBoundaryCrossingWithOtherSpans'
+import clearTextSelectionAndAlert from '../../../../clearTextSelectionAndAlert'
 import getNewSpan from './getNewSpan'
 
 export default function(

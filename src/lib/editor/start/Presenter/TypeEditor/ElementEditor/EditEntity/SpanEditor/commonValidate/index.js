@@ -1,5 +1,5 @@
 import hasCharacters from './hasCharacters'
-import SelectionWrapper from '../../ElementEditor/SelectionWrapper'
+import SelectionWrapper from '../../../../ElementEditor/SelectionWrapper'
 
 export default function(annotationData, spanConfig, selection) {
   const selectionWrapper = new SelectionWrapper(selection)

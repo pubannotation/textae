@@ -1,5 +1,5 @@
-import getNewShortSpan from './getNewShortSpan'
-import Positions from '../../../Positions'
+import getNewExpandSpan from './getNewExpandSpan'
+import Positions from '../Positions'
 
 export default function getNewSpan(
   annotationData,
@@ -9,7 +9,8 @@ export default function getNewSpan(
   spanConfig
 ) {
   const positions = new Positions(annotationData, selection)
-  return getNewShortSpan(
+
+  return getNewExpandSpan(
     annotationData,
     spanAdjuster,
     spanId,
