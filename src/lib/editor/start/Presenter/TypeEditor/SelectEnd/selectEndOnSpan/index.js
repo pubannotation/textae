@@ -33,7 +33,16 @@ export default function(spanEditor, annotationData, data) {
         `#${data.selection.focusNode.parentElement.id}`
       )
     ) {
-      spanEditor.expand(data)
+      // If you select the parent span on the left edge of the screen and shrink it from the left,
+      // the anchorNode is the child span and the focusNode is the parent span.
+      // If the focusNode (parent span) is selected, shrink the parent span.
+      if (
+        data.selection.focusNode.parentElement.classList.contains('ui-selected')
+      ) {
+        spanEditor.shrinkCrossTheEar(data)
+      } else {
+        spanEditor.expand(data)
+      }
     } else if (
       data.selection.focusNode.parentElement.closest(
         `#${data.selection.anchorNode.parentElement.parentElement.id}`
