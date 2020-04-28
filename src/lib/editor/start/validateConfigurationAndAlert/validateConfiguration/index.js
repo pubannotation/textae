@@ -1,36 +1,28 @@
 import Ajv from 'ajv'
 import configurationScheme from './configurationScheme.json'
 
-const ajv = new Ajv()
+const ajv = new Ajv({ verbose: true })
 const validate = ajv.compile(configurationScheme)
 
 export default function(config) {
   if (!config) {
-    return false
+    return [false]
   }
 
   const valid = validate(config)
   if (!valid) {
     console.warn(validate.errors)
-    return false
+
+    return [false, toErrorMessage(validate.errors)]
   }
 
-  if (config['attribute types']) {
-    const selectionAttributesWithIncorrectNumberOfDefaultValue = config[
-      'attribute types'
-    ]
-      .filter((a) => a['value type'] === 'selection')
-      .find((a) => a.values.filter((v) => v.default).length !== 1)
+  return [true]
+}
 
-    if (selectionAttributesWithIncorrectNumberOfDefaultValue) {
-      console.warn(
-        `selection attribute must have just one default value: ${JSON.stringify(
-          selectionAttributesWithIncorrectNumberOfDefaultValue
-        )}`
-      )
-      return false
+function toErrorMessage(errors) {
+  for (const e of errors) {
+    if (e.keyword === 'required') {
+      return `Invalid configuration: The attribute type whose predicate is '${e.data.pred}' misses a mandatory property, '${e.params.missingProperty}'.`
     }
   }
-
-  return true
 }

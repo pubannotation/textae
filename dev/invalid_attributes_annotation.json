@@ -1,0 +1,11 @@
+{
+  "config": {
+    "attribute types": [
+      {
+        "pred": "rate",
+        "value type": "numeric"
+      }
+    ]
+  },
+  "text": " "
+}
