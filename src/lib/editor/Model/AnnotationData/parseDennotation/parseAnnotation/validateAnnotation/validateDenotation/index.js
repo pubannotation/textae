@@ -1,5 +1,5 @@
 import validate from '../validate'
-import isBoundaryCrossingWithOtherSpans from '../../../../../../../isBoundaryCrossingWithOtherSpans'
+import isBoundaryCrossingWithOtherSpans from '../../../../../../isBoundaryCrossingWithOtherSpans'
 import hasLength from './hasLength'
 import isBeginAndEndIn from './isBeginAndEndIn'
 import isInParagraph from './isInParagraph'

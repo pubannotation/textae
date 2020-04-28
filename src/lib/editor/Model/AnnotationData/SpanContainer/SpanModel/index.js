@@ -1,4 +1,4 @@
-import idFactory from '../../../../../idFactory'
+import idFactory from '../../../../idFactory'
 import getTypes from './getTypes'
 
 export default class SpanModel {

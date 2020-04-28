@@ -2,7 +2,7 @@ import mappingFunction from './mappingFunction'
 import createSpanTree from './createSpanTree'
 import spanComparator from './spanComparator'
 import updateSpanIdOfEntities from './updateSpanIdOfEntities'
-import idFactory from '../../../../idFactory'
+import idFactory from '../../../idFactory'
 import SpanModel from './SpanModel'
 import ContatinerWithSubContainer from '../ContatinerWithSubContainer'
 

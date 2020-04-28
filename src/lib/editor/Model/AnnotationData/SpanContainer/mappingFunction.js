@@ -1,4 +1,4 @@
-import isBoundaryCrossingWithOtherSpans from '../../../../isBoundaryCrossingWithOtherSpans'
+import isBoundaryCrossingWithOtherSpans from '../../../isBoundaryCrossingWithOtherSpans'
 import SpanModel from './SpanModel'
 
 export default function(denotations, editor, paragraph, entityContainer) {

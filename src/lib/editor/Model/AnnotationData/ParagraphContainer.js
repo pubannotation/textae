@@ -1,4 +1,4 @@
-import idFactory from '../../../idFactory'
+import idFactory from '../../idFactory'
 import ModelContainer from './ModelContainer'
 
 export default class extends ModelContainer {

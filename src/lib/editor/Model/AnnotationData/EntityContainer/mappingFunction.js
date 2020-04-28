@@ -1,4 +1,4 @@
-import idFactory from '../../../../idFactory'
+import idFactory from '../../../idFactory'
 import EntityModel from './EntityModel'
 
 export default function(
