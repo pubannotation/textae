@@ -1,4 +1,4 @@
-import openEditStringAttributeDialog from '../../../openEditStringAttributeDialog'
+import openEditNumericAttributeDialog from '../../../../openEditNumericAttributeDialog'
 
 export default function(selectionModel, attrDef, commander) {
   const selectedEntityWithSamePred = selectionModel.entity.findSelectedWithSamePredicateAttribute(
@@ -8,7 +8,7 @@ export default function(selectionModel, attrDef, commander) {
     const attribute = selectedEntityWithSamePred.attributes.find(
       (a) => a.pred === attrDef.pred
     )
-    openEditStringAttributeDialog(attribute, commander, attrDef)
+    openEditNumericAttributeDialog(attrDef, attribute, commander)
   } else {
     const command = commander.factory.createAttributeToSelectedEntitiesCommand(
       attrDef
