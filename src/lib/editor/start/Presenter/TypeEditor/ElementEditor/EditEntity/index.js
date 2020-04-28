@@ -28,6 +28,14 @@ export default class {
     this._editAttribute = editAttribute
     this._deleteAttribute = deleteAttribute
 
+    const spanEditor = new SpanEditor(
+      editor,
+      annotationData,
+      selectionModel,
+      commander,
+      pushButtons
+    )
+
     editor.eventEmitter
       .on('textae.editor.editEntity.paragraph.mouseup', () =>
         new SelectionWrapper(window.getSelection()).showAlertIfOtherParagraph()
@@ -37,13 +45,7 @@ export default class {
 
         // if text is seleceted
         if (!selection.isCollapsed) {
-          new SpanEditor(
-            editor,
-            annotationData,
-            selectionModel,
-            commander,
-            pushButtons
-          ).selectEndOnText({
+          spanEditor.selectEndOnText({
             spanConfig,
             selection: getSelectionSnapShot()
           })
@@ -53,13 +55,7 @@ export default class {
       .on('textae.editor.editEntity.span.mouseup', (e) =>
         spanClicked(
           () =>
-            new SpanEditor(
-              editor,
-              annotationData,
-              selectionModel,
-              commander,
-              pushButtons
-            ).selectEndOnSpan({
+            spanEditor.selectEndOnSpan({
               spanConfig,
               selection: getSelectionSnapShot()
             }),

@@ -15,13 +15,7 @@ export default class {
     this._annotationData = annotationData
     this._selectionModel = selectionModel
     this._commander = commander
-    this._isDetectDelimiterEnable = pushButtons
-      .getButton('boundary-detection')
-      .value()
-    this._isReplicateAuto = pushButtons.getButton('replicate-auto').value()
-    this._spanAdjuster = this._isDetectDelimiterEnable
-      ? new DelimiterDetectAdjuster()
-      : new BlankSkipAdjuster()
+    this._pushButtons = pushButtons
   }
 
   selectEndOnText(data) {
@@ -156,5 +150,19 @@ export default class {
       data.selection,
       data.spanConfig
     )
+  }
+
+  get _isDetectDelimiterEnable() {
+    return this._pushButtons.getButton('boundary-detection').value()
+  }
+
+  get _isReplicateAuto() {
+    return this._pushButtons.getButton('replicate-auto').value()
+  }
+
+  get _spanAdjuster() {
+    return this._isDetectDelimiterEnable
+      ? new DelimiterDetectAdjuster()
+      : new BlankSkipAdjuster()
   }
 }
