@@ -1,6 +1,6 @@
 import makeTypeId from './makeTypeId'
-import getLabel from '../../../getLabel'
-import getUri from '../../../getUri'
+import getLabel from '../getLabel'
+import getUri from '../getUri'
 
 export default class {
   constructor(name, definedTypes, entity) {
