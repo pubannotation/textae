@@ -1,5 +1,3 @@
-import reset from './reset'
-import toJson from './toJson'
 import ModelContainer from './ModelContainer'
 import ParagraphContainer from './ParagraphContainer'
 import SpanContainer from './SpanContainer'
@@ -7,6 +5,10 @@ import AttributeContainer from './AttributeContainer'
 import RelationContainer from './RelationContainer'
 import EntityContainer from './EntityContainer'
 import parseDennotation from './parseDennotation'
+import clearAnnotationData from './clearAnnotationData'
+import toDenotation from './toDenotation'
+import toAttribute from './toAttribute'
+import toRelation from './toRelation'
 
 export default class {
   constructor(editor) {
@@ -27,22 +29,38 @@ export default class {
   }
 
   reset(annotation) {
-    reset(this, this._editor, annotation)
-  }
+    console.assert(annotation.text, 'This is not a json file of anntations.')
 
-  toJson() {
-    return toJson(this)
-  }
+    clearAnnotationData(this)
 
-  getModificationOf(objectId) {
-    return this.modification.all.filter((m) => m.obj === objectId)
-  }
-
-  setNewData(annotation) {
     this.sourceDoc = annotation.text
     this.paragraph.addSource(annotation.text)
     this.config = annotation.config
 
-    return parseDennotation(this, annotation)
+    const result = parseDennotation(this, annotation)
+
+    this._editor.eventEmitter.emit(
+      'textae.annotationData.paragraph.change',
+      this.paragraph.all
+    )
+    this._editor.eventEmitter.emit(
+      'textae.annotationData.all.change',
+      this,
+      result.multitrack,
+      result.rejects
+    )
+  }
+
+  toJson() {
+    return {
+      denotations: toDenotation(this),
+      attributes: toAttribute(this),
+      relations: toRelation(this),
+      modifications: this.modification.all
+    }
+  }
+
+  getModificationOf(objectId) {
+    return this.modification.all.filter((m) => m.obj === objectId)
   }
 }
