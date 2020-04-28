@@ -1,5 +1,5 @@
 import getSelectionSnapShot from './getSelectionSnapShot'
-import clearTextSelection from '../../clearTextSelection'
+import clearTextSelection from '../../../clearTextSelection'
 
 export default function(onSelectEndOnSpan, selectSpan, event) {
   // When you click on the text, the browser will automatically select the word.

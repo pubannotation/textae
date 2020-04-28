@@ -1,5 +1,5 @@
 import selectEntities from './selectEntities'
-import getEntitiesDomOfType from '../../../../getEntitiesDomOfType'
+import getEntitiesDomOfType from '../../../../../getEntitiesDomOfType'
 
 export default function(selectionModel, e) {
   const entities = getEntitiesDomOfType(e.target)

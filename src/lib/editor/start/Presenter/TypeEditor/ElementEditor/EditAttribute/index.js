@@ -7,6 +7,7 @@ import toggleFlagAttribute from './toggleFlagAttribute'
 import createNumericAttributeOrShowEditNumericAttributeDialog from './createNumericAttributeOrShowEditNumericAttributeDialog'
 import createSelectionAttributeOrShowSelectionAttributePallet from './createSelectionAttributeOrShowSelectionAttributePallet'
 import createStringAttributeOrShowEditStringAttributeDialog from './createStringAttributeOrShowEditStringAttributeDialog'
+import bindTextaeEvents from './bindTextaeEvents'
 
 export default class {
   constructor(commander, editor, annotationData, selectionModel, entityPallet) {
@@ -16,35 +17,7 @@ export default class {
     this._pallet = entityPallet
     editor[0].appendChild(this._pallet.el)
 
-    editor.eventEmitter
-      .on(
-        'textae.entityPallet.attribute.selection-attribute-label.click',
-        (attrDef, newObj) => {
-          if (
-            selectionModel.entity.isSamePredAttrributeSelected(attrDef.pred)
-          ) {
-            const command = commander.factory.changeAttributesOfSelectedEntitiesWithSamePred(
-              'entity',
-              attrDef,
-              newObj
-            )
-            commander.invoke(command)
-          } else {
-            const command = commander.factory.createAttributeToSelectedEntitiesCommand(
-              attrDef,
-              newObj
-            )
-            commander.invoke(command)
-          }
-        }
-      )
-      .on('textae.selecionAttributePallet.remove-button.click', (attrDef) => {
-        const command = commander.factory.removeAttributesOfSelectedEntitiesByPredCommand(
-          attrDef
-        )
-        commander.invoke(command)
-      })
-      .on('textae.editor.body.click', () => this._pallet.hide())
+    bindTextaeEvents(editor, selectionModel, commander, entityPallet)
   }
 
   handle(typeDefinition, number) {
