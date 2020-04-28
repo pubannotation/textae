@@ -9,7 +9,7 @@ export default class {
     this._pallet = entityPallet
     editor[0].appendChild(this._pallet.el)
 
-    bindTextaeEvents(editor, selectionModel, commander, entityPallet)
+    bindTextaeEvents(editor, selectionModel, commander)
   }
 
   handle(typeDefinition, number) {

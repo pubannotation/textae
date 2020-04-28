@@ -1,4 +1,4 @@
-export default function(editor, selectionModel, commander, pallet) {
+export default function(editor, selectionModel, commander) {
   editor.eventEmitter
     .on(
       'textae.entityPallet.attribute.selection-attribute-label.click',
@@ -25,5 +25,4 @@ export default function(editor, selectionModel, commander, pallet) {
       )
       commander.invoke(command)
     })
-    .on('textae.editor.body.click', () => pallet.hide())
 }
