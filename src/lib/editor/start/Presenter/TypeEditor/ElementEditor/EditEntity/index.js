@@ -21,12 +21,15 @@ export default class {
     deleteAttribute
   ) {
     this._editor = editor
-    this._typeDefinition = typeDefinition
-    this._commander = commander
-    this._annotationData = annotationData
-    this._selectionModel = selectionModel
-    this._editAttribute = editAttribute
-    this._deleteAttribute = deleteAttribute
+    this._entityHandler = new EditEntityHandler(
+      editor,
+      typeDefinition,
+      commander,
+      annotationData,
+      selectionModel,
+      editAttribute,
+      deleteAttribute
+    )
 
     const spanEditor = new SpanEditor(
       editor,
@@ -77,14 +80,6 @@ export default class {
   }
 
   get entityHandler() {
-    return new EditEntityHandler(
-      this._editor,
-      this._typeDefinition,
-      this._commander,
-      this._annotationData,
-      this._selectionModel,
-      this._editAttribute,
-      this._deleteAttribute
-    )
+    return this._entityHandler
   }
 }

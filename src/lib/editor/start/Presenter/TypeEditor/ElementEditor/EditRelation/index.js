@@ -11,10 +11,12 @@ export default class {
     typeDefinition
   ) {
     this._editor = editor
-    this._typeDefinition = typeDefinition
-    this._commander = commander
-    this._annotationData = annotationData
-    this._selectionModel = selectionModel
+    this._relationHandler = new EditRelationHandler(
+      typeDefinition,
+      commander,
+      annotationData,
+      selectionModel
+    )
 
     this._editor.eventEmitter
       .on('textae.editor.editRelation.entity.click', (e) => {
@@ -35,11 +37,6 @@ export default class {
   }
 
   get relationHandler() {
-    return new EditRelationHandler(
-      this._typeDefinition,
-      this._commander,
-      this._annotationData,
-      this._selectionModel
-    )
+    return this._relationHandler
   }
 }
