@@ -10,10 +10,8 @@ export default function(
   } else if (event.shiftKey) {
     selectionModel.remove(subjectEntityId)
     selectionModel.add(objectEntityId)
-    return false
   } else {
     selectionModel.remove(subjectEntityId)
     selectionModel.remove(objectEntityId)
   }
-  return null
 }
