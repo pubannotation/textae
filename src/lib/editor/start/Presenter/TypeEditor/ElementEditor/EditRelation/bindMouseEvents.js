@@ -1,26 +1,19 @@
 import delegate from 'delegate'
 import bindEditorBodyClickEventTrigger from '../bindEditorBodyClickEventTrigger'
-import entityClickedAtRelationMode from './entityClickedAtRelationMode'
 
 // Manupulate only entities and relations on the Edit Relation mode.
 // For support context menu.
 // Mouse up event occurs when either left or right button is clicked.
 // Change mouse events to monitor from mouseup to click since v5.0.0.
-export default function(editor, selectionModel, commander, typeDefinition) {
+export default function(editor) {
   const listeners = []
 
   listeners.push(bindEditorBodyClickEventTrigger(editor))
 
   listeners.push(
-    delegate(editor[0], '.textae-editor__entity', 'click', (e) => {
-      const ret = entityClickedAtRelationMode(
-        selectionModel,
-        commander,
-        typeDefinition,
-        e
-      )
-      return ret
-    })
+    delegate(editor[0], '.textae-editor__entity', 'click', (e) =>
+      editor.eventEmitter.emit('textae.editor.editRelation.entity.click', e)
+    )
   )
 
   // Cancel event handlers of click events of relations and theier label.
@@ -32,7 +25,11 @@ export default function(editor, selectionModel, commander, typeDefinition) {
       editor[0],
       '.textae-editor__relation, .textae-editor__relation__label',
       'click',
-      (e) => e.stopPropagation()
+      (e) =>
+        editor.eventEmitter.emit(
+          'textae.editor.editRelation.relationLabel.click',
+          e
+        )
     )
   )
 

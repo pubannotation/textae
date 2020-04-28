@@ -1,20 +1,10 @@
 import delegate from 'delegate'
 import bindEditorBodyClickEventTrigger from '../bindEditorBodyClickEventTrigger'
-import spanClicked from './spanClicked'
-import typeValeusClicked from './typeValuesClicked'
-import entityClicked from './entityClicked'
-import SelectionWrapper from '../SelectionWrapper'
 
 // For support context menu.
 // Mouse up event occurs when either left or right button is clicked.
 // Change mouse events to monitor from mouseup to click since v5.0.0.
-export default function(
-  editor,
-  selectSpan,
-  selectionModel,
-  onSelectEndOnText,
-  onSelectEndOnSpan
-) {
+export default function(editor) {
   const listeners = []
 
   // Show Alert when trying to create span across paragraphs.
@@ -23,8 +13,11 @@ export default function(
       editor[0],
       '.textae-editor__body__text-box__paragraph-margin',
       'mouseup',
-      () =>
-        new SelectionWrapper(window.getSelection()).showAlertIfOtherParagraph()
+      (e) =>
+        editor.eventEmitter.emit(
+          'textae.editor.editEntity.paragraph.mouseup',
+          e
+        )
     )
   )
 
@@ -42,15 +35,11 @@ export default function(
         m,
         '.textae-editor__body__text-box__paragraph-margin',
         'click',
-        (e) => {
-          const selection = window.getSelection()
-
-          // if text is seleceted
-          if (!selection.isCollapsed) {
-            onSelectEndOnText()
-            e.stopPropagation()
-          }
-        }
+        (e) =>
+          editor.eventEmitter.emit(
+            'textae.editor.editEntity.paragraph.click',
+            e
+          )
       )
     )
   }
@@ -60,25 +49,27 @@ export default function(
   listeners.push(bindEditorBodyClickEventTrigger(editor))
 
   listeners.push(
-    delegate(editor[0], '.textae-editor__type', 'click', () => editor.focus())
+    delegate(editor[0], '.textae-editor__type', 'click', (e) =>
+      editor.eventEmitter.emit('textae.editor.editEntity.type.click', e)
+    )
   )
 
   listeners.push(
     delegate(editor[0], '.textae-editor__type-values', 'click', (e) =>
-      typeValeusClicked(selectionModel, e)
+      editor.eventEmitter.emit('textae.editor.editEntity.typeValues.click', e)
     )
   )
 
   listeners.push(
     delegate(editor[0], '.textae-editor__entity', 'click', (e) =>
-      entityClicked(selectionModel, e)
+      editor.eventEmitter.emit('textae.editor.editEntity.entity.click', e)
     )
   )
 
   // To shrink a span listen the mouseup event.
   listeners.push(
     delegate(editor[0], '.textae-editor__span', 'mouseup', (e) =>
-      spanClicked(onSelectEndOnSpan, selectSpan, e)
+      editor.eventEmitter.emit('textae.editor.editEntity.span.mouseup', e)
     )
   )
 

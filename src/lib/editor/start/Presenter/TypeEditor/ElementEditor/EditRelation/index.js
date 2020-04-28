@@ -1,5 +1,6 @@
 import EditRelationHandler from './EditRelationHandler'
 import bindMouseEvents from './bindMouseEvents'
+import entityClickedAtRelationMode from './entityClickedAtRelationMode'
 
 export default class {
   constructor(
@@ -10,19 +11,27 @@ export default class {
     typeDefinition
   ) {
     this._editor = editor
-    this._selectionModel = selectionModel
     this._typeDefinition = typeDefinition
     this._commander = commander
     this._annotationData = annotationData
+    this._selectionModel = selectionModel
+
+    this._editor.eventEmitter
+      .on('textae.editor.editRelation.entity.click', (e) =>
+        entityClickedAtRelationMode(
+          selectionModel,
+          commander,
+          typeDefinition,
+          e
+        )
+      )
+      .on('textae.editor.editRelation.relatioLabel.click', (e) =>
+        e.stopPropagation()
+      )
   }
 
   init() {
-    return bindMouseEvents(
-      this._editor,
-      this._selectionModel,
-      this._commander,
-      this._typeDefinition
-    )
+    return bindMouseEvents(this._editor)
   }
 
   get relationHandler() {
