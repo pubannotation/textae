@@ -1,6 +1,6 @@
 import EditRelationHandler from './EditRelationHandler'
 import bindMouseEvents from './bindMouseEvents'
-import entityClickedAtRelationMode from './entityClickedAtRelationMode'
+import onSelectObjectEntity from './onSelectObjectEntity'
 
 export default class {
   constructor(
@@ -17,14 +17,14 @@ export default class {
     this._selectionModel = selectionModel
 
     this._editor.eventEmitter
-      .on('textae.editor.editRelation.entity.click', (e) =>
-        entityClickedAtRelationMode(
-          selectionModel,
-          commander,
-          typeDefinition,
-          e
-        )
-      )
+      .on('textae.editor.editRelation.entity.click', (e) => {
+        if (!selectionModel.entity.some) {
+          selectionModel.clear()
+          selectionModel.entity.add(e.target.getAttribute('title'))
+        } else {
+          onSelectObjectEntity(selectionModel, commander, typeDefinition, e)
+        }
+      })
       .on('textae.editor.editRelation.relatioLabel.click', (e) =>
         e.stopPropagation()
       )
