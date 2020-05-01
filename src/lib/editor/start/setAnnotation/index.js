@@ -15,7 +15,7 @@ export default function(
       annotationData,
       annotation,
       annotation.config,
-      `a configuration file from ${configUrl} is invalid.`
+      `configuration in anntotaion file is invalid.`
     )
   } else {
     getConfigFromServer(configUrl, (configFromServer) => {
