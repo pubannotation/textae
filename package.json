@@ -1,7 +1,7 @@
 {
   "name": "textae",
   "description": "text annotation editor",
-  "version": "5.3.2",
+  "version": "5.3.3",
   "author": "jdkim",
   "browserify": {
     "transform": [
