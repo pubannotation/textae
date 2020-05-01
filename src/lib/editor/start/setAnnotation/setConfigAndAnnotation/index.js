@@ -1,10 +1,8 @@
 import alertifyjs from 'alertifyjs'
 import setSpanAndTypeConfig from '../../setSpanAndTypeConfig'
-import patchConfiguration from '../../patchConfiguration'
-import validateConfiguration from '../../validateConfiguration'
-import hasUndefinedAttributes from '../../hasUndefinedAttributes'
 import areNotBeginAndEndInteger from './areNotBeginAndEndInteger'
 import hasDuplicatedAttributes from './hasDuplicatedAttributes'
+import validateConfigurationAndAlert from '../../validateConfigurationAndAlert'
 
 export default function(
   spanConfig,
@@ -14,17 +12,12 @@ export default function(
   config,
   errorMessageForConfigValidation
 ) {
-  const patchedConfig = patchConfiguration(annotation, config)
-  if (patchedConfig && !validateConfiguration(patchedConfig)) {
-    alertifyjs.error(errorMessageForConfigValidation)
-    return
-  }
-
-  const error = hasUndefinedAttributes(annotation, patchedConfig)
-  if (error) {
-    alertifyjs.error(error)
-    return
-  }
+  const [isValid, patchedConfig] = validateConfigurationAndAlert(
+    annotation,
+    config,
+    errorMessageForConfigValidation
+  )
+  if (!isValid) return
 
   const duplicatedAttributes = hasDuplicatedAttributes(annotation)
   if (duplicatedAttributes.length) {

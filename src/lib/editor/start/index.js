@@ -11,15 +11,13 @@ import PersistenceInterface from './PersistenceInterface'
 import APIs from './APIs'
 import calculateLineHeight from './calculateLineHeight'
 import focusEditorWhenFocusedChildRemoved from './focusEditorWhenFocusedChildRemoved'
-import patchConfiguration from './patchConfiguration'
-import validateConfiguration from './validateConfiguration'
 import getStatusBar from './getStatusBar'
 import setSpanAndTypeConfig from './setSpanAndTypeConfig'
 import setAnnotation from './setAnnotation'
 import loadAnnotation from './loadAnnotation'
 import getConfigEditParamFromUrl from './getConfigEditParamFromUrl'
 import OriginalData from './OriginalData'
-import hasUndefinedAttributes from './hasUndefinedAttributes'
+import validateConfigurationAndAlert from './validateConfigurationAndAlert'
 
 export default function(
   editor,
@@ -84,23 +82,12 @@ export default function(
       editor.eventEmitter.emit('textae.pallet.update')
     })
     .on('textae.dataAccessObject.configuration.load', ({ config, source }) => {
-      const patchedConfig = patchConfiguration(annotationData.toJson(), config)
-
-      if (!validateConfiguration(patchedConfig)) {
-        alertifyjs.error(
-          `${source} is not a configuration file or its format is invalid.`
-        )
-        return
-      }
-
-      const error = hasUndefinedAttributes(
+      const [isValid, patchedConfig] = validateConfigurationAndAlert(
         annotationData.toJson(),
-        patchedConfig
+        config,
+        `${source} is not a configuration file or its format is invalid.`
       )
-      if (error) {
-        alertifyjs.error(error)
-        return
-      }
+      if (!isValid) return
 
       originalData.configuration = config
       setSpanAndTypeConfig(spanConfig, typeDefinition, patchedConfig)
