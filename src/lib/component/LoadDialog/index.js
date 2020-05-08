@@ -5,7 +5,7 @@ import CONFIRM_DISCARD_CHANGE_MESSAGE from '../../editor/CONFIRM_DISCARD_CHANGE_
 import makeDomEnabled from '../makeDomEnabled'
 
 export default class extends Dialog {
-  constructor(title, url, loadFromServer, loadFromFile, hasChange) {
+  constructor(title, url, loadFromServer, readFromFile, hasChange) {
     super(title, createContentHtml({ url }), {
       label: 'Cancel'
     })
@@ -36,7 +36,7 @@ export default class extends Dialog {
       const file = e.target.previousElementSibling
 
       if (isUserConfirm()) {
-        loadFromFile(file)
+        readFromFile(file)
       }
 
       super.close()

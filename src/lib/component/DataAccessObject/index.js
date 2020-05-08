@@ -1,11 +1,13 @@
 import CursorChanger from '../../util/CursorChanger'
 import LoadDialog from '../LoadDialog'
 import getFromServer from './getFromServer'
-import getJsonFromFile from './getJsonFromFile'
+import readFile from './readFile'
 import SaveAnnotationDialog from '../SaveAnnotationDialog'
 import SaveConfigurationDialog from '../SaveConfigurationDialog'
 import AjaxSender from './AjaxSender'
-import toLoadEvent from './toLoadEvent'
+import isJSON from './isJSON'
+import isTxtFile from './isTxtFile'
+import bind from './bind'
 
 // A sub component to save and load data.
 export default class {
@@ -13,96 +15,119 @@ export default class {
     this._editor = editor
 
     // Store the url the annotation data is loaded from per editor.
-    this.urlOfLastRead = {
+    this._urlOfLastRead = {
       annotation: '',
       config: ''
     }
-    this.cursorChanger = new CursorChanger(editor)
-
-    this.load = (type, url) =>
-      getFromServer(
-        url,
-        () => this.cursorChanger.startWait(),
-        ({ source, loadData }) => {
-          const data = {
-            source
-          }
-          data[type] = loadData
-          this._editor.eventEmitter.emit(toLoadEvent(type), data)
-          this.urlOfLastRead[type] = url
-        },
-        () => this.cursorChanger.endWait()
-      )
-
-    this.read = (type, file) =>
-      getJsonFromFile(file, type, (data) =>
-        this._editor.eventEmitter.emit(toLoadEvent(type), data)
-      )
-
-    this.ajaxSender = new AjaxSender(
-      () => this.cursorChanger.startWait(),
+    this._cursorChanger = new CursorChanger(editor)
+    this._ajaxSender = new AjaxSender(
+      () => this._cursorChanger.startWait(),
       () => this._editor.eventEmitter.emit('textae.dataAccessObject.saveError'),
-      () => this.cursorChanger.endWait()
+      () => this._cursorChanger.endWait()
     )
 
-    editor.eventEmitter
-      .on('textae.saveAnnotationDialog.url.click', (url, data) =>
-        this.ajaxSender.post(url, data, () =>
-          this._editor.eventEmitter.emit(
-            'textae.dataAccessObject.annotation.save'
-          )
-        )
-      )
-      .on('textae.saveAnnotationDialog.download.click', () =>
-        this._editor.eventEmitter.emit(
-          'textae.dataAccessObject.annotation.save'
-        )
-      )
-      .on('textae.saveAnnotationDialog.viewsource.click', () =>
-        this._editor.eventEmitter.emit(
-          'textae.dataAccessObject.annotation.save'
-        )
-      )
-      .on('textae.saveConfigurationDialog.url.click', (url, data) => {
-        // textae-config service is build with the Ruby on Rails 4.X.
-        // To change existing files, only PATCH method is allowed on the Ruby on Rails 4.X.
-        this.ajaxSender.patch(url, data, () =>
-          this._editor.eventEmitter.emit(
-            'textae.dataAccessObject.configuration.save'
-          )
-        )
-      })
-      .on('textae.saveConfigurationDialog.download.click', () =>
-        this._editor.eventEmitter.emit(
-          'textae.dataAccessObject.configuration.save'
-        )
-      )
+    bind(editor, this._ajaxSender)
   }
 
   getAnnotationFromServer(url) {
-    this.load('annotation', url)
+    getFromServer(
+      url,
+      () => this._cursorChanger.startWait(),
+      ({ source, loadData: annotation }) => {
+        this._editor.eventEmitter.emit(
+          'textae.dataAccessObject.annotation.load',
+          {
+            source,
+            annotation
+          }
+        )
+        this._urlOfLastRead.annotation = url
+      },
+      () => this._cursorChanger.endWait()
+    )
   }
 
   getConfigurationFromServer(url) {
-    this.load('config', url)
+    getFromServer(
+      url,
+      () => this._cursorChanger.startWait(),
+      ({ source, loadData: config }) => {
+        this._editor.eventEmitter.emit(
+          'textae.dataAccessObject.configuration.load',
+          {
+            source,
+            config
+          }
+        )
+        this._urlOfLastRead.config = url
+      },
+      () => this._cursorChanger.endWait()
+    )
   }
 
   showAccessAnno(hasChange) {
+    const readAnnotationFile = ({ files }) => {
+      const file = files[0]
+
+      function parseData(result, fileName) {
+        if (isJSON(result)) {
+          return JSON.parse(result)
+        } else if (isTxtFile(fileName)) {
+          // If this is .txt, New annotation json is made from .txt
+          return {
+            text: result
+          }
+        }
+        return null
+      }
+
+      readFile(file).then((event) => {
+        this._editor.eventEmitter.emit(
+          'textae.dataAccessObject.annotation.load',
+          {
+            annotation: parseData(event.target.result, file.name),
+            source: `${file.name}(local file)`
+          }
+        )
+      })
+    }
+
     new LoadDialog(
       'Load Annotations',
-      this.urlOfLastRead.annotation,
-      (url) => this.load('annotation', url),
-      (file) => this.read('annotation', file),
+      this._urlOfLastRead.annotation,
+      (url) => this.getAnnotationFromServer(url),
+      readAnnotationFile,
       hasChange
     ).open()
   }
 
   showAccessConf(hasChange) {
+    function parseData(result) {
+      if (isJSON(result)) {
+        return JSON.parse(result)
+      }
+      return null
+    }
+
+    const readConfigurationFile = ({ files }) => {
+      const file = files[0]
+
+      readFile(file).then((event) => {
+        this._editor.eventEmitter.emit(
+          'textae.dataAccessObject.configuration.load',
+          {
+            config: parseData(event.target.result),
+            source: `${file.name}(local file)`
+          }
+        )
+      })
+    }
+
     new LoadDialog(
       'Load Configurations',
-      this.urlOfLastRead.config,
-      (url) => this.load('config', url),
-      (file) => this.read('config', file),
+      this._urlOfLastRead.config,
+      (url) => this.getConfigurationFromServer(url),
+      readConfigurationFile,
       hasChange
     ).open()
   }
@@ -110,7 +135,7 @@ export default class {
   showSaveAnno(editedData, saveToParameter = null) {
     new SaveAnnotationDialog(
       this._editor,
-      saveToParameter || this.urlOfLastRead.annotation,
+      saveToParameter || this._urlOfLastRead.annotation,
       editedData
     ).open()
   }
@@ -118,7 +143,7 @@ export default class {
   showSaveConf(originalData, editedData) {
     new SaveConfigurationDialog(
       this._editor,
-      this.urlOfLastRead.config,
+      this._urlOfLastRead.config,
       originalData,
       editedData
     ).open()
