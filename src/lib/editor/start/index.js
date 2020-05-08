@@ -82,6 +82,13 @@ export default function(
       editor.eventEmitter.emit('textae.pallet.update')
     })
     .on('textae.dataAccessObject.configuration.load', ({ config, source }) => {
+      if (!config) {
+        alertifyjs.error(
+          `${source} is not a configuration file or its format is invalid.`
+        )
+        return
+      }
+
       const [isValid, patchedConfig] = validateConfigurationAndAlert(
         annotationData.toJson(),
         config,
