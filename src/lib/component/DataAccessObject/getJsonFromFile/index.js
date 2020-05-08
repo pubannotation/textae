@@ -9,13 +9,13 @@ export default function(file, fileType, done) {
   const firstFile = file.files[0]
   const reader = new FileReader()
 
-  reader.onload = function() {
+  reader.onload = () => {
     const data = {
       annotation: null,
       config: null,
       source: `${firstFile.name}(local file)`
     }
-    data[fileType] = loadData(this.result, firstFile.name)
+    data[fileType] = loadData(reader.result, firstFile.name)
 
     done(data)
   }
