@@ -1,5 +1,5 @@
 import delegate from 'delegate'
-import createDownloadPath from '../DataAccessObject/createDownloadPath'
+import createDownloadPath from '../createDownloadPath'
 import makeDomEnabled from '../makeDomEnabled'
 
 export default function(editor, element, data, closeDialog) {
@@ -21,7 +21,7 @@ export default function(editor, element, data, closeDialog) {
   // Download as a JSON file.
   delegate(element, 'a.download', 'click', (e) => {
     const aTag = e.target
-    const downloadPath = createDownloadPath(JSON.stringify(data))
+    const downloadPath = createDownloadPath(data)
     aTag.setAttribute('href', downloadPath)
     aTag.setAttribute('download', aTag.previousElementSibling.value)
     editor.eventEmitter.emit('textae.saveAnnotationDialog.download.click')
