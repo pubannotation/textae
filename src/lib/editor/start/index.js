@@ -80,13 +80,6 @@ export default function(
       )
     )
     .on('textae.dataAccessObject.configuration.load', ({ config, source }) => {
-      if (!config) {
-        alertifyjs.error(
-          `${source} is not a configuration file or its format is invalid.`
-        )
-        return
-      }
-
       const [isValid, patchedConfig] = validateConfigurationAndAlert(
         annotationData.toJson(),
         config,
@@ -97,6 +90,11 @@ export default function(
       originalData.configuration = config
       setSpanAndTypeConfig(spanConfig, typeDefinition, patchedConfig)
     })
+    .on('textae.dataAccessObject.configuration.loadError', (source) =>
+      alertifyjs.error(
+        `${source} is not a configuration file or its format is invalid.`
+      )
+    )
     .on('textae.dataAccessObject.configuration.save', () => {
       originalData.configuration = Object.assign(
         originalData.configuration,

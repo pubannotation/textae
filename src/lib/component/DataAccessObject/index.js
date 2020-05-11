@@ -121,13 +121,20 @@ export default class {
       const file = files[0]
 
       readFile(file).then((event) => {
-        this._editor.eventEmitter.emit(
-          'textae.dataAccessObject.configuration.load',
-          {
-            config: parseData(event.target.result),
-            source: `${file.name}(local file)`
-          }
-        )
+        if (isJSON(event.target.result)) {
+          this._editor.eventEmitter.emit(
+            'textae.dataAccessObject.configuration.load',
+            {
+              config: parseData(event.target.result),
+              source: `${file.name}(local file)`
+            }
+          )
+        } else {
+          this._editor.eventEmitter.emit(
+            'textae.dataAccessObject.configuration.loadError',
+            `${file.name}(local file)`
+          )
+        }
       })
     }
 
