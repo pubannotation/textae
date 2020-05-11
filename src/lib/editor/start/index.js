@@ -62,7 +62,7 @@ export default function(
   const originalData = new OriginalData()
 
   editor.eventEmitter
-    .on('textae.dataAccessObject.annotation.load', ({ annotation, source }) => {
+    .on('textae.dataAccessObject.annotation.load', (source, annotation) => {
       setAnnotation(
         spanConfig,
         typeDefinition,
@@ -79,7 +79,7 @@ export default function(
         `${source} is not a annotation file or its format is invalid.`
       )
     )
-    .on('textae.dataAccessObject.configuration.load', ({ config, source }) => {
+    .on('textae.dataAccessObject.configuration.load', (source, config) => {
       const [isValid, patchedConfig] = validateConfigurationAndAlert(
         annotationData.toJson(),
         config,

@@ -36,10 +36,8 @@ export default class {
       ({ source, loadData: annotation }) => {
         this._editor.eventEmitter.emit(
           'textae.dataAccessObject.annotation.load',
-          {
-            source,
-            annotation
-          }
+          source,
+          annotation
         )
         this._urlOfLastRead.annotation = url
       },
@@ -54,10 +52,8 @@ export default class {
       ({ source, loadData: config }) => {
         this._editor.eventEmitter.emit(
           'textae.dataAccessObject.configuration.load',
-          {
-            source,
-            config
-          }
+          source,
+          config
         )
         this._urlOfLastRead.config = url
       },
@@ -75,20 +71,16 @@ export default class {
         if (isJSON(event.target.result)) {
           this._editor.eventEmitter.emit(
             'textae.dataAccessObject.annotation.load',
-            {
-              annotation: JSON.parse(event.target.result),
-              source
-            }
+            source,
+            JSON.parse(event.target.result)
           )
         } else if (isTxtFile(file.name)) {
           // If this is .txt, New annotation json is made from .txt
           this._editor.eventEmitter.emit(
             'textae.dataAccessObject.annotation.load',
+            source,
             {
-              annotation: {
-                text: event.target.result
-              },
-              source
+              text: event.target.result
             }
           )
         } else {
@@ -124,10 +116,8 @@ export default class {
         if (isJSON(event.target.result)) {
           this._editor.eventEmitter.emit(
             'textae.dataAccessObject.configuration.load',
-            {
-              config: parseData(event.target.result),
-              source: `${file.name}(local file)`
-            }
+            `${file.name}(local file)`,
+            parseData(event.target.result)
           )
         } else {
           this._editor.eventEmitter.emit(
