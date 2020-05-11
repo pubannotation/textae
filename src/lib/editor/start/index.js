@@ -63,13 +63,6 @@ export default function(
 
   editor.eventEmitter
     .on('textae.dataAccessObject.annotation.load', ({ annotation, source }) => {
-      if (!annotation || !annotation.text) {
-        alertifyjs.error(
-          `${source} is not a annotation file or its format is invalid.`
-        )
-        return
-      }
-
       setAnnotation(
         spanConfig,
         typeDefinition,
@@ -81,6 +74,11 @@ export default function(
       originalData.annotation = annotation
       editor.eventEmitter.emit('textae.pallet.update')
     })
+    .on('textae.dataAccessObject.annotation.loadError', (source) =>
+      alertifyjs.error(
+        `${source} is not a annotation file or its format is invalid.`
+      )
+    )
     .on('textae.dataAccessObject.configuration.load', ({ config, source }) => {
       if (!config) {
         alertifyjs.error(

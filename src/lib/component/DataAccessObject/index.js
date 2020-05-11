@@ -69,26 +69,34 @@ export default class {
     const readAnnotationFile = ({ files }) => {
       const file = files[0]
 
-      function parseData(result, fileName) {
-        if (isJSON(result)) {
-          return JSON.parse(result)
-        } else if (isTxtFile(fileName)) {
-          // If this is .txt, New annotation json is made from .txt
-          return {
-            text: result
-          }
-        }
-        return null
-      }
-
       readFile(file).then((event) => {
-        this._editor.eventEmitter.emit(
-          'textae.dataAccessObject.annotation.load',
-          {
-            annotation: parseData(event.target.result, file.name),
-            source: `${file.name}(local file)`
-          }
-        )
+        const source = `${file.name}(local file)`
+
+        if (isJSON(event.target.result)) {
+          this._editor.eventEmitter.emit(
+            'textae.dataAccessObject.annotation.load',
+            {
+              annotation: JSON.parse(event.target.result),
+              source
+            }
+          )
+        } else if (isTxtFile(file.name)) {
+          // If this is .txt, New annotation json is made from .txt
+          this._editor.eventEmitter.emit(
+            'textae.dataAccessObject.annotation.load',
+            {
+              annotation: {
+                text: event.target.result
+              },
+              source
+            }
+          )
+        } else {
+          this._editor.eventEmitter.emit(
+            'textae.dataAccessObject.annotation.loadError',
+            source
+          )
+        }
       })
     }
 
