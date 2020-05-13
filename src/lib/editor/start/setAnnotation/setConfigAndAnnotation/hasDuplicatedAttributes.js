@@ -1,23 +1,23 @@
 export default function(annotation) {
-  const errors = []
+  if (!annotation.attributes) {
+    return new Map()
+  }
 
-  if (annotation.attributes) {
-    const counter = annotation.attributes.reduce((counter, attr) => {
-      const id = `${attr.subj}::${attr.pred}`
-      if (counter.has(id)) {
-        counter.get(id).push(attr.id)
-      } else {
-        counter.set(id, [attr.id])
-      }
-      return counter
-    }, new Map())
+  const counter = annotation.attributes.reduce((counter, attr) => {
+    const id = `Predicate "${attr.pred}" of denotation "${attr.subj}"`
+    if (counter.has(id)) {
+      counter.get(id).push(attr.id)
+    } else {
+      counter.set(id, [attr.id])
+    }
+    return counter
+  }, new Map())
 
-    for (const attrs of counter.values()) {
-      if (attrs.length > 1) {
-        errors.push(attrs)
-      }
+  for (const [pred, attrs] of counter.entries()) {
+    if (attrs.length === 1) {
+      counter.delete(pred)
     }
   }
 
-  return errors
+  return counter
 }

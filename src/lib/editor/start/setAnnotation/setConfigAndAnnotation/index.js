@@ -20,12 +20,14 @@ export default function(
   if (!isValid) return
 
   const duplicatedAttributes = hasDuplicatedAttributes(annotation)
-  if (duplicatedAttributes.length) {
-    alertifyjs.error(
-      `Duplicate subj and pred for attributes ${duplicatedAttributes.join(
-        ' and '
-      )}.`
-    )
+  if (duplicatedAttributes.size) {
+    for (const [key, duplicatedAttribute] of duplicatedAttributes.entries()) {
+      alertifyjs.error(
+        `${key} has duplicate attributes ${duplicatedAttribute.map(
+          (a) => `"${a}"`
+        )}.`
+      )
+    }
     return
   }
 
