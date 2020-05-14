@@ -1,11 +1,14 @@
 import AttributeConfigurationGenerator from './AttributeConfigurationGenerator'
-import merge from './merge'
+import clone from './clone'
 
 export default function(annotation, config) {
   console.assert(annotation)
 
-  return merge(
-    config,
-    new AttributeConfigurationGenerator(annotation.attributes).configuration
-  )
+  config = clone(config)
+  config['attribute types'] = new AttributeConfigurationGenerator(
+    annotation.attributes,
+    config['attribute types']
+  ).configuration
+
+  return config
 }
