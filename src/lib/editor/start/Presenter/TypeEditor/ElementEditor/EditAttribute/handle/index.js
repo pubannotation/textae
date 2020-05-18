@@ -15,8 +15,6 @@ export default function(
 
   const attrDef = typeDefinition.entity.getAttributeAt(number)
 
-  console.log(attrDef)
-
   if (!attrDef) {
     alertifyjs.warning(`Attribute No.${number} is not defined`)
     return
