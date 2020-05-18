@@ -1,3 +1,5 @@
+// Complement the config with the generated Attribute definition.
+// Does not override the existing Attribute definition.
 export default function(config, newAttributeDefinitions) {
   for (const newDef of newAttributeDefinitions) {
     const index = config.findIndex((a) => a.pred === newDef.pred)

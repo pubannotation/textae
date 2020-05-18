@@ -100,8 +100,7 @@
           {
             "color": "#0000FF",
             "label": "Regulation",
-            "id": "http://www.yahoo.co.jp/eeeeeeeeeeeeeeeeeoaoeuaoeuaoue",
-            "default": true
+            "id": "http://www.yahoo.co.jp/eeeeeeeeeeeeeeeeeoaoeuaoeuaoue"
           },
           {
             "color": "#FF0000",
@@ -170,8 +169,7 @@
         "values": [
           {
             "color": "#00FF00",
-            "id": "http://dbpedia.org/page/Good",
-            "default": true
+            "id": "http://dbpedia.org/page/Good"
           },
           {
             "color": "#9999FF",
@@ -188,6 +186,20 @@
         "pred": "Negation",
         "value type": "flag",
         "color": "#FF3399"
+      },
+      {
+        "pred": "selection with empty values",
+        "value type": "selection",
+        "values": []
+      },
+      {
+        "pred": "selection with null values",
+        "value type": "selection",
+        "values": null
+      },
+      {
+        "pred": "selection without values",
+        "value type": "selection"
       }
     ]
   },
@@ -643,6 +655,18 @@
       "subj": "E1:a:b",
       "pred": "remark",
       "obj": "reliable"
+    },
+    {
+      "id": "T3",
+      "subj": "E2",
+      "pred": "denote",
+      "obj": "Cell"
+    },
+    {
+      "id": "T4",
+      "subj": "E3",
+      "pred": "denote",
+      "obj": "equivalentTo"
     }
   ],
   "relations": [

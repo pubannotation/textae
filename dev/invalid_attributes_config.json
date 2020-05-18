@@ -2,7 +2,7 @@
   "attribute types": [
     {
       "pred": "category",
-      "value type": "selection"
+      "value type": "string"
     }
   ]
 }
