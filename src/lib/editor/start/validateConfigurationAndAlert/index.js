@@ -12,13 +12,11 @@ export default function(annotation, config, defaultErrorMessage) {
   }
 
   const patchedConfig = patchConfiguration(annotation, config)
-  if (patchedConfig) {
-    const [isValid, errorMessage] = validateConfiguration(patchedConfig)
-    if (!isValid) {
-      alertifyjs.error(errorMessage || defaultErrorMessage)
+  const [isValid, errorMessage] = validateConfiguration(patchedConfig)
+  if (!isValid) {
+    alertifyjs.error(errorMessage || defaultErrorMessage)
 
-      return [false]
-    }
+    return [false]
   }
 
   const error = hasUndefinedAttributes(annotation, patchedConfig)
