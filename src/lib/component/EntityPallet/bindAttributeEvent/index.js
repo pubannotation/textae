@@ -1,9 +1,13 @@
 import delegate from 'delegate'
+import enableAttributeTabDrag from './enableAttributeTabDrag'
+import enableAttributeTabDrop from './enableAttributeTabDrop'
 
 export default function(pallet, el, eventEmitter) {
+  enableAttributeTabDrag(el)
+  enableAttributeTabDrop(el, eventEmitter)
+
   delegate(el, '.textae-editor__type-pallet__attribute', 'click', (e) => {
     pallet.showAttribute(e.target.dataset['attribute'])
-    e.stopPropagation()
   })
 
   delegate(el, '.textae-editor__type-pallet__create-predicate', 'click', () =>

@@ -15,12 +15,20 @@ Handlebars.registerPartial(
       Type
     </p>
     {{#each attributes}}
-      <p class="textae-editor__type-pallet__attribute{{#if selectedPred}} textae-editor__type-pallet__attribute--selected{{/if}}" data-attribute="{{pred}}">
+      {{#if droppable}}
+      <span class="textae-editor__type-pallet__drop-target" data-index="{{@index}}"></span>
+      {{/if}}
+      <p 
+        class="textae-editor__type-pallet__attribute{{#if selectedPred}} textae-editor__type-pallet__attribute--selected{{/if}}"
+        data-attribute="{{pred}}"
+        data-index="{{@index}}"
+        {{#if selectedPred}}draggable="true"{{/if}}>
         {{pred}}
       </p>
     {{/each}}
     {{#unless isLock}}
     {{#if addAttribute}}
+      {{#unless lastAttributeSelected}}<span class="textae-editor__type-pallet__drop-target" data-index="-1"></span>{{/unless}}
       <p class="textae-editor__type-pallet__attribute textae-editor__type-pallet__create-predicate">
         <span class="textae-editor__type-pallet__create-predicate__button" title="Add new attribute"></span>
       </p>
@@ -370,10 +378,17 @@ export default function(
   const addAttribute = typeContainer.attributes.length < 30
 
   if (selectedPred) {
-    const attributes = typeContainer.attributes.map((a) => ({
-      pred: a.pred,
-      selectedPred: selectedPred === a.pred
-    }))
+    const attributes = []
+    // Moving an attribute to before or after the current position does not change the position.
+    let isPrevSelected
+    for (const a of typeContainer.attributes) {
+      attributes.push({
+        pred: a.pred,
+        selectedPred: selectedPred === a.pred,
+        droppable: selectedPred !== a.pred && !isPrevSelected
+      })
+      isPrevSelected = selectedPred === a.pred
+    }
 
     const attrDef = typeContainer.attributes.find(
       (a) => a.pred === selectedPred
@@ -387,6 +402,9 @@ export default function(
         hasInstance: typeContainer.hasAttributeInstance(selectedPred)
       }),
       selectedPred,
+      lastAttributeSelected:
+        typeContainer.attributes.indexOf(attrDef) ===
+        typeContainer.attributes.length - 1,
       addAttribute,
       selectedEntityLabel: getSelectedEntityLabel(selectionModelEntity.size),
       isEntityWithSamePredSelected: selectionModelEntity.isSamePredAttrributeSelected(

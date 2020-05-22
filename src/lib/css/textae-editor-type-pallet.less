@@ -98,6 +98,10 @@
     &--selected {
       background-color: rgb(124, 224, 246);
       color: blue;
+
+      &[draggable="true"] {
+        cursor: move;
+      }
     }
   }
 
@@ -308,6 +312,21 @@
     input,
     button[type="button"] {
       cursor: pointer;
+    }
+  }
+
+  &__content--dragging {
+    .textae-editor__type-pallet__drop-target {
+      &:before {
+        content: "\f063";
+        color: grey;
+        font-family: FontAwesome;
+        font-size: 2em;
+        padding: 0 10px 20px 10px;
+        position: absolute;
+        top: 14px;
+        transform: translateX(-19px);
+      }
     }
   }
 }
