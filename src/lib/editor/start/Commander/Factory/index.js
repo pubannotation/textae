@@ -15,6 +15,7 @@ import CreateDefaultTypeEntityToSelectedSpans from './CreateDefaultTypeEntityToS
 import CreateSpanAndAutoReplicateCommand from './CreateSpanAndAutoReplicateCommand'
 import CreateTypeDefinitionCommand from './CreateTypeDefinitionCommand'
 import DeleteAttributeDefinitionCommand from './DeleteAttributeDefinitionCommand'
+import MoveAttributeDefinitionCommand from './MoveAttributeDefinitionCommand'
 import MoveSpanCommand from './MoveSpanCommand'
 import PasteTypesToSelectedSpansCommand from './PasteTypesToSelectedSpansCommand'
 import ReplicateSpanCommand from './ReplicateSpanCommand'
@@ -215,6 +216,14 @@ export default class {
     return new DeleteAttributeDefinitionCommand(
       this._typeDefinition[modelType],
       attributeDefinition
+    )
+  }
+
+  moveAttributeDefintionComannd(oldIndex, newIndex) {
+    return new MoveAttributeDefinitionCommand(
+      this._typeDefinition.entity,
+      oldIndex,
+      newIndex
     )
   }
 

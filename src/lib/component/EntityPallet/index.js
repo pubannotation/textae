@@ -4,11 +4,13 @@ import createPalletElement from '../Pallet/createPalletElement'
 import bindUserEvents from '../Pallet/bindUserEvents'
 import bindAttributeEvent from './bindAttributeEvent'
 import createContentHtml from './createContentHtml'
+import enableDragAndDrop from './enableDragAndDrop'
 
 export default class extends Pallet {
   constructor(editor, originalData, typeDefinition, selectionModelEntity) {
     super(editor, createPalletElement('entity'))
 
+    this._eventEmitter = editor.eventEmitter
     this._originalData = originalData
     this._typeDefinition = typeDefinition
     this._typeContainer = typeDefinition.entity
@@ -32,6 +34,9 @@ export default class extends Pallet {
         // Reload pallet when undo deleted attribute.
         this.showAttribute(null)
       })
+      .on('textae.typeDefinition.entity.attributeDefinition.move', () => {
+        this.updateDisplay()
+      })
 
     // Reload when instance addition / deletion is undo / redo.
     editor.eventEmitter
@@ -42,6 +47,12 @@ export default class extends Pallet {
     editor.eventEmitter.on('textae.selection.entity.change', () =>
       this.updateDisplay()
     )
+  }
+
+  updateDisplay() {
+    super.updateDisplay()
+
+    enableDragAndDrop(this._el, this._eventEmitter)
   }
 
   show() {

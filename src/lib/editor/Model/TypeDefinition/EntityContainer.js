@@ -1,3 +1,4 @@
+import arrayMove from 'array-move'
 import Container from './Container'
 import createAttributeDefinition from './createAttributeDefinition'
 
@@ -80,6 +81,18 @@ export default class extends Container {
     )
 
     return this.findAttribute(attrDef.pred)
+  }
+
+  moveAttribute(oldIndex, newIndex) {
+    this._definedAttributes = new Map(
+      arrayMove(this.attributes, oldIndex, newIndex).map((a) => [a.pred, a])
+    )
+
+    // When an attribute definition move is undoed,
+    // it fires an event to notify the palette to immediately reflect the display content.
+    this._editor.eventEmitter.emit(
+      `textae.typeDefinition.entity.attributeDefinition.move`
+    )
   }
 
   deleteAttribute(pred) {

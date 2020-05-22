@@ -148,4 +148,9 @@ export default function(
         )
       )
     )
+    .on('textae.entityPallet.attribute.tab.drop', (oldIndex, newIndex) => {
+      commander.invoke(
+        commander.factory.moveAttributeDefintionComannd(oldIndex, newIndex)
+      )
+    })
 }
