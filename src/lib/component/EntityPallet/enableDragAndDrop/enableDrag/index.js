@@ -1,14 +1,19 @@
 import showDropTargets from './showDropTargets'
 import hideDropTargets from './hideDropTargets'
 
-export default function(el) {
+export default function(el, pallet) {
   for (const attributeTab of el.querySelectorAll(
     '.textae-editor__type-pallet__attribute'
   )) {
-    // Stop event propagation to prevent the jQueryUI.dragging widget
-    // from disabling the default handling of mousedown events.
     attributeTab.addEventListener('mousedown', (e) => {
+      // Stop event propagation to prevent the jQueryUI.dragging widget
+      // from disabling the default handling of mousedown events.
       e.stopPropagation()
+
+      // To start dragging and dropping smoothly,
+      // select the tabs with the mouse down instead of clicking.
+      // Otherwise, you have to release the mouse button once and then press the mouse button again to start dragging.
+      pallet.showAttribute(e.target.dataset['attribute'])
     })
 
     attributeTab.addEventListener('dragstart', (e) => {
