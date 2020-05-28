@@ -4,7 +4,7 @@ import createPalletElement from '../Pallet/createPalletElement'
 import bindUserEvents from '../Pallet/bindUserEvents'
 import bindAttributeEvent from './bindAttributeEvent'
 import createContentHtml from './createContentHtml'
-import enableDragAndDrop from './enableDragAndDrop'
+import enableDrag from './enableDrag'
 
 export default class extends Pallet {
   constructor(editor, originalData, typeDefinition, selectionModelEntity) {
@@ -51,13 +51,13 @@ export default class extends Pallet {
 
   updateDisplay() {
     super.updateDisplay()
-    enableDragAndDrop(this._el, this)
+    enableDrag(this._el, this)
   }
 
   show() {
     this._selectedPred = null
     super.show()
-    enableDragAndDrop(this._el, this)
+    enableDrag(this._el, this)
   }
 
   showAttribute(pred) {
