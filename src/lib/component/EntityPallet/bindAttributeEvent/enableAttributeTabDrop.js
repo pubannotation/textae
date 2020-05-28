@@ -18,7 +18,9 @@ export default function(el, eventEmitter) {
   })
 
   delegate(el, '.textae-editor__type-pallet__drop-target', 'drop', (e) => {
-    const oldIndex = parseInt(e.dataTransfer.getData('oldIndex'))
+    const oldIndex = parseInt(
+      e.dataTransfer.getData('application/x-textae-attribute-tab-old-index')
+    )
     const newIndex = parseInt(e.target.dataset.index)
 
     eventEmitter.emit(
