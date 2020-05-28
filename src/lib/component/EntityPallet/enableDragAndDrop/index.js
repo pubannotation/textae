@@ -1,5 +1,5 @@
 import enableDrag from './enableDrag'
 
-export default function(el, emitter, pallet) {
+export default function(el, pallet) {
   enableDrag(el, pallet)
 }
