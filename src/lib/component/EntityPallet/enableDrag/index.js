@@ -16,14 +16,5 @@ export default function(el, pallet) {
       pallet.showAttribute(e.target.dataset['attribute'])
     })
 
-    attributeTab.addEventListener('dragstart', (e) => {
-      e.dataTransfer.setData('oldIndex', e.target.dataset.index)
-      showDropTargets(e)
-    })
-
-    attributeTab.addEventListener('dragend', (e) => {
-      e.dataTransfer.setData('oldIndex', e.target.dataset.index)
-      hideDropTargets(e)
-    })
   }
 }

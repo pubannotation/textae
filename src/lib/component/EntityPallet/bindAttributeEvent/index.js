@@ -1,8 +1,20 @@
 import delegate from 'delegate'
 import enableAttributeTabDrop from './enableAttributeTabDrop'
+import showDropTargets from '../enableDrag/showDropTargets'
+import hideDropTargets from '../enableDrag/hideDropTargets'
 
 export default function(pallet, el, eventEmitter) {
   enableAttributeTabDrop(el, eventEmitter)
+
+  delegate(el, '.textae-editor__type-pallet__attribute', 'dragstart', (e) => {
+    e.dataTransfer.setData('oldIndex', e.target.dataset.index)
+    showDropTargets(e)
+  })
+
+  delegate(el, '.textae-editor__type-pallet__attribute', 'dragend', (e) => {
+    e.dataTransfer.setData('oldIndex', e.target.dataset.index)
+    hideDropTargets(e)
+  })
 
   delegate(el, '.textae-editor__type-pallet__create-predicate', 'click', () =>
     eventEmitter.emit(
