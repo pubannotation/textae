@@ -51,13 +51,13 @@ export default class extends Pallet {
 
   updateDisplay() {
     super.updateDisplay()
-
     enableDragAndDrop(this._el, this._eventEmitter, this)
   }
 
   show() {
     this._selectedPred = null
     super.show()
+    enableDragAndDrop(this._el, this._eventEmitter, this)
   }
 
   showAttribute(pred) {
