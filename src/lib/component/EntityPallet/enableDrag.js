@@ -1,6 +1,3 @@
-import showDropTargets from './showDropTargets'
-import hideDropTargets from './hideDropTargets'
-
 export default function(el, pallet) {
   for (const attributeTab of el.querySelectorAll(
     '.textae-editor__type-pallet__attribute'
@@ -15,6 +12,5 @@ export default function(el, pallet) {
       // Otherwise, you have to release the mouse button once and then press the mouse button again to start dragging.
       pallet.showAttribute(e.target.dataset['attribute'])
     })
-
   }
 }

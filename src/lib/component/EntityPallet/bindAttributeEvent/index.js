@@ -1,7 +1,7 @@
 import delegate from 'delegate'
 import enableAttributeTabDrop from './enableAttributeTabDrop'
-import showDropTargets from '../enableDrag/showDropTargets'
-import hideDropTargets from '../enableDrag/hideDropTargets'
+import showDropTargets from './showDropTargets'
+import hideDropTargets from './hideDropTargets'
 
 export default function(pallet, el, eventEmitter) {
   enableAttributeTabDrop(el, eventEmitter)
