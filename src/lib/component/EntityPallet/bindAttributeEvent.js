@@ -1,9 +1,28 @@
 import delegate from 'delegate'
 
 export default function(pallet, el, eventEmitter) {
-  delegate(el, '.textae-editor__type-pallet__attribute', 'click', (e) => {
-    pallet.showAttribute(e.target.dataset['attribute'])
-    e.stopPropagation()
+  // Enable drop targets to fire drop events.
+  delegate(el, '.textae-editor__type-pallet__drop-target', 'dragover', (e) => {
+    const width = document.querySelector(
+      '.textae-editor__type-pallet__attribute'
+    ).offsetWidth
+    e.target.innerHTML = `<div style="width: ${width}px;"></div>`
+    e.preventDefault()
+  })
+
+  delegate(el, '.textae-editor__type-pallet__drop-target', 'dragleave', (e) => {
+    e.target.innerHTML = ''
+  })
+
+  delegate(el, '.textae-editor__type-pallet__drop-target', 'drop', (e) => {
+    const oldIndex = parseInt(e.dataTransfer.getData('oldIndex'))
+    const newIndex = parseInt(e.target.dataset.index)
+
+    eventEmitter.emit(
+      `textae.entityPallet.attribute.tab.drop`,
+      oldIndex,
+      oldIndex < newIndex ? newIndex - 1 : newIndex
+    )
   })
 
   delegate(el, '.textae-editor__type-pallet__create-predicate', 'click', () =>
