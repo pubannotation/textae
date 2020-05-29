@@ -22,7 +22,7 @@ export default class {
     // 2. preventDefault changes default operations other than focus. Difficult to investigate impact range
     // 3. Operations that focus on a specific DOM element will work in any browser
     // 4. Refocusing on a focused DOM element has no side effects
-    delegate(el, '[type="button"]', 'click', () => editor.focus())
+    // delegate(el, '[type="button"]', 'click', () => editor.focus())
 
     this.hide()
   }
