@@ -13,7 +13,7 @@ const typeHtml = `
     class="textae-editor__type-pallet__attribute{{#if selectedPred}} textae-editor__type-pallet__attribute--selected{{/if}}"
     data-attribute="{{pred}}"
     data-index="{{@index}}"
-    {{#if selectedPred}}draggable="true"{{/if}}>
+    draggable="true">
     {{pred}}
   </p>
 {{/each}}

@@ -10,7 +10,7 @@ export default function(el, pallet) {
       // To start dragging and dropping smoothly,
       // select the tabs with the mouse down instead of clicking.
       // Otherwise, you have to release the mouse button once and then press the mouse button again to start dragging.
-      pallet.showAttribute(e.target.dataset['attribute'])
+      // pallet.showAttribute(e.target.dataset['attribute'])
       console.log('mousedown')
     })
 
