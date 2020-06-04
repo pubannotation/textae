@@ -1,5 +1,6 @@
 import Handlebars from 'handlebars'
 import getSelectedEntityLabel from './getSelectedEntityLabel'
+import getAttributes from './getAttributes'
 
 Handlebars.registerPartial(
   'header',
@@ -23,7 +24,7 @@ Handlebars.registerPartial(
         data-attribute="{{pred}}"
         data-index="{{@index}}"
         {{#if selectedPred}}draggable="true"{{/if}}>
-        {{pred}}
+        {{#if shortcutKey}}{{shortcutKey}}:{{/if}}{{pred}}
       </p>
     {{/each}}
     {{#unless isLock}}
@@ -376,20 +377,9 @@ export default function(
   selectionModelEntity
 ) {
   const addAttribute = typeContainer.attributes.length < 30
+  const attributes = getAttributes(typeContainer, selectedPred)
 
   if (selectedPred) {
-    const attributes = []
-    // Moving an attribute to before or after the current position does not change the position.
-    let isPrevSelected
-    for (const a of typeContainer.attributes) {
-      attributes.push({
-        pred: a.pred,
-        selectedPred: selectedPred === a.pred,
-        droppable: selectedPred !== a.pred && !isPrevSelected
-      })
-      isPrevSelected = selectedPred === a.pred
-    }
-
     const attrDef = typeContainer.attributes.find(
       (a) => a.pred === selectedPred
     )
@@ -448,7 +438,7 @@ export default function(
 
   return typeTemplate({
     isLock: typeContainer.isLock,
-    attributes: typeContainer.attributes,
+    attributes,
     hasDiff,
     types: typeContainer.pallet,
     addAttribute,
