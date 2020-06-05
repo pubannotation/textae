@@ -580,6 +580,9 @@
   background-color: #7ce0f6;
   color: blue;
 }
+.textae-editor__type-pallet__attribute--selected[draggable="true"] {
+  cursor: move;
+}
 .textae-editor__type-pallet__create-predicate__button:before {
   position: relative;
   display: inline-block;
@@ -769,6 +772,16 @@
 .textae-editor__type-pallet td input,
 .textae-editor__type-pallet td button[type="button"] {
   cursor: pointer;
+}
+.textae-editor__type-pallet__content--dragging .textae-editor__type-pallet__drop-target:before {
+  content: "\f063";
+  color: grey;
+  font-family: FontAwesome;
+  font-size: 2em;
+  padding: 0 10px 20px 10px;
+  position: absolute;
+  top: 14px;
+  transform: translateX(-19px);
 }
 /*!
  *  Font Awesome 4.6.3 by @davegandy - http://fontawesome.io - @fontawesome
