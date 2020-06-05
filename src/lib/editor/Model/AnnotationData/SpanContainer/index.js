@@ -6,12 +6,11 @@ import SpanModel from './SpanModel'
 import ContatinerWithSubContainer from '../ContatinerWithSubContainer'
 
 export default class extends ContatinerWithSubContainer {
-  constructor(editor, emitter, parentContainer, paragraph) {
+  constructor(editor, emitter, parentContainer) {
     super(emitter, parentContainer, 'span', (denotations) =>
-      mappingFunction(denotations, editor, paragraph, this.entityContainer)
+      mappingFunction(denotations, editor, this.entityContainer)
     )
     this._editor = editor
-    this._paragraph = paragraph
     this.spanTopLevel = []
   }
 
@@ -25,12 +24,7 @@ export default class extends ContatinerWithSubContainer {
   add(span) {
     if (span)
       return super.add(
-        new SpanModel(
-          this._editor,
-          this._paragraph,
-          span,
-          this.entityContainer
-        ),
+        new SpanModel(this._editor, span, this.entityContainer),
         () => {
           this.spanTopLevel = this.updateSpanTree()
         }
@@ -90,12 +84,7 @@ export default class extends ContatinerWithSubContainer {
   move(id, newSpan) {
     const oldOne = super.remove(id)
     const newOne = super.add(
-      new SpanModel(
-        this._editor,
-        this._paragraph,
-        newSpan,
-        this.entityContainer
-      ),
+      new SpanModel(this._editor, newSpan, this.entityContainer),
       (newOne) => {
         this.spanTopLevel = this.updateSpanTree()
         // Span.getTypes function depends on the property of the entity.

@@ -1,9 +1,9 @@
-import isNodeParagraph from '../../../../isNodeParagraph'
+import isNodeTextBox from '../../../../isNodeTextBox'
 import isNodeSpan from '../../../../isNodeSpan'
 
 export default function(span, node) {
   const parent = node.parentElement
-  if (isNodeParagraph(parent)) {
+  if (isNodeTextBox(parent)) {
     return 0
   }
   if (isNodeSpan(parent)) {

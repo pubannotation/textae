@@ -53,7 +53,7 @@
   &--instance-mode.textae-editor--active {
     .active;
 
-    .textae-editor__body__text-box__paragraph {
+    .textae-editor__body__text-box {
       background-color: fade(@acitveColor, 80%);
     }
   }
@@ -67,11 +67,10 @@
     white-space: normal;
 
     &__text-box {
-      // Hides the part of the paragraph that overflowed from the textae editor 
-      // so that you can click the DOM element below the paragraph.
       overflow: hidden;
       position: relative;
       padding: 0 16px;
+      white-space: pre-wrap;
     }
 
     &__annotation-box {
@@ -122,7 +121,7 @@
     border-color: @border;
     border-style: solid;
     border-width: 1px 0;
-    white-space: pre;
+    white-space: nowrap;
 
     &:hover {
       text-shadow: 1px 1px 1px #00d;

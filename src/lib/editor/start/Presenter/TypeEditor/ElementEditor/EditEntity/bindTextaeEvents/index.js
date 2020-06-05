@@ -1,4 +1,3 @@
-import SelectionWrapper from '../../SelectionWrapper'
 import SelectSpan from './SelectSpan'
 import getSelectionSnapShot from './getSelectionSnapShot'
 import typeValeusClicked from './typeValuesClicked'
@@ -13,9 +12,6 @@ export default function(
   selectionModel
 ) {
   editor.eventEmitter
-    .on('textae.editor.editEntity.textBox.mouseup', () =>
-      new SelectionWrapper(window.getSelection()).showAlertIfOtherParagraph()
-    )
     .on('textae.editor.editEntity.textBox.click', (e) => {
       const selection = window.getSelection()
       // if text is seleceted

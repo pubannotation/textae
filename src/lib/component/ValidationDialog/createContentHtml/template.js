@@ -87,29 +87,6 @@ const source = `
         </tbody>
       </table>
     {{/if}}
-    {{#if denotationInParagraph}}
-      <table>
-        <caption>Spans across paragraphs (newline-delimited).</caption>
-        <thead>
-          <tr>
-            <th class="id">id</th>
-            <th class="range">begin</th>
-            <th class="range">end</th>
-            <th>obj</th>
-          </tr>
-        </thead>
-        <tbody>
-          {{#denotationInParagraph}}
-          <tr>
-            <td>{{id}}</td>
-            <td class="alert">{{span.begin}}</td>
-            <td class="alert">{{span.end}}</td>
-            <td>{{obj}}</td>
-          </tr>
-          {{/denotationInParagraph}}
-        </tbody>
-      </table>
-    {{/if}}
     {{#if referencedItems}}
       <table>
         <caption>Referenced items do not exist.</caption>

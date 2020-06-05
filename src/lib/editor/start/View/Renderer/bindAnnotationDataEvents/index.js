@@ -1,4 +1,4 @@
-import renderParagraph from './renderParagraph'
+import renderText from './renderText'
 import updateBlockStyleOfSpan from './updateBlockStyleOfSpan'
 import renderAllAnnotations from './renderAllAnnotations'
 import setLineHeightToTypeGap from '../../setLineHeightToTypeGap'
@@ -13,13 +13,13 @@ export default function(
   gridRenderer,
   entityRenderer
 ) {
-  const spanRenderer = new SpanRenderer(annotationData, (entity) =>
+  const spanRenderer = new SpanRenderer(editor, annotationData, (entity) =>
     entityRenderer.render(entity)
   )
 
   editor.eventEmitter
     .on('textae.annotationData.all.change', () => {
-      renderParagraph(editor, annotationData.paragraph.all)
+      renderText(editor, annotationData.sourceDoc)
       renderAllAnnotations(
         editor,
         domPositionCache,

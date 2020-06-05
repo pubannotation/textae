@@ -1,7 +1,5 @@
 import isNodeSpan from '../isNodeSpan'
-import isNodeParagraph from '../isNodeParagraph'
-import showAlertIfOtherParagraph from './showAlertIfOtherParagraph'
-import getParagraph from './getParagraph'
+import isNodTextBox from '../isNodeTextBox'
 
 export default class {
   constructor(selection) {
@@ -12,25 +10,12 @@ export default class {
     return isNodeSpan(this._selection.focusNode.parentNode)
   }
 
-  get isFocusNodeInParagraph() {
-    return isNodeParagraph(this._selection.focusNode.parentNode)
+  get isFocusNodeInTextBox() {
+    return isNodTextBox(this._selection.focusNode.parentNode)
   }
 
-  get isAnchrNodeInSpanOrParagraph() {
+  get isAnchrNodeInSpanOrTextBox() {
     const node = this._selection.anchorNode.parentNode
-    return isNodeSpan(node) || isNodeParagraph(node)
-  }
-
-  showAlertIfOtherParagraph() {
-    if (this._selection.type === 'Range') {
-      showAlertIfOtherParagraph(this._isInSameParagraph())
-    }
-  }
-
-  _isInSameParagraph() {
-    const anchorParagraph = getParagraph(this._selection.anchorNode)
-    const focusParagraph = getParagraph(this._selection.focusNode)
-
-    return anchorParagraph === focusParagraph
+    return isNodeSpan(node) || isNodTextBox(node)
   }
 }

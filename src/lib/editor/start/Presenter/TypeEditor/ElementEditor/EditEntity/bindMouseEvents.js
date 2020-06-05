@@ -7,13 +7,6 @@ import bindEditorBodyClickEventTrigger from '../bindEditorBodyClickEventTrigger'
 export default function(editor) {
   const listeners = []
 
-  // Show Alert when trying to create span across paragraphs.
-  listeners.push(
-    delegate(editor[0], '.textae-editor__body__text-box', 'mouseup', (e) =>
-      editor.eventEmitter.emit('textae.editor.editEntity.textBox.mouseup', e)
-    )
-  )
-
   // When mouseupping on blank area between lines.
   // You may hover over the text and select the text.
   // No 'textae.editor.body.click' event will be fired when text is selected,

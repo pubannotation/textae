@@ -1,5 +1,5 @@
 // A big brother is brother node on a structure at rendered.
-// There is no big brother if the span is first in a paragraph.
+// There is no big brother if the span is first in the text.
 // Warning: parent is set at updateSpanTree, is not exists now.
 export default function(topLevelSpans, span) {
   let index
@@ -8,8 +8,6 @@ export default function(topLevelSpans, span) {
     return index === 0 ? null : span.parent.children[index - 1]
   } else {
     index = topLevelSpans.indexOf(span)
-    return index === 0 || topLevelSpans[index - 1].paragraph !== span.paragraph
-      ? null
-      : topLevelSpans[index - 1]
+    return index === 0 ? null : topLevelSpans[index - 1]
   }
 }

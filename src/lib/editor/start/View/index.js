@@ -9,19 +9,17 @@ import bindAnnotaitonPositionEvents from './bindAnnotaitonPositionEvents'
 import Renderer from './Renderer'
 import bindAnnotationPositionOnAnnotationDataEvents from './bindAnnotationPositionOnAnnotationDataEvents'
 
-const BODY = `
-<div class="textae-editor__body">
-    <div class="textae-editor__body__text-box"></div>
-    <div class="textae-editor__body__annotation-box"></div>
-</div>
-`
-
 export default class {
   constructor(editor, annotationData, selectionModel, typeGap, typeDefinition) {
     // The editor itself has a "white-space: pre" style for processing text that contains a series of whitespace.
     // In this case, HTML line breaks are included in the editor's height calculation.
     // Remove CRLF so that it is not included in the height calculation.
-    editor[0].innerHTML = BODY.replace(/[\n\r]+/g, '')
+    editor[0].innerHTML = `
+    <div class="textae-editor__body">
+      <div class="textae-editor__body__text-box" id="${editor.editorId}_text-box"></div>
+      <div class="textae-editor__body__annotation-box"></div>
+    </div>
+    `.replace(/[\n\r]+/g, '')
 
     bindClipBoardEvents(editor)
     bindSelectionModelEvents(editor, annotationData)

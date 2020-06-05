@@ -8,12 +8,11 @@ export default function(
   entity,
   attribute,
   relation,
-  paragraph,
   text,
   annotation,
   prefix
 ) {
-  const result = validateAnnotation(text, paragraph, annotation)
+  const result = validateAnnotation(text, annotation)
 
   importDenotation(span, entity, result.accept.denotation, prefix)
 

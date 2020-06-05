@@ -1,5 +1,4 @@
 import ModelContainer from './ModelContainer'
-import ParagraphContainer from './ParagraphContainer'
 import SpanContainer from './SpanContainer'
 import AttributeContainer from './AttributeContainer'
 import RelationContainer from './RelationContainer'
@@ -14,13 +13,7 @@ export default class {
   constructor(editor) {
     this.sourceDoc = ''
     this.namespace = new ModelContainer(editor.eventEmitter, 'namespace')
-    this.paragraph = new ParagraphContainer(editor, editor.eventEmitter)
-    this.span = new SpanContainer(
-      editor,
-      editor.eventEmitter,
-      this,
-      this.paragraph
-    )
+    this.span = new SpanContainer(editor, editor.eventEmitter, this)
     this.attribute = new AttributeContainer(editor.eventEmitter, this)
     this.relation = new RelationContainer(editor.eventEmitter)
     this.entity = new EntityContainer(editor, editor.eventEmitter, this)
@@ -33,7 +26,6 @@ export default class {
     clearAnnotationData(this)
 
     this.sourceDoc = annotation.text
-    this.paragraph.addSource(annotation.text)
     this.config = annotation.config
 
     const { multitrack, hasError, rejects } = parseDenotation(this, annotation)

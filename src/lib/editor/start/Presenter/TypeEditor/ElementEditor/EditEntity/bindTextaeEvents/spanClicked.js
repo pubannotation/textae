@@ -17,7 +17,7 @@ export default function(onSelectEndOnSpan, selectSpan, event) {
     return false
   } else {
     onSelectEndOnSpan()
-    // Cancel selection of a paragraph.
+    // Cancel selection of a text.
     // And do non propagate the parent span.
     event.stopPropagation()
   }

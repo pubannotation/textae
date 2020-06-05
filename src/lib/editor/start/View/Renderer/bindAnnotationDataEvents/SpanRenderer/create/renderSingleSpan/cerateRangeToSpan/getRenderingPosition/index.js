@@ -2,7 +2,7 @@ import getRenderingPositionFromParent from './getRenderingPositionFromParent'
 import getRenderingPositionFromBigBrother from './getRenderingPositionFromBigBrother'
 import getBigBrother from './getBigBrother'
 
-export default function(annotationData, span) {
+export default function(editor, annotationData, span) {
   // Big Brother is a span.
   // Big Brother and Span's parent span is the same.
   // Big Brother is the Span before the span
@@ -15,6 +15,6 @@ export default function(annotationData, span) {
   } else {
     // The target text arrounded by span is the first child of parent
     // unless bigBrother exists.
-    return getRenderingPositionFromParent(span)
+    return getRenderingPositionFromParent(editor, span)
   }
 }

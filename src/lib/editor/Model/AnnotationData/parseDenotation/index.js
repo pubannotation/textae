@@ -8,7 +8,6 @@ export default function(dataStore, annotation) {
     dataStore.entity,
     dataStore.attribute,
     dataStore.relation,
-    dataStore.paragraph,
     annotation.text,
     annotation
   )
@@ -17,7 +16,6 @@ export default function(dataStore, annotation) {
     dataStore.entity,
     dataStore.attribute,
     dataStore.relation,
-    dataStore.paragraph,
     annotation.text,
     annotation
   )

@@ -2,10 +2,9 @@ import idFactory from '../../../../idFactory'
 import getTypes from './getTypes'
 
 export default class SpanModel {
-  constructor(editor, paragraph, span, entityContainer) {
+  constructor(editor, span, entityContainer) {
     this._editor = editor
     this._span = span
-    this._paragraph = paragraph
     this._entityContainer = entityContainer
   }
 
@@ -19,10 +18,6 @@ export default class SpanModel {
 
   get end() {
     return this._span.end
-  }
-
-  get paragraph() {
-    return this._paragraph.getBelongingTo(this._span)
   }
 
   // Get online for update is not grantieed.

@@ -1,14 +1,6 @@
 import parseAnnotation from './parseAnnotation'
 
-export default function(
-  span,
-  entity,
-  attribute,
-  relation,
-  paragraph,
-  text,
-  annotation
-) {
+export default function(span, entity, attribute, relation, text, annotation) {
   if (!annotation.tracks) return [false, []]
   const tracks = annotation.tracks
   delete annotation.tracks
@@ -20,7 +12,6 @@ export default function(
       entity,
       attribute,
       relation,
-      paragraph,
       text,
       track,
       prefix

@@ -1,6 +1,6 @@
-import getParentModel from './getParentModel'
+import getParentOffset from './getParentOffset'
 import getOffsetFromParent from './getOffsetFromParent'
 
-export default function(paragraph, span, node) {
-  return getParentModel(paragraph, span, node).begin + getOffsetFromParent(node)
+export default function(span, node) {
+  return getParentOffset(span, node) + getOffsetFromParent(node)
 }

@@ -8,7 +8,6 @@ export default class {
 
   get anchor() {
     const position = getPosition(
-      this._annotationData.paragraph,
       this._annotationData.span,
       this._selection.anchorNode
     )
@@ -17,7 +16,6 @@ export default class {
 
   get focus() {
     const position = getPosition(
-      this._annotationData.paragraph,
       this._annotationData.span,
       this._selection.focusNode
     )
