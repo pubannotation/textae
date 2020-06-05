@@ -5,7 +5,7 @@ import pushView from './pushView'
 import pushTerm from './pushTerm'
 import pushSimple from './pushSimple'
 import upSimple from './upSimple'
-import toggleInstaceRelation from './toggleInstaceRelation'
+import changeByShortcut from './changeByShortcut'
 
 export default class {
   constructor(editor, annotationData, typeEditor, displayInstance) {
@@ -76,7 +76,7 @@ export default class {
   }
 
   // For key input of F or M.
-  toggleInstaceRelation() {
-    toggleInstaceRelation(this._stateMachine, this._annotationData)
+  changeByShortcut() {
+    changeByShortcut(this._stateMachine)
   }
 }

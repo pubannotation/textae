@@ -141,8 +141,8 @@ export default class {
     this._buttonController.toggle('boundary-detection')
   }
 
-  toggleInstaceRelation() {
-    this._editMode.toggleInstaceRelation()
+  changeMode() {
+    this._editMode.changeByShortcut()
   }
 
   toViewMode() {
