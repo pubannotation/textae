@@ -16,13 +16,13 @@ export default class {
     pushButtons,
     selectionModel
   ) {
-    this.buttonEnableStates = buttonEnableStates
-    this.buttonTransitStates = buttonTransitStates
-    this.pushButtons = pushButtons
+    this._buttonEnableStates = buttonEnableStates
+    this._buttonTransitStates = buttonTransitStates
+    this._pushButtons = pushButtons
     this._propagate = () => {
       propergate(buttonEnableStates, buttonTransitStates, pushButtons)
     }
-    this.selectionModel = selectionModel
+    this._selectionModel = selectionModel
   }
 
   propagate() {
@@ -30,29 +30,29 @@ export default class {
   }
 
   enabled(button, enable) {
-    this.buttonEnableStates.set(button, enable)
+    this._buttonEnableStates.set(button, enable)
     this._propagate()
   }
 
   transit(button, isTransit) {
-    this.buttonTransitStates.set(button, isTransit)
+    this._buttonTransitStates.set(button, isTransit)
     this._propagate()
   }
 
   updateBySpan() {
-    this.buttonEnableStates.updateButtons(spanButtons)
+    this._buttonEnableStates.updateButtons(spanButtons)
     this._propagate()
   }
 
   updateByEntity() {
-    this.buttonEnableStates.updateButtons(entityButtons)
-    this.pushButtons.updateModificationButtons(this.selectionModel.entity)
+    this._buttonEnableStates.updateButtons(entityButtons)
+    this._pushButtons.updateModificationButtons(this._selectionModel.entity)
     this._propagate()
   }
 
   updateByRelation() {
-    this.buttonEnableStates.updateButtons(relationButtons)
-    this.pushButtons.updateModificationButtons(this.selectionModel.relation)
+    this._buttonEnableStates.updateButtons(relationButtons)
+    this._pushButtons.updateModificationButtons(this._selectionModel.relation)
     this._propagate()
   }
 }
