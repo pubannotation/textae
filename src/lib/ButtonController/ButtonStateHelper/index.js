@@ -1,3 +1,5 @@
+import propergate from './propergate'
+
 const allButtons = ['delete']
 const spanButtons = allButtons.concat(['replicate', 'entity', 'copy', 'paste'])
 const relationButtons = allButtons.concat([
@@ -17,67 +19,40 @@ export default class {
     this.buttonEnableStates = buttonEnableStates
     this.buttonTransitStates = buttonTransitStates
     this.pushButtons = pushButtons
+    this._propagate = () => {
+      propergate(buttonEnableStates, buttonTransitStates, pushButtons)
+    }
     this.selectionModel = selectionModel
   }
 
   propagate() {
-    propergate(
-      this.buttonEnableStates,
-      this.buttonTransitStates,
-      this.pushButtons
-    )
+    this._propagate()
   }
 
   enabled(button, enable) {
     this.buttonEnableStates.set(button, enable)
-    propergate(
-      this.buttonEnableStates,
-      this.buttonTransitStates,
-      this.pushButtons
-    )
+    this._propagate()
   }
 
   transit(button, isTransit) {
     this.buttonTransitStates.set(button, isTransit)
-    propergate(
-      this.buttonEnableStates,
-      this.buttonTransitStates,
-      this.pushButtons
-    )
+    this._propagate()
   }
 
   updateBySpan() {
     this.buttonEnableStates.updateButtons(spanButtons)
-    propergate(
-      this.buttonEnableStates,
-      this.buttonTransitStates,
-      this.pushButtons
-    )
+    this._propagate()
   }
 
   updateByEntity() {
     this.buttonEnableStates.updateButtons(entityButtons)
     this.pushButtons.updateModificationButtons(this.selectionModel.entity)
-    propergate(
-      this.buttonEnableStates,
-      this.buttonTransitStates,
-      this.pushButtons
-    )
+    this._propagate()
   }
 
   updateByRelation() {
     this.buttonEnableStates.updateButtons(relationButtons)
     this.pushButtons.updateModificationButtons(this.selectionModel.relation)
-    propergate(
-      this.buttonEnableStates,
-      this.buttonTransitStates,
-      this.pushButtons
-    )
+    this._propagate()
   }
-}
-
-function propergate(buttonEnableStates, buttonTransitStates, pushButtons) {
-  buttonEnableStates.propagate()
-  buttonTransitStates.propagate()
-  pushButtons.propagate()
 }
