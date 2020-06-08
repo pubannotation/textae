@@ -1,5 +1,5 @@
 import DataAccessObject from '../component/DataAccessObject'
-import ButtonController from '../buttonModel/ButtonController'
+import ButtonController from '../ButtonController'
 // model manages data objects.
 import AnnotationData from './Model/AnnotationData'
 import Selection from './Selection'
