@@ -14,10 +14,15 @@ class Config {
     return buttonConfig.flat()
   }
 
-  _getEnabelButtonsWhenSelecting(type) {
+  _getEnabelButtonsWhenSelecting(denotationType) {
     return this._buttons
-      .filter((b) => b.enableWhenSelecting && b.enableWhenSelecting[type])
-      .map((b) => b.type)
+      .filter(
+        (b) => b.enableWhenSelecting && b.enableWhenSelecting[denotationType]
+      )
+      .map((b) => ({
+        name: b.type,
+        predicate: b.enableWhenSelecting[denotationType]
+      }))
   }
 
   get spanButtons() {
@@ -30,12 +35,6 @@ class Config {
 
   get relationButtons() {
     return this._getEnabelButtonsWhenSelecting('relation')
-  }
-
-  isEnable(buttonName, selectionModel, clipBoard) {
-    return this._buttons
-      .find((b) => b.type === buttonName)
-      .predicate(selectionModel, clipBoard)
   }
 }
 

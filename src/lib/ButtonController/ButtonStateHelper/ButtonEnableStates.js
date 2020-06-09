@@ -32,14 +32,9 @@ export default class {
   }
 
   _updateButtons(buttons) {
-    for (const buttonName of buttons) {
-      const enabled = buttonConfig.isEnable(
-        buttonName,
-        this._selectionModel,
-        this._clipBoard
-      )
-
-      this.set(buttonName, enabled)
+    for (const { name, predicate } of buttons) {
+      const enabled = predicate(this._selectionModel, this._clipBoard)
+      this.set(name, enabled)
     }
   }
 }

@@ -48,9 +48,8 @@ export const buttonConfig = [
       type: 'replicate',
       title: 'Replicate span annotation [R]',
       enableWhenSelecting: {
-        span: true
-      },
-      predicate: (selectionModel) => Boolean(selectionModel.span.single())
+        span: (selectionModel) => Boolean(selectionModel.span.single())
+      }
     },
     {
       type: 'replicate-auto',
@@ -66,9 +65,8 @@ export const buttonConfig = [
       type: 'entity',
       title: 'New entity [E]',
       enableWhenSelecting: {
-        span: true
-      },
-      predicate: (selectionModel) => selectionModel.span.some
+        span: (selectionModel) => selectionModel.span.some
+      }
     },
     {
       type: 'pallet',
@@ -78,11 +76,9 @@ export const buttonConfig = [
       type: 'change-label',
       title: 'Change label [W]',
       enableWhenSelecting: {
-        entity: true,
-        relation: true
-      },
-      predicate: (selectionModel) =>
-        selectionModel.entity.some || selectionModel.relation.some
+        entity: (selectionModel) => selectionModel.entity.some,
+        relation: (selectionModel) => selectionModel.relation.some
+      }
     }
   ],
   [
@@ -90,21 +86,17 @@ export const buttonConfig = [
       type: 'negation',
       title: 'Negation [X]',
       enableWhenSelecting: {
-        entity: true,
-        relation: true
-      },
-      predicate: (selectionModel) =>
-        selectionModel.entity.some || selectionModel.relation.some
+        entity: (selectionModel) => selectionModel.entity.some,
+        relation: (selectionModel) => selectionModel.relation.some
+      }
     },
     {
       type: 'speculation',
       title: 'Speculation [S]',
       enableWhenSelecting: {
-        entity: true,
-        relation: true
-      },
-      predicate: (selectionModel) =>
-        selectionModel.entity.some || selectionModel.relation.some
+        entity: (selectionModel) => selectionModel.entity.some,
+        relation: (selectionModel) => selectionModel.relation.some
+      }
     }
   ],
   [
@@ -112,30 +104,26 @@ export const buttonConfig = [
       type: 'delete',
       title: 'Delete [D]',
       enableWhenSelecting: {
-        span: true,
-        entity: true,
-        relation: true
-      },
-      predicate: (selectionModel) => selectionModel.some
+        span: (selectionModel) => selectionModel.some,
+        entity: (selectionModel) => selectionModel.some,
+        relation: (selectionModel) => selectionModel.some
+      }
     },
     {
       type: 'copy',
       title: 'Copy [C]',
       enableWhenSelecting: {
-        span: true,
-        entity: true
-      },
-      predicate: (selectionModel) =>
-        selectionModel.span.some || selectionModel.entity.some
+        span: (selectionModel) => selectionModel.span.some,
+        entity: (selectionModel) => selectionModel.entity.some
+      }
     },
     {
       type: 'paste',
       title: 'Paste [V]',
       enableWhenSelecting: {
-        span: true
-      },
-      predicate: (selectionModel, clipBoard) =>
-        clipBoard.clipBoard.length > 0 && selectionModel.span.some
+        span: (selectionModel, clipBoard) =>
+          clipBoard.clipBoard.length > 0 && selectionModel.span.some
+      }
     }
   ],
   [
