@@ -1,6 +1,6 @@
 // Maintainance a state of which the save button is able to be push.
 import Observable from 'observ'
-import hasError from '../../hasError'
+import hasError from '../hasError'
 
 export default function(editor) {
   // Fix loading annotation automatically when loading multitrack or broken annotation.
