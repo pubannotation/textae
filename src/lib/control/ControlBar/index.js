@@ -1,6 +1,6 @@
 import Control from '../Control'
 import { htmlTemplate } from './htmlTemplate'
-import transitButtonImage from './transitButtonImage'
+import transitWriteButtonImage from './transitWriteButtonImage'
 
 // The control is a control bar in an editor.
 export default class extends Control {
@@ -8,7 +8,7 @@ export default class extends Control {
     super(htmlTemplate, editor)
   }
 
-  transitButtonImage(transitButtons) {
-    transitButtonImage(super.el, transitButtons)
+  transitWriteButtonImage(transitButtons) {
+    transitWriteButtonImage(super.el, transitButtons)
   }
 }

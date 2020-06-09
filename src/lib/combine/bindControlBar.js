@@ -14,7 +14,7 @@ export default function(editor, controlBar) {
     .on('textae.control.buttons.change', (enableButtons) =>
       controlBar.updateAllButtonEnableState(enableButtons)
     )
-    .on('textae.control.buttons.transit', (transitButtons) =>
-      controlBar.transitButtonImage(transitButtons)
+    .on('textae.control.writeButton.transit', (isTrasit) =>
+      controlBar.transitWriteButtonImage(isTrasit)
     )
 }

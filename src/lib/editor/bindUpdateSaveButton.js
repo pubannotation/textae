@@ -31,9 +31,7 @@ export default function(editor) {
     }
   )
 
-  o((val) => {
-    editor.eventEmitter.emit('textae.control.buttons.transit', {
-      write: val
-    })
-  })
+  o((val) =>
+    editor.eventEmitter.emit('textae.control.writeButton.transit', val)
+  )
 }
