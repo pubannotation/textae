@@ -1,9 +1,9 @@
-import buttonConfig from '../buttonConfig'
+import buttonConfig from '../../buttonConfig'
 
 export default class {
   constructor(editor, selectionModel, clipBoard) {
-    this._editor = editor
     this._states = {}
+    this._editor = editor
     this._selectionModel = selectionModel
     this._clipBoard = clipBoard
   }
@@ -19,7 +19,19 @@ export default class {
     )
   }
 
-  updateButtons(buttons) {
+  updateSpanButtons() {
+    this._updateButtons(buttonConfig.spanButtons)
+  }
+
+  updateEntityButtons() {
+    this._updateButtons(buttonConfig.entityButtons)
+  }
+
+  updateRelationButtons() {
+    this._updateButtons(buttonConfig.relationButtons)
+  }
+
+  _updateButtons(buttons) {
     for (const buttonName of buttons) {
       const enabled = buttonConfig.isEnable(
         buttonName,

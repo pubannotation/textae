@@ -1,5 +1,4 @@
 import PushButtons from './PushButtons'
-import ButtonEnableStates from './ButtonEnableStates'
 import ButtonStateHelper from './ButtonStateHelper'
 import setButtonState from './setButtonState'
 
@@ -8,18 +7,12 @@ export default class {
     // Save state of push control buttons.
     this._pushButtons = new PushButtons(editor, annotationData)
 
-    // Save enable/disable state of contorol buttons.
-    const buttonEnableStates = new ButtonEnableStates(
-      editor,
-      selectionModel,
-      clipBoard
-    )
-
     // Helper to update button state.
     this._buttonStateHelper = new ButtonStateHelper(
-      buttonEnableStates,
+      editor,
       this._pushButtons,
-      selectionModel
+      selectionModel,
+      clipBoard
     )
   }
 

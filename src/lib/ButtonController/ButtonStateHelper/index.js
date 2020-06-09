@@ -1,8 +1,15 @@
-import buttonConfig from '../../buttonConfig'
 import propergate from './propergate'
+import ButtonEnableStates from './ButtonEnableStates'
 
 export default class {
-  constructor(buttonEnableStates, pushButtons, selectionModel) {
+  constructor(editor, pushButtons, selectionModel, clipBoard) {
+    // Save enable/disable state of contorol buttons.
+    const buttonEnableStates = new ButtonEnableStates(
+      editor,
+      selectionModel,
+      clipBoard
+    )
+
     this._buttonEnableStates = buttonEnableStates
     this._pushButtons = pushButtons
     this._propagate = () => {
@@ -21,18 +28,18 @@ export default class {
   }
 
   updateBySpan() {
-    this._buttonEnableStates.updateButtons(buttonConfig.spanButtons)
+    this._buttonEnableStates.updateSpanButtons()
     this._propagate()
   }
 
   updateByEntity() {
-    this._buttonEnableStates.updateButtons(buttonConfig.entityButtons)
+    this._buttonEnableStates.updateEntityButtons()
     this._pushButtons.updateModificationButtons(this._selectionModel.entity)
     this._propagate()
   }
 
   updateByRelation() {
-    this._buttonEnableStates.updateButtons(buttonConfig.relationButtons)
+    this._buttonEnableStates.updateRelationButtons()
     this._pushButtons.updateModificationButtons(this._selectionModel.relation)
     this._propagate()
   }
