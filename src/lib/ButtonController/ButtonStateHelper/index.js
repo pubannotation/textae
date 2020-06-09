@@ -2,17 +2,11 @@ import buttonConfig from '../../buttonConfig'
 import propergate from './propergate'
 
 export default class {
-  constructor(
-    buttonEnableStates,
-    buttonTransitStates,
-    pushButtons,
-    selectionModel
-  ) {
+  constructor(buttonEnableStates, pushButtons, selectionModel) {
     this._buttonEnableStates = buttonEnableStates
-    this._buttonTransitStates = buttonTransitStates
     this._pushButtons = pushButtons
     this._propagate = () => {
-      propergate(buttonEnableStates, buttonTransitStates, pushButtons)
+      propergate(buttonEnableStates, pushButtons)
     }
     this._selectionModel = selectionModel
   }
@@ -23,11 +17,6 @@ export default class {
 
   enabled(button, enable) {
     this._buttonEnableStates.set(button, enable)
-    this._propagate()
-  }
-
-  transit(button, isTransit) {
-    this._buttonTransitStates.set(button, isTransit)
     this._propagate()
   }
 

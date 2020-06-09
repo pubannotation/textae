@@ -1,5 +1,4 @@
-export default function(buttonEnableStates, buttonTransitStates, pushButtons) {
+export default function(buttonEnableStates, pushButtons) {
   buttonEnableStates.propagate()
-  buttonTransitStates.propagate()
   pushButtons.propagate()
 }

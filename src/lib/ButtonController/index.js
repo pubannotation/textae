@@ -1,6 +1,5 @@
 import PushButtons from './PushButtons'
 import ButtonEnableStates from './ButtonEnableStates'
-import ButtonTransitStates from './ButtonTransitStates'
 import ButtonStateHelper from './ButtonStateHelper'
 import setButtonState from './setButtonState'
 
@@ -16,13 +15,9 @@ export default class {
       clipBoard
     )
 
-    // Toggle class to transit icon image.
-    const buttonTransitStates = new ButtonTransitStates(editor)
-
     // Helper to update button state.
     this._buttonStateHelper = new ButtonStateHelper(
       buttonEnableStates,
-      buttonTransitStates,
       this._pushButtons,
       selectionModel
     )

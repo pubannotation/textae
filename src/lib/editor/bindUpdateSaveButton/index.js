@@ -2,7 +2,7 @@
 import Observable from 'observ'
 import hasError from '../../hasError'
 
-export default function(editor, buttonController) {
+export default function(editor) {
   // Fix loading annotation automatically when loading multitrack or broken annotation.
   // That is differnt with data on the serever.
   // So even if no changes at the editor, there is something to save to the server.
@@ -32,6 +32,8 @@ export default function(editor, buttonController) {
   )
 
   o((val) => {
-    buttonController.buttonStateHelper.transit('write', val)
+    editor.eventEmitter.emit('textae.control.buttons.transit', {
+      write: val
+    })
   })
 }

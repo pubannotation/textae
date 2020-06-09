@@ -38,7 +38,7 @@ export default function() {
     CONFIRM_DISCARD_CHANGE_MESSAGE
   )
 
-  bindUpdateSaveButton(this, buttonController)
+  bindUpdateSaveButton(this)
   observeDataSave(this, history)
   observeHistoryChange(
     this,
