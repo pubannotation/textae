@@ -1,13 +1,5 @@
+import buttonConfig from '../../buttonConfig'
 import propergate from './propergate'
-
-const allButtons = ['delete']
-const spanButtons = allButtons.concat(['replicate', 'entity', 'copy', 'paste'])
-const relationButtons = allButtons.concat([
-  'change-label',
-  'negation',
-  'speculation'
-])
-const entityButtons = relationButtons.concat(['copy'])
 
 export default class {
   constructor(
@@ -40,18 +32,18 @@ export default class {
   }
 
   updateBySpan() {
-    this._buttonEnableStates.updateButtons(spanButtons)
+    this._buttonEnableStates.updateButtons(buttonConfig.spanButtons)
     this._propagate()
   }
 
   updateByEntity() {
-    this._buttonEnableStates.updateButtons(entityButtons)
+    this._buttonEnableStates.updateButtons(buttonConfig.entityButtons)
     this._pushButtons.updateModificationButtons(this._selectionModel.entity)
     this._propagate()
   }
 
   updateByRelation() {
-    this._buttonEnableStates.updateButtons(relationButtons)
+    this._buttonEnableStates.updateButtons(buttonConfig.relationButtons)
     this._pushButtons.updateModificationButtons(this._selectionModel.relation)
     this._propagate()
   }
