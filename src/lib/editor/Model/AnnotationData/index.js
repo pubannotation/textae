@@ -4,7 +4,7 @@ import SpanContainer from './SpanContainer'
 import AttributeContainer from './AttributeContainer'
 import RelationContainer from './RelationContainer'
 import EntityContainer from './EntityContainer'
-import parseDennotation from './parseDennotation'
+import parseDenotation from './parseDenotation'
 import clearAnnotationData from './clearAnnotationData'
 import toDenotation from './toDenotation'
 import toAttribute from './toAttribute'
@@ -37,7 +37,7 @@ export default class {
     this.paragraph.addSource(annotation.text)
     this.config = annotation.config
 
-    const result = parseDennotation(this, annotation)
+    const result = parseDenotation(this, annotation)
 
     this._editor.eventEmitter.emit(
       'textae.annotationData.paragraph.change',
