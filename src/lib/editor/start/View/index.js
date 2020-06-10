@@ -40,7 +40,6 @@ export default class {
       editor,
       annotationData,
       selectionModel,
-      buttonStateHelper,
       typeDefinition,
       typeGap
     )

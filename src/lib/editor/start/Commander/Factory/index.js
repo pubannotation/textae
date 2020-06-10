@@ -1,6 +1,5 @@
 import { CreateCommand } from './commandTemplate'
 import AddValueToAttributeDefinitionCommand from './AddValueToAttributeDefinitionCommand'
-import AttatchModificationsToSelectedCommand from './AttatchModificationsToSelectedCommand'
 import ChangeAttributeDefinitionAndRefectInstancesCommand from './ChangeAttributeDefinitionAndRefectInstancesCommand'
 import ChangeAttributesOfSelectedEntitiesWithSamePred from './ChangeAttributesOfSelectedEntitiesWithSamePred'
 import ChangeEntityTypeCommand from './ChangeEntityTypeCommand'
@@ -20,7 +19,6 @@ import MoveSpanCommand from './MoveSpanCommand'
 import PasteTypesToSelectedSpansCommand from './PasteTypesToSelectedSpansCommand'
 import ReplicateSpanCommand from './ReplicateSpanCommand'
 import RemoveAttributesOfSelectedEntitiesByPredCommand from './RemoveAttributesOfSelectedEntitiesByPredCommand'
-import RemoveModificationsFromSelectedCommand from './RemoveModificationsFromSelectedCommand'
 import RemoveSelectedCommand from './RemoveSelectedCommand'
 import RemoveSpanCommand from './RemoveSpanCommand'
 import RemoveTypeDefinitionCommand from './RemoveTypeDefinitionCommand'
@@ -165,16 +163,6 @@ export default class {
     )
   }
 
-  createModificationCommand(modificationType, typeEditor) {
-    return new AttatchModificationsToSelectedCommand(
-      this._editor,
-      this._annotationData,
-      this._selectionModel,
-      modificationType,
-      typeEditor
-    )
-  }
-
   // The relaitonId is optional set only when revert of the relationRemoveCommand.
   // Set the css class lately, because jsPlumbConnector is no applyed that css class immediately after create.
   createRelationCommand(relation) {
@@ -262,16 +250,6 @@ export default class {
       this._annotationData,
       this._selectionModel,
       attributeDefinition
-    )
-  }
-
-  removeModificationCommand(modificationType, typeEditor) {
-    return new RemoveModificationsFromSelectedCommand(
-      this._editor,
-      this._annotationData,
-      this._selectionModel,
-      modificationType,
-      typeEditor
     )
   }
 

@@ -24,7 +24,6 @@ export default class {
     this.attribute = new AttributeContainer(editor.eventEmitter, this)
     this.relation = new RelationContainer(editor.eventEmitter)
     this.entity = new EntityContainer(editor, editor.eventEmitter, this)
-    this.modification = new ModelContainer(editor.eventEmitter, 'modification')
     this._editor = editor
   }
 
@@ -55,12 +54,7 @@ export default class {
     return {
       denotations: toDenotation(this),
       attributes: toAttribute(this),
-      relations: toRelation(this),
-      modifications: this.modification.all
+      relations: toRelation(this)
     }
-  }
-
-  getModificationOf(objectId) {
-    return this.modification.all.filter((m) => m.obj === objectId)
   }
 }

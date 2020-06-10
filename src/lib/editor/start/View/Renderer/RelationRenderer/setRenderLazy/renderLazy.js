@@ -7,7 +7,6 @@ export default function(
   relation,
   jsPlumbInstance,
   typeDefinition,
-  modificationRenderer,
   cache
 ) {
   return new Promise((resolve, reject) => {
@@ -23,7 +22,6 @@ export default function(
             editor,
             annotationData,
             typeDefinition,
-            modificationRenderer,
             relation,
             cache
           )

@@ -83,24 +83,6 @@ export const buttonConfig = [
   ],
   [
     {
-      type: 'negation',
-      title: 'Negation [X]',
-      enableWhenSelecting: {
-        entity: (selectionModel) => selectionModel.entity.some,
-        relation: (selectionModel) => selectionModel.relation.some
-      }
-    },
-    {
-      type: 'speculation',
-      title: 'Speculation [S]',
-      enableWhenSelecting: {
-        entity: (selectionModel) => selectionModel.entity.some,
-        relation: (selectionModel) => selectionModel.relation.some
-      }
-    }
-  ],
-  [
-    {
       type: 'delete',
       title: 'Delete [D]',
       enableWhenSelecting: {

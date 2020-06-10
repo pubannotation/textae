@@ -1,9 +1,8 @@
-export default function clearAnnotationData(dataStore) {
+export default function(dataStore) {
   dataStore.span.clear()
   dataStore.entity.clear()
   dataStore.attribute.clear()
   dataStore.relation.clear()
-  dataStore.modification.clear()
   dataStore.paragraph.clear()
   dataStore.namespace.clear()
 }

@@ -1,7 +1,6 @@
 import validateDenotation from './validateDenotation'
 import validateAttribute from './validateAttribute'
 import validateRelation from './validateRelation'
-import validateModificatian from './validateModificatian'
 
 export default function(text, paragraph, annotation) {
   const resultDenotation = validateDenotation(
@@ -17,18 +16,12 @@ export default function(text, paragraph, annotation) {
     resultDenotation.accept,
     annotation.relations
   )
-  const resultModification = validateModificatian(
-    resultDenotation.accept,
-    resultRelation.accept,
-    annotation.modifications
-  )
 
   return {
     accept: {
       denotation: resultDenotation.accept,
       attribute: resultAttribute.accept,
-      relation: resultRelation.accept,
-      modification: resultModification.accept
+      relation: resultRelation.accept
     },
     reject: {
       denotationHasLength: resultDenotation.reject.hasLength,
@@ -39,12 +32,10 @@ export default function(text, paragraph, annotation) {
       attributeSubj: resultRelation.reject.subj,
       relationObj: resultRelation.reject.obj,
       relationSubj: resultRelation.reject.subj,
-      modification: resultModification.reject.modification,
       hasError:
         resultDenotation.hasError ||
         resultAttribute.hasError ||
-        resultRelation.hasError ||
-        resultModification.hasError
+        resultRelation.hasError
     }
   }
 }

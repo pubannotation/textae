@@ -5,7 +5,6 @@ export default function(
   entity,
   attribute,
   relation,
-  modification,
   paragraph,
   text,
   annotation
@@ -21,7 +20,6 @@ export default function(
       entity,
       attribute,
       relation,
-      modification,
       paragraph,
       text,
       track,

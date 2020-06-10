@@ -9,7 +9,6 @@ export default function(
   selectionModel,
   typeContainer,
   gridRenderer,
-  modification,
   entity
 ) {
   const selector = new Selector(editor, annotationData)
@@ -19,14 +18,7 @@ export default function(
 
   // Remove old entity after add new one, because grids will be removed unless entities.
   // Show a new entity.
-  create(
-    editor,
-    typeContainer,
-    gridRenderer,
-    modification,
-    entity,
-    annotationData.namespace
-  )
+  create(editor, typeContainer, gridRenderer, entity, annotationData.namespace)
 
   // Remove an parentNode unless entity.
   updateAncestorsElement(paneElement)

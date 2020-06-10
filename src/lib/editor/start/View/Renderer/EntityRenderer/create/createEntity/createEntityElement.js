@@ -1,11 +1,6 @@
 import idFactory from '../../../../../../idFactory'
 
-export default function createEntityElement(
-  editor,
-  typeContainer,
-  modification,
-  entity
-) {
+export default function createEntityElement(editor, typeContainer, entity) {
   const element = document.createElement('div')
 
   element.setAttribute('id', idFactory.makeEntityDomId(editor, entity.id))
@@ -13,11 +8,6 @@ export default function createEntityElement(
   element.classList.add('textae-editor__entity')
 
   element.style.borderColor = typeContainer.getColor(entity.type.name)
-
-  // Set css classes for modifications.
-  modification.getClasses(entity.id).forEach((c) => {
-    element.classList.add(c)
-  })
 
   return element
 }

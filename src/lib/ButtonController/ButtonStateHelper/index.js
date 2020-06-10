@@ -1,4 +1,3 @@
-import propergate from './propergate'
 import ButtonEnableStates from './ButtonEnableStates'
 
 export default class {
@@ -11,9 +10,9 @@ export default class {
     )
 
     this._buttonEnableStates = buttonEnableStates
-    this._pushButtons = pushButtons
     this._propagate = () => {
-      propergate(buttonEnableStates, pushButtons)
+      buttonEnableStates.propagate()
+      pushButtons.propagate()
     }
     this._selectionModel = selectionModel
   }
@@ -34,13 +33,11 @@ export default class {
 
   updateByEntity() {
     this._buttonEnableStates.updateEntityButtons()
-    this._pushButtons.updateModificationButtons(this._selectionModel.entity)
     this._propagate()
   }
 
   updateByRelation() {
     this._buttonEnableStates.updateRelationButtons()
-    this._pushButtons.updateModificationButtons(this._selectionModel.relation)
     this._propagate()
   }
 }

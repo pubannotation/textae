@@ -1,7 +1,5 @@
-import ModificationRenderer from '../ModificationRenderer'
 import create from './create'
 import changeTypeOfExists from './changeTypeOfExists'
-import changeModificationOfExists from './changeModificationOfExists'
 import destroy from './destroy'
 import setTypeGapHeight from './setTypeGapHeight'
 import updateTypeDom from './updateTypeDom'
@@ -20,7 +18,6 @@ export default class {
     this.typeContainer = typeCantainer
     this.gridRenderer = gridRenderer
     this.selectionModel = selectionModel
-    this.modification = new ModificationRenderer(annotationData)
     this.typeGap = typeGap
   }
 
@@ -29,7 +26,6 @@ export default class {
       this.editor,
       this.typeContainer,
       this.gridRenderer,
-      this.modification,
       entity,
       this.annotationData.namespace
     )
@@ -44,15 +40,10 @@ export default class {
       this.selectionModel,
       this.typeContainer,
       this.gridRenderer,
-      this.modification,
       entity
     )
 
     setTypeGapHeight(entity, this.typeGap)
-  }
-
-  changeModification(entity) {
-    changeModificationOfExists(this.editor, this.modification, entity)
   }
 
   remove(entity) {

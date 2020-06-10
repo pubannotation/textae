@@ -296,29 +296,6 @@
       box-shadow: 1px 1px 10px #600;
       text-shadow: 1px 1px 1px #600;
     }
-
-    /* modification */
-    &.textae-editor__negation::before,
-    &.textae-editor__speculation::before {
-      display: block;
-      left: -3px;
-      top: -35px;
-      position: relative;
-    }
-
-    &.textae-editor__negation::before {
-      content: 'X';
-    }
-
-    &.textae-editor__speculation::before {
-      content: '?';
-    }
-
-    &.textae-editor__negation.textae-editor__entity.textae-editor__speculation::before {
-      content: '?\AX';
-      top: -51px;
-      white-space: pre;
-    }
   }
 
   /* relation */
@@ -334,22 +311,6 @@
     &.hover {
       opacity: 1;
       text-shadow: 1px 1px 1px #800;
-    }
-
-    /* modification */
-    &.textae-editor__negation::before {
-      content: 'X';
-      right: 0;
-      position: absolute;
-      top: -12px;
-    }
-
-    &.textae-editor__speculation::after {
-      content: '?';
-      display: inline-block;
-      right: -0.5em;
-      position: relative;
-      top: -12px;
     }
   }
 

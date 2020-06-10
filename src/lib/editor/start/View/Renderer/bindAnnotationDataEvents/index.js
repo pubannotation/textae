@@ -1,6 +1,4 @@
 import renderParagraph from './renderParagraph'
-import updateModificationButtons from './updateModificationButtons'
-import renderModificationOfEntityOrRelation from './renderModificationOfEntityOrRelation'
 import updateBlockStyleOfSpan from './updateBlockStyleOfSpan'
 import renderAllAnnotations from './renderAllAnnotations'
 import setLineHeightToTypeGap from '../../setLineHeightToTypeGap'
@@ -13,8 +11,7 @@ export default function(
   relationRenderer,
   typeGap,
   gridRenderer,
-  entityRenderer,
-  buttonStateHelper
+  entityRenderer
 ) {
   const spanRenderer = new SpanRenderer(annotationData, (entity) =>
     entityRenderer.render(entity)
@@ -72,23 +69,5 @@ export default function(
     })
     .on('textae.annotationData.attribute.remove', (attribute) => {
       entityRenderer.change(attribute.entity)
-    })
-    .on('textae.annotationData.modification.add', (modification) => {
-      renderModificationOfEntityOrRelation(
-        annotationData,
-        modification,
-        entityRenderer,
-        relationRenderer
-      )
-      updateModificationButtons(annotationData, modification, buttonStateHelper)
-    })
-    .on('textae.annotationData.modification.remove', (modification) => {
-      renderModificationOfEntityOrRelation(
-        annotationData,
-        modification,
-        entityRenderer,
-        relationRenderer
-      )
-      updateModificationButtons(annotationData, modification, buttonStateHelper)
     })
 }

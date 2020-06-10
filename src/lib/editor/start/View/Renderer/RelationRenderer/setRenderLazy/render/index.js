@@ -8,7 +8,6 @@ export default function(
   editor,
   annotationData,
   typeDefinition,
-  modificationRenderer,
   relation
 ) {
   // Delete reneder method for renderLazy
@@ -19,8 +18,7 @@ export default function(
     editor,
     relation,
     annotationData,
-    typeDefinition,
-    modificationRenderer
+    typeDefinition
   )
 
   hoverize(editor, annotationData, typeDefinition, connect, relation.id)

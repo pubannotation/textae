@@ -1,5 +1,4 @@
 import { RemoveCommand } from './commandTemplate'
-import RemoveRelationAndAssociatesCommand from './RemoveRelationAndAssociatesCommand'
 import CompositeCommand from './CompositeCommand'
 
 export default class extends CompositeCommand {
@@ -18,23 +17,11 @@ export default class extends CompositeCommand {
       .get(id)
       .relations.map(
         (id) =>
-          new RemoveRelationAndAssociatesCommand(
-            editor,
-            annotationData,
-            selectionModel,
-            id
-          )
-      )
-    const removeModification = annotationData
-      .getModificationOf(id)
-      .map((modification) => modification.id)
-      .map(
-        (id) =>
           new RemoveCommand(
             editor,
             annotationData,
             selectionModel,
-            'modification',
+            'relation',
             id
           )
       )
@@ -52,7 +39,6 @@ export default class extends CompositeCommand {
       )
 
     this._subCommands = removeRelation
-      .concat(removeModification)
       .concat(removeAttribute)
       .concat(removeEntity)
     this._logMessage = `remove an entity ${id}`

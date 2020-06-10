@@ -12,8 +12,7 @@ export default function(
   editor,
   relation,
   annotationData,
-  typeDefinition,
-  modificationRenderer
+  typeDefinition
 ) {
   return jsPlumbInstance.connect({
     source: $(getEntityDom(editor[0], relation.subj)),
@@ -44,9 +43,7 @@ export default function(
             typeDefinition.relation,
             relation.type.name
           )}`,
-          cssClass: `${LABEL.cssClass} ${modificationRenderer
-            .getClasses(relation.id)
-            .join(' ')}`
+          cssClass: `${LABEL.cssClass}`
         })
       ]
     ]

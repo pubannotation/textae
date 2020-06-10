@@ -1,4 +1,3 @@
-import ModificationRenderer from '../ModificationRenderer'
 import getAnnotationBox from '../getAnnotationBox'
 import getDomPositionCache from '../../getDomPositionCache'
 import arrangePositionAll from './arrangePositionAll'
@@ -6,7 +5,6 @@ import makeJsPlumbInstance from './makeJsPlumbInstance'
 import removeRelation from './removeRelation'
 import setRenderLazy from './setRenderLazy'
 import changeType from './changeType'
-import changeJsPlumbModification from './changeJsPlumbModification'
 import renderLazyRelationAll from './renderLazyRelationAll'
 
 export default class {
@@ -15,7 +13,6 @@ export default class {
     this.annotationData = annotationData
     this.selectionModel = selectionModel
     this.typeDefinition = typeDefinition
-    this.modificationRenderer = new ModificationRenderer(annotationData)
     this.domPositionCache = getDomPositionCache(editor, annotationData.entity)
     this.jsPlumbInstance = makeJsPlumbInstance(getAnnotationBox(editor))
   }
@@ -44,7 +41,6 @@ export default class {
       this.editor,
       this.annotationData,
       this.typeDefinition,
-      this.modificationRenderer,
       relation
     )
   }
@@ -69,15 +65,6 @@ export default class {
         relation
       )
     })
-  }
-
-  changeModification(relation) {
-    changeJsPlumbModification(
-      this.editor,
-      this.annotationData,
-      this.modificationRenderer,
-      relation
-    )
   }
 
   remove(relation) {

@@ -6,14 +6,7 @@ import bindAnnotationDataEvents from './bindAnnotationDataEvents'
 import RelationRenderer from './RelationRenderer'
 
 export default class {
-  constructor(
-    editor,
-    annotationData,
-    selectionModel,
-    buttonStateHelper,
-    typeDefinition,
-    typeGap
-  ) {
+  constructor(editor, annotationData, selectionModel, typeDefinition, typeGap) {
     const domPositionCache = getDomPositionCache(editor, annotationData.entity)
     const gridRenderer = new GridRenderer(editor, domPositionCache)
     const entityRenderer = new EntityRenderer(
@@ -38,8 +31,7 @@ export default class {
       this._relationRenderer,
       typeGap,
       gridRenderer,
-      entityRenderer,
-      buttonStateHelper
+      entityRenderer
     )
 
     bindTypeDefinitionEvents(editor, entityRenderer, this._relationRenderer)

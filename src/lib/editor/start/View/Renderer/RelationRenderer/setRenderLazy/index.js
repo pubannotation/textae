@@ -6,7 +6,6 @@ export default function(
   editor,
   annotationData,
   typeDefinition,
-  modificationRenderer,
   relation
 ) {
   Object.assign(relation, {
@@ -17,8 +16,7 @@ export default function(
         annotationData,
         relation,
         jsPlumbInstance,
-        typeDefinition,
-        modificationRenderer
+        typeDefinition
       )
     }
   })

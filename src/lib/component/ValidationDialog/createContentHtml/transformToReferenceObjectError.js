@@ -11,13 +11,6 @@ export default function(reject) {
         return relation
       })
     )
-    .concat(
-      reject.modification.map((modification) => {
-        modification.subj = '-'
-        modification.alertObj = true
-        return modification
-      })
-    )
 
   return reject
 }

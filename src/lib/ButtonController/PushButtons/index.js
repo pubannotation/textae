@@ -1,6 +1,5 @@
 import Button from './Button'
 import propagateStateOf from './propagateStateOf'
-import updateModificationButton from './updateModificationButton'
 
 const list = [
   'view',
@@ -8,9 +7,7 @@ const list = [
   'relation',
   'simple',
   'boundary-detection',
-  'negation',
-  'replicate-auto',
-  'speculation'
+  'replicate-auto'
 ]
 
 export default class {
@@ -33,14 +30,5 @@ export default class {
 
   getButton(name) {
     return this._buttonMap.get(name)
-  }
-
-  updateModificationButtons(selectionModel) {
-    const modifications = selectionModel.all.map((model) =>
-      this._annotationData.getModificationOf(model.id).map((m) => m.pred)
-    )
-
-    updateModificationButton(this, 'Negation', modifications)
-    updateModificationButton(this, 'Speculation', modifications)
   }
 }

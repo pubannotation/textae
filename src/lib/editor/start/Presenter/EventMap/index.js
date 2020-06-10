@@ -2,7 +2,6 @@ import SettingDialog from '../../../../component/SettingDialog'
 import ClipBoardHandler from './ClipBoardHandler'
 import createEntityHandler from './createEntityHandler'
 import replicateHandler from './replicateHandler'
-import ModificationHandler from './ModificationHandler'
 import selectLeft from './selectLeft'
 import selectRight from './selectRight'
 import selectUpperLayer from './selectUpperLayer'
@@ -39,11 +38,6 @@ export default class {
     this._annotationData = annotationData
     this._buttonController = buttonController
     this._spanConfig = spanConfig
-    this._modificationHandler = new ModificationHandler(
-      commander,
-      buttonController.pushButtons,
-      typeEditor
-    )
     this._editMode = editMode
   }
 
@@ -96,14 +90,6 @@ export default class {
     this._typeEditor.cancelSelect()
     // Foucs the editor for ESC key
     this._editor.focus()
-  }
-
-  negation() {
-    this._modificationHandler.negation()
-  }
-
-  speculation() {
-    this._modificationHandler.speculation()
   }
 
   showSettingDialog() {

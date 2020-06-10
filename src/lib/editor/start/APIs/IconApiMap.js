@@ -23,8 +23,6 @@ export default function(
     ['entity', () => presenter.event.createEntity()],
     ['change-label', () => presenter.event.changeLabel()],
     ['pallet', () => presenter.event.showPallet()],
-    ['negation', () => presenter.event.negation()],
-    ['speculation', () => presenter.event.speculation()],
     ['delete', () => presenter.event.removeSelectedElements()],
     ['copy', () => presenter.event.copyEntities()],
     ['paste', () => presenter.event.pasteEntities()],
