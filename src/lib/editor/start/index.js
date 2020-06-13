@@ -21,6 +21,7 @@ import validateConfigurationAndAlert from './validateConfigurationAndAlert'
 import observeHistoryChange from './observeHistoryChange'
 import CONFIRM_DISCARD_CHANGE_MESSAGE from '../CONFIRM_DISCARD_CHANGE_MESSAGE'
 import ButtonController from '../../ButtonController'
+import ClipBoardHandler from './ClipBoardHandler'
 
 export default function(
   editor,
@@ -128,13 +129,19 @@ export default function(
       )
     })
 
+  const clipBoardHandler = new ClipBoardHandler(
+    commander,
+    selectionModel,
+    clipBoard
+  )
+
   const presenter = new Presenter(
     editor,
     annotationData,
     selectionModel,
     commander,
     spanConfig,
-    clipBoard,
+    clipBoardHandler,
     buttonController,
     typeGap,
     originalData,

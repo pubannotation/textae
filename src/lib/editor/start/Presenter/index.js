@@ -11,7 +11,7 @@ export default class {
     selectionModel,
     commander,
     spanConfig,
-    clipBoard,
+    clipBoardHandler,
     buttonController,
     typeGap,
     originalData,
@@ -58,7 +58,7 @@ export default class {
       annotationData,
       buttonController,
       spanConfig,
-      clipBoard,
+      clipBoardHandler,
       typeEditor,
       editor,
       editMode

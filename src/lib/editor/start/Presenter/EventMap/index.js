@@ -1,5 +1,4 @@
 import SettingDialog from '../../../../component/SettingDialog'
-import ClipBoardHandler from './ClipBoardHandler'
 import createEntityHandler from './createEntityHandler'
 import replicateHandler from './replicateHandler'
 import selectLeft from './selectLeft'
@@ -19,16 +18,12 @@ export default class {
     annotationData,
     buttonController,
     spanConfig,
-    clipBoard,
+    clipBoardHandler,
     typeEditor,
     editor,
     editMode
   ) {
-    this._clipBoardHandler = new ClipBoardHandler(
-      commander,
-      selectionModel,
-      clipBoard
-    )
+    this._clipBoardHandler = clipBoardHandler
     this._commander = commander
     this._editor = editor
     this._selectionModel = selectionModel
