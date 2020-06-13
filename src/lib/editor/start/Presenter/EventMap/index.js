@@ -18,12 +18,12 @@ export default class {
     annotationData,
     buttonController,
     spanConfig,
-    clipBoardHandler,
+    clipBoard,
     typeEditor,
     editor,
     editMode
   ) {
-    this._clipBoardHandler = clipBoardHandler
+    this._clipBoard = clipBoard
     this._commander = commander
     this._editor = editor
     this._selectionModel = selectionModel
@@ -37,7 +37,7 @@ export default class {
   }
 
   copyEntities() {
-    this._clipBoardHandler.copyEntities()
+    this._clipBoard.copyEntities()
   }
 
   removeSelectedElements() {
@@ -70,7 +70,7 @@ export default class {
   }
 
   pasteEntities() {
-    this._clipBoardHandler.pasteEntities()
+    this._clipBoard.pasteEntities()
   }
 
   changeLabel() {

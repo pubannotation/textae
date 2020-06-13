@@ -21,7 +21,7 @@ import validateConfigurationAndAlert from './validateConfigurationAndAlert'
 import observeHistoryChange from './observeHistoryChange'
 import CONFIRM_DISCARD_CHANGE_MESSAGE from '../CONFIRM_DISCARD_CHANGE_MESSAGE'
 import ButtonController from '../../ButtonController'
-import ClipBoardHandler from './ClipBoardHandler'
+import ClipBoard from './ClipBoard'
 
 export default function(
   editor,
@@ -30,24 +30,6 @@ export default function(
   annotationData,
   selectionModel
 ) {
-  const clipBoard = {
-    // clipBoard has entity type.
-    clipBoard: []
-  }
-
-  const buttonController = new ButtonController(
-    editor,
-    annotationData,
-    selectionModel,
-    clipBoard
-  )
-
-  observeHistoryChange(
-    editor,
-    buttonController.buttonStateHelper,
-    CONFIRM_DISCARD_CHANGE_MESSAGE
-  )
-
   const params = getParams(editor[0])
   const spanConfig = new SpanConfig()
 
@@ -66,6 +48,14 @@ export default function(
     typeDefinition
   )
 
+  const clipBoard = new ClipBoard(commander, selectionModel)
+  const buttonController = new ButtonController(
+    editor,
+    annotationData,
+    selectionModel,
+    clipBoard
+  )
+
   const typeGap = new Observable({
     value: -1,
     showInstance: false
@@ -80,6 +70,12 @@ export default function(
   )
 
   const originalData = new OriginalData()
+
+  observeHistoryChange(
+    editor,
+    buttonController.buttonStateHelper,
+    CONFIRM_DISCARD_CHANGE_MESSAGE
+  )
 
   editor.eventEmitter
     .on('textae.dataAccessObject.annotation.load', (source, annotation) => {
@@ -129,19 +125,13 @@ export default function(
       )
     })
 
-  const clipBoardHandler = new ClipBoardHandler(
-    commander,
-    selectionModel,
-    clipBoard
-  )
-
   const presenter = new Presenter(
     editor,
     annotationData,
     selectionModel,
     commander,
     spanConfig,
-    clipBoardHandler,
+    clipBoard,
     buttonController,
     typeGap,
     originalData,

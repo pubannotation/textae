@@ -104,7 +104,7 @@ export const buttonConfig = [
       title: 'Paste [V]',
       enableWhenSelecting: {
         span: (selectionModel, clipBoard) =>
-          clipBoard.clipBoard.length > 0 && selectionModel.span.some
+          clipBoard.hasItem && selectionModel.span.some
       }
     }
   ],
