@@ -23,16 +23,5 @@ export default function(editor, entityId) {
       typeValues.classList.remove(SELECTED)
       typePane.classList.remove(SELECTED)
     }
-
-    // You can click the attribute button when selecting at least one entity.
-    if (typePane.querySelectorAll(`.${SELECTED}`).length) {
-      typeValues.classList.add(
-        'textae-editor__type-values--some_entity_selected'
-      )
-    } else {
-      typeValues.classList.remove(
-        'textae-editor__type-values--some_entity_selected'
-      )
-    }
   }
 }
