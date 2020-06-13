@@ -1,7 +1,6 @@
 import mappingFunction from './mappingFunction'
 import createSpanTree from './createSpanTree'
 import spanComparator from './spanComparator'
-import updateSpanIdOfEntities from './updateSpanIdOfEntities'
 import idFactory from '../../../idFactory'
 import SpanModel from './SpanModel'
 import ContatinerWithSubContainer from '../ContatinerWithSubContainer'
@@ -93,7 +92,7 @@ export default class extends ContatinerWithSubContainer {
         // We can not distinguish the span is block span or not unless the span ID of the entity is updated.
         // Span DOM element is rendered by 'span.add' event.
         // We need to update the span ID of the entity before 'span.add' event.
-        updateSpanIdOfEntities(this.entityContainer.all, id, newOne)
+        oldOne.passesAllEntitiesTo(newOne)
       }
     )
 
