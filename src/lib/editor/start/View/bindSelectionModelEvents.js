@@ -1,5 +1,3 @@
-import Selector from '../Selector'
-
 export default function(editor, selector, buttonStateHelper) {
   // Because entity.change is off at relation-edit-mode.
   editor.eventEmitter
