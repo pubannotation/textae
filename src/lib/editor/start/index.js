@@ -20,16 +20,23 @@ import OriginalData from './OriginalData'
 import validateConfigurationAndAlert from './validateConfigurationAndAlert'
 import observeHistoryChange from './observeHistoryChange'
 import CONFIRM_DISCARD_CHANGE_MESSAGE from '../CONFIRM_DISCARD_CHANGE_MESSAGE'
+import ButtonController from '../../ButtonController'
 
 export default function(
   editor,
   dataAccessObject,
   history,
-  buttonController,
   annotationData,
   selectionModel,
   clipBoard
 ) {
+  const buttonController = new ButtonController(
+    editor,
+    annotationData,
+    selectionModel,
+    clipBoard
+  )
+
   observeHistoryChange(
     editor,
     buttonController.buttonStateHelper,

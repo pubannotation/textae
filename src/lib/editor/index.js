@@ -1,5 +1,4 @@
 import DataAccessObject from '../component/DataAccessObject'
-import ButtonController from '../ButtonController'
 // model manages data objects.
 import AnnotationData from './Model/AnnotationData'
 import Selection from './Selection'
@@ -26,12 +25,6 @@ export default function() {
     // clipBoard has entity type.
     clipBoard: []
   }
-  const buttonController = new ButtonController(
-    this,
-    annotationData,
-    selectionModel,
-    clipBoard
-  )
   const dataAccessObject = new DataAccessObject(
     this,
     CONFIRM_DISCARD_CHANGE_MESSAGE
@@ -48,7 +41,6 @@ export default function() {
         editor,
         dataAccessObject,
         history,
-        buttonController,
         annotationData,
         selectionModel,
         clipBoard
