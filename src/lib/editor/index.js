@@ -10,7 +10,6 @@ import start from './start'
 import { EventEmitter } from 'events'
 import CONFIRM_DISCARD_CHANGE_MESSAGE from './CONFIRM_DISCARD_CHANGE_MESSAGE'
 import observeDataSave from './observeDataSave'
-import observeHistoryChange from './observeHistoryChange'
 import observeModelChange from './observeModelChange'
 
 export default function() {
@@ -40,11 +39,6 @@ export default function() {
 
   bindUpdateSaveButton(this)
   observeDataSave(this, history)
-  observeHistoryChange(
-    this,
-    buttonController.buttonStateHelper,
-    CONFIRM_DISCARD_CHANGE_MESSAGE
-  )
   observeModelChange(this, history)
 
   // public funcitons of editor

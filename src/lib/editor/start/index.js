@@ -18,6 +18,8 @@ import loadAnnotation from './loadAnnotation'
 import getConfigEditParamFromUrl from './getConfigEditParamFromUrl'
 import OriginalData from './OriginalData'
 import validateConfigurationAndAlert from './validateConfigurationAndAlert'
+import observeHistoryChange from './observeHistoryChange'
+import CONFIRM_DISCARD_CHANGE_MESSAGE from '../CONFIRM_DISCARD_CHANGE_MESSAGE'
 
 export default function(
   editor,
@@ -28,6 +30,12 @@ export default function(
   selectionModel,
   clipBoard
 ) {
+  observeHistoryChange(
+    editor,
+    buttonController.buttonStateHelper,
+    CONFIRM_DISCARD_CHANGE_MESSAGE
+  )
+
   const params = getParams(editor[0])
   const spanConfig = new SpanConfig()
 
