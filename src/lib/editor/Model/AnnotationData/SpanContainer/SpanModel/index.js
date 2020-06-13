@@ -42,7 +42,7 @@ export default class SpanModel {
     )
   }
 
-  getBlockEntities(annotationDataEntity) {
+  getBlockEntities() {
     return this.entities.filter((entity) => entity.type.isBlock)
   }
 }
