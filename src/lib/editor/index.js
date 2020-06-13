@@ -21,10 +21,6 @@ export default function() {
   const selectionModel = new Selection(this.eventEmitter, annotationData)
 
   const history = new History(this.eventEmitter)
-  const clipBoard = {
-    // clipBoard has entity type.
-    clipBoard: []
-  }
   const dataAccessObject = new DataAccessObject(
     this,
     CONFIRM_DISCARD_CHANGE_MESSAGE
@@ -37,14 +33,7 @@ export default function() {
   // public funcitons of editor
   this.api = {
     start: (editor) =>
-      start(
-        editor,
-        dataAccessObject,
-        history,
-        annotationData,
-        selectionModel,
-        clipBoard
-      )
+      start(editor, dataAccessObject, history, annotationData, selectionModel)
   }
 
   return this

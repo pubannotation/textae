@@ -27,9 +27,13 @@ export default function(
   dataAccessObject,
   history,
   annotationData,
-  selectionModel,
-  clipBoard
+  selectionModel
 ) {
+  const clipBoard = {
+    // clipBoard has entity type.
+    clipBoard: []
+  }
+
   const buttonController = new ButtonController(
     editor,
     annotationData,
