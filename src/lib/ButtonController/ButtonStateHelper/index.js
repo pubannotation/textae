@@ -14,7 +14,6 @@ export default class {
       buttonEnableStates.propagate()
       pushButtons.propagate()
     }
-    this._selectionModel = selectionModel
   }
 
   propagate() {
