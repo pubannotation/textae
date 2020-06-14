@@ -3,16 +3,15 @@ import changeCssClass from './changeCssClass'
 import removeListeners from './removeListeners'
 
 export default class {
-  constructor(editor, annotationData, buttonStateHelper) {
+  constructor(editor, annotationData) {
     this._editor = editor
-    this._buttonStateHelper = buttonStateHelper
 
     const selector = new Selector(editor, annotationData)
 
     // This notify is off at relation-edit-mode.
     this._entitySelectChanged = (id) => {
-      buttonStateHelper.updateByEntity()
       selector.entityLabel.update(id)
+      this._editor.eventEmitter.emit('textae.viewMode.entity.selectChange')
     }
   }
 

@@ -36,7 +36,6 @@ export default class {
       editor,
       annotationData,
       typeEditor,
-      buttonController.buttonStateHelper,
       displayInstance
     )
 

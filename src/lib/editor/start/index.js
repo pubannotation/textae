@@ -64,18 +64,13 @@ export default function(
     editor,
     annotationData,
     selectionModel,
-    buttonController.buttonStateHelper,
     typeGap,
     typeDefinition
   )
 
   const originalData = new OriginalData()
 
-  observeHistoryChange(
-    editor,
-    buttonController.buttonStateHelper,
-    CONFIRM_DISCARD_CHANGE_MESSAGE
-  )
+  observeHistoryChange(editor, CONFIRM_DISCARD_CHANGE_MESSAGE)
 
   editor.eventEmitter
     .on('textae.dataAccessObject.annotation.load', (source, annotation) => {

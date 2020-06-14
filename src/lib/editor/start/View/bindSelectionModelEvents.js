@@ -1,9 +1,7 @@
-export default function(editor, selector, buttonStateHelper) {
-  // Because entity.change is off at relation-edit-mode.
+export default function(editor, selector) {
   editor.eventEmitter
     .on('textae.selection.span.select', selector.span.select)
     .on('textae.selection.span.deselect', selector.span.deselect)
-    .on('textae.selection.span.change', () => buttonStateHelper.updateBySpan())
     .on('textae.selection.entity.select', selector.entity.select)
     .on('textae.selection.entity.deselect', selector.entity.deselect)
     .on('textae.selection.attribute.select', selector.attribute.select)
@@ -13,8 +11,5 @@ export default function(editor, selector, buttonStateHelper) {
     )
     .on('textae.selection.relation.deselect', (id) =>
       setTimeout(() => selector.relation.deselect(id), 150)
-    )
-    .on('textae.selection.relation.change', () =>
-      buttonStateHelper.updateByRelation()
     )
 }

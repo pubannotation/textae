@@ -1,6 +1,5 @@
 import Transition from './Transition'
 import bindTransition from './bindTransition'
-import enableButtonHasAnnotation from './enableButtonHasAnnotation'
 import state from './state'
 import pushView from './pushView'
 import pushTerm from './pushTerm'
@@ -13,22 +12,16 @@ export default class {
     editor,
     annotationData,
     typeEditor,
-    buttonStateHelper,
     displayInstance
   ) {
     const transition = new Transition(
       editor,
       annotationData,
       typeEditor,
-      buttonStateHelper,
       displayInstance
     )
     this._stateMachine = bindTransition(transition)
     this._annotationData = annotationData
-
-    this._stateMachine.once('transition', () =>
-      enableButtonHasAnnotation(buttonStateHelper)
-    )
   }
 
   // For an intiation transition on an annotations data loaded.

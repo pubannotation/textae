@@ -17,24 +17,13 @@ const BODY = `
 `
 
 export default class {
-  constructor(
-    editor,
-    annotationData,
-    selectionModel,
-    buttonStateHelper,
-    typeGap,
-    typeDefinition
-  ) {
+  constructor(editor, annotationData, selectionModel, typeGap, typeDefinition) {
     // The editor itself has a "white-space: pre" style for processing text that contains a series of whitespace.
     // In this case, HTML line breaks are included in the editor's height calculation.
     // Remove CRLF so that it is not included in the height calculation.
     editor[0].innerHTML = BODY.replace(/[\n\r]+/g, '')
 
-    bindSelectionModelEvents(
-      editor,
-      new Selector(editor, annotationData),
-      buttonStateHelper
-    )
+    bindSelectionModelEvents(editor, new Selector(editor, annotationData))
 
     const renderer = new Renderer(
       editor,
