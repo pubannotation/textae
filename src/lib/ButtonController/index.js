@@ -1,6 +1,6 @@
 import PushButtons from './PushButtons'
 import EnableState from './EnableState'
-import setButtonState from './setButtonState'
+import setPushButtonsForMode from './setPushButtonsForMode'
 
 export default class {
   constructor(editor, annotationData, selectionModel, clipBoard) {
@@ -18,7 +18,7 @@ export default class {
     return this._pushButtons
   }
 
-  setButtonState(editable, mode) {
-    setButtonState(this, editable, mode)
+  setPushButtonsForMode(editable, mode) {
+    setPushButtonsForMode(this._pushButtons, mode, editable)
   }
 }
