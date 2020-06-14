@@ -35,7 +35,6 @@ export default class {
     const editMode = new EditMode(
       editor,
       annotationData,
-      selectionModel,
       typeEditor,
       buttonController.buttonStateHelper,
       displayInstance

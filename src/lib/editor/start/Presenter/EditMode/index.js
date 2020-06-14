@@ -12,7 +12,6 @@ export default class {
   constructor(
     editor,
     annotationData,
-    selectionModel,
     typeEditor,
     buttonStateHelper,
     displayInstance
@@ -20,7 +19,6 @@ export default class {
     const transition = new Transition(
       editor,
       annotationData,
-      selectionModel,
       typeEditor,
       buttonStateHelper,
       displayInstance

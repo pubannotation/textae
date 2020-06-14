@@ -1,4 +1,4 @@
-export default function(editor, buttonStateHelper, isEditable) {
+export default function(editor, isEditable) {
   if (isEditable) {
     editor.addClass('textae-editor--editable')
   } else {

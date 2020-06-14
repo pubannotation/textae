@@ -9,7 +9,6 @@ export default class {
   constructor(
     editor,
     annotationData,
-    selectionModel,
     typeEditor,
     buttonStateHelper,
     displayInstance
@@ -17,7 +16,6 @@ export default class {
     this._editor = editor
     this._typeEditor = typeEditor
     this._viewMode = new ViewMode(editor, annotationData, buttonStateHelper)
-    this._buttonStateHelper = buttonStateHelper
     this._displayInstance = displayInstance
   }
 
@@ -27,7 +25,7 @@ export default class {
 
     this._typeEditor.editEntity()
     this._viewMode.setTerm()
-    setEditableStyle(this._editor, this._buttonStateHelper, true)
+    setEditableStyle(this._editor, true)
   }
 
   toInstance() {
@@ -36,7 +34,7 @@ export default class {
 
     this._typeEditor.editEntity()
     this._viewMode.setInstance()
-    setEditableStyle(this._editor, this._buttonStateHelper, true)
+    setEditableStyle(this._editor, true)
   }
 
   toRelation() {
@@ -45,7 +43,7 @@ export default class {
 
     this._typeEditor.editRelation()
     this._viewMode.setRelation()
-    setEditableStyle(this._editor, this._buttonStateHelper, true)
+    setEditableStyle(this._editor, true)
   }
 
   toViewTerm() {
@@ -54,7 +52,7 @@ export default class {
 
     this._typeEditor.noEdit()
     this._viewMode.setTerm()
-    setEditableStyle(this._editor, this._buttonStateHelper, false)
+    setEditableStyle(this._editor, false)
   }
 
   toViewInstance() {
@@ -67,6 +65,6 @@ export default class {
 
     this._typeEditor.noEdit()
     this._viewMode.setInstance()
-    setEditableStyle(this._editor, this._buttonStateHelper, false)
+    setEditableStyle(this._editor, false)
   }
 }
