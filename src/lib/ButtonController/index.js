@@ -1,27 +1,21 @@
 import PushButtons from './PushButtons'
-import ButtonStateHelper from './ButtonStateHelper'
+import EnableState from './EnableState'
 import setButtonState from './setButtonState'
 
 export default class {
   constructor(editor, annotationData, selectionModel, clipBoard) {
+    this._enableState = new EnableState(editor, selectionModel, clipBoard)
     // Save state of push control buttons.
     this._pushButtons = new PushButtons(editor, annotationData)
+  }
 
-    // Helper to update button state.
-    this._buttonStateHelper = new ButtonStateHelper(
-      editor,
-      this._pushButtons,
-      selectionModel,
-      clipBoard
-    )
+  propagate() {
+    this._enableState.propagate()
+    this._pushButtons.propagate()
   }
 
   get pushButtons() {
     return this._pushButtons
-  }
-
-  get buttonStateHelper() {
-    return this._buttonStateHelper
   }
 
   setButtonState(editable, mode) {

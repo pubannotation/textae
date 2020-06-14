@@ -57,7 +57,7 @@ export default class {
   // To trigger button state update events on init.
   // Because an inline annotation is readed before a binding the control.
   updateButtons() {
-    this._buttonController.buttonStateHelper.propagate()
+    this._buttonController.propagate()
   }
 
   select() {
