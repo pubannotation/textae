@@ -24,4 +24,7 @@ export default function(editor, state) {
       state.enabled('line-height', editable)
       state.enabled('pallet', !isView(editable))
     })
+    .on('textae.clipBoard.change', () =>
+      state.enabled('paste', state._enablePaste)
+    )
 }

@@ -52,4 +52,10 @@ export default class {
       this.enabled(name, enabled)
     }
   }
+
+  get _enablePaste() {
+    return buttonConfig.spanButtons
+      .find(({ name }) => name === 'copy')
+      .predicate(this._selectionModel, this._clipBoard)
+  }
 }

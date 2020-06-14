@@ -1,7 +1,8 @@
 import getTypesOfSelectedEntities from './getTypesOfSelectedEntities'
 
 export default class {
-  constructor(commander, selectionModel) {
+  constructor(editor, commander, selectionModel) {
+    this._editor = editor
     this._commander = commander
     this._selectionModel = selectionModel
     this._copiedEntityTypes = []
@@ -13,6 +14,7 @@ export default class {
 
   copyEntities() {
     this._copiedEntityTypes = getTypesOfSelectedEntities(this._selectionModel)
+    this._editor.eventEmitter.emit('textae.clipBoard.change')
   }
 
   pasteEntities() {
