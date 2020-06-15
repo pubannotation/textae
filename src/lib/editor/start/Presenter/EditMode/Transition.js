@@ -6,10 +6,10 @@ const INSTANCE = 'instance'
 const RELATION = 'relation'
 
 export default class {
-  constructor(editor, annotationData, typeEditor, displayInstance) {
+  constructor(editor, typeEditor, displayInstance) {
     this._editor = editor
     this._typeEditor = typeEditor
-    this._viewMode = new ViewMode(editor, annotationData)
+    this._viewMode = new ViewMode(editor)
     this._displayInstance = displayInstance
   }
 

@@ -1,5 +1,5 @@
 import CursorChanger from '../../../util/CursorChanger'
-import Selector from '../Selector'
+import Selector from './Selector'
 import Hover from './Hover'
 import AnnotationPosition from './AnnotationPosition'
 import bindSelectionModelEvents from './bindSelectionModelEvents'

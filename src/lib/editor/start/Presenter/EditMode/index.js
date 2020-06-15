@@ -8,18 +8,8 @@ import upSimple from './upSimple'
 import toggleInstaceRelation from './toggleInstaceRelation'
 
 export default class {
-  constructor(
-    editor,
-    annotationData,
-    typeEditor,
-    displayInstance
-  ) {
-    const transition = new Transition(
-      editor,
-      annotationData,
-      typeEditor,
-      displayInstance
-    )
+  constructor(editor, annotationData, typeEditor, displayInstance) {
+    const transition = new Transition(editor, typeEditor, displayInstance)
     this._stateMachine = bindTransition(transition)
     this._annotationData = annotationData
   }

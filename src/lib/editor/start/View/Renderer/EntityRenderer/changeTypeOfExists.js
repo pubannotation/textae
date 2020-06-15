@@ -1,4 +1,4 @@
-import Selector from '../../../Selector'
+import Selector from '../../Selector'
 import create from './create'
 import removeEntityElement from './removeEntityElement'
 import updateAncestorsElement from './updateAncestorsElement'
