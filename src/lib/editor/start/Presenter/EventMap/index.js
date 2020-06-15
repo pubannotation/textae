@@ -5,7 +5,6 @@ import selectLeft from './selectLeft'
 import selectRight from './selectRight'
 import selectUpperLayer from './selectUpperLayer'
 import selectLowerLayer from './selectLowerLayer'
-import toggleInstaceRelation from './toggleInstaceRelation'
 
 export default class {
   constructor(
@@ -138,7 +137,7 @@ export default class {
   }
 
   toggleInstaceRelation() {
-    toggleInstaceRelation(this._editMode)
+    this._editMode.toggleInstaceRelation()
   }
 
   toViewMode() {
