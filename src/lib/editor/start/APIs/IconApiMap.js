@@ -21,6 +21,7 @@ export default function(
     ['pallet', () => presenter.event.showPallet()],
     ['delete', () => presenter.event.removeSelectedElements()],
     ['copy', () => presenter.event.copyEntities()],
+    ['cut', () => presenter.event.cutEntities()],
     ['paste', () => presenter.event.pasteEntities()],
     ['setting', () => presenter.event.showSettingDialog()],
     ['line-height', updateLineHeight]

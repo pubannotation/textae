@@ -1,6 +1,6 @@
-import getEntityDom from '../../getEntityDom'
-import getLabelDomOfType from '../../getLabelDomOfType'
-import SELECTED from '../SELECTED'
+import getEntityDom from '../getEntityDom'
+import getLabelDomOfType from '../getLabelDomOfType'
+import SELECTED from './SELECTED'
 import apllyEntityTypeValues from './apllyEntityTypeValues'
 
 export default class {
@@ -31,6 +31,10 @@ export default class {
   }
 
   updateLabel(id) {
-    apllyEntityTypeValues(this._editor, id, SELECTED)
+    const el = getEntityDom(this._editor[0], id)
+
+    if (el) {
+      apllyEntityTypeValues(el, SELECTED)
+    }
   }
 }

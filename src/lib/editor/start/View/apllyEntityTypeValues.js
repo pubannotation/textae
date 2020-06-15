@@ -1,10 +1,8 @@
-import getEntityDom from '../../getEntityDom'
-import getEntitiesDomOfType from '../../getEntitiesDomOfType'
-import getPaneDomOfType from '../../../getPaneDomOfType'
+import getEntitiesDomOfType from '../getEntitiesDomOfType'
+import getPaneDomOfType from '../../getPaneDomOfType'
 
-export default function(editor, entityId, cssClass) {
-  console.assert(entityId, 'An entity id is necessary.')
-  const entity = getEntityDom(editor[0], entityId)
+export default function(entity, cssClass) {
+  console.assert(entity, 'An entity is necessary.')
 
   // Entities of block span hos no dom elements.
   if (entity) {

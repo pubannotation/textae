@@ -1,6 +1,7 @@
 import CursorChanger from '../../../util/CursorChanger'
 import Hover from './Hover'
 import AnnotationPosition from './AnnotationPosition'
+import bindClipBoardEvents from './bindClipBoardEvents'
 import bindSelectionModelEvents from './bindSelectionModelEvents'
 import updateTextBoxHeight from './updateTextBoxHeight'
 import bindTypeGapEvents from './bindTypeGapEvents'
@@ -22,6 +23,7 @@ export default class {
     // Remove CRLF so that it is not included in the height calculation.
     editor[0].innerHTML = BODY.replace(/[\n\r]+/g, '')
 
+    bindClipBoardEvents(editor)
     bindSelectionModelEvents(editor, annotationData)
 
     const renderer = new Renderer(

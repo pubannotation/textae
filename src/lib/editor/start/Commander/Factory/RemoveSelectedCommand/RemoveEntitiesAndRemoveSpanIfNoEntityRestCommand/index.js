@@ -3,7 +3,7 @@ import RemoveEntityAndRemoveAssociatesCommand from '../../RemoveEntityAndAssocia
 import CompositeCommand from '../../CompositeCommand'
 import getSpans from './getSpans'
 import removedEntitiesFromSpan from './removedEntitiesFromSpan'
-import areAllEntiesOfSpanRemoved from './areAllEntiesOfSpanRemoved'
+import areAllEntiesOfSpan from '../../areAllEntiesOfSpan'
 
 export default class extends CompositeCommand {
   constructor(editor, annotationData, selectionModel) {
@@ -14,7 +14,7 @@ export default class extends CompositeCommand {
     let commands = []
     for (const span of spans.values()) {
       // Remove span toggether when all entities of span will be removed.
-      if (areAllEntiesOfSpanRemoved(span, selectedEntities)) {
+      if (areAllEntiesOfSpan(span, selectedEntities)) {
         commands.push(
           new RemoveSpanCommand(editor, annotationData, selectionModel, span.id)
         )

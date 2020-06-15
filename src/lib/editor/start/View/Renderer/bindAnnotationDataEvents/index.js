@@ -52,6 +52,13 @@ export default function(
       entityRenderer.remove(entity)
       updateBlockStyleOfSpan(annotationData, entity, spanRenderer)
     })
+    .on('textae.annotationData.entity.move', (entities) => {
+      for (const entity of entities) {
+        entityRenderer.remove(entity)
+        updateBlockStyleOfSpan(annotationData, entity, spanRenderer)
+        entityRenderer.render(entity)
+      }
+    })
     .on('textae.annotationData.relation.add', (relation) => {
       relationRenderer.render(relation)
     })

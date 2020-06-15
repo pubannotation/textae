@@ -40,6 +40,13 @@ export default class extends ContatinerWithSubContainer {
     )
   }
 
+  moveEntities(spanId, entities) {
+    for (const entity of entities) {
+      entity.span = spanId
+    }
+    this._emit(`textae.annotationData.entity.move`, entities)
+  }
+
   isBlock(typeName) {
     return this.definedTypes && this.definedTypes.isBlock(typeName)
   }

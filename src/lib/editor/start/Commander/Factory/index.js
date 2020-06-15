@@ -24,6 +24,7 @@ import RemoveSpanCommand from './RemoveSpanCommand'
 import RemoveTypeDefinitionCommand from './RemoveTypeDefinitionCommand'
 import RemoveValueFromAttributeDefinitionCommand from './RemoveValueFromAttributeDefinitionCommand'
 import ToggleFlagAttributeToSelectedEntitiesCommand from './ToggleFlagAttributeToSelectedEntitiesCommand'
+import MoveEntitiesToSelectedSpansCommand from './MoveEntitiesToSelectedSpansCommand'
 
 export default class {
   constructor(editor, annotationData, selectionModel, typeDefinition) {
@@ -212,6 +213,15 @@ export default class {
       this._typeDefinition.entity,
       oldIndex,
       newIndex
+    )
+  }
+
+  moveEntitiesToSelectedSpansCommand(entities) {
+    return new MoveEntitiesToSelectedSpansCommand(
+      this._editor,
+      this._annotationData,
+      this._selectionModel,
+      entities
     )
   }
 

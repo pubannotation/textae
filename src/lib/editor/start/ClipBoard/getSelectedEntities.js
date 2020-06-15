@@ -6,7 +6,5 @@ export default function(selectionModel) {
     ...new Set(
       getSelectedSpansEntities(selectionModel).concat(selectionModel.entity.all)
     )
-  ].map(
-    (entity) => entity.type // Map entities to types, because entities may be delete.
-  )
+  ]
 }

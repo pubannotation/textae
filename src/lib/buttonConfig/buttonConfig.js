@@ -106,11 +106,20 @@ export const buttonConfig = [
       }
     },
     {
+      type: 'cut',
+      title: 'Cut [X]',
+      enableWhenSelecting: {
+        span: (selectionModel) => selectionModel.span.some,
+        entity: (selectionModel) => selectionModel.entity.some
+      }
+    },
+    {
       type: 'paste',
       title: 'Paste [V]',
       enableWhenSelecting: {
         span: (selectionModel, clipBoard) =>
-          clipBoard.hasItem && selectionModel.span.some
+          (clipBoard.hasCopyingItem && selectionModel.span.some) ||
+          (clipBoard.hasCuttingItem && Boolean(selectionModel.span.single))
       }
     }
   ],

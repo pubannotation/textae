@@ -37,6 +37,10 @@ export default class {
     this._clipBoard.copyEntities()
   }
 
+  cutEntities() {
+    this._clipBoard.cutEntities()
+  }
+
   removeSelectedElements() {
     const commands = this._commander.factory.removeSelectedComand()
 

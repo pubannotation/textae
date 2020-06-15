@@ -22,6 +22,7 @@ export default function(commander, presenter, persistenceInterface) {
     ['u', () => persistenceInterface.uploadAnnotation()],
     ['v', () => presenter.event.pasteEntities()],
     ['w', () => presenter.event.changeLabel()],
+    ['x', () => presenter.event.cutEntities()],
     ['y', commander.redo],
     ['z', commander.undo],
     ['ArrowDown', () => presenter.event.selectDown()],

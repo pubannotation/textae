@@ -249,8 +249,13 @@
         border-color: @selected;
         color: #00d;
       }
-      &__entity.ui-selected {
-        background-color: fade(@selected, 80%);
+      &__entity{
+        &.ui-selected {
+          background-color: fade(@selected, 80%);
+        }
+        &.ui-to-be-cut {
+          opacity: 0.1;
+        }
       }
       &__entity-pane.ui-selected {
         z-index: 4;
@@ -262,6 +267,9 @@
         &.ui-selected {
           .type-values--selected;
           z-index: 4;
+        }
+        &.ui-to-be-cut {
+          opacity: 0.1;
         }
       }
       &__attribute {

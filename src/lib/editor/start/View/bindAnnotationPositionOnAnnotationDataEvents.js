@@ -18,6 +18,9 @@ export default function(editor, annotationPosition, typeGap) {
     .on('textae.annotationData.entity.remove', () => {
       debouncedUpdateAnnotationPosition()
     })
+    .on('textae.annotationData.entity.move', () => {
+      debouncedUpdateAnnotationPosition()
+    })
     .on('textae.annotationData.relation.add', () => {
       debouncedUpdateAnnotationPosition()
     })
