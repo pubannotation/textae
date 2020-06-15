@@ -6,7 +6,6 @@ import selectRight from './selectRight'
 import selectUpperLayer from './selectUpperLayer'
 import selectLowerLayer from './selectLowerLayer'
 import toggleSimpleMode from './toggleSimpleMode'
-import toggleDetectBoundaryMode from './toggleDetectBoundaryMode'
 import toggleInstaceRelation from './toggleInstaceRelation'
 
 export default class {
@@ -132,8 +131,11 @@ export default class {
     toggleSimpleMode(this._buttonController, this._editMode)
   }
 
+  toggleReplicateAutoMode() {
+    this._buttonController.toggle('replicate-auto')
+  }
   toggleDetectBoundaryMode() {
-    toggleDetectBoundaryMode(this._buttonController)
+    this._buttonController.toggle('boundary-detection')
   }
 
   toggleInstaceRelation() {

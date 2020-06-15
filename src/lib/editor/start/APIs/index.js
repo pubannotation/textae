@@ -17,7 +17,6 @@ export default class {
       commander,
       presenter,
       persistenceInterface,
-      buttonController,
       updateLineHeight
     )
     this._palletApiMap = new PalletApiMap(persistenceInterface)
