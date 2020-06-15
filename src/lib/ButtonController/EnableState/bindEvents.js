@@ -17,10 +17,10 @@ export default function(editor, state) {
       // Entity selection events are monitored via the ViewModel instead of directly monitoring the SelectionModel.
       state.updateByEntity()
     })
-    .on('textae.editMode.transition', (editable, mode) => {
+    .on('textae.editMode.transition', (mode, editable) => {
       state.enabled('simple', !isRelation(mode))
-      state.enabled('replicate-auto', isSpanEdit(editable, mode))
-      state.enabled('boundary-detection', isSpanEdit(editable, mode))
+      state.enabled('replicate-auto', isSpanEdit(mode, editable))
+      state.enabled('boundary-detection', isSpanEdit(mode, editable))
       state.enabled('line-height', editable)
       state.enabled('pallet', !isView(editable))
     })

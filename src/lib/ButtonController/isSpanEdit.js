@@ -1,3 +1,3 @@
-export default function(editable, mode) {
-  return editable && mode !== 'relation'
+export default function(mode, editable) {
+  return mode !== 'relation' && editable
 }

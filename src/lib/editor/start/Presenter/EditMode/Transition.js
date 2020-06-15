@@ -15,7 +15,7 @@ export default class {
 
   toTerm() {
     this._displayInstance.hide()
-    this._editor.eventEmitter.emit('textae.editMode.transition', true, TERM)
+    this._editor.eventEmitter.emit('textae.editMode.transition', TERM, true)
 
     this._typeEditor.editEntity()
     this._viewMode.setTerm()
@@ -24,7 +24,7 @@ export default class {
 
   toInstance() {
     this._displayInstance.show()
-    this._editor.eventEmitter.emit('textae.editMode.transition', true, INSTANCE)
+    this._editor.eventEmitter.emit('textae.editMode.transition', INSTANCE, true)
 
     this._typeEditor.editEntity()
     this._viewMode.setInstance()
@@ -33,7 +33,7 @@ export default class {
 
   toRelation() {
     this._displayInstance.show()
-    this._editor.eventEmitter.emit('textae.editMode.transition', true, RELATION)
+    this._editor.eventEmitter.emit('textae.editMode.transition', RELATION, true)
 
     this._typeEditor.editRelation()
     this._viewMode.setRelation()
@@ -42,7 +42,7 @@ export default class {
 
   toViewTerm() {
     this._displayInstance.hide()
-    this._editor.eventEmitter.emit('textae.editMode.transition', false, TERM)
+    this._editor.eventEmitter.emit('textae.editMode.transition', TERM, false)
 
     this._typeEditor.noEdit()
     this._viewMode.setTerm()
@@ -53,8 +53,8 @@ export default class {
     this._displayInstance.show()
     this._editor.eventEmitter.emit(
       'textae.editMode.transition',
-      false,
-      INSTANCE
+      INSTANCE,
+      false
     )
 
     this._typeEditor.noEdit()

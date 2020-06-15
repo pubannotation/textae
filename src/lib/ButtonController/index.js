@@ -18,7 +18,7 @@ export default class {
     return this._pushButtons
   }
 
-  setPushButtonsForMode(editable, mode) {
+  setPushButtonsForMode(mode, editable) {
     setPushButtonsForMode(this._pushButtons, mode, editable)
   }
 }
