@@ -1,4 +1,4 @@
-import Modifier from '../../Modifier'
+import EntityModifier from '../../EntityModifier'
 import create from './create'
 import removeEntityElement from './removeEntityElement'
 import updateAncestorsElement from './updateAncestorsElement'
@@ -11,8 +11,6 @@ export default function(
   gridRenderer,
   entity
 ) {
-  const modifier = new Modifier(editor, annotationData)
-
   // Remove an old entity.
   const paneElement = removeEntityElement(editor, entity.id)
 
@@ -25,7 +23,8 @@ export default function(
 
   // Re-select a new entity instance.
   if (selectionModel.entity.has(entity.id)) {
-    modifier.entity.select(entity.id)
-    modifier.entityLabel.update(entity.id)
+    const modifier = new EntityModifier(editor)
+    modifier.select(entity.id)
+    modifier.updateLabel(entity.id)
   }
 }

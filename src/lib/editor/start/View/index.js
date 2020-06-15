@@ -1,5 +1,4 @@
 import CursorChanger from '../../../util/CursorChanger'
-import Modifier from './Modifier'
 import Hover from './Hover'
 import AnnotationPosition from './AnnotationPosition'
 import bindSelectionModelEvents from './bindSelectionModelEvents'
@@ -23,7 +22,7 @@ export default class {
     // Remove CRLF so that it is not included in the height calculation.
     editor[0].innerHTML = BODY.replace(/[\n\r]+/g, '')
 
-    bindSelectionModelEvents(editor, new Modifier(editor, annotationData))
+    bindSelectionModelEvents(editor, annotationData)
 
     const renderer = new Renderer(
       editor,

@@ -1,7 +1,7 @@
 import getEntityDom from '../../getEntityDom'
 import getEntitiesDomOfType from '../../getEntitiesDomOfType'
 import getPaneDomOfType from '../../../getPaneDomOfType'
-import SELECTED from './SELECTED'
+import SELECTED from '../SELECTED'
 
 export default function(editor, entityId) {
   console.assert(entityId, 'An entity id is necessary.')
