@@ -36,6 +36,10 @@ class Config {
   get relationButtons() {
     return this._getEnabelButtonsWhenSelecting('relation')
   }
+
+  get pushButtons() {
+    return this._buttons.filter((b) => b.push).map((b) => b.type)
+  }
 }
 
 export default new Config()

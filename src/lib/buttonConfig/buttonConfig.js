@@ -12,21 +12,25 @@ export const buttonConfig = [
   [
     {
       type: 'view',
-      title: 'View Mode'
+      title: 'View Mode',
+      push: true
     },
     {
       type: 'term',
-      title: 'Term Edit Mode'
+      title: 'Term Edit Mode',
+      push: true
     },
     {
       type: 'relation',
-      title: 'Relation Edit Mode'
+      title: 'Relation Edit Mode',
+      push: true
     }
   ],
   [
     {
       type: 'simple',
-      title: 'Simple View'
+      title: 'Simple View',
+      push: true
     },
     {
       type: 'line-height',
@@ -53,11 +57,13 @@ export const buttonConfig = [
     },
     {
       type: 'replicate-auto',
-      title: 'Auto replicate'
+      title: 'Auto replicate',
+      push: true
     },
     {
       type: 'boundary-detection',
-      title: 'Boundary Detection [B]'
+      title: 'Boundary Detection [B]',
+      push: true
     }
   ],
   [

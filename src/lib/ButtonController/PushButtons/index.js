@@ -1,19 +1,11 @@
+import buttonConfig from '../../buttonConfig'
 import Button from './Button'
 import propagateStateOf from './propagateStateOf'
-
-const list = [
-  'view',
-  'term',
-  'relation',
-  'simple',
-  'boundary-detection',
-  'replicate-auto'
-]
 
 export default class {
   constructor(editor, annotationData) {
     this._editor = editor
-    this._buttonMap = list.reduce((map, buttonName) => {
+    this._buttonMap = buttonConfig.pushButtons.reduce((map, buttonName) => {
       map.set(buttonName, new Button(editor, buttonName))
       return map
     }, new Map())
