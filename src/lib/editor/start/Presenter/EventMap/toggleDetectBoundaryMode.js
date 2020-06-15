@@ -1,3 +1,3 @@
-export default function(pushButtons) {
-  pushButtons.getButton('boundary-detection').toggle()
+export default function(buttonController) {
+  buttonController.toggle('boundary-detection')
 }

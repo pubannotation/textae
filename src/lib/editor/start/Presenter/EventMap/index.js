@@ -63,7 +63,7 @@ export default class {
     replicateHandler(
       this._commander,
       this._annotationData,
-      this._buttonController.pushButtons,
+      this._buttonController,
       this._spanConfig,
       this._selectionModel.span.single()
     )
@@ -129,11 +129,11 @@ export default class {
   }
 
   toggleSimpleMode() {
-    toggleSimpleMode(this._buttonController.pushButtons, this._editMode)
+    toggleSimpleMode(this._buttonController, this._editMode)
   }
 
   toggleDetectBoundaryMode() {
-    toggleDetectBoundaryMode(this._buttonController.pushButtons)
+    toggleDetectBoundaryMode(this._buttonController)
   }
 
   toggleInstaceRelation() {

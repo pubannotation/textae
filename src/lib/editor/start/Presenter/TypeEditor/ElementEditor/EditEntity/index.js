@@ -9,7 +9,7 @@ export default class {
     annotationData,
     selectionModel,
     commander,
-    pushButtons,
+    buttonController,
     typeDefinition,
     spanConfig,
     editAttribute,
@@ -31,7 +31,7 @@ export default class {
       annotationData,
       selectionModel,
       commander,
-      pushButtons
+      buttonController
     )
 
     bindTextaeEvents(

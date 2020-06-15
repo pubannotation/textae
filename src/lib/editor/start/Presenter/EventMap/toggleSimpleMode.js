@@ -1,5 +1,5 @@
-export default function(pushButtons, editMode) {
-  if (pushButtons.getButton('simple').value()) {
+export default function(buttonController, editMode) {
+  if (buttonController.valueOf('simple')) {
     editMode.upSimple()
   } else {
     editMode.pushSimple()

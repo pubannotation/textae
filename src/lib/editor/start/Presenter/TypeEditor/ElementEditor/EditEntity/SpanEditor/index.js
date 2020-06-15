@@ -10,12 +10,18 @@ import crossTheEar from './crossTheEar'
 import pullByTheEar from './pullByTheEar'
 
 export default class {
-  constructor(editor, annotationData, selectionModel, commander, pushButtons) {
+  constructor(
+    editor,
+    annotationData,
+    selectionModel,
+    commander,
+    buttonController
+  ) {
     this._editor = editor
     this._annotationData = annotationData
     this._selectionModel = selectionModel
     this._commander = commander
-    this._pushButtons = pushButtons
+    this._buttonController = buttonController
   }
 
   selectEndOnText(data) {
@@ -153,11 +159,11 @@ export default class {
   }
 
   get _isDetectDelimiterEnable() {
-    return this._pushButtons.getButton('boundary-detection').value()
+    return this._buttonController.valueOf('boundary-detection')
   }
 
   get _isReplicateAuto() {
-    return this._pushButtons.getButton('replicate-auto').value()
+    return this._buttonController.valueOf('replicate-auto')
   }
 
   get _spanAdjuster() {

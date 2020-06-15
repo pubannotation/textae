@@ -15,10 +15,7 @@ export default function(
     ['undo', commander.undo],
     ['redo', commander.redo],
     ['replicate', () => presenter.event.replicate()],
-    [
-      'replicate-auto',
-      () => buttonController.pushButtons.getButton('replicate-auto').toggle()
-    ],
+    ['replicate-auto', () => buttonController.toggle('replicate-auto')],
     ['boundary-detection', () => presenter.event.toggleDetectBoundaryMode()],
     ['entity', () => presenter.event.createEntity()],
     ['change-label', () => presenter.event.changeLabel()],

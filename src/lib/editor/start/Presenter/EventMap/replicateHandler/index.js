@@ -3,11 +3,11 @@ import getDetectBoundaryFunc from './getDetectBoundaryFunc'
 export default function(
   commander,
   annotationData,
-  pushButtons,
+  buttonController,
   spanConfig,
   spanId
 ) {
-  const detectBoundaryFunc = getDetectBoundaryFunc(pushButtons, spanConfig)
+  const detectBoundaryFunc = getDetectBoundaryFunc(buttonController, spanConfig)
   const span = annotationData.span.get(spanId)
 
   if (spanId) {

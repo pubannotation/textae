@@ -12,7 +12,7 @@ export default class {
     selectionModel,
     spanConfig,
     commander,
-    pushButtons,
+    buttonController,
     originalData,
     typeDefinition,
     autocompletionWs
@@ -36,7 +36,7 @@ export default class {
       selectionModel,
       spanConfig,
       commander,
-      pushButtons,
+      buttonController,
       typeDefinition,
       this._entityPallet
     )

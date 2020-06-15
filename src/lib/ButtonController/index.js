@@ -14,8 +14,12 @@ export default class {
     this._pushButtons.propagate()
   }
 
-  get pushButtons() {
-    return this._pushButtons
+  toggle(buttonName) {
+    return this._pushButtons.getButton(buttonName).toggle()
+  }
+
+  valueOf(buttonName) {
+    return this._pushButtons.getButton(buttonName).value()
   }
 
   setPushButtonsForMode(mode, editable) {

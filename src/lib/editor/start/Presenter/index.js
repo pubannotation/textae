@@ -25,7 +25,7 @@ export default class {
       selectionModel,
       spanConfig,
       commander,
-      buttonController.pushButtons,
+      buttonController,
       originalData,
       typeDefinition,
       autocompletionWs

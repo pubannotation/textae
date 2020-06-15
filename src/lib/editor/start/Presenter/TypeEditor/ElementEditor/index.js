@@ -12,7 +12,7 @@ export default class {
     selectionModel,
     spanConfig,
     commander,
-    pushButtons,
+    buttonController,
     typeDefinition,
     entityPallet
   ) {
@@ -32,7 +32,7 @@ export default class {
       annotationData,
       selectionModel,
       commander,
-      pushButtons,
+      buttonController,
       typeDefinition,
       spanConfig,
       editAttribute,
