@@ -51,7 +51,6 @@ export default function(
   const clipBoard = new ClipBoard(editor, commander, selectionModel)
   const buttonController = new ButtonController(
     editor,
-    annotationData,
     selectionModel,
     clipBoard
   )

@@ -7,14 +7,12 @@ import isTerm from './isTerm'
 import isSimple from './isSimple'
 
 export default class {
-  constructor(editor, annotationData) {
+  constructor(editor) {
     this._editor = editor
     this._buttonMap = buttonConfig.pushButtons.reduce((map, buttonName) => {
       map.set(buttonName, new Button(editor, buttonName))
       return map
     }, new Map())
-
-    this._annotationData = annotationData
 
     // default pushed;
     this._buttonMap.get('boundary-detection').value(true)
