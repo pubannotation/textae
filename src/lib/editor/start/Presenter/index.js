@@ -40,10 +40,7 @@ export default class {
     )
 
     editor.eventEmitter
-      .on('textae.editMode.transition', (mode, editable) => {
-        typeEditor.cancelSelect()
-        buttonController.setPushButtonsForMode(mode, editable)
-      })
+      .on('textae.editMode.transition', () => typeEditor.cancelSelect())
       .on('textae.editor.body.click', () => typeEditor.cancelSelect())
 
     bindModelChange(editor, editMode, mode)

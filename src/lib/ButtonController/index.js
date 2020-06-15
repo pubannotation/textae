@@ -20,8 +20,4 @@ export default class {
   valueOf(buttonName) {
     return this._pushButtons.getButton(buttonName).value()
   }
-
-  setPushButtonsForMode(mode, editable) {
-    this._pushButtons.setForMode(mode, editable)
-  }
 }

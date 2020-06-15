@@ -1,10 +1,7 @@
 import buttonConfig from '../../buttonConfig'
-import isView from '../isView'
-import isRelation from '../isRelation'
 import Button from './Button'
 import propagateStateOf from './propagateStateOf'
-import isTerm from './isTerm'
-import isSimple from './isSimple'
+import setMode from './setMode'
 
 export default class {
   constructor(editor) {
@@ -13,6 +10,11 @@ export default class {
       map.set(buttonName, new Button(editor, buttonName))
       return map
     }, new Map())
+
+    // Bind an event.
+    editor.eventEmitter.on('textae.editMode.transition', (mode, editable) =>
+      setMode(this, mode, editable)
+    )
 
     // default pushed;
     this._buttonMap.get('boundary-detection').value(true)
@@ -24,12 +26,5 @@ export default class {
 
   getButton(name) {
     return this._buttonMap.get(name)
-  }
-
-  setForMode(mode, editable) {
-    this.getButton('view').value(isView(editable))
-    this.getButton('term').value(isTerm(editable, mode))
-    this.getButton('relation').value(isRelation(mode))
-    this.getButton('simple').value(isSimple(mode))
   }
 }
