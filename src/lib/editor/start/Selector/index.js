@@ -50,22 +50,6 @@ export default function(editor, annotationData) {
         }
       }
     },
-    attribute: {
-      select: (id) => {
-        const el = document.querySelector(`div[title="${id}"]`)
-
-        if (el) {
-          modifyStyle(el, 'add')
-        }
-      },
-      deselect: (id) => {
-        const el = document.querySelector(`div[title="${id}"]`)
-
-        if (el) {
-          modifyStyle(el, 'remove')
-        }
-      }
-    },
     relation: {
       select: (id) => selectRelation(domPositionCache, id),
       deselect: (id) => deselectRelation(domPositionCache, id)

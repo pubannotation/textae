@@ -4,8 +4,6 @@ export default function(editor, selector) {
     .on('textae.selection.span.deselect', selector.span.deselect)
     .on('textae.selection.entity.select', selector.entity.select)
     .on('textae.selection.entity.deselect', selector.entity.deselect)
-    .on('textae.selection.attribute.select', selector.attribute.select)
-    .on('textae.selection.attribute.deselect', selector.attribute.deselect)
     .on('textae.selection.relation.select', (id) =>
       setTimeout(() => selector.relation.select(id), 150)
     )
