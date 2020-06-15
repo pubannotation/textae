@@ -5,7 +5,6 @@ import selectLeft from './selectLeft'
 import selectRight from './selectRight'
 import selectUpperLayer from './selectUpperLayer'
 import selectLowerLayer from './selectLowerLayer'
-import toggleSimpleMode from './toggleSimpleMode'
 import toggleInstaceRelation from './toggleInstaceRelation'
 
 export default class {
@@ -128,7 +127,7 @@ export default class {
   }
 
   toggleSimpleMode() {
-    toggleSimpleMode(this._buttonController, this._editMode)
+    this._editMode.toggleSimple()
   }
 
   toggleReplicateAutoMode() {

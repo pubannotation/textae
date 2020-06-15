@@ -52,6 +52,25 @@ export default class {
     upSimple(this._stateMachine)
   }
 
+  toggleSimple() {
+    switch (this._stateMachine.currentState) {
+      case state.TERM:
+        this._stateMachine.setState(state.INSTANCE)
+        break
+      case state.VIEW_TERM:
+        this._stateMachine.setState(state.VIEW_INSTANCE)
+        break
+      case state.INSTANCE:
+        this._stateMachine.setState(state.TERM)
+        break
+      case state.VIEW_INSTANCE:
+        this._stateMachine.setState(state.VIEW_TERM)
+        break
+      default:
+        throw new Error(`Invalid state: ${this._stateMachine.currentState}`)
+    }
+  }
+
   // For key input of F or M.
   toggleInstaceRelation() {
     toggleInstaceRelation(this._stateMachine, this._annotationData)
