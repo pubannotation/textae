@@ -7,11 +7,14 @@ import updateEntityTypeValues from './updateEntityTypeValues'
 import getSpanDom from './getSpanDom'
 import modifyStyle from './modifyStyle'
 
-export default function(editor, annotationData) {
-  const domPositionCache = getDomPositionCache(editor, annotationData.entity)
+export default class {
+  constructor(editor, annotationData) {
+    this._editor = editor
+    this._domPositionCache = getDomPositionCache(editor, annotationData.entity)
+  }
 
-  return {
-    span: {
+  get span() {
+    return {
       select: (id) => {
         const el = getSpanDom(id)
         modifyStyle(el, 'add')
@@ -27,10 +30,13 @@ export default function(editor, annotationData) {
           modifyStyle(el, 'remove')
         }
       }
-    },
-    entity: {
+    }
+  }
+
+  get entity() {
+    return {
       select: (id) => {
-        const el = getEntityDom(editor[0], id)
+        const el = getEntityDom(this._editor[0], id)
 
         // Entities of block span hos no dom elements.
         if (el) {
@@ -41,7 +47,7 @@ export default function(editor, annotationData) {
         }
       },
       deselect: (id) => {
-        const el = getEntityDom(editor[0], id)
+        const el = getEntityDom(this._editor[0], id)
 
         // Entities of block span hos no dom elements.
         // A dom does not exist when it is deleted.
@@ -49,13 +55,19 @@ export default function(editor, annotationData) {
           modifyStyle(el, 'remove')
         }
       }
-    },
-    relation: {
-      select: (id) => selectRelation(domPositionCache, id),
-      deselect: (id) => deselectRelation(domPositionCache, id)
-    },
-    entityLabel: {
-      update: (id) => updateEntityTypeValues(editor, id)
+    }
+  }
+
+  get relation() {
+    return {
+      select: (id) => selectRelation(this._domPositionCache, id),
+      deselect: (id) => deselectRelation(this._domPositionCache, id)
+    }
+  }
+
+  get entityLabel() {
+    return {
+      update: (id) => updateEntityTypeValues(this._editor, id)
     }
   }
 }

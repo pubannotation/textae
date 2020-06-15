@@ -1,9 +1,11 @@
 export default function(editor, modifier) {
   editor.eventEmitter
-    .on('textae.selection.span.select', modifier.span.select)
-    .on('textae.selection.span.deselect', modifier.span.deselect)
-    .on('textae.selection.entity.select', modifier.entity.select)
-    .on('textae.selection.entity.deselect', modifier.entity.deselect)
+    .on('textae.selection.span.select', (id) => modifier.span.select(id))
+    .on('textae.selection.span.deselect', (id) => modifier.span.deselect(id))
+    .on('textae.selection.entity.select', (id) => modifier.entity.select(id))
+    .on('textae.selection.entity.deselect', (id) =>
+      modifier.entity.deselect(id)
+    )
     .on('textae.viewMode.entity.selectChange', (id) => {
       // We only want to highlight labels when in Entity edit mode,
       // so we monitor ViewModel events instead of SelectionModel events.
