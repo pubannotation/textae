@@ -1,16 +1,9 @@
 import getDetectBoundaryFunc from './getDetectBoundaryFunc'
 
-export default function(
-  commander,
-  annotationData,
-  buttonController,
-  spanConfig,
-  spanId
-) {
+export default function(commander, buttonController, spanConfig, span) {
   const detectBoundaryFunc = getDetectBoundaryFunc(buttonController, spanConfig)
-  const span = annotationData.span.get(spanId)
 
-  if (spanId) {
+  if (span) {
     commander.invoke(
       commander.factory.replicateSpanCommand(
         span,

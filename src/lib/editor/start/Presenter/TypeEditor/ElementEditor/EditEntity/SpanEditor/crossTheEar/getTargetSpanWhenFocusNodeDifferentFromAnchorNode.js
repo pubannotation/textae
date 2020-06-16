@@ -8,7 +8,7 @@ export default function(annotationData, selectionModel, selection, id) {
     // 1. Select an inner span.
     // 2. Begin Drug from out of an outside span to the selected span.
     // Shrink the selected span.
-    return selectionModel.span.single()
+    return selectionModel.span.singleId
   } else if (isForcusOneDownUnderAnchor(selection)) {
     // To shrink the span , belows are needed:
     // 1. The anchorNode out of the span and in the parent of the span.

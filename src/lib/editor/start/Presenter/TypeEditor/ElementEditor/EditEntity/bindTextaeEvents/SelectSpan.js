@@ -1,6 +1,6 @@
 export default function(annotationData, selectionModel) {
   return (event) => {
-    const firstId = selectionModel.span.single()
+    const firstId = selectionModel.span.singleId
     const target = event.target
     const id = target.id
 

@@ -4,7 +4,7 @@ import selectSelected from '../selectSelected'
 
 export default function(editorDom, selectionModel) {
   // When one span is selected.
-  const spanId = selectionModel.span.single()
+  const spanId = selectionModel.span.singleId
 
   if (spanId) {
     selectFirstEntityLabelOfSpan(selectionModel, spanId)

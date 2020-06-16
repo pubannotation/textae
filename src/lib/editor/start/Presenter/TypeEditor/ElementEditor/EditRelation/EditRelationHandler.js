@@ -43,7 +43,7 @@ export default class extends DefaultHandler {
 
     if (event.ctrlKey || event.metaKey) {
       this._selectionModel.relation.toggle(relationId)
-    } else if (this._selectionModel.relation.single() !== relationId) {
+    } else if (this._selectionModel.relation.singleId !== relationId) {
       // Select only self
       this._selectionModel.relation.clear()
       this._selectionModel.relation.add(relationId)
@@ -51,10 +51,10 @@ export default class extends DefaultHandler {
   }
 
   _getSelectedType() {
-    const id = this._selectionModel.relation.single()
+    const relation = this._selectionModel.relation.single
 
-    if (id) {
-      return this._annotationData.relation.get(id).type
+    if (relation) {
+      return relation.type
     }
 
     return ''

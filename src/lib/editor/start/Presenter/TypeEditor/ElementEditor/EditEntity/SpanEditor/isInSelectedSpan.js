@@ -1,8 +1,7 @@
-export default function(annotationData, selectionModel, position) {
-  const spanId = selectionModel.span.single()
-  if (spanId) {
-    const selectedSpan = annotationData.span.get(spanId)
-    return selectedSpan.begin < position && position < selectedSpan.end
+export default function(selectionModel, position) {
+  const span = selectionModel.span.single
+  if (span) {
+    return span.begin < position && position < span.end
   }
   return false
 }

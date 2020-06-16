@@ -59,10 +59,9 @@ export default class {
   replicate() {
     replicateHandler(
       this._commander,
-      this._annotationData,
       this._buttonController,
       this._spanConfig,
-      this._selectionModel.span.single()
+      this._selectionModel.span.single
     )
   }
 

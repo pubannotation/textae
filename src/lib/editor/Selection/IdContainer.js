@@ -34,8 +34,18 @@ export default class {
     return this.size > 0
   }
 
-  single() {
+  get singleId() {
     return single(this._selected)
+  }
+
+  get single() {
+    const id = single(this._selected)
+
+    if (id) {
+      return this._annotationData[this._kindName].get(id)
+    }
+
+    return null
   }
 
   toggle(id) {

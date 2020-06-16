@@ -10,7 +10,7 @@ export default function(annotationData, selectionModel, selection) {
     // 2. Select an outside span.
     // 3. Begin Drug from an inner span to out of an outside span.
     // Expand the selected span.
-    return selectionModel.span.single()
+    return selectionModel.span.singleId
   } else if (isAnchorOneDownUnderForcus(selection)) {
     // To expand the span , belows are needed:
     // 1. The anchorNode is in the span.

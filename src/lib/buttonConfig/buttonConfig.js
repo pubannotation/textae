@@ -52,7 +52,7 @@ export const buttonConfig = [
       type: 'replicate',
       title: 'Replicate span annotation [R]',
       enableWhenSelecting: {
-        span: (selectionModel) => Boolean(selectionModel.span.single())
+        span: (selectionModel) => Boolean(selectionModel.span.single)
       }
     },
     {
