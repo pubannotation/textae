@@ -1,4 +1,4 @@
-import EntityModifier from '../../EntityModifier'
+import EntityDomSelector from '../../EntityDomSelector'
 import create from './create'
 import removeEntityElement from './removeEntityElement'
 import updateAncestorsElement from './updateAncestorsElement'
@@ -23,8 +23,8 @@ export default function(
 
   // Re-select a new entity instance.
   if (selectionModel.entity.has(entity.id)) {
-    const modifier = new EntityModifier(editor)
-    modifier.select(entity.id)
-    modifier.updateLabel(entity.id)
+    const selector = new EntityDomSelector(editor)
+    selector.select(entity.id)
+    selector.updateLabel(entity.id)
   }
 }
