@@ -1,6 +1,5 @@
 import getEntityDom from '../../getEntityDom'
 import getLabelDomOfType from '../../getLabelDomOfType'
-import modifyStyle from '../modifyStyle'
 import SELECTED from '../SELECTED'
 import apllyEntityTypeValues from './apllyEntityTypeValues'
 
@@ -14,7 +13,7 @@ export default class {
 
     // Entities of block span hos no dom elements.
     if (el) {
-      modifyStyle(el, 'add')
+      el.classList.add(SELECTED)
 
       // Set focus to the label element in order to scroll the browser to the position of the element.
       getLabelDomOfType(el).focus()
@@ -27,7 +26,7 @@ export default class {
     // Entities of block span hos no dom elements.
     // A dom does not exist when it is deleted.
     if (el) {
-      modifyStyle(el, 'remove')
+      el.classList.remove(SELECTED)
     }
   }
 

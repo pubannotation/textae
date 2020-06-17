@@ -1,10 +1,10 @@
 import getSpanDom from './getSpanDom'
-import modifyStyle from '../../modifyStyle'
+import SELECTED from '../../SELECTED'
 
 export default class {
   select(id) {
     const el = getSpanDom(id)
-    modifyStyle(el, 'add')
+    el.classList.add(SELECTED)
 
     // Set focus to the span element in order to scroll the browser to the position of the element.
     el.focus()
@@ -15,7 +15,7 @@ export default class {
 
     // A dom does not exist when it is deleted.
     if (el) {
-      modifyStyle(el, 'remove')
+      el.classList.remove(SELECTED)
     }
   }
 }
