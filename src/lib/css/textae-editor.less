@@ -7,6 +7,10 @@
   background-color: @acitveColor;
 }
 
+.entity-shadow() {
+  box-shadow: 1px 1px 10px #600;
+}
+
 .label--full-length() {
   border-width: 1px;
   border-radius: 1px;
@@ -165,7 +169,6 @@
       border-radius: 4px;
       border-style: solid;
       border-width: 1px 0;
-      box-shadow: 1px 1px 10px #600;
       line-height: 16px;
       opacity: 1;
       overflow: visible;
@@ -177,6 +180,7 @@
       user-select: none;
       -webkit-touch-callout: none;
       z-index: 1;
+      .entity-shadow()
     }
 
     &-label{
@@ -195,9 +199,9 @@
       }
 
       .textae-editor__type-values {
-        box-shadow: 1px 1px 10px #600;
         opacity: 1;
         overflow: visible;
+        .entity-shadow();
 
         &.ui-selected {
           box-shadow: 0 0 0 2pt @selected;
@@ -293,8 +297,7 @@
     width: 12px;
 
     &:hover {
-      box-shadow: 1px 1px 10px #600;
-      text-shadow: 1px 1px 1px #600;
+      .entity-shadow();
     }
   }
 
