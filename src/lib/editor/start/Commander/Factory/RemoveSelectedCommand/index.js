@@ -1,7 +1,7 @@
 import CompositeCommand from '../CompositeCommand'
 import RemoveSpanCommand from '../RemoveSpanCommand'
 import { RemoveCommand } from '../commandTemplate'
-import RemoveEntitiesAndRemeveSpanIfNoEntityRestCommand from './RemoveEntitiesAndRemeveSpanIfNoEntityRestCommand'
+import RemoveEntitiesAndRemoveSpanIfNoEntityRestCommand from './RemoveEntitiesAndRemoveSpanIfNoEntityRestCommand'
 
 export default class extends CompositeCommand {
   constructor(editor, annotationData, selectionModel) {
@@ -25,7 +25,7 @@ export default class extends CompositeCommand {
       ),
       selectionModel.entity.some
         ? [
-            new RemoveEntitiesAndRemeveSpanIfNoEntityRestCommand(
+            new RemoveEntitiesAndRemoveSpanIfNoEntityRestCommand(
               editor,
               annotationData,
               selectionModel
