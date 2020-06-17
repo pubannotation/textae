@@ -11,6 +11,10 @@
   box-shadow: 1px 1px 10px #600;
 }
 
+.type-values--selected() {
+  box-shadow: 0 0 0 2pt @selected;  
+}
+
 .label--full-length() {
   border-width: 1px;
   border-radius: 1px;
@@ -204,7 +208,7 @@
         .entity-shadow();
 
         &.ui-selected {
-          box-shadow: 0 0 0 2pt @selected;
+          .type-values--selected;
         }
       }
 
@@ -256,7 +260,7 @@
         opacity: 0.9;
         overflow: hidden;   
         &.ui-selected {
-          box-shadow: 0 0 0 2pt @selected;
+          .type-values--selected;
           z-index: 4;
         }
       }
