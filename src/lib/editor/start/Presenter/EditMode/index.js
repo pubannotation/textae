@@ -14,6 +14,10 @@ export default class {
     this._annotationData = annotationData
   }
 
+  get isSimple() {
+    return this._stateMachine.currentState === state.TERM
+  }
+
   // For an intiation transition on an annotations data loaded.
   toTerm() {
     this._stateMachine.setState(state.TERM)

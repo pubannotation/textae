@@ -47,8 +47,10 @@ export default class {
   }
 
   createEntity() {
-    createEntityHandler(this._commander, this._typeDefinition, () =>
-      this._displayInstance.notifyNewInstance()
+    createEntityHandler(
+      this._commander,
+      this._typeDefinition,
+      this._editMode.isSimple
     )
   }
 
