@@ -1,7 +1,8 @@
 import getEntityDom from '../../getEntityDom'
 import getLabelDomOfType from '../../getLabelDomOfType'
-import updateEntityTypeValues from './updateEntityTypeValues'
 import modifyStyle from '../modifyStyle'
+import SELECTED from '../SELECTED'
+import apllyEntityTypeValues from './apllyEntityTypeValues'
 
 export default class {
   constructor(editor) {
@@ -31,6 +32,6 @@ export default class {
   }
 
   updateLabel(id) {
-    updateEntityTypeValues(this._editor, id)
+    apllyEntityTypeValues(this._editor, id, SELECTED)
   }
 }
