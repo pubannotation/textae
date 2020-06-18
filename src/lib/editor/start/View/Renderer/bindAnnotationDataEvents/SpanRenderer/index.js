@@ -4,12 +4,12 @@ import renderClassOfSpan from './renderClassOfSpan'
 
 export default class {
   constructor(annotationData, renderEntityFunc) {
-    this.annotationData = annotationData
-    this.renderEntityFunc = renderEntityFunc
+    this._annotationData = annotationData
+    this._renderEntityFunc = renderEntityFunc
   }
 
   render(span) {
-    create(this.annotationData, span, this.renderEntityFunc)
+    create(this._annotationData, span, this._renderEntityFunc)
   }
 
   remove(span) {
@@ -17,6 +17,6 @@ export default class {
   }
 
   change(span) {
-    renderClassOfSpan(this.annotationData, span)
+    renderClassOfSpan(this._annotationData, span)
   }
 }
