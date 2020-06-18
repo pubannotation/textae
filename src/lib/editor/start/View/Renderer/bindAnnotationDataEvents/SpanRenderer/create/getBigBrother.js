@@ -1,7 +1,7 @@
 // A big brother is brother node on a structure at rendered.
 // There is no big brother if the span is first in a paragraph.
 // Warning: parent is set at updateSpanTree, is not exists now.
-export default function(span, topLevelSpans) {
+export default function(topLevelSpans, span) {
   let index
   if (span.parent) {
     index = span.parent.children.indexOf(span)

@@ -9,7 +9,7 @@ import renderChildrenSpan from './renderChildrenSpan'
 export default function create(annotationData, span, renderEntityFunc) {
   destroyChildrenSpan(span)
 
-  const bigBrother = getBigBrother(span, annotationData.span.topLevel())
+  const bigBrother = getBigBrother(annotationData.span.topLevel(), span)
   renderSingleSpan(span, bigBrother)
   renderClassOfSpan(annotationData, span)
   renderEntitiesOfSpan(span, renderEntityFunc)
