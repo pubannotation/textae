@@ -22,7 +22,9 @@ export default class {
   }
 
   showAlertIfOtherParagraph() {
-    return showAlertIfOtherParagraph(this._isInSameParagraph())
+    if (this._selection.type === 'Range') {
+      showAlertIfOtherParagraph(this._isInSameParagraph())
+    }
   }
 
   _isInSameParagraph() {
