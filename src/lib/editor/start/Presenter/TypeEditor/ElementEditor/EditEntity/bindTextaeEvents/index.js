@@ -13,10 +13,10 @@ export default function(
   selectionModel
 ) {
   editor.eventEmitter
-    .on('textae.editor.editEntity.paragraph.mouseup', () =>
+    .on('textae.editor.editEntity.textBox.mouseup', () =>
       new SelectionWrapper(window.getSelection()).showAlertIfOtherParagraph()
     )
-    .on('textae.editor.editEntity.paragraph.click', (e) => {
+    .on('textae.editor.editEntity.textBox.click', (e) => {
       const selection = window.getSelection()
       // if text is seleceted
       if (!selection.isCollapsed) {

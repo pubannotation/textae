@@ -9,15 +9,8 @@ export default function(editor) {
 
   // Show Alert when trying to create span across paragraphs.
   listeners.push(
-    delegate(
-      editor[0],
-      '.textae-editor__body__text-box__paragraph-margin',
-      'mouseup',
-      (e) =>
-        editor.eventEmitter.emit(
-          'textae.editor.editEntity.paragraph.mouseup',
-          e
-        )
+    delegate(editor[0], '.textae-editor__body__text-box', 'mouseup', (e) =>
+      editor.eventEmitter.emit('textae.editor.editEntity.textBox.mouseup', e)
     )
   )
 
@@ -28,18 +21,11 @@ export default function(editor) {
   // Monitor the events of the editor's child elements, not the editor.
   // Stop the propagation of events using the stopPropagation function.
   for (const m of editor[0].querySelectorAll(
-    '.textae-editor__body__text-box__paragraph-margin'
+    '.textae-editor__body__text-box'
   )) {
     listeners.push(
-      delegate(
-        m,
-        '.textae-editor__body__text-box__paragraph-margin',
-        'click',
-        (e) =>
-          editor.eventEmitter.emit(
-            'textae.editor.editEntity.paragraph.click',
-            e
-          )
+      delegate(m, '.textae-editor__body__text-box', 'click', (e) =>
+        editor.eventEmitter.emit('textae.editor.editEntity.textBox.click', e)
       )
     )
   }

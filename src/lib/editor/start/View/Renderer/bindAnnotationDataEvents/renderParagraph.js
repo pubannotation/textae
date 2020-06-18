@@ -3,9 +3,7 @@ import getTextBox from '../../getTextBox'
 
 const source = `
 {{#paragraphs}}
-<div class="textae-editor__body__text-box__paragraph-margin">
-    <span class="textae-editor__body__text-box__paragraph" id="{{id}}">{{text}}</span>
-</div>
+<div class="textae-editor__body__text-box__paragraph" id="{{id}}">{{text}}</div>
 {{/paragraphs}}
 `
 
