@@ -18,9 +18,7 @@ export default function(span, bigBrother) {
   }
 
   if (!targetTextNode) {
-    throw new Error(
-      `The textNode on to create a span is not found. ${span.toStringOnlyThis()}`
-    )
+    throw new Error(`The textNode on to create a span is not found. ${span.id}`)
   }
 
   return createSpanRange(targetTextNode, startOfTextNode, span)
