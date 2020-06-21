@@ -39,10 +39,6 @@ export default class {
     const result = parseDenotation(this, annotation)
 
     this._editor.eventEmitter.emit(
-      'textae.annotationData.paragraph.change',
-      this.paragraph.all
-    )
-    this._editor.eventEmitter.emit(
       'textae.annotationData.all.change',
       this,
       result.multitrack,

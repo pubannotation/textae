@@ -19,6 +19,7 @@ export default function(
 
   editor.eventEmitter
     .on('textae.annotationData.all.change', () => {
+      renderParagraph(editor, annotationData.paragraph.all)
       renderAllAnnotations(
         editor,
         domPositionCache,
@@ -28,9 +29,6 @@ export default function(
       )
       setLineHeightToTypeGap(editor[0], annotationData, typeGap())
     })
-    .on('textae.annotationData.paragraph.change', (paragraphs) =>
-      renderParagraph(editor, paragraphs)
-    )
     .on('textae.annotationData.span.add', (span) => {
       spanRenderer.render(span)
     })
