@@ -8,6 +8,8 @@ import create from './create'
 import expand from './expand'
 import crossTheEar from './crossTheEar'
 import pullByTheEar from './pullByTheEar'
+import hasNodeParagraphClass from '../../hasNodeParagraphClass'
+import hasNodeSpanClass from '../../hasNodeSpanClass'
 
 export default class {
   constructor(
@@ -33,17 +35,9 @@ export default class {
     if (isValid) {
       // The parent of the focusNode is the paragraph.
       // Same paragraph check is done in the validateOnText.
-      if (
-        data.selection.anchorNode.parentNode.classList.contains(
-          'textae-editor__body__text-box__paragraph'
-        )
-      ) {
+      if (hasNodeParagraphClass(data.selection.anchorNode.parentNode)) {
         this._create(data)
-      } else if (
-        data.selection.anchorNode.parentNode.classList.contains(
-          'textae-editor__span'
-        )
-      ) {
+      } else if (hasNodeSpanClass(data.selection.anchorNode.parentNode)) {
         this._expand(data)
       }
     }

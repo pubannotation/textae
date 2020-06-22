@@ -1,5 +1,5 @@
-import hasNodeSpanClass from './hasNodeSpanClass'
-import hasNodeParagraphClass from './hasNodeParagraphClass'
+import hasNodeSpanClass from '../hasNodeSpanClass'
+import hasNodeParagraphClass from '../hasNodeParagraphClass'
 import showAlertIfOtherParagraph from './showAlertIfOtherParagraph'
 import getParagraph from './getParagraph'
 

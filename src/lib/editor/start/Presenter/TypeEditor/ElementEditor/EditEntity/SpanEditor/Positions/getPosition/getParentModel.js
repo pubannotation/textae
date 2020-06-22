@@ -1,9 +1,12 @@
+import hasNodeParagraphClass from '../../../../hasNodeParagraphClass'
+import hasNodeSpanClass from '../../../../hasNodeSpanClass'
+
 export default function(paragraph, span, node) {
   const parent = node.parentElement
-  if (parent.classList.contains('textae-editor__body__text-box__paragraph')) {
+  if (hasNodeParagraphClass(parent)) {
     return paragraph.get(parent.id)
   }
-  if (parent.classList.contains('textae-editor__span')) {
+  if (hasNodeSpanClass(parent)) {
     return span.get(parent.id)
   }
   throw new Error(`Can not get position of a node : ${node} ${node.data}`)
