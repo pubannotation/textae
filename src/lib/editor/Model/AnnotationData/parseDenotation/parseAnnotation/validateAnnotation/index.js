@@ -1,6 +1,7 @@
 import validateDenotation from './validateDenotation'
 import validateAttribute from './validateAttribute'
 import validateRelation from './validateRelation'
+import transformToReferenceObjectError from './transformToReferenceObjectError'
 
 export default function(text, paragraph, annotation) {
   const resultDenotation = validateDenotation(
@@ -28,9 +29,11 @@ export default function(text, paragraph, annotation) {
       denotationInText: resultDenotation.reject.inText,
       denotationInParagraph: resultDenotation.reject.inParagraph,
       denotationIsNotCrossing: resultDenotation.reject.isNotCrossing,
-      attributeSubj: resultAttribute.reject.subj,
-      relationObj: resultRelation.reject.obj,
-      relationSubj: resultRelation.reject.subj,
+      referencedItems: transformToReferenceObjectError(
+        resultAttribute.reject.subj,
+        resultRelation.reject.obj,
+        resultRelation.reject.subj
+      ),
       hasError:
         resultDenotation.hasError ||
         resultAttribute.hasError ||

@@ -1,23 +1,21 @@
-export default function(reject) {
+export default function(attributeSubj, relationObj, relationSubj) {
   // Combine rejects for referenced object errer.
   // Mark the column you want to highlight.
-  reject.referencedItems = reject.attributeSubj
+  return attributeSubj
     .map((attribute) => {
       attribute.alertSubj = true
       return attribute
     })
     .concat(
-      reject.relationObj.map((relation) => {
+      relationObj.map((relation) => {
         relation.alertObj = true
         return relation
       })
     )
     .concat(
-      reject.relationSubj.map((relation) => {
+      relationSubj.map((relation) => {
         relation.alertSubj = true
         return relation
       })
     )
-
-  return reject
 }
