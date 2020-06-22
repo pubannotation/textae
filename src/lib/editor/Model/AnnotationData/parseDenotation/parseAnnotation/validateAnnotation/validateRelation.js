@@ -6,18 +6,23 @@ export default function(denotations, relations) {
     property: 'obj',
     dictionary: denotations
   })
-  const resultRelationSubj = validate(resultRelationObj.accept, isContains, {
-    property: 'subj',
-    dictionary: denotations
-  })
+  const resultRelationSubj = validate(
+    resultRelationObj.acceptedNodes,
+    isContains,
+    {
+      property: 'subj',
+      dictionary: denotations
+    }
+  )
   const errorCount =
-    resultRelationObj.reject.length + resultRelationSubj.reject.length
+    resultRelationObj.rejectedNodes.length +
+    resultRelationSubj.rejectedNodes.length
 
   return {
-    accept: resultRelationSubj.accept,
+    accept: resultRelationSubj.acceptedNodes,
     reject: {
-      obj: resultRelationObj.reject,
-      subj: resultRelationSubj.reject
+      obj: resultRelationObj.rejectedNodes,
+      subj: resultRelationSubj.rejectedNodes
     },
     hasError: errorCount !== 0
   }

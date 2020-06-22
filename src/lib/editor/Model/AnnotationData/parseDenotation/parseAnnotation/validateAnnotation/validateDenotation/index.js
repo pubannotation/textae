@@ -6,29 +6,33 @@ import isNotSpanCrossing from './isNotSpanCrossing'
 
 export default function(text, paragraph, denotations) {
   const resultHasLength = validate(denotations, hasLength)
-  const resultInText = validate(resultHasLength.accept, isBeginAndEndIn, text)
+  const resultInText = validate(
+    resultHasLength.acceptedNodes,
+    isBeginAndEndIn,
+    text
+  )
   const resultInParagraph = validate(
-    resultInText.accept,
+    resultInText.acceptedNodes,
     isInParagraph,
     paragraph
   )
   const resultIsNotCrossing = validate(
-    resultInParagraph.accept,
+    resultInParagraph.acceptedNodes,
     isNotSpanCrossing
   )
   const errorCount =
-    resultHasLength.reject.length +
-    resultInText.reject.length +
-    resultInParagraph.reject.length +
-    resultIsNotCrossing.reject.length
+    resultHasLength.rejectedNodes.length +
+    resultInText.rejectedNodes.length +
+    resultInParagraph.rejectedNodes.length +
+    resultIsNotCrossing.rejectedNodes.length
 
   return {
-    accept: resultIsNotCrossing.accept,
+    accept: resultIsNotCrossing.acceptedNodes,
     reject: {
-      hasLength: resultHasLength.reject,
-      inText: resultInText.reject,
-      inParagraph: resultInParagraph.reject,
-      isNotCrossing: resultIsNotCrossing.reject
+      hasLength: resultHasLength.rejectedNodes,
+      inText: resultInText.rejectedNodes,
+      inParagraph: resultInParagraph.rejectedNodes,
+      isNotCrossing: resultIsNotCrossing.rejectedNodes
     },
     hasError: errorCount !== 0
   }

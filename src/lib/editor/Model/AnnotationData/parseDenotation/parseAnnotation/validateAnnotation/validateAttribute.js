@@ -6,12 +6,12 @@ export default function(denotations, annotations) {
     property: 'subj',
     dictionary: denotations
   })
-  const errorCount = resultAttributeSubj.reject.length
+  const errorCount = resultAttributeSubj.rejectedNodes.length
 
   return {
-    accept: resultAttributeSubj.accept,
+    accept: resultAttributeSubj.acceptedNodes,
     reject: {
-      subj: resultAttributeSubj.reject
+      subj: resultAttributeSubj.rejectedNodes
     },
     hasError: errorCount !== 0
   }
