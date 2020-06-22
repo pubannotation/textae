@@ -11,8 +11,8 @@ import bindAnnotationPositionOnAnnotationDataEvents from './bindAnnotationPositi
 
 const BODY = `
 <div class="textae-editor__body">
-    <div class="textae-editor__body__annotation-box"></div>
     <div class="textae-editor__body__text-box"></div>
+    <div class="textae-editor__body__annotation-box"></div>
 </div>
 `
 
