@@ -1,6 +1,5 @@
 // Maintainance a state of which the save button is able to be push.
 import Observable from 'observ'
-import hasError from '../hasError'
 
 export default function(editor) {
   // Fix loading annotation automatically when loading multitrack or broken annotation.
@@ -21,8 +20,8 @@ export default function(editor) {
 
   editor.eventEmitter.on(
     'textae.annotationData.all.change',
-    (_, multitrack, reject) => {
-      if (multitrack || hasError(reject)) {
+    (_, multitrack, hasError) => {
+      if (multitrack || hasError) {
         o.set(true)
         loadedAnnotationIsModified = true
       }

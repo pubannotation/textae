@@ -36,13 +36,14 @@ export default class {
     this.paragraph.addSource(annotation.text)
     this.config = annotation.config
 
-    const result = parseDenotation(this, annotation)
+    const { multitrack, hasError, rejects } = parseDenotation(this, annotation)
 
     this._editor.eventEmitter.emit(
       'textae.annotationData.all.change',
       this,
-      result.multitrack,
-      result.rejects
+      multitrack,
+      hasError,
+      rejects
     )
   }
 

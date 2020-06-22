@@ -1,6 +1,7 @@
 import parseAnnotation from './parseAnnotation'
 import importNamespace from './namespace'
 import parseTracks from './parseTracks'
+import hasError from './hasError'
 
 export default function(dataStore, annotation) {
   const tracks = parseTracks(
@@ -25,6 +26,7 @@ export default function(dataStore, annotation) {
   importNamespace(dataStore.namespace, annotation.namespaces)
   return {
     multitrack: tracks[0],
-    rejects: [annotationReject].concat(tracks[1])
+    rejects: [annotationReject].concat(tracks[1]),
+    hasError: hasError([annotationReject].concat(tracks[1]))
   }
 }
