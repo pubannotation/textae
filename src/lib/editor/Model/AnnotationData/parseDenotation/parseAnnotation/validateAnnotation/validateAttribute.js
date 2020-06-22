@@ -11,8 +11,8 @@ export default function(denotations, annotations) {
   return {
     accept: resultAttributeSubj.accept,
     reject: {
-      subj: resultAttributeSubj.reject,
-      hasError: errorCount !== 0
-    }
+      subj: resultAttributeSubj.reject
+    },
+    hasError: errorCount !== 0
   }
 }

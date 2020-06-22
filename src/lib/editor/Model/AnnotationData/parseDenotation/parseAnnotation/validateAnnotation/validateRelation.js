@@ -17,8 +17,8 @@ export default function(denotations, relations) {
     accept: resultRelationSubj.accept,
     reject: {
       obj: resultRelationObj.reject,
-      subj: resultRelationSubj.reject,
-      hasError: errorCount !== 0
-    }
+      subj: resultRelationSubj.reject
+    },
+    hasError: errorCount !== 0
   }
 }
