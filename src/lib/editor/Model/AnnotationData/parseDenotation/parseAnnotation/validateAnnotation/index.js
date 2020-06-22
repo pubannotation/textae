@@ -28,7 +28,7 @@ export default function(text, paragraph, annotation) {
       denotationInText: resultDenotation.reject.inText,
       denotationInParagraph: resultDenotation.reject.inParagraph,
       denotationIsNotCrossing: resultDenotation.reject.isNotCrossing,
-      attributeSubj: resultRelation.reject.subj,
+      attributeSubj: resultAttribute.reject.subj,
       relationObj: resultRelation.reject.obj,
       relationSubj: resultRelation.reject.subj,
       hasError:
