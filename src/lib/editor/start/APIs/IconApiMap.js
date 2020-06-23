@@ -14,8 +14,11 @@ export default function(
     ['undo', commander.undo],
     ['redo', commander.redo],
     ['replicate', () => presenter.event.replicate()],
-    ['replicate-auto', () => presenter.event.toggleReplicateAutoMode()],
-    ['boundary-detection', () => presenter.event.toggleDetectBoundaryMode()],
+    ['replicate-auto', () => presenter.event.toggleButton('replicate-auto')],
+    [
+      'boundary-detection',
+      () => presenter.event.toggleButton('boundary-detection')
+    ],
     ['entity', () => presenter.event.createEntity()],
     ['change-label', () => presenter.event.changeLabel()],
     ['pallet', () => presenter.event.showPallet()],

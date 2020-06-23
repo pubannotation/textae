@@ -134,11 +134,8 @@ export default class {
     this._editMode.toggleSimple()
   }
 
-  toggleReplicateAutoMode() {
-    this._buttonController.toggle('replicate-auto')
-  }
-  toggleDetectBoundaryMode() {
-    this._buttonController.toggle('boundary-detection')
+  toggleButton(name) {
+    this._buttonController.toggle(name)
   }
 
   changeMode() {
