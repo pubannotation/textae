@@ -8,8 +8,8 @@ import create from './create'
 import expand from './expand'
 import crossTheEar from './crossTheEar'
 import pullByTheEar from './pullByTheEar'
-import hasNodeParagraphClass from '../../hasNodeParagraphClass'
-import hasNodeSpanClass from '../../hasNodeSpanClass'
+import isNodeParagraph from '../../isNodeParagraph'
+import isNodeSpan from '../../isNodeSpan'
 
 export default class {
   constructor(
@@ -35,9 +35,9 @@ export default class {
     if (isValid) {
       // The parent of the focusNode is the paragraph.
       // Same paragraph check is done in the validateOnText.
-      if (hasNodeParagraphClass(data.selection.anchorNode.parentNode)) {
+      if (isNodeParagraph(data.selection.anchorNode.parentNode)) {
         this._create(data)
-      } else if (hasNodeSpanClass(data.selection.anchorNode.parentNode)) {
+      } else if (isNodeSpan(data.selection.anchorNode.parentNode)) {
         this._expand(data)
       }
     }

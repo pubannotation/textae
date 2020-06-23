@@ -1,5 +1,5 @@
-import hasNodeSpanClass from '../hasNodeSpanClass'
-import hasNodeParagraphClass from '../hasNodeParagraphClass'
+import isNodeSpan from '../isNodeSpan'
+import isNodeParagraph from '../isNodeParagraph'
 import showAlertIfOtherParagraph from './showAlertIfOtherParagraph'
 import getParagraph from './getParagraph'
 
@@ -9,16 +9,16 @@ export default class {
   }
 
   isFocusNodeInSpan() {
-    return hasNodeSpanClass(this._selection.focusNode.parentNode)
+    return isNodeSpan(this._selection.focusNode.parentNode)
   }
 
   isFocusNodeInParagraph() {
-    return hasNodeParagraphClass(this._selection.focusNode.parentNode)
+    return isNodeParagraph(this._selection.focusNode.parentNode)
   }
 
   isAnchrNodeInSpanOrParagraph() {
     const node = this._selection.anchorNode.parentNode
-    return hasNodeSpanClass(node) || hasNodeParagraphClass(node)
+    return isNodeSpan(node) || isNodeParagraph(node)
   }
 
   showAlertIfOtherParagraph() {
