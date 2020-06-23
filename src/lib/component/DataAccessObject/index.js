@@ -61,7 +61,7 @@ export default class {
     )
   }
 
-  showAccessAnno(hasChange) {
+  showAccessAnnotation(hasChange) {
     const readAnnotationFile = ({ files }) => {
       const file = files[0]
 
@@ -101,7 +101,7 @@ export default class {
     ).open()
   }
 
-  showAccessConf(hasChange) {
+  showAccessConfiguration(hasChange) {
     function parseData(result) {
       if (isJSON(result)) {
         return JSON.parse(result)
@@ -137,7 +137,7 @@ export default class {
     ).open()
   }
 
-  showSaveAnno(editedData, saveToParameter = null) {
+  showSaveAnnotation(editedData, saveToParameter = null) {
     new SaveAnnotationDialog(
       this._editor,
       saveToParameter || this._urlOfLastRead.annotation,
@@ -145,7 +145,7 @@ export default class {
     ).open()
   }
 
-  showSaveConf(originalData, editedData) {
+  showSaveConfiguration(originalData, editedData) {
     new SaveConfigurationDialog(
       this._editor,
       this._urlOfLastRead.config,

@@ -21,20 +21,20 @@ export default class {
   }
 
   importAnnotation() {
-    this._dataAccessObject.showAccessAnno(
+    this._dataAccessObject.showAccessAnnotation(
       this._history.hasAnythingToSaveAnnotation
     )
   }
 
   uploadAnnotation() {
-    this._dataAccessObject.showSaveAnno(
+    this._dataAccessObject.showSaveAnnotation(
       this._editedAnnotation,
       this._saveToParameter
     )
   }
 
   importConfiguration() {
-    this._dataAccessObject.showAccessConf(
+    this._dataAccessObject.showAccessConfiguration(
       this._history.hasAnythingToSaveConfiguration
     )
   }
