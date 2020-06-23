@@ -22,13 +22,15 @@ import observeHistoryChange from './observeHistoryChange'
 import CONFIRM_DISCARD_CHANGE_MESSAGE from '../CONFIRM_DISCARD_CHANGE_MESSAGE'
 import ButtonController from '../../ButtonController'
 import ClipBoard from './ClipBoard'
+import AnnotationAutoSaver from './AnnotationAutoSaver'
 
 export default function(
   editor,
   dataAccessObject,
   history,
   annotationData,
-  selectionModel
+  selectionModel,
+  annotationWatcher
 ) {
   const params = getParams(editor[0])
   const spanConfig = new SpanConfig()
@@ -178,6 +180,15 @@ export default function(
     () => originalData.configuration,
     params.get('annotation').get('save_to')
   )
+
+  new AnnotationAutoSaver(
+    editor,
+    buttonController,
+    persistenceInterface,
+    params.get('annotation').get('save_to'),
+    annotationWatcher
+  )
+
   const updateLineHeight = () =>
     calculateLineHeight(editor, annotationData, typeGap, view)
 

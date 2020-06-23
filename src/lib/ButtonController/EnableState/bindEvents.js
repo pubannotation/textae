@@ -27,4 +27,7 @@ export default function(editor, state) {
     .on('textae.clipBoard.change', () =>
       state.enabled('paste', state._enablePaste)
     )
+    .on('textae.annotationAutoSaver.enable', (enable) =>
+      state.enabled('write-auto', enable)
+    )
 }

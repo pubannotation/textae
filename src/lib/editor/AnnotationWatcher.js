@@ -37,4 +37,8 @@ export default class {
   bind(callback) {
     this._observable(callback)
   }
+
+  get hasChange() {
+    return this._observable()
+  }
 }

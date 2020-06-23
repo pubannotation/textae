@@ -33,6 +33,13 @@ export default class {
     )
   }
 
+  saveAnnotation() {
+    this._dataAccessObject.saveAnnotation(
+      this._editedAnnotation,
+      this._saveToParameter
+    )
+  }
+
   importConfiguration() {
     this._dataAccessObject.showAccessConfiguration(
       this._history.hasAnythingToSaveConfiguration

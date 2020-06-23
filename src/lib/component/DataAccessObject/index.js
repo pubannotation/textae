@@ -8,6 +8,7 @@ import AjaxSender from './AjaxSender'
 import isJSON from './isJSON'
 import isTxtFile from './isTxtFile'
 import bind from './bind'
+import save from './save'
 
 // A sub component to save and load data.
 export default class {
@@ -37,7 +38,12 @@ export default class {
         this._editor.eventEmitter.emit(
           'textae.dataAccessObject.annotation.load',
           source,
-          annotation
+          annotation,
+          url
+        )
+        this._editor.eventEmitter.emit(
+          'textae.dataAccessObject.annotation.setUrl',
+          url
         )
         this._urlOfLastRead.annotation = url
       },
@@ -143,6 +149,13 @@ export default class {
       saveToParameter || this._urlOfLastRead.annotation,
       editedData
     ).open()
+  }
+
+  saveAnnotation(editedData, saveToParameter) {
+    const url = saveToParameter || this._urlOfLastRead.annotation
+    if (url) {
+      save(this._editor, this._ajaxSender, url, JSON.stringify(editedData))
+    }
   }
 
   showSaveConfiguration(originalData, editedData) {

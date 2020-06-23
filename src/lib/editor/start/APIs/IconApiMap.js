@@ -11,6 +11,7 @@ export default function(
     ['simple', () => presenter.event.toggleSimpleMode()],
     ['read', () => persistenceInterface.importAnnotation()],
     ['write', () => persistenceInterface.uploadAnnotation()],
+    ['write-auto', () => presenter.event.toggleButton('write-auto')],
     ['undo', commander.undo],
     ['redo', commander.redo],
     ['replicate', () => presenter.event.replicate()],

@@ -26,7 +26,8 @@ export default function() {
     CONFIRM_DISCARD_CHANGE_MESSAGE
   )
 
-  new AnnotationWatcher(this).bind((val) =>
+  const annotationWatcher = new AnnotationWatcher(this)
+  annotationWatcher.bind((val) =>
     this.eventEmitter.emit('textae.control.writeButton.transit', val)
   )
   observeDataSave(this, history)
@@ -35,7 +36,14 @@ export default function() {
   // public funcitons of editor
   this.api = {
     start: (editor) =>
-      start(editor, dataAccessObject, history, annotationData, selectionModel)
+      start(
+        editor,
+        dataAccessObject,
+        history,
+        annotationData,
+        selectionModel,
+        annotationWatcher
+      )
   }
 
   return this

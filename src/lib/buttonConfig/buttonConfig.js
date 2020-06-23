@@ -7,6 +7,11 @@ export const buttonConfig = [
     {
       type: 'write',
       title: 'Upload [U]'
+    },
+    {
+      type: 'write-auto',
+      title: 'Upload Automatically',
+      push: true
     }
   ],
   [
