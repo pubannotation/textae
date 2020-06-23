@@ -1,11 +1,11 @@
+import save from './save'
+
 export default function bind(editor, ajaxSender) {
   const emitter = editor.eventEmitter
 
   emitter
     .on('textae.saveAnnotationDialog.url.click', (url, data) =>
-      ajaxSender.post(url, data, () =>
-        emitter.emit('textae.dataAccessObject.annotation.save')
-      )
+      save(editor, ajaxSender, url, data)
     )
     .on('textae.saveAnnotationDialog.download.click', () =>
       emitter.emit('textae.dataAccessObject.annotation.save')
