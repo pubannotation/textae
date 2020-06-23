@@ -8,15 +8,15 @@ export default class {
     this._selection = selection
   }
 
-  isFocusNodeInSpan() {
+  get isFocusNodeInSpan() {
     return isNodeSpan(this._selection.focusNode.parentNode)
   }
 
-  isFocusNodeInParagraph() {
+  get isFocusNodeInParagraph() {
     return isNodeParagraph(this._selection.focusNode.parentNode)
   }
 
-  isAnchrNodeInSpanOrParagraph() {
+  get isAnchrNodeInSpanOrParagraph() {
     const node = this._selection.anchorNode.parentNode
     return isNodeSpan(node) || isNodeParagraph(node)
   }

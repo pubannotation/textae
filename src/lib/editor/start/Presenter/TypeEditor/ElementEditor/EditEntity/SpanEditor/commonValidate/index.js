@@ -6,7 +6,7 @@ export default function(annotationData, spanConfig, selection) {
 
   // This order is not important.
   return (
-    selectionWrapper.isAnchrNodeInSpanOrParagraph() &&
+    selectionWrapper.isAnchrNodeInSpanOrParagraph &&
     hasCharacters(annotationData, spanConfig, selection)
   )
 }
