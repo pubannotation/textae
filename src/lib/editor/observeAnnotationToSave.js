@@ -1,7 +1,7 @@
 // Maintainance a state of which the save button is able to be push.
 import Observable from 'observ'
 
-export default function(editor) {
+export default function(editor, callback) {
   // Fix loading annotation automatically when loading multitrack or broken annotation.
   // That is differnt with data on the serever.
   // So even if no changes at the editor, there is something to save to the server.
@@ -30,7 +30,5 @@ export default function(editor) {
     }
   )
 
-  o((val) =>
-    editor.eventEmitter.emit('textae.control.writeButton.transit', val)
-  )
+  o(callback)
 }
