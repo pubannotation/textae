@@ -1,5 +1,5 @@
-import showSaveAnnoDialogWithEditedData from './showSaveAnnoDialogWithEditedData'
 import showSaveConfDialogWithEditedData from './showSaveConfDialogWithEditedData'
+import mergeAnnotation from './mergeAnnotation'
 
 export default class {
   constructor(
@@ -27,11 +27,8 @@ export default class {
   }
 
   uploadAnnotation() {
-    showSaveAnnoDialogWithEditedData(
-      this._dataAccessObject,
-      this._annotationData,
-      this._typeDefinition.config,
-      this._getOriginalAnnotation(),
+    this._dataAccessObject.showSaveAnno(
+      this._editedAnnotation,
       this._saveToParameter
     )
   }
@@ -47,6 +44,14 @@ export default class {
       this._dataAccessObject,
       this._typeDefinition.config,
       this._getOriginalConfig()
+    )
+  }
+
+  get _editedAnnotation() {
+    return mergeAnnotation(
+      this._getOriginalAnnotation(),
+      this._annotationData,
+      this._typeDefinition.config
     )
   }
 }
