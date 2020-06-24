@@ -1,4 +1,3 @@
-import getSelectionSnapShot from './getSelectionSnapShot'
 import clearTextSelection from '../../../clearTextSelection'
 
 export default function(onSelectEndOnSpan, selectSpan, event) {
