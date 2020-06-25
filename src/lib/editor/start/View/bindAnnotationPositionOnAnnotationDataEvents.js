@@ -1,38 +1,20 @@
 import debounce from 'debounce'
 
 export default function(editor, annotationPosition, typeGap) {
-  const debouncedUpdateAnnotationPosition = debounce(
+  const debouncedUpdatePosition = debounce(
     () => annotationPosition.updateAsync(typeGap()),
     100
   )
   editor.eventEmitter
-    .on('textae.annotationData.all.change', () => {
-      debouncedUpdateAnnotationPosition()
-    })
-    .on('textae.annotationData.entity.add', () => {
-      debouncedUpdateAnnotationPosition()
-    })
-    .on('textae.annotationData.entity.change', () => {
-      debouncedUpdateAnnotationPosition()
-    })
-    .on('textae.annotationData.entity.remove', () => {
-      debouncedUpdateAnnotationPosition()
-    })
-    .on('textae.annotationData.entity.move', () => {
-      debouncedUpdateAnnotationPosition()
-    })
-    .on('textae.annotationData.relation.add', () => {
-      debouncedUpdateAnnotationPosition()
-    })
-    .on('textae.annotationData.attribute.add', () => {
-      debouncedUpdateAnnotationPosition()
-    })
-    .on('textae.annotationData.attribute.change', () => {
-      debouncedUpdateAnnotationPosition()
-    })
-    .on('textae.annotationData.attribute.remove', () => {
-      debouncedUpdateAnnotationPosition()
-    })
+    .on('textae.annotationData.all.change', debouncedUpdatePosition)
+    .on('textae.annotationData.entity.add', debouncedUpdatePosition)
+    .on('textae.annotationData.entity.change', debouncedUpdatePosition)
+    .on('textae.annotationData.entity.remove', debouncedUpdatePosition)
+    .on('textae.annotationData.entity.move', debouncedUpdatePosition)
+    .on('textae.annotationData.relation.add', debouncedUpdatePosition)
+    .on('textae.annotationData.attribute.add', debouncedUpdatePosition)
+    .on('textae.annotationData.attribute.change', debouncedUpdatePosition)
+    .on('textae.annotationData.attribute.remove', debouncedUpdatePosition)
     .on('textae.annotationData.span.move', () => {
       // Move grids and relations synchronously.
       // If grid and relations move asynchronously,
