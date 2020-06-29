@@ -6,23 +6,18 @@ import Commander from './Commander'
 import TypeDefinition from '../Model/TypeDefinition'
 import View from './View'
 import Presenter from './Presenter'
-import bindMouseEvent from './bindMouseEvent'
 import PersistenceInterface from './PersistenceInterface'
 import APIs from './APIs'
 import calculateLineHeight from './calculateLineHeight'
 import focusEditorWhenFocusedChildRemoved from './focusEditorWhenFocusedChildRemoved'
 import getStatusBar from './getStatusBar'
-import setSpanAndTypeConfig from './setSpanAndTypeConfig'
-import setAnnotation from './setAnnotation'
 import loadAnnotation from './loadAnnotation'
 import getConfigEditParamFromUrl from './getConfigEditParamFromUrl'
 import OriginalData from './OriginalData'
-import validateConfigurationAndAlert from './validateConfigurationAndAlert'
-import observeHistoryChange from './observeHistoryChange'
-import CONFIRM_DISCARD_CHANGE_MESSAGE from '../CONFIRM_DISCARD_CHANGE_MESSAGE'
 import ButtonController from '../../ButtonController'
 import ClipBoard from './ClipBoard'
 import AnnotationAutoSaver from './AnnotationAutoSaver'
+import observe from './observe'
 
 export default function(
   editor,
@@ -34,11 +29,6 @@ export default function(
 ) {
   const params = getParams(editor[0])
   const spanConfig = new SpanConfig()
-
-  editor.eventEmitter.on('textae.typeDefinition.reset', () =>
-    history.resetConfiguration()
-  )
-
   const typeDefinition = new TypeDefinition(editor, annotationData)
 
   // Users can edit model only via commands.
@@ -49,14 +39,12 @@ export default function(
     history,
     typeDefinition
   )
-
   const clipBoard = new ClipBoard(editor, commander, selectionModel)
   const buttonController = new ButtonController(
     editor,
     selectionModel,
     clipBoard
   )
-
   const typeGap = new Observable({
     value: -1,
     showInstance: false
@@ -68,59 +56,7 @@ export default function(
     typeGap,
     typeDefinition
   )
-
   const originalData = new OriginalData()
-
-  observeHistoryChange(editor, CONFIRM_DISCARD_CHANGE_MESSAGE)
-
-  editor.eventEmitter
-    .on('textae.dataAccessObject.annotation.load', (source, annotation) => {
-      setAnnotation(
-        spanConfig,
-        typeDefinition,
-        annotationData,
-        annotation,
-        params.get('config')
-      )
-      statusBar.status(source)
-
-      // When saving the changed data,
-      // it keeps the original data so that properties not edited by textae are not lost.
-      originalData.annotation = annotation
-      if (annotation.config) {
-        originalData.configuration = annotation.config
-      }
-
-      editor.eventEmitter.emit('textae.pallet.update')
-    })
-    .on('textae.dataAccessObject.annotation.loadError', (source) =>
-      alertifyjs.error(
-        `${source} is not a annotation file or its format is invalid.`
-      )
-    )
-    .on('textae.dataAccessObject.configuration.load', (source, config) => {
-      const [isValid, patchedConfig] = validateConfigurationAndAlert(
-        annotationData.toJson(),
-        config,
-        `${source} is not a configuration file or its format is invalid.`
-      )
-      if (!isValid) return
-
-      originalData.configuration = config
-      setSpanAndTypeConfig(spanConfig, typeDefinition, patchedConfig)
-    })
-    .on('textae.dataAccessObject.configuration.loadError', (source) =>
-      alertifyjs.error(
-        `${source} is not a configuration file or its format is invalid.`
-      )
-    )
-    .on('textae.dataAccessObject.configuration.save', () => {
-      originalData.configuration = Object.assign(
-        originalData.configuration,
-        typeDefinition.config
-      )
-    })
-
   const presenter = new Presenter(
     editor,
     annotationData,
@@ -136,7 +72,6 @@ export default function(
     params.get('mode')
   )
 
-  bindMouseEvent(editor, view)
   focusEditorWhenFocusedChildRemoved(editor)
 
   const statusBar = getStatusBar(editor, params.get('status_bar'))
@@ -201,11 +136,16 @@ export default function(
     updateLineHeight
   )
 
-  // Bind keyup event
-  editor[0].addEventListener('keyup', (event) => {
-    editor.eventEmitter.emit('textae.editor.key.input')
-    editor.api.handleKeyInput(event)
-  })
+  observe(
+    editor,
+    history,
+    annotationData,
+    spanConfig,
+    typeDefinition,
+    params,
+    statusBar,
+    originalData
+  )
 
   // Add tabIndex to listen to keyboard events.
   editor[0].tabIndex = -1
