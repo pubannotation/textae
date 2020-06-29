@@ -9,15 +9,14 @@ export default class {
     presenter,
     persistenceInterface,
     buttonController,
-    view,
-    updateLineHeight
+    view
   ) {
     this._keyApiMap = new KeyApiMap(commander, presenter, persistenceInterface)
     this._iconApiMap = new IconApiMap(
       commander,
       presenter,
       persistenceInterface,
-      updateLineHeight
+      view
     )
     this._palletApiMap = new PalletApiMap(persistenceInterface)
     this._view = view

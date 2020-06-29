@@ -8,7 +8,6 @@ import View from './View'
 import Presenter from './Presenter'
 import PersistenceInterface from './PersistenceInterface'
 import APIs from './APIs'
-import calculateLineHeight from './calculateLineHeight'
 import focusEditorWhenFocusedChildRemoved from './focusEditorWhenFocusedChildRemoved'
 import getStatusBar from './getStatusBar'
 import loadAnnotation from './loadAnnotation'
@@ -124,16 +123,12 @@ export default function(
     annotationWatcher
   )
 
-  const updateLineHeight = () =>
-    calculateLineHeight(editor, annotationData, typeGap, view)
-
   editor.api = new APIs(
     commander,
     presenter,
     persistenceInterface,
     buttonController,
-    view,
-    updateLineHeight
+    view
   )
 
   observe(

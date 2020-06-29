@@ -1,9 +1,4 @@
-export default function(
-  commander,
-  presenter,
-  persistenceInterface,
-  updateLineHeight
-) {
+export default function(commander, presenter, persistenceInterface, view) {
   return new Map([
     ['view', () => presenter.event.toViewMode()],
     ['term', () => presenter.event.toTermMode()],
@@ -28,6 +23,6 @@ export default function(
     ['cut', () => presenter.event.cutEntities()],
     ['paste', () => presenter.event.pasteEntities()],
     ['setting', () => presenter.event.showSettingDialog()],
-    ['line-height', updateLineHeight]
+    ['line-height', () => view.updateLineHeight()]
   ])
 }

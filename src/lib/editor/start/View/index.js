@@ -9,6 +9,7 @@ import Renderer from './Renderer'
 import bindAnnotationDataEvents from './bindAnnotationDataEvents'
 import HoverRelation from './HoverRelation'
 import bindMouseEvents from './bindMouseEvents'
+import setLineHeightToTypeGap from './setLineHeightToTypeGap'
 
 export default class {
   constructor(editor, annotationData, selectionModel, typeGap, typeDefinition) {
@@ -43,12 +44,22 @@ export default class {
     bindMouseEvents(editor, new HoverRelation(editor, annotationData.entity))
 
     this._editor = editor
+    this._annotationData = annotationData
     this._typeGap = typeGap
     this._annotationPosition = annotationPosition
   }
 
   updateDisplay() {
     updateTextBoxHeight(this._editor[0])
+    this._annotationPosition.update(this._typeGap())
+  }
+
+  updateLineHeight() {
+    setLineHeightToTypeGap(
+      this._editor[0],
+      this._annotationData,
+      this._typeGap()
+    )
     this._annotationPosition.update(this._typeGap())
   }
 }
