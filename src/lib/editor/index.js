@@ -4,7 +4,7 @@ import AnnotationData from './Model/AnnotationData'
 import Selection from './Selection'
 // The history of command that providing undo and redo.
 import History from './History'
-import observeAnnotationToSave from './observeAnnotationToSave'
+import AnnotationWatcher from './AnnotationWatcher'
 import start from './start'
 import { EventEmitter } from 'events'
 import CONFIRM_DISCARD_CHANGE_MESSAGE from './CONFIRM_DISCARD_CHANGE_MESSAGE'
@@ -26,7 +26,7 @@ export default function() {
     CONFIRM_DISCARD_CHANGE_MESSAGE
   )
 
-  observeAnnotationToSave(this, (val) =>
+  new AnnotationWatcher(this).bind((val) =>
     this.eventEmitter.emit('textae.control.writeButton.transit', val)
   )
   observeDataSave(this, history)
