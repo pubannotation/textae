@@ -5,21 +5,21 @@ import arrangeGridPosition from './arrangeGridPosition'
 // Management position of annotation components.
 export default class {
   constructor(editor, annotationData) {
-    this.editor = editor
-    this.annotationData = annotationData
-    this.domPositionCache = getDomPositionCache(editor, annotationData.entity)
+    this._editor = editor
+    this._annotationData = annotationData
+    this._domPositionCache = getDomPositionCache(editor, annotationData.entity)
   }
 
   arrangePosition(typeGap) {
-    this.domPositionCache.reset()
+    this._domPositionCache.reset()
 
     // Cache all span position because alternating between getting offset and setting offset.
-    this.domPositionCache.cacheAllSpan(this.annotationData.span.all)
+    this._domPositionCache.cacheAllSpan(this._annotationData.span.all)
 
-    for (const span of this.annotationData.span.all) {
+    for (const span of this._annotationData.span.all) {
       arrangeGridPosition(
-        this.domPositionCache,
-        this.annotationData,
+        this._domPositionCache,
+        this._annotationData,
         typeGap,
         span
       )
@@ -27,12 +27,12 @@ export default class {
   }
 
   arrangePositionAsync(typeGap) {
-    this.domPositionCache.reset()
+    this._domPositionCache.reset()
 
     return Promise.all(
       genArrangeAllGridPositionPromises(
-        this.domPositionCache,
-        this.annotationData,
+        this._domPositionCache,
+        this._annotationData,
         typeGap
       )
     )
