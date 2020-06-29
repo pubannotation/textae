@@ -1,5 +1,4 @@
 import CursorChanger from '../../../util/CursorChanger'
-import Hover from './Hover'
 import AnnotationPosition from './AnnotationPosition'
 import bindClipBoardEvents from './bindClipBoardEvents'
 import bindSelectionModelEvents from './bindSelectionModelEvents'
@@ -8,6 +7,8 @@ import bindTypeGapEvents from './bindTypeGapEvents'
 import bindAnnotaitonPositionEvents from './bindAnnotaitonPositionEvents'
 import Renderer from './Renderer'
 import bindAnnotationPositionOnAnnotationDataEvents from './bindAnnotationPositionOnAnnotationDataEvents'
+import HoverRelation from './HoverRelation'
+import bindMouseEvents from './bindMouseEvents'
 
 export default class {
   constructor(editor, annotationData, selectionModel, typeGap, typeDefinition) {
@@ -43,15 +44,11 @@ export default class {
       typeGap
     )
     bindAnnotaitonPositionEvents(editor, new CursorChanger(editor))
+    bindMouseEvents(editor, new HoverRelation(editor, annotationData.entity))
 
-    this._hoverRelation = new Hover(editor, annotationData.entity)
     this._editor = editor
     this._typeGap = typeGap
     this._annotationPosition = annotationPosition
-  }
-
-  get hoverRelation() {
-    return this._hoverRelation
   }
 
   updateDisplay() {
