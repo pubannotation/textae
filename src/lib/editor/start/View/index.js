@@ -10,6 +10,7 @@ import HoverRelation from './HoverRelation'
 import bindMouseEvents from './bindMouseEvents'
 import TextBox from './TextBox'
 import GridHeight from './GridHeight'
+import LineHeightAuto from './bindAnnotationDataEvents/LineHeightAuto'
 
 export default class {
   constructor(editor, annotationData, selectionModel, typeGap, typeDefinition) {
@@ -43,7 +44,7 @@ export default class {
       gridHeight
     )
     bindTypeGapEvents(typeGap, editor, textBox, annotationPosition)
-    bindAnnotationDataEvents(editor, annotationPosition)
+    bindAnnotationDataEvents(editor, annotationPosition, textBox)
     bindAnnotaitonPositionEvents(editor, new CursorChanger(editor))
     bindMouseEvents(editor, new HoverRelation(editor, annotationData.entity))
 

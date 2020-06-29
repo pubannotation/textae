@@ -40,6 +40,11 @@ export const buttonConfig = [
     {
       type: 'line-height',
       title: 'Adjust LineHeight'
+    },
+    {
+      type: 'line-height-auto',
+      title: 'Auto Adjust LineHeight',
+      push: true
     }
   ],
   [

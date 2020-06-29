@@ -1,10 +1,13 @@
 import debounce from 'debounce'
+import LineHeightAuto from './LineHeightAuto'
 
-export default function(editor, annotationPosition) {
-  const debouncedUpdatePosition = debounce(
-    () => annotationPosition.updateAsync(),
-    100
-  )
+export default function(editor, annotationPosition, textBox) {
+  const lineHeightAuto = new LineHeightAuto(editor, textBox)
+  const debouncedUpdatePosition = debounce(() => {
+    lineHeightAuto.updateLineHeight()
+    annotationPosition.updateAsync()
+  }, 100)
+
   editor.eventEmitter
     .on('textae.annotationData.all.change', debouncedUpdatePosition)
     .on('textae.annotationData.entity.add', debouncedUpdatePosition)

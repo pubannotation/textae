@@ -22,6 +22,7 @@ export default function(editor, state) {
       state.enabled('replicate-auto', isSpanEdit(mode, editable))
       state.enabled('boundary-detection', isSpanEdit(mode, editable))
       state.enabled('line-height', editable)
+      state.enabled('line-height-auto', editable)
       state.enabled('pallet', !isView(editable))
     })
     .on('textae.clipBoard.change', () =>
