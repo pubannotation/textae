@@ -27,4 +27,8 @@ export default class {
   getButton(name) {
     return this._buttonMap.get(name)
   }
+
+  get names() {
+    return this._buttonMap.keys()
+  }
 }

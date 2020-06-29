@@ -13,6 +13,10 @@ export default class {
     this._pushButtons.propagate()
   }
 
+  get pushButtonNames() {
+    return this._pushButtons.names
+  }
+
   toggle(buttonName) {
     return this._pushButtons.getButton(buttonName).toggle()
   }
