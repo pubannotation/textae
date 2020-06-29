@@ -8,6 +8,7 @@ import selectLowerLayer from './selectLowerLayer'
 
 export default class {
   constructor(
+    editor,
     commander,
     selectionModel,
     typeDefinition,
@@ -16,20 +17,21 @@ export default class {
     buttonController,
     spanConfig,
     clipBoard,
+    view,
     typeEditor,
-    editor,
     editMode
   ) {
-    this._clipBoard = clipBoard
-    this._commander = commander
     this._editor = editor
+    this._commander = commander
     this._selectionModel = selectionModel
     this._typeDefinition = typeDefinition
     this._displayInstance = displayInstance
-    this._typeEditor = typeEditor
     this._annotationData = annotationData
     this._buttonController = buttonController
     this._spanConfig = spanConfig
+    this._clipBoard = clipBoard
+    this._view = view
+    this._typeEditor = typeEditor
     this._editMode = editMode
   }
 
@@ -93,7 +95,8 @@ export default class {
     new SettingDialog(
       this._editor,
       this._typeDefinition,
-      this._displayInstance
+      this._displayInstance,
+      this._view
     ).open()
   }
 

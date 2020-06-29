@@ -1,7 +1,6 @@
 import renderText from './renderText'
 import updateBlockStyleOfSpan from './updateBlockStyleOfSpan'
 import renderAllAnnotations from './renderAllAnnotations'
-import setLineHeightToTypeGap from '../../setLineHeightToTypeGap'
 import SpanRenderer from './SpanRenderer'
 
 export default function(
@@ -9,9 +8,9 @@ export default function(
   editor,
   domPositionCache,
   relationRenderer,
-  typeGap,
   gridRenderer,
-  entityRenderer
+  entityRenderer,
+  textBox
 ) {
   const spanRenderer = new SpanRenderer(editor, annotationData, (entity) =>
     entityRenderer.render(entity)
@@ -27,7 +26,7 @@ export default function(
         spanRenderer,
         relationRenderer
       )
-      setLineHeightToTypeGap(editor[0], annotationData, typeGap())
+      textBox.updateLineHeight()
     })
     .on('textae.annotationData.span.add', (span) => {
       spanRenderer.render(span)

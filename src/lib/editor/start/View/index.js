@@ -2,14 +2,13 @@ import CursorChanger from '../../../util/CursorChanger'
 import AnnotationPosition from './AnnotationPosition'
 import bindClipBoardEvents from './bindClipBoardEvents'
 import bindSelectionModelEvents from './bindSelectionModelEvents'
-import updateTextBoxHeight from './updateTextBoxHeight'
 import bindTypeGapEvents from './bindTypeGapEvents'
 import bindAnnotaitonPositionEvents from './bindAnnotaitonPositionEvents'
 import Renderer from './Renderer'
 import bindAnnotationDataEvents from './bindAnnotationDataEvents'
 import HoverRelation from './HoverRelation'
 import bindMouseEvents from './bindMouseEvents'
-import setLineHeightToTypeGap from './setLineHeightToTypeGap'
+import TextBox from './TextBox'
 
 export default class {
   constructor(editor, annotationData, selectionModel, typeGap, typeDefinition) {
@@ -26,19 +25,21 @@ export default class {
     bindClipBoardEvents(editor)
     bindSelectionModelEvents(editor, annotationData)
 
+    const textBox = new TextBox(editor, annotationData, typeGap)
     const renderer = new Renderer(
       editor,
       annotationData,
       selectionModel,
       typeDefinition,
-      typeGap
+      typeGap,
+      textBox
     )
     const annotationPosition = new AnnotationPosition(
       editor,
       annotationData,
       renderer
     )
-    bindTypeGapEvents(typeGap, editor, annotationData, annotationPosition)
+    bindTypeGapEvents(typeGap, editor, textBox, annotationPosition)
     bindAnnotationDataEvents(editor, annotationPosition, typeGap)
     bindAnnotaitonPositionEvents(editor, new CursorChanger(editor))
     bindMouseEvents(editor, new HoverRelation(editor, annotationData.entity))
@@ -47,19 +48,24 @@ export default class {
     this._annotationData = annotationData
     this._typeGap = typeGap
     this._annotationPosition = annotationPosition
+    this._textBox = textBox
   }
 
   updateDisplay() {
-    updateTextBoxHeight(this._editor[0])
+    this._textBox.forceUpdate()
     this._annotationPosition.update(this._typeGap())
   }
 
   updateLineHeight() {
-    setLineHeightToTypeGap(
-      this._editor[0],
-      this._annotationData,
-      this._typeGap()
-    )
+    this._textBox.updateLineHeight()
     this._annotationPosition.update(this._typeGap())
+  }
+
+  getLineHeight() {
+    return this._textBox.lineHeight
+  }
+
+  setLineHeight(value) {
+    this._textBox.lineHeight = value
   }
 }

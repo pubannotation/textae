@@ -1,16 +1,15 @@
 import delegate from 'delegate'
-import getLineHeight from '../../editor/start/View/lineHeight/getLineHeight'
 import Dialog from '../Dialog'
 import createContentHtml from './createContentHtml'
 import reflectImmediately from './reflectImmediately'
 import packageJson from '../../../../package.json'
 
 export default class extends Dialog {
-  constructor(editor, typeDefinition, displayInstance) {
+  constructor(editor, typeDefinition, displayInstance, view) {
     const contentHtml = createContentHtml({
       typeGapDisabled: !displayInstance.showInstance,
       typeGap: displayInstance.typeGap,
-      lineHeight: getLineHeight(editor[0]),
+      lineHeight: view.getLineHeight(),
       typeDefinitionLocked: typeDefinition.isLock(),
       version: packageJson.version
     })
@@ -20,7 +19,7 @@ export default class extends Dialog {
     })
 
     // Reflects configuration changes in real time.
-    reflectImmediately(super.el, editor, displayInstance, typeDefinition)
+    reflectImmediately(super.el, editor, displayInstance, typeDefinition, view)
 
     // Observe enter key press
     delegate(super.el, `.textae-editor--dialog`, 'keyup', (e) => {

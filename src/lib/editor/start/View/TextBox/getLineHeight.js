@@ -1,5 +1,5 @@
-import getTextBox from '../getTextBox'
-import pixelToInt from '../pixelToInt'
+import getTextBox from './getTextBox'
+import pixelToInt from './pixelToInt'
 
 export default function(editor) {
   const textBox = getTextBox(editor)

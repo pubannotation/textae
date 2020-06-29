@@ -1,10 +1,9 @@
-import setLineHeightToTypeGap from '../setLineHeightToTypeGap'
 import updateAllTypeGaps from './updateAllTypeGaps'
 
-export default function(typeGap, editor, annotationData, annotationPosition) {
+export default function(typeGap, editor, textBox, annotationPosition) {
   typeGap((newValue) => {
     updateAllTypeGaps(editor, newValue)
-    setLineHeightToTypeGap(editor[0], annotationData, newValue)
+    textBox.updateLineHeight()
     annotationPosition.update(newValue)
   })
 }

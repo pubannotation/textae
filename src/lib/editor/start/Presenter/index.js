@@ -14,6 +14,7 @@ export default class {
     clipBoard,
     buttonController,
     typeGap,
+    view,
     originalData,
     typeDefinition,
     autocompletionWs,
@@ -46,6 +47,7 @@ export default class {
     bindModelChange(editor, editMode, mode)
 
     this.event = new EventMap(
+      editor,
       commander,
       selectionModel,
       typeDefinition,
@@ -54,8 +56,8 @@ export default class {
       buttonController,
       spanConfig,
       clipBoard,
+      view,
       typeEditor,
-      editor,
       editMode
     )
 

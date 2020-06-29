@@ -1,3 +1,3 @@
-export default function getTextBox(editor) {
+export default function(editor) {
   return editor.querySelector('.textae-editor__body__text-box')
 }

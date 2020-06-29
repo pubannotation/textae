@@ -65,6 +65,7 @@ export default function(
     clipBoard,
     buttonController,
     typeGap,
+    view,
     originalData,
     typeDefinition,
     params.get('autocompletion_ws'),
