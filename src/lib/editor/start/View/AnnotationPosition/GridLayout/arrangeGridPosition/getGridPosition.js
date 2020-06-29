@@ -1,4 +1,4 @@
-import getHeightIncludeDescendantGrids from '../../getHeightIncludeDescendantGrids'
+import getHeightIncludeDescendantGrids from '../../../getHeightIncludeDescendantGrids'
 
 export default function(getSpan, typeGap, span, annotationData) {
   const spanPosition = getSpan(span.id)

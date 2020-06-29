@@ -1,5 +1,5 @@
-import getGridPosition from '../getGridPosition'
 import showInvisibleGrid from '../showInvisibleGrid'
+import getGridPosition from './getGridPosition'
 import isMoved from './isMoved'
 import updateGridPositon from './updateGridPositon'
 
