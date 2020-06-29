@@ -1,11 +1,9 @@
 import buttonConfig from '../../buttonConfig'
 import Button from './Button'
-import propagateStateOf from './propagateStateOf'
 import setMode from './setMode'
 
 export default class {
   constructor(editor) {
-    this._editor = editor
     this._buttonMap = buttonConfig.pushButtons.reduce((map, buttonName) => {
       map.set(buttonName, new Button(editor, buttonName))
       return map
@@ -21,7 +19,9 @@ export default class {
   }
 
   propagate() {
-    propagateStateOf(this._editor.eventEmitter, this._buttonMap)
+    for (const button of this._buttonMap.values()) {
+      button.propagate()
+    }
   }
 
   getButton(name) {
