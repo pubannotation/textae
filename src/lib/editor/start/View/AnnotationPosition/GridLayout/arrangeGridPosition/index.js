@@ -3,7 +3,7 @@ import getGridPosition from './getGridPosition'
 import isMoved from './isMoved'
 import updateGridPositon from './updateGridPositon'
 
-export default function(domPositionCache, annotationData, typeGap, span) {
+export default function(domPositionCache, annotationData, gridHeight, span) {
   // The span may be remeved because this functon is call asynchronously.
   if (!annotationData.span.get(span.id)) {
     return
@@ -11,9 +11,8 @@ export default function(domPositionCache, annotationData, typeGap, span) {
 
   const newPosition = getGridPosition(
     (spanId) => domPositionCache.getSpan(spanId),
-    typeGap,
-    span,
-    annotationData
+    gridHeight,
+    span
   )
 
   if (isMoved(domPositionCache.getGrid(span.id), newPosition)) {

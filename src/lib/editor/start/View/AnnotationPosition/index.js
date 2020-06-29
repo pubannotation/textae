@@ -1,18 +1,18 @@
 import GridLayout from './GridLayout'
 
 export default class {
-  constructor(editor, annotationData, renderer) {
+  constructor(editor, annotationData, renderer, gridHeight) {
     this._editor = editor
-    this._gridLayout = new GridLayout(editor, annotationData)
+    this._gridLayout = new GridLayout(editor, annotationData, gridHeight)
     this._renderer = renderer
   }
 
-  update(typeGap) {
+  update() {
     this._editor.eventEmitter.emit(
       'textae.annotationPosition.position-update.start'
     )
 
-    this._gridLayout.arrangePosition(typeGap)
+    this._gridLayout.arrangePosition()
     this._renderer
       .arrangeRelationPositionAllAsync()
       .then(() =>
@@ -22,13 +22,13 @@ export default class {
       )
   }
 
-  updateAsync(typeGap) {
+  updateAsync() {
     this._editor.eventEmitter.emit(
       'textae.annotationPosition.position-update.start'
     )
 
     this._gridLayout
-      .arrangePositionAsync(typeGap)
+      .arrangePositionAsync()
       .then(() => this._renderer.arrangeRelationPositionAllAsync())
       .then(
         this._editor.eventEmitter.emit(

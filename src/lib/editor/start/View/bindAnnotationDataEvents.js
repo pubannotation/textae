@@ -1,8 +1,8 @@
 import debounce from 'debounce'
 
-export default function(editor, annotationPosition, typeGap) {
+export default function(editor, annotationPosition) {
   const debouncedUpdatePosition = debounce(
-    () => annotationPosition.updateAsync(typeGap()),
+    () => annotationPosition.updateAsync(),
     100
   )
   editor.eventEmitter
@@ -21,6 +21,6 @@ export default function(editor, annotationPosition, typeGap) {
       // grid positions in cache may be deleted before render relation when moving span frequently.
       // Position of relation depends on position of grid and position of grid is cached for perfermance.
       // If position of grid is not cached, relation can not be rendered.
-      annotationPosition.update(typeGap())
+      annotationPosition.update()
     })
 }

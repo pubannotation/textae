@@ -1,13 +1,12 @@
 import getLineHeight from './getLineHeight'
 import setLineHeight from './setLineHeight'
-import getCurrentMaxHeight from './getCurrentMaxHeight'
 import updateTextBoxHeight from './updateTextBoxHeight'
 
 export default class {
-  constructor(editor, annotationData, typeGap) {
+  constructor(editor, annotationData, gridHeight) {
     this._editor = editor
     this._annotationData = annotationData
-    this._typeGap = typeGap
+    this._gridHeight = gridHeight
   }
 
   get lineHeight() {
@@ -21,7 +20,7 @@ export default class {
 
   updateLineHeight() {
     if (this._annotationData.span.all.length) {
-      this.lineHeight = getCurrentMaxHeight(this._annotationData, this._typeGap)
+      this.lineHeight = this._gridHeight.currentMaxHeight
     }
   }
 

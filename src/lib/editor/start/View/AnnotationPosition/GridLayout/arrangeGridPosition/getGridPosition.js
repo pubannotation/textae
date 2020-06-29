@@ -1,12 +1,6 @@
-import getHeightIncludeDescendantGrids from '../../../getHeightIncludeDescendantGrids'
-
-export default function(getSpan, typeGap, span, annotationData) {
+export default function(getSpan, gridHeight, span) {
   const spanPosition = getSpan(span.id)
-  const descendantsMaxHeight = getHeightIncludeDescendantGrids(
-    span,
-    typeGap,
-    annotationData
-  )
+  const descendantsMaxHeight = gridHeight.getHeightIncludeDescendantGrids(span)
 
   return {
     top: spanPosition.top - descendantsMaxHeight,

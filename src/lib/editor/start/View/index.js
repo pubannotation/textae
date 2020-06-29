@@ -9,6 +9,7 @@ import bindAnnotationDataEvents from './bindAnnotationDataEvents'
 import HoverRelation from './HoverRelation'
 import bindMouseEvents from './bindMouseEvents'
 import TextBox from './TextBox'
+import GridHeight from './GridHeight'
 
 export default class {
   constructor(editor, annotationData, selectionModel, typeGap, typeDefinition) {
@@ -25,7 +26,8 @@ export default class {
     bindClipBoardEvents(editor)
     bindSelectionModelEvents(editor, annotationData)
 
-    const textBox = new TextBox(editor, annotationData, typeGap)
+    const gridHeight = new GridHeight(annotationData, typeGap)
+    const textBox = new TextBox(editor, annotationData, gridHeight)
     const renderer = new Renderer(
       editor,
       annotationData,
@@ -37,10 +39,11 @@ export default class {
     const annotationPosition = new AnnotationPosition(
       editor,
       annotationData,
-      renderer
+      renderer,
+      gridHeight
     )
     bindTypeGapEvents(typeGap, editor, textBox, annotationPosition)
-    bindAnnotationDataEvents(editor, annotationPosition, typeGap)
+    bindAnnotationDataEvents(editor, annotationPosition)
     bindAnnotaitonPositionEvents(editor, new CursorChanger(editor))
     bindMouseEvents(editor, new HoverRelation(editor, annotationData.entity))
 
@@ -53,12 +56,12 @@ export default class {
 
   updateDisplay() {
     this._textBox.forceUpdate()
-    this._annotationPosition.update(this._typeGap())
+    this._annotationPosition.update()
   }
 
   updateLineHeight() {
     this._textBox.updateLineHeight()
-    this._annotationPosition.update(this._typeGap())
+    this._annotationPosition.update()
   }
 
   getLineHeight() {
