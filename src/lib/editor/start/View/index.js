@@ -6,7 +6,7 @@ import updateTextBoxHeight from './updateTextBoxHeight'
 import bindTypeGapEvents from './bindTypeGapEvents'
 import bindAnnotaitonPositionEvents from './bindAnnotaitonPositionEvents'
 import Renderer from './Renderer'
-import bindAnnotationPositionOnAnnotationDataEvents from './bindAnnotationPositionOnAnnotationDataEvents'
+import bindAnnotationDataEvents from './bindAnnotationDataEvents'
 import HoverRelation from './HoverRelation'
 import bindMouseEvents from './bindMouseEvents'
 
@@ -38,11 +38,7 @@ export default class {
       renderer
     )
     bindTypeGapEvents(typeGap, editor, annotationData, annotationPosition)
-    bindAnnotationPositionOnAnnotationDataEvents(
-      editor,
-      annotationPosition,
-      typeGap
-    )
+    bindAnnotationDataEvents(editor, annotationPosition, typeGap)
     bindAnnotaitonPositionEvents(editor, new CursorChanger(editor))
     bindMouseEvents(editor, new HoverRelation(editor, annotationData.entity))
 
