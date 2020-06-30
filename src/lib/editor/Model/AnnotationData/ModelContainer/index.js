@@ -30,18 +30,12 @@ export default class {
       return 0
     })
 
-    collection.forEach((instance) =>
-      addToContainer(instance, this._container, this._idPrefix)
-    )
+    collection.forEach((instance) => this._addToContainer(instance))
   }
 
   // The doAfter is avoked before a event emitted.
   add(instance, doAfter) {
-    const newInstance = addToContainer(
-      instance,
-      this._container,
-      this._idPrefix
-    )
+    const newInstance = this._addToContainer(instance)
     if (isFunction(doAfter)) doAfter(newInstance)
 
     this._emit(`textae.annotationData.${this._name}.add`, newInstance)
@@ -81,6 +75,10 @@ export default class {
 
   clear() {
     this._container.clear()
+  }
+
+  _addToContainer(instance) {
+    return addToContainer(instance, this._container, this._idPrefix)
   }
 
   _emit(event, data) {
