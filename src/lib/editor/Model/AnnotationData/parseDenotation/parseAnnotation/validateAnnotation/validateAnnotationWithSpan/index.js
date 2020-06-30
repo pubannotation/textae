@@ -3,8 +3,8 @@ import hasLength from './hasLength'
 import isBeginAndEndIn from './isBeginAndEndIn'
 import isNotSpanCrossing from './isNotSpanCrossing'
 
-export default function(text, denotations) {
-  const resultHasLength = validate(denotations, hasLength)
+export default function(text, annotations) {
+  const resultHasLength = validate(annotations, hasLength)
   const resultInText = validate(
     resultHasLength.acceptedNodes,
     isBeginAndEndIn,
