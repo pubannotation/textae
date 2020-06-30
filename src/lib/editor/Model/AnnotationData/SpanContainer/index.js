@@ -14,6 +14,11 @@ export default class extends ContainerWithSubContainer {
     this.spanTopLevel = []
   }
 
+  _addToContainer(instance) {
+    this._container.set(instance.id, instance)
+    return instance
+  }
+
   // private
   updateSpanTree() {
     // the spanTree has parent-child structure.
