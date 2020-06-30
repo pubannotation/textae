@@ -2,15 +2,15 @@ import isFunction from './isFunction'
 import addToContainer from './addToContainer'
 
 export default class {
-  constructor(emitter, prefix, mappingFunction = null, idPrefix = null) {
+  constructor(emitter, name, mappingFunction = null, idPrefix = null) {
     this._emitter = emitter
-    this._name = prefix
+    this._name = name
 
     // If mappingFunction is not specified, set a function that does not change anything.
     this._mappingFunction = mappingFunction || ((v) => v)
 
     // If idPrefix is specified, overwrite prefix.
-    this._prefix = idPrefix ? idPrefix : prefix.charAt(0).toUpperCase()
+    this._prefix = idPrefix ? idPrefix : name.charAt(0).toUpperCase()
 
     this._container = new Map()
   }

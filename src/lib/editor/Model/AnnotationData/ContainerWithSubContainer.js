@@ -4,11 +4,11 @@ export default class extends ModelContainer {
   constructor(
     emitter,
     parentContainer,
-    prefix,
+    name,
     mappingFunction,
     idPrefix = null
   ) {
-    super(emitter, prefix, mappingFunction, idPrefix)
+    super(emitter, name, mappingFunction, idPrefix)
     this._parentContainer = parentContainer
   }
 
