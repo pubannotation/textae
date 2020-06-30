@@ -4,19 +4,19 @@ import addToContainer from './addToContainer'
 export default class {
   constructor(emitter, prefix, mappingFunction = null, idPrefix = null) {
     this._emitter = emitter
-    this.name = prefix
+    this._name = prefix
 
     // If mappingFunction is not specified, set a function that does not change anything.
-    this.mappingFunction = mappingFunction || ((v) => v)
+    this._mappingFunction = mappingFunction || ((v) => v)
 
     // If idPrefix is specified, overwrite prefix.
-    this.prefix = idPrefix ? idPrefix : prefix.charAt(0).toUpperCase()
+    this._prefix = idPrefix ? idPrefix : prefix.charAt(0).toUpperCase()
 
-    this.container = new Map()
+    this._container = new Map()
   }
 
   addSource(source) {
-    const collection = this.mappingFunction(source)
+    const collection = this._mappingFunction(source)
 
     if (!collection) return
 
@@ -31,52 +31,52 @@ export default class {
     })
 
     collection.forEach((instance) =>
-      addToContainer(instance, this.container, this.prefix)
+      addToContainer(instance, this._container, this._prefix)
     )
   }
 
   // The doAfter is avoked before a event emitted.
   add(instance, doAfter) {
-    const newInstance = addToContainer(instance, this.container, this.prefix)
+    const newInstance = addToContainer(instance, this._container, this._prefix)
     if (isFunction(doAfter)) doAfter(newInstance)
 
-    this._emit(`textae.annotationData.${this.name}.add`, newInstance)
+    this._emit(`textae.annotationData.${this._name}.add`, newInstance)
     return newInstance
   }
 
   get(id) {
-    return this.container.get(id)
+    return this._container.get(id)
   }
 
   get all() {
-    return Array.from(this.container.values())
+    return Array.from(this._container.values())
   }
 
   findByType(typeName) {
     return this.all.filter((model) => model.type.name === typeName)
   }
   get some() {
-    return this.container.size
+    return this._container.size
   }
 
   changeType(id, newType) {
-    const instance = this.container.get(id)
+    const instance = this._container.get(id)
     instance.type = newType
-    this._emit(`textae.annotationData.${this.name}.change`, instance)
+    this._emit(`textae.annotationData.${this._name}.change`, instance)
     return instance
   }
 
   remove(id) {
-    const instance = this.container.get(id)
+    const instance = this._container.get(id)
     if (instance) {
-      this.container.delete(id)
-      this._emit(`textae.annotationData.${this.name}.remove`, instance)
+      this._container.delete(id)
+      this._emit(`textae.annotationData.${this._name}.remove`, instance)
     }
     return instance
   }
 
   clear() {
-    this.container.clear()
+    this._container.clear()
   }
 
   _emit(event, data) {

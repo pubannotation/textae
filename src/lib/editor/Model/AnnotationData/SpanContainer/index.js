@@ -39,7 +39,7 @@ export default class extends ContainerWithSubContainer {
 
   has(span) {
     const spanId = idFactory.makeSpanId(this._editor, span)
-    return this.container.has(spanId)
+    return this._container.has(spanId)
   }
 
   get(spanId) {
