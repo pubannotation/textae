@@ -6,6 +6,8 @@ const kinds = ['span', 'entity', 'relation']
 
 export default class {
   constructor(eventEmitter, annotationData) {
+    this._annotationData = annotationData
+
     this._map = new Map(
       kinds.map((kindName) => [
         kindName,
@@ -77,6 +79,26 @@ export default class {
     if (spanId) {
       this.clear()
       this.span.add(spanId)
+    }
+  }
+
+  selectSpanWithBlockEntities(spanId) {
+    this.span.add(spanId)
+
+    for (const entity of this._annotationData.entity.getBlockEntitiesOfSpan(
+      spanId
+    )) {
+      this.entity.add(entity.id)
+    }
+  }
+
+  toggleSpanWithBlockEntities(spanId) {
+    this.span.toggle(spanId)
+
+    for (const entity of this._annotationData.entity.getBlockEntitiesOfSpan(
+      spanId
+    )) {
+      this.entity.toggle(entity.id)
     }
   }
 

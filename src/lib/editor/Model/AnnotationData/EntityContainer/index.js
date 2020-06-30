@@ -62,4 +62,8 @@ export default class extends ContatinerWithSubContainer {
   getAllOfSpan(spanId) {
     return this.all.filter((entity) => spanId === entity.span)
   }
+
+  getBlockEntitiesOfSpan(spanId) {
+    return this.getAllOfSpan(spanId).filter((entity) => entity.type.isBlock)
+  }
 }

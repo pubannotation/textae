@@ -1,33 +1,19 @@
 export default function(annotationData, selectionModel) {
   return (event) => {
     const firstId = selectionModel.span.singleId
-    const target = event.target
-    const id = target.id
+    const targetId = event.target.id
 
     if (event.shiftKey && firstId) {
       // select reange of spans.
       selectionModel.clear()
-      for (const spanId of annotationData.span.range(firstId, id)) {
-        selectSpanWithBlockEnities(annotationData, selectionModel, spanId)
+      for (const spanId of annotationData.span.range(firstId, targetId)) {
+        selectionModel.selectSpanWithBlockEntities(spanId)
       }
     } else if (event.ctrlKey || event.metaKey) {
-      selectionModel.span.toggle(id)
-      annotationData.span
-        .get(id)
-        .getBlockEntities(annotationData.entity)
-        .forEach((id) => selectionModel.entity.toggle(id))
+      selectionModel.toggleSpanWithBlockEntities(targetId)
     } else {
       selectionModel.clear()
-      selectSpanWithBlockEnities(annotationData, selectionModel, id)
+      selectionModel.selectSpanWithBlockEntities(targetId)
     }
   }
-}
-
-function selectSpanWithBlockEnities(annotationData, selectionModel, spanId) {
-  selectionModel.span.add(spanId)
-
-  annotationData.span
-    .get(spanId)
-    .getBlockEntities(annotationData.entity)
-    .forEach((entity) => selectionModel.entity.add(entity.id))
 }

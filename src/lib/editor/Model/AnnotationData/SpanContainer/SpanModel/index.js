@@ -37,10 +37,6 @@ export default class SpanModel {
     )
   }
 
-  getBlockEntities() {
-    return this.entities.filter((entity) => entity.type.isBlock)
-  }
-
   passesAllEntitiesTo(newSpan) {
     this.entities.forEach((e) => (e.span = newSpan.id))
   }
