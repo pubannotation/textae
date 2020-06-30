@@ -1,5 +1,5 @@
 import isNodeSpan from '../isNodeSpan'
-import isNodTextBox from '../isNodeTextBox'
+import isNodeTextBox from '../isNodeTextBox'
 
 export default class {
   constructor(selection) {
@@ -11,11 +11,11 @@ export default class {
   }
 
   get isFocusNodeInTextBox() {
-    return isNodTextBox(this._selection.focusNode.parentNode)
+    return isNodeTextBox(this._selection.focusNode.parentNode)
   }
 
   get isAnchrNodeInSpanOrTextBox() {
     const node = this._selection.anchorNode.parentNode
-    return isNodeSpan(node) || isNodTextBox(node)
+    return isNodeSpan(node) || isNodeTextBox(node)
   }
 }
