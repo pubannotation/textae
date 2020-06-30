@@ -19,8 +19,7 @@ export default class extends ContainerWithSubContainer {
     return instance
   }
 
-  // private
-  updateSpanTree() {
+  _updateSpanTree() {
     // the spanTree has parent-child structure.
     return createSpanTree(this, this._editor, super.all)
   }
@@ -32,14 +31,14 @@ export default class extends ContainerWithSubContainer {
     return super.add(
       new SpanModel(this._editor, span, this.entityContainer),
       () => {
-        this.spanTopLevel = this.updateSpanTree()
+        this.spanTopLevel = this._updateSpanTree()
       }
     )
   }
 
   addSource(spans) {
     super.addSource(spans)
-    this.spanTopLevel = this.updateSpanTree()
+    this.spanTopLevel = this._updateSpanTree()
   }
 
   has(span) {
@@ -77,7 +76,7 @@ export default class extends ContainerWithSubContainer {
 
   remove(id) {
     const span = super.remove(id)
-    this.spanTopLevel = this.updateSpanTree()
+    this.spanTopLevel = this._updateSpanTree()
     return span
   }
 
@@ -91,7 +90,7 @@ export default class extends ContainerWithSubContainer {
     const newOne = super.add(
       new SpanModel(this._editor, newSpan, this.entityContainer),
       (newOne) => {
-        this.spanTopLevel = this.updateSpanTree()
+        this.spanTopLevel = this._updateSpanTree()
         // Span.getTypes function depends on the property of the entity.
         // We can not distinguish the span is block span or not unless the span ID of the entity is updated.
         // Span DOM element is rendered by 'span.add' event.
