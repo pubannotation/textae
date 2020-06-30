@@ -3,9 +3,9 @@ import createSpanTree from './createSpanTree'
 import spanComparator from './spanComparator'
 import idFactory from '../../../idFactory'
 import SpanModel from './SpanModel'
-import ContatinerWithSubContainer from '../ContatinerWithSubContainer'
+import ContainerWithSubContainer from '../ContainerWithSubContainer'
 
-export default class extends ContatinerWithSubContainer {
+export default class extends ContainerWithSubContainer {
   constructor(editor, emitter, parentContainer) {
     super(emitter, parentContainer, 'span', (denotations) =>
       mappingFunction(denotations, editor, this.entityContainer)

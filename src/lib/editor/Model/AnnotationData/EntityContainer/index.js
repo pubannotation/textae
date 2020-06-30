@@ -1,8 +1,8 @@
-import ContatinerWithSubContainer from '../ContatinerWithSubContainer'
+import ContainerWithSubContainer from '../ContainerWithSubContainer'
 import EntityModel from './EntityModel'
 import mappingFunction from './mappingFunction'
 
-export default class extends ContatinerWithSubContainer {
+export default class extends ContainerWithSubContainer {
   constructor(editor, emitter, parentContainer) {
     super(
       emitter,
