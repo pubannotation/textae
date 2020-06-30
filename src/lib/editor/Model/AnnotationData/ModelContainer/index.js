@@ -10,7 +10,7 @@ export default class {
     this._mappingFunction = mappingFunction || ((v) => v)
 
     // If idPrefix is specified, overwrite prefix.
-    this._prefix = idPrefix ? idPrefix : name.charAt(0).toUpperCase()
+    this._idPrefix = idPrefix ? idPrefix : name.charAt(0).toUpperCase()
 
     this._container = new Map()
   }
@@ -31,13 +31,17 @@ export default class {
     })
 
     collection.forEach((instance) =>
-      addToContainer(instance, this._container, this._prefix)
+      addToContainer(instance, this._container, this._idPrefix)
     )
   }
 
   // The doAfter is avoked before a event emitted.
   add(instance, doAfter) {
-    const newInstance = addToContainer(instance, this._container, this._prefix)
+    const newInstance = addToContainer(
+      instance,
+      this._container,
+      this._idPrefix
+    )
     if (isFunction(doAfter)) doAfter(newInstance)
 
     this._emit(`textae.annotationData.${this._name}.add`, newInstance)
