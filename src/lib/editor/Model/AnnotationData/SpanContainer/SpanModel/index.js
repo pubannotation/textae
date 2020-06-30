@@ -27,7 +27,7 @@ export default class SpanModel {
   }
 
   get entities() {
-    return this._entityContainer.all.filter((entity) => this.id === entity.span)
+    return this._entityContainer.getAllOfSpan(this.id)
   }
 
   // To determine whether to switch to simple mode, make sure that there are types with multiple entities in the span.

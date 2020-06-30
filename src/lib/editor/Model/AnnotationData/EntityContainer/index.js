@@ -58,4 +58,8 @@ export default class extends ContatinerWithSubContainer {
       .reduce((acc, type) => acc.set(type.id, type), new Map())
       .values()
   }
+
+  getAllOfSpan(spanId) {
+    return this.all.filter((entity) => spanId === entity.span)
+  }
 }
