@@ -22,14 +22,14 @@ export default class extends ContatinerWithSubContainer {
 
   // expected span is like { "begin": 19, "end": 49 }
   add(span) {
-    if (span)
-      return super.add(
-        new SpanModel(this._editor, span, this.entityContainer),
-        () => {
-          this.spanTopLevel = this.updateSpanTree()
-        }
-      )
-    throw new Error('span is undefined.')
+    console.assert(span, 'span is necessary.')
+
+    return super.add(
+      new SpanModel(this._editor, span, this.entityContainer),
+      () => {
+        this.spanTopLevel = this.updateSpanTree()
+      }
+    )
   }
 
   addSource(spans) {
