@@ -3,7 +3,7 @@ export default function(targets, translater, source) {
     source = source.map(translater)
   }
 
-  targets.forEach((target) => {
+  for (const target of targets) {
     target.addSource(source)
-  })
+  }
 }

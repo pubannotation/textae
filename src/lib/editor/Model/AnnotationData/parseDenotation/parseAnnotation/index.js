@@ -1,7 +1,8 @@
 import validateAnnotation from './validateAnnotation'
-import importDenotation from './importAnnotation/denotation'
-import importAttribute from './importAnnotation/attribute'
-import importRelation from './importAnnotation/relation'
+import importSource from '../importSource'
+import translateDenotation from './translateDenotation'
+import translateAttribute from './translateAttribute'
+import translateRelation from './translateRelation'
 
 export default function(
   span,
@@ -14,11 +15,23 @@ export default function(
 ) {
   const result = validateAnnotation(text, annotation)
 
-  importDenotation(span, entity, result.accept.denotation, prefix)
+  importSource(
+    [span, entity],
+    (src) => translateDenotation(prefix, src),
+    result.accept.denotation
+  )
 
-  importAttribute(attribute, result.accept.attribute, prefix)
+  importSource(
+    [attribute],
+    (src) => translateAttribute(prefix, src),
+    result.accept.attribute
+  )
 
-  importRelation(relation, result.accept.relation, prefix)
+  importSource(
+    [relation],
+    (src) => translateRelation(prefix, src),
+    result.accept.relation
+  )
 
   return result.reject
 }
