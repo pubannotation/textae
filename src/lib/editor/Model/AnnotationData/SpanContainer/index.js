@@ -2,7 +2,8 @@ import mappingFunction from './mappingFunction'
 import createSpanTree from './createSpanTree'
 import spanComparator from './spanComparator'
 import idFactory from '../../../idFactory'
-import SpanModel from './SpanModel'
+import ObjectSpanModel from './ObjectSpanModel'
+import StyleSpanModel from './StyleSpanModel'
 import ContainerWithSubContainer from '../ContainerWithSubContainer'
 import isBoundaryCrossingWithOtherSpans from '../isBoundaryCrossingWithOtherSpans'
 import isAlreadySpaned from './isAlreadySpaned'
@@ -14,16 +15,31 @@ export default class extends ContainerWithSubContainer {
     )
     this._editor = editor
     this.spanTopLevel = []
+
+    // Keep tyep sets independent of span editing.
+    this._typeSets = new Map()
   }
 
   _addToContainer(instance) {
-    this._container.set(instance.id, instance)
+    if (instance instanceof ObjectSpanModel) {
+      this._container.set(instance.id, instance)
+    }
+
+    if (instance instanceof StyleSpanModel) {
+      if (this._typeSets.has(instance.id)) {
+        this._typeSets.get(instance.id).appendStyles(instance.styles)
+      } else {
+        this._typeSets.set(instance.id, instance)
+      }
+    }
+
     return instance
   }
 
   _updateSpanTree() {
     // the spanTree has parent-child structure.
-    return createSpanTree(this, this._editor, super.all)
+    // Register a typeset in the span tree to put it in the span rendering flow.
+    return createSpanTree(this, this._editor, this.allAndStyles)
   }
 
   // expected span is like { "begin": 19, "end": 49 }
@@ -31,7 +47,7 @@ export default class extends ContainerWithSubContainer {
     console.assert(span, 'span is necessary.')
 
     return super.add(
-      new SpanModel(this._editor, span, this.entityContainer),
+      new ObjectSpanModel(this._editor, span, this.entityContainer),
       () => {
         this.spanTopLevel = this._updateSpanTree()
       }
@@ -49,7 +65,18 @@ export default class extends ContainerWithSubContainer {
   }
 
   get(spanId) {
-    return super.get(spanId)
+    if (this._container.has(spanId)) {
+      const span = super.get(spanId)
+
+      // Merges a span and a typeset so that it can be rendered as a single DOM element.
+      if (this._typeSets.has(spanId)) {
+        span.styles = this._typeSets.get(spanId).styles
+      }
+      return span
+    } else {
+      // Returns a typeset only.
+      return this._typeSets.get(spanId)
+    }
   }
 
   range(firstId, secondId) {
@@ -90,7 +117,7 @@ export default class extends ContainerWithSubContainer {
   move(id, newSpan) {
     const oldOne = super.remove(id)
     const newOne = super.add(
-      new SpanModel(this._editor, newSpan, this.entityContainer),
+      new ObjectSpanModel(this._editor, newSpan, this.entityContainer),
       (newOne) => {
         this.spanTopLevel = this._updateSpanTree()
         // Span.getTypes function depends on the property of the entity.
@@ -113,10 +140,17 @@ export default class extends ContainerWithSubContainer {
   }
 
   isBoundaryCrossingWithOtherSpans(span) {
-    return isBoundaryCrossingWithOtherSpans(this.all, span)
+    return isBoundaryCrossingWithOtherSpans(this.allAndStyles, span)
   }
 
   isAlreadySpaned(span) {
     return isAlreadySpaned(this.all, span)
+  }
+
+  get allAndStyles() {
+    const styleOnlySpans = [...this._typeSets.values()].filter(
+      (s) => !this._container.has(s.id)
+    )
+    return super.all.concat(styleOnlySpans)
   }
 }

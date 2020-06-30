@@ -1,3 +1,3 @@
-export default function hasSpan(node) {
+export default function(node) {
   return node.classList.contains('textae-editor__span')
 }

@@ -8,7 +8,14 @@ import renderChildrenSpan from './renderChildrenSpan'
 export default function create(editor, annotationData, span, renderEntityFunc) {
   destroyChildrenSpan(span)
 
-  renderSingleSpan(editor, annotationData, span)
+  const spanElement = document.querySelector(`#${span.id}`)
+  if (spanElement) {
+    spanElement.setAttribute('tabindex', 0)
+    spanElement.classList.add('textae-editor__span')
+  } else {
+    renderSingleSpan(editor, annotationData, span)
+  }
+
   renderClassOfSpan(annotationData, span)
   renderEntitiesOfSpan(span, renderEntityFunc)
   renderChildrenSpan(span, (span) =>

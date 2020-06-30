@@ -16,12 +16,17 @@ export default function(text, annotation) {
     resultDenotation.accept,
     annotation.relations
   )
+  const resultTypeSet = validateAnnotationWithSpan(
+    text,
+    annotation['type sets']
+  )
 
   return {
     accept: {
       denotation: resultDenotation.accept,
       attribute: resultAttribute.accept,
-      relation: resultRelation.accept
+      relation: resultRelation.accept,
+      typeSet: resultTypeSet.accept
     },
     reject: {
       denotationHasLength: resultDenotation.reject.hasLength,
@@ -32,10 +37,14 @@ export default function(text, annotation) {
         resultRelation.reject.obj,
         resultRelation.reject.subj
       ),
+      typeSetHasLength: resultTypeSet.reject.hasLength,
+      typeSetInText: resultTypeSet.reject.inText,
+      typeSetIsNotCrossing: resultTypeSet.reject.isNotCrossing,
       hasError:
         resultDenotation.hasError ||
         resultAttribute.hasError ||
-        resultRelation.hasError
+        resultRelation.hasError ||
+        resultTypeSet.hasError
     }
   }
 }

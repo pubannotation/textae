@@ -1,23 +1,11 @@
 import idFactory from '../../../../idFactory'
 import getTypes from './getTypes'
+import SpanModel from '../SpanModel'
 
-export default class SpanModel {
-  constructor(editor, span, entityContainer) {
-    this._editor = editor
-    this._span = span
+export default class extends SpanModel {
+  constructor(editor, span, entityContainer, style) {
+    super(editor, span)
     this._entityContainer = entityContainer
-  }
-
-  get id() {
-    return idFactory.makeSpanId(this._editor, this._span)
-  }
-
-  get begin() {
-    return this._span.begin
-  }
-
-  get end() {
-    return this._span.end
   }
 
   // Get online for update is not grantieed.

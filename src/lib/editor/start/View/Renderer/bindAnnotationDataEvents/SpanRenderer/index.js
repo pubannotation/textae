@@ -14,7 +14,13 @@ export default class {
   }
 
   remove(span) {
-    destroy(span.id)
+    if (span.styles.size > 0) {
+      const spanElement = document.querySelector(`#${span.id}`)
+      spanElement.removeAttribute('tabindex')
+      spanElement.classList.remove('textae-editor__span')
+    } else {
+      destroy(span.id)
+    }
   }
 
   change(span) {

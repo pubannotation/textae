@@ -9,6 +9,9 @@ export default function(editor, spanEditor, selectionModel) {
     .on('textae.editor.editEntity.span.mouseup', (e) =>
       spanEditor.spanClicked(e)
     )
+    .on('textae.editor.editEntity.style.mouseup', (e) =>
+      spanEditor.styleSpanClicked(e)
+    )
     .on('textae.editor.editEntity.entity.click', (e) =>
       entityClicked(selectionModel, e)
     )

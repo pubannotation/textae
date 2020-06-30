@@ -3,8 +3,16 @@ export default function(span) {
 
   element.setAttribute('id', span.id)
   element.setAttribute('title', span.id)
-  element.setAttribute('class', 'textae-editor__span')
-  element.setAttribute('tabindex', 0)
+
+  if (!span.styleOnly) {
+    element.setAttribute('tabindex', 0)
+    element.classList.add('textae-editor__span')
+  }
+
+  for (const style of span.styles.values()) {
+    element.classList.add(`textae-editor__style`)
+    element.classList.add(`textae-editor__style--${style}`)
+  }
 
   return element
 }

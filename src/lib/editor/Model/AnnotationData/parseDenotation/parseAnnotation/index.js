@@ -3,6 +3,7 @@ import importSource from '../importSource'
 import translateDenotation from './translateDenotation'
 import translateAttribute from './translateAttribute'
 import translateRelation from './translateRelation'
+import convertBeginAndEndToInteger from './convertBeginAndEndToInteger'
 
 export default function(
   span,
@@ -31,6 +32,16 @@ export default function(
     [relation],
     (src) => translateRelation(prefix, src),
     result.accept.relation
+  )
+
+  importSource(
+    [span],
+    (src) => {
+      return Object.assign({}, src, {
+        span: convertBeginAndEndToInteger(src.span)
+      })
+    },
+    result.accept.typeSet
   )
 
   return result.reject

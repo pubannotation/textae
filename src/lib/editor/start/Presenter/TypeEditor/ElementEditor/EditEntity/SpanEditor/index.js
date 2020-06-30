@@ -50,7 +50,7 @@ export default class {
     const selection = window.getSelection()
 
     if (selection.type === 'Caret') {
-      this._selectSpan(event)
+      this._selectSpan(event, event.target.id)
     }
 
     if (selection.type === 'Range') {
@@ -61,8 +61,33 @@ export default class {
     }
   }
 
-  _selectSpan(event) {
-    selectSpan(this._annotationData, this._selectionModel, event)
+  styleSpanClicked(e) {
+    // When you click on the text, the browser will automatically select the word.
+    // Therefore, the editor shrinks spans instead of selecting spans.
+    // Deselect the text.
+    if (e.button === 2) {
+      clearTextSelection()
+    }
+
+    const selection = window.getSelection()
+
+    if (selection.type === 'Caret') {
+      const span = e.target.closest('.textae-editor__span')
+      if (span) {
+        this._selectSpan(e, span.id)
+      }
+    }
+
+    if (selection.type === 'Range') {
+      this._selectEndOnStyleSpan()
+      // Cancel selection of a text.
+      // And do non propagate the parent span.
+      e.stopPropagation()
+    }
+  }
+
+  _selectSpan(event, spanId) {
+    selectSpan(this._annotationData, this._selectionModel, event, spanId)
   }
 
   _selectEndOnText() {
@@ -75,6 +100,14 @@ export default class {
         this._create(selection)
       } else if (new SelectionWrapper(selection).isAnchorNodeInSpan) {
         this._expand(selection)
+      } else if (new SelectionWrapper(selection).isAnchorNodeInStyleSpan) {
+        // If the anchor node is a style span but has a parent span, extend the parent span.
+        const span = selection.anchorNode.parentElement.closest(
+          '.textae-editor__span'
+        )
+        if (span) {
+          this._expandOnStyleSpan(selection, span)
+        }
       }
     }
     clearTextSelection()
@@ -133,6 +166,25 @@ export default class {
     clearTextSelection()
   }
 
+  _selectEndOnStyleSpan() {
+    const selection = getSelectionSnapShot()
+    const isValid = this._validator.validateOnStyleSpan(selection)
+
+    if (isValid) {
+      if (selection.anchorNode === selection.focusNode) {
+        const positions = new Positions(this._annotationData, selection)
+        const span = this._annotationData.span.get(
+          selection.anchorNode.parentElement.id
+        )
+        if (positions.anchor !== span.begin && positions.anchor !== span.end) {
+          this._create(selection)
+        }
+      }
+    }
+
+    clearTextSelection()
+  }
+
   _create(selection) {
     this._selectionModel.clear()
     create(
@@ -148,6 +200,22 @@ export default class {
 
   _expand(selection) {
     const spanId = getExpandTargetSpan(this._selectionModel, selection)
+
+    if (spanId) {
+      expand(
+        this._selectionModel,
+        this._annotationData,
+        this._commander,
+        this._spanAdjuster,
+        spanId,
+        selection,
+        this._spanConfig
+      )
+    }
+  }
+
+  _expandOnStyleSpan(selection, span) {
+    const spanId = span.id
 
     if (spanId) {
       expand(

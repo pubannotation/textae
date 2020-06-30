@@ -787,5 +787,49 @@
       "pred": "Negation",
       "obj": "R4"
     }
+  ],
+  "type sets": [
+    {
+      "span": {
+        "begin": 0,
+        "end": 15
+      },
+      "style": "italic"
+    },
+    {
+      "span": {
+        "begin": 30,
+        "end": 45
+      },
+      "style": "bold"
+    },
+    {
+      "span": {
+        "begin": 50,
+        "end": 55
+      },
+      "style": "subscript"
+    },
+    {
+      "span": {
+        "begin": 70,
+        "end": 73
+      },
+      "style": "superscript"
+    },
+    {
+      "span": {
+        "begin": 111,
+        "end": 114
+      },
+      "style": "italic"
+    },
+    {
+      "span": {
+        "begin": 111,
+        "end": 114
+      },
+      "style": "bold"
+    }
   ]
 }

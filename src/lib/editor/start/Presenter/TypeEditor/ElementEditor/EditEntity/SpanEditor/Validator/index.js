@@ -12,7 +12,7 @@ export default class {
 
     return (
       selectionWrapper.isFocusNodeInTextBox &&
-      selectionWrapper.isAnchrNodeInSpanOrTextBox &&
+      selectionWrapper.isAnchrNodeInSpanOrStyleSpanOrTextBox &&
       hasCharacters(this._annotationData, this._spanConfig, selection)
     )
   }
@@ -23,6 +23,15 @@ export default class {
     return (
       selectionWrapper.isFocusNodeInSpan &&
       selectionWrapper.isAnchrNodeInSpanOrTextBox &&
+      hasCharacters(this._annotationData, this._spanConfig, selection)
+    )
+  }
+
+  validateOnStyleSpan(selection) {
+    const selectionWrapper = new SelectionWrapper(selection)
+    return (
+      selectionWrapper.isFocusNodeInStyleSpan &&
+      selectionWrapper.isAnchrNodeInStyleSpanOrTextBox &&
       hasCharacters(this._annotationData, this._spanConfig, selection)
     )
   }

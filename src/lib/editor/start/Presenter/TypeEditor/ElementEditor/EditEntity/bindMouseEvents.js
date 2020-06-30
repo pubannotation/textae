@@ -47,9 +47,19 @@ export default function(editor) {
 
   // To shrink a span listen the mouseup event.
   listeners.push(
-    delegate(editor[0], '.textae-editor__span', 'mouseup', (e) =>
-      editor.eventEmitter.emit('textae.editor.editEntity.span.mouseup', e)
-    )
+    delegate(editor[0], '.textae-editor__span', 'mouseup', (e) => {
+      if (e.target.classList.contains('textae-editor__span')) {
+        editor.eventEmitter.emit('textae.editor.editEntity.span.mouseup', e)
+      }
+    })
+  )
+
+  listeners.push(
+    delegate(editor[0], '.textae-editor__style', 'mouseup', (e) => {
+      if (e.target.classList.contains('textae-editor__style')) {
+        editor.eventEmitter.emit('textae.editor.editEntity.style.mouseup', e)
+      }
+    })
   )
 
   return listeners
