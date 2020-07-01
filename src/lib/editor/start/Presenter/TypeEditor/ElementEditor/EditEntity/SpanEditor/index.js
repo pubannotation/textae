@@ -31,9 +31,9 @@ export default class {
 
   textBoxClicked(event) {
     const selection = window.getSelection()
-    // if text is seleceted
+
     if (selection.type === 'Range') {
-      this._selectEndOnText(getSelectionSnapShot())
+      this._selectEndOnText()
       event.stopPropagation()
     }
   }
@@ -48,19 +48,26 @@ export default class {
 
     const selection = window.getSelection()
 
-    // No select
     if (selection.type === 'Caret') {
-      selectSpan(this._annotationData, this._selectionModel, event)
-    } else {
-      this._selectEndOnSpan(getSelectionSnapShot())
+      this._selectSpan(event)
+    }
+
+    if (selection.type === 'Range') {
+      this._selectEndOnSpan()
       // Cancel selection of a text.
       // And do non propagate the parent span.
       event.stopPropagation()
     }
   }
 
-  _selectEndOnText(selection) {
+  _selectSpan(event) {
+    selectSpan(this._annotationData, this._selectionModel, event)
+  }
+
+  _selectEndOnText() {
+    const selection = getSelectionSnapShot()
     const isValid = this._validator.validateOnText(selection)
+
     if (isValid) {
       // The parent of the focusNode is the text.
       if (new SelectionWrapper(selection).isAnchorNodeInTextBox) {
@@ -72,8 +79,10 @@ export default class {
     clearTextSelection()
   }
 
-  _selectEndOnSpan(selection) {
+  _selectEndOnSpan() {
+    const selection = getSelectionSnapShot()
     const isValid = this._validator.validateOnSpan(selection)
+
     if (isValid) {
       if (selection.anchorNode === selection.focusNode) {
         const positions = new Positions(this._annotationData, selection)
