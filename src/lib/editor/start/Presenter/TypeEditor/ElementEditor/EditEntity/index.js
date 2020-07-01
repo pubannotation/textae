@@ -35,7 +35,7 @@ export default class {
       spanConfig
     )
 
-    bindTextaeEvents(editor, spanEditor, annotationData, selectionModel)
+    bindTextaeEvents(editor, spanEditor, selectionModel)
   }
 
   init() {

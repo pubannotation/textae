@@ -10,6 +10,8 @@ import crossTheEar from './crossTheEar'
 import pullByTheEar from './pullByTheEar'
 import isNodeTextBox from '../../isNodeTextBox'
 import isNodeSpan from '../../isNodeSpan'
+import selectSpan from './selectSpan'
+import getSelectionSnapShot from './getSelectionSnapShot'
 
 export default class {
   constructor(
@@ -28,7 +30,37 @@ export default class {
     this._spanConfig = spanConfig
   }
 
-  selectEndOnText(selection) {
+  textBoxClicked(event) {
+    const selection = window.getSelection()
+    // if text is seleceted
+    if (selection.type === 'Range') {
+      this._selectEndOnText(getSelectionSnapShot())
+      event.stopPropagation()
+    }
+  }
+
+  spanClicked(event) {
+    // When you click on the text, the browser will automatically select the word.
+    // Therefore, the editor shrinks spans instead of selecting spans.
+    // Deselect the text.
+    if (event.button === 2) {
+      clearTextSelection()
+    }
+
+    const selection = window.getSelection()
+
+    // No select
+    if (selection.type === 'Caret') {
+      selectSpan(this._annotationData, this._selectionModel, event)
+    } else {
+      this._selectEndOnSpan(getSelectionSnapShot())
+      // Cancel selection of a text.
+      // And do non propagate the parent span.
+      event.stopPropagation()
+    }
+  }
+
+  _selectEndOnText(selection) {
     const isValid = validateOnText(
       this._annotationData,
       this._spanConfig,
@@ -45,7 +77,7 @@ export default class {
     clearTextSelection()
   }
 
-  selectEndOnSpan(selection) {
+  _selectEndOnSpan(selection) {
     const isValid = validateOnSpan(
       this._annotationData,
       this._spanConfig,
