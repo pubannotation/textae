@@ -17,78 +17,75 @@ export default class {
     annotationData,
     selectionModel,
     commander,
-    buttonController
+    buttonController,
+    spanConfig
   ) {
     this._editor = editor
     this._annotationData = annotationData
     this._selectionModel = selectionModel
     this._commander = commander
     this._buttonController = buttonController
+    this._spanConfig = spanConfig
   }
 
-  selectEndOnText(data) {
+  selectEndOnText(selection) {
     const isValid = validateOnText(
       this._annotationData,
-      data.spanConfig,
-      data.selection
+      this._spanConfig,
+      selection
     )
     if (isValid) {
       // The parent of the focusNode is the text.
-      if (isNodeTextBox(data.selection.anchorNode.parentNode)) {
-        this._create(data)
-      } else if (isNodeSpan(data.selection.anchorNode.parentNode)) {
-        this._expand(data)
+      if (isNodeTextBox(selection.anchorNode.parentNode)) {
+        this._create(selection)
+      } else if (isNodeSpan(selection.anchorNode.parentNode)) {
+        this._expand(selection)
       }
     }
     clearTextSelection()
   }
 
-  selectEndOnSpan(data) {
+  selectEndOnSpan(selection) {
     const isValid = validateOnSpan(
       this._annotationData,
-      data.spanConfig,
-      data.selection
+      this._spanConfig,
+      selection
     )
     if (isValid) {
-      if (data.selection.anchorNode === data.selection.focusNode) {
-        const positions = new Positions(this._annotationData, data.selection)
+      if (selection.anchorNode === selection.focusNode) {
+        const positions = new Positions(this._annotationData, selection)
         const span = this._annotationData.span.get(
-          data.selection.anchorNode.parentElement.id
+          selection.anchorNode.parentElement.id
         )
         if (positions.anchor === span.begin || positions.anchor === span.end) {
-          this._shrinkPullByTheEar(
-            data,
-            data.selection.anchorNode.parentElement.id
-          )
+          this._shrinkPullByTheEar(selection)
         } else {
-          this._create(data)
+          this._create(selection)
         }
       } else if (
-        data.selection.focusNode.parentElement.closest(
-          `#${data.selection.anchorNode.parentElement.id}`
+        selection.focusNode.parentElement.closest(
+          `#${selection.anchorNode.parentElement.id}`
         )
       ) {
-        this._shrinkCrossTheEar(data)
+        this._shrinkCrossTheEar(selection)
       } else if (
-        data.selection.anchorNode.parentElement.closest(
-          `#${data.selection.focusNode.parentElement.id}`
+        selection.anchorNode.parentElement.closest(
+          `#${selection.focusNode.parentElement.id}`
         )
       ) {
         // If you select the parent span on the left edge of the screen and shrink it from the left,
         // the anchorNode is the child span and the focusNode is the parent span.
         // If the focusNode (parent span) is selected, shrink the parent span.
         if (
-          data.selection.focusNode.parentElement.classList.contains(
-            'ui-selected'
-          )
+          selection.focusNode.parentElement.classList.contains('ui-selected')
         ) {
-          this._shrinkCrossTheEar(data)
+          this._shrinkCrossTheEar(selection)
         } else {
-          this._expand(data)
+          this._expand(selection)
         }
       } else if (
-        data.selection.focusNode.parentElement.closest(
-          `#${data.selection.anchorNode.parentElement.parentElement.id}`
+        selection.focusNode.parentElement.closest(
+          `#${selection.anchorNode.parentElement.parentElement.id}`
         )
       ) {
         // When extending the span to the right,
@@ -96,14 +93,14 @@ export default class {
         // the anchorNode will be the textNode of the first span and the focusNode will be the textNode of the second span.
         // If the Span of the focusNode belongs to the parent of the Span of the anchorNode, the first Span is extensible.
         // The same applies when extending to the left.
-        this._expand(data)
+        this._expand(selection)
       }
     }
 
     clearTextSelection()
   }
 
-  _create(data) {
+  _create(selection) {
     this._selectionModel.clear()
     create(
       this._annotationData,
@@ -111,43 +108,43 @@ export default class {
       this._spanAdjuster,
       this._isDetectDelimiterEnable,
       this._isReplicateAuto,
-      data.selection,
-      data.spanConfig
+      selection,
+      this._spanConfig
     )
   }
 
-  _expand(data) {
+  _expand(selection) {
     expand(
       this._annotationData,
       this._selectionModel,
       this._commander,
       this._spanAdjuster,
-      data.selection,
-      data.spanConfig
+      selection,
+      this._spanConfig
     )
   }
 
-  _shrinkCrossTheEar(data) {
+  _shrinkCrossTheEar(selection) {
     crossTheEar(
       this._editor,
       this._annotationData,
       this._selectionModel,
       this._commander,
       this._spanAdjuster,
-      data.selection,
-      data.spanConfig
+      selection,
+      this._spanConfig
     )
   }
 
-  _shrinkPullByTheEar(data) {
+  _shrinkPullByTheEar(selection) {
     pullByTheEar(
       this._editor,
       this._annotationData,
       this._selectionModel,
       this._commander,
       this._spanAdjuster,
-      data.selection,
-      data.spanConfig
+      selection,
+      this._spanConfig
     )
   }
 

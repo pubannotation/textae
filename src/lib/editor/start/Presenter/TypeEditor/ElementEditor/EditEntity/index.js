@@ -31,16 +31,11 @@ export default class {
       annotationData,
       selectionModel,
       commander,
-      buttonController
+      buttonController,
+      spanConfig
     )
 
-    bindTextaeEvents(
-      editor,
-      spanEditor,
-      spanConfig,
-      annotationData,
-      selectionModel
-    )
+    bindTextaeEvents(editor, spanEditor, annotationData, selectionModel)
   }
 
   init() {

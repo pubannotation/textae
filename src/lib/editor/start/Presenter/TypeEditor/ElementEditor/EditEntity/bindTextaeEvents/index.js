@@ -4,32 +4,19 @@ import typeValeusClicked from './typeValuesClicked'
 import entityClicked from './entityClicked'
 import spanClicked from './spanClicked'
 
-export default function(
-  editor,
-  spanEditor,
-  spanConfig,
-  annotationData,
-  selectionModel
-) {
+export default function(editor, spanEditor, annotationData, selectionModel) {
   editor.eventEmitter
     .on('textae.editor.editEntity.textBox.click', (e) => {
       const selection = window.getSelection()
       // if text is seleceted
       if (!selection.isCollapsed) {
-        spanEditor.selectEndOnText({
-          spanConfig,
-          selection: getSelectionSnapShot()
-        })
+        spanEditor.selectEndOnText(getSelectionSnapShot())
         e.stopPropagation()
       }
     })
     .on('textae.editor.editEntity.span.mouseup', (e) =>
       spanClicked(
-        () =>
-          spanEditor.selectEndOnSpan({
-            spanConfig,
-            selection: getSelectionSnapShot()
-          }),
+        () => spanEditor.selectEndOnSpan(getSelectionSnapShot()),
         new SelectSpan(annotationData, selectionModel),
         e
       )
