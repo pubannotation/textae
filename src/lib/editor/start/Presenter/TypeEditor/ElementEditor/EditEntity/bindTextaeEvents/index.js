@@ -1,4 +1,3 @@
-import SelectSpan from './SelectSpan'
 import getSelectionSnapShot from './getSelectionSnapShot'
 import typeValeusClicked from './typeValuesClicked'
 import entityClicked from './entityClicked'
@@ -15,10 +14,8 @@ export default function(editor, spanEditor, annotationData, selectionModel) {
       }
     })
     .on('textae.editor.editEntity.span.mouseup', (e) =>
-      spanClicked(
-        () => spanEditor.selectEndOnSpan(getSelectionSnapShot()),
-        new SelectSpan(annotationData, selectionModel),
-        e
+      spanClicked(e, annotationData, selectionModel, () =>
+        spanEditor.selectEndOnSpan(getSelectionSnapShot())
       )
     )
     .on('textae.editor.editEntity.entity.click', (e) =>
