@@ -2,8 +2,6 @@ import clearTextSelection from '../../../clearTextSelection'
 import Positions from './Positions'
 import DelimiterDetectAdjuster from './DelimiterDetectAdjuster'
 import BlankSkipAdjuster from './BlankSkipAdjuster'
-import validateOnText from './validateOnText'
-import validateOnSpan from './validateOnSpan'
 import create from './create'
 import expand from './expand'
 import crossTheEar from './crossTheEar'
@@ -12,6 +10,7 @@ import isNodeTextBox from '../../isNodeTextBox'
 import isNodeSpan from '../../isNodeSpan'
 import selectSpan from './selectSpan'
 import getSelectionSnapShot from './getSelectionSnapShot'
+import Validator from './Validator'
 
 export default class {
   constructor(
@@ -28,6 +27,7 @@ export default class {
     this._commander = commander
     this._buttonController = buttonController
     this._spanConfig = spanConfig
+    this._validator = new Validator(annotationData, spanConfig)
   }
 
   textBoxClicked(event) {
@@ -61,11 +61,7 @@ export default class {
   }
 
   _selectEndOnText(selection) {
-    const isValid = validateOnText(
-      this._annotationData,
-      this._spanConfig,
-      selection
-    )
+    const isValid = this._validator.validateOnText(selection)
     if (isValid) {
       // The parent of the focusNode is the text.
       if (isNodeTextBox(selection.anchorNode.parentNode)) {
@@ -78,11 +74,7 @@ export default class {
   }
 
   _selectEndOnSpan(selection) {
-    const isValid = validateOnSpan(
-      this._annotationData,
-      this._spanConfig,
-      selection
-    )
+    const isValid = this._validator.validateOnSpan(selection)
     if (isValid) {
       if (selection.anchorNode === selection.focusNode) {
         const positions = new Positions(this._annotationData, selection)
