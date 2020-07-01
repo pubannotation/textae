@@ -1,9 +1,12 @@
-import commonValidate from './commonValidate'
 import SelectionWrapper from '../../../ElementEditor/SelectionWrapper'
+import hasCharacters from './hasCharacters'
 
 export default function(annotationData, spanConfig, selection) {
+  const selectionWrapper = new SelectionWrapper(selection)
+
   return (
-    new SelectionWrapper(selection).isFocusNodeInSpan &&
-    commonValidate(annotationData, spanConfig, selection)
+    selectionWrapper.isFocusNodeInSpan &&
+    selectionWrapper.isAnchrNodeInSpanOrTextBox &&
+    hasCharacters(annotationData, spanConfig, selection)
   )
 }
