@@ -9,7 +9,7 @@ export default function(editor, spanEditor, annotationData, selectionModel) {
     .on('textae.editor.editEntity.textBox.click', (e) => {
       const selection = window.getSelection()
       // if text is seleceted
-      if (!selection.isCollapsed) {
+      if (selection.type === 'Range') {
         spanEditor.selectEndOnText(getSelectionSnapShot())
         e.stopPropagation()
       }

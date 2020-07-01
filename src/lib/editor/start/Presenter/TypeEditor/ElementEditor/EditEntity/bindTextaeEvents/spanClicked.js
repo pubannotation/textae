@@ -11,7 +11,7 @@ export default function(onSelectEndOnSpan, selectSpan, event) {
   const selection = window.getSelection()
 
   // No select
-  if (selection.isCollapsed) {
+  if (selection.type === 'Caret') {
     selectSpan(event)
     return false
   } else {
