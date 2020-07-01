@@ -6,6 +6,14 @@ export default class {
     this._selection = selection
   }
 
+  get isAnchorNodeInSpan() {
+    return isNodeSpan(this._selection.anchorNode.parentNode)
+  }
+
+  get isAnchorNodeInTextBox() {
+    return isNodeTextBox(this._selection.anchorNode.parentNode)
+  }
+
   get isFocusNodeInSpan() {
     return isNodeSpan(this._selection.focusNode.parentNode)
   }

@@ -6,11 +6,10 @@ import create from './create'
 import expand from './expand'
 import crossTheEar from './crossTheEar'
 import pullByTheEar from './pullByTheEar'
-import isNodeTextBox from '../../isNodeTextBox'
-import isNodeSpan from '../../isNodeSpan'
 import selectSpan from './selectSpan'
 import getSelectionSnapShot from './getSelectionSnapShot'
 import Validator from './Validator'
+import SelectionWrapper from '../../SelectionWrapper'
 
 export default class {
   constructor(
@@ -64,9 +63,9 @@ export default class {
     const isValid = this._validator.validateOnText(selection)
     if (isValid) {
       // The parent of the focusNode is the text.
-      if (isNodeTextBox(selection.anchorNode.parentNode)) {
+      if (new SelectionWrapper(selection).isAnchorNodeInTextBox) {
         this._create(selection)
-      } else if (isNodeSpan(selection.anchorNode.parentNode)) {
+      } else if (new SelectionWrapper(selection).isAnchorNodeInSpan) {
         this._expand(selection)
       }
     }
