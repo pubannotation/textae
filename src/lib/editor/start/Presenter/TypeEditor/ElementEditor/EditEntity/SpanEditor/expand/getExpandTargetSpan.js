@@ -1,5 +1,5 @@
 import isAnchorOneDownUnderForcus from './isAnchorOneDownUnderForcus'
-import isAnchorInSelectedSpan from '../isAnchorInSelectedSpan'
+import isAnchorInSelectedSpan from './isAnchorInSelectedSpan'
 
 export default function(annotationData, selectionModel, selection) {
   // If a span is selected, it is able to begin drag a span in the span and expand the span.
