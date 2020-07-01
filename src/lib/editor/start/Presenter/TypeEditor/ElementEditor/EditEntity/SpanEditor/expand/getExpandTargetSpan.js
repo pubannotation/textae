@@ -1,4 +1,4 @@
-import isAnchorOneDownUnderForcus from './isAnchorOneDownUnderForcus'
+import isAnchorOneDownUnderFocus from './isAnchorOneDownUnderFocus'
 import isAnchorInSelectedSpan from './isAnchorInSelectedSpan'
 
 export default function(annotationData, selectionModel, selection) {
@@ -11,7 +11,7 @@ export default function(annotationData, selectionModel, selection) {
     // 3. Begin Drug from an inner span to out of an outside span.
     // Expand the selected span.
     return selectionModel.span.singleId
-  } else if (isAnchorOneDownUnderForcus(selection)) {
+  } else if (isAnchorOneDownUnderFocus(selection)) {
     // To expand the span , belows are needed:
     // 1. The anchorNode is in the span.
     // 2. The foucusNode is out of the span and in the parent of the span.
