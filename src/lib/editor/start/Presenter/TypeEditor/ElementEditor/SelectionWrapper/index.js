@@ -6,6 +6,10 @@ export default class {
     this._selection = selection
   }
 
+  isAnchorNodeIn(node) {
+    return this._selection.anchorNode.parentNode === node
+  }
+
   get isAnchorNodeInSpan() {
     return isNodeSpan(this._selection.anchorNode.parentNode)
   }
