@@ -14,6 +14,13 @@ export default class {
     return isNodeTextBox(this._selection.anchorNode.parentNode)
   }
 
+  get isAnchorOneDownUnderFocus() {
+    return (
+      this._selection.anchorNode.parentNode.parentNode ===
+      this._selection.focusNode.parentNode
+    )
+  }
+
   get isFocusNodeInSpan() {
     return isNodeSpan(this._selection.focusNode.parentNode)
   }
