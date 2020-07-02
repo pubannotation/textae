@@ -1,9 +1,6 @@
-import Positions from '../Positions'
-import isInSelectedSpan from '../isInSelectedSpan'
-
-export default function(annotationData, selectionModel, selection) {
-  return isInSelectedSpan(
-    selectionModel,
-    new Positions(annotationData, selection).anchor
+export default function(selectionModel, selection) {
+  const selectedSpan = document.querySelector(
+    `#${selectionModel.span.singleId}`
   )
+  return selection.anchorNode.parentNode === selectedSpan
 }

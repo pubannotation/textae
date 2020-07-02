@@ -9,7 +9,7 @@ export default function(
   selection,
   spanConfig
 ) {
-  const spanId = getExpandTargetSpan(annotationData, selectionModel, selection)
+  const spanId = getExpandTargetSpan(selectionModel, selection)
 
   if (spanId) {
     selectionModel.clear()
