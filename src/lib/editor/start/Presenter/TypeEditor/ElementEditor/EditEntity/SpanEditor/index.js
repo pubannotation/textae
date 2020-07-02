@@ -10,7 +10,7 @@ import getSelectionSnapShot from './getSelectionSnapShot'
 import Validator from './Validator'
 import SelectionWrapper from '../../SelectionWrapper'
 import getExpandTargetSpan from './getExpandTargetSpan'
-import expandSpanToSelection from './expandSpanToSelection'
+import expand from './expand'
 
 export default class {
   constructor(
@@ -150,8 +150,8 @@ export default class {
     const spanId = getExpandTargetSpan(this._selectionModel, selection)
 
     if (spanId) {
-      this._selectionModel.clear()
-      expandSpanToSelection(
+      expand(
+        this._selectionModel,
         this._annotationData,
         this._commander,
         this._spanAdjuster,

@@ -1,8 +1,9 @@
+import getNewSpan from './getNewSpan'
 import isBoundaryCrossingWithOtherSpans from '../../../../../../../isBoundaryCrossingWithOtherSpans'
 import clearTextSelectionAndAlert from '../../../../clearTextSelectionAndAlert'
-import getNewSpan from './getNewSpan'
 
 export default function(
+  selectionModel,
   annotationData,
   commander,
   spanAdjuster,
@@ -10,6 +11,8 @@ export default function(
   selection,
   spanConfig
 ) {
+  selectionModel.clear()
+
   const newSpan = getNewSpan(
     annotationData,
     spanAdjuster,
