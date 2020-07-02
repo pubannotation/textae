@@ -1,4 +1,3 @@
-import isAlreadySpaned from '../../../../../../isAlreadySpaned'
 import createCommands from './createCommands'
 import getNewSpan from './getNewSpan'
 
@@ -24,7 +23,7 @@ export default function(
   }
 
   // The span exists already.
-  if (isAlreadySpaned(annotationData.span.all, newSpan)) {
+  if (annotationData.span.isAlreadySpaned(newSpan)) {
     return
   }
 

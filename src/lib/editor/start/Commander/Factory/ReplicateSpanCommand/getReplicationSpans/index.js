@@ -1,4 +1,3 @@
-import isAlreadySpaned from '../../../../isAlreadySpaned'
 import getSpansTheirStringIsSameWith from './getSpansTheirStringIsSameWith'
 import isWord from './isWord'
 
@@ -17,6 +16,6 @@ export default function(dataStore, originSpan, detectBoundaryFunc) {
         span.begin !== originSpan.begin
     )
     .filter(wordFilter)
-    .filter((span) => !isAlreadySpaned(allSpans, span))
+    .filter((span) => !dataStore.span.isAlreadySpaned(span))
     .filter((span) => !dataStore.span.isBoundaryCrossingWithOtherSpans(span))
 }

@@ -5,6 +5,7 @@ import idFactory from '../../../idFactory'
 import SpanModel from './SpanModel'
 import ContainerWithSubContainer from '../ContainerWithSubContainer'
 import isBoundaryCrossingWithOtherSpans from '../isBoundaryCrossingWithOtherSpans'
+import isAlreadySpaned from './isAlreadySpaned'
 
 export default class extends ContainerWithSubContainer {
   constructor(editor, emitter, parentContainer) {
@@ -113,5 +114,9 @@ export default class extends ContainerWithSubContainer {
 
   isBoundaryCrossingWithOtherSpans(span) {
     return isBoundaryCrossingWithOtherSpans(this.all, span)
+  }
+
+  isAlreadySpaned(span) {
+    return isAlreadySpaned(this.all, span)
   }
 }
