@@ -3,13 +3,14 @@ import Positions from './Positions'
 import DelimiterDetectAdjuster from './DelimiterDetectAdjuster'
 import BlankSkipAdjuster from './BlankSkipAdjuster'
 import create from './create'
-import expand from './expand'
 import crossTheEar from './crossTheEar'
 import pullByTheEar from './pullByTheEar'
 import selectSpan from './selectSpan'
 import getSelectionSnapShot from './getSelectionSnapShot'
 import Validator from './Validator'
 import SelectionWrapper from '../../SelectionWrapper'
+import getExpandTargetSpan from './getExpandTargetSpan'
+import expandSpanToSelection from './expandSpanToSelection'
 
 export default class {
   constructor(
@@ -146,14 +147,19 @@ export default class {
   }
 
   _expand(selection) {
-    expand(
-      this._annotationData,
-      this._selectionModel,
-      this._commander,
-      this._spanAdjuster,
-      selection,
-      this._spanConfig
-    )
+    const spanId = getExpandTargetSpan(this._selectionModel, selection)
+
+    if (spanId) {
+      this._selectionModel.clear()
+      expandSpanToSelection(
+        this._annotationData,
+        this._commander,
+        this._spanAdjuster,
+        spanId,
+        selection,
+        this._spanConfig
+      )
+    }
   }
 
   _shrinkCrossTheEar(selection) {
