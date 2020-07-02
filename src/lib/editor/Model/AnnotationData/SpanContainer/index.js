@@ -4,6 +4,7 @@ import spanComparator from './spanComparator'
 import idFactory from '../../../idFactory'
 import SpanModel from './SpanModel'
 import ContainerWithSubContainer from '../ContainerWithSubContainer'
+import isBoundaryCrossingWithOtherSpans from '../isBoundaryCrossingWithOtherSpans'
 
 export default class extends ContainerWithSubContainer {
   constructor(editor, emitter, parentContainer) {
@@ -108,5 +109,9 @@ export default class extends ContainerWithSubContainer {
       },
       newOne.id
     ]
+  }
+
+  isBoundaryCrossingWithOtherSpans(span) {
+    return isBoundaryCrossingWithOtherSpans(this.all, span)
   }
 }

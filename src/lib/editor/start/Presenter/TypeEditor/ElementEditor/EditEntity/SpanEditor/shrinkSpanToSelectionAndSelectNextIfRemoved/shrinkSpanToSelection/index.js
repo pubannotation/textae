@@ -1,4 +1,3 @@
-import isBoundaryCrossingWithOtherSpans from '../../../../../../../../isBoundaryCrossingWithOtherSpans'
 import clearTextSelectionAndAlert from '../../../../../clearTextSelectionAndAlert'
 import getNewSpan from './getNewSpan'
 
@@ -19,7 +18,7 @@ export default function(
   )
 
   // The span cross exists spans.
-  if (isBoundaryCrossingWithOtherSpans(annotationData.span.all, newSpan)) {
+  if (annotationData.span.isBoundaryCrossingWithOtherSpans(newSpan)) {
     clearTextSelectionAndAlert(
       'A span cannot be shrinked to make a boundary crossing.'
     )
