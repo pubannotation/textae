@@ -10,7 +10,6 @@ import HoverRelation from './HoverRelation'
 import bindMouseEvents from './bindMouseEvents'
 import TextBox from './TextBox'
 import GridHeight from './GridHeight'
-import LineHeightAuto from './bindAnnotationDataEvents/LineHeightAuto'
 
 export default class {
   constructor(editor, annotationData, selectionModel, typeGap, typeDefinition) {
