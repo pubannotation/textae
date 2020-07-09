@@ -28,7 +28,9 @@ export default function(
 
   // Set handler for push buttons.
   for (const buttonName of buttonController.pushButtonNames) {
-    map.set(buttonName, () => presenter.event.toggleButton(buttonName))
+    if (!map.has(buttonName)) {
+      map.set(buttonName, () => presenter.event.toggleButton(buttonName))
+    }
   }
 
   return map
