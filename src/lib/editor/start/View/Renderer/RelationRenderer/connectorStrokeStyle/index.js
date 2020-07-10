@@ -5,7 +5,6 @@ export default function(annotationData, typeDefinition, relationId) {
   const colorHex = typeDefinition.relation.getColor(typeName)
 
   return {
-    lineWidth: 1,
     strokeStyle: converseHEXinotRGBA(colorHex)
   }
 }

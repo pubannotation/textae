@@ -46,13 +46,7 @@ export default class {
   }
 
   change(relation) {
-    changeType(
-      this.editor,
-      this.annotationData,
-      this.typeDefinition,
-      this.selectionModel,
-      relation
-    )
+    changeType(this.editor, this.annotationData, this.typeDefinition, relation)
   }
 
   changeAll() {
@@ -61,7 +55,6 @@ export default class {
         this.editor,
         this.annotationData,
         this.typeDefinition,
-        this.selectionModel,
         relation
       )
     })

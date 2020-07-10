@@ -1,5 +1,4 @@
 import connectorStrokeStyle from '../../../../connectorStrokeStyle'
-import POINTUP_LINE_WIDTH from '../../../../POINTUP_LINE_WIDTH'
 import selectLine from './selectLine'
 import selectLabel from './selectLabel'
 import hoverdownLabel from './hoverdownLabel'
@@ -14,18 +13,13 @@ export default function(
   relationId
 ) {
   if (!connect.dead) {
+    connect.setPaintStyle(
+      connectorStrokeStyle(annotationData, typeDefinition, relationId)
+    )
     selectLine(editor, connect)
     selectLabel(connect)
     hoverdownLine(connect)
     hoverdownLabel(connect)
-    connect.setPaintStyle(
-      Object.assign(
-        connectorStrokeStyle(annotationData, typeDefinition, relationId),
-        {
-          lineWidth: POINTUP_LINE_WIDTH
-        }
-      )
-    )
     new JsPlumbArrow(connect).showBigArrow()
   }
 }
