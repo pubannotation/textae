@@ -1,7 +1,7 @@
 import connectorStrokeStyle from '../../../../connectorStrokeStyle'
 import deselectLabel from './deselectLabel'
 import deselectLine from './deselectLine'
-import hideBigArrow from '../../../../jsPlumbArrowOverlayUtil/hideBigArrow'
+import JsPlumbArrow from '../../../../JsPlumbArrow'
 
 export default function(connect, annotationData, typeDefinition, relationId) {
   if (!connect.dead) {
@@ -10,6 +10,6 @@ export default function(connect, annotationData, typeDefinition, relationId) {
     connect.setPaintStyle(
       connectorStrokeStyle(annotationData, typeDefinition, relationId)
     )
-    hideBigArrow(connect)
+    new JsPlumbArrow(connect).hideBigArrow()
   }
 }

@@ -2,7 +2,7 @@ import connectorStrokeStyle from '../../../../connectorStrokeStyle'
 import hoverdownLabel from './hoverdownLabel'
 import hoverdownLine from './hoverdownLine'
 import hasClass from './hasClass'
-import hideBigArrow from '../../../../jsPlumbArrowOverlayUtil/hideBigArrow'
+import JsPlumbArrow from '../../../../JsPlumbArrow'
 
 export default function(connect, annotationData, typeDefinition, relationId) {
   if (!hasClass(connect, 'ui-selected')) {
@@ -11,6 +11,6 @@ export default function(connect, annotationData, typeDefinition, relationId) {
     connect.setPaintStyle(
       connectorStrokeStyle(annotationData, typeDefinition, relationId)
     )
-    hideBigArrow(connect)
+    new JsPlumbArrow(connect).hideBigArrow()
   }
 }

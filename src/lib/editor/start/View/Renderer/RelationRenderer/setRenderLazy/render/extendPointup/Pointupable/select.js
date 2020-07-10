@@ -4,7 +4,7 @@ import selectLine from './selectLine'
 import selectLabel from './selectLabel'
 import hoverdownLabel from './hoverdownLabel'
 import hoverdownLine from './hoverdownLine'
-import showBigArrow from '../../../../jsPlumbArrowOverlayUtil/showBigArrow'
+import JsPlumbArrow from '../../../../JsPlumbArrow'
 
 export default function(
   connect,
@@ -26,6 +26,6 @@ export default function(
         }
       )
     )
-    showBigArrow(connect)
+    new JsPlumbArrow(connect).showBigArrow()
   }
 }

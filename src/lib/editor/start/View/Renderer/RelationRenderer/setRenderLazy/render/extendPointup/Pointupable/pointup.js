@@ -3,7 +3,7 @@ import POINTUP_LINE_WIDTH from '../../../../POINTUP_LINE_WIDTH'
 import hoverupLabel from './hoverupLabel'
 import hoverupLine from './hoverupLine'
 import hasClass from './hasClass'
-import showBigArrow from '../../../../jsPlumbArrowOverlayUtil/showBigArrow'
+import JsPlumbArrow from '../../../../JsPlumbArrow'
 
 export default function(connect, annotationData, typeDefinition, relationId) {
   if (!hasClass(connect, 'ui-selected')) {
@@ -17,6 +17,6 @@ export default function(connect, annotationData, typeDefinition, relationId) {
         }
       )
     )
-    showBigArrow(connect)
+    new JsPlumbArrow(connect).showBigArrow()
   }
 }
