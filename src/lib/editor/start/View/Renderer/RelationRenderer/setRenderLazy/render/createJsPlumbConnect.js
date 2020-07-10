@@ -4,7 +4,7 @@ import getEntityDom from '../../../../../getEntityDom'
 import LABEL from '../../../../../LABEL'
 import connectorStrokeStyle from '../../connectorStrokeStyle'
 import NORMAL_ARROW from '../../jsPlumbArrowOverlayUtil/NORMAL_ARROW'
-import getLabelTag from '../../../getLabelTag'
+import toLabelString from '../../toLabelString'
 
 // Make a connect by jsPlumb.
 export default function(
@@ -38,11 +38,7 @@ export default function(
       [
         'Label',
         Object.assign({}, LABEL, {
-          label: `[${relation.id}] ${getLabelTag(
-            annotationData.namespace,
-            typeDefinition.relation,
-            relation.type.name
-          )}`,
+          label: toLabelString(relation, annotationData, typeDefinition),
           cssClass: `${LABEL.cssClass}`
         })
       ]

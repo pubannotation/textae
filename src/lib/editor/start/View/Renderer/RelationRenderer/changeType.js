@@ -2,7 +2,7 @@ import Connect from './Connect'
 import LabelOverlay from './LabelOverlay'
 import connectorStrokeStyle from './connectorStrokeStyle'
 import POINTUP_LINE_WIDTH from './POINTUP_LINE_WIDTH'
-import getLabelTag from '../getLabelTag'
+import toLabelString from './toLabelString'
 
 export default function changeType(
   editor,
@@ -27,11 +27,7 @@ export default function changeType(
     }
     connect.setPaintStyle(strokeStyle)
     new LabelOverlay(connect).setLabel(
-      `[${relation.id}] ${getLabelTag(
-        annotationData.namespace,
-        typeDefinition.relation,
-        relation.type.name
-      )}`
+      toLabelString(relation, annotationData, typeDefinition)
     )
   }
 }
