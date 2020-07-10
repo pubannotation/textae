@@ -1,4 +1,4 @@
-import NORMAL_ARROW from './NORMAL_ARROW'
+import NORMAL_ARROW from '../NORMAL_ARROW'
 import HOVER_ARROW from './HOVER_ARROW'
 import addArrow from './addArrow'
 import hasNormalArrow from './hasNormalArrow'

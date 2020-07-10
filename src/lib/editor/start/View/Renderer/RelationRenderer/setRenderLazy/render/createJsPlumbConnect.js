@@ -3,7 +3,7 @@ import determineCurviness from '../../determineCurviness'
 import getEntityDom from '../../../../../getEntityDom'
 import LABEL from '../../../../../LABEL'
 import connectorStrokeStyle from '../../connectorStrokeStyle'
-import NORMAL_ARROW from '../../jsPlumbArrowOverlayUtil/NORMAL_ARROW'
+import NORMAL_ARROW from '../../NORMAL_ARROW'
 import toLabelString from '../../toLabelString'
 
 // Make a connect by jsPlumb.
