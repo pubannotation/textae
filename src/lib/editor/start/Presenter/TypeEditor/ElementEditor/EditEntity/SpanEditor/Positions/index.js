@@ -39,4 +39,8 @@ export default class {
 
     return this.anchor
   }
+
+  get selectedString() {
+    return this._annotationData.sourceDoc.substring(this.begin, this.end)
+  }
 }
