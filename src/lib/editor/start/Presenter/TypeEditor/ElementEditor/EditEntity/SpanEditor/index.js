@@ -174,11 +174,7 @@ export default class {
 
     if (isValid) {
       if (selectionWrapper.isAnchorNodeSameAsFocusedNode) {
-        const positions = this._getPosition(selectionWrapper)
-        const span = this._getAnchorNodeParentSpan(selectionWrapper)
-        if (positions.anchor !== span.begin && positions.anchor !== span.end) {
-          this._create(selectionWrapper)
-        }
+        this._create(selectionWrapper)
       } else if (
         selectionWrapper.isAnchorNodeParentIsDescendantOfFocusNodeParent
       ) {
