@@ -1,4 +1,3 @@
-import SelectionWrapper from '../../../SelectionWrapper'
 import hasCharacters from './hasCharacters'
 
 export default class {
@@ -7,32 +6,27 @@ export default class {
     this._spanConfig = spanConfig
   }
 
-  validateOnText(selection) {
-    const selectionWrapper = new SelectionWrapper(selection)
-
+  validateOnText(selectionWrapper) {
     return (
       selectionWrapper.isFocusNodeInTextBox &&
       selectionWrapper.isAnchrNodeInSpanOrStyleSpanOrTextBox &&
-      hasCharacters(this._annotationData, this._spanConfig, selection)
+      hasCharacters(this._annotationData, this._spanConfig, selectionWrapper)
     )
   }
 
-  validateOnSpan(selection) {
-    const selectionWrapper = new SelectionWrapper(selection)
-
+  validateOnSpan(selectionWrapper) {
     return (
       selectionWrapper.isFocusNodeInSpan &&
       selectionWrapper.isAnchrNodeInSpanOrTextBox &&
-      hasCharacters(this._annotationData, this._spanConfig, selection)
+      hasCharacters(this._annotationData, this._spanConfig, selectionWrapper)
     )
   }
 
-  validateOnStyleSpan(selection) {
-    const selectionWrapper = new SelectionWrapper(selection)
+  validateOnStyleSpan(selectionWrapper) {
     return (
       selectionWrapper.isFocusNodeInStyleSpan &&
       selectionWrapper.isAnchrNodeInStyleSpanOrTextBox &&
-      hasCharacters(this._annotationData, this._spanConfig, selection)
+      hasCharacters(this._annotationData, this._spanConfig, selectionWrapper)
     )
   }
 }

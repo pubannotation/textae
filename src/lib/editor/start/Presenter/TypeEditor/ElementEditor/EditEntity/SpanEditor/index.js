@@ -92,15 +92,17 @@ export default class {
 
   _selectEndOnText() {
     const selection = getSelectionSnapShot()
-    const isValid = this._validator.validateOnText(selection)
+    const selectionWrapper = new SelectionWrapper(selection)
+
+    const isValid = this._validator.validateOnText(selectionWrapper)
 
     if (isValid) {
       // The parent of the focusNode is the text.
-      if (new SelectionWrapper(selection).isAnchorNodeInTextBox) {
+      if (selectionWrapper.isAnchorNodeInTextBox) {
         this._create(selection)
-      } else if (new SelectionWrapper(selection).isAnchorNodeInSpan) {
+      } else if (selectionWrapper.isAnchorNodeInSpan) {
         this._expand(selection)
-      } else if (new SelectionWrapper(selection).isAnchorNodeInStyleSpan) {
+      } else if (selectionWrapper.isAnchorNodeInStyleSpan) {
         // If the anchor node is a style span but has a parent span, extend the parent span.
         const span = selection.anchorNode.parentElement.closest(
           '.textae-editor__span'
@@ -115,7 +117,8 @@ export default class {
 
   _selectEndOnSpan() {
     const selection = getSelectionSnapShot()
-    const isValid = this._validator.validateOnSpan(selection)
+    const selectionWrapper = new SelectionWrapper(selection)
+    const isValid = this._validator.validateOnSpan(selectionWrapper)
 
     if (isValid) {
       if (selection.anchorNode === selection.focusNode) {
@@ -168,7 +171,8 @@ export default class {
 
   _selectEndOnStyleSpan() {
     const selection = getSelectionSnapShot()
-    const isValid = this._validator.validateOnStyleSpan(selection)
+    const selectionWrapper = new SelectionWrapper(selection)
+    const isValid = this._validator.validateOnStyleSpan(selectionWrapper)
 
     if (isValid) {
       if (selection.anchorNode === selection.focusNode) {

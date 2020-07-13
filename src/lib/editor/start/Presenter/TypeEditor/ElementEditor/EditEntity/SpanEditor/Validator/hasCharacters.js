@@ -1,7 +1,9 @@
 import Positions from '../Positions'
 
 // A span cannot be created include nonEdgeCharacters only.
-export default function(annotationData, spanConfig, selection) {
+export default function(annotationData, spanConfig, selectionWrapper) {
+  const selection = selectionWrapper.selection
+
   if (!selection) return false
 
   const positions = new Positions(annotationData, selection)
