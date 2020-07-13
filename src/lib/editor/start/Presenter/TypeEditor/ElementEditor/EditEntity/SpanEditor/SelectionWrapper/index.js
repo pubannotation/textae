@@ -16,17 +16,6 @@ export default class {
     return this.selection.anchorNode === this.selection.focusNode
   }
 
-  get isAnchorNodeInSpan() {
-    return isNodeSpan(this.selection.anchorNode.parentNode)
-  }
-
-  get isAnchorNodeInStyleSpanAndTheStyleSpanIsDescendantOfSpan() {
-    return (
-      isNodeStyleSpan(this.selection.anchorNode.parentNode) &&
-      this.selection.anchorNode.parentElement.closest('.textae-editor__span')
-    )
-  }
-
   get isAnchorNodeParentIsDescendantOfFocusNodeParent() {
     return this.parentOfAnchorNode.closest(`#${this.parentOfFocusNode.id}`)
   }
@@ -63,6 +52,21 @@ export default class {
     return isNodeTextBox(this.selection.anchorNode.parentNode)
   }
 
+  get isAnchorNodeInSpan() {
+    return isNodeSpan(this.selection.anchorNode.parentNode)
+  }
+
+  get isAnchorNodeInStyleSpan() {
+    return isNodeStyleSpan(this.selection.anchorNode.parentNode)
+  }
+
+  get isAnchorNodeInStyleSpanAndTheStyleSpanIsDescendantOfSpan() {
+    return (
+      isNodeStyleSpan(this.selection.anchorNode.parentNode) &&
+      this.selection.anchorNode.parentElement.closest('.textae-editor__span')
+    )
+  }
+
   get isAnchorOneDownUnderFocus() {
     return (
       this.selection.anchorNode.parentNode.parentNode ===
@@ -70,30 +74,15 @@ export default class {
     )
   }
 
-  get isFocusNodeInSpan() {
-    return isNodeSpan(this.selection.focusNode.parentNode)
-  }
-
   get isFocusNodeInTextBox() {
     return isNodeTextBox(this.selection.focusNode.parentNode)
   }
 
+  get isFocusNodeInSpan() {
+    return isNodeSpan(this.selection.focusNode.parentNode)
+  }
+
   get isFocusNodeInStyleSpan() {
     return isNodeStyleSpan(this.selection.focusNode.parentNode)
-  }
-
-  get isAnchrNodeInSpanOrTextBox() {
-    const node = this.selection.anchorNode.parentNode
-    return isNodeSpan(node) || isNodeTextBox(node)
-  }
-
-  get isAnchrNodeInStyleSpanOrTextBox() {
-    const node = this.selection.anchorNode.parentNode
-    return isNodeStyleSpan(node) || isNodeTextBox(node)
-  }
-
-  get isAnchrNodeInSpanOrStyleSpanOrTextBox() {
-    const node = this.selection.anchorNode.parentNode
-    return isNodeSpan(node) || isNodeStyleSpan(node) || isNodeTextBox(node)
   }
 }

@@ -93,7 +93,9 @@ export default class {
 
     const isValid =
       selectionWrapper.isFocusNodeInTextBox &&
-      selectionWrapper.isAnchrNodeInSpanOrStyleSpanOrTextBox &&
+      (selectionWrapper.isAnchorNodeInTextBox ||
+        selectionWrapper.isAnchorNodeInSpan ||
+        selectionWrapper.isAnchorNodeInStyleSpan) &&
       this._hasCharacters(selectionWrapper)
 
     if (isValid) {
@@ -117,7 +119,9 @@ export default class {
     const selectionWrapper = new SelectionWrapper()
     const isValid =
       selectionWrapper.isFocusNodeInSpan &&
-      selectionWrapper.isAnchrNodeInSpanOrTextBox &&
+      (selectionWrapper.isAnchorNodeInTextBox ||
+        selectionWrapper.isAnchorNodeInSpan ||
+        selectionWrapper.isAnchorNodeInStyleSpan) &&
       hasCharacters(this._annotationData, this._spanConfig, selectionWrapper)
 
     if (isValid) {
@@ -163,7 +167,9 @@ export default class {
     const selectionWrapper = new SelectionWrapper()
     const isValid =
       selectionWrapper.isFocusNodeInStyleSpan &&
-      selectionWrapper.isAnchrNodeInStyleSpanOrTextBox &&
+      (selectionWrapper.isAnchorNodeInTextBox ||
+        selectionWrapper.isAnchorNodeInSpan ||
+        selectionWrapper.isAnchorNodeInStyleSpan) &&
       hasCharacters(this._annotationData, this._spanConfig, selectionWrapper)
 
     if (isValid) {
