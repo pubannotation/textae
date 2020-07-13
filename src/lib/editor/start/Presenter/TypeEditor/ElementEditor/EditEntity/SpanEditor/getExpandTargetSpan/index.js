@@ -1,9 +1,6 @@
 import isAnchorInSelectedSpan from './isAnchorInSelectedSpan'
-import SelectionWrapper from '../../../SelectionWrapper'
 
-export default function(selectionModel, selection) {
-  const selectionWrapper = new SelectionWrapper(selection)
-
+export default function(selectionModel, selectionWrapper) {
   // If a span is selected, it is able to begin drag a span in the span and expand the span.
   // The focus node should be at one level above the selected node.
   if (isAnchorInSelectedSpan(selectionModel, selectionWrapper)) {
@@ -17,7 +14,7 @@ export default function(selectionModel, selection) {
     // To expand the span , belows are needed:
     // 1. The anchorNode is in the span.
     // 2. The foucusNode is out of the span and in the parent of the span.
-    return selection.anchorNode.parentNode.id
+    return selectionWrapper.selection.anchorNode.parentNode.id
   }
   return null
 }

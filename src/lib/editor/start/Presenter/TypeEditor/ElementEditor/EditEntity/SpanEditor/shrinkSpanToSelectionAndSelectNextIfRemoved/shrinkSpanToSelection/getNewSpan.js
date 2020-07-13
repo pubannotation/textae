@@ -5,10 +5,10 @@ export default function getNewSpan(
   annotationData,
   spanAdjuster,
   spanId,
-  selection,
+  selectionWrapper,
   spanConfig
 ) {
-  const positions = new Positions(annotationData, selection)
+  const positions = new Positions(annotationData, selectionWrapper)
   return getNewShortSpan(
     annotationData,
     spanAdjuster,

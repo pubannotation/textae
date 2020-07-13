@@ -7,7 +7,7 @@ export default function(
   commander,
   spanAdjuster,
   spanId,
-  selection,
+  selectionWrapper,
   spanConfig
 ) {
   selectionModel.clear()
@@ -16,7 +16,7 @@ export default function(
     annotationData,
     spanAdjuster,
     spanId,
-    selection,
+    selectionWrapper,
     spanConfig
   )
 

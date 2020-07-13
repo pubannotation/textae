@@ -6,9 +6,8 @@ import create from './create'
 import crossTheEar from './crossTheEar'
 import pullByTheEar from './pullByTheEar'
 import selectSpan from './selectSpan'
-import getSelectionSnapShot from './getSelectionSnapShot'
 import Validator from './Validator'
-import SelectionWrapper from '../../SelectionWrapper'
+import SelectionWrapper from './SelectionWrapper'
 import getExpandTargetSpan from './getExpandTargetSpan'
 import expand from './expand'
 
@@ -91,78 +90,64 @@ export default class {
   }
 
   _selectEndOnText() {
-    const selection = getSelectionSnapShot()
-    const selectionWrapper = new SelectionWrapper(selection)
+    const selectionWrapper = new SelectionWrapper()
 
     const isValid = this._validator.validateOnText(selectionWrapper)
 
     if (isValid) {
       // The parent of the focusNode is the text.
       if (selectionWrapper.isAnchorNodeInTextBox) {
-        this._create(selection)
+        this._create(selectionWrapper)
       } else if (selectionWrapper.isAnchorNodeInSpan) {
-        this._expand(selection)
-      } else if (selectionWrapper.isAnchorNodeInStyleSpan) {
+        this._expand(selectionWrapper)
+      } else if (
+        selectionWrapper.isAnchorNodeInStyleSpanAndTheStyleSpanIsDescendantOfSpan
+      ) {
         // If the anchor node is a style span but has a parent span, extend the parent span.
-        const span = selection.anchorNode.parentElement.closest(
-          '.textae-editor__span'
-        )
-        if (span) {
-          this._expandOnStyleSpan(selection, span)
-        }
+        const span = selectionWrapper.ancestorSpanOfAnchorNode
+        this._expandOnStyleSpan(selectionWrapper, span)
       }
     }
     clearTextSelection()
   }
 
   _selectEndOnSpan() {
-    const selection = getSelectionSnapShot()
-    const selectionWrapper = new SelectionWrapper(selection)
+    const selectionWrapper = new SelectionWrapper()
     const isValid = this._validator.validateOnSpan(selectionWrapper)
 
     if (isValid) {
-      if (selection.anchorNode === selection.focusNode) {
-        const positions = new Positions(this._annotationData, selection)
-        const span = this._annotationData.span.get(
-          selection.anchorNode.parentElement.id
-        )
+      if (selectionWrapper.isAnchorNodeSameAsFocusedNode) {
+        const positions = new Positions(this._annotationData, selectionWrapper)
+        const span = this._getAnchorNodeParentSpan(selectionWrapper)
         if (positions.anchor === span.begin || positions.anchor === span.end) {
-          this._shrinkPullByTheEar(selection)
+          this._shrinkPullByTheEar(selectionWrapper)
         } else {
-          this._create(selection)
+          this._create(selectionWrapper)
         }
       } else if (
-        selection.focusNode.parentElement.closest(
-          `#${selection.anchorNode.parentElement.id}`
-        )
+        selectionWrapper.isFocusNodeParentIsDescendantOfAnchorNodeParent
       ) {
-        this._shrinkCrossTheEar(selection)
+        this._shrinkCrossTheEar(selectionWrapper)
       } else if (
-        selection.anchorNode.parentElement.closest(
-          `#${selection.focusNode.parentElement.id}`
-        )
+        selectionWrapper.isAnchorNodeParentIsDescendantOfFocusNodeParent
       ) {
         // If you select the parent span on the left edge of the screen and shrink it from the left,
         // the anchorNode is the child span and the focusNode is the parent span.
         // If the focusNode (parent span) is selected, shrink the parent span.
-        if (
-          selection.focusNode.parentElement.classList.contains('ui-selected')
-        ) {
-          this._shrinkCrossTheEar(selection)
+        if (selectionWrapper.isFocusNodeParentSelected) {
+          this._shrinkCrossTheEar(selectionWrapper)
         } else {
-          this._expand(selection)
+          this._expand(selectionWrapper)
         }
       } else if (
-        selection.focusNode.parentElement.closest(
-          `#${selection.anchorNode.parentElement.parentElement.id}`
-        )
+        selectionWrapper.isFocusNodeParentIsDescendantOfAnchorNodeParentOfParent
       ) {
         // When extending the span to the right,
         // if the right edge after stretching is the same as the right edge of the second span,
         // the anchorNode will be the textNode of the first span and the focusNode will be the textNode of the second span.
         // If the Span of the focusNode belongs to the parent of the Span of the anchorNode, the first Span is extensible.
         // The same applies when extending to the left.
-        this._expand(selection)
+        this._expand(selectionWrapper)
       }
     }
 
@@ -170,18 +155,15 @@ export default class {
   }
 
   _selectEndOnStyleSpan() {
-    const selection = getSelectionSnapShot()
-    const selectionWrapper = new SelectionWrapper(selection)
+    const selectionWrapper = new SelectionWrapper()
     const isValid = this._validator.validateOnStyleSpan(selectionWrapper)
 
     if (isValid) {
-      if (selection.anchorNode === selection.focusNode) {
-        const positions = new Positions(this._annotationData, selection)
-        const span = this._annotationData.span.get(
-          selection.anchorNode.parentElement.id
-        )
+      if (selectionWrapper.isAnchorNodeSameAsFocusedNode) {
+        const positions = this._getPosition(selectionWrapper)
+        const span = this._getAnchorNodeParentSpan(selectionWrapper)
         if (positions.anchor !== span.begin && positions.anchor !== span.end) {
-          this._create(selection)
+          this._create(selectionWrapper)
         }
       }
     }
@@ -189,7 +171,15 @@ export default class {
     clearTextSelection()
   }
 
-  _create(selection) {
+  _getPosition(selectionWrapper) {
+    return new Positions(this._annotationData, selectionWrapper)
+  }
+
+  _getAnchorNodeParentSpan(selectionWrapper) {
+    return this._annotationData.span.get(selectionWrapper.parentOfAnchorNode.id)
+  }
+
+  _create(selectionWrapper) {
     this._selectionModel.clear()
     create(
       this._annotationData,
@@ -197,13 +187,13 @@ export default class {
       this._spanAdjuster,
       this._isDetectDelimiterEnable,
       this._isReplicateAuto,
-      selection,
+      selectionWrapper,
       this._spanConfig
     )
   }
 
-  _expand(selection) {
-    const spanId = getExpandTargetSpan(this._selectionModel, selection)
+  _expand(selectionWrapper) {
+    const spanId = getExpandTargetSpan(this._selectionModel, selectionWrapper)
 
     if (spanId) {
       expand(
@@ -212,13 +202,13 @@ export default class {
         this._commander,
         this._spanAdjuster,
         spanId,
-        selection,
+        selectionWrapper,
         this._spanConfig
       )
     }
   }
 
-  _expandOnStyleSpan(selection, span) {
+  _expandOnStyleSpan(selectionWrapper, span) {
     const spanId = span.id
 
     if (spanId) {
@@ -228,32 +218,32 @@ export default class {
         this._commander,
         this._spanAdjuster,
         spanId,
-        selection,
+        selectionWrapper,
         this._spanConfig
       )
     }
   }
 
-  _shrinkCrossTheEar(selection) {
+  _shrinkCrossTheEar(selectionWrapper) {
     crossTheEar(
       this._editor,
       this._annotationData,
       this._selectionModel,
       this._commander,
       this._spanAdjuster,
-      selection,
+      selectionWrapper,
       this._spanConfig
     )
   }
 
-  _shrinkPullByTheEar(selection) {
+  _shrinkPullByTheEar(selectionWrapper) {
     pullByTheEar(
       this._editor,
       this._annotationData,
       this._selectionModel,
       this._commander,
       this._spanAdjuster,
-      selection,
+      selectionWrapper,
       this._spanConfig
     )
   }

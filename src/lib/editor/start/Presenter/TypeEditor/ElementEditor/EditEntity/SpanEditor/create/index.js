@@ -7,13 +7,13 @@ export default function(
   spanAdjuster,
   isDetectDelimiterEnable,
   isReplicateAuto,
-  selection,
+  selectionWrapper,
   spanConfig
 ) {
   const newSpan = getNewSpan(
     annotationData,
     spanAdjuster,
-    selection,
+    selectionWrapper,
     spanConfig
   )
 

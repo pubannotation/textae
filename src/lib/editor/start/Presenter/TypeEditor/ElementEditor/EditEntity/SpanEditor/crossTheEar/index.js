@@ -7,13 +7,13 @@ export default function(
   selectionModel,
   commander,
   spanAdjuster,
-  selection,
+  selectionWrapper,
   spanConfig
 ) {
   const spanId = getTargetSpanWhenFocusNodeDifferentFromAnchorNode(
     annotationData,
     selectionModel,
-    selection
+    selectionWrapper
   )
 
   if (spanId) {
@@ -24,7 +24,7 @@ export default function(
       commander,
       spanAdjuster,
       spanId,
-      selection,
+      selectionWrapper,
       spanConfig,
       selectionModel
     )

@@ -6,14 +6,14 @@ export default function(
   commander,
   spanAdjuster,
   spanId,
-  selection,
+  selectionWrapper,
   spanConfig
 ) {
   const newSpan = getNewSpan(
     annotationData,
     spanAdjuster,
     spanId,
-    selection,
+    selectionWrapper,
     spanConfig
   )
 

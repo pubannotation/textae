@@ -1,9 +1,9 @@
 import Positions from './Positions'
 import isInSelectedSpan from './isInSelectedSpan'
 
-export default function(annotationData, selectionModel, selection) {
+export default function(annotationData, selectionModel, selectionWrapper) {
   return isInSelectedSpan(
     selectionModel,
-    new Positions(annotationData, selection).focus
+    new Positions(annotationData, selectionWrapper).focus
   )
 }

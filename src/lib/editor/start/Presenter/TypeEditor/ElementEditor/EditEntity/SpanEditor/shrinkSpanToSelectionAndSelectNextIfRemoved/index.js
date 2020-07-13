@@ -7,7 +7,7 @@ export default function(
   commander,
   spanAdjuster,
   spanId,
-  selection,
+  selectionWrapper,
   spanConfig,
   selectionModel
 ) {
@@ -19,7 +19,7 @@ export default function(
     commander,
     spanAdjuster,
     spanId,
-    selection,
+    selectionWrapper,
     spanConfig
   )
 

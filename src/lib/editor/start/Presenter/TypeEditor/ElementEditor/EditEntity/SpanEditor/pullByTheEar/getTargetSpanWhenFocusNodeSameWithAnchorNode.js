@@ -1,9 +1,9 @@
 import isFocusInSelectedSpan from '../isFocusInSelectedSpan'
 
-export default function(annotationData, selectionModel, selection) {
-  if (isFocusInSelectedSpan(annotationData, selectionModel, selection)) {
+export default function(annotationData, selectionModel, selectionWrapper) {
+  if (isFocusInSelectedSpan(annotationData, selectionModel, selectionWrapper)) {
     return selectionModel.span.singleId
   }
 
-  return selection.focusNode.parentElement.id
+  return selectionWrapper.selection.focusNode.parentElement.id
 }

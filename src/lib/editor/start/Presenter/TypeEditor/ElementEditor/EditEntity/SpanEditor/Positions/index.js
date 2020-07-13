@@ -1,9 +1,9 @@
 import getPosition from './getPosition'
 
 export default class {
-  constructor(annotationData, selection) {
+  constructor(annotationData, selectionWrapper) {
     this._annotationData = annotationData
-    this._selection = selection
+    this._selection = selectionWrapper.selection
   }
 
   get anchor() {
