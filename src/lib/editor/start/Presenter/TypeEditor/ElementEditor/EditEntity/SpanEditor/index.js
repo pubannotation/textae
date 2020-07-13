@@ -179,6 +179,10 @@ export default class {
         if (positions.anchor !== span.begin && positions.anchor !== span.end) {
           this._create(selectionWrapper)
         }
+      } else if (
+        selectionWrapper.isAnchorNodeParentIsDescendantOfFocusNodeParent
+      ) {
+        this._expand(selectionWrapper)
       }
     }
 
