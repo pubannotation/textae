@@ -100,7 +100,10 @@ export default class {
 
     if (isValid) {
       // The parent of the focusNode is the text.
-      if (selectionWrapper.isAnchorNodeInTextBox) {
+      if (
+        selectionWrapper.isAnchorNodeInTextBox ||
+        selectionWrapper.isAnchorNodeInStyleSpan
+      ) {
         this._create(selectionWrapper)
       } else if (selectionWrapper.isAnchorNodeInSpan) {
         this._expand(selectionWrapper)
@@ -112,6 +115,7 @@ export default class {
         this._expandOnStyleSpan(selectionWrapper, span)
       }
     }
+
     clearTextSelection()
   }
 
@@ -173,7 +177,10 @@ export default class {
       hasCharacters(this._annotationData, this._spanConfig, selectionWrapper)
 
     if (isValid) {
-      if (selectionWrapper.isAnchorNodeSameAsFocusedNode) {
+      if (
+        selectionWrapper.isAnchorNodeSameAsFocusedNode ||
+        selectionWrapper.isAnchorNodeInTextBox
+      ) {
         this._create(selectionWrapper)
       } else if (
         selectionWrapper.isAnchorNodeParentIsDescendantOfFocusNodeParent
