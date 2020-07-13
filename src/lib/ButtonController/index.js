@@ -18,7 +18,6 @@ export default class {
   }
 
   toggle(buttonName) {
-    console.log('hi', buttonName)
     return this._pushButtons.getButton(buttonName).toggle()
   }
 
