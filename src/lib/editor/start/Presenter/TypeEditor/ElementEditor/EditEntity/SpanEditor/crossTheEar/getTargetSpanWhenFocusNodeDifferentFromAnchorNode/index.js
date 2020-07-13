@@ -1,4 +1,5 @@
-import isFocusInSelectedSpan from '../isFocusInSelectedSpan'
+import isFocusInSelectedSpan from '../../isFocusInSelectedSpan'
+import isForcusOneDownUnderAnchor from './isForcusOneDownUnderAnchor'
 
 export default function(annotationData, selectionModel, selection, id) {
   if (isFocusInSelectedSpan(annotationData, selectionModel, selection)) {
@@ -19,11 +20,4 @@ export default function(annotationData, selectionModel, selection, id) {
   }
 
   return null
-}
-
-function isForcusOneDownUnderAnchor(selection) {
-  return (
-    selection.anchorNode.parentNode ===
-    selection.focusNode.parentNode.parentNode
-  )
 }
