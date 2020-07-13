@@ -6,10 +6,10 @@ import create from './create'
 import crossTheEar from './crossTheEar'
 import pullByTheEar from './pullByTheEar'
 import selectSpan from './selectSpan'
-import Validator from './Validator'
 import SelectionWrapper from './SelectionWrapper'
 import getExpandTargetSpan from './getExpandTargetSpan'
 import expand from './expand'
+import hasCharacters from './hasCharacters'
 
 export default class {
   constructor(
@@ -26,7 +26,6 @@ export default class {
     this._commander = commander
     this._buttonController = buttonController
     this._spanConfig = spanConfig
-    this._validator = new Validator(annotationData, spanConfig)
   }
 
   textBoxClicked(event) {
@@ -92,7 +91,10 @@ export default class {
   _selectEndOnText() {
     const selectionWrapper = new SelectionWrapper()
 
-    const isValid = this._validator.validateOnText(selectionWrapper)
+    const isValid =
+      selectionWrapper.isFocusNodeInTextBox &&
+      selectionWrapper.isAnchrNodeInSpanOrStyleSpanOrTextBox &&
+      this._hasCharacters(selectionWrapper)
 
     if (isValid) {
       // The parent of the focusNode is the text.
@@ -113,7 +115,10 @@ export default class {
 
   _selectEndOnSpan() {
     const selectionWrapper = new SelectionWrapper()
-    const isValid = this._validator.validateOnSpan(selectionWrapper)
+    const isValid =
+      selectionWrapper.isFocusNodeInSpan &&
+      selectionWrapper.isAnchrNodeInSpanOrTextBox &&
+      hasCharacters(this._annotationData, this._spanConfig, selectionWrapper)
 
     if (isValid) {
       if (selectionWrapper.isAnchorNodeSameAsFocusedNode) {
@@ -156,7 +161,10 @@ export default class {
 
   _selectEndOnStyleSpan() {
     const selectionWrapper = new SelectionWrapper()
-    const isValid = this._validator.validateOnStyleSpan(selectionWrapper)
+    const isValid =
+      selectionWrapper.isFocusNodeInStyleSpan &&
+      selectionWrapper.isAnchrNodeInStyleSpanOrTextBox &&
+      hasCharacters(this._annotationData, this._spanConfig, selectionWrapper)
 
     if (isValid) {
       if (selectionWrapper.isAnchorNodeSameAsFocusedNode) {
@@ -169,6 +177,14 @@ export default class {
     }
 
     clearTextSelection()
+  }
+
+  _hasCharacters(selectionWrapper) {
+    return hasCharacters(
+      this._annotationData,
+      this._spanConfig,
+      selectionWrapper
+    )
   }
 
   _getPosition(selectionWrapper) {
