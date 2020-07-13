@@ -12,8 +12,11 @@ export default class {
     return this.selection.anchorNode.parentNode === node
   }
 
-  get isAnchorNodeSameAsFocusedNode() {
-    return this.selection.anchorNode === this.selection.focusNode
+  get isParentOfAnchorNodeAndFocusedNodeSame() {
+    return (
+      this.selection.anchorNode.parentElement ===
+      this.selection.focusNode.parentElement
+    )
   }
 
   get isAnchorNodeParentIsDescendantOfFocusNodeParent() {

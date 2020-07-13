@@ -129,7 +129,7 @@ export default class {
       hasCharacters(this._annotationData, this._spanConfig, selectionWrapper)
 
     if (isValid) {
-      if (selectionWrapper.isAnchorNodeSameAsFocusedNode) {
+      if (selectionWrapper.isParentOfAnchorNodeAndFocusedNodeSame) {
         const positions = new Positions(this._annotationData, selectionWrapper)
         const span = this._getAnchorNodeParentSpan(selectionWrapper)
         if (positions.anchor === span.begin || positions.anchor === span.end) {
@@ -178,7 +178,7 @@ export default class {
 
     if (isValid) {
       if (
-        selectionWrapper.isAnchorNodeSameAsFocusedNode ||
+        selectionWrapper.isParentOfAnchorNodeAndFocusedNodeSame ||
         selectionWrapper.isAnchorNodeInTextBox
       ) {
         this._create(selectionWrapper)
