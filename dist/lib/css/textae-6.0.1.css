@@ -4610,6 +4610,7 @@ a.ui-button:active,
 }
 .textae-editor--instance-mode .textae-editor__relation:hover,
 .textae-editor--instance-mode .textae-editor__relation.hover {
+  stroke-width: 3;
   z-index: 5;
 }
 .textae-editor--instance-mode .textae-editor__relation__label:hover,
@@ -4632,6 +4633,7 @@ a.ui-button:active,
 .textae-editor--relation-mode .textae-editor__relation:hover,
 .textae-editor--relation-mode .textae-editor__relation.hover {
   z-index: 1;
+  stroke-width: 3;
 }
 .textae-editor--relation-mode .textae-editor__relation__label:hover,
 .textae-editor--relation-mode .textae-editor__relation__label.hover {
@@ -4639,6 +4641,7 @@ a.ui-button:active,
 }
 .textae-editor--relation-mode .textae-editor__relation.ui-selected {
   z-index: 1;
+  stroke-width: 3;
 }
 .textae-editor--relation-mode .textae-editor__relation__label.ui-selected {
   font-weight: 700;
