@@ -99,6 +99,16 @@ export default class {
       this._hasCharacters(selectionWrapper)
 
     if (isValid) {
+      if (
+        selectionWrapper.isAnchorNodeInStyleSpanAndTheStyleSpanIsDescendantOfSpan
+      ) {
+        // If the anchor node is a style span but has a parent span, extend the parent span.
+        const span = selectionWrapper.ancestorSpanOfAnchorNode
+        this._expandOnStyleSpan(selectionWrapper, span)
+        clearTextSelection()
+        return
+      }
+
       // The parent of the focusNode is the text.
       if (
         selectionWrapper.isAnchorNodeInTextBox ||
@@ -110,16 +120,6 @@ export default class {
 
       if (selectionWrapper.isAnchorNodeInSpan) {
         this._expand(selectionWrapper)
-        clearTextSelection()
-        return
-      }
-
-      if (
-        selectionWrapper.isAnchorNodeInStyleSpanAndTheStyleSpanIsDescendantOfSpan
-      ) {
-        // If the anchor node is a style span but has a parent span, extend the parent span.
-        const span = selectionWrapper.ancestorSpanOfAnchorNode
-        this._expandOnStyleSpan(selectionWrapper, span)
         clearTextSelection()
         return
       }
