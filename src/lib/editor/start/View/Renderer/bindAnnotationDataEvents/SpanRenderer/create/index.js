@@ -17,8 +17,11 @@ export default function create(editor, annotationData, span, renderEntityFunc) {
   }
 
   renderClassOfSpan(annotationData, span)
-  renderEntitiesOfSpan(span, renderEntityFunc)
   renderChildrenSpan(span, (span) =>
     create(editor, annotationData, span, renderEntityFunc)
   )
+
+  // When the child spans contain bold style spans, the width of the parent span changes.
+  // Render the entity after the child span has been rendered.
+  renderEntitiesOfSpan(span, renderEntityFunc)
 }
