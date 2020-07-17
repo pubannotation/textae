@@ -105,14 +105,23 @@ export default class {
         selectionWrapper.isAnchorNodeInStyleSpan
       ) {
         this._create(selectionWrapper)
-      } else if (selectionWrapper.isAnchorNodeInSpan) {
+        return
+      }
+
+      if (selectionWrapper.isAnchorNodeInSpan) {
         this._expand(selectionWrapper)
-      } else if (
+        clearTextSelection()
+        return
+      }
+
+      if (
         selectionWrapper.isAnchorNodeInStyleSpanAndTheStyleSpanIsDescendantOfSpan
       ) {
         // If the anchor node is a style span but has a parent span, extend the parent span.
         const span = selectionWrapper.ancestorSpanOfAnchorNode
         this._expandOnStyleSpan(selectionWrapper, span)
+        clearTextSelection()
+        return
       }
     }
 
@@ -134,14 +143,20 @@ export default class {
         const span = this._getAnchorNodeParentSpan(selectionWrapper)
         if (positions.anchor === span.begin || positions.anchor === span.end) {
           this._shrinkPullByTheEar(selectionWrapper)
+          clearTextSelection()
         } else {
           this._create(selectionWrapper)
         }
-      } else if (
-        selectionWrapper.isFocusNodeParentIsDescendantOfAnchorNodeParent
-      ) {
+        return
+      }
+
+      if (selectionWrapper.isFocusNodeParentIsDescendantOfAnchorNodeParent) {
         this._shrinkCrossTheEar(selectionWrapper)
-      } else if (
+        clearTextSelection()
+        return
+      }
+
+      if (
         selectionWrapper.isAnchorNodeInSpan &&
         selectionWrapper.isAnchorNodeParentIsDescendantOfFocusNodeParent
       ) {
@@ -153,7 +168,12 @@ export default class {
         } else {
           this._expand(selectionWrapper)
         }
-      } else if (
+
+        clearTextSelection()
+        return
+      }
+
+      if (
         selectionWrapper.isAnchorNodeInSpan &&
         selectionWrapper.isFocusNodeParentIsDescendantOfAnchorNodeParentOfParent
       ) {
@@ -163,6 +183,7 @@ export default class {
         // If the Span of the focusNode belongs to the parent of the Span of the anchorNode, the first Span is extensible.
         // The same applies when extending to the left.
         this._expand(selectionWrapper)
+        clearTextSelection()
       }
     }
 
@@ -184,10 +205,13 @@ export default class {
         selectionWrapper.isAnchorNodeInTextBox
       ) {
         this._create(selectionWrapper)
-      } else if (
-        selectionWrapper.isAnchorNodeParentIsDescendantOfFocusNodeParent
-      ) {
+        return
+      }
+
+      if (selectionWrapper.isAnchorNodeParentIsDescendantOfFocusNodeParent) {
         this._expand(selectionWrapper)
+        clearTextSelection()
+        return
       }
     }
 
@@ -236,6 +260,7 @@ export default class {
         selectionWrapper,
         this._spanConfig
       )
+      clearTextSelection()
     }
   }
 
