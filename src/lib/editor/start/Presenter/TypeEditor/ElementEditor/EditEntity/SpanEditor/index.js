@@ -142,6 +142,7 @@ export default class {
       ) {
         this._shrinkCrossTheEar(selectionWrapper)
       } else if (
+        selectionWrapper.isAnchorNodeInSpan &&
         selectionWrapper.isAnchorNodeParentIsDescendantOfFocusNodeParent
       ) {
         // If you select the parent span on the left edge of the screen and shrink it from the left,
@@ -153,6 +154,7 @@ export default class {
           this._expand(selectionWrapper)
         }
       } else if (
+        selectionWrapper.isAnchorNodeInSpan &&
         selectionWrapper.isFocusNodeParentIsDescendantOfAnchorNodeParentOfParent
       ) {
         // When extending the span to the right,
