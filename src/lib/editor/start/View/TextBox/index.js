@@ -1,6 +1,7 @@
 import getLineHeight from './getLineHeight'
 import setLineHeight from './setLineHeight'
 import updateTextBoxHeight from './updateTextBoxHeight'
+import resetLineHeight from './resetLineHeight'
 
 export default class {
   constructor(editor, annotationData, gridHeight) {
@@ -21,7 +22,14 @@ export default class {
   updateLineHeight() {
     if (this._annotationData.span.all.length) {
       this.lineHeight = this._gridHeight.currentMaxHeight
+    } else {
+      this._resetLineHeight()
     }
+  }
+
+  _resetLineHeight() {
+    const editor = this._editor[0]
+    resetLineHeight(editor)
   }
 
   forceUpdate() {
