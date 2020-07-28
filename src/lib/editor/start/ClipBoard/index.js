@@ -39,7 +39,18 @@ export default class {
   }
 
   cutEntities() {
-    this._updateItems(getSelectedEntities(this._selectionModel))
+    const newItems = getSelectedEntities(this._selectionModel)
+
+    //  When exactly the same entities that are being cut are selected, the cut is canceled.
+    if (
+      this._cuttingItems.length &&
+      this._cuttingItems.every((item) => newItems.has(item)) &&
+      [...newItems].every((item) => this._cuttingItems.includes(item))
+    ) {
+      this._updateItems(new Set())
+    } else {
+      this._updateItems(newItems)
+    }
   }
 
   pasteEntities() {
