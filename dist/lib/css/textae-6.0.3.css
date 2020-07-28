@@ -4517,7 +4517,7 @@ a.ui-button:active,
   background-color: rgba(255, 0, 0, 0.8);
 }
 .textae-editor--editable .textae-editor__entity.ui-to-be-cut {
-  opacity: 0.1;
+  opacity: 0.5;
 }
 .textae-editor--editable .textae-editor__entity-pane.ui-selected {
   z-index: 4;
@@ -4532,7 +4532,7 @@ a.ui-button:active,
   z-index: 4;
 }
 .textae-editor--editable .textae-editor__type-values.ui-to-be-cut {
-  opacity: 0.1;
+  opacity: 0.5;
 }
 .textae-editor--editable .textae-editor__attribute {
   background-color: transparent;
