@@ -10,7 +10,7 @@ export default function(commander, presenter, persistenceInterface) {
     ['8', (shiftKey) => presenter.event.manipulateAttribute(8, shiftKey)],
     ['9', (shiftKey) => presenter.event.manipulateAttribute(9, shiftKey)],
     ['a', commander.redo],
-    ['b', () => presenter.event.toggleDetectBoundaryMode()],
+    ['b', () => presenter.event.toggleButton('boundary-detection')],
     ['c', () => presenter.event.copyEntities()],
     ['d', () => presenter.event.removeSelectedElements()],
     ['e', () => presenter.event.createEntity()],
