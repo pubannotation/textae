@@ -30,8 +30,9 @@ export default class {
 
   copyEntities() {
     // Map entities to types, because entities may be delete.
-    const copyingItems = getSelectedEntities(this._selectionModel).map(
-      (e) => e.type
+    const copyingItems = [...getSelectedEntities(this._selectionModel)].reduce(
+      (set, e) => set.add(e.type),
+      new Set()
     )
 
     this._updateItems(copyingItems)
@@ -48,15 +49,15 @@ export default class {
 
     if (this._itemsWillBeCutAndPaste.length) {
       this._commander.invoke(this._pasteCommand)
-      this._updateItems([])
+      this._updateItems(new Set())
     }
   }
 
   // Notify items that are cutting and items that are no longer cutting
   // in order to switch between highlighting entities that are cutting.
   _updateItems(newItems) {
-    const oldItems = this._cuttingItems.filter((i) => !newItems.includes(i))
-    this._items = newItems
+    const oldItems = this._cuttingItems.filter((i) => !newItems.has(i))
+    this._items = [...newItems]
 
     this._editor.eventEmitter.emit(
       'textae.clipBoard.change',
