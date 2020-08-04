@@ -9,7 +9,8 @@ export default class {
   }
 
   select(id) {
-    const el = getEntityDom(this._editor[0], id)
+    console.log('hi')
+    const el = getEntityDom(this._editor, id)
 
     // Entities of block span hos no dom elements.
     if (el) {
@@ -21,7 +22,7 @@ export default class {
   }
 
   deselect(id) {
-    const el = getEntityDom(this._editor[0], id)
+    const el = getEntityDom(this._editor, id)
 
     // Entities of block span hos no dom elements.
     // A dom does not exist when it is deleted.
@@ -31,7 +32,7 @@ export default class {
   }
 
   updateLabel(id) {
-    const el = getEntityDom(this._editor[0], id)
+    const el = getEntityDom(this._editor, id)
 
     if (el) {
       apllyEntityTypeValues(el, SELECTED)

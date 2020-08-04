@@ -1,7 +1,7 @@
 import getEntityDom from '../../../../getEntityDom'
 
 export default function(editor, entityModel, gridPositionCache, entityId) {
-  const entity = getEntityDom(editor[0], entityId)
+  const entity = getEntityDom(editor, entityId)
 
   if (!entity) {
     throw new Error(`entity is not rendered : ${entityId}`)

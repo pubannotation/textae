@@ -15,8 +15,8 @@ export default function(
   typeDefinition
 ) {
   return jsPlumbInstance.connect({
-    source: $(getEntityDom(editor[0], relation.subj)),
-    target: $(getEntityDom(editor[0], relation.obj)),
+    source: $(getEntityDom(editor, relation.subj)),
+    target: $(getEntityDom(editor, relation.obj)),
     anchors: ['TopCenter', 'TopCenter'],
     connector: [
       'Bezier',
