@@ -60,7 +60,6 @@ export default class {
   _toAttributesForDom(namespace, typeContainer) {
     return this.attributes.map((attribute) => {
       return Object.assign({}, attribute, {
-        domId: `${this.id}-${attribute.id}`,
         title: `pred: ${attribute.pred}, value: ${attribute.obj}`,
         label: getLabel(
           namespace,
