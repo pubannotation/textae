@@ -4,7 +4,7 @@ import '../../../registerTypeValeusPartial'
 // A Type element has an entity_pane elment that has a label and will have entities.
 const source = `
 <div id="{{id}}" class="textae-editor__type">
-  <div id="P-{{id}}" class="textae-editor__entity-pane"></div>
+  <div class="textae-editor__entity-pane"></div>
   {{>type-values}}
 </div>
 `
