@@ -13,7 +13,12 @@ export default function(editor, span) {
 
   if (!validateRenderingPosition(textNode, start, end)) {
     throw new Error(
-      `oh my god! I cannot render ${span.id}. textNode ${textNode.textContent}. at ${start} : ${end}`
+      `oh my god! I cannot render ${span.id}. "${textNode.textContent.slice(
+        start,
+        end
+      )}" at ${start}~${end} of text(${textNode.textContent.length}) as "${
+        textNode.textContent
+      }".`
     )
   }
 
