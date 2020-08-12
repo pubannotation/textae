@@ -1,9 +1,8 @@
 import getRenderingPositionFromParent from './getRenderingPositionFromParent'
 import getRenderingPositionFromBigBrother from './getRenderingPositionFromBigBrother'
-import getBigBrotherSpan from './getBigBrotherSpan'
 
-export default function(editor, annotationData, span) {
-  const bigBrotherSpan = getBigBrotherSpan(span, annotationData.span.topLevel())
+export default function(editor, span) {
+  const bigBrotherSpan = span.bigBrother
 
   if (bigBrotherSpan) {
     // The target text arrounded by span is in a textNode after the bigBrotherSpan

@@ -1,9 +1,10 @@
 import getTypes from './getTypes'
 import SpanModel from '../SpanModel'
+import getBigBrotherSpan from '../SpanModel/getBigBrotherSpan'
 
 export default class extends SpanModel {
-  constructor(editor, span, entityContainer) {
-    super(editor, span)
+  constructor(editor, span, entityContainer, spanContainer) {
+    super(editor, span, spanContainer)
     this._entityContainer = entityContainer
   }
 
@@ -26,5 +27,9 @@ export default class extends SpanModel {
 
   passesAllEntitiesTo(newSpan) {
     this.entities.forEach((e) => (e.span = newSpan.id))
+  }
+
+  get bigBrother() {
+    return getBigBrotherSpan(this, this._spanContainer.topLevel())
   }
 }

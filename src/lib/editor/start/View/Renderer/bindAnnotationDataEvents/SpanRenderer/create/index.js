@@ -13,7 +13,7 @@ export default function create(editor, annotationData, span, renderEntityFunc) {
     spanElement.setAttribute('tabindex', 0)
     spanElement.classList.add('textae-editor__span')
   } else {
-    renderSingleSpan(editor, annotationData, span)
+    renderSingleSpan(editor, span)
   }
 
   renderClassOfSpan(annotationData, span)

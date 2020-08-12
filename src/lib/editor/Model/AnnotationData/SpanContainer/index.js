@@ -11,7 +11,7 @@ import isAlreadySpaned from './isAlreadySpaned'
 export default class extends ContainerWithSubContainer {
   constructor(editor, emitter, parentContainer) {
     super(emitter, parentContainer, 'span', (denotations) =>
-      mappingFunction(denotations, editor, this.entityContainer)
+      mappingFunction(denotations, editor, this.entityContainer, this)
     )
     this._editor = editor
     this.spanTopLevel = []
@@ -47,7 +47,7 @@ export default class extends ContainerWithSubContainer {
     console.assert(span, 'span is necessary.')
 
     return super.add(
-      new ObjectSpanModel(this._editor, span, this.entityContainer),
+      new ObjectSpanModel(this._editor, span, this.entityContainer, this),
       () => {
         this.spanTopLevel = this._updateSpanTree()
       }
@@ -117,7 +117,7 @@ export default class extends ContainerWithSubContainer {
   move(id, newSpan) {
     const oldOne = super.remove(id)
     const newOne = super.add(
-      new ObjectSpanModel(this._editor, newSpan, this.entityContainer),
+      new ObjectSpanModel(this._editor, newSpan, this.entityContainer, this),
       (newOne) => {
         this.spanTopLevel = this._updateSpanTree()
         // Span.getTypes function depends on the property of the entity.
