@@ -1,10 +1,10 @@
 import getOffset from './getOffset'
 
-export default function(span, bigBrother) {
-  const { start, end } = getOffset(span, bigBrother.end)
+export default function(span, bigBrotherSpan) {
+  const { start, end } = getOffset(span, bigBrotherSpan.end)
 
   return {
-    textNode: document.querySelector(`#${bigBrother.id}`).nextSibling,
+    textNode: document.querySelector(`#${bigBrotherSpan.id}`).nextSibling,
     start,
     end
   }
