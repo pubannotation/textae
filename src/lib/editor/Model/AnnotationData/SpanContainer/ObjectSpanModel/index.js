@@ -1,9 +1,8 @@
-import idFactory from '../../../../idFactory'
 import getTypes from './getTypes'
 import SpanModel from '../SpanModel'
 
 export default class extends SpanModel {
-  constructor(editor, span, entityContainer, style) {
+  constructor(editor, span, entityContainer) {
     super(editor, span)
     this._entityContainer = entityContainer
   }
