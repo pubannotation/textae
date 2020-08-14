@@ -1,5 +1,7 @@
+import getTypeDomOfEntityDom from '../getTypeDomOfEntityDom'
+
 export default function(entity, cssClass) {
-  const typeDom = entity.closest('.textae-editor__type')
+  const typeDom = getTypeDomOfEntityDom(entity)
 
   return (
     typeDom.querySelectorAll('.textae-editor__entity').length ===

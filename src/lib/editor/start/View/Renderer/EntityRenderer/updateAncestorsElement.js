@@ -1,3 +1,4 @@
+import getTypeDomOfEntityDom from '../../../getTypeDomOfEntityDom'
 import arrangePositionOfPane from './arrangePositionOfPane'
 
 export default function(paneElement) {
@@ -10,7 +11,7 @@ export default function(paneElement) {
     arrangePositionOfPane(paneElement)
   } else {
     // Get the ancestor elements before removing.
-    const typeDom = paneElement.closest('.textae-editor__type')
+    const typeDom = getTypeDomOfEntityDom(paneElement)
     const gridDom = typeDom.closest('.textae-editor__grid')
 
     // Remove type unlese entity.

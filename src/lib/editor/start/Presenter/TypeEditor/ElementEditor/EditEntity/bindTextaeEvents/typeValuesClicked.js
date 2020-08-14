@@ -1,8 +1,11 @@
 import selectEntities from './selectEntities'
-import getEntitiesDomOfType from '../../../../../getEntitiesDomOfType'
+import getTypeDomOfEntityDom from '../../../../../getTypeDomOfEntityDom'
 
 export default function(selectionModel, e) {
-  const entities = getEntitiesDomOfType(e.target)
+  const entities = getTypeDomOfEntityDom(e.target).querySelectorAll(
+    '.textae-editor__entity'
+  )
+
   return selectEntities(
     selectionModel,
     e.ctrlKey || e.metaKey,
