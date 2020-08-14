@@ -9,7 +9,6 @@ export default class {
   }
 
   select(id) {
-    console.log('hi')
     const el = getEntityDom(this._editor, id)
 
     // Entities of block span hos no dom elements.
