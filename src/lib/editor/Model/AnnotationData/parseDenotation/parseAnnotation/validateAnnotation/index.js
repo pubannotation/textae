@@ -18,7 +18,7 @@ export default function(text, annotation) {
   )
   const resultTypeSet = validateAnnotationWithSpan(
     text,
-    annotation['type sets']
+    annotation.typesettings
   )
 
   return {
