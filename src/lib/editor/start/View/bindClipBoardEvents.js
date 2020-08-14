@@ -1,5 +1,5 @@
 import getEntityDom from '../getEntityDom'
-import apllyEntityTypeValues from './apllyEntityTypeValues'
+import applyEntityTypeValues from './applyEntityTypeValues'
 
 export default function(editor) {
   editor.eventEmitter.on('textae.clipBoard.change', (added, removed) => {
@@ -8,14 +8,14 @@ export default function(editor) {
       const el = getEntityDom(editor, e.id)
       if (el) {
         el.classList.add(cssClass)
-        apllyEntityTypeValues(el, cssClass)
+        applyEntityTypeValues(el, cssClass)
       }
     }
     for (const e of removed) {
       const el = getEntityDom(editor, e.id)
       if (el) {
         el.classList.remove(cssClass)
-        apllyEntityTypeValues(el, cssClass)
+        applyEntityTypeValues(el, cssClass)
       }
     }
   })

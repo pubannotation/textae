@@ -1,7 +1,7 @@
 import getEntityDom from '../getEntityDom'
 import getLabelDomOfType from '../getLabelDomOfType'
 import SELECTED from './SELECTED'
-import apllyEntityTypeValues from './apllyEntityTypeValues'
+import applyEntityTypeValues from './applyEntityTypeValues'
 
 export default class {
   constructor(editor) {
@@ -34,7 +34,7 @@ export default class {
     const el = getEntityDom(this._editor, id)
 
     if (el) {
-      apllyEntityTypeValues(el, SELECTED)
+      applyEntityTypeValues(el, SELECTED)
     }
   }
 }
