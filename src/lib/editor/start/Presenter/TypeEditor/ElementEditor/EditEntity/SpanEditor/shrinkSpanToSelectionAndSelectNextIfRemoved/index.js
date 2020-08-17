@@ -13,7 +13,7 @@ export default function(
 ) {
   const oldSpan = document.querySelector(`#${spanId}`)
   // Get the next span before removing the old span.
-  const nextSpan = getRightElement(editor[0], oldSpan)
+  const nextSpan = getRightElement(editor[0], oldSpan, 'textae-editor__span')
   const removed = shrinkSpanToSelection(
     annotationData,
     commander,

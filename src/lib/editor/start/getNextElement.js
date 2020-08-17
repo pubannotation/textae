@@ -1,9 +1,9 @@
 export { getLeftElement, getRightElement }
 
-function getLeftElement(editorDom, element) {
+function getLeftElement(editorDom, element, className) {
   console.assert(element, 'element MUST exists.')
 
-  const [all, index] = getElements(editorDom, element)
+  const [all, index] = getElements(editorDom, element, className)
 
   if (index > 0) {
     return all[index - 1]
@@ -12,10 +12,10 @@ function getLeftElement(editorDom, element) {
   return null
 }
 
-function getRightElement(editorDom, element) {
+function getRightElement(editorDom, element, className) {
   console.assert(element, 'element MUST exists.')
 
-  const [all, index] = getElements(editorDom, element)
+  const [all, index] = getElements(editorDom, element, className)
 
   if (all.length - index > 1) {
     return all[index + 1]
@@ -24,10 +24,7 @@ function getRightElement(editorDom, element) {
   return null
 }
 
-function getElements(editorDom, element) {
-  const className = Array.from(element.classList).filter(
-    (name) => name.indexOf('textae-editor__') === 0
-  )[0]
+function getElements(editorDom, element, className) {
   const all = editorDom.querySelectorAll(`.${className}`)
   const index = Array.from(all).indexOf(element)
 

@@ -3,7 +3,8 @@ import { getRightElement } from '../../../getNextElement'
 export default function(editorDom, spanId) {
   const rightSpan = getRightElement(
     editorDom,
-    document.querySelector(`#${spanId}`)
+    document.querySelector(`#${spanId}`),
+    'textae-editor__span'
   )
 
   if (!rightSpan) {
