@@ -1,5 +1,5 @@
 import shrinkSpanToSelection from './shrinkSpanToSelection'
-import { getRightElement } from '../../../../../../getNextElement'
+import getRightSpanElement from '../../../../../../getRightSpanElement'
 
 export default function(
   editor,
@@ -11,9 +11,8 @@ export default function(
   spanConfig,
   selectionModel
 ) {
-  const oldSpan = document.querySelector(`#${spanId}`)
   // Get the next span before removing the old span.
-  const nextSpan = getRightElement(editor[0], oldSpan, 'textae-editor__span')
+  const nextSpan = getRightSpanElement(editor[0], spanId)
   const removed = shrinkSpanToSelection(
     annotationData,
     commander,
