@@ -8,13 +8,13 @@ export default function(editorDom, selectionModel, shiftKey, getNextFunc) {
     return () => selectionModel.selectSpan(nextElement, shiftKey)
   }
 
-  const selectedEntityLabel = selectSelected(
+  const selectedTypeValues = selectSelected(
     editorDom,
     'textae-editor__type-values'
   )
 
-  if (selectedEntityLabel.length) {
-    const nextElement = getNextFunc(selectedEntityLabel)
+  if (selectedTypeValues.length) {
+    const nextElement = getNextFunc(selectedTypeValues)
     return () => selectionModel.selectEntityLabel(nextElement, shiftKey)
   }
 
