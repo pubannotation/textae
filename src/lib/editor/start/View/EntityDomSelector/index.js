@@ -1,6 +1,6 @@
-import getEntityDom from '../getEntityDom'
-import getLabelDomOfType from '../getLabelDomOfType'
-import SELECTED from './SELECTED'
+import getEntityDom from '../../getEntityDom'
+import getLabelDomOfType from './getLabelDomOfType'
+import SELECTED from '../SELECTED'
 import applyEntityTypeValues from './applyEntityTypeValues'
 
 export default class {

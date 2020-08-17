@@ -1,5 +1,5 @@
-import getTypeDomOfEntityDom from '../getTypeDomOfEntityDom'
-import areAllSibilingEntitiesHasClass from './areAllSibilingEntitiesHasClass'
+import getTypeDomOfEntityDom from '../../getTypeDomOfEntityDom'
+import areAllSibilingEntitiesHasClass from '../areAllSibilingEntitiesHasClass'
 
 export default function(entity, cssClass) {
   console.assert(entity, 'An entity is necessary.')
