@@ -1,9 +1,8 @@
 import SettingDialog from '../../../../component/SettingDialog'
 import createEntityHandler from './createEntityHandler'
 import replicateHandler from './replicateHandler'
-import selectUpperLayer from './selectUpperLayer'
-import selectLowerLayer from './selectLowerLayer'
 import Horizontal from './Horizontal'
+import Vertical from './Vertical'
 
 export default class {
   constructor(
@@ -33,6 +32,7 @@ export default class {
     this._typeEditor = typeEditor
     this._editMode = editMode
     this._horizontal = new Horizontal(editor, selectionModel)
+    this._vertical = new Vertical(editor, selectionModel)
   }
 
   copyEntities() {
@@ -126,11 +126,11 @@ export default class {
   }
 
   selectUp() {
-    selectUpperLayer(this._editor[0], this._selectionModel)
+    this._vertical.up()
   }
 
   selectDown() {
-    selectLowerLayer(this._editor[0], this._selectionModel)
+    this._vertical.down()
   }
 
   toggleSimpleMode() {
