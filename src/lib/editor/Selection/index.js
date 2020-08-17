@@ -120,7 +120,7 @@ export default class {
   }
 
   // Select all entities in the label
-  selectEntityLabel(elementInTypeDom, isMulti) {
+  selectAllEntitiesOfType(elementInTypeDom, isMulti) {
     if (elementInTypeDom) {
       const pane = getPaneDomOfType(elementInTypeDom)
       const allEntityOflabels = pane.children

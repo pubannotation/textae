@@ -13,7 +13,7 @@ export default class {
 
     const nextTypeValues = this._searchLeft('textae-editor__type-values')
     if (nextTypeValues) {
-      this._selectionModel.selectEntityLabel(nextTypeValues, shiftKey)
+      this._selectionModel.selectAllEntitiesOfType(nextTypeValues, shiftKey)
       return
     }
 
@@ -32,7 +32,7 @@ export default class {
 
     const nextTypeValues = this._searchRight('textae-editor__type-values')
     if (nextTypeValues) {
-      this._selectionModel.selectEntityLabel(nextTypeValues, shiftKey)
+      this._selectionModel.selectAllEntitiesOfType(nextTypeValues, shiftKey)
       return
     }
 

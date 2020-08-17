@@ -10,7 +10,7 @@ export default class {
     // When one span is selected.
     // Block span has no type.
     if (this._selectionModel.span.singleId && this._typeOfSelectedSpan) {
-      this._selectionModel.selectEntityLabel(this._typeOfSelectedSpan)
+      this._selectionModel.selectAllEntitiesOfType(this._typeOfSelectedSpan)
       return
     }
 
@@ -28,7 +28,7 @@ export default class {
     }
 
     if (this._selectedSingleEntity) {
-      this._selectionModel.selectEntityLabel(this._selectedSingleEntity)
+      this._selectionModel.selectAllEntitiesOfType(this._selectedSingleEntity)
     }
   }
 
