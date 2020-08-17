@@ -1,10 +1,9 @@
 import SettingDialog from '../../../../component/SettingDialog'
 import createEntityHandler from './createEntityHandler'
 import replicateHandler from './replicateHandler'
-import selectLeft from './selectLeft'
-import selectRight from './selectRight'
 import selectUpperLayer from './selectUpperLayer'
 import selectLowerLayer from './selectLowerLayer'
+import Horizontal from './Horizontal'
 
 export default class {
   constructor(
@@ -33,6 +32,7 @@ export default class {
     this._view = view
     this._typeEditor = typeEditor
     this._editMode = editMode
+    this._horizontal = new Horizontal(editor, selectionModel)
   }
 
   copyEntities() {
@@ -47,7 +47,7 @@ export default class {
     const commands = this._commander.factory.removeSelectedComand()
 
     // Select the next element before clear selection.
-    selectRight(this._editor[0], this._selectionModel, null)
+    this._horizontal.right(null)
 
     this._commander.invoke(commands)
   }
@@ -113,7 +113,7 @@ export default class {
     if (this._typeEditor.isEntityPalletShown) {
       this._typeEditor.selectLeftAttributeTab()
     } else {
-      selectLeft(this._editor[0], this._selectionModel, shiftKey)
+      this._horizontal.left(shiftKey)
     }
   }
 
@@ -121,7 +121,7 @@ export default class {
     if (this._typeEditor.isEntityPalletShown) {
       this._typeEditor.selectRightAttributeTab()
     } else {
-      selectRight(this._editor[0], this._selectionModel, shiftKey)
+      this._horizontal.right(shiftKey)
     }
   }
 
