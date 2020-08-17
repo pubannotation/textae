@@ -5,7 +5,8 @@ export default function(editorDom, selectionModel, shiftKey, getNextFunc) {
 
   if (selectedSpans.length) {
     const nextElement = getNextFunc(selectedSpans, 'textae-editor__span')
-    return () => selectionModel.selectSpan(nextElement, shiftKey)
+    selectionModel.selectSpan(nextElement, shiftKey)
+    return
   }
 
   const selectedTypeValues = selectSelected(
@@ -19,7 +20,8 @@ export default function(editorDom, selectionModel, shiftKey, getNextFunc) {
       'textae-editor__type-values'
     )
 
-    return () => selectionModel.selectEntityLabel(nextElement, shiftKey)
+    selectionModel.selectEntityLabel(nextElement, shiftKey)
+    return
   }
 
   const selectedEntities = selectSelected(editorDom, 'textae-editor__entity')
@@ -28,8 +30,7 @@ export default function(editorDom, selectionModel, shiftKey, getNextFunc) {
     // return a select entity function
     const nextElement = getNextFunc(selectedEntities, 'textae-editor__entity')
 
-    return () => selectionModel.selectEntity(nextElement, shiftKey)
+    selectionModel.selectEntity(nextElement, shiftKey)
+    return
   }
-
-  return () => {}
 }
