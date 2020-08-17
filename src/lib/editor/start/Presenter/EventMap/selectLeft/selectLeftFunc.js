@@ -1,4 +1,4 @@
-import { getLeftElement } from '../../../getNextElement'
+import getLeftElement from '../../../getLeftElement'
 import selectNextFunc from '../selectNextFunc'
 
 export default function(editorDom, selectionModel, shiftKey) {

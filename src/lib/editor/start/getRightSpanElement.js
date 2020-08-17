@@ -1,4 +1,4 @@
-import { getRightElement } from './getNextElement'
+import getRightElement from './getRightElement'
 
 export default function(editorDom, spanId) {
   return getRightElement(
