@@ -586,6 +586,14 @@
         "end": 77
       },
       "obj": "Gene_expression"
+    },
+    {
+      "id": "E31",
+      "span": {
+        "begin": 91,
+        "end": 107
+      },
+      "obj": "Protein"
     }
   ],
   "attributes": [

@@ -18,8 +18,9 @@ export default class extends CompositeCommand {
 
     // Remove spans losing all entities.
     for (const span of entities
-      .reduce((acc, entity) => {
-        acc.add(entity.span)
+      .map((entity) => entity.span)
+      .reduce((acc, span) => {
+        acc.add(span)
         return acc
       }, new Set())
       .values()) {

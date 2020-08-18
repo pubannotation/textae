@@ -1,5 +1,5 @@
-import typeValeusClicked from './typeValuesClicked'
-import entityClicked from './entityClicked'
+import selectEntity from './selectEntity'
+import getTypeDomOfEntityDom from '../../../../../getTypeDomOfEntityDom'
 
 export default function(editor, spanEditor, selectionModel) {
   editor.eventEmitter
@@ -13,10 +13,13 @@ export default function(editor, spanEditor, selectionModel) {
       spanEditor.styleSpanClicked(e)
     )
     .on('textae.editor.editEntity.entity.click', (e) =>
-      entityClicked(selectionModel, e)
+      selectEntity(e.ctrlKey || e.metaKey, selectionModel, e.target)
     )
     .on('textae.editor.editEntity.type.click', () => editor.focus())
-    .on('textae.editor.editEntity.typeValues.click', (e) =>
-      typeValeusClicked(selectionModel, e)
-    )
+    .on('textae.editor.editEntity.typeValues.click', (e) => {
+      const entity = getTypeDomOfEntityDom(e.target).querySelector(
+        '.textae-editor__entity'
+      )
+      selectEntity(e.ctrlKey || e.metaKey, selectionModel, entity)
+    })
 }

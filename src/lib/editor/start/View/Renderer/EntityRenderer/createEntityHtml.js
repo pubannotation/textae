@@ -1,8 +1,15 @@
 import Handlebars from 'handlebars'
 
-Handlebars.registerPartial(
-  'type-values',
-  `
+// A Type element has an entity_pane elment that has a label and will have entities.
+const source = `
+<div id="{{id}}" class="textae-editor__type">
+  <div class="textae-editor__entity-pane">
+    <div
+      id="{{entityId}}" 
+      title="{{entityTitle}}" 
+      class="textae-editor__entity" 
+      style="border-color: {{color}};"></div>
+  </div>
   <div class="textae-editor__type-values" style="background-color: {{color}}">
     <div class="textae-editor__type-label" tabindex="0">
       {{#if href}}
@@ -23,5 +30,11 @@ Handlebars.registerPartial(
     </div>
     {{/each}}
   </div>
-  `
-)
+</div>
+`
+export const template = Handlebars.compile(source)
+
+export default function(entity, namespace, typeContainer) {
+  const domInfo = entity.toDomInfo(namespace, typeContainer)
+  return template(domInfo)
+}

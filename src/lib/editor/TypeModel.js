@@ -1,11 +1,11 @@
-import makeTypeId from './makeTypeId'
-import getLabel from '../getLabel'
-import getUri from '../getUri'
+import getLabel from './getLabel'
+import getUri from './getUri'
 
 export default class {
-  constructor(name, entity) {
+  constructor(name, entity, editor) {
     this._name = name
     this._entity = entity
+    this._editor = editor
   }
 
   get name() {
@@ -13,7 +13,7 @@ export default class {
   }
 
   get id() {
-    return makeTypeId(this._entity)
+    return `${this._editor.editorId}-T${this._entity.id.replace(/[:¥.]/g, '')}`
   }
 
   get attributes() {

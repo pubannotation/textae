@@ -12,6 +12,7 @@ export default function(
   return denotations.map((entity) => {
     // Expected an entity like {id: "E21", span: "editor2__S50_54", obj: "Protein"}.
     return new EntityModel(
+      editor,
       attributeContainer,
       relationContaier,
       definedTypes,

@@ -1,25 +1,21 @@
-import idFactory from '../../../../../idFactory'
-import getTypeElement from './getTypeElement'
-import arrangePositionOfPane from '../arrangePositionOfPane'
-import createEntityElement from './createEntityElement'
+import getGrid from './getGrid'
+import createEntityHtml from '../createEntityHtml'
 
 // An entity is a circle on Type that is an endpoint of a relation.
 // A span have one grid and a grid can have multi types and a type can have multi entities.
 // A grid is only shown when at least one entity is owned by a correspond span.
-export default function(
-  editor,
-  typeContainer,
-  gridRenderer,
-  entity,
-  namespace
-) {
-  // Append a new entity to the type
-  const typeDom = getTypeElement(namespace, typeContainer, gridRenderer, entity)
-  const pane = typeDom.querySelector('.textae-editor__entity-pane')
-  const entityDomId = idFactory.makeEntityDomId(editor, entity.id)
+export default function(typeContainer, gridRenderer, entity, namespace) {
+  const grid = getGrid(gridRenderer, entity.span)
+  const domInfo = entity.toDomInfo(namespace, typeContainer)
 
-  if (!pane.querySelector(`#${entityDomId}`)) {
-    pane.appendChild(createEntityElement(editor, typeContainer, entity))
-    arrangePositionOfPane(pane)
+  // Don't delete child Span on span moves.
+  // Check if a child span is already present so that it is not drawn twice.
+  if (grid.querySelector(`#${domInfo.id}`)) {
+    return
   }
+
+  // Append a new entity to the type
+  const element = createEntityHtml(entity, namespace, typeContainer)
+
+  grid.insertAdjacentHTML('beforeend', element)
 }

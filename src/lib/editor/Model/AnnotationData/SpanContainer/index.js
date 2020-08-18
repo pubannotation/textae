@@ -99,10 +99,6 @@ export default class extends ContainerWithSubContainer {
     return this.spanTopLevel
   }
 
-  get hasMultiEntities() {
-    return super.all.some((span) => span.hasMultiEntitiesType)
-  }
-
   remove(id) {
     const span = super.remove(id)
     this.spanTopLevel = this._updateSpanTree()
@@ -121,7 +117,7 @@ export default class extends ContainerWithSubContainer {
       new ObjectSpanModel(this._editor, newSpan, this.entityContainer, this),
       (newOne) => {
         this.spanTopLevel = this._updateSpanTree()
-        // Span.getTypes function depends on the property of the entity.
+        // Span.entities depends on the property of the entity.
         // Span DOM element is rendered by 'span.add' event.
         // We need to update the span ID of the entity before 'span.add' event.
         oldOne.passesAllEntitiesTo(newOne)

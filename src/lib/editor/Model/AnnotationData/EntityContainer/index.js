@@ -18,6 +18,8 @@ export default class extends ContainerWithSubContainer {
         ),
       'T'
     )
+
+    this._editor = editor
   }
 
   add(entity) {
@@ -31,6 +33,7 @@ export default class extends ContainerWithSubContainer {
 
     return super.add(
       new EntityModel(
+        this._editor,
         super.attributeContainer,
         super.relationContainer,
         this.definedTypes,
@@ -45,13 +48,6 @@ export default class extends ContainerWithSubContainer {
       entity.span = spanId
     }
     this._emit(`textae.annotationData.entity.move`, entities)
-  }
-
-  get types() {
-    return super.all
-      .map((e) => e.type)
-      .reduce((acc, type) => acc.set(type.id, type), new Map())
-      .values()
   }
 
   getAllOfSpan(spanId) {

@@ -1,8 +1,7 @@
 import create from './create'
-import changeTypeOfExists from './changeTypeOfExists'
 import destroy from './destroy'
 import setTypeGapHeight from './setTypeGapHeight'
-import updateTypeDom from './updateTypeDom'
+import update from './update'
 
 export default class {
   constructor(
@@ -23,7 +22,6 @@ export default class {
 
   render(entity) {
     create(
-      this._editor,
       this._typeContainer,
       this._gridRenderer,
       entity,
@@ -34,12 +32,11 @@ export default class {
   }
 
   change(entity) {
-    changeTypeOfExists(
+    update(
       this._editor,
-      this._annotationData,
       this._selectionModel,
+      this._annotationData.namespace,
       this._typeContainer,
-      this._gridRenderer,
       entity
     )
 
@@ -47,33 +44,33 @@ export default class {
   }
 
   remove(entity) {
-    destroy(this._editor, this._annotationData, this._gridRenderer, entity)
+    destroy(this._annotationData, this._gridRenderer, entity)
   }
 
   updateTypeDom(typeName) {
-    for (const type of this._annotationData.entity.types) {
+    for (const entity of this._annotationData.entity.all) {
       // If the type name ends in a wildcard, look for the DOMs to update with a forward match.
       if (
-        type.name === typeName ||
+        entity.typeName === typeName ||
         (typeName.lastIndexOf('*') === typeName.length - 1 &&
-          type.name.indexOf(typeName.slice(0, -1) === 0))
+          entity.typeName.indexOf(typeName.slice(0, -1) === 0))
       ) {
-        updateTypeDom(this._annotationData.namespace, this._typeContainer, type)
+        this.change(entity)
       }
     }
   }
 
   updateAttribute(pred) {
-    for (const type of this._annotationData.entity.types) {
-      if (type.withSamePredicateAttribute(pred)) {
-        updateTypeDom(this._annotationData.namespace, this._typeContainer, type)
+    for (const entity of this._annotationData.entity.all) {
+      if (entity.type.withSamePredicateAttribute(pred)) {
+        this.change(entity)
       }
     }
   }
 
   updateTypeDomAll() {
-    for (const type of this._annotationData.entity.types) {
-      updateTypeDom(this._annotationData.namespace, this._typeContainer, type)
+    for (const entity of this._annotationData.entity.all) {
+      this.change(entity)
     }
   }
 }

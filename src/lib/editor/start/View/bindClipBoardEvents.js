@@ -1,5 +1,5 @@
 import getEntityDom from '../getEntityDom'
-import applyTypeValues from './applyTypeValues'
+import getTypeValuesDom from './getTypeValuesDom'
 
 const cssClass = 'ui-to-be-cut'
 
@@ -9,7 +9,7 @@ export default function(editor) {
       const el = getEntityDom(editor, e.id)
       if (el) {
         el.classList.add(cssClass)
-        applyTypeValues(el, cssClass)
+        getTypeValuesDom(el).classList.add(cssClass)
       }
     }
 
@@ -17,7 +17,7 @@ export default function(editor) {
       const el = getEntityDom(editor, e.id)
       if (el) {
         el.classList.remove(cssClass)
-        applyTypeValues(el, cssClass)
+        getTypeValuesDom(el).classList.remove(cssClass)
       }
     }
   })

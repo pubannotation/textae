@@ -41,10 +41,4 @@ export default class {
       showInstance: true
     })
   }
-
-  notifyNewInstance() {
-    if (!this._isModeShowingInstance) {
-      alertifyjs.success('an instance is created behind.')
-    }
-  }
 }

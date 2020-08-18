@@ -7,7 +7,7 @@ export default function(commander, buttonController, spanConfig, span) {
     commander.invoke(
       commander.factory.replicateSpanCommand(
         span,
-        span.types,
+        span.entities.map((e) => e.type),
         detectBoundaryFunc
       )
     )

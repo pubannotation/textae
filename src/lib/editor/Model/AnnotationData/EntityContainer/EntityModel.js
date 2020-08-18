@@ -1,7 +1,9 @@
 import TypeModel from '../../../TypeModel'
+import idFactory from '../../../idFactory'
 
 export default class {
   constructor(
+    editor,
     attributeContainer,
     relationContaier,
     definedTypes,
@@ -9,6 +11,7 @@ export default class {
     type,
     id = null
   ) {
+    this._editor = editor
     this._span = span
     this.typeName = type
     this._id = id
@@ -34,7 +37,7 @@ export default class {
   }
 
   get type() {
-    return new TypeModel(this._typeName, this)
+    return new TypeModel(this._typeName, this, this._editor)
   }
 
   get typeName() {
@@ -81,5 +84,13 @@ export default class {
     return this._relationContaier.all
       .filter((r) => r.obj === this.id || r.subj === this.id)
       .map((r) => r.id)
+  }
+
+  toDomInfo(namespace, typeContainer) {
+    const domInfo = this.type.toDomInfo(namespace, typeContainer)
+    return Object.assign(domInfo, {
+      entityId: idFactory.makeEntityDomId(this._editor, this.id),
+      entityTitle: this.id
+    })
   }
 }

@@ -53,11 +53,7 @@ export default class {
   }
 
   createEntity() {
-    createEntityHandler(
-      this._commander,
-      this._typeDefinition,
-      this._editMode.isSimple
-    )
+    createEntityHandler(this._commander, this._typeDefinition)
   }
 
   showPallet() {
