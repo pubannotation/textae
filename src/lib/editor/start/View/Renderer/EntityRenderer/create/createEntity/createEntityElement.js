@@ -1,6 +1,6 @@
 import idFactory from '../../../../../../idFactory'
 
-export default function createEntityElement(editor, typeContainer, entity) {
+export default function(editor, typeContainer, entity) {
   const element = document.createElement('div')
 
   element.setAttribute('id', idFactory.makeEntityDomId(editor, entity.id))
