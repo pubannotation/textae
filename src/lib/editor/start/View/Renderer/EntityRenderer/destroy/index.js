@@ -11,6 +11,4 @@ export default function destroy(editor, annotationData, gridRenderer, entity) {
     const paneElement = removeEntityElement(editor, entity.id)
     updateAncestorsElement(paneElement)
   }
-
-  return entity
 }
