@@ -1,5 +1,5 @@
 import Handlebars from 'handlebars'
-import './registerTypeValeusPartial'
+import '../registerTypeValeusPartial'
 
 const typeValuesTemplate = Handlebars.compile(`
 {{> type-values}}
