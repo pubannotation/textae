@@ -1,5 +1,5 @@
 import Handlebars from 'handlebars'
-import '../../../registerTypeValeusPartial'
+import '../../registerTypeValeusPartial'
 
 // A Type element has an entity_pane elment that has a label and will have entities.
 const source = `

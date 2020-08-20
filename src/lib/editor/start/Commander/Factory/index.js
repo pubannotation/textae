@@ -6,7 +6,7 @@ import ChangeEntityTypeCommand from './ChangeEntityTypeCommand'
 import ChangeRelationLabelCommand from './ChangeRelationLabelCommand'
 import ChangeTypeDefinitionAndRefectInstancesCommand from './ChangeTypeDefinitionAndRefectInstancesCommand'
 import ChangeTypeOfSelectedRelationsCommand from './ChangeTypeOfSelectedRelationsCommand'
-import ChangeTypeRemoveRelationOfSelectedEntitiesCommand from './ChangeTypeRemoveRelationOfSelectedEntitiesCommand'
+import ChangeTypeOfSelectedEntitiesCommand from './ChangeTypeOfSelectedEntitiesCommand'
 import ChangeValueOfAttributeDefinitionAndObjectOfSelectionAttributeCommand from './ChangeValueOfAttributeDefinitionAndObjectOfSelectionAttributeCommand'
 import CreateAttributeDefinitionCommand from './CreateAttributeDefinitionCommand'
 import CreateAttributeToSelectedEntitiesCommand from './CreateAttributeToSelectedEntitiesCommand'
@@ -115,8 +115,8 @@ export default class {
     )
   }
 
-  changeTypeRemoveRelationOfSelectedEntitiesCommand(newType) {
-    return new ChangeTypeRemoveRelationOfSelectedEntitiesCommand(
+  changeTypeOfSelectedEntitiesCommand(newType) {
+    return new ChangeTypeOfSelectedEntitiesCommand(
       this._editor,
       this._annotationData,
       this._selectionModel,

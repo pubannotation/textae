@@ -8,8 +8,7 @@ export default class {
 
   up() {
     // When one span is selected.
-    // Block span has no type.
-    if (this._selectionModel.span.singleId && this._typeOfSelectedSpan) {
+    if (this._selectionModel.span.singleId) {
       this._selectionModel.selectAllEntitiesOfType(this._typeOfSelectedSpan)
       return
     }

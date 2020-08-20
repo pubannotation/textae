@@ -1,6 +1,5 @@
 import create from './create'
 import destroy from './destroy'
-import renderClassOfSpan from './renderClassOfSpan'
 
 export default class {
   constructor(editor, annotationData, renderEntityFunc) {
@@ -21,9 +20,5 @@ export default class {
     } else {
       destroy(span.id)
     }
-  }
-
-  change(span) {
-    renderClassOfSpan(span)
   }
 }

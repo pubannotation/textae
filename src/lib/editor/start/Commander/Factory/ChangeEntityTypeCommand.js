@@ -1,7 +1,7 @@
 import CompositeCommand from './CompositeCommand'
 import CreateTypeDefinitionCommand from './CreateTypeDefinitionCommand'
 import ChangeTypeDefinitionCommand from './ChangeTypeDefinitionCommand'
-import ChangeTypeNameAndAttributeRemoveRelationOfSelectedEntitiesCommand from './ChangeTypeNameAndAttributeRemoveRelationOfSelectedEntitiesCommand'
+import ChangeTypeNameAndAttributeOfSelectedEntitiesCommand from './ChangeTypeNameAndAttributeOfSelectedEntitiesCommand'
 
 export default class extends CompositeCommand {
   constructor(
@@ -39,7 +39,7 @@ export default class extends CompositeCommand {
       }
     }
 
-    const changeEntityCommand = new ChangeTypeNameAndAttributeRemoveRelationOfSelectedEntitiesCommand(
+    const changeEntityCommand = new ChangeTypeNameAndAttributeOfSelectedEntitiesCommand(
       editor,
       annotationData,
       selectionModel,

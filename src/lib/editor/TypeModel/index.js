@@ -3,9 +3,8 @@ import getLabel from '../getLabel'
 import getUri from '../getUri'
 
 export default class {
-  constructor(name, definedTypes, entity) {
+  constructor(name, entity) {
     this._name = name
-    this._definedTypes = definedTypes
     this._entity = entity
   }
 
@@ -27,10 +26,6 @@ export default class {
 
   withoutSamePredicateAttribute(pred) {
     return this.attributes.every((attr) => attr.pred !== pred)
-  }
-
-  get isBlock() {
-    return this._definedTypes && this._definedTypes.isBlock(this._name)
   }
 
   // When you select multiple entities and display the edit dialog,

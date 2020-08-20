@@ -31,10 +31,6 @@ export default class {
 
   updateWidth(spanId) {
     const gridElement = getGridElement(spanId)
-
-    // Since block span has no grid, there may not be a grid.
-    if (gridElement) {
-      adaptWidthToSpan(gridElement, this.domPositionCache, spanId)
-    }
+    adaptWidthToSpan(gridElement, this.domPositionCache, spanId)
   }
 }

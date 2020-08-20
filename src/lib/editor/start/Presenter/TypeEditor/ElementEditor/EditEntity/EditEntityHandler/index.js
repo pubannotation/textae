@@ -28,9 +28,7 @@ export default class extends DefaultHandler {
   }
 
   changeTypeOfSelectedElement(newType) {
-    return this.commander.factory.changeTypeRemoveRelationOfSelectedEntitiesCommand(
-      newType
-    )
+    return this.commander.factory.changeTypeOfSelectedEntitiesCommand(newType)
   }
 
   changeLabelHandler(autocompletionWs) {

@@ -51,7 +51,7 @@ export default class {
   }
 
   updateTypeDom(typeName) {
-    for (const type of this._annotationData.entity.allRenderedTypes) {
+    for (const type of this._annotationData.entity.types) {
       // If the type name ends in a wildcard, look for the DOMs to update with a forward match.
       if (
         type.name === typeName ||
@@ -64,7 +64,7 @@ export default class {
   }
 
   updateAttribute(pred) {
-    for (const type of this._annotationData.entity.allRenderedTypes) {
+    for (const type of this._annotationData.entity.types) {
       if (type.withSamePredicateAttribute(pred)) {
         updateTypeDom(this._annotationData.namespace, this._typeContainer, type)
       }
@@ -72,7 +72,7 @@ export default class {
   }
 
   updateTypeDomAll() {
-    for (const type of this._annotationData.entity.allRenderedTypes) {
+    for (const type of this._annotationData.entity.types) {
       updateTypeDom(this._annotationData.namespace, this._typeContainer, type)
     }
   }

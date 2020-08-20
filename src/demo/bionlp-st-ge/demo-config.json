@@ -29,8 +29,7 @@
   "entity types": [
     {
       "color": "#0000FF",
-      "id": "Sentence",
-      "type": "block"
+      "id": "Sentence"
     }
   ],
   "relation types": [

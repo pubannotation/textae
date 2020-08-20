@@ -13,12 +13,12 @@ export default function(
       selectedSpanId,
       selectingSpanId
     )) {
-      selectionModel.selectSpanWithBlockEntities(id)
+      selectionModel.selectSpanById(id)
     }
   } else if (event.ctrlKey || event.metaKey) {
-    selectionModel.toggleSpanWithBlockEntities(selectingSpanId)
+    selectionModel.toggleSpanById(selectingSpanId)
   } else {
     selectionModel.clear()
-    selectionModel.selectSpanWithBlockEntities(selectingSpanId)
+    selectionModel.selectSpanById(selectingSpanId)
   }
 }

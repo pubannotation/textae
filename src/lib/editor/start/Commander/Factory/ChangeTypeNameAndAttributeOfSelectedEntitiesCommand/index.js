@@ -1,6 +1,5 @@
 import CompositeCommand from '../CompositeCommand'
 import ChangeTypeCommand from '../ChangeTypeCommand'
-import getRemoveRelationCommands from '../getRemoveRelationCommands'
 import getRemoveChangingAttributeCommands from './getRemoveChangingAttributeCommands'
 import getAddChangingAttributeCommands from './getAddChangingAttributeCommands'
 
@@ -43,18 +42,7 @@ export default class extends CompositeCommand {
       selectionModel
     )
 
-    // Block types do not have relations. If there is a relation, delete it.
-    const removeRelationCommands = annotationData.entity.isBlock(newTypeName)
-      ? getRemoveRelationCommands(
-          entitiesWithChange,
-          annotationData,
-          editor,
-          selectionModel
-        )
-      : []
-
-    this._subCommands = removeRelationCommands
-      .concat(changeTypeCommands)
+    this._subCommands = changeTypeCommands
       .concat(removeAttributeCommands)
       .concat(addAttributeCommands)
     this._logMessage = `set type ${newTypeName} and ${JSON.stringify(

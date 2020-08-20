@@ -58,8 +58,7 @@
       },
       {
         "color": "#0000FF",
-        "id": "Sentence",
-        "type": "block"
+        "id": "Sentence"
       },
       {
         "id": "http://dbpedia.org/ontology/person",
@@ -287,8 +286,8 @@
     {
       "id": "E4",
       "span": {
-        "begin": 688,
-        "end": 854
+        "begin": 713,
+        "end": 750
       },
       "obj": "Sentence"
     },

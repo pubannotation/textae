@@ -114,10 +114,6 @@ export default class extends Container {
     return this.attributes.map((a) => a.JSON)
   }
 
-  isBlock(typeName) {
-    return this._definedTypes.isBlock(typeName)
-  }
-
   hasAttributeInstance(pred) {
     return this._annotationDataEntity.attributeContainer.all.some(
       (a) => a.pred === pred

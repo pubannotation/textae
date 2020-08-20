@@ -1,5 +1,4 @@
 import renderText from './renderText'
-import updateBlockStyleOfSpan from './updateBlockStyleOfSpan'
 import renderAllAnnotations from './renderAllAnnotations'
 import SpanRenderer from './SpanRenderer'
 
@@ -36,23 +35,18 @@ export default function(
       gridRenderer.remove(span.id)
     })
     .on('textae.annotationData.entity.add', (entity) => {
-      // Add a now entity with a new grid after the span moved.
-      updateBlockStyleOfSpan(annotationData, entity, spanRenderer)
       entityRenderer.render(entity)
     })
     .on('textae.annotationData.entity.change', (entity) => {
       entityRenderer.change(entity)
-      updateBlockStyleOfSpan(annotationData, entity, spanRenderer)
       gridRenderer.updateWidth(entity.span)
     })
     .on('textae.annotationData.entity.remove', (entity) => {
       entityRenderer.remove(entity)
-      updateBlockStyleOfSpan(annotationData, entity, spanRenderer)
     })
     .on('textae.annotationData.entity.move', (entities) => {
       for (const entity of entities) {
         entityRenderer.remove(entity)
-        updateBlockStyleOfSpan(annotationData, entity, spanRenderer)
         entityRenderer.render(entity)
       }
     })

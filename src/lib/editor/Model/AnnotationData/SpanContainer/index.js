@@ -122,7 +122,6 @@ export default class extends ContainerWithSubContainer {
       (newOne) => {
         this.spanTopLevel = this._updateSpanTree()
         // Span.getTypes function depends on the property of the entity.
-        // We can not distinguish the span is block span or not unless the span ID of the entity is updated.
         // Span DOM element is rendered by 'span.add' event.
         // We need to update the span ID of the entity before 'span.add' event.
         oldOne.passesAllEntitiesTo(newOne)

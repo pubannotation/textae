@@ -11,30 +11,18 @@ export default class {
   select(id) {
     const el = getEntityDom(this._editor, id)
 
-    // Entities of block span hos no dom elements.
-    if (el) {
-      el.classList.add(SELECTED)
+    el.classList.add(SELECTED)
 
-      // Set focus to the label element in order to scroll the browser to the position of the element.
-      getLabelDomOfType(el).focus()
-    }
+    // Set focus to the label element in order to scroll the browser to the position of the element.
+    getLabelDomOfType(el).focus()
   }
 
   deselect(id) {
-    const el = getEntityDom(this._editor, id)
-
-    // Entities of block span hos no dom elements.
-    // A dom does not exist when it is deleted.
-    if (el) {
-      el.classList.remove(SELECTED)
-    }
+    getEntityDom(this._editor, id).classList.remove(SELECTED)
   }
 
   updateLabel(id) {
     const el = getEntityDom(this._editor, id)
-
-    if (el) {
-      applyEntityTypeValues(el, SELECTED)
-    }
+    applyEntityTypeValues(el, SELECTED)
   }
 }

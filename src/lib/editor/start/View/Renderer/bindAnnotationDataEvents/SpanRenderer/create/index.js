@@ -1,4 +1,3 @@
-import renderClassOfSpan from '../renderClassOfSpan'
 import renderSingleSpan from './renderSingleSpan'
 import renderEntitiesOfSpan from './renderEntitiesOfSpan'
 import destroyChildrenSpan from './destroyChildrenSpan'
@@ -16,7 +15,6 @@ export default function create(editor, annotationData, span, renderEntityFunc) {
     renderSingleSpan(editor, span)
   }
 
-  renderClassOfSpan(span)
   renderChildrenSpan(span, (span) =>
     create(editor, annotationData, span, renderEntityFunc)
   )

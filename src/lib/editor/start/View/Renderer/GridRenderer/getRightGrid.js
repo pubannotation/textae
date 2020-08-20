@@ -1,24 +1,11 @@
-import getRightSpanAndGrid from './getRightSpanAndGrid'
+import getRightSpanElement from '../../../getRightSpanElement'
 
 export default function(editorDom, spanId) {
-  let [rightSpan, grid] = getRightSpanAndGrid(editorDom, spanId)
+  const rightSpan = getRightSpanElement(editorDom, spanId)
 
   if (!rightSpan) {
     return null
   }
 
-  if (grid) {
-    return grid
-  }
-
-  // Block spans have no grid.
-  // Travers the next span if the right span is a block span.
-  while (rightSpan) {
-    ;[rightSpan, grid] = getRightSpanAndGrid(editorDom, rightSpan.id)
-    if (grid) {
-      return grid
-    }
-  }
-
-  return null
+  return document.querySelector(`#G${rightSpan.id}`)
 }

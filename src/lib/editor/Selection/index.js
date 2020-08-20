@@ -82,24 +82,12 @@ export default class {
     }
   }
 
-  selectSpanWithBlockEntities(spanId) {
+  selectSpanById(spanId) {
     this.span.add(spanId)
-
-    for (const entity of this._annotationData.entity.getBlockEntitiesOfSpan(
-      spanId
-    )) {
-      this.entity.add(entity.id)
-    }
   }
 
-  toggleSpanWithBlockEntities(spanId) {
+  toggleSpanById(spanId) {
     this.span.toggle(spanId)
-
-    for (const entity of this._annotationData.entity.getBlockEntitiesOfSpan(
-      spanId
-    )) {
-      this.entity.toggle(entity.id)
-    }
   }
 
   /**

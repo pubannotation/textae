@@ -47,23 +47,14 @@ export default class extends ContainerWithSubContainer {
     this._emit(`textae.annotationData.entity.move`, entities)
   }
 
-  isBlock(typeName) {
-    return this.definedTypes && this.definedTypes.isBlock(typeName)
-  }
-
-  get allRenderedTypes() {
+  get types() {
     return super.all
       .map((e) => e.type)
-      .filter((type) => !type.isBlock)
       .reduce((acc, type) => acc.set(type.id, type), new Map())
       .values()
   }
 
   getAllOfSpan(spanId) {
     return this.all.filter((entity) => spanId === entity.span)
-  }
-
-  getBlockEntitiesOfSpan(spanId) {
-    return this.getAllOfSpan(spanId).filter((entity) => entity.type.isBlock)
   }
 }

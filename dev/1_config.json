@@ -36,8 +36,7 @@
     },
     {
       "color": "#0000FF",
-      "id": "Sentence",
-      "type": "block"
+      "id": "Sentence"
     },
     {
       "id": "http://dbpedia.org/ontology/productionCompany"

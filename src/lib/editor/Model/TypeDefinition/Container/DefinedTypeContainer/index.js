@@ -34,12 +34,6 @@ export default class DefinedTypeContainer {
     return getConfig(this, id)
   }
 
-  isBlock(id) {
-    if (this.has(id)) {
-      return this.get(id).type && this.get(id).type === 'block'
-    }
-  }
-
   labelIncludes(term) {
     return [...this._map.values()]
       .filter((t) => t.label)
