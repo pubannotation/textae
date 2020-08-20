@@ -1,6 +1,6 @@
 export default function(annotationData, relationRenderer) {
   relationRenderer.reset()
-  annotationData.relation.all.forEach((relatiton) =>
-    relationRenderer.render(relatiton)
-  )
+  for (const relation of annotationData.relation.all) {
+    relationRenderer.render(relation)
+  }
 }

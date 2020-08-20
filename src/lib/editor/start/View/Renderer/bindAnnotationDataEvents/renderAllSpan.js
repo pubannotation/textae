@@ -1,5 +1,5 @@
 export default function(annotationData, spanRenderer) {
-  annotationData.span.topLevel().forEach((span) => {
+  for (const span of annotationData.span.topLevel()) {
     spanRenderer.render(span)
-  })
+  }
 }
