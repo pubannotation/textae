@@ -2,7 +2,7 @@ import removeEntityElement from '../removeEntityElement'
 import updateAncestorsElement from '../updateAncestorsElement'
 import doesSpanHasNoEntity from './doesSpanHasNoEntity'
 
-export default function destroy(editor, annotationData, gridRenderer, entity) {
+export default function(editor, annotationData, gridRenderer, entity) {
   if (doesSpanHasNoEntity(annotationData, entity.span)) {
     // Destroy a grid when all entities are remove.
     gridRenderer.remove(entity.span)
