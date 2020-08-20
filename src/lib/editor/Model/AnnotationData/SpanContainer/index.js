@@ -95,7 +95,7 @@ export default class extends ContainerWithSubContainer {
       .map((span) => span.id)
   }
 
-  topLevel() {
+  get topLevel() {
     return this.spanTopLevel
   }
 

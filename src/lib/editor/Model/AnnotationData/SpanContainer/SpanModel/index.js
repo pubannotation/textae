@@ -30,6 +30,6 @@ export default class {
   }
 
   get bigBrother() {
-    return getBigBrotherSpan(this, this._spanContainer.topLevel())
+    return getBigBrotherSpan(this, this._spanContainer.topLevel)
   }
 }
