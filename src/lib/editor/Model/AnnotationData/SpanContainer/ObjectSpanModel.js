@@ -1,6 +1,5 @@
-import getTypes from './getTypes'
-import SpanModel from '../SpanModel'
-import getBigBrotherSpan from '../SpanModel/getBigBrotherSpan'
+import SpanModel from './SpanModel'
+import getBigBrotherSpan from './SpanModel/getBigBrotherSpan'
 
 export default class extends SpanModel {
   constructor(editor, span, entityContainer, spanContainer) {
@@ -11,7 +10,12 @@ export default class extends SpanModel {
   // Get online for update is not grantieed.
   // Return an array of type like { id : "editor2__S1741_1755-1", name: "Negative_regulation", entities: ["E16", "E17"], attributes: ["A16", "A17"] }.
   get types() {
-    return getTypes(this.entities)
+    return [
+      ...this.entities
+        .map((e) => e.type)
+        .reduce((map, type) => map.set(type.id, type), new Map())
+        .values()
+    ]
   }
 
   get entities() {
