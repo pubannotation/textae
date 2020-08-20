@@ -1,7 +1,7 @@
 const BLOCK = 'textae-editor__span--block'
 const WRAP = 'textae-editor__span--wrap'
 
-export default function(annotationData, span) {
+export default function(span) {
   const el = document.querySelector(`#${span.id}`)
 
   // Set block class if there is any block type.

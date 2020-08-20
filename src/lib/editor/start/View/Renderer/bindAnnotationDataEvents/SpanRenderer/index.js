@@ -24,6 +24,6 @@ export default class {
   }
 
   change(span) {
-    renderClassOfSpan(this._annotationData, span)
+    renderClassOfSpan(span)
   }
 }

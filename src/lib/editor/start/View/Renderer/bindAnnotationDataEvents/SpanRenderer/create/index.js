@@ -16,7 +16,7 @@ export default function create(editor, annotationData, span, renderEntityFunc) {
     renderSingleSpan(editor, span)
   }
 
-  renderClassOfSpan(annotationData, span)
+  renderClassOfSpan(span)
   renderChildrenSpan(span, (span) =>
     create(editor, annotationData, span, renderEntityFunc)
   )
