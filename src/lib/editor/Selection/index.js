@@ -1,6 +1,5 @@
 import IdContainer from './IdContainer'
 import modelToId from '../modelToId'
-import getPaneDomOfType from '../getPaneDomOfType'
 
 const kinds = ['span', 'entity', 'relation']
 
@@ -104,20 +103,6 @@ export default class {
       }
 
       this.entity.add(dom.title)
-    }
-  }
-
-  // Select all entities in the label
-  selectAllEntitiesOfType(elementInTypeDom, isMulti) {
-    if (elementInTypeDom) {
-      const pane = getPaneDomOfType(elementInTypeDom)
-      const allEntityOflabels = pane.children
-
-      if (!isMulti) {
-        this.clear()
-      }
-
-      this.entity.add(Array.from(allEntityOflabels).map((dom) => dom.title))
     }
   }
 }

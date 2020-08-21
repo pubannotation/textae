@@ -21,6 +21,5 @@ export default function(
   if (selectionModel.entity.has(entity.id)) {
     const selector = new EntityDomSelector(editor)
     selector.select(entity.id)
-    selector.updateLabel(entity.id)
   }
 }

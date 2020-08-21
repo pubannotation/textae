@@ -18,6 +18,10 @@ export default class {
     return this._stateMachine.currentState === state.TERM
   }
 
+  get isEditEntity() {
+    return this._stateMachine.currentState === state.INSTANCE
+  }
+
   // For an intiation transition on an annotations data loaded.
   toTerm() {
     this._stateMachine.setState(state.TERM)

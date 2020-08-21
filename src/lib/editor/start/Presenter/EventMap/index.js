@@ -122,11 +122,15 @@ export default class {
   }
 
   selectUp() {
-    this._vertical.up()
+    if (this._editMode.isEditEntity) {
+      this._vertical.up()
+    }
   }
 
   selectDown() {
-    this._vertical.down()
+    if (this._editMode.isEditEntity) {
+      this._vertical.down()
+    }
   }
 
   toggleSimpleMode() {

@@ -11,12 +11,6 @@ export default class {
       return
     }
 
-    const nextTypeValues = this._searchLeft('textae-editor__type-values')
-    if (nextTypeValues) {
-      this._selectionModel.selectAllEntitiesOfType(nextTypeValues, shiftKey)
-      return
-    }
-
     const nextEntity = this._searchLeft('textae-editor__entity')
     if (nextEntity) {
       this._selectionModel.selectEntity(nextEntity, shiftKey)
@@ -27,12 +21,6 @@ export default class {
     const nextSpan = this._searchRight('textae-editor__span')
     if (nextSpan) {
       this._selectionModel.selectSpan(nextSpan, shiftKey)
-      return
-    }
-
-    const nextTypeValues = this._searchRight('textae-editor__type-values')
-    if (nextTypeValues) {
-      this._selectionModel.selectAllEntitiesOfType(nextTypeValues, shiftKey)
       return
     }
 

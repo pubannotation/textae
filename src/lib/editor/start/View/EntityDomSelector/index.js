@@ -1,7 +1,8 @@
 import getEntityDom from '../../getEntityDom'
-import getLabelDomOfType from './getLabelDomOfType'
+import getTypeDomOfEntityDom from '../../getTypeDomOfEntityDom'
+import getTypeValuesDom from '../getTypeValuesDom'
 import SELECTED from '../SELECTED'
-import applyEntityTypeValues from './applyEntityTypeValues'
+import getLabelDomOfType from './getLabelDomOfType'
 
 export default class {
   constructor(editor) {
@@ -10,19 +11,24 @@ export default class {
 
   select(id) {
     const el = getEntityDom(this._editor, id)
+    const type = getTypeDomOfEntityDom(el)
+    const typeValues = getTypeValuesDom(el)
 
     el.classList.add(SELECTED)
+    type.classList.add(SELECTED)
+    typeValues.classList.add(SELECTED)
 
     // Set focus to the label element in order to scroll the browser to the position of the element.
     getLabelDomOfType(el).focus()
   }
 
   deselect(id) {
-    getEntityDom(this._editor, id).classList.remove(SELECTED)
-  }
-
-  updateLabel(id) {
     const el = getEntityDom(this._editor, id)
-    applyEntityTypeValues(el, SELECTED)
+    const type = getTypeDomOfEntityDom(el)
+    const typeValues = getTypeValuesDom(el)
+
+    el.classList.remove(SELECTED)
+    type.classList.remove(SELECTED)
+    typeValues.classList.remove(SELECTED)
   }
 }
