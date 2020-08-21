@@ -1,10 +1,10 @@
 import updateSelectionOfEntity from './updateSelectionOfEntity'
 import createRelation from './createRelation'
 
-export default function(selectionModel, commander, typeDefinition, e) {
+export default function(selectionModel, commander, typeDefinition, e, entity) {
   // Cannot make a self reference relation.
   const subjectEntityId = selectionModel.entity.all[0].id
-  const objectEntityId = e.target.getAttribute('title')
+  const objectEntityId = entity.title
 
   if (subjectEntityId === objectEntityId) {
     // Deslect already selected entity.
