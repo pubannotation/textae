@@ -6,7 +6,7 @@ export default function(selectionModel, e) {
     '.textae-editor__entity'
   )
 
-  return selectEntities(
+  selectEntities(
     selectionModel,
     e.ctrlKey || e.metaKey,
     e.target.closest('.textae-editor__type-values'),
