@@ -11,6 +11,12 @@ export default function(editor) {
   listeners.push(bindEditorBodyClickEventTrigger(editor))
 
   listeners.push(
+    delegate(editor[0], '.textae-editor__type', 'click', (e) =>
+      editor.eventEmitter.emit('textae.editor.editRelation.type.click', e)
+    )
+  )
+
+  listeners.push(
     delegate(editor[0], '.textae-editor__entity', 'click', (e) =>
       editor.eventEmitter.emit('textae.editor.editRelation.entity.click', e)
     )
