@@ -16,22 +16,5 @@ export default function(editor) {
     )
   )
 
-  // Cancel event handlers of click events of relations and theier label.
-  // Because a jQuery event and a jsPlumb event are both fired when a relation are clicked.
-  // And jQuery click events will  propagate to the body element and cancel selection.
-  // So multi selection of relations with Ctrl-key is not work.
-  listeners.push(
-    delegate(
-      editor[0],
-      '.textae-editor__relation, .textae-editor__relation__label',
-      'click',
-      (e) =>
-        editor.eventEmitter.emit(
-          'textae.editor.editRelation.relationLabel.click',
-          e
-        )
-    )
-  )
-
   return listeners
 }
