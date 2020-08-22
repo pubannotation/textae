@@ -707,7 +707,7 @@
     },
     {
       "id": "R7",
-      "pred": "equivalentTo",
+      "pred": null,
       "subj": "E27",
       "obj": "E24"
     },

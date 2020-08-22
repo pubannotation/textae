@@ -3,7 +3,7 @@ import TypeModel from '../../../TypeModel'
 export default class RelationModel {
   constructor({ id, pred, subj, obj }) {
     this._id = id
-    this._typeName = pred
+    this.type = pred
     this._subj = subj
     this._obj = obj
   }
@@ -21,7 +21,8 @@ export default class RelationModel {
   }
 
   set type(val) {
-    this._typeName = val
+    // Replace null to 'null' if type is null and undefined too.
+    this._typeName = String(val)
   }
 
   get subj() {
