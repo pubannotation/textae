@@ -1,5 +1,3 @@
-import TypeModel from '../../../TypeModel'
-
 export default class RelationModel {
   constructor({ id, pred, subj, obj }) {
     this._id = id
@@ -16,8 +14,8 @@ export default class RelationModel {
     this._id = val
   }
 
-  get type() {
-    return new TypeModel(this._typeName)
+  get typeName() {
+    return this._typeName
   }
 
   set type(val) {

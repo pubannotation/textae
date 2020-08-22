@@ -8,7 +8,7 @@ export default function(
   changedProperties
 ) {
   return annotationData[modelType].all
-    .filter((model) => model.type.name === typeName)
+    .filter((model) => model.typeName === typeName)
     .map((model) => {
       return new ChangeTypeCommand(
         editor,

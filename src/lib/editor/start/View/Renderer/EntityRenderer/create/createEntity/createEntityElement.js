@@ -7,7 +7,7 @@ export default function(editor, typeContainer, entity) {
   element.setAttribute('title', entity.id)
   element.classList.add('textae-editor__entity')
 
-  element.style.borderColor = typeContainer.getColor(entity.type.name)
+  element.style.borderColor = typeContainer.getColor(entity.typeName)
 
   return element
 }

@@ -1,6 +1,6 @@
 export default function(instances) {
   return instances.reduce((countMap, instance) => {
-    const type = instance.type.name
+    const type = instance.typeName
 
     if (countMap.has(type)) {
       countMap.set(type, countMap.get(type) + 1)

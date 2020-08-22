@@ -11,7 +11,7 @@ export default function(dataStore) {
             begin: currentSpan.begin,
             end: currentSpan.end
           },
-          obj: entity.type.name
+          obj: entity.typeName
         }
       })
   )

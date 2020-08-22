@@ -8,7 +8,7 @@ export default class extends CompositeCommand {
 
     // Get only entities with changes.
     const entitiesWithChange = selectionModel.entity.all
-      .filter((entity) => entity.type.name !== newTypeName)
+      .filter((entity) => entity.typeName !== newTypeName)
       .map((entity) => entity.id)
 
     // Change type of entities.

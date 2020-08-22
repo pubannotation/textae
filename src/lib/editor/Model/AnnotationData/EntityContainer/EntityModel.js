@@ -37,13 +37,17 @@ export default class {
     return new TypeModel(this._typeName, this._definedTypes, this)
   }
 
+  get typeName() {
+    return this._typeName
+  }
+
   set type(val) {
     // Replace null to 'null' if type is null and undefined too.
     this._typeName = String(val)
   }
 
   sameType(type, attributes) {
-    return this.type.name === type && this._hasSameAttributes(attributes, type)
+    return this.typeName === type && this._hasSameAttributes(attributes, type)
   }
 
   _hasSameAttributes(newAttributes) {

@@ -85,9 +85,9 @@ export default class {
     const types = this._definedTypes.clone()
 
     // Get types from instances.
-    for (const { type } of this._getAllInstanceFunc()) {
-      if (!types.has(type.name)) {
-        types.set(type.name, { id: type.name })
+    for (const { typeName } of this._getAllInstanceFunc()) {
+      if (!types.has(typeName)) {
+        types.set(typeName, { id: typeName })
       }
     }
 

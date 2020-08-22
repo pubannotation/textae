@@ -54,7 +54,7 @@ export default class extends DefaultHandler {
     const relation = this._selectionModel.relation.single
 
     if (relation) {
-      return relation.type
+      return relation.typeName
     }
 
     return ''

@@ -3,12 +3,12 @@ import createContentHtml from './createContentHtml'
 import setSourceOfAutoComplete from '../setSourceOfAutoComplete'
 
 export default class extends PromiseDialog {
-  constructor({ name }, typeContainer, autocompletionWs) {
+  constructor(typeName, typeContainer, autocompletionWs) {
     super(
       'Please enter new values',
       createContentHtml({
-        value: name,
-        label: typeContainer.getLabel(name)
+        value: typeName,
+        label: typeContainer.getLabel(typeName)
       }),
       {
         height: 250

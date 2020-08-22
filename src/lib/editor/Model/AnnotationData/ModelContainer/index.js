@@ -51,7 +51,7 @@ export default class {
   }
 
   findByType(typeName) {
-    return this.all.filter((model) => model.type.name === typeName)
+    return this.all.filter((model) => model.typeName === typeName)
   }
 
   get some() {

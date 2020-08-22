@@ -6,7 +6,7 @@ export default class extends CompositeCommand {
     super()
 
     const selectedElements = selectionModel.relation.all
-      .filter((relation) => relation.type.name !== newType)
+      .filter((relation) => relation.typeName !== newType)
       .map((relation) => relation.id)
 
     this._subCommands = selectedElements.map(

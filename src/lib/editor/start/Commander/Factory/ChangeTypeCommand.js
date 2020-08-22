@@ -12,7 +12,7 @@ export default class ChangeTypeCommand extends AnnotationCommand {
   }
 
   execute() {
-    this.oldType = this.annotationData[this.modelType].get(this.id).type.name
+    this.oldType = this.annotationData[this.modelType].get(this.id).typeName
 
     // Update model
     const targetModel = this.annotationData[this.modelType].changeType(
