@@ -1,7 +1,7 @@
 export default class RelationModel {
   constructor({ id, pred, subj, obj }) {
     this._id = id
-    this.type = pred
+    this.typeName = pred
     this._subj = subj
     this._obj = obj
   }
@@ -18,7 +18,7 @@ export default class RelationModel {
     return this._typeName
   }
 
-  set type(val) {
+  set typeName(val) {
     // Replace null to 'null' if type is null and undefined too.
     this._typeName = String(val)
   }

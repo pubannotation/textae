@@ -60,7 +60,7 @@ export default class {
 
   changeType(id, newType) {
     const instance = this._container.get(id)
-    instance.type = newType
+    instance.typeName = newType
     this._emit(`textae.annotationData.${this._name}.change`, instance)
     return instance
   }

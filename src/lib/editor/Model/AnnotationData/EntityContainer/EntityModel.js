@@ -10,7 +10,7 @@ export default class {
     id = null
   ) {
     this._span = span
-    this.type = type
+    this.typeName = type
     this._id = id
     this._attributeContainer = attributeContainer
     this._relationContaier = relationContaier
@@ -41,7 +41,7 @@ export default class {
     return this._typeName
   }
 
-  set type(val) {
+  set typeName(val) {
     // Replace null to 'null' if type is null and undefined too.
     this._typeName = String(val)
   }
