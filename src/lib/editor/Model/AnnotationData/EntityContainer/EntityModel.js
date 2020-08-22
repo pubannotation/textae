@@ -10,7 +10,7 @@ export default class {
     id = null
   ) {
     this._span = span
-    this._typeName = type
+    this.type = type
     this._id = id
     this._attributeContainer = attributeContainer
     this._relationContaier = relationContaier
@@ -34,12 +34,12 @@ export default class {
   }
 
   get type() {
-    // Replace null to 'null' if type is null and undefined too.
-    return new TypeModel(String(this._typeName), this._definedTypes, this)
+    return new TypeModel(this._typeName, this._definedTypes, this)
   }
 
   set type(val) {
-    this._typeName = val
+    // Replace null to 'null' if type is null and undefined too.
+    this._typeName = String(val)
   }
 
   sameType(type, attributes) {
