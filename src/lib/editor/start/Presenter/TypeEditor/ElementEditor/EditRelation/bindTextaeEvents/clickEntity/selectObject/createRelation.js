@@ -8,7 +8,7 @@ export default function(
     commander.factory.createRelationCommand({
       subj: subjectEntityId,
       obj: objectEntityId,
-      type: typeDefinition.relation.defaultType
+      pred: typeDefinition.relation.defaultType
     })
   )
 }

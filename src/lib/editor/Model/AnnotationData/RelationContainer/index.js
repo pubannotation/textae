@@ -14,12 +14,6 @@ export default class extends ModelContainer {
       return super.add(relation)
     }
 
-    return super.add(
-      new RelationModel({
-        subj: relation.subj,
-        obj: relation.obj,
-        pred: relation.type
-      })
-    )
+    return super.add(new RelationModel(relation))
   }
 }
