@@ -1,3 +1,3 @@
 export default function(entity) {
-  return document.querySelector(`#${entity.type.id}`)
+  return document.querySelector(`#${entity.typeDomId}`)
 }

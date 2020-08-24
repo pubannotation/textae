@@ -2,18 +2,13 @@ import getLabel from './getLabel'
 import getUri from './getUri'
 
 export default class {
-  constructor(name, entity, editor) {
+  constructor(name, entity) {
     this._name = name
     this._entity = entity
-    this._editor = editor
   }
 
   get name() {
     return this._name
-  }
-
-  get id() {
-    return `${this._editor.editorId}-T${this._entity.id.replace(/[:¥.]/g, '')}`
   }
 
   get attributes() {
@@ -42,14 +37,13 @@ export default class {
   }
 
   toDomInfo(namespace, typeContainer) {
-    const id = this.id
     const value = this.name
     const label = getLabel(namespace, value, typeContainer.getLabel(value))
     const href = getUri(namespace, value, typeContainer.getUri(value))
     const color = typeContainer.getColor(value)
     const attributes = this._toAttributesForDom(namespace, typeContainer)
 
-    return { id, label, href, color, attributes }
+    return { label, href, color, attributes }
   }
 
   _toAttributesForDom(namespace, typeContainer) {

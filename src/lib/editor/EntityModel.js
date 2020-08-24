@@ -37,7 +37,7 @@ export default class {
   }
 
   get type() {
-    return new TypeModel(this._typeName, this, this._editor)
+    return new TypeModel(this._typeName, this)
   }
 
   get typeName() {
@@ -47,6 +47,10 @@ export default class {
   set typeName(val) {
     // Replace null to 'null' if type is null and undefined too.
     this._typeName = String(val)
+  }
+
+  get typeDomId() {
+    return `${this._editor.editorId}-T${this.id.replace(/[:¥.]/g, '')}`
   }
 
   sameType(type, attributes) {
@@ -89,6 +93,7 @@ export default class {
   toDomInfo(namespace, typeContainer) {
     const domInfo = this.type.toDomInfo(namespace, typeContainer)
     return Object.assign(domInfo, {
+      id: this.typeDomId,
       entityId: idFactory.makeEntityDomId(this._editor, this.id),
       entityTitle: this.id
     })

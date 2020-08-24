@@ -6,11 +6,10 @@ import createEntityHtml from '../createEntityHtml'
 // A grid is only shown when at least one entity is owned by a correspond span.
 export default function(typeContainer, gridRenderer, entity, namespace) {
   const grid = getGrid(gridRenderer, entity.span)
-  const domInfo = entity.toDomInfo(namespace, typeContainer)
 
   // Don't delete child Span on span moves.
   // Check if a child span is already present so that it is not drawn twice.
-  if (grid.querySelector(`#${domInfo.id}`)) {
+  if (grid.querySelector(`#${entity.typeDomId}`)) {
     return
   }
 
