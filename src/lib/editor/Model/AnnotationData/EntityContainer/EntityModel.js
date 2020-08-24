@@ -8,12 +8,12 @@ export default class {
     relationContaier,
     definedTypes,
     span,
-    type,
+    typeName,
     id = null
   ) {
     this._editor = editor
     this._span = span
-    this.typeName = type
+    this.typeName = typeName
     this._id = id
     this._attributeContainer = attributeContainer
     this._relationContaier = relationContaier
