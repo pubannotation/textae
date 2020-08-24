@@ -1,5 +1,5 @@
-import TypeModel from '../../../TypeModel'
-import idFactory from '../../../idFactory'
+import TypeModel from './TypeModel'
+import idFactory from './idFactory'
 
 export default class {
   constructor(

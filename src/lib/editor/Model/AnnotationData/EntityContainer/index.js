@@ -1,5 +1,5 @@
 import ContainerWithSubContainer from '../ContainerWithSubContainer'
-import EntityModel from './EntityModel'
+import EntityModel from '../../../EntityModel'
 import mappingFunction from './mappingFunction'
 
 export default class extends ContainerWithSubContainer {

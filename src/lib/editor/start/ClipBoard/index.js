@@ -1,5 +1,5 @@
 import TypeModel from '../../TypeModel'
-import EntityModel from '../../Model/AnnotationData/EntityContainer/EntityModel'
+import EntityModel from '../../EntityModel'
 import getSelectedEntities from './getSelectedEntities'
 
 export default class {
