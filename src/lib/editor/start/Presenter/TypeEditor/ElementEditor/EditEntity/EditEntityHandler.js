@@ -1,6 +1,6 @@
-import DefaultHandler from '../../DefaultHandler'
-import EditEntityTypeDialog from '../../../../../../../component/EditEntityTypeDialog'
-import mergeTypes from './mergeTypes'
+import EditEntityTypeDialog from '../../../../../../component/EditEntityTypeDialog'
+import EntityModel from '../../../../../EntityModel'
+import DefaultHandler from '../DefaultHandler'
 
 export default class extends DefaultHandler {
   constructor(
@@ -33,9 +33,6 @@ export default class extends DefaultHandler {
 
   changeLabelHandler(autocompletionWs) {
     if (this._selectionModel.entity.some) {
-      const type = mergeTypes(
-        this._selectionModel.entity.all.map((entity) => entity.type)
-      )
       const done = ({ typeName, label, attributes }) => {
         const commands = this.commander.factory.changeEntityTypeCommand(
           label,
@@ -51,9 +48,9 @@ export default class extends DefaultHandler {
 
       const dialog = new EditEntityTypeDialog(
         this._editor,
-        type,
         this.typeContainer,
-        autocompletionWs
+        autocompletionWs,
+        EntityModel.mergedTypesOf(this._selectionModel.entity.all)
       )
       dialog.promise.then(done)
       dialog.open()

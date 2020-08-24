@@ -2,6 +2,7 @@ import create from './create'
 import destroy from './destroy'
 import setTypeGapHeight from './setTypeGapHeight'
 import update from './update'
+import EntityModel from '../../../../EntityModel'
 
 export default class {
   constructor(
@@ -61,10 +62,11 @@ export default class {
   }
 
   updateAttribute(pred) {
-    for (const entity of this._annotationData.entity.all) {
-      if (entity.type.withSamePredicateAttribute(pred)) {
-        this.change(entity)
-      }
+    for (const entity of EntityModel.filterWithSamePredicateAttribute(
+      this._annotationData.entity.all,
+      pred
+    )) {
+      this.change(entity)
     }
   }
 

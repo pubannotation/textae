@@ -1,3 +1,4 @@
+import EntityModel from '../../../../EntityModel'
 import CompositeCommand from '../CompositeCommand'
 import ChangeTypeCommand from '../ChangeTypeCommand'
 import getRemoveChangingAttributeCommands from './getRemoveChangingAttributeCommands'
@@ -14,9 +15,11 @@ export default class extends CompositeCommand {
     super()
 
     // Get only entities with changes.
-    const entitiesWithChange = selectionModel.entity.all
-      .filter((entity) => !entity.sameType(newTypeName, newAttributes))
-      .map((entity) => entity.id)
+    const entitiesWithChange = EntityModel.rejectSameType(
+      selectionModel.entity.all,
+      newTypeName,
+      newAttributes
+    ).map((entity) => entity.id)
 
     // Change type of entities.
     const changeTypeCommands = entitiesWithChange.map(

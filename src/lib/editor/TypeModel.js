@@ -15,27 +15,6 @@ export default class {
     return this._entity ? this._entity.attributes : []
   }
 
-  withSamePredicateAttribute(pred) {
-    return this.attributes.some((attr) => attr.pred === pred)
-  }
-
-  withoutSamePredicateAttribute(pred) {
-    return this.attributes.every((attr) => attr.pred !== pred)
-  }
-
-  // When you select multiple entities and display the edit dialog,
-  // this is used to display the merged type name and attributes.
-  mergeType(typeSummary) {
-    typeSummary.name = this._name
-
-    for (const attribute of this.attributes) {
-      if (!typeSummary.attributes.some((a) => a.pred === attribute.pred)) {
-        typeSummary.attributes.push(attribute)
-      }
-    }
-    return typeSummary
-  }
-
   toDomInfo(namespace, typeContainer) {
     const value = this.name
     const label = getLabel(namespace, value, typeContainer.getLabel(value))

@@ -1,4 +1,5 @@
 import { CreateCommand } from './commandTemplate'
+import EntityModel from '../../../EntityModel'
 
 export default function(
   annotationData,
@@ -7,24 +8,22 @@ export default function(
   selectionModel,
   obj
 ) {
-  return selectionModel.entity.all
-    .filter((entity) =>
-      // An entity cannot have more than one attribute with the same predicate.
-      entity.type.withoutSamePredicateAttribute(attributeDefinition.pred)
+  return EntityModel.filterWithoutSamePredicateAttribute(
+    selectionModel.entity.all,
+    attributeDefinition.pred
+  ).map((entity) => {
+    return new CreateCommand(
+      editor,
+      annotationData,
+      selectionModel,
+      'attribute',
+      false,
+      {
+        id: null,
+        subj: entity.id,
+        pred: attributeDefinition.pred,
+        obj: obj || attributeDefinition.default
+      }
     )
-    .map((entity) => {
-      return new CreateCommand(
-        editor,
-        annotationData,
-        selectionModel,
-        'attribute',
-        false,
-        {
-          id: null,
-          subj: entity.id,
-          pred: attributeDefinition.pred,
-          obj: obj || attributeDefinition.default
-        }
-      )
-    })
+  })
 }

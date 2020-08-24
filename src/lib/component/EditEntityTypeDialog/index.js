@@ -6,7 +6,7 @@ import bind from './bind'
 import setSourceOfAutoComplete from '../setSourceOfAutoComplete'
 
 export default class extends PromiseDialog {
-  constructor(editor, type, typeContainer, autocompletionWs) {
+  constructor(editor, typeContainer, autocompletionWs, type) {
     const contentHtml = createContentHtml({
       value: type.name,
       label: typeContainer.getLabel(type.name),
