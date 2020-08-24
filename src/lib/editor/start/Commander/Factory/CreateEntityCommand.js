@@ -44,7 +44,7 @@ export default class extends AnnotationCommand {
       true,
       {
         span: this._spanId,
-        type: this._typeName
+        typeName: this._typeName
       }
     )
   }

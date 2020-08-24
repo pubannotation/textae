@@ -156,12 +156,12 @@ export default class {
     )
   }
 
-  createDefaultTypeEntityToSelectedSpansCommand(type) {
+  createDefaultTypeEntityToSelectedSpansCommand(typeName) {
     return new CreateDefaultTypeEntityToSelectedSpans(
       this._editor,
       this._annotationData,
       this._selectionModel,
-      type
+      typeName
     )
   }
 

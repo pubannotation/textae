@@ -38,7 +38,7 @@ export default class extends ContainerWithSubContainer {
         super.relationContainer,
         this.definedTypes,
         entity.span,
-        entity.type
+        entity.typeName
       )
     )
   }

@@ -2,7 +2,7 @@ import CompositeCommand from './CompositeCommand'
 import { CreateCommand } from './commandTemplate'
 
 export default class extends CompositeCommand {
-  constructor(editor, annotationData, selectionModel, type) {
+  constructor(editor, annotationData, selectionModel, typeName) {
     super()
 
     const selectedSpans = selectionModel.span.all.map((span) => span.id)
@@ -16,11 +16,11 @@ export default class extends CompositeCommand {
           true,
           {
             span,
-            type
+            typeName
           }
         )
     )
 
-    this._logMessage = `create a ${type} type entity to ${selectedSpans}`
+    this._logMessage = `create a ${typeName} type entity to ${selectedSpans}`
   }
 }
