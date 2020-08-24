@@ -70,10 +70,6 @@ export default class {
     }
 
     this.set(newType.id, newType)
-    this._editor.eventEmitter.emit(
-      `textae.typeDefinition.${this._name}.type.change`,
-      newType.id
-    )
   }
 
   get definedTypes() {
