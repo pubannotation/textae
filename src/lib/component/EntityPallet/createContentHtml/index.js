@@ -204,6 +204,7 @@ Handlebars.registerPartial(
       type="button"
       class="textae-editor__type-pallet__table-button textae-editor__type-pallet__remove-value {{#if useNumber}}textae-editor__type-pallet__table-button--disabled{{/if}}"
       title="{{#if useNumber}}To activate this button, remove all the annotations of this type.{{/if}}{{#unless useNumber}}Remove this value.{{/unless}}"
+      {{#if useNumber}}disabled="disabled"{{/if}}
       data-index="{{@index}}">
     </button>
   </td>
