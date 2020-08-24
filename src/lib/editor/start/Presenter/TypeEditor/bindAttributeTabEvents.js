@@ -90,7 +90,7 @@ export default function(
               return
             }
             commander.invoke(
-              commander.factory.changeValueOfAttributeDefinitionCommand(
+              commander.factory.changeValueOfAttributeDefinitionAndObjectOfSelectionAttributeCommand(
                 'entity',
                 attrDef.JSON,
                 index,

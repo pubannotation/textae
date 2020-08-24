@@ -42,4 +42,8 @@ export default class extends ContainerWithSubContainer {
 
     return instance
   }
+
+  getSameAttributes(pred, obj) {
+    return this.all.filter((a) => a.pred === pred && a.obj === obj)
+  }
 }
