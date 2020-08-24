@@ -1,7 +1,7 @@
 export default class {
-  constructor(name, entity) {
+  constructor(name, attributes = []) {
     this._name = name
-    this._entity = entity
+    this._attributes = attributes
   }
 
   get name() {
@@ -9,6 +9,6 @@ export default class {
   }
 
   get attributes() {
-    return this._entity ? this._entity.attributes : []
+    return this._attributes
   }
 }

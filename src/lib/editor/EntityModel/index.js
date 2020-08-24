@@ -57,7 +57,7 @@ export default class {
   }
 
   get type() {
-    return new TypeModel(this._typeName, this)
+    return new TypeModel(this._typeName, this.attributes)
   }
 
   get typeName() {
