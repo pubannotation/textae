@@ -8,16 +8,6 @@ export default class {
     this._entityContainer = entityContainer
   }
 
-  getDataToRender(typeDomId) {
-    return {
-      id: this.id,
-      pred: this.pred,
-      obj: this.obj,
-      domId: `${typeDomId}-${this.id}`,
-      title: `pred: ${this.pred}, value: ${this.obj}`
-    }
-  }
-
   get entity() {
     return this._entityContainer.get(this.subj)
   }
