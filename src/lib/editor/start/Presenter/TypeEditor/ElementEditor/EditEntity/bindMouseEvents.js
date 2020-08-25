@@ -28,20 +28,20 @@ export default function(editor) {
   listeners.push(bindEditorBodyClickEventTrigger(editor))
 
   listeners.push(
-    delegate(editor[0], '.textae-editor__type', 'click', (e) =>
-      editor.eventEmitter.emit('textae.editor.editEntity.type.click', e)
+    delegate(editor[0], '.textae-editor__entity', 'click', (e) =>
+      editor.eventEmitter.emit('textae.editor.editEntity.entity.click', e)
     )
   )
 
   listeners.push(
-    delegate(editor[0], '.textae-editor__type-values', 'click', (e) =>
+    delegate(editor[0], '.textae-editor__entity__type-values', 'click', (e) =>
       editor.eventEmitter.emit('textae.editor.editEntity.typeValues.click', e)
     )
   )
 
   listeners.push(
-    delegate(editor[0], '.textae-editor__entity', 'click', (e) =>
-      editor.eventEmitter.emit('textae.editor.editEntity.entity.click', e)
+    delegate(editor[0], '.textae-editor__entity__endpoint', 'click', (e) =>
+      editor.eventEmitter.emit('textae.editor.editEntity.endpoint.click', e)
     )
   )
 

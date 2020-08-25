@@ -1,17 +1,20 @@
 import Handlebars from 'handlebars'
 
 // A Type element has an entity_pane elment that has a label and will have entities.
+// jsPlumb requires the id of the DOM which is the endpoint for drawing relationships.
+// If the endpoint doesn't have an id, jsPlumb will set it,
+// and the id will be lost when redrawing the Entity's DOM.
+// To prevent this from happening, set the id of the endpoint DOM.
 const source = `
-<div id="{{id}}" class="textae-editor__type">
-  <div class="textae-editor__entity-pane">
+<div class="textae-editor__entity" id="{{entityId}}" title="{{entityTitle}}">
+  <div class="textae-editor__entity__endpoint-zone">
     <div
-      id="{{entityId}}" 
-      title="{{entityTitle}}" 
-      class="textae-editor__entity" 
+      id="jsPlumb_{{entityId}}"
+      class="textae-editor__entity__endpoint" 
       style="border-color: {{color}};"></div>
   </div>
-  <div class="textae-editor__type-values" style="background-color: {{color}}">
-    <div class="textae-editor__type-label" tabindex="0">
+  <div class="textae-editor__entity__type-values" style="background-color: {{color}}">
+    <div class="textae-editor__entity__type-label" tabindex="0">
       {{#if href}}
         <a target="_blank"/ href="{{href}}">{{label}}</a>
       {{else}}
@@ -19,8 +22,8 @@ const source = `
       {{/if}}
     </div>
     {{#each attributes}}
-    <div title="{{title}}" data-pred="{{pred}}" data-obj="{{obj}}" class="textae-editor__attribute"{{#if color}} style="background-color: {{color}}"{{/if}}>
-      <span class="textae-editor__attribute-label">
+    <div class="textae-editor__entity__attribute" title="{{title}}" data-pred="{{pred}}" data-obj="{{obj}}" {{#if color}} style="background-color: {{color}}"{{/if}}>
+      <span class="textae-editor__entity__attribute-label">
         {{#if href}}
           <a target="_blank"/ href="{{href}}">{{label}}</a>
         {{else}}

@@ -1,7 +1,7 @@
-import getTypeDomOfEntityDom from '../../getTypeDomOfEntityDom'
+import getEntityDomFromChild from '../../getEntityDomFromChild'
 
-export default function(elementInTypeDom) {
-  return getTypeDomOfEntityDom(elementInTypeDom).querySelector(
-    '.textae-editor__type-label'
+export default function(elementInEntityDom) {
+  return getEntityDomFromChild(elementInEntityDom).querySelector(
+    '.textae-editor__entity__type-label'
   )
 }

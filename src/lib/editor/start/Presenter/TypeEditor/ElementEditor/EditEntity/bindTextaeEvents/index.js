@@ -1,5 +1,5 @@
 import selectEntity from './selectEntity'
-import getTypeDomOfEntityDom from '../../../../../getTypeDomOfEntityDom'
+import getEntityDomFromChild from '../../../../../getEntityDomFromChild'
 
 export default function(editor, spanEditor, selectionModel) {
   editor.eventEmitter
@@ -12,14 +12,16 @@ export default function(editor, spanEditor, selectionModel) {
     .on('textae.editor.editEntity.style.mouseup', (e) =>
       spanEditor.styleSpanClicked(e)
     )
-    .on('textae.editor.editEntity.entity.click', (e) =>
-      selectEntity(e.ctrlKey || e.metaKey, selectionModel, e.target)
-    )
-    .on('textae.editor.editEntity.type.click', () => editor.focus())
-    .on('textae.editor.editEntity.typeValues.click', (e) => {
-      const entity = getTypeDomOfEntityDom(e.target).querySelector(
-        '.textae-editor__entity'
+    .on('textae.editor.editEntity.endpoint.click', (e) =>
+      selectEntity(
+        e.ctrlKey || e.metaKey,
+        selectionModel,
+        getEntityDomFromChild(e.target)
       )
+    )
+    .on('textae.editor.editEntity.entity.click', () => editor.focus())
+    .on('textae.editor.editEntity.typeValues.click', (e) => {
+      const entity = getEntityDomFromChild(e.target)
       selectEntity(e.ctrlKey || e.metaKey, selectionModel, entity)
     })
 }

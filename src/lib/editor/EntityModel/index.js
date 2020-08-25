@@ -63,8 +63,8 @@ export default class {
     this._typeName = String(val)
   }
 
-  get typeDomId() {
-    return `${this._editor.editorId}-T${this.id.replace(/[:¥.]/g, '')}`
+  get entityDomId() {
+    return idFactory.makeEntityDomId(this._editor, this.id)
   }
 
   get typeValues() {
@@ -93,7 +93,7 @@ export default class {
   toDomInfo(namespace, typeContainer) {
     return Object.assign(
       {
-        id: this.typeDomId,
+        id: this.entityDomId,
         entityId: idFactory.makeEntityDomId(this._editor, this.id),
         entityTitle: this.id
       },

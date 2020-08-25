@@ -1,5 +1,5 @@
 import getEntityDom from '../../getEntityDom'
-import getTypeDomOfEntityDom from '../../getTypeDomOfEntityDom'
+import getEntityDomFromChild from '../../getEntityDomFromChild'
 import getTypeValuesDom from '../getTypeValuesDom'
 import SELECTED from '../SELECTED'
 import getLabelDomOfType from './getLabelDomOfType'
@@ -11,7 +11,7 @@ export default class {
 
   select(id) {
     const el = getEntityDom(this._editor, id)
-    const type = getTypeDomOfEntityDom(el)
+    const type = getEntityDomFromChild(el)
     const typeValues = getTypeValuesDom(el)
 
     el.classList.add(SELECTED)
@@ -24,7 +24,7 @@ export default class {
 
   deselect(id) {
     const el = getEntityDom(this._editor, id)
-    const type = getTypeDomOfEntityDom(el)
+    const type = getEntityDomFromChild(el)
     const typeValues = getTypeValuesDom(el)
 
     el.classList.remove(SELECTED)

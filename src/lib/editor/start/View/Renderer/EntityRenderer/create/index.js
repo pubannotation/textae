@@ -9,7 +9,7 @@ export default function(typeContainer, gridRenderer, entity, namespace) {
 
   // Don't delete child Span on span moves.
   // Check if a child span is already present so that it is not drawn twice.
-  if (grid.querySelector(`#${entity.typeDomId}`)) {
+  if (grid.querySelector(`#${entity.entityDomId}`)) {
     return
   }
 

@@ -10,6 +10,8 @@ export default function(editor) {
     }
   })
 
-  // Prevent a selection of a type by the double-click.
-  delegate(dom, '.textae-editor__type', 'mousedown', (e) => e.preventDefault())
+  // Prevent a selection of an entity by the double-click.
+  delegate(dom, '.textae-editor__entity', 'mousedown', (e) =>
+    e.preventDefault()
+  )
 }

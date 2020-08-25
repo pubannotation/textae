@@ -48,7 +48,7 @@ export default class {
     destroy(this._annotationData, this._gridRenderer, entity)
   }
 
-  updateTypeDom(typeName) {
+  updateEntityDom(typeName) {
     for (const entity of this._annotationData.entity.all) {
       // If the type name ends in a wildcard, look for the DOMs to update with a forward match.
       if (
@@ -70,7 +70,7 @@ export default class {
     }
   }
 
-  updateTypeDomAll() {
+  updateEntityDomAll() {
     for (const entity of this._annotationData.entity.all) {
       this.change(entity)
     }

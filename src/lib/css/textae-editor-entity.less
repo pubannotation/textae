@@ -27,13 +27,13 @@
     position: absolute;
   }
 
-  &__type {
+  &__entity {
     font-size: small;
     position: relative;
     text-align: center;
     white-space: nowrap;
 
-    &-values {
+    &__type-values {
       border-color: @border;
       border-radius: 4px;
       border-style: solid;
@@ -52,23 +52,23 @@
       .entity-shadow()
     }
 
-    &-label {
+    &__type-label {
       .label--full-length;
       background-color: inherit;
     }
 
-    &-label:focus {
+    &__type-label:focus {
       outline-style: none;
     }
 
     &:hover {
       z-index: 2;
 
-      .textae-editor__type-values {
+      .textae-editor__entity__type-values {
         z-index: 2;
       }
 
-      .textae-editor__type-values {
+      .textae-editor__entity__type-values {
         opacity: 1;
         overflow: visible;
         .entity-shadow();
@@ -78,20 +78,20 @@
         }
       }
 
-      .textae-editor__type-label,
-      .textae-editor__attribute,
-      .textae-editor__attribute-label {
+      .textae-editor__entity__type-label,
+      .textae-editor__entity__attribute,
+      .textae-editor__entity__attribute-label {
         background-color: inherit;
       }
 
-      .textae-editor__type-label,
-      .textae-editor__attribute-label {
+      .textae-editor__entity__type-label,
+      .textae-editor__entity__attribute-label {
         .label--full-length;
       }
     }
   }
 
-  &__attribute {
+  &__entity__attribute {
     background-color: inherit;
     height: 18px;
     margin: 0 2px;
@@ -103,15 +103,15 @@
     }
   }
 
-  &__entity,
-  &--relation-mode &__type:hover &__entity,
-  &--relation-mode &__type:hover &__type-values {
+  &__entity__endpoint,
+  &--relation-mode &__type:hover &__entity__endpoint,
+  &--relation-mode &__type:hover &__entity__type-values {
     opacity: 0.9;
   }
 
   &--editable {
     .textae-editor {
-      &__entity {
+      &__entity__endpoint {
         &.ui-selected {
           background-color: fade(@selected, 80%);
         }
@@ -121,11 +121,11 @@
         }
       }
 
-      &__type.ui-selected {
+      &__entity.ui-selected {
         z-index: 2;
       }
 
-      &__type-values {
+      &__entity__type-values {
         box-shadow: none;
         opacity: 0.9;
         overflow: hidden;
@@ -140,12 +140,12 @@
         }
       }
 
-      &__attribute {
+      &__entity__attribute {
         background-color: transparent;
       }
 
-      &__type-label,
-      &__attribute-label {
+      &__entity__type-label,
+      &__entity__attribute-label {
         background-color: transparent;
         border-width: 0;
         border-radius: 0;
@@ -161,14 +161,14 @@
     }
   }
 
-  &__entity-pane {
+  &__entity__endpoint-zone {
     line-height: 11px;
     position: relative;
     z-index: 1;
   }
 
   /* entity */
-  &__entity {
+  &__entity__endpoint {
     background-color: @border;
     border-radius: 6px;
     border-style: solid;
@@ -190,16 +190,16 @@
         border-style: none;
       }
 
-      &__type {
+      &__entity {
         margin-bottom: 0;
         padding-top: 0;
       }
 
-      &__type-label {
+      &__entity__type-label {
         border-width: 1px 0 0 0;
       }
 
-      &__entity-pane {
+      &__entity__endpoint-zone {
         /*Set visibility style to hide entities, because size of entities are necesarry to render relation.*/
         visibility: hidden;
         height: 0;
@@ -209,7 +209,7 @@
 
   /* relation edit mode */
   &--relation-mode {
-    .textae-editor__type:hover .textae-editor__type-label {
+    .textae-editor__entity:hover .textae-editor__entity__type-label {
       box-shadow: none;
     }
   }

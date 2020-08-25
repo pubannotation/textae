@@ -22,7 +22,7 @@ export default class {
   }
 
   get _selectedType() {
-    return this._editor[0].querySelector('.textae-editor__type.ui-selected')
+    return this._editor[0].querySelector('.textae-editor__entity.ui-selected')
   }
 
   get _spanIdOfSelectedType() {
