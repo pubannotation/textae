@@ -1,0 +1,216 @@
+@import "textae-const.less";
+
+.entity-shadow() {
+  box-shadow: 1px 1px 10px #600;
+}
+
+.type-values--selected() {
+  box-shadow: 0 0 0 2pt @selected;
+}
+
+.label--full-length() {
+  border-width: 1px;
+  border-radius: 1px;
+  border-bottom-style: dashed;
+  border-bottom-color: white;
+  display: inline-block;
+  padding: 0 4px;
+}
+
+.textae-editor {
+  &__grid {
+    border-color: @border;
+    border-style: solid;
+    border-width: 0 1px;
+    overflow: visible;
+    padding: 0;
+    position: absolute;
+  }
+
+  &__type {
+    font-size: small;
+    position: relative;
+    text-align: center;
+    white-space: nowrap;
+
+    &-values {
+      border-color: @border;
+      border-radius: 4px;
+      border-style: solid;
+      border-width: 1px 0;
+      line-height: 16px;
+      opacity: 1;
+      overflow: visible;
+      position: relative;
+      -webkit-user-select: none;
+      -khtml-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+      -webkit-touch-callout: none;
+      z-index: 1;
+      .entity-shadow()
+    }
+
+    &-label {
+      .label--full-length;
+      background-color: inherit;
+    }
+
+    &-label:focus {
+      outline-style: none;
+    }
+
+    &:hover {
+      z-index: 2;
+
+      .textae-editor__type-values {
+        z-index: 2;
+      }
+
+      .textae-editor__type-values {
+        opacity: 1;
+        overflow: visible;
+        .entity-shadow();
+
+        &.ui-selected {
+          .type-values--selected;
+        }
+      }
+
+      .textae-editor__type-label,
+      .textae-editor__attribute,
+      .textae-editor__attribute-label {
+        background-color: inherit;
+      }
+
+      .textae-editor__type-label,
+      .textae-editor__attribute-label {
+        .label--full-length;
+      }
+    }
+  }
+
+  &__attribute {
+    background-color: inherit;
+    height: 18px;
+    margin: 0 2px;
+    width: calc(100% - 4px);
+
+    &-label {
+      .label--full-length;
+      background-color: inherit;
+    }
+  }
+
+  &__entity,
+  &--relation-mode &__type:hover &__entity,
+  &--relation-mode &__type:hover &__type-values {
+    opacity: 0.9;
+  }
+
+  &--editable {
+    .textae-editor {
+      &__entity {
+        &.ui-selected {
+          background-color: fade(@selected, 80%);
+        }
+
+        &.ui-to-be-cut {
+          opacity: 0.5;
+        }
+      }
+
+      &__type.ui-selected {
+        z-index: 2;
+      }
+
+      &__type-values {
+        box-shadow: none;
+        opacity: 0.9;
+        overflow: hidden;
+
+        &.ui-selected {
+          .type-values--selected;
+          z-index: 2;
+        }
+
+        &.ui-to-be-cut {
+          opacity: 0.5;
+        }
+      }
+
+      &__attribute {
+        background-color: transparent;
+      }
+
+      &__type-label,
+      &__attribute-label {
+        background-color: transparent;
+        border-width: 0;
+        border-radius: 0;
+        border-bottom-style: none;
+        padding: 0;
+
+        a {
+          color: black;
+          pointer-events: none;
+          text-decoration: none;
+        }
+      }
+    }
+  }
+
+  &__entity-pane {
+    line-height: 11px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* entity */
+  &__entity {
+    background-color: @border;
+    border-radius: 6px;
+    border-style: solid;
+    border-width: 1px;
+    display: inline-block;
+    height: 12px;
+    vertical-align: top;
+    width: 12px;
+
+    &:hover {
+      .entity-shadow();
+    }
+  }
+
+  /* term centric mode */
+  &--term-mode {
+    .textae-editor {
+      &__grid {
+        border-style: none;
+      }
+
+      &__type {
+        margin-bottom: 0;
+        padding-top: 0;
+      }
+
+      &__type-label {
+        border-width: 1px 0 0 0;
+      }
+
+      &__entity-pane {
+        /*Set visibility style to hide entities, because size of entities are necesarry to render relation.*/
+        visibility: hidden;
+        height: 0;
+      }
+    }
+  }
+
+  /* relation edit mode */
+  &--relation-mode {
+    .textae-editor__type:hover .textae-editor__type-label {
+      box-shadow: none;
+    }
+  }
+}
