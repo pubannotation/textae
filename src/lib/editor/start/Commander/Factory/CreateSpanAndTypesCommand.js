@@ -4,7 +4,7 @@ import CompositeCommand from './CompositeCommand'
 import CreateEntityCommand from './CreateEntityCommand'
 
 export default class extends CompositeCommand {
-  constructor(editor, annotationData, selectionModel, newSpan, types) {
+  constructor(editor, annotationData, selectionModel, newSpan, typeValuesList) {
     super()
     const spanId = idFactory.makeSpanId(editor, newSpan)
 
@@ -18,15 +18,15 @@ export default class extends CompositeCommand {
         newSpan
       )
     ].concat(
-      types.map(
-        (type) =>
+      typeValuesList.map(
+        (typeValues) =>
           new CreateEntityCommand(
             editor,
             annotationData,
             selectionModel,
             spanId,
-            type.name,
-            type.attributes
+            typeValues.typeName,
+            typeValues.attributes
           )
       )
     )

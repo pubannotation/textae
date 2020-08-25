@@ -235,22 +235,22 @@ export default class {
     )
   }
 
-  pasteTypesToSelectedSpansCommand(types) {
+  pasteTypesToSelectedSpansCommand(typeValuesList) {
     return new PasteTypesToSelectedSpansCommand(
       this._editor,
       this._annotationData,
       this._selectionModel,
-      types
+      typeValuesList
     )
   }
 
-  replicateSpanCommand(span, types, detectBoundaryFunc) {
+  replicateSpanCommand(span, typeValuesList, detectBoundaryFunc) {
     return new ReplicateSpanCommand(
       this._editor,
       this._annotationData,
       this._selectionModel,
       span,
-      types,
+      typeValuesList,
       detectBoundaryFunc
     )
   }

@@ -6,11 +6,11 @@ import bind from './bind'
 import setSourceOfAutoComplete from '../setSourceOfAutoComplete'
 
 export default class extends PromiseDialog {
-  constructor(editor, typeContainer, autocompletionWs, type) {
+  constructor(editor, typeContainer, autocompletionWs, typeValues) {
     const contentHtml = createContentHtml({
-      value: type.name,
-      label: typeContainer.getLabel(type.name),
-      attributes: type.attributes.map((a) => ({
+      value: typeValues.typeName,
+      label: typeContainer.getLabel(typeValues.typeName),
+      attributes: typeValues.attributes.map((a) => ({
         pred: a.pred,
         obj: a.obj,
         editDisabled: a.obj === true

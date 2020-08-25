@@ -1,7 +1,7 @@
 import CompositeCommand from './CompositeCommand'
 import CreateSpanAndTypesCommand from './CreateSpanAndTypesCommand'
 import ReplicateSpanCommand from './ReplicateSpanCommand'
-import TypeModel from '../../../TypeModel'
+import TypeValues from '../../../TypeValues'
 
 const BLOCK_THRESHOLD = 100
 
@@ -17,7 +17,7 @@ export default class extends CompositeCommand {
   ) {
     super()
 
-    const types = [new TypeModel(defaultType)]
+    const typeValuesList = [new TypeValues(defaultType)]
 
     this._subCommands = [
       new CreateSpanAndTypesCommand(
@@ -28,10 +28,10 @@ export default class extends CompositeCommand {
           begin: newSpan.begin,
           end: newSpan.end
         },
-        types
+        typeValuesList
       )
     ]
-    this._logMessage = `create a span ${newSpan.begin}:${newSpan.end} with type ${types[0].name}`
+    this._logMessage = `create a span ${newSpan.begin}:${newSpan.end} with type ${typeValuesList[0].name}`
 
     if (isReplicateAuto && newSpan.end - newSpan.begin <= BLOCK_THRESHOLD) {
       this._subCommands.push(
@@ -43,7 +43,7 @@ export default class extends CompositeCommand {
             begin: newSpan.begin,
             end: newSpan.end
           },
-          types,
+          typeValuesList,
           detectBoundaryFunc
         )
       )

@@ -9,7 +9,7 @@ export default class extends CompositeCommand {
     annotationData,
     selectionModel,
     span,
-    types,
+    typeValeusList,
     detectBoundaryFunc
   ) {
     super()
@@ -25,7 +25,7 @@ export default class extends CompositeCommand {
           annotationData,
           selectionModel,
           newSpan,
-          types
+          typeValeusList
         )
     )
     this._logMessage = `replicate a span ${idFactory.makeSpanId(editor, span)}`

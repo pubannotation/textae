@@ -1,4 +1,4 @@
-import TypeModel from '../TypeModel'
+import TypeValues from '../TypeValues'
 import idFactory from '../idFactory'
 import getLabel from '../getLabel'
 import getUri from '../getUri'
@@ -56,10 +56,6 @@ export default class {
     this._span = val
   }
 
-  get type() {
-    return new TypeModel(this._typeName, this.attributes)
-  }
-
   get typeName() {
     return this._typeName
   }
@@ -71,6 +67,10 @@ export default class {
 
   get typeDomId() {
     return `${this._editor.editorId}-T${this.id.replace(/[:¥.]/g, '')}`
+  }
+
+  get typeValues() {
+    return new TypeValues(this._typeName, this.attributes)
   }
 
   get attributes() {

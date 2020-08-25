@@ -1,11 +1,11 @@
 export default class {
-  constructor(name, attributes = []) {
-    this._name = name
+  constructor(typeName, attributes = []) {
+    this._typeName = typeName
     this._attributes = attributes
   }
 
-  get name() {
-    return this._name
+  get typeName() {
+    return this._typeName
   }
 
   get attributes() {

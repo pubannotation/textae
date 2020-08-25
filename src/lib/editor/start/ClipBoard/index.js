@@ -1,4 +1,4 @@
-import TypeModel from '../../TypeModel'
+import TypeValues from '../../TypeValues'
 import EntityModel from '../../EntityModel'
 import getSelectedEntities from './getSelectedEntities'
 
@@ -21,7 +21,7 @@ export default class {
   }
 
   get hasCopyingItem() {
-    return this._items[0] instanceof TypeModel
+    return this._items[0] instanceof TypeValues
   }
 
   get hasCuttingItem() {
@@ -31,7 +31,7 @@ export default class {
   copyEntities() {
     // Map entities to types, because entities may be delete.
     const copyingItems = [...getSelectedEntities(this._selectionModel)].reduce(
-      (set, e) => set.add(e.type),
+      (set, e) => set.add(e.typeValues),
       new Set()
     )
 
