@@ -1,8 +1,7 @@
 import EntityModel from '../../../../EntityModel'
 import CompositeCommand from '../CompositeCommand'
 import ChangeTypeCommand from '../ChangeTypeCommand'
-import getRemoveChangingAttributeCommands from './getRemoveChangingAttributeCommands'
-import getAddChangingAttributeCommands from './getAddChangingAttributeCommands'
+import getChangeAttributeCommands from './getChangeAttributeCommands'
 
 export default class extends CompositeCommand {
   constructor(
@@ -19,25 +18,22 @@ export default class extends CompositeCommand {
       selectionModel.entity.all,
       newTypeName,
       newAttributes
-    ).map((entity) => entity.id)
+    )
 
     // Change type of entities.
     const changeTypeCommands = entitiesWithChange.map(
-      (id) =>
-        new ChangeTypeCommand(editor, annotationData, 'entity', id, newTypeName)
+      (e) =>
+        new ChangeTypeCommand(
+          editor,
+          annotationData,
+          'entity',
+          e.id,
+          newTypeName
+        )
     )
 
-    // Delete all old attributes.
-    const removeAttributeCommands = getRemoveChangingAttributeCommands(
-      entitiesWithChange,
-      annotationData,
-      newAttributes,
-      editor,
-      selectionModel
-    )
-
-    // Add new attributes.
-    const addAttributeCommands = getAddChangingAttributeCommands(
+    // Change attributes
+    const changeAttributeCommnads = getChangeAttributeCommands(
       entitiesWithChange,
       newAttributes,
       annotationData,
@@ -45,9 +41,7 @@ export default class extends CompositeCommand {
       selectionModel
     )
 
-    this._subCommands = changeTypeCommands
-      .concat(removeAttributeCommands)
-      .concat(addAttributeCommands)
+    this._subCommands = changeTypeCommands.concat(changeAttributeCommnads)
     this._logMessage = `set type ${newTypeName} and ${JSON.stringify(
       newAttributes
     )} to entities ${entitiesWithChange}`
