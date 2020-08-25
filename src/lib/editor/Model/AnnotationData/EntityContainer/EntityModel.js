@@ -53,7 +53,9 @@ export default class {
 
     return (
       newAttributes.filter((a) =>
-        this.attributes.includes((a) => a.pred === a.pred && a.obj === a.obj)
+        this.attributes.some(
+          (b) => a.pred === b.pred && a.obj === String(b.obj)
+        )
       ).length == this.attributes.length
     )
   }
