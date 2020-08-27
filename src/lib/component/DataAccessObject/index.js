@@ -161,7 +161,7 @@ export default class {
     ).open()
   }
 
-  showSaveAnnotation(editedData, saveToParameter = null) {
+  showSaveAnnotation(editedData, saveToParameter) {
     new SaveAnnotationDialog(
       this._editor,
       saveToParameter || this._urlOfLastRead.annotation,
