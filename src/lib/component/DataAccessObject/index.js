@@ -35,17 +35,24 @@ export default class {
       url,
       () => this._cursorChanger.startWait(),
       ({ source, loadData: annotation }) => {
-        this._editor.eventEmitter.emit(
-          'textae.dataAccessObject.annotation.load',
-          source,
-          annotation,
-          url
-        )
-        this._editor.eventEmitter.emit(
-          'textae.dataAccessObject.annotation.setUrl',
-          url
-        )
-        this._urlOfLastRead.annotation = url
+        if (annotation && annotation.text) {
+          this._editor.eventEmitter.emit(
+            'textae.dataAccessObject.annotation.load',
+            source,
+            annotation,
+            url
+          )
+          this._editor.eventEmitter.emit(
+            'textae.dataAccessObject.annotation.setUrl',
+            url
+          )
+          this._urlOfLastRead.annotation = url
+        } else {
+          this._editor.eventEmitter.emit(
+            'textae.dataAccessObject.annotation.loadError',
+            source
+          )
+        }
       },
       () => this._cursorChanger.endWait()
     )
