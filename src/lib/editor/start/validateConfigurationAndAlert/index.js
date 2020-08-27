@@ -1,7 +1,7 @@
 import alertifyjs from 'alertifyjs'
 import patchConfiguration from './patchConfiguration'
 import validateConfiguration from './validateConfiguration'
-import hasUndefinedAttributes from './hasUndefinedAttributes'
+import hasAllValueDefinitionOfSelectionAttributes from './hasAllValueDefinitionOfSelectionAttributes'
 
 export default function(annotation, config, defaultErrorMessage) {
   // When config is specified, it must be JSON.
@@ -19,7 +19,10 @@ export default function(annotation, config, defaultErrorMessage) {
     return [false]
   }
 
-  const error = hasUndefinedAttributes(annotation, patchedConfig)
+  const error = hasAllValueDefinitionOfSelectionAttributes(
+    annotation,
+    patchedConfig
+  )
   if (error) {
     alertifyjs.error(error)
     return [false]

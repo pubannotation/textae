@@ -1,23 +1,12 @@
+// Check for definitions of values for selection attributes.
 export default function(annotation, config) {
+  console.assert(
+    config,
+    `If you don't have a configuration, generate a configuration from the annotation.`
+  )
+
   if (annotation.attributes) {
-    if (!config) {
-      return `attribute definitions for "${[
-        ...new Set(annotation.attributes.map((a) => a.pred))
-      ].join(', ')}" in configuration is missing. `
-    }
-
-    const atrributeTypes = config['attribute types'] || []
-
-    const attributesWithoutDefenition = annotation.attributes.filter(
-      (attr) => !atrributeTypes.some((attrDef) => attrDef.pred === attr.pred)
-    )
-
-    if (attributesWithoutDefenition.length) {
-      console.warn('attributes without definition', attributesWithoutDefenition)
-      return `attribute definition for "${attributesWithoutDefenition
-        .map((a) => a.pred)
-        .join(', ')}" in configuration is missing. `
-    }
+    const atrributeTypes = config['attribute types']
 
     const selectionAttributeValueWithoutDefinition = annotation.attributes
       .filter((attr) =>
