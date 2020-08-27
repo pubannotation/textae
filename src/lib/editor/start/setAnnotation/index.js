@@ -1,4 +1,5 @@
 import getConfigFromServer from './getConfigFromServer'
+import validateAnnotationAndAlert from './validateAnnotationAndAlert'
 import setConfigAndAnnotation from './setConfigAndAnnotation'
 
 export default function(
@@ -8,25 +9,38 @@ export default function(
   annotation,
   configUrl
 ) {
-  if (annotation.config) {
-    setConfigAndAnnotation(
-      spanConfig,
-      typeDefinition,
-      annotationData,
-      annotation,
-      annotation.config,
-      `configuration in anntotaion file is invalid.`
-    )
-  } else {
-    getConfigFromServer(configUrl, (configFromServer) => {
+  if (validateAnnotationAndAlert(annotation)) {
+    if (annotation.config) {
       setConfigAndAnnotation(
+        annotation,
+        annotation.config,
+        `configuration in anntotaion file is invalid.`,
         spanConfig,
         typeDefinition,
-        annotationData,
-        annotation,
-        configFromServer,
-        `a configuration file from ${configUrl} is invalid.`
+        annotationData
       )
-    })
+    } else {
+      if (configUrl) {
+        getConfigFromServer(configUrl, (configFromServer) => {
+          setConfigAndAnnotation(
+            annotation,
+            configFromServer,
+            `a configuration file from ${configUrl} is invalid.`,
+            spanConfig,
+            typeDefinition,
+            annotationData
+          )
+        })
+      } else {
+        setConfigAndAnnotation(
+          annotation,
+          null,
+          `a configuration is necessary.`,
+          spanConfig,
+          typeDefinition,
+          annotationData
+        )
+      }
+    }
   }
 }

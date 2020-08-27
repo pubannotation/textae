@@ -1,24 +1,8 @@
 import alertifyjs from 'alertifyjs'
-import setSpanAndTypeConfig from '../../setSpanAndTypeConfig'
-import areNotBeginAndEndInteger from './areNotBeginAndEndInteger'
 import hasDuplicatedAttributes from './hasDuplicatedAttributes'
-import validateConfigurationAndAlert from '../../validateConfigurationAndAlert'
+import areNotBeginAndEndInteger from './areNotBeginAndEndInteger'
 
-export default function(
-  spanConfig,
-  typeDefinition,
-  annotationData,
-  annotation,
-  config,
-  errorMessageForConfigValidation
-) {
-  const [isValid, patchedConfig] = validateConfigurationAndAlert(
-    annotation,
-    config,
-    errorMessageForConfigValidation
-  )
-  if (!isValid) return
-
+export default function validateAnnotationAndAlert(annotation) {
   const duplicatedAttributes = hasDuplicatedAttributes(annotation)
   if (duplicatedAttributes.size) {
     for (const [key, duplicatedAttribute] of duplicatedAttributes.entries()) {
@@ -28,7 +12,7 @@ export default function(
         )}.`
       )
     }
-    return
+    return false
   }
 
   const isThereNonIntegerValue = areNotBeginAndEndInteger(annotation)
@@ -41,6 +25,5 @@ export default function(
     )
   }
 
-  setSpanAndTypeConfig(spanConfig, typeDefinition, patchedConfig)
-  annotationData.reset(annotation)
+  return true
 }
