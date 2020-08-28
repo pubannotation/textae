@@ -1,6 +1,9 @@
 import getConfigFromServer from './getConfigFromServer'
 import validateAnnotationAndAlert from './validateAnnotationAndAlert'
 import setConfigAndAnnotation from './setConfigAndAnnotation'
+import patchConfiguration from '../validateConfigurationAndAlert/patchConfiguration'
+import validateAttribueDefinitionAndAlert from '../validateAttribueDefinitionAndAlert'
+import setSpanAndTypeConfig from '../setSpanAndTypeConfig'
 
 export default function(
   spanConfig,
@@ -32,14 +35,15 @@ export default function(
           )
         })
       } else {
-        setConfigAndAnnotation(
+        const patchedConfig = patchConfiguration(annotation)
+        const validConfig = validateAttribueDefinitionAndAlert(
           annotation,
-          null,
-          `a configuration is necessary.`,
-          spanConfig,
-          typeDefinition,
-          annotationData
+          patchedConfig
         )
+        if (validConfig) {
+          setSpanAndTypeConfig(spanConfig, typeDefinition, validConfig)
+          annotationData.reset(annotation)
+        }
       }
     }
   }

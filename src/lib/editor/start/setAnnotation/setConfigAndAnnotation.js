@@ -9,6 +9,8 @@ export default function(
   typeDefinition,
   annotationData
 ) {
+  console.assert(config, 'config is necessary')
+
   const validConfig = validateConfigurationAndAlert(
     annotation,
     config,
