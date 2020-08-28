@@ -38,15 +38,15 @@ export default function(
       )
     )
     .on('textae.dataAccessObject.configuration.load', (source, config) => {
-      const [isValid, patchedConfig] = validateConfigurationAndAlert(
+      const validConfig = validateConfigurationAndAlert(
         annotationData.toJson(),
         config,
         `${source} is not a configuration file or its format is invalid.`
       )
-      if (!isValid) return
+      if (!validConfig) return
 
       originalData.configuration = config
-      setSpanAndTypeConfig(spanConfig, typeDefinition, patchedConfig)
+      setSpanAndTypeConfig(spanConfig, typeDefinition, validConfig)
     })
     .on('textae.dataAccessObject.configuration.loadError', (source) =>
       alertifyjs.error(

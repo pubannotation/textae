@@ -6,16 +6,13 @@ const ajv = new Ajv({ verbose: true })
 const validate = ajv.compile(configurationScheme)
 
 export default function(config) {
-  if (!config) {
-    return [false]
-  }
+  console.assert(config, 'config is required.')
 
-  const valid = validate(config)
-  if (!valid) {
+  if (!validate(config)) {
     console.warn(validate.errors)
 
-    return [false, toErrorMessage(validate.errors)]
+    return toErrorMessage(validate.errors)
   }
 
-  return [true]
+  return null
 }

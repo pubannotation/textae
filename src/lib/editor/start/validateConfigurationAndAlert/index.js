@@ -8,15 +8,17 @@ export default function(annotation, config, defaultErrorMessage) {
   // For example, when we load an HTML file, we treat it as text here.
   if (config && typeof config !== 'object') {
     alertifyjs.error(defaultErrorMessage)
-    return [false]
+    return
   }
 
   const patchedConfig = patchConfiguration(annotation, config)
-  const [isValid, errorMessage] = validateConfiguration(patchedConfig)
-  if (!isValid) {
-    alertifyjs.error(errorMessage || defaultErrorMessage)
+  if (config) {
+    const errorMessage = validateConfiguration(patchedConfig)
+    if (errorMessage) {
+      alertifyjs.error(errorMessage)
 
-    return [false]
+      return
+    }
   }
 
   const error = hasAllValueDefinitionOfSelectionAttributes(
@@ -25,8 +27,8 @@ export default function(annotation, config, defaultErrorMessage) {
   )
   if (error) {
     alertifyjs.error(error)
-    return [false]
+    return
   }
 
-  return [true, patchedConfig]
+  return patchedConfig
 }

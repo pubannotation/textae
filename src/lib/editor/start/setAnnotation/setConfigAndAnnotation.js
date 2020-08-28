@@ -9,13 +9,14 @@ export default function(
   typeDefinition,
   annotationData
 ) {
-  const [isValid, patchedConfig] = validateConfigurationAndAlert(
+  const validConfig = validateConfigurationAndAlert(
     annotation,
     config,
     errorMessageForConfigValidation
   )
-  if (isValid) {
-    setSpanAndTypeConfig(spanConfig, typeDefinition, patchedConfig)
+
+  if (validConfig) {
+    setSpanAndTypeConfig(spanConfig, typeDefinition, validConfig)
     annotationData.reset(annotation)
   }
 }
