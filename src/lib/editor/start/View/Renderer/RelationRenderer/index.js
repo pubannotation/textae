@@ -9,27 +9,27 @@ import renderLazyRelationAll from './renderLazyRelationAll'
 
 export default class {
   constructor(editor, annotationData, selectionModel, typeDefinition) {
-    this.editor = editor
-    this.annotationData = annotationData
-    this.selectionModel = selectionModel
-    this.typeDefinition = typeDefinition
-    this.domPositionCache = getDomPositionCache(editor, annotationData.entity)
-    this.jsPlumbInstance = makeJsPlumbInstance(getAnnotationBox(editor))
+    this._editor = editor
+    this._annotationData = annotationData
+    this._selectionModel = selectionModel
+    this._typeDefinition = typeDefinition
+    this._domPositionCache = getDomPositionCache(editor, annotationData.entity)
+    this._jsPlumbInstance = makeJsPlumbInstance(getAnnotationBox(editor))
   }
 
   arrangePositionAll() {
-    renderLazyRelationAll(this.annotationData.relation.all)
+    renderLazyRelationAll(this._annotationData.relation.all)
     arrangePositionAll(
-      this.editor,
-      this.annotationData,
-      this.selectionModel,
-      this.jsPlumbInstance
+      this._editor,
+      this._annotationData,
+      this._selectionModel,
+      this._jsPlumbInstance
     )
   }
 
   reset() {
-    this.jsPlumbInstance.reset()
-    this.domPositionCache.connectCache.clear()
+    this._jsPlumbInstance.reset()
+    this._domPositionCache.connectCache.clear()
   }
 
   render(relation) {
@@ -37,24 +37,29 @@ export default class {
     // Because a jsPlumb error occurs when a relation between same points.
     // And entities of same length spans was same point before moving grids.
     setRenderLazy(
-      this.jsPlumbInstance,
-      this.editor,
-      this.annotationData,
-      this.typeDefinition,
+      this._jsPlumbInstance,
+      this._editor,
+      this._annotationData,
+      this._typeDefinition,
       relation
     )
   }
 
   change(relation) {
-    changeType(this.editor, this.annotationData, this.typeDefinition, relation)
+    changeType(
+      this._editor,
+      this._annotationData,
+      this._typeDefinition,
+      relation
+    )
   }
 
   changeAll() {
-    this.annotationData.relation.all.map((relation) => {
+    this._annotationData.relation.all.map((relation) => {
       changeType(
-        this.editor,
-        this.annotationData,
-        this.typeDefinition,
+        this._editor,
+        this._annotationData,
+        this._typeDefinition,
         relation
       )
     })
@@ -62,10 +67,10 @@ export default class {
 
   remove(relation) {
     removeRelation(
-      this.editor,
-      this.annotationData,
-      this.jsPlumbInstance,
-      this.domPositionCache,
+      this._editor,
+      this._annotationData,
+      this._jsPlumbInstance,
+      this._domPositionCache,
       relation
     )
   }

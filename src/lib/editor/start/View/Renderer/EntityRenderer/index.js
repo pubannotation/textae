@@ -13,62 +13,62 @@ export default class {
     gridRenderer,
     typeGap
   ) {
-    this.editor = editor
-    this.annotationData = annotationData
-    this.typeContainer = typeCantainer
-    this.gridRenderer = gridRenderer
-    this.selectionModel = selectionModel
-    this.typeGap = typeGap
+    this._editor = editor
+    this._annotationData = annotationData
+    this._typeContainer = typeCantainer
+    this._gridRenderer = gridRenderer
+    this._selectionModel = selectionModel
+    this._typeGap = typeGap
   }
 
   render(entity) {
     create(
-      this.editor,
-      this.typeContainer,
-      this.gridRenderer,
+      this._editor,
+      this._typeContainer,
+      this._gridRenderer,
       entity,
-      this.annotationData.namespace
+      this._annotationData.namespace
     )
 
-    setTypeGapHeight(entity, this.typeGap)
+    setTypeGapHeight(entity, this._typeGap)
   }
 
   change(entity) {
     changeTypeOfExists(
-      this.editor,
-      this.annotationData,
-      this.selectionModel,
-      this.typeContainer,
-      this.gridRenderer,
+      this._editor,
+      this._annotationData,
+      this._selectionModel,
+      this._typeContainer,
+      this._gridRenderer,
       entity
     )
 
-    setTypeGapHeight(entity, this.typeGap)
+    setTypeGapHeight(entity, this._typeGap)
   }
 
   remove(entity) {
-    destroy(this.editor, this.annotationData, this.gridRenderer, entity)
+    destroy(this._editor, this._annotationData, this._gridRenderer, entity)
   }
 
   updateTypeDom(typeName) {
-    for (const type of this.annotationData.entity.allRenderedTypes) {
+    for (const type of this._annotationData.entity.allRenderedTypes) {
       if (type.name === typeName) {
-        updateTypeDom(this.annotationData.namespace, this.typeContainer, type)
+        updateTypeDom(this._annotationData.namespace, this._typeContainer, type)
       }
     }
   }
 
   updateAttribute(pred) {
-    for (const type of this.annotationData.entity.allRenderedTypes) {
+    for (const type of this._annotationData.entity.allRenderedTypes) {
       if (type.withSamePredicateAttribute(pred)) {
-        updateTypeDom(this.annotationData.namespace, this.typeContainer, type)
+        updateTypeDom(this._annotationData.namespace, this._typeContainer, type)
       }
     }
   }
 
   updateTypeDomAll() {
-    for (const type of this.annotationData.entity.allRenderedTypes) {
-      updateTypeDom(this.annotationData.namespace, this.typeContainer, type)
+    for (const type of this._annotationData.entity.allRenderedTypes) {
+      updateTypeDom(this._annotationData.namespace, this._typeContainer, type)
     }
   }
 }
