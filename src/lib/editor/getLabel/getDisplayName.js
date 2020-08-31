@@ -1,4 +1,4 @@
-import isUri from '../isUri'
+import isUri from '../../isUri'
 import getUrlMatches from '../getUrlMatches'
 
 // Display short name for URL(http or https);

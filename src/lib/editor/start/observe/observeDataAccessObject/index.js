@@ -2,7 +2,7 @@ import alertifyjs from 'alertifyjs'
 import setSpanAndTypeConfig from '../../setSpanAndTypeConfig'
 import setAnnotation from '../../setAnnotation'
 import validateConfigurationAndAlert from '../../validateConfigurationAndAlert'
-import toSourceHTML from './toSourceHTML'
+import toSourceString from './toSourceString'
 
 export default function(
   editor,
@@ -25,7 +25,7 @@ export default function(
           params.get('config')
         )
 
-        statusBar.status(toSourceHTML(sourceType, source))
+        statusBar.status(toSourceString(sourceType, source))
 
         // When saving the changed data,
         // it keeps the original data so that properties not edited by textae are not lost.
@@ -39,7 +39,7 @@ export default function(
     )
     .on('textae.dataAccessObject.annotation.loadError', (sourceType, source) =>
       alertifyjs.error(
-        `${toSourceHTML(
+        `${toSourceString(
           sourceType,
           source
         )} is not a annotation file or its format is invalid.`
@@ -51,7 +51,7 @@ export default function(
         const validConfig = validateConfigurationAndAlert(
           annotationData.toJson(),
           config,
-          `${toSourceHTML(
+          `${toSourceString(
             sourceType,
             source
           )} is not a configuration file or its format is invalid.`
@@ -66,7 +66,7 @@ export default function(
       'textae.dataAccessObject.configuration.loadError',
       (sourceType, source) =>
         alertifyjs.error(
-          `${toSourceHTML(
+          `${toSourceString(
             sourceType,
             source
           )} is not a configuration file or its format is invalid.`

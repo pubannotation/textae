@@ -1,4 +1,4 @@
-import isUri from '../isUri'
+import isUri from '../../isUri'
 import getMatchPrefix from '../getMatchPrefix'
 import getDisplayName from './getDisplayName'
 

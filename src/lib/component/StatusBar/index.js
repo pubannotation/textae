@@ -1,3 +1,4 @@
+import isUri from '../../isUri'
 import getAreaIn from './getAreaIn'
 
 export default class {
@@ -7,7 +8,11 @@ export default class {
 
   status(message) {
     if (message !== '') {
-      getAreaIn(this._container).innerHTML = `Source: ${message}`
+      getAreaIn(this._container).innerHTML = isUri(message)
+        ? `Source: ${`<a class="textae-editor__footer__message__link" href="${message}">${decodeURI(
+            message
+          )}</a>`}`
+        : `Source: ${message}`
     }
   }
 }
