@@ -37,6 +37,7 @@ export default class {
         if (annotation && annotation.text) {
           this._editor.eventEmitter.emit(
             'textae.dataAccessObject.annotation.load',
+            'url',
             source,
             annotation,
             url
@@ -49,6 +50,7 @@ export default class {
         } else {
           this._editor.eventEmitter.emit(
             'textae.dataAccessObject.annotation.loadError',
+            'url',
             source
           )
         }
@@ -63,6 +65,7 @@ export default class {
       (source, config) => {
         this._editor.eventEmitter.emit(
           'textae.dataAccessObject.configuration.load',
+          'url',
           source,
           config
         )
@@ -77,14 +80,14 @@ export default class {
       const file = files[0]
 
       readFile(file).then((event) => {
-        const source = `${file.name}(local file)`
         const fileContent = event.target.result
 
         if (isTxtFile(file.name)) {
           // If this is .txt, New annotation json is made from .txt
           this._editor.eventEmitter.emit(
             'textae.dataAccessObject.annotation.load',
-            source,
+            'local file',
+            file.name,
             {
               text: fileContent
             }
@@ -99,7 +102,8 @@ export default class {
           if (annotation.text) {
             this._editor.eventEmitter.emit(
               'textae.dataAccessObject.annotation.load',
-              source,
+              'local file',
+              file.name,
               annotation
             )
 
@@ -109,7 +113,8 @@ export default class {
 
         this._editor.eventEmitter.emit(
           'textae.dataAccessObject.annotation.loadError',
-          source
+          'local file',
+          file.name
         )
       })
     }
@@ -138,13 +143,15 @@ export default class {
         if (isJSON(event.target.result)) {
           this._editor.eventEmitter.emit(
             'textae.dataAccessObject.configuration.load',
-            `${file.name}(local file)`,
+            'local file',
+            file.name,
             parseData(event.target.result)
           )
         } else {
           this._editor.eventEmitter.emit(
             'textae.dataAccessObject.configuration.loadError',
-            `${file.name}(local file)`
+            'local file',
+            file.name
           )
         }
       })
