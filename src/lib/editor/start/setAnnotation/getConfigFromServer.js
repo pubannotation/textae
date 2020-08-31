@@ -7,7 +7,7 @@ export default function(configUrl, done) {
     (configFromServer) => done(configFromServer),
     () =>
       alertifyjs.error(
-        `could not load the configuration from the location you specified.: ${configUrl}`
+        `Could not load the file from the location you specified.: ${configUrl}`
       )
   )
 }

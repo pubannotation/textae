@@ -12,7 +12,9 @@ export default function(url, done, cursorChanger) {
     },
     () => {
       cursorChanger.endWait()
-      alertifyjs.error('Could not load the target.')
+      alertifyjs.error(
+        `Could not load the file from the location you specified.: ${url}`
+      )
     }
   )
 }
