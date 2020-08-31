@@ -52,7 +52,12 @@ export default class {
 
   updateTypeDom(typeName) {
     for (const type of this._annotationData.entity.allRenderedTypes) {
-      if (type.name === typeName) {
+      // If the type name ends in a wildcard, look for the DOMs to update with a forward match.
+      if (
+        type.name === typeName ||
+        (typeName.lastIndexOf('*') === typeName.length - 1 &&
+          type.name.indexOf(typeName.slice(0, -1) === 0))
+      ) {
         updateTypeDom(this._annotationData.namespace, this._typeContainer, type)
       }
     }

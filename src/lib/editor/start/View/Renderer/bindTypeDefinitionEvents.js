@@ -1,15 +1,16 @@
 export default function(editor, entityRenderer, relationRenderer) {
   editor.eventEmitter
-    .on('textae.typeDefinition.entity.type.change', (typeName) => {
-      // If you update a type that includes a wildcard, update the label other than the target type.
+    .on('textae.typeDefinition.entity.type.change', (typeName) =>
       entityRenderer.updateTypeDom(typeName)
-    })
+    )
     .on('textae.typeDefinition.entity.attributeDefinition.change', (pred) =>
       entityRenderer.updateAttribute(pred)
     )
-
-  editor.eventEmitter.on('textae.typeDefinition.reset', () => {
-    entityRenderer.updateTypeDomAll()
-    relationRenderer.changeAll()
-  })
+    .on('textae.typeDefinition.relation.type.change', (typeName) =>
+      relationRenderer.changeType(typeName)
+    )
+    .on('textae.typeDefinition.reset', () => {
+      entityRenderer.updateTypeDomAll()
+      relationRenderer.changeAll()
+    })
 }
