@@ -2,25 +2,25 @@ import url from 'url'
 import ajaxAccessor from '../../util/ajaxAccessor'
 import alertifyjs from 'alertifyjs'
 
-export default function(urlForJson, beforeSend, successHandler, finishHandler) {
-  beforeSend()
+export default function(urlForJson, done, cursorChanger) {
+  cursorChanger.startWait()
 
   ajaxAccessor(
     urlForJson,
     (loadData) => {
       const uri = url.resolve(location.href, urlForJson)
 
-      successHandler({
-        source: `<a class="textae-editor__footer__message__link" href="${uri}">${decodeURI(
+      done(
+        `<a class="textae-editor__footer__message__link" href="${uri}">${decodeURI(
           uri
         )}</a>`,
         loadData
-      })
+      )
 
-      finishHandler()
+      cursorChanger.endWait()
     },
     () => {
-      finishHandler()
+      cursorChanger.endWait()
       alertifyjs.error('Could not load the target.')
     }
   )

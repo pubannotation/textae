@@ -33,8 +33,7 @@ export default class {
   getAnnotationFromServer(url) {
     getFromServer(
       url,
-      () => this._cursorChanger.startWait(),
-      ({ source, loadData: annotation }) => {
+      (source, annotation) => {
         if (annotation && annotation.text) {
           this._editor.eventEmitter.emit(
             'textae.dataAccessObject.annotation.load',
@@ -54,15 +53,14 @@ export default class {
           )
         }
       },
-      () => this._cursorChanger.endWait()
+      this._cursorChanger
     )
   }
 
   getConfigurationFromServer(url) {
     getFromServer(
       url,
-      () => this._cursorChanger.startWait(),
-      ({ source, loadData: config }) => {
+      (source, config) => {
         this._editor.eventEmitter.emit(
           'textae.dataAccessObject.configuration.load',
           source,
@@ -70,7 +68,7 @@ export default class {
         )
         this._urlOfLastRead.config = url
       },
-      () => this._cursorChanger.endWait()
+      this._cursorChanger
     )
   }
 
