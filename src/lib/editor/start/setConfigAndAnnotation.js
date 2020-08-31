@@ -1,5 +1,5 @@
-import validateConfigurationAndAlert from '../validateConfigurationAndAlert'
-import setSpanAndTypeConfig from '../setSpanAndTypeConfig'
+import validateConfigurationAndAlert from './validateConfigurationAndAlert'
+import setSpanAndTypeConfig from './setSpanAndTypeConfig'
 
 export default function(
   annotation,

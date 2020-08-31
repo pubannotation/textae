@@ -1,7 +1,6 @@
 import alertifyjs from 'alertifyjs'
-import setSpanAndTypeConfig from '../../setSpanAndTypeConfig'
 import setAnnotation from '../../setAnnotation'
-import validateConfigurationAndAlert from '../../validateConfigurationAndAlert'
+import setConfigAndAnnotation from '../../setConfigAndAnnotation'
 import toSourceString from './toSourceString'
 
 export default function(
@@ -11,7 +10,8 @@ export default function(
   annotationData,
   params,
   statusBar,
-  originalData
+  originalData,
+  dataAccessObject
 ) {
   editor.eventEmitter
     .on(
@@ -22,7 +22,8 @@ export default function(
           typeDefinition,
           annotationData,
           annotation,
-          params.get('config')
+          params.get('config'),
+          dataAccessObject
         )
 
         statusBar.status(toSourceString(sourceType, source))
@@ -47,19 +48,26 @@ export default function(
     )
     .on(
       'textae.dataAccessObject.configuration.load',
-      (sourceType, source, config) => {
-        const validConfig = validateConfigurationAndAlert(
-          annotationData.toJson(),
+      (sourceType, source, config, loadedAnnotation = null) => {
+        // If an annotation that does not contain a configuration is loaded
+        // and a configuration is loaded from a taxtae attribute value,
+        // both the loaded configuration and the annotation are passed.
+        // If only the configuration is read, the annotation is null.
+        const annotation =
+          loadedAnnotation ||
+          Object.assign(originalData.annotation, annotationData.toJson())
+
+        setConfigAndAnnotation(
+          annotation,
           config,
           `${toSourceString(
             sourceType,
             source
-          )} is not a configuration file or its format is invalid.`
+          )} is not a configuration file or its format is invalid.`,
+          spanConfig,
+          typeDefinition,
+          annotationData
         )
-        if (!validConfig) return
-
-        originalData.configuration = config
-        setSpanAndTypeConfig(spanConfig, typeDefinition, validConfig)
       }
     )
     .on(

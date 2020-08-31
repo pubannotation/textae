@@ -1,6 +1,5 @@
-import getConfigFromServer from './getConfigFromServer'
 import validateAnnotationAndAlert from './validateAnnotationAndAlert'
-import setConfigAndAnnotation from './setConfigAndAnnotation'
+import setConfigAndAnnotation from '../setConfigAndAnnotation'
 import patchConfiguration from '../validateConfigurationAndAlert/patchConfiguration'
 import validateAttribueDefinitionAndAlert from '../validateAttribueDefinitionAndAlert'
 import setSpanAndTypeConfig from '../setSpanAndTypeConfig'
@@ -10,7 +9,8 @@ export default function(
   typeDefinition,
   annotationData,
   annotation,
-  configUrl
+  configUrl,
+  dataAccessObject
 ) {
   if (validateAnnotationAndAlert(annotation)) {
     if (annotation.config) {
@@ -24,16 +24,7 @@ export default function(
       )
     } else {
       if (configUrl) {
-        getConfigFromServer(configUrl, (configFromServer) => {
-          setConfigAndAnnotation(
-            annotation,
-            configFromServer,
-            `a configuration file from ${configUrl} is invalid.`,
-            spanConfig,
-            typeDefinition,
-            annotationData
-          )
-        })
+        dataAccessObject.getConfigurationFromServer(configUrl, annotation)
       } else {
         const patchedConfig = patchConfiguration(annotation)
         const validConfig = validateAttribueDefinitionAndAlert(

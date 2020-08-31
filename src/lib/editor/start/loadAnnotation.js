@@ -20,7 +20,8 @@ export default function(
         typeDefinition,
         annotationData,
         originalAnnotation,
-        config
+        config,
+        dataAccessObject
       )
       statusBar.status('inline')
 

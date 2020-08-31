@@ -59,7 +59,11 @@ export default class {
     )
   }
 
-  getConfigurationFromServer(url) {
+  // The second argument is the annotation you want to be notified of
+  // when the configuration loading is complete.
+  // This is supposed to be used when reading an annotation that does not contain a configuration
+  // and then reading the configuration set by the attribute value of the textae.
+  getConfigurationFromServer(url, annotation = null) {
     getFromServer(
       url,
       (source, config) => {
@@ -67,7 +71,8 @@ export default class {
           'textae.dataAccessObject.configuration.load',
           'url',
           source,
-          config
+          config,
+          annotation
         )
         this._urlOfLastRead.config = url
       },

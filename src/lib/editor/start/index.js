@@ -140,7 +140,8 @@ export default function(
     typeDefinition,
     params,
     statusBar,
-    originalData
+    originalData,
+    dataAccessObject
   )
 
   // Add tabIndex to listen to keyboard events.
