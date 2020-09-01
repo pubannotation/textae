@@ -112,6 +112,7 @@ export default class extends ContainerWithSubContainer {
   clear() {
     super.clear()
     this.spanTopLevel = []
+    this._typeSets = new Map()
   }
 
   move(id, newSpan) {
