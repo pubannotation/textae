@@ -1,6 +1,6 @@
 import DataAccessObject from './DataAccessObject'
 // model manages data objects.
-import AnnotationData from './Model/AnnotationData'
+import AnnotationData from './AnnotationData'
 import Selection from './Selection'
 // The history of command that providing undo and redo.
 import History from './History'

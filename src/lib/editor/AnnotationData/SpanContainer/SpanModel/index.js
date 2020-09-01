@@ -1,4 +1,4 @@
-import idFactory from '../../../../idFactory'
+import idFactory from '../../../idFactory'
 import getBigBrotherSpan from './getBigBrotherSpan'
 
 export default class {

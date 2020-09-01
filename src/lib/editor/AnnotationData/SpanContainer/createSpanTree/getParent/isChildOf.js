@@ -1,4 +1,4 @@
-import idFactory from '../../../../../idFactory'
+import idFactory from '../../../../idFactory'
 
 export default function(editor, spanContainer, span, maybeParent) {
   if (!maybeParent) {

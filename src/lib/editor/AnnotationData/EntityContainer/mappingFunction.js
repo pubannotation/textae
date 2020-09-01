@@ -1,5 +1,5 @@
-import idFactory from '../../../idFactory'
-import EntityModel from '../../../EntityModel'
+import idFactory from '../../idFactory'
+import EntityModel from '../../EntityModel'
 
 export default function(
   editor,
