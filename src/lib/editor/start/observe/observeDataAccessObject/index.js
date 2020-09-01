@@ -57,17 +57,23 @@ export default function(
           loadedAnnotation ||
           Object.assign(originalData.annotation, annotationData.toJson())
 
-        setConfigAndAnnotation(
-          annotation,
-          config,
-          `${toSourceString(
-            sourceType,
-            source
-          )} is not a configuration file or its format is invalid.`,
-          spanConfig,
-          typeDefinition,
-          annotationData
-        )
+        if (
+          setConfigAndAnnotation(
+            annotation,
+            config,
+            `${toSourceString(
+              sourceType,
+              source
+            )} is not a configuration file or its format is invalid.`,
+            spanConfig,
+            typeDefinition,
+            annotationData
+          )
+        ) {
+          if (sourceType === 'url') {
+            dataAccessObject.configurationUrl = source
+          }
+        }
       }
     )
     .on(

@@ -17,8 +17,11 @@ export default function(
     errorMessageForConfigValidation
   )
 
-  if (validConfig) {
-    setSpanAndTypeConfig(spanConfig, typeDefinition, validConfig)
-    annotationData.reset(annotation)
+  if (!validConfig) {
+    return false
   }
+
+  setSpanAndTypeConfig(spanConfig, typeDefinition, validConfig)
+  annotationData.reset(annotation)
+  return true
 }

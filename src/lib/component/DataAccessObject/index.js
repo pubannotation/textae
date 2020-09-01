@@ -30,6 +30,13 @@ export default class {
     bind(editor, this._ajaxSender)
   }
 
+  // The configuration validation is done with setConfigAndAnnotation
+  // because it requires both configuration and annotation.
+  // The URL is set after the validation.
+  set configurationUrl(url) {
+    this._urlOfLastRead.config = url
+  }
+
   getAnnotationFromServer(url) {
     getFromServer(
       url,
@@ -74,7 +81,6 @@ export default class {
           config,
           annotation
         )
-        this._urlOfLastRead.config = url
       },
       this._cursorChanger
     )
