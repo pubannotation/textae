@@ -1,8 +1,9 @@
 import CursorChanger from '../../util/CursorChanger'
-import getFromServer from './getFromServer'
 import AjaxSender from './AjaxSender'
 import bind from './bind'
-import save from './save'
+import get from './get'
+import post from './post'
+import patch from './patch'
 
 // A sub component to save and load data.
 export default class {
@@ -40,7 +41,7 @@ export default class {
   }
 
   loadAnnotation(url) {
-    getFromServer(
+    get(
       url,
       (source, annotation) => {
         if (annotation && annotation.text) {
@@ -70,7 +71,7 @@ export default class {
   // This is supposed to be used when reading an annotation that does not contain a configuration
   // and then reading the configuration set by the attribute value of the textae.
   loadConfigulation(url, annotation = null) {
-    getFromServer(
+    get(
       url,
       (source, config) => {
         this._editor.eventEmitter.emit(
@@ -87,15 +88,27 @@ export default class {
 
   saveAnnotation(url, editedData) {
     if (url) {
-      save(this._editor, this._ajaxSender, url, JSON.stringify(editedData))
+      post(
+        this._editor,
+        this._ajaxSender,
+        url,
+        JSON.stringify(editedData),
+        'textae.annotation.save'
+      )
     }
   }
 
   saveConfiguration(url, editedData) {
     // textae-config service is build with the Ruby on Rails 4.X.
     // To change existing files, only PATCH method is allowed on the Ruby on Rails 4.X.
-    this._ajaxSender.patch(url, JSON.stringify(editedData), () =>
-      this._editor.eventEmitter.emit('textae.configuration.save')
-    )
+    if (url) {
+      patch(
+        this._editor,
+        this._ajaxSender,
+        url,
+        JSON.stringify(editedData),
+        'textae.configuration.save'
+      )
+    }
   }
 }
