@@ -24,6 +24,12 @@ export default class {
     this._getOriginalAnnotation = getOriginalAnnotation
     this._getOriginalConfig = getOriginalConfig
     this._saveToParameter = saveToParameter
+
+    // Store the filename of the annotation and configuration.
+    this._filenameOfLastRead = {
+      annotation: '',
+      configuration: ''
+    }
   }
 
   importAnnotation() {
@@ -31,7 +37,10 @@ export default class {
       'Load Annotations',
       this._dataAccessObject.annotationUrl,
       (url) => this._dataAccessObject.loadAnnotation(url),
-      ({ files }) => readAnnotationFile(files, this._editor),
+      ({ files }) => {
+        readAnnotationFile(files, this._editor)
+        this._filenameOfLastRead.annotation = files[0].name
+      },
       this._history.hasAnythingToSaveAnnotation
     ).open()
   }
@@ -40,6 +49,7 @@ export default class {
     new SaveAnnotationDialog(
       this._editor,
       this._saveToParameter || this._dataAccessObject.annotationUrl,
+      this._filenameOfLastRead.annotation,
       this._editedAnnotation,
       (url) =>
         this._dataAccessObject.saveAnnotation(url, this._editedAnnotation)
@@ -58,7 +68,10 @@ export default class {
       'Load Configurations',
       this._dataAccessObject.configurationUrl,
       (url) => this._dataAccessObject.loadConfigulation(url),
-      ({ files }) => readConfigurationFile(files, this._editor),
+      ({ files }) => {
+        readConfigurationFile(files, this._editor)
+        this._filenameOfLastRead.configuration = files[0].name
+      },
       this._history.hasAnythingToSaveConfiguration
     ).open()
   }
@@ -74,6 +87,7 @@ export default class {
     new SaveConfigurationDialog(
       this._editor,
       this._dataAccessObject.configurationUrl,
+      this._filenameOfLastRead.configuration,
       this._getOriginalConfig(),
       editidConfig,
       (url) => this._dataAccessObject.saveConfiguration(url, editidConfig)

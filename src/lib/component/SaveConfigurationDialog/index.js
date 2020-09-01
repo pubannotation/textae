@@ -4,11 +4,18 @@ import jsonDiff from './jsonDiff'
 import bind from './bind'
 
 export default class extends Dialog {
-  constructor(editor, url, originalData, editedData, saveConfiguration) {
+  constructor(
+    editor,
+    url,
+    filename,
+    originalData,
+    editedData,
+    saveConfiguration
+  ) {
     super(
       'Save Configurations',
       createContentHtml({
-        filename: 'config.json',
+        filename,
         url,
         diff: jsonDiff(originalData, editedData) || 'nothing.'
       }),
