@@ -4412,12 +4412,6 @@ a.ui-button:active,
 .textae-editor__span:focus {
   outline-style: none;
 }
-.textae-editor__span--wrap {
-  white-space: normal;
-}
-.textae-editor__span--block {
-  background-color: rgba(255, 100, 215, 0.5);
-}
 .textae-editor__grid {
   border-color: rgba(100, 100, 215, 0.8);
   border-style: solid;
