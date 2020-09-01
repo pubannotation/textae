@@ -3,7 +3,7 @@ import createContentHtml from './createContentHtml'
 import bind from './bind'
 
 export default class extends Dialog {
-  constructor(editor, url, data) {
+  constructor(editor, url, data, saveAnnotation) {
     super(
       'Save Annotations',
       createContentHtml({ filename: 'annotations.json', url }),
@@ -12,6 +12,6 @@ export default class extends Dialog {
       }
     )
 
-    bind(editor, super.el, data, () => super.close())
+    bind(editor, super.el, data, () => super.close(), saveAnnotation)
   }
 }

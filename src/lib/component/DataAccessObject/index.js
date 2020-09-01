@@ -51,10 +51,7 @@ export default class {
             annotation,
             url
           )
-          this._editor.eventEmitter.emit(
-            'textae.annotation.setUrl',
-            url
-          )
+          this._editor.eventEmitter.emit('textae.annotation.setUrl', url)
           this._urlOfLastRead.annotation = url
         } else {
           this._editor.eventEmitter.emit(
@@ -88,10 +85,17 @@ export default class {
     )
   }
 
-  saveAnnotation(editedData, saveToParameter) {
-    const url = saveToParameter || this._urlOfLastRead.annotation
+  saveAnnotation(url, editedData) {
     if (url) {
       save(this._editor, this._ajaxSender, url, JSON.stringify(editedData))
     }
+  }
+
+  saveConfiguration(url, editedData) {
+    // textae-config service is build with the Ruby on Rails 4.X.
+    // To change existing files, only PATCH method is allowed on the Ruby on Rails 4.X.
+    this._ajaxSender.patch(url, JSON.stringify(editedData), () =>
+      this._editor.eventEmitter.emit('textae.configuration.save')
+    )
   }
 }

@@ -40,14 +40,16 @@ export default class {
     new SaveAnnotationDialog(
       this._editor,
       this._saveToParameter || this._dataAccessObject.annotationUrl,
-      this._editedAnnotation
+      this._editedAnnotation,
+      (url) =>
+        this._dataAccessObject.saveAnnotation(url, this._editedAnnotation)
     ).open()
   }
 
   saveAnnotation() {
     this._dataAccessObject.saveAnnotation(
-      this._editedAnnotation,
-      this._saveToParameter
+      this._saveToParameter || this._dataAccessObject.annotationUrl,
+      this._editedAnnotation
     )
   }
 
@@ -73,7 +75,8 @@ export default class {
       this._editor,
       this._dataAccessObject.configurationUrl,
       this._getOriginalConfig(),
-      editidConfig
+      editidConfig,
+      (url) => this._dataAccessObject.saveConfiguration(url, editidConfig)
     ).open()
   }
 

@@ -2,7 +2,13 @@ import delegate from 'delegate'
 import createDownloadPath from '../createDownloadPath'
 import makeDomEnabled from '../makeDomEnabled'
 
-export default function(editor, element, editedData, dialogClose) {
+export default function(
+  editor,
+  element,
+  editedData,
+  dialogClose,
+  saveConfiguration
+) {
   // Disabled the button to save to the URL when no URL.
   delegate(element, '[type="text"].url', 'input', (e) => {
     makeDomEnabled(e.target.nextElementSibling, e.target.value)
@@ -10,11 +16,7 @@ export default function(editor, element, editedData, dialogClose) {
 
   // Save to the URL.
   delegate(element, '[type="button"].url', 'click', (e) => {
-    editor.eventEmitter.emit(
-      'textae.saveConfigurationDialog.url.click',
-      e.target.previousElementSibling.value,
-      JSON.stringify(editedData)
-    )
+    saveConfiguration(e.target.previousElementSibling.value)
     dialogClose()
   })
 
