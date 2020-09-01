@@ -10,7 +10,7 @@ import PersistenceInterface from './PersistenceInterface'
 import APIs from './APIs'
 import focusEditorWhenFocusedChildRemoved from './focusEditorWhenFocusedChildRemoved'
 import getStatusBar from './getStatusBar'
-import loadAnnotation from './loadAnnotation'
+import initAnnotation from './initAnnotation'
 import getConfigEditParamFromUrl from './getConfigEditParamFromUrl'
 import OriginalData from './OriginalData'
 import ButtonController from '../../ButtonController'
@@ -97,7 +97,7 @@ export default function(
     typeDefinition.unlockEdit()
   }
 
-  originalData.annotation = loadAnnotation(
+  originalData.annotation = initAnnotation(
     spanConfig,
     typeDefinition,
     annotationData,
