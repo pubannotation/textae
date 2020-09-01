@@ -24,7 +24,7 @@ export default function(
       )
     } else {
       if (configUrl) {
-        dataAccessObject.getConfigurationFromServer(configUrl, annotation)
+        dataAccessObject.loadConfigulation(configUrl, annotation)
       } else {
         const patchedConfig = patchConfiguration(annotation)
         const validConfig = validateAttribueDefinitionAndAlert(

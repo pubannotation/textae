@@ -28,7 +28,7 @@ export default function(
       return originalAnnotation
     } else if (annotation.has('url')) {
       // Load an annotation from server.
-      dataAccessObject.getAnnotationFromServer(annotation.get('url'))
+      dataAccessObject.loadAnnotation(annotation.get('url'))
     } else {
       throw new Error('annotation text is empty.')
     }
@@ -38,7 +38,7 @@ export default function(
     // Read configuration when configuration is not included in the read annotation file.
     // If no annotation is specified, the configuration is read immediately.
     if (config) {
-      dataAccessObject.getConfigurationFromServer(config)
+      dataAccessObject.loadConfigulation(config)
     }
   }
 

@@ -39,7 +39,7 @@ export default class {
     this._urlOfLastRead.config = url
   }
 
-  getAnnotationFromServer(url) {
+  loadAnnotation(url) {
     getFromServer(
       url,
       (source, annotation) => {
@@ -72,7 +72,7 @@ export default class {
   // when the configuration loading is complete.
   // This is supposed to be used when reading an annotation that does not contain a configuration
   // and then reading the configuration set by the attribute value of the textae.
-  getConfigurationFromServer(url, annotation = null) {
+  loadConfigulation(url, annotation = null) {
     getFromServer(
       url,
       (source, config) => {

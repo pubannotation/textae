@@ -30,7 +30,7 @@ export default class {
     new LoadDialog(
       'Load Annotations',
       this._dataAccessObject.annotationUrl,
-      (url) => this._dataAccessObject.getAnnotationFromServer(url),
+      (url) => this._dataAccessObject.loadAnnotation(url),
       ({ files }) => readAnnotationFile(files, this._editor),
       this._history.hasAnythingToSaveAnnotation
     ).open()
@@ -55,7 +55,7 @@ export default class {
     new LoadDialog(
       'Load Configurations',
       this._dataAccessObject.configurationUrl,
-      (url) => this._dataAccessObject.getConfigurationFromServer(url),
+      (url) => this._dataAccessObject.loadConfigulation(url),
       ({ files }) => readConfigurationFile(files, this._editor),
       this._history.hasAnythingToSaveConfiguration
     ).open()
