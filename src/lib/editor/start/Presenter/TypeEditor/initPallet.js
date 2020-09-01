@@ -48,9 +48,7 @@ export default function(pallet, editor, typeEditor, commander, name, handler) {
     )
     .on('textae.editor.unselect', () => pallet.hide()) // Close pallet when selecting other editor.
     .on('textae.history.change', () => pallet.updateDisplay()) // Update save config button when changing history and savigng configuration.
-    .on('textae.dataAccessObject.configuration.save', () =>
-      pallet.updateDisplay()
-    )
+    .on('textae.configuration.save', () => pallet.updateDisplay())
     .on(`textae.typeDefinition.${name}.type.lock`, () => pallet.updateDisplay())
     .on(`textae.typeDefinition.${name}.type.change`, () =>
       pallet.updateDisplay()

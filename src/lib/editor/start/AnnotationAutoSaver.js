@@ -22,9 +22,9 @@ export default class {
     })
 
     editor.eventEmitter
-      .on('textae.dataAccessObject.annotation.load', () => this._disabled())
-      .on('textae.dataAccessObject.saveError', () => this._disabled())
-      .on('textae.dataAccessObject.annotation.setUrl', (url) =>
+      .on('textae.annotation.load', () => this._disabled())
+      .on('textae.saveError', () => this._disabled())
+      .on('textae.annotation.setUrl', (url) =>
         editor.eventEmitter.emit(
           'textae.annotationAutoSaver.enable',
           Boolean(saveToParameter || url)

@@ -16,7 +16,7 @@ export default class {
       )
     })
 
-    editor.eventEmitter.on('textae.dataAccessObject.annotation.save', () => {
+    editor.eventEmitter.on('textae.annotation.save', () => {
       this._observable.set(false)
       loadedAnnotationIsModified = false
     })

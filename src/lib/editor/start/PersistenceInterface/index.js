@@ -1,8 +1,13 @@
-import showSaveConfDialogWithEditedData from './showSaveConfDialogWithEditedData'
+import LoadDialog from '../../../component/LoadDialog'
+import SaveAnnotationDialog from '../../../component/SaveAnnotationDialog'
+import SaveConfigurationDialog from '../../../component/SaveConfigurationDialog'
 import mergeAnnotation from './mergeAnnotation'
+import readAnnotationFile from './readAnnotationFile'
+import readConfigurationFile from './readConfigurationFile'
 
 export default class {
   constructor(
+    editor,
     dataAccessObject,
     history,
     annotationData,
@@ -11,6 +16,7 @@ export default class {
     getOriginalConfig,
     saveToParameter
   ) {
+    this._editor = editor
     this._dataAccessObject = dataAccessObject
     this._history = history
     this._annotationData = annotationData
@@ -21,16 +27,21 @@ export default class {
   }
 
   importAnnotation() {
-    this._dataAccessObject.showAccessAnnotation(
+    new LoadDialog(
+      'Load Annotations',
+      this._dataAccessObject.annotationUrl,
+      (url) => this._dataAccessObject.getAnnotationFromServer(url),
+      ({ files }) => readAnnotationFile(files, this._editor),
       this._history.hasAnythingToSaveAnnotation
-    )
+    ).open()
   }
 
   uploadAnnotation() {
-    this._dataAccessObject.showSaveAnnotation(
-      this._editedAnnotation,
-      this._saveToParameter
-    )
+    new SaveAnnotationDialog(
+      this._editor,
+      this._saveToParameter || this._dataAccessObject.annotationUrl,
+      this._editedAnnotation
+    ).open()
   }
 
   saveAnnotation() {
@@ -41,17 +52,29 @@ export default class {
   }
 
   importConfiguration() {
-    this._dataAccessObject.showAccessConfiguration(
+    new LoadDialog(
+      'Load Configurations',
+      this._dataAccessObject.configurationUrl,
+      (url) => this._dataAccessObject.getConfigurationFromServer(url),
+      ({ files }) => readConfigurationFile(files, this._editor),
       this._history.hasAnythingToSaveConfiguration
-    )
+    ).open()
   }
 
   uploadConfiguration() {
-    showSaveConfDialogWithEditedData(
-      this._dataAccessObject,
-      this._typeDefinition.config,
-      this._getOriginalConfig()
+    // Merge with the original config and save the value unchanged in the editor.
+    const editidConfig = Object.assign(
+      {},
+      this._getOriginalConfig(),
+      this._typeDefinition.config
     )
+
+    new SaveConfigurationDialog(
+      this._editor,
+      this._dataAccessObject.configurationUrl,
+      this._getOriginalConfig(),
+      editidConfig
+    ).open()
   }
 
   get _editedAnnotation() {
