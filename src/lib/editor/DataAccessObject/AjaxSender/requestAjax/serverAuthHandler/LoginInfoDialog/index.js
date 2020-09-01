@@ -1,4 +1,4 @@
-import Dialog from '../../../../../Dialog'
+import Dialog from '../../../../../../component/Dialog'
 import createContentHtml from './createContentHtml'
 import bind from './bind'
 import openPopUp from './openPopUp'

@@ -1,4 +1,4 @@
-import DataAccessObject from '../component/DataAccessObject'
+import DataAccessObject from './DataAccessObject'
 // model manages data objects.
 import AnnotationData from './Model/AnnotationData'
 import Selection from './Selection'
