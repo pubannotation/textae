@@ -4403,7 +4403,7 @@ a.ui-button:active,
   border-color: rgba(100, 100, 215, 0.8);
   border-style: solid;
   border-width: 1px 0;
-  white-space: nowrap;
+  white-space: pre;
 }
 .textae-editor__span:hover {
   text-shadow: 1px 1px 1px #00d;
