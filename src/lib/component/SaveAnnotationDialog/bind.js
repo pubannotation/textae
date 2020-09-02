@@ -29,7 +29,7 @@ export default function(editor, element, data, closeDialog) {
   })
 
   delegate(element, 'a.viewsource', 'click', () => {
-    window.open(createDownloadPath(JSON.stringify(data)), '_blank')
+    window.open(createDownloadPath(data), '_blank')
     editor.eventEmitter.emit('textae.saveAnnotationDialog.viewsource.click')
     closeDialog()
   })
