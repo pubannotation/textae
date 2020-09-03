@@ -4333,7 +4333,6 @@ a.ui-button:active,
   border: 1px solid black;
   white-space: pre;
   /* active editer color */
-  /* entity */
   /* relation */
   /* term centric mode */
   /* instance edit mode */
@@ -4412,158 +4411,10 @@ a.ui-button:active,
 .textae-editor__span:focus {
   outline-style: none;
 }
-.textae-editor__grid {
-  border-color: rgba(100, 100, 215, 0.8);
-  border-style: solid;
-  border-width: 0 1px;
-  overflow: visible;
-  padding: 0;
-  position: absolute;
-}
-.textae-editor__type {
-  font-size: small;
-  position: relative;
-  text-align: center;
-  white-space: nowrap;
-}
-.textae-editor__type-values {
-  border-color: rgba(100, 100, 215, 0.8);
-  border-radius: 4px;
-  border-style: solid;
-  border-width: 1px 0;
-  line-height: 16px;
-  opacity: 1;
-  overflow: visible;
-  position: relative;
-  -webkit-user-select: none;
-  -khtml-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  -webkit-touch-callout: none;
-  z-index: 1;
-  box-shadow: 1px 1px 10px #600;
-}
-.textae-editor__type-label {
-  border-width: 1px;
-  border-radius: 1px;
-  border-bottom-style: dashed;
-  border-bottom-color: white;
-  display: inline-block;
-  padding: 0 4px;
-  background-color: inherit;
-}
-.textae-editor__type-label:focus {
-  outline-style: none;
-}
-.textae-editor__type:hover {
-  z-index: 2;
-}
-.textae-editor__type:hover .textae-editor__type-values {
-  z-index: 2;
-}
-.textae-editor__type:hover .textae-editor__type-values {
-  opacity: 1;
-  overflow: visible;
-  box-shadow: 1px 1px 10px #600;
-}
-.textae-editor__type:hover .textae-editor__type-values.ui-selected {
-  box-shadow: 0 0 0 2pt red;
-}
-.textae-editor__type:hover .textae-editor__type-label,
-.textae-editor__type:hover .textae-editor__attribute,
-.textae-editor__type:hover .textae-editor__attribute-label {
-  background-color: inherit;
-}
-.textae-editor__type:hover .textae-editor__type-label,
-.textae-editor__type:hover .textae-editor__attribute-label {
-  border-width: 1px;
-  border-radius: 1px;
-  border-bottom-style: dashed;
-  border-bottom-color: white;
-  display: inline-block;
-  padding: 0 4px;
-}
-.textae-editor__attribute {
-  background-color: inherit;
-  height: 18px;
-  margin: 0 2px;
-  width: calc(100% - 4px);
-}
-.textae-editor__attribute-label {
-  border-width: 1px;
-  border-radius: 1px;
-  border-bottom-style: dashed;
-  border-bottom-color: white;
-  display: inline-block;
-  padding: 0 4px;
-  background-color: inherit;
-}
-.textae-editor__entity,
-.textae-editor--relation-mode .textae-editor__type:hover .textae-editor__entity,
-.textae-editor--relation-mode .textae-editor__type:hover .textae-editor__type-values {
-  opacity: 0.9;
-}
 .textae-editor--editable .textae-editor__span.ui-selected {
   background-color: rgba(255, 200, 100, 0.9);
   border-color: red;
   color: #00d;
-}
-.textae-editor--editable .textae-editor__entity.ui-selected {
-  background-color: rgba(255, 0, 0, 0.8);
-}
-.textae-editor--editable .textae-editor__entity.ui-to-be-cut {
-  opacity: 0.5;
-}
-.textae-editor--editable .textae-editor__type.ui-selected {
-  z-index: 2;
-}
-.textae-editor--editable .textae-editor__type-values {
-  box-shadow: none;
-  opacity: 0.9;
-  overflow: hidden;
-}
-.textae-editor--editable .textae-editor__type-values.ui-selected {
-  box-shadow: 0 0 0 2pt red;
-  z-index: 2;
-}
-.textae-editor--editable .textae-editor__type-values.ui-to-be-cut {
-  opacity: 0.5;
-}
-.textae-editor--editable .textae-editor__attribute {
-  background-color: transparent;
-}
-.textae-editor--editable .textae-editor__type-label,
-.textae-editor--editable .textae-editor__attribute-label {
-  background-color: transparent;
-  border-width: 0;
-  border-radius: 0;
-  border-bottom-style: none;
-  padding: 0;
-}
-.textae-editor--editable .textae-editor__type-label a,
-.textae-editor--editable .textae-editor__attribute-label a {
-  color: black;
-  pointer-events: none;
-  text-decoration: none;
-}
-.textae-editor__entity-pane {
-  line-height: 11px;
-  position: relative;
-  z-index: 1;
-}
-.textae-editor__entity {
-  background-color: rgba(100, 100, 215, 0.8);
-  border-radius: 6px;
-  border-style: solid;
-  border-width: 1px;
-  display: inline-block;
-  height: 12px;
-  vertical-align: top;
-  width: 12px;
-}
-.textae-editor__entity:hover {
-  box-shadow: 1px 1px 10px #600;
 }
 .textae-editor__relation__label {
   background-color: yellow;
@@ -4578,24 +4429,9 @@ a.ui-button:active,
   opacity: 1;
   text-shadow: 1px 1px 1px #800;
 }
-.textae-editor--term-mode .textae-editor__grid {
-  border-style: none;
-}
-.textae-editor--term-mode .textae-editor__type {
-  margin-bottom: 0;
-  padding-top: 0;
-}
-.textae-editor--term-mode .textae-editor__type-label {
-  border-width: 1px 0 0 0;
-}
 .textae-editor--term-mode .textae-editor__relation,
 .textae-editor--term-mode .textae-editor__relation__label {
   display: none !important;
-}
-.textae-editor--term-mode .textae-editor__entity-pane {
-  /*Set visibility style to hide entities, because size of entities are necesarry to render relation.*/
-  visibility: hidden;
-  height: 0;
 }
 .textae-editor--term-mode path,
 .textae-editor--term-mode circle {
@@ -4615,9 +4451,6 @@ a.ui-button:active,
 }
 .textae-editor--relation-mode {
   cursor: pointer;
-}
-.textae-editor--relation-mode .textae-editor__type:hover .textae-editor__type-label {
-  box-shadow: none;
 }
 .textae-editor--relation-mode .textae-editor__span:hover {
   text-shadow: none;
@@ -4676,6 +4509,177 @@ a.ui-button:active,
 /* relation */
 ._jsPlumb_endpoint {
   visibility: hidden;
+}
+.textae-editor {
+  /* entity */
+  /* term centric mode */
+  /* relation edit mode */
+}
+.textae-editor__grid {
+  border-color: rgba(100, 100, 215, 0.8);
+  border-style: solid;
+  border-width: 0 1px;
+  overflow: visible;
+  padding: 0;
+  position: absolute;
+}
+.textae-editor__entity {
+  font-size: small;
+  position: relative;
+  text-align: center;
+  white-space: nowrap;
+}
+.textae-editor__entity__type-values {
+  border-color: rgba(100, 100, 215, 0.8);
+  border-radius: 4px;
+  border-style: solid;
+  border-width: 1px 0;
+  line-height: 16px;
+  opacity: 1;
+  overflow: visible;
+  position: relative;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+  z-index: 1;
+  box-shadow: 1px 1px 10px #600;
+}
+.textae-editor__entity__type-label {
+  border-width: 1px;
+  border-radius: 1px;
+  border-bottom-style: dashed;
+  border-bottom-color: white;
+  display: inline-block;
+  padding: 0 4px;
+  background-color: inherit;
+}
+.textae-editor__entity__type-label:focus {
+  outline-style: none;
+}
+.textae-editor__entity:hover {
+  z-index: 2;
+}
+.textae-editor__entity:hover .textae-editor__entity__type-values {
+  z-index: 2;
+}
+.textae-editor__entity:hover .textae-editor__entity__type-values {
+  opacity: 1;
+  overflow: visible;
+  box-shadow: 1px 1px 10px #600;
+}
+.textae-editor__entity:hover .textae-editor__entity__type-values.ui-selected {
+  box-shadow: 0 0 0 2pt red;
+}
+.textae-editor__entity:hover .textae-editor__entity__type-label,
+.textae-editor__entity:hover .textae-editor__entity__attribute,
+.textae-editor__entity:hover .textae-editor__entity__attribute-label {
+  background-color: inherit;
+}
+.textae-editor__entity:hover .textae-editor__entity__type-label,
+.textae-editor__entity:hover .textae-editor__entity__attribute-label {
+  border-width: 1px;
+  border-radius: 1px;
+  border-bottom-style: dashed;
+  border-bottom-color: white;
+  display: inline-block;
+  padding: 0 4px;
+}
+.textae-editor__entity__attribute {
+  background-color: inherit;
+  height: 18px;
+  margin: 0 2px;
+  width: calc(100% - 4px);
+}
+.textae-editor__entity__attribute-label {
+  border-width: 1px;
+  border-radius: 1px;
+  border-bottom-style: dashed;
+  border-bottom-color: white;
+  display: inline-block;
+  padding: 0 4px;
+  background-color: inherit;
+}
+.textae-editor__entity__endpoint,
+.textae-editor--relation-mode .textae-editor__type:hover .textae-editor__entity__endpoint,
+.textae-editor--relation-mode .textae-editor__type:hover .textae-editor__entity__type-values {
+  opacity: 0.9;
+}
+.textae-editor--editable .textae-editor__entity__endpoint.ui-selected {
+  background-color: rgba(255, 0, 0, 0.8);
+}
+.textae-editor--editable .textae-editor__entity__endpoint.ui-to-be-cut {
+  opacity: 0.5;
+}
+.textae-editor--editable .textae-editor__entity.ui-selected {
+  z-index: 2;
+}
+.textae-editor--editable .textae-editor__entity__type-values {
+  box-shadow: none;
+  opacity: 0.9;
+  overflow: hidden;
+}
+.textae-editor--editable .textae-editor__entity__type-values.ui-selected {
+  box-shadow: 0 0 0 2pt red;
+  z-index: 2;
+}
+.textae-editor--editable .textae-editor__entity__type-values.ui-to-be-cut {
+  opacity: 0.5;
+}
+.textae-editor--editable .textae-editor__entity__attribute {
+  background-color: transparent;
+}
+.textae-editor--editable .textae-editor__entity__type-label,
+.textae-editor--editable .textae-editor__entity__attribute-label {
+  background-color: transparent;
+  border-width: 0;
+  border-radius: 0;
+  border-bottom-style: none;
+  padding: 0;
+}
+.textae-editor--editable .textae-editor__entity__type-label a,
+.textae-editor--editable .textae-editor__entity__attribute-label a {
+  color: black;
+  pointer-events: none;
+  text-decoration: none;
+}
+.textae-editor__entity__endpoint-zone {
+  line-height: 11px;
+  position: relative;
+  z-index: 1;
+}
+.textae-editor__entity__endpoint {
+  background-color: rgba(100, 100, 215, 0.8);
+  border-radius: 6px;
+  border-style: solid;
+  border-width: 1px;
+  display: inline-block;
+  height: 12px;
+  vertical-align: top;
+  width: 12px;
+}
+.textae-editor__entity__endpoint:hover {
+  box-shadow: 1px 1px 10px #600;
+}
+.textae-editor--term-mode .textae-editor__grid {
+  border-style: none;
+}
+.textae-editor--term-mode .textae-editor__entity {
+  margin-bottom: 0;
+  padding-top: 0;
+}
+.textae-editor--term-mode .textae-editor__entity__type-label {
+  border-width: 1px 0 0 0;
+}
+.textae-editor--term-mode .textae-editor__entity__endpoint-zone {
+  /*Set visibility style to hide entities, because size of entities are necesarry to render relation.*/
+  visibility: hidden;
+  height: 0;
+}
+.textae-editor--relation-mode .textae-editor__entity:hover .textae-editor__entity__type-label {
+  box-shadow: none;
 }
 /**
  * alertifyjs 1.13.1 http://alertifyjs.com
