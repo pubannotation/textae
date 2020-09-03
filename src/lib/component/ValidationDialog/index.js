@@ -6,7 +6,8 @@ export default class extends Dialog {
     const contentHtml = createContentHtml(rejects)
 
     super('The following erroneous annotations ignored', contentHtml, null, {
-      height: 450
+      height: 600,
+      width: 900
     })
   }
 }
