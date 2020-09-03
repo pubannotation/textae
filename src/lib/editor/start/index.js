@@ -103,7 +103,8 @@ export default function(
     annotationData,
     statusBar,
     params,
-    dataAccessObject
+    dataAccessObject,
+    buttonController
   )
 
   const persistenceInterface = new PersistenceInterface(
@@ -142,7 +143,8 @@ export default function(
     params,
     statusBar,
     originalData,
-    dataAccessObject
+    dataAccessObject,
+    buttonController
   )
 
   // Add tabIndex to listen to keyboard events.

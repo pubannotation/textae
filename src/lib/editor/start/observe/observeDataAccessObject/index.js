@@ -11,7 +11,8 @@ export default function(
   params,
   statusBar,
   originalData,
-  dataAccessObject
+  dataAccessObject,
+  buttonController
 ) {
   editor.eventEmitter
     .on('textae.annotation.load', (sourceType, source, annotation) => {
@@ -21,7 +22,8 @@ export default function(
         annotationData,
         annotation,
         params.get('config'),
-        dataAccessObject
+        dataAccessObject,
+        buttonController
       )
 
       statusBar.status(toSourceString(sourceType, source))
@@ -64,7 +66,8 @@ export default function(
             )} is not a configuration file or its format is invalid.`,
             spanConfig,
             typeDefinition,
-            annotationData
+            annotationData,
+            buttonController
           )
         ) {
           if (sourceType === 'url') {

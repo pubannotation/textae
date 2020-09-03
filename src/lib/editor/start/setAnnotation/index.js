@@ -10,7 +10,8 @@ export default function(
   annotationData,
   annotation,
   configUrl,
-  dataAccessObject
+  dataAccessObject,
+  buttonController
 ) {
   if (validateAnnotationAndAlert(annotation)) {
     if (annotation.config) {
@@ -20,7 +21,8 @@ export default function(
         `configuration in anntotaion file is invalid.`,
         spanConfig,
         typeDefinition,
-        annotationData
+        annotationData,
+        buttonController
       )
     } else {
       if (configUrl) {

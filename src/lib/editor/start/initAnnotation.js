@@ -6,7 +6,8 @@ export default function(
   annotationData,
   statusBar,
   params,
-  dataAccessObject
+  dataAccessObject,
+  buttonController
 ) {
   const annotation = params.get('annotation')
   const config = params.get('config')
@@ -21,7 +22,8 @@ export default function(
         annotationData,
         originalAnnotation,
         config,
-        dataAccessObject
+        dataAccessObject,
+        buttonController
       )
       statusBar.status('inline')
 

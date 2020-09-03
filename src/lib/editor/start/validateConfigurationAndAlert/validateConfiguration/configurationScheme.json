@@ -58,6 +58,15 @@
     "autocompletion_ws": {
       "$ref": "#/definitions/autocompletion_ws"
     },
+    "autosave": {
+      "type": "boolean"
+    },
+    "autolineheight": {
+      "type": "boolean"
+    },
+    "boundarydetection": {
+      "type": "boolean"
+    },
     "entity types": {
       "$ref": "#/definitions/types"
     },

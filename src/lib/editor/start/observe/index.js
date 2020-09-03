@@ -14,7 +14,8 @@ export default function(
   params,
   statusBar,
   originalData,
-  dataAccessObject
+  dataAccessObject,
+  buttonController
 ) {
   observeTypeDefilinition(editor, history)
   observeHistoryChange(editor, CONFIRM_DISCARD_CHANGE_MESSAGE)
@@ -26,7 +27,8 @@ export default function(
     params,
     statusBar,
     originalData,
-    dataAccessObject
+    dataAccessObject,
+    buttonController
   )
   observeMouse(editor)
   observeKey(editor)

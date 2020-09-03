@@ -1,5 +1,6 @@
-import validateConfigurationAndAlert from './validateConfigurationAndAlert'
-import setSpanAndTypeConfig from './setSpanAndTypeConfig'
+import validateConfigurationAndAlert from '../validateConfigurationAndAlert'
+import setSpanAndTypeConfig from '../setSpanAndTypeConfig'
+import setPushBUttons from './setPushBUttons'
 
 export default function(
   annotation,
@@ -7,7 +8,8 @@ export default function(
   errorMessageForConfigValidation,
   spanConfig,
   typeDefinition,
-  annotationData
+  annotationData,
+  buttonController
 ) {
   console.assert(config, 'config is necessary')
 
@@ -21,6 +23,7 @@ export default function(
     return false
   }
 
+  setPushBUttons(validConfig, buttonController)
   setSpanAndTypeConfig(spanConfig, typeDefinition, validConfig)
   annotationData.reset(annotation)
   return true
