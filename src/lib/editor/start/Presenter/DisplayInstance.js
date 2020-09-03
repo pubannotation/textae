@@ -1,5 +1,3 @@
-import alertifyjs from 'alertifyjs'
-
 export default class {
   constructor(typeGap) {
     // The typeGap is changed from the Setting dialog or
