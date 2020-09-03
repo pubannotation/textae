@@ -16,7 +16,7 @@ export default function(
       attributeContainer,
       relationContaier,
       definedTypes,
-      idFactory.makeSpanId(editor, entity.span),
+      idFactory.makeSpanDomId(editor, entity.span),
       entity.obj,
       entity.id
     )

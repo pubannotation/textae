@@ -28,6 +28,9 @@ export default class extends CompositeCommand {
           typeValeusList
         )
     )
-    this._logMessage = `replicate a span ${idFactory.makeSpanId(editor, span)}`
+    this._logMessage = `replicate a span ${idFactory.makeSpanDomId(
+      editor,
+      span
+    )}`
   }
 }

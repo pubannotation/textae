@@ -60,7 +60,7 @@ export default class extends ContainerWithSubContainer {
   }
 
   has(span) {
-    const spanId = idFactory.makeSpanId(this._editor, span)
+    const spanId = idFactory.makeSpanDomId(this._editor, span)
     return this._container.has(spanId)
   }
 

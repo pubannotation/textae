@@ -5,7 +5,7 @@ import idFactory from '../../../idFactory'
 export default class MoveSpanCommand extends AnnotationCommand {
   constructor(editor, annotationData, spanId, newSpan) {
     console.assert(
-      spanId !== idFactory.makeSpanId(editor, newSpan),
+      spanId !== idFactory.makeSpanDomId(editor, newSpan),
       `Do not need move span:  ${spanId} ${newSpan}`
     )
 

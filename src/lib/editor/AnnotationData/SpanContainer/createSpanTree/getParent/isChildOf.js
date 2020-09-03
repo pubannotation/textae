@@ -5,7 +5,7 @@ export default function(editor, spanContainer, span, maybeParent) {
     return false
   }
 
-  const id = idFactory.makeSpanId(editor, maybeParent)
+  const id = idFactory.makeSpanDomId(editor, maybeParent)
 
   if (!spanContainer.get(id)) {
     throw new Error(

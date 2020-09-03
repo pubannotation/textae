@@ -1,6 +1,6 @@
 export default {
   // The ID of spans has editorId and begin and end, like 'editor1__S0_15'.
-  makeSpanId(editor, span) {
+  makeSpanDomId(editor, span) {
     return `${editor.editorId}__S${span.begin}_${span.end}`
   },
   makeEntityDomId(editor, id) {
