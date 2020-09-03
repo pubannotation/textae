@@ -17,11 +17,23 @@ export default class {
     return this._pushButtons.names
   }
 
-  toggle(buttonName) {
-    return this._pushButtons.getButton(buttonName).toggle()
+  valueOf(buttonName) {
+    return this._getPushButton(buttonName).value()
   }
 
-  valueOf(buttonName) {
-    return this._pushButtons.getButton(buttonName).value()
+  push(buttonName) {
+    this._getPushButton(buttonName).value(true)
+  }
+
+  release(buttonName) {
+    this._getPushButton(buttonName).value(false)
+  }
+
+  toggle(buttonName) {
+    return this._getPushButton(buttonName).toggle()
+  }
+
+  _getPushButton(buttonName) {
+    return this._pushButtons.getButton(buttonName)
   }
 }
