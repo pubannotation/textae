@@ -5,55 +5,60 @@ import Factory from './Factory'
 
 // A command is an operation by user that is saved as history, and can undo and redo.
 // Users can edit model only via commands.
-export default function(
-  editor,
-  annotationData,
-  selectionModel,
-  history,
-  typeeDefinition
-) {
-  return {
-    invoke: (command) => {
-      if (command.isEmpty) {
-        return
+export default class {
+  constructor(editor, annotationData, selectionModel, history, typeDefinition) {
+    this._editor = editor
+    this._annotationData = annotationData
+    this._selectionModel = selectionModel
+    this._history = history
+    this._typeDefinition = typeDefinition
+  }
+
+  invoke(command) {
+    if (command.isEmpty) {
+      return
+    }
+
+    invoke([command])
+    this._history.push([command])
+  }
+
+  undo() {
+    if (this._history.hasAnythingToUndo) {
+      // Focus the editor.
+      // Focus is lost when undo a creation.
+      this._selectionModel.clear()
+      this._editor.focus()
+
+      const commands = this._history.prev()
+      if (commands.kinds.has('configuration_command')) {
+        alertifyjs.success('configuration has been undone')
       }
 
-      invoke([command])
-      history.push([command])
-    },
-    undo: () => {
-      if (history.hasAnythingToUndo) {
-        // Focus the editor.
-        // Focus is lost when undo a creation.
-        selectionModel.clear()
-        editor.focus()
+      invokeRevert(commands.commands)
+    }
+  }
 
-        const commands = history.prev()
-        if (commands.kinds.has('configuration_command')) {
-          alertifyjs.success('configuration has been undone')
-        }
+  redo() {
+    if (this._history.hasAnythingToRedo) {
+      // Select only new element when redo a creation.
+      this._selectionModel.clear()
 
-        invokeRevert(commands.commands)
+      const commands = this._history.next()
+      if (commands.kinds.has('configuration_command')) {
+        alertifyjs.success('configuration has been redo')
       }
-    },
-    redo: () => {
-      if (history.hasAnythingToRedo) {
-        // Select only new element when redo a creation.
-        selectionModel.clear()
 
-        const commands = history.next()
-        if (commands.kinds.has('configuration_command')) {
-          alertifyjs.success('configuration has been redo')
-        }
+      invoke(commands.commands)
+    }
+  }
 
-        invoke(commands.commands)
-      }
-    },
-    factory: new Factory(
-      editor,
-      annotationData,
-      selectionModel,
-      typeeDefinition
+  get factory() {
+    return new Factory(
+      this._editor,
+      this._annotationData,
+      this._selectionModel,
+      this._typeDefinition
     )
   }
 }
