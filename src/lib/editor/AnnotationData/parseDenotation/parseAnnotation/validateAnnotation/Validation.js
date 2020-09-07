@@ -1,22 +1,14 @@
 export default class {
   constructor(nodes, predicate) {
-    this._nodes = nodes
+    this._nodes = nodes || []
     this._predicate = predicate
   }
 
   get validNodes() {
-    if (!this._nodes) {
-      return []
-    }
-
     return this._nodes.filter((val, index) => this._validate(index, val))
   }
 
   get invalidNodes() {
-    if (!this._nodes) {
-      return []
-    }
-
     return this._nodes.filter((val, index) => !this._validate(index, val))
   }
 
