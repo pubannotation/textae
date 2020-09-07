@@ -114,6 +114,29 @@ const source = `
         </tbody>
       </table>
     {{/if}}
+    {{#if duplicatedAttributes}}
+      <table>
+        <caption>Dupulicated attributes.</caption>
+        <thead>
+          <tr>
+            <th class="id">id</th>
+            <th class="referencedItem">subj</th>
+            <th>pred</th>
+            <th class="referencedItem">obj</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#duplicatedAttributes}}
+          <tr>
+            <td>{{id}}</td>
+            <td class="alert">{{subj}}</td>
+            <td>{{pred}}</td>
+            <td class="alert">{{obj}}</td>
+          </tr>
+          {{/duplicatedAttributes}}
+        </tbody>
+      </table>
+    {{/if}}
   </div>
 {{/each}}
 `

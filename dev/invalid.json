@@ -312,6 +312,36 @@
       "subj": "T1",
       "pred": "precision",
       "obj": 50
+    },
+    {
+      "id": "A1",
+      "subj": "T2",
+      "pred": "precision",
+      "obj": 50
+    },
+    {
+      "id": "A2",
+      "subj": "T2",
+      "pred": "precision",
+      "obj": 78
+    },
+    {
+      "id": "A3",
+      "subj": "E21",
+      "pred": "remark",
+      "obj": "suspicious"
+    },
+    {
+      "id": "A4",
+      "subj": "E21",
+      "pred": "remark",
+      "obj": "reliable"
+    },
+    {
+      "id": "A5",
+      "subj": "E21",
+      "pred": "remark",
+      "obj": "confirmed"
     }
   ],
   "typesettings": [

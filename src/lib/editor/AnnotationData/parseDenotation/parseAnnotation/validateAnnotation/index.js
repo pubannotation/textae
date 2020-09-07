@@ -39,6 +39,7 @@ export default function(text, annotation) {
         resultRelation.reject.obj,
         resultRelation.reject.subj
       ),
+      duplicatedAttributes: resultAttribute.reject.duplicatedAttributes,
       typeSetHasLength: resultTypeSet.reject.hasLength,
       typeSetInText: resultTypeSet.reject.inText,
       isNotCrossing: resultCrossing.reject.isNotCrossing,
