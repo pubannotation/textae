@@ -9,7 +9,7 @@ export default class {
       return []
     }
 
-    return this._nodes.filter((target, index) => this._validate(index, target))
+    return this._nodes.filter((val, index) => this._validate(index, val))
   }
 
   get invalidNodes() {
@@ -17,13 +17,13 @@ export default class {
       return []
     }
 
-    return this._nodes.filter((target, index) => !this._validate(index, target))
+    return this._nodes.filter((val, index) => !this._validate(index, val))
   }
 
-  _validate(index, target) {
+  _validate(index, currentNode) {
     // This variable only for isNotSpanCrossing.
-    const nodesBeforeTarget = this._nodes.slice(0, index)
+    const prevNode = this._nodes.slice(0, index)
 
-    return this._predicate(target, nodesBeforeTarget)
+    return this._predicate(currentNode, prevNode)
   }
 }
