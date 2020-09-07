@@ -22,6 +22,9 @@ export default class extends Dialog {
       }),
       {
         label: 'Cancel'
+      },
+      {
+        width: 550
       }
     )
 
